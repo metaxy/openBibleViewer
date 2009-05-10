@@ -1,0 +1,25 @@
+In this file:
+-------------
+* General introduction
+* Requirements
+* Documentation
+
+General introduction:
+--------------------
+This is openBibleViewer.openBibleViewer is a Bible study application based on Qt 4.5 or later.
+
+If you found a bug, please report him on http://openbv.uucyc.name/bug/.
+
+Read the file INSTALL how to install and compile this version of openBibleViewer. There's also a SPEC file
+to create RPMs, it's called openBibleViewer-0.1.1.spec.
+
+Requirements:
+-------------
+See file INSTALL for detailed installation instructions.
+
+Documentation:
+--------------
+You can find information about openBibleViewer, the installation and its usage on the website: http://openbv.uucyc.name
+
+
+Paul Walger

@@ -1,0 +1,18 @@
+Installation instructions for openBibleViewer 0.1.1:
+---------------------------
+
+
+openBibleViewer requires:
+
+- Qt-devel => 4.5 
+
+
+Compile openBibleViewer:
+---------------------------
+
+cd ~
+tar -xjf openBibleViewer-0.1.1.tar.bz2
+cd ~/openBibleViewer-0.1.1
+qmake -makefile openBibleViewer.pro
+make
+
