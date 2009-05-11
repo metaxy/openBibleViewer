@@ -86,6 +86,7 @@ int main(int argc, char *argv[])
                 qDebug() << "main::main() load stylesheet fileName = " << file.fileName();
 	}
         w.setWindowTitle("openBibleViewer 0.2 beta 1");
+        w.show();
 	w.loadBibles();
 	return a.exec();
 }

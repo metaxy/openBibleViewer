@@ -32,11 +32,11 @@ void MainWindow::newMdiChild()
 	layout->addWidget(mForm);
 	widget->setLayout(layout);
 	QMdiSubWindow *subWindow = ui->mdiArea->addSubWindow(widget);
-	subWindow->resize(600,600);
+        subWindow->resize(600,600);
         subWindow->setAttribute(Qt::WA_DeleteOnClose);
 	subWindow->setWindowTitle("");
-	subWindow->show();
-        subWindow->
+        subWindow->show();
+        //subWindow->showMaximized();
 
 	connect( mForm->m_ui->comboBox_books, SIGNAL(activated( int )), this, SLOT( readBook( int ) ) );
 	connect( mForm->m_ui->comboBox_chapters, SIGNAL(activated( int )), this, SLOT( readChapter( int ) ) );
