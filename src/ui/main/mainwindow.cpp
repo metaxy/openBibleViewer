@@ -881,7 +881,7 @@ int MainWindow::showSettingsDialog( void )
 
 int MainWindow::close( void )
 {
-	emit exit();
+        close();
 	return 0;
 }
 int MainWindow::closeWindow( void )

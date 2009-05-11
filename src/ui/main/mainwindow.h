@@ -101,10 +101,6 @@ class MainWindow : public QMainWindow
 		void myTileHorizontal();
 
 
-	signals:
-		int exit();
-		int sstatus(QString);
-
 	public:
 		MainWindow(QWidget *parent = 0);
 		~MainWindow();

@@ -67,8 +67,6 @@ int main(int argc, char *argv[])
 	a.installTranslator(&myappTranslator);
 
 	MainWindow w;
-	QObject::connect( &w, SIGNAL( exit() ), &a, SLOT( quit() ) );//schließen
-
 	QIcon mainIcon;
 	mainIcon.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/main.png")), QIcon::Normal, QIcon::Off);
 	w.setWindowIcon(mainIcon);
@@ -85,7 +83,7 @@ int main(int argc, char *argv[])
 			out+=line;
 		}
 		w.setStyleSheet(out);//load from file
-		qDebug() << "main::main() load stylesheet fileName = "<<file.fileName();
+                qDebug() << "main::main() load stylesheet fileName = " << file.fileName();
 	}
         w.setWindowTitle("openBibleViewer 0.2 beta 1");
 	w.loadBibles();

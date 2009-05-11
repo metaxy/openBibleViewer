@@ -11,7 +11,7 @@ This is openBibleViewer.openBibleViewer is a Bible study application based on Qt
 If you found a bug, please report him on http://openbv.uucyc.name/bug/.
 
 Read the file INSTALL how to install and compile this version of openBibleViewer. There's also a SPEC file
-to create RPMs, it's called openBibleViewer-0.1.1.spec.
+to create RPMs, it's called openBibleViewer-0.2b1.spec.
 
 Requirements:
 -------------
