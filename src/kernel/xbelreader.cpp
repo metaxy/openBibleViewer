@@ -152,7 +152,6 @@ void XbelReader::readBookmark(QTreeWidgetItem *item)
 	bookmark->setIcon(0, bookmarkIcon);
 	bookmark->setText(0, QObject::tr("Unknown title"));
 	bookmark->setText(1, attributes().value("href").toString());
-	//bookmark->setText(2, attributes().value("note").toString());
 	while (!atEnd())
 	{
 		readNext();

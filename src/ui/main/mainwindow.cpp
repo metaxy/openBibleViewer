@@ -11,18 +11,6 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-
-#include "mainwindow.h"
-#include "../searchdialog.h"
-#include "../settingsdialog.h"
-#include "../aboutdialog.h"
-#include "../../kernel/stelle.h"
-#include "../../kernel/notes.h"
-#include "../../kernel/xbelreader.h"
-#include "../../kernel/xbelwriter.h"
-#include "../../kernel/chapter.h"
-#include "ui_mainwindow.h"
-
 #include <QDir>
 #include <QTextCodec>
 #include <QAction>
@@ -31,9 +19,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QPrinter>
 #include <QTreeView>
 #include <QProgressDialog>
-#include <QVBoxLayout>
-#include <QTextBrowser>
-#include <QSizePolicy>
 #include <QFileDialog>
 #include <QTextStream>
 #include <QClipboard>
@@ -41,6 +26,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtDebug>
 #include <QFSFileEngine>
 #include <QComboBox>
+
+#include "mainwindow.h"
+#include "../searchdialog.h"
+#include "../settingsdialog.h"
+#include "../aboutdialog.h"
+#include "../../kernel/stelle.h"
+#include "../../kernel/chapter.h"
+#include "ui_mainwindow.h"
 //spilt MainWindow in some files
 #include "mainnotes.cpp"
 #include "mainbookmarks.cpp"

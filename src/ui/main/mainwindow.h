@@ -30,7 +30,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../../kernel/tabcache.h"
 #include "../../kernel/notes.h"
 #include "../../bible/bible.h"
-//#include "stelle.h"
 namespace Ui
 {
 	class MainWindowClass;

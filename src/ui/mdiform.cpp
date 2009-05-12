@@ -9,13 +9,6 @@ mdiForm::mdiForm(QWidget *parent) :
 {
 	m_ui->setupUi(this);
 }
-
-mdiForm::~mdiForm()
-{
-    delete m_ui;
-}
-
-
 void mdiForm::changeEvent(QEvent *e)
 {
         qDebug() << "mdiForm::changeEvent() = "<<e->type();
@@ -36,4 +29,9 @@ void mdiForm::closeEvent(QCloseEvent *event)
         qDebug() << "mdiForm::closeEvent()";
         emit onClose();
         event->ignore();
+}
+
+mdiForm::~mdiForm()
+{
+    delete m_ui;
 }

@@ -28,15 +28,14 @@ int zefania::setSettings( struct settings_s *settings )
 }
 void zefania::readBook(int id)
 {
-	qDebug() << "zefania::readBook() id = "<<id;
+        qDebug() << "zefania::readBook() id = " << id;
 	chapterText.clear();
 	chapterData.clear();
 	currentBookID = id;
-	QDomElement ncache = cache_books_data[id];
+        QDomElement ncache = cache_books_data.at(id);
+        QDomNode n = ncache.firstChild();
 	QString outtext="";
 	int count2 = 0;
-	QDomNode n = ncache.firstChild();
-
 	while(!n.isNull())
 	{
 		chapter c;

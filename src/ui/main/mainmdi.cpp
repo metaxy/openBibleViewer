@@ -223,7 +223,7 @@ int MainWindow::currentTabID()
 			return i;
 		}
 	}
-	return 0;
+        return -1;
 }
 int MainWindow::tabIDof(QMdiSubWindow* window)
 {

@@ -33,23 +33,13 @@ class bible
 		void setZefCache(QList<QDomElement> cache);
 
 		QString readChapter(int chapterID, int verseID);
-		int currentBibleID;
-		int currentBookID,currentChapterID;
-		int chapterAdd;
+                int currentBibleID,currentBookID,currentChapterID,chapterAdd;
 		struct stelle search(QString searchstring,bool regexp,bool whole,bool casesen);
 		struct stelle st;
-		QString bibleName;
-		QString lastout;
-                QString path,currentBiblePath;
-		QString lastSearchString;
-		QStringList bookCount;
-		QStringList bookFullName;
-		QStringList chapterText;
-		QStringList bookPath;
-		QStringList chapterNames;
+                QString bibleName,lastout,path,currentBiblePath,lastSearchString;
+                QStringList bookCount,bookFullName,chapterText,bookPath,chapterNames,chapterDataList;
 		QList<chapter> chapterData;
 		int bibleType;
-		QStringList chapterDataList;
 	private:
 
 		biblequote bq;
