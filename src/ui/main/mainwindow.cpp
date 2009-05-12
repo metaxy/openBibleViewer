@@ -158,7 +158,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
         if (obj == ui->mdiArea)
         {
-                qDebug() << "MainWindow::eventFilter() mdi event->type() = " << event->type();
+           //     qDebug() << "MainWindow::eventFilter() mdi event->type() = " << event->type();
 
                 if (event->type() == QEvent::Close)
                 {
@@ -169,7 +169,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         }
         else if (obj == ui->mdiArea->currentSubWindow())
         {
-                qDebug() << "MainWindow::eventFilter() window event->type() = " << event->type();
+              //  qDebug() << "MainWindow::eventFilter() window event->type() = " << event->type();
 
                 if (event->type() == QEvent::Close)
                 {
@@ -223,7 +223,7 @@ int MainWindow::zoomIn()
 {
 	if (activeMdiChild())
 	{
-		QTextBrowser *t =   activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+                QTextBrowser *t = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
 		t->zoomIn(set.zoomstep);
 	}
 	return 0;
@@ -232,7 +232,7 @@ int MainWindow::zoomOut()
 {
 	if (activeMdiChild())
 	{
-		QTextBrowser *t =   activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+                QTextBrowser *t = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
 		t->zoomOut(set.zoomstep);
 	}
 	return 0;
@@ -241,18 +241,15 @@ int MainWindow::zoomOut()
 int MainWindow::readBook(QListWidgetItem * item)
 {
 	int id = ui->listWidget_books->row(item);
-	readBookByID(id);
-	setCurrentBook(id);
-	showChapter(0+b.chapterAdd);
-	setCurrentChapter(0);
+        readBook(id);
 	return 0;
 }
 int MainWindow::readBook(int id)
 {
 	readBookByID(id);
-	setCurrentBook(id);
+        setCurrentBook(id);//Load the book
 	showChapter(0+b.chapterAdd);
-	setCurrentChapter(0);
+        setCurrentChapter(0);//show the first chapter
 	return 0;
 }
 void MainWindow::readBookByID(int id)
@@ -266,6 +263,7 @@ void MainWindow::readBookByID(int id)
 	currentBookID = id;
         if(b.readBook(currentBookID) != 0)
         {
+                //error while reading
                 return;
         }
 
