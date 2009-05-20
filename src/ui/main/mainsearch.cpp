@@ -71,7 +71,7 @@ int MainWindow::showSearchResults( QString searchtext,bool regexp,bool whole,boo
 	}
 	ui->listWidget_search->clear();
 	ui->listWidget_search->insertItems(0,outlist);
-	qDebug() << " MainWindow::showSearchResults end";
+        qDebug() << "MainWindow::showSearchResults end";
 	return 0;
 }
 int MainWindow::goToSearchResult(QListWidgetItem * item)

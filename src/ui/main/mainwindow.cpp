@@ -26,6 +26,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtDebug>
 #include <QFSFileEngine>
 #include <QComboBox>
+#include <QTranslator>
+#include <QLocale>
 
 #include "mainwindow.h"
 #include "../searchdialog.h"
@@ -45,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         ui->mdiArea->installEventFilter(this);
         VERSION  = "0.2b1";
         BUILD =  "2009-5-10";
+
 	#ifdef _PORTABLE_VERSION
 		homeDataPath = QApplication::applicationDirPath()+"/";
 		settings = new QSettings( homeDataPath+"openBibleViewer.ini",QSettings::IniFormat);
@@ -76,6 +79,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	set.build = BUILD;
 	set.zoomstep = 0.2;
         set.autoLayout = 1;
+        set.onClickBookmarkGo = true;
 
 	QString appPath = QApplication::applicationDirPath();
 	if(appPath.endsWith(set.dict))
@@ -142,7 +146,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	connect( ui->listWidget_notes, SIGNAL(customContextMenuRequested( QPoint )), this, SLOT(notesContextMenu()));
 	connect( ui->treeWidget_bookmarks, SIGNAL(customContextMenuRequested( QPoint )), this, SLOT(bookmarksContextMenu()));
 	connect( ui->treeWidget_bookmarks, SIGNAL(itemActivated(QTreeWidgetItem *,int)), this, SLOT(bookmarksGo(QTreeWidgetItem *) ));
-
 	connect( ui->label_noteLink, SIGNAL( linkActivated( QString ) ), this, SLOT( noteGo( QString ) ) );
 
 	ui->dockWidget_search->hide();
@@ -285,8 +288,7 @@ int MainWindow::showChapter(int chapterid,int verseID)
         qDebug() << "MainWindow::showChapter() chapterid = " << chapterid << " chapterAdd = " << b.chapterAdd;
 	b.currentChapterID = chapterid;
         tcache.setBible(b);
-	QString out = b.readChapter(b.currentChapterID,verseID);
-	showText(out);
+        showText(b.readChapter(b.currentChapterID,verseID));
 	setCurrentChapter(b.currentChapterID-b.chapterAdd);
 	currentVerseID = 0;
 	return 0;
@@ -722,6 +724,9 @@ void MainWindow::loadSettings( )
 	set.path = settings->value("general/path",set.path).toStringList();
 	set.language = settings->value("general/language",QLocale::system().name()).toString();
         set.autoLayout = settings->value("window/layout",set.autoLayout).toInt();
+        set.onClickBookmarkGo = settings->value("window/onClickBookmarkGo",set.onClickBookmarkGo).toBool();
+
+        set.textFormatting = settings->value("bible/textFormatting",set.textFormatting).toInt();
 
 	set.moduleName = settings->value("module/name",set.moduleName).toStringList();
 	set.modulePath = settings->value("module/path",set.moduleName).toStringList();
@@ -743,7 +748,14 @@ int MainWindow::saveSettings( struct settings_s *ssettings )
 	}
 	if(set.language != ssettings->language /* || set.theme != ssettings->theme*/)
 	{
-		 QMessageBox msgBox;
+                QTranslator myappTranslator;
+                qDebug() << "MainWindow::saveSettings() lang = " << ssettings->language;
+                myappTranslator.load("obv_" + ssettings->language);
+                QApplication::installTranslator(&myappTranslator);
+
+                ui->retranslateUi(this);
+
+                /* QMessageBox msgBox;
 		msgBox.setText(tr("You need to restart the Application to apply the changes"));
                 msgBox.setInformativeText(tr("Restart now?"));
 		msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
@@ -760,7 +772,7 @@ int MainWindow::saveSettings( struct settings_s *ssettings )
 				break;
 			default:
 				break;
-		 }
+                 }*/
 	}
 	//qDebug("MainWindow::saveSettings( struct settings_s * ) started");
 	setSettings(ssettings);
@@ -773,6 +785,8 @@ int MainWindow::saveSettings( struct settings_s *ssettings )
 	settings->setValue("module/path",set.modulePath);
 	settings->setValue("module/type",set.moduleType);
         settings->setValue("window/layout",set.autoLayout);
+        settings->setValue("window/onClickBookmarkGo",set.onClickBookmarkGo);
+        settings->setValue("bible/textFormatting",set.textFormatting);
 	if(reloadBibles == true)
 	{
 		loadBibles();
@@ -875,69 +889,7 @@ int MainWindow::close( void )
         close();
 	return 0;
 }
-int MainWindow::closeWindow( void )
-{
-        qDebug() << "MainWindow::closeWindow()";
-        if(!enableReload)
-        {
-                qDebug() << "MainWindow::closeWindow() reload is not enabled";
-                return 1;
-        }
-        QMdiSubWindow * window = ui->mdiArea->currentSubWindow();
-        int id = tabIDof(window);
-        qDebug() << "MainWindow::closeWindow() bibletype=" << tcache.getBibleType() <<", id=" << id;
-        if(id == -1)
-                return 1;
-        if( ui->mdiArea->subWindowList().count() <= 0)
-                return 1;
-        qDebug() << "MainWindow::closeWindow() close";
-        tcache.removeTab(id);
-        window->close();
-        reloadWindow(ui->mdiArea->currentSubWindow());
-	return 0;
-}
-int MainWindow::reloadWindow(QMdiSubWindow * window)
-{
-        //todo: Bei meheren Window wird die ChapterList nicht immer richtig gesetzt
-	if(!enableReload)
-	{
-                qDebug() << "MainWindow::reloadWindow() reload is not enabled";
-		return 1;
-	}
-	int id = tabIDof(window);
-        qDebug() << "MainWindow::reloadWindow() bibletype = " << tcache.getBibleType() << ", id = " << id;
-	if(id == -1)
-		return 1;
 
-	if( ui->mdiArea->subWindowList().count() <= 0)
-                return 1;
-
-        qDebug() << "MainWindow::reloadWindow() setCurrentTab";
-	tcache.setCurrentTabId(id);
-	if(tcache.getBibleType() == 0)
-        {
-		ui->listWidget_chapters->clear();
-		ui->listWidget_books->clear();
-	}
-	else
-	{
-		if(currentBibleID == tcache.getBible().currentBibleID)
-			return 1;
-                qDebug() << "MainWindow::reloadWindow() set new bible";
-                b = tcache.getBible();
-		showBibleName(tcache.getBibleName());
-                qDebug() << "MainWindow::reloadWindow() b.chapterNames.size() = " << b.chapterNames.size() << ", b.currentChapterID = " << b.currentChapterID;
-		setChapters(b.chapterNames);
-                setCurrentChapter(b.currentChapterID);
-
-		QStringList tbookFullName = tcache.getBooks();//show all books
-		setBooks(tbookFullName);
-		setCurrentBook(tcache.getCurrentBook());
-		currentBibleID = b.currentBibleID;
-	}
-
-	return 0;
-}
 void MainWindow::copy()
 {
         if (activeMdiChild())

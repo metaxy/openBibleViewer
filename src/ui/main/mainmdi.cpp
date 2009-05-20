@@ -239,3 +239,73 @@ int MainWindow::tabIDof(QMdiSubWindow* window)
 
 	return -1;
 }
+int MainWindow::closeWindow( void )
+{
+        qDebug() << "MainWindow::closeWindow()";
+        if(!enableReload)
+        {
+                qDebug() << "MainWindow::closeWindow() reload is not enabled";
+                return 1;
+        }
+        QMdiSubWindow * window = ui->mdiArea->currentSubWindow();
+        int id = tabIDof(window);
+        qDebug() << "MainWindow::closeWindow() bibletype=" << tcache.getBibleType() <<", id=" << id;
+        if(id == -1)
+                return 1;
+        if( ui->mdiArea->subWindowList().count() <= 0)
+                return 1;
+        qDebug() << "MainWindow::closeWindow() close";
+        tcache.removeTab(id);
+        window->close();
+        reloadWindow(ui->mdiArea->currentSubWindow());
+        return 0;
+}
+int MainWindow::reloadWindow(QMdiSubWindow * window)
+{
+        //todo: Bei meheren Window wird die ChapterList nicht immer richtig gesetzt
+        if(!enableReload)
+        {
+                qDebug() << "MainWindow::reloadWindow() reload is not enabled";
+                return 1;
+        }
+        int id = tabIDof(window);
+        qDebug() << "MainWindow::reloadWindow() bibletype = " << tcache.getBibleType() << ", id = " << id;
+        if(id == -1)
+        {
+                qDebug() << "MainWindow::reloadWindow() id == -1";
+                return 1;
+        }
+        if( ui->mdiArea->subWindowList().count() <= 0)
+        {
+                qDebug() << "MainWindow::reloadWindow() count <= 0";
+                return 1;
+        }
+
+        qDebug() << "MainWindow::reloadWindow() setCurrentTab";
+        tcache.setCurrentTabId(id);
+        if(tcache.getBibleType() == 0)//probaly no bible loaded in this window
+        {
+                qDebug() << "MainWindow::reloadWindow() tcache.getBibleType() == 0";
+                ui->listWidget_chapters->clear();
+                ui->listWidget_books->clear();
+                currentBibleID = -2;
+        }
+        else
+        {
+                if(currentBibleID == tcache.getBible().currentBibleID)
+                        return 1;
+                qDebug() << "MainWindow::reloadWindow() set new bible";
+                b = tcache.getBible();
+                showBibleName(tcache.getBibleName());
+                qDebug() << "MainWindow::reloadWindow() b.chapterNames.size() = " << b.chapterNames.size() << ", b.currentChapterID = " << b.currentChapterID;
+                setChapters(b.chapterNames);
+                setCurrentChapter(b.currentChapterID);
+
+                QStringList tbookFullName = tcache.getBooks();//show all books
+                setBooks(tbookFullName);
+                setCurrentBook(tcache.getCurrentBook());
+                currentBibleID = b.currentBibleID;
+        }
+
+        return 0;
+}

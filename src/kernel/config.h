@@ -29,5 +29,7 @@ struct settings_s
 		bool removeHtml;
 		QString language;
                 int autoLayout;// 0 = NONE, 1 = vertical tile ,2 = horizontal tile, 3 = cascade
+                bool onClickBookmarkGo;
+                int textFormatting;//0 = Neue Zeile nach Vers, 1 = Unformatierter Textblock
 };
 #endif // CONFIG_H

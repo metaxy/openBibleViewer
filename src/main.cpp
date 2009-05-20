@@ -54,8 +54,7 @@ int main(int argc, char *argv[])
         QString lang = settings->value("general/language","en").toString();
 	QString themePath = settings->value("theme/path",homeDataPath+"stylesheet.css").toString();
 	settings->~QSettings();
-	QTranslator translator;
-
+        QList<QTranslator> translators1;
 	QTranslator qtTranslator;
 	qtTranslator.load("qt_" + lang,
 			 QLibraryInfo::location(QLibraryInfo::TranslationsPath));
@@ -70,8 +69,8 @@ int main(int argc, char *argv[])
 	QIcon mainIcon;
 	mainIcon.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/main.png")), QIcon::Normal, QIcon::Off);
 	w.setWindowIcon(mainIcon);
-
-	w.showMaximized();
+        w.loadBibles();
+        //w.showMaximized();
 	QFile file(themePath);
 	if (file.open(QIODevice::ReadOnly | QIODevice::Text))
 	{
@@ -85,8 +84,8 @@ int main(int argc, char *argv[])
 		w.setStyleSheet(out);//load from file
                 qDebug() << "main::main() load stylesheet fileName = " << file.fileName();
 	}
+
         w.setWindowTitle("openBibleViewer 0.2 beta 1");
         w.show();
-	w.loadBibles();
 	return a.exec();
 }

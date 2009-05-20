@@ -133,7 +133,6 @@ class MainWindow : public QMainWindow
 		QString VERSION, BUILD;
 		bool enableReload;
 
-
 		int setChapters( QStringList chapterNames );
 		void setBooks(QStringList bookNames);
 		void setCurrentBook(int bookID);

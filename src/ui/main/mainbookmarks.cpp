@@ -27,7 +27,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtDebug>
 int MainWindow::loadBookmarks( void )
 {
-	bookmarksFileName = homeDataPath+"bookmarks.xml";
+        bookmarksFileName = homeDataPath + "bookmarks.xml";
 	if(ui->dockWidget_bookmarks->isVisible())
 	{
 		ui->dockWidget_bookmarks->hide();
@@ -41,7 +41,7 @@ int MainWindow::loadBookmarks( void )
 	QFile file(fileName);
 	if (!file.open(QFile::ReadOnly | QFile::Text))
 	{
-                 return 1;
+                return 1;
 	}
 	XbelReader reader(ui->treeWidget_bookmarks);
 	if (!reader.read(&file))
@@ -227,9 +227,12 @@ void MainWindow::updateBookmark(QString pos)
 }
 void MainWindow::bookmarksGo(QTreeWidgetItem * item)
 {
-	QString pos = item->text(1);
-	if( go2Pos(pos) != 0)
-		qDebug() << "MainWindow::bookmarksGo() invalid bookmark";
+        if(set.onClickBookmarkGo == true)
+        {
+                QString pos = item->text(1);
+                if( go2Pos(pos) != 0)
+                        qDebug() << "MainWindow::bookmarksGo() invalid bookmark";
+        }
 	return;
 }
 
