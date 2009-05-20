@@ -1,8 +1,9 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-02-06T07:53:02
 # -------------------------------------------------
-QT += xml
+
 TARGET = openBibleViewer
+QT += xml
 TEMPLATE = app
 SOURCES += src/main.cpp \
     src/ui/main/mainwindow.cpp \
@@ -50,9 +51,8 @@ FORMS += src/ui/main/mainwindow.ui \
 RESOURCES += src/icons.qrc
 TRANSLATIONS = src/obv_de.ts \
     src/obv_ru.ts
-INSTALLS += target
-
 UI_DIR = tmp
+
 MOC_DIR = tmp
 RCC_DIR = tmp
 OBJECTS_DIR = tmp

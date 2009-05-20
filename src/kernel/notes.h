@@ -18,16 +18,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QDomDocument>
 class notes
 {
-	public:
-		notes( QString fileName);
-		int loadNotes();
-		int readNotes();
-		int saveNotes();
-		QString fileName;
-		QStringList notesData;
-		QStringList notesTitel;
-		QStringList notesPos;
-		QDomDocument doc;
+public:
+        notes( QString fileName);
+        int loadNotes();
+        int readNotes();
+        int saveNotes();
+        QString fileName;
+        QStringList notesData;
+        QStringList notesTitel;
+        QStringList notesPos;
+        QDomDocument doc;
 
 };
 

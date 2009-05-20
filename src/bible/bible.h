@@ -21,30 +21,30 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 class bible
 {
-	public:
-		bible();
-		void setBibleType(int type);
-		int loadBibleData(int bibleID,QString path);
-		int readBook(int id);
-		void setSettings( struct settings_s *settings );
+public:
+        bible();
+        void setBibleType(int type);
+        int loadBibleData(int bibleID,QString path);
+        int readBook(int id);
+        void setSettings( struct settings_s *settings );
 
-		QList<QDomElement> getZefCache();
-		void clearZefCache();
-		void setZefCache(QList<QDomElement> cache);
+        QList<QDomElement> getZefCache();
+        void clearZefCache();
+        void setZefCache(QList<QDomElement> cache);
 
-		QString readChapter(int chapterID, int verseID);
-                int currentBibleID,currentBookID,currentChapterID,chapterAdd;
-		struct stelle search(QString searchstring,bool regexp,bool whole,bool casesen);
-		struct stelle st;
-                QString bibleName,lastout,path,currentBiblePath,lastSearchString;
-                QStringList bookCount,bookFullName,chapterText,bookPath,chapterNames,chapterDataList;
-		QList<chapter> chapterData;
-		int bibleType;
-	private:
+        QString readChapter(int chapterID, int verseID, int textFormatting);
+        int currentBibleID,currentBookID,currentChapterID,chapterAdd;
+        struct stelle search(QString searchstring,bool regexp,bool whole,bool casesen);
+        struct stelle st;
+        QString bibleName,lastout,path,currentBiblePath,lastSearchString;
+        QStringList bookCount,bookFullName,chapterText,bookPath,chapterNames,chapterDataList;
+        QList<chapter> chapterData;
+        int bibleType;
+private:
 
-		biblequote bq;
-		zefania zef;
-		struct settings_s settings;
+        biblequote bq;
+        zefania zef;
+        struct settings_s settings;
 
 };
 

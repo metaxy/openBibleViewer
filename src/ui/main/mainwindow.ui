@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindowClass</class>
  <widget class="QMainWindow" name="MainWindowClass">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,10 +14,17 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>openBibleViewer 0.2 beta 1</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../icons.qrc">
+    <normaloff>:/icons/16x16/main.png</normaloff>:/icons/16x16/main.png</iconset>
   </property>
   <property name="styleSheet">
    <string/>
+  </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonTextBesideIcon</enum>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -47,7 +57,7 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionNewTab"/>
+    <addaction name="actionNewWindow"/>
     <addaction name="actionSave"/>
     <addaction name="actionPrint"/>
     <addaction name="actionExit"/>
@@ -94,6 +104,9 @@
   <widget class="QToolBar" name="mainToolBar">
    <property name="windowTitle">
     <string>ToolBar</string>
+   </property>
+   <property name="toolTip">
+    <string>Save all Notes</string>
    </property>
    <property name="accessibleName">
     <string>ToolBar</string>
@@ -643,6 +656,9 @@
    <property name="text">
     <string>Save as</string>
    </property>
+   <property name="toolTip">
+    <string>Save current Text as</string>
+   </property>
   </action>
   <action name="actionPrint">
    <property name="icon">
@@ -694,16 +710,16 @@
     <enum>QAction::AboutRole</enum>
    </property>
   </action>
-  <action name="actionNewTab">
+  <action name="actionNewWindow">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/16x16/tab-new.png</normaloff>:/icons/16x16/tab-new.png</iconset>
    </property>
    <property name="text">
-    <string>New Tab</string>
+    <string>New Window</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+T</string>
+    <string>Ctrl+N</string>
    </property>
   </action>
   <action name="tactionSave">

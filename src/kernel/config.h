@@ -17,19 +17,19 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QStringList>
 struct settings_s
 {
-		QStringList path;
-		QString encoding;
-		QString dict;
-		QStringList modulePath;
-		QStringList moduleName;
-		QStringList moduleType;
-		qreal zoomstep;
-		QString version;
-		QString build;
-		bool removeHtml;
-		QString language;
-                int autoLayout;// 0 = NONE, 1 = vertical tile ,2 = horizontal tile, 3 = cascade
-                bool onClickBookmarkGo;
-                int textFormatting;//0 = Neue Zeile nach Vers, 1 = Unformatierter Textblock
+        QStringList path;
+        QString encoding;
+        QString dict;
+        QStringList modulePath;
+        QStringList moduleName;
+        QStringList moduleType;
+        qreal zoomstep;
+        QString version;
+        QString build;
+        bool removeHtml;
+        QString language;
+        int autoLayout;// 0 = NONE, 1 = vertical tile ,2 = horizontal tile, 3 = cascade
+        bool onClickBookmarkGo;
+        int textFormatting;//0 = Neue Zeile nach Vers, 1 = Unformatierter Textblock
 };
 #endif // CONFIG_H

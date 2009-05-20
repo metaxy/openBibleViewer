@@ -23,29 +23,29 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QDomElement>
 class zefania
 {
-	private:
-		struct settings_s zefset;
-		QString formatfromini(QString input);
-	public:
-		zefania();
-		int setSettings( struct settings_s *settings );
-		void readBook(int id);
-		void loadBibleData(int id,QString path);
-		QString readInfo(QFile &file);
-		QList<QDomElement> cache_books_data;
-		int currentBookID,fontsize,bibletype,book_ccount;
-		struct stelle st;
-		struct stelle search(QString searchstring,bool regexp,bool whole,bool casesen);
-		int bibleid;
-		QString currentBiblePath,lastout,chaptersign,versesign,biblepath,bibleName,lastSearch;
-		QStringList bibles,biblesPath,
-					biblesIniPath,
-                                        bookPath,
-					bookFullName,
-					bookShortName,
-					bookCount,
-					chapterText;
-		QList<chapter> chapterData;
+private:
+        struct settings_s zefset;
+        QString formatfromini(QString input);
+public:
+        zefania();
+        int setSettings( struct settings_s *settings );
+        void readBook(int id);
+        void loadBibleData(int id,QString path);
+        QString readInfo(QFile &file);
+        QList<QDomElement> cache_books_data;
+        int currentBookID,fontsize,bibletype,book_ccount;
+        struct stelle st;
+        struct stelle search(QString searchstring,bool regexp,bool whole,bool casesen);
+        int bibleid;
+        QString currentBiblePath,lastout,chaptersign,versesign,biblepath,bibleName,lastSearch;
+        QStringList bibles,biblesPath,
+        biblesIniPath,
+        bookPath,
+        bookFullName,
+        bookShortName,
+        bookCount,
+        chapterText;
+        QList<chapter> chapterData;
 
 };
 

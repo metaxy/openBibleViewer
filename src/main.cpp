@@ -15,77 +15,72 @@ this program; if not, see <http://www.gnu.org/licenses/>.
   Thx at http://www.oxygen-icons.org/ for the icons
 *****************************************************************************/
 #include <QtGui/QApplication>
-#include <QTranslator>
-#include <QLocale>
-#include <QTextStream>
-#include <QFile>
-#include <QLibraryInfo>
-#include <QtDebug>
-#include <QFSFileEngine>
+#include <QtCore/QTranslator>
+#include <QtCore/QSettings>
+#include <QtCore/QLocale>
+#include <QtCore/QTextStream>
+#include <QtCore/QFile>
+#include <QtCore/QLibraryInfo>
+#include <QtCore/QtDebug>
+#include <QtCore/QFSFileEngine>
+
 #include "ui/main/mainwindow.h"
 #include "kernel/config.h"
 
 int main(int argc, char *argv[])
 {
-	QApplication a(argc, argv);
-	QSettings *settings;
-	QString homeDataPath;
-	#ifdef _PORTABLE_VERSION
-		homeDataPath = QApplication::applicationDirPath()+"/";
-		settings = new QSettings( homeDataPath+"openBibleViewer.ini",QSettings::IniFormat);
-	#else
-		homeDataPath = QApplication::applicationDirPath()+"/";
-		#ifdef Q_WS_MAC
-			 homeDataPath = QFSFileEngine::homePath() +"/.config/openbible/";
-			 settings = new QSettings(homeDataPath+"openBibleViewer.ini",QSettings::IniFormat);
-		#endif
-		#ifdef Q_WS_X11
-			 homeDataPath = QFSFileEngine::homePath() +"/.config/openbible/";
-			 settings = new QSettings(homeDataPath+"openBibleViewer.ini",QSettings::IniFormat);
-		#endif
-		#ifdef Q_WS_WIN
-			 homeDataPath = "%APPDATA%/openbible/";
-			 settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
-			"openBible", "openBibleViewer");
-		#endif
-	#endif
+        QApplication a(argc, argv);
+        QSettings *settings;
+        QString homeDataPath;
+#ifdef _PORTABLE_VERSION
+        homeDataPath = QApplication::applicationDirPath()+"/";
+        settings = new QSettings( homeDataPath+"openBibleViewer.ini",QSettings::IniFormat);
+#else
+        homeDataPath = QApplication::applicationDirPath()+"/";
+#ifdef Q_WS_MAC
+        homeDataPath = QFSFileEngine::homePath() +"/.config/openbible/";
+        settings = new QSettings(homeDataPath+"openBibleViewer.ini",QSettings::IniFormat);
+#endif
+#ifdef Q_WS_X11
+        homeDataPath = QFSFileEngine::homePath() +"/.config/openbible/";
+        settings = new QSettings(homeDataPath+"openBibleViewer.ini",QSettings::IniFormat);
+#endif
+#ifdef Q_WS_WIN
+        homeDataPath = "%APPDATA%/openbible/";
+        settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
+                                 "openBible", "openBibleViewer");
+#endif
+#endif
 
         //QString lang = settings->value("general/language",QLocale::system().name()).toString();
         QString lang = settings->value("general/language","en").toString();
-	QString themePath = settings->value("theme/path",homeDataPath+"stylesheet.css").toString();
-	settings->~QSettings();
+        QString themePath = settings->value("theme/path",homeDataPath+"stylesheet.css").toString();
         QList<QTranslator> translators1;
-	QTranslator qtTranslator;
-	qtTranslator.load("qt_" + lang,
-			 QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-	a.installTranslator(&qtTranslator);
+        QTranslator qtTranslator;
+        qtTranslator.load("qt_" + lang,
+                          QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+        a.installTranslator(&qtTranslator);
 
-	QTranslator myappTranslator;
-	qDebug() << "main::main lang = " << lang;
-	myappTranslator.load("obv_" + lang);
-	a.installTranslator(&myappTranslator);
+        QTranslator myappTranslator;
+        qDebug() << "main::main lang = " << lang;
+        myappTranslator.load("obv_" + lang);
+        a.installTranslator(&myappTranslator);
 
-	MainWindow w;
-	QIcon mainIcon;
-	mainIcon.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/main.png")), QIcon::Normal, QIcon::Off);
-	w.setWindowIcon(mainIcon);
+        MainWindow w;
         w.loadBibles();
-        //w.showMaximized();
-	QFile file(themePath);
-	if (file.open(QIODevice::ReadOnly | QIODevice::Text))
-	{
-		QTextStream in(&file);
-		QString out;
-		while (!in.atEnd())
-		{
-			QString line = in.readLine();
-			out+=line;
-		}
-		w.setStyleSheet(out);//load from file
+        QFile file(themePath);
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+                QTextStream in(&file);
+                QString out;
+                while (!in.atEnd())
+                {
+                        QString line = in.readLine();
+                        out+=line;
+                }
+                w.setStyleSheet(out);//load from file
                 qDebug() << "main::main() load stylesheet fileName = " << file.fileName();
-	}
-
-        w.setWindowTitle("openBibleViewer 0.2 beta 1");
+        }
         w.show();
-	return a.exec();
+        return a.exec();
 }

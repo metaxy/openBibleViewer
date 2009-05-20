@@ -16,9 +16,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QList>
 struct stelle
 {
-		QList<int> book;
-		QList<int> chapter;
-		QList<int> verse;
-		int bibleID;
+        QList<int> book;
+        QList<int> chapter;
+        QList<int> verse;
+        int bibleID;
 };
 #endif // STELLE_H

@@ -21,92 +21,92 @@ tabCache::tabCache()
 }
 int tabCache::setBible(bible b_)
 {
-	qDebug() << "tabCache::setBible() currentTabID = "<<currentTabID;
-	bibletype[currentTabID] = 1;
-	qDebug() << "tabCache::setBible() bibleName = " << b_.bibleName << " bibleType" << b_.bibleType;
-	bibleName[currentTabID] = b_.bibleName;
-	books[currentTabID] = b_.bookFullName;
-	if(b_.bibleType == 2)//zefania
-	{
-		zefcache[b_.currentBibleID] = b_.getZefCache();
-		b_.clearZefCache();
-	}
-	b[currentTabID] = b_;
-	qDebug() << "tabCache::setBible() end";
-	return 0;
+        qDebug() << "tabCache::setBible() currentTabID = "<<currentTabID;
+        bibletype[currentTabID] = 1;
+        qDebug() << "tabCache::setBible() bibleName = " << b_.bibleName << " bibleType" << b_.bibleType;
+        bibleName[currentTabID] = b_.bibleName;
+        books[currentTabID] = b_.bookFullName;
+        if(b_.bibleType == 2)//zefania
+        {
+                zefcache[b_.currentBibleID] = b_.getZefCache();
+                b_.clearZefCache();
+        }
+        b[currentTabID] = b_;
+        qDebug() << "tabCache::setBible() end";
+        return 0;
 }
 
 int tabCache::newTab(void)
 {
-	idlist << QString::number(idlist.size(),10);
-	return 0;
+        idlist << QString::number(idlist.size(),10);
+        return 0;
 }
 int tabCache::removeTab(int id)
 {
-	idlist.removeAt(id);
-	return 0;
+        idlist.removeAt(id);
+        return 0;
 }
 int tabCache::moveTab(int from,int to)
 {
-	idlist.move(from,to);
-	return 0;
+        idlist.move(from,to);
+        return 0;
 }
 int tabCache::clearAll( void )
 {
-	idlist.clear();
-	b.clear();
-	zefcache.clear();
-	bibletype.clear();
-	bibleName.clear();
-	books.clear();
-	chaptercount.clear();
-	selectedBook.clear();
-	return 0;
+        idlist.clear();
+        b.clear();
+        zefcache.clear();
+        bibletype.clear();
+        bibleName.clear();
+        books.clear();
+        chaptercount.clear();
+        selectedBook.clear();
+        return 0;
 }
 int tabCache::getBibleType( void)
 {
-	return bibletype[currentTabID];
+        return bibletype[currentTabID];
 }
 int tabCache::setCurrentTabId( int id)
 {
-	if(id < idlist.size())
-	{
-		QString idl = idlist.at(id);
-		currentTabID = idl.toInt();
-	}
-	return 0;
+        if(id < idlist.size())
+        {
+                QString idl = idlist.at(id);
+                currentTabID = idl.toInt();
+        }
+        return 0;
 }
 int tabCache::setCurrentBook(int bookid,int ichaptercount)
 {
-	chaptercount[currentTabID] = ichaptercount;
-	selectedBook[currentTabID] = bookid;
-	return 0;
+        chaptercount[currentTabID] = ichaptercount;
+        selectedBook[currentTabID] = bookid;
+        return 0;
 }
 QString tabCache::getBibleName()
 {
-	return bibleName[currentTabID];
+        return bibleName[currentTabID];
 }
 int tabCache::getCurrentBook()
 {
-	return selectedBook[currentTabID];
+        return selectedBook[currentTabID];
 }
 QStringList tabCache::getBooks( void )
 {
-	return books[currentTabID];
+        return books[currentTabID];
 }
 int tabCache::getChapterCount( void )
 {
-	return chaptercount[currentTabID];
+        return chaptercount[currentTabID];
 }
 bible tabCache::getBible( void )
 {
-	if(b[currentTabID].bibleType == 2)//Zefania
-	{
-		b[currentTabID].setZefCache(getZefaniaCache(b[currentTabID].currentBibleID));
-	}
-	return b[currentTabID];
+        if(b[currentTabID].bibleType == 2)//Zefania
+        {
+                b[currentTabID].setZefCache(getZefaniaCache(b[currentTabID].currentBibleID));
+        }
+        return b[currentTabID];
 }
 QList<QDomElement> tabCache::getZefaniaCache(int bibleid)
 {
-	return zefcache[bibleid];
+        return zefcache[bibleid];
 }

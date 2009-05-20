@@ -11,36 +11,36 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
- #ifndef XBELREADER_H
- #define XBELREADER_H
+#ifndef XBELREADER_H
+#define XBELREADER_H
 
- #include <QIcon>
- #include <QXmlStreamReader>
+#include <QIcon>
+#include <QXmlStreamReader>
 
- class QTreeWidget;
- class QTreeWidgetItem;
+class QTreeWidget;
+class QTreeWidgetItem;
 
- class XbelReader : public QXmlStreamReader
- {
- public:
-	 XbelReader(QTreeWidget *treeWidget);
+class XbelReader : public QXmlStreamReader
+{
+public:
+        XbelReader(QTreeWidget *treeWidget);
 
-	 bool read(QIODevice *device);
+        bool read(QIODevice *device);
 
- private:
-	 void readUnknownElement();
-	 void readXBEL();
-	 void readTitle(QTreeWidgetItem *item);
-	 void readSeparator(QTreeWidgetItem *item);
-	 void readFolder(QTreeWidgetItem *item);
-	 void readBookmark(QTreeWidgetItem *item);
+private:
+        void readUnknownElement();
+        void readXBEL();
+        void readTitle(QTreeWidgetItem *item);
+        void readSeparator(QTreeWidgetItem *item);
+        void readFolder(QTreeWidgetItem *item);
+        void readBookmark(QTreeWidgetItem *item);
 
-	 QTreeWidgetItem *createChildItem(QTreeWidgetItem *item);
+        QTreeWidgetItem *createChildItem(QTreeWidgetItem *item);
 
-	 QTreeWidget *treeWidget;
+        QTreeWidget *treeWidget;
 
-	 QIcon folderIcon;
-	 QIcon bookmarkIcon;
- };
+        QIcon folderIcon;
+        QIcon bookmarkIcon;
+};
 
- #endif
+#endif

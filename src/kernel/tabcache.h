@@ -21,36 +21,36 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class tabCache
 {
 public:
-    tabCache();
+        tabCache();
 
-	QMap<int,bible> b;
+        QMap<int,bible> b;
 
-	QMap<int,QList<QDomElement> > zefcache;
-	QMap<int,bool> zefcacheset;
-	QMap<int,int> bibletype;
-	QMap<int, QString> bibleName;
-	QMap<int, QStringList> books;
-	QMap<int, int> chaptercount;
-	QMap<int, int> selectedBook;
-	QStringList idlist;
-	int currentTabID;
+        QMap<int,QList<QDomElement> > zefcache;
+        QMap<int,bool> zefcacheset;
+        QMap<int,int> bibletype;
+        QMap<int, QString> bibleName;
+        QMap<int, QStringList> books;
+        QMap<int, int> chaptercount;
+        QMap<int, int> selectedBook;
+        QStringList idlist;
+        int currentTabID;
 
-	int newTab( void );
-	int removeTab(int id);
-	int moveTab(int from,int to);
-	int clearAll( void );
+        int newTab( void );
+        int removeTab(int id);
+        int moveTab(int from,int to);
+        int clearAll( void );
 
-	int setCurrentTabId(int id);
-	int setBible(bible b_);
-	int setCurrentBook(int bookid,int chaptercount);
+        int setCurrentTabId(int id);
+        int setBible(bible b_);
+        int setCurrentBook(int bookid,int chaptercount);
 
-	QString getBibleName();
-	int getBibleType( void );
-	int getCurrentBook( void );
-	QStringList getBooks( void );
-	int getChapterCount( void );
-	QList<QDomElement> getZefaniaCache(int bibleid);
-	bible getBible( void );
+        QString getBibleName();
+        int getBibleType( void );
+        int getCurrentBook( void );
+        QStringList getBooks( void );
+        int getChapterCount( void );
+        QList<QDomElement> getZefaniaCache(int bibleid);
+        bible getBible( void );
 
 };
 

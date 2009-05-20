@@ -12,23 +12,23 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 
- #ifndef XBELWRITER_H
- #define XBELWRITER_H
+#ifndef XBELWRITER_H
+#define XBELWRITER_H
 
- #include <QXmlStreamWriter>
+#include <QXmlStreamWriter>
 
- class QTreeWidget;
- class QTreeWidgetItem;
+class QTreeWidget;
+class QTreeWidgetItem;
 
- class XbelWriter : public QXmlStreamWriter
- {
- public:
-	 XbelWriter(QTreeWidget *treeWidget);
-	 bool writeFile(QIODevice *device);
+class XbelWriter : public QXmlStreamWriter
+{
+public:
+        XbelWriter(QTreeWidget *treeWidget);
+        bool writeFile(QIODevice *device);
 
- private:
-	 QTreeWidget *treeWidget;
-	 void writeItem(QTreeWidgetItem *item);
- };
+private:
+        QTreeWidget *treeWidget;
+        void writeItem(QTreeWidgetItem *item);
+};
 
- #endif
+#endif

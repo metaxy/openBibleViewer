@@ -5,11 +5,11 @@
 #include <QStringList>
 struct chapter
 {
-		QStringList data;
-		QStringList verseNumber;
-		QString chapterName;
-		QString bookName;
-		int verseCount;
+        QStringList data;
+        QStringList verseNumber;
+        QString chapterName;
+        QString bookName;
+        int verseCount;
 
 };
 
