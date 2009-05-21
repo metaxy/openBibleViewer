@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QDomElement>
 #include "biblequote.h"
 #include "zefania.h"
-#include "../kernel/stelle.h"
+#include "../core/stelle.h"
 
 class bible
 {

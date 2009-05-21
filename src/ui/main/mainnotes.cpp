@@ -12,15 +12,15 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "mainwindow.h"
-#include "../../kernel/stelle.h"
-#include "../../kernel/notes.h"
+#include "../../core/stelle.h"
+#include "../../core/notes.h"
 #include "../poschoser.h"
 #include "ui_mainwindow.h"
 
-#include <QString>
-#include <QTreeView>
-#include <QClipboard>
-#include <QColorDialog>
+#include <QtCore/QString>
+#include <QtGui/QTreeView>
+#include <QtGui/QClipboard>
+#include <QtGui/QColorDialog>
 
 int MainWindow::loadNotes( void )
 {

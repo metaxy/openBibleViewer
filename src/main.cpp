@@ -25,7 +25,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QFSFileEngine>
 
 #include "ui/main/mainwindow.h"
-#include "kernel/config.h"
+#include "core/config.h"
 
 int main(int argc, char *argv[])
 {

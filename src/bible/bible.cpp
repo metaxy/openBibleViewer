@@ -1,6 +1,6 @@
 #include "bible.h"
-#include "../kernel/config.h"
-#include <QtDebug>
+#include "../core/config.h"
+#include <QtCore/QtDebug>
 bible::bible()
 {
 }

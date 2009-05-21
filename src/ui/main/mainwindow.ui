@@ -743,7 +743,7 @@
      <normaloff>:/icons/32x32/window-new.png</normaloff>:/icons/32x32/window-new.png</iconset>
    </property>
    <property name="text">
-    <string>New Tab</string>
+    <string>New Window</string>
    </property>
   </action>
   <action name="tactionCloseTab">

@@ -13,9 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BIBLEQUOTE_H
 #define BIBLEQUOTE_H
-#include "../kernel/config.h"
-#include "../kernel/stelle.h"
-#include "../kernel/chapter.h"
+#include "../core/config.h"
+#include "../core/stelle.h"
+#include "../core/chapter.h"
 #include <QString>
 #include <QStringList>
 #include <QFile>

@@ -12,12 +12,12 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "zefania.h"
-#include <QFile>
-#include <QtXml>
-#include <QDomAttr>
-#include <QDomElement>
-#include <QProgressDialog>
-#include <QMessageBox>
+#include <QtCore/QFile>
+#include <QtXml/QtXml>
+#include <QtXml/QDomAttr>
+#include <QtXml/QDomElement>
+#include <QtGui/QProgressDialog>
+#include <QtGui/QMessageBox>
 zefania::zefania()
 {
 }
@@ -115,8 +115,10 @@ void zefania::loadBibleData(int id,QString path)
                 }
                 n = n.nextSibling();
         }
+        progress.hide();
         file.close();
         qDebug("zefania::loadBibleData() exit");
+
 }
 QString zefania::readInfo(QFile &file)
 {

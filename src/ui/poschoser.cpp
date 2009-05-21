@@ -1,5 +1,5 @@
 #include "poschoser.h"
-#include <QtDebug>
+#include <QtCore/QtDebug>
 
 #include "ui_poschoser.h"
 

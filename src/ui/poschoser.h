@@ -1,6 +1,6 @@
 #ifndef POSCHOSER_H
 #define POSCHOSER_H
-#include "../kernel/chapter.h"
+#include "../core/chapter.h"
 #include <QtGui/QDialog>
 
 namespace Ui {

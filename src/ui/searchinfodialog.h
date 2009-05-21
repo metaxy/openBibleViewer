@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define SEARCHINFODIALOG_H
 
 #include <QtGui/QDialog>
-#include "../kernel/stelle.h"
+#include "../core/stelle.h"
 namespace Ui {
         class searchInfoDialog;
 }

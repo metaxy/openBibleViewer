@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "biblequote.h"
-#include "../kernel/stelle.h"
+#include "../core/stelle.h"
 #include <QString>
 #include <QFile>
 #include <QTextCodec>

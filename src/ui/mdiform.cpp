@@ -1,7 +1,7 @@
 #include "mdiform.h"
 #include "ui_mdiform.h"
-#include <QtDebug>
-#include <QCloseEvent>
+#include <QtCore/QtDebug>
+#include <QtGui/QCloseEvent>
 
 mdiForm::mdiForm(QWidget *parent) :
                 QWidget(parent),

@@ -12,15 +12,16 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "mainwindow.h"
-#include "../../kernel/xbelreader.h"
-#include "../../kernel/xbelwriter.h"
+#include "../../core/xbelreader.h"
+#include "../../core/xbelwriter.h"
 
-#include <QAction>
-#include <QString>
-#include <QTextBrowser>
-#include <QClipboard>
-#include <QMessageBox>
-#include <QtDebug>
+#include <QtCore/QtDebug>
+#include <QtCore/QString>
+#include <QtGui/QAction>
+#include <QtGui/QTextBrowser>
+#include <QtGui/QClipboard>
+#include <QtGui/QMessageBox>
+
 int MainWindow::loadBookmarks( void )
 {
         bookmarksFileName = homeDataPath + "bookmarks.xml";

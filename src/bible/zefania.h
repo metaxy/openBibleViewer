@@ -13,14 +13,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef ZEFANIA_H
 #define ZEFANIA_H
-#include "../kernel/config.h"
-#include "../kernel/stelle.h"
-#include "../kernel/chapter.h"
-#include <QString>
-#include <QStringList>
-#include <QFile>
-#include <QDomDocument>
-#include <QDomElement>
+#include "../core/config.h"
+#include "../core/stelle.h"
+#include "../core/chapter.h"
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <QtCore/QFile>
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomElement>
 class zefania
 {
 private:

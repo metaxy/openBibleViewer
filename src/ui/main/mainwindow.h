@@ -24,11 +24,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QSettings>
 #include <QMdiSubWindow>
 
-#include "../../kernel/config.h"
+#include "../../core/config.h"
 #include "../../bible/biblequote.h"
 #include "../../bible/zefania.h"
-#include "../../kernel/tabcache.h"
-#include "../../kernel/notes.h"
+#include "../../core/tabcache.h"
+#include "../../core/notes.h"
 #include "../../bible/bible.h"
 namespace Ui
 {

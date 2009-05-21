@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
-#include "../kernel/config.h"
+#include "../core/config.h"
 #include "../bible/zefania.h"
 #include "../bible/biblequote.h"
 

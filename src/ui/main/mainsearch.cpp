@@ -14,19 +14,19 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "mainwindow.h"
 #include "../searchdialog.h"
 #include "../searchinfodialog.h"
-#include "../../kernel/stelle.h"
-
+#include "../../core/stelle.h"
 #include "ui_mainwindow.h"
 
-#include <QAction>
-#include <QString>
-#include <QTreeView>
-#include <QProgressDialog>
-#include <QTextBrowser>
-#include <QTextStream>
-#include <QClipboard>
-#include <QMessageBox>
-#include <QtDebug>
+#include <QtCore/QString>
+#include <QtCore/QtDebug>
+#include <QtCore/QTextStream>
+#include <QtGui/QAction>
+#include <QtGui/QTreeView>
+#include <QtGui/QProgressDialog>
+#include <QtGui/QTextBrowser>
+#include <QtGui/QClipboard>
+#include <QtGui/QMessageBox>
+
 
 int MainWindow::search( void )
 {
@@ -38,11 +38,9 @@ int MainWindow::search( void )
         QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
         searchDialog *sDialog = new searchDialog(this);
         connect( sDialog, SIGNAL( searched( QString,bool,bool,bool ) ), this, SLOT( showSearchResults( QString,bool,bool,bool ) ) );
-        QTextCursor cursor = textBrowser->textCursor();
-        if(cursor.hasSelection() == true)//etwas ist markiert
-        {
-                sDialog->setText(cursor.selectedText());
-        }	sDialog->show();
+        if(textBrowser->textCursor().hasSelection() == true)//etwas ist markiert
+                sDialog->setText(textBrowser->textCursor().selectedText());
+        sDialog->show();
         sDialog->exec();
         qDebug("MainWindow::search( void ) end");
         return 0;

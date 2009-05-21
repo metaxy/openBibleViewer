@@ -11,31 +11,32 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#include <QDir>
-#include <QTextCodec>
-#include <QAction>
-#include <QString>
-#include <QPrintDialog>
-#include <QPrinter>
-#include <QTreeView>
-#include <QProgressDialog>
-#include <QFileDialog>
-#include <QTextStream>
-#include <QClipboard>
-#include <QMessageBox>
-#include <QtDebug>
-#include <QFSFileEngine>
-#include <QComboBox>
-#include <QTranslator>
-#include <QLocale>
+#include <QtCore/QString>
+#include <QtCore/QtDebug>
+#include <QtCore/QFSFileEngine>
+#include <QtCore/QTextStream>
+#include <QtCore/QTranslator>
+#include <QtCore/QLocale>
+#include <QtCore/QDir>
+#include <QtCore/QTextCodec>
+#include <QtGui/QAction>
+#include <QtGui/QPrintDialog>
+#include <QtGui/QPrinter>
+#include <QtGui/QTreeView>
+#include <QtGui/QProgressDialog>
+#include <QtGui/QFileDialog>
+#include <QtGui/QClipboard>
+#include <QtGui/QMessageBox>
+#include <QtGui/QComboBox>
 
 #include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include "../searchdialog.h"
 #include "../settingsdialog.h"
 #include "../aboutdialog.h"
-#include "../../kernel/stelle.h"
-#include "../../kernel/chapter.h"
-#include "ui_mainwindow.h"
+#include "../../core/stelle.h"
+#include "../../core/chapter.h"
+
 //spilt MainWindow in some files
 #include "mainnotes.cpp"
 #include "mainbookmarks.cpp"

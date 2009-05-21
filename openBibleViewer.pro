@@ -11,11 +11,11 @@ SOURCES += src/main.cpp \
     src/bible/zefania.cpp \
     src/ui/searchdialog.cpp \
     src/ui/settingsdialog.cpp \
-    src/kernel/tabcache.cpp \
+    src/core/tabcache.cpp \
     src/ui/aboutdialog.cpp \
-    src/kernel/notes.cpp \
-    src/kernel/xbelreader.cpp \
-    src/kernel/xbelwriter.cpp \
+    src/core/notes.cpp \
+    src/core/xbelreader.cpp \
+    src/core/xbelwriter.cpp \
     src/ui/main/mainnotes.cpp \
     src/ui/main/mainbookmarks.cpp \
     src/ui/main/mainsearch.cpp \
@@ -25,20 +25,20 @@ SOURCES += src/main.cpp \
     src/ui/mdiform.cpp \
     src/ui/poschoser.cpp
 HEADERS += src/ui/main/mainwindow.h \
-    src/kernel/config.h \
+    src/core/config.h \
     src/bible/biblequote.h \
     src/bible/zefania.h \
     src/ui/searchdialog.h \
     src/ui/settingsdialog.h \
-    src/kernel/tabcache.h \
-    src/kernel/stelle.h \
+    src/core/tabcache.h \
+    src/core/stelle.h \
     src/ui/aboutdialog.h \
-    src/kernel/notes.h \
-    src/kernel/xbelreader.h \
-    src/kernel/xbelwriter.h \
+    src/core/notes.h \
+    src/core/xbelreader.h \
+    src/core/xbelwriter.h \
     src/ui/searchinfodialog.h \
     src/bible/bible.h \
-    src/kernel/chapter.h \
+    src/core/chapter.h \
     src/ui/mdiform.h \
     src/ui/poschoser.h
 FORMS += src/ui/main/mainwindow.ui \

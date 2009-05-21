@@ -13,9 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "searchinfodialog.h"
 #include "ui_searchinfodialog.h"
-#include <QPainter>
-#include <QtDebug>
-#include <QGraphicsPixmapItem>
+#include <QtGui/QPainter>
+#include <QtCore/QtDebug>
+#include <QtGui/QGraphicsPixmapItem>
 #include <math.h>
 searchInfoDialog::searchInfoDialog(QWidget *parent) :
                 QDialog(parent),

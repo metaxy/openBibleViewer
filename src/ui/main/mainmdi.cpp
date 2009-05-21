@@ -16,10 +16,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_mainwindow.h"
 #include "../mdiform.h"
 
-#include <QtDebug>
-#include <QVBoxLayout>
-#include <QSizePolicy>
-#include <QMdiSubWindow>
+#include <QtCore/QtDebug>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QSizePolicy>
+#include <QtGui/QMdiSubWindow>
 void MainWindow::newMdiChild()
 {
         qDebug() << "MainWindow::newMdiChild()";
@@ -262,7 +262,6 @@ int MainWindow::closeWindow( void )
 }
 int MainWindow::reloadWindow(QMdiSubWindow * window)
 {
-        //todo: Bei meheren Window wird die ChapterList nicht immer richtig gesetzt
         if(!enableReload)
         {
                 qDebug() << "MainWindow::reloadWindow() reload is not enabled";
