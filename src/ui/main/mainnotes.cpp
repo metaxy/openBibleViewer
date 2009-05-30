@@ -161,25 +161,6 @@ int MainWindow::newNoteWithLink()
 	ui->listWidget_notes->setCurrentRow(note->notesData.size()-1);
 	currentNoteID = note->notesData.size()-1;
 	qDebug() << "MainWindow::newNoteWithLink() pos = " << pos;
-
-	/*saveNote();
-	QTextCursor cursor = currentTextCursor;
-	int startverse = verseFromCursor(cursor);
-	ui->lineEdit_note_titel->setText(tr("(unnamed)"));
-	ui->textEdit_note->setHtml("");
-	note->notesData << "";
-	note->notesTitel << tr("(unnamed)");
-	QString pos;
-
-	pos = bibleDirName[currentBibleID] +";"+QString::number(b.currentBookID,10)+";"+QString::number(b.currentChapterID+1-b.chapterAdd,10)+";"+QString::number(startverse,10)+";"+b.bookFullName.at(b.currentBookID);
-	note->notesPos << pos;
-
-	ui->label_noteLink->setText(notePos2Text(pos));
-
-	reloadNotes();
-	ui->listWidget_notes->setCurrentRow(note->notesData.size()-1);
-	currentNoteID = note->notesData.size()-1;
-	*/
 	return 0;
 }
 int MainWindow::removeNote( void )

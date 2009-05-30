@@ -45,7 +45,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
 	ui->setupUi(this);
-	ui->mdiArea->installEventFilter(this);
 	VERSION  = "0.2b1";
 	BUILD =  "2009-5-10";
 
@@ -159,36 +158,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	loadBookmarks();
 	restoreSession();
 }
-bool MainWindow::eventFilter(QObject *obj, QEvent *event)
-{
-	if (obj == ui->mdiArea)
-	{
-		//     qDebug() << "MainWindow::eventFilter() mdi event->type() = " << event->type();
 
-		if (event->type() == QEvent::Close)
-		{
-			qDebug() << "MainWindow::eventFilter()";
-			return true;
-		}
-		return false;
-	}
-	else if (obj == ui->mdiArea->currentSubWindow())
-	{
-		//  qDebug() << "MainWindow::eventFilter() window event->type() = " << event->type();
-
-		if (event->type() == QEvent::Close)
-		{
-			qDebug() << "MainWindow::eventFilter()";
-			return true;
-		}
-		return false;
-	}
-	else
-	{
-		// pass the event on to the parent class
-		return QMainWindow::eventFilter(obj, event);
-	}
-}
 int MainWindow::loadBibleData(QTreeWidgetItem *fitem)
 {
 	setEnableReload(false);
@@ -817,8 +787,10 @@ int MainWindow::printFile( void )
 int MainWindow::saveFile( void )
 {
 	QFileDialog dialog(this);
-	dialog.setFileMode(QFileDialog::AnyFile);
+	//dialog.setFileMode(QFileDialog::AnyFile);
+	dialog.setNameFilter(tr("Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)"));
 	dialog.setAcceptMode(QFileDialog::AcceptSave);
+
 	QString fileName = QFileDialog::getSaveFileName();
 	qDebug() << "MainWindow::saveFile() fileName = "<<fileName;
 	if (activeMdiChild())
@@ -898,7 +870,6 @@ int MainWindow::saveAll()
 int MainWindow::showAboutDialog( void )
 {
 	aboutDialog aDialog;
-
 	aDialog.setWindowTitle(tr("About openBibleViewer"));
 	aDialog.show();
 	aDialog.setText("openBibleViewer <br> version: "+VERSION+" build: "+BUILD+"<br> <a href=\"http://openbv.uucyc.name/\"> Official Website</a> | <a href=\"http://openbv.uucyc.name/bug/\">Bug report</a>");

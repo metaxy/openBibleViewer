@@ -109,7 +109,6 @@ public:
 	int go(int book,int chapter,int verse);
 	 protected:
 	void closeEvent(QCloseEvent *event);
-	bool eventFilter(QObject *obj, QEvent *ev);
 private:
 	Ui::MainWindowClass *ui;
 	bible b;

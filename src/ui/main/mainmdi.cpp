@@ -248,14 +248,11 @@ int MainWindow::closeWindow()
 		return 1;
 	}
 	//if one in the internal subwindow list list is missing that window was closed
-	int id=0;
-	//QMdiSubWindow * window = ui->mdiArea->currentSubWindow();
 	if( ui->mdiArea->subWindowList().size() <= 0)
 		return 1;
 	if( internalWindows.size() <= 0)
 		return 1;
 	qDebug() << "MainWindow::closeWindow() closing";
-
 	for(int i=0;i<internalWindows.size();i++)
 	{
 		if( ui->mdiArea->subWindowList().lastIndexOf(internalWindows.at(i)) == -1)
@@ -263,6 +260,7 @@ int MainWindow::closeWindow()
 			qDebug() << "MainWindow::closeWindow() found closed Window id = " << i;
 			tcache.removeTab(i);
 			internalWindows.removeAt(i);
+			break;
 		}
 	}
 	reloadWindow(ui->mdiArea->currentSubWindow());
