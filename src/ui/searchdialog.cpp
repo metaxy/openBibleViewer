@@ -15,46 +15,46 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include  "ui_searchdialog.h"
 
 searchDialog::searchDialog(QWidget *parent) :
-                QDialog(parent),
-                m_ui(new Ui::searchDialog)
+		QDialog(parent),
+		m_ui(new Ui::searchDialog)
 {
-        m_ui->setupUi(this);
-        connect( m_ui->pushButton, SIGNAL( clicked() ), this, SLOT( search( ) ) );
-        connect( m_ui->pushButton_more, SIGNAL( clicked() ), this, SLOT( showMore( ) ) );
-        m_ui->frame->hide();
+	m_ui->setupUi(this);
+	connect( m_ui->pushButton, SIGNAL( clicked() ), this, SLOT( search( ) ) );
+	connect( m_ui->pushButton_more, SIGNAL( clicked() ), this, SLOT( showMore( ) ) );
+	m_ui->frame->hide();
 }
 
 searchDialog::~searchDialog()
 {
-        delete m_ui;
+	delete m_ui;
 }
 void searchDialog::showMore( void )
 {
-        m_ui->frame->show();
+	m_ui->frame->show();
 }
 void searchDialog::changeEvent(QEvent *e)
 {
-        switch (e->type()) {
-        case QEvent::LanguageChange:
-                m_ui->retranslateUi(this);
-                break;
-        default:
-                break;
-        }
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		m_ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 int searchDialog::setText(QString text)
 {
-        m_ui->lineEdit->setText(text);
-        return 0;
+	m_ui->lineEdit->setText(text);
+	return 0;
 }
 int searchDialog::search( void )
 {
-        qDebug("searchDialog::search() started");
-        if(m_ui->lineEdit->text() != "")
-        {
-                emit searched(m_ui->lineEdit->text(),m_ui->checkBox_regexp->isChecked(),m_ui->checkBox_whole->isChecked(),m_ui->checkBox_casesen->isChecked());
-                this->hide();
-                this->close();
-        }
-        return 0;
+	qDebug("searchDialog::search() started");
+	if(m_ui->lineEdit->text() != "")
+	{
+		emit searched(m_ui->lineEdit->text(),m_ui->checkBox_regexp->isChecked(),m_ui->checkBox_whole->isChecked(),m_ui->checkBox_casesen->isChecked());
+		this->hide();
+		this->close();
+	}
+	return 0;
 }

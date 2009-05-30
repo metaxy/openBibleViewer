@@ -17,26 +17,26 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QDialog>
 
 namespace Ui {
-        class searchDialog;
+	class searchDialog;
 }
 
 class searchDialog : public QDialog {
-        Q_OBJECT
+	Q_OBJECT
 private slots:
-        int search( void );
-        void showMore( void);
+	int search( void );
+	void showMore( void);
 signals:
-        void searched(QString string,bool regexp,bool whole,bool casesen );
+	void searched(QString string,bool regexp,bool whole,bool casesen );
 public:
-        explicit searchDialog(QWidget *parent = 0);
-        int setText(QString text);
-        virtual ~searchDialog();
+	explicit searchDialog(QWidget *parent = 0);
+	int setText(QString text);
+	virtual ~searchDialog();
 
 protected:
-        virtual void changeEvent(QEvent *e);
+	virtual void changeEvent(QEvent *e);
 
 private:
-        Ui::searchDialog *m_ui;
+	Ui::searchDialog *m_ui;
 };
 
 #endif // SEARCHDIALOG_H

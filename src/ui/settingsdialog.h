@@ -18,34 +18,34 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QListWidgetItem>
 #include "../core/config.h"
 namespace Ui {
-        class settingsDialog;
+	class settingsDialog;
 }
 
 class settingsDialog : public QDialog {
-        Q_OBJECT
+	Q_OBJECT
 public slots:
-        void removePath();
-        void addPath();
-        int bsave();
-        void addModule();
-        void removeModule();
-        void reset();
+	void removePath();
+	void addPath();
+	int bsave();
+	void addModule();
+	void removeModule();
+	void reset();
 signals:
-        int save(struct settings_s *settings );
+	int save(struct settings_s *settings );
 public:
-        explicit settingsDialog(QWidget *parent = 0);
-        virtual ~settingsDialog();
-        int setSettings( struct settings_s *settings );
+	explicit settingsDialog(QWidget *parent = 0);
+	virtual ~settingsDialog();
+	int setSettings( struct settings_s *settings );
 
 protected:
-        virtual void changeEvent(QEvent *e);
+	virtual void changeEvent(QEvent *e);
 
 private:
-        Ui::settingsDialog *m_ui;
-        struct settings_s set;
-        struct settings_s backupSet;
-        QStringList encodings;
-        QStringList langCode;
+	Ui::settingsDialog *m_ui;
+	struct settings_s set;
+	struct settings_s backupSet;
+	QStringList encodings;
+	QStringList langCode;
 };
 
 #endif // SETTINGSDIALOG_H
