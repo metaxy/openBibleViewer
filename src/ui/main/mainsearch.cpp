@@ -86,12 +86,11 @@ int MainWindow::goToSearchResult(QListWidgetItem * item)
 		}
 		else
 		{
-			loadBibleDataByID(b.st.bibleID);
+			loadBibleDataByID(b.st.bibleID);//load the bible
 			go(b.st.book.at(id),b.st.chapter.at(id),b.st.verse.at(id));
 		}
 
 	}
-	qDebug() << "MainWindow::goToSearchResult() end";
 	return 0;
 }
 int MainWindow::go(int bookID,int chapterID,int verseID)
@@ -105,6 +104,7 @@ int MainWindow::go(int bookID,int chapterID,int verseID)
 	chapterText = b.chapterText;
 	showChapter(chapterID -1 + b.chapterAdd,verseID-1);
 	searchInCurrentText(lastsearch);
+
 	qDebug() << "MainWindow::go() end";
 	return 0;
 }

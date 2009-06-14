@@ -14,16 +14,18 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
 #include "../core/config.h"
-#include "../bible/zefania.h"
+#include "../core/moduleconfig.h"
+#include "../bible/zefania-bible.h"
 #include "../bible/biblequote.h"
 
-#include <QtGui/QFileDialog>
+
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QtCore/QtDebug>
-#include <QtGui/QProgressDialog>
 #include <QtCore/QStringList>
-
+#include <QtGui/QProgressDialog>
+#include <QtGui/QMessageBox>
+#include <QtGui/QFileDialog>
 
 settingsDialog::settingsDialog(QWidget *parent) : QDialog(parent), m_ui(new Ui::settingsDialog)
 {
@@ -71,13 +73,13 @@ int settingsDialog::setSettings(settings_s *settings)
 	//Module
 	m_ui->treeWidget_module->clear();
 	QList<QTreeWidgetItem *> items;
-	for(int i=0;i< set.modulePath.size();i++)
+	for(int i=0;i< set.module.size();i++)
 	{
 		QTreeWidgetItem *ibible = new QTreeWidgetItem(m_ui->treeWidget_module);
-		ibible->setText(0, set.moduleName.at(i) );
-		ibible->setText(1, set.modulePath.at(i) );
+		ibible->setText(0, set.module.at(i).moduleName );
+		ibible->setText(1, set.module.at(i).modulePath );
 		QString moduleType;
-		switch(set.moduleType.at(i).toInt())
+		switch(set.module.at(i).moduleType.toInt())
 		{
 		case 1:
 			moduleType = "Bible Quote";
@@ -166,7 +168,10 @@ void settingsDialog::addModule( void )
 				//open file
 				QFile file(f);
 				if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+				{
+					QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("Can not read the file"));
 					return;
+				}
 				QTextStream in(&file);
 				while (!in.atEnd())
 				{
@@ -181,9 +186,18 @@ void settingsDialog::addModule( void )
 				{
 					imoduleType = 2;//Zefania
 				}
+				/*else if(f.endsWith(".xml"))
+				{
+					imoduleType = 2;
+				}*/
+				else
+				{
+					QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("The file is not valid"));
+					return;
+				}
 				//QFile iFile(f);
 				biblequote bq;
-				zefania zef;
+				zefaniaBible zef;
 				QString moduleType;
 				switch(imoduleType)
 				{
@@ -200,12 +214,14 @@ void settingsDialog::addModule( void )
 				qDebug() << "settingsDialog::addModule() new Module file"<< f << " moduleName" << bibleName << " moduleType" << moduleType;
 				if (progress.wasCanceled())
 					return;
-				set.modulePath << f;
-				set.moduleName << bibleName;
-				set.moduleType << QString::number(imoduleType);
-				QTreeWidgetItem *ibible = new QTreeWidgetItem(m_ui->treeWidget_module);
-				ibible->setText(0, set.moduleName.at(i) );
-				ibible->setText(1, set.modulePath.at(i) );
+				moduleConfig m;
+				m.modulePath = f;
+				m.moduleName = bibleName;
+				m.moduleType = QString::number(imoduleType);
+				set.module << m;
+				QTreeWidgetItem * ibible = new QTreeWidgetItem(m_ui->treeWidget_module);
+				ibible->setText(0, m.moduleName);
+				ibible->setText(1, m.modulePath);
 				ibible->setText(2, moduleType);
 				items << ibible;
 			}
@@ -224,9 +240,7 @@ void settingsDialog::removeModule()
 	QTreeWidgetItem * token = m_ui->treeWidget_module->currentItem();
 	delete token;
 	//remove from settings
-	set.modulePath.removeAt(row);
-	set.moduleName.removeAt(row);
-	set.moduleType.removeAt(row);
+	set.module.removeAt(row);
 	return;
 }
 int settingsDialog::bsave( void )

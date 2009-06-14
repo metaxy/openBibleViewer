@@ -26,7 +26,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "../../core/config.h"
 #include "../../bible/biblequote.h"
-#include "../../bible/zefania.h"
+#include "../../bible/zefania-bible.h"
 #include "../../core/tabcache.h"
 #include "../../core/notes.h"
 #include "../../bible/bible.h"
@@ -98,8 +98,10 @@ public slots:
 	void myCascade();
 	void myTileVertical();
 	void myTileHorizontal();
+	void pharseUrl(QString url);
 
-
+signals:
+	void get(QString url);
 public:
 	MainWindow(QWidget *parent = 0);
 	~MainWindow();
@@ -113,7 +115,7 @@ private:
 	Ui::MainWindowClass *ui;
 	bible b;
 	biblequote bq;
-	zefania zef;
+	zefaniaBible zef;
 	struct settings_s set;
 	QStringList encodings;
 	int currentBookID,currentBibleID,fontsize,book_ccount,firsttime,currentChapterID,currentZoom,currentNoteID,currentVerseID;
@@ -122,7 +124,8 @@ private:
 	QString currentNotePos,bookmarksFileName,homeDataPath;
 	QPoint currentTextCursorPos;
 	QTextCursor currentTextCursor;
-	QStringList bibles,biblesPath,biblesIniPath,bookPath,bookFullName,bookShortName,bookCount,chapterText,bibleDirName;
+	QStringList bibles,biblesPath,biblesIniPath,bookPath,bookFullName,bookShortName,chapterText,bibleDirName;
+	QMap <int,int> bookCount;
 	QList<int> biblesTypes;
 	QList<QTextBrowser*> textBrowsers;
 	QTabWidget *tabWidget;

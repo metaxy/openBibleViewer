@@ -70,8 +70,7 @@ int bible::readBook(int id)
 			chapterText = bq.chapterText;
 			chapterData = bq.chapterData;
 			QStringList chapters;
-			QString c = bookCount.at(id);
-			int cc = c.toInt();
+			int cc = bookCount[id];
 			if(bq.chapterZero == true)
 			{
 				for (int i = 0; i < cc; i++)
@@ -117,7 +116,7 @@ void bible::setSettings( struct settings_s *settings_ )
 	settings = *settings_;
 	return;
 }
-QString bible::readChapter( int chapterID, int verseID = -1 ,int textFormatting = 0)
+QString bible::readChapter( int chapterID, int verseID = -1)
 {
 	chapterDataList.clear();
 	qDebug() << "bible::readChapter() start";
@@ -163,12 +162,12 @@ QString bible::readChapter( int chapterID, int verseID = -1 ,int textFormatting 
 
 				c = chapterData.at(chapterID);
 				qDebug() << "bible::readChapter() chapterID = " << chapterID << " chapterdata.size() = "<<chapterData.size() << " a.size() = "<<c.data.size();
-				if(textFormatting == 0)
+				if(settings.module.at(settings.moduleID[currentBibleID]).zefbible_textFormatting== 0)
 				{
 					out = "<b><font size=\"+5\">"+c.bookName+" "+c.chapterName+"</font></b><br /><br />";
 					for(int i = 0;i< c.data.size();i++)
 					{
-						QString o =  c.verseNumber.at(i)+" "+c.data.at(i) + "<br />";
+						QString o =  "<i>"+c.verseNumber.at(i)+"</i> "+c.data.at(i) + "<br />";
 						if( i == verseID)
 						{
 							out += "<b>" + o + "</b>";
@@ -180,7 +179,7 @@ QString bible::readChapter( int chapterID, int verseID = -1 ,int textFormatting 
 						chapterDataList << o;
 					}
 				}
-				else
+				else /*if(settings.module.at(currentBibleID).zefbible_textFormatting= == 1)*/
 				{
 					out = "<b><font size=\"+5\">"+c.bookName+" "+c.chapterName+"</font></b><br /><br />";
 					for(int i = 0;i< c.data.size();i++)
@@ -232,7 +231,7 @@ struct stelle bible::search(QString searchstring,bool regexp,bool whole,bool cas
 	st.bibleID = currentBibleID;
 	return st;
 }
-QList<QDomElement> bible::getZefCache()
+QMap<int,QDomElement> bible::getZefCache()
 {
 	return zef.cache_books_data;
 }
@@ -240,7 +239,7 @@ void bible::clearZefCache()
 {
 	zef.cache_books_data.clear();
 }
-void bible::setZefCache(QList<QDomElement> cache)
+void bible::setZefCache(QMap<int,QDomElement> cache)
 {
 	zef.cache_books_data = cache;
 }

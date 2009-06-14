@@ -14,9 +14,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef BIBLE_H
 #define BIBLE_H
 
-#include <QDomElement>
+#include <QtXml/QDomElement>
+#include <QtCore/QMap>
 #include "biblequote.h"
-#include "zefania.h"
+#include "zefania-bible.h"
 #include "../core/stelle.h"
 
 class bible
@@ -28,22 +29,23 @@ public:
 	int readBook(int id);
 	void setSettings( struct settings_s *settings );
 
-	QList<QDomElement> getZefCache();
+	QMap<int,QDomElement> getZefCache();
 	void clearZefCache();
-	void setZefCache(QList<QDomElement> cache);
+	void setZefCache(QMap<int,QDomElement> cache);
 
-	QString readChapter(int chapterID, int verseID, int textFormatting);
+	QString readChapter(int chapterID, int verseID);
 	int currentBibleID,currentBookID,currentChapterID,chapterAdd;
 	struct stelle search(QString searchstring,bool regexp,bool whole,bool casesen);
 	struct stelle st;
 	QString bibleName,lastout,path,currentBiblePath,lastSearchString;
-	QStringList bookCount,bookFullName,chapterText,bookPath,chapterNames,chapterDataList;
+	QStringList bookFullName,chapterText,bookPath,chapterNames,chapterDataList;
+	QMap <int,int> bookCount;
 	QList<chapter> chapterData;
 	int bibleType;
 private:
 
 	biblequote bq;
-	zefania zef;
+	zefaniaBible zef;
 	struct settings_s settings;
 
 };

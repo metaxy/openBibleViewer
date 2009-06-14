@@ -13,16 +13,17 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef CONFIG_H
 #define CONFIG_H
+#include "moduleconfig.h"
 #include <QtCore/QString>
 #include <QtCore/QStringList>
+#include <QtCore/QMap>
 struct settings_s
 {
 	QStringList path;
 	QString encoding;
 	QString dict;
-	QStringList modulePath;
-	QStringList moduleName;
-	QStringList moduleType;
+	QList<moduleConfig> module;
+	QMap<int,int> moduleID;
 	qreal zoomstep;
 	QString version;
 	QString build;
@@ -31,5 +32,7 @@ struct settings_s
 	int autoLayout;// 0 = NONE, 1 = vertical tile ,2 = horizontal tile, 3 = cascade
 	bool onClickBookmarkGo;
 	int textFormatting;//0 = Neue Zeile nach Vers, 1 = Unformatierter Textblock
+	bool zefaniaBible_Cache;
+	QString homePath;
 };
 #endif // CONFIG_H

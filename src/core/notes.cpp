@@ -41,7 +41,7 @@ int notes::loadNotes( void )
 }
 int notes::readNotes()
 {
-	//read all notes in notesData notesTitle
+	//read all notes in notesData
 	QDomNode n = doc.documentElement().firstChild();
 	while(!n.isNull())
 	{

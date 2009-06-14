@@ -61,7 +61,8 @@ void biblequote::readBook(int id,QString path)
 			QByteArray byteline = file.readLine();
 			QString line = decoder->toUnicode(byteline);
 			//filterout
-			if( bqset.removeHtml == true && removeHtml.size() > 0)
+			//todo: mdoule
+			if( bqset.module.at(bqset.moduleID[currentBibleID]).biblequote_removeHtml == true && removeHtml.size() > 0)
 			{
 				for(int i=0;i< removeHtml2.size();i++)
 				{
@@ -136,8 +137,10 @@ void biblequote::loadBibleData(int bibleID,QString path)
 		qDebug() << "biblequote::loadBibleData() encoding = " << bqset.encoding;
 		QTextCodec *codec = QTextCodec::codecForName(bqset.encoding.toStdString().c_str());
 		QTextDecoder *decoder = codec->makeDecoder();
+		int i = 0;
 		while (!file.atEnd())
 		{
+
 			countlines++;
 			QByteArray byteline = file.readLine();
 			QString line = decoder->toUnicode(byteline);
@@ -190,8 +193,8 @@ void biblequote::loadBibleData(int bibleID,QString path)
 				{
 					if(line.contains("ChapterQty", Qt::CaseInsensitive) && !line.startsWith("//"))
 					{
-						bookCount << formatfromini(line.remove("ChapterQty =", Qt::CaseInsensitive));
-
+						bookCount[i] = formatfromini(line.remove("ChapterQty =", Qt::CaseInsensitive)).toInt();
+						i++;
 						//chapterqty auslesen
 						started2=false;
 					}
@@ -215,6 +218,7 @@ void biblequote::loadBibleData(int bibleID,QString path)
 					//pathname auslesen
 				}
 			}
+
 		}
 	}
 	qDebug() << "bible::loadBibleData() end";

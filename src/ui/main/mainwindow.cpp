@@ -36,7 +36,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../aboutdialog.h"
 #include "../../core/stelle.h"
 #include "../../core/chapter.h"
-
+#include "../../core/moduleconfig.h"
 //spilt MainWindow in some files
 #include "mainnotes.cpp"
 #include "mainbookmarks.cpp"
@@ -54,11 +54,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 #else
 	homeDataPath = QApplication::applicationDirPath()+"/";
 #ifdef Q_WS_MAC
-	homeDataPath = QFSFileEngine::homePath() +"/.config/openbible/";
+	homeDataPath = QFSFileEngine::homePath() +"/.openbible/";
 	settings = new QSettings(homeDataPath+"openBibleViewer.ini",QSettings::IniFormat);
 #endif
 #ifdef Q_WS_X11
-	homeDataPath = QFSFileEngine::homePath() +"/.config/openbible/";
+	homeDataPath = QFSFileEngine::homePath() +"/.openbible/";
 	settings = new QSettings(homeDataPath+"openBibleViewer.ini",QSettings::IniFormat);
 #endif
 #ifdef Q_WS_WIN
@@ -81,6 +81,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	set.autoLayout = 1;
 	set.onClickBookmarkGo = true;
 	set.textFormatting = 0;
+	set.homePath = homeDataPath;
+	set.zefaniaBible_Cache = true;
 
 	QString appPath = QApplication::applicationDirPath();
 	if(appPath.endsWith(set.dict))
@@ -91,7 +93,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 	loadSettings();
 	newMdiChild();
-
+	connect( this, SIGNAL( get ( QString )), this, SLOT( pharseUrl( QString )));
 	connect( ui->mdiArea, SIGNAL( subWindowActivated ( QMdiSubWindow * )), this, SLOT(reloadWindow( QMdiSubWindow * )));
 	connect( ui->treeWidget_bibles, SIGNAL(itemClicked( QTreeWidgetItem *, int)), this, SLOT( loadBibleData( QTreeWidgetItem* ) ) );
 	connect( ui->listWidget_books, SIGNAL( itemActivated(QListWidgetItem *) ), this, SLOT( readBook(QListWidgetItem * ) ) );
@@ -161,18 +163,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 int MainWindow::loadBibleData(QTreeWidgetItem *fitem)
 {
-	setEnableReload(false);
 	QString sid(fitem->text(1));
 	bool ok;
-	int id = sid.toInt(&ok,10);
-	if(ok == true)
-	{
-		showText("");
-		loadBibleDataByID(id);
-		readBook(0);//das erste buch laden
-	}
+	int id = sid.toInt(&ok);
+	showText("");
+	emit get("bible://"+QString::number(id)+"/0,0,0");
 	qDebug() << "MainWindow::loadBibleData end id = " << id;
-	setEnableReload(true);
 	return 0;
 }
 void MainWindow::loadBibleDataByID(int id)
@@ -221,10 +217,7 @@ int MainWindow::readBook(QListWidgetItem * item)
 }
 int MainWindow::readBook(int id)
 {
-	readBookByID(id);
-	setCurrentBook(id);//Load the book
-	showChapter(0+b.chapterAdd);
-	setCurrentChapter(0);//show the first chapter
+	emit get("bible://"+QString::number(b.currentBibleID)+"/"+QString::number(id)+",0,0");
 	return 0;
 }
 void MainWindow::readBookByID(int id)
@@ -242,7 +235,7 @@ void MainWindow::readBookByID(int id)
 		return;
 	}
 
-	int icout = b.bookCount.at(id).toInt();
+	int icout = b.bookCount[id];
 	tcache.setCurrentTabId(currentTabID());
 	tcache.setCurrentBook(id,icout);
 
@@ -250,7 +243,7 @@ void MainWindow::readBookByID(int id)
 	showChapter(0+b.chapterAdd);
 	if (activeMdiChild())
 	{
-		QTextBrowser *textBrowser =   activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+		QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
 		textBrowser->setSearchPaths(QStringList(b.currentBiblePath));
 	}
 
@@ -260,7 +253,7 @@ int MainWindow::showChapter(int chapterid,int verseID)
 	qDebug() << "MainWindow::showChapter() chapterid = " << chapterid << " chapterAdd = " << b.chapterAdd;
 	b.currentChapterID = chapterid;
 	tcache.setBible(b);
-	showText(b.readChapter(b.currentChapterID,verseID,set.textFormatting));
+	showText(b.readChapter(b.currentChapterID,verseID));
 	setCurrentChapter(b.currentChapterID-b.chapterAdd);
 	currentVerseID = 0;
 	return 0;
@@ -462,17 +455,17 @@ int MainWindow::copyWholeVerse( void )
 int MainWindow::readChapter(QListWidgetItem * item)
 {
 	int id = ui->listWidget_chapters->row(item);
-	showChapter(id+b.chapterAdd);
+	emit get("bible://"+QString::number(b.currentBibleID)+"/"+QString::number(b.currentBookID)+","+QString::number(id)+",0");
 	return 0;
 }
 int MainWindow::readChapter(int id)
 {
-	showChapter(id+b.chapterAdd);
+	emit get("bible://"+QString::number(b.currentBibleID)+"/"+QString::number(b.currentBookID)+","+QString::number(id)+",0");
 	return 0;
 }
 int MainWindow::loadBibles()
 {
-	int rcount=0;
+	int rcount=0;//Counter fo the Bible ID
 	ui->treeWidget_bibles->clear();
 	bibles.clear();
 	biblesIniPath.clear();
@@ -613,58 +606,56 @@ int MainWindow::loadBibles()
 			//einzelne Module laden
 
 			//qDebug("MainWindow::loadBibles() reads the folder");
-			for (int i = 0; i < set.modulePath.size(); ++i)//Alle Ordner auslesen
+	for (int i = 0; i < set.module.size(); ++i)//Alle Ordner auslesen
 	{
 		QFile file;
 		QString rfile;
-		QString dirname = set.modulePath.at(i);
+		QString dirname = set.module.at(i).modulePath;
 		int lPos = dirname.lastIndexOf(set.dict);
 		dirname = dirname.remove(lPos,dirname.size())+"/";
 		qDebug() << "MainWindow::loadBibles() dirname:"<<dirname;
-		int bibletype = set.moduleType.at(i).toInt();
-		file.setFileName(set.modulePath.at(i));
+		int bibletype = set.module.at(i).moduleType.toInt();
+		file.setFileName(set.module.at(i).modulePath);
 		if (bibletype != 0 && file.open(QIODevice::ReadOnly | QIODevice::Text))
 		{
-			QString bname;
 			switch(bibletype)
 			{
 			case 1://BibleQuote
 				{
-
-					bname = bq.readInfo(file);
-					biblesTypes << 1;
-					bibles << set.moduleName.at(i);
+					biblesTypes << 1;//Insert the bibleID
+					bibles << set.module.at(i).moduleName; // Insert the title
 					biblesIniPath << file.fileName();
-					biblesPath << set.modulePath.at(i);//unwichtig
+					biblesPath << set.module.at(i).modulePath;//unimportant todo:remove
 					bibleDirName << dirname;
 					QTreeWidgetItem *bibleItem = new QTreeWidgetItem(ui->treeWidget_bibles);
-					bibleItem->setText(0, bname);
+					bibleItem->setText(0, set.module.at(i).moduleName);
 					QString srcount;
 					srcount.setNum(rcount,10);
 					bibleItem->setText(1, srcount);
+					set.moduleID[rcount] = i;
+
 					QIcon bibleIcon;
 					bibleIcon.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/text-x-generic.png")), QIcon::Normal, QIcon::Off);
 					bibleItem->setIcon(0,bibleIcon);
-
 					items.append(bibleItem);
 					rcount++;
 					break;
 				}
 			case 2://ZenfaniaXML
 				{
-
-					bname = zef.readInfo(file);
 					biblesTypes << 2;
-					bibles << set.moduleName.at(i);
+					bibles << set.module.at(i).moduleName;
 					biblesIniPath << file.fileName();
-					biblesPath << set.modulePath.at(i);//unwichtig
+					biblesPath << set.module.at(i).modulePath;//unwichtig
 					bibleDirName << dirname;
 					QTreeWidgetItem *bibleItem = new QTreeWidgetItem(ui->treeWidget_bibles);
-					bibleItem->setText(0, bname);
+					bibleItem->setText(0, set.module.at(i).moduleName);
 					QString srcount;
 					srcount.setNum(rcount,10);
-
 					bibleItem->setText(1, srcount);
+
+					set.moduleID[rcount] = i;
+
 					QIcon bibleIcon;
 					bibleIcon.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/text-xml.png")), QIcon::Normal, QIcon::Off);
 					bibleItem->setIcon(0,bibleIcon);
@@ -700,9 +691,21 @@ void MainWindow::loadSettings( )
 
 	set.textFormatting = settings->value("bible/textFormatting",set.textFormatting).toInt();
 
-	set.moduleName = settings->value("module/name",set.moduleName).toStringList();
-	set.modulePath = settings->value("module/path",set.moduleName).toStringList();
-	set.moduleType = settings->value("module/type",set.moduleName).toStringList();
+	int size = settings->beginReadArray("module");
+	for (int i = 0; i < size; ++i)
+	{
+		settings->setArrayIndex(i);
+		moduleConfig m;
+		m.moduleName = settings->value("name").toString();
+		m.modulePath = settings->value("path").toString();
+		m.moduleType = settings->value("type").toString();
+		m.zefbible_textFormatting = settings->value("textFormatting").toInt();
+		m.biblequote_removeHtml = settings->value("removeHtml").toInt();
+		set.module.append(m);
+	}
+	settings->endArray();
+
+
 
 	bq.setSettings(&set);
 	zef.setSettings(&set);
@@ -714,9 +717,25 @@ void MainWindow::loadSettings( )
 int MainWindow::saveSettings( struct settings_s *ssettings )
 {
 	bool reloadBibles=false;
-	if(set.dict != ssettings->dict || set.path != ssettings->path || set.encoding != ssettings->encoding || set.modulePath != ssettings->modulePath)
+	if(set.dict != ssettings->dict || set.path != ssettings->path || set.encoding != ssettings->encoding)
 	{
 		reloadBibles = true;
+	}
+	//rodo: enable it
+	for(int i = 0;i< ssettings->module.size();i++)
+	{
+		if(set.module.size() < i)
+		{
+			reloadBibles = true;
+			break;
+		}
+		QString a = ssettings->module.at(i).modulePath;
+		QString b = set.module.at(i).modulePath;
+		if(a != b )//todo: with the other too
+		{
+			reloadBibles = true;
+			break;
+		}
 	}
 	if(set.language != ssettings->language /* || set.theme != ssettings->theme*/)
 	{
@@ -734,12 +753,22 @@ int MainWindow::saveSettings( struct settings_s *ssettings )
 	settings->setValue("general/zoomstep",set.zoomstep);
 	settings->setValue("general/path",set.path);
 	settings->setValue("general/language",set.language);
-	settings->setValue("module/name",set.moduleName);
-	settings->setValue("module/path",set.modulePath);
-	settings->setValue("module/type",set.moduleType);
 	settings->setValue("window/layout",set.autoLayout);
 	settings->setValue("window/onClickBookmarkGo",set.onClickBookmarkGo);
 	settings->setValue("bible/textFormatting",set.textFormatting);
+
+	settings->beginWriteArray("module");
+	for (int i = 0; i < set.module.size(); ++i)
+	{
+		settings->setArrayIndex(i);
+		settings->setValue("name", set.module.at(i).moduleName);
+		settings->setValue("path", set.module.at(i).modulePath);
+		settings->setValue("type", set.module.at(i).moduleType);
+		settings->setValue("textFormatting", set.module.at(i).zefbible_textFormatting);
+		settings->setValue("removeHtml", set.module.at(i).biblequote_removeHtml);
+	}
+	settings->endArray();
+
 	if(reloadBibles == true)
 	{
 		loadBibles();
@@ -901,29 +930,7 @@ int MainWindow::go2Pos(QString pos)
 		}
 	}
 	qDebug() << "MainWindow::go2Pos() bibleID = " << bibleID << " , bookID = " << bookID << " , chapterID = " << chapterID << ", verseID = " << verseID;
-	if(biblesTypes.size() < bibleID)
-		return 1;
-	qDebug() << "MainWindow::go2Pos() biblesTypes[currentBibleID] = " << biblesTypes.at(bibleID);
-	b.setBibleType(biblesTypes.at(bibleID));
-	if(bibleID != currentBibleID)
-		b.loadBibleData(bibleID,biblesIniPath[bibleID]);
-
-	showBibleName(b.bibleName);
-	setBooks(b.bookFullName);
-	tcache.setCurrentTabId(currentTabID());
-	tcache.setBible(b);
-	setChapters(b.chapterNames);
-	setBooks(b.bookFullName);
-
-	currentBibleID = b.currentBibleID;
-
-	if(bookID >= 0 && bookID < b.bookFullName.size())
-	{
-		readBook(bookID);
-		setCurrentBook(bookID);
-	}
-	showChapter(chapterID-1+b.chapterAdd,verseID-1);
-	setCurrentChapter(chapterID-1+b.chapterAdd);
+	emit get("bible://"+QString::number(bibleID)+"/"+QString::number(bookID)+","+QString::number(chapterID)+","+QString::number(verseID));
 	return 0;
 }
 void MainWindow::goTo()
@@ -1066,6 +1073,79 @@ void MainWindow::showBibleName(QString name)
 	{
 		activeMdiChild()->setWindowTitle(name);
 	}
+}
+
+void MainWindow::pharseUrl(QString url)
+{
+	setEnableReload(false);
+	qDebug() << "MainWindow::pharseUrl() url = " << url;
+	QString bible = "bible://";
+	QString strong = "strong://";
+	if(url.startsWith(bible))
+	{
+		url = url.remove(0,bible.size());
+		QStringList a = url.split("/");
+		if(a.size() == 2)
+		{
+			QStringList c = a.at(1).split(",");
+			if(c.size() == 3)
+			{
+				int bibleID = a.at(0).toInt();
+				int bookID = c.at(0).toInt();
+				int chapterID = c.at(1).toInt();
+				int verseID = c.at(2).toInt();
+				if(bibleID != b.currentBibleID)
+				{
+					loadBibleDataByID(bibleID);
+					readBookByID(bookID);
+					setCurrentBook(bookID);
+					showChapter(chapterID+b.chapterAdd,verseID);
+					setCurrentChapter(chapterID);
+					//laod bible
+				}
+				else if(bookID != b.currentBookID)
+				{
+					readBookByID(bookID);
+					setCurrentBook(bookID);
+					showChapter(chapterID+b.chapterAdd,verseID);
+					setCurrentChapter(chapterID);
+					//load book
+				}
+				else if(chapterID != b.currentChapterID)
+				{
+					showChapter(chapterID+b.chapterAdd,verseID);
+					setCurrentChapter(chapterID);
+					//load chapter
+				}
+				else
+				{
+					showChapter(chapterID+b.chapterAdd,verseID);
+					setCurrentChapter(chapterID);
+				}
+				//load verse
+			}
+			else
+			{
+				qDebug() << "MainWindow::pharseUrl() invalid URL";
+			}
+		}
+		else
+		{
+			qDebug() << "MainWindow::pharseUrl() invalid URL";
+		}
+		//bible://bibleID/bookID,chapterID,verseID
+	}
+	else if(url.startsWith(strong))
+	{
+		url = url.remove(0,strong.size());
+		//strong://strongID
+	}
+	else
+	{
+		qDebug() << "MainWindow::pharseUrl() invalid URL";
+	}
+	setEnableReload(true);
+	return;
 }
 MainWindow::~MainWindow()
 {

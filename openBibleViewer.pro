@@ -1,14 +1,13 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-02-06T07:53:02
 # -------------------------------------------------
-
 TARGET = openBibleViewer
 QT += xml
 TEMPLATE = app
 SOURCES += src/main.cpp \
     src/ui/main/mainwindow.cpp \
     src/bible/biblequote.cpp \
-    src/bible/zefania.cpp \
+    src/bible/zefania-bible.cpp \
     src/ui/searchdialog.cpp \
     src/ui/settingsdialog.cpp \
     src/core/tabcache.cpp \
@@ -23,11 +22,12 @@ SOURCES += src/main.cpp \
     src/bible/bible.cpp \
     src/ui/main/mainmdi.cpp \
     src/ui/mdiform.cpp \
-    src/ui/poschoser.cpp
+    src/ui/poschoser.cpp \
+    src/ui/moduledialog.cpp
 HEADERS += src/ui/main/mainwindow.h \
     src/core/config.h \
     src/bible/biblequote.h \
-    src/bible/zefania.h \
+    src/bible/zefania-bible.h \
     src/ui/searchdialog.h \
     src/ui/settingsdialog.h \
     src/core/tabcache.h \
@@ -40,19 +40,21 @@ HEADERS += src/ui/main/mainwindow.h \
     src/bible/bible.h \
     src/core/chapter.h \
     src/ui/mdiform.h \
-    src/ui/poschoser.h
+    src/ui/poschoser.h \
+    src/ui/moduledialog.h \
+    src/core/moduleconfig.h
 FORMS += src/ui/main/mainwindow.ui \
     src/ui/searchdialog.ui \
     src/ui/settingsdialog.ui \
     src/ui/searchinfodialog.ui \
     src/ui/mdiform.ui \
     src/ui/poschoser.ui \
-    src/ui/aboutdialog.ui
+    src/ui/aboutdialog.ui \
+    src/ui/moduledialog.ui
 RESOURCES += src/icons.qrc
 TRANSLATIONS = src/obv_de.ts \
     src/obv_ru.ts
 UI_DIR = tmp
-
 MOC_DIR = tmp
 RCC_DIR = tmp
 OBJECTS_DIR = tmp

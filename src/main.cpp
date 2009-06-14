@@ -38,11 +38,11 @@ int main(int argc, char *argv[])
 #else
 	homeDataPath = QApplication::applicationDirPath()+"/";
 #ifdef Q_WS_MAC
-	homeDataPath = QFSFileEngine::homePath() +"/.config/openbible/";
+	homeDataPath = QFSFileEngine::homePath() +"/.openbible/";
 	settings = new QSettings(homeDataPath+"openBibleViewer.ini",QSettings::IniFormat);
 #endif
 #ifdef Q_WS_X11
-	homeDataPath = QFSFileEngine::homePath() +"/.config/openbible/";
+	homeDataPath = QFSFileEngine::homePath() +"/.openbible/";
 	settings = new QSettings(homeDataPath+"openBibleViewer.ini",QSettings::IniFormat);
 #endif
 #ifdef Q_WS_WIN

@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "tabcache.h"
-#include "../bible/zefania.h"
+#include "../bible/zefania-bible.h"
 #include "../bible/biblequote.h"
 #include <QtCore/QtDebug>
 
@@ -106,7 +106,7 @@ bible tabCache::getBible( void )
 	}
 	return b[currentTabID];
 }
-QList<QDomElement> tabCache::getZefaniaCache(int bibleid)
+QMap<int,QDomElement> tabCache::getZefaniaCache(int bibleid)
 {
 	return zefcache[bibleid];
 }

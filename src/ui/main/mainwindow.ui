@@ -36,7 +36,17 @@
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
         <item>
-         <widget class="QMdiArea" name="mdiArea"/>
+         <widget class="QMdiArea" name="mdiArea">
+          <property name="background">
+           <brush brushstyle="SolidPattern">
+            <color alpha="255">
+             <red>64</red>
+             <green>64</green>
+             <blue>64</blue>
+            </color>
+           </brush>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -50,7 +60,7 @@
      <x>0</x>
      <y>0</y>
      <width>1077</width>
-     <height>23</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
