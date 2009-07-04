@@ -45,7 +45,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
 	ui->setupUi(this);
-	VERSION  = "0.2b1";
+	VERSION  = "0.2b2";
 	BUILD =  "2009-5-10";
 
 #ifdef _PORTABLE_VERSION
@@ -625,7 +625,7 @@ int MainWindow::loadBibles()
 					biblesTypes << 1;//Insert the bibleID
 					bibles << set.module.at(i).moduleName; // Insert the title
 					biblesIniPath << file.fileName();
-					biblesPath << set.module.at(i).modulePath;//unimportant todo:remove
+					biblesPath << set.module.at(i).modulePath;
 					bibleDirName << dirname;
 					QTreeWidgetItem *bibleItem = new QTreeWidgetItem(ui->treeWidget_bibles);
 					bibleItem->setText(0, set.module.at(i).moduleName);
@@ -646,14 +646,13 @@ int MainWindow::loadBibles()
 					biblesTypes << 2;
 					bibles << set.module.at(i).moduleName;
 					biblesIniPath << file.fileName();
-					biblesPath << set.module.at(i).modulePath;//unwichtig
+					biblesPath << set.module.at(i).modulePath;
 					bibleDirName << dirname;
 					QTreeWidgetItem *bibleItem = new QTreeWidgetItem(ui->treeWidget_bibles);
 					bibleItem->setText(0, set.module.at(i).moduleName);
 					QString srcount;
 					srcount.setNum(rcount,10);
 					bibleItem->setText(1, srcount);
-
 					set.moduleID[rcount] = i;
 
 					QIcon bibleIcon;
@@ -721,7 +720,6 @@ int MainWindow::saveSettings( struct settings_s *ssettings )
 	{
 		reloadBibles = true;
 	}
-	//rodo: enable it
 	for(int i = 0;i< ssettings->module.size();i++)
 	{
 		if(set.module.size() < i)
@@ -729,9 +727,9 @@ int MainWindow::saveSettings( struct settings_s *ssettings )
 			reloadBibles = true;
 			break;
 		}
-		QString a = ssettings->module.at(i).modulePath;
-		QString b = set.module.at(i).modulePath;
-		if(a != b )//todo: with the other too
+		if(ssettings->module.at(i).modulePath != set.module.at(i).modulePath ||
+		   ssettings->module.at(i).moduleName != set.module.at(i).moduleName ||
+		   ssettings->module.at(i).moduleType != set.module.at(i).moduleType)//todo: with the other too
 		{
 			reloadBibles = true;
 			break;
@@ -1101,7 +1099,7 @@ void MainWindow::pharseUrl(QString url)
 					setCurrentBook(bookID);
 					showChapter(chapterID+b.chapterAdd,verseID);
 					setCurrentChapter(chapterID);
-					//laod bible
+					//load bible
 				}
 				else if(bookID != b.currentBookID)
 				{

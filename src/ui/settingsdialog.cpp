@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/moduleconfig.h"
 #include "../bible/zefania-bible.h"
 #include "../bible/biblequote.h"
-
+#include "moduleconfigdialog.h"
 
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
@@ -35,8 +35,10 @@ settingsDialog::settingsDialog(QWidget *parent) : QDialog(parent), m_ui(new Ui::
 
 	connect( m_ui->pushButton_add_module, SIGNAL( clicked() ), this, SLOT( addModule( ) ) );
 	connect( m_ui->pushButton_remove_module, SIGNAL( clicked() ), this, SLOT( removeModule( ) ) );
-	connect( m_ui->pushButton_save, SIGNAL( clicked() ), this, SLOT( bsave( ) ) );
+	connect( m_ui->pushButton_ok, SIGNAL( clicked() ), this, SLOT( bsave( ) ) );
+	connect( m_ui->pushButton_cancel, SIGNAL( clicked() ), this, SLOT( close( ) ) );
 	connect( m_ui->pushButton_reset, SIGNAL( clicked() ), this, SLOT( reset( ) ) );
+	connect( m_ui->pushButton_moduleEdit, SIGNAL( clicked() ), this, SLOT( editModule( ) ));
 }
 
 settingsDialog::~settingsDialog()
@@ -70,6 +72,22 @@ int settingsDialog::setSettings(settings_s *settings)
 	////Ordner
 	m_ui->listWidget_path->clear();
 	m_ui->listWidget_path->insertItems(0,set.path);
+	//Language
+	QStringList langs;
+	langs << "German - Deutsch" << "English" << "Russian -";
+	langCode << "de" << "en" << "ru";
+	qDebug() << "settingsDialog::setSettings() langCode.lastIndexOf(set.language) = " << langCode.lastIndexOf(set.language) << " set.language = " <<set.language;
+	m_ui->comboBox_language->clear();
+	m_ui->comboBox_language->insertItems(0,langs);
+	int code = langCode.lastIndexOf(set.language);
+	if(code != -1)
+	{
+		m_ui->comboBox_language->setCurrentIndex(code);
+	}
+	else// no lang code was written in the config file
+	{
+		m_ui->comboBox_language->setCurrentIndex(0);
+	}
 	//Module
 	m_ui->treeWidget_module->clear();
 	QList<QTreeWidgetItem *> items;
@@ -93,17 +111,9 @@ int settingsDialog::setSettings(settings_s *settings)
 		items << ibible;
 	}
 	m_ui->treeWidget_module->insertTopLevelItems(0, items);
-	QStringList langs;
-	langs << "German" << "English" << "Russian";
-	langCode << "de" << "en" << "ru";
-	qDebug() << "settingsDialog::setSettings() langCode.lastIndexOf(set.language) = " << langCode.lastIndexOf(set.language) << " set.language = " <<set.language;
-	m_ui->comboBox_language->clear();
-	m_ui->comboBox_language->insertItems(0,langs);
-	m_ui->comboBox_language->setCurrentIndex(langCode.lastIndexOf(set.language));
 
 
 	return 0;
-	//Path
 
 }
 void settingsDialog::addPath( void )
@@ -135,7 +145,6 @@ void settingsDialog::addPath( void )
 void settingsDialog::removePath()
 {
 	int row = m_ui->listWidget_path->currentRow();
-
 	//remove from listWidget
 	QListWidgetItem * token = m_ui->listWidget_path->takeItem(row);
 	delete token;
@@ -235,7 +244,6 @@ void settingsDialog::addModule( void )
 void settingsDialog::removeModule()
 {
 	int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
-
 	//remove from listWidget
 	QTreeWidgetItem * token = m_ui->treeWidget_module->currentItem();
 	delete token;
@@ -243,13 +251,31 @@ void settingsDialog::removeModule()
 	set.module.removeAt(row);
 	return;
 }
+void settingsDialog::editModule()
+{
+	int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
+	if(row >= 0)
+	{
+		moduleConfigDialog *mDialog = new moduleConfigDialog(this);
+		mDialog->setModule(set.module.at(row));
+		connect( mDialog, SIGNAL( save( struct moduleConfig ) ), this, SLOT( saveModule( struct moduleConfig) ) );
+		connect( mDialog, SIGNAL( save( struct moduleConfig ) ), mDialog, SLOT( close() ) );
+		mDialog->show();
+	}
+
+}
+void settingsDialog::saveModule( struct moduleConfig c)
+{
+	int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
+	set.module.removeAt(row);
+	set.module.insert(row,c);
+}
 int settingsDialog::bsave( void )
 {
-
+	//Informationen aus dem Dialog auslesen
 	set.encoding = encodings.at(m_ui->comboBox_encoding->currentIndex());
 	set.language = langCode.at(m_ui->comboBox_language->currentIndex());
-	qDebug("settingsDialog::bsave() set.encoding = %s",set.encoding.toStdString().c_str());
-	emit save(&set);
+	emit save(&set);//Speichern
 	return 0;
 }
 void settingsDialog::changeEvent(QEvent *e)

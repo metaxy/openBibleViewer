@@ -23,7 +23,7 @@ SOURCES += src/main.cpp \
     src/ui/main/mainmdi.cpp \
     src/ui/mdiform.cpp \
     src/ui/poschoser.cpp \
-    src/ui/moduledialog.cpp
+    src/ui/moduleconfigdialog.cpp
 HEADERS += src/ui/main/mainwindow.h \
     src/core/config.h \
     src/bible/biblequote.h \
@@ -41,8 +41,8 @@ HEADERS += src/ui/main/mainwindow.h \
     src/core/chapter.h \
     src/ui/mdiform.h \
     src/ui/poschoser.h \
-    src/ui/moduledialog.h \
-    src/core/moduleconfig.h
+    src/core/moduleconfig.h \
+    src/ui/moduleconfigdialog.h
 FORMS += src/ui/main/mainwindow.ui \
     src/ui/searchdialog.ui \
     src/ui/settingsdialog.ui \
@@ -50,7 +50,7 @@ FORMS += src/ui/main/mainwindow.ui \
     src/ui/mdiform.ui \
     src/ui/poschoser.ui \
     src/ui/aboutdialog.ui \
-    src/ui/moduledialog.ui
+    src/ui/moduleconfigdialog.ui
 RESOURCES += src/icons.qrc
 TRANSLATIONS = src/obv_de.ts \
     src/obv_ru.ts

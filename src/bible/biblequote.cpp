@@ -61,7 +61,6 @@ void biblequote::readBook(int id,QString path)
 			QByteArray byteline = file.readLine();
 			QString line = decoder->toUnicode(byteline);
 			//filterout
-			//todo: mdoule
 			if( bqset.module.at(bqset.moduleID[currentBibleID]).biblequote_removeHtml == true && removeHtml.size() > 0)
 			{
 				for(int i=0;i< removeHtml2.size();i++)

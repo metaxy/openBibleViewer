@@ -29,7 +29,9 @@ public slots:
 	int bsave();
 	void addModule();
 	void removeModule();
+	void editModule();
 	void reset();
+	void saveModule( struct moduleConfig);
 signals:
 	int save(struct settings_s *settings );
 public:
