@@ -29,7 +29,7 @@ searchInfoDialog::~searchInfoDialog()
 {
 	delete m_ui;
 }
-void searchInfoDialog::setInfo(struct stelle st,QStringList bookNames,QString searchText)
+void searchInfoDialog::setInfo(struct stelle st,QStringList bookNames,QString searchText,QStringList textList)
 {
 	m_ui->label_searchText->setText( tr("Search String : '%1'").arg(searchText));
 	m_ui->label_foundItems->setText(tr("Found Verses : %1").arg(QString::number(st.verse.size())));
@@ -100,6 +100,10 @@ void searchInfoDialog::setInfo(struct stelle st,QStringList bookNames,QString se
 	QGraphicsPixmapItem * item = new QGraphicsPixmapItem(pm);
 	item = scene->addPixmap(pm);
 	m_ui->graphicsView->show();
+	QString text;
+	text = textList.join("<br /><hr>");
+	m_ui->textBrowser_list->setHtml(text);
+
 	return;
 }
 double searchInfoDialog::mRound(double Zahl, int Stellen)

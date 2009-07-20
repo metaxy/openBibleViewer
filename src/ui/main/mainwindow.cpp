@@ -74,7 +74,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	set.encoding = "Windows-1251";
 	set.dict = "/";
 	set.zoomstep = 1;
-	set.removeHtml = false;
+	set.removeHtml = true;
 	set.version = VERSION;
 	set.build = BUILD;
 	set.zoomstep = 0.2;
@@ -716,11 +716,11 @@ void MainWindow::loadSettings( )
 int MainWindow::saveSettings( struct settings_s *ssettings )
 {
 	bool reloadBibles=false;
-	if(set.dict != ssettings->dict || set.path != ssettings->path || set.encoding != ssettings->encoding)
-	{
+	/*if(set.dict != ssettings->dict || set.path != ssettings->path || set.encoding != ssettings->encoding)
+	{*/
 		reloadBibles = true;
-	}
-	for(int i = 0;i< ssettings->module.size();i++)
+	/*}
+	for(int i = 0;i < ssettings->module.size();++i)
 	{
 		if(set.module.size() < i)
 		{
@@ -734,7 +734,7 @@ int MainWindow::saveSettings( struct settings_s *ssettings )
 			reloadBibles = true;
 			break;
 		}
-	}
+	}*/
 	if(set.language != ssettings->language /* || set.theme != ssettings->theme*/)
 	{
 		QTranslator myappTranslator;
@@ -862,7 +862,7 @@ int MainWindow::showSettingsDialog( void )
 	setDialog.setSettings(&set);
 	setDialog.setWindowTitle(tr("Configuration"));
 	setDialog.show();
-	return setDialog.exec();
+return setDialog.exec();
 }
 
 int MainWindow::close( void )
@@ -1072,13 +1072,18 @@ void MainWindow::showBibleName(QString name)
 		activeMdiChild()->setWindowTitle(name);
 	}
 }
-
+void MainWindow::pharseUrl(QUrl url)
+{
+	pharseUrl(url.toString());
+}
 void MainWindow::pharseUrl(QString url)
 {
 	setEnableReload(false);
 	qDebug() << "MainWindow::pharseUrl() url = " << url;
 	QString bible = "bible://";
 	QString strong = "strong://";
+	QString http = "http://";
+	QString bq = "go";
 	if(url.startsWith(bible))
 	{
 		url = url.remove(0,bible.size());
@@ -1137,6 +1142,49 @@ void MainWindow::pharseUrl(QString url)
 	{
 		url = url.remove(0,strong.size());
 		//strong://strongID
+	}
+	else if(url.startsWith(http))
+	{
+		//its a web link
+	}
+	else if(url.startsWith(bq))
+	{
+		//its a biblequote internal link but i dont have the specifications!!!
+		QStringList internal = url.split(" ");
+		QString bibleID = internal.at(1);//todo: use it
+		int bookID = internal.at(2).toInt() - 1;
+		int chapterID = internal.at(3).toInt() -1;
+		int verseID = internal.at(4).toInt();
+	//	qDebug() << "MainWindow::pharseUrl() internal = " << internal << " internalChapter = " <<internal.at(3).toInt() << " chapterID" << chapterID << " chapterAdd = "<< b.chapterAdd;
+		/*if(bibleID != b.currentBibleID)
+		{
+			loadBibleDataByID(bibleID);
+			readBookByID(bookID);
+			setCurrentBook(bookID);
+			showChapter(chapterID+b.chapterAdd,verseID);
+			setCurrentChapter(chapterID);
+			//load bible
+		}
+		else */if(bookID != b.currentBookID)
+		{
+			readBookByID(bookID);
+			setCurrentBook(bookID);
+			showChapter(chapterID+b.chapterAdd,verseID);
+			setCurrentChapter(chapterID);
+			//load book
+		}
+		else if(chapterID != b.currentChapterID)
+		{
+			showChapter(chapterID+b.chapterAdd,verseID);
+			setCurrentChapter(chapterID);
+			//load chapter
+		}
+		else
+		{
+			showChapter(chapterID+b.chapterAdd,verseID);
+			setCurrentChapter(chapterID);
+		}
+
 	}
 	else
 	{

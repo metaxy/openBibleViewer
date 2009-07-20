@@ -1,5 +1,6 @@
 #include "moduleconfigdialog.h"
 #include "ui_moduleconfigdialog.h"
+#include <QtGui/QFileDialog>
 
 moduleConfigDialog::moduleConfigDialog(QWidget *parent) :
 		QDialog(parent),
@@ -7,6 +8,7 @@ moduleConfigDialog::moduleConfigDialog(QWidget *parent) :
 {
 	m_ui->setupUi(this);
 	connect( m_ui->pushButton_ok, SIGNAL( clicked() ), this, SLOT( bsave( ) ) );
+	connect( m_ui->pushButton_file, SIGNAL( clicked() ), this, SLOT( fileSelect( ) ) );
 	connect( m_ui->comboBox_type, SIGNAL( currentIndexChanged(int) ), this, SLOT(moduleTypeChanged(int) ));
 }
 
@@ -40,8 +42,11 @@ void moduleConfigDialog::bsave()
 }
 void moduleConfigDialog::moduleTypeChanged(int id)
 {
+	//qDebug() << "moduleConfigDialog::moduleTypeChanged id1 = " << id;
 	m_ui->groupBox_bq->setVisible(false);
 	m_ui->groupBox_zefBible->setVisible(false);
+	id = m_ui->comboBox_type->currentIndex();
+	//qDebug() << "moduleConfigDialog::moduleTypeChanged id2 = " << id;
 	switch( id )
 	{
 	case 1:
@@ -52,6 +57,15 @@ void moduleConfigDialog::moduleTypeChanged(int id)
 		break;
 
 	}
+}
+void  moduleConfigDialog::fileSelect()
+{
+	QString fileName = QFileDialog::getOpenFileName(this,tr("Open Bible"), c.modulePath, tr("Bibles (*.ini *.xml *.*)"));
+	if(fileName != "")
+	{
+		m_ui->lineEdit_path->setText(fileName);
+	}
+	return;
 }
 void moduleConfigDialog::changeEvent(QEvent *e)
 {

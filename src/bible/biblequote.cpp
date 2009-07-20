@@ -60,12 +60,17 @@ void biblequote::readBook(int id,QString path)
 		{
 			QByteArray byteline = file.readLine();
 			QString line = decoder->toUnicode(byteline);
+			line = line.remove(QRegExp("CLASS=\"(\\w+)\">"));
+			line = line.remove(QRegExp("<DIV CLASS=\"(\\w+)\">"));
+			line = line.remove("CLASS=\"Tx\">");
 			//filterout
+			qDebug() << "bqset.module.at(bqset.moduleID[currentBibleID]).biblequote_removeHtml = " << bqset.module.at(bqset.moduleID[currentBibleID]).biblequote_removeHtml;
 			if( bqset.module.at(bqset.moduleID[currentBibleID]).biblequote_removeHtml == true && removeHtml.size() > 0)
 			{
 				for(int i=0;i< removeHtml2.size();i++)
 				{
 					QString r = removeHtml2.at(i);
+					qDebug() << removeHtml2.at(i);
 					line = line.remove(r,Qt::CaseInsensitive);
 				}
 			}
@@ -373,6 +378,7 @@ struct stelle biblequote::search(QString searchstring,bool regexp,bool whole,boo
 						st2.book << id;
 						st2.chapter << chapterit;
 						st2.verse << verseit;
+						st2.text << t;
 					}
 				}
 			}

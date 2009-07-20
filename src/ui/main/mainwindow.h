@@ -99,6 +99,7 @@ public slots:
 	void myTileVertical();
 	void myTileHorizontal();
 	void pharseUrl(QString url);
+	void pharseUrl(QUrl url);
 
 signals:
 	void get(QString url);

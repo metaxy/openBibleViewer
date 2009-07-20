@@ -115,18 +115,25 @@ void MainWindow::searchInfo()
 	QString searchString;
 	if(biblesTypes.size() < currentBibleID)
 	{
-		QMessageBox::information(0,QObject::tr("Error"),QObject::tr("No search information aviable"));
+		QMessageBox::information(0,tr("Error"),tr("No search information aviable"));
 		return;
 	}
+	QStringList textList;
 
+	qDebug() << "MainWindow::searchInfo() txstList.size() = " << textList.size();
 	bookNames = b.bookFullName;
 	st = b.st;
+	for(int i=0;i<st.book.size();++i)
+	{
+		QString bookn = b.bookFullName.at(st.book.at(i));
+		textList << st.text.at(i)+"\n - <i>"+bookn+" "+QString::number(st.chapter.at(i),10)+" , "+QString::number(st.verse.at(i),10)+"</i>";
+	}
 	searchString = b.lastSearchString;
 
 	searchInfoDialog sDialog;
 	sDialog.show();
 
-	sDialog.setInfo(st,bookNames,searchString);
+	sDialog.setInfo(st,bookNames,searchString,textList);
 	sDialog.exec();
 
 }

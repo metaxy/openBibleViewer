@@ -29,12 +29,12 @@
         <widget class="QLineEdit" name="lineEdit_path"/>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="pushButton_file">
          <property name="text">
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../icons.qrc">
+          <iconset>
            <normaloff>:/icons/16x16/document-open.png</normaloff>:/icons/16x16/document-open.png</iconset>
          </property>
         </widget>
@@ -173,7 +173,7 @@
         <string>OK</string>
        </property>
        <property name="icon">
-        <iconset resource="../icons.qrc">
+        <iconset>
          <normaloff>:/icons/16x16/dialog-ok.png</normaloff>:/icons/16x16/dialog-ok.png</iconset>
        </property>
       </widget>
@@ -190,7 +190,7 @@
         <string>Cancel</string>
        </property>
        <property name="icon">
-        <iconset resource="../icons.qrc">
+        <iconset>
          <normaloff>:/icons/16x16/dialog-cancel.png</normaloff>:/icons/16x16/dialog-cancel.png</iconset>
        </property>
       </widget>
@@ -199,8 +199,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

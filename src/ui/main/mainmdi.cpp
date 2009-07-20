@@ -39,6 +39,7 @@ void MainWindow::newMdiChild()
 	connect( mForm->m_ui->comboBox_books, SIGNAL(activated( int )), this, SLOT( readBook( int ) ) );
 	connect( mForm->m_ui->comboBox_chapters, SIGNAL(activated( int )), this, SLOT( readChapter( int ) ) );
 	connect( mForm->m_ui->textBrowser, SIGNAL(customContextMenuRequested( QPoint )), this, SLOT(textBrowserContextMenu( QPoint )));
+	connect( mForm->m_ui->textBrowser, SIGNAL(anchorClicked(QUrl)), this, SLOT(pharseUrl( QUrl )));
 	connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closeWindow()));
 	if(usableWindowList().size() > 1)
 	{

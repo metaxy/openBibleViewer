@@ -25,7 +25,7 @@ class searchInfoDialog : public QDialog {
 	Q_OBJECT
 public:
 	explicit searchInfoDialog(QWidget *parent = 0);
-	void setInfo(struct stelle st,QStringList bookNames,QString searchText);
+	void setInfo(struct stelle st,QStringList bookNames,QString searchText,QStringList textList);
 	virtual ~searchInfoDialog();
 	double mRound(double Zahl, int Stellen);
 	int d2i(double d);

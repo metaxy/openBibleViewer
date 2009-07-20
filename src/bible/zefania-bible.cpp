@@ -389,7 +389,12 @@ struct stelle zefaniaBible::search(QString searchstring,bool regexp,bool whole,b
 	{
 		for(int i=0;i<bookFullName.size();i++)
 		{
-			cache_books_data[i] = readBookFromCache(currentBiblePath,i);
+			//cache_books_data[i].toText()
+			/*if(!cache_books_data[i])
+			{*/
+				cache_books_data[i] = readBookFromCache(currentBiblePath,i);
+			/*}*/
+				//todo:make faster and read everything evrytime from from hard cache
 		}
 	}
 	QMapIterator<int, QDomElement> i(cache_books_data);
@@ -438,6 +443,7 @@ struct stelle zefaniaBible::search(QString searchstring,bool regexp,bool whole,b
 					st2.book << i.key();
 					st2.chapter << count2;
 					st2.verse << count3;
+					st2.text << etext;
 				}
 				n2 = n2.nextSibling();
 			}

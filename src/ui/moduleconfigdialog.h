@@ -26,6 +26,7 @@ signals:
 public slots:
 	void bsave();
 	void moduleTypeChanged(int id);
+	void fileSelect();
 };
 
 #endif // MODULECONFIGDIALOG_H
