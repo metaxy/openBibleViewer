@@ -23,7 +23,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 void MainWindow::newMdiChild()
 {
 	qDebug() << "MainWindow::newMdiChild()";
-
+	int windowsCount = usableWindowList().size();
+	QMdiSubWindow *firstSubWindow;
+	if(windowsCount == 1)
+	{
+		firstSubWindow = usableWindowList().at(0);
+	}
 	tcache.newWindow();
 	QWidget *widget = new QWidget(ui->mdiArea);
 	QVBoxLayout *layout = new QVBoxLayout(widget);
@@ -32,16 +37,34 @@ void MainWindow::newMdiChild()
 	layout->addWidget(mForm);
 	widget->setLayout(layout);
 	QMdiSubWindow *subWindow = ui->mdiArea->addSubWindow(widget);
-	subWindow->resize(600,600);
 	subWindow->setAttribute(Qt::WA_DeleteOnClose);
 	subWindow->setWindowTitle("");
-	subWindow->show();
+	qDebug() << "MainWindow::newMdiChild() first windowsCount = " << windowsCount;
+	if(windowsCount == 0)
+	{
+		qDebug() << "First Window";
+		subWindow->showMaximized();
+	}
+	else if(windowsCount == 1)
+	{
+		firstSubWindow->resize(600,600);
+		firstSubWindow->showNormal();
+		subWindow->resize(600,600);
+		subWindow->show();
+	}
+	else
+	{
+		subWindow->resize(600,600);
+		subWindow->show();
+	}
+
 	connect( mForm->m_ui->comboBox_books, SIGNAL(activated( int )), this, SLOT( readBook( int ) ) );
 	connect( mForm->m_ui->comboBox_chapters, SIGNAL(activated( int )), this, SLOT( readChapter( int ) ) );
 	connect( mForm->m_ui->textBrowser, SIGNAL(customContextMenuRequested( QPoint )), this, SLOT(textBrowserContextMenu( QPoint )));
 	connect( mForm->m_ui->textBrowser, SIGNAL(anchorClicked(QUrl)), this, SLOT(pharseUrl( QUrl )));
 	connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closeWindow()));
-	if(usableWindowList().size() > 1)
+
+	if(windowsCount >= 1)
 	{
 		if(set.autoLayout == 1)
 		{
@@ -56,6 +79,7 @@ void MainWindow::newMdiChild()
 			myCascade();
 		}
 	}
+
 	internalWindows << subWindow;
 	//add a this new subwindow in the list
 }
