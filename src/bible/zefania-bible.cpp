@@ -30,6 +30,10 @@ int zefaniaBible::setSettings( struct settings_s *settings )
 }
 QDomElement zefaniaBible::readBookFromCache(QString path,int bookID)
 {
+	if(cache_books_dataB[bookID] == true)
+	{
+		return cache_books_data[bookID];
+	}
 	QDomNode n;QDomElement e;
 	QCryptographicHash hash(QCryptographicHash::Md5);
 	hash.addData(path.toLocal8Bit());
@@ -53,6 +57,10 @@ QDomElement zefaniaBible::readBookFromCache(QString path,int bookID)
 	QDomElement root = doc.documentElement();
 	n = root.firstChild();
 	e = n.toElement();
+	//cache in ram
+	cache_books_data[bookID] = e;
+	cache_books_dataB[bookID] = true;
+
 	//qDebug() << "zefania::readBookFromCache()" << doc.toString();
 	return e;
 
@@ -378,27 +386,30 @@ QString zefaniaBible::readInfo(QFile &file)
 }
 struct stelle zefaniaBible::search(QString searchstring,bool regexp,bool whole,bool casesen)
 {
-	//todo:fix the bug with the progressdialog
 	Q_UNUSED(whole);//todo: use it
 	lastSearch = searchstring;
-	QProgressDialog progress(QObject::tr( "Searching"), QObject::tr("Cancel"), 0, cache_books_data.size());
-	progress.setWindowModality(Qt::WindowModal);
 	QStringList outlist;
 	struct stelle st2;
-	if(zefset.zefaniaBible_Cache == true)
+	if(zefset.zefaniaBible_Cache == true)//hard cache
 	{
+		QProgressDialog progressCache(QObject::tr( "Read Cache" ), QObject::tr( "Cancel" ), 0, bookFullName.size()-1);
+		progressCache.setWindowModality(Qt::WindowModal);
 		for(int i=0;i<bookFullName.size();i++)
 		{
-			//cache_books_data[i].toText()
-			/*if(!cache_books_data[i])
-			{*/
+			progressCache.setValue(i);
+			if(cache_books_dataB[i] != true)
+			{
 				cache_books_data[i] = readBookFromCache(currentBiblePath,i);
-			/*}*/
+				cache_books_dataB[i] = true;
+			}
 				//todo:make faster and read everything evrytime from from hard cache
 		}
+		progressCache.close();
 	}
+	QProgressDialog progress(QObject::tr( "Searching"), QObject::tr("Cancel"), 0, cache_books_data.size());
+	progress.setWindowModality(Qt::WindowModal);
 	QMapIterator<int, QDomElement> i(cache_books_data);
-	while (i.hasNext())
+	while (i.hasNext())//all books
 	{
 		i.next();
 		progress.setValue(i.key());
@@ -408,15 +419,15 @@ struct stelle zefaniaBible::search(QString searchstring,bool regexp,bool whole,b
 		QString outtext="";
 		int count2 = 0;
 		QDomNode n = ncache.firstChild();
-		while(!n.isNull())
+		while(!n.isNull())//all chapters
 		{
 			count2++;outtext="";
 			int count3=0;
 			QDomNode n2 = n.firstChild();
-			while(!n2.isNull())//alle verse
+			while(!n2.isNull())//all verses
 			{
 				count3++;
-				QDomElement e2 = n2.toElement(); // try to convert the node to an element.
+				QDomElement e2 = n2.toElement();
 				bool b;
 				QString etext = e2.text();
 				if(regexp == true)

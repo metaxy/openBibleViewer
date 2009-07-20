@@ -43,6 +43,7 @@ public:
 	struct stelle search(QString searchstring,bool regexp,bool whole,bool casesen);
 
 	QMap<int,QDomElement> cache_books_data;
+	QMap<int,bool> cache_books_dataB;
 	int currentBookID,fontsize,bibletype,book_ccount;
 	struct stelle st;
 	int bibleid;
