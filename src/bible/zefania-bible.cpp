@@ -43,14 +43,14 @@ QDomElement zefaniaBible::readBookFromCache(QString path,int bookID)
 	qDebug() <<"zefania::readBookFromCache start fileName = " << file.fileName();
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
 	{
-		QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("Can not read the file"));
+		QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("Can not read the file."));
 		qDebug() << "zefania::readBookFromCache() cant read the file";
 		return n.toElement();
 	}
 	QDomDocument doc;
 	if (!doc.setContent(&file))
 	{
-		QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("The file is not valid"));
+		QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("The file is not valid."));
 		qDebug() << "zefania::readBookFromCache() the file isnt valid";
 		return n.toElement();
 	}
@@ -68,7 +68,7 @@ QDomElement zefaniaBible::readBookFromCache(QString path,int bookID)
 void zefaniaBible::readBook(int id)
 {
 	QDomElement ncache;
-	if(zefset.zefaniaBible_Cache == true)
+	if(zefset.zefaniaBible_hardCache == true)
 	{
 		ncache = readBookFromCache(currentBiblePath,id);
 	}
@@ -282,7 +282,7 @@ void zefaniaBible::loadNoCached( int id,QString path)
 	}
 	progress.hide();
 	file.close();
-	if(zefset.zefaniaBible_Cache == true)
+	if(zefset.zefaniaBible_hardCache == true)
 	{
 		generateCacheFile(path,bookFullName,cache_books_data);
 	}
@@ -290,6 +290,8 @@ void zefaniaBible::loadNoCached( int id,QString path)
 }
 void zefaniaBible::generateCacheFile( QString path,QStringList bookFullName_,QMap<int,QDomElement> cache)
 {
+	QProgressDialog progressCache(QObject::tr( "Generate Cache" ), QObject::tr( "Cancel" ), 0, 0);
+	progressCache.setWindowModality(Qt::WindowModal);
 	QCryptographicHash hash(QCryptographicHash::Md5);
 	hash.addData(path.toLocal8Bit());
 	QString fileName = zefset.homePath + "cache/"+hash.result().toBase64()+"/";
@@ -319,6 +321,7 @@ void zefaniaBible::generateCacheFile( QString path,QStringList bookFullName_,QMa
 		file.close();
 	}
 	qDebug() << "zefaniaBible::generateCacheFile() written";
+	progressCache.close();
 }
 void zefaniaBible::loadCached(int id,QString path)
 {
@@ -328,14 +331,12 @@ void zefaniaBible::loadCached(int id,QString path)
 	bookShortName.clear();
 	bookCount.clear();
 	cache_books_data.clear();
-
 	QCryptographicHash hash(QCryptographicHash::Md5);
 	hash.addData(path.toLocal8Bit());
 	QString fileName = zefset.homePath + "cache/" + hash.result().toBase64()+"/";
 	QFile file(fileName+"data");
 	if (!file.open(QIODevice::ReadOnly))
 		return;
-
 	QDataStream in(&file);
 	QStringList str;
 	in >> str;
@@ -348,7 +349,7 @@ void zefaniaBible::loadCached(int id,QString path)
 void zefaniaBible::loadBibleData(int id,QString path)
 {
 	qDebug("zefania::loadCached() start");
-	if(zefset.zefaniaBible_Cache == true)
+	if(zefset.zefaniaBible_hardCache == true)
 	{
 		if(checkForCacheFiles(path))
 		{
@@ -390,7 +391,7 @@ struct stelle zefaniaBible::search(QString searchstring,bool regexp,bool whole,b
 	lastSearch = searchstring;
 	QStringList outlist;
 	struct stelle st2;
-	if(zefset.zefaniaBible_Cache == true)//hard cache
+	if(zefset.zefaniaBible_hardCache == true)//hard cache
 	{
 		QProgressDialog progressCache(QObject::tr( "Read Cache" ), QObject::tr( "Cancel" ), 0, bookFullName.size()-1);
 		progressCache.setWindowModality(Qt::WindowModal);
@@ -402,7 +403,7 @@ struct stelle zefaniaBible::search(QString searchstring,bool regexp,bool whole,b
 				cache_books_data[i] = readBookFromCache(currentBiblePath,i);
 				cache_books_dataB[i] = true;
 			}
-				//todo:make faster and read everything evrytime from from hard cache
+				//todo:make faster and dont read everything everytime from the hard cache
 		}
 		progressCache.close();
 	}

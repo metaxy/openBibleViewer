@@ -30,10 +30,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 settingsDialog::settingsDialog(QWidget *parent) : QDialog(parent), m_ui(new Ui::settingsDialog)
 {
 	m_ui->setupUi(this);
-	connect( m_ui->pushButton_remove_path, SIGNAL( clicked() ), this, SLOT( removePath( ) ) );
-	connect( m_ui->pushButton_add_path, SIGNAL( clicked() ), this, SLOT( addPath( ) ) );
+	//connect( m_ui->pushButton_remove_path, SIGNAL( clicked() ), this, SLOT( removePath( ) ) );
+	//connect( m_ui->pushButton_add_path, SIGNAL( clicked() ), this, SLOT( addPath( ) ) );
 
-	connect( m_ui->pushButton_add_module, SIGNAL( clicked() ), this, SLOT( addModule( ) ) );
+	connect( m_ui->pushButton_addFile, SIGNAL( clicked() ), this, SLOT( addModuleFile( ) ) );
+	connect( m_ui->pushButton_addDir, SIGNAL( clicked() ), this, SLOT( addModuleDir( ) ) );
 	connect( m_ui->pushButton_remove_module, SIGNAL( clicked() ), this, SLOT( removeModule( ) ) );
 	connect( m_ui->pushButton_ok, SIGNAL( clicked() ), this, SLOT( bsave( ) ) );
 	connect( m_ui->pushButton_cancel, SIGNAL( clicked() ), this, SLOT( close( ) ) );
@@ -70,11 +71,11 @@ int settingsDialog::setSettings(settings_s *settings)
 	m_ui->comboBox_encoding->insertItems(0,encodings);
 	m_ui->comboBox_encoding->setCurrentIndex(encodings.lastIndexOf(set.encoding));
 	////Ordner
-	m_ui->listWidget_path->clear();
-	m_ui->listWidget_path->insertItems(0,set.path);
+	//m_ui->listWidget_path->clear();
+	//m_ui->listWidget_path->insertItems(0,set.path);
 	//Language
 	QStringList langs;
-	langs << "German - Deutsch" << "English" << "Russian -";
+	langs << "German ( Deutsch )" << "English" << "Russian (";
 	langCode << "de" << "en" << "ru";
 	qDebug() << "settingsDialog::setSettings() langCode.lastIndexOf(set.language) = " << langCode.lastIndexOf(set.language) << " set.language = " <<set.language;
 	m_ui->comboBox_language->clear();
@@ -116,7 +117,7 @@ int settingsDialog::setSettings(settings_s *settings)
 	return 0;
 
 }
-void settingsDialog::addPath( void )
+/*void settingsDialog::addPath( void )
 {
 	QFileDialog dialog(this);
 	dialog.setFileMode(QFileDialog::DirectoryOnly);
@@ -129,7 +130,7 @@ void settingsDialog::addPath( void )
 			for(int i = 0;i<fileName.size();i++)
 			{
 				QString f = fileName.at(i);
-				if(f.endsWith(set.dict))
+				if(f.endsWith(QDir::separator()))
 				{
 					f.remove(f.size()-1,10);
 				}
@@ -141,8 +142,8 @@ void settingsDialog::addPath( void )
 		}
 	}
 	return;
-}
-void settingsDialog::removePath()
+}*/
+/*void settingsDialog::removePath()
 {
 	int row = m_ui->listWidget_path->currentRow();
 	//remove from listWidget
@@ -151,19 +152,18 @@ void settingsDialog::removePath()
 	//remove from set
 	set.path.removeAt(row);
 	return;
-}
-void settingsDialog::addModule( void )
+}*/
+void settingsDialog::addModuleFile( void )
 {
 	QFileDialog dialog(this);
 	QList<QTreeWidgetItem *> items;
-
 	dialog.setFileMode(QFileDialog::ExistingFiles);
 	if(dialog.exec())
 	{
 		QStringList fileName = dialog.selectedFiles();
 		if(fileName.size() > 0)
 		{
-			QProgressDialog progress(QObject::tr( "Searching"), QObject::tr("Cancel"), 0, fileName.size());
+			QProgressDialog progress(QObject::tr( "Adding Modules"), QObject::tr("Cancel"), 0, fileName.size());
 			progress.setWindowModality(Qt::WindowModal);
 			for(int i=0;i< fileName.size();i++)
 			{
@@ -174,65 +174,154 @@ void settingsDialog::addModule( void )
 				QString fileData;
 				QString bibleName;
 				int imoduleType = 0;
-				//open file
-				QFile file(f);
-				if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+				QString moduleType;
+				biblequote bq;
+				zefaniaBible zef;
+				moduleConfig m;
+				QFileInfo fileInfo(f);
+				if(fileInfo.isFile())
 				{
-					QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("Can not read the file"));
-					return;
+					//open file
+					QFile file(f);
+					if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+					{
+						QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("Can not read the file"));
+						return;
+					}
+					QTextStream in(&file);
+					while (!in.atEnd())
+					{
+						QString line = in.readLine();
+						fileData+=line;
+					}
+					if(fileData.contains("BookQty",Qt::CaseInsensitive))
+					{
+						imoduleType = 1;//BibleQuote
+					}
+					else if(fileData.contains("XMLBIBLE",Qt::CaseInsensitive))
+					{
+						imoduleType = 2;//Zefania
+					}
+					/*else if(f.endsWith(".xml"))
+					{
+						imoduleType = 2;
+					}*/
+					else
+					{
+						QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("The file is not valid"));
+						return;
+					}
+
+					switch(imoduleType)
+					{
+					case 1:
+						bibleName = bq.readInfo(file);
+						moduleType = "Bible Quote";
+						break;
+					case 2:
+						bibleName = zef.readInfo(file);
+						moduleType = "Zefania XML";
+						break;
+
+					}
+					m.modulePath = f;
+					m.moduleName = bibleName;
+					m.moduleType = QString::number(imoduleType);
+					m.isFolder = false;
+					//todo:default set here
+
 				}
-				QTextStream in(&file);
-				while (!in.atEnd())
-				{
-					QString line = in.readLine();
-					fileData+=line;
-				}
-				if(fileData.contains("BookQty",Qt::CaseInsensitive))
-				{
-					imoduleType = 1;//BibleQuote
-				}
-				else if(fileData.contains("XMLBIBLE",Qt::CaseInsensitive))
-				{
-					imoduleType = 2;//Zefania
-				}
-				/*else if(f.endsWith(".xml"))
-				{
-					imoduleType = 2;
-				}*/
 				else
 				{
 					QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("The file is not valid"));
 					return;
 				}
-				//QFile iFile(f);
-				biblequote bq;
-				zefaniaBible zef;
-				QString moduleType;
-				switch(imoduleType)
-				{
-				case 1:
-					bibleName = bq.readInfo(file);
-					moduleType = "Bible Quote";
-					break;
-				case 2:
-					bibleName = zef.readInfo(file);
-					moduleType = "Zefania XML";
-					break;
 
-				}
+
 				qDebug() << "settingsDialog::addModule() new Module file"<< f << " moduleName" << bibleName << " moduleType" << moduleType;
-				if (progress.wasCanceled())
-					return;
-				moduleConfig m;
-				m.modulePath = f;
-				m.moduleName = bibleName;
-				m.moduleType = QString::number(imoduleType);
-				set.module << m;
+				/*if (progress.wasCanceled())
+					return;*/
+				// standard config
+				m.biblequote_removeHtml = set.removeHtml;
+				m.zefbible_hardCache = set.zefaniaBible_hardCache;
+				m.zefbible_textFormatting = set.textFormatting;
+
+
 				QTreeWidgetItem * ibible = new QTreeWidgetItem(m_ui->treeWidget_module);
 				ibible->setText(0, m.moduleName);
 				ibible->setText(1, m.modulePath);
 				ibible->setText(2, moduleType);
 				items << ibible;
+				set.module << m;
+			}
+			progress.close();
+			m_ui->treeWidget_module->insertTopLevelItems(0, items);
+		}
+
+	}
+	return;
+}
+void settingsDialog::addModuleDir( void )
+{
+	QFileDialog dialog(this);
+	QList<QTreeWidgetItem *> items;
+	dialog.setFileMode(QFileDialog::Directory);
+	dialog.setOption(QFileDialog::ShowDirsOnly, true);
+	if(dialog.exec())
+	{
+		QStringList fileName = dialog.selectedFiles();
+		if(fileName.size() > 0)
+		{
+			QProgressDialog progress(QObject::tr( "Adding Modules"), QObject::tr("Cancel"), 0, fileName.size());
+			progress.setWindowModality(Qt::WindowModal);
+			for(int i=0;i< fileName.size();i++)
+			{
+				progress.setValue(i);
+				if (progress.wasCanceled())
+					return;
+				QString f = fileName.at(i);
+				QString fileData;
+				QString bibleName;
+				QString moduleType;
+				biblequote bq;
+				zefaniaBible zef;
+				moduleConfig m;
+				QFileInfo fileInfo(f);
+				if(fileInfo.isDir())
+				{
+					moduleType = QObject::tr("Folder");
+					QString f = fileName.at(i);
+					if(f.endsWith(QDir::separator()))
+					{
+						f.remove(f.size()-1,10);
+					}
+					m.modulePath = f;
+					m.moduleName = f;
+					m.moduleType = "0";//mean dont know
+					m.isFolder = true;
+				}
+				else
+				{
+					QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("The file is not valid"));
+					return;
+				}
+
+
+				qDebug() << "settingsDialog::addModule() new Module file"<< f << " moduleName" << bibleName << " moduleType" << moduleType;
+				/*if (progress.wasCanceled())
+					return;*/
+				// standard config
+				m.biblequote_removeHtml = set.removeHtml;
+				m.zefbible_hardCache = set.zefaniaBible_hardCache;
+				m.zefbible_textFormatting = set.textFormatting;
+
+
+				QTreeWidgetItem * ibible = new QTreeWidgetItem(m_ui->treeWidget_module);
+				ibible->setText(0, m.moduleName);
+				ibible->setText(1, m.modulePath);
+				ibible->setText(2, moduleType);
+				items << ibible;
+				set.module << m;
 			}
 			progress.close();
 			m_ui->treeWidget_module->insertTopLevelItems(0, items);

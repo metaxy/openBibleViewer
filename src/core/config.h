@@ -21,7 +21,6 @@ struct settings_s
 {
 	QStringList path;
 	QString encoding;
-	QString dict;
 	QList<moduleConfig> module;
 	QMap<int,int> moduleID;
 	qreal zoomstep;
@@ -32,7 +31,7 @@ struct settings_s
 	int autoLayout;// 0 = NONE, 1 = vertical tile ,2 = horizontal tile, 3 = cascade
 	bool onClickBookmarkGo;
 	int textFormatting;//0 = Neue Zeile nach Vers, 1 = Unformatierter Textblock
-	bool zefaniaBible_Cache;
+	bool zefaniaBible_hardCache;
 	QString homePath;
 };
 #endif // CONFIG_H

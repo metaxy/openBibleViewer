@@ -35,77 +35,6 @@
          <property name="fieldGrowthPolicy">
           <enum>QFormLayout::ExpandingFieldsGrow</enum>
          </property>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>Folders</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <property name="sizeConstraint">
-            <enum>QLayout::SetMinAndMaxSize</enum>
-           </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QListWidget" name="listWidget_path"/>
-           </item>
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QPushButton" name="pushButton_add_path">
-               <property name="text">
-                <string/>
-               </property>
-               <property name="icon">
-                <iconset resource="../icons.qrc">
-                 <normaloff>:/icons/16x16/list-add.png</normaloff>:/icons/16x16/list-add.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_remove_path">
-               <property name="text">
-                <string/>
-               </property>
-               <property name="icon">
-                <iconset resource="../icons.qrc">
-                 <normaloff>:/icons/16x16/list-remove.png</normaloff>:/icons/16x16/list-remove.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer_2">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </item>
          <item row="0" column="0">
           <widget class="QLabel" name="label_3">
            <property name="text">
@@ -116,14 +45,14 @@
          <item row="0" column="1">
           <widget class="QComboBox" name="comboBox_language"/>
          </item>
-         <item row="4" column="0">
+         <item row="3" column="0">
           <widget class="QLabel" name="label">
            <property name="text">
             <string>Encoding</string>
            </property>
           </widget>
          </item>
-         <item row="4" column="1">
+         <item row="3" column="1">
           <widget class="QComboBox" name="comboBox_encoding"/>
          </item>
         </layout>
@@ -165,12 +94,23 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
-            <widget class="QPushButton" name="pushButton_add_module">
+            <widget class="QPushButton" name="pushButton_addFile">
              <property name="text">
-              <string/>
+              <string>Add File</string>
              </property>
              <property name="icon">
-              <iconset resource="../icons.qrc">
+              <iconset>
+               <normaloff>:/icons/16x16/list-add.png</normaloff>:/icons/16x16/list-add.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_addDir">
+             <property name="text">
+              <string>Add Dir</string>
+             </property>
+             <property name="icon">
+              <iconset>
                <normaloff>:/icons/16x16/list-add.png</normaloff>:/icons/16x16/list-add.png</iconset>
              </property>
             </widget>
@@ -178,10 +118,10 @@
            <item>
             <widget class="QPushButton" name="pushButton_remove_module">
              <property name="text">
-              <string/>
+              <string>Remove</string>
              </property>
              <property name="icon">
-              <iconset resource="../icons.qrc">
+              <iconset>
                <normaloff>:/icons/16x16/list-remove.png</normaloff>:/icons/16x16/list-remove.png</iconset>
              </property>
             </widget>
@@ -189,10 +129,10 @@
            <item>
             <widget class="QPushButton" name="pushButton_moduleEdit">
              <property name="text">
-              <string/>
+              <string>Config</string>
              </property>
              <property name="icon">
-              <iconset resource="../icons.qrc">
+              <iconset>
                <normaloff>:/icons/16x16/configure.png</normaloff>:/icons/16x16/configure.png</iconset>
              </property>
             </widget>
@@ -239,7 +179,7 @@
         <string>OK</string>
        </property>
        <property name="icon">
-        <iconset resource="../icons.qrc">
+        <iconset>
          <normaloff>:/icons/16x16/dialog-ok.png</normaloff>:/icons/16x16/dialog-ok.png</iconset>
        </property>
       </widget>
@@ -257,7 +197,7 @@
         <string>Cancel</string>
        </property>
        <property name="icon">
-        <iconset resource="../icons.qrc">
+        <iconset>
          <normaloff>:/icons/16x16/dialog-cancel.png</normaloff>:/icons/16x16/dialog-cancel.png</iconset>
        </property>
       </widget>
@@ -266,8 +206,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -53,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	settings = new QSettings( homeDataPath+"openBibleViewer.ini",QSettings::IniFormat);
 #else
 	homeDataPath = QApplication::applicationDirPath()+"/";
+
 #ifdef Q_WS_MAC
 	homeDataPath = QFSFileEngine::homePath() +"/.openbible/";
 	settings = new QSettings(homeDataPath+"openBibleViewer.ini",QSettings::IniFormat);
@@ -72,7 +73,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 
 	set.encoding = "Windows-1251";
-	set.dict = "/";
 	set.zoomstep = 1;
 	set.removeHtml = true;
 	set.version = VERSION;
@@ -82,14 +82,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	set.onClickBookmarkGo = true;
 	set.textFormatting = 0;
 	set.homePath = homeDataPath;
-	set.zefaniaBible_Cache = true;
+	set.zefaniaBible_hardCache = true;
 
-	QString appPath = QApplication::applicationDirPath();
-	if(appPath.endsWith(set.dict))
+	/*QString appPath = QApplication::applicationDirPath();
+	if(appPath.endsWith(QDir::separator()))
 	{
 		appPath.remove(appPath.size()-1,10);
 	}
-	set.path << appPath;
+	set.path << appPath;*/
+	//todo:on first start add a new module with applicationDirPath
 
 	loadSettings();
 	newMdiChild();
@@ -124,7 +125,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 	connect( ui->tactionSearch, SIGNAL(triggered()), this, SLOT(search()));
 	connect( ui->tactionNewWindow, SIGNAL(triggered()), this, SLOT(newMdiChild()));
-	//connect( ui->tactionCloseTab, SIGNAL(triggered()), this, SLOT(closeTab()));
 	connect( ui->tactionSave, SIGNAL(triggered()), this, SLOT(saveAll()));
 	connect( ui->tactionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
 	connect( ui->tactionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
@@ -476,7 +476,7 @@ int MainWindow::loadBibles()
 	QStringList lpath = set.path;
 	QProgressDialog progress(tr( "Loading Module" ), tr( "Cancel" ), 0, lpath.size());
 	progress.setWindowModality(Qt::WindowModal);
-	for (int path_count = 0; path_count < lpath.size(); ++path_count)
+	/*for (int path_count = 0; path_count < lpath.size(); ++path_count)
 	{
 		if (progress.wasCanceled())
 			break;
@@ -487,7 +487,7 @@ int MainWindow::loadBibles()
 		folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon),QIcon::Normal, QIcon::On);
 		top->setIcon(0, folderIcon);
 
-		QStringList ldictname = (lpath[path_count]+set.dict).split(set.dict);
+		QStringList ldictname = (lpath[path_count]+QDir::separator()).split(QDir::separator());
 		QString dictname;
 		if(ldictname.size() > 0)
 		{
@@ -501,7 +501,7 @@ int MainWindow::loadBibles()
 		}
 		top->setText(0, dictname);
 		items.append(top);
-		QString rpath = lpath.at(path_count)+set.dict;
+		QString rpath = lpath.at(path_count)+QDir::separator();
 		int bibletype;
 		QDir dir(rpath);
 		dir.setFilter(QDir::Dirs);
@@ -515,25 +515,25 @@ int MainWindow::loadBibles()
 				QFile file;
 				QString rfile;
 				bibletype = 0;
-				file.setFileName(rpath+dirname+set.dict+"BIBLEQT.INI");
+				file.setFileName(rpath+dirname+QDir::separator()+"BIBLEQT.INI");
 				if(file.exists())
 				{
 					rfile = file.fileName();
 					bibletype = 1;
 				}
-				file.setFileName(rpath+dirname+set.dict+"BIBLEQT.ini");
+				file.setFileName(rpath+dirname+QDir::separator()+"BIBLEQT.ini");
 				if(bibletype == 0 && file.exists())
 				{
 					rfile = file.fileName();
 					bibletype = 1;
 				}
-				file.setFileName(rpath+dirname+set.dict+"bibleqt.ini");
+				file.setFileName(rpath+dirname+QDir::separator()+"bibleqt.ini");
 				if(bibletype == 0 && file.exists())
 				{
 					rfile = file.fileName();
 					bibletype = 1;
 				}
-				file.setFileName(rpath+dirname+set.dict+dirname+".xml");
+				file.setFileName(rpath+dirname+QDir::separator()+dirname+".xml");
 				if(bibletype == 0 && file.exists())
 				{
 					rfile = file.fileName();
@@ -554,7 +554,7 @@ int MainWindow::loadBibles()
 								biblesTypes << 1;
 								bibles << bname;
 								biblesIniPath << file.fileName();
-								biblesPath << rpath+dirname+set.dict;
+								biblesPath << rpath+dirname+QDir::separator();
 								bibleDirName << dirname;
 								QTreeWidgetItem *ibible = new QTreeWidgetItem();
 								ibible->setText(0, bname);
@@ -580,7 +580,7 @@ int MainWindow::loadBibles()
 								biblesTypes << 2;
 								bibles << bname;
 								biblesIniPath << file.fileName();
-								biblesPath << rpath+dirname+set.dict;
+								biblesPath << rpath+dirname+QDir::separator();
 								bibleDirName << dirname;
 								QTreeWidgetItem *bibleItem = new QTreeWidgetItem();
 								bibleItem->setText(0, bname);
@@ -601,66 +601,190 @@ int MainWindow::loadBibles()
 			}
 		}
 		progress.setValue(path_count);
-	}
-	//************************************************************************************************************************************//
-			//einzelne Module laden
-
-			//qDebug("MainWindow::loadBibles() reads the folder");
+	}*/
 	for (int i = 0; i < set.module.size(); ++i)//Alle Ordner auslesen
 	{
-		QFile file;
-		QString rfile;
-		QString dirname = set.module.at(i).modulePath;
-		int lPos = dirname.lastIndexOf(set.dict);
-		dirname = dirname.remove(lPos,dirname.size())+"/";
-		qDebug() << "MainWindow::loadBibles() dirname:"<<dirname;
-		int bibletype = set.module.at(i).moduleType.toInt();
-		file.setFileName(set.module.at(i).modulePath);
-		if (bibletype != 0 && file.open(QIODevice::ReadOnly | QIODevice::Text))
+		if(set.module.at(i).isFolder == true)
 		{
-			switch(bibletype)
+			if (progress.wasCanceled())
+				break;
+			QTreeWidgetItem *top = new QTreeWidgetItem(ui->treeWidget_bibles);
+			QStyle *style = ui->treeWidget_bibles->style();
+			QIcon folderIcon;
+			folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
+			folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon),QIcon::Normal, QIcon::On);
+			top->setIcon(0, folderIcon);
+			QStringList ldictname = (set.module.at(i).modulePath+QDir::separator()).split(QDir::separator());
+			QString dictname;
+			if(ldictname.size() > 0)
 			{
-			case 1://BibleQuote
+				dictname = ldictname[ldictname.size()-2];
+			}
+			else
+			{
+				QString spath_count;
+				spath_count.setNum(i,10);
+				dictname = "("+spath_count+")";
+			}
+			top->setText(0, dictname);
+			items.append(top);
+			QString rpath = set.module.at(i).modulePath+QDir::separator();
+			int bibletype;
+			QDir dir(rpath);
+			dir.setFilter(QDir::Dirs);
+			QFileInfoList list = dir.entryInfoList();
+			for (int i = 0; i < list.size(); ++i)//Alle Ordner auslesen
+			{
+				QFileInfo fileInfo = list.at(i);
+				QString dirname = fileInfo.fileName();
+				if(dirname != "." && dirname != "..")
 				{
-					biblesTypes << 1;//Insert the bibleID
-					bibles << set.module.at(i).moduleName; // Insert the title
-					biblesIniPath << file.fileName();
-					biblesPath << set.module.at(i).modulePath;
-					bibleDirName << dirname;
-					QTreeWidgetItem *bibleItem = new QTreeWidgetItem(ui->treeWidget_bibles);
-					bibleItem->setText(0, set.module.at(i).moduleName);
-					QString srcount;
-					srcount.setNum(rcount,10);
-					bibleItem->setText(1, srcount);
-					set.moduleID[rcount] = i;
+					QFile file;
+					QString rfile;
+					bibletype = 0;
+					file.setFileName(rpath+dirname+QDir::separator()+"BIBLEQT.INI");
+					if(file.exists())
+					{
+						rfile = file.fileName();
+						bibletype = 1;
+					}
+					file.setFileName(rpath+dirname+QDir::separator()+"BIBLEQT.ini");
+					if(bibletype == 0 && file.exists())
+					{
+						rfile = file.fileName();
+						bibletype = 1;
+					}
+					file.setFileName(rpath+dirname+QDir::separator()+"bibleqt.ini");
+					if(bibletype == 0 && file.exists())
+					{
+						rfile = file.fileName();
+						bibletype = 1;
+					}
+					file.setFileName(rpath+dirname+QDir::separator()+dirname+".xml");
+					if(bibletype == 0 && file.exists())
+					{
+						rfile = file.fileName();
+						bibletype = 2;
+					}
+					file.setFileName(rfile);
+					if (bibletype != 0 && file.open(QIODevice::ReadOnly | QIODevice::Text))
+					{
+						QString bname;
+						switch(bibletype)
+						{
+						case 1:
+							{
+								//BibleQuote
+								bname = bq.readInfo(file);
+								if(bname.size() > 0)
+								{
+									biblesTypes << 1;
+									bibles << bname;
+									biblesIniPath << file.fileName();
+									biblesPath << rpath+dirname+QDir::separator();
+									bibleDirName << dirname;
+									QTreeWidgetItem *ibible = new QTreeWidgetItem();
+									ibible->setText(0, bname);
 
-					QIcon bibleIcon;
-					bibleIcon.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/text-x-generic.png")), QIcon::Normal, QIcon::Off);
-					bibleItem->setIcon(0,bibleIcon);
-					items.append(bibleItem);
-					rcount++;
-					break;
+									QString srcount;
+									srcount.setNum(rcount,10);
+									ibible->setText(1, srcount);
+
+									QIcon bibleIcon;
+									bibleIcon.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/text-x-generic.png")), QIcon::Normal, QIcon::Off);
+									ibible->setIcon(0,bibleIcon);
+									top->addChild(ibible);
+									rcount++;
+								}
+								break;
+							}
+						case 2:
+							{
+								//ZenfaniaXML
+								bname = zef.readInfo(file);
+								if(bname.size() > 0)
+								{
+									biblesTypes << 2;
+									bibles << bname;
+									biblesIniPath << file.fileName();
+									biblesPath << rpath+dirname+QDir::separator();
+									bibleDirName << dirname;
+									QTreeWidgetItem *bibleItem = new QTreeWidgetItem();
+									bibleItem->setText(0, bname);
+									QString srcount;
+									srcount.setNum(rcount,10);
+									bibleItem->setText(1, srcount);
+									QIcon bibleIcon;
+									bibleIcon.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/text-xml.png")), QIcon::Normal, QIcon::Off);
+									bibleItem->setIcon(0,bibleIcon);
+									top->addChild(bibleItem);
+									rcount++;
+								}
+								break;
+							}
+						}
+
+					}
 				}
-			case 2://ZenfaniaXML
-				{
-					biblesTypes << 2;
-					bibles << set.module.at(i).moduleName;
-					biblesIniPath << file.fileName();
-					biblesPath << set.module.at(i).modulePath;
-					bibleDirName << dirname;
-					QTreeWidgetItem *bibleItem = new QTreeWidgetItem(ui->treeWidget_bibles);
-					bibleItem->setText(0, set.module.at(i).moduleName);
-					QString srcount;
-					srcount.setNum(rcount,10);
-					bibleItem->setText(1, srcount);
-					set.moduleID[rcount] = i;
+			}
+		}
+		else
+		{
 
-					QIcon bibleIcon;
-					bibleIcon.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/text-xml.png")), QIcon::Normal, QIcon::Off);
-					bibleItem->setIcon(0,bibleIcon);
-					items.append(bibleItem);
-					rcount++;
-					break;
+			QFile file;
+			QString rfile;
+			QString dirname = set.module.at(i).modulePath;
+			int lPos = dirname.lastIndexOf(QDir::separator());
+			dirname = dirname.remove(lPos,dirname.size())+"/";
+			qDebug() << "MainWindow::loadBibles() dirname:"<<dirname;
+			int bibletype = set.module.at(i).moduleType.toInt();
+			file.setFileName(set.module.at(i).modulePath);
+			if (bibletype != 0 && file.open(QIODevice::ReadOnly | QIODevice::Text))
+			{
+				switch(bibletype)
+				{
+				case 1://BibleQuote
+					{
+						biblesTypes << 1;//Insert the bibleID
+						bibles << set.module.at(i).moduleName; // Insert the title
+						biblesIniPath << file.fileName();
+						biblesPath << set.module.at(i).modulePath;
+						bibleDirName << dirname;
+						QTreeWidgetItem *bibleItem = new QTreeWidgetItem(ui->treeWidget_bibles);
+						bibleItem->setText(0, set.module.at(i).moduleName);
+						QString srcount;
+						srcount.setNum(rcount,10);
+						bibleItem->setText(1, srcount);
+						set.moduleID[rcount] = i;
+
+						QIcon bibleIcon;
+						bibleIcon.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/text-x-generic.png")), QIcon::Normal, QIcon::Off);
+						bibleItem->setIcon(0,bibleIcon);
+						items.append(bibleItem);
+						rcount++;
+						break;
+					}
+				case 2://ZenfaniaXML
+					{
+						biblesTypes << 2;
+						bibles << set.module.at(i).moduleName;
+						biblesIniPath << file.fileName();
+						biblesPath << set.module.at(i).modulePath;
+						bibleDirName << dirname;
+						QTreeWidgetItem *bibleItem = new QTreeWidgetItem(ui->treeWidget_bibles);
+						bibleItem->setText(0, set.module.at(i).moduleName);
+						QString srcount;
+						srcount.setNum(rcount,10);
+						bibleItem->setText(1, srcount);
+						set.moduleID[rcount] = i;
+
+						QIcon bibleIcon;
+						bibleIcon.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/text-xml.png")), QIcon::Normal, QIcon::Off);
+						bibleItem->setIcon(0,bibleIcon);
+						items.append(bibleItem);
+						rcount++;
+						break;
+					}
 				}
 			}
 		}
@@ -680,7 +804,6 @@ void MainWindow::setSettings( struct settings_s *ssettings )
 }
 void MainWindow::loadSettings( )
 {
-	set.dict = settings->value("general/dict",set.dict).toString();
 	set.encoding = settings->value("general/encoding",set.encoding).toString();
 	set.zoomstep = settings->value("general/zoomstep",set.zoomstep).toInt();
 	set.path = settings->value("general/path",set.path).toStringList();
@@ -700,6 +823,8 @@ void MainWindow::loadSettings( )
 		m.moduleType = settings->value("type").toString();
 		m.zefbible_textFormatting = settings->value("textFormatting").toInt();
 		m.biblequote_removeHtml = settings->value("removeHtml").toInt();
+		m.zefbible_hardCache = settings->value("hardCache").toBool();
+		m.isFolder = settings->value("isFolder").toBool();
 		set.module.append(m);
 	}
 	settings->endArray();
@@ -716,25 +841,29 @@ void MainWindow::loadSettings( )
 int MainWindow::saveSettings( struct settings_s *ssettings )
 {
 	bool reloadBibles=false;
-	/*if(set.dict != ssettings->dict || set.path != ssettings->path || set.encoding != ssettings->encoding)
-	{*/
+	if(set.path != ssettings->path || set.encoding != ssettings->encoding)
+	{
 		reloadBibles = true;
-	/*}
+	}
 	for(int i = 0;i < ssettings->module.size();++i)
 	{
-		if(set.module.size() < i)
+		if(set.module.size() < i || set.module.empty())
 		{
 			reloadBibles = true;
 			break;
 		}
-		if(ssettings->module.at(i).modulePath != set.module.at(i).modulePath ||
-		   ssettings->module.at(i).moduleName != set.module.at(i).moduleName ||
-		   ssettings->module.at(i).moduleType != set.module.at(i).moduleType)//todo: with the other too
+		else
 		{
-			reloadBibles = true;
-			break;
+			moduleConfig m1,m2;
+			m1 = ssettings->module.at(i);
+			m2 = set.module.at(i);
+			if(memcmp(&m1,&m2,sizeof(struct moduleConfig)))//todo: with the other too
+			{
+				reloadBibles = true;
+				break;
+			}
 		}
-	}*/
+	}
 	if(set.language != ssettings->language /* || set.theme != ssettings->theme*/)
 	{
 		QTranslator myappTranslator;
@@ -746,7 +875,6 @@ int MainWindow::saveSettings( struct settings_s *ssettings )
 	}
 	//qDebug("MainWindow::saveSettings( struct settings_s * ) started");
 	setSettings(ssettings);
-	settings->setValue("general/dict",set.dict);
 	settings->setValue("general/encoding",set.encoding);
 	settings->setValue("general/zoomstep",set.zoomstep);
 	settings->setValue("general/path",set.path);
@@ -764,6 +892,8 @@ int MainWindow::saveSettings( struct settings_s *ssettings )
 		settings->setValue("type", set.module.at(i).moduleType);
 		settings->setValue("textFormatting", set.module.at(i).zefbible_textFormatting);
 		settings->setValue("removeHtml", set.module.at(i).biblequote_removeHtml);
+		settings->setValue("hardCache", set.module.at(i).zefbible_hardCache);
+		settings->setValue("isFolder", set.module.at(i).isFolder);
 	}
 	settings->endArray();
 

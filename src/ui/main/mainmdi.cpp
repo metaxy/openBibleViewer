@@ -24,7 +24,7 @@ void MainWindow::newMdiChild()
 {
 	qDebug() << "MainWindow::newMdiChild()";
 	int windowsCount = usableWindowList().size();
-	QMdiSubWindow *firstSubWindow;
+	QMdiSubWindow *firstSubWindow = new QMdiSubWindow();
 	if(windowsCount == 1)
 	{
 		firstSubWindow = usableWindowList().at(0);

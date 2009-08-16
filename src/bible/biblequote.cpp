@@ -16,8 +16,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QString>
 #include <QtCore/QFile>
 #include <QtCore/QTextCodec>
-#include <QtGui/QProgressDialog>
+#include <QtCore/QDir>
 #include <QtCore/QtDebug>
+#include <QtGui/QProgressDialog>
 biblequote::biblequote()
 {
 }
@@ -31,7 +32,7 @@ QString biblequote::formatfromini(QString input)
 {
 	if(input.startsWith(" "))//leerzeichen am anfang
 	{
-		input.remove(0,1);
+		input.remove(0,1);//remove
 	}
 	input.replace(QString("\n"),QString(""));//und kein zeilenumbrüche
 	return input;
@@ -42,7 +43,7 @@ void biblequote::readBook(int id,QString path)
 	chapterText.clear();
 	chapterData.clear();
 	currentBookID = id;
-	path = currentBiblePath+bqset.dict+path;
+	path = currentBiblePath+QDir::separator()+path;
 
 	QFile file;
 	file.setFileName(path);
@@ -64,7 +65,7 @@ void biblequote::readBook(int id,QString path)
 			line = line.remove(QRegExp("<DIV CLASS=\"(\\w+)\">"));
 			line = line.remove("CLASS=\"Tx\">");
 			//filterout
-			qDebug() << "bqset.module.at(bqset.moduleID[currentBibleID]).biblequote_removeHtml = " << bqset.module.at(bqset.moduleID[currentBibleID]).biblequote_removeHtml;
+			//qDebug() << "bqset.module.at(bqset.moduleID[currentBibleID]).biblequote_removeHtml = " << bqset.module.at(bqset.moduleID[currentBibleID]).biblequote_removeHtml;
 			if( bqset.module.at(bqset.moduleID[currentBibleID]).biblequote_removeHtml == true && removeHtml.size() > 0)
 			{
 				for(int i=0;i< removeHtml2.size();i++)
@@ -126,7 +127,7 @@ void biblequote::loadBibleData(int bibleID,QString path)
 	removeHtml = "";
 	versesign = "";
 	chapterZero = false;
-	int lastPos = path.lastIndexOf(bqset.dict);
+	int lastPos = path.lastIndexOf(QDir::separator());
 	QString path_ = path;
 	currentBiblePath = path_.remove(lastPos,path.size());
 	bool started=false, started2=false;
@@ -283,7 +284,7 @@ struct stelle biblequote::search(QString searchstring,bool regexp,bool whole,boo
 		bytetext.clear();
 		ctext.clear();
 		QString path = bookPath.at(id);
-		path = currentBiblePath + bqset.dict + path;
+		path = currentBiblePath + QDir::separator() + path;
 		QFile file(path);
 		QByteArray out="",out2="";
 		bool chapterstarted = false;

@@ -24,10 +24,11 @@ namespace Ui {
 class settingsDialog : public QDialog {
 	Q_OBJECT
 public slots:
-	void removePath();
-	void addPath();
+	//void removePath();
+	//void addPath();
 	int bsave();
-	void addModule();
+	void addModuleFile();
+	void addModuleDir();
 	void removeModule();
 	void editModule();
 	void reset();
