@@ -45,7 +45,9 @@ void XbelWriter::writeItem(QTreeWidgetItem *item)
 		writeAttribute("folded", folded ? "yes" : "no");
 		writeTextElement("title", item->text(0));
 		for (int i = 0; i < item->childCount(); ++i)
+		{
 			writeItem(item->child(i));
+		}
 		writeEndElement();
 	}
 	else if (tagName == "bookmark")

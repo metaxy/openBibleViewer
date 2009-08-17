@@ -182,6 +182,7 @@ void MainWindow::editBookmark()
 	QString pos = ui->treeWidget_bookmarks->currentItem()->text(1);
 	if( go2Pos(pos) != 0)
 	{
+		QMessageBox::critical(0,tr("Error"),tr("This Bookmark is invalid."));
 		qDebug() << "MainWindow::editBookmarks() invalid bookmark";
 	}
 
@@ -222,7 +223,7 @@ void MainWindow::bookmarksGo()
 {
 	QString pos = ui->treeWidget_bookmarks->currentItem()->text(1);
 	if( go2Pos(pos) != 0)
-		qDebug() << "MainWindow::bookmarksGo() invalid bookmark";
+		QMessageBox::critical(0,tr("Error"),tr("This Bookmark is invalid."));
 	return;
 }
 void MainWindow::updateBookmark(QString pos)
@@ -237,7 +238,7 @@ void MainWindow::bookmarksGo(QTreeWidgetItem * item)
 	{
 		QString pos = item->text(1);
 		if( go2Pos(pos) != 0)
-			qDebug() << "MainWindow::bookmarksGo() invalid bookmark";
+			QMessageBox::critical(0,tr("Error"),tr("This Bookmark is invalid."));
 	}
 	return;
 }

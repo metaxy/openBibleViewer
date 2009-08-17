@@ -42,7 +42,7 @@ void MainWindow::newMdiChild()
 	qDebug() << "MainWindow::newMdiChild() first windowsCount = " << windowsCount;
 	if(windowsCount == 0)
 	{
-		qDebug() << "First Window";
+		//qDebug() << "First Window";
 		subWindow->showMaximized();
 	}
 	else if(windowsCount == 1)
@@ -142,7 +142,8 @@ void MainWindow::myTileVertical() {
 
 void MainWindow::myTileHorizontal()
 {
-	if (!enableReload || !usableWindowList().count() ) {
+	if (!enableReload || !usableWindowList().count() )
+	{
 		return;
 	}
 	QList<QMdiSubWindow*> windows = usableWindowList();
@@ -182,7 +183,8 @@ void MainWindow::myTileHorizontal()
 }
 
 void MainWindow::myCascade() {
-	if (!enableReload || !usableWindowList().count() ) {
+	if (!enableReload || !usableWindowList().count() )
+	{
 		return;
 	}
 

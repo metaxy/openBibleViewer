@@ -70,8 +70,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 #endif
 	qDebug() << "MainWindow::MainWindow() settingsPath = " << homeDataPath;
 
-
-
 	set.encoding = "Windows-1251";
 	set.zoomstep = 1;
 	set.removeHtml = true;
@@ -175,7 +173,7 @@ void MainWindow::loadBibleDataByID(int id)
 {
 	qDebug() << "MainWindow::loadBibleDataByID() id = " << id;
 	currentBibleID = id;
-	if(biblesTypes.size() < currentBibleID)
+	if(biblesTypes.size() < currentBibleID)//keine sloche bibel vorhanden
 		return;
 	qDebug() << "MainWindow::loadBibleDataByID() biblesTypes[currentBibleID] = " << biblesTypes[currentBibleID];
 	b.setBibleType(biblesTypes.at(currentBibleID));
@@ -225,12 +223,14 @@ void MainWindow::readBookByID(int id)
 	qDebug() << "MainWindow::readBookByID() id = " << id;
 	if( id < 0)
 	{
+		QMessageBox::critical(0,tr("Error"),tr("This Book is not available."));
 		qDebug() << "MainWindow::readBookByID() invalid bookID";
 		return;
 	}
 	currentBookID = id;
 	if(b.readBook(currentBookID) != 0)
 	{
+		QMessageBox::critical(0,tr("Error"),tr("Can not read the file."));
 		//error while reading
 		return;
 	}
@@ -476,138 +476,13 @@ int MainWindow::loadBibles()
 	QStringList lpath = set.path;
 	QProgressDialog progress(tr( "Loading Module" ), tr( "Cancel" ), 0, lpath.size());
 	progress.setWindowModality(Qt::WindowModal);
-	/*for (int path_count = 0; path_count < lpath.size(); ++path_count)
-	{
-		if (progress.wasCanceled())
-			break;
-		QTreeWidgetItem *top = new QTreeWidgetItem(ui->treeWidget_bibles);
-		QStyle *style = ui->treeWidget_bibles->style();
-		QIcon folderIcon;
-		folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
-		folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon),QIcon::Normal, QIcon::On);
-		top->setIcon(0, folderIcon);
 
-		QStringList ldictname = (lpath[path_count]+QDir::separator()).split(QDir::separator());
-		QString dictname;
-		if(ldictname.size() > 0)
-		{
-			dictname = ldictname[ldictname.size()-2];
-		}
-		else
-		{
-			QString spath_count;
-			spath_count.setNum(path_count,10);
-			dictname = "("+spath_count+")";
-		}
-		top->setText(0, dictname);
-		items.append(top);
-		QString rpath = lpath.at(path_count)+QDir::separator();
-		int bibletype;
-		QDir dir(rpath);
-		dir.setFilter(QDir::Dirs);
-		QFileInfoList list = dir.entryInfoList();
-		for (int i = 0; i < list.size(); ++i)//Alle Ordner auslesen
-		{
-			QFileInfo fileInfo = list.at(i);
-			QString dirname = fileInfo.fileName();
-			if(dirname != "." && dirname != "..")
-			{
-				QFile file;
-				QString rfile;
-				bibletype = 0;
-				file.setFileName(rpath+dirname+QDir::separator()+"BIBLEQT.INI");
-				if(file.exists())
-				{
-					rfile = file.fileName();
-					bibletype = 1;
-				}
-				file.setFileName(rpath+dirname+QDir::separator()+"BIBLEQT.ini");
-				if(bibletype == 0 && file.exists())
-				{
-					rfile = file.fileName();
-					bibletype = 1;
-				}
-				file.setFileName(rpath+dirname+QDir::separator()+"bibleqt.ini");
-				if(bibletype == 0 && file.exists())
-				{
-					rfile = file.fileName();
-					bibletype = 1;
-				}
-				file.setFileName(rpath+dirname+QDir::separator()+dirname+".xml");
-				if(bibletype == 0 && file.exists())
-				{
-					rfile = file.fileName();
-					bibletype = 2;
-				}
-				file.setFileName(rfile);
-				if (bibletype != 0 && file.open(QIODevice::ReadOnly | QIODevice::Text))
-				{
-					QString bname;
-					switch(bibletype)
-					{
-					case 1:
-						{
-							//BibleQuote
-							bname = bq.readInfo(file);
-							if(bname.size() > 0)
-							{
-								biblesTypes << 1;
-								bibles << bname;
-								biblesIniPath << file.fileName();
-								biblesPath << rpath+dirname+QDir::separator();
-								bibleDirName << dirname;
-								QTreeWidgetItem *ibible = new QTreeWidgetItem();
-								ibible->setText(0, bname);
-
-								QString srcount;
-								srcount.setNum(rcount,10);
-								ibible->setText(1, srcount);
-
-								QIcon bibleIcon;
-								bibleIcon.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/text-x-generic.png")), QIcon::Normal, QIcon::Off);
-								ibible->setIcon(0,bibleIcon);
-								top->addChild(ibible);
-								rcount++;
-							}
-							break;
-						}
-					case 2:
-						{
-							//ZenfaniaXML
-							bname = zef.readInfo(file);
-							if(bname.size() > 0)
-							{
-								biblesTypes << 2;
-								bibles << bname;
-								biblesIniPath << file.fileName();
-								biblesPath << rpath+dirname+QDir::separator();
-								bibleDirName << dirname;
-								QTreeWidgetItem *bibleItem = new QTreeWidgetItem();
-								bibleItem->setText(0, bname);
-								QString srcount;
-								srcount.setNum(rcount,10);
-								bibleItem->setText(1, srcount);
-								QIcon bibleIcon;
-								bibleIcon.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/text-xml.png")), QIcon::Normal, QIcon::Off);
-								bibleItem->setIcon(0,bibleIcon);
-								top->addChild(bibleItem);
-								rcount++;
-							}
-							break;
-						}
-					}
-
-				}
-			}
-		}
-		progress.setValue(path_count);
-	}*/
 	for (int i = 0; i < set.module.size(); ++i)//Alle Ordner auslesen
 	{
+		if (progress.wasCanceled())
+				break;
 		if(set.module.at(i).isDir == true)
 		{
-			if (progress.wasCanceled())
-				break;
 			QTreeWidgetItem *top = new QTreeWidgetItem(ui->treeWidget_bibles);
 			QStyle *style = ui->treeWidget_bibles->style();
 			QIcon folderIcon;
@@ -890,7 +765,6 @@ int MainWindow::saveSettings( struct settings_s *ssettings )
 	{
 		loadBibles();
 	}
-	//qDebug("MainWindow::saveSettings( struct settings_s * ) exit");
 	return 0;
 }
 int MainWindow::saveSession ( void )
@@ -941,7 +815,6 @@ int MainWindow::saveFile( void )
 	qDebug() << "MainWindow::saveFile() fileName = "<<fileName;
 	if (activeMdiChild())
 	{
-		qDebug() << "MainWindow::saveFile() hast active child";
 		QTextBrowser *t = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
 		if(fileName.endsWith(".html") || fileName.endsWith(".htm"))
 		{
@@ -981,7 +854,7 @@ int MainWindow::showSettingsDialog( void )
 	setDialog.setSettings(&set);
 	setDialog.setWindowTitle(tr("Configuration"));
 	setDialog.show();
-return setDialog.exec();
+	return setDialog.exec();
 }
 
 int MainWindow::close( void )
@@ -1025,7 +898,7 @@ int MainWindow::go2Pos(QString pos)
 {
 	qDebug() << "MainWindow::go2Pos() pos = " << pos;
 	QStringList list = pos.split(";");
-	if(list.size() < 4)
+	if(list.size() < 4)//invalid pos
 	{
 		return 1;
 	}
