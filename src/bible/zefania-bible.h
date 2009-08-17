@@ -29,6 +29,7 @@ class zefaniaBible
 private:
 	struct settings_s zefset;
 	QString formatfromini(QString input);
+	QDomElement format(QDomElement e);
 public:
 	zefaniaBible();
 	int setSettings( struct settings_s *settings );

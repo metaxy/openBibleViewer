@@ -34,30 +34,29 @@ QDomElement zefaniaBible::readBookFromCache(QString path,int bookID)
 	{
 		return cache_books_data[bookID];
 	}
-	QDomNode n;QDomElement e;
 	QCryptographicHash hash(QCryptographicHash::Md5);
 	hash.addData(path.toLocal8Bit());
 	QString fileName = zefset.homePath + "cache/"+hash.result().toBase64()+"/";
-
+	QDomNode n;
+	QDomElement e;
 	QFile file(fileName + QString::number(bookID)+".xml");
 	qDebug() <<"zefania::readBookFromCache start fileName = " << file.fileName();
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
 	{
 		QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("Can not read the file."));
 		qDebug() << "zefania::readBookFromCache() cant read the file";
-		return n.toElement();
+		return e;
 	}
 	QDomDocument doc;
 	if (!doc.setContent(&file))
 	{
 		QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("The file is not valid."));
 		qDebug() << "zefania::readBookFromCache() the file isnt valid";
-		return n.toElement();
+		return e;
 	}
 	QDomElement root = doc.documentElement();
-	n = root.firstChild();
-	e = n.toElement();
 	//cache in ram
+	e = root.firstChild().toElement();
 	cache_books_data[bookID] = e;
 	cache_books_dataB[bookID] = true;
 
@@ -95,26 +94,43 @@ void zefaniaBible::readBook(int id)
 			verseCount++;
 			QDomElement e2 = n2.toElement();
 			QString data ="";
-			QDomNodeList a1 = e2.elementsByTagName("gr");
-			QDomNodeList a2 = e2.elementsByTagName("GRAM");
-			if(a1.size() != 0 || a2.size() != 0)
+			format(e2);
+			/*QDomNodeList node_gr = e2.elementsByTagName("gr");
+			QDomNodeList node_gram = e2.elementsByTagName("GRAM");
+			QDomNodeList node_note = e2.elementsByTagName("NOTE");
+			qDebug() << "zefaniaBible::readBook() node_note.size() = " << node_note.size();
+			for(int i=0;i<node_note.size();i++)
 			{
-				QDomNodeList a;
-				if(a1.size() != 0)
-					a = a1;
-				else
-					a = a2;
+				QDomNode node = node_note.at(i);
+				qDebug() << "node_note i= "<< i << " , type = " << node.nodeType();
+				QDomText t = node.firstChild().toText();
+				t.setData("asd"+t.data()+" ");
+				node.replaceChild(t,node.firstChild());
+				qDebug() << " t = " << t.data() << " node = " << node.toElement().text();
+				e2.replaceChild(node, node_note.at(i));
+			}*/
+			/*if(node_gr.size() > 0 || node_gram.size() > 0)//todo: implement other tag
+			{
+				QDomNodeList node;
 				//with strong tags
-				for(int i=0;i<a.size();i++)
+				for(int i=0;i<node_gr.size();i++)
 				{
-					QDomElement b = a.at(i).toElement();
+					QDomElement b = node_gr.at(i).toElement();
 					data += b.text()+"<sup><a href=\"strong://"+b.attribute("str","")+"\">"+b.attribute("str","")+"</a></sup>  ";
 				}
-			}
+				//with strong tags
+				for(int i=0;i<node_gram.size();i++)
+				{
+					QDomElement b = node_gram.at(i).toElement();
+					data += b.text()+"<sup><a href=\"strong://"+b.attribute("str","")+"\">"+b.attribute("str","")+"</a></sup>  ";
+				}
+
 			else
-			{
-				data = e2.text();
-			}
+			{*//*}*/
+
+			data = e2.text();
+			qDebug()<< "e2.text() = " << data;
+					;
 			c.data << data;
 			c.verseNumber << e2.attribute("vnumber","");
 			n2 = n2.nextSibling();
@@ -130,7 +146,34 @@ void zefaniaBible::readBook(int id)
 	bookCount[id] = count2;
 	qDebug() << "zefania::readBook() chapterData.size() = " << chapterData.size();
 }
+QDomElement zefaniaBible::format(QDomElement e)
+{
+	QDomNodeList list = e.childNodes();
+	for(int i = 0; i < list.size();++i)
+	{
+		if(list.at(i).nodeName().toLower() == "NOTE")
+		{
+			QDomNode node = list.at(i);
+			QDomText t = node.firstChild().toText();
+			t.setData("[<font size=\"-2\" <i>"+t.data()+"</i> </font>]");
+			node.replaceChild(t,node.firstChild());
+			e.replaceChild(node, list.at(i));
+		}
+		else if(list.at(i).nodeName().toLower() == "gram" || list.at(i).nodeName().toLower() == "gr")
+		{
+			QDomNode node = list.at(i);
+			QDomText t = node.firstChild().toText();
+			QDomElement b = node.toElement();
+			t.setData(t.data()+"<sup><a href=\"strong://"+b.attribute("str","")+"\">"+b.attribute("str","")+"</a></sup>  ");
+			node.replaceChild(t,node.firstChild());
+			e.replaceChild(node, list.at(i));
+		}
+		if(list.at(i).childNodes().count() > 0)
+			e.replaceChild(format(list.at(i).toElement()),list.at(i));
+	}
+	return e;
 
+}
 bool zefaniaBible::checkForCacheFiles( QString path)
 {
 	qDebug() << "zefaniaBible::checkForCacheFiles() path = " << path;
