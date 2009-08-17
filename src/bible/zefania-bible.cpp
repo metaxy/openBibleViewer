@@ -387,7 +387,10 @@ QString zefaniaBible::readInfo(QFile &file)
 }
 struct stelle zefaniaBible::search(QString searchstring,bool regexp,bool whole,bool casesen)
 {
-	Q_UNUSED(whole);//todo: use it
+	if(whole == true)
+	{
+		searchstring = " "+searchstring+" ";
+	}
 	lastSearch = searchstring;
 	QStringList outlist;
 	struct stelle st2;
@@ -446,10 +449,7 @@ struct stelle zefaniaBible::search(QString searchstring,bool regexp,bool whole,b
 						b = etext.contains(searchstring,Qt::CaseInsensitive);
 					}
 				}
-				if(whole == true)
-				{
 
-				}
 				if(b)
 				{
 					st2.book << i.key();

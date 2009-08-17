@@ -90,6 +90,14 @@ int settingsDialog::setSettings(settings_s *settings)
 		m_ui->comboBox_language->setCurrentIndex(0);
 	}
 	//Module
+	generateModuleTree();
+
+
+	return 0;
+
+}
+void settingsDialog::generateModuleTree()
+{
 	m_ui->treeWidget_module->clear();
 	QList<QTreeWidgetItem *> items;
 	for(int i=0;i< set.module.size();i++)
@@ -98,23 +106,27 @@ int settingsDialog::setSettings(settings_s *settings)
 		ibible->setText(0, set.module.at(i).moduleName );
 		ibible->setText(1, set.module.at(i).modulePath );
 		QString moduleType;
-		switch(set.module.at(i).moduleType.toInt())
+		if(set.module.at(i).isDir)
 		{
-		case 1:
-			moduleType = "Bible Quote";
-			break;
-		case 2:
-			moduleType = "Zefania XML";
-			break;
+			moduleType = QObject::tr("Folder");
+		}
+		else
+		{
+			switch(set.module.at(i).moduleType.toInt())
+			{
+			case 1:
+				moduleType = QObject::tr("Bible Quote");
+				break;
+			case 2:
+				moduleType = QObject::tr("Zefania XML");;
+				break;
 
+			}
 		}
 		ibible->setText(2,moduleType);
 		items << ibible;
 	}
 	m_ui->treeWidget_module->insertTopLevelItems(0, items);
-
-
-	return 0;
 
 }
 /*void settingsDialog::addPath( void )
@@ -156,7 +168,6 @@ int settingsDialog::setSettings(settings_s *settings)
 void settingsDialog::addModuleFile( void )
 {
 	QFileDialog dialog(this);
-	QList<QTreeWidgetItem *> items;
 	dialog.setFileMode(QFileDialog::ExistingFiles);
 	if(dialog.exec())
 	{
@@ -227,7 +238,7 @@ void settingsDialog::addModuleFile( void )
 					m.modulePath = f;
 					m.moduleName = bibleName;
 					m.moduleType = QString::number(imoduleType);
-					m.isFolder = false;
+					m.isDir = false;
 					//todo:default set here
 
 				}
@@ -245,17 +256,10 @@ void settingsDialog::addModuleFile( void )
 				m.biblequote_removeHtml = set.removeHtml;
 				m.zefbible_hardCache = set.zefaniaBible_hardCache;
 				m.zefbible_textFormatting = set.textFormatting;
-
-
-				QTreeWidgetItem * ibible = new QTreeWidgetItem(m_ui->treeWidget_module);
-				ibible->setText(0, m.moduleName);
-				ibible->setText(1, m.modulePath);
-				ibible->setText(2, moduleType);
-				items << ibible;
 				set.module << m;
 			}
 			progress.close();
-			m_ui->treeWidget_module->insertTopLevelItems(0, items);
+			generateModuleTree();
 		}
 
 	}
@@ -296,9 +300,21 @@ void settingsDialog::addModuleDir( void )
 						f.remove(f.size()-1,10);
 					}
 					m.modulePath = f;
-					m.moduleName = f;
-					m.moduleType = "0";//mean dont know
-					m.isFolder = true;
+					QStringList ldictname = (f+QDir::separator()).split(QDir::separator());
+					QString dictname;
+					if(ldictname.size() > 0)
+					{
+						dictname = ldictname[ldictname.size()-2];
+					}
+					else
+					{
+						QString spath_count;
+						spath_count.setNum(i,10);
+						dictname = "("+spath_count+")";
+					}
+					m.moduleName = dictname;
+					m.moduleType = "0";//mean: dont know
+					m.isDir = true;
 				}
 				else
 				{
@@ -358,6 +374,7 @@ void settingsDialog::saveModule( struct moduleConfig c)
 	int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
 	set.module.removeAt(row);
 	set.module.insert(row,c);
+	generateModuleTree();
 }
 int settingsDialog::bsave( void )
 {

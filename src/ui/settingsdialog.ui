@@ -99,7 +99,7 @@
               <string>Add File</string>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../icons.qrc">
                <normaloff>:/icons/16x16/list-add.png</normaloff>:/icons/16x16/list-add.png</iconset>
              </property>
             </widget>
@@ -110,7 +110,7 @@
               <string>Add Dir</string>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../icons.qrc">
                <normaloff>:/icons/16x16/list-add.png</normaloff>:/icons/16x16/list-add.png</iconset>
              </property>
             </widget>
@@ -121,7 +121,7 @@
               <string>Remove</string>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../icons.qrc">
                <normaloff>:/icons/16x16/list-remove.png</normaloff>:/icons/16x16/list-remove.png</iconset>
              </property>
             </widget>
@@ -132,7 +132,7 @@
               <string>Config</string>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../icons.qrc">
                <normaloff>:/icons/16x16/configure.png</normaloff>:/icons/16x16/configure.png</iconset>
              </property>
             </widget>
@@ -179,8 +179,14 @@
         <string>OK</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../icons.qrc">
          <normaloff>:/icons/16x16/dialog-ok.png</normaloff>:/icons/16x16/dialog-ok.png</iconset>
+       </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -197,7 +203,7 @@
         <string>Cancel</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../icons.qrc">
          <normaloff>:/icons/16x16/dialog-cancel.png</normaloff>:/icons/16x16/dialog-cancel.png</iconset>
        </property>
       </widget>
@@ -206,6 +212,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -152,6 +152,12 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
    <property name="windowIcon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/16x16/table.png</normaloff>:/icons/16x16/table.png</iconset>
@@ -188,6 +194,12 @@
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
    </property>
    <property name="windowIcon">
     <iconset resource="../../icons.qrc">
@@ -256,6 +268,12 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
    <property name="windowIcon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/16x16/go-jump.png</normaloff>:/icons/16x16/go-jump.png</iconset>
@@ -305,6 +323,18 @@
    </widget>
   </widget>
   <widget class="QDockWidget" name="dockWidget_notes">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
    <property name="windowIcon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/16x16/view-pim-notes.png</normaloff>:/icons/16x16/view-pim-notes.png</iconset>
@@ -536,6 +566,12 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
    <property name="windowIcon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/16x16/bookmarks-organize.png</normaloff>:/icons/16x16/bookmarks-organize.png</iconset>
@@ -602,6 +638,12 @@
    </widget>
   </widget>
   <widget class="QDockWidget" name="dockWidget_search">
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
    <property name="windowIcon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/16x16/edit-find.png</normaloff>:/icons/16x16/edit-find.png</iconset>

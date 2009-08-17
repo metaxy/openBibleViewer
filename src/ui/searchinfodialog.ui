@@ -14,7 +14,7 @@
    <string>Search Info</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../icons.qrc">
+   <iconset>
     <normaloff>:/icons/32x32/view-statistics.png</normaloff>:/icons/32x32/view-statistics.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -98,14 +98,16 @@
        <property name="text">
         <string>Close</string>
        </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/icons/16x16/application-exit.png</normaloff>:/icons/16x16/application-exit.png</iconset>
+       </property>
       </widget>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

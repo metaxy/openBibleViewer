@@ -34,7 +34,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../icons.qrc">
            <normaloff>:/icons/16x16/document-open.png</normaloff>:/icons/16x16/document-open.png</iconset>
          </property>
         </widget>
@@ -173,8 +173,11 @@
         <string>OK</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../icons.qrc">
          <normaloff>:/icons/16x16/dialog-ok.png</normaloff>:/icons/16x16/dialog-ok.png</iconset>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -190,7 +193,7 @@
         <string>Cancel</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../icons.qrc">
          <normaloff>:/icons/16x16/dialog-cancel.png</normaloff>:/icons/16x16/dialog-cancel.png</iconset>
        </property>
       </widget>
@@ -199,6 +202,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

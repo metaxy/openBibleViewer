@@ -604,7 +604,7 @@ int MainWindow::loadBibles()
 	}*/
 	for (int i = 0; i < set.module.size(); ++i)//Alle Ordner auslesen
 	{
-		if(set.module.at(i).isFolder == true)
+		if(set.module.at(i).isDir == true)
 		{
 			if (progress.wasCanceled())
 				break;
@@ -614,19 +614,8 @@ int MainWindow::loadBibles()
 			folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
 			folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon),QIcon::Normal, QIcon::On);
 			top->setIcon(0, folderIcon);
-			QStringList ldictname = (set.module.at(i).modulePath+QDir::separator()).split(QDir::separator());
-			QString dictname;
-			if(ldictname.size() > 0)
-			{
-				dictname = ldictname[ldictname.size()-2];
-			}
-			else
-			{
-				QString spath_count;
-				spath_count.setNum(i,10);
-				dictname = "("+spath_count+")";
-			}
-			top->setText(0, dictname);
+
+			top->setText(0, set.module.at(i).moduleName);
 			items.append(top);
 			QString rpath = set.module.at(i).modulePath+QDir::separator();
 			int bibletype;
@@ -700,7 +689,7 @@ int MainWindow::loadBibles()
 							}
 						case 2:
 							{
-								//ZenfaniaXML
+								//ZenfaniaXML-Bible
 								bname = zef.readInfo(file);
 								if(bname.size() > 0)
 								{
@@ -824,7 +813,7 @@ void MainWindow::loadSettings( )
 		m.zefbible_textFormatting = settings->value("textFormatting").toInt();
 		m.biblequote_removeHtml = settings->value("removeHtml").toInt();
 		m.zefbible_hardCache = settings->value("hardCache").toBool();
-		m.isFolder = settings->value("isFolder").toBool();
+		m.isDir = settings->value("isDir").toBool();
 		set.module.append(m);
 	}
 	settings->endArray();
@@ -893,7 +882,7 @@ int MainWindow::saveSettings( struct settings_s *ssettings )
 		settings->setValue("textFormatting", set.module.at(i).zefbible_textFormatting);
 		settings->setValue("removeHtml", set.module.at(i).biblequote_removeHtml);
 		settings->setValue("hardCache", set.module.at(i).zefbible_hardCache);
-		settings->setValue("isFolder", set.module.at(i).isFolder);
+		settings->setValue("isDir", set.module.at(i).isDir);
 	}
 	settings->endArray();
 

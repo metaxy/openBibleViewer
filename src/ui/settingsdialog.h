@@ -47,6 +47,7 @@ private:
 	Ui::settingsDialog *m_ui;
 	struct settings_s set;
 	struct settings_s backupSet;
+	void generateModuleTree();
 	QStringList encodings;
 	QStringList langCode;
 };
