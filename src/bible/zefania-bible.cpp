@@ -93,45 +93,8 @@ void zefaniaBible::readBook(int id)
 		{
 			verseCount++;
 			QDomElement e2 = n2.toElement();
-			QString data ="";
 			format(e2);
-			/*QDomNodeList node_gr = e2.elementsByTagName("gr");
-			QDomNodeList node_gram = e2.elementsByTagName("GRAM");
-			QDomNodeList node_note = e2.elementsByTagName("NOTE");
-			qDebug() << "zefaniaBible::readBook() node_note.size() = " << node_note.size();
-			for(int i=0;i<node_note.size();i++)
-			{
-				QDomNode node = node_note.at(i);
-				qDebug() << "node_note i= "<< i << " , type = " << node.nodeType();
-				QDomText t = node.firstChild().toText();
-				t.setData("asd"+t.data()+" ");
-				node.replaceChild(t,node.firstChild());
-				qDebug() << " t = " << t.data() << " node = " << node.toElement().text();
-				e2.replaceChild(node, node_note.at(i));
-			}*/
-			/*if(node_gr.size() > 0 || node_gram.size() > 0)//todo: implement other tag
-			{
-				QDomNodeList node;
-				//with strong tags
-				for(int i=0;i<node_gr.size();i++)
-				{
-					QDomElement b = node_gr.at(i).toElement();
-					data += b.text()+"<sup><a href=\"strong://"+b.attribute("str","")+"\">"+b.attribute("str","")+"</a></sup>  ";
-				}
-				//with strong tags
-				for(int i=0;i<node_gram.size();i++)
-				{
-					QDomElement b = node_gram.at(i).toElement();
-					data += b.text()+"<sup><a href=\"strong://"+b.attribute("str","")+"\">"+b.attribute("str","")+"</a></sup>  ";
-				}
-
-			else
-			{*//*}*/
-
-			data = e2.text();
-			qDebug()<< "e2.text() = " << data;
-					;
-			c.data << data;
+			c.data <<  e2.text();
 			c.verseNumber << e2.attribute("vnumber","");
 			n2 = n2.nextSibling();
 		}
@@ -151,7 +114,7 @@ QDomElement zefaniaBible::format(QDomElement e)
 	QDomNodeList list = e.childNodes();
 	for(int i = 0; i < list.size();++i)
 	{
-		if(list.at(i).nodeName().toLower() == "NOTE")
+		if(list.at(i).nodeName().toLower() == "note")
 		{
 			QDomNode node = list.at(i);
 			QDomText t = node.firstChild().toText();
