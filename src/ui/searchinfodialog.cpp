@@ -97,7 +97,7 @@ void searchInfoDialog::setInfo(struct stelle st,QStringList bookNames,QString se
 		p.drawText(padding+(padding/2),x+height-4,bookNames.at(i.key()) + " - " + QString::number(i.value()) + "(" + QString::number(prozent) + "%)");
 		x += height+(height/4);
 	}
-	QGraphicsPixmapItem * item = new QGraphicsPixmapItem(pm);
+	QGraphicsPixmapItem *item = new QGraphicsPixmapItem(pm);
 	item = scene->addPixmap(pm);
 	m_ui->graphicsView->show();
 	QString text;

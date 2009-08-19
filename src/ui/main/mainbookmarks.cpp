@@ -216,7 +216,7 @@ void MainWindow::editBookmark()
 	pChoser->setCurrent(bibleID,dirname,bookID,chapterID,verseID);
 	pChoser->show();
 	pChoser->exec();
-
+	delete pChoser;
 	return;
 }
 void MainWindow::bookmarksGo()

@@ -23,9 +23,9 @@ biblequote::biblequote()
 {
 }
 
-int biblequote::setSettings( struct settings_s *settings )
+int biblequote::setSettings( struct settings_s settings )
 {
-	bqset = *settings;
+	bqset = settings;
 	return 1;
 }
 QString biblequote::formatfromini(QString input)

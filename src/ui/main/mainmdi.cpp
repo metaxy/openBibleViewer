@@ -22,7 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMdiSubWindow>
 void MainWindow::newMdiChild()
 {
-	qDebug() << "MainWindow::newMdiChild()";
+	//qDebug() << "MainWindow::newMdiChild()";
 	int windowsCount = usableWindowList().size();
 	QMdiSubWindow *firstSubWindow = new QMdiSubWindow();
 	if(windowsCount == 1)
@@ -39,7 +39,7 @@ void MainWindow::newMdiChild()
 	QMdiSubWindow *subWindow = ui->mdiArea->addSubWindow(widget);
 	subWindow->setAttribute(Qt::WA_DeleteOnClose);
 	subWindow->setWindowTitle("");
-	qDebug() << "MainWindow::newMdiChild() first windowsCount = " << windowsCount;
+	//qDebug() << "MainWindow::newMdiChild() first windowsCount = " << windowsCount;
 	if(windowsCount == 0)
 	{
 		//qDebug() << "First Window";
@@ -241,12 +241,12 @@ QList<QMdiSubWindow*> MainWindow::usableWindowList() {
 }
 int MainWindow::currentTabID()
 {
-	qDebug()  << "MainWindow::currentTabID()";
+	//qDebug()  << "MainWindow::currentTabID()";
 	for(int i = 0;i < ui->mdiArea->subWindowList().count();i++)
 	{
 		if(ui->mdiArea->activeSubWindow() ==  ui->mdiArea->subWindowList().at(i))
 		{
-			qDebug()  << "MainWindow::currentTabID() id = " << i;
+			//qDebug()  << "MainWindow::currentTabID() id = " << i;
 			return i;
 		}
 	}
@@ -254,12 +254,12 @@ int MainWindow::currentTabID()
 }
 int MainWindow::tabIDof(QMdiSubWindow* window)
 {
-	qDebug()  << "MainWindow::tabIDof()";
+	//qDebug()  << "MainWindow::tabIDof()";
 	for(int i = 0;i < ui->mdiArea->subWindowList().count();i++)
 	{
 		if(window ==  ui->mdiArea->subWindowList().at(i))
 		{
-			qDebug()  << "MainWindow::tabIDof() id = " << i;
+			//qDebug()  << "MainWindow::tabIDof() id = " << i;
 			return i;
 		}
 	}
@@ -268,10 +268,10 @@ int MainWindow::tabIDof(QMdiSubWindow* window)
 }
 int MainWindow::closeWindow()
 {
-	qDebug() << "MainWindow::closeWindow()";
+	//qDebug() << "MainWindow::closeWindow()";
 	if(!enableReload)
 	{
-		qDebug() << "MainWindow::closeWindow() reload is not enabled";
+		//qDebug() << "MainWindow::closeWindow() reload is not enabled";
 		return 1;
 	}
 	//if one in the internal subwindow list list is missing that window was closed
@@ -279,12 +279,12 @@ int MainWindow::closeWindow()
 		return 1;
 	if( internalWindows.size() <= 0)
 		return 1;
-	qDebug() << "MainWindow::closeWindow() closing";
+	//qDebug() << "MainWindow::closeWindow() closing";
 	for(int i=0;i<internalWindows.size();i++)
 	{
 		if( ui->mdiArea->subWindowList().lastIndexOf(internalWindows.at(i)) == -1)
 		{
-			qDebug() << "MainWindow::closeWindow() found closed Window id = " << i;
+			//qDebug() << "MainWindow::closeWindow() found closed Window id = " << i;
 			tcache.removeTab(i);
 			internalWindows.removeAt(i);
 			break;
@@ -297,27 +297,27 @@ int MainWindow::reloadWindow(QMdiSubWindow * window)
 {
 	if(!enableReload)
 	{
-		qDebug() << "MainWindow::reloadWindow() reload is not enabled";
+		//qDebug() << "MainWindow::reloadWindow() reload is not enabled";
 		return 1;
 	}
 	int id = tabIDof(window);
-	qDebug() << "MainWindow::reloadWindow() bibletype = " << tcache.getBibleType() << ", id = " << id;
+	//qDebug() << "MainWindow::reloadWindow() bibletype = " << tcache.getBibleType() << ", id = " << id;
 	if(id == -1)
 	{
-		qDebug() << "MainWindow::reloadWindow() id == -1";
+		//qDebug() << "MainWindow::reloadWindow() id == -1";
 		return 1;
 	}
 	if( ui->mdiArea->subWindowList().count() <= 0)
 	{
-		qDebug() << "MainWindow::reloadWindow() count <= 0";
+		//qDebug() << "MainWindow::reloadWindow() count <= 0";
 		return 1;
 	}
 
-	qDebug() << "MainWindow::reloadWindow() setCurrentTab";
+	//qDebug() << "MainWindow::reloadWindow() setCurrentTab";
 	tcache.setCurrentTabId(id);
 	if(tcache.getBibleType() == 0)//probaly no bible loaded in this window
 	{
-		qDebug() << "MainWindow::reloadWindow() tcache.getBibleType() == 0";
+		//qDebug() << "MainWindow::reloadWindow() tcache.getBibleType() == 0";
 		ui->listWidget_chapters->clear();
 		ui->listWidget_books->clear();
 		currentBibleID = -2;
@@ -326,10 +326,10 @@ int MainWindow::reloadWindow(QMdiSubWindow * window)
 	{
 		if(currentBibleID == tcache.getBible().currentBibleID)
 			return 1;
-		qDebug() << "MainWindow::reloadWindow() set new bible";
+		//qDebug() << "MainWindow::reloadWindow() set new bible";
 		b = tcache.getBible();
 		showBibleName(tcache.getBibleName());
-		qDebug() << "MainWindow::reloadWindow() b.chapterNames.size() = " << b.chapterNames.size() << ", b.currentChapterID = " << b.currentChapterID;
+		//qDebug() << "MainWindow::reloadWindow() b.chapterNames.size() = " << b.chapterNames.size() << ", b.currentChapterID = " << b.currentChapterID;
 		setChapters(b.chapterNames);
 		setCurrentChapter(b.currentChapterID);
 

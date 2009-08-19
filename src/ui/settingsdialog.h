@@ -34,11 +34,11 @@ public slots:
 	void reset();
 	void saveModule( struct moduleConfig);
 signals:
-	int save(struct settings_s *settings );
+	int save(struct settings_s settings );
 public:
 	explicit settingsDialog(QWidget *parent = 0);
 	virtual ~settingsDialog();
-	int setSettings( struct settings_s *settings );
+	int setSettings( struct settings_s settings );
 
 protected:
 	virtual void changeEvent(QEvent *e);

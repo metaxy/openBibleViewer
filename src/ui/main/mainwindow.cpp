@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
 	ui->setupUi(this);
 	VERSION  = "0.2b2";
-	BUILD =  "2009-5-10";
+	BUILD =  "2009-8-18";
 
 #ifdef _PORTABLE_VERSION
 	homeDataPath = QApplication::applicationDirPath()+"/";
@@ -68,6 +68,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 				 "openBible", "openBibleViewer");
 #endif
 #endif
+
 	qDebug() << "MainWindow::MainWindow() settingsPath = " << homeDataPath;
 
 	set.encoding = "Windows-1251";
@@ -81,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	set.textFormatting = 0;
 	set.homePath = homeDataPath;
 	set.zefaniaBible_hardCache = true;
-
+	set.zefaniaBible_softCache = true;
 	/*QString appPath = QApplication::applicationDirPath();
 	if(appPath.endsWith(QDir::separator()))
 	{
@@ -210,11 +211,13 @@ int MainWindow::zoomOut()
 int MainWindow::readBook(QListWidgetItem * item)
 {
 	int id = ui->listWidget_books->row(item);
+	qDebug() << "MainWindow::readBook(QListWidgetItem) id = " << id;
 	readBook(id);
 	return 0;
 }
 int MainWindow::readBook(int id)
 {
+	qDebug() << "MainWindow::readBook(int) id = " << id;
 	emit get("bible://"+QString::number(b.currentBibleID)+"/"+QString::number(id)+",0,0");
 	return 0;
 }
@@ -260,7 +263,6 @@ int MainWindow::showChapter(int chapterid,int verseID)
 }
 int MainWindow::textBrowserContextMenu( QPoint pos )
 {
-	Q_UNUSED(pos);
 	if(!activeMdiChild())
 		return 1;
 	QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
@@ -270,7 +272,7 @@ int MainWindow::textBrowserContextMenu( QPoint pos )
 	actionCopy->setText(tr("Copy"));
 	connect( actionCopy, SIGNAL(triggered()), textBrowser, SLOT(copy()));
 	QAction *actionCopyWholeVerse = new QAction(this);
-	QTextCursor cursor = textBrowser->textCursor();
+	QTextCursor cursor = textBrowser->cursorForPosition(pos);
 	currentTextCursor = cursor;
 
 	if(cursor.hasSelection() == true)
@@ -539,7 +541,7 @@ int MainWindow::loadBibles()
 						case 1:
 							{
 								//BibleQuote
-								bname = bq.readInfo(file);
+								bname = b.bq.readInfo(file);
 								if(bname.size() > 0)
 								{
 									biblesTypes << 1;
@@ -565,7 +567,7 @@ int MainWindow::loadBibles()
 						case 2:
 							{
 								//ZenfaniaXML-Bible
-								bname = zef.readInfo(file);
+								bname = b.zef.readInfo(file);
 								if(bname.size() > 0)
 								{
 									biblesTypes << 2;
@@ -655,15 +657,16 @@ int MainWindow::loadBibles()
 	}
 	ui->treeWidget_bibles->insertTopLevelItems(0, items);
 	ui->treeWidget_bibles->sortByColumn (0,Qt::AscendingOrder);//sort
-	qDebug() << "MainWindow::loadBibles() exit";
+	//qDebug() << "MainWindow::loadBibles() exit";
 	return 0;
 }
-void MainWindow::setSettings( struct settings_s *ssettings )
+void MainWindow::setSettings( struct settings_s ssettings )
 {
-	set = *ssettings;
-	b.setSettings(&set);
-	bq.setSettings(&set);
-	zef.setSettings(&set);
+	set = ssettings;
+
+	bq.setSettings(set);
+	//b.setSettings(set);
+	//zef.setSettings(&set);
 	return;
 }
 void MainWindow::loadSettings( )
@@ -685,9 +688,12 @@ void MainWindow::loadSettings( )
 		m.moduleName = settings->value("name").toString();
 		m.modulePath = settings->value("path").toString();
 		m.moduleType = settings->value("type").toString();
-		m.zefbible_textFormatting = settings->value("textFormatting").toInt();
 		m.biblequote_removeHtml = settings->value("removeHtml").toInt();
+		m.zefbible_textFormatting = settings->value("textFormatting").toInt();
 		m.zefbible_hardCache = settings->value("hardCache").toBool();
+		m.zefbible_softCache = settings->value("softCache").toBool();
+		m.zefbible_showStrong = settings->value("showStrong").toBool();
+		m.zefbible_showStudyNote = settings->value("showStudyNote").toBool();
 		m.isDir = settings->value("isDir").toBool();
 		set.module.append(m);
 	}
@@ -695,21 +701,21 @@ void MainWindow::loadSettings( )
 
 
 
-	bq.setSettings(&set);
-	zef.setSettings(&set);
-	b.setSettings(&set);
+	//bq.setSettings(set);
+	//zef.setSettings(&set);
+	b.setSettings(set);
 	return;
 }
 
 
-int MainWindow::saveSettings( struct settings_s *ssettings )
+int MainWindow::saveSettings( struct settings_s ssettings )
 {
 	bool reloadBibles=false;
-	if(set.path != ssettings->path || set.encoding != ssettings->encoding)
+	if(set.path != ssettings.path || set.encoding != ssettings.encoding)
 	{
 		reloadBibles = true;
 	}
-	for(int i = 0;i < ssettings->module.size();++i)
+	for(int i = 0;i < ssettings.module.size();++i)
 	{
 		if(set.module.size() < i || set.module.empty())
 		{
@@ -719,7 +725,7 @@ int MainWindow::saveSettings( struct settings_s *ssettings )
 		else
 		{
 			moduleConfig m1,m2;
-			m1 = ssettings->module.at(i);
+			m1 = ssettings.module.at(i);
 			m2 = set.module.at(i);
 			if(memcmp(&m1,&m2,sizeof(struct moduleConfig)))//todo: with the other too
 			{
@@ -728,16 +734,16 @@ int MainWindow::saveSettings( struct settings_s *ssettings )
 			}
 		}
 	}
-	if(set.language != ssettings->language /* || set.theme != ssettings->theme*/)
+	if(set.language != ssettings.language /* || set.theme != ssettings->theme*/)
 	{
 		QTranslator myappTranslator;
-		qDebug() << "MainWindow::saveSettings() lang = " << ssettings->language;
-		myappTranslator.load("obv_" + ssettings->language);
+		qDebug() << "MainWindow::saveSettings() lang = " << ssettings.language;
+		myappTranslator.load("obv_" + ssettings.language);
 		QApplication::installTranslator(&myappTranslator);
 
 		ui->retranslateUi(this);
 	}
-	//qDebug("MainWindow::saveSettings( struct settings_s * ) started");
+	//qDebug("MainWindow::saveSettings( struct settings_s  ) started");
 	setSettings(ssettings);
 	settings->setValue("general/encoding",set.encoding);
 	settings->setValue("general/zoomstep",set.zoomstep);
@@ -757,6 +763,9 @@ int MainWindow::saveSettings( struct settings_s *ssettings )
 		settings->setValue("textFormatting", set.module.at(i).zefbible_textFormatting);
 		settings->setValue("removeHtml", set.module.at(i).biblequote_removeHtml);
 		settings->setValue("hardCache", set.module.at(i).zefbible_hardCache);
+		settings->setValue("softCache", set.module.at(i).zefbible_softCache);
+		settings->setValue("showStrong", set.module.at(i).zefbible_showStrong);
+		settings->setValue("showStudyNote", set.module.at(i).zefbible_showStudyNote);
 		settings->setValue("isDir", set.module.at(i).isDir);
 	}
 	settings->endArray();
@@ -849,9 +858,9 @@ int MainWindow::saveFile( void )
 int MainWindow::showSettingsDialog( void )
 {
 	settingsDialog setDialog;
-	connect( &setDialog, SIGNAL( save(struct settings_s *) ), this, SLOT( saveSettings(struct settings_s *) ) );
-	connect( &setDialog, SIGNAL( save(struct settings_s *) ), &setDialog, SLOT( close() ) );
-	setDialog.setSettings(&set);
+	connect( &setDialog, SIGNAL( save(struct settings_s ) ), this, SLOT( saveSettings(struct settings_s ) ) );
+	connect( &setDialog, SIGNAL( save(struct settings_s ) ), &setDialog, SLOT( close() ) );
+	setDialog.setSettings(set);
 	setDialog.setWindowTitle(tr("Configuration"));
 	setDialog.show();
 	return setDialog.exec();
@@ -896,7 +905,7 @@ int MainWindow::showAboutDialog( void )
 }
 int MainWindow::go2Pos(QString pos)
 {
-	qDebug() << "MainWindow::go2Pos() pos = " << pos;
+	//qDebug() << "MainWindow::go2Pos() pos = " << pos;
 	QStringList list = pos.split(";");
 	if(list.size() < 4)//invalid pos
 	{
@@ -919,7 +928,7 @@ int MainWindow::go2Pos(QString pos)
 			break;
 		}
 	}
-	qDebug() << "MainWindow::go2Pos() bibleID = " << bibleID << " , bookID = " << bookID << " , chapterID = " << chapterID << ", verseID = " << verseID;
+	//qDebug() << "MainWindow::go2Pos() bibleID = " << bibleID << " , bookID = " << bookID << " , chapterID = " << chapterID << ", verseID = " << verseID;
 	emit get("bible://"+QString::number(bibleID)+"/"+QString::number(bookID)+","+QString::number(chapterID)+","+QString::number(verseID));
 	return 0;
 }
@@ -990,7 +999,7 @@ int MainWindow::verseFromCursor(QTextCursor cursor)
 		}
 	}
 	qDebug() << "MainWindow::verseFromCursor() startverse = " << startverse;
-	return startverse;
+	return startverse+1;//wegen titel
 }
 int MainWindow::setChapters(QStringList list)
 {
@@ -998,7 +1007,7 @@ int MainWindow::setChapters(QStringList list)
 	ui->listWidget_chapters->insertItems(0,list);
 	if (activeMdiChild())
 	{
-		qDebug() << "MainWindow::setChapters() hast active Child";
+		//qDebug() << "MainWindow::setChapters() hast active Child";
 		QComboBox *comboBox_chapters = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_chapters");
 		comboBox_chapters->clear();
 		comboBox_chapters->insertItems(0,list);
@@ -1011,7 +1020,7 @@ void MainWindow::setBooks(QStringList books)
 	ui->listWidget_books->insertItems(0,books);
 	if (activeMdiChild())
 	{
-		qDebug() << "MainWindow::setBooks() hast active Child";
+		//qDebug() << "MainWindow::setBooks() hast active Child";
 		QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
 		comboBox_books->clear();
 		comboBox_books->insertItems(0,books);
@@ -1029,7 +1038,7 @@ void MainWindow::setCurrentBook(int bookID)
 }
 void MainWindow::setCurrentChapter(int chapterID)
 {
-	qDebug() << "MainWindow::setCurrentChapter() chapterID = " << chapterID;
+	//qDebug() << "MainWindow::setCurrentChapter() chapterID = " << chapterID;
 	ui->listWidget_chapters->setItemSelected(ui->listWidget_chapters->item(chapterID),true);
 	if (activeMdiChild())
 	{
@@ -1039,7 +1048,7 @@ void MainWindow::setCurrentChapter(int chapterID)
 }
 void MainWindow::showText(QString text)
 {
-	qDebug() << "MainWindow::showText() text.size() = " << text.size();
+	//qDebug() << "MainWindow::showText() text.size() = " << text.size();
 	if (activeMdiChild())
 	{
 		QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
@@ -1182,10 +1191,13 @@ void MainWindow::pharseUrl(QString url)
 	{
 		qDebug() << "MainWindow::pharseUrl() invalid URL";
 	}
+	qDebug() << "MainWindow::pharseUrl() invalid URL";
 	setEnableReload(true);
 	return;
 }
 MainWindow::~MainWindow()
 {
 	delete ui;
+	delete settings;
+	delete note;
 }

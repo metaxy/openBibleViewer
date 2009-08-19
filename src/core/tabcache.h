@@ -24,7 +24,7 @@ public:
 
 	QMap<int,bible> b;
 
-	QMap<int,QMap<int,QDomElement> > zefcache;
+	QMap<int,QMap<int,KoXmlElement> > zefcache;
 	QMap<int,bool> zefcacheset;
 	QMap<int,int> bibletype;
 	QMap<int, QString> bibleName;
@@ -48,7 +48,7 @@ public:
 	int getCurrentBook( void );
 	QStringList getBooks( void );
 	int getChapterCount( void );
-	QMap<int,QDomElement> getZefaniaCache(int bibleid);
+	QMap<int,KoXmlElement> getZefaniaCache(int bibleid);
 	bible getBible( void );
 
 };

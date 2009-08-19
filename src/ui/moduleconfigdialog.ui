@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>437</width>
+    <height>369</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,7 +34,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../icons.qrc">
+          <iconset>
            <normaloff>:/icons/16x16/document-open.png</normaloff>:/icons/16x16/document-open.png</iconset>
          </property>
         </widget>
@@ -108,6 +108,12 @@
    </item>
    <item>
     <widget class="QGroupBox" name="groupBox_zefBible">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
       <string>Zefania Bible</string>
      </property>
@@ -138,6 +144,62 @@
          <widget class="QLabel" name="label_4">
           <property name="text">
            <string>Text Fromatting</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Hard Cache</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>RAM Cache</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>Show Strong</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>Show Study Notes</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QCheckBox" name="checkBox">
+          <property name="text">
+           <string>enabled</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QCheckBox" name="checkBox_2">
+          <property name="text">
+           <string>enabled</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QCheckBox" name="checkBox_3">
+          <property name="text">
+           <string>show</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QCheckBox" name="checkBox_showStudyNotes">
+          <property name="text">
+           <string>show</string>
           </property>
          </widget>
         </item>
@@ -173,7 +235,7 @@
         <string>OK</string>
        </property>
        <property name="icon">
-        <iconset resource="../icons.qrc">
+        <iconset>
          <normaloff>:/icons/16x16/dialog-ok.png</normaloff>:/icons/16x16/dialog-ok.png</iconset>
        </property>
        <property name="default">
@@ -193,7 +255,7 @@
         <string>Cancel</string>
        </property>
        <property name="icon">
-        <iconset resource="../icons.qrc">
+        <iconset>
          <normaloff>:/icons/16x16/dialog-cancel.png</normaloff>:/icons/16x16/dialog-cancel.png</iconset>
        </property>
       </widget>
@@ -202,8 +264,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -23,40 +23,42 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/config.h"
 #include "../core/stelle.h"
 #include "../core/chapter.h"
+#include "../core/moduleconfig.h"
+#include "../core/KoXmlReader.h"
 
 class zefaniaBible
 {
 private:
 	struct settings_s zefset;
+	struct moduleConfig mConfig;
 	QString formatfromini(QString input);
-	QDomElement format(QDomElement e);
+	KoXmlElement format(KoXmlElement e);
 public:
 	zefaniaBible();
-	int setSettings( struct settings_s *settings );
+	int setSettings( struct settings_s settings, struct moduleConfig mConfig );
 	void readBook(int id);
 	void loadBibleData(int id,QString path);
 	QString readInfo(QFile &file);
-	void generateCacheFile(QString path,QStringList bookFullName_,QMap<int,QDomElement> cache);
+	QString readInfo(QString content);
+	void generateCacheFile(QString path,QStringList bookFullName_,QMap<int,KoXmlElement> cache);
 	bool checkForCacheFiles( QString path);
 	void loadNoCached(int id,QString path);
 	void loadCached(int id,QString path);
-	QDomElement readBookFromCache(QString path,int bookID);
+	KoXmlElement readBookFromCache(QString path,int bookID);
 	struct stelle search(QString searchstring,bool regexp,bool whole,bool casesen);
 
-	QMap<int,QDomElement> cache_books_data;
-	QMap<int,bool> cache_books_dataB;
-	int currentBookID,fontsize,bibletype,book_ccount;
+	QMap<int,QList<chapter> > softCacheData;
+	QMap<int,bool> softCacheAvi;
+	long currentBookID,fontsize,bibletype,book_ccount,bibleid;
 	struct stelle st;
-	int bibleid;
 	QString currentBiblePath,lastout,chaptersign,versesign,biblepath,bibleName,lastSearch;
-	QStringList bibles,biblesPath,
-	biblesIniPath,
-	bookPath,
-	bookFullName,
-	bookShortName,chapterText;
+	QStringList bibles,biblesPath,bookFullName,bookShortName,chapterText/*,bookPath*/;
 	QMap <int,int> bookCount;
-
 	QList<chapter> chapterData;
+	QMap<int,QList<chapter> > softCache();
+	bool setSoftCache(QMap<int,QList<chapter> >);
+	bool clearSoftCache();
+
 
 };
 

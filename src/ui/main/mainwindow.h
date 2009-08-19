@@ -52,7 +52,7 @@ public slots:
 	int showSearchResults ( QString string,bool regexp,bool whole,bool casesen);
 	int showSettingsDialog();
 	int showAboutDialog();
-	int saveSettings( struct settings_s *settings );
+	int saveSettings( struct settings_s settings );
 	int reloadWindow( QMdiSubWindow * window);
 	int closeWindow();
 	int saveFile();
@@ -106,7 +106,7 @@ signals:
 public:
 	MainWindow(QWidget *parent = 0);
 	~MainWindow();
-	void setSettings( struct settings_s *ssettings );
+	void setSettings( struct settings_s ssettings );
 	void loadSettings();
 	int loadBibles();
 	int go(int book,int chapter,int verse);

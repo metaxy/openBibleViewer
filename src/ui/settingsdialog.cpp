@@ -49,11 +49,11 @@ settingsDialog::~settingsDialog()
 void settingsDialog::reset()
 {
 	set = backupSet;
-	setSettings(&set);
+	setSettings(set);
 }
-int settingsDialog::setSettings(settings_s *settings)
+int settingsDialog::setSettings(settings_s settings)
 {
-	set = *settings;
+	set = settings;
 	backupSet = set;
 	encodings.clear();
 	langCode.clear();
@@ -230,7 +230,7 @@ void settingsDialog::addModuleFile( void )
 						moduleType = "Bible Quote";
 						break;
 					case 2:
-						bibleName = zef.readInfo(file);
+						bibleName = zef.readInfo(fileData);
 						moduleType = "Zefania XML";
 						break;
 
@@ -239,7 +239,6 @@ void settingsDialog::addModuleFile( void )
 					m.moduleName = bibleName;
 					m.moduleType = QString::number(imoduleType);
 					m.isDir = false;
-					//todo:default set here
 
 				}
 				else
@@ -255,7 +254,10 @@ void settingsDialog::addModuleFile( void )
 				// standard config
 				m.biblequote_removeHtml = set.removeHtml;
 				m.zefbible_hardCache = set.zefaniaBible_hardCache;
+				m.zefbible_softCache = set.zefaniaBible_softCache;
 				m.zefbible_textFormatting = set.textFormatting;
+				m.zefbible_showStrong = true;
+				m.zefbible_showStudyNote = true;
 				set.module << m;
 			}
 			progress.close();
@@ -381,7 +383,7 @@ int settingsDialog::bsave( void )
 	//Informationen aus dem Dialog auslesen
 	set.encoding = encodings.at(m_ui->comboBox_encoding->currentIndex());
 	set.language = langCode.at(m_ui->comboBox_language->currentIndex());
-	emit save(&set);//Speichern
+	emit save(set);//Speichern
 	return 0;
 }
 void settingsDialog::changeEvent(QEvent *e)

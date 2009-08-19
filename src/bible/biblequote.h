@@ -29,7 +29,7 @@ private:
 
 public:
 	biblequote();
-	int setSettings( struct settings_s *settings );
+	int setSettings( struct settings_s settings );
 	void readBook(int id,QString path);
 	void loadBibleData(int bibleID,QString path);
 	QString readInfo(QFile &file);

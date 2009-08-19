@@ -129,7 +129,7 @@
            <item>
             <widget class="QPushButton" name="pushButton_moduleEdit">
              <property name="text">
-              <string>Config</string>
+              <string>Edit</string>
              </property>
              <property name="icon">
               <iconset resource="../icons.qrc">
