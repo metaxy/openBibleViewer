@@ -101,7 +101,6 @@ int MainWindow::go(int bookID,int chapterID,int verseID)
 	showBibleName(b.bibleName);
 	setChapters(b.chapterNames);
 	readBook(bookID);
-	chapterText = b.chapterText;
 	showChapter(chapterID -1 + b.chapterAdd,verseID-1);
 	searchInCurrentText(lastsearch);
 

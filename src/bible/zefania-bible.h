@@ -56,7 +56,9 @@ public:
 	QMap <int,int> bookCount;
 	QList<chapter> chapterData;
 	QMap<int,QList<chapter> > softCache();
+	QList<chapter>  softCache(int bookID);
 	bool setSoftCache(QMap<int,QList<chapter> >);
+	bool setSoftCache( int bookID,QList<chapter> c );
 	bool clearSoftCache();
 
 

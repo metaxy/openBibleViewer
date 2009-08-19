@@ -13,7 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "bible.h"
 #include "../core/config.h"
+#include "../core/moduleconfig.h"
 #include <QtCore/QtDebug>
+#include <QtCore/QMapIterator>
 bible::bible()
 {
 }
@@ -31,7 +33,7 @@ int bible::loadBibleData(int bibleID,QString path)
 	{
 	case 1://biblequote
 		{
-			bq.setSettings(&settings);
+			bq.setSettings(settings);
 
 			bq.loadBibleData(bibleID,path);
 			bibleName = bq.bibleName;
@@ -40,18 +42,19 @@ int bible::loadBibleData(int bibleID,QString path)
 			bookPath = bq.bookPath;
 			chapterAdd = 1;
 			currentBiblePath = bq.currentBiblePath;
-
 			break;
 		}
-	case 2://zefania
+	case 2://zefania bible
 		{
-			zef.setSettings(&settings);
+
+			moduleConfig m = settings.module.at(settings.moduleID[currentBibleID]);
+			zef.setSettings(settings,m);
 
 			zef.loadBibleData(bibleID,path);
 			bibleName = zef.bibleName;
 			bookCount = zef.bookCount;
 			bookFullName = zef.bookFullName;
-			bookPath = zef.bookPath;
+			//bookPath = zef.bookPath;
 			chapterAdd = 0;
 			currentBiblePath = zef.currentBiblePath;
 			break;
@@ -70,15 +73,14 @@ int bible::readBook(int id)
 		{
 			chapterText.clear();
 			chapterData.clear();
-
 			if(id < bookPath.size())
 			{
 				bq.readBook(id, bookPath.at(id));
 			}
 			else
 			{
+				qDebug() << "bible::readBook() index out of range bookPath.size() = " << bookPath.size() << " , id = " << id;
 				return 1;
-				qDebug() << "bible::readBook() index out of range bookPath";
 			}
 			chapterText = bq.chapterText;
 			chapterData = bq.chapterData;
@@ -124,9 +126,12 @@ int bible::readBook(int id)
 	qDebug() << "bible::readBook() end";
 	return 0;
 }
-void bible::setSettings( struct settings_s *settings_ )
+void bible::setSettings( struct settings_s settings_ )
 {
-	settings = *settings_;
+	settings = settings_;
+	/*moduleConfig m = settings.module.at(settings.moduleID[currentBibleID]);
+	zef.setSettings(settings,m);*/
+	bq.setSettings(settings);
 	return;
 }
 QString bible::readChapter( int chapterID, int verseID = -1)
@@ -244,15 +249,22 @@ struct stelle bible::search(QString searchstring,bool regexp,bool whole,bool cas
 	st.bibleID = currentBibleID;
 	return st;
 }
-QMap<int,QDomElement> bible::getZefCache()
+QMap<int, QList<chapter> > bible::getZefCache()
 {
-	return zef.cache_books_data;
+	return zef.softCache();
 }
 void bible::clearZefCache()
 {
-	zef.cache_books_data.clear();
+	zef.clearSoftCache();
 }
-void bible::setZefCache(QMap<int,QDomElement> cache)
+void bible::setZefCache(QMap<int, QList<chapter> > cache)
 {
-	zef.cache_books_data = cache;
+	zef.setSoftCache(cache);
+	/*QMapIterator<int, KoXmlElement> i(cache);
+	while (i.hasNext())
+	{
+		i.next();
+		zef.softCacheAvi[i.key()] = true;
+	}*/
+
 }

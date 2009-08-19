@@ -19,6 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "biblequote.h"
 #include "zefania-bible.h"
 #include "../core/stelle.h"
+#include "../core/KoXmlReader.h"
 
 class bible
 {
@@ -27,11 +28,11 @@ public:
 	void setBibleType(int type);
 	int loadBibleData(int bibleID,QString path);
 	int readBook(int id);
-	void setSettings( struct settings_s *settings );
+	void setSettings( struct settings_s settings );
 
-	QMap<int,QDomElement> getZefCache();
+	QMap<int, QList<chapter> > getZefCache();
 	void clearZefCache();
-	void setZefCache(QMap<int,QDomElement> cache);
+	void setZefCache(QMap<int, QList<chapter> > cache);
 
 	QString readChapter(int chapterID, int verseID);
 	int currentBibleID,currentBookID,currentChapterID,chapterAdd;
@@ -42,10 +43,11 @@ public:
 	QMap <int,int> bookCount;
 	QList<chapter> chapterData;
 	int bibleType;
-private:
-
 	biblequote bq;
 	zefaniaBible zef;
+private:
+
+
 	struct settings_s settings;
 
 };

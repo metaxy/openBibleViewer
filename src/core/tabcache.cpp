@@ -106,7 +106,7 @@ bible tabCache::getBible( void )
 	}
 	return b[currentTabID];
 }
-QMap<int,KoXmlElement> tabCache::getZefaniaCache(int bibleid)
+QMap<int, QList<chapter> > tabCache::getZefaniaCache(int bibleid)
 {
 	return zefcache[bibleid];
 }

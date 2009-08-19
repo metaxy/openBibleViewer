@@ -10,8 +10,9 @@ SOURCES += src/main.cpp \
     src/bible/zefania-bible.cpp \
     src/ui/searchdialog.cpp \
     src/ui/settingsdialog.cpp \
-    src/core/tabcache.cpp \
     src/ui/aboutdialog.cpp \
+    src/core/tabcache.cpp \
+    src/core/KoXmlReader.cpp \
     src/core/notes.cpp \
     src/core/xbelreader.cpp \
     src/core/xbelwriter.cpp \
@@ -32,6 +33,8 @@ HEADERS += src/ui/main/mainwindow.h \
     src/ui/settingsdialog.h \
     src/core/tabcache.h \
     src/core/stelle.h \
+    src/core/KoXmlReader.h \
+    src/core/KoXmlReaderForward.h \
     src/ui/aboutdialog.h \
     src/core/notes.h \
     src/core/xbelreader.h \
