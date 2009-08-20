@@ -231,7 +231,7 @@ void zefaniaBible::loadNoCached( int id,QString path)
 		dir.mkpath(fileName);
 	#endif
 	//
-	progress.setValue(5);
+	progress.setValue(2);
 	QFile file(path);
 
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -240,6 +240,7 @@ void zefaniaBible::loadNoCached( int id,QString path)
 		qDebug("zefania::loadBibleData() cant read the file");
 		return;
 	}
+	progress.setValue(3);
 	KoXmlDocument doc;
 	#ifdef KOXML_USE_QDOM
 		if (!doc.setContent(&file))
@@ -251,6 +252,7 @@ void zefaniaBible::loadNoCached( int id,QString path)
 	#else
 		QStringList fileList;
 		QString data;
+
 		QTextCodec *codec = QTextCodec::codecForName("UTF-8");
 		QTextDecoder *decoder = codec->makeDecoder();
 		while (!file.atEnd())
@@ -261,12 +263,14 @@ void zefaniaBible::loadNoCached( int id,QString path)
 			fileList << l;
 
 		}
+		progress.setValue(5);
 		if (!doc.setContent(data))
 		{
 			QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("The file is not valid"));
 			qDebug("zefania::loadBibleData() the file isnt valid");
 			return;
 		}
+		data.clear();
 	#endif
 
 
@@ -314,8 +318,7 @@ void zefaniaBible::loadNoCached( int id,QString path)
 					}
 
 				}
-				qDebug() << "zefaniaBible::loadNoCached() start = " << start << " end = "<<end;
-				QString data ="<?xml version=\"1.0\"?><cache>";
+				QString data ="<?xml version=\"1.0\"?>\n<cache>\n";
 				for(int i = start;i<=end;++i)
 				{
 					data+= fileList.at(i);
@@ -328,15 +331,13 @@ void zefaniaBible::loadNoCached( int id,QString path)
 				out << data;
 				file.close();
 			#endif
-
-
-
 			bookFullName << e.attribute("bname",e.attribute("bsname",""));
 			bookShortName << e.attribute("bsname",QObject::tr("(unknown)"));
 			c++;
 		}
 		n = n.nextSibling();
 	}
+	fileList.clear();
 	bool hasAny = false;
 	for(int i=0;i<bookFullName.size();i++)
 	{
