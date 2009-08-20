@@ -28,6 +28,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QClipboard>
 #include <QtGui/QMessageBox>
 #include <QtGui/QComboBox>
+#include <QtCore/QProcess>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -76,7 +77,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	set.removeHtml = true;
 	set.version = VERSION;
 	set.build = BUILD;
-	set.zoomstep = 0.2;
 	set.autoLayout = 1;
 	set.onClickBookmarkGo = true;
 	set.textFormatting = 0;
@@ -191,8 +191,10 @@ void MainWindow::loadBibleDataByID(int id)
 }
 int MainWindow::zoomIn()
 {
+	qDebug() << "MainWindow::zoomIn()";
 	if (activeMdiChild())
 	{
+		qDebug() << "MainWindow::zoomIn() zoom = " << set.zoomstep;
 		QTextBrowser *t = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
 		t->zoomIn(set.zoomstep);
 	}
@@ -200,8 +202,10 @@ int MainWindow::zoomIn()
 }
 int MainWindow::zoomOut()
 {
+	qDebug() << "MainWindow::zoomOut()";
 	if (activeMdiChild())
 	{
+		qDebug() << "MainWindow::zoomOut() zoom = " << set.zoomstep;
 		QTextBrowser *t = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
 		t->zoomOut(set.zoomstep);
 	}
@@ -1143,6 +1147,8 @@ void MainWindow::pharseUrl(QString url)
 	}
 	else if(url.startsWith(http))
 	{
+		QProcess *myProcess = new QProcess();
+		myProcess->start("kioclient",QStringList() << "exec" << url);
 		//its a web link
 	}
 	else if(url.startsWith(bq))
