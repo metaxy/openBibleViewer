@@ -18,6 +18,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QMapIterator>
 bible::bible()
 {
+	bq = new biblequote();
+	zef = new zefaniaBible();
 }
 void bible::setBibleType(int type)
 {
@@ -27,36 +29,40 @@ void bible::setBibleType(int type)
 }
 int bible::loadBibleData(int bibleID,QString path)
 {
+	delete bq;
+	delete zef;
+	bq = new biblequote();
+	zef = new zefaniaBible();
 	qDebug() << "bible::loadBibleData() bibleID = "<<bibleID << " path = "<<path << " bibleType ="<<bibleType;
 	currentBibleID = bibleID;
 	switch(bibleType)
 	{
 	case 1://biblequote
 		{
-			bq.setSettings(settings);
+			bq->setSettings(settings);
 
-			bq.loadBibleData(bibleID,path);
-			bibleName = bq.bibleName;
-			bookCount = bq.bookCount;
-			bookFullName = bq.bookFullName;
-			bookPath = bq.bookPath;
+			bq->loadBibleData(bibleID,path);
+			bibleName = bq->bibleName;
+			bookCount = bq->bookCount;
+			bookFullName = bq->bookFullName;
+			bookPath = bq->bookPath;
 			chapterAdd = 1;
-			currentBiblePath = bq.currentBiblePath;
+			currentBiblePath = bq->currentBiblePath;
 			break;
 		}
 	case 2://zefania bible
 		{
 
 			moduleConfig m = settings.module.at(settings.moduleID[currentBibleID]);
-			zef.setSettings(settings,m);
+			zef->setSettings(settings,m);
 
-			zef.loadBibleData(bibleID,path);
-			bibleName = zef.bibleName;
-			bookCount = zef.bookCount;
-			bookFullName = zef.bookFullName;
-			//bookPath = zef.bookPath;
+			zef->loadBibleData(bibleID,path);
+			bibleName = zef->bibleName;
+			bookCount = zef->bookCount;
+			bookFullName = zef->bookFullName;
+			//bookPath = zef->bookPath;
 			chapterAdd = 0;
-			currentBiblePath = zef.currentBiblePath;
+			currentBiblePath = zef->currentBiblePath;
 			break;
 		}
 	}
@@ -75,18 +81,18 @@ int bible::readBook(int id)
 			chapterData.clear();
 			if(id < bookPath.size())
 			{
-				bq.readBook(id, bookPath.at(id));
+				bq->readBook(id, bookPath.at(id));
 			}
 			else
 			{
 				qDebug() << "bible::readBook() index out of range bookPath.size() = " << bookPath.size() << " , id = " << id;
 				return 1;
 			}
-			chapterText = bq.chapterText;
-			chapterData = bq.chapterData;
+			chapterText = bq->chapterText;
+			chapterData = bq->chapterData;
 			QStringList chapters;
 			int cc = bookCount[id];
-			if(bq.chapterZero == true)
+			if(bq->chapterZero == true)
 			{
 				for (int i = 0; i < cc; i++)
 				{
@@ -109,11 +115,11 @@ int bible::readBook(int id)
 		{
 			chapterText.clear();
 			chapterData.clear();
-			zef.readBook(id);
-			chapterText = zef.chapterText;
-			chapterData = zef.chapterData;
+			zef->readBook(id);
+			chapterText = zef->chapterText;
+			chapterData = zef->chapterData;
 			QStringList chapters;
-			for (int i = 1; i <= zef.book_ccount; i++)
+			for (int i = 1; i <= zef->book_ccount; i++)
 			{
 				chapters << QString::number(i, 10);
 			}
@@ -130,8 +136,8 @@ void bible::setSettings( struct settings_s settings_ )
 {
 	settings = settings_;
 	/*moduleConfig m = settings.module.at(settings.moduleID[currentBibleID]);
-	zef.setSettings(settings,m);*/
-	bq.setSettings(settings);
+	zef->setSettings(settings,m);*/
+	bq->setSettings(settings);
 	return;
 }
 QString bible::readChapter( int chapterID, int verseID = -1)
@@ -237,12 +243,12 @@ struct stelle bible::search(QString searchstring,bool regexp,bool whole,bool cas
 	{
 	case 1://biblequote
 		{
-			st = bq.search(searchstring,regexp,whole,casesen);
+			st = bq->search(searchstring,regexp,whole,casesen);
 			break;
 		}
 	case 2://zefania
 		{
-			st = zef.search(searchstring,regexp,whole,casesen);
+			st = zef->search(searchstring,regexp,whole,casesen);
 			break;
 		}
 	}
@@ -251,20 +257,20 @@ struct stelle bible::search(QString searchstring,bool regexp,bool whole,bool cas
 }
 QMap<int, QList<chapter> > bible::getZefCache()
 {
-	return zef.softCache();
+	return zef->softCache();
 }
 void bible::clearZefCache()
 {
-	zef.clearSoftCache();
+	zef->clearSoftCache();
 }
 void bible::setZefCache(QMap<int, QList<chapter> > cache)
 {
-	zef.setSoftCache(cache);
+	zef->setSoftCache(cache);
 	/*QMapIterator<int, KoXmlElement> i(cache);
 	while (i.hasNext())
 	{
 		i.next();
-		zef.softCacheAvi[i.key()] = true;
+		zef->softCacheAvi[i.key()] = true;
 	}*/
 
 }

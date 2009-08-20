@@ -20,6 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QtXml>
 #include <QCryptographicHash>
 #include "zefania-bible.h"
+#include "../core/KoXmlWriter.h"
 zefaniaBible::zefaniaBible()
 {
 }
@@ -31,13 +32,12 @@ int zefaniaBible::setSettings( struct settings_s settings , struct moduleConfig 
 		QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("Please aktivate Caching.(Hard or Soft Cache)"));
 	return 1;
 }
-KoXmlElement zefaniaBible::readBookFromCache(QString path,int bookID)
+QDomNode zefaniaBible::readBookFromCache(QString path,int bookID)
 {
 	QCryptographicHash hash(QCryptographicHash::Md5);
 	hash.addData(path.toLocal8Bit());
 	QString fileName = zefset.homePath + "cache/"+hash.result().toBase64()+"/";
-	KoXmlNode n;
-	KoXmlElement e;
+	QDomElement e;
 	QFile file(fileName + QString::number(bookID)+".xml");
 	qDebug() <<"zefania::readBookFromCache start fileName = " << file.fileName();
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -46,16 +46,16 @@ KoXmlElement zefaniaBible::readBookFromCache(QString path,int bookID)
 		qDebug() << "zefania::readBookFromCache() cant read the file";
 		return e;
 	}
-	KoXmlDocument doc;
+	QDomDocument doc;
 	if (!doc.setContent(&file))
 	{
 		QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("The file is not valid."));
 		qDebug() << "zefania::readBookFromCache() the file isnt valid";
 		return e;
 	}
-	KoXmlElement root = doc.documentElement();
+	QDomElement root = doc.documentElement();
 	//cache in ram
-	e = root.firstChild().toElement();
+	//e = root.firstChild().toElement();
 /*	if(softCacheAvi[bookID] == false && mConfig.zefbible_softCache == true)
 	{
 		softCache[bookID] = e;
@@ -63,7 +63,7 @@ KoXmlElement zefaniaBible::readBookFromCache(QString path,int bookID)
 	}*/
 
 	//qDebug() << "zefania::readBookFromCache()" << doc.toString();
-	return e;
+	return root.firstChild();
 
 }
 QMap<int,QList<chapter> > zefaniaBible::softCache()
@@ -86,7 +86,6 @@ bool zefaniaBible::setSoftCache(QMap< int,QList<chapter> > cache)
 	if(mConfig.zefbible_softCache == true)
 	{
 		softCacheData.clear();
-
 		softCacheAvi.clear();
 		softCacheData = cache;
 		QMapIterator< int,QList<chapter> > i(cache);
@@ -111,11 +110,13 @@ bool zefaniaBible::clearSoftCache()
 {
 	softCacheData.clear();
 	softCacheAvi.clear();
+	return true;
 }
 void zefaniaBible::readBook(int id)
 {
 	qDebug() << "zefania::readBook() id = " << id;
-	KoXmlElement ncache;
+
+	QDomNode ncache;
 	if(mConfig.zefbible_hardCache == true)
 	{
 		ncache = readBookFromCache(currentBiblePath,id);
@@ -125,25 +126,30 @@ void zefaniaBible::readBook(int id)
 		chapterData = softCache(id);
 		return;
 	}
-
+	qDebug() << "1";
 	chapterText.clear();
 	chapterData.clear();
 	currentBookID = id;
-
-	KoXmlNode n = ncache.firstChild();
+	qDebug() << "1.5";
+	if(!ncache.hasChildNodes())
+		return;
+	qDebug() << "2";
+	QDomNode n = ncache.firstChild();
 	QString outtext="";
 	int count2 = 0;
+	qDebug() << "3";
 	while(!n.isNull())
 	{
 		chapter c;
 		count2++;outtext="";
-		KoXmlNode n2 = n.firstChild();
+		QDomNode n2 = n.firstChild();
 		int verseCount = 0;
 		while(!n2.isNull())//alle verse
 		{
 			verseCount++;
-			KoXmlElement e2 = n2.toElement();
-			format(e2);
+			QDomElement e2 = n2.toElement();
+
+			e2 = format(e2);
 			c.data <<  e2.text();
 			c.verseNumber << e2.attribute("vnumber","");
 			n2 = n2.nextSibling();
@@ -160,24 +166,24 @@ void zefaniaBible::readBook(int id)
 	setSoftCache(currentBookID,chapterData);
 	qDebug() << "zefania::readBook() chapterData.size() = " << chapterData.size();
 }
-KoXmlElement zefaniaBible::format(KoXmlElement e)
+QDomElement zefaniaBible::format(QDomElement e)
 {
-	KoXmlNode n = e.firstChild();
+	QDomNode n = e.firstChild();
 	while(!n.isNull())//alle verse
 	{
 		if(n.nodeName().toLower() == "note")
 		{
-			KoXmlNode node = n;
-			KoXmlText t = node.firstChild().toText();
+			QDomNode node = n;
+			QDomText t = node.firstChild().toText();
 			t.setData("[<font size=\"-2\" <i>"+t.data()+"</i> </font>]");
 			node.replaceChild(t,node.firstChild());
 			e.replaceChild(node, n);
 		}
 		else if((n.nodeName().toLower() == "gram" || n.nodeName().toLower() == "gr") && n.toElement().attribute("str","") != "")
 		{
-			KoXmlNode node = n;
-			KoXmlText t = n.firstChild().toText();
-			KoXmlElement b = n.toElement();
+			QDomNode node = n;
+			QDomText t = n.firstChild().toText();
+			QDomElement b = n.toElement();
 			t.setData(t.data()+"<sup><a href=\"strong://"+b.attribute("str","")+"\">"+b.attribute("str","")+"</a></sup>  ");
 			node.replaceChild(t,node.firstChild());
 			e.replaceChild(node, n);
@@ -212,9 +218,19 @@ void zefaniaBible::loadNoCached( int id,QString path)
 	bookCount.clear();
 	clearSoftCache();
 	progress.setValue(1);
-	QMap<int,KoXmlElement> myCache;
-	currentBiblePath = path;
 
+	currentBiblePath = path;
+	#ifdef KOXML_USE_QDOM
+		QMap<int,KoXmlElement> myCache;
+	#else
+		//hard cache: genrate fileName
+		QCryptographicHash hash(QCryptographicHash::Md5);
+		hash.addData(path.toLocal8Bit());
+		QString fileName = zefset.homePath + "cache/"+hash.result().toBase64()+"/";
+		QDir dir;
+		dir.mkpath(fileName);
+	#endif
+	//
 	progress.setValue(5);
 	QFile file(path);
 
@@ -225,31 +241,99 @@ void zefaniaBible::loadNoCached( int id,QString path)
 		return;
 	}
 	KoXmlDocument doc;
-	if (!doc.setContent(&file))
-	{
-		QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("The file is not valid"));
-		qDebug("zefania::loadBibleData() the file isnt valid");
-		return;
-	}
+	#ifdef KOXML_USE_QDOM
+		if (!doc.setContent(&file))
+		{
+			QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("The file is not valid"));
+			qDebug("zefania::loadBibleData() the file isnt valid");
+			return;
+		}
+	#else
+		QStringList fileList;
+		QString data;
+		QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+		QTextDecoder *decoder = codec->makeDecoder();
+		while (!file.atEnd())
+		{
+			QByteArray byteline = file.readLine();
+			QString l = decoder->toUnicode(byteline);
+			data +=l;
+			fileList << l;
+
+		}
+		if (!doc.setContent(data))
+		{
+			QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("The file is not valid"));
+			qDebug("zefania::loadBibleData() the file isnt valid");
+			return;
+		}
+	#endif
+
+
 	progress.setValue(10);
 	KoXmlElement root = doc.documentElement();
 	bibleName = root.attribute("biblename","");
 
 	KoXmlNode n = doc.documentElement().firstChild();
 	progressCounter=10;
-	int i = 0;
+	int c = 0;
+
 	while(!n.isNull())
 	{
 		progressCounter++;
 		progress.setValue(progressCounter);
 		KoXmlElement e = n.toElement();
+		int currentPos = 0;
 		if(e.attribute("bname","") != "" || e.attribute("bnumber","") != "")
 		{
 			//bookCount << "1500";
-			myCache[i] = e;
+
+			#ifdef KOXML_USE_QDOM
+				myCache[c] = e;
+			#else
+				int start=0,end=0;
+				for(int i=currentPos;i<fileList.size();++i)
+				{
+					QString line = fileList.at(i);
+					if(line.contains("<BIBLEBOOK",Qt::CaseInsensitive))
+					{
+						currentPos = i;
+						start = i;
+						break;
+					}
+
+				}
+				for(int i=currentPos;i<fileList.size();++i)
+				{
+					QString line = fileList.at(i);
+					if(line.contains("</BIBLEBOOK",Qt::CaseInsensitive))
+					{
+						currentPos = i;
+						end = i;
+						break;
+					}
+
+				}
+				qDebug() << "zefaniaBible::loadNoCached() start = " << start << " end = "<<end;
+				QString data ="<?xml version=\"1.0\"?><cache>";
+				for(int i = start;i<=end;++i)
+				{
+					data+= fileList.at(i);
+				}
+				data += "</cache>";
+				QFile file(fileName +"/"+ QString::number(c)+".xml");
+				if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+					return;
+				QTextStream out(&file);
+				out << data;
+				file.close();
+			#endif
+
+
+
 			bookFullName << e.attribute("bname",e.attribute("bsname",""));
 			bookShortName << e.attribute("bsname",QObject::tr("(unknown)"));
-			i++;
+			c++;
 		}
 		n = n.nextSibling();
 	}
@@ -341,53 +425,74 @@ void zefaniaBible::loadNoCached( int id,QString path)
 	file.close();
 	if(mConfig.zefbible_hardCache == true)
 	{
-		generateCacheFile(path,bookFullName,myCache);
+
+		//hard cache: write data
+		#ifdef KOXML_USE_QDOM
+			generateCacheFile(path,bookFullName,myCache);
+		#else
+			QFile file(fileName+"data");
+			if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+				return;
+			QDataStream out(&file);
+			out << bookFullName;
+			file.close();
+		#endif
 	}
-	qDebug("zefania::loadBibleData() exit");
+	qDebug("zefania::loadNoCached() end");
 }
 void zefaniaBible::generateCacheFile( QString path,QStringList bookFullName_,QMap<int,KoXmlElement> cache)
 {
-	QProgressDialog progressCache(QObject::tr( "Generate Cache" ), QObject::tr( "Cancel" ), 0, 0);
+	#ifdef KOXML_USE_QDOM
+	QProgressDialog progressCache(QObject::tr( "Generate Cache" ), QObject::tr( "Cancel" ), 0, cache.size()+1);
 	progressCache.setWindowModality(Qt::WindowModal);
+	progressCache.setValue(1);
 	QCryptographicHash hash(QCryptographicHash::Md5);
 	hash.addData(path.toLocal8Bit());
-	QString fileName = zefset.homePath + "cache/"+hash.result().toBase64()+"/";
-	QDir dir;
-	dir.mkpath(fileName);
-	progressCache.setValue(1);
-	qDebug() << "zefaniaBible::generateCacheFile() fileName = " << fileName;
-	QFile file(fileName+"data");
+	QString fileName = zefset.homePath + "cache/"+hash.result().toBase64();
+	QDir dir(path);
+	dir.mkpath(fileName+"/");
+
+	QFile file(fileName+"/data");
 	if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-		return;
+			return;
 	QDataStream out(&file);
 	out << bookFullName_;
-	progressCache.setValue(2);
+
 	QMapIterator<int, KoXmlElement> i(cache);
-	while (i.hasNext())
+	int counter=1;
+	for(int counter=1;i.hasNext();++counter)
 	{
 		i.next();
-		KoXmlDocument sdoc;
-		KoXmlElement root = sdoc.createElement("cache");
+		QDomDocument sdoc("");
+		QDomElement root = sdoc.createElement("cache");
 		sdoc.appendChild(root);
 		root.appendChild(i.value());
-		QFile file(fileName + QString::number(i.key())+".xml");
+
+		QFile file(fileName +"/"+ QString::number(i.key())+".xml");
 		if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
 			return;
+
 		QTextStream out(&file);
 		out << "<?xml version=\"1.0\"?>"+sdoc.toString();
+
 		file.close();
-		progressCache.setValue(3);
+		progressCache.setValue(counter);
 	}
-	qDebug() << "zefaniaBible::generateCacheFile() written";
 	progressCache.close();
+#else
+	Q_UNUSED(path);
+	Q_UNUSED(bookFullName_);
+	Q_UNUSED(cache);
+
+	#endif
 }
 void zefaniaBible::loadCached(int id,QString path)
 {
-	qDebug("zefania::loadCached() start");
 	bookFullName.clear();
 	bookShortName.clear();
 	bookCount.clear();
 	clearSoftCache();
+
 	QCryptographicHash hash(QCryptographicHash::Md5);
 	hash.addData(path.toLocal8Bit());
 	QString fileName = zefset.homePath + "cache/" + hash.result().toBase64()+"/";
@@ -398,7 +503,6 @@ void zefaniaBible::loadCached(int id,QString path)
 	QStringList str;
 	in >> str;
 	bookFullName = str;
-	qDebug() << "zefania::loadCached() bookFullName.size() = " <<  bookFullName.size();
 	bibleid = id;
 	currentBiblePath = path;
 

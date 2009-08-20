@@ -81,6 +81,7 @@ void MainWindow::newMdiChild()
 	}
 
 	internalWindows << subWindow;
+	enableReload = true;
 	//add a this new subwindow in the list
 }
 QMdiSubWindow *MainWindow::activeMdiChild()

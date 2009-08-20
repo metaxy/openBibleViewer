@@ -1779,18 +1779,18 @@ static QDomNode itemAsQDomNode(QDomDocument ownerDoc, KoXmlPackedDocument* packe
 
     // nothing to do here
     if (self.type == KoXmlNode::NullNode)
-        return QDomNode();
+	return QDomNode();
 
     // create the element properly
     if (self.type == KoXmlNode::ElementNode) {
         QDomElement element;
 
         QString name = packedDoc->stringList[self.nameIndex];
-        QString nsURI = packedDoc->stringList[self.nsURIIndex];
+	QString nsURI = packedDoc->stringList[self.nsURIIndex];
 
-        if (packedDoc->processNamespace)
+	if (packedDoc->processNamespace)
             element = ownerDoc.createElementNS(nsURI, name);
-        else
+	else
             element = ownerDoc.createElement(name);
 
         // check all subnodes for attributes
@@ -1815,10 +1815,10 @@ static QDomNode itemAsQDomNode(QDomDocument ownerDoc, KoXmlPackedDocument* packe
                 if (i != -1) prefix = qName.left(i);
                 if (i != -1) localName = qName.mid(i + 1);
 
-                if (packedDoc->processNamespace) {
+		if (packedDoc->processNamespace) {
                     element.setAttributeNS(nsURI, qName, value);
                     element.setAttribute(localName, value);
-                } else
+		} else
                     element.setAttribute(name, value);
             } else {
                 // add it recursively

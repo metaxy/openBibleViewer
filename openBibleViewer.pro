@@ -13,6 +13,7 @@ SOURCES += src/main.cpp \
     src/ui/aboutdialog.cpp \
     src/core/tabcache.cpp \
     src/core/KoXmlReader.cpp \
+    src/core/KoXmlWriter.cpp \
     src/core/notes.cpp \
     src/core/xbelreader.cpp \
     src/core/xbelwriter.cpp \
@@ -34,6 +35,7 @@ HEADERS += src/ui/main/mainwindow.h \
     src/core/tabcache.h \
     src/core/stelle.h \
     src/core/KoXmlReader.h \
+    src/core/KoXmlWriter.h \
     src/core/KoXmlReaderForward.h \
     src/ui/aboutdialog.h \
     src/core/notes.h \

@@ -206,13 +206,13 @@ int MainWindow::notesContextMenu( void )
 {
 	//qDebug("MainWindow::notesContextMenu() start");
 	QMenu *contextMenu = new QMenu(this);
-	contextMenu->setObjectName(QString::fromUtf8("contextMenu"));
+	contextMenu->setObjectName("contextMenu");
 
 	QAction *actionCopy = new QAction(this);
-	actionCopy->setObjectName(QString::fromUtf8("actionCopy"));
+	actionCopy->setObjectName("actionCopy");
 	actionCopy->setText(tr("Copy"));
 	QIcon iconCopy;
-	iconCopy.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/edit-copy.png")), QIcon::Normal, QIcon::Off);
+	iconCopy.addPixmap(QPixmap(":/icons/16x16/edit-copy.png"), QIcon::Normal, QIcon::Off);
 	actionCopy->setIcon(iconCopy);
 	connect( actionCopy, SIGNAL(triggered()), this, SLOT(copyNote()));
 
@@ -220,15 +220,15 @@ int MainWindow::notesContextMenu( void )
 	actionNew->setObjectName(QString::fromUtf8("actionNew"));
 	connect( actionNew, SIGNAL(triggered()), this, SLOT(newNote()));
 	QIcon iconNew;
-	iconNew.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/document-new.png")), QIcon::Normal, QIcon::Off);
+	iconNew.addPixmap(QPixmap(":/icons/16x16/document-new.png"), QIcon::Normal, QIcon::Off);
 	actionNew->setIcon(iconNew);
 	actionNew->setText(tr("New"));
 
 	QAction *actionRemove = new QAction(this);
-	actionRemove->setObjectName(QString::fromUtf8("actionRemove"));
+	actionRemove->setObjectName("actionRemove");
 	actionRemove->setText(tr("Delete"));
 	QIcon iconRemove;
-	iconRemove.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/edit-delete.png")), QIcon::Normal, QIcon::Off);
+	iconRemove.addPixmap(QPixmap(":/icons/16x16/edit-delete.png"), QIcon::Normal, QIcon::Off);
 	actionRemove->setIcon(iconRemove);
 	connect( actionRemove, SIGNAL(triggered()), this, SLOT(removeNote()));
 

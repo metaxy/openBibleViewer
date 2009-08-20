@@ -32,7 +32,7 @@ private:
 	struct settings_s zefset;
 	struct moduleConfig mConfig;
 	QString formatfromini(QString input);
-	KoXmlElement format(KoXmlElement e);
+	QDomElement format(QDomElement e);
 public:
 	zefaniaBible();
 	int setSettings( struct settings_s settings, struct moduleConfig mConfig );
@@ -44,7 +44,7 @@ public:
 	bool checkForCacheFiles( QString path);
 	void loadNoCached(int id,QString path);
 	void loadCached(int id,QString path);
-	KoXmlElement readBookFromCache(QString path,int bookID);
+	QDomNode readBookFromCache(QString path,int bookID);
 	struct stelle search(QString searchstring,bool regexp,bool whole,bool casesen);
 
 	QMap<int,QList<chapter> > softCacheData;

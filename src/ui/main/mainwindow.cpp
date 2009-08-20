@@ -541,7 +541,7 @@ int MainWindow::loadBibles()
 						case 1:
 							{
 								//BibleQuote
-								bname = b.bq.readInfo(file);
+								bname = b.bq->readInfo(file);
 								if(bname.size() > 0)
 								{
 									biblesTypes << 1;
@@ -557,7 +557,7 @@ int MainWindow::loadBibles()
 									ibible->setText(1, srcount);
 
 									QIcon bibleIcon;
-									bibleIcon.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/text-x-generic.png")), QIcon::Normal, QIcon::Off);
+									bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-x-generic.png"), QIcon::Normal, QIcon::Off);
 									ibible->setIcon(0,bibleIcon);
 									top->addChild(ibible);
 									rcount++;
@@ -567,7 +567,7 @@ int MainWindow::loadBibles()
 						case 2:
 							{
 								//ZenfaniaXML-Bible
-								bname = b.zef.readInfo(file);
+								bname = b.zef->readInfo(file);
 								if(bname.size() > 0)
 								{
 									biblesTypes << 2;
@@ -581,7 +581,7 @@ int MainWindow::loadBibles()
 									srcount.setNum(rcount,10);
 									bibleItem->setText(1, srcount);
 									QIcon bibleIcon;
-									bibleIcon.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/text-xml.png")), QIcon::Normal, QIcon::Off);
+									bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
 									bibleItem->setIcon(0,bibleIcon);
 									top->addChild(bibleItem);
 									rcount++;
@@ -624,7 +624,7 @@ int MainWindow::loadBibles()
 						set.moduleID[rcount] = i;
 
 						QIcon bibleIcon;
-						bibleIcon.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/text-x-generic.png")), QIcon::Normal, QIcon::Off);
+						bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-x-generic.png"), QIcon::Normal, QIcon::Off);
 						bibleItem->setIcon(0,bibleIcon);
 						items.append(bibleItem);
 						rcount++;
@@ -645,7 +645,7 @@ int MainWindow::loadBibles()
 						set.moduleID[rcount] = i;
 
 						QIcon bibleIcon;
-						bibleIcon.addPixmap(QPixmap(QString::fromUtf8(":/icons/16x16/text-xml.png")), QIcon::Normal, QIcon::Off);
+						bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
 						bibleItem->setIcon(0,bibleIcon);
 						items.append(bibleItem);
 						rcount++;
@@ -663,10 +663,7 @@ int MainWindow::loadBibles()
 void MainWindow::setSettings( struct settings_s ssettings )
 {
 	set = ssettings;
-
-	bq.setSettings(set);
-	//b.setSettings(set);
-	//zef.setSettings(&set);
+	b.setSettings(set);
 	return;
 }
 void MainWindow::loadSettings( )
@@ -701,8 +698,8 @@ void MainWindow::loadSettings( )
 
 
 
-	//bq.setSettings(set);
-	//zef.setSettings(&set);
+	//bq->setSettings(set);
+	//zef->setSettings(&set);
 	b.setSettings(set);
 	return;
 }

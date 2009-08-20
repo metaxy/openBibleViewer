@@ -27,6 +27,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui/main/mainwindow.h"
 #include "core/config.h"
 
+//CONFIG
+//#define _PORTABLE_VERSION
+//#define KOXML_USE_QDOM //WARNING QDOM USE VERY MUCH RAM
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);

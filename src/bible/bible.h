@@ -43,8 +43,8 @@ public:
 	QMap <int,int> bookCount;
 	QList<chapter> chapterData;
 	int bibleType;
-	biblequote bq;
-	zefaniaBible zef;
+	biblequote *bq;
+	zefaniaBible *zef;
 private:
 
 
