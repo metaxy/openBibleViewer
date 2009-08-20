@@ -18,17 +18,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QTranslator>
 #include <QtCore/QLocale>
 #include <QtCore/QDir>
-#include <QtCore/QTextCodec>
 #include <QtGui/QAction>
 #include <QtGui/QPrintDialog>
 #include <QtGui/QPrinter>
-#include <QtGui/QTreeView>
 #include <QtGui/QProgressDialog>
 #include <QtGui/QFileDialog>
 #include <QtGui/QClipboard>
 #include <QtGui/QMessageBox>
 #include <QtGui/QComboBox>
-#include <QtCore/QProcess>
+#include <QtGui/QDesktopServices>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -1147,8 +1145,7 @@ void MainWindow::pharseUrl(QString url)
 	}
 	else if(url.startsWith(http))
 	{
-		QProcess *myProcess = new QProcess();
-		myProcess->start("kioclient",QStringList() << "exec" << url);
+		QDesktopServices::openUrl(url);
 		//its a web link
 	}
 	else if(url.startsWith(bq))
