@@ -19,7 +19,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QMap>
 struct settings_s
 {
-	QStringList path;
 	QString encoding;
 	QList<moduleConfig> module;
 	QMap<int,int> moduleID;

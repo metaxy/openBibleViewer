@@ -29,7 +29,6 @@ public:
 	int loadBibleData(int bibleID,QString path);
 	int readBook(int id);
 	void setSettings( struct settings_s settings );
-
 	QMap<int, QList<chapter> > getZefCache();
 	void clearZefCache();
 	void setZefCache(QMap<int, QList<chapter> > cache);

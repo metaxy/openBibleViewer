@@ -135,9 +135,17 @@ int bible::readBook(int id)
 void bible::setSettings( struct settings_s settings_ )
 {
 	settings = settings_;
-	moduleConfig m = settings.module.at(settings.moduleID[currentBibleID]);
-	zef->setSettings(settings,m);
-	bq->setSettings(settings);
+	if(settings.module.size() > 0)
+	{
+		moduleConfig m = settings.module.at(settings.moduleID[currentBibleID]);
+		zef->setSettings(settings,m);
+		bq->setSettings(settings);
+	}
+	else
+	{
+		zef->setSettings(settings,moduleConfig());
+		bq->setSettings(settings);
+	}
 	return;
 }
 QString bible::readChapter( int chapterID, int verseID = -1)

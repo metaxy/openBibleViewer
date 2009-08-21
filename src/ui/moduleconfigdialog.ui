@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>437</width>
-    <height>369</height>
+    <height>393</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,7 +34,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../icons.qrc">
            <normaloff>:/icons/16x16/document-open.png</normaloff>:/icons/16x16/document-open.png</iconset>
          </property>
         </widget>
@@ -176,28 +176,28 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QCheckBox" name="checkBox">
+         <widget class="QCheckBox" name="checkBox_hardCache">
           <property name="text">
            <string>enabled</string>
           </property>
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QCheckBox" name="checkBox_2">
+         <widget class="QCheckBox" name="checkBox_softCache">
           <property name="text">
            <string>enabled</string>
           </property>
          </widget>
         </item>
         <item row="4" column="1">
-         <widget class="QCheckBox" name="checkBox_3">
+         <widget class="QCheckBox" name="checkBox_showStrong">
           <property name="text">
            <string>show</string>
           </property>
          </widget>
         </item>
         <item row="5" column="1">
-         <widget class="QCheckBox" name="checkBox_showStudyNotes">
+         <widget class="QCheckBox" name="checkBox_showStudyNote">
           <property name="text">
            <string>show</string>
           </property>
@@ -235,7 +235,7 @@
         <string>OK</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../icons.qrc">
          <normaloff>:/icons/16x16/dialog-ok.png</normaloff>:/icons/16x16/dialog-ok.png</iconset>
        </property>
        <property name="default">
@@ -255,7 +255,7 @@
         <string>Cancel</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../icons.qrc">
          <normaloff>:/icons/16x16/dialog-cancel.png</normaloff>:/icons/16x16/dialog-cancel.png</iconset>
        </property>
       </widget>
@@ -264,6 +264,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

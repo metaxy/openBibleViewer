@@ -28,6 +28,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 class zefaniaBible
 {
+
 private:
 	struct settings_s zefset;
 	struct moduleConfig mConfig;
@@ -60,8 +61,7 @@ public:
 	bool setSoftCache(QMap<int,QList<chapter> >);
 	bool setSoftCache( int bookID,QList<chapter> c );
 	bool clearSoftCache();
-	QList<chapter> fromHardToSoft(int id);
-
+	QList<chapter> fromHardToSoft(int id,QDomNode ncache);
 
 };
 

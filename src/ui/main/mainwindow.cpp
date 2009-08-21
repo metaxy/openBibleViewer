@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QTranslator>
 #include <QtCore/QLocale>
 #include <QtCore/QDir>
+#include <QtCore/QTimer>
 #include <QtGui/QAction>
 #include <QtGui/QPrintDialog>
 #include <QtGui/QPrinter>
@@ -27,6 +28,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 #include <QtGui/QComboBox>
 #include <QtGui/QDesktopServices>
+
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -477,8 +479,7 @@ int MainWindow::loadBibles()
 	biblesTypes.clear();
 	bibleDirName.clear();
 	QList<QTreeWidgetItem *> items;
-	QStringList lpath = set.path;
-	QProgressDialog progress(tr( "Loading Module" ), tr( "Cancel" ), 0, lpath.size());
+	QProgressDialog progress(tr( "Loading Module" ), tr( "Cancel" ), 0, set.module.size());
 	progress.setWindowModality(Qt::WindowModal);
 
 	for (int i = 0; i < set.module.size(); ++i)//Alle Ordner auslesen
@@ -672,7 +673,6 @@ void MainWindow::loadSettings( )
 {
 	set.encoding = settings->value("general/encoding",set.encoding).toString();
 	set.zoomstep = settings->value("general/zoomstep",set.zoomstep).toInt();
-	set.path = settings->value("general/path",set.path).toStringList();
 	set.language = settings->value("general/language",QLocale::system().name()).toString();
 	set.autoLayout = settings->value("window/layout",set.autoLayout).toInt();
 	set.onClickBookmarkGo = settings->value("window/onClickBookmarkGo",set.onClickBookmarkGo).toBool();
@@ -706,7 +706,7 @@ void MainWindow::loadSettings( )
 int MainWindow::saveSettings( struct settings_s ssettings )
 {
 	bool reloadBibles=false;
-	if(set.path != ssettings.path || set.encoding != ssettings.encoding)
+	if(set.encoding != ssettings.encoding)
 	{
 		reloadBibles = true;
 	}
@@ -742,7 +742,6 @@ int MainWindow::saveSettings( struct settings_s ssettings )
 	setSettings(ssettings);
 	settings->setValue("general/encoding",set.encoding);
 	settings->setValue("general/zoomstep",set.zoomstep);
-	settings->setValue("general/path",set.path);
 	settings->setValue("general/language",set.language);
 	settings->setValue("window/layout",set.autoLayout);
 	settings->setValue("window/onClickBookmarkGo",set.onClickBookmarkGo);
@@ -1188,7 +1187,6 @@ void MainWindow::pharseUrl(QString url)
 	{
 		qDebug() << "MainWindow::pharseUrl() invalid URL";
 	}
-	qDebug() << "MainWindow::pharseUrl() invalid URL";
 	setEnableReload(true);
 	return;
 }

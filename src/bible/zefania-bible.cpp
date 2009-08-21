@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QFile>
 #include <QtCore/QDebug>
 #include <QtCore/QRegExp>
+#include <QtCore/QTimer>
 #include <QtGui/QMessageBox>
 #include <QtGui/QProgressDialog>
 #include <QtXml/QDomAttr>
@@ -296,17 +297,21 @@ void zefaniaBible::loadNoCached( int id,QString path)
 
 	KoXmlNode n = doc.documentElement().firstChild();
 	progressCounter=10;
-	for(int c = 0;!n.isNull();c++)
+	int currentPos = 0;
+	for(int c = 0;!n.isNull();)
 	{
 		progressCounter++;
 		if(progressCounter < 76)
 			progress.setValue(progressCounter);
 		KoXmlElement e = n.toElement();
-		int currentPos = 0;
 		if(e.attribute("bname","") != "" || e.attribute("bnumber","") != "")
 		{
 			#ifdef KOXML_USE_QDOM
 				myCache[c] = e;
+				if(mConfig.zefbible_hardCache == false)
+				{
+					setSoftCache(i,fromHardToSoft(c,n));
+				}
 			#else
 				int start=0,end=0;
 				for(int i=currentPos;i<fileList.size();++i)
@@ -314,7 +319,7 @@ void zefaniaBible::loadNoCached( int id,QString path)
 					QString line = fileList.at(i);
 					if(line.contains("<BIBLEBOOK",Qt::CaseInsensitive))
 					{
-						currentPos = i;
+						currentPos = i+1;
 						start = i;
 						break;
 					}
@@ -325,12 +330,13 @@ void zefaniaBible::loadNoCached( int id,QString path)
 					QString line = fileList.at(i);
 					if(line.contains("</BIBLEBOOK",Qt::CaseInsensitive))
 					{
-						currentPos = i;
+						currentPos = i+1;
 						end = i;
 						break;
 					}
 
 				}
+				qDebug() << "start = " << start << " end = " << end;
 				QString data ="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<cache>\n";
 				for(int i = start;i<=end;++i)
 				{
@@ -346,6 +352,7 @@ void zefaniaBible::loadNoCached( int id,QString path)
 			#endif
 			bookFullName << e.attribute("bname",e.attribute("bsname",""));
 			bookShortName << e.attribute("bsname",QObject::tr("(unknown)"));
+			c++;
 		}
 		n = n.nextSibling();
 	}
@@ -571,19 +578,9 @@ QString zefaniaBible::readInfo(QString content)
 	bibleName = cbiblename;
 	return bibleName;
 }
-QList<chapter> zefaniaBible::fromHardToSoft(int id)
+QList<chapter> zefaniaBible::fromHardToSoft(int id,QDomNode ncache)
 {
-	QDomNode ncache;
 	QList<chapter> ret;
-	qDebug() << " zefaniaBible::fromHardToSoft() hardCache = " << mConfig.zefbible_hardCache  << " softCache = " << mConfig.zefbible_softCache << " cacheAViable = " << softCacheAvi[id];
-	if(mConfig.zefbible_hardCache == true && (softCacheAvi[id] == false || mConfig.zefbible_softCache == false) )
-	{
-		ncache = readBookFromHardCache(currentBiblePath,id);
-	}
-	else
-	{
-		return softCache(id);
-	}
 	QDomNode n = ncache.firstChild();
 	for(int i = 0;!n.isNull();++i)
 	{
@@ -599,14 +596,12 @@ QList<chapter> zefaniaBible::fromHardToSoft(int id)
 			c.verseNumber << e2.attribute("vnumber","");
 			n2 = n2.nextSibling();
 		}
-		c.chapterName = QString::number(i,10);
+		c.chapterName = QString::number(i+1,10);
 		c.verseCount = verseCount;
 		c.bookName = bookFullName.at(id);
 		ret << c;
 		n = n.nextSibling();
 	}
-
-	setSoftCache(id,ret);
 	return ret;
 }
 struct stelle zefaniaBible::search(QString searchstring,bool regexp,bool whole,bool casesen)
@@ -641,7 +636,18 @@ struct stelle zefaniaBible::search(QString searchstring,bool regexp,bool whole,b
 		progress.setValue(i);
 		if (progress.wasCanceled())
 			return st2;
-		QList<chapter> chapterList = fromHardToSoft(i);
+		QList<chapter> chapterList;
+
+		if(mConfig.zefbible_hardCache == true && (softCacheAvi[i] == false || mConfig.zefbible_softCache == false) )
+		{
+			chapterList = fromHardToSoft(i,readBookFromHardCache(currentBiblePath,i));
+			setSoftCache(i,chapterList);
+		}
+		else
+		{
+			chapterList =  softCache(i);
+		}
+
 		for(int chapterCounter = 0;chapterCounter < chapterList.size(); ++chapterCounter)
 		{
 			chapter c = chapterList.at(chapterCounter);

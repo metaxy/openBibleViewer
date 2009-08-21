@@ -44,7 +44,7 @@ int MainWindow::loadNotes( void )
 int MainWindow::showNote(QListWidgetItem *item)
 {
 	int id;
-	qDebug() << "MainWindow::showNote() currentNoteID = " << currentNoteID;
+	//qDebug() << "MainWindow::showNote() currentNoteID = " << currentNoteID;
 	id = currentNoteID;
 	QStringList myNotesData = note->notesData;
 	QStringList myNotesTitel = note->notesTitel;
@@ -74,7 +74,7 @@ int MainWindow::showNote(QListWidgetItem *item)
 	currentNoteID = id;
 	if(id < note->notesData.size() && id >= 0)
 	{
-		qDebug() << "MainWindow::showNote() id = " << id;
+		//qDebug() << "MainWindow::showNote() id = " << id;
 		ui->lineEdit_note_titel->setText(note->notesTitel.at(id));
 		ui->textEdit_note->setHtml(note->notesData.at(id));
 		currentNotePos = note->notesPos.at(id);
@@ -94,14 +94,14 @@ int MainWindow::copyNote ( void )
 	}
 	else
 	{
-		qDebug() << "MainWindow::copyNote() no note";
+		//qDebug() << "MainWindow::copyNote() no note";
 	}
 	return 0;
 }
 int MainWindow::saveNote( void )
 {
 	int id;
-	qDebug() << "MainWindow::saveNote() currentNoteID = " << currentNoteID;
+	//qDebug() << "MainWindow::saveNote() currentNoteID = " << currentNoteID;
 	//id = ui->listWidget_notes->currentRow();
 	id = currentNoteID;
 	QStringList myNotesData = note->notesData;
@@ -160,17 +160,17 @@ int MainWindow::newNoteWithLink()
 	reloadNotes();
 	ui->listWidget_notes->setCurrentRow(note->notesData.size()-1);
 	currentNoteID = note->notesData.size()-1;
-	qDebug() << "MainWindow::newNoteWithLink() pos = " << pos;
+	//qDebug() << "MainWindow::newNoteWithLink() pos = " << pos;
 	return 0;
 }
 int MainWindow::removeNote( void )
 {
 	int id = currentNoteID;
-	qDebug() << "MainWindow::removeNote() id = "<< id << "notesPos = "<<note->notesPos;
+//	qDebug() << "MainWindow::removeNote() id = "<< id << "notesPos = "<<note->notesPos;
 	if(id < 0)
 		return 1;
 
-	qDebug() << "MainWindow::removeNote() notesTitel = "<<note->notesTitel;
+//	qDebug() << "MainWindow::removeNote() notesTitel = "<<note->notesTitel;
 
 	note->notesData.removeAt(id);
 	note->notesTitel.removeAt(id);
