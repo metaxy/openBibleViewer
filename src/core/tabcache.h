@@ -48,7 +48,7 @@ public:
 	int getCurrentBook( void );
 	QStringList getBooks( void );
 	int getChapterCount( void );
-	QMap<int, QList<chapter> > getZefaniaCache(int bibleid);
+	QMap<int, QList<chapter> > getZefaniaCache(int bibleID);
 	bible getBible( void );
 
 };

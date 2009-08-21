@@ -25,13 +25,29 @@ void moduleConfigDialog::setModule(struct moduleConfig config)
 	m_ui->comboBox_type->setCurrentIndex(config.moduleType.toInt());
 	m_ui->comboBox_textFromatting->setCurrentIndex(config.zefbible_textFormatting);
 	if(config.biblequote_removeHtml == true)
-	{
 		m_ui->checkBox_removeHtml->setChecked(true);
-	}
 	else
-	{
 		m_ui->checkBox_removeHtml->setChecked(false);
-	}
+
+	if(config.zefbible_hardCache == true)
+		m_ui->checkBox_hardCache->setChecked(true);
+	else
+		m_ui->checkBox_hardCache->setChecked(false);
+
+	if(config.zefbible_softCache == true)
+		m_ui->checkBox_softCache->setChecked(true);
+	else
+		m_ui->checkBox_softCache->setChecked(false);
+
+	if(config.zefbible_showStrong == true)
+		m_ui->checkBox_showStrong->setChecked(true);
+	else
+		m_ui->checkBox_showStrong->setChecked(false);
+
+	if(config.zefbible_showStudyNote == true)
+		m_ui->checkBox_showStudyNote->setChecked(true);
+	else
+		m_ui->checkBox_showStudyNote->setChecked(false);
 }
 void moduleConfigDialog::bsave()
 {	c.moduleName = m_ui->lineEdit_name->text();
@@ -39,6 +55,10 @@ void moduleConfigDialog::bsave()
 	c.moduleType = QString::number(m_ui->comboBox_type->currentIndex());
 	c.zefbible_textFormatting = m_ui->comboBox_textFromatting->currentIndex();
 	c.biblequote_removeHtml = m_ui->checkBox_removeHtml->isChecked();
+	c.zefbible_hardCache =  m_ui->checkBox_hardCache->isChecked();
+	c.zefbible_softCache =  m_ui->checkBox_softCache->isChecked();
+	c.zefbible_showStrong =  m_ui->checkBox_showStrong->isChecked();
+	c.zefbible_showStudyNote =  m_ui->checkBox_showStudyNote->isChecked();
 	emit save(c);
 }
 void moduleConfigDialog::moduleTypeChanged(int id)

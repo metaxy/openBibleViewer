@@ -29,7 +29,7 @@ int tabCache::setBible(bible b_)
 	if(b_.bibleType == 2)//zefania
 	{
 		zefcache[b_.currentBibleID] = b_.getZefCache();
-		b_.clearZefCache();
+		//b_.clearZefCache();
 	}
 	b[currentTabID] = b_;
 	qDebug() << "tabCache::setBible() end";
@@ -106,7 +106,7 @@ bible tabCache::getBible( void )
 	}
 	return b[currentTabID];
 }
-QMap<int, QList<chapter> > tabCache::getZefaniaCache(int bibleid)
+QMap<int, QList<chapter> > tabCache::getZefaniaCache(int bibleID)
 {
-	return zefcache[bibleid];
+	return zefcache[bibleID];
 }

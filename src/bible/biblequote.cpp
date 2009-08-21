@@ -99,7 +99,7 @@ void biblequote::readBook(int id,QString path)
 		ccount2 = 1;
 	}
 
-	book_ccount = ccount2;
+	//book_ccount = ccount2;
 	//qDebug() << "biblequote::readBook() versesign = " << versesign;
 	for(int i=0;i < chapterText.size();i++)
 	{

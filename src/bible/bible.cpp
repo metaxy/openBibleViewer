@@ -135,8 +135,8 @@ int bible::readBook(int id)
 void bible::setSettings( struct settings_s settings_ )
 {
 	settings = settings_;
-	/*moduleConfig m = settings.module.at(settings.moduleID[currentBibleID]);
-	zef->setSettings(settings,m);*/
+	moduleConfig m = settings.module.at(settings.moduleID[currentBibleID]);
+	zef->setSettings(settings,m);
 	bq->setSettings(settings);
 	return;
 }

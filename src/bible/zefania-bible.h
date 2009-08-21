@@ -44,12 +44,12 @@ public:
 	bool checkForCacheFiles( QString path);
 	void loadNoCached(int id,QString path);
 	void loadCached(int id,QString path);
-	QDomNode readBookFromCache(QString path,int bookID);
+	QDomNode readBookFromHardCache(QString path,int bookID);
 	struct stelle search(QString searchstring,bool regexp,bool whole,bool casesen);
 
 	QMap<int,QList<chapter> > softCacheData;
 	QMap<int,bool> softCacheAvi;
-	long currentBookID,fontsize,bibletype,book_ccount,bibleid;
+	long currentBookID,fontsize,bibletype,book_ccount,bibleID;
 	struct stelle st;
 	QString currentBiblePath,lastout,chaptersign,versesign,biblepath,bibleName,lastSearch;
 	QStringList bibles,biblesPath,bookFullName,bookShortName,chapterText/*,bookPath*/;
@@ -60,6 +60,7 @@ public:
 	bool setSoftCache(QMap<int,QList<chapter> >);
 	bool setSoftCache( int bookID,QList<chapter> c );
 	bool clearSoftCache();
+	QList<chapter> fromHardToSoft(int id);
 
 
 };

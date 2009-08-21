@@ -698,10 +698,6 @@ void MainWindow::loadSettings( )
 	}
 	settings->endArray();
 
-
-
-	//bq->setSettings(set);
-	//zef->setSettings(&set);
 	b.setSettings(set);
 	return;
 }
@@ -771,6 +767,7 @@ int MainWindow::saveSettings( struct settings_s ssettings )
 
 	if(reloadBibles == true)
 	{
+		qDebug() << " MainWindow::saveSettings() reload bibles";
 		loadBibles();
 	}
 	return 0;
