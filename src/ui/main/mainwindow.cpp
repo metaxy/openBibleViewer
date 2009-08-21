@@ -276,10 +276,14 @@ int MainWindow::textBrowserContextMenu( QPoint pos )
 	actionCopy->setText(tr("Copy"));
 	connect( actionCopy, SIGNAL(triggered()), textBrowser, SLOT(copy()));
 	QAction *actionCopyWholeVerse = new QAction(this);
-	QTextCursor cursor = textBrowser->cursorForPosition(pos);
+	QTextCursor cursor = textBrowser->cursorForPosition(pos);	
+	QTextCursor cursor2 = textBrowser->textCursor();
+	if(cursor2.hasSelection())
+	{
+		cursor = cursor2;
+	}
 	currentTextCursor = cursor;
-
-	if(cursor.hasSelection() == true)
+	if(cursor.hasSelection())
 	{
 		int start = cursor.selectionStart(),end = cursor.selectionEnd();
 		int startline=0,startverse=0,endline=0,endverse=0;
@@ -312,20 +316,31 @@ int MainWindow::textBrowserContextMenu( QPoint pos )
 			}
 		}
 		started = false;
-		for(int i=0;i<verses.size();++i)
+		if(biblesTypes.at(currentBibleID) == 2 && set.module.at(set.moduleID[currentBibleID]).zefbible_textFormatting == 0)
 		{
-			QTextDocument doc;
-			doc.setHtml(verses.at(i));
-			QString t = doc.toPlainText();
-			if(started == false && t.contains(lines.at(startline)))
+			startverse = startline -1;
+			endverse = endline -1;
+			if(startverse < 0)
+				startverse = 0;
+		}
+		else
+		{
+			qDebug() << "MainWindow::textBrowserContextMenu() startline = " << startline << ", endline = " << endline;
+			for(int i=0;i<verses.size();++i)
 			{
-				startverse = i;
-				started = true;
-			}
-			if(t.contains(lines.at(endline)))
-			{
-				endverse = i;
-				break;
+				QTextDocument doc;
+				doc.setHtml(verses.at(i));
+				QString t = doc.toPlainText();
+				if(started == false && t.contains(lines.at(startline)))
+				{
+					startverse = i;
+					started = true;
+				}
+				if(t.contains(lines.at(endline)))
+				{
+					endverse = i;
+					break;
+				}
 			}
 		}
 		QString addText;
@@ -333,8 +348,8 @@ int MainWindow::textBrowserContextMenu( QPoint pos )
 			addText = " "+QString::number(startverse,10)+" - "+QString::number(endverse,10);
 		else
 			addText = " "+QString::number(startverse,10);
-
-		if(startverse == 0 && endverse == 0)
+		qDebug() << "MainWindow::textBrowserContextMenu() startverse = " << startverse << ", endverse = " << endverse;
+		if(startverse < 0 || endverse <= 0)
 		{
 			actionCopyWholeVerse->setText(tr("Copy Verse"));
 			actionCopyWholeVerse->setEnabled(false);
@@ -413,22 +428,33 @@ int MainWindow::copyWholeVerse( void )
 			}
 		}
 		started = false;
-		for(int i=0;i<verses.size();++i)
+		if(biblesTypes.at(currentBibleID) == 2 && set.module.at(set.moduleID[currentBibleID]).zefbible_textFormatting == 0)
 		{
-			QTextDocument doc;
-			doc.setHtml(verses.at(i));
-			QString t = doc.toPlainText();
-			if(started == false && t.contains(lines.at(startline)))
+			startverse = startline -1;
+			endverse = endline -1;
+		}
+		else
+		{
+			qDebug() << "MainWindow::textBrowserContextMenu() startline = " << startline << ", endline = " << endline;
+			for(int i=0;i<verses.size();++i)
 			{
-				startverse = i;
-				started = true;
-			}
-			if(t.contains(lines.at(endline)))
-			{
-				endverse = i;
-				break;
+				QTextDocument doc;
+				doc.setHtml(verses.at(i));
+				QString t = doc.toPlainText();
+				if(started == false && t.contains(lines.at(startline)))
+				{
+					startverse = i;
+					started = true;
+				}
+				if(t.contains(lines.at(endline)))
+				{
+					endverse = i;
+					break;
+				}
 			}
 		}
+		if(startverse < 0 || endverse <= 0)
+			return 1;
 		QString stext;
 		for(int i = startverse; i <= endverse;++i)
 		{
