@@ -91,7 +91,7 @@ public slots:
 	void nextVerse();
 	void lastVerse();
 	void newMdiChild();
-	void goTo();
+	void goToPos();
 	int noteGo(QString pos);
 	void copy();
 	void selectAll();
@@ -155,6 +155,9 @@ private:
 	int tabIDof(QMdiSubWindow* window);
 	int lastBookmark;
 	QList<QMdiSubWindow *> internalWindows;
+protected:
+	bool eventFilter(QObject *obj, QEvent *ev);
+
 
 };
 

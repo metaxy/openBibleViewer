@@ -54,9 +54,11 @@ int main(int argc, char *argv[])
 				 "openBible", "openBibleViewer");
 #endif
 #endif
-
-	//QString lang = settings->value("general/language",QLocale::system().name()).toString();
+#ifdef Q_WS_WIN
 	QString lang = settings->value("general/language","en").toString();
+#else
+	QString lang = settings->value("general/language",QLocale::system().name()).toString();
+#endif
 	QString themePath = settings->value("theme/path",homeDataPath+"stylesheet.css").toString();
 	QList<QTranslator> translators1;
 	QTranslator qtTranslator;

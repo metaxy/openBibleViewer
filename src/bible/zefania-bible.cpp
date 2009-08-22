@@ -628,7 +628,7 @@ struct stelle zefaniaBible::search(QString searchstring,bool regexp,bool whole,b
 		}
 		progressCache.close();
 	}*/
-	//todo: read from cache the data
+	//todo: read everything from the big data because its faster
 	QProgressDialog progress(QObject::tr( "Searching"), QObject::tr("Cancel"), 0, bookFullName.size());
 	progress.setWindowModality(Qt::WindowModal);
 	for(int i = 0; i< bookFullName.size();++i)

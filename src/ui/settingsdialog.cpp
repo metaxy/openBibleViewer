@@ -70,12 +70,9 @@ int settingsDialog::setSettings(settings_s settings)
 	m_ui->comboBox_encoding->clear();
 	m_ui->comboBox_encoding->insertItems(0,encodings);
 	m_ui->comboBox_encoding->setCurrentIndex(encodings.lastIndexOf(set.encoding));
-	////Ordner
-	//m_ui->listWidget_path->clear();
-	//m_ui->listWidget_path->insertItems(0,set.path);
 	//Language
 	QStringList langs;
-	langs << "German ( Deutsch )" << "English" << "Russian (";
+	langs << "German ( Deutsch )" << "English" << "Russian ( русском )";
 	langCode << "de" << "en" << "ru";
 	qDebug() << "settingsDialog::setSettings() langCode.lastIndexOf(set.language) = " << langCode.lastIndexOf(set.language) << " set.language = " <<set.language;
 	m_ui->comboBox_language->clear();

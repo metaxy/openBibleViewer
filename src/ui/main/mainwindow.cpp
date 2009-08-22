@@ -28,6 +28,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 #include <QtGui/QComboBox>
 #include <QtGui/QDesktopServices>
+#include <QtGui/QKeyEvent>
 
 
 #include "mainwindow.h"
@@ -38,6 +39,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../../core/stelle.h"
 #include "../../core/chapter.h"
 #include "../../core/moduleconfig.h"
+#include "../../core/goto.h"
 //spilt MainWindow in some files
 #include "mainnotes.cpp"
 #include "mainbookmarks.cpp"
@@ -141,7 +143,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	connect( ui->pushButton_noteColor, SIGNAL( clicked() ), this, SLOT( noteSetTextColor( ) ) );
 	connect( ui->pushButton_bookmarks_save, SIGNAL( clicked() ), this, SLOT( saveBookmarks( ) ) );
 	connect( ui->pushButton_searchInfo, SIGNAL( clicked() ), this, SLOT( searchInfo( ) ) );
-	connect( ui->pushButton_goTo, SIGNAL( clicked() ), this, SLOT( goTo( ) ) );
+	connect( ui->pushButton_goTo, SIGNAL( clicked() ), this, SLOT( goToPos( ) ) );
 	connect( ui->pushButton_editNoteLink, SIGNAL( clicked() ), this, SLOT( editNoteLink( ) ) );
 	//pushButton_editNoteLink
 	//buttons end
@@ -154,6 +156,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	ui->dockWidget_go->hide();
 	ui->dockWidget_notes->hide();
 	ui->dockWidget_bookmarks->hide();
+
+	ui->lineEdit_goTo->installEventFilter(this);
 
 	loadNotes();
 	loadBookmarks();
@@ -699,7 +703,11 @@ void MainWindow::loadSettings( )
 {
 	set.encoding = settings->value("general/encoding",set.encoding).toString();
 	set.zoomstep = settings->value("general/zoomstep",set.zoomstep).toInt();
+#ifdef Q_WS_WIN
+	set.language = settings->value("general/language","en").toString();
+#else
 	set.language = settings->value("general/language",QLocale::system().name()).toString();
+#endif
 	set.autoLayout = settings->value("window/layout",set.autoLayout).toInt();
 	set.onClickBookmarkGo = settings->value("window/onClickBookmarkGo",set.onClickBookmarkGo).toBool();
 
@@ -953,27 +961,17 @@ int MainWindow::go2Pos(QString pos)
 	emit get("bible://"+QString::number(bibleID)+"/"+QString::number(bookID)+","+QString::number(chapterID)+","+QString::number(verseID));
 	return 0;
 }
-void MainWindow::goTo()
+void MainWindow::goToPos()
 {
 	QString text = ui->lineEdit_goTo->text();
-	if(text.size() < 1)
-		return;
-	/*if(text.contains(QRegExp("![A-Za-z0-9\.\s]{2,}!is")))
-	{
-		//Hiob
-	}
-	else if(text.contains(QRegExp("![A-Za-z0-9\.\s]{2,} [0-9]{1,}!is")))
-	{
-
-		//Hiob 4
-	}
-	else if(text.contains(QRegExp("![A-Za-z0-9\.\s]{2,} [0-9]{1,},[\s]{0,1}[0-9]{1,}!is")))
-	{
-		//Hiob 4,9
-	}*/
-	//todo: implement goTo
+	//qDebug() << "MainWindow::goTo() text = " << text;
+	goTo go(currentBibleID,b.bookFullName,b.chapterAdd);
+	QString url = go.getUrl(text);
+	emit get(url);
 	return;
 }
+
+
 int MainWindow::verseFromCursor(QTextCursor cursor)
 {
 	qDebug() << "MainWindow::verseFromCursor()";
@@ -1215,6 +1213,36 @@ void MainWindow::pharseUrl(QString url)
 	}
 	setEnableReload(true);
 	return;
+}
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+	if (obj == ui->lineEdit_goTo)
+	{
+		if (event->type() == QEvent::KeyPress)
+		{
+			QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+			qDebug() << "Ate key press" << keyEvent->key();
+			if(keyEvent->key() == 16777220)
+			{
+				goToPos();
+				return true;
+			}
+			else
+			{
+				return QMainWindow::eventFilter(obj, event);
+			}
+
+		}
+		else
+		{
+			return QMainWindow::eventFilter(obj, event);;
+		}
+	}
+	else
+	{
+		// pass the event on to the parent class
+		return QMainWindow::eventFilter(obj, event);
+	}
 }
 MainWindow::~MainWindow()
 {
