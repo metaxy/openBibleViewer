@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef TABCACHE_H
 #define TABCACHE_H
-#include "../bible/bible.h"
+#include "../module/bible.h"
 #include <QtCore/QMap>
 #include <QtCore/QString>
 #include <QtCore/QStringList>

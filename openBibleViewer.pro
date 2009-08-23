@@ -6,8 +6,8 @@ QT += xml
 TEMPLATE = app
 SOURCES += src/main.cpp \
     src/ui/main/mainwindow.cpp \
-    src/bible/biblequote.cpp \
-    src/bible/zefania-bible.cpp \
+    src/module/biblequote.cpp \
+    src/module/zefania-bible.cpp \
     src/ui/searchdialog.cpp \
     src/ui/settingsdialog.cpp \
     src/ui/aboutdialog.cpp \
@@ -21,16 +21,18 @@ SOURCES += src/main.cpp \
     src/ui/main/mainbookmarks.cpp \
     src/ui/main/mainsearch.cpp \
     src/ui/searchinfodialog.cpp \
-    src/bible/bible.cpp \
+    src/module/bible.cpp \
     src/ui/main/mainmdi.cpp \
     src/ui/mdiform.cpp \
     src/ui/poschoser.cpp \
     src/ui/moduleconfigdialog.cpp \
-    src/core/goto.cpp
+    src/core/goto.cpp \
+    src/module/zefania-strong.cpp \
+    src/ui/main/mainstrong.cpp
 HEADERS += src/ui/main/mainwindow.h \
     src/core/config.h \
-    src/bible/biblequote.h \
-    src/bible/zefania-bible.h \
+    src/module/biblequote.h \
+    src/module/zefania-bible.h \
     src/ui/searchdialog.h \
     src/ui/settingsdialog.h \
     src/core/tabcache.h \
@@ -43,13 +45,14 @@ HEADERS += src/ui/main/mainwindow.h \
     src/core/xbelreader.h \
     src/core/xbelwriter.h \
     src/ui/searchinfodialog.h \
-    src/bible/bible.h \
+    src/module/bible.h \
     src/core/chapter.h \
     src/ui/mdiform.h \
     src/ui/poschoser.h \
     src/core/moduleconfig.h \
     src/ui/moduleconfigdialog.h \
-    src/core/goto.h
+    src/core/goto.h \
+    src/module/zefania-strong.h
 FORMS += src/ui/main/mainwindow.ui \
     src/ui/searchdialog.ui \
     src/ui/settingsdialog.ui \

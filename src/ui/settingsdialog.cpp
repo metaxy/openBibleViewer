@@ -15,8 +15,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_settingsdialog.h"
 #include "../core/config.h"
 #include "../core/moduleconfig.h"
-#include "../bible/zefania-bible.h"
-#include "../bible/biblequote.h"
+#include "../module/zefania-bible.h"
+#include "../module/zefania-strong.h"
+#include "../module/biblequote.h"
 #include "moduleconfigdialog.h"
 
 #include <QtCore/QFile>
@@ -117,6 +118,9 @@ void settingsDialog::generateModuleTree()
 			case 2:
 				moduleType = QObject::tr("Zefania XML");;
 				break;
+			case 3:
+				moduleType = QObject::tr("Zefania XML Strong");;
+				break;
 
 			}
 		}
@@ -126,7 +130,7 @@ void settingsDialog::generateModuleTree()
 	m_ui->treeWidget_module->insertTopLevelItems(0, items);
 
 }
-/*void settingsDialog::addPath( void )
+/*void settingsDialog::addStrong( void )
 {
 	QFileDialog dialog(this);
 	dialog.setFileMode(QFileDialog::DirectoryOnly);
@@ -151,8 +155,8 @@ void settingsDialog::generateModuleTree()
 		}
 	}
 	return;
-}*/
-/*void settingsDialog::removePath()
+}
+void settingsDialog::removeStrong()
 {
 	int row = m_ui->listWidget_path->currentRow();
 	//remove from listWidget
@@ -185,7 +189,10 @@ void settingsDialog::addModuleFile( void )
 				QString moduleType;
 				biblequote bq;
 				zefaniaBible zef;
+				zefaniaStrong zefStrong;
 				moduleConfig m;
+				zefStrong.setSettings(set,m);
+
 				QFileInfo fileInfo(f);
 				if(fileInfo.isFile())
 				{
@@ -210,6 +217,10 @@ void settingsDialog::addModuleFile( void )
 					{
 						imoduleType = 2;//Zefania
 					}
+					else if(fileData.contains("<dictionary type=\"x-strong\"",Qt::CaseInsensitive))
+					{
+						imoduleType = 3;//Zefania Strong
+					}
 					/*else if(f.endsWith(".xml"))
 					{
 						imoduleType = 2;
@@ -229,6 +240,10 @@ void settingsDialog::addModuleFile( void )
 					case 2:
 						bibleName = zef.readInfo(fileData);
 						moduleType = "Zefania XML";
+						break;
+					case 3:
+						bibleName = zefStrong.loadFile(fileData,f);
+						moduleType = "Zefania XML Strong";
 						break;
 
 					}

@@ -44,7 +44,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "mainnotes.cpp"
 #include "mainbookmarks.cpp"
 #include "mainsearch.cpp"
-
+#include "mainstrong.cpp"
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
 	ui->setupUi(this);
@@ -97,7 +97,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	newMdiChild();
 	connect( this, SIGNAL( get ( QString )), this, SLOT( pharseUrl( QString )));
 	connect( ui->mdiArea, SIGNAL( subWindowActivated ( QMdiSubWindow * )), this, SLOT(reloadWindow( QMdiSubWindow * )));
-	connect( ui->treeWidget_bibles, SIGNAL(itemClicked( QTreeWidgetItem *, int)), this, SLOT( loadBibleData( QTreeWidgetItem* ) ) );
+	connect( ui->treeWidget_bibles, SIGNAL(itemClicked( QTreeWidgetItem *, int)), this, SLOT( loadModuleData( QTreeWidgetItem* ) ) );
 	connect( ui->listWidget_books, SIGNAL( itemActivated(QListWidgetItem *) ), this, SLOT( readBook(QListWidgetItem * ) ) );
 	connect( ui->listWidget_chapters, SIGNAL( itemActivated(QListWidgetItem *) ), this, SLOT( readChapter(QListWidgetItem * ) ) );
 	connect( ui->listWidget_search, SIGNAL( itemActivated(QListWidgetItem *) ), this, SLOT( goToSearchResult(QListWidgetItem * ) ) );
@@ -145,6 +145,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	connect( ui->pushButton_searchInfo, SIGNAL( clicked() ), this, SLOT( searchInfo( ) ) );
 	connect( ui->pushButton_goTo, SIGNAL( clicked() ), this, SLOT( goToPos( ) ) );
 	connect( ui->pushButton_editNoteLink, SIGNAL( clicked() ), this, SLOT( editNoteLink( ) ) );
+	connect( ui->pushButton_strongSearch, SIGNAL( clicked() ), this, SLOT( strongSearch( ) ) );
 	//pushButton_editNoteLink
 	//buttons end
 	connect( ui->listWidget_notes, SIGNAL(customContextMenuRequested( QPoint )), this, SLOT(notesContextMenu()));
@@ -161,26 +162,27 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 	loadNotes();
 	loadBookmarks();
+	loadStrongs();
 	restoreSession();
 }
 
-int MainWindow::loadBibleData(QTreeWidgetItem *fitem)
+int MainWindow::loadModuleData(QTreeWidgetItem *fitem)
 {
 	QString sid(fitem->text(1));
 	bool ok;
 	int id = sid.toInt(&ok);
 	showText("");
 	emit get("bible://"+QString::number(id)+"/0,0,0");
-	qDebug() << "MainWindow::loadBibleData end id = " << id;
+	qDebug() << "MainWindow::loadModuleData end id = " << id;
 	return 0;
 }
-void MainWindow::loadBibleDataByID(int id)
+void MainWindow::loadModuleDataByID(int id)
 {
-	qDebug() << "MainWindow::loadBibleDataByID() id = " << id;
+	qDebug() << "MainWindow::loadModuleDataByID() id = " << id;
 	currentBibleID = id;
-	if(biblesTypes.size() < currentBibleID)//keine sloche bibel vorhanden
+	if(biblesTypes.size() < currentBibleID)//keine solche bibel vorhanden
 		return;
-	qDebug() << "MainWindow::loadBibleDataByID() biblesTypes[currentBibleID] = " << biblesTypes[currentBibleID];
+	qDebug() << "MainWindow::loadModuleDataByID() biblesTypes[currentBibleID] = " << biblesTypes[currentBibleID];
 	b.setBibleType(biblesTypes.at(currentBibleID));
 
 	b.loadBibleData(id,biblesIniPath[currentBibleID]);
@@ -499,7 +501,7 @@ int MainWindow::readChapter(int id)
 	emit get("bible://"+QString::number(b.currentBibleID)+"/"+QString::number(b.currentBookID)+","+QString::number(id)+",0");
 	return 0;
 }
-int MainWindow::loadBibles()
+int MainWindow::loadModules()
 {
 	int rcount=0;//Counter fo the Bible ID
 	ui->treeWidget_bibles->clear();
@@ -635,7 +637,7 @@ int MainWindow::loadBibles()
 			QString dirname = set.module.at(i).modulePath;
 			int lPos = dirname.lastIndexOf(QDir::separator());
 			dirname = dirname.remove(lPos,dirname.size())+"/";
-			qDebug() << "MainWindow::loadBibles() dirname:"<<dirname;
+			qDebug() << "MainWindow::loadModules() dirname:"<<dirname;
 			int bibletype = set.module.at(i).moduleType.toInt();
 			file.setFileName(set.module.at(i).modulePath);
 			if (bibletype != 0 && file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -690,13 +692,14 @@ int MainWindow::loadBibles()
 	}
 	ui->treeWidget_bibles->insertTopLevelItems(0, items);
 	ui->treeWidget_bibles->sortByColumn (0,Qt::AscendingOrder);//sort
-	//qDebug() << "MainWindow::loadBibles() exit";
+	//qDebug() << "MainWindow::loadModules() exit";
 	return 0;
 }
 void MainWindow::setSettings( struct settings_s ssettings )
 {
 	set = ssettings;
 	b.setSettings(set);
+	zefStrong.setSettings(set,moduleConfig());
 	return;
 }
 void MainWindow::loadSettings( )
@@ -732,6 +735,7 @@ void MainWindow::loadSettings( )
 	}
 	settings->endArray();
 
+	zefStrong.setSettings(set,moduleConfig());
 	b.setSettings(set);
 	return;
 }
@@ -801,7 +805,7 @@ int MainWindow::saveSettings( struct settings_s ssettings )
 	if(reloadBibles == true)
 	{
 		qDebug() << " MainWindow::saveSettings() reload bibles";
-		loadBibles();
+		loadModules();
 	}
 	return 0;
 }
@@ -1072,6 +1076,7 @@ void MainWindow::showText(QString text)
 	{
 		QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
 		textBrowser->setHtml(text);
+		qDebug() << "MainWindow::showText() backCount = " << textBrowser->backwardHistoryCount();
 	}
 }
 void MainWindow::setEnableReload(bool enable)
@@ -1111,7 +1116,7 @@ void MainWindow::pharseUrl(QString url)
 		if(a.size() == 2)
 		{
 			QStringList c = a.at(1).split(",");
-			if(c.size() == 3)
+			if(c.size() >= 3)
 			{
 				int bibleID = a.at(0).toInt();
 				int bookID = c.at(0).toInt();
@@ -1119,7 +1124,7 @@ void MainWindow::pharseUrl(QString url)
 				int verseID = c.at(2).toInt();
 				if(bibleID != b.currentBibleID)
 				{
-					loadBibleDataByID(bibleID);
+					loadModuleDataByID(bibleID);
 					readBookByID(bookID);
 					setCurrentBook(bookID);
 					showChapter(chapterID+b.chapterAdd,verseID);
@@ -1144,6 +1149,10 @@ void MainWindow::pharseUrl(QString url)
 				{
 					showChapter(chapterID+b.chapterAdd,verseID);
 					setCurrentChapter(chapterID);
+				}
+				if(c.at(3) == "searchInCurrentText=true")
+				{
+					searchInCurrentText(lastsearch);
 				}
 				//load verse
 			}
@@ -1179,7 +1188,7 @@ void MainWindow::pharseUrl(QString url)
 	//	qDebug() << "MainWindow::pharseUrl() internal = " << internal << " internalChapter = " <<internal.at(3).toInt() << " chapterID" << chapterID << " chapterAdd = "<< b.chapterAdd;
 		/*if(bibleID != b.currentBibleID)
 		{
-			loadBibleDataByID(bibleID);
+			loadModuleDataByID(bibleID);
 			readBookByID(bookID);
 			setCurrentBook(bookID);
 			showChapter(chapterID+b.chapterAdd,verseID);
@@ -1221,7 +1230,6 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 		if (event->type() == QEvent::KeyPress)
 		{
 			QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-			qDebug() << "Ate key press" << keyEvent->key();
 			if(keyEvent->key() == 16777220)
 			{
 				goToPos();
@@ -1240,7 +1248,6 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 	}
 	else
 	{
-		// pass the event on to the parent class
 		return QMainWindow::eventFilter(obj, event);
 	}
 }

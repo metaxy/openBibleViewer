@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 	a.installTranslator(&myappTranslator);
 
 	MainWindow w;
-	w.loadBibles();
+	w.loadModules();
 	QFile file(themePath);
 	if (file.open(QIODevice::ReadOnly | QIODevice::Text))
 	{

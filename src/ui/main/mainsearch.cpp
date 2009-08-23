@@ -73,29 +73,19 @@ int MainWindow::showSearchResults( QString searchtext,bool regexp,bool whole,boo
 }
 int MainWindow::goToSearchResult(QListWidgetItem * item)
 {
-	qDebug("MainWindow::goToSearchResult() currentBibleID= %i , searchedBibleID = %i",currentBibleID,b.st.bibleID);
+	//qDebug("MainWindow::goToSearchResult() currentBibleID= %i , searchedBibleID = %i",currentBibleID,b.st.bibleID);
 	int id = ui->listWidget_search->row(item);
 	if(biblesTypes.size() < currentBibleID)
 		return 1;
 	if(id < b.st.book.size() && id < b.st.chapter.size())
 	{
-		if(b.st.bibleID == currentBibleID)
-		{
-			qDebug() << "MainWindow::goToSearchResult() same bible";
-			go(b.st.book.at(id),b.st.chapter.at(id),b.st.verse.at(id));
-		}
-		else
-		{
-			loadBibleDataByID(b.st.bibleID);//load the bible
-			go(b.st.book.at(id),b.st.chapter.at(id),b.st.verse.at(id));
-		}
-
+		emit get("bible://"+QString::number(b.st.bibleID)+"/"+QString::number(b.st.book.at(id))+","+QString::number(b.st.chapter.at(id))+","+QString::number(b.st.verse.at(id))+",searchInCurrentText=true");
 	}
 	return 0;
 }
 int MainWindow::go(int bookID,int chapterID,int verseID)
 {
-	qDebug() <<"MainWindow::go() book = " <<bookID << " chapter = "<<chapterID;
+	//qDebug() <<"MainWindow::go() book = " <<bookID << " chapter = "<<chapterID;
 
 	setBooks(b.bookFullName);
 	showBibleName(b.bibleName);
@@ -104,7 +94,7 @@ int MainWindow::go(int bookID,int chapterID,int verseID)
 	showChapter(chapterID -1 + b.chapterAdd,verseID-1);
 	searchInCurrentText(lastsearch);
 
-	qDebug() << "MainWindow::go() end";
+	//qDebug() << "MainWindow::go() end";
 	return 0;
 }
 void MainWindow::searchInfo()

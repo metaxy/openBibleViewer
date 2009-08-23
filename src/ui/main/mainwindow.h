@@ -25,11 +25,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QMdiSubWindow>
 
 #include "../../core/config.h"
-#include "../../bible/biblequote.h"
-#include "../../bible/zefania-bible.h"
+#include "../../module/biblequote.h"
+#include "../../module/zefania-bible.h"
+#include "../../module/zefania-strong.h"
 #include "../../core/tabcache.h"
 #include "../../core/notes.h"
-#include "../../bible/bible.h"
+#include "../../module/bible.h"
 namespace Ui
 {
 	class MainWindowClass;
@@ -39,7 +40,7 @@ class MainWindow : public QMainWindow
 {
 	Q_OBJECT
 public slots:
-	int loadBibleData(QTreeWidgetItem* );
+	int loadModuleData(QTreeWidgetItem* );
 	int readBook(QListWidgetItem * item);
 	int readBook(int);
 	int readChapter(QListWidgetItem * item);
@@ -100,6 +101,7 @@ public slots:
 	void myTileHorizontal();
 	void pharseUrl(QString url);
 	void pharseUrl(QUrl url);
+	void strongSearch();
 
 signals:
 	void get(QString url);
@@ -108,7 +110,7 @@ public:
 	~MainWindow();
 	void setSettings( struct settings_s ssettings );
 	void loadSettings();
-	int loadBibles();
+	int loadModules();
 	int go(int book,int chapter,int verse);
 	 protected:
 	void closeEvent(QCloseEvent *event);
@@ -117,6 +119,7 @@ private:
 	bible b;
 	biblequote bq;
 	zefaniaBible zef;
+	zefaniaStrong zefStrong;
 	struct settings_s set;
 	QStringList encodings;
 	int currentBookID,currentBibleID,fontsize,book_ccount,firsttime,currentChapterID,currentZoom,currentNoteID,currentVerseID;
@@ -144,7 +147,7 @@ private:
 	void showText(QString text);
 	void showBibleName(QString name);
 	void readBookByID(int id);
-	void loadBibleDataByID(int id);
+	void loadModuleDataByID(int id);
 	int verseFromCursor(QTextCursor cursor);
 	void setEnableReload(bool enable);
 	QString notePos2Text( QString );
@@ -155,6 +158,11 @@ private:
 	int tabIDof(QMdiSubWindow* window);
 	int lastBookmark;
 	QList<QMdiSubWindow *> internalWindows;
+	void showStrong(QString strongID);
+	QString loadStrong(QString strongID);
+	void loadStrongs();
+	int currentStrongModule;
+	QString currentStrongID;
 protected:
 	bool eventFilter(QObject *obj, QEvent *ev);
 
