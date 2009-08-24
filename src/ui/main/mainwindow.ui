@@ -709,7 +709,7 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>194</width>
+     <width>231</width>
      <height>133</height>
     </size>
    </property>
@@ -727,7 +727,14 @@
         <widget class="QComboBox" name="comboBox_strong"/>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_strong"/>
+        <widget class="QLineEdit" name="lineEdit_strong">
+         <property name="minimumSize">
+          <size>
+           <width>60</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QPushButton" name="pushButton_strongSearch">

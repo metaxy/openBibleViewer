@@ -188,7 +188,13 @@ QDomElement zefaniaBible::format(QDomElement e)
 			QDomNode node = n;
 			QDomText t = n.firstChild().toText();
 			QDomElement b = n.toElement();
-			t.setData(t.data()+"<sup><a href=\"strong://"+b.attribute("str","")+"\">"+b.attribute("str","")+"</a></sup>  ");
+			QString add;
+			if(currentBookID < 39)
+				add = "H";
+			else
+				add = "G";
+
+			t.setData(t.data()+"<sup><a href=\"strong://"+add+b.attribute("str","")+"\">"+add+b.attribute("str","")+"</a></sup>  ");
 			node.replaceChild(t,node.firstChild());
 			e.replaceChild(node, n);
 		}

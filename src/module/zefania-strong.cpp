@@ -5,6 +5,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QDataStream>
 #include <QtCore/QCryptographicHash>
+#include <QtCore/QFileInfo>
 #include <QtGui/QMessageBox>
 #include <QtGui/QProgressDialog>
 /*#include <QtSql/QSqlDatabase>
@@ -65,7 +66,7 @@ QString zefaniaStrong::loadFile(QString fileData,QString fileName)
 				}
 				else if(edetails.tagName() == "description")
 				{
-					desc = edetails.text();
+					desc += edetails.text() +"<br /><hr />";
 				}
 
 				details = details.nextSibling();
@@ -81,9 +82,18 @@ QString zefaniaStrong::loadFile(QString fileData,QString fileName)
 	}
 	QCryptographicHash hash(QCryptographicHash::Md5);
 	hash.addData(fileName.toLocal8Bit());
-	//todo:check if file exists
-	QFile file(zefset.homePath + "cache/"+hash.result().toBase64()+".strong");
-	file.open(QIODevice::WriteOnly);
+	QString path = zefset.homePath + "cache/"+hash.result().toBase64()+".strong";
+	QFileInfo info(path);
+	if(info.exists())
+	{
+		QFile::remove(path);
+	}
+	QFile file(path);
+	if(!file.open(QIODevice::WriteOnly))
+	{
+		QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("Can not open cache file."));
+		return QString();
+	}
 	QDataStream out(&file);
 	out << l_id;
 	out << l_title;
@@ -98,11 +108,18 @@ bool zefaniaStrong::loadDataBase(QString fileName)
 	qDebug() << "zefaniaStrong::loadDataBase fileName = " << fileName;
 	QCryptographicHash hash(QCryptographicHash::Md5);
 	hash.addData(fileName.toLocal8Bit());
-	//todo:check if file exists
 	QFile file(zefset.homePath + "cache/"+hash.result().toBase64()+".strong");
 	qDebug() << "zefaniaStrong::loadDataBase fileName3 = " << zefset.homePath + "cache/"+hash.result().toBase64()+".strong";
 	if(!file.open(QIODevice::ReadOnly))
+	{
+		QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("Can not open cache file."));
 		return false;
+	}
+	m_id.clear();
+	m_title.clear();
+	m_trans.clear();
+	m_pron.clear();
+	m_desc.clear();
 	QDataStream in(&file);
 	in >> m_id;
 	in >> m_title;
@@ -112,16 +129,26 @@ bool zefaniaStrong::loadDataBase(QString fileName)
 	qDebug() << "zefaniaStrong::loadDataBase fileName2 = " << file.fileName() << " m_id.size() = "  << m_id.size();
 	file.close();
 	return true;
-	//open database
 }
 QString zefaniaStrong::getStrong(QString strongID)
 {
 	qDebug() << "zefaniaStrong::getStrong strongID = " << strongID;
 	for(int i = 0;i < m_id.size();++i)
 	{
-		if(m_id.at(i) == strongID)
+		QString id = m_id.at(i);
+		if(id.trimmed().toLower() == strongID.trimmed().toLower())
 		{
-			return m_title.at(i);//todo: das ist nicht genug
+			QString ret="<h3>"+m_id.at(i)+" - "+m_title.at(i)+"</h3>";
+			if(m_trans.at(i) != "")
+			{
+				ret += " ("+m_trans.at(i)+") ";
+			}
+			if(m_pron.at(i) != "")
+			{
+				ret += " ["+m_pron.at(i)+"] ";
+			}
+			ret += "<br />"+m_desc.at(i);
+			return ret;
 		}
 	}
 	return QString();

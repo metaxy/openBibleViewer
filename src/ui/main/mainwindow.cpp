@@ -45,7 +45,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "mainbookmarks.cpp"
 #include "mainsearch.cpp"
 #include "mainstrong.cpp"
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindowClass)
+	MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
 	ui->setupUi(this);
 	VERSION  = "0.2b2";
@@ -152,7 +152,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	connect( ui->treeWidget_bookmarks, SIGNAL(customContextMenuRequested( QPoint )), this, SLOT(bookmarksContextMenu()));
 	connect( ui->treeWidget_bookmarks, SIGNAL(itemActivated(QTreeWidgetItem *,int)), this, SLOT(bookmarksGo(QTreeWidgetItem *) ));
 	connect( ui->label_noteLink, SIGNAL( linkActivated( QString ) ), this, SLOT( noteGo( QString ) ) );
-
+	connect( ui->comboBox_strong, SIGNAL(currentIndexChanged(int)), this, SLOT( loadStrongModule( int ) ) );
 	ui->dockWidget_search->hide();
 	ui->dockWidget_go->hide();
 	ui->dockWidget_notes->hide();
@@ -806,6 +806,7 @@ int MainWindow::saveSettings( struct settings_s ssettings )
 	{
 		qDebug() << " MainWindow::saveSettings() reload bibles";
 		loadModules();
+		loadStrongs();
 	}
 	return 0;
 }
@@ -1150,7 +1151,7 @@ void MainWindow::pharseUrl(QString url)
 					showChapter(chapterID+b.chapterAdd,verseID);
 					setCurrentChapter(chapterID);
 				}
-				if(c.at(3) == "searchInCurrentText=true")
+				if(c.size() == 4 && c.at(3) == "searchInCurrentText=true")
 				{
 					searchInCurrentText(lastsearch);
 				}
@@ -1170,6 +1171,7 @@ void MainWindow::pharseUrl(QString url)
 	else if(url.startsWith(strong))
 	{
 		url = url.remove(0,strong.size());
+		showStrong(url);
 		//strong://strongID
 	}
 	else if(url.startsWith(http))

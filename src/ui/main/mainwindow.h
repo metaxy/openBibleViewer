@@ -102,6 +102,7 @@ public slots:
 	void pharseUrl(QString url);
 	void pharseUrl(QUrl url);
 	void strongSearch();
+	void loadStrongModule(int lID);
 
 signals:
 	void get(QString url);
@@ -163,6 +164,8 @@ private:
 	void loadStrongs();
 	int currentStrongModule;
 	QString currentStrongID;
+	QList<int> strongModuleID;
+
 protected:
 	bool eventFilter(QObject *obj, QEvent *ev);
 

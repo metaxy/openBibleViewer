@@ -75,6 +75,11 @@
          <string>Zefania Bible</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>Zefania Xml Strong</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
