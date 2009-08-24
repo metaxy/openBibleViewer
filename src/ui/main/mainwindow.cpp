@@ -576,7 +576,7 @@ int MainWindow::loadModules()
 						case 1:
 							{
 								//BibleQuote
-								bname = b.bq->readInfo(file);
+								bname = b.bq.readInfo(file);
 								if(bname.size() > 0)
 								{
 									biblesTypes << 1;
@@ -602,7 +602,7 @@ int MainWindow::loadModules()
 						case 2:
 							{
 								//ZenfaniaXML-Bible
-								bname = b.zef->readInfo(file);
+								bname = b.zef.readInfo(file);
 								if(bname.size() > 0)
 								{
 									biblesTypes << 2;

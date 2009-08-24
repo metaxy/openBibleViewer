@@ -39,9 +39,11 @@ QString biblequote::formatfromini(QString input)
 }
 void biblequote::readBook(int id,QString path)
 {
-
+	qDebug() << "biblequote::readBook() id= " << id;
+	qDebug() << "biblequote::readBook() chapterText.size() = " << chapterText.size();
 	chapterText.clear();
 	chapterData.clear();
+
 	currentBookID = id;
 	path = currentBiblePath+QDir::separator()+path;
 

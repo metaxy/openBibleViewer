@@ -26,11 +26,12 @@ int tabCache::setBible(bible b_)
 	qDebug() << "tabCache::setBible() bibleName = " << b_.bibleName << " bibleType" << b_.bibleType;
 	bibleName[currentTabID] = b_.bibleName;
 	books[currentTabID] = b_.bookFullName;
-	if(b_.bibleType == 2)//zefania
+	/*if(b_.bibleType == 2)//zefania
 	{
+		qDebug() << "tabCache::setBible() size of zefCache" << zefcache[b_.currentBibleID] .size();
 		zefcache[b_.currentBibleID] = b_.getZefCache();
-		//b_.clearZefCache();
-	}
+		b_.clearZefCache();
+	}*/
 	b[currentTabID] = b_;
 	qDebug() << "tabCache::setBible() end";
 	return 0;
@@ -53,6 +54,7 @@ int tabCache::moveTab(int from,int to)
 }
 int tabCache::clearAll( void )
 {
+	qDebug() << "tabCache::clearAll";
 	idlist.clear();
 	b.clear();
 	zefcache.clear();
@@ -63,7 +65,7 @@ int tabCache::clearAll( void )
 	selectedBook.clear();
 	return 0;
 }
-int tabCache::getBibleType( void)
+int tabCache::getBibleType(void)
 {
 	return bibletype[currentTabID];
 }
@@ -100,13 +102,16 @@ int tabCache::getChapterCount( void )
 }
 bible tabCache::getBible( void )
 {
-	if(b[currentTabID].bibleType == 2)//Zefania
+	qDebug() << "bible tabCache::getBible";
+	/*if(b[currentTabID].bibleType == 2)//Zefania
 	{
+		qDebug() << "bible tabCache::zefania";
 		b[currentTabID].setZefCache(getZefaniaCache(b[currentTabID].currentBibleID));
-	}
+	}*/
 	return b[currentTabID];
 }
 QMap<int, QList<chapter> > tabCache::getZefaniaCache(int bibleID)
 {
+	qDebug() << "tabCache::getZefaniaCache bibleID = " << bibleID << "zefcache[bibleID].size() = " << zefcache[bibleID].size();
 	return zefcache[bibleID];
 }

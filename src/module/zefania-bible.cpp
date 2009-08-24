@@ -28,6 +28,7 @@ zefaniaBible::zefaniaBible()
 }
 int zefaniaBible::setSettings( struct settings_s settings , struct moduleConfig mConfig_)
 {
+	qDebug() << "zefaniaBible::setSettings";
 	zefset = settings;
 	mConfig = mConfig_;
 	if(mConfig.zefbible_hardCache == false && mConfig.zefbible_softCache == false)

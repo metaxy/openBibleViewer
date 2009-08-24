@@ -27,22 +27,6 @@ QString MainWindow::loadStrong(QString strongID)
 	zefStrong.setSettings(set,moduleConfig());
 	if(currentStrongModule == -1)
 	{
-		/*int id = -1;
-		//load strong module
-		for(int i = 0;i < set.module.size(); ++i)
-		{
-			if(set.module.at(i).moduleType == "3")
-			{
-				id = i;
-				break;
-			}
-		}
-		if(id >= 0)
-		{
-			zefStrong.setSettings(set,set.module.at(id));
-			zefStrong.loadDataBase(set.module.at(id).modulePath);
-			currentStrongModule = id;
-		}*/
 		loadStrongModule(0);
 	}
 	QString strong;
@@ -75,7 +59,6 @@ void MainWindow::loadStrongModule(int lID)
 		currentStrongModule = id;
 		strongSearch();
 	}
-
 }
 void MainWindow::strongSearch()
 {
