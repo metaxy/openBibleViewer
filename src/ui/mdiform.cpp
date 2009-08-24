@@ -8,6 +8,8 @@ mdiForm::mdiForm(QWidget *parent) :
 		m_ui(new Ui::mdiForm)
 {
 	m_ui->setupUi(this);
+	m_ui->textBrowser->setOpenLinks(false);
+	m_ui->textBrowser->setOpenExternalLinks(false);
 }
 /*void mdiForm::changeEvent(QEvent *e)
 {
