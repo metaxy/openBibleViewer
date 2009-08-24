@@ -31,6 +31,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../../core/tabcache.h"
 #include "../../core/notes.h"
 #include "../../module/bible.h"
+
 namespace Ui
 {
 	class MainWindowClass;
@@ -106,6 +107,7 @@ public slots:
 
 signals:
 	void get(QString url);
+	void historySetUrl(QString url);
 public:
 	MainWindow(QWidget *parent = 0);
 	~MainWindow();
@@ -165,6 +167,7 @@ private:
 	int currentStrongModule;
 	QString currentStrongID;
 	QList<int> strongModuleID;
+
 
 protected:
 	bool eventFilter(QObject *obj, QEvent *ev);

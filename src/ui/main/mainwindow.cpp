@@ -40,6 +40,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../../core/chapter.h"
 #include "../../core/moduleconfig.h"
 #include "../../core/goto.h"
+
 //spilt MainWindow in some files
 #include "mainnotes.cpp"
 #include "mainbookmarks.cpp"
@@ -963,7 +964,7 @@ int MainWindow::go2Pos(QString pos)
 		}
 	}
 	//qDebug() << "MainWindow::go2Pos() bibleID = " << bibleID << " , bookID = " << bookID << " , chapterID = " << chapterID << ", verseID = " << verseID;
-	emit get("bible://"+QString::number(bibleID)+"/"+QString::number(bookID)+","+QString::number(chapterID)+","+QString::number(verseID));
+	emit get("bible://"+QString::number(bibleID)+"/"+QString::number(bookID)+","+QString::number(chapterID-1)+","+QString::number(verseID-1));
 	return 0;
 }
 void MainWindow::goToPos()
@@ -1104,6 +1105,7 @@ void MainWindow::pharseUrl(QUrl url)
 }
 void MainWindow::pharseUrl(QString url)
 {
+	QString url_backup = url;
 	setEnableReload(false);
 	qDebug() << "MainWindow::pharseUrl() url = " << url;
 	QString bible = "bible://";
@@ -1155,7 +1157,7 @@ void MainWindow::pharseUrl(QString url)
 				{
 					searchInCurrentText(lastsearch);
 				}
-				//load verse
+				emit historySetUrl(url_backup);
 			}
 			else
 			{
@@ -1253,6 +1255,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 		return QMainWindow::eventFilter(obj, event);
 	}
 }
+
 MainWindow::~MainWindow()
 {
 	delete ui;

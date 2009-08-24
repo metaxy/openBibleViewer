@@ -56,5 +56,8 @@
         <file>icons/16x16/dialog-ok-apply.png</file>
         <file>icons/16x16/dialog-ok.png</file>
         <file>icons/16x16/document-open.png</file>
+        <file>icons/16x16/window-new.png</file>
+        <file>icons/16x16/go-previous.png</file>
+        <file>icons/16x16/go-next.png</file>
     </qresource>
 </RCC>

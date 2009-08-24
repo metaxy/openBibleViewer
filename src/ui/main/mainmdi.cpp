@@ -62,6 +62,8 @@ void MainWindow::newMdiChild()
 	connect( mForm->m_ui->comboBox_chapters, SIGNAL(activated( int )), this, SLOT( readChapter( int ) ) );
 	connect( mForm->m_ui->textBrowser, SIGNAL(customContextMenuRequested( QPoint )), this, SLOT(textBrowserContextMenu( QPoint )));
 	connect( mForm->m_ui->textBrowser, SIGNAL(anchorClicked(QUrl)), this, SLOT(pharseUrl( QUrl )));
+	connect( mForm, SIGNAL( historyGo( QString ) ), this, SLOT( pharseUrl(QString ) ) );
+	connect( this, SIGNAL( historySetUrl( QString ) ), mForm, SLOT( historyGetUrl( QString) ) );
 	connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closeWindow()));
 
 	if(windowsCount >= 1)

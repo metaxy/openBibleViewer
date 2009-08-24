@@ -10,6 +10,10 @@ mdiForm::mdiForm(QWidget *parent) :
 	m_ui->setupUi(this);
 	m_ui->textBrowser->setOpenLinks(false);
 	m_ui->textBrowser->setOpenExternalLinks(false);
+	connect( m_ui->pushButton_backward, SIGNAL(clicked()), this, SLOT(backward()));
+	connect( m_ui->pushButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
+	setButtons();
+
 }
 /*void mdiForm::changeEvent(QEvent *e)
 {
@@ -26,6 +30,43 @@ mdiForm::mdiForm(QWidget *parent) :
 		break;
 	}
 }*/
+void mdiForm::historyGetUrl(QString url)
+{
+	qDebug() <<" mdiForm::historyGetUrl() url = " << url;
+	browserHistory.setCurrent(url);
+	setButtons();
+}
+void mdiForm::backward()
+{
+	qDebug() <<" mdiForm::backward()";
+	emit historyGo(browserHistory.backward());
+	setButtons();
+}
+void mdiForm::forward()
+{
+	qDebug() <<" mdiForm::forward()";
+	emit historyGo(browserHistory.forward());
+	setButtons();
+}
+void mdiForm::setButtons()
+{
+	if(browserHistory.backwardAvailable())
+	{
+		m_ui->pushButton_backward->setDisabled(false);
+	}
+	else
+	{
+		m_ui->pushButton_backward->setDisabled(true);
+	}
+	if(browserHistory.forwardAvailable())
+	{
+		m_ui->pushButton_forward->setDisabled(false);
+	}
+	else
+	{
+		m_ui->pushButton_forward->setDisabled(true);
+	}
+}
 mdiForm::~mdiForm()
 {
 	delete m_ui;

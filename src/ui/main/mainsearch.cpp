@@ -79,7 +79,7 @@ int MainWindow::goToSearchResult(QListWidgetItem * item)
 		return 1;
 	if(id < b.st.book.size() && id < b.st.chapter.size())
 	{
-		emit get("bible://"+QString::number(b.st.bibleID)+"/"+QString::number(b.st.book.at(id))+","+QString::number(b.st.chapter.at(id))+","+QString::number(b.st.verse.at(id))+",searchInCurrentText=true");
+		emit get("bible://"+QString::number(b.st.bibleID)+"/"+QString::number(b.st.book.at(id))+","+QString::number(b.st.chapter.at(id) -1)+","+QString::number(b.st.verse.at(id) -1)+",searchInCurrentText=true");
 	}
 	return 0;
 }
