@@ -269,7 +269,10 @@ QString biblequote::readInfo(QFile &file)
 }
 struct stelle biblequote::search(QString searchstring,bool regexp,bool whole,bool casesen)
 {
-	Q_UNUSED(whole);//todo: use it
+	if(whole == true)
+	{
+		searchstring = " "+searchstring+" ";
+	}
 	lastSearch = searchstring;
 	QStringList ctext;
 	QList<QByteArray> bytetext;

@@ -10,8 +10,8 @@ mdiForm::mdiForm(QWidget *parent) :
 	m_ui->setupUi(this);
 	m_ui->textBrowser->setOpenLinks(false);
 	m_ui->textBrowser->setOpenExternalLinks(false);
-	connect( m_ui->pushButton_backward, SIGNAL(clicked()), this, SLOT(backward()));
-	connect( m_ui->pushButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
+	connect( m_ui->toolButton_backward, SIGNAL(clicked()), this, SLOT(backward()));
+	connect( m_ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
 	setButtons();
 
 }
@@ -52,19 +52,19 @@ void mdiForm::setButtons()
 {
 	if(browserHistory.backwardAvailable())
 	{
-		m_ui->pushButton_backward->setDisabled(false);
+		m_ui->toolButton_backward->setDisabled(false);
 	}
 	else
 	{
-		m_ui->pushButton_backward->setDisabled(true);
+		m_ui->toolButton_backward->setDisabled(true);
 	}
 	if(browserHistory.forwardAvailable())
 	{
-		m_ui->pushButton_forward->setDisabled(false);
+		m_ui->toolButton_forward->setDisabled(false);
 	}
 	else
 	{
-		m_ui->pushButton_forward->setDisabled(true);
+		m_ui->toolButton_forward->setDisabled(true);
 	}
 }
 mdiForm::~mdiForm()

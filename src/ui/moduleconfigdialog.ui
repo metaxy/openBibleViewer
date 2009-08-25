@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Module Config</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -29,13 +29,16 @@
         <widget class="QLineEdit" name="lineEdit_path"/>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_file">
+        <widget class="QToolButton" name="toolButton_file">
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset resource="../icons.qrc">
            <normaloff>:/icons/16x16/document-open.png</normaloff>:/icons/16x16/document-open.png</iconset>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -135,12 +138,12 @@
           </property>
           <item>
            <property name="text">
-            <string>Neue Zeile nach Vers</string>
+            <string>New line after verse</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Unformatierter Textblock</string>
+            <string>Not formated text pad</string>
            </property>
           </item>
          </widget>

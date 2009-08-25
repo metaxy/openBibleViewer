@@ -9,7 +9,7 @@ moduleConfigDialog::moduleConfigDialog(QWidget *parent) :
 	m_ui->setupUi(this);
 	connect( m_ui->pushButton_ok, SIGNAL( clicked() ), this, SLOT( bsave( ) ) );
 	connect( m_ui->pushButton_cancel, SIGNAL( clicked() ), this, SLOT( close( ) ) );
-	connect( m_ui->pushButton_file, SIGNAL( clicked() ), this, SLOT( fileSelect( ) ) );
+	connect( m_ui->toolButton_file, SIGNAL( clicked() ), this, SLOT( fileSelect( ) ) );
 	connect( m_ui->comboBox_type, SIGNAL( currentIndexChanged(int) ), this, SLOT(moduleTypeChanged(int) ));
 }
 

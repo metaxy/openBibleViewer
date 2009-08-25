@@ -26,36 +26,33 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="pushButton_backward">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+      <widget class="QToolButton" name="toolButton_backward">
        <property name="text">
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../icons.qrc">
          <normaloff>:/icons/16x16/go-previous.png</normaloff>:/icons/16x16/go-previous.png</iconset>
+       </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonIconOnly</enum>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_forward">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+      <widget class="QToolButton" name="toolButton_forward">
        <property name="text">
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../icons.qrc">
          <normaloff>:/icons/16x16/go-next.png</normaloff>:/icons/16x16/go-next.png</iconset>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -88,6 +85,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

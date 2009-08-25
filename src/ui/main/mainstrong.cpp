@@ -45,6 +45,10 @@ QString MainWindow::loadStrong(QString strongID)
 }
 void MainWindow::showStrong(QString strongID)
 {
+	if(ui->dockWidget_strong->isHidden())
+	{
+		ui->dockWidget_strong->show();
+	}
 	ui->lineEdit_strong->setText(strongID);
 	ui->textBrowser_strong->setText(loadStrong(strongID));
 }

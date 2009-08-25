@@ -104,6 +104,7 @@ public slots:
 	void pharseUrl(QUrl url);
 	void strongSearch();
 	void loadStrongModule(int lID);
+	void onlineHelp();
 
 signals:
 	void get(QString url);

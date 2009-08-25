@@ -66,6 +66,7 @@ QString zefaniaStrong::loadFile(QString fileData,QString fileName)
 				}
 				else if(edetails.tagName() == "description")
 				{
+					//todo: format desc
 					desc += edetails.text() +"<br /><hr />";
 				}
 

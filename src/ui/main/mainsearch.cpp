@@ -104,7 +104,7 @@ void MainWindow::searchInfo()
 	QString searchString;
 	if(biblesTypes.size() < currentBibleID)
 	{
-		QMessageBox::information(0,tr("Error"),tr("No search information aviable"));
+		QMessageBox::information(0,tr("Error"),tr("No search information available."));
 		return;
 	}
 	QStringList textList;

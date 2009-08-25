@@ -86,16 +86,32 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 	set.homePath = homeDataPath;
 	set.zefaniaBible_hardCache = true;
 	set.zefaniaBible_softCache = true;
-	/*QString appPath = QApplication::applicationDirPath();
-	if(appPath.endsWith(QDir::separator()))
-	{
-		appPath.remove(appPath.size()-1,10);
-	}
-	set.path << appPath;*/
-	//todo:on first start add a new module with applicationDirPath
+
+
 
 	loadSettings();
 	newMdiChild();
+	loadStrongs();
+
+	if(set.module.size() == 0)
+	{
+		QString appPath = QApplication::applicationDirPath();
+		if(appPath.endsWith(QDir::separator()))
+		{
+			appPath.remove(appPath.size()-1,10);
+		}
+		moduleConfig m;
+		m.biblequote_removeHtml = true;
+		m.moduleName = appPath;
+		m.modulePath = appPath;
+		m.moduleType = "0";
+		m.zefbible_hardCache = true;
+		m.zefbible_showStrong = true;
+		m.zefbible_showStudyNote = true;
+		m.zefbible_softCache = true;
+		m.isDir = true;
+		set.module << m;
+	}
 	connect( this, SIGNAL( get ( QString )), this, SLOT( pharseUrl( QString )));
 	connect( ui->mdiArea, SIGNAL( subWindowActivated ( QMdiSubWindow * )), this, SLOT(reloadWindow( QMdiSubWindow * )));
 	connect( ui->treeWidget_bibles, SIGNAL(itemClicked( QTreeWidgetItem *, int)), this, SLOT( loadModuleData( QTreeWidgetItem* ) ) );
@@ -116,6 +132,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 	connect( ui->actionNotes, SIGNAL(triggered()), this, SLOT(loadNotes()));
 	connect( ui->actionBookmarks, SIGNAL(triggered()), this, SLOT(loadBookmarks()));
 	connect( ui->actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
+	connect( ui->actionOnlineHelp, SIGNAL(triggered()), this, SLOT(onlineHelp()));
 	connect( ui->actionSave, SIGNAL(triggered()), this, SLOT(saveFile()));
 	connect( ui->actionNextVerse, SIGNAL(triggered()), this, SLOT(nextVerse()));
 	connect( ui->actionLastVerse, SIGNAL(triggered()), this, SLOT(lastVerse()));
@@ -132,6 +149,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 	connect( ui->tactionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
 	connect( ui->tactionNotes, SIGNAL(triggered()), this, SLOT(loadNotes()));
 	connect( ui->tactionBookmarks, SIGNAL(triggered()), this, SLOT(loadBookmarks()));
+
 
 	//menu end
 	//buttons
@@ -163,7 +181,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 	loadNotes();
 	loadBookmarks();
-	loadStrongs();
+
 	restoreSession();
 }
 
@@ -761,7 +779,7 @@ int MainWindow::saveSettings( struct settings_s ssettings )
 			moduleConfig m1,m2;
 			m1 = ssettings.module.at(i);
 			m2 = set.module.at(i);
-			if(memcmp(&m1,&m2,sizeof(struct moduleConfig)))//todo: with the other too
+			if(memcmp(&m1,&m2,sizeof(struct moduleConfig)))
 			{
 				reloadBibles = true;
 				break;
@@ -1218,6 +1236,7 @@ void MainWindow::pharseUrl(QString url)
 			showChapter(chapterID+b.chapterAdd,verseID);
 			setCurrentChapter(chapterID);
 		}
+		emit historySetUrl(url_backup);
 
 	}
 	else
@@ -1226,6 +1245,10 @@ void MainWindow::pharseUrl(QString url)
 	}
 	setEnableReload(true);
 	return;
+}
+void MainWindow::onlineHelp()
+{
+	QDesktopServices::openUrl(QString("http://openbv.uucyc.name/faq.html"));
 }
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
@@ -1237,6 +1260,27 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 			if(keyEvent->key() == 16777220)
 			{
 				goToPos();
+				return true;
+			}
+			else
+			{
+				return QMainWindow::eventFilter(obj, event);
+			}
+
+		}
+		else
+		{
+			return QMainWindow::eventFilter(obj, event);;
+		}
+	}
+	else if (obj == ui->lineEdit_strong)
+	{
+		if (event->type() == QEvent::KeyPress)
+		{
+			QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+			if(keyEvent->key() == 16777220)
+			{
+				strongSearch();
 				return true;
 			}
 			else

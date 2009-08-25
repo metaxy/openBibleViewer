@@ -14,7 +14,7 @@
    <string>Search Info</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="../icons.qrc">
     <normaloff>:/icons/32x32/view-statistics.png</normaloff>:/icons/32x32/view-statistics.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -27,7 +27,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -52,7 +52,7 @@
      </widget>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
-       <string>Liste</string>
+       <string>List</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
@@ -62,7 +62,7 @@
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
-       <string>Statistik</string>
+       <string>Statistic</string>
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
@@ -99,7 +99,7 @@
         <string>Close</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../icons.qrc">
          <normaloff>:/icons/16x16/application-exit.png</normaloff>:/icons/16x16/application-exit.png</iconset>
        </property>
       </widget>
@@ -108,6 +108,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -56,7 +56,7 @@ QString goTo::getUrl(const QString& text)
 int goTo::bookNameToBookID(const QString& name)
 {
 	int min=-1,bookID=-1;
-	for(int i = 0;i < bookFullName.size();i++)
+	for(int i = 0;i < bookFullName.size();++i)
 	{
 		if(name == bookFullName.at(i))
 		 {
@@ -66,7 +66,7 @@ int goTo::bookNameToBookID(const QString& name)
 	}
 	if(bookID == -1)
 	{
-		for(int i = 0;i < bookFullName.size();i++)
+		for(int i = 0;i < bookFullName.size();++i)
 		{
 			if(bookFullName.at(i).startsWith(name,Qt::CaseInsensitive))
 			{
@@ -77,7 +77,7 @@ int goTo::bookNameToBookID(const QString& name)
 	}
 	if(bookID == -1)
 	{
-		for(int i = 0;i < bookFullName.size();i++)
+		for(int i = 0;i < bookFullName.size();++i)
 		{
 			if(bookFullName.at(i).contains(name,Qt::CaseInsensitive))
 			{
@@ -88,7 +88,7 @@ int goTo::bookNameToBookID(const QString& name)
 	}
 	if(bookID == -1)
 	{
-		for(int i = 0;i < bookFullName.size();i++)
+		for(int i = 0;i < bookFullName.size();++i)
 		{
 			int lev = levenshteinDistance(name,bookFullName.at(i));
 			if(lev < min || min < 0)
@@ -143,11 +143,10 @@ int goTo::levenshteinDistance(const QString& s, const QString& t)
 				cost = 1;
 			}
 
-			m_d[i + j*dWidth] = qMin(qMin(   // min of three possibilities
-
-					m_d[i-1 + (j)*dWidth] + 1,       // deletion
-					m_d[i   + (j-1)*dWidth] + 1),     // insertion
-						 m_d[i-1 + (j-1)*dWidth] + cost);   // substitution
+			m_d[i + j*dWidth] = qMin(qMin(// min of three possibilities
+					m_d[i-1 + (j)*dWidth] + 1,// deletion
+					m_d[i   + (j-1)*dWidth] + 1),// insertion
+						 m_d[i-1 + (j-1)*dWidth] + cost);// substitution
 		}
 	}
 
