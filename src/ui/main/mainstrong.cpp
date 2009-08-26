@@ -68,5 +68,6 @@ void MainWindow::strongSearch()
 {
 	qDebug() << "MainWindow::strongSearch()";
 	QString search = ui->lineEdit_strong->text();
-	showStrong(search);
+	if(search.size() > 0)
+		showStrong(search);
 }

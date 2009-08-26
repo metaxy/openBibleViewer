@@ -6,12 +6,11 @@
 #include <QtCore/QDataStream>
 #include <QtCore/QCryptographicHash>
 #include <QtCore/QFileInfo>
+#include <QtCore/QDir>
 #include <QtGui/QMessageBox>
 #include <QtGui/QProgressDialog>
-/*#include <QtSql/QSqlDatabase>
-#include <QtSql/QSqlQuery>
-#include <QtSql/QSqlError>
-#include <QtSql/QSqlTableModel>*/
+#include <QtXml/QDomElement>
+#include <QtXml/QDomNode>
 #include "../core/KoXmlReader.h"
 zefaniaStrong::zefaniaStrong()
 {
@@ -34,6 +33,7 @@ QString zefaniaStrong::loadFile(QString fileData,QString fileName)
 	QString fileTitle="";
 	QStringList l_id,l_title,l_trans,l_pron,l_desc;
 	KoXmlNode item = doc.documentElement().firstChild();
+	QDomDocument ddd;
 	for(int c = 0;!item.isNull();)
 	{
 		QString id="",title="",trans="",pron="",desc="";
@@ -66,8 +66,40 @@ QString zefaniaStrong::loadFile(QString fileData,QString fileName)
 				}
 				else if(edetails.tagName() == "description")
 				{
-					//todo: format desc
-					desc += edetails.text() +"<br /><hr />";
+					KoXmlNode descNode = details.firstChild();
+					while(!descNode.isNull())
+					{
+						if(descNode.nodeType() == 2)
+						{
+							desc += descNode.toText().data();
+						}
+						else if(descNode.nodeType() == 1)
+						{
+							KoXmlElement descElement  = descNode.toElement();
+							if(descElement.tagName() == "reflink")
+							{
+								QString mscope = descElement.attribute("mscope",";;;");
+								QStringList list = mscope.split(";");
+								int bookID = list.at(0).toInt() - 1;
+								int chapterID = list.at(1).toInt() - 1;
+								int verseID = list.at(2).toInt() - 1;
+								QString url = "bible://current/"+QString::number(bookID)+","+QString::number(chapterID)+","+QString::number(verseID)+",";
+								QString name;
+
+								if(bookID < zefset.bookNames.size())
+								{
+									name = zefset.bookNames.at(bookID)+" "+list.at(1)+","+list.at(2);
+								}
+								else
+								{
+									name = list.at(0)+" "+list.at(1)+","+list.at(2);
+								}
+								desc += " <a href=\""+url+"\">"+name+"</a> ";
+							}
+						}
+						descNode = descNode.nextSibling();
+					}
+					desc += "<hr />";
 				}
 
 				details = details.nextSibling();
@@ -81,6 +113,7 @@ QString zefaniaStrong::loadFile(QString fileData,QString fileName)
 		item = item.nextSibling();
 		c++;
 	}
+	doc.clear();
 	QCryptographicHash hash(QCryptographicHash::Md5);
 	hash.addData(fileName.toLocal8Bit());
 	QString path = zefset.homePath + "cache/"+hash.result().toBase64()+".strong";
@@ -89,6 +122,8 @@ QString zefaniaStrong::loadFile(QString fileData,QString fileName)
 	{
 		QFile::remove(path);
 	}
+	QDir dir;
+	dir.mkpath(zefset.homePath + "cache/");
 	QFile file(path);
 	if(!file.open(QIODevice::WriteOnly))
 	{
@@ -103,6 +138,55 @@ QString zefaniaStrong::loadFile(QString fileData,QString fileName)
 	out << l_desc;
 	file.close();
 	return fileTitle;
+}
+QDomElement zefaniaStrong::format(QDomElement e)
+{
+	//qDebug() << "zefaniaStrong::format name = " << e.tagName();
+	QDomNode n = e.firstChild();
+	QDomDocument doc;
+	while(!n.isNull())//alle verse
+	{
+		if(n.nodeName().toLower() == "title" )
+		{
+			QDomNode node = n;
+			QDomText t = node.firstChild().toText();
+
+			t.setData("<font size=\"+1\">"+t.data()+"</font>");
+			node.replaceChild(t,node.firstChild());
+			e.replaceChild(node, n);
+		}
+		else if(n.nodeName().toLower() == "reflink" )
+		{
+			QDomNode node = n;
+
+			QDomElement b = n.toElement();
+			QString mscope = b.attribute("mscope","");
+			QStringList list = mscope.split(";");
+			QString url = "bible://current/"/*+list.at(0)+","+list.at(1)+","+list.at(2)+","*/;
+			QDomNode newE = doc.createTextNode("<a href=\""+url+"\">Link</a>");
+			e.replaceChild(newE,n);
+		}
+		/*else if((n.nodeName().toLower() == "gram" || n.nodeName().toLower() == "gr") && n.toElement().attribute("str","") != "" && mConfig.zefbible_showStrong == true)
+		{
+			QDomNode node = n;
+			QDomText t = n.firstChild().toText();
+			QDomElement b = n.toElement();
+			QString add;
+			if(currentBookID < 39)
+				add = "H";
+			else
+				add = "G";
+
+			t.setData(t.data()+"<sup><a href=\"strong://"+add+b.attribute("str","")+"\">"+add+b.attribute("str","")+"</a></sup>  ");
+			node.replaceChild(t,node.firstChild());
+			e.replaceChild(node, n);
+		}*/
+		if(n.childNodes().count() > 0)
+			e.replaceChild(format(n.toElement()),n);
+		n = n.nextSibling();
+	}
+	return e;
+
 }
 bool zefaniaStrong::loadDataBase(QString fileName)
 {
@@ -154,3 +238,4 @@ QString zefaniaStrong::getStrong(QString strongID)
 	}
 	return QString();
 }
+

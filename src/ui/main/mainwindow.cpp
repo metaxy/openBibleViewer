@@ -46,7 +46,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "mainbookmarks.cpp"
 #include "mainsearch.cpp"
 #include "mainstrong.cpp"
-	MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindowClass)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
 	ui->setupUi(this);
 	VERSION  = "0.2b2";
@@ -86,6 +86,74 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 	set.homePath = homeDataPath;
 	set.zefaniaBible_hardCache = true;
 	set.zefaniaBible_softCache = true;
+	QStringList bookNames;
+	bookNames << "Genesis";
+	bookNames << "Exodus";
+	bookNames << "Leviticus";
+	bookNames << "Numbers";
+	bookNames << "Deuteronomy";
+	bookNames << "Joshua";
+	bookNames << "Judges";
+	bookNames << "Ruth";
+	bookNames << "1 Samuel";
+	bookNames << "2 Samuel";
+	bookNames << "1 Kings";
+	bookNames << "2 Kings";
+	bookNames << "1 Chronicles";
+	bookNames << "2 Chronicles";
+	bookNames << "Ezrav";
+	bookNames << "Nehemiah";
+	bookNames << "Esther";
+	bookNames << "Job";
+	bookNames << "Psalm";
+	bookNames << "Proverbs";
+	bookNames << "Ecclesiastes";
+	bookNames << "Song of Solomon";
+	bookNames << "Isaiah";
+	bookNames << "Jeremiah";
+	bookNames << "Lamentations";
+	bookNames << "Ezekiel";
+	bookNames << "Daniel";
+	bookNames << "Hosea";
+	bookNames << "Joel";
+	bookNames << "Amos";
+	bookNames << "Obadiah";
+	bookNames << "Jonah";
+	bookNames << "Micah";
+	bookNames << "Nahum";
+	bookNames << "Habakkuk";
+	bookNames << "Zephaniah";
+	bookNames << "Haggai";
+	bookNames << "Zechariah";
+	bookNames << "Malachi";
+	bookNames << "Matthew";
+	bookNames << "Mark";
+	bookNames << "Luke";
+	bookNames << "John";
+	bookNames << "Acts";
+	bookNames << "Romans";
+	bookNames << "1 Corinthians";
+	bookNames << "2 Corinthians";
+	bookNames << "Galatians";
+	bookNames << "Ephesians";
+	bookNames << "Philippians";
+	bookNames << "Colossians";
+	bookNames << "1 Thessalonians";
+	bookNames << "2 Thessalonians";
+	bookNames << "1 Timothy";
+	bookNames << "2 Timothy";
+	bookNames << "Titus";
+	bookNames << "Philemon";
+	bookNames << "Hebrews";
+	bookNames << "James";
+	bookNames << "1 Peter";
+	bookNames << "2 Peter";
+	bookNames << "1 John";
+	bookNames << "2 John";
+	bookNames << "3 John";
+	bookNames << "Jude";
+	bookNames << "Revelation";
+	set.bookNames  = bookNames;
 
 
 
@@ -93,7 +161,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 	newMdiChild();
 	loadStrongs();
 
-	if(set.module.size() == 0)
+	/*if(set.module.size() == 0)
 	{
 		QString appPath = QApplication::applicationDirPath();
 		if(appPath.endsWith(QDir::separator()))
@@ -104,14 +172,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 		m.biblequote_removeHtml = true;
 		m.moduleName = appPath;
 		m.modulePath = appPath;
-		m.moduleType = "0";
+		m.moduleType = "-1";
 		m.zefbible_hardCache = true;
 		m.zefbible_showStrong = true;
 		m.zefbible_showStudyNote = true;
 		m.zefbible_softCache = true;
 		m.isDir = true;
 		set.module << m;
-	}
+	}*/
 	connect( this, SIGNAL( get ( QString )), this, SLOT( pharseUrl( QString )));
 	connect( ui->mdiArea, SIGNAL( subWindowActivated ( QMdiSubWindow * )), this, SLOT(reloadWindow( QMdiSubWindow * )));
 	connect( ui->treeWidget_bibles, SIGNAL(itemClicked( QTreeWidgetItem *, int)), this, SLOT( loadModuleData( QTreeWidgetItem* ) ) );
@@ -172,6 +240,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 	connect( ui->treeWidget_bookmarks, SIGNAL(itemActivated(QTreeWidgetItem *,int)), this, SLOT(bookmarksGo(QTreeWidgetItem *) ));
 	connect( ui->label_noteLink, SIGNAL( linkActivated( QString ) ), this, SLOT( noteGo( QString ) ) );
 	connect( ui->comboBox_strong, SIGNAL(currentIndexChanged(int)), this, SLOT( loadStrongModule( int ) ) );
+	connect( ui->textBrowser_strong, SIGNAL(anchorClicked(QUrl)), this, SLOT(pharseUrl( QUrl )));
 	ui->dockWidget_search->hide();
 	ui->dockWidget_go->hide();
 	ui->dockWidget_notes->hide();
@@ -247,7 +316,7 @@ int MainWindow::readBook(QListWidgetItem * item)
 int MainWindow::readBook(int id)
 {
 	qDebug() << "MainWindow::readBook(int) id = " << id;
-	emit get("bible://"+QString::number(b.currentBibleID)+"/"+QString::number(id)+",0,0");
+	emit get("bible://current/"+QString::number(id)+",0,0");
 	return 0;
 }
 void MainWindow::readBookByID(int id)
@@ -259,14 +328,19 @@ void MainWindow::readBookByID(int id)
 		qDebug() << "MainWindow::readBookByID() invalid bookID";
 		return;
 	}
-	currentBookID = id;
-	if(b.readBook(currentBookID) != 0)
+	if(id >= b.bookFullName.size())
+	{
+		QMessageBox::critical(0,tr("Error"),tr("This Book is not available."));
+		qDebug() << "MainWindow::readBookByID() invalid bookID";
+		return;
+	}
+	if(b.readBook(id) != 0)
 	{
 		QMessageBox::critical(0,tr("Error"),tr("Can not read the file."));
 		//error while reading
 		return;
 	}
-
+	currentBookID = id;
 	int icout = b.bookCount[id];
 	tcache.setCurrentTabId(currentTabID());
 	tcache.setCurrentBook(id,icout);
@@ -284,10 +358,10 @@ int MainWindow::showChapter(int chapterid,int verseID)
 {
 	qDebug() << "MainWindow::showChapter() chapterid = " << chapterid << " chapterAdd = " << b.chapterAdd;
 	b.currentChapterID = chapterid;
+	currentVerseID = verseID;
 	tcache.setBible(b);
 	showText(b.readChapter(b.currentChapterID,verseID));
 	setCurrentChapter(b.currentChapterID-b.chapterAdd);
-	currentVerseID = 0;
 	return 0;
 }
 int MainWindow::textBrowserContextMenu( QPoint pos )
@@ -512,12 +586,12 @@ int MainWindow::copyWholeVerse( void )
 int MainWindow::readChapter(QListWidgetItem * item)
 {
 	int id = ui->listWidget_chapters->row(item);
-	emit get("bible://"+QString::number(b.currentBibleID)+"/"+QString::number(b.currentBookID)+","+QString::number(id)+",0");
+	emit get("bible://current/"+QString::number(b.currentBookID)+","+QString::number(id)+",0");
 	return 0;
 }
 int MainWindow::readChapter(int id)
 {
-	emit get("bible://"+QString::number(b.currentBibleID)+"/"+QString::number(b.currentBookID)+","+QString::number(id)+",0");
+	emit get("bible://current/"+QString::number(b.currentBookID)+","+QString::number(id)+",0");
 	return 0;
 }
 int MainWindow::loadModules()
@@ -982,7 +1056,7 @@ int MainWindow::go2Pos(QString pos)
 		}
 	}
 	//qDebug() << "MainWindow::go2Pos() bibleID = " << bibleID << " , bookID = " << bookID << " , chapterID = " << chapterID << ", verseID = " << verseID;
-	emit get("bible://"+QString::number(bibleID)+"/"+QString::number(bookID)+","+QString::number(chapterID-1)+","+QString::number(verseID-1));
+	emit get("bible://current/"+QString::number(bookID)+","+QString::number(chapterID-1)+","+QString::number(verseID-1));
 	return 0;
 }
 void MainWindow::goToPos()
@@ -1096,7 +1170,8 @@ void MainWindow::showText(QString text)
 	{
 		QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
 		textBrowser->setHtml(text);
-		qDebug() << "MainWindow::showText() backCount = " << textBrowser->backwardHistoryCount();
+		if(currentVerseID > 1)
+			textBrowser->scrollToAnchor("currentVerse");
 	}
 }
 void MainWindow::setEnableReload(bool enable)
@@ -1139,7 +1214,15 @@ void MainWindow::pharseUrl(QString url)
 			QStringList c = a.at(1).split(",");
 			if(c.size() >= 3)
 			{
-				int bibleID = a.at(0).toInt();
+				int bibleID;
+				if(a.at(0) == "current")
+				{
+					bibleID = b.currentBibleID;
+				}
+				else
+				{
+					bibleID = a.at(0).toInt();
+				}
 				int bookID = c.at(0).toInt();
 				int chapterID = c.at(1).toInt();
 				int verseID = c.at(2).toInt();

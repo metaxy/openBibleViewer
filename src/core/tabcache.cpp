@@ -71,12 +71,13 @@ int tabCache::getBibleType(void)
 }
 int tabCache::setCurrentTabId( int id)
 {
-	if(id < idlist.size())
+	if(id < idlist.size() && id >= 0)
 	{
 		QString idl = idlist.at(id);
 		currentTabID = idl.toInt();
+		return 0;
 	}
-	return 0;
+	return 1;
 }
 int tabCache::setCurrentBook(int bookid,int ichaptercount)
 {

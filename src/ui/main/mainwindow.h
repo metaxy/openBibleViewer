@@ -115,7 +115,6 @@ public:
 	void setSettings( struct settings_s ssettings );
 	void loadSettings();
 	int loadModules();
-	int go(int book,int chapter,int verse);
 	 protected:
 	void closeEvent(QCloseEvent *event);
 private:

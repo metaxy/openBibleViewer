@@ -197,7 +197,7 @@ QString bible::readChapter( int chapterID, int verseID = -1)
 						QString o =  "<i>"+c.verseNumber.at(i)+"</i> "+c.data.at(i) + "<br />";
 						if( i == verseID)
 						{
-							out += "<b>" + o + "</b>";
+							out += "<a name=\"currentVerse\"><b>" + o + "</b></a>";
 						}
 						else
 						{

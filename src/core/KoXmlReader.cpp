@@ -1046,7 +1046,7 @@ bool KoXmlHandler::startDTD(const QString& name, const QString& publicId,
     Q_UNUSED(publicId);
     Q_UNUSED(systemId);
 
-    document->addDTD(name);
+   document->addDTD(name);
 
     return true;
 }

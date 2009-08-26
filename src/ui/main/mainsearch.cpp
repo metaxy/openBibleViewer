@@ -26,6 +26,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QTextBrowser>
 #include <QtGui/QClipboard>
 #include <QtGui/QMessageBox>
+#include <QtGui/QTextCursor>
 
 
 int MainWindow::search( void )
@@ -68,6 +69,8 @@ int MainWindow::showSearchResults( QString searchtext,bool regexp,bool whole,boo
 	}
 	ui->listWidget_search->clear();
 	ui->listWidget_search->insertItems(0,outlist);
+	ui->actionNextVerse->setEnabled(true);
+	ui->actionLastVerse->setEnabled(true);
 	qDebug() << "MainWindow::showSearchResults end";
 	return 0;
 }
@@ -83,20 +86,7 @@ int MainWindow::goToSearchResult(QListWidgetItem * item)
 	}
 	return 0;
 }
-int MainWindow::go(int bookID,int chapterID,int verseID)
-{
-	//qDebug() <<"MainWindow::go() book = " <<bookID << " chapter = "<<chapterID;
 
-	setBooks(b.bookFullName);
-	showBibleName(b.bibleName);
-	setChapters(b.chapterNames);
-	readBook(bookID);
-	showChapter(chapterID -1 + b.chapterAdd,verseID-1);
-	searchInCurrentText(lastsearch);
-
-	//qDebug() << "MainWindow::go() end";
-	return 0;
-}
 void MainWindow::searchInfo()
 {
 	struct stelle st;
@@ -129,7 +119,7 @@ void MainWindow::searchInfo()
 void MainWindow::searchInCurrentText(QString searchtext)
 {
 	qDebug() << "MainWindow::searchInCurrentText() searchtext = " << searchtext;
-	QString text;
+	/*QString text;
 	if(biblesTypes.size() < currentBibleID)
 		return;
 
@@ -146,8 +136,14 @@ void MainWindow::searchInCurrentText(QString searchtext)
 		lastindex = text.indexOf(searchtext,lastindex+searchtext.size()+ftext.size()+ntext.size(),Qt::CaseInsensitive);
 	}
 
-	showText(text);
-	qDebug() << "MainWindow::searchInCurrentText() count = " << count << " ( end )";
+	showText(text);*/
+	/*if (activeMdiChild())
+	{
+		QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+		//b.st.
+		textBrowser->find(searchtext);
+	}*/
+//	qDebug() << "MainWindow::searchInCurrentText() count = " << count << " ( end )";
 	return ;
 }
 void MainWindow::nextVerse()

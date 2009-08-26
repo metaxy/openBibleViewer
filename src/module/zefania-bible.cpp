@@ -31,8 +31,7 @@ int zefaniaBible::setSettings( struct settings_s settings , struct moduleConfig 
 	qDebug() << "zefaniaBible::setSettings";
 	zefset = settings;
 	mConfig = mConfig_;
-	if(mConfig.zefbible_hardCache == false && mConfig.zefbible_softCache == false)
-		QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("Please aktivate Caching.(Hard or Soft Cache)"));
+
 	return 1;
 }
 QDomNode zefaniaBible::readBookFromHardCache(QString path,int bookID)
@@ -379,72 +378,7 @@ void zefaniaBible::loadNoCached( int id,QString path)
 		{
 			bookFullName.clear();
 			//load default booknames
-			bookFullName <<  "Genesis";
-			bookFullName << "Exodus";
-			bookFullName << "Leviticus";
-			bookFullName << "Numbers";
-			bookFullName << "Deuteronomy";
-			bookFullName << "Joshua";
-			bookFullName << "Judges";
-			bookFullName << "Ruth";
-			bookFullName << "1 Samuel";
-			bookFullName << "2 Samuel";
-			bookFullName << "1 Kings";
-			bookFullName << "2 Kings";
-			bookFullName << "1 Chronicles";
-			bookFullName << "2 Chronicles";
-			bookFullName << "Ezrav";
-			bookFullName << "Nehemiah";
-			bookFullName << "Esther";
-			bookFullName << "Job";
-			bookFullName << "Psalm";
-			bookFullName << "Proverbs";
-			bookFullName << "Ecclesiastes";
-			bookFullName << "Song of Solomon";
-			bookFullName << "Isaiah";
-			bookFullName << "Jeremiah";
-			bookFullName << "Lamentations";
-			bookFullName << "Ezekiel";
-			bookFullName << "Daniel";
-			bookFullName << "Hosea";
-			bookFullName << "Joel";
-			bookFullName << "Amos";
-			bookFullName << "Obadiah";
-			bookFullName << "Jonah";
-			bookFullName << "Micah";
-			bookFullName << "Nahum";
-			bookFullName << "Habakkuk";
-			bookFullName << "Zephaniah";
-			bookFullName << "Haggai";
-			bookFullName << "Zechariah";
-			bookFullName << "Malachi";
-			bookFullName << "Matthew";
-			bookFullName << "Mark";
-			bookFullName << "Luke";
-			bookFullName << "John";
-			bookFullName << "Acts";
-			bookFullName << "Romans";
-			bookFullName << "1 Corinthians";
-			bookFullName << "2 Corinthians";
-			bookFullName << "Galatians";
-			bookFullName << "Ephesians";
-			bookFullName << "Philippians";
-			bookFullName << "Colossians";
-			bookFullName << "1 Thessalonians";
-			bookFullName << "2 Thessalonians";
-			bookFullName << "1 Timothy";
-			bookFullName << "2 Timothy";
-			bookFullName << "Titus";
-			bookFullName << "Philemon";
-			bookFullName << "Hebrews";
-			bookFullName << "James";
-			bookFullName << "1 Peter";
-			bookFullName << "2 Peter";
-			bookFullName << "1 John";
-			bookFullName << "2 John";
-			bookFullName << "3 John";
-			bookFullName << "Jude";
-			bookFullName << "Revelation";
+			bookFullName = zefset.bookNames;
 		}
 	}
 	progress.hide();
@@ -533,6 +467,8 @@ void zefaniaBible::loadCached(int id,QString path)
 }
 void zefaniaBible::loadBibleData(int id,QString path)
 {
+	if(mConfig.zefbible_hardCache == false && mConfig.zefbible_softCache == false)
+		QMessageBox::critical(0,QObject::tr("Error"),QObject::tr("Please aktivate Caching.(Hard or Soft Cache)"));
 	if(mConfig.zefbible_hardCache == true)
 	{
 		if(checkForCacheFiles(path))

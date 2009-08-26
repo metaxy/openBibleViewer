@@ -33,5 +33,6 @@ struct settings_s
 	bool zefaniaBible_hardCache;
 	bool zefaniaBible_softCache;
 	QString homePath;
+	QStringList bookNames;
 };
 #endif // CONFIG_H

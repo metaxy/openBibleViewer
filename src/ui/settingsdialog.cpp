@@ -197,6 +197,9 @@ void settingsDialog::addModuleFile( void )
 				if(fileInfo.isFile())
 				{
 					//open file
+					QProgressDialog progress(QObject::tr( "Open File"), QObject::tr("Cancel"), 0, 0);
+					progress.setWindowModality(Qt::WindowModal);
+					progress.setValue(1);
 					QFile file(f);
 					if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
 					{
@@ -204,6 +207,7 @@ void settingsDialog::addModuleFile( void )
 						return;
 					}
 					QTextStream in(&file);
+					progress.setValue(2);
 					while (!in.atEnd())
 					{
 						QString line = in.readLine();
@@ -247,6 +251,7 @@ void settingsDialog::addModuleFile( void )
 						break;
 
 					}
+					progress.setValue(3);
 					m.modulePath = f;
 					m.moduleName = bibleName;
 					m.moduleType = QString::number(imoduleType);

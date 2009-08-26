@@ -271,27 +271,47 @@ int MainWindow::tabIDof(QMdiSubWindow* window)
 }
 int MainWindow::closeWindow()
 {
-	//qDebug() << "MainWindow::closeWindow()";
+	qDebug() << "MainWindow::closeWindow()";
 	if(!enableReload)
 	{
-		//qDebug() << "MainWindow::closeWindow() reload is not enabled";
+		qDebug() << "MainWindow::closeWindow() reload is not enabled";
 		return 1;
 	}
 	//if one in the internal subwindow list list is missing that window was closed
-	if( ui->mdiArea->subWindowList().size() <= 0)
+	if( ui->mdiArea->subWindowList().isEmpty())
+	{
+		qDebug() << "MainWindow::closeWindow() subWIndowList is empty";
+		setBooks(QStringList());
+		setChapters(QStringList());
+		tcache.clearAll();
 		return 1;
-	if( internalWindows.size() <= 0)
+	}
+	if( internalWindows.isEmpty())
+	{
+		qDebug() << "MainWindow::closeWindow() internaL is empty";
+		setBooks(QStringList());
+		setChapters(QStringList());
+		tcache.clearAll();
 		return 1;
-	//qDebug() << "MainWindow::closeWindow() closing";
+	}
+	qDebug() << "MainWindow::closeWindow() closing";
 	for(int i=0;i<internalWindows.size();i++)
 	{
 		if( ui->mdiArea->subWindowList().lastIndexOf(internalWindows.at(i)) == -1)
 		{
-			//qDebug() << "MainWindow::closeWindow() found closed Window id = " << i;
+			qDebug() << "MainWindow::closeWindow() found closed Window id = " << i;
 			tcache.removeTab(i);
 			internalWindows.removeAt(i);
 			break;
 		}
+	}
+	if( ui->mdiArea->subWindowList().isEmpty())//last window closed
+	{
+		qDebug() << "MainWindow::closeWindow() last closed";
+		setBooks(QStringList());
+		setChapters(QStringList());
+		tcache.clearAll();
+		return 1;
 	}
 	reloadWindow(ui->mdiArea->currentSubWindow());
 	return 0;
