@@ -49,8 +49,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
 	ui->setupUi(this);
-	VERSION  = "0.2b2";
-	BUILD =  "2009-8-18";
+	VERSION  = "0.2rc1";
+	BUILD =  "2009-8-26";
 
 #ifdef _PORTABLE_VERSION
 	homeDataPath = QApplication::applicationDirPath()+"/";

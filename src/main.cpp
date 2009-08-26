@@ -30,6 +30,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 //CONFIG
 //#define _PORTABLE_VERSION
 //#define KOXML_USE_QDOM //WARNING QDOM USE VERY MUCH RAM
+
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
