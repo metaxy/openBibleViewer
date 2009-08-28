@@ -170,6 +170,7 @@ void settingsDialog::addModuleFile( void )
 {
 	QFileDialog dialog(this);
 	dialog.setFileMode(QFileDialog::ExistingFiles);
+
 	if(dialog.exec())
 	{
 		QStringList fileName = dialog.selectedFiles();
@@ -289,7 +290,10 @@ void settingsDialog::addModuleDir( void )
 	QFileDialog dialog(this);
 	QList<QTreeWidgetItem *> items;
 	dialog.setFileMode(QFileDialog::Directory);
-	dialog.setOption(QFileDialog::ShowDirsOnly, true);
+	#if QT_VERSION >= 0x040403
+		dialog.setOption(QFileDialog::ShowDirsOnly, true);
+	#endif
+
 	if(dialog.exec())
 	{
 		QStringList fileName = dialog.selectedFiles();
