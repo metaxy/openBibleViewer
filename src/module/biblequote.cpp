@@ -45,7 +45,7 @@ void biblequote::readBook(int id,QString path)
 	chapterData.clear();
 
 	currentBookID = id;
-	path = currentBiblePath+QDir::separator()+path;
+	path = currentBiblePath+"/"+path;
 
 	QFile file;
 	file.setFileName(path);
@@ -129,7 +129,7 @@ void biblequote::loadBibleData(int bibleID,QString path)
 	removeHtml = "";
 	versesign = "";
 	chapterZero = false;
-	int lastPos = path.lastIndexOf(QDir::separator());
+	int lastPos = path.lastIndexOf("/");
 	QString path_ = path;
 	currentBiblePath = path_.remove(lastPos,path.size());
 	bool started=false, started2=false;
@@ -289,7 +289,7 @@ struct stelle biblequote::search(QString searchstring,bool regexp,bool whole,boo
 		bytetext.clear();
 		ctext.clear();
 		QString path = bookPath.at(id);
-		path = currentBiblePath + QDir::separator() + path;
+		path = currentBiblePath + "/" + path;
 		QFile file(path);
 		QByteArray out="",out2="";
 		bool chapterstarted = false;

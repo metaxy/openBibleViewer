@@ -66,8 +66,5 @@ FORMS += src/ui/main/mainwindow.ui \
 RESOURCES += src/icons.qrc
 TRANSLATIONS = src/obv_de.ts \
     src/obv_ru.ts
-UI_DIR = tmp
-MOC_DIR = tmp
-RCC_DIR = tmp
-OBJECTS_DIR = tmp
 DEFINES += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
+INSTALLS += target

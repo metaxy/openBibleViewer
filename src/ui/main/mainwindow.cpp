@@ -164,7 +164,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	/*if(set.module.size() == 0)
 	{
 		QString appPath = QApplication::applicationDirPath();
-		if(appPath.endsWith(QDir::separator()))
+		if(appPath.endsWith("/"))
 		{
 			appPath.remove(appPath.size()-1,10);
 		}
@@ -622,7 +622,7 @@ int MainWindow::loadModules()
 
 			top->setText(0, set.module.at(i).moduleName);
 			items.append(top);
-			QString rpath = set.module.at(i).modulePath+QDir::separator();
+			QString rpath = set.module.at(i).modulePath+"/";
 			int bibletype;
 			QDir dir(rpath);
 			dir.setFilter(QDir::Dirs);
@@ -636,25 +636,25 @@ int MainWindow::loadModules()
 					QFile file;
 					QString rfile;
 					bibletype = 0;
-					file.setFileName(rpath+dirname+QDir::separator()+"BIBLEQT.INI");
+					file.setFileName(rpath+dirname+"/"+"BIBLEQT.INI");
 					if(file.exists())
 					{
 						rfile = file.fileName();
 						bibletype = 1;
 					}
-					file.setFileName(rpath+dirname+QDir::separator()+"BIBLEQT.ini");
+					file.setFileName(rpath+dirname+"/"+"BIBLEQT.ini");
 					if(bibletype == 0 && file.exists())
 					{
 						rfile = file.fileName();
 						bibletype = 1;
 					}
-					file.setFileName(rpath+dirname+QDir::separator()+"bibleqt.ini");
+					file.setFileName(rpath+dirname+"/"+"bibleqt.ini");
 					if(bibletype == 0 && file.exists())
 					{
 						rfile = file.fileName();
 						bibletype = 1;
 					}
-					file.setFileName(rpath+dirname+QDir::separator()+dirname+".xml");
+					file.setFileName(rpath+dirname+"/"+dirname+".xml");
 					if(bibletype == 0 && file.exists())
 					{
 						rfile = file.fileName();
@@ -675,7 +675,7 @@ int MainWindow::loadModules()
 									biblesTypes << 1;
 									bibles << bname;
 									biblesIniPath << file.fileName();
-									biblesPath << rpath+dirname+QDir::separator();
+									biblesPath << rpath+dirname+"/";
 									bibleDirName << dirname;
 									QTreeWidgetItem *ibible = new QTreeWidgetItem();
 									ibible->setText(0, bname);
@@ -701,7 +701,7 @@ int MainWindow::loadModules()
 									biblesTypes << 2;
 									bibles << bname;
 									biblesIniPath << file.fileName();
-									biblesPath << rpath+dirname+QDir::separator();
+									biblesPath << rpath+dirname+"/";
 									bibleDirName << dirname;
 									QTreeWidgetItem *bibleItem = new QTreeWidgetItem();
 									bibleItem->setText(0, bname);
@@ -728,7 +728,7 @@ int MainWindow::loadModules()
 			QFile file;
 			QString rfile;
 			QString dirname = set.module.at(i).modulePath;
-			int lPos = dirname.lastIndexOf(QDir::separator());
+			int lPos = dirname.lastIndexOf("/");
 			dirname = dirname.remove(lPos,dirname.size())+"/";
 			qDebug() << "MainWindow::loadModules() dirname:"<<dirname;
 			int bibletype = set.module.at(i).moduleType.toInt();

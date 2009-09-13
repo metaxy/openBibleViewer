@@ -143,7 +143,7 @@ void settingsDialog::generateModuleTree()
 			for(int i = 0;i<fileName.size();i++)
 			{
 				QString f = fileName.at(i);
-				if(f.endsWith(QDir::separator()))
+				if(f.endsWith("/"))
 				{
 					f.remove(f.size()-1,10);
 				}
@@ -290,7 +290,7 @@ void settingsDialog::addModuleDir( void )
 	QFileDialog dialog(this);
 	QList<QTreeWidgetItem *> items;
 	dialog.setFileMode(QFileDialog::Directory);
-	#if QT_VERSION >= 0x040403
+	#if QT_VERSION >= 0x040500
 		dialog.setOption(QFileDialog::ShowDirsOnly, true);
 	#endif
 
@@ -299,7 +299,7 @@ void settingsDialog::addModuleDir( void )
 		QStringList fileName = dialog.selectedFiles();
 		if(fileName.size() > 0)
 		{
-			QProgressDialog progress(QObject::tr( "Adding Modules"), QObject::tr("Cancel"), 0, fileName.size());
+			QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size());
 			progress.setWindowModality(Qt::WindowModal);
 			for(int i=0;i< fileName.size();i++)
 			{
@@ -318,12 +318,12 @@ void settingsDialog::addModuleDir( void )
 				{
 					moduleType = QObject::tr("Folder");
 					QString f = fileName.at(i);
-					if(f.endsWith(QDir::separator()))
+					if(f.endsWith("/"))
 					{
 						f.remove(f.size()-1,10);
 					}
 					m.modulePath = f;
-					QStringList ldictname = (f+QDir::separator()).split(QDir::separator());
+					QStringList ldictname = (f+"/").split("/");
 					QString dictname;
 					if(ldictname.size() > 0)
 					{
