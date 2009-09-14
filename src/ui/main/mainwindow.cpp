@@ -1056,7 +1056,7 @@ int MainWindow::go2Pos(QString pos)
 		}
 	}
 	//qDebug() << "MainWindow::go2Pos() bibleID = " << bibleID << " , bookID = " << bookID << " , chapterID = " << chapterID << ", verseID = " << verseID;
-	emit get("bible://current/"+QString::number(bookID)+","+QString::number(chapterID-1)+","+QString::number(verseID-1));
+	emit get("bible://"+QString::number(bibleID)+"/"+QString::number(bookID)+","+QString::number(chapterID-1)+","+QString::number(verseID-1));
 	return 0;
 }
 void MainWindow::goToPos()
