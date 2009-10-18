@@ -20,6 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QLocale>
 #include <QtCore/QTextStream>
 #include <QtCore/QFile>
+#include <QtCore/QFileInfo>
 #include <QtCore/QLibraryInfo>
 #include <QtCore/QtDebug>
 #include <QtCore/QFSFileEngine>
@@ -69,7 +70,20 @@ int main(int argc, char *argv[])
 
 	QTranslator myappTranslator;
 	qDebug() << "main::main lang = " << lang;
+
+	#ifdef Q_WS_WIN
 	myappTranslator.load("obv_" + lang);
+	#endif
+	#ifdef Q_WS_MAC
+	myappTranslator.load("obv_" + lang);
+	#endif
+	#ifdef Q_WS_X11
+	  if(qApp->applicationDirPath() == "/usr/bin")
+		myappTranslator.load("obv_" + lang,"/usr/share/openBibleViewer/translation");
+	  else
+		myappTranslator.load("obv_" + lang);
+	#endif
+
 	a.installTranslator(&myappTranslator);
 
 	MainWindow w;
