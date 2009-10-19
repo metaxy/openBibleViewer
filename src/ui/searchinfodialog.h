@@ -17,23 +17,25 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtGui/QDialog>
 #include "../core/stelle.h"
-namespace Ui {
-	class searchInfoDialog;
+namespace Ui
+{
+class searchInfoDialog;
 }
 
-class searchInfoDialog : public QDialog {
-	Q_OBJECT
+class searchInfoDialog : public QDialog
+{
+    Q_OBJECT
 public:
-	explicit searchInfoDialog(QWidget *parent = 0);
-	void setInfo(struct stelle st,QStringList bookNames,QString searchText,QStringList textList);
-	virtual ~searchInfoDialog();
-	double mRound(double Zahl, int Stellen);
-	int d2i(double d);
+    explicit searchInfoDialog(QWidget *parent = 0);
+    void setInfo(struct stelle st, QStringList bookNames, QString searchText, QStringList textList);
+    virtual ~searchInfoDialog();
+    double mRound(double Zahl, int Stellen);
+    int d2i(double d);
 protected:
-	virtual void changeEvent(QEvent *e);
+    virtual void changeEvent(QEvent *e);
 
 private:
-	Ui::searchInfoDialog *m_ui;
+    Ui::searchInfoDialog *m_ui;
 
 };
 

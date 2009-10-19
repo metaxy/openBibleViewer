@@ -3,99 +3,98 @@
 #include <QtGui/QFileDialog>
 
 moduleConfigDialog::moduleConfigDialog(QWidget *parent) :
-		QDialog(parent),
-		m_ui(new Ui::moduleConfigDialog)
+        QDialog(parent),
+        m_ui(new Ui::moduleConfigDialog)
 {
-	m_ui->setupUi(this);
-	connect( m_ui->pushButton_ok, SIGNAL( clicked() ), this, SLOT( bsave( ) ) );
-	connect( m_ui->pushButton_cancel, SIGNAL( clicked() ), this, SLOT( close( ) ) );
-	connect( m_ui->toolButton_file, SIGNAL( clicked() ), this, SLOT( fileSelect( ) ) );
-	connect( m_ui->comboBox_type, SIGNAL( currentIndexChanged(int) ), this, SLOT(moduleTypeChanged(int) ));
+    m_ui->setupUi(this);
+    connect(m_ui->pushButton_ok, SIGNAL(clicked()), this, SLOT(bsave()));
+    connect(m_ui->pushButton_cancel, SIGNAL(clicked()), this, SLOT(close()));
+    connect(m_ui->toolButton_file, SIGNAL(clicked()), this, SLOT(fileSelect()));
+    connect(m_ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this, SLOT(moduleTypeChanged(int)));
 }
 
 moduleConfigDialog::~moduleConfigDialog()
 {
-	delete m_ui;
+    delete m_ui;
 }
 void moduleConfigDialog::setModule(struct moduleConfig config)
 {
-	c = config;
-	m_ui->lineEdit_name->setText(config.moduleName);
-	m_ui->lineEdit_path->setText(config.modulePath);
-	m_ui->comboBox_type->setCurrentIndex(config.moduleType.toInt());
-	m_ui->comboBox_textFromatting->setCurrentIndex(config.zefbible_textFormatting);
-	if(config.biblequote_removeHtml == true)
-		m_ui->checkBox_removeHtml->setChecked(true);
-	else
-		m_ui->checkBox_removeHtml->setChecked(false);
+    c = config;
+    m_ui->lineEdit_name->setText(config.moduleName);
+    m_ui->lineEdit_path->setText(config.modulePath);
+    m_ui->comboBox_type->setCurrentIndex(config.moduleType.toInt());
+    m_ui->comboBox_textFromatting->setCurrentIndex(config.zefbible_textFormatting);
+    if (config.biblequote_removeHtml == true)
+        m_ui->checkBox_removeHtml->setChecked(true);
+    else
+        m_ui->checkBox_removeHtml->setChecked(false);
 
-	if(config.zefbible_hardCache == true)
-		m_ui->checkBox_hardCache->setChecked(true);
-	else
-		m_ui->checkBox_hardCache->setChecked(false);
+    if (config.zefbible_hardCache == true)
+        m_ui->checkBox_hardCache->setChecked(true);
+    else
+        m_ui->checkBox_hardCache->setChecked(false);
 
-	if(config.zefbible_softCache == true)
-		m_ui->checkBox_softCache->setChecked(true);
-	else
-		m_ui->checkBox_softCache->setChecked(false);
+    if (config.zefbible_softCache == true)
+        m_ui->checkBox_softCache->setChecked(true);
+    else
+        m_ui->checkBox_softCache->setChecked(false);
 
-	if(config.zefbible_showStrong == true)
-		m_ui->checkBox_showStrong->setChecked(true);
-	else
-		m_ui->checkBox_showStrong->setChecked(false);
+    if (config.zefbible_showStrong == true)
+        m_ui->checkBox_showStrong->setChecked(true);
+    else
+        m_ui->checkBox_showStrong->setChecked(false);
 
-	if(config.zefbible_showStudyNote == true)
-		m_ui->checkBox_showStudyNote->setChecked(true);
-	else
-		m_ui->checkBox_showStudyNote->setChecked(false);
+    if (config.zefbible_showStudyNote == true)
+        m_ui->checkBox_showStudyNote->setChecked(true);
+    else
+        m_ui->checkBox_showStudyNote->setChecked(false);
 }
 void moduleConfigDialog::bsave()
-{	c.moduleName = m_ui->lineEdit_name->text();
-	c.modulePath = m_ui->lineEdit_path->text();
-	c.moduleType = QString::number(m_ui->comboBox_type->currentIndex());
-	c.zefbible_textFormatting = m_ui->comboBox_textFromatting->currentIndex();
-	c.biblequote_removeHtml = m_ui->checkBox_removeHtml->isChecked();
-	c.zefbible_hardCache =  m_ui->checkBox_hardCache->isChecked();
-	c.zefbible_softCache =  m_ui->checkBox_softCache->isChecked();
-	c.zefbible_showStrong =  m_ui->checkBox_showStrong->isChecked();
-	c.zefbible_showStudyNote =  m_ui->checkBox_showStudyNote->isChecked();
-	emit save(c);
+{
+    c.moduleName = m_ui->lineEdit_name->text();
+    c.modulePath = m_ui->lineEdit_path->text();
+    c.moduleType = QString::number(m_ui->comboBox_type->currentIndex());
+    c.zefbible_textFormatting = m_ui->comboBox_textFromatting->currentIndex();
+    c.biblequote_removeHtml = m_ui->checkBox_removeHtml->isChecked();
+    c.zefbible_hardCache =  m_ui->checkBox_hardCache->isChecked();
+    c.zefbible_softCache =  m_ui->checkBox_softCache->isChecked();
+    c.zefbible_showStrong =  m_ui->checkBox_showStrong->isChecked();
+    c.zefbible_showStudyNote =  m_ui->checkBox_showStudyNote->isChecked();
+    emit save(c);
 }
 void moduleConfigDialog::moduleTypeChanged(int id)
 {
-	//qDebug() << "moduleConfigDialog::moduleTypeChanged id1 = " << id;
-	m_ui->groupBox_bq->setVisible(false);
-	m_ui->groupBox_zefBible->setVisible(false);
-	id = m_ui->comboBox_type->currentIndex();
-	//qDebug() << "moduleConfigDialog::moduleTypeChanged id2 = " << id;
-	switch( id )
-	{
-	case 1:
-		m_ui->groupBox_bq->setVisible(true);
-		break;
-	case 2:
-		m_ui->groupBox_zefBible->setVisible(true);
-		break;
+    //qDebug() << "moduleConfigDialog::moduleTypeChanged id1 = " << id;
+    m_ui->groupBox_bq->setVisible(false);
+    m_ui->groupBox_zefBible->setVisible(false);
+    id = m_ui->comboBox_type->currentIndex();
+    //qDebug() << "moduleConfigDialog::moduleTypeChanged id2 = " << id;
+    switch (id) {
+    case 1:
+        m_ui->groupBox_bq->setVisible(true);
+        break;
+    case 2:
+        m_ui->groupBox_zefBible->setVisible(true);
+        break;
 
-	}
+    }
 }
 void  moduleConfigDialog::fileSelect()
 {
-	QString fileName = QFileDialog::getOpenFileName(this,tr("Open Bible"), c.modulePath, tr("Bibles (*.ini *.xml *.*)"));
-	if(fileName != "")
-	{
-		m_ui->lineEdit_path->setText(fileName);
-	}
-	return;
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Bible"), c.modulePath, tr("Bibles (*.ini *.xml *.*)"));
+    if (fileName != "") {
+        m_ui->lineEdit_path->setText(fileName);
+    }
+    return;
 }
 void moduleConfigDialog::changeEvent(QEvent *e)
 {
-	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
-	}
+    QDialog::changeEvent(e);
+    switch (e->type()) {
+    case QEvent::LanguageChange:
+        m_ui->retranslateUi(this);
+        break;
+    default:
+        break;
+    }
 }

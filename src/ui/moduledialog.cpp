@@ -2,8 +2,8 @@
 #include "ui_moduledialog.h"
 
 moduleDialog::moduleDialog(QWidget *parent) :
-    QDialog(parent),
-    m_ui(new Ui::moduleDialog)
+        QDialog(parent),
+        m_ui(new Ui::moduleDialog)
 {
     m_ui->setupUi(this);
 }

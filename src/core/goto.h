@@ -6,13 +6,13 @@
 class goTo
 {
 public:
-	goTo(int currentBibleID,QStringList bookFullName,int chapterAdd);
-	QString getUrl(const QString& text);
+    goTo(int currentBibleID, QStringList bookFullName, int chapterAdd);
+    QString getUrl(const QString& text);
 private:
-	int bookNameToBookID(const QString& name);
-	int levenshteinDistance(const QString& s, const QString& t);
-	int currentBibleID,chapterAdd;
-	QStringList bookFullName;
+    int bookNameToBookID(const QString& name);
+    int levenshteinDistance(const QString& s, const QString& t);
+    int currentBibleID, chapterAdd;
+    QStringList bookFullName;
 };
 
 #endif // GOTO_H

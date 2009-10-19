@@ -24,30 +24,30 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class bible
 {
 public:
-	bible();
-	void setBibleType(int type);
-	int loadBibleData(int bibleID,QString path);
-	int readBook(int id);
-	void setSettings( struct settings_s settings );
-	QMap<int, QList<chapter> > getZefCache();
-	void clearZefCache();
-	void setZefCache(QMap<int, QList<chapter> > cache);
+    bible();
+    void setBibleType(int type);
+    int loadBibleData(int bibleID, QString path);
+    int readBook(int id);
+    void setSettings(struct settings_s settings);
+    QMap<int, QList<chapter> > getZefCache();
+    void clearZefCache();
+    void setZefCache(QMap<int, QList<chapter> > cache);
 
-	QString readChapter(int chapterID, int verseID);
-	int currentBibleID,currentBookID,currentChapterID,chapterAdd;
-	struct stelle search(QString searchstring,bool regexp,bool whole,bool casesen);
-	struct stelle st;
-	QString bibleName,lastout,path,currentBiblePath,lastSearchString;
-	QStringList bookFullName,chapterText,bookPath,chapterNames,chapterDataList;
-	QMap <int,int> bookCount;
-	QList<chapter> chapterData;
-	int bibleType;
-	biblequote bq;
-	zefaniaBible zef;
+    QString readChapter(int chapterID, int verseID);
+    int currentBibleID, currentBookID, currentChapterID, chapterAdd;
+    struct stelle search(QString searchstring, bool regexp, bool whole, bool casesen);
+    struct stelle st;
+    QString bibleName, lastout, path, currentBiblePath, lastSearchString;
+    QStringList bookFullName, chapterText, bookPath, chapterNames, chapterDataList;
+    QMap <int, int> bookCount;
+    QList<chapter> chapterData;
+    int bibleType;
+    biblequote bq;
+    zefaniaBible zef;
 private:
 
 
-	struct settings_s settings;
+    struct settings_s settings;
 
 };
 

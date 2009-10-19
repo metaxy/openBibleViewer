@@ -5,15 +5,15 @@
 class history
 {
 private:
-	QList<QString>  forwardItems,backwardItems;
-	bool goF;
+    QList<QString>  forwardItems, backwardItems;
+    bool goF;
 public:
-	history();
-	QString forward();
-	QString backward();
-	bool forwardAvailable();
-	bool backwardAvailable();
-	bool setCurrent(QString current);
+    history();
+    QString forward();
+    QString backward();
+    bool forwardAvailable();
+    bool backwardAvailable();
+    bool setCurrent(QString current);
 };
 
 #endif // HISTORY_H

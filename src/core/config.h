@@ -17,22 +17,21 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QMap>
-struct settings_s
-{
-	QString encoding;
-	QList<moduleConfig> module;
-	QMap<int,int> moduleID;
-	qreal zoomstep;
-	QString version;
-	QString build;
-	bool removeHtml;
-	QString language;
-	int autoLayout;// 0 = NONE, 1 = vertical tile ,2 = horizontal tile, 3 = cascade
-	bool onClickBookmarkGo;
-	int textFormatting;//0 = Neue Zeile nach Vers, 1 = Unformatierter Textblock
-	bool zefaniaBible_hardCache;
-	bool zefaniaBible_softCache;
-	QString homePath;
-	QStringList bookNames;
+struct settings_s {
+    QString encoding;
+    QList<moduleConfig> module;
+    QMap<int, int> moduleID;
+    qreal zoomstep;
+    QString version;
+    QString build;
+    bool removeHtml;
+    QString language;
+    int autoLayout;// 0 = NONE, 1 = vertical tile ,2 = horizontal tile, 3 = cascade
+    bool onClickBookmarkGo;
+    int textFormatting;//0 = Neue Zeile nach Vers, 1 = Unformatierter Textblock
+    bool zefaniaBible_hardCache;
+    bool zefaniaBible_softCache;
+    QString homePath;
+    QStringList bookNames;
 };
 #endif // CONFIG_H

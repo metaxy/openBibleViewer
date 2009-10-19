@@ -3,13 +3,12 @@
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-struct chapter
-{
-	QStringList data;
-	QStringList verseNumber;
-	QString chapterName;
-	QString bookName;
-	int verseCount;
+struct chapter {
+    QStringList data;
+    QStringList verseNumber;
+    QString chapterName;
+    QString bookName;
+    int verseCount;
 
 };
 

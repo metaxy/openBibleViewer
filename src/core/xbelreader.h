@@ -23,24 +23,24 @@ class QTreeWidgetItem;
 class XbelReader : public QXmlStreamReader
 {
 public:
-	XbelReader(QTreeWidget *treeWidget);
+    XbelReader(QTreeWidget *treeWidget);
 
-	bool read(QIODevice *device);
+    bool read(QIODevice *device);
 
 private:
-	void readUnknownElement();
-	void readXBEL();
-	void readTitle(QTreeWidgetItem *item);
-	void readSeparator(QTreeWidgetItem *item);
-	void readFolder(QTreeWidgetItem *item);
-	void readBookmark(QTreeWidgetItem *item);
+    void readUnknownElement();
+    void readXBEL();
+    void readTitle(QTreeWidgetItem *item);
+    void readSeparator(QTreeWidgetItem *item);
+    void readFolder(QTreeWidgetItem *item);
+    void readBookmark(QTreeWidgetItem *item);
 
-	QTreeWidgetItem *createChildItem(QTreeWidgetItem *item);
+    QTreeWidgetItem *createChildItem(QTreeWidgetItem *item);
 
-	QTreeWidget *treeWidget;
+    QTreeWidget *treeWidget;
 
-	QIcon folderIcon;
-	QIcon bookmarkIcon;
+    QIcon folderIcon;
+    QIcon bookmarkIcon;
 };
 
 #endif

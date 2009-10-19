@@ -23,12 +23,12 @@ class QTreeWidgetItem;
 class XbelWriter : public QXmlStreamWriter
 {
 public:
-	XbelWriter(QTreeWidget *treeWidget);
-	bool writeFile(QIODevice *device);
+    XbelWriter(QTreeWidget *treeWidget);
+    bool writeFile(QIODevice *device);
 
 private:
-	QTreeWidget *treeWidget;
-	void writeItem(QTreeWidgetItem *item);
+    QTreeWidget *treeWidget;
+    void writeItem(QTreeWidgetItem *item);
 };
 
 #endif

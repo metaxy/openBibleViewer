@@ -16,23 +16,25 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtGui/QDialog>
 #include <QtCore/QString>
-namespace Ui {
-	class aboutDialog;
+namespace Ui
+{
+class aboutDialog;
 }
 
-class aboutDialog : public QDialog {
-	Q_OBJECT
-	Q_DISABLE_COPY(aboutDialog)
-		public:
-			explicit aboutDialog(QWidget *parent = 0);
-	virtual ~aboutDialog();
-	void setText(QString text);
+class aboutDialog : public QDialog
+{
+    Q_OBJECT
+    Q_DISABLE_COPY(aboutDialog)
+public:
+    explicit aboutDialog(QWidget *parent = 0);
+    virtual ~aboutDialog();
+    void setText(QString text);
 
 protected:
-	virtual void changeEvent(QEvent *e);
+    virtual void changeEvent(QEvent *e);
 
 private:
-	Ui::aboutDialog *m_ui;
+    Ui::aboutDialog *m_ui;
 };
 
 #endif // ABOUTDIALOG_H

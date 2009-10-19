@@ -3,11 +3,13 @@
 
 #include <QtGui/QDialog>
 
-namespace Ui {
-    class search;
+namespace Ui
+{
+class search;
 }
 
-class search : public QDialog {
+class search : public QDialog
+{
     Q_OBJECT
     Q_DISABLE_COPY(search)
 public:

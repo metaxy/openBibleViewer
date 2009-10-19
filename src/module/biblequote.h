@@ -23,25 +23,25 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class biblequote
 {
 private:
-	struct settings_s bqset;
-	QString formatfromini(QString input);
+    struct settings_s bqset;
+    QString formatfromini(QString input);
 
 
 public:
-	biblequote();
-	int setSettings( struct settings_s settings );
-	void readBook(int id,QString path);
-	void loadBibleData(int bibleID,QString path);
-	QString readInfo(QFile &file);
-	struct stelle search(QString searchstring,bool regexp,bool whole,bool casesen);
-	int currentBookID,/*book_ccount,*/currentBibleID;
-	bool chapterZero,bible,oldTestament,newTestament,apocrypha,strongNumbers,greek;
-	QString currentBiblePath,lastout,chaptersign,versesign,bibleName,removeHtml,lastSearch;
-	QString bibles,biblesPath,biblesIniPath;
-	QStringList chapterText,bookPath,bookFullName,bookShortName;
-	QMap <int,int> bookCount;
-	QList<chapter> chapterData;
-	struct stelle st;
+    biblequote();
+    int setSettings(struct settings_s settings);
+    void readBook(int id, QString path);
+    void loadBibleData(int bibleID, QString path);
+    QString readInfo(QFile &file);
+    struct stelle search(QString searchstring, bool regexp, bool whole, bool casesen);
+    int currentBookID,/*book_ccount,*/currentBibleID;
+    bool chapterZero, bible, oldTestament, newTestament, apocrypha, strongNumbers, greek;
+    QString currentBiblePath, lastout, chaptersign, versesign, bibleName, removeHtml, lastSearch;
+    QString bibles, biblesPath, biblesIniPath;
+    QStringList chapterText, bookPath, bookFullName, bookShortName;
+    QMap <int, int> bookCount;
+    QList<chapter> chapterData;
+    struct stelle st;
 
 };
 

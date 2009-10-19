@@ -129,7 +129,7 @@ void KoXmlWriter::startElement(const char* tagName, bool indentInside)
 
     // Tell parent that it has children
     bool parentIndent = prepareForChild();
-    
+
     d->tags.push(Tag(tagName, parentIndent && indentInside));
     writeChar('<');
     writeCString(tagName);
@@ -164,9 +164,9 @@ void KoXmlWriter::addCompleteElement(QIODevice* indev)
 void KoXmlWriter::endElement()
 {
     if (d->tags.isEmpty())
-	qWarning() << "Ouch, endElement() was called more times than startElement(). "
+        qWarning() << "Ouch, endElement() was called more times than startElement(). "
         "The generated XML will be invalid! "
-	"Please report this bug (by saving the document to another format...)";
+        "Please report this bug (by saving the document to another format...)";
 
     Tag tag = d->tags.pop();
 //kDebug(s_area) <<" tagName=" << tag.tagName <<" hasChildren=" << tag.hasChildren;
@@ -509,7 +509,7 @@ QList<const char*> KoXmlWriter::tagHierarchy() const
 {
     QList<const char*> answer;
     foreach(const Tag & tag, d->tags)
-        answer.append(tag.tagName);
+    answer.append(tag.tagName);
 
     return answer;
 }

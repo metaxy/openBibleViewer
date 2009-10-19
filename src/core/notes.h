@@ -19,15 +19,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class notes
 {
 public:
-	notes( QString fileName);
-	int loadNotes();
-	int readNotes();
-	int saveNotes();
-	QString fileName;
-	QStringList notesData;
-	QStringList notesTitel;
-	QStringList notesPos;
-	QDomDocument doc;
+    notes(QString fileName);
+    int loadNotes();
+    int readNotes();
+    int saveNotes();
+    QString fileName;
+    QStringList notesData;
+    QStringList notesTitel;
+    QStringList notesPos;
+    QDomDocument doc;
 
 };
 

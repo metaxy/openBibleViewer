@@ -3,11 +3,13 @@
 
 #include <QtGui/QDialog>
 
-namespace Ui {
-    class moduleDialog;
+namespace Ui
+{
+class moduleDialog;
 }
 
-class moduleDialog : public QDialog {
+class moduleDialog : public QDialog
+{
     Q_OBJECT
     Q_DISABLE_COPY(moduleDialog)
 public:

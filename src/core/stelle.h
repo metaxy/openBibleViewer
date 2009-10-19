@@ -15,12 +15,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define STELLE_H
 #include <QtCore/QList>
 #include <QtCore/QString>
-struct stelle
-{
-	QList<int> book;
-	QList<int> chapter;
-	QList<int> verse;
-	int bibleID;
-	QList<QString> text;
+struct stelle {
+    QList<int> book;
+    QList<int> chapter;
+    QList<int> verse;
+    int bibleID;
+    QList<QString> text;
 };
 #endif // STELLE_H

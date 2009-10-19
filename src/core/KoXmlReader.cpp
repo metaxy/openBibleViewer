@@ -131,13 +131,13 @@ static inline uint qHash(const KoXmlStringPair &p)
 class KoXmlPackedItem
 {
 public:
-bool attr: 1;
-KoXmlNode::NodeType type: 3;
+    bool attr: 1;
+    KoXmlNode::NodeType type: 3;
 
 #ifdef KOXML_COMPACT
-quint32 childStart: 28;
+    quint32 childStart: 28;
 #else
-unsigned depth: 28;
+    unsigned depth: 28;
 #endif
 
     unsigned nameIndex;
@@ -405,7 +405,7 @@ static int lzff_decompress(const void* input, int length, void* output, int maxo
                         *op++ = *ip++;
                         ctrl--;
 
-                        for (;ctrl; ctrl--)
+                        for (; ctrl; ctrl--)
                             *op++ = *ip++;
                     }
                 }
@@ -737,7 +737,7 @@ public:
 #else
         // reserve up front
         if ((groups.size() % GROUP_GROW_SIZE) == 0)
-            group.reserve(GROUP_GROW_SIZE * (1 + (groups.size() >> GROUP_GROW_SHIFT)));
+            group.reserve(GROUP_GROW_SIZE *(1 + (groups.size() >> GROUP_GROW_SHIFT)));
         group.resize(group.count() + 1);
 
         KoXmlPackedItem& item = group[group.count()-1];
@@ -1046,7 +1046,7 @@ bool KoXmlHandler::startDTD(const QString& name, const QString& publicId,
     Q_UNUSED(publicId);
     Q_UNUSED(systemId);
 
-   document->addDTD(name);
+    document->addDTD(name);
 
     return true;
 }
@@ -1779,18 +1779,18 @@ static QDomNode itemAsQDomNode(QDomDocument ownerDoc, KoXmlPackedDocument* packe
 
     // nothing to do here
     if (self.type == KoXmlNode::NullNode)
-	return QDomNode();
+        return QDomNode();
 
     // create the element properly
     if (self.type == KoXmlNode::ElementNode) {
         QDomElement element;
 
         QString name = packedDoc->stringList[self.nameIndex];
-	QString nsURI = packedDoc->stringList[self.nsURIIndex];
+        QString nsURI = packedDoc->stringList[self.nsURIIndex];
 
-	if (packedDoc->processNamespace)
+        if (packedDoc->processNamespace)
             element = ownerDoc.createElementNS(nsURI, name);
-	else
+        else
             element = ownerDoc.createElement(name);
 
         // check all subnodes for attributes
@@ -1815,10 +1815,10 @@ static QDomNode itemAsQDomNode(QDomDocument ownerDoc, KoXmlPackedDocument* packe
                 if (i != -1) prefix = qName.left(i);
                 if (i != -1) localName = qName.mid(i + 1);
 
-		if (packedDoc->processNamespace) {
+                if (packedDoc->processNamespace) {
                     element.setAttributeNS(nsURI, qName, value);
                     element.setAttribute(localName, value);
-		} else
+                } else
                     element.setAttribute(name, value);
             } else {
                 // add it recursively
