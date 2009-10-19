@@ -4,6 +4,10 @@
 TARGET = openBibleViewer
 QT += xml
 TEMPLATE = app
+OBJECTS_DIR = tmp
+MOC_DIR = tmp
+UI_DIR = tmp
+RCC_DIR = tmp
 SOURCES += src/main.cpp \
     src/ui/main/mainwindow.cpp \
     src/module/biblequote.cpp \

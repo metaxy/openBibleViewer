@@ -6,12 +6,12 @@ In this file:
 
 General introduction:
 --------------------
-This is openBibleViewer.openBibleViewer is a Bible study application based on Qt 4.5 or later.
+This is openBibleViewer.openBibleViewer is a Bible study application based on Qt 4.4.3 or later.
 
 If you found a bug, please report him on http://openbv.uucyc.name/bug/.
 
 Read the file INSTALL how to install and compile this version of openBibleViewer. There's also a SPEC file
-to create RPMs, it's called openBibleViewer-0.2b1.spec.
+to create RPMs, it's called openBibleViewer.spec.
 
 Requirements:
 -------------

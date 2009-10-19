@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
 	myappTranslator.load("obv_" + lang);
 	#endif
 	#ifdef Q_WS_X11
-	  if(a->applicationDirPath() == "/usr/bin")
+	  if(a.applicationDirPath() == "/usr/bin")
 		myappTranslator.load("obv_" + lang,"/usr/share/openBibleViewer/translation");
 	  else
 		myappTranslator.load("obv_" + lang);
