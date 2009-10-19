@@ -73,5 +73,4 @@ TRANSLATIONS = src/obv_de.ts \
 DEFINES += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
 unix {
     INSTALLS += target
- 
 }
