@@ -49,7 +49,8 @@ int bible::loadBibleData(int bibleID, QString path)
         zef.setSettings(settings, m);
 
         zef.loadBibleData(bibleID, path);
-        bibleName = zef.bibleName;
+        bibleName = m.moduleName;
+        qDebug() << "bible::loadBibleData bibleName = " << m.moduleName << " path = " << m.modulePath << " currentBibleID = " << currentBibleID << " moduleID = " << settings.moduleID[currentBibleID];
         bookCount = zef.bookCount;
         bookFullName = zef.bookFullName;
         //bookPath = zef.bookPath;

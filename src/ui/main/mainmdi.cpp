@@ -83,7 +83,6 @@ QMdiSubWindow *MainWindow::activeMdiChild()
                 lastActiveWindow = i;
             }
         }
-
         return activeSubWindow;
     } else if (lastActiveWindow < list.size()) {
         ui->mdiArea->setActiveSubWindow(usableWindowList().at(lastActiveWindow));
@@ -295,7 +294,7 @@ int MainWindow::reloadWindow(QMdiSubWindow * window)
             return 1;
         qDebug() << "MainWindow::reloadWindow() get bible";
         b = tcache.getBible();
-        showBibleName(tcache.getBibleName());
+        setTitle(tcache.getBibleName());
         qDebug() << "MainWindow::reloadWindow() b.chapterNames.size() = " << b.chapterNames.size() << ", b.currentChapterID = " << b.currentChapterID;
         setChapters(b.chapterNames);
         setCurrentChapter(b.currentChapterID);

@@ -43,7 +43,7 @@ class MainWindow : public QMainWindow
 public slots:
     int loadModuleData(QTreeWidgetItem*);
     int readBook(QListWidgetItem * item);
-    int readBook(int);
+    int readBook(const int &book);
     int readChapter(QListWidgetItem * item);
     int readChapter(int);
     int zoomIn();
@@ -148,11 +148,11 @@ private:
     void setCurrentChapter(int chapterID);
     void searchInCurrentText(QString searchtext);
     void showText(QString text);
-    void showBibleName(QString name);
     void readBookByID(int id);
     void loadModuleDataByID(int id);
     int verseFromCursor(QTextCursor cursor);
     void setEnableReload(bool enable);
+    void setTitle(QString title);
     QString notePos2Text(QString);
     int go2Pos(QString pos);
     QMdiSubWindow *activeMdiChild();

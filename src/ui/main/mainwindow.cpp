@@ -274,7 +274,7 @@ void MainWindow::loadModuleDataByID(int id)
     b.setBibleType(biblesTypes.at(currentBibleID));
 
     b.loadBibleData(id, biblesIniPath[currentBibleID]);
-    showBibleName(b.bibleName);
+    setTitle(b.bibleName);
     setBooks(b.bookFullName);
     tcache.setCurrentTabId(currentTabID());
     tcache.setBible(b);
@@ -282,12 +282,13 @@ void MainWindow::loadModuleDataByID(int id)
     setBooks(b.bookFullName);
     setCurrentChapter(b.currentChapterID);
     currentBibleID = b.currentBibleID;
+
 }
 int MainWindow::zoomIn()
 {
-    qDebug() << "MainWindow::zoomIn()";
+    //qDebug() << "MainWindow::zoomIn()";
     if (activeMdiChild()) {
-        qDebug() << "MainWindow::zoomIn() zoom = " << set.zoomstep;
+        //qDebug() << "MainWindow::zoomIn() zoom = " << set.zoomstep;
         QTextBrowser *t = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
         t->zoomIn(set.zoomstep);
     }
@@ -295,9 +296,9 @@ int MainWindow::zoomIn()
 }
 int MainWindow::zoomOut()
 {
-    qDebug() << "MainWindow::zoomOut()";
+    //qDebug() << "MainWindow::zoomOut()";
     if (activeMdiChild()) {
-        qDebug() << "MainWindow::zoomOut() zoom = " << set.zoomstep;
+        //qDebug() << "MainWindow::zoomOut() zoom = " << set.zoomstep;
         QTextBrowser *t = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
         t->zoomOut(set.zoomstep);
     }
@@ -311,7 +312,7 @@ int MainWindow::readBook(QListWidgetItem * item)
     readBook(id);
     return 0;
 }
-int MainWindow::readBook(int id)
+int MainWindow::readBook(const int &id)
 {
     qDebug() << "MainWindow::readBook(int) id = " << id;
     emit get("bible://current/" + QString::number(id) + ",0,0");
@@ -557,7 +558,8 @@ int MainWindow::readChapter(int id)
 int MainWindow::loadModules()
 {
     int rcount = 0;//Counter fo the Bible ID
-    ui->treeWidget_bibles->clear();
+    ui->treeWidget_bibles->clear();//clear the treewidget
+    //clear all relevant variables
     bibles.clear();
     biblesIniPath.clear();
     biblesPath.clear();
@@ -567,19 +569,22 @@ int MainWindow::loadModules()
     QProgressDialog progress(tr("Loading Module"), tr("Cancel"), 0, set.module.size());
     progress.setWindowModality(Qt::WindowModal);
 
-    for (int i = 0; i < set.module.size(); ++i) { //Alle Ordner auslesen
+    for (int i = 0; i < set.module.size(); ++i) { //real all modules
         if (progress.wasCanceled())
             break;
         if (set.module.at(i).isDir == true) {
+            //read a dir
+
+            //add a dir icon
             QTreeWidgetItem *top = new QTreeWidgetItem(ui->treeWidget_bibles);
             QStyle *style = ui->treeWidget_bibles->style();
             QIcon folderIcon;
             folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
             folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
             top->setIcon(0, folderIcon);
-
             top->setText(0, set.module.at(i).moduleName);
             items.append(top);
+            //search for bible in the dir
             QString rpath = set.module.at(i).modulePath + "/";
             int bibletype;
             QDir dir(rpath);
@@ -654,6 +659,8 @@ int MainWindow::loadModules()
                                 QString srcount;
                                 srcount.setNum(rcount, 10);
                                 bibleItem->setText(1, srcount);
+
+
                                 QIcon bibleIcon;
                                 bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
                                 bibleItem->setIcon(0, bibleIcon);
@@ -668,13 +675,14 @@ int MainWindow::loadModules()
                 }
             }
         } else {
-
+            //load module
             QFile file;
-            QString rfile;
             QString dirname = set.module.at(i).modulePath;
             int lPos = dirname.lastIndexOf("/");
             dirname = dirname.remove(lPos, dirname.size()) + "/";
+
             qDebug() << "MainWindow::loadModules() dirname:" << dirname;
+
             int bibletype = set.module.at(i).moduleType.toInt();
             file.setFileName(set.module.at(i).modulePath);
             if (bibletype != 0 && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -685,12 +693,12 @@ int MainWindow::loadModules()
                     biblesIniPath << file.fileName();
                     biblesPath << set.module.at(i).modulePath;
                     bibleDirName << dirname;
+
                     QTreeWidgetItem *bibleItem = new QTreeWidgetItem(ui->treeWidget_bibles);
                     bibleItem->setText(0, set.module.at(i).moduleName);
-                    QString srcount;
-                    srcount.setNum(rcount, 10);
-                    bibleItem->setText(1, srcount);
-                    set.moduleID[rcount] = i;
+                    bibleItem->setText(1, QString::number(rcount));
+                    qDebug() << "MainWindow::loadModules() set.moduleID rcount = " << rcount << " i = " << i;
+                    set.moduleID.insert(rcount,i);
 
                     QIcon bibleIcon;
                     bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-x-generic.png"), QIcon::Normal, QIcon::Off);
@@ -705,12 +713,12 @@ int MainWindow::loadModules()
                     biblesIniPath << file.fileName();
                     biblesPath << set.module.at(i).modulePath;
                     bibleDirName << dirname;
+
                     QTreeWidgetItem *bibleItem = new QTreeWidgetItem(ui->treeWidget_bibles);
                     bibleItem->setText(0, set.module.at(i).moduleName);
-                    QString srcount;
-                    srcount.setNum(rcount, 10);
-                    bibleItem->setText(1, srcount);
-                    set.moduleID[rcount] = i;
+                    bibleItem->setText(1, QString::number(rcount));
+                    qDebug() << "MainWindow::loadModules() set.moduleID rcount = " << rcount << " i = " << i;
+                    set.moduleID.insert(rcount,i);
 
                     QIcon bibleIcon;
                     bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
@@ -719,12 +727,17 @@ int MainWindow::loadModules()
                     rcount++;
                     break;
                 }
+                /*case 3: {
+                    rcount++;
+                }*/
+
                 }
             }
         }
     }
     ui->treeWidget_bibles->insertTopLevelItems(0, items);
     ui->treeWidget_bibles->sortByColumn(0, Qt::AscendingOrder);//sort
+    setSettings(set);
     //qDebug() << "MainWindow::loadModules() exit";
     return 0;
 }
@@ -1034,7 +1047,7 @@ int MainWindow::setChapters(QStringList list)
     ui->listWidget_chapters->clear();
     ui->listWidget_chapters->insertItems(0, list);
     if (activeMdiChild()) {
-        //qDebug() << "MainWindow::setChapters() hast active Child";
+        //qDebug() << "MainWindow::setChapters() has active Child";
         QComboBox *comboBox_chapters = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_chapters");
         comboBox_chapters->clear();
         comboBox_chapters->insertItems(0, list);
@@ -1046,7 +1059,7 @@ void MainWindow::setBooks(QStringList books)
     ui->listWidget_books->clear();
     ui->listWidget_books->insertItems(0, books);
     if (activeMdiChild()) {
-        //qDebug() << "MainWindow::setBooks() hast active Child";
+        //qDebug() << "MainWindow::setBooks() has active Child";
         QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
         comboBox_books->clear();
         comboBox_books->insertItems(0, books);
@@ -1069,6 +1082,7 @@ void MainWindow::setCurrentChapter(int chapterID)
         QComboBox *comboBox_chapters = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_chapters");
         comboBox_chapters->setCurrentIndex(chapterID);
     }
+    setTitle(b.bibleName);
 }
 void MainWindow::showText(QString text)
 {
@@ -1090,12 +1104,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
     saveNote();
     saveBookmarks();
     saveSession();
-}
-void MainWindow::showBibleName(QString name)
-{
-    if (activeMdiChild()) {
-        activeMdiChild()->setWindowTitle(name);
-    }
 }
 void MainWindow::pharseUrl(QUrl url)
 {
@@ -1206,7 +1214,15 @@ void MainWindow::pharseUrl(QString url)
 }
 void MainWindow::onlineHelp()
 {
+    //open the online faq
     QDesktopServices::openUrl(QString("http://openbv.uucyc.name/faq.html"));
+}
+void MainWindow::setTitle(QString title)
+{
+    qDebug() << "MainWindow::setTitle title = " << title;
+     if (activeMdiChild()) {
+        activeMdiChild()->widget()->setWindowTitle(title);
+    }
 }
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {

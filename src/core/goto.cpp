@@ -7,7 +7,7 @@ goTo::goTo(int currentBibleID_, QStringList bookFullName_, int chapterAdd_)
     currentBibleID = currentBibleID_;
     bookFullName = bookFullName_;
     chapterAdd = chapterAdd_;
-    qDebug() << "goTo::goTo() chapterAdd = " << chapterAdd;
+    //qDebug() << "goTo::goTo() chapterAdd = " << chapterAdd;
 }
 QString goTo::getUrl(const QString& text)
 {
@@ -16,13 +16,12 @@ QString goTo::getUrl(const QString& text)
         return QString();
     QStringList reg;
     QRegExp foundRegExp;
-    //reg << "![A-Za-z0-9\.\s]{2,}!is" << "![A-Za-z0-9\.\s]{2,} [0-9]{1,}!is" << "![A-Za-z0-9\.\s]{2,} [0-9]{1,},[\s]{0,1}[0-9]{1,}!is";
     reg << "(.*)" << "(.*)(\\s+)(\\d+)"  << "(.*)(\\s+)(\\d+),(\\d+)";
     int found = -1;
     for (int i = reg.size() - 1; i >= 0; --i) {
         QRegExp r(reg.at(i));
         int pos = r.indexIn(text);
-        qDebug() << "pos = " << pos;
+        //qDebug() << "pos = " << pos;
         if (pos > -1) {
             found = i;
             foundRegExp = r;
