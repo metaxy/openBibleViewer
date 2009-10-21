@@ -49,7 +49,7 @@ public slots:
     int zoomIn();
     int zoomOut();
     int search();
-    int close();
+    //int close();
     int printFile();
     int showSearchResults(QString string, bool regexp, bool whole, bool casesen);
     int showSettingsDialog();
@@ -154,7 +154,7 @@ private:
     void setEnableReload(bool enable);
     void setTitle(QString title);
     QString notePos2Text(QString);
-    int go2Pos(QString pos);
+    int internalOpenPos(QString pos);
     QMdiSubWindow *activeMdiChild();
     QList<QMdiSubWindow*> usableWindowList();
     int currentTabID();

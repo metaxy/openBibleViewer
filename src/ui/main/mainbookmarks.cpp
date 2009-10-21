@@ -170,7 +170,7 @@ void MainWindow::editBookmark()
     }
 
     QString pos = ui->treeWidget_bookmarks->currentItem()->text(1);
-    if (go2Pos(pos) != 0) {
+    if (internalOpenPos(pos) != 0) {
         QMessageBox::critical(0, tr("Error"), tr("This Bookmark is invalid."));
         qDebug() << "MainWindow::editBookmarks() invalid bookmark";
     }
@@ -208,7 +208,7 @@ void MainWindow::editBookmark()
 void MainWindow::bookmarksGo()
 {
     QString pos = ui->treeWidget_bookmarks->currentItem()->text(1);
-    if (go2Pos(pos) != 0)
+    if ( internalOpenPos(pos) != 0)
         QMessageBox::critical(0, tr("Error"), tr("This Bookmark is invalid."));
     return;
 }
@@ -222,7 +222,7 @@ void MainWindow::bookmarksGo(QTreeWidgetItem * item)
 {
     if (set.onClickBookmarkGo == true) {
         QString pos = item->text(1);
-        if (go2Pos(pos) != 0)
+        if ( internalOpenPos(pos) != 0)
             QMessageBox::critical(0, tr("Error"), tr("This Bookmark is invalid."));
     }
     return;

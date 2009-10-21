@@ -521,22 +521,33 @@ int MainWindow::copyWholeVerse(void)
         }
         if (startverse < 0 || endverse <= 0)
             return 1;
-        QString stext;
-        for (int i = startverse; i <= endverse; ++i) {
-            stext += verses.at(i);
-        }
-        QTextDocument doc2;
-        doc2.setHtml(stext);
+        qDebug() << "MainwWindow::copyWholeVers() currentChapterID = " << b.currentChapterID;
+        //todo:  this is not a good programm style
+
         QString sverse = "";
         if (startverse == endverse) {
             sverse = "," + QString::number(startverse);
         } else {
             sverse = " " + QString::number(startverse) + "-" + QString::number(endverse);
         }
-        QString newText = bookFullName[currentBookID] + " " + QString::number(b.currentChapterID, 10) + sverse + "\n" + doc2.toPlainText();
+
+         if(b.bibleType == 1)
+            endverse++;
+        QString stext = b.readVerse(b.currentChapterID,startverse,endverse,-1,false);
+        QTextDocument doc2;
+        doc2.setHtml(stext);
+        stext = doc2.toPlainText();
+
+        QString curChapter;
+        if(b.bibleType == 1) {
+            curChapter = QString::number(b.currentChapterID);
+        } else if(b.bibleType == 2) {
+            curChapter = QString::number(b.currentChapterID+1);
+        }
+
+        QString newText = b.bookFullName.at(currentBookID) + " " + curChapter + sverse + "\n" + stext;
         QClipboard *clipboard = QApplication::clipboard();
         clipboard->setText(newText);
-
 
     } else {
         qDebug() << "MainwWindow::copyWholeVers ( void ) nothing is selected";
@@ -680,6 +691,7 @@ int MainWindow::loadModules()
             QString dirname = set.module.at(i).modulePath;
             int lPos = dirname.lastIndexOf("/");
             dirname = dirname.remove(lPos, dirname.size()) + "/";
+            //the dirname is need for internal positions
 
             qDebug() << "MainWindow::loadModules() dirname:" << dirname;
 
@@ -687,7 +699,8 @@ int MainWindow::loadModules()
             file.setFileName(set.module.at(i).modulePath);
             if (bibletype != 0 && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
                 switch (bibletype) {
-                case 1: { //BibleQuote
+                case 1: {
+                        //BibleQuote
                     biblesTypes << 1;//Insert the bibleID
                     bibles << set.module.at(i).moduleName; // Insert the title
                     biblesIniPath << file.fileName();
@@ -707,7 +720,8 @@ int MainWindow::loadModules()
                     rcount++;
                     break;
                 }
-                case 2: { //ZenfaniaXML
+                case 2: {
+                        //ZenfaniaXML
                     biblesTypes << 2;
                     bibles << set.module.at(i).moduleName;
                     biblesIniPath << file.fileName();
@@ -927,11 +941,11 @@ int MainWindow::showSettingsDialog(void)
     return setDialog.exec();
 }
 
-int MainWindow::close(void)
+/*int MainWindow::close(void)
 {
     close();
     return 0;
-}
+}*/
 
 void MainWindow::copy()
 {
@@ -962,7 +976,7 @@ int MainWindow::showAboutDialog(void)
     aDialog.setText("openBibleViewer <br> version: " + VERSION + " build: " + BUILD + "<br> <a href=\"http://openbv.uucyc.name/\"> Official Website</a> | <a href=\"http://openbv.uucyc.name/bug/\">Bug report</a>");
     return aDialog.exec();
 }
-int MainWindow::go2Pos(QString pos)
+int MainWindow::internalOpenPos(QString pos)
 {
     //qDebug() << "MainWindow::go2Pos() pos = " << pos;
     QStringList list = pos.split(";");
@@ -1100,6 +1114,7 @@ void MainWindow::setEnableReload(bool enable)
 }
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    //qDebug() << "MainWindow::closeEvent()";
     Q_UNUSED(event);
     saveNote();
     saveBookmarks();
