@@ -282,9 +282,8 @@ void MainWindow::loadModuleDataByID(int id)
     setBooks(b.bookFullName);
     tcache.setCurrentTabId(currentTabID());
     tcache.setBible(b);
-    setChapters(b.chapterNames);
     setBooks(b.bookFullName);
-    setCurrentChapter(b.currentChapterID);
+    //setCurrentChapter(b.currentChapterID);
     currentBibleID = b.currentBibleID;
 
 }
@@ -346,7 +345,7 @@ void MainWindow::readBookByID(int id)
     tcache.setCurrentBook(id, icout);
 
     setChapters(b.chapterNames);
-    showChapter(0 + b.chapterAdd);
+  //  showChapter(0 + b.chapterAdd);
     if (activeMdiChild()) {
         QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
         textBrowser->setSearchPaths(QStringList(b.currentBiblePath));
@@ -1100,7 +1099,7 @@ void MainWindow::setCurrentChapter(int chapterID)
         QComboBox *comboBox_chapters = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_chapters");
         comboBox_chapters->setCurrentIndex(chapterID);
     }
-    setTitle(b.bibleName);
+  //  setTitle(b.bibleName);
 }
 void MainWindow::showText(QString text)
 {
@@ -1154,7 +1153,7 @@ void MainWindow::pharseUrl(QString url)
                 int verseID = c.at(2).toInt();
                 if (bibleID != b.currentBibleID) {
                     loadModuleDataByID(bibleID);
-                    readBookByID(bookID);
+                    readBookByID(bookID);//todo: it read alreay a chapter
                     setCurrentBook(bookID);
                     showChapter(chapterID + b.chapterAdd, verseID);
                     setCurrentChapter(chapterID);
@@ -1214,6 +1213,7 @@ void MainWindow::pharseUrl(QString url)
             setCurrentBook(bookID);
             showChapter(chapterID + b.chapterAdd, verseID);
             setCurrentChapter(chapterID);
+
             //load book
         } else if (chapterID != b.currentChapterID) {
             showChapter(chapterID + b.chapterAdd, verseID);
