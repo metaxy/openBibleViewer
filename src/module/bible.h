@@ -34,7 +34,7 @@ public:
     int loadBibleData(int bibleID, QString path);
     int readBook(int id);
     QString readChapter(int chapterID, int verseID);
-    QString readVerse(int chapterID,int startVerse,int endVerse,int markVerseID,bool saveRawDatas);
+    QString readVerse(int chapterID, int startVerse, int endVerse, int markVerseID, bool saveRawDatas);
 
     struct stelle search(QString searchstring, bool regexp, bool whole, bool casesen);
 

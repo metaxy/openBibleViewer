@@ -531,18 +531,18 @@ int MainWindow::copyWholeVerse(void)
             sverse = " " + QString::number(startverse) + "-" + QString::number(endverse);
         }
 
-         if(b.bibleType == 1)
+        if (b.bibleType == 1)
             endverse++;
-        QString stext = b.readVerse(b.currentChapterID,startverse,endverse,-1,false);
+        QString stext = b.readVerse(b.currentChapterID, startverse, endverse, -1, false);
         QTextDocument doc2;
         doc2.setHtml(stext);
         stext = doc2.toPlainText();
 
         QString curChapter;
-        if(b.bibleType == 1) {
+        if (b.bibleType == 1) {
             curChapter = QString::number(b.currentChapterID);
-        } else if(b.bibleType == 2) {
-            curChapter = QString::number(b.currentChapterID+1);
+        } else if (b.bibleType == 2) {
+            curChapter = QString::number(b.currentChapterID + 1);
         }
 
         QString newText = b.bookFullName.at(currentBookID) + " " + curChapter + sverse + "\n" + stext;
@@ -700,7 +700,7 @@ int MainWindow::loadModules()
             if (bibletype != 0 && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
                 switch (bibletype) {
                 case 1: {
-                        //BibleQuote
+                    //BibleQuote
                     biblesTypes << 1;//Insert the bibleID
                     bibles << set.module.at(i).moduleName; // Insert the title
                     biblesIniPath << file.fileName();
@@ -711,7 +711,7 @@ int MainWindow::loadModules()
                     bibleItem->setText(0, set.module.at(i).moduleName);
                     bibleItem->setText(1, QString::number(rcount));
                     qDebug() << "MainWindow::loadModules() set.moduleID rcount = " << rcount << " i = " << i;
-                    set.moduleID.insert(rcount,i);
+                    set.moduleID.insert(rcount, i);
 
                     QIcon bibleIcon;
                     bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-x-generic.png"), QIcon::Normal, QIcon::Off);
@@ -721,7 +721,7 @@ int MainWindow::loadModules()
                     break;
                 }
                 case 2: {
-                        //ZenfaniaXML
+                    //ZenfaniaXML
                     biblesTypes << 2;
                     bibles << set.module.at(i).moduleName;
                     biblesIniPath << file.fileName();
@@ -732,7 +732,7 @@ int MainWindow::loadModules()
                     bibleItem->setText(0, set.module.at(i).moduleName);
                     bibleItem->setText(1, QString::number(rcount));
                     qDebug() << "MainWindow::loadModules() set.moduleID rcount = " << rcount << " i = " << i;
-                    set.moduleID.insert(rcount,i);
+                    set.moduleID.insert(rcount, i);
 
                     QIcon bibleIcon;
                     bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
@@ -1235,7 +1235,7 @@ void MainWindow::onlineHelp()
 void MainWindow::setTitle(QString title)
 {
     qDebug() << "MainWindow::setTitle title = " << title;
-     if (activeMdiChild()) {
+    if (activeMdiChild()) {
         activeMdiChild()->widget()->setWindowTitle(title);
     }
 }

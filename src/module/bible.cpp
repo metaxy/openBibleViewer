@@ -128,80 +128,80 @@ void bible::setSettings(struct settings_s settings_)
 }
 QString bible::readChapter(int chapterID, int verseID = -1)
 {
-    return readVerse(chapterID,0,-1,verseID,true);
-   /* chapterDataList.clear();
-    qDebug() << "bible::readChapter() start";
-    currentChapterID = chapterID;
-    QString out = "";
-    switch (bibleType) {
-    case 1: { //biblequote
-        chapter c;
-        if (chapterID < chapterData.size()) {
+    return readVerse(chapterID, 0, -1, verseID, true);
+    /* chapterDataList.clear();
+     qDebug() << "bible::readChapter() start";
+     currentChapterID = chapterID;
+     QString out = "";
+     switch (bibleType) {
+     case 1: { //biblequote
+         chapter c;
+         if (chapterID < chapterData.size()) {
 
-            c = chapterData.at(chapterID);
-            qDebug() << "bible::readChapter() chapterID = " << chapterID << " chapterdata.size() = " << chapterData.size() << " a.size() = " << c.data.size();
-            for (int i = 0; i < c.data.size(); i++) {
-                if (i == verseID) {
-                    out += "<b>" + c.data.at(i) + "</b>";
-                } else {
-                    out += c.data.at(i);
-                }
-                chapterDataList << c.data.at(i);
-            }
-            qDebug() << "bible::readChapter() out.size() = " << out.size();
+             c = chapterData.at(chapterID);
+             qDebug() << "bible::readChapter() chapterID = " << chapterID << " chapterdata.size() = " << chapterData.size() << " a.size() = " << c.data.size();
+             for (int i = 0; i < c.data.size(); i++) {
+                 if (i == verseID) {
+                     out += "<b>" + c.data.at(i) + "</b>";
+                 } else {
+                     out += c.data.at(i);
+                 }
+                 chapterDataList << c.data.at(i);
+             }
+             qDebug() << "bible::readChapter() out.size() = " << out.size();
 
-        } else {
-            qDebug() << "bible::readChapter() index out of range index = chapterText.size() =";
-        }
-        break;
-    }
-    case 2: { //zefania
-        qDebug() << "bible::readChapter() zefania read";
-        chapter c;
-        if (chapterID < chapterData.size()) {
+         } else {
+             qDebug() << "bible::readChapter() index out of range index = chapterText.size() =";
+         }
+         break;
+     }
+     case 2: { //zefania
+         qDebug() << "bible::readChapter() zefania read";
+         chapter c;
+         if (chapterID < chapterData.size()) {
 
-            c = chapterData.at(chapterID);
-            qDebug() << "bible::readChapter() chapterID = " << chapterID << " chapterdata.size() = " << chapterData.size() << " a.size() = " << c.data.size();
-            if (settings.module.at(settings.moduleID[currentBibleID]).zefbible_textFormatting == 0) {
-                out = "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";
-                for (int i = 0; i < c.data.size(); i++) {
-                    QString o =  "<i>" + c.verseNumber.at(i) + "</i> " + c.data.at(i) + "<br />";
-                    if (i == verseID) {
-                        out += "<a name=\"currentVerse\"><b>" + o + "</b></a>";
-                    } else {
-                        out += o;
-                    }
-                    chapterDataList << o;
-                }
-            } else { if(settings.module.at(currentBibleID).zefbible_textFormatting= == 1)
-                out = "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";
-                for (int i = 0; i < c.data.size(); i++) {
-                    QString o =  c.verseNumber.at(i) + " " + c.data.at(i);
-                    if (i == verseID) {
-                        out += "<b>" + o + "</b>";
-                    } else {
-                        out += o;
-                    }
-                    chapterDataList << o;
-                }
-            }
+             c = chapterData.at(chapterID);
+             qDebug() << "bible::readChapter() chapterID = " << chapterID << " chapterdata.size() = " << chapterData.size() << " a.size() = " << c.data.size();
+             if (settings.module.at(settings.moduleID[currentBibleID]).zefbible_textFormatting == 0) {
+                 out = "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";
+                 for (int i = 0; i < c.data.size(); i++) {
+                     QString o =  "<i>" + c.verseNumber.at(i) + "</i> " + c.data.at(i) + "<br />";
+                     if (i == verseID) {
+                         out += "<a name=\"currentVerse\"><b>" + o + "</b></a>";
+                     } else {
+                         out += o;
+                     }
+                     chapterDataList << o;
+                 }
+             } else { if(settings.module.at(currentBibleID).zefbible_textFormatting= == 1)
+                 out = "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";
+                 for (int i = 0; i < c.data.size(); i++) {
+                     QString o =  c.verseNumber.at(i) + " " + c.data.at(i);
+                     if (i == verseID) {
+                         out += "<b>" + o + "</b>";
+                     } else {
+                         out += o;
+                     }
+                     chapterDataList << o;
+                 }
+             }
 
-            qDebug() << "bible::readChapter() out.size() = " << out.size();
+             qDebug() << "bible::readChapter() out.size() = " << out.size();
 
-        } else {
-            qDebug() << "bible::readChapter() index out of range index = chapterText.size() =";
-        }
-        break;
-    }
-    }
-    lastout = out;
-    qDebug() << "bible::readChapter() end";
-    return out;*/
+         } else {
+             qDebug() << "bible::readChapter() index out of range index = chapterText.size() =";
+         }
+         break;
+     }
+     }
+     lastout = out;
+     qDebug() << "bible::readChapter() end";
+     return out;*/
 }
-QString bible::readVerse(int chapterID,int startVerse,int endVerse,int markVerseID = -1,bool saveRawData = false)
+QString bible::readVerse(int chapterID, int startVerse, int endVerse, int markVerseID = -1, bool saveRawData = false)
 {
     //endVerse == -1 means all erse
-    if(saveRawData)
+    if (saveRawData)
         chapterDataList.clear();
     qDebug() << "bible::readChapter() start";
     currentChapterID = chapterID;
@@ -214,7 +214,7 @@ QString bible::readVerse(int chapterID,int startVerse,int endVerse,int markVerse
             c = chapterData.at(chapterID);
             qDebug() << "bible::readChapter() chapterID = " << chapterID << " chapterdata.size() = " << chapterData.size() << " a.size() = " << c.data.size();
             int end;
-            if(endVerse == -1) {
+            if (endVerse == -1) {
                 end = c.data.size();
             } else {
                 end  = endVerse;
@@ -225,7 +225,7 @@ QString bible::readVerse(int chapterID,int startVerse,int endVerse,int markVerse
                 } else {
                     out += c.data.at(i);
                 }
-                if(saveRawData)
+                if (saveRawData)
                     chapterDataList << c.data.at(i);
             }
             qDebug() << "bible::readChapter() out.size() = " << out.size();
@@ -243,10 +243,10 @@ QString bible::readVerse(int chapterID,int startVerse,int endVerse,int markVerse
             c = chapterData.at(chapterID);
             qDebug() << "bible::readChapter() chapterID = " << chapterID << " chapterdata.size() = " << chapterData.size() << " a.size() = " << c.data.size();
             if (settings.module.at(settings.moduleID[currentBibleID]).zefbible_textFormatting == 0) {
-                if(saveRawData)
+                if (saveRawData)
                     out = "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";
                 int end;
-                if(endVerse == -1) {
+                if (endVerse == -1) {
                     end = c.data.size();
                 } else {
                     end  = endVerse;
@@ -258,14 +258,14 @@ QString bible::readVerse(int chapterID,int startVerse,int endVerse,int markVerse
                     } else {
                         out += o;
                     }
-                    if(saveRawData)
+                    if (saveRawData)
                         chapterDataList << o;
                 }
             } else { /*if(settings.module.at(currentBibleID).zefbible_textFormatting == 1)*/
-                if(saveRawData)
+                if (saveRawData)
                     out = "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";
                 int end;
-                if(endVerse == -1) {
+                if (endVerse == -1) {
                     end = c.data.size();
                 } else {
                     end  = endVerse;
@@ -277,7 +277,7 @@ QString bible::readVerse(int chapterID,int startVerse,int endVerse,int markVerse
                     } else {
                         out += o;
                     }
-                    if(saveRawData)
+                    if (saveRawData)
                         chapterDataList << o;
                 }
             }
@@ -290,13 +290,12 @@ QString bible::readVerse(int chapterID,int startVerse,int endVerse,int markVerse
         break;
     }
     }
-    if(saveRawData)
+    if (saveRawData)
         lastout = out;
     qDebug() << "bible::readVerse() end";
     return out;
 }
-struct stelle bible::search(QString searchstring, bool regexp, bool whole, bool casesen)
-{
+struct stelle bible::search(QString searchstring, bool regexp, bool whole, bool casesen) {
     lastSearchString = searchstring;
     struct stelle st;
     switch (bibleType) {

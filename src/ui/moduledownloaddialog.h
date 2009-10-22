@@ -8,22 +8,24 @@
 #include <QtCore/QFile>
 #include <QtGui/QProgressDialog>
 #include "../core/config.h"
-namespace Ui {
-    class moduleDownloadDialog;
+namespace Ui
+{
+class moduleDownloadDialog;
 }
 
-class moduleDownloadDialog : public QDialog {
+class moduleDownloadDialog : public QDialog
+{
     Q_OBJECT
 
 signals:
-    void downloaded(QStringList downloadedFiles,QStringList names);
+    void downloaded(QStringList downloadedFiles, QStringList names);
 
 private slots:
     void httpRequestFinished(int requestId, bool error);
     void readResponseHeader(const QHttpResponseHeader &responseHeader);
     void updateDataReadProgress(int bytesRead, int totalBytes);
     void downloadNext();
-    void item(QTreeWidgetItem* item,int c);
+    void item(QTreeWidgetItem* item, int c);
     void cancelDownload();
 public:
     moduleDownloadDialog(QWidget *parent = 0);
@@ -37,7 +39,7 @@ protected:
 private:
     Ui::moduleDownloadDialog *ui;
     struct settings_s m_set;
-    QStringList downloadList,nameList,downloadedList,downNames;
+    QStringList downloadList, nameList, downloadedList, downNames;
     int currentDownload;
     QProgressDialog *progressDialog;
     QHttp *http;

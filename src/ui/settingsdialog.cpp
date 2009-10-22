@@ -166,7 +166,7 @@ void settingsDialog::addModuleFile(void)
 
     if (dialog.exec()) {
         QStringList fileName = dialog.selectedFiles();
-        addModules(fileName,QStringList());
+        addModules(fileName, QStringList());
     }
     return;
 }
@@ -181,8 +181,8 @@ void settingsDialog::addModuleDir(void)
 
     if (dialog.exec()) {
         QStringList fileName = dialog.selectedFiles();
-             QList<QTreeWidgetItem *> items;
-     if (fileName.size() > 0) {
+        QList<QTreeWidgetItem *> items;
+        if (fileName.size() > 0) {
             QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size());
             progress.setWindowModality(Qt::WindowModal);
             for (int i = 0; i < fileName.size(); i++) {
@@ -287,112 +287,109 @@ void settingsDialog::downloadModule()
     moduleDownloadDialog *mDialog = new moduleDownloadDialog(this);
     mDialog->setSettings(set);
     mDialog->readModules();
-    connect(mDialog, SIGNAL(downloaded(QStringList,QStringList)), this, SLOT(addModules(QStringList,QStringList)));
-    connect(mDialog, SIGNAL(downloaded(QStringList,QStringList)), mDialog, SLOT(close()));
+    connect(mDialog, SIGNAL(downloaded(QStringList, QStringList)), this, SLOT(addModules(QStringList, QStringList)));
+    connect(mDialog, SIGNAL(downloaded(QStringList, QStringList)), mDialog, SLOT(close()));
     mDialog->show();
 }
-void settingsDialog::addModules(QStringList fileName,QStringList names)
+void settingsDialog::addModules(QStringList fileName, QStringList names)
 {
- if (fileName.size() > 0) {
-            QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size());
-            progress.setWindowModality(Qt::WindowModal);
-            for (int i = 0; i < fileName.size(); i++) {
-                progress.setValue(i);
-                if (progress.wasCanceled())
+    if (fileName.size() > 0) {
+        QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size());
+        progress.setWindowModality(Qt::WindowModal);
+        for (int i = 0; i < fileName.size(); i++) {
+            progress.setValue(i);
+            if (progress.wasCanceled())
+                return;
+            QString f = fileName.at(i);
+            QString fileData;
+            QString bibleName;
+            int imoduleType = 0;
+            QString moduleType;
+            biblequote bq;
+            zefaniaBible zef;
+            zefaniaStrong zefStrong;
+            moduleConfig m;
+            zefStrong.setSettings(set, m);
+
+            QFileInfo fileInfo(f);
+            if (fileInfo.isFile()) {
+                //open file
+                QProgressDialog progress(QObject::tr("Open File"), QObject::tr("Cancel"), 0, 0);
+                progress.setWindowModality(Qt::WindowModal);
+                progress.setValue(1);
+                QFile file(f);
+                if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                    QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not read the file"));
                     return;
-                QString f = fileName.at(i);
-                QString fileData;
-                QString bibleName;
-                int imoduleType = 0;
-                QString moduleType;
-                biblequote bq;
-                zefaniaBible zef;
-                zefaniaStrong zefStrong;
-                moduleConfig m;
-                zefStrong.setSettings(set, m);
-
-                QFileInfo fileInfo(f);
-                if (fileInfo.isFile()) {
-                    //open file
-                    QProgressDialog progress(QObject::tr("Open File"), QObject::tr("Cancel"), 0, 0);
-                    progress.setWindowModality(Qt::WindowModal);
-                    progress.setValue(1);
-                    QFile file(f);
-                    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not read the file"));
-                        return;
-                    }
-                    QTextStream in(&file);
-                    progress.setValue(2);
-                    while (!in.atEnd()) {
-                        QString line = in.readLine();
-                        fileData += line;
-                    }
-                    if (fileData.contains("BookQty", Qt::CaseInsensitive)) {
-                        imoduleType = 1;//BibleQuote
-                    } else if (fileData.contains("XMLBIBLE", Qt::CaseInsensitive)) {
-                        imoduleType = 2;//Zefania
-                    } else if (fileData.contains("<dictionary type=\"x-strong\"", Qt::CaseInsensitive)) {
-                        imoduleType = 3;//Zefania Strong
-                    }
-                    /*else if(f.endsWith(".xml"))
-                    {
-                        imoduleType = 2;
-                    }*/
-                    else {
-                        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
-                        return;
-                    }
-
-                    switch (imoduleType) {
-                    case 1:
-                        bibleName = bq.readInfo(file);
-                        moduleType = "Bible Quote";
-                        break;
-                    case 2:
-                        bibleName = zef.readInfo(fileData);
-                        moduleType = "Zefania XML";
-                        break;
-                    case 3:
-                        bibleName = zefStrong.loadFile(fileData, f);
-                        moduleType = "Zefania XML Strong";
-                        break;
-
-                    }
-                    progress.setValue(3);
-                    m.modulePath = f;
-                    if(names.size() > 0)
-                    {
-                        m.moduleName = names.at(i);
-                    }
-                    else
-                    {
-                        m.moduleName = bibleName;
-                    }
-                    m.moduleType = QString::number(imoduleType);
-                    m.isDir = false;
-
-                } else {
+                }
+                QTextStream in(&file);
+                progress.setValue(2);
+                while (!in.atEnd()) {
+                    QString line = in.readLine();
+                    fileData += line;
+                }
+                if (fileData.contains("BookQty", Qt::CaseInsensitive)) {
+                    imoduleType = 1;//BibleQuote
+                } else if (fileData.contains("XMLBIBLE", Qt::CaseInsensitive)) {
+                    imoduleType = 2;//Zefania
+                } else if (fileData.contains("<dictionary type=\"x-strong\"", Qt::CaseInsensitive)) {
+                    imoduleType = 3;//Zefania Strong
+                }
+                /*else if(f.endsWith(".xml"))
+                {
+                    imoduleType = 2;
+                }*/
+                else {
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
                     return;
                 }
 
+                switch (imoduleType) {
+                case 1:
+                    bibleName = bq.readInfo(file);
+                    moduleType = "Bible Quote";
+                    break;
+                case 2:
+                    bibleName = zef.readInfo(fileData);
+                    moduleType = "Zefania XML";
+                    break;
+                case 3:
+                    bibleName = zefStrong.loadFile(fileData, f);
+                    moduleType = "Zefania XML Strong";
+                    break;
 
-                qDebug() << "settingsDialog::addModule() new Module file" << f << " moduleName" << bibleName << " moduleType" << moduleType;
-                /*if (progress.wasCanceled())
-                    return;*/
-                // standard config
-                m.biblequote_removeHtml = set.removeHtml;
-                m.zefbible_hardCache = set.zefaniaBible_hardCache;
-                m.zefbible_softCache = set.zefaniaBible_softCache;
-                m.zefbible_textFormatting = set.textFormatting;
-                m.zefbible_showStrong = true;
-                m.zefbible_showStudyNote = true;
-                set.module << m;
+                }
+                progress.setValue(3);
+                m.modulePath = f;
+                if (names.size() > 0) {
+                    m.moduleName = names.at(i);
+                } else {
+                    m.moduleName = bibleName;
+                }
+                m.moduleType = QString::number(imoduleType);
+                m.isDir = false;
+
+            } else {
+                QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
+                return;
             }
-            progress.close();
-            generateModuleTree();
+
+
+            qDebug() << "settingsDialog::addModule() new Module file" << f << " moduleName" << bibleName << " moduleType" << moduleType;
+            /*if (progress.wasCanceled())
+                return;*/
+            // standard config
+            m.biblequote_removeHtml = set.removeHtml;
+            m.zefbible_hardCache = set.zefaniaBible_hardCache;
+            m.zefbible_softCache = set.zefaniaBible_softCache;
+            m.zefbible_textFormatting = set.textFormatting;
+            m.zefbible_showStrong = true;
+            m.zefbible_showStudyNote = true;
+            set.module << m;
         }
+        progress.close();
+        generateModuleTree();
+    }
     qDebug() << "settingsDialog::addModules files = " << fileName;
 }
 void settingsDialog::changeEvent(QEvent *e)

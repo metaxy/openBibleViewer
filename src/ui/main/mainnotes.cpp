@@ -257,7 +257,7 @@ int MainWindow::noteSetTextColor(void)
 }
 int MainWindow::noteGo(QString pos)
 {
-    if ( internalOpenPos(pos) == 1) {
+    if (internalOpenPos(pos) == 1) {
         qDebug("MainWindow::noteGo( void ) invalid note");
     }
     return 0;
