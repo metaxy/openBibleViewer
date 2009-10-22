@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Download Module</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
@@ -57,10 +57,14 @@
          <property name="text">
           <string>Download</string>
          </property>
+         <property name="icon">
+          <iconset resource="../icons.qrc">
+           <normaloff>:/icons/16x16/dialog-ok.png</normaloff>:/icons/16x16/dialog-ok.png</iconset>
+         </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="pushButton_cancel">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -70,6 +74,10 @@
          <property name="text">
           <string>Cancel</string>
          </property>
+         <property name="icon">
+          <iconset resource="../icons.qrc">
+           <normaloff>:/icons/16x16/dialog-cancel.png</normaloff>:/icons/16x16/dialog-cancel.png</iconset>
+         </property>
         </widget>
        </item>
       </layout>
@@ -78,6 +86,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

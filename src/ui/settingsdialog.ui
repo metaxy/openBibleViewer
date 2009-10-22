@@ -120,6 +120,10 @@
              <property name="text">
               <string>Download</string>
              </property>
+             <property name="icon">
+              <iconset resource="../icons.qrc">
+               <normaloff>:/icons/16x16/download.png</normaloff>:/icons/16x16/download.png</iconset>
+             </property>
             </widget>
            </item>
            <item>

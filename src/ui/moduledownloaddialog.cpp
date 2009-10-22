@@ -21,7 +21,7 @@ moduleDownloadDialog::moduleDownloadDialog(QWidget *parent) :
      progressDialog = new QProgressDialog(this);
 
      http = new QHttp(this);
-    connect(ui->pushButton_download, SIGNAL(clicked()), this, SLOT(downloadNext()));
+    connect(ui->pushButton_download, SIGNAL(clicked()), this, SLOT(downloadNext()));//set httpRequestAborted = false
     connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(item(QTreeWidgetItem*,int)));
     connect(http, SIGNAL(requestFinished(int, bool)),
              this, SLOT(httpRequestFinished(int, bool)));
@@ -50,61 +50,79 @@ void moduleDownloadDialog::readModules()
         qDebug() << "moduleDownloadDialog::readModules() the file isnt valid";
         return;
     }
-    QMap<QString,QStringList> map;
-    QMap<QString,QStringList> map2;
-    QDomNode item = doc.documentElement().firstChild().firstChild();
-    for (; !item.isNull();) {
-        qDebug() << "moduleDownloadDialog::readModules() throw items";
-        QDomElement e = item.toElement();
-        map[e.attribute("lang","unkown")].append(e.firstChild().toText().data());
-        map2[e.attribute("lang","unkown")].append(e.attribute("link",""));
-        item = item.nextSibling();
-    }
-
     QList<QTreeWidgetItem *> items;
-    QTreeWidgetItem *top = new QTreeWidgetItem(ui->treeWidget);
-    QStyle *style = ui->treeWidget->style();
-    QIcon folderIcon;
-    folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
-    folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
-    top->setIcon(0, folderIcon);
-    top->setText(0, "Zefania Modules");
-    items.append(top);
 
-    QMapIterator<QString, QStringList> i(map);
-    while (i.hasNext()) {
-        i.next();
-        if(i.value().size() > 0)
+    QDomNode id = doc.documentElement().firstChild();
+    for (; !id.isNull();) {
+
+        QMap<QString,QStringList> map2;
+        QMap<QString,QStringList> map;
+        QDomNode item = id.firstChild();
+        for (; !item.isNull();) {
+
+            QDomElement e = item.toElement();
+            map[e.attribute("lang","unkown")].append(e.firstChild().toText().data());
+            map2[e.attribute("lang","unkown")].append(e.attribute("link",""));
+            item = item.nextSibling();
+        }
+        QTreeWidgetItem *top = new QTreeWidgetItem(ui->treeWidget);
+
+        QStyle *style = ui->treeWidget->style();
+        QIcon folderIcon;
+        folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
+        folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
+        top->setIcon(0, folderIcon);
+        QDomElement e = id.toElement();
+        QString typ = e.attribute("typ","bible");
+        if(typ == "bible")
         {
-            QTreeWidgetItem *langItem = new QTreeWidgetItem();
-            langItem->setText(0, i.key());
-            langItem->setCheckState(0,Qt::Unchecked);
-            langItem->setData(1,0,"lang");
+            top->setText(0, "Bibles");
+        }
+        else if(typ == "strong")
+        {
+             top->setText(0, "Strong Modules");
+        }
+        items.append(top);
 
-            QIcon langIcon;
-            langIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
-            langItem->setIcon(0, langIcon);
-
-            top->addChild(langItem);
-            for(int a = 0; a < i.value().size();a++)
+        QMapIterator<QString, QStringList> i(map);
+        while (i.hasNext()) {
+            i.next();
+            if(i.value().size() > 0)
             {
-                QTreeWidgetItem *bibleItem = new QTreeWidgetItem();
-                bibleItem->setData(1,0,"bible");
-                bibleItem->setData(2,0,map2[i.key()].at(a));
-                bibleItem->setData(2,1,map[i.key()].at(a));
-                bibleItem->setCheckState(0,Qt::Unchecked);
-                bibleItem->setText(0, i.value().at(a));
-                QIcon bibleIcon;
-                bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
-                bibleItem->setIcon(0, bibleIcon);
-                langItem->addChild(bibleItem);
+                QTreeWidgetItem *langItem = new QTreeWidgetItem();
+                langItem->setText(0, i.key());
+                langItem->setCheckState(0,Qt::Unchecked);
+                langItem->setData(1,0,"lang");
+                top->addChild(langItem);
+                for(int a = 0; a < i.value().size();a++)
+                {
+                    QTreeWidgetItem *bibleItem = new QTreeWidgetItem();
+                    bibleItem->setData(1,0,"module");
+                    bibleItem->setData(2,0,map2[i.key()].at(a));
+                    bibleItem->setData(2,1,map[i.key()].at(a));
+                    bibleItem->setCheckState(0,Qt::Unchecked);
+                    bibleItem->setText(0, i.value().at(a));
+                    QIcon bibleIcon;
+                    bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
+                    bibleItem->setIcon(0, bibleIcon);
+                    langItem->addChild(bibleItem);
+                }
             }
         }
+        top->setExpanded(true);
+        id = id.nextSibling();
     }
+
+
+
+
+
+
 }
 void moduleDownloadDialog::item(QTreeWidgetItem* item,int c)
 {
     qDebug() << "moduleDownloadDialog::item item = " << item->data(1,0) << " downloadList = " << downloadList;
+    httpRequestAborted = false;
     if(item->data(1,0) == "lang")
     {
         if(item->checkState(0) == Qt::Checked)
@@ -118,7 +136,7 @@ void moduleDownloadDialog::item(QTreeWidgetItem* item,int c)
 
         //lang item
     }
-    else if(item->data(1,0) == "bible")
+    else if(item->data(1,0) == "module")
     {
 
         if(item->checkState(0) == Qt::Checked)
@@ -205,10 +223,8 @@ void moduleDownloadDialog::downloadNext()
 }
 void moduleDownloadDialog::cancelDownload()
  {
-     //statusLabel->setText(tr("Download canceled."));
      httpRequestAborted = true;
      http->abort();
-     //downloadButton->setEnabled(true);
  }
 
  void moduleDownloadDialog::httpRequestFinished(int requestId, bool error)
@@ -239,8 +255,6 @@ void moduleDownloadDialog::cancelDownload()
      } else {
          qDebug() << "moduleDownloadDialog::httpRequestFinished() Downloaded";
         file->close();
-       //  QString fileName = QFileInfo(QUrl(urlLineEdit->text()).path()).fileName();
-         //statusLabel->setText(tr("Downloaded %1 to current directory.")/*.arg(fileName)*/);
      }
 
      //downloadButton->setEnabled(true);
