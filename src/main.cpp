@@ -70,19 +70,7 @@ int main(int argc, char *argv[])
     QTranslator myappTranslator;
     qDebug() << "main::main lang = " << lang;
 
-#ifdef Q_WS_WIN
-    myappTranslator.load("obv_" + lang);
-#endif
-#ifdef Q_WS_MAC
-    myappTranslator.load("obv_" + lang);
-#endif
-#ifdef Q_WS_X11
-    if (a.applicationDirPath() == "/usr/bin") {
-        myappTranslator.load("obv_" + lang, "/usr/share/openBibleViewer/translation");
-    } else {
-        myappTranslator.load("obv_" + lang);
-    }
-#endif
+    myappTranslator.load(":/data/obv_" + lang);
 
     a.installTranslator(&myappTranslator);
 
