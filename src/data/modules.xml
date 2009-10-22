@@ -119,7 +119,12 @@
 		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_litv/litv_zefania.xml" lang="ENG">Green's Literal Translation</ITEM>
 		<!-- <ITEM link="" lang=""></ITEM>	-->	
 	</ID>
-	<!--<ID typ="strong">
-		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/Bible%20de%20l%E2%80%99Ep%C3%A9e%202009/BDE_zefania.xml" lang="FRE">Bible de l’Epée 2009</ITEM>
-	</ID>-->
+	<ID typ="strong">
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/lex/elberfelder1905-lex/elberfelder1905-lex.xml" lang="GER">Die Elberfelderbibel von 1905 - Strong-Lexikon</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/lex/elberfelder1871-lex/Elberfelder1871-lex.xml" lang="GER">Die Elberfelderbibel von 1871 - Lexicon</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/lex/luther1912-lex/Luther1912-lex.xml" lang="GER">Die Lutherbibel von 1912 - Lexicon</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/lex/kjv-lex/kjv-lex.xml" lang="ENG">King James Version - Lexicon</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/lex/rwebster-lex_rev1/RWebster-lex_rev1.xml" lang="ENG">Revised 1833 Webster Version - Lexicon</ITEM>
+		
+	</ID>
 </MODULES>
