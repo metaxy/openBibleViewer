@@ -119,7 +119,7 @@
 		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_litv/litv_zefania.xml" lang="ENG">Green's Literal Translation</ITEM>
 		<!-- <ITEM link="" lang=""></ITEM>	-->	
 	</ID>
-	<ID typ="strong">
+	<!--<ID typ="strong">
 		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/Bible%20de%20l%E2%80%99Ep%C3%A9e%202009/BDE_zefania.xml" lang="FRE">Bible de l’Epée 2009</ITEM>
-	</ID>
+	</ID>-->
 </MODULES>
