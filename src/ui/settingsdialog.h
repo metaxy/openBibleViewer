@@ -35,6 +35,8 @@ public slots:
     void editModule();
     void reset();
     void saveModule(struct moduleConfig);
+    void downloadModule();
+    void addModules(QStringList files,QStringList names);
 signals:
     int save(struct settings_s settings);
 public:

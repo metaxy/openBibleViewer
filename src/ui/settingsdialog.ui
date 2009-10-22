@@ -116,6 +116,13 @@
             </widget>
            </item>
            <item>
+            <widget class="QPushButton" name="pushButton_downloadModule">
+             <property name="text">
+              <string>Download</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="pushButton_remove_module">
              <property name="text">
               <string>Remove</string>

@@ -2,7 +2,7 @@
 # Project created by QtCreator 2009-02-06T07:53:02
 # -------------------------------------------------
 TARGET = openBibleViewer
-QT += xml
+QT += xml network
 TEMPLATE = app
 OBJECTS_DIR = tmp
 MOC_DIR = tmp
@@ -33,7 +33,8 @@ SOURCES += src/main.cpp \
     src/core/goto.cpp \
     src/module/zefania-strong.cpp \
     src/ui/main/mainstrong.cpp \
-    src/core/history.cpp
+    src/core/history.cpp \
+    src/ui/moduledownloaddialog.cpp
 HEADERS += src/ui/main/mainwindow.h \
     src/core/config.h \
     src/module/biblequote.h \
@@ -58,7 +59,8 @@ HEADERS += src/ui/main/mainwindow.h \
     src/ui/moduleconfigdialog.h \
     src/core/goto.h \
     src/module/zefania-strong.h \
-    src/core/history.h
+    src/core/history.h \
+    src/ui/moduledownloaddialog.h
 FORMS += src/ui/main/mainwindow.ui \
     src/ui/searchdialog.ui \
     src/ui/settingsdialog.ui \
@@ -66,11 +68,11 @@ FORMS += src/ui/main/mainwindow.ui \
     src/ui/mdiform.ui \
     src/ui/poschoser.ui \
     src/ui/aboutdialog.ui \
-    src/ui/moduleconfigdialog.ui
+    src/ui/moduleconfigdialog.ui \
+    src/ui/moduledownloaddialog.ui
 RESOURCES += src/icons.qrc
 TRANSLATIONS = src/obv_de.ts \
     src/obv_ru.ts
-#DEFINES += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
-unix {
-    INSTALLS += target
-}
+
+# DEFINES += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
+unix:INSTALLS += target
