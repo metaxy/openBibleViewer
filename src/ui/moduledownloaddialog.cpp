@@ -22,6 +22,7 @@ moduleDownloadDialog::moduleDownloadDialog(QWidget *parent) :
 
     http = new QHttp(this);
     connect(ui->pushButton_download, SIGNAL(clicked()), this, SLOT(downloadNext()));//set httpRequestAborted = false
+    connect(ui->pushButton_cancel, SIGNAL(clicked()), this, SLOT(close()));
     connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(item(QTreeWidgetItem*, int)));
     connect(http, SIGNAL(requestFinished(int, bool)),
             this, SLOT(httpRequestFinished(int, bool)));
@@ -40,7 +41,7 @@ void moduleDownloadDialog::readModules()
     //load list from file
     //show it in treewidget
     QDomDocument doc;
-    QFile file(m_set.homePath + "modules.xml");
+    QFile file(":/data/modules.xml");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug() << "moduleDownloadDialog::readModules() cant read the file";
         return;
@@ -53,12 +54,10 @@ void moduleDownloadDialog::readModules()
 
     QDomNode id = doc.documentElement().firstChild();
     for (; !id.isNull();) {
-
         QMap<QString, QStringList> map2;
         QMap<QString, QStringList> map;
         QDomNode item = id.firstChild();
         for (; !item.isNull();) {
-
             QDomElement e = item.toElement();
             map[e.attribute("lang", "unkown")].append(e.firstChild().toText().data());
             map2[e.attribute("lang", "unkown")].append(e.attribute("link", ""));
@@ -96,9 +95,9 @@ void moduleDownloadDialog::readModules()
                     bibleItem->setData(2, 1, map[i.key()].at(a));
                     bibleItem->setCheckState(0, Qt::Unchecked);
                     bibleItem->setText(0, i.value().at(a));
-                    QIcon bibleIcon;
+                 /*   QIcon bibleIcon;
                     bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
-                    bibleItem->setIcon(0, bibleIcon);
+                    bibleItem->setIcon(0, bibleIcon);*/
                     langItem->addChild(bibleItem);
                 }
             }
@@ -113,8 +112,14 @@ void moduleDownloadDialog::item(QTreeWidgetItem* item, int c)
     httpRequestAborted = false;
     if (item->data(1, 0) == "lang") {
         if (item->checkState(0) == Qt::Checked) {
+            for(int i = 0; i< item->childCount();i++) {
+                item->child(i)->setCheckState(0,Qt::Checked);
+            }
             //check also all childrem of this
         } else if (item->checkState(0) == Qt::Unchecked) {
+             for(int i = 0; i< item->childCount();i++) {
+                item->child(i)->setCheckState(0,Qt::Unchecked);
+            }
             //uncheck all children
         }
 
@@ -168,9 +173,7 @@ void moduleDownloadDialog::downloadNext()
         qDebug() << "moduleDownloadDialog::downloadNext() 2";
         file = new QFile(fileName);
         if (!file->open(QIODevice::WriteOnly)) {
-            QMessageBox::information(this, tr("HTTP"),
-                                     tr("Unable to save the file %1: %2.")
-                                     .arg(fileName).arg(file->errorString()));
+            QMessageBox::information(this, tr("HTTP"), tr("Unable to save the file %1: %2.").arg(fileName).arg(file->errorString()));
             delete file;
             file = 0;
             return;

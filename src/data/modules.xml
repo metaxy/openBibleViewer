@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MODULES version="0.1">
+	<ID typ="bible">
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/Bible%20de%20l%E2%80%99Ep%C3%A9e%202009/BDE_zefania.xml" lang="FRE">Bible de l’Epée 2009</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/Cebuano_Ang_Biblia_Bugna/Cebuano_Ang_Biblia_Bugna.xml" lang="CEB">Cebuano Ang Biblia (Bugna Version)</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/Cebuano_Ang_Biblia_Pinadayag/Cebuano_Ang_Biblia_Pinadayag.xml" lang="CEB">Cebuano Ang Biblia (Pinadayag Version)</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/DE_de_alemannische/DE_de_alemannische.xml" lang="GER">Alemannische Bibel NT</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/Elberfelder_1905/Elberfelder_1905.xml" lang="GER">Elberfelder 1905</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/Geneva/Geneva.xml" lang="ENG">Geneva Bible</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/KJC_NT/KJC_NT.xml" lang="ENG">King James Clarified NT</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/LaNuovaDiodati1991/LaNuovaDiodati1991.xml" lang="ITA">La Nuova Diodati 1991</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/Living_Oracles_NT/Living_Oracles_NT.xml" lang="ENG">Living Oracles NT</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/Revised_Young_Literal_Translation_NT_Rev_1/Revised_Young_Literal_Translation_NT_Rev_1.xml" lang="ENG">Revised Young's Literal Translation NT</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/Riveduta1990_rev0/Riveduta1990_rev0.xml" lang="ITA">Riveduta 1990</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/de_nds_daut_niee_testament_en_de_psalme_jfriesen/de_NDS_Daut_niee_Testament_en_de_Psalme_JFriesen.xml" lang="NDS">Daut niee Testamente en de Psalme</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/de_nds_reimernt2001/de_NDS_ReimerNT2001.xml" lang="NDS">Reimer NT 2001</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/elberfelder1905-strongs/elberfelder1905-strongs.xml" lang="GER">Elberfelder 1905 (mit Strongs)</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/en_EN_Weymouth_NT/wmth.xml" lang="ENG">Weymouth NT</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/en_GB_AConservativeVersion/en_GB_AConservativeVersion.xml" lang="ENG">A Conservative Version</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/en_gb_KJ2000/en_gb_KJV2000.xml" lang="ENG">King James 2000</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/en_gb_RWebster/en_gb_RWebster.xml" lang="ENG">Revised 1833 Webster Version</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/en_gb_RWebster_Strong/en_gb_RWebster_Strong.xml" lang="ENG">Revised 1833 Webster Version with Strongs</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/fb2004/fb2004.xml" lang="GER">FreeBible2004</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/greek_modern/modern_greek.xml" lang="GRC">Modern Greek</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/kabyle_nt/kabyle_nt.xml" lang="KAB">Kabyle NT</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/luther1545_rev3/luther1545_rev3.xml" lang="GER">Luther 1545</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/luther1545_strongs/Luther1545_Strongs.xml" lang="GER">Luther 1545 mit Strongs</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/luther1912/luther1912.xml" lang="GER">Luther 1912</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/luther1912_apog/luther1912_apog.xml" lang="GER">Luther 1912 - mit Apokryphen</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/luther1912_strongs/Luther1912_Strongs.xml?revision=43" lang="GER">Luther 1912 mit Strongs</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/nsb/nsb.xml" lang="ENG">New Simplified Bible</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/rva/rva.xml" lang="SPA">Reina Valera 1989</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/schlachter1951_rev3a/Schlachter1951_rev3a.xml" lang="GER">Schlachter 1951</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/schlachter1951_strong_rev1/Schlachter1951_Strong_rev1.xml" lang="GER">Schlachter Bibel 1951 mit Strongs</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf-frbbb/FreBBB_zefania.xml" lang="FRE">French Bible Bovet Bonnet (1900)</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf.knt2/knt2.xml" lang="GER">Konkordantes NT</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_Brentons_English_Septuagint/sf_Brentons_English_Septuagint.xml" lang="ENG">Brenton's English Septuagint</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_Pirot%20Clamer/sf_Pirot_Clamer.xml" lang="FRE">Bible Pirot-Clamer</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_Riverside_NT2/sf_Riverside_NT.xml" lang="ENG">The Riverside New Testament</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_The_Analytic_Septuagint_str_rev1/sf_The_Analytic_Septuagint_str_rev1.xml" lang="GRC">The Analytic Septuagint</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_Tischendorf_Greek_NT_rev2/sf_Tischendorf_Greek_NT_rev2.xml" lang="GRC">Tischendorf Greek NT</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_Tischendorf_Greek_NT_str_rev1/sf_Tischendorf_Greek_NT_str_rev1.xml" lang="GRC">Tischendorf Greek NT w/ Strong's Numbers</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_VW2006/Vw.xml" lang="ENG">VW-Edition 2006</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_a_wesley_nt/WesleyNT.xml" lang="ENG">Wesley's NT</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_abraham_meister_nt_de_rev1/sf_abraham_meister_nt_de_rev0.xml" lang="GER">Abraham Meister NT</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_afr/sf_afr.xml" lang="AFR">1933/1953 Afrikaans Bybel</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_akjv/akjv.xml" lang="ENG">American King James Version</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_alban/sf_alban.xml" lang="ALB">Albanian Version</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_albrecht_ref_2/sf_albrecht_ref_2.xml" lang="GER">Albrecht Bibel 1926</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_aleppo_o_ot/sf_aleppo_rev0_at.xml" lang="HEB">Aleppo Codex</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_arabic/sf_arabic.xml" lang="ARA">Smith Van Dyke Arabic Bible</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_asv/asv.xml" lang="ENG">American Standard Version</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_basque_1571_nt/sf_basque_1571_nt.xml" lang="BAQ">Basque(Navarro-Labourdin)NT</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_bbe/bbe.xml" lang="ENG">Bible in Basic English</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_bible_geneve_nt_1669/sf_bible_geneve_nt_1669.xml" lang="FRE">Bible de Genève de 1669</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_biblehebr_rev1/biblehebr.xml" lang="HEB">Biblia hebraica</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_bulcarigrad-nt/sf_bulcarigrad-nt_zefania.xml" lang="BUL">Bulgarian New Testament from 1914, known as 'Tsarigrad Edition'</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_bulgarian/sf_bulgarian.xml" lang="BUL">Bulgarian Version</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_bwe/sf_bwe.xml" lang="ENG">Bible in Worldwide English NT</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_bzy2000/sf_bzy2000.xml" lang="GRC">Byzantine/Majority Text (2000)</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_bzy2000_rev_1/sf_bzy2000_rev_1.xml" lang="GRC">Byzantine/Majority Text (2000) Rev. 1</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_bzy2000_str/sf_bzy2000_str.xml" lang="GRC">Byzantine/Majority Text (2000) w/ Strong's Numbers</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_cei74/sf_cei74.xml" lang="ITA">La Bibbia CEI 74</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_china/sf_china.xml" lang="CHI">Chinese Union Version</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_chiuns3/sf_chiuns3.xml" lang="CHI">CHINESE UNION VERSION Simplified</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_clvulg_a/sf_clvulg_a.xml" lang="LAT">Clementine Vulgate</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_common_rev_1/sf_common_rev_1.xml" lang="ENG">The Common Edition: New Testament</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_crampon23_4b/sf_crampon23_4.xml" lang="FRE">La Bible Augustin Crampon 1923</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_croatian/sf_croatian.xml" lang="SCR">Croatian Bible Version</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_czeb21/czeb2.xml" lang="CZE">Czech Bible, Překlad 21. století</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_czecep/sf_czecep.xml" lang="CZE">Czech Ekumenicky Cesky preklad</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_czech_bkr/sf_czech_bkr.xml" lang="CZE">Czech BKR</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_danish2/sf_danish.xml" lang="DAN">Danish Version</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_darby/darby.xml" lang="ENG">Darby Bible</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_darby_francais_2006/sf_darby_francais_2006.xml" lang="FRE">French Darby 2006</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_de_DE_reinhardt1910_eva_0/sf_de_DE_reinhardt1910_eva_0.xml" lang="GER">Reinhardt 1910 Evangelien</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_dejeb/sf_deje.xml" lang="FRE">La Bible de Jérusalem</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_diaglot_rev_1/sf_diaglot_rev_1.xml" lang="ENG">Diaglot NT - 1865</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_dutchstv/dutsvv.xml" lang="NL">Dutch Statenvertaling</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_elb1871_rev1/sf_elb1871_rev1.xml" lang="GER">Elberfelder 1871</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_elb1871str_rev4/sf_elb1871str_rev4.xml" lang="GER">Elberfelder 1871 mit Strongs im NT</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_emtv/emtv.xml" lang="ENG">English Majority Text Version</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_esperanto/esperanto.xml" lang="ESP">Esperanto Bible</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_fdarby/frdarby.xml" lang="FRE">French Darby</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_finish/sf_finish.xml" lang="FIN">Finish Version</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_fremartin/sf_fremartin.xml" lang="FRE">Bible Martin 1844</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_gal_maciron/gal_mac_cath.xml" lang="ENG">The Epistle to the Galatians English version of the translation by Hermann Deterin</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_gerben_rev2/sf_gerben_rev2.xml" lang="GER">Bengel NT</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_gnt_rob_str/sf_gnt_rob_str.xml" lang="GRC">Robinson/Pierpont Byzantine Greek NT</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_gnt_tr_str/sf_gnt_tr_str.xml" lang="GRC">Textus Receptus NT w/ Strong's Numbers</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_gnt_variants/sf_gnt_variants.xml" lang="GRC">Greek New Testament w/ variants</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_gnt_wh_str/sf_gnt_wh_str.xml" lang="GRC">Westcott-Hort Greek New Testament w/ Strong's Numbers</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_gothic_AA_Mss/gothic_AA_Mss.xml" lang="GOT">Gothic Codex Ambrosianus A, and Manuscripts</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_gothic_AB_Car/gothic_AB_Car.xml" lang="GOT">Gothic Codices Ambrosianus B</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_greber1936_rev1/sf_greber1936_rev1.xml" lang="GER">Johannes Greber 1936 NT</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_greeknt1550/greeknt1550.xml" lang="GRC">Greek NT 1550</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_greeknt1896/greeknt1896.xml" lang="GRC">Greek NT 1894</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_greekwh/greekwh.xml" lang="GRC">Greek WH</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_gruenewald_1924_rev2/sf_gr%C3%BCnewald_1924_rev2.xml" lang="GER">Grünewalder</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_haiti/sf_haiti.xml" lang="HAT">Haitian Creole Version</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_hebmodern/sf_hebmodern.xml" lang="HEB">Modern Hebrew Bible</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_hungarian2/sf_hungarian.xml" lang="HUN">Hungarian Version</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_hunju/sf_hunju.xml" lang="HUN">Hungarian New Translation</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_interlinear_gr_dt_nt_b/sf_Interlinear_gr_dt_nt.xml" lang="GER">Interlinearübersetzung</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_isv_nt/sf_isv.xml" lang="ENG">ISV NT</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_itadio/itadio.xml" lang="ITA">1649 Italian Giovanni Diodati Bibbia</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_italian/italian.xml" lang="ITA">Italian Version</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_jps/sf_jps.xml" lang="ENG">Jewish Publication Society AT</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_jubilee2000/sf_jubilee2000.xml" lang="ENG">English Jubilee 2000 Bible</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_kjf/KJF.xml" lang="FRE">KJF</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_kjv/kjv.xml" lang="ENG">King James Version</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_kjv62/MKJV1962_eng_vers.xml" lang="ENG">Modern KJV 1963</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_kjv_apok/KJV_apok.xml" lang="ENG">King James Version with Apokryphen</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_kjv_strongs_rev1b/sf_kjv_strongs_rev1b.xml" lang="ENG">KJV+</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_klingon/sf_klingon.xml" lang="XKL">Klingon Version</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_korian/sf_korian.xml" lang="KOR">Korean Version</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_lativian_nt/latvian_nt.xml" lang="LAV">Lativian Version</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_leeser_rev1/sf_Leeser_rev1.xml" lang="ENG">Leeser Old Testament</ITEM>
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_litv/litv_zefania.xml" lang="ENG">Green's Literal Translation</ITEM>
+		<!-- <ITEM link="" lang=""></ITEM>	-->	
+	</ID>
+	<ID typ="strong">
+		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/Bible%20de%20l%E2%80%99Ep%C3%A9e%202009/BDE_zefania.xml" lang="FRE">Bible de l’Epée 2009</ITEM>
+	</ID>
+</MODULES>

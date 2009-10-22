@@ -2,7 +2,8 @@
 # Project created by QtCreator 2009-02-06T07:53:02
 # -------------------------------------------------
 TARGET = openBibleViewer
-QT += xml network
+QT += xml \
+    network
 TEMPLATE = app
 OBJECTS_DIR = tmp
 MOC_DIR = tmp
@@ -70,7 +71,8 @@ FORMS += src/ui/main/mainwindow.ui \
     src/ui/aboutdialog.ui \
     src/ui/moduleconfigdialog.ui \
     src/ui/moduledownloaddialog.ui
-RESOURCES += src/icons.qrc
+RESOURCES += src/icons.qrc \
+    src/data.qrc
 TRANSLATIONS = src/obv_de.ts \
     src/obv_ru.ts
 

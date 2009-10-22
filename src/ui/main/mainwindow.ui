@@ -17,7 +17,7 @@
    <string>openBibleViewer 0.2</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../icons.qrc">
+   <iconset>
     <normaloff>:/icons/16x16/main.png</normaloff>:/icons/16x16/main.png</iconset>
   </property>
   <property name="styleSheet">
@@ -60,7 +60,7 @@
      <x>0</x>
      <y>0</y>
      <width>1081</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -135,8 +135,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="tactionSave"/>
-   <addaction name="separator"/>
    <addaction name="tactionSearch"/>
    <addaction name="tactionBookmarks"/>
    <addaction name="tactionNotes"/>
@@ -161,7 +159,7 @@
     </size>
    </property>
    <property name="windowIcon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/table.png</normaloff>:/icons/16x16/table.png</iconset>
    </property>
    <property name="windowTitle">
@@ -204,7 +202,7 @@
     </size>
    </property>
    <property name="windowIcon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/format-list-ordered.png</normaloff>:/icons/16x16/format-list-ordered.png</iconset>
    </property>
    <property name="windowTitle">
@@ -277,7 +275,7 @@
     </size>
    </property>
    <property name="windowIcon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/go-jump.png</normaloff>:/icons/16x16/go-jump.png</iconset>
    </property>
    <property name="windowTitle">
@@ -316,7 +314,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../../icons.qrc">
+        <iconset>
          <normaloff>:/icons/16x16/go-jump-locationbar.png</normaloff>:/icons/16x16/go-jump-locationbar.png</iconset>
        </property>
       </widget>
@@ -338,7 +336,7 @@
     </size>
    </property>
    <property name="windowIcon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/view-pim-notes.png</normaloff>:/icons/16x16/view-pim-notes.png</iconset>
    </property>
    <property name="windowTitle">
@@ -382,7 +380,7 @@
           <string>Delete</string>
          </property>
          <property name="icon">
-          <iconset resource="../../icons.qrc">
+          <iconset>
            <normaloff>:/icons/16x16/edit-delete.png</normaloff>:/icons/16x16/edit-delete.png</iconset>
          </property>
         </widget>
@@ -399,7 +397,7 @@
           <string>Add</string>
          </property>
          <property name="icon">
-          <iconset resource="../../icons.qrc">
+          <iconset>
            <normaloff>:/icons/16x16/document-new.png</normaloff>:/icons/16x16/document-new.png</iconset>
          </property>
         </widget>
@@ -442,7 +440,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="../../icons.qrc">
+             <iconset>
               <normaloff>:/icons/16x16/format-text-bold.png</normaloff>:/icons/16x16/format-text-bold.png</iconset>
             </property>
            </widget>
@@ -453,7 +451,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="../../icons.qrc">
+             <iconset>
               <normaloff>:/icons/16x16/format-text-italic.png</normaloff>:/icons/16x16/format-text-italic.png</iconset>
             </property>
            </widget>
@@ -464,7 +462,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="../../icons.qrc">
+             <iconset>
               <normaloff>:/icons/16x16/format-text-underline.png</normaloff>:/icons/16x16/format-text-underline.png</iconset>
             </property>
            </widget>
@@ -478,7 +476,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="../../icons.qrc">
+             <iconset>
               <normaloff>:/icons/16x16/format-fill-color.png</normaloff>:/icons/16x16/format-fill-color.png</iconset>
             </property>
            </widget>
@@ -528,7 +526,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="../../icons.qrc">
+             <iconset>
               <normaloff>:/icons/16x16/configure.png</normaloff>:/icons/16x16/configure.png</iconset>
             </property>
            </widget>
@@ -547,7 +545,7 @@
            <string>Save</string>
           </property>
           <property name="icon">
-           <iconset resource="../../icons.qrc">
+           <iconset>
             <normaloff>:/icons/16x16/document-save.png</normaloff>:/icons/16x16/document-save.png</iconset>
           </property>
           <property name="shortcut">
@@ -575,7 +573,7 @@
     </size>
    </property>
    <property name="windowIcon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/bookmarks-organize.png</normaloff>:/icons/16x16/bookmarks-organize.png</iconset>
    </property>
    <property name="windowTitle">
@@ -628,7 +626,7 @@
         <string>Save</string>
        </property>
        <property name="icon">
-        <iconset resource="../../icons.qrc">
+        <iconset>
          <normaloff>:/icons/16x16/document-save.png</normaloff>:/icons/16x16/document-save.png</iconset>
        </property>
        <property name="shortcut">
@@ -647,7 +645,7 @@
     </size>
    </property>
    <property name="windowIcon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/edit-find.png</normaloff>:/icons/16x16/edit-find.png</iconset>
    </property>
    <property name="features">
@@ -682,7 +680,7 @@
           <string>Info</string>
          </property>
          <property name="icon">
-          <iconset resource="../../icons.qrc">
+          <iconset>
            <normaloff>:/icons/16x16/view-statistics.png</normaloff>:/icons/16x16/view-statistics.png</iconset>
          </property>
         </widget>
@@ -750,7 +748,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../../icons.qrc">
+          <iconset>
            <normaloff>:/icons/16x16/go-jump-locationbar.png</normaloff>:/icons/16x16/go-jump-locationbar.png</iconset>
          </property>
         </widget>
@@ -769,7 +767,7 @@
   </widget>
   <action name="actionSave">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/document-save-as.png</normaloff>:/icons/16x16/document-save-as.png</iconset>
    </property>
    <property name="text">
@@ -781,7 +779,7 @@
   </action>
   <action name="actionPrint">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/document-print.png</normaloff>:/icons/16x16/document-print.png</iconset>
    </property>
    <property name="text">
@@ -790,7 +788,7 @@
   </action>
   <action name="actionExit">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/application-exit.png</normaloff>:/icons/16x16/application-exit.png</iconset>
    </property>
    <property name="text">
@@ -805,7 +803,7 @@
   </action>
   <action name="actionOnlineHelp">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/help-contents.png</normaloff>:/icons/16x16/help-contents.png</iconset>
    </property>
    <property name="text">
@@ -819,7 +817,7 @@
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/help-about.png</normaloff>:/icons/16x16/help-about.png</iconset>
    </property>
    <property name="text">
@@ -831,7 +829,7 @@
   </action>
   <action name="actionNewWindow">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/window-new.png</normaloff>:/icons/16x16/window-new.png</iconset>
    </property>
    <property name="text">
@@ -843,7 +841,7 @@
   </action>
   <action name="tactionSave">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/32x32/document-save.png</normaloff>:/icons/32x32/document-save.png</iconset>
    </property>
    <property name="text">
@@ -858,7 +856,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/32x32/window-new.png</normaloff>:/icons/32x32/window-new.png</iconset>
    </property>
    <property name="text">
@@ -867,7 +865,7 @@
   </action>
   <action name="tactionCloseTab">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/32x32/tab-close.png</normaloff>:/icons/32x32/tab-close.png</iconset>
    </property>
    <property name="text">
@@ -876,7 +874,7 @@
   </action>
   <action name="tactionBookmarks">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/32x32/bookmarks-organize.png</normaloff>:/icons/32x32/bookmarks-organize.png</iconset>
    </property>
    <property name="text">
@@ -885,7 +883,7 @@
   </action>
   <action name="tactionNotes">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/32x32/view-pim-notes.png</normaloff>:/icons/32x32/view-pim-notes.png</iconset>
    </property>
    <property name="text">
@@ -894,7 +892,7 @@
   </action>
   <action name="tactionZoomIn">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/32x32/zoom-in.png</normaloff>:/icons/32x32/zoom-in.png</iconset>
    </property>
    <property name="text">
@@ -906,7 +904,7 @@
   </action>
   <action name="tactionZoomOut">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/32x32/zoom-out.png</normaloff>:/icons/32x32/zoom-out.png</iconset>
    </property>
    <property name="text">
@@ -918,7 +916,7 @@
   </action>
   <action name="actionCopy">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/edit-copy.png</normaloff>:/icons/16x16/edit-copy.png</iconset>
    </property>
    <property name="text">
@@ -927,7 +925,7 @@
   </action>
   <action name="actionSelectAll">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/edit-select-all.png</normaloff>:/icons/16x16/edit-select-all.png</iconset>
    </property>
    <property name="text">
@@ -939,7 +937,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/bookmarks-organize.png</normaloff>:/icons/16x16/bookmarks-organize.png</iconset>
    </property>
    <property name="text">
@@ -954,7 +952,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/view-pim-notes.png</normaloff>:/icons/16x16/view-pim-notes.png</iconset>
    </property>
    <property name="text">
@@ -966,7 +964,7 @@
   </action>
   <action name="actionSettings">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/configure.png</normaloff>:/icons/16x16/configure.png</iconset>
    </property>
    <property name="text">
@@ -978,7 +976,7 @@
   </action>
   <action name="actionSearch">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/edit-find.png</normaloff>:/icons/16x16/edit-find.png</iconset>
    </property>
    <property name="text">
@@ -990,7 +988,7 @@
   </action>
   <action name="tactionSearch">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/32x32/edit-find.png</normaloff>:/icons/32x32/edit-find.png</iconset>
    </property>
    <property name="text">
@@ -999,7 +997,7 @@
   </action>
   <action name="actionZoomIn">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/zoom-in.png</normaloff>:/icons/16x16/zoom-in.png</iconset>
    </property>
    <property name="text">
@@ -1008,7 +1006,7 @@
   </action>
   <action name="actionZoomOut">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/zoom-out.png</normaloff>:/icons/16x16/zoom-out.png</iconset>
    </property>
    <property name="text">
@@ -1020,7 +1018,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/go-down-search.png</normaloff>:/icons/16x16/go-down-search.png</iconset>
    </property>
    <property name="text">
@@ -1038,7 +1036,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/16x16/go-up-search.png</normaloff>:/icons/16x16/go-up-search.png</iconset>
    </property>
    <property name="text">
@@ -1053,7 +1051,7 @@
   </action>
   <action name="actionVerticalTile">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/svg/tile_vert.svg</normaloff>:/icons/svg/tile_vert.svg</iconset>
    </property>
    <property name="text">
@@ -1062,7 +1060,7 @@
   </action>
   <action name="actionHorizontalTile">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/svg/tile_horiz.svg</normaloff>:/icons/svg/tile_horiz.svg</iconset>
    </property>
    <property name="text">
@@ -1071,7 +1069,7 @@
   </action>
   <action name="actionCascade">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset>
      <normaloff>:/icons/svg/cascade.svg</normaloff>:/icons/svg/cascade.svg</iconset>
    </property>
    <property name="text">
@@ -1080,8 +1078,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="../../icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

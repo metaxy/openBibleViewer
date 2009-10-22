@@ -349,7 +349,6 @@ void zefaniaBible::loadNoCached(int id, QString path)
             //load default booknames
             QStringList b = zefset.bookNames;
             for (int v = 0; v < 39; v++) {
-                // qDebug() << " v = " << v;
                 b.removeFirst();
             }
             bookFullName = b;
