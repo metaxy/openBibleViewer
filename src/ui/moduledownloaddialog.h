@@ -25,7 +25,7 @@ private slots:
     void readResponseHeader(const QHttpResponseHeader &responseHeader);
     void updateDataReadProgress(int bytesRead, int totalBytes);
     void downloadNext();
-    void item(QTreeWidgetItem* item, int c);
+    void item(QTreeWidgetItem* item);
     void cancelDownload();
 public:
     moduleDownloadDialog(QWidget *parent = 0);

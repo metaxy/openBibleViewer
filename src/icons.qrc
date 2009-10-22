@@ -60,5 +60,6 @@
         <file>icons/16x16/go-previous.png</file>
         <file>icons/16x16/go-next.png</file>
         <file>icons/16x16/download.png</file>
+        <file>icons/32x32/module.png</file>
     </qresource>
 </RCC>

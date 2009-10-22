@@ -247,7 +247,7 @@ void zefaniaBible::loadNoCached(int id, QString path)
     QRegExp rxlen("encoding=\"(.*)\"");
     int pos = rxlen.indexIn(firstString);
     codecString = "UTF-8";
-    if (pos > -1) {
+    if (pos > -1 && !rxlen.cap(1).contains("\"")) {
         codecString = rxlen.cap(1);
     } else {
         codecString = "UTF-8";

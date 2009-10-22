@@ -217,6 +217,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->tactionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
     connect(ui->tactionNotes, SIGNAL(triggered()), this, SLOT(loadNotes()));
     connect(ui->tactionBookmarks, SIGNAL(triggered()), this, SLOT(loadBookmarks()));
+    connect(ui->tactionModule, SIGNAL(triggered()), this, SLOT(showSettingsDialog()));
 
 
     //menu end
@@ -241,15 +242,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->label_noteLink, SIGNAL(linkActivated(QString)), this, SLOT(noteGo(QString)));
     connect(ui->comboBox_strong, SIGNAL(currentIndexChanged(int)), this, SLOT(loadStrongModule(int)));
     connect(ui->textBrowser_strong, SIGNAL(anchorClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
-    ui->dockWidget_search->hide();
-    ui->dockWidget_go->hide();
-    ui->dockWidget_notes->hide();
-    ui->dockWidget_bookmarks->hide();
+
 
     ui->lineEdit_goTo->installEventFilter(this);
 
     loadNotes();
     loadBookmarks();
+
+    ui->dockWidget_search->hide();
+    ui->dockWidget_go->hide();
+    ui->dockWidget_notes->hide();
+    ui->dockWidget_bookmarks->hide();
+    ui->dockWidget_strong->hide();
 
     restoreSession();
 }

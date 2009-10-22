@@ -24,7 +24,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 int MainWindow::loadNotes(void)
 {
-
     if (ui->dockWidget_notes->isVisible()) {
         ui->dockWidget_notes->hide();
     } else {

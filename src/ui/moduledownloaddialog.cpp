@@ -23,7 +23,7 @@ moduleDownloadDialog::moduleDownloadDialog(QWidget *parent) :
     http = new QHttp(this);
     connect(ui->pushButton_download, SIGNAL(clicked()), this, SLOT(downloadNext()));//set httpRequestAborted = false
     connect(ui->pushButton_cancel, SIGNAL(clicked()), this, SLOT(close()));
-    connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(item(QTreeWidgetItem*, int)));
+    connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(item(QTreeWidgetItem*)));
     connect(http, SIGNAL(requestFinished(int, bool)),
             this, SLOT(httpRequestFinished(int, bool)));
     connect(http, SIGNAL(dataReadProgress(int, int)),
@@ -106,37 +106,37 @@ void moduleDownloadDialog::readModules()
         id = id.nextSibling();
     }
 }
-void moduleDownloadDialog::item(QTreeWidgetItem* item, int c)
+void moduleDownloadDialog::item(QTreeWidgetItem* i)
 {
-    qDebug() << "moduleDownloadDialog::item item = " << item->data(1, 0) << " downloadList = " << downloadList;
+    qDebug() << "moduleDownloadDialog::i i = " << i->data(1, 0) << " downloadList = " << downloadList;
     httpRequestAborted = false;
-    if (item->data(1, 0) == "lang") {
-        if (item->checkState(0) == Qt::Checked) {
-            for(int i = 0; i< item->childCount();i++) {
-                item->child(i)->setCheckState(0,Qt::Checked);
+    if (i->data(1, 0) == "lang") {
+        if (i->checkState(0) == Qt::Checked) {
+            for(int c = 0; c< i->childCount();c++) {
+                i->child(c)->setCheckState(0,Qt::Checked);
+                item(i->child(c));
             }
             //check also all childrem of this
-        } else if (item->checkState(0) == Qt::Unchecked) {
-             for(int i = 0; i< item->childCount();i++) {
-                item->child(i)->setCheckState(0,Qt::Unchecked);
+        } else if (i->checkState(0) == Qt::Unchecked) {
+             for(int c = 0; c< i->childCount();c++) {
+                i->child(c)->setCheckState(0,Qt::Unchecked);
+                item(i->child(c));
             }
             //uncheck all children
         }
+    } else if (i->data(1, 0) == "module") {
 
-        //lang item
-    } else if (item->data(1, 0) == "module") {
-
-        if (item->checkState(0) == Qt::Checked) {
-            downloadList.append(item->data(2, 0).toString());
-            nameList.append(item->data(2, 1).toString());
+        if (i->checkState(0) == Qt::Checked) {
+            downloadList.append(i->data(2, 0).toString());
+            nameList.append(i->data(2, 1).toString());
             // add to download list
-        } else if (item->checkState(0) == Qt::Unchecked) {
-            downloadList.removeOne(item->data(2, 0).toString());
-            nameList.removeOne(item->data(2, 1).toString());
+        } else if (i->checkState(0) == Qt::Unchecked) {
+            downloadList.removeOne(i->data(2, 0).toString());
+            nameList.removeOne(i->data(2, 1).toString());
             //remove from download list
         }
     }
-    //if(item->checkState(0) == Qt::
+    //if(i->checkState(0) == Qt::
 }
 void moduleDownloadDialog::setSettings(settings_s settings)
 {
@@ -155,14 +155,12 @@ void moduleDownloadDialog::downloadNext()
         return;
     }
     if (currentDownload < downloadList.size() && downloadList.size() != 0) {
-        /*delete
-        progressDialog = new QProgressDialog(this);
-        http = new QHttp(this);*/
-
         currentDownload++;
         QUrl url(downloadList.at(currentDownload));
         QFileInfo fileInfo(url.path());
-        QString fileName = m_set.homePath + "modules/" + fileInfo.fileName();
+        QDir d(m_set.homePath + "modules/");
+        dir.mkpath(m_set.homePath + "modules/" + fileInfo.fileName() +"/");
+        QString fileName = m_set.homePath + "modules/" + fileInfo.fileName() +"/"+fileInfo.fileName();
         downloadedList << fileName;
         downNames << nameList.at(currentDownload);
         qDebug() << "moduleDownloadDialog::downloadNext() fileName = " << fileName;
@@ -170,7 +168,6 @@ void moduleDownloadDialog::downloadNext()
         if (QFile::exists(fileName)) {
             QFile::remove(fileName);
         }
-        qDebug() << "moduleDownloadDialog::downloadNext() 2";
         file = new QFile(fileName);
         if (!file->open(QIODevice::WriteOnly)) {
             QMessageBox::information(this, tr("HTTP"), tr("Unable to save the file %1: %2.").arg(fileName).arg(file->errorString()));
@@ -178,25 +175,20 @@ void moduleDownloadDialog::downloadNext()
             file = 0;
             return;
         }
-        qDebug() << "moduleDownloadDialog::downloadNext() 3";
         QHttp::ConnectionMode mode = url.scheme().toLower() == "https" ? QHttp::ConnectionModeHttps : QHttp::ConnectionModeHttp;
         http->setHost(url.host(), mode, url.port() == -1 ? 0 : url.port());
-        /* if (!url.userName().isEmpty())
-         http->setUser(url.userName(), url.password());*/
+
         httpRequestAborted = false;
         QByteArray path = QUrl::toPercentEncoding(url.path(), "!$&'()*+,;=:@/");
         if (path.isEmpty())
             path = "/";
         httpGetId = http->get(path, file);
-        qDebug() << "moduleDownloadDialog::downloadNext() 4";
         progressDialog->setWindowTitle(tr("HTTP"));
         progressDialog->setLabelText(tr("Downloading %1.").arg(nameList.at(currentDownload)));
         progressDialog->setModal(true);
-        qDebug() << "moduleDownloadDialog::downloadNext() 5";
     } else {
         qDebug() << "moduleDownloadDialog::downloadNext() nothing selected";
     }
-    //do downloading
 }
 void moduleDownloadDialog::cancelDownload()
 {
@@ -221,7 +213,7 @@ void moduleDownloadDialog::httpRequestFinished(int requestId, bool error)
 
     if (requestId != httpGetId)
         return;
-    if (currentDownload > downloadList.size() - 1 || downloadList.size() == 1) {
+    if (currentDownload > downloadList.size() - 2 || downloadList.size() == 1) {
         progressDialog->hide();
     }
     file->close();
