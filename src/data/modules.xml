@@ -117,7 +117,6 @@
 		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_lativian_nt/latvian_nt.xml" lang="LAV">Lativian Version</ITEM>
 		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_leeser_rev1/sf_Leeser_rev1.xml" lang="ENG">Leeser Old Testament</ITEM>
 		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/sf_litv/litv_zefania.xml" lang="ENG">Green's Literal Translation</ITEM>
-		<!-- <ITEM link="" lang=""></ITEM>	-->	
 	</ID>
 	<ID typ="strong">
 		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/lex/elberfelder1905-lex/elberfelder1905-lex.xml" lang="GER">Die Elberfelderbibel von 1905 - Strong-Lexikon</ITEM>
@@ -125,6 +124,5 @@
 		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/lex/luther1912-lex/Luther1912-lex.xml" lang="GER">Die Lutherbibel von 1912 - Lexicon</ITEM>
 		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/lex/kjv-lex/kjv-lex.xml" lang="ENG">King James Version - Lexicon</ITEM>
 		<ITEM link="http://zefania-sharp.svn.sourceforge.net/viewvc/zefania-sharp/trunk/lex/rwebster-lex_rev1/RWebster-lex_rev1.xml" lang="ENG">Revised 1833 Webster Version - Lexicon</ITEM>
-		
 	</ID>
 </MODULES>
