@@ -24,6 +24,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QLibraryInfo>
 #include <QtCore/QtDebug>
 #include <QtCore/QFSFileEngine>
+#include <QtCore/QDir>
+#include <stdlib.h>
 
 #include "ui/main/mainwindow.h"
 #include "core/config.h"
@@ -51,7 +53,7 @@ int main(int argc, char *argv[])
     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
 #endif
 #ifdef Q_WS_WIN
-    homeDataPath = "%APPDATA%/openbible/";
+    homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath()+"/openbible/";
     settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
                              "openBible", "openBibleViewer");
 #endif

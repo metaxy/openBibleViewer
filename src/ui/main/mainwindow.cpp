@@ -29,7 +29,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QComboBox>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QKeyEvent>
-
+#include <stdlib.h>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -49,8 +49,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
     ui->setupUi(this);
-    VERSION  = "0.2";
-    BUILD =  "2009-9-14";
+    VERSION  = "0.2.1";
+    BUILD =  "2009-10-26";
 
 #ifdef _PORTABLE_VERSION
     homeDataPath = QApplication::applicationDirPath() + "/";
@@ -67,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
 #endif
 #ifdef Q_WS_WIN
-    homeDataPath = "%APPDATA%/openbible/";
+    homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath()+"/openbible/";
     settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
                              "openBible", "openBibleViewer");
 #endif
@@ -826,7 +826,7 @@ int MainWindow::saveSettings(struct settings_s ssettings)
     if (set.language != ssettings.language /* || set.theme != ssettings->theme*/) {
         QTranslator myappTranslator;
         qDebug() << "MainWindow::saveSettings() lang = " << ssettings.language;
-        myappTranslator.load("obv_" + ssettings.language);
+        myappTranslator.load(":/data/obv_" + ssettings.language);
         QApplication::installTranslator(&myappTranslator);
 
         ui->retranslateUi(this);
