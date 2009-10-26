@@ -73,9 +73,9 @@ void moduleDownloadDialog::readModules()
         QDomElement e = id.toElement();
         QString typ = e.attribute("typ", "bible");
         if (typ == "bible") {
-            top->setText(0, "Bibles");
+            top->setText(0, tr("Bibles"));
         } else if (typ == "strong") {
-            top->setText(0, "Strong Modules");
+            top->setText(0, tr("Strong Modules"));
         }
         items.append(top);
 
@@ -183,8 +183,8 @@ void moduleDownloadDialog::downloadNext()
         if (path.isEmpty())
             path = "/";
         httpGetId = http->get(path, file);
-        progressDialog->setWindowTitle(tr("HTTP"));
-        progressDialog->setLabelText(tr("Downloading %1.").arg(nameList.at(currentDownload)));
+        progressDialog->setWindowTitle(tr("Downloading"));
+        progressDialog->setLabelText(tr("Downloading %1 / %2. %3 MB").arg(currentDownload+1).arg(downloadList.size()).arg(0));
         progressDialog->setModal(true);
     } else {
         qDebug() << "moduleDownloadDialog::downloadNext() nothing selected";
@@ -259,6 +259,10 @@ void moduleDownloadDialog::updateDataReadProgress(int bytesRead, int totalBytes)
 {
     if (httpRequestAborted)
         return;
+    progressDialog->setLabelText(tr("Downloading %1 / %2. %3 MB")
+                                 .arg(currentDownload+1)
+                                 .arg(downloadList.size())
+                                 .arg(QString::number((float)bytesRead/(1024*1024),'f',2)));
     //qDebug() << "moduleDownloadDialog::updateDataReadProgress() bytesRead = " << bytesRead;
     if (totalBytes == 0) {
         if (progressDialog->maximum() != 0) {
@@ -267,6 +271,7 @@ void moduleDownloadDialog::updateDataReadProgress(int bytesRead, int totalBytes)
             progressDialog->setValue(1);
         }
     } else {
+
         if (progressDialog->maximum() != totalBytes) {
             progressDialog->setMaximum(totalBytes);
         }
