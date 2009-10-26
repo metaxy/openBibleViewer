@@ -976,7 +976,7 @@ int MainWindow::showAboutDialog(void)
     aboutDialog aDialog;
     aDialog.setWindowTitle(tr("About openBibleViewer"));
     aDialog.show();
-    aDialog.setText("openBibleViewer <br> version: " + VERSION + " build: " + BUILD + "<br> <a href=\"http://openbv.uucyc.name/\"> Official Website</a> | <a href=\"http://openbv.uucyc.name/bug/\">Bug report</a>");
+    aDialog.setText(tr("openBibleViewer <br> version: %1 build: %2<br> <a href=\"http://openbv.uucyc.name/\"> Official Website</a> | <a href=\"http://openbv.uucyc.name/bug/\">Bug report</a>").arg(VERSION).arg(BUILD));
     return aDialog.exec();
 }
 int MainWindow::internalOpenPos(QString pos)
