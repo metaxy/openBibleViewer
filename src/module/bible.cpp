@@ -18,7 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QMapIterator>
 bible::bible()
 {
-
+    currentBibleID = -1;
 }
 void bible::setBibleType(int type)
 {
