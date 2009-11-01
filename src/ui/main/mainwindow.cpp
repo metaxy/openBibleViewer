@@ -50,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
     VERSION  = "0.2.1";
-    BUILD =  "2009-10-26";
+    BUILD =  "2009-11-01";
 
 #ifdef _PORTABLE_VERSION
     homeDataPath = QApplication::applicationDirPath() + "/";
