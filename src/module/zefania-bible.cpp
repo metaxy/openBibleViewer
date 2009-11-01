@@ -253,6 +253,27 @@ void zefaniaBible::loadNoCached(int id, QString path)
         codecString = "UTF-8";
     }
     qDebug() << "zefaniaBible::loadNoCached() encoding = " << codecString;
+#ifdef Q_WS_WIN
+    if(codecString.toLower() == "utf-8") {
+        QTextCodec *codec = QTextCodec::codecForName(codecString.toStdString().c_str());
+        QTextDecoder *decoder = codec->makeDecoder();
+        while (!file.atEnd()) {
+            QByteArray byteline = file.readLine();
+            QString l = QString::fromLocal8Bit(byteline.constData());
+            data += l;
+            fileList << l;
+        }
+    } else {
+        QTextCodec *codec = QTextCodec::codecForName(codecString.toStdString().c_str());
+        QTextDecoder *decoder = codec->makeDecoder();
+        while (!file.atEnd()) {
+            QByteArray byteline = file.readLine();
+            QString l = decoder->toUnicode(byteline);
+            data += l;
+            fileList << l;
+        }
+    }
+#else
     QTextCodec *codec = QTextCodec::codecForName(codecString.toStdString().c_str());
     QTextDecoder *decoder = codec->makeDecoder();
     while (!file.atEnd()) {
@@ -261,6 +282,8 @@ void zefaniaBible::loadNoCached(int id, QString path)
         data += l;
         fileList << l;
     }
+#endif
+
     progress.setValue(5);
     if (!doc.setContent(data)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
