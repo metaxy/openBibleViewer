@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=openBibleViewer
+Exec=openBibleViewer %u
+GenericName=Bible Study Tool
+GenericName[en]=Bible Study Tool
+GenericName[de]=Bibelstudium
+Terminal=false
+Type=Application
+Icon=openBibleViewer
+Categories=Teaching
+StartupNotify=true
