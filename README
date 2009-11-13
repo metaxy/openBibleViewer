@@ -6,7 +6,7 @@ In this file:
 
 General introduction:
 --------------------
-This is openBibleViewer.openBibleViewer is a Bible study application based on Qt 4.4.3 or later.
+openBibleViewer is a Bible study application based on Qt 4.4.3 or later.
 
 If you found a bug, please report him on http://openbv.uucyc.name/bug/.
 
