@@ -1,7 +1,8 @@
 <RCC>
-    <qresource prefix="/" >
+    <qresource prefix="/">
         <file>data/modules.xml</file>
         <file>data/obv_de.qm</file>
         <file>data/obv_ru.qm</file>
+        <file>data/obv_en.qm</file>
     </qresource>
 </RCC>

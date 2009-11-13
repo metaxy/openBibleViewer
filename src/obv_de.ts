@@ -4,15 +4,14 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="ui/main/mainnotes.cpp" line="195"/>
-        <location filename="ui/main/mainwindow.cpp" line="370"/>
+        <location filename="ui/main/mainwindow.cpp" line="373"/>
         <source>Copy</source>
         <translation>Kopieren</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.cpp" line="435"/>
         <location filename="ui/main/mainwindow.cpp" line="438"/>
-        <location filename="ui/main/mainwindow.cpp" line="444"/>
+        <location filename="ui/main/mainwindow.cpp" line="441"/>
+        <location filename="ui/main/mainwindow.cpp" line="447"/>
         <source>Copy Verse</source>
         <translation>Kopiere Verse</translation>
     </message>
@@ -359,76 +358,89 @@
         <translation type="unfinished">Offenbarung</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.cpp" line="325"/>
-        <location filename="ui/main/mainwindow.cpp" line="330"/>
+        <location filename="ui/main/mainwindow.cpp" line="328"/>
+        <location filename="ui/main/mainwindow.cpp" line="333"/>
         <source>This Book is not available.</source>
         <translation>Dieses Buch ist nicht verfügbar.</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.cpp" line="335"/>
+        <location filename="ui/main/mainwindow.cpp" line="338"/>
         <source>Can not read the file.</source>
         <translation>Kann die Datei nicht lesen.</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.cpp" line="448"/>
+        <location filename="ui/main/mainwindow.cpp" line="451"/>
         <source>Select All</source>
         <translation>Alles markieren</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.cpp" line="452"/>
+        <location filename="ui/main/mainwindow.cpp" line="455"/>
         <source>Add Bookmark</source>
         <translation>Lesezeichen hinzufügen</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.cpp" line="456"/>
+        <location filename="ui/main/mainwindow.cpp" line="459"/>
         <source>Add Note</source>
         <translation>Notiz hinzufügen</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.cpp" line="580"/>
+        <location filename="ui/main/mainwindow.cpp" line="583"/>
         <source>Loading Module</source>
         <translation>Module werden geladen</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.cpp" line="580"/>
+        <location filename="ui/main/mainwindow.cpp" line="583"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <location filename="ui/main/mainwindow.cpp" line="832"/>
+        <source>Language load failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/main/mainwindow.cpp" line="832"/>
+        <source>Please restart the application to load the new language.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/main/mainwindow.cpp" line="983"/>
+        <source>openBibleViewer &lt;br&gt; version: %1 build: %2&lt;br&gt; &lt;a href=&quot;http://openbv.uucyc.name/&quot;&gt; Official Website&lt;/a&gt; | &lt;a href=&quot;http://openbv.uucyc.name/bug/&quot;&gt;Bug report&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>You need to restart the Application to apply the changes</source>
         <translation type="obsolete">Sie müssen die Anwendung neustarten um die Änderungen zu übernehmen</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.cpp" line="974"/>
+        <location filename="ui/main/mainwindow.cpp" line="981"/>
         <source>About openBibleViewer</source>
         <translation>Über openBibleViewer</translation>
     </message>
     <message>
-        <location filename="ui/main/mainsearch.cpp" line="55"/>
         <source>Searchstring: %1</source>
-        <translation>Suche nach: %1</translation>
+        <translation type="obsolete">Suche nach: %1</translation>
     </message>
     <message>
-        <location filename="ui/main/mainsearch.cpp" line="94"/>
         <source>No search information available.</source>
-        <translation>Keine Informationen zur Suche verfügbar.</translation>
+        <translation type="obsolete">Keine Informationen zur Suche verfügbar.</translation>
     </message>
     <message>
         <source>No search information aviable</source>
         <translation type="obsolete">Keine Informationen zur Suche vorhanden</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.cpp" line="887"/>
+        <location filename="ui/main/mainwindow.cpp" line="894"/>
         <source>Print</source>
         <translation>Drucken</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.cpp" line="901"/>
+        <location filename="ui/main/mainwindow.cpp" line="908"/>
         <source>Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.cpp" line="939"/>
+        <location filename="ui/main/mainwindow.cpp" line="946"/>
         <source>Configuration</source>
         <translation>Einstellungen</translation>
     </message>
@@ -437,86 +449,63 @@
         <translation type="obsolete">Über uns</translation>
     </message>
     <message>
-        <location filename="ui/main/mainnotes.cpp" line="64"/>
-        <location filename="ui/main/mainnotes.cpp" line="114"/>
         <source>Note saved</source>
-        <translation>Notizen gespeichert</translation>
+        <translation type="obsolete">Notizen gespeichert</translation>
     </message>
     <message>
-        <location filename="ui/main/mainnotes.cpp" line="121"/>
-        <location filename="ui/main/mainnotes.cpp" line="124"/>
-        <location filename="ui/main/mainnotes.cpp" line="140"/>
-        <location filename="ui/main/mainnotes.cpp" line="143"/>
         <source>(unnamed)</source>
-        <translation>(unbenannt)</translation>
+        <translation type="obsolete">(unbenannt)</translation>
     </message>
     <message>
-        <location filename="ui/main/mainnotes.cpp" line="207"/>
         <source>New</source>
-        <translation>Neue</translation>
+        <translation type="obsolete">Neue</translation>
     </message>
     <message>
-        <location filename="ui/main/mainnotes.cpp" line="211"/>
         <source>Delete</source>
-        <translation>Entfernen</translation>
+        <translation type="obsolete">Entfernen</translation>
     </message>
     <message>
-        <location filename="ui/main/mainbookmarks.cpp" line="146"/>
         <source>Remove</source>
-        <translation>Entfernen</translation>
+        <translation type="obsolete">Entfernen</translation>
     </message>
     <message>
-        <location filename="ui/main/mainbookmarks.cpp" line="87"/>
         <source>Bookmarks saved</source>
-        <translation>Lesezeichen gespeichert</translation>
+        <translation type="obsolete">Lesezeichen gespeichert</translation>
     </message>
     <message>
-        <location filename="ui/main/mainbookmarks.cpp" line="99"/>
         <source>new folder</source>
-        <translation>Neuer Ordner</translation>
+        <translation type="obsolete">Neuer Ordner</translation>
     </message>
     <message>
-        <location filename="ui/main/mainbookmarks.cpp" line="121"/>
         <source>Go to</source>
-        <translation>Gehe zu</translation>
+        <translation type="obsolete">Gehe zu</translation>
     </message>
     <message>
-        <location filename="ui/main/mainbookmarks.cpp" line="131"/>
         <source>New Folder</source>
-        <translation>Neuer Ordner</translation>
+        <translation type="obsolete">Neuer Ordner</translation>
     </message>
     <message>
-        <location filename="ui/main/mainbookmarks.cpp" line="138"/>
         <source>Edit</source>
-        <translation>Bearbeiten</translation>
+        <translation type="obsolete">Bearbeiten</translation>
     </message>
     <message>
-        <location filename="ui/main/mainbookmarks.cpp" line="174"/>
-        <location filename="ui/main/mainbookmarks.cpp" line="212"/>
-        <location filename="ui/main/mainbookmarks.cpp" line="226"/>
-        <location filename="ui/main/mainsearch.cpp" line="94"/>
-        <location filename="ui/main/mainwindow.cpp" line="325"/>
-        <location filename="ui/main/mainwindow.cpp" line="330"/>
-        <location filename="ui/main/mainwindow.cpp" line="335"/>
+        <location filename="ui/main/mainwindow.cpp" line="328"/>
+        <location filename="ui/main/mainwindow.cpp" line="333"/>
+        <location filename="ui/main/mainwindow.cpp" line="338"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="ui/main/mainbookmarks.cpp" line="174"/>
-        <location filename="ui/main/mainbookmarks.cpp" line="212"/>
-        <location filename="ui/main/mainbookmarks.cpp" line="226"/>
         <source>This Bookmark is invalid.</source>
-        <translation>Dieses Lesezeichen ist ungültig.</translation>
+        <translation type="obsolete">Dieses Lesezeichen ist ungültig.</translation>
     </message>
     <message>
-        <location filename="ui/main/mainstrong.cpp" line="34"/>
         <source>No strong module loaded.</source>
-        <translation>Es sind keine Strong-Module geladen.</translation>
+        <translation type="obsolete">Es sind keine Strong-Module geladen.</translation>
     </message>
     <message>
-        <location filename="ui/main/mainstrong.cpp" line="37"/>
         <source>Strong not found.</source>
-        <translation>Strong nicht gefunden.</translation>
+        <translation type="obsolete">Strong nicht gefunden.</translation>
     </message>
 </context>
 <context>
@@ -555,71 +544,71 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="166"/>
+        <location filename="ui/main/mainwindow.ui" line="168"/>
         <source>Module select</source>
         <translation>Modulauswahl</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="183"/>
+        <location filename="ui/main/mainwindow.ui" line="185"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="209"/>
+        <location filename="ui/main/mainwindow.ui" line="211"/>
         <source>Book select</source>
         <translation>Buchauswahl</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="282"/>
+        <location filename="ui/main/mainwindow.ui" line="284"/>
         <source>Go to</source>
         <translation>Gehe zu</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="655"/>
-        <location filename="ui/main/mainwindow.ui" line="983"/>
-        <location filename="ui/main/mainwindow.ui" line="995"/>
+        <location filename="ui/main/mainwindow.ui" line="657"/>
+        <location filename="ui/main/mainwindow.ui" line="985"/>
+        <location filename="ui/main/mainwindow.ui" line="997"/>
         <source>Search</source>
         <translation>Suchen</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="380"/>
+        <location filename="ui/main/mainwindow.ui" line="382"/>
         <source>Delete</source>
         <translation>Entfernen</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="397"/>
+        <location filename="ui/main/mainwindow.ui" line="399"/>
         <source>Add</source>
         <translation>Hinzufügen</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="416"/>
+        <location filename="ui/main/mainwindow.ui" line="418"/>
         <source>Note</source>
         <translation>Notiz</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="552"/>
-        <location filename="ui/main/mainwindow.ui" line="633"/>
-        <location filename="ui/main/mainwindow.ui" line="851"/>
+        <location filename="ui/main/mainwindow.ui" line="554"/>
+        <location filename="ui/main/mainwindow.ui" line="635"/>
+        <location filename="ui/main/mainwindow.ui" line="853"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="612"/>
+        <location filename="ui/main/mainwindow.ui" line="614"/>
         <source>Title</source>
         <translation>Titel</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="774"/>
+        <location filename="ui/main/mainwindow.ui" line="776"/>
         <source>Save as</source>
         <translation>Speichern als</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="786"/>
+        <location filename="ui/main/mainwindow.ui" line="788"/>
         <source>Print</source>
         <translation>Drucken</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="986"/>
+        <location filename="ui/main/mainwindow.ui" line="988"/>
         <source>Ctrl+F</source>
         <translation></translation>
     </message>
@@ -628,54 +617,54 @@
         <translation type="obsolete">Schließen</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="580"/>
-        <location filename="ui/main/mainwindow.ui" line="944"/>
+        <location filename="ui/main/mainwindow.ui" line="582"/>
+        <location filename="ui/main/mainwindow.ui" line="946"/>
         <source>Bookmarks</source>
         <translation>Lesezeichen</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="680"/>
+        <location filename="ui/main/mainwindow.ui" line="682"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="795"/>
+        <location filename="ui/main/mainwindow.ui" line="797"/>
         <source>Exit</source>
         <translation>Beenden</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="798"/>
+        <location filename="ui/main/mainwindow.ui" line="800"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="902"/>
+        <location filename="ui/main/mainwindow.ui" line="904"/>
         <source>Ctrl++</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="914"/>
+        <location filename="ui/main/mainwindow.ui" line="916"/>
         <source>Ctrl+-</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="923"/>
+        <location filename="ui/main/mainwindow.ui" line="925"/>
         <source>Copy</source>
         <translation>Kopieren</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="932"/>
+        <location filename="ui/main/mainwindow.ui" line="934"/>
         <source>Select All</source>
         <translation>Alles markieren</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="947"/>
+        <location filename="ui/main/mainwindow.ui" line="949"/>
         <source>Ctrl+B</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="839"/>
-        <location filename="ui/main/mainwindow.ui" line="962"/>
+        <location filename="ui/main/mainwindow.ui" line="841"/>
+        <location filename="ui/main/mainwindow.ui" line="964"/>
         <source>Ctrl+N</source>
         <translation></translation>
     </message>
@@ -691,65 +680,70 @@
         <translation>Speichere alle Notizen</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="717"/>
+        <location filename="ui/main/mainwindow.ui" line="719"/>
         <source>Strong</source>
         <translation>Strong</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="777"/>
+        <location filename="ui/main/mainwindow.ui" line="779"/>
         <source>Save current Text as</source>
         <translation>Speichere derzeitigen Text als</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="836"/>
-        <location filename="ui/main/mainwindow.ui" line="863"/>
+        <location filename="ui/main/mainwindow.ui" line="838"/>
+        <location filename="ui/main/mainwindow.ui" line="865"/>
         <source>New Window</source>
         <translation>Neues Fenster</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="971"/>
+        <location filename="ui/main/mainwindow.ui" line="973"/>
         <source>Configuration</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="1025"/>
-        <location filename="ui/main/mainwindow.ui" line="1028"/>
+        <location filename="ui/main/mainwindow.ui" line="1027"/>
+        <location filename="ui/main/mainwindow.ui" line="1030"/>
         <source>Next Verse</source>
         <translation>Nächster Vers</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="1031"/>
+        <location filename="ui/main/mainwindow.ui" line="1033"/>
         <source>F3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="1043"/>
-        <location filename="ui/main/mainwindow.ui" line="1046"/>
+        <location filename="ui/main/mainwindow.ui" line="1045"/>
+        <location filename="ui/main/mainwindow.ui" line="1048"/>
         <source>Last Verse</source>
         <translation>Vorheriger Vers</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="1049"/>
+        <location filename="ui/main/mainwindow.ui" line="1051"/>
         <source>Shift+F3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="1058"/>
+        <location filename="ui/main/mainwindow.ui" line="1060"/>
         <source>Vertical Tile</source>
         <translation>Vertikal kacheln</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="1067"/>
+        <location filename="ui/main/mainwindow.ui" line="1069"/>
         <source>Horizontal Tile</source>
         <translation>Horizontal kacheln</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="1076"/>
+        <location filename="ui/main/mainwindow.ui" line="1078"/>
         <source>Cascade</source>
         <translation>Staffeln</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="810"/>
+        <location filename="ui/main/mainwindow.ui" line="1087"/>
+        <source>Module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/main/mainwindow.ui" line="812"/>
         <source>Online Help</source>
         <translation>Online Hilfe</translation>
     </message>
@@ -759,12 +753,12 @@
         <translation>Ansicht</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="815"/>
+        <location filename="ui/main/mainwindow.ui" line="817"/>
         <source>Version</source>
         <translation>Version</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="824"/>
+        <location filename="ui/main/mainwindow.ui" line="826"/>
         <source>About obv</source>
         <translation>Über obv</translation>
     </message>
@@ -773,38 +767,38 @@
         <translation type="obsolete">Neuer Tab</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="545"/>
-        <location filename="ui/main/mainwindow.ui" line="626"/>
-        <location filename="ui/main/mainwindow.ui" line="848"/>
+        <location filename="ui/main/mainwindow.ui" line="547"/>
+        <location filename="ui/main/mainwindow.ui" line="628"/>
+        <location filename="ui/main/mainwindow.ui" line="850"/>
         <source>Save</source>
         <translation>Speichern</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="872"/>
+        <location filename="ui/main/mainwindow.ui" line="874"/>
         <source>Close Tab</source>
         <translation>Tab schließen</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="881"/>
+        <location filename="ui/main/mainwindow.ui" line="883"/>
         <source>Bookmark</source>
         <translation>Lesezeichen</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="343"/>
-        <location filename="ui/main/mainwindow.ui" line="890"/>
-        <location filename="ui/main/mainwindow.ui" line="959"/>
+        <location filename="ui/main/mainwindow.ui" line="345"/>
+        <location filename="ui/main/mainwindow.ui" line="892"/>
+        <location filename="ui/main/mainwindow.ui" line="961"/>
         <source>Notes</source>
         <translation>Notizen</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="899"/>
-        <location filename="ui/main/mainwindow.ui" line="1004"/>
+        <location filename="ui/main/mainwindow.ui" line="901"/>
+        <location filename="ui/main/mainwindow.ui" line="1006"/>
         <source>Zoom In</source>
         <translation>Vergrößern</translation>
     </message>
     <message>
-        <location filename="ui/main/mainwindow.ui" line="911"/>
-        <location filename="ui/main/mainwindow.ui" line="1013"/>
+        <location filename="ui/main/mainwindow.ui" line="913"/>
+        <location filename="ui/main/mainwindow.ui" line="1015"/>
         <source>Zoom Out</source>
         <translation>Verkleinern</translation>
     </message>
@@ -813,18 +807,18 @@
     <name>QObject</name>
     <message>
         <location filename="module/biblequote.cpp" line="241"/>
-        <location filename="module/zefania-bible.cpp" line="539"/>
+        <location filename="module/zefania-bible.cpp" line="562"/>
         <source>Searching</source>
         <translation>Suchen</translation>
     </message>
     <message>
         <location filename="module/biblequote.cpp" line="241"/>
         <location filename="module/zefania-bible.cpp" line="203"/>
-        <location filename="module/zefania-bible.cpp" line="379"/>
-        <location filename="module/zefania-bible.cpp" line="539"/>
-        <location filename="ui/settingsdialog.cpp" line="186"/>
-        <location filename="ui/settingsdialog.cpp" line="297"/>
-        <location filename="ui/settingsdialog.cpp" line="317"/>
+        <location filename="module/zefania-bible.cpp" line="402"/>
+        <location filename="module/zefania-bible.cpp" line="562"/>
+        <location filename="ui/settingsdialog.cpp" line="193"/>
+        <location filename="ui/settingsdialog.cpp" line="304"/>
+        <location filename="ui/settingsdialog.cpp" line="324"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
@@ -856,15 +850,15 @@
         <location filename="module/zefania-bible.cpp" line="52"/>
         <location filename="module/zefania-bible.cpp" line="229"/>
         <location filename="module/zefania-bible.cpp" line="238"/>
-        <location filename="module/zefania-bible.cpp" line="266"/>
-        <location filename="module/zefania-bible.cpp" line="446"/>
+        <location filename="module/zefania-bible.cpp" line="289"/>
+        <location filename="module/zefania-bible.cpp" line="469"/>
         <location filename="module/zefania-strong.cpp" line="28"/>
         <location filename="module/zefania-strong.cpp" line="119"/>
         <location filename="module/zefania-strong.cpp" line="140"/>
-        <location filename="ui/settingsdialog.cpp" line="220"/>
-        <location filename="ui/settingsdialog.cpp" line="322"/>
-        <location filename="ui/settingsdialog.cpp" line="343"/>
-        <location filename="ui/settingsdialog.cpp" line="373"/>
+        <location filename="ui/settingsdialog.cpp" line="227"/>
+        <location filename="ui/settingsdialog.cpp" line="329"/>
+        <location filename="ui/settingsdialog.cpp" line="350"/>
+        <location filename="ui/settingsdialog.cpp" line="380"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
@@ -889,32 +883,32 @@
     </message>
     <message>
         <location filename="module/zefania-bible.cpp" line="229"/>
-        <location filename="ui/settingsdialog.cpp" line="322"/>
+        <location filename="ui/settingsdialog.cpp" line="329"/>
         <source>Can not read the file</source>
         <translation>Kann die Datei nicht lesen</translation>
     </message>
     <message>
         <location filename="module/zefania-bible.cpp" line="238"/>
-        <location filename="module/zefania-bible.cpp" line="266"/>
+        <location filename="module/zefania-bible.cpp" line="289"/>
         <location filename="module/zefania-strong.cpp" line="28"/>
-        <location filename="ui/settingsdialog.cpp" line="220"/>
-        <location filename="ui/settingsdialog.cpp" line="343"/>
-        <location filename="ui/settingsdialog.cpp" line="373"/>
+        <location filename="ui/settingsdialog.cpp" line="227"/>
+        <location filename="ui/settingsdialog.cpp" line="350"/>
+        <location filename="ui/settingsdialog.cpp" line="380"/>
         <source>The file is not valid</source>
         <translation>Die Datei ist nicht konform</translation>
     </message>
     <message>
-        <location filename="module/zefania-bible.cpp" line="327"/>
+        <location filename="module/zefania-bible.cpp" line="350"/>
         <source>(unknown)</source>
         <translation>(unbekannt)</translation>
     </message>
     <message>
-        <location filename="module/zefania-bible.cpp" line="379"/>
+        <location filename="module/zefania-bible.cpp" line="402"/>
         <source>Generate Cache</source>
         <translation>Erstelle Auslagerungsdateien</translation>
     </message>
     <message>
-        <location filename="module/zefania-bible.cpp" line="446"/>
+        <location filename="module/zefania-bible.cpp" line="469"/>
         <source>Please activate Caching.(Hard or Soft Cache)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -925,34 +919,34 @@
         <translation>Kann Auslagerungsdatei nicht öffnen.</translation>
     </message>
     <message>
-        <location filename="ui/settingsdialog.cpp" line="105"/>
-        <location filename="ui/settingsdialog.cpp" line="201"/>
+        <location filename="ui/settingsdialog.cpp" line="112"/>
+        <location filename="ui/settingsdialog.cpp" line="208"/>
         <source>Folder</source>
         <translation>Ordner</translation>
     </message>
     <message>
-        <location filename="ui/settingsdialog.cpp" line="109"/>
+        <location filename="ui/settingsdialog.cpp" line="116"/>
         <source>Bible Quote</source>
         <translation>Bible Quote</translation>
     </message>
     <message>
-        <location filename="ui/settingsdialog.cpp" line="112"/>
+        <location filename="ui/settingsdialog.cpp" line="119"/>
         <source>Zefania XML</source>
         <translation>Zefania XML</translation>
     </message>
     <message>
-        <location filename="ui/settingsdialog.cpp" line="115"/>
+        <location filename="ui/settingsdialog.cpp" line="122"/>
         <source>Zefania XML Strong</source>
         <translation>Zefania XML Strong</translation>
     </message>
     <message>
-        <location filename="ui/settingsdialog.cpp" line="186"/>
-        <location filename="ui/settingsdialog.cpp" line="297"/>
+        <location filename="ui/settingsdialog.cpp" line="193"/>
+        <location filename="ui/settingsdialog.cpp" line="304"/>
         <source>Adding Modules</source>
         <translation>Module werden hinzugefügt</translation>
     </message>
     <message>
-        <location filename="ui/settingsdialog.cpp" line="317"/>
+        <location filename="ui/settingsdialog.cpp" line="324"/>
         <source>Open File</source>
         <translation type="unfinished">Datei öffnen</translation>
     </message>
@@ -1101,26 +1095,45 @@
 <context>
     <name>moduleDownloadDialog</name>
     <message>
-        <location filename="ui/moduledownloaddialog.cpp" line="176"/>
-        <location filename="ui/moduledownloaddialog.cpp" line="192"/>
-        <location filename="ui/moduledownloaddialog.cpp" line="231"/>
-        <location filename="ui/moduledownloaddialog.cpp" line="257"/>
+        <location filename="ui/moduledownloaddialog.cpp" line="76"/>
+        <source>Bibles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/moduledownloaddialog.cpp" line="78"/>
+        <source>Strong Modules</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/moduledownloaddialog.cpp" line="173"/>
+        <location filename="ui/moduledownloaddialog.cpp" line="223"/>
+        <location filename="ui/moduledownloaddialog.cpp" line="249"/>
         <source>HTTP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/moduledownloaddialog.cpp" line="176"/>
+        <location filename="ui/moduledownloaddialog.cpp" line="173"/>
         <source>Unable to save the file %1: %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/moduledownloaddialog.cpp" line="193"/>
-        <source>Downloading %1.</source>
-        <translation type="unfinished">Runterladen von %1.</translation>
+        <location filename="ui/moduledownloaddialog.cpp" line="186"/>
+        <source>Downloading</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/moduledownloaddialog.cpp" line="232"/>
-        <location filename="ui/moduledownloaddialog.cpp" line="258"/>
+        <location filename="ui/moduledownloaddialog.cpp" line="187"/>
+        <location filename="ui/moduledownloaddialog.cpp" line="262"/>
+        <source>Downloading %1 / %2. %3 MB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloading %1.</source>
+        <translation type="obsolete">Runterladen von %1.</translation>
+    </message>
+    <message>
+        <location filename="ui/moduledownloaddialog.cpp" line="224"/>
+        <location filename="ui/moduledownloaddialog.cpp" line="250"/>
         <source>Download failed: %1.</source>
         <translation type="unfinished">Herunterladen fehlgeschlagen: %1.</translation>
     </message>
@@ -1132,7 +1145,7 @@
     <message>
         <location filename="ui/moduledownloaddialog.ui" line="58"/>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Download</translation>
     </message>
     <message>
         <location filename="ui/moduledownloaddialog.ui" line="75"/>

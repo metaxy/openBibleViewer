@@ -115,6 +115,7 @@ public:
     void setSettings(struct settings_s ssettings);
     void loadSettings();
     int loadModules();
+    void loadLanguage(QString language);
 protected:
     void closeEvent(QCloseEvent *event);
 private:
@@ -167,6 +168,7 @@ private:
     int currentStrongModule;
     QString currentStrongID;
     QList<int> strongModuleID;
+
 
 
 protected:

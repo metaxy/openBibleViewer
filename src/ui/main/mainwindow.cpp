@@ -19,6 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QLocale>
 #include <QtCore/QDir>
 #include <QtCore/QTimer>
+#include <QtCore/QLibraryInfo>
 #include <QtGui/QAction>
 #include <QtGui/QPrintDialog>
 #include <QtGui/QPrinter>
@@ -161,6 +162,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     newMdiChild();
     loadStrongs();
 
+    loadLanguage(set.language);
     /*if(set.module.size() == 0)
     {
         QString appPath = QApplication::applicationDirPath();
@@ -758,6 +760,30 @@ int MainWindow::loadModules()
     //qDebug() << "MainWindow::loadModules() exit";
     return 0;
 }
+void MainWindow::loadLanguage(QString language)
+{
+    QStringList avLang;
+    QTranslator myappTranslator;
+    QTranslator qtTranslator;
+    avLang <<  "en" << "de" << "ru";
+    qDebug() << "MainWindow::loadLanguage() avLang = " << avLang << " lang = " << language;
+    if(avLang.lastIndexOf(language) == -1) {
+       language = language.remove(language.lastIndexOf("_"),language.size());
+        if(avLang.lastIndexOf(language) == -1) {
+            language = avLang.at(0);
+        }
+    }
+    bool loaded = myappTranslator.load(":/data/obv_" + language + ".qm");
+    if(loaded == false) {
+        QMessageBox::warning(this,tr("Language load failed"),tr("Please chose an another language."));
+    }
+    qDebug() << "MainWindow::loadLanguage() loaded = " << loaded;
+    QApplication::installTranslator(&myappTranslator);
+
+    qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    QApplication::installTranslator(&qtTranslator);
+    ui->retranslateUi(this);
+}
 void MainWindow::setSettings(struct settings_s ssettings)
 {
     set = ssettings;
@@ -823,13 +849,11 @@ int MainWindow::saveSettings(struct settings_s ssettings)
             }
         }
     }
+    qDebug() << "MainWindow::saveSettings() set.language = " << set.language  << " ssettings.language = " << ssettings.language;
     if (set.language != ssettings.language /* || set.theme != ssettings->theme*/) {
-        QTranslator myappTranslator;
-        qDebug() << "MainWindow::saveSettings() lang = " << ssettings.language;
-        myappTranslator.load(":/data/obv_" + ssettings.language);
-        QApplication::installTranslator(&myappTranslator);
-
-        ui->retranslateUi(this);
+        /*QApplication::removeTranslator(&myappTranslator);
+        QApplication::removeTranslator(&qtTranslator);*/
+        loadLanguage(ssettings.language);
     }
     //qDebug("MainWindow::saveSettings( struct settings_s  ) started");
     setSettings(ssettings);

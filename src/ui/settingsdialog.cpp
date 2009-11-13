@@ -74,12 +74,19 @@ int settingsDialog::setSettings(settings_s settings)
     m_ui->comboBox_encoding->setCurrentIndex(encodings.lastIndexOf(set.encoding));
     //Language
     QStringList langs;
-    langs << "German ( Deutsch )" << "English" << "Russian ( русском )";
-    langCode << "de" << "en" << "ru";
-    qDebug() << "settingsDialog::setSettings() langCode.lastIndexOf(set.language) = " << langCode.lastIndexOf(set.language) << " set.language = " << set.language;
+    langs <<  "English" << "German ( Deutsch )"<< "Russian ( русском )";
+    langCode << "en" << "de" << "ru";
+    qDebug() << "settingsDialog::setSettings() set.language = " << set.language;
     m_ui->comboBox_language->clear();
     m_ui->comboBox_language->insertItems(0, langs);
-    int code = langCode.lastIndexOf(set.language);
+    int code;
+    code = langCode.lastIndexOf(set.language);
+    if(code == -1) {
+        QString lang = set.language;
+        QString onlyLang = lang.remove(lang.lastIndexOf("_"),lang.size());
+        code = langCode.lastIndexOf(onlyLang);
+    }
+    qDebug() << "settingsDialog::setSettings() code = " << code;
     if (code != -1) {
         m_ui->comboBox_language->setCurrentIndex(code);
     } else { // no lang code was written in the config file

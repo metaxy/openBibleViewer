@@ -37,7 +37,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QSettings *settings;
+   /* QSettings *settings;
     QString homeDataPath;
 #ifdef _PORTABLE_VERSION
     homeDataPath = QApplication::applicationDirPath() + "/";
@@ -63,8 +63,19 @@ int main(int argc, char *argv[])
 #else
     QString lang = settings->value("general/language", QLocale::system().name()).toString();
 #endif
+    QStringList avLang;
+    avLang <<  "en" << "de" << "ru";
+    qDebug() << " avLang = " << avLang << " lang = " << lang;
+    if(avLang.lastIndexOf(lang) == -1)
+    {
+        lang = lang.remove(lang.lastIndexOf("_"),lang.size());
+        if(avLang.lastIndexOf(lang) == -1)
+        {
+            lang = avLang.at(0);
+        }
+    }
+
     QString themePath = settings->value("theme/path", homeDataPath + "stylesheet.css").toString();
-    QList<QTranslator> translators1;
     QTranslator qtTranslator;
     qtTranslator.load("qt_" + lang, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     a.installTranslator(&qtTranslator);
@@ -74,12 +85,12 @@ int main(int argc, char *argv[])
 
     myappTranslator.load(":/data/obv_" + lang);
 
-    a.installTranslator(&myappTranslator);
+    a.installTranslator(&myappTranslator);*/
 
     MainWindow w;
     w.loadModules();
 
-    QFile file(themePath);
+  /*  QFile file(themePath);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream in(&file);
         QString out;
@@ -89,7 +100,7 @@ int main(int argc, char *argv[])
         }
         w.setStyleSheet(out);//load from file
         qDebug() << "main::main() load stylesheet fileName = " << file.fileName();
-    }
+    }*/
     w.show();
     return a.exec();
 }
