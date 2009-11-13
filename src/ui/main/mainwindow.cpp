@@ -1160,6 +1160,7 @@ void MainWindow::pharseUrl(QString url)
     QString strong = "strong://";
     QString http = "http://";
     QString bq = "go";
+    QString anchor = "#";
     if (url.startsWith(bible)) {
         url = url.remove(0, bible.size());
         QStringList a = url.split("/");
@@ -1249,6 +1250,13 @@ void MainWindow::pharseUrl(QString url)
         }
         emit historySetUrl(url_backup);
 
+    } else if(url.startsWith(anchor)) {
+         url = url.remove(0, anchor.size());
+        qDebug() << "MainWindow::pharseUrl() anchor";
+        if (activeMdiChild()) {
+            QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+            textBrowser->scrollToAnchor(url);
+        }
     } else {
         qDebug() << "MainWindow::pharseUrl() invalid URL";
     }
@@ -1262,7 +1270,7 @@ void MainWindow::onlineHelp()
 }
 void MainWindow::setTitle(QString title)
 {
-    qDebug() << "MainWindow::setTitle title = " << title;
+    qDebug() << "MainWindow::setTitle() title = " << title;
     if (activeMdiChild()) {
         activeMdiChild()->widget()->setWindowTitle(title);
     }
