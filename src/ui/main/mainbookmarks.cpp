@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "mainwindow.h"
 #include "../../core/xbelreader.h"
 #include "../../core/xbelwriter.h"
-
+#include "../poschoser.h"
 #include <QtCore/QtDebug>
 #include <QtCore/QString>
 #include <QtGui/QAction>

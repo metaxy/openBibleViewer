@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/" >
+    <qresource prefix="/">
         <file>icons/32x32/zoom-out.png</file>
         <file>icons/32x32/zoom-in.png</file>
         <file>icons/32x32/view-pim-notes.png</file>
@@ -61,5 +61,6 @@
         <file>icons/16x16/go-next.png</file>
         <file>icons/16x16/download.png</file>
         <file>icons/32x32/module.png</file>
+        <file>icons/16x16/bookmark-new.png</file>
     </qresource>
 </RCC>

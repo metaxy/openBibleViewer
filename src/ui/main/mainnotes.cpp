@@ -60,7 +60,7 @@ int MainWindow::showNote(QListWidgetItem *item)
         }
     }
     note->saveNotes();
-    statusBar()->showMessage(tr("Note saved"), 5000);
+    //statusBar()->showMessage(tr("Note saved"), 5000);
 
     id = ui->listWidget_notes->row(item);
     currentNoteID = id;
@@ -117,8 +117,8 @@ int MainWindow::saveNote(void)
 int MainWindow::newNote(void)
 {
     saveNote();
-    ui->lineEdit_note_titel->setText(tr("(unnamed)"));
-    ui->textEdit_note->setHtml("");
+    //ui->lineEdit_note_titel->setText(tr("(unnamed)"));
+    //ui->textEdit_note->setHtml("");
     note->notesData << "";
     note->notesTitel << tr("(unnamed)");
     note->notesPos << "";
@@ -126,6 +126,8 @@ int MainWindow::newNote(void)
     // ui->listWidget_notes->setCurrentRow(ui->listWidget_notes->count()-1);
     ui->listWidget_notes->setCurrentRow(note->notesData.size() - 1);
     currentNoteID = note->notesData.size() - 1;
+    currentNotePos = "";
+    ui->label_noteLink->setText("");
     return 0;
 }
 int MainWindow::newNoteWithLink()
@@ -144,7 +146,9 @@ int MainWindow::newNoteWithLink()
     reloadNotes();
     ui->listWidget_notes->setCurrentRow(note->notesData.size() - 1);
     currentNoteID = note->notesData.size() - 1;
-    //qDebug() << "MainWindow::newNoteWithLink() pos = " << pos;
+    currentNotePos = pos;
+    ui->label_noteLink->setText(notePos2Text(currentNotePos));
+    qDebug() << "MainWindow::newNoteWithLink() pos = " << pos;
     return 0;
 }
 int MainWindow::removeNote(void)
@@ -162,6 +166,7 @@ int MainWindow::removeNote(void)
 
     ui->lineEdit_note_titel->setText(tr(""));
     ui->textEdit_note->setHtml("");
+    ui->label_noteLink->setText("");
     if (id == 0) {
         currentNoteID = 1;
     } else {
@@ -264,22 +269,24 @@ int MainWindow::noteGo(QString pos)
 
 QString MainWindow::notePos2Text(QString pos)
 {
-    //qDebug("MainWindow::notePos2Text start pos=%s",pos.toStdString().c_str());
+    qDebug() << "MainWindow::notePos2Text start pos = " << pos;
     QString string = "";
     QStringList list = pos.split(";");
     if (list.size() < 5) {
-        //qDebug("MainWindow::notePos2Text( ) invalid pos");
+        qDebug() << "MainWindow::notePos2Text( ) invalid pos";
         return "";
     }
     QString dirname = list.at(0);
+    QString sbookID = list.at(1);
     QString schapterID = list.at(2);
     QString sverseID = list.at(3);
     QString bookName = list.at(4);
     int bibleID = 0;
     int chapterID = schapterID.toInt();
     int verseID = sverseID.toInt();
+    int bookID = sbookID.toInt();
     //get bibleID
-    //qDebug("MainWindow::notePos2Text() get bibleID");
+    qDebug() << "MainWindow::notePos2Text() get bibleID";
     for (int i = 0; i < bibleDirName.size(); i++) {
         if (bibleDirName.at(i) == dirname) {
             bibleID = i;
@@ -288,19 +295,19 @@ QString MainWindow::notePos2Text(QString pos)
     }
     //load bible id
 
-    //qDebug("MainWindow::notePos2Text() generate string with bibleID= %i and bookID = %i ",bibleID,bookID);
+    qDebug() << "MainWindow::notePos2Text() generate string with bibleID= " << bibleID ;
+    pos =  "bible://" + QString::number(bibleID) + "/" + QString::number(bookID) + "," + QString::number(chapterID - 1) + "," + QString::number(verseID - 1);
     string =  bookName + " " + QString::number(chapterID, 10) + "," + QString::number(verseID, 10);
-    //qDebug("MainWindow::notePos2Text end");
+    qDebug() << "MainWindow::notePos2Text end";
     return  "<a href=\"" + pos + "\" > " + string + "</a>";
 }
 void MainWindow::editNoteLink()
 {
-    /*int id = ui->listWidget_notes->currentRow();
+    int id = ui->listWidget_notes->currentRow();
     QString pos = note->notesPos.at(id);
 
     QStringList list = pos.split(";");
-    if(list.size() < 4)
-    {
+    if (list.size() < 4) {
         return ;
     }
     QString dirname = list.at(0);
@@ -312,10 +319,8 @@ void MainWindow::editNoteLink()
     int chapterID = schapterID.toInt();
     int verseID = sverseID.toInt();
     //get bibleID
-    for(int i=0;i<bibleDirName.size();i++)
-    {
-        if(bibleDirName.at(i) == dirname)
-        {
+    for (int i = 0; i < bibleDirName.size(); i++) {
+        if (bibleDirName.at(i) == dirname) {
             bibleID = i;
             break;
         }
@@ -323,8 +328,8 @@ void MainWindow::editNoteLink()
     posChoser *pChoser = new posChoser(this);
     //connect( pChoser, SIGNAL( searched( QString,bool,bool,bool ) ), this, SLOT( showSearchResults( QString,bool,bool,bool ) ) );
     qDebug() << "MainWindow::editNoteLink() b.chapterData.size() = " << b.chapterData.size(),
-    pChoser->setData(bibles,b.bookFullName);
-    pChoser->setCurrent(bibleID,bookID,chapterID,verseID);
+    pChoser->setData(bibles, b.bookFullName);
+    pChoser->setCurrent(bibleID, dirname, bookID, chapterID, verseID);
     pChoser->show();
-    pChoser->exec();*/
+    pChoser->exec();
 }

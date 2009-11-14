@@ -95,9 +95,9 @@ void moduleDownloadDialog::readModules()
                     bibleItem->setData(2, 1, map[i.key()].at(a));
                     bibleItem->setCheckState(0, Qt::Unchecked);
                     bibleItem->setText(0, i.value().at(a));
-                 /*   QIcon bibleIcon;
-                    bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
-                    bibleItem->setIcon(0, bibleIcon);*/
+                    /*   QIcon bibleIcon;
+                       bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
+                       bibleItem->setIcon(0, bibleIcon);*/
                     langItem->addChild(bibleItem);
                 }
             }
@@ -112,14 +112,14 @@ void moduleDownloadDialog::item(QTreeWidgetItem* i)
     httpRequestAborted = false;
     if (i->data(1, 0) == "lang") {
         if (i->checkState(0) == Qt::Checked) {
-            for(int c = 0; c< i->childCount();c++) {
-                i->child(c)->setCheckState(0,Qt::Checked);
+            for (int c = 0; c < i->childCount(); c++) {
+                i->child(c)->setCheckState(0, Qt::Checked);
                 item(i->child(c));
             }
             //check also all childrem of this
         } else if (i->checkState(0) == Qt::Unchecked) {
-             for(int c = 0; c< i->childCount();c++) {
-                i->child(c)->setCheckState(0,Qt::Unchecked);
+            for (int c = 0; c < i->childCount(); c++) {
+                i->child(c)->setCheckState(0, Qt::Unchecked);
                 item(i->child(c));
             }
             //uncheck all children
@@ -159,8 +159,8 @@ void moduleDownloadDialog::downloadNext()
         QUrl url(downloadList.at(currentDownload));
         QFileInfo fileInfo(url.path());
         QDir d(m_set.homePath + "modules/");
-        dir.mkpath(m_set.homePath + "modules/" + fileInfo.fileName() +"/");
-        QString fileName = m_set.homePath + "modules/" + fileInfo.fileName() +"/"+fileInfo.fileName();
+        dir.mkpath(m_set.homePath + "modules/" + fileInfo.fileName() + "/");
+        QString fileName = m_set.homePath + "modules/" + fileInfo.fileName() + "/" + fileInfo.fileName();
         downloadedList << fileName;
         downNames << nameList.at(currentDownload);
         qDebug() << "moduleDownloadDialog::downloadNext() fileName = " << fileName;
@@ -184,7 +184,7 @@ void moduleDownloadDialog::downloadNext()
             path = "/";
         httpGetId = http->get(path, file);
         progressDialog->setWindowTitle(tr("Downloading"));
-        progressDialog->setLabelText(tr("Downloading %1 / %2. %3 MB").arg(currentDownload+1).arg(downloadList.size()).arg(0));
+        progressDialog->setLabelText(tr("Downloading %1 / %2. %3 MB").arg(currentDownload + 1).arg(downloadList.size()).arg(0));
         progressDialog->setModal(true);
     } else {
         qDebug() << "moduleDownloadDialog::downloadNext() nothing selected";
@@ -260,9 +260,9 @@ void moduleDownloadDialog::updateDataReadProgress(int bytesRead, int totalBytes)
     if (httpRequestAborted)
         return;
     progressDialog->setLabelText(tr("Downloading %1 / %2. %3 MB")
-                                 .arg(currentDownload+1)
+                                 .arg(currentDownload + 1)
                                  .arg(downloadList.size())
-                                 .arg(QString::number((float)bytesRead/(1024*1024),'f',2)));
+                                 .arg(QString::number((float)bytesRead / (1024*1024), 'f', 2)));
     //qDebug() << "moduleDownloadDialog::updateDataReadProgress() bytesRead = " << bytesRead;
     if (totalBytes == 0) {
         if (progressDialog->maximum() != 0) {

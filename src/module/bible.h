@@ -35,6 +35,7 @@ public:
     int readBook(int id);
     QString readChapter(int chapterID, int verseID);
     QString readVerse(int chapterID, int startVerse, int endVerse, int markVerseID, bool saveRawDatas);
+    QStringList getSearchPaths();
 
     struct stelle search(QString searchstring, bool regexp, bool whole, bool casesen);
 

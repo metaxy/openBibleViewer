@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/moduleconfig.h"
 #include <QtCore/QtDebug>
 #include <QtCore/QMapIterator>
+#include <QtCore/QDir>
 bible::bible()
 {
     currentBibleID = -1;
@@ -260,4 +261,26 @@ void bible::setZefCache(QMap<int, QList<chapter> > cache)
         zef.softCacheAvi[i.key()] = true;
     }*/
 
+}
+QStringList bible::getSearchPaths()
+{
+    if (bibleType == 2) {
+        return QStringList();
+    } else if (bibleType == 1) {
+        QStringList l;
+        l << QString(currentBiblePath + QDir::separator());
+        if (currentBookID < bookPath.size()) {
+            QString p = bookPath.at(currentBookID);
+            int pos = p.lastIndexOf(QDir::separator());
+            if (pos != -1) {
+                p = p.remove(pos, p.size());
+            }
+            if (!p.startsWith(currentBiblePath)) {
+                p = currentBiblePath + QDir::separator() + p + QDir::separator();
+            }
+            l << p;
+        }
+        return l;
+    }
+    return QStringList();
 }

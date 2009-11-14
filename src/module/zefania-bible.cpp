@@ -254,7 +254,7 @@ void zefaniaBible::loadNoCached(int id, QString path)
     }
     qDebug() << "zefaniaBible::loadNoCached() encoding = " << codecString;
 #ifdef Q_WS_WIN
-    if(codecString.toLower() == "utf-8") {
+    if (codecString.toLower() == "utf-8") {
         QTextCodec *codec = QTextCodec::codecForName(codecString.toStdString().c_str());
         QTextDecoder *decoder = codec->makeDecoder();
         while (!file.atEnd()) {

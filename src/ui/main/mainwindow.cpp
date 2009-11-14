@@ -68,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
 #endif
 #ifdef Q_WS_WIN
-    homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath()+"/openbible/";
+    homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
     settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
                              "openBible", "openBibleViewer");
 #endif
@@ -241,7 +241,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->listWidget_notes, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(notesContextMenu()));
     connect(ui->treeWidget_bookmarks, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(bookmarksContextMenu()));
     connect(ui->treeWidget_bookmarks, SIGNAL(itemActivated(QTreeWidgetItem *, int)), this, SLOT(bookmarksGo(QTreeWidgetItem *)));
-    connect(ui->label_noteLink, SIGNAL(linkActivated(QString)), this, SLOT(noteGo(QString)));
+    connect(ui->label_noteLink, SIGNAL(linkActivated(QString)), this, SLOT(pharseUrl(QString)));
     connect(ui->comboBox_strong, SIGNAL(currentIndexChanged(int)), this, SLOT(loadStrongModule(int)));
     connect(ui->textBrowser_strong, SIGNAL(anchorClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
 
@@ -347,10 +347,11 @@ void MainWindow::readBookByID(int id)
     tcache.setCurrentBook(id, icout);
 
     setChapters(b.chapterNames);
-  //  showChapter(0 + b.chapterAdd);
+    //  showChapter(0 + b.chapterAdd);
     if (activeMdiChild()) {
         QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
-        textBrowser->setSearchPaths(QStringList(b.currentBiblePath));
+        qDebug() << "MainWindow::readBokByID() searchPaths = " << b.getSearchPaths();
+        textBrowser->setSearchPaths(b.getSearchPaths());
     }
 
 }
@@ -372,6 +373,9 @@ int MainWindow::textBrowserContextMenu(QPoint pos)
     qDebug() << "MainWindow::textBrowserContextMenu() start";
     QMenu *contextMenu = new QMenu(this);
     QAction *actionCopy = new QAction(this);
+    QIcon copyIcon;
+    copyIcon.addPixmap(QPixmap(":/icons/16x16/edit-copy.png"), QIcon::Normal, QIcon::Off);
+    actionCopy->setIcon(copyIcon);
     actionCopy->setText(tr("Copy"));
     connect(actionCopy, SIGNAL(triggered()), textBrowser, SLOT(copy()));
     QAction *actionCopyWholeVerse = new QAction(this);
@@ -440,7 +444,7 @@ int MainWindow::textBrowserContextMenu(QPoint pos)
             actionCopyWholeVerse->setText(tr("Copy Verse"));
             actionCopyWholeVerse->setEnabled(false);
         } else {
-            actionCopyWholeVerse->setText(tr("Copy Verse") + addText);
+            actionCopyWholeVerse->setText(tr("Copy Verse %1").arg(addText));
             actionCopyWholeVerse->setEnabled(true);
             connect(actionCopyWholeVerse, SIGNAL(triggered()), this , SLOT(copyWholeVerse()));
         }
@@ -451,19 +455,29 @@ int MainWindow::textBrowserContextMenu(QPoint pos)
     }
     QAction *actionSelect = new QAction(this);
     actionSelect->setText(tr("Select All"));
+    QIcon selectIcon;
+    selectIcon.addPixmap(QPixmap(":/icons/16x16/edit-select-all.png"), QIcon::Normal, QIcon::Off);
+    actionSelect->setIcon(selectIcon);
     connect(actionSelect, SIGNAL(triggered()), textBrowser , SLOT(selectAll()));
 
     QAction *actionBookmark = new QAction(this);
     actionBookmark->setText(tr("Add Bookmark"));
+    QIcon bookmarkIcon;
+    bookmarkIcon.addPixmap(QPixmap(":/icons/16x16/bookmark-new.png"), QIcon::Normal, QIcon::Off);
+    actionBookmark->setIcon(bookmarkIcon);
     connect(actionBookmark, SIGNAL(triggered()), this , SLOT(newBookmark()));
 
     QAction *actionNote = new QAction(this);
     actionNote->setText(tr("Add Note"));
+    QIcon noteIcon;
+    noteIcon.addPixmap(QPixmap(":/icons/16x16/view-pim-notes.png"), QIcon::Normal, QIcon::Off);
+    actionNote->setIcon(noteIcon);
     connect(actionNote, SIGNAL(triggered()), this , SLOT(newNoteWithLink()));
 
     contextMenu->addAction(actionCopy);
     contextMenu->addAction(actionCopyWholeVerse);
     contextMenu->addAction(actionSelect);
+    contextMenu->addSeparator();
     contextMenu->addAction(actionBookmark);
     contextMenu->addAction(actionNote);
     contextMenu->exec(QCursor::pos());
@@ -767,15 +781,15 @@ void MainWindow::loadLanguage(QString language)
     QTranslator qtTranslator;
     avLang <<  "en" << "de" << "ru";
     qDebug() << "MainWindow::loadLanguage() avLang = " << avLang << " lang = " << language;
-    if(avLang.lastIndexOf(language) == -1) {
-       language = language.remove(language.lastIndexOf("_"),language.size());
-        if(avLang.lastIndexOf(language) == -1) {
+    if (avLang.lastIndexOf(language) == -1) {
+        language = language.remove(language.lastIndexOf("_"), language.size());
+        if (avLang.lastIndexOf(language) == -1) {
             language = avLang.at(0);
         }
     }
     bool loaded = myappTranslator.load(":/data/obv_" + language + ".qm");
-    if(loaded == false) {
-        QMessageBox::warning(this,tr("Language load failed"),tr("Please chose an another language."));
+    if (loaded == false) {
+        QMessageBox::warning(this, tr("Language load failed"), tr("Please chose an another language."));
     }
     qDebug() << "MainWindow::loadLanguage() loaded = " << loaded;
     QApplication::installTranslator(&myappTranslator);
@@ -1123,7 +1137,7 @@ void MainWindow::setCurrentChapter(int chapterID)
         QComboBox *comboBox_chapters = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_chapters");
         comboBox_chapters->setCurrentIndex(chapterID);
     }
-  //  setTitle(b.bibleName);
+    //  setTitle(b.bibleName);
 }
 void MainWindow::showText(QString text)
 {
@@ -1250,14 +1264,22 @@ void MainWindow::pharseUrl(QString url)
         }
         emit historySetUrl(url_backup);
 
-    } else if(url.startsWith(anchor)) {
-         url = url.remove(0, anchor.size());
+    } else if (url.startsWith(anchor)) {
+        url = url.remove(0, anchor.size());
         qDebug() << "MainWindow::pharseUrl() anchor";
+        if (url.contains("\"")) {
+            url = url.remove("\"");
+        }
         if (activeMdiChild()) {
             QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
             textBrowser->scrollToAnchor(url);
         }
     } else {
+        qDebug() << "MainWindow::pharseUrl()" << b.bookPath;
+        if (b.bibleType == 1 && b.bookPath.contains(url)) {
+            emit get("bible://current/" + b.bookPath.lastIndexOf(url));
+        }
+        //search in bible bookPath for this string, if it exixsts it is a book link
         qDebug() << "MainWindow::pharseUrl() invalid URL";
     }
     setEnableReload(true);

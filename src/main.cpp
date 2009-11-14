@@ -37,70 +37,70 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-   /* QSettings *settings;
-    QString homeDataPath;
-#ifdef _PORTABLE_VERSION
-    homeDataPath = QApplication::applicationDirPath() + "/";
-    settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-#else
-    homeDataPath = QApplication::applicationDirPath() + "/";
-#ifdef Q_WS_MAC
-    homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
-    settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-#endif
-#ifdef Q_WS_X11
-    homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
-    settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-#endif
-#ifdef Q_WS_WIN
-    homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath()+"/openbible/";
-    settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
-                             "openBible", "openBibleViewer");
-#endif
-#endif
-#ifdef Q_WS_WIN
-    QString lang = settings->value("general/language", "en").toString();
-#else
-    QString lang = settings->value("general/language", QLocale::system().name()).toString();
-#endif
-    QStringList avLang;
-    avLang <<  "en" << "de" << "ru";
-    qDebug() << " avLang = " << avLang << " lang = " << lang;
-    if(avLang.lastIndexOf(lang) == -1)
-    {
-        lang = lang.remove(lang.lastIndexOf("_"),lang.size());
-        if(avLang.lastIndexOf(lang) == -1)
-        {
-            lang = avLang.at(0);
-        }
-    }
+    /* QSettings *settings;
+     QString homeDataPath;
+    #ifdef _PORTABLE_VERSION
+     homeDataPath = QApplication::applicationDirPath() + "/";
+     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
+    #else
+     homeDataPath = QApplication::applicationDirPath() + "/";
+    #ifdef Q_WS_MAC
+     homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
+     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
+    #endif
+    #ifdef Q_WS_X11
+     homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
+     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
+    #endif
+    #ifdef Q_WS_WIN
+     homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath()+"/openbible/";
+     settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
+                              "openBible", "openBibleViewer");
+    #endif
+    #endif
+    #ifdef Q_WS_WIN
+     QString lang = settings->value("general/language", "en").toString();
+    #else
+     QString lang = settings->value("general/language", QLocale::system().name()).toString();
+    #endif
+     QStringList avLang;
+     avLang <<  "en" << "de" << "ru";
+     qDebug() << " avLang = " << avLang << " lang = " << lang;
+     if(avLang.lastIndexOf(lang) == -1)
+     {
+         lang = lang.remove(lang.lastIndexOf("_"),lang.size());
+         if(avLang.lastIndexOf(lang) == -1)
+         {
+             lang = avLang.at(0);
+         }
+     }
 
-    QString themePath = settings->value("theme/path", homeDataPath + "stylesheet.css").toString();
-    QTranslator qtTranslator;
-    qtTranslator.load("qt_" + lang, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    a.installTranslator(&qtTranslator);
+     QString themePath = settings->value("theme/path", homeDataPath + "stylesheet.css").toString();
+     QTranslator qtTranslator;
+     qtTranslator.load("qt_" + lang, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+     a.installTranslator(&qtTranslator);
 
-    QTranslator myappTranslator;
-    qDebug() << "main::main lang = " << lang;
+     QTranslator myappTranslator;
+     qDebug() << "main::main lang = " << lang;
 
-    myappTranslator.load(":/data/obv_" + lang);
+     myappTranslator.load(":/data/obv_" + lang);
 
-    a.installTranslator(&myappTranslator);*/
+     a.installTranslator(&myappTranslator);*/
 
     MainWindow w;
     w.loadModules();
 
-  /*  QFile file(themePath);
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QTextStream in(&file);
-        QString out;
-        while (!in.atEnd()) {
-            QString line = in.readLine();
-            out += line;
-        }
-        w.setStyleSheet(out);//load from file
-        qDebug() << "main::main() load stylesheet fileName = " << file.fileName();
-    }*/
+    /*  QFile file(themePath);
+      if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+          QTextStream in(&file);
+          QString out;
+          while (!in.atEnd()) {
+              QString line = in.readLine();
+              out += line;
+          }
+          w.setStyleSheet(out);//load from file
+          qDebug() << "main::main() load stylesheet fileName = " << file.fileName();
+      }*/
     w.show();
     return a.exec();
 }
