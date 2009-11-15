@@ -2,8 +2,7 @@
 #define BIBLEINFO_H
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-struct bibleInfo
-{
+struct bibleInfo {
     QString bibleName;
     QString path;
     QString folder;

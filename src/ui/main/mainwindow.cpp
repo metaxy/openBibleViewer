@@ -286,7 +286,7 @@ void MainWindow::loadModuleDataByID(int id)
     m_windowCache.setBible(m_bible);
     setBooks(m_bible.bookFullName);
     //setCurrentChapter(m_bible.currentChapterID);
-   // currentBibleID = m_bible.currentBibleID;
+    // currentBibleID = m_bible.currentBibleID;
 
 }
 void MainWindow::zoomIn()
@@ -1257,9 +1257,9 @@ void MainWindow::pharseUrl(QString url)
     } else if (url.startsWith(anchor)) {
         url = url.remove(0, anchor.size());
         qDebug() << "MainWindow::pharseUrl() anchor";
-       /* if (url.contains("\"")) {
-            url = url.remove("\"");
-        }*/
+        /* if (url.contains("\"")) {
+             url = url.remove("\"");
+         }*/
         if (activeMdiChild()) {
             QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
             textBrowser->scrollToAnchor(url);
