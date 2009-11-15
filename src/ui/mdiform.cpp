@@ -32,7 +32,7 @@ mdiForm::mdiForm(QWidget *parent) :
 }*/
 void mdiForm::historyGetUrl(QString url)
 {
-    qDebug() << " mdiForm::historyGetUrl() url = " << url;
+    //qDebug() << " mdiForm::historyGetUrl() url = " << url;
     browserHistory.setCurrent(url);
     setButtons();
 }

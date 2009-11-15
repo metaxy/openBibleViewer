@@ -11,16 +11,16 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef TABCACHE_H
-#define TABCACHE_H
+#ifndef WINDOWCACHE_H
+#define WINDOWCACHE_H
 #include "../module/bible.h"
 #include <QtCore/QMap>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-class tabCache
+class windowCache
 {
 public:
-    tabCache();
+    windowCache();
 
     QMap<int, bible> b;
 
@@ -36,7 +36,7 @@ public:
 
     int newWindow(void);
     int removeTab(int id);
-    int moveTab(int from, int to);
+    //int moveTab(int from, int to);
     int clearAll(void);
 
     int setCurrentTabId(int id);
@@ -53,4 +53,4 @@ public:
 
 };
 
-#endif // TABCACHE_H
+#endif // WINDOWCACHE_H

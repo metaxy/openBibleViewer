@@ -135,7 +135,7 @@ int MainWindow::newNoteWithLink()
     QTextCursor cursor = currentTextCursor;
     int startverse = verseFromCursor(cursor);
     QString pos;
-    pos = bibleDirName[currentBibleID] + ";" + QString::number(b.currentBookID, 10) + ";" + QString::number(b.currentChapterID + 1 - b.chapterAdd, 10) + ";" + QString::number(startverse, 10) + ";" + b.bookFullName.at(b.currentBookID);
+    pos = bibleDirName[m_bible.currentBibleID] + ";" + QString::number(m_bible.currentBookID, 10) + ";" + QString::number(m_bible.currentChapterID + 1 - m_bible.chapterAdd, 10) + ";" + QString::number(startverse, 10) + ";" + m_bible.bookFullName.at(m_bible.currentBookID);
 
     saveNote();
     ui->lineEdit_note_titel->setText(tr("(unnamed)"));
@@ -307,7 +307,7 @@ void MainWindow::editNoteLink()
     QString pos = note->notesPos.at(id);
 
     QStringList list = pos.split(";");
-    if (list.size() < 4) {
+    if (list.size() < 5) {
         return ;
     }
     QString dirname = list.at(0);
@@ -327,9 +327,17 @@ void MainWindow::editNoteLink()
     }
     posChoser *pChoser = new posChoser(this);
     //connect( pChoser, SIGNAL( searched( QString,bool,bool,bool ) ), this, SLOT( showSearchResults( QString,bool,bool,bool ) ) );
-    qDebug() << "MainWindow::editNoteLink() b.chapterData.size() = " << b.chapterData.size(),
-    pChoser->setData(bibles, b.bookFullName);
+    connect(pChoser, SIGNAL(updated(QString)), this, SLOT(updateNote(QString)));
+    qDebug() << "MainWindow::editNoteLink() m_bible.chapterData.size() = " << m_bible.chapterData.size(),
+    pChoser->setData(bibles, m_bible.bookFullName);
     pChoser->setCurrent(bibleID, dirname, bookID, chapterID, verseID);
     pChoser->show();
     pChoser->exec();
+}
+void MainWindow::updateNote(QString pos)
+{
+    //  qDebug() << "MainWindow::updateBookmark() pos = " << pos;
+    currentNotePos = pos;
+    showNote(ui->listWidget_notes->currentItem());
+    return;
 }

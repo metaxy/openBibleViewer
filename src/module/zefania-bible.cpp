@@ -146,7 +146,7 @@ void zefaniaBible::readBook(int id)
         chapterText << "<b><font size=\"+5\">" + c.bookName + " " + QString::number(i) + "</font></b><br /><br />" + outtext;
         n = n.nextSibling();
     }
-    book_ccount = i;
+    //book_ccount = i;
     bookCount[id] = i;
     setSoftCache(currentBookID, chapterData);
     qDebug() << "zefania::readBook() chapterData.size() = " << chapterData.size();
@@ -536,6 +536,8 @@ QList<chapter> zefaniaBible::fromHardToSoft(int id, QDomNode ncache)
     }
     return ret;
 }
+/*
+  struct bibleInfo zefaniaBible::readBibleInfoFromCache(QString */
 struct stelle zefaniaBible::search(QString searchstring, bool regexp, bool whole, bool casesen) {
     if (whole == true) {
         searchstring = " " + searchstring + " ";
@@ -602,59 +604,4 @@ struct stelle zefaniaBible::search(QString searchstring, bool regexp, bool whole
     }
     progress.close();
     return st2;
-    /*
-    QProgressDialog progress(QObject::tr( "Searching"), QObject::tr("Cancel"), 0, softCache.size());
-    progress.setWindowModality(Qt::WindowModal);
-    QMapIterator<int, KoXmlElement> i(softCache);
-    while (i.hasNext())//all books
-    {
-        i.next();
-        progress.setValue(i.key());
-        if (progress.wasCanceled())
-            return st2;
-        KoXmlElement ncache = i.value();
-        QString outtext="";
-        int count2 = 0;
-        KoXmlNode n = ncache.firstChild();
-        while(!n.isNull())//all chapters
-        {
-            count2++;outtext="";
-            int count3=0;
-            KoXmlNode n2 = n.firstChild();
-            while(!n2.isNull())//all verses
-            {
-                count3++;
-                KoXmlElement e2 = n2.toElement();
-                bool b;
-                QString etext = e2.text();
-                if(regexp == true)
-                {
-                    b = etext.contains(QRegExp(searchstring));
-                }
-                else
-                {
-                    if(casesen == true)
-                    {
-                        b = etext.contains(searchstring,Qt::CaseSensitive);
-                    }
-                    else
-                    {
-                        b = etext.contains(searchstring,Qt::CaseInsensitive);
-                    }
-                }
-
-                if(b)
-                {
-                    st2.book << i.key();
-                    st2.chapter << count2;
-                    st2.verse << count3;
-                    st2.text << etext;
-                }
-                n2 = n2.nextSibling();
-            }
-            n = n.nextSibling();
-        }
-    }
-    progress.close();
-    return st2;*/
 }

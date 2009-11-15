@@ -16,7 +16,7 @@ SOURCES += src/main.cpp \
     src/ui/searchdialog.cpp \
     src/ui/settingsdialog.cpp \
     src/ui/aboutdialog.cpp \
-    src/core/tabcache.cpp \
+    src/core/windowcache.cpp \
     src/core/KoXmlReader.cpp \
     src/core/KoXmlWriter.cpp \
     src/core/notes.cpp \
@@ -42,7 +42,7 @@ HEADERS += src/ui/main/mainwindow.h \
     src/module/zefania-bible.h \
     src/ui/searchdialog.h \
     src/ui/settingsdialog.h \
-    src/core/tabcache.h \
+    src/core/windowcache.h \
     src/core/stelle.h \
     src/core/KoXmlReader.h \
     src/core/KoXmlWriter.h \
@@ -61,7 +61,8 @@ HEADERS += src/ui/main/mainwindow.h \
     src/core/goto.h \
     src/module/zefania-strong.h \
     src/core/history.h \
-    src/ui/moduledownloaddialog.h
+    src/ui/moduledownloaddialog.h \
+    src/core/bibleinfo.h
 FORMS += src/ui/main/mainwindow.ui \
     src/ui/searchdialog.ui \
     src/ui/settingsdialog.ui \

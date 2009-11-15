@@ -11,50 +11,50 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#include "tabcache.h"
+#include "windowcache.h"
 #include "../module/zefania-bible.h"
 #include "../module/biblequote.h"
 #include <QtCore/QtDebug>
 
-tabCache::tabCache()
+windowCache::windowCache()
 {
 }
-int tabCache::setBible(bible b_)
+int windowCache::setBible(bible b_)
 {
-    qDebug() << "tabCache::setBible() currentTabID = " << currentTabID;
+    qDebug() << "windowCache::setBible() currentTabID = " << currentTabID;
     bibletype[currentTabID] = 1;
-    qDebug() << "tabCache::setBible() bibleName = " << b_.bibleName << " bibleType" << b_.bibleType;
+    qDebug() << "windowCache::setBible() bibleName = " << b_.bibleName << " bibleType" << b_.bibleType;
     bibleName[currentTabID] = b_.bibleName;
     books[currentTabID] = b_.bookFullName;
     /*if(b_.bibleType == 2)//zefania
     {
-        qDebug() << "tabCache::setBible() size of zefCache" << zefcache[b_.currentBibleID] .size();
+        qDebug() << "windowCache::setBible() size of zefCache" << zefcache[b_.currentBibleID] .size();
         zefcache[b_.currentBibleID] = b_.getZefCache();
         b_.clearZefCache();
     }*/
     b[currentTabID] = b_;
-    qDebug() << "tabCache::setBible() end";
+    qDebug() << "windowCache::setBible() end";
     return 0;
 }
 
-int tabCache::newWindow(void)
+int windowCache::newWindow(void)
 {
     idlist << QString::number(idlist.size(), 10);
     return 0;
 }
-int tabCache::removeTab(int id)
+int windowCache::removeTab(int id)
 {
     idlist.removeAt(id);
     return 0;
 }
-int tabCache::moveTab(int from, int to)
+/*int windowCache::moveTab(int from, int to)
 {
     idlist.move(from, to);
     return 0;
-}
-int tabCache::clearAll(void)
+}*/
+int windowCache::clearAll(void)
 {
-    qDebug() << "tabCache::clearAll";
+    qDebug() << "windowCache::clearAll";
     idlist.clear();
     b.clear();
     zefcache.clear();
@@ -65,11 +65,11 @@ int tabCache::clearAll(void)
     selectedBook.clear();
     return 0;
 }
-int tabCache::getBibleType(void)
+int windowCache::getBibleType(void)
 {
     return bibletype[currentTabID];
 }
-int tabCache::setCurrentTabId(int id)
+int windowCache::setCurrentTabId(int id)
 {
     if (id < idlist.size() && id >= 0) {
         QString idl = idlist.at(id);
@@ -78,40 +78,40 @@ int tabCache::setCurrentTabId(int id)
     }
     return 1;
 }
-int tabCache::setCurrentBook(int bookid, int ichaptercount)
+int windowCache::setCurrentBook(int bookid, int ichaptercount)
 {
     chaptercount[currentTabID] = ichaptercount;
     selectedBook[currentTabID] = bookid;
     return 0;
 }
-QString tabCache::getBibleName()
+QString windowCache::getBibleName()
 {
     return bibleName[currentTabID];
 }
-int tabCache::getCurrentBook()
+int windowCache::getCurrentBook()
 {
     return selectedBook[currentTabID];
 }
-QStringList tabCache::getBooks(void)
+QStringList windowCache::getBooks(void)
 {
     return books[currentTabID];
 }
-int tabCache::getChapterCount(void)
+int windowCache::getChapterCount(void)
 {
     return chaptercount[currentTabID];
 }
-bible tabCache::getBible(void)
+bible windowCache::getBible(void)
 {
-    qDebug() << "bible tabCache::getBible";
+    qDebug() << "bible windowCache::getBible";
     /*if(b[currentTabID].bibleType == 2)//Zefania
     {
-        qDebug() << "bible tabCache::zefania";
+        qDebug() << "bible windowCache::zefania";
         b[currentTabID].setZefCache(getZefaniaCache(b[currentTabID].currentBibleID));
     }*/
     return b[currentTabID];
 }
-QMap<int, QList<chapter> > tabCache::getZefaniaCache(int bibleID)
+QMap<int, QList<chapter> > windowCache::getZefaniaCache(int bibleID)
 {
-    qDebug() << "tabCache::getZefaniaCache bibleID = " << bibleID << "zefcache[bibleID].size() = " << zefcache[bibleID].size();
+    qDebug() << "windowCache::getZefaniaCache bibleID = " << bibleID << "zefcache[bibleID].size() = " << zefcache[bibleID].size();
     return zefcache[bibleID];
 }

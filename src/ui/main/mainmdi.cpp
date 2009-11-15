@@ -288,21 +288,21 @@ int MainWindow::reloadWindow(QMdiSubWindow * window)
         qDebug() << "MainWindow::reloadWindow() tcache.getBibleType() == 0";
         ui->listWidget_chapters->clear();
         ui->listWidget_books->clear();
-        currentBibleID = -2;
+        m_bible.currentBibleID = -2;
     } else {
-        if (currentBibleID == tcache.getBible().currentBibleID)
+        if (m_bible.currentBibleID == tcache.getBible().currentBibleID)
             return 1;
         qDebug() << "MainWindow::reloadWindow() get bible";
-        b = tcache.getBible();
+        m_bible = tcache.getBible();
         setTitle(tcache.getBibleName());
-        qDebug() << "MainWindow::reloadWindow() b.chapterNames.size() = " << b.chapterNames.size() << ", b.currentChapterID = " << b.currentChapterID;
-        setChapters(b.chapterNames);
-        setCurrentChapter(b.currentChapterID);
+        qDebug() << "MainWindow::reloadWindow() m_bible.chapterNames.size() = " << m_bible.chapterNames.size() << ", m_bible.currentChapterID = " << m_bible.currentChapterID;
+        setChapters(m_bible.chapterNames);
+        setCurrentChapter(m_bible.currentChapterID);
 
         QStringList tbookFullName = tcache.getBooks();//show all books
         setBooks(tbookFullName);
         setCurrentBook(tcache.getCurrentBook());
-        currentBibleID = b.currentBibleID;
+        //currentBibleID = m_bible.currentBibleID;
     }
 
     return 0;

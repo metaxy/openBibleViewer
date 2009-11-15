@@ -54,16 +54,16 @@ int MainWindow::showSearchResults(QString searchtext, bool regexp, bool whole, b
     searchInCurrentText(lastsearch);
     ui->label_search->setText(tr("Searchstring: %1").arg(searchtext));
     QStringList outlist;
-    if (biblesTypes.size() < currentBibleID)
+    if (biblesTypes.size() < m_bible.currentBibleID)
         return 1;
     struct stelle st;
-    st = b.search(searchtext, regexp, whole, casesen);
-    b.st = st;
+    st = m_bible.search(searchtext, regexp, whole, casesen);
+    m_bible.st = st;
 
-    tcache.setBible(b);
+    tcache.setBible(m_bible);
     qDebug() << " MainWindow::showSearchResults results = " << st.book.size();
     for (int i = 0; i < st.book.size(); i++) {
-        QString bookn = b.bookFullName.at(st.book.at(i));
+        QString bookn = m_bible.bookFullName.at(st.book.at(i));
         outlist << bookn + " " + QString::number(st.chapter.at(i), 10) + " , " + QString::number(st.verse.at(i), 10);
     }
     ui->listWidget_search->clear();
@@ -75,12 +75,12 @@ int MainWindow::showSearchResults(QString searchtext, bool regexp, bool whole, b
 }
 int MainWindow::goToSearchResult(QListWidgetItem * item)
 {
-    //qDebug("MainWindow::goToSearchResult() currentBibleID= %i , searchedBibleID = %i",currentBibleID,b.st.bibleID);
+    //qDebug("MainWindow::goToSearchResult() currentBibleID= %i , searchedBibleID = %i",currentBibleID,m_bible.st.bibleID);
     int id = ui->listWidget_search->row(item);
-    if (biblesTypes.size() < currentBibleID)
+    if (biblesTypes.size() < m_bible.currentBibleID)
         return 1;
-    if (id < b.st.book.size() && id < b.st.chapter.size()) {
-        emit get("bible://" + QString::number(b.st.bibleID) + "/" + QString::number(b.st.book.at(id)) + "," + QString::number(b.st.chapter.at(id) - 1) + "," + QString::number(b.st.verse.at(id) - 1) + ",searchInCurrentText=true");
+    if (id < m_bible.st.book.size() && id < m_bible.st.chapter.size()) {
+        emit get("bible://" + QString::number(m_bible.st.bibleID) + "/" + QString::number(m_bible.st.book.at(id)) + "," + QString::number(m_bible.st.chapter.at(id) - 1) + "," + QString::number(m_bible.st.verse.at(id) - 1) + ",searchInCurrentText=true");
     }
     return 0;
 }
@@ -90,20 +90,20 @@ void MainWindow::searchInfo()
     struct stelle st;
     QStringList bookNames;
     QString searchString;
-    if (biblesTypes.size() < currentBibleID) {
+    if (biblesTypes.size() < m_bible.currentBibleID) {
         QMessageBox::information(0, tr("Error"), tr("No search information available."));
         return;
     }
     QStringList textList;
 
     qDebug() << "MainWindow::searchInfo() txstList.size() = " << textList.size();
-    bookNames = b.bookFullName;
-    st = b.st;
+    bookNames = m_bible.bookFullName;
+    st = m_bible.st;
     for (int i = 0; i < st.book.size(); ++i) {
-        QString bookn = b.bookFullName.at(st.book.at(i));
+        QString bookn = m_bible.bookFullName.at(st.book.at(i));
         textList << st.text.at(i) + "\n - <i>" + bookn + " " + QString::number(st.chapter.at(i), 10) + " , " + QString::number(st.verse.at(i), 10) + "</i>";
     }
-    searchString = b.lastSearchString;
+    searchString = m_bible.lastSearchString;
 
     searchInfoDialog sDialog;
     sDialog.show();
@@ -119,7 +119,7 @@ void MainWindow::searchInCurrentText(QString searchtext)
     if(biblesTypes.size() < currentBibleID)
         return;
 
-    text = b.lastout;
+    text = m_bible.lastout;
     int count = 0;
     int lastindex = text.indexOf(searchtext,0,Qt::CaseInsensitive);
     QString ftext="<b><font color=\"#00C000\">",ntext="</font></b>";
@@ -136,7 +136,7 @@ void MainWindow::searchInCurrentText(QString searchtext)
     /*if (activeMdiChild())
     {
         QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
-        //b.st.
+        //m_bible.st.
         textBrowser->find(searchtext);
     }*/
     //  qDebug() << "MainWindow::searchInCurrentText() count = " << count << " ( end )";

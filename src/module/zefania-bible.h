@@ -50,7 +50,7 @@ public:
 
     QMap<int, QList<chapter> > softCacheData;
     QMap<int, bool> softCacheAvi;
-    long currentBookID, fontsize, bibletype, book_ccount, bibleID;
+    long currentBookID, bibletype, /*book_ccount,*/ bibleID;
     struct stelle st;
     QString currentBiblePath, lastout, chaptersign, versesign, biblepath, bibleName, lastSearch;
     QStringList bibles, biblesPath, bookFullName, bookShortName, chapterText/*,bookPath*/;

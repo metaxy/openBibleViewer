@@ -24,6 +24,7 @@ void posChoser::setData(QStringList bibles, QStringList books)
 }
 void posChoser::setCurrent(int bible, QString path, int book, int chapter, int verse)
 {
+    //todo:load the bible info and from that the booknames
     m_bibleID = bible;
     m_bookID = book;
     m_chapterID = chapter;

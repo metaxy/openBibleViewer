@@ -52,18 +52,18 @@ void MainWindow::newBookmark(void)
     int startverse = verseFromCursor(cursor);
 
     bookmark->setText(0,
-                      b.bookFullName[b.currentBookID] +
+                      m_bible.bookFullName[m_bible.currentBookID] +
                       " " +
-                      QString::number(b.currentChapterID - b.chapterAdd + 1, 10) +
+                      QString::number(m_bible.currentChapterID - m_bible.chapterAdd + 1, 10) +
                       "," +
                       QString::number(startverse, 10));
 
     bookmark->setText(1,
-                      bibleDirName[currentBibleID] +
+                      bibleDirName[m_bible.currentBibleID] +
                       ";" +
-                      QString::number(b.currentBookID, 10) +
+                      QString::number(m_bible.currentBookID, 10) +
                       ";" +
-                      QString::number(b.currentChapterID - b.chapterAdd + 1, 10) +
+                      QString::number(m_bible.currentChapterID - m_bible.chapterAdd + 1, 10) +
                       ";" +
                       QString::number(startverse, 10));//auch aus cursor
 
@@ -198,7 +198,7 @@ void MainWindow::editBookmark()
     posChoser *pChoser = new posChoser(this);
     pChoser->setWindowModality(Qt::WindowModal);
     connect(pChoser, SIGNAL(updated(QString)), this, SLOT(updateBookmark(QString)));
-    pChoser->setData(bibles, b.bookFullName);
+    pChoser->setData(bibles, m_bible.bookFullName);
     pChoser->setCurrent(bibleID, dirname, bookID, chapterID, verseID);
     pChoser->show();
     pChoser->exec();

@@ -14,21 +14,20 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QListWidgetItem>
-#include <QSettings>
-#include <QList>
-#include <QTreeWidgetItem>
-#include <QTextBrowser>
-#include <QTabWidget>
-#include <QSettings>
-#include <QMdiSubWindow>
+#include <QtCore/QList>
+#include <QtCore/QSettings>
+#include <QtCore/QUrl>
+#include <QtGui/QListWidgetItem>
+#include <QtGui/QMainWindow>
+#include <QtGui/QMdiSubWindow>
+#include <QtGui/QTreeWidgetItem>
+#include <QtGui/QTextCursor>
 
 #include "../../core/config.h"
 #include "../../module/biblequote.h"
 #include "../../module/zefania-bible.h"
 #include "../../module/zefania-strong.h"
-#include "../../core/tabcache.h"
+#include "../../core/windowcache.h"
 #include "../../core/notes.h"
 #include "../../module/bible.h"
 
@@ -89,6 +88,7 @@ public slots:
     int noteSetTextItalic();
     int noteSetTextUnderline();
     int noteSetTextColor();
+    void updateNote(QString pos);
     void searchInfo();
     void nextVerse();
     void lastVerse();
@@ -112,32 +112,29 @@ signals:
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void setSettings(struct settings_s ssettings);
-    void loadSettings();
     int loadModules();
-    void loadLanguage(QString language);
+
+
 protected:
     void closeEvent(QCloseEvent *event);
+    bool eventFilter(QObject *obj, QEvent *ev);
 private:
     Ui::MainWindowClass *ui;
-    bible b;
+    bible m_bible;
     biblequote bq;
     zefaniaBible zef;
     zefaniaStrong zefStrong;
     struct settings_s set;
     QStringList encodings;
-    int currentBookID, currentBibleID, fontsize, book_ccount, firsttime, currentChapterID, currentZoom, currentNoteID, currentVerseID;
+    int firsttime, currentNoteID, currentVerseID;
     int lastActiveWindow;
-    QString currentBiblePath, lastout, lastsearch, chaptersign, versesign;
+    QString lastsearch;
     QString currentNotePos, bookmarksFileName, homeDataPath;
-    QPoint currentTextCursorPos;
     QTextCursor currentTextCursor;
-    QStringList bibles, biblesPath, biblesIniPath, bookPath, bookFullName, bookShortName, chapterText, bibleDirName;
+    QStringList bibles, biblesPath, biblesIniPath, bookPath, bookFullName, bibleDirName;
     QMap <int, int> bookCount;
     QList<int> biblesTypes;
-    QList<QTextBrowser*> textBrowsers;
-    QTabWidget *tabWidget;
-    tabCache tcache;
+    windowCache tcache;
     QSettings *settings;
     notes *note;
     QString VERSION, BUILD;
@@ -147,33 +144,34 @@ private:
     void setBooks(QStringList bookNames);
     void setCurrentBook(int bookID);
     void setCurrentChapter(int chapterID);
-    void searchInCurrentText(QString searchtext);
-    void showText(QString text);
-    void readBookByID(int id);
-    void loadModuleDataByID(int id);
-    int verseFromCursor(QTextCursor cursor);
     void setEnableReload(bool enable);
     void setTitle(QString title);
+    void setSettings(struct settings_s ssettings);
+
+    void searchInCurrentText(QString searchtext);
+    void showText(QString text);
+    void showStrong(QString strongID);
+
+    void readBookByID(int id);
+    void loadModuleDataByID(int id);
+
+    void loadLanguage(QString language);
+    void loadSettings();
+    QString loadStrong(QString strongID);
+    void loadStrongs();
+
+    int verseFromCursor(QTextCursor cursor);
+    int currentTabID();
+    int tabIDof(QMdiSubWindow* window);
     QString notePos2Text(QString);
     int internalOpenPos(QString pos);
     QMdiSubWindow *activeMdiChild();
     QList<QMdiSubWindow*> usableWindowList();
-    int currentTabID();
-    int tabIDof(QMdiSubWindow* window);
-    int lastBookmark;
+
     QList<QMdiSubWindow *> internalWindows;
-    void showStrong(QString strongID);
-    QString loadStrong(QString strongID);
-    void loadStrongs();
     int currentStrongModule;
     QString currentStrongID;
     QList<int> strongModuleID;
-
-
-
-protected:
-    bool eventFilter(QObject *obj, QEvent *ev);
-
 
 };
 
