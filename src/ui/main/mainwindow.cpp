@@ -282,38 +282,36 @@ void MainWindow::loadModuleDataByID(int id)
     m_bible.loadBibleData(id, biblesIniPath[id]);
     setTitle(m_bible.bibleName);
     setBooks(m_bible.bookFullName);
-    tcache.setCurrentTabId(currentTabID());
-    tcache.setBible(m_bible);
+    m_windowCache.setCurrentWindowID(currentWindowID());
+    m_windowCache.setBible(m_bible);
     setBooks(m_bible.bookFullName);
     //setCurrentChapter(m_bible.currentChapterID);
    // currentBibleID = m_bible.currentBibleID;
 
 }
-int MainWindow::zoomIn()
+void MainWindow::zoomIn()
 {
-    //qDebug() << "MainWindow::zoomIn()";
     if (activeMdiChild()) {
         //qDebug() << "MainWindow::zoomIn() zoom = " << set.zoomstep;
         QTextBrowser *t = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
         t->zoomIn(set.zoomstep);
     }
-    return 0;
+    return;
 }
-int MainWindow::zoomOut()
+void MainWindow::zoomOut()
 {
-    //qDebug() << "MainWindow::zoomOut()";
     if (activeMdiChild()) {
         //qDebug() << "MainWindow::zoomOut() zoom = " << set.zoomstep;
         QTextBrowser *t = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
         t->zoomOut(set.zoomstep);
     }
-    return 0;
+    return;
 }
 
 int MainWindow::readBook(QListWidgetItem * item)
 {
     int id = ui->listWidget_books->row(item);
-    qDebug() << "MainWindow::readBook(QListWidgetItem) id = " << id;
+    //qDebug() << "MainWindow::readBook(QListWidgetItem) id = " << id;
     readBook(id);
     return 0;
 }
@@ -342,11 +340,11 @@ void MainWindow::readBookByID(int id)
         return;
     }
     int icout = m_bible.bookCount[id];
-    tcache.setCurrentTabId(currentTabID());
-    tcache.setCurrentBook(id, icout);
+    m_windowCache.setCurrentWindowID(currentWindowID());
+    m_windowCache.setCurrentBook(id, icout);
 
     setChapters(m_bible.chapterNames);
-    //  showChapter(0 + m_bible.chapterAdd);
+
     if (activeMdiChild()) {
         QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
         qDebug() << "MainWindow::readBokByID() searchPaths = " << m_bible.getSearchPaths();
@@ -354,12 +352,12 @@ void MainWindow::readBookByID(int id)
     }
 
 }
-int MainWindow::showChapter(int chapterid, int verseID)
+int MainWindow::showChapter(int chapterID, int verseID)
 {
-    qDebug() << "MainWindow::showChapter() chapterid = " << chapterid << " chapterAdd = " << m_bible.chapterAdd;
-    m_bible.currentChapterID = chapterid;
+    qDebug() << "MainWindow::showChapter() chapterid = " << chapterID << " chapterAdd = " << m_bible.chapterAdd;
+    m_bible.currentChapterID = chapterID;
     currentVerseID = verseID;
-    tcache.setBible(m_bible);
+    m_windowCache.setBible(m_bible);
     showText(m_bible.readChapter(m_bible.currentChapterID, verseID));
     setCurrentChapter(m_bible.currentChapterID - m_bible.chapterAdd);
     return 0;
@@ -900,13 +898,13 @@ int MainWindow::saveSettings(struct settings_s ssettings)
     }
     return 0;
 }
-int MainWindow::saveSession(void)
+void MainWindow::saveSession(void)
 {
     settings->setValue("session/geometry", saveGeometry());
     settings->setValue("session/state", saveState());
-    return 0;
+    return;
 }
-int MainWindow::restoreSession(void)
+void MainWindow::restoreSession(void)
 {
     QByteArray geometry = settings->value("session/geometry").toByteArray();
     QByteArray state = settings->value("session/state").toByteArray();
@@ -917,7 +915,7 @@ int MainWindow::restoreSession(void)
         restoreState(state);
     }
 
-    return 0;
+    return;
 }
 
 int MainWindow::printFile(void)
@@ -948,7 +946,7 @@ int MainWindow::saveFile(void)
         if (fileName.endsWith(".html") || fileName.endsWith(".htm")) {
             QFile file(fileName);
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-                return 0;
+                return 1;
             QTextStream out(&file);
             out << t->toHtml();
             file.close();
@@ -961,7 +959,7 @@ int MainWindow::saveFile(void)
         } else {
             QFile file(fileName);
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-                return 0;
+                return 1;
             QTextStream out(&file);
             out << t->toPlainText();
             file.close();
@@ -980,12 +978,6 @@ int MainWindow::showSettingsDialog(void)
     setDialog.show();
     return setDialog.exec();
 }
-
-/*int MainWindow::close(void)
-{
-    close();
-    return 0;
-}*/
 
 void MainWindow::copy()
 {
@@ -1038,7 +1030,6 @@ int MainWindow::internalOpenPos(QString pos)
             break;
         }
     }
-    //qDebug() << "MainWindow::go2Pos() bibleID = " << bibleID << " , bookID = " << bookID << " , chapterID = " << chapterID << ", verseID = " << verseID;
     emit get("bible://" + QString::number(bibleID) + "/" + QString::number(bookID) + "," + QString::number(chapterID - 1) + "," + QString::number(verseID - 1));
     return 0;
 }
@@ -1191,7 +1182,7 @@ void MainWindow::pharseUrl(QString url)
                 int verseID = c.at(2).toInt();
                 if (bibleID != m_bible.currentBibleID) {
                     loadModuleDataByID(bibleID);
-                    readBookByID(bookID);//todo: it read alreay a chapter
+                    readBookByID(bookID);
                     setCurrentBook(bookID);
                     showChapter(chapterID + m_bible.chapterAdd, verseID);
                     setCurrentChapter(chapterID);
@@ -1266,9 +1257,9 @@ void MainWindow::pharseUrl(QString url)
     } else if (url.startsWith(anchor)) {
         url = url.remove(0, anchor.size());
         qDebug() << "MainWindow::pharseUrl() anchor";
-        if (url.contains("\"")) {
+       /* if (url.contains("\"")) {
             url = url.remove("\"");
-        }
+        }*/
         if (activeMdiChild()) {
             QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
             textBrowser->scrollToAnchor(url);

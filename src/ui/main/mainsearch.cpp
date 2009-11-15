@@ -60,7 +60,7 @@ int MainWindow::showSearchResults(QString searchtext, bool regexp, bool whole, b
     st = m_bible.search(searchtext, regexp, whole, casesen);
     m_bible.st = st;
 
-    tcache.setBible(m_bible);
+    m_windowCache.setBible(m_bible);
     qDebug() << " MainWindow::showSearchResults results = " << st.book.size();
     for (int i = 0; i < st.book.size(); i++) {
         QString bookn = m_bible.bookFullName.at(st.book.at(i));

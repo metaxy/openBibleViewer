@@ -45,8 +45,8 @@ public slots:
     int readBook(const int &book);
     int readChapter(QListWidgetItem * item);
     int readChapter(int);
-    int zoomIn();
-    int zoomOut();
+    void zoomIn();
+    void zoomOut();
     int search();
     //int close();
     int printFile();
@@ -81,8 +81,7 @@ public slots:
     void bookmarksGo();
     void bookmarksGo(QTreeWidgetItem * item);
     void updateBookmark(QString pos);
-    int saveSession();
-    int restoreSession();
+
     int showChapter(int chapterID, int verseID = -1);
     int noteSetTextBold();
     int noteSetTextItalic();
@@ -134,7 +133,7 @@ private:
     QStringList bibles, biblesPath, biblesIniPath, bookPath, bookFullName, bibleDirName;
     QMap <int, int> bookCount;
     QList<int> biblesTypes;
-    windowCache tcache;
+    windowCache m_windowCache;
     QSettings *settings;
     notes *note;
     QString VERSION, BUILD;
@@ -160,18 +159,21 @@ private:
     QString loadStrong(QString strongID);
     void loadStrongs();
 
+    void saveSession();
+    void restoreSession();
+
     int verseFromCursor(QTextCursor cursor);
-    int currentTabID();
+    int currentWindowID();
     int tabIDof(QMdiSubWindow* window);
     QString notePos2Text(QString);
     int internalOpenPos(QString pos);
     QMdiSubWindow *activeMdiChild();
     QList<QMdiSubWindow*> usableWindowList();
 
-    QList<QMdiSubWindow *> internalWindows;
-    int currentStrongModule;
-    QString currentStrongID;
-    QList<int> strongModuleID;
+    QList<QMdiSubWindow *> m_internalWindows;
+    int m_currentStrongModule;
+    QString m_currentStrongID;
+    QList<int> m_strongModuleID;
 
 };
 

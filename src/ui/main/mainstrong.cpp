@@ -3,8 +3,8 @@
 #include <QtCore/QtDebug>
 void MainWindow::loadStrongs()
 {
-    currentStrongID = "";
-    currentStrongModule = -1;
+    m_currentStrongID = "";
+    m_currentStrongModule = -1;
     QList<int> moduleID;
     QStringList moduleTitle;
     for (int i = 0; i < set.module.size(); ++i) {
@@ -13,7 +13,7 @@ void MainWindow::loadStrongs()
             moduleTitle << set.module.at(i).moduleName;
         }
     }
-    strongModuleID = moduleID;
+    m_strongModuleID = moduleID;
     ui->comboBox_strong->clear();
     ui->comboBox_strong->insertItems(0, moduleTitle);
 
@@ -23,12 +23,12 @@ QString MainWindow::loadStrong(QString strongID)
 {
     qDebug() << "MainWindow::loadStrong";
     zefStrong.setSettings(set, moduleConfig());
-    if (currentStrongModule == -1) {
+    if (m_currentStrongModule == -1) {
         loadStrongModule(0);
     }
     QString strong;
-    if (currentStrongModule >= 0) {
-        currentStrongID = strongID;
+    if (m_currentStrongModule >= 0) {
+        m_currentStrongID = strongID;
         strong = zefStrong.getStrong(strongID);
     } else {
         strong = tr("No strong module loaded.");
@@ -48,11 +48,11 @@ void MainWindow::showStrong(QString strongID)
 void MainWindow::loadStrongModule(int lID)
 {
     qDebug() << "MainWindow::loadStrongModule()";
-    if (strongModuleID.size() > lID) {
-        int id = strongModuleID.at(lID);
+    if (m_strongModuleID.size() > lID) {
+        int id = m_strongModuleID.at(lID);
         zefStrong.setSettings(set, set.module.at(id));
         zefStrong.loadDataBase(set.module.at(id).modulePath);
-        currentStrongModule = id;
+        m_currentStrongModule = id;
         strongSearch();
     }
 }

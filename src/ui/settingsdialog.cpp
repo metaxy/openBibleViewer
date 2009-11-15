@@ -1,5 +1,5 @@
 /***************************************************************************
-openBibleViewer - Free Bibel Viewer
+openBibleViewer - Bible Study Tool
 Copyright (C) 2009 Paul Walger
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free

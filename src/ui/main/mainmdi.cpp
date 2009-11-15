@@ -28,7 +28,7 @@ void MainWindow::newMdiChild()
     if (windowsCount == 1) {
         firstSubWindow = usableWindowList().at(0);
     }
-    tcache.newWindow();
+    m_windowCache.newWindow();
     QWidget *widget = new QWidget(ui->mdiArea);
     QVBoxLayout *layout = new QVBoxLayout(widget);
 
@@ -70,7 +70,7 @@ void MainWindow::newMdiChild()
         }
     }
 
-    internalWindows << subWindow;
+    m_internalWindows << subWindow;
     enableReload = true;
     //add a this new subwindow in the list
 }
@@ -201,12 +201,12 @@ QList<QMdiSubWindow*> MainWindow::usableWindowList()
     }
     return ret;
 }
-int MainWindow::currentTabID()
+int MainWindow::currentWindowID()
 {
-    //qDebug()  << "MainWindow::currentTabID()";
+    //qDebug()  << "MainWindow::currentWindowID()";
     for (int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
         if (ui->mdiArea->activeSubWindow() ==  ui->mdiArea->subWindowList().at(i)) {
-            //qDebug()  << "MainWindow::currentTabID() id = " << i;
+            //qDebug()  << "MainWindow::currentWindowID() id = " << i;
             return i;
         }
     }
@@ -236,22 +236,22 @@ int MainWindow::closeWindow()
         qDebug() << "MainWindow::closeWindow() subWIndowList is empty";
         setBooks(QStringList());
         setChapters(QStringList());
-        tcache.clearAll();
+        m_windowCache.clearAll();
         return 1;
     }
-    if (internalWindows.isEmpty()) {
+    if (m_internalWindows.isEmpty()) {
         qDebug() << "MainWindow::closeWindow() internaL is empty";
         setBooks(QStringList());
         setChapters(QStringList());
-        tcache.clearAll();
+        m_windowCache.clearAll();
         return 1;
     }
     qDebug() << "MainWindow::closeWindow() closing";
-    for (int i = 0; i < internalWindows.size(); i++) {
-        if (ui->mdiArea->subWindowList().lastIndexOf(internalWindows.at(i)) == -1) {
+    for (int i = 0; i < m_internalWindows.size(); i++) {
+        if (ui->mdiArea->subWindowList().lastIndexOf(m_internalWindows.at(i)) == -1) {
             qDebug() << "MainWindow::closeWindow() found closed Window id = " << i;
-            tcache.removeTab(i);
-            internalWindows.removeAt(i);
+            m_windowCache.removeWindow(i);
+            m_internalWindows.removeAt(i);
             break;
         }
     }
@@ -259,7 +259,7 @@ int MainWindow::closeWindow()
         qDebug() << "MainWindow::closeWindow() last closed";
         setBooks(QStringList());
         setChapters(QStringList());
-        tcache.clearAll();
+        m_windowCache.clearAll();
         return 1;
     }
     reloadWindow(ui->mdiArea->currentSubWindow());
@@ -272,7 +272,7 @@ int MainWindow::reloadWindow(QMdiSubWindow * window)
         return 1;
     }
     int id = tabIDof(window);
-    //qDebug() << "MainWindow::reloadWindow() bibletype = " << tcache.getBibleType() << ", id = " << id;
+    //qDebug() << "MainWindow::reloadWindow() bibletype = " << m_windowCache.getBibleType() << ", id = " << id;
     if (id == -1) {
         //qDebug() << "MainWindow::reloadWindow() id == -1";
         return 1;
@@ -283,25 +283,25 @@ int MainWindow::reloadWindow(QMdiSubWindow * window)
     }
 
     qDebug() << "MainWindow::reloadWindow() setCurrentTab id = " << id;
-    tcache.setCurrentTabId(id);
-    if (tcache.getBibleType() == 0) { //probaly no bible loaded in this window
-        qDebug() << "MainWindow::reloadWindow() tcache.getBibleType() == 0";
+    m_windowCache.setCurrentWindowID(id);
+    if (m_windowCache.getBibleType() == 0) { //probaly no bible loaded in this window
+        qDebug() << "MainWindow::reloadWindow() m_windowCache.getBibleType() == 0";
         ui->listWidget_chapters->clear();
         ui->listWidget_books->clear();
         m_bible.currentBibleID = -2;
     } else {
-        if (m_bible.currentBibleID == tcache.getBible().currentBibleID)
+        if (m_bible.currentBibleID == m_windowCache.getBible().currentBibleID)
             return 1;
         qDebug() << "MainWindow::reloadWindow() get bible";
-        m_bible = tcache.getBible();
-        setTitle(tcache.getBibleName());
+        m_bible = m_windowCache.getBible();
+        setTitle(m_windowCache.getBibleName());
         qDebug() << "MainWindow::reloadWindow() m_bible.chapterNames.size() = " << m_bible.chapterNames.size() << ", m_bible.currentChapterID = " << m_bible.currentChapterID;
         setChapters(m_bible.chapterNames);
         setCurrentChapter(m_bible.currentChapterID);
 
-        QStringList tbookFullName = tcache.getBooks();//show all books
+        QStringList tbookFullName = m_windowCache.getBooks();//show all books
         setBooks(tbookFullName);
-        setCurrentBook(tcache.getCurrentBook());
+        setCurrentBook(m_windowCache.getCurrentBook());
         //currentBibleID = m_bible.currentBibleID;
     }
 

@@ -1,5 +1,5 @@
 /***************************************************************************
-openBibleViewer - Free Bibel Viewer
+openBibleViewer - Bible Study Tool
 Copyright (C) 2009 Paul Walger
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
@@ -22,24 +22,23 @@ class windowCache
 public:
     windowCache();
 
-    QMap<int, bible> b;
+    QMap<int, bible> m_b;
 
-    QMap<int, QMap<int, QList<chapter> > > zefcache;
-    QMap<int, bool> zefcacheset;
-    QMap<int, int> bibletype;
-    QMap<int, QString> bibleName;
-    QMap<int, QStringList> books;
-    QMap<int, int> chaptercount;
-    QMap<int, int> selectedBook;
-    QStringList idlist;
-    int currentTabID;
+    QMap<int, QMap<int, QList<chapter> > > m_zefcache;
+    QMap<int, bool> m_zefcacheset;
+    QMap<int, int> m_bibletype;
+    QMap<int, QString> m_bibleName;
+    QMap<int, QStringList> m_books;
+    QMap<int, int> m_chaptercount;
+    QMap<int, int> m_selectedBook;
+    QStringList m_idList;
+    int m_currentWindowID;
 
     int newWindow(void);
-    int removeTab(int id);
-    //int moveTab(int from, int to);
+    int removeWindow(int id);
     int clearAll(void);
 
-    int setCurrentTabId(int id);
+    int setCurrentWindowID(int id);
     int setBible(bible b_);
     int setCurrentBook(int bookid, int chaptercount);
 

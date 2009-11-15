@@ -21,97 +21,91 @@ windowCache::windowCache()
 }
 int windowCache::setBible(bible b_)
 {
-    qDebug() << "windowCache::setBible() currentTabID = " << currentTabID;
-    bibletype[currentTabID] = 1;
+    qDebug() << "windowCache::setBible() currentWindowID = " << m_currentWindowID;
+    m_bibletype[m_currentWindowID] = 1;
     qDebug() << "windowCache::setBible() bibleName = " << b_.bibleName << " bibleType" << b_.bibleType;
-    bibleName[currentTabID] = b_.bibleName;
-    books[currentTabID] = b_.bookFullName;
+    m_bibleName[m_currentWindowID] = b_.bibleName;
+    m_books[m_currentWindowID] = b_.bookFullName;
     /*if(b_.bibleType == 2)//zefania
     {
         qDebug() << "windowCache::setBible() size of zefCache" << zefcache[b_.currentBibleID] .size();
         zefcache[b_.currentBibleID] = b_.getZefCache();
         b_.clearZefCache();
     }*/
-    b[currentTabID] = b_;
+    m_b[m_currentWindowID] = b_;
     qDebug() << "windowCache::setBible() end";
     return 0;
 }
 
 int windowCache::newWindow(void)
 {
-    idlist << QString::number(idlist.size(), 10);
+    m_idList << QString::number(m_idList.size());
     return 0;
 }
-int windowCache::removeTab(int id)
+int windowCache::removeWindow(int id)
 {
-    idlist.removeAt(id);
+    m_idList.removeAt(id);
     return 0;
 }
-/*int windowCache::moveTab(int from, int to)
-{
-    idlist.move(from, to);
-    return 0;
-}*/
 int windowCache::clearAll(void)
 {
     qDebug() << "windowCache::clearAll";
-    idlist.clear();
-    b.clear();
-    zefcache.clear();
-    bibletype.clear();
-    bibleName.clear();
-    books.clear();
-    chaptercount.clear();
-    selectedBook.clear();
+    m_idList.clear();
+    m_b.clear();
+    m_zefcache.clear();
+    m_bibletype.clear();
+    m_bibleName.clear();
+    m_books.clear();
+    m_chaptercount.clear();
+    m_selectedBook.clear();
     return 0;
 }
 int windowCache::getBibleType(void)
 {
-    return bibletype[currentTabID];
+    return m_bibletype[m_currentWindowID];
 }
-int windowCache::setCurrentTabId(int id)
+int windowCache::setCurrentWindowID(int id)
 {
-    if (id < idlist.size() && id >= 0) {
-        QString idl = idlist.at(id);
-        currentTabID = idl.toInt();
+    if (id < m_idList.size() && id >= 0) {
+        m_currentWindowID =  m_idList.at(id).toInt();
         return 0;
     }
     return 1;
 }
-int windowCache::setCurrentBook(int bookid, int ichaptercount)
+int windowCache::setCurrentBook(int bookID, int chapterCount)
 {
-    chaptercount[currentTabID] = ichaptercount;
-    selectedBook[currentTabID] = bookid;
+    m_chaptercount[m_currentWindowID] = chapterCount;
+    m_selectedBook[m_currentWindowID] = bookID;
     return 0;
 }
 QString windowCache::getBibleName()
 {
-    return bibleName[currentTabID];
+    return m_bibleName[m_currentWindowID];
 }
 int windowCache::getCurrentBook()
 {
-    return selectedBook[currentTabID];
+    return m_selectedBook[m_currentWindowID];
 }
 QStringList windowCache::getBooks(void)
 {
-    return books[currentTabID];
+    return m_books[m_currentWindowID];
 }
 int windowCache::getChapterCount(void)
 {
-    return chaptercount[currentTabID];
+    return m_chaptercount[m_currentWindowID];
 }
 bible windowCache::getBible(void)
 {
     qDebug() << "bible windowCache::getBible";
-    /*if(b[currentTabID].bibleType == 2)//Zefania
+    /*if(b[currentWindowID].bibleType == 2)//Zefania
     {
         qDebug() << "bible windowCache::zefania";
-        b[currentTabID].setZefCache(getZefaniaCache(b[currentTabID].currentBibleID));
+        b[currentWindowID].setZefCache(getZefaniaCache(b[currentWindowID].currentBibleID));
     }*/
-    return b[currentTabID];
+    return m_b[m_currentWindowID];
 }
 QMap<int, QList<chapter> > windowCache::getZefaniaCache(int bibleID)
 {
-    qDebug() << "windowCache::getZefaniaCache bibleID = " << bibleID << "zefcache[bibleID].size() = " << zefcache[bibleID].size();
-    return zefcache[bibleID];
+    qDebug() << "windowCache::getZefaniaCache bibleID = " << bibleID << "zefcache[bibleID].size() = " << m_zefcache[bibleID].size();
+    return m_zefcache[bibleID];
 }
