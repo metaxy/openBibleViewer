@@ -1,5 +1,5 @@
 /***************************************************************************
-openBibleViewer - Free Bibel Viewer
+openBibleViewer - Bible Study Tool
 Copyright (C) 2009 Paul Walger
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "mainwindow.h"
 #include "../../core/stelle.h"
 #include "../../core/notes.h"
+#include "../../core/dbghelper.h"
 #include "../poschoser.h"
 #include "ui_mainwindow.h"
 
@@ -24,6 +25,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 int MainWindow::loadNotes(void)
 {
+   // myDebug();
+    DEBUG_FUNC_NAME
     if (ui->dockWidget_notes->isVisible()) {
         ui->dockWidget_notes->hide();
     } else {
@@ -33,159 +36,137 @@ int MainWindow::loadNotes(void)
     note->loadNotes();
     note->readNotes();
     ui->listWidget_notes->clear();
-    ui->listWidget_notes->insertItems(0, note->notesTitel);
-    currentNoteID = -2;
+    QStringList id = note->getIDList();
+    QStringList titles;
+    for(int i = 0; i < id.size();i++) {
+        if(note->getType(id.at(i)) == "text")
+            titles << note->getTitle(id.at(i));
+    }
+    ui->listWidget_notes->insertItems(0,titles);
+    currentNoteID = "";
     return 0;
 }
 int MainWindow::showNote(QListWidgetItem *item)
 {
-    int id;
-    //qDebug() << "MainWindow::showNote() currentNoteID = " << currentNoteID;
-    id = currentNoteID;
-    QStringList myNotesData = note->notesData;
-    QStringList myNotesTitel = note->notesTitel;
-    QStringList myNotesPos = note->notesPos;
-    note->notesData.clear();
-    note->notesTitel.clear();
-    note->notesPos.clear();
-    for (int i = 0; i < myNotesTitel.size(); i++) {
-        if (i != id) {
-            note->notesData << myNotesData.at(i);
-            note->notesTitel << myNotesTitel.at(i);
-            note->notesPos << myNotesPos.at(i);
-        } else {
-            note->notesData << ui->textEdit_note->toHtml();
-            note->notesTitel << ui->lineEdit_note_titel->text();
-            note->notesPos << currentNotePos;
-        }
-    }
+    //myDebug();
+    DEBUG_FUNC_NAME
+    note->setData(currentNoteID,ui->textEdit_note->toHtml());
+    note->setTitle(currentNoteID,ui->lineEdit_note_titel->text());
+    note->setRef(currentNoteID,currentNoteRef);
     note->saveNotes();
-    //statusBar()->showMessage(tr("Note saved"), 5000);
 
-    id = ui->listWidget_notes->row(item);
-    currentNoteID = id;
-    if (id < note->notesData.size() && id >= 0) {
-        //qDebug() << "MainWindow::showNote() id = " << id;
-        ui->lineEdit_note_titel->setText(note->notesTitel.at(id));
-        ui->textEdit_note->setHtml(note->notesData.at(id));
-        currentNotePos = note->notesPos.at(id);
-        ui->label_noteLink->setText(notePos2Text(currentNotePos));
+    int id = ui->listWidget_notes->row(item);
+    if(id >= 0 && id < note->getIDList().size())
+    {
+        currentNoteID = note->getIDList().at(id);
+        myDebug() << " id = " << id << " currentNoteID = " << currentNoteID;
+        ui->lineEdit_note_titel->setText(note->getTitle(currentNoteID));
+        ui->textEdit_note->setHtml(note->getData(currentNoteID));
+        currentNoteRef = note->getRef(currentNoteID);
+        ui->label_noteLink->setText(notePos2Text(currentNoteRef["link"]));
     }
     return 0;
 }
 int MainWindow::copyNote(void)
 {
+    DEBUG_FUNC_NAME
+
     int id = ui->listWidget_notes->currentRow();
-    if (id < note->notesData.size() && id >= 0) {
+    if (id < note->getIDList().size() && id >= 0) {
         QClipboard *clipboard = QApplication::clipboard();
         QTextDocument doc;
-        doc.setHtml(note->notesData.at(id));
+        doc.setHtml(note->getData(note->getIDList().at(id)));
         clipboard->setText(doc.toPlainText());
     } else {
-        //qDebug() << "MainWindow::copyNote() no note";
+        qDebug() << "MainWindow::copyNote() no note";
     }
-    return 0;
+   return 0;
 }
 int MainWindow::saveNote(void)
 {
-    int id;
-    //qDebug() << "MainWindow::saveNote() currentNoteID = " << currentNoteID;
-    //id = ui->listWidget_notes->currentRow();
-    id = currentNoteID;
-    QStringList myNotesData = note->notesData;
-    QStringList myNotesTitel = note->notesTitel;
-    QStringList myNotesPos = note->notesPos;
-    note->notesData.clear();
-    note->notesTitel.clear();
-    note->notesPos.clear();
-    for (int i = 0; i < myNotesTitel.size(); i++) {
-        if (i != id) {
-            note->notesData << myNotesData.at(i);
-            note->notesTitel << myNotesTitel.at(i);
-            note->notesPos << myNotesPos.at(i);
-        } else {
-            note->notesData << ui->textEdit_note->toHtml();
-            note->notesTitel << ui->lineEdit_note_titel->text();
-            note->notesPos << currentNotePos;
-        }
-    }
+    DEBUG_FUNC_NAME
+    myDebug() << " currentNoteID = " << currentNoteID;
+    note->setData(currentNoteID,ui->textEdit_note->toHtml());
+    note->setTitle(currentNoteID,ui->lineEdit_note_titel->text());
+    note->setRef(currentNoteID,currentNoteRef);
     note->saveNotes();
-    statusBar()->showMessage(tr("Note saved"), 5000);
     reloadNotes();
     return 0;
 }
 int MainWindow::newNote(void)
 {
+    DEBUG_FUNC_NAME
     saveNote();
-    //ui->lineEdit_note_titel->setText(tr("(unnamed)"));
-    //ui->textEdit_note->setHtml("");
-    note->notesData << "";
-    note->notesTitel << tr("(unnamed)");
-    note->notesPos << "";
     reloadNotes();
-    // ui->listWidget_notes->setCurrentRow(ui->listWidget_notes->count()-1);
-    ui->listWidget_notes->setCurrentRow(note->notesData.size() - 1);
-    currentNoteID = note->notesData.size() - 1;
-    currentNotePos = "";
+    QString newID = note->generateNewID();
+    note->setData(newID,"");
+    note->setTitle(newID,tr("(unnamed)"));
+    note->setType(newID,"text");
+    QMap<QString,QString> m;
+    m["link"] = "";
+    note->setRef(newID,m);
+    note->insertID(newID);
+    currentNoteID = newID;
+    reloadNotes();
+    ui->listWidget_notes->setCurrentRow(note->getIDList().size() - 1);
+    //showNote(ui->listWidget_notes->currentItem());
+
     ui->label_noteLink->setText("");
+    ui->lineEdit_note_titel->setText(tr("(unnamed)"));
+    ui->textEdit_note->setHtml("");
+
+    myDebug() << " newID = " << newID << " currentNoteID = " << currentNoteID;
     return 0;
 }
 int MainWindow::newNoteWithLink()
 {
-    QTextCursor cursor = currentTextCursor;
-    int startverse = verseFromCursor(cursor);
-    QString pos;
-    pos = bibleDirName[m_bible.currentBibleID] + ";" + QString::number(m_bible.currentBookID, 10) + ";" + QString::number(m_bible.currentChapterID + 1 - m_bible.chapterAdd, 10) + ";" + QString::number(startverse, 10) + ";" + m_bible.bookFullName.at(m_bible.currentBookID);
+    //DEBUG_FUNC_NAME
+    /*  QTextCursor cursor = currentTextCursor;
+      int startverse = verseFromCursor(cursor);
+      QString pos;
+      pos = bibleDirName[m_bible.currentBibleID] + ";" + QString::number(m_bible.currentBookID, 10) + ";" + QString::number(m_bible.currentChapterID + 1 - m_bible.chapterAdd, 10) + ";" + QString::number(startverse, 10) + ";" + m_bible.bookFullName.at(m_bible.currentBookID);
 
-    saveNote();
-    ui->lineEdit_note_titel->setText(tr("(unnamed)"));
-    ui->textEdit_note->setHtml("");
-    note->notesData << "";
-    note->notesTitel << tr("(unnamed)");
-    note->notesPos << pos;
-    reloadNotes();
-    ui->listWidget_notes->setCurrentRow(note->notesData.size() - 1);
-    currentNoteID = note->notesData.size() - 1;
-    currentNotePos = pos;
-    ui->label_noteLink->setText(notePos2Text(currentNotePos));
-    qDebug() << "MainWindow::newNoteWithLink() pos = " << pos;
+      saveNote();
+      realodNotes();
+      ui->lineEdit_note_titel->setText(tr("(unnamed)"));
+      ui->textEdit_note->setHtml("");
+      note->notesData << "";
+      note->notesTitel << tr("(unnamed)");
+      note->notesPos << pos;
+      reloadNotes();
+      ui->listWidget_notes->setCurrentRow(note->notesData.size() - 1);
+      currentNoteID = note->notesData.size() - 1;
+      currentNotePos = pos;
+      ui->label_noteLink->setText(notePos2Text(currentNotePos));
+      qDebug() << "MainWindow::newNoteWithLink() pos = " << pos;*/
     return 0;
 }
 int MainWindow::removeNote(void)
 {
-    int id = currentNoteID;
-    //  qDebug() << "MainWindow::removeNote() id = "<< id << "notesPos = "<<note->notesPos;
-    if (id < 0)
-        return 1;
-
-    //  qDebug() << "MainWindow::removeNote() notesTitel = "<<note->notesTitel;
-
-    note->notesData.removeAt(id);
-    note->notesTitel.removeAt(id);
-    note->notesPos.removeAt(id);
-
+    DEBUG_FUNC_NAME
+    note->removeNote(currentNoteID);
     ui->lineEdit_note_titel->setText(tr(""));
     ui->textEdit_note->setHtml("");
     ui->label_noteLink->setText("");
-    if (id == 0) {
-        currentNoteID = 1;
-    } else {
-        currentNoteID = id - 1;
-    }
     reloadNotes();
-    // saveNote();
-
-    id = ui->listWidget_notes->currentRow();
-    qDebug() << "MainWindow::removeNote() 2 id = " << id << "notesPos = " << note->notesPos;
-    qDebug() << "MainWindow::removeNote() 2 notesTitel = " << note->notesTitel;
     return 0;
 }
 int MainWindow::reloadNotes(void)
 {
-    qDebug() << "MainWindow::reloadNotes";
+    DEBUG_FUNC_NAME
     ui->listWidget_notes->clear();
-    ui->listWidget_notes->insertItems(0, note->notesTitel);
-    ui->listWidget_notes->setCurrentRow(currentNoteID);
+    QStringList id = note->getIDList();
+    QStringList titles;
+    myDebug() << " idList = " << id;
+    for(int i = 0; i < id.size();i++)
+    {
+        if(note->getType(id.at(i)) == "text") {
+            myDebug() << " id.at(i) = " << id.at(i) << " title = " << note->getTitle(id.at(i));
+            titles << note->getTitle(id.at(i));
+        }
+    }
+    ui->listWidget_notes->insertItems(0,titles);
+    ui->listWidget_notes->setCurrentRow(id.lastIndexOf(currentNoteID));
     return 0;
 }
 int MainWindow::notesContextMenu(void)
@@ -261,6 +242,7 @@ int MainWindow::noteSetTextColor(void)
 }
 int MainWindow::noteGo(QString pos)
 {
+   // DEBUG_FUNC_NAME
     if (internalOpenPos(pos) == 1) {
         qDebug("MainWindow::noteGo( void ) invalid note");
     }
@@ -269,6 +251,8 @@ int MainWindow::noteGo(QString pos)
 
 QString MainWindow::notePos2Text(QString pos)
 {
+  //  DEBUG_FUNC_NAME
+
     qDebug() << "MainWindow::notePos2Text start pos = " << pos;
     QString string = "";
     QStringList list = pos.split(";");
@@ -303,7 +287,8 @@ QString MainWindow::notePos2Text(QString pos)
 }
 void MainWindow::editNoteLink()
 {
-    int id = ui->listWidget_notes->currentRow();
+    DEBUG_FUNC_NAME
+    /*int id = ui->listWidget_notes->currentRow();
     QString pos = note->notesPos.at(id);
 
     QStringList list = pos.split(";");
@@ -332,12 +317,13 @@ void MainWindow::editNoteLink()
     pChoser->setData(bibles, m_bible.bookFullName);
     pChoser->setCurrent(bibleID, dirname, bookID, chapterID, verseID);
     pChoser->show();
-    pChoser->exec();
+    pChoser->exec();*/
 }
-void MainWindow::updateNote(QString pos)
+void MainWindow::updateNote(QString link)
 {
+    DEBUG_FUNC_NAME
     //  qDebug() << "MainWindow::updateBookmark() pos = " << pos;
-    currentNotePos = pos;
+    currentNoteRef["link"] = link;
     showNote(ui->listWidget_notes->currentItem());
     return;
 }

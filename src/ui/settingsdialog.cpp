@@ -74,7 +74,7 @@ int settingsDialog::setSettings(settings_s settings)
     m_ui->comboBox_encoding->setCurrentIndex(encodings.lastIndexOf(set.encoding));
     //Language
     QStringList langs;
-    langs <<  "English" << "German ( Deutsch )" << "Russian ( русском )";
+    langs <<  "English" << "German ( Deutsch )" << QString::fromLocal8Bit("Russian ( русском )");
     langCode << "en" << "de" << "ru";
     qDebug() << "settingsDialog::setSettings() set.language = " << set.language;
     m_ui->comboBox_language->clear();

@@ -41,6 +41,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../../core/chapter.h"
 #include "../../core/moduleconfig.h"
 #include "../../core/goto.h"
+//#include "../../core/dbghelper.h"
 
 //spilt MainWindow in some files
 #include "mainnotes.cpp"
@@ -49,9 +50,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "mainstrong.cpp"
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
+   // DEBUG_FUNC_NAME
     ui->setupUi(this);
-    VERSION  = "0.2.1";
-    BUILD =  "2009-11-01";
+    VERSION  = "0.3a1";
+    BUILD =  "2009-11-16";
 
 #ifdef _PORTABLE_VERSION
     homeDataPath = QApplication::applicationDirPath() + "/";
@@ -274,7 +276,7 @@ void MainWindow::loadModuleDataByID(int id)
 {
     qDebug() << "MainWindow::loadModuleDataByID() id = " << id;
     //currentBibleID = id;
-    if (biblesTypes.size() < id)//keine solche bibel vorhanden
+    if (biblesTypes.size() < id)//this bible dosent existist
         return;
     qDebug() << "MainWindow::loadModuleDataByID() biblesTypes[currentBibleID] = " << biblesTypes.at(id);
     m_bible.setBibleType(biblesTypes.at(id));
@@ -892,7 +894,7 @@ int MainWindow::saveSettings(struct settings_s ssettings)
     settings->endArray();
 
     if (reloadBibles == true) {
-        qDebug() << " MainWindow::saveSettings() reload bibles";
+        qDebug() << " MainWindow::saveSettings() reload modules";
         loadModules();
         loadStrongs();
     }

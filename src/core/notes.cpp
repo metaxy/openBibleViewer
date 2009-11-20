@@ -1,5 +1,5 @@
 /***************************************************************************
-openBibleViewer - Free Bibel Viewer
+openBibleViewer - Bible Study Tool
 Copyright (C) 2009 Paul Walger
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "notes.h"
-
+#include "dbghelper.h"
 #include <QtCore/QFile>
 #include <QtXml/QtXml>
 #include <QtXml/QDomAttr>
@@ -22,9 +22,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 notes::notes(QString newFileName)
 {
     fileName = newFileName;
+    m_version = "0.2";
 }
 int notes::loadNotes(void)
 {
+    DEBUG_FUNC_NAME
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug() << "notes::loadNotes() cant read the file";
@@ -32,21 +34,185 @@ int notes::loadNotes(void)
     }
     if (!doc.setContent(&file)) {
         qDebug() << "notes::loadNotes() the file isnt valid";
+        file.close();
         return 1;
+    }
+    if (doc.documentElement().isElement() && !doc.documentElement().isNull()) {
+        QDomElement e = doc.documentElement();
+        if (e.attribute("version", "0.1") != m_version) {
+            //errror to old version
+            qDebug() << "notes::loadNotes() too old version " << e.attribute("version", "0.1") << " current is " << m_version;
+            file.close();
+            return 1;
+        }
     }
     file.close();
     return 0;
 }
+QString notes::getType(const QString &id)
+{
+    DEBUG_FUNC_NAME
+    myDebug() << " id = " << id;
+    if(!notesType[id].isEmpty())
+        return notesType[id];
+    else
+        return QString();
+}
+QString notes::getTitle(const QString &id)
+{
+    DEBUG_FUNC_NAME
+    myDebug() << " id = " << id << " notesTitle = " << notesTitle;
+    if(!notesTitle[id].isEmpty())
+        return notesTitle[id];
+    else
+        return QString();
+}
+QString notes::getData(const QString &id)
+{
+    DEBUG_FUNC_NAME
+    myDebug() << " id = " << id;
+    if(!notesData[id].isEmpty())
+        return notesData[id];
+    else
+        return QString();
+}
+QString notes::getRef(const QString &id,const QString &refID)
+{
+    DEBUG_FUNC_NAME
+    myDebug() << " id = " << id;
+    if(!notesRef[id].isEmpty()) {
+        QMap<QString,QString> r = notesRef[id];
+        if(!r[refID].isEmpty())
+            return r[refID];
+        else
+            return QString();
+    } else {
+        return QString();
+    }
+}
+QMap<QString, QString> notes::getRef(const QString &id)
+{
+    DEBUG_FUNC_NAME
+    myDebug() << " id = " << id;
+    if(!notesRef[id].isEmpty())
+        return notesRef[id];
+    else
+        return QMap<QString, QString>();
+}
+QStringList notes::getIDList()
+{
+    DEBUG_FUNC_NAME
+    return notesID;
+}
+void notes::clearAll()
+{
+    DEBUG_FUNC_NAME
+    notesData.clear();
+    notesTitle.clear();
+    notesRef.clear();
+    notesType.clear();
+    notesID.clear();
+}
+void notes::setType(const QString &id, const QString &type)
+{
+    DEBUG_FUNC_NAME
+    myDebug() << " id = " << id;
+    notesType[id] = type;
+}
+void notes::setTitle(const QString &id, const QString &title)
+{
+    DEBUG_FUNC_NAME
+    myDebug() << " id = " << id;
+    notesTitle[id] = title;
+}
+void notes::setData(const QString &id, const QString &data)
+{
+    DEBUG_FUNC_NAME
+    myDebug() << " id = " << id;
+    notesData[id] = data;
+}
+void notes::setRef(const QString &id, const QMap<QString, QString>  &ref)
+{
+    DEBUG_FUNC_NAME
+    myDebug() << " id = " << id;
+    notesRef[id] = ref;
+}
+QString notes::generateNewID()
+{
+    DEBUG_FUNC_NAME
+    QMapIterator<QString, QString> i(notesType);
+    int biggest = 0;
+    while (i.hasNext()) {
+        i.next();
+        myDebug() << " i.key() = " << i.key();
+        int id = i.key().toInt();
+        if(id > biggest)
+            biggest = id;
+    }
+     myDebug() << "biggest = " << biggest;
+    return QString::number(biggest+1);
+}
+void notes::insertID(const QString &id)
+{
+    DEBUG_FUNC_NAME
+    myDebug() << " id = " << id;
+    notesID << id;
+}
+void notes::removeNote(const QString &id)
+{
+    DEBUG_FUNC_NAME
+    myDebug() << " id = " << id;
+    notesType.remove(id);
+    notesTitle.remove(id);
+    notesData.remove(id);
+    notesRef.remove(id);
+    notesID.removeOne(id);
+}
 int notes::readNotes()
 {
     //read all notes in notesData
+    DEBUG_FUNC_NAME
     QDomNode n = doc.documentElement().firstChild();
     while (!n.isNull()) {
+        if (!n.isElement()) {
+            n = n.nextSibling();
+            continue;
+        }
         QDomElement e = n.toElement();
-        if (e.attribute("titel", "<xml>") != "<xml>") {
-            notesData << e.text();
-            notesTitel << e.attribute("titel", QObject::tr("(unnamed)"));
-            notesPos << e.attribute("pos", "");
+        if (e.hasAttribute("id")) {
+            QString id = e.attribute("id","");
+            if(id == "")
+                continue;
+            notesID << id;
+            QDomNode n2 = e.firstChild();
+            while (!n2.isNull()) {
+                if (!n2.isElement()) {
+                    n2 = n2.nextSibling();
+                    continue;
+                }
+                QDomElement e2 = n2.toElement();
+                if (e2.tagName() == "data") {
+                    notesData[id] = e2.text();
+                } else if (e2.tagName() == "ref") {
+                    QMap<QString,QString> map;
+                    QDomNode n3 = e2.firstChild();
+                     while (!n3.isNull()) {
+                        if (!n3.isElement()) {
+                            n3 = n3.nextSibling();
+                            continue;
+                        }
+                        QDomElement e3 = n3.toElement();
+                        map[e3.tagName()] = e3.attribute("id","");
+                        n3 = n3.nextSibling();
+
+                    }
+                    notesRef[id] = map;
+                }
+                n2 = n2.nextSibling();
+            }
+
+            notesTitle[id] = e.attribute("title", QObject::tr("(unnamed)"));
+            notesType[id] = e.attribute("type", "unkown");
         }
         n = n.nextSibling();
     }
@@ -54,23 +220,42 @@ int notes::readNotes()
 }
 int notes::saveNotes()
 {
+    DEBUG_FUNC_NAME
     QDomDocument sdoc;
     QDomElement root = sdoc.createElement("notes");
+    root.setAttribute("version", m_version);
     sdoc.appendChild(root);
-    for (int i = 0; i < notesTitel.size(); i++) {
+    QMapIterator<QString, QString> i(notesType);
+    while (i.hasNext()) {
+        i.next();
+        QString id = i.key();
+        if(id == "")
+            continue;
         QDomElement tag = sdoc.createElement("note");
-        tag.setAttribute("titel", notesTitel.at(i));
-        tag.setAttribute("pos", notesPos.at(i));
-        tag.setAttribute("id", i);
+        tag.setAttribute("title", notesTitle[id]);
+        tag.setAttribute("type", notesType[id]);
+        tag.setAttribute("id", id);
         root.appendChild(tag);
-        QDomText t = sdoc.createTextNode(notesData.at(i));
-        tag.appendChild(t);
+        QDomElement data = sdoc.createElement("data");
+        QDomText text = sdoc.createTextNode(notesData[id]);
+        data.appendChild(text);
+        tag.appendChild(data);
+        QDomElement ref = sdoc.createElement("ref");
+        QMap<QString, QString> map = notesRef[id];
+        QMapIterator<QString, QString> i(map);
+        while (i.hasNext()) {
+            i.next();
+            QDomElement e = sdoc.createElement(i.key());
+            e.setAttribute("id", i.value());
+            ref.appendChild(e);
+        }
+        tag.appendChild(ref);
     }
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return 1;
     QTextStream out(&file);
-    out << "<?xml version=\"1.0\"?>" + sdoc.toString();
+    out << "<?xml version=\"1.0\"?>\n" + sdoc.toString();
     file.close();
     doc = sdoc;
     return 0;

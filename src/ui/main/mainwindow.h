@@ -1,5 +1,5 @@
 /***************************************************************************
-openBibleViewer - Free Bibel Viewer
+openBibleViewer - Bible Study Tool
 Copyright (C) 2009 Paul Walger
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
@@ -124,18 +124,20 @@ private:
     zefaniaBible zef;
     zefaniaStrong zefStrong;
     struct settings_s set;
+    notes *note;
+    windowCache m_windowCache;
     QStringList encodings;
-    int firsttime, currentNoteID, currentVerseID;
+    int currentVerseID;
+    QString currentNoteID;
     int lastActiveWindow;
     QString lastsearch;
-    QString currentNotePos, bookmarksFileName, homeDataPath;
+    QString bookmarksFileName, homeDataPath;
     QTextCursor currentTextCursor;
     QStringList bibles, biblesPath, biblesIniPath, bookPath, bookFullName, bibleDirName;
     QMap <int, int> bookCount;
+    QMap<QString, QString> currentNoteRef;
     QList<int> biblesTypes;
-    windowCache m_windowCache;
     QSettings *settings;
-    notes *note;
     QString VERSION, BUILD;
     bool enableReload;
 

@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define NOTES_H
 #include <QtCore/QString>
 #include <QtCore/QStringList>
+#include <QtCore/QMap>
 #include <QtXml/QDomDocument>
 class notes
 {
@@ -23,11 +24,32 @@ public:
     int loadNotes();
     int readNotes();
     int saveNotes();
+    void clearAll();
+    QString getType(const QString &id);
+    QString getTitle(const QString &id);
+    QString getData(const QString &id);
+    QString getRef(const QString &id, const QString &refID);
+    QMap<QString, QString> getRef(const QString &id);
+    void setType(const QString &id, const QString &type);
+    void setTitle(const QString &id, const QString &title);
+    void setData(const QString &id, const QString &data);
+    void setRef(const QString &id, const QMap<QString, QString>  &ref);
+    QString generateNewID();
+    void insertID(const QString &id);
+    void removeNote(const QString &id);
+
+    QStringList getIDList();
+private :
     QString fileName;
-    QStringList notesData;
-    QStringList notesTitel;
-    QStringList notesPos;
+    QStringList notesID;
+    QMap<QString,QString> notesData;
+    QMap<QString,QString> notesTitle;
+    QMap<QString,QMap<QString, QString> > notesRef;
+    QMap<QString,QString> notesType;
     QDomDocument doc;
+    QString m_version;
+
+
 
 };
 

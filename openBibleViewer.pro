@@ -35,7 +35,8 @@ SOURCES += src/main.cpp \
     src/module/zefania-strong.cpp \
     src/ui/main/mainstrong.cpp \
     src/core/history.cpp \
-    src/ui/moduledownloaddialog.cpp
+    src/ui/moduledownloaddialog.cpp \
+    src/core/dbghelper.cpp
 HEADERS += src/ui/main/mainwindow.h \
     src/core/config.h \
     src/module/biblequote.h \
@@ -62,7 +63,8 @@ HEADERS += src/ui/main/mainwindow.h \
     src/module/zefania-strong.h \
     src/core/history.h \
     src/ui/moduledownloaddialog.h \
-    src/core/bibleinfo.h
+    src/core/bibleinfo.h \
+    src/core/dbghelper.h
 FORMS += src/ui/main/mainwindow.ui \
     src/ui/searchdialog.ui \
     src/ui/settingsdialog.ui \
