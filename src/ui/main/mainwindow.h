@@ -113,7 +113,7 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
     int loadModules();
-    void setMyTranslator(QTranslator *t);
+    void setTranslator(QTranslator *my,QTranslator *qt);
 
 
 protected:
@@ -179,6 +179,7 @@ private:
     QString m_currentStrongID;
     QList<int> m_strongModuleID;
     QTranslator *myappTranslator;
+    QTranslator *qtTranslator;
 
 };
 

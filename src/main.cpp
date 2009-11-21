@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.loadModules();
-    w.setMyTranslator(&myappTranslator);
+    w.setMyTranslator(&myappTranslator,&qtTranslator);
 
     /*  QFile file(themePath);
       if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {

@@ -791,11 +791,11 @@ void MainWindow::loadLanguage(QString language)
     if (loaded == false) {
         QMessageBox::warning(this, tr("Installing Language failed"), tr("Please chose an another language."));
     }
-   /* QCoreApplication *app = QApplication::instance();
-    app->installTranslator(&myappTranslator);
+  /*  QCoreApplication *app = QApplication::instance();
+    app->installTranslator(&myappTranslator);*/
 
     qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    app->installTranslator(&qtTranslator);*/
+    //app->installTranslator(&qtTranslator);
     ui->retranslateUi(this);
 }
 void MainWindow::setSettings(struct settings_s ssettings)
@@ -1320,9 +1320,10 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         return QMainWindow::eventFilter(obj, event);
     }
 }
-void MainWindow::setMyTranslator(QTranslator *t)
+void MainWindow::setMyTranslator(QTranslator *my,QTranslator *qt)
 {
-    myappTranslator = t;
+    myappTranslator = my;
+    qtTranslator = qt;
 }
 MainWindow::~MainWindow()
 {
