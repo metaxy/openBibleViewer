@@ -38,7 +38,7 @@ public:
     bool chapterZero, bible, oldTestament, newTestament, apocrypha, strongNumbers, greek;
     QString currentBiblePath, lastout, chaptersign, versesign, bibleName, removeHtml, lastSearch;
     QString bibles, biblesPath, biblesIniPath;
-    QStringList chapterText, bookPath, bookFullName, bookShortName;
+    QStringList bookPath, bookFullName, bookShortName;
     QMap <int, int> bookCount;
     QList<chapter> chapterData;
     struct stelle st;

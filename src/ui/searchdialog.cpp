@@ -49,7 +49,6 @@ int searchDialog::setText(QString text)
 }
 int searchDialog::search(void)
 {
-    qDebug("searchDialog::search() started");
     if (m_ui->lineEdit->text() != "") {
         emit searched(m_ui->lineEdit->text(), m_ui->checkBox_regexp->isChecked(), m_ui->checkBox_whole->isChecked(), m_ui->checkBox_casesen->isChecked());
         this->hide();

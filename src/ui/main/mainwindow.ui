@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>openBibleViewer 0.2</string>
+   <string>openBibleViewer 0.3 Alpha 1</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../../icons.qrc">
@@ -60,7 +60,7 @@
      <x>0</x>
      <y>0</y>
      <width>1083</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

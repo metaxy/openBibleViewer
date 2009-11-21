@@ -1,4 +1,4 @@
-#define myDebug() qDebug() << Q_FUNC_INFO
+#define myDebug() qDebug() << Q_FUNC_INFO << " "
 
 #ifndef QT_NO_DEBUG
 #define DEBUG_FUNC_NAME DbgHelper dbgHelper(Q_FUNC_INFO);

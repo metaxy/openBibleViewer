@@ -37,31 +37,33 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    /* QSettings *settings;
-     QString homeDataPath;
-    #ifdef _PORTABLE_VERSION
-     homeDataPath = QApplication::applicationDirPath() + "/";
-     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-    #else
-     homeDataPath = QApplication::applicationDirPath() + "/";
+    QSettings *settings;
+    QString homeDataPath;
+
     #ifdef Q_WS_MAC
-     homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
-     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
+    homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
+    settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
     #endif
+
     #ifdef Q_WS_X11
-     homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
-     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
+    homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
+    settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
     #endif
+
     #ifdef Q_WS_WIN
-     homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath()+"/openbible/";
-     settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
+        #ifdef _PORTABLE_VERSION
+            homeDataPath = QApplication::applicationDirPath() + "/";
+        #else
+            homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath()+"/openbible/";
+        #endif
+        settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
                               "openBible", "openBibleViewer");
     #endif
-    #endif
+
     #ifdef Q_WS_WIN
-     QString lang = settings->value("general/language", "en").toString();
+        QString lang = settings->value("general/language", "en").toString();
     #else
-     QString lang = settings->value("general/language", QLocale::system().name()).toString();
+        QString lang = settings->value("general/language", QLocale::system().name()).toString();
     #endif
      QStringList avLang;
      avLang <<  "en" << "de" << "ru";
@@ -85,10 +87,11 @@ int main(int argc, char *argv[])
 
      myappTranslator.load(":/data/obv_" + lang);
 
-     a.installTranslator(&myappTranslator);*/
+     a.installTranslator(&myappTranslator);
 
     MainWindow w;
     w.loadModules();
+    w.setMyTranslator(&myappTranslator);
 
     /*  QFile file(themePath);
       if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {

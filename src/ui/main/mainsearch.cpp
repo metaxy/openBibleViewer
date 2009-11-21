@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../searchdialog.h"
 #include "../searchinfodialog.h"
 #include "../../core/stelle.h"
+#include "../../core/dbghelper.h"
 #include "ui_mainwindow.h"
 
 #include <QtCore/QString>
@@ -31,9 +32,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 int MainWindow::search(void)
 {
-    qDebug("MainWindow::search( void ) start");
-
-
+    DEBUG_FUNC_NAME
     if (!activeMdiChild())
         return 1;
     QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
@@ -42,7 +41,6 @@ int MainWindow::search(void)
     if (textBrowser->textCursor().hasSelection() == true)//etwas ist markiert
         sDialog->setText(textBrowser->textCursor().selectedText());
     sDialog->show();
-    qDebug("MainWindow::search( void ) end");
     return 0;
 }
 int MainWindow::showSearchResults(QString searchtext, bool regexp, bool whole, bool casesen)

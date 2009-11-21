@@ -53,7 +53,7 @@ public:
     long currentBookID, bibletype, /*book_ccount,*/ bibleID;
     struct stelle st;
     QString currentBiblePath, lastout, chaptersign, versesign, biblepath, bibleName, lastSearch;
-    QStringList bibles, biblesPath, bookFullName, bookShortName, chapterText/*,bookPath*/;
+    QStringList bibles, biblesPath, bookFullName, bookShortName, /*chapterText,bookPath*/;
     QMap <int, int> bookCount;
     QList<chapter> chapterData;
     QMap<int, QList<chapter> > softCache();

@@ -69,7 +69,7 @@ int bible::readBook(int id)
     qDebug() << "bible::readBook() id= " << id << " bibleType =" << bibleType;
     switch (bibleType) {
     case 1: { //biblequote
-        chapterText.clear();
+        //chapterText.clear();
         chapterData.clear();
         chapterNames.clear();
         if (id < bookPath.size()) {
@@ -78,7 +78,7 @@ int bible::readBook(int id)
             qDebug() << "bible::readBook() index out of range bookPath.size() = " << bookPath.size() << " , id = " << id;
             return 1;
         }
-        chapterText = bq.chapterText;
+        //chapterText = bq.chapterText;
         chapterData = bq.chapterData;
 
         int cc = bookCount[id];
@@ -91,21 +91,21 @@ int bible::readBook(int id)
                 chapterNames << QString::number(i);
             }
         }
-        qDebug() << "bible::readBook() chapterText.size() = " << chapterText.size();
+        //qDebug() << "bible::readBook() chapterText.size() = " << chapterText.size();
         break;
     }
     case 2: { //zefania
-        chapterText.clear();
+       // chapterText.clear();
         chapterData.clear();
         chapterNames.clear();
         zef.readBook(id);
-        chapterText = zef.chapterText;
+        //chapterText = zef.chapterText;
         chapterData = zef.chapterData;
         for (int i = 1; i <= zef.bookCount[id]; i++) {
             chapterNames << QString::number(i);
         }
 
-        qDebug() << "bible::readBook() chapterText.size() = " << chapterText.size();
+       // qDebug() << "bible::readBook() chapterText.size() = " << chapterText.size();
         break;
     }
     }
@@ -163,7 +163,7 @@ QString bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
             qDebug() << "bible::readVerse() out.size() = " << out.size();
 
         } else {
-            qDebug() << "bible::readVerse() index out of range index = chapterText.size() =";
+            qDebug() << "bible::readVerse() index out of range index";
         }
         break;
     }
@@ -217,7 +217,7 @@ QString bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
             qDebug() << "bible::readVerse() out.size() = " << out.size();
 
         } else {
-            qDebug() << "bible::readVerse() index out of range index = chapterText.size() =";
+            qDebug() << "bible::readVerse() index out of range index";
         }
         break;
     }

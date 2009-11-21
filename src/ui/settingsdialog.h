@@ -43,12 +43,13 @@ public:
     explicit settingsDialog(QWidget *parent = 0);
     virtual ~settingsDialog();
     int setSettings(struct settings_s settings);
+     Ui::settingsDialog *m_ui;
 
 protected:
     virtual void changeEvent(QEvent *e);
 
 private:
-    Ui::settingsDialog *m_ui;
+
     struct settings_s set;
     struct settings_s backupSet;
     void generateModuleTree();

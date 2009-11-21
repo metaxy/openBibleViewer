@@ -164,7 +164,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     newMdiChild();
     loadStrongs();
 
-    loadLanguage(set.language);
+ //   loadLanguage(set.language);
     /*if(set.module.size() == 0)
     {
         QString appPath = QApplication::applicationDirPath();
@@ -264,31 +264,29 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 int MainWindow::loadModuleData(QTreeWidgetItem *fitem)
 {
-    QString sid(fitem->text(1));
-    bool ok;
-    int id = sid.toInt(&ok);
+    DEBUG_FUNC_NAME
+    /*if (!activeMdiChild())
+       return;*/
     showText("");
-    emit get("bible://" + QString::number(id) + "/0,0,0");
-    qDebug() << "MainWindow::loadModuleData end id = " << id;
+    emit get("bible://" + fitem->text(1) + "/0,0,0");
     return 0;
 }
 void MainWindow::loadModuleDataByID(int id)
 {
-    qDebug() << "MainWindow::loadModuleDataByID() id = " << id;
-    //currentBibleID = id;
+    DEBUG_FUNC_NAME
+    myDebug() << "id = " << id;
     if (biblesTypes.size() < id)//this bible dosent existist
         return;
-    qDebug() << "MainWindow::loadModuleDataByID() biblesTypes[currentBibleID] = " << biblesTypes.at(id);
-    m_bible.setBibleType(biblesTypes.at(id));
 
+    myDebug() << "biblesTypes.at(id) = " << biblesTypes.at(id);
+    m_bible.setBibleType(biblesTypes.at(id));
     m_bible.loadBibleData(id, biblesIniPath[id]);
+
     setTitle(m_bible.bibleName);
     setBooks(m_bible.bookFullName);
+
     m_windowCache.setCurrentWindowID(currentWindowID());
     m_windowCache.setBible(m_bible);
-    setBooks(m_bible.bookFullName);
-    //setCurrentChapter(m_bible.currentChapterID);
-    // currentBibleID = m_bible.currentBibleID;
 
 }
 void MainWindow::zoomIn()
@@ -327,17 +325,17 @@ void MainWindow::readBookByID(int id)
 {
     qDebug() << "MainWindow::readBookByID() id = " << id;
     if (id < 0) {
-        QMessageBox::critical(0, tr("Error"), tr("This Book is not available."));
+        QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
         qDebug() << "MainWindow::readBookByID() invalid bookID";
         return;
     }
     if (id >= m_bible.bookFullName.size()) {
-        QMessageBox::critical(0, tr("Error"), tr("This Book is not available."));
+        QMessageBox::critical(0, tr("Error"), tr("This book is not available!"));
         qDebug() << "MainWindow::readBookByID() invalid bookID";
         return;
     }
     if (m_bible.readBook(id) != 0) {
-        QMessageBox::critical(0, tr("Error"), tr("Can not read the file."));
+        QMessageBox::critical(0, tr("Error"), tr("Cannot read the book."));
         //error while reading
         return;
     }
@@ -354,6 +352,18 @@ void MainWindow::readBookByID(int id)
     }
 
 }
+int MainWindow::readChapter(QListWidgetItem * item)
+{
+    int id = ui->listWidget_chapters->row(item);
+    emit get("bible://current/" + QString::number(m_bible.currentBookID) + "," + QString::number(id) + ",0");
+    return 0;
+}
+int MainWindow::readChapter(int id)
+{
+    emit get("bible://current/" + QString::number(m_bible.currentBookID) + "," + QString::number(id) + ",0");
+    return 0;
+}
+
 int MainWindow::showChapter(int chapterID, int verseID)
 {
     qDebug() << "MainWindow::showChapter() chapterid = " << chapterID << " chapterAdd = " << m_bible.chapterAdd;
@@ -573,17 +583,7 @@ int MainWindow::copyWholeVerse(void)
 
     return 0;
 }
-int MainWindow::readChapter(QListWidgetItem * item)
-{
-    int id = ui->listWidget_chapters->row(item);
-    emit get("bible://current/" + QString::number(m_bible.currentBookID) + "," + QString::number(id) + ",0");
-    return 0;
-}
-int MainWindow::readChapter(int id)
-{
-    emit get("bible://current/" + QString::number(m_bible.currentBookID) + "," + QString::number(id) + ",0");
-    return 0;
-}
+
 int MainWindow::loadModules()
 {
     int rcount = 0;//Counter fo the Bible ID
@@ -775,26 +775,27 @@ int MainWindow::loadModules()
 }
 void MainWindow::loadLanguage(QString language)
 {
+    DEBUG_FUNC_NAME
     QStringList avLang;
-    QTranslator myappTranslator;
+    //QTranslator myappTranslator;
     QTranslator qtTranslator;
     avLang <<  "en" << "de" << "ru";
-    qDebug() << "MainWindow::loadLanguage() avLang = " << avLang << " lang = " << language;
+    myDebug() << "avLang = " << avLang << " lang = " << language;
     if (avLang.lastIndexOf(language) == -1) {
         language = language.remove(language.lastIndexOf("_"), language.size());
         if (avLang.lastIndexOf(language) == -1) {
             language = avLang.at(0);
         }
     }
-    bool loaded = myappTranslator.load(":/data/obv_" + language + ".qm");
+    bool loaded = myappTranslator->load(":/data/obv_" + language + ".qm");
     if (loaded == false) {
-        QMessageBox::warning(this, tr("Language load failed"), tr("Please chose an another language."));
+        QMessageBox::warning(this, tr("Installing Language failed"), tr("Please chose an another language."));
     }
-    qDebug() << "MainWindow::loadLanguage() loaded = " << loaded;
-    QApplication::installTranslator(&myappTranslator);
+   /* QCoreApplication *app = QApplication::instance();
+    app->installTranslator(&myappTranslator);
 
     qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    QApplication::installTranslator(&qtTranslator);
+    app->installTranslator(&qtTranslator);*/
     ui->retranslateUi(this);
 }
 void MainWindow::setSettings(struct settings_s ssettings)
@@ -868,7 +869,6 @@ int MainWindow::saveSettings(struct settings_s ssettings)
         QApplication::removeTranslator(&qtTranslator);*/
         loadLanguage(ssettings.language);
     }
-    //qDebug("MainWindow::saveSettings( struct settings_s  ) started");
     setSettings(ssettings);
     settings->setValue("general/encoding", set.encoding);
     settings->setValue("general/zoomstep", set.zoomstep);
@@ -894,12 +894,23 @@ int MainWindow::saveSettings(struct settings_s ssettings)
     settings->endArray();
 
     if (reloadBibles == true) {
-        qDebug() << " MainWindow::saveSettings() reload modules";
+        myDebug() << "reload modules";
         loadModules();
         loadStrongs();
     }
     return 0;
 }
+int MainWindow::showSettingsDialog(void)
+{
+    settingsDialog *setDialog = new settingsDialog(this);
+    connect(setDialog, SIGNAL(save(struct settings_s)), this, SLOT(saveSettings(struct settings_s)));
+    connect(setDialog, SIGNAL(save(struct settings_s)), setDialog, SLOT(close()));
+    setDialog->setSettings(set);
+    setDialog->setWindowTitle(tr("Configuration"));
+    setDialog->show();
+    return setDialog->exec();
+}
+
 void MainWindow::saveSession(void)
 {
     settings->setValue("session/geometry", saveGeometry());
@@ -922,12 +933,12 @@ void MainWindow::restoreSession(void)
 
 int MainWindow::printFile(void)
 {
+    DEBUG_FUNC_NAME
     QPrinter printer;
     QPrintDialog *dialog = new QPrintDialog(&printer, this);
     dialog->setWindowTitle(tr("Print"));
     if (dialog->exec() != QDialog::Accepted)
         return 1;
-    qDebug("MainWindow::printFile() prints");
     if (activeMdiChild()) {
         QTextBrowser *t = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
         t->print(&printer);
@@ -967,18 +978,7 @@ int MainWindow::saveFile(void)
             file.close();
         }
     }
-
     return 0;
-}
-int MainWindow::showSettingsDialog(void)
-{
-    settingsDialog setDialog;
-    connect(&setDialog, SIGNAL(save(struct settings_s)), this, SLOT(saveSettings(struct settings_s)));
-    connect(&setDialog, SIGNAL(save(struct settings_s)), &setDialog, SLOT(close()));
-    setDialog.setSettings(set);
-    setDialog.setWindowTitle(tr("Configuration"));
-    setDialog.show();
-    return setDialog.exec();
 }
 
 void MainWindow::copy()
@@ -1012,7 +1012,6 @@ int MainWindow::showAboutDialog(void)
 }
 int MainWindow::internalOpenPos(QString pos)
 {
-    //qDebug() << "MainWindow::go2Pos() pos = " << pos;
     QStringList list = pos.split(";");
     if (list.size() < 4) { //invalid pos
         return 1;
@@ -1038,13 +1037,11 @@ int MainWindow::internalOpenPos(QString pos)
 void MainWindow::goToPos()
 {
     QString text = ui->lineEdit_goTo->text();
-    //qDebug() << "MainWindow::goTo() text = " << text;
     goTo go(m_bible.currentBibleID, m_bible.bookFullName, m_bible.chapterAdd);
     QString url = go.getUrl(text);
     emit get(url);
     return;
 }
-
 
 int MainWindow::verseFromCursor(QTextCursor cursor)
 {
@@ -1159,9 +1156,10 @@ void MainWindow::pharseUrl(QUrl url)
 }
 void MainWindow::pharseUrl(QString url)
 {
+    DEBUG_FUNC_NAME
     QString url_backup = url;
     setEnableReload(false);
-    qDebug() << "MainWindow::pharseUrl() url = " << url;
+    myDebug() << "url = " << url;
     QString bible = "bible://";
     QString strong = "strong://";
     QString http = "http://";
@@ -1208,10 +1206,10 @@ void MainWindow::pharseUrl(QString url)
                 }
                 emit historySetUrl(url_backup);
             } else {
-                qDebug() << "MainWindow::pharseUrl() invalid URL";
+                myDebug() << "invalid URL";
             }
         } else {
-            qDebug() << "MainWindow::pharseUrl() invalid URL";
+            myDebug() << "invalid URL";
         }
         //bible://bibleID/bookID,chapterID,verseID
     } else if (url.startsWith(strong)) {
@@ -1258,7 +1256,7 @@ void MainWindow::pharseUrl(QString url)
 
     } else if (url.startsWith(anchor)) {
         url = url.remove(0, anchor.size());
-        qDebug() << "MainWindow::pharseUrl() anchor";
+        myDebug() << "anchor";
         /* if (url.contains("\"")) {
              url = url.remove("\"");
          }*/
@@ -1267,12 +1265,13 @@ void MainWindow::pharseUrl(QString url)
             textBrowser->scrollToAnchor(url);
         }
     } else {
-        qDebug() << "MainWindow::pharseUrl()" << m_bible.bookPath;
+        myDebug() << " bookPath = " << m_bible.bookPath;
         if (m_bible.bibleType == 1 && m_bible.bookPath.contains(url)) {
-            emit get("bible://current/" + m_bible.bookPath.lastIndexOf(url));
+            emit get("bible://current/" + m_bible.bookPath.lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
+        } else {
+
+            myDebug() << "invalid URL";
         }
-        //search in bible bookPath for this string, if it exixsts it is a book link
-        qDebug() << "MainWindow::pharseUrl() invalid URL";
     }
     setEnableReload(true);
     return;
@@ -1284,7 +1283,7 @@ void MainWindow::onlineHelp()
 }
 void MainWindow::setTitle(QString title)
 {
-    qDebug() << "MainWindow::setTitle() title = " << title;
+    //myDebug() << "title = " << title;
     if (activeMdiChild()) {
         activeMdiChild()->widget()->setWindowTitle(title);
     }
@@ -1321,7 +1320,10 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         return QMainWindow::eventFilter(obj, event);
     }
 }
-
+void MainWindow::setMyTranslator(QTranslator *t)
+{
+    myappTranslator = t;
+}
 MainWindow::~MainWindow()
 {
     delete ui;

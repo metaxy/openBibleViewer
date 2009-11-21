@@ -17,6 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QList>
 #include <QtCore/QSettings>
 #include <QtCore/QUrl>
+#include <QtCore/QTranslator>
 #include <QtGui/QListWidgetItem>
 #include <QtGui/QMainWindow>
 #include <QtGui/QMdiSubWindow>
@@ -112,6 +113,7 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
     int loadModules();
+    void setMyTranslator(QTranslator *t);
 
 
 protected:
@@ -176,6 +178,7 @@ private:
     int m_currentStrongModule;
     QString m_currentStrongID;
     QList<int> m_strongModuleID;
+    QTranslator *myappTranslator;
 
 };
 

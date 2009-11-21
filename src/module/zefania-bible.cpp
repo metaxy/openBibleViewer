@@ -23,6 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QCryptographicHash>
 #include "zefania-bible.h"
 #include "../core/KoXmlWriter.h"
+#include "../core/dbghelper.h"
 zefaniaBible::zefaniaBible()
 {
 }
@@ -31,7 +32,6 @@ int zefaniaBible::setSettings(struct settings_s settings , struct moduleConfig m
     qDebug() << "zefaniaBible::setSettings";
     zefset = settings;
     mConfig = mConfig_;
-
     return 1;
 }
 QDomNode zefaniaBible::readBookFromHardCache(QString path, int bookID)
@@ -112,7 +112,7 @@ bool zefaniaBible::clearSoftCache()
 }
 void zefaniaBible::readBook(int id)
 {
-    qDebug() << " zefaniaBible::readBook() hardCache = " << mConfig.zefbible_hardCache  << " softCache = " << mConfig.zefbible_softCache << " cacheAviable = " << softCacheAvi;
+    myDebug() << "hardCache = " << mConfig.zefbible_hardCache  << " softCache = " << mConfig.zefbible_softCache << " cacheAviable = " << softCacheAvi;
     QDomNode ncache;
     if (mConfig.zefbible_hardCache == true && (softCacheAvi[id] == false || mConfig.zefbible_softCache == false)) {
         ncache = readBookFromHardCache(currentBiblePath, id);
@@ -120,7 +120,7 @@ void zefaniaBible::readBook(int id)
         chapterData = softCache(id);
         return;
     }
-    chapterText.clear();
+//    chapterText.clear();
     chapterData.clear();
     currentBookID = id;
     QDomNode n = ncache.firstChild();
@@ -143,7 +143,7 @@ void zefaniaBible::readBook(int id)
         c.verseCount = verseCount;
         c.bookName = bookFullName.at(id);
         chapterData << c;
-        chapterText << "<b><font size=\"+5\">" + c.bookName + " " + QString::number(i) + "</font></b><br /><br />" + outtext;
+       // chapterText << "<b><font size=\"+5\">" + c.bookName + " " + QString::number(i) + "</font></b><br /><br />" + outtext;
         n = n.nextSibling();
     }
     //book_ccount = i;
@@ -154,7 +154,7 @@ void zefaniaBible::readBook(int id)
 QDomElement zefaniaBible::format(QDomElement e)
 {
     QDomNode n = e.firstChild();
-    while (!n.isNull()) { //alle verse
+    while (!n.isNull()) { //all verses
         if (n.nodeName().toLower() == "note") {
             QDomNode node = n;
             QDomText t = node.firstChild().toText();
@@ -188,7 +188,7 @@ QDomElement zefaniaBible::format(QDomElement e)
 }
 bool zefaniaBible::checkForCacheFiles(QString path)
 {
-    qDebug() << "zefaniaBible::checkForCacheFiles() path = " << path;
+    myDebug() << " path = " << path;
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(path.toLocal8Bit());
     QString fileName = zefset.homePath + "cache/" + hash.result().toBase64() + "/";
@@ -199,7 +199,7 @@ bool zefaniaBible::checkForCacheFiles(QString path)
 }
 void zefaniaBible::loadNoCached(int id, QString path)
 {
-    qDebug("zefania::loadNoCached() start");
+    DEBUG_FUNC_NAME
     QProgressDialog progress(QObject::tr("Loading Bible"), QObject::tr("Cancel"), 0, 76);
     int progressCounter = 0;
     progress.setWindowModality(Qt::WindowModal);
@@ -227,7 +227,7 @@ void zefaniaBible::loadNoCached(int id, QString path)
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not read the file"));
-        qDebug("zefania::loadBibleData() cant read the file");
+        myDebug() << "cant read the file";
         return;
     }
     progress.setValue(3);
@@ -236,7 +236,7 @@ void zefaniaBible::loadNoCached(int id, QString path)
 #ifdef KOXML_USE_QDOM
     if (!doc.setContent(&file)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
-        qDebug("zefania::loadBibleData() the file isnt valid");
+        myDebug() << "the file isnt valid";
         return;
     }
 #else
@@ -287,7 +287,7 @@ void zefaniaBible::loadNoCached(int id, QString path)
     progress.setValue(5);
     if (!doc.setContent(data)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
-        qDebug("zefania::loadBibleData() the file isnt valid");
+        myDebug() << "the file isnt valid";
         return;
     }
     data.clear();
@@ -394,7 +394,6 @@ void zefaniaBible::loadNoCached(int id, QString path)
         file.close();
 #endif
     }
-    qDebug("zefania::loadNoCached() end");
 }
 void zefaniaBible::generateCacheFile(QString path, QStringList bookFullName_, QMap<int, KoXmlElement> cache)
 {
@@ -535,10 +534,12 @@ QList<chapter> zefaniaBible::fromHardToSoft(int id, QDomNode ncache)
         n = n.nextSibling();
     }
     return ret;
+
 }
 /*
   struct bibleInfo zefaniaBible::readBibleInfoFromCache(QString */
-struct stelle zefaniaBible::search(QString searchstring, bool regexp, bool whole, bool casesen) {
+struct stelle zefaniaBible::search(QString searchstring, bool regexp, bool whole, bool casesen)
+{
     if (whole == true) {
         searchstring = " " + searchstring + " ";
     }

@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "../mdiform.h"
+#include "../../core/dbghelper.h"
 
 #include <QtCore/QtDebug>
 #include <QtGui/QVBoxLayout>
@@ -22,7 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMdiSubWindow>
 void MainWindow::newMdiChild()
 {
-    //qDebug() << "MainWindow::newMdiChild()";
+    DEBUG_FUNC_NAME
     int windowsCount = usableWindowList().size();
     QMdiSubWindow *firstSubWindow = new QMdiSubWindow();
     if (windowsCount == 1) {
@@ -38,9 +39,7 @@ void MainWindow::newMdiChild()
     QMdiSubWindow *subWindow = ui->mdiArea->addSubWindow(widget);
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
     subWindow->setWindowTitle("");
-    //qDebug() << "MainWindow::newMdiChild() first windowsCount = " << windowsCount;
     if (windowsCount == 0) {
-        //qDebug() << "First Window";
         subWindow->showMaximized();
     } else if (windowsCount == 1) {
         firstSubWindow->resize(600, 600);
@@ -72,7 +71,6 @@ void MainWindow::newMdiChild()
 
     m_internalWindows << subWindow;
     enableReload = true;
-    //add a this new subwindow in the list
 }
 QMdiSubWindow *MainWindow::activeMdiChild()
 {
@@ -203,10 +201,8 @@ QList<QMdiSubWindow*> MainWindow::usableWindowList()
 }
 int MainWindow::currentWindowID()
 {
-    //qDebug()  << "MainWindow::currentWindowID()";
     for (int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
         if (ui->mdiArea->activeSubWindow() ==  ui->mdiArea->subWindowList().at(i)) {
-            //qDebug()  << "MainWindow::currentWindowID() id = " << i;
             return i;
         }
     }
@@ -214,10 +210,8 @@ int MainWindow::currentWindowID()
 }
 int MainWindow::tabIDof(QMdiSubWindow* window)
 {
-    //qDebug()  << "MainWindow::tabIDof()";
     for (int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
         if (window ==  ui->mdiArea->subWindowList().at(i)) {
-            //qDebug()  << "MainWindow::tabIDof() id = " << i;
             return i;
         }
     }
@@ -226,21 +220,21 @@ int MainWindow::tabIDof(QMdiSubWindow* window)
 }
 int MainWindow::closeWindow()
 {
-    qDebug() << "MainWindow::closeWindow()";
+    DEBUG_FUNC_NAME
     if (!enableReload) {
-        qDebug() << "MainWindow::closeWindow() reload is not enabled";
+        myDebug() << "reload is not enabled";
         return 1;
     }
     //if one in the internal subwindow list list is missing that window was closed
     if (ui->mdiArea->subWindowList().isEmpty()) {
-        qDebug() << "MainWindow::closeWindow() subWIndowList is empty";
+        myDebug() << "subWIndowList is empty";
         setBooks(QStringList());
         setChapters(QStringList());
         m_windowCache.clearAll();
         return 1;
     }
     if (m_internalWindows.isEmpty()) {
-        qDebug() << "MainWindow::closeWindow() internaL is empty";
+        myDebug() << "internaL is empty";
         setBooks(QStringList());
         setChapters(QStringList());
         m_windowCache.clearAll();
@@ -249,14 +243,14 @@ int MainWindow::closeWindow()
     qDebug() << "MainWindow::closeWindow() closing";
     for (int i = 0; i < m_internalWindows.size(); i++) {
         if (ui->mdiArea->subWindowList().lastIndexOf(m_internalWindows.at(i)) == -1) {
-            qDebug() << "MainWindow::closeWindow() found closed Window id = " << i;
+           myDebug() << "found closed Window id = " << i;
             m_windowCache.removeWindow(i);
             m_internalWindows.removeAt(i);
             break;
         }
     }
     if (ui->mdiArea->subWindowList().isEmpty()) { //last window closed
-        qDebug() << "MainWindow::closeWindow() last closed";
+        myDebug() << "last closed";
         setBooks(QStringList());
         setChapters(QStringList());
         m_windowCache.clearAll();
@@ -268,41 +262,36 @@ int MainWindow::closeWindow()
 int MainWindow::reloadWindow(QMdiSubWindow * window)
 {
     if (!enableReload) {
-        //qDebug() << "MainWindow::reloadWindow() reload is not enabled";
         return 1;
     }
     int id = tabIDof(window);
-    //qDebug() << "MainWindow::reloadWindow() bibletype = " << m_windowCache.getBibleType() << ", id = " << id;
     if (id == -1) {
-        //qDebug() << "MainWindow::reloadWindow() id == -1";
         return 1;
     }
     if (ui->mdiArea->subWindowList().count() <= 0) {
-        //qDebug() << "MainWindow::reloadWindow() count <= 0";
         return 1;
     }
 
     qDebug() << "MainWindow::reloadWindow() setCurrentTab id = " << id;
     m_windowCache.setCurrentWindowID(id);
     if (m_windowCache.getBibleType() == 0) { //probaly no bible loaded in this window
-        qDebug() << "MainWindow::reloadWindow() m_windowCache.getBibleType() == 0";
+        myDebug() << "m_windowCache.getBibleType() == 0";
         ui->listWidget_chapters->clear();
         ui->listWidget_books->clear();
         m_bible.currentBibleID = -2;
     } else {
         if (m_bible.currentBibleID == m_windowCache.getBible().currentBibleID)
             return 1;
-        qDebug() << "MainWindow::reloadWindow() get bible";
+        myDebug() << "get bible";
         m_bible = m_windowCache.getBible();
         setTitle(m_windowCache.getBibleName());
-        qDebug() << "MainWindow::reloadWindow() m_bible.chapterNames.size() = " << m_bible.chapterNames.size() << ", m_bible.currentChapterID = " << m_bible.currentChapterID;
+        myDebug() << "m_bible.chapterNames.size() = " << m_bible.chapterNames.size() << " m_bible.currentChapterID = " << m_bible.currentChapterID;
         setChapters(m_bible.chapterNames);
         setCurrentChapter(m_bible.currentChapterID);
 
         QStringList tbookFullName = m_windowCache.getBooks();//show all books
         setBooks(tbookFullName);
         setCurrentBook(m_windowCache.getCurrentBook());
-        //currentBibleID = m_bible.currentBibleID;
     }
 
     return 0;

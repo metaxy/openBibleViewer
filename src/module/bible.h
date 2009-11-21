@@ -39,8 +39,8 @@ public:
 
     struct stelle search(QString searchstring, bool regexp, bool whole, bool casesen);
 
-    int currentBibleID, currentBookID, currentChapterID, chapterAdd;
 
+    int currentBibleID, currentBookID, currentChapterID, chapterAdd;
     struct stelle st;
     QString bibleName, lastout, path, currentBiblePath, lastSearchString;
     QStringList bookFullName, chapterText, bookPath, chapterNames, chapterDataList;

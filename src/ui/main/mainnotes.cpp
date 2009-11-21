@@ -63,7 +63,11 @@ int MainWindow::showNote(QListWidgetItem *item)
         ui->lineEdit_note_titel->setText(note->getTitle(currentNoteID));
         ui->textEdit_note->setHtml(note->getData(currentNoteID));
         currentNoteRef = note->getRef(currentNoteID);
-        ui->label_noteLink->setText(notePos2Text(currentNoteRef["link"]));
+        myDebug() << " link = " << note->getRef(currentNoteID,"link");
+        if(!note->getRef(currentNoteID,"link").isEmpty())
+            ui->label_noteLink->setText(notePos2Text(note->getRef(currentNoteID,"link")));
+        else
+            ui->label_noteLink->setText("");
     }
     return 0;
 }
@@ -102,9 +106,10 @@ int MainWindow::newNote(void)
     note->setData(newID,"");
     note->setTitle(newID,tr("(unnamed)"));
     note->setType(newID,"text");
-    QMap<QString,QString> m;
-    m["link"] = "";
-    note->setRef(newID,m);
+    QMap<QString,QString> ref;
+    currentNoteRef = ref;
+    //m["link"] = "";
+    note->setRef(newID,ref);
     note->insertID(newID);
     currentNoteID = newID;
     reloadNotes();
@@ -114,31 +119,45 @@ int MainWindow::newNote(void)
     ui->label_noteLink->setText("");
     ui->lineEdit_note_titel->setText(tr("(unnamed)"));
     ui->textEdit_note->setHtml("");
+    if(!note->getRef(currentNoteID,"link").isEmpty())
+            ui->label_noteLink->setText(notePos2Text(note->getRef(currentNoteID,"link")));
+        else
+            ui->label_noteLink->setText("");
 
     myDebug() << " newID = " << newID << " currentNoteID = " << currentNoteID;
     return 0;
 }
 int MainWindow::newNoteWithLink()
 {
-    //DEBUG_FUNC_NAME
-    /*  QTextCursor cursor = currentTextCursor;
-      int startverse = verseFromCursor(cursor);
-      QString pos;
-      pos = bibleDirName[m_bible.currentBibleID] + ";" + QString::number(m_bible.currentBookID, 10) + ";" + QString::number(m_bible.currentChapterID + 1 - m_bible.chapterAdd, 10) + ";" + QString::number(startverse, 10) + ";" + m_bible.bookFullName.at(m_bible.currentBookID);
+    DEBUG_FUNC_NAME
+    QTextCursor cursor = currentTextCursor;
+    int startverse = verseFromCursor(cursor);
+    QString link;
+    link = bibleDirName[m_bible.currentBibleID] + ";" + QString::number(m_bible.currentBookID, 10) + ";" + QString::number(m_bible.currentChapterID + 1 - m_bible.chapterAdd, 10) + ";" + QString::number(startverse, 10) + ";" + m_bible.bookFullName.at(m_bible.currentBookID);
 
-      saveNote();
-      realodNotes();
-      ui->lineEdit_note_titel->setText(tr("(unnamed)"));
-      ui->textEdit_note->setHtml("");
-      note->notesData << "";
-      note->notesTitel << tr("(unnamed)");
-      note->notesPos << pos;
-      reloadNotes();
-      ui->listWidget_notes->setCurrentRow(note->notesData.size() - 1);
-      currentNoteID = note->notesData.size() - 1;
-      currentNotePos = pos;
-      ui->label_noteLink->setText(notePos2Text(currentNotePos));
-      qDebug() << "MainWindow::newNoteWithLink() pos = " << pos;*/
+    saveNote();
+    reloadNotes();
+    QString newID = note->generateNewID();
+    note->setData(newID,"");
+    note->setTitle(newID,tr("(unnamed)"));
+    note->setType(newID,"text");
+    QMap<QString,QString> ref;
+    ref["link"] = link;
+    currentNoteRef = ref;
+    note->setRef(newID,ref);
+    note->insertID(newID);
+    currentNoteID = newID;
+    reloadNotes();
+    ui->listWidget_notes->setCurrentRow(note->getIDList().size() - 1);
+    //showNote(ui->listWidget_notes->currentItem());
+    ui->label_noteLink->setText("");
+    ui->lineEdit_note_titel->setText(tr("(unnamed)"));
+    ui->textEdit_note->setHtml("");
+    if(!note->getRef(currentNoteID,"link").isEmpty())
+        ui->label_noteLink->setText(notePos2Text(note->getRef(currentNoteID,"link")));
+    else
+        ui->label_noteLink->setText("");
+
     return 0;
 }
 int MainWindow::removeNote(void)
@@ -171,7 +190,6 @@ int MainWindow::reloadNotes(void)
 }
 int MainWindow::notesContextMenu(void)
 {
-    //qDebug("MainWindow::notesContextMenu() start");
     QMenu *contextMenu = new QMenu(this);
     contextMenu->setObjectName("contextMenu");
 
@@ -244,7 +262,7 @@ int MainWindow::noteGo(QString pos)
 {
    // DEBUG_FUNC_NAME
     if (internalOpenPos(pos) == 1) {
-        qDebug("MainWindow::noteGo( void ) invalid note");
+        myDebug() << "MainWindow::noteGo( void ) invalid note";
     }
     return 0;
 }

@@ -401,7 +401,7 @@ void settingsDialog::addModules(QStringList fileName, QStringList names)
 }
 void settingsDialog::changeEvent(QEvent *e)
 {
-    switch (e->type()) {
+   switch (e->type()) {
     case QEvent::LanguageChange:
         m_ui->retranslateUi(this);
         break;
