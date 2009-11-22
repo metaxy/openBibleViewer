@@ -61,15 +61,15 @@ public slots:
     int textBrowserContextMenu(QPoint);
     int copyWholeVerse();
     int goToSearchResult(QListWidgetItem * item);
-    int loadNotes();
-    int showNote(QListWidgetItem * item);
-    int saveNote();
-    int notesContextMenu();
-    int newNote();
-    int newNoteWithLink();
-    int removeNote();
-    int reloadNotes();
-    int copyNote();
+    void loadNotes();
+    void showNote(QListWidgetItem * item);
+    void saveNote();
+    void notesContextMenu();
+    void newNote();
+    void newNoteWithLink();
+    void removeNote();
+    void reloadNotes();
+    void copyNote();
     void editNoteLink();
     void bookmarksContextMenu(void);
     int loadBookmarks();
@@ -114,7 +114,6 @@ public:
     int loadModules();
     void setTranslator(QTranslator *my,QTranslator *qt);
 
-
 protected:
     void closeEvent(QCloseEvent *event);
     bool eventFilter(QObject *obj, QEvent *ev);
@@ -142,17 +141,17 @@ private:
     QString VERSION, BUILD;
     bool enableReload;
 
-    int setChapters(QStringList chapterNames);
-    void setBooks(QStringList bookNames);
-    void setCurrentBook(int bookID);
-    void setCurrentChapter(int chapterID);
+    void setChapters(const QStringList &chapterNames);
+    void setBooks(const QStringList &bookNames);
+    void setCurrentBook(const int &bookID);
+    void setCurrentChapter(const int &chapterID);
     void setEnableReload(bool enable);
     void setTitle(QString title);
     void setSettings(struct settings_s ssettings);
 
     void searchInCurrentText(QString searchtext);
-    void showText(QString text);
-    void showStrong(QString strongID);
+    void showText(const QString &text);
+    void showStrong(const QString &strongID);
 
     void readBookByID(int id);
     void loadModuleDataByID(int id);

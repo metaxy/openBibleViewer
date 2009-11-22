@@ -221,7 +221,7 @@ void MainWindow::initSignals()
 
     connect(ui->tactionSearch, SIGNAL(triggered()), this, SLOT(search()));
     connect(ui->tactionNewWindow, SIGNAL(triggered()), this, SLOT(newMdiChild()));
-    connect(ui->tactionSave, SIGNAL(triggered()), this, SLOT(saveAll()));
+    //connect(ui->tactionSave, SIGNAL(triggered()), this, SLOT(saveAll()));
     connect(ui->tactionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
     connect(ui->tactionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
     connect(ui->tactionNotes, SIGNAL(triggered()), this, SLOT(loadNotes()));
@@ -351,7 +351,7 @@ void MainWindow::readChapter(const int &id)
 
 void MainWindow::showChapter(const int &chapterID,const int &verseID)
 {
-    qDebug() << "MainWindow::showChapter() chapterid = " << chapterID << " chapterAdd = " << m_bible.chapterAdd;
+    myDebug() << "chapterid = " << chapterID << " chapterAdd = " << m_bible.chapterAdd;
     m_bible.currentChapterID = chapterID;
     currentVerseID = verseID;
     m_windowCache.setBible(m_bible);
@@ -570,7 +570,7 @@ int MainWindow::copyWholeVerse(void)
 
 int MainWindow::loadModules()
 {
-    int rcount = 0;//Counter fo the Bible ID
+
     ui->treeWidget_bibles->clear();//clear the treewidget
     //clear all relevant variables
     bibles.clear();
@@ -581,13 +581,12 @@ int MainWindow::loadModules()
     QList<QTreeWidgetItem *> items;
     QProgressDialog progress(tr("Loading Module"), tr("Cancel"), 0, set.module.size());
     progress.setWindowModality(Qt::WindowModal);
-
+    int rcount = 0;//Counter for the Bible ID
     for (int i = 0; i < set.module.size(); ++i) { //real all modules
         if (progress.wasCanceled())
             break;
         if (set.module.at(i).isDir == true) {
             //read a dir
-
             //add a dir icon
             QTreeWidgetItem *top = new QTreeWidgetItem(ui->treeWidget_bibles);
             QStyle *style = ui->treeWidget_bibles->style();
@@ -693,9 +692,9 @@ int MainWindow::loadModules()
             QString dirname = set.module.at(i).modulePath;
             int lPos = dirname.lastIndexOf("/");
             dirname = dirname.remove(lPos, dirname.size()) + "/";
-            //the dirname is need for internal positions
+            //the dirname is needed for internal positions
 
-            qDebug() << "MainWindow::loadModules() dirname:" << dirname;
+            myDebug() << "MainWindow::loadModules() dirname: = " << dirname;
 
             int bibletype = set.module.at(i).moduleType.toInt();
             file.setFileName(set.module.at(i).modulePath);
@@ -754,7 +753,6 @@ int MainWindow::loadModules()
     ui->treeWidget_bibles->insertTopLevelItems(0, items);
     ui->treeWidget_bibles->sortByColumn(0, Qt::AscendingOrder);//sort
     setSettings(set);
-    //qDebug() << "MainWindow::loadModules() exit";
     return 0;
 }
 void MainWindow::loadLanguage(QString language)
@@ -775,11 +773,9 @@ void MainWindow::loadLanguage(QString language)
     if (loaded == false) {
         QMessageBox::warning(this, tr("Installing Language failed"), tr("Please chose an another language."));
     }
-  /*  QCoreApplication *app = QApplication::instance();
-    app->installTranslator(&myappTranslator);*/
+
 
     qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    //app->installTranslator(&qtTranslator);
     ui->retranslateUi(this);
 }
 void MainWindow::setSettings(struct settings_s ssettings)
@@ -1070,31 +1066,28 @@ int MainWindow::verseFromCursor(QTextCursor cursor)
     qDebug() << "MainWindow::verseFromCursor() startverse = " << startverse;
     return startverse + 1;//wegen titel
 }
-int MainWindow::setChapters(QStringList list)
+void MainWindow::setChapters(const QStringList &list)
 {
     ui->listWidget_chapters->clear();
     ui->listWidget_chapters->insertItems(0, list);
     if (activeMdiChild()) {
-        //qDebug() << "MainWindow::setChapters() has active Child";
         QComboBox *comboBox_chapters = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_chapters");
         comboBox_chapters->clear();
         comboBox_chapters->insertItems(0, list);
     }
-    return 0;
 }
-void MainWindow::setBooks(QStringList books)
+void MainWindow::setBooks(const QStringList &books)
 {
     ui->listWidget_books->clear();
     ui->listWidget_books->insertItems(0, books);
     if (activeMdiChild()) {
-        //qDebug() << "MainWindow::setBooks() has active Child";
         QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
         comboBox_books->clear();
         comboBox_books->insertItems(0, books);
     }
     return;
 }
-void MainWindow::setCurrentBook(int bookID)
+void MainWindow::setCurrentBook(const int &bookID)
 {
     ui->listWidget_books->setItemSelected(ui->listWidget_books->item(bookID), true);
     if (activeMdiChild()) {
@@ -1102,7 +1095,7 @@ void MainWindow::setCurrentBook(int bookID)
         comboBox_books->setCurrentIndex(bookID);
     }
 }
-void MainWindow::setCurrentChapter(int chapterID)
+void MainWindow::setCurrentChapter(const int &chapterID)
 {
     //qDebug() << "MainWindow::setCurrentChapter() chapterID = " << chapterID;
     ui->listWidget_chapters->setItemSelected(ui->listWidget_chapters->item(chapterID), true);
@@ -1112,7 +1105,7 @@ void MainWindow::setCurrentChapter(int chapterID)
     }
     //  setTitle(m_bible.bibleName);
 }
-void MainWindow::showText(QString text)
+void MainWindow::showText(const QString &text)
 {
     //qDebug() << "MainWindow::showText() text.size() = " << text.size();
     if (activeMdiChild()) {
@@ -1314,6 +1307,6 @@ MainWindow::~MainWindow()
     delete ui;
     delete settings;
     delete note;
-    delete myappTranslator;
-    delete qtTranslator;
+   // delete myappTranslator;
+   // delete qtTranslator;
 }

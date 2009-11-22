@@ -1,3 +1,4 @@
+#include <QtCore/QtDebug>
 #define myDebug() qDebug() << Q_FUNC_INFO << " "
 
 #ifndef QT_NO_DEBUG

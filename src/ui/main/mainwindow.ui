@@ -63,17 +63,9 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="actionNewWindow"/>
-    <addaction name="separator"/>
-    <addaction name="actionSave"/>
-    <addaction name="actionPrint"/>
-    <addaction name="separator"/>
-    <addaction name="actionExit"/>
-   </widget>
+   <property name="defaultUp">
+    <bool>false</bool>
+   </property>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
      <string>Edit</string>
@@ -107,6 +99,17 @@
     <addaction name="separator"/>
     <addaction name="actionBookmarks"/>
     <addaction name="actionNotes"/>
+   </widget>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionNewWindow"/>
+    <addaction name="separator"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionPrint"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -159,13 +162,16 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>102</width>
+     <width>100</width>
      <height>127</height>
     </size>
    </property>
    <property name="windowIcon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/16x16/table.png</normaloff>:/icons/16x16/table.png</iconset>
+   </property>
+   <property name="features">
+    <set>QDockWidget::AllDockWidgetFeatures</set>
    </property>
    <property name="windowTitle">
     <string>Module select</string>
@@ -202,7 +208,7 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>153</width>
+     <width>100</width>
      <height>129</height>
     </size>
    </property>
@@ -275,7 +281,7 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>130</width>
+     <width>100</width>
      <height>63</height>
     </size>
    </property>
@@ -336,13 +342,16 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>254</width>
+     <width>150</width>
      <height>416</height>
     </size>
    </property>
    <property name="windowIcon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/16x16/view-pim-notes.png</normaloff>:/icons/16x16/view-pim-notes.png</iconset>
+   </property>
+   <property name="floating">
+    <bool>true</bool>
    </property>
    <property name="windowTitle">
     <string>Notes</string>
@@ -573,13 +582,16 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>102</width>
+     <width>100</width>
      <height>153</height>
     </size>
    </property>
    <property name="windowIcon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/16x16/bookmarks-organize.png</normaloff>:/icons/16x16/bookmarks-organize.png</iconset>
+   </property>
+   <property name="floating">
+    <bool>true</bool>
    </property>
    <property name="windowTitle">
     <string>Bookmarks</string>
@@ -645,13 +657,16 @@
   <widget class="QDockWidget" name="dockWidget_search">
    <property name="minimumSize">
     <size>
-     <width>107</width>
+     <width>100</width>
      <height>155</height>
     </size>
    </property>
    <property name="windowIcon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/16x16/edit-find.png</normaloff>:/icons/16x16/edit-find.png</iconset>
+   </property>
+   <property name="floating">
+    <bool>true</bool>
    </property>
    <property name="features">
     <set>QDockWidget::AllDockWidgetFeatures</set>
@@ -714,9 +729,12 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>253</width>
+     <width>150</width>
      <height>173</height>
     </size>
+   </property>
+   <property name="floating">
+    <bool>true</bool>
    </property>
    <property name="windowTitle">
     <string>Strong</string>
@@ -779,7 +797,7 @@
     <string>Save as</string>
    </property>
    <property name="toolTip">
-    <string>Save current Text as</string>
+    <string>Save current text as</string>
    </property>
   </action>
   <action name="actionPrint">
@@ -815,11 +833,6 @@
     <string>Online Help</string>
    </property>
   </action>
-  <action name="actionVersion">
-   <property name="text">
-    <string>Version</string>
-   </property>
-  </action>
   <action name="actionAbout">
    <property name="icon">
     <iconset resource="../../icons.qrc">
@@ -844,18 +857,6 @@
     <string>Ctrl+N</string>
    </property>
   </action>
-  <action name="tactionSave">
-   <property name="icon">
-    <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/32x32/document-save.png</normaloff>:/icons/32x32/document-save.png</iconset>
-   </property>
-   <property name="text">
-    <string>Save</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+S</string>
-   </property>
-  </action>
   <action name="tactionNewWindow">
    <property name="checkable">
     <bool>false</bool>
@@ -866,15 +867,6 @@
    </property>
    <property name="text">
     <string>New Window</string>
-   </property>
-  </action>
-  <action name="tactionCloseTab">
-   <property name="icon">
-    <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/32x32/tab-close.png</normaloff>:/icons/32x32/tab-close.png</iconset>
-   </property>
-   <property name="text">
-    <string>Close Tab</string>
    </property>
   </action>
   <action name="tactionBookmarks">

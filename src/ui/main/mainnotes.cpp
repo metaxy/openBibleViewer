@@ -23,7 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QClipboard>
 #include <QtGui/QColorDialog>
 
-int MainWindow::loadNotes(void)
+void MainWindow::loadNotes(void)
 {
    // myDebug();
     DEBUG_FUNC_NAME
@@ -44,9 +44,8 @@ int MainWindow::loadNotes(void)
     }
     ui->listWidget_notes->insertItems(0,titles);
     currentNoteID = "";
-    return 0;
 }
-int MainWindow::showNote(QListWidgetItem *item)
+void MainWindow::showNote(QListWidgetItem *item)
 {
     //myDebug();
     DEBUG_FUNC_NAME
@@ -69,9 +68,8 @@ int MainWindow::showNote(QListWidgetItem *item)
         else
             ui->label_noteLink->setText("");
     }
-    return 0;
 }
-int MainWindow::copyNote(void)
+void MainWindow::copyNote(void)
 {
     DEBUG_FUNC_NAME
 
@@ -84,9 +82,8 @@ int MainWindow::copyNote(void)
     } else {
         qDebug() << "MainWindow::copyNote() no note";
     }
-   return 0;
 }
-int MainWindow::saveNote(void)
+void MainWindow::saveNote(void)
 {
     DEBUG_FUNC_NAME
     myDebug() << " currentNoteID = " << currentNoteID;
@@ -95,9 +92,8 @@ int MainWindow::saveNote(void)
     note->setRef(currentNoteID,currentNoteRef);
     note->saveNotes();
     reloadNotes();
-    return 0;
 }
-int MainWindow::newNote(void)
+void MainWindow::newNote(void)
 {
     DEBUG_FUNC_NAME
     saveNote();
@@ -125,9 +121,8 @@ int MainWindow::newNote(void)
             ui->label_noteLink->setText("");
 
     myDebug() << " newID = " << newID << " currentNoteID = " << currentNoteID;
-    return 0;
 }
-int MainWindow::newNoteWithLink()
+void MainWindow::newNoteWithLink()
 {
     DEBUG_FUNC_NAME
     QTextCursor cursor = currentTextCursor;
@@ -157,10 +152,8 @@ int MainWindow::newNoteWithLink()
         ui->label_noteLink->setText(notePos2Text(note->getRef(currentNoteID,"link")));
     else
         ui->label_noteLink->setText("");
-
-    return 0;
 }
-int MainWindow::removeNote(void)
+void MainWindow::removeNote(void)
 {
     DEBUG_FUNC_NAME
     note->removeNote(currentNoteID);
@@ -168,9 +161,8 @@ int MainWindow::removeNote(void)
     ui->textEdit_note->setHtml("");
     ui->label_noteLink->setText("");
     reloadNotes();
-    return 0;
 }
-int MainWindow::reloadNotes(void)
+void MainWindow::reloadNotes(void)
 {
     DEBUG_FUNC_NAME
     ui->listWidget_notes->clear();
@@ -186,9 +178,8 @@ int MainWindow::reloadNotes(void)
     }
     ui->listWidget_notes->insertItems(0,titles);
     ui->listWidget_notes->setCurrentRow(id.lastIndexOf(currentNoteID));
-    return 0;
 }
-int MainWindow::notesContextMenu(void)
+void MainWindow::notesContextMenu(void)
 {
     QMenu *contextMenu = new QMenu(this);
     contextMenu->setObjectName("contextMenu");
@@ -221,7 +212,6 @@ int MainWindow::notesContextMenu(void)
     contextMenu->addAction(actionNew);
     contextMenu->addAction(actionRemove);
     contextMenu->exec(QCursor::pos());
-    return 0;
 }
 void MainWindow::noteSetTextBold(void)
 {

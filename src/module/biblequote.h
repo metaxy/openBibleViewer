@@ -34,7 +34,7 @@ public:
     void loadBibleData(int bibleID, QString path);
     QString readInfo(QFile &file);
     struct stelle search(QString searchstring, bool regexp, bool whole, bool casesen);
-    int currentBookID,/*book_ccount,*/currentBibleID;
+    int currentBookID,currentBibleID;
     bool chapterZero, bible, oldTestament, newTestament, apocrypha, strongNumbers, greek;
     QString currentBiblePath, lastout, chaptersign, versesign, bibleName, removeHtml, lastSearch;
     QString bibles, biblesPath, biblesIniPath;

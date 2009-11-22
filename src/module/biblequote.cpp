@@ -18,7 +18,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QFile>
 #include <QtCore/QTextCodec>
 #include <QtCore/QDir>
-#include <QtCore/QtDebug>
 #include <QtGui/QProgressDialog>
 biblequote::biblequote()
 {
@@ -66,11 +65,10 @@ void biblequote::readBook(int id, QString path)
             line = line.remove(QRegExp("<DIV CLASS=\"(\\w+)\">"));
             line = line.remove("CLASS=\"Tx\">");
             //filterout
-            //qDebug() << "bqset.module.at(bqset.moduleID[currentBibleID]).biblequote_removeHtml = " << bqset.module.at(bqset.moduleID[currentBibleID]).biblequote_removeHtml;
             if (bqset.module.at(bqset.moduleID[currentBibleID]).biblequote_removeHtml == true && removeHtml.size() > 0) {
                 for (int i = 0; i < removeHtml2.size(); i++) {
                     QString r = removeHtml2.at(i);
-                    qDebug() << removeHtml2.at(i);
+                    //myDebug() << removeHtml2.at(i);
                     line = line.remove(r, Qt::CaseInsensitive);
                 }
             }
@@ -188,7 +186,6 @@ void biblequote::loadBibleData(int bibleID, QString path)
 
         }
     }
-    qDebug() << "bible::loadBibleData() end";
 }
 QString biblequote::readInfo(QFile &file)
 {

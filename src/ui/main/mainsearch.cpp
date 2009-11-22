@@ -45,7 +45,7 @@ int MainWindow::search(void)
 }
 int MainWindow::showSearchResults(QString searchtext, bool regexp, bool whole, bool casesen)
 {
-    qDebug() << " MainWindow::showSearchResults start";
+    DEBUG_FUNC_NAME
     ui->dockWidget_search->show();
     //im zurzeit angezeigten text suchen
     lastsearch = searchtext;
@@ -59,7 +59,7 @@ int MainWindow::showSearchResults(QString searchtext, bool regexp, bool whole, b
     m_bible.st = st;
 
     m_windowCache.setBible(m_bible);
-    qDebug() << " MainWindow::showSearchResults results = " << st.book.size();
+    myDebug() << "results = " << st.book.size();
     for (int i = 0; i < st.book.size(); i++) {
         QString bookn = m_bible.bookFullName.at(st.book.at(i));
         outlist << bookn + " " + QString::number(st.chapter.at(i), 10) + " , " + QString::number(st.verse.at(i), 10);
@@ -68,12 +68,10 @@ int MainWindow::showSearchResults(QString searchtext, bool regexp, bool whole, b
     ui->listWidget_search->insertItems(0, outlist);
     ui->actionNextVerse->setEnabled(true);
     ui->actionLastVerse->setEnabled(true);
-    qDebug() << "MainWindow::showSearchResults end";
     return 0;
 }
 int MainWindow::goToSearchResult(QListWidgetItem * item)
 {
-    //qDebug("MainWindow::goToSearchResult() currentBibleID= %i , searchedBibleID = %i",currentBibleID,m_bible.st.bibleID);
     int id = ui->listWidget_search->row(item);
     if (biblesTypes.size() < m_bible.currentBibleID)
         return 1;
@@ -94,7 +92,7 @@ void MainWindow::searchInfo()
     }
     QStringList textList;
 
-    qDebug() << "MainWindow::searchInfo() txstList.size() = " << textList.size();
+    myDebug() << "textList.size() = " << textList.size();
     bookNames = m_bible.bookFullName;
     st = m_bible.st;
     for (int i = 0; i < st.book.size(); ++i) {
@@ -156,7 +154,7 @@ void MainWindow::nextVerse()
             goToSearchResult(ui->listWidget_search->currentItem());
         }
     } else {
-        qDebug() << "MainWindow::nextVerse() no search Results available";
+        myDebug() << "no search Results available";
     }
     return;
 }
@@ -171,7 +169,7 @@ void MainWindow::lastVerse()
             goToSearchResult(ui->listWidget_search->currentItem());
         }
     } else {
-        qDebug() << "MainWindow::nextVerse() no search Results available";
+        myDebug() << "no search Results available";
     }
     return;
 }
