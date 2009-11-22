@@ -42,14 +42,13 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 public slots:
     int loadModuleData(QTreeWidgetItem*);
-    int readBook(QListWidgetItem * item);
-    int readBook(const int &book);
-    int readChapter(QListWidgetItem * item);
-    int readChapter(int);
+    void readBook(QListWidgetItem * item);
+    void readBook(const int &bookID);
+    void readChapter(QListWidgetItem * item);
+    void readChapter(const int &chapterID);
     void zoomIn();
     void zoomOut();
     int search();
-    //int close();
     int printFile();
     int showSearchResults(QString string, bool regexp, bool whole, bool casesen);
     int showSettingsDialog();
@@ -83,18 +82,17 @@ public slots:
     void bookmarksGo(QTreeWidgetItem * item);
     void updateBookmark(QString pos);
 
-    int showChapter(int chapterID, int verseID = -1);
-    int noteSetTextBold();
-    int noteSetTextItalic();
-    int noteSetTextUnderline();
-    int noteSetTextColor();
+    void showChapter(const int &chapterID, const int &verseID = -1);
+    void noteSetTextBold();
+    void noteSetTextItalic();
+    void noteSetTextUnderline();
+    void noteSetTextColor();
     void updateNote(QString pos);
     void searchInfo();
     void nextVerse();
     void lastVerse();
     void newMdiChild();
     void goToPos();
-    int noteGo(QString pos);
     void copy();
     void selectAll();
     void myCascade();
@@ -112,6 +110,7 @@ signals:
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void init(const QString &homeDataPath);
     int loadModules();
     void setTranslator(QTranslator *my,QTranslator *qt);
 
@@ -162,6 +161,8 @@ private:
     void loadSettings();
     QString loadStrong(QString strongID);
     void loadStrongs();
+    void loadDefaultConfig();
+    void initSignals();
 
     void saveSession();
     void restoreSession();

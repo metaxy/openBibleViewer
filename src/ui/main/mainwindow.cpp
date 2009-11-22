@@ -52,32 +52,61 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
    // DEBUG_FUNC_NAME
     ui->setupUi(this);
+}
+void MainWindow::init(const QString &homeDataPath_)
+{
     VERSION  = "0.3a1";
     BUILD =  "2009-11-16";
-
-#ifdef _PORTABLE_VERSION
-    homeDataPath = QApplication::applicationDirPath() + "/";
-    settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-#else
-    homeDataPath = QApplication::applicationDirPath() + "/";
-
-#ifdef Q_WS_MAC
-    homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
-    settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-#endif
-#ifdef Q_WS_X11
-    homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
-    settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-#endif
+    homeDataPath = homeDataPath_;
 #ifdef Q_WS_WIN
-    homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
-    settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
-                             "openBible", "openBibleViewer");
+    settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,"openBible", "openBibleViewer");
+#else
+    settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
 #endif
-#endif
+    myDebug() << "settingsPath = " << homeDataPath;
+    loadDefaultConfig();
+    loadSettings();
 
-    qDebug() << "MainWindow::MainWindow() settingsPath = " << homeDataPath;
+    loadStrongs();
+    loadNotes();
+    loadBookmarks();
 
+    newMdiChild();
+    initSignals();
+
+ //   loadLanguage(set.language);
+    /*if(set.module.size() == 0)
+    {
+        QString appPath = QApplication::applicationDirPath();
+        if(appPath.endsWith("/"))
+        {
+            appPath.remove(appPath.size()-1,10);
+        }
+        moduleConfig m;
+        m.biblequote_removeHtml = true;
+        m.moduleName = appPath;
+        m.modulePath = appPath;
+        m.moduleType = "-1";
+        m.zefbible_hardCache = true;
+        m.zefbible_showStrong = true;
+        m.zefbible_showStudyNote = true;
+        m.zefbible_softCache = true;
+        m.isDir = true;
+        set.module << m;
+    }*/
+
+    ui->lineEdit_goTo->installEventFilter(this);
+    ui->dockWidget_search->hide();
+    ui->dockWidget_go->hide();
+    ui->dockWidget_notes->hide();
+    ui->dockWidget_bookmarks->hide();
+    ui->dockWidget_strong->hide();
+
+    restoreSession();
+}
+
+void MainWindow::loadDefaultConfig()
+{
     set.encoding = "Windows-1251";
     set.zoomstep = 1;
     set.removeHtml = true;
@@ -157,33 +186,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     bookNames << tr("Jude");
     bookNames << tr("Revelation");
     set.bookNames  = bookNames;
-
-
-
-    loadSettings();
-    newMdiChild();
-    loadStrongs();
-
- //   loadLanguage(set.language);
-    /*if(set.module.size() == 0)
-    {
-        QString appPath = QApplication::applicationDirPath();
-        if(appPath.endsWith("/"))
-        {
-            appPath.remove(appPath.size()-1,10);
-        }
-        moduleConfig m;
-        m.biblequote_removeHtml = true;
-        m.moduleName = appPath;
-        m.modulePath = appPath;
-        m.moduleType = "-1";
-        m.zefbible_hardCache = true;
-        m.zefbible_showStrong = true;
-        m.zefbible_showStudyNote = true;
-        m.zefbible_softCache = true;
-        m.isDir = true;
-        set.module << m;
-    }*/
+}
+void MainWindow::initSignals()
+{
     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
     connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
     connect(ui->treeWidget_bibles, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(loadModuleData(QTreeWidgetItem*)));
@@ -246,20 +251,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->label_noteLink, SIGNAL(linkActivated(QString)), this, SLOT(pharseUrl(QString)));
     connect(ui->comboBox_strong, SIGNAL(currentIndexChanged(int)), this, SLOT(loadStrongModule(int)));
     connect(ui->textBrowser_strong, SIGNAL(anchorClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
-
-
-    ui->lineEdit_goTo->installEventFilter(this);
-
-    loadNotes();
-    loadBookmarks();
-
-    ui->dockWidget_search->hide();
-    ui->dockWidget_go->hide();
-    ui->dockWidget_notes->hide();
-    ui->dockWidget_bookmarks->hide();
-    ui->dockWidget_strong->hide();
-
-    restoreSession();
 }
 
 int MainWindow::loadModuleData(QTreeWidgetItem *fitem)
@@ -308,30 +299,26 @@ void MainWindow::zoomOut()
     return;
 }
 
-int MainWindow::readBook(QListWidgetItem * item)
+void MainWindow::readBook(QListWidgetItem * item)
 {
-    int id = ui->listWidget_books->row(item);
-    //qDebug() << "MainWindow::readBook(QListWidgetItem) id = " << id;
-    readBook(id);
-    return 0;
+    readBook(ui->listWidget_books->row(item));
 }
-int MainWindow::readBook(const int &id)
+void MainWindow::readBook(const int &id)
 {
-    qDebug() << "MainWindow::readBook(int) id = " << id;
+    myDebug() << "id = " << id;
     emit get("bible://current/" + QString::number(id) + ",0,0");
-    return 0;
 }
 void MainWindow::readBookByID(int id)
 {
-    qDebug() << "MainWindow::readBookByID() id = " << id;
+    myDebug() << "id = " << id;
     if (id < 0) {
         QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
-        qDebug() << "MainWindow::readBookByID() invalid bookID";
+        myDebug() << "invalid bookID";
         return;
     }
     if (id >= m_bible.bookFullName.size()) {
         QMessageBox::critical(0, tr("Error"), tr("This book is not available!"));
-        qDebug() << "MainWindow::readBookByID() invalid bookID";
+        myDebug() << "invalid bookID";
         return;
     }
     if (m_bible.readBook(id) != 0) {
@@ -347,24 +334,22 @@ void MainWindow::readBookByID(int id)
 
     if (activeMdiChild()) {
         QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
-        qDebug() << "MainWindow::readBokByID() searchPaths = " << m_bible.getSearchPaths();
+        myDebug() << "searchPaths = " << m_bible.getSearchPaths();
         textBrowser->setSearchPaths(m_bible.getSearchPaths());
     }
 
 }
-int MainWindow::readChapter(QListWidgetItem * item)
+void MainWindow::readChapter(QListWidgetItem * item)
 {
     int id = ui->listWidget_chapters->row(item);
     emit get("bible://current/" + QString::number(m_bible.currentBookID) + "," + QString::number(id) + ",0");
-    return 0;
 }
-int MainWindow::readChapter(int id)
+void MainWindow::readChapter(const int &id)
 {
     emit get("bible://current/" + QString::number(m_bible.currentBookID) + "," + QString::number(id) + ",0");
-    return 0;
 }
 
-int MainWindow::showChapter(int chapterID, int verseID)
+void MainWindow::showChapter(const int &chapterID,const int &verseID)
 {
     qDebug() << "MainWindow::showChapter() chapterid = " << chapterID << " chapterAdd = " << m_bible.chapterAdd;
     m_bible.currentChapterID = chapterID;
@@ -372,7 +357,6 @@ int MainWindow::showChapter(int chapterID, int verseID)
     m_windowCache.setBible(m_bible);
     showText(m_bible.readChapter(m_bible.currentChapterID, verseID));
     setCurrentChapter(m_bible.currentChapterID - m_bible.chapterAdd);
-    return 0;
 }
 int MainWindow::textBrowserContextMenu(QPoint pos)
 {
@@ -1320,7 +1304,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         return QMainWindow::eventFilter(obj, event);
     }
 }
-void MainWindow::setMyTranslator(QTranslator *my,QTranslator *qt)
+void MainWindow::setTranslator(QTranslator *my,QTranslator *qt)
 {
     myappTranslator = my;
     qtTranslator = qt;
@@ -1330,4 +1314,6 @@ MainWindow::~MainWindow()
     delete ui;
     delete settings;
     delete note;
+    delete myappTranslator;
+    delete qtTranslator;
 }

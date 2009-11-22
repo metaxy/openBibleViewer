@@ -90,8 +90,10 @@ int main(int argc, char *argv[])
      a.installTranslator(&myappTranslator);
 
     MainWindow w;
+    w.init(homeDataPath);
+    w.setTranslator(&myappTranslator,&qtTranslator);
     w.loadModules();
-    w.setMyTranslator(&myappTranslator,&qtTranslator);
+
 
     /*  QFile file(themePath);
       if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {

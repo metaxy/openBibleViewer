@@ -223,48 +223,36 @@ int MainWindow::notesContextMenu(void)
     contextMenu->exec(QCursor::pos());
     return 0;
 }
-int MainWindow::noteSetTextBold(void)
+void MainWindow::noteSetTextBold(void)
 {
     if (ui->textEdit_note->fontWeight() == QFont::Bold) {
         ui->textEdit_note->setFontWeight(QFont::Normal);
     } else {
         ui->textEdit_note->setFontWeight(QFont::Bold);
     }
-    return 0;
 }
-int MainWindow::noteSetTextItalic(void)
+void MainWindow::noteSetTextItalic(void)
 {
     if (ui->textEdit_note->fontItalic()) {
         ui->textEdit_note->setFontItalic(false);
     } else {
         ui->textEdit_note->setFontItalic(true);
     }
-    return 0;
 }
-int MainWindow::noteSetTextUnderline(void)
+void MainWindow::noteSetTextUnderline(void)
 {
     if (ui->textEdit_note->fontUnderline()) {
         ui->textEdit_note->setFontUnderline(false);
     } else {
         ui->textEdit_note->setFontUnderline(true);
     }
-    return 0;
 }
-int MainWindow::noteSetTextColor(void)
+void MainWindow::noteSetTextColor(void)
 {
     QColor color = QColorDialog::getColor(Qt::green, this);
     if (color.isValid()) {
         ui->textEdit_note->setTextColor(color);
     }
-    return 0;
-}
-int MainWindow::noteGo(QString pos)
-{
-   // DEBUG_FUNC_NAME
-    if (internalOpenPos(pos) == 1) {
-        myDebug() << "MainWindow::noteGo( void ) invalid note";
-    }
-    return 0;
 }
 
 QString MainWindow::notePos2Text(QString pos)
