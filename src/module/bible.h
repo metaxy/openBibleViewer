@@ -19,7 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "biblequote.h"
 #include "zefania-bible.h"
 #include "../core/stelle.h"
-
+#include "../core/searchquery.h"
 class bible
 {
 public:
@@ -37,7 +37,7 @@ public:
     QString readVerse(int chapterID, int startVerse, int endVerse, int markVerseID, bool saveRawDatas);
     QStringList getSearchPaths();
 
-    struct stelle search(QString searchstring, bool regexp, bool whole, bool casesen);
+    struct stelle search(struct searchQuery query);
 
 
     int currentBibleID, currentBookID, currentChapterID, chapterAdd;

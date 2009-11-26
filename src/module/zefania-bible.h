@@ -24,6 +24,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/stelle.h"
 #include "../core/chapter.h"
 #include "../core/moduleconfig.h"
+#include "../core/searchquery.h"
 #include "../core/KoXmlReader.h"
 
 class zefaniaBible
@@ -32,21 +33,19 @@ class zefaniaBible
 private:
     struct settings_s zefset;
     struct moduleConfig mConfig;
-    QString formatfromini(QString input);
     QDomElement format(QDomElement e);
 public:
     zefaniaBible();
     int setSettings(struct settings_s settings, struct moduleConfig mConfig);
-    void readBook(int id);
-    void loadBibleData(int id, QString path);
+    void readBook(const int &id);
+    void loadBibleData(const int &id,const QString &path);
     QString readInfo(QFile &file);
-    QString readInfo(QString content);
-    void generateCacheFile(QString path, QStringList bookFullName_, QMap<int, KoXmlElement> cache);
-    bool checkForCacheFiles(QString path);
-    void loadNoCached(int id, QString path);
-    void loadCached(int id, QString path);
+    QString readInfo(const QString &content);
+    bool checkForCacheFiles(const QString &path);
+    void loadNoCached(const int &id,const QString &path);
+    void loadCached(const int &id,const QString &path);
     QDomNode readBookFromHardCache(QString path, int bookID);
-    struct stelle search(QString searchstring, bool regexp, bool whole, bool casesen);
+    struct stelle search(struct searchQuery query);
 
     QMap<int, QList<chapter> > softCacheData;
     QMap<int, bool> softCacheAvi;

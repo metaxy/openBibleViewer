@@ -31,6 +31,8 @@ void MainWindow::newMdiChild()
     }
     m_windowCache.newWindow();
     QWidget *widget = new QWidget(ui->mdiArea);
+    widget->setMinimumHeight(0);
+    widget->setMinimumWidth(0);
     QVBoxLayout *layout = new QVBoxLayout(widget);
 
     mdiForm *mForm = new mdiForm(this);
@@ -95,6 +97,7 @@ QMdiSubWindow *MainWindow::activeMdiChild()
 }
 void MainWindow::myTileVertical()
 {
+    DEBUG_FUNC_NAME
     if (!enableReload ||  !usableWindowList().count()) {
         return;
     }
@@ -117,6 +120,7 @@ void MainWindow::myTileVertical()
 
 void MainWindow::myTileHorizontal()
 {
+    DEBUG_FUNC_NAME
     if (!enableReload || !usableWindowList().count()) {
         return;
     }
@@ -151,6 +155,7 @@ void MainWindow::myTileHorizontal()
 
 void MainWindow::myCascade()
 {
+    DEBUG_FUNC_NAME
     if (!enableReload || !usableWindowList().count()) {
         return;
     }

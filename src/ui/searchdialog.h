@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define SEARCHDIALOG_H
 
 #include <QtGui/QDialog>
-
+#include "../core/searchquery.h"
 namespace Ui
 {
 class searchDialog;
@@ -28,7 +28,7 @@ private slots:
     int search(void);
     void showMore(void);
 signals:
-    void searched(QString string, bool regexp, bool whole, bool casesen);
+    void searched(struct searchQuery query);
 public:
     explicit searchDialog(QWidget *parent = 0);
     int setText(QString text);

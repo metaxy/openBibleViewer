@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../searchinfodialog.h"
 #include "../../core/stelle.h"
 #include "../../core/dbghelper.h"
+#include "../../core/searchquery.h"
 #include "ui_mainwindow.h"
 
 #include <QtCore/QString>
@@ -37,25 +38,26 @@ int MainWindow::search(void)
         return 1;
     QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
     searchDialog *sDialog = new searchDialog(this);
-    connect(sDialog, SIGNAL(searched(QString, bool, bool, bool)), this, SLOT(showSearchResults(QString, bool, bool, bool)));
+    connect(sDialog, SIGNAL(searched(struct searchQuery)), this, SLOT(showSearchResults(struct searchQuery)));
     if (textBrowser->textCursor().hasSelection() == true)//etwas ist markiert
         sDialog->setText(textBrowser->textCursor().selectedText());
     sDialog->show();
     return 0;
 }
-int MainWindow::showSearchResults(QString searchtext, bool regexp, bool whole, bool casesen)
+int MainWindow::showSearchResults(struct searchQuery query)
 {
     DEBUG_FUNC_NAME
     ui->dockWidget_search->show();
     //im zurzeit angezeigten text suchen
-    lastsearch = searchtext;
-    searchInCurrentText(lastsearch);
-    ui->label_search->setText(tr("Searchstring: %1").arg(searchtext));
+    lastsearch = query.text;
+    searchInCurrentText(query.text);
+    ui->label_search->setText(tr("Search: %1").arg(query.text));
     QStringList outlist;
     if (biblesTypes.size() < m_bible.currentBibleID)
         return 1;
     struct stelle st;
-    st = m_bible.search(searchtext, regexp, whole, casesen);
+
+    st = m_bible.search(query);
     m_bible.st = st;
 
     m_windowCache.setBible(m_bible);

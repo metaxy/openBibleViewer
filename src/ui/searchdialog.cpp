@@ -50,7 +50,12 @@ int searchDialog::setText(QString text)
 int searchDialog::search(void)
 {
     if (m_ui->lineEdit->text() != "") {
-        emit searched(m_ui->lineEdit->text(), m_ui->checkBox_regexp->isChecked(), m_ui->checkBox_whole->isChecked(), m_ui->checkBox_casesen->isChecked());
+        struct searchQuery query;
+        query.text = m_ui->lineEdit->text();
+        query.regexp = m_ui->checkBox_regexp->isChecked();
+        query.whole = m_ui->checkBox_whole->isChecked();
+        query.caseSensitive = m_ui->checkBox_casesen->isChecked();
+        emit searched(query);
         this->hide();
         this->close();
     }

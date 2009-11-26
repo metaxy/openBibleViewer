@@ -51,10 +51,9 @@ int bible::loadBibleData(int bibleID, QString path)
 
         zef.loadBibleData(bibleID, path);
         bibleName = m.moduleName;
-        qDebug() << "bible::loadBibleData bibleName = " << m.moduleName << " path = " << m.modulePath << " currentBibleID = " << currentBibleID << " moduleID = " << settings.moduleID[currentBibleID];
         bookCount = zef.bookCount;
         bookFullName = zef.bookFullName;
-        //bookPath = zef.bookPath;
+
         chapterAdd = 0;
         currentBiblePath = zef.currentBiblePath;
         break;
@@ -63,13 +62,15 @@ int bible::loadBibleData(int bibleID, QString path)
     qDebug() << "bible::loadBibleData() end";
     return 0;
 }
+/*
+  only load book, not pharsed
+*/
 int bible::readBook(int id)
 {
     currentBookID = id;
     qDebug() << "bible::readBook() id= " << id << " bibleType =" << bibleType;
     switch (bibleType) {
     case 1: { //biblequote
-        //chapterText.clear();
         chapterData.clear();
         chapterNames.clear();
         if (id < bookPath.size()) {
@@ -78,7 +79,6 @@ int bible::readBook(int id)
             qDebug() << "bible::readBook() index out of range bookPath.size() = " << bookPath.size() << " , id = " << id;
             return 1;
         }
-        //chapterText = bq.chapterText;
         chapterData = bq.chapterData;
 
         int cc = bookCount[id];
@@ -91,21 +91,16 @@ int bible::readBook(int id)
                 chapterNames << QString::number(i);
             }
         }
-        //qDebug() << "bible::readBook() chapterText.size() = " << chapterText.size();
         break;
     }
     case 2: { //zefania
-       // chapterText.clear();
         chapterData.clear();
         chapterNames.clear();
         zef.readBook(id);
-        //chapterText = zef.chapterText;
         chapterData = zef.chapterData;
         for (int i = 1; i <= zef.bookCount[id]; i++) {
             chapterNames << QString::number(i);
         }
-
-       // qDebug() << "bible::readBook() chapterText.size() = " << chapterText.size();
         break;
     }
     }
@@ -130,9 +125,11 @@ QString bible::readChapter(int chapterID, int verseID = -1)
     return readVerse(chapterID, 0, -1, verseID, true);
 
 }
+/* pharse the loaded book
+   */
 QString bible::readVerse(int chapterID, int startVerse, int endVerse, int markVerseID = -1, bool saveRawData = false)
 {
-    //endVerse == -1 means all erse
+    //endVerse == -1 means all verse
     if (saveRawData)
         chapterDataList.clear();
     qDebug() << "bible::readVerse() start";
@@ -160,7 +157,6 @@ QString bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 if (saveRawData)
                     chapterDataList << c.data.at(i);
             }
-            qDebug() << "bible::readVerse() out.size() = " << out.size();
 
         } else {
             qDebug() << "bible::readVerse() index out of range index";
@@ -214,7 +210,6 @@ QString bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 }
             }
 
-            qDebug() << "bible::readVerse() out.size() = " << out.size();
 
         } else {
             qDebug() << "bible::readVerse() index out of range index";
@@ -227,16 +222,16 @@ QString bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     qDebug() << "bible::readVerse() end";
     return out;
 }
-struct stelle bible::search(QString searchstring, bool regexp, bool whole, bool casesen) {
-    lastSearchString = searchstring;
+struct stelle bible::search(struct searchQuery query) {
+    lastSearchString = query.text;
     struct stelle st;
     switch (bibleType) {
     case 1: { //biblequote
-        st = bq.search(searchstring, regexp, whole, casesen);
+        st = bq.search(query);
         break;
     }
     case 2: { //zefania
-        st = zef.search(searchstring, regexp, whole, casesen);
+        st = zef.search(query);
         break;
     }
     }

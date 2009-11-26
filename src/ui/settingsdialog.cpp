@@ -32,8 +32,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 settingsDialog::settingsDialog(QWidget *parent) : QDialog(parent), m_ui(new Ui::settingsDialog)
 {
     m_ui->setupUi(this);
-    //connect( m_ui->pushButton_remove_path, SIGNAL( clicked() ), this, SLOT( removePath( ) ) );
-    //connect( m_ui->pushButton_add_path, SIGNAL( clicked() ), this, SLOT( addPath( ) ) );
+
     connect(m_ui->pushButton_downloadModule, SIGNAL(clicked()), this, SLOT(downloadModule()));
     connect(m_ui->pushButton_addFile, SIGNAL(clicked()), this, SLOT(addModuleFile()));
     connect(m_ui->pushButton_addDir, SIGNAL(clicked()), this, SLOT(addModuleDir()));
@@ -336,11 +335,11 @@ void settingsDialog::addModules(QStringList fileName, QStringList names)
                     fileData += line;
                 }
                 if (fileData.contains("BookQty", Qt::CaseInsensitive)) {
-                    imoduleType = 1;//BibleQuote
+                    imoduleType = 1;// BibleQuote
                 } else if (fileData.contains("XMLBIBLE", Qt::CaseInsensitive)) {
-                    imoduleType = 2;//Zefania
+                    imoduleType = 2;// Zefania Bible
                 } else if (fileData.contains("<dictionary type=\"x-strong\"", Qt::CaseInsensitive)) {
-                    imoduleType = 3;//Zefania Strong
+                    imoduleType = 3;// Zefania Strong
                 }
                 /*else if(f.endsWith(".xml"))
                 {

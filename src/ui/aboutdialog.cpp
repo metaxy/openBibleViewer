@@ -26,7 +26,7 @@ aboutDialog::~aboutDialog()
 {
     delete m_ui;
 }
-void aboutDialog::setText(QString text)
+void aboutDialog::setText(const QString &text)
 {
     m_ui->label->setText(text);
 }

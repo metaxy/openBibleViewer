@@ -28,7 +28,7 @@ class aboutDialog : public QDialog
 public:
     explicit aboutDialog(QWidget *parent = 0);
     virtual ~aboutDialog();
-    void setText(QString text);
+    void setText(const QString &text);
 
 protected:
     virtual void changeEvent(QEvent *e);

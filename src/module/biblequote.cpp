@@ -219,13 +219,13 @@ QString biblequote::readInfo(QFile &file)
     file.close();
     return bibleName;
 }
-struct stelle biblequote::search(QString searchstring, bool regexp, bool whole, bool casesen)
+struct stelle biblequote::search(struct searchQuery query)
 {
     DEBUG_FUNC_NAME
-    if (whole == true) {
-        searchstring = " " + searchstring + " ";
+    if (query.whole == true) {
+        query.text= " " + query.text + " ";
     }
-    lastSearch = searchstring;
+    lastSearch = query.text;
     QStringList ctext;
     QList<QByteArray> bytetext;
     QProgressDialog progress(QObject::tr("Searching"), QObject::tr("Cancel"), 0, bookPath.size());
@@ -279,13 +279,13 @@ struct stelle biblequote::search(QString searchstring, bool regexp, bool whole, 
         myDebug() << "ctext.size() = " << ctext.size();
         for (int chapterit = 0; chapterit < ctext.size(); chapterit++) {
             bool b;
-            if (regexp == true) {
-                b = ctext.at(chapterit).contains(QRegExp(searchstring));
+            if (query.regexp == true) {
+                b = ctext.at(chapterit).contains(QRegExp(query.text));
             } else {
-                if (casesen == true) {
-                    b = ctext.at(chapterit).contains(searchstring, Qt::CaseSensitive);
+                if (query.caseSensitive == true) {
+                    b = ctext.at(chapterit).contains(query.text, Qt::CaseSensitive);
                 } else {
-                    b = ctext.at(chapterit).contains(searchstring, Qt::CaseInsensitive);
+                    b = ctext.at(chapterit).contains(query.text, Qt::CaseInsensitive);
                 }
             }
             if (b) {
@@ -293,13 +293,13 @@ struct stelle biblequote::search(QString searchstring, bool regexp, bool whole, 
                 for (int verseit = 0; verseit < verses.size(); ++verseit) {
                     QString t = verses.at(verseit);
                     bool b2;
-                    if (regexp == true) {
-                        b2 = t.contains(QRegExp(searchstring));
+                    if (query.regexp == true) {
+                        b2 = t.contains(QRegExp(query.text));
                     } else {
-                        if (casesen == true) {
-                            b2 = t.contains(searchstring, Qt::CaseSensitive);
+                        if (query.caseSensitive == true) {
+                            b2 = t.contains(query.text, Qt::CaseSensitive);
                         } else {
-                            b2 = t.contains(searchstring, Qt::CaseInsensitive);
+                            b2 = t.contains(query.text, Qt::CaseInsensitive);
                         }
                     }
                     if (b2) {

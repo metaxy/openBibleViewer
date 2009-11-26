@@ -64,7 +64,8 @@ HEADERS += src/ui/main/mainwindow.h \
     src/core/history.h \
     src/ui/moduledownloaddialog.h \
     src/core/bibleinfo.h \
-    src/core/dbghelper.h
+    src/core/dbghelper.h \
+    src/core/searchquery.h
 FORMS += src/ui/main/mainwindow.ui \
     src/ui/searchdialog.ui \
     src/ui/settingsdialog.ui \

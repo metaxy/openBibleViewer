@@ -47,28 +47,35 @@ void MainWindow::loadNotes(void)
 }
 void MainWindow::showNote(QListWidgetItem *item)
 {
-    //myDebug();
+    int id = ui->listWidget_notes->row(item);
+    if(id >= 0 && id < note->getIDList().size()) {
+        showNote(note->getIDList().at(id));
+    }
+}
+void MainWindow::showNote(const QString &noteID)
+{
     DEBUG_FUNC_NAME
     note->setData(currentNoteID,ui->textEdit_note->toHtml());
     note->setTitle(currentNoteID,ui->lineEdit_note_titel->text());
     note->setRef(currentNoteID,currentNoteRef);
     note->saveNotes();
-
-    int id = ui->listWidget_notes->row(item);
-    if(id >= 0 && id < note->getIDList().size())
-    {
-        currentNoteID = note->getIDList().at(id);
-        myDebug() << " id = " << id << " currentNoteID = " << currentNoteID;
-        ui->lineEdit_note_titel->setText(note->getTitle(currentNoteID));
-        ui->textEdit_note->setHtml(note->getData(currentNoteID));
-        currentNoteRef = note->getRef(currentNoteID);
-        myDebug() << " link = " << note->getRef(currentNoteID,"link");
-        if(!note->getRef(currentNoteID,"link").isEmpty())
-            ui->label_noteLink->setText(notePos2Text(note->getRef(currentNoteID,"link")));
-        else
-            ui->label_noteLink->setText("");
+    if(!note->getIDList().contains(noteID)) {
+        myDebug() << "invalid noteID = " << noteID;
+        return;
     }
+    currentNoteID = noteID;
+    myDebug() << "id = " << noteID << " currentNoteID = " << currentNoteID;
+    ui->lineEdit_note_titel->setText(note->getTitle(currentNoteID));
+    ui->textEdit_note->setHtml(note->getData(currentNoteID));
+    currentNoteRef = note->getRef(currentNoteID);
+    myDebug() << "link = " << note->getRef(currentNoteID,"link");
+    if(!note->getRef(currentNoteID,"link").isEmpty())
+        ui->label_noteLink->setText(notePos2Text(note->getRef(currentNoteID,"link")));
+    else
+        ui->label_noteLink->setText("");
+
 }
+
 void MainWindow::copyNote(void)
 {
     DEBUG_FUNC_NAME
@@ -80,13 +87,13 @@ void MainWindow::copyNote(void)
         doc.setHtml(note->getData(note->getIDList().at(id)));
         clipboard->setText(doc.toPlainText());
     } else {
-        qDebug() << "MainWindow::copyNote() no note";
+        myDebug() << "no note";
     }
 }
 void MainWindow::saveNote(void)
 {
     DEBUG_FUNC_NAME
-    myDebug() << " currentNoteID = " << currentNoteID;
+    myDebug() << "currentNoteID = " << currentNoteID;
     note->setData(currentNoteID,ui->textEdit_note->toHtml());
     note->setTitle(currentNoteID,ui->lineEdit_note_titel->text());
     note->setRef(currentNoteID,currentNoteRef);

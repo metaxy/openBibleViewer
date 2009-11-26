@@ -33,7 +33,6 @@ void posChoser::setData(QStringList bibles, QStringList books)
 {
     m_ui->comboBox_books->insertItems(0, books);
     m_bibles = bibles;
-    return;
 }
 void posChoser::setCurrent(int bible, QString path, int book, int chapter, int verse)
 {
@@ -47,7 +46,6 @@ void posChoser::setCurrent(int bible, QString path, int book, int chapter, int v
     m_ui->comboBox_books->setCurrentIndex(book);
     m_ui->spinBox_chapter->setValue(chapter);
     m_ui->spinBox_verse->setValue(verse);
-    return;
 }
 void posChoser::save()
 {
@@ -58,7 +56,6 @@ void posChoser::save()
     out += QString::number(m_ui->spinBox_verse->value()) + ";";
     close();
     emit updated(out);
-    return;
 }
 void posChoser::changeEvent(QEvent *e)
 {

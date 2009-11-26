@@ -1137,11 +1137,12 @@ void MainWindow::pharseUrl(QString url)
     QString url_backup = url;
     setEnableReload(false);
     myDebug() << "url = " << url;
-    QString bible = "bible://";
-    QString strong = "strong://";
-    QString http = "http://";
-    QString bq = "go";
-    QString anchor = "#";
+    const QString bible = "bible://";
+    const QString strong = "strong://";
+    const QString http = "http://";
+    const QString bq = "go";
+    const QString anchor = "#";
+    const QString note = "note://";
     if (url.startsWith(bible)) {
         url = url.remove(0, bible.size());
         QStringList a = url.split("/");
@@ -1241,6 +1242,9 @@ void MainWindow::pharseUrl(QString url)
             QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
             textBrowser->scrollToAnchor(url);
         }
+    }  else if (url.startsWith(note)) {
+        url = url.remove(0, note.size());
+        showNote(url);
     } else {
         myDebug() << " bookPath = " << m_bible.bookPath;
         if (m_bible.bibleType == 1 && m_bible.bookPath.contains(url)) {

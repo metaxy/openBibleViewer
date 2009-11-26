@@ -25,12 +25,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QTextCursor>
 
 #include "../../core/config.h"
+#include "../../core/notes.h"
+#include "../../core/searchquery.h"
+#include "../../core/windowcache.h"
+
+#include "../../module/bible.h"
 #include "../../module/biblequote.h"
 #include "../../module/zefania-bible.h"
 #include "../../module/zefania-strong.h"
-#include "../../core/windowcache.h"
-#include "../../core/notes.h"
-#include "../../module/bible.h"
 
 namespace Ui
 {
@@ -50,7 +52,7 @@ public slots:
     void zoomOut();
     int search();
     int printFile();
-    int showSearchResults(QString string, bool regexp, bool whole, bool casesen);
+    int showSearchResults(struct searchQuery query);
     int showSettingsDialog();
     int showAboutDialog();
     int saveSettings(struct settings_s settings);
@@ -152,6 +154,7 @@ private:
     void searchInCurrentText(QString searchtext);
     void showText(const QString &text);
     void showStrong(const QString &strongID);
+    void showNote(const QString &noteID);
 
     void readBookByID(int id);
     void loadModuleDataByID(int id);
