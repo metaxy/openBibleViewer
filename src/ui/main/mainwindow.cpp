@@ -50,7 +50,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "mainstrong.cpp"
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
-   // DEBUG_FUNC_NAME
+    // DEBUG_FUNC_NAME
     ui->setupUi(this);
 }
 void MainWindow::init(const QString &homeDataPath_)
@@ -59,7 +59,7 @@ void MainWindow::init(const QString &homeDataPath_)
     BUILD =  "2009-11-16";
     homeDataPath = homeDataPath_;
 #ifdef Q_WS_WIN
-    settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,"openBible", "openBibleViewer");
+    settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "openBible", "openBibleViewer");
 #else
     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
 #endif
@@ -74,7 +74,7 @@ void MainWindow::init(const QString &homeDataPath_)
     newMdiChild();
     initSignals();
 
- //   loadLanguage(set.language);
+//   loadLanguage(set.language);
     /*if(set.module.size() == 0)
     {
         QString appPath = QApplication::applicationDirPath();
@@ -349,7 +349,7 @@ void MainWindow::readChapter(const int &id)
     emit get("bible://current/" + QString::number(m_bible.currentBookID) + "," + QString::number(id) + ",0");
 }
 
-void MainWindow::showChapter(const int &chapterID,const int &verseID)
+void MainWindow::showChapter(const int &chapterID, const int &verseID)
 {
     myDebug() << "chapterid = " << chapterID << " chapterAdd = " << m_bible.chapterAdd;
     m_bible.currentChapterID = chapterID;
@@ -570,7 +570,6 @@ int MainWindow::copyWholeVerse(void)
 
 int MainWindow::loadModules()
 {
-
     ui->treeWidget_bibles->clear();//clear the treewidget
     //clear all relevant variables
     bibles.clear();
@@ -596,14 +595,15 @@ int MainWindow::loadModules()
             top->setIcon(0, folderIcon);
             top->setText(0, set.module.at(i).moduleName);
             items.append(top);
+
             //search for bible in the dir
             QString rpath = set.module.at(i).modulePath + "/";
             int bibletype;
             QDir dir(rpath);
             dir.setFilter(QDir::Dirs);
             QFileInfoList list = dir.entryInfoList();
-            for (int i = 0; i < list.size(); ++i) { //Alle Ordner auslesen
-                QFileInfo fileInfo = list.at(i);
+            for (int fileCounter = 0; fileCounter < list.size(); ++fileCounter) { //Alle Ordner auslesen
+                QFileInfo fileInfo = list.at(fileCounter);
                 QString dirname = fileInfo.fileName();
                 if (dirname != "." && dirname != "..") {
                     QFile file;
@@ -653,6 +653,7 @@ int MainWindow::loadModules()
                                 bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-x-generic.png"), QIcon::Normal, QIcon::Off);
                                 ibible->setIcon(0, bibleIcon);
                                 top->addChild(ibible);
+                                set.moduleID.insert(rcount, i);
                                 rcount++;
                             }
                             break;
@@ -677,6 +678,7 @@ int MainWindow::loadModules()
                                 bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
                                 bibleItem->setIcon(0, bibleIcon);
                                 top->addChild(bibleItem);
+                                set.moduleID.insert(rcount, i);
                                 rcount++;
                             }
                             break;
@@ -813,6 +815,7 @@ void MainWindow::loadSettings()
         m.zefbible_showStrong = settings->value("showStrong").toBool();
         m.zefbible_showStudyNote = settings->value("showStudyNote").toBool();
         m.isDir = settings->value("isDir").toBool();
+        m.encoding = settings->value("encoding").toString();
         set.module.append(m);
     }
     settings->endArray();
@@ -870,6 +873,7 @@ int MainWindow::saveSettings(struct settings_s ssettings)
         settings->setValue("showStrong", set.module.at(i).zefbible_showStrong);
         settings->setValue("showStudyNote", set.module.at(i).zefbible_showStudyNote);
         settings->setValue("isDir", set.module.at(i).isDir);
+        settings->setValue("encoding", set.module.at(i).encoding);
     }
     settings->endArray();
 
@@ -1301,7 +1305,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         return QMainWindow::eventFilter(obj, event);
     }
 }
-void MainWindow::setTranslator(QTranslator *my,QTranslator *qt)
+void MainWindow::setTranslator(QTranslator *my, QTranslator *qt)
 {
     myappTranslator = my;
     qtTranslator = qt;
@@ -1311,6 +1315,6 @@ MainWindow::~MainWindow()
     delete ui;
     delete settings;
     delete note;
-   // delete myappTranslator;
-   // delete qtTranslator;
+    // delete myappTranslator;
+    // delete qtTranslator;
 }

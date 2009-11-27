@@ -61,6 +61,17 @@ void moduleConfigDialog::setModule(struct moduleConfig config)
         m_ui->checkBox_showStudyNote->setChecked(true);
     else
         m_ui->checkBox_showStudyNote->setChecked(false);
+    encodings << "Default" << "Apple Roman" << "Big5" << "Big5-HKSCS" << "EUC-JP" << "EUC-KR" << "GB18030-0" << "IBM 850"
+    << "IBM 866" << "IBM 874" << "ISO 2022-JP" << "ISO 8859-1" << "ISO 8859-2" << "ISO 8859-3" << "ISO 8859-4"
+    << "ISO 8859-5" << "ISO 8859-6" << "ISO 8859-7" << "ISO 8859-8" << "ISO 8859-9" << "ISO 8859-10"
+    << "ISO 8859-13" << "ISO 8859-14" << "ISO 8859-15" << "ISO 8859-16" << "Iscii-Bng" << "Dev" << "Gjr"
+    << "Knd" << "Mlm" << "Ori" << "Pnj" << "Tlg" << "Tml" << "JIS X 0201" << "JIS X 0208" << "KOI8-R"
+    << "KOI8-U" << "MuleLao-1" << "ROMAN8" << "Shift-JIS" << "TIS-620" << "TSCII" << "UTF-8" << "UTF-16"
+    << "UTF-16BE" << "UTF-16LE" << "UTF-32" << "UTF-32BE" << "UTF-32LE" << "Windows-1250" << "Windows-1251" << "Windows-1252"
+    << "Windows-1253" << "Windows-1254" << "Windows-1255" << "Windows-1256" << "Windows-1257" << "Windows-1258" << "WINSAMI2";
+    m_ui->comboBox_encoding->clear();
+    m_ui->comboBox_encoding->insertItems(0, encodings);
+    m_ui->comboBox_encoding->setCurrentIndex(encodings.lastIndexOf(config.encoding));
 }
 void moduleConfigDialog::bsave()
 {
@@ -73,15 +84,14 @@ void moduleConfigDialog::bsave()
     c.zefbible_softCache =  m_ui->checkBox_softCache->isChecked();
     c.zefbible_showStrong =  m_ui->checkBox_showStrong->isChecked();
     c.zefbible_showStudyNote =  m_ui->checkBox_showStudyNote->isChecked();
+    c.encoding = encodings.at(m_ui->comboBox_encoding->currentIndex());
     emit save(c);
 }
 void moduleConfigDialog::moduleTypeChanged(int id)
 {
-    //qDebug() << "moduleConfigDialog::moduleTypeChanged id1 = " << id;
     m_ui->groupBox_bq->setVisible(false);
     m_ui->groupBox_zefBible->setVisible(false);
     id = m_ui->comboBox_type->currentIndex();
-    //qDebug() << "moduleConfigDialog::moduleTypeChanged id2 = " << id;
     switch (id) {
     case 1:
         m_ui->groupBox_bq->setVisible(true);
@@ -94,6 +104,7 @@ void moduleConfigDialog::moduleTypeChanged(int id)
 }
 void  moduleConfigDialog::fileSelect()
 {
+    //todo: if it is a folder select folder
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Bible"), c.modulePath, tr("Bibles (*.ini *.xml *.*)"));
     if (fileName != "") {
         m_ui->lineEdit_path->setText(fileName);

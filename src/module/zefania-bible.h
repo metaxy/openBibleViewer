@@ -38,12 +38,12 @@ public:
     zefaniaBible();
     int setSettings(struct settings_s settings, struct moduleConfig mConfig);
     void readBook(const int &id);
-    void loadBibleData(const int &id,const QString &path);
+    void loadBibleData(const int &id, const QString &path);
     QString readInfo(QFile &file);
     QString readInfo(const QString &content);
     bool checkForCacheFiles(const QString &path);
-    void loadNoCached(const int &id,const QString &path);
-    void loadCached(const int &id,const QString &path);
+    void loadNoCached(const int &id, const QString &path);
+    void loadCached(const int &id, const QString &path);
     QDomNode readBookFromHardCache(QString path, int bookID);
     struct stelle search(struct searchQuery query);
 

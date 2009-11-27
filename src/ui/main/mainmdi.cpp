@@ -248,7 +248,7 @@ int MainWindow::closeWindow()
     qDebug() << "MainWindow::closeWindow() closing";
     for (int i = 0; i < m_internalWindows.size(); i++) {
         if (ui->mdiArea->subWindowList().lastIndexOf(m_internalWindows.at(i)) == -1) {
-           myDebug() << "found closed Window id = " << i;
+            myDebug() << "found closed Window id = " << i;
             m_windowCache.removeWindow(i);
             m_internalWindows.removeAt(i);
             break;

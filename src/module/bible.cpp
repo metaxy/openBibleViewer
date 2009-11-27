@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "bible.h"
 #include "../core/config.h"
 #include "../core/moduleconfig.h"
+#include "../core/dbghelper.h"
 #include <QtCore/QtDebug>
 #include <QtCore/QMapIterator>
 #include <QtCore/QDir>
@@ -33,7 +34,8 @@ int bible::loadBibleData(int bibleID, QString path)
     currentBibleID = bibleID;
     switch (bibleType) {
     case 1: { //biblequote
-        bq.setSettings(settings);
+        moduleConfig m = settings.module.at(settings.moduleID[currentBibleID]);
+        bq.setSettings(settings, m);
 
         bq.loadBibleData(bibleID, path);
         bibleName = bq.bibleName;
@@ -109,16 +111,18 @@ int bible::readBook(int id)
 }
 void bible::setSettings(struct settings_s settings_)
 {
+    DEBUG_FUNC_NAME
     settings = settings_;
     if (settings.module.size() > 0) {
+        myDebug() << " setings.module.size() > 0 moduleID = " << settings.moduleID;
         moduleConfig m = settings.module.at(settings.moduleID[currentBibleID]);
         zef.setSettings(settings, m);
-        bq.setSettings(settings);
+        bq.setSettings(settings, m);
     } else {
+        myDebug() << " setings.module.size() = 0";
         zef.setSettings(settings, moduleConfig());
-        bq.setSettings(settings);
+        bq.setSettings(settings, moduleConfig());
     }
-    return;
 }
 QString bible::readChapter(int chapterID, int verseID = -1)
 {

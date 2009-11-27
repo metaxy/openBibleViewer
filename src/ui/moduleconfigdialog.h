@@ -36,6 +36,7 @@ protected:
 private:
     Ui::moduleConfigDialog *m_ui;
     struct moduleConfig c;
+    QStringList encodings;
 signals:
     void save(struct moduleConfig config);
 public slots:

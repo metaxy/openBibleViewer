@@ -10,7 +10,8 @@
 #define DBGHELPER_H
 #include <QtCore/QString>
 
-class DbgHelper {
+class DbgHelper
+{
 public:
     DbgHelper(const QString &t);
     ~DbgHelper();

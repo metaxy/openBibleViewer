@@ -94,6 +94,11 @@ int settingsDialog::setSettings(settings_s settings)
     //Module
     generateModuleTree();
 
+    QStringList autoLayout;
+    autoLayout << tr("None") << tr("Vertical tile") << tr("Horizontal tile") << tr("Cascade");
+    m_ui->comboBox_autoLayout->clear();
+    m_ui->comboBox_autoLayout->insertItems(0, autoLayout);
+    m_ui->comboBox_autoLayout->setCurrentIndex(settings.autoLayout);
 
     return 0;
 
@@ -235,6 +240,9 @@ void settingsDialog::addModuleDir(void)
                 m.biblequote_removeHtml = set.removeHtml;
                 m.zefbible_hardCache = set.zefaniaBible_hardCache;
                 m.zefbible_textFormatting = set.textFormatting;
+                m.zefbible_showStrong = true;
+                m.zefbible_showStudyNote = true;
+                m.encoding = "Default";
 
 
                 QTreeWidgetItem * ibible = new QTreeWidgetItem(m_ui->treeWidget_module);
@@ -285,6 +293,7 @@ int settingsDialog::bsave(void)
     //Informationen aus dem Dialog auslesen
     set.encoding = encodings.at(m_ui->comboBox_encoding->currentIndex());
     set.language = langCode.at(m_ui->comboBox_language->currentIndex());
+    set.autoLayout = m_ui->comboBox_autoLayout->currentIndex();
     emit save(set);//Speichern
     return 0;
 }
@@ -391,6 +400,7 @@ void settingsDialog::addModules(QStringList fileName, QStringList names)
             m.zefbible_textFormatting = set.textFormatting;
             m.zefbible_showStrong = true;
             m.zefbible_showStudyNote = true;
+            m.encoding = "Default";
             set.module << m;
         }
         progress.close();
@@ -400,7 +410,7 @@ void settingsDialog::addModules(QStringList fileName, QStringList names)
 }
 void settingsDialog::changeEvent(QEvent *e)
 {
-   switch (e->type()) {
+    switch (e->type()) {
     case QEvent::LanguageChange:
         m_ui->retranslateUi(this);
         break;

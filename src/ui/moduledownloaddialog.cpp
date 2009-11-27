@@ -276,7 +276,6 @@ void moduleDownloadDialog::updateDataReadProgress(int bytesRead, int totalBytes)
                                  .arg(currentDownload + 1)
                                  .arg(downloadList.size())
                                  .arg(QString::number((float)bytesRead / (1024*1024), 'f', 2)));
-    //qDebug() << "moduleDownloadDialog::updateDataReadProgress() bytesRead = " << bytesRead;
     if (totalBytes == 0) {
         if (progressDialog->maximum() != 0) {
             progressDialog->setMaximum(0);

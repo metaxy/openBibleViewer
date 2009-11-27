@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>437</width>
-    <height>393</height>
+    <width>472</width>
+    <height>419</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -85,6 +85,16 @@
        </item>
       </widget>
      </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_11">
+       <property name="text">
+        <string>Encoding</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QComboBox" name="comboBox_encoding"/>
+     </item>
     </layout>
    </item>
    <item>
@@ -95,6 +105,9 @@
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <layout class="QFormLayout" name="formLayout_bq">
+        <property name="fieldGrowthPolicy">
+         <enum>QFormLayout::ExpandingFieldsGrow</enum>
+        </property>
         <item row="0" column="0">
          <widget class="QLabel" name="label_5">
           <property name="text">
@@ -128,6 +141,16 @@
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <layout class="QFormLayout" name="formLayout_zefBible">
+        <property name="fieldGrowthPolicy">
+         <enum>QFormLayout::ExpandingFieldsGrow</enum>
+        </property>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Text Fromatting</string>
+          </property>
+         </widget>
+        </item>
         <item row="1" column="1">
          <widget class="QComboBox" name="comboBox_textFromatting">
           <property name="sizePolicy">
@@ -148,38 +171,10 @@
           </item>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>Text Fromatting</string>
-          </property>
-         </widget>
-        </item>
         <item row="2" column="0">
          <widget class="QLabel" name="label_6">
           <property name="text">
            <string>Hard Cache</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>RAM Cache</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_8">
-          <property name="text">
-           <string>Show Strong</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="label_9">
-          <property name="text">
-           <string>Show Study Notes</string>
           </property>
          </widget>
         </item>
@@ -190,6 +185,13 @@
           </property>
          </widget>
         </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>RAM Cache</string>
+          </property>
+         </widget>
+        </item>
         <item row="3" column="1">
          <widget class="QCheckBox" name="checkBox_softCache">
           <property name="text">
@@ -197,10 +199,24 @@
           </property>
          </widget>
         </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>Show Strong</string>
+          </property>
+         </widget>
+        </item>
         <item row="4" column="1">
          <widget class="QCheckBox" name="checkBox_showStrong">
           <property name="text">
            <string>show</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>Show Study Notes</string>
           </property>
          </widget>
         </item>

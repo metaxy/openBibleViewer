@@ -51,16 +51,16 @@ int notes::loadNotes(void)
 }
 QString notes::getType(const QString &id)
 {
-   // DEBUG_FUNC_NAME
-    if(!notesType[id].isEmpty())
+    // DEBUG_FUNC_NAME
+    if (!notesType[id].isEmpty())
         return notesType[id];
     else
         return QString();
 }
 QString notes::getTitle(const QString &id)
 {
-   // DEBUG_FUNC_NAME
-    if(!notesTitle[id].isEmpty())
+    // DEBUG_FUNC_NAME
+    if (!notesTitle[id].isEmpty())
         return notesTitle[id];
     else
         return QString();
@@ -69,18 +69,18 @@ QString notes::getData(const QString &id)
 {
     //DEBUG_FUNC_NAME
     myDebug() << " id = " << id;
-    if(!notesData[id].isEmpty())
+    if (!notesData[id].isEmpty())
         return notesData[id];
     else
         return QString();
 }
-QString notes::getRef(const QString &id,const QString &refID)
+QString notes::getRef(const QString &id, const QString &refID)
 {
-   // DEBUG_FUNC_NAME
-   // myDebug() << " id = " << id;
-    if(!notesRef[id].isEmpty()) {
-        QMap<QString,QString> r = notesRef[id];
-        if(!r[refID].isEmpty())
+    // DEBUG_FUNC_NAME
+    // myDebug() << " id = " << id;
+    if (!notesRef[id].isEmpty()) {
+        QMap<QString, QString> r = notesRef[id];
+        if (!r[refID].isEmpty())
             return r[refID];
         else
             return QString();
@@ -91,8 +91,8 @@ QString notes::getRef(const QString &id,const QString &refID)
 QMap<QString, QString> notes::getRef(const QString &id)
 {
     //DEBUG_FUNC_NAME
-  //  myDebug() << " id = " << id << " notesRef = " << notesRef;
-    if(!notesRef[id].isEmpty())
+    //  myDebug() << " id = " << id << " notesRef = " << notesRef;
+    if (!notesRef[id].isEmpty())
         return notesRef[id];
     else
         return QMap<QString, QString>();
@@ -140,16 +140,16 @@ QString notes::generateNewID()
         i.next();
         myDebug() << " i.key() = " << i.key();
         int id = i.key().toInt();
-        if(id > biggest)
+        if (id > biggest)
             biggest = id;
     }
-     myDebug() << "biggest = " << biggest;
-    return QString::number(biggest+1);
+    myDebug() << "biggest = " << biggest;
+    return QString::number(biggest + 1);
 }
 void notes::insertID(const QString &id)
 {
-   // DEBUG_FUNC_NAME
-   // myDebug() << " id = " << id;
+    // DEBUG_FUNC_NAME
+    // myDebug() << " id = " << id;
     notesID << id;
 }
 void notes::removeNote(const QString &id)
@@ -173,8 +173,8 @@ int notes::readNotes()
         }
         QDomElement e = n.toElement();
         if (e.hasAttribute("id")) {
-            QString id = e.attribute("id","");
-            if(id == "")
+            QString id = e.attribute("id", "");
+            if (id == "")
                 continue;
             notesID << id;
             QDomNode n2 = e.firstChild();
@@ -187,15 +187,15 @@ int notes::readNotes()
                 if (e2.tagName() == "data") {
                     notesData[id] = e2.text();
                 } else if (e2.tagName() == "ref") {
-                    QMap<QString,QString> map;
+                    QMap<QString, QString> map;
                     QDomNode n3 = e2.firstChild();
-                     while (!n3.isNull()) {
+                    while (!n3.isNull()) {
                         if (!n3.isElement()) {
                             n3 = n3.nextSibling();
                             continue;
                         }
                         QDomElement e3 = n3.toElement();
-                        map[e3.tagName()] = e3.attribute("id","");
+                        map[e3.tagName()] = e3.attribute("id", "");
                         n3 = n3.nextSibling();
 
                     }
@@ -222,7 +222,7 @@ int notes::saveNotes()
     while (i.hasNext()) {
         i.next();
         QString id = i.key();
-        if(id == "")
+        if (id == "")
             continue;
         QDomElement tag = sdoc.createElement("note");
         tag.setAttribute("title", notesTitle[id]);

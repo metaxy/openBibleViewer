@@ -23,9 +23,10 @@ biblequote::biblequote()
 {
 }
 
-int biblequote::setSettings(struct settings_s settings)
+int biblequote::setSettings(struct settings_s settings, struct moduleConfig mConfig_)
 {
     bqset = settings;
+    mConfig = mConfig_;
     return 1;
 }
 QString biblequote::formatfromini(QString input)
@@ -39,7 +40,7 @@ QString biblequote::formatfromini(QString input)
 void biblequote::readBook(int id, QString path)
 {
     DEBUG_FUNC_NAME
-    myDebug() << "id = " << id;
+    myDebug() << "id = " << id << " name = " << mConfig.moduleName;
     //chapterText.clear();
     chapterData.clear();
 
@@ -53,10 +54,17 @@ void biblequote::readBook(int id, QString path)
     int ccount2 = 0;
     QStringList chapterText;
     QStringList removeHtml2 = removeHtml.split(" ");
-    QList<QByteArray> bytes;
     myDebug() << "id = " << id << " path = " << path << " fileName = " << file.fileName();
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QTextCodec *codec = QTextCodec::codecForName(bqset.encoding.toStdString().c_str());
+        QString encoding;
+        if (mConfig.encoding == "Default" || mConfig.encoding == "") {
+            myDebug() << "Default encoding " << mConfig.encoding;
+            encoding = bqset.encoding;
+        } else {
+            myDebug() << "own encoding " << mConfig.encoding;
+            encoding = mConfig.encoding;
+        }
+        QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
         QTextDecoder *decoder = codec->makeDecoder();
         while (!file.atEnd()) {
             QByteArray byteline = file.readLine();
@@ -65,7 +73,7 @@ void biblequote::readBook(int id, QString path)
             line = line.remove(QRegExp("<DIV CLASS=\"(\\w+)\">"));
             line = line.remove("CLASS=\"Tx\">");
             //filterout
-            if (bqset.module.at(bqset.moduleID[currentBibleID]).biblequote_removeHtml == true && removeHtml.size() > 0) {
+            if (mConfig.biblequote_removeHtml == true && removeHtml.size() > 0) {
                 for (int i = 0; i < removeHtml2.size(); i++) {
                     QString r = removeHtml2.at(i);
                     //myDebug() << removeHtml2.at(i);
@@ -122,12 +130,19 @@ void biblequote::loadBibleData(int bibleID, QString path)
     QFile file;
     file.setFileName(path);
     myDebug() << "id = " << currentBibleID << " fileName = " << file.fileName() << " currentBiblePath = " << currentBiblePath;
+    QString encoding;
+    if (mConfig.encoding == "Default" || mConfig.encoding == "") {
+        myDebug() << "Default encoding " << mConfig.encoding;
+        encoding = bqset.encoding;
+    } else {
+        myDebug() << "own encoding " << mConfig.encoding;
+        encoding = mConfig.encoding;
+    }
+    QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
+    QTextDecoder *decoder = codec->makeDecoder();
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QString out = "";
         int countlines = 0;
         myDebug() << "encoding = " << bqset.encoding;
-        QTextCodec *codec = QTextCodec::codecForName(bqset.encoding.toStdString().c_str());
-        QTextDecoder *decoder = codec->makeDecoder();
         int i = 0;
         while (!file.atEnd()) {
 
@@ -189,21 +204,28 @@ void biblequote::loadBibleData(int bibleID, QString path)
 }
 QString biblequote::readInfo(QFile &file)
 {
-    //Biblequote
-    QString out = "";
     int countlines = 0;
     int invalid = true;
+    QString encoding;
+    if (mConfig.encoding == "Default" || mConfig.encoding == "") {
+        encoding = bqset.encoding;
+    } else {
+        encoding = mConfig.encoding;
+    }
+    QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
+    QTextDecoder *decoder = codec->makeDecoder();
     while (!file.atEnd()) {
-        if (countlines > 100) { //wenn eine ini datei ungueltig ist soll damit nicht zuviel zeit verguedet werden
+        if (countlines > 50) { //wenn eine ini datei ungueltig ist soll damit nicht zuviel zeit verguedet werden
             break;
         }
-        countlines++;
         QByteArray byteline = file.readLine();
-        QTextCodec *codec = QTextCodec::codecForName(bqset.encoding.toStdString().c_str());
-        QTextDecoder *decoder = codec->makeDecoder();
-        QString line;
-        line = decoder->toUnicode(byteline);
-        if (!line.startsWith("//") && line.contains("BibleName", Qt::CaseInsensitive)) {
+        QString line = decoder->toUnicode(byteline);
+        if (!line.startsWith("//")) {
+            countlines++;
+        } else {
+            continue;
+        }
+        if (line.contains("BibleName", Qt::CaseInsensitive)) {
             bibleName = formatfromini(line.remove("BibleName =", Qt::CaseInsensitive));
             if (line.contains("BibleName=", Qt::CaseInsensitive)) {
                 bibleName = formatfromini(line.remove("BibleName=", Qt::CaseInsensitive));
@@ -219,11 +241,10 @@ QString biblequote::readInfo(QFile &file)
     file.close();
     return bibleName;
 }
-struct stelle biblequote::search(struct searchQuery query)
-{
+struct stelle biblequote::search(struct searchQuery query) {
     DEBUG_FUNC_NAME
     if (query.whole == true) {
-        query.text= " " + query.text + " ";
+        query.text = " " + query.text + " ";
     }
     lastSearch = query.text;
     QStringList ctext;
@@ -266,7 +287,15 @@ struct stelle biblequote::search(struct searchQuery query)
             myDebug() << "cannot open the file " << file.fileName();
             return st2;
         }
-        QTextCodec *codec = QTextCodec::codecForName(bqset.encoding.toStdString().c_str());
+        QString encoding;
+        if (mConfig.encoding == "Default" || mConfig.encoding == "") {
+            myDebug() << "Default encoding " << mConfig.encoding;
+            encoding = bqset.encoding;
+        } else {
+            myDebug() << "own encoding " << mConfig.encoding;
+            encoding = mConfig.encoding;
+        }
+        QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
         QTextDecoder *decoder = codec->makeDecoder();
         if (ccount2 == 0) {
             ctext << decoder->toUnicode(out2);

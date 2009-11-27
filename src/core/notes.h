@@ -42,10 +42,10 @@ public:
 private :
     QString fileName;
     QStringList notesID;
-    QMap<QString,QString> notesData;
-    QMap<QString,QString> notesTitle;
-    QMap<QString,QMap<QString, QString> > notesRef;
-    QMap<QString,QString> notesType;
+    QMap<QString, QString> notesData;
+    QMap<QString, QString> notesTitle;
+    QMap<QString, QMap<QString, QString> > notesRef;
+    QMap<QString, QString> notesType;
     QDomDocument doc;
     QString m_version;
 

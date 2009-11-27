@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "mainwindow.h"
 #include "../../core/xbelreader.h"
 #include "../../core/xbelwriter.h"
+#include "../../core/dbghelper.h"
 #include "../poschoser.h"
 #include <QtCore/QtDebug>
 #include <QtCore/QString>
@@ -42,6 +43,8 @@ int MainWindow::loadBookmarks(void)
 }
 void MainWindow::newBookmark(void)
 {
+    if (m_bible.currentBibleID < 0)
+        return;
     QTreeWidgetItem *bookmark = new QTreeWidgetItem();
     bookmark->setFlags(bookmark->flags() | Qt::ItemIsEditable);
     QIcon bookmarkIcon;
@@ -74,7 +77,6 @@ void MainWindow::newBookmark(void)
         ui->treeWidget_bookmarks->insertTopLevelItem(0, bookmark);
     }
     saveBookmarks();
-    return;
 }
 void MainWindow::saveBookmarks(void)
 {
@@ -85,7 +87,6 @@ void MainWindow::saveBookmarks(void)
     XbelWriter writer(ui->treeWidget_bookmarks);
     if (writer.writeFile(&file))
         statusBar()->showMessage(tr("Bookmarks saved"), 5000);
-    return;
 }
 void MainWindow::newBookmarksFolder(void)
 {
@@ -105,7 +106,6 @@ void MainWindow::newBookmarksFolder(void)
         ui->treeWidget_bookmarks->insertTopLevelItem(0, folder);
     }
     saveBookmarks();
-    return;
 }
 
 void MainWindow::bookmarksContextMenu(void)
@@ -152,27 +152,25 @@ void MainWindow::bookmarksContextMenu(void)
     contextMenu->addAction(actionRemove);
 
     contextMenu->exec(QCursor::pos());
-    return;
 }
 void MainWindow::removeBookmark()
 {
     if (ui->treeWidget_bookmarks->currentItem())
         delete ui->treeWidget_bookmarks->currentItem();
     else
-        qDebug() << "MainWindow::removeBookmark() nothing selected";
-    return;
+        myDebug() << "nothing selected";
 }
 void MainWindow::editBookmark()
 {
     if (!ui->treeWidget_bookmarks->currentItem()) {
-        qDebug() << "MainWindow::editBookmark() nothing selected";
+        myDebug() << "nothing selected";
         return;
     }
 
     QString pos = ui->treeWidget_bookmarks->currentItem()->text(1);
     if (internalOpenPos(pos) != 0) {
         QMessageBox::critical(0, tr("Error"), tr("This Bookmark is invalid."));
-        qDebug() << "MainWindow::editBookmarks() invalid bookmark";
+        myDebug() << "invalid bookmark";
     }
 
     QStringList list = pos.split(";");
@@ -202,21 +200,17 @@ void MainWindow::editBookmark()
     pChoser->setCurrent(bibleID, dirname, bookID, chapterID, verseID);
     pChoser->show();
     pChoser->exec();
-    delete pChoser;
-    return;
+    //delete pChoser;
 }
 void MainWindow::bookmarksGo()
 {
     QString pos = ui->treeWidget_bookmarks->currentItem()->text(1);
     if (internalOpenPos(pos) != 0)
         QMessageBox::critical(0, tr("Error"), tr("This Bookmark is invalid."));
-    return;
 }
 void MainWindow::updateBookmark(QString pos)
 {
-    //  qDebug() << "MainWindow::updateBookmark() pos = " << pos;
     ui->treeWidget_bookmarks->currentItem()->setText(1, pos);
-    return;
 }
 void MainWindow::bookmarksGo(QTreeWidgetItem * item)
 {
@@ -225,6 +219,5 @@ void MainWindow::bookmarksGo(QTreeWidgetItem * item)
         if (internalOpenPos(pos) != 0)
             QMessageBox::critical(0, tr("Error"), tr("This Bookmark is invalid."));
     }
-    return;
 }
 

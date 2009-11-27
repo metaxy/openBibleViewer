@@ -114,7 +114,7 @@ public:
     ~MainWindow();
     void init(const QString &homeDataPath);
     int loadModules();
-    void setTranslator(QTranslator *my,QTranslator *qt);
+    void setTranslator(QTranslator *my, QTranslator *qt);
 
 protected:
     void closeEvent(QCloseEvent *event);

@@ -25,7 +25,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 void MainWindow::loadNotes(void)
 {
-   // myDebug();
+    // myDebug();
     DEBUG_FUNC_NAME
     if (ui->dockWidget_notes->isVisible()) {
         ui->dockWidget_notes->hide();
@@ -38,28 +38,28 @@ void MainWindow::loadNotes(void)
     ui->listWidget_notes->clear();
     QStringList id = note->getIDList();
     QStringList titles;
-    for(int i = 0; i < id.size();i++) {
-        if(note->getType(id.at(i)) == "text")
+    for (int i = 0; i < id.size(); i++) {
+        if (note->getType(id.at(i)) == "text")
             titles << note->getTitle(id.at(i));
     }
-    ui->listWidget_notes->insertItems(0,titles);
+    ui->listWidget_notes->insertItems(0, titles);
     currentNoteID = "";
 }
 void MainWindow::showNote(QListWidgetItem *item)
 {
     int id = ui->listWidget_notes->row(item);
-    if(id >= 0 && id < note->getIDList().size()) {
+    if (id >= 0 && id < note->getIDList().size()) {
         showNote(note->getIDList().at(id));
     }
 }
 void MainWindow::showNote(const QString &noteID)
 {
     DEBUG_FUNC_NAME
-    note->setData(currentNoteID,ui->textEdit_note->toHtml());
-    note->setTitle(currentNoteID,ui->lineEdit_note_titel->text());
-    note->setRef(currentNoteID,currentNoteRef);
+    note->setData(currentNoteID, ui->textEdit_note->toHtml());
+    note->setTitle(currentNoteID, ui->lineEdit_note_titel->text());
+    note->setRef(currentNoteID, currentNoteRef);
     note->saveNotes();
-    if(!note->getIDList().contains(noteID)) {
+    if (!note->getIDList().contains(noteID)) {
         myDebug() << "invalid noteID = " << noteID;
         return;
     }
@@ -68,9 +68,9 @@ void MainWindow::showNote(const QString &noteID)
     ui->lineEdit_note_titel->setText(note->getTitle(currentNoteID));
     ui->textEdit_note->setHtml(note->getData(currentNoteID));
     currentNoteRef = note->getRef(currentNoteID);
-    myDebug() << "link = " << note->getRef(currentNoteID,"link");
-    if(!note->getRef(currentNoteID,"link").isEmpty())
-        ui->label_noteLink->setText(notePos2Text(note->getRef(currentNoteID,"link")));
+    myDebug() << "link = " << note->getRef(currentNoteID, "link");
+    if (!note->getRef(currentNoteID, "link").isEmpty())
+        ui->label_noteLink->setText(notePos2Text(note->getRef(currentNoteID, "link")));
     else
         ui->label_noteLink->setText("");
 
@@ -94,9 +94,9 @@ void MainWindow::saveNote(void)
 {
     DEBUG_FUNC_NAME
     myDebug() << "currentNoteID = " << currentNoteID;
-    note->setData(currentNoteID,ui->textEdit_note->toHtml());
-    note->setTitle(currentNoteID,ui->lineEdit_note_titel->text());
-    note->setRef(currentNoteID,currentNoteRef);
+    note->setData(currentNoteID, ui->textEdit_note->toHtml());
+    note->setTitle(currentNoteID, ui->lineEdit_note_titel->text());
+    note->setRef(currentNoteID, currentNoteRef);
     note->saveNotes();
     reloadNotes();
 }
@@ -106,13 +106,13 @@ void MainWindow::newNote(void)
     saveNote();
     reloadNotes();
     QString newID = note->generateNewID();
-    note->setData(newID,"");
-    note->setTitle(newID,tr("(unnamed)"));
-    note->setType(newID,"text");
-    QMap<QString,QString> ref;
+    note->setData(newID, "");
+    note->setTitle(newID, tr("(unnamed)"));
+    note->setType(newID, "text");
+    QMap<QString, QString> ref;
     currentNoteRef = ref;
     //m["link"] = "";
-    note->setRef(newID,ref);
+    note->setRef(newID, ref);
     note->insertID(newID);
     currentNoteID = newID;
     reloadNotes();
@@ -122,10 +122,10 @@ void MainWindow::newNote(void)
     ui->label_noteLink->setText("");
     ui->lineEdit_note_titel->setText(tr("(unnamed)"));
     ui->textEdit_note->setHtml("");
-    if(!note->getRef(currentNoteID,"link").isEmpty())
-            ui->label_noteLink->setText(notePos2Text(note->getRef(currentNoteID,"link")));
-        else
-            ui->label_noteLink->setText("");
+    if (!note->getRef(currentNoteID, "link").isEmpty())
+        ui->label_noteLink->setText(notePos2Text(note->getRef(currentNoteID, "link")));
+    else
+        ui->label_noteLink->setText("");
 
     myDebug() << " newID = " << newID << " currentNoteID = " << currentNoteID;
 }
@@ -140,13 +140,13 @@ void MainWindow::newNoteWithLink()
     saveNote();
     reloadNotes();
     QString newID = note->generateNewID();
-    note->setData(newID,"");
-    note->setTitle(newID,tr("(unnamed)"));
-    note->setType(newID,"text");
-    QMap<QString,QString> ref;
+    note->setData(newID, "");
+    note->setTitle(newID, tr("(unnamed)"));
+    note->setType(newID, "text");
+    QMap<QString, QString> ref;
     ref["link"] = link;
     currentNoteRef = ref;
-    note->setRef(newID,ref);
+    note->setRef(newID, ref);
     note->insertID(newID);
     currentNoteID = newID;
     reloadNotes();
@@ -155,8 +155,8 @@ void MainWindow::newNoteWithLink()
     ui->label_noteLink->setText("");
     ui->lineEdit_note_titel->setText(tr("(unnamed)"));
     ui->textEdit_note->setHtml("");
-    if(!note->getRef(currentNoteID,"link").isEmpty())
-        ui->label_noteLink->setText(notePos2Text(note->getRef(currentNoteID,"link")));
+    if (!note->getRef(currentNoteID, "link").isEmpty())
+        ui->label_noteLink->setText(notePos2Text(note->getRef(currentNoteID, "link")));
     else
         ui->label_noteLink->setText("");
 }
@@ -176,14 +176,13 @@ void MainWindow::reloadNotes(void)
     QStringList id = note->getIDList();
     QStringList titles;
     myDebug() << " idList = " << id;
-    for(int i = 0; i < id.size();i++)
-    {
-        if(note->getType(id.at(i)) == "text") {
+    for (int i = 0; i < id.size(); i++) {
+        if (note->getType(id.at(i)) == "text") {
             myDebug() << " id.at(i) = " << id.at(i) << " title = " << note->getTitle(id.at(i));
             titles << note->getTitle(id.at(i));
         }
     }
-    ui->listWidget_notes->insertItems(0,titles);
+    ui->listWidget_notes->insertItems(0, titles);
     ui->listWidget_notes->setCurrentRow(id.lastIndexOf(currentNoteID));
 }
 void MainWindow::notesContextMenu(void)
@@ -254,7 +253,7 @@ void MainWindow::noteSetTextColor(void)
 
 QString MainWindow::notePos2Text(QString pos)
 {
-  //  DEBUG_FUNC_NAME
+    //  DEBUG_FUNC_NAME
 
     qDebug() << "MainWindow::notePos2Text start pos = " << pos;
     QString string = "";

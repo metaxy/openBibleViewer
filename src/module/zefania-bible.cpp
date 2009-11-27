@@ -34,7 +34,7 @@ int zefaniaBible::setSettings(struct settings_s settings , struct moduleConfig m
     mConfig = mConfig_;
     return 1;
 }
-void zefaniaBible::loadBibleData(const int &id,const QString &path)
+void zefaniaBible::loadBibleData(const int &id, const QString &path)
 {
     if (mConfig.zefbible_hardCache == false && mConfig.zefbible_softCache == false) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Please activate Caching.(Hard or Soft Cache)"));
@@ -218,7 +218,7 @@ bool zefaniaBible::checkForCacheFiles(const QString &path)
   read the entire xml file
   and if caching is enabled, generate cache files
   */
-void zefaniaBible::loadNoCached(const int &id,const QString &path)
+void zefaniaBible::loadNoCached(const int &id, const QString &path)
 {
     //todo: maybe i should remove the qdom support because koxml works really fine
     DEBUG_FUNC_NAME
@@ -278,7 +278,7 @@ void zefaniaBible::loadNoCached(const int &id,const QString &path)
     }
     qDebug() << "zefaniaBible::loadNoCached() encoding = " << codecString;
     //if codecString is not a valid decoder name, there can be problems
-    #ifdef Q_WS_WIN
+#ifdef Q_WS_WIN
     //windows need some extra decoder functions, i do not know why
     if (codecString.toLower() == "utf-8") {
         QTextCodec *codec = QTextCodec::codecForName(codecString.toStdString().c_str());
@@ -299,7 +299,7 @@ void zefaniaBible::loadNoCached(const int &id,const QString &path)
             fileList << l;
         }
     }
-    #else
+#else
     QTextCodec *codec = QTextCodec::codecForName(codecString.toStdString().c_str());
     QTextDecoder *decoder = codec->makeDecoder();
     while (!file.atEnd()) {
@@ -308,7 +308,7 @@ void zefaniaBible::loadNoCached(const int &id,const QString &path)
         data += l;
         fileList << l;
     }
-    #endif
+#endif
 
     progress.setValue(5);
     if (!doc.setContent(data)) {
@@ -547,8 +547,7 @@ QList<chapter> zefaniaBible::fromHardToSoft(int id, QDomNode ncache)
 }
 /*
   struct bibleInfo zefaniaBible::readBibleInfoFromCache(QString */
-struct stelle zefaniaBible::search(struct searchQuery query)
-{
+struct stelle zefaniaBible::search(struct searchQuery query) {
     if (query.whole == true) {
         query.text = " " + query.text + " ";
     }
@@ -595,7 +594,7 @@ struct stelle zefaniaBible::search(struct searchQuery query)
                 if (query.regexp == true) {
                     b = etext.contains(QRegExp(query.text));
                 } else {
-                    if (query.caseSensitive== true) {
+                    if (query.caseSensitive == true) {
                         b = etext.contains(query.text, Qt::CaseSensitive);
                     } else {
                         b = etext.contains(query.text, Qt::CaseInsensitive);

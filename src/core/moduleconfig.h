@@ -18,6 +18,7 @@ struct moduleConfig {
     QString modulePath;
     QString moduleName;
     QString moduleType;
+    QString encoding;
     bool isDir;
     int zefbible_textFormatting;//0 = Neue Zeile nach Vers, 1 = Unformatierter Textblock
     bool zefbible_hardCache;

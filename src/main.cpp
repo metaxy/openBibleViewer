@@ -40,58 +40,56 @@ int main(int argc, char *argv[])
     QSettings *settings;
     QString homeDataPath;
 
-    #ifdef Q_WS_MAC
+#ifdef Q_WS_MAC
     homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-    #endif
+#endif
 
-    #ifdef Q_WS_X11
+#ifdef Q_WS_X11
     homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-    #endif
+#endif
 
-    #ifdef Q_WS_WIN
-        #ifdef _PORTABLE_VERSION
-            homeDataPath = QApplication::applicationDirPath() + "/";
-        #else
-            homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath()+"/openbible/";
-        #endif
-        settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
-                              "openBible", "openBibleViewer");
-    #endif
+#ifdef Q_WS_WIN
+#ifdef _PORTABLE_VERSION
+    homeDataPath = QApplication::applicationDirPath() + "/";
+#else
+    homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
+#endif
+    settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
+                             "openBible", "openBibleViewer");
+#endif
 
-    #ifdef Q_WS_WIN
-        QString lang = settings->value("general/language", "en").toString();
-    #else
-        QString lang = settings->value("general/language", QLocale::system().name()).toString();
-    #endif
-     QStringList avLang;
-     avLang <<  "en" << "de" << "ru";
-     qDebug() << " avLang = " << avLang << " lang = " << lang;
-     if(avLang.lastIndexOf(lang) == -1)
-     {
-         lang = lang.remove(lang.lastIndexOf("_"),lang.size());
-         if(avLang.lastIndexOf(lang) == -1)
-         {
-             lang = avLang.at(0);
-         }
-     }
+#ifdef Q_WS_WIN
+    QString lang = settings->value("general/language", "en").toString();
+#else
+    QString lang = settings->value("general/language", QLocale::system().name()).toString();
+#endif
+    QStringList avLang;
+    avLang <<  "en" << "de" << "ru";
+    qDebug() << " avLang = " << avLang << " lang = " << lang;
+    if (avLang.lastIndexOf(lang) == -1) {
+        lang = lang.remove(lang.lastIndexOf("_"), lang.size());
+        if (avLang.lastIndexOf(lang) == -1) {
+            lang = avLang.at(0);
+        }
+    }
 
-     QString themePath = settings->value("theme/path", homeDataPath + "stylesheet.css").toString();
-     QTranslator qtTranslator;
-     qtTranslator.load("qt_" + lang, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-     a.installTranslator(&qtTranslator);
+    QString themePath = settings->value("theme/path", homeDataPath + "stylesheet.css").toString();
+    QTranslator qtTranslator;
+    qtTranslator.load("qt_" + lang, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    a.installTranslator(&qtTranslator);
 
-     QTranslator myappTranslator;
-     qDebug() << "main::main lang = " << lang;
+    QTranslator myappTranslator;
+    qDebug() << "main::main lang = " << lang;
 
-     myappTranslator.load(":/data/obv_" + lang);
+    myappTranslator.load(":/data/obv_" + lang);
 
-     a.installTranslator(&myappTranslator);
+    a.installTranslator(&myappTranslator);
 
     MainWindow w;
     w.init(homeDataPath);
-    w.setTranslator(&myappTranslator,&qtTranslator);
+    w.setTranslator(&myappTranslator, &qtTranslator);
     w.loadModules();
 
 
