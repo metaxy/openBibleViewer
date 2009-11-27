@@ -251,15 +251,15 @@ void MainWindow::noteSetTextColor(void)
     }
 }
 
-QString MainWindow::notePos2Text(QString pos)
+QString MainWindow::notePos2Text(const QString &pos)
 {
-    //  DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
 
-    qDebug() << "MainWindow::notePos2Text start pos = " << pos;
+    myDebug() << "start pos = " << pos;
     QString string = "";
     QStringList list = pos.split(";");
     if (list.size() < 5) {
-        qDebug() << "MainWindow::notePos2Text( ) invalid pos";
+        myDebug() << "invalid pos";
         return "";
     }
     QString dirname = list.at(0);
@@ -272,7 +272,7 @@ QString MainWindow::notePos2Text(QString pos)
     int verseID = sverseID.toInt();
     int bookID = sbookID.toInt();
     //get bibleID
-    qDebug() << "MainWindow::notePos2Text() get bibleID";
+    myDebug() << "get bibleID";
     for (int i = 0; i < bibleDirName.size(); i++) {
         if (bibleDirName.at(i) == dirname) {
             bibleID = i;
@@ -281,10 +281,9 @@ QString MainWindow::notePos2Text(QString pos)
     }
     //load bible id
 
-    qDebug() << "MainWindow::notePos2Text() generate string with bibleID= " << bibleID ;
+    myDebug() << " generate string with bibleID= " << bibleID ;
     pos =  "bible://" + QString::number(bibleID) + "/" + QString::number(bookID) + "," + QString::number(chapterID - 1) + "," + QString::number(verseID - 1);
     string =  bookName + " " + QString::number(chapterID, 10) + "," + QString::number(verseID, 10);
-    qDebug() << "MainWindow::notePos2Text end";
     return  "<a href=\"" + pos + "\" > " + string + "</a>";
 }
 void MainWindow::editNoteLink()

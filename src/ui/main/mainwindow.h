@@ -148,7 +148,7 @@ private:
     void setCurrentBook(const int &bookID);
     void setCurrentChapter(const int &chapterID);
     void setEnableReload(bool enable);
-    void setTitle(QString title);
+    void setTitle(const QString &title);
     void setSettings(struct settings_s ssettings);
 
     void searchInCurrentText(QString searchtext);
@@ -159,7 +159,7 @@ private:
     void readBookByID(int id);
     void loadModuleDataByID(int id);
 
-    void loadLanguage(QString language);
+    void loadLanguage(const QString &language);
     void loadSettings();
     QString loadStrong(QString strongID);
     void loadStrongs();
@@ -172,8 +172,8 @@ private:
     int verseFromCursor(QTextCursor cursor);
     int currentWindowID();
     int tabIDof(QMdiSubWindow* window);
-    QString notePos2Text(QString);
-    int internalOpenPos(QString pos);
+    QString notePos2Text(const QString &pos);
+    int internalOpenPos(const QString &pos);
     QMdiSubWindow *activeMdiChild();
     QList<QMdiSubWindow*> usableWindowList();
 

@@ -268,13 +268,21 @@ void zefaniaBible::loadNoCached(const int &id, const QString &path)
     QString data;
     QByteArray first = file.readLine();
     QString firstString(first);
-    QRegExp rxlen("encoding=\"(.*)\"");//todo: (.*) should be without whitespaces ,too
-    int pos = rxlen.indexIn(firstString);
-    QString codecString = "UTF-8";
-    if (pos > -1 && !rxlen.cap(1).contains("\"")) {
-        codecString = rxlen.cap(1);
-    } else {
-        codecString = "UTF-8";
+    QString codecString;
+    if(mConfig.encoding == "Default" || mConfig.encoding = "")
+    {
+        QRegExp rxlen("encoding=\"(.*)\"");//todo: (.*) should be without whitespaces ,too
+        int pos = rxlen.indexIn(firstString);
+
+        if (pos > -1 && !rxlen.cap(1).contains("\"")) {
+            codecString = rxlen.cap(1);
+        } else {
+            codecString = "UTF-8";
+        }
+    }
+    else
+    {
+        codecString = mConfig.encoding;
     }
     qDebug() << "zefaniaBible::loadNoCached() encoding = " << codecString;
     //if codecString is not a valid decoder name, there can be problems

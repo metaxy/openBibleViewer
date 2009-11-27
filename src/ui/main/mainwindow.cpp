@@ -757,7 +757,7 @@ int MainWindow::loadModules()
     setSettings(set);
     return 0;
 }
-void MainWindow::loadLanguage(QString language)
+void MainWindow::loadLanguage(const QString &language)
 {
     DEBUG_FUNC_NAME
     QStringList avLang;
@@ -848,8 +848,6 @@ int MainWindow::saveSettings(struct settings_s ssettings)
     }
     qDebug() << "MainWindow::saveSettings() set.language = " << set.language  << " ssettings.language = " << ssettings.language;
     if (set.language != ssettings.language /* || set.theme != ssettings->theme*/) {
-        /*QApplication::removeTranslator(&myappTranslator);
-        QApplication::removeTranslator(&qtTranslator);*/
         loadLanguage(ssettings.language);
     }
     setSettings(ssettings);
@@ -994,7 +992,7 @@ int MainWindow::showAboutDialog(void)
     aDialog.setText(tr("openBibleViewer <br> version: %1 build: %2<br> <a href=\"http://openbv.uucyc.name/\"> Official Website</a> | <a href=\"http://openbv.uucyc.name/bug/\">Bug report</a>").arg(VERSION).arg(BUILD));
     return aDialog.exec();
 }
-int MainWindow::internalOpenPos(QString pos)
+int MainWindow::internalOpenPos(const QString &pos)
 {
     QStringList list = pos.split(";");
     if (list.size() < 4) { //invalid pos
@@ -1029,7 +1027,7 @@ void MainWindow::goToPos()
 
 int MainWindow::verseFromCursor(QTextCursor cursor)
 {
-    qDebug() << "MainWindow::verseFromCursor()";
+    DEBUG_FUNC_NAME
     if (!activeMdiChild())
         return 1;
     QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
@@ -1037,7 +1035,7 @@ int MainWindow::verseFromCursor(QTextCursor cursor)
     int startline = 0, startverse = 0;
     if (cursor.position() != 0) {
         int pos = cursor.position();
-        qDebug() << "MainWindow::verseFromCursor() pos = " << pos;
+        myDebug() << "pos = " << pos;
         QString text = textBrowser->toPlainText();
         QStringList lines = text.split("\n");
         int res = pos;
@@ -1045,7 +1043,7 @@ int MainWindow::verseFromCursor(QTextCursor cursor)
         if (biblesTypes.size() < m_bible.currentBibleID)
             return 1;
         QStringList verses = m_bible.chapterDataList;
-        qDebug() << "MainWindow::verseFromCursor() lines.size() = " << lines.size();
+        myDebug() << "lines.size() = " << lines.size();
         for (int i = 0; i < lines.size(); ++i) {
             QString l = lines.at(i);
             res -= l.size() + 1;
@@ -1054,20 +1052,20 @@ int MainWindow::verseFromCursor(QTextCursor cursor)
                 break;
             }
         }
-        qDebug() << "MainWindow::verseFromCursor() verses.size() = " << verses.size() << ", startline = " << startline;
-        qDebug() << "MainWindow::verseFromCursor() lines.at(startline) = " << lines.at(startline);
+        myDebug() << "verses.size() = " << verses.size() << ", startline = " << startline;
+        myDebug() << "lines.at(startline) = " << lines.at(startline);
         for (int i = 0; i < verses.size(); ++i) {
             QTextDocument doc;
             doc.setHtml(verses.at(i));
             QString t = doc.toPlainText();
-            qDebug() << "MainWindow::verseFromCursor() i = " << i << " t = " << t;
+            myDebug() << "i = " << i << " t = " << t;
             if (t.contains(lines.at(startline)) /*|| lines.at(startline).contains(t)*/) {
                 startverse = i;
                 break;
             }
         }
     }
-    qDebug() << "MainWindow::verseFromCursor() startverse = " << startverse;
+    myDebug() << "startverse = " << startverse;
     return startverse + 1;//wegen titel
 }
 void MainWindow::setChapters(const QStringList &list)
@@ -1266,7 +1264,7 @@ void MainWindow::onlineHelp()
     //open the online faq
     QDesktopServices::openUrl(QString("http://openbv.uucyc.name/faq.html"));
 }
-void MainWindow::setTitle(QString title)
+void MainWindow::setTitle(const QString &title)
 {
     //myDebug() << "title = " << title;
     if (activeMdiChild()) {
