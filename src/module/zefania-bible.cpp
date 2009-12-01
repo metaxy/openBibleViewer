@@ -269,7 +269,7 @@ void zefaniaBible::loadNoCached(const int &id, const QString &path)
     QByteArray first = file.readLine();
     QString firstString(first);
     QString codecString;
-    if(mConfig.encoding == "Default" || mConfig.encoding = "")
+    if(mConfig.encoding == "Default" || mConfig.encoding == "")
     {
         QRegExp rxlen("encoding=\"(.*)\"");//todo: (.*) should be without whitespaces ,too
         int pos = rxlen.indexIn(firstString);
@@ -289,8 +289,6 @@ void zefaniaBible::loadNoCached(const int &id, const QString &path)
 #ifdef Q_WS_WIN
     //windows need some extra decoder functions, i do not know why
     if (codecString.toLower() == "utf-8") {
-        QTextCodec *codec = QTextCodec::codecForName(codecString.toStdString().c_str());
-        QTextDecoder *decoder = codec->makeDecoder();
         while (!file.atEnd()) {
             QByteArray byteline = file.readLine();
             QString l = QString::fromLocal8Bit(byteline.constData());
@@ -585,6 +583,10 @@ struct stelle zefaniaBible::search(struct searchQuery query) {
             return st2;
         }
         QList<chapter> chapterList;
+
+        //load book from cache(soft or hard)
+        //todo: make a check : if only 2 or 3 book are aviable in softcache then load whole book else load everything from hardcache
+        //todo: cant load book if only softcache is enabled
 
         if (mConfig.zefbible_hardCache == true && (softCacheAvi[i] == false || mConfig.zefbible_softCache == false)) {
             chapterList = fromHardToSoft(i, readBookFromHardCache(currentBiblePath, i));

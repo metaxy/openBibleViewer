@@ -12,6 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "moduleconfigdialog.h"
+#include "../core/dbghelper.h"
 #include "ui_moduleconfigdialog.h"
 #include <QtGui/QFileDialog>
 
@@ -85,6 +86,7 @@ void moduleConfigDialog::bsave()
     c.zefbible_showStrong =  m_ui->checkBox_showStrong->isChecked();
     c.zefbible_showStudyNote =  m_ui->checkBox_showStudyNote->isChecked();
     c.encoding = encodings.at(m_ui->comboBox_encoding->currentIndex());
+    //todo:if path type or encoding changed clear cache
     emit save(c);
 }
 void moduleConfigDialog::moduleTypeChanged(int id)
@@ -104,10 +106,24 @@ void moduleConfigDialog::moduleTypeChanged(int id)
 }
 void  moduleConfigDialog::fileSelect()
 {
-    //todo: if it is a folder select folder
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Bible"), c.modulePath, tr("Bibles (*.ini *.xml *.*)"));
-    if (fileName != "") {
-        m_ui->lineEdit_path->setText(fileName);
+    if(c.isDir) {
+        QFileDialog dialog(this);
+
+        dialog.setFileMode(QFileDialog::Directory);
+#if QT_VERSION >= 0x040500
+        dialog.setOption(QFileDialog::ShowDirsOnly, true);
+#endif
+        if (dialog.exec()) {
+            QStringList fileName = dialog.selectedFiles();
+            if(fileName.size() > 0) {
+                m_ui->lineEdit_path->setText(fileName.at(0));
+            }
+        }
+    } else {
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open Bible"), c.modulePath, tr("Bibles (*.ini *.xml *.*)"));
+        if (fileName != "") {
+            m_ui->lineEdit_path->setText(fileName);
+        }
     }
     return;
 }

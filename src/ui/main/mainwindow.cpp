@@ -757,7 +757,7 @@ int MainWindow::loadModules()
     setSettings(set);
     return 0;
 }
-void MainWindow::loadLanguage(const QString &language)
+void MainWindow::loadLanguage(QString language)
 {
     DEBUG_FUNC_NAME
     QStringList avLang;

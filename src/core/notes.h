@@ -48,9 +48,6 @@ private :
     QMap<QString, QString> notesType;
     QDomDocument doc;
     QString m_version;
-
-
-
 };
 
 #endif // NOTES_H

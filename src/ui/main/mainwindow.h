@@ -159,7 +159,7 @@ private:
     void readBookByID(int id);
     void loadModuleDataByID(int id);
 
-    void loadLanguage(const QString &language);
+    void loadLanguage(QString language);
     void loadSettings();
     QString loadStrong(QString strongID);
     void loadStrongs();

@@ -282,9 +282,9 @@ QString MainWindow::notePos2Text(const QString &pos)
     //load bible id
 
     myDebug() << " generate string with bibleID= " << bibleID ;
-    pos =  "bible://" + QString::number(bibleID) + "/" + QString::number(bookID) + "," + QString::number(chapterID - 1) + "," + QString::number(verseID - 1);
+    QString link =  "bible://" + QString::number(bibleID) + "/" + QString::number(bookID) + "," + QString::number(chapterID - 1) + "," + QString::number(verseID - 1);
     string =  bookName + " " + QString::number(chapterID, 10) + "," + QString::number(verseID, 10);
-    return  "<a href=\"" + pos + "\" > " + string + "</a>";
+    return  "<a href=\"" + link + "\" > " + string + "</a>";
 }
 void MainWindow::editNoteLink()
 {
