@@ -47,20 +47,21 @@ public:
     QDomNode readBookFromHardCache(QString path, int bookID);
     struct stelle search(struct searchQuery query);
 
-    QMap<int, QList<chapter> > softCacheData;
+    QMap<int, QList<Chapter> > softCacheData;
     QMap<int, bool> softCacheAvi;
     long currentBookID, bibletype, /*book_ccount,*/ bibleID;
     struct stelle st;
     QString currentBiblePath, lastout, chaptersign, versesign, biblepath, bibleName, lastSearch;
     QStringList bibles, biblesPath, bookFullName, bookShortName, /*chapterText,bookPath*/;
     QMap <int, int> bookCount;
-    QList<chapter> chapterData;
-    QMap<int, QList<chapter> > softCache();
-    QList<chapter>  softCache(int bookID);
-    bool setSoftCache(QMap<int, QList<chapter> >);
-    bool setSoftCache(int bookID, QList<chapter> c);
+    QList<Chapter> chapterData;
+    QMap<int, QList<Chapter> > softCache();
+    QList<Chapter>  softCache(int bookID);
+    bool setSoftCache(QMap<int, QList<Chapter> >);
+    bool setSoftCache(int bookID, QList<Chapter> c);
     bool clearSoftCache();
-    QList<chapter> fromHardToSoft(int id, QDomNode ncache);
+    QList<Chapter> fromHardToSoft(int id, QDomNode ncache);
+    void removeHardCache(const QString &path);
 
 };
 

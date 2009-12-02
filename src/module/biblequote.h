@@ -42,7 +42,7 @@ public:
     QString bibles, biblesPath, biblesIniPath;
     QStringList bookPath, bookFullName, bookShortName;
     QMap <int, int> bookCount;
-    QList<chapter> chapterData;
+    QList<Chapter> chapterData;
     struct stelle st;
 };
 

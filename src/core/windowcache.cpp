@@ -104,7 +104,7 @@ bible windowCache::getBible(void)
     }*/
     return m_b[m_currentWindowID];
 }
-QMap<int, QList<chapter> > windowCache::getZefaniaCache(int bibleID)
+QMap<int, QList<Chapter> > windowCache::getZefaniaCache(int bibleID)
 {
     qDebug() << "windowCache::getZefaniaCache bibleID = " << bibleID << "zefcache[bibleID].size() = " << m_zefcache[bibleID].size();
     return m_zefcache[bibleID];

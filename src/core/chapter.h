@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-struct chapter {
+struct Chapter {
     QStringList data;
     QStringList verseNumber;
     QString chapterName;

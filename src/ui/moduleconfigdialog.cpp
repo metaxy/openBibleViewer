@@ -13,6 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "moduleconfigdialog.h"
 #include "../core/dbghelper.h"
+#include "../module/zefania-bible.h"
+#include "../module/bible.h"
 #include "ui_moduleconfigdialog.h"
 #include <QtGui/QFileDialog>
 
@@ -76,6 +78,19 @@ void moduleConfigDialog::setModule(struct moduleConfig config)
 }
 void moduleConfigDialog::bsave()
 {
+    if(c.moduleType.toInt() == bible::ZefaniaBible &&
+       (c.encoding != encodings.at(m_ui->comboBox_encoding->currentIndex()) ||
+         c.moduleType != QString::number(m_ui->comboBox_type->currentIndex()) ||
+         c.modulePath != m_ui->lineEdit_path->text()))
+    {
+        myDebug() << "clear hard in zefania cache";
+        zefaniaBible zef;
+        zef.removeHardCache( m_ui->lineEdit_path->text());
+        if(c.modulePath != m_ui->lineEdit_path->text())
+        {
+            zef.removeHardCache(c.modulePath);
+        }
+    }
     c.moduleName = m_ui->lineEdit_name->text();
     c.modulePath = m_ui->lineEdit_path->text();
     c.moduleType = QString::number(m_ui->comboBox_type->currentIndex());

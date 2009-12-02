@@ -141,7 +141,7 @@ QString bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     QString out = "";
     switch (bibleType) {
     case 1: { //biblequote
-        chapter c;
+        Chapter c;
         if (chapterID < chapterData.size()) {
 
             c = chapterData.at(chapterID);
@@ -169,7 +169,7 @@ QString bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     }
     case 2: { //zefania
         qDebug() << "bible::readVerse() zefania read";
-        chapter c;
+        Chapter c;
         if (chapterID < chapterData.size()) {
 
             c = chapterData.at(chapterID);
@@ -242,7 +242,7 @@ struct stelle bible::search(struct searchQuery query) {
     st.bibleID = currentBibleID;
     return st;
 }
-QMap<int, QList<chapter> > bible::getZefCache()
+QMap<int, QList<Chapter> > bible::getZefCache()
 {
     return zef.softCache();
 }
@@ -250,7 +250,7 @@ void bible::clearZefCache()
 {
     zef.clearSoftCache();
 }
-void bible::setZefCache(QMap<int, QList<chapter> > cache)
+void bible::setZefCache(QMap<int, QList<Chapter> > cache)
 {
     zef.setSoftCache(cache);
     /*QMapIterator<int, KoXmlElement> i(cache);

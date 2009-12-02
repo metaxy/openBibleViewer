@@ -23,13 +23,19 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class bible
 {
 public:
+    enum bibleType {
+        None = 0,
+        BibleQuote = 1,
+        ZefaniaBible = 2,
+        ZefaniaStrong = 3
+    };
     bible();
     void setBibleType(int type);
     void setSettings(struct settings_s settings);
 
-    QMap<int, QList<chapter> > getZefCache();
+    QMap<int, QList<Chapter> > getZefCache();
     void clearZefCache();
-    void setZefCache(QMap<int, QList<chapter> > cache);
+    void setZefCache(QMap<int, QList<Chapter> > cache);
 
     int loadBibleData(int bibleID, QString path);
     int readBook(int id);
@@ -39,13 +45,12 @@ public:
 
     struct stelle search(struct searchQuery query);
 
-
     int currentBibleID, currentBookID, currentChapterID, chapterAdd;
     struct stelle st;
     QString bibleName, lastout, path, currentBiblePath, lastSearchString;
     QStringList bookFullName, chapterText, bookPath, chapterNames, chapterDataList;
     QMap <int, int> bookCount;
-    QList<chapter> chapterData;
+    QList<Chapter> chapterData;
     int bibleType;
     biblequote bq;
     zefaniaBible zef;

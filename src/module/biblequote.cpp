@@ -100,7 +100,7 @@ void biblequote::readBook(int id, QString path)
     }
 
     for (int i = 0; i < chapterText.size(); i++) {
-        chapter c;
+        Chapter c;
         QString a = chapterText.at(i);
         QStringList b = a.split(versesign);
         c.data << b;

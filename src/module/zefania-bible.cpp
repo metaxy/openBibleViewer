@@ -51,6 +51,14 @@ void zefaniaBible::loadBibleData(const int &id, const QString &path)
     }
 
 }
+void zefaniaBible::removeHardCache(const QString &path)
+{
+    QCryptographicHash hash(QCryptographicHash::Md5);
+    hash.addData(path.toLocal8Bit());
+    QDir d(zefset.homePath + "cache/");
+    d.rmdir(zefset.homePath + "cache/" + hash.result().toBase64());
+}
+
 QDomNode zefaniaBible::readBookFromHardCache(QString path, int bookID)
 {
     QCryptographicHash hash(QCryptographicHash::Md5);
@@ -98,7 +106,7 @@ void zefaniaBible::readBook(const int &id)
     QString outtext;
     int i;
     for (i = 0; !n.isNull(); ++i) {
-        chapter c;
+        Chapter c;
         outtext = "";
         QDomNode n2 = n.firstChild();
         int verseCount = 0;
@@ -121,28 +129,28 @@ void zefaniaBible::readBook(const int &id)
     setSoftCache(currentBookID, chapterData);
     myDebug() << "chapterData.size() = " << chapterData.size();
 }
-QMap<int, QList<chapter> > zefaniaBible::softCache()
+QMap<int, QList<Chapter> > zefaniaBible::softCache()
 {
     if (mConfig.zefbible_softCache == true) {
         return softCacheData;
     }
-    return QMap<int, QList<chapter> >();
+    return QMap<int, QList<Chapter> >();
 }
-QList<chapter> zefaniaBible::softCache(int bookID)
+QList<Chapter> zefaniaBible::softCache(int bookID)
 {
     if (mConfig.zefbible_softCache == true) {
         return softCacheData[bookID];
     }
-    return QList<chapter>();
+    return QList<Chapter>();
 }
-bool zefaniaBible::setSoftCache(QMap< int, QList<chapter> > cache)
+bool zefaniaBible::setSoftCache(QMap< int, QList<Chapter> > cache)
 {
     DEBUG_FUNC_NAME
     if (mConfig.zefbible_softCache == true) {
         softCacheData.clear();
         softCacheAvi.clear();
         softCacheData = cache;
-        QMapIterator< int, QList<chapter> > i(cache);
+        QMapIterator< int, QList<Chapter> > i(cache);
         while (i.hasNext()) {
             softCacheAvi[i.key()] = true;
             i.next();
@@ -150,7 +158,7 @@ bool zefaniaBible::setSoftCache(QMap< int, QList<chapter> > cache)
     }
     return true;
 }
-bool zefaniaBible::setSoftCache(int bookID, QList<chapter> c)
+bool zefaniaBible::setSoftCache(int bookID, QList<Chapter> c)
 {
     qDebug() << "zefaniaBible::setSoftCache() softCache = " << mConfig.zefbible_softCache << " , bookID = " << bookID;
     if (mConfig.zefbible_softCache == true) {
@@ -526,12 +534,12 @@ QString zefaniaBible::readInfo(const QString &content)
 /*
   convert a node to a chapterlist
   */
-QList<chapter> zefaniaBible::fromHardToSoft(int id, QDomNode ncache)
+QList<Chapter> zefaniaBible::fromHardToSoft(int id, QDomNode ncache)
 {
-    QList<chapter> ret;
+    QList<Chapter> ret;
     QDomNode n = ncache.firstChild();
     for (int i = 0; !n.isNull(); ++i) {
-        chapter c;
+        Chapter c;
         QDomNode n2 = n.firstChild();
         int verseCount = 0;
         while (!n2.isNull()) {
@@ -582,7 +590,7 @@ struct stelle zefaniaBible::search(struct searchQuery query) {
         if (progress.wasCanceled()) {
             return st2;
         }
-        QList<chapter> chapterList;
+        QList<Chapter> chapterList;
 
         //load book from cache(soft or hard)
         //todo: make a check : if only 2 or 3 book are aviable in softcache then load whole book else load everything from hardcache
@@ -596,7 +604,7 @@ struct stelle zefaniaBible::search(struct searchQuery query) {
         }
 
         for (int chapterCounter = 0; chapterCounter < chapterList.size(); ++chapterCounter) {
-            chapter c = chapterList.at(chapterCounter);
+            Chapter c = chapterList.at(chapterCounter);
             QStringList verse = c.data;
             for (int verseCounter = 0; verseCounter < verse.size(); ++verseCounter) {
                 bool b = false;
