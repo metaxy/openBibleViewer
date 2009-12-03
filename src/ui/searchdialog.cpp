@@ -42,10 +42,9 @@ void searchDialog::changeEvent(QEvent *e)
         break;
     }
 }
-int searchDialog::setText(QString text)
+void searchDialog::setText(const QString &text)
 {
     m_ui->lineEdit->setText(text);
-    return 0;
 }
 int searchDialog::search(void)
 {

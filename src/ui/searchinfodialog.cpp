@@ -14,8 +14,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "searchinfodialog.h"
 #include "ui_searchinfodialog.h"
 #include <QtGui/QPainter>
-#include <QtCore/QtDebug>
 #include <QtGui/QGraphicsPixmapItem>
+#include <QtCore/QtDebug>
+#include "../core/dbghelper.h"
 #include <math.h>
 searchInfoDialog::searchInfoDialog(QWidget *parent) :
         QDialog(parent),
@@ -23,6 +24,8 @@ searchInfoDialog::searchInfoDialog(QWidget *parent) :
 {
     m_ui->setupUi(this);
     connect(m_ui->pushButton_close, SIGNAL(clicked()), this, SLOT(close()));
+    connect(m_ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
+    m_textShown = false;
 }
 
 searchInfoDialog::~searchInfoDialog()
@@ -37,12 +40,12 @@ void searchInfoDialog::setInfo(struct stelle st, QStringList bookNames, QString 
     for (int i = 0; i < st.book.size(); i++) {
         booksMap[st.book.at(i)]++;
     }
-    qDebug() << "searchInfoDialog::setInfo booksMap=" << booksMap;
+    myDebug() << "booksMap = " << booksMap;
     //stat
+    const int mWidth = 290;
+    const int padding = 5;
+    const int height = 20;
     int x = 10;
-    int mWidth = 290;
-    int padding = 5;
-    int height = 20;
     int countBooks = 0;
     int maxVerse = 0;
     QMapIterator<int, int> i2(booksMap);
@@ -57,7 +60,6 @@ void searchInfoDialog::setInfo(struct stelle st, QStringList bookNames, QString 
     m_ui->graphicsView->setScene(scene);
     QPixmap pm(300, countBooks*(height + (height / 4)) + 30);
     pm.fill();
-
     QPainter p(&pm);
 
     QMapIterator<int, int> i(booksMap);
@@ -73,16 +75,14 @@ void searchInfoDialog::setInfo(struct stelle st, QStringList bookNames, QString 
         i.next();
         QPen pen(Qt::black, 1);
         p.setPen(pen);
-        int s = d2i((255 / maxVerse) * i.value());
+        int s = d2i((double)(255 / (double)maxVerse) * (double)i.value());
         QLinearGradient linearGrad(QPointF(padding, x), QPointF(padding, x + (height / 2)));
         linearGrad.setColorAt(0,  Qt::white);
         linearGrad.setColorAt(1, QColor::fromHsv(color, s, 255));
         QBrush brush(linearGrad);
         p.setBrush(brush);
 
-
-
-        int width = d2i((i.value() * 100) / st.book.size()) * (mWidth / ((maxVerse * 100) / st.book.size())) ;
+        double width = ((double)(i.value() * 100) / st.book.size()) * (mWidth / ((maxVerse * 100) / st.book.size())) ;
         QRectF rectangle(padding, x, width, height);
 
         p.drawRect(rectangle);
@@ -93,15 +93,23 @@ void searchInfoDialog::setInfo(struct stelle st, QStringList bookNames, QString 
     QGraphicsPixmapItem *item = new QGraphicsPixmapItem(pm);
     item = scene->addPixmap(pm);
     m_ui->graphicsView->show();
-    QString text;
-    text = textList.join("<br /><hr>");
-    m_ui->textBrowser_list->setHtml(text);
+    m_textList = textList;
 
     return;
 }
-double searchInfoDialog::mRound(double Zahl, int Stellen)
+void searchInfoDialog::tabChanged(int index)
 {
-    return floor(Zahl * pow(10, Stellen) + 0.5) * pow(10, -Stellen);
+    DEBUG_FUNC_NAME
+    myDebug() << "index = " << index;
+    if (index == 1 && m_textShown == false) { //tab_2
+        m_ui->textBrowser_list->setHtml(m_textList.join("<br /><hr>"));
+        m_textShown = true;
+    }
+}
+
+double searchInfoDialog::mRound(double number, int stellen)
+{
+    return floor(number * pow(10, stellen) + 0.5) * pow(10, -stellen);
 }
 int searchInfoDialog::d2i(double d)
 {

@@ -21,10 +21,10 @@ void MainWindow::loadStrongs()
     m_currentStrongModule = -1;
     QList<int> moduleID;
     QStringList moduleTitle;
-    for (int i = 0; i < set.module.size(); ++i) {
-        if (set.module.at(i).moduleType == "3") {
+    for (int i = 0; i < m_set.module.size(); ++i) {
+        if (m_set.module.at(i).moduleType == QString::number(Bible::ZefaniaStrong)) {
             moduleID << i;
-            moduleTitle << set.module.at(i).moduleName;
+            moduleTitle << m_set.module.at(i).moduleName;
         }
     }
     m_strongModuleID = moduleID;
@@ -36,14 +36,14 @@ void MainWindow::loadStrongs()
 QString MainWindow::loadStrong(QString strongID)
 {
     DEBUG_FUNC_NAME
-    zefStrong.setSettings(set, moduleConfig());
+    m_zefStrong.setSettings(m_set, moduleConfig());
     if (m_currentStrongModule == -1) {
         loadStrongModule(0);
     }
     QString strong;
     if (m_currentStrongModule >= 0) {
         m_currentStrongID = strongID;
-        strong = zefStrong.getStrong(strongID);
+        strong = m_zefStrong.getStrong(strongID);
     } else {
         strong = tr("No strong module loaded.");
     }
@@ -64,8 +64,8 @@ void MainWindow::loadStrongModule(int lID)
     DEBUG_FUNC_NAME
     if (m_strongModuleID.size() > lID) {
         int id = m_strongModuleID.at(lID);
-        zefStrong.setSettings(set, set.module.at(id));
-        zefStrong.loadDataBase(set.module.at(id).modulePath);
+        m_zefStrong.setSettings(m_set, m_set.module.at(id));
+        m_zefStrong.loadDataBase(m_set.module.at(id).modulePath);
         m_currentStrongModule = id;
         strongSearch();
     }

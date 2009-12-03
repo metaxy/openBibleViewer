@@ -13,19 +13,20 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "moduledownloaddialog.h"
 #include "ui_moduledownloaddialog.h"
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomNode>
-#include <QtXml/QDomElement>
-#include <QtCore/QFile>
-#include <QtGui/QTreeWidgetItem>
-#include <QtGui/QStyle>
-#include <QtGui/QIcon>
+#include "../core/dbghelper.h"
 #include <QtCore/QList>
 #include <QtCore/QDir>
 #include <QtCore/QUrl>
-#include <QtNetwork/QNetworkAccessManager>
+#include <QtCore/QFile>
 #include <QtGui/QMessageBox>
-#include <QtCore/QtDebug>
+#include <QtGui/QTreeWidgetItem>
+#include <QtGui/QStyle>
+#include <QtGui/QIcon>
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomNode>
+#include <QtXml/QDomElement>
+
+
 moduleDownloadDialog::moduleDownloadDialog(QWidget *parent) :
         QDialog(parent),
         ui(new Ui::moduleDownloadDialog)
@@ -50,17 +51,17 @@ moduleDownloadDialog::moduleDownloadDialog(QWidget *parent) :
 }
 void moduleDownloadDialog::readModules()
 {
-    qDebug() << "moduleDownloadDialog::readModules()";
+    DEBUG_FUNC_NAME
     //load list from file
     //show it in treewidget
     QDomDocument doc;
     QFile file(":/data/modules.xml");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "moduleDownloadDialog::readModules() cant read the file";
+        myDebug() << "cant read the file";
         return;
     }
     if (!doc.setContent(&file)) {
-        qDebug() << "moduleDownloadDialog::readModules() the file isnt valid";
+        myDebug() << "the file isnt valid";
         return;
     }
     QList<QTreeWidgetItem *> items;
@@ -121,7 +122,8 @@ void moduleDownloadDialog::readModules()
 }
 void moduleDownloadDialog::item(QTreeWidgetItem* i)
 {
-    qDebug() << "moduleDownloadDialog::i i = " << i->data(1, 0) << " downloadList = " << downloadList;
+    DEBUG_FUNC_NAME
+    myDebug() << "i = " << i->data(1, 0) << " downloadList = " << downloadList;
     httpRequestAborted = false;
     if (i->data(1, 0) == "lang") {
         if (i->checkState(0) == Qt::Checked) {
@@ -159,11 +161,11 @@ void moduleDownloadDialog::downloadNext()
 {
     if (httpRequestAborted)
         return;
-    qDebug() << "moduleDownloadDialog::downloadNext() currentDownload = " << currentDownload << " size = " << downloadList.size();
+    myDebug() << "currentDownload = " << currentDownload << " size = " << downloadList.size();
     QDir dir(m_set.homePath);
     dir.mkdir(m_set.homePath + "modules");
     if (currentDownload + 1 == downloadList.size() && downloadList.size() != 0) {
-        qDebug() << "moduleDownloadDialog::downloadNext() emit";
+        //myDebug() << "emit";
         emit downloaded(downloadedList, downNames);
         return;
     }
@@ -176,7 +178,7 @@ void moduleDownloadDialog::downloadNext()
         QString fileName = m_set.homePath + "modules/" + fileInfo.fileName() + "/" + fileInfo.fileName();
         downloadedList << fileName;
         downNames << nameList.at(currentDownload);
-        qDebug() << "moduleDownloadDialog::downloadNext() fileName = " << fileName;
+        myDebug() << "fileName = " << fileName;
 
         if (QFile::exists(fileName)) {
             QFile::remove(fileName);
@@ -200,7 +202,8 @@ void moduleDownloadDialog::downloadNext()
         progressDialog->setLabelText(tr("Downloading %1 / %2. %3 MB").arg(currentDownload + 1).arg(downloadList.size()).arg(0));
         progressDialog->setModal(true);
     } else {
-        qDebug() << "moduleDownloadDialog::downloadNext() nothing selected";
+        myDebug() << "nothing selected";
+        //todo: Error message
     }
 }
 void moduleDownloadDialog::cancelDownload()

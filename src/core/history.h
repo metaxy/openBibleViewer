@@ -15,13 +15,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define HISTORY_H
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-class history
+class History
 {
 private:
     QList<QString>  forwardItems, backwardItems;
     bool goF;
 public:
-    history();
+    History();
     QString forward();
     QString backward();
     bool forwardAvailable();

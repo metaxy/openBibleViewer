@@ -13,11 +13,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "history.h"
 #include <QtCore/QtDebug>
-history::history()
+History::History()
 {
 }
 
-QString history::forward()
+QString History::forward()
 {
     qDebug() << "history::forward() items = " << forwardItems;
     if (!forwardItems.isEmpty()) {
@@ -26,7 +26,7 @@ QString history::forward()
     } else
         return QString();
 }
-QString history::backward()
+QString History::backward()
 {
     qDebug() << "history::backward() items = " << backwardItems;
     if (backwardItems.size() >= 2) {
@@ -36,15 +36,15 @@ QString history::backward()
     } else
         return QString();
 }
-bool history::forwardAvailable()
+bool History::forwardAvailable()
 {
     return !forwardItems.isEmpty();
 }
-bool history::backwardAvailable()
+bool History::backwardAvailable()
 {
     return backwardItems.size() >= 2;
 }
-bool history::setCurrent(QString url)
+bool History::setCurrent(QString url)
 {
     if (goF == true) {
         goF = false;

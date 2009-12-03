@@ -25,6 +25,8 @@ class searchInfoDialog;
 class searchInfoDialog : public QDialog
 {
     Q_OBJECT
+private slots:
+    void tabChanged(int index);
 public:
     explicit searchInfoDialog(QWidget *parent = 0);
     void setInfo(struct stelle st, QStringList bookNames, QString searchText, QStringList textList);
@@ -36,6 +38,8 @@ protected:
 
 private:
     Ui::searchInfoDialog *m_ui;
+    bool m_textShown;
+    QStringList m_textList;
 
 };
 

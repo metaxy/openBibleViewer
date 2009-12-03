@@ -15,9 +15,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_settingsdialog.h"
 #include "../core/config.h"
 #include "../core/moduleconfig.h"
+#include "../core/dbghelper.h"
 #include "../module/zefania-bible.h"
 #include "../module/zefania-strong.h"
 #include "../module/biblequote.h"
+#include "../module/bible.h"
 #include "moduleconfigdialog.h"
 #include "moduledownloaddialog.h"
 
@@ -49,18 +51,18 @@ settingsDialog::~settingsDialog()
 }
 void settingsDialog::reset()
 {
-    set = backupSet;
-    setSettings(set);
+    m_set = m_backupSet;
+    setSettings(m_set);
 }
 int settingsDialog::setSettings(settings_s settings)
 {
-    set = settings;
-    backupSet = set;
-    encodings.clear();
-    langCode.clear();
+    m_set = settings;
+    m_backupSet = settings;
+    m_encodings.clear();
+    m_langCode.clear();
     //Allgemeine
     ////Encoding
-    encodings << "Apple Roman" << "Big5" << "Big5-HKSCS" << "EUC-JP" << "EUC-KR" << "GB18030-0" << "IBM 850"
+    m_encodings << "Apple Roman" << "Big5" << "Big5-HKSCS" << "EUC-JP" << "EUC-KR" << "GB18030-0" << "IBM 850"
     << "IBM 866" << "IBM 874" << "ISO 2022-JP" << "ISO 8859-1" << "ISO 8859-2" << "ISO 8859-3" << "ISO 8859-4"
     << "ISO 8859-5" << "ISO 8859-6" << "ISO 8859-7" << "ISO 8859-8" << "ISO 8859-9" << "ISO 8859-10"
     << "ISO 8859-13" << "ISO 8859-14" << "ISO 8859-15" << "ISO 8859-16" << "Iscii-Bng" << "Dev" << "Gjr"
@@ -69,23 +71,23 @@ int settingsDialog::setSettings(settings_s settings)
     << "UTF-16BE" << "UTF-16LE" << "UTF-32" << "UTF-32BE" << "UTF-32LE" << "Windows-1250" << "Windows-1251" << "Windows-1252"
     << "Windows-1253" << "Windows-1254" << "Windows-1255" << "Windows-1256" << "Windows-1257" << "Windows-1258" << "WINSAMI2";
     m_ui->comboBox_encoding->clear();
-    m_ui->comboBox_encoding->insertItems(0, encodings);
-    m_ui->comboBox_encoding->setCurrentIndex(encodings.lastIndexOf(set.encoding));
+    m_ui->comboBox_encoding->insertItems(0, m_encodings);
+    m_ui->comboBox_encoding->setCurrentIndex(m_encodings.lastIndexOf(m_set.encoding));
     //Language
     QStringList langs;
     langs <<  "English" << "German ( Deutsch )" << QString::fromLocal8Bit("Russian ( русском )");
-    langCode << "en" << "de" << "ru";
-    qDebug() << "settingsDialog::setSettings() set.language = " << set.language;
+    m_langCode << "en" << "de" << "ru";
+    myDebug() << "set.language = " << m_set.language;
     m_ui->comboBox_language->clear();
     m_ui->comboBox_language->insertItems(0, langs);
     int code;
-    code = langCode.lastIndexOf(set.language);
+    code = m_langCode.lastIndexOf(m_set.language);
     if (code == -1) {
-        QString lang = set.language;
+        QString lang = m_set.language;
         QString onlyLang = lang.remove(lang.lastIndexOf("_"), lang.size());
-        code = langCode.lastIndexOf(onlyLang);
+        code = m_langCode.lastIndexOf(onlyLang);
     }
-    qDebug() << "settingsDialog::setSettings() code = " << code;
+    myDebug() << "code = " << code;
     if (code != -1) {
         m_ui->comboBox_language->setCurrentIndex(code);
     } else { // no lang code was written in the config file
@@ -98,7 +100,7 @@ int settingsDialog::setSettings(settings_s settings)
     autoLayout << tr("None") << tr("Vertical tile") << tr("Horizontal tile") << tr("Cascade");
     m_ui->comboBox_autoLayout->clear();
     m_ui->comboBox_autoLayout->insertItems(0, autoLayout);
-    m_ui->comboBox_autoLayout->setCurrentIndex(settings.autoLayout);
+    m_ui->comboBox_autoLayout->setCurrentIndex(m_set.autoLayout);
 
     return 0;
 
@@ -107,22 +109,22 @@ void settingsDialog::generateModuleTree()
 {
     m_ui->treeWidget_module->clear();
     QList<QTreeWidgetItem *> items;
-    for (int i = 0; i < set.module.size(); i++) {
+    for (int i = 0; i < m_set.module.size(); i++) {
         QTreeWidgetItem *ibible = new QTreeWidgetItem(m_ui->treeWidget_module);
-        ibible->setText(0, set.module.at(i).moduleName);
-        ibible->setText(1, set.module.at(i).modulePath);
+        ibible->setText(0, m_set.module.at(i).moduleName);
+        ibible->setText(1, m_set.module.at(i).modulePath);
         QString moduleType;
-        if (set.module.at(i).isDir) {
+        if (m_set.module.at(i).isDir) {
             moduleType = QObject::tr("Folder");
         } else {
-            switch (set.module.at(i).moduleType.toInt()) {
-            case 1:
+            switch (m_set.module.at(i).moduleType.toInt()) {
+            case Bible::BibleQuote:
                 moduleType = QObject::tr("Bible Quote");
                 break;
-            case 2:
+            case Bible::ZefaniaBible:
                 moduleType = QObject::tr("Zefania XML");;
                 break;
-            case 3:
+            case Bible::ZefaniaStrong:
                 moduleType = QObject::tr("Zefania XML Strong");;
                 break;
 
@@ -201,11 +203,8 @@ void settingsDialog::addModuleDir(void)
                 if (progress.wasCanceled())
                     return;
                 QString f = fileName.at(i);
-                QString fileData;
                 QString bibleName;
                 QString moduleType;
-                biblequote bq;
-                zefaniaBible zef;
                 moduleConfig m;
                 QFileInfo fileInfo(f);
                 if (fileInfo.isDir()) {
@@ -225,7 +224,7 @@ void settingsDialog::addModuleDir(void)
                         dictname = "(" + spath_count + ")";
                     }
                     m.moduleName = dictname;
-                    m.moduleType = "0";//mean: dont know
+                    m.moduleType = QString::number(Bible::None);
                     m.isDir = true;
                 } else {
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
@@ -233,16 +232,14 @@ void settingsDialog::addModuleDir(void)
                 }
 
 
-                qDebug() << "settingsDialog::addModule() new Module file" << f << " moduleName" << bibleName << " moduleType" << moduleType;
-                /*if (progress.wasCanceled())
-                    return;*/
+                myDebug() << "new Module file" << f << " moduleName" << bibleName << " moduleType" << moduleType;
                 // standard config
-                m.biblequote_removeHtml = set.removeHtml;
-                m.zefbible_hardCache = set.zefaniaBible_hardCache;
-                m.zefbible_textFormatting = set.textFormatting;
+                m.biblequote_removeHtml = m_set.removeHtml;
+                m.zefbible_hardCache = m_set.zefaniaBible_hardCache;
+                m.zefbible_textFormatting = m_set.textFormatting;
                 m.zefbible_showStrong = true;
                 m.zefbible_showStudyNote = true;
-                m.encoding = "Default";
+                m.encoding = "Default";// don't translate
 
 
                 QTreeWidgetItem * ibible = new QTreeWidgetItem(m_ui->treeWidget_module);
@@ -250,7 +247,7 @@ void settingsDialog::addModuleDir(void)
                 ibible->setText(1, m.modulePath);
                 ibible->setText(2, moduleType);
                 items << ibible;
-                set.module << m;
+                m_set.module << m;
             }
             progress.close();
             m_ui->treeWidget_module->insertTopLevelItems(0, items);
@@ -266,7 +263,7 @@ void settingsDialog::removeModule()
     QTreeWidgetItem * token = m_ui->treeWidget_module->currentItem();
     delete token;
     //remove from settings
-    set.module.removeAt(row);
+    m_set.module.removeAt(row);
     return;
 }
 void settingsDialog::editModule()
@@ -274,7 +271,7 @@ void settingsDialog::editModule()
     int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
     if (row >= 0) {
         moduleConfigDialog *mDialog = new moduleConfigDialog(this);
-        mDialog->setModule(set.module.at(row));
+        mDialog->setModule(m_set.module.at(row));
         connect(mDialog, SIGNAL(save(struct moduleConfig)), this, SLOT(saveModule(struct moduleConfig)));
         connect(mDialog, SIGNAL(save(struct moduleConfig)), mDialog, SLOT(close()));
         mDialog->show();
@@ -284,27 +281,28 @@ void settingsDialog::editModule()
 void settingsDialog::saveModule(struct moduleConfig c)
 {
     int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
-    set.module.removeAt(row);
-    set.module.insert(row, c);
+    m_set.module.replace(row, c);
     generateModuleTree();
 }
 int settingsDialog::bsave(void)
 {
     //Informationen aus dem Dialog auslesen
-    set.encoding = encodings.at(m_ui->comboBox_encoding->currentIndex());
-    set.language = langCode.at(m_ui->comboBox_language->currentIndex());
-    set.autoLayout = m_ui->comboBox_autoLayout->currentIndex();
-    emit save(set);//Speichern
+    m_set.encoding = m_encodings.at(m_ui->comboBox_encoding->currentIndex());
+    m_set.language = m_langCode.at(m_ui->comboBox_language->currentIndex());
+    m_set.autoLayout = m_ui->comboBox_autoLayout->currentIndex();
+    //Alles andere, wie z.b die Module sind schon gespeichert
+    emit save(m_set);//Speichern
     return 0;
 }
 void settingsDialog::downloadModule()
 {
     moduleDownloadDialog *mDialog = new moduleDownloadDialog(this);
-    mDialog->setSettings(set);
+    mDialog->setSettings(m_set);
     mDialog->readModules();
     connect(mDialog, SIGNAL(downloaded(QStringList, QStringList)), this, SLOT(addModules(QStringList, QStringList)));
     connect(mDialog, SIGNAL(downloaded(QStringList, QStringList)), mDialog, SLOT(close()));
     mDialog->show();
+    mDialog->exec();
 }
 void settingsDialog::addModules(QStringList fileName, QStringList names)
 {
@@ -313,8 +311,11 @@ void settingsDialog::addModules(QStringList fileName, QStringList names)
         progress.setWindowModality(Qt::WindowModal);
         for (int i = 0; i < fileName.size(); i++) {
             progress.setValue(i);
-            if (progress.wasCanceled())
+            if (progress.wasCanceled()) {
+                progress.close();
+                generateModuleTree();
                 return;
+            }
             QString f = fileName.at(i);
             QString fileData;
             QString bibleName;
@@ -324,57 +325,49 @@ void settingsDialog::addModules(QStringList fileName, QStringList names)
             zefaniaBible zef;
             zefaniaStrong zefStrong;
             moduleConfig m;
-            zefStrong.setSettings(set, m);
+            zefStrong.setSettings(m_set, m);
 
             QFileInfo fileInfo(f);
             if (fileInfo.isFile()) {
                 //open file
-                QProgressDialog progress(QObject::tr("Open File"), QObject::tr("Cancel"), 0, 0);
-                progress.setWindowModality(Qt::WindowModal);
-                progress.setValue(1);
                 QFile file(f);
                 if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not read the file"));
+                    progress.close();
+                    generateModuleTree();
                     return;
                 }
                 QTextStream in(&file);
-                progress.setValue(2);
-                while (!in.atEnd()) {
-                    QString line = in.readLine();
-                    fileData += line;
-                }
+                fileData = in.readAll();
+
                 if (fileData.contains("BookQty", Qt::CaseInsensitive)) {
                     imoduleType = 1;// BibleQuote
                 } else if (fileData.contains("XMLBIBLE", Qt::CaseInsensitive)) {
                     imoduleType = 2;// Zefania Bible
                 } else if (fileData.contains("<dictionary type=\"x-strong\"", Qt::CaseInsensitive)) {
                     imoduleType = 3;// Zefania Strong
-                }
-                /*else if(f.endsWith(".xml"))
-                {
-                    imoduleType = 2;
-                }*/
-                else {
+                } else {
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
+                    progress.close();
+                    generateModuleTree();
                     return;
                 }
 
                 switch (imoduleType) {
-                case 1:
+                case Bible::BibleQuote:
                     bibleName = bq.readInfo(file);
-                    moduleType = "Bible Quote";
+                    moduleType = QObject::tr("Bible Quote");
                     break;
-                case 2:
+                case Bible::ZefaniaBible:
                     bibleName = zef.readInfo(fileData);
-                    moduleType = "Zefania XML";
+                    moduleType = QObject::tr("Zefania XML");
                     break;
-                case 3:
+                case Bible::ZefaniaStrong:
                     bibleName = zefStrong.loadFile(fileData, f);
-                    moduleType = "Zefania XML Strong";
+                    moduleType = QObject::tr("Zefania XML Strong");
                     break;
 
                 }
-                progress.setValue(3);
                 m.modulePath = f;
                 if (names.size() > 0) {
                     m.moduleName = names.at(i);
@@ -386,27 +379,27 @@ void settingsDialog::addModules(QStringList fileName, QStringList names)
 
             } else {
                 QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
+                progress.close();
+                generateModuleTree();
                 return;
             }
 
 
-            qDebug() << "settingsDialog::addModule() new Module file" << f << " moduleName" << bibleName << " moduleType" << moduleType;
-            /*if (progress.wasCanceled())
-                return;*/
+            myDebug() << "new Module file" << f << " moduleName" << bibleName << " moduleType" << moduleType;
             // standard config
-            m.biblequote_removeHtml = set.removeHtml;
-            m.zefbible_hardCache = set.zefaniaBible_hardCache;
-            m.zefbible_softCache = set.zefaniaBible_softCache;
-            m.zefbible_textFormatting = set.textFormatting;
+            m.biblequote_removeHtml = m_set.removeHtml;
+            m.zefbible_hardCache = m_set.zefaniaBible_hardCache;
+            m.zefbible_softCache = m_set.zefaniaBible_softCache;
+            m.zefbible_textFormatting = m_set.textFormatting;
             m.zefbible_showStrong = true;
             m.zefbible_showStudyNote = true;
-            m.encoding = "Default";
-            set.module << m;
+            m.encoding = "Default";//no translating
+            m_set.module << m;
         }
         progress.close();
         generateModuleTree();
     }
-    qDebug() << "settingsDialog::addModules files = " << fileName;
+    myDebug() << "files = " << fileName;
 }
 void settingsDialog::changeEvent(QEvent *e)
 {

@@ -121,13 +121,11 @@ protected:
     bool eventFilter(QObject *obj, QEvent *ev);
 private:
     Ui::MainWindowClass *ui;
-    bible m_bible;
-    biblequote bq;
-    zefaniaBible zef;
-    zefaniaStrong zefStrong;
-    struct settings_s set;
-    notes *note;
-    windowCache m_windowCache;
+    Bible m_bible;
+    zefaniaStrong m_zefStrong;
+    struct settings_s m_set;
+    Notes *m_note;
+    WindowCache m_windowCache;
     QStringList encodings;
     int currentVerseID;
     QString currentNoteID;
@@ -141,7 +139,7 @@ private:
     QList<int> biblesTypes;
     QSettings *settings;
     QString VERSION, BUILD;
-    bool enableReload;
+    bool m_enableReload;
 
     void setChapters(const QStringList &chapterNames);
     void setBooks(const QStringList &bookNames);

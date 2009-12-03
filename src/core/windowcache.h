@@ -17,12 +17,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QMap>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-class windowCache
+class WindowCache
 {
 public:
-    windowCache();
+    WindowCache();
 
-    QMap<int, bible> m_b;
+    QMap<int, Bible> m_b;
 
     QMap<int, QMap<int, QList<Chapter> > > m_zefcache;
     QMap<int, bool> m_zefcacheset;
@@ -39,7 +39,7 @@ public:
     int clearAll(void);
 
     int setCurrentWindowID(int id);
-    int setBible(bible b_);
+    int setBible(Bible b_);
     int setCurrentBook(int bookid, int chaptercount);
 
     QString getBibleName();
@@ -48,7 +48,7 @@ public:
     QStringList getBooks(void);
     int getChapterCount(void);
     QMap<int, QList<Chapter> > getZefaniaCache(int bibleID);
-    bible getBible(void);
+    Bible getBible(void);
 
 };
 

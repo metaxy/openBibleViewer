@@ -20,7 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "zefania-bible.h"
 #include "../core/stelle.h"
 #include "../core/searchquery.h"
-class bible
+class Bible
 {
 public:
     enum bibleType {
@@ -29,7 +29,7 @@ public:
         ZefaniaBible = 2,
         ZefaniaStrong = 3
     };
-    bible();
+    Bible();
     void setBibleType(int type);
     void setSettings(struct settings_s settings);
 

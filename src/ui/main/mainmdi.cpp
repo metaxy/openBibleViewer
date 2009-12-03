@@ -62,17 +62,17 @@ void MainWindow::newMdiChild()
     connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closeWindow()));
 
     if (windowsCount >= 1) {
-        if (set.autoLayout == 1) {
+        if (m_set.autoLayout == 1) {
             myTileVertical();
-        } else if (set.autoLayout == 2) {
+        } else if (m_set.autoLayout == 2) {
             myTileHorizontal();
-        } else if (set.autoLayout == 3) {
+        } else if (m_set.autoLayout == 3) {
             myCascade();
         }
     }
 
     m_internalWindows << subWindow;
-    enableReload = true;
+    m_enableReload = true;
 }
 QMdiSubWindow *MainWindow::activeMdiChild()
 {
@@ -98,7 +98,7 @@ QMdiSubWindow *MainWindow::activeMdiChild()
 void MainWindow::myTileVertical()
 {
     DEBUG_FUNC_NAME
-    if (!enableReload ||  !usableWindowList().count()) {
+    if (!m_enableReload ||  !usableWindowList().count()) {
         return;
     }
 
@@ -110,18 +110,18 @@ void MainWindow::myTileVertical()
     } else if (windows.count() == 1) {
         windows.at(0)->showMaximized();
     } else {
-        enableReload = false;
+        m_enableReload = false;
         QMdiSubWindow* active = ui->mdiArea->activeSubWindow();
         ui->mdiArea->tileSubWindows();
         if (active) active->setFocus();
-        enableReload = true;
+        m_enableReload = true;
     }
 }
 
 void MainWindow::myTileHorizontal()
 {
     DEBUG_FUNC_NAME
-    if (!enableReload || !usableWindowList().count()) {
+    if (!m_enableReload || !usableWindowList().count()) {
         return;
     }
     QList<QMdiSubWindow*> windows = usableWindowList();
@@ -133,7 +133,7 @@ void MainWindow::myTileHorizontal()
     } else if (windows.count() == 1) {
         windows.at(0)->showMaximized();
     } else {
-        enableReload = false;
+        m_enableReload = false;
 
         QMdiSubWindow* active = ui->mdiArea->activeSubWindow();
 
@@ -149,14 +149,14 @@ void MainWindow::myTileHorizontal()
             y += actHeight;
         }
         active->setFocus();
-        enableReload = true;
+        m_enableReload = true;
     }
 }
 
 void MainWindow::myCascade()
 {
     DEBUG_FUNC_NAME
-    if (!enableReload || !usableWindowList().count()) {
+    if (!m_enableReload || !usableWindowList().count()) {
         return;
     }
 
@@ -171,7 +171,7 @@ void MainWindow::myCascade()
     } else {
 
         QMdiSubWindow* active = ui->mdiArea->activeSubWindow();
-        enableReload = false;
+        m_enableReload = false;
         const unsigned int offsetX = 40;
         const unsigned int offsetY = 40;
         const unsigned int windowWidth =  ui->mdiArea->width() - (windows.count() - 1) * offsetX;
@@ -190,7 +190,7 @@ void MainWindow::myCascade()
         active->setGeometry(x, y, windowWidth, windowHeight);
         active->raise();
         active->activateWindow();
-        enableReload = true;
+        m_enableReload = true;
     }
 }
 QList<QMdiSubWindow*> MainWindow::usableWindowList()
@@ -226,7 +226,7 @@ int MainWindow::tabIDof(QMdiSubWindow* window)
 int MainWindow::closeWindow()
 {
     DEBUG_FUNC_NAME
-    if (!enableReload) {
+    if (!m_enableReload) {
         myDebug() << "reload is not enabled";
         return 1;
     }
@@ -266,7 +266,7 @@ int MainWindow::closeWindow()
 }
 int MainWindow::reloadWindow(QMdiSubWindow * window)
 {
-    if (!enableReload) {
+    if (!m_enableReload) {
         return 1;
     }
     int id = tabIDof(window);
@@ -280,14 +280,14 @@ int MainWindow::reloadWindow(QMdiSubWindow * window)
     qDebug() << "MainWindow::reloadWindow() setCurrentTab id = " << id;
     m_windowCache.setCurrentWindowID(id);
     if (m_windowCache.getBibleType() == 0) { //probaly no bible loaded in this window
-        myDebug() << "m_windowCache.getBibleType() == 0";
+        //myDebug() << "m_windowCache.getBibleType() == 0";
         ui->listWidget_chapters->clear();
         ui->listWidget_books->clear();
         m_bible.currentBibleID = -2;
     } else {
         if (m_bible.currentBibleID == m_windowCache.getBible().currentBibleID)
             return 1;
-        myDebug() << "get bible";
+        //myDebug() << "get bible";
         m_bible = m_windowCache.getBible();
         setTitle(m_windowCache.getBibleName());
         myDebug() << "m_bible.chapterNames.size() = " << m_bible.chapterNames.size() << " m_bible.currentChapterID = " << m_bible.currentChapterID;

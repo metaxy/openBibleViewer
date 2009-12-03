@@ -13,12 +13,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "mdiform.h"
 #include "ui_mdiform.h"
-#include <QtCore/QtDebug>
+#include "../core/dbghelper.h"
 
 
-mdiForm::mdiForm(QWidget *parent) :
-        QWidget(parent),
-        m_ui(new Ui::mdiForm)
+mdiForm::mdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::mdiForm)
 {
     m_ui->setupUi(this);
     m_ui->textBrowser->setOpenLinks(false);
@@ -28,36 +26,31 @@ mdiForm::mdiForm(QWidget *parent) :
     setButtons();
 
 }
-/*void mdiForm::changeEvent(QEvent *e)
+void mdiForm::changeEvent(QEvent *e)
 {
-    qDebug() << "mdiForm::changeEvent() = " << e->type();
-    switch (e->type())
-    {
+    switch (e->type()) {
     case QEvent::LanguageChange:
         m_ui->retranslateUi(this);
-        break;
-    case QEvent::Close:
-        qDebug() << "mdiForm::changeEvent() close";
         break;
     default:
         break;
     }
-}*/
+}
 void mdiForm::historyGetUrl(QString url)
 {
-    //qDebug() << " mdiForm::historyGetUrl() url = " << url;
+    //myDebug() << "url = " << url;
     browserHistory.setCurrent(url);
     setButtons();
 }
 void mdiForm::backward()
 {
-    qDebug() << " mdiForm::backward()";
+    DEBUG_FUNC_NAME
     emit historyGo(browserHistory.backward());
     setButtons();
 }
 void mdiForm::forward()
 {
-    qDebug() << " mdiForm::forward()";
+    DEBUG_FUNC_NAME
     emit historyGo(browserHistory.forward());
     setButtons();
 }

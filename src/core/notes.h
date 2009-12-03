@@ -17,10 +17,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 #include <QtCore/QMap>
 #include <QtXml/QDomDocument>
-class notes
+class Notes
 {
 public:
-    notes(QString fileName);
+    Notes(QString fileName);
     int loadNotes();
     int readNotes();
     int saveNotes();

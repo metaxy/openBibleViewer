@@ -39,7 +39,7 @@ private:
     QStringList encodings;
 signals:
     void save(struct moduleConfig config);
-public slots:
+private slots:
     void bsave();
     void moduleTypeChanged(int id);
     void fileSelect();

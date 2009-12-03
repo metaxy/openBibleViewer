@@ -16,17 +16,17 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../module/biblequote.h"
 #include <QtCore/QtDebug>
 
-windowCache::windowCache()
+WindowCache::WindowCache()
 {
 }
-int windowCache::setBible(bible b_)
+int WindowCache::setBible(Bible b_)
 {
     qDebug() << "windowCache::setBible() currentWindowID = " << m_currentWindowID;
     m_bibletype[m_currentWindowID] = 1;
     qDebug() << "windowCache::setBible() bibleName = " << b_.bibleName << " bibleType" << b_.bibleType;
     m_bibleName[m_currentWindowID] = b_.bibleName;
     m_books[m_currentWindowID] = b_.bookFullName;
-    /*if(b_.bibleType == 2)//zefania
+    /*if(b_.bibleType == bible::zefaniaBible)//zefania
     {
         qDebug() << "windowCache::setBible() size of zefCache" << zefcache[b_.currentBibleID] .size();
         zefcache[b_.currentBibleID] = b_.getZefCache();
@@ -37,17 +37,17 @@ int windowCache::setBible(bible b_)
     return 0;
 }
 
-int windowCache::newWindow(void)
+int WindowCache::newWindow(void)
 {
     m_idList << QString::number(m_idList.size());
     return 0;
 }
-int windowCache::removeWindow(int id)
+int WindowCache::removeWindow(int id)
 {
     m_idList.removeAt(id);
     return 0;
 }
-int windowCache::clearAll(void)
+int WindowCache::clearAll(void)
 {
     qDebug() << "windowCache::clearAll";
     m_idList.clear();
@@ -60,11 +60,11 @@ int windowCache::clearAll(void)
     m_selectedBook.clear();
     return 0;
 }
-int windowCache::getBibleType(void)
+int WindowCache::getBibleType(void)
 {
     return m_bibletype[m_currentWindowID];
 }
-int windowCache::setCurrentWindowID(int id)
+int WindowCache::setCurrentWindowID(int id)
 {
     if (id < m_idList.size() && id >= 0) {
         m_currentWindowID =  m_idList.at(id).toInt();
@@ -72,39 +72,39 @@ int windowCache::setCurrentWindowID(int id)
     }
     return 1;
 }
-int windowCache::setCurrentBook(int bookID, int chapterCount)
+int WindowCache::setCurrentBook(int bookID, int chapterCount)
 {
     m_chaptercount[m_currentWindowID] = chapterCount;
     m_selectedBook[m_currentWindowID] = bookID;
     return 0;
 }
-QString windowCache::getBibleName()
+QString WindowCache::getBibleName()
 {
     return m_bibleName[m_currentWindowID];
 }
-int windowCache::getCurrentBook()
+int WindowCache::getCurrentBook()
 {
     return m_selectedBook[m_currentWindowID];
 }
-QStringList windowCache::getBooks(void)
+QStringList WindowCache::getBooks(void)
 {
     return m_books[m_currentWindowID];
 }
-int windowCache::getChapterCount(void)
+int WindowCache::getChapterCount(void)
 {
     return m_chaptercount[m_currentWindowID];
 }
-bible windowCache::getBible(void)
+Bible WindowCache::getBible(void)
 {
     qDebug() << "bible windowCache::getBible";
-    /*if(b[currentWindowID].bibleType == 2)//Zefania
+    /*if(b[currentWindowID].bibleType == bible::zefaniaBible)//Zefania
     {
         qDebug() << "bible windowCache::zefania";
         b[currentWindowID].setZefCache(getZefaniaCache(b[currentWindowID].currentBibleID));
     }*/
     return m_b[m_currentWindowID];
 }
-QMap<int, QList<Chapter> > windowCache::getZefaniaCache(int bibleID)
+QMap<int, QList<Chapter> > WindowCache::getZefaniaCache(int bibleID)
 {
     qDebug() << "windowCache::getZefaniaCache bibleID = " << bibleID << "zefcache[bibleID].size() = " << m_zefcache[bibleID].size();
     return m_zefcache[bibleID];

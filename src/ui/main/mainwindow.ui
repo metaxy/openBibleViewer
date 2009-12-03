@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1083</width>
-    <height>853</height>
+    <width>1085</width>
+    <height>861</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -59,8 +59,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1083</width>
-     <height>22</height>
+     <width>1085</width>
+     <height>19</height>
     </rect>
    </property>
    <property name="defaultUp">
@@ -162,8 +162,8 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>100</width>
-     <height>127</height>
+     <width>105</width>
+     <height>128</height>
     </size>
    </property>
    <property name="windowIcon">
@@ -208,8 +208,8 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>100</width>
-     <height>129</height>
+     <width>156</width>
+     <height>130</height>
     </size>
    </property>
    <property name="windowIcon">
@@ -281,7 +281,7 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>100</width>
+     <width>106</width>
      <height>63</height>
     </size>
    </property>
@@ -342,8 +342,8 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>150</width>
-     <height>416</height>
+     <width>186</width>
+     <height>420</height>
     </size>
    </property>
    <property name="windowIcon">
@@ -351,7 +351,7 @@
      <normaloff>:/icons/16x16/view-pim-notes.png</normaloff>:/icons/16x16/view-pim-notes.png</iconset>
    </property>
    <property name="floating">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="windowTitle">
     <string>Notes</string>
@@ -582,8 +582,8 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>100</width>
-     <height>153</height>
+     <width>105</width>
+     <height>156</height>
     </size>
    </property>
    <property name="windowIcon">
@@ -591,7 +591,7 @@
      <normaloff>:/icons/16x16/bookmarks-organize.png</normaloff>:/icons/16x16/bookmarks-organize.png</iconset>
    </property>
    <property name="floating">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="windowTitle">
     <string>Bookmarks</string>
@@ -657,8 +657,8 @@
   <widget class="QDockWidget" name="dockWidget_search">
    <property name="minimumSize">
     <size>
-     <width>100</width>
-     <height>155</height>
+     <width>105</width>
+     <height>158</height>
     </size>
    </property>
    <property name="windowIcon">
@@ -666,7 +666,7 @@
      <normaloff>:/icons/16x16/edit-find.png</normaloff>:/icons/16x16/edit-find.png</iconset>
    </property>
    <property name="floating">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="features">
     <set>QDockWidget::AllDockWidgetFeatures</set>
@@ -729,12 +729,12 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>150</width>
-     <height>173</height>
+     <width>176</width>
+     <height>174</height>
     </size>
    </property>
    <property name="floating">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="windowTitle">
     <string>Strong</string>

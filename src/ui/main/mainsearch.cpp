@@ -94,7 +94,6 @@ void MainWindow::searchInfo()
     }
     QStringList textList;
 
-    myDebug() << "textList.size() = " << textList.size();
     bookNames = m_bible.bookFullName;
     st = m_bible.st;
     for (int i = 0; i < st.book.size(); ++i) {

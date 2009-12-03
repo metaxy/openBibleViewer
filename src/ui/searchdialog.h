@@ -25,13 +25,13 @@ class searchDialog : public QDialog
 {
     Q_OBJECT
 private slots:
-    int search(void);
-    void showMore(void);
+    void search();
+    void showMore();
 signals:
     void searched(struct searchQuery query);
 public:
     explicit searchDialog(QWidget *parent = 0);
-    int setText(QString text);
+    int setText(const QString &text);
     virtual ~searchDialog();
 
 protected:

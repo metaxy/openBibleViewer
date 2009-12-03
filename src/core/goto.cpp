@@ -12,19 +12,19 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "goto.h"
+#include "dbghelper.h"
 #include <QtCore/QStringList>
 #include <QtCore/QRegExp>
-#include <QtCore/QtDebug>
-goTo::goTo(int currentBibleID_, QStringList bookFullName_, int chapterAdd_)
+GoTo::GoTo(int currentBibleID_, QStringList bookFullName_, int chapterAdd_)
 {
     currentBibleID = currentBibleID_;
     bookFullName = bookFullName_;
     chapterAdd = chapterAdd_;
     //qDebug() << "goTo::goTo() chapterAdd = " << chapterAdd;
 }
-QString goTo::getUrl(const QString& text)
+QString GoTo::getUrl(const QString& text)
 {
-    qDebug() << "goTo::getUrl() text = " << text;
+    myDebug() << "text = " << text;
     if (text.size() < 1)
         return QString();
     QStringList reg;
@@ -41,7 +41,7 @@ QString goTo::getUrl(const QString& text)
             break;
         }
     }
-    qDebug() << "goTo::getUrl() found = " << found;
+    myDebug() << "found = " << found;
     if (found == 0) { //bsp: Hiob
         int bookID = bookNameToBookID(foundRegExp.cap(1));
         return "bible://" + QString::number(currentBibleID) + "/" + QString::number(bookID) + "," + QString::number(0) + "," + QString::number(0);
@@ -58,7 +58,7 @@ QString goTo::getUrl(const QString& text)
     }
     return QString();
 }
-int goTo::bookNameToBookID(const QString& name)
+int GoTo::bookNameToBookID(const QString& name)
 {
     int min = -1, bookID = -1;
     for (int i = 0; i < bookFullName.size(); ++i) {
@@ -94,7 +94,7 @@ int goTo::bookNameToBookID(const QString& name)
     }
     return bookID;
 }
-int goTo::levenshteinDistance(const QString& s, const QString& t)
+int GoTo::levenshteinDistance(const QString& s, const QString& t)
 {
     QByteArray m_d;
     int m = s.length();

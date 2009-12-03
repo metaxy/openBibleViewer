@@ -19,12 +19,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomElement>
 #include <QtCore/QTextStream>
 #include <QtCore/QDebug>
-notes::notes(QString newFileName)
+Notes::Notes(QString newFileName)
 {
     fileName = newFileName;
     m_version = "0.2";
 }
-int notes::loadNotes(void)
+int Notes::loadNotes(void)
 {
     DEBUG_FUNC_NAME
     QFile file(fileName);
@@ -49,7 +49,7 @@ int notes::loadNotes(void)
     file.close();
     return 0;
 }
-QString notes::getType(const QString &id)
+QString Notes::getType(const QString &id)
 {
     // DEBUG_FUNC_NAME
     if (!notesType[id].isEmpty())
@@ -57,7 +57,7 @@ QString notes::getType(const QString &id)
     else
         return QString();
 }
-QString notes::getTitle(const QString &id)
+QString Notes::getTitle(const QString &id)
 {
     // DEBUG_FUNC_NAME
     if (!notesTitle[id].isEmpty())
@@ -65,7 +65,7 @@ QString notes::getTitle(const QString &id)
     else
         return QString();
 }
-QString notes::getData(const QString &id)
+QString Notes::getData(const QString &id)
 {
     //DEBUG_FUNC_NAME
     myDebug() << " id = " << id;
@@ -74,7 +74,7 @@ QString notes::getData(const QString &id)
     else
         return QString();
 }
-QString notes::getRef(const QString &id, const QString &refID)
+QString Notes::getRef(const QString &id, const QString &refID)
 {
     // DEBUG_FUNC_NAME
     // myDebug() << " id = " << id;
@@ -88,7 +88,7 @@ QString notes::getRef(const QString &id, const QString &refID)
         return QString();
     }
 }
-QMap<QString, QString> notes::getRef(const QString &id)
+QMap<QString, QString> Notes::getRef(const QString &id)
 {
     //DEBUG_FUNC_NAME
     //  myDebug() << " id = " << id << " notesRef = " << notesRef;
@@ -97,12 +97,12 @@ QMap<QString, QString> notes::getRef(const QString &id)
     else
         return QMap<QString, QString>();
 }
-QStringList notes::getIDList()
+QStringList Notes::getIDList()
 {
     //DEBUG_FUNC_NAME
     return notesID;
 }
-void notes::clearAll()
+void Notes::clearAll()
 {
     //DEBUG_FUNC_NAME
     notesData.clear();
@@ -111,27 +111,27 @@ void notes::clearAll()
     notesType.clear();
     notesID.clear();
 }
-void notes::setType(const QString &id, const QString &type)
+void Notes::setType(const QString &id, const QString &type)
 {
     //DEBUG_FUNC_NAME
     notesType[id] = type;
 }
-void notes::setTitle(const QString &id, const QString &title)
+void Notes::setTitle(const QString &id, const QString &title)
 {
     //DEBUG_FUNC_NAME
     notesTitle[id] = title;
 }
-void notes::setData(const QString &id, const QString &data)
+void Notes::setData(const QString &id, const QString &data)
 {
     //DEBUG_FUNC_NAME
     notesData[id] = data;
 }
-void notes::setRef(const QString &id, const QMap<QString, QString>  &ref)
+void Notes::setRef(const QString &id, const QMap<QString, QString>  &ref)
 {
     //DEBUG_FUNC_NAME
     notesRef[id] = ref;
 }
-QString notes::generateNewID()
+QString Notes::generateNewID()
 {
     //DEBUG_FUNC_NAME
     QMapIterator<QString, QString> i(notesType);
@@ -146,13 +146,13 @@ QString notes::generateNewID()
     myDebug() << "biggest = " << biggest;
     return QString::number(biggest + 1);
 }
-void notes::insertID(const QString &id)
+void Notes::insertID(const QString &id)
 {
     // DEBUG_FUNC_NAME
     // myDebug() << " id = " << id;
     notesID << id;
 }
-void notes::removeNote(const QString &id)
+void Notes::removeNote(const QString &id)
 {
     //DEBUG_FUNC_NAME
     notesType.remove(id);
@@ -161,7 +161,7 @@ void notes::removeNote(const QString &id)
     notesRef.remove(id);
     notesID.removeOne(id);
 }
-int notes::readNotes()
+int Notes::readNotes()
 {
     //read all notes in notesData
     DEBUG_FUNC_NAME
@@ -211,7 +211,7 @@ int notes::readNotes()
     }
     return 0;
 }
-int notes::saveNotes()
+int Notes::saveNotes()
 {
     DEBUG_FUNC_NAME
     QDomDocument sdoc;

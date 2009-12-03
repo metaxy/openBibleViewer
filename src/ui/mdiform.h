@@ -40,10 +40,9 @@ public slots:
     void forward();
 
 protected:
-    //   virtual void changeEvent(QEvent *e);
-    //virtual void closeEvent(QCloseEvent *event);
+    virtual void changeEvent(QEvent *e);
 private:
-    history browserHistory;
+    History browserHistory;
     void setButtons();
 
 

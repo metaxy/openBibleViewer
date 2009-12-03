@@ -32,15 +32,15 @@ void MainWindow::loadNotes(void)
     } else {
         ui->dockWidget_notes->show();
     }
-    note = new notes(homeDataPath + "notes.xml");
-    note->loadNotes();
-    note->readNotes();
+    m_note = new Notes(homeDataPath + "notes.xml");
+    m_note->loadNotes();
+    m_note->readNotes();
     ui->listWidget_notes->clear();
-    QStringList id = note->getIDList();
+    QStringList id = m_note->getIDList();
     QStringList titles;
     for (int i = 0; i < id.size(); i++) {
-        if (note->getType(id.at(i)) == "text")
-            titles << note->getTitle(id.at(i));
+        if (m_note->getType(id.at(i)) == "text")
+            titles << m_note->getTitle(id.at(i));
     }
     ui->listWidget_notes->insertItems(0, titles);
     currentNoteID = "";
@@ -48,29 +48,29 @@ void MainWindow::loadNotes(void)
 void MainWindow::showNote(QListWidgetItem *item)
 {
     int id = ui->listWidget_notes->row(item);
-    if (id >= 0 && id < note->getIDList().size()) {
-        showNote(note->getIDList().at(id));
+    if (id >= 0 && id < m_note->getIDList().size()) {
+        showNote(m_note->getIDList().at(id));
     }
 }
 void MainWindow::showNote(const QString &noteID)
 {
     DEBUG_FUNC_NAME
-    note->setData(currentNoteID, ui->textEdit_note->toHtml());
-    note->setTitle(currentNoteID, ui->lineEdit_note_titel->text());
-    note->setRef(currentNoteID, currentNoteRef);
-    note->saveNotes();
-    if (!note->getIDList().contains(noteID)) {
+    m_note->setData(currentNoteID, ui->textEdit_note->toHtml());
+    m_note->setTitle(currentNoteID, ui->lineEdit_note_titel->text());
+    m_note->setRef(currentNoteID, currentNoteRef);
+    m_note->saveNotes();
+    if (!m_note->getIDList().contains(noteID)) {
         myDebug() << "invalid noteID = " << noteID;
         return;
     }
     currentNoteID = noteID;
     myDebug() << "id = " << noteID << " currentNoteID = " << currentNoteID;
-    ui->lineEdit_note_titel->setText(note->getTitle(currentNoteID));
-    ui->textEdit_note->setHtml(note->getData(currentNoteID));
-    currentNoteRef = note->getRef(currentNoteID);
-    myDebug() << "link = " << note->getRef(currentNoteID, "link");
-    if (!note->getRef(currentNoteID, "link").isEmpty())
-        ui->label_noteLink->setText(notePos2Text(note->getRef(currentNoteID, "link")));
+    ui->lineEdit_note_titel->setText(m_note->getTitle(currentNoteID));
+    ui->textEdit_note->setHtml(m_note->getData(currentNoteID));
+    currentNoteRef = m_note->getRef(currentNoteID);
+    myDebug() << "link = " << m_note->getRef(currentNoteID, "link");
+    if (!m_note->getRef(currentNoteID, "link").isEmpty())
+        ui->label_noteLink->setText(notePos2Text(m_note->getRef(currentNoteID, "link")));
     else
         ui->label_noteLink->setText("");
 
@@ -81,10 +81,10 @@ void MainWindow::copyNote(void)
     DEBUG_FUNC_NAME
 
     int id = ui->listWidget_notes->currentRow();
-    if (id < note->getIDList().size() && id >= 0) {
+    if (id < m_note->getIDList().size() && id >= 0) {
         QClipboard *clipboard = QApplication::clipboard();
         QTextDocument doc;
-        doc.setHtml(note->getData(note->getIDList().at(id)));
+        doc.setHtml(m_note->getData(m_note->getIDList().at(id)));
         clipboard->setText(doc.toPlainText());
     } else {
         myDebug() << "no note";
@@ -94,10 +94,10 @@ void MainWindow::saveNote(void)
 {
     DEBUG_FUNC_NAME
     myDebug() << "currentNoteID = " << currentNoteID;
-    note->setData(currentNoteID, ui->textEdit_note->toHtml());
-    note->setTitle(currentNoteID, ui->lineEdit_note_titel->text());
-    note->setRef(currentNoteID, currentNoteRef);
-    note->saveNotes();
+    m_note->setData(currentNoteID, ui->textEdit_note->toHtml());
+    m_note->setTitle(currentNoteID, ui->lineEdit_note_titel->text());
+    m_note->setRef(currentNoteID, currentNoteRef);
+    m_note->saveNotes();
     reloadNotes();
 }
 void MainWindow::newNote(void)
@@ -105,25 +105,25 @@ void MainWindow::newNote(void)
     DEBUG_FUNC_NAME
     saveNote();
     reloadNotes();
-    QString newID = note->generateNewID();
-    note->setData(newID, "");
-    note->setTitle(newID, tr("(unnamed)"));
-    note->setType(newID, "text");
+    QString newID = m_note->generateNewID();
+    m_note->setData(newID, "");
+    m_note->setTitle(newID, tr("(unnamed)"));
+    m_note->setType(newID, "text");
     QMap<QString, QString> ref;
     currentNoteRef = ref;
     //m["link"] = "";
-    note->setRef(newID, ref);
-    note->insertID(newID);
+    m_note->setRef(newID, ref);
+    m_note->insertID(newID);
     currentNoteID = newID;
     reloadNotes();
-    ui->listWidget_notes->setCurrentRow(note->getIDList().size() - 1);
+    ui->listWidget_notes->setCurrentRow(m_note->getIDList().size() - 1);
     //showNote(ui->listWidget_notes->currentItem());
 
     ui->label_noteLink->setText("");
     ui->lineEdit_note_titel->setText(tr("(unnamed)"));
     ui->textEdit_note->setHtml("");
-    if (!note->getRef(currentNoteID, "link").isEmpty())
-        ui->label_noteLink->setText(notePos2Text(note->getRef(currentNoteID, "link")));
+    if (!m_note->getRef(currentNoteID, "link").isEmpty())
+        ui->label_noteLink->setText(notePos2Text(m_note->getRef(currentNoteID, "link")));
     else
         ui->label_noteLink->setText("");
 
@@ -139,31 +139,31 @@ void MainWindow::newNoteWithLink()
 
     saveNote();
     reloadNotes();
-    QString newID = note->generateNewID();
-    note->setData(newID, "");
-    note->setTitle(newID, tr("(unnamed)"));
-    note->setType(newID, "text");
+    QString newID = m_note->generateNewID();
+    m_note->setData(newID, "");
+    m_note->setTitle(newID, tr("(unnamed)"));
+    m_note->setType(newID, "text");
     QMap<QString, QString> ref;
     ref["link"] = link;
     currentNoteRef = ref;
-    note->setRef(newID, ref);
-    note->insertID(newID);
+    m_note->setRef(newID, ref);
+    m_note->insertID(newID);
     currentNoteID = newID;
     reloadNotes();
-    ui->listWidget_notes->setCurrentRow(note->getIDList().size() - 1);
+    ui->listWidget_notes->setCurrentRow(m_note->getIDList().size() - 1);
     //showNote(ui->listWidget_notes->currentItem());
     ui->label_noteLink->setText("");
     ui->lineEdit_note_titel->setText(tr("(unnamed)"));
     ui->textEdit_note->setHtml("");
-    if (!note->getRef(currentNoteID, "link").isEmpty())
-        ui->label_noteLink->setText(notePos2Text(note->getRef(currentNoteID, "link")));
+    if (!m_note->getRef(currentNoteID, "link").isEmpty())
+        ui->label_noteLink->setText(notePos2Text(m_note->getRef(currentNoteID, "link")));
     else
         ui->label_noteLink->setText("");
 }
 void MainWindow::removeNote(void)
 {
     DEBUG_FUNC_NAME
-    note->removeNote(currentNoteID);
+    m_note->removeNote(currentNoteID);
     ui->lineEdit_note_titel->setText(tr(""));
     ui->textEdit_note->setHtml("");
     ui->label_noteLink->setText("");
@@ -173,13 +173,13 @@ void MainWindow::reloadNotes(void)
 {
     DEBUG_FUNC_NAME
     ui->listWidget_notes->clear();
-    QStringList id = note->getIDList();
+    QStringList id = m_note->getIDList();
     QStringList titles;
     myDebug() << " idList = " << id;
     for (int i = 0; i < id.size(); i++) {
-        if (note->getType(id.at(i)) == "text") {
-            myDebug() << " id.at(i) = " << id.at(i) << " title = " << note->getTitle(id.at(i));
-            titles << note->getTitle(id.at(i));
+        if (m_note->getType(id.at(i)) == "text") {
+            myDebug() << " id.at(i) = " << id.at(i) << " title = " << m_note->getTitle(id.at(i));
+            titles << m_note->getTitle(id.at(i));
         }
     }
     ui->listWidget_notes->insertItems(0, titles);

@@ -16,10 +16,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-class goTo
+class GoTo
 {
 public:
-    goTo(int currentBibleID, QStringList bookFullName, int chapterAdd);
+    GoTo(int currentBibleID, QStringList bookFullName, int chapterAdd);
     QString getUrl(const QString& text);
 private:
     int bookNameToBookID(const QString& name);

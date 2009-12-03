@@ -78,16 +78,14 @@ void moduleConfigDialog::setModule(struct moduleConfig config)
 }
 void moduleConfigDialog::bsave()
 {
-    if(c.moduleType.toInt() == bible::ZefaniaBible &&
-       (c.encoding != encodings.at(m_ui->comboBox_encoding->currentIndex()) ||
-         c.moduleType != QString::number(m_ui->comboBox_type->currentIndex()) ||
-         c.modulePath != m_ui->lineEdit_path->text()))
-    {
+    if (c.moduleType.toInt() == Bible::ZefaniaBible &&
+            (c.encoding != encodings.at(m_ui->comboBox_encoding->currentIndex()) ||
+             c.moduleType != QString::number(m_ui->comboBox_type->currentIndex()) ||
+             c.modulePath != m_ui->lineEdit_path->text())) {
         myDebug() << "clear hard in zefania cache";
         zefaniaBible zef;
-        zef.removeHardCache( m_ui->lineEdit_path->text());
-        if(c.modulePath != m_ui->lineEdit_path->text())
-        {
+        zef.removeHardCache(m_ui->lineEdit_path->text());
+        if (c.modulePath != m_ui->lineEdit_path->text()) {
             zef.removeHardCache(c.modulePath);
         }
     }
@@ -110,10 +108,10 @@ void moduleConfigDialog::moduleTypeChanged(int id)
     m_ui->groupBox_zefBible->setVisible(false);
     id = m_ui->comboBox_type->currentIndex();
     switch (id) {
-    case 1:
+    case Bible::BibleQuote:
         m_ui->groupBox_bq->setVisible(true);
         break;
-    case 2:
+    case Bible::ZefaniaBible:
         m_ui->groupBox_zefBible->setVisible(true);
         break;
 
@@ -121,7 +119,7 @@ void moduleConfigDialog::moduleTypeChanged(int id)
 }
 void  moduleConfigDialog::fileSelect()
 {
-    if(c.isDir) {
+    if (c.isDir) {
         QFileDialog dialog(this);
 
         dialog.setFileMode(QFileDialog::Directory);
@@ -130,7 +128,7 @@ void  moduleConfigDialog::fileSelect()
 #endif
         if (dialog.exec()) {
             QStringList fileName = dialog.selectedFiles();
-            if(fileName.size() > 0) {
+            if (fileName.size() > 0) {
                 m_ui->lineEdit_path->setText(fileName.at(0));
             }
         }

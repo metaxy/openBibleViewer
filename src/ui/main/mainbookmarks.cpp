@@ -214,7 +214,7 @@ void MainWindow::updateBookmark(QString pos)
 }
 void MainWindow::bookmarksGo(QTreeWidgetItem * item)
 {
-    if (set.onClickBookmarkGo == true) {
+    if (m_set.onClickBookmarkGo == true) {
         QString pos = item->text(1);
         if (internalOpenPos(pos) != 0)
             QMessageBox::critical(0, tr("Error"), tr("This Bookmark is invalid."));
