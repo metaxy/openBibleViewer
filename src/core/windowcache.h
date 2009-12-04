@@ -17,38 +17,38 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QMap>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
+#include <QtCore/QCache>
 class WindowCache
 {
 public:
     WindowCache();
 
-    QMap<int, Bible> m_b;
+    void newWindow();
+    void removeWindow(const int &id);
+    void clearAll();
 
-    QMap<int, QMap<int, QList<Chapter> > > m_zefcache;
-    QMap<int, bool> m_zefcacheset;
+    bool setCurrentWindowID(const int &id);
+    void setBible(Bible b);
+    void setCurrentBook(const int &bookid, const int &chapterCount);
+
+    QString getBibleName();
+    int getBibleType();
+    int getCurrentBook();
+    int getChapterCount();
+    QStringList getBooks();
+
+    QMap<int, QList<Chapter> > getZefaniaCache(const int &bibleID);
+    Bible getBible();
+private:
+    QCache<int, QMap<int, QList<Chapter> > > m_zefcache;
     QMap<int, int> m_bibletype;
     QMap<int, QString> m_bibleName;
     QMap<int, QStringList> m_books;
-    QMap<int, int> m_chaptercount;
+    QMap<int, int> m_chapterCount;
     QMap<int, int> m_selectedBook;
     QStringList m_idList;
     int m_currentWindowID;
-
-    int newWindow(void);
-    int removeWindow(int id);
-    int clearAll(void);
-
-    int setCurrentWindowID(int id);
-    int setBible(Bible b_);
-    int setCurrentBook(int bookid, int chaptercount);
-
-    QString getBibleName();
-    int getBibleType(void);
-    int getCurrentBook(void);
-    QStringList getBooks(void);
-    int getChapterCount(void);
-    QMap<int, QList<Chapter> > getZefaniaCache(int bibleID);
-    Bible getBible(void);
+    QMap<int, Bible> m_b;
 
 };
 

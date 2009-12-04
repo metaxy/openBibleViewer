@@ -44,7 +44,7 @@ bool History::backwardAvailable()
 {
     return backwardItems.size() >= 2;
 }
-bool History::setCurrent(QString url)
+void History::setCurrent(const QString &url)
 {
     if (goF == true) {
         goF = false;
@@ -52,5 +52,4 @@ bool History::setCurrent(QString url)
         forwardItems.clear();
     }
     backwardItems.append(url);
-    return true;
 }

@@ -34,7 +34,6 @@ QString GoTo::getUrl(const QString& text)
     for (int i = reg.size() - 1; i >= 0; --i) {
         QRegExp r(reg.at(i));
         int pos = r.indexIn(text);
-        //qDebug() << "pos = " << pos;
         if (pos > -1) {
             found = i;
             foundRegExp = r;
@@ -75,14 +74,14 @@ int GoTo::bookNameToBookID(const QString& name)
             }
         }
     }
-    if (bookID == -1) {
+  /*  if (bookID == -1) {
         for (int i = 0; i < bookFullName.size(); ++i) {
             if (bookFullName.at(i).contains(name, Qt::CaseInsensitive)) {
                 bookID = i;
                 break;
             }
         }
-    }
+    }*/
     if (bookID == -1) {
         for (int i = 0; i < bookFullName.size(); ++i) {
             int lev = levenshteinDistance(name, bookFullName.at(i));

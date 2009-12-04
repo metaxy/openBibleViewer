@@ -31,7 +31,7 @@ signals:
     void searched(struct searchQuery query);
 public:
     explicit searchDialog(QWidget *parent = 0);
-    int setText(const QString &text);
+    void setText(const QString &text);
     virtual ~searchDialog();
 
 protected:

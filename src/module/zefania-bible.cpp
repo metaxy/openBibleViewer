@@ -81,7 +81,7 @@ QDomNode zefaniaBible::readBookFromHardCache(QString path, int bookID)
     QDomElement root = doc.documentElement();
     //cache in ram
     //e = root.firstChild().toElement();
-    if (softCacheAvi[bookID] == false && mConfig.zefbible_softCache == true) {
+    if (softCacheData[bookID].isEmpty() && mConfig.zefbible_softCache == true) {
         /*  softCache[bookID] = e;
         softCacheAvi[bookID] = true;*/
     }
@@ -92,11 +92,13 @@ QDomNode zefaniaBible::readBookFromHardCache(QString path, int bookID)
 }
 void zefaniaBible::readBook(const int &id)
 {
-    myDebug() << "hardCache = " << mConfig.zefbible_hardCache  << " softCache = " << mConfig.zefbible_softCache << " cacheAviable = " << softCacheAvi;
+    DEBUG_FUNC_NAME
+    myDebug() << "hardCache = " << mConfig.zefbible_hardCache  << " softCache = " << mConfig.zefbible_softCache << " softCacheData[id].size() = " << softCacheData[id].size();
     QDomNode ncache;
-    if (mConfig.zefbible_hardCache == true && (softCacheAvi[id] == false || mConfig.zefbible_softCache == false)) {
+    if (mConfig.zefbible_hardCache == true && (softCacheData[id].isEmpty() || mConfig.zefbible_softCache == false)) {
         ncache = readBookFromHardCache(currentBiblePath, id);
     } else {
+        myDebug() << "read data from sofcache";
         chapterData = softCache(id);
         return;
     }
@@ -127,7 +129,7 @@ void zefaniaBible::readBook(const int &id)
     }
     bookCount[id] = i;
     setSoftCache(currentBookID, chapterData);
-    myDebug() << "chapterData.size() = " << chapterData.size();
+    myDebug() << "chapterData.size() = " << chapterData.size() << " bookCount = " << i;
 }
 QMap<int, QList<Chapter> > zefaniaBible::softCache()
 {
@@ -148,31 +150,28 @@ bool zefaniaBible::setSoftCache(QMap< int, QList<Chapter> > cache)
     DEBUG_FUNC_NAME
     if (mConfig.zefbible_softCache == true) {
         softCacheData.clear();
-        softCacheAvi.clear();
+        //softCacheAvi.clear();
         softCacheData = cache;
-        QMapIterator< int, QList<Chapter> > i(cache);
+      /*  QMapIterator< int, QList<Chapter> > i(cache);
         while (i.hasNext()) {
             softCacheAvi[i.key()] = true;
             i.next();
-        }
+        }*/
     }
     return true;
 }
 bool zefaniaBible::setSoftCache(int bookID, QList<Chapter> c)
 {
-    qDebug() << "zefaniaBible::setSoftCache() softCache = " << mConfig.zefbible_softCache << " , bookID = " << bookID;
+    myDebug() << "softCache = " << mConfig.zefbible_softCache << " , bookID = " << bookID;
     if (mConfig.zefbible_softCache == true) {
         softCacheData[bookID] = c;
-        softCacheAvi[bookID] = true;
     }
     return true;
 }
-bool zefaniaBible::clearSoftCache()
+void zefaniaBible::clearSoftCache()
 {
-    qDebug() << "zefaniaBible::clearSoftCache()";
+    DEBUG_FUNC_NAME
     softCacheData.clear();
-    softCacheAvi.clear();
-    return true;
 }
 
 QDomElement zefaniaBible::format(QDomElement e)
@@ -593,7 +592,7 @@ struct stelle zefaniaBible::search(struct searchQuery query) {
         //todo: make a check : if only 2 or 3 book are aviable in softcache then load whole book else load everything from hardcache
         //todo: cant load book if only softcache is enabled
 
-        if (mConfig.zefbible_hardCache == true && (softCacheAvi[i] == false || mConfig.zefbible_softCache == false)) {
+        if (mConfig.zefbible_hardCache == true && (softCacheData[i].isEmpty()|| mConfig.zefbible_softCache == false)) {
             chapterList = fromHardToSoft(i, readBookFromHardCache(currentBiblePath, i));
             setSoftCache(i, chapterList);
         } else {

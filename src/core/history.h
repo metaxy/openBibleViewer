@@ -26,7 +26,7 @@ public:
     QString backward();
     bool forwardAvailable();
     bool backwardAvailable();
-    bool setCurrent(QString current);
+    void setCurrent(const QString &current);
 };
 
 #endif // HISTORY_H

@@ -46,7 +46,7 @@ void searchDialog::setText(const QString &text)
 {
     m_ui->lineEdit->setText(text);
 }
-int searchDialog::search(void)
+void searchDialog::search(void)
 {
     if (m_ui->lineEdit->text() != "") {
         struct searchQuery query;
@@ -58,5 +58,4 @@ int searchDialog::search(void)
         this->hide();
         this->close();
     }
-    return 0;
 }
