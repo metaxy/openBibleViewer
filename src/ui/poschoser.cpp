@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "poschoser.h"
 #include <QtCore/QtDebug>
-
+#include "../core/dbghelper.h"
 #include "ui_poschoser.h"
 
 posChoser::posChoser(QWidget *parent) :
@@ -23,30 +23,57 @@ posChoser::posChoser(QWidget *parent) :
     m_ui->setupUi(this);
     connect(m_ui->pushButton_save, SIGNAL(clicked()), this, SLOT(save()));
     connect(m_ui->pushButton_cancel, SIGNAL(clicked()), this, SLOT(close()));
+    connect(m_ui->comboBox_bibles,SIGNAL(currentIndexChanged(int)), this, SLOT(indexChanged(int)));
 }
 
 posChoser::~posChoser()
 {
     delete m_ui;
 }
-void posChoser::setData(QStringList bibles, QStringList books)
+void posChoser::setSettings(Settings *set)
 {
-    m_ui->comboBox_books->insertItems(0, books);
-    m_bibles = bibles;
+    m_settings = set;
+    //m_ui->comboBox_books->insertItems(0, books);
+    //m_bibles = bibles;
 }
 void posChoser::setCurrent(int bible, QString path, int book, int chapter, int verse)
 {
+    DEBUG_FUNC_NAME
     //todo:load the bible info and from that the booknames
-    m_bibleID = bible;
+    m_ui->comboBox_bibles->insertItems(0,m_settings->getBibleName());
     m_bookID = book;
     m_chapterID = chapter;
     m_verseID = verse;
     m_path = path;
-    m_ui->label_bible->setText(m_bibles.at(bible));
+
+    int newIndex = m_settings->getBiblePath().lastIndexOf(path);
+    m_ui->comboBox_bibles->setCurrentIndex(newIndex);//todo: if lastindexof == -1 make warning
     m_ui->comboBox_books->setCurrentIndex(book);
     m_ui->spinBox_chapter->setValue(chapter);
     m_ui->spinBox_verse->setValue(verse);
 }
+void posChoser::indexChanged(int index)
+{
+    DEBUG_FUNC_NAME
+    if(index >= 0)
+    {
+        m_ui->comboBox_books->clear();
+        m_ui->comboBox_books->insertItems(0,m_settings->getBookNames().at(index));
+        m_path = m_settings->getBiblePath().at(index);
+
+        m_ui->comboBox_books->setCurrentIndex(0);
+        m_ui->spinBox_chapter->setValue(1);
+        m_ui->spinBox_verse->setValue(1);
+    }
+    else
+    {
+        m_ui->comboBox_books->clear();
+        m_ui->comboBox_books->setCurrentIndex(0);
+        m_ui->spinBox_chapter->setValue(1);
+        m_ui->spinBox_verse->setValue(1);
+    }
+}
+
 void posChoser::save()
 {
     QString out = "";

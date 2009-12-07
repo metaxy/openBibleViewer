@@ -62,11 +62,11 @@ void MainWindow::newMdiChild()
     connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closeWindow()));
 
     if (windowsCount >= 1) {
-        if (m_set.autoLayout == 1) {
+        if (m_settings->autoLayout == 1) {
             myTileVertical();
-        } else if (m_set.autoLayout == 2) {
+        } else if (m_settings->autoLayout == 2) {
             myTileHorizontal();
-        } else if (m_set.autoLayout == 3) {
+        } else if (m_settings->autoLayout == 3) {
             myCascade();
         }
     }

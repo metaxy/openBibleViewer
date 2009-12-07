@@ -55,14 +55,14 @@ void MainWindow::newBookmark(void)
     int startverse = verseFromCursor(cursor);
 
     bookmark->setText(0,
-                      m_bible.bookFullName[m_bible.currentBookID] +
+                      m_bible.bookFullName.at(m_bible.currentBookID) +
                       " " +
                       QString::number(m_bible.currentChapterID - m_bible.chapterAdd + 1, 10) +
                       "," +
                       QString::number(startverse, 10));
 
     bookmark->setText(1,
-                      bibleDirName[m_bible.currentBibleID] +
+                      biblesIniPath.at(m_bible.currentBibleID) +
                       ";" +
                       QString::number(m_bible.currentBookID, 10) +
                       ";" +
@@ -186,8 +186,8 @@ void MainWindow::editBookmark()
     int chapterID = schapterID.toInt();
     int verseID = sverseID.toInt();
     //get bibleID
-    for (int i = 0; i < bibleDirName.size(); i++) {
-        if (bibleDirName.at(i) == dirname) {
+    for (int i = 0; i < biblesIniPath.size(); i++) {
+        if (biblesIniPath.at(i) == dirname) {
             bibleID = i;
             break;
         }
@@ -196,11 +196,10 @@ void MainWindow::editBookmark()
     posChoser *pChoser = new posChoser(this);
     pChoser->setWindowModality(Qt::WindowModal);
     connect(pChoser, SIGNAL(updated(QString)), this, SLOT(updateBookmark(QString)));
-    pChoser->setData(bibles, m_bible.bookFullName);
+    pChoser->setSettings(m_settings);
     pChoser->setCurrent(bibleID, dirname, bookID, chapterID, verseID);
     pChoser->show();
     pChoser->exec();
-    //delete pChoser;
 }
 void MainWindow::bookmarksGo()
 {
@@ -214,7 +213,7 @@ void MainWindow::updateBookmark(QString pos)
 }
 void MainWindow::bookmarksGo(QTreeWidgetItem * item)
 {
-    if (m_set.onClickBookmarkGo == true) {
+    if (m_settings->onClickBookmarkGo == true) {
         QString pos = item->text(1);
         if (internalOpenPos(pos) != 0)
             QMessageBox::critical(0, tr("Error"), tr("This Bookmark is invalid."));

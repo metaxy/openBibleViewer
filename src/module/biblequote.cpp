@@ -21,12 +21,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QProgressDialog>
 biblequote::biblequote()
 {
+    m_settings = new Settings();
 }
 
-int biblequote::setSettings(struct settings_s settings, struct moduleConfig mConfig_)
+int biblequote::setSettings(Settings *set)
 {
-    bqset = settings;
-    mConfig = mConfig_;
+    m_settings = set;
     return 1;
 }
 QString biblequote::formatfromini(QString input)
@@ -40,7 +40,6 @@ QString biblequote::formatfromini(QString input)
 void biblequote::readBook(int id, QString path)
 {
     DEBUG_FUNC_NAME
-    myDebug() << "id = " << id << " name = " << mConfig.moduleName;
     //chapterText.clear();
     chapterData.clear();
 
@@ -57,12 +56,10 @@ void biblequote::readBook(int id, QString path)
     myDebug() << "id = " << id << " path = " << path << " fileName = " << file.fileName();
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QString encoding;
-        if (mConfig.encoding == "Default" || mConfig.encoding == "") {
-            myDebug() << "Default encoding " << mConfig.encoding;
-            encoding = bqset.encoding;
+        if (m_settings->getModuleSettings(currentBibleID).encoding == "Default" || m_settings->getModuleSettings(currentBibleID).encoding == "") {
+            encoding = m_settings->encoding;
         } else {
-            myDebug() << "own encoding " << mConfig.encoding;
-            encoding = mConfig.encoding;
+            encoding = m_settings->getModuleSettings(currentBibleID).encoding;
         }
         QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
         QTextDecoder *decoder = codec->makeDecoder();
@@ -73,7 +70,7 @@ void biblequote::readBook(int id, QString path)
             line = line.remove(QRegExp("<DIV CLASS=\"(\\w+)\">"));
             line = line.remove("CLASS=\"Tx\">");
             //filterout
-            if (mConfig.biblequote_removeHtml == true && removeHtml.size() > 0) {
+            if (m_settings->getModuleSettings(currentBibleID).biblequote_removeHtml == true && removeHtml.size() > 0) {
                 for (int i = 0; i < removeHtml2.size(); i++) {
                     QString r = removeHtml2.at(i);
                     //myDebug() << removeHtml2.at(i);
@@ -131,18 +128,16 @@ void biblequote::loadBibleData(int bibleID, QString path)
     file.setFileName(path);
     myDebug() << "id = " << currentBibleID << " fileName = " << file.fileName() << " currentBiblePath = " << currentBiblePath;
     QString encoding;
-    if (mConfig.encoding == "Default" || mConfig.encoding == "") {
-        myDebug() << "Default encoding " << mConfig.encoding;
-        encoding = bqset.encoding;
+    if (m_settings->getModuleSettings(currentBibleID).encoding == "Default" || m_settings->getModuleSettings(currentBibleID).encoding == "") {
+        encoding = m_settings->encoding;
     } else {
-        myDebug() << "own encoding " << mConfig.encoding;
-        encoding = mConfig.encoding;
+        encoding = m_settings->getModuleSettings(currentBibleID).encoding;
     }
     QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
     QTextDecoder *decoder = codec->makeDecoder();
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         int countlines = 0;
-        myDebug() << "encoding = " << bqset.encoding;
+        myDebug() << "encoding = " << m_settings->encoding;
         int i = 0;
         while (!file.atEnd()) {
 
@@ -201,16 +196,20 @@ void biblequote::loadBibleData(int bibleID, QString path)
 
         }
     }
+    m_settings->setBookCount(currentBibleID,bookCount);
+    m_settings->setBookNames(currentBibleID,bookFullName);
+    m_settings->setBiblePath(currentBibleID,path);
+    m_settings->setBibleName(currentBibleID,bibleName);
 }
 QString biblequote::readInfo(QFile &file)
 {
     int countlines = 0;
     int invalid = true;
     QString encoding;
-    if (mConfig.encoding == "Default" || mConfig.encoding == "") {
-        encoding = bqset.encoding;
+    if (m_settings->getModuleSettings(currentBibleID).encoding == "Default" || m_settings->getModuleSettings(currentBibleID).encoding == "") {
+        encoding = m_settings->encoding;
     } else {
-        encoding = mConfig.encoding;
+        encoding = m_settings->getModuleSettings(currentBibleID).encoding;
     }
     QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
     QTextDecoder *decoder = codec->makeDecoder();
@@ -226,7 +225,7 @@ QString biblequote::readInfo(QFile &file)
             continue;
         }
         if (line.contains("BibleName", Qt::CaseInsensitive)) {
-            bibleName = formatfromini(line.remove("BibleName =", Qt::CaseInsensitive));
+            bibleName = formatfromini(line.remove("BibleName =", Qt::CaseInsensitive));//todo: use regexp
             if (line.contains("BibleName=", Qt::CaseInsensitive)) {
                 bibleName = formatfromini(line.remove("BibleName=", Qt::CaseInsensitive));
             }
@@ -288,12 +287,10 @@ struct stelle biblequote::search(struct searchQuery query) {
             return st2;
         }
         QString encoding;
-        if (mConfig.encoding == "Default" || mConfig.encoding == "") {
-            myDebug() << "Default encoding " << mConfig.encoding;
-            encoding = bqset.encoding;
+        if (m_settings->getModuleSettings(currentBibleID).encoding == "Default" || m_settings->getModuleSettings(currentBibleID).encoding == "") {
+            encoding = m_settings->encoding;
         } else {
-            myDebug() << "own encoding " << mConfig.encoding;
-            encoding = mConfig.encoding;
+            encoding = m_settings->getModuleSettings(currentBibleID).encoding;
         }
         QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
         QTextDecoder *decoder = codec->makeDecoder();

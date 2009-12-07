@@ -15,12 +15,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "dbghelper.h"
 #include <QtCore/QStringList>
 #include <QtCore/QRegExp>
-GoTo::GoTo(int currentBibleID_, QStringList bookFullName_, int chapterAdd_)
+GoTo::GoTo(int currentBibleID, QStringList bookFullName)
 {
-    currentBibleID = currentBibleID_;
-    bookFullName = bookFullName_;
-    chapterAdd = chapterAdd_;
-    //qDebug() << "goTo::goTo() chapterAdd = " << chapterAdd;
+    m_currentBibleID = currentBibleID;
+    m_bookFullName = bookFullName;
 }
 QString GoTo::getUrl(const QString& text)
 {
@@ -43,32 +41,32 @@ QString GoTo::getUrl(const QString& text)
     myDebug() << "found = " << found;
     if (found == 0) { //bsp: Hiob
         int bookID = bookNameToBookID(foundRegExp.cap(1));
-        return "bible://" + QString::number(currentBibleID) + "/" + QString::number(bookID) + "," + QString::number(0) + "," + QString::number(0);
+        return "bible://" + QString::number(m_currentBibleID) + "/" + QString::number(bookID) + "," + QString::number(0) + "," + QString::number(0);
 
     } else if (found == 1) { //Hiob 4
         int bookID =  bookNameToBookID(foundRegExp.cap(1));
         int chapterID = foundRegExp.cap(3).toInt() - 1;
-        return "bible://" + QString::number(currentBibleID) + "/" + QString::number(bookID) + "," + QString::number(chapterID) + "," + QString::number(0);
+        return "bible://" + QString::number(m_currentBibleID) + "/" + QString::number(bookID) + "," + QString::number(chapterID) + "," + QString::number(0);
     } else if (found == 2) { //Hiob 4,9
         int bookID =  bookNameToBookID(foundRegExp.cap(1));
         int chapterID = foundRegExp.cap(3).toInt() - 1;
         int verseID = foundRegExp.cap(4).toInt() - 1;
-        return "bible://" + QString::number(currentBibleID) + "/" + QString::number(bookID) + "," + QString::number(chapterID) + "," + QString::number(verseID);
+        return "bible://" + QString::number(m_currentBibleID) + "/" + QString::number(bookID) + "," + QString::number(chapterID) + "," + QString::number(verseID);
     }
     return QString();
 }
 int GoTo::bookNameToBookID(const QString& name)
 {
     int min = -1, bookID = -1;
-    for (int i = 0; i < bookFullName.size(); ++i) {
-        if (name == bookFullName.at(i)) {
+    for (int i = 0; i < m_bookFullName.size(); ++i) {
+        if (name == m_bookFullName.at(i)) {
             bookID = i;
             break;
         }
     }
     if (bookID == -1) {
-        for (int i = 0; i < bookFullName.size(); ++i) {
-            if (bookFullName.at(i).startsWith(name, Qt::CaseInsensitive)) {
+        for (int i = 0; i < m_bookFullName.size(); ++i) {
+            if (m_bookFullName.at(i).startsWith(name, Qt::CaseInsensitive)) {
                 bookID = i;
                 break;
             }
@@ -83,8 +81,8 @@ int GoTo::bookNameToBookID(const QString& name)
         }
     }*/
     if (bookID == -1) {
-        for (int i = 0; i < bookFullName.size(); ++i) {
-            int lev = levenshteinDistance(name, bookFullName.at(i));
+        for (int i = 0; i < m_bookFullName.size(); ++i) {
+            int lev = levenshteinDistance(name, m_bookFullName.at(i));
             if (lev < min || min < 0) {
                 bookID = i;
                 min = lev;

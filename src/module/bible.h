@@ -31,8 +31,7 @@ public:
     };
     Bible();
     void setBibleType(int type);
-    void setSettings(struct settings_s settings);
-
+    void setSettings(Settings *settings);
     QMap<int, QList<Chapter> > getZefCache();
     void clearZefCache();
     void setZefCache(QMap<int, QList<Chapter> > cache);
@@ -56,7 +55,7 @@ public:
     zefaniaBible zef;
 private:
 
-    struct settings_s settings;
+    Settings *m_settings;
 
 };
 

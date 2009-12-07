@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define SETTINGSDIALOG_H
 
 #include <QtGui/QDialog>
-#include "../core/config.h"
+#include "../core/settings.h"
 namespace Ui
 {
 class settingsDialog;
@@ -31,22 +31,23 @@ public slots:
     void removeModule();
     void editModule();
     void reset();
-    void saveModule(struct moduleConfig);
+    void saveModule(ModuleSettings);
     void downloadModule();
     void addModules(QStringList files, QStringList names);
 signals:
-    int save(struct settings_s settings);
+    int save(Settings settings);
 public:
     explicit settingsDialog(QWidget *parent = 0);
     virtual ~settingsDialog();
-    int setSettings(struct settings_s settings);
+    int setSettings(Settings settings);
 
 protected:
     virtual void changeEvent(QEvent *e);
 
 private:
-    struct settings_s m_set;
-    struct settings_s m_backupSet;
+    //todo: make a local settings without chaning the current and a local backup
+    Settings m_set;
+    Settings m_backupSet;
     void generateModuleTree();
     QStringList m_encodings;
     QStringList m_langCode;

@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define MODULECONFIGDIALOG_H
 
 #include <QtGui/QDialog>
-#include "../core/moduleconfig.h"
+#include "../core/modulesettings.h"
 namespace Ui
 {
 class moduleConfigDialog;
@@ -28,17 +28,17 @@ class moduleConfigDialog : public QDialog
 public:
     explicit moduleConfigDialog(QWidget *parent = 0);
     virtual ~moduleConfigDialog();
-    void setModule(struct moduleConfig config);
+    void setModule(ModuleSettings config);
 
 protected:
     virtual void changeEvent(QEvent *e);
 
 private:
     Ui::moduleConfigDialog *m_ui;
-    struct moduleConfig c;
+    ModuleSettings c;
     QStringList encodings;
 signals:
-    void save(struct moduleConfig config);
+    void save(ModuleSettings config);
 private slots:
     void bsave();
     void moduleTypeChanged(int id);

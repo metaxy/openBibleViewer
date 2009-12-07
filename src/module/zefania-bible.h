@@ -20,10 +20,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
-#include "../core/config.h"
+#include "../core/settings.h"
 #include "../core/stelle.h"
 #include "../core/chapter.h"
-#include "../core/moduleconfig.h"
+#include "../core/modulesettings.h"
 #include "../core/searchquery.h"
 #include "../core/KoXmlReader.h"
 
@@ -31,12 +31,12 @@ class zefaniaBible
 {
 
 private:
-    struct settings_s zefset;
-    struct moduleConfig mConfig;
+    Settings *m_settings;
+    ModuleSettings mConfig;
     QDomElement format(QDomElement e);
 public:
     zefaniaBible();
-    int setSettings(struct settings_s settings, struct moduleConfig mConfig);
+    int setSettings(Settings *settings);
     void readBook(const int &id);
     void loadBibleData(const int &id, const QString &path);
     QString readInfo(QFile &file);
@@ -51,7 +51,7 @@ public:
     long currentBookID, bibleID;
     struct stelle st;
     QString currentBiblePath, lastout, chaptersign, versesign, biblepath, bibleName, lastSearch;
-    QStringList bibles, biblesPath, bookFullName, bookShortName, /*chapterText,bookPath*/;
+    QStringList bibles, bookFullName, bookShortName, /*chapterText,bookPath*/;
     QMap <int, int> bookCount;
     QList<Chapter> chapterData;
 

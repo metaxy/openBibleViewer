@@ -24,7 +24,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QTreeWidgetItem>
 #include <QtGui/QTextCursor>
 
-#include "../../core/config.h"
+#include "../../core/settings.h"
 #include "../../core/notes.h"
 #include "../../core/searchquery.h"
 #include "../../core/windowcache.h"
@@ -55,8 +55,8 @@ public slots:
     int showSearchResults(struct searchQuery query);
     int showSettingsDialog();
     int showAboutDialog();
-    int saveSettings(struct settings_s settings);
     int reloadWindow(QMdiSubWindow * window);
+    int saveSettings(Settings set);
     int closeWindow();
     int saveFile();
     int saveAll();
@@ -123,7 +123,7 @@ private:
     Ui::MainWindowClass *ui;
     Bible m_bible;
     zefaniaStrong m_zefStrong;
-    struct settings_s m_set;
+    Settings *m_settings;
     Notes *m_note;
     WindowCache m_windowCache;
     QStringList encodings;
@@ -133,11 +133,11 @@ private:
     QString lastsearch;
     QString bookmarksFileName, homeDataPath;
     QTextCursor currentTextCursor;
-    QStringList bibles, biblesPath, biblesIniPath, bookPath, bookFullName, bibleDirName;
+    QStringList bibles, biblesIniPath, bookPath, bookFullName;
     QMap <int, int> bookCount;
     QMap<QString, QString> currentNoteRef;
     QList<int> biblesTypes;
-    QSettings *settings;
+    QSettings *m_settingsFile;
     QString VERSION, BUILD;
     bool m_enableReload;
 
@@ -147,8 +147,8 @@ private:
     void setCurrentChapter(const int &chapterID);
     void setEnableReload(bool enable);
     void setTitle(const QString &title);
-    void setSettings(struct settings_s ssettings);
-
+    void setSettings(Settings *set);
+    void setSettings(Settings set);
     void searchInCurrentText(QString searchtext);
     void showText(const QString &text);
     void showStrong(const QString &strongID);
@@ -159,6 +159,8 @@ private:
 
     void loadLanguage(QString language);
     void loadSettings();
+    void writeSettings();
+
     QString loadStrong(QString strongID);
     void loadStrongs();
     void loadDefaultConfig();
@@ -166,6 +168,7 @@ private:
 
     void saveSession();
     void restoreSession();
+
 
     int verseFromCursor(QTextCursor cursor);
     int currentWindowID();

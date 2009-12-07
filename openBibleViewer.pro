@@ -36,9 +36,11 @@ SOURCES += src/main.cpp \
     src/ui/main/mainstrong.cpp \
     src/core/history.cpp \
     src/ui/moduledownloaddialog.cpp \
-    src/core/dbghelper.cpp
+    src/core/dbghelper.cpp \
+    src/core/settings.cpp \
+    src/core/modulesettings.cpp
 HEADERS += src/ui/main/mainwindow.h \
-    src/core/config.h \
+    src/core/settings.h \
     src/module/biblequote.h \
     src/module/zefania-bible.h \
     src/ui/searchdialog.h \
@@ -57,7 +59,6 @@ HEADERS += src/ui/main/mainwindow.h \
     src/core/chapter.h \
     src/ui/mdiform.h \
     src/ui/poschoser.h \
-    src/core/moduleconfig.h \
     src/ui/moduleconfigdialog.h \
     src/core/goto.h \
     src/module/zefania-strong.h \
@@ -65,7 +66,9 @@ HEADERS += src/ui/main/mainwindow.h \
     src/ui/moduledownloaddialog.h \
     src/core/bibleinfo.h \
     src/core/dbghelper.h \
-    src/core/searchquery.h
+    src/core/searchquery.h \
+    src/core/settings.h \
+    src/core/modulesettings.h
 FORMS += src/ui/main/mainwindow.ui \
     src/ui/searchdialog.ui \
     src/ui/settingsdialog.ui \

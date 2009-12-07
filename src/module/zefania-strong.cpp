@@ -27,11 +27,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/KoXmlReader.h"
 zefaniaStrong::zefaniaStrong()
 {
+    m_settings = new Settings();
 }
-int zefaniaStrong::setSettings(struct settings_s settings , struct moduleConfig mConfig_)
+int zefaniaStrong::setSettings(Settings *set)
 {
-    zefset = settings;
-    mConfig = mConfig_;
+    m_settings = set;
     return 0;
 }
 QString zefaniaStrong::loadFile(QString fileData, QString fileName)
@@ -92,8 +92,8 @@ QString zefaniaStrong::loadFile(QString fileData, QString fileName)
                                 QString url = "bible://current/" + QString::number(bookID) + "," + QString::number(chapterID) + "," + QString::number(verseID) + ",";
                                 QString name = "";
 
-                                if (bookID < zefset.bookNames.size()) {
-                                    name = zefset.bookNames.at(bookID) + " " + list.at(1) + "," + list.at(2);
+                                if (bookID < m_settings->bookNames.size()) {
+                                    name = m_settings->bookNames.at(bookID) + " " + list.at(1) + "," + list.at(2);
                                 } else {
                                     name = list.at(0) + " " + list.at(1) + "," + list.at(2);
                                 }
@@ -118,7 +118,7 @@ QString zefaniaStrong::loadFile(QString fileData, QString fileName)
     doc.clear();
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(fileName.toLocal8Bit());
-    QString path = zefset.homePath + "cache/" + hash.result().toBase64() + ".strong";
+    QString path = m_settings->homePath + "cache/" + hash.result().toBase64() + ".strong";
     //if cache folder exist then remove it
     QFileInfo info(path);
     if (info.exists()) {
@@ -126,7 +126,7 @@ QString zefaniaStrong::loadFile(QString fileData, QString fileName)
     }
     //make a new cache folder
     QDir dir;
-    dir.mkpath(zefset.homePath + "cache/");
+    dir.mkpath(m_settings->homePath + "cache/");
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not open cache file."));
@@ -147,8 +147,8 @@ bool zefaniaStrong::loadDataBase(QString fileName)
     qDebug() << "zefaniaStrong::loadDataBase fileName = " << fileName;
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(fileName.toLocal8Bit());
-    QFile file(zefset.homePath + "cache/" + hash.result().toBase64() + ".strong");
-    qDebug() << "zefaniaStrong::loadDataBase fileName3 = " << zefset.homePath + "cache/" + hash.result().toBase64() + ".strong";
+    QFile file(m_settings->homePath + "cache/" + hash.result().toBase64() + ".strong");
+    qDebug() << "zefaniaStrong::loadDataBase fileName3 = " << m_settings->homePath + "cache/" + hash.result().toBase64() + ".strong";
     if (!file.open(QIODevice::ReadOnly)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not open cache file."));
         return false;

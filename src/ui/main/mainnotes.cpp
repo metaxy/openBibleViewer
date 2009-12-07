@@ -135,7 +135,7 @@ void MainWindow::newNoteWithLink()
     QTextCursor cursor = currentTextCursor;
     int startverse = verseFromCursor(cursor);
     QString link;
-    link = bibleDirName[m_bible.currentBibleID] + ";" + QString::number(m_bible.currentBookID, 10) + ";" + QString::number(m_bible.currentChapterID + 1 - m_bible.chapterAdd, 10) + ";" + QString::number(startverse, 10) + ";" + m_bible.bookFullName.at(m_bible.currentBookID);
+    link = biblesIniPath.at(m_bible.currentBibleID) + ";" + QString::number(m_bible.currentBookID, 10) + ";" + QString::number(m_bible.currentChapterID + 1 - m_bible.chapterAdd, 10) + ";" + QString::number(startverse, 10) + ";" + m_bible.bookFullName.at(m_bible.currentBookID);
 
     saveNote();
     reloadNotes();
@@ -262,7 +262,7 @@ QString MainWindow::notePos2Text(const QString &pos)
         myDebug() << "invalid pos";
         return "";
     }
-    QString dirname = list.at(0);
+    QString path = list.at(0);
     QString sbookID = list.at(1);
     QString schapterID = list.at(2);
     QString sverseID = list.at(3);
@@ -273,8 +273,8 @@ QString MainWindow::notePos2Text(const QString &pos)
     int bookID = sbookID.toInt();
     //get bibleID
     myDebug() << "get bibleID";
-    for (int i = 0; i < bibleDirName.size(); i++) {
-        if (bibleDirName.at(i) == dirname) {
+    for (int i = 0; i < biblesIniPath.size(); i++) {
+        if (biblesIniPath.at(i) == path) {
             bibleID = i;
             break;
         }
@@ -305,8 +305,8 @@ void MainWindow::editNoteLink()
     int chapterID = schapterID.toInt();
     int verseID = sverseID.toInt();
     //get bibleID
-    for (int i = 0; i < bibleDirName.size(); i++) {
-        if (bibleDirName.at(i) == dirname) {
+    for (int i = 0; i < biblesIniPath.size(); i++) {
+        if (biblesIniPath.at(i) == dirname) {
             bibleID = i;
             break;
         }

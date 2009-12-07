@@ -13,11 +13,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BIBLEQUOTE_H
 #define BIBLEQUOTE_H
-#include "../core/config.h"
+#include "../core/settings.h"
 #include "../core/stelle.h"
 #include "../core/chapter.h"
 #include "../core/searchquery.h"
-#include "../core/moduleconfig.h"
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QFile>
@@ -25,21 +24,21 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class biblequote
 {
 private:
-    struct settings_s bqset;
-    struct moduleConfig mConfig;
+    Settings *m_settings;
     QString formatfromini(QString input);
 
 public:
     biblequote();
-    int setSettings(struct settings_s settings, struct moduleConfig mConfig);
+    int setSettings(Settings *settings);
     void readBook(int id, QString path);
     void loadBibleData(int bibleID, QString path);
     QString readInfo(QFile &file);
     struct stelle search(struct searchQuery query);
+
     int currentBookID, currentBibleID;
     bool chapterZero, bible, oldTestament, newTestament, apocrypha, strongNumbers, greek;
     QString currentBiblePath, lastout, chaptersign, versesign, bibleName, removeHtml, lastSearch;
-    QString bibles, biblesPath, biblesIniPath;
+    QString bibles, biblesIniPath;
     QStringList bookPath, bookFullName, bookShortName;
     QMap <int, int> bookCount;
     QList<Chapter> chapterData;

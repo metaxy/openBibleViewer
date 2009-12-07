@@ -26,12 +26,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/dbghelper.h"
 zefaniaBible::zefaniaBible()
 {
+    m_settings = new Settings();
 }
-int zefaniaBible::setSettings(struct settings_s settings , struct moduleConfig mConfig_)
+int zefaniaBible::setSettings(Settings *set)
 {
-    qDebug() << "zefaniaBible::setSettings";
-    zefset = settings;
-    mConfig = mConfig_;
+    DEBUG_FUNC_NAME
+    m_settings = set;
     return 1;
 }
 void zefaniaBible::loadBibleData(const int &id, const QString &path)
@@ -55,15 +55,15 @@ void zefaniaBible::removeHardCache(const QString &path)
 {
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(path.toLocal8Bit());
-    QDir d(zefset.homePath + "cache/");
-    d.rmdir(zefset.homePath + "cache/" + hash.result().toBase64());
+    QDir d(m_settings->homePath + "cache/");
+    d.rmdir(m_settings->homePath + "cache/" + hash.result().toBase64());
 }
 
 QDomNode zefaniaBible::readBookFromHardCache(QString path, int bookID)
 {
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(path.toLocal8Bit());
-    QString fileName = zefset.homePath + "cache/" + hash.result().toBase64() + "/";
+    QString fileName = m_settings->homePath + "cache/" + hash.result().toBase64() + "/";
     QDomElement e;
     QFile file(fileName + QString::number(bookID) + ".xml");
     myDebug() << "fileName = " << file.fileName();
@@ -215,7 +215,7 @@ bool zefaniaBible::checkForCacheFiles(const QString &path)
     myDebug() << "path = " << path;
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(path.toLocal8Bit());
-    QString fileName = zefset.homePath + "cache/" + hash.result().toBase64() + "/";
+    QString fileName = m_settings->homePath + "cache/" + hash.result().toBase64() + "/";
     QFile file(fileName + "data");
     if (file.exists())
         return true;
@@ -248,7 +248,7 @@ void zefaniaBible::loadNoCached(const int &id, const QString &path)
     //hard cache: genrate fileName
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(path.toLocal8Bit());
-    QString fileName = zefset.homePath + "cache/" + hash.result().toBase64() + "/";
+    QString fileName = m_settings->homePath + "cache/" + hash.result().toBase64() + "/";
     QDir dir;
     dir.mkpath(fileName);
 #endif
@@ -403,11 +403,11 @@ void zefaniaBible::loadNoCached(const int &id, const QString &path)
         if (bookFullName.size() == 66) {
             bookFullName.clear();
             //load default booknames
-            bookFullName = zefset.bookNames;
+            bookFullName = m_settings->bookNames;
         } else if (bookFullName.size() == 27) {
             bookFullName.clear();
             //load default booknames
-            QStringList b = zefset.bookNames;
+            QStringList b = m_settings->bookNames;
             for (int v = 0; v < 39; v++) {
                 b.removeFirst();
             }
@@ -426,7 +426,7 @@ void zefaniaBible::loadNoCached(const int &id, const QString &path)
         progressCache.setValue(1);
         QCryptographicHash hash(QCryptographicHash::Md5);
         hash.addData(path.toLocal8Bit());
-        QString fileName = zefset.homePath + "cache/" + hash.result().toBase64();
+        QString fileName = m_settings->homePath + "cache/" + hash.result().toBase64();
         QDir dir(path);
         dir.mkpath(fileName + "/");
 
@@ -482,7 +482,7 @@ void zefaniaBible::loadCached(const int &id, const QString &path)
 
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(path.toLocal8Bit());
-    QString fileName = zefset.homePath + "cache/" + hash.result().toBase64() + "/";
+    QString fileName = m_settings->homePath + "cache/" + hash.result().toBase64() + "/";
     QFile file(fileName + "data");
     if (!file.open(QIODevice::ReadOnly)) {
         return;

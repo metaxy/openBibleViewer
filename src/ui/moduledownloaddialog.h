@@ -20,7 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtNetwork/QHttp>
 #include <QtCore/QFile>
 #include <QtGui/QProgressDialog>
-#include "../core/config.h"
+#include "../core/settings.h"
 namespace Ui
 {
 class moduleDownloadDialog;
@@ -43,7 +43,7 @@ private slots:
 public:
     moduleDownloadDialog(QWidget *parent = 0);
     ~moduleDownloadDialog();
-    void setSettings(settings_s settings);
+    void setSettings(Settings settings);
     void readModules();
 
 protected:
@@ -51,7 +51,7 @@ protected:
 
 private:
     Ui::moduleDownloadDialog *ui;
-    struct settings_s m_set;
+    Settings m_set;
     QStringList downloadList, nameList, downloadedList, downNames;
     int currentDownload;
     QProgressDialog *progressDialog;

@@ -153,7 +153,7 @@ void moduleDownloadDialog::item(QTreeWidgetItem* i)
     }
     //if(i->checkState(0) == Qt::
 }
-void moduleDownloadDialog::setSettings(settings_s settings)
+void moduleDownloadDialog::setSettings(Settings settings)
 {
     m_set = settings;
 }

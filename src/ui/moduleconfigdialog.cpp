@@ -33,8 +33,9 @@ moduleConfigDialog::~moduleConfigDialog()
 {
     delete m_ui;
 }
-void moduleConfigDialog::setModule(struct moduleConfig config)
+void moduleConfigDialog::setModule(ModuleSettings config)
 {
+    DEBUG_FUNC_NAME
     c = config;
     m_ui->lineEdit_name->setText(config.moduleName);
     m_ui->lineEdit_path->setText(config.modulePath);
@@ -74,10 +75,16 @@ void moduleConfigDialog::setModule(struct moduleConfig config)
     << "Windows-1253" << "Windows-1254" << "Windows-1255" << "Windows-1256" << "Windows-1257" << "Windows-1258" << "WINSAMI2";
     m_ui->comboBox_encoding->clear();
     m_ui->comboBox_encoding->insertItems(0, encodings);
-    m_ui->comboBox_encoding->setCurrentIndex(encodings.lastIndexOf(config.encoding));
+    if(encodings.lastIndexOf(config.encoding) != -1) {
+        m_ui->comboBox_encoding->setCurrentIndex(encodings.lastIndexOf(config.encoding));
+    } else {
+        m_ui->comboBox_encoding->setCurrentIndex(0);
+    }
 }
 void moduleConfigDialog::bsave()
 {
+    DEBUG_FUNC_NAME
+
     if (c.moduleType.toInt() == Bible::ZefaniaBible &&
             (c.encoding != encodings.at(m_ui->comboBox_encoding->currentIndex()) ||
              c.moduleType != QString::number(m_ui->comboBox_type->currentIndex()) ||

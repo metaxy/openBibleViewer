@@ -12,8 +12,8 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "bible.h"
-#include "../core/config.h"
-#include "../core/moduleconfig.h"
+#include "../core/settings.h"
+#include "../core/modulesettings.h"
 #include "../core/dbghelper.h"
 #include <QtCore/QtDebug>
 #include <QtCore/QMapIterator>
@@ -21,21 +21,22 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 Bible::Bible()
 {
     currentBibleID = -1;
+    m_settings = new Settings();
 }
 void Bible::setBibleType(int type)
 {
-    //check if type is valid
+    //todo:check if type is valid
     bibleType = type;
     return;
 }
 int Bible::loadBibleData(int bibleID, QString path)
 {
-    qDebug() << "bible::loadBibleData() bibleID = " << bibleID << " path = " << path << " bibleType =" << bibleType;
+    DEBUG_FUNC_NAME
+    myDebug() << "bibleID = " << bibleID << " path = " << path << " bibleType =" << bibleType;
     currentBibleID = bibleID;
     switch (bibleType) {
     case BibleQuote: { //biblequote
-        moduleConfig m = settings.module.at(settings.moduleID[currentBibleID]);
-        bq.setSettings(settings, m);
+        bq.setSettings(m_settings);
 
         bq.loadBibleData(bibleID, path);
         bibleName = bq.bibleName;
@@ -48,8 +49,8 @@ int Bible::loadBibleData(int bibleID, QString path)
     }
     case ZefaniaBible: { //zefania bible
 
-        moduleConfig m = settings.module.at(settings.moduleID[currentBibleID]);
-        zef.setSettings(settings, m);
+        ModuleSettings m = m_settings->getModuleSettings(currentBibleID);
+        zef.setSettings(m_settings);
 
         zef.loadBibleData(bibleID, path);
         bibleName = m.moduleName;
@@ -61,7 +62,6 @@ int Bible::loadBibleData(int bibleID, QString path)
         break;
     }
     }
-    qDebug() << "bible::loadBibleData() end";
     return 0;
 }
 /*
@@ -109,20 +109,13 @@ int Bible::readBook(int id)
     qDebug() << "bible::readBook() end";
     return 0;
 }
-void Bible::setSettings(struct settings_s settings_)
+void Bible::setSettings(Settings *set)
 {
     DEBUG_FUNC_NAME
-    settings = settings_;
-    if (settings.module.size() > 0) {
-        myDebug() << " setings.module.size() > 0 moduleID = " << settings.moduleID;
-        moduleConfig m = settings.module.at(settings.moduleID[currentBibleID]);
-        zef.setSettings(settings, m);
-        bq.setSettings(settings, m);
-    } else {
-        myDebug() << " setings.module.size() = 0";
-        zef.setSettings(settings, moduleConfig());
-        bq.setSettings(settings, moduleConfig());
-    }
+    m_settings = set;
+  //  myDebug() << " setings.module.size() = " << m_settings->module.size() << " moduleID = " << m_settings->moduleID;
+    zef.setSettings(m_settings);
+    bq.setSettings(m_settings);
 }
 QString Bible::readChapter(int chapterID, int verseID = -1)
 {
@@ -174,7 +167,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
 
             c = chapterData.at(chapterID);
             qDebug() << "bible::readVerse() chapterID = " << chapterID << " chapterdata.size() = " << chapterData.size() << " a.size() = " << c.data.size();
-            if (settings.module.at(settings.moduleID[currentBibleID]).zefbible_textFormatting == 0) {
+            if (m_settings->getModuleSettings(currentBibleID).zefbible_textFormatting == 0) {
                 if (saveRawData)
                     out = "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";
                 int end;
@@ -193,7 +186,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                     if (saveRawData)
                         chapterDataList << o;
                 }
-            } else { /*if(settings.module.at(currentBibleID).zefbible_textFormatting == 1)*/
+            } else { /*if(m_settings->getModuleSettings(currentBibleID).zefbible_textFormatting == 1)*/
                 if (saveRawData)
                     out = "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";
                 int end;

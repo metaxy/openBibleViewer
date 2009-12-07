@@ -28,7 +28,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 
 #include "ui/main/mainwindow.h"
-#include "core/config.h"
 
 //CONFIG
 //#define _PORTABLE_VERSION

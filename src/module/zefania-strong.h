@@ -17,13 +17,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 #include <QtXml/QDomElement>
 #include <QtXml/QDomDocument>
-#include "../core/config.h"
-#include "../core/moduleconfig.h"
+#include "../core/settings.h"
 class zefaniaStrong
 {
 private:
-    struct settings_s zefset;
-    struct moduleConfig mConfig;
+    Settings *m_settings;
     QStringList m_id;
     QStringList m_title;
     QStringList m_trans;
@@ -31,7 +29,7 @@ private:
     QStringList m_desc;
 public:
     zefaniaStrong();
-    int setSettings(struct settings_s settings, struct moduleConfig mConfig);
+    int setSettings(Settings *settings);
     QString loadFile(QString fileData, QString fileName);
     bool loadDataBase(QString fileName);
     QString getStrong(QString strongID);

@@ -13,8 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
-#include "../core/config.h"
-#include "../core/moduleconfig.h"
+#include "../core/settings.h"
+#include "../core/modulesettings.h"
 #include "../core/dbghelper.h"
 #include "../module/zefania-bible.h"
 #include "../module/zefania-strong.h"
@@ -54,7 +54,7 @@ void settingsDialog::reset()
     m_set = m_backupSet;
     setSettings(m_set);
 }
-int settingsDialog::setSettings(settings_s settings)
+int settingsDialog::setSettings(Settings settings)
 {
     m_set = settings;
     m_backupSet = settings;
@@ -205,7 +205,7 @@ void settingsDialog::addModuleDir(void)
                 QString f = fileName.at(i);
                 QString bibleName;
                 QString moduleType;
-                moduleConfig m;
+                ModuleSettings m;
                 QFileInfo fileInfo(f);
                 if (fileInfo.isDir()) {
                     moduleType = QObject::tr("Folder");
@@ -268,17 +268,18 @@ void settingsDialog::removeModule()
 }
 void settingsDialog::editModule()
 {
+    DEBUG_FUNC_NAME
     int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
     if (row >= 0) {
         moduleConfigDialog *mDialog = new moduleConfigDialog(this);
         mDialog->setModule(m_set.module.at(row));
-        connect(mDialog, SIGNAL(save(struct moduleConfig)), this, SLOT(saveModule(struct moduleConfig)));
-        connect(mDialog, SIGNAL(save(struct moduleConfig)), mDialog, SLOT(close()));
+        connect(mDialog, SIGNAL(save(ModuleSettings)), this, SLOT(saveModule(ModuleSettings)));
+        connect(mDialog, SIGNAL(save(ModuleSettings)), mDialog, SLOT(close()));
         mDialog->show();
     }
 
 }
-void settingsDialog::saveModule(struct moduleConfig c)
+void settingsDialog::saveModule(ModuleSettings c)
 {
     int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
     m_set.module.replace(row, c);
@@ -324,8 +325,8 @@ void settingsDialog::addModules(QStringList fileName, QStringList names)
             biblequote bq;
             zefaniaBible zef;
             zefaniaStrong zefStrong;
-            moduleConfig m;
-            zefStrong.setSettings(m_set, m);
+            ModuleSettings m;
+            zefStrong.setSettings(&m_set);
 
             QFileInfo fileInfo(f);
             if (fileInfo.isFile()) {
@@ -401,6 +402,8 @@ void settingsDialog::addModules(QStringList fileName, QStringList names)
     }
     myDebug() << "files = " << fileName;
 }
+
+
 void settingsDialog::changeEvent(QEvent *e)
 {
     switch (e->type()) {

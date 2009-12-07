@@ -19,13 +19,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class GoTo
 {
 public:
-    GoTo(int currentBibleID, QStringList bookFullName, int chapterAdd);
+    GoTo(int currentBibleID, QStringList bookFullName);
     QString getUrl(const QString& text);
 private:
     int bookNameToBookID(const QString& name);
     int levenshteinDistance(const QString& s, const QString& t);
-    int currentBibleID, chapterAdd;
-    QStringList bookFullName;
+    int m_currentBibleID;
+    QStringList m_bookFullName;
 };
 
 #endif // GOTO_H
