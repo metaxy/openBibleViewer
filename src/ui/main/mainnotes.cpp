@@ -103,6 +103,7 @@ void MainWindow::saveNote(void)
 void MainWindow::newNote(void)
 {
     DEBUG_FUNC_NAME
+
     saveNote();
     reloadNotes();
     QString newID = m_note->generateNewID();
@@ -132,6 +133,10 @@ void MainWindow::newNote(void)
 void MainWindow::newNoteWithLink()
 {
     DEBUG_FUNC_NAME
+    if (m_bible.currentBibleID < 0) {
+        newNote();
+        return;
+    }
     QTextCursor cursor = currentTextCursor;
     int startverse = verseFromCursor(cursor);
     QString link;

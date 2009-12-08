@@ -52,15 +52,22 @@ void Settings::setBookCount(const int &bibleID, QMap<int, int>bookCount)
 }
 QList<QMap<int, int> > Settings::getBookCount()
 {
-   /* QList<QMap<int, int> > ret;
+   QList<QMap<int, int> > ret;
     for(int c=0; c < module.size();++c)
     {
-        QMapIterator<int, int> i(module.at(c).bookCount);
+        QMapIterator<QString, QVariant> i(module.at(c).bookCount);
         while (i.hasNext()) {
              i.next();
-         //    ret << i.value();
+             QMap<int,int> map;
+             QMapIterator<QString, QVariant> i2(i.value().toMap());
+             while (i2.hasNext()) {
+                  i2.next();
+                  map[i2.key().toInt()] = i2.value().toInt();
+                 ret << map;
+              }
          }
-    }*/
+    }
+    return ret;
 }
 
 void Settings::setBookNames(const int &bibleID, QStringList bookNames)
