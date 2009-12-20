@@ -22,7 +22,7 @@ void MainWindow::loadStrongs()
     QList<int> moduleID;
     QStringList moduleTitle;
     for (int i = 0; i < m_settings->module.size(); ++i) {
-        if (m_settings->module.at(i).moduleType == QString::number(Bible::ZefaniaStrong)) {
+        if (m_settings->module.at(i).moduleType == QString::number(Bible::ZefaniaStrongModule)) {
             moduleID << i;
             moduleTitle << m_settings->module.at(i).moduleName;
         }

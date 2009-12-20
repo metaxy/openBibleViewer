@@ -27,9 +27,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomElement>
 
 
-moduleDownloadDialog::moduleDownloadDialog(QWidget *parent) :
+ModuleDownloadDialog::ModuleDownloadDialog(QWidget *parent) :
         QDialog(parent),
-        ui(new Ui::moduleDownloadDialog)
+        ui(new Ui::ModuleDownloadDialog)
 {
     ui->setupUi(this);
     progressDialog = new QProgressDialog(this);
@@ -49,7 +49,7 @@ moduleDownloadDialog::moduleDownloadDialog(QWidget *parent) :
     httpRequestAborted = false;
 
 }
-void moduleDownloadDialog::readModules()
+void ModuleDownloadDialog::readModules()
 {
     DEBUG_FUNC_NAME
     //load list from file
@@ -120,7 +120,7 @@ void moduleDownloadDialog::readModules()
         id = id.nextSibling();
     }
 }
-void moduleDownloadDialog::item(QTreeWidgetItem* i)
+void ModuleDownloadDialog::item(QTreeWidgetItem* i)
 {
     DEBUG_FUNC_NAME
     myDebug() << "i = " << i->data(1, 0) << " downloadList = " << downloadList;
@@ -153,11 +153,11 @@ void moduleDownloadDialog::item(QTreeWidgetItem* i)
     }
     //if(i->checkState(0) == Qt::
 }
-void moduleDownloadDialog::setSettings(Settings settings)
+void ModuleDownloadDialog::setSettings(Settings settings)
 {
     m_set = settings;
 }
-void moduleDownloadDialog::downloadNext()
+void ModuleDownloadDialog::downloadNext()
 {
     if (httpRequestAborted)
         return;
@@ -206,13 +206,13 @@ void moduleDownloadDialog::downloadNext()
         //todo: Error message
     }
 }
-void moduleDownloadDialog::cancelDownload()
+void ModuleDownloadDialog::cancelDownload()
 {
     httpRequestAborted = true;
     http->abort();
 }
 
-void moduleDownloadDialog::httpRequestFinished(int requestId, bool error)
+void ModuleDownloadDialog::httpRequestFinished(int requestId, bool error)
 {
     if (requestId != httpGetId)
         return;
@@ -240,7 +240,7 @@ void moduleDownloadDialog::httpRequestFinished(int requestId, bool error)
                                  tr("Download failed: %1.")
                                  .arg(http->errorString()));
     } else {
-        qDebug() << "moduleDownloadDialog::httpRequestFinished() Downloaded";
+        qDebug() << "ModuleDownloadDialog::httpRequestFinished() Downloaded";
         file->close();
     }
 
@@ -250,7 +250,7 @@ void moduleDownloadDialog::httpRequestFinished(int requestId, bool error)
     downloadNext();
 }
 
-void moduleDownloadDialog::readResponseHeader(const QHttpResponseHeader &responseHeader)
+void ModuleDownloadDialog::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
     switch (responseHeader.statusCode()) {
     case 200:                   // Ok
@@ -271,7 +271,7 @@ void moduleDownloadDialog::readResponseHeader(const QHttpResponseHeader &respons
     }
 }
 
-void moduleDownloadDialog::updateDataReadProgress(int bytesRead, int totalBytes)
+void ModuleDownloadDialog::updateDataReadProgress(int bytesRead, int totalBytes)
 {
     if (httpRequestAborted)
         return;
@@ -294,12 +294,12 @@ void moduleDownloadDialog::updateDataReadProgress(int bytesRead, int totalBytes)
     }
 }
 
-moduleDownloadDialog::~moduleDownloadDialog()
+ModuleDownloadDialog::~ModuleDownloadDialog()
 {
     delete ui;
 }
 
-void moduleDownloadDialog::changeEvent(QEvent *e)
+void ModuleDownloadDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
     switch (e->type()) {

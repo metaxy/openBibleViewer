@@ -23,10 +23,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/settings.h"
 namespace Ui
 {
-class moduleDownloadDialog;
+class ModuleDownloadDialog;
 }
 
-class moduleDownloadDialog : public QDialog
+class ModuleDownloadDialog : public QDialog
 {
     Q_OBJECT
 
@@ -41,8 +41,8 @@ private slots:
     void item(QTreeWidgetItem* item);
     void cancelDownload();
 public:
-    moduleDownloadDialog(QWidget *parent = 0);
-    ~moduleDownloadDialog();
+    ModuleDownloadDialog(QWidget *parent = 0);
+    ~ModuleDownloadDialog();
     void setSettings(Settings settings);
     void readModules();
 
@@ -50,7 +50,7 @@ protected:
     void changeEvent(QEvent *e);
 
 private:
-    Ui::moduleDownloadDialog *ui;
+    Ui::ModuleDownloadDialog *ui;
     Settings m_set;
     QStringList downloadList, nameList, downloadedList, downNames;
     int currentDownload;

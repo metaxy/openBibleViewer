@@ -35,7 +35,7 @@ int Bible::loadBibleData(int bibleID, QString path)
     myDebug() << "bibleID = " << bibleID << " path = " << path << " bibleType =" << bibleType;
     currentBibleID = bibleID;
     switch (bibleType) {
-    case BibleQuote: { //biblequote
+    case BibleQuoteModule: {
         bq.setSettings(m_settings);
 
         bq.loadBibleData(bibleID, path);
@@ -47,7 +47,7 @@ int Bible::loadBibleData(int bibleID, QString path)
         currentBiblePath = bq.currentBiblePath;
         break;
     }
-    case ZefaniaBible: { //zefania bible
+    case ZefaniaBibleModule: { //zefania bible
 
         ModuleSettings m = m_settings->getModuleSettings(currentBibleID);
         zef.setSettings(m_settings);
@@ -72,7 +72,7 @@ int Bible::readBook(int id)
     currentBookID = id;
     qDebug() << "bible::readBook() id= " << id << " bibleType =" << bibleType;
     switch (bibleType) {
-    case BibleQuote: { //biblequote
+    case BibleQuoteModule: {
         chapterData.clear();
         chapterNames.clear();
         if (id < bookPath.size()) {
@@ -95,7 +95,7 @@ int Bible::readBook(int id)
         }
         break;
     }
-    case ZefaniaBible: { //zefania
+    case ZefaniaBibleModule: { //zefania
         chapterData.clear();
         chapterNames.clear();
         zef.readBook(id);
@@ -113,7 +113,7 @@ void Bible::setSettings(Settings *set)
 {
     DEBUG_FUNC_NAME
     m_settings = set;
-  //  myDebug() << " setings.module.size() = " << m_settings->module.size() << " moduleID = " << m_settings->moduleID;
+    //  myDebug() << " setings.module.size() = " << m_settings->module.size() << " moduleID = " << m_settings->moduleID;
     zef.setSettings(m_settings);
     bq.setSettings(m_settings);
 }
@@ -133,7 +133,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     currentChapterID = chapterID;
     QString out = "";
     switch (bibleType) {
-    case BibleQuote: { //biblequote
+    case BibleQuoteModule: {
         Chapter c;
         if (chapterID < chapterData.size()) {
 
@@ -160,7 +160,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         }
         break;
     }
-    case ZefaniaBible: { //zefania
+    case ZefaniaBibleModule: { //zefania
         qDebug() << "bible::readVerse() zefania read";
         Chapter c;
         if (chapterID < chapterData.size()) {
@@ -219,21 +219,21 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     qDebug() << "bible::readVerse() end";
     return out;
 }
-struct stelle Bible::search(struct searchQuery query) {
-    lastSearchString = query.text;
-    struct stelle st;
+SearchResult Bible::search(SearchQuery query)
+{
+    lastSearchQuery = query;
+    SearchResult result;
     switch (bibleType) {
-    case BibleQuote: {
-        st = bq.search(query);
+    case BibleQuoteModule: {
+        result = bq.search(query);
         break;
     }
-    case ZefaniaBible: {
-        st = zef.search(query);
+    case ZefaniaBibleModule: {
+        result = zef.search(query);
         break;
     }
     }
-    st.bibleID = currentBibleID;
-    return st;
+    return result;
 }
 QMap<int, QList<Chapter> > Bible::getZefCache()
 {
@@ -256,9 +256,9 @@ void Bible::setZefCache(QMap<int, QList<Chapter> > cache)
 }
 QStringList Bible::getSearchPaths()
 {
-    if (bibleType == ZefaniaBible) {
+    if (bibleType == ZefaniaBibleModule) {
         return QStringList();
-    } else if (bibleType == BibleQuote) {
+    } else if (bibleType == BibleQuoteModule) {
         QStringList l;
         l << QString(currentBiblePath + QDir::separator());
         if (currentBookID < bookPath.size()) {

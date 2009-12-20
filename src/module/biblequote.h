@@ -17,32 +17,33 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/stelle.h"
 #include "../core/chapter.h"
 #include "../core/searchquery.h"
+#include "../core/searchresult.h"
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QFile>
 #include <QtCore/QMap>
-class biblequote
+class BibleQuote
 {
 private:
     Settings *m_settings;
     QString formatfromini(QString input);
 
 public:
-    biblequote();
+    BibleQuote();
     int setSettings(Settings *settings);
     void readBook(int id, QString path);
     void loadBibleData(int bibleID, QString path);
     QString readInfo(QFile &file);
-    struct stelle search(struct searchQuery query);
+    SearchResult search(SearchQuery query);
 
     int currentBookID, currentBibleID;
     bool chapterZero, bible, oldTestament, newTestament, apocrypha, strongNumbers, greek;
-    QString currentBiblePath, lastout, chaptersign, versesign, bibleName, removeHtml, lastSearch;
+    QString currentBiblePath, lastout, chaptersign, versesign, bibleName, removeHtml;
     QString bibles, biblesIniPath;
     QStringList bookPath, bookFullName, bookShortName;
     QMap <int, int> bookCount;
+    SearchQuery lastSearchQuery;
     QList<Chapter> chapterData;
-    struct stelle st;
 };
 
 #endif // BIBLEQUOTE_H

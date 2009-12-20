@@ -38,7 +38,10 @@ SOURCES += src/main.cpp \
     src/ui/moduledownloaddialog.cpp \
     src/core/dbghelper.cpp \
     src/core/settings.cpp \
-    src/core/modulesettings.cpp
+    src/core/modulesettings.cpp \
+    src/core/searchresult.cpp \
+    src/core/searchquery.cpp \
+    src/core/searchhit.cpp
 HEADERS += src/ui/main/mainwindow.h \
     src/core/settings.h \
     src/module/biblequote.h \
@@ -46,7 +49,6 @@ HEADERS += src/ui/main/mainwindow.h \
     src/ui/searchdialog.h \
     src/ui/settingsdialog.h \
     src/core/windowcache.h \
-    src/core/stelle.h \
     src/core/KoXmlReader.h \
     src/core/KoXmlWriter.h \
     src/core/KoXmlReaderForward.h \
@@ -64,11 +66,13 @@ HEADERS += src/ui/main/mainwindow.h \
     src/module/zefania-strong.h \
     src/core/history.h \
     src/ui/moduledownloaddialog.h \
-    src/core/bibleinfo.h \
     src/core/dbghelper.h \
     src/core/searchquery.h \
     src/core/settings.h \
-    src/core/modulesettings.h
+    src/core/modulesettings.h \
+    src/core/searchresult.h \
+    src/core/searchquery.h \
+    src/core/searchhit.h
 FORMS += src/ui/main/mainwindow.ui \
     src/ui/searchdialog.ui \
     src/ui/settingsdialog.ui \

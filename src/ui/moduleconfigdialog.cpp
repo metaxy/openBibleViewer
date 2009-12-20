@@ -18,9 +18,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_moduleconfigdialog.h"
 #include <QtGui/QFileDialog>
 
-moduleConfigDialog::moduleConfigDialog(QWidget *parent) :
+ModuleConfigDialog::ModuleConfigDialog(QWidget *parent) :
         QDialog(parent),
-        m_ui(new Ui::moduleConfigDialog)
+        m_ui(new Ui::ModuleConfigDialog)
 {
     m_ui->setupUi(this);
     connect(m_ui->pushButton_ok, SIGNAL(clicked()), this, SLOT(bsave()));
@@ -29,11 +29,11 @@ moduleConfigDialog::moduleConfigDialog(QWidget *parent) :
     connect(m_ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this, SLOT(moduleTypeChanged(int)));
 }
 
-moduleConfigDialog::~moduleConfigDialog()
+ModuleConfigDialog::~ModuleConfigDialog()
 {
     delete m_ui;
 }
-void moduleConfigDialog::setModule(ModuleSettings config)
+void ModuleConfigDialog::setModule(ModuleSettings config)
 {
     DEBUG_FUNC_NAME
     c = config;
@@ -75,22 +75,22 @@ void moduleConfigDialog::setModule(ModuleSettings config)
     << "Windows-1253" << "Windows-1254" << "Windows-1255" << "Windows-1256" << "Windows-1257" << "Windows-1258" << "WINSAMI2";
     m_ui->comboBox_encoding->clear();
     m_ui->comboBox_encoding->insertItems(0, encodings);
-    if(encodings.lastIndexOf(config.encoding) != -1) {
+    if (encodings.lastIndexOf(config.encoding) != -1) {
         m_ui->comboBox_encoding->setCurrentIndex(encodings.lastIndexOf(config.encoding));
     } else {
         m_ui->comboBox_encoding->setCurrentIndex(0);
     }
 }
-void moduleConfigDialog::bsave()
+void ModuleConfigDialog::bsave()
 {
     DEBUG_FUNC_NAME
 
-    if (c.moduleType.toInt() == Bible::ZefaniaBible &&
+    if (c.moduleType.toInt() == Bible::ZefaniaBibleModule &&
             (c.encoding != encodings.at(m_ui->comboBox_encoding->currentIndex()) ||
              c.moduleType != QString::number(m_ui->comboBox_type->currentIndex()) ||
              c.modulePath != m_ui->lineEdit_path->text())) {
         myDebug() << "clear hard in zefania cache";
-        zefaniaBible zef;
+        ZefaniaBible zef;
         zef.removeHardCache(m_ui->lineEdit_path->text());
         if (c.modulePath != m_ui->lineEdit_path->text()) {
             zef.removeHardCache(c.modulePath);
@@ -109,22 +109,22 @@ void moduleConfigDialog::bsave()
     //todo:if path type or encoding changed clear cache
     emit save(c);
 }
-void moduleConfigDialog::moduleTypeChanged(int id)
+void ModuleConfigDialog::moduleTypeChanged(int id)
 {
     m_ui->groupBox_bq->setVisible(false);
     m_ui->groupBox_zefBible->setVisible(false);
     id = m_ui->comboBox_type->currentIndex();
     switch (id) {
-    case Bible::BibleQuote:
+    case Bible::BibleQuoteModule:
         m_ui->groupBox_bq->setVisible(true);
         break;
-    case Bible::ZefaniaBible:
+    case Bible::ZefaniaBibleModule:
         m_ui->groupBox_zefBible->setVisible(true);
         break;
 
     }
 }
-void  moduleConfigDialog::fileSelect()
+void  ModuleConfigDialog::fileSelect()
 {
     if (c.isDir) {
         QFileDialog dialog(this);
@@ -147,7 +147,7 @@ void  moduleConfigDialog::fileSelect()
     }
     return;
 }
-void moduleConfigDialog::changeEvent(QEvent *e)
+void ModuleConfigDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
     switch (e->type()) {

@@ -14,24 +14,24 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
 
-aboutDialog::aboutDialog(QWidget *parent) :
+AboutDialog::AboutDialog(QWidget *parent) :
         QDialog(parent),
-        m_ui(new Ui::aboutDialog)
+        m_ui(new Ui::AboutDialog)
 {
     m_ui->setupUi(this);
     connect(m_ui->pushButton, SIGNAL(clicked()), this, SLOT(close()));
 }
 
-aboutDialog::~aboutDialog()
+AboutDialog::~AboutDialog()
 {
     delete m_ui;
 }
-void aboutDialog::setText(const QString &text)
+void AboutDialog::setText(const QString &text)
 {
     m_ui->label->setText(text);
 }
 
-void aboutDialog::changeEvent(QEvent *e)
+void AboutDialog::changeEvent(QEvent *e)
 {
     switch (e->type()) {
     case QEvent::LanguageChange:

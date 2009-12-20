@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>moduleConfigDialog</class>
- <widget class="QDialog" name="moduleConfigDialog">
+ <class>ModuleConfigDialog</class>
+ <widget class="QDialog" name="ModuleConfigDialog">
   <property name="geometry">
    <rect>
     <x>0</x>

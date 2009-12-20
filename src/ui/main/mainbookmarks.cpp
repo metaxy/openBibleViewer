@@ -193,7 +193,7 @@ void MainWindow::editBookmark()
         }
     }
 
-    posChoser *pChoser = new posChoser(this);
+    PosChoser *pChoser = new PosChoser(this);
     pChoser->setWindowModality(Qt::WindowModal);
     connect(pChoser, SIGNAL(updated(QString)), this, SLOT(updateBookmark(QString)));
     pChoser->setSettings(m_settings);

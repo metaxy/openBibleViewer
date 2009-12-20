@@ -18,27 +18,27 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/searchquery.h"
 namespace Ui
 {
-class searchDialog;
+class SearchDialog;
 }
 
-class searchDialog : public QDialog
+class SearchDialog : public QDialog
 {
     Q_OBJECT
 private slots:
     void search();
     void showMore();
 signals:
-    void searched(struct searchQuery query);
+    void searched(SearchQuery query);
 public:
-    explicit searchDialog(QWidget *parent = 0);
+    explicit SearchDialog(QWidget *parent = 0);
     void setText(const QString &text);
-    virtual ~searchDialog();
+    virtual ~SearchDialog();
 
 protected:
     virtual void changeEvent(QEvent *e);
 
 private:
-    Ui::searchDialog *m_ui;
+    Ui::SearchDialog *m_ui;
 };
 
 #endif // SEARCHDIALOG_H

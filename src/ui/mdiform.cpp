@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/dbghelper.h"
 
 
-mdiForm::mdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::mdiForm)
+MdiForm::MdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::MdiForm)
 {
     m_ui->setupUi(this);
     m_ui->textBrowser->setOpenLinks(false);
@@ -26,7 +26,7 @@ mdiForm::mdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::mdiForm)
     setButtons();
 
 }
-void mdiForm::changeEvent(QEvent *e)
+void MdiForm::changeEvent(QEvent *e)
 {
     switch (e->type()) {
     case QEvent::LanguageChange:
@@ -36,25 +36,25 @@ void mdiForm::changeEvent(QEvent *e)
         break;
     }
 }
-void mdiForm::historyGetUrl(QString url)
+void MdiForm::historyGetUrl(QString url)
 {
     //myDebug() << "url = " << url;
     browserHistory.setCurrent(url);
     setButtons();
 }
-void mdiForm::backward()
+void MdiForm::backward()
 {
     DEBUG_FUNC_NAME
     emit historyGo(browserHistory.backward());
     setButtons();
 }
-void mdiForm::forward()
+void MdiForm::forward()
 {
     DEBUG_FUNC_NAME
     emit historyGo(browserHistory.forward());
     setButtons();
 }
-void mdiForm::setButtons()
+void MdiForm::setButtons()
 {
     if (browserHistory.backwardAvailable()) {
         m_ui->toolButton_backward->setDisabled(false);
@@ -67,7 +67,7 @@ void mdiForm::setButtons()
         m_ui->toolButton_forward->setDisabled(true);
     }
 }
-mdiForm::~mdiForm()
+MdiForm::~MdiForm()
 {
     delete m_ui;
 }

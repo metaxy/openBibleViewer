@@ -11,8 +11,8 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef ZEFANIA_H
-#define ZEFANIA_H
+#ifndef ZEFANIABIBLE_H
+#define ZEFANIABIBLE_H
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QFile>
@@ -25,9 +25,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/chapter.h"
 #include "../core/modulesettings.h"
 #include "../core/searchquery.h"
+#include "../core/searchresult.h"
 #include "../core/KoXmlReader.h"
 
-class zefaniaBible
+class ZefaniaBible
 {
 
 private:
@@ -35,7 +36,7 @@ private:
     ModuleSettings mConfig;
     QDomElement format(QDomElement e);
 public:
-    zefaniaBible();
+    ZefaniaBible();
     int setSettings(Settings *settings);
     void readBook(const int &id);
     void loadBibleData(const int &id, const QString &path);
@@ -45,11 +46,13 @@ public:
     void loadNoCached(const int &id, const QString &path);
     void loadCached(const int &id, const QString &path);
     QDomNode readBookFromHardCache(QString path, int bookID);
-    struct stelle search(struct searchQuery query);
+    SearchResult search(SearchQuery query);
 
     QMap<int, QList<Chapter> > softCacheData;
-    long currentBookID, bibleID;
-    struct stelle st;
+    int currentBookID, m_bibleID;
+    SearchResult lastSearchResult;
+    SearchQuery lastSearchQuery;
+
     QString currentBiblePath, lastout, chaptersign, versesign, biblepath, bibleName, lastSearch;
     QStringList bibles, bookFullName, bookShortName, /*chapterText,bookPath*/;
     QMap <int, int> bookCount;
@@ -65,4 +68,4 @@ public:
 
 };
 
-#endif // ZEFANIA_H
+#endif // ZEFANIABIBLE_H

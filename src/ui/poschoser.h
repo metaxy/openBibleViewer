@@ -13,22 +13,22 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef POSCHOSER_H
 #define POSCHOSER_H
-#include "../core/chapter.h"
-#include <QtGui/QDialog>
 #include "../core/settings.h"
+#include <QtGui/QDialog>
+
 namespace Ui
 {
-class posChoser;
+class PosChoser;
 }
 
-class posChoser : public QDialog
+class PosChoser : public QDialog
 {
     Q_OBJECT
 public:
-    explicit posChoser(QWidget *parent = 0);
-    virtual ~posChoser();
+    explicit PosChoser(QWidget *parent = 0);
+    virtual ~PosChoser();
     void setSettings(Settings *set);
-    void setCurrent(int bible, QString path, int book, int chapter, int verse);
+    void setCurrent(const int &bible,const QString &path, const int &book, const int &chapter, const int &verse);
 
 protected:
     virtual void changeEvent(QEvent *e);
@@ -39,7 +39,7 @@ public slots:
 signals:
     void updated(QString pos);
 private:
-    Ui::posChoser *m_ui;
+    Ui::PosChoser *m_ui;
     Settings *m_settings;
     QStringList m_bibles;
     int m_bibleID, m_bookID, m_chapterID, m_verseID;

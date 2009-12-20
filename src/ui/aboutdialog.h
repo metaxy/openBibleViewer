@@ -18,23 +18,23 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QString>
 namespace Ui
 {
-class aboutDialog;
+class AboutDialog;
 }
 
-class aboutDialog : public QDialog
+class AboutDialog : public QDialog
 {
     Q_OBJECT
-    Q_DISABLE_COPY(aboutDialog)
+    Q_DISABLE_COPY(AboutDialog)
 public:
-    explicit aboutDialog(QWidget *parent = 0);
-    virtual ~aboutDialog();
+    explicit AboutDialog(QWidget *parent = 0);
+    virtual ~AboutDialog();
     void setText(const QString &text);
 
 protected:
     virtual void changeEvent(QEvent *e);
 
 private:
-    Ui::aboutDialog *m_ui;
+    Ui::AboutDialog *m_ui;
 };
 
 #endif // ABOUTDIALOG_H

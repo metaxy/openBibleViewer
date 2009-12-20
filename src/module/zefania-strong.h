@@ -18,7 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomElement>
 #include <QtXml/QDomDocument>
 #include "../core/settings.h"
-class zefaniaStrong
+class ZefaniaStrong
 {
 private:
     Settings *m_settings;
@@ -28,7 +28,7 @@ private:
     QStringList m_pron;
     QStringList m_desc;
 public:
-    zefaniaStrong();
+    ZefaniaStrong();
     int setSettings(Settings *settings);
     QString loadFile(QString fileData, QString fileName);
     bool loadDataBase(QString fileName);

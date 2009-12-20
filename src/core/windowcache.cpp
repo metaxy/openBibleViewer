@@ -61,7 +61,7 @@ bool WindowCache::setCurrentWindowID(const int &id)
     }
     return true;
 }
-void WindowCache::setCurrentBook(const int &bookID,const int &chapterCount)
+void WindowCache::setCurrentBook(const int &bookID, const int &chapterCount)
 {
     m_chapterCount[m_currentWindowID] = chapterCount;
     m_selectedBook[m_currentWindowID] = bookID;

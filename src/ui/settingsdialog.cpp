@@ -31,7 +31,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 #include <QtGui/QFileDialog>
 
-settingsDialog::settingsDialog(QWidget *parent) : QDialog(parent), m_ui(new Ui::settingsDialog)
+SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), m_ui(new Ui::SettingsDialog)
 {
     m_ui->setupUi(this);
 
@@ -39,22 +39,22 @@ settingsDialog::settingsDialog(QWidget *parent) : QDialog(parent), m_ui(new Ui::
     connect(m_ui->pushButton_addFile, SIGNAL(clicked()), this, SLOT(addModuleFile()));
     connect(m_ui->pushButton_addDir, SIGNAL(clicked()), this, SLOT(addModuleDir()));
     connect(m_ui->pushButton_remove_module, SIGNAL(clicked()), this, SLOT(removeModule()));
-    connect(m_ui->pushButton_ok, SIGNAL(clicked()), this, SLOT(bsave()));
+    connect(m_ui->pushButton_ok, SIGNAL(clicked()), this, SLOT(save()));
     connect(m_ui->pushButton_cancel, SIGNAL(clicked()), this, SLOT(close()));
     connect(m_ui->pushButton_reset, SIGNAL(clicked()), this, SLOT(reset()));
     connect(m_ui->pushButton_moduleEdit, SIGNAL(clicked()), this, SLOT(editModule()));
 }
 
-settingsDialog::~settingsDialog()
+SettingsDialog::~SettingsDialog()
 {
     delete m_ui;
 }
-void settingsDialog::reset()
+void SettingsDialog::reset()
 {
     m_set = m_backupSet;
     setSettings(m_set);
 }
-int settingsDialog::setSettings(Settings settings)
+int SettingsDialog::setSettings(Settings settings)
 {
     m_set = settings;
     m_backupSet = settings;
@@ -105,7 +105,7 @@ int settingsDialog::setSettings(Settings settings)
     return 0;
 
 }
-void settingsDialog::generateModuleTree()
+void SettingsDialog::generateModuleTree()
 {
     m_ui->treeWidget_module->clear();
     QList<QTreeWidgetItem *> items;
@@ -118,13 +118,13 @@ void settingsDialog::generateModuleTree()
             moduleType = QObject::tr("Folder");
         } else {
             switch (m_set.module.at(i).moduleType.toInt()) {
-            case Bible::BibleQuote:
+            case Bible::BibleQuoteModule:
                 moduleType = QObject::tr("Bible Quote");
                 break;
-            case Bible::ZefaniaBible:
+            case Bible::ZefaniaBibleModule:
                 moduleType = QObject::tr("Zefania XML");;
                 break;
-            case Bible::ZefaniaStrong:
+            case Bible::ZefaniaStrongModule:
                 moduleType = QObject::tr("Zefania XML Strong");;
                 break;
 
@@ -136,7 +136,7 @@ void settingsDialog::generateModuleTree()
     m_ui->treeWidget_module->insertTopLevelItems(0, items);
 
 }
-/*void settingsDialog::addStrong( void )
+/*void SettingsDialog::addStrong( void )
 {
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::DirectoryOnly);
@@ -162,7 +162,7 @@ void settingsDialog::generateModuleTree()
     }
     return;
 }
-void settingsDialog::removeStrong()
+void SettingsDialog::removeStrong()
 {
     int row = m_ui->listWidget_path->currentRow();
     //remove from listWidget
@@ -172,7 +172,7 @@ void settingsDialog::removeStrong()
     set.path.removeAt(row);
     return;
 }*/
-void settingsDialog::addModuleFile(void)
+void SettingsDialog::addModuleFile(void)
 {
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::ExistingFiles);
@@ -183,7 +183,7 @@ void settingsDialog::addModuleFile(void)
     }
     return;
 }
-void settingsDialog::addModuleDir(void)
+void SettingsDialog::addModuleDir(void)
 {
     QFileDialog dialog(this);
 
@@ -256,7 +256,7 @@ void settingsDialog::addModuleDir(void)
     }
     return;
 }
-void settingsDialog::removeModule()
+void SettingsDialog::removeModule()
 {
     int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
     //remove from listWidget
@@ -266,38 +266,39 @@ void settingsDialog::removeModule()
     m_set.module.removeAt(row);
     return;
 }
-void settingsDialog::editModule()
+void SettingsDialog::editModule()
 {
     DEBUG_FUNC_NAME
     int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
     if (row >= 0) {
-        moduleConfigDialog *mDialog = new moduleConfigDialog(this);
+        ModuleConfigDialog *mDialog = new ModuleConfigDialog(this);
         mDialog->setModule(m_set.module.at(row));
         connect(mDialog, SIGNAL(save(ModuleSettings)), this, SLOT(saveModule(ModuleSettings)));
         connect(mDialog, SIGNAL(save(ModuleSettings)), mDialog, SLOT(close()));
         mDialog->show();
+        mDialog->exec();
     }
 
 }
-void settingsDialog::saveModule(ModuleSettings c)
+void SettingsDialog::saveModule(ModuleSettings c)
 {
     int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
     m_set.module.replace(row, c);
     generateModuleTree();
 }
-int settingsDialog::bsave(void)
+void SettingsDialog::save(void)
 {
     //Informationen aus dem Dialog auslesen
     m_set.encoding = m_encodings.at(m_ui->comboBox_encoding->currentIndex());
     m_set.language = m_langCode.at(m_ui->comboBox_language->currentIndex());
     m_set.autoLayout = m_ui->comboBox_autoLayout->currentIndex();
     //Alles andere, wie z.b die Module sind schon gespeichert
-    emit save(m_set);//Speichern
-    return 0;
+    emit settingsChanged(m_set);//Speichern
+    close();
 }
-void settingsDialog::downloadModule()
+void SettingsDialog::downloadModule()
 {
-    moduleDownloadDialog *mDialog = new moduleDownloadDialog(this);
+    ModuleDownloadDialog *mDialog = new ModuleDownloadDialog(this);
     mDialog->setSettings(m_set);
     mDialog->readModules();
     connect(mDialog, SIGNAL(downloaded(QStringList, QStringList)), this, SLOT(addModules(QStringList, QStringList)));
@@ -305,7 +306,7 @@ void settingsDialog::downloadModule()
     mDialog->show();
     mDialog->exec();
 }
-void settingsDialog::addModules(QStringList fileName, QStringList names)
+void SettingsDialog::addModules(QStringList fileName, QStringList names)
 {
     if (fileName.size() > 0) {
         QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size());
@@ -322,9 +323,9 @@ void settingsDialog::addModules(QStringList fileName, QStringList names)
             QString bibleName;
             int imoduleType = 0;
             QString moduleType;
-            biblequote bq;
-            zefaniaBible zef;
-            zefaniaStrong zefStrong;
+            BibleQuote bq;
+            ZefaniaBible zef;
+            ZefaniaStrong zefStrong;
             ModuleSettings m;
             zefStrong.setSettings(&m_set);
 
@@ -355,15 +356,15 @@ void settingsDialog::addModules(QStringList fileName, QStringList names)
                 }
 
                 switch (imoduleType) {
-                case Bible::BibleQuote:
+                case Bible::BibleQuoteModule:
                     bibleName = bq.readInfo(file);
                     moduleType = QObject::tr("Bible Quote");
                     break;
-                case Bible::ZefaniaBible:
+                case Bible::ZefaniaBibleModule:
                     bibleName = zef.readInfo(fileData);
                     moduleType = QObject::tr("Zefania XML");
                     break;
-                case Bible::ZefaniaStrong:
+                case Bible::ZefaniaStrongModule:
                     bibleName = zefStrong.loadFile(fileData, f);
                     moduleType = QObject::tr("Zefania XML Strong");
                     break;
@@ -403,8 +404,12 @@ void settingsDialog::addModules(QStringList fileName, QStringList names)
     myDebug() << "files = " << fileName;
 }
 
+void SettingsDialog::setCurrentTab(int tabID)
+{
+    m_ui->tabWidget->setCurrentIndex(tabID);
+}
 
-void settingsDialog::changeEvent(QEvent *e)
+void SettingsDialog::changeEvent(QEvent *e)
 {
     switch (e->type()) {
     case QEvent::LanguageChange:

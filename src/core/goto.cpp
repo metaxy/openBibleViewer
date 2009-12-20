@@ -72,14 +72,14 @@ int GoTo::bookNameToBookID(const QString& name)
             }
         }
     }
-  /*  if (bookID == -1) {
-        for (int i = 0; i < bookFullName.size(); ++i) {
-            if (bookFullName.at(i).contains(name, Qt::CaseInsensitive)) {
-                bookID = i;
-                break;
-            }
-        }
-    }*/
+    /*  if (bookID == -1) {
+          for (int i = 0; i < bookFullName.size(); ++i) {
+              if (bookFullName.at(i).contains(name, Qt::CaseInsensitive)) {
+                  bookID = i;
+                  break;
+              }
+          }
+      }*/
     if (bookID == -1) {
         for (int i = 0; i < m_bookFullName.size(); ++i) {
             int lev = levenshteinDistance(name, m_bookFullName.at(i));

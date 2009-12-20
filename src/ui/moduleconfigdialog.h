@@ -18,23 +18,23 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/modulesettings.h"
 namespace Ui
 {
-class moduleConfigDialog;
+class ModuleConfigDialog;
 }
 
-class moduleConfigDialog : public QDialog
+class ModuleConfigDialog : public QDialog
 {
     Q_OBJECT
-    Q_DISABLE_COPY(moduleConfigDialog)
+    Q_DISABLE_COPY(ModuleConfigDialog)
 public:
-    explicit moduleConfigDialog(QWidget *parent = 0);
-    virtual ~moduleConfigDialog();
+    explicit ModuleConfigDialog(QWidget *parent = 0);
+    virtual ~ModuleConfigDialog();
     void setModule(ModuleSettings config);
 
 protected:
     virtual void changeEvent(QEvent *e);
 
 private:
-    Ui::moduleConfigDialog *m_ui;
+    Ui::ModuleConfigDialog *m_ui;
     ModuleSettings c;
     QStringList encodings;
 signals:

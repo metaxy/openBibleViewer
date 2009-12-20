@@ -16,31 +16,29 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/dbghelper.h"
 #include "ui_poschoser.h"
 
-posChoser::posChoser(QWidget *parent) :
+PosChoser::PosChoser(QWidget *parent) :
         QDialog(parent),
-        m_ui(new Ui::posChoser)
+        m_ui(new Ui::PosChoser)
 {
     m_ui->setupUi(this);
     connect(m_ui->pushButton_save, SIGNAL(clicked()), this, SLOT(save()));
     connect(m_ui->pushButton_cancel, SIGNAL(clicked()), this, SLOT(close()));
-    connect(m_ui->comboBox_bibles,SIGNAL(currentIndexChanged(int)), this, SLOT(indexChanged(int)));
+    connect(m_ui->comboBox_bibles, SIGNAL(currentIndexChanged(int)), this, SLOT(indexChanged(int)));
 }
 
-posChoser::~posChoser()
+PosChoser::~PosChoser()
 {
     delete m_ui;
 }
-void posChoser::setSettings(Settings *set)
+void PosChoser::setSettings(Settings *set)
 {
     m_settings = set;
-    //m_ui->comboBox_books->insertItems(0, books);
-    //m_bibles = bibles;
 }
-void posChoser::setCurrent(int bible, QString path, int book, int chapter, int verse)
+void PosChoser::setCurrent(const int &bible,const QString &path, const int &book, const int &chapter, const int &verse)
 {
     DEBUG_FUNC_NAME
     //todo:load the bible info and from that the booknames
-    m_ui->comboBox_bibles->insertItems(0,m_settings->getBibleName());
+    m_ui->comboBox_bibles->insertItems(0, m_settings->getBibleName());
     m_bookID = book;
     m_chapterID = chapter;
     m_verseID = verse;
@@ -52,21 +50,18 @@ void posChoser::setCurrent(int bible, QString path, int book, int chapter, int v
     m_ui->spinBox_chapter->setValue(chapter);
     m_ui->spinBox_verse->setValue(verse);
 }
-void posChoser::indexChanged(int index)
+void PosChoser::indexChanged(int index)
 {
     DEBUG_FUNC_NAME
-    if(index >= 0)
-    {
+    if (index >= 0) {
         m_ui->comboBox_books->clear();
-        m_ui->comboBox_books->insertItems(0,m_settings->getBookNames().at(index));
+        m_ui->comboBox_books->insertItems(0, m_settings->getBookNames().at(index));
         m_path = m_settings->getBiblePath().at(index);
 
         m_ui->comboBox_books->setCurrentIndex(0);
         m_ui->spinBox_chapter->setValue(1);
         m_ui->spinBox_verse->setValue(1);
-    }
-    else
-    {
+    } else {
         m_ui->comboBox_books->clear();
         m_ui->comboBox_books->setCurrentIndex(0);
         m_ui->spinBox_chapter->setValue(1);
@@ -74,17 +69,17 @@ void posChoser::indexChanged(int index)
     }
 }
 
-void posChoser::save()
+void PosChoser::save()
 {
     QString out = "";
     out += m_path + ";";
     out += QString::number(m_ui->comboBox_books->currentIndex()) + ";";
     out += QString::number(m_ui->spinBox_chapter->value()) + ";";
     out += QString::number(m_ui->spinBox_verse->value()) + ";";
-    close();
     emit updated(out);
+    close();
 }
-void posChoser::changeEvent(QEvent *e)
+void PosChoser::changeEvent(QEvent *e)
 {
     switch (e->type()) {
     case QEvent::LanguageChange:

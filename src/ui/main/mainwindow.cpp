@@ -199,12 +199,12 @@ void MainWindow::initSignals()
     connect(ui->treeWidget_bibles, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(loadModuleData(QTreeWidgetItem*)));
     connect(ui->listWidget_books, SIGNAL(itemActivated(QListWidgetItem *)), this, SLOT(readBook(QListWidgetItem *)));
     connect(ui->listWidget_chapters, SIGNAL(itemActivated(QListWidgetItem *)), this, SLOT(readChapter(QListWidgetItem *)));
-    connect(ui->listWidget_search, SIGNAL(itemActivated(QListWidgetItem *)), this, SLOT(goToSearchResult(QListWidgetItem *)));
+    connect(ui->listWidget_search, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)), this, SLOT(goToSearchResult(QListWidgetItem *)));
     connect(ui->listWidget_notes, SIGNAL(itemActivated(QListWidgetItem *)), this, SLOT(showNote(QListWidgetItem *)));
 
     //menu
     connect(ui->actionPrint, SIGNAL(triggered()), this, SLOT(printFile()));
-    connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(showSettingsDialog()));
+    connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(showSettingsDialog_General()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(close()));
     connect(ui->actionSearch, SIGNAL(triggered()), this, SLOT(search()));
     connect(ui->actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
@@ -231,7 +231,7 @@ void MainWindow::initSignals()
     connect(ui->tactionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
     connect(ui->tactionNotes, SIGNAL(triggered()), this, SLOT(loadNotes()));
     connect(ui->tactionBookmarks, SIGNAL(triggered()), this, SLOT(loadBookmarks()));
-    connect(ui->tactionModule, SIGNAL(triggered()), this, SLOT(showSettingsDialog()));
+    connect(ui->tactionModule, SIGNAL(triggered()), this, SLOT(showSettingsDialog_Module()));
 
 
     //menu end
@@ -358,7 +358,7 @@ void MainWindow::showChapter(const int &chapterID, const int &verseID)
 {
     myDebug() << "chapterid = " << chapterID << " chapterAdd = " << m_bible.chapterAdd;
     m_bible.currentChapterID = chapterID;
-    currentVerseID = verseID;
+    m_verseID = verseID;
     m_windowCache.setBible(m_bible);
     showText(m_bible.readChapter(m_bible.currentChapterID, verseID));
     setCurrentChapter(m_bible.currentChapterID - m_bible.chapterAdd);
@@ -617,28 +617,28 @@ int MainWindow::loadModules()
                     file.setFileName(rpath + dirname + "/" + "BIBLEQT.INI");
                     if (file.exists()) {
                         rfile = file.fileName();
-                        bibletype = Bible::BibleQuote;
+                        bibletype = Bible::BibleQuoteModule;
                     }
                     file.setFileName(rpath + dirname + "/" + "BIBLEQT.ini");
                     if (bibletype == 0 && file.exists()) {
                         rfile = file.fileName();
-                        bibletype = Bible::BibleQuote;
+                        bibletype = Bible::BibleQuoteModule;
                     }
                     file.setFileName(rpath + dirname + "/" + "bibleqt.ini");
                     if (bibletype == 0 && file.exists()) {
                         rfile = file.fileName();
-                        bibletype = Bible::BibleQuote;
+                        bibletype = Bible::BibleQuoteModule;
                     }
                     file.setFileName(rpath + dirname + "/" + dirname + ".xml");
                     if (bibletype == 0 && file.exists()) {
                         rfile = file.fileName();
-                        bibletype = Bible::ZefaniaBible;
+                        bibletype = Bible::ZefaniaBibleModule;
                     }
                     file.setFileName(rfile);
                     if (bibletype != 0 && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
                         QString bname;
                         switch (bibletype) {
-                        case Bible::BibleQuote: {
+                        case Bible::BibleQuoteModule: {
                             bname = m_bible.bq.readInfo(file);
                             if (bname.size() > 0) {
                                 biblesTypes << 1;
@@ -662,7 +662,7 @@ int MainWindow::loadModules()
                             }
                             break;
                         }
-                        case Bible::ZefaniaBible: {
+                        case Bible::ZefaniaBibleModule: {
                             //ZenfaniaXML-Bible
                             bname = m_bible.zef.readInfo(file);
                             if (bname.size() > 0) {
@@ -692,27 +692,27 @@ int MainWindow::loadModules()
                     }
                 }
             }
-            if( m_settings->module.at(i).uModuleCount != uModuleCount) {
+            if (m_settings->module.at(i).uModuleCount != uModuleCount) {
                 m_settings->clearNamesCache(i); //ModuleID
             }
             ModuleSettings m = m_settings->module.at(i);
             m.uModuleCount = uModuleCount;
-            m_settings->module.replace(i,m);
+            m_settings->module.replace(i, m);
         } else {
             //load module
             QFile file;
-           /* QString dirname = m_settings->module.at(i).modulePath;
-            int lPos = dirname.lastIndexOf("/");
-            dirname = dirname.remove(lPos, dirname.size()) + "/";
-            //the dirname is needed for internal positions
+            /* QString dirname = m_settings->module.at(i).modulePath;
+             int lPos = dirname.lastIndexOf("/");
+             dirname = dirname.remove(lPos, dirname.size()) + "/";
+             //the dirname is needed for internal positions
 
-            myDebug() << "MainWindow::loadModules() dirname: = " << dirname;*/
+             myDebug() << "MainWindow::loadModules() dirname: = " << dirname;*/
 
             int bibletype = m_settings->module.at(i).moduleType.toInt();
             file.setFileName(m_settings->module.at(i).modulePath);
             if (bibletype != 0 && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
                 switch (bibletype) {
-                case Bible::BibleQuote: {
+                case Bible::BibleQuoteModule: {
                     //BibleQuote
                     biblesTypes << 1;//Insert the bibleID
                     bibles << m_settings->module.at(i).moduleName; // Insert the title
@@ -732,7 +732,7 @@ int MainWindow::loadModules()
                     rcount++;
                     break;
                 }
-                case Bible::ZefaniaBible: {
+                case Bible::ZefaniaBibleModule: {
                     //ZenfaniaXML
                     biblesTypes << 2;
                     bibles << m_settings->module.at(i).moduleName;
@@ -918,16 +918,24 @@ void MainWindow::writeSettings()
     m_settingsFile->endArray();
 }
 
-int MainWindow::showSettingsDialog(void)
+void MainWindow::showSettingsDialog(int tabID)
 {
     DEBUG_FUNC_NAME
-    settingsDialog setDialog(this);
-    connect(&setDialog, SIGNAL(save(Settings)), this, SLOT(saveSettings(Settings)));
-    connect(&setDialog, SIGNAL(save(Settings)), &setDialog, SLOT(close()));
+    SettingsDialog setDialog(this);
+    connect(&setDialog, SIGNAL(settingsChanged(Settings)), this, SLOT(saveSettings(Settings)));
     setDialog.setSettings(*m_settings); // todo:
     setDialog.setWindowTitle(tr("Configuration"));
+    setDialog.setCurrentTab(tabID);
     setDialog.show();
-    return setDialog.exec();
+    setDialog.exec();
+}
+void MainWindow::showSettingsDialog_General()
+{
+    showSettingsDialog(0);
+}
+void MainWindow::showSettingsDialog_Module()
+{
+    showSettingsDialog(1);
 }
 
 void MainWindow::saveSession(void)
@@ -1024,7 +1032,7 @@ int MainWindow::saveAll()
 }
 int MainWindow::showAboutDialog(void)
 {
-    aboutDialog aDialog;
+    AboutDialog aDialog;
     aDialog.setWindowTitle(tr("About openBibleViewer"));
     aDialog.show();
     aDialog.setText(tr("openBibleViewer <br> version: %1 build: %2<br> <a href=\"http://openbv.uucyc.name/\"> Official Website</a> | <a href=\"http://openbv.uucyc.name/bug/\">Bug report</a>").arg(VERSION).arg(BUILD));
@@ -1151,7 +1159,7 @@ void MainWindow::showText(const QString &text)
     if (activeMdiChild()) {
         QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
         textBrowser->setHtml(text);
-        if (currentVerseID > 1)
+        if (m_verseID > 1)
             textBrowser->scrollToAnchor("currentVerse");
     }
 }
@@ -1219,7 +1227,7 @@ void MainWindow::pharseUrl(QString url)
                     showChapter(chapterID + m_bible.chapterAdd, verseID);
                     setCurrentChapter(chapterID);
                 }
-                if (c.size() == 4 && c.at(3) == "searchInCurrentText=true") {
+                if (c.size() == 4 && c.at(3) == "searchInCurrentText=true") {//todo: not nice
                     searchInCurrentText(lastsearch);
                 }
                 emit historySetUrl(url_backup);
@@ -1238,7 +1246,7 @@ void MainWindow::pharseUrl(QString url)
         QDesktopServices::openUrl(url);
         //its a web link
     } else if (url.startsWith(bq)) {
-        //its a biblequote internal link but i dont have the specifications!!!
+        //its a biblequote internal link, but i dont have the specifications!!!
         QStringList internal = url.split(" ");
         QString bibleID = internal.at(1);//todo: use it
         int bookID = internal.at(2).toInt() - 1;
@@ -1260,7 +1268,6 @@ void MainWindow::pharseUrl(QString url)
             setCurrentBook(bookID);
             showChapter(chapterID + m_bible.chapterAdd, verseID);
             setCurrentChapter(chapterID);
-
             //load book
         } else if (chapterID != m_bible.currentChapterID) {
             showChapter(chapterID + m_bible.chapterAdd, verseID);
@@ -1351,6 +1358,4 @@ MainWindow::~MainWindow()
     delete ui;
     delete m_settingsFile;
     delete m_note;
-    // delete myappTranslator;
-    // delete qtTranslator;
 }

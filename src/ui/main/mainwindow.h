@@ -52,8 +52,10 @@ public slots:
     void zoomOut();
     int search();
     int printFile();
-    int showSearchResults(struct searchQuery query);
-    int showSettingsDialog();
+    int showSearchResults(SearchQuery query);
+
+    void showSettingsDialog_General();
+    void showSettingsDialog_Module();
     int showAboutDialog();
     int reloadWindow(QMdiSubWindow * window);
     int saveSettings(Settings set);
@@ -122,14 +124,13 @@ protected:
 private:
     Ui::MainWindowClass *ui;
     Bible m_bible;
-    zefaniaStrong m_zefStrong;
+    ZefaniaStrong m_zefStrong;
     Settings *m_settings;
     Notes *m_note;
     WindowCache m_windowCache;
-    QStringList encodings;
-    int currentVerseID;
-    QString currentNoteID;
-    int lastActiveWindow;
+    int m_verseID;
+    QString m_noteID;
+    int m_lastActiveWindow;
     QString lastsearch;
     QString bookmarksFileName, homeDataPath;
     QTextCursor currentTextCursor;
@@ -153,6 +154,7 @@ private:
     void showText(const QString &text);
     void showStrong(const QString &strongID);
     void showNote(const QString &noteID);
+    void showSettingsDialog(int tabID);
 
     void readBookByID(int id);
     void loadModuleDataByID(int id);

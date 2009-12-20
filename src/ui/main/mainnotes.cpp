@@ -43,7 +43,7 @@ void MainWindow::loadNotes(void)
             titles << m_note->getTitle(id.at(i));
     }
     ui->listWidget_notes->insertItems(0, titles);
-    currentNoteID = "";
+    m_noteID = "";
 }
 void MainWindow::showNote(QListWidgetItem *item)
 {
@@ -55,22 +55,22 @@ void MainWindow::showNote(QListWidgetItem *item)
 void MainWindow::showNote(const QString &noteID)
 {
     DEBUG_FUNC_NAME
-    m_note->setData(currentNoteID, ui->textEdit_note->toHtml());
-    m_note->setTitle(currentNoteID, ui->lineEdit_note_titel->text());
-    m_note->setRef(currentNoteID, currentNoteRef);
+    m_note->setData(m_noteID, ui->textEdit_note->toHtml());
+    m_note->setTitle(m_noteID, ui->lineEdit_note_titel->text());
+    m_note->setRef(m_noteID, currentNoteRef);
     m_note->saveNotes();
     if (!m_note->getIDList().contains(noteID)) {
         myDebug() << "invalid noteID = " << noteID;
         return;
     }
-    currentNoteID = noteID;
-    myDebug() << "id = " << noteID << " currentNoteID = " << currentNoteID;
-    ui->lineEdit_note_titel->setText(m_note->getTitle(currentNoteID));
-    ui->textEdit_note->setHtml(m_note->getData(currentNoteID));
-    currentNoteRef = m_note->getRef(currentNoteID);
-    myDebug() << "link = " << m_note->getRef(currentNoteID, "link");
-    if (!m_note->getRef(currentNoteID, "link").isEmpty())
-        ui->label_noteLink->setText(notePos2Text(m_note->getRef(currentNoteID, "link")));
+    m_noteID = noteID;
+    myDebug() << "id = " << noteID << " m_noteID = " << m_noteID;
+    ui->lineEdit_note_titel->setText(m_note->getTitle(m_noteID));
+    ui->textEdit_note->setHtml(m_note->getData(m_noteID));
+    currentNoteRef = m_note->getRef(m_noteID);
+    myDebug() << "link = " << m_note->getRef(m_noteID, "link");
+    if (!m_note->getRef(m_noteID, "link").isEmpty())
+        ui->label_noteLink->setText(notePos2Text(m_note->getRef(m_noteID, "link")));
     else
         ui->label_noteLink->setText("");
 
@@ -93,10 +93,10 @@ void MainWindow::copyNote(void)
 void MainWindow::saveNote(void)
 {
     DEBUG_FUNC_NAME
-    myDebug() << "currentNoteID = " << currentNoteID;
-    m_note->setData(currentNoteID, ui->textEdit_note->toHtml());
-    m_note->setTitle(currentNoteID, ui->lineEdit_note_titel->text());
-    m_note->setRef(currentNoteID, currentNoteRef);
+    myDebug() << "m_noteID = " << m_noteID;
+    m_note->setData(m_noteID, ui->textEdit_note->toHtml());
+    m_note->setTitle(m_noteID, ui->lineEdit_note_titel->text());
+    m_note->setRef(m_noteID, currentNoteRef);
     m_note->saveNotes();
     reloadNotes();
 }
@@ -115,7 +115,7 @@ void MainWindow::newNote(void)
     //m["link"] = "";
     m_note->setRef(newID, ref);
     m_note->insertID(newID);
-    currentNoteID = newID;
+    m_noteID = newID;
     reloadNotes();
     ui->listWidget_notes->setCurrentRow(m_note->getIDList().size() - 1);
     //showNote(ui->listWidget_notes->currentItem());
@@ -123,12 +123,12 @@ void MainWindow::newNote(void)
     ui->label_noteLink->setText("");
     ui->lineEdit_note_titel->setText(tr("(unnamed)"));
     ui->textEdit_note->setHtml("");
-    if (!m_note->getRef(currentNoteID, "link").isEmpty())
-        ui->label_noteLink->setText(notePos2Text(m_note->getRef(currentNoteID, "link")));
+    if (!m_note->getRef(m_noteID, "link").isEmpty())
+        ui->label_noteLink->setText(notePos2Text(m_note->getRef(m_noteID, "link")));
     else
         ui->label_noteLink->setText("");
 
-    myDebug() << " newID = " << newID << " currentNoteID = " << currentNoteID;
+    myDebug() << " newID = " << newID << " m_noteID = " << m_noteID;
 }
 void MainWindow::newNoteWithLink()
 {
@@ -153,22 +153,21 @@ void MainWindow::newNoteWithLink()
     currentNoteRef = ref;
     m_note->setRef(newID, ref);
     m_note->insertID(newID);
-    currentNoteID = newID;
+    m_noteID = newID;
     reloadNotes();
     ui->listWidget_notes->setCurrentRow(m_note->getIDList().size() - 1);
-    //showNote(ui->listWidget_notes->currentItem());
     ui->label_noteLink->setText("");
     ui->lineEdit_note_titel->setText(tr("(unnamed)"));
     ui->textEdit_note->setHtml("");
-    if (!m_note->getRef(currentNoteID, "link").isEmpty())
-        ui->label_noteLink->setText(notePos2Text(m_note->getRef(currentNoteID, "link")));
+    if (!m_note->getRef(m_noteID, "link").isEmpty())
+        ui->label_noteLink->setText(notePos2Text(m_note->getRef(m_noteID, "link")));
     else
         ui->label_noteLink->setText("");
 }
 void MainWindow::removeNote(void)
 {
     DEBUG_FUNC_NAME
-    m_note->removeNote(currentNoteID);
+    m_note->removeNote(m_noteID);
     ui->lineEdit_note_titel->setText(tr(""));
     ui->textEdit_note->setHtml("");
     ui->label_noteLink->setText("");
@@ -183,12 +182,12 @@ void MainWindow::reloadNotes(void)
     myDebug() << " idList = " << id;
     for (int i = 0; i < id.size(); i++) {
         if (m_note->getType(id.at(i)) == "text") {
-            myDebug() << " id.at(i) = " << id.at(i) << " title = " << m_note->getTitle(id.at(i));
+            //myDebug() << "id.at(i) = " << id.at(i) << " title = " << m_note->getTitle(id.at(i));
             titles << m_note->getTitle(id.at(i));
         }
     }
     ui->listWidget_notes->insertItems(0, titles);
-    ui->listWidget_notes->setCurrentRow(id.lastIndexOf(currentNoteID));
+    ui->listWidget_notes->setCurrentRow(id.lastIndexOf(m_noteID));
 }
 void MainWindow::notesContextMenu(void)
 {
@@ -316,7 +315,7 @@ void MainWindow::editNoteLink()
             break;
         }
     }
-    posChoser *pChoser = new posChoser(this);
+    PosChoser *pChoser = new PosChoser(this);
     //connect( pChoser, SIGNAL( searched( QString,bool,bool,bool ) ), this, SLOT( showSearchResults( QString,bool,bool,bool ) ) );
     connect(pChoser, SIGNAL(updated(QString)), this, SLOT(updateNote(QString)));
     qDebug() << "MainWindow::editNoteLink() m_bible.chapterData.size() = " << m_bible.chapterData.size(),
@@ -328,7 +327,6 @@ void MainWindow::editNoteLink()
 void MainWindow::updateNote(QString link)
 {
     DEBUG_FUNC_NAME
-    //  qDebug() << "MainWindow::updateBookmark() pos = " << pos;
     currentNoteRef["link"] = link;
     showNote(ui->listWidget_notes->currentItem());
     return;

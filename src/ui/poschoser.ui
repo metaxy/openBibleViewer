@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>posChoser</class>
- <widget class="QDialog" name="posChoser">
+ <class>PosChoser</class>
+ <widget class="QDialog" name="PosChoser">
   <property name="geometry">
    <rect>
     <x>0</x>

@@ -23,8 +23,8 @@ public:
 
     QMap <QString, QVariant> bookCount;//QMap<int,int>
     QMap<QString, QVariant> bookNames;//QStringList
-    QMap<QString,QVariant> biblePath;//QString
-    QMap<QString,QVariant> bibleName;//QString
+    QMap<QString, QVariant> biblePath;//QString
+    QMap<QString, QVariant> bibleName;//QString
 
 
 };

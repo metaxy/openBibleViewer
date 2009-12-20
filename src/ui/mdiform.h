@@ -20,17 +20,17 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/history.h"
 namespace Ui
 {
-class mdiForm;
+class MdiForm;
 }
 
-class mdiForm : public QWidget
+class MdiForm : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(mdiForm)
+    Q_DISABLE_COPY(MdiForm)
 public:
-    explicit mdiForm(QWidget *parent = 0);
-    virtual ~mdiForm();
-    Ui::mdiForm *m_ui;
+    explicit MdiForm(QWidget *parent = 0);
+    virtual ~MdiForm();
+    Ui::MdiForm *m_ui;
 signals:
     void onClose();
     void historyGo(QString);

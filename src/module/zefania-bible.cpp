@@ -24,17 +24,17 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "zefania-bible.h"
 #include "../core/KoXmlWriter.h"
 #include "../core/dbghelper.h"
-zefaniaBible::zefaniaBible()
+ZefaniaBible::ZefaniaBible()
 {
     m_settings = new Settings();
 }
-int zefaniaBible::setSettings(Settings *set)
+int ZefaniaBible::setSettings(Settings *set)
 {
     DEBUG_FUNC_NAME
     m_settings = set;
     return 1;
 }
-void zefaniaBible::loadBibleData(const int &id, const QString &path)
+void ZefaniaBible::loadBibleData(const int &id, const QString &path)
 {
     if (mConfig.zefbible_hardCache == false && mConfig.zefbible_softCache == false) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Please activate Caching.(Hard or Soft Cache)"));
@@ -51,7 +51,7 @@ void zefaniaBible::loadBibleData(const int &id, const QString &path)
     }
 
 }
-void zefaniaBible::removeHardCache(const QString &path)
+void ZefaniaBible::removeHardCache(const QString &path)
 {
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(path.toLocal8Bit());
@@ -59,7 +59,7 @@ void zefaniaBible::removeHardCache(const QString &path)
     d.rmdir(m_settings->homePath + "cache/" + hash.result().toBase64());
 }
 
-QDomNode zefaniaBible::readBookFromHardCache(QString path, int bookID)
+QDomNode ZefaniaBible::readBookFromHardCache(QString path, int bookID)
 {
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(path.toLocal8Bit());
@@ -90,7 +90,7 @@ QDomNode zefaniaBible::readBookFromHardCache(QString path, int bookID)
     return root.firstChild();
 
 }
-void zefaniaBible::readBook(const int &id)
+void ZefaniaBible::readBook(const int &id)
 {
     DEBUG_FUNC_NAME
     myDebug() << "hardCache = " << mConfig.zefbible_hardCache  << " softCache = " << mConfig.zefbible_softCache << " softCacheData[id].size() = " << softCacheData[id].size();
@@ -131,36 +131,36 @@ void zefaniaBible::readBook(const int &id)
     setSoftCache(currentBookID, chapterData);
     myDebug() << "chapterData.size() = " << chapterData.size() << " bookCount = " << i;
 }
-QMap<int, QList<Chapter> > zefaniaBible::softCache()
+QMap<int, QList<Chapter> > ZefaniaBible::softCache()
 {
     if (mConfig.zefbible_softCache == true) {
         return softCacheData;
     }
     return QMap<int, QList<Chapter> >();
 }
-QList<Chapter> zefaniaBible::softCache(int bookID)
+QList<Chapter> ZefaniaBible::softCache(int bookID)
 {
     if (mConfig.zefbible_softCache == true) {
         return softCacheData[bookID];
     }
     return QList<Chapter>();
 }
-bool zefaniaBible::setSoftCache(QMap< int, QList<Chapter> > cache)
+bool ZefaniaBible::setSoftCache(QMap< int, QList<Chapter> > cache)
 {
     DEBUG_FUNC_NAME
     if (mConfig.zefbible_softCache == true) {
         softCacheData.clear();
         //softCacheAvi.clear();
         softCacheData = cache;
-      /*  QMapIterator< int, QList<Chapter> > i(cache);
-        while (i.hasNext()) {
-            softCacheAvi[i.key()] = true;
-            i.next();
-        }*/
+        /*  QMapIterator< int, QList<Chapter> > i(cache);
+          while (i.hasNext()) {
+              softCacheAvi[i.key()] = true;
+              i.next();
+          }*/
     }
     return true;
 }
-bool zefaniaBible::setSoftCache(int bookID, QList<Chapter> c)
+bool ZefaniaBible::setSoftCache(int bookID, QList<Chapter> c)
 {
     myDebug() << "softCache = " << mConfig.zefbible_softCache << " , bookID = " << bookID;
     if (mConfig.zefbible_softCache == true) {
@@ -168,13 +168,13 @@ bool zefaniaBible::setSoftCache(int bookID, QList<Chapter> c)
     }
     return true;
 }
-void zefaniaBible::clearSoftCache()
+void ZefaniaBible::clearSoftCache()
 {
     DEBUG_FUNC_NAME
     softCacheData.clear();
 }
 
-QDomElement zefaniaBible::format(QDomElement e)
+QDomElement ZefaniaBible::format(QDomElement e)
 {
     QDomNode n = e.firstChild();
     while (!n.isNull()) { //all verses
@@ -210,7 +210,7 @@ QDomElement zefaniaBible::format(QDomElement e)
     return e;
 
 }
-bool zefaniaBible::checkForCacheFiles(const QString &path)
+bool ZefaniaBible::checkForCacheFiles(const QString &path)
 {
     myDebug() << "path = " << path;
     QCryptographicHash hash(QCryptographicHash::Md5);
@@ -225,14 +225,14 @@ bool zefaniaBible::checkForCacheFiles(const QString &path)
   read the entire xml file
   and if caching is enabled, generate cache files
   */
-void zefaniaBible::loadNoCached(const int &id, const QString &path)
+void ZefaniaBible::loadNoCached(const int &id, const QString &path)
 {
     //todo: maybe i should remove the qdom support because koxml works really fine
     DEBUG_FUNC_NAME
     QProgressDialog progress(QObject::tr("Loading Bible"), QObject::tr("Cancel"), 0, 76);
     progress.setWindowModality(Qt::WindowModal);
 
-    bibleID = id;
+    m_bibleID = id;
     bookFullName.clear();
     bookShortName.clear();
     bookCount.clear();
@@ -288,7 +288,7 @@ void zefaniaBible::loadNoCached(const int &id, const QString &path)
     } else {
         codecString = mConfig.encoding;
     }
-    qDebug() << "zefaniaBible::loadNoCached() encoding = " << codecString;
+    qDebug() << "ZefaniaBible::loadNoCached() encoding = " << codecString;
     //if codecString is not a valid decoder name, there can be problems
 #ifdef Q_WS_WIN
     //windows need some extra decoder functions, i do not know why
@@ -398,7 +398,7 @@ void zefaniaBible::loadNoCached(const int &id, const QString &path)
         }
     }
     if (!hasAny) {
-        qDebug() << "zefaniaBible::loadNoCached() bookFullName.size() = " << bookFullName.size();
+        qDebug() << "ZefaniaBible::loadNoCached() bookFullName.size() = " << bookFullName.size();
         //whole bible
         if (bookFullName.size() == 66) {
             bookFullName.clear();
@@ -473,7 +473,7 @@ void zefaniaBible::loadNoCached(const int &id, const QString &path)
 /*
   load only booknames and not every book and his data
   */
-void zefaniaBible::loadCached(const int &id, const QString &path)
+void ZefaniaBible::loadCached(const int &id, const QString &path)
 {
     bookFullName.clear();
     bookShortName.clear();
@@ -491,11 +491,11 @@ void zefaniaBible::loadCached(const int &id, const QString &path)
     QStringList str;
     in >> str;
     bookFullName = str;
-    bibleID = id;
+    m_bibleID = id;
     currentBiblePath = path;
 }
 
-QString zefaniaBible::readInfo(QFile &file)
+QString ZefaniaBible::readInfo(QFile &file)
 {
     biblepath = file.fileName();
     QString cbiblename;
@@ -513,7 +513,7 @@ QString zefaniaBible::readInfo(QFile &file)
 /*
   returns the bible name
  */
-QString zefaniaBible::readInfo(const QString &content)
+QString ZefaniaBible::readInfo(const QString &content)
 {
     //todo: read only the first 20 lines and find in them the biblename
     biblepath = "";
@@ -530,7 +530,7 @@ QString zefaniaBible::readInfo(const QString &content)
 /*
   convert a node to a chapterlist
   */
-QList<Chapter> zefaniaBible::fromHardToSoft(int id, QDomNode ncache)
+QList<Chapter> ZefaniaBible::fromHardToSoft(int id, QDomNode ncache)
 {
     QList<Chapter> ret;
     QDomNode n = ncache.firstChild();
@@ -556,13 +556,14 @@ QList<Chapter> zefaniaBible::fromHardToSoft(int id, QDomNode ncache)
 
 }
 /*
-  struct bibleInfo zefaniaBible::readBibleInfoFromCache(QString */
-struct stelle zefaniaBible::search(struct searchQuery query) {
-    if (query.whole == true) {
-        query.text = " " + query.text + " ";
+  struct bibleInfo ZefaniaBible::readBibleInfoFromCache(QString */
+SearchResult ZefaniaBible::search(SearchQuery query)
+{
+    if (query.wholeWord == true) {
+        query.searchText = " " + query.searchText + " ";
     }
-    lastSearch = query.text;
-    struct stelle st2;
+    lastSearchQuery = query;
+    SearchResult result;
     /*if(mConfig.zefbible_hardCache== true)//hard cache
     {
         QProgressDialog progressCache(QObject::tr( "Read Cache" ), QObject::tr( "Cancel" ), 0, bookFullName.size()-1);
@@ -584,7 +585,7 @@ struct stelle zefaniaBible::search(struct searchQuery query) {
     for (int i = 0; i < bookFullName.size(); ++i) {
         progress.setValue(i);
         if (progress.wasCanceled()) {
-            return st2;
+            return result;
         }
         QList<Chapter> chapterList;
 
@@ -592,7 +593,7 @@ struct stelle zefaniaBible::search(struct searchQuery query) {
         //todo: make a check : if only 2 or 3 book are aviable in softcache then load whole book else load everything from hardcache
         //todo: cant load book if only softcache is enabled
 
-        if (mConfig.zefbible_hardCache == true && (softCacheData[i].isEmpty()|| mConfig.zefbible_softCache == false)) {
+        if (mConfig.zefbible_hardCache == true && (softCacheData[i].isEmpty() || mConfig.zefbible_softCache == false)) {
             chapterList = fromHardToSoft(i, readBookFromHardCache(currentBiblePath, i));
             setSoftCache(i, chapterList);
         } else {
@@ -605,24 +606,21 @@ struct stelle zefaniaBible::search(struct searchQuery query) {
             for (int verseCounter = 0; verseCounter < verse.size(); ++verseCounter) {
                 bool b = false;
                 QString etext = verse.at(verseCounter);
-                if (query.regexp == true) {
-                    b = etext.contains(QRegExp(query.text));
+                if (query.regExp == true) {
+                    b = etext.contains(QRegExp(query.searchText));
                 } else {
                     if (query.caseSensitive == true) {
-                        b = etext.contains(query.text, Qt::CaseSensitive);
+                        b = etext.contains(query.searchText, Qt::CaseSensitive);
                     } else {
-                        b = etext.contains(query.text, Qt::CaseInsensitive);
+                        b = etext.contains(query.searchText, Qt::CaseInsensitive);
                     }
                 }
                 if (b == true) {
-                    st2.book << i;
-                    st2.chapter << chapterCounter + 1;
-                    st2.verse << verseCounter + 1;
-                    st2.text << etext;
+                    result.addHit(m_bibleID, i, chapterCounter + 1, verseCounter + 1, etext);
                 }
             }
         }
     }
     progress.close();
-    return st2;
+    return result;
 }

@@ -18,9 +18,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QtDebug>
 #include "../core/dbghelper.h"
 #include <math.h>
-searchInfoDialog::searchInfoDialog(QWidget *parent) :
+SearchInfoDialog::SearchInfoDialog(QWidget *parent) :
         QDialog(parent),
-        m_ui(new Ui::searchInfoDialog)
+        m_ui(new Ui::SearchInfoDialog)
 {
     m_ui->setupUi(this);
     connect(m_ui->pushButton_close, SIGNAL(clicked()), this, SLOT(close()));
@@ -28,18 +28,21 @@ searchInfoDialog::searchInfoDialog(QWidget *parent) :
     m_textShown = false;
 }
 
-searchInfoDialog::~searchInfoDialog()
+SearchInfoDialog::~SearchInfoDialog()
 {
     delete m_ui;
 }
-void searchInfoDialog::setInfo(struct stelle st, QStringList bookNames, QString searchText, QStringList textList)
+void SearchInfoDialog::setInfo(SearchResult result, QStringList bookNames, QString searchText, QStringList textList)
 {
-    m_ui->label_searchText->setText(tr("Search String : '%1'").arg(searchText));
-    m_ui->label_foundItems->setText(tr("Found Verses : %1").arg(QString::number(st.verse.size())));
+    int size = result.hits().size();
+    m_ui->label_searchText->setText(tr("Search string : '%1'").arg(searchText));
+    m_ui->label_foundItems->setText(tr("Found verses : %1").arg(QString::number(size)));
     QMap<int, int> booksMap;
-    for (int i = 0; i < st.book.size(); i++) {
-        booksMap[st.book.at(i)]++;
+    for (int i = 0; i < result.hits().size(); i++) {
+        SearchHit hit = result.hits().at(i);
+        booksMap[hit.bookID()]++;
     }
+
     myDebug() << "booksMap = " << booksMap;
     //stat
     const int mWidth = 290;
@@ -58,7 +61,7 @@ void searchInfoDialog::setInfo(struct stelle st, QStringList bookNames, QString 
     }
     QGraphicsScene *scene = new QGraphicsScene(this);
     m_ui->graphicsView->setScene(scene);
-    QPixmap pm(300, countBooks*(height + (height / 4)) + 30);
+    QPixmap pm(300, countBooks*((5 / 4)*height) + 30);
     pm.fill();
     QPainter p(&pm);
 
@@ -68,9 +71,9 @@ void searchInfoDialog::setInfo(struct stelle st, QStringList bookNames, QString 
         c++;
         int color;
         if (c % 2 == 0) {
-            color = 206;
+            color = 223;
         } else {
-            color = 108;
+            color = 0;
         }
         i.next();
         QPen pen(Qt::black, 1);
@@ -82,13 +85,13 @@ void searchInfoDialog::setInfo(struct stelle st, QStringList bookNames, QString 
         QBrush brush(linearGrad);
         p.setBrush(brush);
 
-        double width = ((double)(i.value() * 100) / st.book.size()) * (mWidth / ((maxVerse * 100) / st.book.size())) ;
+        double width = ((double)(i.value() * 100) / size) * (mWidth / ((maxVerse * 100) / size)) ;
         QRectF rectangle(padding, x, width, height);
 
         p.drawRect(rectangle);
-        double prozent = mRound((i.value() * 100) / st.book.size(), 2);
-        p.drawText(padding + (padding / 2), x + height - 4, bookNames.at(i.key()) + " - " + QString::number(i.value()) + "(" + QString::number(prozent) + "%)");
-        x += height + (height / 4);
+        double prozent = mRound((i.value() * 100) / size, 2);
+        p.drawText((3 / 2)*padding, x + height - 4, bookNames.at(i.key()) + " - " + QString::number(i.value()) + "(" + QString::number(prozent) + "%)");
+        x += (5 / 4) * height;
     }
     QGraphicsPixmapItem *item = new QGraphicsPixmapItem(pm);
     item = scene->addPixmap(pm);
@@ -97,7 +100,7 @@ void searchInfoDialog::setInfo(struct stelle st, QStringList bookNames, QString 
 
     return;
 }
-void searchInfoDialog::tabChanged(int index)
+void SearchInfoDialog::tabChanged(int index)
 {
     DEBUG_FUNC_NAME
     myDebug() << "index = " << index;
@@ -107,15 +110,15 @@ void searchInfoDialog::tabChanged(int index)
     }
 }
 
-double searchInfoDialog::mRound(double number, int stellen)
+double SearchInfoDialog::mRound(double number, int stellen)
 {
     return floor(number * pow(10, stellen) + 0.5) * pow(10, -stellen);
 }
-int searchInfoDialog::d2i(double d)
+int SearchInfoDialog::d2i(double d)
 {
     return d < 0 ? d - .5 : d + .5;
 }
-void searchInfoDialog::changeEvent(QEvent *e)
+void SearchInfoDialog::changeEvent(QEvent *e)
 {
     switch (e->type()) {
     case QEvent::LanguageChange:

@@ -14,9 +14,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include  "searchdialog.h"
 #include  "ui_searchdialog.h"
 
-searchDialog::searchDialog(QWidget *parent) :
+SearchDialog::SearchDialog(QWidget *parent) :
         QDialog(parent),
-        m_ui(new Ui::searchDialog)
+        m_ui(new Ui::SearchDialog)
 {
     m_ui->setupUi(this);
     connect(m_ui->pushButton, SIGNAL(clicked()), this, SLOT(search()));
@@ -24,15 +24,15 @@ searchDialog::searchDialog(QWidget *parent) :
     m_ui->frame->hide();
 }
 
-searchDialog::~searchDialog()
+SearchDialog::~SearchDialog()
 {
     delete m_ui;
 }
-void searchDialog::showMore(void)
+void SearchDialog::showMore(void)
 {
     m_ui->frame->show();
 }
-void searchDialog::changeEvent(QEvent *e)
+void SearchDialog::changeEvent(QEvent *e)
 {
     switch (e->type()) {
     case QEvent::LanguageChange:
@@ -42,20 +42,19 @@ void searchDialog::changeEvent(QEvent *e)
         break;
     }
 }
-void searchDialog::setText(const QString &text)
+void SearchDialog::setText(const QString &text)
 {
     m_ui->lineEdit->setText(text);
 }
-void searchDialog::search(void)
+void SearchDialog::search(void)
 {
     if (m_ui->lineEdit->text() != "") {
-        struct searchQuery query;
-        query.text = m_ui->lineEdit->text();
-        query.regexp = m_ui->checkBox_regexp->isChecked();
-        query.whole = m_ui->checkBox_whole->isChecked();
+        SearchQuery query;
+        query.searchText = m_ui->lineEdit->text();
+        query.regExp = m_ui->checkBox_regexp->isChecked();
+        query.wholeWord = m_ui->checkBox_whole->isChecked();
         query.caseSensitive = m_ui->checkBox_casesen->isChecked();
         emit searched(query);
-        this->hide();
-        this->close();
+        close();
     }
 }

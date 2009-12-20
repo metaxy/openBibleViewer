@@ -18,14 +18,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/settings.h"
 namespace Ui
 {
-class settingsDialog;
+class SettingsDialog;
 }
 
-class settingsDialog : public QDialog
+class SettingsDialog : public QDialog
 {
     Q_OBJECT
 public slots:
-    int bsave();
+    void save();
     void addModuleFile();
     void addModuleDir();
     void removeModule();
@@ -35,23 +35,23 @@ public slots:
     void downloadModule();
     void addModules(QStringList files, QStringList names);
 signals:
-    int save(Settings settings);
+    int settingsChanged(Settings settings);
 public:
-    explicit settingsDialog(QWidget *parent = 0);
-    virtual ~settingsDialog();
+    explicit SettingsDialog(QWidget *parent = 0);
+    virtual ~SettingsDialog();
     int setSettings(Settings settings);
+    void setCurrentTab(int tabID);
 
 protected:
     virtual void changeEvent(QEvent *e);
 
 private:
-    //todo: make a local settings without chaning the current and a local backup
     Settings m_set;
     Settings m_backupSet;
     void generateModuleTree();
     QStringList m_encodings;
     QStringList m_langCode;
-    Ui::settingsDialog *m_ui;
+    Ui::SettingsDialog *m_ui;
 };
 
 #endif // SETTINGSDIALOG_H

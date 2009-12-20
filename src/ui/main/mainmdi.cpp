@@ -35,7 +35,7 @@ void MainWindow::newMdiChild()
     widget->setMinimumWidth(0);
     QVBoxLayout *layout = new QVBoxLayout(widget);
 
-    mdiForm *mForm = new mdiForm(this);
+    MdiForm *mForm = new MdiForm(this);
     layout->addWidget(mForm);
     widget->setLayout(layout);
     QMdiSubWindow *subWindow = ui->mdiArea->addSubWindow(widget);
@@ -80,12 +80,12 @@ QMdiSubWindow *MainWindow::activeMdiChild()
     if (QMdiSubWindow *activeSubWindow = ui->mdiArea->activeSubWindow()) {
         for (int i = 0; i < list.size(); i++) {
             if (list.at(i) == activeSubWindow) {
-                lastActiveWindow = i;
+                m_lastActiveWindow = i;
             }
         }
         return activeSubWindow;
-    } else if (lastActiveWindow < list.size()) {
-        ui->mdiArea->setActiveSubWindow(usableWindowList().at(lastActiveWindow));
+    } else if (m_lastActiveWindow < list.size()) {
+        ui->mdiArea->setActiveSubWindow(usableWindowList().at(m_lastActiveWindow));
         if (QMdiSubWindow *activeSubWindow = ui->mdiArea->activeSubWindow())
             return activeSubWindow;
     } else if (usableWindowList().count() > 0) {

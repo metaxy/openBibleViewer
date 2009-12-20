@@ -20,14 +20,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "zefania-bible.h"
 #include "../core/stelle.h"
 #include "../core/searchquery.h"
+#include "../core/searchresult.h"
 class Bible
 {
 public:
     enum bibleType {
         None = 0,
-        BibleQuote = 1,
-        ZefaniaBible = 2,
-        ZefaniaStrong = 3
+        BibleQuoteModule = 1,
+        ZefaniaBibleModule = 2,
+        ZefaniaStrongModule = 3
     };
     Bible();
     void setBibleType(int type);
@@ -42,19 +43,20 @@ public:
     QString readVerse(int chapterID, int startVerse, int endVerse, int markVerseID, bool saveRawDatas);
     QStringList getSearchPaths();
 
-    struct stelle search(struct searchQuery query);
+    SearchResult search(SearchQuery query);
 
     int currentBibleID, currentBookID, currentChapterID, chapterAdd;
     struct stelle st;
-    QString bibleName, lastout, path, currentBiblePath, lastSearchString;
+    QString bibleName, lastout, path, currentBiblePath;
+    SearchQuery lastSearchQuery;
+    SearchResult lastSearchResult;
     QStringList bookFullName, chapterText, bookPath, chapterNames, chapterDataList;
     QMap <int, int> bookCount;
     QList<Chapter> chapterData;
     int bibleType;
-    biblequote bq;
-    zefaniaBible zef;
+    BibleQuote bq;
+    ZefaniaBible zef;
 private:
-
     Settings *m_settings;
 
 };

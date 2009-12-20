@@ -19,17 +19,17 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QTextCodec>
 #include <QtCore/QDir>
 #include <QtGui/QProgressDialog>
-biblequote::biblequote()
+BibleQuote::BibleQuote()
 {
     m_settings = new Settings();
 }
 
-int biblequote::setSettings(Settings *set)
+int BibleQuote::setSettings(Settings *set)
 {
     m_settings = set;
     return 1;
 }
-QString biblequote::formatfromini(QString input)
+QString BibleQuote::formatfromini(QString input)
 {
     if (input.startsWith(" ")) { //leerzeichen am anfang
         input.remove(0, 1);//remove
@@ -37,7 +37,7 @@ QString biblequote::formatfromini(QString input)
     input.replace(QString("\n"), QString(""));//und kein zeilenumbrüche
     return input;
 }
-void biblequote::readBook(int id, QString path)
+void BibleQuote::readBook(int id, QString path)
 {
     DEBUG_FUNC_NAME
     //chapterText.clear();
@@ -106,7 +106,7 @@ void biblequote::readBook(int id, QString path)
     file.close();
 
 }
-void biblequote::loadBibleData(int bibleID, QString path)
+void BibleQuote::loadBibleData(int bibleID, QString path)
 {
     DEBUG_FUNC_NAME
     currentBibleID = bibleID;
@@ -196,12 +196,12 @@ void biblequote::loadBibleData(int bibleID, QString path)
 
         }
     }
-    m_settings->setBookCount(currentBibleID,bookCount);
-    m_settings->setBookNames(currentBibleID,bookFullName);
-    m_settings->setBiblePath(currentBibleID,path);
-    m_settings->setBibleName(currentBibleID,bibleName);
+    m_settings->setBookCount(currentBibleID, bookCount);
+    m_settings->setBookNames(currentBibleID, bookFullName);
+    m_settings->setBiblePath(currentBibleID, path);
+    m_settings->setBibleName(currentBibleID, bibleName);
 }
-QString biblequote::readInfo(QFile &file)
+QString BibleQuote::readInfo(QFile &file)
 {
     int countlines = 0;
     int invalid = true;
@@ -240,21 +240,21 @@ QString biblequote::readInfo(QFile &file)
     file.close();
     return bibleName;
 }
-struct stelle biblequote::search(struct searchQuery query) {
+SearchResult BibleQuote::search(SearchQuery query)
+{
     DEBUG_FUNC_NAME
-    if (query.whole == true) {
-        query.text = " " + query.text + " ";
+    if (query.wholeWord == true) {
+        query.searchText = " " + query.searchText + " ";
     }
-    lastSearch = query.text;
+    lastSearchQuery = query;
     QStringList ctext;
     QList<QByteArray> bytetext;
     QProgressDialog progress(QObject::tr("Searching"), QObject::tr("Cancel"), 0, bookPath.size());
     progress.setWindowModality(Qt::WindowModal);
-    struct stelle st2;
-    st2.bibleID = currentBibleID;
+    SearchResult result;
     for (int id = 0; id < bookPath.size(); id++) {
         if (progress.wasCanceled())
-            return st2;
+            return result;
         progress.setValue(id);
         bytetext.clear();
         ctext.clear();
@@ -284,7 +284,7 @@ struct stelle biblequote::search(struct searchQuery query) {
             bytetext << out;
         } else {
             myDebug() << "cannot open the file " << file.fileName();
-            return st2;
+            return result;
         }
         QString encoding;
         if (m_settings->getModuleSettings(currentBibleID).encoding == "Default" || m_settings->getModuleSettings(currentBibleID).encoding == "") {
@@ -304,41 +304,38 @@ struct stelle biblequote::search(struct searchQuery query) {
         }
         myDebug() << "ctext.size() = " << ctext.size();
         for (int chapterit = 0; chapterit < ctext.size(); chapterit++) {
-            bool b;
-            if (query.regexp == true) {
-                b = ctext.at(chapterit).contains(QRegExp(query.text));
-            } else {
-                if (query.caseSensitive == true) {
-                    b = ctext.at(chapterit).contains(query.text, Qt::CaseSensitive);
+            /*    bool b;
+                if (query.regexp == true) {
+                    b = ctext.at(chapterit).contains(QRegExp(query.text));
                 } else {
-                    b = ctext.at(chapterit).contains(query.text, Qt::CaseInsensitive);
-                }
-            }
-            if (b) {
-                QStringList verses = ctext[chapterit].split(versesign);
-                for (int verseit = 0; verseit < verses.size(); ++verseit) {
-                    QString t = verses.at(verseit);
-                    bool b2;
-                    if (query.regexp == true) {
-                        b2 = t.contains(QRegExp(query.text));
+                    if (query.caseSensitive == true) {
+                        b = ctext.at(chapterit).contains(query.searchText, Qt::CaseSensitive);
                     } else {
-                        if (query.caseSensitive == true) {
-                            b2 = t.contains(query.text, Qt::CaseSensitive);
-                        } else {
-                            b2 = t.contains(query.text, Qt::CaseInsensitive);
-                        }
-                    }
-                    if (b2) {
-                        st2.book << id;
-                        st2.chapter << chapterit;
-                        st2.verse << verseit;
-                        st2.text << t;
+                        b = ctext.at(chapterit).contains(query.searchText, Qt::CaseInsensitive);
                     }
                 }
+                if (b) {*/
+            QStringList verses = ctext[chapterit].split(versesign);
+            for (int verseit = 0; verseit < verses.size(); ++verseit) {
+                QString t = verses.at(verseit);
+                bool b2;
+                if (query.regExp == true) {
+                    b2 = t.contains(QRegExp(query.searchText));
+                } else {
+                    if (query.caseSensitive == true) {
+                        b2 = t.contains(query.searchText, Qt::CaseSensitive);
+                    } else {
+                        b2 = t.contains(query.searchText, Qt::CaseInsensitive);
+                    }
+                }
+                if (b2) {
+                    result.addHit(currentBookID, id, chapterit, verseit, t);
+                }
             }
+            /* }*/
         }
     }
     progress.close();
-    return st2;
+    return result;
 
 }

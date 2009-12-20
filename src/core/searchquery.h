@@ -1,10 +1,13 @@
 #ifndef SEARCHQUERY_H
 #define SEARCHQUERY_H
 #include <QtCore/QString>
-struct searchQuery {
-    QString text;
-    bool regexp;
-    bool whole;
+class SearchQuery
+{
+public:
+    SearchQuery();
+    QString searchText;
+    bool regExp;
+    bool wholeWord;
     bool caseSensitive;
 };
 

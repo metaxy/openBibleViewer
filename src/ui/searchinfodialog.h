@@ -16,28 +16,28 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define SEARCHINFODIALOG_H
 
 #include <QtGui/QDialog>
-#include "../core/stelle.h"
+#include "../core/searchresult.h"
 namespace Ui
 {
-class searchInfoDialog;
+class SearchInfoDialog;
 }
 
-class searchInfoDialog : public QDialog
+class SearchInfoDialog : public QDialog
 {
     Q_OBJECT
 private slots:
     void tabChanged(int index);
 public:
-    explicit searchInfoDialog(QWidget *parent = 0);
-    void setInfo(struct stelle st, QStringList bookNames, QString searchText, QStringList textList);
-    virtual ~searchInfoDialog();
+    explicit SearchInfoDialog(QWidget *parent = 0);
+    void setInfo(SearchResult, QStringList bookNames, QString searchText, QStringList textList);
+    virtual ~SearchInfoDialog();
     double mRound(double Zahl, int Stellen);
     int d2i(double d);
 protected:
     virtual void changeEvent(QEvent *e);
 
 private:
-    Ui::searchInfoDialog *m_ui;
+    Ui::SearchInfoDialog *m_ui;
     bool m_textShown;
     QStringList m_textList;
 

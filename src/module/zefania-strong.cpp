@@ -25,21 +25,21 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomElement>
 #include <QtXml/QDomNode>
 #include "../core/KoXmlReader.h"
-zefaniaStrong::zefaniaStrong()
+ZefaniaStrong::ZefaniaStrong()
 {
     m_settings = new Settings();
 }
-int zefaniaStrong::setSettings(Settings *set)
+int ZefaniaStrong::setSettings(Settings *set)
 {
     m_settings = set;
     return 0;
 }
-QString zefaniaStrong::loadFile(QString fileData, QString fileName)
+QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
 {
     KoXmlDocument doc;
     if (!doc.setContent(fileData)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
-        qDebug() << "zefaniaStrong::loadFile() the file isnt valid";
+        qDebug() << "ZefaniaStrong::loadFile() the file isnt valid";
         return QString();
     }
     QString fileTitle = "";
@@ -142,13 +142,13 @@ QString zefaniaStrong::loadFile(QString fileData, QString fileName)
     file.close();
     return fileTitle;
 }
-bool zefaniaStrong::loadDataBase(QString fileName)
+bool ZefaniaStrong::loadDataBase(QString fileName)
 {
-    qDebug() << "zefaniaStrong::loadDataBase fileName = " << fileName;
+    qDebug() << "ZefaniaStrong::loadDataBase fileName = " << fileName;
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(fileName.toLocal8Bit());
     QFile file(m_settings->homePath + "cache/" + hash.result().toBase64() + ".strong");
-    qDebug() << "zefaniaStrong::loadDataBase fileName3 = " << m_settings->homePath + "cache/" + hash.result().toBase64() + ".strong";
+    qDebug() << "ZefaniaStrong::loadDataBase fileName3 = " << m_settings->homePath + "cache/" + hash.result().toBase64() + ".strong";
     if (!file.open(QIODevice::ReadOnly)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not open cache file."));
         return false;
@@ -164,13 +164,13 @@ bool zefaniaStrong::loadDataBase(QString fileName)
     in >> m_trans;
     in >> m_pron;
     in >> m_desc;
-    qDebug() << "zefaniaStrong::loadDataBase fileName2 = " << file.fileName() << " m_id.size() = "  << m_id.size();
+    qDebug() << "ZefaniaStrong::loadDataBase fileName2 = " << file.fileName() << " m_id.size() = "  << m_id.size();
     file.close();
     return true;
 }
-QString zefaniaStrong::getStrong(QString strongID)
+QString ZefaniaStrong::getStrong(QString strongID)
 {
-    qDebug() << "zefaniaStrong::getStrong strongID = " << strongID;
+    qDebug() << "ZefaniaStrong::getStrong strongID = " << strongID;
     for (int i = 0; i < m_id.size(); ++i) {
         QString id = m_id.at(i);
         if (id.trimmed().toLower() == strongID.trimmed().toLower()) {
