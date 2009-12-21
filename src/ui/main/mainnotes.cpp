@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../../core/stelle.h"
 #include "../../core/notes.h"
 #include "../../core/dbghelper.h"
-#include "../poschoser.h"
+#include "../biblepassagedialog.h"
 #include "ui_mainwindow.h"
 
 #include <QtCore/QString>
@@ -315,14 +315,14 @@ void MainWindow::editNoteLink()
             break;
         }
     }
-    PosChoser *pChoser = new PosChoser(this);
-    //connect( pChoser, SIGNAL( searched( QString,bool,bool,bool ) ), this, SLOT( showSearchResults( QString,bool,bool,bool ) ) );
-    connect(pChoser, SIGNAL(updated(QString)), this, SLOT(updateNote(QString)));
+    BiblePassageDialog *passageDialog = new BiblePassageDialog(this);
+    //connect( passageDialog, SIGNAL( searched( QString,bool,bool,bool ) ), this, SLOT( showSearchResults( QString,bool,bool,bool ) ) );
+    connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateNote(QString)));
     qDebug() << "MainWindow::editNoteLink() m_bible.chapterData.size() = " << m_bible.chapterData.size(),
-    pChoser->setData(bibles, m_bible.bookFullName);
-    pChoser->setCurrent(bibleID, dirname, bookID, chapterID, verseID);
-    pChoser->show();
-    pChoser->exec();*/
+    passageDialog->setData(bibles, m_bible.bookFullName);
+    passageDialog->setCurrent(bibleID, dirname, bookID, chapterID, verseID);
+    passageDialog->show();
+    passageDialog->exec();*/
 }
 void MainWindow::updateNote(QString link)
 {

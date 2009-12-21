@@ -58,6 +58,8 @@ void MainWindow::newMdiChild()
     connect(mForm->m_ui->textBrowser, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(textBrowserContextMenu(QPoint)));
     connect(mForm->m_ui->textBrowser, SIGNAL(anchorClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
     connect(mForm, SIGNAL(historyGo(QString)), this, SLOT(pharseUrl(QString)));
+    connect(mForm, SIGNAL(previousChapter()), this, SLOT(previousChapter()));
+    connect(mForm, SIGNAL(nextChapter()), this, SLOT(nextChapter()));
     connect(this, SIGNAL(historySetUrl(QString)), mForm, SLOT(historyGetUrl(QString)));
     connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closeWindow()));
 
@@ -287,7 +289,6 @@ int MainWindow::reloadWindow(QMdiSubWindow * window)
     } else {
         if (m_bible.currentBibleID == m_windowCache.getBible().currentBibleID)
             return 1;
-        //myDebug() << "get bible";
         m_bible = m_windowCache.getBible();
         setTitle(m_windowCache.getBibleName());
         myDebug() << "m_bible.chapterNames.size() = " << m_bible.chapterNames.size() << " m_bible.currentChapterID = " << m_bible.currentChapterID;

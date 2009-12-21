@@ -24,6 +24,7 @@ MdiForm::MdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::MdiForm)
     connect(m_ui->toolButton_backward, SIGNAL(clicked()), this, SLOT(backward()));
     connect(m_ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
     setButtons();
+    m_ui->textBrowser->installEventFilter(this);
 
 }
 void MdiForm::changeEvent(QEvent *e)
@@ -65,6 +66,28 @@ void MdiForm::setButtons()
         m_ui->toolButton_forward->setDisabled(false);
     } else {
         m_ui->toolButton_forward->setDisabled(true);
+    }
+}
+bool MdiForm::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == m_ui->textBrowser) {
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if (keyEvent->key() == Qt::Key_Left) {
+                emit previousChapter();
+                return true;
+            } else if (keyEvent->key() == Qt::Key_Right) {
+                emit nextChapter();
+                return true;
+            } else {
+                return QWidget::eventFilter(obj, event);
+            }
+
+        } else {
+            return QWidget::eventFilter(obj, event);;
+        }
+    } else {
+        return QWidget::eventFilter(obj, event);
     }
 }
 MdiForm::~MdiForm()

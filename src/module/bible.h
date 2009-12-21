@@ -36,13 +36,13 @@ public:
         ZefaniaStrongModule = 3
     };
     Bible();
-    void setBibleType(int type);
+    void setBibleType(const int &type);
     void setSettings(Settings *settings);
     QMap<int, QList<Chapter> > getZefCache();
     void clearZefCache();
     void setZefCache(QMap<int, QList<Chapter> > cache);
 
-    int loadBibleData(int bibleID, QString path);
+    int loadBibleData(const int &bibleID, const QString &path);
     int readBook(int id);
     QString readChapter(int chapterID, int verseID);
     QString readVerse(int chapterID, int startVerse, int endVerse, int markVerseID, bool saveRawDatas);

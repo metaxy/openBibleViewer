@@ -11,44 +11,42 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef MDIFORM_H
-#define MDIFORM_H
+#ifndef BIBLEPASSAGEDIALOG_H
+#define BIBLEPASSAGEDIALOG_H
+#include "../core/settings.h"
+#include <QtGui/QDialog>
 
-#include <QtGui/QWidget>
-#include <QtGui/QCloseEvent>
-#include "ui_mdiform.h"
-#include "../core/history.h"
 namespace Ui
 {
-class MdiForm;
+class BiblePassageDialog;
 }
+/*!
+ BiblePassageDialog represents a dialog select or change a bible passage
 
-class MdiForm : public QWidget
+*/
+class BiblePassageDialog : public QDialog
 {
     Q_OBJECT
-    Q_DISABLE_COPY(MdiForm)
 public:
-    explicit MdiForm(QWidget *parent = 0);
-    virtual ~MdiForm();
-    Ui::MdiForm *m_ui;
-signals:
-    void onClose();
-    void historyGo(QString);
-    void previousChapter();
-    void nextChapter();
-public slots:
-    void historyGetUrl(QString url);
-    void backward();
-    void forward();
+    explicit BiblePassageDialog(QWidget *parent = 0);
+    virtual ~BiblePassageDialog();
+    void setSettings(Settings *set);
+    void setCurrent(const int &bible, const QString &path, const int &book, const int &chapter, const int &verse);
 
 protected:
     virtual void changeEvent(QEvent *e);
-    bool eventFilter(QObject *obj, QEvent *ev);
+public slots:
+    void save();
+
+    void indexChanged(int index);
+signals:
+    void updated(QString pos);
 private:
-    History browserHistory;
-    void setButtons();
-
-
+    Ui::BiblePassageDialog *m_ui;
+    Settings *m_settings;
+    QStringList m_bibles;
+    int m_bibleID, m_bookID, m_chapterID, m_verseID;
+    QString m_path;
 };
 
-#endif // MDIFORM_H
+#endif // BIBLEPASSAGEDIALOG_H

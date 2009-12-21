@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../../core/xbelreader.h"
 #include "../../core/xbelwriter.h"
 #include "../../core/dbghelper.h"
-#include "../poschoser.h"
+#include "../biblepassagedialog.h"
 #include <QtCore/QtDebug>
 #include <QtCore/QString>
 #include <QtGui/QAction>
@@ -193,13 +193,13 @@ void MainWindow::editBookmark()
         }
     }
 
-    PosChoser *pChoser = new PosChoser(this);
-    pChoser->setWindowModality(Qt::WindowModal);
-    connect(pChoser, SIGNAL(updated(QString)), this, SLOT(updateBookmark(QString)));
-    pChoser->setSettings(m_settings);
-    pChoser->setCurrent(bibleID, dirname, bookID, chapterID, verseID);
-    pChoser->show();
-    pChoser->exec();
+    BiblePassageDialog *passageDialog = new  BiblePassageDialog(this);
+    passageDialog->setWindowModality(Qt::WindowModal);
+    connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateBookmark(QString)));
+    passageDialog->setSettings(m_settings);
+    passageDialog->setCurrent(bibleID, dirname, bookID, chapterID, verseID);
+    passageDialog->show();
+    passageDialog->exec();
 }
 void MainWindow::bookmarksGo()
 {

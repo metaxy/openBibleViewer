@@ -29,7 +29,7 @@ SOURCES += src/main.cpp \
     src/module/bible.cpp \
     src/ui/main/mainmdi.cpp \
     src/ui/mdiform.cpp \
-    src/ui/poschoser.cpp \
+    src/ui/biblepassagedialog.cpp \
     src/ui/moduleconfigdialog.cpp \
     src/core/goto.cpp \
     src/module/zefania-strong.cpp \
@@ -60,7 +60,7 @@ HEADERS += src/ui/main/mainwindow.h \
     src/module/bible.h \
     src/core/chapter.h \
     src/ui/mdiform.h \
-    src/ui/poschoser.h \
+    src/ui/biblepassagedialog.h \
     src/ui/moduleconfigdialog.h \
     src/core/goto.h \
     src/module/zefania-strong.h \
@@ -78,7 +78,7 @@ FORMS += src/ui/main/mainwindow.ui \
     src/ui/settingsdialog.ui \
     src/ui/searchinfodialog.ui \
     src/ui/mdiform.ui \
-    src/ui/poschoser.ui \
+    src/ui/biblepassagedialog.ui \
     src/ui/aboutdialog.ui \
     src/ui/moduleconfigdialog.ui \
     src/ui/moduledownloaddialog.ui

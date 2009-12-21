@@ -288,7 +288,7 @@ void MainWindow::loadModuleDataByID(int id)
 void MainWindow::zoomIn()
 {
     if (activeMdiChild()) {
-        //qDebug() << "MainWindow::zoomIn() zoom = " << m_settings->zoomstep;
+        //myDebug() << "zoom = " << m_settings->zoomstep;
         QTextBrowser *t = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
         t->zoomIn(m_settings->zoomstep);
     }
@@ -297,7 +297,7 @@ void MainWindow::zoomIn()
 void MainWindow::zoomOut()
 {
     if (activeMdiChild()) {
-        //qDebug() << "MainWindow::zoomOut() zoom = " << m_settings->zoomstep;
+        //myDebug() << "zoom = " << m_settings->zoomstep;
         QTextBrowser *t = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
         t->zoomOut(m_settings->zoomstep);
     }
@@ -322,7 +322,7 @@ void MainWindow::readBookByID(int id)
         return;
     }
     if (id >= m_bible.bookFullName.size()) {
-        QMessageBox::critical(0, tr("Error"), tr("This book is not available!"));
+        QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
         myDebug() << "invalid bookID";
         return;
     }
@@ -363,6 +363,19 @@ void MainWindow::showChapter(const int &chapterID, const int &verseID)
     showText(m_bible.readChapter(m_bible.currentChapterID, verseID));
     setCurrentChapter(m_bible.currentChapterID - m_bible.chapterAdd);
 }
+void MainWindow::nextChapter()
+{
+    DEBUG_FUNC_NAME
+    if (m_bible.currentChapterID < m_bible.chapterData.size() - 1)
+        readChapter(m_bible.currentChapterID + 1);
+}
+void MainWindow::previousChapter()
+{
+    DEBUG_FUNC_NAME
+    if (m_bible.currentChapterID > 0)
+        readChapter(m_bible.currentChapterID - 1);
+}
+
 int MainWindow::textBrowserContextMenu(QPoint pos)
 {
     if (!activeMdiChild())
@@ -538,8 +551,8 @@ int MainWindow::copyWholeVerse(void)
         }
         if (startverse < 0 || endverse <= 0)
             return 1;
-        qDebug() << "MainwWindow::copyWholeVers() currentChapterID = " << m_bible.currentChapterID;
-        //todo:  this is not a good programm style
+        myDebug() << "currentChapterID = " << m_bible.currentChapterID;
+        //todo:  this is not a good programming style
 
         QString sverse = "";
         if (startverse == endverse) {
@@ -567,7 +580,7 @@ int MainWindow::copyWholeVerse(void)
         clipboard->setText(newText);
 
     } else {
-        qDebug() << "MainwWindow::copyWholeVers ( void ) nothing is selected";
+        myDebug() << "nothing is selected";
     }
 
     return 0;

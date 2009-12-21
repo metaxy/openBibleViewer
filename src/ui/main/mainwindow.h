@@ -51,6 +51,8 @@ public slots:
     void readBook(const int &bookID);
     void readChapter(QListWidgetItem * item);
     void readChapter(const int &chapterID);
+    void nextChapter();
+    void previousChapter();
     void zoomIn();
     void zoomOut();
     int search();

@@ -23,13 +23,13 @@ Bible::Bible()
     currentBibleID = -1;
     m_settings = new Settings();
 }
-void Bible::setBibleType(int type)
+void Bible::setBibleType(const int &type)
 {
     //todo:check if type is valid
     bibleType = type;
     return;
 }
-int Bible::loadBibleData(int bibleID, QString path)
+int Bible::loadBibleData(const int &bibleID, const QString &path)
 {
     DEBUG_FUNC_NAME
     myDebug() << "bibleID = " << bibleID << " path = " << path << " bibleType =" << bibleType;
@@ -129,7 +129,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     //endVerse == -1 means all verse
     if (saveRawData)
         chapterDataList.clear();
-    qDebug() << "bible::readVerse() start";
+    DEBUG_FUNC_NAME
     currentChapterID = chapterID;
     QString out = "";
     switch (bibleType) {
@@ -138,7 +138,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         if (chapterID < chapterData.size()) {
 
             c = chapterData.at(chapterID);
-            qDebug() << "bible::readVerse() chapterID = " << chapterID << " chapterdata.size() = " << chapterData.size() << " a.size() = " << c.data.size();
+            myDebug() << "chapterID = " << chapterID << " chapterdata.size() = " << chapterData.size() << " a.size() = " << c.data.size();
             int end;
             if (endVerse == -1) {
                 end = c.data.size();
@@ -156,7 +156,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
             }
 
         } else {
-            qDebug() << "bible::readVerse() index out of range index";
+            myDebug() << "index out of range index";
         }
         break;
     }
@@ -216,7 +216,6 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     }
     if (saveRawData)
         lastout = out;
-    qDebug() << "bible::readVerse() end";
     return out;
 }
 SearchResult Bible::search(SearchQuery query)
@@ -246,13 +245,6 @@ void Bible::clearZefCache()
 void Bible::setZefCache(QMap<int, QList<Chapter> > cache)
 {
     zef.setSoftCache(cache);
-    /*QMapIterator<int, KoXmlElement> i(cache);
-    while (i.hasNext())
-    {
-        i.next();
-        zef.softCacheAvi[i.key()] = true;
-    }*/
-
 }
 QStringList Bible::getSearchPaths()
 {
@@ -260,7 +252,7 @@ QStringList Bible::getSearchPaths()
         return QStringList();
     } else if (bibleType == BibleQuoteModule) {
         QStringList l;
-        l << QString(currentBiblePath + QDir::separator());
+        l.append(QString(currentBiblePath + QDir::separator()));
         if (currentBookID < bookPath.size()) {
             QString p = bookPath.at(currentBookID);
             int pos = p.lastIndexOf(QDir::separator());
@@ -270,7 +262,7 @@ QStringList Bible::getSearchPaths()
             if (!p.startsWith(currentBiblePath)) {
                 p = currentBiblePath + QDir::separator() + p + QDir::separator();
             }
-            l << p;
+            l.append(p);
         }
         return l;
     }
