@@ -268,3 +268,7 @@ QStringList Bible::getSearchPaths()
     }
     return QStringList();
 }
+void Bible::setNotes(Notes *n)
+{
+    m_notes = n;
+}

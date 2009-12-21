@@ -42,6 +42,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../../core/modulesettings.h"
 #include "../../core/goto.h"
 #include "../../core/settings.h"
+#include "../../core/urlconverter.h"
 //#include "../../core/dbghelper.h"
 
 //spilt MainWindow in some files
@@ -471,6 +472,15 @@ int MainWindow::textBrowserContextMenu(QPoint pos)
     actionSelect->setIcon(selectIcon);
     connect(actionSelect, SIGNAL(triggered()), textBrowser , SLOT(selectAll()));
 
+    QAction *actionMark = new QAction(this);
+    actionMark->setText(tr("Mark this"));
+    QIcon markIcon;
+    markIcon.addPixmap(QPixmap(":/icons/16x16/format-fill-color.png"), QIcon::Normal, QIcon::Off);
+    actionMark->setIcon(markIcon);
+    connect(actionMark, SIGNAL(triggered()), this , SLOT(newMark()));
+    if (!cursor.hasSelection()) {
+        actionMark->setEnabled(false);
+    }
     QAction *actionBookmark = new QAction(this);
     actionBookmark->setText(tr("Add Bookmark"));
     QIcon bookmarkIcon;
@@ -489,6 +499,7 @@ int MainWindow::textBrowserContextMenu(QPoint pos)
     contextMenu->addAction(actionCopyWholeVerse);
     contextMenu->addAction(actionSelect);
     contextMenu->addSeparator();
+    contextMenu->addAction(actionMark);
     contextMenu->addAction(actionBookmark);
     contextMenu->addAction(actionNote);
     contextMenu->exec(QCursor::pos());
@@ -563,15 +574,21 @@ int MainWindow::copyWholeVerse(void)
 
         if (m_bible.bibleType == 1)
             endverse++;
-        QString stext = m_bible.readVerse(m_bible.currentChapterID, startverse, endverse, -1, false);
+        QString stext;
+        if (m_bible.bibleType == Bible::BibleQuoteModule) {
+            stext = m_bible.readVerse(m_bible.currentChapterID, startverse, endverse, -1, false);
+        } else if (m_bible.bibleType == Bible::ZefaniaBibleModule) {
+            stext = m_bible.readVerse(m_bible.currentChapterID, startverse - 1, endverse, -1, false);
+        }
+
         QTextDocument doc2;
         doc2.setHtml(stext);
         stext = doc2.toPlainText();
 
         QString curChapter;
-        if (m_bible.bibleType == 1) {
+        if (m_bible.bibleType == Bible::BibleQuoteModule) {
             curChapter = QString::number(m_bible.currentChapterID);
-        } else if (m_bible.bibleType == 2) {
+        } else if (m_bible.bibleType == Bible::ZefaniaBibleModule) {
             curChapter = QString::number(m_bible.currentChapterID + 1);
         }
 
@@ -776,6 +793,7 @@ int MainWindow::loadModules()
     ui->treeWidget_bibles->insertTopLevelItems(0, items);
     ui->treeWidget_bibles->sortByColumn(0, Qt::AscendingOrder);//sort
     setSettings(m_settings);
+    m_bible.biblesIniPath = biblesIniPath;
     return 0;
 }
 void MainWindow::loadLanguage(QString language)
@@ -1053,26 +1071,10 @@ int MainWindow::showAboutDialog(void)
 }
 int MainWindow::internalOpenPos(const QString &pos)
 {
-    QStringList list = pos.split(";");
-    if (list.size() < 4) { //invalid pos
-        return 1;
-    }
-    QString path = list.at(0);
-    QString sbookID = list.at(1);
-    QString schapterID = list.at(2);
-    QString sverseID = list.at(3);
-    int bibleID = 0;
-    int bookID = sbookID.toInt();
-    int chapterID = schapterID.toInt();
-    int verseID = sverseID.toInt();
-    //get bibleID
-    for (int i = 0; i < biblesIniPath.size(); i++) {
-        if (biblesIniPath.at(i) == path) {
-            bibleID = i;
-            break;
-        }
-    }
-    emit get("bible://" + QString::number(bibleID) + "/" + QString::number(bookID) + "," + QString::number(chapterID - 1) + "," + QString::number(verseID - 1));
+    UrlConverter urlConverter(UrlConverter::PersistentUrl,UrlConverter::InterfaceUrl,pos);
+    urlConverter.m_biblesIniPath = biblesIniPath;//not nice, i know
+    urlConverter.pharse();
+    emit get(urlConverter.convert());
     return 0;
 }
 void MainWindow::goToPos()

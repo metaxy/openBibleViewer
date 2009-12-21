@@ -1,5 +1,6 @@
 #include "dbghelper.h"
-#define DBGHELPER_USES_PRINTF 1
+#define NO_COLOR
+#define DBGHELPER_USES_PRINTF
 #ifdef DBGHELPER_USES_PRINTF
 #include <stdio.h>
 #else

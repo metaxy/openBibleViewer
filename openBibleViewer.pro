@@ -41,7 +41,8 @@ SOURCES += src/main.cpp \
     src/core/modulesettings.cpp \
     src/core/searchresult.cpp \
     src/core/searchquery.cpp \
-    src/core/searchhit.cpp
+    src/core/searchhit.cpp \
+    src/core/urlconverter.cpp
 HEADERS += src/ui/main/mainwindow.h \
     src/core/settings.h \
     src/module/biblequote.h \
@@ -72,7 +73,8 @@ HEADERS += src/ui/main/mainwindow.h \
     src/core/modulesettings.h \
     src/core/searchresult.h \
     src/core/searchquery.h \
-    src/core/searchhit.h
+    src/core/searchhit.h \
+    src/core/urlconverter.h
 FORMS += src/ui/main/mainwindow.ui \
     src/ui/searchdialog.ui \
     src/ui/settingsdialog.ui \

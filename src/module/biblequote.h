@@ -44,7 +44,7 @@ public:
     int currentBookID, currentBibleID;
     bool chapterZero, bible, oldTestament, newTestament, apocrypha, strongNumbers, greek;
     QString currentBiblePath, lastout, chaptersign, versesign, bibleName, removeHtml;
-    QString bibles, biblesIniPath;
+    QString bibles;
     QStringList bookPath, bookFullName, bookShortName;
     QMap <int, int> bookCount;
     SearchQuery lastSearchQuery;

@@ -76,6 +76,7 @@ public slots:
     void notesContextMenu();
     void newNote();
     void newNoteWithLink();
+    void newMark();
     void removeNote();
     void reloadNotes();
     void copyNote();

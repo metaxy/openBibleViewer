@@ -21,6 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/stelle.h"
 #include "../core/searchquery.h"
 #include "../core/searchresult.h"
+#include "../core/notes.h"
 /*!
  Bible represent a bible module(eg biblequote module)
 
@@ -41,6 +42,7 @@ public:
     QMap<int, QList<Chapter> > getZefCache();
     void clearZefCache();
     void setZefCache(QMap<int, QList<Chapter> > cache);
+    void setNotes(Notes*n);
 
     int loadBibleData(const int &bibleID, const QString &path);
     int readBook(int id);
@@ -56,6 +58,7 @@ public:
     SearchQuery lastSearchQuery;
     SearchResult lastSearchResult;
     QStringList bookFullName, chapterText, bookPath, chapterNames, chapterDataList;
+    QStringList biblesIniPath;
     QMap <int, int> bookCount;
     QList<Chapter> chapterData;
     int bibleType;
@@ -63,6 +66,7 @@ public:
     ZefaniaBible zef;
 private:
     Settings *m_settings;
+    Notes *m_notes;
 
 };
 

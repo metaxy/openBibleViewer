@@ -62,5 +62,6 @@
         <file>icons/16x16/download.png</file>
         <file>icons/32x32/module.png</file>
         <file>icons/16x16/bookmark-new.png</file>
+        <file>icons/16x16/format-text-color.png</file>
     </qresource>
 </RCC>

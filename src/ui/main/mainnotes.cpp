@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../../core/stelle.h"
 #include "../../core/notes.h"
 #include "../../core/dbghelper.h"
+#include "../../core/urlconverter.h"
 #include "../biblepassagedialog.h"
 #include "ui_mainwindow.h"
 
@@ -140,7 +141,15 @@ void MainWindow::newNoteWithLink()
     QTextCursor cursor = currentTextCursor;
     int startverse = verseFromCursor(cursor);
     QString link;
-    link = biblesIniPath.at(m_bible.currentBibleID) + ";" + QString::number(m_bible.currentBookID, 10) + ";" + QString::number(m_bible.currentChapterID + 1 - m_bible.chapterAdd, 10) + ";" + QString::number(startverse, 10) + ";" + m_bible.bookFullName.at(m_bible.currentBookID);
+    UrlConverter urlConverter(UrlConverter::None,UrlConverter::PersistentUrl,"");
+    urlConverter.m_biblesIniPath = biblesIniPath;
+    urlConverter.m_bibleID = m_bible.currentBibleID;
+    urlConverter.m_bookID = m_bible.currentBookID;
+    urlConverter.m_chapterID = m_bible.currentChapterID - m_bible.chapterAdd;
+    urlConverter.m_verseID = startverse - 1;
+    urlConverter.m_bookName = m_bible.bookFullName.at(m_bible.currentBookID);
+    link = urlConverter.convert();
+    //link = biblesIniPath.at(m_bible.currentBibleID) + ";" + QString::number(m_bible.currentBookID, 10) + ";" + QString::number(m_bible.currentChapterID + 1 - m_bible.chapterAdd, 10) + ";" + QString::number(startverse, 10) + ";" + ;
 
     saveNote();
     reloadNotes();
@@ -261,33 +270,14 @@ QString MainWindow::notePos2Text(const QString &pos)
 
     myDebug() << "start pos = " << pos;
     QString string = "";
-    QStringList list = pos.split(";");
-    if (list.size() < 5) {
-        myDebug() << "invalid pos";
-        return "";
-    }
-    QString path = list.at(0);
-    QString sbookID = list.at(1);
-    QString schapterID = list.at(2);
-    QString sverseID = list.at(3);
-    QString bookName = list.at(4);
-    int bibleID = 0;
-    int chapterID = schapterID.toInt();
-    int verseID = sverseID.toInt();
-    int bookID = sbookID.toInt();
-    //get bibleID
-    myDebug() << "get bibleID";
-    for (int i = 0; i < biblesIniPath.size(); i++) {
-        if (biblesIniPath.at(i) == path) {
-            bibleID = i;
-            break;
-        }
-    }
-    //load bible id
+    UrlConverter urlConverter(UrlConverter::PersistentUrl,UrlConverter::InterfaceUrl,pos);
+    urlConverter.m_biblesIniPath = biblesIniPath;//not nice, i know
+    urlConverter.pharse();
+    QString link = urlConverter.convert();
 
-    myDebug() << " generate string with bibleID= " << bibleID ;
-    QString link =  "bible://" + QString::number(bibleID) + "/" + QString::number(bookID) + "," + QString::number(chapterID - 1) + "," + QString::number(verseID - 1);
-    string =  bookName + " " + QString::number(chapterID, 10) + "," + QString::number(verseID, 10);
+
+  //  QString link =  "bible://" + QString::number(bibleID) + "/" + QString::number(bookID) + "," + QString::number(chapterID - 1) + "," + QString::number(verseID - 1);
+    string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID+1) + "," + QString::number(urlConverter.m_verseID+1);
     return  "<a href=\"" + link + "\" > " + string + "</a>";
 }
 void MainWindow::editNoteLink()
@@ -330,4 +320,29 @@ void MainWindow::updateNote(QString link)
     currentNoteRef["link"] = link;
     showNote(ui->listWidget_notes->currentItem());
     return;
+}
+void MainWindow::newMark()
+{
+    DEBUG_FUNC_NAME
+    if (m_bible.currentBibleID < 0) {
+        newNote();
+        return;
+    }
+    QTextCursor cursor = currentTextCursor;
+    int startverse = verseFromCursor(cursor);
+    QString link;
+    link = biblesIniPath.at(m_bible.currentBibleID) + ";" + QString::number(m_bible.currentBookID, 10) + ";" + QString::number(m_bible.currentChapterID + 1 - m_bible.chapterAdd, 10) + ";" + QString::number(startverse, 10) + ";" + m_bible.bookFullName.at(m_bible.currentBookID);
+
+    saveNote();
+    reloadNotes();
+    QString newID = m_note->generateNewID();
+    m_note->setData(newID, "");
+    m_note->setTitle(newID, tr("(unnamed)"));
+    m_note->setType(newID, "mark");
+    QMap<QString, QString> ref;
+    ref["link"] = link;
+    //currentNoteRef = ref;
+    m_note->setRef(newID, ref);
+    m_note->insertID(newID);
+
 }

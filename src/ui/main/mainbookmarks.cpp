@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../../core/xbelreader.h"
 #include "../../core/xbelwriter.h"
 #include "../../core/dbghelper.h"
+#include "../../core/urlconverter.h"
 #include "../biblepassagedialog.h"
 #include <QtCore/QtDebug>
 #include <QtCore/QString>
@@ -60,15 +61,13 @@ void MainWindow::newBookmark(void)
                       QString::number(m_bible.currentChapterID - m_bible.chapterAdd + 1, 10) +
                       "," +
                       QString::number(startverse, 10));
-
-    bookmark->setText(1,
-                      biblesIniPath.at(m_bible.currentBibleID) +
-                      ";" +
-                      QString::number(m_bible.currentBookID, 10) +
-                      ";" +
-                      QString::number(m_bible.currentChapterID - m_bible.chapterAdd + 1, 10) +
-                      ";" +
-                      QString::number(startverse, 10));//auch aus cursor
+    UrlConverter urlConverter(UrlConverter::None,UrlConverter::PersistentUrl,"");
+    urlConverter.m_biblesIniPath = biblesIniPath;
+    urlConverter.m_bibleID = m_bible.currentBibleID;
+    urlConverter.m_bookID = m_bible.currentBookID;
+    urlConverter.m_chapterID = m_bible.currentChapterID - m_bible.chapterAdd;
+    urlConverter.m_verseID = startverse - 1;
+    bookmark->setText(1,urlConverter.convert());
 
     bookmark->setData(0, Qt::UserRole, "bookmark");
     if (ui->treeWidget_bookmarks->currentItem() && ui->treeWidget_bookmarks->currentItem()->data(0, Qt::UserRole).toString() == "folder") {
@@ -168,36 +167,19 @@ void MainWindow::editBookmark()
     }
 
     QString pos = ui->treeWidget_bookmarks->currentItem()->text(1);
-    if (internalOpenPos(pos) != 0) {
+    /*if (internalOpenPos(pos) != 0) {
         QMessageBox::critical(0, tr("Error"), tr("This Bookmark is invalid."));
         myDebug() << "invalid bookmark";
-    }
+    }*/
 
-    QStringList list = pos.split(";");
-    if (list.size() < 4) {
-        return ;
-    }
-    QString dirname = list.at(0);
-    QString sbookID = list.at(1);
-    QString schapterID = list.at(2);
-    QString sverseID = list.at(3);
-    int bibleID = 0;
-    int bookID = sbookID.toInt();
-    int chapterID = schapterID.toInt();
-    int verseID = sverseID.toInt();
-    //get bibleID
-    for (int i = 0; i < biblesIniPath.size(); i++) {
-        if (biblesIniPath.at(i) == dirname) {
-            bibleID = i;
-            break;
-        }
-    }
+    UrlConverter urlConverter(UrlConverter::PersistentUrl,UrlConverter::None,pos);
+    urlConverter.m_biblesIniPath = biblesIniPath;//not nice, i know
+    urlConverter.pharse();
 
     BiblePassageDialog *passageDialog = new  BiblePassageDialog(this);
-    passageDialog->setWindowModality(Qt::WindowModal);
     connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateBookmark(QString)));
     passageDialog->setSettings(m_settings);
-    passageDialog->setCurrent(bibleID, dirname, bookID, chapterID, verseID);
+    passageDialog->setCurrent(urlConverter.m_bibleID.toInt(), urlConverter.m_path, urlConverter.m_bookID, urlConverter.m_chapterID, urlConverter.m_verseID);
     passageDialog->show();
     passageDialog->exec();
 }
