@@ -38,7 +38,10 @@ namespace Ui
 {
 class MainWindowClass;
 }
+/*!
+ MainWindow represents the main window
 
+*/
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

@@ -1,6 +1,11 @@
 #ifndef SEARCHHIT_H
 #define SEARCHHIT_H
 #include <QtCore/QString>
+/*!
+ SearcHit represent a hit in a bible search
+
+ @author Paul Walger <metaxy@walger.name>
+*/
 class SearchHit
 {
 public:

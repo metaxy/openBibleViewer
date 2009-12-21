@@ -20,7 +20,10 @@ namespace Ui
 {
 class SettingsDialog;
 }
+/*!
+ SettingsDialog represents a dialog to modife the settings
 
+*/
 class SettingsDialog : public QDialog
 {
     Q_OBJECT

@@ -1,0 +1,194 @@
+\hypertarget{classBible}{
+\section{Bible Class Reference}
+\label{classBible}\index{Bible@{Bible}}
+}
+{\tt \#include $<$bible.h$>$}
+
+\subsection*{Public Types}
+\begin{CompactItemize}
+\item 
+enum \textbf{bibleType} \{ \textbf{None} =  0, 
+\textbf{BibleQuoteModule} =  1, 
+\textbf{ZefaniaBibleModule} =  2, 
+\textbf{ZefaniaStrongModule} =  3
+ \}
+\end{CompactItemize}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hypertarget{classBible_a0b10f677493b0777674be2651f2473e}{
+void \textbf{setBibleType} (int type)}
+\label{classBible_a0b10f677493b0777674be2651f2473e}
+
+\item 
+\hypertarget{classBible_bbc3f50a8babc5b981463f43a526623f}{
+void \textbf{setSettings} (\hyperlink{classSettings}{Settings} $\ast$settings)}
+\label{classBible_bbc3f50a8babc5b981463f43a526623f}
+
+\item 
+\hypertarget{classBible_8f30a6305d224eab73f436056938a256}{
+QMap$<$ int, QList$<$ \hyperlink{structChapter}{Chapter} $>$ $>$ \textbf{getZefCache} ()}
+\label{classBible_8f30a6305d224eab73f436056938a256}
+
+\item 
+\hypertarget{classBible_3a9612c55d834da8d41249fab191a425}{
+void \textbf{clearZefCache} ()}
+\label{classBible_3a9612c55d834da8d41249fab191a425}
+
+\item 
+\hypertarget{classBible_6c4455772400d25447069fd3e0ea7069}{
+void \textbf{setZefCache} (QMap$<$ int, QList$<$ \hyperlink{structChapter}{Chapter} $>$ $>$ cache)}
+\label{classBible_6c4455772400d25447069fd3e0ea7069}
+
+\item 
+\hypertarget{classBible_d02ec57b5250dc380b0ef07d26fe2300}{
+int \textbf{loadBibleData} (int bibleID, QString path)}
+\label{classBible_d02ec57b5250dc380b0ef07d26fe2300}
+
+\item 
+\hypertarget{classBible_0057dd2ba35fe377624da860a6959cd9}{
+int \textbf{readBook} (int id)}
+\label{classBible_0057dd2ba35fe377624da860a6959cd9}
+
+\item 
+\hypertarget{classBible_42e0e107fa2b5966bfa90f60a0fdc3cb}{
+QString \textbf{readChapter} (int chapterID, int verseID)}
+\label{classBible_42e0e107fa2b5966bfa90f60a0fdc3cb}
+
+\item 
+\hypertarget{classBible_515418999329333e8a6a821fc88d006f}{
+QString \textbf{readVerse} (int chapterID, int startVerse, int endVerse, int markVerseID, bool saveRawDatas)}
+\label{classBible_515418999329333e8a6a821fc88d006f}
+
+\item 
+\hypertarget{classBible_21a6808e0663d2f99604e137184b2b4d}{
+QStringList \textbf{getSearchPaths} ()}
+\label{classBible_21a6808e0663d2f99604e137184b2b4d}
+
+\item 
+\hypertarget{classBible_33103e25381494250b9a351572bb4e8e}{
+\hyperlink{classSearchResult}{SearchResult} \textbf{search} (\hyperlink{classSearchQuery}{SearchQuery} query)}
+\label{classBible_33103e25381494250b9a351572bb4e8e}
+
+\end{CompactItemize}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+\hypertarget{classBible_9501c28fb96b1c64e8180fd55540c4f8}{
+int \textbf{currentBibleID}}
+\label{classBible_9501c28fb96b1c64e8180fd55540c4f8}
+
+\item 
+\hypertarget{classBible_ad30964241716172af1baa5610f7be3a}{
+int \textbf{currentBookID}}
+\label{classBible_ad30964241716172af1baa5610f7be3a}
+
+\item 
+\hypertarget{classBible_e2db5bfeb962540545620020c4df62c1}{
+int \textbf{currentChapterID}}
+\label{classBible_e2db5bfeb962540545620020c4df62c1}
+
+\item 
+\hypertarget{classBible_6044495c9fb228455b6f4e295a2802e0}{
+int \textbf{chapterAdd}}
+\label{classBible_6044495c9fb228455b6f4e295a2802e0}
+
+\item 
+\hypertarget{classBible_05108f885ee17a2b574d96e3fbb23b33}{
+struct stelle \textbf{st}}
+\label{classBible_05108f885ee17a2b574d96e3fbb23b33}
+
+\item 
+\hypertarget{classBible_99e0cb6707bad5e1a25d2d360e3f3c1d}{
+QString \textbf{bibleName}}
+\label{classBible_99e0cb6707bad5e1a25d2d360e3f3c1d}
+
+\item 
+\hypertarget{classBible_abb92e73cdb26638d40325e5d708ec7b}{
+QString \textbf{lastout}}
+\label{classBible_abb92e73cdb26638d40325e5d708ec7b}
+
+\item 
+\hypertarget{classBible_2395ae3cf6893dc3888b82dc799d11d1}{
+QString \textbf{path}}
+\label{classBible_2395ae3cf6893dc3888b82dc799d11d1}
+
+\item 
+\hypertarget{classBible_de80d35d802a574b91fdf13be4b35e81}{
+QString \textbf{currentBiblePath}}
+\label{classBible_de80d35d802a574b91fdf13be4b35e81}
+
+\item 
+\hypertarget{classBible_1b406912e4d01a4e4755b17a6b2b3893}{
+\hyperlink{classSearchQuery}{SearchQuery} \textbf{lastSearchQuery}}
+\label{classBible_1b406912e4d01a4e4755b17a6b2b3893}
+
+\item 
+\hypertarget{classBible_62899d799a8c6efcf5283808edb205a7}{
+\hyperlink{classSearchResult}{SearchResult} \textbf{lastSearchResult}}
+\label{classBible_62899d799a8c6efcf5283808edb205a7}
+
+\item 
+\hypertarget{classBible_c3d84e689a0365415980d6f3ebb6e561}{
+QStringList \textbf{bookFullName}}
+\label{classBible_c3d84e689a0365415980d6f3ebb6e561}
+
+\item 
+\hypertarget{classBible_f1659c6f7db752f7c722c7880a731957}{
+QStringList \textbf{chapterText}}
+\label{classBible_f1659c6f7db752f7c722c7880a731957}
+
+\item 
+\hypertarget{classBible_fcf35e16bb50b3be1d60ee74b3f8a48c}{
+QStringList \textbf{bookPath}}
+\label{classBible_fcf35e16bb50b3be1d60ee74b3f8a48c}
+
+\item 
+\hypertarget{classBible_21d4ae1646b7a8c816094bcbbec4bc88}{
+QStringList \textbf{chapterNames}}
+\label{classBible_21d4ae1646b7a8c816094bcbbec4bc88}
+
+\item 
+\hypertarget{classBible_724de0aaf066754af1b6aa50ea554e62}{
+QStringList \textbf{chapterDataList}}
+\label{classBible_724de0aaf066754af1b6aa50ea554e62}
+
+\item 
+\hypertarget{classBible_ed92fc6bb94809029cecfa076ae99c23}{
+QMap$<$ int, int $>$ \textbf{bookCount}}
+\label{classBible_ed92fc6bb94809029cecfa076ae99c23}
+
+\item 
+\hypertarget{classBible_1dca3a01d8a18110a1cd24337deeca80}{
+QList$<$ \hyperlink{structChapter}{Chapter} $>$ \textbf{chapterData}}
+\label{classBible_1dca3a01d8a18110a1cd24337deeca80}
+
+\item 
+\hypertarget{classBible_2627423b324b61b3bffd2ca2027a6cd0}{
+int \textbf{bibleType}}
+\label{classBible_2627423b324b61b3bffd2ca2027a6cd0}
+
+\item 
+\hypertarget{classBible_378fb5e8a71400bbcc14aa0bf33a6082}{
+\hyperlink{classBibleQuote}{BibleQuote} \textbf{bq}}
+\label{classBible_378fb5e8a71400bbcc14aa0bf33a6082}
+
+\item 
+\hypertarget{classBible_bae8c0e258ecb53dcf89563c7eac3fef}{
+\hyperlink{classZefaniaBible}{ZefaniaBible} \textbf{zef}}
+\label{classBible_bae8c0e258ecb53dcf89563c7eac3fef}
+
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classBible}{Bible} represent a bible module(eg biblequote module)
+
+\begin{Desc}
+\item[Author:]Paul Walger $<$\href{mailto:metaxy@walger.name}{\tt metaxy@walger.name}$>$ \end{Desc}
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+src/module/bible.h\item 
+src/module/bible.cpp\end{CompactItemize}

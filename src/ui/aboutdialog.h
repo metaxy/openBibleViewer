@@ -16,11 +16,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtGui/QDialog>
 #include <QtCore/QString>
+
 namespace Ui
 {
 class AboutDialog;
 }
+/*!
+ AboutDialog represents a dialog with informationg about the software version number etc.
 
+ @author Paul Walger <metaxy@walger.name>
+*/
 class AboutDialog : public QDialog
 {
     Q_OBJECT

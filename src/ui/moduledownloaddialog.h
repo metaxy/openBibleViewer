@@ -21,11 +21,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QFile>
 #include <QtGui/QProgressDialog>
 #include "../core/settings.h"
+
 namespace Ui
 {
 class ModuleDownloadDialog;
 }
+/*!
+ ModuleDownloadDialog represents a dialog to download new modules
 
+*/
 class ModuleDownloadDialog : public QDialog
 {
     Q_OBJECT

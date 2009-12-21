@@ -20,7 +20,10 @@ namespace Ui
 {
 class PosChoser;
 }
+/*!
+ PosChoser represents a dialog select or change a bible passage
 
+*/
 class PosChoser : public QDialog
 {
     Q_OBJECT

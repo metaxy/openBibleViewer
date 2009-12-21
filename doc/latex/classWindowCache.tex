@@ -1,0 +1,87 @@
+\hypertarget{classWindowCache}{
+\section{WindowCache Class Reference}
+\label{classWindowCache}\index{WindowCache@{WindowCache}}
+}
+{\tt \#include $<$windowcache.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hypertarget{classWindowCache_b82c978bb59d65ec4000f9c7881341e4}{
+void \textbf{newWindow} ()}
+\label{classWindowCache_b82c978bb59d65ec4000f9c7881341e4}
+
+\item 
+\hypertarget{classWindowCache_bde6a44bf7d1ee74f5e0df76318d122e}{
+void \textbf{removeWindow} (const int \&id)}
+\label{classWindowCache_bde6a44bf7d1ee74f5e0df76318d122e}
+
+\item 
+\hypertarget{classWindowCache_bd278b1ee7fc49c4c9b8c903beba951d}{
+void \textbf{clearAll} ()}
+\label{classWindowCache_bd278b1ee7fc49c4c9b8c903beba951d}
+
+\item 
+\hypertarget{classWindowCache_c6edb962fa1a8e45411549c56f0efe56}{
+bool \textbf{setCurrentWindowID} (const int \&id)}
+\label{classWindowCache_c6edb962fa1a8e45411549c56f0efe56}
+
+\item 
+\hypertarget{classWindowCache_b2b5db93f83cb93e43cfe8b8dbbd5628}{
+void \textbf{setBible} (\hyperlink{classBible}{Bible} b)}
+\label{classWindowCache_b2b5db93f83cb93e43cfe8b8dbbd5628}
+
+\item 
+\hypertarget{classWindowCache_99be6dddf13d1948d73b1086be05ccf0}{
+void \textbf{setCurrentBook} (const int \&bookid, const int \&chapterCount)}
+\label{classWindowCache_99be6dddf13d1948d73b1086be05ccf0}
+
+\item 
+\hypertarget{classWindowCache_442f941e3eb2613193fbadd879099c7f}{
+QString \textbf{getBibleName} ()}
+\label{classWindowCache_442f941e3eb2613193fbadd879099c7f}
+
+\item 
+\hypertarget{classWindowCache_a4149a2481f8a0815a1f14031bac5209}{
+int \textbf{getBibleType} ()}
+\label{classWindowCache_a4149a2481f8a0815a1f14031bac5209}
+
+\item 
+\hypertarget{classWindowCache_40a736d1cbd24e1452c98a3cdd0041b0}{
+int \textbf{getCurrentBook} ()}
+\label{classWindowCache_40a736d1cbd24e1452c98a3cdd0041b0}
+
+\item 
+\hypertarget{classWindowCache_b097feda6b0e94ad055e2a91b1ec80d2}{
+int \textbf{getChapterCount} ()}
+\label{classWindowCache_b097feda6b0e94ad055e2a91b1ec80d2}
+
+\item 
+\hypertarget{classWindowCache_593b0ef814ce4b614be37b63d8ef5e31}{
+QStringList \textbf{getBooks} ()}
+\label{classWindowCache_593b0ef814ce4b614be37b63d8ef5e31}
+
+\item 
+\hypertarget{classWindowCache_c7d69389b84dc55771adcc89aa98a42e}{
+QMap$<$ int, QList$<$ \hyperlink{structChapter}{Chapter} $>$ $>$ \textbf{getZefaniaCache} (const int \&bibleID)}
+\label{classWindowCache_c7d69389b84dc55771adcc89aa98a42e}
+
+\item 
+\hypertarget{classWindowCache_de273ab129b581d4982140fc9b2762e1}{
+\hyperlink{classBible}{Bible} \textbf{getBible} ()}
+\label{classWindowCache_de273ab129b581d4982140fc9b2762e1}
+
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classWindowCache}{WindowCache} represents the cache for bible data
+
+\begin{Desc}
+\item[Author:]Paul Walger $<$\href{mailto:metaxy@walger.name}{\tt metaxy@walger.name}$>$ \end{Desc}
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+src/core/windowcache.h\item 
+src/core/windowcache.cpp\end{CompactItemize}

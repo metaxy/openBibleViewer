@@ -15,10 +15,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define HISTORY_H
 #include <QtCore/QString>
 #include <QtCore/QStringList>
+/*!
+ History is a simple class to get a url history
+
+ @author Paul Walger <metaxy@walger.name>
+*/
 class History
 {
 private:
-    QList<QString>  forwardItems, backwardItems;
+    QStringList forwardItems;
+    QStringList backwardItems;
     bool goF;
 public:
     History();

@@ -18,6 +18,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomElement>
 #include <QtXml/QDomDocument>
 #include "../core/settings.h"
+/*!
+ ZefaniaStrong represents a zefaniaxml(lex) module
+
+ @author Paul Walger <metaxy@walger.name>
+*/
 class ZefaniaStrong
 {
 private:

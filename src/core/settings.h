@@ -4,6 +4,11 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QMap>
+/*!
+ Settings represents the gobal settings
+
+ @author Paul Walger <metaxy@walger.name>
+*/
 class Settings
 {
 public:

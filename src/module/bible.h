@@ -21,6 +21,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/stelle.h"
 #include "../core/searchquery.h"
 #include "../core/searchresult.h"
+/*!
+ Bible represent a bible module(eg biblequote module)
+
+ @author Paul Walger <metaxy@walger.name>
+*/
 class Bible
 {
 public:

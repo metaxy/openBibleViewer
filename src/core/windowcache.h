@@ -18,6 +18,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QCache>
+/*!
+ WindowCache represents the cache for bible data
+
+ @author Paul Walger <metaxy@walger.name>
+*/
 class WindowCache
 {
 public:

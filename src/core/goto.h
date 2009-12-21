@@ -16,6 +16,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
+/*!
+ GoTo is a pharser for bible passage into a url
+
+ @author Paul Walger <metaxy@walger.name>
+*/
 class GoTo
 {
 public:

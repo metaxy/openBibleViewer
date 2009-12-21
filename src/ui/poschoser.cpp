@@ -37,7 +37,6 @@ void PosChoser::setSettings(Settings *set)
 void PosChoser::setCurrent(const int &bible,const QString &path, const int &book, const int &chapter, const int &verse)
 {
     DEBUG_FUNC_NAME
-    //todo:load the bible info and from that the booknames
     m_ui->comboBox_bibles->insertItems(0, m_settings->getBibleName());
     m_bookID = book;
     m_chapterID = chapter;

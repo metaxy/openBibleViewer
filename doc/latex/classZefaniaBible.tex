@@ -1,0 +1,195 @@
+\hypertarget{classZefaniaBible}{
+\section{ZefaniaBible Class Reference}
+\label{classZefaniaBible}\index{ZefaniaBible@{ZefaniaBible}}
+}
+{\tt \#include $<$zefania-bible.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hypertarget{classZefaniaBible_f52a3af3cf5027e377252b0d65060467}{
+int \textbf{setSettings} (\hyperlink{classSettings}{Settings} $\ast$settings)}
+\label{classZefaniaBible_f52a3af3cf5027e377252b0d65060467}
+
+\item 
+\hypertarget{classZefaniaBible_35afefc88d8403c025125b8bf7e325f3}{
+void \textbf{readBook} (const int \&id)}
+\label{classZefaniaBible_35afefc88d8403c025125b8bf7e325f3}
+
+\item 
+\hypertarget{classZefaniaBible_ef886a2ed5d65079d2625cacfc68130c}{
+void \textbf{loadBibleData} (const int \&id, const QString \&path)}
+\label{classZefaniaBible_ef886a2ed5d65079d2625cacfc68130c}
+
+\item 
+\hypertarget{classZefaniaBible_530b3de742b09436a6698140c428a51a}{
+QString \textbf{readInfo} (QFile \&file)}
+\label{classZefaniaBible_530b3de742b09436a6698140c428a51a}
+
+\item 
+\hypertarget{classZefaniaBible_2295f264abb8c603d6160d004327f9b9}{
+QString \textbf{readInfo} (const QString \&content)}
+\label{classZefaniaBible_2295f264abb8c603d6160d004327f9b9}
+
+\item 
+\hypertarget{classZefaniaBible_1d61a2c885f658724582ff7d0edcdd57}{
+bool \textbf{checkForCacheFiles} (const QString \&path)}
+\label{classZefaniaBible_1d61a2c885f658724582ff7d0edcdd57}
+
+\item 
+\hypertarget{classZefaniaBible_793f3c3f996c76f99185f3b918f46ab8}{
+void \textbf{loadNoCached} (const int \&id, const QString \&path)}
+\label{classZefaniaBible_793f3c3f996c76f99185f3b918f46ab8}
+
+\item 
+\hypertarget{classZefaniaBible_e01531c68bf9386d8a5832c46b345035}{
+void \textbf{loadCached} (const int \&id, const QString \&path)}
+\label{classZefaniaBible_e01531c68bf9386d8a5832c46b345035}
+
+\item 
+\hypertarget{classZefaniaBible_d6aa8172ba4fc50114314c1f91a28204}{
+QDomNode \textbf{readBookFromHardCache} (QString path, int bookID)}
+\label{classZefaniaBible_d6aa8172ba4fc50114314c1f91a28204}
+
+\item 
+\hypertarget{classZefaniaBible_31e7ab30e35e4c59e7a0e74acbb30951}{
+\hyperlink{classSearchResult}{SearchResult} \textbf{search} (\hyperlink{classSearchQuery}{SearchQuery} query)}
+\label{classZefaniaBible_31e7ab30e35e4c59e7a0e74acbb30951}
+
+\item 
+\hypertarget{classZefaniaBible_bc7e89561a9b87d4cb5511f29c7e51a6}{
+QMap$<$ int, QList$<$ \hyperlink{structChapter}{Chapter} $>$ $>$ \textbf{softCache} ()}
+\label{classZefaniaBible_bc7e89561a9b87d4cb5511f29c7e51a6}
+
+\item 
+\hypertarget{classZefaniaBible_89c9044afabfd52fc35a9ec2ce7c53e7}{
+QList$<$ \hyperlink{structChapter}{Chapter} $>$ \textbf{softCache} (int bookID)}
+\label{classZefaniaBible_89c9044afabfd52fc35a9ec2ce7c53e7}
+
+\item 
+\hypertarget{classZefaniaBible_1fb566001269984db4a9f4ba356e350e}{
+bool \textbf{setSoftCache} (QMap$<$ int, QList$<$ \hyperlink{structChapter}{Chapter} $>$ $>$)}
+\label{classZefaniaBible_1fb566001269984db4a9f4ba356e350e}
+
+\item 
+\hypertarget{classZefaniaBible_eba49dcbd061042236e788c1ababa10c}{
+bool \textbf{setSoftCache} (int bookID, QList$<$ \hyperlink{structChapter}{Chapter} $>$ c)}
+\label{classZefaniaBible_eba49dcbd061042236e788c1ababa10c}
+
+\item 
+\hypertarget{classZefaniaBible_e93f27ca8ff9b7076cbe7df1575d2228}{
+void \textbf{clearSoftCache} ()}
+\label{classZefaniaBible_e93f27ca8ff9b7076cbe7df1575d2228}
+
+\item 
+\hypertarget{classZefaniaBible_9a1467f126feca52ccc024f4ffbcd8e9}{
+QList$<$ \hyperlink{structChapter}{Chapter} $>$ \textbf{fromHardToSoft} (int id, QDomNode ncache)}
+\label{classZefaniaBible_9a1467f126feca52ccc024f4ffbcd8e9}
+
+\item 
+\hypertarget{classZefaniaBible_6674b121cf33de65102e7fea48c1cf01}{
+void \textbf{removeHardCache} (const QString \&path)}
+\label{classZefaniaBible_6674b121cf33de65102e7fea48c1cf01}
+
+\end{CompactItemize}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+\hypertarget{classZefaniaBible_afce41b55ffa9b68c427388a3e3c88a1}{
+QMap$<$ int, QList$<$ \hyperlink{structChapter}{Chapter} $>$ $>$ \textbf{softCacheData}}
+\label{classZefaniaBible_afce41b55ffa9b68c427388a3e3c88a1}
+
+\item 
+\hypertarget{classZefaniaBible_711ff81650f4038baee5fa6d54488342}{
+int \textbf{currentBookID}}
+\label{classZefaniaBible_711ff81650f4038baee5fa6d54488342}
+
+\item 
+\hypertarget{classZefaniaBible_9d62818ab51f56352f3f2677f0ab8471}{
+int \textbf{m\_\-bibleID}}
+\label{classZefaniaBible_9d62818ab51f56352f3f2677f0ab8471}
+
+\item 
+\hypertarget{classZefaniaBible_1657a94cbdfb2e48bb953bb5aab5509c}{
+\hyperlink{classSearchResult}{SearchResult} \textbf{lastSearchResult}}
+\label{classZefaniaBible_1657a94cbdfb2e48bb953bb5aab5509c}
+
+\item 
+\hypertarget{classZefaniaBible_90f3e8f2213009fea8b0eab8784f4517}{
+\hyperlink{classSearchQuery}{SearchQuery} \textbf{lastSearchQuery}}
+\label{classZefaniaBible_90f3e8f2213009fea8b0eab8784f4517}
+
+\item 
+\hypertarget{classZefaniaBible_6a443ecbf4641731db5834e62cc6811c}{
+QString \textbf{currentBiblePath}}
+\label{classZefaniaBible_6a443ecbf4641731db5834e62cc6811c}
+
+\item 
+\hypertarget{classZefaniaBible_3a5ba503f30e710b25bc276879e3c7fb}{
+QString \textbf{lastout}}
+\label{classZefaniaBible_3a5ba503f30e710b25bc276879e3c7fb}
+
+\item 
+\hypertarget{classZefaniaBible_be40ae1617e2a9ee8de4af480cfe5c3c}{
+QString \textbf{chaptersign}}
+\label{classZefaniaBible_be40ae1617e2a9ee8de4af480cfe5c3c}
+
+\item 
+\hypertarget{classZefaniaBible_873e160882ea515cbbafb1e98cbe9993}{
+QString \textbf{versesign}}
+\label{classZefaniaBible_873e160882ea515cbbafb1e98cbe9993}
+
+\item 
+\hypertarget{classZefaniaBible_4c2c6e2fc330550328482f7a38f69f71}{
+QString \textbf{biblepath}}
+\label{classZefaniaBible_4c2c6e2fc330550328482f7a38f69f71}
+
+\item 
+\hypertarget{classZefaniaBible_cb6873f8f693fc27280838709193252d}{
+QString \textbf{bibleName}}
+\label{classZefaniaBible_cb6873f8f693fc27280838709193252d}
+
+\item 
+\hypertarget{classZefaniaBible_47945ce9294970ef70e9524fd1957b81}{
+QString \textbf{lastSearch}}
+\label{classZefaniaBible_47945ce9294970ef70e9524fd1957b81}
+
+\item 
+\hypertarget{classZefaniaBible_c24235f3b32dfc2f6fe2e070b0d2519e}{
+QStringList \textbf{bibles}}
+\label{classZefaniaBible_c24235f3b32dfc2f6fe2e070b0d2519e}
+
+\item 
+\hypertarget{classZefaniaBible_94c2f571ecb0df013416a3af760b4ce1}{
+QStringList \textbf{bookFullName}}
+\label{classZefaniaBible_94c2f571ecb0df013416a3af760b4ce1}
+
+\item 
+\hypertarget{classZefaniaBible_7d6ae96fa377120f6cc0ce3db66fb454}{
+QStringList \textbf{bookShortName}}
+\label{classZefaniaBible_7d6ae96fa377120f6cc0ce3db66fb454}
+
+\item 
+\hypertarget{classZefaniaBible_411d4aef5506b8c770e9e329db9bcf45}{
+QStringList QMap$<$ int, int $>$ \textbf{bookCount}}
+\label{classZefaniaBible_411d4aef5506b8c770e9e329db9bcf45}
+
+\item 
+\hypertarget{classZefaniaBible_248fea01d2a43b23c2b7df54cd2bfcf7}{
+QList$<$ \hyperlink{structChapter}{Chapter} $>$ \textbf{chapterData}}
+\label{classZefaniaBible_248fea01d2a43b23c2b7df54cd2bfcf7}
+
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classZefaniaBible}{ZefaniaBible} represents a zefaniaxml(bible) module
+
+\begin{Desc}
+\item[Author:]Paul Walger $<$\href{mailto:metaxy@walger.name}{\tt metaxy@walger.name}$>$ \end{Desc}
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+src/module/zefania-bible.h\item 
+src/module/zefania-bible.cpp\end{CompactItemize}

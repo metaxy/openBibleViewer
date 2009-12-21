@@ -16,11 +16,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtGui/QDialog>
 #include "../core/modulesettings.h"
+
 namespace Ui
 {
 class ModuleConfigDialog;
 }
+/*!
+ ModuleConfigDialog represents a dialog to change module settings
 
+*/
 class ModuleConfigDialog : public QDialog
 {
     Q_OBJECT

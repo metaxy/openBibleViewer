@@ -19,12 +19,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomElement>
 #include <QtCore/QTextStream>
 #include <QtCore/QDebug>
-Notes::Notes(QString newFileName)
+Notes::Notes(const QString &newFileName)
 {
     fileName = newFileName;
     m_version = "0.2";
 }
-int Notes::loadNotes(void)
+/*!
+    Load notes data from an xml-file
+  */
+int Notes::loadNotes()
 {
     DEBUG_FUNC_NAME
     QFile file(fileName);
@@ -49,6 +52,10 @@ int Notes::loadNotes(void)
     file.close();
     return 0;
 }
+/*!
+  Get the type of a note(eg. text, mark, tag)
+  \param id Note ID
+  */
 QString Notes::getType(const QString &id)
 {
     // DEBUG_FUNC_NAME
@@ -57,6 +64,10 @@ QString Notes::getType(const QString &id)
     else
         return QString();
 }
+/*!
+  Get the note title
+  \param id Note ID
+  */
 QString Notes::getTitle(const QString &id)
 {
     // DEBUG_FUNC_NAME
@@ -65,6 +76,10 @@ QString Notes::getTitle(const QString &id)
     else
         return QString();
 }
+/*!
+  Get the note data
+  \param id Note ID
+  */
 QString Notes::getData(const QString &id)
 {
     //DEBUG_FUNC_NAME
@@ -74,6 +89,11 @@ QString Notes::getData(const QString &id)
     else
         return QString();
 }
+/*!
+  Get the note reference
+  \param id note ID
+  \param refID reference ID
+  */
 QString Notes::getRef(const QString &id, const QString &refID)
 {
     // DEBUG_FUNC_NAME
@@ -88,6 +108,10 @@ QString Notes::getRef(const QString &id, const QString &refID)
         return QString();
     }
 }
+/*!
+  Get all references of a note
+  \param id note ID
+  */
 QMap<QString, QString> Notes::getRef(const QString &id)
 {
     //DEBUG_FUNC_NAME
@@ -97,11 +121,17 @@ QMap<QString, QString> Notes::getRef(const QString &id)
     else
         return QMap<QString, QString>();
 }
+/*!
+  Get all note IDs
+  */
 QStringList Notes::getIDList()
 {
     //DEBUG_FUNC_NAME
     return notesID;
 }
+/*!
+  Clear all data
+  */
 void Notes::clearAll()
 {
     //DEBUG_FUNC_NAME
@@ -111,26 +141,49 @@ void Notes::clearAll()
     notesType.clear();
     notesID.clear();
 }
+/*!
+  Set note type
+  \param id note ID
+  \param type note type
+  */
 void Notes::setType(const QString &id, const QString &type)
 {
     //DEBUG_FUNC_NAME
     notesType[id] = type;
 }
+/*!
+  Set note title
+  \param id note ID
+  \param title note title
+  */
 void Notes::setTitle(const QString &id, const QString &title)
 {
     //DEBUG_FUNC_NAME
     notesTitle[id] = title;
 }
+/*!
+  Set note data
+  \param id note ID
+  \param data note data
+  */
 void Notes::setData(const QString &id, const QString &data)
 {
     //DEBUG_FUNC_NAME
     notesData[id] = data;
 }
+/*!
+  Set note reference
+  \param id note ID
+  \param ref note reference
+  */
 void Notes::setRef(const QString &id, const QMap<QString, QString>  &ref)
 {
     //DEBUG_FUNC_NAME
     notesRef[id] = ref;
 }
+/*!
+    Generate a new note ID, without colliding with other IDs
+ */
 QString Notes::generateNewID()
 {
     //DEBUG_FUNC_NAME
@@ -146,12 +199,20 @@ QString Notes::generateNewID()
     myDebug() << "biggest = " << biggest;
     return QString::number(biggest + 1);
 }
+/*!
+ Insert a new ID, and to add a new note you have to set title for this id
+ \param id the new note id
+ */
 void Notes::insertID(const QString &id)
 {
     // DEBUG_FUNC_NAME
     // myDebug() << " id = " << id;
     notesID << id;
 }
+/*!
+ Remove Note
+ \param id note id
+  */
 void Notes::removeNote(const QString &id)
 {
     //DEBUG_FUNC_NAME
@@ -161,6 +222,9 @@ void Notes::removeNote(const QString &id)
     notesRef.remove(id);
     notesID.removeOne(id);
 }
+/*!
+  Pharse note data from the xml-file
+  */
 int Notes::readNotes()
 {
     //read all notes in notesData
@@ -211,6 +275,9 @@ int Notes::readNotes()
     }
     return 0;
 }
+/*!
+  Write note data in the xml-file
+  */
 int Notes::saveNotes()
 {
     DEBUG_FUNC_NAME

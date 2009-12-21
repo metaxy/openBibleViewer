@@ -4,7 +4,11 @@
 #include <QtCore/QList>
 #include <QtCore/QString>
 #include <QtGui/QListWidget>
+/*!
+ Searchresult represents the results for a search
 
+ @author Paul Walger <metaxy@walger.name>
+*/
 class SearchResult
 {
 public:

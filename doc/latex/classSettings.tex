@@ -1,0 +1,160 @@
+\hypertarget{classSettings}{
+\section{Settings Class Reference}
+\label{classSettings}\index{Settings@{Settings}}
+}
+{\tt \#include $<$settings.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hypertarget{classSettings_823da407a40ae2fbe3031538cf498472}{
+\hyperlink{classModuleSettings}{ModuleSettings} \textbf{getModuleSettings} (const int \&bibleID)}
+\label{classSettings_823da407a40ae2fbe3031538cf498472}
+
+\item 
+\hypertarget{classSettings_87353d9e5ca7e452c222b14772f8508b}{
+void \textbf{replaceModule} (const int \&bibleID, \hyperlink{classModuleSettings}{ModuleSettings} m)}
+\label{classSettings_87353d9e5ca7e452c222b14772f8508b}
+
+\item 
+\hypertarget{classSettings_1a2648f466694632ffe5eb7df750bd90}{
+void \textbf{setBookCount} (const int \&bibleID, QMap$<$ int, int $>$ bookCount)}
+\label{classSettings_1a2648f466694632ffe5eb7df750bd90}
+
+\item 
+\hypertarget{classSettings_3468c250761c7db0e4b61f9e67ecb079}{
+void \textbf{setBookNames} (const int \&bibleID, QStringList bookNames)}
+\label{classSettings_3468c250761c7db0e4b61f9e67ecb079}
+
+\item 
+\hypertarget{classSettings_9733ed2848412829c96150f8d3cdbd55}{
+void \textbf{setBibleName} (const int \&bibleID, QString bibleName)}
+\label{classSettings_9733ed2848412829c96150f8d3cdbd55}
+
+\item 
+\hypertarget{classSettings_9abc0c2e1e4558e42318b041bb691dea}{
+void \textbf{setBiblePath} (const int \&bibleID, QString biblePath)}
+\label{classSettings_9abc0c2e1e4558e42318b041bb691dea}
+
+\item 
+\hypertarget{classSettings_36a9eb5b9a02bcd8f2e28f944162992a}{
+int \textbf{getCacheID} (int bibleID)}
+\label{classSettings_36a9eb5b9a02bcd8f2e28f944162992a}
+
+\item 
+\hypertarget{classSettings_698e614462375008abf61710997b1832}{
+QList$<$ QMap$<$ int, int $>$ $>$ \textbf{getBookCount} ()}
+\label{classSettings_698e614462375008abf61710997b1832}
+
+\item 
+\hypertarget{classSettings_0b510a4216bf2619147b3da503208361}{
+QList$<$ QStringList $>$ \textbf{getBookNames} ()}
+\label{classSettings_0b510a4216bf2619147b3da503208361}
+
+\item 
+\hypertarget{classSettings_29df1fac942be48b89a199477e18ad9a}{
+QStringList \textbf{getBibleName} ()}
+\label{classSettings_29df1fac942be48b89a199477e18ad9a}
+
+\item 
+\hypertarget{classSettings_fdd99319b04b1dad6de2dbcb87650365}{
+QStringList \textbf{getBiblePath} ()}
+\label{classSettings_fdd99319b04b1dad6de2dbcb87650365}
+
+\item 
+\hypertarget{classSettings_742208f6ac5589af5acfcd6dbf6b4939}{
+void \textbf{clearNamesCache} (const int \&id)}
+\label{classSettings_742208f6ac5589af5acfcd6dbf6b4939}
+
+\end{CompactItemize}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+\hypertarget{classSettings_4ec7fb59020b63a6a5a8a9d7d671a0b0}{
+QString \textbf{encoding}}
+\label{classSettings_4ec7fb59020b63a6a5a8a9d7d671a0b0}
+
+\item 
+\hypertarget{classSettings_5a50c0bb1e4c8fd7eea5667912414762}{
+QList$<$ \hyperlink{classModuleSettings}{ModuleSettings} $>$ \textbf{module}}
+\label{classSettings_5a50c0bb1e4c8fd7eea5667912414762}
+
+\item 
+\hypertarget{classSettings_e79e8c9e67743a86d5c507b519f75374}{
+QMap$<$ int, int $>$ \textbf{moduleID}}
+\label{classSettings_e79e8c9e67743a86d5c507b519f75374}
+
+\item 
+\hypertarget{classSettings_793c97945b015742072000590de3e6c6}{
+qreal \textbf{zoomstep}}
+\label{classSettings_793c97945b015742072000590de3e6c6}
+
+\item 
+\hypertarget{classSettings_3ab3d273b2d6322505e34c68e0016b6a}{
+QString \textbf{version}}
+\label{classSettings_3ab3d273b2d6322505e34c68e0016b6a}
+
+\item 
+\hypertarget{classSettings_222eb7c84467895c9e993b18a1b8d8ab}{
+QString \textbf{build}}
+\label{classSettings_222eb7c84467895c9e993b18a1b8d8ab}
+
+\item 
+\hypertarget{classSettings_fddb5ba4035ec3a19219377f12002b88}{
+bool \textbf{removeHtml}}
+\label{classSettings_fddb5ba4035ec3a19219377f12002b88}
+
+\item 
+\hypertarget{classSettings_efee23aee761eebf1fff9a391841b4a3}{
+QString \textbf{language}}
+\label{classSettings_efee23aee761eebf1fff9a391841b4a3}
+
+\item 
+\hypertarget{classSettings_e0fa8315ac34a140366b405780e272c3}{
+int \textbf{autoLayout}}
+\label{classSettings_e0fa8315ac34a140366b405780e272c3}
+
+\item 
+\hypertarget{classSettings_79f64a39105cf6f63eb8e54a64b19e83}{
+bool \textbf{onClickBookmarkGo}}
+\label{classSettings_79f64a39105cf6f63eb8e54a64b19e83}
+
+\item 
+\hypertarget{classSettings_8ab9cbd065e446b65f9fbb4ce6f981a7}{
+int \textbf{textFormatting}}
+\label{classSettings_8ab9cbd065e446b65f9fbb4ce6f981a7}
+
+\item 
+\hypertarget{classSettings_28f6c1d7cdf32e63ee846d0a837e5cb6}{
+bool \textbf{zefaniaBible\_\-hardCache}}
+\label{classSettings_28f6c1d7cdf32e63ee846d0a837e5cb6}
+
+\item 
+\hypertarget{classSettings_ef510dadba5c3c966cff5d5175c47e7f}{
+bool \textbf{zefaniaBible\_\-softCache}}
+\label{classSettings_ef510dadba5c3c966cff5d5175c47e7f}
+
+\item 
+\hypertarget{classSettings_28469cd69cee24a26821011fa375508b}{
+QString \textbf{homePath}}
+\label{classSettings_28469cd69cee24a26821011fa375508b}
+
+\item 
+\hypertarget{classSettings_b062343977a2a1ca8c42e48aee4b6948}{
+QStringList \textbf{bookNames}}
+\label{classSettings_b062343977a2a1ca8c42e48aee4b6948}
+
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classSettings}{Settings} represents the gobal settings
+
+\begin{Desc}
+\item[Author:]Paul Walger $<$\href{mailto:metaxy@walger.name}{\tt metaxy@walger.name}$>$ \end{Desc}
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+src/core/settings.h\item 
+src/core/settings.cpp\end{CompactItemize}

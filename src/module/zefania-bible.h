@@ -27,7 +27,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/searchquery.h"
 #include "../core/searchresult.h"
 #include "../core/KoXmlReader.h"
+/*!
+ ZefaniaBible represents a zefaniaxml(bible) module
 
+ @author Paul Walger <metaxy@walger.name>
+*/
 class ZefaniaBible
 {
 

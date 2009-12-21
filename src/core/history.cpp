@@ -16,7 +16,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 History::History()
 {
 }
-
+/*!
+    Return the next url in the history.
+  */
 QString History::forward()
 {
     qDebug() << "history::forward() items = " << forwardItems;
@@ -26,6 +28,9 @@ QString History::forward()
     } else
         return QString();
 }
+/*!
+    Return the previous url in the history.
+  */
 QString History::backward()
 {
     qDebug() << "history::backward() items = " << backwardItems;
@@ -36,14 +41,24 @@ QString History::backward()
     } else
         return QString();
 }
+/*!
+    Check if a next url is available.
+  */
 bool History::forwardAvailable()
 {
     return !forwardItems.isEmpty();
 }
+/*!
+    Check if a prevoius url is available.
+  */
 bool History::backwardAvailable()
 {
     return backwardItems.size() >= 2;
 }
+/*!
+    Add a new url to the history.
+    \param url the new url
+  */
 void History::setCurrent(const QString &url)
 {
     if (goF == true) {

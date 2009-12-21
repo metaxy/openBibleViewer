@@ -22,6 +22,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 #include <QtCore/QFile>
 #include <QtCore/QMap>
+/*!
+ BibleQuote represents a biblequote module
+
+ @author Paul Walger <metaxy@walger.name>
+*/
 class BibleQuote
 {
 private:

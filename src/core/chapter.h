@@ -16,6 +16,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
+/*!
+ Chapter represents a bible chapter
+
+ @author Paul Walger <metaxy@walger.name>
+*/
 struct Chapter {
     QStringList data;
     QStringList verseNumber;

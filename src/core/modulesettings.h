@@ -4,6 +4,11 @@
 #include <QtCore/QMap>
 #include <QtCore/QVariant>
 #include <QtCore/QStringList>
+/*!
+ ModuleSettings represents a settings class for modules
+
+ @author Paul Walger <metaxy@walger.name>
+*/
 class ModuleSettings
 {
 public:
@@ -21,10 +26,10 @@ public:
     bool biblequote_removeHtml;
     int uModuleCount;
 
-    QMap <QString, QVariant> bookCount;//QMap<int,int>
-    QMap<QString, QVariant> bookNames;//QStringList
-    QMap<QString, QVariant> biblePath;//QString
-    QMap<QString, QVariant> bibleName;//QString
+    QMap <QString, QVariant> bookCount;//QVariant = QMap<int,int>
+    QMap<QString, QVariant> bookNames;//QVariant = QStringList
+    QMap<QString, QVariant> biblePath;//QVariant = QString
+    QMap<QString, QVariant> bibleName;//QVariant = QString
 
 
 };

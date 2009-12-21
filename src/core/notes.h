@@ -17,10 +17,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 #include <QtCore/QMap>
 #include <QtXml/QDomDocument>
+/*!
+ Notes represents a note system
+
+ @author Paul Walger <metaxy@walger.name>
+*/
 class Notes
 {
 public:
-    Notes(QString fileName);
+    Notes(const QString &fileName);
     int loadNotes();
     int readNotes();
     int saveNotes();
@@ -37,9 +42,8 @@ public:
     QString generateNewID();
     void insertID(const QString &id);
     void removeNote(const QString &id);
-
     QStringList getIDList();
-private :
+private:
     QString fileName;
     QStringList notesID;
     QMap<QString, QString> notesData;
