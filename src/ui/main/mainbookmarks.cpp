@@ -44,7 +44,7 @@ int MainWindow::loadBookmarks(void)
 }
 void MainWindow::newBookmark(void)
 {
-    if (m_bible.currentBibleID < 0)
+   /* if (m_bible.currentBibleID < 0)
         return;
     QTreeWidgetItem *bookmark = new QTreeWidgetItem();
     bookmark->setFlags(bookmark->flags() | Qt::ItemIsEditable);
@@ -52,7 +52,6 @@ void MainWindow::newBookmark(void)
     QStyle *style = ui->treeWidget_bookmarks->style();
     bookmarkIcon.addPixmap(style->standardPixmap(QStyle::SP_FileLinkIcon));
     bookmark->setIcon(0, bookmarkIcon);
-    QTextCursor cursor = currentTextCursor;
     int startverse = verseFromCursor(cursor);
 
     bookmark->setText(0,
@@ -63,7 +62,7 @@ void MainWindow::newBookmark(void)
                       QString::number(startverse, 10));
     UrlConverter urlConverter(UrlConverter::None,UrlConverter::PersistentUrl,"");
     urlConverter.m_biblesIniPath = biblesIniPath;
-    urlConverter.m_bibleID = m_bible.currentBibleID;
+    urlConverter.m_bibleID = QString::number(m_bible.currentBibleID);
     urlConverter.m_bookID = m_bible.currentBookID;
     urlConverter.m_chapterID = m_bible.currentChapterID - m_bible.chapterAdd;
     urlConverter.m_verseID = startverse - 1;
@@ -75,7 +74,7 @@ void MainWindow::newBookmark(void)
     } else {
         ui->treeWidget_bookmarks->insertTopLevelItem(0, bookmark);
     }
-    saveBookmarks();
+    saveBookmarks();*/
 }
 void MainWindow::saveBookmarks(void)
 {

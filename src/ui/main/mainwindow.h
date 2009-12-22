@@ -28,6 +28,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../../core/notes.h"
 #include "../../core/searchquery.h"
 #include "../../core/windowcache.h"
+#include "../../core/verseselection.h"
 
 #include "../../module/bible.h"
 #include "../../module/biblequote.h"
@@ -139,7 +140,6 @@ private:
     int m_lastActiveWindow;
     QString lastsearch;
     QString bookmarksFileName, homeDataPath;
-    QTextCursor currentTextCursor;
     QStringList bibles, biblesIniPath, bookPath, bookFullName;
     QMap <int, int> bookCount;
     QMap<QString, QString> currentNoteRef;
@@ -178,7 +178,7 @@ private:
     void restoreSession();
 
 
-    int verseFromCursor(QTextCursor cursor);
+    VerseSelection verseSelectionFromCursor(QTextCursor cursor);
     int currentWindowID();
     int tabIDof(QMdiSubWindow* window);
     QString notePos2Text(const QString &pos);

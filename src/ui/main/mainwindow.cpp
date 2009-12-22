@@ -277,7 +277,7 @@ void MainWindow::loadModuleDataByID(int id)
 
     myDebug() << "biblesTypes.at(id) = " << biblesTypes.at(id);
     m_bible.setBibleType(biblesTypes.at(id));
-    m_bible.loadBibleData(id, biblesIniPath[id]);
+    m_bible.loadBibleData(id, biblesIniPath.at(id));
 
     setTitle(m_bible.bibleName);
     setBooks(m_bible.bookFullName);
@@ -396,63 +396,14 @@ int MainWindow::textBrowserContextMenu(QPoint pos)
     if (cursor2.hasSelection()) {
         cursor = cursor2;
     }
-    currentTextCursor = cursor;
-    if (cursor.hasSelection()) {
-        int start = cursor.selectionStart(), end = cursor.selectionEnd();
-        int startline = 0, startverse = 0, endline = 0, endverse = 0;
-        int res = start, res2 = end;
-        QString text = textBrowser->toPlainText();
-        QStringList lines = text.split("\n"), verses;
-        bool started = false;
-        if (m_bible.chapterData.size() < m_bible.currentChapterID)
-            return 1;
-        verses = m_bible.chapterData.at(m_bible.currentChapterID).data;
-        for (int i = 0; i < lines.size(); ++i) {
-            res -= lines.at(i).size() + 1;
-            res2 -= lines.at(i).size() + 1;
-            if (started == false && res < 0) {
-                if ((-res) > cursor.selectedText().size()) {
-                    startline = i;
-                    endline = i;
-                    break;
-                }
-                startline = i;
-                started = true;
-            }
-            if (res2 < 0) {
-                endline = i;
-                break;
-            }
-        }
-        started = false;
-        if (biblesTypes.at(m_bible.currentBibleID) == 2 && m_settings->module.at(m_settings->moduleID[m_bible.currentBibleID]).zefbible_textFormatting == 0) {
-            startverse = startline - 1;
-            endverse = endline - 1;
-            if (startverse < 0)
-                startverse = 0;
-        } else {
-            qDebug() << "MainWindow::textBrowserContextMenu() startline = " << startline << ", endline = " << endline;
-            for (int i = 0; i < verses.size(); ++i) {
-                QTextDocument doc;
-                doc.setHtml(verses.at(i));
-                QString t = doc.toPlainText();
-                if (started == false && t.contains(lines.at(startline))) {
-                    startverse = i;
-                    started = true;
-                }
-                if (t.contains(lines.at(endline))) {
-                    endverse = i;
-                    break;
-                }
-            }
-        }
+    VerseSelection selection = verseSelectionFromCursor(cursor);
+    if(selection.startVerse != -1) {
         QString addText;
-        if (startverse != endverse)
-            addText = " " + QString::number(startverse, 10) + " - " + QString::number(endverse, 10);
+        if (selection.startVerse != selection.endVerse)
+            addText = " " + QString::number(selection.startVerse) + " - " + QString::number(selection.endVerse);
         else
-            addText = " " + QString::number(startverse, 10);
-        qDebug() << "MainWindow::textBrowserContextMenu() startverse = " << startverse << ", endverse = " << endverse;
-        if (startverse < 0 || endverse <= 0) {
+            addText = " " + QString::number(selection.startVerse);
+        if (selection.startVerse < 0 || selection.endVerse <= 0) {
             actionCopyWholeVerse->setText(tr("Copy Verse"));
             actionCopyWholeVerse->setEnabled(false);
         } else {
@@ -512,73 +463,22 @@ int MainWindow::copyWholeVerse(void)
         return 1;
     QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
     QTextCursor cursor = textBrowser->textCursor();
-    currentTextCursor = cursor;
-    if (cursor.hasSelection() == true) {
-        int start = cursor.selectionStart(), end = cursor.selectionEnd();
-        int startline = 0, startverse = 0, endline = 0, endverse = 0;
-        int res = start, res2 = end;
-        QString text = textBrowser->toPlainText();
-        QStringList lines = text.split("\n"), verses;
-        bool started = false;
-        if (m_bible.chapterData.size() < m_bible.currentChapterID)
-            return 1;
-        verses = m_bible.chapterData.at(m_bible.currentChapterID).data;
-        for (int i = 0; i < lines.size(); ++i) {
-            res -= lines.at(i).size() + 1;
-            res2 -= lines.at(i).size() + 1;
-            if (started == false && res < 0) {
-                if ((-res) > cursor.selectedText().size()) {
-                    startline = i;
-                    endline = i;
-                    break;
-                }
-                startline = i;
-                started = true;
-            }
-            if (res2 < 0) {
-                endline = i;
-                break;
-            }
-        }
-        started = false;
-        if (biblesTypes.at(m_bible.currentBibleID) == 2 && m_settings->module.at(m_settings->moduleID[m_bible.currentBibleID]).zefbible_textFormatting == 0) {
-            startverse = startline - 1;
-            endverse = endline - 1;
-        } else {
-            qDebug() << "MainWindow::textBrowserContextMenu() startline = " << startline << ", endline = " << endline;
-            for (int i = 0; i < verses.size(); ++i) {
-                QTextDocument doc;
-                doc.setHtml(verses.at(i));
-                QString t = doc.toPlainText();
-                if (started == false && t.contains(lines.at(startline))) {
-                    startverse = i;
-                    started = true;
-                }
-                if (t.contains(lines.at(endline))) {
-                    endverse = i;
-                    break;
-                }
-            }
-        }
-        if (startverse < 0 || endverse <= 0)
-            return 1;
-        myDebug() << "currentChapterID = " << m_bible.currentChapterID;
-        //todo:  this is not a good programming style
+    VerseSelection selection = verseSelectionFromCursor(cursor);
+    if(selection.startVerse != -1) {
 
         QString sverse = "";
-        if (startverse == endverse) {
-            sverse = "," + QString::number(startverse);
+        if (selection.startVerse == selection.endVerse ) {
+            sverse = "," + QString::number(selection.startVerse);
         } else {
-            sverse = " " + QString::number(startverse) + "-" + QString::number(endverse);
+            sverse = " " + QString::number(selection.startVerse) + "-" + QString::number(selection.endVerse);
         }
 
-        if (m_bible.bibleType == 1)
-            endverse++;
+
         QString stext;
         if (m_bible.bibleType == Bible::BibleQuoteModule) {
-            stext = m_bible.readVerse(m_bible.currentChapterID, startverse, endverse, -1, false);
+            stext = m_bible.readVerse(m_bible.currentChapterID, selection.startVerse, selection.endVerse +1, -1, false);
         } else if (m_bible.bibleType == Bible::ZefaniaBibleModule) {
-            stext = m_bible.readVerse(m_bible.currentChapterID, startverse - 1, endverse, -1, false);
+            stext = m_bible.readVerse(m_bible.currentChapterID, selection.startVerse - 1, selection.endVerse, -1, false);
         }
 
         QTextDocument doc2;
@@ -1086,48 +986,62 @@ void MainWindow::goToPos()
     return;
 }
 
-int MainWindow::verseFromCursor(QTextCursor cursor)
+VerseSelection MainWindow::verseSelectionFromCursor(QTextCursor cursor)
 {
+    VerseSelection selection;
     DEBUG_FUNC_NAME
-    if (!activeMdiChild())
-        return 1;
-    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+    selection.endVerse = -1;
+    selection.startVerse = -1;
 
-    int startline = 0, startverse = 0;
-    if (cursor.position() != 0) {
-        int pos = cursor.position();
-        myDebug() << "pos = " << pos;
-        QString text = textBrowser->toPlainText();
-        QStringList lines = text.split("\n");
-        int res = pos;
-        QString htmltext;
-        if (biblesTypes.size() < m_bible.currentBibleID)
-            return 1;
-        QStringList verses = m_bible.chapterDataList;
-        myDebug() << "lines.size() = " << lines.size();
-        for (int i = 0; i < lines.size(); ++i) {
-            QString l = lines.at(i);
-            res -= l.size() + 1;
-            if (res < 0) {
-                startline = i;
-                break;
-            }
+    if (cursor.hasSelection() == true) {
+        //an option is to remove allhtml tags and search there
+        QString fragment = cursor.selection().toHtml();
+        int from = fragment.indexOf("<!--StartFragment-->");
+        int to = fragment.indexOf("<!--EndFragment-->");
+        fragment.remove(to,fragment.size());
+        fragment.remove(0,from+QString("<!--StartFragment-->").size());
+        //if fragment starts with a tag remove this
+        if(fragment.startsWith("<")) {
+            fragment.remove(0,fragment.indexOf(">")+1);
         }
-        myDebug() << "verses.size() = " << verses.size() << ", startline = " << startline;
-        myDebug() << "lines.at(startline) = " << lines.at(startline);
-        for (int i = 0; i < verses.size(); ++i) {
-            QTextDocument doc;
-            doc.setHtml(verses.at(i));
-            QString t = doc.toPlainText();
-            myDebug() << "i = " << i << " t = " << t;
-            if (t.contains(lines.at(startline)) /*|| lines.at(startline).contains(t)*/) {
-                startverse = i;
-                break;
-            }
+        if(fragment.endsWith(">")) {
+            fragment.remove(fragment.lastIndexOf("<"),fragment.size());
         }
+        QStringList chapterData;
+        for(int i=0;i <m_bible.chapterDataList.size();++i) {
+            QTextDocument t;
+            t.setHtml(m_bible.chapterDataList.at(i));
+            QString raw = t.toHtml();
+            QString a1 = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">";
+            QString a2 = "</p></body></html>";
+            int i1 = raw.indexOf(a1);
+            int i2 = raw.indexOf(a2);
+            raw.remove(i2,raw.size());
+            raw.remove(0,i1+a1.size());
+            qDebug() << raw << raw.size();
+            chapterData.append(raw);
+        }
+        QString text = chapterData.join("");
+        int startFragment = text.indexOf(fragment);
+        qDebug() << "pos = " << startFragment << "fragemnt = " << fragment;
+        //find out start verse and end verse
+        int counter = 0;
+        for(int i = 0; i< chapterData.size();++i) {
+            if(selection.startVerse == -1 && startFragment <  (counter)) {
+                myDebug() << "setted start";
+                selection.startVerse = i - 1;
+            }
+            if(selection.endVerse == -1 && (startFragment + fragment.size()  < (counter))) {
+                myDebug() << "setted end";
+                selection.endVerse = i - 1;
+            }
+            counter += chapterData.at(i).size();
+
+        }
+        myDebug() << " start = " << selection.startVerse << " end = " << selection.endVerse;
     }
-    myDebug() << "startverse = " << startverse;
-    return startverse + 1;//wegen titel
+
+    return selection;
 }
 void MainWindow::setChapters(const QStringList &list)
 {

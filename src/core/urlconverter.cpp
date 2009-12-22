@@ -8,7 +8,7 @@ UrlConverter::UrlConverter(const int &from, const int &to, const QString &url)
 }
 QString UrlConverter::convert()
 {
-    DEBUG_FUNC_NAME
+   // DEBUG_FUNC_NAME
     QString ret;
     if (m_to == InterfaceUrl) {
         ret = "bible://" + m_bibleID + "/" + QString::number(m_bookID) + "," + QString::number(m_chapterID) + "," + QString::number(m_verseID);
@@ -19,12 +19,12 @@ QString UrlConverter::convert()
         }
     } else if (m_to == BibleQuoteUrl) {
     }
-    myDebug() << ret;
+    myDebug() << ret << "bibleID = " << m_bibleID << " iniPath = " << m_biblesIniPath;
     return ret;
 }
 int UrlConverter::pharse()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QString bible = "bible://";
     if (m_from == InterfaceUrl) {
         QString url = m_url;

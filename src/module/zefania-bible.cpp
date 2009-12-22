@@ -182,7 +182,7 @@ QDomElement ZefaniaBible::format(QDomElement e)
             QDomNode node = n;
             QDomText t = node.firstChild().toText();
             if (mConfig.zefbible_showStudyNote == true && n.toElement().attribute("type", "") == "x-studynote") {
-                t.setData("[<font size=\"-1\" <i>" + t.data() + "</i> </font>]");
+                t.setData("[<span style=\" font-size:small;\">" + t.data() + "</span>]");
             } else {
                 t.setData("");
             }

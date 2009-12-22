@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../core/settings.h"
 #include "../core/modulesettings.h"
 #include "../core/dbghelper.h"
+#include "../core/urlconverter.h"
 #include <QtCore/QtDebug>
 #include <QtCore/QMapIterator>
 #include <QtCore/QDir>
@@ -126,95 +127,104 @@ QString Bible::readChapter(int chapterID, int verseID = -1)
    */
 QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVerseID = -1, bool saveRawData = false)
 {
+    DEBUG_FUNC_NAME
     //endVerse == -1 means all verse
+    currentChapterID = chapterID;
     if (saveRawData)
         chapterDataList.clear();
-    DEBUG_FUNC_NAME
-    currentChapterID = chapterID;
-    QString out = "";
+
+    QString out = "";//Return
     switch (bibleType) {
     case BibleQuoteModule: {
-        Chapter c;
-        if (chapterID < chapterData.size()) {
-
-            c = chapterData.at(chapterID);
-            myDebug() << "chapterID = " << chapterID << " chapterdata.size() = " << chapterData.size() << " a.size() = " << c.data.size();
-            int end;
-            if (endVerse == -1) {
-                end = c.data.size();
-            } else {
-                end  = endVerse;
-            }
-            for (int i = startVerse; i < end; i++) {
-                if (i == markVerseID) {
-                    out += "<b>" + c.data.at(i) + "</b>";
-                } else {
-                    out += c.data.at(i);
-                }
-                if (saveRawData)
-                    chapterDataList << c.data.at(i);
-            }
-
-        } else {
+        if (chapterID >= chapterData.size()) {
             myDebug() << "index out of range index";
+            break;
         }
+        Chapter chapter = chapterData.at(chapterID);//get data for this chapter
+        //find out whereto read verse
+        int end;
+        if (endVerse == -1) {
+            end = chapter.data.size();
+        } else {
+            end  = endVerse;
+        }
+        for (int i = startVerse; i < end; i++) {
+            //no title formatting, because it is already formatted
+            QString vers = chapter.data.at(i);
+
+            if (i == markVerseID) {
+                vers.prepend("<b>");
+                vers.append("</b>"); //make the current verse vold
+            }
+            out += vers;
+            if (saveRawData)
+                chapterDataList.append(vers);
+        }
+
         break;
     }
     case ZefaniaBibleModule: { //zefania
         qDebug() << "bible::readVerse() zefania read";
-        Chapter c;
-        if (chapterID < chapterData.size()) {
 
-            c = chapterData.at(chapterID);
-            qDebug() << "bible::readVerse() chapterID = " << chapterID << " chapterdata.size() = " << chapterData.size() << " a.size() = " << c.data.size();
-            if (m_settings->getModuleSettings(currentBibleID).zefbible_textFormatting == 0) {
-                if (saveRawData)
-                    out = "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";
-                int end;
-                if (endVerse == -1) {
-                    end = c.data.size();
-                } else {
-                    end  = endVerse;
-                }
-                for (int i = startVerse; i < end; i++) {
-                    QString o =  "<i>" + c.verseNumber.at(i) + "</i> " + c.data.at(i) + "<br />";
-                    if (i == markVerseID) {
-                        out += "<a name=\"currentVerse\"><b>" + o + "</b></a>";
-                    } else {
-                        out += o;
-                    }
-                    if (saveRawData)
-                        chapterDataList << o;
-                }
-            } else { /*if(m_settings->getModuleSettings(currentBibleID).zefbible_textFormatting == 1)*/
-                if (saveRawData)
-                    out = "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";
-                int end;
-                if (endVerse == -1) {
-                    end = c.data.size();
-                } else {
-                    end  = endVerse;
-                }
-                for (int i = startVerse; i < end; i++) {
-                    QString o =  c.verseNumber.at(i) + " " + c.data.at(i);
-                    if (i == markVerseID) {
-                        out += "<b>" + o + "</b>";
-                    } else {
-                        out += o;
-                    }
-                    if (saveRawData)
-                        chapterDataList << o;
-                }
-            }
+        if (chapterID >= chapterData.size()) {
+            myDebug() << "index out of range index";
+            break;
+        }
+        Chapter c = chapterData.at(chapterID);
+        if (saveRawData)
+            out = "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";//title
+        if (saveRawData)
+            chapterDataList << out;
 
-
+        int end;
+        if (endVerse == -1) {
+            end = c.data.size();
         } else {
-            qDebug() << "bible::readVerse() index out of range index";
+            end = endVerse;
+        }
+        for (int i = startVerse; i < end; i++) {
+            QString vers = c.data.at(i);
+            //main formatting
+            if (m_settings->getModuleSettings(currentBibleID).zefbible_textFormatting == 0) {
+                vers.prepend("<span style=\" font-style:italic;\">" + c.verseNumber.at(i) + "</span> ");
+                vers.append("<br />");
+            }
+            else {
+                vers.prepend(c.verseNumber.at(i) + " ");
+            }
+            //if is current verse
+            if (i == markVerseID) {
+                vers.prepend("<a name=\"currentVerse\"><b>");
+                vers.append("</b></a>");
+            }
+            out += vers;
+            /*if(m_notes != 0)
+            {
+                for(int n =0; n< m_notes->getIDList().size();++n)
+                {
+                   QString noteID = m_notes->getIDList().at(n);
+                   if(m_notes->getType(noteID) == "mark")
+                   {
+                       QString link = m_notes->getRef(noteID,"link");
+                       UrlConverter urlConverter(UrlConverter::PersistentUrl,UrlConverter::None,link);
+                       urlConverter.m_biblesIniPath = biblesIniPath;
+                       urlConverter.pharse();
+                       if(urlConverter.m_bibleID.toInt() == currentBibleID && urlConverter.m_bookID == currentBookID && urlConverter.m_chapterID == chapterID && urlConverter.m_verseID == i)
+                       {
+                           myDebug() << "found " << noteID;
+                           o.prepend("WTF!!!");
+                       }
+                   }
+                }
+            }*/
+            if (saveRawData)
+                chapterDataList << vers;
         }
         break;
     }
     }
-    if (saveRawData)
+
+    if(saveRawData)
         lastout = out;
     return out;
 }
