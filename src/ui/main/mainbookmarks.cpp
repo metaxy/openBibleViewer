@@ -44,7 +44,7 @@ int MainWindow::loadBookmarks(void)
 }
 void MainWindow::newBookmark(void)
 {
-   /* if (m_bible.currentBibleID < 0)
+    if (m_bible.currentBibleID < 0)
         return;
     QTreeWidgetItem *bookmark = new QTreeWidgetItem();
     bookmark->setFlags(bookmark->flags() | Qt::ItemIsEditable);
@@ -52,21 +52,25 @@ void MainWindow::newBookmark(void)
     QStyle *style = ui->treeWidget_bookmarks->style();
     bookmarkIcon.addPixmap(style->standardPixmap(QStyle::SP_FileLinkIcon));
     bookmark->setIcon(0, bookmarkIcon);
-    int startverse = verseFromCursor(cursor);
+    if (!activeMdiChild())
+        return;
+    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+    QTextCursor cursor = textBrowser->textCursor();
+    VerseSelection selection = verseSelectionFromCursor(cursor);
 
     bookmark->setText(0,
                       m_bible.bookFullName.at(m_bible.currentBookID) +
                       " " +
                       QString::number(m_bible.currentChapterID - m_bible.chapterAdd + 1, 10) +
                       "," +
-                      QString::number(startverse, 10));
-    UrlConverter urlConverter(UrlConverter::None,UrlConverter::PersistentUrl,"");
+                      QString::number(selection.startVerse, 10));
+    UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
     urlConverter.m_biblesIniPath = biblesIniPath;
     urlConverter.m_bibleID = QString::number(m_bible.currentBibleID);
     urlConverter.m_bookID = m_bible.currentBookID;
     urlConverter.m_chapterID = m_bible.currentChapterID - m_bible.chapterAdd;
-    urlConverter.m_verseID = startverse - 1;
-    bookmark->setText(1,urlConverter.convert());
+    urlConverter.m_verseID = selection.startVerse - 1;
+    bookmark->setText(1, urlConverter.convert());
 
     bookmark->setData(0, Qt::UserRole, "bookmark");
     if (ui->treeWidget_bookmarks->currentItem() && ui->treeWidget_bookmarks->currentItem()->data(0, Qt::UserRole).toString() == "folder") {
@@ -74,7 +78,7 @@ void MainWindow::newBookmark(void)
     } else {
         ui->treeWidget_bookmarks->insertTopLevelItem(0, bookmark);
     }
-    saveBookmarks();*/
+    saveBookmarks();
 }
 void MainWindow::saveBookmarks(void)
 {
@@ -171,7 +175,7 @@ void MainWindow::editBookmark()
         myDebug() << "invalid bookmark";
     }*/
 
-    UrlConverter urlConverter(UrlConverter::PersistentUrl,UrlConverter::None,pos);
+    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, pos);
     urlConverter.m_biblesIniPath = biblesIniPath;//not nice, i know
     urlConverter.pharse();
 

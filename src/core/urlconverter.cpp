@@ -8,18 +8,18 @@ UrlConverter::UrlConverter(const int &from, const int &to, const QString &url)
 }
 QString UrlConverter::convert()
 {
-   // DEBUG_FUNC_NAME
+    // DEBUG_FUNC_NAME
     QString ret;
     if (m_to == InterfaceUrl) {
         ret = "bible://" + m_bibleID + "/" + QString::number(m_bookID) + "," + QString::number(m_chapterID) + "," + QString::number(m_verseID);
     } else if (m_to == PersistentUrl) {
-        ret = m_biblesIniPath.at(m_bibleID.toInt()) + ";" +QString::number(m_bookID) + ";" + QString::number(m_chapterID) + ";" + QString::number(m_verseID);
-        if(!m_bookName.isEmpty()) {
-            ret += ";"+m_bookName;//check for invalid charatcers
+        ret = m_biblesIniPath.at(m_bibleID.toInt()) + ";" + QString::number(m_bookID) + ";" + QString::number(m_chapterID) + ";" + QString::number(m_verseID);
+        if (!m_bookName.isEmpty()) {
+            ret += ";" + m_bookName;//check for invalid charatcers
         }
     } else if (m_to == BibleQuoteUrl) {
     }
-    myDebug() << ret << "bibleID = " << m_bibleID << " iniPath = " << m_biblesIniPath;
+    //myDebug() << ret << "bibleID = " << m_bibleID << " iniPath = " << m_biblesIniPath;
     return ret;
 }
 int UrlConverter::pharse()
@@ -38,8 +38,7 @@ int UrlConverter::pharse()
                     m_bookID = c.at(0).toInt();
                     m_chapterID = c.at(1).toInt();
                     m_verseID = c.at(2).toInt();
-                }
-                else {
+                } else {
                     myDebug() << "invalid url";
                     return 1;
                 }
@@ -59,8 +58,7 @@ int UrlConverter::pharse()
         QString sverseID = list.at(3);
         if (list.size() == 5) {
             m_bookName = list.at(4);
-        }
-        else {
+        } else {
             m_bookName = sbookID;//todo: find something better
         }
         m_path = path;

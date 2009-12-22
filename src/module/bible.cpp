@@ -19,6 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QtDebug>
 #include <QtCore/QMapIterator>
 #include <QtCore/QDir>
+#include <QtGui/QTextDocument>
 Bible::Bible()
 {
     currentBibleID = -1;
@@ -186,10 +187,9 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
             QString vers = c.data.at(i);
             //main formatting
             if (m_settings->getModuleSettings(currentBibleID).zefbible_textFormatting == 0) {
-                vers.prepend("<span style=\" font-style:italic;\">" + c.verseNumber.at(i) + "</span> ");
+                vers.prepend("<span style=\" font-style:italic;\">" + c.verseNumber.at(i) + "</span>");
                 vers.append("<br />");
-            }
-            else {
+            } else {
                 vers.prepend(c.verseNumber.at(i) + " ");
             }
             //if is current verse
@@ -197,26 +197,47 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 vers.prepend("<a name=\"currentVerse\"><b>");
                 vers.append("</b></a>");
             }
-            out += vers;
-            /*if(m_notes != 0)
-            {
-                for(int n =0; n< m_notes->getIDList().size();++n)
-                {
-                   QString noteID = m_notes->getIDList().at(n);
-                   if(m_notes->getType(noteID) == "mark")
-                   {
-                       QString link = m_notes->getRef(noteID,"link");
-                       UrlConverter urlConverter(UrlConverter::PersistentUrl,UrlConverter::None,link);
-                       urlConverter.m_biblesIniPath = biblesIniPath;
-                       urlConverter.pharse();
-                       if(urlConverter.m_bibleID.toInt() == currentBibleID && urlConverter.m_bookID == currentBookID && urlConverter.m_chapterID == chapterID && urlConverter.m_verseID == i)
-                       {
-                           myDebug() << "found " << noteID;
-                           o.prepend("WTF!!!");
-                       }
-                   }
+
+            if (m_notes != 0) {
+                for (int n = 0; n < m_notes->getIDList().size(); ++n) {
+                    QString noteID = m_notes->getIDList().at(n);
+                    if (m_notes->getType(noteID) == "mark") {
+                        QString link = m_notes->getRef(noteID, "link");
+                        UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
+                        urlConverter.m_biblesIniPath = biblesIniPath;
+                        urlConverter.pharse();
+
+                        if (urlConverter.m_bibleID.toInt() == currentBibleID && urlConverter.m_bookID == currentBookID && urlConverter.m_chapterID == chapterID && (m_notes->getRef(noteID, "start").toInt() == i || m_notes->getRef(noteID, "end").toInt() == i)) {
+                            QTextDocument t;
+                            t.setHtml(vers);
+                            QString raw = t.toHtml();
+                            QString a1 = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">";
+                            QString a2 = "</p></body></html>";
+                            int i1 = raw.indexOf(a1);
+                            int i2 = raw.indexOf(a2);
+                            raw.remove(i2, raw.size());
+                            raw.remove(0, i1 + a1.size());
+                            vers = raw;
+                            if (m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
+                                vers.insert(m_notes->getRef(noteID, "endPos").toInt(), "</span>");
+                                vers.insert(m_notes->getRef(noteID, "startPos").toInt(), "<span name=\"mark\" style=\"background-color:#ffff00\">");
+
+                            } else {
+                                if (m_notes->getRef(noteID, "start").toInt() == i) {
+                                    myDebug() << " vers = " << vers << " startPos = " << m_notes->getRef(noteID, "startPos") << " vers = " << vers;
+                                    vers.insert(m_notes->getRef(noteID, "startPos").toInt(), "<span name=\"mark\" style=\"background-color:#ffff00\">");
+                                }
+                                if (m_notes->getRef(noteID, "end").toInt() == i) {
+                                    myDebug() << " vers = " << vers << " endPos = " << m_notes->getRef(noteID, "endPos") << " vers = " << vers;
+                                    vers.insert(m_notes->getRef(noteID, "endPos").toInt(), "</span>");
+                                }
+                            }
+
+                        }
+                    }
                 }
-            }*/
+            }
+            out += vers;
             if (saveRawData)
                 chapterDataList << vers;
         }
@@ -224,7 +245,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     }
     }
 
-    if(saveRawData)
+    if (saveRawData)
         lastout = out;
     return out;
 }

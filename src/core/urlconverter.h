@@ -19,7 +19,7 @@ public:
 
     QString convert();
     QString m_bibleID;
-      QString m_path;
+    QString m_path;
     int m_chapterID;
     int m_bookID;
     int m_verseID;

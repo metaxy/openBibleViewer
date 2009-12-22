@@ -397,7 +397,7 @@ int MainWindow::textBrowserContextMenu(QPoint pos)
         cursor = cursor2;
     }
     VerseSelection selection = verseSelectionFromCursor(cursor);
-    if(selection.startVerse != -1) {
+    if (selection.startVerse != -1) {
         QString addText;
         if (selection.startVerse != selection.endVerse)
             addText = " " + QString::number(selection.startVerse) + " - " + QString::number(selection.endVerse);
@@ -464,10 +464,10 @@ int MainWindow::copyWholeVerse(void)
     QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
     QTextCursor cursor = textBrowser->textCursor();
     VerseSelection selection = verseSelectionFromCursor(cursor);
-    if(selection.startVerse != -1) {
+    if (selection.startVerse != -1) {
 
         QString sverse = "";
-        if (selection.startVerse == selection.endVerse ) {
+        if (selection.startVerse == selection.endVerse) {
             sverse = "," + QString::number(selection.startVerse);
         } else {
             sverse = " " + QString::number(selection.startVerse) + "-" + QString::number(selection.endVerse);
@@ -476,7 +476,7 @@ int MainWindow::copyWholeVerse(void)
 
         QString stext;
         if (m_bible.bibleType == Bible::BibleQuoteModule) {
-            stext = m_bible.readVerse(m_bible.currentChapterID, selection.startVerse, selection.endVerse +1, -1, false);
+            stext = m_bible.readVerse(m_bible.currentChapterID, selection.startVerse, selection.endVerse + 1, -1, false);
         } else if (m_bible.bibleType == Bible::ZefaniaBibleModule) {
             stext = m_bible.readVerse(m_bible.currentChapterID, selection.startVerse - 1, selection.endVerse, -1, false);
         }
@@ -971,7 +971,7 @@ int MainWindow::showAboutDialog(void)
 }
 int MainWindow::internalOpenPos(const QString &pos)
 {
-    UrlConverter urlConverter(UrlConverter::PersistentUrl,UrlConverter::InterfaceUrl,pos);
+    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
     urlConverter.m_biblesIniPath = biblesIniPath;//not nice, i know
     urlConverter.pharse();
     emit get(urlConverter.convert());
@@ -998,17 +998,17 @@ VerseSelection MainWindow::verseSelectionFromCursor(QTextCursor cursor)
         QString fragment = cursor.selection().toHtml();
         int from = fragment.indexOf("<!--StartFragment-->");
         int to = fragment.indexOf("<!--EndFragment-->");
-        fragment.remove(to,fragment.size());
-        fragment.remove(0,from+QString("<!--StartFragment-->").size());
+        fragment.remove(to, fragment.size());
+        fragment.remove(0, from + QString("<!--StartFragment-->").size());
         //if fragment starts with a tag remove this
-        if(fragment.startsWith("<")) {
-            fragment.remove(0,fragment.indexOf(">")+1);
+        if (fragment.startsWith("<")) {
+            fragment.remove(0, fragment.indexOf(">") + 1);
         }
-        if(fragment.endsWith(">")) {
-            fragment.remove(fragment.lastIndexOf("<"),fragment.size());
+        if (fragment.endsWith(">")) {
+            fragment.remove(fragment.lastIndexOf("<"), fragment.size());
         }
         QStringList chapterData;
-        for(int i=0;i <m_bible.chapterDataList.size();++i) {
+        for (int i = 0; i < m_bible.chapterDataList.size(); ++i) {
             QTextDocument t;
             t.setHtml(m_bible.chapterDataList.at(i));
             QString raw = t.toHtml();
@@ -1016,8 +1016,8 @@ VerseSelection MainWindow::verseSelectionFromCursor(QTextCursor cursor)
             QString a2 = "</p></body></html>";
             int i1 = raw.indexOf(a1);
             int i2 = raw.indexOf(a2);
-            raw.remove(i2,raw.size());
-            raw.remove(0,i1+a1.size());
+            raw.remove(i2, raw.size());
+            raw.remove(0, i1 + a1.size());
             qDebug() << raw << raw.size();
             chapterData.append(raw);
         }
@@ -1026,16 +1026,22 @@ VerseSelection MainWindow::verseSelectionFromCursor(QTextCursor cursor)
         qDebug() << "pos = " << startFragment << "fragemnt = " << fragment;
         //find out start verse and end verse
         int counter = 0;
-        for(int i = 0; i< chapterData.size();++i) {
-            if(selection.startVerse == -1 && startFragment <  (counter)) {
-                myDebug() << "setted start";
-                selection.startVerse = i - 1;
-            }
-            if(selection.endVerse == -1 && (startFragment + fragment.size()  < (counter))) {
-                myDebug() << "setted end";
-                selection.endVerse = i - 1;
-            }
+        for (int i = 0; i < chapterData.size(); ++i) {
             counter += chapterData.at(i).size();
+            myDebug() << "i = " << i << " counter = " << counter;
+            if (selection.startVerse == -1 && startFragment < counter) {
+                myDebug() << "setted start";
+                selection.startVerse = i;
+                selection.posInStartVerse = startFragment - (counter -chapterData.at(i).size()) ;
+                myDebug() << "posInstartverse = " <<selection.posInStartVerse << " " << chapterData.at(i);
+            }
+            if (selection.endVerse == -1 && (startFragment + fragment.size()  < (counter))) {
+                myDebug() << "setted end";
+                selection.endVerse = i;
+                selection.posInEndVerse = (startFragment + fragment.size()) - (counter -chapterData.at(i).size()) ;
+                myDebug() << "posInEndverse = " <<selection.posInEndVerse << " " << chapterData.at(i) <<"\n" << chapterData.at(i-1);
+            }
+
 
         }
         myDebug() << " start = " << selection.startVerse << " end = " << selection.endVerse;

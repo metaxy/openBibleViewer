@@ -135,19 +135,23 @@ void MainWindow::newNote(void)
 }
 void MainWindow::newNoteWithLink()
 {
-    /*DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     if (m_bible.currentBibleID < 0) {
         newNote();
         return;
     }
-    int startverse = verseFromCursor(cursor);
+    if (!activeMdiChild())
+        return;
+    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+    QTextCursor cursor = textBrowser->textCursor();
+    VerseSelection selection = verseSelectionFromCursor(cursor);
     QString link;
-    UrlConverter urlConverter(UrlConverter::None,UrlConverter::PersistentUrl,"");
+    UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
     urlConverter.m_biblesIniPath = biblesIniPath;
     urlConverter.m_bibleID =  QString::number(m_bible.currentBibleID);
     urlConverter.m_bookID = m_bible.currentBookID;
     urlConverter.m_chapterID = m_bible.currentChapterID - m_bible.chapterAdd;
-    urlConverter.m_verseID = startverse - 1;
+    urlConverter.m_verseID = selection.startVerse - 1;
     urlConverter.m_bookName = m_bible.bookFullName.at(m_bible.currentBookID);
     link = urlConverter.convert();
     //link = biblesIniPath.at(m_bible.currentBibleID) + ";" + QString::number(m_bible.currentBookID, 10) + ";" + QString::number(m_bible.currentChapterID + 1 - m_bible.chapterAdd, 10) + ";" + QString::number(startverse, 10) + ";" + ;
@@ -172,7 +176,7 @@ void MainWindow::newNoteWithLink()
     if (!m_note->getRef(m_noteID, "link").isEmpty())
         ui->label_noteLink->setText(notePos2Text(m_note->getRef(m_noteID, "link")));
     else
-        ui->label_noteLink->setText("");*/
+        ui->label_noteLink->setText("");
 }
 void MainWindow::removeNote(void)
 {
@@ -271,12 +275,12 @@ QString MainWindow::notePos2Text(const QString &pos)
 
     myDebug() << "start pos = " << pos;
     QString string = "";
-    UrlConverter urlConverter(UrlConverter::PersistentUrl,UrlConverter::InterfaceUrl,pos);
+    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
     urlConverter.m_biblesIniPath = biblesIniPath;//not nice, i know
     urlConverter.pharse();
     QString link = urlConverter.convert();
 
-    string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID+1) + "," + QString::number(urlConverter.m_verseID+1);
+    string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," + QString::number(urlConverter.m_verseID + 1);
     return  "<a href=\"" + link + "\" > " + string + "</a>";
 }
 void MainWindow::editNoteLink()
@@ -322,19 +326,23 @@ void MainWindow::updateNote(QString link)
 }
 void MainWindow::newMark()
 {
-   /* DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     if (m_bible.currentBibleID < 0) {
         //newNote();
         return;
     }
-    int startverse = verseFromCursor(cursor);
+    if (!activeMdiChild())
+        return;
+    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+    QTextCursor cursor = textBrowser->textCursor();
+    VerseSelection selection = verseSelectionFromCursor(cursor);
     QString link;
-    UrlConverter urlConverter(UrlConverter::None,UrlConverter::PersistentUrl,"");
+    UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
     urlConverter.m_biblesIniPath = biblesIniPath;
     urlConverter.m_bibleID = QString::number(m_bible.currentBibleID);
     urlConverter.m_bookID = m_bible.currentBookID;
     urlConverter.m_chapterID = m_bible.currentChapterID - m_bible.chapterAdd;
-    urlConverter.m_verseID = startverse - 1;
+    urlConverter.m_verseID = selection.startVerse;
     urlConverter.m_bookName = m_bible.bookFullName.at(m_bible.currentBookID);
     link = urlConverter.convert();
 
@@ -346,10 +354,16 @@ void MainWindow::newMark()
     m_note->setType(newID, "mark");
     QMap<QString, QString> ref;
     ref["link"] = link;
-    ref["start"] = QString::number(cursor.selectionStart());
-    ref["end"] = QString::number(cursor.selectionEnd());
-    myDebug() << cursor.selection().toHtml();
+    ref["start"] = QString::number(selection.startVerse - 1);
+    ref["end"] = QString::number(selection.endVerse - 1);
+    ref["startPos"] = QString::number(selection.posInStartVerse);
+    ref["endPos"] = QString::number(selection.posInEndVerse);
     m_note->setRef(newID, ref);
-    m_note->insertID(newID);*/
+    m_note->insertID(newID);
+
+    textBrowser->setTextBackgroundColor(QColor(255,255,0));
+
+
+
 
 }
