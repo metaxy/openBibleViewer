@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QSettings>
 #include <QtCore/QUrl>
 #include <QtCore/QTranslator>
+#include <QtGui/QColor>
 #include <QtGui/QListWidgetItem>
 #include <QtGui/QMainWindow>
 #include <QtGui/QMdiSubWindow>
@@ -77,7 +78,12 @@ public slots:
     void notesContextMenu();
     void newNote();
     void newNoteWithLink();
-    void newMark();
+    void newYellowMark();
+    void newGreenMark();
+    void newBlueMark();
+    void newOrangeMark();
+    void newMark(QColor color);
+    void removeMark();
     void removeNote();
     void reloadNotes();
     void copyNote();

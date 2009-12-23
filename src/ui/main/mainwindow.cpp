@@ -30,6 +30,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QComboBox>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QKeyEvent>
+#include <QtGui/QActionGroup>
+#include <QtGui/QTextDocumentFragment>
 #include <stdlib.h>
 
 #include "mainwindow.h"
@@ -423,15 +425,49 @@ int MainWindow::textBrowserContextMenu(QPoint pos)
     actionSelect->setIcon(selectIcon);
     connect(actionSelect, SIGNAL(triggered()), textBrowser , SLOT(selectAll()));
 
-    QAction *actionMark = new QAction(this);
-    actionMark->setText(tr("Mark this"));
+    QMenu *menuMark = new QMenu(this);
+    menuMark->setTitle(tr("Mark this"));
     QIcon markIcon;
     markIcon.addPixmap(QPixmap(":/icons/16x16/format-fill-color.png"), QIcon::Normal, QIcon::Off);
-    actionMark->setIcon(markIcon);
-    connect(actionMark, SIGNAL(triggered()), this , SLOT(newMark()));
+    menuMark->setIcon(markIcon);
+    //connect(actionMark, SIGNAL(triggered()), this , SLOT(newMark()));
     if (!cursor.hasSelection()) {
-        actionMark->setEnabled(false);
+        menuMark->setEnabled(false);
     }
+
+    QAction *actionYellowMark = new QAction(menuMark);
+    actionYellowMark->setText(tr("Yellow"));
+    QIcon yellowMarkIcon;
+    yellowMarkIcon.addPixmap(QPixmap(":/icons/16x16/format-fill-color.png"), QIcon::Normal, QIcon::Off);//todo: add yellow icon
+    actionYellowMark->setIcon(yellowMarkIcon);
+    connect(actionYellowMark, SIGNAL(triggered()), this , SLOT(newYellowMark()));
+    menuMark->addAction(actionYellowMark);
+
+    QAction *actionGreenMark = new QAction(menuMark);
+    actionGreenMark->setText(tr("Green"));
+    QIcon greenMarkIcon;
+    greenMarkIcon.addPixmap(QPixmap(":/icons/16x16/format-fill-color.png"), QIcon::Normal, QIcon::Off);
+    actionGreenMark->setIcon(greenMarkIcon);
+    connect(actionGreenMark, SIGNAL(triggered()), this , SLOT(newGreenMark()));
+    menuMark->addAction(actionGreenMark);
+
+    QAction *actionBlueMark = new QAction(menuMark);
+    actionBlueMark->setText(tr("Blue"));
+    QIcon blueMarkIcon;
+    blueMarkIcon.addPixmap(QPixmap(":/icons/16x16/format-fill-color.png"), QIcon::Normal, QIcon::Off);
+    actionBlueMark->setIcon(blueMarkIcon);
+    connect(actionBlueMark, SIGNAL(triggered()), this , SLOT(newBlueMark()));
+    menuMark->addAction(actionBlueMark);
+
+    QAction *actionOrangeMark = new QAction(menuMark);
+    actionOrangeMark->setText(tr("Orange"));
+    QIcon orangeMarkIcon;
+    orangeMarkIcon.addPixmap(QPixmap(":/icons/16x16/format-fill-color.png"), QIcon::Normal, QIcon::Off);
+    actionOrangeMark->setIcon(orangeMarkIcon);
+    connect(actionOrangeMark, SIGNAL(triggered()), this , SLOT(newOrangeMark()));
+    menuMark->addAction(actionOrangeMark);
+
+
     QAction *actionBookmark = new QAction(this);
     actionBookmark->setText(tr("Add Bookmark"));
     QIcon bookmarkIcon;
@@ -450,7 +486,7 @@ int MainWindow::textBrowserContextMenu(QPoint pos)
     contextMenu->addAction(actionCopyWholeVerse);
     contextMenu->addAction(actionSelect);
     contextMenu->addSeparator();
-    contextMenu->addAction(actionMark);
+    contextMenu->addMenu(menuMark);
     contextMenu->addAction(actionBookmark);
     contextMenu->addAction(actionNote);
     contextMenu->exec(QCursor::pos());
@@ -988,6 +1024,10 @@ void MainWindow::goToPos()
 
 VerseSelection MainWindow::verseSelectionFromCursor(QTextCursor cursor)
 {
+    if (m_isNewNote == true) {
+        m_bible.readChapter(m_bible.currentChapterID, m_verseID);
+        m_isNewNote = false;
+    }
     VerseSelection selection;
     DEBUG_FUNC_NAME
     selection.endVerse = -1;
@@ -1008,22 +1048,21 @@ VerseSelection MainWindow::verseSelectionFromCursor(QTextCursor cursor)
             fragment.remove(fragment.lastIndexOf("<"), fragment.size());
         }
         QStringList chapterData;
-        for (int i = 0; i < m_bible.chapterDataList.size(); ++i) {
-            QTextDocument t;
-            t.setHtml(m_bible.chapterDataList.at(i));
-            QString raw = t.toHtml();
-            QString a1 = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">";
-            QString a2 = "</p></body></html>";
-            int i1 = raw.indexOf(a1);
-            int i2 = raw.indexOf(a2);
-            raw.remove(i2, raw.size());
-            raw.remove(0, i1 + a1.size());
-            qDebug() << raw << raw.size();
-            chapterData.append(raw);
-        }
+        QString wholeText = m_bible.chapterDataList.join("[VERSEINS]");
+        QTextDocument t;
+        t.setHtml(wholeText);
+        QString raw = t.toHtml();
+        QString a1 = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">";
+        QString a2 = "</p></body></html>";
+        int i1 = raw.indexOf(a1);
+        int i2 = raw.indexOf(a2);
+        raw.remove(i2, raw.size());
+        raw.remove(0, i1 + a1.size());
+        chapterData = raw.split("[VERSEINS]");
+
         QString text = chapterData.join("");
         int startFragment = text.indexOf(fragment);
-        qDebug() << "pos = " << startFragment << "fragemnt = " << fragment;
+        qDebug() << "pos = " << startFragment << " fragemnt = " << fragment;
         //find out start verse and end verse
         int counter = 0;
         for (int i = 0; i < chapterData.size(); ++i) {
@@ -1032,17 +1071,15 @@ VerseSelection MainWindow::verseSelectionFromCursor(QTextCursor cursor)
             if (selection.startVerse == -1 && startFragment < counter) {
                 myDebug() << "setted start";
                 selection.startVerse = i;
-                selection.posInStartVerse = startFragment - (counter -chapterData.at(i).size()) ;
-                myDebug() << "posInstartverse = " <<selection.posInStartVerse << " " << chapterData.at(i);
+                selection.posInStartVerse = startFragment - (counter - chapterData.at(i).size()) ;
+                myDebug() << "posInstartverse = " << selection.posInStartVerse;
             }
             if (selection.endVerse == -1 && (startFragment + fragment.size()  < (counter))) {
                 myDebug() << "setted end";
                 selection.endVerse = i;
-                selection.posInEndVerse = (startFragment + fragment.size()) - (counter -chapterData.at(i).size()) ;
-                myDebug() << "posInEndverse = " <<selection.posInEndVerse << " " << chapterData.at(i) <<"\n" << chapterData.at(i-1);
+                selection.posInEndVerse = (startFragment + fragment.size()) - (counter - chapterData.at(i).size()) ;
+                myDebug() << "posInEndverse = " << selection.posInEndVerse;
             }
-
-
         }
         myDebug() << " start = " << selection.startVerse << " end = " << selection.endVerse;
     }

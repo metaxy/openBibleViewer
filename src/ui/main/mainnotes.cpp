@@ -23,7 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QTreeView>
 #include <QtGui/QClipboard>
 #include <QtGui/QColorDialog>
-#include <QtGui/QTextDocumentFragment>
+#include <QtGui/QScrollBar>
 
 void MainWindow::loadNotes(void)
 {
@@ -324,7 +324,25 @@ void MainWindow::updateNote(QString link)
     showNote(ui->listWidget_notes->currentItem());
     return;
 }
-void MainWindow::newMark()
+void MainWindow::newYellowMark()
+{
+    newMark(QColor(255, 255, 0));
+}
+
+void MainWindow::newGreenMark()
+{
+    newMark(QColor(146, 243, 54));
+}
+void MainWindow::newBlueMark()
+{
+    newMark(QColor(77, 169, 243));
+}
+void MainWindow::newOrangeMark()
+{
+    newMark(QColor(243, 181, 57));
+}
+
+void MainWindow::newMark(QColor color)
 {
     DEBUG_FUNC_NAME
     if (m_bible.currentBibleID < 0) {
@@ -358,12 +376,27 @@ void MainWindow::newMark()
     ref["end"] = QString::number(selection.endVerse - 1);
     ref["startPos"] = QString::number(selection.posInStartVerse);
     ref["endPos"] = QString::number(selection.posInEndVerse);
+    ref["color"] = color.name();
     m_note->setRef(newID, ref);
     m_note->insertID(newID);
 
-    textBrowser->setTextBackgroundColor(QColor(255,255,0));
+    int vsliderPosition = textBrowser->verticalScrollBar()->sliderPosition();
+    int hsliderPosition = textBrowser->horizontalScrollBar()->sliderPosition();//horizontal
+    readChapter(m_bible.currentChapterID);
+    textBrowser->verticalScrollBar()->setSliderPosition(vsliderPosition);
+    textBrowser->horizontalScrollBar()->setSliderPosition(hsliderPosition);
 
-
-
-
+}
+void MainWindow::removeMark()
+{
+    DEBUG_FUNC_NAME
+    if (m_bible.currentBibleID < 0) {
+        //newNote();
+        return;
+    }
+    if (!activeMdiChild())
+        return;
+    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+    QTextCursor cursor = textBrowser->textCursor();
+    VerseSelection selection = verseSelectionFromCursor(cursor);
 }

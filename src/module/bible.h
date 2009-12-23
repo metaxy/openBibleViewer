@@ -49,6 +49,8 @@ public:
     QString readChapter(int chapterID, int verseID);
     QString readVerse(int chapterID, int startVerse, int endVerse, int markVerseID, bool saveRawDatas);
     QStringList getSearchPaths();
+    QString toUniformHtml(QString string);
+    QStringList toUniformHtml(QStringList string);
 
     SearchResult search(SearchQuery query);
 

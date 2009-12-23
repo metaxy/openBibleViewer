@@ -135,6 +135,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         chapterDataList.clear();
 
     QString out = "";//Return
+    QStringList versList;
     switch (bibleType) {
     case BibleQuoteModule: {
         if (chapterID >= chapterData.size()) {
@@ -157,9 +158,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 vers.prepend("<b>");
                 vers.append("</b>"); //make the current verse vold
             }
-            out += vers;
-            if (saveRawData)
-                chapterDataList.append(vers);
+            versList << vers;
         }
 
         break;
@@ -198,56 +197,90 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 vers.append("</b></a>");
             }
 
-            if (m_notes != 0) {
-                for (int n = 0; n < m_notes->getIDList().size(); ++n) {
-                    QString noteID = m_notes->getIDList().at(n);
-                    if (m_notes->getType(noteID) == "mark") {
-                        QString link = m_notes->getRef(noteID, "link");
-                        UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
-                        urlConverter.m_biblesIniPath = biblesIniPath;
-                        urlConverter.pharse();
 
-                        if (urlConverter.m_bibleID.toInt() == currentBibleID && urlConverter.m_bookID == currentBookID && urlConverter.m_chapterID == chapterID && (m_notes->getRef(noteID, "start").toInt() == i || m_notes->getRef(noteID, "end").toInt() == i)) {
-                            QTextDocument t;
-                            t.setHtml(vers);
-                            QString raw = t.toHtml();
-                            QString a1 = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">";
-                            QString a2 = "</p></body></html>";
-                            int i1 = raw.indexOf(a1);
-                            int i2 = raw.indexOf(a2);
-                            raw.remove(i2, raw.size());
-                            raw.remove(0, i1 + a1.size());
-                            vers = raw;
-                            if (m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
-                                vers.insert(m_notes->getRef(noteID, "endPos").toInt(), "</span>");
-                                vers.insert(m_notes->getRef(noteID, "startPos").toInt(), "<span name=\"mark\" style=\"background-color:#ffff00\">");
-
-                            } else {
-                                if (m_notes->getRef(noteID, "start").toInt() == i) {
-                                    myDebug() << " vers = " << vers << " startPos = " << m_notes->getRef(noteID, "startPos") << " vers = " << vers;
-                                    vers.insert(m_notes->getRef(noteID, "startPos").toInt(), "<span name=\"mark\" style=\"background-color:#ffff00\">");
-                                }
-                                if (m_notes->getRef(noteID, "end").toInt() == i) {
-                                    myDebug() << " vers = " << vers << " endPos = " << m_notes->getRef(noteID, "endPos") << " vers = " << vers;
-                                    vers.insert(m_notes->getRef(noteID, "endPos").toInt(), "</span>");
-                                }
-                            }
-
-                        }
-                    }
-                }
-            }
-            out += vers;
-            if (saveRawData)
-                chapterDataList << vers;
+            versList << vers;
         }
         break;
     }
     }
+    if (m_notes != 0) {
+        for (int n = 0; n < m_notes->getIDList().size(); ++n) {
+            QString noteID = m_notes->getIDList().at(n);
+            if (m_notes->getType(noteID) == "mark") {
+                QString link = m_notes->getRef(noteID, "link");
+                UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
+                urlConverter.m_biblesIniPath = biblesIniPath;
+                urlConverter.pharse();
 
+                if (urlConverter.m_bibleID.toInt() == currentBibleID && urlConverter.m_bookID == currentBookID && urlConverter.m_chapterID == chapterID) {
+                    versList = toUniformHtml(versList);
+                    if (m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
+                        int versID = m_notes->getRef(noteID, "start").toInt();
+                        if(endVerse != -1) {
+                            //todo: do something
+                        }
+                        QString vers = toUniformHtml(versList.at(versID));
+                        vers.insert(m_notes->getRef(noteID, "endPos").toInt(), "</span>");
+                        vers.insert(m_notes->getRef(noteID, "startPos").toInt(), "<span name=\"mark\" style=\"background-color:" + m_notes->getRef(noteID, "color") + "\">");
+                        versList.replace(versID, vers);
+
+                    } else {
+                        int startVersID = m_notes->getRef(noteID, "start").toInt();
+                        int endVersID = m_notes->getRef(noteID, "end").toInt();
+                        if(endVerse != -1) {
+                            //todo: do something
+                        }
+                        if (startVersID >= 0 && endVersID >= 0 && startVersID < versList.size() && endVersID < versList.size()) {
+                            myDebug() << " start = " << startVersID << " size = " << versList.size();
+                            QString startVers = versList.at(startVersID);
+
+                            QString endVers = versList.at(endVersID);
+                            startVers.insert(m_notes->getRef(noteID, "startPos").toInt(), "<span name=\"mark\" style=\"background-color:" + m_notes->getRef(noteID, "color") + "\">");
+                            endVers.insert(m_notes->getRef(noteID, "endPos").toInt(), "</span>");
+                            versList.replace(startVersID, startVers);
+                            versList.replace(endVersID, endVers);
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+    for (int i = 0; i < versList.size(); ++i) {
+        out += versList.at(i);
+        if (saveRawData)
+            chapterDataList.append(versList.at(i));
+    }
     if (saveRawData)
         lastout = out;
     return out;
+}
+QString Bible::toUniformHtml(QString string)
+{
+    QTextDocument t;
+    t.setHtml(string);
+    QString raw = t.toHtml();
+    QString a1 = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">";
+    QString a2 = "</p></body></html>";
+    int i1 = raw.indexOf(a1);
+    int i2 = raw.indexOf(a2);
+    raw.remove(i2, raw.size());
+    raw.remove(0, i1 + a1.size());
+    return raw;
+}
+QStringList Bible::toUniformHtml(QStringList string)
+{
+    QString wholeText = string.join("[VERSEINSERT_FROM_OPENBIBLEVIEWER]");
+    QTextDocument t;
+    t.setHtml(wholeText);
+    QString raw = t.toHtml();
+    QString a1 = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">";
+    QString a2 = "</p></body></html>";
+    int i1 = raw.indexOf(a1);
+    int i2 = raw.indexOf(a2);
+    raw.remove(i2, raw.size());
+    raw.remove(0, i1 + a1.size());
+    return raw.split("[VERSEINSERT_FROM_OPENBIBLEVIEWER]");
 }
 SearchResult Bible::search(SearchQuery query)
 {
