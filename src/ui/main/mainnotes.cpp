@@ -25,6 +25,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QColorDialog>
 #include <QtGui/QScrollBar>
 
+//todo: enable sorting notes
 void MainWindow::loadNotes(void)
 {
     // myDebug();
@@ -38,11 +39,14 @@ void MainWindow::loadNotes(void)
     m_note->loadNotes();
     m_note->readNotes();
     ui->listWidget_notes->clear();
+    m_textNotesID.clear();
     QStringList id = m_note->getIDList();
     QStringList titles;
     for (int i = 0; i < id.size(); i++) {
-        if (m_note->getType(id.at(i)) == "text")
+        if (m_note->getType(id.at(i)) == "text") {
             titles << m_note->getTitle(id.at(i));
+            m_textNotesID << id.at(i);
+        }
     }
     ui->listWidget_notes->insertItems(0, titles);
     m_noteID = "";
@@ -51,18 +55,20 @@ void MainWindow::loadNotes(void)
 void MainWindow::showNote(QListWidgetItem *item)
 {
     int id = ui->listWidget_notes->row(item);
-    if (id >= 0 && id < m_note->getIDList().size()) {
-        showNote(m_note->getIDList().at(id));
+    if (id >= 0 && id < m_textNotesID.size()) {
+        showNote(m_textNotesID.at(id));
     }
 }
 void MainWindow::showNote(const QString &noteID)
 {
     DEBUG_FUNC_NAME
+    int row = m_textNotesID.indexOf(noteID);
+    ui->listWidget_notes->setCurrentRow(row);
     m_note->setData(m_noteID, ui->textEdit_note->toHtml());
     m_note->setTitle(m_noteID, ui->lineEdit_note_titel->text());
     m_note->setRef(m_noteID, currentNoteRef);
     m_note->saveNotes();
-    if (!m_note->getIDList().contains(noteID)) {
+    if (!m_textNotesID.contains(noteID)) {
         myDebug() << "invalid noteID = " << noteID;
         return;
     }
@@ -72,10 +78,13 @@ void MainWindow::showNote(const QString &noteID)
     ui->textEdit_note->setHtml(m_note->getData(m_noteID));
     currentNoteRef = m_note->getRef(m_noteID);
     myDebug() << "link = " << m_note->getRef(m_noteID, "link");
-    if (!m_note->getRef(m_noteID, "link").isEmpty())
+    if (!m_note->getRef(m_noteID, "link").isEmpty()) {
         ui->label_noteLink->setText(notePos2Text(m_note->getRef(m_noteID, "link")));
-    else
+        ui->pushButton_editNoteLink->setEnabled(true);
+    } else {
         ui->label_noteLink->setText("");
+        ui->pushButton_editNoteLink->setEnabled(false);
+    }
 
 }
 
@@ -84,10 +93,10 @@ void MainWindow::copyNote(void)
     DEBUG_FUNC_NAME
 
     int id = ui->listWidget_notes->currentRow();
-    if (id < m_note->getIDList().size() && id >= 0) {
+    if (id < m_textNotesID.size() && id >= 0) {
         QClipboard *clipboard = QApplication::clipboard();
         QTextDocument doc;
-        doc.setHtml(m_note->getData(m_note->getIDList().at(id)));
+        doc.setHtml(m_note->getData(m_textNotesID.at(id)));
         clipboard->setText(doc.toPlainText());
     } else {
         myDebug() << "no note";
@@ -120,16 +129,15 @@ void MainWindow::newNote(void)
     m_note->insertID(newID);
     m_noteID = newID;
     reloadNotes();
-    ui->listWidget_notes->setCurrentRow(m_note->getIDList().size() - 1);
+    ui->listWidget_notes->setCurrentRow(m_textNotesID.size() - 1);
     //showNote(ui->listWidget_notes->currentItem());
 
     ui->label_noteLink->setText("");
     ui->lineEdit_note_titel->setText(tr("(unnamed)"));
     ui->textEdit_note->setHtml("");
-    if (!m_note->getRef(m_noteID, "link").isEmpty())
-        ui->label_noteLink->setText(notePos2Text(m_note->getRef(m_noteID, "link")));
-    else
-        ui->label_noteLink->setText("");
+
+    ui->label_noteLink->setText("");
+    ui->pushButton_editNoteLink->setEnabled(false);
 
     myDebug() << " newID = " << newID << " m_noteID = " << m_noteID;
 }
@@ -142,9 +150,8 @@ void MainWindow::newNoteWithLink()
     }
     if (!activeMdiChild())
         return;
-    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
-    QTextCursor cursor = textBrowser->textCursor();
-    VerseSelection selection = verseSelectionFromCursor(cursor);
+
+    VerseSelection selection = verseSelectionFromCursor(currentTextCursor);
     QString link;
     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
     urlConverter.m_biblesIniPath = biblesIniPath;
@@ -169,14 +176,18 @@ void MainWindow::newNoteWithLink()
     m_note->insertID(newID);
     m_noteID = newID;
     reloadNotes();
-    ui->listWidget_notes->setCurrentRow(m_note->getIDList().size() - 1);
+    ui->listWidget_notes->setCurrentRow(m_textNotesID.size() - 1);
     ui->label_noteLink->setText("");
     ui->lineEdit_note_titel->setText(tr("(unnamed)"));
     ui->textEdit_note->setHtml("");
-    if (!m_note->getRef(m_noteID, "link").isEmpty())
+    if (!m_note->getRef(m_noteID, "link").isEmpty()) {
         ui->label_noteLink->setText(notePos2Text(m_note->getRef(m_noteID, "link")));
-    else
+        ui->pushButton_editNoteLink->setEnabled(true);
+    } else {
         ui->label_noteLink->setText("");
+        ui->pushButton_editNoteLink->setEnabled(false);
+    }
+    reloadChapter();
 }
 void MainWindow::removeNote(void)
 {
@@ -191,13 +202,13 @@ void MainWindow::reloadNotes(void)
 {
     DEBUG_FUNC_NAME
     ui->listWidget_notes->clear();
+    m_textNotesID.clear();
     QStringList id = m_note->getIDList();
     QStringList titles;
-    myDebug() << " idList = " << id;
     for (int i = 0; i < id.size(); i++) {
         if (m_note->getType(id.at(i)) == "text") {
-            //myDebug() << "id.at(i) = " << id.at(i) << " title = " << m_note->getTitle(id.at(i));
             titles << m_note->getTitle(id.at(i));
+            m_textNotesID << id.at(i);
         }
     }
     ui->listWidget_notes->insertItems(0, titles);
@@ -268,6 +279,14 @@ void MainWindow::noteSetTextColor(void)
         ui->textEdit_note->setTextColor(color);
     }
 }
+void MainWindow::noteUndo()
+{
+    ui->textEdit_note->undo();
+}
+void MainWindow::noteRedo()
+{
+    ui->textEdit_note->redo();
+}
 
 QString MainWindow::notePos2Text(const QString &pos)
 {
@@ -286,40 +305,25 @@ QString MainWindow::notePos2Text(const QString &pos)
 void MainWindow::editNoteLink()
 {
     DEBUG_FUNC_NAME
-    /*int id = ui->listWidget_notes->currentRow();
-    QString pos = note->notesPos.at(id);
+    QString link = currentNoteRef["link"];
+    myDebug() << "link = " << link;
 
-    QStringList list = pos.split(";");
-    if (list.size() < 5) {
-        return ;
-    }
-    QString dirname = list.at(0);
-    QString sbookID = list.at(1);
-    QString schapterID = list.at(2);
-    QString sverseID = list.at(3);
-    int bibleID = 0;
-    int bookID = sbookID.toInt();
-    int chapterID = schapterID.toInt();
-    int verseID = sverseID.toInt();
-    //get bibleID
-    for (int i = 0; i < biblesIniPath.size(); i++) {
-        if (biblesIniPath.at(i) == dirname) {
-            bibleID = i;
-            break;
-        }
-    }
-    BiblePassageDialog *passageDialog = new BiblePassageDialog(this);
-    //connect( passageDialog, SIGNAL( searched( QString,bool,bool,bool ) ), this, SLOT( showSearchResults( QString,bool,bool,bool ) ) );
+    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
+    urlConverter.m_biblesIniPath = biblesIniPath;//not nice, i know
+    urlConverter.pharse();
+
+    BiblePassageDialog *passageDialog = new  BiblePassageDialog(this);
     connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateNote(QString)));
-    qDebug() << "MainWindow::editNoteLink() m_bible.chapterData.size() = " << m_bible.chapterData.size(),
-    passageDialog->setData(bibles, m_bible.bookFullName);
-    passageDialog->setCurrent(bibleID, dirname, bookID, chapterID, verseID);
+    passageDialog->setSettings(m_settings);
+    passageDialog->setCurrent(urlConverter.m_bibleID.toInt(), urlConverter.m_path, urlConverter.m_bookID, urlConverter.m_chapterID + 1, urlConverter.m_verseID + 1);
     passageDialog->show();
-    passageDialog->exec();*/
+    passageDialog->exec();
+
 }
 void MainWindow::updateNote(QString link)
 {
     DEBUG_FUNC_NAME
+    myDebug() << "link = " << link;
     currentNoteRef["link"] = link;
     showNote(ui->listWidget_notes->currentItem());
     return;
@@ -341,7 +345,10 @@ void MainWindow::newOrangeMark()
 {
     newMark(QColor(243, 181, 57));
 }
-
+void MainWindow::newVioletMark()
+{
+    newMark(QColor(169, 102, 240));
+}
 void MainWindow::newMark(QColor color)
 {
     DEBUG_FUNC_NAME
@@ -376,15 +383,13 @@ void MainWindow::newMark(QColor color)
     ref["end"] = QString::number(selection.endVerse - 1);
     ref["startPos"] = QString::number(selection.posInStartVerse);
     ref["endPos"] = QString::number(selection.posInEndVerse);
+    ref["startString"] = selection.shortestStringInStartVerse;
+    ref["endString"] = selection.shortestStringInEndVerse;
     ref["color"] = color.name();
     m_note->setRef(newID, ref);
     m_note->insertID(newID);
 
-    int vsliderPosition = textBrowser->verticalScrollBar()->sliderPosition();
-    int hsliderPosition = textBrowser->horizontalScrollBar()->sliderPosition();//horizontal
-    readChapter(m_bible.currentChapterID);
-    textBrowser->verticalScrollBar()->setSliderPosition(vsliderPosition);
-    textBrowser->horizontalScrollBar()->setSliderPosition(hsliderPosition);
+    reloadChapter();
 
 }
 void MainWindow::removeMark()
@@ -396,7 +401,30 @@ void MainWindow::removeMark()
     }
     if (!activeMdiChild())
         return;
-    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
-    QTextCursor cursor = textBrowser->textCursor();
-    VerseSelection selection = verseSelectionFromCursor(cursor);
+    VerseSelection selection = verseSelectionFromCursor(currentTextCursor);
+    QStringList id = m_note->getIDList();
+    for (int i = 0; i < id.size(); i++) {
+        if (m_note->getType(id.at(i)) == "mark") {
+            QString noteID = id.at(i);
+            QString link = m_note->getRef(noteID, "link");
+            UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
+            urlConverter.m_biblesIniPath = biblesIniPath;
+            urlConverter.pharse();
+
+            if (urlConverter.m_bibleID.toInt() == m_bible.currentBibleID && urlConverter.m_bookID == m_bible.currentBookID && urlConverter.m_chapterID == m_bible.currentChapterID) {
+                int start = selection.startVerse - 1;
+                int end;
+                if (selection.endVerse != -1) {
+                    end = selection.endVerse;
+                } else {
+                    end = start;
+                }
+                if (m_note->getRef(noteID, "start").toInt() <= start && end <= m_note->getRef(noteID, "end").toInt()) {
+                    //todo: work with positions in text
+                    m_note->removeNote(noteID);
+                    reloadChapter();
+                }
+            }
+        }
+    }
 }

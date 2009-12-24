@@ -63,5 +63,12 @@
         <file>icons/32x32/module.png</file>
         <file>icons/16x16/bookmark-new.png</file>
         <file>icons/16x16/format-text-color.png</file>
+        <file>icons/16x16/mark-blue.png</file>
+        <file>icons/16x16/mark-green.png</file>
+        <file>icons/16x16/mark-orange.png</file>
+        <file>icons/16x16/mark-violet.png</file>
+        <file>icons/16x16/mark-yellow.png</file>
+        <file>icons/16x16/edit-redo.png</file>
+        <file>icons/16x16/edit-undo.png</file>
     </qresource>
 </RCC>

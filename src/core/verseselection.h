@@ -1,6 +1,6 @@
 #ifndef VERSESELECTION_H
 #define VERSESELECTION_H
-
+#include <QtCore/QString>
 class VerseSelection
 {
 public:
@@ -9,6 +9,10 @@ public:
     int endVerse;
     int posInStartVerse;
     int posInEndVerse;
+    QString selectedText;
+    QString shortestStringInStartVerse;
+    QString shortestStringInEndVerse;
+
 
 };
 

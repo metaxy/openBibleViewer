@@ -15,6 +15,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_mainwindow.h"
 #include "../../core/dbghelper.h"
 #include <QtCore/QtDebug>
+/*!
+  Generate a comboc with all strong modules
+  */
 void MainWindow::loadStrongs()
 {
     m_currentStrongID = "";
@@ -33,6 +36,9 @@ void MainWindow::loadStrongs()
 
     return;
 }
+/*!
+  Pharse a strong from current module
+  */
 QString MainWindow::loadStrong(QString strongID)
 {
     DEBUG_FUNC_NAME
@@ -51,6 +57,9 @@ QString MainWindow::loadStrong(QString strongID)
         strong = tr("Strong not found.");
     return strong;
 }
+/*!
+  Show a strong from current module
+  */
 void MainWindow::showStrong(const QString &strongID)
 {
     if (ui->dockWidget_strong->isHidden()) {
@@ -59,17 +68,26 @@ void MainWindow::showStrong(const QString &strongID)
     ui->lineEdit_strong->setText(strongID);
     ui->textBrowser_strong->setText(loadStrong(strongID));
 }
+/*!
+  Load a single strong module
+*/
+
 void MainWindow::loadStrongModule(int lID)
 {
     DEBUG_FUNC_NAME
     if (m_strongModuleID.size() > lID) {
         int id = m_strongModuleID.at(lID);
-        m_zefStrong.setSettings(m_settings);
-        m_zefStrong.loadDataBase(m_settings->module.at(id).modulePath);
-        m_currentStrongModule = id;
-        strongSearch();
+        if (id < m_settings->module.size() && id >= 0) {
+            m_zefStrong.setSettings(m_settings);
+            m_zefStrong.loadDataBase(m_settings->module.at(id).modulePath);
+            m_currentStrongModule = id;
+            strongSearch();
+        }
     }
 }
+/*!
+  Search after a strong in current module
+  */
 void MainWindow::strongSearch()
 {
     DEBUG_FUNC_NAME

@@ -242,10 +242,16 @@ void MainWindow::initSignals()
     connect(ui->pushButton_note_save, SIGNAL(clicked()), this, SLOT(saveNote()));
     connect(ui->pushButton_addNote, SIGNAL(clicked()), this, SLOT(newNote()));
     connect(ui->pushButton_removeNote, SIGNAL(clicked()), this, SLOT(removeNote()));
-    connect(ui->pushButton_noteBold, SIGNAL(clicked()), this, SLOT(noteSetTextBold()));
-    connect(ui->pushButton_noteItalic, SIGNAL(clicked()), this, SLOT(noteSetTextItalic()));
-    connect(ui->pushButton_noteUnderline, SIGNAL(clicked()), this, SLOT(noteSetTextUnderline()));
-    connect(ui->pushButton_noteColor, SIGNAL(clicked()), this, SLOT(noteSetTextColor()));
+    connect(ui->toolButton_noteBold, SIGNAL(clicked()), this, SLOT(noteSetTextBold()));
+    connect(ui->toolButton_noteItalic, SIGNAL(clicked()), this, SLOT(noteSetTextItalic()));
+    connect(ui->toolButton_noteUnderline, SIGNAL(clicked()), this, SLOT(noteSetTextUnderline()));
+    connect(ui->toolButton_noteColor, SIGNAL(clicked()), this, SLOT(noteSetTextColor()));
+    connect(ui->toolButton_noteUndo, SIGNAL(clicked()), this, SLOT(noteUndo()));
+    connect(ui->toolButton_noteRedo, SIGNAL(clicked()), this, SLOT(noteRedo()));
+
+    connect(ui->textEdit_note, SIGNAL(undoAvailable(bool)), ui->toolButton_noteUndo, SLOT(setEnabled(bool)));
+    connect(ui->textEdit_note, SIGNAL(redoAvailable(bool)), ui->toolButton_noteRedo, SLOT(setEnabled(bool)));
+
     connect(ui->pushButton_bookmarks_save, SIGNAL(clicked()), this, SLOT(saveBookmarks()));
     connect(ui->pushButton_searchInfo, SIGNAL(clicked()), this, SLOT(searchInfo()));
     connect(ui->pushButton_goTo, SIGNAL(clicked()), this, SLOT(goToPos()));
@@ -398,6 +404,7 @@ int MainWindow::textBrowserContextMenu(QPoint pos)
     if (cursor2.hasSelection()) {
         cursor = cursor2;
     }
+    currentTextCursor = cursor;
     VerseSelection selection = verseSelectionFromCursor(cursor);
     if (selection.startVerse != -1) {
         QString addText;
@@ -438,7 +445,7 @@ int MainWindow::textBrowserContextMenu(QPoint pos)
     QAction *actionYellowMark = new QAction(menuMark);
     actionYellowMark->setText(tr("Yellow"));
     QIcon yellowMarkIcon;
-    yellowMarkIcon.addPixmap(QPixmap(":/icons/16x16/format-fill-color.png"), QIcon::Normal, QIcon::Off);//todo: add yellow icon
+    yellowMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-yellow.png"), QIcon::Normal, QIcon::Off);
     actionYellowMark->setIcon(yellowMarkIcon);
     connect(actionYellowMark, SIGNAL(triggered()), this , SLOT(newYellowMark()));
     menuMark->addAction(actionYellowMark);
@@ -446,7 +453,7 @@ int MainWindow::textBrowserContextMenu(QPoint pos)
     QAction *actionGreenMark = new QAction(menuMark);
     actionGreenMark->setText(tr("Green"));
     QIcon greenMarkIcon;
-    greenMarkIcon.addPixmap(QPixmap(":/icons/16x16/format-fill-color.png"), QIcon::Normal, QIcon::Off);
+    greenMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-green.png"), QIcon::Normal, QIcon::Off);
     actionGreenMark->setIcon(greenMarkIcon);
     connect(actionGreenMark, SIGNAL(triggered()), this , SLOT(newGreenMark()));
     menuMark->addAction(actionGreenMark);
@@ -454,7 +461,7 @@ int MainWindow::textBrowserContextMenu(QPoint pos)
     QAction *actionBlueMark = new QAction(menuMark);
     actionBlueMark->setText(tr("Blue"));
     QIcon blueMarkIcon;
-    blueMarkIcon.addPixmap(QPixmap(":/icons/16x16/format-fill-color.png"), QIcon::Normal, QIcon::Off);
+    blueMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-blue.png"), QIcon::Normal, QIcon::Off);
     actionBlueMark->setIcon(blueMarkIcon);
     connect(actionBlueMark, SIGNAL(triggered()), this , SLOT(newBlueMark()));
     menuMark->addAction(actionBlueMark);
@@ -462,11 +469,25 @@ int MainWindow::textBrowserContextMenu(QPoint pos)
     QAction *actionOrangeMark = new QAction(menuMark);
     actionOrangeMark->setText(tr("Orange"));
     QIcon orangeMarkIcon;
-    orangeMarkIcon.addPixmap(QPixmap(":/icons/16x16/format-fill-color.png"), QIcon::Normal, QIcon::Off);
+    orangeMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-orange.png"), QIcon::Normal, QIcon::Off);
     actionOrangeMark->setIcon(orangeMarkIcon);
     connect(actionOrangeMark, SIGNAL(triggered()), this , SLOT(newOrangeMark()));
     menuMark->addAction(actionOrangeMark);
 
+    QAction *actionVioletMark = new QAction(menuMark);
+    actionVioletMark->setText(tr("Violet"));
+    QIcon violetMarkIcon;
+    violetMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-violet.png"), QIcon::Normal, QIcon::Off);
+    actionVioletMark->setIcon(violetMarkIcon);
+    connect(actionVioletMark, SIGNAL(triggered()), this , SLOT(newVioletMark()));
+    menuMark->addAction(actionVioletMark);
+
+    QAction *actionRemoveMark = new QAction(this);
+    actionRemoveMark->setText(tr("Remove Mark"));
+    /*QIcon removeMarkIcon;
+    removeMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-yellow.png"), QIcon::Normal, QIcon::Off);
+    actionRemoveMark->setIcon(removeMarkIcon);*/
+    connect(actionRemoveMark, SIGNAL(triggered()), this , SLOT(removeMark()));
 
     QAction *actionBookmark = new QAction(this);
     actionBookmark->setText(tr("Add Bookmark"));
@@ -487,6 +508,7 @@ int MainWindow::textBrowserContextMenu(QPoint pos)
     contextMenu->addAction(actionSelect);
     contextMenu->addSeparator();
     contextMenu->addMenu(menuMark);
+    contextMenu->addAction(actionRemoveMark);
     contextMenu->addAction(actionBookmark);
     contextMenu->addAction(actionNote);
     contextMenu->exec(QCursor::pos());
@@ -1024,10 +1046,6 @@ void MainWindow::goToPos()
 
 VerseSelection MainWindow::verseSelectionFromCursor(QTextCursor cursor)
 {
-    if (m_isNewNote == true) {
-        m_bible.readChapter(m_bible.currentChapterID, m_verseID);
-        m_isNewNote = false;
-    }
     VerseSelection selection;
     DEBUG_FUNC_NAME
     selection.endVerse = -1;
@@ -1047,18 +1065,7 @@ VerseSelection MainWindow::verseSelectionFromCursor(QTextCursor cursor)
         if (fragment.endsWith(">")) {
             fragment.remove(fragment.lastIndexOf("<"), fragment.size());
         }
-        QStringList chapterData;
-        QString wholeText = m_bible.chapterDataList.join("[VERSEINS]");
-        QTextDocument t;
-        t.setHtml(wholeText);
-        QString raw = t.toHtml();
-        QString a1 = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">";
-        QString a2 = "</p></body></html>";
-        int i1 = raw.indexOf(a1);
-        int i2 = raw.indexOf(a2);
-        raw.remove(i2, raw.size());
-        raw.remove(0, i1 + a1.size());
-        chapterData = raw.split("[VERSEINS]");
+        QStringList chapterData = m_bible.toUniformHtml(m_bible.chapterDataList);
 
         QString text = chapterData.join("");
         int startFragment = text.indexOf(fragment);
@@ -1072,16 +1079,56 @@ VerseSelection MainWindow::verseSelectionFromCursor(QTextCursor cursor)
                 myDebug() << "setted start";
                 selection.startVerse = i;
                 selection.posInStartVerse = startFragment - (counter - chapterData.at(i).size()) ;
+                for (int s = 3; s < 100; s++) {
+                    QString b = fragment;
+                    QString searchString = b.remove(s, fragment.size());
+                    //todo: if it starts with a html tag remove that
+                    QString v = chapterData.at(i);
+                    int a1 = v.lastIndexOf(searchString);
+                    int a2 = v.indexOf(searchString);
+                    if (a1 == a2) {
+                        myDebug() << "s = " << s << " searchString = " << searchString;
+                        selection.shortestStringInStartVerse = searchString;
+                        break;
+                    }
+                }
                 myDebug() << "posInstartverse = " << selection.posInStartVerse;
             }
             if (selection.endVerse == -1 && (startFragment + fragment.size()  < (counter))) {
                 myDebug() << "setted end";
                 selection.endVerse = i;
                 selection.posInEndVerse = (startFragment + fragment.size()) - (counter - chapterData.at(i).size()) ;
+                for (int s = 3; s < 100; s++) {
+                    QString b = fragment;
+                    QString searchString = b.remove(0, b.size() - s);
+                    //todo: if it starts with a html tag remove that
+                    QString v = chapterData.at(i);
+                    int a1 = v.lastIndexOf(searchString);
+                    int a2 = v.indexOf(searchString);
+                    if (a1 == a2) {
+                        myDebug() << "s = " << s << " searchString = " << searchString;
+                        selection.shortestStringInEndVerse = searchString;
+                        break;
+                    }
+                }
                 myDebug() << "posInEndverse = " << selection.posInEndVerse;
+                break;
             }
         }
         myDebug() << " start = " << selection.startVerse << " end = " << selection.endVerse;
+    } else {
+        int pos = cursor.position();
+        QStringList chapterData = m_bible.toUniformHtml(m_bible.chapterDataList);
+        int counter = 0;
+        for (int i = 0; i < chapterData.size(); ++i) {
+            QTextDocument t;
+            t.setHtml(chapterData.at(i));
+            counter += t.toPlainText().size();
+            if (selection.startVerse == -1 && pos < counter) {
+                selection.startVerse = i;
+                break;
+            }
+        }
     }
 
     return selection;
@@ -1179,7 +1226,7 @@ void MainWindow::pharseUrl(QString url)
                 int chapterID = c.at(1).toInt();
                 int verseID = c.at(2).toInt();
                 if (bibleID != m_bible.currentBibleID) {
-                    loadModuleDataByID(bibleID);
+                    loadModuleDataByID(bibleID);//todo: select the right module in treewidget
                     readBookByID(bookID);
                     setCurrentBook(bookID);
                     showChapter(chapterID + m_bible.chapterAdd, verseID);
@@ -1263,6 +1310,7 @@ void MainWindow::pharseUrl(QString url)
         }
     }  else if (url.startsWith(note)) {
         url = url.remove(0, note.size());
+        //a
         showNote(url);
     } else {
         myDebug() << " bookPath = " << m_bible.bookPath;
@@ -1320,6 +1368,19 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         return QMainWindow::eventFilter(obj, event);
     }
 }
+void MainWindow::reloadChapter()
+{
+    if (!activeMdiChild())
+        return;
+    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+
+    int vsliderPosition = textBrowser->verticalScrollBar()->sliderPosition();
+    int hsliderPosition = textBrowser->horizontalScrollBar()->sliderPosition();//horizontal
+    readChapter(m_bible.currentChapterID);
+    textBrowser->verticalScrollBar()->setSliderPosition(vsliderPosition);
+    textBrowser->horizontalScrollBar()->setSliderPosition(hsliderPosition);
+}
+
 void MainWindow::setTranslator(QTranslator *my, QTranslator *qt)
 {
     myappTranslator = my;

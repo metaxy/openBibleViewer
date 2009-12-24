@@ -72,6 +72,7 @@ public slots:
     int textBrowserContextMenu(QPoint);
     int copyWholeVerse();
     int goToSearchResult(QListWidgetItem * item);
+
     void loadNotes();
     void showNote(QListWidgetItem * item);
     void saveNote();
@@ -82,12 +83,22 @@ public slots:
     void newGreenMark();
     void newBlueMark();
     void newOrangeMark();
+    void newVioletMark();
     void newMark(QColor color);
     void removeMark();
     void removeNote();
     void reloadNotes();
     void copyNote();
     void editNoteLink();
+    void noteSetTextBold();
+    void noteSetTextItalic();
+    void noteSetTextUnderline();
+    void noteSetTextColor();
+    void noteUndo();
+    void noteRedo();
+    void updateNote(QString pos);
+
+
     void bookmarksContextMenu(void);
     int loadBookmarks();
     void newBookmark();
@@ -100,11 +111,7 @@ public slots:
     void updateBookmark(QString pos);
 
     void showChapter(const int &chapterID, const int &verseID = -1);
-    void noteSetTextBold();
-    void noteSetTextItalic();
-    void noteSetTextUnderline();
-    void noteSetTextColor();
-    void updateNote(QString pos);
+
     void searchInfo();
     void nextVerse();
     void lastVerse();
@@ -147,6 +154,7 @@ private:
     QString lastsearch;
     QString bookmarksFileName, homeDataPath;
     QStringList bibles, biblesIniPath, bookPath, bookFullName;
+    QStringList m_textNotesID;
     QMap <int, int> bookCount;
     QMap<QString, QString> currentNoteRef;
     QList<int> biblesTypes;
@@ -170,6 +178,7 @@ private:
 
     void readBookByID(int id);
     void loadModuleDataByID(int id);
+    void reloadChapter();
 
     void loadLanguage(QString language);
     void loadSettings();
@@ -198,6 +207,7 @@ private:
     QList<int> m_strongModuleID;
     QTranslator *myappTranslator;
     QTranslator *qtTranslator;
+    QTextCursor currentTextCursor;
 
 };
 

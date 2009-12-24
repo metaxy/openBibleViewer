@@ -23,6 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QTextBrowser>
 #include <QtGui/QClipboard>
 #include <QtGui/QMessageBox>
+#include <QtGui/QTreeWidgetItem>
 
 int MainWindow::loadBookmarks(void)
 {

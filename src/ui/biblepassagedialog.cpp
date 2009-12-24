@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "biblepassagedialog.h"
 #include <QtCore/QtDebug>
 #include "../core/dbghelper.h"
+#include "../core/urlconverter.h"
 #include "ui_biblepassagedialog.h"
 
 BiblePassageDialog::BiblePassageDialog(QWidget *parent) :
@@ -39,8 +40,8 @@ void BiblePassageDialog::setCurrent(const int &bible, const QString &path, const
     DEBUG_FUNC_NAME
     m_ui->comboBox_bibles->insertItems(0, m_settings->getBibleName());
     m_bookID = book;
-    m_chapterID = chapter;
-    m_verseID = verse;
+    m_chapterID = chapter + 1;
+    m_verseID = verse + 1;
     m_path = path;
 
     int newIndex = m_settings->getBiblePath().lastIndexOf(path);
@@ -57,6 +58,7 @@ void BiblePassageDialog::indexChanged(int index)
         m_ui->comboBox_books->insertItems(0, m_settings->getBookNames().at(index));
         m_path = m_settings->getBiblePath().at(index);
 
+
         m_ui->comboBox_books->setCurrentIndex(0);
         m_ui->spinBox_chapter->setValue(1);
         m_ui->spinBox_verse->setValue(1);
@@ -70,12 +72,14 @@ void BiblePassageDialog::indexChanged(int index)
 
 void BiblePassageDialog::save()
 {
-    QString out = "";
-    out += m_path + ";";
-    out += QString::number(m_ui->comboBox_books->currentIndex()) + ";";
-    out += QString::number(m_ui->spinBox_chapter->value()) + ";";
-    out += QString::number(m_ui->spinBox_verse->value()) + ";";
-    emit updated(out);
+    QString link = m_path
+                   + ";" + QString::number(m_ui->comboBox_books->currentIndex())
+                   + ";" + QString::number(m_ui->spinBox_chapter->value() - 1)
+                   + ";" + QString::number(m_ui->spinBox_verse->value() - 1)
+                   + ";" + m_settings->getBookNames().at(m_ui->comboBox_bibles->currentIndex()).at(m_ui->comboBox_books->currentIndex());
+
+
+    emit updated(link);
     close();
 }
 void BiblePassageDialog::changeEvent(QEvent *e)
