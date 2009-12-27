@@ -14,7 +14,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "mainwindow.h"
 #include "../searchdialog.h"
 #include "../searchinfodialog.h"
-#include "../../core/stelle.h"
 #include "../../core/dbghelper.h"
 #include "../../core/searchquery.h"
 #include "../../core/searchresult.h"
@@ -54,7 +53,7 @@ int MainWindow::showSearchResults(SearchQuery query)
     searchInCurrentText(query.searchText);
     ui->label_search->setText(tr("Search: %1").arg(query.searchText));
     QStringList outlist;
-    if (biblesTypes.size() < m_bible.currentBibleID)
+    if (biblesTypes.size() < m_bible.bibleID())
         return 1;
     SearchResult result;
     result = m_bible.search(query);
@@ -77,7 +76,7 @@ int MainWindow::showSearchResults(SearchQuery query)
 int MainWindow::goToSearchResult(QListWidgetItem * item)
 {
     int id = ui->listWidget_search->row(item);
-    if (biblesTypes.size() < m_bible.currentBibleID)
+    if (biblesTypes.size() < m_bible.bibleID())
         return 1;
     if (id < m_bible.lastSearchResult.hits().size() /*&& id < m_bible.st.chapter.size()*/) {
         SearchHit hit = m_bible.lastSearchResult.hits().at(id);
@@ -91,7 +90,7 @@ void MainWindow::searchInfo()
     SearchResult result;
     QStringList bookNames;
     QString searchString;
-    if (biblesTypes.size() < m_bible.currentBibleID) {
+    if (biblesTypes.size() < m_bible.bibleID()) {
         QMessageBox::information(0, tr("Error"), tr("No search information available."));
         return;
     }

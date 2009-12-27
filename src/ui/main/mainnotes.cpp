@@ -12,7 +12,6 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "mainwindow.h"
-#include "../../core/stelle.h"
 #include "../../core/notes.h"
 #include "../../core/dbghelper.h"
 #include "../../core/urlconverter.h"
@@ -144,7 +143,7 @@ void MainWindow::newNote(void)
 void MainWindow::newNoteWithLink()
 {
     DEBUG_FUNC_NAME
-    if (m_bible.currentBibleID < 0) {
+    if (m_bible.bibleID() < 0) {
         newNote();
         return;
     }
@@ -155,13 +154,13 @@ void MainWindow::newNoteWithLink()
     QString link;
     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
     urlConverter.m_biblesIniPath = biblesIniPath;
-    urlConverter.m_bibleID =  QString::number(m_bible.currentBibleID);
-    urlConverter.m_bookID = m_bible.currentBookID;
-    urlConverter.m_chapterID = m_bible.currentChapterID - m_bible.chapterAdd;
+    urlConverter.m_bibleID =  QString::number(m_bible.bibleID());
+    urlConverter.m_bookID = m_bible.bookID();
+    urlConverter.m_chapterID = m_bible.chapterID() - m_bible.chapterAdd();
     urlConverter.m_verseID = selection.startVerse - 1;
-    urlConverter.m_bookName = m_bible.bookFullName.at(m_bible.currentBookID);
+    urlConverter.m_bookName = m_bible.bookFullName.at(m_bible.bookID());
     link = urlConverter.convert();
-    //link = biblesIniPath.at(m_bible.currentBibleID) + ";" + QString::number(m_bible.currentBookID, 10) + ";" + QString::number(m_bible.currentChapterID + 1 - m_bible.chapterAdd, 10) + ";" + QString::number(startverse, 10) + ";" + ;
+    //link = biblesIniPath.at(m_bible.bibleID()) + ";" + QString::number(m_bible.bookID(), 10) + ";" + QString::number(m_bible.chapterID() + 1 - m_bible.chapterAdd(), 10) + ";" + QString::number(startverse, 10) + ";" + ;
 
     saveNote();
     reloadNotes();
@@ -352,7 +351,7 @@ void MainWindow::newVioletMark()
 void MainWindow::newMark(QColor color)
 {
     DEBUG_FUNC_NAME
-    if (m_bible.currentBibleID < 0) {
+    if (m_bible.bibleID() < 0) {
         //newNote();
         return;
     }
@@ -364,11 +363,11 @@ void MainWindow::newMark(QColor color)
     QString link;
     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
     urlConverter.m_biblesIniPath = biblesIniPath;
-    urlConverter.m_bibleID = QString::number(m_bible.currentBibleID);
-    urlConverter.m_bookID = m_bible.currentBookID;
-    urlConverter.m_chapterID = m_bible.currentChapterID - m_bible.chapterAdd;
+    urlConverter.m_bibleID = QString::number(m_bible.bibleID());
+    urlConverter.m_bookID = m_bible.bookID();
+    urlConverter.m_chapterID = m_bible.chapterID() - m_bible.chapterAdd();
     urlConverter.m_verseID = selection.startVerse;
-    urlConverter.m_bookName = m_bible.bookFullName.at(m_bible.currentBookID);
+    urlConverter.m_bookName = m_bible.bookFullName.at(m_bible.bookID());
     link = urlConverter.convert();
 
     saveNote();
@@ -395,7 +394,7 @@ void MainWindow::newMark(QColor color)
 void MainWindow::removeMark()
 {
     DEBUG_FUNC_NAME
-    if (m_bible.currentBibleID < 0) {
+    if (m_bible.bibleID() < 0) {
         //newNote();
         return;
     }
@@ -411,7 +410,7 @@ void MainWindow::removeMark()
             urlConverter.m_biblesIniPath = biblesIniPath;
             urlConverter.pharse();
 
-            if (urlConverter.m_bibleID.toInt() == m_bible.currentBibleID && urlConverter.m_bookID == m_bible.currentBookID && urlConverter.m_chapterID == m_bible.currentChapterID) {
+            if (urlConverter.m_bibleID.toInt() == m_bible.bibleID() && urlConverter.m_bookID == m_bible.bookID() && urlConverter.m_chapterID == m_bible.chapterID()) {
                 int start = selection.startVerse - 1;
                 int end;
                 if (selection.endVerse != -1) {

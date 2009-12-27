@@ -22,7 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QTextDocument>
 Bible::Bible()
 {
-    currentBibleID = -1;
+    m_bibleID = -1;
     m_settings = new Settings();
 }
 void Bible::setBibleType(const int &type)
@@ -35,7 +35,7 @@ int Bible::loadBibleData(const int &bibleID, const QString &path)
 {
     DEBUG_FUNC_NAME
     myDebug() << "bibleID = " << bibleID << " path = " << path << " bibleType =" << bibleType;
-    currentBibleID = bibleID;
+    m_bibleID = bibleID;
     switch (bibleType) {
     case BibleQuoteModule: {
         bq.setSettings(m_settings);
@@ -45,13 +45,13 @@ int Bible::loadBibleData(const int &bibleID, const QString &path)
         bookCount = bq.bookCount;
         bookFullName = bq.bookFullName;
         bookPath = bq.bookPath;
-        chapterAdd = 1;
-        currentBiblePath = bq.currentBiblePath;
+        m_chapterAdd = 1;
+        m_biblePath = bq.currentBiblePath;
         break;
     }
     case ZefaniaBibleModule: { //zefania bible
 
-        ModuleSettings m = m_settings->getModuleSettings(currentBibleID);
+        ModuleSettings m = m_settings->getModuleSettings(m_bibleID);
         zef.setSettings(m_settings);
 
         zef.loadBibleData(bibleID, path);
@@ -59,19 +59,19 @@ int Bible::loadBibleData(const int &bibleID, const QString &path)
         bookCount = zef.bookCount;
         bookFullName = zef.bookFullName;
 
-        chapterAdd = 0;
-        currentBiblePath = zef.currentBiblePath;
+        m_chapterAdd = 0;
+        m_biblePath = zef.currentBiblePath;
         break;
     }
     }
     return 0;
 }
-/*
-  only load book, not pharsed
+/*!
+  Load only the book without pharsing.
 */
 int Bible::readBook(int id)
 {
-    currentBookID = id;
+    m_bookID = id;
     qDebug() << "bible::readBook() id= " << id << " bibleType =" << bibleType;
     switch (bibleType) {
     case BibleQuoteModule: {
@@ -121,16 +121,18 @@ void Bible::setSettings(Settings *set)
 }
 QString Bible::readChapter(int chapterID, int verseID = -1)
 {
+    m_chapterID = chapterID;
     return readVerse(chapterID, 0, -1, verseID, true);
 
 }
-/* pharse the loaded book
-   */
+/*!
+    Pharse the loaded book.
+ */
 QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVerseID = -1, bool saveRawData = false)
 {
     DEBUG_FUNC_NAME
     //endVerse == -1 means all verse
-    currentChapterID = chapterID;
+    m_chapterID = chapterID;
     if (saveRawData)
         chapterDataList.clear();
 
@@ -194,7 +196,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                         urlConverter.m_biblesIniPath = biblesIniPath;
                         urlConverter.pharse();
 
-                        if (urlConverter.m_bibleID.toInt() == currentBibleID && urlConverter.m_bookID == currentBookID && urlConverter.m_chapterID == chapterID && urlConverter.m_verseID == i) {
+                        if (urlConverter.m_bibleID.toInt() == m_bibleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID && urlConverter.m_verseID == i) {
                             vers.append("<a href=\"note://" + noteID + "\"><img src=\":/icons/16x16/view-pim-notes.png\" title=\"" + m_notes->getRef(noteID, "title") + "\"></a>");
                         }
                     }
@@ -204,7 +206,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 vers.prepend("<a name=\"currentVerse\"><b>");
                 vers.append("</b></a>");
             }
-            if (m_settings->getModuleSettings(currentBibleID).zefbible_textFormatting == 0) {
+            if (m_settings->getModuleSettings(m_bibleID).zefbible_textFormatting == 0) {
                 vers.prepend("<span style=\" font-style:italic;\">" + c.verseNumber.at(i) + "</span> ");
                 vers.append("<br />");
             } else {
@@ -228,7 +230,8 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 urlConverter.m_biblesIniPath = biblesIniPath;
                 urlConverter.pharse();
 
-                if (urlConverter.m_bibleID.toInt() == currentBibleID && urlConverter.m_bookID == currentBookID && urlConverter.m_chapterID == chapterID) {
+                if (urlConverter.m_bibleID.toInt() == m_bibleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID) {
+                    myDebug() << "mark found id = " << noteID;
                     versList = toUniformHtml(versList);
                     if (m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
                         int versID = m_notes->getRef(noteID, "start").toInt();
@@ -305,6 +308,9 @@ QStringList Bible::toUniformHtml(QStringList string)
     raw.remove(0, i1 + a1.size());
     return raw.split("[VERSEINSERT_FROM_OPENBIBLEVIEWER]");
 }
+/*!
+  Search in the current module
+  */
 SearchResult Bible::search(SearchQuery query)
 {
     lastSearchQuery = query;
@@ -339,15 +345,15 @@ QStringList Bible::getSearchPaths()
         return QStringList();
     } else if (bibleType == BibleQuoteModule) {
         QStringList l;
-        l.append(QString(currentBiblePath + QDir::separator()));
-        if (currentBookID < bookPath.size()) {
-            QString p = bookPath.at(currentBookID);
+        l.append(QString(m_biblePath + QDir::separator()));
+        if (m_bookID < bookPath.size()) {
+            QString p = bookPath.at(m_bookID);
             int pos = p.lastIndexOf(QDir::separator());
             if (pos != -1) {
                 p = p.remove(pos, p.size());
             }
-            if (!p.startsWith(currentBiblePath)) {
-                p = currentBiblePath + QDir::separator() + p + QDir::separator();
+            if (!p.startsWith(m_biblePath)) {
+                p = m_biblePath + QDir::separator() + p + QDir::separator();
             }
             l.append(p);
         }
@@ -358,4 +364,25 @@ QStringList Bible::getSearchPaths()
 void Bible::setNotes(Notes *n)
 {
     m_notes = n;
+}
+int Bible::bibleID()
+{
+    return m_bibleID;
+}
+void Bible::setBibleID(const int &bible)
+{
+    m_bibleID = bible;
+}
+
+int Bible::bookID()
+{
+    return m_bookID;
+}
+int Bible::chapterID()
+{
+    return m_chapterID;
+}
+int Bible::chapterAdd()
+{
+    return m_chapterAdd;
 }

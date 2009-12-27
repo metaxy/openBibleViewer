@@ -14,7 +14,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef BIBLEQUOTE_H
 #define BIBLEQUOTE_H
 #include "../core/settings.h"
-#include "../core/stelle.h"
 #include "../core/chapter.h"
 #include "../core/searchquery.h"
 #include "../core/searchresult.h"

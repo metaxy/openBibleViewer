@@ -39,7 +39,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../searchdialog.h"
 #include "../settingsdialog.h"
 #include "../aboutdialog.h"
-#include "../../core/stelle.h"
 #include "../../core/chapter.h"
 #include "../../core/modulesettings.h"
 #include "../../core/goto.h"
@@ -240,8 +239,8 @@ void MainWindow::initSignals()
     //menu end
     //buttons
     connect(ui->pushButton_note_save, SIGNAL(clicked()), this, SLOT(saveNote()));
-    connect(ui->pushButton_addNote, SIGNAL(clicked()), this, SLOT(newNote()));
-    connect(ui->pushButton_removeNote, SIGNAL(clicked()), this, SLOT(removeNote()));
+    //connect(ui->pushButton_addNote, SIGNAL(clicked()), this, SLOT(newNote()));
+    //connect(ui->pushButton_removeNote, SIGNAL(clicked()), this, SLOT(removeNote()));
     connect(ui->toolButton_noteBold, SIGNAL(clicked()), this, SLOT(noteSetTextBold()));
     connect(ui->toolButton_noteItalic, SIGNAL(clicked()), this, SLOT(noteSetTextItalic()));
     connect(ui->toolButton_noteUnderline, SIGNAL(clicked()), this, SLOT(noteSetTextUnderline()));
@@ -256,7 +255,7 @@ void MainWindow::initSignals()
     connect(ui->pushButton_searchInfo, SIGNAL(clicked()), this, SLOT(searchInfo()));
     connect(ui->pushButton_goTo, SIGNAL(clicked()), this, SLOT(goToPos()));
     connect(ui->pushButton_editNoteLink, SIGNAL(clicked()), this, SLOT(editNoteLink()));
-    connect(ui->pushButton_strongSearch, SIGNAL(clicked()), this, SLOT(strongSearch()));
+    connect(ui->toolButton_strongSearch, SIGNAL(clicked()), this, SLOT(strongSearch()));
     //pushButton_editNoteLink
     //buttons end
     connect(ui->listWidget_notes, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(notesContextMenu()));
@@ -356,33 +355,32 @@ void MainWindow::readBookByID(int id)
 void MainWindow::readChapter(QListWidgetItem * item)
 {
     int id = ui->listWidget_chapters->row(item);
-    emit get("bible://current/" + QString::number(m_bible.currentBookID) + "," + QString::number(id) + ",0");
+    emit get("bible://current/" + QString::number(m_bible.bookID()) + "," + QString::number(id) + ",0");
 }
 void MainWindow::readChapter(const int &id)
 {
-    emit get("bible://current/" + QString::number(m_bible.currentBookID) + "," + QString::number(id) + ",0");
+    emit get("bible://current/" + QString::number(m_bible.bookID()) + "," + QString::number(id) + ",0");
 }
 
 void MainWindow::showChapter(const int &chapterID, const int &verseID)
 {
-    myDebug() << "chapterid = " << chapterID << " chapterAdd = " << m_bible.chapterAdd;
-    m_bible.currentChapterID = chapterID;
+    myDebug() << "chapterid = " << chapterID << " chapterAdd = " << m_bible.chapterAdd();
     m_verseID = verseID;
     m_windowCache.setBible(m_bible);
-    showText(m_bible.readChapter(m_bible.currentChapterID, verseID));
-    setCurrentChapter(m_bible.currentChapterID - m_bible.chapterAdd);
+    showText(m_bible.readChapter(chapterID, verseID));
+    setCurrentChapter(chapterID - m_bible.chapterAdd() );
 }
 void MainWindow::nextChapter()
 {
     DEBUG_FUNC_NAME
-    if (m_bible.currentChapterID < m_bible.chapterData.size() - 1)
-        readChapter(m_bible.currentChapterID + 1);
+    if (m_bible.chapterID() < m_bible.chapterData.size() - 1)
+        readChapter(m_bible.chapterID() + 1);
 }
 void MainWindow::previousChapter()
 {
     DEBUG_FUNC_NAME
-    if (m_bible.currentChapterID > 0)
-        readChapter(m_bible.currentChapterID - 1);
+    if (m_bible.chapterID() > 0)
+        readChapter(m_bible.chapterID() - 1);
 }
 
 int MainWindow::textBrowserContextMenu(QPoint pos)
@@ -534,9 +532,9 @@ int MainWindow::copyWholeVerse(void)
 
         QString stext;
         if (m_bible.bibleType == Bible::BibleQuoteModule) {
-            stext = m_bible.readVerse(m_bible.currentChapterID, selection.startVerse, selection.endVerse + 1, -1, false);
+            stext = m_bible.readVerse(m_bible.chapterID(), selection.startVerse, selection.endVerse + 1, -1, false);
         } else if (m_bible.bibleType == Bible::ZefaniaBibleModule) {
-            stext = m_bible.readVerse(m_bible.currentChapterID, selection.startVerse - 1, selection.endVerse, -1, false);
+            stext = m_bible.readVerse(m_bible.chapterID(), selection.startVerse - 1, selection.endVerse, -1, false);
         }
 
         QTextDocument doc2;
@@ -545,12 +543,12 @@ int MainWindow::copyWholeVerse(void)
 
         QString curChapter;
         if (m_bible.bibleType == Bible::BibleQuoteModule) {
-            curChapter = QString::number(m_bible.currentChapterID);
+            curChapter = QString::number(m_bible.chapterID());
         } else if (m_bible.bibleType == Bible::ZefaniaBibleModule) {
-            curChapter = QString::number(m_bible.currentChapterID + 1);
+            curChapter = QString::number(m_bible.chapterID() + 1);
         }
 
-        QString newText = m_bible.bookFullName.at(m_bible.currentBookID) + " " + curChapter + sverse + "\n" + stext;
+        QString newText = m_bible.bookFullName.at(m_bible.bookID()) + " " + curChapter + sverse + "\n" + stext;
         QClipboard *clipboard = QApplication::clipboard();
         clipboard->setText(newText);
 
@@ -1038,7 +1036,7 @@ int MainWindow::internalOpenPos(const QString &pos)
 void MainWindow::goToPos()
 {
     QString text = ui->lineEdit_goTo->text();
-    GoTo go(m_bible.currentBibleID, m_bible.bookFullName);
+    GoTo go(m_bible.bibleID(), m_bible.bookFullName);
     QString url = go.getUrl(text);
     emit get(url);
     return;
@@ -1218,32 +1216,32 @@ void MainWindow::pharseUrl(QString url)
             if (c.size() >= 3) {
                 int bibleID;
                 if (a.at(0) == "current") {
-                    bibleID = m_bible.currentBibleID;
+                    bibleID = m_bible.bibleID();
                 } else {
                     bibleID = a.at(0).toInt();
                 }
                 int bookID = c.at(0).toInt();
                 int chapterID = c.at(1).toInt();
                 int verseID = c.at(2).toInt();
-                if (bibleID != m_bible.currentBibleID) {
+                if (bibleID != m_bible.bibleID()) {
                     loadModuleDataByID(bibleID);//todo: select the right module in treewidget
                     readBookByID(bookID);
                     setCurrentBook(bookID);
-                    showChapter(chapterID + m_bible.chapterAdd, verseID);
+                    showChapter(chapterID + m_bible.chapterAdd(), verseID);
                     setCurrentChapter(chapterID);
                     //load bible
-                } else if (bookID != m_bible.currentBookID) {
+                } else if (bookID != m_bible.bookID()) {
                     readBookByID(bookID);
                     setCurrentBook(bookID);
-                    showChapter(chapterID + m_bible.chapterAdd, verseID);
+                    showChapter(chapterID + m_bible.chapterAdd(), verseID);
                     setCurrentChapter(chapterID);
                     //load book
-                } else if (chapterID != m_bible.currentChapterID) {
-                    showChapter(chapterID + m_bible.chapterAdd, verseID);
+                } else if (chapterID != m_bible.chapterID()) {
+                    showChapter(chapterID + m_bible.chapterAdd(), verseID);
                     setCurrentChapter(chapterID);
                     //load chapter
                 } else {
-                    showChapter(chapterID + m_bible.chapterAdd, verseID);
+                    showChapter(chapterID + m_bible.chapterAdd(), verseID);
                     setCurrentChapter(chapterID);
                 }
                 if (c.size() == 4 && c.at(3) == "searchInCurrentText=true") {//todo: not nice
@@ -1271,29 +1269,29 @@ void MainWindow::pharseUrl(QString url)
         int bookID = internal.at(2).toInt() - 1;
         int chapterID = internal.at(3).toInt() - 1;
         int verseID = internal.at(4).toInt();
-        //  qDebug() << "MainWindow::pharseUrl() internal = " << internal << " internalChapter = " <<internal.at(3).toInt() << " chapterID" << chapterID << " chapterAdd = "<< m_bible.chapterAdd;
-        /*if(bibleID != m_bible.currentBibleID)
+        //  qDebug() << "MainWindow::pharseUrl() internal = " << internal << " internalChapter = " <<internal.at(3).toInt() << " chapterID" << chapterID << " chapterAdd = "<< m_bible.chapterAdd();
+        /*if(bibleID != m_bible.bibleID())
         {
             loadModuleDataByID(bibleID);
             readBookByID(bookID);
             setCurrentBook(bookID);
-            showChapter(chapterID+m_bible.chapterAdd,verseID);
+            showChapter(chapterID+m_bible.chapterAdd(),verseID);
             setCurrentChapter(chapterID);
             //load bible
         }
-        else */if (bookID != m_bible.currentBookID)
+        else */if (bookID != m_bible.bookID())
         {
             readBookByID(bookID);
             setCurrentBook(bookID);
-            showChapter(chapterID + m_bible.chapterAdd, verseID);
+            showChapter(chapterID + m_bible.chapterAdd(), verseID);
             setCurrentChapter(chapterID);
             //load book
-        } else if (chapterID != m_bible.currentChapterID) {
-            showChapter(chapterID + m_bible.chapterAdd, verseID);
+        } else if (chapterID != m_bible.chapterID()) {
+            showChapter(chapterID + m_bible.chapterAdd(), verseID);
             setCurrentChapter(chapterID);
             //load chapter
         } else {
-            showChapter(chapterID + m_bible.chapterAdd, verseID);
+            showChapter(chapterID + m_bible.chapterAdd(), verseID);
             setCurrentChapter(chapterID);
         }
         emit historySetUrl(url_backup);
@@ -1376,7 +1374,7 @@ void MainWindow::reloadChapter()
 
     int vsliderPosition = textBrowser->verticalScrollBar()->sliderPosition();
     int hsliderPosition = textBrowser->horizontalScrollBar()->sliderPosition();//horizontal
-    readChapter(m_bible.currentChapterID);
+    readChapter(m_bible.chapterID());
     textBrowser->verticalScrollBar()->setSliderPosition(vsliderPosition);
     textBrowser->horizontalScrollBar()->setSliderPosition(hsliderPosition);
 }

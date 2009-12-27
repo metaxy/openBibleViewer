@@ -43,7 +43,10 @@ SOURCES += src/main.cpp \
     src/core/searchquery.cpp \
     src/core/searchhit.cpp \
     src/core/urlconverter.cpp \
-    src/core/verseselection.cpp
+    src/core/verseselection.cpp \
+    src/ui/noteeditor.cpp \
+    src/ui/marklist.cpp \
+    src/ui/markcategories.cpp
 HEADERS += src/ui/main/mainwindow.h \
     src/core/settings.h \
     src/module/biblequote.h \
@@ -76,7 +79,10 @@ HEADERS += src/ui/main/mainwindow.h \
     src/core/searchquery.h \
     src/core/searchhit.h \
     src/core/urlconverter.h \
-    src/core/verseselection.h
+    src/core/verseselection.h \
+    src/ui/noteeditor.h \
+    src/ui/marklist.h \
+    src/ui/markcategories.h
 FORMS += src/ui/main/mainwindow.ui \
     src/ui/searchdialog.ui \
     src/ui/settingsdialog.ui \
@@ -85,7 +91,10 @@ FORMS += src/ui/main/mainwindow.ui \
     src/ui/biblepassagedialog.ui \
     src/ui/aboutdialog.ui \
     src/ui/moduleconfigdialog.ui \
-    src/ui/moduledownloaddialog.ui
+    src/ui/moduledownloaddialog.ui \
+    src/ui/noteeditor.ui \
+    src/ui/marklist.ui \
+    src/ui/markcategories.ui
 RESOURCES += src/icons.qrc \
     src/data.qrc
 TRANSLATIONS = src/obv_de.ts \

@@ -13,12 +13,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BIBLE_H
 #define BIBLE_H
-
+#include <QtCore/QObject>
 #include <QtXml/QDomElement>
 #include <QtCore/QMap>
 #include "biblequote.h"
 #include "zefania-bible.h"
-#include "../core/stelle.h"
 #include "../core/searchquery.h"
 #include "../core/searchresult.h"
 #include "../core/notes.h"
@@ -54,9 +53,18 @@ public:
 
     SearchResult search(SearchQuery query);
 
-    int currentBibleID, currentBookID, currentChapterID, chapterAdd;
-    struct stelle st;
-    QString bibleName, lastout, path, currentBiblePath;
+    int m_bibleID;
+    int m_bookID;
+    int m_chapterID;
+    int m_chapterAdd;
+
+    int bibleID();
+    void setBibleID(const int &bible);
+    int bookID();
+    int chapterID();
+    int chapterAdd();
+
+    QString bibleName, lastout, path, m_biblePath;
     SearchQuery lastSearchQuery;
     SearchResult lastSearchResult;
     QStringList bookFullName, chapterText, bookPath, chapterNames, chapterDataList;

@@ -285,15 +285,15 @@ int MainWindow::reloadWindow(QMdiSubWindow * window)
         //myDebug() << "m_windowCache.getBibleType() == 0";
         ui->listWidget_chapters->clear();
         ui->listWidget_books->clear();
-        m_bible.currentBibleID = -2;
+        m_bible.setBibleID(-2);
     } else {
-        if (m_bible.currentBibleID == m_windowCache.getBible().currentBibleID)
+        if (m_bible.bibleID() == m_windowCache.getBible().bibleID())
             return 1;
         m_bible = m_windowCache.getBible();
         setTitle(m_windowCache.getBibleName());
-        myDebug() << "m_bible.chapterNames.size() = " << m_bible.chapterNames.size() << " m_bible.currentChapterID = " << m_bible.currentChapterID;
+        myDebug() << "m_bible.chapterNames.size() = " << m_bible.chapterNames.size() << " m_bible.chapterID() = " << m_bible.chapterID();
         setChapters(m_bible.chapterNames);
-        setCurrentChapter(m_bible.currentChapterID);
+        setCurrentChapter(m_bible.chapterID());
 
         QStringList tbookFullName = m_windowCache.getBooks();//show all books
         setBooks(tbookFullName);

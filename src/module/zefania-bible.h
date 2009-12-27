@@ -21,7 +21,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomElement>
 
 #include "../core/settings.h"
-#include "../core/stelle.h"
 #include "../core/chapter.h"
 #include "../core/modulesettings.h"
 #include "../core/searchquery.h"
