@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "mdiform.h"
 #include "ui_mdiform.h"
-#include "../core/dbghelper.h"
+#include "src/core/dbghelper.h"
 
 
 MdiForm::MdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::MdiForm)

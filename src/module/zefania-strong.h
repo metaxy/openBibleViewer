@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 #include <QtXml/QDomElement>
 #include <QtXml/QDomDocument>
-#include "../core/settings.h"
+#include "src/core/settings.h"
 /*!
  ZefaniaStrong represents a zefaniaxml(lex) module
 

@@ -2,8 +2,8 @@
 #include "ui_marklist.h"
 
 MarkList::MarkList(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::MarkList)
+        QDialog(parent),
+        ui(new Ui::MarkList)
 {
     ui->setupUi(this);
 }

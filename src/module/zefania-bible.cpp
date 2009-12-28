@@ -21,9 +21,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomAttr>
 #include <QtXml/QDomElement>
 #include <QtXml/QtXml>
-#include "zefania-bible.h"
-#include "../core/KoXmlWriter.h"
-#include "../core/dbghelper.h"
+#include "src/module/zefania-bible.h"
+#include "src/core/KoXmlWriter.h"
+#include "src/core/dbghelper.h"
 ZefaniaBible::ZefaniaBible()
 {
     m_settings = new Settings();

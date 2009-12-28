@@ -368,7 +368,7 @@ void MainWindow::showChapter(const int &chapterID, const int &verseID)
     m_verseID = verseID;
     m_windowCache.setBible(m_bible);
     showText(m_bible.readChapter(chapterID, verseID));
-    setCurrentChapter(chapterID - m_bible.chapterAdd() );
+    setCurrentChapter(chapterID - m_bible.chapterAdd());
 }
 void MainWindow::nextChapter()
 {
@@ -910,7 +910,7 @@ void MainWindow::showSettingsDialog(int tabID)
     DEBUG_FUNC_NAME
     SettingsDialog setDialog(this);
     connect(&setDialog, SIGNAL(settingsChanged(Settings)), this, SLOT(saveSettings(Settings)));
-    setDialog.setSettings(*m_settings); // todo:
+    setDialog.setSettings(*m_settings);
     setDialog.setWindowTitle(tr("Configuration"));
     setDialog.setCurrentTab(tabID);
     setDialog.show();

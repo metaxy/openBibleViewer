@@ -10,32 +10,26 @@ MOC_DIR = tmp
 UI_DIR = tmp
 RCC_DIR = tmp
 SOURCES += src/main.cpp \
-    src/ui/main/mainwindow.cpp \
     src/module/biblequote.cpp \
     src/module/zefania-bible.cpp \
-    src/ui/searchdialog.cpp \
-    src/ui/settingsdialog.cpp \
-    src/ui/aboutdialog.cpp \
+    src/ui/dialog/searchdialog.cpp \
+    src/ui/dialog/settingsdialog.cpp \
+    src/ui/dialog/aboutdialog.cpp \
     src/core/windowcache.cpp \
     src/core/KoXmlReader.cpp \
     src/core/KoXmlWriter.cpp \
     src/core/notes.cpp \
     src/core/xbelreader.cpp \
     src/core/xbelwriter.cpp \
-    src/ui/main/mainnotes.cpp \
-    src/ui/main/mainbookmarks.cpp \
-    src/ui/main/mainsearch.cpp \
-    src/ui/searchinfodialog.cpp \
+    src/ui/dialog/searchinfodialog.cpp \
     src/module/bible.cpp \
-    src/ui/main/mainmdi.cpp \
     src/ui/mdiform.cpp \
-    src/ui/biblepassagedialog.cpp \
-    src/ui/moduleconfigdialog.cpp \
+    src/ui/dialog/biblepassagedialog.cpp \
+    src/ui/dialog/moduleconfigdialog.cpp \
     src/core/goto.cpp \
     src/module/zefania-strong.cpp \
-    src/ui/main/mainstrong.cpp \
     src/core/history.cpp \
-    src/ui/moduledownloaddialog.cpp \
+    src/ui/dialog/moduledownloaddialog.cpp \
     src/core/dbghelper.cpp \
     src/core/settings.cpp \
     src/core/modulesettings.cpp \
@@ -46,31 +40,52 @@ SOURCES += src/main.cpp \
     src/core/verseselection.cpp \
     src/ui/noteeditor.cpp \
     src/ui/marklist.cpp \
-    src/ui/markcategories.cpp
-HEADERS += src/ui/main/mainwindow.h \
-    src/core/settings.h \
+    src/ui/markcategories.cpp \
+    src/module/modulemanager.cpp \
+    src/module/module.cpp \
+    src/module/strong.cpp \
+    src/ui/dock/strongdockwidget.cpp \
+    src/ui/dock/searchresultdockwidget.cpp \
+    src/ui/dock/notesdockwidget.cpp \
+    src/ui/dock/bookmarksdockwidget.cpp \
+    src/ui/dock/moduledockwidget.cpp \
+    src/ui/dock/bookdockwidget.cpp \
+    src/ui/dock/quickjumpdockwidget.cpp \
+    src/ui/mainwindow.cpp \
+ #   src/ui/main/mainmdi.cpp \
+ #   src/ui/main/mainbookmarks.cpp \
+ #   src/ui/main/mainnotes.cpp \
+ #   src/ui/main/mainstrong.cpp \
+ #   src/ui/main/mainwindow.cpp \
+    src/core/bibledisplay.cpp \
+    src/ui/interface/simpleinterface.cpp \
+    src/ui/interface/advancedinterface.cpp \
+    src/ui/interface/studyinterface.cpp \
+    src/ui/interface/interface.cpp \
+    src/ui/dock/dockwidget.cpp
+HEADERS += src/core/settings.h \
     src/module/biblequote.h \
     src/module/zefania-bible.h \
-    src/ui/searchdialog.h \
-    src/ui/settingsdialog.h \
+    src/ui/dialog/searchdialog.h \
+    src/ui/dialog/settingsdialog.h \
     src/core/windowcache.h \
     src/core/KoXmlReader.h \
     src/core/KoXmlWriter.h \
     src/core/KoXmlReaderForward.h \
-    src/ui/aboutdialog.h \
+    src/ui/dialog/aboutdialog.h \
     src/core/notes.h \
     src/core/xbelreader.h \
     src/core/xbelwriter.h \
-    src/ui/searchinfodialog.h \
+    src/ui/dialog/searchinfodialog.h \
     src/module/bible.h \
     src/core/chapter.h \
     src/ui/mdiform.h \
-    src/ui/biblepassagedialog.h \
-    src/ui/moduleconfigdialog.h \
+    src/ui/dialog/biblepassagedialog.h \
+    src/ui/dialog/moduleconfigdialog.h \
     src/core/goto.h \
     src/module/zefania-strong.h \
     src/core/history.h \
-    src/ui/moduledownloaddialog.h \
+    src/ui/dialog/moduledownloaddialog.h \
     src/core/dbghelper.h \
     src/core/searchquery.h \
     src/core/settings.h \
@@ -82,19 +97,48 @@ HEADERS += src/ui/main/mainwindow.h \
     src/core/verseselection.h \
     src/ui/noteeditor.h \
     src/ui/marklist.h \
-    src/ui/markcategories.h
-FORMS += src/ui/main/mainwindow.ui \
-    src/ui/searchdialog.ui \
-    src/ui/settingsdialog.ui \
-    src/ui/searchinfodialog.ui \
+    src/ui/markcategories.h \
+    src/module/modulemanager.h \
+    src/module/module.h \
+    src/module/strong.h \
+    src/ui/dock/strongdockwidget.h \
+    src/ui/dock/searchresultdockwidget.h \
+    src/ui/dock/notesdockwidget.h \
+    src/ui/dock/bookmarksdockwidget.h \
+    src/ui/dock/moduledockwidget.h \
+    src/ui/dock/bookdockwidget.h \
+    src/ui/dock/quickjumpdockwidget.h \
+    src/ui/mainwindow.h \
+ #   src/ui/main/mainwindow.h \
+    src/core/bibledisplay.h \
+    src/ui/interface/simpleinterface.h \
+    src/ui/interface/advancedinterface.h \
+    src/ui/interface/studyinterface.h \
+    src/ui/interface/interface.h \
+    src/ui/dock/dockwidget.h
+FORMS += src/ui/dialog/searchdialog.ui \
+    src/ui/dialog/settingsdialog.ui \
+    src/ui/dialog/searchinfodialog.ui \
     src/ui/mdiform.ui \
-    src/ui/biblepassagedialog.ui \
-    src/ui/aboutdialog.ui \
-    src/ui/moduleconfigdialog.ui \
-    src/ui/moduledownloaddialog.ui \
+    src/ui/dialog/biblepassagedialog.ui \
+    src/ui/dialog/aboutdialog.ui \
+    src/ui/dialog/moduleconfigdialog.ui \
+    src/ui/dialog/moduledownloaddialog.ui \
     src/ui/noteeditor.ui \
     src/ui/marklist.ui \
-    src/ui/markcategories.ui
+    src/ui/markcategories.ui \
+    src/ui/dock/strongdockwidget.ui \
+    src/ui/dock/searchresultdockwidget.ui \
+    src/ui/dock/notesdockwidget.ui \
+    src/ui/dock/bookmarksdockwidget.ui \
+    src/ui/dock/moduledockwidget.ui \
+    src/ui/dock/bookdockwidget.ui \
+    src/ui/dock/quickjumpdockwidget.ui \
+    src/ui/mainwindow.ui \
+#    src/ui/main/mainwindow.ui \
+    src/ui/interface/simpleinterface.ui \
+    src/ui/interface/advancedinterface.ui \
+    src/ui/interface/studyinterface.ui
 RESOURCES += src/icons.qrc \
     src/data.qrc
 TRANSLATIONS = src/obv_de.ts \

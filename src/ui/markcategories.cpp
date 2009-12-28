@@ -2,8 +2,8 @@
 #include "ui_markcategories.h"
 
 MarkCategories::MarkCategories(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::MarkCategories)
+        QDialog(parent),
+        ui(new Ui::MarkCategories)
 {
     ui->setupUi(this);
 }

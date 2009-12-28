@@ -16,11 +16,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QObject>
 #include <QtXml/QDomElement>
 #include <QtCore/QMap>
-#include "biblequote.h"
-#include "zefania-bible.h"
-#include "../core/searchquery.h"
-#include "../core/searchresult.h"
-#include "../core/notes.h"
+#include "src/module/biblequote.h"
+#include "src/module/zefania-bible.h"
+#include "src/core/searchquery.h"
+#include "src/core/searchresult.h"
+#include "src/core/notes.h"
 /*!
  Bible represent a bible module(eg biblequote module)
 
@@ -38,10 +38,11 @@ public:
     Bible();
     void setBibleType(const int &type);
     void setSettings(Settings *settings);
+    void setNotes(Notes *n);
     QMap<int, QList<Chapter> > getZefCache();
     void clearZefCache();
     void setZefCache(QMap<int, QList<Chapter> > cache);
-    void setNotes(Notes*n);
+
 
     int loadBibleData(const int &bibleID, const QString &path);
     int readBook(int id);
@@ -53,10 +54,7 @@ public:
 
     SearchResult search(SearchQuery query);
 
-    int m_bibleID;
-    int m_bookID;
-    int m_chapterID;
-    int m_chapterAdd;
+
 
     int bibleID();
     void setBibleID(const int &bible);
@@ -72,11 +70,16 @@ public:
     QMap <int, int> bookCount;
     QList<Chapter> chapterData;
     int bibleType;
+    int m_verseID;
     BibleQuote bq;
     ZefaniaBible zef;
 private:
     Settings *m_settings;
     Notes *m_notes;
+    int m_bibleID;
+    int m_bookID;
+    int m_chapterID;
+    int m_chapterAdd;
 
 };
 

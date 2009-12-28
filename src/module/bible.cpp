@@ -12,10 +12,10 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "bible.h"
-#include "../core/settings.h"
-#include "../core/modulesettings.h"
-#include "../core/dbghelper.h"
-#include "../core/urlconverter.h"
+#include "src/core/settings.h"
+#include "src/core/modulesettings.h"
+#include "src/core/dbghelper.h"
+#include "src/core/urlconverter.h"
 #include <QtCore/QtDebug>
 #include <QtCore/QMapIterator>
 #include <QtCore/QDir>
@@ -187,8 +187,9 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         for (int i = startVerse; i < end; i++) {
             QString vers = c.data.at(i);
             //main formatting
+            /*
             if (m_notes != 0) {
-                for (int n = 0; n <  m_notes->getIDList().size(); ++n) {
+                for (int n = 0; n < m_notes->getIDList().size(); ++n) {
                     QString noteID = m_notes->getIDList().at(n);
                     if (m_notes->getType(noteID) == "text") {
                         QString link = m_notes->getRef(noteID, "link");
@@ -201,7 +202,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                         }
                     }
                 }
-            }
+            }*/
             if (i == markVerseID) {
                 vers.prepend("<a name=\"currentVerse\"><b>");
                 vers.append("</b></a>");
@@ -221,57 +222,57 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         break;
     }
     }
-    if (m_notes != 0) {
-        for (int n = 0; n <  m_notes->getIDList().size(); ++n) {
-            QString noteID = m_notes->getIDList().at(n);
-            if (m_notes->getType(noteID) == "mark") {
-                QString link = m_notes->getRef(noteID, "link");
-                UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
-                urlConverter.m_biblesIniPath = biblesIniPath;
-                urlConverter.pharse();
+    /*  if (m_notes != 0) {
+          for (int n = 0; n <  m_notes->getIDList().size(); ++n) {
+              QString noteID = m_notes->getIDList().at(n);
+              if (m_notes->getType(noteID) == "mark") {
+                  QString link = m_notes->getRef(noteID, "link");
+                  UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
+                  urlConverter.m_biblesIniPath = biblesIniPath;
+                  urlConverter.pharse();
 
-                if (urlConverter.m_bibleID.toInt() == m_bibleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID) {
-                    myDebug() << "mark found id = " << noteID;
-                    versList = toUniformHtml(versList);
-                    if (m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
-                        int versID = m_notes->getRef(noteID, "start").toInt();
-                        if (endVerse != -1) {
-                            //todo: do something
-                        }
-                        QString vers = versList.at(versID);
-                        int startPos = vers.lastIndexOf(m_notes->getRef(noteID, "startString"));
-                        int endPos = vers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
-                        myDebug() << "vers = " << vers << " startPos = " << startPos << " endPos = " << endPos << " startString = " << m_notes->getRef(noteID, "startString") << " endString = " << m_notes->getRef(noteID, "endString");
+                  if (urlConverter.m_bibleID.toInt() == m_bibleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID) {
+                      myDebug() << "mark found id = " << noteID;
+                      versList = toUniformHtml(versList);
+                      if (m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
+                          int versID = m_notes->getRef(noteID, "start").toInt();
+                          if (endVerse != -1) {
+                              //todo: do something
+                          }
+                          QString vers = versList.at(versID);
+                          int startPos = vers.lastIndexOf(m_notes->getRef(noteID, "startString"));
+                          int endPos = vers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
+                          myDebug() << "vers = " << vers << " startPos = " << startPos << " endPos = " << endPos << " startString = " << m_notes->getRef(noteID, "startString") << " endString = " << m_notes->getRef(noteID, "endString");
 
-                        vers.insert(endPos, "</span>");
-                        vers.insert(startPos, "<span name=\"mark\" style=\"background-color:" + m_notes->getRef(noteID, "color") + "\">");
-                        versList.replace(versID, vers);
+                          vers.insert(endPos, "</span>");
+                          vers.insert(startPos, "<span name=\"mark\" style=\"background-color:" + m_notes->getRef(noteID, "color") + "\">");
+                          versList.replace(versID, vers);
 
-                    } else {
-                        int startVersID = m_notes->getRef(noteID, "start").toInt();
-                        int endVersID = m_notes->getRef(noteID, "end").toInt();
-                        if (endVerse != -1) {
-                            //todo: do something
-                        }
-                        if (startVersID >= 0 && endVersID >= 0 && startVersID < versList.size() && endVersID < versList.size()) {
-                            myDebug() << " start = " << startVersID << " size = " << versList.size();
-                            QString startVers = versList.at(startVersID);
-                            QString endVers = versList.at(endVersID);
-                            int startPos = startVers.lastIndexOf(m_notes->getRef(noteID, "startString"));
-                            int endPos = endVers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
-                            myDebug() << "StartVers = " << startVers << " endVers = " << endVers << " startPos = " << startPos << " endPos = " << endPos << " startString = " << m_notes->getRef(noteID, "startString") << " endString = " << m_notes->getRef(noteID, "endString");
+                      } else {
+                          int startVersID = m_notes->getRef(noteID, "start").toInt();
+                          int endVersID = m_notes->getRef(noteID, "end").toInt();
+                          if (endVerse != -1) {
+                              //todo: do something
+                          }
+                          if (startVersID >= 0 && endVersID >= 0 && startVersID < versList.size() && endVersID < versList.size()) {
+                              myDebug() << " start = " << startVersID << " size = " << versList.size();
+                              QString startVers = versList.at(startVersID);
+                              QString endVers = versList.at(endVersID);
+                              int startPos = startVers.lastIndexOf(m_notes->getRef(noteID, "startString"));
+                              int endPos = endVers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
+                              myDebug() << "StartVers = " << startVers << " endVers = " << endVers << " startPos = " << startPos << " endPos = " << endPos << " startString = " << m_notes->getRef(noteID, "startString") << " endString = " << m_notes->getRef(noteID, "endString");
 
-                            startVers.insert(startPos, "<span name=\"mark\" style=\"background-color:" + m_notes->getRef(noteID, "color") + "\">");
-                            endVers.insert(endPos, "</span>");
-                            versList.replace(startVersID, startVers);
-                            versList.replace(endVersID, endVers);
-                        }
-                    }
+                              startVers.insert(startPos, "<span name=\"mark\" style=\"background-color:" + m_notes->getRef(noteID, "color") + "\">");
+                              endVers.insert(endPos, "</span>");
+                              versList.replace(startVersID, startVers);
+                              versList.replace(endVersID, endVers);
+                          }
+                      }
 
-                }
-            }
-        }
-    }
+                  }
+              }
+          }
+      }*/
     for (int i = 0; i < versList.size(); ++i) {
         out += versList.at(i);
         if (saveRawData)

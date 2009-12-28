@@ -2,8 +2,8 @@
 #include "ui_noteeditor.h"
 
 NoteEditor::NoteEditor(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::NoteEditor)
+        QDialog(parent),
+        ui(new Ui::NoteEditor)
 {
     ui->setupUi(this);
 }

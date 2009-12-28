@@ -3,11 +3,13 @@
 
 #include <QDialog>
 
-namespace Ui {
-    class MarkCategories;
+namespace Ui
+{
+class MarkCategories;
 }
 
-class MarkCategories : public QDialog {
+class MarkCategories : public QDialog
+{
     Q_OBJECT
 public:
     MarkCategories(QWidget *parent = 0);

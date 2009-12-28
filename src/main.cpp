@@ -27,7 +27,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QDir>
 #include <stdlib.h>
 
-#include "ui/main/mainwindow.h"
+#include "src/ui/mainwindow.h"
 
 //CONFIG
 //#define _PORTABLE_VERSION
@@ -88,8 +88,8 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.init(homeDataPath);
-    w.setTranslator(&myappTranslator, &qtTranslator);
-    w.loadModules();
+    //w.setTranslator(&myappTranslator, &qtTranslator);
+    // w.loadModules();
 
 
     /*  QFile file(themePath);

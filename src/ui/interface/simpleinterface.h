@@ -1,0 +1,54 @@
+#ifndef SIMPLEINTERFACE_H
+#define SIMPLEINTERFACE_H
+
+#include <QWidget>
+#include <QtCore/QUrl>
+#include "src/ui/interface/interface.h"
+#include "src/ui/dock/moduledockwidget.h"
+#include "src/ui/dock/bookdockwidget.h"
+namespace Ui
+{
+class SimpleInterface;
+}
+
+class SimpleInterface : public Interface
+{
+    Q_OBJECT
+private slots:
+    void pharseUrl(QUrl url);
+    void pharseUrl(QString url);
+    void showText(const QString &text);
+public:
+    SimpleInterface(QWidget *parent = 0);
+    ~SimpleInterface();
+    void setModuleDockWidget(ModuleDockWidget *moduleDockWidget);
+    void setBookDockWidget(BookDockWidget *bookDockWidget);
+    void init();
+    void loadModuleDataByID(int id);
+
+    void setTitle(const QString &title);
+    void setChapters(const QStringList &chapters);
+    void setBooks(const QStringList &books);
+    void setCurrentBook(const int &bookID);
+    void setCurrentChapter(const int &chapterID);
+    void readBook(const int &id);
+    void readBookByID(int id);
+
+    void readChapter(const int &id);
+    void showChapter(const int &chapterID, const int &verseID);
+    void nextChapter();
+    void previousChapter();
+
+
+protected:
+    void changeEvent(QEvent *e);
+    bool eventFilter(QObject *obj, QEvent *ev);
+signals:
+    void get(QString);
+private:
+    Ui::SimpleInterface *ui;
+    ModuleDockWidget *m_moduleDockWidget;
+    BookDockWidget *m_bookDockWidget;
+};
+
+#endif // SIMPLEINTERFACE_H

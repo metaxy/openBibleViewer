@@ -24,7 +24,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QProgressDialog>
 #include <QtXml/QDomElement>
 #include <QtXml/QDomNode>
-#include "../core/KoXmlReader.h"
+#include "src/core/KoXmlReader.h"
 ZefaniaStrong::ZefaniaStrong()
 {
     m_settings = new Settings();

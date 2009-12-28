@@ -20,12 +20,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
-#include "../core/settings.h"
-#include "../core/chapter.h"
-#include "../core/modulesettings.h"
-#include "../core/searchquery.h"
-#include "../core/searchresult.h"
-#include "../core/KoXmlReader.h"
+#include "src/core/settings.h"
+#include "src/core/chapter.h"
+#include "src/core/modulesettings.h"
+#include "src/core/searchquery.h"
+#include "src/core/searchresult.h"
+#include "src/core/KoXmlReader.h"
 /*!
  ZefaniaBible represents a zefaniaxml(bible) module
 
@@ -57,7 +57,7 @@ public:
     SearchQuery lastSearchQuery;
 
     QString currentBiblePath, lastout, chaptersign, versesign, biblepath, bibleName, lastSearch;
-    QStringList bibles, bookFullName, bookShortName, /*chapterText,bookPath*/;
+    QStringList bibles, bookFullName, bookShortName;
     QMap <int, int> bookCount;
     QList<Chapter> chapterData;
 

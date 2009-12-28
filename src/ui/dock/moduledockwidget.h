@@ -1,0 +1,28 @@
+#ifndef MODULEDOCKWIDGET_H
+#define MODULEDOCKWIDGET_H
+
+#include <QDockWidget>
+#include "dockwidget.h"
+namespace Ui
+{
+class ModuleDockWidget;
+}
+
+class ModuleDockWidget : public DockWidget
+{
+    Q_OBJECT
+private slots:
+    void loadModuleData(QTreeWidgetItem *fitem);
+public:
+    ModuleDockWidget(QWidget *parent = 0);
+    ~ModuleDockWidget();
+    void init();
+protected:
+    void changeEvent(QEvent *e);
+signals:
+    void get(QString);
+private:
+    Ui::ModuleDockWidget *ui;
+};
+
+#endif // MODULEDOCKWIDGET_H

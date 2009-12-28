@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "biblequote.h"
-#include "../core/dbghelper.h"
+#include "src/core/dbghelper.h"
 #include <QtCore/QString>
 #include <QtCore/QFile>
 #include <QtCore/QTextCodec>

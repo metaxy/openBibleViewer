@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef WINDOWCACHE_H
 #define WINDOWCACHE_H
-#include "../module/bible.h"
+#include "src/module/bible.h"
 #include <QtCore/QMap>
 #include <QtCore/QString>
 #include <QtCore/QStringList>

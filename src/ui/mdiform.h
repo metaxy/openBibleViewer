@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QWidget>
 #include <QtGui/QCloseEvent>
 #include "ui_mdiform.h"
-#include "../core/history.h"
+#include "src/core/history.h"
 namespace Ui
 {
 class MdiForm;
