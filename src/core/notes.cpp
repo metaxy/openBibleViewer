@@ -23,7 +23,13 @@ Notes::Notes(const QString &newFileName)
 {
     fileName = newFileName;
     m_version = "0.2";
+    m_isLoaded = false;
 }
+bool Notes::isLoaded()
+{
+    return m_isLoaded;
+}
+
 /*!
     Load notes data from an xml-file
   */
@@ -50,6 +56,7 @@ int Notes::loadNotes()
         }
     }
     file.close();
+    m_isLoaded = true;
     return 0;
 }
 /*!

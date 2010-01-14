@@ -2,6 +2,8 @@
 #define INTERFACE_H
 
 #include <QWidget>
+#include <QtGui/QMenuBar>
+#include <QtGui/QToolBar>
 #include "src/module/modulemanager.h"
 #include "src/core/bibledisplay.h"
 #include "src/core/settings.h"
@@ -9,6 +11,8 @@
 class Interface : public QWidget
 {
     Q_OBJECT
+
+
 public:
     Interface(QWidget *parent);
     ModuleManager *m_moduleManager;
@@ -19,6 +23,13 @@ public:
     void setBibleDisplay(BibleDisplay *bibledisplay);
     void setSettings(Settings *settings);
     void setNotes(Notes *notes);
+
+    bool hasMenuBar();
+    QMenuBar* menuBar();
+
+    bool hasToolBar();
+    QToolBar* toolBar();
+
 };
 
 #endif // INTERFACE_H

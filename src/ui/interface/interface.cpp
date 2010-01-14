@@ -20,4 +20,21 @@ void Interface::setNotes(Notes *notes)
 {
     m_notes = notes;
 }
+bool Interface::hasMenuBar()
+{
+    return false;
+}
+QMenuBar* Interface::menuBar()
+{
+    return new QMenuBar();
+}
+
+bool Interface::hasToolBar()
+{
+    return false;
+}
+QToolBar * Interface::toolBar()
+{
+    return new QToolBar();
+}
 

@@ -58,9 +58,9 @@ SOURCES += src/main.cpp \
  #   src/ui/main/mainstrong.cpp \
  #   src/ui/main/mainwindow.cpp \
     src/core/bibledisplay.cpp \
-    src/ui/interface/simpleinterface.cpp \
-    src/ui/interface/advancedinterface.cpp \
-    src/ui/interface/studyinterface.cpp \
+    src/ui/interface/simple/simpleinterface.cpp \
+    src/ui/interface/advanced/advancedinterface.cpp \
+    src/ui/interface/study/studyinterface.cpp \
     src/ui/interface/interface.cpp \
     src/ui/dock/dockwidget.cpp
 HEADERS += src/core/settings.h \
@@ -111,9 +111,9 @@ HEADERS += src/core/settings.h \
     src/ui/mainwindow.h \
  #   src/ui/main/mainwindow.h \
     src/core/bibledisplay.h \
-    src/ui/interface/simpleinterface.h \
-    src/ui/interface/advancedinterface.h \
-    src/ui/interface/studyinterface.h \
+    src/ui/interface/simple/simpleinterface.h \
+    src/ui/interface/advanced/advancedinterface.h \
+    src/ui/interface/study/studyinterface.h \
     src/ui/interface/interface.h \
     src/ui/dock/dockwidget.h
 FORMS += src/ui/dialog/searchdialog.ui \
@@ -136,9 +136,9 @@ FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dock/quickjumpdockwidget.ui \
     src/ui/mainwindow.ui \
 #    src/ui/main/mainwindow.ui \
-    src/ui/interface/simpleinterface.ui \
-    src/ui/interface/advancedinterface.ui \
-    src/ui/interface/studyinterface.ui
+    src/ui/interface/simple/simpleinterface.ui \
+    src/ui/interface/advanced/advancedinterface.ui \
+    src/ui/interface/study/studyinterface.ui
 RESOURCES += src/icons.qrc \
     src/data.qrc
 TRANSLATIONS = src/obv_de.ts \

@@ -17,9 +17,11 @@ void ModuleManager::setSettings(Settings *settings)
 
 int ModuleManager::loadAllModules()
 {
+    DEBUG_FUNC_NAME
     Bible bible;
     bible.setSettings(m_settings);
     m_moduleList.clear();
+    m_items.clear();
     QProgressDialog progress(QObject::tr("Loading Module"), QObject::tr("Cancel"), 0, m_settings->module.size());
     progress.setWindowModality(Qt::WindowModal);
     int rcount = 0;//Counter for the Bible ID
@@ -162,7 +164,7 @@ int ModuleManager::loadAllModules()
                     QTreeWidgetItem *bibleItem = new QTreeWidgetItem;
                     bibleItem->setText(0, m_settings->module.at(i).moduleName);
                     bibleItem->setText(1, QString::number(rcount));
-                    qDebug() << "MainWindow::loadModules()m_settings->moduleID rcount = " << rcount << " i = " << i;
+                    myDebug() << "m_settings->moduleID rcount = " << rcount << " i = " << i;
 
 
                     QIcon bibleIcon;
@@ -186,7 +188,7 @@ int ModuleManager::loadAllModules()
                     QTreeWidgetItem *bibleItem = new QTreeWidgetItem;
                     bibleItem->setText(0, m_settings->module.at(i).moduleName);
                     bibleItem->setText(1, QString::number(rcount));
-                    qDebug() << "MainWindow::loadModules()m_settings->moduleID rcount = " << rcount << " i = " << i;
+                    myDebug() << "MainWindow::loadModules()m_settings->moduleID rcount = " << rcount << " i = " << i;
 
                     QIcon bibleIcon;
                     bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);

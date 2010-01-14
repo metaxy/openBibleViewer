@@ -251,6 +251,7 @@ SearchResult BibleQuote::search(SearchQuery query)
     QProgressDialog progress(QObject::tr("Searching"), QObject::tr("Cancel"), 0, bookPath.size());
     progress.setWindowModality(Qt::WindowModal);
     SearchResult result;
+    result.searchQuery = query;
     for (int id = 0; id < bookPath.size(); id++) {
         if (progress.wasCanceled())
             return result;

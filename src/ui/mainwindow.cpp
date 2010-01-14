@@ -1,9 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "src/ui/interface/simpleinterface.h"
-#include "src/ui/interface/advancedinterface.h"
-#include "src/ui/interface/studyinterface.h"
+#include "src/ui/interface/simple/simpleinterface.h"
+#include "src/ui/interface/advanced/advancedinterface.h"
+#include "src/ui/interface/study/studyinterface.h"
+#include "src/ui/dialog/settingsdialog.h"
+#include "src/ui/dock/searchresultdockwidget.h"
 #include "src/core/dbghelper.h"
+#include <QtGui/QMessageBox>
+#include <QtCore/QLibraryInfo>
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
         ui(new Ui::MainWindow)
@@ -18,7 +22,7 @@ MainWindow::~MainWindow()
 void MainWindow::init(const QString &homeDataPath)
 {
     VERSION  = "0.3a1";
-    BUILD =  "2009-11-16";
+    BUILD =  "2009-01-14";
     m_homeDataPath = homeDataPath;
 
 #ifdef Q_WS_WIN
@@ -36,7 +40,7 @@ void MainWindow::init(const QString &homeDataPath)
 
     loadDefaultSettings();
     loadSettings();
-    //todo: load settings
+    //loadLanguage(m_settings->language);
     m_notes = new Notes("");
     m_moduleManager->setSettings(m_settings);
     m_moduleManager->loadAllModules();
@@ -58,8 +62,17 @@ void MainWindow::loadSimpleInterface()
     simpleInterface->setBookDockWidget(bookDockWidget);
     addDockWidget(Qt::LeftDockWidgetArea, bookDockWidget);
 
+    SearchResultDockWidget *searchResultDockWidget = new SearchResultDockWidget(this);
+    simpleInterface->setSearchResultDockWidget(searchResultDockWidget);
+    addDockWidget(Qt::LeftDockWidgetArea, searchResultDockWidget);
+
     simpleInterface->init();
     setCentralWidget(simpleInterface);
+    if (simpleInterface->hasMenuBar())
+        setMenuBar(simpleInterface->menuBar());
+    if (simpleInterface->hasToolBar())
+        addToolBar(simpleInterface->toolBar());
+    connect(this, SIGNAL(settingsChanged(Settings)), simpleInterface, SLOT(settingsChanged(Settings)));
 }
 
 void MainWindow::loadAdvancedInterface()
@@ -84,6 +97,18 @@ void MainWindow::loadStudyInterface()
     setCentralWidget(studyInterface);
 
 
+}
+void MainWindow::setSettings(Settings *set)
+{
+    DEBUG_FUNC_NAME
+    m_settings = set;
+    return;
+}
+void MainWindow::setSettings(Settings set)
+{
+    DEBUG_FUNC_NAME
+    *m_settings = set;
+    return;
 }
 void MainWindow::loadDefaultSettings()
 {
@@ -209,6 +234,96 @@ void MainWindow::loadSettings()
     //m_zefStrong.setSettings(m_settings);
     //m_bible.setSettings(m_settings);
     return;
+}
+void MainWindow::writeSettings()
+{
+    m_settingsFile->setValue("general/encoding", m_settings->encoding);
+    m_settingsFile->setValue("general/zoomstep", m_settings->zoomstep);
+    m_settingsFile->setValue("general/language", m_settings->language);
+    m_settingsFile->setValue("window/layout", m_settings->autoLayout);
+    m_settingsFile->setValue("window/onClickBookmarkGo", m_settings->onClickBookmarkGo);
+    m_settingsFile->setValue("bible/textFormatting", m_settings->textFormatting);
+
+    m_settingsFile->beginWriteArray("module");
+    for (int i = 0; i < m_settings->module.size(); ++i) {
+        m_settingsFile->setArrayIndex(i);
+        m_settingsFile->setValue("name", m_settings->module.at(i).moduleName);
+        m_settingsFile->setValue("path", m_settings->module.at(i).modulePath);
+        m_settingsFile->setValue("type", m_settings->module.at(i).moduleType);
+        m_settingsFile->setValue("textFormatting", m_settings->module.at(i).zefbible_textFormatting);
+        m_settingsFile->setValue("removeHtml", m_settings->module.at(i).biblequote_removeHtml);
+        m_settingsFile->setValue("hardCache", m_settings->module.at(i).zefbible_hardCache);
+        m_settingsFile->setValue("softCache", m_settings->module.at(i).zefbible_softCache);
+        m_settingsFile->setValue("showStrong", m_settings->module.at(i).zefbible_showStrong);
+        m_settingsFile->setValue("showStudyNote", m_settings->module.at(i).zefbible_showStudyNote);
+        m_settingsFile->setValue("isDir", m_settings->module.at(i).isDir);
+        m_settingsFile->setValue("encoding", m_settings->module.at(i).encoding);
+        m_settingsFile->setValue("bookCount", m_settings->module.at(i).bookCount);
+        m_settingsFile->setValue("bookNames", m_settings->module.at(i).bookNames);
+        m_settingsFile->setValue("biblePath", m_settings->module.at(i).biblePath);
+        m_settingsFile->setValue("bibleName", m_settings->module.at(i).bibleName);
+        m_settingsFile->setValue("uModuleCount", m_settings->module.at(i).uModuleCount);
+    }
+    m_settingsFile->endArray();
+}
+void MainWindow::saveSettings(Settings set)
+{
+    DEBUG_FUNC_NAME
+    myDebug() << "m_settings->language = " << m_settings->language  << " set->language = " << set.language;
+    if (m_settings->language != set.language /* || m_settings->theme != set->theme*/) {
+        loadLanguage(set.language);
+    }
+    setSettings(set);
+    writeSettings();
+    emit settingsChanged(set);
+}
+void MainWindow::showSettingsDialog(int tabID)
+{
+    DEBUG_FUNC_NAME
+    SettingsDialog setDialog(this);
+    connect(&setDialog, SIGNAL(settingsChanged(Settings)), this, SLOT(saveSettings(Settings)));
+    setDialog.setSettings(*m_settings);
+    setDialog.setWindowTitle(tr("Configuration"));
+    setDialog.setCurrentTab(tabID);
+    setDialog.show();
+    setDialog.exec();
+}
+void MainWindow::showSettingsDialog_Module()
+{
+    showSettingsDialog(1);
+}
+void MainWindow::showSettingsDialog_General()
+{
+    showSettingsDialog(0);
+}
+void MainWindow::setTranslator(QTranslator *my, QTranslator *qt)
+{
+    myappTranslator = my;
+    qtTranslator = qt;
+
+}
+void MainWindow::loadLanguage(QString language)
+{
+    DEBUG_FUNC_NAME
+    QStringList avLang;
+    //QTranslator myappTranslator;
+    QTranslator qtTranslator;
+    avLang <<  "en" << "de" << "ru";
+    myDebug() << "avLang = " << avLang << " lang = " << language;
+    if (avLang.lastIndexOf(language) == -1) {
+        language = language.remove(language.lastIndexOf("_"), language.size());
+        if (avLang.lastIndexOf(language) == -1) {
+            language = avLang.at(0);
+        }
+    }
+    bool loaded = myappTranslator->load(":/data/obv_" + language + ".qm");
+    if (loaded == false) {
+        QMessageBox::warning(this, tr("Installing Language failed"), tr("Please chose an another language."));
+    }
+
+
+    qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    ui->retranslateUi(this);
 }
 void MainWindow::restoreSession()
 {

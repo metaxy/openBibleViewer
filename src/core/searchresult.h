@@ -1,6 +1,7 @@
 #ifndef SEARCHRESULT_H
 #define SEARCHRESULT_H
 #include "searchhit.h"
+#include "src/core/searchquery.h"
 #include <QtCore/QList>
 #include <QtCore/QString>
 #include <QtGui/QListWidget>
@@ -16,6 +17,7 @@ public:
     void addHit(SearchHit hit);
     void addHit(const int &bibleID, const int &bookID, const int &chapterID, const int &verseID, const QString &text);
     QList<SearchHit> hits();
+    SearchQuery searchQuery;
 
 private:
     QList<SearchHit> m_hits;

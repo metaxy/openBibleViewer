@@ -87,8 +87,9 @@ int main(int argc, char *argv[])
     a.installTranslator(&myappTranslator);
 
     MainWindow w;
+    w.setTranslator(&myappTranslator, &qtTranslator);
     w.init(homeDataPath);
-    //w.setTranslator(&myappTranslator, &qtTranslator);
+
     // w.loadModules();
 
 

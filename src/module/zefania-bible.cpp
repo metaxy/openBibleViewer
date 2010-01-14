@@ -581,6 +581,7 @@ SearchResult ZefaniaBible::search(SearchQuery query)
     }
     lastSearchQuery = query;
     SearchResult result;
+    result.searchQuery = query;
     /*if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache== true)//hard cache
     {
         QProgressDialog progressCache(QObject::tr( "Read Cache" ), QObject::tr( "Cancel" ), 0, bookFullName.size()-1);

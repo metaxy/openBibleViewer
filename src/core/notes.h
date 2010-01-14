@@ -43,6 +43,7 @@ public:
     void insertID(const QString &id);
     void removeNote(const QString &id);
     QStringList getIDList();
+    bool isLoaded();
 private:
     QString fileName;
     QStringList notesID;
@@ -52,6 +53,7 @@ private:
     QMap<QString, QString> notesType;
     QDomDocument doc;
     QString m_version;
+    bool m_isLoaded;
 };
 
 #endif // NOTES_H
