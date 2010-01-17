@@ -44,7 +44,7 @@ void MainWindow::init(const QString &homeDataPath)
     m_notes = new Notes("");
     m_moduleManager->setSettings(m_settings);
     m_moduleManager->loadAllModules();
-    loadSimpleInterface();
+    loadAdvancedInterface();
 }
 void MainWindow::loadSimpleInterface()
 {
@@ -82,8 +82,27 @@ void MainWindow::loadAdvancedInterface()
     advancedInterface->setBibleDisplay(m_bibleDisplay);
     advancedInterface->setSettings(m_settings);
     advancedInterface->setNotes(m_notes);
+
+    ModuleDockWidget *moduleDockWidget = new ModuleDockWidget(this);
+    advancedInterface->setModuleDockWidget(moduleDockWidget);
+    addDockWidget(Qt::LeftDockWidgetArea, moduleDockWidget);
+
+    BookDockWidget *bookDockWidget = new BookDockWidget(this);
+    advancedInterface->setBookDockWidget(bookDockWidget);
+    addDockWidget(Qt::LeftDockWidgetArea, bookDockWidget);
+
+    SearchResultDockWidget *searchResultDockWidget = new SearchResultDockWidget(this);
+    advancedInterface->setSearchResultDockWidget(searchResultDockWidget);
+    addDockWidget(Qt::LeftDockWidgetArea, searchResultDockWidget);
+
     advancedInterface->init();
     setCentralWidget(advancedInterface);
+
+    if (advancedInterface->hasMenuBar())
+        setMenuBar(advancedInterface->menuBar());
+    if (advancedInterface->hasToolBar())
+        addToolBar(advancedInterface->toolBar());
+    //connect(this, SIGNAL(settingsChanged(Settings)), advancedInterface, SLOT(settingsChanged(Settings))); //todo: enable it
 
 }
 void MainWindow::loadStudyInterface()

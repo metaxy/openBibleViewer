@@ -23,7 +23,7 @@ SOURCES += src/main.cpp \
     src/core/xbelwriter.cpp \
     src/ui/dialog/searchinfodialog.cpp \
     src/module/bible.cpp \
-    src/ui/mdiform.cpp \
+    src/ui/interface/advanced/mdiform.cpp \
     src/ui/dialog/biblepassagedialog.cpp \
     src/ui/dialog/moduleconfigdialog.cpp \
     src/core/goto.cpp \
@@ -79,7 +79,7 @@ HEADERS += src/core/settings.h \
     src/ui/dialog/searchinfodialog.h \
     src/module/bible.h \
     src/core/chapter.h \
-    src/ui/mdiform.h \
+    src/ui/interface/advanced/mdiform.h \
     src/ui/dialog/biblepassagedialog.h \
     src/ui/dialog/moduleconfigdialog.h \
     src/core/goto.h \
@@ -119,7 +119,7 @@ HEADERS += src/core/settings.h \
 FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dialog/settingsdialog.ui \
     src/ui/dialog/searchinfodialog.ui \
-    src/ui/mdiform.ui \
+    src/ui/interface/advanced/mdiform.ui \
     src/ui/dialog/biblepassagedialog.ui \
     src/ui/dialog/aboutdialog.ui \
     src/ui/dialog/moduleconfigdialog.ui \
