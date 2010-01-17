@@ -2,7 +2,7 @@
 #include "ui_simpleinterface.h"
 #include "src/core/dbghelper.h"
 #include "src/ui/dialog/searchdialog.h"
-
+#include "src/core/bibledisplaysettings.h"
 #include <QtGui/QDesktopServices>
 #include <QtGui/QMessageBox>
 #include <QtGui/QKeyEvent>
@@ -11,6 +11,7 @@ SimpleInterface::SimpleInterface(QWidget *parent) :
         Interface(parent),
         ui(new Ui::SimpleInterface)
 {
+
     ui->setupUi(this);
     ui->textBrowser->installEventFilter(this);
 }
@@ -38,13 +39,11 @@ void SimpleInterface::init()
     m_moduleDockWidget->init();
     connect(m_moduleDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
-
     m_bookDockWidget->setBibleDisplay(m_bibleDisplay);
     m_bookDockWidget->setNotes(m_notes);
     m_bookDockWidget->setSettings(m_settings);
     m_bookDockWidget->setModuleManager(m_moduleManager);
     connect(m_bookDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
-
 
     m_searchResultDockWidget->setBibleDisplay(m_bibleDisplay);
     m_searchResultDockWidget->setNotes(m_notes);
@@ -55,6 +54,12 @@ void SimpleInterface::init()
 
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+
+    BibleDisplaySettings bibleDisplaySettings;
+    bibleDisplaySettings.loadNotes = false;
+    bibleDisplaySettings.showMarks = false;
+    bibleDisplaySettings.showNotes = false;
+    m_moduleManager->m_bible.setBibleDisplaySettings(bibleDisplaySettings);
 
 }
 bool SimpleInterface::hasMenuBar()
@@ -101,7 +106,7 @@ QToolBar * SimpleInterface::toolBar()
     QToolBar *bar = new QToolBar(this->parentWidget());
     bar->setIconSize(QSize(32, 32));
     QAction *actionSearch = new QAction(QIcon(":/icons/32x32/edit-find.png"), tr("Search"), bar);
-    connect(actionSearch,SIGNAL(triggered()),this,SLOT(showSearchDialog()));
+    connect(actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
     QAction *actionZoomIn = new QAction(QIcon(":/icons/32x32/zoom-in.png"), tr("Zoom In"), bar);
     connect(actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
     QAction *actionZoomOut = new QAction(QIcon(":/icons/32x32/zoom-out.png"), tr("Zoom Out"), bar);
@@ -128,11 +133,14 @@ void SimpleInterface::loadModuleDataByID(int id)
 {
     DEBUG_FUNC_NAME
     myDebug() << "id = " << id;
-    if (m_moduleManager->m_moduleList.size() < id)//this bible dosent existist
+    if (m_moduleManager->m_moduleList.size() < id)
         return;
+    m_windowCache.setBible(m_moduleManager->m_bible);//before loading an another bible, save the last
 
-    m_moduleManager->m_bible.setBibleType(m_moduleManager->m_moduleList.at(id).m_moduleClass);
+    m_moduleManager->m_bible.setBibleType(m_moduleManager->m_moduleList.at(id).m_moduleType);
     m_moduleManager->m_bible.loadBibleData(id, m_moduleManager->m_moduleList.at(id).m_iniPath);
+    m_moduleManager->m_bible.setSoftCache(m_windowCache.getSoftCache(id));//todo: if it is empty then do nothing
+
 
     setTitle(m_moduleManager->m_bible.bibleName);
     setBooks(m_moduleManager->m_bible.bookFullName);
@@ -225,7 +233,7 @@ void SimpleInterface::pharseUrl(QString url)
         ui->textBrowser->scrollToAnchor(url);
     } else {
         myDebug() << " bookPath = " << m_moduleManager->m_bible.bookPath;
-        if (m_moduleManager->m_bible.bibleType == 1 && m_moduleManager->m_bible.bookPath.contains(url)) {
+        if (m_moduleManager->m_bible.m_bibleType == Bible::BibleQuoteModule && m_moduleManager->m_bible.bookPath.contains(url)) {
             emit get("bible://current/" + m_moduleManager->m_bible.bookPath.lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
         } else {
 
@@ -242,8 +250,7 @@ void SimpleInterface::showText(const QString &text)
 }
 void SimpleInterface::setTitle(const QString &title)
 {
-    //myDebug() << "title = " << title;
-    setWindowTitle(title);
+    this->parentWidget()->setWindowTitle(title);//todo: + programmtitle
 }
 
 void SimpleInterface::setChapters(const QStringList &chapters)
@@ -275,12 +282,12 @@ void SimpleInterface::readBookByID(int id)
     myDebug() << "id = " << id;
     if (id < 0) {
         QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
-        myDebug() << "invalid bookID";
+        myDebug() << "invalid bookID - 1";
         return;
     }
     if (id >= m_moduleManager->m_bible.bookFullName.size()) {
         QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
-        myDebug() << "invalid bookID";
+        myDebug() << "invalid bookID - 2(no book loaded)";
         return;
     }
     if (m_moduleManager->m_bible.readBook(id) != 0) {
@@ -386,11 +393,9 @@ void SimpleInterface::showSearchDialog()
 void SimpleInterface::search(SearchQuery query)
 {
     DEBUG_FUNC_NAME
-    m_searchResultDockWidget->show();
-    if (m_moduleManager->m_moduleList.size() < m_moduleManager->m_bible.bibleID()) {
-        myDebug() << "no bible loaded";
+    if (!m_moduleManager->bibleLoaded())
         return;
-    }
+    m_searchResultDockWidget->show();
     SearchResult result;
     result = m_moduleManager->m_bible.search(query);
     m_moduleManager->m_bible.lastSearchResult = result;

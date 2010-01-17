@@ -8,7 +8,10 @@ namespace Ui
 {
 class BookDockWidget;
 }
+/*!
+ BockDockWidget represents a dock widget, to navigate through the bible
 
+*/
 class BookDockWidget : public DockWidget
 {
     Q_OBJECT

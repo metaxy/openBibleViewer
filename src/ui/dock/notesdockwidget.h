@@ -7,7 +7,10 @@ namespace Ui
 {
 class NotesDockWidget;
 }
+/*!
+ NotesDockWidget represents a dock widget to view and edit your notes
 
+*/
 class NotesDockWidget : public DockWidget
 {
     Q_OBJECT

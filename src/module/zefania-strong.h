@@ -34,7 +34,7 @@ private:
     QStringList m_desc;
 public:
     ZefaniaStrong();
-    int setSettings(Settings *settings);
+    void setSettings(Settings *settings);
     QString loadFile(QString fileData, QString fileName);
     bool loadDataBase(QString fileName);
     QString getStrong(QString strongID);

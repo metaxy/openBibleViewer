@@ -7,7 +7,10 @@ namespace Ui
 {
 class StrongDockWidget;
 }
+/*!
+ StrongDockWidget represents a dock widget to show a strong.
 
+*/
 class StrongDockWidget : public DockWidget
 {
     Q_OBJECT

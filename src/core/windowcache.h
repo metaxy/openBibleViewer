@@ -27,6 +27,12 @@ class WindowCache
 {
 public:
     WindowCache();
+    enum m_windowModes {
+        SingelMode = 0,
+        MultipleMode = 1,
+        TabMode = 2
+    };
+    int m_windowMode;
 
     void newWindow();
     void removeWindow(const int &id);
@@ -34,23 +40,13 @@ public:
 
     bool setCurrentWindowID(const int &id);
     void setBible(Bible b);
-    void setCurrentBook(const int &bookid, const int &chapterCount);
 
-    QString getBibleName();
-    int getBibleType();
-    int getCurrentBook();
-    int getChapterCount();
-    QStringList getBooks();
 
-    QMap<int, QList<Chapter> > getZefaniaCache(const int &bibleID);
+    QMap<int, QList<Chapter> > getSoftCache(const int &bibleID);
     Bible getBible();
 private:
-    QCache<int, QMap<int, QList<Chapter> > > m_zefcache;
+    QMap<int, QMap<int, QList<Chapter> > > m_softCache;
     QMap<int, int> m_bibletype;
-    QMap<int, QString> m_bibleName;
-    QMap<int, QStringList> m_books;
-    QMap<int, int> m_chapterCount;
-    QMap<int, int> m_selectedBook;
     QStringList m_idList;
     int m_currentWindowID;
     QMap<int, Bible> m_b;

@@ -28,7 +28,7 @@ int BibleQuote::setSettings(Settings *set)
     m_settings = set;
     return 1;
 }
-QString BibleQuote::formatfromini(QString input)
+QString BibleQuote::formatFromIni(QString input)
 {
     if (input.startsWith(" ")) { //leerzeichen am anfang
         input.remove(0, 1);//remove
@@ -65,6 +65,7 @@ void BibleQuote::readBook(int id, QString path)
         while (!file.atEnd()) {
             QByteArray byteline = file.readLine();
             QString line = decoder->toUnicode(byteline);
+            //todo: dirty
             line = line.remove(QRegExp("CLASS=\"(\\w+)\">"));
             line = line.remove(QRegExp("<DIV CLASS=\"(\\w+)\">"));
             line = line.remove("CLASS=\"Tx\">");
@@ -145,22 +146,22 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
             QString line = decoder->toUnicode(byteline);
 
             if (line.contains("BibleName", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                bibleName = formatfromini(line.remove("BibleName =", Qt::CaseInsensitive));
+                bibleName = formatFromIni(line.remove("BibleName =", Qt::CaseInsensitive));
             }
             if (line.contains("ChapterSign", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                chaptersign = formatfromini(line.remove("ChapterSign =", Qt::CaseInsensitive));
+                chaptersign = formatFromIni(line.remove("ChapterSign =", Qt::CaseInsensitive));
                 //chaptersign auslesen
             }
             if (line.contains("HTMLFilter", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                removeHtml = formatfromini(line.remove("HTMLFilter =", Qt::CaseInsensitive));
+                removeHtml = formatFromIni(line.remove("HTMLFilter =", Qt::CaseInsensitive));
                 //htmlfilter auslesen
             }
             if (line.contains("VerseSign", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                versesign = formatfromini(line.remove("VerseSign =", Qt::CaseInsensitive));
+                versesign = formatFromIni(line.remove("VerseSign =", Qt::CaseInsensitive));
                 //verse sign auslesen
             }
             if (line.contains("ChapterZero", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                QString a = formatfromini(line.remove("ChapterZero =", Qt::CaseInsensitive));
+                QString a = formatFromIni(line.remove("ChapterZero =", Qt::CaseInsensitive));
                 if (a.contains("Y", Qt::CaseInsensitive)) {
                     chapterZero = true;
                 } else {
@@ -174,21 +175,21 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
             if (started == true) {
                 if (started2 == true) {
                     if (line.contains("ChapterQty", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                        bookCount[i] = formatfromini(line.remove("ChapterQty =", Qt::CaseInsensitive)).toInt();
+                        bookCount[i] = formatFromIni(line.remove("ChapterQty =", Qt::CaseInsensitive)).toInt();
                         i++;
                         //chapterqty auslesen
                         started2 = false;
                     } else if (line.contains("FullName", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                        bookFullName << formatfromini(line.remove("FullName =", Qt::CaseInsensitive));
+                        bookFullName << formatFromIni(line.remove("FullName =", Qt::CaseInsensitive));
 
                     } else if (line.contains("ShortName", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                        bookShortName << formatfromini(line.remove("ShortName =", Qt::CaseInsensitive));
+                        bookShortName << formatFromIni(line.remove("ShortName =", Qt::CaseInsensitive));
 
                     }
                 } else if (line.contains("PathName", Qt::CaseInsensitive) && !line.startsWith("//")) {
                     count++;
                     started2 = true;
-                    bookPath << formatfromini(line.remove("PathName =", Qt::CaseInsensitive));
+                    bookPath << formatFromIni(line.remove("PathName =", Qt::CaseInsensitive));
                     //pathname auslesen
                 }
             }
@@ -224,9 +225,9 @@ QString BibleQuote::readInfo(QFile &file)
             continue;
         }
         if (line.contains("BibleName", Qt::CaseInsensitive)) {
-            bibleName = formatfromini(line.remove("BibleName =", Qt::CaseInsensitive));//todo: use regexp
+            bibleName = formatFromIni(line.remove("BibleName =", Qt::CaseInsensitive));//todo: use regexp
             if (line.contains("BibleName=", Qt::CaseInsensitive)) {
-                bibleName = formatfromini(line.remove("BibleName=", Qt::CaseInsensitive));
+                bibleName = formatFromIni(line.remove("BibleName=", Qt::CaseInsensitive));
             }
             invalid = false;
             break;
@@ -284,7 +285,8 @@ SearchResult BibleQuote::search(SearchQuery query)
             bytetext << out;
         } else {
             myDebug() << "cannot open the file " << file.fileName();
-            return result;
+            continue;
+            //return result;
         }
         QString encoding;
         if (m_settings->getModuleSettings(currentBibleID).encoding == "Default" || m_settings->getModuleSettings(currentBibleID).encoding == "") {
@@ -304,17 +306,6 @@ SearchResult BibleQuote::search(SearchQuery query)
         }
         myDebug() << "ctext.size() = " << ctext.size();
         for (int chapterit = 0; chapterit < ctext.size(); chapterit++) {
-            /*    bool b;
-                if (query.regexp == true) {
-                    b = ctext.at(chapterit).contains(QRegExp(query.text));
-                } else {
-                    if (query.caseSensitive == true) {
-                        b = ctext.at(chapterit).contains(query.searchText, Qt::CaseSensitive);
-                    } else {
-                        b = ctext.at(chapterit).contains(query.searchText, Qt::CaseInsensitive);
-                    }
-                }
-                if (b) {*/
             QStringList verses = ctext[chapterit].split(versesign);
             for (int verseit = 0; verseit < verses.size(); ++verseit) {
                 QString t = verses.at(verseit);
@@ -332,7 +323,6 @@ SearchResult BibleQuote::search(SearchQuery query)
                     result.addHit(currentBookID, id, chapterit, verseit, t);
                 }
             }
-            /* }*/
         }
     }
     progress.close();

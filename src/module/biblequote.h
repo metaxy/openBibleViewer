@@ -30,7 +30,7 @@ class BibleQuote
 {
 private:
     Settings *m_settings;
-    QString formatfromini(QString input);
+    QString formatFromIni(QString input);
 
 public:
     BibleQuote();
@@ -41,9 +41,8 @@ public:
     SearchResult search(SearchQuery query);
 
     int currentBookID, currentBibleID;
-    bool chapterZero, bible, oldTestament, newTestament, apocrypha, strongNumbers, greek;
+    bool chapterZero;
     QString currentBiblePath, lastout, chaptersign, versesign, bibleName, removeHtml;
-    QString bibles;
     QStringList bookPath, bookFullName, bookShortName;
     QMap <int, int> bookCount;
     SearchQuery lastSearchQuery;

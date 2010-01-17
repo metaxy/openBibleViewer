@@ -6,6 +6,10 @@
 #include "src/core/bibledisplay.h"
 #include "src/core/settings.h"
 #include "src/core/notes.h"
+/*!
+ DockWidget represents a class for obv dock widgets
+
+*/
 class DockWidget : public QDockWidget
 {
     Q_OBJECT

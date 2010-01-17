@@ -36,37 +36,39 @@ class ZefaniaBible
 
 private:
     Settings *m_settings;
-    ModuleSettings mConfig;
     QDomElement format(QDomElement e);
+    bool checkForCacheFiles(const QString &path);
+    void loadNoCached(const int &id, const QString &path);
+    void loadCached(const int &id, const QString &path);
+    QList<Chapter> fromHardToSoft(int id, QDomNode ncache);
+
+    QMap<int, QList<Chapter> > softCacheData;
 public:
     ZefaniaBible();
-    int setSettings(Settings *settings);
+    void setSettings(Settings *settings);
     void readBook(const int &id);
     void loadBibleData(const int &id, const QString &path);
     QString readInfo(QFile &file);
     QString readInfo(const QString &content);
-    bool checkForCacheFiles(const QString &path);
-    void loadNoCached(const int &id, const QString &path);
-    void loadCached(const int &id, const QString &path);
+
     QDomNode readBookFromHardCache(QString path, int bookID);
     SearchResult search(SearchQuery query);
 
-    QMap<int, QList<Chapter> > softCacheData;
+
     int currentBookID, m_bibleID;
     SearchResult lastSearchResult;
     SearchQuery lastSearchQuery;
-
-    QString currentBiblePath, lastout, chaptersign, versesign, biblepath, bibleName, lastSearch;
-    QStringList bibles, bookFullName, bookShortName;
+    QString currentBiblePath, bibleName;
+    QStringList bookFullName, bookShortName;
     QMap <int, int> bookCount;
     QList<Chapter> chapterData;
 
     QMap<int, QList<Chapter> > softCache();
     QList<Chapter> softCache(int bookID);
-    bool setSoftCache(QMap<int, QList<Chapter> >);
-    bool setSoftCache(int bookID, QList<Chapter> c);
+    void setSoftCache(QMap<int, QList<Chapter> >);
+    void setSoftCache(int bookID, QList<Chapter> c);
     void clearSoftCache();
-    QList<Chapter> fromHardToSoft(int id, QDomNode ncache);
+
     void removeHardCache(const QString &path);
 
 };

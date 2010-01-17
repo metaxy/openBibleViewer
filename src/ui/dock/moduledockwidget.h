@@ -7,7 +7,10 @@ namespace Ui
 {
 class ModuleDockWidget;
 }
+/*!
+ ModuleDockWidget represents a dock widget from which you can load modules
 
+*/
 class ModuleDockWidget : public DockWidget
 {
     Q_OBJECT

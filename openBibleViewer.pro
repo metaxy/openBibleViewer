@@ -51,18 +51,18 @@ SOURCES += src/main.cpp \
     src/ui/dock/moduledockwidget.cpp \
     src/ui/dock/bookdockwidget.cpp \
     src/ui/dock/quickjumpdockwidget.cpp \
-    src/ui/mainwindow.cpp \
- #   src/ui/main/mainmdi.cpp \
- #   src/ui/main/mainbookmarks.cpp \
- #   src/ui/main/mainnotes.cpp \
- #   src/ui/main/mainstrong.cpp \
- #   src/ui/main/mainwindow.cpp \
+    src/ui/mainwindow.cpp \ # src/ui/main/mainmdi.cpp \
+# src/ui/main/mainbookmarks.cpp \
+# src/ui/main/mainnotes.cpp \
+# src/ui/main/mainstrong.cpp \
+# src/ui/main/mainwindow.cpp \
     src/core/bibledisplay.cpp \
     src/ui/interface/simple/simpleinterface.cpp \
     src/ui/interface/advanced/advancedinterface.cpp \
     src/ui/interface/study/studyinterface.cpp \
     src/ui/interface/interface.cpp \
-    src/ui/dock/dockwidget.cpp
+    src/ui/dock/dockwidget.cpp \
+    src/core/bibledisplaysettings.cpp
 HEADERS += src/core/settings.h \
     src/module/biblequote.h \
     src/module/zefania-bible.h \
@@ -108,14 +108,14 @@ HEADERS += src/core/settings.h \
     src/ui/dock/moduledockwidget.h \
     src/ui/dock/bookdockwidget.h \
     src/ui/dock/quickjumpdockwidget.h \
-    src/ui/mainwindow.h \
- #   src/ui/main/mainwindow.h \
+    src/ui/mainwindow.h \ # src/ui/main/mainwindow.h \
     src/core/bibledisplay.h \
     src/ui/interface/simple/simpleinterface.h \
     src/ui/interface/advanced/advancedinterface.h \
     src/ui/interface/study/studyinterface.h \
     src/ui/interface/interface.h \
-    src/ui/dock/dockwidget.h
+    src/ui/dock/dockwidget.h \
+    src/core/bibledisplaysettings.h
 FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dialog/settingsdialog.ui \
     src/ui/dialog/searchinfodialog.ui \
@@ -134,8 +134,7 @@ FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dock/moduledockwidget.ui \
     src/ui/dock/bookdockwidget.ui \
     src/ui/dock/quickjumpdockwidget.ui \
-    src/ui/mainwindow.ui \
-#    src/ui/main/mainwindow.ui \
+    src/ui/mainwindow.ui \ # src/ui/main/mainwindow.ui \
     src/ui/interface/simple/simpleinterface.ui \
     src/ui/interface/advanced/advancedinterface.ui \
     src/ui/interface/study/studyinterface.ui

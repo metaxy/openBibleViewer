@@ -6,19 +6,19 @@ class Module
 {
 public:
     Module();
-    enum ModuleType {
+    enum ModuleClass {
         NoneType = 0,
         BibleModule = 1,
         StrongModule = 2
     };
-    enum ModuleClass {
+    enum ModuleType {
         NoneClass = 0,
         BibleQuoteModule = 1,
         ZefaniaBibleModule = 2,
         ZefaniaStrongModule = 3
     };
-    int m_moduleType;
     int m_moduleClass;
+    int m_moduleType;
     QString m_iniPath;
     QString m_name;
     int m_id;

@@ -28,15 +28,20 @@ Bible::Bible()
 void Bible::setBibleType(const int &type)
 {
     //todo:check if type is valid
-    bibleType = type;
+    m_bibleType = type;
     return;
 }
+void Bible::setBibleDisplaySettings(BibleDisplaySettings bibleDisplaySettings)
+{
+    m_bibleDisplaySettings = bibleDisplaySettings;
+}
+
 int Bible::loadBibleData(const int &bibleID, const QString &path)
 {
     DEBUG_FUNC_NAME
-    myDebug() << "bibleID = " << bibleID << " path = " << path << " bibleType =" << bibleType;
+    myDebug() << "bibleID = " << bibleID << " path = " << path << " bibleType =" << m_bibleType;
     m_bibleID = bibleID;
-    switch (bibleType) {
+    switch (m_bibleType) {
     case BibleQuoteModule: {
         bq.setSettings(m_settings);
 
@@ -58,6 +63,7 @@ int Bible::loadBibleData(const int &bibleID, const QString &path)
         bibleName = m.moduleName;
         bookCount = zef.bookCount;
         bookFullName = zef.bookFullName;
+        myDebug() << "bookFullName = " << bookFullName;
 
         m_chapterAdd = 0;
         m_biblePath = zef.currentBiblePath;
@@ -66,14 +72,14 @@ int Bible::loadBibleData(const int &bibleID, const QString &path)
     }
     return 0;
 }
-/*!
+/**
   Load only the book without pharsing.
 */
 int Bible::readBook(int id)
 {
     m_bookID = id;
-    qDebug() << "bible::readBook() id= " << id << " bibleType =" << bibleType;
-    switch (bibleType) {
+    qDebug() << "bible::readBook() id= " << id << " bibleType =" << m_bibleType;
+    switch (m_bibleType) {
     case BibleQuoteModule: {
         chapterData.clear();
         chapterNames.clear();
@@ -125,7 +131,7 @@ QString Bible::readChapter(int chapterID, int verseID = -1)
     return readVerse(chapterID, 0, -1, verseID, true);
 
 }
-/*!
+/**
     Pharse the loaded book.
  */
 QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVerseID = -1, bool saveRawData = false)
@@ -138,7 +144,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
 
     QString out = "";//Return
     QStringList versList;
-    switch (bibleType) {
+    switch (m_bibleType) {
     case BibleQuoteModule: {
         if (chapterID >= chapterData.size()) {
             myDebug() << "index out of range index";
@@ -187,8 +193,8 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         for (int i = startVerse; i < end; i++) {
             QString vers = c.data.at(i);
             //main formatting
-            /*
-            if (m_notes != 0) {
+
+            if (m_notes != 0 && m_bibleDisplaySettings.loadNotes == true) {
                 for (int n = 0; n < m_notes->getIDList().size(); ++n) {
                     QString noteID = m_notes->getIDList().at(n);
                     if (m_notes->getType(noteID) == "text") {
@@ -202,7 +208,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                         }
                     }
                 }
-            }*/
+            }
             if (i == markVerseID) {
                 vers.prepend("<a name=\"currentVerse\"><b>");
                 vers.append("</b></a>");
@@ -222,57 +228,57 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         break;
     }
     }
-    /*  if (m_notes != 0) {
-          for (int n = 0; n <  m_notes->getIDList().size(); ++n) {
-              QString noteID = m_notes->getIDList().at(n);
-              if (m_notes->getType(noteID) == "mark") {
-                  QString link = m_notes->getRef(noteID, "link");
-                  UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
-                  urlConverter.m_biblesIniPath = biblesIniPath;
-                  urlConverter.pharse();
+    if (m_notes != 0 && m_bibleDisplaySettings.loadNotes == true) {
+        for (int n = 0; n <  m_notes->getIDList().size(); ++n) {
+            QString noteID = m_notes->getIDList().at(n);
+            if (m_notes->getType(noteID) == "mark") {
+                QString link = m_notes->getRef(noteID, "link");
+                UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
+                urlConverter.m_biblesIniPath = biblesIniPath;
+                urlConverter.pharse();
 
-                  if (urlConverter.m_bibleID.toInt() == m_bibleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID) {
-                      myDebug() << "mark found id = " << noteID;
-                      versList = toUniformHtml(versList);
-                      if (m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
-                          int versID = m_notes->getRef(noteID, "start").toInt();
-                          if (endVerse != -1) {
-                              //todo: do something
-                          }
-                          QString vers = versList.at(versID);
-                          int startPos = vers.lastIndexOf(m_notes->getRef(noteID, "startString"));
-                          int endPos = vers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
-                          myDebug() << "vers = " << vers << " startPos = " << startPos << " endPos = " << endPos << " startString = " << m_notes->getRef(noteID, "startString") << " endString = " << m_notes->getRef(noteID, "endString");
+                if (urlConverter.m_bibleID.toInt() == m_bibleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID) {
+                    myDebug() << "mark found id = " << noteID;
+                    versList = toUniformHtml(versList);
+                    if (m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
+                        int versID = m_notes->getRef(noteID, "start").toInt();
+                        if (endVerse != -1) {
+                            //todo: do something
+                        }
+                        QString vers = versList.at(versID);
+                        int startPos = vers.lastIndexOf(m_notes->getRef(noteID, "startString"));
+                        int endPos = vers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
+                        myDebug() << "vers = " << vers << " startPos = " << startPos << " endPos = " << endPos << " startString = " << m_notes->getRef(noteID, "startString") << " endString = " << m_notes->getRef(noteID, "endString");
 
-                          vers.insert(endPos, "</span>");
-                          vers.insert(startPos, "<span name=\"mark\" style=\"background-color:" + m_notes->getRef(noteID, "color") + "\">");
-                          versList.replace(versID, vers);
+                        vers.insert(endPos, "</span>");
+                        vers.insert(startPos, "<span name=\"mark\" style=\"background-color:" + m_notes->getRef(noteID, "color") + "\">");
+                        versList.replace(versID, vers);
 
-                      } else {
-                          int startVersID = m_notes->getRef(noteID, "start").toInt();
-                          int endVersID = m_notes->getRef(noteID, "end").toInt();
-                          if (endVerse != -1) {
-                              //todo: do something
-                          }
-                          if (startVersID >= 0 && endVersID >= 0 && startVersID < versList.size() && endVersID < versList.size()) {
-                              myDebug() << " start = " << startVersID << " size = " << versList.size();
-                              QString startVers = versList.at(startVersID);
-                              QString endVers = versList.at(endVersID);
-                              int startPos = startVers.lastIndexOf(m_notes->getRef(noteID, "startString"));
-                              int endPos = endVers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
-                              myDebug() << "StartVers = " << startVers << " endVers = " << endVers << " startPos = " << startPos << " endPos = " << endPos << " startString = " << m_notes->getRef(noteID, "startString") << " endString = " << m_notes->getRef(noteID, "endString");
+                    } else {
+                        int startVersID = m_notes->getRef(noteID, "start").toInt();
+                        int endVersID = m_notes->getRef(noteID, "end").toInt();
+                        if (endVerse != -1) {
+                            //todo: do something
+                        }
+                        if (startVersID >= 0 && endVersID >= 0 && startVersID < versList.size() && endVersID < versList.size()) {
+                            myDebug() << " start = " << startVersID << " size = " << versList.size();
+                            QString startVers = versList.at(startVersID);
+                            QString endVers = versList.at(endVersID);
+                            int startPos = startVers.lastIndexOf(m_notes->getRef(noteID, "startString"));
+                            int endPos = endVers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
+                            myDebug() << "StartVers = " << startVers << " endVers = " << endVers << " startPos = " << startPos << " endPos = " << endPos << " startString = " << m_notes->getRef(noteID, "startString") << " endString = " << m_notes->getRef(noteID, "endString");
 
-                              startVers.insert(startPos, "<span name=\"mark\" style=\"background-color:" + m_notes->getRef(noteID, "color") + "\">");
-                              endVers.insert(endPos, "</span>");
-                              versList.replace(startVersID, startVers);
-                              versList.replace(endVersID, endVers);
-                          }
-                      }
+                            startVers.insert(startPos, "<span name=\"mark\" style=\"background-color:" + m_notes->getRef(noteID, "color") + "\">");
+                            endVers.insert(endPos, "</span>");
+                            versList.replace(startVersID, startVers);
+                            versList.replace(endVersID, endVers);
+                        }
+                    }
 
-                  }
-              }
-          }
-      }*/
+                }
+            }
+        }
+    }
     for (int i = 0; i < versList.size(); ++i) {
         out += versList.at(i);
         if (saveRawData)
@@ -309,14 +315,15 @@ QStringList Bible::toUniformHtml(QStringList string)
     raw.remove(0, i1 + a1.size());
     return raw.split("[VERSEINSERT_FROM_OPENBIBLEVIEWER]");
 }
-/*!
+/**
   Search in the current module
+  \query The search query.
   */
 SearchResult Bible::search(SearchQuery query)
 {
     lastSearchQuery = query;
     SearchResult result;
-    switch (bibleType) {
+    switch (m_bibleType) {
     case BibleQuoteModule: {
         result = bq.search(query);
         break;
@@ -328,23 +335,25 @@ SearchResult Bible::search(SearchQuery query)
     }
     return result;
 }
-QMap<int, QList<Chapter> > Bible::getZefCache()
+QMap<int, QList<Chapter> > Bible::getSoftCache()
 {
+    //todo: add bq
     return zef.softCache();
 }
-void Bible::clearZefCache()
+void Bible::clearSoftCache()
 {
     zef.clearSoftCache();
+    //todo: add for bq a soft cache
 }
-void Bible::setZefCache(QMap<int, QList<Chapter> > cache)
+void Bible::setSoftCache(QMap<int, QList<Chapter> > cache)
 {
     zef.setSoftCache(cache);
 }
 QStringList Bible::getSearchPaths()
 {
-    if (bibleType == ZefaniaBibleModule) {
+    if (m_bibleType == ZefaniaBibleModule) {
         return QStringList();
-    } else if (bibleType == BibleQuoteModule) {
+    } else if (m_bibleType == BibleQuoteModule) {
         QStringList l;
         l.append(QString(m_biblePath + QDir::separator()));
         if (m_bookID < bookPath.size()) {

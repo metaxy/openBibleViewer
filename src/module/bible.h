@@ -21,6 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/searchquery.h"
 #include "src/core/searchresult.h"
 #include "src/core/notes.h"
+#include "src/core/bibledisplaysettings.h"
 /*!
  Bible represent a bible module(eg biblequote module)
 
@@ -29,7 +30,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class Bible
 {
 public:
-    enum bibleType {
+    enum m_bibleTypes {
         None = 0,
         BibleQuoteModule = 1,
         ZefaniaBibleModule = 2,
@@ -39,10 +40,13 @@ public:
     void setBibleType(const int &type);
     void setSettings(Settings *settings);
     void setNotes(Notes *n);
-    QMap<int, QList<Chapter> > getZefCache();
-    void clearZefCache();
-    void setZefCache(QMap<int, QList<Chapter> > cache);
 
+    QMap<int, QList<Chapter> > getSoftCache();
+    void clearSoftCache();
+    void setSoftCache(QMap<int, QList<Chapter> > cache);
+
+    void setBibleDisplaySettings(BibleDisplaySettings bibleDisplaySettings);
+    BibleDisplaySettings m_bibleDisplaySettings;
 
     int loadBibleData(const int &bibleID, const QString &path);
     int readBook(int id);
@@ -54,22 +58,20 @@ public:
 
     SearchResult search(SearchQuery query);
 
-
-
     int bibleID();
     void setBibleID(const int &bible);
     int bookID();
     int chapterID();
     int chapterAdd();
 
-    QString bibleName, lastout, path, m_biblePath;
+    QString bibleName, lastout, m_biblePath;
     SearchQuery lastSearchQuery;
     SearchResult lastSearchResult;
     QStringList bookFullName, chapterText, bookPath, chapterNames, chapterDataList;
     QStringList biblesIniPath;
     QMap <int, int> bookCount;
     QList<Chapter> chapterData;
-    int bibleType;
+    int m_bibleType;
     int m_verseID;
     BibleQuote bq;
     ZefaniaBible zef;

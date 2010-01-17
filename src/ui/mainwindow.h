@@ -22,7 +22,7 @@ signals:
 public slots:
     void showSettingsDialog_Module();
     void showSettingsDialog_General();
-     void saveSettings(Settings set);
+    void saveSettings(Settings set);
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();

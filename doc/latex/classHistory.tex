@@ -2,74 +2,63 @@
 \section{History Class Reference}
 \label{classHistory}\index{History@{History}}
 }
-{\tt \#include $<$history.h$>$}
 
-\subsection*{Public Member Functions}
-\begin{CompactItemize}
+
+{\ttfamily \#include $<$history.h$>$}\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
 \item 
-QString \hyperlink{classHistory_83d69c4bfe79d19a6187f586e7311b22}{forward} ()
+QString \hyperlink{classHistory_a83d69c4bfe79d19a6187f586e7311b22}{forward} ()
 \item 
-QString \hyperlink{classHistory_41c8d23cb2789b07bc6229b203bafce3}{backward} ()
+QString \hyperlink{classHistory_a41c8d23cb2789b07bc6229b203bafce3}{backward} ()
 \item 
-bool \hyperlink{classHistory_1227493ba04f3f640c6648b9562bf68e}{forwardAvailable} ()
+bool \hyperlink{classHistory_a1227493ba04f3f640c6648b9562bf68e}{forwardAvailable} ()
 \item 
-bool \hyperlink{classHistory_c8c3f249e76605c9686eacb4716c79b4}{backwardAvailable} ()
+bool \hyperlink{classHistory_ac8c3f249e76605c9686eacb4716c79b4}{backwardAvailable} ()
 \item 
-void \hyperlink{classHistory_7fd72e5b7289c61f32ec5d533d0356bf}{setCurrent} (const QString \&current)
-\end{CompactItemize}
+void \hyperlink{classHistory_a7fd72e5b7289c61f32ec5d533d0356bf}{setCurrent} (const QString \&current)
+\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 \hyperlink{classHistory}{History} is a simple class to get a url history
 
-\begin{Desc}
-\item[Author:]Paul Walger $<$\href{mailto:metaxy@walger.name}{\tt metaxy@walger.name}$>$ \end{Desc}
+\begin{DoxyAuthor}{Author}
+Paul Walger $<$\href{mailto:metaxy@walger.name}{\tt metaxy@walger.name}$>$ 
+\end{DoxyAuthor}
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classHistory_41c8d23cb2789b07bc6229b203bafce3}{
+\hypertarget{classHistory_a41c8d23cb2789b07bc6229b203bafce3}{
 \index{History@{History}!backward@{backward}}
 \index{backward@{backward}!History@{History}}
 \subsubsection[{backward}]{\setlength{\rightskip}{0pt plus 5cm}QString History::backward ()}}
-\label{classHistory_41c8d23cb2789b07bc6229b203bafce3}
-
-
-Return the previous url in the history. \hypertarget{classHistory_c8c3f249e76605c9686eacb4716c79b4}{
+\label{classHistory_a41c8d23cb2789b07bc6229b203bafce3}
+Return the previous url in the history. \hypertarget{classHistory_ac8c3f249e76605c9686eacb4716c79b4}{
 \index{History@{History}!backwardAvailable@{backwardAvailable}}
 \index{backwardAvailable@{backwardAvailable}!History@{History}}
 \subsubsection[{backwardAvailable}]{\setlength{\rightskip}{0pt plus 5cm}bool History::backwardAvailable ()}}
-\label{classHistory_c8c3f249e76605c9686eacb4716c79b4}
-
-
-Check if a prevoius url is available. \hypertarget{classHistory_83d69c4bfe79d19a6187f586e7311b22}{
+\label{classHistory_ac8c3f249e76605c9686eacb4716c79b4}
+Check if a prevoius url is available. \hypertarget{classHistory_a83d69c4bfe79d19a6187f586e7311b22}{
 \index{History@{History}!forward@{forward}}
 \index{forward@{forward}!History@{History}}
 \subsubsection[{forward}]{\setlength{\rightskip}{0pt plus 5cm}QString History::forward ()}}
-\label{classHistory_83d69c4bfe79d19a6187f586e7311b22}
-
-
-Return the next url in the history. \hypertarget{classHistory_1227493ba04f3f640c6648b9562bf68e}{
+\label{classHistory_a83d69c4bfe79d19a6187f586e7311b22}
+Return the next url in the history. \hypertarget{classHistory_a1227493ba04f3f640c6648b9562bf68e}{
 \index{History@{History}!forwardAvailable@{forwardAvailable}}
 \index{forwardAvailable@{forwardAvailable}!History@{History}}
 \subsubsection[{forwardAvailable}]{\setlength{\rightskip}{0pt plus 5cm}bool History::forwardAvailable ()}}
-\label{classHistory_1227493ba04f3f640c6648b9562bf68e}
-
-
-Check if a next url is available. \hypertarget{classHistory_7fd72e5b7289c61f32ec5d533d0356bf}{
+\label{classHistory_a1227493ba04f3f640c6648b9562bf68e}
+Check if a next url is available. \hypertarget{classHistory_a7fd72e5b7289c61f32ec5d533d0356bf}{
 \index{History@{History}!setCurrent@{setCurrent}}
 \index{setCurrent@{setCurrent}!History@{History}}
 \subsubsection[{setCurrent}]{\setlength{\rightskip}{0pt plus 5cm}void History::setCurrent (const QString \& {\em url})}}
-\label{classHistory_7fd72e5b7289c61f32ec5d533d0356bf}
+\label{classHistory_a7fd72e5b7289c61f32ec5d533d0356bf}
+Add a new url to the history. 
+\begin{DoxyParams}{Parameters}
+\item[{\em url}]the new url \end{DoxyParams}
 
 
-Add a new url to the history. \begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em url}]the new url \end{description}
-\end{Desc}
-
-
-The documentation for this class was generated from the following files:\begin{CompactItemize}
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
 \item 
 src/core/history.h\item 
-src/core/history.cpp\end{CompactItemize}
+src/core/history.cpp\end{DoxyCompactItemize}

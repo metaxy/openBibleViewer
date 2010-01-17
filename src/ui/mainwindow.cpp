@@ -318,7 +318,7 @@ void MainWindow::loadLanguage(QString language)
     }
     bool loaded = myappTranslator->load(":/data/obv_" + language + ".qm");
     if (loaded == false) {
-        QMessageBox::warning(this, tr("Installing Language failed"), tr("Please chose an another language."));
+        QMessageBox::warning(this, tr("Installing Language failed"), tr("Please choose an another language."));
     }
 
 

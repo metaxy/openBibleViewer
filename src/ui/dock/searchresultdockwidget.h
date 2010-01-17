@@ -9,7 +9,10 @@ namespace Ui
 {
 class SearchResultDockWidget;
 }
+/*!
+ SearchResultDockWidget represents a dock widget to show the search results
 
+*/
 class SearchResultDockWidget : public DockWidget
 {
     Q_OBJECT

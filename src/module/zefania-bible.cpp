@@ -28,11 +28,11 @@ ZefaniaBible::ZefaniaBible()
 {
     m_settings = new Settings();
 }
-int ZefaniaBible::setSettings(Settings *set)
+void ZefaniaBible::setSettings(Settings *set)
 {
     DEBUG_FUNC_NAME
     m_settings = set;
-    return 1;
+    return;
 }
 void ZefaniaBible::loadBibleData(const int &id, const QString &path)
 {
@@ -103,6 +103,10 @@ void ZefaniaBible::readBook(const int &id)
     DEBUG_FUNC_NAME
     myDebug() << "hardCache = " << m_settings->getModuleSettings(m_bibleID).zefbible_hardCache  << " softCache = " << m_settings->getModuleSettings(m_bibleID).zefbible_softCache << " softCacheData[id].size() = " << softCacheData[id].size();
     QDomNode ncache;
+
+    if (softCacheData[id].isEmpty()) {
+        myDebug() << "soft cache is empty";
+    }
     if (m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true && (softCacheData[id].isEmpty() || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {
         ncache = readBookFromHardCache(currentBiblePath, id);
     } else {
@@ -110,6 +114,7 @@ void ZefaniaBible::readBook(const int &id)
         chapterData = softCache(id);
         return;
     }
+    //reading from softcache
     chapterData.clear();
     currentBookID = id;
     QDomNode n = ncache.firstChild();
@@ -140,43 +145,57 @@ void ZefaniaBible::readBook(const int &id)
 
     myDebug() << "chapterData.size() = " << chapterData.size() << " bookCount = " << i;
 }
+/**
+  Returns the soft cache for all books.
+  */
 QMap<int, QList<Chapter> > ZefaniaBible::softCache()
 {
+    DEBUG_FUNC_NAME
     if (m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
         return softCacheData;
     }
     return QMap<int, QList<Chapter> >();
 }
+/**
+  Returns the soft cache for a book
+  \param bookID The ID of the book.
+  */
 QList<Chapter> ZefaniaBible::softCache(int bookID)
 {
+    DEBUG_FUNC_NAME
     if (m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
         return softCacheData[bookID];
     }
     return QList<Chapter>();
 }
-bool ZefaniaBible::setSoftCache(QMap< int, QList<Chapter> > cache)
+/**
+  Sets the soft cache
+  \param QMap<int, QList<Chapter> > cache The cache data.
+  */
+void ZefaniaBible::setSoftCache(QMap<int, QList<Chapter> > cache)
 {
     DEBUG_FUNC_NAME
     if (m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
-        softCacheData.clear();
-        //softCacheAvi.clear();
         softCacheData = cache;
-        /*  QMapIterator< int, QList<Chapter> > i(cache);
-          while (i.hasNext()) {
-              softCacheAvi[i.key()] = true;
-              i.next();
-          }*/
     }
-    return true;
+    return;
 }
-bool ZefaniaBible::setSoftCache(int bookID, QList<Chapter> c)
+/**
+  Sets the cache of a book.
+  \param bookID The ID of the book.
+  \param chapterList New cache.
+  */
+void ZefaniaBible::setSoftCache(int bookID, QList<Chapter> chapterList)
 {
+    DEBUG_FUNC_NAME
     myDebug() << "softCache = " << m_settings->getModuleSettings(m_bibleID).zefbible_softCache << " , bookID = " << bookID;
     if (m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
-        softCacheData[bookID] = c;
+        softCacheData[bookID] = chapterList;
     }
-    return true;
 }
+/**
+  Clears the soft cache.
+  */
 void ZefaniaBible::clearSoftCache()
 {
     DEBUG_FUNC_NAME
@@ -230,9 +249,10 @@ bool ZefaniaBible::checkForCacheFiles(const QString &path)
         return true;
     return false;
 }
-/*
-  read the entire xml file
-  and if caching is enabled, generate cache files
+/**
+  Reads the entire xml file and if caching is enabled, generate cache file
+  \param id The ID of the module(bible).
+  \param path. Path to the module file.
   */
 void ZefaniaBible::loadNoCached(const int &id, const QString &path)
 {
@@ -487,6 +507,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
   */
 void ZefaniaBible::loadCached(const int &id, const QString &path)
 {
+    //clear old data
     bookFullName.clear();
     bookShortName.clear();
     bookCount.clear();
@@ -514,26 +535,26 @@ void ZefaniaBible::loadCached(const int &id, const QString &path)
 
 QString ZefaniaBible::readInfo(QFile &file)
 {
-    biblepath = file.fileName();
     QString cbiblename;
     KoXmlDocument doc;
     if (!doc.setContent(&file)) {
         file.close();
         return "";
     }
+
     KoXmlElement root = doc.documentElement();
     cbiblename = root.attribute("biblename", "");
     bibleName = cbiblename;
     file.close();
     return bibleName;
 }
-/*
-  returns the bible name
+/**
+  Read the module file and returns the bible name
+  \param content  Content of the dule file.
  */
 QString ZefaniaBible::readInfo(const QString &content)
 {
     //todo: read only the first 20 lines and find in them the biblename
-    biblepath = "";
     QString cbiblename;
     KoXmlDocument doc;
     if (!doc.setContent(content)) {
@@ -544,8 +565,8 @@ QString ZefaniaBible::readInfo(const QString &content)
     bibleName = cbiblename;
     return bibleName;
 }
-/*
-  convert a node to a chapterlist
+/**
+  Convert a node into a chapterlist
   */
 QList<Chapter> ZefaniaBible::fromHardToSoft(int id, QDomNode ncache)
 {

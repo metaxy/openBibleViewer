@@ -20,10 +20,9 @@ WindowCache::WindowCache()
 }
 void WindowCache::setBible(Bible b)
 {
-    //DEBUG_FUNC_NAME
-    m_bibletype[m_currentWindowID] = 1;
-    m_bibleName[m_currentWindowID] = b.bibleName;
-    m_books[m_currentWindowID] = b.bookFullName;
+    DEBUG_FUNC_NAME
+    m_softCache.insert(b.bibleID(), b.getSoftCache());
+    b.clearSoftCache();
     m_b[m_currentWindowID] = b;
 }
 
@@ -40,54 +39,27 @@ void WindowCache::clearAll()
     DEBUG_FUNC_NAME
     m_idList.clear();
     m_b.clear();
-    m_zefcache.clear();
-    m_bibletype.clear();
-    m_bibleName.clear();
-    m_books.clear();
-    m_chapterCount.clear();
-    m_selectedBook.clear();
+    m_softCache.clear();
 }
-int WindowCache::getBibleType()
-{
-    return m_bibletype[m_currentWindowID];
-}
+
 bool WindowCache::setCurrentWindowID(const int &id)
 {
     if (id < m_idList.size() && id >= 0) {
-        m_currentWindowID =  m_idList.at(id).toInt();
-        return false;
+        m_currentWindowID = m_idList.at(id).toInt();
+        return true;
     }
-    return true;
-}
-void WindowCache::setCurrentBook(const int &bookID, const int &chapterCount)
-{
-    m_chapterCount[m_currentWindowID] = chapterCount;
-    m_selectedBook[m_currentWindowID] = bookID;
-}
-QString WindowCache::getBibleName()
-{
-    return m_bibleName[m_currentWindowID];
-}
-int WindowCache::getCurrentBook()
-{
-    return m_selectedBook[m_currentWindowID];
-}
-QStringList WindowCache::getBooks()
-{
-    return m_books[m_currentWindowID];
-}
-int WindowCache::getChapterCount()
-{
-    return m_chapterCount[m_currentWindowID];
+    return false;
 }
 Bible WindowCache::getBible()
 {
     DEBUG_FUNC_NAME
-    return m_b[m_currentWindowID];
+    Bible b = m_b[m_currentWindowID];
+    b.setSoftCache(getSoftCache(b.bibleID()));
+    return b;
 }
-QMap<int, QList<Chapter> > WindowCache::getZefaniaCache(const int &bibleID)
+QMap<int, QList<Chapter> > WindowCache::getSoftCache(const int &bibleID)
 {
     DEBUG_FUNC_NAME
     //it could be that there ist no zefania Cache
-    return *m_zefcache[bibleID];
+    return m_softCache[bibleID];
 }

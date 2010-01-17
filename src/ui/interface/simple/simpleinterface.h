@@ -8,6 +8,7 @@
 #include "src/ui/dock/moduledockwidget.h"
 #include "src/ui/dock/bookdockwidget.h"
 #include "src/ui/dock/searchresultdockwidget.h"
+#include "src/core/windowcache.h"
 namespace Ui
 {
 class SimpleInterface;
@@ -65,6 +66,7 @@ private:
     ModuleDockWidget *m_moduleDockWidget;
     BookDockWidget *m_bookDockWidget;
     SearchResultDockWidget *m_searchResultDockWidget;
+    WindowCache m_windowCache;
 };
 
 #endif // SIMPLEINTERFACE_H

@@ -2,237 +2,187 @@
 \section{Notes Class Reference}
 \label{classNotes}\index{Notes@{Notes}}
 }
-{\tt \#include $<$notes.h$>$}
 
-\subsection*{Public Member Functions}
-\begin{CompactItemize}
+
+{\ttfamily \#include $<$notes.h$>$}\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
 \item 
-\hypertarget{classNotes_04a24963382268eddd6ad09387fc0958}{
-\textbf{Notes} (const QString \&fileName)}
-\label{classNotes_04a24963382268eddd6ad09387fc0958}
+\hypertarget{classNotes_a04a24963382268eddd6ad09387fc0958}{
+{\bfseries Notes} (const QString \&fileName)}
+\label{classNotes_a04a24963382268eddd6ad09387fc0958}
 
 \item 
-int \hyperlink{classNotes_91273d4a534e6426adb63bef043b4dbc}{loadNotes} ()
+int \hyperlink{classNotes_a91273d4a534e6426adb63bef043b4dbc}{loadNotes} ()
 \item 
-int \hyperlink{classNotes_a47d6a7af0c2674fe6d3372280755d5b}{readNotes} ()
+int \hyperlink{classNotes_aa47d6a7af0c2674fe6d3372280755d5b}{readNotes} ()
 \item 
-int \hyperlink{classNotes_f76c3652cd25371b7233eb84079b39a0}{saveNotes} ()
+int \hyperlink{classNotes_af76c3652cd25371b7233eb84079b39a0}{saveNotes} ()
 \item 
-void \hyperlink{classNotes_9abdabc242dc6340e4b5157fb3620ee0}{clearAll} ()
+void \hyperlink{classNotes_a9abdabc242dc6340e4b5157fb3620ee0}{clearAll} ()
 \item 
-QString \hyperlink{classNotes_8fe0144e2c4f5566f1ba03545dba94e4}{getType} (const QString \&id)
+QString \hyperlink{classNotes_a8fe0144e2c4f5566f1ba03545dba94e4}{getType} (const QString \&id)
 \item 
-QString \hyperlink{classNotes_784bbf981f20f1ffc9a07c32d1f2ad2f}{getTitle} (const QString \&id)
+QString \hyperlink{classNotes_a784bbf981f20f1ffc9a07c32d1f2ad2f}{getTitle} (const QString \&id)
 \item 
-QString \hyperlink{classNotes_3a60de9ba1c1fc3e1cd118ca50443f02}{getData} (const QString \&id)
+QString \hyperlink{classNotes_a3a60de9ba1c1fc3e1cd118ca50443f02}{getData} (const QString \&id)
 \item 
-QString \hyperlink{classNotes_e1fdbee2ecd121c81c7eb1c48404094d}{getRef} (const QString \&id, const QString \&refID)
+QString \hyperlink{classNotes_ae1fdbee2ecd121c81c7eb1c48404094d}{getRef} (const QString \&id, const QString \&refID)
 \item 
-QMap$<$ QString, QString $>$ \hyperlink{classNotes_2452989d91340c9158210421a5d16362}{getRef} (const QString \&id)
+QMap$<$ QString, QString $>$ \hyperlink{classNotes_a2452989d91340c9158210421a5d16362}{getRef} (const QString \&id)
 \item 
-void \hyperlink{classNotes_2e471d6614087c21ad4265596387312c}{setType} (const QString \&id, const QString \&type)
+void \hyperlink{classNotes_a2e471d6614087c21ad4265596387312c}{setType} (const QString \&id, const QString \&type)
 \item 
-void \hyperlink{classNotes_ce9ed14dfa9f9ca785070b70a06deec3}{setTitle} (const QString \&id, const QString \&title)
+void \hyperlink{classNotes_ace9ed14dfa9f9ca785070b70a06deec3}{setTitle} (const QString \&id, const QString \&title)
 \item 
-void \hyperlink{classNotes_176683f801c998ff85f667947c41c7d9}{setData} (const QString \&id, const QString \&data)
+void \hyperlink{classNotes_a176683f801c998ff85f667947c41c7d9}{setData} (const QString \&id, const QString \&data)
 \item 
-void \hyperlink{classNotes_d42175f40ec450badc4ed396229a3246}{setRef} (const QString \&id, const QMap$<$ QString, QString $>$ \&ref)
+void \hyperlink{classNotes_ad42175f40ec450badc4ed396229a3246}{setRef} (const QString \&id, const QMap$<$ QString, QString $>$ \&ref)
 \item 
-QString \hyperlink{classNotes_b554798a22ce20a2f7cb195c3b1904bd}{generateNewID} ()
+QString \hyperlink{classNotes_ab554798a22ce20a2f7cb195c3b1904bd}{generateNewID} ()
 \item 
-void \hyperlink{classNotes_08ba874a751ba5fde4620ac5b5ff8037}{insertID} (const QString \&id)
+void \hyperlink{classNotes_a08ba874a751ba5fde4620ac5b5ff8037}{insertID} (const QString \&id)
 \item 
-void \hyperlink{classNotes_86b09275d829523b0eb42da6b008a580}{removeNote} (const QString \&id)
+void \hyperlink{classNotes_a86b09275d829523b0eb42da6b008a580}{removeNote} (const QString \&id)
 \item 
-QStringList \hyperlink{classNotes_ee2eb5a4a6cf347e38351585de15c013}{getIDList} ()
-\end{CompactItemize}
+QStringList \hyperlink{classNotes_aee2eb5a4a6cf347e38351585de15c013}{getIDList} ()
+\item 
+\hypertarget{classNotes_ab2acad06062836577b93e8ab64e5b1a8}{
+bool {\bfseries isLoaded} ()}
+\label{classNotes_ab2acad06062836577b93e8ab64e5b1a8}
+
+\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 \hyperlink{classNotes}{Notes} represents a note system
 
-\begin{Desc}
-\item[Author:]Paul Walger $<$\href{mailto:metaxy@walger.name}{\tt metaxy@walger.name}$>$ \end{Desc}
+\begin{DoxyAuthor}{Author}
+Paul Walger $<$\href{mailto:metaxy@walger.name}{\tt metaxy@walger.name}$>$ 
+\end{DoxyAuthor}
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classNotes_9abdabc242dc6340e4b5157fb3620ee0}{
+\hypertarget{classNotes_a9abdabc242dc6340e4b5157fb3620ee0}{
 \index{Notes@{Notes}!clearAll@{clearAll}}
 \index{clearAll@{clearAll}!Notes@{Notes}}
 \subsubsection[{clearAll}]{\setlength{\rightskip}{0pt plus 5cm}void Notes::clearAll ()}}
-\label{classNotes_9abdabc242dc6340e4b5157fb3620ee0}
-
-
-Clear all data \hypertarget{classNotes_b554798a22ce20a2f7cb195c3b1904bd}{
+\label{classNotes_a9abdabc242dc6340e4b5157fb3620ee0}
+Clear all data \hypertarget{classNotes_ab554798a22ce20a2f7cb195c3b1904bd}{
 \index{Notes@{Notes}!generateNewID@{generateNewID}}
 \index{generateNewID@{generateNewID}!Notes@{Notes}}
 \subsubsection[{generateNewID}]{\setlength{\rightskip}{0pt plus 5cm}QString Notes::generateNewID ()}}
-\label{classNotes_b554798a22ce20a2f7cb195c3b1904bd}
-
-
-Generate a new note ID, without colliding with other IDs \hypertarget{classNotes_3a60de9ba1c1fc3e1cd118ca50443f02}{
+\label{classNotes_ab554798a22ce20a2f7cb195c3b1904bd}
+Generate a new note ID, without colliding with other IDs \hypertarget{classNotes_a3a60de9ba1c1fc3e1cd118ca50443f02}{
 \index{Notes@{Notes}!getData@{getData}}
 \index{getData@{getData}!Notes@{Notes}}
 \subsubsection[{getData}]{\setlength{\rightskip}{0pt plus 5cm}QString Notes::getData (const QString \& {\em id})}}
-\label{classNotes_3a60de9ba1c1fc3e1cd118ca50443f02}
-
-
-Get the note data \begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em id}]Note ID \end{description}
-\end{Desc}
-\hypertarget{classNotes_ee2eb5a4a6cf347e38351585de15c013}{
+\label{classNotes_a3a60de9ba1c1fc3e1cd118ca50443f02}
+Get the note data 
+\begin{DoxyParams}{Parameters}
+\item[{\em id}]Note ID \end{DoxyParams}
+\hypertarget{classNotes_aee2eb5a4a6cf347e38351585de15c013}{
 \index{Notes@{Notes}!getIDList@{getIDList}}
 \index{getIDList@{getIDList}!Notes@{Notes}}
 \subsubsection[{getIDList}]{\setlength{\rightskip}{0pt plus 5cm}QStringList Notes::getIDList ()}}
-\label{classNotes_ee2eb5a4a6cf347e38351585de15c013}
-
-
-Get all note IDs \hypertarget{classNotes_2452989d91340c9158210421a5d16362}{
+\label{classNotes_aee2eb5a4a6cf347e38351585de15c013}
+Get all note IDs \hypertarget{classNotes_a2452989d91340c9158210421a5d16362}{
 \index{Notes@{Notes}!getRef@{getRef}}
 \index{getRef@{getRef}!Notes@{Notes}}
 \subsubsection[{getRef}]{\setlength{\rightskip}{0pt plus 5cm}QMap$<$ QString, QString $>$ Notes::getRef (const QString \& {\em id})}}
-\label{classNotes_2452989d91340c9158210421a5d16362}
-
-
-Get all references of a note \begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em id}]note ID \end{description}
-\end{Desc}
-\hypertarget{classNotes_e1fdbee2ecd121c81c7eb1c48404094d}{
+\label{classNotes_a2452989d91340c9158210421a5d16362}
+Get all references of a note 
+\begin{DoxyParams}{Parameters}
+\item[{\em id}]note ID \end{DoxyParams}
+\hypertarget{classNotes_ae1fdbee2ecd121c81c7eb1c48404094d}{
 \index{Notes@{Notes}!getRef@{getRef}}
 \index{getRef@{getRef}!Notes@{Notes}}
 \subsubsection[{getRef}]{\setlength{\rightskip}{0pt plus 5cm}QString Notes::getRef (const QString \& {\em id}, \/  const QString \& {\em refID})}}
-\label{classNotes_e1fdbee2ecd121c81c7eb1c48404094d}
-
-
-Get the note reference \begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em id}]note ID \item[{\em refID}]reference ID \end{description}
-\end{Desc}
-\hypertarget{classNotes_784bbf981f20f1ffc9a07c32d1f2ad2f}{
+\label{classNotes_ae1fdbee2ecd121c81c7eb1c48404094d}
+Get the note reference 
+\begin{DoxyParams}{Parameters}
+\item[{\em id}]note ID \item[{\em refID}]reference ID \end{DoxyParams}
+\hypertarget{classNotes_a784bbf981f20f1ffc9a07c32d1f2ad2f}{
 \index{Notes@{Notes}!getTitle@{getTitle}}
 \index{getTitle@{getTitle}!Notes@{Notes}}
 \subsubsection[{getTitle}]{\setlength{\rightskip}{0pt plus 5cm}QString Notes::getTitle (const QString \& {\em id})}}
-\label{classNotes_784bbf981f20f1ffc9a07c32d1f2ad2f}
-
-
-Get the note title \begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em id}]Note ID \end{description}
-\end{Desc}
-\hypertarget{classNotes_8fe0144e2c4f5566f1ba03545dba94e4}{
+\label{classNotes_a784bbf981f20f1ffc9a07c32d1f2ad2f}
+Get the note title 
+\begin{DoxyParams}{Parameters}
+\item[{\em id}]Note ID \end{DoxyParams}
+\hypertarget{classNotes_a8fe0144e2c4f5566f1ba03545dba94e4}{
 \index{Notes@{Notes}!getType@{getType}}
 \index{getType@{getType}!Notes@{Notes}}
 \subsubsection[{getType}]{\setlength{\rightskip}{0pt plus 5cm}QString Notes::getType (const QString \& {\em id})}}
-\label{classNotes_8fe0144e2c4f5566f1ba03545dba94e4}
-
-
-Get the type of a note(eg. text, mark, tag) \begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em id}]Note ID \end{description}
-\end{Desc}
-\hypertarget{classNotes_08ba874a751ba5fde4620ac5b5ff8037}{
+\label{classNotes_a8fe0144e2c4f5566f1ba03545dba94e4}
+Get the type of a note(eg. text, mark, tag) 
+\begin{DoxyParams}{Parameters}
+\item[{\em id}]Note ID \end{DoxyParams}
+\hypertarget{classNotes_a08ba874a751ba5fde4620ac5b5ff8037}{
 \index{Notes@{Notes}!insertID@{insertID}}
 \index{insertID@{insertID}!Notes@{Notes}}
 \subsubsection[{insertID}]{\setlength{\rightskip}{0pt plus 5cm}void Notes::insertID (const QString \& {\em id})}}
-\label{classNotes_08ba874a751ba5fde4620ac5b5ff8037}
-
-
-Insert a new ID, and to add a new note you have to set title for this id \begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em id}]the new note id \end{description}
-\end{Desc}
-\hypertarget{classNotes_91273d4a534e6426adb63bef043b4dbc}{
+\label{classNotes_a08ba874a751ba5fde4620ac5b5ff8037}
+Insert a new ID, and to add a new note you have to set title for this id 
+\begin{DoxyParams}{Parameters}
+\item[{\em id}]the new note id \end{DoxyParams}
+\hypertarget{classNotes_a91273d4a534e6426adb63bef043b4dbc}{
 \index{Notes@{Notes}!loadNotes@{loadNotes}}
 \index{loadNotes@{loadNotes}!Notes@{Notes}}
 \subsubsection[{loadNotes}]{\setlength{\rightskip}{0pt plus 5cm}int Notes::loadNotes ()}}
-\label{classNotes_91273d4a534e6426adb63bef043b4dbc}
-
-
-Load notes data from an xml-file \hypertarget{classNotes_a47d6a7af0c2674fe6d3372280755d5b}{
+\label{classNotes_a91273d4a534e6426adb63bef043b4dbc}
+Load notes data from an xml-\/file \hypertarget{classNotes_aa47d6a7af0c2674fe6d3372280755d5b}{
 \index{Notes@{Notes}!readNotes@{readNotes}}
 \index{readNotes@{readNotes}!Notes@{Notes}}
 \subsubsection[{readNotes}]{\setlength{\rightskip}{0pt plus 5cm}int Notes::readNotes ()}}
-\label{classNotes_a47d6a7af0c2674fe6d3372280755d5b}
-
-
-Pharse note data from the xml-file \hypertarget{classNotes_86b09275d829523b0eb42da6b008a580}{
+\label{classNotes_aa47d6a7af0c2674fe6d3372280755d5b}
+Pharse note data from the xml-\/file \hypertarget{classNotes_a86b09275d829523b0eb42da6b008a580}{
 \index{Notes@{Notes}!removeNote@{removeNote}}
 \index{removeNote@{removeNote}!Notes@{Notes}}
 \subsubsection[{removeNote}]{\setlength{\rightskip}{0pt plus 5cm}void Notes::removeNote (const QString \& {\em id})}}
-\label{classNotes_86b09275d829523b0eb42da6b008a580}
-
-
-Remove Note \begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em id}]note id \end{description}
-\end{Desc}
-\hypertarget{classNotes_f76c3652cd25371b7233eb84079b39a0}{
+\label{classNotes_a86b09275d829523b0eb42da6b008a580}
+Remove Note 
+\begin{DoxyParams}{Parameters}
+\item[{\em id}]note id \end{DoxyParams}
+\hypertarget{classNotes_af76c3652cd25371b7233eb84079b39a0}{
 \index{Notes@{Notes}!saveNotes@{saveNotes}}
 \index{saveNotes@{saveNotes}!Notes@{Notes}}
 \subsubsection[{saveNotes}]{\setlength{\rightskip}{0pt plus 5cm}int Notes::saveNotes ()}}
-\label{classNotes_f76c3652cd25371b7233eb84079b39a0}
-
-
-Write note data in the xml-file \hypertarget{classNotes_176683f801c998ff85f667947c41c7d9}{
+\label{classNotes_af76c3652cd25371b7233eb84079b39a0}
+Write note data in the xml-\/file \hypertarget{classNotes_a176683f801c998ff85f667947c41c7d9}{
 \index{Notes@{Notes}!setData@{setData}}
 \index{setData@{setData}!Notes@{Notes}}
 \subsubsection[{setData}]{\setlength{\rightskip}{0pt plus 5cm}void Notes::setData (const QString \& {\em id}, \/  const QString \& {\em data})}}
-\label{classNotes_176683f801c998ff85f667947c41c7d9}
-
-
-Set note data \begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em id}]note ID \item[{\em data}]note data \end{description}
-\end{Desc}
-\hypertarget{classNotes_d42175f40ec450badc4ed396229a3246}{
+\label{classNotes_a176683f801c998ff85f667947c41c7d9}
+Set note data 
+\begin{DoxyParams}{Parameters}
+\item[{\em id}]note ID \item[{\em data}]note data \end{DoxyParams}
+\hypertarget{classNotes_ad42175f40ec450badc4ed396229a3246}{
 \index{Notes@{Notes}!setRef@{setRef}}
 \index{setRef@{setRef}!Notes@{Notes}}
 \subsubsection[{setRef}]{\setlength{\rightskip}{0pt plus 5cm}void Notes::setRef (const QString \& {\em id}, \/  const QMap$<$ QString, QString $>$ \& {\em ref})}}
-\label{classNotes_d42175f40ec450badc4ed396229a3246}
-
-
-Set note reference \begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em id}]note ID \item[{\em ref}]note reference \end{description}
-\end{Desc}
-\hypertarget{classNotes_ce9ed14dfa9f9ca785070b70a06deec3}{
+\label{classNotes_ad42175f40ec450badc4ed396229a3246}
+Set note reference 
+\begin{DoxyParams}{Parameters}
+\item[{\em id}]note ID \item[{\em ref}]note reference \end{DoxyParams}
+\hypertarget{classNotes_ace9ed14dfa9f9ca785070b70a06deec3}{
 \index{Notes@{Notes}!setTitle@{setTitle}}
 \index{setTitle@{setTitle}!Notes@{Notes}}
 \subsubsection[{setTitle}]{\setlength{\rightskip}{0pt plus 5cm}void Notes::setTitle (const QString \& {\em id}, \/  const QString \& {\em title})}}
-\label{classNotes_ce9ed14dfa9f9ca785070b70a06deec3}
-
-
-Set note title \begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em id}]note ID \item[{\em title}]note title \end{description}
-\end{Desc}
-\hypertarget{classNotes_2e471d6614087c21ad4265596387312c}{
+\label{classNotes_ace9ed14dfa9f9ca785070b70a06deec3}
+Set note title 
+\begin{DoxyParams}{Parameters}
+\item[{\em id}]note ID \item[{\em title}]note title \end{DoxyParams}
+\hypertarget{classNotes_a2e471d6614087c21ad4265596387312c}{
 \index{Notes@{Notes}!setType@{setType}}
 \index{setType@{setType}!Notes@{Notes}}
 \subsubsection[{setType}]{\setlength{\rightskip}{0pt plus 5cm}void Notes::setType (const QString \& {\em id}, \/  const QString \& {\em type})}}
-\label{classNotes_2e471d6614087c21ad4265596387312c}
+\label{classNotes_a2e471d6614087c21ad4265596387312c}
+Set note type 
+\begin{DoxyParams}{Parameters}
+\item[{\em id}]note ID \item[{\em type}]note type \end{DoxyParams}
 
 
-Set note type \begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em id}]note ID \item[{\em type}]note type \end{description}
-\end{Desc}
-
-
-The documentation for this class was generated from the following files:\begin{CompactItemize}
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
 \item 
 src/core/notes.h\item 
-src/core/notes.cpp\end{CompactItemize}
+src/core/notes.cpp\end{DoxyCompactItemize}

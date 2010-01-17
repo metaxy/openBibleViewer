@@ -22,7 +22,7 @@ namespace Ui
 class SearchInfoDialog;
 }
 /*!
- SearchInfoDialog represents a dialog  to show additional information for the search like statistics
+ SearchInfoDialog represents a dialog to show additional information for the search( like statistics )
 
 */
 class SearchInfoDialog : public QDialog

@@ -14,7 +14,9 @@ void ModuleManager::setSettings(Settings *settings)
 {
     m_settings = settings;
 }
-
+/**
+  Load all Modules.
+  */
 int ModuleManager::loadAllModules()
 {
     DEBUG_FUNC_NAME
@@ -83,8 +85,8 @@ int ModuleManager::loadAllModules()
                             if (bname.size() > 0) {
                                 Module module;
                                 module.m_iniPath = file.fileName();
-                                module.m_moduleType = Module::BibleModule;
-                                module.m_moduleClass = Module::BibleQuoteModule;
+                                module.m_moduleClass = Module::BibleModule;
+                                module.m_moduleType = Module::BibleQuoteModule;
                                 module.m_name = bname;
                                 module.m_id = rcount;
                                 m_moduleList << module;
@@ -111,8 +113,8 @@ int ModuleManager::loadAllModules()
 
                                 Module module;
                                 module.m_iniPath = file.fileName();
-                                module.m_moduleType = Module::BibleModule;
-                                module.m_moduleClass = Module::ZefaniaBibleModule;
+                                module.m_moduleClass = Module::BibleModule;
+                                module.m_moduleType = Module::ZefaniaBibleModule;
                                 module.m_name = bname;
                                 module.m_id = rcount;
                                 m_moduleList << module;
@@ -154,8 +156,8 @@ int ModuleManager::loadAllModules()
                     //BibleQuote
                     Module module;
                     module.m_iniPath = file.fileName();
-                    module.m_moduleType = Module::BibleModule;
-                    module.m_moduleClass = Module::BibleQuoteModule;
+                    module.m_moduleClass = Module::BibleModule;
+                    module.m_moduleType = Module::BibleQuoteModule;
                     module.m_name = m_settings->module.at(i).moduleName;
                     module.m_id = rcount;
                     m_moduleList << module;
@@ -178,8 +180,8 @@ int ModuleManager::loadAllModules()
                     //ZenfaniaXML
                     Module module;
                     module.m_iniPath = file.fileName();
-                    module.m_moduleType = Module::BibleModule;
-                    module.m_moduleClass = Module::ZefaniaBibleModule;
+                    module.m_moduleClass = Module::BibleModule;
+                    module.m_moduleType = Module::ZefaniaBibleModule;
                     module.m_name = m_settings->module.at(i).moduleName;
                     module.m_id = rcount;
                     m_moduleList << module;
@@ -206,4 +208,10 @@ int ModuleManager::loadAllModules()
         }
     }
     return 0;
+}
+bool ModuleManager::bibleLoaded()
+{
+    if (m_moduleList.size() > m_bible.bibleID() && m_bible.bibleID() >= 0)
+        return true;
+    return false;
 }

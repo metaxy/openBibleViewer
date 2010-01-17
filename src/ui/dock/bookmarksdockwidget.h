@@ -7,7 +7,10 @@ namespace Ui
 {
 class BookmarksDockWidget;
 }
+/*!
+ BookmarksDockWidget represents a dock widget, where you can view and edit your bookmarks.
 
+*/
 class BookmarksDockWidget : public DockWidget
 {
     Q_OBJECT

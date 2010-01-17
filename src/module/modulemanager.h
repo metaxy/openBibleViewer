@@ -15,6 +15,7 @@ public:
     QList<QTreeWidgetItem *> m_items;
     Settings *m_settings;
     Bible m_bible;
+    bool bibleLoaded();
 
 };
 
