@@ -5,6 +5,7 @@
 #include "src/ui/interface/study/studyinterface.h"
 #include "src/ui/dialog/settingsdialog.h"
 #include "src/ui/dock/searchresultdockwidget.h"
+#include "src/ui/dock/notesdockwidget.h"
 #include "src/core/dbghelper.h"
 #include <QtGui/QMessageBox>
 #include <QtCore/QLibraryInfo>
@@ -18,6 +19,17 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    ui = 0;
+    delete m_moduleManager;
+    m_moduleManager = 0;
+    delete m_bibleDisplay;
+    m_bibleDisplay = 0;
+    delete m_settings;
+    m_settings = 0;
+    delete m_notes;
+    m_notes = 0;
+    delete m_settingsFile;
+    m_settingsFile = 0;
 }
 void MainWindow::init(const QString &homeDataPath)
 {
@@ -94,6 +106,10 @@ void MainWindow::loadAdvancedInterface()
     SearchResultDockWidget *searchResultDockWidget = new SearchResultDockWidget(this);
     advancedInterface->setSearchResultDockWidget(searchResultDockWidget);
     addDockWidget(Qt::LeftDockWidgetArea, searchResultDockWidget);
+
+    NotesDockWidget *notesDockWidget = new NotesDockWidget(this);
+    advancedInterface->setNotesDockWidget(notesDockWidget);
+    addDockWidget(Qt::LeftDockWidgetArea, notesDockWidget);
 
     advancedInterface->init();
     setCentralWidget(advancedInterface);

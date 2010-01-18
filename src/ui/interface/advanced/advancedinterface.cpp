@@ -6,6 +6,9 @@
 #include <QtGui/QMdiSubWindow>
 #include <QtGui/QMessageBox>
 #include <QtGui/QDesktopServices>
+#include <QtGui/QClipboard>
+#include <QtGui/QTextDocumentFragment>
+#include <QtGui/QScrollBar>
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
         Interface(parent),
         ui(new Ui::AdvancedInterface)
@@ -23,6 +26,10 @@ void AdvancedInterface::setModuleDockWidget(ModuleDockWidget *moduleDockWidget)
 void AdvancedInterface::setSearchResultDockWidget(SearchResultDockWidget *searchResultDockWidget)
 {
     m_searchResultDockWidget = searchResultDockWidget;
+}
+void AdvancedInterface::setNotesDockWidget(NotesDockWidget *notesDockWidget)
+{
+    m_notesDockWidget = notesDockWidget;
 }
 void AdvancedInterface::init()
 {
@@ -48,11 +55,20 @@ void AdvancedInterface::init()
     m_searchResultDockWidget->hide();
     connect(m_searchResultDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
+    m_notesDockWidget->setBibleDisplay(m_bibleDisplay);
+    m_notesDockWidget->setNotes(m_notes);
+    m_notesDockWidget->setSettings(m_settings);
+    m_notesDockWidget->setModuleManager(m_moduleManager);
+    m_notesDockWidget->init();
+    m_notesDockWidget->hide();
+    connect(m_notesDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+    connect(m_notesDockWidget,SIGNAL(reloadChapter()),this,SLOT(reloadChapter()));
+
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
     BibleDisplaySettings bibleDisplaySettings;
-    bibleDisplaySettings.loadNotes = false;//todo: init notes
+    bibleDisplaySettings.loadNotes = true;
     bibleDisplaySettings.showMarks = true;
     bibleDisplaySettings.showNotes = true;
     m_moduleManager->m_bible.setBibleDisplaySettings(bibleDisplaySettings);
@@ -60,7 +76,6 @@ void AdvancedInterface::init()
     connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
 
     newMdiChild();
-    //todo: load notes
 
 }
 
@@ -278,15 +293,15 @@ int AdvancedInterface::closeWindow()
     //if one in the internal subwindow list list is missing that window was closed
     if (ui->mdiArea->subWindowList().isEmpty()) {
         myDebug() << "subWIndowList is empty";
-        //setBooks(QStringList());
-        //setChapters(QStringList());
+        setBooks(QStringList());
+        setChapters(QStringList());
         m_windowCache.clearAll();
         return 1;
     }
     if (m_internalWindows.isEmpty()) {
         myDebug() << "internaL is empty";
-        //setBooks(QStringList());
-        //setChapters(QStringList());
+        setBooks(QStringList());
+        setChapters(QStringList());
         m_windowCache.clearAll();
         return 1;
     }
@@ -301,8 +316,8 @@ int AdvancedInterface::closeWindow()
     }
     if (ui->mdiArea->subWindowList().isEmpty()) { //last window closed
         myDebug() << "last closed";
-        //setBooks(QStringList());
-       // setChapters(QStringList());
+        setBooks(QStringList());
+        setChapters(QStringList());
         m_windowCache.clearAll();
         return 1;
     }
@@ -373,17 +388,18 @@ void AdvancedInterface::zoomOut()
 }
 void AdvancedInterface::loadModuleDataByID(int id)
 {
-    //todo: here is much to do
     DEBUG_FUNC_NAME
     myDebug() << "id = " << id;
     if (m_moduleManager->m_moduleList.size() < id)
         return;
-    m_windowCache.setBible(m_moduleManager->m_bible);//before loading an another bible, save the last
+
 
     m_moduleManager->m_bible.setBibleType(m_moduleManager->m_moduleList.at(id).m_moduleType);
     m_moduleManager->m_bible.loadBibleData(id, m_moduleManager->m_moduleList.at(id).m_iniPath);
     m_moduleManager->m_bible.setSoftCache(m_windowCache.getSoftCache(id));//todo: if it is empty then do nothing
 
+    m_windowCache.setCurrentWindowID(currentWindowID());
+    m_windowCache.setBible(m_moduleManager->m_bible);//todo: !before loading an another bible, save the last
 
     setTitle(m_moduleManager->m_bible.bibleName);
     setBooks(m_moduleManager->m_bible.bookFullName);
@@ -505,7 +521,6 @@ void AdvancedInterface::pharseUrl(QString url)
         }
     }  else if (url.startsWith(note)) {
         url = url.remove(0, note.size());
-        //a
         //showNote(url);
     } else {
         myDebug() << " bookPath = " << m_moduleManager->m_bible.bookPath;
@@ -606,6 +621,344 @@ void AdvancedInterface::previousChapter()
     if (m_moduleManager->m_bible.chapterID() > 0)
         readChapter(m_moduleManager->m_bible.chapterID() - 1);
 }
+VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
+{
+    VerseSelection selection;
+    DEBUG_FUNC_NAME
+    selection.endVerse = -1;
+    selection.startVerse = -1;
+
+    if (cursor.hasSelection() == true) {
+        //an option is to remove allhtml tags and search there
+        QString fragment = cursor.selection().toHtml();
+        int from = fragment.indexOf("<!--StartFragment-->");
+        int to = fragment.indexOf("<!--EndFragment-->");
+        fragment.remove(to, fragment.size());
+        fragment.remove(0, from + QString("<!--StartFragment-->").size());
+        //if fragment starts with a tag remove this
+        if (fragment.startsWith("<")) {
+            fragment.remove(0, fragment.indexOf(">") + 1);
+        }
+        if (fragment.endsWith(">")) {
+            fragment.remove(fragment.lastIndexOf("<"), fragment.size());
+        }
+        QStringList chapterData = m_moduleManager->m_bible.toUniformHtml(m_moduleManager->m_bible.chapterDataList);
+
+        QString text = chapterData.join("");
+        int startFragment = text.indexOf(fragment);
+        qDebug() << "pos = " << startFragment << " fragemnt = " << fragment;
+        //find out start verse and end verse
+        int counter = 0;
+        for (int i = 0; i < chapterData.size(); ++i) {
+            counter += chapterData.at(i).size();
+            myDebug() << "i = " << i << " counter = " << counter;
+            if (selection.startVerse == -1 && startFragment < counter) {
+                myDebug() << "setted start";
+                selection.startVerse = i;
+                selection.posInStartVerse = startFragment - (counter - chapterData.at(i).size()) ;
+                for (int s = 3; s < 100; s++) {
+                    QString b = fragment;
+                    QString searchString = b.remove(s, fragment.size());
+                    //todo: if it starts with a html tag remove that
+                    QString v = chapterData.at(i);
+                    int a1 = v.lastIndexOf(searchString);
+                    int a2 = v.indexOf(searchString);
+                    if (a1 == a2) {
+                        myDebug() << "s = " << s << " searchString = " << searchString;
+                        selection.shortestStringInStartVerse = searchString;
+                        break;
+                    }
+                }
+                myDebug() << "posInstartverse = " << selection.posInStartVerse;
+            }
+            if (selection.endVerse == -1 && (startFragment + fragment.size()  < (counter))) {
+                myDebug() << "setted end";
+                selection.endVerse = i;
+                selection.posInEndVerse = (startFragment + fragment.size()) - (counter - chapterData.at(i).size()) ;
+                for (int s = 3; s < 100; s++) {
+                    QString b = fragment;
+                    QString searchString = b.remove(0, b.size() - s);
+                    //todo: if it starts with a html tag remove that
+                    QString v = chapterData.at(i);
+                    int a1 = v.lastIndexOf(searchString);
+                    int a2 = v.indexOf(searchString);
+                    if (a1 == a2) {
+                        myDebug() << "s = " << s << " searchString = " << searchString;
+                        selection.shortestStringInEndVerse = searchString;
+                        break;
+                    }
+                }
+                myDebug() << "posInEndverse = " << selection.posInEndVerse;
+                break;
+            }
+        }
+        myDebug() << " start = " << selection.startVerse << " end = " << selection.endVerse;
+    } else {
+        int pos = cursor.position();
+        QStringList chapterData = m_moduleManager->m_bible.toUniformHtml(m_moduleManager->m_bible.chapterDataList);
+        int counter = 0;
+        for (int i = 0; i < chapterData.size(); ++i) {
+            QTextDocument t;
+            t.setHtml(chapterData.at(i));
+            counter += t.toPlainText().size();
+            if (selection.startVerse == -1 && pos < counter) {
+                selection.startVerse = i;
+                break;
+            }
+        }
+    }
+
+    return selection;
+}
+int AdvancedInterface::textBrowserContextMenu(QPoint pos)
+{
+    if (!activeMdiChild())
+        return 1;
+    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+    qDebug() << "MainWindow::textBrowserContextMenu() start";
+    QMenu *contextMenu = new QMenu(this);
+    QAction *actionCopy = new QAction(this);
+    QIcon copyIcon;
+    copyIcon.addPixmap(QPixmap(":/icons/16x16/edit-copy.png"), QIcon::Normal, QIcon::Off);
+    actionCopy->setIcon(copyIcon);
+    actionCopy->setText(tr("Copy"));
+    connect(actionCopy, SIGNAL(triggered()), textBrowser, SLOT(copy()));
+    QAction *actionCopyWholeVerse = new QAction(this);
+    QTextCursor cursor = textBrowser->cursorForPosition(pos);
+    QTextCursor cursor2 = textBrowser->textCursor();
+    if (cursor2.hasSelection()) {
+        cursor = cursor2;
+    }
+    //currentTextCursor = cursor;
+    VerseSelection selection = verseSelectionFromCursor(cursor);
+    if (selection.startVerse != -1) {
+        QString addText;
+        if (selection.startVerse != selection.endVerse)
+            addText = " " + QString::number(selection.startVerse) + " - " + QString::number(selection.endVerse);
+        else
+            addText = " " + QString::number(selection.startVerse);
+        if (selection.startVerse < 0 || selection.endVerse <= 0) {
+            actionCopyWholeVerse->setText(tr("Copy Verse"));
+            actionCopyWholeVerse->setEnabled(false);
+        } else {
+            actionCopyWholeVerse->setText(tr("Copy Verse %1").arg(addText));
+            actionCopyWholeVerse->setEnabled(true);
+            connect(actionCopyWholeVerse, SIGNAL(triggered()), this , SLOT(copyWholeVerse()));
+        }
+    } else {
+        qDebug() << "MainWindow::textBrowserContextMenu() no selection";
+        actionCopyWholeVerse->setText(tr("Copy Verse"));
+        actionCopyWholeVerse->setEnabled(false);
+    }
+    QAction *actionSelect = new QAction(this);
+    actionSelect->setText(tr("Select All"));
+    QIcon selectIcon;
+    selectIcon.addPixmap(QPixmap(":/icons/16x16/edit-select-all.png"), QIcon::Normal, QIcon::Off);
+    actionSelect->setIcon(selectIcon);
+    connect(actionSelect, SIGNAL(triggered()), textBrowser , SLOT(selectAll()));
+
+    QMenu *menuMark = new QMenu(this);
+    menuMark->setTitle(tr("Mark this"));
+    QIcon markIcon;
+    markIcon.addPixmap(QPixmap(":/icons/16x16/format-fill-color.png"), QIcon::Normal, QIcon::Off);
+    menuMark->setIcon(markIcon);
+    //connect(actionMark, SIGNAL(triggered()), this , SLOT(newMark()));
+    if (!cursor.hasSelection()) {
+        menuMark->setEnabled(false);
+    }
+
+    QAction *actionYellowMark = new QAction(menuMark);
+    actionYellowMark->setText(tr("Yellow"));
+    QIcon yellowMarkIcon;
+    yellowMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-yellow.png"), QIcon::Normal, QIcon::Off);
+    actionYellowMark->setIcon(yellowMarkIcon);
+    connect(actionYellowMark, SIGNAL(triggered()), this , SLOT(newYellowMark()));
+    menuMark->addAction(actionYellowMark);
+
+    QAction *actionGreenMark = new QAction(menuMark);
+    actionGreenMark->setText(tr("Green"));
+    QIcon greenMarkIcon;
+    greenMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-green.png"), QIcon::Normal, QIcon::Off);
+    actionGreenMark->setIcon(greenMarkIcon);
+    connect(actionGreenMark, SIGNAL(triggered()), this , SLOT(newGreenMark()));
+    menuMark->addAction(actionGreenMark);
+
+    QAction *actionBlueMark = new QAction(menuMark);
+    actionBlueMark->setText(tr("Blue"));
+    QIcon blueMarkIcon;
+    blueMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-blue.png"), QIcon::Normal, QIcon::Off);
+    actionBlueMark->setIcon(blueMarkIcon);
+    connect(actionBlueMark, SIGNAL(triggered()), this , SLOT(newBlueMark()));
+    menuMark->addAction(actionBlueMark);
+
+    QAction *actionOrangeMark = new QAction(menuMark);
+    actionOrangeMark->setText(tr("Orange"));
+    QIcon orangeMarkIcon;
+    orangeMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-orange.png"), QIcon::Normal, QIcon::Off);
+    actionOrangeMark->setIcon(orangeMarkIcon);
+    connect(actionOrangeMark, SIGNAL(triggered()), this , SLOT(newOrangeMark()));
+    menuMark->addAction(actionOrangeMark);
+
+    QAction *actionVioletMark = new QAction(menuMark);
+    actionVioletMark->setText(tr("Violet"));
+    QIcon violetMarkIcon;
+    violetMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-violet.png"), QIcon::Normal, QIcon::Off);
+    actionVioletMark->setIcon(violetMarkIcon);
+    connect(actionVioletMark, SIGNAL(triggered()), this , SLOT(newVioletMark()));
+    menuMark->addAction(actionVioletMark);
+
+    QAction *actionRemoveMark = new QAction(this);
+    actionRemoveMark->setText(tr("Remove Mark"));
+    /*QIcon removeMarkIcon;
+    removeMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-yellow.png"), QIcon::Normal, QIcon::Off);
+    actionRemoveMark->setIcon(removeMarkIcon);*/
+   // connect(actionRemoveMark, SIGNAL(triggered()), this , SLOT(removeMark()));
+
+    QAction *actionBookmark = new QAction(this);
+    actionBookmark->setText(tr("Add Bookmark"));
+    QIcon bookmarkIcon;
+    bookmarkIcon.addPixmap(QPixmap(":/icons/16x16/bookmark-new.png"), QIcon::Normal, QIcon::Off);
+    actionBookmark->setIcon(bookmarkIcon);
+   // connect(actionBookmark, SIGNAL(triggered()), this , SLOT(newBookmark()));
+
+    QAction *actionNote = new QAction(this);
+    actionNote->setText(tr("Add Note"));
+    QIcon noteIcon;
+    noteIcon.addPixmap(QPixmap(":/icons/16x16/view-pim-notes.png"), QIcon::Normal, QIcon::Off);
+    actionNote->setIcon(noteIcon);
+   // connect(actionNote, SIGNAL(triggered()), this , SLOT(newNoteWithLink()));
+
+    contextMenu->addAction(actionCopy);
+    contextMenu->addAction(actionCopyWholeVerse);
+    contextMenu->addAction(actionSelect);
+    contextMenu->addSeparator();
+    contextMenu->addMenu(menuMark);
+    contextMenu->addAction(actionRemoveMark);
+    contextMenu->addAction(actionBookmark);
+    contextMenu->addAction(actionNote);
+    contextMenu->exec(QCursor::pos());
+    return 0;
+}
+
+int AdvancedInterface::copyWholeVerse(void)
+{
+    if (!activeMdiChild())
+        return 1;
+    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+    QTextCursor cursor = textBrowser->textCursor();
+    VerseSelection selection = verseSelectionFromCursor(cursor);
+    if (selection.startVerse != -1) {
+
+        QString sverse = "";
+        if (selection.startVerse == selection.endVerse) {
+            sverse = "," + QString::number(selection.startVerse);
+        } else {
+            sverse = " " + QString::number(selection.startVerse) + "-" + QString::number(selection.endVerse);
+        }
+
+
+        QString stext;
+        if (m_moduleManager->m_bible.m_bibleType == Bible::BibleQuoteModule) {
+            stext = m_moduleManager->m_bible.readVerse(m_moduleManager->m_bible.chapterID(), selection.startVerse, selection.endVerse + 1, -1, false);
+        } else if (m_moduleManager->m_bible.m_bibleType == Bible::ZefaniaBibleModule) {
+            stext = m_moduleManager->m_bible.readVerse(m_moduleManager->m_bible.chapterID(), selection.startVerse - 1, selection.endVerse, -1, false);
+        }
+
+        QTextDocument doc2;
+        doc2.setHtml(stext);
+        stext = doc2.toPlainText();
+
+        QString curChapter;
+        if (m_moduleManager->m_bible.m_bibleType == Bible::BibleQuoteModule) {
+            curChapter = QString::number(m_moduleManager->m_bible.chapterID());
+        } else if (m_moduleManager->m_bible.m_bibleType == Bible::ZefaniaBibleModule) {
+            curChapter = QString::number(m_moduleManager->m_bible.chapterID() + 1);
+        }
+
+        QString newText = m_moduleManager->m_bible.bookFullName.at(m_moduleManager->m_bible.bookID()) + " " + curChapter + sverse + "\n" + stext;
+        QClipboard *clipboard = QApplication::clipboard();
+        clipboard->setText(newText);
+
+    } else {
+        myDebug() << "nothing is selected";
+    }
+
+    return 0;
+}
+void AdvancedInterface::newYellowMark()
+{
+    if (!m_moduleManager->bibleLoaded()) {
+        return;
+    }
+    if (!activeMdiChild())
+        return;
+    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+    QTextCursor cursor = textBrowser->textCursor();
+    VerseSelection selection = verseSelectionFromCursor(cursor);
+    m_notesDockWidget->newMark(selection,QColor(255, 255, 0));
+}
+
+void AdvancedInterface::newGreenMark()
+{
+    if (!m_moduleManager->bibleLoaded()) {
+        return;
+    }
+    if (!activeMdiChild())
+        return;
+    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+    QTextCursor cursor = textBrowser->textCursor();
+    VerseSelection selection = verseSelectionFromCursor(cursor);
+    m_notesDockWidget->newMark(selection,QColor(146, 243, 54));
+}
+void AdvancedInterface::newBlueMark()
+{
+    if (!m_moduleManager->bibleLoaded()) {
+        return;
+    }
+    if (!activeMdiChild())
+        return;
+    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+    QTextCursor cursor = textBrowser->textCursor();
+    VerseSelection selection = verseSelectionFromCursor(cursor);
+    m_notesDockWidget->newMark(selection,QColor(77, 169, 243));
+}
+void AdvancedInterface::newOrangeMark()
+{
+    if (!m_moduleManager->bibleLoaded()) {
+        return;
+    }
+    if (!activeMdiChild())
+        return;
+    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+    QTextCursor cursor = textBrowser->textCursor();
+    VerseSelection selection = verseSelectionFromCursor(cursor);
+    m_notesDockWidget->newMark(selection,QColor(243, 181, 57));
+}
+void AdvancedInterface::newVioletMark()
+{
+    if (!m_moduleManager->bibleLoaded()) {
+        return;
+    }
+    if (!activeMdiChild())
+        return;
+    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+    QTextCursor cursor = textBrowser->textCursor();
+    VerseSelection selection = verseSelectionFromCursor(cursor);
+    m_notesDockWidget->newMark(selection,QColor(169, 102, 240));
+}
+void AdvancedInterface::reloadChapter()
+{
+    if (!activeMdiChild())
+        return;
+    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+
+    int vsliderPosition = textBrowser->verticalScrollBar()->sliderPosition();
+    int hsliderPosition = textBrowser->horizontalScrollBar()->sliderPosition();//horizontal
+    readChapter(m_moduleManager->m_bible.chapterID());
+    textBrowser->verticalScrollBar()->setSliderPosition(vsliderPosition);
+    textBrowser->horizontalScrollBar()->setSliderPosition(hsliderPosition);
+}
+
 AdvancedInterface::~AdvancedInterface()
 {
     delete ui;

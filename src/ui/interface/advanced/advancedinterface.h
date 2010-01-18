@@ -6,6 +6,7 @@
 #include "src/ui/dock/bookdockwidget.h"
 #include "src/ui/dock/moduledockwidget.h"
 #include "src/ui/dock/searchresultdockwidget.h"
+#include "src/ui/dock/notesdockwidget.h"
 #include "src/core/windowcache.h"
 #include <QtGui/QMdiSubWindow>
 #include "mdiform.h"
@@ -29,8 +30,20 @@ private slots:
     void showText(const QString &text);
     void zoomIn();
     void zoomOut();
+    void readChapter(const int &id);
+     void readBook(const int &id);
   //  void showSearchDialog();
     //void search(SearchQuery query);
+     void nextChapter();
+     void previousChapter();
+     int textBrowserContextMenu(QPoint);
+     int copyWholeVerse();
+     void newYellowMark();
+     void newGreenMark();
+     void newBlueMark();
+     void newOrangeMark();
+     void newVioletMark();
+     void reloadChapter();
 public:
     AdvancedInterface(QWidget *parent = 0);
     ~AdvancedInterface();
@@ -38,10 +51,12 @@ public:
     void setBookDockWidget(BookDockWidget *bookDockWidget);
     void setModuleDockWidget(ModuleDockWidget *moduleDockWidget);
     void setSearchResultDockWidget(SearchResultDockWidget *searchResultDockWidget);
+    void setNotesDockWidget(NotesDockWidget *notesDockWidget);
 
     SearchResultDockWidget *m_searchResultDockWidget;
     BookDockWidget *m_bookDockWidget;
     ModuleDockWidget *m_moduleDockWidget;
+    NotesDockWidget *m_notesDockWidget;
 
 
 protected:
@@ -68,13 +83,12 @@ private:
     void setBooks(const QStringList &books);
     void setCurrentBook(const int &bookID);
     void setCurrentChapter(const int &chapterID);
-    void readBook(const int &id);
-    void readBookByID(int id);
 
-    void readChapter(const int &id);
+    void readBookByID(int id);
+    VerseSelection verseSelectionFromCursor(QTextCursor cursor);
+
     void showChapter(const int &chapterID, const int &verseID);
-    void nextChapter();
-    void previousChapter();
+
 };
 
 #endif // ADVANCEDINTERFACE_H

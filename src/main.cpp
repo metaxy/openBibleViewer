@@ -105,5 +105,6 @@ int main(int argc, char *argv[])
           qDebug() << "main::main() load stylesheet fileName = " << file.fileName();
       }*/
     w.show();
-    return a.exec();
+    a.exec();
+    return 0;
 }

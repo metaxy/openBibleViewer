@@ -207,6 +207,11 @@ int ModuleManager::loadAllModules()
             }
         }
     }
+    QStringList iniPath;
+    for(int i = 0; i< m_moduleList.size();++i) {
+        iniPath << m_moduleList.at(i).m_iniPath;
+    }
+    m_bible.biblesIniPath = iniPath;
     return 0;
 }
 bool ModuleManager::bibleLoaded()
