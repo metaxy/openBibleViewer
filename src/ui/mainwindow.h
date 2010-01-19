@@ -53,7 +53,9 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
-
+    void closeEvent(QCloseEvent *event);
+signals:
+    void closing();
 private:
     Ui::MainWindow *ui;
 };

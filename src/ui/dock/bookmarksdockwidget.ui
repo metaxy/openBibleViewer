@@ -18,7 +18,16 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
+       <layout class="QHBoxLayout" name="horizontalLayout"/>
+      </item>
+      <item>
        <widget class="QTreeWidget" name="treeWidget_bookmarks">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="contextMenuPolicy">
          <enum>Qt::CustomContextMenu</enum>
         </property>
@@ -47,33 +56,11 @@
         </column>
        </widget>
       </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_bookmarks_save">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Save</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../../icons.qrc">
-          <normaloff>:/icons/16x16/document-save.png</normaloff>:/icons/16x16/document-save.png</iconset>
-        </property>
-        <property name="shortcut">
-         <string>Ctrl+S</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
    </layout>
   </widget>
  </widget>
- <resources>
-  <include location="../../icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

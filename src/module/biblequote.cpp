@@ -60,17 +60,20 @@ void BibleQuote::readBook(int id, QString path)
         } else {
             encoding = m_settings->getModuleSettings(currentBibleID).encoding;
         }
+        myDebug() << "encoding = " << encoding;
         QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
         QTextDecoder *decoder = codec->makeDecoder();
         while (!file.atEnd()) {
             QByteArray byteline = file.readLine();
             QString line = decoder->toUnicode(byteline);
             //todo: dirty
+            //myDebug() << "removing some html";
             line = line.remove(QRegExp("CLASS=\"(\\w+)\">"));
             line = line.remove(QRegExp("<DIV CLASS=\"(\\w+)\">"));
             line = line.remove("CLASS=\"Tx\">");
             //filterout
-            if (m_settings->getModuleSettings(currentBibleID).biblequote_removeHtml == true && removeHtml.size() > 0) {
+            if (m_settings->getModuleSettings(currentBibleID).biblequote_removeHtml == true && removeHtml2.size() > 0) {
+                myDebug() << "removing real html";
                 for (int i = 0; i < removeHtml2.size(); i++) {
                     QString r = removeHtml2.at(i);
                     //myDebug() << removeHtml2.at(i);
@@ -150,14 +153,17 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
             }
             if (line.contains("ChapterSign", Qt::CaseInsensitive) && !line.startsWith("//")) {
                 chaptersign = formatFromIni(line.remove("ChapterSign =", Qt::CaseInsensitive));
+                myDebug() << "ChapterSign = " << chaptersign;
                 //chaptersign auslesen
             }
             if (line.contains("HTMLFilter", Qt::CaseInsensitive) && !line.startsWith("//")) {
                 removeHtml = formatFromIni(line.remove("HTMLFilter =", Qt::CaseInsensitive));
+                myDebug() << "HtmlFilter = " << removeHtml;
                 //htmlfilter auslesen
             }
             if (line.contains("VerseSign", Qt::CaseInsensitive) && !line.startsWith("//")) {
                 versesign = formatFromIni(line.remove("VerseSign =", Qt::CaseInsensitive));
+                myDebug() << "VerseSign = " << versesign;
                 //verse sign auslesen
             }
             if (line.contains("ChapterZero", Qt::CaseInsensitive) && !line.startsWith("//")) {
@@ -167,6 +173,7 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
                 } else {
                     chapterZero = false;
                 }
+                myDebug() << "chapterZero = " << chapterZero;
                 //verse sign auslesen
             }
             if (started == false && line.contains("BookQty", Qt::CaseInsensitive) && !line.startsWith("//")) {

@@ -85,6 +85,7 @@ void MainWindow::loadSimpleInterface()
     if (simpleInterface->hasToolBar())
         addToolBar(simpleInterface->toolBar());
     connect(this, SIGNAL(settingsChanged(Settings)), simpleInterface, SLOT(settingsChanged(Settings)));
+    connect(this, SIGNAL(closing()), simpleInterface, SLOT(closing()));
 }
 
 void MainWindow::loadAdvancedInterface()
@@ -109,7 +110,11 @@ void MainWindow::loadAdvancedInterface()
 
     NotesDockWidget *notesDockWidget = new NotesDockWidget(this);
     advancedInterface->setNotesDockWidget(notesDockWidget);
-    addDockWidget(Qt::LeftDockWidgetArea, notesDockWidget);
+    addDockWidget(Qt::RightDockWidgetArea, notesDockWidget);
+
+    BookmarksDockWidget *bookmarksDockWidget = new BookmarksDockWidget(this);
+    advancedInterface->setBookmarksDockWidget(bookmarksDockWidget);
+    addDockWidget(Qt::RightDockWidgetArea, bookmarksDockWidget);
 
     advancedInterface->init();
     setCentralWidget(advancedInterface);
@@ -119,6 +124,7 @@ void MainWindow::loadAdvancedInterface()
     if (advancedInterface->hasToolBar())
         addToolBar(advancedInterface->toolBar());
     //connect(this, SIGNAL(settingsChanged(Settings)), advancedInterface, SLOT(settingsChanged(Settings))); //todo: enable it
+    connect(this, SIGNAL(closing()), advancedInterface, SLOT(closing()));
 
 }
 void MainWindow::loadStudyInterface()
@@ -130,8 +136,6 @@ void MainWindow::loadStudyInterface()
     studyInterface->setNotes(m_notes);
     studyInterface->init();
     setCentralWidget(studyInterface);
-
-
 }
 void MainWindow::setSettings(Settings *set)
 {
@@ -372,7 +376,12 @@ void MainWindow::restoreSession()
     }
     return;
 }
-
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    Q_UNUSED(event);
+    DEBUG_FUNC_NAME
+    emit closing();
+}
 void MainWindow::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);

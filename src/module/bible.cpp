@@ -41,6 +41,7 @@ int Bible::loadBibleData(const int &bibleID, const QString &path)
     DEBUG_FUNC_NAME
     myDebug() << "bibleID = " << bibleID << " path = " << path << " bibleType =" << m_bibleType;
     m_bibleID = bibleID;
+
     switch (m_bibleType) {
     case BibleQuoteModule: {
         bq.setSettings(m_settings);
@@ -77,8 +78,9 @@ int Bible::loadBibleData(const int &bibleID, const QString &path)
 */
 int Bible::readBook(int id)
 {
+    DEBUG_FUNC_NAME
     m_bookID = id;
-    qDebug() << "bible::readBook() id= " << id << " bibleType =" << m_bibleType;
+    myDebug() << "id = " << id << " bibleType = " << m_bibleType;
     switch (m_bibleType) {
     case BibleQuoteModule: {
         chapterData.clear();
@@ -86,7 +88,7 @@ int Bible::readBook(int id)
         if (id < bookPath.size()) {
             bq.readBook(id, bookPath.at(id));
         } else {
-            qDebug() << "bible::readBook() index out of range bookPath.size() = " << bookPath.size() << " , id = " << id;
+            myDebug() << "index out of range bookPath.size() = " << bookPath.size() << " , id = " << id;
             return 1;
         }
         chapterData = bq.chapterData;
@@ -114,7 +116,6 @@ int Bible::readBook(int id)
         break;
     }
     }
-    qDebug() << "bible::readBook() end";
     return 0;
 }
 void Bible::setSettings(Settings *set)

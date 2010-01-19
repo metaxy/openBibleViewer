@@ -19,7 +19,7 @@ void Settings::replaceModule(const int &bibleID, ModuleSettings m)
 }
 int Settings::getCacheID(int bibleID)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     int sID = moduleID[bibleID];
     //zähle wie oft sID in moduleID noch verkommt
     int counter = 0;

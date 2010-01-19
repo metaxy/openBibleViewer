@@ -43,7 +43,6 @@ public:
 
     bool hasToolBar();
     QToolBar* toolBar();
-    void showSettingsDialog(int tabID);
 
 protected:
     void changeEvent(QEvent *e);

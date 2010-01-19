@@ -14,6 +14,7 @@ SimpleInterface::SimpleInterface(QWidget *parent) :
 
     ui->setupUi(this);
     ui->textBrowser->installEventFilter(this);
+    connect(ui->textBrowser, SIGNAL(anchorClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
 }
 void SimpleInterface::setBookDockWidget(BookDockWidget *bookDockWidget)
 {
@@ -134,7 +135,7 @@ void SimpleInterface::loadModuleDataByID(int id)
 {
     DEBUG_FUNC_NAME
     myDebug() << "id = " << id;
-    if (m_moduleManager->m_moduleList.size() < id)
+    if (id < 0 || m_moduleManager->m_moduleList.size() < id)
         return;
     m_windowCache.setBible(m_moduleManager->m_bible);//before loading an another bible, save the last
 
@@ -230,8 +231,17 @@ void SimpleInterface::pharseUrl(QString url)
 
     } else if (url.startsWith(anchor)) {
         url = url.remove(0, anchor.size());
-        myDebug() << "anchor";
-        ui->textBrowser->scrollToAnchor(url);
+
+        bool ok;
+        int c = url.toInt(&ok, 10);
+        myDebug() << "c = " << c;
+        if(ok && c < m_moduleManager->m_bible.chapterData.size() && m_moduleManager->m_bible.m_bibleType == Bible::BibleQuoteModule && m_moduleManager->m_bible.chapterID() != c) {
+            myDebug() << "bq chapter link";
+            m_moduleManager->m_bible.readChapter(c,0);
+        } else {
+            myDebug() << "anchor";
+            ui->textBrowser->scrollToAnchor(url);
+        }
     } else {
         myDebug() << " bookPath = " << m_moduleManager->m_bible.bookPath;
         if (m_moduleManager->m_bible.m_bibleType == Bible::BibleQuoteModule && m_moduleManager->m_bible.bookPath.contains(url)) {

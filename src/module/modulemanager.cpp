@@ -39,6 +39,7 @@ int ModuleManager::loadAllModules()
             folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
             top->setIcon(0, folderIcon);
             top->setText(0, m_settings->module.at(i).moduleName);
+            top->setText(1,"-1");
             m_items.append(top);
 
             //search for bible in the dir
@@ -208,7 +209,7 @@ int ModuleManager::loadAllModules()
         }
     }
     QStringList iniPath;
-    for(int i = 0; i< m_moduleList.size();++i) {
+    for (int i = 0; i < m_moduleList.size(); ++i) {
         iniPath << m_moduleList.at(i).m_iniPath;
     }
     m_bible.biblesIniPath = iniPath;

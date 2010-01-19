@@ -40,6 +40,9 @@ public:
 
     bool setCurrentWindowID(const int &id);
     void setBible(Bible b);
+    void setCurrentBook(const int &bookid, const int &chapterCount);
+
+    int getBibleType();
 
 
     QMap<int, QList<Chapter> > getSoftCache(const int &bibleID);

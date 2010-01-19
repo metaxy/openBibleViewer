@@ -32,6 +32,7 @@ signals:
     void get(QString);
 private:
     Ui::BookDockWidget *ui;
+
 };
 
 #endif // BOOKDOCKWIDGET_H

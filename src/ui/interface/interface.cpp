@@ -37,4 +37,7 @@ QToolBar * Interface::toolBar()
 {
     return new QToolBar();
 }
+void Interface::closing()
+{
+}
 

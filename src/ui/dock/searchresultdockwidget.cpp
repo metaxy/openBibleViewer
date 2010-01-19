@@ -3,6 +3,7 @@
 #include "ui_searchresultdockwidget.h"
 #include <QtGui/QMessageBox>
 #include "src/ui/dialog/searchinfodialog.h"
+#include "src/core/dbghelper.h"
 SearchResultDockWidget::SearchResultDockWidget(QWidget *parent) :
         DockWidget(parent),
         ui(new Ui::SearchResultDockWidget)
@@ -69,6 +70,42 @@ void SearchResultDockWidget::searchInfo()
     sDialog.setInfo(result, bookNames, searchString, textList);
     sDialog.exec();
 
+}
+void SearchResultDockWidget::nextVerse()
+{
+    if (ui->listWidget_search->count() != 0) {
+        int currentID = ui->listWidget_search->currentRow();
+
+        int nextID = currentID + 1;
+        if (nextID < ui->listWidget_search->count()) {
+            ui->listWidget_search->setCurrentRow(nextID);
+            goToSearchResult(ui->listWidget_search->currentItem());
+        } else {
+            //wieder von vorne
+            //todo: show info
+            nextID = 0;
+            ui->listWidget_search->setCurrentRow(nextID);
+            goToSearchResult(ui->listWidget_search->currentItem());
+        }
+    } else {
+        myDebug() << "no search Results available";
+    }
+    return;
+}
+void SearchResultDockWidget::previousVerse()
+{
+    if (ui->listWidget_search->count() != 0) {
+        int currentID = ui->listWidget_search->currentRow();
+
+        int nextID = currentID - 1;
+        if (nextID < ui->listWidget_search->count() && nextID >= 0) {
+            ui->listWidget_search->setCurrentRow(nextID);
+            goToSearchResult(ui->listWidget_search->currentItem());
+        }
+    } else {
+        myDebug() << "no search Results available";
+    }
+    return;
 }
 void SearchResultDockWidget::changeEvent(QEvent *e)
 {

@@ -39,11 +39,13 @@ void BookDockWidget::setBooks(const QStringList &books)
 void BookDockWidget::setCurrentBook(const int &bookID)
 {
     ui->listWidget_books->setItemSelected(ui->listWidget_books->item(bookID), true);
+    ui->listWidget_books->scrollToItem(ui->listWidget_books->item(bookID));
 }
 void BookDockWidget::setCurrentChapter(const int &chapterID)
 {
     myDebug() << "chapterID = " << chapterID;
     ui->listWidget_chapters->setItemSelected(ui->listWidget_chapters->item(chapterID), true);
+    ui->listWidget_chapters->scrollToItem(ui->listWidget_chapters->item(chapterID));
 }
 void BookDockWidget::changeEvent(QEvent *e)
 {

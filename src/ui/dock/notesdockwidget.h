@@ -19,7 +19,7 @@ class NotesDockWidget : public DockWidget
     Q_OBJECT
 private slots:
     void showNote(QListWidgetItem * item);
-    void saveNote();
+
     void notesContextMenu();
     void removeNote();
     void reloadNotes();
@@ -36,9 +36,10 @@ public slots:
     void newNote();
     void newNoteWithLink(VerseSelection selection);
 
-    void newMark(VerseSelection selection,QColor color);
+    void newMark(VerseSelection selection, QColor color);
     void showNote(const QString &noteID);
     void removeMark(VerseSelection selection);
+    void saveNote();
 public:
     NotesDockWidget(QWidget *parent = 0);
     ~NotesDockWidget();

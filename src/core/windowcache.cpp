@@ -24,6 +24,9 @@ void WindowCache::setBible(Bible b)
     m_softCache.insert(b.bibleID(), b.getSoftCache());
     b.clearSoftCache();
     m_b[m_currentWindowID] = b;
+    m_bibletype[m_currentWindowID] = b.m_bibleType;
+    //m_bibleName[m_currentWindowID] = b.bibleName;
+    //m_books[m_currentWindowID] = b.bookFullName;
 }
 
 void WindowCache::newWindow()
@@ -40,6 +43,12 @@ void WindowCache::clearAll()
     m_idList.clear();
     m_b.clear();
     m_softCache.clear();
+    m_bibletype.clear();
+
+}
+int WindowCache::getBibleType()
+{
+    return m_bibletype[m_currentWindowID];
 }
 
 bool WindowCache::setCurrentWindowID(const int &id)

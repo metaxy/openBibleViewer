@@ -117,7 +117,7 @@ void MainWindow::newNote(void)
 
     saveNote();
     reloadNotes();
-    QString newID = m_note->generateNewID();
+//     QString newID = m_note->generatNewID();
     m_note->setData(newID, "");
     m_note->setTitle(newID, tr("(unnamed)"));
     m_note->setType(newID, "text");

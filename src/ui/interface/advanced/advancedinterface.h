@@ -7,8 +7,10 @@
 #include "src/ui/dock/moduledockwidget.h"
 #include "src/ui/dock/searchresultdockwidget.h"
 #include "src/ui/dock/notesdockwidget.h"
+#include "src/ui/dock/bookmarksdockwidget.h"
 #include "src/core/windowcache.h"
 #include <QtGui/QMdiSubWindow>
+#include <QtGui/QCloseEvent>
 #include "mdiform.h"
 namespace Ui
 {
@@ -18,6 +20,9 @@ class AdvancedInterface;
 class AdvancedInterface : public Interface
 {
     Q_OBJECT
+public slots:
+    void closing();
+    void settingsChanged(Settings settings);
 private slots:
     void myCascade();
     void myTileVertical();
@@ -31,33 +36,52 @@ private slots:
     void zoomIn();
     void zoomOut();
     void readChapter(const int &id);
-     void readBook(const int &id);
-  //  void showSearchDialog();
-    //void search(SearchQuery query);
-     void nextChapter();
-     void previousChapter();
-     int textBrowserContextMenu(QPoint);
-     int copyWholeVerse();
-     void newYellowMark();
-     void newGreenMark();
-     void newBlueMark();
-     void newOrangeMark();
-     void newVioletMark();
-     void reloadChapter();
+    void readBook(const int &id);
+    void nextChapter();
+    void previousChapter();
+    int textBrowserContextMenu(QPoint);
+    int copyWholeVerse();
+    void newYellowMark();
+    void newGreenMark();
+    void newBlueMark();
+    void newOrangeMark();
+    void newVioletMark();
+    void reloadChapter();
+    void removeMark();
+    void showSearchDialog();
+    void search(SearchQuery query);
+    void showBookmarksDock();
+    void showNotesDock();
+    void newBookmark();
+    void newNoteWithLink();
+    int showAboutDialog();
+    int saveFile();
+    int printFile();
+    void onlineHelp();
+    void copy();
+    void selectAll();
+    void nextVerse();
+    void previousVerse();
+
 public:
     AdvancedInterface(QWidget *parent = 0);
     ~AdvancedInterface();
     void init();
+    bool hasMenuBar();
+    QMenuBar* menuBar();
+    bool hasToolBar();
+    QToolBar* toolBar();
     void setBookDockWidget(BookDockWidget *bookDockWidget);
     void setModuleDockWidget(ModuleDockWidget *moduleDockWidget);
     void setSearchResultDockWidget(SearchResultDockWidget *searchResultDockWidget);
     void setNotesDockWidget(NotesDockWidget *notesDockWidget);
+    void setBookmarksDockWidget(BookmarksDockWidget *boockmarksDockWidget);
 
     SearchResultDockWidget *m_searchResultDockWidget;
     BookDockWidget *m_bookDockWidget;
     ModuleDockWidget *m_moduleDockWidget;
     NotesDockWidget *m_notesDockWidget;
-
+    BookmarksDockWidget * m_bookmarksDockWidget;
 
 protected:
     void changeEvent(QEvent *e);
@@ -88,6 +112,8 @@ private:
     VerseSelection verseSelectionFromCursor(QTextCursor cursor);
 
     void showChapter(const int &chapterID, const int &verseID);
+    QTextCursor m_textCursor;
+
 
 };
 

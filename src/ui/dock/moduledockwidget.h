@@ -22,6 +22,7 @@ public:
     void init();
 protected:
     void changeEvent(QEvent *e);
+    bool eventFilter(QObject *obj, QEvent *event);
 signals:
     void get(QString);
 private:

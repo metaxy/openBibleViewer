@@ -112,6 +112,8 @@ void ZefaniaBible::readBook(const int &id)
     } else {
         myDebug() << "read data from sofcache";
         chapterData = softCache(id);
+        //todo: read bookCount
+        bookCount[id] = chapterData.size();
         return;
     }
     //reading from softcache

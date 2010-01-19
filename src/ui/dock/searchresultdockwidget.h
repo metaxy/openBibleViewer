@@ -16,6 +16,9 @@ class SearchResultDockWidget;
 class SearchResultDockWidget : public DockWidget
 {
     Q_OBJECT
+public slots:
+    void nextVerse();
+    void previousVerse();
 private slots:
     void goToSearchResult(QListWidgetItem * item);
     void searchInfo();
@@ -23,6 +26,7 @@ public:
     SearchResultDockWidget(QWidget *parent = 0);
     ~SearchResultDockWidget();
     void setSearchResult(SearchResult searchResult);
+
 
 protected:
     void changeEvent(QEvent *e);

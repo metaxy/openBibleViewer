@@ -11,7 +11,8 @@
 class Interface : public QWidget
 {
     Q_OBJECT
-
+public slots:
+    void closing();
 
 public:
     Interface(QWidget *parent);
