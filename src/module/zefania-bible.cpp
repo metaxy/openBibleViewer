@@ -36,6 +36,9 @@ void ZefaniaBible::setSettings(Settings *set)
 }
 void ZefaniaBible::loadBibleData(const int &id, const QString &path)
 {
+    DEBUG_FUNC_NAME
+    myDebug() << "id = " << id << " path = " << path  << " hardCache = "
+    << m_settings->getModuleSettings(m_bibleID).zefbible_hardCache << m_settings->getModuleSettings(m_bibleID).zefbible_softCache;
     bibleName = "";
     m_bibleID = id;
     if (m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == false && m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false) {
@@ -52,6 +55,7 @@ void ZefaniaBible::loadBibleData(const int &id, const QString &path)
     } else {
         loadNoCached(id, path);//read the entire xml file
     }
+    myDebug() << bookCount;
     m_settings->setBookCount(m_bibleID, bookCount);
     m_settings->setBookNames(m_bibleID, bookFullName);
     m_settings->setBiblePath(m_bibleID, path);
@@ -69,6 +73,7 @@ void ZefaniaBible::removeHardCache(const QString &path)
 
 QDomNode ZefaniaBible::readBookFromHardCache(QString path, int bookID)
 {
+    DEBUG_FUNC_NAME
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(path.toLocal8Bit());
     QString fileName = m_settings->homePath + "cache/" + hash.result().toBase64() + "/";
@@ -242,6 +247,7 @@ QDomElement ZefaniaBible::format(QDomElement e)
 }
 bool ZefaniaBible::checkForCacheFiles(const QString &path)
 {
+    DEBUG_FUNC_NAME
     myDebug() << "path = " << path;
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(path.toLocal8Bit());
@@ -258,8 +264,8 @@ bool ZefaniaBible::checkForCacheFiles(const QString &path)
   */
 void ZefaniaBible::loadNoCached(const int &id, const QString &path)
 {
-    //todo: maybe i should remove the qdom support because koxml works really fine
     DEBUG_FUNC_NAME
+    //todo: maybe i should remove the qdom support because koxml works really fine
     QProgressDialog progress(QObject::tr("Loading Bible"), QObject::tr("Cancel"), 0, 76);
     progress.setWindowModality(Qt::WindowModal);
 
@@ -509,6 +515,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
   */
 void ZefaniaBible::loadCached(const int &id, const QString &path)
 {
+    DEBUG_FUNC_NAME
     //clear old data
     bookFullName.clear();
     bookShortName.clear();

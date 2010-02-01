@@ -6,7 +6,8 @@ Settings::Settings()
 ModuleSettings Settings::getModuleSettings(const int &bibleID)
 {
     int id = moduleID[bibleID];
-    if (module.size() < id) {
+    if (module.size() < id /*|| id < 0 || module.size() == 0)*/) {
+        myDebug() << "No Settings aviable";
         return ModuleSettings();
     } else {
         return module.at(id);

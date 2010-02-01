@@ -20,6 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/zefania-strong.h"
 #include "src/module/biblequote.h"
 #include "src/module/bible.h"
+#include "src/module/module.h"
 #include "moduleconfigdialog.h"
 #include "moduledownloaddialog.h"
 
@@ -118,13 +119,13 @@ void SettingsDialog::generateModuleTree()
             moduleType = QObject::tr("Folder");
         } else {
             switch (m_set.module.at(i).moduleType.toInt()) {
-            case Bible::BibleQuoteModule:
+            case Module::BibleQuoteModule:
                 moduleType = QObject::tr("Bible Quote");
                 break;
-            case Bible::ZefaniaBibleModule:
+            case Module::ZefaniaBibleModule:
                 moduleType = QObject::tr("Zefania XML");;
                 break;
-            case Bible::ZefaniaStrongModule:
+            case Module::ZefaniaStrongModule:
                 moduleType = QObject::tr("Zefania XML Strong");;
                 break;
 
@@ -356,15 +357,15 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                 }
 
                 switch (imoduleType) {
-                case Bible::BibleQuoteModule:
+                case Module::BibleQuoteModule:
                     bibleName = bq.readInfo(file);
                     moduleType = QObject::tr("Bible Quote");
                     break;
-                case Bible::ZefaniaBibleModule:
+                case Module::ZefaniaBibleModule:
                     bibleName = zef.readInfo(fileData);
                     moduleType = QObject::tr("Zefania XML");
                     break;
-                case Bible::ZefaniaStrongModule:
+                case Module::ZefaniaStrongModule:
                     bibleName = zefStrong.loadFile(fileData, f);
                     moduleType = QObject::tr("Zefania XML Strong");
                     break;

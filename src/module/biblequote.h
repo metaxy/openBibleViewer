@@ -40,7 +40,7 @@ public:
     QString readInfo(QFile &file);
     SearchResult search(SearchQuery query);
 
-    int currentBookID, currentBibleID;
+    int m_bookID, m_bibleID;
     bool chapterZero;
     QString currentBiblePath, lastout, chaptersign, versesign, bibleName, removeHtml;
     QStringList bookPath, bookFullName, bookShortName;

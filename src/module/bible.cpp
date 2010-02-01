@@ -31,6 +31,12 @@ void Bible::setBibleType(const int &type)
     m_bibleType = type;
     return;
 }
+void Bible::setSettings(Settings *settings)
+{
+     m_settings = settings;
+     bq.setSettings(m_settings);
+     zef.setSettings(m_settings);
+}
 void Bible::setBibleDisplaySettings(BibleDisplaySettings bibleDisplaySettings)
 {
     m_bibleDisplaySettings = bibleDisplaySettings;
@@ -39,13 +45,16 @@ void Bible::setBibleDisplaySettings(BibleDisplaySettings bibleDisplaySettings)
 int Bible::loadBibleData(const int &bibleID, const QString &path)
 {
     DEBUG_FUNC_NAME
+    if(bibleID < 0) {
+        myDebug() << "invalid bibleID = " << bibleID;
+        return 1;
+    }
     myDebug() << "bibleID = " << bibleID << " path = " << path << " bibleType =" << m_bibleType;
     m_bibleID = bibleID;
 
     switch (m_bibleType) {
     case BibleQuoteModule: {
         bq.setSettings(m_settings);
-
         bq.loadBibleData(bibleID, path);
         bibleName = bq.bibleName;
         bookCount = bq.bookCount;
@@ -56,16 +65,13 @@ int Bible::loadBibleData(const int &bibleID, const QString &path)
         break;
     }
     case ZefaniaBibleModule: { //zefania bible
-
         ModuleSettings m = m_settings->getModuleSettings(m_bibleID);
         zef.setSettings(m_settings);
-
         zef.loadBibleData(bibleID, path);
         bibleName = m.moduleName;
         bookCount = zef.bookCount;
         bookFullName = zef.bookFullName;
-        myDebug() << "bookFullName = " << bookFullName;
-
+        myDebug() << "bookFullName = " << bookFullName  << " bookCount = " << bookCount;
         m_chapterAdd = 0;
         m_biblePath = zef.currentBiblePath;
         break;
@@ -118,14 +124,7 @@ int Bible::readBook(int id)
     }
     return 0;
 }
-void Bible::setSettings(Settings *set)
-{
-    DEBUG_FUNC_NAME
-    m_settings = set;
-    //  myDebug() << " setings.module.size() = " << m_settings->module.size() << " moduleID = " << m_settings->moduleID;
-    zef.setSettings(m_settings);
-    bq.setSettings(m_settings);
-}
+
 QString Bible::readChapter(int chapterID, int verseID = -1)
 {
     m_chapterID = chapterID;
@@ -372,10 +371,7 @@ QStringList Bible::getSearchPaths()
     }
     return QStringList();
 }
-void Bible::setNotes(Notes *n)
-{
-    m_notes = n;
-}
+
 int Bible::bibleID()
 {
     return m_bibleID;
@@ -396,4 +392,13 @@ int Bible::chapterID()
 int Bible::chapterAdd()
 {
     return m_chapterAdd;
+}
+int Bible::booksCount()
+{
+    //todo: if there are another module rethink this function
+    return bookCount[m_bookID];
+}
+int Bible::chaptersCount()
+{
+    return chapterData.size();
 }

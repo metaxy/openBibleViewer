@@ -57,6 +57,7 @@ QString GoTo::getUrl(const QString& text)
 }
 int GoTo::bookNameToBookID(const QString& name)
 {
+    //todo: use short names
     int min = -1, bookID = -1;
     for (int i = 0; i < m_bookFullName.size(); ++i) {
         if (name == m_bookFullName.at(i)) {

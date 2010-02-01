@@ -123,7 +123,7 @@ void MainWindow::loadAdvancedInterface()
         setMenuBar(advancedInterface->menuBar());
     if (advancedInterface->hasToolBar())
         addToolBar(advancedInterface->toolBar());
-    //connect(this, SIGNAL(settingsChanged(Settings)), advancedInterface, SLOT(settingsChanged(Settings))); //todo: enable it
+    connect(this, SIGNAL(settingsChanged(Settings)), advancedInterface, SLOT(settingsChanged(Settings)));
     connect(this, SIGNAL(closing()), advancedInterface, SLOT(closing()));
 
 }

@@ -356,7 +356,7 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
     myDebug() << "setCurrentTab id = " << id;
     m_windowCache.setCurrentWindowID(id);
     //todo: add last active window and if it is the same do nohting
-    if (m_windowCache.getBibleType() == Bible::None) { //probaly no bible loaded in this window
+    if (m_windowCache.getBibleType() == Module::NoneType) { //probaly no bible loaded in this window
         myDebug() << "m_windowCache.getBibleType() == 0";
         setChapters(QStringList());
         setBooks(QStringList());
@@ -409,12 +409,16 @@ void AdvancedInterface::loadModuleDataByID(int id)
 {
     DEBUG_FUNC_NAME
     myDebug() << "id = " << id;
-    //todo: if there are no activated or at all windows create one
     if(ui->mdiArea->subWindowList().size() == 0)
         newMdiChild();
-    if (id < 0 || m_moduleManager->m_moduleList.size() < id)
+    if (id < 0 || m_moduleManager->m_moduleList.size() < id) {
+        QApplication::restoreOverrideCursor();
         return;
-
+    }
+    if(!m_moduleManager->m_moduleList.at(id).m_moduleClass == Module::BibleModule) {
+        QApplication::restoreOverrideCursor();
+        return;
+    }
     QApplication::setOverrideCursor(Qt::WaitCursor);
     m_moduleManager->m_bible.setBibleType(m_moduleManager->m_moduleList.at(id).m_moduleType);
     m_moduleManager->m_bible.loadBibleData(id, m_moduleManager->m_moduleList.at(id).m_iniPath);
@@ -538,7 +542,7 @@ void AdvancedInterface::pharseUrl(QString url)
         bool ok;
         int c = url.toInt(&ok, 10);
         myDebug() << "c = " << c;
-        if(ok && c < m_moduleManager->m_bible.chapterData.size() && m_moduleManager->m_bible.m_bibleType == Bible::BibleQuoteModule && m_moduleManager->m_bible.chapterID() != c) {
+        if(ok && c < m_moduleManager->m_bible.chaptersCount()&& m_moduleManager->m_bible.m_bibleType == Bible::BibleQuoteModule && m_moduleManager->m_bible.chapterID() != c) {
             myDebug() << "bq chapter link";
             showChapter(c + m_moduleManager->m_bible.chapterAdd(),0);
             setCurrentChapter(c);
@@ -638,16 +642,21 @@ void AdvancedInterface::readBookByID(int id)
     if (t) {
         QApplication::setOverrideCursor(Qt::WaitCursor);
         if (id < 0) {
+            QApplication::restoreOverrideCursor();
             QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
             myDebug() << "invalid bookID - 1";
             return;
         }
-        if (id >= m_moduleManager->m_bible.bookFullName.size()) {
+        //todo: here is a big bug, kill him
+        /*if (id >= m_moduleManager->m_bible.booksCount().size()) {
+            QApplication::restoreOverrideCursor();
             QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
             myDebug() << "invalid bookID - 2(no book loaded)";
+
             return;
-        }
+        }*/
         if (m_moduleManager->m_bible.readBook(id) != 0) {
+            QApplication::restoreOverrideCursor();
             QMessageBox::critical(0, tr("Error"), tr("Cannot read the book."));
             //error while reading
             return;
@@ -674,9 +683,9 @@ void AdvancedInterface::showChapter(const int &chapterID, const int &verseID)
 void AdvancedInterface::nextChapter()
 {
     DEBUG_FUNC_NAME
-    if (m_moduleManager->m_bible.chapterID() < m_moduleManager->m_bible.chapterData.size() - 1) {
+    if (m_moduleManager->m_bible.chapterID() < m_moduleManager->m_bible.chaptersCount() - 1) {
         readChapter(m_moduleManager->m_bible.chapterID() + 1);
-    } else if(m_moduleManager->m_bible.bookID() < m_moduleManager->m_bible.bookFullName.size() - 1) {
+    } else if(m_moduleManager->m_bible.bookID() < m_moduleManager->m_bible.booksCount() - 1) {
         readBook(m_moduleManager->m_bible.bookID() + 1);
     }
 }
@@ -687,7 +696,7 @@ void AdvancedInterface::previousChapter()
         readChapter(m_moduleManager->m_bible.chapterID() - 1);
     } else if(m_moduleManager->m_bible.bookID() > 0) {
         readBook(m_moduleManager->m_bible.bookID() - 1);
-        readChapter(m_moduleManager->m_bible.chapterNames.size() - 1);
+        readChapter(m_moduleManager->m_bible.chaptersCount() - 1);
     }
 }
 VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)

@@ -203,7 +203,8 @@ void ModuleDownloadDialog::downloadNext()
         progressDialog->setModal(true);
     } else {
         myDebug() << "nothing selected";
-        //todo: Error message
+
+        QMessageBox::information(this,"Nothing selected","You have selected something to download it.");
     }
 }
 void ModuleDownloadDialog::cancelDownload()

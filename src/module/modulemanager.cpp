@@ -12,6 +12,7 @@ ModuleManager::ModuleManager()
 }
 void ModuleManager::setSettings(Settings *settings)
 {
+    DEBUG_FUNC_NAME
     m_settings = settings;
 }
 /**
@@ -23,7 +24,7 @@ int ModuleManager::loadAllModules()
     Bible bible;
     bible.setSettings(m_settings);
     m_moduleList.clear();
-    m_items.clear();
+    m_bibleItems.clear();
     QProgressDialog progress(QObject::tr("Loading Module"), QObject::tr("Cancel"), 0, m_settings->module.size());
     progress.setWindowModality(Qt::WindowModal);
     int rcount = 0;//Counter for the Bible ID
@@ -40,7 +41,7 @@ int ModuleManager::loadAllModules()
             top->setIcon(0, folderIcon);
             top->setText(0, m_settings->module.at(i).moduleName);
             top->setText(1,"-1");
-            m_items.append(top);
+            m_bibleItems.append(top);
 
             //search for bible in the dir
             QString rpath = m_settings->module.at(i).modulePath + "/";
@@ -153,7 +154,7 @@ int ModuleManager::loadAllModules()
             file.setFileName(m_settings->module.at(i).modulePath);
             if (bibletype != 0 && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
                 switch (bibletype) {
-                case Bible::BibleQuoteModule: {
+                case Module::BibleQuoteModule: {
                     //BibleQuote
                     Module module;
                     module.m_iniPath = file.fileName();
@@ -173,11 +174,11 @@ int ModuleManager::loadAllModules()
                     QIcon bibleIcon;
                     bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-x-generic.png"), QIcon::Normal, QIcon::Off);
                     bibleItem->setIcon(0, bibleIcon);
-                    m_items.append(bibleItem);
+                    m_bibleItems.append(bibleItem);
                     rcount++;
                     break;
                 }
-                case Bible::ZefaniaBibleModule: {
+                case Module::ZefaniaBibleModule: {
                     //ZenfaniaXML
                     Module module;
                     module.m_iniPath = file.fileName();
@@ -196,21 +197,32 @@ int ModuleManager::loadAllModules()
                     QIcon bibleIcon;
                     bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
                     bibleItem->setIcon(0, bibleIcon);
-                    m_items.append(bibleItem);
+                    m_bibleItems.append(bibleItem);
                     rcount++;
                     break;
                 }
-                /*case 3: {
+                case Module::ZefaniaStrongModule: {
+                    Module module;
+                    module.m_iniPath = "";
+                    module.m_moduleClass = Module::StrongModule;
+                    module.m_moduleType = Module::ZefaniaStrongModule;
+                    module.m_name = m_settings->module.at(i).moduleName;
+                    module.m_id = rcount;
+                    m_moduleList << module;
+                    m_settings->moduleID.insert(rcount, i);
                     rcount++;
-                }*/
+                }
 
                 }
             }
         }
     }
+
+    //todo: its ugly
     QStringList iniPath;
     for (int i = 0; i < m_moduleList.size(); ++i) {
-        iniPath << m_moduleList.at(i).m_iniPath;
+        //if(m_moduleList.at(i).m_moduleClass == Module::BibleModule)
+            iniPath << m_moduleList.at(i).m_iniPath;
     }
     m_bible.biblesIniPath = iniPath;
     return 0;

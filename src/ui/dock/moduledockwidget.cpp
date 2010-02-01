@@ -15,9 +15,9 @@ void ModuleDockWidget::init()
 {
     DEBUG_FUNC_NAME
     ui->treeWidget_bibles->clear();
-    myDebug() << "items = " << m_moduleManager->m_items;
+    myDebug() << "items = " << m_moduleManager->m_bibleItems;
     myDebug() << "cleared";
-    ui->treeWidget_bibles->insertTopLevelItems(0, m_moduleManager->m_items);
+    ui->treeWidget_bibles->insertTopLevelItems(0, m_moduleManager->m_bibleItems);
     myDebug() << "inserted";
     ui->treeWidget_bibles->sortByColumn(0, Qt::AscendingOrder);//sort
     myDebug() << "sorted";

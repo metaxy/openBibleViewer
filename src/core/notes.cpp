@@ -38,11 +38,11 @@ int Notes::loadNotes()
     DEBUG_FUNC_NAME
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "notes::loadNotes() cannot read the file";
+        myDebug() << "cannot read the file";
         return 1;
     }
     if (!doc.setContent(&file)) {
-        qDebug() << "notes::loadNotes() the file isnt valid";
+        myDebug() << "the file isnt valid";
         file.close();
         return 1;
     }
@@ -235,7 +235,7 @@ void Notes::removeNote(const QString &id)
 int Notes::readNotes()
 {
     //read all notes in notesData
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QDomNode n = doc.documentElement().firstChild();
     while (!n.isNull()) {
         if (!n.isElement()) {

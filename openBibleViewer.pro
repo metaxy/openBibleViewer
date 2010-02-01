@@ -62,7 +62,8 @@ SOURCES += src/main.cpp \
     src/ui/interface/study/studyinterface.cpp \
     src/ui/interface/interface.cpp \
     src/ui/dock/dockwidget.cpp \
-    src/core/bibledisplaysettings.cpp
+    src/core/bibledisplaysettings.cpp \
+    src/module/simplemoduleclass.cpp
 HEADERS += src/core/settings.h \
     src/module/biblequote.h \
     src/module/zefania-bible.h \
@@ -115,7 +116,8 @@ HEADERS += src/core/settings.h \
     src/ui/interface/study/studyinterface.h \
     src/ui/interface/interface.h \
     src/ui/dock/dockwidget.h \
-    src/core/bibledisplaysettings.h
+    src/core/bibledisplaysettings.h \
+    src/module/simplemoduleclass.h
 FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dialog/settingsdialog.ui \
     src/ui/dialog/searchinfodialog.ui \

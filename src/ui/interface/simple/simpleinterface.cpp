@@ -235,7 +235,7 @@ void SimpleInterface::pharseUrl(QString url)
         bool ok;
         int c = url.toInt(&ok, 10);
         myDebug() << "c = " << c;
-        if(ok && c < m_moduleManager->m_bible.chapterData.size() && m_moduleManager->m_bible.m_bibleType == Bible::BibleQuoteModule && m_moduleManager->m_bible.chapterID() != c) {
+        if(ok && c < m_moduleManager->m_bible.chapterData.size() && m_moduleManager->m_bible.m_bibleType == Module::BibleQuoteModule && m_moduleManager->m_bible.chapterID() != c) {
             myDebug() << "bq chapter link";
             m_moduleManager->m_bible.readChapter(c,0);
         } else {
@@ -244,7 +244,7 @@ void SimpleInterface::pharseUrl(QString url)
         }
     } else {
         myDebug() << " bookPath = " << m_moduleManager->m_bible.bookPath;
-        if (m_moduleManager->m_bible.m_bibleType == Bible::BibleQuoteModule && m_moduleManager->m_bible.bookPath.contains(url)) {
+        if (m_moduleManager->m_bible.m_bibleType == Module::BibleQuoteModule && m_moduleManager->m_bible.bookPath.contains(url)) {
             emit get("bible://current/" + m_moduleManager->m_bible.bookPath.lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
         } else {
 
@@ -296,7 +296,7 @@ void SimpleInterface::readBookByID(int id)
         myDebug() << "invalid bookID - 1";
         return;
     }
-    if (id >= m_moduleManager->m_bible.bookFullName.size()) {
+    if (id >= m_moduleManager->m_bible.booksCount()) {
         QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
         myDebug() << "invalid bookID - 2(no book loaded)";
         return;
@@ -325,14 +325,21 @@ void SimpleInterface::showChapter(const int &chapterID, const int &verseID)
 void SimpleInterface::nextChapter()
 {
     DEBUG_FUNC_NAME
-    if (m_moduleManager->m_bible.chapterID() < m_moduleManager->m_bible.chapterData.size() - 1)
+    if (m_moduleManager->m_bible.chapterID() < m_moduleManager->m_bible.chaptersCount() - 1) {
         readChapter(m_moduleManager->m_bible.chapterID() + 1);
+    } else if(m_moduleManager->m_bible.bookID() < m_moduleManager->m_bible.booksCount() - 1) {
+        readBook(m_moduleManager->m_bible.bookID() + 1);
+    }
 }
 void SimpleInterface::previousChapter()
 {
     DEBUG_FUNC_NAME
-    if (m_moduleManager->m_bible.chapterID() > 0)
+    if (m_moduleManager->m_bible.chapterID() > 0) {
         readChapter(m_moduleManager->m_bible.chapterID() - 1);
+    } else if(m_moduleManager->m_bible.bookID() > 0) {
+        readBook(m_moduleManager->m_bible.bookID() - 1);
+        readChapter(m_moduleManager->m_bible.chaptersCount() - 1);
+    }
 }
 bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
 {

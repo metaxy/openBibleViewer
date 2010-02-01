@@ -20,27 +20,24 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/zefania-bible.h"
 #include "src/core/searchquery.h"
 #include "src/core/searchresult.h"
-#include "src/core/notes.h"
+#include "src/module/simplemoduleclass.h"
 #include "src/core/bibledisplaysettings.h"
 /*!
  Bible represent a bible module(eg biblequote module)
 
  @author Paul Walger <metaxy@walger.name>
 */
-class Bible
+class Bible : public SimpleModuleClass
 {
 public:
     enum m_bibleTypes {
         None = 0,
         BibleQuoteModule = 1,
-        ZefaniaBibleModule = 2,
-        ZefaniaStrongModule = 3
+        ZefaniaBibleModule = 2
     };
     Bible();
-    void setBibleType(const int &type);
     void setSettings(Settings *settings);
-    void setNotes(Notes *n);
-
+    void setBibleType(const int &type);
     QMap<int, QList<Chapter> > getSoftCache();
     void clearSoftCache();
     void setSoftCache(QMap<int, QList<Chapter> > cache);
@@ -63,6 +60,8 @@ public:
     int bookID();
     int chapterID();
     int chapterAdd();
+    int booksCount();
+    int chaptersCount();
 
     QString bibleName, lastout, m_biblePath;
     SearchQuery lastSearchQuery;
@@ -76,8 +75,6 @@ public:
     BibleQuote bq;
     ZefaniaBible zef;
 private:
-    Settings *m_settings;
-    Notes *m_notes;
     int m_bibleID;
     int m_bookID;
     int m_chapterID;
