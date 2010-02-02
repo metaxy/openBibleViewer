@@ -1176,7 +1176,7 @@ QMenuBar* AdvancedInterface::menuBar()
     QAction *actionFindPrevious = new QAction(QIcon(":/icons/16x16/go-up-search.png"), tr("Find Previous"), menuEdit);
     connect(actionFindPrevious,SIGNAL(triggered()),this,SLOT(previousVerse()));
 
-    QAction *actionConfiguration = new QAction(QIcon(":/icons/32x32/configure.png"), tr("Configuration"), menuEdit);
+    QAction *actionConfiguration = new QAction(QIcon(":/icons/16x16/configure.png"), tr("Configuration"), menuEdit);
     connect(actionConfiguration, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_General()));
 
     menuEdit->addAction(actionCopy);
