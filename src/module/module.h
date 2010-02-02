@@ -19,8 +19,8 @@ public:
     };
     int m_moduleClass;
     int m_moduleType;
-    QString m_iniPath;
-    QString m_name;
+    QString m_path;
+    QString m_title;
     int m_id;
     void setSettings(Settings *settings);
     Settings *m_settings;

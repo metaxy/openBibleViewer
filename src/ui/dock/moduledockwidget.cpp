@@ -15,12 +15,8 @@ void ModuleDockWidget::init()
 {
     DEBUG_FUNC_NAME
     ui->treeWidget_bibles->clear();
-    myDebug() << "items = " << m_moduleManager->m_bibleItems;
-    myDebug() << "cleared";
     ui->treeWidget_bibles->insertTopLevelItems(0, m_moduleManager->m_bibleItems);
-    myDebug() << "inserted";
     ui->treeWidget_bibles->sortByColumn(0, Qt::AscendingOrder);//sort
-    myDebug() << "sorted";
 }
 void ModuleDockWidget::loadModuleData(QTreeWidgetItem *fitem)
 {
@@ -28,7 +24,6 @@ void ModuleDockWidget::loadModuleData(QTreeWidgetItem *fitem)
 
     if(fitem->text(1).toInt() >= 0) {
         emit get("bible://" + fitem->text(1) + "/0,0,0");
-        //m_bibleDisplay->setHtml("");
     }
 }
 bool ModuleDockWidget::eventFilter(QObject *obj, QEvent *event)
@@ -46,7 +41,7 @@ bool ModuleDockWidget::eventFilter(QObject *obj, QEvent *event)
                     } else if(m.m_moduleType == Module::ZefaniaBibleModule) {
                         typ = tr("Zefania XML Module");
                     }
-                    QToolTip::showText(helpEvent->globalPos(), typ + " - "+m.m_iniPath);
+                    QToolTip::showText(helpEvent->globalPos(), typ + " - "+m.m_path);
                 }
             }
         } else {

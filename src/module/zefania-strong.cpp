@@ -29,9 +29,9 @@ ZefaniaStrong::ZefaniaStrong()
 {
     m_settings = new Settings();
 }
-void ZefaniaStrong::setSettings(Settings *set)
+void ZefaniaStrong::setSettings(Settings *settings)
 {
-    m_settings = set;
+    m_settings = settings;
 }
 QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
 {

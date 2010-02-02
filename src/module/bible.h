@@ -63,7 +63,7 @@ public:
     int booksCount();
     int chaptersCount();
 
-    QString bibleName, lastout, m_biblePath;
+    QString bibleTitle, lastout, m_biblePath;
     SearchQuery lastSearchQuery;
     SearchResult lastSearchResult;
     QStringList bookFullName, chapterText, bookPath, chapterNames, chapterDataList;

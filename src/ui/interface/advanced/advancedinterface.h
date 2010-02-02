@@ -8,6 +8,7 @@
 #include "src/ui/dock/searchresultdockwidget.h"
 #include "src/ui/dock/notesdockwidget.h"
 #include "src/ui/dock/bookmarksdockwidget.h"
+#include "src/ui/dock/strongdockwidget.h"
 #include "src/core/windowcache.h"
 #include <QtGui/QMdiSubWindow>
 #include <QtGui/QCloseEvent>
@@ -76,12 +77,14 @@ public:
     void setSearchResultDockWidget(SearchResultDockWidget *searchResultDockWidget);
     void setNotesDockWidget(NotesDockWidget *notesDockWidget);
     void setBookmarksDockWidget(BookmarksDockWidget *boockmarksDockWidget);
+    void setStrongDockWidget(StrongDockWidget *strongDockWidget);
 
     SearchResultDockWidget *m_searchResultDockWidget;
     BookDockWidget *m_bookDockWidget;
     ModuleDockWidget *m_moduleDockWidget;
     NotesDockWidget *m_notesDockWidget;
     BookmarksDockWidget * m_bookmarksDockWidget;
+    StrongDockWidget * m_strongDockWidget;
 
 protected:
     void changeEvent(QEvent *e);

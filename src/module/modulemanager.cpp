@@ -86,10 +86,10 @@ int ModuleManager::loadAllModules()
                             bname = bible.bq.readInfo(file);
                             if (bname.size() > 0) {
                                 Module module;
-                                module.m_iniPath = file.fileName();
+                                module.m_path = file.fileName();
                                 module.m_moduleClass = Module::BibleModule;
                                 module.m_moduleType = Module::BibleQuoteModule;
-                                module.m_name = bname;
+                                module.m_title = bname;
                                 module.m_id = rcount;
                                 m_moduleList << module;
 
@@ -114,10 +114,10 @@ int ModuleManager::loadAllModules()
                             if (bname.size() > 0) {
 
                                 Module module;
-                                module.m_iniPath = file.fileName();
+                                module.m_path = file.fileName();
                                 module.m_moduleClass = Module::BibleModule;
                                 module.m_moduleType = Module::ZefaniaBibleModule;
-                                module.m_name = bname;
+                                module.m_title = bname;
                                 module.m_id = rcount;
                                 m_moduleList << module;
 
@@ -151,16 +151,15 @@ int ModuleManager::loadAllModules()
             //load module
             QFile file;
             int bibletype = m_settings->module.at(i).moduleType.toInt();
-            file.setFileName(m_settings->module.at(i).modulePath);
-            if (bibletype != 0 && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            if (bibletype != 0 ) {
                 switch (bibletype) {
                 case Module::BibleQuoteModule: {
                     //BibleQuote
                     Module module;
-                    module.m_iniPath = file.fileName();
+                    module.m_path = m_settings->module.at(i).modulePath;
                     module.m_moduleClass = Module::BibleModule;
                     module.m_moduleType = Module::BibleQuoteModule;
-                    module.m_name = m_settings->module.at(i).moduleName;
+                    module.m_title = m_settings->module.at(i).moduleName;
                     module.m_id = rcount;
                     m_moduleList << module;
                     m_settings->moduleID.insert(rcount, i);
@@ -181,10 +180,10 @@ int ModuleManager::loadAllModules()
                 case Module::ZefaniaBibleModule: {
                     //ZenfaniaXML
                     Module module;
-                    module.m_iniPath = file.fileName();
+                    module.m_path = m_settings->module.at(i).modulePath;
                     module.m_moduleClass = Module::BibleModule;
                     module.m_moduleType = Module::ZefaniaBibleModule;
-                    module.m_name = m_settings->module.at(i).moduleName;
+                    module.m_title = m_settings->module.at(i).moduleName;
                     module.m_id = rcount;
                     m_moduleList << module;
                     m_settings->moduleID.insert(rcount, i);
@@ -202,15 +201,17 @@ int ModuleManager::loadAllModules()
                     break;
                 }
                 case Module::ZefaniaStrongModule: {
+                    myDebug() << "Strong added";
                     Module module;
-                    module.m_iniPath = "";
+                    module.m_path = m_settings->module.at(i).modulePath;
                     module.m_moduleClass = Module::StrongModule;
                     module.m_moduleType = Module::ZefaniaStrongModule;
-                    module.m_name = m_settings->module.at(i).moduleName;
+                    module.m_title = m_settings->module.at(i).moduleName;
                     module.m_id = rcount;
                     m_moduleList << module;
                     m_settings->moduleID.insert(rcount, i);
                     rcount++;
+                    break;
                 }
 
                 }
@@ -222,7 +223,7 @@ int ModuleManager::loadAllModules()
     QStringList iniPath;
     for (int i = 0; i < m_moduleList.size(); ++i) {
         //if(m_moduleList.at(i).m_moduleClass == Module::BibleModule)
-            iniPath << m_moduleList.at(i).m_iniPath;
+            iniPath << m_moduleList.at(i).m_path;
     }
     m_bible.biblesIniPath = iniPath;
     return 0;
@@ -230,6 +231,12 @@ int ModuleManager::loadAllModules()
 bool ModuleManager::bibleLoaded()
 {
     if (m_moduleList.size() > m_bible.bibleID() && m_bible.bibleID() >= 0)
+        return true;
+    return false;
+}
+bool ModuleManager::strongLoaded()
+{
+    if (m_moduleList.size() > m_strong.m_strongModuleID &&  m_strong.m_strongModuleID >= 0)
         return true;
     return false;
 }

@@ -18,7 +18,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_7">
       <item>
-       <widget class="QComboBox" name="comboBox_strong"/>
+       <widget class="QComboBox" name="comboBox_strongModule"/>
       </item>
       <item>
        <widget class="QLineEdit" name="lineEdit_strong">
@@ -36,7 +36,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../../icons.qrc">
+         <iconset>
           <normaloff>:/icons/16x16/go-jump-locationbar.png</normaloff>:/icons/16x16/go-jump-locationbar.png</iconset>
         </property>
         <property name="autoRaise">
@@ -56,8 +56,6 @@
    </layout>
   </widget>
  </widget>
- <resources>
-  <include location="../../icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

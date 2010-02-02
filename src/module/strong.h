@@ -6,13 +6,10 @@ class Strong : public SimpleModuleClass
 {
 public:
     Strong();
-    QStringList loadStrongs();
     QString loadStrong(QString strongID);
-    void showStrong(const QString &strongID);
-    void loadStrongModule(int lID);
-    int m_currentStrongModule;
-       QString m_currentStrongID;
-       QList<int> m_strongModuleID;
+    void loadStrongModule(const int &id, QString path);
+    int m_strongModuleID;
+    QString m_strongString;
 private:
     ZefaniaStrong m_zefStrong;
 };

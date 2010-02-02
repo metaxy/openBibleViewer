@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>AdvancedInterface</class>
- <widget class="QWidget" name="AdvancedInterface">
+ <widget class="QWidget" name="Form">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>402</width>
-    <height>302</height>
+    <width>400</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,21 +16,6 @@
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <widget class="QMdiArea" name="mdiArea">
-     <property name="background">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>71</red>
-        <green>104</green>
-        <blue>124</blue>
-       </color>
-      </brush>
-     </property>
-     <property name="activationOrder">
-      <enum>QMdiArea::ActivationHistoryOrder</enum>
-     </property>
-     <property name="viewMode">
-      <enum>QMdiArea::TabbedView</enum>
-     </property>
     </widget>
    </item>
   </layout>

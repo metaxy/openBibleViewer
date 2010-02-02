@@ -139,7 +139,8 @@ FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/mainwindow.ui \ # src/ui/main/mainwindow.ui \
     src/ui/interface/simple/simpleinterface.ui \
     src/ui/interface/advanced/advancedinterface.ui \
-    src/ui/interface/study/studyinterface.ui
+    src/ui/interface/study/studyinterface.ui \
+    src/ui/interface/advanced/advancedinterface.ui
 RESOURCES += src/icons.qrc \
     src/data.qrc
 TRANSLATIONS = src/obv_de.ts \

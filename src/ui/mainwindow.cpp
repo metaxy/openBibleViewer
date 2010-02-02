@@ -116,6 +116,10 @@ void MainWindow::loadAdvancedInterface()
     advancedInterface->setBookmarksDockWidget(bookmarksDockWidget);
     addDockWidget(Qt::RightDockWidgetArea, bookmarksDockWidget);
 
+    StrongDockWidget *strongDockWidget = new StrongDockWidget(this);
+    advancedInterface->setStrongDockWidget(strongDockWidget);
+    addDockWidget(Qt::RightDockWidgetArea, strongDockWidget);
+
     advancedInterface->init();
     setCentralWidget(advancedInterface);
 

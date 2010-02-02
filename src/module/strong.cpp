@@ -5,68 +5,34 @@
 Strong::Strong()
 {
 }
-
-QStringList Strong::loadStrongs()
-{
-    /*m_currentStrongID = "";
-    m_currentStrongModule = -1;
-    QList<int> moduleID;
-    QStringList moduleTitle;
-    for (int i = 0; i < m_settings->module.size(); ++i) {
-        if (m_settings->module.at(i).m_moduleClass == QString::number(Module::StrongModule)) {
-            moduleID << i;
-            moduleTitle << m_settings->module.at(i).moduleName;
-        }
-    }
-    m_strongModuleID = moduleID;
-    return moduleTitle;*/
-}
 /*!
   Pharse a strong from current module
   */
-QString Strong::loadStrong(QString strongID)
+QString Strong::loadStrong(QString strongString)
 {
     DEBUG_FUNC_NAME
     m_zefStrong.setSettings(m_settings);
-    if (m_currentStrongModule == -1) {
-        loadStrongModule(0);
+    if (m_strongModuleID == -1) {
+        myDebug() << "Nothing loaded";//should never happen
     }
-    QString strong;
-    if (m_currentStrongModule >= 0) {
-        m_currentStrongID = strongID;
-        strong = m_zefStrong.getStrong(strongID);
+    QString ret;
+    if (m_strongModuleID >= 0) {
+        m_strongString = strongString;
+        ret = m_zefStrong.getStrong(strongString);
     } else {
-        strong = QObject::tr("No strong module loaded.");
+        ret = QObject::tr("No strong module loaded.");
     }
-    if (strong.size() == 0)
-        strong = QObject::tr("Strong not found.");
-    return strong;
-}
-/*!
-  Show a strong from current module
-  */
-void Strong::showStrong(const QString &strongID)
-{
-  /*  if (ui->dockWidget_strong->isHidden()) {
-        ui->dockWidget_strong->show();
-    }
-    ui->lineEdit_strong->setText(strongID);
-    ui->textBrowser_strong->setText(loadStrong(strongID));*/
+    if (ret.size() == 0)
+        ret= QObject::tr("Strong not found.");
+    return ret;
 }
 /*!
   Load a single strong module
 */
-
-void Strong::loadStrongModule(int lID)
+void Strong::loadStrongModule(const int &id, QString path)
 {
     DEBUG_FUNC_NAME
-    if (m_strongModuleID.size() > lID) {
-        int id = m_strongModuleID.at(lID);
-        if (id < m_settings->module.size() && id >= 0) {
-            m_zefStrong.setSettings(m_settings);
-            m_zefStrong.loadDataBase(m_settings->module.at(id).modulePath);
-            m_currentStrongModule = id;
-            //strongSearch();
-        }
-    }
+    m_zefStrong.setSettings(m_settings);
+    m_zefStrong.loadDataBase(path);
+    m_strongModuleID = id;
 }

@@ -310,10 +310,12 @@ void SettingsDialog::downloadModule()
 void SettingsDialog::addModules(QStringList fileName, QStringList names)
 {
     if (fileName.size() > 0) {
-        QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size());
+        QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size()+1);
         progress.setWindowModality(Qt::WindowModal);
+        progress.show();
+        progress.setValue(1);
         for (int i = 0; i < fileName.size(); i++) {
-            progress.setValue(i);
+            progress.setValue(i+2);
             if (progress.wasCanceled()) {
                 progress.close();
                 generateModuleTree();
@@ -332,6 +334,9 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
 
             QFileInfo fileInfo(f);
             if (fileInfo.isFile()) {
+                if(f.endsWith(".zip")) {
+                    //todo: unzip first
+                }
                 //open file
                 QFile file(f);
                 if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {

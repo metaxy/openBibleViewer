@@ -18,6 +18,7 @@ public:
     Bible m_bible;
     Strong m_strong;
     bool bibleLoaded();
+    bool strongLoaded();
 
 };
 

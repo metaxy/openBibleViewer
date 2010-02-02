@@ -40,6 +40,10 @@ void AdvancedInterface::setBookmarksDockWidget(BookmarksDockWidget *bookmarksDoc
 {
     m_bookmarksDockWidget = bookmarksDockWidget;
 }
+void AdvancedInterface::setStrongDockWidget(StrongDockWidget *strongDockWidget)
+{
+    m_strongDockWidget = strongDockWidget;
+}
 void AdvancedInterface::init()
 {
     m_moduleManager->m_bible.setSettings(m_settings);
@@ -81,6 +85,14 @@ void AdvancedInterface::init()
     m_bookmarksDockWidget->hide();
     connect(m_bookmarksDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
+    m_strongDockWidget->setBibleDisplay(m_bibleDisplay);
+    m_strongDockWidget->setNotes(m_notes);
+    m_strongDockWidget->setSettings(m_settings);
+    m_strongDockWidget->setModuleManager(m_moduleManager);
+    m_strongDockWidget->init();
+    m_strongDockWidget->hide();
+    connect(m_strongDockWidget, SIGNAL(get(QUrl)), this, SLOT(pharseUrl(QUrl)));
+
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
@@ -91,7 +103,7 @@ void AdvancedInterface::init()
     m_moduleManager->m_bible.setBibleDisplaySettings(bibleDisplaySettings);
 
     connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
-
+    myDebug() << "homepath = " << m_settings->homePath;
     newMdiChild();
 
 }
@@ -106,14 +118,14 @@ void AdvancedInterface::newMdiChild()
         firstSubWindow = usableWindowList().at(0);
     }
     m_windowCache.newWindow();
-    QWidget *widget = new QWidget(ui->mdiArea);
-    widget->setMinimumHeight(0);
-    widget->setMinimumWidth(0);
+    QWidget *widget = new QWidget(this);
     QVBoxLayout *layout = new QVBoxLayout(widget);
 
-    MdiForm *mForm = new MdiForm(this);
+    MdiForm *mForm = new MdiForm(widget);
     layout->addWidget(mForm);
+
     widget->setLayout(layout);
+
     QMdiSubWindow *subWindow = ui->mdiArea->addSubWindow(widget);
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
     subWindow->setWindowTitle("");
@@ -366,7 +378,7 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
             return 1;*/
 
         m_moduleManager->m_bible = m_windowCache.getBible();
-        setTitle(m_moduleManager->m_bible.bibleName);
+        setTitle(m_moduleManager->m_bible.bibleTitle);
 
         setChapters(m_moduleManager->m_bible.chapterNames);
         myDebug() << "chapterNames = " << m_moduleManager->m_bible.chapterNames;
@@ -421,13 +433,13 @@ void AdvancedInterface::loadModuleDataByID(int id)
     }
     QApplication::setOverrideCursor(Qt::WaitCursor);
     m_moduleManager->m_bible.setBibleType(m_moduleManager->m_moduleList.at(id).m_moduleType);
-    m_moduleManager->m_bible.loadBibleData(id, m_moduleManager->m_moduleList.at(id).m_iniPath);
+    m_moduleManager->m_bible.loadBibleData(id, m_moduleManager->m_moduleList.at(id).m_path);
     m_moduleManager->m_bible.setSoftCache(m_windowCache.getSoftCache(id));//todo: if it is empty then do nothing
 
     m_windowCache.setCurrentWindowID(currentWindowID());
     m_windowCache.setBible(m_moduleManager->m_bible);//todo: !before loading an another bible, save the last
 
-    setTitle(m_moduleManager->m_bible.bibleName);
+    setTitle(m_moduleManager->m_bible.bibleTitle);
     setBooks(m_moduleManager->m_bible.bookFullName);
     QApplication::restoreOverrideCursor();
 
@@ -497,7 +509,7 @@ void AdvancedInterface::pharseUrl(QString url)
         //bible://bibleID/bookID,chapterID,verseID
     } else if (url.startsWith(strong)) {
         url = url.remove(0, strong.size());
-        //showStrong(url);
+        m_strongDockWidget->showStrong(url);
         //strong://strongID
     } else if (url.startsWith(http)) {
         QDesktopServices::openUrl(url);

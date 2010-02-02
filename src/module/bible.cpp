@@ -56,7 +56,7 @@ int Bible::loadBibleData(const int &bibleID, const QString &path)
     case BibleQuoteModule: {
         bq.setSettings(m_settings);
         bq.loadBibleData(bibleID, path);
-        bibleName = bq.bibleName;
+        bibleTitle = bq.bibleName;
         bookCount = bq.bookCount;
         bookFullName = bq.bookFullName;
         bookPath = bq.bookPath;
@@ -68,7 +68,7 @@ int Bible::loadBibleData(const int &bibleID, const QString &path)
         ModuleSettings m = m_settings->getModuleSettings(m_bibleID);
         zef.setSettings(m_settings);
         zef.loadBibleData(bibleID, path);
-        bibleName = m.moduleName;
+        bibleTitle = m.moduleName;
         bookCount = zef.bookCount;
         bookFullName = zef.bookFullName;
         myDebug() << "bookFullName = " << bookFullName  << " bookCount = " << bookCount;
