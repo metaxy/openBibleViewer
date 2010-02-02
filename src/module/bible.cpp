@@ -396,7 +396,7 @@ int Bible::chapterAdd()
 int Bible::booksCount()
 {
     //todo: if there are another module rethink this function
-    return bookCount[m_bookID];
+    return bookFullName.size();
 }
 int Bible::chaptersCount()
 {

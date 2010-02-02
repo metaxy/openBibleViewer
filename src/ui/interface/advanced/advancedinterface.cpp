@@ -661,13 +661,13 @@ void AdvancedInterface::readBookByID(int id)
             return;
         }
         //todo: here is a big bug, kill him
-        /*if (id >= m_moduleManager->m_bible.booksCount().size()) {
+        if (id >= m_moduleManager->m_bible.booksCount()) {
             QApplication::restoreOverrideCursor();
             QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
             myDebug() << "invalid bookID - 2(no book loaded)";
 
             return;
-        }*/
+        }
         if (m_moduleManager->m_bible.readBook(id) != 0) {
             QApplication::restoreOverrideCursor();
             QMessageBox::critical(0, tr("Error"), tr("Cannot read the book."));
