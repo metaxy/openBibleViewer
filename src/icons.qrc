@@ -70,5 +70,6 @@
         <file>icons/16x16/mark-yellow.png</file>
         <file>icons/16x16/edit-redo.png</file>
         <file>icons/16x16/edit-undo.png</file>
+        <file>icons/16x16/notes-edit.png</file>
     </qresource>
 </RCC>

@@ -63,6 +63,11 @@ private slots:
     void selectAll();
     void nextVerse();
     void previousVerse();
+    void showMarkCategories();
+    void showMarkList();
+    void showNotesEditor();
+    void setTabView();
+    void setSubWindowView();
 
 public:
     AdvancedInterface(QWidget *parent = 0);

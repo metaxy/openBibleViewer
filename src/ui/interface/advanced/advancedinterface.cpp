@@ -14,6 +14,7 @@
 #include <QtGui/QPrintDialog>
 #include <QtGui/QPrinter>
 #include "src/ui/dialog/aboutdialog.h"
+#include "src/ui/noteseditor.h"
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
         Interface(parent),
         ui(new Ui::AdvancedInterface)
@@ -1148,13 +1149,17 @@ QMenuBar* AdvancedInterface::menuBar()
 {
     QMenuBar *bar = new QMenuBar(this->parentWidget());
     QMenu *menuFile = new QMenu(tr("File"), bar);
+    QAction *actionSaveAs = new QAction(QIcon(":/icons/16x16/document-save-as.png"), tr("Save As"), menuFile);
+    connect(actionSaveAs,SIGNAL(triggered()),this,SLOT(saveFile()));
 
     QAction *actionPrint = new QAction(QIcon(":/icons/16x16/document-print.png"), tr("Print"), menuFile);
     connect(actionPrint,SIGNAL(triggered()),this,SLOT(printFile()));
-    QAction *actionClose = new QAction(QIcon(":/icons/16x16/window-close.png"), tr("Close"), menuFile);
-    connect(actionClose,SIGNAL(triggered()),this->parentWidget(),SLOT(close()));
 
+    QAction *actionClose = new QAction(QIcon(":/icons/16x16/application-exit.png"), tr("Close"), menuFile);
+    connect(actionClose,SIGNAL(triggered()),this->parentWidget(),SLOT(close()));
+    menuFile->addAction(actionSaveAs);
     menuFile->addAction(actionPrint);
+    menuFile->addSeparator();
     menuFile->addAction(actionClose);
 
 
@@ -1179,8 +1184,52 @@ QMenuBar* AdvancedInterface::menuBar()
     menuEdit->addAction(actionFindNext);
     menuEdit->addAction(actionFindPrevious);
 
+    QMenu *menuView = new QMenu(tr("View"), bar);
+
+    QAction *actionZoomIn = new QAction(QIcon(":/icons/16x16/zoom-in.png"), tr("Zoom In"), menuView);
+    connect(actionZoomIn,SIGNAL(triggered()),this,SLOT(zoomIn()));
+    QAction *actionZoomOut = new QAction(QIcon(":/icons/16x16/zoom-out.png"), tr("Zoom Out"), menuView);
+    connect(actionZoomOut,SIGNAL(triggered()),this,SLOT(zoomOut()));
+
+    QAction *actionTabView = new QAction(QIcon(""), tr("Tabbed View"), menuView);
+    connect(actionTabView,SIGNAL(triggered()),this,SLOT(setTabView()));
+    QAction *actionSubWindowView = new QAction(QIcon(""), tr("Sub Window View"), menuView);
+    connect(actionSubWindowView,SIGNAL(triggered()),this,SLOT(setSubWindowView()));
+
+
+    menuView->addAction(actionZoomIn);
+    menuView->addAction(actionZoomOut);
+    menuView->addSeparator();
+    menuView->addAction(actionTabView);
+    menuView->addAction(actionSubWindowView);
+
+    QMenu *menuNotes = new QMenu(tr("Notes"), bar);
+    QAction *actionNotesEditor = new QAction(QIcon(":/icons/16x16/notes-edit.png"), tr("Notes Editor"), menuNotes);
+    connect(actionNotesEditor,SIGNAL(triggered()),this,SLOT(showNotesEditor()));
+
+    QAction *actionMarkList = new QAction(QIcon(":/icons/16x16/table.png"), tr("Mark List"), menuNotes);
+    connect(actionMarkList,SIGNAL(triggered()),this,SLOT(showMarksList()));
+    QAction *actionMarkCategories = new QAction(QIcon(""), tr("Mark Categories"), menuNotes);
+    connect(actionMarkCategories,SIGNAL(triggered()),this,SLOT(showMarkCategories()));
+    menuNotes->addAction(actionNotesEditor);
+    menuNotes->addSeparator();
+    menuNotes->addAction(actionMarkList);
+    menuNotes->addAction(actionMarkCategories);
+
+    QMenu *menuHelp = new QMenu(tr("Help"), bar);
+    QAction *actionAbout = new QAction(QIcon(":/icons/16x16/help-about.png"), tr("About"), menuHelp);
+    connect(actionAbout,SIGNAL(triggered()),this,SLOT(showAboutDialog()));
+    QAction *actionOnlineHelp = new QAction(QIcon(":/icons/16x16/help-contents.png"), tr("Online Help"), menuHelp);
+    connect(actionOnlineHelp,SIGNAL(triggered()),this,SLOT(onlineHelp()));
+
+    menuHelp->addAction(actionOnlineHelp);
+    menuHelp->addAction(actionAbout);
+
+
     bar->addMenu(menuFile);
     bar->addMenu(menuEdit);
+    bar->addMenu(menuView);
+    bar->addMenu(menuHelp);
     return bar;
 }
 bool AdvancedInterface::hasToolBar()
@@ -1217,6 +1266,7 @@ QToolBar * AdvancedInterface::toolBar()
 
     QAction *actionModule = new QAction(QIcon(":/icons/32x32/module.png"), tr("Module"), bar);
     connect(actionModule, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_Module()));
+
     bar->addAction(actionSearch);
     bar->addSeparator();
     bar->addAction(actionNewWindow);
@@ -1326,6 +1376,29 @@ int AdvancedInterface::showAboutDialog(void)
     aDialog.show();
     aDialog.setText(tr("openBibleViewer <br> version: %1 build: %2<br> <a href=\"http://openbv.uucyc.name/\"> Official Website</a> | <a href=\"http://openbv.uucyc.name/bug/\">Bug report</a>").arg("0.3.a1").arg(""));
     return aDialog.exec();
+}
+void AdvancedInterface::showMarkCategories()
+{
+}
+void AdvancedInterface::showMarkList()
+{
+}
+void AdvancedInterface::showNotesEditor()
+{
+    NotesEditor notesEditor;
+    notesEditor.setNotes(m_notes);
+    notesEditor.setSettings(m_settings);
+    notesEditor.init();
+    notesEditor.show();
+    notesEditor.exec();
+}
+void AdvancedInterface::setTabView()
+{
+     ui->mdiArea->setViewMode(QMdiArea::TabbedView);
+}
+void AdvancedInterface::setSubWindowView()
+{
+    ui->mdiArea->setViewMode(QMdiArea::SubWindowView);
 }
 void AdvancedInterface::changeEvent(QEvent *e)
 {

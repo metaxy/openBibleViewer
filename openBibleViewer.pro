@@ -38,7 +38,6 @@ SOURCES += src/main.cpp \
     src/core/searchhit.cpp \
     src/core/urlconverter.cpp \
     src/core/verseselection.cpp \
-    src/ui/noteeditor.cpp \
     src/ui/marklist.cpp \
     src/ui/markcategories.cpp \
     src/module/modulemanager.cpp \
@@ -63,7 +62,8 @@ SOURCES += src/main.cpp \
     src/ui/interface/interface.cpp \
     src/ui/dock/dockwidget.cpp \
     src/core/bibledisplaysettings.cpp \
-    src/module/simplemoduleclass.cpp
+    src/module/simplemoduleclass.cpp \
+    src/ui/noteseditor.cpp
 HEADERS += src/core/settings.h \
     src/module/biblequote.h \
     src/module/zefania-bible.h \
@@ -96,7 +96,6 @@ HEADERS += src/core/settings.h \
     src/core/searchhit.h \
     src/core/urlconverter.h \
     src/core/verseselection.h \
-    src/ui/noteeditor.h \
     src/ui/marklist.h \
     src/ui/markcategories.h \
     src/module/modulemanager.h \
@@ -117,7 +116,8 @@ HEADERS += src/core/settings.h \
     src/ui/interface/interface.h \
     src/ui/dock/dockwidget.h \
     src/core/bibledisplaysettings.h \
-    src/module/simplemoduleclass.h
+    src/module/simplemoduleclass.h \
+    src/ui/noteseditor.h
 FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dialog/settingsdialog.ui \
     src/ui/dialog/searchinfodialog.ui \
@@ -126,7 +126,6 @@ FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dialog/aboutdialog.ui \
     src/ui/dialog/moduleconfigdialog.ui \
     src/ui/dialog/moduledownloaddialog.ui \
-    src/ui/noteeditor.ui \
     src/ui/marklist.ui \
     src/ui/markcategories.ui \
     src/ui/dock/strongdockwidget.ui \
@@ -140,7 +139,8 @@ FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/interface/simple/simpleinterface.ui \
     src/ui/interface/advanced/advancedinterface.ui \
     src/ui/interface/study/studyinterface.ui \
-    src/ui/interface/advanced/advancedinterface.ui
+    src/ui/interface/advanced/advancedinterface.ui \
+    src/ui/noteseditor.ui
 RESOURCES += src/icons.qrc \
     src/data.qrc
 TRANSLATIONS = src/obv_de.ts \

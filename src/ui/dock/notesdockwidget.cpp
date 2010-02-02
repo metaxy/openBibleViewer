@@ -60,16 +60,18 @@ void NotesDockWidget::showNote(QListWidgetItem *item)
 void NotesDockWidget::showNote(const QString &noteID)
 {
     DEBUG_FUNC_NAME
+    //save current notes
     int row = m_textNotesID.indexOf(noteID);
     ui->listWidget_notes->setCurrentRow(row);
     m_notes->setData(m_noteID, ui->textEdit_note->toHtml());
     m_notes->setTitle(m_noteID, ui->lineEdit_note_titel->text());
     m_notes->setRef(m_noteID, currentNoteRef);
-    m_notes->saveNotes();
+    m_notes->saveNotes();//save on hard disk
     if (!m_textNotesID.contains(noteID)) {
         myDebug() << "invalid noteID = " << noteID;
         return;
     }
+    //load new notes
     m_noteID = noteID;
     myDebug() << "id = " << noteID << " m_noteID = " << m_noteID;
     ui->lineEdit_note_titel->setText(m_notes->getTitle(m_noteID));
