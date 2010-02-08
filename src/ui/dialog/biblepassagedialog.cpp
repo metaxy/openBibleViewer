@@ -37,7 +37,7 @@ void BiblePassageDialog::setSettings(Settings *set)
 }
 void BiblePassageDialog::setCurrent(const int &bible, const QString &path, const int &book, const int &chapter, const int &verse)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_ui->comboBox_bibles->insertItems(0, m_settings->getBibleName());
     m_bookID = book;
     m_chapterID = chapter + 1;
@@ -52,7 +52,7 @@ void BiblePassageDialog::setCurrent(const int &bible, const QString &path, const
 }
 void BiblePassageDialog::indexChanged(int index)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if (index >= 0) {
         m_ui->comboBox_books->clear();
         m_ui->comboBox_books->insertItems(0, m_settings->getBookNames().at(index));

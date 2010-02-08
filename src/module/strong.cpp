@@ -10,7 +10,7 @@ Strong::Strong()
   */
 QString Strong::loadStrong(QString strongString)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_zefStrong.setSettings(m_settings);
     if (m_strongModuleID == -1) {
         myDebug() << "Nothing loaded";//should never happen
@@ -31,7 +31,7 @@ QString Strong::loadStrong(QString strongString)
 */
 void Strong::loadStrongModule(const int &id, QString path)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_zefStrong.setSettings(m_settings);
     m_zefStrong.loadDataBase(path);
     m_strongModuleID = id;

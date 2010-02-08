@@ -38,7 +38,7 @@ QString BibleQuote::formatFromIni(QString input)
 }
 void BibleQuote::loadBibleData(int bibleID, QString path)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_bibleID = bibleID;
     bookFullName.clear();
     bookPath.clear();
@@ -178,7 +178,7 @@ QString BibleQuote::readInfo(QFile &file)
 }
 void BibleQuote::readBook(int id, QString path)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     //chapterText.clear();
     chapterData.clear();
 
@@ -252,7 +252,7 @@ void BibleQuote::readBook(int id, QString path)
 
 SearchResult BibleQuote::search(SearchQuery query)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if (query.wholeWord == true) {
         query.searchText = " " + query.searchText + " ";
     }

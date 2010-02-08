@@ -269,7 +269,7 @@ void SettingsDialog::removeModule()
 }
 void SettingsDialog::editModule()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
     if (row >= 0) {
         ModuleConfigDialog *mDialog = new ModuleConfigDialog(this);

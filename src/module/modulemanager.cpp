@@ -7,12 +7,13 @@
 #include "src/module/strong.h"
 #include "src/module/module.h"
 #include "src/core/dbghelper.h"
+#include "src/core/urlconverter.h"
 ModuleManager::ModuleManager()
 {
 }
 void ModuleManager::setSettings(Settings *settings)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_settings = settings;
 }
 /**
@@ -20,7 +21,7 @@ void ModuleManager::setSettings(Settings *settings)
   */
 int ModuleManager::loadAllModules()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     Bible bible;
     bible.setSettings(m_settings);
     m_moduleList.clear();
@@ -239,4 +240,18 @@ bool ModuleManager::strongLoaded()
     if (m_moduleList.size() > m_strong.m_strongModuleID &&  m_strong.m_strongModuleID >= 0)
         return true;
     return false;
+}
+QString ModuleManager::notePos2Text(const QString &pos)
+{
+    //DEBUG_FUNC_NAME
+
+    myDebug() << "start pos = " << pos;
+    QString string = "";
+    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
+    urlConverter.m_biblesIniPath = m_bible.biblesIniPath;
+    urlConverter.pharse();
+    QString link = urlConverter.convert();
+
+    string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," + QString::number(urlConverter.m_verseID + 1);
+    return  "<a href=\"" + link + "\" > " + string + "</a>";
 }

@@ -9,6 +9,7 @@
 #include "src/core/dbghelper.h"
 #include <QtGui/QMessageBox>
 #include <QtCore/QLibraryInfo>
+#include <QtCore/QMapIterator>
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
         ui(new Ui::MainWindow)
@@ -43,20 +44,22 @@ void MainWindow::init(const QString &homeDataPath)
     m_settingsFile = new QSettings(m_homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
 #endif
 
-    myDebug() << "settingsPath = " << m_homeDataPath;
-
 
     m_moduleManager = new ModuleManager();
     m_bibleDisplay = new BibleDisplay();
     m_settings = new Settings();
+    m_notes = new Notes();
+    m_session = new Session();
 
     loadDefaultSettings();
     loadSettings();
     //loadLanguage(m_settings->language);
-    m_notes = new Notes("");
+
     m_moduleManager->setSettings(m_settings);
     m_moduleManager->loadAllModules();
+
     loadAdvancedInterface();
+    restoreSession();
 }
 void MainWindow::loadSimpleInterface()
 {
@@ -120,7 +123,7 @@ void MainWindow::loadAdvancedInterface()
     advancedInterface->setStrongDockWidget(strongDockWidget);
     addDockWidget(Qt::RightDockWidgetArea, strongDockWidget);
 
-    advancedInterface->init();
+
     setCentralWidget(advancedInterface);
 
     if (advancedInterface->hasMenuBar())
@@ -129,6 +132,9 @@ void MainWindow::loadAdvancedInterface()
         addToolBar(advancedInterface->toolBar());
     connect(this, SIGNAL(settingsChanged(Settings)), advancedInterface, SLOT(settingsChanged(Settings)));
     connect(this, SIGNAL(closing()), advancedInterface, SLOT(closing()));
+    advancedInterface->init();
+    advancedInterface->restoreSession();
+
 
 }
 void MainWindow::loadStudyInterface()
@@ -143,13 +149,13 @@ void MainWindow::loadStudyInterface()
 }
 void MainWindow::setSettings(Settings *set)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_settings = set;
     return;
 }
 void MainWindow::setSettings(Settings set)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     *m_settings = set;
     return;
 }
@@ -273,9 +279,24 @@ void MainWindow::loadSettings()
 
     }
     m_settingsFile->endArray();
+    m_settings->sessionID = m_settingsFile->value("general/lastSession", "0").toString();
 
-    //m_zefStrong.setSettings(m_settings);
-    //m_bible.setSettings(m_settings);
+    size = m_settingsFile->beginReadArray("sessions");
+    for (int i = 0; i < size; ++i) {
+        m_settingsFile->setArrayIndex(i);
+        Session session;
+        if(m_settingsFile->value("id") == m_settings->sessionID) {
+            QStringList keys = m_settingsFile->childKeys();
+            for(int j = 0; j < keys.size();j++) {
+                session.setData(keys.at(j),m_settingsFile->value(keys.at(j)));
+            }
+            m_settings->session = session;//its the current session
+        }
+        m_settings->sessionIDs.append(m_settingsFile->value("id").toString());
+        m_settings->sessionNames.append(m_settingsFile->value("name").toString());
+
+    }
+    m_settingsFile->endArray();
     return;
 }
 void MainWindow::writeSettings()
@@ -283,6 +304,7 @@ void MainWindow::writeSettings()
     m_settingsFile->setValue("general/encoding", m_settings->encoding);
     m_settingsFile->setValue("general/zoomstep", m_settings->zoomstep);
     m_settingsFile->setValue("general/language", m_settings->language);
+    m_settingsFile->setValue("general/lastSession", m_settings->sessionID);
     m_settingsFile->setValue("window/layout", m_settings->autoLayout);
     m_settingsFile->setValue("window/onClickBookmarkGo", m_settings->onClickBookmarkGo);
     m_settingsFile->setValue("bible/textFormatting", m_settings->textFormatting);
@@ -308,10 +330,21 @@ void MainWindow::writeSettings()
         m_settingsFile->setValue("uModuleCount", m_settings->module.at(i).uModuleCount);
     }
     m_settingsFile->endArray();
+
+    m_settingsFile->beginWriteArray("sessions");
+    m_settingsFile->setArrayIndex(m_settings->sessionIDs.lastIndexOf(m_settings->sessionID));
+    {
+        QMapIterator <QString,QVariant> i = m_settings->session.getInterator();
+        while (i.hasNext()) {
+             i.next();
+             m_settingsFile->setValue(i.key(), i.value());
+        }
+    }
+    m_settingsFile->endArray();
 }
 void MainWindow::saveSettings(Settings set)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     myDebug() << "m_settings->language = " << m_settings->language  << " set->language = " << set.language;
     if (m_settings->language != set.language /* || m_settings->theme != set->theme*/) {
         loadLanguage(set.language);
@@ -322,7 +355,7 @@ void MainWindow::saveSettings(Settings set)
 }
 void MainWindow::showSettingsDialog(int tabID)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     SettingsDialog setDialog(this);
     connect(&setDialog, SIGNAL(settingsChanged(Settings)), this, SLOT(saveSettings(Settings)));
     setDialog.setSettings(*m_settings);
@@ -343,11 +376,10 @@ void MainWindow::setTranslator(QTranslator *my, QTranslator *qt)
 {
     myappTranslator = my;
     qtTranslator = qt;
-
 }
 void MainWindow::loadLanguage(QString language)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QStringList avLang;
     //QTranslator myappTranslator;
     QTranslator qtTranslator;
@@ -364,14 +396,14 @@ void MainWindow::loadLanguage(QString language)
         QMessageBox::warning(this, tr("Installing Language failed"), tr("Please choose an another language."));
     }
 
-
     qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     ui->retranslateUi(this);
 }
 void MainWindow::restoreSession()
 {
-    QByteArray geometry = m_settingsFile->value("session/geometry").toByteArray();
-    QByteArray state = m_settingsFile->value("session/state").toByteArray();
+    DEBUG_FUNC_NAME
+    QByteArray geometry = QVariant(m_settings->session.getData("mainWindowGeometry")).toByteArray();
+    QByteArray state = QVariant(m_settings->session.getData("mainWindowState")).toByteArray();
     if (geometry.size() != 0) {
         restoreGeometry(geometry);
     }
@@ -384,7 +416,13 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     Q_UNUSED(event);
     DEBUG_FUNC_NAME
+    //save session
+    m_settings->session.setData("id",m_settings->sessionID);
+    m_settings->session.setData("mainWindowGeometry",QVariant(saveGeometry()));
+    m_settings->session.setData("mainWindowState",QVariant(saveState()));
     emit closing();
+    writeSettings();
+    //todo: save session
 }
 void MainWindow::changeEvent(QEvent *e)
 {

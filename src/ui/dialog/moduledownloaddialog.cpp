@@ -51,7 +51,7 @@ ModuleDownloadDialog::ModuleDownloadDialog(QWidget *parent) :
 }
 void ModuleDownloadDialog::readModules()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     //load list from file
     //show it in treewidget
     QDomDocument doc;
@@ -122,7 +122,7 @@ void ModuleDownloadDialog::readModules()
 }
 void ModuleDownloadDialog::item(QTreeWidgetItem* i)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     myDebug() << "i = " << i->data(1, 0) << " downloadList = " << downloadList;
     httpRequestAborted = false;
     if (i->data(1, 0) == "lang") {

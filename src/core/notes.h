@@ -22,10 +22,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
  @author Paul Walger <metaxy@walger.name>
 */
-class Notes
+class Notes : public QObject
 {
+    Q_OBJECT
+signals:
+    void saveAll();
 public:
-    Notes(const QString &fileName);
+    Notes();
+    void init(const QString &fileName);
     int loadNotes();
     int readNotes();
     int saveNotes();
@@ -44,8 +48,11 @@ public:
     void removeNote(const QString &id);
     QStringList getIDList();
     bool isLoaded();
+    void loadingNewInstance();
+
+
 private:
-    QString fileName;
+    QString m_fileName;
     QStringList notesID;
     QMap<QString, QString> notesData;
     QMap<QString, QString> notesTitle;
@@ -54,6 +61,7 @@ private:
     QDomDocument doc;
     QString m_version;
     bool m_isLoaded;
+    bool m_isInited;
 };
 
 #endif // NOTES_H

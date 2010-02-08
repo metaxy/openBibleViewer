@@ -19,6 +19,7 @@ public:
     Strong m_strong;
     bool bibleLoaded();
     bool strongLoaded();
+    QString notePos2Text(const QString &pos);
 
 };
 

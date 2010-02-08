@@ -28,7 +28,7 @@ private slots:
     void myCascade();
     void myTileVertical();
     void myTileHorizontal();
-    void newMdiChild();
+    void newMdiChild(bool autoLayout = true);
     int closeWindow();
     int reloadWindow(QMdiSubWindow * window);
     void pharseUrl(QUrl url);
@@ -83,6 +83,8 @@ public:
     void setNotesDockWidget(NotesDockWidget *notesDockWidget);
     void setBookmarksDockWidget(BookmarksDockWidget *boockmarksDockWidget);
     void setStrongDockWidget(StrongDockWidget *strongDockWidget);
+
+    void restoreSession();
 
     SearchResultDockWidget *m_searchResultDockWidget;
     BookDockWidget *m_bookDockWidget;

@@ -20,7 +20,7 @@ WindowCache::WindowCache()
 }
 void WindowCache::setBible(Bible b)
 {
-    DEBUG_FUNC_NAME
+   // DEBUG_FUNC_NAME
     m_softCache.insert(b.bibleID(), b.getSoftCache());
     b.clearSoftCache();
     m_b[m_currentWindowID] = b;
@@ -39,7 +39,7 @@ void WindowCache::removeWindow(const int &id)
 }
 void WindowCache::clearAll()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_idList.clear();
     m_b.clear();
     m_softCache.clear();
@@ -61,14 +61,14 @@ bool WindowCache::setCurrentWindowID(const int &id)
 }
 Bible WindowCache::getBible()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     Bible b = m_b[m_currentWindowID];
     b.setSoftCache(getSoftCache(b.bibleID()));
     return b;
 }
 QMap<int, QList<Chapter> > WindowCache::getSoftCache(const int &bibleID)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     //it could be that there ist no zefania Cache
     return m_softCache[bibleID];
 }

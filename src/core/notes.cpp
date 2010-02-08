@@ -19,9 +19,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomElement>
 #include <QtCore/QTextStream>
 #include <QtCore/QDebug>
-Notes::Notes(const QString &newFileName)
+Notes::Notes()
 {
-    fileName = newFileName;
+}
+void Notes::init(const QString &fileName)
+{
+    //DEBUG_FUNC_NAME
+    m_fileName = fileName;
     m_version = "0.2";
     m_isLoaded = false;
 }
@@ -29,14 +33,19 @@ bool Notes::isLoaded()
 {
     return m_isLoaded;
 }
+void Notes::loadingNewInstance()
+{
+    //DEBUG_FUNC_NAME
+    emit saveAll();
+}
 
 /*!
     Load notes data from an xml-file
   */
 int Notes::loadNotes()
 {
-    DEBUG_FUNC_NAME
-    QFile file(fileName);
+    //DEBUG_FUNC_NAME
+    QFile file(m_fileName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         myDebug() << "cannot read the file";
         return 1;
@@ -287,7 +296,7 @@ int Notes::readNotes()
   */
 int Notes::saveNotes()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QDomDocument sdoc;
     QDomElement root = sdoc.createElement("notes");
     root.setAttribute("version", m_version);
@@ -318,7 +327,7 @@ int Notes::saveNotes()
         }
         tag.appendChild(ref);
     }
-    QFile file(fileName);
+    QFile file(m_fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return 1;
     QTextStream out(&file);
@@ -328,3 +337,4 @@ int Notes::saveNotes()
     return 0;
 }
 
+#include "moc_notes.cpp"

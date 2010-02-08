@@ -33,7 +33,7 @@ int Settings::getCacheID(int bibleID)
             ++counter;
 
     }
-    myDebug() << "sid = " << sID << " counter = " << counter;
+    //myDebug() << "sid = " << sID << " counter = " << counter;
     return counter - 1;
 }
 
@@ -112,15 +112,15 @@ QStringList Settings::getBibleName()
 
 void Settings::setBiblePath(const int &bibleID, QString biblePath)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     ModuleSettings m = getModuleSettings(bibleID);
     m.biblePath[QString::number(getCacheID(bibleID))] = QVariant(biblePath);
     replaceModule(bibleID, m);
-    myDebug() << m.biblePath;
+    //myDebug() << m.biblePath;
 }
 QStringList Settings::getBiblePath()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QStringList ret;
     for (int c = 0; c < module.size(); ++c) {
         QMapIterator<QString, QVariant> i(module.at(c).biblePath);

@@ -133,7 +133,7 @@ void SimpleInterface::zoomOut()
 }
 void SimpleInterface::loadModuleDataByID(int id)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     myDebug() << "id = " << id;
     if (id < 0 || m_moduleManager->m_moduleList.size() < id)
         return;
@@ -154,7 +154,7 @@ void SimpleInterface::pharseUrl(QUrl url)
 }
 void SimpleInterface::pharseUrl(QString url)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     myDebug() << "url = " << url;
     const QString bible = "bible://";
     const QString http = "http://";
@@ -312,7 +312,7 @@ void SimpleInterface::readBookByID(int id)
 }
 void SimpleInterface::readChapter(const int &id)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     emit get("bible://current/" + QString::number(m_moduleManager->m_bible.bookID()) + "," + QString::number(id) + ",0");
 }
 
@@ -324,7 +324,7 @@ void SimpleInterface::showChapter(const int &chapterID, const int &verseID)
 }
 void SimpleInterface::nextChapter()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if (m_moduleManager->m_bible.chapterID() < m_moduleManager->m_bible.chaptersCount() - 1) {
         readChapter(m_moduleManager->m_bible.chapterID() + 1);
     } else if(m_moduleManager->m_bible.bookID() < m_moduleManager->m_bible.booksCount() - 1) {
@@ -333,7 +333,7 @@ void SimpleInterface::nextChapter()
 }
 void SimpleInterface::previousChapter()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if (m_moduleManager->m_bible.chapterID() > 0) {
         readChapter(m_moduleManager->m_bible.chapterID() - 1);
     } else if(m_moduleManager->m_bible.bookID() > 0) {
@@ -370,7 +370,7 @@ SimpleInterface::~SimpleInterface()
 }
 void SimpleInterface::settingsChanged(Settings set)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     //reload books
     bool reloadBibles = false;
     if (m_settings->encoding != set.encoding) {
@@ -400,7 +400,7 @@ void SimpleInterface::settingsChanged(Settings set)
 }
 void SimpleInterface::showSearchDialog()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     SearchDialog *sDialog = new SearchDialog(this);
     connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
     if (ui->textBrowser->textCursor().hasSelection() == true)//something is selected
@@ -410,7 +410,7 @@ void SimpleInterface::showSearchDialog()
 }
 void SimpleInterface::search(SearchQuery query)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if (!m_moduleManager->bibleLoaded())
         return;
     m_searchResultDockWidget->show();

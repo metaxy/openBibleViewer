@@ -55,7 +55,7 @@ private:
     QStringList m_textNotesID;
     QString m_noteID;
     QMap<QString, QString> currentNoteRef;
-    QString notePos2Text(const QString &pos);
+
 };
 
 #endif // NOTESDOCKWIDGET_H

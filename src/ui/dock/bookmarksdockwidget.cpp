@@ -193,7 +193,7 @@ void BookmarksDockWidget::bookmarksGo(QTreeWidgetItem * item)
 }
 int BookmarksDockWidget::internalOpenPos(const QString &pos)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
     urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;//not nice, i know
     urlConverter.pharse();

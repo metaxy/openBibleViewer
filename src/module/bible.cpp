@@ -23,7 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 Bible::Bible()
 {
     m_bibleID = -1;
-    m_settings = new Settings();
+    //m_settings = new Settings();
 }
 void Bible::setBibleType(const int &type)
 {
@@ -44,12 +44,12 @@ void Bible::setBibleDisplaySettings(BibleDisplaySettings bibleDisplaySettings)
 
 int Bible::loadBibleData(const int &bibleID, const QString &path)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if(bibleID < 0) {
         myDebug() << "invalid bibleID = " << bibleID;
         return 1;
     }
-    myDebug() << "bibleID = " << bibleID << " path = " << path << " bibleType =" << m_bibleType;
+   // myDebug() << "bibleID = " << bibleID << " path = " << path << " bibleType =" << m_bibleType;
     m_bibleID = bibleID;
 
     switch (m_bibleType) {
@@ -84,9 +84,9 @@ int Bible::loadBibleData(const int &bibleID, const QString &path)
 */
 int Bible::readBook(int id)
 {
-    DEBUG_FUNC_NAME
+   // DEBUG_FUNC_NAME
     m_bookID = id;
-    myDebug() << "id = " << id << " bibleType = " << m_bibleType;
+    //myDebug() << "id = " << id << " bibleType = " << m_bibleType;
     switch (m_bibleType) {
     case BibleQuoteModule: {
         chapterData.clear();
@@ -136,7 +136,7 @@ QString Bible::readChapter(int chapterID, int verseID = -1)
  */
 QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVerseID = -1, bool saveRawData = false)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     //endVerse == -1 means all verse
     m_chapterID = chapterID;
     if (saveRawData)

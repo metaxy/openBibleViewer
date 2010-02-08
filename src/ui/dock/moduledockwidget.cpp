@@ -13,19 +13,24 @@ ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
 }
 void ModuleDockWidget::init()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     ui->treeWidget_bibles->clear();
     ui->treeWidget_bibles->insertTopLevelItems(0, m_moduleManager->m_bibleItems);
     ui->treeWidget_bibles->sortByColumn(0, Qt::AscendingOrder);//sort
 }
 void ModuleDockWidget::loadModuleData(QTreeWidgetItem *fitem)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
 
     if(fitem->text(1).toInt() >= 0) {
         emit get("bible://" + fitem->text(1) + "/0,0,0");
     }
 }
+void ModuleDockWidget::loadedModule(int id)
+{
+    //todo: implement this
+}
+
 bool ModuleDockWidget::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == ui->treeWidget_bibles) {

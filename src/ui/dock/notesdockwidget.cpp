@@ -32,10 +32,16 @@ void NotesDockWidget::init()
     connect(ui->textEdit_note, SIGNAL(undoAvailable(bool)), ui->toolButton_noteUndo, SLOT(setEnabled(bool)));
     connect(ui->textEdit_note, SIGNAL(redoAvailable(bool)), ui->toolButton_noteRedo, SLOT(setEnabled(bool)));
     connect(ui->listWidget_notes, SIGNAL(itemActivated(QListWidgetItem *)), this, SLOT(showNote(QListWidgetItem *)));
+    if(!m_notes->isLoaded()) {
+    //todo: it has to be loaded first !!!!
+        myDebug() << "new Notes";
+        m_notes->init(m_settings->homePath + "notes.xml");
+        m_notes->loadNotes();
+        m_notes->readNotes();
+    }
+    m_notes->loadingNewInstance();
+    connect(m_notes,SIGNAL(saveAll()),this,SLOT(saveNote()));
 
-    m_notes = new Notes(m_settings->homePath + "notes.xml");
-    m_notes->loadNotes();
-    m_notes->readNotes();
     ui->listWidget_notes->clear();
     m_textNotesID.clear();
     QStringList id = m_notes->getIDList();
@@ -59,7 +65,7 @@ void NotesDockWidget::showNote(QListWidgetItem *item)
 }
 void NotesDockWidget::showNote(const QString &noteID)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     //save current notes
     int row = m_textNotesID.indexOf(noteID);
     ui->listWidget_notes->setCurrentRow(row);
@@ -79,7 +85,7 @@ void NotesDockWidget::showNote(const QString &noteID)
     currentNoteRef = m_notes->getRef(m_noteID);
     myDebug() << "link = " << m_notes->getRef(m_noteID, "link");
     if (!m_notes->getRef(m_noteID, "link").isEmpty()) {
-        ui->label_noteLink->setText(notePos2Text(m_notes->getRef(m_noteID, "link")));
+        ui->label_noteLink->setText(m_moduleManager->notePos2Text(m_notes->getRef(m_noteID, "link")));
         ui->pushButton_editNoteLink->setEnabled(true);
     } else {
         ui->label_noteLink->setText("");
@@ -90,7 +96,7 @@ void NotesDockWidget::showNote(const QString &noteID)
 
 void NotesDockWidget::copyNote(void)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
 
     int id = ui->listWidget_notes->currentRow();
     if (id < m_textNotesID.size() && id >= 0) {
@@ -104,7 +110,7 @@ void NotesDockWidget::copyNote(void)
 }
 void NotesDockWidget::saveNote(void)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     myDebug() << "m_noteID = " << m_noteID;
     m_notes->setData(m_noteID, ui->textEdit_note->toHtml());
     m_notes->setTitle(m_noteID, ui->lineEdit_note_titel->text());
@@ -114,7 +120,7 @@ void NotesDockWidget::saveNote(void)
 }
 void NotesDockWidget::newNote(void)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
 
     saveNote();
     reloadNotes();
@@ -174,7 +180,7 @@ void NotesDockWidget::newNoteWithLink(VerseSelection selection)
     ui->lineEdit_note_titel->setText(tr("(unnamed)"));
     ui->textEdit_note->setHtml("");
     if (!m_notes->getRef(m_noteID, "link").isEmpty()) {
-        ui->label_noteLink->setText(notePos2Text(m_notes->getRef(m_noteID, "link")));
+        ui->label_noteLink->setText(m_moduleManager->notePos2Text(m_notes->getRef(m_noteID, "link")));
         ui->pushButton_editNoteLink->setEnabled(true);
     } else {
         ui->label_noteLink->setText("");
@@ -184,7 +190,7 @@ void NotesDockWidget::newNoteWithLink(VerseSelection selection)
 }
 void NotesDockWidget::removeNote(void)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_notes->removeNote(m_noteID);
     ui->lineEdit_note_titel->setText(tr(""));
     ui->textEdit_note->setHtml("");
@@ -193,7 +199,7 @@ void NotesDockWidget::removeNote(void)
 }
 void NotesDockWidget::reloadNotes(void)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     ui->listWidget_notes->clear();
     m_textNotesID.clear();
     QStringList id = m_notes->getIDList();
@@ -281,23 +287,10 @@ void NotesDockWidget::noteRedo()
     ui->textEdit_note->redo();
 }
 
-QString NotesDockWidget::notePos2Text(const QString &pos)
-{
-    DEBUG_FUNC_NAME
 
-    myDebug() << "start pos = " << pos;
-    QString string = "";
-    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
-    urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
-    urlConverter.pharse();
-    QString link = urlConverter.convert();
-
-    string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," + QString::number(urlConverter.m_verseID + 1);
-    return  "<a href=\"" + link + "\" > " + string + "</a>";
-}
 void NotesDockWidget::editNoteLink()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QString link = currentNoteRef["link"];
     myDebug() << "link = " << link;
 
@@ -315,7 +308,7 @@ void NotesDockWidget::editNoteLink()
 }
 void NotesDockWidget::updateNote(QString link)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     myDebug() << "link = " << link;
     currentNoteRef["link"] = link;
     showNote(ui->listWidget_notes->currentItem());
@@ -324,7 +317,7 @@ void NotesDockWidget::updateNote(QString link)
 
 void NotesDockWidget::newMark(VerseSelection selection, QColor color)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QString link;
     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
     urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
@@ -358,7 +351,7 @@ void NotesDockWidget::newMark(VerseSelection selection, QColor color)
 }
 void NotesDockWidget::removeMark(VerseSelection selection)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QStringList id = m_notes->getIDList();
     for (int i = 0; i < id.size(); i++) {
         if (m_notes->getType(id.at(i)) == "mark") {

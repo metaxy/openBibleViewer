@@ -20,6 +20,7 @@ public:
     BibleDisplay *m_bibleDisplay;
     Settings *m_settings;
     Notes *m_notes;
+
     void setModuleManager(ModuleManager *manager);
     void setBibleDisplay(BibleDisplay *bibledisplay);
     void setSettings(Settings *settings);

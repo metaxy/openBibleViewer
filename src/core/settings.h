@@ -1,6 +1,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 #include "modulesettings.h"
+#include "session.h"
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QMap>
@@ -42,6 +43,10 @@ public:
     QStringList getBibleName();
     QStringList getBiblePath();
     void clearNamesCache(const int &id);
+    Session session;
+    QString sessionID;
+    QStringList sessionNames;
+    QStringList sessionIDs;
 };
 
 #endif // SETTINGS_H

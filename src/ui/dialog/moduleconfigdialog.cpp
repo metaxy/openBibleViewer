@@ -35,7 +35,7 @@ ModuleConfigDialog::~ModuleConfigDialog()
 }
 void ModuleConfigDialog::setModule(ModuleSettings config)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     c = config;
     m_ui->lineEdit_name->setText(config.moduleName);
     m_ui->lineEdit_path->setText(config.modulePath);
@@ -83,7 +83,7 @@ void ModuleConfigDialog::setModule(ModuleSettings config)
 }
 void ModuleConfigDialog::bsave()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
 
     if (c.moduleType.toInt() == Bible::ZefaniaBibleModule &&
             (c.encoding != encodings.at(m_ui->comboBox_encoding->currentIndex()) ||

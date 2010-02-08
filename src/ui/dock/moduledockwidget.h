@@ -20,6 +20,7 @@ public:
     ModuleDockWidget(QWidget *parent = 0);
     ~ModuleDockWidget();
     void init();
+    void loadedModule(int id);
 protected:
     void changeEvent(QEvent *e);
     bool eventFilter(QObject *obj, QEvent *event);

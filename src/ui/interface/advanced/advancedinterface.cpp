@@ -105,13 +105,13 @@ void AdvancedInterface::init()
 
     connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
     myDebug() << "homepath = " << m_settings->homePath;
-    newMdiChild();
-
+    //newMdiChild();
 }
 
 
-void AdvancedInterface::newMdiChild()
+void AdvancedInterface::newMdiChild(bool autoLayout)
 {
+    m_enableReload = false;
     DEBUG_FUNC_NAME
     int windowsCount = usableWindowList().size();
     QMdiSubWindow *firstSubWindow = new QMdiSubWindow();
@@ -130,7 +130,9 @@ void AdvancedInterface::newMdiChild()
     QMdiSubWindow *subWindow = ui->mdiArea->addSubWindow(widget);
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
     subWindow->setWindowTitle("");
-    if (windowsCount == 0) {
+    subWindow->show();
+    ui->mdiArea->setActiveSubWindow(subWindow);
+   /* if (windowsCount == 0) {
         subWindow->showMaximized();
     } else if (windowsCount == 1) {
         firstSubWindow->resize(600, 600);
@@ -140,7 +142,7 @@ void AdvancedInterface::newMdiChild()
     } else {
         subWindow->resize(600, 600);
         subWindow->show();
-    }
+    }*/
 
     connect(mForm->m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
     connect(mForm->m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
@@ -151,18 +153,20 @@ void AdvancedInterface::newMdiChild()
     connect(mForm, SIGNAL(nextChapter()), this, SLOT(nextChapter()));
     connect(this, SIGNAL(historySetUrl(QString)), mForm, SLOT(historyGetUrl(QString)));
     connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closeWindow()));
-    if (windowsCount >= 1) {
-        if (m_settings->autoLayout == 1) {
-            myTileVertical();
-        } else if (m_settings->autoLayout == 2) {
-            myTileHorizontal();
-        } else if (m_settings->autoLayout == 3) {
-            myCascade();
+    m_enableReload = true;
+    if(autoLayout) {
+        if (usableWindowList().size() > 1) {
+            if (m_settings->autoLayout == 1) {
+                myTileVertical();
+            } else if (m_settings->autoLayout == 2) {
+                myTileHorizontal();
+            } else if (m_settings->autoLayout == 3) {
+                myCascade();
+            }
         }
     }
-
     m_internalWindows << subWindow;
-    m_enableReload = true;
+
 }
 QMdiSubWindow * AdvancedInterface::activeMdiChild()
 {
@@ -188,7 +192,7 @@ QMdiSubWindow * AdvancedInterface::activeMdiChild()
 void AdvancedInterface::myTileVertical()
 {
     DEBUG_FUNC_NAME
-    if (!m_enableReload ||  !usableWindowList().count()) {
+    if (!m_enableReload || !usableWindowList().count()) {
         return;
     }
 
@@ -286,13 +290,14 @@ void AdvancedInterface::myCascade()
 QList<QMdiSubWindow*> AdvancedInterface::usableWindowList()
 {
     //only if !ChildAdded-Event is triggered
-    QList<QMdiSubWindow*> ret;
+  /*  QList<QMdiSubWindow*> ret;
     foreach(QMdiSubWindow* w, ui->mdiArea->subWindowList()) {
-        if (w->isMinimized() /*|| w->isHidden()*/) //not usable for us
+        if (w->isMinimized() || w->isHidden()) //not usable for us
             continue;
         ret.append(w);
-    }
-    return ret;
+    }*/
+   // return ret;
+    return  ui->mdiArea->subWindowList();
 }
 int AdvancedInterface::currentWindowID()
 {
@@ -314,7 +319,7 @@ int AdvancedInterface::tabIDof(QMdiSubWindow* window)
 }
 int AdvancedInterface::closeWindow()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if (!m_enableReload) {
         myDebug() << "reload is not enabled";
         return 1;
@@ -420,7 +425,7 @@ void AdvancedInterface::zoomOut()
 }
 void AdvancedInterface::loadModuleDataByID(int id)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     myDebug() << "id = " << id;
     if(ui->mdiArea->subWindowList().size() == 0)
         newMdiChild();
@@ -442,6 +447,7 @@ void AdvancedInterface::loadModuleDataByID(int id)
 
     setTitle(m_moduleManager->m_bible.bibleTitle);
     setBooks(m_moduleManager->m_bible.bookFullName);
+    m_moduleDockWidget->loadedModule(id);
     QApplication::restoreOverrideCursor();
 
 }
@@ -605,7 +611,7 @@ void AdvancedInterface::setTitle(const QString &title)
 
 void AdvancedInterface::setChapters(const QStringList &chapters)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_bookDockWidget->setChapters(chapters);
     if (activeMdiChild()) {
             QComboBox *comboBox_chapters = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_chapters");
@@ -615,7 +621,7 @@ void AdvancedInterface::setChapters(const QStringList &chapters)
 }
 void AdvancedInterface::setCurrentChapter(const int &chapterID)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_bookDockWidget->setCurrentChapter(chapterID);
     if (activeMdiChild()) {
         QComboBox *comboBox_chapters = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_chapters");
@@ -682,7 +688,7 @@ void AdvancedInterface::readBookByID(int id)
 }
 void AdvancedInterface::readChapter(const int &id)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     emit get("bible://current/" + QString::number(m_moduleManager->m_bible.bookID()) + "," + QString::number(id) + ",0");
 }
 
@@ -694,7 +700,7 @@ void AdvancedInterface::showChapter(const int &chapterID, const int &verseID)
 }
 void AdvancedInterface::nextChapter()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if (m_moduleManager->m_bible.chapterID() < m_moduleManager->m_bible.chaptersCount() - 1) {
         readChapter(m_moduleManager->m_bible.chapterID() + 1);
     } else if(m_moduleManager->m_bible.bookID() < m_moduleManager->m_bible.booksCount() - 1) {
@@ -703,7 +709,7 @@ void AdvancedInterface::nextChapter()
 }
 void AdvancedInterface::previousChapter()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if (m_moduleManager->m_bible.chapterID() > 0) {
         readChapter(m_moduleManager->m_bible.chapterID() - 1);
     } else if(m_moduleManager->m_bible.bookID() > 0) {
@@ -714,7 +720,7 @@ void AdvancedInterface::previousChapter()
 VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
 {
     VerseSelection selection;
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     selection.endVerse = -1;
     selection.startVerse = -1;
 
@@ -1061,12 +1067,73 @@ void AdvancedInterface::closing()
     DEBUG_FUNC_NAME
     m_notesDockWidget->saveNote();
     m_bookmarksDockWidget->saveBookmarks();
-    //saveBookmarks();
-    //saveSession();
+    m_settings->session.setData("bookmarksDockGeometry",m_bookmarksDockWidget->saveGeometry());
+    m_settings->session.setData("notesDockGeometry",m_notesDockWidget->saveGeometry());
+    m_settings->session.setData("bookDockGeometry",m_bookDockWidget->saveGeometry());
+    m_settings->session.setData("moduleDockGeometry",m_moduleDockWidget->saveGeometry());
+    m_settings->session.setData("searchResultDockGeometry",m_searchResultDockWidget->saveGeometry());
+    m_settings->session.setData("strongDockGeometry",m_strongDockWidget->saveGeometry());
+    QStringList windowUrls;
+    QList<QVariant> windowGeo;
+    QList<QVariant> vSlider;
+    QList<QVariant> hSlider;
+    for (int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
+         m_windowCache.setCurrentWindowID(i);
+         Bible b = m_windowCache.getBible();
+         UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
+         urlConverter.m_biblesIniPath = b.biblesIniPath;
+         urlConverter.m_bibleID = QString::number(b.bibleID());
+         urlConverter.m_bookID = b.bookID();
+         urlConverter.m_chapterID = b.chapterID() -b.chapterAdd();
+         urlConverter.m_verseID = 0;
+         windowUrls << urlConverter.convert();
+         windowGeo << ui->mdiArea->subWindowList().at(i)->geometry();
+         QTextBrowser *textBrowser =  ui->mdiArea->subWindowList().at(i)->findChild<QTextBrowser *>("textBrowser");
+         vSlider <<  textBrowser->verticalScrollBar()->sliderPosition();
+         hSlider << textBrowser->horizontalScrollBar()->sliderPosition();
+    }
+    m_settings->session.setData("windowUrls",windowUrls);
+    m_settings->session.setData("windowGeo",windowGeo);
+    m_settings->session.setData("vSlider",vSlider);
+    m_settings->session.setData("hSlider",hSlider);
+
+
+}
+void AdvancedInterface::restoreSession()
+{
+    DEBUG_FUNC_NAME
+    m_bookmarksDockWidget->restoreGeometry(m_settings->session.getData("bookmarksDockGeometry").toByteArray());
+    m_notesDockWidget->restoreGeometry(m_settings->session.getData("notesDockGeometry").toByteArray());
+    m_bookDockWidget->restoreGeometry(m_settings->session.getData("bookDockGeometry").toByteArray());
+    m_moduleDockWidget->restoreGeometry(m_settings->session.getData("moduleDockGeometry").toByteArray());
+    m_searchResultDockWidget->restoreGeometry(m_settings->session.getData("searchResultDockGeometry").toByteArray());
+    m_strongDockWidget->restoreGeometry(m_settings->session.getData("strongDockGeometry").toByteArray());
+    QStringList windowUrls = m_settings->session.getData("windowUrls").toStringList();
+    QVariantList windowGeo = m_settings->session.getData("windowGeo").toList();
+    QVariantList vSlider = m_settings->session.getData("vSlider").toList();
+    QVariantList hSlider = m_settings->session.getData("hSlider").toList();
+    for(int i = 0; i < windowUrls.size(); ++i) {
+        newMdiChild(false);
+        myDebug() << "current window is " << tabIDof(activeMdiChild()) << " while window count is " << usableWindowList();
+        //load bible
+        UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, windowUrls.at(i));
+        urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
+        urlConverter.pharse();
+        myDebug() << "url = " << urlConverter.convert();
+        pharseUrl(urlConverter.convert());
+        //set geometry
+        activeMdiChild()->setGeometry(windowGeo.at(i).toRect());
+        QTextBrowser *textBrowser =  activeMdiChild()->findChild<QTextBrowser *>("textBrowser");
+        //set slider
+        //todo: reallly stange
+        textBrowser->verticalScrollBar()->setSliderPosition(vSlider.at(i).toInt());
+        textBrowser->horizontalScrollBar()->setSliderPosition(hSlider.at(i).toInt());
+    }
+    //restore
 }
 void AdvancedInterface::settingsChanged(Settings set)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     //reload books
     bool reloadBibles = false;
     if (m_settings->encoding != set.encoding) {
@@ -1090,6 +1157,7 @@ void AdvancedInterface::settingsChanged(Settings set)
         myDebug() << "reload Bibles";
         m_moduleManager->loadAllModules();
         m_moduleDockWidget->init();
+        m_strongDockWidget->init();
         //ui->textBrowser->setHtml("");
         //todo: clear everything
     }
@@ -1109,7 +1177,7 @@ void AdvancedInterface::showSearchDialog()
 }
 void AdvancedInterface::search(SearchQuery query)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if (!m_moduleManager->bibleLoaded())
         return;
     m_searchResultDockWidget->show();
@@ -1196,9 +1264,9 @@ QMenuBar* AdvancedInterface::menuBar()
     QAction *actionZoomOut = new QAction(QIcon(":/icons/16x16/zoom-out.png"), tr("Zoom Out"), menuView);
     connect(actionZoomOut,SIGNAL(triggered()),this,SLOT(zoomOut()));
 
-    QAction *actionTabView = new QAction(QIcon(""), tr("Tabbed View"), menuView);
+    QAction *actionTabView = new QAction(QIcon(), tr("Tabbed View"), menuView);
     connect(actionTabView,SIGNAL(triggered()),this,SLOT(setTabView()));
-    QAction *actionSubWindowView = new QAction(QIcon(""), tr("Sub Window View"), menuView);
+    QAction *actionSubWindowView = new QAction(QIcon(), tr("Sub Window View"), menuView);
     connect(actionSubWindowView,SIGNAL(triggered()),this,SLOT(setSubWindowView()));
 
 
@@ -1213,8 +1281,8 @@ QMenuBar* AdvancedInterface::menuBar()
     connect(actionNotesEditor,SIGNAL(triggered()),this,SLOT(showNotesEditor()));
 
     QAction *actionMarkList = new QAction(QIcon(":/icons/16x16/table.png"), tr("Mark List"), menuNotes);
-    connect(actionMarkList,SIGNAL(triggered()),this,SLOT(showMarksList()));
-    QAction *actionMarkCategories = new QAction(QIcon(""), tr("Mark Categories"), menuNotes);
+    connect(actionMarkList,SIGNAL(triggered()),this,SLOT(showMarkList()));
+    QAction *actionMarkCategories = new QAction(QIcon(), tr("Mark Categories"), menuNotes);
     connect(actionMarkCategories,SIGNAL(triggered()),this,SLOT(showMarkCategories()));
     menuNotes->addAction(actionNotesEditor);
     menuNotes->addSeparator();
@@ -1229,11 +1297,10 @@ QMenuBar* AdvancedInterface::menuBar()
 
     menuHelp->addAction(actionOnlineHelp);
     menuHelp->addAction(actionAbout);
-
-
     bar->addMenu(menuFile);
     bar->addMenu(menuEdit);
     bar->addMenu(menuView);
+    bar->addMenu(menuNotes);
     bar->addMenu(menuHelp);
     return bar;
 }
@@ -1266,8 +1333,6 @@ QToolBar * AdvancedInterface::toolBar()
     connect(actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
     QAction *actionZoomOut = new QAction(QIcon(":/icons/32x32/zoom-out.png"), tr("Zoom Out"), bar);
     connect(actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
-
-
 
     QAction *actionModule = new QAction(QIcon(":/icons/32x32/module.png"), tr("Module"), bar);
     connect(actionModule, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_Module()));
@@ -1305,7 +1370,7 @@ void AdvancedInterface::showNotesDock()
     } else {
         m_notesDockWidget->show();
     }
-    //todo: set toolbutton to enabled or disabled
+
 }
 void AdvancedInterface::newBookmark()
 {
@@ -1326,7 +1391,7 @@ void AdvancedInterface::onlineHelp()
 }
 int AdvancedInterface::printFile(void)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QPrinter printer;
     QPrintDialog *dialog = new QPrintDialog(&printer, this);
     dialog->setWindowTitle(tr("Print"));
@@ -1376,6 +1441,7 @@ int AdvancedInterface::saveFile(void)
 
 int AdvancedInterface::showAboutDialog(void)
 {
+    myDebug() << &m_notes;
     AboutDialog aDialog;
     aDialog.setWindowTitle(tr("About openBibleViewer"));
     aDialog.show();
@@ -1390,9 +1456,14 @@ void AdvancedInterface::showMarkList()
 }
 void AdvancedInterface::showNotesEditor()
 {
+    //m_notesDockWidget->saveNote();//todo: ugly
+
     NotesEditor notesEditor;
-    notesEditor.setNotes(m_notes);
+    myDebug() << &m_notes;
     notesEditor.setSettings(m_settings);
+    notesEditor.setModuleManager(m_moduleManager);
+    notesEditor.setNotes(m_notes);
+
     notesEditor.init();
     notesEditor.show();
     notesEditor.exec();

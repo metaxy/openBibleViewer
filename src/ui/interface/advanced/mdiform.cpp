@@ -45,13 +45,13 @@ void MdiForm::historyGetUrl(QString url)
 }
 void MdiForm::backward()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     emit historyGo(browserHistory.backward());
     setButtons();
 }
 void MdiForm::forward()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     emit historyGo(browserHistory.forward());
     setButtons();
 }

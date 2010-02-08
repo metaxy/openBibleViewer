@@ -8,7 +8,7 @@
 #include "src/core/bibledisplay.h"
 #include "src/core/settings.h"
 #include "src/core/notes.h"
-
+#include "src/core/session.h"
 namespace Ui
 {
 class MainWindow;
@@ -37,6 +37,7 @@ public:
     BibleDisplay *m_bibleDisplay;
     Settings *m_settings;
     Notes *m_notes;
+    Session *m_session;
     QSettings *m_settingsFile;
     QString VERSION, BUILD;
     QString m_homeDataPath;
