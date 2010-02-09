@@ -24,6 +24,7 @@ class AdvancedInterface : public Interface
 public slots:
     void closing();
     void settingsChanged(Settings settings);
+    void restoreSession();
 private slots:
     void myCascade();
     void myTileVertical();
@@ -69,6 +70,7 @@ private slots:
     void setTabView();
     void setSubWindowView();
 
+
 public:
     AdvancedInterface(QWidget *parent = 0);
     ~AdvancedInterface();
@@ -84,7 +86,7 @@ public:
     void setBookmarksDockWidget(BookmarksDockWidget *boockmarksDockWidget);
     void setStrongDockWidget(StrongDockWidget *strongDockWidget);
 
-    void restoreSession();
+
 
     SearchResultDockWidget *m_searchResultDockWidget;
     BookDockWidget *m_bookDockWidget;

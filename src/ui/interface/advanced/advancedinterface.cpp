@@ -13,6 +13,7 @@
 #include <QtGui/QFileDialog>
 #include <QtGui/QPrintDialog>
 #include <QtGui/QPrinter>
+#include <QtCore/QTimer>
 #include "src/ui/dialog/aboutdialog.h"
 #include "src/ui/noteseditor.h"
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
@@ -105,34 +106,36 @@ void AdvancedInterface::init()
 
     connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
     myDebug() << "homepath = " << m_settings->homePath;
-    //newMdiChild();
+    if(usableWindowList().size() == 0 &&  m_settings->session.getData("windowUrls").toStringList().size() == 0)
+        QTimer::singleShot(10, this, SLOT(newMdiChild()));//todo: fix this ugly bug
+    myDebug() << " windowlist = " << usableWindowList();
 }
 
 
 void AdvancedInterface::newMdiChild(bool autoLayout)
 {
-    m_enableReload = false;
     DEBUG_FUNC_NAME
+    m_enableReload = false;
     int windowsCount = usableWindowList().size();
     QMdiSubWindow *firstSubWindow = new QMdiSubWindow();
     if (windowsCount == 1) {
         firstSubWindow = usableWindowList().at(0);
     }
     m_windowCache.newWindow();
-    QWidget *widget = new QWidget(this);
+    QWidget *widget = new QWidget(ui->mdiArea);
     QVBoxLayout *layout = new QVBoxLayout(widget);
 
     MdiForm *mForm = new MdiForm(widget);
     layout->addWidget(mForm);
 
     widget->setLayout(layout);
-
     QMdiSubWindow *subWindow = ui->mdiArea->addSubWindow(widget);
+    subWindow->setWindowIcon(QIcon(":/icons/16x16/main.png"));
+    subWindow->setWindowOpacity(1.0);
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
-    subWindow->setWindowTitle("");
     subWindow->show();
     ui->mdiArea->setActiveSubWindow(subWindow);
-   /* if (windowsCount == 0) {
+    if (windowsCount == 0) {
         subWindow->showMaximized();
     } else if (windowsCount == 1) {
         firstSubWindow->resize(600, 600);
@@ -142,7 +145,7 @@ void AdvancedInterface::newMdiChild(bool autoLayout)
     } else {
         subWindow->resize(600, 600);
         subWindow->show();
-    }*/
+    }
 
     connect(mForm->m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
     connect(mForm->m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
@@ -634,8 +637,10 @@ void AdvancedInterface::setBooks(const QStringList &books)
     m_bookDockWidget->setBooks(books);
     if (activeMdiChild()) {
             QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
-            comboBox_books->clear();
-            comboBox_books->insertItems(0, books);
+            if(comboBox_books) {
+                comboBox_books->clear();
+                comboBox_books->insertItems(0, books);
+            }
         }
 }
 
@@ -644,7 +649,10 @@ void AdvancedInterface::setCurrentBook(const int &bookID)
     m_bookDockWidget->setCurrentBook(bookID);
     if (activeMdiChild()) {
         QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
-        comboBox_books->setCurrentIndex(bookID);
+        if(comboBox_books) {
+            comboBox_books->setCurrentIndex(bookID);
+        }
+
     }
 }
 

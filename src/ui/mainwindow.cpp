@@ -10,6 +10,7 @@
 #include <QtGui/QMessageBox>
 #include <QtCore/QLibraryInfo>
 #include <QtCore/QMapIterator>
+#include <QtCore/QTimer>
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
         ui(new Ui::MainWindow)
@@ -133,7 +134,7 @@ void MainWindow::loadAdvancedInterface()
     connect(this, SIGNAL(settingsChanged(Settings)), advancedInterface, SLOT(settingsChanged(Settings)));
     connect(this, SIGNAL(closing()), advancedInterface, SLOT(closing()));
     advancedInterface->init();
-    advancedInterface->restoreSession();
+    QTimer::singleShot(1, advancedInterface, SLOT(restoreSession()));
 
 
 }
