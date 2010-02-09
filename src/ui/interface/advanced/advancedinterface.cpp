@@ -1097,6 +1097,8 @@ void AdvancedInterface::closing()
     m_settings->session.setData("vSlider",vSlider);
     m_settings->session.setData("hSlider",hSlider);
 
+    m_settings->session.setData("viewMode",ui->mdiArea->viewMode());
+
 
 }
 void AdvancedInterface::restoreSession()
@@ -1129,6 +1131,10 @@ void AdvancedInterface::restoreSession()
         textBrowser->verticalScrollBar()->setSliderPosition(vSlider.at(i).toInt());
         textBrowser->horizontalScrollBar()->setSliderPosition(hSlider.at(i).toInt());
     }
+    if(m_settings->session.getData("viewMode").toInt() == 0)
+        ui->mdiArea->setViewMode(QMdiArea::SubWindowView);
+    else if (m_settings->session.getData("viewMode").toInt() == 1)
+        ui->mdiArea->setViewMode(QMdiArea::TabbedView);
     //restore
 }
 void AdvancedInterface::settingsChanged(Settings set)
@@ -1269,12 +1275,23 @@ QMenuBar* AdvancedInterface::menuBar()
     QAction *actionSubWindowView = new QAction(QIcon(), tr("Sub Window View"), menuView);
     connect(actionSubWindowView,SIGNAL(triggered()),this,SLOT(setSubWindowView()));
 
+    QAction *actionTileVertical = new QAction(QIcon(), tr("Tile Vertical"), menuView);
+    connect(actionTileVertical,SIGNAL(triggered()),this,SLOT(myTileVertical()));
+    QAction *actionTileHorizontal = new QAction(QIcon(), tr("Tile Horizontal"), menuView);
+    connect(actionTileHorizontal,SIGNAL(triggered()),this,SLOT(myTileHorizontal()));
+    QAction *actionCascade= new QAction(QIcon(), tr("Cascade"), menuView);
+    connect(actionCascade,SIGNAL(triggered()),this,SLOT(myCascade()));
+
 
     menuView->addAction(actionZoomIn);
     menuView->addAction(actionZoomOut);
     menuView->addSeparator();
     menuView->addAction(actionTabView);
     menuView->addAction(actionSubWindowView);
+    menuView->addSeparator();
+    menuView->addAction(actionTileVertical);
+    menuView->addAction(actionTileHorizontal);
+    menuView->addAction(actionCascade);
 
     QMenu *menuNotes = new QMenu(tr("Notes"), bar);
     QAction *actionNotesEditor = new QAction(QIcon(":/icons/16x16/notes-edit.png"), tr("Notes Editor"), menuNotes);
