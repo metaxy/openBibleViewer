@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
           w.setStyleSheet(out);//load from file
           qDebug() << "main::main() load stylesheet fileName = " << file.fileName();
       }*/
-    w.show();
+    w.showMaximized();
     a.exec();
     return 0;
 }
