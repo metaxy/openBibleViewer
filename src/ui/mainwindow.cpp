@@ -286,10 +286,10 @@ void MainWindow::loadSettings()
     for (int i = 0; i < size; ++i) {
         m_settingsFile->setArrayIndex(i);
         Session session;
-        if(m_settingsFile->value("id") == m_settings->sessionID) {
+        if (m_settingsFile->value("id") == m_settings->sessionID) {
             QStringList keys = m_settingsFile->childKeys();
-            for(int j = 0; j < keys.size();j++) {
-                session.setData(keys.at(j),m_settingsFile->value(keys.at(j)));
+            for (int j = 0; j < keys.size(); j++) {
+                session.setData(keys.at(j), m_settingsFile->value(keys.at(j)));
             }
             m_settings->session = session;//its the current session
         }
@@ -335,10 +335,10 @@ void MainWindow::writeSettings()
     m_settingsFile->beginWriteArray("sessions");
     m_settingsFile->setArrayIndex(m_settings->sessionIDs.lastIndexOf(m_settings->sessionID));
     {
-        QMapIterator <QString,QVariant> i = m_settings->session.getInterator();
+        QMapIterator <QString, QVariant> i = m_settings->session.getInterator();
         while (i.hasNext()) {
-             i.next();
-             m_settingsFile->setValue(i.key(), i.value());
+            i.next();
+            m_settingsFile->setValue(i.key(), i.value());
         }
     }
     m_settingsFile->endArray();
@@ -418,9 +418,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
     Q_UNUSED(event);
     DEBUG_FUNC_NAME
     //save session
-    m_settings->session.setData("id",m_settings->sessionID);
-    m_settings->session.setData("mainWindowGeometry",QVariant(saveGeometry()));
-    m_settings->session.setData("mainWindowState",QVariant(saveState()));
+    m_settings->session.setData("id", m_settings->sessionID);
+    m_settings->session.setData("mainWindowGeometry", QVariant(saveGeometry()));
+    m_settings->session.setData("mainWindowState", QVariant(saveState()));
     emit closing();
     writeSettings();
     //todo: save session

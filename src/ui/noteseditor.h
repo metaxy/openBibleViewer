@@ -6,11 +6,13 @@
 #include "src/core/notes.h"
 #include "src/module/modulemanager.h"
 #include "src/core/verseselection.h"
-namespace Ui {
-    class NotesEditor;
+namespace Ui
+{
+class NotesEditor;
 }
 
-class NotesEditor : public QDialog {
+class NotesEditor : public QDialog
+{
     Q_OBJECT
 private slots:
     void showNote(QListWidgetItem * item);

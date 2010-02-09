@@ -23,7 +23,7 @@ QString Strong::loadStrong(QString strongString)
         ret = QObject::tr("No strong module loaded.");
     }
     if (ret.size() == 0)
-        ret= QObject::tr("Strong not found.");
+        ret = QObject::tr("Strong not found.");
     return ret;
 }
 /*!

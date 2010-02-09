@@ -6,9 +6,9 @@ StrongDockWidget::StrongDockWidget(QWidget *parent) :
         ui(new Ui::StrongDockWidget)
 {
     ui->setupUi(this);
-    connect(ui->comboBox_strongModule,SIGNAL(currentIndexChanged(int)),this,SLOT(loadModule(int)));
-    connect(ui->toolButton_strongSearch,SIGNAL(clicked()),this,SLOT(search()));
-    connect(ui->textBrowser_strong,SIGNAL(anchorClicked(QUrl)),this,SLOT(get_(QUrl)));
+    connect(ui->comboBox_strongModule, SIGNAL(currentIndexChanged(int)), this, SLOT(loadModule(int)));
+    connect(ui->toolButton_strongSearch, SIGNAL(clicked()), this, SLOT(search()));
+    connect(ui->textBrowser_strong, SIGNAL(anchorClicked(QUrl)), this, SLOT(get_(QUrl)));
 }
 
 StrongDockWidget::~StrongDockWidget()
@@ -17,11 +17,11 @@ StrongDockWidget::~StrongDockWidget()
 }
 void StrongDockWidget::init()
 {
-   strongModuleTitle.clear();
-   strongModuleID.clear();
-   for(int i=0; i< m_moduleManager->m_moduleList.size();i++) {
+    strongModuleTitle.clear();
+    strongModuleID.clear();
+    for (int i = 0; i < m_moduleManager->m_moduleList.size(); i++) {
         Module m = m_moduleManager->m_moduleList.at(i);
-        if(m.m_moduleClass == Module::StrongModule) {
+        if (m.m_moduleClass == Module::StrongModule) {
             strongModuleTitle << m.m_title;
             strongModuleID << m.m_id;
         }
@@ -41,7 +41,7 @@ void StrongDockWidget::showStrong(QString strongID)
     if (isHidden()) {
         show();
     }
-    if(!m_moduleManager->strongLoaded()) {
+    if (!m_moduleManager->strongLoaded()) {
         loadModule(0);
     }
     ui->lineEdit_strong->setText(strongID);
@@ -50,10 +50,10 @@ void StrongDockWidget::showStrong(QString strongID)
 void StrongDockWidget::loadModule(int id)
 {
     //DEBUG_FUNC_NAME
-    if(strongModuleID.size() > id && id >= 0) {
+    if (strongModuleID.size() > id && id >= 0) {
         int moduleID = strongModuleID.at(id);
         m_strong.setSettings(m_settings);
-        m_strong.loadStrongModule(moduleID,m_moduleManager->m_moduleList.at(moduleID).m_path);
+        m_strong.loadStrongModule(moduleID, m_moduleManager->m_moduleList.at(moduleID).m_path);
     }
 }
 void StrongDockWidget::get_(QUrl url)

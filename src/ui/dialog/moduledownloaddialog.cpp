@@ -204,7 +204,7 @@ void ModuleDownloadDialog::downloadNext()
     } else {
         myDebug() << "nothing selected";
 
-        QMessageBox::information(this,"Nothing selected","You have selected something to download it.");
+        QMessageBox::information(this, "Nothing selected", "You have selected something to download it.");
     }
 }
 void ModuleDownloadDialog::cancelDownload()

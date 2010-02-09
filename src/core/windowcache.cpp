@@ -20,7 +20,7 @@ WindowCache::WindowCache()
 }
 void WindowCache::setBible(Bible b)
 {
-   // DEBUG_FUNC_NAME
+    // DEBUG_FUNC_NAME
     m_softCache.insert(b.bibleID(), b.getSoftCache());
     b.clearSoftCache();
     m_b[m_currentWindowID] = b;

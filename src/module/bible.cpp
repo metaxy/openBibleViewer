@@ -33,9 +33,9 @@ void Bible::setBibleType(const int &type)
 }
 void Bible::setSettings(Settings *settings)
 {
-     m_settings = settings;
-     bq.setSettings(m_settings);
-     zef.setSettings(m_settings);
+    m_settings = settings;
+    bq.setSettings(m_settings);
+    zef.setSettings(m_settings);
 }
 void Bible::setBibleDisplaySettings(BibleDisplaySettings bibleDisplaySettings)
 {
@@ -45,11 +45,11 @@ void Bible::setBibleDisplaySettings(BibleDisplaySettings bibleDisplaySettings)
 int Bible::loadBibleData(const int &bibleID, const QString &path)
 {
     //DEBUG_FUNC_NAME
-    if(bibleID < 0) {
+    if (bibleID < 0) {
         myDebug() << "invalid bibleID = " << bibleID;
         return 1;
     }
-   // myDebug() << "bibleID = " << bibleID << " path = " << path << " bibleType =" << m_bibleType;
+    // myDebug() << "bibleID = " << bibleID << " path = " << path << " bibleType =" << m_bibleType;
     m_bibleID = bibleID;
 
     switch (m_bibleType) {
@@ -84,7 +84,7 @@ int Bible::loadBibleData(const int &bibleID, const QString &path)
 */
 int Bible::readBook(int id)
 {
-   // DEBUG_FUNC_NAME
+    // DEBUG_FUNC_NAME
     m_bookID = id;
     //myDebug() << "id = " << id << " bibleType = " << m_bibleType;
     switch (m_bibleType) {

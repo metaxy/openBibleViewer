@@ -3,13 +3,13 @@
 Session::Session()
 {
 }
-void Session::setData(QString key,QVariant value)
+void Session::setData(QString key, QVariant value)
 {
-    m_data.insert(key,value);
+    m_data.insert(key, value);
 }
 QVariant Session::getData(QString key, QVariant defaultValue = QVariant())
 {
-    return m_data.value(key,defaultValue);
+    return m_data.value(key, defaultValue);
 }
 QVariant Session::getData(QString key)
 {
@@ -17,7 +17,7 @@ QVariant Session::getData(QString key)
 }
 bool Session::isSet(QString key)
 {
-    if(m_data[key].isNull())
+    if (m_data[key].isNull())
         return false;
     return true;
 }

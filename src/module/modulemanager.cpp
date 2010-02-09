@@ -41,7 +41,7 @@ int ModuleManager::loadAllModules()
             folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
             top->setIcon(0, folderIcon);
             top->setText(0, m_settings->module.at(i).moduleName);
-            top->setText(1,"-1");
+            top->setText(1, "-1");
             m_bibleItems.append(top);
 
             //search for bible in the dir
@@ -152,7 +152,7 @@ int ModuleManager::loadAllModules()
             //load module
             QFile file;
             int bibletype = m_settings->module.at(i).moduleType.toInt();
-            if (bibletype != 0 ) {
+            if (bibletype != 0) {
                 switch (bibletype) {
                 case Module::BibleQuoteModule: {
                     //BibleQuote
@@ -224,7 +224,7 @@ int ModuleManager::loadAllModules()
     QStringList iniPath;
     for (int i = 0; i < m_moduleList.size(); ++i) {
         //if(m_moduleList.at(i).m_moduleClass == Module::BibleModule)
-            iniPath << m_moduleList.at(i).m_path;
+        iniPath << m_moduleList.at(i).m_path;
     }
     m_bible.biblesIniPath = iniPath;
     return 0;

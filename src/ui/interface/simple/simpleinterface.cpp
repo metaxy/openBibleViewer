@@ -235,9 +235,9 @@ void SimpleInterface::pharseUrl(QString url)
         bool ok;
         int c = url.toInt(&ok, 10);
         myDebug() << "c = " << c;
-        if(ok && c < m_moduleManager->m_bible.chapterData.size() && m_moduleManager->m_bible.m_bibleType == Module::BibleQuoteModule && m_moduleManager->m_bible.chapterID() != c) {
+        if (ok && c < m_moduleManager->m_bible.chapterData.size() && m_moduleManager->m_bible.m_bibleType == Module::BibleQuoteModule && m_moduleManager->m_bible.chapterID() != c) {
             myDebug() << "bq chapter link";
-            m_moduleManager->m_bible.readChapter(c,0);
+            m_moduleManager->m_bible.readChapter(c, 0);
         } else {
             myDebug() << "anchor";
             ui->textBrowser->scrollToAnchor(url);
@@ -327,7 +327,7 @@ void SimpleInterface::nextChapter()
     //DEBUG_FUNC_NAME
     if (m_moduleManager->m_bible.chapterID() < m_moduleManager->m_bible.chaptersCount() - 1) {
         readChapter(m_moduleManager->m_bible.chapterID() + 1);
-    } else if(m_moduleManager->m_bible.bookID() < m_moduleManager->m_bible.booksCount() - 1) {
+    } else if (m_moduleManager->m_bible.bookID() < m_moduleManager->m_bible.booksCount() - 1) {
         readBook(m_moduleManager->m_bible.bookID() + 1);
     }
 }
@@ -336,7 +336,7 @@ void SimpleInterface::previousChapter()
     //DEBUG_FUNC_NAME
     if (m_moduleManager->m_bible.chapterID() > 0) {
         readChapter(m_moduleManager->m_bible.chapterID() - 1);
-    } else if(m_moduleManager->m_bible.bookID() > 0) {
+    } else if (m_moduleManager->m_bible.bookID() > 0) {
         readBook(m_moduleManager->m_bible.bookID() - 1);
         readChapter(m_moduleManager->m_bible.chaptersCount() - 1);
     }

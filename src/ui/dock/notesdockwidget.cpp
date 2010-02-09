@@ -32,15 +32,15 @@ void NotesDockWidget::init()
     connect(ui->textEdit_note, SIGNAL(undoAvailable(bool)), ui->toolButton_noteUndo, SLOT(setEnabled(bool)));
     connect(ui->textEdit_note, SIGNAL(redoAvailable(bool)), ui->toolButton_noteRedo, SLOT(setEnabled(bool)));
     connect(ui->listWidget_notes, SIGNAL(itemActivated(QListWidgetItem *)), this, SLOT(showNote(QListWidgetItem *)));
-    if(!m_notes->isLoaded()) {
-    //todo: it has to be loaded first !!!!
+    if (!m_notes->isLoaded()) {
+        //todo: it has to be loaded first !!!!
         myDebug() << "new Notes";
         m_notes->init(m_settings->homePath + "notes.xml");
         m_notes->loadNotes();
         m_notes->readNotes();
     }
     m_notes->loadingNewInstance();
-    connect(m_notes,SIGNAL(saveAll()),this,SLOT(saveNote()));
+    connect(m_notes, SIGNAL(saveAll()), this, SLOT(saveNote()));
 
     ui->listWidget_notes->clear();
     m_textNotesID.clear();

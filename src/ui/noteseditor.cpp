@@ -7,8 +7,8 @@
 #include "src/ui/dialog/biblepassagedialog.h"
 #include "src/core/urlconverter.h"
 NotesEditor::NotesEditor(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::NotesEditor)
+        QDialog(parent),
+        ui(new Ui::NotesEditor)
 {
     ui->setupUi(this);
 }
@@ -37,18 +37,18 @@ void NotesEditor::init()
     connect(ui->listWidget_notes, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(notesContextMenu()));
 
     //connect(ui->pushButton_note_save, SIGNAL(clicked()), this, SLOT(saveNote()));
- /*   connect(ui->toolButton_noteBold, SIGNAL(clicked()), this, SLOT(noteSetTextBold()));
-    connect(ui->toolButton_noteItalic, SIGNAL(clicked()), this, SLOT(noteSetTextItalic()));
-    connect(ui->toolButton_noteUnderline, SIGNAL(clicked()), this, SLOT(noteSetTextUnderline()));
-    connect(ui->toolButton_noteColor, SIGNAL(clicked()), this, SLOT(noteSetTextColor()));
-    connect(ui->toolButton_noteUndo, SIGNAL(clicked()), this, SLOT(noteUndo()));
-    connect(ui->toolButton_noteRedo, SIGNAL(clicked()), this, SLOT(noteRedo()));*/
+    /*   connect(ui->toolButton_noteBold, SIGNAL(clicked()), this, SLOT(noteSetTextBold()));
+       connect(ui->toolButton_noteItalic, SIGNAL(clicked()), this, SLOT(noteSetTextItalic()));
+       connect(ui->toolButton_noteUnderline, SIGNAL(clicked()), this, SLOT(noteSetTextUnderline()));
+       connect(ui->toolButton_noteColor, SIGNAL(clicked()), this, SLOT(noteSetTextColor()));
+       connect(ui->toolButton_noteUndo, SIGNAL(clicked()), this, SLOT(noteUndo()));
+       connect(ui->toolButton_noteRedo, SIGNAL(clicked()), this, SLOT(noteRedo()));*/
 
-  //  connect(ui->textEdit_note, SIGNAL(undoAvailable(bool)), ui->toolButton_noteUndo, SLOT(setEnabled(bool)));
- //   connect(ui->textEdit_note, SIGNAL(redoAvailable(bool)), ui->toolButton_noteRedo, SLOT(setEnabled(bool)));
+    //  connect(ui->textEdit_note, SIGNAL(undoAvailable(bool)), ui->toolButton_noteUndo, SLOT(setEnabled(bool)));
+//   connect(ui->textEdit_note, SIGNAL(redoAvailable(bool)), ui->toolButton_noteRedo, SLOT(setEnabled(bool)));
     connect(ui->listWidget_notes, SIGNAL(itemActivated(QListWidgetItem *)), this, SLOT(showNote(QListWidgetItem *)));
 
-    if(!m_notes->isLoaded()) {
+    if (!m_notes->isLoaded()) {
         myDebug() << "loading notes";
         m_notes->init(m_settings->homePath + "notes.xml");
         m_notes->loadNotes();
@@ -56,7 +56,7 @@ void NotesEditor::init()
     }
 
     m_notes->loadingNewInstance();
-    connect(m_notes,SIGNAL(saveAll()),this,SLOT(saveNote()));
+    connect(m_notes, SIGNAL(saveAll()), this, SLOT(saveNote()));
 
     ui->listWidget_notes->clear();
     m_textNotesID.clear();

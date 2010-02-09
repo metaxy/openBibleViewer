@@ -145,7 +145,7 @@ QString BibleQuote::readInfo(QFile &file)
     } else {
         encoding = m_settings->getModuleSettings(m_bibleID).encoding;
     }
-    if(encoding == "")
+    if (encoding == "")
         encoding = m_settings->encoding;
     QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
     QTextDecoder *decoder = codec->makeDecoder();

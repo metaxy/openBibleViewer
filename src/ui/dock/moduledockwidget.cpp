@@ -22,7 +22,7 @@ void ModuleDockWidget::loadModuleData(QTreeWidgetItem *fitem)
 {
     //DEBUG_FUNC_NAME
 
-    if(fitem->text(1).toInt() >= 0) {
+    if (fitem->text(1).toInt() >= 0) {
         emit get("bible://" + fitem->text(1) + "/0,0,0");
     }
 }
@@ -36,17 +36,17 @@ bool ModuleDockWidget::eventFilter(QObject *obj, QEvent *event)
     if (obj == ui->treeWidget_bibles) {
         if (event->type() == QEvent::ToolTip) {
             QHelpEvent *helpEvent = static_cast<QHelpEvent *>(event);
-            if(ui->treeWidget_bibles->itemAt(helpEvent->pos())) {
+            if (ui->treeWidget_bibles->itemAt(helpEvent->pos())) {
                 int index = ui->treeWidget_bibles->itemAt(helpEvent->pos())->text(1).toInt();
                 if (index != -1 && index < m_moduleManager->m_moduleList.size()) {
                     QString typ;
                     Module m = m_moduleManager->m_moduleList.at(index);
-                    if(m.m_moduleType == Module::BibleQuoteModule) {
+                    if (m.m_moduleType == Module::BibleQuoteModule) {
                         typ = tr("BibleQuote Module");
-                    } else if(m.m_moduleType == Module::ZefaniaBibleModule) {
+                    } else if (m.m_moduleType == Module::ZefaniaBibleModule) {
                         typ = tr("Zefania XML Module");
                     }
-                    QToolTip::showText(helpEvent->globalPos(), typ + " - "+m.m_path);
+                    QToolTip::showText(helpEvent->globalPos(), typ + " - " + m.m_path);
                 }
             }
         } else {

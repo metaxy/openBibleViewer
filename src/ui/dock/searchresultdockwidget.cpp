@@ -82,7 +82,7 @@ void SearchResultDockWidget::nextVerse()
             goToSearchResult(ui->listWidget_search->currentItem());
         } else {
             //wieder von vorne
-            QMessageBox::information(this,tr("No more Results."),tr("Show the first result again?"));
+            QMessageBox::information(this, tr("No more Results."), tr("Show the first result again?"));
             nextID = 0;
             ui->listWidget_search->setCurrentRow(nextID);
             goToSearchResult(ui->listWidget_search->currentItem());
