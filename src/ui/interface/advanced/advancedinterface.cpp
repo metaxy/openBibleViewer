@@ -136,14 +136,14 @@ void AdvancedInterface::newMdiChild(bool doAutoLayout)
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
     subWindow->show();
     ui->mdiArea->setActiveSubWindow(subWindow);
-    if (windowsCount == 0) {
+    if (windowsCount == 0  && doAutoLayout) {
         subWindow->showMaximized();
-    } else if (windowsCount == 1) {
+    } else if (windowsCount == 1 && doAutoLayout) {
         firstSubWindow->resize(600, 600);
         firstSubWindow->showNormal();
         subWindow->resize(600, 600);
         subWindow->show();
-    } else {
+    } else if(doAutoLayout) {
         subWindow->resize(600, 600);
         subWindow->show();
     }
@@ -166,6 +166,7 @@ void AdvancedInterface::newMdiChild(bool doAutoLayout)
 }
 void AdvancedInterface::autoLayout()
 {
+    DEBUG_FUNC_NAME
     if (usableWindowList().size() > 1) {
         if (m_settings->autoLayout == 1) {
             myTile();
@@ -304,14 +305,14 @@ void AdvancedInterface::myTile() {
 QList<QMdiSubWindow*> AdvancedInterface::usableWindowList()
 {
     //only if !ChildAdded-Event is triggered
-    /*  QList<QMdiSubWindow*> ret;
-      foreach(QMdiSubWindow* w, ui->mdiArea->subWindowList()) {
-          if (w->isMinimized() || w->isHidden()) //not usable for us
-              continue;
-          ret.append(w);
-      }*/
+    QList<QMdiSubWindow*> ret;
+    foreach(QMdiSubWindow* w, ui->mdiArea->subWindowList()) {
+        if (w->isHidden())
+            continue;
+        ret.append(w);
+    }
     // return ret;
-    return  ui->mdiArea->subWindowList();
+    return  ret;
 }
 int AdvancedInterface::currentWindowID()
 {
@@ -1362,7 +1363,7 @@ QMenuBar* AdvancedInterface::menuBar()
     bar->addMenu(menuFile);
     bar->addMenu(menuEdit);
     bar->addMenu(menuView);
-    bar->addMenu(menuNotes);
+    //bar->addMenu(menuNotes); //todo: enable it in version 0.4
     bar->addMenu(menuHelp);
     return bar;
 }

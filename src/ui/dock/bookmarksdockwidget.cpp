@@ -169,7 +169,7 @@ void BookmarksDockWidget::editBookmark()
     BiblePassageDialog *passageDialog = new  BiblePassageDialog(this);
     connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateBookmark(QString)));
     passageDialog->setSettings(m_settings);
-    passageDialog->setCurrent(urlConverter.m_bibleID.toInt(), urlConverter.m_path, urlConverter.m_bookID, urlConverter.m_chapterID, urlConverter.m_verseID);
+    passageDialog->setCurrent(urlConverter.m_bibleID.toInt(), urlConverter.m_path, urlConverter.m_bookID, urlConverter.m_chapterID + 1, urlConverter.m_verseID + 1);
     passageDialog->show();
     passageDialog->exec();
 }

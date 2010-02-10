@@ -30,7 +30,7 @@ private slots:
     void myTileVertical();
     void myTileHorizontal();
     void myTile();
-    void newMdiChild(bool autoLayout = true);
+    void newMdiChild(bool doAutoLayout = true);
     int closeWindow();
     int reloadWindow(QMdiSubWindow * window);
     void pharseUrl(QUrl url);
