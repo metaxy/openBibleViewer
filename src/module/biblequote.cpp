@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QTextCodec>
 #include <QtCore/QDir>
 #include <QtGui/QProgressDialog>
+#include <QtGui/QMessageBox>
 BibleQuote::BibleQuote()
 {
     m_settings = new Settings();
@@ -176,7 +177,7 @@ QString BibleQuote::readInfo(QFile &file)
     file.close();
     return bibleName;
 }
-void BibleQuote::readBook(int id, QString path)
+int BibleQuote::readBook(int id, QString path)
 {
     //DEBUG_FUNC_NAME
     //chapterText.clear();
@@ -206,8 +207,7 @@ void BibleQuote::readBook(int id, QString path)
         while (!file.atEnd()) {
             QByteArray byteline = file.readLine();
             QString line = decoder->toUnicode(byteline);
-            //todo: dirty
-            //myDebug() << "removing some html";
+            //todo: ugly
             line = line.remove(QRegExp("CLASS=\"(\\w+)\">"));
             line = line.remove(QRegExp("<DIV CLASS=\"(\\w+)\">"));
             line = line.remove("CLASS=\"Tx\">");
@@ -233,6 +233,8 @@ void BibleQuote::readBook(int id, QString path)
             }
         }
         chapterText << out;
+    } else {
+        return 1;
     }
     if (ccount2 == 0) {
         chapterText << out2;
@@ -247,6 +249,7 @@ void BibleQuote::readBook(int id, QString path)
         chapterData << c;
     }
     file.close();
+    return 0;
 
 }
 

@@ -55,7 +55,6 @@ int ModuleManager::loadAllModules()
                 QFileInfo fileInfo = list.at(fileCounter);
                 QString dirname = fileInfo.fileName();
                 if (dirname != "." && dirname != "..") {
-                    //todo: current only bibles loaded
                     QFile file;
                     QString rfile;
                     bibletype = Bible::None;

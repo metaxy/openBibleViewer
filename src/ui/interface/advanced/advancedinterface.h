@@ -29,6 +29,7 @@ private slots:
     void myCascade();
     void myTileVertical();
     void myTileHorizontal();
+    void myTile();
     void newMdiChild(bool autoLayout = true);
     int closeWindow();
     int reloadWindow(QMdiSubWindow * window);
@@ -48,6 +49,7 @@ private slots:
     void newBlueMark();
     void newOrangeMark();
     void newVioletMark();
+    void newCustomMark();
     void reloadChapter();
     void removeMark();
     void showSearchDialog();
@@ -124,8 +126,12 @@ private:
     VerseSelection verseSelectionFromCursor(QTextCursor cursor);
 
     void showChapter(const int &chapterID, const int &verseID);
+    void autoLayout();
     QTextCursor m_textCursor;
 
+    //Menu
+    QAction *actionTabView;
+    QAction *actionSubWindowView;
 
 };
 

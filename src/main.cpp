@@ -90,9 +90,6 @@ int main(int argc, char *argv[])
     w.setTranslator(&myappTranslator, &qtTranslator);
     w.init(homeDataPath);
 
-    // w.loadModules();
-
-
     /*  QFile file(themePath);
       if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
           QTextStream in(&file);

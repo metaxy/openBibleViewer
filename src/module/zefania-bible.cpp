@@ -638,7 +638,7 @@ SearchResult ZefaniaBible::search(SearchQuery query)
         QList<Chapter> chapterList;
 
         //load book from cache(soft or hard)
-        //todo: make a check : if only 2 or 3 book are aviable in softcache then load whole book else load everything from hardcache
+        //todo: check : if only 2 or 3 book are aviable in softcache then load whole book else load everything from hardcache
         //todo: cant load book if only softcache is enabled
 
         if (m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true && (softCacheData[i].isEmpty() || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {

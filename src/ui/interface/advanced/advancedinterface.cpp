@@ -14,6 +14,7 @@
 #include <QtGui/QPrintDialog>
 #include <QtGui/QPrinter>
 #include <QtCore/QTimer>
+#include <QtGui/QColorDialog>
 #include "src/ui/dialog/aboutdialog.h"
 #include "src/ui/noteseditor.h"
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
@@ -112,7 +113,7 @@ void AdvancedInterface::init()
 }
 
 
-void AdvancedInterface::newMdiChild(bool autoLayout)
+void AdvancedInterface::newMdiChild(bool doAutoLayout)
 {
     DEBUG_FUNC_NAME
     m_enableReload = false;
@@ -157,20 +158,27 @@ void AdvancedInterface::newMdiChild(bool autoLayout)
     connect(this, SIGNAL(historySetUrl(QString)), mForm, SLOT(historyGetUrl(QString)));
     connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closeWindow()));
     m_enableReload = true;
-    if (autoLayout) {
-        if (usableWindowList().size() > 1) {
-            if (m_settings->autoLayout == 1) {
-                myTileVertical();
-            } else if (m_settings->autoLayout == 2) {
-                myTileHorizontal();
-            } else if (m_settings->autoLayout == 3) {
-                myCascade();
-            }
-        }
+    if (doAutoLayout) {
+        autoLayout();
     }
     m_internalWindows << subWindow;
 
 }
+void AdvancedInterface::autoLayout()
+{
+    if (usableWindowList().size() > 1) {
+        if (m_settings->autoLayout == 1) {
+            myTile();
+        } else if (m_settings->autoLayout == 2) {
+            myTileVertical();
+        } else if (m_settings->autoLayout == 3) {
+            myTileHorizontal();
+        } else if (m_settings->autoLayout == 4) {
+            myCascade();
+        }
+    }
+}
+
 QMdiSubWindow * AdvancedInterface::activeMdiChild()
 {
     QList<QMdiSubWindow*> list = usableWindowList();
@@ -198,21 +206,24 @@ void AdvancedInterface::myTileVertical()
     if (!m_enableReload || !usableWindowList().count()) {
         return;
     }
-
     QList<QMdiSubWindow*> windows = usableWindowList();
-    if (ui->mdiArea->activeSubWindow() && ui->mdiArea->activeSubWindow()->isMaximized()) {
-        if (ui->mdiArea->activeSubWindow()->size() != this->size()) {
-            ui->mdiArea->activeSubWindow()->resize(this->size());
-        }
-    } else if (windows.count() == 1) {
-        windows.at(0)->showMaximized();
-    } else {
-        m_enableReload = false;
-        QMdiSubWindow* active = ui->mdiArea->activeSubWindow();
-        ui->mdiArea->tileSubWindows();
-        if (active) active->setFocus();
-        m_enableReload = true;
+    m_enableReload = false;
+    QMdiSubWindow* active = ui->mdiArea->activeSubWindow();
+
+    const int widthForEach = width() / windows.count();
+    unsigned int x = 0;
+    foreach (QMdiSubWindow *window, windows) {
+        window->showNormal();
+
+        const int preferredWidth = window->minimumWidth() + window->baseSize().width();
+        const int actWidth = qMax(widthForEach, preferredWidth);
+
+        window->setGeometry(x, 0, actWidth, height());
+        x += actWidth;
     }
+
+    if (active) active->setFocus();
+    m_enableReload = true;
 }
 
 void AdvancedInterface::myTileHorizontal()
@@ -222,32 +233,23 @@ void AdvancedInterface::myTileHorizontal()
         return;
     }
     QList<QMdiSubWindow*> windows = usableWindowList();
+    m_enableReload = false;
+    QMdiSubWindow* active = ui->mdiArea->activeSubWindow();
 
-    if (ui->mdiArea->activeSubWindow() && ui->mdiArea->activeSubWindow()->isMaximized()) {
-        if (ui->mdiArea->activeSubWindow()->size() != ui->mdiArea->size()) {
-            ui->mdiArea->activeSubWindow()->resize(ui->mdiArea->size());
-        }
-    } else if (windows.count() == 1) {
-        windows.at(0)->showMaximized();
-    } else {
-        m_enableReload = false;
+    const int heightForEach = height() / windows.count();
+    unsigned int y = 0;
+    foreach (QMdiSubWindow *window, windows) {
+        window->showNormal();
 
-        QMdiSubWindow* active = ui->mdiArea->activeSubWindow();
+        const int preferredHeight = window->minimumHeight() + window->baseSize().height();
+        const int actHeight = qMax(heightForEach, preferredHeight);
 
-        const int heightForEach = ui->mdiArea->height() / windows.count();
-        unsigned int y = 0;
-        foreach(QMdiSubWindow *window, windows) {
-            window->showNormal();
-
-            const int preferredHeight = window->minimumHeight() + window->baseSize().height();
-            const int actHeight = qMax(heightForEach, preferredHeight);
-
-            window->setGeometry(0, y, ui->mdiArea->width(), actHeight);
-            y += actHeight;
-        }
-        active->setFocus();
-        m_enableReload = true;
+        window->setGeometry( 0, y, width(), actHeight );
+        y += actHeight;
     }
+    if (active) active->setFocus();
+    m_enableReload = true;
+
 }
 
 void AdvancedInterface::myCascade()
@@ -290,6 +292,15 @@ void AdvancedInterface::myCascade()
         m_enableReload = true;
     }
 }
+
+void AdvancedInterface::myTile() {
+    if (!m_enableReload || !usableWindowList().count()) {
+        return;
+    }
+    ui->mdiArea->tileSubWindows();
+}
+
+
 QList<QMdiSubWindow*> AdvancedInterface::usableWindowList()
 {
     //only if !ChildAdded-Event is triggered
@@ -359,6 +370,7 @@ int AdvancedInterface::closeWindow()
         return 1;
     }
     reloadWindow(ui->mdiArea->currentSubWindow());
+    autoLayout();
     return 0;
 }
 int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
@@ -779,7 +791,7 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
                 myDebug() << "setted end";
                 selection.endVerse = i;
                 selection.posInEndVerse = (startFragment + fragment.size()) - (counter - chapterData.at(i).size()) ;
-                for (int s = 3; s < 100; s++) {
+                for (int s = 3; s < 100/* or some another big value*/; s++) {
                     QString b = fragment;
                     QString searchString = b.remove(0, b.size() - s);
                     //todo: if it starts with a html tag remove that
@@ -910,6 +922,10 @@ int AdvancedInterface::textBrowserContextMenu(QPoint pos)
     actionVioletMark->setIcon(violetMarkIcon);
     connect(actionVioletMark, SIGNAL(triggered()), this , SLOT(newVioletMark()));
     menuMark->addAction(actionVioletMark);
+
+    QAction *actionCustomMark  = new QAction(QIcon(":/icons/16x16/format-fill-color.png"), tr("Custom Color"), menuMark);
+    connect(actionCustomMark, SIGNAL(triggered()), this , SLOT(newCustomMark()));
+    menuMark->addAction(actionCustomMark);
 
     QAction *actionRemoveMark = new QAction(this);
     actionRemoveMark->setText(tr("Remove Mark"));
@@ -1050,6 +1066,22 @@ void AdvancedInterface::newVioletMark()
     VerseSelection selection = verseSelectionFromCursor(cursor);
     m_notesDockWidget->newMark(selection, QColor(169, 102, 240));
 }
+void AdvancedInterface::newCustomMark()
+{
+    if (!m_moduleManager->bibleLoaded()) {
+        return;
+    }
+    if (!activeMdiChild())
+        return;
+    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+    QTextCursor cursor = textBrowser->textCursor();
+    VerseSelection selection = verseSelectionFromCursor(cursor);
+    QColor color = QColorDialog::getColor(Qt::green, this);
+    if (color.isValid()) {
+        m_notesDockWidget->newMark(selection, color);
+    }
+
+}
 void AdvancedInterface::removeMark()
 {
     if (!m_moduleManager->bibleLoaded() && !activeMdiChild()) {
@@ -1140,9 +1172,9 @@ void AdvancedInterface::restoreSession()
         textBrowser->horizontalScrollBar()->setSliderPosition(hSlider.at(i).toInt());
     }
     if (m_settings->session.getData("viewMode").toInt() == 0)
-        ui->mdiArea->setViewMode(QMdiArea::SubWindowView);
+        setSubWindowView();
     else if (m_settings->session.getData("viewMode").toInt() == 1)
-        ui->mdiArea->setViewMode(QMdiArea::TabbedView);
+        setTabView();
     //restore
 }
 void AdvancedInterface::settingsChanged(Settings set)
@@ -1243,7 +1275,6 @@ QMenuBar* AdvancedInterface::menuBar()
     menuFile->addSeparator();
     menuFile->addAction(actionClose);
 
-
     QMenu *menuEdit = new QMenu(tr("Edit"), bar);
     QAction *actionCopy = new QAction(QIcon(":/icons/16x16/edit-copy.png"), tr("Copy"), menuEdit);
     connect(actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
@@ -1270,7 +1301,6 @@ QMenuBar* AdvancedInterface::menuBar()
     menuEdit->addSeparator();
     menuEdit->addAction(actionConfiguration);
 
-
     QMenu *menuView = new QMenu(tr("View"), bar);
 
     QAction *actionZoomIn = new QAction(QIcon(":/icons/16x16/zoom-in.png"), tr("Zoom In"), menuView);
@@ -1278,18 +1308,23 @@ QMenuBar* AdvancedInterface::menuBar()
     QAction *actionZoomOut = new QAction(QIcon(":/icons/16x16/zoom-out.png"), tr("Zoom Out"), menuView);
     connect(actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
 
-    QAction *actionTabView = new QAction(QIcon(), tr("Tabbed View"), menuView);
+    actionTabView = new QAction(QIcon(), tr("Tabbed View"), menuView);
+    actionTabView->setCheckable(true);
     connect(actionTabView, SIGNAL(triggered()), this, SLOT(setTabView()));
-    QAction *actionSubWindowView = new QAction(QIcon(), tr("Sub Window View"), menuView);
+
+    actionSubWindowView = new QAction(QIcon(), tr("Sub Window View"), menuView);
+    actionSubWindowView->setCheckable(true);
     connect(actionSubWindowView, SIGNAL(triggered()), this, SLOT(setSubWindowView()));
 
-    QAction *actionTileVertical = new QAction(QIcon(), tr("Tile Vertical"), menuView);
-    connect(actionTileVertical, SIGNAL(triggered()), this, SLOT(myTileVertical()));
-    QAction *actionTileHorizontal = new QAction(QIcon(), tr("Tile Horizontal"), menuView);
-    connect(actionTileHorizontal, SIGNAL(triggered()), this, SLOT(myTileHorizontal()));
-    QAction *actionCascade = new QAction(QIcon(), tr("Cascade"), menuView);
+    QAction *actionCascade = new QAction(QIcon(":/icons/svg/cascade.svg"), tr("Cascade"), menuView);
     connect(actionCascade, SIGNAL(triggered()), this, SLOT(myCascade()));
+    QAction *actionTile = new QAction(QIcon(":/icons/svg/tile.svg"), tr("Tile"), menuView);
+    connect(actionTile, SIGNAL(triggered()), this, SLOT(myTile()));
 
+    QAction *actionTileVertical = new QAction(QIcon(":/icons/svg/tile_vert.svg"), tr("Tile Vertical"), menuView);
+    connect(actionTileVertical, SIGNAL(triggered()), this, SLOT(myTileVertical()));
+    QAction *actionTileHorizontal = new QAction(QIcon(":/icons/svg/tile_horiz.svg"), tr("Tile Horizontal"), menuView);
+    connect(actionTileHorizontal, SIGNAL(triggered()), this, SLOT(myTileHorizontal()));
 
     menuView->addAction(actionZoomIn);
     menuView->addAction(actionZoomOut);
@@ -1297,9 +1332,11 @@ QMenuBar* AdvancedInterface::menuBar()
     menuView->addAction(actionTabView);
     menuView->addAction(actionSubWindowView);
     menuView->addSeparator();
+    menuView->addAction(actionCascade);
+    menuView->addAction(actionTile);
     menuView->addAction(actionTileVertical);
     menuView->addAction(actionTileHorizontal);
-    menuView->addAction(actionCascade);
+
 
     QMenu *menuNotes = new QMenu(tr("Notes"), bar);
     QAction *actionNotesEditor = new QAction(QIcon(":/icons/16x16/notes-edit.png"), tr("Notes Editor"), menuNotes);
@@ -1481,14 +1518,10 @@ void AdvancedInterface::showMarkList()
 }
 void AdvancedInterface::showNotesEditor()
 {
-    //m_notesDockWidget->saveNote();//todo: ugly
-
     NotesEditor notesEditor;
-    myDebug() << &m_notes;
     notesEditor.setSettings(m_settings);
     notesEditor.setModuleManager(m_moduleManager);
     notesEditor.setNotes(m_notes);
-
     notesEditor.init();
     notesEditor.show();
     notesEditor.exec();
@@ -1496,10 +1529,14 @@ void AdvancedInterface::showNotesEditor()
 void AdvancedInterface::setTabView()
 {
     ui->mdiArea->setViewMode(QMdiArea::TabbedView);
+    actionTabView->setChecked(true);
+    actionSubWindowView->setChecked(false);
 }
 void AdvancedInterface::setSubWindowView()
 {
     ui->mdiArea->setViewMode(QMdiArea::SubWindowView);
+    actionTabView->setChecked(false);
+    actionSubWindowView->setChecked(true);
 }
 void AdvancedInterface::changeEvent(QEvent *e)
 {

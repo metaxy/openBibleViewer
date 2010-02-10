@@ -92,7 +92,9 @@ int Bible::readBook(int id)
         chapterData.clear();
         chapterNames.clear();
         if (id < bookPath.size()) {
-            bq.readBook(id, bookPath.at(id));
+            int r = bq.readBook(id, bookPath.at(id));
+            if( r != 0)
+                return r;
         } else {
             myDebug() << "index out of range bookPath.size() = " << bookPath.size() << " , id = " << id;
             return 1;

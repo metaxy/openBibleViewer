@@ -98,7 +98,7 @@ int SettingsDialog::setSettings(Settings settings)
     generateModuleTree();
 
     QStringList autoLayout;
-    autoLayout << tr("None") << tr("Vertical tile") << tr("Horizontal tile") << tr("Cascade");
+    autoLayout << tr("None") << tr("Tile") << tr("Vertical tile") << tr("Horizontal tile") << tr("Cascade");
     m_ui->comboBox_autoLayout->clear();
     m_ui->comboBox_autoLayout->insertItems(0, autoLayout);
     m_ui->comboBox_autoLayout->setCurrentIndex(m_set.autoLayout);
@@ -335,6 +335,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
             QFileInfo fileInfo(f);
             if (fileInfo.isFile()) {
                 if (f.endsWith(".zip")) {
+                    return;
                     //todo: unzip first
                 }
                 //open file

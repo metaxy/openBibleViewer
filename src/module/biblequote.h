@@ -35,7 +35,7 @@ private:
 public:
     BibleQuote();
     int setSettings(Settings *settings);
-    void readBook(int id, QString path);
+    int readBook(int id, QString path);
     void loadBibleData(int bibleID, QString path);
     QString readInfo(QFile &file);
     SearchResult search(SearchQuery query);
