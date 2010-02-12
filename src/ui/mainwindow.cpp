@@ -6,6 +6,7 @@
 #include "src/ui/dialog/settingsdialog.h"
 #include "src/ui/dock/searchresultdockwidget.h"
 #include "src/ui/dock/notesdockwidget.h"
+#include "src/ui/dock/quickjumpdockwidget.h"
 #include "src/core/dbghelper.h"
 #include <QtGui/QMessageBox>
 #include <QtCore/QLibraryInfo>
@@ -35,8 +36,8 @@ MainWindow::~MainWindow()
 }
 void MainWindow::init(const QString &homeDataPath)
 {
-    VERSION  = "0.3a1";
-    BUILD =  "2009-01-14";
+    VERSION  = "0.3b1";
+    BUILD =  "2009-02-12";
     m_homeDataPath = homeDataPath;
 
 #ifdef Q_WS_WIN
@@ -124,6 +125,10 @@ void MainWindow::loadAdvancedInterface()
     advancedInterface->setStrongDockWidget(strongDockWidget);
     addDockWidget(Qt::RightDockWidgetArea, strongDockWidget);
 
+    QuickJumpDockWidget *quickJumpDockWidget = new QuickJumpDockWidget(this);
+    advancedInterface->setQuickJumpDockWidget(quickJumpDockWidget);
+    addDockWidget(Qt::RightDockWidgetArea, quickJumpDockWidget);
+
 
     setCentralWidget(advancedInterface);
 
@@ -134,6 +139,7 @@ void MainWindow::loadAdvancedInterface()
     connect(this, SIGNAL(settingsChanged(Settings)), advancedInterface, SLOT(settingsChanged(Settings)));
     connect(this, SIGNAL(closing()), advancedInterface, SLOT(closing()));
     advancedInterface->init();
+
     QTimer::singleShot(1, advancedInterface, SLOT(restoreSession()));
 
 

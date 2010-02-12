@@ -47,6 +47,10 @@ void AdvancedInterface::setStrongDockWidget(StrongDockWidget *strongDockWidget)
 {
     m_strongDockWidget = strongDockWidget;
 }
+void AdvancedInterface::setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget)
+{
+    m_quickJumpDockWidget = quickJumpDockWidget;
+}
 void AdvancedInterface::init()
 {
     m_moduleManager->m_bible.setSettings(m_settings);
@@ -95,6 +99,14 @@ void AdvancedInterface::init()
     m_strongDockWidget->init();
     m_strongDockWidget->hide();
     connect(m_strongDockWidget, SIGNAL(get(QUrl)), this, SLOT(pharseUrl(QUrl)));
+
+    m_quickJumpDockWidget->setBibleDisplay(m_bibleDisplay);
+    m_quickJumpDockWidget->setNotes(m_notes);
+    m_quickJumpDockWidget->setSettings(m_settings);
+    m_quickJumpDockWidget->setModuleManager(m_moduleManager);
+    //m_quickJumpDockWidget->init();
+    m_quickJumpDockWidget->hide();
+    connect(m_quickJumpDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
@@ -341,7 +353,7 @@ int AdvancedInterface::closeWindow()
     }
     //if one in the internal subwindow list list is missing that window was closed
     if (ui->mdiArea->subWindowList().isEmpty()) {
-        myDebug() << "subWIndowList is empty";
+        myDebug() << "subWindowList is empty";
         setBooks(QStringList());
         setChapters(QStringList());
         m_windowCache.clearAll();
@@ -1168,7 +1180,7 @@ void AdvancedInterface::restoreSession()
         activeMdiChild()->setGeometry(windowGeo.at(i).toRect());
         QTextBrowser *textBrowser =  activeMdiChild()->findChild<QTextBrowser *>("textBrowser");
         //set slider
-        //todo: reallly stange
+        //todo: reallly strange
         textBrowser->verticalScrollBar()->setSliderPosition(vSlider.at(i).toInt());
         textBrowser->horizontalScrollBar()->setSliderPosition(hSlider.at(i).toInt());
     }

@@ -9,6 +9,7 @@
 #include "src/ui/dock/notesdockwidget.h"
 #include "src/ui/dock/bookmarksdockwidget.h"
 #include "src/ui/dock/strongdockwidget.h"
+#include "src/ui/dock/quickjumpdockwidget.h"
 #include "src/core/windowcache.h"
 #include <QtGui/QMdiSubWindow>
 #include <QtGui/QCloseEvent>
@@ -87,6 +88,7 @@ public:
     void setNotesDockWidget(NotesDockWidget *notesDockWidget);
     void setBookmarksDockWidget(BookmarksDockWidget *boockmarksDockWidget);
     void setStrongDockWidget(StrongDockWidget *strongDockWidget);
+    void setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget);
 
 
 
@@ -96,6 +98,7 @@ public:
     NotesDockWidget *m_notesDockWidget;
     BookmarksDockWidget * m_bookmarksDockWidget;
     StrongDockWidget * m_strongDockWidget;
+    QuickJumpDockWidget * m_quickJumpDockWidget;
 
 protected:
     void changeEvent(QEvent *e);
