@@ -59,20 +59,23 @@
 <a name="l00040"></a>00040 
 <a name="l00041"></a>00041     <span class="keywordtype">bool</span> setCurrentWindowID(<span class="keyword">const</span> <span class="keywordtype">int</span> &amp;<span class="keywordtype">id</span>);
 <a name="l00042"></a>00042     <span class="keywordtype">void</span> setBible(<a class="code" href="classBible.html">Bible</a> b);
-<a name="l00043"></a>00043 
+<a name="l00043"></a>00043     <span class="keywordtype">void</span> setCurrentBook(<span class="keyword">const</span> <span class="keywordtype">int</span> &amp;bookid, <span class="keyword">const</span> <span class="keywordtype">int</span> &amp;chapterCount);
 <a name="l00044"></a>00044 
-<a name="l00045"></a>00045     QMap&lt;int, QList&lt;Chapter&gt; &gt; getSoftCache(<span class="keyword">const</span> <span class="keywordtype">int</span> &amp;bibleID);
-<a name="l00046"></a>00046     <a class="code" href="classBible.html">Bible</a> getBible();
-<a name="l00047"></a>00047 <span class="keyword">private</span>:
-<a name="l00048"></a>00048     QMap&lt;int, QMap&lt;int, QList&lt;Chapter&gt; &gt; &gt; m_softCache;
-<a name="l00049"></a>00049     QMap&lt;int, int&gt; m_bibletype;
-<a name="l00050"></a>00050     QStringList m_idList;
-<a name="l00051"></a>00051     <span class="keywordtype">int</span> m_currentWindowID;
-<a name="l00052"></a>00052     QMap&lt;int, Bible&gt; m_b;
-<a name="l00053"></a>00053 
-<a name="l00054"></a>00054 };
-<a name="l00055"></a>00055 
-<a name="l00056"></a>00056 <span class="preprocessor">#endif // WINDOWCACHE_H</span>
+<a name="l00045"></a>00045     <span class="keywordtype">int</span> getBibleType();
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048     QMap&lt;int, QList&lt;Chapter&gt; &gt; getSoftCache(<span class="keyword">const</span> <span class="keywordtype">int</span> &amp;bibleID);
+<a name="l00049"></a>00049     <a class="code" href="classBible.html">Bible</a> getBible();
+<a name="l00050"></a>00050 <span class="keyword">private</span>:
+<a name="l00051"></a>00051     QMap&lt;int, QMap&lt;int, QList&lt;Chapter&gt; &gt; &gt; m_softCache;
+<a name="l00052"></a>00052     QMap&lt;int, int&gt; m_bibletype;
+<a name="l00053"></a>00053     QStringList m_idList;
+<a name="l00054"></a>00054     <span class="keywordtype">int</span> m_currentWindowID;
+<a name="l00055"></a>00055     QMap&lt;int, Bible&gt; m_b;
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057 };
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059 <span class="preprocessor">#endif // WINDOWCACHE_H</span>
 </pre></div></div>
 <hr size="1"/><address style="text-align: right;"><small><a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> </small></address>

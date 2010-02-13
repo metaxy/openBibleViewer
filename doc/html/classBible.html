@@ -26,24 +26,31 @@
   </div>
 </div>
 <div class="contents">
-<h1>Bible Class Reference</h1><!-- doxytag: class="Bible" -->
+<h1>Bible Class Reference</h1><!-- doxytag: class="Bible" --><!-- doxytag: inherits="SimpleModuleClass" -->
 <p><code>#include &lt;<a class="el" href="bible_8h_source.html">bible.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for Bible:</div>
+<div class="dynsection">
+ <div class="center">
+  <img src="classBible.png" usemap="#Bible_map" alt=""/>
+  <map id="Bible_map" name="Bible_map">
+<area href="classSimpleModuleClass.html" alt="SimpleModuleClass" shape="rect" coords="0,0,122,24"/>
+</map>
+ </div>
+</div>
 
 <p><a href="classBible-members.html">List of all members.</a></p>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Public Types</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><b>m_bibleTypes</b> { <b>None</b> =  0, 
 <b>BibleQuoteModule</b> =  1, 
-<b>ZefaniaBibleModule</b> =  2, 
-<b>ZefaniaStrongModule</b> =  3
+<b>ZefaniaBibleModule</b> =  2
  }</td></tr>
 <tr><td colspan="2"><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5d888a9ecb7988783596ba6af64b4c32"></a><!-- doxytag: member="Bible::setBibleType" ref="a5d888a9ecb7988783596ba6af64b4c32" args="(const int &amp;type)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>setBibleType</b> (const int &amp;type)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abbc3f50a8babc5b981463f43a526623f"></a><!-- doxytag: member="Bible::setSettings" ref="abbc3f50a8babc5b981463f43a526623f" args="(Settings *settings)" -->
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>setSettings</b> (<a class="el" href="classSettings.html">Settings</a> *settings)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ace91415a603f079df85a05f5ffe6d295"></a><!-- doxytag: member="Bible::setNotes" ref="ace91415a603f079df85a05f5ffe6d295" args="(Notes *n)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>setNotes</b> (<a class="el" href="classNotes.html">Notes</a> *n)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5d888a9ecb7988783596ba6af64b4c32"></a><!-- doxytag: member="Bible::setBibleType" ref="a5d888a9ecb7988783596ba6af64b4c32" args="(const int &amp;type)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>setBibleType</b> (const int &amp;type)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a755e37d040f73db48a8cb11a76cfdd9c"></a><!-- doxytag: member="Bible::getSoftCache" ref="a755e37d040f73db48a8cb11a76cfdd9c" args="()" -->
 QMap&lt; int, QList&lt; <a class="el" href="structChapter.html">Chapter</a> &gt; &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>getSoftCache</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5402b0e0d92d7a34a760948eebf576f"></a><!-- doxytag: member="Bible::clearSoftCache" ref="ae5402b0e0d92d7a34a760948eebf576f" args="()" -->
@@ -75,11 +82,15 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>bookID</b> ()</td></tr
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>chapterID</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7559212b56e1c9ca36f19a202c90f030"></a><!-- doxytag: member="Bible::chapterAdd" ref="a7559212b56e1c9ca36f19a202c90f030" args="()" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>chapterAdd</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6c88a7a8fda28d1c6dce38d38bc7d24b"></a><!-- doxytag: member="Bible::booksCount" ref="a6c88a7a8fda28d1c6dce38d38bc7d24b" args="()" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>booksCount</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae4b274ab0e5983243d44ae95fda1bbb6"></a><!-- doxytag: member="Bible::chaptersCount" ref="ae4b274ab0e5983243d44ae95fda1bbb6" args="()" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>chaptersCount</b> ()</td></tr>
 <tr><td colspan="2"><h2>Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a61a3a3f88bdc01c6c7a493bdcbd98903"></a><!-- doxytag: member="Bible::m_bibleDisplaySettings" ref="a61a3a3f88bdc01c6c7a493bdcbd98903" args="" -->
 <a class="el" href="classBibleDisplaySettings.html">BibleDisplaySettings</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>m_bibleDisplaySettings</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a99e0cb6707bad5e1a25d2d360e3f3c1d"></a><!-- doxytag: member="Bible::bibleName" ref="a99e0cb6707bad5e1a25d2d360e3f3c1d" args="" -->
-QString&nbsp;</td><td class="memItemRight" valign="bottom"><b>bibleName</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abced9dd0641201c2081301d2c8ff6c59"></a><!-- doxytag: member="Bible::bibleTitle" ref="abced9dd0641201c2081301d2c8ff6c59" args="" -->
+QString&nbsp;</td><td class="memItemRight" valign="bottom"><b>bibleTitle</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aabb92e73cdb26638d40325e5d708ec7b"></a><!-- doxytag: member="Bible::lastout" ref="aabb92e73cdb26638d40325e5d708ec7b" args="" -->
 QString&nbsp;</td><td class="memItemRight" valign="bottom"><b>lastout</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1287eeedb0130dcc2b9e9cea653bb4dd"></a><!-- doxytag: member="Bible::m_biblePath" ref="a1287eeedb0130dcc2b9e9cea653bb4dd" args="" -->

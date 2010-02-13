@@ -32,7 +32,7 @@
 <a name="l00008"></a>00008 <span class="preprocessor">#include &quot;src/core/bibledisplay.h&quot;</span>
 <a name="l00009"></a>00009 <span class="preprocessor">#include &quot;src/core/settings.h&quot;</span>
 <a name="l00010"></a>00010 <span class="preprocessor">#include &quot;src/core/notes.h&quot;</span>
-<a name="l00011"></a>00011 
+<a name="l00011"></a>00011 <span class="preprocessor">#include &quot;src/core/session.h&quot;</span>
 <a name="l00012"></a>00012 <span class="keyword">namespace </span>Ui
 <a name="l00013"></a>00013 {
 <a name="l00014"></a>00014 <span class="keyword">class </span><a class="code" href="classMainWindow.html">MainWindow</a>;
@@ -61,28 +61,31 @@
 <a name="l00037"></a>00037     <a class="code" href="classBibleDisplay.html">BibleDisplay</a> *m_bibleDisplay;
 <a name="l00038"></a>00038     <a class="code" href="classSettings.html">Settings</a> *m_settings;
 <a name="l00039"></a>00039     <a class="code" href="classNotes.html">Notes</a> *m_notes;
-<a name="l00040"></a>00040     QSettings *m_settingsFile;
-<a name="l00041"></a>00041     QString VERSION, BUILD;
-<a name="l00042"></a>00042     QString m_homeDataPath;
-<a name="l00043"></a>00043     <span class="keywordtype">void</span> setSettings(<a class="code" href="classSettings.html">Settings</a> *setttings);
-<a name="l00044"></a>00044     <span class="keywordtype">void</span> setSettings(<a class="code" href="classSettings.html">Settings</a> settings);
-<a name="l00045"></a>00045     <span class="keywordtype">void</span> writeSettings();
-<a name="l00046"></a>00046 
-<a name="l00047"></a>00047     <span class="keywordtype">void</span> showSettingsDialog(<span class="keywordtype">int</span> tabID);
-<a name="l00048"></a>00048     <span class="keywordtype">void</span> loadLanguage(QString language);
-<a name="l00049"></a>00049     <span class="keywordtype">void</span> setTranslator(QTranslator *my, QTranslator *qt);
-<a name="l00050"></a>00050     QTranslator *myappTranslator;
-<a name="l00051"></a>00051     QTranslator *qtTranslator;
-<a name="l00052"></a>00052 
+<a name="l00040"></a>00040     <a class="code" href="classSession.html">Session</a> *m_session;
+<a name="l00041"></a>00041     QSettings *m_settingsFile;
+<a name="l00042"></a>00042     QString VERSION, BUILD;
+<a name="l00043"></a>00043     QString m_homeDataPath;
+<a name="l00044"></a>00044     <span class="keywordtype">void</span> setSettings(<a class="code" href="classSettings.html">Settings</a> *setttings);
+<a name="l00045"></a>00045     <span class="keywordtype">void</span> setSettings(<a class="code" href="classSettings.html">Settings</a> settings);
+<a name="l00046"></a>00046     <span class="keywordtype">void</span> writeSettings();
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048     <span class="keywordtype">void</span> showSettingsDialog(<span class="keywordtype">int</span> tabID);
+<a name="l00049"></a>00049     <span class="keywordtype">void</span> loadLanguage(QString language);
+<a name="l00050"></a>00050     <span class="keywordtype">void</span> setTranslator(QTranslator *my, QTranslator *qt);
+<a name="l00051"></a>00051     QTranslator *myappTranslator;
+<a name="l00052"></a>00052     QTranslator *qtTranslator;
 <a name="l00053"></a>00053 
-<a name="l00054"></a>00054 <span class="keyword">protected</span>:
-<a name="l00055"></a>00055     <span class="keywordtype">void</span> changeEvent(QEvent *e);
-<a name="l00056"></a>00056 
-<a name="l00057"></a>00057 <span class="keyword">private</span>:
-<a name="l00058"></a>00058     Ui::MainWindow *ui;
-<a name="l00059"></a>00059 };
-<a name="l00060"></a>00060 
-<a name="l00061"></a>00061 <span class="preprocessor">#endif // MAINWINDOW_H</span>
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055 <span class="keyword">protected</span>:
+<a name="l00056"></a>00056     <span class="keywordtype">void</span> changeEvent(QEvent *e);
+<a name="l00057"></a>00057     <span class="keywordtype">void</span> closeEvent(QCloseEvent *event);
+<a name="l00058"></a>00058 signals:
+<a name="l00059"></a>00059     <span class="keywordtype">void</span> closing();
+<a name="l00060"></a>00060 <span class="keyword">private</span>:
+<a name="l00061"></a>00061     Ui::MainWindow *ui;
+<a name="l00062"></a>00062 };
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064 <span class="preprocessor">#endif // MAINWINDOW_H</span>
 </pre></div></div>
 <hr size="1"/><address style="text-align: right;"><small><a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> </small></address>

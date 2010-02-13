@@ -54,12 +54,12 @@
 <a name="l00035"></a>00035 <span class="keyword">public</span>:
 <a name="l00036"></a>00036     <a class="code" href="classBibleQuote.html">BibleQuote</a>();
 <a name="l00037"></a>00037     <span class="keywordtype">int</span> setSettings(<a class="code" href="classSettings.html">Settings</a> *settings);
-<a name="l00038"></a>00038     <span class="keywordtype">void</span> readBook(<span class="keywordtype">int</span> <span class="keywordtype">id</span>, QString path);
+<a name="l00038"></a>00038     <span class="keywordtype">int</span> readBook(<span class="keywordtype">int</span> <span class="keywordtype">id</span>, QString path);
 <a name="l00039"></a>00039     <span class="keywordtype">void</span> loadBibleData(<span class="keywordtype">int</span> bibleID, QString path);
 <a name="l00040"></a>00040     QString readInfo(QFile &amp;file);
 <a name="l00041"></a>00041     <a class="code" href="classSearchResult.html">SearchResult</a> search(<a class="code" href="classSearchQuery.html">SearchQuery</a> query);
 <a name="l00042"></a>00042 
-<a name="l00043"></a>00043     <span class="keywordtype">int</span> currentBookID, currentBibleID;
+<a name="l00043"></a>00043     <span class="keywordtype">int</span> m_bookID, m_bibleID;
 <a name="l00044"></a>00044     <span class="keywordtype">bool</span> chapterZero;
 <a name="l00045"></a>00045     QString currentBiblePath, lastout, chaptersign, versesign, bibleName, removeHtml;
 <a name="l00046"></a>00046     QStringList bookPath, bookFullName, bookShortName;

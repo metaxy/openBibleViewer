@@ -58,12 +58,12 @@
 <a name="l00038"></a>00038     <span class="keywordtype">void</span> downloaded(QStringList downloadedFiles, QStringList names);
 <a name="l00039"></a>00039 
 <a name="l00040"></a>00040 <span class="keyword">private</span> slots:
-<a name="l00041"></a>00041     <span class="keywordtype">void</span> httpRequestFinished(<span class="keywordtype">int</span> requestId, <span class="keywordtype">bool</span> error);
-<a name="l00042"></a>00042     <span class="keywordtype">void</span> readResponseHeader(<span class="keyword">const</span> QHttpResponseHeader &amp;responseHeader);
-<a name="l00043"></a>00043     <span class="keywordtype">void</span> updateDataReadProgress(<span class="keywordtype">int</span> bytesRead, <span class="keywordtype">int</span> totalBytes);
+<a name="l00041"></a>00041   <span class="keywordtype">void</span> httpRequestFinished(<span class="keywordtype">int</span> requestId, <span class="keywordtype">bool</span> error);
+<a name="l00042"></a>00042  <span class="keywordtype">void</span> readResponseHeader(<span class="keyword">const</span> QHttpResponseHeader &amp;responseHeader);
+<a name="l00043"></a>00043    <span class="keywordtype">void</span> updateDataReadProgress(<span class="keywordtype">int</span> bytesRead, <span class="keywordtype">int</span> totalBytes);
 <a name="l00044"></a>00044     <span class="keywordtype">void</span> downloadNext();
 <a name="l00045"></a>00045     <span class="keywordtype">void</span> item(QTreeWidgetItem* item);
-<a name="l00046"></a>00046     <span class="keywordtype">void</span> cancelDownload();
+<a name="l00046"></a>00046   <span class="keywordtype">void</span> cancelDownload();
 <a name="l00047"></a>00047 <span class="keyword">public</span>:
 <a name="l00048"></a>00048     <a class="code" href="classModuleDownloadDialog.html">ModuleDownloadDialog</a>(QWidget *parent = 0);
 <a name="l00049"></a>00049     ~<a class="code" href="classModuleDownloadDialog.html">ModuleDownloadDialog</a>();
@@ -83,9 +83,10 @@
 <a name="l00063"></a>00063     QFile *file;
 <a name="l00064"></a>00064     <span class="keywordtype">int</span> httpGetId;
 <a name="l00065"></a>00065     <span class="keywordtype">bool</span> httpRequestAborted;
-<a name="l00066"></a>00066 };
-<a name="l00067"></a>00067 
-<a name="l00068"></a>00068 <span class="preprocessor">#endif // MODULEDOWNLOADDIALOG_H</span>
+<a name="l00066"></a>00066     <span class="keywordtype">void</span> download(QString url_,<span class="keywordtype">bool</span> addToList = <span class="keyword">true</span>);
+<a name="l00067"></a>00067 };
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069 <span class="preprocessor">#endif // MODULEDOWNLOADDIALOG_H</span>
 </pre></div></div>
 <hr size="1"/><address style="text-align: right;"><small><a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> </small></address>
