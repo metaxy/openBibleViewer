@@ -156,7 +156,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
         firstSubWindow->showNormal();
         subWindow->resize(600, 600);
         subWindow->show();
-    } else if(doAutoLayout) {
+    } else if (doAutoLayout) {
         subWindow->resize(600, 600);
         subWindow->show();
     }
@@ -226,7 +226,7 @@ void AdvancedInterface::myTileVertical()
 
     const int widthForEach = width() / windows.count();
     unsigned int x = 0;
-    foreach (QMdiSubWindow *window, windows) {
+    foreach(QMdiSubWindow *window, windows) {
         window->showNormal();
 
         const int preferredWidth = window->minimumWidth() + window->baseSize().width();
@@ -252,13 +252,13 @@ void AdvancedInterface::myTileHorizontal()
 
     const int heightForEach = height() / windows.count();
     unsigned int y = 0;
-    foreach (QMdiSubWindow *window, windows) {
+    foreach(QMdiSubWindow *window, windows) {
         window->showNormal();
 
         const int preferredHeight = window->minimumHeight() + window->baseSize().height();
         const int actHeight = qMax(heightForEach, preferredHeight);
 
-        window->setGeometry( 0, y, width(), actHeight );
+        window->setGeometry(0, y, width(), actHeight);
         y += actHeight;
     }
     if (active) active->setFocus();
@@ -307,7 +307,8 @@ void AdvancedInterface::myCascade()
     }
 }
 
-void AdvancedInterface::myTile() {
+void AdvancedInterface::myTile()
+{
     if (!m_enableReload || !usableWindowList().count()) {
         return;
     }
@@ -649,8 +650,22 @@ void AdvancedInterface::setChapters(const QStringList &chapters)
     m_bookDockWidget->setChapters(chapters);
     if (activeMdiChild()) {
         QComboBox *comboBox_chapters = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_chapters");
-        comboBox_chapters->clear();
-        comboBox_chapters->insertItems(0, chapters);
+        if (comboBox_chapters) {
+            bool same = true;
+            if(comboBox_chapters->count() == chapters.count()) {
+                for(int i = 0; i < chapters.count(); i++) {
+                    if(comboBox_chapters->itemText(i) != chapters.at(i)) {
+                        same = false;
+                    }
+                }
+            } else {
+                same = false;
+            }
+            if(!same) {
+                comboBox_chapters->clear();
+                comboBox_chapters->insertItems(0, chapters);
+            }
+        }
     }
 }
 void AdvancedInterface::setCurrentChapter(const int &chapterID)
@@ -669,8 +684,20 @@ void AdvancedInterface::setBooks(const QStringList &books)
     if (activeMdiChild()) {
         QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
         if (comboBox_books) {
-            comboBox_books->clear();
-            comboBox_books->insertItems(0, books);
+            bool same = true;
+            if(comboBox_books->count() == books.count()) {
+                for(int i = 0; i < books.count(); i++) {
+                    if(comboBox_books->itemText(i) != books.at(i)) {
+                        same = false;
+                    }
+                }
+            } else {
+                same = false;
+            }
+            if(!same) {
+                comboBox_books->clear();
+                comboBox_books->insertItems(0, books);
+            }
         }
     }
 }

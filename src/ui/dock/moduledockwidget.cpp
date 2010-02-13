@@ -42,7 +42,6 @@ void ModuleDockWidget::iterateTreeWidget(QTreeWidgetItem *parent)
     {
         m_dontLoad = true;
         QTreeWidgetItem *item = parent ? parent->child(i) : ui->treeWidget_bibles->topLevelItem(i);
-        myDebug() << item->text(1);
         if(item->text(1).toInt() == m_moduleID) {
             item->setSelected(true);
         } else {

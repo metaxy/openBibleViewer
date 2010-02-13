@@ -302,8 +302,11 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     KoXmlDocument doc;
 
 #ifdef KOXML_USE_QDOM
-    if (!doc.setContent(&file)) {
-        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
+    QString error;
+    int l;
+    int c;
+    if (!doc.setContent(&file,&error,&l,&c)) {
+        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid. Errorstring: %1 in Line %2 at Position %2").arg(error).arg(l).arg(c));
         myDebug() << "the file isnt valid";
         return;
     }
@@ -358,8 +361,12 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
 #endif
 
     progress.setValue(5);
-    if (!doc.setContent(data)) {
-        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
+    QString error;
+    int l;
+    int c;
+
+    if (!doc.setContent(data,&error,&l,&c)) {
+        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid. Errorstring: %1 in Line %2 at Position %2").arg(error).arg(l).arg(c));
         myDebug() << "the file isnt valid";
         return;
     }

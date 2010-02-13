@@ -52,8 +52,6 @@ ModuleDownloadDialog::ModuleDownloadDialog(QWidget *parent) :
 void ModuleDownloadDialog::readModules()
 {
     //DEBUG_FUNC_NAME
-    //load list from file
-    //show it in treewidget
     QDomDocument doc;
     QFile file(":/data/modules.xml");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -109,9 +107,6 @@ void ModuleDownloadDialog::readModules()
                     bibleItem->setData(2, 1, map[i.key()].at(a));
                     bibleItem->setCheckState(0, Qt::Unchecked);
                     bibleItem->setText(0, i.value().at(a));
-                    /*   QIcon bibleIcon;
-                       bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
-                       bibleItem->setIcon(0, bibleIcon);*/
                     langItem->addChild(bibleItem);
                 }
             }
@@ -148,10 +143,8 @@ void ModuleDownloadDialog::item(QTreeWidgetItem* i)
         } else if (i->checkState(0) == Qt::Unchecked) {
             downloadList.removeOne(i->data(2, 0).toString());
             nameList.removeOne(i->data(2, 1).toString());
-            //remove from download list
         }
     }
-    //if(i->checkState(0) == Qt::
 }
 void ModuleDownloadDialog::setSettings(Settings settings)
 {
@@ -165,47 +158,50 @@ void ModuleDownloadDialog::downloadNext()
     QDir dir(m_set.homePath);
     dir.mkdir(m_set.homePath + "modules");
     if (currentDownload + 1 == downloadList.size() && downloadList.size() != 0) {
-        //myDebug() << "emit";
         emit downloaded(downloadedList, downNames);
         return;
     }
     if (currentDownload < downloadList.size() && downloadList.size() != 0) {
         currentDownload++;
-        QUrl url(downloadList.at(currentDownload));
-        QFileInfo fileInfo(url.path());
-        QDir d(m_set.homePath + "modules/");
-        dir.mkpath(m_set.homePath + "modules/" + fileInfo.fileName() + "/");
-        QString fileName = m_set.homePath + "modules/" + fileInfo.fileName() + "/" + fileInfo.fileName();
-        downloadedList << fileName;
-        downNames << nameList.at(currentDownload);
-        myDebug() << "fileName = " << fileName;
+        download(downloadList.at(currentDownload));
 
-        if (QFile::exists(fileName)) {
-            QFile::remove(fileName);
-        }
-        file = new QFile(fileName);
-        if (!file->open(QIODevice::WriteOnly)) {
-            QMessageBox::information(this, tr("HTTP"), tr("Unable to save the file %1: %2.").arg(fileName).arg(file->errorString()));
-            delete file;
-            file = 0;
-            return;
-        }
-        QHttp::ConnectionMode mode = url.scheme().toLower() == "https" ? QHttp::ConnectionModeHttps : QHttp::ConnectionModeHttp;
-        http->setHost(url.host(), mode, url.port() == -1 ? 0 : url.port());
-
-        httpRequestAborted = false;
-        QByteArray path = QUrl::toPercentEncoding(url.path(), "!$&'()*+,;=:@/");
-        if (path.isEmpty())
-            path = "/";
-        httpGetId = http->get(path, file);
-        progressDialog->setWindowTitle(tr("Downloading"));
-        progressDialog->setLabelText(tr("Downloading %1 / %2. %3 MB").arg(currentDownload + 1).arg(downloadList.size()).arg(0));
-        progressDialog->setModal(true);
     } else {
         myDebug() << "nothing selected";
-
-        QMessageBox::information(this, "Nothing selected", "You have selected something to download it.");
+        QMessageBox::information(this, "Nothing selected", "You have to selected something to download it.");
     }
+}
+void ModuleDownloadDialog::download(QString url_,bool addToList)
+{
+    DEBUG_FUNC_NAME
+    myDebug() << url_;
+    QUrl url(url_);
+    QFileInfo fileInfo(url.path());
+    QDir d(m_set.homePath + "modules/");
+    QDir dir(m_set.homePath);
+    dir.mkpath(m_set.homePath + "modules/" + fileInfo.fileName() + "/");
+    QString fileName = m_set.homePath + "modules/" + fileInfo.fileName() + "/" + fileInfo.fileName();
+    if(addToList) {
+        downloadedList << fileName;
+        downNames << nameList.at(currentDownload);
+    }
+
+
+    if (QFile::exists(fileName)) {
+        QFile::remove(fileName);
+    }
+    file = new QFile(fileName);
+    if (!file->open(QIODevice::WriteOnly)) {
+        QMessageBox::information(this, tr("HTTP"), tr("Unable to save the file %1: %2.").arg(fileName).arg(file->errorString()));
+        delete file;
+        file = 0;
+        return;
+    }
+    httpRequestAborted = false;
+    http->setHost(url.host(), QHttp::ConnectionModeHttp, url.port() == -1 ? 0 : url.port());
+    httpGetId = http->get(url_, file);
+    progressDialog->setWindowTitle(tr("Downloading"));
+    progressDialog->setLabelText(tr("Downloading %1 / %2. %3 MB").arg(currentDownload + 1).arg(downloadList.size()).arg(0));
+    progressDialog->setModal(true);
 }
 void ModuleDownloadDialog::cancelDownload()
 {
@@ -227,7 +223,6 @@ void ModuleDownloadDialog::httpRequestFinished(int requestId, bool error)
         progressDialog->hide();
         return;
     }
-
     if (requestId != httpGetId)
         return;
     if (currentDownload > downloadList.size() - 2 || downloadList.size() == 1) {
@@ -237,15 +232,11 @@ void ModuleDownloadDialog::httpRequestFinished(int requestId, bool error)
 
     if (error) {
         file->remove();
-        QMessageBox::information(this, tr("HTTP"),
-                                 tr("Download failed: %1.")
-                                 .arg(http->errorString()));
+        QMessageBox::information(this, tr("HTTP"),tr("Download failed: %1.").arg(http->errorString()));
     } else {
         qDebug() << "ModuleDownloadDialog::httpRequestFinished() Downloaded";
         file->close();
     }
-
-    //downloadButton->setEnabled(true);
     delete file;
     file = 0;
     downloadNext();
@@ -253,15 +244,21 @@ void ModuleDownloadDialog::httpRequestFinished(int requestId, bool error)
 
 void ModuleDownloadDialog::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
+    myDebug() << responseHeader.statusCode() << responseHeader.toString();
     switch (responseHeader.statusCode()) {
     case 200:                   // Ok
-    case 301:                   // Moved Permanently
-    case 302:                   // Found
+
+        break;
+   case 302:                   // Found
     case 303:                   // See Other
     case 307:                   // Temporary Redirect
-        // these are not error conditions
+    case 301:                   // Moved Permanently
+        myDebug() << "moved";
+        if(responseHeader.hasKey("Location") && !responseHeader.value("Location").contains("failed")) {
+            QString location = responseHeader.value("Location");
+            download(location,false);
+        }
         break;
-
     default:
         QMessageBox::information(this, tr("HTTP"),
                                  tr("Download failed: %1.")
@@ -276,10 +273,7 @@ void ModuleDownloadDialog::updateDataReadProgress(int bytesRead, int totalBytes)
 {
     if (httpRequestAborted)
         return;
-    progressDialog->setLabelText(tr("Downloading %1 / %2. %3 MB")
-                                 .arg(currentDownload + 1)
-                                 .arg(downloadList.size())
-                                 .arg(QString::number((float)bytesRead / (1024*1024), 'f', 2)));
+    progressDialog->setLabelText(tr("Downloading %1 / %2. %3 MB").arg(currentDownload + 1).arg(downloadList.size()).arg(QString::number((float)bytesRead / (1024*1024), 'f', 2)));
     if (totalBytes == 0) {
         if (progressDialog->maximum() != 0) {
             progressDialog->setMaximum(0);

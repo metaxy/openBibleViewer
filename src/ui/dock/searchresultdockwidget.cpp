@@ -39,7 +39,7 @@ void SearchResultDockWidget::goToSearchResult(QListWidgetItem * item)
     int id = ui->listWidget_search->row(item);
     if (m_moduleManager->m_moduleList.size() < m_moduleManager->m_bible.bibleID())
         return;
-    if (id < m_searchResult.hits().size()) {
+    if (id < m_searchResult.hits().size() && id > 0) {
         SearchHit hit = m_searchResult.hits().at(id);
         emit get("bible://" + QString::number(hit.bibleID()) + "/" + QString::number(hit.bookID()) + "," + QString::number(hit.chapterID() - 1) + "," + QString::number(hit.verseID() - 1) + ",searchInCurrentText=true");
     }

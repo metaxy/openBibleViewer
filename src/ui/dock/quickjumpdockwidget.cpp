@@ -30,7 +30,7 @@ bool QuickJumpDockWidget::eventFilter(QObject *obj, QEvent *event)
         if (event->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
             myDebug() << keyEvent->key();
-            if (keyEvent->key() == 16777220 ) {
+            if (keyEvent->key() == 16777220) {
                 goToPos();
                 return true;
             } else {
