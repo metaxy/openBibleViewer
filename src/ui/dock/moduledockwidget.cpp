@@ -10,6 +10,7 @@ ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->treeWidget_bibles, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(loadModuleData(QTreeWidgetItem*)));
     ui->treeWidget_bibles->installEventFilter(this);
+    m_dontLoad = false;
 }
 void ModuleDockWidget::init()
 {
@@ -22,13 +23,34 @@ void ModuleDockWidget::loadModuleData(QTreeWidgetItem *fitem)
 {
     //DEBUG_FUNC_NAME
 
-    if (fitem->text(1).toInt() >= 0) {
+    if (fitem->text(1).toInt() >= 0 && m_dontLoad == false) {
         emit get("bible://" + fitem->text(1) + "/0,0,0");
     }
 }
 void ModuleDockWidget::loadedModule(int id)
 {
+    DEBUG_FUNC_NAME
+    myDebug() << "id = " << id;
+    m_moduleID = id;
+    iterateTreeWidget();
     //todo: implement this
+}
+void ModuleDockWidget::iterateTreeWidget(QTreeWidgetItem *parent)
+{
+    int count = parent ? parent->childCount() : ui->treeWidget_bibles->topLevelItemCount();
+    for (int i = 0; i < count; i++)
+    {
+        m_dontLoad = true;
+        QTreeWidgetItem *item = parent ? parent->child(i) : ui->treeWidget_bibles->topLevelItem(i);
+        myDebug() << item->text(1);
+        if(item->text(1).toInt() == m_moduleID) {
+            item->setSelected(true);
+        } else {
+            item->setSelected(false);
+        }
+        iterateTreeWidget(item);
+        m_dontLoad = false;
+    }
 }
 
 bool ModuleDockWidget::eventFilter(QObject *obj, QEvent *event)

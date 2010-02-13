@@ -2,6 +2,7 @@
 #define MODULEDOCKWIDGET_H
 
 #include <QDockWidget>
+#include <QtGui/QTreeWidgetItem>
 #include "dockwidget.h"
 namespace Ui
 {
@@ -28,6 +29,9 @@ signals:
     void get(QString);
 private:
     Ui::ModuleDockWidget *ui;
+    bool m_dontLoad;
+    int m_moduleID;
+    void iterateTreeWidget(QTreeWidgetItem *parent = 0);
 };
 
 #endif // MODULEDOCKWIDGET_H

@@ -15,6 +15,7 @@
 #include <QtGui/QPrinter>
 #include <QtCore/QTimer>
 #include <QtGui/QColorDialog>
+#include <QtGui/QKeySequence>
 #include "src/ui/dialog/aboutdialog.h"
 #include "src/ui/noteseditor.h"
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
@@ -120,12 +121,12 @@ void AdvancedInterface::init()
     connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
     myDebug() << "homepath = " << m_settings->homePath;
     if (usableWindowList().size() == 0 &&  m_settings->session.getData("windowUrls").toStringList().size() == 0)
-        QTimer::singleShot(10, this, SLOT(newMdiChild()));//todo: fix this ugly bug
+        QTimer::singleShot(10, this, SLOT(newSubWindow()));//todo: fix this ugly bug
     myDebug() << " windowlist = " << usableWindowList();
 }
 
 
-void AdvancedInterface::newMdiChild(bool doAutoLayout)
+void AdvancedInterface::newSubWindow(bool doAutoLayout)
 {
     DEBUG_FUNC_NAME
     m_enableReload = false;
@@ -168,7 +169,7 @@ void AdvancedInterface::newMdiChild(bool doAutoLayout)
     connect(mForm, SIGNAL(previousChapter()), this, SLOT(previousChapter()));
     connect(mForm, SIGNAL(nextChapter()), this, SLOT(nextChapter()));
     connect(this, SIGNAL(historySetUrl(QString)), mForm, SLOT(historyGetUrl(QString)));
-    connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closeWindow()));
+    connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closingWindow()));
     m_enableReload = true;
     if (doAutoLayout) {
         autoLayout();
@@ -344,7 +345,11 @@ int AdvancedInterface::tabIDof(QMdiSubWindow* window)
     }
     return -1;
 }
-int AdvancedInterface::closeWindow()
+void AdvancedInterface::closeSubWindow()
+{
+    activeMdiChild()->close();
+}
+int AdvancedInterface::closingWindow()
 {
     //DEBUG_FUNC_NAME
     if (!m_enableReload) {
@@ -420,6 +425,7 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
 
         setBooks(m_moduleManager->m_bible.bookFullName);
         setCurrentBook(m_moduleManager->m_bible.bookID());
+        m_moduleDockWidget->loadedModule(m_moduleManager->m_bible.bibleID());
     }
 
     return 0;
@@ -456,7 +462,7 @@ void AdvancedInterface::loadModuleDataByID(int id)
     //DEBUG_FUNC_NAME
     myDebug() << "id = " << id;
     if (ui->mdiArea->subWindowList().size() == 0)
-        newMdiChild();
+        newSubWindow();
     if (id < 0 || m_moduleManager->m_moduleList.size() < id) {
         QApplication::restoreOverrideCursor();
         return;
@@ -1168,7 +1174,7 @@ void AdvancedInterface::restoreSession()
     QVariantList vSlider = m_settings->session.getData("vSlider").toList();
     QVariantList hSlider = m_settings->session.getData("hSlider").toList();
     for (int i = 0; i < windowUrls.size(); ++i) {
-        newMdiChild(false);
+        newSubWindow(false);
         myDebug() << "current window is " << tabIDof(activeMdiChild()) << " while window count is " << usableWindowList();
         //load bible
         UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, windowUrls.at(i));
@@ -1275,6 +1281,14 @@ QMenuBar* AdvancedInterface::menuBar()
 {
     QMenuBar *bar = new QMenuBar(this->parentWidget());
     QMenu *menuFile = new QMenu(tr("File"), bar);
+
+    QAction *actionNewSubWindow = new QAction(QIcon(":/icons/16x16/tab-new.png"), tr("New SubWindow"), menuFile);
+    connect(actionNewSubWindow, SIGNAL(triggered()), this, SLOT(newSubWindow()));
+    actionNewSubWindow->setShortcut(QKeySequence(tr("Ctrl+T")));
+
+    QAction *actionCloseSubWindow = new QAction(QIcon(":/icons/16x16/tab-close.png"), tr("Close SubWindow"), menuFile);
+    connect(actionCloseSubWindow, SIGNAL(triggered()), this, SLOT(closeSubWindow()));
+
     QAction *actionSaveAs = new QAction(QIcon(":/icons/16x16/document-save-as.png"), tr("Save As"), menuFile);
     connect(actionSaveAs, SIGNAL(triggered()), this, SLOT(saveFile()));
 
@@ -1283,6 +1297,9 @@ QMenuBar* AdvancedInterface::menuBar()
 
     QAction *actionClose = new QAction(QIcon(":/icons/16x16/application-exit.png"), tr("Close"), menuFile);
     connect(actionClose, SIGNAL(triggered()), this->parentWidget(), SLOT(close()));
+    menuFile->addAction(actionNewSubWindow);
+    menuFile->addAction(actionCloseSubWindow);
+    menuFile->addSeparator();
     menuFile->addAction(actionSaveAs);
     menuFile->addAction(actionPrint);
     menuFile->addSeparator();
@@ -1296,6 +1313,7 @@ QMenuBar* AdvancedInterface::menuBar()
     connect(actionSelectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
 
     QAction *actionSearch = new QAction(QIcon(":/icons/16x16/edit-find.png"), tr("Search"), menuEdit);
+    actionSearch->setShortcut(QKeySequence(tr("Ctrl+F")));
     connect(actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
     QAction *actionFindNext = new QAction(QIcon(":/icons/16x16/go-down-search.png"), tr("Find Next"), menuEdit);
     connect(actionFindNext, SIGNAL(triggered()), this, SLOT(nextVerse()));
@@ -1318,7 +1336,9 @@ QMenuBar* AdvancedInterface::menuBar()
 
     QAction *actionZoomIn = new QAction(QIcon(":/icons/16x16/zoom-in.png"), tr("Zoom In"), menuView);
     connect(actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
+    actionZoomIn->setShortcut(QKeySequence(tr("Ctrl++")));
     QAction *actionZoomOut = new QAction(QIcon(":/icons/16x16/zoom-out.png"), tr("Zoom Out"), menuView);
+    actionZoomOut->setShortcut(QKeySequence(tr("Ctrl+-")));
     connect(actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
 
     actionTabView = new QAction(QIcon(), tr("Tabbed View"), menuView);
@@ -1388,6 +1408,8 @@ QToolBar * AdvancedInterface::toolBar()
     QToolBar *bar = new QToolBar(this->parentWidget());
     bar->setIconSize(QSize(32, 32));
     bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+    bar->setObjectName("toolBar");
+    bar->setWindowTitle(tr("ToolBar"));
     QAction *actionSearch = new QAction(QIcon(":/icons/32x32/edit-find.png"), tr("Search"), bar);
     connect(actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
 
@@ -1401,8 +1423,8 @@ QToolBar * AdvancedInterface::toolBar()
     actionNotes->setCheckable(true);
     connect(m_notesDockWidget, SIGNAL(visibilityChanged(bool)), actionNotes, SLOT(setChecked(bool)));
 
-    QAction *actionNewWindow = new QAction(QIcon(":/icons/32x32/window-new.png"), tr("New Window"), bar);
-    connect(actionNewWindow, SIGNAL(triggered()), this, SLOT(newMdiChild()));
+    QAction *actionNewWindow = new QAction(QIcon(":/icons/32x32/tab-new.png"), tr("New Window"), bar);
+    connect(actionNewWindow, SIGNAL(triggered()), this, SLOT(newSubWindow()));
 
     QAction *actionZoomIn = new QAction(QIcon(":/icons/32x32/zoom-in.png"), tr("Zoom In"), bar);
     connect(actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));

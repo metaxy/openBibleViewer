@@ -27,13 +27,10 @@ void QuickJumpDockWidget::goToPos()
 bool QuickJumpDockWidget::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == ui->lineEdit_goTo) {
-        myDebug() << "line";
         if (event->type() == QEvent::KeyPress) {
-            myDebug() << " key event";
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
             myDebug() << keyEvent->key();
             if (keyEvent->key() == 16777220 ) {
-                myDebug() << " key event enter";
                 goToPos();
                 return true;
             } else {
