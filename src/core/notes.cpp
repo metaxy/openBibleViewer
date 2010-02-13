@@ -65,6 +65,7 @@ int Notes::loadNotes()
             //errror to old version
             myDebug() << "too old version " << e.attribute("version", "0.1") << " current is " << m_version;
             file.close();
+
             QDir dir(m_fileName);
             dir.rename(m_fileName,m_fileName+".bak");
 
