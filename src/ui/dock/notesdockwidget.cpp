@@ -18,6 +18,7 @@ NotesDockWidget::~NotesDockWidget()
 }
 void NotesDockWidget::init()
 {
+    DEBUG_FUNC_NAME
     connect(ui->pushButton_editNoteLink, SIGNAL(clicked()), this, SLOT(editNoteLink()));
     connect(ui->listWidget_notes, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(notesContextMenu()));
 

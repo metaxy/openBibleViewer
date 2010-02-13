@@ -19,9 +19,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomElement>
 #include <QtCore/QTextStream>
 #include <QtCore/QDebug>
+#include <QtCore/QDir>
 Notes::Notes()
 {
+    m_isLoaded = false;
 }
+
 void Notes::init(const QString &fileName)
 {
     //DEBUG_FUNC_NAME
@@ -44,8 +47,9 @@ void Notes::loadingNewInstance()
   */
 int Notes::loadNotes()
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     QFile file(m_fileName);
+    doc.clear();
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         myDebug() << "cannot read the file";
         return 1;
@@ -59,8 +63,12 @@ int Notes::loadNotes()
         QDomElement e = doc.documentElement();
         if (e.attribute("version", "0.1") != m_version) {
             //errror to old version
-            qDebug() << "notes::loadNotes() too old version " << e.attribute("version", "0.1") << " current is " << m_version;
+            myDebug() << "too old version " << e.attribute("version", "0.1") << " current is " << m_version;
             file.close();
+            QDir dir(m_fileName);
+            dir.rename(m_fileName,m_fileName+".bak");
+
+            loadNotes();
             return 1;
         }
     }
