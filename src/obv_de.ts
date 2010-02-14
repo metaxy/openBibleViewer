@@ -95,7 +95,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="972"/>
         <source>Custom Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Eigne Farbe</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="977"/>
@@ -120,7 +120,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1312"/>
         <source>New SubWindow</source>
-        <translation type="unfinished"></translation>
+        <translation>Neues Unterfenster</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1314"/>
@@ -130,7 +130,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1316"/>
         <source>Close SubWindow</source>
-        <translation type="unfinished"></translation>
+        <translation>Schließe Unterfenster</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1319"/>
@@ -219,22 +219,22 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1381"/>
         <source>Tile</source>
-        <translation type="unfinished"></translation>
+        <translation>Kacheln</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1384"/>
         <source>Tile Vertical</source>
-        <translation type="unfinished"></translation>
+        <translation>Vertikal kacheln</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1386"/>
         <source>Tile Horizontal</source>
-        <translation type="unfinished"></translation>
+        <translation>Horizontal kacheln</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1379"/>
         <source>Cascade</source>
-        <translation type="unfinished">Staffeln</translation>
+        <translation>Staffeln</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1401"/>
@@ -318,12 +318,12 @@
     <message>
         <location filename="ui/dialog/biblepassagedialog.ui" line="58"/>
         <source>Save</source>
-        <translation type="unfinished">Speichern</translation>
+        <translation>Speichern</translation>
     </message>
     <message>
         <location filename="ui/dialog/biblepassagedialog.ui" line="69"/>
         <source>Cancel</source>
-        <translation type="unfinished">Abbrechen</translation>
+        <translation>Abbrechen</translation>
     </message>
 </context>
 <context>
@@ -331,7 +331,7 @@
     <message>
         <location filename="ui/dock/bookdockwidget.ui" line="17"/>
         <source>Book Select</source>
-        <translation type="unfinished"></translation>
+        <translation>Buchauswahl</translation>
     </message>
 </context>
 <context>
@@ -339,49 +339,49 @@
     <message>
         <location filename="ui/dock/bookmarksdockwidget.ui" line="14"/>
         <source>Bookmarks</source>
-        <translation type="unfinished">Lesezeichen</translation>
+        <translation>Lesezeichen</translation>
     </message>
     <message>
         <location filename="ui/dock/bookmarksdockwidget.ui" line="54"/>
         <source>Title</source>
-        <translation type="unfinished">Titel</translation>
+        <translation>Titel</translation>
     </message>
     <message>
         <location filename="ui/dock/bookmarksdockwidget.cpp" line="89"/>
         <source>new folder</source>
-        <translation type="unfinished">Neuer Ordner</translation>
+        <translation>Neuer Ordner</translation>
     </message>
     <message>
         <location filename="ui/dock/bookmarksdockwidget.cpp" line="110"/>
         <source>Go to</source>
-        <translation type="unfinished">Gehe zu</translation>
+        <translation>Gehe zu</translation>
     </message>
     <message>
         <location filename="ui/dock/bookmarksdockwidget.cpp" line="120"/>
         <source>New Folder</source>
-        <translation type="unfinished">Neuer Ordner</translation>
+        <translation>Neuer Ordner</translation>
     </message>
     <message>
         <location filename="ui/dock/bookmarksdockwidget.cpp" line="127"/>
         <source>Edit</source>
-        <translation type="unfinished">Bearbeiten</translation>
+        <translation>Bearbeiten</translation>
     </message>
     <message>
         <location filename="ui/dock/bookmarksdockwidget.cpp" line="135"/>
         <source>Remove</source>
-        <translation type="unfinished">Entfernen</translation>
+        <translation>Entfernen</translation>
     </message>
     <message>
         <location filename="ui/dock/bookmarksdockwidget.cpp" line="180"/>
         <location filename="ui/dock/bookmarksdockwidget.cpp" line="191"/>
         <source>Error</source>
-        <translation type="unfinished">Fehler</translation>
+        <translation>Fehler</translation>
     </message>
     <message>
         <location filename="ui/dock/bookmarksdockwidget.cpp" line="180"/>
         <location filename="ui/dock/bookmarksdockwidget.cpp" line="191"/>
         <source>This Bookmark is invalid.</source>
-        <translation type="unfinished">Dieses Lesezeichen ist ungültig.</translation>
+        <translation>Dieses Lesezeichen ist ungültig.</translation>
     </message>
 </context>
 <context>
@@ -1117,78 +1117,78 @@
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="14"/>
         <source>Module Config</source>
-        <translation type="unfinished">Modulkonfiguration</translation>
+        <translation>Modulkonfiguration</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="22"/>
         <source>Path</source>
-        <translation type="unfinished">Pfad</translation>
+        <translation>Pfad</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="50"/>
         <source>Name</source>
-        <translation type="unfinished">Name</translation>
+        <translation>Name</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="60"/>
         <source>Type</source>
-        <translation type="unfinished">Typ</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="68"/>
         <source>unkown</source>
-        <translation type="unfinished">unbekannt</translation>
+        <translation>unbekannt</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="73"/>
         <source>BibleQuote</source>
-        <translation type="unfinished">Bible Quote</translation>
+        <translation>Bible Quote</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="78"/>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="139"/>
         <source>Zefania Bible</source>
-        <translation type="unfinished"></translation>
+        <translation>Zefania Bibel</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="83"/>
         <source>Zefania Xml Strong</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zefania Xml Strong</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="91"/>
         <source>Encoding</source>
-        <translation type="unfinished">Zeichencodierung </translation>
+        <translation>Zeichencodierung </translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="103"/>
         <source>Bible Quote</source>
-        <translation type="unfinished">Bible Quote</translation>
+        <translation>Bible Quote</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="114"/>
         <source>Remove Html</source>
-        <translation type="unfinished">Entferne Html</translation>
+        <translation>Entferne Html</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="121"/>
         <source>remove</source>
-        <translation type="unfinished">Entfernen</translation>
+        <translation>Entfernen</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="150"/>
         <source>Text Fromatting</source>
-        <translation type="unfinished">Textformatierung</translation>
+        <translation>Textformatierung</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="164"/>
         <source>New line after verse</source>
-        <translation type="unfinished">Neue Zeile nach Vers</translation>
+        <translation>Neue Zeile nach Vers</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="169"/>
         <source>Not formated text pad</source>
-        <translation type="unfinished">Unformatierter Textblock</translation>
+        <translation>Unformatierter Textblock</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="177"/>
@@ -1199,7 +1199,7 @@
         <location filename="ui/dialog/moduleconfigdialog.ui" line="184"/>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="198"/>
         <source>enabled</source>
-        <translation type="unfinished">aktiviert</translation>
+        <translation>aktiviert</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="191"/>
@@ -1209,38 +1209,38 @@
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="205"/>
         <source>Show Strong</source>
-        <translation type="unfinished">Zeige Strong</translation>
+        <translation>Zeige Strong</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="212"/>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="226"/>
         <source>show</source>
-        <translation type="unfinished">anzeigen</translation>
+        <translation>anzeigen</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="219"/>
         <source>Show Study Notes</source>
-        <translation type="unfinished">Zeige Notizen</translation>
+        <translation>Zeige Notizen</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="259"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.ui" line="279"/>
         <source>Cancel</source>
-        <translation type="unfinished">Abbrechen</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.cpp" line="143"/>
         <source>Open Bible</source>
-        <translation type="unfinished">Öffne Bibel</translation>
+        <translation>Öffne Bibel</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduleconfigdialog.cpp" line="143"/>
         <source>Bibles (*.ini *.xml *.*)</source>
-        <translation type="unfinished">Biblen (*.ini *.xml *.*)</translation>
+        <translation>Biblen (*.ini *.xml *.*)</translation>
     </message>
 </context>
 <context>
@@ -1248,12 +1248,12 @@
     <message>
         <location filename="ui/dock/moduledockwidget.ui" line="17"/>
         <source>Module</source>
-        <translation type="unfinished"></translation>
+        <translation>Module</translation>
     </message>
     <message>
         <location filename="ui/dock/moduledockwidget.ui" line="31"/>
         <source>Name</source>
-        <translation type="unfinished">Name</translation>
+        <translation>Name</translation>
     </message>
     <message>
         <location filename="ui/dock/moduledockwidget.cpp" line="66"/>
@@ -1271,27 +1271,27 @@
     <message>
         <location filename="ui/dialog/moduledownloaddialog.ui" line="14"/>
         <source>Download Module</source>
-        <translation type="unfinished">Module herunterladen</translation>
+        <translation>Module herunterladen</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduledownloaddialog.ui" line="58"/>
         <source>Download</source>
-        <translation type="unfinished">Herunterladen</translation>
+        <translation>Herunterladen</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduledownloaddialog.ui" line="75"/>
         <source>Cancel</source>
-        <translation type="unfinished">Abbrechen</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduledownloaddialog.cpp" line="88"/>
         <source>Bibles</source>
-        <translation type="unfinished">Bibeln</translation>
+        <translation>Bibeln</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduledownloaddialog.cpp" line="90"/>
         <source>Strong Modules</source>
-        <translation type="unfinished">Strong Module</translation>
+        <translation>Strong Module</translation>
     </message>
     <message>
         <location filename="ui/dialog/moduledownloaddialog.cpp" line="194"/>
@@ -1320,7 +1320,7 @@
         <location filename="ui/dialog/moduledownloaddialog.cpp" line="235"/>
         <location filename="ui/dialog/moduledownloaddialog.cpp" line="264"/>
         <source>Download failed: %1.</source>
-        <translation type="unfinished">Herunterladen fehlgeschlagen: %1.</translation>
+        <translation>Herunterladen fehlgeschlagen: %1.</translation>
     </message>
 </context>
 <context>
@@ -1328,17 +1328,17 @@
     <message>
         <location filename="ui/dock/notesdockwidget.ui" line="14"/>
         <source>Notes</source>
-        <translation type="unfinished">Notizen</translation>
+        <translation>Notizen</translation>
     </message>
     <message>
         <location filename="ui/dock/notesdockwidget.ui" line="40"/>
         <source>Note</source>
-        <translation type="unfinished">Notiz</translation>
+        <translation>Notiz</translation>
     </message>
     <message>
         <location filename="ui/dock/notesdockwidget.ui" line="229"/>
         <source>Save</source>
-        <translation type="unfinished">Speichern</translation>
+        <translation>Speichern</translation>
     </message>
     <message>
         <location filename="ui/dock/notesdockwidget.ui" line="236"/>
@@ -1352,22 +1352,22 @@
         <location filename="ui/dock/notesdockwidget.cpp" line="181"/>
         <location filename="ui/dock/notesdockwidget.cpp" line="336"/>
         <source>(unnamed)</source>
-        <translation type="unfinished">(unbenannt)</translation>
+        <translation>(unbenannt)</translation>
     </message>
     <message>
         <location filename="ui/dock/notesdockwidget.cpp" line="224"/>
         <source>Copy</source>
-        <translation type="unfinished">Kopieren</translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <location filename="ui/dock/notesdockwidget.cpp" line="236"/>
         <source>New</source>
-        <translation type="unfinished">Neue</translation>
+        <translation>Neue</translation>
     </message>
     <message>
         <location filename="ui/dock/notesdockwidget.cpp" line="240"/>
         <source>Delete</source>
-        <translation type="unfinished">Entfernen</translation>
+        <translation>Entfernen</translation>
     </message>
 </context>
 <context>
@@ -1400,22 +1400,22 @@
         <location filename="ui/noteseditor.cpp" line="196"/>
         <location filename="ui/noteseditor.cpp" line="351"/>
         <source>(unnamed)</source>
-        <translation type="unfinished">(unbenannt)</translation>
+        <translation>(unbenannt)</translation>
     </message>
     <message>
         <location filename="ui/noteseditor.cpp" line="239"/>
         <source>Copy</source>
-        <translation type="unfinished">Kopieren</translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <location filename="ui/noteseditor.cpp" line="251"/>
         <source>New</source>
-        <translation type="unfinished">Neue</translation>
+        <translation>Neue</translation>
     </message>
     <message>
         <location filename="ui/noteseditor.cpp" line="255"/>
         <source>Delete</source>
-        <translation type="unfinished">Entfernen</translation>
+        <translation>Entfernen</translation>
     </message>
 </context>
 <context>
@@ -1440,7 +1440,7 @@
     <message>
         <location filename="module/modulemanager.cpp" line="29"/>
         <source>Loading Module</source>
-        <translation type="unfinished">Module werden geladen</translation>
+        <translation>Module werden geladen</translation>
     </message>
     <message>
         <location filename="core/xbelreader.cpp" line="37"/>
@@ -1575,12 +1575,12 @@
     <message>
         <location filename="module/strong.cpp" line="23"/>
         <source>No strong module loaded.</source>
-        <translation type="unfinished">Es sind keine Strong-Module geladen.</translation>
+        <translation>Es sind keine Strong-Module geladen.</translation>
     </message>
     <message>
         <location filename="module/strong.cpp" line="26"/>
         <source>Strong not found.</source>
-        <translation type="unfinished">Strong nicht gefunden.</translation>
+        <translation>Strong nicht gefunden.</translation>
     </message>
 </context>
 <context>
@@ -1706,17 +1706,17 @@
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="30"/>
         <source>General</source>
-        <translation type="unfinished">Allgemein</translation>
+        <translation>Allgemein</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="38"/>
         <source>Language</source>
-        <translation type="unfinished">Sprache</translation>
+        <translation>Sprache</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="48"/>
         <source>Encoding</source>
-        <translation type="unfinished">Zeichencodierung</translation>
+        <translation>Zeichencodierung</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="58"/>
@@ -1726,87 +1726,87 @@
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="71"/>
         <source>Module</source>
-        <translation type="unfinished">Module</translation>
+        <translation>Module</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="81"/>
         <source>Add File</source>
-        <translation type="unfinished">Datei öffnen</translation>
+        <translation>Datei hinzufügen</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="92"/>
         <source>Add Dir</source>
-        <translation type="unfinished">Ordner öffnen</translation>
+        <translation>Ordner hinzufügen</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="103"/>
         <source>Download</source>
-        <translation type="unfinished">Herunterladen</translation>
+        <translation>Herunterladen</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="138"/>
         <source>Name</source>
-        <translation type="unfinished">Name</translation>
+        <translation>Name</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="143"/>
         <source>Path</source>
-        <translation type="unfinished">Pfad</translation>
+        <translation>Pfad</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="148"/>
         <source>Typ</source>
-        <translation type="unfinished">Typ</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="158"/>
         <source>Edit</source>
-        <translation type="unfinished">Bearbeiten</translation>
+        <translation>Bearbeiten</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="169"/>
         <source>Remove</source>
-        <translation type="unfinished">Entfernen</translation>
+        <translation>Entfernen</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="218"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="235"/>
         <source>Reset</source>
-        <translation type="unfinished">Zurücksetzen</translation>
+        <translation>Zurücksetzen</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="242"/>
         <source>Cancel</source>
-        <translation type="unfinished">Abbrechen</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="101"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="101"/>
         <source>Vertical tile</source>
-        <translation type="unfinished"></translation>
+        <translation>Vertikal kacheln</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="101"/>
         <source>Horizontal tile</source>
-        <translation type="unfinished"></translation>
+        <translation>Horizontal kacheln</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="101"/>
         <source>Cascade</source>
-        <translation type="unfinished">Staffeln</translation>
+        <translation>Staffeln</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="101"/>
         <source>Tile</source>
-        <translation type="unfinished"></translation>
+        <translation>Kacheln</translation>
     </message>
 </context>
 <context>
@@ -1819,40 +1819,40 @@
     <message>
         <location filename="ui/interface/simple/simpleinterface.cpp" line="110"/>
         <source>Search</source>
-        <translation type="unfinished">Suchen</translation>
+        <translation>Suchen</translation>
     </message>
     <message>
         <location filename="ui/interface/simple/simpleinterface.cpp" line="112"/>
         <source>Zoom In</source>
-        <translation type="unfinished">Vergrößern</translation>
+        <translation>Vergrößern</translation>
     </message>
     <message>
         <location filename="ui/interface/simple/simpleinterface.cpp" line="114"/>
         <source>Zoom Out</source>
-        <translation type="unfinished">Verkleinern</translation>
+        <translation>Verkleinern</translation>
     </message>
     <message>
         <location filename="ui/interface/simple/simpleinterface.cpp" line="116"/>
         <source>Module</source>
-        <translation type="unfinished"></translation>
+        <translation>Module</translation>
     </message>
     <message>
         <location filename="ui/interface/simple/simpleinterface.cpp" line="295"/>
         <location filename="ui/interface/simple/simpleinterface.cpp" line="300"/>
         <location filename="ui/interface/simple/simpleinterface.cpp" line="305"/>
         <source>Error</source>
-        <translation type="unfinished">Fehler</translation>
+        <translation>Fehler</translation>
     </message>
     <message>
         <location filename="ui/interface/simple/simpleinterface.cpp" line="295"/>
         <location filename="ui/interface/simple/simpleinterface.cpp" line="300"/>
         <source>This book is not available.</source>
-        <translation type="unfinished">Dieses Buch ist nicht verfügbar.</translation>
+        <translation>Dieses Buch ist nicht verfügbar.</translation>
     </message>
     <message>
         <location filename="ui/interface/simple/simpleinterface.cpp" line="305"/>
         <source>Cannot read the book.</source>
-        <translation type="unfinished">Das Buch kann nicht gelesen werden.</translation>
+        <translation>Das Buch konnte nicht gelesen werden.</translation>
     </message>
 </context>
 <context>

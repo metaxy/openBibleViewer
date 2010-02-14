@@ -1434,7 +1434,11 @@ QToolBar * AdvancedInterface::toolBar()
 {
     QToolBar *bar = new QToolBar(this->parentWidget());
     bar->setIconSize(QSize(32, 32));
-    bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+#if QT_VERSION >= 0x040600
+bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+#else
+bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+#endif
     bar->setObjectName("toolBar");
     bar->setWindowTitle(tr("ToolBar"));
     QAction *actionSearch = new QAction(QIcon(":/icons/32x32/edit-find.png"), tr("Search"), bar);
