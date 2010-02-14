@@ -13,9 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "src/ui/interface/simple/simpleinterface.h"
-#include "src/ui/interface/advanced/advancedinterface.h"
-#include "src/ui/interface/study/studyinterface.h"
+
 #include "src/ui/dialog/settingsdialog.h"
 #include "src/ui/dock/searchresultdockwidget.h"
 #include "src/ui/dock/notesdockwidget.h"
@@ -78,7 +76,7 @@ void MainWindow::init(const QString &homeDataPath)
 }
 void MainWindow::loadSimpleInterface()
 {
-    SimpleInterface *simpleInterface = new SimpleInterface(this);
+    simpleInterface = new SimpleInterface(this);
     simpleInterface->setModuleManager(m_moduleManager);
     simpleInterface->setBibleDisplay(m_bibleDisplay);
     simpleInterface->setSettings(m_settings);
@@ -108,7 +106,7 @@ void MainWindow::loadSimpleInterface()
 
 void MainWindow::loadAdvancedInterface()
 {
-    AdvancedInterface *advancedInterface = new AdvancedInterface(this);
+    advancedInterface = new AdvancedInterface(this);
     advancedInterface->setModuleManager(m_moduleManager);
     advancedInterface->setBibleDisplay(m_bibleDisplay);
     advancedInterface->setSettings(m_settings);
@@ -147,8 +145,10 @@ void MainWindow::loadAdvancedInterface()
 
     if (advancedInterface->hasMenuBar())
         setMenuBar(advancedInterface->menuBar());
-    if (advancedInterface->hasToolBar())
-        addToolBar(advancedInterface->toolBar());
+    if (advancedInterface->hasToolBar()) {
+        toolBar = advancedInterface->toolBar();
+        addToolBar(toolBar);
+    }
     connect(this, SIGNAL(settingsChanged(Settings)), advancedInterface, SLOT(settingsChanged(Settings)));
     connect(this, SIGNAL(closing()), advancedInterface, SLOT(closing()));
     advancedInterface->init();
@@ -159,7 +159,7 @@ void MainWindow::loadAdvancedInterface()
 }
 void MainWindow::loadStudyInterface()
 {
-    StudyInterface *studyInterface = new StudyInterface(this);
+    studyInterface = new StudyInterface(this);
     studyInterface->setModuleManager(m_moduleManager);
     studyInterface->setBibleDisplay(m_bibleDisplay);
     studyInterface->setSettings(m_settings);
@@ -442,7 +442,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
     m_settings->session.setData("mainWindowState", QVariant(saveState()));
     emit closing();
     writeSettings();
-    //todo: save session
 }
 void MainWindow::changeEvent(QEvent *e)
 {
@@ -450,6 +449,15 @@ void MainWindow::changeEvent(QEvent *e)
     switch (e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
+        if (advancedInterface->hasMenuBar())
+            setMenuBar(advancedInterface->menuBar());
+
+        if (advancedInterface->hasToolBar()) {
+            removeToolBar(toolBar);
+            toolBar = advancedInterface->toolBar();
+            addToolBar(toolBar);
+        }
+        //todo: ugly
         break;
     default:
         break;

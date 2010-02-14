@@ -17,11 +17,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMainWindow>
 #include <QtCore/QSettings>
 #include <QtCore/QTranslator>
+#include <QtGui/QToolBar>
 #include "src/module/modulemanager.h"
 #include "src/core/bibledisplay.h"
 #include "src/core/settings.h"
 #include "src/core/notes.h"
 #include "src/core/session.h"
+#include "src/ui/interface/simple/simpleinterface.h"
+#include "src/ui/interface/advanced/advancedinterface.h"
+#include "src/ui/interface/study/studyinterface.h"
 namespace Ui
 {
 class MainWindow;
@@ -72,6 +76,10 @@ signals:
     void closing();
 private:
     Ui::MainWindow *ui;
+    SimpleInterface *simpleInterface;
+    AdvancedInterface *advancedInterface ;
+    StudyInterface *studyInterface;
+    QToolBar *toolBar;
 };
 
 #endif // MAINWINDOW_H
