@@ -89,6 +89,7 @@ bool MdiForm::eventFilter(QObject *obj, QEvent *event)
     } else {
         return QWidget::eventFilter(obj, event);
     }
+    return QWidget::eventFilter(obj, event);
 }
 MdiForm::~MdiForm()
 {

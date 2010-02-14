@@ -1,5 +1,5 @@
 # -------------------------------------------------
-# Project created by QtCreator 2009-02-06T07:53:02
+# Project created by QtCreator
 # -------------------------------------------------
 TARGET = openBibleViewer
 QT += xml \
@@ -50,11 +50,7 @@ SOURCES += src/main.cpp \
     src/ui/dock/moduledockwidget.cpp \
     src/ui/dock/bookdockwidget.cpp \
     src/ui/dock/quickjumpdockwidget.cpp \
-    src/ui/mainwindow.cpp \ # src/ui/main/mainmdi.cpp \
-# src/ui/main/mainbookmarks.cpp \
-# src/ui/main/mainnotes.cpp \
-# src/ui/main/mainstrong.cpp \
-# src/ui/main/mainwindow.cpp \
+    src/ui/mainwindow.cpp \
     src/core/bibledisplay.cpp \
     src/ui/interface/simple/simpleinterface.cpp \
     src/ui/interface/advanced/advancedinterface.cpp \
@@ -109,7 +105,7 @@ HEADERS += src/core/settings.h \
     src/ui/dock/moduledockwidget.h \
     src/ui/dock/bookdockwidget.h \
     src/ui/dock/quickjumpdockwidget.h \
-    src/ui/mainwindow.h \ # src/ui/main/mainwindow.h \
+    src/ui/mainwindow.h \
     src/core/bibledisplay.h \
     src/ui/interface/simple/simpleinterface.h \
     src/ui/interface/advanced/advancedinterface.h \
@@ -137,11 +133,10 @@ FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dock/moduledockwidget.ui \
     src/ui/dock/bookdockwidget.ui \
     src/ui/dock/quickjumpdockwidget.ui \
-    src/ui/mainwindow.ui \ # src/ui/main/mainwindow.ui \
+    src/ui/mainwindow.ui \
     src/ui/interface/simple/simpleinterface.ui \
     src/ui/interface/advanced/advancedinterface.ui \
     src/ui/interface/study/studyinterface.ui \
-    src/ui/interface/advanced/advancedinterface.ui \
     src/ui/noteseditor.ui
 RESOURCES += src/icons.qrc \
     src/data.qrc
@@ -149,5 +144,5 @@ TRANSLATIONS = src/obv_de.ts \
     src/obv_ru.ts \
     src/obv_en.ts
 
-# DEFINES += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
+DEFINES += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
 unix:INSTALLS += target

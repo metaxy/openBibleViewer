@@ -37,6 +37,7 @@ void BiblePassageDialog::setSettings(Settings *set)
 }
 void BiblePassageDialog::setCurrent(const int &bible, const QString &path, const int &book, const int &chapter, const int &verse)
 {
+    Q_UNUSED(bible);
     //DEBUG_FUNC_NAME
     m_ui->comboBox_bibles->insertItems(0, m_settings->getBibleName());
     m_bookID = book;
