@@ -127,6 +127,8 @@ void ZefaniaBible::readBook(const int &id)
     QDomNode n = ncache.firstChild();
     QString outtext;
     int i;
+    QTime t1;
+    t1.start();
     for (i = 0; !n.isNull(); ++i) {
         Chapter c;
         outtext = "";
@@ -135,7 +137,10 @@ void ZefaniaBible::readBook(const int &id)
         while (!n2.isNull()) { //alle verse
             verseCount++;
             QDomElement e2 = n2.toElement();
+            QTime t2;
+            t2.start();
             e2 = format(e2);
+            myDebug() << "time( "<<  e2.attribute("vnumber", "") << ") = " << t2.elapsed();
             c.data <<  e2.text();
             c.verseNumber << e2.attribute("vnumber", "");
             n2 = n2.nextSibling();
@@ -147,6 +152,7 @@ void ZefaniaBible::readBook(const int &id)
 
         n = n.nextSibling();
     }
+    myDebug() << "wholeTime = " << t1.elapsed();
     bookCount[id] = i;
     setSoftCache(currentBookID, chapterData);
 
