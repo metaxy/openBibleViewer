@@ -50,15 +50,17 @@ void NotesEditor::init()
     connect(ui->listWidget_notes, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(notesContextMenu()));
 
     //connect(ui->pushButton_note_save, SIGNAL(clicked()), this, SLOT(saveNote()));
-    /*   connect(ui->toolButton_noteBold, SIGNAL(clicked()), this, SLOT(noteSetTextBold()));
-       connect(ui->toolButton_noteItalic, SIGNAL(clicked()), this, SLOT(noteSetTextItalic()));
-       connect(ui->toolButton_noteUnderline, SIGNAL(clicked()), this, SLOT(noteSetTextUnderline()));
-       connect(ui->toolButton_noteColor, SIGNAL(clicked()), this, SLOT(noteSetTextColor()));
-       connect(ui->toolButton_noteUndo, SIGNAL(clicked()), this, SLOT(noteUndo()));
-       connect(ui->toolButton_noteRedo, SIGNAL(clicked()), this, SLOT(noteRedo()));*/
+    connect(ui->toolButton_noteBold, SIGNAL(clicked()), this, SLOT(noteSetTextBold()));
+    connect(ui->toolButton_noteItalic, SIGNAL(clicked()), this, SLOT(noteSetTextItalic()));
+    connect(ui->toolButton_noteUnderline, SIGNAL(clicked()), this, SLOT(noteSetTextUnderline()));
+    connect(ui->toolButton_noteFontColor, SIGNAL(clicked()), this, SLOT(noteSetTextColor()));
+    connect(ui->toolButton_noteUndo, SIGNAL(clicked()), this, SLOT(noteUndo()));
+    connect(ui->toolButton_noteRedo, SIGNAL(clicked()), this, SLOT(noteRedo()));
 
-    //  connect(ui->textEdit_note, SIGNAL(undoAvailable(bool)), ui->toolButton_noteUndo, SLOT(setEnabled(bool)));
-//   connect(ui->textEdit_note, SIGNAL(redoAvailable(bool)), ui->toolButton_noteRedo, SLOT(setEnabled(bool)));
+    connect(ui->textEdit_note, SIGNAL(undoAvailable(bool)), ui->toolButton_noteUndo, SLOT(setEnabled(bool)));
+    connect(ui->textEdit_note, SIGNAL(redoAvailable(bool)), ui->toolButton_noteRedo, SLOT(setEnabled(bool)));
+    connect(ui->textEdit_note, SIGNAL(undoAvailable(bool)), this, SLOT(fastSave()));
+    connect(ui->textEdit_note, SIGNAL(redoAvailable(bool)), this, SLOT(fastSave()));
     connect(ui->listWidget_notes, SIGNAL(itemActivated(QListWidgetItem *)), this, SLOT(showNote(QListWidgetItem *)));
 
     if (!m_notes->isLoaded()) {
@@ -140,12 +142,17 @@ void NotesEditor::copyNote(void)
 void NotesEditor::saveNote(void)
 {
     //DEBUG_FUNC_NAME
+    fastSave();
+    m_notes->saveNotes();
+    reloadNotes();
+}
+void NotesEditor::fastSave(void)
+{
+    //DEBUG_FUNC_NAME
     myDebug() << "m_noteID = " << m_noteID;
     m_notes->setData(m_noteID, ui->textEdit_note->toHtml());
     m_notes->setTitle(m_noteID, ui->lineEdit_noteTitle->text());
     m_notes->setRef(m_noteID, currentNoteRef);
-    m_notes->saveNotes();
-    reloadNotes();
 }
 void NotesEditor::newNote(void)
 {

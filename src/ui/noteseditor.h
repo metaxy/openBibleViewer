@@ -42,6 +42,7 @@ private slots:
     void noteUndo();
     void noteRedo();
     void updateNote(QString pos);
+    void fastSave();
 public slots:
     void newNote();
     void newNoteWithLink(VerseSelection selection);
