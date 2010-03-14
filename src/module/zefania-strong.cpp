@@ -25,6 +25,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomElement>
 #include <QtXml/QDomNode>
 #include "src/core/KoXmlReader.h"
+#include "src/core/dbghelper.h"
 ZefaniaStrong::ZefaniaStrong()
 {
     m_settings = new Settings();
@@ -38,7 +39,7 @@ QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
     KoXmlDocument doc;
     if (!doc.setContent(fileData)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
-        qDebug() << "ZefaniaStrong::loadFile() the file isnt valid";
+        myDebug() << "the file isnt valid";
         return QString();
     }
     QString fileTitle = "";

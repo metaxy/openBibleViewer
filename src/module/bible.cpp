@@ -335,6 +335,7 @@ SearchResult Bible::search(SearchQuery query)
         break;
     }
     }
+    lastSearchResult = result;
     return result;
 }
 QMap<int, QList<Chapter> > Bible::getSoftCache()

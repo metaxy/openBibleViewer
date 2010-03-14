@@ -1288,7 +1288,6 @@ void AdvancedInterface::search(SearchQuery query)
     m_searchResultDockWidget->show();
     SearchResult result;
     result = m_moduleManager->m_bible.search(query);
-    m_moduleManager->m_bible.lastSearchResult = result;
     m_searchResultDockWidget->setSearchResult(result);
 }
 void AdvancedInterface::copy()
@@ -1435,7 +1434,7 @@ QMenuBar* AdvancedInterface::menuBar()
     bar->addMenu(menuFile);
     bar->addMenu(menuEdit);
     bar->addMenu(menuView);
-    //bar->addMenu(menuNotes); //todo: enable it in version 0.4
+    bar->addMenu(menuNotes);
     bar->addMenu(menuHelp);
     return bar;
 }

@@ -69,13 +69,14 @@ void SearchResultDockWidget::searchInfo()
     QStringList textList;
 
     bookNames = m_moduleManager->m_bible.bookFullName;
-    result = m_moduleManager->m_bible.lastSearchResult;
+    result = m_searchResult;
+
     for (int i = 0; i < result.hits().size(); ++i) {
         SearchHit hit = result.hits().at(i);
         QString bookn = m_moduleManager->m_bible.bookFullName.at(hit.bookID());
         textList << hit.text() + "\n - <i>" + bookn + " " + QString::number(hit.chapterID()) + " , " + QString::number(hit.verseID()) + "</i>";
     }
-    searchString = m_moduleManager->m_bible.lastSearchQuery.searchText;
+    searchString = m_searchResult.searchQuery.searchText;
 
     SearchInfoDialog sDialog;
     sDialog.show();

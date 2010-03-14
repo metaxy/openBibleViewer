@@ -158,6 +158,42 @@ void ZefaniaBible::readBook(const int &id)
 
     //myDebug() << "chapterData.size() = " << chapterData.size() << " bookCount = " << i;
 }
+QDomElement ZefaniaBible::format(QDomElement e)
+{
+    QDomNode n = e.firstChild();
+    while (!n.isNull()) { //all verses
+        if (n.nodeName().toLower() == "note") {
+            QDomNode node = n;
+            QDomText t = node.firstChild().toText();
+            if (m_settings->getModuleSettings(m_bibleID).zefbible_showStudyNote == true && n.toElement().attribute("type", "") == "x-studynote") {
+                t.setData("[<span style=\" font-size:small;\">" + t.data() + "</span>]");
+            } else {
+                t.setData("");
+            }
+            node.replaceChild(t, node.firstChild());
+            e.replaceChild(node, n);
+        } else if ((n.nodeName().toLower() == "gram" || n.nodeName().toLower() == "gr") && n.toElement().attribute("str", "") != "" && m_settings->getModuleSettings(m_bibleID).zefbible_showStrong == true) {
+            QDomNode node = n;
+            QDomText t = n.firstChild().toText();
+            QDomElement b = n.toElement();
+            QString add;
+            //todo: that isn't  nice
+            if (currentBookID < 39)
+                add = "H";
+            else
+                add = "G";
+
+            t.setData(t.data() + "<sup><a href=\"strong://" + add + b.attribute("str", "") + "\">" + add + b.attribute("str", "") + "</a></sup>  ");
+            node.replaceChild(t, node.firstChild());
+            e.replaceChild(node, n);
+        }
+        if (n.childNodes().count() > 0)
+            e.replaceChild(format(n.toElement()), n);
+        n = n.nextSibling();
+    }
+    return e;
+
+}
 /**
   Returns the soft cache for all books.
   */
@@ -215,42 +251,7 @@ void ZefaniaBible::clearSoftCache()
     softCacheData.clear();
 }
 
-QDomElement ZefaniaBible::format(QDomElement e)
-{
-    QDomNode n = e.firstChild();
-    while (!n.isNull()) { //all verses
-        if (n.nodeName().toLower() == "note") {
-            QDomNode node = n;
-            QDomText t = node.firstChild().toText();
-            if (m_settings->getModuleSettings(m_bibleID).zefbible_showStudyNote == true && n.toElement().attribute("type", "") == "x-studynote") {
-                t.setData("[<span style=\" font-size:small;\">" + t.data() + "</span>]");
-            } else {
-                t.setData("");
-            }
-            node.replaceChild(t, node.firstChild());
-            e.replaceChild(node, n);
-        } else if ((n.nodeName().toLower() == "gram" || n.nodeName().toLower() == "gr") && n.toElement().attribute("str", "") != "" && m_settings->getModuleSettings(m_bibleID).zefbible_showStrong == true) {
-            QDomNode node = n;
-            QDomText t = n.firstChild().toText();
-            QDomElement b = n.toElement();
-            QString add;
-            //todo: that isn't  nice
-            if (currentBookID < 39)
-                add = "H";
-            else
-                add = "G";
 
-            t.setData(t.data() + "<sup><a href=\"strong://" + add + b.attribute("str", "") + "\">" + add + b.attribute("str", "") + "</a></sup>  ");
-            node.replaceChild(t, node.firstChild());
-            e.replaceChild(node, n);
-        }
-        if (n.childNodes().count() > 0)
-            e.replaceChild(format(n.toElement()), n);
-        n = n.nextSibling();
-    }
-    return e;
-
-}
 bool ZefaniaBible::checkForCacheFiles(const QString &path)
 {
     //DEBUG_FUNC_NAME
