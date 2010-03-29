@@ -288,16 +288,23 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     }
     if (saveRawData)
         lastout = out;
-    qDebug() << out;
+
     return out;
 }
 QString Bible::toUniformHtml(QString string)
 {
+    DEBUG_FUNC_NAME
+    QTextDocument normal("");
+    QString normalS = normal.toHtml();
+    normalS.remove("-qt-paragraph-type:empty;");
+    QString normalS2(normalS);
+    int p = normalS.lastIndexOf("</p></body></html>");
+
     QTextDocument t;
     t.setHtml(string);
     QString raw = t.toHtml();
-    QString a1 = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">";
-    QString a2 = "</p></body></html>";
+    QString a1 =  normalS.remove(p,normalS.size());
+    QString a2 = normalS2.remove(0,p);
     int i1 = raw.indexOf(a1);
     int i2 = raw.indexOf(a2);
     raw.remove(i2, raw.size());
@@ -306,18 +313,29 @@ QString Bible::toUniformHtml(QString string)
 }
 QStringList Bible::toUniformHtml(QStringList string)
 {
-    //becouse qt is formatting html
+    DEBUG_FUNC_NAME
+    QTextDocument normal("");
+    QString normalS = normal.toHtml();
+    normalS.remove("-qt-paragraph-type:empty;");
+    QString normalS2(normalS);
+    int p = normalS.lastIndexOf("</p></body></html>");
     QString wholeText = string.join("[VERSEINSERT_FROM_OPENBIBLEVIEWER]");
     QTextDocument t;
     t.setHtml(wholeText);
     QString raw = t.toHtml();
-    QString a1 = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">";
-    QString a2 = "</p></body></html>";
+    QString a1 = normalS.remove(p,normalS.size());
+    QString a2 = normalS2.remove(0,p);
     int i1 = raw.indexOf(a1);
     int i2 = raw.indexOf(a2);
+    if(i1 == -1 || i2 == -1) {
+        myDebug() << "i1 = " << i1 << " i2 = " << i2;
+        myDebug() << "raw = " << raw;
+        myDebug() << "a1 = " << a1;
+    }
     raw.remove(i2, raw.size());
     raw.remove(0, i1 + a1.size());
     return raw.split("[VERSEINSERT_FROM_OPENBIBLEVIEWER]");
+    return string;
 }
 /**
   Search in the current module
