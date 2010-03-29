@@ -49,7 +49,7 @@ void NotesEditor::init()
     connect(ui->pushButton_editNoteLink, SIGNAL(clicked()), this, SLOT(editNoteLink()));
     connect(ui->listWidget_notes, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(notesContextMenu()));
 
-    //connect(ui->pushButton_note_save, SIGNAL(clicked()), this, SLOT(saveNote()));
+    connect(ui->pushButton_note_save, SIGNAL(clicked()), this, SLOT(saveNote()));
     connect(ui->toolButton_noteBold, SIGNAL(clicked()), this, SLOT(noteSetTextBold()));
     connect(ui->toolButton_noteItalic, SIGNAL(clicked()), this, SLOT(noteSetTextItalic()));
     connect(ui->toolButton_noteUnderline, SIGNAL(clicked()), this, SLOT(noteSetTextUnderline()));

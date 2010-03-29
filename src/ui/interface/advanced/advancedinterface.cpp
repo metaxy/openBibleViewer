@@ -1434,7 +1434,7 @@ QMenuBar* AdvancedInterface::menuBar()
     bar->addMenu(menuFile);
     bar->addMenu(menuEdit);
     bar->addMenu(menuView);
-    bar->addMenu(menuNotes);
+    //bar->addMenu(menuNotes);
     bar->addMenu(menuHelp);
     return bar;
 }
