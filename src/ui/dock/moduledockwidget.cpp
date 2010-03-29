@@ -51,11 +51,10 @@ void ModuleDockWidget::loadedModule(int id)
 void ModuleDockWidget::iterateTreeWidget(QTreeWidgetItem *parent)
 {
     int count = parent ? parent->childCount() : ui->treeWidget_bibles->topLevelItemCount();
-    for (int i = 0; i < count; i++)
-    {
+    for (int i = 0; i < count; i++) {
         m_dontLoad = true;
         QTreeWidgetItem *item = parent ? parent->child(i) : ui->treeWidget_bibles->topLevelItem(i);
-        if(item->text(1).toInt() == m_moduleID) {
+        if (item->text(1).toInt() == m_moduleID) {
             item->setSelected(true);
         } else {
             item->setSelected(false);

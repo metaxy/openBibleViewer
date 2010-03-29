@@ -170,7 +170,7 @@ void ModuleDownloadDialog::downloadNext()
         QMessageBox::information(this, "Nothing selected", "You have to selected something to download it.");
     }
 }
-void ModuleDownloadDialog::download(QString url_,bool addToList)
+void ModuleDownloadDialog::download(QString url_, bool addToList)
 {
     DEBUG_FUNC_NAME
     myDebug() << url_;
@@ -180,7 +180,7 @@ void ModuleDownloadDialog::download(QString url_,bool addToList)
     QDir dir(m_set.homePath);
     dir.mkpath(m_set.homePath + "modules/" + fileInfo.fileName() + "/");
     QString fileName = m_set.homePath + "modules/" + fileInfo.fileName() + "/" + fileInfo.fileName();
-    if(addToList) {
+    if (addToList) {
         downloadedList << fileName;
         downNames << nameList.at(currentDownload);
     }
@@ -232,7 +232,7 @@ void ModuleDownloadDialog::httpRequestFinished(int requestId, bool error)
 
     if (error) {
         file->remove();
-        QMessageBox::information(this, tr("HTTP"),tr("Download failed: %1.").arg(http->errorString()));
+        QMessageBox::information(this, tr("HTTP"), tr("Download failed: %1.").arg(http->errorString()));
     } else {
         qDebug() << "ModuleDownloadDialog::httpRequestFinished() Downloaded";
         file->close();
@@ -249,14 +249,14 @@ void ModuleDownloadDialog::readResponseHeader(const QHttpResponseHeader &respons
     case 200:                   // Ok
 
         break;
-   case 302:                   // Found
+    case 302:                   // Found
     case 303:                   // See Other
     case 307:                   // Temporary Redirect
     case 301:                   // Moved Permanently
         myDebug() << "moved";
-        if(responseHeader.hasKey("Location") && !responseHeader.value("Location").contains("failed")) {
+        if (responseHeader.hasKey("Location") && !responseHeader.value("Location").contains("failed")) {
             QString location = responseHeader.value("Location");
-            download(location,false);
+            download(location, false);
         }
         break;
     default:

@@ -288,6 +288,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     }
     if (saveRawData)
         lastout = out;
+    qDebug() << out;
     return out;
 }
 QString Bible::toUniformHtml(QString string)
@@ -305,6 +306,7 @@ QString Bible::toUniformHtml(QString string)
 }
 QStringList Bible::toUniformHtml(QStringList string)
 {
+    //becouse qt is formatting html
     QString wholeText = string.join("[VERSEINSERT_FROM_OPENBIBLEVIEWER]");
     QTextDocument t;
     t.setHtml(wholeText);

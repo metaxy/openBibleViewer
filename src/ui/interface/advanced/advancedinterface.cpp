@@ -641,6 +641,7 @@ void AdvancedInterface::pharseUrl(QString url)
 }
 void AdvancedInterface::showText(const QString &text)
 {
+    //qDebug() << ""
     m_windowCache.setBible(m_moduleManager->m_bible);
     QTextBrowser *t = getCurrentTextBrowser();
     if (t) {
@@ -665,16 +666,16 @@ void AdvancedInterface::setChapters(const QStringList &chapters)
         QComboBox *comboBox_chapters = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_chapters");
         if (comboBox_chapters) {
             bool same = true;
-            if(comboBox_chapters->count() == chapters.count()) {
-                for(int i = 0; i < chapters.count(); i++) {
-                    if(comboBox_chapters->itemText(i) != chapters.at(i)) {
+            if (comboBox_chapters->count() == chapters.count()) {
+                for (int i = 0; i < chapters.count(); i++) {
+                    if (comboBox_chapters->itemText(i) != chapters.at(i)) {
                         same = false;
                     }
                 }
             } else {
                 same = false;
             }
-            if(!same) {
+            if (!same) {
                 comboBox_chapters->clear();
                 comboBox_chapters->insertItems(0, chapters);
             }
@@ -698,16 +699,16 @@ void AdvancedInterface::setBooks(const QStringList &books)
         QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
         if (comboBox_books) {
             bool same = true;
-            if(comboBox_books->count() == books.count()) {
-                for(int i = 0; i < books.count(); i++) {
-                    if(comboBox_books->itemText(i) != books.at(i)) {
+            if (comboBox_books->count() == books.count()) {
+                for (int i = 0; i < books.count(); i++) {
+                    if (comboBox_books->itemText(i) != books.at(i)) {
                         same = false;
                     }
                 }
             } else {
                 same = false;
             }
-            if(!same) {
+            if (!same) {
                 comboBox_books->clear();
                 comboBox_books->insertItems(0, books);
             }
@@ -1434,7 +1435,7 @@ QMenuBar* AdvancedInterface::menuBar()
     bar->addMenu(menuFile);
     bar->addMenu(menuEdit);
     bar->addMenu(menuView);
-    //bar->addMenu(menuNotes);
+    bar->addMenu(menuNotes);
     bar->addMenu(menuHelp);
     return bar;
 }
@@ -1447,9 +1448,9 @@ QToolBar * AdvancedInterface::toolBar()
     QToolBar *bar = new QToolBar(this->parentWidget());
     bar->setIconSize(QSize(32, 32));
 #if QT_VERSION >= 0x040600
-bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+    bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
 #else
-bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 #endif
     bar->setObjectName("toolBar");
     bar->setWindowTitle(tr("ToolBar"));

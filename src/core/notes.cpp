@@ -67,7 +67,7 @@ int Notes::loadNotes()
             file.close();
 
             QDir dir(m_fileName);
-            dir.rename(m_fileName,m_fileName+".bak");
+            dir.rename(m_fileName, m_fileName + ".bak");
 
             loadNotes();
             return 1;

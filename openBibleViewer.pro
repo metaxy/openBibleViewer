@@ -144,5 +144,5 @@ TRANSLATIONS = src/obv_de.ts \
     src/obv_ru.ts \
     src/obv_en.ts
 
-DEFINES += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
+#DEFINES += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
 unix:INSTALLS += target

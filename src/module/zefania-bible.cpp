@@ -140,7 +140,7 @@ void ZefaniaBible::readBook(const int &id)
             QTime t2;
             t2.start();
             e2 = format(e2);
-            myDebug() << "time( "<<  e2.attribute("vnumber", "") << ") = " << t2.elapsed();
+            myDebug() << "time( " <<  e2.attribute("vnumber", "") << ") = " << t2.elapsed();
             c.data <<  e2.text();
             c.verseNumber << e2.attribute("vnumber", "");
             n2 = n2.nextSibling();
@@ -312,7 +312,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     QString error;
     int l;
     int c;
-    if (!doc.setContent(&file,&error,&l,&c)) {
+    if (!doc.setContent(&file, &error, &l, &c)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid. Errorstring: %1 in Line %2 at Position %2").arg(error).arg(l).arg(c));
         myDebug() << "the file isnt valid";
         return;
@@ -372,7 +372,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     int l;
     int c;
 
-    if (!doc.setContent(data,&error,&l,&c)) {
+    if (!doc.setContent(data, &error, &l, &c)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid. Errorstring: %1 in Line %2 at Position %2").arg(error).arg(l).arg(c));
         myDebug() << "the file isnt valid";
         return;

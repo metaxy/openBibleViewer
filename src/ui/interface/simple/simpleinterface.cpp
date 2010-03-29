@@ -119,7 +119,7 @@ QToolBar * SimpleInterface::toolBar()
 {
     QToolBar *bar = new QToolBar(this->parentWidget());
     bar->setIconSize(QSize(32, 32));
-    #if QT_VERSION >= 0x040600
+#if QT_VERSION >= 0x040600
     bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
 #else
     bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
@@ -380,7 +380,7 @@ bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
     } else {
         return QWidget::eventFilter(obj, event);
     }
-     return QWidget::eventFilter(obj, event);
+    return QWidget::eventFilter(obj, event);
 }
 
 SimpleInterface::~SimpleInterface()
