@@ -32,7 +32,7 @@ void ModuleManager::setSettings(Settings *settings)
     m_settings = settings;
 }
 /**
-  Load all Modules.
+  Load all Modules, and generate a QStandardItemModel-
   */
 int ModuleManager::loadAllModules()
 {
@@ -45,6 +45,16 @@ int ModuleManager::loadAllModules()
     progress.setWindowModality(Qt::WindowModal);
     int rcount = 0;//Counter for the Bible ID
     QStandardItem *parentItem = m_moduleModel->invisibleRootItem();
+    QIcon bibleQuoteIcon;
+    bibleQuoteIcon.addPixmap(QPixmap(":/icons/16x16/text-x-generic.png"), QIcon::Normal, QIcon::Off);
+    QStyle *style = QApplication::style();
+    QIcon folderIcon;
+    folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
+    folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
+
+    QIcon bibleZefaniaIcon;
+    bibleZefaniaIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
+
     for (int i = 0; i < m_settings->module.size(); ++i) { //real all modules
         if (progress.wasCanceled())
             break;
@@ -52,10 +62,7 @@ int ModuleManager::loadAllModules()
             int uModuleCount = 0;
 
             QStandardItem *top = new QStandardItem;
-            QStyle *style = QApplication::style();
-            QIcon folderIcon;
-            folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
-            folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
+
             top->setIcon(folderIcon);
             top->setText(m_settings->module.at(i).moduleName);
             top->setData("-1");
@@ -115,9 +122,8 @@ int ModuleManager::loadAllModules()
                                 bibleItem->setText(bname);
                                 bibleItem->setData(QString::number(rcount));
                                 bibleItem->setToolTip(QObject::tr("BibleQuote Module") + " - " + module.m_path);
-                                QIcon bibleIcon;
-                                bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-x-generic.png"), QIcon::Normal, QIcon::Off);
-                                bibleItem->setIcon(bibleIcon);
+
+                                bibleItem->setIcon(bibleQuoteIcon);
                                 top->appendRow(bibleItem);
 
                                 m_settings->moduleID.insert(rcount, i);
@@ -145,10 +151,7 @@ int ModuleManager::loadAllModules()
                                 bibleItem->setData(QString::number(rcount));
                                 bibleItem->setToolTip(QObject::tr("Zefania XML Module") + " - " + module.m_path);
 
-
-                                QIcon bibleIcon;
-                                bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
-                                bibleItem->setIcon(bibleIcon);
+                                bibleItem->setIcon(bibleZefaniaIcon);
                                 top->appendRow(bibleItem);
                                 m_settings->moduleID.insert(rcount, i);
                                 rcount++;
@@ -169,7 +172,6 @@ int ModuleManager::loadAllModules()
             m_settings->module.replace(i, m);
         } else {
             //load module
-            QFile file;
             int bibletype = m_settings->module.at(i).moduleType.toInt();
             if (bibletype != 0) {
                 switch (bibletype) {
@@ -191,9 +193,8 @@ int ModuleManager::loadAllModules()
                     myDebug() << "m_settings->moduleID rcount = " << rcount << " i = " << i;
 
 
-                    QIcon bibleIcon;
-                    bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-x-generic.png"), QIcon::Normal, QIcon::Off);
-                    bibleItem->setIcon(bibleIcon);
+
+                    bibleItem->setIcon(bibleQuoteIcon);
                     parentItem->appendRow(bibleItem);
 
                     rcount++;
@@ -216,9 +217,7 @@ int ModuleManager::loadAllModules()
                     bibleItem->setToolTip(QObject::tr("Zefania XML Module") + " - " + module.m_path);
                     myDebug() << "m_settings->moduleID rcount = " << rcount << " i = " << i;
 
-                    QIcon bibleIcon;
-                    bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
-                    bibleItem->setIcon(bibleIcon);
+                    bibleItem->setIcon(bibleZefaniaIcon);
                     parentItem->appendRow(bibleItem);
                     rcount++;
                     break;
