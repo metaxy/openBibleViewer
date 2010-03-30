@@ -303,8 +303,8 @@ QString Bible::toUniformHtml(QString string)
     QTextDocument t;
     t.setHtml(string);
     QString raw = t.toHtml();
-    QString a1 =  normalS.remove(p,normalS.size());
-    QString a2 = normalS2.remove(0,p);
+    QString a1 =  normalS.remove(p, normalS.size());
+    QString a2 = normalS2.remove(0, p);
     int i1 = raw.indexOf(a1);
     int i2 = raw.indexOf(a2);
     raw.remove(i2, raw.size());
@@ -323,8 +323,8 @@ QStringList Bible::toUniformHtml(QStringList string)
     QTextDocument t;
     t.setHtml(wholeText);
     QString raw = t.toHtml();
-    QString a1 = normalS.remove(p,normalS.size());
-    QString a2 = normalS2.remove(0,p);
+    QString a1 = normalS.remove(p, normalS.size());
+    QString a2 = normalS2.remove(0, p);
     int i1 = raw.indexOf(a1);
     int i2 = raw.indexOf(a2);
     Q_ASSERT(i1 != -1);

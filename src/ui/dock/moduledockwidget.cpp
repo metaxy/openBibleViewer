@@ -32,18 +32,18 @@ void ModuleDockWidget::init()
     m_proxyModel->setSourceModel(m_moduleManager->m_moduleModel);
     m_selectionModel = new QItemSelectionModel(m_proxyModel);
 
-    connect(ui->lineEdit_filter,SIGNAL(textChanged(QString)),m_proxyModel,SLOT(setFilterFixedString(QString)));
-    connect(ui->treeView_module, SIGNAL(clicked(QModelIndex)),this,SLOT(loadModuleData(QModelIndex)));
+    connect(ui->lineEdit_filter, SIGNAL(textChanged(QString)), m_proxyModel, SLOT(setFilterFixedString(QString)));
+    connect(ui->treeView_module, SIGNAL(clicked(QModelIndex)), this, SLOT(loadModuleData(QModelIndex)));
 
     ui->treeView_module->setSortingEnabled(true);
     ui->treeView_module->setModel(m_proxyModel);
     ui->treeView_module->setSelectionModel(m_selectionModel);
-     m_proxyModel->sort(0);
+    m_proxyModel->sort(0);
 }
 void ModuleDockWidget::loadModuleData(QModelIndex index)
 {
     //DEBUG_FUNC_NAME
-    QString data = index.data(Qt::UserRole +1).toString();
+    QString data = index.data(Qt::UserRole + 1).toString();
     if (data.toInt() >= 0 && m_dontLoad == false) {
         emit get("bible://" + data + "/0,0,0");
     }
@@ -52,10 +52,10 @@ void ModuleDockWidget::loadedModule(int id)
 {
     DEBUG_FUNC_NAME
     m_moduleID = id;
-    QModelIndexList list = ui->treeView_module->model()->match(ui->treeView_module->model()->index(0,0),Qt::UserRole+1,QString::number(id));
+    QModelIndexList list = ui->treeView_module->model()->match(ui->treeView_module->model()->index(0, 0), Qt::UserRole + 1, QString::number(id));
     m_selectionModel->clearSelection();
-    if(list.size() == 1) {
-        m_selectionModel->setCurrentIndex(list.at(0),QItemSelectionModel::Select);
+    if (list.size() == 1) {
+        m_selectionModel->setCurrentIndex(list.at(0), QItemSelectionModel::Select);
     }
 }
 

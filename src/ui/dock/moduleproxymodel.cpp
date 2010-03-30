@@ -2,12 +2,12 @@
 #include <QModelIndex>
 
 ModuleProxyModel::ModuleProxyModel(QObject *parent) :
-    QSortFilterProxyModel(parent)
+        QSortFilterProxyModel(parent)
 {
 }
 bool ModuleProxyModel::filterAcceptsRow(int sourceRow,
-        const QModelIndex &sourceParent) const
+                                        const QModelIndex &sourceParent) const
 {
     QModelIndex index = sourceModel()->index(sourceRow, 0, sourceParent);
-    return (index.data(Qt::UserRole+1).toString() == "-1" || index.data(Qt::DisplayRole).toString().contains(filterRegExp()));
+    return (index.data(Qt::UserRole + 1).toString() == "-1" || index.data(Qt::DisplayRole).toString().contains(filterRegExp()));
 }
