@@ -16,55 +16,51 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include <QtGui/QToolTip>
 #include <QtGui/QHelpEvent>
+#include <QModelIndexList>
 ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
         DockWidget(parent),
         ui(new Ui::ModuleDockWidget)
 {
     ui->setupUi(this);
-    connect(ui->treeWidget_bibles, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(loadModuleData(QTreeWidgetItem*)));
-    ui->treeWidget_bibles->installEventFilter(this);
     m_dontLoad = false;
 }
 void ModuleDockWidget::init()
 {
-    //DEBUG_FUNC_NAME
-    ui->treeWidget_bibles->clear();
-    ui->treeWidget_bibles->insertTopLevelItems(0, m_moduleManager->m_bibleItems);
-    ui->treeWidget_bibles->sortByColumn(0, Qt::AscendingOrder);//sort
+    DEBUG_FUNC_NAME
+
+    m_proxyModel = new ModuleProxyModel(this);
+    m_proxyModel->setSourceModel(m_moduleManager->m_moduleModel);
+    m_selectionModel = new QItemSelectionModel(m_proxyModel);
+
+    connect(ui->lineEdit_filter,SIGNAL(textChanged(QString)),m_proxyModel,SLOT(setFilterFixedString(QString)));
+    connect(ui->treeView_module, SIGNAL(clicked(QModelIndex)),this,SLOT(loadModuleData(QModelIndex)));
+
+    ui->treeView_module->setSortingEnabled(true);
+    ui->treeView_module->setModel(m_proxyModel);
+    ui->treeView_module->setSelectionModel(m_selectionModel);
+     m_proxyModel->sort(0);
 }
-void ModuleDockWidget::loadModuleData(QTreeWidgetItem *fitem)
+void ModuleDockWidget::loadModuleData(QModelIndex index)
 {
     //DEBUG_FUNC_NAME
-
-    if (fitem->text(1).toInt() >= 0 && m_dontLoad == false) {
-        emit get("bible://" + fitem->text(1) + "/0,0,0");
+    QString data = index.data(Qt::UserRole +1).toString();
+    if (data.toInt() >= 0 && m_dontLoad == false) {
+        emit get("bible://" + data + "/0,0,0");
     }
 }
 void ModuleDockWidget::loadedModule(int id)
 {
     DEBUG_FUNC_NAME
-    myDebug() << "id = " << id;
     m_moduleID = id;
-    iterateTreeWidget();
-    //todo: implement this
-}
-void ModuleDockWidget::iterateTreeWidget(QTreeWidgetItem *parent)
-{
-    int count = parent ? parent->childCount() : ui->treeWidget_bibles->topLevelItemCount();
-    for (int i = 0; i < count; i++) {
-        m_dontLoad = true;
-        QTreeWidgetItem *item = parent ? parent->child(i) : ui->treeWidget_bibles->topLevelItem(i);
-        if (item->text(1).toInt() == m_moduleID) {
-            item->setSelected(true);
-        } else {
-            item->setSelected(false);
-        }
-        iterateTreeWidget(item);
-        m_dontLoad = false;
+    QModelIndexList list = ui->treeView_module->model()->match(ui->treeView_module->model()->index(0,0),Qt::UserRole+1,QString::number(id));
+    m_selectionModel->clearSelection();
+    if(list.size() == 1) {
+        m_selectionModel->setCurrentIndex(list.at(0),QItemSelectionModel::Select);
     }
 }
 
-bool ModuleDockWidget::eventFilter(QObject *obj, QEvent *event)
+
+/*bool ModuleDockWidget::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == ui->treeWidget_bibles) {
         if (event->type() == QEvent::ToolTip) {
@@ -89,7 +85,7 @@ bool ModuleDockWidget::eventFilter(QObject *obj, QEvent *event)
         return QWidget::eventFilter(obj, event);
     }
     return QWidget::eventFilter(obj, event);
-}
+}*/
 ModuleDockWidget::~ModuleDockWidget()
 {
     delete ui;

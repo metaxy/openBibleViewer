@@ -327,11 +327,13 @@ QStringList Bible::toUniformHtml(QStringList string)
     QString a2 = normalS2.remove(0,p);
     int i1 = raw.indexOf(a1);
     int i2 = raw.indexOf(a2);
-    if(i1 == -1 || i2 == -1) {
+    Q_ASSERT(i1 != -1);
+    Q_ASSERT(i2 != -1);
+    /*if(i1 == -1 || i2 == -1) {
         myDebug() << "i1 = " << i1 << " i2 = " << i2;
         myDebug() << "raw = " << raw;
         myDebug() << "a1 = " << a1;
-    }
+    }*/
     raw.remove(i2, raw.size());
     raw.remove(0, i1 + a1.size());
     return raw.split("[VERSEINSERT_FROM_OPENBIBLEVIEWER]");

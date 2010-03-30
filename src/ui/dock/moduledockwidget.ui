@@ -19,19 +19,10 @@
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QTreeWidget" name="treeWidget_bibles">
-      <property name="animated">
-       <bool>true</bool>
-      </property>
-      <property name="headerHidden">
-       <bool>true</bool>
-      </property>
-      <column>
-       <property name="text">
-        <string>Name</string>
-       </property>
-      </column>
-     </widget>
+     <widget class="QLineEdit" name="lineEdit_filter"/>
+    </item>
+    <item>
+     <widget class="QTreeView" name="treeView_module"/>
     </item>
    </layout>
   </widget>

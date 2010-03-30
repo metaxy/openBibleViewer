@@ -16,7 +16,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QDockWidget>
 #include <QtGui/QTreeWidgetItem>
+#include <QtGui/QSortFilterProxyModel>
+#include <QItemSelectionModel>
 #include "dockwidget.h"
+#include "moduleproxymodel.h"
 namespace Ui
 {
 class ModuleDockWidget;
@@ -29,7 +32,7 @@ class ModuleDockWidget : public DockWidget
 {
     Q_OBJECT
 private slots:
-    void loadModuleData(QTreeWidgetItem *fitem);
+    void loadModuleData(QModelIndex index);
 public:
     ModuleDockWidget(QWidget *parent = 0);
     ~ModuleDockWidget();
@@ -37,14 +40,18 @@ public:
     void loadedModule(int id);
 protected:
     void changeEvent(QEvent *e);
-    bool eventFilter(QObject *obj, QEvent *event);
+   // bool eventFilter(QObject *obj, QEvent *event);
 signals:
     void get(QString);
 private:
     Ui::ModuleDockWidget *ui;
     bool m_dontLoad;
     int m_moduleID;
-    void iterateTreeWidget(QTreeWidgetItem *parent = 0);
+    ModuleProxyModel *m_proxyModel;
+    QItemSelectionModel *m_selectionModel;
+  //  void iterateTreeWidget(QTreeWidgetItem *parent = 0);
+ //   void iterateTreeWidgetHide(QTreeWidgetItem *parent = 0);
+
 };
 
 #endif // MODULEDOCKWIDGET_H

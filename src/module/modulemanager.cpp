@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QApplication>
 #include <QtCore/QDir>
 #include <QtCore/QObject>
+#include <QStandardItem>
 #include "src/module/bible.h"
 #include "src/module/strong.h"
 #include "src/module/module.h"
@@ -23,6 +24,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/urlconverter.h"
 ModuleManager::ModuleManager()
 {
+    m_moduleModel = new QStandardItemModel;
 }
 void ModuleManager::setSettings(Settings *settings)
 {
@@ -34,28 +36,31 @@ void ModuleManager::setSettings(Settings *settings)
   */
 int ModuleManager::loadAllModules()
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     Bible bible;
     bible.setSettings(m_settings);
     m_moduleList.clear();
-    m_bibleItems.clear();
+    m_moduleModel->clear();
     QProgressDialog progress(QObject::tr("Loading Module"), QObject::tr("Cancel"), 0, m_settings->module.size());
     progress.setWindowModality(Qt::WindowModal);
     int rcount = 0;//Counter for the Bible ID
+    QStandardItem *parentItem = m_moduleModel->invisibleRootItem();
     for (int i = 0; i < m_settings->module.size(); ++i) { //real all modules
         if (progress.wasCanceled())
             break;
         if (m_settings->module.at(i).isDir == true) {
             int uModuleCount = 0;
-            QTreeWidgetItem *top = new QTreeWidgetItem;
+
+            QStandardItem *top = new QStandardItem;
             QStyle *style = QApplication::style();
             QIcon folderIcon;
             folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
             folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
-            top->setIcon(0, folderIcon);
-            top->setText(0, m_settings->module.at(i).moduleName);
-            top->setText(1, "-1");
-            m_bibleItems.append(top);
+            top->setIcon( folderIcon);
+            top->setText(m_settings->module.at(i).moduleName);
+            top->setData("-1");
+
+            parentItem->appendRow(top);
 
             //search for bible in the dir
             QString rpath = m_settings->module.at(i).modulePath + "/";
@@ -106,13 +111,14 @@ int ModuleManager::loadAllModules()
                                 module.m_id = rcount;
                                 m_moduleList << module;
 
-                                QTreeWidgetItem *ibible = new QTreeWidgetItem();
-                                ibible->setText(0, bname);
-                                ibible->setText(1, QString::number(rcount));
+                                QStandardItem *bibleItem = new QStandardItem;
+                                bibleItem->setText( bname);
+                                bibleItem->setData(QString::number(rcount));
+                                bibleItem->setToolTip(QObject::tr("BibleQuote Module") + " - " + module.m_path);
                                 QIcon bibleIcon;
                                 bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-x-generic.png"), QIcon::Normal, QIcon::Off);
-                                ibible->setIcon(0, bibleIcon);
-                                top->addChild(ibible);
+                                bibleItem->setIcon( bibleIcon);
+                                top->appendRow(bibleItem);
 
                                 m_settings->moduleID.insert(rcount, i);
 
@@ -134,15 +140,16 @@ int ModuleManager::loadAllModules()
                                 module.m_id = rcount;
                                 m_moduleList << module;
 
-                                QTreeWidgetItem *bibleItem = new QTreeWidgetItem();
-                                bibleItem->setText(0, bname);
-                                bibleItem->setText(1, QString::number(rcount));
+                                QStandardItem *bibleItem = new QStandardItem;
+                                bibleItem->setText(bname);
+                                bibleItem->setData( QString::number(rcount));
+                                bibleItem->setToolTip(QObject::tr("Zefania XML Module") + " - " + module.m_path);
 
 
                                 QIcon bibleIcon;
                                 bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
-                                bibleItem->setIcon(0, bibleIcon);
-                                top->addChild(bibleItem);
+                                bibleItem->setIcon(bibleIcon);
+                                top->appendRow(bibleItem);
                                 m_settings->moduleID.insert(rcount, i);
                                 rcount++;
                                 uModuleCount++;
@@ -177,16 +184,18 @@ int ModuleManager::loadAllModules()
                     m_moduleList << module;
                     m_settings->moduleID.insert(rcount, i);
 
-                    QTreeWidgetItem *bibleItem = new QTreeWidgetItem;
-                    bibleItem->setText(0, m_settings->module.at(i).moduleName);
-                    bibleItem->setText(1, QString::number(rcount));
+                    QStandardItem *bibleItem = new QStandardItem;
+                    bibleItem->setText(m_settings->module.at(i).moduleName);
+                    bibleItem->setData(QString::number(rcount));
+                    bibleItem->setToolTip(QObject::tr("BibleQuote Module") + " - " + module.m_path);
                     myDebug() << "m_settings->moduleID rcount = " << rcount << " i = " << i;
 
 
                     QIcon bibleIcon;
                     bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-x-generic.png"), QIcon::Normal, QIcon::Off);
-                    bibleItem->setIcon(0, bibleIcon);
-                    m_bibleItems.append(bibleItem);
+                    bibleItem->setIcon(bibleIcon);
+                    parentItem->appendRow(bibleItem);
+
                     rcount++;
                     break;
                 }
@@ -201,15 +210,16 @@ int ModuleManager::loadAllModules()
                     m_moduleList << module;
                     m_settings->moduleID.insert(rcount, i);
 
-                    QTreeWidgetItem *bibleItem = new QTreeWidgetItem;
-                    bibleItem->setText(0, m_settings->module.at(i).moduleName);
-                    bibleItem->setText(1, QString::number(rcount));
+                    QStandardItem *bibleItem = new QStandardItem;
+                    bibleItem->setText(m_settings->module.at(i).moduleName);
+                    bibleItem->setData(QString::number(rcount));
+                    bibleItem->setToolTip(QObject::tr("Zefania XML Module") + " - " + module.m_path);
                     myDebug() << "MainWindow::loadModules()m_settings->moduleID rcount = " << rcount << " i = " << i;
 
                     QIcon bibleIcon;
                     bibleIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
-                    bibleItem->setIcon(0, bibleIcon);
-                    m_bibleItems.append(bibleItem);
+                    bibleItem->setIcon(bibleIcon);
+                    parentItem->appendRow(bibleItem);
                     rcount++;
                     break;
                 }
