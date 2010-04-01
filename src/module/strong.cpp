@@ -5,7 +5,7 @@
 Strong::Strong()
 {
 }
-/*!
+/**
   Pharse a strong from current module
   */
 QString Strong::loadStrong(QString strongString)
@@ -26,7 +26,7 @@ QString Strong::loadStrong(QString strongString)
         ret = QObject::tr("Strong not found.");
     return ret;
 }
-/*!
+/**
   Load a single strong module
 */
 void Strong::loadStrongModule(const int &id, QString path)

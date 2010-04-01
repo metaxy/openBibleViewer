@@ -184,7 +184,10 @@ void Notes::setType(const QString &id, const QString &type)
 void Notes::setTitle(const QString &id, const QString &title)
 {
     //DEBUG_FUNC_NAME
-    notesTitle[id] = title;
+    if(notesTitle[id] != title) {
+        notesTitle[id] = title;
+        emit titleChanged(id,title);
+    }
 }
 /*!
   Set note data
@@ -194,7 +197,10 @@ void Notes::setTitle(const QString &id, const QString &title)
 void Notes::setData(const QString &id, const QString &data)
 {
     //DEBUG_FUNC_NAME
-    notesData[id] = data;
+    if(notesData[id] != data) {
+        notesData[id] = data;
+        emit dataChanged(id,data);
+    }
 }
 /*!
   Set note reference

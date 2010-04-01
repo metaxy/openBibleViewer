@@ -30,7 +30,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class Bible : public SimpleModuleClass
 {
 public:
-    enum m_bibleTypes {
+    enum BibleTypes {
         None = 0,
         BibleQuoteModule = 1,
         ZefaniaBibleModule = 2
@@ -68,7 +68,6 @@ public:
     SearchResult lastSearchResult;
     QStringList bookFullName, chapterText, bookPath, chapterNames, chapterDataList;
     QStringList biblesIniPath;
-    QMap <int, int> bookCount;
     QList<Chapter> chapterData;
     int m_bibleType;
     int m_verseID;
@@ -79,6 +78,7 @@ private:
     int m_bookID;
     int m_chapterID;
     int m_chapterAdd;
+    QMap <int, int> bookCount;
 
 };
 

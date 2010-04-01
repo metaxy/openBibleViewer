@@ -12,8 +12,11 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "zefania-strong.h"
+
+#include <QtXml/QDomNode>
+#include "src/core/KoXmlReader.h"
+#include "src/core/dbghelper.h"
 #include <QtCore/QFile>
-#include <QtCore/QtDebug>
 #include <QtCore/QVariantList>
 #include <QtCore/QFile>
 #include <QtCore/QDataStream>
@@ -23,9 +26,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 #include <QtGui/QProgressDialog>
 #include <QtXml/QDomElement>
-#include <QtXml/QDomNode>
-#include "src/core/KoXmlReader.h"
-#include "src/core/dbghelper.h"
 ZefaniaStrong::ZefaniaStrong()
 {
     m_settings = new Settings();
@@ -34,6 +34,9 @@ void ZefaniaStrong::setSettings(Settings *settings)
 {
     m_settings = settings;
 }
+/**
+  Load a Zefania XML Lex file the first time. Generate a cache file, for fast access.
+  */
 QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
 {
     KoXmlDocument doc;
@@ -142,13 +145,17 @@ QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
     file.close();
     return fileTitle;
 }
+/**
+  Load the cache file into memor
+  \fileName Location of the cache file.
+  */
 bool ZefaniaStrong::loadDataBase(QString fileName)
 {
-    qDebug() << "ZefaniaStrong::loadDataBase fileName = " << fileName;
+    myDebug() << "fileName = " << fileName;
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(fileName.toLocal8Bit());
     QFile file(m_settings->homePath + "cache/" + hash.result().toBase64() + ".strong");
-    qDebug() << "ZefaniaStrong::loadDataBase fileName3 = " << m_settings->homePath + "cache/" + hash.result().toBase64() + ".strong";
+    myDebug() << "fileName3 = " << m_settings->homePath + "cache/" + hash.result().toBase64() + ".strong";
     if (!file.open(QIODevice::ReadOnly)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not open cache file."));
         return false;
@@ -164,13 +171,17 @@ bool ZefaniaStrong::loadDataBase(QString fileName)
     in >> m_trans;
     in >> m_pron;
     in >> m_desc;
-    qDebug() << "ZefaniaStrong::loadDataBase fileName2 = " << file.fileName() << " m_id.size() = "  << m_id.size();
+    myDebug() << "fileName2 = " << file.fileName() << " m_id.size() = "  << m_id.size();
     file.close();
     return true;
 }
+/**
+  Returns a Strong.
+  \strongID The strongID
+  */
 QString ZefaniaStrong::getStrong(QString strongID)
 {
-    qDebug() << "ZefaniaStrong::getStrong strongID = " << strongID;
+    myDebug() << "strongID = " << strongID;
     for (int i = 0; i < m_id.size(); ++i) {
         QString id = m_id.at(i);
         if (id.trimmed().toLower() == strongID.trimmed().toLower()) {

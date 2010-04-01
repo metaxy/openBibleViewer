@@ -49,6 +49,9 @@ ModuleDownloadDialog::ModuleDownloadDialog(QWidget *parent) :
     httpRequestAborted = false;
 
 }
+/**
+  Read the xml file withe downloadable modules and generate the tree.
+  */
 void ModuleDownloadDialog::readModules()
 {
     //DEBUG_FUNC_NAME

@@ -5,6 +5,9 @@ ModuleProxyModel::ModuleProxyModel(QObject *parent) :
         QSortFilterProxyModel(parent)
 {
 }
+/**
+  Filter rows, but show alway folders.
+  */
 bool ModuleProxyModel::filterAcceptsRow(int sourceRow,
                                         const QModelIndex &sourceParent) const
 {

@@ -24,6 +24,9 @@ ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
     ui->setupUi(this);
     m_dontLoad = false;
 }
+/**
+  Init the ModuleDockWidget. Init proxyModel and selectionModel.
+  */
 void ModuleDockWidget::init()
 {
     DEBUG_FUNC_NAME
@@ -40,6 +43,9 @@ void ModuleDockWidget::init()
     ui->treeView_module->setSelectionModel(m_selectionModel);
     m_proxyModel->sort(0);
 }
+/**
+  Emits get to load the selected module.
+  */
 void ModuleDockWidget::loadModuleData(QModelIndex index)
 {
     //DEBUG_FUNC_NAME
@@ -48,6 +54,9 @@ void ModuleDockWidget::loadModuleData(QModelIndex index)
         emit get("bible://" + data + "/0,0,0");
     }
 }
+/**
+  If a module is loaded not by the ModuleDock, select the module.
+  */
 void ModuleDockWidget::loadedModule(int id)
 {
     DEBUG_FUNC_NAME
@@ -59,33 +68,6 @@ void ModuleDockWidget::loadedModule(int id)
     }
 }
 
-
-/*bool ModuleDockWidget::eventFilter(QObject *obj, QEvent *event)
-{
-    if (obj == ui->treeWidget_bibles) {
-        if (event->type() == QEvent::ToolTip) {
-            QHelpEvent *helpEvent = static_cast<QHelpEvent *>(event);
-            if (ui->treeWidget_bibles->itemAt(helpEvent->pos())) {
-                int index = ui->treeWidget_bibles->itemAt(helpEvent->pos())->text(1).toInt();
-                if (index != -1 && index < m_moduleManager->m_moduleList.size()) {
-                    QString typ;
-                    Module m = m_moduleManager->m_moduleList.at(index);
-                    if (m.m_moduleType == Module::BibleQuoteModule) {
-                        typ = tr("BibleQuote Module");
-                    } else if (m.m_moduleType == Module::ZefaniaBibleModule) {
-                        typ = tr("Zefania XML Module");
-                    }
-                    QToolTip::showText(helpEvent->globalPos(), typ + " - " + m.m_path);
-                }
-            }
-        } else {
-            return QWidget::eventFilter(obj, event);;
-        }
-    } else {
-        return QWidget::eventFilter(obj, event);
-    }
-    return QWidget::eventFilter(obj, event);
-}*/
 ModuleDockWidget::~ModuleDockWidget()
 {
     delete ui;

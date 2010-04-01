@@ -32,7 +32,7 @@ void ModuleManager::setSettings(Settings *settings)
     m_settings = settings;
 }
 /**
-  Load all Modules, and generate a QStandardItemModel-
+  Load all Modules, and generate a QStandardItemModel.
   */
 int ModuleManager::loadAllModules()
 {
@@ -250,18 +250,27 @@ int ModuleManager::loadAllModules()
     m_bible.biblesIniPath = iniPath;
     return 0;
 }
+/**
+  Returns true, if a bible is loaded.
+  */
 bool ModuleManager::bibleLoaded()
 {
     if (m_moduleList.size() > m_bible.bibleID() && m_bible.bibleID() >= 0)
         return true;
     return false;
 }
+/**
+  Returns true, if a strong module is loaded.
+  */
 bool ModuleManager::strongLoaded()
 {
     if (m_moduleList.size() > m_strong.m_strongModuleID &&  m_strong.m_strongModuleID >= 0)
         return true;
     return false;
 }
+/**
+  Converts a PersistentUrl to a link.
+  */
 QString ModuleManager::notePos2Text(const QString &pos)
 {
     //DEBUG_FUNC_NAME

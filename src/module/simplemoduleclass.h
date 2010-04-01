@@ -19,8 +19,8 @@ class SimpleModuleClass
 {
 public:
     SimpleModuleClass();
-    void setSettings(Settings *settings);
-    void setNotes(Notes *n);
+    virtual void setSettings(Settings *settings);
+    virtual void setNotes(Notes *n);
     Settings *m_settings;
     Notes *m_notes;
 private:

@@ -4,7 +4,9 @@
 }
 
 
-{\ttfamily \#include $<$moduledockwidget.h$>$}Inheritance diagram for ModuleDockWidget::\begin{figure}[H]
+{\ttfamily \#include $<$moduledockwidget.h$>$}
+
+Inheritance diagram for ModuleDockWidget:\begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[height=2cm]{classModuleDockWidget}
@@ -26,15 +28,9 @@ void {\bfseries get} (QString)}
 \label{classModuleDockWidget_a864ef7e5df97d96feb92f67a401c0d6b}
 
 \item 
-\hypertarget{classModuleDockWidget_acdce295969ddf4230362ccc87bc8be42}{
-void {\bfseries init} ()}
-\label{classModuleDockWidget_acdce295969ddf4230362ccc87bc8be42}
-
+void \hyperlink{classModuleDockWidget_acdce295969ddf4230362ccc87bc8be42}{init} ()
 \item 
-\hypertarget{classModuleDockWidget_adacdb1e6fbfb1f3be9537dfc8adc2ec9}{
-void {\bfseries loadedModule} (int id)}
-\label{classModuleDockWidget_adacdb1e6fbfb1f3be9537dfc8adc2ec9}
-
+void \hyperlink{classModuleDockWidget_adacdb1e6fbfb1f3be9537dfc8adc2ec9}{loadedModule} (int id)
 \end{DoxyCompactItemize}
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
@@ -43,16 +39,24 @@ void {\bfseries loadedModule} (int id)}
 void {\bfseries changeEvent} (QEvent $\ast$e)}
 \label{classModuleDockWidget_a6db5d10ff32c3494d88ddfb5dca7d942}
 
-\item 
-\hypertarget{classModuleDockWidget_a45fbf665d912b7b31f91b7e107d83beb}{
-bool {\bfseries eventFilter} (QObject $\ast$obj, QEvent $\ast$event)}
-\label{classModuleDockWidget_a45fbf665d912b7b31f91b7e107d83beb}
-
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 \hyperlink{classModuleDockWidget}{ModuleDockWidget} represents a dock widget from which you can load modules 
+
+\subsection{Member Function Documentation}
+\hypertarget{classModuleDockWidget_acdce295969ddf4230362ccc87bc8be42}{
+\index{ModuleDockWidget@{ModuleDockWidget}!init@{init}}
+\index{init@{init}!ModuleDockWidget@{ModuleDockWidget}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void ModuleDockWidget::init ()}}
+\label{classModuleDockWidget_acdce295969ddf4230362ccc87bc8be42}
+Init the \hyperlink{classModuleDockWidget}{ModuleDockWidget}. Init proxyModel and selectionModel. \hypertarget{classModuleDockWidget_adacdb1e6fbfb1f3be9537dfc8adc2ec9}{
+\index{ModuleDockWidget@{ModuleDockWidget}!loadedModule@{loadedModule}}
+\index{loadedModule@{loadedModule}!ModuleDockWidget@{ModuleDockWidget}}
+\subsubsection[{loadedModule}]{\setlength{\rightskip}{0pt plus 5cm}void ModuleDockWidget::loadedModule (int {\em id})}}
+\label{classModuleDockWidget_adacdb1e6fbfb1f3be9537dfc8adc2ec9}
+If a module is loaded not by the ModuleDock, select the module. 
 
 The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
 \item 

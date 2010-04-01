@@ -4,7 +4,9 @@
 }
 
 
-{\ttfamily \#include $<$KoXmlWriter.h$>$}\subsection*{Classes}
+{\ttfamily \#include $<$KoXmlWriter.h$>$}
+
+\subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
 class \hyperlink{classKoXmlWriter_1_1Private}{Private}
@@ -232,7 +234,9 @@ OASIS-\/specific
 \label{classKoXmlWriter_aded4a15ee74b3dbd14cd0965d1ee471f}
 
 
-Adds a processing instruction. This writes a processing instruction, like $<$?foo bar blah?$>$, where foo is the target, and the rest is the data.
+Adds a processing instruction. 
+
+This writes a processing instruction, like $<$?foo bar blah?$>$, where foo is the target, and the rest is the data.
 
 Processing instructions are used in XML to keep processor-\/specific information in the text of the document. \hypertarget{classKoXmlWriter_a354008d8e086577751b2cbee5bf973f2}{
 \index{KoXmlWriter@{KoXmlWriter}!addTextNode@{addTextNode}}
@@ -241,7 +245,9 @@ Processing instructions are used in XML to keep processor-\/specific information
 \label{classKoXmlWriter_a354008d8e086577751b2cbee5bf973f2}
 
 
-Adds a text node as a child of the current element. This is appends the literal content of {\ttfamily str} to the contents of the element. E.g. addTextNode( \char`\"{}foo\char`\"{} ) inside a $<$p$>$ element gives $<$p$>$foo$<$/p$>$, and startElement( \char`\"{}b\char`\"{} ); endElement( \char`\"{}b\char`\"{} ); addTextNode( \char`\"{}foo\char`\"{} ) gives $<$p$>$$<$b/$>$foo$<$/p$>$ \hypertarget{classKoXmlWriter_aabee3ed993fcc913c3466083627843fc}{
+Adds a text node as a child of the current element. 
+
+This is appends the literal content of {\ttfamily str} to the contents of the element. E.g. addTextNode( \char`\"{}foo\char`\"{} ) inside a $<$p$>$ element gives $<$p$>$foo$<$/p$>$, and startElement( \char`\"{}b\char`\"{} ); endElement( \char`\"{}b\char`\"{} ); addTextNode( \char`\"{}foo\char`\"{} ) gives $<$p$>$$<$b/$>$foo$<$/p$>$ \hypertarget{classKoXmlWriter_aabee3ed993fcc913c3466083627843fc}{
 \index{KoXmlWriter@{KoXmlWriter}!addTextNode@{addTextNode}}
 \index{addTextNode@{addTextNode}!KoXmlWriter@{KoXmlWriter}}
 \subsubsection[{addTextNode}]{\setlength{\rightskip}{0pt plus 5cm}void KoXmlWriter::addTextNode (const QString \& {\em str})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
@@ -264,7 +270,9 @@ OASIS-\/specific
 \label{classKoXmlWriter_ac22324a2b86a2d5ed20026d9a47f353f}
 
 
-Adds a text span as nodes of the current element. Unlike \hyperlink{classKoXmlWriter_aabee3ed993fcc913c3466083627843fc}{KoXmlWriter::addTextNode} it handles tabulations, linebreaks, and multiple spaces by using the appropriate OASIS tags.
+Adds a text span as nodes of the current element. 
+
+Unlike \hyperlink{classKoXmlWriter_aabee3ed993fcc913c3466083627843fc}{KoXmlWriter::addTextNode} it handles tabulations, linebreaks, and multiple spaces by using the appropriate OASIS tags.
 
 
 \begin{DoxyParams}{Parameters}

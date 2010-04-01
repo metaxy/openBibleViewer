@@ -19,6 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/notes.h"
 #include "src/module/modulemanager.h"
 #include "src/core/verseselection.h"
+#include "src/core/simplenotes.h"
 namespace Ui
 {
 class NotesEditor;
@@ -28,7 +29,7 @@ class NotesEditor : public QDialog
 {
     Q_OBJECT
 private slots:
-    void showNote(QListWidgetItem * item);
+    /*void showNote(QListWidgetItem * item);
 
     void notesContextMenu();
     void removeNote();
@@ -43,17 +44,17 @@ private slots:
     void noteRedo();
     void updateNote(QString pos);
     void fastSave();
-public slots:
-    void newNote();
-    void newNoteWithLink(VerseSelection selection);
 
-    void newMark(VerseSelection selection, QColor color);
+    void changeData(QString id, QString data);
+    void changeTitle(QString id, QString title);*/
+public slots:
+   /* void newNote();
+    void newNoteWithLink(VerseSelection selection);
     void showNote(const QString &noteID);
-    void removeMark(VerseSelection selection);
-    void saveNote();
+    void saveNote();*/
 signals:
-    void get(QString url);
-    void reloadChapter();
+    /*void get(QString url);
+    void reloadChapter();*/
 public:
     explicit NotesEditor(QWidget *parent = 0);
     ~NotesEditor();
@@ -69,9 +70,14 @@ private:
     Settings *m_settings;
     Notes *m_notes;
     ModuleManager *m_moduleManager;
-    QStringList m_textNotesID;
+    /*QStringList m_textNotesID;
     QString m_noteID;
     QMap<QString, QString> currentNoteRef;
+    void setTitle(QString title);
+    void setData(QString data);
+    void setRef(QMap<QString, QString> ref);*/
+    SimpleNotes *m_simpleNotes;
+
 };
 
 #endif // NOTESEDITOR_H

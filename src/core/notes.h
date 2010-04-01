@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 #include <QtCore/QMap>
 #include <QtXml/QDomDocument>
-/*!
+/**
  Notes represents a note system
 
  @author Paul Walger <metaxy@walger.name>
@@ -27,6 +27,9 @@ class Notes : public QObject
     Q_OBJECT
 signals:
     void saveAll();
+    void titleChanged(QString id, QString newTitle);
+    void dataChanged(QString id, QString newData);
+    void refChanged(QString id, QMap<QString,QString> newRef);
 public:
     Notes();
     void init(const QString &fileName);
