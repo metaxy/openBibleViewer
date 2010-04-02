@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef NOTESEDITOR_H
 #define NOTESEDITOR_H
 
-#include <QDialog>
+#include <QMainWindow>
 #include "src/core/settings.h"
 #include "src/core/notes.h"
 #include "src/module/modulemanager.h"
@@ -25,7 +25,7 @@ namespace Ui
 class NotesEditor;
 }
 
-class NotesEditor : public QDialog
+class NotesEditor : public QMainWindow
 {
     Q_OBJECT
 private slots:

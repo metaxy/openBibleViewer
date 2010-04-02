@@ -34,14 +34,24 @@ void SimpleNotes::setViewWidget(QTreeView *treeView)
 {
     m_treeView = treeView;
 }
+void SimpleNotes::setLinkWidget(QLabel *link)
+{
+    m_label_link = link;
+}
+
+void SimpleNotes::setLinkButtonWidget(QPushButton *button)
+{
+    m_pushButton_link = button;
+}
 
 void SimpleNotes::init()
 {
     m_itemModel = new QStandardItemModel(m_treeView);
-    connect(m_treeView,SIGNAL(activated(QModelIndex)),this,SLOT(showNote(QModelIndex)));
+    connect(m_treeView,SIGNAL(clicked(QModelIndex)),this,SLOT(showNote(QModelIndex)));
     connect(m_treeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(notesContextMenu()));
     connect(m_textEdit_note, SIGNAL(undoAvailable(bool)), this, SLOT(fastSave()));
     connect(m_textEdit_note, SIGNAL(redoAvailable(bool)), this, SLOT(fastSave()));
+    connect(m_pushButton_link, SIGNAL(clicked()), this, SLOT(editNoteLink()));
 
     if (!m_notes->isLoaded()) {
         m_notes->init(m_settings->homePath + "notes.xml");
@@ -112,13 +122,36 @@ void SimpleNotes::setData(QString data)
 }
 void SimpleNotes::setRef(QMap<QString, QString> ref)
 {
-    /*if(!ref["link"].isEmpty()) {
-        ui->label_noteLink->setText(m_moduleManager->notePos2Text(ref["link"]));
-        ui->pushButton_editNoteLink->setEnabled(true);
+    if(!ref["link"].isEmpty()) {
+        m_label_link->setText(m_moduleManager->notePos2Text(ref["link"]));
+        m_pushButton_link->setEnabled(true);
     } else {
-        ui->label_noteLink->setText("");
-        ui->pushButton_editNoteLink->setEnabled(false);
-    }*/
+        m_label_link->setText("");
+        m_pushButton_link->setEnabled(false);
+    }
+}
+void SimpleNotes::editNoteLink()
+{
+    DEBUG_FUNC_NAME
+    QString link = currentNoteRef["link"];
+
+    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
+    urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
+    urlConverter.pharse();
+
+    BiblePassageDialog *passageDialog = new  BiblePassageDialog();
+    connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateNote(QString)));
+    passageDialog->setSettings(m_settings);
+    passageDialog->setCurrent(urlConverter.m_bibleID.toInt(), urlConverter.m_path, urlConverter.m_bookID, urlConverter.m_chapterID + 1, urlConverter.m_verseID + 1);
+    passageDialog->show();
+    passageDialog->exec();
+
+}
+void SimpleNotes::updateNote(QString link)
+{
+    currentNoteRef["link"] = link;
+    showNote(m_noteID);
+    return;
 }
 void SimpleNotes::changeData(QString id, QString data)
 {

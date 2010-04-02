@@ -5,7 +5,9 @@
 #include <QtGui/QLineEdit>
 #include <QtGui/QTextEdit>
 #include <QtGui/QTreeView>
+#include <QtGui/QPushButton>
 #include <QtGui/QSortFilterProxyModel>
+#include <QtGui/QLabel>
 #include <QItemSelectionModel>
 #include "src/core/settings.h"
 #include "src/core/notes.h"
@@ -20,6 +22,8 @@ public:
     void setTitleWidget(QLineEdit *title);
     void setDataWidget(QTextEdit *data);
     void setViewWidget(QTreeView *treeView);
+    void setLinkWidget(QLabel* link);
+    void setLinkButtonWidget(QPushButton* button);
     void setSettings(Settings *settings);
     void setNotes(Notes *notes);
     void setModuleManager(ModuleManager *moduleManager);
@@ -40,9 +44,14 @@ private slots:
     void showNote(QModelIndex index);
     void notesContextMenu();
     void removeNote();
+    void editNoteLink();
+    void updateNote(QString pos);
 private:
     QLineEdit *m_lineEdit_title;
     QTextEdit *m_textEdit_note;
+    QLabel *m_label_link;
+    QPushButton *m_pushButton_link;
+
 
     Settings *m_settings;
     Notes *m_notes;

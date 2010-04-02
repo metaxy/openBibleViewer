@@ -1597,13 +1597,12 @@ void AdvancedInterface::showMarkList()
 }
 void AdvancedInterface::showNotesEditor()
 {
-    NotesEditor notesEditor;
-    notesEditor.setSettings(m_settings);
-    notesEditor.setModuleManager(m_moduleManager);
-    notesEditor.setNotes(m_notes);
-    notesEditor.init();
-    notesEditor.show();
-    notesEditor.exec();
+    NotesEditor *notesEditor = new NotesEditor(this);
+    notesEditor->setSettings(m_settings);
+    notesEditor->setModuleManager(m_moduleManager);
+    notesEditor->setNotes(m_notes);
+    notesEditor->init();
+    notesEditor->show();
 }
 void AdvancedInterface::setTabView()
 {

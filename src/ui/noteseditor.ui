@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>NotesEditor</class>
- <widget class="QDialog" name="NotesEditor">
+ <widget class="QMainWindow" name="NotesEditor">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,6 +13,7 @@
   <property name="windowTitle">
    <string>Notes Editor</string>
   </property>
+  <widget class="QWidget" name="centralwidget">
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QSplitter" name="splitter">
@@ -31,6 +32,18 @@
         <widget class="QTreeView" name="treeView">
          <property name="contextMenuPolicy">
           <enum>Qt::CustomContextMenu</enum>
+         </property>
+         <property name="dragEnabled">
+          <bool>true</bool>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::ExtendedSelection</enum>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectItems</enum>
+         </property>
+         <property name="animated">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -254,6 +267,7 @@
     </widget>
    </item>
   </layout>
+  </widget>
  </widget>
  <resources>
   <include location="../icons.qrc"/>

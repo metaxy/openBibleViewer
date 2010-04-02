@@ -20,7 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dialog/biblepassagedialog.h"
 #include "src/core/urlconverter.h"
 NotesEditor::NotesEditor(QWidget *parent) :
-        QDialog(parent),
+        QMainWindow(parent),
         ui(new Ui::NotesEditor)
 {
     ui->setupUi(this);
@@ -51,6 +51,8 @@ void NotesEditor::init()
     m_simpleNotes->setDataWidget(ui->textEdit_note);
     m_simpleNotes->setViewWidget(ui->treeView);
     m_simpleNotes->setTitleWidget(ui->lineEdit_noteTitle);
+    m_simpleNotes->setLinkButtonWidget(ui->pushButton_editNoteLink);
+    m_simpleNotes->setLinkWidget(ui->label_noteLink);
     m_simpleNotes->init();
     /*connect(ui->pushButton_editNoteLink, SIGNAL(clicked()), this, SLOT(editNoteLink()));
     connect(ui->listWidget_notes, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(notesContextMenu()));
@@ -371,7 +373,7 @@ void NotesEditor::setRef(QMap<QString, QString> ref)
 }*/
 void NotesEditor::changeEvent(QEvent *e)
 {
-    QDialog::changeEvent(e);
+    QMainWindow::changeEvent(e);
     switch (e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
