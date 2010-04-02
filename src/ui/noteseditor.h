@@ -25,57 +25,31 @@ namespace Ui
 class NotesEditor;
 }
 
-class NotesEditor : public QMainWindow
+class NotesEditor : public QMainWindow, public BasicClass
 {
     Q_OBJECT
 private slots:
-    /*void showNote(QListWidgetItem * item);
-
-    void notesContextMenu();
-    void removeNote();
-    void reloadNotes();
-    void copyNote();
-    void editNoteLink();
     void noteSetTextBold();
     void noteSetTextItalic();
     void noteSetTextUnderline();
     void noteSetTextColor();
     void noteUndo();
     void noteRedo();
-    void updateNote(QString pos);
-    void fastSave();
 
-    void changeData(QString id, QString data);
-    void changeTitle(QString id, QString title);*/
 public slots:
-   /* void newNote();
-    void newNoteWithLink(VerseSelection selection);
-    void showNote(const QString &noteID);
-    void saveNote();*/
+
 signals:
-    /*void get(QString url);
-    void reloadChapter();*/
+
 public:
     explicit NotesEditor(QWidget *parent = 0);
     ~NotesEditor();
-    void setSettings(Settings *settings);
-    void setNotes(Notes *notes);
-    void setModuleManager(ModuleManager *moduleManager);
+
     void init();
 protected:
     void changeEvent(QEvent *e);
 
 private:
     Ui::NotesEditor *ui;
-    Settings *m_settings;
-    Notes *m_notes;
-    ModuleManager *m_moduleManager;
-    /*QStringList m_textNotesID;
-    QString m_noteID;
-    QMap<QString, QString> currentNoteRef;
-    void setTitle(QString title);
-    void setData(QString data);
-    void setRef(QMap<QString, QString> ref);*/
     SimpleNotes *m_simpleNotes;
 
 };

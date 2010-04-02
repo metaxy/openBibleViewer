@@ -123,6 +123,7 @@ void AdvancedInterface::init()
     connect(m_quickJumpDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
+    connect(m_bibleDisplay, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
     BibleDisplaySettings bibleDisplaySettings;
@@ -1601,6 +1602,7 @@ void AdvancedInterface::showNotesEditor()
     notesEditor->setSettings(m_settings);
     notesEditor->setModuleManager(m_moduleManager);
     notesEditor->setNotes(m_notes);
+    notesEditor->setBibleDisplay(m_bibleDisplay);
     notesEditor->init();
     notesEditor->show();
 }

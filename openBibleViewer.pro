@@ -62,7 +62,8 @@ SOURCES += src/main.cpp \
     src/ui/noteseditor.cpp \
     src/core/session.cpp \
     src/ui/dock/moduleproxymodel.cpp \
-    src/core/simplenotes.cpp
+    src/core/simplenotes.cpp \
+    src/core/basicclass.cpp
 HEADERS += src/core/settings.h \
     src/module/biblequote.h \
     src/module/zefania-bible.h \
@@ -119,7 +120,8 @@ HEADERS += src/core/settings.h \
     src/ui/noteseditor.h \
     src/core/session.h \
     src/ui/dock/moduleproxymodel.h \
-    src/core/simplenotes.h
+    src/core/simplenotes.h \
+    src/core/basicclass.h
 FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dialog/settingsdialog.ui \
     src/ui/dialog/searchinfodialog.ui \

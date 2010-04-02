@@ -13,7 +13,8 @@
 #include "src/core/notes.h"
 #include "src/module/modulemanager.h"
 #include "src/core/verseselection.h"
-class SimpleNotes : public QObject
+#include "src/core/basicclass.h"
+class SimpleNotes : public QObject, public BasicClass
 {
 Q_OBJECT
 
@@ -30,13 +31,14 @@ public:
     void init();
 
 signals:
-
+    void reloadChapter();
 public slots:
      void newNote();
      void showNote(const QString &noteID);
      void saveNote();
+     void newNoteWithLink(VerseSelection selection);
+     void fastSave();
 private slots:
-    void fastSave();
     void copyNote();
     void changeData(QString id, QString data);
     void changeTitle(QString id, QString title);

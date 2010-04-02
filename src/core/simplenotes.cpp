@@ -10,18 +10,7 @@
 SimpleNotes::SimpleNotes()
 {
 }
-void SimpleNotes::setSettings(Settings *settings)
-{
-    m_settings = settings;
-}
-void SimpleNotes::setModuleManager(ModuleManager *moduleManager)
-{
-    m_moduleManager = moduleManager;
-}
-void SimpleNotes::setNotes(Notes *notes)
-{
-    m_notes = notes;
-}
+
 void SimpleNotes::setDataWidget(QTextEdit *data)
 {
     m_textEdit_note = data;
@@ -38,7 +27,6 @@ void SimpleNotes::setLinkWidget(QLabel *link)
 {
     m_label_link = link;
 }
-
 void SimpleNotes::setLinkButtonWidget(QPushButton *button)
 {
     m_pushButton_link = button;
@@ -52,6 +40,7 @@ void SimpleNotes::init()
     connect(m_textEdit_note, SIGNAL(undoAvailable(bool)), this, SLOT(fastSave()));
     connect(m_textEdit_note, SIGNAL(redoAvailable(bool)), this, SLOT(fastSave()));
     connect(m_pushButton_link, SIGNAL(clicked()), this, SLOT(editNoteLink()));
+    connect(m_label_link,SIGNAL(linkActivated(QString)),m_bibleDisplay,SIGNAL(get(QString)));
 
     if (!m_notes->isLoaded()) {
         m_notes->init(m_settings->homePath + "notes.xml");
@@ -254,6 +243,50 @@ void SimpleNotes::newNote(void)
     setData("");
     setRef(currentNoteRef);
 
+}
+void SimpleNotes::newNoteWithLink(VerseSelection selection)
+{
+    //DEBUG_FUNC_NAME
+
+    aktNote();
+    fastSave();
+
+    QString link;
+    UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
+    urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
+    urlConverter.m_bibleID =  QString::number(m_moduleManager->m_bible.bibleID());
+    urlConverter.m_bookID = m_moduleManager->m_bible.bookID();
+    urlConverter.m_chapterID = m_moduleManager->m_bible.chapterID() - m_moduleManager->m_bible.chapterAdd();
+    urlConverter.m_verseID = selection.startVerse - 1;
+    urlConverter.m_bookName = m_moduleManager->m_bible.bookFullName.at(m_moduleManager->m_bible.bookID());
+    link = urlConverter.convert();
+
+    QString newID = m_notes->generateNewID();
+    m_notes->setData(newID, "");
+    m_notes->setTitle(newID, tr("(unnamed)"));
+    m_notes->setType(newID, "text");
+
+    QMap<QString, QString> ref;
+    ref["link"] = link;
+    currentNoteRef = ref;
+
+    m_notes->setRef(newID, currentNoteRef);
+
+    m_notes->insertID(newID);
+    m_noteID = newID;
+
+    QStandardItem *parentItem = m_itemModel->invisibleRootItem();
+    QStandardItem *newItem = new QStandardItem;
+    newItem->setText(m_notes->getTitle(m_noteID));
+    newItem->setData(m_noteID);
+    parentItem->appendRow(newItem);
+
+    select(m_noteID);
+    setTitle(tr("(unnamed)"));
+    setData("");
+    setRef(currentNoteRef);
+
+    emit reloadChapter();
 }
 void SimpleNotes::notesContextMenu(void)
 {

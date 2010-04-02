@@ -24,6 +24,7 @@ public:
     QString m_text;
 signals:
     void newHtml(QString html);
+    void get(QString url);
 };
 
 #endif // BIBLEDISPLAY_H
