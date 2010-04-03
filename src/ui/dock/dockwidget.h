@@ -19,23 +19,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/bibledisplay.h"
 #include "src/core/settings.h"
 #include "src/core/notes.h"
+#include "src/core/basicclass.h"
 /*!
  DockWidget represents a class for obv dock widgets
 
 */
-class DockWidget : public QDockWidget
+class DockWidget : public QDockWidget, public BasicClass
 {
     Q_OBJECT
 public:
     DockWidget(QWidget *parent);
-    ModuleManager *m_moduleManager;
-    BibleDisplay *m_bibleDisplay;
-    Settings *m_settings;
-    Notes *m_notes;
-    void setModuleManager(ModuleManager *manager);
-    void setBibleDisplay(BibleDisplay *bibleDisplay);
-    void setSettings(Settings *settings);
-    void setNotes(Notes *notes);
 signals:
     void get(QString url);
 };

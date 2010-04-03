@@ -14,259 +14,262 @@
    <string>Notes Editor</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <widget class="QSplitter" name="splitter">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <widget class="QFrame" name="frame">
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QTreeView" name="treeView">
-         <property name="contextMenuPolicy">
-          <enum>Qt::CustomContextMenu</enum>
-         </property>
-         <property name="dragEnabled">
-          <bool>true</bool>
-         </property>
-         <property name="selectionMode">
-          <enum>QAbstractItemView::ExtendedSelection</enum>
-         </property>
-         <property name="selectionBehavior">
-          <enum>QAbstractItemView::SelectItems</enum>
-         </property>
-         <property name="animated">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QFrame" name="frame_2">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <widget class="QFrame" name="frame_3">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
+      <widget class="QFrame" name="frame">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QTreeView" name="treeView">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
+          <property name="dragEnabled">
+           <bool>true</bool>
+          </property>
+          <property name="dragDropMode">
+           <enum>QAbstractItemView::InternalMove</enum>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::ExtendedSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectItems</enum>
+          </property>
+          <property name="animated">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QFrame" name="frame_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QFrame" name="frame_3">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QToolButton" name="toolButton_noteUndo">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="../icons.qrc">
+                 <normaloff>:/icons/16x16/edit-undo.png</normaloff>:/icons/16x16/edit-undo.png</iconset>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="toolButton_noteRedo">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>...</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../icons.qrc">
+                 <normaloff>:/icons/16x16/edit-redo.png</normaloff>:/icons/16x16/edit-redo.png</iconset>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="Line" name="line">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="toolButton_noteBold">
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="../icons.qrc">
+                 <normaloff>:/icons/16x16/format-text-bold.png</normaloff>:/icons/16x16/format-text-bold.png</iconset>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="toolButton_noteItalic">
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="../icons.qrc">
+                 <normaloff>:/icons/16x16/format-text-italic.png</normaloff>:/icons/16x16/format-text-italic.png</iconset>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="toolButton_noteUnderline">
+               <property name="text">
+                <string>...</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../icons.qrc">
+                 <normaloff>:/icons/16x16/format-text-underline.png</normaloff>:/icons/16x16/format-text-underline.png</iconset>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="toolButton_noteFontColor">
+               <property name="text">
+                <string>...</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../icons.qrc">
+                 <normaloff>:/icons/16x16/format-text-color.png</normaloff>:/icons/16x16/format-text-color.png</iconset>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="toolButton">
+               <property name="text">
+                <string>...</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEdit_noteTitle"/>
+           </item>
+           <item>
+            <widget class="QTextEdit" name="textEdit_note"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_4">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLabel" name="label_noteLink">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_editNoteLink">
+             <property name="text">
+              <string>Edit</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout">
-            <item>
-             <widget class="QToolButton" name="toolButton_noteUndo">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="../icons.qrc">
-                <normaloff>:/icons/16x16/edit-undo.png</normaloff>:/icons/16x16/edit-undo.png</iconset>
-              </property>
-              <property name="autoRaise">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QToolButton" name="toolButton_noteRedo">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>...</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../icons.qrc">
-                <normaloff>:/icons/16x16/edit-redo.png</normaloff>:/icons/16x16/edit-redo.png</iconset>
-              </property>
-              <property name="autoRaise">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="Line" name="line">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QToolButton" name="toolButton_noteBold">
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="../icons.qrc">
-                <normaloff>:/icons/16x16/format-text-bold.png</normaloff>:/icons/16x16/format-text-bold.png</iconset>
-              </property>
-              <property name="autoRaise">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QToolButton" name="toolButton_noteItalic">
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="../icons.qrc">
-                <normaloff>:/icons/16x16/format-text-italic.png</normaloff>:/icons/16x16/format-text-italic.png</iconset>
-              </property>
-              <property name="autoRaise">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QToolButton" name="toolButton_noteUnderline">
-              <property name="text">
-               <string>...</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../icons.qrc">
-                <normaloff>:/icons/16x16/format-text-underline.png</normaloff>:/icons/16x16/format-text-underline.png</iconset>
-              </property>
-              <property name="autoRaise">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QToolButton" name="toolButton_noteFontColor">
-              <property name="text">
-               <string>...</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../icons.qrc">
-                <normaloff>:/icons/16x16/format-text-color.png</normaloff>:/icons/16x16/format-text-color.png</iconset>
-              </property>
-              <property name="autoRaise">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QToolButton" name="toolButton">
-              <property name="text">
-               <string>...</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit_noteTitle"/>
-          </item>
-          <item>
-           <widget class="QTextEdit" name="textEdit_note"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QFrame" name="frame_4">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QLabel" name="label_noteLink">
+           <widget class="QPushButton" name="pushButton_note_save">
             <property name="text">
-             <string/>
+             <string>Save</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../icons.qrc">
+              <normaloff>:/icons/16x16/document-save.png</normaloff>:/icons/16x16/document-save.png</iconset>
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_editNoteLink">
-            <property name="text">
-             <string>Edit</string>
-            </property>
-           </widget>
-          </item>
          </layout>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton_note_save">
-           <property name="text">
-            <string>Save</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../icons.qrc">
-             <normaloff>:/icons/16x16/document-save.png</normaloff>:/icons/16x16/document-save.png</iconset>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
+        </item>
+       </layout>
+      </widget>
      </widget>
-    </widget>
-   </item>
-  </layout>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources>

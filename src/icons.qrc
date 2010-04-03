@@ -72,5 +72,6 @@
         <file>icons/16x16/edit-undo.png</file>
         <file>icons/16x16/notes-edit.png</file>
         <file>icons/svg/tile.svg</file>
+        <file>icons/32x32/list-add.png</file>
     </qresource>
 </RCC>

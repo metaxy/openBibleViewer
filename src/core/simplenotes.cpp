@@ -72,6 +72,7 @@ void SimpleNotes::init()
 
     m_proxyModel = new QSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_itemModel);
+    m_proxyModel->setHeaderData(0,Qt::Horizontal,tr("Note Title"));
     m_selectionModel = new QItemSelectionModel(m_proxyModel);
 
     m_treeView->setSortingEnabled(true);

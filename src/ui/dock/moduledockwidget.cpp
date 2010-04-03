@@ -33,6 +33,7 @@ void ModuleDockWidget::init()
 
     m_proxyModel = new ModuleProxyModel(this);
     m_proxyModel->setSourceModel(m_moduleManager->m_moduleModel);
+    m_proxyModel->setHeaderData(0,Qt::Horizontal,tr("Module"));
     m_selectionModel = new QItemSelectionModel(m_proxyModel);
 
     connect(ui->lineEdit_filter, SIGNAL(textChanged(QString)), m_proxyModel, SLOT(setFilterFixedString(QString)));

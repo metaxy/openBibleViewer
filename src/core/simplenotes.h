@@ -25,9 +25,6 @@ public:
     void setViewWidget(QTreeView *treeView);
     void setLinkWidget(QLabel* link);
     void setLinkButtonWidget(QPushButton* button);
-    void setSettings(Settings *settings);
-    void setNotes(Notes *notes);
-    void setModuleManager(ModuleManager *moduleManager);
     void init();
 
 signals:
@@ -53,11 +50,6 @@ private:
     QTextEdit *m_textEdit_note;
     QLabel *m_label_link;
     QPushButton *m_pushButton_link;
-
-
-    Settings *m_settings;
-    Notes *m_notes;
-    ModuleManager *m_moduleManager;
 
     QStandardItemModel *m_itemModel;
     QTreeView *m_treeView;

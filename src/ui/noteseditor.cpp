@@ -17,6 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QClipboard>
 #include <QtGui/QMenu>
 #include <QtGui/QColorDialog>
+#include <QtGui/QToolBar>
 #include "src/ui/dialog/biblepassagedialog.h"
 #include "src/core/urlconverter.h"
 NotesEditor::NotesEditor(QWidget *parent) :
@@ -24,6 +25,28 @@ NotesEditor::NotesEditor(QWidget *parent) :
         ui(new Ui::NotesEditor)
 {
     ui->setupUi(this);
+    m_simpleNotes = new SimpleNotes();
+
+    QToolBar *bar = new QToolBar(this->parentWidget());
+    bar->setIconSize(QSize(32, 32));
+#if QT_VERSION >= 0x040600
+    bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+#else
+    bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+#endif
+    bar->setObjectName("toolBar");
+    bar->setWindowTitle(tr("ToolBar"));
+
+    QAction *actionNew = new QAction(QIcon(":/icons/32x32/list-add.png"), tr("Add note"), bar);
+    connect(actionNew, SIGNAL(triggered()), m_simpleNotes, SLOT(newNote()));
+    QAction *actionSave = new QAction(QIcon(":/icons/32x32/document-save.png"), tr("Save"), bar);
+    connect(actionSave, SIGNAL(triggered()), m_simpleNotes, SLOT(save()));
+
+
+    bar->addAction(actionNew);
+    bar->addAction(actionSave);
+    addToolBar(bar);
+
 }
 
 NotesEditor::~NotesEditor()
@@ -32,11 +55,13 @@ NotesEditor::~NotesEditor()
 }
 void NotesEditor::init()
 {
-    m_simpleNotes = new SimpleNotes();
+
+
     m_simpleNotes->setModuleManager(m_moduleManager);
     m_simpleNotes->setNotes(m_notes);
     m_simpleNotes->setSettings(m_settings);
     m_simpleNotes->setBibleDisplay(m_bibleDisplay);
+
     m_simpleNotes->setDataWidget(ui->textEdit_note);
     m_simpleNotes->setViewWidget(ui->treeView);
     m_simpleNotes->setTitleWidget(ui->lineEdit_noteTitle);

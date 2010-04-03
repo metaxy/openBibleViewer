@@ -21,7 +21,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/bibledisplay.h"
 #include "src/core/settings.h"
 #include "src/core/notes.h"
-class Interface : public QWidget
+#include "src/core/basicclass.h"
+class Interface : public QWidget, public BasicClass
 {
     Q_OBJECT
 public slots:
@@ -29,16 +30,6 @@ public slots:
 
 public:
     Interface(QWidget *parent);
-    ModuleManager *m_moduleManager;
-    BibleDisplay *m_bibleDisplay;
-    Settings *m_settings;
-    Notes *m_notes;
-
-    void setModuleManager(ModuleManager *manager);
-    void setBibleDisplay(BibleDisplay *bibledisplay);
-    void setSettings(Settings *settings);
-    void setNotes(Notes *notes);
-
     bool hasMenuBar();
     QMenuBar* menuBar();
 
