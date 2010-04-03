@@ -19,6 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "dockwidget.h"
 #include "src/core/verseselection.h"
 #include "src/core/urlconverter.h"
+#include "src/core/simplenotes.h"
 namespace Ui
 {
 class NotesDockWidget;
@@ -31,20 +32,20 @@ class NotesDockWidget : public DockWidget
 {
     Q_OBJECT
 private slots:
-    void showNote(QListWidgetItem * item);
+    /*void showNote(QListWidgetItem * item);
 
     void notesContextMenu();
     void removeNote();
     void reloadNotes();
     void copyNote();
-    void editNoteLink();
+    void editNoteLink();*/
     void noteSetTextBold();
     void noteSetTextItalic();
     void noteSetTextUnderline();
     void noteSetTextColor();
     void noteUndo();
     void noteRedo();
-    void updateNote(QString pos);
+    /*void updateNote(QString pos);*/
 public slots:
     void newNote();
     void newNoteWithLink(VerseSelection selection);
@@ -65,9 +66,10 @@ signals:
     void reloadChapter();
 private:
     Ui::NotesDockWidget *ui;
-    QStringList m_textNotesID;
+    SimpleNotes *m_simpleNotes;
+  /*  QStringList m_textNotesID;
     QString m_noteID;
-    QMap<QString, QString> currentNoteRef;
+    QMap<QString, QString> currentNoteRef;*/
 
 };
 
