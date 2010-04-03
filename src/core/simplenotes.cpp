@@ -221,6 +221,7 @@ void SimpleNotes::newNote(void)
 {
     aktNote();
     fastSave();
+    m_selectionModel->clearSelection();
 
     QString newID = m_notes->generateNewID();
     m_notes->setData(newID, "");
