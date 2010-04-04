@@ -31,6 +31,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QKeySequence>
 #include "src/ui/dialog/aboutdialog.h"
 #include "src/ui/noteseditor.h"
+#include "src/ui/marklist.h"
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
         Interface(parent),
         ui(new Ui::AdvancedInterface)
@@ -1595,6 +1596,13 @@ void AdvancedInterface::showMarkCategories()
 }
 void AdvancedInterface::showMarkList()
 {
+    MarkList *markList = new MarkList(this);
+    markList->setSettings(m_settings);
+    markList->setModuleManager(m_moduleManager);
+    markList->setNotes(m_notes);
+    markList->setBibleDisplay(m_bibleDisplay);
+    markList->init();
+    markList->show();
 }
 void AdvancedInterface::showNotesEditor()
 {

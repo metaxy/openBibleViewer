@@ -15,24 +15,35 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define MARKLIST_H
 
 #include <QDialog>
-
+#include <QtGui/QSortFilterProxyModel>
+#include <QItemSelectionModel>
+#include "src/core/basicclass.h"
 namespace Ui
 {
 class MarkList;
 }
 
-class MarkList : public QDialog
+class MarkList : public QDialog, public BasicClass
 {
     Q_OBJECT
+signals:
+    void get(QString url);
+private slots:
+    void load(QModelIndex index);
 public:
     MarkList(QWidget *parent = 0);
     ~MarkList();
+    void init();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
     Ui::MarkList *ui;
+    QStandardItemModel *m_itemModel;
+    QTreeView *m_treeView;
+    QSortFilterProxyModel *m_proxyModel;
+    QItemSelectionModel *m_selectionModel;
 };
 
 #endif // MARKLIST_H

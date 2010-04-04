@@ -108,7 +108,6 @@ QString Notes::getTitle(const QString &id)
 QString Notes::getData(const QString &id)
 {
     //DEBUG_FUNC_NAME
-    myDebug() << " id = " << id;
     if (!notesData[id].isEmpty())
         return notesData[id];
     else
@@ -239,6 +238,7 @@ void Notes::insertID(const QString &id)
     // DEBUG_FUNC_NAME
     // myDebug() << " id = " << id;
     notesID << id;
+    emit noteAdded(id);
 }
 /*!
  Remove Note
@@ -252,6 +252,7 @@ void Notes::removeNote(const QString &id)
     notesData.remove(id);
     notesRef.remove(id);
     notesID.removeOne(id);
+    emit noteRemoved(id);
 }
 /*!
   Pharse note data from the xml-file

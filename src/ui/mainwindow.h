@@ -23,6 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings.h"
 #include "src/core/notes.h"
 #include "src/core/session.h"
+#include "src/ui/interface/interface.h"
 #include "src/ui/interface/simple/simpleinterface.h"
 #include "src/ui/interface/advanced/advancedinterface.h"
 #include "src/ui/interface/study/studyinterface.h"
@@ -76,9 +77,10 @@ signals:
     void closing();
 private:
     Ui::MainWindow *ui;
-    SimpleInterface *simpleInterface;
+    Interface *m_interface;
+   /* SimpleInterface *simpleInterface;
     AdvancedInterface *advancedInterface ;
-    StudyInterface *studyInterface;
+    StudyInterface *studyInterface;*/
     QToolBar *toolBar;
 };
 

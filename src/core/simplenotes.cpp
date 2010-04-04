@@ -53,6 +53,8 @@ void SimpleNotes::init()
     connect(m_notes,SIGNAL(titleChanged(QString,QString)), this, SLOT(changeTitle(QString,QString)));
     connect(m_notes,SIGNAL(dataChanged(QString,QString)),this,SLOT(changeData(QString,QString)));
     connect(m_notes,SIGNAL(refChanged(QString,QMap<QString,QString>)),this,SLOT(changeRef(QString,QMap<QString,QString>)));
+    connect(m_notes,SIGNAL(noteAdded(QString)),this,SLOT(addNote(QString)));
+    connect(m_notes,SIGNAL(noteRemoved(QString)),this,SLOT(removeNote(QString)));
 
     m_itemModel->clear();
     QStringList id = m_notes->getIDList();
@@ -62,10 +64,10 @@ void SimpleNotes::init()
     for (int i = 0; i < id.size(); i++) {
         if (m_notes->getType(id.at(i)) == "text") {
 
-            QStandardItem *bibleItem = new QStandardItem;
-            bibleItem->setText(m_notes->getTitle(id.at(i)));
-            bibleItem->setData(id.at(i));
-            parentItem->appendRow(bibleItem);
+            QStandardItem *noteItem = new QStandardItem;
+            noteItem->setText(m_notes->getTitle(id.at(i)));
+            noteItem->setData(id.at(i));
+            parentItem->appendRow(noteItem);
         }
     }
     m_noteID = "";
@@ -196,6 +198,8 @@ void SimpleNotes::fastSave(void)
 }
 void SimpleNotes::aktNote()
 {
+    if(m_noteID == "")
+        return;
     QModelIndexList list = m_treeView->model()->match(m_treeView->model()->index(0, 0), Qt::UserRole + 1, m_noteID);
     if (list.size() != 1) {
         myDebug() << "invalid noteID = " << m_noteID;
@@ -230,9 +234,9 @@ void SimpleNotes::newNote(void)
 
     currentNoteRef = QMap<QString, QString>();
     m_notes->setRef(newID, currentNoteRef);
-
-    m_notes->insertID(newID);
     m_noteID = newID;
+    m_notes->insertID(newID);
+
 
     QStandardItem *parentItem = m_itemModel->invisibleRootItem();
     QStandardItem *newItem = new QStandardItem;
@@ -246,6 +250,18 @@ void SimpleNotes::newNote(void)
     setRef(currentNoteRef);
 
 }
+void SimpleNotes::addNote(QString id)
+{
+    if(m_noteID != id) {
+        //todo: if there is already this note(but something like that should never happen)
+        QStandardItem *parentItem = m_itemModel->invisibleRootItem();
+        QStandardItem *newItem = new QStandardItem;
+        newItem->setText(m_notes->getTitle(id));
+        newItem->setData(id);
+        parentItem->appendRow(newItem);
+    }
+}
+
 void SimpleNotes::newNoteWithLink(VerseSelection selection)
 {
     //DEBUG_FUNC_NAME
@@ -338,4 +354,19 @@ void SimpleNotes::removeNote(void)
         m_notes->removeNote(id);
         m_treeView->model()->removeRow(list.at(i).row());
     }
+}
+void SimpleNotes::removeNote(QString id)
+{
+    if(id == m_noteID) {
+        setTitle("");
+        setData("");
+        setRef(QMap<QString,QString>());
+    }
+    QModelIndexList list = m_treeView->model()->match(m_treeView->model()->index(0, 0), Qt::UserRole + 1, id);
+    if (list.size() != 1) {
+        myDebug() << "invalid noteID = " << m_noteID;
+        return;
+    }
+    QModelIndex index = list.at(0);
+    m_treeView->model()->removeRow(index.row());
 }

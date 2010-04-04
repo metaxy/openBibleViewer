@@ -26,15 +26,15 @@ class Interface : public QWidget, public BasicClass
 {
     Q_OBJECT
 public slots:
-    void closing();
+    virtual void closing();
 
 public:
     Interface(QWidget *parent);
-    bool hasMenuBar();
-    QMenuBar* menuBar();
+    virtual bool hasMenuBar();
+    virtual QMenuBar* menuBar();
 
-    bool hasToolBar();
-    QToolBar* toolBar();
+    virtual bool hasToolBar();
+    virtual QToolBar* toolBar();
 
 };
 

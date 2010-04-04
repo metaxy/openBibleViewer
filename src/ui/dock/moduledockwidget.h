@@ -33,6 +33,7 @@ class ModuleDockWidget : public DockWidget
     Q_OBJECT
 private slots:
     void loadModuleData(QModelIndex index);
+    void filter(QString string);
 public:
     ModuleDockWidget(QWidget *parent = 0);
     ~ModuleDockWidget();
@@ -49,6 +50,7 @@ private:
     int m_moduleID;
     ModuleProxyModel *m_proxyModel;
     QItemSelectionModel *m_selectionModel;
+    bool first;
     //  void iterateTreeWidget(QTreeWidgetItem *parent = 0);
 //   void iterateTreeWidgetHide(QTreeWidgetItem *parent = 0);
 

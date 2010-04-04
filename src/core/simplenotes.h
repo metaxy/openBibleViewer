@@ -40,6 +40,8 @@ private slots:
     void changeData(QString id, QString data);
     void changeTitle(QString id, QString title);
     void changeRef(QString id, QMap<QString, QString> ref);
+    void addNote(QString id);
+    void removeNote(QString id);
     void showNote(QModelIndex index);
     void notesContextMenu();
     void removeNote();

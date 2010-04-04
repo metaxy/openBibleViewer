@@ -23,6 +23,7 @@ ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
 {
     ui->setupUi(this);
     m_dontLoad = false;
+    first = false;
 }
 /**
   Init the ModuleDockWidget. Init proxyModel and selectionModel.
@@ -34,9 +35,11 @@ void ModuleDockWidget::init()
     m_proxyModel = new ModuleProxyModel(this);
     m_proxyModel->setSourceModel(m_moduleManager->m_moduleModel);
     m_proxyModel->setHeaderData(0,Qt::Horizontal,tr("Module"));
+    m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     m_selectionModel = new QItemSelectionModel(m_proxyModel);
+    connect(ui->lineEdit_filter, SIGNAL(textChanged(QString)), this, SLOT(filter(QString)));
+  //  connect(ui->lineEdit_filter, SIGNAL(textChanged(QString)), m_proxyModel, SLOT(setFilterFixedString(QString)));
 
-    connect(ui->lineEdit_filter, SIGNAL(textChanged(QString)), m_proxyModel, SLOT(setFilterFixedString(QString)));
     connect(ui->treeView_module, SIGNAL(clicked(QModelIndex)), this, SLOT(loadModuleData(QModelIndex)));
 
     ui->treeView_module->setSortingEnabled(true);
@@ -67,6 +70,19 @@ void ModuleDockWidget::loadedModule(int id)
     if (list.size() == 1) {
         m_selectionModel->setCurrentIndex(list.at(0), QItemSelectionModel::Select);
     }
+}
+void ModuleDockWidget::filter(QString string)
+{
+    if(first == false && string != "")
+    {
+        first = true;
+        QModelIndexList list = ui->treeView_module->model()->match(ui->treeView_module->model()->index(0, 0), Qt::UserRole + 1, "-1");
+        qDebug() << "list.size() = " << list.size();
+        for(int i = 0; i < list.size();++i) {
+            ui->treeView_module->setExpanded(list.at(i),true);
+        }
+    }
+    m_proxyModel->setFilterFixedString(string);
 }
 
 ModuleDockWidget::~ModuleDockWidget()
