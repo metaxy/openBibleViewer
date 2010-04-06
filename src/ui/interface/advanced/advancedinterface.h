@@ -104,8 +104,6 @@ public:
     void setStrongDockWidget(StrongDockWidget *strongDockWidget);
     void setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget);
 
-
-
     SearchResultDockWidget *m_searchResultDockWidget;
     BookDockWidget *m_bookDockWidget;
     ModuleDockWidget *m_moduleDockWidget;
@@ -119,6 +117,7 @@ protected:
 signals:
     void get(QString);
     void historySetUrl(QString url);
+    void reloadInterface();
 private:
     Ui::AdvancedInterface *ui;
     bool m_enableReload;

@@ -1269,6 +1269,7 @@ void AdvancedInterface::settingsChanged(Settings set)
         //ui->textBrowser->setHtml("");
         //todo: clear everything
     }
+
 }
 void AdvancedInterface::showSearchDialog()
 {
@@ -1321,7 +1322,7 @@ bool AdvancedInterface::hasMenuBar()
 }
 QMenuBar* AdvancedInterface::menuBar()
 {
-    QMenuBar *bar = new QMenuBar(this->parentWidget());
+    QMenuBar *bar = new QMenuBar(parentWidget());
     QMenu *menuFile = new QMenu(tr("File"), bar);
 
     QAction *actionNewSubWindow = new QAction(QIcon(":/icons/16x16/tab-new.png"), tr("New SubWindow"), menuFile);

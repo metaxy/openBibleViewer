@@ -62,6 +62,7 @@ protected:
     bool eventFilter(QObject *obj, QEvent *ev);
 signals:
     void get(QString);
+    void reloadInterface();
 private:
     Ui::SimpleInterface *ui;
     ModuleDockWidget *m_moduleDockWidget;

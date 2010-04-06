@@ -41,28 +41,17 @@ public slots:
     void showSettingsDialog_Module();
     void showSettingsDialog_General();
     void saveSettings(Settings set);
+    void reloadInterface();
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void init(const QString &homeDataPath);
-    void loadSimpleInterface();
-    void loadAdvancedInterface();
-    void loadStudyInterface();
-    void loadDefaultSettings();
-    void loadSettings();
-    void restoreSession();
-    ModuleManager *m_moduleManager;
-    BibleDisplay *m_bibleDisplay;
-    Settings *m_settings;
-    Notes *m_notes;
-    Session *m_session;
     QSettings *m_settingsFile;
     QString VERSION, BUILD;
     QString m_homeDataPath;
     void setSettings(Settings *setttings);
     void setSettings(Settings settings);
     void writeSettings();
-
     void showSettingsDialog(int tabID);
     void loadLanguage(QString language);
     void setTranslator(QTranslator *my, QTranslator *qt);
@@ -82,6 +71,20 @@ private:
     AdvancedInterface *advancedInterface ;
     StudyInterface *studyInterface;*/
     QToolBar *toolBar;
+    void loadInterface();
+    void deleteInterface();
+    ModuleManager *m_moduleManager;
+    BibleDisplay *m_bibleDisplay;
+    Settings *m_settings;
+    Notes *m_notes;
+    Session *m_session;
+    void loadSimpleInterface();
+    void loadAdvancedInterface();
+    void loadStudyInterface();
+    void loadDefaultSettings();
+    void loadSettings();
+    void restoreSession();
+
 };
 
 #endif // MAINWINDOW_H

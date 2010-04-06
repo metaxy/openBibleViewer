@@ -70,102 +70,125 @@ void MainWindow::init(const QString &homeDataPath)
 
     m_moduleManager->setSettings(m_settings);
     m_moduleManager->loadAllModules();
-
-    loadAdvancedInterface();
+    loadInterface();
     restoreSession();
+}
+void MainWindow::loadInterface()
+{
+    QString interface = m_settings->session.getData("interface").toString();
+    myDebug() << "interface = " << interface;
+    if(interface == "advanced") {
+        loadAdvancedInterface();
+    } else if(interface == "simple") {
+        loadSimpleInterface();
+    } else {
+        loadAdvancedInterface();
+    }
+}
+void MainWindow::deleteInterface()
+{
+    m_interface->disconnect();
+    delete this->centralWidget();
+    //delete m_interface;
+}
+void MainWindow::reloadInterface()
+{
+    DEBUG_FUNC_NAME
+    deleteInterface();
+    loadInterface();
 }
 void MainWindow::loadSimpleInterface()
 {
-    simpleInterface = new SimpleInterface(this);
-    simpleInterface->setModuleManager(m_moduleManager);
-    simpleInterface->setBibleDisplay(m_bibleDisplay);
-    simpleInterface->setSettings(m_settings);
-    simpleInterface->setNotes(m_notes);
+    m_interface = new SimpleInterface(this);
+    m_interface->setModuleManager(m_moduleManager);
+    m_interface->setBibleDisplay(m_bibleDisplay);
+    m_interface->setSettings(m_settings);
+    m_interface->setNotes(m_notes);
 
     ModuleDockWidget *moduleDockWidget = new ModuleDockWidget(this);
-    simpleInterface->setModuleDockWidget(moduleDockWidget);
+    m_interface->setModuleDockWidget(moduleDockWidget);
     addDockWidget(Qt::LeftDockWidgetArea, moduleDockWidget);
 
     BookDockWidget *bookDockWidget = new BookDockWidget(this);
-    simpleInterface->setBookDockWidget(bookDockWidget);
+    m_interface->setBookDockWidget(bookDockWidget);
     addDockWidget(Qt::LeftDockWidgetArea, bookDockWidget);
 
     SearchResultDockWidget *searchResultDockWidget = new SearchResultDockWidget(this);
-    simpleInterface->setSearchResultDockWidget(searchResultDockWidget);
+    m_interface->setSearchResultDockWidget(searchResultDockWidget);
     addDockWidget(Qt::LeftDockWidgetArea, searchResultDockWidget);
 
-    simpleInterface->init();
-    setCentralWidget(simpleInterface);
-    if (simpleInterface->hasMenuBar())
-        setMenuBar(simpleInterface->menuBar());
-    if (simpleInterface->hasToolBar())
-        addToolBar(simpleInterface->toolBar());
-    connect(this, SIGNAL(settingsChanged(Settings)), simpleInterface, SLOT(settingsChanged(Settings)));
-    connect(this, SIGNAL(closing()), simpleInterface, SLOT(closing()));
+    m_interface->init();
+    setCentralWidget(m_interface);
+    if (m_interface->hasMenuBar())
+        setMenuBar(m_interface->menuBar());
+    if (m_interface->hasToolBar())
+        addToolBar(m_interface->toolBar());
+    connect(this, SIGNAL(settingsChanged(Settings)), m_interface, SLOT(settingsChanged(Settings)));
+    connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
 }
 
 void MainWindow::loadAdvancedInterface()
 {
-    advancedInterface = new AdvancedInterface(this);
-    advancedInterface->setModuleManager(m_moduleManager);
-    advancedInterface->setBibleDisplay(m_bibleDisplay);
-    advancedInterface->setSettings(m_settings);
-    advancedInterface->setNotes(m_notes);
+    m_interface = new AdvancedInterface(this);
+    m_interface->setModuleManager(m_moduleManager);
+    m_interface->setBibleDisplay(m_bibleDisplay);
+    m_interface->setSettings(m_settings);
+    m_interface->setNotes(m_notes);
 
     ModuleDockWidget *moduleDockWidget = new ModuleDockWidget(this);
-    advancedInterface->setModuleDockWidget(moduleDockWidget);
+    m_interface->setModuleDockWidget(moduleDockWidget);
     addDockWidget(Qt::LeftDockWidgetArea, moduleDockWidget);
 
     BookDockWidget *bookDockWidget = new BookDockWidget(this);
-    advancedInterface->setBookDockWidget(bookDockWidget);
+    m_interface->setBookDockWidget(bookDockWidget);
     addDockWidget(Qt::LeftDockWidgetArea, bookDockWidget);
 
     SearchResultDockWidget *searchResultDockWidget = new SearchResultDockWidget(this);
-    advancedInterface->setSearchResultDockWidget(searchResultDockWidget);
+    m_interface->setSearchResultDockWidget(searchResultDockWidget);
     addDockWidget(Qt::LeftDockWidgetArea, searchResultDockWidget);
 
     NotesDockWidget *notesDockWidget = new NotesDockWidget(this);
-    advancedInterface->setNotesDockWidget(notesDockWidget);
+    m_interface->setNotesDockWidget(notesDockWidget);
     addDockWidget(Qt::RightDockWidgetArea, notesDockWidget);
 
     BookmarksDockWidget *bookmarksDockWidget = new BookmarksDockWidget(this);
-    advancedInterface->setBookmarksDockWidget(bookmarksDockWidget);
+    m_interface->setBookmarksDockWidget(bookmarksDockWidget);
     addDockWidget(Qt::RightDockWidgetArea, bookmarksDockWidget);
 
     StrongDockWidget *strongDockWidget = new StrongDockWidget(this);
-    advancedInterface->setStrongDockWidget(strongDockWidget);
+    m_interface->setStrongDockWidget(strongDockWidget);
     addDockWidget(Qt::RightDockWidgetArea, strongDockWidget);
 
     QuickJumpDockWidget *quickJumpDockWidget = new QuickJumpDockWidget(this);
-    advancedInterface->setQuickJumpDockWidget(quickJumpDockWidget);
+    m_interface->setQuickJumpDockWidget(quickJumpDockWidget);
     addDockWidget(Qt::RightDockWidgetArea, quickJumpDockWidget);
 
 
-    setCentralWidget(advancedInterface);
+    setCentralWidget(m_interface);
 
-    if (advancedInterface->hasMenuBar())
-        setMenuBar(advancedInterface->menuBar());
-    if (advancedInterface->hasToolBar()) {
-        toolBar = advancedInterface->toolBar();
+    if (m_interface->hasMenuBar())
+        setMenuBar(m_interface->menuBar());
+    if (m_interface->hasToolBar()) {
+        toolBar = m_interface->toolBar();
         addToolBar(toolBar);
     }
-    connect(this, SIGNAL(settingsChanged(Settings)), advancedInterface, SLOT(settingsChanged(Settings)));
-    connect(this, SIGNAL(closing()), advancedInterface, SLOT(closing()));
-    advancedInterface->init();
+    connect(this, SIGNAL(settingsChanged(Settings)), m_interface, SLOT(settingsChanged(Settings)));
+    connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
+    m_interface->init();
 
-    QTimer::singleShot(1, advancedInterface, SLOT(restoreSession()));
+    QTimer::singleShot(1, m_interface, SLOT(restoreSession()));
 
 
 }
 void MainWindow::loadStudyInterface()
 {
-    studyInterface = new StudyInterface(this);
-    studyInterface->setModuleManager(m_moduleManager);
-    studyInterface->setBibleDisplay(m_bibleDisplay);
-    studyInterface->setSettings(m_settings);
-    studyInterface->setNotes(m_notes);
-    studyInterface->init();
-    setCentralWidget(studyInterface);
+    m_interface = new StudyInterface(this);
+    m_interface->setModuleManager(m_moduleManager);
+    m_interface->setBibleDisplay(m_bibleDisplay);
+    m_interface->setSettings(m_settings);
+    m_interface->setNotes(m_notes);
+    m_interface->init();
+    setCentralWidget(m_interface);
 }
 void MainWindow::setSettings(Settings *set)
 {
@@ -369,9 +392,17 @@ void MainWindow::saveSettings(Settings set)
     if (m_settings->language != set.language /* || m_settings->theme != set->theme*/) {
         loadLanguage(set.language);
     }
+    myDebug() << "m_settings = " << m_settings->session.getData("interface","advanced");
+    myDebug() << "set = " << set.session.getData("interface","advanced");
+    if( m_settings->session.getData("interface","advanced") != set.session.getData("interface","advanced")) {
+        m_settings->session.setData("interface",set.session.getData("interface","advanced"));
+        myDebug() << "loading new interface";
+        reloadInterface();
+    }
+    emit settingsChanged(set);
     setSettings(set);
     writeSettings();
-    emit settingsChanged(set);
+
 }
 void MainWindow::showSettingsDialog(int tabID)
 {
@@ -449,12 +480,12 @@ void MainWindow::changeEvent(QEvent *e)
     switch (e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
-        if (advancedInterface->hasMenuBar())
-            setMenuBar(advancedInterface->menuBar());
+        if (m_interface->hasMenuBar())
+            setMenuBar(m_interface->menuBar());
 
-        if (advancedInterface->hasToolBar()) {
+        if (m_interface->hasToolBar()) {
             removeToolBar(toolBar);
-            toolBar = advancedInterface->toolBar();
+            toolBar = m_interface->toolBar();
             addToolBar(toolBar);
         }
         //todo: ugly

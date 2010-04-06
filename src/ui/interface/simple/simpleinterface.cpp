@@ -416,6 +416,8 @@ void SimpleInterface::settingsChanged(Settings set)
         ui->textBrowser->setHtml("");
         //todo: clear everything
     }
+    myDebug() << "m_settings = " << m_settings->session.getData("interface","advanced");
+    myDebug() << "set = " << set.session.getData("interface","advanced");
 }
 void SimpleInterface::showSearchDialog()
 {

@@ -22,6 +22,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings.h"
 #include "src/core/notes.h"
 #include "src/core/basicclass.h"
+#include "src/ui/dock/bookdockwidget.h"
+#include "src/ui/dock/moduledockwidget.h"
+#include "src/ui/dock/searchresultdockwidget.h"
+#include "src/ui/dock/notesdockwidget.h"
+#include "src/ui/dock/bookmarksdockwidget.h"
+#include "src/ui/dock/strongdockwidget.h"
+#include "src/ui/dock/quickjumpdockwidget.h"
 class Interface : public QWidget, public BasicClass
 {
     Q_OBJECT
@@ -35,6 +42,16 @@ public:
 
     virtual bool hasToolBar();
     virtual QToolBar* toolBar();
+
+    virtual void init();
+
+    virtual void setBookDockWidget(BookDockWidget *bookDockWidget);
+    virtual void setModuleDockWidget(ModuleDockWidget *moduleDockWidget);
+    virtual void setSearchResultDockWidget(SearchResultDockWidget *searchResultDockWidget);
+    virtual void setNotesDockWidget(NotesDockWidget *notesDockWidget);
+    virtual void setBookmarksDockWidget(BookmarksDockWidget *boockmarksDockWidget);
+    virtual void setStrongDockWidget(StrongDockWidget *strongDockWidget);
+    virtual void setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget);
 
 };
 

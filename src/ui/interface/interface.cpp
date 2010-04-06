@@ -38,3 +38,36 @@ void Interface::closing()
 {
 }
 
+void Interface::setBookDockWidget(BookDockWidget *bookDockWidget)
+{
+    Q_UNUSED(bookDockWidget);
+}
+void Interface::setModuleDockWidget(ModuleDockWidget *moduleDockWidget)
+{
+    Q_UNUSED(moduleDockWidget);
+}
+void Interface::setSearchResultDockWidget(SearchResultDockWidget *searchResultDockWidget)
+{
+    Q_UNUSED(searchResultDockWidget);
+}
+void Interface::setNotesDockWidget(NotesDockWidget *notesDockWidget)
+{
+    Q_UNUSED(notesDockWidget);
+
+}
+void Interface::setBookmarksDockWidget(BookmarksDockWidget *bookmarksDockWidget)
+{
+    Q_UNUSED(bookmarksDockWidget);
+}
+void Interface::setStrongDockWidget(StrongDockWidget *strongDockWidget)
+{
+    Q_UNUSED(strongDockWidget);
+}
+void Interface::setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget)
+{
+    Q_UNUSED(quickJumpDockWidget);
+}
+void Interface::init()
+{
+
+}
