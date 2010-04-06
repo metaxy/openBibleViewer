@@ -53,6 +53,14 @@ public:
     virtual void setStrongDockWidget(StrongDockWidget *strongDockWidget);
     virtual void setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget);
 
+    SearchResultDockWidget *m_searchResultDockWidget;
+    BookDockWidget *m_bookDockWidget;
+    ModuleDockWidget *m_moduleDockWidget;
+    NotesDockWidget *m_notesDockWidget;
+    BookmarksDockWidget * m_bookmarksDockWidget;
+    StrongDockWidget * m_strongDockWidget;
+    QuickJumpDockWidget * m_quickJumpDockWidget;
+
 };
 
 #endif // INTERFACE_H

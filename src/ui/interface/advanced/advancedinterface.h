@@ -104,13 +104,7 @@ public:
     void setStrongDockWidget(StrongDockWidget *strongDockWidget);
     void setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget);
 
-    SearchResultDockWidget *m_searchResultDockWidget;
-    BookDockWidget *m_bookDockWidget;
-    ModuleDockWidget *m_moduleDockWidget;
-    NotesDockWidget *m_notesDockWidget;
-    BookmarksDockWidget * m_bookmarksDockWidget;
-    StrongDockWidget * m_strongDockWidget;
-    QuickJumpDockWidget * m_quickJumpDockWidget;
+
 
 protected:
     void changeEvent(QEvent *e);

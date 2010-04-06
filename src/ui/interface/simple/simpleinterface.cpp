@@ -28,6 +28,7 @@ SimpleInterface::SimpleInterface(QWidget *parent) :
     ui->setupUi(this);
     ui->textBrowser->installEventFilter(this);
     connect(ui->textBrowser, SIGNAL(anchorClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
+
 }
 void SimpleInterface::setBookDockWidget(BookDockWidget *bookDockWidget)
 {
@@ -44,6 +45,7 @@ void SimpleInterface::setSearchResultDockWidget(SearchResultDockWidget *searchRe
 
 void SimpleInterface::init()
 {
+
     m_moduleManager->m_bible.setSettings(m_settings);
 
     m_moduleDockWidget->setBibleDisplay(m_bibleDisplay);
@@ -118,6 +120,7 @@ bool SimpleInterface::hasToolBar()
 QToolBar * SimpleInterface::toolBar()
 {
     QToolBar *bar = new QToolBar(this->parentWidget());
+    bar->setObjectName("mainToolBar");
     bar->setIconSize(QSize(32, 32));
 #if QT_VERSION >= 0x040600
     bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);

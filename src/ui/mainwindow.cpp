@@ -23,6 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QLibraryInfo>
 #include <QtCore/QMapIterator>
 #include <QtCore/QTimer>
+#include <typeinfo>
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
         ui(new Ui::MainWindow)
@@ -75,6 +76,7 @@ void MainWindow::init(const QString &homeDataPath)
 }
 void MainWindow::loadInterface()
 {
+    DEBUG_FUNC_NAME
     QString interface = m_settings->session.getData("interface").toString();
     myDebug() << "interface = " << interface;
     if(interface == "advanced") {
@@ -87,9 +89,47 @@ void MainWindow::loadInterface()
 }
 void MainWindow::deleteInterface()
 {
-    m_interface->disconnect();
+    DEBUG_FUNC_NAME
+    if(m_interface->hasToolBar()) {
+        myDebug() << "removing toolbar bar = " << m_interface->toolBar();
+        removeToolBar(toolBar);
+
+    }
+    if(m_interface->hasMenuBar())
+        delete m_interface->menuBar();
+
+
+    if(typeid(*m_interface) == typeid(SimpleInterface)) {
+        myDebug() << "delete simpleInterface";
+
+        if(m_interface->m_moduleDockWidget) {
+            removeDockWidget(m_interface->m_moduleDockWidget);
+        }
+        if(m_interface->m_bookDockWidget) {
+            removeDockWidget(m_interface->m_bookDockWidget);
+        }
+        if(m_interface->m_searchResultDockWidget)
+            removeDockWidget(m_interface->m_searchResultDockWidget);
+
+    } else if(typeid(*m_interface) == typeid(AdvancedInterface)) {
+        myDebug() << "delete advacedinterface";
+        if(m_interface->m_moduleDockWidget)
+            removeDockWidget(m_interface->m_moduleDockWidget);
+        if(m_interface->m_bookDockWidget)
+            removeDockWidget(m_interface->m_bookDockWidget);
+        if(m_interface->m_searchResultDockWidget)
+            removeDockWidget(m_interface->m_searchResultDockWidget);
+
+        if(m_interface->m_notesDockWidget)
+            removeDockWidget(m_interface->m_notesDockWidget);
+        if(m_interface->m_bookmarksDockWidget)
+            removeDockWidget(m_interface->m_bookmarksDockWidget);
+        if(m_interface->m_strongDockWidget)
+            removeDockWidget(m_interface->m_strongDockWidget);
+        if(m_interface->m_quickJumpDockWidget)
+            removeDockWidget(m_interface->m_quickJumpDockWidget);
+    }
     delete this->centralWidget();
-    //delete m_interface;
 }
 void MainWindow::reloadInterface()
 {
@@ -122,7 +162,8 @@ void MainWindow::loadSimpleInterface()
     if (m_interface->hasMenuBar())
         setMenuBar(m_interface->menuBar());
     if (m_interface->hasToolBar())
-        addToolBar(m_interface->toolBar());
+        toolBar = m_interface->toolBar();
+        addToolBar(toolBar);
     connect(this, SIGNAL(settingsChanged(Settings)), m_interface, SLOT(settingsChanged(Settings)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
 }
@@ -479,7 +520,9 @@ void MainWindow::changeEvent(QEvent *e)
     QMainWindow::changeEvent(e);
     switch (e->type()) {
     case QEvent::LanguageChange:
+        myDebug() << "retranslate";
         ui->retranslateUi(this);
+
         if (m_interface->hasMenuBar())
             setMenuBar(m_interface->menuBar());
 

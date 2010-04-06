@@ -65,9 +65,6 @@ signals:
     void reloadInterface();
 private:
     Ui::SimpleInterface *ui;
-    ModuleDockWidget *m_moduleDockWidget;
-    BookDockWidget *m_bookDockWidget;
-    SearchResultDockWidget *m_searchResultDockWidget;
     WindowCache m_windowCache;
     void setTitle(const QString &title);
     void setChapters(const QStringList &chapters);

@@ -68,6 +68,7 @@ void AdvancedInterface::setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDoc
 }
 void AdvancedInterface::init()
 {
+
     m_moduleManager->m_bible.setSettings(m_settings);
 
     m_moduleDockWidget->setBibleDisplay(m_bibleDisplay);
@@ -1449,13 +1450,13 @@ bool AdvancedInterface::hasToolBar()
 QToolBar * AdvancedInterface::toolBar()
 {
     QToolBar *bar = new QToolBar(this->parentWidget());
+    bar->setObjectName("mainToolBar");
     bar->setIconSize(QSize(32, 32));
 #if QT_VERSION >= 0x040600
     bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
 #else
     bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 #endif
-    bar->setObjectName("toolBar");
     bar->setWindowTitle(tr("ToolBar"));
     QAction *actionSearch = new QAction(QIcon(":/icons/32x32/edit-find.png"), tr("Search"), bar);
     connect(actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
@@ -1514,7 +1515,6 @@ void AdvancedInterface::showNotesDock()
     } else {
         m_notesDockWidget->show();
     }
-
 }
 void AdvancedInterface::newBookmark()
 {

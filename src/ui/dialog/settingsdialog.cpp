@@ -111,10 +111,11 @@ int SettingsDialog::setSettings(Settings settings)
     QString i = m_set.session.getData("interface","advanced").toString();
     qDebug() << "interface = " << i;
     if(i == "advanced") {
-        currentInterface = 0;
-    } else if(i == "simple") {
         currentInterface = 1;
+    } else if(i == "simple") {
+        currentInterface = 0;
     }
+    myDebug() << " currentInterface = " << currentInterface;
     m_ui->comboBox_interface->setCurrentIndex(currentInterface);
 
     return 0;
