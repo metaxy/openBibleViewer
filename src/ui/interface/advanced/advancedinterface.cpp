@@ -533,6 +533,10 @@ void AdvancedInterface::pharseUrl(QString url)
                 int bookID = c.at(0).toInt();
                 int chapterID = c.at(1).toInt();
                 int verseID = c.at(2).toInt();
+                if(bookID < 0 || chapterID < 0 || verseID < 0) {
+                    myDebug() << "invalid url";
+                    return;
+                }
                 if (bibleID != m_moduleManager->m_bible.bibleID()) {
                     loadModuleDataByID(bibleID);//todo: select the right module in treewidget
                     readBookByID(bookID);
@@ -1240,22 +1244,22 @@ void AdvancedInterface::restoreSession()
         setTabView();
     //restore
 }
-void AdvancedInterface::settingsChanged(Settings set)
+void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettings)
 {
     //DEBUG_FUNC_NAME
     //reload books
     bool reloadBibles = false;
-    if (m_settings->encoding != set.encoding) {
+    if (oldSettings.encoding != newSettings.encoding) {
         reloadBibles = true;
     }
-    for (int i = 0; i < set.module.size(); ++i) {
-        if (m_settings->module.size() < i || m_settings->module.empty()) {
+    for (int i = 0; i < newSettings.module.size(); ++i) {
+        if (oldSettings.module.size() < i || oldSettings.module.empty()) {
             reloadBibles = true;
             break;
         } else {
             ModuleSettings m1, m2;
-            m1 = set.module.at(i);
-            m2 = m_settings->module.at(i);
+            m1 = newSettings.module.at(i);
+            m2 = oldSettings.module.at(i);
             if (memcmp(&m1, &m2, sizeof(ModuleSettings))) {
                 reloadBibles = true;
                 break;

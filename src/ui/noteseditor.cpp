@@ -69,8 +69,6 @@ void NotesEditor::init()
     m_simpleNotes->setLinkWidget(ui->label_noteLink);
     m_simpleNotes->init();
 
-
-    connect(ui->pushButton_note_save, SIGNAL(clicked()), m_simpleNotes , SLOT(saveNote()));
     connect(ui->toolButton_noteBold, SIGNAL(clicked()), this, SLOT(noteSetTextBold()));
     connect(ui->toolButton_noteItalic, SIGNAL(clicked()), this, SLOT(noteSetTextItalic()));
     connect(ui->toolButton_noteUnderline, SIGNAL(clicked()), this, SLOT(noteSetTextUnderline()));

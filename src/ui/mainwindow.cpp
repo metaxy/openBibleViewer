@@ -95,8 +95,9 @@ void MainWindow::deleteInterface()
         removeToolBar(toolBar);
 
     }
-    if(m_interface->hasMenuBar())
-        delete m_interface->menuBar();
+    if(m_interface->hasMenuBar()) {
+        delete menuBar;
+    }
 
 
     if(typeid(*m_interface) == typeid(SimpleInterface)) {
@@ -159,12 +160,14 @@ void MainWindow::loadSimpleInterface()
 
     m_interface->init();
     setCentralWidget(m_interface);
-    if (m_interface->hasMenuBar())
-        setMenuBar(m_interface->menuBar());
+    if (m_interface->hasMenuBar()) {
+        menuBar = m_interface->menuBar();
+        setMenuBar(menuBar);
+    }
     if (m_interface->hasToolBar())
         toolBar = m_interface->toolBar();
         addToolBar(toolBar);
-    connect(this, SIGNAL(settingsChanged(Settings)), m_interface, SLOT(settingsChanged(Settings)));
+    connect(this, SIGNAL(settingsChanged(Settings,Settings)), m_interface, SLOT(settingsChanged(Settings,Settings)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
 }
 
@@ -207,13 +210,15 @@ void MainWindow::loadAdvancedInterface()
 
     setCentralWidget(m_interface);
 
-    if (m_interface->hasMenuBar())
-        setMenuBar(m_interface->menuBar());
+    if (m_interface->hasMenuBar()) {
+        menuBar = m_interface->menuBar();
+        setMenuBar(menuBar);
+    }
     if (m_interface->hasToolBar()) {
         toolBar = m_interface->toolBar();
         addToolBar(toolBar);
     }
-    connect(this, SIGNAL(settingsChanged(Settings)), m_interface, SLOT(settingsChanged(Settings)));
+    connect(this, SIGNAL(settingsChanged(Settings,Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
     m_interface->init();
 
@@ -426,24 +431,22 @@ void MainWindow::writeSettings()
     }
     m_settingsFile->endArray();
 }
-void MainWindow::saveSettings(Settings set)
+void MainWindow::saveSettings(Settings newSettings)
 {
     //DEBUG_FUNC_NAME
-    myDebug() << "m_settings->language = " << m_settings->language  << " set->language = " << set.language;
-    if (m_settings->language != set.language /* || m_settings->theme != set->theme*/) {
-        loadLanguage(set.language);
+    Settings oldSettings = *m_settings;
+
+    setSettings(newSettings);
+    writeSettings();
+
+    if (oldSettings.language != newSettings.language /* || m_settings->theme != set->theme*/) {
+        loadLanguage(newSettings.language);
     }
-    myDebug() << "m_settings = " << m_settings->session.getData("interface","advanced");
-    myDebug() << "set = " << set.session.getData("interface","advanced");
-    if( m_settings->session.getData("interface","advanced") != set.session.getData("interface","advanced")) {
-        m_settings->session.setData("interface",set.session.getData("interface","advanced"));
+    if( oldSettings.session.getData("interface","advanced") != newSettings.session.getData("interface","advanced")) {
         myDebug() << "loading new interface";
         reloadInterface();
     }
-    emit settingsChanged(set);
-    setSettings(set);
-    writeSettings();
-
+    emit settingsChanged(oldSettings,newSettings);
 }
 void MainWindow::showSettingsDialog(int tabID)
 {
@@ -523,8 +526,10 @@ void MainWindow::changeEvent(QEvent *e)
         myDebug() << "retranslate";
         ui->retranslateUi(this);
 
-        if (m_interface->hasMenuBar())
-            setMenuBar(m_interface->menuBar());
+        if (m_interface->hasMenuBar()) {
+            menuBar = m_interface->menuBar();
+            setMenuBar(menuBar);
+        }
 
         if (m_interface->hasToolBar()) {
             removeToolBar(toolBar);

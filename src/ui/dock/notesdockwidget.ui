@@ -24,6 +24,12 @@
        <property name="contextMenuPolicy">
         <enum>Qt::CustomContextMenu</enum>
        </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::MultiSelection</enum>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectItems</enum>
+       </property>
       </widget>
       <widget class="QGroupBox" name="groupBox">
        <property name="sizePolicy">
@@ -36,16 +42,6 @@
         <string>Note</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_5">
-        <item>
-         <widget class="QLineEdit" name="lineEdit_noteTitle">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,0,0,0,0,0,0,0">
           <item>
@@ -159,6 +155,16 @@
            </spacer>
           </item>
          </layout>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_noteTitle">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QTextEdit" name="textEdit_note"/>

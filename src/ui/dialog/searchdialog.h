@@ -29,7 +29,6 @@ class SearchDialog : public QDialog
     Q_OBJECT
 private slots:
     void search();
-    void showMore();
 signals:
     void searched(SearchQuery query);
 public:

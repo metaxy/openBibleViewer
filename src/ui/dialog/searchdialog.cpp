@@ -20,17 +20,11 @@ SearchDialog::SearchDialog(QWidget *parent) :
 {
     m_ui->setupUi(this);
     connect(m_ui->pushButton, SIGNAL(clicked()), this, SLOT(search()));
-    connect(m_ui->pushButton_more, SIGNAL(clicked()), this, SLOT(showMore()));
-    m_ui->frame->hide();
 }
 
 SearchDialog::~SearchDialog()
 {
     delete m_ui;
-}
-void SearchDialog::showMore(void)
-{
-    m_ui->frame->show();
 }
 void SearchDialog::changeEvent(QEvent *e)
 {

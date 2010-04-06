@@ -36,7 +36,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 signals:
-    void settingsChanged(Settings settings);
+    void settingsChanged(Settings oldSettings, Settings newSettings);
 public slots:
     void showSettingsDialog_Module();
     void showSettingsDialog_General();
@@ -71,6 +71,7 @@ private:
     AdvancedInterface *advancedInterface ;
     StudyInterface *studyInterface;*/
     QToolBar *toolBar;
+    QMenuBar *menuBar;
     void loadInterface();
     void deleteInterface();
     ModuleManager *m_moduleManager;

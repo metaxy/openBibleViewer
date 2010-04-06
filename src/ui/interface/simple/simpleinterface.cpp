@@ -390,22 +390,22 @@ SimpleInterface::~SimpleInterface()
 {
     delete ui;
 }
-void SimpleInterface::settingsChanged(Settings set)
+void SimpleInterface::settingsChanged(Settings oldSettings,Settings newSettings)
 {
     //DEBUG_FUNC_NAME
     //reload books
     bool reloadBibles = false;
-    if (m_settings->encoding != set.encoding) {
+    if (oldSettings.encoding != newSettings.encoding) {
         reloadBibles = true;
     }
-    for (int i = 0; i < set.module.size(); ++i) {
-        if (m_settings->module.size() < i || m_settings->module.empty()) {
+    for (int i = 0; i < newSettings.module.size(); ++i) {
+        if (oldSettings.module.size() < i || oldSettings.module.empty()) {
             reloadBibles = true;
             break;
         } else {
             ModuleSettings m1, m2;
-            m1 = set.module.at(i);
-            m2 = m_settings->module.at(i);
+            m1 = newSettings.module.at(i);
+            m2 = oldSettings.module.at(i);
             if (memcmp(&m1, &m2, sizeof(ModuleSettings))) {
                 reloadBibles = true;
                 break;
@@ -419,8 +419,7 @@ void SimpleInterface::settingsChanged(Settings set)
         ui->textBrowser->setHtml("");
         //todo: clear everything
     }
-    myDebug() << "m_settings = " << m_settings->session.getData("interface","advanced");
-    myDebug() << "set = " << set.session.getData("interface","advanced");
+
 }
 void SimpleInterface::showSearchDialog()
 {

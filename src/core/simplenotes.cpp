@@ -192,9 +192,17 @@ void SimpleNotes::saveNote(void)
 }
 void SimpleNotes::fastSave(void)
 {
+    disconnect(m_notes,SIGNAL(titleChanged(QString,QString)), this, SLOT(changeTitle(QString,QString)));
+    disconnect(m_notes,SIGNAL(dataChanged(QString,QString)),this,SLOT(changeData(QString,QString)));
+    disconnect(m_notes,SIGNAL(refChanged(QString,QMap<QString,QString>)),this,SLOT(changeRef(QString,QMap<QString,QString>)));
+
     m_notes->setData(m_noteID, m_textEdit_note->toHtml());
     m_notes->setTitle(m_noteID, m_lineEdit_title->text());
     m_notes->setRef(m_noteID, currentNoteRef);
+
+    connect(m_notes,SIGNAL(titleChanged(QString,QString)), this, SLOT(changeTitle(QString,QString)));
+    connect(m_notes,SIGNAL(dataChanged(QString,QString)),this,SLOT(changeData(QString,QString)));
+    connect(m_notes,SIGNAL(refChanged(QString,QMap<QString,QString>)),this,SLOT(changeRef(QString,QMap<QString,QString>)));
 }
 void SimpleNotes::aktNote()
 {
@@ -344,6 +352,8 @@ void SimpleNotes::removeNote(void)
 {
     DEBUG_FUNC_NAME
     QModelIndexList list = m_selectionModel->selectedRows(0);
+    qDebug() << "list.size() = " << list.size();
+    disconnect(m_notes,SIGNAL(noteRemoved(QString)),this,SLOT(removeNote(QString)));
     for(int i = 0; i < list.size();i++) {
         QString id = list.at(i).data(Qt::UserRole+1).toString();
         if(id == m_noteID) {
@@ -354,6 +364,7 @@ void SimpleNotes::removeNote(void)
         m_notes->removeNote(id);
         m_treeView->model()->removeRow(list.at(i).row());
     }
+    connect(m_notes,SIGNAL(noteRemoved(QString)),this,SLOT(removeNote(QString)));
 }
 void SimpleNotes::removeNote(QString id)
 {
