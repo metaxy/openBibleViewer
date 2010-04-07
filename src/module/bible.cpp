@@ -362,11 +362,13 @@ SearchResult Bible::search(SearchQuery query)
 }
 QMap<int, QList<Chapter> > Bible::getSoftCache()
 {
+    DEBUG_FUNC_NAME
     //todo: add bq
     return zef.softCache();
 }
 void Bible::clearSoftCache()
 {
+    DEBUG_FUNC_NAME
     zef.clearSoftCache();
     //todo: add for bq a soft cache
 }

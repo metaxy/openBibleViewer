@@ -44,46 +44,58 @@ private slots:
     void myTileVertical();
     void myTileHorizontal();
     void myTile();
+
     void newSubWindow(bool doAutoLayout = true);
     void closeSubWindow();
     int closingWindow();
     int reloadWindow(QMdiSubWindow * window);
+
     void pharseUrl(QUrl url);
     void pharseUrl(QString url);
+
     void showText(const QString &text);
     void zoomIn();
     void zoomOut();
     void readChapter(const int &id);
     void readBook(const int &id);
-    void nextChapter();
-    void previousChapter();
-    int textBrowserContextMenu(QPoint);
-    int copyWholeVerse();
+
+
     void newYellowMark();
     void newGreenMark();
     void newBlueMark();
     void newOrangeMark();
     void newVioletMark();
     void newCustomMark();
-    void reloadChapter();
+
     void removeMark();
-    void showSearchDialog();
-    void search(SearchQuery query);
-    void showBookmarksDock();
-    void showNotesDock();
     void newBookmark();
     void newNoteWithLink();
-    int showAboutDialog();
+
+    void search(SearchQuery query);
+
     int saveFile();
     int printFile();
     void onlineHelp();
+
     void copy();
     void selectAll();
     void nextVerse();
     void previousVerse();
+    void nextChapter();
+    void previousChapter();
+    int textBrowserContextMenu(QPoint);
+    int copyWholeVerse();
+     void reloadChapter();
+
+    void showBookmarksDock();
+    void showNotesDock();
+
+    void showSearchDialog();
+    int showAboutDialog();
     void showMarkCategories();
     void showMarkList();
     void showNotesEditor();
+
     void setTabView();
     void setSubWindowView();
 
@@ -122,7 +134,7 @@ private:
     int tabIDof(QMdiSubWindow* window);
     WindowCache m_windowCache;
     int m_lastActiveWindow;
-    QTextBrowser* getCurrentTextBrowser();
+    QTextBrowser* getTextBrowser();
     void setEnableReload(bool enable);
     void loadModuleDataByID(int id);
 
@@ -142,6 +154,7 @@ private:
     //Menu
     QAction *actionTabView;
     QAction *actionSubWindowView;
+    void searchInText(SearchQuery query);
 
 };
 

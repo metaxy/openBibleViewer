@@ -22,6 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 BibleQuote::BibleQuote()
 {
     m_settings = new Settings();
+    m_bibleID = -1;
 }
 
 int BibleQuote::setSettings(Settings *set)

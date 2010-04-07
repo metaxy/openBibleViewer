@@ -15,4 +15,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 VerseSelection::VerseSelection()
 {
+    startVerse = 0;
+    endVerse = 0;
+    posInStartVerse = 0;
+    posInEndVerse = 0;
+    selectedText = "";
+    shortestStringInStartVerse= "";
+    shortestStringInEndVerse = "";
 }

@@ -23,6 +23,12 @@ class SearchQuery
 {
 public:
     SearchQuery();
+    enum Type {
+        Simple = 0,
+        Complex = 1
+    };
+
+    int queryType;
     QString searchText;
     bool regExp;
     bool wholeWord;

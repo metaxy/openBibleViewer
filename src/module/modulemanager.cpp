@@ -39,14 +39,15 @@ int ModuleManager::loadAllModules()
     DEBUG_FUNC_NAME
     Bible bible;
     bible.setSettings(m_settings);
+
     m_moduleList.clear();
     m_moduleModel->clear();
     QProgressDialog progress(QObject::tr("Loading Module"), QObject::tr("Cancel"), 0, m_settings->module.size());
     progress.setWindowModality(Qt::WindowModal);
     int rcount = 0;//Counter for the Bible ID
+
     QStandardItem *parentItem = m_moduleModel->invisibleRootItem();
-    QIcon bibleQuoteIcon;
-    bibleQuoteIcon.addPixmap(QPixmap(":/icons/16x16/text-x-generic.png"), QIcon::Normal, QIcon::Off);
+    QIcon bibleQuoteIcon(":/icons/16x16/text-x-generic.png");
     QStyle *style = QApplication::style();
     QIcon folderIcon;
     folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
@@ -59,7 +60,7 @@ int ModuleManager::loadAllModules()
         if (progress.wasCanceled())
             break;
         if (m_settings->module.at(i).isDir == true) {
-            int uModuleCount = 0;
+            unsigned int uModuleCount = 0;
 
             QStandardItem *top = new QStandardItem;
 
@@ -71,7 +72,7 @@ int ModuleManager::loadAllModules()
 
             //search for bible in the dir
             QString rpath = m_settings->module.at(i).modulePath + "/";
-            int bibletype;
+            int bibletype = Bible::None;
             QDir dir(rpath);
             dir.setFilter(QDir::Dirs);
             QFileInfoList list = dir.entryInfoList();

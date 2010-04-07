@@ -37,7 +37,7 @@ public:
     bool zefbible_showStrong;
     bool zefbible_showStudyNote;
     bool biblequote_removeHtml;
-    int uModuleCount;
+    unsigned int uModuleCount;
 
     QMap <QString, QVariant> bookCount;//QVariant = QMap<int,int>
     QMap<QString, QVariant> bookNames;//QVariant = QStringList

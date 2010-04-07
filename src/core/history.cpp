@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QtDebug>
 History::History()
 {
+    goF = false;
 }
 /*!
     Return the next url in the history.

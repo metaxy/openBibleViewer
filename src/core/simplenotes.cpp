@@ -35,8 +35,8 @@ void SimpleNotes::setLinkButtonWidget(QPushButton *button)
 void SimpleNotes::init()
 {
     m_itemModel = new QStandardItemModel(m_treeView);
-    connect(m_treeView,SIGNAL(clicked(QModelIndex)),this,SLOT(showNote(QModelIndex)));
-    connect(m_treeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(notesContextMenu()));
+    connect(m_treeView,SIGNAL(activated(QModelIndex)),this,SLOT(showNote(QModelIndex)));
+    connect(m_treeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(notesContextMenu(QPoint)));
     connect(m_textEdit_note, SIGNAL(undoAvailable(bool)), this, SLOT(fastSave()));
     connect(m_textEdit_note, SIGNAL(redoAvailable(bool)), this, SLOT(fastSave()));
     connect(m_pushButton_link, SIGNAL(clicked()), this, SLOT(editNoteLink()));
@@ -63,7 +63,6 @@ void SimpleNotes::init()
     myDebug() << " id = " << id;
     for (int i = 0; i < id.size(); i++) {
         if (m_notes->getType(id.at(i)) == "text") {
-
             QStandardItem *noteItem = new QStandardItem;
             noteItem->setText(m_notes->getTitle(id.at(i)));
             noteItem->setData(id.at(i));
@@ -85,17 +84,15 @@ void SimpleNotes::showNote(QModelIndex index)
 {
     showNote(index.data(Qt::UserRole + 1).toString());
 }
-void SimpleNotes::showNote(const QString &noteID)
+void SimpleNotes::showNote(const QString &noteID, bool s)
 {
     //DEBUG_FUNC_NAME
     //save current notes
-    select(noteID);
+    if(s)
+        select(noteID);
 
-    m_notes->setData(m_noteID, m_textEdit_note->toHtml());
-    m_notes->setTitle(m_noteID, m_lineEdit_title->text());
-    m_notes->setRef(m_noteID, currentNoteRef);
-
-
+    fastSave();
+    aktNote();
     //load new notes
     m_noteID = noteID;
     currentNoteRef = m_notes->getRef(m_noteID);
@@ -314,9 +311,10 @@ void SimpleNotes::newNoteWithLink(VerseSelection selection)
 
     emit reloadChapter();
 }
-void SimpleNotes::notesContextMenu(void)
+void SimpleNotes::notesContextMenu(QPoint point)
 {
     QMenu *contextMenu = new QMenu(m_treeView);
+    currentPoint = point;
     contextMenu->setObjectName("contextMenu");
 
     QAction *actionCopy = new QAction(this);
@@ -348,26 +346,46 @@ void SimpleNotes::notesContextMenu(void)
     contextMenu->addAction(actionRemove);
     contextMenu->exec(QCursor::pos());
 }
-void SimpleNotes::removeNote(void)
+void SimpleNotes::removeNote()
 {
     DEBUG_FUNC_NAME
     QModelIndexList list = m_selectionModel->selectedRows(0);
-    qDebug() << "list.size() = " << list.size();
+    qDebug() << "list.size() = " << list.size() << list;
     disconnect(m_notes,SIGNAL(noteRemoved(QString)),this,SLOT(removeNote(QString)));
-    for(int i = 0; i < list.size();i++) {
-        QString id = list.at(i).data(Qt::UserRole+1).toString();
-        if(id == m_noteID) {
-            setTitle("");
-            setData("");
-            setRef(QMap<QString,QString>());
+    //todo: if note has link, check if the page where the link shows is currently displayed, if yes reloadChapter
+    if(list.size() == 0) {
+        QModelIndex index = m_treeView->indexAt(currentPoint);
+        if(index.isValid()) {
+            QString id = index.data(Qt::UserRole+1).toString();
+            if(id == m_noteID) {
+                setTitle("");
+                setData("");
+                setRef(QMap<QString,QString>());
+            }
+            m_notes->removeNote(id);
+            m_treeView->model()->removeRow(index.row());
+       }
+
+    } else {
+        while(list.size() != 0)
+        {
+            QString id = list.at(0).data(Qt::UserRole+1).toString();
+            if(id == m_noteID) {
+                setTitle("");
+                setData("");
+                setRef(QMap<QString,QString>());
+            }
+            m_notes->removeNote(id);
+            m_treeView->model()->removeRow(list.at(0).row());
+            list = m_selectionModel->selectedRows(0);
         }
-        m_notes->removeNote(id);
-        m_treeView->model()->removeRow(list.at(i).row());
     }
+
     connect(m_notes,SIGNAL(noteRemoved(QString)),this,SLOT(removeNote(QString)));
 }
 void SimpleNotes::removeNote(QString id)
 {
+    DEBUG_FUNC_NAME
     if(id == m_noteID) {
         setTitle("");
         setData("");

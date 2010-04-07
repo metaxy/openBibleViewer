@@ -223,7 +223,7 @@ QList<Chapter> ZefaniaBible::softCache(int bookID)
   */
 void ZefaniaBible::setSoftCache(QMap<int, QList<Chapter> > cache)
 {
-//   DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     if (m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
         softCacheData = cache;
     }
@@ -623,6 +623,7 @@ SearchResult ZefaniaBible::search(SearchQuery query)
     if (query.wholeWord == true) {
         query.searchText = " " + query.searchText + " ";
     }
+    myDebug() <<"query.regexp = " << query.regExp;
     lastSearchQuery = query;
     SearchResult result;
     result.searchQuery = query;

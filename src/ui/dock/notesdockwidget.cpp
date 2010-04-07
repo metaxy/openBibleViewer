@@ -64,7 +64,7 @@ void NotesDockWidget::init()
 
 void NotesDockWidget::showNote(const QString &noteID)
 {
-   m_simpleNotes->showNote(noteID);
+   m_simpleNotes->showNote(noteID,true);
 
 }
 

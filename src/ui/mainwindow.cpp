@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    DEBUG_FUNC_NAME
     delete ui;
     ui = 0;
     delete m_moduleManager;
@@ -45,11 +46,17 @@ MainWindow::~MainWindow()
     m_notes = 0;
     delete m_settingsFile;
     m_settingsFile = 0;
+    delete toolBar;
+    toolBar = 0;
+    delete menuBar;
+    menuBar = 0;
+    delete m_interface;
+    m_interface = 0;
 }
 void MainWindow::init(const QString &homeDataPath)
 {
-    VERSION  = "0.3b1";
-    BUILD =  "2009-02-12";
+    VERSION  = "0.4";
+    BUILD =  "2010-06-04op";
     m_homeDataPath = homeDataPath;
 
 #ifdef Q_WS_WIN
@@ -140,6 +147,7 @@ void MainWindow::reloadInterface()
 }
 void MainWindow::loadSimpleInterface()
 {
+    DEBUG_FUNC_NAME
     m_interface = new SimpleInterface(this);
     m_interface->setModuleManager(m_moduleManager);
     m_interface->setBibleDisplay(m_bibleDisplay);
@@ -173,6 +181,7 @@ void MainWindow::loadSimpleInterface()
 
 void MainWindow::loadAdvancedInterface()
 {
+    DEBUG_FUNC_NAME
     m_interface = new AdvancedInterface(this);
     m_interface->setModuleManager(m_moduleManager);
     m_interface->setBibleDisplay(m_bibleDisplay);
@@ -209,7 +218,7 @@ void MainWindow::loadAdvancedInterface()
 
 
     setCentralWidget(m_interface);
-
+    myDebug() << "a";
     if (m_interface->hasMenuBar()) {
         menuBar = m_interface->menuBar();
         setMenuBar(menuBar);
@@ -218,10 +227,11 @@ void MainWindow::loadAdvancedInterface()
         toolBar = m_interface->toolBar();
         addToolBar(toolBar);
     }
+    myDebug() << "b";
     connect(this, SIGNAL(settingsChanged(Settings,Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
     m_interface->init();
-
+    myDebug() << "c";
     QTimer::singleShot(1, m_interface, SLOT(restoreSession()));
 
 
@@ -390,6 +400,7 @@ void MainWindow::loadSettings()
 }
 void MainWindow::writeSettings()
 {
+    DEBUG_FUNC_NAME
     m_settingsFile->setValue("general/encoding", m_settings->encoding);
     m_settingsFile->setValue("general/zoomstep", m_settings->zoomstep);
     m_settingsFile->setValue("general/language", m_settings->language);

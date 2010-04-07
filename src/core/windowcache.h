@@ -17,7 +17,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QMap>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-#include <QtCore/QCache>
 /*!
  WindowCache represents the cache for bible data
 
@@ -27,19 +26,13 @@ class WindowCache
 {
 public:
     WindowCache();
-    enum m_windowModes {
-        SingelMode = 0,
-        MultipleMode = 1,
-        TabMode = 2
-    };
-    int m_windowMode;
 
     void newWindow();
     void removeWindow(const int &id);
     void clearAll();
 
     bool setCurrentWindowID(const int &id);
-    void setBible(Bible b);
+    void setBible(Bible b,bool clearZefCache=true);
     void setCurrentBook(const int &bookid, const int &chapterCount);
 
     int getBibleType();

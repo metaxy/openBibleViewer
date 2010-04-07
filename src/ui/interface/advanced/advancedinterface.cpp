@@ -148,15 +148,18 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     m_enableReload = false;
     int windowsCount = usableWindowList().size();
     QMdiSubWindow *firstSubWindow = new QMdiSubWindow();
+    myDebug() << "a1";
     if (windowsCount == 1) {
         firstSubWindow = usableWindowList().at(0);
     }
     m_windowCache.newWindow();
     QWidget *widget = new QWidget(ui->mdiArea);
     QVBoxLayout *layout = new QVBoxLayout(widget);
+    myDebug() << "a2";
 
     MdiForm *mForm = new MdiForm(widget);
     layout->addWidget(mForm);
+    myDebug() << "a";
 
     widget->setLayout(layout);
     QMdiSubWindow *subWindow = ui->mdiArea->addSubWindow(widget);
@@ -165,6 +168,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
     subWindow->show();
     ui->mdiArea->setActiveSubWindow(subWindow);
+     myDebug() << "b";
     if (windowsCount == 0  && doAutoLayout) {
         subWindow->showMaximized();
     } else if (windowsCount == 1 && doAutoLayout) {
@@ -176,7 +180,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
         subWindow->resize(600, 600);
         subWindow->show();
     }
-
+ myDebug() << "c";
     connect(mForm->m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
     connect(mForm->m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
     connect(mForm->m_ui->textBrowser, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(textBrowserContextMenu(QPoint)));
@@ -410,6 +414,7 @@ int AdvancedInterface::closingWindow()
 }
 int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
 {
+    DEBUG_FUNC_NAME
     if (!m_enableReload) {
         return 1;
     }
@@ -430,9 +435,9 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
         setBooks(QStringList());
         m_moduleManager->m_bible.setBibleID(-2);
     } else {
-        /*if (m_moduleManager->m_bible.bibleID() == m_windowCache.clearAll();)
-            return 1;*/
 
+        if(m_moduleManager->m_bible.bibleID() == m_windowCache.getBible().bibleID())
+            return 1;
         m_moduleManager->m_bible = m_windowCache.getBible();
         setTitle(m_moduleManager->m_bible.bibleTitle);
 
@@ -447,33 +452,7 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
 
     return 0;
 }
-QTextBrowser* AdvancedInterface::getCurrentTextBrowser()
-{
-    if (activeMdiChild()) {
-        QTextBrowser *t = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
-        return t;
-    }
-    return 0;
-}
-void AdvancedInterface::setEnableReload(bool enable)
-{
-    m_enableReload = enable;
-}
-void AdvancedInterface::zoomIn()
-{
-    QTextBrowser *t = getCurrentTextBrowser();
-    if (t) {
-        t->zoomIn();
-    }
 
-}
-void AdvancedInterface::zoomOut()
-{
-    QTextBrowser *t = getCurrentTextBrowser();
-    if (t) {
-        t->zoomOut();
-    }
-}
 void AdvancedInterface::loadModuleDataByID(int id)
 {
     //DEBUG_FUNC_NAME
@@ -489,16 +468,18 @@ void AdvancedInterface::loadModuleDataByID(int id)
         return;
     }
     QApplication::setOverrideCursor(Qt::WaitCursor);
-    m_moduleManager->m_bible.setBibleType(m_moduleManager->m_moduleList.at(id).m_moduleType);
-    m_moduleManager->m_bible.loadBibleData(id, m_moduleManager->m_moduleList.at(id).m_path);
-    m_moduleManager->m_bible.setSoftCache(m_windowCache.getSoftCache(id));//todo: if it is empty then do nothing
 
     m_windowCache.setCurrentWindowID(currentWindowID());
     m_windowCache.setBible(m_moduleManager->m_bible);//todo: !before loading an another bible, save the last
 
+    m_moduleManager->m_bible.setBibleType(m_moduleManager->m_moduleList.at(id).m_moduleType);
+    m_moduleManager->m_bible.loadBibleData(id, m_moduleManager->m_moduleList.at(id).m_path);
+    m_moduleManager->m_bible.setSoftCache(m_windowCache.getSoftCache(id));
+
+
     setTitle(m_moduleManager->m_bible.bibleTitle);
     setBooks(m_moduleManager->m_bible.bookFullName);
-    m_moduleDockWidget->loadedModule(id);
+    m_moduleDockWidget->loadedModule(id);//select current Module
     QApplication::restoreOverrideCursor();
 
 }
@@ -559,7 +540,7 @@ void AdvancedInterface::pharseUrl(QString url)
                     setCurrentChapter(chapterID);
                 }
                 if (c.size() == 4 && c.at(3) == "searchInCurrentText=true") {//todo: not nice
-                    //searchInCurrentText(lastsearch);
+                    searchInText(m_moduleManager->m_bible.lastSearchQuery);
                 }
                 emit historySetUrl(url_backup);
             } else {
@@ -646,11 +627,38 @@ void AdvancedInterface::pharseUrl(QString url)
     setEnableReload(true);
     return;
 }
+QTextBrowser* AdvancedInterface::getTextBrowser()
+{
+    if (activeMdiChild()) {
+        QTextBrowser *t = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+        return t;
+    }
+    return 0;
+}
+void AdvancedInterface::setEnableReload(bool enable)
+{
+    m_enableReload = enable;
+}
+void AdvancedInterface::zoomIn()
+{
+    QTextBrowser *t = getTextBrowser();
+    if (t) {
+        t->zoomIn();
+    }
+
+}
+void AdvancedInterface::zoomOut()
+{
+    QTextBrowser *t = getTextBrowser();
+    if (t) {
+        t->zoomOut();
+    }
+}
 void AdvancedInterface::showText(const QString &text)
 {
     //qDebug() << ""
-    m_windowCache.setBible(m_moduleManager->m_bible);
-    QTextBrowser *t = getCurrentTextBrowser();
+    m_windowCache.setBible(m_moduleManager->m_bible,false);
+    QTextBrowser *t = getTextBrowser();
     if (t) {
         t->setHtml(text);
         if (m_moduleManager->m_bible.m_verseID > 1)
@@ -744,7 +752,7 @@ void AdvancedInterface::readBook(const int &id)
 void AdvancedInterface::readBookByID(int id)
 {
     myDebug() << "id = " << id;
-    QTextBrowser *t = getCurrentTextBrowser();
+    QTextBrowser *t = getTextBrowser();
     if (t) {
         QApplication::setOverrideCursor(Qt::WaitCursor);
         if (id < 0) {
@@ -1217,10 +1225,12 @@ void AdvancedInterface::restoreSession()
     m_moduleDockWidget->restoreGeometry(m_settings->session.getData("moduleDockGeometry").toByteArray());
     m_searchResultDockWidget->restoreGeometry(m_settings->session.getData("searchResultDockGeometry").toByteArray());
     m_strongDockWidget->restoreGeometry(m_settings->session.getData("strongDockGeometry").toByteArray());
+    myDebug() << "a";
     QStringList windowUrls = m_settings->session.getData("windowUrls").toStringList();
     QVariantList windowGeo = m_settings->session.getData("windowGeo").toList();
     QVariantList vSlider = m_settings->session.getData("vSlider").toList();
     QVariantList hSlider = m_settings->session.getData("hSlider").toList();
+    myDebug() << "b";
     for (int i = 0; i < windowUrls.size(); ++i) {
         newSubWindow(false);
         myDebug() << "current window is " << tabIDof(activeMdiChild()) << " while window count is " << usableWindowList();
@@ -1234,10 +1244,11 @@ void AdvancedInterface::restoreSession()
         activeMdiChild()->setGeometry(windowGeo.at(i).toRect());
         QTextBrowser *textBrowser =  activeMdiChild()->findChild<QTextBrowser *>("textBrowser");
         //set slider
-        //todo: reallly strange
+        //todo: really strange
         textBrowser->verticalScrollBar()->setSliderPosition(vSlider.at(i).toInt());
         textBrowser->horizontalScrollBar()->setSliderPosition(hSlider.at(i).toInt());
     }
+    myDebug() << "c";
     if (m_settings->session.getData("viewMode").toInt() == 0)
         setSubWindowView();
     else if (m_settings->session.getData("viewMode").toInt() == 1)
@@ -1281,7 +1292,7 @@ void AdvancedInterface::showSearchDialog()
     DEBUG_FUNC_NAME
     SearchDialog *sDialog = new SearchDialog(this);
     connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
-    QTextBrowser *t = getCurrentTextBrowser();
+    QTextBrowser *t = getTextBrowser();
     if (t && t->textCursor().hasSelection() == true) {
         sDialog->setText(t->textCursor().selectedText());
     }
@@ -1298,7 +1309,38 @@ void AdvancedInterface::search(SearchQuery query)
     SearchResult result;
     result = m_moduleManager->m_bible.search(query);
     m_searchResultDockWidget->setSearchResult(result);
+
 }
+void AdvancedInterface::searchInText(SearchQuery query)
+{
+    DEBUG_FUNC_NAME
+    if(query.queryType == SearchQuery::Simple) {
+        myDebug() << "searching";
+        QTextDocument *doc = getTextBrowser()->document();
+        QTextDocument::FindFlags flags;
+        if(query.caseSensitive) {
+            flags |= QTextDocument::FindCaseSensitively;
+        }
+        if(query.wholeWord) {
+            flags |= QTextDocument::FindWholeWords;
+        }
+
+        if(query.regExp) {
+            myDebug() << "regExp";
+            //todo: regExp
+        } else {
+            myDebug() << "No regExp";
+            QTextCursor cursor;
+            cursor = doc->find(query.searchText,0);
+            myDebug() << cursor.position();
+            while(!cursor.isNull()) {
+                cursor = doc->find(query.searchText,cursor);
+                myDebug() << cursor.position();
+            }
+        }
+    }
+}
+
 void AdvancedInterface::copy()
 {
     if (activeMdiChild()) {

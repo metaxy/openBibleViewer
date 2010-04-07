@@ -18,7 +18,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/bible.h"
 #include "src/module/strong.h"
 #include <QtCore/QList>
-#include <QtGui/QTreeWidgetItem>
 #include <QtGui/QStandardItemModel>
 class ModuleManager
 {
@@ -26,16 +25,17 @@ public:
     ModuleManager();
     void setSettings(Settings *settings);
     int loadAllModules();
-    QList<Module> m_moduleList;
-    //QList<QTreeWidgetItem *> m_bibleItems;
-    QStandardItemModel *m_moduleModel;
-    Settings *m_settings;
-    Bible m_bible;
-    Strong m_strong;
+
     bool bibleLoaded();
     bool strongLoaded();
     QString notePos2Text(const QString &pos);
 
+    QList<Module> m_moduleList;
+    QStandardItemModel *m_moduleModel;
+
+    Settings *m_settings;
+    Bible m_bible;
+    Strong m_strong;
 };
 
 #endif // MODULEMANAGER_H

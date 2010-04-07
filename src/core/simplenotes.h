@@ -31,7 +31,7 @@ signals:
     void reloadChapter();
 public slots:
      void newNote();
-     void showNote(const QString &noteID);
+     void showNote(const QString &noteID,bool s=false);
      void saveNote();
      void newNoteWithLink(VerseSelection selection);
      void fastSave();
@@ -43,7 +43,7 @@ private slots:
     void addNote(QString id);
     void removeNote(QString id);
     void showNote(QModelIndex index);
-    void notesContextMenu();
+    void notesContextMenu(QPoint point);
     void removeNote();
     void editNoteLink();
     void updateNote(QString pos);
@@ -52,6 +52,7 @@ private:
     QTextEdit *m_textEdit_note;
     QLabel *m_label_link;
     QPushButton *m_pushButton_link;
+    QPoint currentPoint;
 
     QStandardItemModel *m_itemModel;
     QTreeView *m_treeView;

@@ -162,7 +162,8 @@ void SimpleInterface::loadModuleDataByID(int id)
 
     m_moduleManager->m_bible.setBibleType(m_moduleManager->m_moduleList.at(id).m_moduleType);
     m_moduleManager->m_bible.loadBibleData(id, m_moduleManager->m_moduleList.at(id).m_path);
-    m_moduleManager->m_bible.setSoftCache(m_windowCache.getSoftCache(id));//todo: if it is empty then do nothing
+    if(!m_windowCache.getSoftCache(id).isEmpty())
+        m_moduleManager->m_bible.setSoftCache(m_windowCache.getSoftCache(id));//todo: if it is empty then do nothing
 
 
     setTitle(m_moduleManager->m_bible.bibleTitle);

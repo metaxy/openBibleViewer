@@ -15,11 +15,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "dbghelper.h"
 Settings::Settings()
 {
+    moduleID = QMap<int,int>();
+
 }
 ModuleSettings Settings::getModuleSettings(const int &bibleID)
 {
-    int id = moduleID[bibleID];
-    if (module.size() < id /*|| id < 0 || module.size() == 0)*/) {
+    if(moduleID.isEmpty())
+        return ModuleSettings();
+    int id = moduleID.value(bibleID,-1);
+    if (module.size() < id || id < 0) {
         myDebug() << "No Settings aviable";
         return ModuleSettings();
     } else {
@@ -34,7 +38,11 @@ void Settings::replaceModule(const int &bibleID, ModuleSettings m)
 int Settings::getCacheID(int bibleID)
 {
     //DEBUG_FUNC_NAME
-    int sID = moduleID[bibleID];
+    if(moduleID.isEmpty())
+        return 0;
+    int sID = moduleID.value(bibleID,-1);
+    if(sID == -1)
+        return 0;
     //zähle wie oft sID in moduleID noch verkommt
     int counter = 0;
     QMapIterator<int, int> i(moduleID);
