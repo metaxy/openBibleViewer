@@ -898,7 +898,6 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
             }
         }
     }
-
     return selection;
 }
 int AdvancedInterface::textBrowserContextMenu(QPoint pos)
@@ -1043,6 +1042,13 @@ int AdvancedInterface::copyWholeVerse(void)
     QTextCursor cursor = textBrowser->textCursor();
     VerseSelection selection = verseSelectionFromCursor(cursor);
     if (selection.startVerse != -1) {
+        if (m_moduleManager->m_bible.m_bibleType == Bible::BibleQuoteModule) {
+        } else if (m_moduleManager->m_bible.m_bibleType == Bible::ZefaniaBibleModule) {
+            if(selection.startVerse - 1 < 0)
+                selection.startVerse = 1;
+            if(selection.endVerse < 0)
+                selection.endVerse = 0;
+        }
 
         QString sverse = "";
         if (selection.startVerse == selection.endVerse) {
@@ -1053,6 +1059,7 @@ int AdvancedInterface::copyWholeVerse(void)
 
 
         QString stext;
+
         if (m_moduleManager->m_bible.m_bibleType == Bible::BibleQuoteModule) {
             stext = m_moduleManager->m_bible.readVerse(m_moduleManager->m_bible.chapterID(), selection.startVerse, selection.endVerse + 1, -1, false);
         } else if (m_moduleManager->m_bible.m_bibleType == Bible::ZefaniaBibleModule) {
@@ -1327,15 +1334,23 @@ void AdvancedInterface::searchInText(SearchQuery query)
 
         if(query.regExp) {
             myDebug() << "regExp";
-            //todo: regExp
+            QTextCursor cursor;
+            cursor = doc->find(QRegExp(query.searchText),0);
+            while(!cursor.isNull()) {
+                cursor.insertHtml("<span style=\"background-color:#ffcf3d\">"+cursor.selectedText()+"</span>");
+                getTextBrowser()->setTextCursor(cursor);
+
+                cursor = doc->find(QRegExp(query.searchText),cursor);
+            }
         } else {
             myDebug() << "No regExp";
             QTextCursor cursor;
-            cursor = doc->find(query.searchText,0);
-            myDebug() << cursor.position();
+            cursor = doc->find(query.searchText,0,flags);
             while(!cursor.isNull()) {
-                cursor = doc->find(query.searchText,cursor);
-                myDebug() << cursor.position();
+                cursor.insertHtml("<span style=\"background-color:#ffcf3d\">"+cursor.selectedText()+"</span>");
+                getTextBrowser()->setTextCursor(cursor);
+
+                cursor = doc->find(query.searchText,cursor,flags);
             }
         }
     }

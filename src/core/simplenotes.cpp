@@ -107,7 +107,7 @@ void SimpleNotes::setTitle(QString title)
 }
 void SimpleNotes::setData(QString data)
 {
-     m_textEdit_note->setHtml(data);
+    m_textEdit_note->setHtml(data);
 }
 void SimpleNotes::setRef(QMap<QString, QString> ref)
 {
@@ -228,6 +228,7 @@ void SimpleNotes::select(QString noteID)
 
 void SimpleNotes::newNote(void)
 {
+    disconnect(m_notes,SIGNAL(noteAdded(QString)),this,SLOT(addNote(QString)));
     aktNote();
     fastSave();
     m_selectionModel->clearSelection();
@@ -250,14 +251,18 @@ void SimpleNotes::newNote(void)
     parentItem->appendRow(newItem);
 
     select(m_noteID);
+
+    connect(m_notes,SIGNAL(noteAdded(QString)),this,SLOT(addNote(QString)));
+
     setTitle(tr("(unnamed)"));
     setData("");
     setRef(currentNoteRef);
 
+
 }
 void SimpleNotes::addNote(QString id)
 {
-    if(m_noteID != id) {
+    if(m_noteID != id && m_notes->getType(id) == "text") {
         //todo: if there is already this note(but something like that should never happen)
         QStandardItem *parentItem = m_itemModel->invisibleRootItem();
         QStandardItem *newItem = new QStandardItem;
@@ -270,7 +275,7 @@ void SimpleNotes::addNote(QString id)
 void SimpleNotes::newNoteWithLink(VerseSelection selection)
 {
     //DEBUG_FUNC_NAME
-
+    disconnect(m_notes,SIGNAL(noteAdded(QString)),this,SLOT(addNote(QString)));
     aktNote();
     fastSave();
 
@@ -305,6 +310,7 @@ void SimpleNotes::newNoteWithLink(VerseSelection selection)
     parentItem->appendRow(newItem);
 
     select(m_noteID);
+    connect(m_notes,SIGNAL(noteAdded(QString)),this,SLOT(addNote(QString)));
     setTitle(tr("(unnamed)"));
     setData("");
     setRef(currentNoteRef);

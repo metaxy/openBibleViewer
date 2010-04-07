@@ -141,6 +141,8 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     //DEBUG_FUNC_NAME
     //endVerse == -1 means all verse
     m_chapterID = chapterID;
+    if(startVerse < 0)
+        startVerse = 0;
     if (saveRawData)
         chapterDataList.clear();
 
