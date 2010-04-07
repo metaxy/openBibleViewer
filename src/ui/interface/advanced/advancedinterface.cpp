@@ -120,7 +120,7 @@ void AdvancedInterface::init()
     m_quickJumpDockWidget->setNotes(m_notes);
     m_quickJumpDockWidget->setSettings(m_settings);
     m_quickJumpDockWidget->setModuleManager(m_moduleManager);
-    //m_quickJumpDockWidget->init();
+    m_quickJumpDockWidget->init();
     m_quickJumpDockWidget->hide();
     connect(m_quickJumpDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
@@ -710,6 +710,8 @@ void AdvancedInterface::setCurrentChapter(const int &chapterID)
 void AdvancedInterface::setBooks(const QStringList &books)
 {
     m_bookDockWidget->setBooks(books);
+    m_quickJumpDockWidget->setBooks(books);
+
     if (activeMdiChild()) {
         QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
         if (comboBox_books) {

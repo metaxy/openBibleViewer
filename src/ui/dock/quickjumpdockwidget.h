@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define QUICKJUMPDOCKWIDGET_H
 
 #include <QDockWidget>
+#include <QCompleter>
 #include "dockwidget.h"
 namespace Ui
 {
@@ -32,6 +33,8 @@ private slots:
 public:
     QuickJumpDockWidget(QWidget *parent = 0);
     ~QuickJumpDockWidget();
+    void init();
+    void setBooks(QStringList list);
 
 protected:
     void changeEvent(QEvent *e);
@@ -40,6 +43,8 @@ signals:
     void get(QString url);
 private:
     Ui::QuickJumpDockWidget *ui;
+    QStringList compList;
+    QCompleter *completer;
 };
 
 #endif // QUICKJUMPDOCKWIDGET_H
