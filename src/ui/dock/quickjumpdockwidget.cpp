@@ -23,9 +23,7 @@ QuickJumpDockWidget::QuickJumpDockWidget(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->pushButton_goTo, SIGNAL(clicked()), this, SLOT(goToPos()));
-    //ui->lineEdit_goTo->installEventFilter(this);
-
-
+    connect(ui->lineEdit_goTo,SIGNAL(returnPressed()),this,SLOT(goToPos()));
 }
 
 QuickJumpDockWidget::~QuickJumpDockWidget()
@@ -37,8 +35,12 @@ void QuickJumpDockWidget::init()
 }
 void QuickJumpDockWidget::setBooks(QStringList list)
 {
-    compList = list;
-    completer = new QCompleter(compList, this);
+    books = list;
+
+    QStringList l;
+    l.append(books);
+    l.append(hist);
+    completer = new QCompleter(l, this);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->lineEdit_goTo->setCompleter(completer);
 }
@@ -46,30 +48,19 @@ void QuickJumpDockWidget::setBooks(QStringList list)
 void QuickJumpDockWidget::goToPos()
 {
     QString text = ui->lineEdit_goTo->text();
+    hist << text;
+
+    QStringList l;
+    l.append(books);
+    l.append(hist);
+    completer = new QCompleter(l, this);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    ui->lineEdit_goTo->setCompleter(completer);
+
     GoTo go(m_moduleManager->m_bible.bibleID(), m_moduleManager->m_bible.bookFullName);
     QString url = go.getUrl(text);
     emit get(url);
     return;
-}
-bool QuickJumpDockWidget::eventFilter(QObject *obj, QEvent *event)
-{
-    if (obj == ui->lineEdit_goTo) {
-        if (event->type() == QEvent::KeyPress) {
-            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-            if (keyEvent->key() == 16777220) {
-                goToPos();
-                return true;
-            } else {
-                return QDockWidget::eventFilter(obj, event);
-            }
-
-        } else {
-            return QDockWidget::eventFilter(obj, event);;
-        }
-    } else {
-        return QDockWidget::eventFilter(obj, event);
-    }
-    return QDockWidget::eventFilter(obj, event);
 }
 void QuickJumpDockWidget::changeEvent(QEvent *e)
 {

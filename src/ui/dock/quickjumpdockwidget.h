@@ -38,12 +38,13 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
-    bool eventFilter(QObject *obj, QEvent *event);
 signals:
     void get(QString url);
 private:
     Ui::QuickJumpDockWidget *ui;
-    QStringList compList;
+    QStringList hist;
+    QStringList books;
+
     QCompleter *completer;
 };
 
