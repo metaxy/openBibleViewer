@@ -18,11 +18,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 WindowCache::WindowCache()
 {
 }
-void WindowCache::setBible(Bible b,bool clearZefCache)
+void WindowCache::setBible(Bible b, bool clearZefCache)
 {
     // DEBUG_FUNC_NAME
     m_softCache.insert(b.bibleID(), b.getSoftCache());
-    if(clearZefCache)
+    if (clearZefCache)
         b.clearSoftCache();
     m_b[m_currentWindowID] = b;
     m_bibletype[m_currentWindowID] = b.m_bibleType;

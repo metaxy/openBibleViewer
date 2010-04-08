@@ -37,7 +37,7 @@ class AdvancedInterface : public Interface
     Q_OBJECT
 public slots:
     void closing();
-    void settingsChanged(Settings oldSettings,Settings newSettings);
+    void settingsChanged(Settings oldSettings, Settings newSettings);
     void restoreSession();
 private slots:
     void myCascade();
@@ -85,7 +85,7 @@ private slots:
     void previousChapter();
     int textBrowserContextMenu(QPoint);
     int copyWholeVerse();
-     void reloadChapter(bool full=false);
+    void reloadChapter(bool full = false);
 
     void showBookmarksDock();
     void showNotesDock();

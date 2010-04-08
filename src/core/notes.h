@@ -29,7 +29,7 @@ signals:
     void saveAll();
     void titleChanged(QString id, QString newTitle);
     void dataChanged(QString id, QString newData);
-    void refChanged(QString id, QMap<QString,QString> newRef);
+    void refChanged(QString id, QMap<QString, QString> newRef);
     void noteRemoved(QString id);
     void noteAdded(QString id);
 public:

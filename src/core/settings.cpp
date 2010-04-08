@@ -15,13 +15,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "dbghelper.h"
 Settings::Settings()
 {
-    moduleID = QMap<int,int>();
+    moduleID = QMap<int, int>();
 
 }
 ModuleSettings Settings::getModuleSettings(const int &bibleID)
 {
-  /*  if(moduleID.isEmpty())
-        return ModuleSettings();*/
+    /*  if(moduleID.isEmpty())
+          return ModuleSettings();*/
 
     int id = moduleID.value(bibleID);
     if (module.size() < id) {
@@ -39,10 +39,10 @@ void Settings::replaceModule(const int &bibleID, ModuleSettings m)
 int Settings::getCacheID(int bibleID)
 {
     //DEBUG_FUNC_NAME
-    if(moduleID.isEmpty())
+    if (moduleID.isEmpty())
         return 0;
-    int sID = moduleID.value(bibleID,-1);
-    if(sID == -1)
+    int sID = moduleID.value(bibleID, -1);
+    if (sID == -1)
         return 0;
     //zähle wie oft sID in moduleID noch verkommt
     int counter = 0;

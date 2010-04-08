@@ -78,8 +78,8 @@ void NotesEditor::init()
 
     connect(ui->textEdit_note, SIGNAL(undoAvailable(bool)), ui->toolButton_noteUndo, SLOT(setEnabled(bool)));
     connect(ui->textEdit_note, SIGNAL(redoAvailable(bool)), ui->toolButton_noteRedo, SLOT(setEnabled(bool)));
-   // connect(ui->textEdit_note, SIGNAL(undoAvailable(bool)), m_simpleNotes, SLOT(fastSave()));
-  //  connect(ui->textEdit_note, SIGNAL(redoAvailable(bool)), m_simpleNotes, SLOT(fastSave()));
+    // connect(ui->textEdit_note, SIGNAL(undoAvailable(bool)), m_simpleNotes, SLOT(fastSave()));
+    //  connect(ui->textEdit_note, SIGNAL(redoAvailable(bool)), m_simpleNotes, SLOT(fastSave()));
 
 }
 

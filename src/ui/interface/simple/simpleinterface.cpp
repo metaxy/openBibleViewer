@@ -162,7 +162,7 @@ void SimpleInterface::loadModuleDataByID(int id)
 
     m_moduleManager->m_bible.setBibleType(m_moduleManager->m_moduleList.at(id).m_moduleType);
     m_moduleManager->m_bible.loadBibleData(id, m_moduleManager->m_moduleList.at(id).m_path);
-    if(!m_windowCache.getSoftCache(id).isEmpty())
+    if (!m_windowCache.getSoftCache(id).isEmpty())
         m_moduleManager->m_bible.setSoftCache(m_windowCache.getSoftCache(id));//todo: if it is empty then do nothing
 
 
@@ -391,7 +391,7 @@ SimpleInterface::~SimpleInterface()
 {
     delete ui;
 }
-void SimpleInterface::settingsChanged(Settings oldSettings,Settings newSettings)
+void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings)
 {
     //DEBUG_FUNC_NAME
     //reload books

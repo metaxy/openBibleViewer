@@ -141,7 +141,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     //DEBUG_FUNC_NAME
     //endVerse == -1 means all verse
     m_chapterID = chapterID;
-    if(startVerse < 0)
+    if (startVerse < 0)
         startVerse = 0;
     if (saveRawData)
         chapterDataList.clear();
@@ -185,11 +185,11 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         Chapter c = chapterData.at(chapterID);
 
         if (saveRawData) {
-            if (m_settings->getModuleSettings(m_bibleID).zefbible_textFormatting == 0) {
-                out = "<p id=\"newLine\">";
+            /*if (m_settings->getModuleSettings(m_bibleID).zefbible_textFormatting == 0) {
+                out = "<p class=\"newLine\">";
             } else {
-                out = "<p id=\"block\">";;
-            }
+                out = "<p class=\"block\">";;
+            }*/
             out += "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";//title
             chapterDataList << out;
         }
@@ -220,15 +220,15 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 }
             }
             if (i == markVerseID) {
-                vers.prepend("<a name=\"currentVerse\"><span class=\"currentVerseClass\">");
+                vers.prepend("<a name=\"currentVerse\"><span style=\"font-weight: bold;\">");
                 vers.append("</span></a>");
             }
             if (m_settings->getModuleSettings(m_bibleID).zefbible_textFormatting == 0) {
-                vers.prepend("<span class=\"verse\"><span class=\"verseNumber\">" + c.verseNumber.at(i) + "</span> ");
-                vers.append("</span> <br />");
+                vers.prepend("<i>" + c.verseNumber.at(i) + "</i> ");
+                vers.append("<br />");
             } else {
-                vers.prepend("<span class=\"verse\"><span class=\"verseNumber\">" + c.verseNumber.at(i) + "</span> ");
-                vers.append("</span>");
+                vers.prepend(c.verseNumber.at(i));
+                vers.append("");
             }
 
 
@@ -260,17 +260,17 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                         int startPos = vers.lastIndexOf(m_notes->getRef(noteID, "startString"));
                         int endPos = vers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
                         myDebug() << "vers = " << vers << " startPos = " << startPos << " endPos = " << endPos << " startString = " << m_notes->getRef(noteID, "startString") << " endString = " << m_notes->getRef(noteID, "endString");
-                        QString vB = vers,vB2 = vers;
+                        QString vB = vers, vB2 = vers;
 
-                        vB.remove(startPos,vB.size());
+                        vB.remove(startPos, vB.size());
                         int lastOpen = vB.lastIndexOf("<");
-                        if(vB.lastIndexOf(">",lastOpen) == -1) {
+                        if (vB.lastIndexOf(">", lastOpen) == -1) {
                             myDebug() << "startPos in in tag";
 
                         }
-                        vB2.remove(0,endPos);
+                        vB2.remove(0, endPos);
                         int firstClose = vB2.indexOf(">");
-                        if(vB.indexOf("<") > firstClose || vB.indexOf("<") == -1) {
+                        if (vB.indexOf("<") > firstClose || vB.indexOf("<") == -1) {
                             myDebug() << "endPos in tag";
                         }
 
@@ -313,59 +313,51 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     }
 
     if (saveRawData) {
-        out += "</p>";
+        //out += "</p>";
         lastout = out;
     }
+    myDebug() << "\n\n\n\n\n" << out << "\n\n\n\n";
 
     return out;
 }
 QString Bible::toUniformHtml(QString string)
 {
     DEBUG_FUNC_NAME
-    QTextDocument normal("");
-    QString normalS = normal.toHtml();
-    normalS.remove("-qt-paragraph-type:empty;");
-    QString normalS2(normalS);
-    int p = normalS.lastIndexOf("</p></body></html>");
-
     QTextDocument t;
     t.setHtml(string);
     QString raw = t.toHtml();
-    QString a1 =  normalS.remove(p, normalS.size());
-    QString a2 = normalS2.remove(0, p);
-    int i1 = raw.indexOf(a1);
-    int i2 = raw.indexOf(a2);
+    int firstPStyle = raw.indexOf("<p style=");
+    Q_ASSERT(firstPStyle != -1);
+    int endOfPStyle = raw.indexOf(">", firstPStyle);
+
+    int i2 = raw.lastIndexOf("</p></body></html>");
+
+    Q_ASSERT(i2 != -1);
+
     raw.remove(i2, raw.size());
-    raw.remove(0, i1 + a1.size());
+    raw.remove(0, endOfPStyle + 1);
+
     return raw;
 }
 QStringList Bible::toUniformHtml(QStringList string)
 {
     DEBUG_FUNC_NAME
-    QTextDocument normal("");
-    QString normalS = normal.toHtml();
-    normalS.remove("-qt-paragraph-type:empty;");
-    QString normalS2(normalS);
-    int p = normalS.lastIndexOf("</p></body></html>");
     QString wholeText = string.join("[VERSEINSERT_FROM_OPENBIBLEVIEWER]");
     QTextDocument t;
     t.setHtml(wholeText);
     QString raw = t.toHtml();
-    QString a1 = normalS.remove(p, normalS.size());
-    QString a2 = normalS2.remove(0, p);
-    int i1 = raw.indexOf(a1);
-    int i2 = raw.indexOf(a2);
-    Q_ASSERT(i1 != -1);
+
+    int firstPStyle = raw.indexOf("<p style=");
+    Q_ASSERT(firstPStyle != -1);
+    int endOfPStyle = raw.indexOf(">", firstPStyle);
+
+    int i2 = raw.lastIndexOf("</p></body></html>");
+
     Q_ASSERT(i2 != -1);
-    /*if(i1 == -1 || i2 == -1) {
-        myDebug() << "i1 = " << i1 << " i2 = " << i2;
-        myDebug() << "raw = " << raw;
-        myDebug() << "a1 = " << a1;
-    }*/
+
     raw.remove(i2, raw.size());
-    raw.remove(0, i1 + a1.size());
+    myDebug() << raw.remove(0, endOfPStyle + 1);
     return raw.split("[VERSEINSERT_FROM_OPENBIBLEVIEWER]");
-    return string;
 }
 /**
   Search in the current module

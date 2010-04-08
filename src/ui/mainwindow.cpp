@@ -87,9 +87,9 @@ void MainWindow::loadInterface()
     DEBUG_FUNC_NAME
     QString interface = m_settings->session.getData("interface").toString();
     myDebug() << "interface = " << interface;
-    if(interface == "advanced") {
+    if (interface == "advanced") {
         loadAdvancedInterface();
-    } else if(interface == "simple") {
+    } else if (interface == "simple") {
         loadSimpleInterface();
     } else {
         loadAdvancedInterface();
@@ -98,44 +98,44 @@ void MainWindow::loadInterface()
 void MainWindow::deleteInterface()
 {
     DEBUG_FUNC_NAME
-    if(m_interface->hasToolBar()) {
+    if (m_interface->hasToolBar()) {
         myDebug() << "removing toolbar bar = " << m_interface->toolBar();
         removeToolBar(toolBar);
 
     }
-    if(m_interface->hasMenuBar()) {
+    if (m_interface->hasMenuBar()) {
         delete menuBar;
     }
 
 
-    if(typeid(*m_interface) == typeid(SimpleInterface)) {
+    if (typeid(*m_interface) == typeid(SimpleInterface)) {
         myDebug() << "delete simpleInterface";
 
-        if(m_interface->m_moduleDockWidget) {
+        if (m_interface->m_moduleDockWidget) {
             removeDockWidget(m_interface->m_moduleDockWidget);
         }
-        if(m_interface->m_bookDockWidget) {
+        if (m_interface->m_bookDockWidget) {
             removeDockWidget(m_interface->m_bookDockWidget);
         }
-        if(m_interface->m_searchResultDockWidget)
+        if (m_interface->m_searchResultDockWidget)
             removeDockWidget(m_interface->m_searchResultDockWidget);
 
-    } else if(typeid(*m_interface) == typeid(AdvancedInterface)) {
+    } else if (typeid(*m_interface) == typeid(AdvancedInterface)) {
         myDebug() << "delete advacedinterface";
-        if(m_interface->m_moduleDockWidget)
+        if (m_interface->m_moduleDockWidget)
             removeDockWidget(m_interface->m_moduleDockWidget);
-        if(m_interface->m_bookDockWidget)
+        if (m_interface->m_bookDockWidget)
             removeDockWidget(m_interface->m_bookDockWidget);
-        if(m_interface->m_searchResultDockWidget)
+        if (m_interface->m_searchResultDockWidget)
             removeDockWidget(m_interface->m_searchResultDockWidget);
 
-        if(m_interface->m_notesDockWidget)
+        if (m_interface->m_notesDockWidget)
             removeDockWidget(m_interface->m_notesDockWidget);
-        if(m_interface->m_bookmarksDockWidget)
+        if (m_interface->m_bookmarksDockWidget)
             removeDockWidget(m_interface->m_bookmarksDockWidget);
-        if(m_interface->m_strongDockWidget)
+        if (m_interface->m_strongDockWidget)
             removeDockWidget(m_interface->m_strongDockWidget);
-        if(m_interface->m_quickJumpDockWidget)
+        if (m_interface->m_quickJumpDockWidget)
             removeDockWidget(m_interface->m_quickJumpDockWidget);
     }
     delete this->centralWidget();
@@ -175,8 +175,8 @@ void MainWindow::loadSimpleInterface()
     }
     if (m_interface->hasToolBar())
         toolBar = m_interface->toolBar();
-        addToolBar(toolBar);
-    connect(this, SIGNAL(settingsChanged(Settings,Settings)), m_interface, SLOT(settingsChanged(Settings,Settings)));
+    addToolBar(toolBar);
+    connect(this, SIGNAL(settingsChanged(Settings, Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
 }
 
@@ -229,7 +229,7 @@ void MainWindow::loadAdvancedInterface()
         addToolBar(toolBar);
     }
     myDebug() << "b";
-    connect(this, SIGNAL(settingsChanged(Settings,Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
+    connect(this, SIGNAL(settingsChanged(Settings, Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
     m_interface->init();
     myDebug() << "c";
@@ -363,20 +363,20 @@ void MainWindow::loadSettings()
         m.moduleName = m_settingsFile->value("name").toString();
         m.modulePath = m_settingsFile->value("path").toString();
         m.moduleType = m_settingsFile->value("type").toString();
-        m.biblequote_removeHtml = m_settingsFile->value("removeHtml").toInt();
+        m.biblequote_removeHtml = m_settingsFile->value("removeHtml", true).toInt();
         m.zefbible_textFormatting = m_settingsFile->value("textFormatting").toInt();
-        m.zefbible_hardCache = m_settingsFile->value("hardCache").toBool();
-        m.zefbible_softCache = m_settingsFile->value("softCache").toBool();
-        m.zefbible_showStrong = m_settingsFile->value("showStrong").toBool();
-        m.zefbible_showStudyNote = m_settingsFile->value("showStudyNote").toBool();
+        m.zefbible_hardCache = m_settingsFile->value("hardCache", true).toBool();
+        m.zefbible_softCache = m_settingsFile->value("softCache", true).toBool();
+        m.zefbible_showStrong = m_settingsFile->value("showStrong", true).toBool();
+        m.zefbible_showStudyNote = m_settingsFile->value("showStudyNote", true).toBool();
         m.isDir = m_settingsFile->value("isDir").toBool();
         m.encoding = m_settingsFile->value("encoding").toString();
         m.bookCount = m_settingsFile->value("bookCount").toMap();
         m.bookNames = m_settingsFile->value("bookNames").toMap();
         m.bibleName = m_settingsFile->value("bibleName").toMap();
         m.biblePath = m_settingsFile->value("biblePath").toMap();
-        m.uModuleCount = m_settingsFile->value("uModuleCount",0).toInt();
-        m.styleSheet = m_settingsFile->value("styleSheet",":/data/default.css").toString();
+        m.uModuleCount = m_settingsFile->value("uModuleCount", 0).toInt();
+        m.styleSheet = m_settingsFile->value("styleSheet", ":/data/default.css").toString();
         m_settings->module.append(m);
 
     }
@@ -459,11 +459,11 @@ void MainWindow::saveSettings(Settings newSettings)
     if (oldSettings.language != newSettings.language /* || m_settings->theme != set->theme*/) {
         loadLanguage(newSettings.language);
     }
-    if( oldSettings.session.getData("interface","advanced") != newSettings.session.getData("interface","advanced")) {
+    if (oldSettings.session.getData("interface", "advanced") != newSettings.session.getData("interface", "advanced")) {
         myDebug() << "loading new interface";
         reloadInterface();
     }
-    emit settingsChanged(oldSettings,newSettings);
+    emit settingsChanged(oldSettings, newSettings);
 }
 void MainWindow::showSettingsDialog(int tabID)
 {

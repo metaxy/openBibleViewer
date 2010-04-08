@@ -108,11 +108,11 @@ int SettingsDialog::setSettings(Settings settings)
     m_ui->comboBox_interface->clear();
     m_ui->comboBox_interface->insertItems(0, interface);
     int currentInterface;
-    QString i = m_set.session.getData("interface","advanced").toString();
+    QString i = m_set.session.getData("interface", "advanced").toString();
     qDebug() << "interface = " << i;
-    if(i == "advanced") {
+    if (i == "advanced") {
         currentInterface = 1;
-    } else if(i == "simple") {
+    } else if (i == "simple") {
         currentInterface = 0;
     }
     myDebug() << " currentInterface = " << currentInterface;
@@ -309,10 +309,10 @@ void SettingsDialog::save(void)
     m_set.language = m_langCode.at(m_ui->comboBox_language->currentIndex());
     m_set.autoLayout = m_ui->comboBox_autoLayout->currentIndex();
     int currentInterface = m_ui->comboBox_interface->currentIndex();
-    if(currentInterface == 0) {
-        m_set.session.setData("interface","simple");
-    } else if(currentInterface == 1) {
-         m_set.session.setData("interface","advanced");
+    if (currentInterface == 0) {
+        m_set.session.setData("interface", "simple");
+    } else if (currentInterface == 1) {
+        m_set.session.setData("interface", "advanced");
     }
     //Alles andere, wie z.b die Module sind schon gespeichert
     emit settingsChanged(m_set);//Speichern

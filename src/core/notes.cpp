@@ -183,9 +183,9 @@ void Notes::setType(const QString &id, const QString &type)
 void Notes::setTitle(const QString &id, const QString &title)
 {
     //DEBUG_FUNC_NAME
-    if(notesTitle[id] != title) {
+    if (notesTitle[id] != title) {
         notesTitle[id] = title;
-        emit titleChanged(id,title);
+        emit titleChanged(id, title);
     }
 }
 /*!
@@ -196,9 +196,9 @@ void Notes::setTitle(const QString &id, const QString &title)
 void Notes::setData(const QString &id, const QString &data)
 {
     //DEBUG_FUNC_NAME
-    if(notesData[id] != data) {
+    if (notesData[id] != data) {
         notesData[id] = data;
-        emit dataChanged(id,data);
+        emit dataChanged(id, data);
     }
 }
 /*!

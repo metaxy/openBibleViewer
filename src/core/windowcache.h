@@ -33,7 +33,7 @@ public:
     void clearZefCache();
 
     bool setCurrentWindowID(const int &id);
-    void setBible(Bible b,bool clearZefCache=true);
+    void setBible(Bible b, bool clearZefCache = true);
     void setCurrentBook(const int &bookid, const int &chapterCount);
 
     int getBibleType();

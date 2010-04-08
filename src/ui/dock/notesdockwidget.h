@@ -67,9 +67,9 @@ signals:
 private:
     Ui::NotesDockWidget *ui;
     SimpleNotes *m_simpleNotes;
-  /*  QStringList m_textNotesID;
-    QString m_noteID;
-    QMap<QString, QString> currentNoteRef;*/
+    /*  QStringList m_textNotesID;
+      QString m_noteID;
+      QMap<QString, QString> currentNoteRef;*/
 
 };
 

@@ -141,7 +141,7 @@ void ZefaniaBible::readBook(const int &id)
             QTime t2;
             t2.start();
             e2 = format(e2);
-           // myDebug() << "time( " <<  e2.attribute("vnumber", "") << ") = " << t2.elapsed();
+            // myDebug() << "time( " <<  e2.attribute("vnumber", "") << ") = " << t2.elapsed();
             c.data <<  e2.text();
             c.verseNumber << e2.attribute("vnumber", "");
             n2 = n2.nextSibling();
@@ -624,7 +624,7 @@ SearchResult ZefaniaBible::search(SearchQuery query)
     if (query.wholeWord == true) {
         query.searchText = " " + query.searchText + " ";
     }
-    myDebug() <<"query.regexp = " << query.regExp;
+    myDebug() << "query.regexp = " << query.regExp;
     lastSearchQuery = query;
     SearchResult result;
     result.searchQuery = query;

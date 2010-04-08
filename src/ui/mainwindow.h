@@ -67,9 +67,9 @@ signals:
 private:
     Ui::MainWindow *ui;
     Interface *m_interface;
-   /* SimpleInterface *simpleInterface;
-    AdvancedInterface *advancedInterface ;
-    StudyInterface *studyInterface;*/
+    /* SimpleInterface *simpleInterface;
+     AdvancedInterface *advancedInterface ;
+     StudyInterface *studyInterface;*/
     QToolBar *toolBar;
     QMenuBar *menuBar;
     void loadInterface();

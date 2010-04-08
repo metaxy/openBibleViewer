@@ -168,7 +168,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
     subWindow->show();
     ui->mdiArea->setActiveSubWindow(subWindow);
-     myDebug() << "b";
+    myDebug() << "b";
     if (windowsCount == 0  && doAutoLayout) {
         subWindow->showMaximized();
     } else if (windowsCount == 1 && doAutoLayout) {
@@ -180,7 +180,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
         subWindow->resize(600, 600);
         subWindow->show();
     }
- myDebug() << "c";
+    myDebug() << "c";
     connect(mForm->m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
     connect(mForm->m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
     connect(mForm->m_ui->textBrowser, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(textBrowserContextMenu(QPoint)));
@@ -438,7 +438,7 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
 
     } else {
 
-        if(m_moduleManager->m_bible.bibleID() == m_windowCache.getBible().bibleID())
+        if (m_moduleManager->m_bible.bibleID() == m_windowCache.getBible().bibleID())
             return 1;
         m_moduleManager->m_bible = m_windowCache.getBible();
         setTitle(m_moduleManager->m_bible.bibleTitle);
@@ -471,7 +471,7 @@ void AdvancedInterface::loadModuleDataByID(int id)
         return;
     }
     QApplication::setOverrideCursor(Qt::WaitCursor);
-    QTextBrowser *textBrowser = getTextBrowser();
+
     m_windowCache.setCurrentWindowID(currentWindowID());
     m_windowCache.setBible(m_moduleManager->m_bible);//todo: !before loading an another bible, save the last
 
@@ -483,14 +483,15 @@ void AdvancedInterface::loadModuleDataByID(int id)
     setTitle(m_moduleManager->m_bible.bibleTitle);
     setBooks(m_moduleManager->m_bible.bookFullName);
     m_moduleDockWidget->loadedModule(id);//select current Module
-    myDebug() <<"style = " <<  m_settings->getModuleSettings(id).styleSheet;
+    /*myDebug() <<"style = " <<  m_settings->getModuleSettings(id).styleSheet;
+       QTextBrowser *textBrowser = getTextBrowser();
     QFile file(m_settings->getModuleSettings(id).styleSheet);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream in(&file);
         textBrowser->document()->setDefaultStyleSheet(in.readAll());//set stylesheet
     } else {
         myDebug() << "can not open stylesheet = " << file.errorString();
-    }
+    }*/
 
 
 
@@ -528,7 +529,7 @@ void AdvancedInterface::pharseUrl(QString url)
                 int bookID = c.at(0).toInt();
                 int chapterID = c.at(1).toInt();
                 int verseID = c.at(2).toInt();
-                if(bookID < 0 || chapterID < 0 || verseID < 0) {
+                if (bookID < 0 || chapterID < 0 || verseID < 0) {
                     myDebug() << "invalid url";
                     return;
                 }
@@ -671,7 +672,7 @@ void AdvancedInterface::zoomOut()
 void AdvancedInterface::showText(const QString &text)
 {
     //qDebug() << ""
-    m_windowCache.setBible(m_moduleManager->m_bible,false);
+    m_windowCache.setBible(m_moduleManager->m_bible, false);
     QTextBrowser *t = getTextBrowser();
     if (t) {
         t->setHtml(text);
@@ -852,55 +853,106 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
         QStringList chapterData = m_moduleManager->m_bible.toUniformHtml(m_moduleManager->m_bible.chapterDataList);
 
         QString text = chapterData.join("");
-        int startFragment = text.indexOf(fragment);
-        qDebug() << "pos = " << startFragment << " fragemnt = " << fragment;
-        //find out start verse and end verse
-        int counter = 0;
-        for (int i = 0; i < chapterData.size(); ++i) {
-            counter += chapterData.at(i).size();
-            myDebug() << "i = " << i << " counter = " << counter;
-            if (selection.startVerse == -1 && startFragment < counter) {
-                myDebug() << "setted start";
-                selection.startVerse = i;
-                selection.posInStartVerse = startFragment - (counter - chapterData.at(i).size()) ;
-                for (int s = 3; s < 100; s++) {
-                    QString b = fragment;
-                    QString searchString = b.remove(s, fragment.size());
-                    //todo: if it starts with a html tag remove that
-                    QString v = chapterData.at(i);
-                    int a1 = v.lastIndexOf(searchString);
-                    int a2 = v.indexOf(searchString);
-                    if (a1 == a2) {
-                        myDebug() << "s = " << s << " searchString = " << searchString;
-                        selection.shortestStringInStartVerse = searchString;
-                        break;
-                    }
-                }
-                myDebug() << "posInstartverse = " << selection.posInStartVerse;
-            }
-            if (selection.endVerse == -1 && (startFragment + fragment.size()  < (counter))) {
-                myDebug() << "setted end";
-                selection.endVerse = i;
-                selection.posInEndVerse = (startFragment + fragment.size()) - (counter - chapterData.at(i).size()) ;
-                for (int s = 3; s < 100/* or some another big value*/; s++) {
-                    QString b = fragment;
-                    QString searchString = b.remove(0, b.size() - s);
-                    //todo: if it starts with a html tag remove that
-                    QString v = chapterData.at(i);
-                    int a1 = v.lastIndexOf(searchString);
-                    int a2 = v.indexOf(searchString);
-                    if (a1 == a2) {
-                        myDebug() << "s = " << s << " searchString = " << searchString;
-                        selection.shortestStringInEndVerse = searchString;
-                        break;
-                    }
-                }
-                myDebug() << "posInEndverse = " << selection.posInEndVerse;
+        int startFragment = text.indexOf(fragment);//todo: it dont't have to be the right verse there may more than on withe the same fragment
+
+        // Do it on one way: this way is more stable but you get only the start verse
+        int n_pos = cursor.position();
+        int n_counter = 0;
+        int n_startVerse;
+        QStringList n_chapterData = m_moduleManager->m_bible.toUniformHtml(m_moduleManager->m_bible.chapterDataList);
+        for (int i = 0; i < n_chapterData.size(); ++i) {
+            QTextDocument t;
+            t.setHtml(chapterData.at(i));
+            n_counter += t.toPlainText().size();
+            if (n_pos < n_counter) {
+                n_startVerse = i;
                 break;
             }
         }
-        myDebug() << " start = " << selection.startVerse << " end = " << selection.endVerse;
+        myDebug() << "over cursor.position()(2) = " << n_startVerse;
+        bool foundBoth = false;
+        VerseSelection backup;
+        while (startFragment != -1) {
+            //do we have to do it on another way
+            int counter = 0;
+            for (int i = 0; i < chapterData.size(); ++i) {
+                counter += chapterData.at(i).size();
+                myDebug() << "i = " << i << " counter = " << counter;
+                if (selection.startVerse == -1 && startFragment < counter) {
+                    myDebug() << "setted start";
+                    selection.startVerse = i;
+                    selection.posInStartVerse = startFragment - (counter - chapterData.at(i).size()) ;
+                    bool notFound = true;
+                    int biggest = 6;
+                    while (notFound) {
+                        for (int s = biggest; s < 100; s++) {
+                            QString b = fragment;
+                            QString searchString = b.remove(s, fragment.size());
+                            //todo: if it starts with a html tag remove that
+                            QString v = chapterData.at(i);
+                            int a1 = v.lastIndexOf(searchString);
+                            int a2 = v.indexOf(searchString);
+                            if (a1 == a2) {
+                                myDebug() << "s = " << s << " searchString = " << searchString;
+                                selection.shortestStringInStartVerse = searchString;
+                                notFound = false;
+                                break;
+                            }
+                        }
+                        biggest--;
+                        if (biggest == 0) {
+                            break;
+                        }
+                    }
+                    myDebug() << "posInstartverse = " << selection.posInStartVerse;
+                }
+                if (selection.endVerse == -1 && (startFragment + fragment.size()  < (counter))) {
+                    myDebug() << "setted end";
+                    selection.endVerse = i;
+                    selection.posInEndVerse = (startFragment + fragment.size()) - (counter - chapterData.at(i).size()) ;
+                    bool notFound = true;
+                    int biggest = 6;
+                    while (notFound) {
+                        for (int s = biggest; s < 100/* or some another big value*/; s++) {
+                            QString b = fragment;
+                            QString searchString = b.remove(0, b.size() - s);
+                            //todo: if it starts with a html tag remove that
+                            QString v = chapterData.at(i);
+                            int a1 = v.lastIndexOf(searchString);
+                            int a2 = v.indexOf(searchString);
+                            if (a1 == a2) {
+                                myDebug() << "s = " << s << " searchString = " << searchString;
+                                selection.shortestStringInEndVerse = searchString;
+                                notFound = false;
+                                break;
+                            }
+                        }
+                        biggest--;
+                        if (biggest == 0) {
+                            break;
+                        }
+                    }
+                    myDebug() << "posInEndverse = " << selection.posInEndVerse;
+                    break;
+                }
+            }
+
+            if (selection.startVerse == n_startVerse) { //and compare both ways
+                myDebug() << "break selection.startVerse = " << selection.startVerse << " n_startVerse  = " << n_startVerse;
+                foundBoth = true;
+                break;
+            }
+            backup = selection;
+            selection.endVerse = -1;
+            selection.startVerse = -1;
+            startFragment = text.indexOf(fragment, startFragment + fragment.size());
+            myDebug() << " start = " << selection.startVerse << " end = " << selection.endVerse;
+        }
+        if (!foundBoth) {
+            selection = backup;
+        }
     } else {
+
         int pos = cursor.position();
         QStringList chapterData = m_moduleManager->m_bible.toUniformHtml(m_moduleManager->m_bible.chapterDataList);
         int counter = 0;
@@ -913,6 +965,7 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
                 break;
             }
         }
+        myDebug() << "over cursor.position() = " << selection.startVerse;
     }
     return selection;
 }
@@ -1060,9 +1113,9 @@ int AdvancedInterface::copyWholeVerse(void)
     if (selection.startVerse != -1) {
         if (m_moduleManager->m_bible.m_bibleType == Bible::BibleQuoteModule) {
         } else if (m_moduleManager->m_bible.m_bibleType == Bible::ZefaniaBibleModule) {
-            if(selection.startVerse - 1 < 0)
+            if (selection.startVerse - 1 < 0)
                 selection.startVerse = 1;
-            if(selection.endVerse < 0)
+            if (selection.endVerse < 0)
                 selection.endVerse = 0;
         }
 
@@ -1196,7 +1249,7 @@ void AdvancedInterface::reloadChapter(bool full)
 
     int vsliderPosition = textBrowser->verticalScrollBar()->sliderPosition();
     int hsliderPosition = textBrowser->horizontalScrollBar()->sliderPosition();//horizontal
-    if(full) {
+    if (full) {
         loadModuleDataByID(m_moduleManager->m_bible.bibleID());//todo: select the right module in treewidget
         readBookByID(m_moduleManager->m_bible.bookID());
         setCurrentBook(m_moduleManager->m_bible.bookID());
@@ -1346,36 +1399,36 @@ void AdvancedInterface::search(SearchQuery query)
 void AdvancedInterface::searchInText(SearchQuery query)
 {
     DEBUG_FUNC_NAME
-    if(query.queryType == SearchQuery::Simple) {
+    if (query.queryType == SearchQuery::Simple) {
         myDebug() << "searching";
         QTextDocument *doc = getTextBrowser()->document();
         QTextDocument::FindFlags flags;
-        if(query.caseSensitive) {
+        if (query.caseSensitive) {
             flags |= QTextDocument::FindCaseSensitively;
         }
-        if(query.wholeWord) {
+        if (query.wholeWord) {
             flags |= QTextDocument::FindWholeWords;
         }
 
-        if(query.regExp) {
+        if (query.regExp) {
             myDebug() << "regExp";
             QTextCursor cursor;
-            cursor = doc->find(QRegExp(query.searchText),0);
-            while(!cursor.isNull()) {
-                cursor.insertHtml("<span style=\"background-color:#ffcf3d\">"+cursor.selectedText()+"</span>");
+            cursor = doc->find(QRegExp(query.searchText), 0);
+            while (!cursor.isNull()) {
+                cursor.insertHtml("<span style=\"background-color:#ffcf3d\">" + cursor.selectedText() + "</span>");
                 getTextBrowser()->setTextCursor(cursor);
 
-                cursor = doc->find(QRegExp(query.searchText),cursor);
+                cursor = doc->find(QRegExp(query.searchText), cursor);
             }
         } else {
             myDebug() << "No regExp";
             QTextCursor cursor;
-            cursor = doc->find(query.searchText,0,flags);
-            while(!cursor.isNull()) {
-                cursor.insertHtml("<span style=\"background-color:#ffcf3d\">"+cursor.selectedText()+"</span>");
+            cursor = doc->find(query.searchText, 0, flags);
+            while (!cursor.isNull()) {
+                cursor.insertHtml("<span style=\"background-color:#ffcf3d\">" + cursor.selectedText() + "</span>");
                 getTextBrowser()->setTextCursor(cursor);
 
-                cursor = doc->find(query.searchText,cursor,flags);
+                cursor = doc->find(query.searchText, cursor, flags);
             }
         }
     }
@@ -1639,7 +1692,7 @@ int AdvancedInterface::saveFile(void)
     //dialog.setFileMode(QFileDialog::AnyFile);
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     //todo: save last place
-    QString fileName = dialog.getSaveFileName(this,tr("Save output"),m_settings->lastPlaceSave,tr("Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)"));
+    QString fileName = dialog.getSaveFileName(this, tr("Save output"), m_settings->lastPlaceSave, tr("Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)"));
     myDebug() << "fileName = " << fileName;
     if (activeMdiChild()) {
         QTextBrowser *t = getTextBrowser();

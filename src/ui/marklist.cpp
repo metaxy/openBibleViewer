@@ -32,8 +32,8 @@ void MarkList::init()
 
     m_notes->loadingNewInstance();
     connect(m_notes, SIGNAL(saveAll()), this, SLOT(saveNote()));
-    connect(ui->tableView,SIGNAL(activated(QModelIndex)),this,SLOT(load(QModelIndex)));
-    connect(this,SIGNAL(get(QString)),m_bibleDisplay,SIGNAL(get(QString)));
+    connect(ui->tableView, SIGNAL(activated(QModelIndex)), this, SLOT(load(QModelIndex)));
+    connect(this, SIGNAL(get(QString)), m_bibleDisplay, SIGNAL(get(QString)));
     QStringList marks;
     QStringList id = m_notes->getIDList();
     for (int i = 0; i < id.size(); ++i) {
@@ -51,25 +51,25 @@ void MarkList::init()
 
     for (int row = 0; row < marks.size(); ++row) {
 
-         QString string = "";
-         UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, m_notes->getRef(marks.at(row),"link"));
-         urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
-         urlConverter.pharse();
+        QString string = "";
+        UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, m_notes->getRef(marks.at(row), "link"));
+        urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
+        urlConverter.pharse();
 
-         string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," +
-                   QString::number(urlConverter.m_verseID + 1);
+        string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," +
+                  QString::number(urlConverter.m_verseID + 1);
 
-         QStandardItem *stelle = new QStandardItem(string);
-         stelle->setData(marks.at(row));
-         m_itemModel->setItem(row, 0, stelle);
+        QStandardItem *stelle = new QStandardItem(string);
+        stelle->setData(marks.at(row));
+        m_itemModel->setItem(row, 0, stelle);
 
-         QStandardItem *modul = new QStandardItem(m_moduleManager->m_moduleList.at(urlConverter.m_bibleID.toInt()).m_title);
-         m_itemModel->setItem(row, 1, modul);
+        QStandardItem *modul = new QStandardItem(m_moduleManager->m_moduleList.at(urlConverter.m_bibleID.toInt()).m_title);
+        m_itemModel->setItem(row, 1, modul);
 
-     }
+    }
     m_proxyModel->setSourceModel(m_itemModel);
-    m_proxyModel->setHeaderData(0,Qt::Horizontal,tr("Mark Position"));
-    m_proxyModel->setHeaderData(1,Qt::Horizontal,tr("Module"));
+    m_proxyModel->setHeaderData(0, Qt::Horizontal, tr("Mark Position"));
+    m_proxyModel->setHeaderData(1, Qt::Horizontal, tr("Module"));
 
     ui->tableView->setSortingEnabled(true);
     ui->tableView->setModel(m_proxyModel);
@@ -77,7 +77,7 @@ void MarkList::init()
 }
 void MarkList::load(QModelIndex index)
 {
-    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, m_notes->getRef(index.data(Qt::UserRole+1).toString(),"link"));
+    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, m_notes->getRef(index.data(Qt::UserRole + 1).toString(), "link"));
     urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
     urlConverter.pharse();
     QString link = urlConverter.convert();

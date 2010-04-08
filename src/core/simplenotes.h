@@ -16,7 +16,7 @@
 #include "src/core/basicclass.h"
 class SimpleNotes : public QObject, public BasicClass
 {
-Q_OBJECT
+    Q_OBJECT
 
 public:
     explicit SimpleNotes();
@@ -30,11 +30,11 @@ public:
 signals:
     void reloadChapter();
 public slots:
-     void newNote();
-     void showNote(const QString &noteID,bool s=false);
-     void saveNote();
-     void newNoteWithLink(VerseSelection selection);
-     void fastSave();
+    void newNote();
+    void showNote(const QString &noteID, bool s = false);
+    void saveNote();
+    void newNoteWithLink(VerseSelection selection);
+    void fastSave();
 private slots:
     void copyNote();
     void changeData(QString id, QString data);

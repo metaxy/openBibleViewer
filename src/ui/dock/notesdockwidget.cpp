@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QClipboard>
 #include <QtGui/QMenu>
 #include <QtGui/QColorDialog>
+#include <QtGui/QMessageBox>
 NotesDockWidget::NotesDockWidget(QWidget *parent) :
         DockWidget(parent),
         ui(new Ui::NotesDockWidget)
@@ -57,20 +58,20 @@ void NotesDockWidget::init()
     connect(ui->textEdit_note, SIGNAL(undoAvailable(bool)), ui->toolButton_noteUndo, SLOT(setEnabled(bool)));
     connect(ui->textEdit_note, SIGNAL(redoAvailable(bool)), ui->toolButton_noteRedo, SLOT(setEnabled(bool)));
 
-   // connect(ui->textEdit_note, SIGNAL(undoAvailable(bool)), m_simpleNotes, SLOT(fastSave()));
-   //    connect(ui->textEdit_note, SIGNAL(redoAvailable(bool)), m_simpleNotes, SLOT(fastSave()));
+    // connect(ui->textEdit_note, SIGNAL(undoAvailable(bool)), m_simpleNotes, SLOT(fastSave()));
+    //    connect(ui->textEdit_note, SIGNAL(redoAvailable(bool)), m_simpleNotes, SLOT(fastSave()));
     m_moduleManager->m_bible.setNotes(m_notes);//todo: fix this bug
 }
 
 void NotesDockWidget::showNote(const QString &noteID)
 {
-   m_simpleNotes->showNote(noteID,true);
+    m_simpleNotes->showNote(noteID, true);
 
 }
 
 void NotesDockWidget::saveNote(void)
 {
-   m_simpleNotes->saveNote();
+    m_simpleNotes->saveNote();
 }
 void NotesDockWidget::newNote(void)
 {
@@ -124,6 +125,11 @@ void NotesDockWidget::noteRedo()
 void NotesDockWidget::newMark(VerseSelection selection, QColor color)
 {
     //DEBUG_FUNC_NAME
+    if (selection.shortestStringInEndVerse == "" || selection.shortestStringInStartVerse == "") {
+        myDebug() << "cannot create mark";
+        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot create mark."));
+        return;
+    }
     QString link;
     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
     urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;

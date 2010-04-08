@@ -23,7 +23,7 @@ QuickJumpDockWidget::QuickJumpDockWidget(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->pushButton_goTo, SIGNAL(clicked()), this, SLOT(goToPos()));
-    connect(ui->lineEdit_goTo,SIGNAL(returnPressed()),this,SLOT(goToPos()));
+    connect(ui->lineEdit_goTo, SIGNAL(returnPressed()), this, SLOT(goToPos()));
 }
 
 QuickJumpDockWidget::~QuickJumpDockWidget()

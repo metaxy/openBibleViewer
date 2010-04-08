@@ -20,6 +20,6 @@ VerseSelection::VerseSelection()
     posInStartVerse = 0;
     posInEndVerse = 0;
     selectedText = "";
-    shortestStringInStartVerse= "";
+    shortestStringInStartVerse = "";
     shortestStringInEndVerse = "";
 }
