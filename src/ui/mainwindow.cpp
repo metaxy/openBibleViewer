@@ -373,7 +373,8 @@ void MainWindow::loadSettings()
         m.bookNames = m_settingsFile->value("bookNames").toMap();
         m.bibleName = m_settingsFile->value("bibleName").toMap();
         m.biblePath = m_settingsFile->value("biblePath").toMap();
-        m.uModuleCount = m_settingsFile->value("uModuleCount").toInt();
+        m.uModuleCount = m_settingsFile->value("uModuleCount",0).toInt();
+        m.styleSheet = m_settingsFile->value("styleSheet",":/data/default.css").toInt();
         m_settings->module.append(m);
 
     }
@@ -412,22 +413,24 @@ void MainWindow::writeSettings()
     m_settingsFile->beginWriteArray("module");
     for (int i = 0; i < m_settings->module.size(); ++i) {
         m_settingsFile->setArrayIndex(i);
-        m_settingsFile->setValue("name", m_settings->module.at(i).moduleName);
-        m_settingsFile->setValue("path", m_settings->module.at(i).modulePath);
-        m_settingsFile->setValue("type", m_settings->module.at(i).moduleType);
-        m_settingsFile->setValue("textFormatting", m_settings->module.at(i).zefbible_textFormatting);
-        m_settingsFile->setValue("removeHtml", m_settings->module.at(i).biblequote_removeHtml);
-        m_settingsFile->setValue("hardCache", m_settings->module.at(i).zefbible_hardCache);
-        m_settingsFile->setValue("softCache", m_settings->module.at(i).zefbible_softCache);
-        m_settingsFile->setValue("showStrong", m_settings->module.at(i).zefbible_showStrong);
-        m_settingsFile->setValue("showStudyNote", m_settings->module.at(i).zefbible_showStudyNote);
-        m_settingsFile->setValue("isDir", m_settings->module.at(i).isDir);
-        m_settingsFile->setValue("encoding", m_settings->module.at(i).encoding);
-        m_settingsFile->setValue("bookCount", m_settings->module.at(i).bookCount);
-        m_settingsFile->setValue("bookNames", m_settings->module.at(i).bookNames);
-        m_settingsFile->setValue("biblePath", m_settings->module.at(i).biblePath);
-        m_settingsFile->setValue("bibleName", m_settings->module.at(i).bibleName);
-        m_settingsFile->setValue("uModuleCount", m_settings->module.at(i).uModuleCount);
+        ModuleSettings m = m_settings->module.at(i);
+        m_settingsFile->setValue("name", m.moduleName);
+        m_settingsFile->setValue("path", m.modulePath);
+        m_settingsFile->setValue("type", m.moduleType);
+        m_settingsFile->setValue("textFormatting", m.zefbible_textFormatting);
+        m_settingsFile->setValue("removeHtml", m.biblequote_removeHtml);
+        m_settingsFile->setValue("hardCache", m.zefbible_hardCache);
+        m_settingsFile->setValue("softCache", m.zefbible_softCache);
+        m_settingsFile->setValue("showStrong", m.zefbible_showStrong);
+        m_settingsFile->setValue("showStudyNote", m.zefbible_showStudyNote);
+        m_settingsFile->setValue("isDir", m.isDir);
+        m_settingsFile->setValue("encoding", m.encoding);
+        m_settingsFile->setValue("bookCount", m.bookCount);
+        m_settingsFile->setValue("bookNames", m.bookNames);
+        m_settingsFile->setValue("biblePath", m.biblePath);
+        m_settingsFile->setValue("bibleName", m.bibleName);
+        m_settingsFile->setValue("uModuleCount", m.uModuleCount);
+        m_settingsFile->setValue("styleSheet", m.styleSheet);
     }
     m_settingsFile->endArray();
 

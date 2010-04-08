@@ -4,5 +4,6 @@
         <file>data/obv_de.qm</file>
         <file>data/obv_ru.qm</file>
         <file>data/obv_en.qm</file>
+        <file>data/default.css</file>
     </qresource>
 </RCC>

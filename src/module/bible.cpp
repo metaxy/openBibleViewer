@@ -287,7 +287,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                             int endPos = endVers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
                             myDebug() << "StartVers = " << startVers << " endVers = " << endVers << " startPos = " << startPos << " endPos = " << endPos << " startString = " << m_notes->getRef(noteID, "startString") << " endString = " << m_notes->getRef(noteID, "endString");
 
-                            startVers.insert(startPos, "<span name=\"mark\" style=\"background-color:" + m_notes->getRef(noteID, "color") + "\">");
+                            startVers.insert(startPos, "<span class=\"mark\" style=\"background-color:" + m_notes->getRef(noteID, "color") + "\">");
                             endVers.insert(endPos, "</span>");
                             versList.replace(startVersID, startVers);
                             versList.replace(endVersID, endVers);

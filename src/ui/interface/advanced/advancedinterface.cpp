@@ -428,12 +428,14 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
 
     myDebug() << "setCurrentTab id = " << id;
     m_windowCache.setCurrentWindowID(id);
+
     //todo: add last active window and if it is the same do nohting
     if (m_windowCache.getBibleType() == Module::NoneType) { //probaly no bible loaded in this window
         myDebug() << "m_windowCache.getBibleType() == 0";
         setChapters(QStringList());
         setBooks(QStringList());
         m_moduleManager->m_bible.setBibleID(-2);
+
     } else {
 
         if(m_moduleManager->m_bible.bibleID() == m_windowCache.getBible().bibleID())
@@ -448,6 +450,7 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
         setBooks(m_moduleManager->m_bible.bookFullName);
         setCurrentBook(m_moduleManager->m_bible.bookID());
         m_moduleDockWidget->loadedModule(m_moduleManager->m_bible.bibleID());
+
     }
 
     return 0;
@@ -468,7 +471,7 @@ void AdvancedInterface::loadModuleDataByID(int id)
         return;
     }
     QApplication::setOverrideCursor(Qt::WaitCursor);
-
+    QTextBrowser *textBrowser = getTextBrowser();
     m_windowCache.setCurrentWindowID(currentWindowID());
     m_windowCache.setBible(m_moduleManager->m_bible);//todo: !before loading an another bible, save the last
 
@@ -480,6 +483,7 @@ void AdvancedInterface::loadModuleDataByID(int id)
     setTitle(m_moduleManager->m_bible.bibleTitle);
     setBooks(m_moduleManager->m_bible.bookFullName);
     m_moduleDockWidget->loadedModule(id);//select current Module
+    textBrowser->setDefaultStyleSheet(m_settings->getModuleSettings(id).styleSheet);//set stylesheet
     QApplication::restoreOverrideCursor();
 
 }

@@ -34,7 +34,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../icons.qrc">
+          <iconset resource="../../icons.qrc">
            <normaloff>:/icons/16x16/document-open.png</normaloff>:/icons/16x16/document-open.png</iconset>
          </property>
          <property name="autoRaise">
@@ -54,14 +54,14 @@
      <item row="1" column="1">
       <widget class="QLineEdit" name="lineEdit_name"/>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string>Type</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="3" column="1">
       <widget class="QComboBox" name="comboBox_type">
        <item>
         <property name="text">
@@ -85,15 +85,25 @@
        </item>
       </widget>
      </item>
-     <item row="3" column="0">
+     <item row="4" column="0">
       <widget class="QLabel" name="label_11">
        <property name="text">
         <string>Encoding</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
+     <item row="4" column="1">
       <widget class="QComboBox" name="comboBox_encoding"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>StyleSheet</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="lineEdit_styleSheet"/>
      </item>
     </layout>
    </item>
@@ -259,7 +269,7 @@
         <string>OK</string>
        </property>
        <property name="icon">
-        <iconset resource="../icons.qrc">
+        <iconset resource="../../icons.qrc">
          <normaloff>:/icons/16x16/dialog-ok.png</normaloff>:/icons/16x16/dialog-ok.png</iconset>
        </property>
        <property name="default">
@@ -279,7 +289,7 @@
         <string>Cancel</string>
        </property>
        <property name="icon">
-        <iconset resource="../icons.qrc">
+        <iconset resource="../../icons.qrc">
          <normaloff>:/icons/16x16/dialog-cancel.png</normaloff>:/icons/16x16/dialog-cancel.png</iconset>
        </property>
       </widget>
@@ -289,7 +299,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../icons.qrc"/>
+  <include location="../../icons.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -80,6 +80,8 @@ void ModuleConfigDialog::setModule(ModuleSettings config)
     } else {
         m_ui->comboBox_encoding->setCurrentIndex(0);
     }
+
+    m_ui->lineEdit_styleSheet->setText(config.styleSheet);
 }
 void ModuleConfigDialog::bsave()
 {
@@ -106,6 +108,7 @@ void ModuleConfigDialog::bsave()
     c.zefbible_showStrong =  m_ui->checkBox_showStrong->isChecked();
     c.zefbible_showStudyNote =  m_ui->checkBox_showStudyNote->isChecked();
     c.encoding = encodings.at(m_ui->comboBox_encoding->currentIndex());
+    c.styleSheet = m_ui->lineEdit_styleSheet->text();
     //todo:if path type or encoding changed clear cache
     emit save(c);
 }
