@@ -85,7 +85,7 @@ private slots:
     void previousChapter();
     int textBrowserContextMenu(QPoint);
     int copyWholeVerse();
-     void reloadChapter();
+     void reloadChapter(bool full=false);
 
     void showBookmarksDock();
     void showNotesDock();

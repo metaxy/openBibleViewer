@@ -107,6 +107,7 @@ void ZefaniaBible::readBook(const int &id)
 {
     //  DEBUG_FUNC_NAME
     //  myDebug() << "hardCache = " << m_settings->getModuleSettings(m_bibleID).zefbible_hardCache  << " softCache = " << m_settings->getModuleSettings(m_bibleID).zefbible_softCache << " softCacheData[id].size() = " << softCacheData[id].size();
+    myDebug() << "showStudy note = " << m_settings->getModuleSettings(m_bibleID).zefbible_showStudyNote;
     QDomNode ncache;
 
     if (softCacheData[id].isEmpty()) {

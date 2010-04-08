@@ -1174,7 +1174,7 @@ void AdvancedInterface::removeMark()
     VerseSelection selection = verseSelectionFromCursor(m_textCursor);
     m_notesDockWidget->removeMark(selection);
 }
-void AdvancedInterface::reloadChapter()
+void AdvancedInterface::reloadChapter(bool full)
 {
     if (!activeMdiChild())
         return;
@@ -1182,6 +1182,13 @@ void AdvancedInterface::reloadChapter()
 
     int vsliderPosition = textBrowser->verticalScrollBar()->sliderPosition();
     int hsliderPosition = textBrowser->horizontalScrollBar()->sliderPosition();//horizontal
+    if(full) {
+        loadModuleDataByID(m_moduleManager->m_bible.bibleID());//todo: select the right module in treewidget
+        readBookByID(m_moduleManager->m_bible.bookID());
+        setCurrentBook(m_moduleManager->m_bible.bookID());
+        readChapter(m_moduleManager->m_bible.chapterID());
+        setCurrentChapter(m_moduleManager->m_bible.chapterID());
+    }
     readChapter(m_moduleManager->m_bible.chapterID());
     textBrowser->verticalScrollBar()->setSliderPosition(vsliderPosition);
     textBrowser->horizontalScrollBar()->setSliderPosition(hsliderPosition);
@@ -1291,8 +1298,10 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
         m_moduleManager->loadAllModules();
         m_moduleDockWidget->init();
         m_strongDockWidget->init();
-        //ui->textBrowser->setHtml("");
-        //todo: clear everything
+        showText("");
+        m_windowCache.clearZefCache();
+        m_moduleManager->m_bible.clearSoftCache();
+        reloadChapter(true);
     }
 
 }

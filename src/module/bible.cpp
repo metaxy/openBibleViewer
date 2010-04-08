@@ -218,12 +218,13 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 vers.append("</b></a>");
             }
             if (m_settings->getModuleSettings(m_bibleID).zefbible_textFormatting == 0) {
-                vers.prepend("<span style=\" font-style:italic;\">" + c.verseNumber.at(i) + "</span> ");
-                vers.append("<br />");
+                vers.prepend("<span class=\"verse\"><span style=\" font-style:italic;\">" + c.verseNumber.at(i) + "</span> ");
+                vers.append("<br /></span>");
             } else {
-                vers.prepend(c.verseNumber.at(i) + " ");
+                vers.prepend("<span class = \"verse\">"+c.verseNumber.at(i) + " ");
+                vers.append("</span>");
             }
-            //if is current verse
+
 
 
 
@@ -253,6 +254,20 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                         int startPos = vers.lastIndexOf(m_notes->getRef(noteID, "startString"));
                         int endPos = vers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
                         myDebug() << "vers = " << vers << " startPos = " << startPos << " endPos = " << endPos << " startString = " << m_notes->getRef(noteID, "startString") << " endString = " << m_notes->getRef(noteID, "endString");
+                        QString vB = vers,vB2 = vers;
+
+                        vB.remove(startPos,vB.size());
+                        int lastOpen = vB.lastIndexOf("<");
+                        if(vB.lastIndexOf(">",lastOpen) == -1) {
+                            myDebug() << "startPos in in tag";
+
+                        }
+                        vB2.remove(0,endPos);
+                        int firstClose = vB2.indexOf(">");
+                        if(vB.indexOf("<") > firstClose || vB.indexOf("<") == -1) {
+                            myDebug() << "endPos in tag";
+                        }
+
 
                         vers.insert(endPos, "</span>");
                         vers.insert(startPos, "<span name=\"mark\" style=\"background-color:" + m_notes->getRef(noteID, "color") + "\">");

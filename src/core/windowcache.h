@@ -30,6 +30,7 @@ public:
     void newWindow();
     void removeWindow(const int &id);
     void clearAll();
+    void clearZefCache();
 
     bool setCurrentWindowID(const int &id);
     void setBible(Bible b,bool clearZefCache=true);
