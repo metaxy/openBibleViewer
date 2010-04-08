@@ -458,7 +458,7 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
 
 void AdvancedInterface::loadModuleDataByID(int id)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     myDebug() << "id = " << id;
     if (ui->mdiArea->subWindowList().size() == 0)
         newSubWindow();
@@ -483,7 +483,18 @@ void AdvancedInterface::loadModuleDataByID(int id)
     setTitle(m_moduleManager->m_bible.bibleTitle);
     setBooks(m_moduleManager->m_bible.bookFullName);
     m_moduleDockWidget->loadedModule(id);//select current Module
-    textBrowser->document()->setDefaultStyleSheet(m_settings->getModuleSettings(id).styleSheet);//set stylesheet
+    myDebug() <<"style = " <<  m_settings->getModuleSettings(id).styleSheet;
+    QFile file(m_settings->getModuleSettings(id).styleSheet);
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&file);
+        textBrowser->document()->setDefaultStyleSheet(in.readAll());//set stylesheet
+    } else {
+
+        myDebug() << "can not open stylesheet = " << file.errorString();
+    }
+
+
+
     QApplication::restoreOverrideCursor();
 
 }

@@ -374,7 +374,7 @@ void MainWindow::loadSettings()
         m.bibleName = m_settingsFile->value("bibleName").toMap();
         m.biblePath = m_settingsFile->value("biblePath").toMap();
         m.uModuleCount = m_settingsFile->value("uModuleCount",0).toInt();
-        m.styleSheet = m_settingsFile->value("styleSheet",":/data/default.css").toInt();
+        m.styleSheet = m_settingsFile->value("styleSheet",":/data/default.css").toString();
         m_settings->module.append(m);
 
     }

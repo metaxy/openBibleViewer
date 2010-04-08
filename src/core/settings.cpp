@@ -20,10 +20,11 @@ Settings::Settings()
 }
 ModuleSettings Settings::getModuleSettings(const int &bibleID)
 {
-    if(moduleID.isEmpty())
-        return ModuleSettings();
-    int id = moduleID.value(bibleID,-1);
-    if (module.size() < id || id < 0) {
+  /*  if(moduleID.isEmpty())
+        return ModuleSettings();*/
+
+    int id = moduleID.value(bibleID);
+    if (module.size() < id) {
         myDebug() << "No Settings aviable";
         return ModuleSettings();
     } else {
