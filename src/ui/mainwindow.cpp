@@ -23,6 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QLibraryInfo>
 #include <QtCore/QMapIterator>
 #include <QtCore/QTimer>
+#include <QtCore/QDir>
 #include <typeinfo>
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
@@ -353,6 +354,7 @@ void MainWindow::loadSettings()
     m_settings->onClickBookmarkGo = m_settingsFile->value("window/onClickBookmarkGo", m_settings->onClickBookmarkGo).toBool();
 
     m_settings->textFormatting = m_settingsFile->value("bible/textFormatting", m_settings->textFormatting).toInt();
+    m_settings->lastPlaceSave = m_settingsFile->value("ui/lastPlaceSave", QDir::homePath()).toString();
 
     int size = m_settingsFile->beginReadArray("module");
     for (int i = 0; i < size; ++i) {
@@ -409,6 +411,7 @@ void MainWindow::writeSettings()
     m_settingsFile->setValue("window/layout", m_settings->autoLayout);
     m_settingsFile->setValue("window/onClickBookmarkGo", m_settings->onClickBookmarkGo);
     m_settingsFile->setValue("bible/textFormatting", m_settings->textFormatting);
+    m_settingsFile->setValue("ui/lastPlaceSave", m_settings->lastPlaceSave);
 
     m_settingsFile->beginWriteArray("module");
     for (int i = 0; i < m_settings->module.size(); ++i) {

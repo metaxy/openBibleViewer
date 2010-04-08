@@ -125,7 +125,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1403"/>
         <source>Ctrl+T</source>
-        <translation type="unfinished"></translation>
+        <translation>Strg+T</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1405"/>
@@ -162,7 +162,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1432"/>
         <source>Ctrl+F</source>
-        <translation type="unfinished"></translation>
+        <translation>Strg+F</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1434"/>
@@ -193,7 +193,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1455"/>
         <source>Ctrl++</source>
-        <translation type="unfinished"></translation>
+        <translation>Strg++</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1456"/>
@@ -204,7 +204,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1457"/>
         <source>Ctrl+-</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Strg++</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1460"/>
@@ -305,7 +305,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1664"/>
         <source>openBibleViewer &lt;br&gt; version: %1 build: %2&lt;br&gt; &lt;a href=&quot;http://openbv.uucyc.name/&quot;&gt; Official Website&lt;/a&gt; | &lt;a href=&quot;http://openbv.uucyc.name/bug/&quot;&gt;Bug report&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">openBibleViewer &lt;br&gt; Version %1 Build %2 &lt;br&gt; &lt;a href=&quot;http://openbv.uucyc.name/&quot;&gt; Offizielle Website&lt;/a&gt; | &lt;a href=&quot;http://openbv.uucyc.name/bug/&quot;&gt;Fehler melden&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -1114,7 +1114,7 @@
     <message>
         <location filename="ui/marklist.cpp" line="71"/>
         <source>Mark Position</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Markierungsstelle</translation>
     </message>
     <message>
         <location filename="ui/marklist.cpp" line="72"/>
@@ -1343,7 +1343,7 @@
     <message>
         <location filename="ui/dock/notesdockwidget.ui" line="241"/>
         <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Strg+S</translation>
     </message>
     <message>
         <location filename="ui/dock/notesdockwidget.cpp" line="141"/>
@@ -1407,7 +1407,7 @@
     <message>
         <location filename="ui/noteseditor.cpp" line="40"/>
         <source>Add note</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Notiz hinzufügen</translation>
     </message>
     <message>
         <location filename="ui/noteseditor.cpp" line="42"/>
@@ -1597,7 +1597,7 @@
     <message>
         <location filename="ui/dock/quickjumpdockwidget.ui" line="14"/>
         <source>Quick Jump</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gehe zu</translation>
     </message>
 </context>
 <context>
@@ -1671,7 +1671,7 @@
     <message>
         <location filename="ui/dock/searchresultdockwidget.ui" line="14"/>
         <source>Search Result</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Suchergebnisse</translation>
     </message>
     <message>
         <location filename="ui/dock/searchresultdockwidget.ui" line="46"/>
@@ -1681,7 +1681,7 @@
     <message>
         <location filename="ui/dock/searchresultdockwidget.cpp" line="38"/>
         <source>Search: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Suche: %1</translation>
     </message>
     <message>
         <location filename="ui/dock/searchresultdockwidget.cpp" line="66"/>
@@ -1696,12 +1696,12 @@
     <message>
         <location filename="ui/dock/searchresultdockwidget.cpp" line="99"/>
         <source>No more Results.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Keine weiteren Stellen.</translation>
     </message>
     <message>
         <location filename="ui/dock/searchresultdockwidget.cpp" line="99"/>
         <source>Show the first result again?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Von vorne anfangen?</translation>
     </message>
 </context>
 <context>
@@ -1873,7 +1873,7 @@
     <message>
         <location filename="core/simplenotes.cpp" line="76"/>
         <source>Note Title</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Notztitel</translation>
     </message>
     <message>
         <location filename="core/simplenotes.cpp" line="238"/>

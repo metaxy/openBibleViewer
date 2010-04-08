@@ -489,7 +489,6 @@ void AdvancedInterface::loadModuleDataByID(int id)
         QTextStream in(&file);
         textBrowser->document()->setDefaultStyleSheet(in.readAll());//set stylesheet
     } else {
-
         myDebug() << "can not open stylesheet = " << file.errorString();
     }
 
@@ -1638,13 +1637,14 @@ int AdvancedInterface::saveFile(void)
 {
     QFileDialog dialog(this);
     //dialog.setFileMode(QFileDialog::AnyFile);
-    dialog.setNameFilter(tr("Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)"));
     dialog.setAcceptMode(QFileDialog::AcceptSave);
-
-    QString fileName = QFileDialog::getSaveFileName();
-    qDebug() << "MainWindow::saveFile() fileName = " << fileName;
+    //todo: save last place
+    QString fileName = dialog.getSaveFileName(this,tr("Save output"),m_settings->lastPlaceSave,tr("Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)"));
+    myDebug() << "fileName = " << fileName;
     if (activeMdiChild()) {
-        QTextBrowser *t = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+        QTextBrowser *t = getTextBrowser();
+        QFileInfo fi(fileName);
+        m_settings->lastPlaceSave = fi.path();
         if (fileName.endsWith(".html") || fileName.endsWith(".htm")) {
             QFile file(fileName);
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text))

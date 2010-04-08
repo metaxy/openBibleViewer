@@ -42,6 +42,7 @@ public:
     bool zefaniaBible_softCache;
     QString homePath;
     QStringList bookNames;
+    QString lastPlaceSave;
 
 
     ModuleSettings getModuleSettings(const int &bibleID);

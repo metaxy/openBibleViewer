@@ -1,3 +1,9 @@
 .verse {
-	color:red;
+	color:black;
+}
+.verseNumber {
+	font-style: italic;
+}
+.currentVerseClass {
+	font-weight: bold;
 }

@@ -183,10 +183,16 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
             break;
         }
         Chapter c = chapterData.at(chapterID);
-        if (saveRawData)
-            out = "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";//title
-        if (saveRawData)
+
+        if (saveRawData) {
+            if (m_settings->getModuleSettings(m_bibleID).zefbible_textFormatting == 0) {
+                out = "<p id=\"newLine\">";
+            } else {
+                out = "<p id=\"block\">";;
+            }
+            out += "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";//title
             chapterDataList << out;
+        }
 
         int end;
         if (endVerse == -1) {
@@ -214,14 +220,14 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 }
             }
             if (i == markVerseID) {
-                vers.prepend("<a name=\"currentVerse\"><b>");
-                vers.append("</b></a>");
+                vers.prepend("<a name=\"currentVerse\"><span class=\"currentVerseClass\">");
+                vers.append("</span></a>");
             }
             if (m_settings->getModuleSettings(m_bibleID).zefbible_textFormatting == 0) {
-                vers.prepend("<span class=\"verse\"><span style=\" font-style:italic;\">" + c.verseNumber.at(i) + "</span> ");
-                vers.append("<br /></span>");
+                vers.prepend("<span class=\"verse\"><span class=\"verseNumber\">" + c.verseNumber.at(i) + "</span> ");
+                vers.append("</span> <br />");
             } else {
-                vers.prepend("<span class = \"verse\">"+c.verseNumber.at(i) + " ");
+                vers.prepend("<span class=\"verse\"><span class=\"verseNumber\">" + c.verseNumber.at(i) + "</span> ");
                 vers.append("</span>");
             }
 
@@ -298,13 +304,18 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
             }
         }
     }
+
+
     for (int i = 0; i < versList.size(); ++i) {
         out += versList.at(i);
         if (saveRawData)
             chapterDataList.append(versList.at(i));
     }
-    if (saveRawData)
+
+    if (saveRawData) {
+        out += "</p>";
         lastout = out;
+    }
 
     return out;
 }
