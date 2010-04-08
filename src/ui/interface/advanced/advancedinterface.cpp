@@ -483,7 +483,7 @@ void AdvancedInterface::loadModuleDataByID(int id)
     setTitle(m_moduleManager->m_bible.bibleTitle);
     setBooks(m_moduleManager->m_bible.bookFullName);
     m_moduleDockWidget->loadedModule(id);//select current Module
-    textBrowser->setDefaultStyleSheet(m_settings->getModuleSettings(id).styleSheet);//set stylesheet
+    textBrowser->document()->setDefaultStyleSheet(m_settings->getModuleSettings(id).styleSheet);//set stylesheet
     QApplication::restoreOverrideCursor();
 
 }
