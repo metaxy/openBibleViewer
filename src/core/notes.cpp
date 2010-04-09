@@ -208,8 +208,12 @@ void Notes::setData(const QString &id, const QString &data)
   */
 void Notes::setRef(const QString &id, const QMap<QString, QString>  &ref)
 {
-    //DEBUG_FUNC_NAME
-    notesRef[id] = ref;
+    DEBUG_FUNC_NAME
+    if (notesRef[id] != ref) {
+        myDebug() << "changed";
+        notesRef[id] = ref;
+        emit refChanged(id, ref);
+    }
 }
 /*!
     Generate a new note ID, without colliding with other IDs

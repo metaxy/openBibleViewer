@@ -830,6 +830,25 @@ void AdvancedInterface::previousChapter()
         readChapter(m_moduleManager->m_bible.chaptersCount() - 1);
     }
 }
+void AdvancedInterface::reloadChapter(bool full)
+{
+    if (!activeMdiChild())
+        return;
+    QTextBrowser *textBrowser = getTextBrowser();
+
+    int vsliderPosition = textBrowser->verticalScrollBar()->sliderPosition();
+    int hsliderPosition = textBrowser->horizontalScrollBar()->sliderPosition();//horizontal
+    if (full) {
+        loadModuleDataByID(m_moduleManager->m_bible.bibleID());//todo: select the right module in treewidget
+        readBookByID(m_moduleManager->m_bible.bookID());
+        setCurrentBook(m_moduleManager->m_bible.bookID());
+        readChapter(m_moduleManager->m_bible.chapterID());
+        setCurrentChapter(m_moduleManager->m_bible.chapterID());
+    }
+    readChapter(m_moduleManager->m_bible.chapterID());
+    textBrowser->verticalScrollBar()->setSliderPosition(vsliderPosition);
+    textBrowser->horizontalScrollBar()->setSliderPosition(hsliderPosition);
+}
 VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
 {
     VerseSelection selection;
@@ -1275,25 +1294,7 @@ void AdvancedInterface::removeMark()
     VerseSelection selection = verseSelectionFromCursor(m_textCursor);
     m_notesDockWidget->removeMark(selection);
 }
-void AdvancedInterface::reloadChapter(bool full)
-{
-    if (!activeMdiChild())
-        return;
-    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
 
-    int vsliderPosition = textBrowser->verticalScrollBar()->sliderPosition();
-    int hsliderPosition = textBrowser->horizontalScrollBar()->sliderPosition();//horizontal
-    if (full) {
-        loadModuleDataByID(m_moduleManager->m_bible.bibleID());//todo: select the right module in treewidget
-        readBookByID(m_moduleManager->m_bible.bookID());
-        setCurrentBook(m_moduleManager->m_bible.bookID());
-        readChapter(m_moduleManager->m_bible.chapterID());
-        setCurrentChapter(m_moduleManager->m_bible.chapterID());
-    }
-    readChapter(m_moduleManager->m_bible.chapterID());
-    textBrowser->verticalScrollBar()->setSliderPosition(vsliderPosition);
-    textBrowser->horizontalScrollBar()->setSliderPosition(hsliderPosition);
-}
 void AdvancedInterface::closing()
 {
     DEBUG_FUNC_NAME

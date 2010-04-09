@@ -104,7 +104,7 @@ NotesEditor::NotesEditor(QWidget *parent)
     connect(ui->actionStyleAddress, SIGNAL(triggered()), SLOT(styleAddress()));
     connect(ui->actionFormatFontName, SIGNAL(triggered()), SLOT(formatFontName()));
     connect(ui->actionFormatFontSize, SIGNAL(triggered()), SLOT(formatFontSize()));
-     connect(ui->actionFormatTextColor, SIGNAL(triggered()), SLOT(formatTextColor()));
+    connect(ui->actionFormatTextColor, SIGNAL(triggered()), SLOT(formatTextColor()));
     connect(ui->actionFormatBackgroundColor, SIGNAL(triggered()), SLOT(formatBackgroundColor()));
 
     // no page action exists yet for these, so use execCommand trick
@@ -192,8 +192,8 @@ void NotesEditor::fileNew()
 }
 bool NotesEditor::fileSave()
 {
-   m_simpleNotes->saveNote();
-   return true;
+    m_simpleNotes->saveNote();
+    return true;
 }
 
 bool NotesEditor::fileSaveAs()
@@ -465,7 +465,7 @@ void NotesEditor::formatFontSize()
 
     bool ok = false;
     QString size = QInputDialog::getItem(this, tr("Font Size"), tr("Select font size:"),
-                                        sizes, sizes.indexOf("medium"), false, &ok);
+                                         sizes, sizes.indexOf("medium"), false, &ok);
 
     if (ok)
         execCommand("fontSize", QString::number(sizes.indexOf(size)));

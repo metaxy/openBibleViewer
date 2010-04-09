@@ -45,6 +45,8 @@ private slots:
     void noteSetTextColor();
     void noteUndo();
     void noteRedo();
+
+    void changeRef(QString id, QMap<QString, QString> ref);
     /*void updateNote(QString pos);*/
 public slots:
     void newNote();

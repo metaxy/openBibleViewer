@@ -47,6 +47,7 @@ void NotesDockWidget::init()
     m_simpleNotes->setLinkWidget(ui->label_noteLink);
     m_simpleNotes->init();
 
+
     connect(ui->pushButton_note_save, SIGNAL(clicked()), this, SLOT(saveNote()));
     connect(ui->toolButton_noteBold, SIGNAL(clicked()), this, SLOT(noteSetTextBold()));
     connect(ui->toolButton_noteItalic, SIGNAL(clicked()), this, SLOT(noteSetTextItalic()));
@@ -57,10 +58,34 @@ void NotesDockWidget::init()
 
     connect(ui->textBrowser, SIGNAL(undoAvailable(bool)), ui->toolButton_noteUndo, SLOT(setEnabled(bool)));
     connect(ui->textBrowser, SIGNAL(redoAvailable(bool)), ui->toolButton_noteRedo, SLOT(setEnabled(bool)));
+    connect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
+    //connect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
 
     // connect(ui->textBrowser, SIGNAL(undoAvailable(bool)), m_simpleNotes, SLOT(fastSave()));
     //    connect(ui->textBrowser, SIGNAL(redoAvailable(bool)), m_simpleNotes, SLOT(fastSave()));
     m_moduleManager->m_bible.setNotes(m_notes);//todo: fix this bug
+}
+void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
+{
+    Q_UNUSED(id);
+    DEBUG_FUNC_NAME
+    QString link = ref["link"];
+
+    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, link);
+    urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
+    urlConverter.pharse();
+    urlConverter.convert();
+    myDebug() << urlConverter.m_bibleID.toInt() << ":" << m_moduleManager->m_bible.bibleID();
+    myDebug() << urlConverter.m_bookID << ":" << m_moduleManager->m_bible.bookID();
+    myDebug() << urlConverter.m_chapterID << ":" << m_moduleManager->m_bible.chapterID();
+
+    if (urlConverter.m_bibleID.toInt() == m_moduleManager->m_bible.bibleID() &&
+            urlConverter.m_bookID == m_moduleManager->m_bible.bookID() &&
+            urlConverter.m_chapterID == m_moduleManager->m_bible.chapterID()) {
+        myDebug() << "reload";
+        emit reloadChapter();
+    }
+
 }
 
 void NotesDockWidget::showNote(const QString &noteID)

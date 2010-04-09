@@ -43,7 +43,7 @@ void SimpleNotes::init()
     m_itemModel = new QStandardItemModel(m_treeView);
     connect(m_treeView, SIGNAL(activated(QModelIndex)), this, SLOT(showNote(QModelIndex)));
     connect(m_treeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(notesContextMenu(QPoint)));
-    if(loadTextBrowser) {
+    if (loadTextBrowser) {
         connect(m_textEdit_note, SIGNAL(undoAvailable(bool)), this, SLOT(fastSave()));
         connect(m_textEdit_note, SIGNAL(redoAvailable(bool)), this, SLOT(fastSave()));
     }
@@ -117,7 +117,7 @@ void SimpleNotes::setTitle(QString title)
 }
 void SimpleNotes::setData(QString data)
 {
-    if(loadTextBrowser)
+    if (loadTextBrowser)
         m_textEdit_note->setHtml(data);
     else
         m_frame->setHtml(data);
@@ -151,8 +151,10 @@ void SimpleNotes::editNoteLink()
 }
 void SimpleNotes::updateNote(QString link)
 {
+    DEBUG_FUNC_NAME
     currentNoteRef["link"] = link;
-    showNote(m_noteID);
+    m_notes->setRef(m_noteID, currentNoteRef);
+    setRef(currentNoteRef);
     return;
 }
 void SimpleNotes::changeData(QString id, QString data)
@@ -174,10 +176,11 @@ void SimpleNotes::changeTitle(QString id, QString title)
         return;
     }
     QModelIndex index = list.at(0);
-    m_treeView->model()->setData(index,title, Qt::DisplayRole);
+    m_treeView->model()->setData(index, title, Qt::DisplayRole);
 }
 void SimpleNotes::changeRef(QString id, QMap<QString, QString> ref)
 {
+    DEBUG_FUNC_NAME
     if (m_noteID == id) {
         setRef(ref);
     }
@@ -212,7 +215,7 @@ void SimpleNotes::fastSave(void)
     disconnect(m_notes, SIGNAL(dataChanged(QString, QString)), this, SLOT(changeData(QString, QString)));
     disconnect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
 
-    if(loadTextBrowser)
+    if (loadTextBrowser)
         m_notes->setData(m_noteID, m_textEdit_note->toHtml());
     else
         m_notes->setData(m_noteID, m_frame->toHtml());
