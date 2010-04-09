@@ -2,8 +2,7 @@
 # Project created by QtCreator
 # -------------------------------------------------
 TARGET = openBibleViewer
-QT += xml \
-    network
+QT += xml network webkit
 TEMPLATE = app
 OBJECTS_DIR = tmp
 MOC_DIR = tmp
@@ -63,7 +62,8 @@ SOURCES += src/main.cpp \
     src/core/session.cpp \
     src/ui/dock/moduleproxymodel.cpp \
     src/core/simplenotes.cpp \
-    src/core/basicclass.cpp
+    src/core/basicclass.cpp \
+    src/ui/highlighter.cpp
 HEADERS += src/core/settings.h \
     src/module/biblequote.h \
     src/module/zefania-bible.h \
@@ -121,7 +121,8 @@ HEADERS += src/core/settings.h \
     src/core/session.h \
     src/ui/dock/moduleproxymodel.h \
     src/core/simplenotes.h \
-    src/core/basicclass.h
+    src/core/basicclass.h  \
+    src/ui/highlighter.h
 FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dialog/settingsdialog.ui \
     src/ui/dialog/searchinfodialog.ui \
@@ -143,7 +144,8 @@ FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/interface/simple/simpleinterface.ui \
     src/ui/interface/advanced/advancedinterface.ui \
     src/ui/interface/study/studyinterface.ui \
-    src/ui/noteseditor.ui
+    src/ui/noteseditor.ui \
+    src/ui/dialog/inserthtmldialog.ui
 RESOURCES += src/icons.qrc \
     src/data.qrc
 TRANSLATIONS = src/obv_de.ts \

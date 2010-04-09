@@ -126,6 +126,7 @@ void AdvancedInterface::init()
 
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
     connect(m_bibleDisplay, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+    connect(m_bibleDisplay, SIGNAL(get(QUrl)), this, SLOT(pharseUrl(QUrl)));
     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
     BibleDisplaySettings bibleDisplaySettings;
@@ -890,7 +891,7 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
 
                     QString v = chapterData.at(i);
 
-                    if(fragment.size() < 6)//make faster
+                    if (fragment.size() < 6)//make faster
                         biggest = fragment.size();
                     while (notFound) {
                         for (int s = biggest; s < 100; s++) {
@@ -919,7 +920,7 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
                     newSelection.posInEndVerse = (startFragment + fragment.size()) - (counter - chapterData.at(i).size()) ;
                     bool notFound = true;
                     int biggest = 6;
-                    if(fragment.size() < 6)//make faster
+                    if (fragment.size() < 6)//make faster
                         biggest = fragment.size();
                     while (notFound) {
                         for (int s = biggest; s < 100/* or some another big value*/; s++) {
@@ -959,30 +960,30 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
 
         }
         //todo: implement repeat is impossible
-      /*  QString v = chapterData.at(selection.startVerse);
-        int repeat = 0;
-        if(v.indexOf(fragment) != -1 && v.indexOf(fragment,v.indexOf(fragment)+fragment.size())) {
-            myDebug() << "is more than one time there";
-            //todo: if the shortes string is too short(because the user selected a short string), and there is more than one in the verse, say whicht of it is
-            int pos = v.indexOf(fragment);
-            myDebug() << "pos = " << pos << " selection.posInStartVerse = " << selection.posInStartVerse;
-            if(pos != selection.posInStartVerse) {
-                while(pos != -1) {
+        /*  QString v = chapterData.at(selection.startVerse);
+          int repeat = 0;
+          if(v.indexOf(fragment) != -1 && v.indexOf(fragment,v.indexOf(fragment)+fragment.size())) {
+              myDebug() << "is more than one time there";
+              //todo: if the shortes string is too short(because the user selected a short string), and there is more than one in the verse, say whicht of it is
+              int pos = v.indexOf(fragment);
+              myDebug() << "pos = " << pos << " selection.posInStartVerse = " << selection.posInStartVerse;
+              if(pos != selection.posInStartVerse) {
+                  while(pos != -1) {
 
-                    repeat++;
-                    if(pos == selection.posInStartVerse) {
-                        break;
-                    }
-                    pos = v.indexOf(fragment,pos+fragment.size());
-                    myDebug() << "pos = " << pos << " repeat = " << repeat;
+                      repeat++;
+                      if(pos == selection.posInStartVerse) {
+                          break;
+                      }
+                      pos = v.indexOf(fragment,pos+fragment.size());
+                      myDebug() << "pos = " << pos << " repeat = " << repeat;
 
 
-                }
-            }
+                  }
+              }
 
-        }
-        myDebug() << "repeat = " << repeat;
-        selection.repeat = repeat;*/
+          }
+          myDebug() << "repeat = " << repeat;
+          selection.repeat = repeat;*/
 
     } else {
 
@@ -1311,7 +1312,7 @@ void AdvancedInterface::closing()
     for (int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
         m_windowCache.setCurrentWindowID(i);
         Bible b = m_windowCache.getBible();
-        if(b.bibleID() >= 0) {
+        if (b.bibleID() >= 0) {
             UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
             urlConverter.m_biblesIniPath = b.biblesIniPath;
             urlConverter.m_bibleID = QString::number(b.bibleID());
@@ -1356,7 +1357,7 @@ void AdvancedInterface::restoreSession()
         myDebug() << "current window is " << tabIDof(activeMdiChild()) << " while window count is " << usableWindowList();
         //load bible
         QString url = windowUrls.at(i);
-        if(!url.isEmpty() && url.size() != 0) {
+        if (!url.isEmpty() && url.size() != 0) {
             UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, windowUrls.at(i));
             urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
             urlConverter.pharse();
@@ -1386,7 +1387,7 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
     if (oldSettings.encoding != newSettings.encoding) {
         reloadBibles = true;
     }
-    if(oldSettings.module.size() > newSettings.module.size())
+    if (oldSettings.module.size() > newSettings.module.size())
         reloadBibles = true;
     for (int i = 0; i < newSettings.module.size(); ++i) {
         if (oldSettings.module.size() < i || oldSettings.module.empty()) {
@@ -1410,7 +1411,7 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
         showText("");
         m_windowCache.clearZefCache();
         m_moduleManager->m_bible.clearSoftCache();
-        if(m_moduleManager->bibleLoaded())
+        if (m_moduleManager->bibleLoaded())
             reloadChapter(true);
     }
 
@@ -1443,7 +1444,6 @@ void AdvancedInterface::searchInText(SearchQuery query)
 {
     DEBUG_FUNC_NAME
     if (query.queryType == SearchQuery::Simple) {
-        myDebug() << "searching";
         QTextDocument *doc = getTextBrowser()->document();
         QTextDocument::FindFlags flags;
         if (query.caseSensitive) {
@@ -1468,6 +1468,7 @@ void AdvancedInterface::searchInText(SearchQuery query)
             QTextCursor cursor;
             cursor = doc->find(query.searchText, 0, flags);
             while (!cursor.isNull()) {
+
                 cursor.insertHtml("<span style=\"background-color:#ffcf3d\">" + cursor.selectedText() + "</span>");
                 getTextBrowser()->setTextCursor(cursor);
 
@@ -1672,7 +1673,7 @@ QToolBar * AdvancedInterface::toolBar()
     bar->addAction(actionZoomOut);
     bar->addSeparator();
     bar->addAction(actionModule);
-     bar->addSeparator();
+    bar->addSeparator();
     bar->addAction(actionBookmarks);
     bar->addAction(actionNotes);
 

@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define BIBLEDISPLAY_H
 #include <QtCore/QObject>
 #include <QtCore/QString>
+#include <QtCore/QUrl>
 class BibleDisplay : public QObject
 {
     Q_OBJECT
@@ -25,6 +26,7 @@ public:
 signals:
     void newHtml(QString html);
     void get(QString url);
+    void get(QUrl url);
 };
 
 #endif // BIBLEDISPLAY_H

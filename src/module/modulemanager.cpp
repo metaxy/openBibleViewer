@@ -272,11 +272,9 @@ bool ModuleManager::strongLoaded()
 /**
   Converts a PersistentUrl to a link.
   */
-QString ModuleManager::notePos2Text(const QString &pos)
+QString ModuleManager::notePos2Link(const QString &pos)
 {
     //DEBUG_FUNC_NAME
-
-    myDebug() << "start pos = " << pos;
     QString string = "";
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
     urlConverter.m_biblesIniPath = m_bible.biblesIniPath;
@@ -284,5 +282,17 @@ QString ModuleManager::notePos2Text(const QString &pos)
     QString link = urlConverter.convert();
 
     string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," + QString::number(urlConverter.m_verseID + 1);
-    return  "<a href=\"" + link + "\" > " + string + "</a>";
+    return  "<a href=\"" + link + "\" >" + string + "</a>";
+}
+QString ModuleManager::notePos2Text(const QString &pos)
+{
+    //DEBUG_FUNC_NAME
+    QString string = "";
+    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
+    urlConverter.m_biblesIniPath = m_bible.biblesIniPath;
+    urlConverter.pharse();
+    QString link = urlConverter.convert();
+
+    string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," + QString::number(urlConverter.m_verseID + 1);
+    return string;
 }

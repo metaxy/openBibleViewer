@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
                              "openBible", "openBibleViewer");
 #endif
     QDir dir(homeDataPath);
-    if(!dir.exists(homeDataPath)) {
+    if (!dir.exists(homeDataPath)) {
         dir.mkpath(homeDataPath);
     }
 

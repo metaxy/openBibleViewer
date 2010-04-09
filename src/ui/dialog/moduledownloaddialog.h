@@ -58,7 +58,7 @@ private:
     Ui::ModuleDownloadDialog *ui;
     Settings m_set;
     QStringList downloadList, nameList, downloadedList, downNames;
-    QMap<QString,QString> names;
+    QMap<QString, QString> names;
     int currentDownload;
     QProgressDialog *progressDialog;
     QHttp *http;

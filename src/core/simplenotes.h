@@ -3,12 +3,13 @@
 
 #include <QObject>
 #include <QtGui/QLineEdit>
-#include <QtGui/QTextEdit>
+#include <QtGui/QTextBrowser>
 #include <QtGui/QTreeView>
 #include <QtGui/QPushButton>
 #include <QtGui/QSortFilterProxyModel>
 #include <QtGui/QLabel>
-#include <QItemSelectionModel>
+#include <QtGui/QItemSelectionModel>
+#include <QtWebKit/QWebFrame>
 #include "src/core/settings.h"
 #include "src/core/notes.h"
 #include "src/module/modulemanager.h"
@@ -21,7 +22,8 @@ class SimpleNotes : public QObject, public BasicClass
 public:
     explicit SimpleNotes();
     void setTitleWidget(QLineEdit *title);
-    void setDataWidget(QTextEdit *data);
+    void setDataWidget(QTextBrowser *data);
+    void setFrameWidget(QWebFrame *frame);
     void setViewWidget(QTreeView *treeView);
     void setLinkWidget(QLabel* link);
     void setLinkButtonWidget(QPushButton* button);
@@ -49,7 +51,8 @@ private slots:
     void updateNote(QString pos);
 private:
     QLineEdit *m_lineEdit_title;
-    QTextEdit *m_textEdit_note;
+    QTextBrowser *m_textEdit_note;
+    QWebFrame *m_frame;
     QLabel *m_label_link;
     QPushButton *m_pushButton_link;
     QPoint currentPoint;
@@ -66,6 +69,7 @@ private:
     void setRef(QMap<QString, QString> ref);
     void aktNote();
     void select(QString noteID);
+    bool loadTextBrowser;
 
 };
 

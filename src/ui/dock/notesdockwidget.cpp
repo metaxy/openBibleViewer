@@ -40,7 +40,7 @@ void NotesDockWidget::init()
     m_simpleNotes->setSettings(m_settings);
     m_simpleNotes->setBibleDisplay(m_bibleDisplay);
 
-    m_simpleNotes->setDataWidget(ui->textEdit_note);
+    m_simpleNotes->setDataWidget(ui->textBrowser);
     m_simpleNotes->setViewWidget(ui->treeView);
     m_simpleNotes->setTitleWidget(ui->lineEdit_noteTitle);
     m_simpleNotes->setLinkButtonWidget(ui->pushButton_editNoteLink);
@@ -55,11 +55,11 @@ void NotesDockWidget::init()
     connect(ui->toolButton_noteUndo, SIGNAL(clicked()), this, SLOT(noteUndo()));
     connect(ui->toolButton_noteRedo, SIGNAL(clicked()), this, SLOT(noteRedo()));
 
-    connect(ui->textEdit_note, SIGNAL(undoAvailable(bool)), ui->toolButton_noteUndo, SLOT(setEnabled(bool)));
-    connect(ui->textEdit_note, SIGNAL(redoAvailable(bool)), ui->toolButton_noteRedo, SLOT(setEnabled(bool)));
+    connect(ui->textBrowser, SIGNAL(undoAvailable(bool)), ui->toolButton_noteUndo, SLOT(setEnabled(bool)));
+    connect(ui->textBrowser, SIGNAL(redoAvailable(bool)), ui->toolButton_noteRedo, SLOT(setEnabled(bool)));
 
-    // connect(ui->textEdit_note, SIGNAL(undoAvailable(bool)), m_simpleNotes, SLOT(fastSave()));
-    //    connect(ui->textEdit_note, SIGNAL(redoAvailable(bool)), m_simpleNotes, SLOT(fastSave()));
+    // connect(ui->textBrowser, SIGNAL(undoAvailable(bool)), m_simpleNotes, SLOT(fastSave()));
+    //    connect(ui->textBrowser, SIGNAL(redoAvailable(bool)), m_simpleNotes, SLOT(fastSave()));
     m_moduleManager->m_bible.setNotes(m_notes);//todo: fix this bug
 }
 
@@ -84,42 +84,42 @@ void NotesDockWidget::newNoteWithLink(VerseSelection selection)
 }
 void NotesDockWidget::noteSetTextBold(void)
 {
-    if (ui->textEdit_note->fontWeight() == QFont::Bold) {
-        ui->textEdit_note->setFontWeight(QFont::Normal);
+    if (ui->textBrowser->fontWeight() == QFont::Bold) {
+        ui->textBrowser->setFontWeight(QFont::Normal);
     } else {
-        ui->textEdit_note->setFontWeight(QFont::Bold);
+        ui->textBrowser->setFontWeight(QFont::Bold);
     }
 }
 void NotesDockWidget::noteSetTextItalic(void)
 {
-    if (ui->textEdit_note->fontItalic()) {
-        ui->textEdit_note->setFontItalic(false);
+    if (ui->textBrowser->fontItalic()) {
+        ui->textBrowser->setFontItalic(false);
     } else {
-        ui->textEdit_note->setFontItalic(true);
+        ui->textBrowser->setFontItalic(true);
     }
 }
 void NotesDockWidget::noteSetTextUnderline(void)
 {
-    if (ui->textEdit_note->fontUnderline()) {
-        ui->textEdit_note->setFontUnderline(false);
+    if (ui->textBrowser->fontUnderline()) {
+        ui->textBrowser->setFontUnderline(false);
     } else {
-        ui->textEdit_note->setFontUnderline(true);
+        ui->textBrowser->setFontUnderline(true);
     }
 }
 void NotesDockWidget::noteSetTextColor(void)
 {
     QColor color = QColorDialog::getColor(Qt::green, this);
     if (color.isValid()) {
-        ui->textEdit_note->setTextColor(color);
+        ui->textBrowser->setTextColor(color);
     }
 }
 void NotesDockWidget::noteUndo()
 {
-    ui->textEdit_note->undo();
+    ui->textBrowser->undo();
 }
 void NotesDockWidget::noteRedo()
 {
-    ui->textEdit_note->redo();
+    ui->textBrowser->redo();
 }
 
 void NotesDockWidget::newMark(VerseSelection selection, QColor color)

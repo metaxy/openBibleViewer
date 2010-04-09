@@ -28,6 +28,7 @@ public:
 
     bool bibleLoaded();
     bool strongLoaded();
+    QString notePos2Link(const QString &pos);
     QString notePos2Text(const QString &pos);
 
     QList<Module> m_moduleList;

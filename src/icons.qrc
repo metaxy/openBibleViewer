@@ -73,5 +73,30 @@
         <file>icons/16x16/notes-edit.png</file>
         <file>icons/svg/tile.svg</file>
         <file>icons/32x32/list-add.png</file>
+        <file>icons/16x16/insert-link.png</file>
+        <file>icons/22x22/insert-html.png</file>
+        <file>icons/22x22/format-text-underline.png</file>
+        <file>icons/22x22/format-text-italic.png</file>
+        <file>icons/22x22/format-list-unordered.png</file>
+        <file>icons/22x22/format-text-bold.png</file>
+        <file>icons/22x22/format-justify-right.png</file>
+        <file>icons/22x22/format-list-ordered.png</file>
+        <file>icons/22x22/format-justify-left.png</file>
+        <file>icons/22x22/format-justify-center.png</file>
+        <file>icons/22x22/format-indent-more.png</file>
+        <file>icons/22x22/format-indent-less.png</file>
+        <file>icons/22x22/insert-link.png</file>
+        <file>icons/22x22/insert-image.png</file>
+        <file>icons/22x22/edit-undo.png</file>
+        <file>icons/22x22/edit-select-all.png</file>
+        <file>icons/22x22/edit-redo.png</file>
+        <file>icons/22x22/edit-paste.png</file>
+        <file>icons/22x22/edit-cut.png</file>
+        <file>icons/22x22/edit-copy.png</file>
+        <file>icons/22x22/format-justify-fill.png</file>
+        <file>icons/22x22/format-text-strikethrough.png</file>
+        <file>icons/22x22/zoom-in.png</file>
+        <file>icons/22x22/zoom-out.png</file>
+        <file>icons/22x22/document-save.png</file>
     </qresource>
 </RCC>

@@ -11,9 +11,15 @@ SimpleNotes::SimpleNotes()
 {
 }
 
-void SimpleNotes::setDataWidget(QTextEdit *data)
+void SimpleNotes::setDataWidget(QTextBrowser *data)
 {
     m_textEdit_note = data;
+    loadTextBrowser = true;
+}
+void SimpleNotes::setFrameWidget(QWebFrame *frame)
+{
+    m_frame = frame;
+    loadTextBrowser = false;
 }
 void SimpleNotes::setTitleWidget(QLineEdit *title)
 {
@@ -37,8 +43,12 @@ void SimpleNotes::init()
     m_itemModel = new QStandardItemModel(m_treeView);
     connect(m_treeView, SIGNAL(activated(QModelIndex)), this, SLOT(showNote(QModelIndex)));
     connect(m_treeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(notesContextMenu(QPoint)));
-    connect(m_textEdit_note, SIGNAL(undoAvailable(bool)), this, SLOT(fastSave()));
-    connect(m_textEdit_note, SIGNAL(redoAvailable(bool)), this, SLOT(fastSave()));
+    if(loadTextBrowser) {
+        connect(m_textEdit_note, SIGNAL(undoAvailable(bool)), this, SLOT(fastSave()));
+        connect(m_textEdit_note, SIGNAL(redoAvailable(bool)), this, SLOT(fastSave()));
+    }
+
+
     connect(m_pushButton_link, SIGNAL(clicked()), this, SLOT(editNoteLink()));
     connect(m_label_link, SIGNAL(linkActivated(QString)), m_bibleDisplay, SIGNAL(get(QString)));
 
@@ -107,12 +117,15 @@ void SimpleNotes::setTitle(QString title)
 }
 void SimpleNotes::setData(QString data)
 {
-    m_textEdit_note->setHtml(data);
+    if(loadTextBrowser)
+        m_textEdit_note->setHtml(data);
+    else
+        m_frame->setHtml(data);
 }
 void SimpleNotes::setRef(QMap<QString, QString> ref)
 {
     if (!ref["link"].isEmpty()) {
-        m_label_link->setText(m_moduleManager->notePos2Text(ref["link"]));
+        m_label_link->setText(m_moduleManager->notePos2Link(ref["link"]));
         m_pushButton_link->setEnabled(true);
     } else {
         m_label_link->setText("");
@@ -155,7 +168,13 @@ void SimpleNotes::changeTitle(QString id, QString title)
     if (m_noteID == id) {
         setTitle(title);
     }
-    //todo: reload list
+    QModelIndexList list = m_treeView->model()->match(m_treeView->model()->index(0, 0), Qt::UserRole + 1, id);
+    if (list.size() != 1) {
+        myDebug() << "invalid noteID = " << m_noteID;
+        return;
+    }
+    QModelIndex index = list.at(0);
+    m_treeView->model()->setData(index,title, Qt::DisplayRole);
 }
 void SimpleNotes::changeRef(QString id, QMap<QString, QString> ref)
 {
@@ -193,7 +212,11 @@ void SimpleNotes::fastSave(void)
     disconnect(m_notes, SIGNAL(dataChanged(QString, QString)), this, SLOT(changeData(QString, QString)));
     disconnect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
 
-    m_notes->setData(m_noteID, m_textEdit_note->toHtml());
+    if(loadTextBrowser)
+        m_notes->setData(m_noteID, m_textEdit_note->toHtml());
+    else
+        m_notes->setData(m_noteID, m_frame->toHtml());
+
     m_notes->setTitle(m_noteID, m_lineEdit_title->text());
     m_notes->setRef(m_noteID, currentNoteRef);
 
@@ -205,6 +228,7 @@ void SimpleNotes::aktNote()
 {
     if (m_noteID == "")
         return;
+    m_notes->setTitle(m_noteID, m_lineEdit_title->text());
     QModelIndexList list = m_treeView->model()->match(m_treeView->model()->index(0, 0), Qt::UserRole + 1, m_noteID);
     if (list.size() != 1) {
         myDebug() << "invalid noteID = " << m_noteID;
@@ -213,6 +237,8 @@ void SimpleNotes::aktNote()
     QModelIndex index = list.at(0);
     if (index.data(Qt::DisplayRole) != m_notes->getTitle(m_noteID)) {
         m_treeView->model()->setData(index, m_notes->getTitle(m_noteID), Qt::DisplayRole);
+
+
     }
 }
 void SimpleNotes::select(QString noteID)
