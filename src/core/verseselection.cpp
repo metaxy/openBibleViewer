@@ -22,4 +22,5 @@ VerseSelection::VerseSelection()
     selectedText = "";
     shortestStringInStartVerse = "";
     shortestStringInEndVerse = "";
+    repeat = 0;
 }

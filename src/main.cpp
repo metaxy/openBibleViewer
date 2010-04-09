@@ -55,9 +55,15 @@ int main(int argc, char *argv[])
 #else
     homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
 #endif
+
+
     settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
                              "openBible", "openBibleViewer");
 #endif
+    QDir dir(homeDataPath);
+    if(!dir.exists(homeDataPath)) {
+        dir.mkpath(homeDataPath);
+    }
 
 #ifdef Q_WS_WIN
     QString lang = settings->value("general/language", "en").toString();
@@ -101,7 +107,7 @@ int main(int argc, char *argv[])
           w.setStyleSheet(out);//load from file
           qDebug() << "main::main() load stylesheet fileName = " << file.fileName();
       }*/
-    w.showMaximized();
+    w.show();
     a.exec();
     return 0;
 }

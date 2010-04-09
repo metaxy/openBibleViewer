@@ -24,7 +24,7 @@ ModuleSettings Settings::getModuleSettings(const int &bibleID)
           return ModuleSettings();*/
 
     int id = moduleID.value(bibleID);
-    if (module.size() < id) {
+    if (module.size() < id || module.size() == 0) {
         myDebug() << "No Settings aviable";
         return ModuleSettings();
     } else {

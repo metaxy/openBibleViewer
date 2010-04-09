@@ -22,6 +22,7 @@ public:
     int endVerse;
     int posInStartVerse;
     int posInEndVerse;
+    int repeat;
     QString selectedText;
     QString shortestStringInStartVerse;
     QString shortestStringInEndVerse;

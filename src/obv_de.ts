@@ -295,7 +295,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1626"/>
         <source>Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Html (*.html *.htm);;PDF (*.pdf);;Text (*.txt)</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1662"/>

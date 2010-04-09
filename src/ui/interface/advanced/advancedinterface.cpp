@@ -832,7 +832,6 @@ void AdvancedInterface::previousChapter()
 VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
 {
     VerseSelection selection;
-    //DEBUG_FUNC_NAME
     selection.endVerse = -1;
     selection.startVerse = -1;
 
@@ -843,6 +842,7 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
         int to = fragment.indexOf("<!--EndFragment-->");
         fragment.remove(to, fragment.size());
         fragment.remove(0, from + QString("<!--StartFragment-->").size());
+
         //if fragment starts with a tag remove this
         if (fragment.startsWith("<")) {
             fragment.remove(0, fragment.indexOf(">") + 1);
@@ -853,7 +853,7 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
         QStringList chapterData = m_moduleManager->m_bible.toUniformHtml(m_moduleManager->m_bible.chapterDataList);
 
         QString text = chapterData.join("");
-        int startFragment = text.indexOf(fragment);//todo: it dont't have to be the right verse there may more than on withe the same fragment
+        int startFragment = text.indexOf(fragment);
 
         // Do it on one way: this way is more stable but you get only the start verse
         int n_pos = cursor.position();
@@ -871,30 +871,38 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
         }
         myDebug() << "over cursor.position()(2) = " << n_startVerse;
         bool foundBoth = false;
-        VerseSelection backup;
+
         while (startFragment != -1) {
             //do we have to do it on another way
             int counter = 0;
+            VerseSelection newSelection;
+            newSelection.endVerse = -1;
+            newSelection.startVerse = -1;
             for (int i = 0; i < chapterData.size(); ++i) {
                 counter += chapterData.at(i).size();
                 myDebug() << "i = " << i << " counter = " << counter;
-                if (selection.startVerse == -1 && startFragment < counter) {
+                if (newSelection.startVerse == -1 && startFragment < counter) {
                     myDebug() << "setted start";
-                    selection.startVerse = i;
-                    selection.posInStartVerse = startFragment - (counter - chapterData.at(i).size()) ;
+                    newSelection.startVerse = i;
+                    newSelection.posInStartVerse = startFragment - (counter - chapterData.at(i).size()) ;
                     bool notFound = true;
                     int biggest = 6;
+
+                    QString v = chapterData.at(i);
+
+                    if(fragment.size() < 6)//make faster
+                        biggest = fragment.size();
                     while (notFound) {
                         for (int s = biggest; s < 100; s++) {
                             QString b = fragment;
                             QString searchString = b.remove(s, fragment.size());
                             //todo: if it starts with a html tag remove that
-                            QString v = chapterData.at(i);
+
                             int a1 = v.lastIndexOf(searchString);
                             int a2 = v.indexOf(searchString);
                             if (a1 == a2) {
                                 myDebug() << "s = " << s << " searchString = " << searchString;
-                                selection.shortestStringInStartVerse = searchString;
+                                newSelection.shortestStringInStartVerse = searchString;
                                 notFound = false;
                                 break;
                             }
@@ -904,14 +912,15 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
                             break;
                         }
                     }
-                    myDebug() << "posInstartverse = " << selection.posInStartVerse;
                 }
-                if (selection.endVerse == -1 && (startFragment + fragment.size()  < (counter))) {
+                if (newSelection.endVerse == -1 && (startFragment + fragment.size()  < (counter))) {
                     myDebug() << "setted end";
-                    selection.endVerse = i;
-                    selection.posInEndVerse = (startFragment + fragment.size()) - (counter - chapterData.at(i).size()) ;
+                    newSelection.endVerse = i;
+                    newSelection.posInEndVerse = (startFragment + fragment.size()) - (counter - chapterData.at(i).size()) ;
                     bool notFound = true;
                     int biggest = 6;
+                    if(fragment.size() < 6)//make faster
+                        biggest = fragment.size();
                     while (notFound) {
                         for (int s = biggest; s < 100/* or some another big value*/; s++) {
                             QString b = fragment;
@@ -922,7 +931,7 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
                             int a2 = v.indexOf(searchString);
                             if (a1 == a2) {
                                 myDebug() << "s = " << s << " searchString = " << searchString;
-                                selection.shortestStringInEndVerse = searchString;
+                                newSelection.shortestStringInEndVerse = searchString;
                                 notFound = false;
                                 break;
                             }
@@ -932,25 +941,57 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
                             break;
                         }
                     }
-                    myDebug() << "posInEndverse = " << selection.posInEndVerse;
+                    myDebug() << "posInEndverse = " << newSelection.posInEndVerse;
                     break;
                 }
             }
 
-            if (selection.startVerse == n_startVerse) { //and compare both ways
-                myDebug() << "break selection.startVerse = " << selection.startVerse << " n_startVerse  = " << n_startVerse;
+            if (newSelection.startVerse == n_startVerse) { //and compare both ways
+                myDebug() << "break newSelection.startVerse = " << newSelection.startVerse << " n_startVerse  = " << n_startVerse << " repeat = " << newSelection.repeat;
+                //selection = newSelection;
+                selection.endVerse = newSelection.endVerse;
+                selection.posInEndVerse = newSelection.posInEndVerse;
+                selection.posInStartVerse = newSelection.posInStartVerse;
+                selection.repeat = newSelection.repeat;
+                selection.selectedText = newSelection.selectedText;
+                selection.shortestStringInEndVerse = newSelection.shortestStringInEndVerse;
+                selection.shortestStringInStartVerse = newSelection.shortestStringInStartVerse;
+                selection.startVerse = newSelection.startVerse;
+
                 foundBoth = true;
                 break;
             }
-            backup = selection;
-            selection.endVerse = -1;
-            selection.startVerse = -1;
+            //myDebug() << " start = " << selection.startVerse << " end = " << selection.endVerse << " repeat = " << selection.repeat;
             startFragment = text.indexOf(fragment, startFragment + fragment.size());
-            myDebug() << " start = " << selection.startVerse << " end = " << selection.endVerse;
+
+
         }
-        if (!foundBoth) {
-            selection = backup;
+        //todo: implement repeat is impossible
+      /*  QString v = chapterData.at(selection.startVerse);
+        int repeat = 0;
+        if(v.indexOf(fragment) != -1 && v.indexOf(fragment,v.indexOf(fragment)+fragment.size())) {
+            myDebug() << "is more than one time there";
+            //todo: if the shortes string is too short(because the user selected a short string), and there is more than one in the verse, say whicht of it is
+            int pos = v.indexOf(fragment);
+            myDebug() << "pos = " << pos << " selection.posInStartVerse = " << selection.posInStartVerse;
+            if(pos != selection.posInStartVerse) {
+                while(pos != -1) {
+
+                    repeat++;
+                    if(pos == selection.posInStartVerse) {
+                        break;
+                    }
+                    pos = v.indexOf(fragment,pos+fragment.size());
+                    myDebug() << "pos = " << pos << " repeat = " << repeat;
+
+
+                }
+            }
+
         }
+        myDebug() << "repeat = " << repeat;
+        selection.repeat = repeat;*/
+
     } else {
 
         int pos = cursor.position();
@@ -1278,17 +1319,21 @@ void AdvancedInterface::closing()
     for (int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
         m_windowCache.setCurrentWindowID(i);
         Bible b = m_windowCache.getBible();
-        UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
-        urlConverter.m_biblesIniPath = b.biblesIniPath;
-        urlConverter.m_bibleID = QString::number(b.bibleID());
-        urlConverter.m_bookID = b.bookID();
-        urlConverter.m_chapterID = b.chapterID() - b.chapterAdd();
-        urlConverter.m_verseID = 0;
-        windowUrls << urlConverter.convert();
-        windowGeo << ui->mdiArea->subWindowList().at(i)->geometry();
-        QTextBrowser *textBrowser =  ui->mdiArea->subWindowList().at(i)->findChild<QTextBrowser *>("textBrowser");
-        vSlider <<  textBrowser->verticalScrollBar()->sliderPosition();
-        hSlider << textBrowser->horizontalScrollBar()->sliderPosition();
+        if(b.bibleID() >= 0) {
+            UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
+            urlConverter.m_biblesIniPath = b.biblesIniPath;
+            urlConverter.m_bibleID = QString::number(b.bibleID());
+            urlConverter.m_bookID = b.bookID();
+            urlConverter.m_chapterID = b.chapterID() - b.chapterAdd();
+            urlConverter.m_verseID = 0;
+            windowUrls << urlConverter.convert();
+        } else {
+            windowUrls << "";
+            windowGeo << ui->mdiArea->subWindowList().at(i)->geometry();
+            QTextBrowser *textBrowser =  ui->mdiArea->subWindowList().at(i)->findChild<QTextBrowser *>("textBrowser");
+            vSlider <<  textBrowser->verticalScrollBar()->sliderPosition();
+            hSlider << textBrowser->horizontalScrollBar()->sliderPosition();
+        }
     }
     m_settings->session.setData("windowUrls", windowUrls);
     m_settings->session.setData("windowGeo", windowGeo);
