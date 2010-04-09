@@ -1608,9 +1608,9 @@ QMenuBar* AdvancedInterface::menuBar()
     QAction *actionMarkCategories = new QAction(QIcon(), tr("Mark Categories"), menuNotes);
     connect(actionMarkCategories, SIGNAL(triggered()), this, SLOT(showMarkCategories()));
     menuNotes->addAction(actionNotesEditor);
-    menuNotes->addSeparator();
+    //menuNotes->addSeparator();
     menuNotes->addAction(actionMarkList);
-    menuNotes->addAction(actionMarkCategories);
+   // menuNotes->addAction(actionMarkCategories);
 
     QMenu *menuHelp = new QMenu(tr("Help"), bar);
     QAction *actionAbout = new QAction(QIcon(":/icons/16x16/help-about.png"), tr("About"), menuHelp);
