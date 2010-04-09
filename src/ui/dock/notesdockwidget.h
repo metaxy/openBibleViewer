@@ -47,6 +47,7 @@ private slots:
     void noteRedo();
 
     void changeRef(QString id, QMap<QString, QString> ref);
+    void removeNote(QString id ,QMap<QString, QString> ref);
     /*void updateNote(QString pos);*/
 public slots:
     void newNote();

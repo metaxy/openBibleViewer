@@ -251,12 +251,13 @@ void Notes::insertID(const QString &id)
 void Notes::removeNote(const QString &id)
 {
     //DEBUG_FUNC_NAME
+    QMap<QString, QString>  ref = notesRef.value(id);
     notesType.remove(id);
     notesTitle.remove(id);
     notesData.remove(id);
     notesRef.remove(id);
     notesID.removeOne(id);
-    emit noteRemoved(id);
+    emit noteRemoved(id,ref);
 }
 /*!
   Pharse note data from the xml-file
