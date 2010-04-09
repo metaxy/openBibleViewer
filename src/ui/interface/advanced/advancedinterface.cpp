@@ -948,19 +948,11 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
 
             if (newSelection.startVerse == n_startVerse) { //and compare both ways
                 myDebug() << "break newSelection.startVerse = " << newSelection.startVerse << " n_startVerse  = " << n_startVerse << " repeat = " << newSelection.repeat;
-                //selection = newSelection;
-                selection.endVerse = newSelection.endVerse;
-                selection.posInEndVerse = newSelection.posInEndVerse;
-                selection.posInStartVerse = newSelection.posInStartVerse;
-                selection.repeat = newSelection.repeat;
-                selection.selectedText = newSelection.selectedText;
-                selection.shortestStringInEndVerse = newSelection.shortestStringInEndVerse;
-                selection.shortestStringInStartVerse = newSelection.shortestStringInStartVerse;
-                selection.startVerse = newSelection.startVerse;
-
+                selection = newSelection;
                 foundBoth = true;
                 break;
             }
+            selection = newSelection;
             //myDebug() << " start = " << selection.startVerse << " end = " << selection.endVerse << " repeat = " << selection.repeat;
             startFragment = text.indexOf(fragment, startFragment + fragment.size());
 
@@ -1329,11 +1321,11 @@ void AdvancedInterface::closing()
             windowUrls << urlConverter.convert();
         } else {
             windowUrls << "";
-            windowGeo << ui->mdiArea->subWindowList().at(i)->geometry();
-            QTextBrowser *textBrowser =  ui->mdiArea->subWindowList().at(i)->findChild<QTextBrowser *>("textBrowser");
-            vSlider <<  textBrowser->verticalScrollBar()->sliderPosition();
-            hSlider << textBrowser->horizontalScrollBar()->sliderPosition();
         }
+        windowGeo << ui->mdiArea->subWindowList().at(i)->geometry();
+        QTextBrowser *textBrowser =  ui->mdiArea->subWindowList().at(i)->findChild<QTextBrowser *>("textBrowser");
+        vSlider <<  textBrowser->verticalScrollBar()->sliderPosition();
+        hSlider << textBrowser->horizontalScrollBar()->sliderPosition();
     }
     m_settings->session.setData("windowUrls", windowUrls);
     m_settings->session.setData("windowGeo", windowGeo);
@@ -1363,11 +1355,14 @@ void AdvancedInterface::restoreSession()
         newSubWindow(false);
         myDebug() << "current window is " << tabIDof(activeMdiChild()) << " while window count is " << usableWindowList();
         //load bible
-        UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, windowUrls.at(i));
-        urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
-        urlConverter.pharse();
-        myDebug() << "url = " << urlConverter.convert();
-        pharseUrl(urlConverter.convert());
+        QString url = windowUrls.at(i);
+        if(!url.isEmpty() && url.size() != 0) {
+            UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, windowUrls.at(i));
+            urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
+            urlConverter.pharse();
+            myDebug() << "url = " << urlConverter.convert();
+            pharseUrl(urlConverter.convert());
+        }
         //set geometry
         activeMdiChild()->setGeometry(windowGeo.at(i).toRect());
         QTextBrowser *textBrowser =  activeMdiChild()->findChild<QTextBrowser *>("textBrowser");
@@ -1391,6 +1386,8 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
     if (oldSettings.encoding != newSettings.encoding) {
         reloadBibles = true;
     }
+    if(oldSettings.module.size() > newSettings.module.size())
+        reloadBibles = true;
     for (int i = 0; i < newSettings.module.size(); ++i) {
         if (oldSettings.module.size() < i || oldSettings.module.empty()) {
             reloadBibles = true;
@@ -1406,14 +1403,15 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
         }
     }
     if (reloadBibles == true) {
-        myDebug() << "reload Bibles";
+        myDebug() << "reload Module";
         m_moduleManager->loadAllModules();
         m_moduleDockWidget->init();
         m_strongDockWidget->init();
         showText("");
         m_windowCache.clearZefCache();
         m_moduleManager->m_bible.clearSoftCache();
-        reloadChapter(true);
+        if(m_moduleManager->bibleLoaded())
+            reloadChapter(true);
     }
 
 }
@@ -1670,13 +1668,16 @@ QToolBar * AdvancedInterface::toolBar()
     bar->addSeparator();
     bar->addAction(actionNewWindow);
     bar->addSeparator();
-    bar->addAction(actionBookmarks);
-    bar->addAction(actionNotes);
-    bar->addSeparator();
     bar->addAction(actionZoomIn);
     bar->addAction(actionZoomOut);
     bar->addSeparator();
     bar->addAction(actionModule);
+     bar->addSeparator();
+    bar->addAction(actionBookmarks);
+    bar->addAction(actionNotes);
+
+
+
     return bar;
 }
 AdvancedInterface::~AdvancedInterface()

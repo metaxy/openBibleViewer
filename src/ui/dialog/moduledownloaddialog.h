@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QDialog>
 #include <QtCore/QStringList>
+#include <QtCore/QMap>
 #include <QtGui/QTreeWidgetItem>
 #include <QtNetwork/QHttp>
 #include <QtCore/QFile>
@@ -57,6 +58,7 @@ private:
     Ui::ModuleDownloadDialog *ui;
     Settings m_set;
     QStringList downloadList, nameList, downloadedList, downNames;
+    QMap<QString,QString> names;
     int currentDownload;
     QProgressDialog *progressDialog;
     QHttp *http;

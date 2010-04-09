@@ -25,7 +25,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomNode>
 #include <QtXml/QDomElement>
-
+#include <QtCore/QSet>
 
 ModuleDownloadDialog::ModuleDownloadDialog(QWidget *parent) :
         QDialog(parent),
@@ -141,11 +141,11 @@ void ModuleDownloadDialog::item(QTreeWidgetItem* i)
 
         if (i->checkState(0) == Qt::Checked) {
             downloadList.append(i->data(2, 0).toString());
-            nameList.append(i->data(2, 1).toString());
+            names[i->data(2, 0).toString()] = i->data(2, 1).toString();
             // add to download list
         } else if (i->checkState(0) == Qt::Unchecked) {
             downloadList.removeOne(i->data(2, 0).toString());
-            nameList.removeOne(i->data(2, 1).toString());
+            names[i->data(2, 0).toString()] = "";
         }
     }
 }
@@ -157,6 +157,11 @@ void ModuleDownloadDialog::downloadNext()
 {
     if (httpRequestAborted)
         return;
+    //hack remove dupilicates
+    QSet<QString> set = downloadList.toSet();
+    downloadList = set.toList();
+
+
     myDebug() << "currentDownload = " << currentDownload << " size = " << downloadList.size();
     QDir dir(m_set.homePath);
     dir.mkdir(m_set.homePath + "modules");
@@ -185,10 +190,8 @@ void ModuleDownloadDialog::download(QString url_, bool addToList)
     QString fileName = m_set.homePath + "modules/" + fileInfo.fileName() + "/" + fileInfo.fileName();
     if (addToList) {
         downloadedList << fileName;
-        downNames << nameList.at(currentDownload);
+        downNames << names[downloadList.at(currentDownload)];
     }
-
-
     if (QFile::exists(fileName)) {
         QFile::remove(fileName);
     }

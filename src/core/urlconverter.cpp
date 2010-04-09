@@ -18,6 +18,13 @@ UrlConverter::UrlConverter(const int &from, const int &to, const QString &url)
     m_from = from;
     m_to = to;
     m_url = url;
+
+    m_bibleID = "";
+    m_path = "";
+    m_chapterID = -1;
+    m_bookID = -1;
+    m_verseID = -1;
+    m_bookName = "";
 }
 QString UrlConverter::convert()
 {
