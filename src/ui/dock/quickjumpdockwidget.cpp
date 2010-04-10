@@ -38,8 +38,8 @@ void QuickJumpDockWidget::setBooks(QStringList list)
     books = list;
 
     QStringList l;
-    l.append(books);
-    l.append(hist);
+    l << books;
+    l << hist;
     completer = new QCompleter(l, this);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->lineEdit_goTo->setCompleter(completer);
@@ -51,8 +51,8 @@ void QuickJumpDockWidget::goToPos()
     hist << text;
 
     QStringList l;
-    l.append(books);
-    l.append(hist);
+    l << books;
+    l << hist;
     completer = new QCompleter(l, this);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->lineEdit_goTo->setCompleter(completer);

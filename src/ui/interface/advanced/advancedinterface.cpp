@@ -1393,7 +1393,7 @@ void AdvancedInterface::restoreSession()
         textBrowser->verticalScrollBar()->setSliderPosition(vSlider.at(i).toInt());
         textBrowser->horizontalScrollBar()->setSliderPosition(hSlider.at(i).toInt());
 #if QT_VERSION >= 0x040600
-        if(zomm.size() != 0 && zoom.at(i).toReal() > 0)
+        if(zoom.size() != 0 && zoom.at(i).toReal() > 0)
             textBrowser->setFontPointSize(zoom.at(i).toReal());
 #endif
 
