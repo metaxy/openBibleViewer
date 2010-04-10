@@ -63,7 +63,8 @@ SOURCES += src/main.cpp \
     src/ui/dock/moduleproxymodel.cpp \
     src/core/simplenotes.cpp \
     src/core/basicclass.cpp \
-    src/ui/highlighter.cpp
+    src/ui/highlighter.cpp \
+    src/ui/dialog/insertlinkdialog.cpp
 HEADERS += src/core/settings.h \
     src/module/biblequote.h \
     src/module/zefania-bible.h \
@@ -122,7 +123,8 @@ HEADERS += src/core/settings.h \
     src/ui/dock/moduleproxymodel.h \
     src/core/simplenotes.h \
     src/core/basicclass.h  \
-    src/ui/highlighter.h
+    src/ui/highlighter.h \
+    src/ui/dialog/insertlinkdialog.h
 FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dialog/settingsdialog.ui \
     src/ui/dialog/searchinfodialog.ui \
@@ -145,7 +147,8 @@ FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/interface/advanced/advancedinterface.ui \
     src/ui/interface/study/studyinterface.ui \
     src/ui/noteseditor.ui \
-    src/ui/dialog/inserthtmldialog.ui
+    src/ui/dialog/inserthtmldialog.ui \
+    src/ui/dialog/insertlinkdialog.ui
 RESOURCES += src/icons.qrc \
     src/data.qrc
 TRANSLATIONS = src/obv_de.ts \

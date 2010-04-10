@@ -127,6 +127,7 @@ void AdvancedInterface::init()
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
     connect(m_bibleDisplay, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
     connect(m_bibleDisplay, SIGNAL(get(QUrl)), this, SLOT(pharseUrl(QUrl)));
+
     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
     BibleDisplaySettings bibleDisplaySettings;
@@ -501,6 +502,7 @@ void AdvancedInterface::loadModuleDataByID(int id)
 }
 void AdvancedInterface::pharseUrl(QUrl url)
 {
+    DEBUG_FUNC_NAME
     pharseUrl(url.toString());
 }
 void AdvancedInterface::pharseUrl(QString url)
@@ -515,6 +517,7 @@ void AdvancedInterface::pharseUrl(QString url)
     const QString bq = "go";
     const QString anchor = "#";
     const QString note = "note://";
+    const QString persistent = "persistent:";
     if (url.startsWith(bible)) {
         url = url.remove(0, bible.size());
         QStringList a = url.split("/");
@@ -620,7 +623,7 @@ void AdvancedInterface::pharseUrl(QString url)
         } else {
             myDebug() << "anchor";
             if (activeMdiChild()) {
-                QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+                QTextBrowser *textBrowser = getTextBrowser();
                 textBrowser->scrollToAnchor(url);
             }
         }
@@ -631,12 +634,20 @@ void AdvancedInterface::pharseUrl(QString url)
             m_notesDockWidget->show();
         }
         m_notesDockWidget->showNote(url);
+    } else if (url.startsWith(persistent)) {
+        url = url.remove(0, persistent.size());
+        myDebug() << "url = " << url;
+        UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
+        urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
+        urlConverter.pharse();
+        QString i = urlConverter.convert();//it now a normal interface url
+        myDebug() << "i = " << i;
+        pharseUrl(i);
     } else {
         myDebug() << " bookPath = " << m_moduleManager->m_bible.bookPath;
         if (m_moduleManager->m_bible.m_bibleType == Bible::BibleQuoteModule && m_moduleManager->m_bible.bookPath.contains(url)) {
             emit get("bible://current/" + m_moduleManager->m_bible.bookPath.lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
         } else {
-
             myDebug() << "invalid URL";
         }
     }

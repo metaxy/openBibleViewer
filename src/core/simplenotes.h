@@ -33,7 +33,7 @@ signals:
     void reloadChapter();
 public slots:
     void newNote();
-    void showNote(const QString &noteID, bool s = false);
+    void showNote(const QString &noteID, bool selectNote = false);
     void saveNote();
     void newNoteWithLink(VerseSelection selection);
     void fastSave();

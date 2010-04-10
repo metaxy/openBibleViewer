@@ -51,6 +51,8 @@ class NotesEditor : public QMainWindow, public BasicClass
 {
     Q_OBJECT
 
+signals:
+    void get(QUrl url);
 public:
     NotesEditor(QWidget *parent = 0);
     ~NotesEditor();
@@ -102,8 +104,9 @@ private slots:
     void adjustActions();
     void adjustSource();
     void changeTab(int);
-    void openLink(const QUrl&);
     void changeZoom(int);
+    void createLink(QString link);
+    void pharseUrl(QUrl url);
 
 private:
     Ui::NotesEditor *ui;

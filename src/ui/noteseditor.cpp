@@ -25,6 +25,7 @@
 #include "noteseditor.h"
 #include "highlighter.h"
 #include "src/core/dbghelper.h"
+#include "src/ui/dialog/insertlinkdialog.h"
 #include "ui_noteseditor.h"
 #include "ui_inserthtmldialog.h"
 
@@ -122,6 +123,7 @@ NotesEditor::NotesEditor(QWidget *parent)
     // necessary to sync our actions
     connect(ui->webView->page(), SIGNAL(selectionChanged()), SLOT(adjustActions()));
 
+
     connect(ui->webView->page(), SIGNAL(contentsChanged()), SLOT(adjustSource()));
     ui->webView->setFocus();
 
@@ -147,6 +149,9 @@ void NotesEditor::init()
     m_simpleNotes->setLinkWidget(ui->label_noteLink);
 
     m_simpleNotes->init();
+    ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+    connect(ui->webView->page(),SIGNAL(linkClicked(QUrl)),this,SLOT(pharseUrl(QUrl)));
+    connect(this,SIGNAL(get(QUrl)),m_bibleDisplay,SIGNAL(get(QUrl)));
 
     /*connect(ui->toolButton_noteBold, SIGNAL(clicked()), this, SLOT(noteSetTextBold()));
     connect(ui->toolButton_noteItalic, SIGNAL(clicked()), this, SLOT(noteSetTextItalic()));
@@ -264,12 +269,38 @@ static QUrl guessUrlFromString(const QString &string)
 
 void NotesEditor::createLink()
 {
-    QString link = QInputDialog::getText(this, tr("Create link"),
-                                         "Enter URL");
-    if (!link.isEmpty()) {
+    InsertLinkDialog *insertLinkDialog = new  InsertLinkDialog(this);
+    connect(insertLinkDialog, SIGNAL(newLink(QString)), this, SLOT(createLink(QString)));
+    insertLinkDialog->setSettings(m_settings);
+    insertLinkDialog->setNotes(m_notes);
+    insertLinkDialog->setModuleManager(m_moduleManager);
+    insertLinkDialog->init();
+    insertLinkDialog->setCurrent(m_moduleManager->m_bible.bibleID(), m_moduleManager->m_bible.m_biblePath,
+                                 m_moduleManager->m_bible.bookID(), m_moduleManager->m_bible.chapterID() + 1, 1);
+    insertLinkDialog->show();
+    insertLinkDialog->exec();
+}
+void NotesEditor::createLink(QString link) {
+    if(link.startsWith("bible://") || link.startsWith("persistent://") || link.startsWith("note://")) {
+        execCommand("createLink", link);
+    } else {
         QUrl url = guessUrlFromString(link);
         if (url.isValid())
             execCommand("createLink", url.toString());
+    }
+}
+void NotesEditor::pharseUrl(QUrl url)
+{
+    DEBUG_FUNC_NAME
+
+    QString link = url.toString();
+    myDebug() << "link = " << link;
+    const QString note = "note://";
+    if(link.startsWith(note)) {
+        link = link.remove(0, note.size());
+        m_simpleNotes->showNote(link,true);
+    } else {
+        emit get(url);
     }
 }
 
@@ -521,14 +552,6 @@ void NotesEditor::changeTab(int index)
     }
 }
 
-void NotesEditor::openLink(const QUrl &url)
-{
-    QString msg = QString(tr("Open %1 ?")).arg(url.toString());
-    if (QMessageBox::question(this, tr("Open link"), msg,
-                              QMessageBox::Open | QMessageBox::Cancel) ==
-            QMessageBox::Open)
-        QDesktopServices::openUrl(url);
-}
 
 void NotesEditor::changeZoom(int percent)
 {

@@ -94,11 +94,11 @@ void SimpleNotes::showNote(QModelIndex index)
 {
     showNote(index.data(Qt::UserRole + 1).toString());
 }
-void SimpleNotes::showNote(const QString &noteID, bool s)
+void SimpleNotes::showNote(const QString &noteID, bool selectNote)
 {
     //DEBUG_FUNC_NAME
     //save current notes
-    if (s)
+    if (selectNote)
         select(noteID);
 
     fastSave();
