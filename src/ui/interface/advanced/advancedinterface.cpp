@@ -1321,6 +1321,7 @@ void AdvancedInterface::closing()
     QList<QVariant> windowGeo;
     QList<QVariant> vSlider;
     QList<QVariant> hSlider;
+    QList<QVariant> zoom;
     for (int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
         m_windowCache.setCurrentWindowID(i);
         Bible b = m_windowCache.getBible();
@@ -1338,13 +1339,14 @@ void AdvancedInterface::closing()
         windowGeo << ui->mdiArea->subWindowList().at(i)->geometry();
         QTextBrowser *textBrowser =  ui->mdiArea->subWindowList().at(i)->findChild<QTextBrowser *>("textBrowser");
         vSlider <<  textBrowser->verticalScrollBar()->sliderPosition();
-        hSlider << textBrowser->horizontalScrollBar()->sliderPosition();
+        hSlider <<  textBrowser->horizontalScrollBar()->sliderPosition();
+        zoom << textBrowser->fontPointSize();
     }
     m_settings->session.setData("windowUrls", windowUrls);
     m_settings->session.setData("windowGeo", windowGeo);
     m_settings->session.setData("vSlider", vSlider);
     m_settings->session.setData("hSlider", hSlider);
-
+    m_settings->session.setData("zoom", zoom);
     m_settings->session.setData("viewMode", ui->mdiArea->viewMode());
 
 
@@ -1363,6 +1365,7 @@ void AdvancedInterface::restoreSession()
     QVariantList windowGeo = m_settings->session.getData("windowGeo").toList();
     QVariantList vSlider = m_settings->session.getData("vSlider").toList();
     QVariantList hSlider = m_settings->session.getData("hSlider").toList();
+    QVariantList zoom = m_settings->session.getData("zoom").toList();
     myDebug() << "b";
     for (int i = 0; i < windowUrls.size(); ++i) {
         newSubWindow(false);
@@ -1378,11 +1381,13 @@ void AdvancedInterface::restoreSession()
         }
         //set geometry
         activeMdiChild()->setGeometry(windowGeo.at(i).toRect());
-        QTextBrowser *textBrowser =  activeMdiChild()->findChild<QTextBrowser *>("textBrowser");
+        QTextBrowser *textBrowser = getTextBrowser();
         //set slider
         //todo: really strange
         textBrowser->verticalScrollBar()->setSliderPosition(vSlider.at(i).toInt());
         textBrowser->horizontalScrollBar()->setSliderPosition(hSlider.at(i).toInt());
+        if(zoom.at(i).toReal() > 0)
+            textBrowser->setFontPointSize(zoom.at(i).toReal());
     }
     myDebug() << "c";
     if (m_settings->session.getData("viewMode").toInt() == 0)
