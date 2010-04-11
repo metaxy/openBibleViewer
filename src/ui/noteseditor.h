@@ -33,9 +33,9 @@
 #include "src/core/verseselection.h"
 #include "src/core/simplenotes.h"
 
-#if QT_VERSION < 0x040500
+/*#if QT_VERSION < 0x040500
 #error You must use Qt >= 4.5.0!
-#endif
+#endif*/
 namespace Ui
 {
 class NotesEditor;
