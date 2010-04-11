@@ -406,7 +406,7 @@
     <name>InsertLinkDialog</name>
     <message>
         <location filename="ui/dialog/insertlinkdialog.ui" line="14"/>
-        <source>Dialog</source>
+        <source>Insert Link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -420,7 +420,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/dialog/insertlinkdialog.ui" line="77"/>
+        <location filename="ui/dialog/insertlinkdialog.ui" line="85"/>
         <source>Custom</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1054,11 +1054,6 @@
     <message>
         <location filename="ui/noteseditor.ui" line="65"/>
         <source>Tab 2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ui/noteseditor.ui" line="80"/>
-        <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -406,13 +406,13 @@
     <name>InsertLinkDialog</name>
     <message>
         <location filename="ui/dialog/insertlinkdialog.ui" line="14"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <source>Insert Link</source>
+        <translation type="unfinished">Link einfügen</translation>
     </message>
     <message>
         <location filename="ui/dialog/insertlinkdialog.ui" line="32"/>
         <source>Bible</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bibel</translation>
     </message>
     <message>
         <location filename="ui/dialog/insertlinkdialog.ui" line="67"/>
@@ -420,9 +420,9 @@
         <translation type="unfinished">Notiz</translation>
     </message>
     <message>
-        <location filename="ui/dialog/insertlinkdialog.ui" line="77"/>
+        <location filename="ui/dialog/insertlinkdialog.ui" line="85"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Andere</translation>
     </message>
     <message>
         <location filename="ui/dialog/insertlinkdialog.cpp" line="37"/>
@@ -1429,11 +1429,6 @@
     <message>
         <location filename="ui/noteseditor.ui" line="65"/>
         <source>Tab 2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ui/noteseditor.ui" line="80"/>
-        <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
