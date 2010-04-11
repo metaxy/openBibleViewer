@@ -22,293 +22,293 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="778"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="784"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="791"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="789"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="795"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="802"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="778"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="784"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="789"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="795"/>
         <source>This book is not available.</source>
         <translation>Dieses Buch ist nicht verfügbar.</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="791"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="802"/>
         <source>Cannot read the book.</source>
         <translation>Das Buch kann nicht gelesen werden.</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1036"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1537"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1047"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1562"/>
         <source>Copy</source>
         <translation>Kopieren</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1053"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1062"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1064"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1073"/>
         <source>Copy Verse</source>
         <translation>Kopiere Verse</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1056"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1067"/>
         <source>Copy Verse %1</source>
         <translation>Kopiere Vers %1</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1066"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1540"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1077"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1565"/>
         <source>Select All</source>
         <translation>Alles auswählen</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1073"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1084"/>
         <source>Mark this</source>
         <translation>Markiere</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1083"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1094"/>
         <source>Yellow</source>
         <translation>Gelb</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1091"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1102"/>
         <source>Green</source>
         <translation>Grün</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1099"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1110"/>
         <source>Blue</source>
         <translation>Blau</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1107"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1118"/>
         <source>Orange</source>
         <translation>Orange</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1115"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1126"/>
         <source>Violet</source>
         <translation>Violett</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1122"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1133"/>
         <source>Custom Color</source>
         <translation>Eigne Farbe</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1127"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1138"/>
         <source>Remove Mark</source>
         <translation>Entferne Markierung</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1134"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1145"/>
         <source>Add Bookmark</source>
         <translation>Lesezeichen hinzufügen</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1141"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1152"/>
         <source>Add Note</source>
         <translation>Notiz hinzufügen</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1511"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1536"/>
         <source>File</source>
         <translation>Datei</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1513"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1538"/>
         <source>New SubWindow</source>
         <translation>Neues Unterfenster</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1515"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1540"/>
         <source>Ctrl+T</source>
         <translation>Strg+T</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1517"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1542"/>
         <source>Close SubWindow</source>
         <translation>Schließe Unterfenster</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1520"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1545"/>
         <source>Save As</source>
         <translation>Speichern als</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1523"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1728"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1548"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1753"/>
         <source>Print</source>
         <translation>Drucken</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1526"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1551"/>
         <source>Close</source>
         <translation>Schließen</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1536"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1561"/>
         <source>Edit</source>
         <translation>Bearbeiten</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1543"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1645"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1568"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1670"/>
         <source>Search</source>
         <translation>Suchen</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1544"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1569"/>
         <source>Ctrl+F</source>
         <translation>Strg+F</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1546"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1571"/>
         <source>Find Next</source>
         <translation>Nächste Stelle</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1548"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1573"/>
         <source>Find Previous</source>
         <translation>Vorherige Stelle</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1551"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1576"/>
         <source>Configuration</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1563"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1588"/>
         <source>View</source>
         <translation>Ansicht</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1565"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1661"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1590"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1686"/>
         <source>Zoom In</source>
         <translation>Vergrößern</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1567"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1592"/>
         <source>Ctrl++</source>
         <translation>Strg++</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1568"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1663"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1593"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1688"/>
         <source>Zoom Out</source>
         <translation>Verkleinern</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1569"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1594"/>
         <source>Ctrl+-</source>
         <translation type="unfinished">Strg++</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1572"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1597"/>
         <source>Tabbed View</source>
         <translation>Registerkarten</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1576"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1601"/>
         <source>Sub Window View</source>
         <translation>Unterfenster</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1582"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1607"/>
         <source>Tile</source>
         <translation>Kacheln</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1585"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1610"/>
         <source>Tile Vertical</source>
         <translation>Vertikal kacheln</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1587"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1612"/>
         <source>Tile Horizontal</source>
         <translation>Horizontal kacheln</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1580"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1605"/>
         <source>Cascade</source>
         <translation>Staffeln</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1602"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1653"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1627"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1678"/>
         <source>Notes</source>
         <translation>Notizen</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1603"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1628"/>
         <source>Notes Editor</source>
         <translation>Notizen bearbeiten</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1606"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1631"/>
         <source>Mark List</source>
         <translation>Liste der Markierungen</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1608"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1633"/>
         <source>Mark Categories</source>
         <translation>Kategorien von Markierungen</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1615"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1640"/>
         <source>Help</source>
         <translation>Hilfe</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1616"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1641"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1618"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1643"/>
         <source>Online Help</source>
         <translation>Online Hilfe</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1644"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1669"/>
         <source>ToolBar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1648"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1673"/>
         <source>Bookmarks</source>
         <translation>Lesezeichen</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1658"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1683"/>
         <source>New Window</source>
         <translation>Neues Fenster</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1666"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1691"/>
         <source>Module</source>
         <translation>Module</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1743"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1768"/>
         <source>Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)</source>
         <translation type="unfinished">Html (*.html *.htm);;PDF (*.pdf);;Text (*.txt)</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1743"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1768"/>
         <source>Save output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1778"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1803"/>
         <source>About openBibleViewer</source>
         <translation>Über openBibleViewer</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1780"/>
+        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1805"/>
         <source>openBibleViewer &lt;br&gt; version: %1 build: %2&lt;br&gt; &lt;a href=&quot;http://openbv.uucyc.name/&quot;&gt; Official Website&lt;/a&gt; | &lt;a href=&quot;http://openbv.uucyc.name/bug/&quot;&gt;Bug report&lt;/a&gt;</source>
         <translation type="unfinished">openBibleViewer &lt;br&gt; Version %1 Build %2 &lt;br&gt; &lt;a href=&quot;http://openbv.uucyc.name/&quot;&gt; Offizielle Website&lt;/a&gt; | &lt;a href=&quot;http://openbv.uucyc.name/bug/&quot;&gt;Fehler melden&lt;/a&gt;</translation>
     </message>
@@ -394,12 +394,40 @@
     <message>
         <location filename="ui/dialog/inserthtmldialog.ui" line="14"/>
         <source>Insert HTML</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">HTML einfügen</translation>
     </message>
     <message>
         <location filename="ui/dialog/inserthtmldialog.ui" line="20"/>
         <source>HTML Code:</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>InsertLinkDialog</name>
+    <message>
+        <location filename="ui/dialog/insertlinkdialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/dialog/insertlinkdialog.ui" line="32"/>
+        <source>Bible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/dialog/insertlinkdialog.ui" line="67"/>
+        <source>Note</source>
+        <translation type="unfinished">Notiz</translation>
+    </message>
+    <message>
+        <location filename="ui/dialog/insertlinkdialog.ui" line="77"/>
+        <source>Custom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/dialog/insertlinkdialog.cpp" line="37"/>
+        <source>Note Title</source>
+        <translation type="unfinished">Notztitel</translation>
     </message>
 </context>
 <context>
@@ -1369,7 +1397,7 @@
         <translation type="unfinished">Strg+S</translation>
     </message>
     <message>
-        <location filename="ui/dock/notesdockwidget.cpp" line="189"/>
+        <location filename="ui/dock/notesdockwidget.cpp" line="191"/>
         <source>(unnamed)</source>
         <translation>(unbenannt)</translation>
     </message>
@@ -1399,312 +1427,307 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="62"/>
-        <source>about:blank</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ui/noteseditor.ui" line="71"/>
+        <location filename="ui/noteseditor.ui" line="65"/>
         <source>Tab 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="86"/>
+        <location filename="ui/noteseditor.ui" line="80"/>
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="122"/>
+        <location filename="ui/noteseditor.ui" line="116"/>
         <source>&amp;File</source>
         <translation type="unfinished">&amp;Datei</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="131"/>
+        <location filename="ui/noteseditor.ui" line="125"/>
         <source>F&amp;ormat</source>
         <translation type="unfinished">F&amp;ormat</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="135"/>
+        <location filename="ui/noteseditor.ui" line="129"/>
         <source>St&amp;yle</source>
         <translation type="unfinished">St&amp;il</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="149"/>
+        <location filename="ui/noteseditor.ui" line="143"/>
         <source>&amp;Align</source>
         <translation type="unfinished">&amp;Ausrichten</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="178"/>
+        <location filename="ui/noteseditor.ui" line="172"/>
         <source>&amp;Edit</source>
         <translation type="unfinished">B&amp;earbeiten</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="199"/>
+        <location filename="ui/noteseditor.ui" line="193"/>
         <source>Standard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="221"/>
+        <location filename="ui/noteseditor.ui" line="215"/>
         <source>Formatting</source>
         <translation type="unfinished">Formatierung</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="255"/>
+        <location filename="ui/noteseditor.ui" line="249"/>
         <source>&amp;Save</source>
         <translation type="unfinished">&amp;Speichern</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="258"/>
+        <location filename="ui/noteseditor.ui" line="252"/>
         <source>Ctrl+S</source>
         <translation type="unfinished">Strg+S</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="263"/>
+        <location filename="ui/noteseditor.ui" line="257"/>
         <source>Save &amp;As...</source>
         <translation type="unfinished">Speichern &amp;Als...</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="272"/>
+        <location filename="ui/noteseditor.ui" line="266"/>
         <source>&amp;Undo</source>
         <translation type="unfinished">&amp;Rückgangig</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="275"/>
+        <location filename="ui/noteseditor.ui" line="269"/>
         <source>Ctrl+Z</source>
         <translation type="unfinished">Strg+Z</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="284"/>
+        <location filename="ui/noteseditor.ui" line="278"/>
         <source>&amp;Redo</source>
         <translation type="unfinished">&amp;Wiederherstellen</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="287"/>
+        <location filename="ui/noteseditor.ui" line="281"/>
         <source>Ctrl+Y</source>
         <translation type="unfinished">Strg+Y</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="296"/>
+        <location filename="ui/noteseditor.ui" line="290"/>
         <source>Cu&amp;t</source>
         <translation type="unfinished">A&amp;usscheinden</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="299"/>
+        <location filename="ui/noteseditor.ui" line="293"/>
         <source>Ctrl+X</source>
         <translation type="unfinished">Strg+X</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="308"/>
+        <location filename="ui/noteseditor.ui" line="302"/>
         <source>&amp;Copy</source>
         <translation type="unfinished">&amp;Kopieren</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="311"/>
+        <location filename="ui/noteseditor.ui" line="305"/>
         <source>Ctrl+C</source>
         <translation type="unfinished">Strg+C</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="320"/>
+        <location filename="ui/noteseditor.ui" line="314"/>
         <source>&amp;Paste</source>
         <translation type="unfinished">&amp;Einfügen</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="323"/>
+        <location filename="ui/noteseditor.ui" line="317"/>
         <source>Ctrl+V</source>
         <translation type="unfinished">Strg+V</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="332"/>
+        <location filename="ui/noteseditor.ui" line="326"/>
         <source>Select A&amp;ll</source>
         <translation type="unfinished">Alles auswäh&amp;len</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="335"/>
+        <location filename="ui/noteseditor.ui" line="329"/>
         <source>Ctrl+A</source>
         <translation type="unfinished">Strg+A</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="347"/>
+        <location filename="ui/noteseditor.ui" line="341"/>
         <source>&amp;Bold</source>
         <translation type="unfinished">&amp;Fett</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="350"/>
+        <location filename="ui/noteseditor.ui" line="344"/>
         <source>Ctrl+B</source>
         <translation type="unfinished">Strg+B</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="362"/>
+        <location filename="ui/noteseditor.ui" line="356"/>
         <source>&amp;Italic</source>
         <translation type="unfinished">&amp;Kursiv</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="365"/>
+        <location filename="ui/noteseditor.ui" line="359"/>
         <source>Ctrl+I</source>
         <translation type="unfinished">Strg+I</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="377"/>
+        <location filename="ui/noteseditor.ui" line="371"/>
         <source>&amp;Underline</source>
         <translation type="unfinished">&amp;Unterstrichen</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="380"/>
+        <location filename="ui/noteseditor.ui" line="374"/>
         <source>Ctrl+U</source>
         <translation type="unfinished">Strg+U</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="392"/>
+        <location filename="ui/noteseditor.ui" line="386"/>
         <source>&amp;Strikethrough</source>
         <translation type="unfinished">&amp;Durchgestrichen</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="401"/>
+        <location filename="ui/noteseditor.ui" line="395"/>
         <source>Align &amp;Left</source>
         <translation type="unfinished">&amp;Links ausrichten</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="410"/>
+        <location filename="ui/noteseditor.ui" line="404"/>
         <source>Align &amp;Center</source>
         <translation type="unfinished">&amp;Zentriert ausrichten</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="419"/>
+        <location filename="ui/noteseditor.ui" line="413"/>
         <source>Align &amp;Right</source>
         <translation type="unfinished">&amp;Rechts ausrichtem</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="428"/>
+        <location filename="ui/noteseditor.ui" line="422"/>
         <source>Align &amp;Justify</source>
         <translation type="unfinished">&amp;Blocksatz</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="437"/>
+        <location filename="ui/noteseditor.ui" line="431"/>
         <source>I&amp;ncrease Indent</source>
         <translation type="unfinished">Einzug ver&amp;größern</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="446"/>
+        <location filename="ui/noteseditor.ui" line="440"/>
         <source>&amp;Decrease Indent</source>
         <translation type="unfinished">Einzug ver&amp;kleinern</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="458"/>
+        <location filename="ui/noteseditor.ui" line="452"/>
         <source>Bulle&amp;ted List</source>
         <translation type="unfinished">&amp;Aufzählen</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="470"/>
+        <location filename="ui/noteseditor.ui" line="464"/>
         <source>&amp;Numbered List</source>
         <translation type="unfinished">&amp;Numeriert auflisten</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="479"/>
+        <location filename="ui/noteseditor.ui" line="473"/>
         <source>Insert &amp;Image...</source>
         <translation type="unfinished">&amp;Bild einfügen...</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="488"/>
+        <location filename="ui/noteseditor.ui" line="482"/>
         <source>Create Link...</source>
         <translation type="unfinished">Verknüpfung erzeugen...</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="497"/>
+        <location filename="ui/noteseditor.ui" line="491"/>
         <source>Zoom Out</source>
         <translation type="unfinished">Verkleinern</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="506"/>
+        <location filename="ui/noteseditor.ui" line="500"/>
         <source>Zoom In</source>
         <translation type="unfinished">Vergrößern</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="511"/>
+        <location filename="ui/noteseditor.ui" line="505"/>
         <source>E&amp;xit</source>
         <translation type="unfinished">&amp;Schließen</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="514"/>
+        <location filename="ui/noteseditor.ui" line="508"/>
         <source>Ctrl+Q</source>
         <translation type="unfinished">Strg+Q</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="519"/>
+        <location filename="ui/noteseditor.ui" line="513"/>
         <source>&amp;Paragraph</source>
         <translation type="unfinished">&amp;Paragraph</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="524"/>
+        <location filename="ui/noteseditor.ui" line="518"/>
         <source>Heading &amp;1</source>
         <translation type="unfinished">&amp;1. Überschrift</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="529"/>
+        <location filename="ui/noteseditor.ui" line="523"/>
         <source>Heading &amp;2</source>
         <translation type="unfinished">&amp;2. Überschrift</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="534"/>
+        <location filename="ui/noteseditor.ui" line="528"/>
         <source>Heading &amp;3</source>
         <translation type="unfinished">&amp;3. Überschrift</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="539"/>
+        <location filename="ui/noteseditor.ui" line="533"/>
         <source>Heading &amp;4</source>
         <translation type="unfinished">&amp;4. Überschrift</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="544"/>
+        <location filename="ui/noteseditor.ui" line="538"/>
         <source>Heading &amp;5</source>
         <translation type="unfinished">&amp;5. Überschrift</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="549"/>
+        <location filename="ui/noteseditor.ui" line="543"/>
         <source>Heading &amp;6</source>
         <translation type="unfinished">&amp;6. Überschrift</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="554"/>
+        <location filename="ui/noteseditor.ui" line="548"/>
         <source>Pre&amp;formatted</source>
         <translation type="unfinished">Vor&amp;formatiert</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="559"/>
+        <location filename="ui/noteseditor.ui" line="553"/>
         <source>&amp;Address</source>
         <translation type="unfinished">&amp;Addresse</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="564"/>
+        <location filename="ui/noteseditor.ui" line="558"/>
         <source>&amp;Font Name...</source>
         <translation type="unfinished">Schri&amp;ftart...</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="569"/>
+        <location filename="ui/noteseditor.ui" line="563"/>
         <source>Text &amp;Color...</source>
         <translation type="unfinished">Schriftfa&amp;rbe...</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="574"/>
+        <location filename="ui/noteseditor.ui" line="568"/>
         <source>Bac&amp;kground Color...</source>
         <translation type="unfinished">Hinter&amp;grundfarbe...</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="579"/>
+        <location filename="ui/noteseditor.ui" line="573"/>
         <source>Font Si&amp;ze...</source>
         <translation type="unfinished">Schrift&amp;größe...</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="588"/>
+        <location filename="ui/noteseditor.ui" line="582"/>
         <source>Insert HTML...</source>
         <translation type="unfinished">HTML einfügen...</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="591"/>
+        <location filename="ui/noteseditor.ui" line="585"/>
         <source>Insert HTML</source>
         <translation type="unfinished">HTML einfügen</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="99"/>
+        <location filename="ui/noteseditor.ui" line="93"/>
         <source>Edit</source>
         <translation type="unfinished">Bearbeiten</translation>
     </message>
@@ -1733,82 +1756,71 @@
         <translation type="obsolete">Speichern</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="201"/>
+        <location filename="ui/noteseditor.cpp" line="206"/>
         <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="202"/>
+        <location filename="ui/noteseditor.cpp" line="207"/>
         <source>HTML-Files (*.htm *.html);;All Files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="214"/>
+        <location filename="ui/noteseditor.cpp" line="219"/>
         <source>Common Graphics (*.png *.jpg *.jpeg *.gif);;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="215"/>
+        <location filename="ui/noteseditor.cpp" line="220"/>
         <source>Portable Network Graphics (PNG) (*.png);;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="216"/>
+        <location filename="ui/noteseditor.cpp" line="221"/>
         <source>JPEG (*.jpg *.jpeg);;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="217"/>
+        <location filename="ui/noteseditor.cpp" line="222"/>
         <source>Graphics Interchange Format (*.gif);;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="218"/>
+        <location filename="ui/noteseditor.cpp" line="223"/>
         <source>All Files (*)</source>
         <translation type="unfinished">Alle Dateien (*)</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="220"/>
+        <location filename="ui/noteseditor.cpp" line="225"/>
         <source>Open image...</source>
         <translation type="unfinished">Bild öffnen...</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="267"/>
         <source>Create link</source>
-        <translation type="unfinished">Verknüpfung einfügen</translation>
+        <translation type="obsolete">Verknüpfung einfügen</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="448"/>
+        <location filename="ui/noteseditor.cpp" line="479"/>
         <source>Font</source>
         <translation type="unfinished">Schriftart</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="448"/>
+        <location filename="ui/noteseditor.cpp" line="479"/>
         <source>Select font:</source>
         <translation type="unfinished">Wähle SChriftart:</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="467"/>
+        <location filename="ui/noteseditor.cpp" line="498"/>
         <source>Font Size</source>
         <translation type="unfinished">Schriftgröße</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="467"/>
+        <location filename="ui/noteseditor.cpp" line="498"/>
         <source>Select font size:</source>
         <translation type="unfinished">Wähle Schriftgröße:</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="526"/>
-        <source>Open %1 ?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ui/noteseditor.cpp" line="527"/>
-        <source>Open link</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ui/noteseditor.cpp" line="540"/>
+        <location filename="ui/noteseditor.cpp" line="563"/>
         <source> Zoom: %1% </source>
         <translation type="unfinished"></translation>
     </message>
@@ -1882,7 +1894,7 @@
         <location filename="ui/dialog/settingsdialog.cpp" line="365"/>
         <location filename="ui/dialog/settingsdialog.cpp" line="380"/>
         <location filename="ui/dialog/settingsdialog.cpp" line="411"/>
-        <location filename="ui/dock/notesdockwidget.cpp" line="172"/>
+        <location filename="ui/dock/notesdockwidget.cpp" line="174"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
@@ -1991,7 +2003,7 @@
         <translation>Strong nicht gefunden.</translation>
     </message>
     <message>
-        <location filename="ui/dock/notesdockwidget.cpp" line="172"/>
+        <location filename="ui/dock/notesdockwidget.cpp" line="174"/>
         <source>Cannot create mark.</source>
         <translation type="unfinished"></translation>
     </message>
