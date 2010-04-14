@@ -61,7 +61,11 @@ void MainWindow::init(const QString &homeDataPath)
     m_homeDataPath = homeDataPath;
 
 #ifdef Q_WS_WIN
+#ifdef _PORTABLE_VERSION
+    m_settingsFile = new QSettings(m_homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
+#else
     m_settingsFile = new QSettings(QSettings::IniFormat, QSettings::UserScope, "openBible", "openBibleViewer");
+#endif
 #else
     m_settingsFile = new QSettings(m_homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
 #endif

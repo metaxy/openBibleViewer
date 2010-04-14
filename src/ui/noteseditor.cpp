@@ -150,8 +150,8 @@ void NotesEditor::init()
 
     m_simpleNotes->init();
     ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
-    connect(ui->webView->page(),SIGNAL(linkClicked(QUrl)),this,SLOT(pharseUrl(QUrl)));
-    connect(this,SIGNAL(get(QUrl)),m_bibleDisplay,SIGNAL(get(QUrl)));
+    connect(ui->webView->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
+    connect(this, SIGNAL(get(QUrl)), m_bibleDisplay, SIGNAL(get(QUrl)));
 
     /*connect(ui->toolButton_noteBold, SIGNAL(clicked()), this, SLOT(noteSetTextBold()));
     connect(ui->toolButton_noteItalic, SIGNAL(clicked()), this, SLOT(noteSetTextItalic()));
@@ -280,8 +280,9 @@ void NotesEditor::createLink()
     insertLinkDialog->show();
     insertLinkDialog->exec();
 }
-void NotesEditor::createLink(QString link) {
-    if(link.startsWith("bible://") || link.startsWith("persistent://") || link.startsWith("note://")) {
+void NotesEditor::createLink(QString link)
+{
+    if (link.startsWith("bible://") || link.startsWith("persistent://") || link.startsWith("note://")) {
         execCommand("createLink", link);
     } else {
         QUrl url = guessUrlFromString(link);
@@ -296,9 +297,9 @@ void NotesEditor::pharseUrl(QUrl url)
     QString link = url.toString();
     myDebug() << "link = " << link;
     const QString note = "note://";
-    if(link.startsWith(note)) {
+    if (link.startsWith(note)) {
         link = link.remove(0, note.size());
-        m_simpleNotes->showNote(link,true);
+        m_simpleNotes->showNote(link, true);
     } else {
         emit get(url);
     }

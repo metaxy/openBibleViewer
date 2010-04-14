@@ -257,7 +257,7 @@ void Notes::removeNote(const QString &id)
     notesData.remove(id);
     notesRef.remove(id);
     notesID.removeOne(id);
-    emit noteRemoved(id,ref);
+    emit noteRemoved(id, ref);
 }
 /*!
   Pharse note data from the xml-file

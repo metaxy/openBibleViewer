@@ -2,13 +2,13 @@
 #include "ui_insertlinkdialog.h"
 
 InsertLinkDialog::InsertLinkDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::InsertLinkDialog)
+        QDialog(parent),
+        ui(new Ui::InsertLinkDialog)
 {
     ui->setupUi(this);
     m_itemModel = new QStandardItemModel(ui->treeView);
     connect(ui->comboBox_bibles, SIGNAL(currentIndexChanged(int)), this, SLOT(indexChanged(int)));
-    connect(ui->buttonBox,SIGNAL(accepted()),this,SLOT(save()));
+    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 
 }
 
@@ -80,21 +80,21 @@ void InsertLinkDialog::indexChanged(int index)
 
 void InsertLinkDialog::save()
 {
-    if(ui->toolBox->currentIndex() == 0) {
+    if (ui->toolBox->currentIndex() == 0) {
         QString link = m_path
-                   + ";" + QString::number(ui->comboBox_books->currentIndex())
-                   + ";" + QString::number(ui->spinBox_chapter->value() - 1)
-                   + ";" + QString::number(ui->spinBox_verse->value() - 1)
-                   + ";" + m_settings->getBookNames().at(ui->comboBox_bibles->currentIndex()).at(ui->comboBox_books->currentIndex());
-        emit newLink("persistent://"+link);
-    } else if(ui->toolBox->currentIndex() == 1) {
+                       + ";" + QString::number(ui->comboBox_books->currentIndex())
+                       + ";" + QString::number(ui->spinBox_chapter->value() - 1)
+                       + ";" + QString::number(ui->spinBox_verse->value() - 1)
+                       + ";" + m_settings->getBookNames().at(ui->comboBox_bibles->currentIndex()).at(ui->comboBox_books->currentIndex());
+        emit newLink("persistent://" + link);
+    } else if (ui->toolBox->currentIndex() == 1) {
         QModelIndexList list = m_selectionModel->selectedRows(0);
-        if(list.size() > 0) {
+        if (list.size() > 0) {
             QString id = list.at(0).data(Qt::UserRole + 1).toString();
-            emit newLink("note://"+id);
+            emit newLink("note://" + id);
         }
         ///get note id
-    } else if(ui->toolBox->currentIndex() == 2) {
+    } else if (ui->toolBox->currentIndex() == 2) {
         emit newLink(ui->lineEdit->text());
     }
     close();

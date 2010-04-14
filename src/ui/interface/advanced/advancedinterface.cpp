@@ -1340,17 +1340,17 @@ void AdvancedInterface::closing()
         QTextBrowser *textBrowser =  ui->mdiArea->subWindowList().at(i)->findChild<QTextBrowser *>("textBrowser");
         vSlider <<  textBrowser->verticalScrollBar()->sliderPosition();
         hSlider <<  textBrowser->horizontalScrollBar()->sliderPosition();
-        #if QT_VERSION >= 0x040600
+#if QT_VERSION >= 0x040600
         zoom << textBrowser->fontPointSize();
-        #endif
+#endif
     }
     m_settings->session.setData("windowUrls", windowUrls);
     m_settings->session.setData("windowGeo", windowGeo);
     m_settings->session.setData("vSlider", vSlider);
     m_settings->session.setData("hSlider", hSlider);
-    #if QT_VERSION >= 0x040600
+#if QT_VERSION >= 0x040600
     m_settings->session.setData("zoom", zoom);
-    #endif
+#endif
     m_settings->session.setData("viewMode", ui->mdiArea->viewMode());
 
 
@@ -1369,9 +1369,9 @@ void AdvancedInterface::restoreSession()
     QVariantList windowGeo = m_settings->session.getData("windowGeo").toList();
     QVariantList vSlider = m_settings->session.getData("vSlider").toList();
     QVariantList hSlider = m_settings->session.getData("hSlider").toList();
-    #if QT_VERSION >= 0x040600
+#if QT_VERSION >= 0x040600
     QVariantList zoom = m_settings->session.getData("zoom").toList();
-    #endif
+#endif
     myDebug() << "b";
     for (int i = 0; i < windowUrls.size(); ++i) {
         newSubWindow(false);
@@ -1393,7 +1393,7 @@ void AdvancedInterface::restoreSession()
         textBrowser->verticalScrollBar()->setSliderPosition(vSlider.at(i).toInt());
         textBrowser->horizontalScrollBar()->setSliderPosition(hSlider.at(i).toInt());
 #if QT_VERSION >= 0x040600
-        if(zoom.size() != 0 && zoom.at(i).toReal() > 0)
+        if (zoom.size() != 0 && zoom.at(i).toReal() > 0)
             textBrowser->setFontPointSize(zoom.at(i).toReal());
 #endif
 
@@ -1635,7 +1635,7 @@ QMenuBar* AdvancedInterface::menuBar()
     menuNotes->addAction(actionNotesEditor);
     //menuNotes->addSeparator();
     menuNotes->addAction(actionMarkList);
-   // menuNotes->addAction(actionMarkCategories);
+    // menuNotes->addAction(actionMarkCategories);
 
     QMenu *menuHelp = new QMenu(tr("Help"), bar);
     QAction *actionAbout = new QAction(QIcon(":/icons/16x16/help-about.png"), tr("About"), menuHelp);

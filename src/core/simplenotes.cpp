@@ -64,7 +64,7 @@ void SimpleNotes::init()
     connect(m_notes, SIGNAL(dataChanged(QString, QString)), this, SLOT(changeData(QString, QString)));
     connect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
     connect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
-    connect(m_notes, SIGNAL(noteRemoved(QString,QMap<QString, QString>)), this, SLOT(removeNote(QString)));
+    connect(m_notes, SIGNAL(noteRemoved(QString, QMap<QString, QString>)), this, SLOT(removeNote(QString)));
 
     m_itemModel->clear();
     QStringList id = m_notes->getIDList();

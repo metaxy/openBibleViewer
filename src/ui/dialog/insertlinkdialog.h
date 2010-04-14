@@ -6,17 +6,19 @@
 #include <QtGui/QTreeView>
 #include <QtGui/QSortFilterProxyModel>
 
-namespace Ui {
-    class InsertLinkDialog;
+namespace Ui
+{
+class InsertLinkDialog;
 }
 
-class InsertLinkDialog : public QDialog, public BasicClass {
+class InsertLinkDialog : public QDialog, public BasicClass
+{
     Q_OBJECT
 private slots:
-     void indexChanged(int index);
-     void save();
+    void indexChanged(int index);
+    void save();
 signals:
-     void newLink(QString link);
+    void newLink(QString link);
 public:
     explicit InsertLinkDialog(QWidget *parent = 0);
     ~InsertLinkDialog();

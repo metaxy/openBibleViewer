@@ -61,7 +61,7 @@ void NotesDockWidget::init()
     connect(ui->textBrowser, SIGNAL(anchorClicked(QUrl)), m_bibleDisplay, SIGNAL(get(QUrl)));
 
     connect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
-    connect(m_notes, SIGNAL(noteRemoved(QString,QMap<QString, QString>)), this, SLOT(removeNote(QString,QMap<QString, QString>)));
+    connect(m_notes, SIGNAL(noteRemoved(QString, QMap<QString, QString>)), this, SLOT(removeNote(QString, QMap<QString, QString>)));
     m_moduleManager->m_bible.setNotes(m_notes);//todo: fix this bug
 }
 void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)

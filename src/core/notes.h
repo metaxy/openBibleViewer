@@ -30,7 +30,7 @@ signals:
     void titleChanged(QString id, QString newTitle);
     void dataChanged(QString id, QString newData);
     void refChanged(QString id, QMap<QString, QString> newRef);
-    void noteRemoved(QString id,const QMap<QString, QString>  &ref);
+    void noteRemoved(QString id, const QMap<QString, QString>  &ref);
     void noteAdded(QString id);
 public:
     Notes();
