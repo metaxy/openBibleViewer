@@ -301,7 +301,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     progress.setValue(2);
     QFile file(path);
 
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    if (!file.open(QIODevice::ReadOnly)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not read the file"));
         myDebug() << "cant read the file";
         return;

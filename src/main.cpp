@@ -51,14 +51,14 @@ int main(int argc, char *argv[])
 
 #ifdef Q_WS_WIN
 #ifdef _PORTABLE_VERSION
-    homeDataPath = QApplication::applicationDirPath() + "/";
-#else
-    homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
-#endif
+      homeDataPath = QApplication::applicationDirPath() + "/";
+      settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
+    #else
+      homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
+     settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
+                              "openBible", "openBibleViewer");
+ #endif
 
-
-    settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
-                             "openBible", "openBibleViewer");
 #endif
     QDir dir(homeDataPath);
     if (!dir.exists(homeDataPath)) {
