@@ -499,7 +499,7 @@ void MainWindow::loadLanguage(QString language)
     QStringList avLang;
     //QTranslator myappTranslator;
     QTranslator qtTranslator;
-    avLang <<  "en" << "de" << "ru";
+    avLang <<  "en" << "de" << "ru" << "cs";
     myDebug() << "avLang = " << avLang << " lang = " << language;
     if (avLang.lastIndexOf(language) == -1) {
         language = language.remove(language.lastIndexOf("_"), language.size());
