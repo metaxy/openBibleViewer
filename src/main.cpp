@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
     QString lang = settings->value("general/language", QLocale::system().name()).toString();
 #endif
     QStringList avLang;
-    avLang <<  "en" << "de" << "ru";
+    avLang <<  "en" << "de" << "ru" << "cs";
     qDebug() << " avLang = " << avLang << " lang = " << lang;
     if (avLang.lastIndexOf(lang) == -1) {
         lang = lang.remove(lang.lastIndexOf("_"), lang.size());
