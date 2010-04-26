@@ -112,7 +112,7 @@ void SearchInfoDialog::tabChanged(int index)
 
 double SearchInfoDialog::mRound(double number, int stellen)
 {
-    return floor(number * pow(10, stellen) + 0.5) * pow(10, -stellen);
+    return floor(number * pow(10.0, stellen) + 0.5) * pow(10.0, -stellen);
 }
 int SearchInfoDialog::d2i(double d)
 {
