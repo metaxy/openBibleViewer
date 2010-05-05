@@ -151,7 +151,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     switch (m_bibleType) {
     case BibleQuoteModule: {
         if (chapterID >= chapterData.size()) {
-            myDebug() << "index out of range index";
+            myDebug() << "index out of range index chapter chapterID = " << chapterID  << " chapterData.size() = " << chapterData.size();
             break;
         }
         Chapter chapter = chapterData.at(chapterID);//get data for this chapter
@@ -179,7 +179,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         qDebug() << "bible::readVerse() zefania read";
 
         if (chapterID >= chapterData.size()) {
-            myDebug() << "index out of range index";
+            myDebug() << "index out of range index chapterID = " << chapterID  << " chapterData.size() = " << chapterData.size();
             break;
         }
         Chapter c = chapterData.at(chapterID);
@@ -316,7 +316,6 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         //out += "</p>";
         lastout = out;
     }
-    myDebug() << "\n\n\n\n\n" << out << "\n\n\n\n";
 
     return out;
 }
@@ -356,7 +355,7 @@ QStringList Bible::toUniformHtml(QStringList string)
     Q_ASSERT(i2 != -1);
 
     raw.remove(i2, raw.size());
-    myDebug() << raw.remove(0, endOfPStyle + 1);
+    myDebug() << raw.remove(0, endOfPStyle + 1);//todo: wtf?
     return raw.split("[VERSEINSERT_FROM_OPENBIBLEVIEWER]");
 }
 /**

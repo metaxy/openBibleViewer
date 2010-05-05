@@ -208,18 +208,17 @@ int BibleQuote::readBook(int id, QString path)
         while (!file.atEnd()) {
             QByteArray byteline = file.readLine();
             QString line = decoder->toUnicode(byteline);
-            //todo: ugly
-            line = line.remove(QRegExp("CLASS=\"(\\w+)\">"));
-            line = line.remove(QRegExp("<DIV CLASS=\"(\\w+)\">"));
-            line = line.remove("CLASS=\"Tx\">");
+            
             //filterout
             if (m_settings->getModuleSettings(m_bibleID).biblequote_removeHtml == true && removeHtml2.size() > 0) {
                 myDebug() << "removing real html";
                 for (int i = 0; i < removeHtml2.size(); i++) {
                     QString r = removeHtml2.at(i);
-                    //myDebug() << removeHtml2.at(i);
                     line = line.remove(r, Qt::CaseInsensitive);
                 }
+                /*line = line.remove(QRegExp("CLASS=\"(\\w+)\">"));
+                line = line.remove(QRegExp("<DIV CLASS=\"(\\w+)\">"));
+                line = line.remove("CLASS=\"Tx\">");*/
             }
             out2 += line;
             if (chapterstarted == false && line.contains(chaptersign)) {
@@ -243,9 +242,14 @@ int BibleQuote::readBook(int id, QString path)
     }
 
     for (int i = 0; i < chapterText.size(); i++) {
+        //todo: it removes the versesign
         Chapter c;
         QString a = chapterText.at(i);
         QStringList b = a.split(versesign);
+        for(int j = 0; j < b.size(); j++) { //split removes versesign but it is needed
+            QString a = b.at(j);
+            b.replace(j,a.prepend(versesign));
+        }
         c.data << b;
         chapterData << c;
     }

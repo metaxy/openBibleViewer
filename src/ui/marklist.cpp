@@ -71,6 +71,7 @@ void MarkList::init()
     m_proxyModel->setHeaderData(0, Qt::Horizontal, tr("Mark Position"));
     m_proxyModel->setHeaderData(1, Qt::Horizontal, tr("Module"));
 
+
     ui->tableView->setSortingEnabled(true);
     ui->tableView->setModel(m_proxyModel);
     ui->tableView->setSelectionModel(m_selectionModel);
