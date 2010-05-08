@@ -433,347 +433,347 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="ui/mainwindow.cpp" line="276"/>
+        <location filename="ui/mainwindow.cpp" line="280"/>
         <source>Genesis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="277"/>
+        <location filename="ui/mainwindow.cpp" line="281"/>
         <source>Exodus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="278"/>
+        <location filename="ui/mainwindow.cpp" line="282"/>
         <source>Leviticus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="279"/>
+        <location filename="ui/mainwindow.cpp" line="283"/>
         <source>Numbers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="280"/>
+        <location filename="ui/mainwindow.cpp" line="284"/>
         <source>Deuteronomy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="281"/>
+        <location filename="ui/mainwindow.cpp" line="285"/>
         <source>Joshua</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="282"/>
+        <location filename="ui/mainwindow.cpp" line="286"/>
         <source>Judges</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="283"/>
+        <location filename="ui/mainwindow.cpp" line="287"/>
         <source>Ruth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="284"/>
+        <location filename="ui/mainwindow.cpp" line="288"/>
         <source>1 Samuel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="285"/>
+        <location filename="ui/mainwindow.cpp" line="289"/>
         <source>2 Samuel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="286"/>
+        <location filename="ui/mainwindow.cpp" line="290"/>
         <source>1 Kings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="287"/>
+        <location filename="ui/mainwindow.cpp" line="291"/>
         <source>2 Kings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="288"/>
+        <location filename="ui/mainwindow.cpp" line="292"/>
         <source>1 Chronicles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="289"/>
+        <location filename="ui/mainwindow.cpp" line="293"/>
         <source>2 Chronicles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="290"/>
+        <location filename="ui/mainwindow.cpp" line="294"/>
         <source>Ezrav</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="291"/>
+        <location filename="ui/mainwindow.cpp" line="295"/>
         <source>Nehemiah</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="292"/>
+        <location filename="ui/mainwindow.cpp" line="296"/>
         <source>Esther</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="293"/>
+        <location filename="ui/mainwindow.cpp" line="297"/>
         <source>Job</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="294"/>
+        <location filename="ui/mainwindow.cpp" line="298"/>
         <source>Psalm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="295"/>
+        <location filename="ui/mainwindow.cpp" line="299"/>
         <source>Proverbs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="296"/>
+        <location filename="ui/mainwindow.cpp" line="300"/>
         <source>Ecclesiastes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="297"/>
+        <location filename="ui/mainwindow.cpp" line="301"/>
         <source>Song of Solomon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="298"/>
+        <location filename="ui/mainwindow.cpp" line="302"/>
         <source>Isaiah</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="299"/>
+        <location filename="ui/mainwindow.cpp" line="303"/>
         <source>Jeremiah</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="300"/>
+        <location filename="ui/mainwindow.cpp" line="304"/>
         <source>Lamentations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="301"/>
+        <location filename="ui/mainwindow.cpp" line="305"/>
         <source>Ezekiel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="302"/>
+        <location filename="ui/mainwindow.cpp" line="306"/>
         <source>Daniel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="303"/>
+        <location filename="ui/mainwindow.cpp" line="307"/>
         <source>Hosea</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="304"/>
+        <location filename="ui/mainwindow.cpp" line="308"/>
         <source>Joel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="305"/>
+        <location filename="ui/mainwindow.cpp" line="309"/>
         <source>Amos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="306"/>
+        <location filename="ui/mainwindow.cpp" line="310"/>
         <source>Obadiah</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="307"/>
+        <location filename="ui/mainwindow.cpp" line="311"/>
         <source>Jonah</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="308"/>
+        <location filename="ui/mainwindow.cpp" line="312"/>
         <source>Micah</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="309"/>
+        <location filename="ui/mainwindow.cpp" line="313"/>
         <source>Nahum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="310"/>
+        <location filename="ui/mainwindow.cpp" line="314"/>
         <source>Habakkuk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="311"/>
+        <location filename="ui/mainwindow.cpp" line="315"/>
         <source>Zephaniah</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="312"/>
+        <location filename="ui/mainwindow.cpp" line="316"/>
         <source>Haggai</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="313"/>
+        <location filename="ui/mainwindow.cpp" line="317"/>
         <source>Zechariah</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="314"/>
+        <location filename="ui/mainwindow.cpp" line="318"/>
         <source>Malachi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="315"/>
+        <location filename="ui/mainwindow.cpp" line="319"/>
         <source>Matthew</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="316"/>
+        <location filename="ui/mainwindow.cpp" line="320"/>
         <source>Mark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="317"/>
+        <location filename="ui/mainwindow.cpp" line="321"/>
         <source>Luke</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="318"/>
+        <location filename="ui/mainwindow.cpp" line="322"/>
         <source>John</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="319"/>
+        <location filename="ui/mainwindow.cpp" line="323"/>
         <source>Acts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="320"/>
+        <location filename="ui/mainwindow.cpp" line="324"/>
         <source>Romans</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="321"/>
+        <location filename="ui/mainwindow.cpp" line="325"/>
         <source>1 Corinthians</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="322"/>
+        <location filename="ui/mainwindow.cpp" line="326"/>
         <source>2 Corinthians</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="323"/>
+        <location filename="ui/mainwindow.cpp" line="327"/>
         <source>Galatians</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="324"/>
+        <location filename="ui/mainwindow.cpp" line="328"/>
         <source>Ephesians</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="325"/>
+        <location filename="ui/mainwindow.cpp" line="329"/>
         <source>Philippians</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="326"/>
+        <location filename="ui/mainwindow.cpp" line="330"/>
         <source>Colossians</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="327"/>
+        <location filename="ui/mainwindow.cpp" line="331"/>
         <source>1 Thessalonians</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="328"/>
+        <location filename="ui/mainwindow.cpp" line="332"/>
         <source>2 Thessalonians</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="329"/>
+        <location filename="ui/mainwindow.cpp" line="333"/>
         <source>1 Timothy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="330"/>
+        <location filename="ui/mainwindow.cpp" line="334"/>
         <source>2 Timothy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="331"/>
+        <location filename="ui/mainwindow.cpp" line="335"/>
         <source>Titus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="332"/>
+        <location filename="ui/mainwindow.cpp" line="336"/>
         <source>Philemon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="333"/>
+        <location filename="ui/mainwindow.cpp" line="337"/>
         <source>Hebrews</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="334"/>
+        <location filename="ui/mainwindow.cpp" line="338"/>
         <source>James</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="335"/>
+        <location filename="ui/mainwindow.cpp" line="339"/>
         <source>1 Peter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="336"/>
+        <location filename="ui/mainwindow.cpp" line="340"/>
         <source>2 Peter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="337"/>
+        <location filename="ui/mainwindow.cpp" line="341"/>
         <source>1 John</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="338"/>
+        <location filename="ui/mainwindow.cpp" line="342"/>
         <source>2 John</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="339"/>
+        <location filename="ui/mainwindow.cpp" line="343"/>
         <source>3 John</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="340"/>
+        <location filename="ui/mainwindow.cpp" line="344"/>
         <source>Jude</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="341"/>
+        <location filename="ui/mainwindow.cpp" line="345"/>
         <source>Revelation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="508"/>
+        <location filename="ui/mainwindow.cpp" line="512"/>
         <source>Please choose an another language.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="508"/>
+        <location filename="ui/mainwindow.cpp" line="512"/>
         <source>Installing Language failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="474"/>
+        <location filename="ui/mainwindow.cpp" line="478"/>
         <source>Configuration</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1047,307 +1047,307 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="55"/>
+        <location filename="ui/noteseditor.ui" line="58"/>
         <source>Tab 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="65"/>
+        <location filename="ui/noteseditor.ui" line="68"/>
         <source>Tab 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="116"/>
+        <location filename="ui/noteseditor.ui" line="119"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="125"/>
+        <location filename="ui/noteseditor.ui" line="128"/>
         <source>F&amp;ormat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="129"/>
+        <location filename="ui/noteseditor.ui" line="132"/>
         <source>St&amp;yle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="143"/>
+        <location filename="ui/noteseditor.ui" line="146"/>
         <source>&amp;Align</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="172"/>
+        <location filename="ui/noteseditor.ui" line="175"/>
         <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="193"/>
+        <location filename="ui/noteseditor.ui" line="196"/>
         <source>Standard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="215"/>
+        <location filename="ui/noteseditor.ui" line="218"/>
         <source>Formatting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="249"/>
+        <location filename="ui/noteseditor.ui" line="252"/>
         <source>&amp;Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="252"/>
+        <location filename="ui/noteseditor.ui" line="255"/>
         <source>Ctrl+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="257"/>
+        <location filename="ui/noteseditor.ui" line="260"/>
         <source>Save &amp;As...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="266"/>
+        <location filename="ui/noteseditor.ui" line="269"/>
         <source>&amp;Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="269"/>
+        <location filename="ui/noteseditor.ui" line="272"/>
         <source>Ctrl+Z</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="278"/>
+        <location filename="ui/noteseditor.ui" line="281"/>
         <source>&amp;Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="281"/>
+        <location filename="ui/noteseditor.ui" line="284"/>
         <source>Ctrl+Y</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="290"/>
+        <location filename="ui/noteseditor.ui" line="293"/>
         <source>Cu&amp;t</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="293"/>
+        <location filename="ui/noteseditor.ui" line="296"/>
         <source>Ctrl+X</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="302"/>
+        <location filename="ui/noteseditor.ui" line="305"/>
         <source>&amp;Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="305"/>
+        <location filename="ui/noteseditor.ui" line="308"/>
         <source>Ctrl+C</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="314"/>
+        <location filename="ui/noteseditor.ui" line="317"/>
         <source>&amp;Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="317"/>
+        <location filename="ui/noteseditor.ui" line="320"/>
         <source>Ctrl+V</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="326"/>
+        <location filename="ui/noteseditor.ui" line="329"/>
         <source>Select A&amp;ll</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="329"/>
+        <location filename="ui/noteseditor.ui" line="332"/>
         <source>Ctrl+A</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="341"/>
+        <location filename="ui/noteseditor.ui" line="344"/>
         <source>&amp;Bold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="344"/>
+        <location filename="ui/noteseditor.ui" line="347"/>
         <source>Ctrl+B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="356"/>
+        <location filename="ui/noteseditor.ui" line="359"/>
         <source>&amp;Italic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="359"/>
+        <location filename="ui/noteseditor.ui" line="362"/>
         <source>Ctrl+I</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="371"/>
+        <location filename="ui/noteseditor.ui" line="374"/>
         <source>&amp;Underline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="374"/>
+        <location filename="ui/noteseditor.ui" line="377"/>
         <source>Ctrl+U</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="386"/>
+        <location filename="ui/noteseditor.ui" line="389"/>
         <source>&amp;Strikethrough</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="395"/>
+        <location filename="ui/noteseditor.ui" line="398"/>
         <source>Align &amp;Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="404"/>
+        <location filename="ui/noteseditor.ui" line="407"/>
         <source>Align &amp;Center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="413"/>
+        <location filename="ui/noteseditor.ui" line="416"/>
         <source>Align &amp;Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="422"/>
+        <location filename="ui/noteseditor.ui" line="425"/>
         <source>Align &amp;Justify</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="431"/>
+        <location filename="ui/noteseditor.ui" line="434"/>
         <source>I&amp;ncrease Indent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="440"/>
+        <location filename="ui/noteseditor.ui" line="443"/>
         <source>&amp;Decrease Indent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="452"/>
+        <location filename="ui/noteseditor.ui" line="455"/>
         <source>Bulle&amp;ted List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="464"/>
+        <location filename="ui/noteseditor.ui" line="467"/>
         <source>&amp;Numbered List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="473"/>
+        <location filename="ui/noteseditor.ui" line="476"/>
         <source>Insert &amp;Image...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="482"/>
+        <location filename="ui/noteseditor.ui" line="485"/>
         <source>Create Link...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="491"/>
+        <location filename="ui/noteseditor.ui" line="494"/>
         <source>Zoom Out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="500"/>
+        <location filename="ui/noteseditor.ui" line="503"/>
         <source>Zoom In</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="505"/>
+        <location filename="ui/noteseditor.ui" line="508"/>
         <source>E&amp;xit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="508"/>
+        <location filename="ui/noteseditor.ui" line="511"/>
         <source>Ctrl+Q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="513"/>
+        <location filename="ui/noteseditor.ui" line="516"/>
         <source>&amp;Paragraph</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="518"/>
+        <location filename="ui/noteseditor.ui" line="521"/>
         <source>Heading &amp;1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="523"/>
+        <location filename="ui/noteseditor.ui" line="526"/>
         <source>Heading &amp;2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="528"/>
+        <location filename="ui/noteseditor.ui" line="531"/>
         <source>Heading &amp;3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="533"/>
+        <location filename="ui/noteseditor.ui" line="536"/>
         <source>Heading &amp;4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="538"/>
+        <location filename="ui/noteseditor.ui" line="541"/>
         <source>Heading &amp;5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="543"/>
+        <location filename="ui/noteseditor.ui" line="546"/>
         <source>Heading &amp;6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="548"/>
+        <location filename="ui/noteseditor.ui" line="551"/>
         <source>Pre&amp;formatted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="553"/>
+        <location filename="ui/noteseditor.ui" line="556"/>
         <source>&amp;Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="558"/>
+        <location filename="ui/noteseditor.ui" line="561"/>
         <source>&amp;Font Name...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="563"/>
+        <location filename="ui/noteseditor.ui" line="566"/>
         <source>Text &amp;Color...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="568"/>
+        <location filename="ui/noteseditor.ui" line="571"/>
         <source>Bac&amp;kground Color...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="573"/>
+        <location filename="ui/noteseditor.ui" line="576"/>
         <source>Font Si&amp;ze...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="582"/>
+        <location filename="ui/noteseditor.ui" line="585"/>
         <source>Insert HTML...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="585"/>
+        <location filename="ui/noteseditor.ui" line="588"/>
         <source>Insert HTML</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="93"/>
+        <location filename="ui/noteseditor.ui" line="96"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1392,27 +1392,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="479"/>
+        <location filename="ui/noteseditor.cpp" line="480"/>
         <source>Font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="479"/>
+        <location filename="ui/noteseditor.cpp" line="480"/>
         <source>Select font:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="498"/>
+        <location filename="ui/noteseditor.cpp" line="499"/>
         <source>Font Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="498"/>
+        <location filename="ui/noteseditor.cpp" line="499"/>
         <source>Select font size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="563"/>
+        <location filename="ui/noteseditor.cpp" line="564"/>
         <source> Zoom: %1% </source>
         <translation type="unfinished"></translation>
     </message>
@@ -1811,6 +1811,16 @@
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="101"/>
         <source>Tile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/dialog/settingsdialog.cpp" line="107"/>
+        <source>Simple</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/dialog/settingsdialog.cpp" line="107"/>
+        <source>Advanced</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
