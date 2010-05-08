@@ -242,7 +242,6 @@ int BibleQuote::readBook(int id, QString path)
     }
 
     for (int i = 0; i < chapterText.size(); i++) {
-        //todo: it removes the versesign
         Chapter c;
         QString a = chapterText.at(i);
         QStringList b = a.split(versesign);

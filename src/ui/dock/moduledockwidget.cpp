@@ -14,8 +14,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "moduledockwidget.h"
 #include "ui_moduledockwidget.h"
 #include "src/core/dbghelper.h"
-#include <QtGui/QToolTip>
-#include <QtGui/QHelpEvent>
 #include <QModelIndexList>
 ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
         DockWidget(parent),
@@ -38,7 +36,6 @@ void ModuleDockWidget::init()
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     m_selectionModel = new QItemSelectionModel(m_proxyModel);
     connect(ui->lineEdit_filter, SIGNAL(textChanged(QString)), this, SLOT(filter(QString)));
-    //  connect(ui->lineEdit_filter, SIGNAL(textChanged(QString)), m_proxyModel, SLOT(setFilterFixedString(QString)));
 
     connect(ui->treeView_module, SIGNAL(clicked(QModelIndex)), this, SLOT(loadModuleData(QModelIndex)));
 
@@ -63,19 +60,25 @@ void ModuleDockWidget::loadModuleData(QModelIndex index)
   */
 void ModuleDockWidget::loadedModule(int id)
 {
+    //todo: reimplement match in moduleproxymodel
+    // because it don't match modules in folders
     DEBUG_FUNC_NAME
+    if(m_moduleID == id)
+        return;
     m_moduleID = id;
-    QModelIndexList list = ui->treeView_module->model()->match(ui->treeView_module->model()->index(0, 0), Qt::UserRole + 1, QString::number(id));
-    m_selectionModel->clearSelection();
+    QModelIndexList list = m_proxyModel->match(ui->treeView_module->model()->index(0,0), Qt::UserRole + 1, QString::number(id));
     if (list.size() == 1) {
+        m_selectionModel->clearSelection();
         m_selectionModel->setCurrentIndex(list.at(0), QItemSelectionModel::Select);
     }
+
+
 }
 void ModuleDockWidget::filter(QString string)
 {
     if (first == false && string != "") {
         first = true;
-        QModelIndexList list = ui->treeView_module->model()->match(ui->treeView_module->model()->index(0, 0), Qt::UserRole + 1, "-1");
+        QModelIndexList list = m_proxyModel->match(ui->treeView_module->model()->index(0, 0), Qt::UserRole + 1, "-1");
         qDebug() << "list.size() = " << list.size();
         for (int i = 0; i < list.size(); ++i) {
             ui->treeView_module->setExpanded(list.at(i), true);
