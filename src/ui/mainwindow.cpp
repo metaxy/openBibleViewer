@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    reloadLang = false;
 }
 
 MainWindow::~MainWindow()
@@ -508,11 +509,13 @@ void MainWindow::loadLanguage(QString language)
         }
     }
     bool loaded = myappTranslator->load(":/data/obv_" + language + ".qm");
+    reloadLang = true;
     if (loaded == false) {
         QMessageBox::warning(this, tr("Installing Language failed"), tr("Please choose an another language."));
     }
 
     qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+
     ui->retranslateUi(this);
 }
 void MainWindow::restoreSession()
@@ -546,18 +549,20 @@ void MainWindow::changeEvent(QEvent *e)
     case QEvent::LanguageChange:
         myDebug() << "retranslate";
         ui->retranslateUi(this);
+        if(reloadLang) {
+            if (m_interface->hasMenuBar()) {
+                menuBar = m_interface->menuBar();
+                setMenuBar(menuBar);
+            }
 
-        if (m_interface->hasMenuBar()) {
-            menuBar = m_interface->menuBar();
-            setMenuBar(menuBar);
+            if (m_interface->hasToolBar()) {
+                removeToolBar(toolBar);
+                toolBar = m_interface->toolBar();
+                addToolBar(toolBar);
+            }
+            //todo: ugly
+            reloadLang = false;
         }
-
-        if (m_interface->hasToolBar()) {
-            removeToolBar(toolBar);
-            toolBar = m_interface->toolBar();
-            addToolBar(toolBar);
-        }
-        //todo: ugly
         break;
     default:
         break;

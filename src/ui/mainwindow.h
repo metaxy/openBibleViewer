@@ -85,6 +85,7 @@ private:
     void loadDefaultSettings();
     void loadSettings();
     void restoreSession();
+    int reloadLang;
 
 };
 
