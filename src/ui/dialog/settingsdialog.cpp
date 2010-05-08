@@ -104,7 +104,7 @@ int SettingsDialog::setSettings(Settings settings)
     m_ui->comboBox_autoLayout->setCurrentIndex(m_set.autoLayout);
 
     QStringList interface;
-    interface << "Simple" << "Advanced";
+    interface << tr("Simple") << tr("Advanced");
     m_ui->comboBox_interface->clear();
     m_ui->comboBox_interface->insertItems(0, interface);
     int currentInterface;
