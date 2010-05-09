@@ -204,7 +204,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1594"/>
         <source>Ctrl+-</source>
-        <translation type="unfinished">Strg++</translation>
+        <translation type="unfinished">Strg+-</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1597"/>
@@ -275,7 +275,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1669"/>
         <source>ToolBar</source>
-        <translation type="unfinished"></translation>
+        <translation>Werkzeugleiste</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1673"/>
@@ -295,12 +295,12 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1768"/>
         <source>Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)</source>
-        <translation type="unfinished">Html (*.html *.htm);;PDF (*.pdf);;Text (*.txt)</translation>
+        <translation>Html (*.html *.htm);;PDF (*.pdf);;Text (*.txt)</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1768"/>
         <source>Save output</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausgabe speichern</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1803"/>
@@ -310,7 +310,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1805"/>
         <source>openBibleViewer &lt;br&gt; version: %1 build: %2&lt;br&gt; &lt;a href=&quot;http://openbv.uucyc.name/&quot;&gt; Official Website&lt;/a&gt; | &lt;a href=&quot;http://openbv.uucyc.name/bug/&quot;&gt;Bug report&lt;/a&gt;</source>
-        <translation type="unfinished">openBibleViewer &lt;br&gt; Version %1 Build %2 &lt;br&gt; &lt;a href=&quot;http://openbv.uucyc.name/&quot;&gt; Offizielle Website&lt;/a&gt; | &lt;a href=&quot;http://openbv.uucyc.name/bug/&quot;&gt;Fehler melden&lt;/a&gt;</translation>
+        <translation>openBibleViewer &lt;br&gt; Version %1 Build %2 &lt;br&gt; &lt;a href=&quot;http://openbv.uucyc.name/de&quot;&gt; Offizielle Website&lt;/a&gt; | &lt;a href=&quot;http://openbv.uucyc.name/bug/&quot;&gt;Fehler melden&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -318,7 +318,7 @@
     <message>
         <location filename="ui/dialog/biblepassagedialog.ui" line="17"/>
         <source>Bible Passage</source>
-        <translation type="unfinished">Bibel Stelle</translation>
+        <translation>Bibelstelle</translation>
     </message>
     <message>
         <location filename="ui/dialog/biblepassagedialog.ui" line="58"/>
@@ -394,7 +394,7 @@
     <message>
         <location filename="ui/dialog/inserthtmldialog.ui" line="14"/>
         <source>Insert HTML</source>
-        <translation type="unfinished">HTML einfügen</translation>
+        <translation>HTML einfügen</translation>
     </message>
     <message>
         <location filename="ui/dialog/inserthtmldialog.ui" line="20"/>
@@ -2000,7 +2000,7 @@
     <message>
         <location filename="ui/dock/notesdockwidget.cpp" line="174"/>
         <source>Cannot create mark.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kann Markierung nicht erstellen.</translation>
     </message>
 </context>
 <context>

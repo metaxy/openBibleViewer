@@ -198,7 +198,7 @@ void SimpleInterface::pharseUrl(QString url)
                 int chapterID = c.at(1).toInt();
                 int verseID = c.at(2).toInt();
                 if (bibleID != m_moduleManager->m_bible.bibleID()) {
-                    loadModuleDataByID(bibleID);//todo: select the right module in treewidget
+                    loadModuleDataByID(bibleID);
                     readBookByID(bookID);
                     setCurrentBook(bookID);;
                 } else if (bookID != m_moduleManager->m_bible.bookID()) {

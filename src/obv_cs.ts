@@ -151,7 +151,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1561"/>
         <source>Edit</source>
-        <translation>Upravit</translation>
+        <translation type="unfinished">Upravit</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1568"/>
@@ -193,7 +193,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1592"/>
         <source>Ctrl++</source>
-        <translation>Ctrl++</translation>
+        <translation type="unfinished">Ctrl++</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1593"/>
