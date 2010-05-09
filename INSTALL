@@ -1,18 +1,19 @@
-Installation instructions for openBibleViewer 0.2:
+Installation instructions for openBibleViewer 0.4.2:
 ---------------------------
 
 
 openBibleViewer requires:
 
-- Qt-devel => 4.4.3 
+- Qt-devel => 4.5
+- or libqt-devel => 4.5
 
 
 Compile openBibleViewer:
 ---------------------------
 
-cd ~
-tar -xjf openBibleViewer-0.2.tar.bz2
-cd ~/openBibleViewer-0.2
+tar -xjf openBibleViewer-0.4.2.tar.bz2
+cd ~/openBibleViewer-0.4.2
 qmake -makefile openBibleViewer.pro
 make
+sudo make install
 

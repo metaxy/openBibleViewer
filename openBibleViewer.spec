@@ -1,9 +1,9 @@
 #
-# spec file for package openBibleViewer (Version 0.3)
+# spec file for package openBibleViewer (Version 0.4)
 #
 # Copyright 2009-2010 Paul Walger http://paul.walger.eu
 #
-# This file and all modifications and additions to the pristine  
+# This file and all modifications and additions to the openBibleViewer  
 # package are under the same license as the package itself. 
 %define name openBibleViewer
 
@@ -11,20 +11,27 @@ Summary: Bible study tool
 Name: %{name}
 License: GPLv3
 URL: http://openbv.uucyc.name
-Version: 0.3
+Version: 0.4.1
 Release: 62
 Group: Amusements/Teaching/Other
 Source: %{name}-%{version}.tar.bz2
 Packager: Paul Walger
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
+
 %if 0%{?fedora_version}
-BuildRequires: qt-devel >= 4.4.3 gcc-c++
-%else
-BuildRequires: libqt4-devel >= 4.4.3 gcc-c++
+BuildRequires: qt-devel >= 4.5 gcc-c++
+%endif
+
+%if 0%{?mandriva_version}
+BuildRequires: libqt4-devel >= 4.5 gcc-c++
+%endif
+
+%if 0%{?suse_version}
+BuildRequires: libqt4-devel libQtWebKit-devel >= 4.5 gcc-c++
 %endif
 
 %description
-This program allows one to work with the Bible and study it
+This program allows one to work with the bible and study it.
 %prep
 %setup
 %build
@@ -40,10 +47,9 @@ make
 %install
 %__mkdir -p %{buildroot}/%{_bindir} %{buildroot}/usr/share/{%{name}/{fonts,translation},applications,pixmaps} %{buildroot}/%{_docdir}/%{name}
 make install DESTDIR=$RPM_BUILD_ROOT $INSTALL_TARGET
+
 %__install -m 644 src/icons/124x124/%{name}.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
-#%if 0%{suse_version} > 1110 || 0%{fedora_version} || 0%{mandriva_version}
 %__install -m 644 %{name}.desktop %{buildroot}%{_datadir}/applications
-#%endif
 
 %if 0%{?suse_version} == 1110
 %suse_update_desktop_file %{name}.desktop Teaching
@@ -57,13 +63,16 @@ make install DESTDIR=$RPM_BUILD_ROOT $INSTALL_TARGET
 %doc README INSTALL LICENSE
 %{_bindir}/%{name}
 
-#%if 0%{suse_version} > 1110 || 0%{fedora_version} || 0%{mandriva_version}
 %{_datadir}/applications/%{name}.desktop
-#%endif
-
 %{_datadir}/pixmaps/%{name}.png
 %{_datadir}/%{name}
 %changelog
+* Sat Apr 17 2010 Paul Walger
+- update to 0.4.1
+* Sat Apr 10 2010 Paul Walger
+- update to 0.4
+* Sun Mar 14 2010 Paul Walger
+- update to 0.3.1
 * Sun Feb 14 2010 Paul Walger
 - update to 0.3
 * Sun Oct 18 2009 Paul Walger
