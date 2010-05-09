@@ -22,7 +22,6 @@ GoTo::GoTo(int currentBibleID, QStringList bookFullName)
 }
 QString GoTo::getUrl(const QString& text)
 {
-    myDebug() << "text = " << text;
     if (text.size() < 1)
         return QString();
     QStringList reg;
@@ -38,8 +37,7 @@ QString GoTo::getUrl(const QString& text)
             break;
         }
     }
-    myDebug() << "found = " << found;
-    if (found == 0) { //bsp: Hiob
+    if (found == 0) { //example: Hiob
         int bookID = bookNameToBookID(foundRegExp.cap(1));
         return "bible://" + QString::number(m_currentBibleID) + "/" + QString::number(bookID) + "," + QString::number(0) + "," + QString::number(0);
 

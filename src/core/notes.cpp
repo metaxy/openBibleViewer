@@ -65,12 +65,12 @@ int Notes::loadNotes()
             //errror to old version
             myDebug() << "too old version " << e.attribute("version", "0.1") << " current is " << m_version;
             file.close();
-
+            //make backup
             QDir dir(m_fileName);
             dir.rename(m_fileName, m_fileName + ".bak");
 
             loadNotes();
-            return 1;
+            return 2;
         }
     }
     file.close();
@@ -351,8 +351,9 @@ int Notes::saveNotes()
     QFile file(m_fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return 1;
+    const int IndentSize = 4;
     QTextStream out(&file);
-    out << "<?xml version=\"1.0\"?>\n" + sdoc.toString();
+    sdoc.save(out, IndentSize);
     file.close();
     doc = sdoc;
     return 0;

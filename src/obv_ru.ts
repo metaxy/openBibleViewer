@@ -5,7 +5,7 @@
     <name>AboutDialog</name>
     <message>
         <location filename="ui/dialog/aboutdialog.ui" line="14"/>
-        <source>Dialog</source>
+        <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -433,347 +433,347 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="ui/mainwindow.cpp" line="280"/>
+        <location filename="ui/mainwindow.cpp" line="281"/>
         <source>Genesis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="281"/>
+        <location filename="ui/mainwindow.cpp" line="282"/>
         <source>Exodus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="282"/>
+        <location filename="ui/mainwindow.cpp" line="283"/>
         <source>Leviticus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="283"/>
+        <location filename="ui/mainwindow.cpp" line="284"/>
         <source>Numbers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="284"/>
+        <location filename="ui/mainwindow.cpp" line="285"/>
         <source>Deuteronomy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="285"/>
+        <location filename="ui/mainwindow.cpp" line="286"/>
         <source>Joshua</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="286"/>
+        <location filename="ui/mainwindow.cpp" line="287"/>
         <source>Judges</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="287"/>
+        <location filename="ui/mainwindow.cpp" line="288"/>
         <source>Ruth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="288"/>
+        <location filename="ui/mainwindow.cpp" line="289"/>
         <source>1 Samuel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="289"/>
+        <location filename="ui/mainwindow.cpp" line="290"/>
         <source>2 Samuel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="290"/>
+        <location filename="ui/mainwindow.cpp" line="291"/>
         <source>1 Kings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="291"/>
+        <location filename="ui/mainwindow.cpp" line="292"/>
         <source>2 Kings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="292"/>
+        <location filename="ui/mainwindow.cpp" line="293"/>
         <source>1 Chronicles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="293"/>
+        <location filename="ui/mainwindow.cpp" line="294"/>
         <source>2 Chronicles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="294"/>
+        <location filename="ui/mainwindow.cpp" line="295"/>
         <source>Ezrav</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="295"/>
+        <location filename="ui/mainwindow.cpp" line="296"/>
         <source>Nehemiah</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="296"/>
+        <location filename="ui/mainwindow.cpp" line="297"/>
         <source>Esther</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="297"/>
+        <location filename="ui/mainwindow.cpp" line="298"/>
         <source>Job</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="298"/>
+        <location filename="ui/mainwindow.cpp" line="299"/>
         <source>Psalm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="299"/>
+        <location filename="ui/mainwindow.cpp" line="300"/>
         <source>Proverbs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="300"/>
+        <location filename="ui/mainwindow.cpp" line="301"/>
         <source>Ecclesiastes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="301"/>
+        <location filename="ui/mainwindow.cpp" line="302"/>
         <source>Song of Solomon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="302"/>
+        <location filename="ui/mainwindow.cpp" line="303"/>
         <source>Isaiah</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="303"/>
+        <location filename="ui/mainwindow.cpp" line="304"/>
         <source>Jeremiah</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="304"/>
+        <location filename="ui/mainwindow.cpp" line="305"/>
         <source>Lamentations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="305"/>
+        <location filename="ui/mainwindow.cpp" line="306"/>
         <source>Ezekiel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="306"/>
+        <location filename="ui/mainwindow.cpp" line="307"/>
         <source>Daniel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="307"/>
+        <location filename="ui/mainwindow.cpp" line="308"/>
         <source>Hosea</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="308"/>
+        <location filename="ui/mainwindow.cpp" line="309"/>
         <source>Joel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="309"/>
+        <location filename="ui/mainwindow.cpp" line="310"/>
         <source>Amos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="310"/>
+        <location filename="ui/mainwindow.cpp" line="311"/>
         <source>Obadiah</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="311"/>
+        <location filename="ui/mainwindow.cpp" line="312"/>
         <source>Jonah</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="312"/>
+        <location filename="ui/mainwindow.cpp" line="313"/>
         <source>Micah</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="313"/>
+        <location filename="ui/mainwindow.cpp" line="314"/>
         <source>Nahum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="314"/>
+        <location filename="ui/mainwindow.cpp" line="315"/>
         <source>Habakkuk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="315"/>
+        <location filename="ui/mainwindow.cpp" line="316"/>
         <source>Zephaniah</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="316"/>
+        <location filename="ui/mainwindow.cpp" line="317"/>
         <source>Haggai</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="317"/>
+        <location filename="ui/mainwindow.cpp" line="318"/>
         <source>Zechariah</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="318"/>
+        <location filename="ui/mainwindow.cpp" line="319"/>
         <source>Malachi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="319"/>
+        <location filename="ui/mainwindow.cpp" line="320"/>
         <source>Matthew</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="320"/>
+        <location filename="ui/mainwindow.cpp" line="321"/>
         <source>Mark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="321"/>
+        <location filename="ui/mainwindow.cpp" line="322"/>
         <source>Luke</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="322"/>
+        <location filename="ui/mainwindow.cpp" line="323"/>
         <source>John</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="323"/>
+        <location filename="ui/mainwindow.cpp" line="324"/>
         <source>Acts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="324"/>
+        <location filename="ui/mainwindow.cpp" line="325"/>
         <source>Romans</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="325"/>
+        <location filename="ui/mainwindow.cpp" line="326"/>
         <source>1 Corinthians</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="326"/>
+        <location filename="ui/mainwindow.cpp" line="327"/>
         <source>2 Corinthians</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="327"/>
+        <location filename="ui/mainwindow.cpp" line="328"/>
         <source>Galatians</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="328"/>
+        <location filename="ui/mainwindow.cpp" line="329"/>
         <source>Ephesians</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="329"/>
+        <location filename="ui/mainwindow.cpp" line="330"/>
         <source>Philippians</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="330"/>
+        <location filename="ui/mainwindow.cpp" line="331"/>
         <source>Colossians</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="331"/>
+        <location filename="ui/mainwindow.cpp" line="332"/>
         <source>1 Thessalonians</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="332"/>
+        <location filename="ui/mainwindow.cpp" line="333"/>
         <source>2 Thessalonians</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="333"/>
+        <location filename="ui/mainwindow.cpp" line="334"/>
         <source>1 Timothy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="334"/>
+        <location filename="ui/mainwindow.cpp" line="335"/>
         <source>2 Timothy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="335"/>
+        <location filename="ui/mainwindow.cpp" line="336"/>
         <source>Titus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="336"/>
+        <location filename="ui/mainwindow.cpp" line="337"/>
         <source>Philemon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="337"/>
+        <location filename="ui/mainwindow.cpp" line="338"/>
         <source>Hebrews</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="338"/>
+        <location filename="ui/mainwindow.cpp" line="339"/>
         <source>James</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="339"/>
+        <location filename="ui/mainwindow.cpp" line="340"/>
         <source>1 Peter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="340"/>
+        <location filename="ui/mainwindow.cpp" line="341"/>
         <source>2 Peter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="341"/>
+        <location filename="ui/mainwindow.cpp" line="342"/>
         <source>1 John</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="342"/>
+        <location filename="ui/mainwindow.cpp" line="343"/>
         <source>2 John</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="343"/>
+        <location filename="ui/mainwindow.cpp" line="344"/>
         <source>3 John</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="344"/>
+        <location filename="ui/mainwindow.cpp" line="345"/>
         <source>Jude</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="345"/>
+        <location filename="ui/mainwindow.cpp" line="346"/>
         <source>Revelation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="512"/>
+        <location filename="ui/mainwindow.cpp" line="514"/>
         <source>Please choose an another language.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="512"/>
+        <location filename="ui/mainwindow.cpp" line="514"/>
         <source>Installing Language failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="478"/>
+        <location filename="ui/mainwindow.cpp" line="479"/>
         <source>Configuration</source>
         <translation type="unfinished"></translation>
     </message>
@@ -949,7 +949,7 @@
     <name>ModuleDockWidget</name>
     <message>
         <location filename="ui/dock/moduledockwidget.ui" line="17"/>
-        <location filename="ui/dock/moduledockwidget.cpp" line="37"/>
+        <location filename="ui/dock/moduledockwidget.cpp" line="35"/>
         <source>Module</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1420,13 +1420,13 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="module/biblequote.cpp" line="266"/>
+        <location filename="module/biblequote.cpp" line="269"/>
         <location filename="module/zefania-bible.cpp" line="647"/>
         <source>Searching</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="module/biblequote.cpp" line="266"/>
+        <location filename="module/biblequote.cpp" line="269"/>
         <location filename="module/modulemanager.cpp" line="45"/>
         <location filename="module/zefania-bible.cpp" line="277"/>
         <location filename="module/zefania-bible.cpp" line="479"/>
@@ -1700,7 +1700,7 @@
     <name>SettingsDialog</name>
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="14"/>
-        <source>Dialog</source>
+        <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
