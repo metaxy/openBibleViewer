@@ -6,7 +6,7 @@
     <message>
         <location filename="ui/dialog/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished">Über</translation>
+        <translation>Über</translation>
     </message>
     <message>
         <location filename="ui/dialog/aboutdialog.ui" line="56"/>
@@ -2235,12 +2235,12 @@
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="107"/>
         <source>Simple</source>
-        <translation type="unfinished">Einfach</translation>
+        <translation>Einfach</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="107"/>
         <source>Advanced</source>
-        <translation type="unfinished">Erweitert</translation>
+        <translation>Erweitert</translation>
     </message>
 </context>
 <context>
