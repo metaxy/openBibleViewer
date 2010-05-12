@@ -224,7 +224,6 @@ void MainWindow::loadAdvancedInterface()
 
 
     setCentralWidget(m_interface);
-    myDebug() << "a";
     if (m_interface->hasMenuBar()) {
         menuBar = m_interface->menuBar();
         setMenuBar(menuBar);
@@ -233,11 +232,9 @@ void MainWindow::loadAdvancedInterface()
         toolBar = m_interface->toolBar();
         addToolBar(toolBar);
     }
-    myDebug() << "b";
     connect(this, SIGNAL(settingsChanged(Settings, Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
     m_interface->init();
-    myDebug() << "c";
     QTimer::singleShot(1, m_interface, SLOT(restoreSession()));
 
 

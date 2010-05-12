@@ -150,18 +150,15 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     m_enableReload = false;
     int windowsCount = usableWindowList().size();
     QMdiSubWindow *firstSubWindow = new QMdiSubWindow();
-    myDebug() << "a1";
     if (windowsCount == 1) {
         firstSubWindow = usableWindowList().at(0);
     }
     m_windowCache.newWindow();
     QWidget *widget = new QWidget(ui->mdiArea);
     QVBoxLayout *layout = new QVBoxLayout(widget);
-    myDebug() << "a2";
 
     MdiForm *mForm = new MdiForm(widget);
     layout->addWidget(mForm);
-    myDebug() << "a";
 
     widget->setLayout(layout);
     QMdiSubWindow *subWindow = ui->mdiArea->addSubWindow(widget);
@@ -182,7 +179,6 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
         subWindow->resize(600, 600);
         subWindow->show();
     }
-    myDebug() << "c";
     connect(mForm->m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
     connect(mForm->m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
     connect(mForm->m_ui->textBrowser, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(textBrowserContextMenu(QPoint)));

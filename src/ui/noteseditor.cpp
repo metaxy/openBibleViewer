@@ -49,8 +49,8 @@ NotesEditor::NotesEditor(QWidget *parent)
 {
     DEBUG_FUNC_NAME
     ui->setupUi(this);
-    ui->tabWidget->setTabText(0, "Normal View");
-    ui->tabWidget->setTabText(1, "HTML Source");
+    ui->tabWidget->setTabText(0, tr("Normal View"));
+    ui->tabWidget->setTabText(1, tr("HTML Source"));
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), SLOT(changeTab(int)));
 
     highlighter = new Highlighter(ui->plainTextEdit->document());

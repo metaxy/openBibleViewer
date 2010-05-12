@@ -151,7 +151,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1561"/>
         <source>Edit</source>
-        <translation type="unfinished">Upravit</translation>
+        <translation type="unfinished">Úpravy</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1568"/>
