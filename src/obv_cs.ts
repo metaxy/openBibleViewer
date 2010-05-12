@@ -151,7 +151,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1561"/>
         <source>Edit</source>
-        <translation type="unfinished">Úpravy</translation>
+        <translation>Úpravy</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1568"/>
@@ -193,7 +193,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1592"/>
         <source>Ctrl++</source>
-        <translation type="unfinished">Ctrl++</translation>
+        <translation>Ctrl++</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1593"/>
@@ -1455,7 +1455,7 @@ Nápověda na internetu</translation>
     <message>
         <location filename="ui/noteseditor.ui" line="172"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Upravit</translation>
+        <translation>&amp;Úpravy</translation>
     </message>
     <message>
         <location filename="ui/noteseditor.ui" line="193"/>
@@ -1685,7 +1685,7 @@ Nápověda na internetu</translation>
     <message>
         <location filename="ui/noteseditor.ui" line="548"/>
         <source>Pre&amp;formatted</source>
-        <translation>Před&amp;formátováno</translation>
+        <translation>Před&amp;formátovaný</translation>
     </message>
     <message>
         <location filename="ui/noteseditor.ui" line="553"/>
