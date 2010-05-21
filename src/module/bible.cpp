@@ -93,6 +93,7 @@ int Bible::readBook(int id)
         chapterNames.clear();
         if (id < bookPath.size()) {
             int r = bq.readBook(id, bookPath.at(id));
+            myDebug() << "bq readbook = " << r;
             if (r != 0)
                 return r;
         } else {

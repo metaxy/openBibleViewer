@@ -234,7 +234,22 @@ int BibleQuote::readBook(int id, QString path)
         }
         chapterText << out;
     } else {
-        return 1;
+        //becauce windows filename are case insensensitive
+        //there are some filename typos in the ini files
+        //and you cannot open this files on linux
+        QFileInfo info(file.fileName());
+        QDir d(info.absoluteDir());
+        QStringList list = d.entryList();
+
+        foreach(QString f,list) {
+            QFileInfo info2(f);
+            if(info2.baseName().compare(info.baseName(),Qt::CaseInsensitive) == 0) {
+                return readBook(id,f);
+            }
+        }
+
+
+        return 2;
     }
     if (ccount2 == 0) {
         chapterText << out2;

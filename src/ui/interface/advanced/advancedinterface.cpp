@@ -793,9 +793,15 @@ void AdvancedInterface::readBookByID(int id)
 
             return;
         }
-        if (m_moduleManager->m_bible.readBook(id) != 0) {
+        int read = m_moduleManager->m_bible.readBook(id);
+        if (read != 0) {
+
             QApplication::restoreOverrideCursor();
-            QMessageBox::critical(0, tr("Error"), tr("Cannot read the book."));
+            if(read == 2) {
+                setChapters(QStringList());
+            } else {
+                QMessageBox::critical(0, tr("Error"), tr("Cannot read the book."));
+            }
             //error while reading
             return;
         }
