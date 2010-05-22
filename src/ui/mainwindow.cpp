@@ -55,22 +55,12 @@ MainWindow::~MainWindow()
     delete m_interface;
     m_interface = 0;
 }
-void MainWindow::init(const QString &homeDataPath)
+void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 {
     VERSION  = "0.4.2";
     BUILD =  "2010-22-05";
     m_homeDataPath = homeDataPath;
-
-#ifdef Q_WS_WIN
-#ifdef _PORTABLE_VERSION
-    m_settingsFile = new QSettings(m_homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-#else
-    m_settingsFile = new QSettings(QSettings::IniFormat, QSettings::UserScope, "openBible", "openBibleViewer");
-#endif
-#else
-    m_settingsFile = new QSettings(m_homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-#endif
-
+    m_settingsFile = settingsFile;
 
     m_moduleManager = new ModuleManager();
     m_bibleDisplay = new BibleDisplay();

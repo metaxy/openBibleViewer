@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.setTranslator(&myappTranslator, &qtTranslator);
-    w.init(homeDataPath);
+    w.init(homeDataPath,settings);
 
     /*  QFile file(themePath);
       if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {

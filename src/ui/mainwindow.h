@@ -45,7 +45,7 @@ public slots:
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void init(const QString &homeDataPath);
+    void init(const QString &homeDataPath, QSettings * settingsFile);
     QSettings *m_settingsFile;
     QString VERSION, BUILD;
     QString m_homeDataPath;
