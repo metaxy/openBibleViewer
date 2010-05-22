@@ -301,9 +301,9 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     progress.setValue(2);
     QFile file(path);
 
-    if (!file.open(QIODevice::ReadOnly)) {
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not read the file"));
-        myDebug() << "cant read the file";
+        myDebug() << "can't read the file";
         return;
     }
     progress.setValue(3);
@@ -315,7 +315,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     int c;
     if (!doc.setContent(&file, &error, &l, &c)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid. Errorstring: %1 in Line %2 at Position %2").arg(error).arg(l).arg(c));
-        myDebug() << "the file isnt valid";
+        myDebug() << "the file isn't valid";
         return;
     }
 #else
@@ -336,7 +336,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     } else {
         codecString = m_settings->getModuleSettings(m_bibleID).encoding;
     }
-    qDebug() << "ZefaniaBible::loadNoCached() encoding = " << codecString;
+    myDebug() << "encoding = " << codecString;
     //if codecString is not a valid decoder name, there can be problems
 #ifdef Q_WS_WIN
     //windows need some extra decoder functions, i do not know why
@@ -515,7 +515,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
 #else
         //write the booknames in a cache file
         QFile file(fileName + "data");
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        if (!file.open(QIODevice::WriteOnly)) {
             return;
         }
         QDataStream out(&file);

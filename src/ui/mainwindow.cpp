@@ -57,8 +57,8 @@ MainWindow::~MainWindow()
 }
 void MainWindow::init(const QString &homeDataPath)
 {
-    VERSION  = "0.4";
-    BUILD =  "2010-11-04";
+    VERSION  = "0.4.2";
+    BUILD =  "2010-22-05";
     m_homeDataPath = homeDataPath;
 
 #ifdef Q_WS_WIN

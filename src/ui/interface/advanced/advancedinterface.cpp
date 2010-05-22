@@ -1804,7 +1804,7 @@ int AdvancedInterface::showAboutDialog(void)
     AboutDialog aDialog;
     aDialog.setWindowTitle(tr("About openBibleViewer"));
     aDialog.show();
-    aDialog.setText(tr("openBibleViewer <br> version: %1 build: %2<br> <a href=\"http://openbv.uucyc.name/\"> Official Website</a> | <a href=\"http://openbv.uucyc.name/bug/\">Bug report</a>").arg("0.4").arg("2010-11-04"));
+    aDialog.setText(tr("openBibleViewer <br> version: %1 build: %2<br> <a href=\"http://openbv.uucyc.name/\"> Official Website</a> | <a href=\"http://openbv.uucyc.name/bug/\">Bug report</a>").arg("0.4.2").arg("2010-22-05"));
     return aDialog.exec();
 }
 void AdvancedInterface::showMarkCategories()
