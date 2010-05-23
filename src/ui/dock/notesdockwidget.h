@@ -32,13 +32,6 @@ class NotesDockWidget : public DockWidget
 {
     Q_OBJECT
 private slots:
-    /*void showNote(QListWidgetItem * item);
-
-    void notesContextMenu();
-    void removeNote();
-    void reloadNotes();
-    void copyNote();
-    void editNoteLink();*/
     void noteSetTextBold();
     void noteSetTextItalic();
     void noteSetTextUnderline();
@@ -48,7 +41,6 @@ private slots:
 
     void changeRef(QString id, QMap<QString, QString> ref);
     void removeNote(QString id , QMap<QString, QString> ref);
-    /*void updateNote(QString pos);*/
 public slots:
     void newNote();
     void newNoteWithLink(VerseSelection selection);
@@ -70,9 +62,6 @@ signals:
 private:
     Ui::NotesDockWidget *ui;
     SimpleNotes *m_simpleNotes;
-    /*  QStringList m_textNotesID;
-      QString m_noteID;
-      QMap<QString, QString> currentNoteRef;*/
 
 };
 

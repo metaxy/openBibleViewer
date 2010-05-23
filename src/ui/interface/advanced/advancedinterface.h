@@ -127,9 +127,11 @@ signals:
 private:
     Ui::AdvancedInterface *ui;
     bool m_enableReload;
+
     QMdiSubWindow *activeMdiChild();
     QList<QMdiSubWindow*> usableWindowList();
     QList<QMdiSubWindow *> m_internalWindows;
+
     int currentWindowID();
     int tabIDof(QMdiSubWindow* window);
     WindowCache m_windowCache;
@@ -152,8 +154,8 @@ private:
     QTextCursor m_textCursor;
 
     //Menu
-    QAction *actionTabView;
-    QAction *actionSubWindowView;
+    QAction *m_actionTabView;
+    QAction *m_actionSubWindowView;
     void searchInText(SearchQuery query);
 
 };

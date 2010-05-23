@@ -159,15 +159,22 @@ void SimpleInterface::loadModuleDataByID(int id)
     if (id < 0 || m_moduleManager->m_moduleList.size() < id)
         return;
     m_windowCache.setBible(m_moduleManager->m_bible);//before loading an another bible, save the last
+    Module::ModuleType type = m_moduleManager->m_moduleList.at(id).m_moduleType;
+    if(type == Module::BibleQuoteModule) {
+        m_moduleManager->m_bible.setBibleType(Bible::BibleQuoteModule);
+    } else if(type == Module::ZefaniaBibleModule) {
+        m_moduleManager->m_bible.setBibleType(Bible::ZefaniaBibleModule);
+    } else {
+        m_moduleManager->m_bible.setBibleType(Bible::None);
+    }
 
-    m_moduleManager->m_bible.setBibleType(m_moduleManager->m_moduleList.at(id).m_moduleType);
     m_moduleManager->m_bible.loadBibleData(id, m_moduleManager->m_moduleList.at(id).m_path);
     if (!m_windowCache.getSoftCache(id).isEmpty())
         m_moduleManager->m_bible.setSoftCache(m_windowCache.getSoftCache(id));//todo: if it is empty then do nothing
 
 
-    setTitle(m_moduleManager->m_bible.bibleTitle);
-    setBooks(m_moduleManager->m_bible.bookFullName);
+    setTitle(m_moduleManager->m_bible.bibleTitle());
+    setBooks(m_moduleManager->m_bible.bookFullName());
 
 }
 void SimpleInterface::pharseUrl(QUrl url)
@@ -257,7 +264,7 @@ void SimpleInterface::pharseUrl(QString url)
         bool ok;
         int c = url.toInt(&ok, 10);
         myDebug() << "c = " << c;
-        if (ok && c < m_moduleManager->m_bible.chapterData.size() && m_moduleManager->m_bible.m_bibleType == Module::BibleQuoteModule && m_moduleManager->m_bible.chapterID() != c) {
+        if (ok && c < m_moduleManager->m_bible.m_chapterData.size() && m_moduleManager->m_bible.bibleType() == Bible::BibleQuoteModule && m_moduleManager->m_bible.chapterID() != c) {
             myDebug() << "bq chapter link";
             m_moduleManager->m_bible.readChapter(c, 0);
         } else {
@@ -265,11 +272,9 @@ void SimpleInterface::pharseUrl(QString url)
             ui->textBrowser->scrollToAnchor(url);
         }
     } else {
-        myDebug() << " bookPath = " << m_moduleManager->m_bible.bookPath;
-        if (m_moduleManager->m_bible.m_bibleType == Module::BibleQuoteModule && m_moduleManager->m_bible.bookPath.contains(url)) {
-            emit get("bible://current/" + m_moduleManager->m_bible.bookPath.lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
+        if (m_moduleManager->m_bible.bibleType() == Bible::BibleQuoteModule && m_moduleManager->m_bible.bookPath().contains(url)) {
+            emit get("bible://current/" + m_moduleManager->m_bible.bookPath().lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
         } else {
-
             myDebug() << "invalid URL";
         }
     }
@@ -278,7 +283,7 @@ void SimpleInterface::pharseUrl(QString url)
 void SimpleInterface::showText(const QString &text)
 {
     ui->textBrowser->setHtml(text);
-    if (m_moduleManager->m_bible.m_verseID > 1)
+    if (m_moduleManager->m_bible.verseID() > 1)
         ui->textBrowser->scrollToAnchor("currentVerse");
 }
 void SimpleInterface::setTitle(const QString &title)
@@ -328,7 +333,7 @@ void SimpleInterface::readBookByID(int id)
         //error while reading
         return;
     }
-    setChapters(m_moduleManager->m_bible.chapterNames);
+    setChapters(m_moduleManager->m_bible.chapterNames());
     ui->textBrowser->setSearchPaths(m_moduleManager->m_bible.getSearchPaths());
 
 }
@@ -340,7 +345,7 @@ void SimpleInterface::readChapter(const int &id)
 
 void SimpleInterface::showChapter(const int &chapterID, const int &verseID)
 {
-    m_moduleManager->m_bible.m_verseID = verseID;
+    //m_moduleManager->m_bible.verseID() = verseID;//todo: check
     m_bibleDisplay->setHtml((m_moduleManager->m_bible.readChapter(chapterID, verseID)));
     setCurrentChapter(chapterID - m_moduleManager->m_bible.chapterAdd());
 }
@@ -440,7 +445,6 @@ void SimpleInterface::search(SearchQuery query)
     m_searchResultDockWidget->show();
     SearchResult result;
     result = m_moduleManager->m_bible.search(query);
-    m_moduleManager->m_bible.lastSearchResult = result;
     m_searchResultDockWidget->setSearchResult(result);
 }
 void SimpleInterface::changeEvent(QEvent *e)

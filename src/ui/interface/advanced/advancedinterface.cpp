@@ -439,13 +439,13 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
         if (m_moduleManager->m_bible.bibleID() == m_windowCache.getBible().bibleID())
             return 1;
         m_moduleManager->m_bible = m_windowCache.getBible();
-        setTitle(m_moduleManager->m_bible.bibleTitle);
+        setTitle(m_moduleManager->m_bible.bibleTitle());
 
-        setChapters(m_moduleManager->m_bible.chapterNames);
-        myDebug() << "chapterNames = " << m_moduleManager->m_bible.chapterNames;
+        setChapters(m_moduleManager->m_bible.chapterNames());
+
         setCurrentChapter(m_moduleManager->m_bible.chapterID());
 
-        setBooks(m_moduleManager->m_bible.bookFullName);
+        setBooks(m_moduleManager->m_bible.bookFullName());
         setCurrentBook(m_moduleManager->m_bible.bookID());
         m_moduleDockWidget->loadedModule(m_moduleManager->m_bible.bibleID());
 
@@ -473,13 +473,21 @@ void AdvancedInterface::loadModuleDataByID(int id)
     m_windowCache.setCurrentWindowID(currentWindowID());
     m_windowCache.setBible(m_moduleManager->m_bible);//todo: !before loading an another bible, save the last
 
-    m_moduleManager->m_bible.setBibleType(m_moduleManager->m_moduleList.at(id).m_moduleType);
+    Module::ModuleType type = m_moduleManager->m_moduleList.at(id).m_moduleType;
+    if(type == Module::BibleQuoteModule) {
+        m_moduleManager->m_bible.setBibleType(Bible::BibleQuoteModule);
+    } else if(type == Module::ZefaniaBibleModule) {
+        m_moduleManager->m_bible.setBibleType(Bible::ZefaniaBibleModule);
+    } else {
+        m_moduleManager->m_bible.setBibleType(Bible::None);
+    }
+
     m_moduleManager->m_bible.loadBibleData(id, m_moduleManager->m_moduleList.at(id).m_path);
     m_moduleManager->m_bible.setSoftCache(m_windowCache.getSoftCache(id));
 
 
-    setTitle(m_moduleManager->m_bible.bibleTitle);
-    setBooks(m_moduleManager->m_bible.bookFullName);
+    setTitle(m_moduleManager->m_bible.bibleTitle());
+    setBooks(m_moduleManager->m_bible.bookFullName());
     m_moduleDockWidget->loadedModule(id);//select current Module
     /*myDebug() <<"style = " <<  m_settings->getModuleSettings(id).styleSheet;
        QTextBrowser *textBrowser = getTextBrowser();
@@ -555,7 +563,7 @@ void AdvancedInterface::pharseUrl(QString url)
                     setCurrentChapter(chapterID);
                 }
                 if (c.size() == 4 && c.at(3) == "searchInCurrentText=true") {//todo: not nice
-                    searchInText(m_moduleManager->m_bible.lastSearchQuery);
+                    searchInText(m_moduleManager->m_bible.m_lastSearchQuery);
                 }
                 emit historySetUrl(url_backup);
             } else {
@@ -612,7 +620,7 @@ void AdvancedInterface::pharseUrl(QString url)
         bool ok;
         int c = url.toInt(&ok, 10);
         myDebug() << "c = " << c;
-        if (ok && c < m_moduleManager->m_bible.chaptersCount() && m_moduleManager->m_bible.m_bibleType == Bible::BibleQuoteModule && m_moduleManager->m_bible.chapterID() != c) {
+        if (ok && c < m_moduleManager->m_bible.chaptersCount() && m_moduleManager->m_bible.bibleType() == Bible::BibleQuoteModule && m_moduleManager->m_bible.chapterID() != c) {
             myDebug() << "bq chapter link";
             showChapter(c + m_moduleManager->m_bible.chapterAdd(), 0);
             setCurrentChapter(c);
@@ -634,15 +642,14 @@ void AdvancedInterface::pharseUrl(QString url)
         url = url.remove(0, persistent.size());
         myDebug() << "url = " << url;
         UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
-        urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
+        urlConverter.m_biblesRootPath = m_moduleManager->m_bible.biblesRootPath();
         urlConverter.pharse();
         QString i = urlConverter.convert();//it now a normal interface url
         myDebug() << "i = " << i;
         pharseUrl(i);
     } else {
-        myDebug() << " bookPath = " << m_moduleManager->m_bible.bookPath;
-        if (m_moduleManager->m_bible.m_bibleType == Bible::BibleQuoteModule && m_moduleManager->m_bible.bookPath.contains(url)) {
-            emit get("bible://current/" + m_moduleManager->m_bible.bookPath.lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
+        if (m_moduleManager->m_bible.bibleType() == Bible::BibleQuoteModule && m_moduleManager->m_bible.bookPath().contains(url)) {
+            emit get("bible://current/" + m_moduleManager->m_bible.bookPath().lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
         } else {
             myDebug() << "invalid URL";
         }
@@ -684,7 +691,7 @@ void AdvancedInterface::showText(const QString &text)
     QTextBrowser *t = getTextBrowser();
     if (t) {
         t->setHtml(text);
-        if (m_moduleManager->m_bible.m_verseID > 1)
+        if (m_moduleManager->m_bible.verseID() > 1)
             t->scrollToAnchor("currentVerse");
     }
 }
@@ -805,7 +812,7 @@ void AdvancedInterface::readBookByID(int id)
             //error while reading
             return;
         }
-        setChapters(m_moduleManager->m_bible.chapterNames);
+        setChapters(m_moduleManager->m_bible.chapterNames());
 
         t->setSearchPaths(m_moduleManager->m_bible.getSearchPaths());
         QApplication::restoreOverrideCursor();
@@ -820,7 +827,7 @@ void AdvancedInterface::readChapter(const int &id)
 
 void AdvancedInterface::showChapter(const int &chapterID, const int &verseID)
 {
-    m_moduleManager->m_bible.m_verseID = verseID;
+    //m_moduleManager->m_bible.verseID() = verseID;
     m_bibleDisplay->setHtml((m_moduleManager->m_bible.readChapter(chapterID, verseID)));
     setCurrentChapter(chapterID - m_moduleManager->m_bible.chapterAdd());
 }
@@ -883,7 +890,7 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
         if (fragment.endsWith(">")) {
             fragment.remove(fragment.lastIndexOf("<"), fragment.size());
         }
-        QStringList chapterData = m_moduleManager->m_bible.toUniformHtml(m_moduleManager->m_bible.chapterDataList);
+        QStringList chapterData = m_moduleManager->m_bible.toUniformHtml(m_moduleManager->m_bible.chapterDataList());
 
         QString text = chapterData.join("");
         int startFragment = text.indexOf(fragment);
@@ -892,7 +899,7 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
         int n_pos = cursor.position();
         int n_counter = 0;
         int n_startVerse;
-        QStringList n_chapterData = m_moduleManager->m_bible.toUniformHtml(m_moduleManager->m_bible.chapterDataList);
+        QStringList n_chapterData = m_moduleManager->m_bible.toUniformHtml(m_moduleManager->m_bible.chapterDataList());
         for (int i = 0; i < n_chapterData.size(); ++i) {
             QTextDocument t;
             t.setHtml(chapterData.at(i));
@@ -1020,7 +1027,7 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
     } else {
 
         int pos = cursor.position();
-        QStringList chapterData = m_moduleManager->m_bible.toUniformHtml(m_moduleManager->m_bible.chapterDataList);
+        QStringList chapterData = m_moduleManager->m_bible.toUniformHtml(m_moduleManager->m_bible.chapterDataList());
         int counter = 0;
         for (int i = 0; i < chapterData.size(); ++i) {
             QTextDocument t;
@@ -1177,8 +1184,8 @@ int AdvancedInterface::copyWholeVerse(void)
     QTextCursor cursor = textBrowser->textCursor();
     VerseSelection selection = verseSelectionFromCursor(cursor);
     if (selection.startVerse != -1) {
-        if (m_moduleManager->m_bible.m_bibleType == Bible::BibleQuoteModule) {
-        } else if (m_moduleManager->m_bible.m_bibleType == Bible::ZefaniaBibleModule) {
+        if (m_moduleManager->m_bible.bibleType() == Bible::BibleQuoteModule) {
+        } else if (m_moduleManager->m_bible.bibleType() == Bible::ZefaniaBibleModule) {
             if (selection.startVerse - 1 < 0)
                 selection.startVerse = 1;
             if (selection.endVerse < 0)
@@ -1195,9 +1202,9 @@ int AdvancedInterface::copyWholeVerse(void)
 
         QString stext;
 
-        if (m_moduleManager->m_bible.m_bibleType == Bible::BibleQuoteModule) {
+        if (m_moduleManager->m_bible.bibleType() == Bible::BibleQuoteModule) {
             stext = m_moduleManager->m_bible.readVerse(m_moduleManager->m_bible.chapterID(), selection.startVerse, selection.endVerse + 1, -1, false);
-        } else if (m_moduleManager->m_bible.m_bibleType == Bible::ZefaniaBibleModule) {
+        } else if (m_moduleManager->m_bible.bibleType() == Bible::ZefaniaBibleModule) {
             stext = m_moduleManager->m_bible.readVerse(m_moduleManager->m_bible.chapterID(), selection.startVerse - 1, selection.endVerse, -1, false);
         }
 
@@ -1206,13 +1213,13 @@ int AdvancedInterface::copyWholeVerse(void)
         stext = doc2.toPlainText();
 
         QString curChapter;
-        if (m_moduleManager->m_bible.m_bibleType == Bible::BibleQuoteModule) {
+        if (m_moduleManager->m_bible.bibleType() == Bible::BibleQuoteModule) {
             curChapter = QString::number(m_moduleManager->m_bible.chapterID());
-        } else if (m_moduleManager->m_bible.m_bibleType == Bible::ZefaniaBibleModule) {
+        } else if (m_moduleManager->m_bible.bibleType() == Bible::ZefaniaBibleModule) {
             curChapter = QString::number(m_moduleManager->m_bible.chapterID() + 1);
         }
 
-        QString newText = m_moduleManager->m_bible.bookFullName.at(m_moduleManager->m_bible.bookID()) + " " + curChapter + sverse + "\n" + stext;
+        QString newText = m_moduleManager->m_bible.bookFullName().at(m_moduleManager->m_bible.bookID()) + " " + curChapter + sverse + "\n" + stext;
         QClipboard *clipboard = QApplication::clipboard();
         clipboard->setText(newText);
 
@@ -1329,7 +1336,7 @@ void AdvancedInterface::closing()
         Bible b = m_windowCache.getBible();
         if (b.bibleID() >= 0) {
             UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
-            urlConverter.m_biblesIniPath = b.biblesIniPath;
+            urlConverter.m_biblesRootPath = b.biblesRootPath();
             urlConverter.m_bibleID = QString::number(b.bibleID());
             urlConverter.m_bookID = b.bookID();
             urlConverter.m_chapterID = b.chapterID() - b.chapterAdd();
@@ -1375,14 +1382,16 @@ void AdvancedInterface::restoreSession()
     QVariantList zoom = m_settings->session.getData("zoom").toList();
 #endif
     myDebug() << "b";
+
     for (int i = 0; i < windowUrls.size(); ++i) {
         newSubWindow(false);
         myDebug() << "current window is " << tabIDof(activeMdiChild()) << " while window count is " << usableWindowList();
         //load bible
         QString url = windowUrls.at(i);
         if (!url.isEmpty() && url.size() != 0) {
+            myDebug() << "windows urls = " << windowUrls.at(i);
             UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, windowUrls.at(i));
-            urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
+            urlConverter.m_biblesRootPath = m_moduleManager->m_bible.biblesRootPath();
             urlConverter.pharse();
             myDebug() << "url = " << urlConverter.convert();
             pharseUrl(urlConverter.convert());
@@ -1482,7 +1491,6 @@ void AdvancedInterface::searchInText(SearchQuery query)
         }
 
         if (query.regExp) {
-            myDebug() << "regExp";
             QTextCursor cursor;
             cursor = doc->find(QRegExp(query.searchText), 0);
             while (!cursor.isNull()) {
@@ -1492,7 +1500,6 @@ void AdvancedInterface::searchInText(SearchQuery query)
                 cursor = doc->find(QRegExp(query.searchText), cursor);
             }
         } else {
-            myDebug() << "No regExp";
             QTextCursor cursor;
             cursor = doc->find(query.searchText, 0, flags);
             while (!cursor.isNull()) {
@@ -1596,13 +1603,13 @@ QMenuBar* AdvancedInterface::menuBar()
     actionZoomOut->setShortcut(QKeySequence(tr("Ctrl+-")));
     connect(actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
 
-    actionTabView = new QAction(QIcon(), tr("Tabbed View"), menuView);
-    actionTabView->setCheckable(true);
-    connect(actionTabView, SIGNAL(triggered()), this, SLOT(setTabView()));
+    m_actionTabView = new QAction(QIcon(), tr("Tabbed View"), menuView);
+    m_actionTabView->setCheckable(true);
+    connect(m_actionTabView, SIGNAL(triggered()), this, SLOT(setTabView()));
 
-    actionSubWindowView = new QAction(QIcon(), tr("Sub Window View"), menuView);
-    actionSubWindowView->setCheckable(true);
-    connect(actionSubWindowView, SIGNAL(triggered()), this, SLOT(setSubWindowView()));
+    m_actionSubWindowView = new QAction(QIcon(), tr("Sub Window View"), menuView);
+    m_actionSubWindowView->setCheckable(true);
+    connect(m_actionSubWindowView, SIGNAL(triggered()), this, SLOT(setSubWindowView()));
 
     QAction *actionCascade = new QAction(QIcon(":/icons/svg/cascade.svg"), tr("Cascade"), menuView);
     connect(actionCascade, SIGNAL(triggered()), this, SLOT(myCascade()));
@@ -1617,8 +1624,8 @@ QMenuBar* AdvancedInterface::menuBar()
     menuView->addAction(actionZoomIn);
     menuView->addAction(actionZoomOut);
     menuView->addSeparator();
-    menuView->addAction(actionTabView);
-    menuView->addAction(actionSubWindowView);
+    menuView->addAction(m_actionTabView);
+    menuView->addAction(m_actionSubWindowView);
     menuView->addSeparator();
     menuView->addAction(actionCascade);
     menuView->addAction(actionTile);
@@ -1833,14 +1840,14 @@ void AdvancedInterface::showNotesEditor()
 void AdvancedInterface::setTabView()
 {
     ui->mdiArea->setViewMode(QMdiArea::TabbedView);
-    actionTabView->setChecked(true);
-    actionSubWindowView->setChecked(false);
+    m_actionTabView->setChecked(true);
+    m_actionSubWindowView->setChecked(false);
 }
 void AdvancedInterface::setSubWindowView()
 {
     ui->mdiArea->setViewMode(QMdiArea::SubWindowView);
-    actionTabView->setChecked(false);
-    actionSubWindowView->setChecked(true);
+    m_actionTabView->setChecked(false);
+    m_actionSubWindowView->setChecked(true);
 }
 void AdvancedInterface::changeEvent(QEvent *e)
 {

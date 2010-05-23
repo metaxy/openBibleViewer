@@ -43,7 +43,7 @@ public:
     Bible getBible();
 private:
     QMap<int, QMap<int, QList<Chapter> > > m_softCache;
-    QMap<int, int> m_bibletype;
+    QMap<int, Bible::BibleType> m_bibletype;
     QStringList m_idList;
     int m_currentWindowID;
     QMap<int, Bible> m_b;

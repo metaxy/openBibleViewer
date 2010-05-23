@@ -42,10 +42,10 @@ signals:
     void get(QString url);
 private:
     Ui::QuickJumpDockWidget *ui;
-    QStringList hist;
-    QStringList books;
+    QStringList m_hist;
+    QStringList m_books;
 
-    QCompleter *completer;
+    QCompleter *m_completer;
 };
 
 #endif // QUICKJUMPDOCKWIDGET_H

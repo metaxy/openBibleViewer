@@ -110,13 +110,12 @@ private slots:
 
 private:
     Ui::NotesEditor *ui;
-    QString fileName;
-    bool sourceDirty;
-    QLabel *zoomLabel;
-    QSlider *zoomSlider;
-    Highlighter *highlighter;
+    bool m_sourceDirty;
+    QLabel *m_zoomLabel;
+    QSlider *m_zoomSlider;
+    Highlighter *m_highlighter;
     Ui::InsertHtmlDialog *ui_dialog;
-    QDialog *insertHtmlDialog;
+    QDialog *m_insertHtmlDialog;
     SimpleNotes *m_simpleNotes;
 };
 

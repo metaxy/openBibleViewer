@@ -42,10 +42,10 @@
 NotesEditor::NotesEditor(QWidget *parent)
         : QMainWindow(parent)
         , ui(new Ui::NotesEditor)
-        , sourceDirty(true)
-        , highlighter(0)
+        , m_sourceDirty(true)
+        , m_highlighter(0)
         , ui_dialog(0)
-        , insertHtmlDialog(0)
+        , m_insertHtmlDialog(0)
 {
     DEBUG_FUNC_NAME
     ui->setupUi(this);
@@ -53,24 +53,24 @@ NotesEditor::NotesEditor(QWidget *parent)
     ui->tabWidget->setTabText(1, tr("HTML Source"));
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), SLOT(changeTab(int)));
 
-    highlighter = new Highlighter(ui->plainTextEdit->document());
+    m_highlighter = new Highlighter(ui->plainTextEdit->document());
     m_simpleNotes = new SimpleNotes();
 
     QWidget *spacer = new QWidget(this);
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     ui->standardToolBar->insertWidget(ui->actionZoomOut, spacer);
 
-    zoomLabel = new QLabel;
-    ui->standardToolBar->insertWidget(ui->actionZoomOut, zoomLabel);
+    m_zoomLabel = new QLabel;
+    ui->standardToolBar->insertWidget(ui->actionZoomOut, m_zoomLabel);
 
-    zoomSlider = new QSlider(this);
-    zoomSlider->setOrientation(Qt::Horizontal);
-    zoomSlider->setMaximumWidth(150);
-    zoomSlider->setRange(25, 400);
-    zoomSlider->setSingleStep(25);
-    zoomSlider->setPageStep(100);
-    connect(zoomSlider, SIGNAL(valueChanged(int)), SLOT(changeZoom(int)));
-    ui->standardToolBar->insertWidget(ui->actionZoomIn, zoomSlider);
+    m_zoomSlider = new QSlider(this);
+    m_zoomSlider->setOrientation(Qt::Horizontal);
+    m_zoomSlider->setMaximumWidth(150);
+    m_zoomSlider->setRange(25, 400);
+    m_zoomSlider->setSingleStep(25);
+    m_zoomSlider->setPageStep(100);
+    connect(m_zoomSlider, SIGNAL(valueChanged(int)), SLOT(changeZoom(int)));
+    ui->standardToolBar->insertWidget(ui->actionZoomIn, m_zoomSlider);
 
     connect(ui->actionFileSave, SIGNAL(triggered()), SLOT(fileSave()));
     connect(ui->actionFileSaveAs, SIGNAL(triggered()), SLOT(fileSaveAs()));
@@ -275,7 +275,7 @@ void NotesEditor::createLink()
     insertLinkDialog->setNotes(m_notes);
     insertLinkDialog->setModuleManager(m_moduleManager);
     insertLinkDialog->init();
-    insertLinkDialog->setCurrent(m_moduleManager->m_bible.bibleID(), m_moduleManager->m_bible.m_biblePath,
+    insertLinkDialog->setCurrent(m_moduleManager->m_bible.bibleID(), m_moduleManager->m_bible.biblePath(),
                                  m_moduleManager->m_bible.bookID(), m_moduleManager->m_bible.chapterID() + 1, 1);
     insertLinkDialog->show();
     insertLinkDialog->exec();
@@ -307,22 +307,22 @@ void NotesEditor::pharseUrl(QUrl url)
 
 void NotesEditor::insertHtml()
 {
-    if (!insertHtmlDialog) {
-        insertHtmlDialog = new QDialog(this);
+    if (!m_insertHtmlDialog) {
+        m_insertHtmlDialog = new QDialog(this);
         if (!ui_dialog)
             ui_dialog = new Ui::InsertHtmlDialog;
-        ui_dialog->setupUi(insertHtmlDialog);
+        ui_dialog->setupUi(m_insertHtmlDialog);
         connect(ui_dialog->buttonBox, SIGNAL(accepted()),
-                insertHtmlDialog, SLOT(accept()));
+                m_insertHtmlDialog, SLOT(accept()));
         connect(ui_dialog->buttonBox, SIGNAL(rejected()),
-                insertHtmlDialog, SLOT(reject()));
+                m_insertHtmlDialog, SLOT(reject()));
     }
 
     ui_dialog->plainTextEdit->clear();
     ui_dialog->plainTextEdit->setFocus();
     Highlighter *hilite = new Highlighter(ui_dialog->plainTextEdit->document());
 
-    if (insertHtmlDialog->exec() == QDialog::Accepted)
+    if (m_insertHtmlDialog->exec() == QDialog::Accepted)
         execCommand("insertHTML", ui_dialog->plainTextEdit->toPlainText());
 
     delete hilite;
@@ -338,7 +338,7 @@ void NotesEditor::zoomOut()
         ui->webView->setZoomFactor(factor);
         ui->actionZoomOut->setEnabled(percent > 25);
         ui->actionZoomIn->setEnabled(true);
-        zoomSlider->setValue(percent);
+        m_zoomSlider->setValue(percent);
     }
 }
 
@@ -352,7 +352,7 @@ void NotesEditor::zoomIn()
         ui->webView->setZoomFactor(factor);
         ui->actionZoomIn->setEnabled(percent < 400);
         ui->actionZoomOut->setEnabled(true);
-        zoomSlider->setValue(percent);
+        m_zoomSlider->setValue(percent);
     }
 }
 
@@ -538,7 +538,7 @@ void NotesEditor::adjustActions()
 
 void NotesEditor::adjustSource()
 {
-    sourceDirty = true;
+    m_sourceDirty = true;
 
     if (ui->tabWidget->currentIndex() == 1)
         changeTab(1);
@@ -546,10 +546,10 @@ void NotesEditor::adjustSource()
 
 void NotesEditor::changeTab(int index)
 {
-    if (sourceDirty && (index == 1)) {
+    if (m_sourceDirty && (index == 1)) {
         QString content = ui->webView->page()->mainFrame()->toHtml();
         ui->plainTextEdit->setPlainText(content);
-        sourceDirty = false;
+        m_sourceDirty = false;
     }
 }
 
@@ -561,8 +561,8 @@ void NotesEditor::changeZoom(int percent)
     qreal factor = static_cast<qreal>(percent) / 100;
     ui->webView->setZoomFactor(factor);
 
-    zoomLabel->setText(tr(" Zoom: %1% ").arg(percent));
-    zoomSlider->setValue(percent);
+    m_zoomLabel->setText(tr(" Zoom: %1% ").arg(percent));
+    m_zoomSlider->setValue(percent);
 }
 
 void NotesEditor::closeEvent(QCloseEvent *e)

@@ -28,9 +28,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 */
 class BibleQuote
 {
-private:
-    Settings *m_settings;
-    QString formatFromIni(QString input);
+
 
 public:
     BibleQuote();
@@ -40,13 +38,25 @@ public:
     QString readInfo(QFile &file);
     SearchResult search(SearchQuery query);
 
-    int m_bookID, m_bibleID;
-    bool chapterZero;
-    QString currentBiblePath, lastout, chaptersign, versesign, bibleName, removeHtml;
-    QStringList bookPath, bookFullName, bookShortName;
-    QMap <int, int> bookCount;
-    SearchQuery lastSearchQuery;
-    QList<Chapter> chapterData;
+    bool m_chapterZero;
+
+    QString m_biblePath;
+    QString m_bibleName;
+    QString m_bibleShortName;
+
+    QStringList m_bookPath;
+    QStringList m_bookFullName;
+    QStringList m_bookShortName;
+    QMap <int, int> m_bookCount;
+    QList<Chapter> m_chapterData;
+private:
+    Settings *m_settings;
+    QString formatFromIni(QString input);
+    int m_bookID;
+    int m_bibleID;
+    QString m_verseSign;
+    QString m_chapterSign;
+    QString m_removeHtml;
 };
 
 #endif // BIBLEQUOTE_H

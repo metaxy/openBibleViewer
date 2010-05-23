@@ -52,7 +52,7 @@ protected:
 private:
     Ui::BookmarksDockWidget *ui;
     int internalOpenPos(const QString &pos);
-    QString bookmarksFileName;
+    QString m_bookmarksFileName;
 signals:
     void get(QString url);
 };

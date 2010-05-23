@@ -57,14 +57,14 @@ protected:
 private:
     Ui::ModuleDownloadDialog *ui;
     Settings m_set;
-    QStringList downloadList, nameList, downloadedList, downNames;
-    QMap<QString, QString> names;
-    int currentDownload;
-    QProgressDialog *progressDialog;
-    QHttp *http;
-    QFile *file;
-    int httpGetId;
-    bool httpRequestAborted;
+    QStringList m_downloadList, m_downloadedList, m_downNames;
+    QMap<QString, QString> m_names;
+    int m_currentDownload;
+    QProgressDialog *m_progressDialog;
+    QHttp *m_http;
+    QFile *m_file;
+    int m_httpGetId;
+    bool m_httpRequestAborted;
     void download(QString url_, bool addToList = true);
 };
 

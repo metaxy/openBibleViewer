@@ -42,23 +42,23 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
 {
     //DEBUG_FUNC_NAME
     m_bibleID = bibleID;
-    bookFullName.clear();
-    bookPath.clear();
-    bookShortName.clear();
-    bookCount.clear();
-    bibleName = "";
-    chaptersign = "";
-    removeHtml = "";
-    versesign = "";
-    chapterZero = false;
+    m_bookFullName.clear();
+    m_bookPath.clear();
+    m_bookShortName.clear();
+    m_bookCount.clear();
+    m_bibleName = "";
+    m_chapterSign = "";
+    m_removeHtml = "";
+    m_verseSign = "";
+    m_chapterZero = false;
     int lastPos = path.lastIndexOf("/");
     QString path_ = path;
-    currentBiblePath = path_.remove(lastPos, path.size());
+    m_biblePath = path_.remove(lastPos, path.size());
     bool started = false, started2 = false;
     int count = 0;
     QFile file;
     file.setFileName(path);
-    myDebug() << "id = " << m_bibleID << " fileName = " << file.fileName() << " currentBiblePath = " << currentBiblePath;
+    myDebug() << "id = " << m_bibleID << " fileName = " << file.fileName() << " currentBiblePath = " << m_biblePath;
     QString encoding;
     if (m_settings->getModuleSettings(m_bibleID).encoding == "Default" || m_settings->getModuleSettings(m_bibleID).encoding == "") {
         encoding = m_settings->encoding;
@@ -78,31 +78,32 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
             QString line = decoder->toUnicode(byteline);
 
             if (line.contains("BibleName", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                bibleName = formatFromIni(line.remove("BibleName =", Qt::CaseInsensitive));
+                m_bibleName = formatFromIni(line.remove(QRegExp("BibleName(\\s*)=(\\s*)",Qt::CaseInsensitive)));
+
             }
             if (line.contains("ChapterSign", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                chaptersign = formatFromIni(line.remove("ChapterSign =", Qt::CaseInsensitive));
-                myDebug() << "ChapterSign = " << chaptersign;
+                m_chapterSign = formatFromIni(line.remove(QRegExp("ChapterSign(\\s*)=(\\s*)",Qt::CaseInsensitive)));
+                myDebug() << "ChapterSign = " << m_chapterSign;
                 //chaptersign auslesen
             }
             if (line.contains("HTMLFilter", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                removeHtml = formatFromIni(line.remove("HTMLFilter =", Qt::CaseInsensitive));
-                myDebug() << "HtmlFilter = " << removeHtml;
+                m_removeHtml = formatFromIni(line.remove(QRegExp("HTMLFilter(\\s*)=(\\s*)",Qt::CaseInsensitive)));
+                myDebug() << "HtmlFilter = " << m_removeHtml;
                 //htmlfilter auslesen
             }
             if (line.contains("VerseSign", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                versesign = formatFromIni(line.remove("VerseSign =", Qt::CaseInsensitive));
-                myDebug() << "VerseSign = " << versesign;
+                m_verseSign = formatFromIni(line.remove(QRegExp("VerseSign(\\s*)=(\\s*)",Qt::CaseInsensitive)));
+                myDebug() << "VerseSign = " << m_verseSign;
                 //verse sign auslesen
             }
             if (line.contains("ChapterZero", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                QString a = formatFromIni(line.remove("ChapterZero =", Qt::CaseInsensitive));
+                QString a = formatFromIni(line.remove(QRegExp("ChapterZero(\\s*)=(\\s*)",Qt::CaseInsensitive)));
                 if (a.contains("Y", Qt::CaseInsensitive)) {
-                    chapterZero = true;
+                    m_chapterZero = true;
                 } else {
-                    chapterZero = false;
+                    m_chapterZero = false;
                 }
-                myDebug() << "chapterZero = " << chapterZero;
+                myDebug() << "chapterZero = " << m_chapterZero;
                 //verse sign auslesen
             }
             if (started == false && line.contains("BookQty", Qt::CaseInsensitive) && !line.startsWith("//")) {
@@ -111,36 +112,41 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
             if (started == true) {
                 if (started2 == true) {
                     if (line.contains("ChapterQty", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                        bookCount[i] = formatFromIni(line.remove("ChapterQty =", Qt::CaseInsensitive)).toInt();
+                        m_bookCount[i] = formatFromIni(line.remove( QRegExp("ChapterQty(\\s*)=(\\s*)",Qt::CaseInsensitive))).toInt();
                         i++;
                         //chapterqty auslesen
                         started2 = false;
                     } else if (line.contains("FullName", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                        bookFullName << formatFromIni(line.remove("FullName =", Qt::CaseInsensitive));
+                        m_bookFullName << formatFromIni(line.remove(QRegExp("FullName(\\s*)=(\\s*)",Qt::CaseInsensitive)));
 
                     } else if (line.contains("ShortName", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                        bookShortName << formatFromIni(line.remove("ShortName =", Qt::CaseInsensitive));
+                        m_bookShortName << formatFromIni(line.remove(QRegExp("ShortName(\\s*)=(\\s*)",Qt::CaseInsensitive)));
 
                     }
                 } else if (line.contains("PathName", Qt::CaseInsensitive) && !line.startsWith("//")) {
                     count++;
                     started2 = true;
-                    bookPath << formatFromIni(line.remove("PathName =", Qt::CaseInsensitive));
+                    m_bookPath << formatFromIni(line.remove(QRegExp("PathName(\\s*)=(\\s*)",Qt::CaseInsensitive)));
                     //pathname auslesen
                 }
             }
 
         }
     }
-    m_settings->setBookCount(m_bibleID, bookCount);
-    m_settings->setBookNames(m_bibleID, bookFullName);
+    m_settings->setBookCount(m_bibleID, m_bookCount);
+    m_settings->setBookNames(m_bibleID, m_bookFullName);
     m_settings->setBiblePath(m_bibleID, path);
-    m_settings->setBibleName(m_bibleID, bibleName);
+    m_settings->setBibleName(m_bibleID, m_bibleName);
 }
+/**
+  Reads the ini-file and returns the bible name. If the file is invalid is returns an empty QString.
+  */
 QString BibleQuote::readInfo(QFile &file)
 {
+    bool useShortName = false;
+    m_bibleName.clear();
+    m_bibleShortName.clear();
     int countlines = 0;
-    int invalid = true;
     QString encoding;
     if (m_settings->getModuleSettings(m_bibleID).encoding == "Default" || m_settings->getModuleSettings(m_bibleID).encoding == "") {
         encoding = m_settings->encoding;
@@ -152,9 +158,9 @@ QString BibleQuote::readInfo(QFile &file)
     QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
     QTextDecoder *decoder = codec->makeDecoder();
     while (!file.atEnd()) {
-        if (countlines > 50) { //wenn eine ini datei ungueltig ist soll damit nicht zuviel zeit verguedet werden
+        /*if (countlines > 50) { //wenn eine ini datei ungueltig ist soll damit nicht zuviel zeit verguedet werden
             break;
-        }
+        }*/
         QByteArray byteline = file.readLine();
         QString line = decoder->toUnicode(byteline);
         if (!line.startsWith("//")) {
@@ -163,37 +169,50 @@ QString BibleQuote::readInfo(QFile &file)
             continue;
         }
         if (line.contains("BibleName", Qt::CaseInsensitive)) {
-            bibleName = formatFromIni(line.remove("BibleName =", Qt::CaseInsensitive));//todo: use regexp
-            if (line.contains("BibleName=", Qt::CaseInsensitive)) {
-                bibleName = formatFromIni(line.remove("BibleName=", Qt::CaseInsensitive));
+            m_bibleName = formatFromIni(line.remove(QRegExp("BibleName(\\s*)=(\\s*)",Qt::CaseInsensitive)));
+            if(m_bibleName == "") {
+                useShortName = true;
             }
-            invalid = false;
-            break;
+            if(useShortName && m_bibleShortName != "") {
+                break;
+            } else if(!useShortName) {
+                break;
+            }
+        }
+        if (line.contains("BibleShortName", Qt::CaseInsensitive)) {
+            m_bibleShortName = formatFromIni(line.remove(QRegExp("BibleShortName(\\s*)=(\\s*)",Qt::CaseInsensitive)));
+            if(useShortName)
+                break;
         }
 
-    }
-    if (invalid == true) {
-        myDebug() << "invalid ini File " << file.fileName();
+
     }
     file.close();
-    return bibleName;
+    if(useShortName) {
+        m_bibleName = m_bibleShortName;
+    }
+    if (m_bibleName.isEmpty()) {
+        myDebug() << "invalid ini File " << file.fileName();
+    }
+    return m_bibleName;
 }
 int BibleQuote::readBook(int id, QString path)
 {
     //DEBUG_FUNC_NAME
     //chapterText.clear();
-    chapterData.clear();
+    m_chapterData.clear();
 
     m_bookID = id;
-    path = currentBiblePath + "/" + path;
+    path = m_biblePath + "/" + path;
 
     QFile file;
     file.setFileName(path);
+
     QString out = "", out2;
     bool chapterstarted = false;
     int ccount2 = 0;
     QStringList chapterText;
-    QStringList removeHtml2 = removeHtml.split(" ");
+    QStringList removeHtml2 = m_removeHtml.split(" ");
     myDebug() << "id = " << id << " path = " << path << " fileName = " << file.fileName();
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QString encoding;
@@ -211,7 +230,6 @@ int BibleQuote::readBook(int id, QString path)
             
             //filterout
             if (m_settings->getModuleSettings(m_bibleID).biblequote_removeHtml == true && removeHtml2.size() > 0) {
-                myDebug() << "removing real html";
                 for (int i = 0; i < removeHtml2.size(); i++) {
                     QString r = removeHtml2.at(i);
                     line = line.remove(r, Qt::CaseInsensitive);
@@ -221,10 +239,10 @@ int BibleQuote::readBook(int id, QString path)
                 line = line.remove("CLASS=\"Tx\">");*/
             }
             out2 += line;
-            if (chapterstarted == false && line.contains(chaptersign)) {
+            if (chapterstarted == false && line.contains(m_chapterSign)) {
                 chapterstarted = true;
             }
-            if (chapterstarted == true && line.contains(chaptersign)) {
+            if (chapterstarted == true && line.contains(m_chapterSign)) {
                 ccount2++;
                 chapterText << out;
                 out = line;
@@ -247,9 +265,7 @@ int BibleQuote::readBook(int id, QString path)
                 return readBook(id,f);
             }
         }
-
-
-        return 2;
+        return 2;//don't show a error
     }
     if (ccount2 == 0) {
         chapterText << out2;
@@ -259,13 +275,13 @@ int BibleQuote::readBook(int id, QString path)
     for (int i = 0; i < chapterText.size(); i++) {
         Chapter c;
         QString a = chapterText.at(i);
-        QStringList b = a.split(versesign);
+        QStringList b = a.split(m_verseSign);
         for(int j = 0; j < b.size(); j++) { //split removes versesign but it is needed
             QString a = b.at(j);
-            b.replace(j,a.prepend(versesign));
+            b.replace(j,a.prepend(m_verseSign));
         }
         c.data << b;
-        chapterData << c;
+        m_chapterData << c;
     }
     file.close();
     return 0;
@@ -278,21 +294,20 @@ SearchResult BibleQuote::search(SearchQuery query)
     if (query.wholeWord == true) {
         query.searchText = " " + query.searchText + " ";
     }
-    lastSearchQuery = query;
     QStringList ctext;
     QList<QByteArray> bytetext;
-    QProgressDialog progress(QObject::tr("Searching"), QObject::tr("Cancel"), 0, bookPath.size());
+    QProgressDialog progress(QObject::tr("Searching"), QObject::tr("Cancel"), 0, m_bookPath.size());
     progress.setWindowModality(Qt::WindowModal);
     SearchResult result;
     result.searchQuery = query;
-    for (int id = 0; id < bookPath.size(); id++) {
+    for (int id = 0; id < m_bookPath.size(); id++) {
         if (progress.wasCanceled())
             return result;
         progress.setValue(id);
         bytetext.clear();
         ctext.clear();
-        QString path = bookPath.at(id);
-        path = currentBiblePath + "/" + path;
+        QString path = m_bookPath.at(id);
+        path = m_biblePath + "/" + path;
         QFile file(path);
         QByteArray out = "", out2 = "";
         bool chapterstarted = false;
@@ -303,10 +318,10 @@ SearchResult BibleQuote::search(SearchQuery query)
                 QByteArray byteline = file.readLine();
                 QString line(byteline);
                 out2 += byteline;
-                if (chapterstarted == false && line.contains(chaptersign)) {
+                if (chapterstarted == false && line.contains(m_chapterSign)) {
                     chapterstarted = true;
                 }
-                if (chapterstarted == true && line.contains(chaptersign)) {
+                if (chapterstarted == true && line.contains(m_chapterSign)) {
                     ccount2++;
                     bytetext << out;
                     out = byteline;
@@ -338,7 +353,7 @@ SearchResult BibleQuote::search(SearchQuery query)
         }
         myDebug() << "ctext.size() = " << ctext.size();
         for (int chapterit = 0; chapterit < ctext.size(); chapterit++) {
-            QStringList verses = ctext[chapterit].split(versesign);
+            QStringList verses = ctext[chapterit].split(m_verseSign);
             for (int verseit = 0; verseit < verses.size(); ++verseit) {
                 QString t = verses.at(verseit);
                 bool b2;

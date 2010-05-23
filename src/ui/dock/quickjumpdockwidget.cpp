@@ -35,29 +35,29 @@ void QuickJumpDockWidget::init()
 }
 void QuickJumpDockWidget::setBooks(QStringList list)
 {
-    books = list;
+    m_books = list;
 
     QStringList l;
-    l << books;
-    l << hist;
-    completer = new QCompleter(l, this);
-    completer->setCaseSensitivity(Qt::CaseInsensitive);
-    ui->lineEdit_goTo->setCompleter(completer);
+    l << m_books;
+    l << m_hist;
+    m_completer = new QCompleter(l, this);
+    m_completer->setCaseSensitivity(Qt::CaseInsensitive);
+    ui->lineEdit_goTo->setCompleter(m_completer);
 }
 
 void QuickJumpDockWidget::goToPos()
 {
     QString text = ui->lineEdit_goTo->text();
-    hist << text;
+    m_hist << text;
 
     QStringList l;
-    l << books;
-    l << hist;
-    completer = new QCompleter(l, this);
-    completer->setCaseSensitivity(Qt::CaseInsensitive);
-    ui->lineEdit_goTo->setCompleter(completer);
+    l << m_books;
+    l << m_hist;
+    m_completer = new QCompleter(l, this);
+    m_completer->setCaseSensitivity(Qt::CaseInsensitive);
+    ui->lineEdit_goTo->setCompleter(m_completer);
 
-    GoTo go(m_moduleManager->m_bible.bibleID(), m_moduleManager->m_bible.bookFullName);
+    GoTo go(m_moduleManager->m_bible.bibleID(), m_moduleManager->m_bible.bookFullName());
     QString url = go.getUrl(text);
     emit get(url);
     return;

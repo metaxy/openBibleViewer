@@ -70,8 +70,8 @@ private:
     /* SimpleInterface *simpleInterface;
      AdvancedInterface *advancedInterface ;
      StudyInterface *studyInterface;*/
-    QToolBar *toolBar;
-    QMenuBar *menuBar;
+    QToolBar *m_toolBar;
+    QMenuBar *m_menuBar;
     void loadInterface();
     void deleteInterface();
     ModuleManager *m_moduleManager;
@@ -85,7 +85,7 @@ private:
     void loadDefaultSettings();
     void loadSettings();
     void restoreSession();
-    int reloadLang;
+    int m_reloadLang;
 
 };
 

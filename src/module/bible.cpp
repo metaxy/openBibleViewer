@@ -25,7 +25,7 @@ Bible::Bible()
     m_bibleID = -1;
     //m_settings = new Settings();
 }
-void Bible::setBibleType(const int &type)
+void Bible::setBibleType(const BibleType &type)
 {
     //todo:check if type is valid
     m_bibleType = type;
@@ -34,8 +34,8 @@ void Bible::setBibleType(const int &type)
 void Bible::setSettings(Settings *settings)
 {
     m_settings = settings;
-    bq.setSettings(m_settings);
-    zef.setSettings(m_settings);
+    m_bq.setSettings(m_settings);
+    m_zef.setSettings(m_settings);
 }
 void Bible::setBibleDisplaySettings(BibleDisplaySettings bibleDisplaySettings)
 {
@@ -51,31 +51,35 @@ int Bible::loadBibleData(const int &bibleID, const QString &path)
     }
     // myDebug() << "bibleID = " << bibleID << " path = " << path << " bibleType =" << m_bibleType;
     m_bibleID = bibleID;
-
+    //todo:
+    /*m_bq.clear();
+    m_zef.clear();*/
     switch (m_bibleType) {
     case BibleQuoteModule: {
-        bq.setSettings(m_settings);
-        bq.loadBibleData(bibleID, path);
-        bibleTitle = bq.bibleName;
-        bookCount = bq.bookCount;
-        bookFullName = bq.bookFullName;
-        bookPath = bq.bookPath;
+        m_bq.setSettings(m_settings);
+        m_bq.loadBibleData(bibleID, path);
+        m_bibleTitle = m_bq.m_bibleName;
+        bookCount = m_bq.m_bookCount;
+        m_bookFullName = m_bq.m_bookFullName;
+        m_bookPath = m_bq.m_bookPath;
         m_chapterAdd = 1;
-        m_biblePath = bq.currentBiblePath;
+        m_biblePath = m_bq.m_biblePath;
         break;
     }
-    case ZefaniaBibleModule: { //zefania bible
+    case ZefaniaBibleModule: {
         ModuleSettings m = m_settings->getModuleSettings(m_bibleID);
-        zef.setSettings(m_settings);
-        zef.loadBibleData(bibleID, path);
-        bibleTitle = m.moduleName;
-        bookCount = zef.bookCount;
-        bookFullName = zef.bookFullName;
-        myDebug() << "bookFullName = " << bookFullName  << " bookCount = " << bookCount;
+        m_zef.setSettings(m_settings);
+        m_zef.loadBibleData(bibleID, path);
+        m_bibleTitle = m.moduleName;
+        bookCount = m_zef.bookCount;
+        m_bookFullName = m_zef.bookFullName;
+        myDebug() << "bookFullName = " << m_bookFullName  << " bookCount = " << bookCount;
         m_chapterAdd = 0;
-        m_biblePath = zef.currentBiblePath;
+        m_biblePath = m_zef.currentBiblePath;
         break;
     }
+    default:
+        return 1;
     }
     return 0;
 }
@@ -89,47 +93,54 @@ int Bible::readBook(int id)
     //myDebug() << "id = " << id << " bibleType = " << m_bibleType;
     switch (m_bibleType) {
     case BibleQuoteModule: {
-        chapterData.clear();
-        chapterNames.clear();
-        if (id < bookPath.size()) {
-            int r = bq.readBook(id, bookPath.at(id));
+        m_chapterData.clear();
+        m_chapterNames.clear();
+        if (id < m_bookPath.size()) {
+            int r = m_bq.readBook(id, m_bookPath.at(id));
             myDebug() << "bq readbook = " << r;
             if (r != 0)
                 return r;
         } else {
-            myDebug() << "index out of range bookPath.size() = " << bookPath.size() << " , id = " << id;
+            myDebug() << "index out of range bookPath.size() = " << m_bookPath.size() << " , id = " << id;
             return 1;
         }
-        chapterData = bq.chapterData;
+        m_chapterData = m_bq.m_chapterData;
 
         int cc = bookCount[id];
-        if (bq.chapterZero == true) {
+        if (m_bq.m_chapterZero == true) {
             for (int i = 0; i < cc; i++) {
-                chapterNames << QString::number(i);
+                m_chapterNames << QString::number(i);
             }
         } else {
             for (int i = 1; i <= cc; i++) {
-                chapterNames << QString::number(i);
+                m_chapterNames << QString::number(i);
             }
         }
         break;
     }
     case ZefaniaBibleModule: { //zefania
-        chapterData.clear();
-        chapterNames.clear();
-        zef.readBook(id);
-        chapterData = zef.chapterData;
-        for (int i = 1; i <= zef.bookCount[id]; i++) {
-            chapterNames << QString::number(i);
+        m_chapterData.clear();
+        m_chapterNames.clear();
+        m_zef.readBook(id);
+        m_chapterData = m_zef.chapterData;
+        for (int i = 1; i <= m_zef.bookCount[id]; i++) {
+            m_chapterNames << QString::number(i);
         }
         break;
     }
+    default:
+        return 1;
     }
     return 0;
 }
 
 QString Bible::readChapter(int chapterID, int verseID = -1)
 {
+    if(verseID != -1) {
+        m_verseID = verseID;
+    } else {
+        m_verseID = 0;
+    }
     m_chapterID = chapterID;
     return readVerse(chapterID, 0, -1, verseID, true);
 
@@ -145,17 +156,17 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     if (startVerse < 0)
         startVerse = 0;
     if (saveRawData)
-        chapterDataList.clear();
+        m_chapterDataList.clear();
 
     QString out = "";//Return
     QStringList versList;
     switch (m_bibleType) {
     case BibleQuoteModule: {
-        if (chapterID >= chapterData.size()) {
-            myDebug() << "index out of range index chapter chapterID = " << chapterID  << " chapterData.size() = " << chapterData.size();
+        if (chapterID >= m_chapterData.size()) {
+            myDebug() << "index out of range index chapter chapterID = " << chapterID  << " chapterData.size() = " << m_chapterData.size();
             break;
         }
-        Chapter chapter = chapterData.at(chapterID);//get data for this chapter
+        Chapter chapter = m_chapterData.at(chapterID);//get data for this chapter
         //find out whereto read verse
         int end;
         if (endVerse == -1) {
@@ -179,11 +190,11 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     case ZefaniaBibleModule: { //zefania
         qDebug() << "bible::readVerse() zefania read";
 
-        if (chapterID >= chapterData.size()) {
-            myDebug() << "index out of range index chapterID = " << chapterID  << " chapterData.size() = " << chapterData.size();
+        if (chapterID >= m_chapterData.size()) {
+            myDebug() << "index out of range index chapterID = " << chapterID  << " chapterData.size() = " << m_chapterData.size();
             break;
         }
-        Chapter c = chapterData.at(chapterID);
+        Chapter c = m_chapterData.at(chapterID);
 
         if (saveRawData) {
             /*if (m_settings->getModuleSettings(m_bibleID).zefbible_textFormatting == 0) {
@@ -192,7 +203,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 out = "<p class=\"block\">";;
             }*/
             out += "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";//title
-            chapterDataList << out;
+            m_chapterDataList << out;
         }
 
         int end;
@@ -211,7 +222,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                     if (m_notes->getType(noteID) == "text") {
                         QString link = m_notes->getRef(noteID, "link");
                         UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
-                        urlConverter.m_biblesIniPath = biblesIniPath;
+                        urlConverter.m_biblesRootPath = m_biblesRootPath;
                         urlConverter.pharse();
 
                         if (urlConverter.m_bibleID.toInt() == m_bibleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID && urlConverter.m_verseID == i) {
@@ -239,6 +250,8 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         }
         break;
     }
+    default:
+        return "";
     }
     if (m_notes != 0 && m_bibleDisplaySettings.loadNotes == true) {
         for (int n = 0; n <  m_notes->getIDList().size(); ++n) {
@@ -246,7 +259,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
             if (m_notes->getType(noteID) == "mark") {
                 QString link = m_notes->getRef(noteID, "link");
                 UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
-                urlConverter.m_biblesIniPath = biblesIniPath;
+                urlConverter.m_biblesRootPath = m_biblesRootPath;
                 urlConverter.pharse();
 
                 if (urlConverter.m_bibleID.toInt() == m_bibleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID) {
@@ -310,12 +323,12 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     for (int i = 0; i < versList.size(); ++i) {
         out += versList.at(i);
         if (saveRawData)
-            chapterDataList.append(versList.at(i));
+            m_chapterDataList.append(versList.at(i));
     }
 
     if (saveRawData) {
         //out += "</p>";
-        lastout = out;
+        m_lastout = out;
     }
 
     return out;
@@ -365,36 +378,38 @@ QStringList Bible::toUniformHtml(QStringList string)
   */
 SearchResult Bible::search(SearchQuery query)
 {
-    lastSearchQuery = query;
+    m_lastSearchQuery = query;
     SearchResult result;
     switch (m_bibleType) {
     case BibleQuoteModule: {
-        result = bq.search(query);
+        result = m_bq.search(query);
         break;
     }
     case ZefaniaBibleModule: {
-        result = zef.search(query);
+        result = m_zef.search(query);
         break;
     }
+    default:
+        break;
     }
-    lastSearchResult = result;
+    m_lastSearchResult = result;
     return result;
 }
 QMap<int, QList<Chapter> > Bible::getSoftCache()
 {
     DEBUG_FUNC_NAME
     //todo: add bq
-    return zef.softCache();
+    return m_zef.softCache();
 }
 void Bible::clearSoftCache()
 {
     DEBUG_FUNC_NAME
-    zef.clearSoftCache();
+    m_zef.clearSoftCache();
     //todo: add for bq a soft cache
 }
 void Bible::setSoftCache(QMap<int, QList<Chapter> > cache)
 {
-    zef.setSoftCache(cache);
+    m_zef.setSoftCache(cache);
 }
 QStringList Bible::getSearchPaths()
 {
@@ -403,8 +418,8 @@ QStringList Bible::getSearchPaths()
     } else if (m_bibleType == BibleQuoteModule) {
         QStringList l;
         l.append(QString(m_biblePath + QDir::separator()));
-        if (m_bookID < bookPath.size()) {
-            QString p = bookPath.at(m_bookID);
+        if (m_bookID < m_bookPath.size()) {
+            QString p = m_bookPath.at(m_bookID);
             int pos = p.lastIndexOf(QDir::separator());
             if (pos != -1) {
                 p = p.remove(pos, p.size());
@@ -443,9 +458,50 @@ int Bible::chapterAdd()
 int Bible::booksCount()
 {
     //todo: if there are another module rethink this function
-    return bookFullName.size();
+    return m_bookFullName.size();
 }
 int Bible::chaptersCount()
 {
-    return chapterData.size();
+    return m_chapterData.size();
+}
+QString Bible::biblePath()
+{
+    return m_biblePath;
+}
+QString Bible::bibleTitle()
+{
+    return m_bibleTitle;
+}
+QStringList Bible::bookFullName()
+{
+    return m_bookFullName;
+}
+QStringList Bible::bookPath()
+{
+    return m_bookPath;
+}
+
+QStringList Bible::chapterDataList()
+{
+    return m_chapterDataList;
+}
+QStringList Bible::chapterNames()
+{
+    return m_chapterNames;
+}
+Bible::BibleType Bible::bibleType()
+{
+    return m_bibleType;
+}
+int Bible::verseID()
+{
+    return m_verseID;
+}
+QStringList Bible::biblesRootPath()
+{
+    return m_biblesRootPath;
+}
+void Bible::setBiblesRootPath(QStringList biblesRootPath)
+{
+    m_biblesRootPath = biblesRootPath;
 }

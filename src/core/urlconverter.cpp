@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "urlconverter.h"
 #include "dbghelper.h"
-UrlConverter::UrlConverter(const int &from, const int &to, const QString &url)
+UrlConverter::UrlConverter(const UrlType &from, const UrlType &to, const QString &url)
 {
     m_from = from;
     m_to = to;
@@ -28,18 +28,18 @@ UrlConverter::UrlConverter(const int &from, const int &to, const QString &url)
 }
 QString UrlConverter::convert()
 {
-    // DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     QString ret;
     if (m_to == InterfaceUrl) {
         ret = "bible://" + m_bibleID + "/" + QString::number(m_bookID) + "," + QString::number(m_chapterID) + "," + QString::number(m_verseID);
     } else if (m_to == PersistentUrl) {
-        ret = m_biblesIniPath.at(m_bibleID.toInt()) + ";" + QString::number(m_bookID) + ";" + QString::number(m_chapterID) + ";" + QString::number(m_verseID);
+        ret = m_biblesRootPath.at(m_bibleID.toInt()) + ";" + QString::number(m_bookID) + ";" + QString::number(m_chapterID) + ";" + QString::number(m_verseID);
         if (!m_bookName.isEmpty()) {
             ret += ";" + m_bookName;//check for invalid charatcers
         }
     } else if (m_to == BibleQuoteUrl) {
     }
-    //myDebug() << ret << "bibleID = " << m_bibleID << " iniPath = " << m_biblesIniPath;
+    myDebug() << ret << "bibleID = " << m_bibleID << " iniPath = " << m_biblesRootPath;
     return ret;
 }
 int UrlConverter::pharse()
@@ -86,8 +86,8 @@ int UrlConverter::pharse()
         m_chapterID = schapterID.toInt();
         m_verseID = sverseID.toInt();
         //get bibleID
-        for (int i = 0; i < m_biblesIniPath.size(); i++) {
-            if (m_biblesIniPath.at(i) == path) {
+        for (int i = 0; i < m_biblesRootPath.size(); i++) {
+            if (m_biblesRootPath.at(i) == path) {
                 m_bibleID = QString::number(i);
                 break;
             }
@@ -96,11 +96,11 @@ int UrlConverter::pharse()
     }
     return 0;
 }
-void UrlConverter::setFrom(const int &urlType)
+void UrlConverter::setFrom(const UrlType &urlType)
 {
     m_from = urlType;
 }
-void UrlConverter::setTo(const int &urlType)
+void UrlConverter::setTo(const UrlType &urlType)
 {
     m_to = urlType;
 }

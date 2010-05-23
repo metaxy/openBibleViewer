@@ -14,7 +14,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef BIBLE_H
 #define BIBLE_H
 #include <QtCore/QObject>
-#include <QtXml/QDomElement>
 #include <QtCore/QMap>
 #include "src/module/biblequote.h"
 #include "src/module/zefania-bible.h"
@@ -23,27 +22,27 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/simplemoduleclass.h"
 #include "src/core/bibledisplaysettings.h"
 /*!
- Bible represent a bible module(eg biblequote module)
+ Bible represent a bible module(eg biblequote module or zefania xml module)
+ It read the module over the module, get the raw data, format it.
 
  @author Paul Walger <metaxy@walger.name>
 */
 class Bible : public SimpleModuleClass
 {
 public:
-    enum BibleTypes {
+    enum BibleType {
         None = 0,
         BibleQuoteModule = 1,
         ZefaniaBibleModule = 2
     };
     Bible();
     void setSettings(Settings *settings);
-    void setBibleType(const int &type);
+    void setBibleType(const BibleType &type);
     QMap<int, QList<Chapter> > getSoftCache();
     void clearSoftCache();
     void setSoftCache(QMap<int, QList<Chapter> > cache);
 
     void setBibleDisplaySettings(BibleDisplaySettings bibleDisplaySettings);
-    BibleDisplaySettings m_bibleDisplaySettings;
 
     int loadBibleData(const int &bibleID, const QString &path);
     int readBook(int id);
@@ -57,28 +56,54 @@ public:
 
     int bibleID();
     void setBibleID(const int &bible);
+
+    BibleType bibleType();
+
     int bookID();
     int chapterID();
+    int verseID();
     int chapterAdd();
     int booksCount();
     int chaptersCount();
 
-    QString bibleTitle, lastout, m_biblePath;
-    SearchQuery lastSearchQuery;
-    SearchResult lastSearchResult;
-    QStringList bookFullName, chapterText, bookPath, chapterNames, chapterDataList;
-    QStringList biblesIniPath;
-    QList<Chapter> chapterData;
-    int m_bibleType;
-    int m_verseID;
-    BibleQuote bq;
-    ZefaniaBible zef;
+    QString bibleTitle();
+    QString biblePath();
+
+    QStringList bookFullName();
+    QStringList bookPath();
+    QStringList chapterNames();
+    QStringList chapterDataList();
+    QStringList biblesRootPath();
+    void setBiblesRootPath(QStringList biblesRootPath);
+
+    SearchQuery m_lastSearchQuery;
+
+    QList<Chapter> m_chapterData;
+
+
+    BibleQuote m_bq;
+    ZefaniaBible m_zef;
 private:
     int m_bibleID;
     int m_bookID;
     int m_chapterID;
+    int m_verseID;
     int m_chapterAdd;
+    BibleType m_bibleType;
     QMap <int, int> bookCount;
+    QString m_lastout;
+    QString m_bibleTitle;
+    QString m_biblePath;
+
+    QStringList m_bookFullName;
+    QStringList m_chapterText;
+    QStringList m_bookPath;
+    QStringList m_chapterNames;
+    QStringList m_chapterDataList;
+    QStringList m_biblesRootPath;
+
+    SearchResult m_lastSearchResult;
+    BibleDisplaySettings m_bibleDisplaySettings;
 
 };
 

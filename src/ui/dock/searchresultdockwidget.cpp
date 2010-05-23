@@ -40,7 +40,7 @@ void SearchResultDockWidget::setSearchResult(SearchResult searchResult)
     QList<SearchHit> hits = searchResult.hits();
     for (int i = 0; i < hits.size(); ++i) {
         SearchHit hit = hits.at(i);
-        QString bookn = m_moduleManager->m_bible.bookFullName.at(hit.bookID());
+        QString bookn = m_moduleManager->m_bible.bookFullName().at(hit.bookID());
         outlist << bookn + " " + QString::number(hit.chapterID()) + " , " + QString::number(hit.verseID());
     }
     ui->listWidget_search->clear();
@@ -68,12 +68,12 @@ void SearchResultDockWidget::searchInfo()
     }
     QStringList textList;
 
-    bookNames = m_moduleManager->m_bible.bookFullName;
+    bookNames = m_moduleManager->m_bible.bookFullName();
     result = m_searchResult;
 
     for (int i = 0; i < result.hits().size(); ++i) {
         SearchHit hit = result.hits().at(i);
-        QString bookn = m_moduleManager->m_bible.bookFullName.at(hit.bookID());
+        QString bookn = m_moduleManager->m_bible.bookFullName().at(hit.bookID());
         textList << hit.text() + "\n - <i>" + bookn + " " + QString::number(hit.chapterID()) + " , " + QString::number(hit.verseID()) + "</i>";
     }
     searchString = m_searchResult.searchQuery.searchText;

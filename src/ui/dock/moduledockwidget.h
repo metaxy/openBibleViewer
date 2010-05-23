@@ -41,7 +41,6 @@ public:
     void loadedModule(int id);
 protected:
     void changeEvent(QEvent *e);
-    // bool eventFilter(QObject *obj, QEvent *event);
 signals:
     void get(QString);
 private:
@@ -51,8 +50,6 @@ private:
     ModuleProxyModel *m_proxyModel;
     QItemSelectionModel *m_selectionModel;
     bool first;
-    //  void iterateTreeWidget(QTreeWidgetItem *parent = 0);
-//   void iterateTreeWidgetHide(QTreeWidgetItem *parent = 0);
 
 };
 

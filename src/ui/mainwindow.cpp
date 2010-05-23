@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    reloadLang = false;
+    m_reloadLang = false;
 }
 
 MainWindow::~MainWindow()
@@ -48,10 +48,10 @@ MainWindow::~MainWindow()
     m_notes = 0;
     delete m_settingsFile;
     m_settingsFile = 0;
-    delete toolBar;
-    toolBar = 0;
-    delete menuBar;
-    menuBar = 0;
+    delete m_toolBar;
+    m_toolBar = 0;
+    delete m_menuBar;
+    m_menuBar = 0;
     delete m_interface;
     m_interface = 0;
 }
@@ -70,7 +70,6 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 
     loadDefaultSettings();
     loadSettings();
-    //loadLanguage(m_settings->language);
 
     m_moduleManager->setSettings(m_settings);
     m_moduleManager->loadAllModules();
@@ -95,11 +94,11 @@ void MainWindow::deleteInterface()
     DEBUG_FUNC_NAME
     if (m_interface->hasToolBar()) {
         myDebug() << "removing toolbar bar = " << m_interface->toolBar();
-        removeToolBar(toolBar);
+        removeToolBar(m_toolBar);
 
     }
     if (m_interface->hasMenuBar()) {
-        delete menuBar;
+        delete m_menuBar;
     }
 
 
@@ -165,12 +164,12 @@ void MainWindow::loadSimpleInterface()
     m_interface->init();
     setCentralWidget(m_interface);
     if (m_interface->hasMenuBar()) {
-        menuBar = m_interface->menuBar();
-        setMenuBar(menuBar);
+        m_menuBar = m_interface->menuBar();
+        setMenuBar(m_menuBar);
     }
     if (m_interface->hasToolBar())
-        toolBar = m_interface->toolBar();
-    addToolBar(toolBar);
+        m_toolBar = m_interface->toolBar();
+    addToolBar(m_toolBar);
     connect(this, SIGNAL(settingsChanged(Settings, Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
 }
@@ -215,18 +214,17 @@ void MainWindow::loadAdvancedInterface()
 
     setCentralWidget(m_interface);
     if (m_interface->hasMenuBar()) {
-        menuBar = m_interface->menuBar();
-        setMenuBar(menuBar);
+        m_menuBar = m_interface->menuBar();
+        setMenuBar(m_menuBar);
     }
     if (m_interface->hasToolBar()) {
-        toolBar = m_interface->toolBar();
-        addToolBar(toolBar);
+        m_toolBar = m_interface->toolBar();
+        addToolBar(m_toolBar);
     }
     connect(this, SIGNAL(settingsChanged(Settings, Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
     m_interface->init();
     QTimer::singleShot(1, m_interface, SLOT(restoreSession()));
-
 
 }
 void MainWindow::loadStudyInterface()
@@ -442,7 +440,6 @@ void MainWindow::writeSettings()
 }
 void MainWindow::saveSettings(Settings newSettings)
 {
-    //DEBUG_FUNC_NAME
     Settings oldSettings = *m_settings;
 
     setSettings(newSettings);
@@ -459,7 +456,6 @@ void MainWindow::saveSettings(Settings newSettings)
 }
 void MainWindow::showSettingsDialog(int tabID)
 {
-    //DEBUG_FUNC_NAME
     SettingsDialog setDialog(this);
     connect(&setDialog, SIGNAL(settingsChanged(Settings)), this, SLOT(saveSettings(Settings)));
     setDialog.setSettings(*m_settings);
@@ -483,7 +479,6 @@ void MainWindow::setTranslator(QTranslator *my, QTranslator *qt)
 }
 void MainWindow::loadLanguage(QString language)
 {
-    //DEBUG_FUNC_NAME
     QStringList avLang;
     //QTranslator myappTranslator;
     QTranslator qtTranslator;
@@ -496,7 +491,7 @@ void MainWindow::loadLanguage(QString language)
         }
     }
     bool loaded = myappTranslator->load(":/data/obv_" + language + ".qm");
-    reloadLang = true;
+    m_reloadLang = true;
     if (loaded == false) {
         QMessageBox::warning(this, tr("Installing Language failed"), tr("Please choose an another language."));
     }
@@ -536,19 +531,19 @@ void MainWindow::changeEvent(QEvent *e)
     case QEvent::LanguageChange:
         myDebug() << "retranslate";
         ui->retranslateUi(this);
-        if(reloadLang) {
+        if(m_reloadLang) {
             if (m_interface->hasMenuBar()) {
-                menuBar = m_interface->menuBar();
-                setMenuBar(menuBar);
+                m_menuBar = m_interface->menuBar();
+                setMenuBar(m_menuBar);
             }
 
             if (m_interface->hasToolBar()) {
-                removeToolBar(toolBar);
-                toolBar = m_interface->toolBar();
-                addToolBar(toolBar);
+                removeToolBar(m_toolBar);
+                m_toolBar = m_interface->toolBar();
+                addToolBar(m_toolBar);
             }
             //todo: ugly
-            reloadLang = false;
+            m_reloadLang = false;
         }
         break;
     default:

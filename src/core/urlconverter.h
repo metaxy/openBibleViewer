@@ -18,15 +18,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class UrlConverter
 {
 public:
-    UrlConverter(const int &from, const int &to, const QString &url);
-    enum urlType {
+    enum UrlType {
         None = -1,
         InterfaceUrl = 0,
         PersistentUrl = 1,
         BibleQuoteUrl = 2
     };
-    void setFrom(const int &urlType);
-    void setTo(const int &urlType);
+    UrlConverter(const UrlType &from, const UrlType &to, const QString &url);
+
+    void setFrom(const UrlType &urlType);
+    void setTo(const UrlType &urlType);
     void setUrl(const QString &url);
     int pharse();
 
@@ -36,11 +37,11 @@ public:
     int m_chapterID;
     int m_bookID;
     int m_verseID;
-    QStringList m_biblesIniPath;
+    QStringList m_biblesRootPath;
     QString m_bookName;
 private:
-    int m_from;
-    int m_to;
+    UrlType m_from;
+    UrlType m_to;
     QString m_url;
 };
 

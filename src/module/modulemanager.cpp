@@ -109,7 +109,7 @@ int ModuleManager::loadAllModules()
                         QString bname;
                         switch (bibletype) {
                         case Bible::BibleQuoteModule: {
-                            bname = bible.bq.readInfo(file);
+                            bname = bible.m_bq.readInfo(file);
                             if (bname.size() > 0) {
                                 Module module;
                                 module.m_path = file.fileName();
@@ -136,7 +136,7 @@ int ModuleManager::loadAllModules()
                         }
                         case Bible::ZefaniaBibleModule: {
                             //ZenfaniaXML-Bible
-                            bname = bible.zef.readInfo(file);
+                            bname = bible.m_zef.readInfo(file);
                             if (bname.size() > 0) {
 
                                 Module module;
@@ -248,7 +248,7 @@ int ModuleManager::loadAllModules()
         //if(m_moduleList.at(i).m_moduleClass == Module::BibleModule)
         iniPath << m_moduleList.at(i).m_path;
     }
-    m_bible.biblesIniPath = iniPath;
+    m_bible.setBiblesRootPath(iniPath);
     return 0;
 }
 /**
@@ -277,7 +277,7 @@ QString ModuleManager::notePos2Link(const QString &pos)
     //DEBUG_FUNC_NAME
     QString string = "";
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
-    urlConverter.m_biblesIniPath = m_bible.biblesIniPath;
+    urlConverter.m_biblesRootPath = m_bible.biblesRootPath();
     urlConverter.pharse();
     QString link = urlConverter.convert();
 
@@ -289,7 +289,7 @@ QString ModuleManager::notePos2Text(const QString &pos)
     //DEBUG_FUNC_NAME
     QString string = "";
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
-    urlConverter.m_biblesIniPath = m_bible.biblesIniPath;
+    urlConverter.m_biblesRootPath = m_bible.biblesRootPath();
     urlConverter.pharse();
     QString link = urlConverter.convert();
 

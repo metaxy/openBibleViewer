@@ -31,7 +31,7 @@ public:
         ZefaniaStrongModule = 3
     };
     int m_moduleClass;
-    int m_moduleType;
+    ModuleType m_moduleType;
     QString m_path;
     QString m_title;
     int m_id;

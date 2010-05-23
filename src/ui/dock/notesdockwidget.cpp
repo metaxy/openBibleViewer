@@ -71,7 +71,7 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
     QString link = ref["link"];
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, link);
-    urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
+    urlConverter.m_biblesRootPath = m_moduleManager->m_bible.biblesRootPath();
     urlConverter.pharse();
     urlConverter.convert();
     myDebug() << urlConverter.m_bibleID.toInt() << ":" << m_moduleManager->m_bible.bibleID();
@@ -92,7 +92,7 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     QString link = ref["link"];
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, link);
-    urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
+    urlConverter.m_biblesRootPath = m_moduleManager->m_bible.biblesRootPath();
     urlConverter.pharse();
     urlConverter.convert();
     myDebug() << urlConverter.m_bibleID.toInt() << ":" << m_moduleManager->m_bible.bibleID();
@@ -176,12 +176,12 @@ void NotesDockWidget::newMark(VerseSelection selection, QColor color)
     }
     QString link;
     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
-    urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
+    urlConverter.m_biblesRootPath = m_moduleManager->m_bible.biblesRootPath();
     urlConverter.m_bibleID = QString::number(m_moduleManager->m_bible.bibleID());
     urlConverter.m_bookID = m_moduleManager->m_bible.bookID();
     urlConverter.m_chapterID = m_moduleManager->m_bible.chapterID() - m_moduleManager->m_bible.chapterAdd();
     urlConverter.m_verseID = selection.startVerse;
-    urlConverter.m_bookName = m_moduleManager->m_bible.bookFullName.at(m_moduleManager->m_bible.bookID());
+    urlConverter.m_bookName = m_moduleManager->m_bible.bookFullName().at(m_moduleManager->m_bible.bookID());
     link = urlConverter.convert();
 
     m_notes->saveNotes();
@@ -214,7 +214,7 @@ void NotesDockWidget::removeMark(VerseSelection selection)
             QString noteID = id.at(i);
             QString link = m_notes->getRef(noteID, "link");
             UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
-            urlConverter.m_biblesIniPath = m_moduleManager->m_bible.biblesIniPath;
+            urlConverter.m_biblesRootPath = m_moduleManager->m_bible.biblesRootPath();
             urlConverter.pharse();
 
             if (urlConverter.m_bibleID.toInt() == m_moduleManager->m_bible.bibleID() && urlConverter.m_bookID == m_moduleManager->m_bible.bookID() && urlConverter.m_chapterID == m_moduleManager->m_bible.chapterID()) {

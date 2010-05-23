@@ -39,8 +39,8 @@ protected:
 
 private:
     Ui::ModuleConfigDialog *m_ui;
-    ModuleSettings c;
-    QStringList encodings;
+    ModuleSettings m_moduleSettings;
+    QStringList m_encodings;
 signals:
     void save(ModuleSettings config);
 private slots:

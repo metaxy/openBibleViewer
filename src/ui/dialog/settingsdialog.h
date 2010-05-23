@@ -51,6 +51,7 @@ protected:
 private:
     Settings m_set;
     Settings m_backupSet;
+
     void generateModuleTree();
     QStringList m_encodings;
     QStringList m_langCode;

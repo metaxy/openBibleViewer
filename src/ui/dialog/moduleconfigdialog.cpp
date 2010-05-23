@@ -36,7 +36,7 @@ ModuleConfigDialog::~ModuleConfigDialog()
 void ModuleConfigDialog::setModule(ModuleSettings config)
 {
     //DEBUG_FUNC_NAME
-    c = config;
+    m_moduleSettings = config;
     m_ui->lineEdit_name->setText(config.moduleName);
     m_ui->lineEdit_path->setText(config.modulePath);
     m_ui->comboBox_type->setCurrentIndex(config.moduleType.toInt());
@@ -65,7 +65,7 @@ void ModuleConfigDialog::setModule(ModuleSettings config)
         m_ui->checkBox_showStudyNote->setChecked(true);
     else
         m_ui->checkBox_showStudyNote->setChecked(false);
-    encodings << "Default" << "Apple Roman" << "Big5" << "Big5-HKSCS" << "EUC-JP" << "EUC-KR" << "GB18030-0" << "IBM 850"
+    m_encodings << "Default" << "Apple Roman" << "Big5" << "Big5-HKSCS" << "EUC-JP" << "EUC-KR" << "GB18030-0" << "IBM 850"
     << "IBM 866" << "IBM 874" << "ISO 2022-JP" << "ISO 8859-1" << "ISO 8859-2" << "ISO 8859-3" << "ISO 8859-4"
     << "ISO 8859-5" << "ISO 8859-6" << "ISO 8859-7" << "ISO 8859-8" << "ISO 8859-9" << "ISO 8859-10"
     << "ISO 8859-13" << "ISO 8859-14" << "ISO 8859-15" << "ISO 8859-16" << "Iscii-Bng" << "Dev" << "Gjr"
@@ -74,9 +74,9 @@ void ModuleConfigDialog::setModule(ModuleSettings config)
     << "UTF-16BE" << "UTF-16LE" << "UTF-32" << "UTF-32BE" << "UTF-32LE" << "Windows-1250" << "Windows-1251" << "Windows-1252"
     << "Windows-1253" << "Windows-1254" << "Windows-1255" << "Windows-1256" << "Windows-1257" << "Windows-1258" << "WINSAMI2";
     m_ui->comboBox_encoding->clear();
-    m_ui->comboBox_encoding->insertItems(0, encodings);
-    if (encodings.lastIndexOf(config.encoding) != -1) {
-        m_ui->comboBox_encoding->setCurrentIndex(encodings.lastIndexOf(config.encoding));
+    m_ui->comboBox_encoding->insertItems(0, m_encodings);
+    if (m_encodings.lastIndexOf(config.encoding) != -1) {
+        m_ui->comboBox_encoding->setCurrentIndex(m_encodings.lastIndexOf(config.encoding));
     } else {
         m_ui->comboBox_encoding->setCurrentIndex(0);
     }
@@ -87,30 +87,30 @@ void ModuleConfigDialog::bsave()
 {
     //DEBUG_FUNC_NAME
 
-    if (c.moduleType.toInt() == Bible::ZefaniaBibleModule &&
-            (c.encoding != encodings.at(m_ui->comboBox_encoding->currentIndex()) ||
-             c.moduleType != QString::number(m_ui->comboBox_type->currentIndex()) ||
-             c.modulePath != m_ui->lineEdit_path->text())) {
+    if (m_moduleSettings.moduleType.toInt() == Bible::ZefaniaBibleModule &&
+            (m_moduleSettings.encoding != m_encodings.at(m_ui->comboBox_encoding->currentIndex()) ||
+             m_moduleSettings.moduleType != QString::number(m_ui->comboBox_type->currentIndex()) ||
+             m_moduleSettings.modulePath != m_ui->lineEdit_path->text())) {
         myDebug() << "clear hard in zefania cache";
         ZefaniaBible zef;
         zef.removeHardCache(m_ui->lineEdit_path->text());
-        if (c.modulePath != m_ui->lineEdit_path->text()) {
-            zef.removeHardCache(c.modulePath);
+        if (m_moduleSettings.modulePath != m_ui->lineEdit_path->text()) {
+            zef.removeHardCache(m_moduleSettings.modulePath);
         }
     }
-    c.moduleName = m_ui->lineEdit_name->text();
-    c.modulePath = m_ui->lineEdit_path->text();
-    c.moduleType = QString::number(m_ui->comboBox_type->currentIndex());
-    c.zefbible_textFormatting = m_ui->comboBox_textFromatting->currentIndex();
-    c.biblequote_removeHtml = m_ui->checkBox_removeHtml->isChecked();
-    c.zefbible_hardCache =  m_ui->checkBox_hardCache->isChecked();
-    c.zefbible_softCache =  m_ui->checkBox_softCache->isChecked();
-    c.zefbible_showStrong =  m_ui->checkBox_showStrong->isChecked();
-    c.zefbible_showStudyNote =  m_ui->checkBox_showStudyNote->isChecked();
-    c.encoding = encodings.at(m_ui->comboBox_encoding->currentIndex());
-    c.styleSheet = m_ui->lineEdit_styleSheet->text();
+    m_moduleSettings.moduleName = m_ui->lineEdit_name->text();
+    m_moduleSettings.modulePath = m_ui->lineEdit_path->text();
+    m_moduleSettings.moduleType = QString::number(m_ui->comboBox_type->currentIndex());
+    m_moduleSettings.zefbible_textFormatting = m_ui->comboBox_textFromatting->currentIndex();
+    m_moduleSettings.biblequote_removeHtml = m_ui->checkBox_removeHtml->isChecked();
+    m_moduleSettings.zefbible_hardCache =  m_ui->checkBox_hardCache->isChecked();
+    m_moduleSettings.zefbible_softCache =  m_ui->checkBox_softCache->isChecked();
+    m_moduleSettings.zefbible_showStrong =  m_ui->checkBox_showStrong->isChecked();
+    m_moduleSettings.zefbible_showStudyNote =  m_ui->checkBox_showStudyNote->isChecked();
+    m_moduleSettings.encoding = m_encodings.at(m_ui->comboBox_encoding->currentIndex());
+    m_moduleSettings.styleSheet = m_ui->lineEdit_styleSheet->text();
     //todo:if path type or encoding changed clear cache
-    emit save(c);
+    emit save(m_moduleSettings);
 }
 void ModuleConfigDialog::moduleTypeChanged(int id)
 {
@@ -129,7 +129,7 @@ void ModuleConfigDialog::moduleTypeChanged(int id)
 }
 void  ModuleConfigDialog::fileSelect()
 {
-    if (c.isDir) {
+    if (m_moduleSettings.isDir) {
         QFileDialog dialog(this);
 
         dialog.setFileMode(QFileDialog::Directory);
@@ -143,7 +143,7 @@ void  ModuleConfigDialog::fileSelect()
             }
         }
     } else {
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Open Bible"), c.modulePath, tr("Bibles (*.ini *.xml *.*)"));
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open Bible"), m_moduleSettings.modulePath, tr("Bibles (*.ini *.xml *.*)"));
         if (fileName != "") {
             m_ui->lineEdit_path->setText(fileName);
         }

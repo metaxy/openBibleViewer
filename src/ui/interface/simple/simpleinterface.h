@@ -49,8 +49,6 @@ public:
     void init();
     void loadModuleDataByID(int id);
 
-
-
     bool hasMenuBar();
     QMenuBar* menuBar();
 

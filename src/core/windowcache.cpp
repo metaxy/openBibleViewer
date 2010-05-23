@@ -25,7 +25,7 @@ void WindowCache::setBible(Bible b, bool clearZefCache)
     if (clearZefCache)
         b.clearSoftCache();
     m_b[m_currentWindowID] = b;
-    m_bibletype[m_currentWindowID] = b.m_bibleType;
+    m_bibletype[m_currentWindowID] = b.bibleType();
     //m_bibleName[m_currentWindowID] = b.bibleName;
     //m_books[m_currentWindowID] = b.bookFullName;
 }
