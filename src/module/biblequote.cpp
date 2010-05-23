@@ -32,9 +32,6 @@ int BibleQuote::setSettings(Settings *set)
 }
 QString BibleQuote::formatFromIni(QString input)
 {
-    if (input.startsWith(" ")) { //leerzeichen am anfang
-        input.remove(0, 1);//remove
-    }
     input.replace(QString("\n"), QString(""));//und kein zeilenumbrüche
     return input;
 }
@@ -98,7 +95,7 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
             }
             if (line.contains("ChapterZero", Qt::CaseInsensitive) && !line.startsWith("//")) {
                 QString a = formatFromIni(line.remove(QRegExp("ChapterZero(\\s*)=(\\s*)",Qt::CaseInsensitive)));
-                if (a.contains("Y", Qt::CaseInsensitive)) {
+                if (a.compare("Y", Qt::CaseInsensitive) == 0) {
                     m_chapterZero = true;
                 } else {
                     m_chapterZero = false;

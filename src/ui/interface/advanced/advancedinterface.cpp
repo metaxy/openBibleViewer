@@ -168,16 +168,18 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     subWindow->show();
     ui->mdiArea->setActiveSubWindow(subWindow);
     myDebug() << "b";
-    if (windowsCount == 0  && doAutoLayout) {
-        subWindow->showMaximized();
-    } else if (windowsCount == 1 && doAutoLayout) {
-        firstSubWindow->resize(600, 600);
-        firstSubWindow->showNormal();
-        subWindow->resize(600, 600);
-        subWindow->show();
-    } else if (doAutoLayout) {
-        subWindow->resize(600, 600);
-        subWindow->show();
+    if(ui->mdiArea->viewMode() == QMdiArea::SubWindowView) {
+        if (windowsCount == 0  && doAutoLayout) {
+            subWindow->showMaximized();
+        } else if (windowsCount == 1 && doAutoLayout) {
+            firstSubWindow->resize(600, 600);
+            firstSubWindow->showNormal();
+            subWindow->resize(600, 600);
+            subWindow->show();
+        } else if (doAutoLayout) {
+            subWindow->resize(600, 600);
+            subWindow->show();
+        }
     }
     connect(mForm->m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
     connect(mForm->m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
@@ -189,7 +191,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     connect(this, SIGNAL(historySetUrl(QString)), mForm, SLOT(historyGetUrl(QString)));
     connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closingWindow()));
     m_enableReload = true;
-    if (doAutoLayout) {
+    if (doAutoLayout && ui->mdiArea->viewMode() == QMdiArea::SubWindowView) {
         autoLayout();
     }
     m_internalWindows << subWindow;
@@ -407,7 +409,8 @@ int AdvancedInterface::closingWindow()
         return 1;
     }
     reloadWindow(ui->mdiArea->currentSubWindow());
-    autoLayout();
+    if(ui->mdiArea->viewMode() == QMdiArea::SubWindowView)
+        autoLayout();
     return 0;
 }
 int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
