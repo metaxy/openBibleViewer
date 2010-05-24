@@ -1649,6 +1649,52 @@ QMenuBar* AdvancedInterface::menuBar()
     menuNotes->addAction(actionMarkList);
     // menuNotes->addAction(actionMarkCategories);
 
+    QMenu *menuDocks = new QMenu(tr("Docks"), bar);
+
+    QAction *actionModule = new QAction(tr("Module"), menuDocks);
+    actionModule->setCheckable(true);
+    connect(m_moduleDockWidget,SIGNAL(visibilityChanged(bool)),actionModule,SLOT(setChecked(bool)));
+    connect(actionModule,SIGNAL(triggered(bool)), m_moduleDockWidget, SLOT(setVisible(bool)));
+
+    QAction *actionBooks = new QAction(tr("Books"), menuDocks);
+    actionBooks->setCheckable(true);
+    connect(m_bookDockWidget,SIGNAL(visibilityChanged(bool)),actionBooks,SLOT(setChecked(bool)));
+    connect(actionBooks,SIGNAL(triggered(bool)), m_bookDockWidget, SLOT(setVisible(bool)));
+
+    QAction *actionNotes = new QAction(QIcon(":/icons/16x16/notes-edit.png"), tr("Notes"), menuDocks);
+    actionNotes->setCheckable(true);
+    connect(m_notesDockWidget,SIGNAL(visibilityChanged(bool)),actionNotes,SLOT(setChecked(bool)));
+    connect(actionNotes,SIGNAL(triggered(bool)), m_notesDockWidget, SLOT(setVisible(bool)));
+
+    QAction *actionStrong = new QAction( tr("Strong"), menuDocks);
+    actionStrong->setCheckable(true);
+    connect(m_strongDockWidget,SIGNAL(visibilityChanged(bool)),actionStrong,SLOT(setChecked(bool)));
+    connect(actionStrong,SIGNAL(triggered(bool)), m_strongDockWidget, SLOT(setVisible(bool)));
+
+    QAction *actionBookmarks = new QAction(QIcon(":/icons/16x16/bookmarks-organize.png"), tr("Bookmarks"), menuDocks);
+    actionBookmarks->setCheckable(true);
+    connect(m_bookmarksDockWidget,SIGNAL(visibilityChanged(bool)),actionBookmarks,SLOT(setChecked(bool)));
+    connect(actionBookmarks,SIGNAL(triggered(bool)), m_bookmarksDockWidget, SLOT(setVisible(bool)));
+
+    QAction *actionQuickJump = new QAction( tr("Quick Jump"), menuDocks);
+    actionQuickJump->setCheckable(true);
+    connect(m_quickJumpDockWidget,SIGNAL(visibilityChanged(bool)),actionQuickJump,SLOT(setChecked(bool)));
+    connect(actionQuickJump,SIGNAL(triggered(bool)), m_quickJumpDockWidget, SLOT(setVisible(bool)));
+
+    QAction *actionSearchResults = new QAction(QIcon(":/icons/16x16/table.png"), tr("Search Results"), menuDocks);
+    actionSearchResults->setCheckable(true);
+    connect(m_searchResultDockWidget,SIGNAL(visibilityChanged(bool)),actionSearchResults,SLOT(setChecked(bool)));
+    connect(actionSearchResults ,SIGNAL(triggered(bool)), m_searchResultDockWidget, SLOT(setVisible(bool)));
+
+
+    menuDocks->addAction(actionModule);
+    menuDocks->addAction(actionBooks);
+    menuDocks->addAction(actionNotes);
+    menuDocks->addAction(actionBookmarks);
+    menuDocks->addAction(actionQuickJump);
+    menuDocks->addAction(actionStrong);
+    menuDocks->addAction(actionSearchResults);
+
     QMenu *menuHelp = new QMenu(tr("Help"), bar);
     QAction *actionAbout = new QAction(QIcon(":/icons/16x16/help-about.png"), tr("About"), menuHelp);
     connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
@@ -1661,6 +1707,7 @@ QMenuBar* AdvancedInterface::menuBar()
     bar->addMenu(menuEdit);
     bar->addMenu(menuView);
     bar->addMenu(menuNotes);
+    bar->addMenu(menuDocks);
     bar->addMenu(menuHelp);
     return bar;
 }
@@ -1672,7 +1719,7 @@ QToolBar * AdvancedInterface::toolBar()
 {
     QToolBar *bar = new QToolBar(this->parentWidget());
     bar->setObjectName("mainToolBar");
-    bar->setIconSize(QSize(32, 32));
+    bar->setIconSize(QSize(16, 16));
 #if QT_VERSION >= 0x040600
     bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
 #else
@@ -1714,8 +1761,6 @@ QToolBar * AdvancedInterface::toolBar()
     bar->addSeparator();
     bar->addAction(actionBookmarks);
     bar->addAction(actionNotes);
-
-
 
     return bar;
 }
