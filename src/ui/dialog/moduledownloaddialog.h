@@ -39,12 +39,8 @@ signals:
     void downloaded(QStringList downloadedFiles, QStringList names);
 
 private slots:
-    void httpRequestFinished(int requestId, bool error);
-    void readResponseHeader(const QHttpResponseHeader &responseHeader);
-    void updateDataReadProgress(int bytesRead, int totalBytes);
-    void downloadNext();
     void item(QTreeWidgetItem* item);
-    void cancelDownload();
+    void download();
 public:
     ModuleDownloadDialog(QWidget *parent = 0);
     ~ModuleDownloadDialog();
@@ -57,15 +53,9 @@ protected:
 private:
     Ui::ModuleDownloadDialog *ui;
     Settings m_set;
-    QStringList m_downloadList, m_downloadedList, m_downNames;
+
+    QStringList m_downloadList;
     QMap<QString, QString> m_names;
-    int m_currentDownload;
-    QProgressDialog *m_progressDialog;
-    QHttp *m_http;
-    QFile *m_file;
-    int m_httpGetId;
-    bool m_httpRequestAborted;
-    void download(QString url_, bool addToList = true);
 };
 
 #endif // MODULEDOWNLOADDIALOG_H

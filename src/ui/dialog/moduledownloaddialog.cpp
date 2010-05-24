@@ -26,27 +26,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomNode>
 #include <QtXml/QDomElement>
 #include <QtCore/QSet>
-
+#include "src/core/moduledownloader.h"
 ModuleDownloadDialog::ModuleDownloadDialog(QWidget *parent) :
         QDialog(parent),
         ui(new Ui::ModuleDownloadDialog)
 {
     ui->setupUi(this);
-    m_progressDialog = new QProgressDialog(this);
-
-    m_http = new QHttp(this);
-    connect(ui->pushButton_download, SIGNAL(clicked()), this, SLOT(downloadNext()));//set httpRequestAborted = false
+    connect(ui->pushButton_download, SIGNAL(clicked()), this, SLOT(download()));//set httpRequestAborted = false
     connect(ui->pushButton_cancel, SIGNAL(clicked()), this, SLOT(close()));
     connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(item(QTreeWidgetItem*)));
-    connect(m_http, SIGNAL(requestFinished(int, bool)),
-            this, SLOT(httpRequestFinished(int, bool)));
-    connect(m_http, SIGNAL(dataReadProgress(int, int)),
-            this, SLOT(updateDataReadProgress(int, int)));
-    connect(m_http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)),
-            this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
-    connect(m_progressDialog, SIGNAL(canceled()), this, SLOT(cancelDownload()));
-    m_currentDownload = -1;
-    m_httpRequestAborted = false;
 
 }
 /**
@@ -122,7 +110,6 @@ void ModuleDownloadDialog::item(QTreeWidgetItem* i)
 {
     //DEBUG_FUNC_NAME
     myDebug() << "i = " << i->data(1, 0) << " downloadList = " << m_downloadList;
-    m_httpRequestAborted = false;
     if (i->data(1, 0) == "lang") {
         if (i->checkState(0) == Qt::Checked) {
             for (int c = 0; c < i->childCount(); c++) {
@@ -153,146 +140,13 @@ void ModuleDownloadDialog::setSettings(Settings settings)
 {
     m_set = settings;
 }
-void ModuleDownloadDialog::downloadNext()
-{
-    if (m_httpRequestAborted)
-        return;
-    //hack remove dupilicates
-    QSet<QString> set = m_downloadList.toSet();
-    m_downloadList = set.toList();
-
-
-    myDebug() << "currentDownload = " << m_currentDownload << " size = " << m_downloadList.size();
-    QDir dir(m_set.homePath);
-    dir.mkdir(m_set.homePath + "modules");
-    if (m_currentDownload + 1 == m_downloadList.size() && m_downloadList.size() != 0) {
-        emit downloaded(m_downloadedList, m_downNames);
-        return;
-    }
-    if (m_currentDownload < m_downloadList.size() && m_downloadList.size() != 0) {
-        m_currentDownload++;
-        download(m_downloadList.at(m_currentDownload));
-
-    } else {
-        myDebug() << "nothing selected";
-        QMessageBox::information(this, "Nothing selected", "You have to selected something to download it.");
-    }
-}
-void ModuleDownloadDialog::download(QString url_, bool addToList)
+void ModuleDownloadDialog::download()
 {
     DEBUG_FUNC_NAME
-    myDebug() << url_;
-    QUrl url(url_);
-    QFileInfo fileInfo(url.path());
-    QDir d(m_set.homePath + "modules/");
-    QDir dir(m_set.homePath);
-    dir.mkpath(m_set.homePath + "modules/" + fileInfo.fileName() + "/");
-    QString fileName = m_set.homePath + "modules/" + fileInfo.fileName() + "/" + fileInfo.fileName();
-    if (addToList) {
-        m_downloadedList << fileName;
-        m_downNames << m_names[m_downloadList.at(m_currentDownload)];
-    }
-    if (QFile::exists(fileName)) {
-        QFile::remove(fileName);
-    }
-    m_file = new QFile(fileName);
-    if (!m_file->open(QIODevice::WriteOnly)) {
-        QMessageBox::information(this, tr("HTTP"), tr("Unable to save the file %1: %2.").arg(fileName).arg(m_file->errorString()));
-        delete m_file;
-        m_file = 0;
-        return;
-    }
-    m_httpRequestAborted = false;
-    m_http->setHost(url.host(), QHttp::ConnectionModeHttp, url.port() == -1 ? 0 : url.port());
-    m_httpGetId = m_http->get(url_, m_file);
-    m_progressDialog->setWindowTitle(tr("Downloading"));
-    m_progressDialog->setLabelText(tr("Downloading %1 / %2. %3 MB").arg(m_currentDownload + 1).arg(m_downloadList.size()).arg(0));
-    m_progressDialog->setModal(true);
-}
-void ModuleDownloadDialog::cancelDownload()
-{
-    m_httpRequestAborted = true;
-    m_http->abort();
-}
-
-void ModuleDownloadDialog::httpRequestFinished(int requestId, bool error)
-{
-    if (requestId != m_httpGetId)
-        return;
-    if (m_httpRequestAborted) {
-        if (m_file) {
-            m_file->close();
-            m_file->remove();
-            delete m_file;
-            m_file = 0;
-        }
-        m_progressDialog->hide();
-        return;
-    }
-    if (requestId != m_httpGetId)
-        return;
-    if (m_currentDownload > m_downloadList.size() - 2 || m_downloadList.size() == 1) {
-        m_progressDialog->hide();
-    }
-    m_file->close();
-
-    if (error) {
-        m_file->remove();
-        QMessageBox::information(this, tr("HTTP"), tr("Download failed: %1.").arg(m_http->errorString()));
-    } else {
-        qDebug() << "ModuleDownloadDialog::httpRequestFinished() Downloaded";
-        m_file->close();
-    }
-    delete m_file;
-    m_file = 0;
-    downloadNext();
-}
-
-void ModuleDownloadDialog::readResponseHeader(const QHttpResponseHeader &responseHeader)
-{
-    myDebug() << responseHeader.statusCode() << responseHeader.toString();
-    switch (responseHeader.statusCode()) {
-    case 200:                   // Ok
-
-        break;
-    case 302:                   // Found
-    case 303:                   // See Other
-    case 307:                   // Temporary Redirect
-    case 301:                   // Moved Permanently
-        myDebug() << "moved";
-        if (responseHeader.hasKey("Location") && !responseHeader.value("Location").contains("failed")) {
-            QString location = responseHeader.value("Location");
-            download(location, false);
-        }
-        break;
-    default:
-        QMessageBox::information(this, tr("HTTP"),
-                                 tr("Download failed: %1.")
-                                 .arg(responseHeader.reasonPhrase()));
-        m_httpRequestAborted = true;
-        m_progressDialog->hide();
-        m_http->abort();
-    }
-}
-
-void ModuleDownloadDialog::updateDataReadProgress(int bytesRead, int totalBytes)
-{
-    if (m_httpRequestAborted)
-        return;
-    m_progressDialog->setLabelText(tr("Downloading %1 / %2. %3 MB").arg(m_currentDownload + 1).arg(m_downloadList.size()).arg(QString::number((float)bytesRead / (1024*1024), 'f', 2)));
-    if (totalBytes == 0) {
-        if (m_progressDialog->maximum() != 0) {
-            m_progressDialog->setMaximum(0);
-            m_progressDialog->setMinimum(0);
-            m_progressDialog->setValue(1);
-        }
-    } else {
-
-        if (m_progressDialog->maximum() != totalBytes) {
-            m_progressDialog->setMaximum(totalBytes);
-        }
-        m_progressDialog->setValue(bytesRead);
-    }
+    ModuleDownloader *m = new ModuleDownloader(this,m_downloadList,m_names);
+    connect(m,SIGNAL(downloaded(QStringList,QStringList)),this,SIGNAL(downloaded(QStringList,QStringList)));
+    m->setSettings(&m_set);
+    m->start();
 }
 
 ModuleDownloadDialog::~ModuleDownloadDialog()
