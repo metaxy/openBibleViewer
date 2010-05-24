@@ -67,14 +67,21 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
     m_settings = new Settings();
     m_notes = new Notes();
     m_session = new Session();
-
+    bool firstStart = false;
+    QFileInfo info(settingsFile->fileName());
+    if(!info.exists()) {
+        firstStart = true;
+    }
     loadDefaultSettings();
     loadSettings();
 
     m_moduleManager->setSettings(m_settings);
     m_moduleManager->loadAllModules();
     loadInterface();
-    restoreSession();
+    //restoreSession();
+    if(firstStart) {
+        QTimer::singleShot(10, this, SLOT(showSettingsDialog_Module()));
+    }
 }
 void MainWindow::loadInterface()
 {
