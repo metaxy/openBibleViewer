@@ -152,42 +152,7 @@ void SettingsDialog::generateModuleTree()
     m_ui->treeWidget_module->insertTopLevelItems(0, items);
 
 }
-/*void SettingsDialog::addStrong( void )
-{
-    QFileDialog dialog(this);
-    dialog.setFileMode(QFileDialog::DirectoryOnly);
-    if(dialog.exec())
-    {
-        QStringList fileName = dialog.selectedFiles();
-        if(fileName.size() > 0)
-        {
-            QStringList fileName2;
-            for(int i = 0;i<fileName.size();i++)
-            {
-                QString f = fileName.at(i);
-                if(f.endsWith("/"))
-                {
-                    f.remove(f.size()-1,10);
-                }
-                fileName2 << f;
-            }
-            set.path << fileName2;
-            m_ui->listWidget_path->clear();
-            m_ui->listWidget_path->insertItems(0,set.path);
-        }
-    }
-    return;
-}
-void SettingsDialog::removeStrong()
-{
-    int row = m_ui->listWidget_path->currentRow();
-    //remove from listWidget
-    QListWidgetItem * token = m_ui->listWidget_path->takeItem(row);
-    delete token;
-    //remove from set
-    set.path.removeAt(row);
-    return;
-}*/
+
 void SettingsDialog::addModuleFile(void)
 {
     QFileDialog dialog(this);

@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QCloseEvent>
 #include "ui_mdiform.h"
 #include "src/core/history.h"
+#include "webview.h"
 namespace Ui
 {
 class MdiForm;
@@ -31,6 +32,7 @@ public:
     explicit MdiForm(QWidget *parent = 0);
     virtual ~MdiForm();
     Ui::MdiForm *m_ui;
+    WebView *m_view;
 signals:
     void onClose();
     void historyGo(QString);

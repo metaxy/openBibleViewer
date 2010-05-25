@@ -4,6 +4,11 @@
 #include <QtGui/QMessageBox>
 #include <QtCore/QUrl>
 #include <QtCore/QFileInfo>
+
+/**
+  Conctruct a ModuleDownloader. Need a parent widget. And a list with links e.g http://example.com/a.xml
+and the names for it e.g names['http://example.com/a.xml'] = "A book".
+  */
 ModuleDownloader::ModuleDownloader(QWidget *parent,QStringList urls,QMap<QString, QString> names)
 {
     m_names = names;
@@ -26,7 +31,9 @@ void ModuleDownloader::setSettings(Settings *settings)
 {
     m_settings = settings;
 }
-
+/**
+  Starts the download. If finished the signal downloaded ist emited.
+  */
 void ModuleDownloader::start()
 {
     //create folder where the modules should be downloaded

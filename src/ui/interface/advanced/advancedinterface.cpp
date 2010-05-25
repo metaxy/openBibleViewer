@@ -183,8 +183,9 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     }
     connect(mForm->m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
     connect(mForm->m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
-    connect(mForm->m_ui->textBrowser, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(textBrowserContextMenu(QPoint)));
-    connect(mForm->m_ui->textBrowser, SIGNAL(anchorClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
+    //todo: webview
+    //connect(mForm->m_ui->textBrowser, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(textBrowserContextMenu(QPoint)));
+    connect(mForm->m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
     connect(mForm, SIGNAL(historyGo(QString)), this, SLOT(pharseUrl(QString)));
     connect(mForm, SIGNAL(previousChapter()), this, SLOT(previousChapter()));
     connect(mForm, SIGNAL(nextChapter()), this, SLOT(nextChapter()));
@@ -630,8 +631,9 @@ void AdvancedInterface::pharseUrl(QString url)
         } else {
             myDebug() << "anchor";
             if (activeMdiChild()) {
-                QTextBrowser *textBrowser = getTextBrowser();
-                textBrowser->scrollToAnchor(url);
+                //todo: webview
+                /*QTextBrowser *textBrowser = getTextBrowser();
+                textBrowser->scrollToAnchor(url);*/
             }
         }
 
@@ -660,10 +662,10 @@ void AdvancedInterface::pharseUrl(QString url)
     setEnableReload(true);
     return;
 }
-QTextBrowser* AdvancedInterface::getTextBrowser()
+QWebView* AdvancedInterface::getView()
 {
     if (activeMdiChild()) {
-        QTextBrowser *t = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
+        QWebView *t = activeMdiChild()->widget()->findChild<QWebView *>("webView");
         return t;
     }
     return 0;
@@ -674,28 +676,29 @@ void AdvancedInterface::setEnableReload(bool enable)
 }
 void AdvancedInterface::zoomIn()
 {
-    QTextBrowser *t = getTextBrowser();
-    if (t) {
-        t->zoomIn();
+    QWebView *v = getView();
+    myDebug() << v->zoomFactor();
+    if (v) {
+        v->setZoomFactor(v->zoomFactor()+0.1);
     }
 
 }
 void AdvancedInterface::zoomOut()
 {
-    QTextBrowser *t = getTextBrowser();
-    if (t) {
-        t->zoomOut();
+    QWebView *v = getView();
+    myDebug() << v->zoomFactor();
+    if (v) {
+        v->setZoomFactor(v->zoomFactor()-0.1);
     }
 }
 void AdvancedInterface::showText(const QString &text)
 {
-    //qDebug() << ""
     m_windowCache.setBible(m_moduleManager->m_bible, false);
-    QTextBrowser *t = getTextBrowser();
-    if (t) {
-        t->setHtml(text);
+    QWebView *v = getView();
+    if (v) {
+        v->setHtml(text);
         if (m_moduleManager->m_bible.verseID() > 1)
-            t->scrollToAnchor("currentVerse");
+             v->page()->mainFrame()->evaluateJavaScript("window.location.href = '#currentVerse';");
     }
 }
 void AdvancedInterface::setTitle(const QString &title)
@@ -787,8 +790,9 @@ void AdvancedInterface::readBook(const int &id)
 void AdvancedInterface::readBookByID(int id)
 {
     myDebug() << "id = " << id;
-    QTextBrowser *t = getTextBrowser();
-    if (t) {
+    //todo: webview
+    QWebView *v = getView();
+    if (v) {
         QApplication::setOverrideCursor(Qt::WaitCursor);
         if (id < 0) {
             QApplication::restoreOverrideCursor();
@@ -816,8 +820,9 @@ void AdvancedInterface::readBookByID(int id)
             return;
         }
         setChapters(m_moduleManager->m_bible.chapterNames());
-
-        t->setSearchPaths(m_moduleManager->m_bible.getSearchPaths());
+        //todo: webview
+        //todo: make a javascript which search all images finds the right path and change it
+        //t->setSearchPaths(m_moduleManager->m_bible.getSearchPaths());
         QApplication::restoreOverrideCursor();
     }
 
@@ -857,7 +862,9 @@ void AdvancedInterface::reloadChapter(bool full)
 {
     if (!activeMdiChild())
         return;
-    QTextBrowser *textBrowser = getTextBrowser();
+    //todo: webview
+    /*
+    QTextBrowser *textBrowser = getView();
 
     int vsliderPosition = textBrowser->verticalScrollBar()->sliderPosition();
     int hsliderPosition = textBrowser->horizontalScrollBar()->sliderPosition();//horizontal
@@ -870,7 +877,7 @@ void AdvancedInterface::reloadChapter(bool full)
     }
     readChapter(m_moduleManager->m_bible.chapterID());
     textBrowser->verticalScrollBar()->setSliderPosition(vsliderPosition);
-    textBrowser->horizontalScrollBar()->setSliderPosition(hsliderPosition);
+    textBrowser->horizontalScrollBar()->setSliderPosition(hsliderPosition);*/
 }
 VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
 {
@@ -1047,7 +1054,7 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
 }
 int AdvancedInterface::textBrowserContextMenu(QPoint pos)
 {
-    if (!activeMdiChild())
+   /* if (!activeMdiChild())
         return 1;
     QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
     qDebug() << "MainWindow::textBrowserContextMenu() start";
@@ -1148,9 +1155,15 @@ int AdvancedInterface::textBrowserContextMenu(QPoint pos)
 
     QAction *actionRemoveMark = new QAction(this);
     actionRemoveMark->setText(tr("Remove Mark"));
+
+    */
+
     /*QIcon removeMarkIcon;
     removeMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-yellow.png"), QIcon::Normal, QIcon::Off);
     actionRemoveMark->setIcon(removeMarkIcon);*/
+
+
+    /*
     connect(actionRemoveMark, SIGNAL(triggered()), this , SLOT(removeMark()));
 
     QAction *actionBookmark = new QAction(this);
@@ -1175,13 +1188,13 @@ int AdvancedInterface::textBrowserContextMenu(QPoint pos)
     contextMenu->addAction(actionRemoveMark);
     contextMenu->addAction(actionBookmark);
     contextMenu->addAction(actionNote);
-    contextMenu->exec(QCursor::pos());
+    contextMenu->exec(QCursor::pos());*/
     return 0;
 }
 
 int AdvancedInterface::copyWholeVerse(void)
 {
-    if (!activeMdiChild())
+   /* if (!activeMdiChild())
         return 1;
     QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
     QTextCursor cursor = textBrowser->textCursor();
@@ -1230,11 +1243,11 @@ int AdvancedInterface::copyWholeVerse(void)
         myDebug() << "nothing is selected";
     }
 
-    return 0;
+    return 0;*/
 }
 void AdvancedInterface::newYellowMark()
 {
-    if (!m_moduleManager->bibleLoaded()) {
+   /* if (!m_moduleManager->bibleLoaded()) {
         return;
     }
     if (!activeMdiChild())
@@ -1242,12 +1255,12 @@ void AdvancedInterface::newYellowMark()
     QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
     QTextCursor cursor = textBrowser->textCursor();
     VerseSelection selection = verseSelectionFromCursor(cursor);
-    m_notesDockWidget->newMark(selection, QColor(255, 255, 0));
+    m_notesDockWidget->newMark(selection, QColor(255, 255, 0));*/
 }
 
 void AdvancedInterface::newGreenMark()
 {
-    if (!m_moduleManager->bibleLoaded()) {
+    /*if (!m_moduleManager->bibleLoaded()) {
         return;
     }
     if (!activeMdiChild())
@@ -1255,11 +1268,11 @@ void AdvancedInterface::newGreenMark()
     QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
     QTextCursor cursor = textBrowser->textCursor();
     VerseSelection selection = verseSelectionFromCursor(cursor);
-    m_notesDockWidget->newMark(selection, QColor(146, 243, 54));
+    m_notesDockWidget->newMark(selection, QColor(146, 243, 54));*/
 }
 void AdvancedInterface::newBlueMark()
 {
-    if (!m_moduleManager->bibleLoaded()) {
+    /*if (!m_moduleManager->bibleLoaded()) {
         return;
     }
     if (!activeMdiChild())
@@ -1267,11 +1280,11 @@ void AdvancedInterface::newBlueMark()
     QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
     QTextCursor cursor = textBrowser->textCursor();
     VerseSelection selection = verseSelectionFromCursor(cursor);
-    m_notesDockWidget->newMark(selection, QColor(77, 169, 243));
+    m_notesDockWidget->newMark(selection, QColor(77, 169, 243));*/
 }
 void AdvancedInterface::newOrangeMark()
 {
-    if (!m_moduleManager->bibleLoaded()) {
+   /* if (!m_moduleManager->bibleLoaded()) {
         return;
     }
     if (!activeMdiChild())
@@ -1279,11 +1292,11 @@ void AdvancedInterface::newOrangeMark()
     QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
     QTextCursor cursor = textBrowser->textCursor();
     VerseSelection selection = verseSelectionFromCursor(cursor);
-    m_notesDockWidget->newMark(selection, QColor(243, 181, 57));
+    m_notesDockWidget->newMark(selection, QColor(243, 181, 57));*/
 }
 void AdvancedInterface::newVioletMark()
 {
-    if (!m_moduleManager->bibleLoaded()) {
+    /*if (!m_moduleManager->bibleLoaded()) {
         return;
     }
     if (!activeMdiChild())
@@ -1291,11 +1304,11 @@ void AdvancedInterface::newVioletMark()
     QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
     QTextCursor cursor = textBrowser->textCursor();
     VerseSelection selection = verseSelectionFromCursor(cursor);
-    m_notesDockWidget->newMark(selection, QColor(169, 102, 240));
+    m_notesDockWidget->newMark(selection, QColor(169, 102, 240));*/
 }
 void AdvancedInterface::newCustomMark()
 {
-    if (!m_moduleManager->bibleLoaded()) {
+    /*if (!m_moduleManager->bibleLoaded()) {
         return;
     }
     if (!activeMdiChild())
@@ -1306,7 +1319,7 @@ void AdvancedInterface::newCustomMark()
     QColor color = QColorDialog::getColor(Qt::green, this);
     if (color.isValid()) {
         m_notesDockWidget->newMark(selection, color);
-    }
+    }*/
 
 }
 void AdvancedInterface::removeMark()
@@ -1349,12 +1362,12 @@ void AdvancedInterface::closing()
             windowUrls << "";
         }
         windowGeo << ui->mdiArea->subWindowList().at(i)->geometry();
-        QTextBrowser *textBrowser =  ui->mdiArea->subWindowList().at(i)->findChild<QTextBrowser *>("textBrowser");
+       /* QTextBrowser *textBrowser =  ui->mdiArea->subWindowList().at(i)->findChild<QTextBrowser *>("textBrowser");
         vSlider <<  textBrowser->verticalScrollBar()->sliderPosition();
         hSlider <<  textBrowser->horizontalScrollBar()->sliderPosition();
 #if QT_VERSION >= 0x040600
         zoom << textBrowser->fontPointSize();
-#endif
+#endif*/
     }
     m_settings->session.setData("windowUrls", windowUrls);
     m_settings->session.setData("windowGeo", windowGeo);
@@ -1401,7 +1414,7 @@ void AdvancedInterface::restoreSession()
         }
         //set geometry
         activeMdiChild()->setGeometry(windowGeo.at(i).toRect());
-        QTextBrowser *textBrowser = getTextBrowser();
+        /*QTextBrowser *textBrowser = getView();
         //set slider
         //todo: really strange
         textBrowser->verticalScrollBar()->setSliderPosition(vSlider.at(i).toInt());
@@ -1409,7 +1422,7 @@ void AdvancedInterface::restoreSession()
 #if QT_VERSION >= 0x040600
         if (zoom.size() != 0 && i < zoom.size() && zoom.at(i).toReal() > 0)
             textBrowser->setFontPointSize(zoom.at(i).toReal());
-#endif
+#endif*/
 
     }
     myDebug() << "c";
@@ -1461,11 +1474,10 @@ void AdvancedInterface::showSearchDialog()
     DEBUG_FUNC_NAME
     SearchDialog *sDialog = new SearchDialog(this);
     connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
-    QTextBrowser *t = getTextBrowser();
-    if (t && t->textCursor().hasSelection() == true) {
-        sDialog->setText(t->textCursor().selectedText());
+    QString text = getView()->selectedText();
+    if(!text.isEmpty()) {
+         sDialog->setText(text);
     }
-
     sDialog->show();
     sDialog->exec();
 }
@@ -1483,8 +1495,17 @@ void AdvancedInterface::search(SearchQuery query)
 void AdvancedInterface::searchInText(SearchQuery query)
 {
     DEBUG_FUNC_NAME
-    if (query.queryType == SearchQuery::Simple) {
-        QTextDocument *doc = getTextBrowser()->document();
+    //todo: make regexp work
+    if (query.queryType == SearchQuery::Simple && !query.regExp) {
+        if (query.caseSensitive) {
+            getView()->findText(query.searchText,QWebPage::FindCaseSensitively | QWebPage::HighlightAllOccurrences);
+        } else {
+            getView()->findText(query.searchText,QWebPage::HighlightAllOccurrences);
+        }
+    }
+
+   /* if (query.queryType == SearchQuery::Simple) {
+        QTextDocument *doc = getView()->document();
         QTextDocument::FindFlags flags;
         if (query.caseSensitive) {
             flags |= QTextDocument::FindCaseSensitively;
@@ -1498,7 +1519,7 @@ void AdvancedInterface::searchInText(SearchQuery query)
             cursor = doc->find(QRegExp(query.searchText), 0);
             while (!cursor.isNull()) {
                 cursor.insertHtml("<span style=\"background-color:#ffcf3d\">" + cursor.selectedText() + "</span>");
-                getTextBrowser()->setTextCursor(cursor);
+                getView()->setTextCursor(cursor);
 
                 cursor = doc->find(QRegExp(query.searchText), cursor);
             }
@@ -1508,27 +1529,21 @@ void AdvancedInterface::searchInText(SearchQuery query)
             while (!cursor.isNull()) {
 
                 cursor.insertHtml("<span style=\"background-color:#ffcf3d\">" + cursor.selectedText() + "</span>");
-                getTextBrowser()->setTextCursor(cursor);
+                getView()->setTextCursor(cursor);
 
                 cursor = doc->find(query.searchText, cursor, flags);
             }
         }
-    }
+    }*/
 }
 
 void AdvancedInterface::copy()
 {
-    if (activeMdiChild()) {
-        QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
-        textBrowser->copy();
-    }
+    getView()->page()->triggerAction(QWebPage::Copy);
 }
 void AdvancedInterface::selectAll()
 {
-    if (activeMdiChild()) {
-        QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
-        textBrowser->selectAll();
-    }
+    getView()->page()->triggerAction(QWebPage::SelectAll);
 }
 void AdvancedInterface::nextVerse()
 {
@@ -1811,8 +1826,7 @@ int AdvancedInterface::printFile(void)
     if (dialog->exec() != QDialog::Accepted)
         return 1;
     if (activeMdiChild()) {
-        QTextBrowser *t = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
-        t->print(&printer);
+        getView()->print(&printer);
     }
     return 0;
 }
@@ -1825,7 +1839,7 @@ int AdvancedInterface::saveFile(void)
     QString fileName = dialog.getSaveFileName(this, tr("Save output"), m_settings->lastPlaceSave, tr("Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)"));
     myDebug() << "fileName = " << fileName;
     if (activeMdiChild()) {
-        QTextBrowser *t = getTextBrowser();
+        QWebView *v = getView();
         QFileInfo fi(fileName);
         m_settings->lastPlaceSave = fi.path();
         if (fileName.endsWith(".html") || fileName.endsWith(".htm")) {
@@ -1833,20 +1847,20 @@ int AdvancedInterface::saveFile(void)
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
                 return 1;
             QTextStream out(&file);
-            out << t->toHtml();
+            out << v->page()->mainFrame()->toHtml();
             file.close();
         } else if (fileName.endsWith(".pdf")) {
             QPrinter printer;
             printer.setOutputFormat(QPrinter::PdfFormat);
             printer.setOutputFileName(fileName);
-            t->print(&printer);
+            v->print(&printer);
 
         } else {
             QFile file(fileName);
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
                 return 1;
             QTextStream out(&file);
-            out << t->toPlainText();
+            out << v->page()->mainFrame()->toPlainText();
             file.close();
         }
     }

@@ -571,21 +571,4 @@ void NotesEditor::closeEvent(QCloseEvent *e)
     m_simpleNotes->saveNote();
 }
 
-/*bool NotesEditor::load(const QString &f)
-{
-    if (!QFile::exists(f))
-        return false;
-    QFile file(f);
-    if (!file.open(QFile::ReadOnly))
-        return false;
-
-    QByteArray data = file.readAll();
-    ui->webView->setContent(data, "text/html");
-    ui->webView->page()->setContentEditable(true);
-    ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
-    connect(ui->webView, SIGNAL(linkClicked(QUrl)), SLOT(openLink(QUrl)));
-
-    setCurrentFileName(f);
-    return true;
-}*/
 

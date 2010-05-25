@@ -65,7 +65,8 @@ SOURCES += src/main.cpp \
     src/core/basicclass.cpp \
     src/ui/highlighter.cpp \
     src/ui/dialog/insertlinkdialog.cpp \
-    src/core/moduledownloader.cpp
+    src/core/moduledownloader.cpp \
+    src/ui/interface/advanced/webview.cpp
 HEADERS += src/core/settings.h \
     src/module/biblequote.h \
     src/module/zefania-bible.h \
@@ -126,7 +127,8 @@ HEADERS += src/core/settings.h \
     src/core/basicclass.h  \
     src/ui/highlighter.h \
     src/ui/dialog/insertlinkdialog.h \
-    src/core/moduledownloader.h
+    src/core/moduledownloader.h \
+    src/ui/interface/advanced/webview.h
 FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dialog/settingsdialog.ui \
     src/ui/dialog/searchinfodialog.ui \

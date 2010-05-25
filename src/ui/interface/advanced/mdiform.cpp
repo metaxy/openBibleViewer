@@ -19,12 +19,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 MdiForm::MdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::MdiForm)
 {
     m_ui->setupUi(this);
-    m_ui->textBrowser->setOpenLinks(false);
-    m_ui->textBrowser->setOpenExternalLinks(false);
+    m_view = new WebView(this);
+    m_view->setObjectName("webView");
+    m_view->setUrl(QUrl("about:blank"));
+    m_ui->verticalLayout->addWidget(m_view);
+
+    m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
     connect(m_ui->toolButton_backward, SIGNAL(clicked()), this, SLOT(backward()));
     connect(m_ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
     setButtons();
-    m_ui->textBrowser->installEventFilter(this);
+    //m_ui->textBrowser->installEventFilter(this);
 
 }
 void MdiForm::changeEvent(QEvent *e)
@@ -70,7 +74,7 @@ void MdiForm::setButtons()
 }
 bool MdiForm::eventFilter(QObject *obj, QEvent *event)
 {
-    if (obj == m_ui->textBrowser) {
+    /*if (obj == m_ui->textBrowser) {
         if (event->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
             if (keyEvent->key() == Qt::Key_Left) {
@@ -88,7 +92,7 @@ bool MdiForm::eventFilter(QObject *obj, QEvent *event)
         }
     } else {
         return QWidget::eventFilter(obj, event);
-    }
+    }*/
     return QWidget::eventFilter(obj, event);
 }
 MdiForm::~MdiForm()

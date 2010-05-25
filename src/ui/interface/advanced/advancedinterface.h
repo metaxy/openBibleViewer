@@ -136,7 +136,7 @@ private:
     int tabIDof(QMdiSubWindow* window);
     WindowCache m_windowCache;
     int m_lastActiveWindow;
-    QTextBrowser* getTextBrowser();
+    QWebView* getView();
     void setEnableReload(bool enable);
     void loadModuleDataByID(int id);
 
