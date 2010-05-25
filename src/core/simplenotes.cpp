@@ -138,7 +138,7 @@ void SimpleNotes::editNoteLink()
     QString link = currentNoteRef["link"];
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
-    urlConverter.m_biblesRootPath = m_moduleManager->m_bible.biblesRootPath();
+    urlConverter.m_biblesRootPath = m_moduleManager->bible()->biblesRootPath();
     urlConverter.pharse();
 
     BiblePassageDialog *passageDialog = new  BiblePassageDialog();
@@ -310,12 +310,12 @@ void SimpleNotes::newNoteWithLink(VerseSelection selection)
 
     QString link;
     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
-    urlConverter.m_biblesRootPath = m_moduleManager->m_bible.biblesRootPath();
-    urlConverter.m_bibleID =  QString::number(m_moduleManager->m_bible.bibleID());
-    urlConverter.m_bookID = m_moduleManager->m_bible.bookID();
-    urlConverter.m_chapterID = m_moduleManager->m_bible.chapterID() - m_moduleManager->m_bible.chapterAdd();
+    urlConverter.m_biblesRootPath = m_moduleManager->bible()->biblesRootPath();
+    urlConverter.m_bibleID =  QString::number(m_moduleManager->bible()->bibleID());
+    urlConverter.m_bookID = m_moduleManager->bible()->bookID();
+    urlConverter.m_chapterID = m_moduleManager->bible()->chapterID() - m_moduleManager->bible()->chapterAdd();
     urlConverter.m_verseID = selection.startVerse - 1;
-    urlConverter.m_bookName = m_moduleManager->m_bible.bookFullName().at(m_moduleManager->m_bible.bookID());
+    urlConverter.m_bookName = m_moduleManager->bible()->bookFullName().at(m_moduleManager->bible()->bookID());
     link = urlConverter.convert();
 
     QString newID = m_notes->generateNewID();

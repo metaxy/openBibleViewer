@@ -46,7 +46,7 @@ void SimpleInterface::setSearchResultDockWidget(SearchResultDockWidget *searchRe
 void SimpleInterface::init()
 {
 
-    m_moduleManager->m_bible.setSettings(m_settings);
+    m_moduleManager->bible()->setSettings(m_settings);
 
     m_moduleDockWidget->setBibleDisplay(m_bibleDisplay);
     m_moduleDockWidget->setNotes(m_notes);
@@ -75,7 +75,7 @@ void SimpleInterface::init()
     bibleDisplaySettings.loadNotes = false;
     bibleDisplaySettings.showMarks = false;
     bibleDisplaySettings.showNotes = false;
-    m_moduleManager->m_bible.setBibleDisplaySettings(bibleDisplaySettings);
+    m_moduleManager->bible()->setBibleDisplaySettings(bibleDisplaySettings);
 
 }
 bool SimpleInterface::hasMenuBar()
@@ -158,23 +158,23 @@ void SimpleInterface::loadModuleDataByID(int id)
     myDebug() << "id = " << id;
     if (id < 0 || m_moduleManager->m_moduleList.size() < id)
         return;
-    m_windowCache.setBible(m_moduleManager->m_bible);//before loading an another bible, save the last
+    //m_windowCache.setBible(m_moduleManager->m_bible);//before loading an another bible, save the last
     Module::ModuleType type = m_moduleManager->m_moduleList.at(id).m_moduleType;
     if(type == Module::BibleQuoteModule) {
-        m_moduleManager->m_bible.setBibleType(Bible::BibleQuoteModule);
+        m_moduleManager->bible()->setBibleType(Bible::BibleQuoteModule);
     } else if(type == Module::ZefaniaBibleModule) {
-        m_moduleManager->m_bible.setBibleType(Bible::ZefaniaBibleModule);
+        m_moduleManager->bible()->setBibleType(Bible::ZefaniaBibleModule);
     } else {
-        m_moduleManager->m_bible.setBibleType(Bible::None);
+        m_moduleManager->bible()->setBibleType(Bible::None);
     }
 
-    m_moduleManager->m_bible.loadBibleData(id, m_moduleManager->m_moduleList.at(id).m_path);
-    if (!m_windowCache.getSoftCache(id).isEmpty())
-        m_moduleManager->m_bible.setSoftCache(m_windowCache.getSoftCache(id));//todo: if it is empty then do nothing
+    m_moduleManager->bible()->loadBibleData(id, m_moduleManager->m_moduleList.at(id).m_path);
+    /*if (!m_windowCache.getSoftCache(id).isEmpty())
+        m_moduleManager->bible()->setSoftCache(m_windowCache.getSoftCache(id));//todo: if it is empty then do nothing*/
 
 
-    setTitle(m_moduleManager->m_bible.bibleTitle());
-    setBooks(m_moduleManager->m_bible.bookFullName());
+    setTitle(m_moduleManager->bible()->bibleTitle());
+    setBooks(m_moduleManager->bible()->bookFullName());
 
 }
 void SimpleInterface::pharseUrl(QUrl url)
@@ -197,22 +197,22 @@ void SimpleInterface::pharseUrl(QString url)
             if (c.size() >= 3) {
                 int bibleID;
                 if (a.at(0) == "current") {
-                    bibleID = m_moduleManager->m_bible.bibleID();
+                    bibleID = m_moduleManager->bible()->bibleID();
                 } else {
                     bibleID = a.at(0).toInt();
                 }
                 int bookID = c.at(0).toInt();
                 int chapterID = c.at(1).toInt();
                 int verseID = c.at(2).toInt();
-                if (bibleID != m_moduleManager->m_bible.bibleID()) {
+                if (bibleID != m_moduleManager->bible()->bibleID()) {
                     loadModuleDataByID(bibleID);
                     readBookByID(bookID);
                     setCurrentBook(bookID);;
-                } else if (bookID != m_moduleManager->m_bible.bookID()) {
+                } else if (bookID != m_moduleManager->bible()->bookID()) {
                     readBookByID(bookID);
                     setCurrentBook(bookID);;
                 }
-                showChapter(chapterID + m_moduleManager->m_bible.chapterAdd(), verseID);
+                showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
                 setCurrentChapter(chapterID);
             } else {
                 myDebug() << "invalid URL";
@@ -231,29 +231,29 @@ void SimpleInterface::pharseUrl(QString url)
         int bookID = internal.at(2).toInt() - 1;
         int chapterID = internal.at(3).toInt() - 1;
         int verseID = internal.at(4).toInt();
-        //  qDebug() << "MainWindow::pharseUrl() internal = " << internal << " internalChapter = " <<internal.at(3).toInt() << " chapterID" << chapterID << " chapterAdd = "<< m_moduleManager->m_bible.chapterAdd();
-        /*if(bibleID != m_moduleManager->m_bible.bibleID())
+        //  qDebug() << "MainWindow::pharseUrl() internal = " << internal << " internalChapter = " <<internal.at(3).toInt() << " chapterID" << chapterID << " chapterAdd = "<< m_moduleManager->bible()->chapterAdd();
+        /*if(bibleID != m_moduleManager->bible()->bibleID())
         {
             loadModuleDataByID(bibleID);
             readBookByID(bookID);
             setCurrentBook(bookID);
-            showChapter(chapterID+m_moduleManager->m_bible.chapterAdd(),verseID);
+            showChapter(chapterID+m_moduleManager->bible()->chapterAdd(),verseID);
             setCurrentChapter(chapterID);
             //load bible
         }
-        else */if (bookID != m_moduleManager->m_bible.bookID())
+        else */if (bookID != m_moduleManager->bible()->bookID())
         {
             readBookByID(bookID);
             setCurrentBook(bookID);
-            showChapter(chapterID + m_moduleManager->m_bible.chapterAdd(), verseID);
+            showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
             setCurrentChapter(chapterID);
             //load book
-        } else if (chapterID != m_moduleManager->m_bible.chapterID()) {
-            showChapter(chapterID + m_moduleManager->m_bible.chapterAdd(), verseID);
+        } else if (chapterID != m_moduleManager->bible()->chapterID()) {
+            showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
             setCurrentChapter(chapterID);
             //load chapter
         } else {
-            showChapter(chapterID + m_moduleManager->m_bible.chapterAdd(), verseID);
+            showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
             setCurrentChapter(chapterID);
         }
         //emit historySetUrl(url_backup);
@@ -264,16 +264,16 @@ void SimpleInterface::pharseUrl(QString url)
         bool ok;
         int c = url.toInt(&ok, 10);
         myDebug() << "c = " << c;
-        if (ok && c < m_moduleManager->m_bible.m_chapterData.size() && m_moduleManager->m_bible.bibleType() == Bible::BibleQuoteModule && m_moduleManager->m_bible.chapterID() != c) {
+        if (ok && c < m_moduleManager->bible()->m_chapterData.size() && m_moduleManager->bible()->bibleType() == Bible::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c) {
             myDebug() << "bq chapter link";
-            m_moduleManager->m_bible.readChapter(c, 0);
+            m_moduleManager->bible()->readChapter(c, 0);
         } else {
             myDebug() << "anchor";
             ui->textBrowser->scrollToAnchor(url);
         }
     } else {
-        if (m_moduleManager->m_bible.bibleType() == Bible::BibleQuoteModule && m_moduleManager->m_bible.bookPath().contains(url)) {
-            emit get("bible://current/" + m_moduleManager->m_bible.bookPath().lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
+        if (m_moduleManager->bible()->bibleType() == Bible::BibleQuoteModule && m_moduleManager->bible()->bookPath().contains(url)) {
+            emit get("bible://current/" + m_moduleManager->bible()->bookPath().lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
         } else {
             myDebug() << "invalid URL";
         }
@@ -283,7 +283,7 @@ void SimpleInterface::pharseUrl(QString url)
 void SimpleInterface::showText(const QString &text)
 {
     ui->textBrowser->setHtml(text);
-    if (m_moduleManager->m_bible.verseID() > 1)
+    if (m_moduleManager->bible()->verseID() > 1)
         ui->textBrowser->scrollToAnchor("currentVerse");
 }
 void SimpleInterface::setTitle(const QString &title)
@@ -323,49 +323,49 @@ void SimpleInterface::readBookByID(int id)
         myDebug() << "invalid bookID - 1";
         return;
     }
-    if (id >= m_moduleManager->m_bible.booksCount()) {
+    if (id >= m_moduleManager->bible()->booksCount()) {
         QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
         myDebug() << "invalid bookID - 2(no book loaded)";
         return;
     }
-    if (m_moduleManager->m_bible.readBook(id) != 0) {
+    if (m_moduleManager->bible()->readBook(id) != 0) {
         QMessageBox::critical(0, tr("Error"), tr("Cannot read the book."));
         //error while reading
         return;
     }
-    setChapters(m_moduleManager->m_bible.chapterNames());
-    ui->textBrowser->setSearchPaths(m_moduleManager->m_bible.getSearchPaths());
+    setChapters(m_moduleManager->bible()->chapterNames());
+    ui->textBrowser->setSearchPaths(m_moduleManager->bible()->getSearchPaths());
 
 }
 void SimpleInterface::readChapter(const int &id)
 {
     //DEBUG_FUNC_NAME
-    emit get("bible://current/" + QString::number(m_moduleManager->m_bible.bookID()) + "," + QString::number(id) + ",0");
+    emit get("bible://current/" + QString::number(m_moduleManager->bible()->bookID()) + "," + QString::number(id) + ",0");
 }
 
 void SimpleInterface::showChapter(const int &chapterID, const int &verseID)
 {
-    //m_moduleManager->m_bible.verseID() = verseID;//todo: check
-    m_bibleDisplay->setHtml((m_moduleManager->m_bible.readChapter(chapterID, verseID)));
-    setCurrentChapter(chapterID - m_moduleManager->m_bible.chapterAdd());
+    //m_moduleManager->bible()->verseID() = verseID;//todo: check
+    m_bibleDisplay->setHtml((m_moduleManager->bible()->readChapter(chapterID, verseID)));
+    setCurrentChapter(chapterID - m_moduleManager->bible()->chapterAdd());
 }
 void SimpleInterface::nextChapter()
 {
     //DEBUG_FUNC_NAME
-    if (m_moduleManager->m_bible.chapterID() < m_moduleManager->m_bible.chaptersCount() - 1) {
-        readChapter(m_moduleManager->m_bible.chapterID() + 1);
-    } else if (m_moduleManager->m_bible.bookID() < m_moduleManager->m_bible.booksCount() - 1) {
-        readBook(m_moduleManager->m_bible.bookID() + 1);
+    if (m_moduleManager->bible()->chapterID() < m_moduleManager->bible()->chaptersCount() - 1) {
+        readChapter(m_moduleManager->bible()->chapterID() + 1);
+    } else if (m_moduleManager->bible()->bookID() < m_moduleManager->bible()->booksCount() - 1) {
+        readBook(m_moduleManager->bible()->bookID() + 1);
     }
 }
 void SimpleInterface::previousChapter()
 {
     //DEBUG_FUNC_NAME
-    if (m_moduleManager->m_bible.chapterID() > 0) {
-        readChapter(m_moduleManager->m_bible.chapterID() - 1);
-    } else if (m_moduleManager->m_bible.bookID() > 0) {
-        readBook(m_moduleManager->m_bible.bookID() - 1);
-        readChapter(m_moduleManager->m_bible.chaptersCount() - 1);
+    if (m_moduleManager->bible()->chapterID() > 0) {
+        readChapter(m_moduleManager->bible()->chapterID() - 1);
+    } else if (m_moduleManager->bible()->bookID() > 0) {
+        readBook(m_moduleManager->bible()->bookID() - 1);
+        readChapter(m_moduleManager->bible()->chaptersCount() - 1);
     }
 }
 bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
@@ -444,7 +444,7 @@ void SimpleInterface::search(SearchQuery query)
         return;
     m_searchResultDockWidget->show();
     SearchResult result;
-    result = m_moduleManager->m_bible.search(query);
+    result = m_moduleManager->bible()->search(query);
     m_searchResultDockWidget->setSearchResult(result);
 }
 void SimpleInterface::changeEvent(QEvent *e)

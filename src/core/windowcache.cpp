@@ -18,22 +18,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 WindowCache::WindowCache()
 {
 }
-void WindowCache::setBible(Bible b, bool clearZefCache)
+void WindowCache::setBible(Bible *b)
 {
-    // DEBUG_FUNC_NAME
-    m_softCache.insert(b.bibleID(), b.getSoftCache());
-    if (clearZefCache)
-        b.clearSoftCache();
     m_b[m_currentWindowID] = b;
-    m_bibletype[m_currentWindowID] = b.bibleType();
-    //m_bibleName[m_currentWindowID] = b.bibleName;
-    //m_books[m_currentWindowID] = b.bookFullName;
+    m_bibletype[m_currentWindowID] = b->bibleType();
 }
-void WindowCache::clearZefCache()
-{
-    m_softCache.clear();
-}
-
 void WindowCache::newWindow()
 {
     m_idList << QString::number(m_idList.size());
@@ -44,14 +33,12 @@ void WindowCache::removeWindow(const int &id)
 }
 void WindowCache::clearAll()
 {
-    //DEBUG_FUNC_NAME
     m_idList.clear();
     m_b.clear();
-    m_softCache.clear();
     m_bibletype.clear();
 
 }
-int WindowCache::getBibleType()
+Bible::BibleType WindowCache::getBibleType()
 {
     return m_bibletype[m_currentWindowID];
 }
@@ -64,16 +51,8 @@ bool WindowCache::setCurrentWindowID(const int &id)
     }
     return false;
 }
-Bible WindowCache::getBible()
+Bible* WindowCache::getBible()
 {
-    //DEBUG_FUNC_NAME
-    Bible b = m_b[m_currentWindowID];
-    b.setSoftCache(getSoftCache(b.bibleID()));
-    return b;
+    return m_b[m_currentWindowID];
 }
-QMap<int, QList<Chapter> > WindowCache::getSoftCache(const int &bibleID)
-{
-    //DEBUG_FUNC_NAME
-    //it could be that there ist no zefania Cache
-    return m_softCache[bibleID];
-}
+

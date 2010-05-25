@@ -94,7 +94,7 @@ QDomNode ZefaniaBible::readBookFromHardCache(QString path, int bookID)
     QDomElement root = doc.documentElement();
     //cache in ram
     //e = root.firstChild().toElement();
-    if (softCacheData[bookID].isEmpty() && m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
+    if (!softCacheData.contains(bookID) && m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
         /*  softCache[bookID] = e;
         softCacheAvi[bookID] = true;*/
     }
@@ -110,10 +110,10 @@ void ZefaniaBible::readBook(const int &id)
     myDebug() << "showStudy note = " << m_settings->getModuleSettings(m_bibleID).zefbible_showStudyNote;
     QDomNode ncache;
 
-    if (softCacheData[id].isEmpty()) {
+    if (!softCacheData.contains(id)) {
         myDebug() << "soft cache is empty";
     }
-    if (m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true && (softCacheData[id].isEmpty() || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {
+    if (m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true && (!softCacheData.contains(id) || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {
         ncache = readBookFromHardCache(currentBiblePath, id);
     } else {
         //myDebug() << "read data from sofcache";
@@ -237,7 +237,7 @@ void ZefaniaBible::setSoftCache(QMap<int, QList<Chapter> > cache)
   */
 void ZefaniaBible::setSoftCache(int bookID, QList<Chapter> chapterList)
 {
-    //  DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     myDebug() << "softCache = " << m_settings->getModuleSettings(m_bibleID).zefbible_softCache << " , bookID = " << bookID;
     if (m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
         softCacheData[bookID] = chapterList;
@@ -248,7 +248,7 @@ void ZefaniaBible::setSoftCache(int bookID, QList<Chapter> chapterList)
   */
 void ZefaniaBible::clearSoftCache()
 {
-    // DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     softCacheData.clear();
 }
 
@@ -276,12 +276,14 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     //todo: maybe i should remove the qdom support because koxml works really fine
     QProgressDialog progress(QObject::tr("Loading Bible"), QObject::tr("Cancel"), 0, 76);
     progress.setWindowModality(Qt::WindowModal);
-
+    // Q_ASSERT(m_bibleID != id);
+    if(m_bibleID != id) {
+        bookFullName.clear();
+        bookShortName.clear();
+        bookCount.clear();
+        clearSoftCache();
+    }
     m_bibleID = id;
-    bookFullName.clear();
-    bookShortName.clear();
-    bookCount.clear();
-    clearSoftCache();
 
     progress.setValue(1);
 
@@ -531,11 +533,15 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
 void ZefaniaBible::loadCached(const int &id, const QString &path)
 {
     //DEBUG_FUNC_NAME
-    //clear old data
-    bookFullName.clear();
-    bookShortName.clear();
-    bookCount.clear();
-    clearSoftCache();
+
+    //Q_ASSERT(m_bibleID != id);
+    if(m_bibleID != id) {
+         //clear old data
+        bookFullName.clear();
+        bookShortName.clear();
+        bookCount.clear();
+        clearSoftCache();
+    }
 
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(path.toLocal8Bit());
@@ -657,7 +663,7 @@ SearchResult ZefaniaBible::search(SearchQuery query)
         //todo: check : if only 2 or 3 book are aviable in softcache then load whole book else load everything from hardcache
         //todo: cant load book if only softcache is enabled
 
-        if (m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true && (softCacheData[i].isEmpty() || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {
+        if (m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true && (!softCacheData.contains(i) || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {
             chapterList = fromHardToSoft(i, readBookFromHardCache(currentBiblePath, i));
             setSoftCache(i, chapterList);
         } else {

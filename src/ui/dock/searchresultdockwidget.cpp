@@ -40,7 +40,7 @@ void SearchResultDockWidget::setSearchResult(SearchResult searchResult)
     QList<SearchHit> hits = searchResult.hits();
     for (int i = 0; i < hits.size(); ++i) {
         SearchHit hit = hits.at(i);
-        QString bookn = m_moduleManager->m_bible.bookFullName().at(hit.bookID());
+        QString bookn = m_moduleManager->bible()->bookFullName().at(hit.bookID());
         outlist << bookn + " " + QString::number(hit.chapterID()) + " , " + QString::number(hit.verseID());
     }
     ui->listWidget_search->clear();
@@ -50,7 +50,7 @@ void SearchResultDockWidget::setSearchResult(SearchResult searchResult)
 void SearchResultDockWidget::goToSearchResult(QListWidgetItem * item)
 {
     int id = ui->listWidget_search->row(item);
-    if (m_moduleManager->m_moduleList.size() < m_moduleManager->m_bible.bibleID())
+    if (m_moduleManager->m_moduleList.size() < m_moduleManager->bible()->bibleID())
         return;
     if (id < m_searchResult.hits().size() && id > 0) {
         SearchHit hit = m_searchResult.hits().at(id);
@@ -62,18 +62,18 @@ void SearchResultDockWidget::searchInfo()
     SearchResult result;
     QStringList bookNames;
     QString searchString;
-    if (m_moduleManager->m_moduleList.size() < m_moduleManager->m_bible.bibleID()) {
+    if (m_moduleManager->m_moduleList.size() < m_moduleManager->bible()->bibleID()) {
         QMessageBox::information(0, tr("Error"), tr("No search information available."));
         return;
     }
     QStringList textList;
 
-    bookNames = m_moduleManager->m_bible.bookFullName();
+    bookNames = m_moduleManager->bible()->bookFullName();
     result = m_searchResult;
 
     for (int i = 0; i < result.hits().size(); ++i) {
         SearchHit hit = result.hits().at(i);
-        QString bookn = m_moduleManager->m_bible.bookFullName().at(hit.bookID());
+        QString bookn = m_moduleManager->bible()->bookFullName().at(hit.bookID());
         textList << hit.text() + "\n - <i>" + bookn + " " + QString::number(hit.chapterID()) + " , " + QString::number(hit.verseID()) + "</i>";
     }
     searchString = m_searchResult.searchQuery.searchText;

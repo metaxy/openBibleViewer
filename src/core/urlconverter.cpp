@@ -39,7 +39,6 @@ QString UrlConverter::convert()
         }
     } else if (m_to == BibleQuoteUrl) {
     }
-    myDebug() << ret << "bibleID = " << m_bibleID << " iniPath = " << m_biblesRootPath;
     return ret;
 }
 int UrlConverter::pharse()

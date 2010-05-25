@@ -25,6 +25,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 ModuleManager::ModuleManager()
 {
     m_moduleModel = new QStandardItemModel;
+    m_bible = new Bible();
+    m_map = new ModuleMap();
 }
 void ModuleManager::setSettings(Settings *settings)
 {
@@ -37,11 +39,15 @@ void ModuleManager::setSettings(Settings *settings)
 int ModuleManager::loadAllModules()
 {
     DEBUG_FUNC_NAME
-    Bible bible;
-    bible.setSettings(m_settings);
+    BibleQuote bq;
+    bq.setSettings(m_settings);
+    ZefaniaBible zef;
+    zef.setSettings(m_settings);
 
     m_moduleList.clear();
     m_moduleModel->clear();
+    m_map->m_bibleQuote.clear();
+    m_map->m_zefaniaBible.clear();
     QProgressDialog progress(QObject::tr("Loading Module"), QObject::tr("Cancel"), 0, m_settings->module.size());
     progress.setWindowModality(Qt::WindowModal);
     int rcount = 0;//Counter for the Bible ID
@@ -109,7 +115,7 @@ int ModuleManager::loadAllModules()
                         QString bname;
                         switch (bibletype) {
                         case Bible::BibleQuoteModule: {
-                            bname = bible.m_bq.readInfo(file);
+                            bname = bq.readInfo(file);
                             if (bname.size() > 0) {
                                 Module module;
                                 module.m_path = file.fileName();
@@ -136,7 +142,7 @@ int ModuleManager::loadAllModules()
                         }
                         case Bible::ZefaniaBibleModule: {
                             //ZenfaniaXML-Bible
-                            bname = bible.m_zef.readInfo(file);
+                            bname = zef.readInfo(file);
                             if (bname.size() > 0) {
 
                                 Module module;
@@ -248,7 +254,7 @@ int ModuleManager::loadAllModules()
         //if(m_moduleList.at(i).m_moduleClass == Module::BibleModule)
         iniPath << m_moduleList.at(i).m_path;
     }
-    m_bible.setBiblesRootPath(iniPath);
+    m_bible->setBiblesRootPath(iniPath);
     return 0;
 }
 /**
@@ -256,7 +262,7 @@ int ModuleManager::loadAllModules()
   */
 bool ModuleManager::bibleLoaded()
 {
-    if (m_moduleList.size() > m_bible.bibleID() && m_bible.bibleID() >= 0)
+    if (m_moduleList.size() > m_bible->bibleID() && m_bible->bibleID() >= 0)
         return true;
     return false;
 }
@@ -269,6 +275,12 @@ bool ModuleManager::strongLoaded()
         return true;
     return false;
 }
+Bible * ModuleManager::bible()
+{
+    m_bible->setModuleMap(m_map);//todo: avoid this
+    return m_bible;
+}
+
 /**
   Converts a PersistentUrl to a link.
   */
@@ -277,7 +289,7 @@ QString ModuleManager::notePos2Link(const QString &pos)
     //DEBUG_FUNC_NAME
     QString string = "";
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
-    urlConverter.m_biblesRootPath = m_bible.biblesRootPath();
+    urlConverter.m_biblesRootPath = m_bible->biblesRootPath();
     urlConverter.pharse();
     QString link = urlConverter.convert();
 
@@ -289,7 +301,7 @@ QString ModuleManager::notePos2Text(const QString &pos)
     //DEBUG_FUNC_NAME
     QString string = "";
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
-    urlConverter.m_biblesRootPath = m_bible.biblesRootPath();
+    urlConverter.m_biblesRootPath = m_bible->biblesRootPath();
     urlConverter.pharse();
     QString link = urlConverter.convert();
 

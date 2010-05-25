@@ -34,15 +34,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class ZefaniaBible
 {
 
-private:
-    Settings *m_settings;
-    QDomElement format(QDomElement e);
-    bool checkForCacheFiles(const QString &path);
-    void loadNoCached(const int &id, const QString &path);
-    void loadCached(const int &id, const QString &path);
-    QList<Chapter> fromHardToSoft(int id, QDomNode ncache);
-
-    QMap<int, QList<Chapter> > softCacheData;
 public:
     ZefaniaBible();
     void setSettings(Settings *settings);
@@ -51,9 +42,8 @@ public:
     QString readInfo(QFile &file);
     QString readInfo(const QString &content);
 
-    QDomNode readBookFromHardCache(QString path, int bookID);
-    SearchResult search(SearchQuery query);
 
+    SearchResult search(SearchQuery query);
 
     int currentBookID, m_bibleID;
     SearchResult lastSearchResult;
@@ -63,14 +53,24 @@ public:
     QMap <int, int> bookCount;
     QList<Chapter> chapterData;
 
-    QMap<int, QList<Chapter> > softCache();
-    QList<Chapter> softCache(int bookID);
-    void setSoftCache(QMap<int, QList<Chapter> >);
-    void setSoftCache(int bookID, QList<Chapter> c);
-    void clearSoftCache();
-
     void removeHardCache(const QString &path);
 
+private:
+    Settings *m_settings;
+    QDomElement format(QDomElement e);
+    bool checkForCacheFiles(const QString &path);
+    void loadNoCached(const int &id, const QString &path);
+    void loadCached(const int &id, const QString &path);
+    QList<Chapter> fromHardToSoft(int id, QDomNode ncache);
+
+    QMap<int, QList<Chapter> > softCacheData;
+
+    void clearSoftCache();
+    void setSoftCache(QMap<int, QList<Chapter> >);
+    void setSoftCache(int bookID, QList<Chapter> c);
+    QMap<int, QList<Chapter> > softCache();
+    QList<Chapter> softCache(int bookID);
+    QDomNode readBookFromHardCache(QString path, int bookID);
 };
 
 #endif // ZEFANIABIBLE_H

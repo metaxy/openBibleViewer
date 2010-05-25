@@ -30,23 +30,18 @@ public:
     void newWindow();
     void removeWindow(const int &id);
     void clearAll();
-    void clearZefCache();
 
     bool setCurrentWindowID(const int &id);
-    void setBible(Bible b, bool clearZefCache = true);
-    void setCurrentBook(const int &bookid, const int &chapterCount);
+    void setBible(Bible *b);
 
-    int getBibleType();
+    Bible::BibleType getBibleType();
 
-
-    QMap<int, QList<Chapter> > getSoftCache(const int &bibleID);
-    Bible getBible();
+    Bible* getBible();
 private:
-    QMap<int, QMap<int, QList<Chapter> > > m_softCache;
     QMap<int, Bible::BibleType> m_bibletype;
     QStringList m_idList;
     int m_currentWindowID;
-    QMap<int, Bible> m_b;
+    QMap<int, Bible*> m_b;
 
 };
 

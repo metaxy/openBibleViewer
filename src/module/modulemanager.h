@@ -17,6 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings.h"
 #include "src/module/bible.h"
 #include "src/module/strong.h"
+#include "src/module/modulemap.h"
 #include <QtCore/QList>
 #include <QtGui/QStandardItemModel>
 class ModuleManager
@@ -28,14 +29,16 @@ public:
 
     bool bibleLoaded();
     bool strongLoaded();
+    Bible * bible();
     QString notePos2Link(const QString &pos);
     QString notePos2Text(const QString &pos);
 
     QList<Module> m_moduleList;
     QStandardItemModel *m_moduleModel;
+    ModuleMap *m_map;
 
     Settings *m_settings;
-    Bible m_bible;
+    Bible *m_bible;
     Strong m_strong;
 };
 

@@ -21,6 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/searchresult.h"
 #include "src/module/simplemoduleclass.h"
 #include "src/core/bibledisplaysettings.h"
+#include "src/module/modulemap.h"
 /*!
  Bible represent a bible module(eg biblequote module or zefania xml module)
  It read the module over the module, get the raw data, format it.
@@ -38,9 +39,7 @@ public:
     Bible();
     void setSettings(Settings *settings);
     void setBibleType(const BibleType &type);
-    QMap<int, QList<Chapter> > getSoftCache();
-    void clearSoftCache();
-    void setSoftCache(QMap<int, QList<Chapter> > cache);
+    void setModuleMap(ModuleMap *map);
 
     void setBibleDisplaySettings(BibleDisplaySettings bibleDisplaySettings);
 
@@ -81,8 +80,10 @@ public:
     QList<Chapter> m_chapterData;
 
 
-    BibleQuote m_bq;
-    ZefaniaBible m_zef;
+    BibleQuote *m_bq;
+    ZefaniaBible *m_zef;
+
+    ModuleMap *m_map;
 private:
     int m_bibleID;
     int m_bookID;

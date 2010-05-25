@@ -62,7 +62,7 @@ void NotesDockWidget::init()
 
     connect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
     connect(m_notes, SIGNAL(noteRemoved(QString, QMap<QString, QString>)), this, SLOT(removeNote(QString, QMap<QString, QString>)));
-    m_moduleManager->m_bible.setNotes(m_notes);//todo: fix this bug
+    m_moduleManager->bible()->setNotes(m_notes);//todo: fix this bug
 }
 void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
 {
@@ -71,16 +71,16 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
     QString link = ref["link"];
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, link);
-    urlConverter.m_biblesRootPath = m_moduleManager->m_bible.biblesRootPath();
+    urlConverter.m_biblesRootPath = m_moduleManager->bible()->biblesRootPath();
     urlConverter.pharse();
     urlConverter.convert();
-    myDebug() << urlConverter.m_bibleID.toInt() << ":" << m_moduleManager->m_bible.bibleID();
-    myDebug() << urlConverter.m_bookID << ":" << m_moduleManager->m_bible.bookID();
-    myDebug() << urlConverter.m_chapterID << ":" << m_moduleManager->m_bible.chapterID();
+    myDebug() << urlConverter.m_bibleID.toInt() << ":" << m_moduleManager->bible()->bibleID();
+    myDebug() << urlConverter.m_bookID << ":" << m_moduleManager->bible()->bookID();
+    myDebug() << urlConverter.m_chapterID << ":" << m_moduleManager->bible()->chapterID();
 
-    if (urlConverter.m_bibleID.toInt() == m_moduleManager->m_bible.bibleID() &&
-            urlConverter.m_bookID == m_moduleManager->m_bible.bookID() &&
-            urlConverter.m_chapterID == m_moduleManager->m_bible.chapterID()) {
+    if (urlConverter.m_bibleID.toInt() == m_moduleManager->bible()->bibleID() &&
+            urlConverter.m_bookID == m_moduleManager->bible()->bookID() &&
+            urlConverter.m_chapterID == m_moduleManager->bible()->chapterID()) {
         myDebug() << "reload";
         emit reloadChapter();
     }
@@ -92,16 +92,16 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     QString link = ref["link"];
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, link);
-    urlConverter.m_biblesRootPath = m_moduleManager->m_bible.biblesRootPath();
+    urlConverter.m_biblesRootPath = m_moduleManager->bible()->biblesRootPath();
     urlConverter.pharse();
     urlConverter.convert();
-    myDebug() << urlConverter.m_bibleID.toInt() << ":" << m_moduleManager->m_bible.bibleID();
-    myDebug() << urlConverter.m_bookID << ":" << m_moduleManager->m_bible.bookID();
-    myDebug() << urlConverter.m_chapterID << ":" << m_moduleManager->m_bible.chapterID();
+    myDebug() << urlConverter.m_bibleID.toInt() << ":" << m_moduleManager->bible()->bibleID();
+    myDebug() << urlConverter.m_bookID << ":" << m_moduleManager->bible()->bookID();
+    myDebug() << urlConverter.m_chapterID << ":" << m_moduleManager->bible()->chapterID();
 
-    if (urlConverter.m_bibleID.toInt() == m_moduleManager->m_bible.bibleID() &&
-            urlConverter.m_bookID == m_moduleManager->m_bible.bookID() &&
-            urlConverter.m_chapterID == m_moduleManager->m_bible.chapterID()) {
+    if (urlConverter.m_bibleID.toInt() == m_moduleManager->bible()->bibleID() &&
+            urlConverter.m_bookID == m_moduleManager->bible()->bookID() &&
+            urlConverter.m_chapterID == m_moduleManager->bible()->chapterID()) {
         myDebug() << "reload";
         emit reloadChapter();
     }
@@ -176,12 +176,12 @@ void NotesDockWidget::newMark(VerseSelection selection, QColor color)
     }
     QString link;
     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
-    urlConverter.m_biblesRootPath = m_moduleManager->m_bible.biblesRootPath();
-    urlConverter.m_bibleID = QString::number(m_moduleManager->m_bible.bibleID());
-    urlConverter.m_bookID = m_moduleManager->m_bible.bookID();
-    urlConverter.m_chapterID = m_moduleManager->m_bible.chapterID() - m_moduleManager->m_bible.chapterAdd();
+    urlConverter.m_biblesRootPath = m_moduleManager->bible()->biblesRootPath();
+    urlConverter.m_bibleID = QString::number(m_moduleManager->bible()->bibleID());
+    urlConverter.m_bookID = m_moduleManager->bible()->bookID();
+    urlConverter.m_chapterID = m_moduleManager->bible()->chapterID() - m_moduleManager->bible()->chapterAdd();
     urlConverter.m_verseID = selection.startVerse;
-    urlConverter.m_bookName = m_moduleManager->m_bible.bookFullName().at(m_moduleManager->m_bible.bookID());
+    urlConverter.m_bookName = m_moduleManager->bible()->bookFullName().at(m_moduleManager->bible()->bookID());
     link = urlConverter.convert();
 
     m_notes->saveNotes();
@@ -214,10 +214,10 @@ void NotesDockWidget::removeMark(VerseSelection selection)
             QString noteID = id.at(i);
             QString link = m_notes->getRef(noteID, "link");
             UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
-            urlConverter.m_biblesRootPath = m_moduleManager->m_bible.biblesRootPath();
+            urlConverter.m_biblesRootPath = m_moduleManager->bible()->biblesRootPath();
             urlConverter.pharse();
 
-            if (urlConverter.m_bibleID.toInt() == m_moduleManager->m_bible.bibleID() && urlConverter.m_bookID == m_moduleManager->m_bible.bookID() && urlConverter.m_chapterID == m_moduleManager->m_bible.chapterID()) {
+            if (urlConverter.m_bibleID.toInt() == m_moduleManager->bible()->bibleID() && urlConverter.m_bookID == m_moduleManager->bible()->bookID() && urlConverter.m_chapterID == m_moduleManager->bible()->chapterID()) {
                 int start = selection.startVerse - 1;
                 int end;
                 if (selection.endVerse != -1) {

@@ -36,7 +36,7 @@ void BookDockWidget::readChapter(QListWidgetItem * item)
 {
     //DEBUG_FUNC_NAME
     int id = ui->listWidget_chapters->row(item);
-    emit get("bible://current/" + QString::number(m_moduleManager->m_bible.bookID()) + "," + QString::number(id) + ",0");
+    emit get("bible://current/" + QString::number(m_moduleManager->bible()->bookID()) + "," + QString::number(id) + ",0");
 }
 void BookDockWidget::setChapters(const QStringList &chapters)
 {
