@@ -1,6 +1,6 @@
 /***************************************************************************
 openBibleViewer - Bible Study Tool
-Copyright (C) 2009 Paul Walger
+Copyright (C) 2009-2010 Paul Walger
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
 Software Foundation; either version 3 of the License, or (at your option)
@@ -16,30 +16,39 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/module.h"
 #include "src/core/settings.h"
 #include "src/module/bible.h"
+#include "src/module/biblelist.h"
 #include "src/module/strong.h"
 #include "src/module/modulemap.h"
 #include <QtCore/QList>
 #include <QtGui/QStandardItemModel>
+#include "src/core/notes.h"
 class ModuleManager
 {
 public:
     ModuleManager();
-    void setSettings(Settings *settings);
     int loadAllModules();
-
+    void setSettings(Settings *settings);
+    void setNotes(Notes *notes);
+    void setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings);
     bool bibleLoaded();
     bool strongLoaded();
     Bible * bible();
+    void initBible();
+    BibleList * bibleList();
     QString notePos2Link(const QString &pos);
     QString notePos2Text(const QString &pos);
 
     QList<Module> m_moduleList;
     QStandardItemModel *m_moduleModel;
-    ModuleMap *m_map;
-
     Settings *m_settings;
+    Notes *m_notes;
+    ModuleMap *m_map;
     Bible *m_bible;
     Strong m_strong;
+    BibleList *m_bibleList;
+private:
+    QStringList m_iniPath;
+     BibleDisplaySettings *m_bibleDisplaySettings;
 };
 
 #endif // MODULEMANAGER_H

@@ -1,6 +1,6 @@
 /***************************************************************************
 openBibleViewer - Bible Study Tool
-Copyright (C) 2009 Paul Walger
+Copyright (C) 2009-2010 Paul Walger
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
 Software Foundation; either version 3 of the License, or (at your option)
@@ -71,10 +71,10 @@ void SimpleInterface::init()
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
-    BibleDisplaySettings bibleDisplaySettings;
-    bibleDisplaySettings.loadNotes = false;
-    bibleDisplaySettings.showMarks = false;
-    bibleDisplaySettings.showNotes = false;
+    BibleDisplaySettings *bibleDisplaySettings;
+    bibleDisplaySettings->loadNotes = false;
+    bibleDisplaySettings->showMarks = false;
+    bibleDisplaySettings->showNotes = false;
     m_moduleManager->bible()->setBibleDisplaySettings(bibleDisplaySettings);
 
 }
@@ -266,7 +266,10 @@ void SimpleInterface::pharseUrl(QString url)
         myDebug() << "c = " << c;
         if (ok && c < m_moduleManager->bible()->m_chapterData.size() && m_moduleManager->bible()->bibleType() == Bible::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c) {
             myDebug() << "bq chapter link";
-            m_moduleManager->bible()->readChapter(c, 0);
+            showChapter(c + m_moduleManager->bible()->chapterAdd(), 0);
+            setCurrentChapter(c);
+            /*
+            m_moduleManager->bible()->readChapter(c, 0);*/
         } else {
             myDebug() << "anchor";
             ui->textBrowser->scrollToAnchor(url);

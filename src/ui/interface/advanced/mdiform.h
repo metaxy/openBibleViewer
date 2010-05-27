@@ -1,6 +1,6 @@
 /***************************************************************************
 openBibleViewer - Bible Study Tool
-Copyright (C) 2009 Paul Walger
+Copyright (C) 2009-2010 Paul Walger
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
 Software Foundation; either version 3 of the License, or (at your option)
@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtGui/QWidget>
 #include <QtGui/QCloseEvent>
+#include <QtGui/QToolBar>
 #include "ui_mdiform.h"
 #include "src/core/history.h"
 #include "webview.h"
@@ -33,11 +34,14 @@ public:
     virtual ~MdiForm();
     Ui::MdiForm *m_ui;
     WebView *m_view;
+private slots:
+    void showBibleListMenu();
 signals:
     void onClose();
     void historyGo(QString);
     void previousChapter();
     void nextChapter();
+    void addBibleListItems();
 public slots:
     void historyGetUrl(QString url);
     void backward();

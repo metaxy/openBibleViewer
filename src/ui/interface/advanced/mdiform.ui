@@ -62,6 +62,20 @@
      <item>
       <widget class="QComboBox" name="comboBox_chapters"/>
      </item>
+     <item>
+      <widget class="QToolButton" name="toolButton_bibleList">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../icons.qrc">
+         <normaloff>:/icons/16x16/view-form-table.png</normaloff>:/icons/16x16/view-form-table.png</iconset>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>

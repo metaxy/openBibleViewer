@@ -1,6 +1,6 @@
 /***************************************************************************
 openBibleViewer - Bible Study Tool
-Copyright (C) 2009 Paul Walger
+Copyright (C) 2009-2010 Paul Walger
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
 Software Foundation; either version 3 of the License, or (at your option)
@@ -99,6 +99,8 @@ private slots:
     void setTabView();
     void setSubWindowView();
 
+    void addBibleListItems();
+
 
 public:
     AdvancedInterface(QWidget *parent = 0);
@@ -152,6 +154,7 @@ private:
     void showChapter(const int &chapterID, const int &verseID);
     void autoLayout();
     QTextCursor m_textCursor;
+    BibleDisplaySettings *m_bibleDisplaySettings;
 
     //Menu
     QAction *m_actionTabView;

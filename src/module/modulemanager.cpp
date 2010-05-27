@@ -1,6 +1,6 @@
 /***************************************************************************
 openBibleViewer - Bible Study Tool
-Copyright (C) 2009 Paul Walger
+Copyright (C) 2009-2010 Paul Walger
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
 Software Foundation; either version 3 of the License, or (at your option)
@@ -30,8 +30,16 @@ ModuleManager::ModuleManager()
 }
 void ModuleManager::setSettings(Settings *settings)
 {
-    //DEBUG_FUNC_NAME
     m_settings = settings;
+}
+
+void ModuleManager::setNotes(Notes *notes)
+{
+    m_notes = notes;
+}
+void ModuleManager::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings)
+{
+    m_bibleDisplaySettings = bibleDisplaySettings;
 }
 /**
   Load all Modules, and generate a QStandardItemModel.
@@ -249,14 +257,25 @@ int ModuleManager::loadAllModules()
     }
 
     //todo: its ugly
-    QStringList iniPath;
+    m_iniPath.clear();;
     for (int i = 0; i < m_moduleList.size(); ++i) {
         //if(m_moduleList.at(i).m_moduleClass == Module::BibleModule)
-        iniPath << m_moduleList.at(i).m_path;
+        m_iniPath << m_moduleList.at(i).m_path;
     }
-    m_bible->setBiblesRootPath(iniPath);
+    m_bible->setBiblesRootPath(m_iniPath);
     return 0;
 }
+void ModuleManager::initBible()
+{
+
+    m_bible->setSettings(m_settings);
+    m_bible->setNotes(m_notes);
+    m_bible->setBiblesRootPath(m_iniPath);
+    m_bible->setModuleMap(m_map);
+    m_bible->setBibleDisplaySettings(m_bibleDisplaySettings);
+
+}
+
 /**
   Returns true, if a bible is loaded.
   */
@@ -277,10 +296,13 @@ bool ModuleManager::strongLoaded()
 }
 Bible * ModuleManager::bible()
 {
-    m_bible->setModuleMap(m_map);//todo: avoid this
+    //m_bible->setModuleMap(m_map);//todo: avoid this
     return m_bible;
 }
-
+BibleList * ModuleManager::bibleList()
+{
+    return m_bibleList;
+}
 /**
   Converts a PersistentUrl to a link.
   */

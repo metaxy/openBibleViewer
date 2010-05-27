@@ -67,7 +67,8 @@ SOURCES += src/main.cpp \
     src/ui/dialog/insertlinkdialog.cpp \
     src/core/moduledownloader.cpp \
     src/ui/interface/advanced/webview.cpp \
-    src/module/modulemap.cpp
+    src/module/modulemap.cpp \
+    src/module/biblelist.cpp
 HEADERS += src/core/settings.h \
     src/module/biblequote.h \
     src/module/zefania-bible.h \
@@ -130,7 +131,8 @@ HEADERS += src/core/settings.h \
     src/ui/dialog/insertlinkdialog.h \
     src/core/moduledownloader.h \
     src/ui/interface/advanced/webview.h \
-    src/module/modulemap.h
+    src/module/modulemap.h \
+    src/module/biblelist.h
 FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dialog/settingsdialog.ui \
     src/ui/dialog/searchinfodialog.ui \

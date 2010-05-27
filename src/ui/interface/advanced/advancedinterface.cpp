@@ -1,6 +1,6 @@
 /***************************************************************************
 openBibleViewer - Bible Study Tool
-Copyright (C) 2009 Paul Walger
+Copyright (C) 2009-2010 Paul Walger
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
 Software Foundation; either version 3 of the License, or (at your option)
@@ -69,7 +69,7 @@ void AdvancedInterface::setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDoc
 void AdvancedInterface::init()
 {
 
-    m_moduleManager->bible()->setSettings(m_settings);
+    //m_moduleManager->bible()->setSettings(m_settings);
 
     m_moduleDockWidget->setBibleDisplay(m_bibleDisplay);
     m_moduleDockWidget->setNotes(m_notes);
@@ -130,17 +130,17 @@ void AdvancedInterface::init()
 
     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
-    BibleDisplaySettings bibleDisplaySettings;
-    bibleDisplaySettings.loadNotes = true;
-    bibleDisplaySettings.showMarks = true;
-    bibleDisplaySettings.showNotes = true;
-    m_moduleManager->bible()->setBibleDisplaySettings(bibleDisplaySettings);
+    m_bibleDisplaySettings = new BibleDisplaySettings();
+    m_bibleDisplaySettings->loadNotes = true;
+    m_bibleDisplaySettings->showMarks = true;
+    m_bibleDisplaySettings->showNotes = true;
+    m_moduleManager->setBibleDisplaySettings(m_bibleDisplaySettings);
 
     connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
-    myDebug() << "homepath = " << m_settings->homePath;
+
     if (usableWindowList().size() == 0 &&  m_settings->session.getData("windowUrls").toStringList().size() == 0)
-        QTimer::singleShot(10, this, SLOT(newSubWindow()));//todo: fix this ugly bug
-    myDebug() << " windowlist = " << usableWindowList();
+    QTimer::singleShot(1, this, SLOT(newSubWindow()));
+
 }
 
 
@@ -153,7 +153,10 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     if (windowsCount == 1) {
         firstSubWindow = usableWindowList().at(0);
     }
+
     m_windowCache.newWindow();
+
+
     QWidget *widget = new QWidget(ui->mdiArea);
     QVBoxLayout *layout = new QVBoxLayout(widget);
 
@@ -189,6 +192,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     connect(mForm, SIGNAL(historyGo(QString)), this, SLOT(pharseUrl(QString)));
     connect(mForm, SIGNAL(previousChapter()), this, SLOT(previousChapter()));
     connect(mForm, SIGNAL(nextChapter()), this, SLOT(nextChapter()));
+    connect(mForm,SIGNAL(addBibleListItems()),this,SLOT(addBibleListItems()));
     connect(this, SIGNAL(historySetUrl(QString)), mForm, SLOT(historyGetUrl(QString)));
     connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closingWindow()));
     m_enableReload = true;
@@ -196,6 +200,16 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
         autoLayout();
     }
     m_internalWindows << subWindow;
+
+    m_moduleManager->m_bible = new Bible();
+    m_moduleManager->initBible();
+    m_moduleManager->m_bibleList = new BibleList();
+
+    m_moduleManager->bibleList()->addBible(m_moduleManager->m_bible);
+    m_windowCache.setBibleList(m_moduleManager->m_bibleList);
+     //clear old stuff
+    setBooks(QStringList());
+    setChapters(QStringList());
 
 }
 void AdvancedInterface::autoLayout()
@@ -429,32 +443,41 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
     }
 
     myDebug() << "setCurrentTab id = " << id;
-    //todo: load module
     m_windowCache.setCurrentWindowID(id);
 
     //todo: add last active window and if it is the same do nohting
-    if (m_windowCache.getBibleType() == Bible::None) { //probaly no bible loaded in this window
-        myDebug() << "m_windowCache.getBibleType() == 0";
+    if(m_windowCache.getBibleList() == 0) {
         setChapters(QStringList());
         setBooks(QStringList());
-        m_moduleManager->bible()->setBibleID(-2);
-
-    } else {
-
-        if (m_moduleManager->bible()->bibleID() == m_windowCache.getBible()->bibleID())
-            return 1;
-        m_moduleManager->m_bible = m_windowCache.getBible();
-        setTitle(m_moduleManager->bible()->bibleTitle());
-
-        setChapters(m_moduleManager->bible()->chapterNames());
-
-        setCurrentChapter(m_moduleManager->bible()->chapterID());
-
-        setBooks(m_moduleManager->bible()->bookFullName());
-        setCurrentBook(m_moduleManager->bible()->bookID());
-        m_moduleDockWidget->loadedModule(m_moduleManager->bible()->bibleID());
-
+        return 1;
     }
+    myDebug() << "bible list ok = " <<m_windowCache.getBibleList()->m_bibleList.size();
+    if(m_windowCache.getBibleList()->bible() == 0) {
+        setChapters(QStringList());
+        setBooks(QStringList());
+        return 1;
+    }
+    myDebug() << "bible ok = " <<m_windowCache.getBibleList()->bible()->bibleID();
+    if(m_windowCache.getBibleList()->bible()->bibleID() < 0) {
+        setChapters(QStringList());
+        setBooks(QStringList());
+        return 1;
+    }
+
+    if (m_moduleManager->bibleList()->bible()->bibleID() == m_windowCache.getBibleList()->bible()->bibleID())
+        return 1;
+    myDebug() << "need to reload";
+    m_moduleManager->m_bibleList = m_windowCache.getBibleList();
+    m_moduleManager->m_bible = m_moduleManager->m_bibleList->bible();
+    setTitle(m_moduleManager->bible()->bibleTitle());
+
+    setChapters(m_moduleManager->bible()->chapterNames());
+
+    setCurrentChapter(m_moduleManager->bible()->chapterID());
+
+    setBooks(m_moduleManager->bible()->bookFullName());
+    setCurrentBook(m_moduleManager->bible()->bookID());
+    m_moduleDockWidget->loadedModule(m_moduleManager->bible()->bibleID());
 
     return 0;
 }
@@ -466,17 +489,15 @@ void AdvancedInterface::loadModuleDataByID(int id)
     if (ui->mdiArea->subWindowList().size() == 0)
         newSubWindow();
     if (id < 0 || m_moduleManager->m_moduleList.size() < id) {
-        QApplication::restoreOverrideCursor();
         return;
     }
-    if (!m_moduleManager->m_moduleList.at(id).m_moduleClass == Module::BibleModule) {
-        QApplication::restoreOverrideCursor();
+    if (m_moduleManager->m_moduleList.at(id).m_moduleClass != Module::BibleModule) {
         return;
     }
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
     m_windowCache.setCurrentWindowID(currentWindowID());
-    m_windowCache.setBible(m_moduleManager->bible());
+    //m_windowCache.setBibleList(m_moduleManager->bibleList());
 
     Module::ModuleType type = m_moduleManager->m_moduleList.at(id).m_moduleType;
     if(type == Module::BibleQuoteModule) {
@@ -502,8 +523,6 @@ void AdvancedInterface::loadModuleDataByID(int id)
     } else {
         myDebug() << "can not open stylesheet = " << file.errorString();
     }*/
-
-
 
     QApplication::restoreOverrideCursor();
 
@@ -1349,8 +1368,9 @@ void AdvancedInterface::closing()
     for (int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
         //todo:
         m_windowCache.setCurrentWindowID(i);
-        Bible *b = m_windowCache.getBible();
-        if (b->bibleID() >= 0) {
+        //todo: save also bible list
+        if(m_windowCache.getBibleList() != 0 && m_windowCache.getBibleList()->bible() != 0 && m_windowCache.getBibleList()->bible()->bibleID() >= 0) {
+            Bible *b = m_windowCache.getBibleList()->bible();
             UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
             urlConverter.m_biblesRootPath = b->biblesRootPath();
             urlConverter.m_bibleID = QString::number(b->bibleID());
@@ -1362,6 +1382,7 @@ void AdvancedInterface::closing()
             windowUrls << "";
         }
         windowGeo << ui->mdiArea->subWindowList().at(i)->geometry();
+
        /* QTextBrowser *textBrowser =  ui->mdiArea->subWindowList().at(i)->findChild<QTextBrowser *>("textBrowser");
         vSlider <<  textBrowser->verticalScrollBar()->sliderPosition();
         hSlider <<  textBrowser->horizontalScrollBar()->sliderPosition();
@@ -1911,6 +1932,15 @@ void AdvancedInterface::setSubWindowView()
     m_actionTabView->setChecked(false);
     m_actionSubWindowView->setChecked(true);
 }
+void AdvancedInterface::addBibleListItems()
+{
+    //todo: a window
+    //with itemmodel from ModuleManager
+    //make itemmodel checakble
+    //add load all checked modules
+    //and add them to bibleList
+}
+
 void AdvancedInterface::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);

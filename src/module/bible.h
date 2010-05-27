@@ -1,6 +1,6 @@
 /***************************************************************************
 openBibleViewer - Bible Study Tool
-Copyright (C) 2009 Paul Walger
+Copyright (C) 2009-2010 Paul Walger
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
 Software Foundation; either version 3 of the License, or (at your option)
@@ -40,8 +40,7 @@ public:
     void setSettings(Settings *settings);
     void setBibleType(const BibleType &type);
     void setModuleMap(ModuleMap *map);
-
-    void setBibleDisplaySettings(BibleDisplaySettings bibleDisplaySettings);
+    void setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings);
 
     int loadBibleData(const int &bibleID, const QString &path);
     int readBook(int id);
@@ -104,7 +103,7 @@ private:
     QStringList m_biblesRootPath;
 
     SearchResult m_lastSearchResult;
-    BibleDisplaySettings m_bibleDisplaySettings;
+    BibleDisplaySettings *m_bibleDisplaySettings;
 
 };
 

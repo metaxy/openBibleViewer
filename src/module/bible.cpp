@@ -1,6 +1,6 @@
 /***************************************************************************
 openBibleViewer - Bible Study Tool
-Copyright (C) 2009 Paul Walger
+Copyright (C) 2009-2010 Paul Walger
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
 Software Foundation; either version 3 of the License, or (at your option)
@@ -39,7 +39,7 @@ void Bible::setSettings(Settings *settings)
 {
     m_settings = settings;
 }
-void Bible::setBibleDisplaySettings(BibleDisplaySettings bibleDisplaySettings)
+void Bible::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings)
 {
     m_bibleDisplaySettings = bibleDisplaySettings;
 }
@@ -230,7 +230,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
             QString vers = c.data.at(i);
             //main formatting
 
-            if (m_notes != 0 && m_bibleDisplaySettings.loadNotes == true) {
+            if (m_notes != 0 && m_bibleDisplaySettings->loadNotes == true) {
                 for (int n = 0; n < m_notes->getIDList().size(); ++n) {
                     QString noteID = m_notes->getIDList().at(n);
                     if (m_notes->getType(noteID) == "text") {
@@ -257,9 +257,6 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 vers.append("");
             }
 
-
-
-
             versList << vers;
         }
         break;
@@ -267,7 +264,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     default:
         return "";
     }
-    if (m_notes != 0 && m_bibleDisplaySettings.loadNotes == true) {
+    if (m_notes != 0 && m_bibleDisplaySettings->loadNotes == true) {
         for (int n = 0; n <  m_notes->getIDList().size(); ++n) {
             QString noteID = m_notes->getIDList().at(n);
             if (m_notes->getType(noteID) == "mark") {

@@ -1,6 +1,6 @@
 /***************************************************************************
 openBibleViewer - Bible Study Tool
-Copyright (C) 2009 Paul Walger
+Copyright (C) 2009-2010 Paul Walger
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
 Software Foundation; either version 3 of the License, or (at your option)
@@ -76,6 +76,7 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
     loadSettings();
 
     m_moduleManager->setSettings(m_settings);
+    m_moduleManager->setNotes(m_notes);
     m_moduleManager->loadAllModules();
     loadInterface();
     //restoreSession();

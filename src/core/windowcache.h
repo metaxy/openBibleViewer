@@ -1,6 +1,6 @@
 /***************************************************************************
 openBibleViewer - Bible Study Tool
-Copyright (C) 2009 Paul Walger
+Copyright (C) 2009-2010 Paul Walger
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
 Software Foundation; either version 3 of the License, or (at your option)
@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef WINDOWCACHE_H
 #define WINDOWCACHE_H
 #include "src/module/bible.h"
+#include "src/module/biblelist.h"
 #include <QtCore/QMap>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
@@ -32,16 +33,16 @@ public:
     void clearAll();
 
     bool setCurrentWindowID(const int &id);
-    void setBible(Bible *b);
+    void setBibleList(BibleList *b);
 
     Bible::BibleType getBibleType();
 
-    Bible* getBible();
+    BibleList* getBibleList();
 private:
     QMap<int, Bible::BibleType> m_bibletype;
     QStringList m_idList;
     int m_currentWindowID;
-    QMap<int, Bible*> m_b;
+    QMap<int, BibleList*> m_b;
 
 };
 
