@@ -28,6 +28,7 @@ public:
     ModuleSettings();
     QString modulePath;
     QString moduleName;
+    QString moduleShortName;
     QString moduleType;
     QString encoding;
     bool isDir;

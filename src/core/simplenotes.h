@@ -25,7 +25,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtWebKit/QWebFrame>
 #include "src/core/settings.h"
 #include "src/core/notes.h"
-#include "src/module/modulemanager.h"
 #include "src/core/verseselection.h"
 #include "src/core/basicclass.h"
 class SimpleNotes : public QObject, public BasicClass

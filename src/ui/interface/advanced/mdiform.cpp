@@ -14,10 +14,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "mdiform.h"
 #include "ui_mdiform.h"
 #include "src/core/dbghelper.h"
+#include "biblelistwidget.h"
 #include <QtGui/QAction>
 #include <QtGui/QMenu>
 #include <QtGui/QCursor>
-
+#include "src/core/core.h"
 MdiForm::MdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::MdiForm)
 {
     m_ui->setupUi(this);
@@ -48,19 +49,16 @@ void MdiForm::changeEvent(QEvent *e)
 }
 void MdiForm::historyGetUrl(QString url)
 {
-    //myDebug() << "url = " << url;
     browserHistory.setCurrent(url);
     setButtons();
 }
 void MdiForm::backward()
 {
-    //DEBUG_FUNC_NAME
     emit historyGo(browserHistory.backward());
     setButtons();
 }
 void MdiForm::forward()
 {
-    //DEBUG_FUNC_NAME
     emit historyGo(browserHistory.forward());
     setButtons();
 }
@@ -80,22 +78,18 @@ void MdiForm::setButtons()
 
 void MdiForm::showBibleListMenu()
 {
-    QMenu *menu = new QMenu(this);
-    QAction *actionDisable = new QAction( tr("Disable"), menu);
-    menu->addAction(actionDisable);
+    BibleListWidget *w = new BibleListWidget;
+    w->setModuleManager(m_moduleManager);
+    w->setWindowFlags(Qt::Popup);
+    w->move(QCursor::pos());
+    w->init();
+    w->show();
 
-    QAction *actionAdd = new QAction( tr("Add"), menu);
-    menu->addAction(actionAdd);
-    connect(actionAdd,SIGNAL(triggered()),this,SIGNAL(addBibleListItems()));
-
-    //todo:last used module
-
-    menu->exec(QCursor::pos());
 }
 
 bool MdiForm::eventFilter(QObject *obj, QEvent *event)
 {
-    /*if (obj == m_ui->textBrowser) {
+    /*if (obj == m_view) {
         if (event->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
             if (keyEvent->key() == Qt::Key_Left) {

@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_marklist.h"
 #include "src/core/dbghelper.h"
 #include "src/core/urlconverter.h"
+#include "src/core/core.h"
 MarkList::MarkList(QWidget *parent) :
         QDialog(parent),
         ui(new Ui::MarkList)
@@ -63,8 +64,8 @@ void MarkList::init()
         stelle->setData(marks.at(row));
         m_itemModel->setItem(row, 0, stelle);
 
-        QStandardItem *modul = new QStandardItem(m_moduleManager->m_moduleList.at(urlConverter.m_bibleID.toInt()).m_title);
-        m_itemModel->setItem(row, 1, modul);
+        QStandardItem *module = new QStandardItem(m_moduleManager->m_moduleList.at(urlConverter.m_bibleID.toInt()).m_title);
+        m_itemModel->setItem(row, 1, module);
 
     }
     m_proxyModel->setSourceModel(m_itemModel);
@@ -88,6 +89,9 @@ void MarkList::load(QModelIndex index)
 MarkList::~MarkList()
 {
     delete ui;
+    delete m_itemModel;
+    delete m_proxyModel;
+    delete m_selectionModel;
 }
 
 void MarkList::changeEvent(QEvent *e)
@@ -96,6 +100,8 @@ void MarkList::changeEvent(QEvent *e)
     switch (e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
+        m_proxyModel->setHeaderData(0, Qt::Horizontal, tr("Mark Position"));
+        m_proxyModel->setHeaderData(1, Qt::Horizontal, tr("Module"));
         break;
     default:
         break;

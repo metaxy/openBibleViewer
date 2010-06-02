@@ -81,7 +81,7 @@ QDomNode ZefaniaBible::readBookFromHardCache(QString path, int bookID)
     QFile file(fileName + QString::number(bookID) + ".xml");
     //myDebug() << "fileName = " << file.fileName();
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not read the file."));
+        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot read the file."));
         myDebug() << "cant read the file";
         return e;
     }

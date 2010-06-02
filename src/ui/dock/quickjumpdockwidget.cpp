@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/goto.h"
 #include "src/core/dbghelper.h"
 #include <QtGui/QKeyEvent>
-
+#include "src/core/core.h"
 QuickJumpDockWidget::QuickJumpDockWidget(QWidget *parent) :
         DockWidget(parent),
         ui(new Ui::QuickJumpDockWidget)

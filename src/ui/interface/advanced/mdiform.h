@@ -17,15 +17,17 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QWidget>
 #include <QtGui/QCloseEvent>
 #include <QtGui/QToolBar>
+#include "src/core/basicclass.h"
 #include "ui_mdiform.h"
 #include "src/core/history.h"
 #include "webview.h"
+
 namespace Ui
 {
 class MdiForm;
 }
 
-class MdiForm : public QWidget
+class MdiForm : public QWidget, public BasicClass
 {
     Q_OBJECT
     Q_DISABLE_COPY(MdiForm)
@@ -41,7 +43,6 @@ signals:
     void historyGo(QString);
     void previousChapter();
     void nextChapter();
-    void addBibleListItems();
 public slots:
     void historyGetUrl(QString url);
     void backward();
@@ -53,7 +54,6 @@ protected:
 private:
     History browserHistory;
     void setButtons();
-
 
 };
 

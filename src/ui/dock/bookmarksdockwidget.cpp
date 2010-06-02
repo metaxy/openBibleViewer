@@ -23,6 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QTreeWidgetItem>
 #include <QtGui/QMenu>
 #include <QtCore/QMimeData>
+#include "src/core/core.h"
 BookmarksDockWidget::BookmarksDockWidget(QWidget *parent) :
         DockWidget(parent),
         ui(new Ui::BookmarksDockWidget)

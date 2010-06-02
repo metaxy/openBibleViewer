@@ -31,7 +31,7 @@
 
 #include <QtGui>
 #include <QtWebKit>
-
+#include "src/core/core.h"
 #define FORWARD_ACTION(action1, action2) \
     connect(action1, SIGNAL(triggered()), \
             ui->webView->pageAction(action2), SLOT(trigger())); \
@@ -269,7 +269,7 @@ static QUrl guessUrlFromString(const QString &string)
 
 void NotesEditor::createLink()
 {
-    InsertLinkDialog *insertLinkDialog = new  InsertLinkDialog(this);
+    InsertLinkDialog *insertLinkDialog = new InsertLinkDialog(this);
     connect(insertLinkDialog, SIGNAL(newLink(QString)), this, SLOT(createLink(QString)));
     insertLinkDialog->setSettings(m_settings);
     insertLinkDialog->setNotes(m_notes);

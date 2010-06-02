@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_moduledockwidget.h"
 #include "src/core/dbghelper.h"
 #include <QModelIndexList>
+#include "src/core/core.h"
 ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
         DockWidget(parent),
         ui(new Ui::ModuleDockWidget)

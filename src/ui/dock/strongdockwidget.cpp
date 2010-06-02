@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "strongdockwidget.h"
 #include "ui_strongdockwidget.h"
 #include "src/core/dbghelper.h"
+#include "src/core/core.h"
 StrongDockWidget::StrongDockWidget(QWidget *parent) :
         DockWidget(parent),
         ui(new Ui::StrongDockWidget)

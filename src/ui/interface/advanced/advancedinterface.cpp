@@ -32,6 +32,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dialog/aboutdialog.h"
 #include "src/ui/noteseditor.h"
 #include "src/ui/marklist.h"
+#include "src/core/core.h"
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
         Interface(parent),
         ui(new Ui::AdvancedInterface)
@@ -81,7 +82,7 @@ void AdvancedInterface::init()
     m_bookDockWidget->setBibleDisplay(m_bibleDisplay);
     m_bookDockWidget->setNotes(m_notes);
     m_bookDockWidget->setSettings(m_settings);
-    m_bookDockWidget->setModuleManager(m_moduleManager);
+   m_bookDockWidget->setModuleManager(m_moduleManager);
     connect(m_bookDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
     m_searchResultDockWidget->setBibleDisplay(m_bibleDisplay);
@@ -161,6 +162,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     QVBoxLayout *layout = new QVBoxLayout(widget);
 
     MdiForm *mForm = new MdiForm(widget);
+    mForm->setModuleManager(m_moduleManager);
     layout->addWidget(mForm);
 
     widget->setLayout(layout);
@@ -192,7 +194,6 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     connect(mForm, SIGNAL(historyGo(QString)), this, SLOT(pharseUrl(QString)));
     connect(mForm, SIGNAL(previousChapter()), this, SLOT(previousChapter()));
     connect(mForm, SIGNAL(nextChapter()), this, SLOT(nextChapter()));
-    connect(mForm,SIGNAL(addBibleListItems()),this,SLOT(addBibleListItems()));
     connect(this, SIGNAL(historySetUrl(QString)), mForm, SLOT(historyGetUrl(QString)));
     connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closingWindow()));
     m_enableReload = true;
@@ -205,7 +206,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     m_moduleManager->initBible();
     m_moduleManager->m_bibleList = new BibleList();
 
-    m_moduleManager->bibleList()->addBible(m_moduleManager->m_bible);
+    m_moduleManager->bibleList()->addBible(m_moduleManager->m_bible,QPoint(0,0));
     m_windowCache.setBibleList(m_moduleManager->m_bibleList);
      //clear old stuff
     setBooks(QStringList());
@@ -451,7 +452,7 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
         setBooks(QStringList());
         return 1;
     }
-    myDebug() << "bible list ok = " <<m_windowCache.getBibleList()->m_bibleList.size();
+    myDebug() << "bible list ok = " <<m_windowCache.getBibleList()->m_bibles.size();
     if(m_windowCache.getBibleList()->bible() == 0) {
         setChapters(QStringList());
         setBooks(QStringList());
@@ -1931,14 +1932,6 @@ void AdvancedInterface::setSubWindowView()
     ui->mdiArea->setViewMode(QMdiArea::SubWindowView);
     m_actionTabView->setChecked(false);
     m_actionSubWindowView->setChecked(true);
-}
-void AdvancedInterface::addBibleListItems()
-{
-    //todo: a window
-    //with itemmodel from ModuleManager
-    //make itemmodel checakble
-    //add load all checked modules
-    //and add them to bibleList
 }
 
 void AdvancedInterface::changeEvent(QEvent *e)

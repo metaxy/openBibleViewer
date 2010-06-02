@@ -1,13 +1,15 @@
 #ifndef BIBLELIST_H
 #define BIBLELIST_H
 #include "src/module/bible.h"
+#include <QPoint>
 class BibleList
 {
 public:
     BibleList();
-    QList<Bible *> m_bibleList;
+    QHash<int,Bible *> m_bibles;
+    QMap<int,QPoint> m_biblePoints;
     Bible * bible();
-    void addBible(Bible* b);
+    void addBible(Bible* b, QPoint p);
 
     int readBook(int id);
     QString readChapter(int chapterID, int verseID);

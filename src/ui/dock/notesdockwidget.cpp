@@ -19,6 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMenu>
 #include <QtGui/QColorDialog>
 #include <QtGui/QMessageBox>
+#include "src/core/core.h"
 NotesDockWidget::NotesDockWidget(QWidget *parent) :
         DockWidget(parent),
         ui(new Ui::NotesDockWidget)
@@ -62,7 +63,6 @@ void NotesDockWidget::init()
 
     connect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
     connect(m_notes, SIGNAL(noteRemoved(QString, QMap<QString, QString>)), this, SLOT(removeNote(QString, QMap<QString, QString>)));
-    m_moduleManager->bible()->setNotes(m_notes);//todo: fix this bug
 }
 void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
 {

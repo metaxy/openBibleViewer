@@ -19,7 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QDesktopServices>
 #include <QtGui/QMessageBox>
 #include <QtGui/QKeyEvent>
-
+#include "src/core/core.h"
 SimpleInterface::SimpleInterface(QWidget *parent) :
         Interface(parent),
         ui(new Ui::SimpleInterface)
@@ -51,7 +51,7 @@ void SimpleInterface::init()
     m_moduleDockWidget->setBibleDisplay(m_bibleDisplay);
     m_moduleDockWidget->setNotes(m_notes);
     m_moduleDockWidget->setSettings(m_settings);
-    m_moduleDockWidget->setModuleManager(m_moduleManager);
+    //m_moduleDockWidget->setModuleManager(m_moduleManager);
     m_moduleDockWidget->init();
     connect(m_moduleDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
@@ -71,7 +71,7 @@ void SimpleInterface::init()
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
-    BibleDisplaySettings *bibleDisplaySettings;
+    BibleDisplaySettings *bibleDisplaySettings = new BibleDisplaySettings();
     bibleDisplaySettings->loadNotes = false;
     bibleDisplaySettings->showMarks = false;
     bibleDisplaySettings->showNotes = false;
@@ -84,34 +84,7 @@ bool SimpleInterface::hasMenuBar()
 }
 QMenuBar* SimpleInterface::menuBar()
 {
-    QMenuBar *bar = new QMenuBar(this->parentWidget());
-    /*QMenu *menuFile = new QMenu(tr("File"),bar);
-
-    QAction *actionPrint = new QAction(QIcon(":/icons/16x16/document-print.png"), tr("Print"), menuFile);
-    QAction *actionClose = new QAction(QIcon(":/icons/16x16/window-close.png"), tr("Close"), menuFile);
-
-    menuFile->addAction(actionPrint);
-    menuFile->addAction(actionClose);
-
-
-    QMenu *menuEdit = new QMenu(tr("Edit"),bar);
-    QAction *actionCopy = new QAction(QIcon(":/icons/16x16/edit-copy.png"), tr("Copy"), menuEdit);
-    QAction *actionSelectAll = new QAction(QIcon(":/icons/16x16/edit-select-all.png"), tr("Select All"), menuEdit);
-
-    QAction *actionSearch = new QAction(QIcon(":/icons/16x16/edit-find.png"), tr("Search"), menuEdit);
-    QAction *actionFindNext = new QAction(QIcon(":/icons/16x16/go-down-search.png"), tr("Find Next"), menuEdit);
-    QAction *actionFindPrevious = new QAction(QIcon(":/icons/16x16/go-up-search.png"), tr("Find Previous"), menuEdit);
-
-    menuEdit->addAction(actionCopy);
-    menuEdit->addAction(actionSelectAll);
-    menuEdit->addSeparator();
-    menuEdit->addAction(actionSearch);
-    menuEdit->addAction(actionFindNext);
-    menuEdit->addAction(actionFindPrevious);
-
-    bar->addMenu(menuFile);
-    bar->addMenu(menuEdit);*/
-    return bar;
+    return 0;
 }
 bool SimpleInterface::hasToolBar()
 {
@@ -158,7 +131,6 @@ void SimpleInterface::loadModuleDataByID(int id)
     myDebug() << "id = " << id;
     if (id < 0 || m_moduleManager->m_moduleList.size() < id)
         return;
-    //m_windowCache.setBible(m_moduleManager->m_bible);//before loading an another bible, save the last
     Module::ModuleType type = m_moduleManager->m_moduleList.at(id).m_moduleType;
     if(type == Module::BibleQuoteModule) {
         m_moduleManager->bible()->setBibleType(Bible::BibleQuoteModule);
@@ -169,9 +141,6 @@ void SimpleInterface::loadModuleDataByID(int id)
     }
 
     m_moduleManager->bible()->loadBibleData(id, m_moduleManager->m_moduleList.at(id).m_path);
-    /*if (!m_windowCache.getSoftCache(id).isEmpty())
-        m_moduleManager->bible()->setSoftCache(m_windowCache.getSoftCache(id));//todo: if it is empty then do nothing*/
-
 
     setTitle(m_moduleManager->bible()->bibleTitle());
     setBooks(m_moduleManager->bible()->bookFullName());

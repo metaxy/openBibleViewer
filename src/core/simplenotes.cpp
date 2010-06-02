@@ -20,6 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QApplication>
 #include "src/ui/dialog/biblepassagedialog.h"
 #include "src/core/urlconverter.h"
+#include "src/core/core.h"
 SimpleNotes::SimpleNotes()
 {
 }

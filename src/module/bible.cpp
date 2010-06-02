@@ -23,7 +23,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 Bible::Bible()
 {
     m_bibleID = -1;
-    //m_settings = new Settings();
 }
 void Bible::setModuleMap(ModuleMap *map)
 {
@@ -31,7 +30,6 @@ void Bible::setModuleMap(ModuleMap *map)
 }
 void Bible::setBibleType(const BibleType &type)
 {
-    //todo:check if type is valid
     m_bibleType = type;
     return;
 }
@@ -52,7 +50,6 @@ int Bible::loadBibleData(const int &bibleID, const QString &path)
         return 1;
     }
     m_bibleID = bibleID;
-    //todo:
     switch (m_bibleType) {
     case BibleQuoteModule: {
         if(m_map->m_bibleQuote.contains(m_bibleID)) {

@@ -20,12 +20,12 @@ class Module
 public:
     Module();
     enum ModuleClass {
-        NoneType = 0,
+        NoneClass = 0,
         BibleModule = 1,
         StrongModule = 2
     };
     enum ModuleType {
-        NoneClass = 0,
+        NoneType = 0,
         BibleQuoteModule = 1,
         ZefaniaBibleModule = 2,
         ZefaniaStrongModule = 3

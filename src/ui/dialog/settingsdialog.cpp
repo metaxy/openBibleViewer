@@ -310,8 +310,8 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
             QString f = fileName.at(i);
             QString fileData;
             QString bibleName;
-            int imoduleType = 0;
-            QString moduleType;
+            Module::ModuleType moduleType = Module::NoneType;
+            QString moduleTypeName = "";
             BibleQuote bq;
             ZefaniaBible zef;
             ZefaniaStrong zefStrong;
@@ -321,13 +321,15 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
             QFileInfo fileInfo(f);
             if (fileInfo.isFile()) {
                 if (f.endsWith(".zip")) {
-                    return;
                     //todo: unzip first
+                    QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot open zipped files."));
+                    return;
+
                 }
                 //open file
                 QFile file(f);
                 if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                    QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not read the file"));
+                    QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot read the file."));
                     progress.close();
                     generateModuleTree();
                     return;
@@ -336,51 +338,58 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                 fileData = in.readAll();
 
                 if (fileData.contains("BookQty", Qt::CaseInsensitive)) {
-                    imoduleType = 1;// BibleQuote
+                    moduleType = Module::BibleQuoteModule;// BibleQuote
                 } else if (fileData.contains("XMLBIBLE", Qt::CaseInsensitive)) {
-                    imoduleType = 2;// Zefania Bible
+                    moduleType = Module::ZefaniaBibleModule;// Zefania Bible
                 } else if (fileData.contains("<dictionary type=\"x-strong\"", Qt::CaseInsensitive)) {
-                    imoduleType = 3;// Zefania Strong
+                    moduleType = Module::ZefaniaStrongModule;// Zefania Strong
                 } else {
-                    QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
+                    QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid."));
                     progress.close();
                     generateModuleTree();
                     return;
                 }
 
-                switch (imoduleType) {
+                switch (moduleType) {
                 case Module::BibleQuoteModule:
-                    bibleName = bq.readInfo(file);
-                    moduleType = QObject::tr("Bible Quote");
+                    if (names.size() == 0 || i >= names.size()) {
+                        bibleName = bq.readInfo(file);
+                    }
+                    moduleTypeName = QObject::tr("Bible Quote");
                     break;
                 case Module::ZefaniaBibleModule:
-                    bibleName = zef.readInfo(fileData);
-                    moduleType = QObject::tr("Zefania XML");
+                    if (names.size() == 0 || i >= names.size()) {
+                        bibleName = zef.readInfo(fileData);
+                    }
+                    moduleTypeName = QObject::tr("Zefania XML");
                     break;
                 case Module::ZefaniaStrongModule:
-                    bibleName = zefStrong.loadFile(fileData, f);
-                    moduleType = QObject::tr("Zefania XML Strong");
+                    if (names.size() == 0 || i >= names.size()) {
+                        bibleName = zefStrong.loadFile(fileData, f);
+                    }
+                    moduleTypeName = QObject::tr("Zefania XML Strong");
                     break;
-
+                case Module::NoneType:
+                    QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
+                    return;
                 }
                 m.modulePath = f;
-                if (names.size() > 0) {
+
+                if (names.size() > 0 && i < names.size()) { //if a name is given in the stringlist use it
                     m.moduleName = names.at(i);
-                } else {
+                } else {//else use the biblename from the filename
                     m.moduleName = bibleName;
                 }
-                m.moduleType = QString::number(imoduleType);
+                m.moduleType = QString::number(moduleType);
                 m.isDir = false;
 
             } else {
-                QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
+                QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot open the file."));
                 progress.close();
                 generateModuleTree();
                 return;
             }
 
-
-            myDebug() << "new Module file" << f << " moduleName" << bibleName << " moduleType" << moduleType;
             // standard config
             m.biblequote_removeHtml = m_set.removeHtml;
             m.zefbible_hardCache = m_set.zefaniaBible_hardCache;

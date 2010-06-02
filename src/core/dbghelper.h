@@ -27,6 +27,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
  @author Paul Walger <metaxy@walger.name>
 */
+
 class DbgHelper
 {
 public:

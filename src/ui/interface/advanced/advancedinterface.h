@@ -99,7 +99,6 @@ private slots:
     void setTabView();
     void setSubWindowView();
 
-    void addBibleListItems();
 
 
 public:

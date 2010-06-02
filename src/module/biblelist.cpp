@@ -19,21 +19,22 @@ BibleList::BibleList()
 }
 int BibleList::readBook(int id)
 {
-    foreach(Bible* b,m_bibleList) {
+    foreach(Bible* b,m_bibles) {
         b->readBook(id);
     }
 }
-void BibleList::addBible(Bible* b)
+void BibleList::addBible(Bible* b, QPoint p)
 {
-    m_currentBible = m_bibleList.size();
-    m_bibleList << b;
+    int id = m_biblePoints.size();
+    m_currentBible = id;
+    m_biblePoints[id] = p;
+    m_bibles[id] = b;
 
 }
 Bible * BibleList::bible()
 {
-    myDebug() << m_currentBible << m_bibleList.size();
-    if(m_currentBible < m_bibleList.size() && m_bibleList.size() > 0) {
-        return m_bibleList.at(m_currentBible);
+    if(m_bibles.contains(m_currentBible)) {
+        return m_bibles.value(m_currentBible);
     }
     return 0;
 }
@@ -41,19 +42,19 @@ Bible * BibleList::bible()
 QString BibleList::readChapter(int chapterID, int verseID)
 {
     QStringList a;
-    if(m_bibleList.size() == 1) {
-        return m_bibleList.at(0)->readChapter(chapterID,verseID);
+    if(m_bibles.size() == 1) {
+        return m_bibles[m_currentBible]->readChapter(chapterID,verseID);
     } else {
-        foreach(Bible* b,m_bibleList) {
+       /* foreach(Bible* b,m_bibles) {
             a << b->readChapter(chapterID,verseID);
-        }
+        }*/
     }
-    QString out = "<table>";
+   /*QString out = "<table>";
     foreach(QString b,a) {
         out += "<tr>"+b+"</tr>";
     }
     out +="</table";
-    return out;
+    return out;*/
 }
 
 int BibleList::bookID()

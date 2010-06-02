@@ -25,6 +25,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QTimer>
 #include <QtCore/QDir>
 #include <typeinfo>
+#include "src/core/core.h"
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
         ui(new Ui::MainWindow)
