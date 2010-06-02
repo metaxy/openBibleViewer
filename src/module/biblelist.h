@@ -15,15 +15,8 @@ public:
     QString readChapter(int chapterID, int verseID);
     QString readVerse(int chapterID, int startVerse, int endVerse, int markVerseID, bool saveRawDatas);
 
-    int bookID();
-    int chapterID();
-    int verseID();
-
 private:
     int m_currentBible;
-    int m_bookID;
-    int m_chapterID;
-    int m_verseID;
 
 };
 
