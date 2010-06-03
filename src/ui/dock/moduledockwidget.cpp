@@ -91,6 +91,8 @@ void ModuleDockWidget::filter(QString string)
 ModuleDockWidget::~ModuleDockWidget()
 {
     delete ui;
+ //   delete m_proxyModel;
+ //   delete m_selectionModel;
 }
 
 void ModuleDockWidget::changeEvent(QEvent *e)

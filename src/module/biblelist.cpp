@@ -52,8 +52,8 @@ QString BibleList::readChapter(int chapterID, int verseID)
         int maxRow = 0;
         int maxCol = 0;
         foreach(QPoint p, m_biblePoints) {
-            maxRow = qMax(maxRow,p.x());
-            maxCol = qMax(maxCol,p.y());
+            maxRow = qMax(maxRow,p.y());
+            maxCol = qMax(maxCol,p.x());
         }
         QString out = "<table>";
         //for all verse
@@ -70,7 +70,7 @@ QString BibleList::readChapter(int chapterID, int verseID)
                 out += "</tr>";
             }
         }
-        out += "</table>";s
-         return out;
+        out += "</table>";
+        return out;
      }
 }
