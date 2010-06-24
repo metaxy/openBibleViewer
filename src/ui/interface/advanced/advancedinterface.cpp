@@ -70,8 +70,6 @@ void AdvancedInterface::setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDoc
 void AdvancedInterface::init()
 {
 
-    //m_moduleManager->bible()->setSettings(m_settings);
-
     m_moduleDockWidget->setBibleDisplay(m_bibleDisplay);
     m_moduleDockWidget->setNotes(m_notes);
     m_moduleDockWidget->setSettings(m_settings);
@@ -140,7 +138,7 @@ void AdvancedInterface::init()
     connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
 
     if (usableWindowList().size() == 0 &&  m_settings->session.getData("windowUrls").toStringList().size() == 0)
-    QTimer::singleShot(1, this, SLOT(newSubWindow()));
+        QTimer::singleShot(0, this, SLOT(newSubWindow()));
 
 }
 
@@ -297,7 +295,8 @@ void AdvancedInterface::myTileHorizontal()
         window->setGeometry(0, y, width(), actHeight);
         y += actHeight;
     }
-    if (active) active->setFocus();
+    if (active)
+        active->setFocus();
     m_enableReload = true;
 
 }
@@ -828,7 +827,6 @@ void AdvancedInterface::readBookByID(int id)
         }
         int read = m_moduleManager->bible()->readBook(id);
         if (read != 0) {
-
             QApplication::restoreOverrideCursor();
             if(read == 2) {
                 setChapters(QStringList());
@@ -848,13 +846,11 @@ void AdvancedInterface::readBookByID(int id)
 }
 void AdvancedInterface::readChapter(const int &id)
 {
-    //DEBUG_FUNC_NAME
     emit get("bible://current/" + QString::number(m_moduleManager->bible()->bookID()) + "," + QString::number(id) + ",0");
 }
 
 void AdvancedInterface::showChapter(const int &chapterID, const int &verseID)
 {
-    //m_moduleManager->bible()->verseID() = verseID;
     m_bibleDisplay->setHtml((m_moduleManager->bible()->readChapter(chapterID, verseID)));
     setCurrentChapter(chapterID - m_moduleManager->bible()->chapterAdd());
 }
@@ -1447,7 +1443,6 @@ void AdvancedInterface::restoreSession()
 #endif*/
 
     }
-    myDebug() << "c";
     if (m_settings->session.getData("viewMode").toInt() == 0)
         setSubWindowView();
     else if (m_settings->session.getData("viewMode").toInt() == 1)

@@ -1,15 +1,14 @@
 #ifndef BIBLELISTWIDGET_H
 #define BIBLELISTWIDGET_H
 
-#include <QWidget>
-#include <QtGui/QFrame>
+#include <QtGui/QDialog>
 #include "src/core/basicclass.h"
 #include <QtGui/QStandardItemModel>
 namespace Ui {
     class BibleListWidget;
 }
 
-class BibleListWidget : public QFrame, public BasicClass {
+class BibleListWidget : public QDialog, public BasicClass {
     Q_OBJECT
 public:
     explicit BibleListWidget(QWidget *parent = 0);

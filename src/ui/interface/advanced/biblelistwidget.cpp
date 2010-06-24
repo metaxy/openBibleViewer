@@ -1,8 +1,9 @@
 #include "biblelistwidget.h"
 #include "ui_biblelistwidget.h"
 #include "src/core/dbghelper.h"
+#include "biblelistitemdelegate.h"
 BibleListWidget::BibleListWidget(QWidget *parent) :
-    QFrame(parent),
+    QDialog(parent),
     ui(new Ui::BibleListWidget)
 {
     ui->setupUi(this);
@@ -29,12 +30,16 @@ void BibleListWidget::init()
             QStandardItem *item;
             if(b) {
                 item = new QStandardItem(b->bibleTitle());
+                item->setData(QVariant(b->bibleID()));
             } else {
-                item = new QStandardItem(QString("row %0, column %1").arg(i).arg(j));
+                item = new QStandardItem("");
             }
+
             m_model->setItem(i, j, item);
         }
     }
+    BibleListItemDelegate *delegate = new BibleListItemDelegate();
+    ui->tableView->setItemDelegate(delegate);
 
 }
 void BibleListWidget::removeCol()

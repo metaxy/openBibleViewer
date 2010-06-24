@@ -58,9 +58,9 @@ QString BibleList::readChapter(int chapterID, int verseID)
         QString out = "<table>";
         //for all verse
         for(int verse = 0; verse < bible()->chapterDataList().size();verse++) {
-            for(int i = 0; i < maxRow; i++) {
+            for(int i = 0; i <= maxRow; i++) {
                 out += "<tr>";
-                for(int j = 0; j < maxCol;j++) {
+                for(int j = 0; j <= maxCol;j++) {
                     out += "<td>";
                     int id = m_biblePoints.key(QPoint(i,j));
                     Bible *b = m_bibles.value(id);

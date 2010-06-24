@@ -310,7 +310,6 @@ SearchResult BibleQuote::search(SearchQuery query)
         bool chapterstarted = false;
         int ccount2 = 0;
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-
             while (!file.atEnd()) {
                 QByteArray byteline = file.readLine();
                 QString line(byteline);
@@ -330,7 +329,6 @@ SearchResult BibleQuote::search(SearchQuery query)
         } else {
             myDebug() << "cannot open the file " << file.fileName();
             continue;
-            //return result;
         }
         QString encoding;
         if (m_settings->getModuleSettings(m_bibleID).encoding == "Default" || m_settings->getModuleSettings(m_bibleID).encoding == "") {

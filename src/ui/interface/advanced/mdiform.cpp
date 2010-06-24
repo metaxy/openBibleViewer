@@ -80,7 +80,7 @@ void MdiForm::showBibleListMenu()
 {
     BibleListWidget *w = new BibleListWidget;
     w->setModuleManager(m_moduleManager);
-    w->setWindowFlags(Qt::Popup);
+    //w->setWindowFlags(Qt::Popup);
     QPoint p = QCursor::pos();
     p.setX(p.x()-w->width());
     w->move(p);
