@@ -54,9 +54,10 @@ public:
     int getCacheID(int bibleID);//Names Cache
     QList<QMap<int, int> > getBookCount();
     QList<QStringList> getBookNames();
-    QStringList getBibleName();
-    QStringList getBiblePath();
+    QStringList getBibleNames();
+    QStringList getBiblePaths();
     void clearNamesCache(const int &id);
+
     Session session;
     QString sessionID;
     QStringList sessionNames;

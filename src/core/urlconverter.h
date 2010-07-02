@@ -15,6 +15,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define URLCONVERTER_H
 #include <QtCore/QString>
 #include <QtCore/QStringList>
+/*!
+  UrlConverter is an convrter for urls. Sometimes you have a url from a biblequote module and need to pharse it.
+
+  */
 class UrlConverter
 {
 public:

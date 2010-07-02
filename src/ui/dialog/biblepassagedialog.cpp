@@ -39,13 +39,13 @@ void BiblePassageDialog::setCurrent(const int &bible, const QString &path, const
 {
     Q_UNUSED(bible);
     //DEBUG_FUNC_NAME
-    m_ui->comboBox_bibles->insertItems(0, m_settings->getBibleName());
+    m_ui->comboBox_bibles->insertItems(0, m_settings->getBibleNames());
     m_bookID = book;
     m_chapterID = chapter + 1;
     m_verseID = verse + 1;
     m_path = path;
 
-    int newIndex = m_settings->getBiblePath().lastIndexOf(path);
+    int newIndex = m_settings->getBiblePaths().lastIndexOf(path);
     m_ui->comboBox_bibles->setCurrentIndex(newIndex);//todo: if lastindexof == -1 show a warning
     m_ui->comboBox_books->setCurrentIndex(book);
     m_ui->spinBox_chapter->setValue(chapter);
@@ -57,7 +57,7 @@ void BiblePassageDialog::indexChanged(int index)
     if (index >= 0) {
         m_ui->comboBox_books->clear();
         m_ui->comboBox_books->insertItems(0, m_settings->getBookNames().at(index));
-        m_path = m_settings->getBiblePath().at(index);
+        m_path = m_settings->getBiblePaths().at(index);
 
 
         m_ui->comboBox_books->setCurrentIndex(0);

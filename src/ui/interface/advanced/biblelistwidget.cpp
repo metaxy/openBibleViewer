@@ -2,6 +2,7 @@
 #include "ui_biblelistwidget.h"
 #include "src/core/dbghelper.h"
 #include "biblelistitemdelegate.h"
+#include <QtGui/QComboBox>
 BibleListWidget::BibleListWidget(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::BibleListWidget)
@@ -30,7 +31,7 @@ void BibleListWidget::init()
             QStandardItem *item;
             if(b) {
                 item = new QStandardItem(b->bibleTitle());
-                item->setData(QVariant(b->bibleID()));
+             //   item->setData(QVariant(b->bibleID()),Qt::EditRole);
             } else {
                 item = new QStandardItem("");
             }
@@ -38,7 +39,9 @@ void BibleListWidget::init()
             m_model->setItem(i, j, item);
         }
     }
-    BibleListItemDelegate *delegate = new BibleListItemDelegate();
+    BibleListItemDelegate *delegate = new BibleListItemDelegate(this);
+    delegate->setSettings(m_settings);
+    delegate->init();
     ui->tableView->setItemDelegate(delegate);
 
 }
@@ -70,7 +73,6 @@ void BibleListWidget::addRow()
     }
     m_model->appendRow(list);
 }
-
 BibleListWidget::~BibleListWidget()
 {
     delete ui;

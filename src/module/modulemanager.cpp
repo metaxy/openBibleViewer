@@ -136,12 +136,13 @@ int ModuleManager::loadAllModules()
                                 QStandardItem *bibleItem = new QStandardItem;
                                 bibleItem->setText(bname);
                                 bibleItem->setData(QString::number(rcount));
-                                bibleItem->setToolTip(QObject::tr("BibleQuote Module") + " - " + module.m_path);
+                                bibleItem->setToolTip(QObject::tr("BibleQuote Module") + " - " + module.m_path + " ("+QString::number(module.m_id)+")");
 
                                 bibleItem->setIcon(bibleQuoteIcon);
                                 top->appendRow(bibleItem);
 
                                 m_settings->moduleID.insert(rcount, i);
+                                m_settings->setBibleName(rcount,module.m_title);
 
                                 rcount++;
                                 uModuleCount++;
@@ -164,11 +165,12 @@ int ModuleManager::loadAllModules()
                                 QStandardItem *bibleItem = new QStandardItem;
                                 bibleItem->setText(bname);
                                 bibleItem->setData(QString::number(rcount));
-                                bibleItem->setToolTip(QObject::tr("Zefania XML Module") + " - " + module.m_path);
+                                bibleItem->setToolTip(QObject::tr("Zefania XML Module") + " - " + module.m_path + " ("+QString::number(module.m_id)+")");
 
                                 bibleItem->setIcon(bibleZefaniaIcon);
                                 top->appendRow(bibleItem);
                                 m_settings->moduleID.insert(rcount, i);
+                                m_settings->setBibleName(rcount,module.m_title);
                                 rcount++;
                                 uModuleCount++;
                             }
@@ -198,13 +200,15 @@ int ModuleManager::loadAllModules()
                     module.m_moduleType = Module::BibleQuoteModule;
                     module.m_title = m_settings->module.at(i).moduleName;
                     module.m_id = rcount;
+
                     m_moduleList << module;
                     m_settings->moduleID.insert(rcount, i);
+                    m_settings->setBibleName(rcount,module.m_title);
 
                     QStandardItem *bibleItem = new QStandardItem;
                     bibleItem->setText(m_settings->module.at(i).moduleName);
                     bibleItem->setData(QString::number(rcount));
-                    bibleItem->setToolTip(QObject::tr("BibleQuote Module") + " - " + module.m_path);
+                    bibleItem->setToolTip(QObject::tr("BibleQuote Module") + " - " + module.m_path + " ("+QString::number(module.m_id)+")");
                     myDebug() << "m_settings->moduleID rcount = " << rcount << " i = " << i;
 
 
@@ -223,13 +227,15 @@ int ModuleManager::loadAllModules()
                     module.m_moduleType = Module::ZefaniaBibleModule;
                     module.m_title = m_settings->module.at(i).moduleName;
                     module.m_id = rcount;
+
                     m_moduleList << module;
                     m_settings->moduleID.insert(rcount, i);
+                    m_settings->setBibleName(rcount,module.m_title);
 
                     QStandardItem *bibleItem = new QStandardItem;
                     bibleItem->setText(m_settings->module.at(i).moduleName);
                     bibleItem->setData(QString::number(rcount));
-                    bibleItem->setToolTip(QObject::tr("Zefania XML Module") + " - " + module.m_path);
+                    bibleItem->setToolTip(QObject::tr("Zefania XML Module") + " - " + module.m_path + " ("+QString::number(module.m_id)+")");
                     myDebug() << "m_settings->moduleID rcount = " << rcount << " i = " << i;
 
                     bibleItem->setIcon(bibleZefaniaIcon);
@@ -245,8 +251,10 @@ int ModuleManager::loadAllModules()
                     module.m_moduleType = Module::ZefaniaStrongModule;
                     module.m_title = m_settings->module.at(i).moduleName;
                     module.m_id = rcount;
+
                     m_moduleList << module;
                     m_settings->moduleID.insert(rcount, i);
+                    m_settings->setBibleName(rcount,module.m_title);
                     rcount++;
                     break;
                 }

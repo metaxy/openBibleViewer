@@ -115,11 +115,14 @@ QList<QStringList> Settings::getBookNames()
 void Settings::setBibleName(const int &bibleID, QString bibleName)
 {
     ModuleSettings m = getModuleSettings(bibleID);
-    m.bibleName[QString::number(getCacheID(bibleID))] = QVariant(bibleName);
+    int c = getCacheID(bibleID);
+    if(c == -1)
+        c = bibleID;
+    m.bibleName[QString::number(c)] = QVariant(bibleName);
     replaceModule(bibleID, m);
 
 }
-QStringList Settings::getBibleName()
+QStringList Settings::getBibleNames()
 {
     QStringList ret;
     for (int c = 0; c < module.size(); ++c) {
@@ -134,15 +137,12 @@ QStringList Settings::getBibleName()
 
 void Settings::setBiblePath(const int &bibleID, QString biblePath)
 {
-    //DEBUG_FUNC_NAME
     ModuleSettings m = getModuleSettings(bibleID);
     m.biblePath[QString::number(getCacheID(bibleID))] = QVariant(biblePath);
     replaceModule(bibleID, m);
-    //myDebug() << m.biblePath;
 }
-QStringList Settings::getBiblePath()
+QStringList Settings::getBiblePaths()
 {
-    //DEBUG_FUNC_NAME
     QStringList ret;
     for (int c = 0; c < module.size(); ++c) {
         QMapIterator<QString, QVariant> i(module.at(c).biblePath);
@@ -151,7 +151,6 @@ QStringList Settings::getBiblePath()
             ret << i.value().toString();
         }
     }
-    // myDebug() << ret;
     return ret;
 }
 void Settings::clearNamesCache(const int &id)
