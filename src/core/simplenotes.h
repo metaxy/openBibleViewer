@@ -67,7 +67,7 @@ private:
     QWebFrame *m_frame;
     QLabel *m_label_link;
     QPushButton *m_pushButton_link;
-    QPoint currentPoint;
+    QPoint m_currentPoint;
 
     QStandardItemModel *m_itemModel;
     QTreeView *m_treeView;

@@ -61,14 +61,13 @@ int ModuleManager::loadAllModules()
     int rcount = 0;//Counter for the Bible ID
 
     QStandardItem *parentItem = m_moduleModel->invisibleRootItem();
-    QIcon bibleQuoteIcon(":/icons/16x16/text-x-generic.png");
+    QIcon bibleQuoteIcon = QIcon::fromTheme("text-x-generic",QIcon(":/icons/16x16/text-x-generic.png"));
     QStyle *style = QApplication::style();
     QIcon folderIcon;
     folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
     folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
 
-    QIcon bibleZefaniaIcon;
-    bibleZefaniaIcon.addPixmap(QPixmap(":/icons/16x16/text-xml.png"), QIcon::Normal, QIcon::Off);
+    QIcon bibleZefaniaIcon =  QIcon::fromTheme("text-xml",QIcon(":/icons/16x16/text-xml.png"));;
 
     for (int i = 0; i < m_settings->module.size(); ++i) { //real all modules
         if (progress.wasCanceled())

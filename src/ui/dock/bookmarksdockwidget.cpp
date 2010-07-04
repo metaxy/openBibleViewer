@@ -117,37 +117,20 @@ void BookmarksDockWidget::bookmarksContextMenu(void)
     QMenu *contextMenu = new QMenu(this);
     contextMenu->setObjectName("contextMenu");
 
-    QAction *actionGoTo = new QAction(this);
+    QAction *actionGoTo = new QAction(QIcon::fromTheme("go-jump",QIcon(":/icons/32x32/go-jump.png")), tr("Go To"), contextMenu);
     actionGoTo->setObjectName("actionGoTo");
-    QIcon iconGoTo;
-    iconGoTo.addPixmap(QPixmap(":/icons/16x16/go-jump.png"), QIcon::Normal, QIcon::Off);
-    actionGoTo->setIcon(iconGoTo);
-    actionGoTo->setText(tr("Go to"));
-
     connect(actionGoTo, SIGNAL(triggered()), this, SLOT(bookmarksGo()));
 
-    QAction *actionNewFolder = new QAction(this);
+    QAction *actionNewFolder = new QAction(QIcon::fromTheme("folder-new",QIcon(":/icons/32x32/folder-new.png")), tr("New Folder"), contextMenu) ;
     actionNewFolder->setObjectName("actionNewFolder");
     connect(actionNewFolder, SIGNAL(triggered()), this, SLOT(newBookmarksFolder()));
-    QIcon iconNewFolder;
-    iconNewFolder.addPixmap(QPixmap(":/icons/16x16/folder-new.png"), QIcon::Normal, QIcon::Off);
-    actionNewFolder->setIcon(iconNewFolder);
-    actionNewFolder->setText(tr("New Folder"));
 
-    QAction *actionEdit = new QAction(this);
+    QAction *actionEdit = new QAction(QIcon::fromTheme("document-edit",QIcon(":/icons/32x32/document-edit.png")), tr("Edit"), contextMenu);
     actionEdit->setObjectName("actionEdit");
-    QIcon iconEdit;
-    iconEdit.addPixmap(QPixmap(":/icons/16x16/document-edit.png"), QIcon::Normal, QIcon::Off);
-    actionEdit->setIcon(iconEdit);
-    actionEdit->setText(tr("Edit"));
     connect(actionEdit, SIGNAL(triggered()), this, SLOT(editBookmark()));
 
-    QAction *actionRemove = new QAction(this);
+    QAction *actionRemove = new QAction(QIcon::fromTheme("list-remove",QIcon(":/icons/32x32/list-remove.png")), tr("Remove"), contextMenu);
     actionRemove->setObjectName("actionRemove");
-    QIcon iconRemove;
-    iconRemove.addPixmap(QPixmap(":/icons/16x16/list-remove.png"), QIcon::Normal, QIcon::Off);
-    actionRemove->setIcon(iconRemove);
-    actionRemove->setText(tr("Remove"));
     connect(actionRemove, SIGNAL(triggered()), this, SLOT(removeBookmark()));
 
     contextMenu->addAction(actionGoTo);

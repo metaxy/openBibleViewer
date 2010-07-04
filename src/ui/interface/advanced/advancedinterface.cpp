@@ -161,6 +161,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
 
     MdiForm *mForm = new MdiForm(widget);
     mForm->setModuleManager(m_moduleManager);
+    mForm->setSettings(m_settings);
     layout->addWidget(mForm);
 
     widget->setLayout(layout);
@@ -1069,17 +1070,13 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
 }
 int AdvancedInterface::textBrowserContextMenu(QPoint pos)
 {
-   /* if (!activeMdiChild())
+  /*  if (!activeMdiChild())
         return 1;
     QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
-    qDebug() << "MainWindow::textBrowserContextMenu() start";
     QMenu *contextMenu = new QMenu(this);
-    QAction *actionCopy = new QAction(this);
-    QIcon copyIcon;
-    copyIcon.addPixmap(QPixmap(":/icons/16x16/edit-copy.png"), QIcon::Normal, QIcon::Off);
-    actionCopy->setIcon(copyIcon);
-    actionCopy->setText(tr("Copy"));
+    QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy",":/icons/16x16/edit-copy.png"), tr("Copy"), contextMenu);
     connect(actionCopy, SIGNAL(triggered()), textBrowser, SLOT(copy()));
+
     QAction *actionCopyWholeVerse = new QAction(this);
     QTextCursor cursor = textBrowser->cursorForPosition(pos);
     QTextCursor cursor2 = textBrowser->textCursor();
@@ -1107,14 +1104,12 @@ int AdvancedInterface::textBrowserContextMenu(QPoint pos)
         actionCopyWholeVerse->setText(tr("Copy Verse"));
         actionCopyWholeVerse->setEnabled(false);
     }
-    QAction *actionSelect = new QAction(this);
-    actionSelect->setText(tr("Select All"));
-    QIcon selectIcon;
-    selectIcon.addPixmap(QPixmap(":/icons/16x16/edit-select-all.png"), QIcon::Normal, QIcon::Off);
-    actionSelect->setIcon(selectIcon);
+
+    QAction *actionSelect = new QAction(QIcon::fromTheme("edit-select-all",":/icons/16x16/edit-select-all.png"), tr("Select All"), contextMenu);
     connect(actionSelect, SIGNAL(triggered()), textBrowser , SLOT(selectAll()));
 
     QMenu *menuMark = new QMenu(this);
+
     menuMark->setTitle(tr("Mark this"));
     QIcon markIcon;
     markIcon.addPixmap(QPixmap(":/icons/16x16/format-fill-color.png"), QIcon::Normal, QIcon::Off);
@@ -1124,43 +1119,23 @@ int AdvancedInterface::textBrowserContextMenu(QPoint pos)
         menuMark->setEnabled(false);
     }
 
-    QAction *actionYellowMark = new QAction(menuMark);
-    actionYellowMark->setText(tr("Yellow"));
-    QIcon yellowMarkIcon;
-    yellowMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-yellow.png"), QIcon::Normal, QIcon::Off);
-    actionYellowMark->setIcon(yellowMarkIcon);
+    QAction *actionYellowMark = new QAction(QIcon(":/icons/16x16/mark-yellow.png"), tr("Yellow"), menuMark);
     connect(actionYellowMark, SIGNAL(triggered()), this , SLOT(newYellowMark()));
     menuMark->addAction(actionYellowMark);
 
-    QAction *actionGreenMark = new QAction(menuMark);
-    actionGreenMark->setText(tr("Green"));
-    QIcon greenMarkIcon;
-    greenMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-green.png"), QIcon::Normal, QIcon::Off);
-    actionGreenMark->setIcon(greenMarkIcon);
+    QAction *actionGreenMark = new QAction(QIcon(":/icons/16x16/mark-green.png"), tr("Green"), menuMark);
     connect(actionGreenMark, SIGNAL(triggered()), this , SLOT(newGreenMark()));
     menuMark->addAction(actionGreenMark);
 
-    QAction *actionBlueMark = new QAction(menuMark);
-    actionBlueMark->setText(tr("Blue"));
-    QIcon blueMarkIcon;
-    blueMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-blue.png"), QIcon::Normal, QIcon::Off);
-    actionBlueMark->setIcon(blueMarkIcon);
+    QAction *actionBlueMark = new QAction(QIcon(":/icons/16x16/mark-blue.png"), tr("Blue"), menuMark);
     connect(actionBlueMark, SIGNAL(triggered()), this , SLOT(newBlueMark()));
     menuMark->addAction(actionBlueMark);
 
-    QAction *actionOrangeMark = new QAction(menuMark);
-    actionOrangeMark->setText(tr("Orange"));
-    QIcon orangeMarkIcon;
-    orangeMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-orange.png"), QIcon::Normal, QIcon::Off);
-    actionOrangeMark->setIcon(orangeMarkIcon);
+    QAction *actionOrangeMark = new QAction(QIcon(":/icons/16x16/mark-orange.png"), tr("Orange"), menuMark);
     connect(actionOrangeMark, SIGNAL(triggered()), this , SLOT(newOrangeMark()));
     menuMark->addAction(actionOrangeMark);
 
-    QAction *actionVioletMark = new QAction(menuMark);
-    actionVioletMark->setText(tr("Violet"));
-    QIcon violetMarkIcon;
-    violetMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-violet.png"), QIcon::Normal, QIcon::Off);
-    actionVioletMark->setIcon(violetMarkIcon);
+    QAction *actionVioletMark = new QAction(QIcon(":/icons/16x16/mark-violet.png"), tr("Violet"), menuMark);
     connect(actionVioletMark, SIGNAL(triggered()), this , SLOT(newVioletMark()));
     menuMark->addAction(actionVioletMark);
 
@@ -1171,28 +1146,19 @@ int AdvancedInterface::textBrowserContextMenu(QPoint pos)
     QAction *actionRemoveMark = new QAction(this);
     actionRemoveMark->setText(tr("Remove Mark"));
 
-    */
 
-    /*QIcon removeMarkIcon;
+    QIcon removeMarkIcon;
     removeMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-yellow.png"), QIcon::Normal, QIcon::Off);
-    actionRemoveMark->setIcon(removeMarkIcon);*/
+    actionRemoveMark->setIcon(removeMarkIcon);
 
 
-    /*
+
     connect(actionRemoveMark, SIGNAL(triggered()), this , SLOT(removeMark()));
 
-    QAction *actionBookmark = new QAction(this);
-    actionBookmark->setText(tr("Add Bookmark"));
-    QIcon bookmarkIcon;
-    bookmarkIcon.addPixmap(QPixmap(":/icons/16x16/bookmark-new.png"), QIcon::Normal, QIcon::Off);
-    actionBookmark->setIcon(bookmarkIcon);
+    QAction *actionBookmark = new QAction(QIcon::fromTheme("bookmark-new",":/icons/16x16/bookmark-new.png"), tr("Add Bookmark"), contextMenu);
     connect(actionBookmark, SIGNAL(triggered()), this , SLOT(newBookmark()));
 
-    QAction *actionNote = new QAction(this);
-    actionNote->setText(tr("Add Note"));
-    QIcon noteIcon;
-    noteIcon.addPixmap(QPixmap(":/icons/16x16/view-pim-notes.png"), QIcon::Normal, QIcon::Off);
-    actionNote->setIcon(noteIcon);
+    QAction *actionNote = new QAction(QIcon::fromTheme("view-pim-notes",":/icons/16x16/view-pim-notes.png"), tr("Add Note"), contextMenu);
     connect(actionNote, SIGNAL(triggered()), this , SLOT(newNoteWithLink()));
 
     contextMenu->addAction(actionCopy);
@@ -1203,8 +1169,8 @@ int AdvancedInterface::textBrowserContextMenu(QPoint pos)
     contextMenu->addAction(actionRemoveMark);
     contextMenu->addAction(actionBookmark);
     contextMenu->addAction(actionNote);
-    contextMenu->exec(QCursor::pos());*/
-    return 0;
+    contextMenu->exec(QCursor::pos());
+    return 0;*/
 }
 
 int AdvancedInterface::copyWholeVerse(void)
@@ -1579,20 +1545,20 @@ QMenuBar* AdvancedInterface::menuBar()
     QMenuBar *bar = new QMenuBar(parentWidget());
     QMenu *menuFile = new QMenu(tr("File"), bar);
 
-    QAction *actionNewSubWindow = new QAction(QIcon(":/icons/16x16/tab-new.png"), tr("New SubWindow"), menuFile);
+    QAction *actionNewSubWindow = new QAction(QIcon::fromTheme("tab-new",QIcon(":/icons/16x16/tab-new.png")), tr("New SubWindow"), menuFile);
     connect(actionNewSubWindow, SIGNAL(triggered()), this, SLOT(newSubWindow()));
     actionNewSubWindow->setShortcut(QKeySequence(tr("Ctrl+T")));
 
-    QAction *actionCloseSubWindow = new QAction(QIcon(":/icons/16x16/tab-close.png"), tr("Close SubWindow"), menuFile);
+    QAction *actionCloseSubWindow = new QAction(QIcon::fromTheme("tab-close",QIcon(":/icons/16x16/tab-close.png")), tr("Close SubWindow"), menuFile);
     connect(actionCloseSubWindow, SIGNAL(triggered()), this, SLOT(closeSubWindow()));
 
-    QAction *actionSaveAs = new QAction(QIcon(":/icons/16x16/document-save-as.png"), tr("Save As"), menuFile);
+    QAction *actionSaveAs = new QAction(QIcon::fromTheme("document-save-as",QIcon(":/icons/16x16/document-save-as.png")), tr("Save As"), menuFile);
     connect(actionSaveAs, SIGNAL(triggered()), this, SLOT(saveFile()));
 
-    QAction *actionPrint = new QAction(QIcon(":/icons/16x16/document-print.png"), tr("Print"), menuFile);
+    QAction *actionPrint = new QAction(QIcon::fromTheme("document-print",QIcon(":/icons/16x16/document-print.png")), tr("Print"), menuFile);
     connect(actionPrint, SIGNAL(triggered()), this, SLOT(printFile()));
 
-    QAction *actionClose = new QAction(QIcon(":/icons/16x16/application-exit.png"), tr("Close"), menuFile);
+    QAction *actionClose = new QAction(QIcon::fromTheme("application-exit",QIcon(":/icons/16x16/application-exit.png")), tr("Close"), menuFile);
     connect(actionClose, SIGNAL(triggered()), this->parentWidget(), SLOT(close()));
     menuFile->addAction(actionNewSubWindow);
     menuFile->addAction(actionCloseSubWindow);
@@ -1603,21 +1569,21 @@ QMenuBar* AdvancedInterface::menuBar()
     menuFile->addAction(actionClose);
 
     QMenu *menuEdit = new QMenu(tr("Edit"), bar);
-    QAction *actionCopy = new QAction(QIcon(":/icons/16x16/edit-copy.png"), tr("Copy"), menuEdit);
+    QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy",QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), menuEdit);
     connect(actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
 
-    QAction *actionSelectAll = new QAction(QIcon(":/icons/16x16/edit-select-all.png"), tr("Select All"), menuEdit);
+    QAction *actionSelectAll = new QAction(QIcon::fromTheme("edit-select-all",QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"), menuEdit);
     connect(actionSelectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
 
-    QAction *actionSearch = new QAction(QIcon(":/icons/16x16/edit-find.png"), tr("Search"), menuEdit);
+    QAction *actionSearch = new QAction(QIcon::fromTheme("edit-find",QIcon(":/icons/16x16/edit-find.png")), tr("Search"), menuEdit);
     actionSearch->setShortcut(QKeySequence(tr("Ctrl+F")));
     connect(actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
-    QAction *actionFindNext = new QAction(QIcon(":/icons/16x16/go-down-search.png"), tr("Find Next"), menuEdit);
+    QAction *actionFindNext = new QAction(QIcon::fromTheme("go-down-search",QIcon(":/icons/16x16/go-down-search.png")), tr("Find Next"), menuEdit);
     connect(actionFindNext, SIGNAL(triggered()), this, SLOT(nextVerse()));
-    QAction *actionFindPrevious = new QAction(QIcon(":/icons/16x16/go-up-search.png"), tr("Find Previous"), menuEdit);
+    QAction *actionFindPrevious = new QAction(QIcon::fromTheme("go-up-search",QIcon(":/icons/16x16/go-up-search.png")), tr("Find Previous"), menuEdit);
     connect(actionFindPrevious, SIGNAL(triggered()), this, SLOT(previousVerse()));
 
-    QAction *actionConfiguration = new QAction(QIcon(":/icons/16x16/configure.png"), tr("Configuration"), menuEdit);
+    QAction *actionConfiguration = new QAction(QIcon::fromTheme("configure",QIcon(":/icons/16x16/configure.png")), tr("Configuration"), menuEdit);
     connect(actionConfiguration, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_General()));
 
     menuEdit->addAction(actionCopy);
@@ -1631,10 +1597,10 @@ QMenuBar* AdvancedInterface::menuBar()
 
     QMenu *menuView = new QMenu(tr("View"), bar);
 
-    QAction *actionZoomIn = new QAction(QIcon(":/icons/16x16/zoom-in.png"), tr("Zoom In"), menuView);
+    QAction *actionZoomIn = new QAction(QIcon::fromTheme("zoom-in",QIcon(":/icons/16x16/zoom-in.png")), tr("Zoom In"), menuView);
     connect(actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
     actionZoomIn->setShortcut(QKeySequence(tr("Ctrl++")));
-    QAction *actionZoomOut = new QAction(QIcon(":/icons/16x16/zoom-out.png"), tr("Zoom Out"), menuView);
+    QAction *actionZoomOut = new QAction(QIcon::fromTheme("zoom-out",QIcon(":/icons/16x16/zoom-out.png")), tr("Zoom Out"), menuView);
     actionZoomOut->setShortcut(QKeySequence(tr("Ctrl+-")));
     connect(actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
 
@@ -1669,10 +1635,10 @@ QMenuBar* AdvancedInterface::menuBar()
 
 
     QMenu *menuNotes = new QMenu(tr("Notes"), bar);
-    QAction *actionNotesEditor = new QAction(QIcon(":/icons/16x16/notes-edit.png"), tr("Notes Editor"), menuNotes);
+    QAction *actionNotesEditor = new QAction(QIcon::fromTheme("notes-edit",QIcon(":/icons/16x16/notes-edit.png")), tr("Notes Editor"), menuNotes);
     connect(actionNotesEditor, SIGNAL(triggered()), this, SLOT(showNotesEditor()));
 
-    QAction *actionMarkList = new QAction(QIcon(":/icons/16x16/table.png"), tr("Mark List"), menuNotes);
+    QAction *actionMarkList = new QAction(QIcon::fromTheme("table",QIcon(":/icons/16x16/table.png")), tr("Mark List"), menuNotes);
     connect(actionMarkList, SIGNAL(triggered()), this, SLOT(showMarkList()));
     QAction *actionMarkCategories = new QAction(QIcon(), tr("Mark Categories"), menuNotes);
     connect(actionMarkCategories, SIGNAL(triggered()), this, SLOT(showMarkCategories()));
@@ -1693,7 +1659,7 @@ QMenuBar* AdvancedInterface::menuBar()
     connect(m_bookDockWidget,SIGNAL(visibilityChanged(bool)),actionBooks,SLOT(setChecked(bool)));
     connect(actionBooks,SIGNAL(triggered(bool)), m_bookDockWidget, SLOT(setVisible(bool)));
 
-    QAction *actionNotes = new QAction(QIcon(":/icons/16x16/notes-edit.png"), tr("Notes"), menuDocks);
+    QAction *actionNotes = new QAction(QIcon::fromTheme("notes-edit",QIcon(":/icons/16x16/notes-edit.png")), tr("Notes"), menuDocks);
     actionNotes->setCheckable(true);
     connect(m_notesDockWidget,SIGNAL(visibilityChanged(bool)),actionNotes,SLOT(setChecked(bool)));
     connect(actionNotes,SIGNAL(triggered(bool)), m_notesDockWidget, SLOT(setVisible(bool)));
@@ -1703,7 +1669,7 @@ QMenuBar* AdvancedInterface::menuBar()
     connect(m_strongDockWidget,SIGNAL(visibilityChanged(bool)),actionStrong,SLOT(setChecked(bool)));
     connect(actionStrong,SIGNAL(triggered(bool)), m_strongDockWidget, SLOT(setVisible(bool)));
 
-    QAction *actionBookmarks = new QAction(QIcon(":/icons/16x16/bookmarks-organize.png"), tr("Bookmarks"), menuDocks);
+    QAction *actionBookmarks = new QAction(QIcon::fromTheme("bookmarks-organize",QIcon(":/icons/16x16/bookmarks-organize.png")), tr("Bookmarks"), menuDocks);
     actionBookmarks->setCheckable(true);
     connect(m_bookmarksDockWidget,SIGNAL(visibilityChanged(bool)),actionBookmarks,SLOT(setChecked(bool)));
     connect(actionBookmarks,SIGNAL(triggered(bool)), m_bookmarksDockWidget, SLOT(setVisible(bool)));
@@ -1713,7 +1679,7 @@ QMenuBar* AdvancedInterface::menuBar()
     connect(m_quickJumpDockWidget,SIGNAL(visibilityChanged(bool)),actionQuickJump,SLOT(setChecked(bool)));
     connect(actionQuickJump,SIGNAL(triggered(bool)), m_quickJumpDockWidget, SLOT(setVisible(bool)));
 
-    QAction *actionSearchResults = new QAction(QIcon(":/icons/16x16/table.png"), tr("Search Results"), menuDocks);
+    QAction *actionSearchResults = new QAction(QIcon::fromTheme("table",QIcon(":/icons/16x16/table.png")), tr("Search Results"), menuDocks);
     actionSearchResults->setCheckable(true);
     connect(m_searchResultDockWidget,SIGNAL(visibilityChanged(bool)),actionSearchResults,SLOT(setChecked(bool)));
     connect(actionSearchResults ,SIGNAL(triggered(bool)), m_searchResultDockWidget, SLOT(setVisible(bool)));
@@ -1728,9 +1694,9 @@ QMenuBar* AdvancedInterface::menuBar()
     menuDocks->addAction(actionSearchResults);
 
     QMenu *menuHelp = new QMenu(tr("Help"), bar);
-    QAction *actionAbout = new QAction(QIcon(":/icons/16x16/help-about.png"), tr("About"), menuHelp);
+    QAction *actionAbout = new QAction(QIcon::fromTheme("help-about",QIcon(":/icons/16x16/help-about.png")), tr("About"), menuHelp);
     connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
-    QAction *actionOnlineHelp = new QAction(QIcon(":/icons/16x16/help-contents.png"), tr("Online Help"), menuHelp);
+    QAction *actionOnlineHelp = new QAction(QIcon::fromTheme("help-contents",QIcon(":/icons/16x16/help-contents.png")), tr("Online Help"), menuHelp);
     connect(actionOnlineHelp, SIGNAL(triggered()), this, SLOT(onlineHelp()));
 
     menuHelp->addAction(actionOnlineHelp);
@@ -1758,25 +1724,25 @@ QToolBar * AdvancedInterface::toolBar()
     bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 #endif
     bar->setWindowTitle(tr("ToolBar"));
-    QAction *actionSearch = new QAction(QIcon(":/icons/32x32/edit-find.png"), tr("Search"), bar);
+    QAction *actionSearch = new QAction(QIcon::fromTheme("edit-find",QIcon(":/icons/32x32/edit-find.png")), tr("Search"), bar);
     connect(actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
 
-    QAction *actionBookmarks = new QAction(QIcon(":/icons/32x32/bookmarks-organize.png"), tr("Bookmarks"), bar);
+    QAction *actionBookmarks = new QAction(QIcon::fromTheme("bookmarks-organize",QIcon(":/icons/32x32/bookmarks-organize.png")), tr("Bookmarks"), bar);
     connect(actionBookmarks, SIGNAL(triggered()), this, SLOT(showBookmarksDock()));
     actionBookmarks->setCheckable(true);
     connect(m_bookmarksDockWidget, SIGNAL(visibilityChanged(bool)), actionBookmarks, SLOT(setChecked(bool)));
 
-    QAction *actionNotes = new QAction(QIcon(":/icons/32x32/view-pim-notes.png"), tr("Notes"), bar);
+    QAction *actionNotes = new QAction(QIcon::fromTheme("view-pim-notes",QIcon(":/icons/32x32/view-pim-notes.png")), tr("Notes"), bar);
     connect(actionNotes, SIGNAL(triggered()), this, SLOT(showNotesDock()));
     actionNotes->setCheckable(true);
     connect(m_notesDockWidget, SIGNAL(visibilityChanged(bool)), actionNotes, SLOT(setChecked(bool)));
 
-    QAction *actionNewWindow = new QAction(QIcon(":/icons/32x32/tab-new.png"), tr("New Window"), bar);
+    QAction *actionNewWindow = new QAction(QIcon::fromTheme("tab-new",QIcon(":/icons/32x32/tab-new.png")), tr("New Window"), bar);
     connect(actionNewWindow, SIGNAL(triggered()), this, SLOT(newSubWindow()));
 
-    QAction *actionZoomIn = new QAction(QIcon(":/icons/32x32/zoom-in.png"), tr("Zoom In"), bar);
+    QAction *actionZoomIn = new QAction(QIcon::fromTheme("zoom-in",QIcon(":/icons/32x32/zoom-in.png")), tr("Zoom In"), bar);
     connect(actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
-    QAction *actionZoomOut = new QAction(QIcon(":/icons/32x32/zoom-out.png"), tr("Zoom Out"), bar);
+    QAction *actionZoomOut = new QAction(QIcon::fromTheme("zoom-out",QIcon(":/icons/32x32/zoom-out.png")), tr("Zoom Out"), bar);
     connect(actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
 
     QAction *actionModule = new QAction(QIcon(":/icons/32x32/module.png"), tr("Module"), bar);

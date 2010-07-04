@@ -363,36 +363,24 @@ void SimpleNotes::newNoteWithLink(VerseSelection selection)
 void SimpleNotes::notesContextMenu(QPoint point)
 {
     QMenu *contextMenu = new QMenu(m_treeView);
-    currentPoint = point;
+    m_currentPoint = point;
     contextMenu->setObjectName("contextMenu");
 
-    QAction *actionCopy = new QAction(this);
+    QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy",QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), contextMenu);
     actionCopy->setObjectName("actionCopy");
-    actionCopy->setText(tr("Copy"));
-    QIcon iconCopy;
-    iconCopy.addPixmap(QPixmap(":/icons/16x16/edit-copy.png"), QIcon::Normal, QIcon::Off);
-    actionCopy->setIcon(iconCopy);
     connect(actionCopy, SIGNAL(triggered()), this, SLOT(copyNote()));
 
-    QAction *actionNew = new QAction(this);
-    actionNew->setObjectName(QString::fromUtf8("actionNew"));
+    QAction *actionNew = new QAction(QIcon::fromTheme("document-new",QIcon(":/icons/16x16/document-new.png")), tr("New"), contextMenu);
+    actionNew->setObjectName("actionNew");
     connect(actionNew, SIGNAL(triggered()), this, SLOT(newNote()));
-    QIcon iconNew;
-    iconNew.addPixmap(QPixmap(":/icons/16x16/document-new.png"), QIcon::Normal, QIcon::Off);
-    actionNew->setIcon(iconNew);
-    actionNew->setText(tr("New"));
 
-    QAction *actionRemove = new QAction(this);
-    actionRemove->setObjectName("actionRemove");
-    actionRemove->setText(tr("Delete"));
-    QIcon iconRemove;
-    iconRemove.addPixmap(QPixmap(":/icons/16x16/edit-delete.png"), QIcon::Normal, QIcon::Off);
-    actionRemove->setIcon(iconRemove);
-    connect(actionRemove, SIGNAL(triggered()), this, SLOT(removeNote()));
+    QAction *actionDelete = new QAction(QIcon::fromTheme("edit-delete",QIcon(":/icons/16x16/edit-delete.png")), tr("Delete"), contextMenu);
+    actionDelete->setObjectName("actionDelete");
+    connect(actionDelete, SIGNAL(triggered()), this, SLOT(removeNote()));
 
     contextMenu->addAction(actionCopy);
     contextMenu->addAction(actionNew);
-    contextMenu->addAction(actionRemove);
+    contextMenu->addAction(actionDelete);
     contextMenu->exec(QCursor::pos());
 }
 void SimpleNotes::removeNote()
@@ -403,7 +391,7 @@ void SimpleNotes::removeNote()
     disconnect(m_notes, SIGNAL(noteRemoved(QString)), this, SLOT(removeNote(QString)));
     //todo: if note has link, check if the page where the link shows is currently displayed, if yes reloadChapter
     if (list.size() == 0) {
-        QModelIndex index = m_treeView->indexAt(currentPoint);
+        QModelIndex index = m_treeView->indexAt(m_currentPoint);
         if (index.isValid()) {
             QString id = index.data(Qt::UserRole + 1).toString();
             if (id == m_noteID) {

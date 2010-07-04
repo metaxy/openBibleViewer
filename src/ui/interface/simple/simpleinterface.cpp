@@ -101,11 +101,11 @@ QToolBar * SimpleInterface::toolBar()
     bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 #endif
 
-    QAction *actionSearch = new QAction(QIcon(":/icons/32x32/edit-find.png"), tr("Search"), bar);
+    QAction *actionSearch = new QAction(QIcon::fromTheme("edit-find",QIcon(":/icons/32x32/edit-find.png")), tr("Search"), bar);
     connect(actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
-    QAction *actionZoomIn = new QAction(QIcon(":/icons/32x32/zoom-in.png"), tr("Zoom In"), bar);
+    QAction *actionZoomIn = new QAction(QIcon::fromTheme("zoom-in",QIcon(":/icons/32x32/zoom-in.png")), tr("Zoom In"), bar);
     connect(actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
-    QAction *actionZoomOut = new QAction(QIcon(":/icons/32x32/zoom-out.png"), tr("Zoom Out"), bar);
+    QAction *actionZoomOut = new QAction(QIcon::fromTheme("zoom-out",QIcon(":/icons/32x32/zoom-out.png")), tr("Zoom Out"), bar);
     connect(actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
     QAction *actionModule = new QAction(QIcon(":/icons/32x32/module.png"), tr("Module"), bar);
     connect(actionModule, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_Module()));
