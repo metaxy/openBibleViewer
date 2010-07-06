@@ -19,21 +19,26 @@ UrlConverter::UrlConverter(const UrlType &from, const UrlType &to, const QString
     m_to = to;
     m_url = url;
 
-    m_bibleID = "";
+    m_moduleID = -1;
     m_path = "";
     m_chapterID = -1;
     m_bookID = -1;
     m_verseID = -1;
     m_bookName = "";
 }
+void UrlConverter::setModuleMap(ModuleMap *moduleMap)
+{
+    m_moduleMap = moduleMap;
+}
+
 QString UrlConverter::convert()
 {
     DEBUG_FUNC_NAME
     QString ret;
     if (m_to == InterfaceUrl) {
-        ret = "bible://" + m_bibleID + "/" + QString::number(m_bookID) + "," + QString::number(m_chapterID) + "," + QString::number(m_verseID);
+        ret = "bible://" + QString::number(m_moduleID) + "/" + QString::number(m_bookID) + "," + QString::number(m_chapterID) + "," + QString::number(m_verseID);
     } else if (m_to == PersistentUrl) {
-        ret = m_biblesRootPath.at(m_bibleID.toInt()) + ";" + QString::number(m_bookID) + ";" + QString::number(m_chapterID) + ";" + QString::number(m_verseID);
+        ret = m_moduleMap->m_map.value(m_moduleID)->m_path + ";" + QString::number(m_bookID) + ";" + QString::number(m_chapterID) + ";" + QString::number(m_verseID);
         if (!m_bookName.isEmpty()) {
             ret += ";" + m_bookName;//check for invalid charatcers
         }
@@ -52,7 +57,7 @@ int UrlConverter::pharse()
             QStringList a = url.split("/");
             if (a.size() == 2) {
                 QStringList c = a.at(1).split(",");
-                m_bibleID = a.at(0);
+                m_moduleID = a.at(0).toInt();
                 if (c.size() >= 3) {
                     m_bookID = c.at(0).toInt();
                     m_chapterID = c.at(1).toInt();
@@ -85,12 +90,14 @@ int UrlConverter::pharse()
         m_chapterID = schapterID.toInt();
         m_verseID = sverseID.toInt();
         //get bibleID
-        for (int i = 0; i < m_biblesRootPath.size(); i++) {
-            if (m_biblesRootPath.at(i) == path) {
-                m_bibleID = QString::number(i);
-                break;
-            }
-        }
+        QMapIterator<int, Module *> i(m_moduleMap->m_map);
+         while (i.hasNext()) {
+             i.next();
+             if(i.value()->m_path == path) {
+                 m_moduleID = i.key();
+             }
+         }
+
     } else if (m_from == BibleQuoteUrl) {
     }
     return 0;

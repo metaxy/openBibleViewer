@@ -275,7 +275,7 @@ void NotesEditor::createLink()
     insertLinkDialog->setNotes(m_notes);
     insertLinkDialog->setModuleManager(m_moduleManager);
     insertLinkDialog->init();
-    insertLinkDialog->setCurrent(m_moduleManager->bible()->bibleID(), m_moduleManager->bible()->biblePath(),
+    insertLinkDialog->setCurrent(m_moduleManager->bible()->moduleID(), m_moduleManager->bible()->biblePath(),
                                  m_moduleManager->bible()->bookID(), m_moduleManager->bible()->chapterID() + 1, 1);
     insertLinkDialog->show();
     insertLinkDialog->exec();

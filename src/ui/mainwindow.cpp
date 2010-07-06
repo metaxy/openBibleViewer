@@ -376,7 +376,7 @@ void MainWindow::loadSettings()
         m.biblePath = m_settingsFile->value("biblePath").toMap();
         m.uModuleCount = m_settingsFile->value("uModuleCount", 0).toInt();
         m.styleSheet = m_settingsFile->value("styleSheet", ":/data/default.css").toString();
-        m_settings->module.append(m);
+        m_settings->m_moduleSettings.append(m);
 
     }
     m_settingsFile->endArray();
@@ -413,9 +413,9 @@ void MainWindow::writeSettings()
     m_settingsFile->setValue("ui/lastPlaceSave", m_settings->lastPlaceSave);
 
     m_settingsFile->beginWriteArray("module");
-    for (int i = 0; i < m_settings->module.size(); ++i) {
+    for (int i = 0; i < m_settings->m_moduleSettings.size(); ++i) {
         m_settingsFile->setArrayIndex(i);
-        ModuleSettings m = m_settings->module.at(i);
+        ModuleSettings m = m_settings->m_moduleSettings.at(i);
         m_settingsFile->setValue("name", m.moduleName);
         m_settingsFile->setValue("path", m.modulePath);
         m_settingsFile->setValue("type", m.moduleType);

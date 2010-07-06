@@ -38,17 +38,21 @@ public:
     QString notePos2Link(const QString &pos);
     QString notePos2Text(const QString &pos);
 
-    QList<Module> m_moduleList;
+    Module * getModule(const int &moduleID);
+    bool contains(const int &moduleID);
+
+    //QList<Module> m_moduleList;
     QStandardItemModel *m_moduleModel;
     Settings *m_settings;
     Notes *m_notes;
-    ModuleMap *m_map;
+    ModuleMap *m_moduleMap;
     Bible *m_bible;
     Strong m_strong;
     BibleList *m_bibleList;
+
 private:
     QStringList m_iniPath;
-     BibleDisplaySettings *m_bibleDisplaySettings;
+    BibleDisplaySettings *m_bibleDisplaySettings;
 };
 
 #endif // MODULEMANAGER_H

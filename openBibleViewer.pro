@@ -67,10 +67,10 @@ SOURCES += src/main.cpp \
     src/ui/dialog/insertlinkdialog.cpp \
     src/core/moduledownloader.cpp \
     src/ui/interface/advanced/webview.cpp \
-    src/module/modulemap.cpp \
     src/module/biblelist.cpp \
     src/ui/interface/advanced/biblelistwidget.cpp \
-    src/ui/interface/advanced/biblelistitemdelegate.cpp
+    src/ui/interface/advanced/biblelistitemdelegate.cpp \
+    src/module/modulemap.cpp
 HEADERS += src/core/settings.h \
     src/module/biblequote.h \
     src/module/zefania-bible.h \

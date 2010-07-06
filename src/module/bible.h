@@ -42,7 +42,7 @@ public:
     void setModuleMap(ModuleMap *map);
     void setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings);
 
-    int loadBibleData(const int &bibleID, const QString &path);
+    int loadModuleData(const int &bibleID);
     int readBook(int id);
     QString readChapter(int chapterID, int verseID);
     QString readVerse(int chapterID, int startVerse, int endVerse, int markVerseID, bool saveRawDatas);
@@ -52,8 +52,8 @@ public:
 
     SearchResult search(SearchQuery query);
 
-    int bibleID();
-    void setBibleID(const int &bible);
+    int moduleID();
+    void setModuleID(const int &bible);
 
     BibleType bibleType();
 
@@ -78,13 +78,13 @@ public:
 
     QList<Chapter> m_chapterData;
 
-
+    Module *m_module;
     BibleQuote *m_bq;
     ZefaniaBible *m_zef;
 
     ModuleMap *m_map;
 private:
-    int m_bibleID;
+    int m_moduleID;
     int m_bookID;
     int m_chapterID;
     int m_verseID;

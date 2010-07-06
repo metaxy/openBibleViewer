@@ -28,7 +28,7 @@ class Settings
 public:
     Settings();
     QString encoding;
-    QList<ModuleSettings> module;
+    QList<ModuleSettings> m_moduleSettings;
     QMap<int, int> moduleID;
     qreal zoomstep;
     QString version;

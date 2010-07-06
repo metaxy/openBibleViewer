@@ -51,10 +51,11 @@ void SearchResultDockWidget::setSearchResult(SearchResult searchResult)
 void SearchResultDockWidget::goToSearchResult(QListWidgetItem * item)
 {
     int id = ui->listWidget_search->row(item);
-    if (m_moduleManager->m_moduleList.size() < m_moduleManager->bible()->bibleID())
-        return;
+
     if (id < m_searchResult.hits().size() && id > 0) {
         SearchHit hit = m_searchResult.hits().at(id);
+        if (!m_moduleManager->contains(hit.bibleID()))
+            return;
         emit get("bible://" + QString::number(hit.bibleID()) + "/" + QString::number(hit.bookID()) + "," + QString::number(hit.chapterID() - 1) + "," + QString::number(hit.verseID() - 1) + ",searchInCurrentText=true");
     }
 }
@@ -63,7 +64,7 @@ void SearchResultDockWidget::searchInfo()
     SearchResult result;
     QStringList bookNames;
     QString searchString;
-    if (m_moduleManager->m_moduleList.size() < m_moduleManager->bible()->bibleID()) {
+    if (!m_moduleManager->contains(m_moduleManager->bible()->moduleID())) {
         QMessageBox::information(0, tr("Error"), tr("No search information available."));
         return;
     }
@@ -74,7 +75,7 @@ void SearchResultDockWidget::searchInfo()
 
     for (int i = 0; i < result.hits().size(); ++i) {
         SearchHit hit = result.hits().at(i);
-        QString bookn = m_moduleManager->bible()->bookFullName().at(hit.bookID());
+        QString bookn = m_moduleManager->bible()->bookFullName().at(hit.bookID()); //todo: maybe the bible isn't loaded and you need another bookNames
         textList << hit.text() + "\n - <i>" + bookn + " " + QString::number(hit.chapterID()) + " , " + QString::number(hit.verseID()) + "</i>";
     }
     searchString = m_searchResult.searchQuery.searchText;

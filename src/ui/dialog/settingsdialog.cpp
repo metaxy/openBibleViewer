@@ -125,15 +125,15 @@ void SettingsDialog::generateModuleTree()
 {
     m_ui->treeWidget_module->clear();
     QList<QTreeWidgetItem *> items;
-    for (int i = 0; i < m_set.module.size(); i++) {
+    for (int i = 0; i < m_set.m_moduleSettings.size(); i++) {
         QTreeWidgetItem *ibible = new QTreeWidgetItem(m_ui->treeWidget_module);
-        ibible->setText(0, m_set.module.at(i).moduleName);
-        ibible->setText(1, m_set.module.at(i).modulePath);
+        ibible->setText(0, m_set.m_moduleSettings.at(i).moduleName);
+        ibible->setText(1, m_set.m_moduleSettings.at(i).modulePath);
         QString moduleType;
-        if (m_set.module.at(i).isDir) {
+        if (m_set.m_moduleSettings.at(i).isDir) {
             moduleType = QObject::tr("Folder");
         } else {
-            switch (m_set.module.at(i).moduleType.toInt()) {
+            switch (m_set.m_moduleSettings.at(i).moduleType.toInt()) {
             case Module::BibleQuoteModule:
                 moduleType = QObject::tr("Bible Quote");
                 break;
@@ -228,7 +228,7 @@ void SettingsDialog::addModuleDir(void)
                 ibible->setText(1, m.modulePath);
                 ibible->setText(2, moduleType);
                 items << ibible;
-                m_set.module << m;
+                m_set.m_moduleSettings << m;
             }
             progress.close();
             m_ui->treeWidget_module->insertTopLevelItems(0, items);
@@ -244,7 +244,7 @@ void SettingsDialog::removeModule()
     QTreeWidgetItem * token = m_ui->treeWidget_module->currentItem();
     delete token;
     //remove from settings
-    m_set.module.removeAt(row);
+    m_set.m_moduleSettings.removeAt(row);
     return;
 }
 void SettingsDialog::editModule()
@@ -253,7 +253,7 @@ void SettingsDialog::editModule()
     int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
     if (row >= 0) {
         ModuleConfigDialog *mDialog = new ModuleConfigDialog(this);
-        mDialog->setModule(m_set.module.at(row));
+        mDialog->setModule(m_set.m_moduleSettings.at(row));
         connect(mDialog, SIGNAL(save(ModuleSettings)), this, SLOT(saveModule(ModuleSettings)));
         connect(mDialog, SIGNAL(save(ModuleSettings)), mDialog, SLOT(close()));
         mDialog->show();
@@ -264,7 +264,7 @@ void SettingsDialog::editModule()
 void SettingsDialog::saveModule(ModuleSettings c)
 {
     int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
-    m_set.module.replace(row, c);
+    m_set.m_moduleSettings.replace(row, c);
     generateModuleTree();
 }
 void SettingsDialog::save(void)
@@ -398,7 +398,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
             m.zefbible_showStrong = true;
             m.zefbible_showStudyNote = true;
             m.encoding = "Default";//no translating
-            m_set.module << m;
+            m_set.m_moduleSettings << m;
         }
         progress.close();
         generateModuleTree();

@@ -36,9 +36,8 @@ void ZefaniaBible::setSettings(Settings *set)
 }
 void ZefaniaBible::loadBibleData(const int &id, const QString &path)
 {
-    // DEBUG_FUNC_NAME
-    //myDebug() << "id = " << id << " path = " << path  << " hardCache = "
-    //<< m_settings->getModuleSettings(m_bibleID).zefbible_hardCache << m_settings->getModuleSettings(m_bibleID).zefbible_softCache;
+    DEBUG_FUNC_NAME
+    myDebug() << "id = " << id << " path = " << path;
     bibleName = "";
     m_bibleID = id;
     if (m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == false && m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false) {
@@ -55,7 +54,7 @@ void ZefaniaBible::loadBibleData(const int &id, const QString &path)
     } else {
         loadNoCached(id, path);//read the entire xml file
     }
-    //myDebug() << bookCount;
+    myDebug() << bookCount;
     m_settings->setBookCount(m_bibleID, bookCount);
     m_settings->setBookNames(m_bibleID, bookFullName);
     m_settings->setBiblePath(m_bibleID, path);

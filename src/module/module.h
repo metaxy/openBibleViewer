@@ -14,6 +14,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef MODULE_H
 #define MODULE_H
 #include "src/core/settings.h"
+#include "src/module/biblequote.h"
+#include "src/module/zefania-bible.h"
+#include "src/module/zefania-strong.h"
 #include <QtCore/QString>
 class Module
 {
@@ -21,6 +24,7 @@ public:
     Module();
     enum ModuleClass {
         NoneClass = 0,
+        FolderClass = 3,
         BibleModule = 1,
         StrongModule = 2
     };
@@ -30,11 +34,16 @@ public:
         ZefaniaBibleModule = 2,
         ZefaniaStrongModule = 3
     };
-    int m_moduleClass;
+    ModuleClass m_moduleClass;
     ModuleType m_moduleType;
+
     QString m_path;
     QString m_title;
     int m_id;
+    BibleQuote *m_bibleQuote;
+    ZefaniaBible *m_zefaniaBible;
+    ZefaniaStrong m_zefaniaStrong;
+
     void setSettings(Settings *settings);
     Settings *m_settings;
 };

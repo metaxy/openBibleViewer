@@ -20,13 +20,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/bible.h"
 #include "src/module/strong.h"
 #include "src/module/module.h"
+#include "src/module/modulemap.h"
 #include "src/core/dbghelper.h"
 #include "src/core/urlconverter.h"
 ModuleManager::ModuleManager()
 {
     m_moduleModel = new QStandardItemModel;
     m_bible = new Bible();
-    m_map = new ModuleMap();
+    m_moduleMap = new ModuleMap();
 }
 void ModuleManager::setSettings(Settings *settings)
 {
@@ -52,13 +53,12 @@ int ModuleManager::loadAllModules()
     ZefaniaBible zef;
     zef.setSettings(m_settings);
 
-    m_moduleList.clear();
+
     m_moduleModel->clear();
-    m_map->m_bibleQuote.clear();
-    m_map->m_zefaniaBible.clear();
-    QProgressDialog progress(QObject::tr("Loading Module"), QObject::tr("Cancel"), 0, m_settings->module.size());
+
+    QProgressDialog progress(QObject::tr("Loading Module"), QObject::tr("Cancel"), 0, m_settings->m_moduleSettings.size());
     progress.setWindowModality(Qt::WindowModal);
-    int rcount = 0;//Counter for the Bible ID
+    int moduleID = 0;//Counter for the Module ID
 
     QStandardItem *parentItem = m_moduleModel->invisibleRootItem();
     QIcon bibleQuoteIcon = QIcon::fromTheme("text-x-generic",QIcon(":/icons/16x16/text-x-generic.png"));
@@ -69,22 +69,21 @@ int ModuleManager::loadAllModules()
 
     QIcon bibleZefaniaIcon =  QIcon::fromTheme("text-xml",QIcon(":/icons/16x16/text-xml.png"));;
 
-    for (int i = 0; i < m_settings->module.size(); ++i) { //real all modules
+    for (int i = 0; i < m_settings->m_moduleSettings.size(); ++i) { //real all modules
         if (progress.wasCanceled())
             break;
-        if (m_settings->module.at(i).isDir == true) {
-            unsigned int uModuleCount = 0;
+        if (m_settings->m_moduleSettings.at(i).isDir == true) {
 
             QStandardItem *top = new QStandardItem;
 
             top->setIcon(folderIcon);
-            top->setText(m_settings->module.at(i).moduleName);
+            top->setText(m_settings->m_moduleSettings.at(i).moduleName);
             top->setData("-1");
 
             parentItem->appendRow(top);
 
             //search for bible in the dir
-            QString rpath = m_settings->module.at(i).modulePath + "/";
+            QString rpath = m_settings->m_moduleSettings.at(i).modulePath + "/";
             int bibletype = Bible::None;
             QDir dir(rpath);
             dir.setFilter(QDir::Dirs);
@@ -118,33 +117,31 @@ int ModuleManager::loadAllModules()
                         bibletype = Bible::ZefaniaBibleModule;
                     }
                     file.setFileName(rfile);
+                    //todo: add a folder module and it should be the parent of all it childrens
                     if (bibletype != 0 && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
                         QString bname;
                         switch (bibletype) {
                         case Bible::BibleQuoteModule: {
                             bname = bq.readInfo(file);
                             if (bname.size() > 0) {
-                                Module module;
-                                module.m_path = file.fileName();
-                                module.m_moduleClass = Module::BibleModule;
-                                module.m_moduleType = Module::BibleQuoteModule;
-                                module.m_title = bname;
-                                module.m_id = rcount;
-                                m_moduleList << module;
+                                Module *module = new Module();
+                                module->m_path = file.fileName();
+                                module->m_moduleClass = Module::BibleModule;
+                                module->m_moduleType = Module::BibleQuoteModule;
+                                module->m_title = bname;
+                                module->m_id = moduleID;
+                                m_moduleMap->m_map.insert(moduleID,module);
 
                                 QStandardItem *bibleItem = new QStandardItem;
                                 bibleItem->setText(bname);
-                                bibleItem->setData(QString::number(rcount));
-                                bibleItem->setToolTip(QObject::tr("BibleQuote Module") + " - " + module.m_path + " ("+QString::number(module.m_id)+")");
+                                bibleItem->setData(QString::number(moduleID));
+                                bibleItem->setToolTip(QObject::tr("BibleQuote Module") + " - " + module->m_path + " ("+QString::number(module->m_id)+")");
 
                                 bibleItem->setIcon(bibleQuoteIcon);
                                 top->appendRow(bibleItem);
 
-                                m_settings->moduleID.insert(rcount, i);
-                                m_settings->setBibleName(rcount,module.m_title);
+                                moduleID++;
 
-                                rcount++;
-                                uModuleCount++;
                             }
                             break;
                         }
@@ -153,25 +150,22 @@ int ModuleManager::loadAllModules()
                             bname = zef.readInfo(file);
                             if (bname.size() > 0) {
 
-                                Module module;
-                                module.m_path = file.fileName();
-                                module.m_moduleClass = Module::BibleModule;
-                                module.m_moduleType = Module::ZefaniaBibleModule;
-                                module.m_title = bname;
-                                module.m_id = rcount;
-                                m_moduleList << module;
+                                Module *module = new Module();
+                                module->m_path = file.fileName();
+                                module->m_moduleClass = Module::BibleModule;
+                                module->m_moduleType = Module::ZefaniaBibleModule;
+                                module->m_title = bname;
+                                module->m_id = moduleID;
+                                m_moduleMap->m_map.insert(moduleID,module);
 
                                 QStandardItem *bibleItem = new QStandardItem;
                                 bibleItem->setText(bname);
-                                bibleItem->setData(QString::number(rcount));
-                                bibleItem->setToolTip(QObject::tr("Zefania XML Module") + " - " + module.m_path + " ("+QString::number(module.m_id)+")");
+                                bibleItem->setData(QString::number(moduleID));
+                                bibleItem->setToolTip(QObject::tr("Zefania XML Module") + " - " + module->m_path + " ("+QString::number(module->m_id)+")");
 
                                 bibleItem->setIcon(bibleZefaniaIcon);
                                 top->appendRow(bibleItem);
-                                m_settings->moduleID.insert(rcount, i);
-                                m_settings->setBibleName(rcount,module.m_title);
-                                rcount++;
-                                uModuleCount++;
+                                moduleID++;
                             }
                             break;
                         }
@@ -180,81 +174,65 @@ int ModuleManager::loadAllModules()
                     }
                 }
             }
-            if (m_settings->module.at(i).uModuleCount != uModuleCount) {
-                m_settings->clearNamesCache(i); //ModuleID
-            }
-            ModuleSettings m = m_settings->module.at(i);
-            m.uModuleCount = uModuleCount;
-            m_settings->module.replace(i, m);
         } else {
             //load module
-            int bibletype = m_settings->module.at(i).moduleType.toInt();
+            int bibletype = m_settings->m_moduleSettings.at(i).moduleType.toInt();
             if (bibletype != 0) {
                 switch (bibletype) {
                 case Module::BibleQuoteModule: {
                     //BibleQuote
-                    Module module;
-                    module.m_path = m_settings->module.at(i).modulePath;
-                    module.m_moduleClass = Module::BibleModule;
-                    module.m_moduleType = Module::BibleQuoteModule;
-                    module.m_title = m_settings->module.at(i).moduleName;
-                    module.m_id = rcount;
+                    Module *module = new Module();
+                    module->m_path = m_settings->m_moduleSettings.at(i).modulePath;
+                    module->m_moduleClass = Module::BibleModule;
+                    module->m_moduleType = Module::BibleQuoteModule;
+                    module->m_title = m_settings->m_moduleSettings.at(i).moduleName;
+                    module->m_id = moduleID;
 
-                    m_moduleList << module;
-                    m_settings->moduleID.insert(rcount, i);
-                    m_settings->setBibleName(rcount,module.m_title);
+                    m_moduleMap->m_map.insert(moduleID,module);
 
                     QStandardItem *bibleItem = new QStandardItem;
-                    bibleItem->setText(m_settings->module.at(i).moduleName);
-                    bibleItem->setData(QString::number(rcount));
-                    bibleItem->setToolTip(QObject::tr("BibleQuote Module") + " - " + module.m_path + " ("+QString::number(module.m_id)+")");
-                    myDebug() << "m_settings->moduleID rcount = " << rcount << " i = " << i;
-
-
+                    bibleItem->setText(m_settings->m_moduleSettings.at(i).moduleName);
+                    bibleItem->setData(QString::number(moduleID));
+                    bibleItem->setToolTip(QObject::tr("BibleQuote Module") + " - " + module->m_path + " ("+QString::number(module->m_id)+")");
 
                     bibleItem->setIcon(bibleQuoteIcon);
                     parentItem->appendRow(bibleItem);
 
-                    rcount++;
+                    moduleID++;
                     break;
                 }
                 case Module::ZefaniaBibleModule: {
                     //ZenfaniaXML
-                    Module module;
-                    module.m_path = m_settings->module.at(i).modulePath;
-                    module.m_moduleClass = Module::BibleModule;
-                    module.m_moduleType = Module::ZefaniaBibleModule;
-                    module.m_title = m_settings->module.at(i).moduleName;
-                    module.m_id = rcount;
+                    Module *module = new Module();
+                    module->m_path = m_settings->m_moduleSettings.at(i).modulePath;
+                    module->m_moduleClass = Module::BibleModule;
+                    module->m_moduleType = Module::ZefaniaBibleModule;
+                    module->m_title = m_settings->m_moduleSettings.at(i).moduleName;
+                    module->m_id = moduleID;
 
-                    m_moduleList << module;
-                    m_settings->moduleID.insert(rcount, i);
-                    m_settings->setBibleName(rcount,module.m_title);
+                    m_moduleMap->m_map.insert(moduleID,module);
 
                     QStandardItem *bibleItem = new QStandardItem;
-                    bibleItem->setText(m_settings->module.at(i).moduleName);
-                    bibleItem->setData(QString::number(rcount));
-                    bibleItem->setToolTip(QObject::tr("Zefania XML Module") + " - " + module.m_path + " ("+QString::number(module.m_id)+")");
-                    myDebug() << "m_settings->moduleID rcount = " << rcount << " i = " << i;
+                    bibleItem->setText(m_settings->m_moduleSettings.at(i).moduleName);
+                    bibleItem->setData(QString::number(moduleID));
+                    bibleItem->setToolTip(QObject::tr("Zefania XML Module") + " - " + module->m_path + " ("+QString::number(module->m_id)+")");
 
                     bibleItem->setIcon(bibleZefaniaIcon);
                     parentItem->appendRow(bibleItem);
-                    rcount++;
+                    moduleID++;
                     break;
                 }
                 case Module::ZefaniaStrongModule: {
-                    myDebug() << "Strong added";
-                    Module module;
-                    module.m_path = m_settings->module.at(i).modulePath;
-                    module.m_moduleClass = Module::StrongModule;
-                    module.m_moduleType = Module::ZefaniaStrongModule;
-                    module.m_title = m_settings->module.at(i).moduleName;
-                    module.m_id = rcount;
 
-                    m_moduleList << module;
-                    m_settings->moduleID.insert(rcount, i);
-                    m_settings->setBibleName(rcount,module.m_title);
-                    rcount++;
+                    Module *module = new Module();
+                    module->m_path = m_settings->m_moduleSettings.at(i).modulePath;
+                    module->m_moduleClass = Module::StrongModule;
+                    module->m_moduleType = Module::ZefaniaStrongModule;
+                    module->m_title = m_settings->m_moduleSettings.at(i).moduleName;
+                    module->m_id = moduleID;
+
+                    m_moduleMap->m_map.insert(moduleID,module);
+                    moduleID++;
                     break;
                 }
 
@@ -262,25 +240,15 @@ int ModuleManager::loadAllModules()
             }
         }
     }
-
-    //todo: its ugly
-    m_iniPath.clear();;
-    for (int i = 0; i < m_moduleList.size(); ++i) {
-        //if(m_moduleList.at(i).m_moduleClass == Module::BibleModule)
-        m_iniPath << m_moduleList.at(i).m_path;
-    }
-    m_bible->setBiblesRootPath(m_iniPath);
     return 0;
 }
 void ModuleManager::initBible()
 {
-
     m_bible->setSettings(m_settings);
     m_bible->setNotes(m_notes);
     m_bible->setBiblesRootPath(m_iniPath);
-    m_bible->setModuleMap(m_map);
+    m_bible->setModuleMap(m_moduleMap);
     m_bible->setBibleDisplaySettings(m_bibleDisplaySettings);
-
 }
 
 /**
@@ -288,7 +256,7 @@ void ModuleManager::initBible()
   */
 bool ModuleManager::bibleLoaded()
 {
-    if (m_moduleList.size() > m_bible->bibleID() && m_bible->bibleID() >= 0)
+    if (m_moduleMap->m_map.contains(m_bible->moduleID()) && m_bible->moduleID() >= 0)
         return true;
     return false;
 }
@@ -297,10 +265,15 @@ bool ModuleManager::bibleLoaded()
   */
 bool ModuleManager::strongLoaded()
 {
-    if (m_moduleList.size() > m_strong.m_strongModuleID &&  m_strong.m_strongModuleID >= 0)
+    if (m_moduleMap->m_map.contains(m_strong.m_strongModuleID)  &&  m_strong.m_strongModuleID >= 0)
         return true;
     return false;
 }
+bool ModuleManager::contains(const int &moduleID)
+{
+    return m_moduleMap->m_map.contains(moduleID);
+}
+
 Bible * ModuleManager::bible()
 {
     //m_bible->setModuleMap(m_map);//todo: avoid this
@@ -310,6 +283,11 @@ BibleList * ModuleManager::bibleList()
 {
     return m_bibleList;
 }
+Module * ModuleManager::getModule(const int &moduleID)
+{
+    return m_moduleMap->m_map.value(moduleID);
+}
+
 /**
   Converts a PersistentUrl to a link.
   */

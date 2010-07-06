@@ -129,9 +129,9 @@ void SimpleInterface::loadModuleDataByID(int id)
 {
     //DEBUG_FUNC_NAME
     myDebug() << "id = " << id;
-    if (id < 0 || m_moduleManager->m_moduleList.size() < id)
+    if (id < 0 || !m_moduleManager->contains(id))
         return;
-    Module::ModuleType type = m_moduleManager->m_moduleList.at(id).m_moduleType;
+    Module::ModuleType type = m_moduleManager->getModule(id)->m_moduleType;
     if(type == Module::BibleQuoteModule) {
         m_moduleManager->bible()->setBibleType(Bible::BibleQuoteModule);
     } else if(type == Module::ZefaniaBibleModule) {
@@ -140,7 +140,7 @@ void SimpleInterface::loadModuleDataByID(int id)
         m_moduleManager->bible()->setBibleType(Bible::None);
     }
 
-    m_moduleManager->bible()->loadBibleData(id, m_moduleManager->m_moduleList.at(id).m_path);
+    m_moduleManager->bible()->loadModuleData(id);
 
     setTitle(m_moduleManager->bible()->bibleTitle());
     setBooks(m_moduleManager->bible()->bookFullName());
@@ -166,14 +166,14 @@ void SimpleInterface::pharseUrl(QString url)
             if (c.size() >= 3) {
                 int bibleID;
                 if (a.at(0) == "current") {
-                    bibleID = m_moduleManager->bible()->bibleID();
+                    bibleID = m_moduleManager->bible()->moduleID();
                 } else {
                     bibleID = a.at(0).toInt();
                 }
                 int bookID = c.at(0).toInt();
                 int chapterID = c.at(1).toInt();
                 int verseID = c.at(2).toInt();
-                if (bibleID != m_moduleManager->bible()->bibleID()) {
+                if (bibleID != m_moduleManager->bible()->moduleID()) {
                     loadModuleDataByID(bibleID);
                     readBookByID(bookID);
                     setCurrentBook(bookID);;
@@ -376,14 +376,14 @@ void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings
     if (oldSettings.encoding != newSettings.encoding) {
         reloadBibles = true;
     }
-    for (int i = 0; i < newSettings.module.size(); ++i) {
-        if (oldSettings.module.size() < i || oldSettings.module.empty()) {
+    for (int i = 0; i < newSettings.m_moduleSettings.size(); ++i) {
+        if (oldSettings.m_moduleSettings.size() < i || oldSettings.m_moduleSettings.empty()) {
             reloadBibles = true;
             break;
         } else {
             ModuleSettings m1, m2;
-            m1 = newSettings.module.at(i);
-            m2 = oldSettings.module.at(i);
+            m1 = newSettings.m_moduleSettings.at(i);
+            m2 = oldSettings.m_moduleSettings.at(i);
             if (memcmp(&m1, &m2, sizeof(ModuleSettings))) {
                 reloadBibles = true;
                 break;

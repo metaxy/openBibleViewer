@@ -22,7 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QTextDocument>
 Bible::Bible()
 {
-    m_bibleID = -1;
+    m_moduleID = -1;
 }
 void Bible::setModuleMap(ModuleMap *map)
 {
@@ -31,7 +31,6 @@ void Bible::setModuleMap(ModuleMap *map)
 void Bible::setBibleType(const BibleType &type)
 {
     m_bibleType = type;
-    return;
 }
 void Bible::setSettings(Settings *settings)
 {
@@ -42,51 +41,56 @@ void Bible::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings)
     m_bibleDisplaySettings = bibleDisplaySettings;
 }
 
-int Bible::loadBibleData(const int &bibleID, const QString &path)
+int Bible::loadModuleData(const int &moduleID)
 {
-    //DEBUG_FUNC_NAME
-    if (bibleID < 0) {
-        myDebug() << "invalid bibleID = " << bibleID;
+    DEBUG_FUNC_NAME
+    m_module = m_map->m_map.value(moduleID);
+    if (moduleID < 0 || !m_module) {
+        myDebug() << "invalid bibleID = " << moduleID;
         return 1;
     }
-    m_bibleID = bibleID;
+    m_moduleID = moduleID;
+
+
+    QString path = m_module->m_path;
+
     switch (m_bibleType) {
     case BibleQuoteModule: {
-        if(m_map->m_bibleQuote.contains(m_bibleID)) {
-            m_bq = m_map->m_bibleQuote.value(m_bibleID);
-        } else {
+        if(m_module->m_bibleQuote) {
+            m_bq = m_module->m_bibleQuote;
+        }
+        else {
             m_bq = new BibleQuote();
+            m_module->m_bibleQuote = m_bq;
         }
 
         m_bq->setSettings(m_settings);
-        m_bq->loadBibleData(bibleID, path);
+        m_bq->loadBibleData(moduleID, path);
         m_bibleTitle = m_bq->m_bibleName;
         bookCount = m_bq->m_bookCount;
         m_bookFullName = m_bq->m_bookFullName;
         m_bookPath = m_bq->m_bookPath;
         m_chapterAdd = 1;
         m_biblePath = m_bq->m_biblePath;
-        m_map->m_bibleQuote.insert(m_bibleID,m_bq);
+
         break;
     }
     case ZefaniaBibleModule: {
-        myDebug() << m_map << m_bibleID;
-        if(m_map->m_zefaniaBible.contains(m_bibleID)) {
-            myDebug() << "zef loads from cache";
-            m_zef = m_map->m_zefaniaBible.value(m_bibleID);
+        if(m_module->m_zefaniaBible) {
+            m_zef = m_module->m_zefaniaBible;
         } else {
-            myDebug() << "zef new";
             m_zef = new ZefaniaBible();
+            m_module->m_zefaniaBible = m_zef;
         }
-        ModuleSettings m = m_settings->getModuleSettings(m_bibleID);
+        ModuleSettings m = m_settings->getModuleSettings(m_moduleID);
         m_zef->setSettings(m_settings);
-        m_zef->loadBibleData(bibleID, path);
+        m_zef->loadBibleData(moduleID, path);
         m_bibleTitle = m.moduleName;
         bookCount = m_zef->bookCount;
         m_bookFullName = m_zef->bookFullName;
         m_chapterAdd = 0;
         m_biblePath = m_zef->currentBiblePath;
-        m_map->m_zefaniaBible.insert(m_bibleID,m_zef);
+
         break;
     }
     default:
@@ -118,14 +122,12 @@ int Bible::readBook(int id)
         m_chapterData = m_bq->m_chapterData;
 
         int cc = bookCount[id];
-        if (m_bq->m_chapterZero == true) {
-            for (int i = 0; i < cc; i++) {
-                m_chapterNames << QString::number(i);
-            }
-        } else {
-            for (int i = 1; i <= cc; i++) {
-                m_chapterNames << QString::number(i);
-            }
+        int start = 1;
+        if (m_bq->m_chapterZero) {
+            start = 0;
+        }
+        for (int i = start; i < cc + start; i++) {
+            m_chapterNames << QString::number(i);
         }
         break;
     }
@@ -154,7 +156,6 @@ QString Bible::readChapter(int chapterID, int verseID = -1)
     }
     m_chapterID = chapterID;
     return readVerse(chapterID, 0, -1, verseID, true);
-
 }
 /**
     Pharse the loaded book.
@@ -191,7 +192,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
 
             if (i == markVerseID) {
                 vers.prepend("<b>");
-                vers.append("</b>"); //make the current verse vold
+                vers.append("</b>"); //make the current verse bold
             }
             versList << vers;
         }
@@ -199,7 +200,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         break;
     }
     case ZefaniaBibleModule: { //zefania
-        qDebug() << "bible::readVerse() zefania read";
+        myDebug() << "zefania read";
 
         if (chapterID >= m_chapterData.size()) {
             myDebug() << "index out of range index chapterID = " << chapterID  << " chapterData.size() = " << m_chapterData.size();
@@ -233,10 +234,10 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                     if (m_notes->getType(noteID) == "text") {
                         QString link = m_notes->getRef(noteID, "link");
                         UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
-                        urlConverter.m_biblesRootPath = m_biblesRootPath;
+                        urlConverter.setModuleMap(m_map);
                         urlConverter.pharse();
 
-                        if (urlConverter.m_bibleID.toInt() == m_bibleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID && urlConverter.m_verseID == i) {
+                        if (urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID && urlConverter.m_verseID == i) {
                             vers.append("<a href=\"note://" + noteID + "\"><img src=\":/icons/16x16/view-pim-notes.png\" title=\"" + m_notes->getRef(noteID, "title") + "\"></a>");
                         }
                     }
@@ -246,7 +247,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 vers.prepend("<a name=\"currentVerse\"><span style=\"font-weight: bold;\">");
                 vers.append("</span></a>");
             }
-            if (m_settings->getModuleSettings(m_bibleID).zefbible_textFormatting == 0) {
+            if (m_settings->getModuleSettings(m_moduleID).zefbible_textFormatting == 0) {
                 vers.prepend("<i>" + c.verseNumber.at(i) + "</i> ");
                 vers.append("<br />");
             } else {
@@ -267,10 +268,10 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
             if (m_notes->getType(noteID) == "mark") {
                 QString link = m_notes->getRef(noteID, "link");
                 UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
-                urlConverter.m_biblesRootPath = m_biblesRootPath;
+                urlConverter.setModuleMap(m_map);
                 urlConverter.pharse();
 
-                if (urlConverter.m_bibleID.toInt() == m_bibleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID) {
+                if (urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID) {
                     myDebug() << "mark found id = " << noteID;
                     versList = toUniformHtml(versList);
                     if (m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
@@ -428,13 +429,13 @@ QStringList Bible::getSearchPaths()
     return QStringList();
 }
 
-int Bible::bibleID()
+int Bible::moduleID()
 {
-    return m_bibleID;
+    return m_moduleID;
 }
-void Bible::setBibleID(const int &bible)
+void Bible::setModuleID(const int &bible)
 {
-    m_bibleID = bible;
+    m_moduleID = bible;
 }
 
 int Bible::bookID()

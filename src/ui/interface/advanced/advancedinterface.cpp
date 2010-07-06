@@ -458,14 +458,14 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
         setBooks(QStringList());
         return 1;
     }
-    myDebug() << "bible ok = " <<m_windowCache.getBibleList()->bible()->bibleID();
-    if(m_windowCache.getBibleList()->bible()->bibleID() < 0) {
+    myDebug() << "bible ok = " <<m_windowCache.getBibleList()->bible()->moduleID();
+    if(m_windowCache.getBibleList()->bible()->moduleID() < 0) {
         setChapters(QStringList());
         setBooks(QStringList());
         return 1;
     }
 
-    if (m_moduleManager->bibleList()->bible()->bibleID() == m_windowCache.getBibleList()->bible()->bibleID())
+    if (m_moduleManager->bibleList()->bible()->moduleID() == m_windowCache.getBibleList()->bible()->moduleID())
         return 1;
     myDebug() << "need to reload";
     m_moduleManager->m_bibleList = m_windowCache.getBibleList();
@@ -478,7 +478,7 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
 
     setBooks(m_moduleManager->bible()->bookFullName());
     setCurrentBook(m_moduleManager->bible()->bookID());
-    m_moduleDockWidget->loadedModule(m_moduleManager->bible()->bibleID());
+    m_moduleDockWidget->loadedModule(m_moduleManager->bible()->moduleID());
 
     return 0;
 }
@@ -489,10 +489,12 @@ void AdvancedInterface::loadModuleDataByID(int id)
     myDebug() << "id = " << id;
     if (ui->mdiArea->subWindowList().size() == 0)
         newSubWindow();
-    if (id < 0 || m_moduleManager->m_moduleList.size() < id) {
+    if (id < 0 || !m_moduleManager->contains(id)) {
+        myDebug() << "id = " << id << m_moduleManager->m_moduleMap->m_map;
         return;
     }
-    if (m_moduleManager->m_moduleList.at(id).m_moduleClass != Module::BibleModule) {
+    if (m_moduleManager->getModule(id)->m_moduleClass != Module::BibleModule) {
+        myDebug() << "non bibel module";
         return;
     }
     QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -500,7 +502,7 @@ void AdvancedInterface::loadModuleDataByID(int id)
     m_windowCache.setCurrentWindowID(currentWindowID());
     //m_windowCache.setBibleList(m_moduleManager->bibleList());
 
-    Module::ModuleType type = m_moduleManager->m_moduleList.at(id).m_moduleType;
+    Module::ModuleType type = m_moduleManager->getModule(id)->m_moduleType;
     if(type == Module::BibleQuoteModule) {
         m_moduleManager->bible()->setBibleType(Bible::BibleQuoteModule);
     } else if(type == Module::ZefaniaBibleModule) {
@@ -509,7 +511,7 @@ void AdvancedInterface::loadModuleDataByID(int id)
         m_moduleManager->bible()->setBibleType(Bible::None);
     }
 
-    m_moduleManager->bible()->loadBibleData(id, m_moduleManager->m_moduleList.at(id).m_path);
+    m_moduleManager->bible()->loadModuleData(id);
 
 
     setTitle(m_moduleManager->bible()->bibleTitle());
@@ -554,7 +556,7 @@ void AdvancedInterface::pharseUrl(QString url)
             if (c.size() >= 3) {
                 int bibleID;
                 if (a.at(0) == "current") {
-                    bibleID = m_moduleManager->bible()->bibleID();
+                    bibleID = m_moduleManager->bible()->moduleID();
                 } else {
                     bibleID = a.at(0).toInt();
                 }
@@ -565,7 +567,7 @@ void AdvancedInterface::pharseUrl(QString url)
                     myDebug() << "invalid url";
                     return;
                 }
-                if (bibleID != m_moduleManager->bible()->bibleID()) {
+                if (bibleID != m_moduleManager->bible()->moduleID()) {
                     loadModuleDataByID(bibleID);//todo: select the right module in treewidget
                     readBookByID(bookID);
                     setCurrentBook(bookID);
@@ -667,7 +669,7 @@ void AdvancedInterface::pharseUrl(QString url)
         url = url.remove(0, persistent.size());
         myDebug() << "url = " << url;
         UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
-        urlConverter.m_biblesRootPath = m_moduleManager->bible()->biblesRootPath();
+        urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
         urlConverter.pharse();
         QString i = urlConverter.convert();//it now a normal interface url
         myDebug() << "i = " << i;
@@ -822,7 +824,7 @@ void AdvancedInterface::readBookByID(int id)
         if (id >= m_moduleManager->bible()->booksCount()) {
             QApplication::restoreOverrideCursor();
             QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
-            myDebug() << "invalid bookID - 2(no book loaded)";
+            myDebug() << "invalid bookID - 2(no book loaded) id = " << id << " count = " << m_moduleManager->bible()->booksCount();
 
             return;
         }
@@ -834,6 +836,7 @@ void AdvancedInterface::readBookByID(int id)
             } else {
                 QMessageBox::critical(0, tr("Error"), tr("Cannot read the book."));
             }
+            myDebug() << "read = " << read;
             //error while reading
             return;
         }
@@ -1332,11 +1335,11 @@ void AdvancedInterface::closing()
         //todo:
         m_windowCache.setCurrentWindowID(i);
         //todo: save also bible list
-        if(m_windowCache.getBibleList() != 0 && m_windowCache.getBibleList()->bible() != 0 && m_windowCache.getBibleList()->bible()->bibleID() >= 0) {
+        if(m_windowCache.getBibleList() != 0 && m_windowCache.getBibleList()->bible() != 0 && m_windowCache.getBibleList()->bible()->moduleID() >= 0) {
             Bible *b = m_windowCache.getBibleList()->bible();
             UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
             urlConverter.m_biblesRootPath = b->biblesRootPath();
-            urlConverter.m_bibleID = QString::number(b->bibleID());
+            urlConverter.m_moduleID = b->moduleID();
             urlConverter.m_bookID = b->bookID();
             urlConverter.m_chapterID = b->chapterID() - b->chapterAdd();
             urlConverter.m_verseID = 0;
@@ -1391,7 +1394,7 @@ void AdvancedInterface::restoreSession()
         if (!url.isEmpty() && url.size() != 0) {
             myDebug() << "windows urls = " << windowUrls.at(i);
             UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, windowUrls.at(i));
-            urlConverter.m_biblesRootPath = m_moduleManager->bible()->biblesRootPath();
+            urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
             urlConverter.pharse();
             myDebug() << "url = " << urlConverter.convert();
             pharseUrl(urlConverter.convert());
@@ -1423,16 +1426,16 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
     if (oldSettings.encoding != newSettings.encoding) {
         reloadBibles = true;
     }
-    if (oldSettings.module.size() > newSettings.module.size())
+    if (oldSettings.m_moduleSettings.size() > newSettings.m_moduleSettings.size())
         reloadBibles = true;
-    for (int i = 0; i < newSettings.module.size(); ++i) {
-        if (oldSettings.module.size() < i || oldSettings.module.empty()) {
+    for (int i = 0; i < newSettings.m_moduleSettings.size(); ++i) {
+        if (oldSettings.m_moduleSettings.size() < i || oldSettings.m_moduleSettings.empty()) {
             reloadBibles = true;
             break;
         } else {
             ModuleSettings m1, m2;
-            m1 = newSettings.module.at(i);
-            m2 = oldSettings.module.at(i);
+            m1 = newSettings.m_moduleSettings.at(i);
+            m2 = oldSettings.m_moduleSettings.at(i);
             if (memcmp(&m1, &m2, sizeof(ModuleSettings))) {
                 reloadBibles = true;
                 break;

@@ -54,7 +54,7 @@ void MarkList::init()
 
         QString string = "";
         UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, m_notes->getRef(marks.at(row), "link"));
-        urlConverter.m_biblesRootPath = m_moduleManager->bible()->biblesRootPath();
+        urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
         urlConverter.pharse();
 
         string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," +
@@ -64,7 +64,8 @@ void MarkList::init()
         stelle->setData(marks.at(row));
         m_itemModel->setItem(row, 0, stelle);
 
-        QStandardItem *module = new QStandardItem(m_moduleManager->m_moduleList.at(urlConverter.m_bibleID.toInt()).m_title);
+
+        QStandardItem *module = new QStandardItem(m_moduleManager->getModule(urlConverter.m_moduleID)->m_title);
         m_itemModel->setItem(row, 1, module);
 
     }
@@ -80,7 +81,7 @@ void MarkList::init()
 void MarkList::load(QModelIndex index)
 {
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, m_notes->getRef(index.data(Qt::UserRole + 1).toString(), "link"));
-    urlConverter.m_biblesRootPath = m_moduleManager->bible()->biblesRootPath();
+    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.pharse();
     QString link = urlConverter.convert();
     emit get(link);

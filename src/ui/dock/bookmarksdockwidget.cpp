@@ -66,8 +66,8 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
                       QString::number(selection.startVerse, 10));
 
     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
-    urlConverter.m_biblesRootPath = m_moduleManager->bible()->biblesRootPath();
-    urlConverter.m_bibleID = QString::number(m_moduleManager->bible()->bibleID());
+    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+    urlConverter.m_moduleID = m_moduleManager->bible()->moduleID();
     urlConverter.m_bookID = m_moduleManager->bible()->bookID();
     urlConverter.m_chapterID = m_moduleManager->bible()->chapterID() - m_moduleManager->bible()->chapterAdd();
     urlConverter.m_verseID = selection.startVerse - 1;
@@ -161,13 +161,13 @@ void BookmarksDockWidget::editBookmark()
     }*/
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, pos);
-    urlConverter.m_biblesRootPath = m_moduleManager->bible()->biblesRootPath();//not nice, i know
+    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);//not nice, i know
     urlConverter.pharse();
 
     BiblePassageDialog *passageDialog = new  BiblePassageDialog(this);
     connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateBookmark(QString)));
     passageDialog->setSettings(m_settings);
-    passageDialog->setCurrent(urlConverter.m_bibleID.toInt(), urlConverter.m_path, urlConverter.m_bookID, urlConverter.m_chapterID + 1, urlConverter.m_verseID + 1);
+    passageDialog->setCurrent(urlConverter.m_moduleID, urlConverter.m_path, urlConverter.m_bookID, urlConverter.m_chapterID + 1, urlConverter.m_verseID + 1);
     passageDialog->show();
     passageDialog->exec();
 }
@@ -193,7 +193,7 @@ int BookmarksDockWidget::internalOpenPos(const QString &pos)
 {
     //DEBUG_FUNC_NAME
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
-    urlConverter.m_biblesRootPath = m_moduleManager->bible()->biblesRootPath();
+    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.pharse();
     myDebug() << "url = " << urlConverter.convert();
     emit get(urlConverter.convert());

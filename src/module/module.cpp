@@ -15,6 +15,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 Module::Module()
 {
+    m_bibleQuote = 0;
+    m_zefaniaBible = 0;
+
 }
 void Module::setSettings(Settings *settings)
 {
