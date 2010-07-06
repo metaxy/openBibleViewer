@@ -58,8 +58,11 @@ int ModuleManager::loadAllModules()
 
     QProgressDialog progress(QObject::tr("Loading Module"), QObject::tr("Cancel"), 0, m_settings->m_moduleSettings.size());
     progress.setWindowModality(Qt::WindowModal);
-    int moduleID = 0;//Counter for the Module ID
-
+    int moduleID = 1;//Counter for the Module ID
+    Module *root = new Module();
+    root->m_id = 0;
+    root->m_moduleClass = Module::FolderClass;
+    root->m_moduleType = Module::NoneType;
     QStandardItem *parentItem = m_moduleModel->invisibleRootItem();
     QIcon bibleQuoteIcon = QIcon::fromTheme("text-x-generic",QIcon(":/icons/16x16/text-x-generic.png"));
     QStyle *style = QApplication::style();
@@ -88,6 +91,12 @@ int ModuleManager::loadAllModules()
             QDir dir(rpath);
             dir.setFilter(QDir::Dirs);
             QFileInfoList list = dir.entryInfoList();
+            Module *folder = new Module(root);
+            folder->m_moduleClass = Module::FolderClass;
+            folder->m_moduleType = Module::NoneType;
+            folder->m_id = moduleID;
+            folder->m_title = m_settings->m_moduleSettings.at(i).moduleName;
+            moduleID++;
 
             for (int fileCounter = 0; fileCounter < list.size(); ++fileCounter) { //Alle Ordner auslesen
                 QFileInfo fileInfo = list.at(fileCounter);
@@ -117,20 +126,20 @@ int ModuleManager::loadAllModules()
                         bibletype = Bible::ZefaniaBibleModule;
                     }
                     file.setFileName(rfile);
-                    //todo: add a folder module and it should be the parent of all it childrens
                     if (bibletype != 0 && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
                         QString bname;
                         switch (bibletype) {
                         case Bible::BibleQuoteModule: {
                             bname = bq.readInfo(file);
                             if (bname.size() > 0) {
-                                Module *module = new Module();
+                                Module *module = new Module(folder);
                                 module->m_path = file.fileName();
                                 module->m_moduleClass = Module::BibleModule;
                                 module->m_moduleType = Module::BibleQuoteModule;
                                 module->m_title = bname;
                                 module->m_id = moduleID;
                                 m_moduleMap->m_map.insert(moduleID,module);
+                                folder->append(module);
 
                                 QStandardItem *bibleItem = new QStandardItem;
                                 bibleItem->setText(bname);
@@ -150,13 +159,14 @@ int ModuleManager::loadAllModules()
                             bname = zef.readInfo(file);
                             if (bname.size() > 0) {
 
-                                Module *module = new Module();
+                                Module *module = new Module(folder);
                                 module->m_path = file.fileName();
                                 module->m_moduleClass = Module::BibleModule;
                                 module->m_moduleType = Module::ZefaniaBibleModule;
                                 module->m_title = bname;
                                 module->m_id = moduleID;
                                 m_moduleMap->m_map.insert(moduleID,module);
+                                folder->append(module);
 
                                 QStandardItem *bibleItem = new QStandardItem;
                                 bibleItem->setText(bname);
@@ -181,7 +191,7 @@ int ModuleManager::loadAllModules()
                 switch (bibletype) {
                 case Module::BibleQuoteModule: {
                     //BibleQuote
-                    Module *module = new Module();
+                    Module *module = new Module(root);
                     module->m_path = m_settings->m_moduleSettings.at(i).modulePath;
                     module->m_moduleClass = Module::BibleModule;
                     module->m_moduleType = Module::BibleQuoteModule;
@@ -189,6 +199,7 @@ int ModuleManager::loadAllModules()
                     module->m_id = moduleID;
 
                     m_moduleMap->m_map.insert(moduleID,module);
+                    root->append(module);
 
                     QStandardItem *bibleItem = new QStandardItem;
                     bibleItem->setText(m_settings->m_moduleSettings.at(i).moduleName);
@@ -203,7 +214,7 @@ int ModuleManager::loadAllModules()
                 }
                 case Module::ZefaniaBibleModule: {
                     //ZenfaniaXML
-                    Module *module = new Module();
+                    Module *module = new Module(root);
                     module->m_path = m_settings->m_moduleSettings.at(i).modulePath;
                     module->m_moduleClass = Module::BibleModule;
                     module->m_moduleType = Module::ZefaniaBibleModule;
@@ -211,6 +222,7 @@ int ModuleManager::loadAllModules()
                     module->m_id = moduleID;
 
                     m_moduleMap->m_map.insert(moduleID,module);
+                    root->append(module);
 
                     QStandardItem *bibleItem = new QStandardItem;
                     bibleItem->setText(m_settings->m_moduleSettings.at(i).moduleName);
@@ -224,7 +236,7 @@ int ModuleManager::loadAllModules()
                 }
                 case Module::ZefaniaStrongModule: {
 
-                    Module *module = new Module();
+                    Module *module = new Module(root);
                     module->m_path = m_settings->m_moduleSettings.at(i).modulePath;
                     module->m_moduleClass = Module::StrongModule;
                     module->m_moduleType = Module::ZefaniaStrongModule;

@@ -13,13 +13,23 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "src/module/module.h"
 
-Module::Module()
+Module::Module(Module *parent)
 {
     m_bibleQuote = 0;
     m_zefaniaBible = 0;
+    m_parent = parent;
 
 }
 void Module::setSettings(Settings *settings)
 {
     m_settings = settings;
+}
+Module* Module::parent() const
+{
+    return m_parent;
+}
+
+void Module::append(Module* child)
+{
+    m_children.append(child);
 }

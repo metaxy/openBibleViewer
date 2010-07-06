@@ -21,7 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class Module
 {
 public:
-    Module();
+    Module(Module *parent=0);
     enum ModuleClass {
         NoneClass = 0,
         FolderClass = 3,
@@ -45,6 +45,13 @@ public:
     ZefaniaStrong m_zefaniaStrong;
 
     void setSettings(Settings *settings);
+
+
+    void append(Module *child);
+    Module *parent() const;
+private:
+    Module* m_parent;
+    QList<Module *> m_children;
     Settings *m_settings;
 };
 
