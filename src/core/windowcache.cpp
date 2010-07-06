@@ -17,6 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 WindowCache::WindowCache()
 {
+    m_reload = false;
 }
 void WindowCache::setBibleList(BibleList *b)
 {

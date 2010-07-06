@@ -447,26 +447,26 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
     m_windowCache.setCurrentWindowID(id);
 
     //todo: add last active window and if it is the same do nohting
-    if(m_windowCache.getBibleList() == 0) {
+    if(!m_windowCache.getBibleList()) {
         setChapters(QStringList());
         setBooks(QStringList());
         return 1;
     }
-    myDebug() << "bible list ok = " <<m_windowCache.getBibleList()->m_bibles.size();
-    if(m_windowCache.getBibleList()->bible() == 0) {
+    myDebug() << "bible list ok = " << m_windowCache.getBibleList()->m_bibles.size();
+    if(!m_windowCache.getBibleList()->bible()) {
         setChapters(QStringList());
         setBooks(QStringList());
         return 1;
     }
-    myDebug() << "bible ok = " <<m_windowCache.getBibleList()->bible()->moduleID();
+    myDebug() << "bible ok = " << m_windowCache.getBibleList()->bible()->moduleID();
     if(m_windowCache.getBibleList()->bible()->moduleID() < 0) {
         setChapters(QStringList());
         setBooks(QStringList());
         return 1;
     }
-
-    if (m_moduleManager->bibleList()->bible()->moduleID() == m_windowCache.getBibleList()->bible()->moduleID())
-        return 1;
+    //todo: think about it
+   /* if (m_moduleManager->bibleList()->bible()->moduleID() == m_windowCache.getBibleList()->bible()->moduleID())
+        return 1;*/
     myDebug() << "need to reload";
     m_moduleManager->m_bibleList = m_windowCache.getBibleList();
     m_moduleManager->m_bible = m_moduleManager->m_bibleList->bible();
@@ -494,7 +494,7 @@ void AdvancedInterface::loadModuleDataByID(int id)
         return;
     }
     if (m_moduleManager->getModule(id)->m_moduleClass != Module::BibleModule) {
-        myDebug() << "non bibel module";
+        myDebug() << "non bible module";
         return;
     }
     QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -1338,7 +1338,7 @@ void AdvancedInterface::closing()
         if(m_windowCache.getBibleList() != 0 && m_windowCache.getBibleList()->bible() != 0 && m_windowCache.getBibleList()->bible()->moduleID() >= 0) {
             Bible *b = m_windowCache.getBibleList()->bible();
             UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
-            urlConverter.m_biblesRootPath = b->biblesRootPath();
+            urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
             urlConverter.m_moduleID = b->moduleID();
             urlConverter.m_bookID = b->bookID();
             urlConverter.m_chapterID = b->chapterID() - b->chapterAdd();
