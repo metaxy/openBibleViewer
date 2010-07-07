@@ -13,11 +13,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef SETTINGS_H
 #define SETTINGS_H
-#include "modulesettings.h"
-#include "session.h"
+#include "src/core/modulesettings.h"
+#include "src/core/session.h"
+#include "src/core/modulecache.h"
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QMap>
+
+
 /*!
  Settings represents the gobal settings
 
@@ -35,6 +38,7 @@ public:
     QString build;
     bool removeHtml;
     QString language;
+    //todo: use enum
     int autoLayout;// 0 = NONE, 1 = vertical tile ,2 = horizontal tile, 3 = cascade
     bool onClickBookmarkGo;
     int textFormatting;//0 = Neue Zeile nach Vers, 1 = Unformatierter Textblock
@@ -47,21 +51,22 @@ public:
 
     ModuleSettings getModuleSettings(const int &bibleID);
     void replaceModule(const int &bibleID, ModuleSettings m);
-    void setBookCount(const int &bibleID, QMap<int, int> bookCount);
-    void setBookNames(const int &bibleID, QStringList bookNames);
-    void setBibleName(const int &bibleID, QString bibleName);
-    void setBiblePath(const int &bibleID, QString biblePath);
-    int getCacheID(int bibleID);//Names Cache
-    QList<QMap<int, int> > getBookCount();
-    QList<QStringList> getBookNames();
-    QStringList getBibleNames();
-    QStringList getBiblePaths();
-    void clearNamesCache(const int &id);
+
+    void setTitle( QString path, QString title);
+    void setBookCount(QString path, QMap<int, int> count);
+    void setBookNames(QString path, QStringList names);
+    ModuleCache getModuleCache(const QString &path);
+    QMap<QString,ModuleCache> m_moduleCache;
 
     Session session;
     QString sessionID;
     QStringList sessionNames;
     QStringList sessionIDs;
+
+    QString savableUrl(QString url);
+    QString recoverUrl(QString url);
+private:
+
 };
 
 #endif // SETTINGS_H

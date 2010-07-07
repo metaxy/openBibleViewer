@@ -54,12 +54,11 @@ void ZefaniaBible::loadBibleData(const int &id, const QString &path)
     } else {
         loadNoCached(id, path);//read the entire xml file
     }
-    myDebug() << bookCount;
-    m_settings->setBookCount(m_bibleID, bookCount);
+    /*m_settings->setBookCount(m_bibleID, bookCount);
     m_settings->setBookNames(m_bibleID, bookFullName);
     m_settings->setBiblePath(m_bibleID, path);
     //myDebug() << "bibleName = " << bibleName;
-    m_settings->setBibleName(m_bibleID, bibleName);
+    m_settings->setBibleName(m_bibleID, bibleName);*/
 
 }
 void ZefaniaBible::removeHardCache(const QString &path)

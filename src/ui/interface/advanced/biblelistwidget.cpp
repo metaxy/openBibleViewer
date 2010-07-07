@@ -41,6 +41,7 @@ void BibleListWidget::init()
     }
     BibleListItemDelegate *delegate = new BibleListItemDelegate(this);
     delegate->setSettings(m_settings);
+    delegate->setModuleManager(m_moduleManager);
     delegate->init();
     ui->tableView->setItemDelegate(delegate);
 

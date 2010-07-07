@@ -50,8 +50,14 @@ public:
     Strong m_strong;
     BibleList *m_bibleList;
 
+    //todo: make it usable also for other classes
+    QStringList getBibleTitles();
+    QStringList getBiblePaths();
+    QList<int> getBibleIDs();
+    void checkCache(const int &moduleID);
+
 private:
-    QStringList m_iniPath;
+
     BibleDisplaySettings *m_bibleDisplaySettings;
 };
 

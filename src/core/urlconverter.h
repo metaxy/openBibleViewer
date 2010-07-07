@@ -24,10 +24,10 @@ class UrlConverter
 {
 public:
     enum UrlType {
-        None = -1,
-        InterfaceUrl = 0,
-        PersistentUrl = 1,
-        BibleQuoteUrl = 2
+        None = 0,
+        InterfaceUrl = 1,
+        PersistentUrl = 2,
+        BibleQuoteUrl = 3
     };
     UrlConverter(const UrlType &from, const UrlType &to, const QString &url);
 
@@ -42,7 +42,6 @@ public:
     int m_chapterID;
     int m_bookID;
     int m_verseID;
-    QStringList m_biblesRootPath;
     QString m_bookName;
     void setModuleMap(ModuleMap *moduleMap);
 private:

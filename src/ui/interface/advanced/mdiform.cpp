@@ -87,7 +87,6 @@ void MdiForm::showBibleListMenu()
     w->move(p);
     w->init();
     w->show();
-
 }
 
 bool MdiForm::eventFilter(QObject *obj, QEvent *event)

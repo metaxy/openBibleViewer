@@ -46,13 +46,13 @@ void InsertLinkDialog::setCurrent(const int &bible, const QString &path, const i
 {
     Q_UNUSED(bible);
     //DEBUG_FUNC_NAME
-    ui->comboBox_bibles->insertItems(0, m_settings->getBibleNames());
+    ui->comboBox_bibles->insertItems(0, m_moduleManager->getBibleTitles());
     m_bookID = book;
     m_chapterID = chapter + 1;
     m_verseID = verse + 1;
     m_path = path;
 
-    int newIndex = m_settings->getBiblePaths().lastIndexOf(path);
+    int newIndex = m_moduleManager->getBiblePaths().lastIndexOf(path);
     ui->comboBox_bibles->setCurrentIndex(newIndex);//todo: if lastindexof == -1 show a warning
     ui->comboBox_books->setCurrentIndex(book);
     ui->spinBox_chapter->setValue(chapter);
@@ -61,11 +61,11 @@ void InsertLinkDialog::setCurrent(const int &bible, const QString &path, const i
 void InsertLinkDialog::indexChanged(int index)
 {
     //DEBUG_FUNC_NAME
+    //todo: use cache
     if (index >= 0) {
+        m_path = m_moduleManager->getBiblePaths().at(index);
         ui->comboBox_books->clear();
-        ui->comboBox_books->insertItems(0, m_settings->getBookNames().at(index));
-        m_path = m_settings->getBiblePaths().at(index);
-
+        ui->comboBox_books->insertItems(0, m_settings->getModuleCache(m_path).bookNames);
 
         ui->comboBox_books->setCurrentIndex(0);
         ui->spinBox_chapter->setValue(1);
@@ -85,7 +85,7 @@ void InsertLinkDialog::save()
                        + ";" + QString::number(ui->comboBox_books->currentIndex())
                        + ";" + QString::number(ui->spinBox_chapter->value() - 1)
                        + ";" + QString::number(ui->spinBox_verse->value() - 1)
-                       + ";" + m_settings->getBookNames().at(ui->comboBox_bibles->currentIndex()).at(ui->comboBox_books->currentIndex());
+                       + ";" + m_settings->getModuleCache(m_path).bookNames.at(ui->comboBox_books->currentIndex());
         emit newLink("persistent://" + link);
     } else if (ui->toolBox->currentIndex() == 1) {
         QModelIndexList list = m_selectionModel->selectedRows(0);

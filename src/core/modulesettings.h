@@ -41,10 +41,6 @@ public:
     unsigned int uModuleCount;
     QString styleSheet;
 
-    QMap <QString, QVariant> bookCount;//QVariant = QMap<int,int>
-    QMap<QString, QVariant> bookNames;//QVariant = QStringList
-    QMap<QString, QVariant> biblePath;//QVariant = QString
-    QMap<QString, QVariant> bibleName;//QVariant = QString
 
 
 };

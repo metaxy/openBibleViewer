@@ -21,9 +21,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 BibleQuote::BibleQuote()
 {
-    m_settings = new Settings();
+    //m_settings = new Settings();
     m_bibleID = -1;
 }
+
 
 int BibleQuote::setSettings(Settings *set)
 {
@@ -130,10 +131,11 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
 
         }
     }
-    m_settings->setBookCount(m_bibleID, m_bookCount);
+    //todo: cache
+    /*m_settings->setBookCount(m_bibleID, m_bookCount);
     m_settings->setBookNames(m_bibleID, m_bookFullName);
     m_settings->setBiblePath(m_bibleID, path);
-    m_settings->setBibleName(m_bibleID, m_bibleName);
+    m_settings->setBibleName(m_bibleID, m_bibleName);*/
 }
 /**
   Reads the ini-file and returns the bible name. If the file is invalid is returns an empty QString.

@@ -503,14 +503,7 @@ void AdvancedInterface::loadModuleDataByID(int id)
     //m_windowCache.setBibleList(m_moduleManager->bibleList());
 
     Module::ModuleType type = m_moduleManager->getModule(id)->m_moduleType;
-    if(type == Module::BibleQuoteModule) {
-        m_moduleManager->bible()->setBibleType(Bible::BibleQuoteModule);
-    } else if(type == Module::ZefaniaBibleModule) {
-        m_moduleManager->bible()->setBibleType(Bible::ZefaniaBibleModule);
-    } else {
-        m_moduleManager->bible()->setBibleType(Bible::None);
-    }
-
+    m_moduleManager->bible()->setBibleType(type);
     m_moduleManager->bible()->loadModuleData(id);
 
 
@@ -646,7 +639,7 @@ void AdvancedInterface::pharseUrl(QString url)
         bool ok;
         int c = url.toInt(&ok, 10);
         myDebug() << "c = " << c;
-        if (ok && c < m_moduleManager->bible()->chaptersCount() && m_moduleManager->bible()->bibleType() == Bible::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c) {
+        if (ok && c < m_moduleManager->bible()->chaptersCount() && m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c) {
             myDebug() << "bq chapter link";
             showChapter(c + m_moduleManager->bible()->chapterAdd(), 0);
             setCurrentChapter(c);
@@ -675,7 +668,7 @@ void AdvancedInterface::pharseUrl(QString url)
         myDebug() << "i = " << i;
         pharseUrl(i);
     } else {
-        if (m_moduleManager->bible()->bibleType() == Bible::BibleQuoteModule && m_moduleManager->bible()->bookPath().contains(url)) {
+        if (m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->bookPath().contains(url)) {
             emit get("bible://current/" + m_moduleManager->bible()->bookPath().lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
         } else {
             myDebug() << "invalid URL";

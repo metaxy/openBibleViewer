@@ -31,21 +31,17 @@ BiblePassageDialog::~BiblePassageDialog()
 {
     delete m_ui;
 }
-void BiblePassageDialog::setSettings(Settings *set)
-{
-    m_settings = set;
-}
 void BiblePassageDialog::setCurrent(const int &bible, const QString &path, const int &book, const int &chapter, const int &verse)
 {
     Q_UNUSED(bible);
     //DEBUG_FUNC_NAME
-    m_ui->comboBox_bibles->insertItems(0, m_settings->getBibleNames());
+    m_ui->comboBox_bibles->insertItems(0, m_moduleManager->getBibleTitles());
     m_bookID = book;
     m_chapterID = chapter + 1;
     m_verseID = verse + 1;
     m_path = path;
 
-    int newIndex = m_settings->getBiblePaths().lastIndexOf(path);
+    int newIndex = m_moduleManager->getBiblePaths().lastIndexOf(path);
     m_ui->comboBox_bibles->setCurrentIndex(newIndex);//todo: if lastindexof == -1 show a warning
     m_ui->comboBox_books->setCurrentIndex(book);
     m_ui->spinBox_chapter->setValue(chapter);
@@ -53,13 +49,13 @@ void BiblePassageDialog::setCurrent(const int &bible, const QString &path, const
 }
 void BiblePassageDialog::indexChanged(int index)
 {
+    //todo: use cache
     //DEBUG_FUNC_NAME
     if (index >= 0) {
+        m_path = m_moduleManager->getBiblePaths().at(index);
         m_ui->comboBox_books->clear();
-        m_ui->comboBox_books->insertItems(0, m_settings->getBookNames().at(index));
-        m_path = m_settings->getBiblePaths().at(index);
-
-
+        m_ui->comboBox_books->insertItems(0, m_settings->getModuleCache(m_path).bookNames);
+        //todo: set max using bookCount
         m_ui->comboBox_books->setCurrentIndex(0);
         m_ui->spinBox_chapter->setValue(1);
         m_ui->spinBox_verse->setValue(1);
@@ -73,11 +69,12 @@ void BiblePassageDialog::indexChanged(int index)
 
 void BiblePassageDialog::save()
 {
+    //todo: use cache
     QString link = m_path
                    + ";" + QString::number(m_ui->comboBox_books->currentIndex())
                    + ";" + QString::number(m_ui->spinBox_chapter->value() - 1)
                    + ";" + QString::number(m_ui->spinBox_verse->value() - 1)
-                   + ";" + m_settings->getBookNames().at(m_ui->comboBox_bibles->currentIndex()).at(m_ui->comboBox_books->currentIndex());
+                   + ";" + m_settings->getModuleCache(m_path).bookNames.at(m_ui->comboBox_books->currentIndex());
 
 
     emit updated(link);

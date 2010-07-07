@@ -70,7 +70,8 @@ SOURCES += src/main.cpp \
     src/module/biblelist.cpp \
     src/ui/interface/advanced/biblelistwidget.cpp \
     src/ui/interface/advanced/biblelistitemdelegate.cpp \
-    src/module/modulemap.cpp
+    src/module/modulemap.cpp \
+    src/core/modulecache.cpp
 HEADERS += src/core/settings.h \
     src/module/biblequote.h \
     src/module/zefania-bible.h \
@@ -137,7 +138,8 @@ HEADERS += src/core/settings.h \
     src/module/biblelist.h \
     src/ui/interface/advanced/biblelistwidget.h \
     src/core/core.h \
-    src/ui/interface/advanced/biblelistitemdelegate.h
+    src/ui/interface/advanced/biblelistitemdelegate.h \
+    src/core/modulecache.h
 FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dialog/settingsdialog.ui \
     src/ui/dialog/searchinfodialog.ui \

@@ -35,12 +35,9 @@ public:
     bool setCurrentWindowID(const int &id);
     void setBibleList(BibleList *b);
 
-    Bible::BibleType getBibleType();
-
     BibleList* getBibleList();
     bool m_reload;
 private:
-    QMap<int, Bible::BibleType> m_bibletype;
     QStringList m_idList;
     int m_currentWindowID;
     QMap<int, BibleList*> m_b;

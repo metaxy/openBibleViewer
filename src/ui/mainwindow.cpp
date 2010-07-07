@@ -19,6 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dock/notesdockwidget.h"
 #include "src/ui/dock/quickjumpdockwidget.h"
 #include "src/core/dbghelper.h"
+#include "src/core/modulecache.h"
 #include <QtGui/QMessageBox>
 #include <QtCore/QLibraryInfo>
 #include <QtCore/QMapIterator>
@@ -342,6 +343,7 @@ void MainWindow::loadDefaultSettings()
 }
 void MainWindow::loadSettings()
 {
+    DEBUG_FUNC_NAME
     m_settings->encoding = m_settingsFile->value("general/encoding", m_settings->encoding).toString();
     m_settings->zoomstep = m_settingsFile->value("general/zoomstep", m_settings->zoomstep).toInt();
 #ifdef Q_WS_WIN
@@ -370,11 +372,11 @@ void MainWindow::loadSettings()
         m.zefbible_showStudyNote = m_settingsFile->value("showStudyNote", true).toBool();
         m.isDir = m_settingsFile->value("isDir").toBool();
         m.encoding = m_settingsFile->value("encoding").toString();
-        m.bookCount = m_settingsFile->value("bookCount").toMap();
+       /* m.bookCount = m_settingsFile->value("bookCount").toMap();
         m.bookNames = m_settingsFile->value("bookNames").toMap();
         m.bibleName = m_settingsFile->value("bibleName").toMap();
         m.biblePath = m_settingsFile->value("biblePath").toMap();
-        m.uModuleCount = m_settingsFile->value("uModuleCount", 0).toInt();
+        m.uModuleCount = m_settingsFile->value("uModuleCount", 0).toInt();*/
         m.styleSheet = m_settingsFile->value("styleSheet", ":/data/default.css").toString();
         m_settings->m_moduleSettings.append(m);
 
@@ -398,6 +400,21 @@ void MainWindow::loadSettings()
 
     }
     m_settingsFile->endArray();
+    myDebug() << "read moduleCache";
+    size = m_settingsFile->beginReadArray("modulecache");
+    myDebug() << "size = " << size;
+    for (int i = 0; i < size; ++i) {
+        m_settingsFile->setArrayIndex(i);
+        ModuleCache c;
+        c.setBookCount(m_settingsFile->value("bookCount").toMap());
+        c.bookNames = m_settingsFile->value("bookNames").toStringList();
+        c.title = m_settingsFile->value("title").toString();
+        m_settings->m_moduleCache.insert(m_settings->recoverUrl(m_settingsFile->value("path").toString()),c);
+
+        myDebug() << i << m_settings->recoverUrl(m_settingsFile->value("path").toString());
+    }
+    m_settingsFile->endArray();
+
     return;
 }
 void MainWindow::writeSettings()
@@ -427,15 +444,10 @@ void MainWindow::writeSettings()
         m_settingsFile->setValue("showStudyNote", m.zefbible_showStudyNote);
         m_settingsFile->setValue("isDir", m.isDir);
         m_settingsFile->setValue("encoding", m.encoding);
-        m_settingsFile->setValue("bookCount", m.bookCount);
-        m_settingsFile->setValue("bookNames", m.bookNames);
-        m_settingsFile->setValue("biblePath", m.biblePath);
-        m_settingsFile->setValue("bibleName", m.bibleName);
-        m_settingsFile->setValue("uModuleCount", m.uModuleCount);
         m_settingsFile->setValue("styleSheet", m.styleSheet);
     }
     m_settingsFile->endArray();
-
+    //todo: looks strange
     m_settingsFile->beginWriteArray("sessions");
     m_settingsFile->setArrayIndex(m_settings->sessionIDs.lastIndexOf(m_settings->sessionID));
     {
@@ -446,6 +458,25 @@ void MainWindow::writeSettings()
         }
     }
     m_settingsFile->endArray();
+
+    m_settingsFile->beginWriteArray("modulecache");
+    QMapIterator<QString, ModuleCache> i(m_settings->m_moduleCache);
+    int k = 0;
+     while (i.hasNext()) {
+         i.next();
+         k++;
+         m_settingsFile->setArrayIndex(k);
+         ModuleCache c = i.value();
+         QString url = m_settings->savableUrl(i.key());
+         m_settingsFile->setValue("title", c.title);
+         m_settingsFile->setValue("bookNames", c.bookNames);
+         m_settingsFile->setValue("bookCount", c.toStringMap());
+         m_settingsFile->setValue("path", url);
+     }
+     m_settingsFile->endArray();
+
+
+
 }
 void MainWindow::saveSettings(Settings newSettings)
 {
@@ -501,7 +532,7 @@ void MainWindow::loadLanguage(QString language)
     }
     bool loaded = myappTranslator->load(":/data/obv_" + language + ".qm");
     m_reloadLang = true;
-    if (loaded == false) {
+    if (!loaded) {
         QMessageBox::warning(this, tr("Installing Language failed"), tr("Please choose an another language."));
     }
 
@@ -551,7 +582,7 @@ void MainWindow::changeEvent(QEvent *e)
                 m_toolBar = m_interface->toolBar();
                 addToolBar(m_toolBar);
             }
-            //todo: ugly
+            //todo: ugly, it fix the flickering when openig a file dialog
             m_reloadLang = false;
         }
         break;

@@ -9,19 +9,8 @@ BibleListItemDelegate::BibleListItemDelegate(QObject *parent)
 }
 void BibleListItemDelegate::init()
 {
-    QMapIterator<int, int> i(m_settings->moduleID);
-    while (i.hasNext()) {
-        i.next();
-        ModuleSettings m = m_settings->getModuleSettings(i.value());
-        QString name;
-
-        if(m.bibleName.contains(QString::number(i.key()))) {
-            name = m.bibleName.value(QString::number(i.key())).toString();
-            m_names << name;
-            m_id << i.key();
-        }
-        qDebug() << i.key() << " " << name << " " << i.value();
-    }
+    m_names = m_moduleManager->getBibleTitles();
+    m_id = m_moduleManager->getBibleIDs();
 }
 
 QWidget * BibleListItemDelegate::createEditor(QWidget *parent,

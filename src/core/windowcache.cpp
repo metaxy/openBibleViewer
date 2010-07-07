@@ -24,7 +24,6 @@ void WindowCache::setBibleList(BibleList *b)
     DEBUG_FUNC_NAME
     myDebug() << m_currentWindowID;
     m_b[m_currentWindowID] = b;
-    //m_bibletype[m_currentWindowID] = b->bibleType();
 }
 void WindowCache::newWindow()
 {
@@ -41,12 +40,8 @@ void WindowCache::clearAll()
     DEBUG_FUNC_NAME
     m_idList.clear();
     m_b.clear();
-    m_bibletype.clear();
 }
-Bible::BibleType WindowCache::getBibleType()
-{
-    return m_bibletype[m_currentWindowID];
-}
+
 
 bool WindowCache::setCurrentWindowID(const int &id)
 {

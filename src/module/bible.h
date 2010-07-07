@@ -31,14 +31,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class Bible : public SimpleModuleClass
 {
 public:
-    enum BibleType {
-        None = 0,
-        BibleQuoteModule = 1,
-        ZefaniaBibleModule = 2
-    };
+
     Bible();
     void setSettings(Settings *settings);
-    void setBibleType(const BibleType &type);
+    void setBibleType(const Module::ModuleType &type);
     void setModuleMap(ModuleMap *map);
     void setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings);
 
@@ -55,7 +51,7 @@ public:
     int moduleID();
     void setModuleID(const int &bible);
 
-    BibleType bibleType();
+    Module::ModuleType bibleType();
 
     int bookID();
     int chapterID();
@@ -71,8 +67,6 @@ public:
     QStringList bookPath();
     QStringList chapterNames();
     QStringList chapterDataList();
-    QStringList biblesRootPath();
-    void setBiblesRootPath(QStringList biblesRootPath);
 
     SearchQuery m_lastSearchQuery;
 
@@ -89,7 +83,7 @@ private:
     int m_chapterID;
     int m_verseID;
     int m_chapterAdd;
-    BibleType m_bibleType;
+    Module::ModuleType m_bibleType;
     QMap <int, int> bookCount;
     QString m_lastout;
     QString m_bibleTitle;
@@ -100,7 +94,6 @@ private:
     QStringList m_bookPath;
     QStringList m_chapterNames;
     QStringList m_chapterDataList;
-    QStringList m_biblesRootPath;
 
     SearchResult m_lastSearchResult;
     BibleDisplaySettings *m_bibleDisplaySettings;

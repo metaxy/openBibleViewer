@@ -38,6 +38,10 @@ QString UrlConverter::convert()
     if (m_to == InterfaceUrl) {
         ret = "bible://" + QString::number(m_moduleID) + "/" + QString::number(m_bookID) + "," + QString::number(m_chapterID) + "," + QString::number(m_verseID);
     } else if (m_to == PersistentUrl) {
+        if(!m_moduleMap->m_map.contains(m_moduleID)) {
+            myDebug() << "moduleID = " << m_moduleID;
+            return "";
+        }
         ret = m_moduleMap->m_map.value(m_moduleID)->m_path + ";" + QString::number(m_bookID) + ";" + QString::number(m_chapterID) + ";" + QString::number(m_verseID);
         if (!m_bookName.isEmpty()) {
             ret += ";" + m_bookName;//check for invalid charatcers

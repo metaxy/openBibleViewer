@@ -205,7 +205,7 @@ void SettingsDialog::addModuleDir(void)
                         dictname = "(" + spath_count + ")";
                     }
                     m.moduleName = dictname;
-                    m.moduleType = QString::number(Bible::None);
+                    m.moduleType = QString::number(Module::NoneType);
                     m.isDir = true;
                 } else {
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));

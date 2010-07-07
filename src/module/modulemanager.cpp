@@ -52,7 +52,7 @@ int ModuleManager::loadAllModules()
     bq.setSettings(m_settings);
     ZefaniaBible zef;
     zef.setSettings(m_settings);
-
+    initBible();
 
     m_moduleModel->clear();
 
@@ -87,7 +87,7 @@ int ModuleManager::loadAllModules()
 
             //search for bible in the dir
             QString rpath = m_settings->m_moduleSettings.at(i).modulePath + "/";
-            int bibletype = Bible::None;
+            Module::ModuleType moduleType = Module::NoneType;
             QDir dir(rpath);
             dir.setFilter(QDir::Dirs);
             QFileInfoList list = dir.entryInfoList();
@@ -104,32 +104,32 @@ int ModuleManager::loadAllModules()
                 if (dirname != "." && dirname != "..") {
                     QFile file;
                     QString rfile;
-                    bibletype = Bible::None;
+                    moduleType = Module::NoneType;
                     file.setFileName(rpath + dirname + "/" + "BIBLEQT.INI");
                     if (file.exists()) {
                         rfile = file.fileName();
-                        bibletype = Bible::BibleQuoteModule;
+                        moduleType = Module::BibleQuoteModule;
                     }
                     file.setFileName(rpath + dirname + "/" + "BIBLEQT.ini");
-                    if (bibletype == 0 && file.exists()) {
+                    if (moduleType == 0 && file.exists()) {
                         rfile = file.fileName();
-                        bibletype = Bible::BibleQuoteModule;
+                        moduleType = Module::BibleQuoteModule;
                     }
                     file.setFileName(rpath + dirname + "/" + "bibleqt.ini");
-                    if (bibletype == 0 && file.exists()) {
+                    if (moduleType == 0 && file.exists()) {
                         rfile = file.fileName();
-                        bibletype = Bible::BibleQuoteModule;
+                        moduleType = Module::BibleQuoteModule;
                     }
                     file.setFileName(rpath + dirname + "/" + dirname + ".xml");
-                    if (bibletype == 0 && file.exists()) {
+                    if (moduleType == 0 && file.exists()) {
                         rfile = file.fileName();
-                        bibletype = Bible::ZefaniaBibleModule;
+                        moduleType = Module::ZefaniaBibleModule;
                     }
                     file.setFileName(rfile);
-                    if (bibletype != 0 && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                    if (moduleType != 0 && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
                         QString bname;
-                        switch (bibletype) {
-                        case Bible::BibleQuoteModule: {
+                        switch (moduleType) {
+                        case Module::BibleQuoteModule: {
                             bname = bq.readInfo(file);
                             if (bname.size() > 0) {
                                 Module *module = new Module(folder);
@@ -148,13 +148,13 @@ int ModuleManager::loadAllModules()
 
                                 bibleItem->setIcon(bibleQuoteIcon);
                                 top->appendRow(bibleItem);
-
+                                checkCache(moduleID);
                                 moduleID++;
 
                             }
                             break;
                         }
-                        case Bible::ZefaniaBibleModule: {
+                        case Module::ZefaniaBibleModule: {
                             //ZenfaniaXML-Bible
                             bname = zef.readInfo(file);
                             if (bname.size() > 0) {
@@ -175,10 +175,13 @@ int ModuleManager::loadAllModules()
 
                                 bibleItem->setIcon(bibleZefaniaIcon);
                                 top->appendRow(bibleItem);
+                                checkCache(moduleID);
                                 moduleID++;
                             }
                             break;
                         }
+                        default:
+                            myDebug() << "not supported " << rfile;
                         }
 
                     }
@@ -208,7 +211,7 @@ int ModuleManager::loadAllModules()
 
                     bibleItem->setIcon(bibleQuoteIcon);
                     parentItem->appendRow(bibleItem);
-
+                    checkCache(moduleID);
                     moduleID++;
                     break;
                 }
@@ -231,6 +234,7 @@ int ModuleManager::loadAllModules()
 
                     bibleItem->setIcon(bibleZefaniaIcon);
                     parentItem->appendRow(bibleItem);
+                    checkCache(moduleID);
                     moduleID++;
                     break;
                 }
@@ -258,7 +262,6 @@ void ModuleManager::initBible()
 {
     m_bible->setSettings(m_settings);
     m_bible->setNotes(m_notes);
-    m_bible->setBiblesRootPath(m_iniPath);
     m_bible->setModuleMap(m_moduleMap);
     m_bible->setBibleDisplaySettings(m_bibleDisplaySettings);
 }
@@ -301,14 +304,14 @@ Module * ModuleManager::getModule(const int &moduleID)
 }
 
 /**
-  Converts a PersistentUrl to a link.
+  Converts a Persistent Url to a link.
   */
 QString ModuleManager::notePos2Link(const QString &pos)
 {
     //DEBUG_FUNC_NAME
     QString string = "";
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
-    urlConverter.m_biblesRootPath = m_bible->biblesRootPath();
+    urlConverter.setModuleMap(m_moduleMap);
     urlConverter.pharse();
     QString link = urlConverter.convert();
 
@@ -320,10 +323,63 @@ QString ModuleManager::notePos2Text(const QString &pos)
     //DEBUG_FUNC_NAME
     QString string = "";
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
-    urlConverter.m_biblesRootPath = m_bible->biblesRootPath();
+    urlConverter.setModuleMap(m_moduleMap);
     urlConverter.pharse();
     QString link = urlConverter.convert();
 
     string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," + QString::number(urlConverter.m_verseID + 1);
     return string;
 }
+QStringList ModuleManager::getBibleTitles()
+{
+    QStringList titles;
+    QMapIterator<int, Module *> i(m_moduleMap->m_map);
+    while (i.hasNext()) {
+        i.next();
+        if(i.value()->m_moduleClass == Module::BibleModule)
+            titles.append(i.value()->m_title);
+    }
+    return titles;
+}
+QStringList ModuleManager::getBiblePaths()
+{
+    QStringList paths;
+    QMapIterator<int, Module *> i(m_moduleMap->m_map);
+    while (i.hasNext()) {
+        i.next();
+        if(i.value()->m_moduleClass == Module::BibleModule)
+            paths.append(i.value()->m_path);
+    }
+    return paths;
+}
+QList<int> ModuleManager::getBibleIDs()
+{
+    QList<int> paths;
+    QMapIterator<int, Module *> i(m_moduleMap->m_map);
+    while (i.hasNext()) {
+        i.next();
+        if(i.value()->m_moduleClass == Module::BibleModule)
+            paths.append(i.value()->m_id);
+    }
+    return paths;
+}
+void ModuleManager::checkCache(const int &moduleID)
+{
+    DEBUG_FUNC_NAME
+    Module* m = m_moduleMap->m_map.value(moduleID);
+   // myDebug() << m->m_path << m_settings->m_moduleCache.keys();
+    if(!m_settings->m_moduleCache.keys().contains(m->m_path)) {
+        m_bible->setBibleType(m->m_moduleType);
+        m_bible->loadModuleData(moduleID);//set cache
+        /*if(b.m_bq) {
+            delete b.m_bq;
+            b.m_bq = 0;
+        }
+        if(b.m_bq) {
+            delete b.m_zef;
+            b.m_zef = 0;
+        }*/
+    }
+
+}
+
