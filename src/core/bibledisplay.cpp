@@ -21,3 +21,7 @@ void BibleDisplay::setHtml(QString text)
     m_text = text;
     emit newHtml(text);
 }
+void BibleDisplay::emitGet(QString url)
+{
+    emit get(url);
+}

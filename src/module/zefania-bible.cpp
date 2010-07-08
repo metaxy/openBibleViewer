@@ -27,6 +27,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 ZefaniaBible::ZefaniaBible()
 {
     m_settings = new Settings();
+    m_bibleID = 0;
+    currentBookID = 0;
+
 }
 void ZefaniaBible::setSettings(Settings *set)
 {

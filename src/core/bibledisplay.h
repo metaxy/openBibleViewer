@@ -19,10 +19,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class BibleDisplay : public QObject
 {
     Q_OBJECT
+
 public:
     BibleDisplay();
     void setHtml(QString text);
     QString m_text;
+    void emitGet(QString url);
 signals:
     void newHtml(QString html);
     void get(QString url);

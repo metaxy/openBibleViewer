@@ -23,6 +23,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 Bible::Bible()
 {
     m_moduleID = -1;
+    m_bookID = 0;
+    m_chapterID = 0;
+    m_verseID = 0;
+    m_chapterAdd = 0;
+    textTitle = "";
+    //!chtodo: wenn ich biblelists aktivire ( nach neustart) und einfach eine Bibel hinzufüge ohne die bestehende zu verändernd sind all dies Sache in Bible nicht gesetzt
+
 }
 void Bible::setModuleMap(ModuleMap *map)
 {
@@ -64,10 +71,15 @@ int Bible::loadModuleData(const int &moduleID)
             m_bq = new BibleQuote();
             m_module->m_bibleQuote = m_bq;
         }
-
+        ModuleSettings m = m_settings->getModuleSettings(m_moduleID);
         m_bq->setSettings(m_settings);
         m_bq->loadBibleData(moduleID, path);
-        m_bibleTitle = m_bq->m_bibleName;
+        if(m.moduleName.isEmpty())
+            m_bibleTitle = m_bq->m_bibleName;
+        else
+            m_bibleTitle = m.moduleName;
+        m_bibleShortTitle = m_bq->m_bibleShortName;
+
         bookCount = m_bq->m_bookCount;
         m_bookFullName = m_bq->m_bookFullName;
         m_bookPath = m_bq->m_bookPath;
@@ -90,7 +102,11 @@ int Bible::loadModuleData(const int &moduleID)
         ModuleSettings m = m_settings->getModuleSettings(m_moduleID);
         m_zef->setSettings(m_settings);
         m_zef->loadBibleData(moduleID, path);
+        myDebug() << "moduleID = " << m_moduleID << " name = "  << m.moduleName << " m = " << m.modulePath;
+
         m_bibleTitle = m.moduleName;
+
+
         bookCount = m_zef->bookCount;
         m_bookFullName = m_zef->bookFullName;
         m_chapterAdd = 0;
@@ -178,7 +194,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         startVerse = 0;
     if (saveRawData)
         m_chapterDataList.clear();
-
+    ModuleSettings moduleSettings = m_settings->getModuleSettings(m_moduleID);
     QString out = "";//Return
     QStringList versList;
     switch (m_bibleType) {
@@ -218,13 +234,9 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         Chapter c = m_chapterData.at(chapterID);
 
         if (saveRawData) {
-            /*if (m_settings->getModuleSettings(m_bibleID).zefbible_textFormatting == 0) {
-                out = "<p class=\"newLine\">";
-            } else {
-                out = "<p class=\"block\">";;
-            }*/
-            out += "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";//title
-            m_chapterDataList << out;
+            textTitle = "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";
+            out += textTitle;//title
+            //m_chapterDataList << out;
         }
 
         int end;
@@ -256,7 +268,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 vers.prepend("<a name=\"currentVerse\"><span style=\"font-weight: bold;\">");
                 vers.append("</span></a>");
             }
-            if (m_settings->getModuleSettings(m_moduleID).zefbible_textFormatting == 0) {
+            if (moduleSettings.zefbible_textFormatting == 0) {
                 vers.prepend("<i>" + c.verseNumber.at(i) + "</i> ");
                 vers.append("<br />");
             } else {
@@ -475,6 +487,12 @@ QString Bible::biblePath()
 QString Bible::bibleTitle()
 {
     return m_bibleTitle;
+}
+QString Bible::bibleShortTitle()
+{
+    if(m_bibleShortTitle.isEmpty())
+        return bibleTitle();
+    return m_bibleShortTitle;
 }
 QStringList Bible::bookFullName()
 {

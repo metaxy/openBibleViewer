@@ -149,6 +149,7 @@ int ModuleManager::loadAllModules()
                                 bibleItem->setIcon(bibleQuoteIcon);
                                 top->appendRow(bibleItem);
                                 checkCache(moduleID);
+                                m_settings->setModuleIDinMap(moduleID,i);
                                 moduleID++;
 
                             }
@@ -176,6 +177,7 @@ int ModuleManager::loadAllModules()
                                 bibleItem->setIcon(bibleZefaniaIcon);
                                 top->appendRow(bibleItem);
                                 checkCache(moduleID);
+                                m_settings->setModuleIDinMap(moduleID,i);
                                 moduleID++;
                             }
                             break;
@@ -212,6 +214,7 @@ int ModuleManager::loadAllModules()
                     bibleItem->setIcon(bibleQuoteIcon);
                     parentItem->appendRow(bibleItem);
                     checkCache(moduleID);
+                    m_settings->setModuleIDinMap(moduleID,i);
                     moduleID++;
                     break;
                 }
@@ -235,6 +238,7 @@ int ModuleManager::loadAllModules()
                     bibleItem->setIcon(bibleZefaniaIcon);
                     parentItem->appendRow(bibleItem);
                     checkCache(moduleID);
+                    m_settings->setModuleIDinMap(moduleID,i);
                     moduleID++;
                     break;
                 }
@@ -248,6 +252,7 @@ int ModuleManager::loadAllModules()
                     module->m_id = moduleID;
 
                     m_moduleMap->m_map.insert(moduleID,module);
+                    m_settings->setModuleIDinMap(moduleID,i);
                     moduleID++;
                     break;
                 }
@@ -258,12 +263,19 @@ int ModuleManager::loadAllModules()
     }
     return 0;
 }
-void ModuleManager::initBible()
+void ModuleManager::initBible(Bible *b)
 {
-    m_bible->setSettings(m_settings);
-    m_bible->setNotes(m_notes);
-    m_bible->setModuleMap(m_moduleMap);
-    m_bible->setBibleDisplaySettings(m_bibleDisplaySettings);
+    if(b == 0) {
+        m_bible->setSettings(m_settings);
+        m_bible->setNotes(m_notes);
+        m_bible->setModuleMap(m_moduleMap);
+        m_bible->setBibleDisplaySettings(m_bibleDisplaySettings);
+    } else {
+        b->setSettings(m_settings);
+        b->setNotes(m_notes);
+        b->setModuleMap(m_moduleMap);
+        b->setBibleDisplaySettings(m_bibleDisplaySettings);
+    }
 }
 
 /**
@@ -291,7 +303,7 @@ bool ModuleManager::contains(const int &moduleID)
 
 Bible * ModuleManager::bible()
 {
-    //m_bible->setModuleMap(m_map);//todo: avoid this
+    m_bible = bibleList()->bible();
     return m_bible;
 }
 BibleList * ModuleManager::bibleList()
@@ -382,4 +394,27 @@ void ModuleManager::checkCache(const int &moduleID)
     }
 
 }
-
+Bible * ModuleManager::newBible(const int &moduleID,QPoint p)
+{
+    if(!contains(moduleID)) {
+        myDebug() << "invalid moduleID = " << moduleID;
+        return 0;
+    }
+    int id = bibleList()->m_biblePoints.key(p,-1);
+    Bible *b;
+    if(id != -1) {
+        b = bibleList()->bible(id);
+        initBible(b);
+    } else {
+        b = new Bible();
+        initBible(b);
+    }
+    //todo: check if this is possible
+    /*if(b->moduleID() != moduleID) {*/
+        Module::ModuleType type = getModule(moduleID)->m_moduleType;
+        b->setBibleType(type);
+        b->loadModuleData(moduleID);
+        bibleList()->addBible(b,p);
+    /*}*/
+    return b;
+}

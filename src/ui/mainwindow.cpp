@@ -400,9 +400,9 @@ void MainWindow::loadSettings()
 
     }
     m_settingsFile->endArray();
-    myDebug() << "read moduleCache";
+
     size = m_settingsFile->beginReadArray("modulecache");
-    myDebug() << "size = " << size;
+
     for (int i = 0; i < size; ++i) {
         m_settingsFile->setArrayIndex(i);
         ModuleCache c;
@@ -411,7 +411,6 @@ void MainWindow::loadSettings()
         c.title = m_settingsFile->value("title").toString();
         m_settings->m_moduleCache.insert(m_settings->recoverUrl(m_settingsFile->value("path").toString()),c);
 
-        myDebug() << i << m_settings->recoverUrl(m_settingsFile->value("path").toString());
     }
     m_settingsFile->endArray();
 

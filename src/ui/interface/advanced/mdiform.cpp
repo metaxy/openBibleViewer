@@ -81,12 +81,12 @@ void MdiForm::showBibleListMenu()
     BibleListWidget *w = new BibleListWidget;
     w->setModuleManager(m_moduleManager);
     w->setSettings(m_settings);
-    w->setWindowFlags(Qt::Popup);
-    QPoint p = QCursor::pos();
+    w->setBibleDisplay(m_bibleDisplay);
+/*   QPoint p = QCursor::pos();
     p.setX(p.x()-w->width());
-    w->move(p);
+    w->move(p);*/
     w->init();
-    w->show();
+    w->exec();
 }
 
 bool MdiForm::eventFilter(QObject *obj, QEvent *event)

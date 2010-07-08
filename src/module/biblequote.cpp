@@ -56,7 +56,7 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
     int count = 0;
     QFile file;
     file.setFileName(path);
-    myDebug() << "id = " << m_bibleID << " fileName = " << file.fileName() << " currentBiblePath = " << m_biblePath;
+    //myDebug() << "id = " << m_bibleID << " fileName = " << file.fileName() << " currentBiblePath = " << m_biblePath;
     QString encoding;
     if (m_settings->getModuleSettings(m_bibleID).encoding == "Default" || m_settings->getModuleSettings(m_bibleID).encoding == "") {
         encoding = m_settings->encoding;
@@ -67,7 +67,7 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
     QTextDecoder *decoder = codec->makeDecoder();
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         int countlines = 0;
-        myDebug() << "encoding = " << m_settings->encoding;
+        //myDebug() << "encoding = " << m_settings->encoding;
         int i = 0;
         while (!file.atEnd()) {
 
@@ -101,7 +101,7 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
                 } else {
                     m_chapterZero = false;
                 }
-                myDebug() << "chapterZero = " << m_chapterZero;
+                //myDebug() << "chapterZero = " << m_chapterZero;
                 //verse sign auslesen
             }
             if (started == false && line.contains("BookQty", Qt::CaseInsensitive) && !line.startsWith("//")) {

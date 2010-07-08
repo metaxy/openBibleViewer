@@ -23,9 +23,12 @@ private slots:
 
     void removeRow();
     void addRow();
+
+    void save();
 private:
     Ui::BibleListWidget *ui;
     QStandardItemModel *m_model;
+    QItemSelectionModel *m_selectionModel;
 };
 
 #endif // BIBLELISTWIDGET_H

@@ -16,15 +16,20 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "QUrl"
 Settings::Settings()
 {
-    moduleID = QMap<int, int>();
+    m_moduleID = QMap<int, int>();
 
 }
-ModuleSettings Settings::getModuleSettings(const int &bibleID)
+void Settings::setModuleIDinMap(const int &moduleID, const int &pos )
+{
+    m_moduleID[moduleID] = pos;
+}
+ModuleSettings Settings::getModuleSettings(const int &moduleID)
 {
     /*  if(moduleID.isEmpty())
           return ModuleSettings();*/
 
-    int id = moduleID.value(bibleID);
+    int id = m_moduleID.value(moduleID);
+    myDebug() << " id = " << id << " moduleID = " << moduleID << m_moduleID;
     if (m_moduleSettings.size() < id || m_moduleSettings.size() == 0) {
         myDebug() << "No Settings aviable";
         return ModuleSettings();
@@ -32,9 +37,9 @@ ModuleSettings Settings::getModuleSettings(const int &bibleID)
         return m_moduleSettings.at(id);
     }
 }
-void Settings::replaceModule(const int &bibleID, ModuleSettings m)
+void Settings::replaceModuleSettings(const int &bibleID, ModuleSettings m)
 {
-    int id = moduleID[bibleID];
+    int id = m_moduleID[bibleID];
     m_moduleSettings.replace(id, m);
 }
 void Settings::setBookCount(QString path,QMap<int, int>count)

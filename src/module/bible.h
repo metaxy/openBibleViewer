@@ -61,6 +61,7 @@ public:
     int chaptersCount();
 
     QString bibleTitle();
+    QString bibleShortTitle();
     QString biblePath();
 
     QStringList bookFullName();
@@ -71,6 +72,7 @@ public:
     SearchQuery m_lastSearchQuery;
 
     QList<Chapter> m_chapterData;
+    QString textTitle;
 
     Module *m_module;
     BibleQuote *m_bq;
@@ -87,6 +89,7 @@ private:
     QMap <int, int> bookCount;
     QString m_lastout;
     QString m_bibleTitle;
+    QString m_bibleShortTitle;
     QString m_biblePath;
 
     QStringList m_bookFullName;

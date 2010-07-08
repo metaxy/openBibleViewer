@@ -162,6 +162,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     MdiForm *mForm = new MdiForm(widget);
     mForm->setModuleManager(m_moduleManager);
     mForm->setSettings(m_settings);
+    mForm->setBibleDisplay(m_bibleDisplay);
     layout->addWidget(mForm);
 
     widget->setLayout(layout);
@@ -171,7 +172,8 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
     subWindow->show();
     ui->mdiArea->setActiveSubWindow(subWindow);
-    myDebug() << "b";
+
+
     if(ui->mdiArea->viewMode() == QMdiArea::SubWindowView) {
         if (windowsCount == 0  && doAutoLayout) {
             subWindow->showMaximized();
@@ -431,7 +433,7 @@ int AdvancedInterface::closingWindow()
 }
 int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
 {
-    DEBUG_FUNC_NAME
+
     if (!m_enableReload) {
         return 1;
     }
@@ -443,7 +445,7 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
         return 1;
     }
 
-    myDebug() << "setCurrentTab id = " << id;
+
     m_windowCache.setCurrentWindowID(id);
 
     //todo: add last active window and if it is the same do nohting
@@ -452,13 +454,11 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
         setBooks(QStringList());
         return 1;
     }
-    myDebug() << "bible list ok = " << m_windowCache.getBibleList()->m_bibles.size();
     if(!m_windowCache.getBibleList()->bible()) {
         setChapters(QStringList());
         setBooks(QStringList());
         return 1;
     }
-    myDebug() << "bible ok = " << m_windowCache.getBibleList()->bible()->moduleID();
     if(m_windowCache.getBibleList()->bible()->moduleID() < 0) {
         setChapters(QStringList());
         setBooks(QStringList());
@@ -467,7 +467,6 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
     //todo: think about it
    /* if (m_moduleManager->bibleList()->bible()->moduleID() == m_windowCache.getBibleList()->bible()->moduleID())
         return 1;*/
-    myDebug() << "need to reload";
     m_moduleManager->m_bibleList = m_windowCache.getBibleList();
     m_moduleManager->m_bible = m_moduleManager->m_bibleList->bible();
     setTitle(m_moduleManager->bible()->bibleTitle());
@@ -543,53 +542,61 @@ void AdvancedInterface::pharseUrl(QString url)
     const QString persistent = "persistent:";
     if (url.startsWith(bible)) {
         url = url.remove(0, bible.size());
-        QStringList a = url.split("/");
-        if (a.size() == 2) {
-            QStringList c = a.at(1).split(",");
-            if (c.size() >= 3) {
-                int bibleID;
-                if (a.at(0) == "current") {
-                    bibleID = m_moduleManager->bible()->moduleID();
-                } else {
-                    bibleID = a.at(0).toInt();
+        if(url == "current") {
+            reloadChapter(true);
+
+        } else {
+            QStringList a = url.split("/");
+            if (a.size() == 2) {
+                QStringList c = a.at(1).split(",");
+                if (c.size() >= 3) {
+                    int bibleID;
+                    if (a.at(0) == "current") {
+                        bibleID = m_moduleManager->bible()->moduleID();
+                    } else {
+                        bibleID = a.at(0).toInt();
+                    }
+                    int bookID = c.at(0).toInt();
+                    int chapterID = c.at(1).toInt();
+                    int verseID = c.at(2).toInt();
+                    if (bookID < 0 || chapterID < 0 || verseID < 0) {
+                        myDebug() << "invalid url";
+                        return;
+                    }
+                    if (bibleID != m_moduleManager->bible()->moduleID()) {
+                        loadModuleDataByID(bibleID);//todo: select the right module in treewidget
+                        readBookByID(bookID);
+                        setCurrentBook(bookID);
+                        showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
+                        setCurrentChapter(chapterID);
+                        //load bible
+                    } else if (bookID != m_moduleManager->bible()->bookID()) {
+                        readBookByID(bookID);
+                        setCurrentBook(bookID);
+                        showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
+                        setCurrentChapter(chapterID);
+                        //load book
+                    } else if (chapterID != m_moduleManager->bible()->chapterID()) {
+                        showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
+                        setCurrentChapter(chapterID);
+                        //load chapter
+                    } else {
+                        showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
+                        setCurrentChapter(chapterID);
+                    }
+                    if (c.size() == 4 && c.at(3) == "searchInCurrentText=true") {//todo: not nice
+                        searchInText(m_moduleManager->bible()->m_lastSearchQuery);
+                    }
+                    emit historySetUrl(url_backup);
+                } else if(a.at(1) == "current") {
+                    //load another bible but with current book and chapter id
                 }
-                int bookID = c.at(0).toInt();
-                int chapterID = c.at(1).toInt();
-                int verseID = c.at(2).toInt();
-                if (bookID < 0 || chapterID < 0 || verseID < 0) {
-                    myDebug() << "invalid url";
-                    return;
+                else {
+                    myDebug() << "invalid URL";
                 }
-                if (bibleID != m_moduleManager->bible()->moduleID()) {
-                    loadModuleDataByID(bibleID);//todo: select the right module in treewidget
-                    readBookByID(bookID);
-                    setCurrentBook(bookID);
-                    showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
-                    setCurrentChapter(chapterID);
-                    //load bible
-                } else if (bookID != m_moduleManager->bible()->bookID()) {
-                    readBookByID(bookID);
-                    setCurrentBook(bookID);
-                    showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
-                    setCurrentChapter(chapterID);
-                    //load book
-                } else if (chapterID != m_moduleManager->bible()->chapterID()) {
-                    showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
-                    setCurrentChapter(chapterID);
-                    //load chapter
-                } else {
-                    showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
-                    setCurrentChapter(chapterID);
-                }
-                if (c.size() == 4 && c.at(3) == "searchInCurrentText=true") {//todo: not nice
-                    searchInText(m_moduleManager->bible()->m_lastSearchQuery);
-                }
-                emit historySetUrl(url_backup);
             } else {
                 myDebug() << "invalid URL";
             }
-        } else {
-            myDebug() << "invalid URL";
         }
         //bible://bibleID/bookID,chapterID,verseID
     } else if (url.startsWith(strong)) {
@@ -652,7 +659,7 @@ void AdvancedInterface::pharseUrl(QString url)
             }
         }
 
-    }  else if (url.startsWith(note)) {
+    } else if (url.startsWith(note)) {
         url = url.remove(0, note.size());
         if (!m_notesDockWidget->isVisible()) {
             m_notesDockWidget->show();
@@ -821,7 +828,7 @@ void AdvancedInterface::readBookByID(int id)
 
             return;
         }
-        int read = m_moduleManager->bible()->readBook(id);
+        int read = m_moduleManager->bibleList()->readBook(id);
         if (read != 0) {
             QApplication::restoreOverrideCursor();
             if(read == 2) {
@@ -848,7 +855,7 @@ void AdvancedInterface::readChapter(const int &id)
 
 void AdvancedInterface::showChapter(const int &chapterID, const int &verseID)
 {
-    m_bibleDisplay->setHtml((m_moduleManager->bible()->readChapter(chapterID, verseID)));
+    m_bibleDisplay->setHtml(m_moduleManager->bibleList()->readChapter(chapterID, verseID));
     setCurrentChapter(chapterID - m_moduleManager->bible()->chapterAdd());
 }
 void AdvancedInterface::nextChapter()
@@ -872,24 +879,28 @@ void AdvancedInterface::previousChapter()
 }
 void AdvancedInterface::reloadChapter(bool full)
 {
+    DEBUG_FUNC_NAME
     if (!activeMdiChild())
         return;
     //todo: webview
-    /*
-    QTextBrowser *textBrowser = getView();
 
-    int vsliderPosition = textBrowser->verticalScrollBar()->sliderPosition();
-    int hsliderPosition = textBrowser->horizontalScrollBar()->sliderPosition();//horizontal
+  //  QTextBrowser *textBrowser = getView();
+
+   // int vsliderPosition = textBrowser->verticalScrollBar()->sliderPosition();
+  //  int hsliderPosition = textBrowser->horizontalScrollBar()->sliderPosition();
     if (full) {
-        loadModuleDataByID(m_moduleManager->bible()->bibleID());//todo: select the right module in treewidget
+        loadModuleDataByID(m_moduleManager->bible()->moduleID());
+
         readBookByID(m_moduleManager->bible()->bookID());
         setCurrentBook(m_moduleManager->bible()->bookID());
+
         readChapter(m_moduleManager->bible()->chapterID());
         setCurrentChapter(m_moduleManager->bible()->chapterID());
+    } else {
+        readChapter(m_moduleManager->bible()->chapterID());
     }
-    readChapter(m_moduleManager->bible()->chapterID());
-    textBrowser->verticalScrollBar()->setSliderPosition(vsliderPosition);
-    textBrowser->horizontalScrollBar()->setSliderPosition(hsliderPosition);*/
+   // textBrowser->verticalScrollBar()->setSliderPosition(vsliderPosition);
+   // textBrowser->horizontalScrollBar()->setSliderPosition(hsliderPosition);
 }
 VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
 {

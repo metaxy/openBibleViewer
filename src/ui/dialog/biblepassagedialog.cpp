@@ -82,6 +82,7 @@ void BiblePassageDialog::save()
 }
 void BiblePassageDialog::changeEvent(QEvent *e)
 {
+
     switch (e->type()) {
     case QEvent::LanguageChange:
         m_ui->retranslateUi(this);

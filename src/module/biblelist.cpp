@@ -19,6 +19,7 @@ BibleList::BibleList()
 }
 int BibleList::readBook(int id)
 {
+    DEBUG_FUNC_NAME
     foreach(Bible* b,m_bibles) {
         b->readBook(id);
     }
@@ -32,18 +33,33 @@ void BibleList::addBible(Bible* b, QPoint p)
     m_bibles[id] = b;
 
 }
-Bible * BibleList::bible()
+Bible * BibleList::bible(const int &id)
 {
-    if(m_bibles.contains(m_currentBible)) {
-        return m_bibles.value(m_currentBible);
+    if(id == -1) {
+        if(m_bibles.contains(m_currentBible)) {
+            return m_bibles.value(m_currentBible);
+        }
+    } else {
+        if(m_bibles.contains(id)) {
+            return m_bibles.value(id);
+        }
     }
     return 0;
+}
+void BibleList::clear()
+{
+    m_biblePoints.clear();
+    m_bibles.clear();
+    m_currentBible = 0;
 }
 
 QString BibleList::readChapter(int chapterID, int verseID)
 {
+    DEBUG_FUNC_NAME
     QStringList a;
+    myDebug() << "size = " << m_bibles.size();
     if(m_bibles.size() == 1) {
+
         return m_bibles[m_currentBible]->readChapter(chapterID,verseID);
     } else {
         foreach(Bible* b,m_bibles) {
@@ -52,19 +68,35 @@ QString BibleList::readChapter(int chapterID, int verseID)
         int maxRow = 0;
         int maxCol = 0;
         foreach(QPoint p, m_biblePoints) {
-            maxRow = qMax(maxRow,p.y());
-            maxCol = qMax(maxCol,p.x());
+            maxRow = qMax(maxRow,p.x());
+            maxCol = qMax(maxCol,p.y());
         }
-        QString out = "<table>";
+        QString out = "<table class='biblelist'>";
+
+
+        if(maxCol >= 1) {
+            for(int i = 0; i <= maxCol; i++)
+            {
+                int id = m_biblePoints.key(QPoint(0,i),-1);
+                if(id != -1) {
+                    Bible *b = m_bibles.value(id);
+                    if(b)
+                        out += "<th><a href=\"activateModule('"+QString::number(b->moduleID())+"');\" class='title'>"+b->bibleShortTitle()+"</a></th>";
+                }
+            }
+        }
+
         //for all verse
         for(int verse = 0; verse < bible()->chapterDataList().size();verse++) {
             for(int i = 0; i <= maxRow; i++) {
                 out += "<tr>";
                 for(int j = 0; j <= maxCol;j++) {
                     out += "<td>";
-                    int id = m_biblePoints.key(QPoint(i,j));
-                    Bible *b = m_bibles.value(id);
-                    out += b->chapterDataList().at(verse);
+                    int id = m_biblePoints.key(QPoint(i,j),-1);
+                    if(id != -1) {
+                        Bible *b = m_bibles.value(id);
+                        out += b->chapterDataList().at(verse);
+                    }
                     out += "</td>";
                 }
                 out += "</tr>";
