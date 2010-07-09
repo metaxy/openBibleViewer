@@ -69,11 +69,11 @@ QString BibleList::readChapter(int chapterID, int verseID)
             maxRow = qMax(maxRow,p.x());
             maxCol = qMax(maxCol,p.y());
         }
-        QString out = "<table class='biblelist'>";
+        QString out;
 
 
         if(maxCol >= 1) {
-            out += "<tr>";
+            out += "<table id='topTable'><tr>";
             if(countInCol(0) > 1) {
                 out += "<td></td>";
             }
@@ -105,10 +105,11 @@ QString BibleList::readChapter(int chapterID, int verseID)
                 }
 
             }
-            out += "</tr>";
+            out += "</tr></table>";
         }
-
+        out += "<table class='biblelist'>";
         //for all verse
+        out += "<tbody>";
         for(int verse = 0; verse < bible()->chapterDataList().size();verse++) {
             for(int i = 0; i <= maxRow; i++) {
                 out += "<tr>";
@@ -133,6 +134,7 @@ QString BibleList::readChapter(int chapterID, int verseID)
                 out += "</tr>";
             }
         }
+        out += "</tbody>";
         out += "</table>";
         return out;
      }
