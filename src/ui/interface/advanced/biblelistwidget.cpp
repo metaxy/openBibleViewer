@@ -58,8 +58,7 @@ void BibleListWidget::init()
         }
     }
     BibleListItemDelegate *delegate = new BibleListItemDelegate(this);
-    delegate->setSettings(m_settings);
-    delegate->setModuleManager(m_moduleManager);
+    setAll(delegate);
     delegate->init();
     ui->tableView->setItemDelegate(delegate);
 
@@ -94,10 +93,10 @@ void BibleListWidget::addRow()
 }
 void BibleListWidget::save()
 {
-    Bible *last = m_moduleManager->bible();
+    //Bible *last = m_moduleManager->bible();
     int book = m_moduleManager->bible()->bookID();
     int chapter = m_moduleManager->bible()->chapterID();
-    //list of setted points
+   /* //list of setted points
     QList<QPoint> list;
     for(int x = 0; x < m_model->rowCount();++x) {
         for(int y = 0; y < m_model->columnCount(); ++y) {
@@ -115,14 +114,14 @@ void BibleListWidget::save()
             m_moduleManager->bibleList()->m_biblePoints.remove(i.key());
             m_moduleManager->bibleList()->m_bibles.remove(i.key());
         }
-    }
+    }*/
+    m_moduleManager->bibleList()->clear();
     //load them
     int selectedModule = -1;//the selected bible
     int lastModule;
     for(int x = 0; x < m_model->rowCount();++x) {
         for(int y = 0; y < m_model->columnCount(); ++y) {
             int id = m_model->item(x,y)->data(Qt::UserRole+2).toInt();
-            myDebug() << m_model->item(x,y)->data() << m_model->item(x,y)->data(Qt::UserRole+2) << m_model->item(x,y)->data(Qt::UserRole+3);
             if(id > 0) {
                 Bible *b = m_moduleManager->newBible(id,QPoint(x,y));
                 if(m_selectionModel->selection().contains(m_model->index(x,y)))

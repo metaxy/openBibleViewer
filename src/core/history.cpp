@@ -12,7 +12,6 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "src/core/history.h"
-#include <QtCore/QtDebug>
 History::History()
 {
     goF = false;
@@ -22,7 +21,6 @@ History::History()
   */
 QString History::forward()
 {
-    qDebug() << "history::forward() items = " << forwardItems;
     if (!forwardItems.isEmpty()) {
         goF = true;
         return forwardItems.takeLast();
@@ -34,7 +32,6 @@ QString History::forward()
   */
 QString History::backward()
 {
-    qDebug() << "history::backward() items = " << backwardItems;
     if (backwardItems.size() >= 2) {
         goF = true;
         forwardItems.append(backwardItems.takeLast());

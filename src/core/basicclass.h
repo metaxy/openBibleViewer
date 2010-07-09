@@ -29,6 +29,7 @@ public:
     void setBibleDisplay(BibleDisplay *bibleDisplay);
     void setSettings(Settings *settings);
     void setNotes(Notes *notes);
+    void setAll(BasicClass *c);
 };
 
 #endif // BASICCLASS_H

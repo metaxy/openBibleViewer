@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 /****************************************************************************
-  Thx at http://www.oxygen-icons.org/ for the icons
+  Icons from: http://www.oxygen-icons.org/
 *****************************************************************************/
 #include <QtGui/QApplication>
 #include <QtCore/QTranslator>
@@ -22,7 +22,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 #include <QtCore/QLibraryInfo>
-#include <QtCore/QtDebug>
 #include <QtCore/QFSFileEngine>
 #include <QtCore/QDir>
 #include <stdlib.h>
@@ -72,7 +71,6 @@ int main(int argc, char *argv[])
 #endif
     QStringList avLang;
     avLang <<  "en" << "de" << "ru" << "cs";
-    qDebug() << " avLang = " << avLang << " lang = " << lang;
     if (avLang.lastIndexOf(lang) == -1) {
         lang = lang.remove(lang.lastIndexOf("_"), lang.size());
         if (avLang.lastIndexOf(lang) == -1) {
@@ -86,7 +84,6 @@ int main(int argc, char *argv[])
     a.installTranslator(&qtTranslator);
 
     QTranslator myappTranslator;
-    qDebug() << "main::main lang = " << lang;
 
     myappTranslator.load(":/data/obv_" + lang);
 
@@ -105,7 +102,6 @@ int main(int argc, char *argv[])
               out += line;
           }
           w.setStyleSheet(out);//load from file
-          qDebug() << "main::main() load stylesheet fileName = " << file.fileName();
       }*/
     w.show();
     a.exec();

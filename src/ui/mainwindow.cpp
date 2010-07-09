@@ -154,10 +154,7 @@ void MainWindow::loadSimpleInterface()
 {
     DEBUG_FUNC_NAME
     m_interface = new SimpleInterface(this);
-    m_interface->setModuleManager(m_moduleManager);
-    m_interface->setBibleDisplay(m_bibleDisplay);
-    m_interface->setSettings(m_settings);
-    m_interface->setNotes(m_notes);
+    setAll(m_interface);
 
     ModuleDockWidget *moduleDockWidget = new ModuleDockWidget(this);
     m_interface->setModuleDockWidget(moduleDockWidget);
@@ -188,10 +185,7 @@ void MainWindow::loadAdvancedInterface()
 {
     DEBUG_FUNC_NAME
     m_interface = new AdvancedInterface(this);
-    m_interface->setModuleManager(m_moduleManager);
-    m_interface->setBibleDisplay(m_bibleDisplay);
-    m_interface->setSettings(m_settings);
-    m_interface->setNotes(m_notes);
+    setAll(m_interface);
 
     ModuleDockWidget *moduleDockWidget = new ModuleDockWidget(this);
     m_interface->setModuleDockWidget(moduleDockWidget);
@@ -240,24 +234,14 @@ void MainWindow::loadAdvancedInterface()
 void MainWindow::loadStudyInterface()
 {
     m_interface = new StudyInterface(this);
-    m_interface->setModuleManager(m_moduleManager);
-    m_interface->setBibleDisplay(m_bibleDisplay);
-    m_interface->setSettings(m_settings);
-    m_interface->setNotes(m_notes);
+    setAll(m_interface);
     m_interface->init();
     setCentralWidget(m_interface);
 }
-void MainWindow::setSettings(Settings *set)
-{
-    //DEBUG_FUNC_NAME
-    m_settings = set;
-    return;
-}
+
 void MainWindow::setSettings(Settings set)
 {
-    //DEBUG_FUNC_NAME
     *m_settings = set;
-    return;
 }
 void MainWindow::loadDefaultSettings()
 {

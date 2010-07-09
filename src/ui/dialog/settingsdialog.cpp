@@ -26,7 +26,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
-#include <QtCore/QtDebug>
 #include <QtCore/QStringList>
 #include <QtGui/QProgressDialog>
 #include <QtGui/QMessageBox>
@@ -109,7 +108,6 @@ int SettingsDialog::setSettings(Settings settings)
     m_ui->comboBox_interface->insertItems(0, interface);
     int currentInterface;
     QString i = m_set.session.getData("interface", "advanced").toString();
-    qDebug() << "interface = " << i;
     if (i == "advanced") {
         currentInterface = 1;
     } else if (i == "simple") {

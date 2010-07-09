@@ -16,7 +16,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/modulesettings.h"
 #include "src/core/dbghelper.h"
 #include "src/core/urlconverter.h"
-#include <QtCore/QtDebug>
 #include <QtCore/QMapIterator>
 #include <QtCore/QDir>
 #include <QtGui/QTextDocument>
@@ -225,7 +224,6 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         break;
     }
     case Module::ZefaniaBibleModule: { //zefania
-        myDebug() << "zefania read";
 
         if (chapterID >= m_chapterData.size()) {
             myDebug() << "index out of range index chapterID = " << chapterID  << " chapterData.size() = " << m_chapterData.size();

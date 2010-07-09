@@ -27,6 +27,7 @@ int BibleList::readBook(int id)
 }
 void BibleList::addBible(Bible* b, QPoint p)
 {
+    DEBUG_FUNC_NAME
     int id = m_biblePoints.size();
     m_currentBible = id;
     m_biblePoints[id] = p;
@@ -56,10 +57,7 @@ void BibleList::clear()
 QString BibleList::readChapter(int chapterID, int verseID)
 {
     DEBUG_FUNC_NAME
-    QStringList a;
-    myDebug() << "size = " << m_bibles.size();
     if(m_bibles.size() == 1) {
-
         return m_bibles[m_currentBible]->readChapter(chapterID,verseID);
     } else {
         foreach(Bible* b,m_bibles) {
@@ -75,15 +73,39 @@ QString BibleList::readChapter(int chapterID, int verseID)
 
 
         if(maxCol >= 1) {
+            out += "<tr>";
+            if(countInCol(0) > 1) {
+                out += "<td></td>";
+            }
             for(int i = 0; i <= maxCol; i++)
             {
                 int id = m_biblePoints.key(QPoint(0,i),-1);
-                if(id != -1) {
+                bool countInColEq = (countInCol(i) == 1);
+                if(id != -1 && countInColEq) {
                     Bible *b = m_bibles.value(id);
-                    if(b)
-                        out += "<th><a href=\"activateModule('"+QString::number(b->moduleID())+"');\" class='title'>"+b->bibleShortTitle()+"</a></th>";
+                    QString active="";
+                    if(id == m_currentBible)
+                        active = " active";
+                    out += title(b,active);
+                } else if(countInColEq) {
+                    for(int j = 0; j <= maxRow; j++) {
+                        int id = m_biblePoints.key(QPoint(j,i),-1);
+                        if(id != -1) {
+                            Bible *b = m_bibles.value(id);
+                            QString active="";
+                            if(id == m_currentBible)
+                                active = " active";
+                            out += title(b,active);
+                            break;
+                        }
+                    }
                 }
+                else {
+                    out += "<td></td>";
+                }
+
             }
+            out += "</tr>";
         }
 
         //for all verse
@@ -91,13 +113,22 @@ QString BibleList::readChapter(int chapterID, int verseID)
             for(int i = 0; i <= maxRow; i++) {
                 out += "<tr>";
                 for(int j = 0; j <= maxCol;j++) {
-                    out += "<td>";
                     int id = m_biblePoints.key(QPoint(i,j),-1);
+                    Bible *b;
                     if(id != -1) {
-                        Bible *b = m_bibles.value(id);
-                        out += b->chapterDataList().at(verse);
+                        b = m_bibles.value(id);
+                    } else {
+                        out += "<td></td>";
+                        continue;
                     }
-                    out += "</td>";
+                    if(countInCol(j) > 1) {
+                        QString active="";
+                        if(id == m_currentBible)
+                            active = " active";
+                        out += title(b,active);
+                    }
+
+                    out += "<td>" + b->chapterDataList().at(verse) + "</td>";
                 }
                 out += "</tr>";
             }
@@ -105,4 +136,19 @@ QString BibleList::readChapter(int chapterID, int verseID)
         out += "</table>";
         return out;
      }
+}
+int BibleList::countInCol(const int &col)
+{
+    QList<QPoint> list = m_biblePoints.values();
+    int count = 0;
+    foreach(QPoint p, list) {
+        if(p.y() == col)
+            count++;
+    }
+    return count;
+}
+
+QString BibleList::title(Bible *b, const QString &active)
+{
+    return "<td class='bibleListTitle"+active+"' titleOf='"+QString::number(b->moduleID())+"'><a href='#' onclick=\"Bible.activateBible('"+QString::number(b->moduleID())+"');\"  class='bibleListTitleLink'>"+b->bibleShortTitle()+"</a></td>";
 }

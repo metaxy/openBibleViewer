@@ -18,6 +18,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QAction>
 #include <QtGui/QMenu>
 #include <QtGui/QCursor>
+#include <QtGui/QMessageBox>
+#include <QWebFrame>
 #include "src/core/core.h"
 MdiForm::MdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::MdiForm)
 {
@@ -27,6 +29,8 @@ MdiForm::MdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::MdiForm)
     m_view->setObjectName("webView");
     m_view->setUrl(QUrl("about:blank"));
     m_ui->verticalLayout->addWidget(m_view);
+
+
 
     m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
     connect(m_ui->toolButton_backward, SIGNAL(clicked()), this, SLOT(backward()));
@@ -79,9 +83,7 @@ void MdiForm::setButtons()
 void MdiForm::showBibleListMenu()
 {
     BibleListWidget *w = new BibleListWidget;
-    w->setModuleManager(m_moduleManager);
-    w->setSettings(m_settings);
-    w->setBibleDisplay(m_bibleDisplay);
+    setAll(w);;
 /*   QPoint p = QCursor::pos();
     p.setX(p.x()-w->width());
     w->move(p);*/
@@ -116,3 +118,4 @@ MdiForm::~MdiForm()
 {
     delete m_ui;
 }
+

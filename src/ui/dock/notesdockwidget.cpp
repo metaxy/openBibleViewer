@@ -36,10 +36,8 @@ void NotesDockWidget::init()
 {
     DEBUG_FUNC_NAME
 
-    m_simpleNotes->setModuleManager(m_moduleManager);
-    m_simpleNotes->setNotes(m_notes);
-    m_simpleNotes->setSettings(m_settings);
-    m_simpleNotes->setBibleDisplay(m_bibleDisplay);
+    setAll(m_simpleNotes);
+
 
     m_simpleNotes->setDataWidget(ui->textBrowser);
     m_simpleNotes->setViewWidget(ui->treeView);

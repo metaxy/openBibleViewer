@@ -13,7 +13,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "windowcache.h"
 #include "dbghelper.h"
-#include <QtCore/QtDebug>
 
 WindowCache::WindowCache()
 {

@@ -166,8 +166,7 @@ void BookmarksDockWidget::editBookmark()
 
     BiblePassageDialog *passageDialog = new  BiblePassageDialog(this);
     connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateBookmark(QString)));
-    passageDialog->setSettings(m_settings);
-    passageDialog->setModuleManager(m_moduleManager);
+    setAll(passageDialog);
     passageDialog->setCurrent(urlConverter.m_moduleID, urlConverter.m_path, urlConverter.m_bookID, urlConverter.m_chapterID + 1, urlConverter.m_verseID + 1);
     passageDialog->show();
     passageDialog->exec();

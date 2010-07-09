@@ -45,26 +45,15 @@ void SimpleInterface::setSearchResultDockWidget(SearchResultDockWidget *searchRe
 
 void SimpleInterface::init()
 {
-
     m_moduleManager->bible()->setSettings(m_settings);
-
-    m_moduleDockWidget->setBibleDisplay(m_bibleDisplay);
-    m_moduleDockWidget->setNotes(m_notes);
-    m_moduleDockWidget->setSettings(m_settings);
-    //m_moduleDockWidget->setModuleManager(m_moduleManager);
+    setAll(m_moduleDockWidget);
     m_moduleDockWidget->init();
     connect(m_moduleDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
-    m_bookDockWidget->setBibleDisplay(m_bibleDisplay);
-    m_bookDockWidget->setNotes(m_notes);
-    m_bookDockWidget->setSettings(m_settings);
-    m_bookDockWidget->setModuleManager(m_moduleManager);
+    setAll(m_bookDockWidget);
     connect(m_bookDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
-    m_searchResultDockWidget->setBibleDisplay(m_bibleDisplay);
-    m_searchResultDockWidget->setNotes(m_notes);
-    m_searchResultDockWidget->setSettings(m_settings);
-    m_searchResultDockWidget->setModuleManager(m_moduleManager);
+    setAll(m_searchResultDockWidget);
     m_searchResultDockWidget->hide();
     connect(m_searchResultDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
@@ -194,7 +183,6 @@ void SimpleInterface::pharseUrl(QString url)
         int bookID = internal.at(2).toInt() - 1;
         int chapterID = internal.at(3).toInt() - 1;
         int verseID = internal.at(4).toInt();
-        //  qDebug() << "MainWindow::pharseUrl() internal = " << internal << " internalChapter = " <<internal.at(3).toInt() << " chapterID" << chapterID << " chapterAdd = "<< m_moduleManager->bible()->chapterAdd();
         /*if(bibleID != m_moduleManager->bible()->bibleID())
         {
             loadModuleDataByID(bibleID);

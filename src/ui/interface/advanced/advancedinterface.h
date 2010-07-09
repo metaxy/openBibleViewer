@@ -24,6 +24,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dock/strongdockwidget.h"
 #include "src/ui/dock/quickjumpdockwidget.h"
 #include "src/core/windowcache.h"
+#include "src/api/bibleapi.h"
 #include <QtGui/QMdiSubWindow>
 #include <QtGui/QCloseEvent>
 #include "mdiform.h"
@@ -86,6 +87,7 @@ private slots:
     int textBrowserContextMenu(QPoint);
     int copyWholeVerse();
     void reloadChapter(bool full = false);
+    void reloadActive();
 
     void showBookmarksDock();
     void showNotesDock();
@@ -98,6 +100,8 @@ private slots:
 
     void setTabView();
     void setSubWindowView();
+
+    void attachApi();
 
 
 
@@ -159,6 +163,8 @@ private:
     QAction *m_actionTabView;
     QAction *m_actionSubWindowView;
     void searchInText(SearchQuery query);
+
+    BibleApi *m_bibleApi;
 
 };
 

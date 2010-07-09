@@ -136,10 +136,8 @@ NotesEditor::NotesEditor(QWidget *parent)
 void NotesEditor::init()
 {
     DEBUG_FUNC_NAME
-    m_simpleNotes->setModuleManager(m_moduleManager);
-    m_simpleNotes->setNotes(m_notes);
-    m_simpleNotes->setSettings(m_settings);
-    m_simpleNotes->setBibleDisplay(m_bibleDisplay);
+
+    setAll(m_simpleNotes);
 
     //m_simpleNotes->setDataWidget(ui->textBrowser);
     m_simpleNotes->setFrameWidget(ui->webView->page()->mainFrame());
@@ -271,9 +269,8 @@ void NotesEditor::createLink()
 {
     InsertLinkDialog *insertLinkDialog = new InsertLinkDialog(this);
     connect(insertLinkDialog, SIGNAL(newLink(QString)), this, SLOT(createLink(QString)));
-    insertLinkDialog->setSettings(m_settings);
-    insertLinkDialog->setNotes(m_notes);
-    insertLinkDialog->setModuleManager(m_moduleManager);
+    setAll(insertLinkDialog);
+
     insertLinkDialog->init();
     insertLinkDialog->setCurrent(m_moduleManager->bible()->moduleID(), m_moduleManager->bible()->biblePath(),
                                  m_moduleManager->bible()->bookID(), m_moduleManager->bible()->chapterID() + 1, 1);

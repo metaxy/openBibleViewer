@@ -19,8 +19,10 @@ public:
     QString readChapter(int chapterID, int verseID);
     QString readVerse(int chapterID, int startVerse, int endVerse, int markVerseID, bool saveRawDatas);
     int m_currentBible;
-private:
 
+private:
+    QString title(Bible *b, const QString &active);
+    int countInCol(const int &col);
 
 };
 

@@ -388,7 +388,6 @@ void SimpleNotes::removeNote()
 {
     DEBUG_FUNC_NAME
     QModelIndexList list = m_selectionModel->selectedRows(0);
-    qDebug() << "list.size() = " << list.size() << list;
     disconnect(m_notes, SIGNAL(noteRemoved(QString)), this, SLOT(removeNote(QString)));
     //todo: if note has link, check if the page where the link shows is currently displayed, if yes reloadChapter
     if (list.size() == 0) {

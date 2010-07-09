@@ -32,7 +32,7 @@ namespace Ui
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, public BasicClass
 {
     Q_OBJECT
 signals:
@@ -49,7 +49,6 @@ public:
     QSettings *m_settingsFile;
     QString VERSION, BUILD;
     QString m_homeDataPath;
-    void setSettings(Settings *setttings);
     void setSettings(Settings settings);
     void writeSettings();
     void showSettingsDialog(int tabID);
@@ -74,10 +73,7 @@ private:
     QMenuBar *m_menuBar;
     void loadInterface();
     void deleteInterface();
-    ModuleManager *m_moduleManager;
-    BibleDisplay *m_bibleDisplay;
-    Settings *m_settings;
-    Notes *m_notes;
+
     Session *m_session;
     void loadSimpleInterface();
     void loadAdvancedInterface();

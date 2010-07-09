@@ -69,71 +69,55 @@ void AdvancedInterface::setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDoc
 }
 void AdvancedInterface::init()
 {
-
-    m_moduleDockWidget->setBibleDisplay(m_bibleDisplay);
-    m_moduleDockWidget->setNotes(m_notes);
-    m_moduleDockWidget->setSettings(m_settings);
-    m_moduleDockWidget->setModuleManager(m_moduleManager);
-    m_moduleDockWidget->init();
-    connect(m_moduleDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
-
-    m_bookDockWidget->setBibleDisplay(m_bibleDisplay);
-    m_bookDockWidget->setNotes(m_notes);
-    m_bookDockWidget->setSettings(m_settings);
-   m_bookDockWidget->setModuleManager(m_moduleManager);
-    connect(m_bookDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
-
-    m_searchResultDockWidget->setBibleDisplay(m_bibleDisplay);
-    m_searchResultDockWidget->setNotes(m_notes);
-    m_searchResultDockWidget->setSettings(m_settings);
-    m_searchResultDockWidget->setModuleManager(m_moduleManager);
-    m_searchResultDockWidget->hide();
-    connect(m_searchResultDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
-
-    m_notesDockWidget->setBibleDisplay(m_bibleDisplay);
-    m_notesDockWidget->setNotes(m_notes);
-    m_notesDockWidget->setSettings(m_settings);
-    m_notesDockWidget->setModuleManager(m_moduleManager);
-    m_notesDockWidget->init();
-    m_notesDockWidget->hide();
-    connect(m_notesDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
-    connect(m_notesDockWidget, SIGNAL(reloadChapter()), this, SLOT(reloadChapter()));
-
-    m_bookmarksDockWidget->setBibleDisplay(m_bibleDisplay);
-    m_bookmarksDockWidget->setNotes(m_notes);
-    m_bookmarksDockWidget->setSettings(m_settings);
-    m_bookmarksDockWidget->setModuleManager(m_moduleManager);
-    m_bookmarksDockWidget->init();
-    m_bookmarksDockWidget->hide();
-    connect(m_bookmarksDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
-
-    m_strongDockWidget->setBibleDisplay(m_bibleDisplay);
-    m_strongDockWidget->setNotes(m_notes);
-    m_strongDockWidget->setSettings(m_settings);
-    m_strongDockWidget->setModuleManager(m_moduleManager);
-    m_strongDockWidget->init();
-    m_strongDockWidget->hide();
-    connect(m_strongDockWidget, SIGNAL(get(QUrl)), this, SLOT(pharseUrl(QUrl)));
-
-    m_quickJumpDockWidget->setBibleDisplay(m_bibleDisplay);
-    m_quickJumpDockWidget->setNotes(m_notes);
-    m_quickJumpDockWidget->setSettings(m_settings);
-    m_quickJumpDockWidget->setModuleManager(m_moduleManager);
-    m_quickJumpDockWidget->init();
-    m_quickJumpDockWidget->hide();
-    connect(m_quickJumpDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+    m_bibleDisplaySettings = new BibleDisplaySettings();
+    m_bibleDisplaySettings->loadNotes = true;
+    m_bibleDisplaySettings->showMarks = true;
+    m_bibleDisplaySettings->showNotes = true;
 
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
     connect(m_bibleDisplay, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
     connect(m_bibleDisplay, SIGNAL(get(QUrl)), this, SLOT(pharseUrl(QUrl)));
 
+
+    setAll(m_moduleDockWidget);
+    m_moduleDockWidget->init();
+    connect(m_moduleDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+
+    setAll(m_bookDockWidget);
+    connect(m_bookDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+
+    setAll(m_searchResultDockWidget);
+    m_searchResultDockWidget->hide();
+    connect(m_searchResultDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+
+    setAll(m_notesDockWidget);
+    m_notesDockWidget->init();
+    m_notesDockWidget->hide();
+    connect(m_notesDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+    connect(m_notesDockWidget, SIGNAL(reloadChapter()), this, SLOT(reloadChapter()));
+
+    setAll(m_bookmarksDockWidget);
+    m_bookmarksDockWidget->init();
+    m_bookmarksDockWidget->hide();
+    connect(m_bookmarksDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+
+    setAll(m_strongDockWidget);
+    m_strongDockWidget->init();
+    m_strongDockWidget->hide();
+    connect(m_strongDockWidget, SIGNAL(get(QUrl)), this, SLOT(pharseUrl(QUrl)));
+
+    setAll(m_quickJumpDockWidget);
+    m_quickJumpDockWidget->init();
+    m_quickJumpDockWidget->hide();
+    connect(m_quickJumpDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+
+
     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
-    m_bibleDisplaySettings = new BibleDisplaySettings();
-    m_bibleDisplaySettings->loadNotes = true;
-    m_bibleDisplaySettings->showMarks = true;
-    m_bibleDisplaySettings->showNotes = true;
     m_moduleManager->setBibleDisplaySettings(m_bibleDisplaySettings);
+
+    m_bibleApi = new BibleApi();
+    setAll(m_bibleApi);
 
     connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
 
@@ -142,6 +126,20 @@ void AdvancedInterface::init()
 
 }
 
+void AdvancedInterface::attachApi()
+{
+    QFile file(":/data/js/jquery-1.4.2.min.js");
+    if(!file.open(QFile::ReadOnly | QFile::Text))
+        return;
+    QTextStream stream(&file);
+    QString jquery = stream.readAll();
+    file.close();
+
+    QWebFrame * frame = getView()->page()->mainFrame();
+    frame->addToJavaScriptWindowObject("Bible",m_bibleApi);
+    frame->evaluateJavaScript(jquery);
+    m_bibleApi->setFrame(frame);
+}
 
 void AdvancedInterface::newSubWindow(bool doAutoLayout)
 {
@@ -160,9 +158,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     QVBoxLayout *layout = new QVBoxLayout(widget);
 
     MdiForm *mForm = new MdiForm(widget);
-    mForm->setModuleManager(m_moduleManager);
-    mForm->setSettings(m_settings);
-    mForm->setBibleDisplay(m_bibleDisplay);
+    setAll(mForm);
     layout->addWidget(mForm);
 
     widget->setLayout(layout);
@@ -172,7 +168,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
     subWindow->show();
     ui->mdiArea->setActiveSubWindow(subWindow);
-
+    attachApi();
 
     if(ui->mdiArea->viewMode() == QMdiArea::SubWindowView) {
         if (windowsCount == 0  && doAutoLayout) {
@@ -192,6 +188,8 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     //todo: webview
     //connect(mForm->m_ui->textBrowser, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(textBrowserContextMenu(QPoint)));
     connect(mForm->m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
+    connect(getView()->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()) );
+
     connect(mForm, SIGNAL(historyGo(QString)), this, SLOT(pharseUrl(QString)));
     connect(mForm, SIGNAL(previousChapter()), this, SLOT(previousChapter()));
     connect(mForm, SIGNAL(nextChapter()), this, SLOT(nextChapter()));
@@ -209,7 +207,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
 
     m_moduleManager->bibleList()->addBible(m_moduleManager->m_bible,QPoint(0,0));
     m_windowCache.setBibleList(m_moduleManager->m_bibleList);
-     //clear old stuff
+    //clear old stuff
     setBooks(QStringList());
     setChapters(QStringList());
 
@@ -410,7 +408,6 @@ int AdvancedInterface::closingWindow()
         m_windowCache.clearAll();
         return 1;
     }
-    qDebug() << "MainWindow::closeWindow() closing";
     for (int i = 0; i < m_internalWindows.size(); i++) {
         if (ui->mdiArea->subWindowList().lastIndexOf(m_internalWindows.at(i)) == -1) {
             myDebug() << "found closed Window id = " << i;
@@ -544,7 +541,8 @@ void AdvancedInterface::pharseUrl(QString url)
         url = url.remove(0, bible.size());
         if(url == "current") {
             reloadChapter(true);
-
+        } else if(url == "reloadActive") {
+            reloadActive();
         } else {
             QStringList a = url.split("/");
             if (a.size() == 2) {
@@ -613,7 +611,6 @@ void AdvancedInterface::pharseUrl(QString url)
         int bookID = internal.at(2).toInt() - 1;
         int chapterID = internal.at(3).toInt() - 1;
         int verseID = internal.at(4).toInt();
-        //  qDebug() << "MainWindow::pharseUrl() internal = " << internal << " internalChapter = " <<internal.at(3).toInt() << " chapterID" << chapterID << " chapterAdd = "<< m_moduleManager->bible()->chapterAdd();
         /*if(bibleID != m_moduleManager->bible()->bibleID())
         {
             loadModuleDataByID(bibleID);
@@ -642,12 +639,9 @@ void AdvancedInterface::pharseUrl(QString url)
 
     } else if (url.startsWith(anchor)) {
         url = url.remove(0, anchor.size());
-
         bool ok;
         int c = url.toInt(&ok, 10);
-        myDebug() << "c = " << c;
         if (ok && c < m_moduleManager->bible()->chaptersCount() && m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c) {
-            myDebug() << "bq chapter link";
             showChapter(c + m_moduleManager->bible()->chapterAdd(), 0);
             setCurrentChapter(c);
         } else {
@@ -667,18 +661,17 @@ void AdvancedInterface::pharseUrl(QString url)
         m_notesDockWidget->showNote(url);
     } else if (url.startsWith(persistent)) {
         url = url.remove(0, persistent.size());
-        myDebug() << "url = " << url;
         UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
         urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
         urlConverter.pharse();
         QString i = urlConverter.convert();//it now a normal interface url
-        myDebug() << "i = " << i;
         pharseUrl(i);
     } else {
         if (m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->bookPath().contains(url)) {
             emit get("bible://current/" + m_moduleManager->bible()->bookPath().lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
         } else {
-            myDebug() << "invalid URL";
+            getView()->page()->mainFrame()->evaluateJavaScript(url);
+            myDebug() << "invalid URL 1";
         }
     }
     setEnableReload(true);
@@ -699,7 +692,6 @@ void AdvancedInterface::setEnableReload(bool enable)
 void AdvancedInterface::zoomIn()
 {
     QWebView *v = getView();
-    myDebug() << v->zoomFactor();
     if (v) {
         v->setZoomFactor(v->zoomFactor()+0.1);
     }
@@ -708,7 +700,6 @@ void AdvancedInterface::zoomIn()
 void AdvancedInterface::zoomOut()
 {
     QWebView *v = getView();
-    myDebug() << v->zoomFactor();
     if (v) {
         v->setZoomFactor(v->zoomFactor()-0.1);
     }
@@ -717,6 +708,14 @@ void AdvancedInterface::showText(const QString &text)
 {
     QWebView *v = getView();
     if (v) {
+        QString cssFile = m_settings->getModuleSettings(m_moduleManager->bible()->moduleID()).styleSheet;
+        if(cssFile.isEmpty())
+            cssFile = ":/data/css/default.css";
+
+        QFile file(cssFile);
+        if(file.open(QFile::ReadOnly))
+            v->settings()->setUserStyleSheetUrl(QUrl("data:text/css;charset=utf-8;base64," + file.readAll().toBase64()));
+
         v->setHtml(text);
         if (m_moduleManager->bible()->verseID() > 1)
              v->page()->mainFrame()->evaluateJavaScript("window.location.href = '#currentVerse';");
@@ -902,6 +901,15 @@ void AdvancedInterface::reloadChapter(bool full)
    // textBrowser->verticalScrollBar()->setSliderPosition(vsliderPosition);
    // textBrowser->horizontalScrollBar()->setSliderPosition(hsliderPosition);
 }
+void AdvancedInterface::reloadActive()
+{
+    DEBUG_FUNC_NAME
+
+    setEnableReload(true);
+    reloadWindow(ui->mdiArea->currentSubWindow());
+    setEnableReload(false);
+}
+
 VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
 {
     VerseSelection selection;
@@ -1107,7 +1115,6 @@ int AdvancedInterface::textBrowserContextMenu(QPoint pos)
             connect(actionCopyWholeVerse, SIGNAL(triggered()), this , SLOT(copyWholeVerse()));
         }
     } else {
-        qDebug() << "MainWindow::textBrowserContextMenu() no selection";
         actionCopyWholeVerse->setText(tr("Copy Verse"));
         actionCopyWholeVerse->setEnabled(false);
     }
@@ -1872,20 +1879,14 @@ void AdvancedInterface::showMarkCategories()
 void AdvancedInterface::showMarkList()
 {
     MarkList *markList = new MarkList(this);
-    markList->setSettings(m_settings);
-    markList->setModuleManager(m_moduleManager);
-    markList->setNotes(m_notes);
-    markList->setBibleDisplay(m_bibleDisplay);
+    setAll(markList);
     markList->init();
     markList->show();
 }
 void AdvancedInterface::showNotesEditor()
 {
     NotesEditor *notesEditor = new NotesEditor(this);
-    notesEditor->setSettings(m_settings);
-    notesEditor->setModuleManager(m_moduleManager);
-    notesEditor->setNotes(m_notes);
-    notesEditor->setBibleDisplay(m_bibleDisplay);
+    setAll(notesEditor);
     notesEditor->init();
     notesEditor->show();
 }

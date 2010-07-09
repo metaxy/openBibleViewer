@@ -25,11 +25,7 @@ void Settings::setModuleIDinMap(const int &moduleID, const int &pos )
 }
 ModuleSettings Settings::getModuleSettings(const int &moduleID)
 {
-    /*  if(moduleID.isEmpty())
-          return ModuleSettings();*/
-
     int id = m_moduleID.value(moduleID);
-    myDebug() << " id = " << id << " moduleID = " << moduleID << m_moduleID;
     if (m_moduleSettings.size() < id || m_moduleSettings.size() == 0) {
         myDebug() << "No Settings aviable";
         return ModuleSettings();

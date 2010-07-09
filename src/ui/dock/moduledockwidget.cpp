@@ -80,7 +80,6 @@ void ModuleDockWidget::filter(QString string)
     if (first == false && string != "") {
         first = true;
         QModelIndexList list = m_proxyModel->match(ui->treeView_module->model()->index(0, 0), Qt::UserRole + 1, "-1");
-        qDebug() << "list.size() = " << list.size();
         for (int i = 0; i < list.size(); ++i) {
             ui->treeView_module->setExpanded(list.at(i), true);
         }
