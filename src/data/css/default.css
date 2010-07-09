@@ -23,6 +23,9 @@
 .biblelist td[class~=active] a:hover {
     color:#C1FF64;
 }
+.biblelist td {
+    width:100%;
+}
 .biblelist {
     padding-top:30px;
     table-layout:fixed;
@@ -36,8 +39,11 @@
     border-bottom: 1px solid rgba(68,69,68,0.6);
 
 }
-#topTable th{
+#topTable td{
     text-align:center; 
     border: 1px solid #000000;
 
+}
+td.rowTitle {
+    width:5em;
 }

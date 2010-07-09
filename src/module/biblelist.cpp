@@ -73,13 +73,13 @@ QString BibleList::readChapter(int chapterID, int verseID)
 
 
         if(maxCol >= 1) {
-            out += "<table id='topTable'><tr>";
-            if(countInCol(0) > 1) {
-                out += "<td></td>";
-            }
+            out += "<table id='topTable'><tr>\n";
             for(int i = 0; i <= maxCol; i++)
             {
                 int id = m_biblePoints.key(QPoint(0,i),-1);
+                if(countInCol(i) > 1) {
+                    out += "<td class=\"rowTitle\"></td>\n";
+                }
                 bool countInColEq = (countInCol(i) == 1);
                 if(id != -1 && countInColEq) {
                     Bible *b = m_bibles.value(id);
@@ -101,13 +101,13 @@ QString BibleList::readChapter(int chapterID, int verseID)
                     }
                 }
                 else {
-                    out += "<td></td>";
+                    out += "<td></td>\n";
                 }
 
             }
-            out += "</tr></table>";
+            out += "</tr></table>\n";
         }
-        out += "<table class='biblelist'>";
+        out += "<table class='biblelist'>\n";
         //for all verse
         out += "<tbody>";
         for(int verse = 0; verse < bible()->chapterDataList().size();verse++) {
@@ -119,23 +119,23 @@ QString BibleList::readChapter(int chapterID, int verseID)
                     if(id != -1) {
                         b = m_bibles.value(id);
                     } else {
-                        out += "<td></td>";
+                        out += "<td></td>\n";
                         continue;
                     }
                     if(countInCol(j) > 1) {
-                        QString active="";
+                        QString active=" rowTitle";
                         if(id == m_currentBible)
                             active = " active";
                         out += title(b,active);
                     }
 
-                    out += "<td>" + b->chapterDataList().at(verse) + "</td>";
+                    out += "<td >" + b->chapterDataList().at(verse) + "</td>\n";
                 }
-                out += "</tr>";
+                out += "</tr>\n";
             }
         }
-        out += "</tbody>";
-        out += "</table>";
+        out += "</tbody>\n";
+        out += "</table>\n";
         return out;
      }
 }
