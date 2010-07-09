@@ -1,0 +1,26 @@
+
+.verse {
+	color:#ff0000;
+}
+.verseNumber {
+	font-style: italic;
+}
+.currentVerseClass {
+	font-weight: bold;
+}
+.biblelisttitle {
+    font-size:12px;
+}
+.biblelisttitle a:link, a:visited, a:active {
+    color:#000000;
+}
+.biblelisttitle a:hover {
+    color:#00AAFF;
+}
+
+.biblelist td[class~=active] a:link, a:visited, a:active {
+    color:#00AAFF;
+}
+.biblelist td[class~=active] a:hover {
+    color:#C1FF64;
+}
