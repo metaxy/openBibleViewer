@@ -79,6 +79,7 @@ public:
     ZefaniaBible *m_zef;
 
     ModuleMap *m_map;
+    bool loaded();
 private:
     int m_moduleID;
     int m_bookID;
@@ -100,6 +101,7 @@ private:
 
     SearchResult m_lastSearchResult;
     BibleDisplaySettings *m_bibleDisplaySettings;
+    bool m_loaded;
 
 };
 

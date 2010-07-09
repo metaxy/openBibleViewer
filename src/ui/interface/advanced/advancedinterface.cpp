@@ -561,8 +561,12 @@ void AdvancedInterface::pharseUrl(QString url)
                         myDebug() << "invalid url";
                         return;
                     }
-                    if (bibleID != m_moduleManager->bible()->moduleID()) {
-                        loadModuleDataByID(bibleID);//todo: select the right module in treewidget
+                    bool force = false;
+                    if (c.size() == 4 && c.at(3) == "force=true") {
+                        force = true;
+                    }
+                    if (bibleID != m_moduleManager->bible()->moduleID() || !m_moduleManager->bible()->loaded() || force) {
+                        loadModuleDataByID(bibleID);
                         readBookByID(bookID);
                         setCurrentBook(bookID);
                         showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);

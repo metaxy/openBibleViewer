@@ -27,6 +27,7 @@ Bible::Bible()
     m_verseID = 0;
     m_chapterAdd = 0;
     textTitle = "";
+    m_loaded = false;
     //!chtodo: wenn ich biblelists aktivire ( nach neustart) und einfach eine Bibel hinzufüge ohne die bestehende zu verändernd sind all dies Sache in Bible nicht gesetzt
 
 }
@@ -46,10 +47,14 @@ void Bible::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings)
 {
     m_bibleDisplaySettings = bibleDisplaySettings;
 }
+bool Bible::loaded()
+{
+    return m_loaded;
+}
 
 int Bible::loadModuleData(const int &moduleID)
 {
-
+    m_loaded = true;
     m_module = m_map->m_map.value(moduleID);
     if (moduleID < 0 || !m_module) {
         myDebug() << "invalid bibleID = " << moduleID;

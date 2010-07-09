@@ -123,12 +123,10 @@ void BibleListWidget::save()
         for(int y = 0; y < m_model->columnCount(); ++y) {
             int id = m_model->item(x,y)->data(Qt::UserRole+2).toInt();
             if(id > 0) {
-                Bible *b = m_moduleManager->newBible(id,QPoint(x,y));
+                m_moduleManager->newBible(id,QPoint(x,y));
                 if(m_selectionModel->selection().contains(m_model->index(x,y)))
                     selectedModule = m_moduleManager->bibleList()->m_currentBible;
                 lastModule = m_moduleManager->bibleList()->m_currentBible;
-                myDebug() << "id = " << id << " " << x <<  " " << y;
-                myDebug() << b->moduleID();
             }
         }
     }
@@ -136,8 +134,8 @@ void BibleListWidget::save()
         m_moduleManager->bibleList()->m_currentBible = selectedModule;
     else
         m_moduleManager->bibleList()->m_currentBible = lastModule;
-
-    m_bibleDisplay->emitGet("bible://current/"+QString::number(book)+","+QString::number(chapter)+",0");//todo: make better
+    myDebug() << book << chapter;
+    m_bibleDisplay->emitGet("bible://"+QString::number(m_moduleManager->bibleList()->bible()->moduleID())+"/"+QString::number(book)+","+QString::number(chapter)+",0,force=true");//todo: make better
     close();
 }
 
