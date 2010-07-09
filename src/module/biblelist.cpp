@@ -86,16 +86,16 @@ QString BibleList::readChapter(int chapterID, int verseID)
                     QString active="";
                     if(id == m_currentBible)
                         active = " active";
-                    out += title(b,active);
+                    out += title(b,active,id);
                 } else if(countInColEq) {
                     for(int j = 0; j <= maxRow; j++) {
-                        int id = m_biblePoints.key(QPoint(j,i),-1);
+                        id = m_biblePoints.key(QPoint(j,i),-1);
                         if(id != -1) {
                             Bible *b = m_bibles.value(id);
                             QString active="";
                             if(id == m_currentBible)
                                 active = " active";
-                            out += title(b,active);
+                            out += title(b,active,id);
                             break;
                         }
                     }
@@ -126,7 +126,7 @@ QString BibleList::readChapter(int chapterID, int verseID)
                         QString active=" rowTitle";
                         if(id == m_currentBible)
                             active = " active";
-                        out += title(b,active);
+                        out += title(b,active,id);
                     }
 
                     out += "<td >" + b->chapterDataList().at(verse) + "</td>\n";
@@ -150,7 +150,7 @@ int BibleList::countInCol(const int &col)
     return count;
 }
 
-QString BibleList::title(Bible *b, const QString &active)
+QString BibleList::title(Bible *b, const QString &active, const int &bibleListID)
 {
-    return "<td class='bibleListTitle"+active+"' titleOf='"+QString::number(b->moduleID())+"'><a href='#' onclick=\"Bible.activateBible('"+QString::number(b->moduleID())+"');\"  class='bibleListTitleLink'>"+b->bibleShortTitle()+"</a></td>";
+    return "<td class='bibleListTitle"+active+"' titleOf='"+QString::number(b->moduleID())+" bibleListID='"+QString::number(bibleListID)+"'><a href='#' onclick=\"Bible.activateBible('"+QString::number(bibleListID)+"');\"  class='bibleListTitleLink'>"+b->bibleShortTitle()+"</a></td>";
 }

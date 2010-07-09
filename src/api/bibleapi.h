@@ -7,7 +7,7 @@ class BibleApi : public QObject, public BasicClass
 {
     Q_OBJECT
 public slots:
-    void activateBible(int moduleID);
+    void activateBible(int bibleListID);
 
 public:
     BibleApi();

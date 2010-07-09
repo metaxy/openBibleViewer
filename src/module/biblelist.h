@@ -21,7 +21,7 @@ public:
     int m_currentBible;
 
 private:
-    QString title(Bible *b, const QString &active);
+    QString title(Bible *b, const QString &active,const int &bibleListID);
     int countInCol(const int &col);
 
 };

@@ -4,26 +4,17 @@
 BibleApi::BibleApi()
 {
 }
-void BibleApi::activateBible(int moduleID)
+void BibleApi::activateBible(int bibleListID)
 {
+    Q_UNUSED(bibleListID);
     DEBUG_FUNC_NAME
-    int id = 0;
-    QHashIterator<int,Bible *> i(m_moduleManager->bibleList()->m_bibles);
-    while(i.hasNext()) {
-        i.next();
-        myDebug() << i.key() << i.value()->moduleID();
-        if(i.value() && i.value()->moduleID() == moduleID /*&& i.key() != id*/ /* todo: that is a bit hacky*/) {
-            id = i.key();
-        }
-    }
-    m_moduleManager->bibleList()->m_currentBible = id;
-    myDebug() << id;
+    m_moduleManager->bibleList()->m_currentBible = bibleListID;
     QWebElementCollection collection = m_frame->documentElement().findAll("td[class~=bibleListTitle]");
-     foreach (QWebElement paraElement, collection) {
-         paraElement.removeClass("active");
-         if(paraElement.attribute("titleOf") == QString::number(moduleID)) {
-             paraElement.addClass("active");
-         }
+    foreach (QWebElement paraElement, collection) {
+        paraElement.removeClass("active");
+        if(paraElement.attribute("bibleListID") == QString::number(bibleListID)) {
+            paraElement.addClass("active");
+        }
     }
     m_bibleDisplay->emitGet("bible://reloadActive");
 }
