@@ -237,7 +237,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         Chapter c = m_chapterData.at(chapterID);
 
         if (saveRawData) {
-            textTitle = "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";
+            //textTitle = "<b><font size=\"+5\">" + c.bookName + " " + c.chapterName + "</font></b><br /><br />";
             out += textTitle;//title
             //m_chapterDataList << out;
         }
@@ -267,18 +267,21 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                     }
                 }
             }
+
+
             if (i == markVerseID) {
                 vers.prepend("<a name=\"currentVerse\"><span style=\"font-weight: bold;\">");
                 vers.append("</span></a>");
             }
             if (moduleSettings.zefbible_textFormatting == 0) {
-                vers.prepend("<i>" + c.verseNumber.at(i) + "</i> ");
+                vers.prepend("<sup>" + c.verseNumber.at(i) + "</sup> ");
                 vers.append("<br />");
             } else {
-                vers.prepend(c.verseNumber.at(i));
+                vers.prepend("<sup>"+c.verseNumber.at(i)+"</sup>    ");
                 vers.append("");
             }
-
+            vers.prepend("<span verseID='"+QString::number(i)+"' chapterID='"+QString::number(chapterID)+"' bookID='"+QString::number(m_bookID)+"' moduleID='"+QString::number(m_moduleID)+"'>\n");
+            vers.append("</span>\n");
             versList << vers;
         }
         break;
