@@ -21,9 +21,10 @@ class WebView : public QWebView
 Q_OBJECT
 public:
     explicit WebView(QWidget *parent = 0);
+    void contextMenuEvent ( QContextMenuEvent * ev );
 
 signals:
-
+    void contextMenuRequested ( QContextMenuEvent * ev );
 public slots:
 
 };

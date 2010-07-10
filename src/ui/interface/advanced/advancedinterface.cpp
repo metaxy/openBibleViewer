@@ -119,6 +119,7 @@ void AdvancedInterface::init()
     m_bibleApi = new BibleApi();
     setAll(m_bibleApi);
 
+    createDefaultMenu();
     connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
 
     if (usableWindowList().size() == 0 &&  m_settings->session.getData("windowUrls").toStringList().size() == 0)
@@ -188,6 +189,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     //todo: webview
     //connect(mForm->m_ui->textBrowser, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(textBrowserContextMenu(QPoint)));
     connect(mForm->m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
+    connect(mForm->m_view,SIGNAL(contextMenuRequested(QContextMenuEvent*)),this,SLOT(showContextMenu(QContextMenuEvent*)));
     connect(getView()->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()) );
 
     connect(mForm, SIGNAL(historyGo(QString)), this, SLOT(pharseUrl(QString)));
@@ -1087,6 +1089,71 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
     }
     return selection;
 }
+void AdvancedInterface::createDefaultMenu()
+{
+    m_actionCopy = new QAction(QIcon::fromTheme("edit-copy",QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"),getView());
+    connect(m_actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
+
+
+    m_actionSelect = new QAction(QIcon::fromTheme("edit-select-all",QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"),getView());
+    connect(m_actionSelect, SIGNAL(triggered()), this , SLOT(selectAll()));
+
+    m_menuMark = new QMenu(this);
+    m_menuMark->setTitle(tr("Mark this"));
+    m_menuMark->setIcon(QIcon::fromTheme("format-fill-color.png",QIcon(":/icons/16x16/format-fill-color.png")));
+
+    QAction *actionYellowMark = new QAction(QIcon(":/icons/16x16/mark-yellow.png"), tr("Yellow"), m_menuMark);
+    connect(actionYellowMark, SIGNAL(triggered()), this , SLOT(newYellowMark()));
+    m_menuMark->addAction(actionYellowMark);
+
+    QAction *actionGreenMark = new QAction(QIcon(":/icons/16x16/mark-green.png"), tr("Green"), m_menuMark);
+    connect(actionGreenMark, SIGNAL(triggered()), this , SLOT(newGreenMark()));
+    m_menuMark->addAction(actionGreenMark);
+
+    QAction *actionBlueMark = new QAction(QIcon(":/icons/16x16/mark-blue.png"), tr("Blue"), m_menuMark);
+    connect(actionBlueMark, SIGNAL(triggered()), this , SLOT(newBlueMark()));
+    m_menuMark->addAction(actionBlueMark);
+
+    QAction *actionOrangeMark = new QAction(QIcon(":/icons/16x16/mark-orange.png"), tr("Orange"), m_menuMark);
+    connect(actionOrangeMark, SIGNAL(triggered()), this , SLOT(newOrangeMark()));
+    m_menuMark->addAction(actionOrangeMark);
+
+    QAction *actionVioletMark = new QAction(QIcon(":/icons/16x16/mark-violet.png"), tr("Violet"), m_menuMark);
+    connect(actionVioletMark, SIGNAL(triggered()), this , SLOT(newVioletMark()));
+    m_menuMark->addAction(actionVioletMark);
+
+    QAction *actionCustomMark  = new QAction(QIcon(":/icons/16x16/format-fill-color.png"), tr("Custom Color"), m_menuMark);
+    connect(actionCustomMark, SIGNAL(triggered()), this , SLOT(newCustomMark()));
+    m_menuMark->addAction(actionCustomMark);
+
+    m_actionRemoveMark = new QAction(QIcon(":/icons/16x16/mark-yellow.png"), tr("Remove Mark"),getView());
+    connect(m_actionRemoveMark, SIGNAL(triggered()), this , SLOT(removeMark()));
+
+    m_actionBookmark = new QAction(QIcon::fromTheme("bookmark-new",QIcon(":/icons/16x16/bookmark-new.png")), tr("Add Bookmark"), getView());
+    connect(m_actionBookmark, SIGNAL(triggered()), this , SLOT(newBookmark()));
+
+    m_actionNote = new QAction(QIcon::fromTheme("view-pim-notes",QIcon(":/icons/16x16/view-pim-notes.png")), tr("Add Note"), getView());
+    connect(m_actionNote, SIGNAL(triggered()), this , SLOT(newNoteWithLink()));
+
+}
+
+void AdvancedInterface::showContextMenu(QContextMenuEvent* ev)
+{
+    DEBUG_FUNC_NAME
+    QMenu *contextMenu = new QMenu(this);
+    contextMenu->addAction(m_actionCopy);
+    //contextMenu->addAction(actionCopyWholeVerse);
+    contextMenu->addAction(m_actionSelect);
+    contextMenu->addSeparator();
+    contextMenu->addMenu(m_menuMark);
+    contextMenu->addAction(m_actionRemoveMark);
+    contextMenu->addSeparator();
+    contextMenu->addAction(m_actionBookmark);
+    contextMenu->addAction(m_actionNote);
+    contextMenu->exec(ev->globalPos());
+
+}
+
 int AdvancedInterface::textBrowserContextMenu(QPoint pos)
 {
   /*  if (!activeMdiChild())

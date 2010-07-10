@@ -28,6 +28,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMdiSubWindow>
 #include <QtGui/QCloseEvent>
 #include "mdiform.h"
+#include <QContextMenuEvent>
 namespace Ui
 {
 class AdvancedInterface;
@@ -102,6 +103,7 @@ private slots:
     void setSubWindowView();
 
     void attachApi();
+    void showContextMenu(QContextMenuEvent*ev);
 
 
 
@@ -165,6 +167,13 @@ private:
     void searchInText(SearchQuery query);
 
     BibleApi *m_bibleApi;
+    QAction *m_actionCopy;
+    QAction *m_actionSelect;
+    QMenu *m_menuMark;
+    QAction *m_actionRemoveMark;
+    QAction *m_actionBookmark;
+    QAction *m_actionNote;
+    void createDefaultMenu();
 
 };
 

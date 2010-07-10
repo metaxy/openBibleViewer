@@ -21,7 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_mdiform.h"
 #include "src/core/history.h"
 #include "webview.h"
-
+#include <QContextMenuEvent>
 namespace Ui
 {
 class MdiForm;

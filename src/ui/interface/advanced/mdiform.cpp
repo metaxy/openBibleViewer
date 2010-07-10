@@ -30,12 +30,11 @@ MdiForm::MdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::MdiForm)
     m_view->setUrl(QUrl("about:blank"));
     m_ui->verticalLayout->addWidget(m_view);
 
-
-
     m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
     connect(m_ui->toolButton_backward, SIGNAL(clicked()), this, SLOT(backward()));
     connect(m_ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
     connect(m_ui->toolButton_bibleList,SIGNAL(clicked()), this, SLOT(showBibleListMenu()));
+
 
     setButtons();
     //m_ui->textBrowser->installEventFilter(this);
