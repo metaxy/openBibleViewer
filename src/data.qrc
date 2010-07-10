@@ -7,5 +7,6 @@
         <file>data/obv_cs.qm</file>
         <file>data/js/jquery-1.4.2.min.js</file>
         <file>data/css/default.css</file>
+        <file>data/js/tools.js</file>
     </qresource>
 </RCC>

@@ -327,7 +327,7 @@ QString ModuleManager::notePos2Link(const QString &pos)
     urlConverter.pharse();
     QString link = urlConverter.convert();
 
-    string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," + QString::number(urlConverter.m_verseID + 1);
+    string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," + QString::number(urlConverter.m_verseID);
     return  "<a href=\"" + link + "\" >" + string + "</a>";
 }
 QString ModuleManager::notePos2Text(const QString &pos)
@@ -339,7 +339,7 @@ QString ModuleManager::notePos2Text(const QString &pos)
     urlConverter.pharse();
     QString link = urlConverter.convert();
 
-    string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," + QString::number(urlConverter.m_verseID + 1);
+    string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," + QString::number(urlConverter.m_verseID);
     return string;
 }
 QStringList ModuleManager::getBibleTitles()

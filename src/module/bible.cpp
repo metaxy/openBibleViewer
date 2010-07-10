@@ -223,6 +223,10 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 vers.prepend("<b>");
                 vers.append("</b>"); //make the current verse bold
             }
+            if(i > 0) {//because of the chapter
+                vers.prepend("<span verseID='"+QString::number(i-1)+"' chapterID='"+QString::number(chapterID)+"' bookID='"+QString::number(m_bookID)+"' moduleID='"+QString::number(m_moduleID)+"'>\n");
+                vers.append("</span>\n");
+            }
             versList << vers;
         }
 

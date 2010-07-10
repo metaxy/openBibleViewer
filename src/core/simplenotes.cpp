@@ -322,14 +322,14 @@ void SimpleNotes::newNoteWithLink(VerseSelection selection)
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
     aktNote();
     fastSave();
-
+    selection.startVerse++;
     QString link;
     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.m_moduleID =  m_moduleManager->bible()->moduleID();
     urlConverter.m_bookID = m_moduleManager->bible()->bookID();
     urlConverter.m_chapterID = m_moduleManager->bible()->chapterID() - m_moduleManager->bible()->chapterAdd();
-    urlConverter.m_verseID = selection.startVerse - 1;
+    urlConverter.m_verseID = selection.startVerse;
     urlConverter.m_bookName = m_moduleManager->bible()->bookFullName().at(m_moduleManager->bible()->bookID());
     link = urlConverter.convert();
 

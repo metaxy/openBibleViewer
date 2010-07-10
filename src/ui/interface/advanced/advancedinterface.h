@@ -104,6 +104,7 @@ private slots:
 
     void attachApi();
     void showContextMenu(QContextMenuEvent*ev);
+    void debugger();
 
 
 
@@ -155,6 +156,7 @@ private:
 
     void readBookByID(int id);
     VerseSelection verseSelectionFromCursor(QTextCursor cursor);
+    VerseSelection verseSelection();
 
     void showChapter(const int &chapterID, const int &verseID);
     void autoLayout();

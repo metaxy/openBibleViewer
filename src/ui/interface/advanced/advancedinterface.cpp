@@ -33,6 +33,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/noteseditor.h"
 #include "src/ui/marklist.h"
 #include "src/core/core.h"
+#include <QWebInspector>
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
         Interface(parent),
         ui(new Ui::AdvancedInterface)
@@ -129,16 +130,28 @@ void AdvancedInterface::init()
 
 void AdvancedInterface::attachApi()
 {
-    QFile file(":/data/js/jquery-1.4.2.min.js");
-    if(!file.open(QFile::ReadOnly | QFile::Text))
-        return;
-    QTextStream stream(&file);
-    QString jquery = stream.readAll();
-    file.close();
-
     QWebFrame * frame = getView()->page()->mainFrame();
+    {
+        QFile file(":/data/js/jquery-1.4.2.min.js");
+        if(!file.open(QFile::ReadOnly | QFile::Text))
+            return;
+        QTextStream stream(&file);
+        QString jquery = stream.readAll();
+        file.close();
+        frame->evaluateJavaScript(jquery);
+    }
+
+    {
+        QFile file(":/data/js/tools.js");
+        if(!file.open(QFile::ReadOnly | QFile::Text))
+            return;
+        QTextStream stream(&file);
+        QString tools = stream.readAll();
+        file.close();
+        frame->evaluateJavaScript(tools);
+    }
+
     frame->addToJavaScriptWindowObject("Bible",m_bibleApi);
-    frame->evaluateJavaScript(jquery);
     m_bibleApi->setFrame(frame);
 }
 
@@ -212,6 +225,8 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     //clear old stuff
     setBooks(QStringList());
     setChapters(QStringList());
+
+
 
 }
 void AdvancedInterface::autoLayout()
@@ -893,17 +908,19 @@ void AdvancedInterface::reloadChapter(bool full)
 
    // int vsliderPosition = textBrowser->verticalScrollBar()->sliderPosition();
   //  int hsliderPosition = textBrowser->horizontalScrollBar()->sliderPosition();
+    QPoint p = getView()->page()->mainFrame()->scrollPosition();
     if (full) {
         loadModuleDataByID(m_moduleManager->bible()->moduleID());
 
         readBookByID(m_moduleManager->bible()->bookID());
         setCurrentBook(m_moduleManager->bible()->bookID());
 
-        readChapter(m_moduleManager->bible()->chapterID());
-        setCurrentChapter(m_moduleManager->bible()->chapterID());
+        readChapter(m_moduleManager->bible()->chapterID() - 1);
+        setCurrentChapter(m_moduleManager->bible()->chapterID() - 1);
     } else {
-        readChapter(m_moduleManager->bible()->chapterID());
+        readChapter(m_moduleManager->bible()->chapterID() - 1);
     }
+    getView()->page()->mainFrame()->setScrollPosition(p);
    // textBrowser->verticalScrollBar()->setSliderPosition(vsliderPosition);
    // textBrowser->horizontalScrollBar()->setSliderPosition(hsliderPosition);
 }
@@ -1141,8 +1158,33 @@ void AdvancedInterface::showContextMenu(QContextMenuEvent* ev)
 {
     DEBUG_FUNC_NAME
     QMenu *contextMenu = new QMenu(this);
+
+    QAction *actionCopyWholeVerse = new QAction(QIcon::fromTheme("edit-copy",QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Verse"),contextMenu);
+    VerseSelection selection = verseSelection();
+    if (selection.startVerse != -1) {
+        QString addText;
+        if (selection.startVerse != selection.endVerse)
+            addText = " " + QString::number(selection.startVerse) + " - " + QString::number(selection.endVerse);
+        else
+            addText = " " + QString::number(selection.startVerse);
+        if (selection.startVerse < 0 || selection.endVerse <= 0) {
+            actionCopyWholeVerse->setText(tr("Copy Verse"));
+            actionCopyWholeVerse->setEnabled(false);
+        } else {
+            actionCopyWholeVerse->setText(tr("Copy Verse %1").arg(addText));
+            actionCopyWholeVerse->setEnabled(true);
+
+            connect(actionCopyWholeVerse, SIGNAL(triggered()), this , SLOT(copyWholeVerse()));
+        }
+    } else {
+        actionCopyWholeVerse->setEnabled(false);
+    }
+
+    QAction *dbg = new QAction(QIcon::fromTheme("edit-copy",QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"),contextMenu);
+    connect(dbg, SIGNAL(triggered()), this, SLOT(debugger()));
+
     contextMenu->addAction(m_actionCopy);
-    //contextMenu->addAction(actionCopyWholeVerse);
+    contextMenu->addAction(actionCopyWholeVerse);
     contextMenu->addAction(m_actionSelect);
     contextMenu->addSeparator();
     contextMenu->addMenu(m_menuMark);
@@ -1150,6 +1192,7 @@ void AdvancedInterface::showContextMenu(QContextMenuEvent* ev)
     contextMenu->addSeparator();
     contextMenu->addAction(m_actionBookmark);
     contextMenu->addAction(m_actionNote);
+    contextMenu->addAction(dbg);
     contextMenu->exec(ev->globalPos());
 
 }
@@ -1260,59 +1303,45 @@ int AdvancedInterface::textBrowserContextMenu(QPoint pos)
 
 int AdvancedInterface::copyWholeVerse(void)
 {
-   /* if (!activeMdiChild())
+    if (!activeMdiChild())
         return 1;
-    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
-    QTextCursor cursor = textBrowser->textCursor();
-    VerseSelection selection = verseSelectionFromCursor(cursor);
+    VerseSelection selection = verseSelection();
     if (selection.startVerse != -1) {
-        if (m_moduleManager->bible()->bibleType() == Bible::BibleQuoteModule) {
-        } else if (m_moduleManager->bible()->bibleType() == Bible::ZefaniaBibleModule) {
-            if (selection.startVerse - 1 < 0)
-                selection.startVerse = 1;
-            if (selection.endVerse < 0)
-                selection.endVerse = 0;
-        }
 
-        QString sverse = "";
+        QString sverse;
         if (selection.startVerse == selection.endVerse) {
-            sverse = "," + QString::number(selection.startVerse);
+            sverse = "," + QString::number(selection.startVerse +1);
         } else {
-            sverse = " " + QString::number(selection.startVerse) + "-" + QString::number(selection.endVerse);
+            sverse = "," + QString::number(selection.startVerse +1) + "-" + QString::number(selection.endVerse+1);
         }
 
-
-        QString stext;
-
-        if (m_moduleManager->bible()->bibleType() == Bible::BibleQuoteModule) {
-            stext = m_moduleManager->bible()->readVerse(m_moduleManager->bible()->chapterID(), selection.startVerse, selection.endVerse + 1, -1, false);
-        } else if (m_moduleManager->bible()->bibleType() == Bible::ZefaniaBibleModule) {
-            stext = m_moduleManager->bible()->readVerse(m_moduleManager->bible()->chapterID(), selection.startVerse - 1, selection.endVerse, -1, false);
-        }
-
+        int add = 0;
+        if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule)
+            add = 1; //because of the title
+        QString stext = m_moduleManager->bible()->readVerse(m_moduleManager->bible()->chapterID(), selection.startVerse + add, selection.endVerse + 1 + add, -1, false);
         QTextDocument doc2;
         doc2.setHtml(stext);
         stext = doc2.toPlainText();
 
-        QString curChapter;
-        if (m_moduleManager->bible()->bibleType() == Bible::BibleQuoteModule) {
-            curChapter = QString::number(m_moduleManager->bible()->chapterID());
-        } else if (m_moduleManager->bible()->bibleType() == Bible::ZefaniaBibleModule) {
-            curChapter = QString::number(m_moduleManager->bible()->chapterID() + 1);
-        }
+        const QString curChapter = QString::number(m_moduleManager->bible()->chapterID()+1);
 
-        QString newText = m_moduleManager->bible()->bookFullName().at(m_moduleManager->bible()->bookID()) + " " + curChapter + sverse + "\n" + stext;
+        const QString newText = m_moduleManager->bible()->bookFullName().at(m_moduleManager->bible()->bookID()) + " " + curChapter + sverse + "\n" + stext;
         QClipboard *clipboard = QApplication::clipboard();
         clipboard->setText(newText);
 
-    } else {
-        myDebug() << "nothing is selected";
     }
-
-    return 0;*/
+    return 0;
+}
+void AdvancedInterface::debugger()
+{
+    getView()->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled,true);
+    QWebInspector *inspector = new QWebInspector;
+    inspector->setPage(getView()->page());
+    inspector->showNormal();
 }
 void AdvancedInterface::newYellowMark()
 {
+
    /* if (!m_moduleManager->bibleLoaded()) {
         return;
     }
@@ -1410,8 +1439,7 @@ void AdvancedInterface::closing()
     m_settings->session.setData("strongDockGeometry", m_strongDockWidget->saveGeometry());
     QStringList windowUrls;
     QList<QVariant> windowGeo;
-    QList<QVariant> vSlider;
-    QList<QVariant> hSlider;
+    QList<QVariant> scrollPos;
     QList<QVariant> zoom;
     for (int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
         //todo:
@@ -1430,21 +1458,13 @@ void AdvancedInterface::closing()
             windowUrls << "";
         }
         windowGeo << ui->mdiArea->subWindowList().at(i)->geometry();
-
-       /* QTextBrowser *textBrowser =  ui->mdiArea->subWindowList().at(i)->findChild<QTextBrowser *>("textBrowser");
-        vSlider <<  textBrowser->verticalScrollBar()->sliderPosition();
-        hSlider <<  textBrowser->horizontalScrollBar()->sliderPosition();
-#if QT_VERSION >= 0x040600
-        zoom << textBrowser->fontPointSize();
-#endif*/
+        scrollPos << getView()->page()->mainFrame()->scrollPosition();
+        zoom << getView()->zoomFactor();
     }
     m_settings->session.setData("windowUrls", windowUrls);
     m_settings->session.setData("windowGeo", windowGeo);
-    m_settings->session.setData("vSlider", vSlider);
-    m_settings->session.setData("hSlider", hSlider);
-#if QT_VERSION >= 0x040600
+    m_settings->session.setData("scrollPos", scrollPos);
     m_settings->session.setData("zoom", zoom);
-#endif
     m_settings->session.setData("viewMode", ui->mdiArea->viewMode());
 
 
@@ -1461,11 +1481,8 @@ void AdvancedInterface::restoreSession()
     myDebug() << "a";
     QStringList windowUrls = m_settings->session.getData("windowUrls").toStringList();
     QVariantList windowGeo = m_settings->session.getData("windowGeo").toList();
-    QVariantList vSlider = m_settings->session.getData("vSlider").toList();
-    QVariantList hSlider = m_settings->session.getData("hSlider").toList();
-#if QT_VERSION >= 0x040600
+    QVariantList scrollPos = m_settings->session.getData("scrollPos").toList();
     QVariantList zoom = m_settings->session.getData("zoom").toList();
-#endif
     myDebug() << "b";
 
     for (int i = 0; i < windowUrls.size(); ++i) {
@@ -1483,15 +1500,9 @@ void AdvancedInterface::restoreSession()
         }
         //set geometry
         activeMdiChild()->setGeometry(windowGeo.at(i).toRect());
-        /*QTextBrowser *textBrowser = getView();
-        //set slider
-        //todo: really strange
-        textBrowser->verticalScrollBar()->setSliderPosition(vSlider.at(i).toInt());
-        textBrowser->horizontalScrollBar()->setSliderPosition(hSlider.at(i).toInt());
-#if QT_VERSION >= 0x040600
+        getView()->page()->mainFrame()->setScrollPosition(scrollPos.at(i).toPoint());
         if (zoom.size() != 0 && i < zoom.size() && zoom.at(i).toReal() > 0)
-            textBrowser->setFontPointSize(zoom.at(i).toReal());
-#endif*/
+            getView()->setZoomFactor(zoom.at(i).toReal());
 
     }
     if (m_settings->session.getData("viewMode").toInt() == 0)
@@ -1872,13 +1883,13 @@ void AdvancedInterface::newBookmark()
 {
     if (!m_moduleManager->bibleLoaded() && !activeMdiChild())
         return;
-    m_bookmarksDockWidget->newBookmark(verseSelectionFromCursor(m_textCursor));
+    m_bookmarksDockWidget->newBookmark(verseSelection());
 }
 void AdvancedInterface::newNoteWithLink()
 {
     if (!m_moduleManager->bibleLoaded() && !activeMdiChild())
         return;
-    m_notesDockWidget->newNoteWithLink(verseSelectionFromCursor(m_textCursor));
+    m_notesDockWidget->newNoteWithLink(verseSelection());
 }
 void AdvancedInterface::onlineHelp()
 {
@@ -1972,6 +1983,16 @@ void AdvancedInterface::setSubWindowView()
     ui->mdiArea->setViewMode(QMdiArea::SubWindowView);
     m_actionTabView->setChecked(false);
     m_actionSubWindowView->setChecked(true);
+}
+VerseSelection AdvancedInterface::verseSelection()
+{
+    VerseSelection s;
+    getView()->page()->mainFrame()->evaluateJavaScript("var verseSelection = new VerseSelection();verseSelection.getSelection();");
+    int start = getView()->page()->mainFrame()->evaluateJavaScript("verseSelection.startVerse;").toInt();
+    int end = getView()->page()->mainFrame()->evaluateJavaScript("verseSelection.endVerse;").toInt();
+    s.startVerse = start;
+    s.endVerse = end;
+    return s;
 }
 
 void AdvancedInterface::changeEvent(QEvent *e)
