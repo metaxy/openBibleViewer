@@ -56,7 +56,6 @@ public:
     int bookID();
     int chapterID();
     int verseID();
-    int chapterAdd();
     int booksCount();
     int chaptersCount();
 
@@ -85,7 +84,7 @@ private:
     int m_bookID;
     int m_chapterID;
     int m_verseID;
-    int m_chapterAdd;
+
     Module::ModuleType m_bibleType;
     QMap <int, int> bookCount;
     QString m_lastout;

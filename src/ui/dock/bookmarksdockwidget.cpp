@@ -52,7 +52,6 @@ int BookmarksDockWidget::init()
 }
 void BookmarksDockWidget::newBookmark(VerseSelection selection)
 {
-    selection.startVerse++;
     QTreeWidgetItem *bookmark = new QTreeWidgetItem();
     bookmark->setFlags(bookmark->flags() | Qt::ItemIsEditable);
     QIcon bookmarkIcon;
@@ -62,15 +61,15 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
     bookmark->setText(0,
                       m_moduleManager->bible()->bookFullName().at(m_moduleManager->bible()->bookID()) +
                       " " +
-                      QString::number(m_moduleManager->bible()->chapterID() - m_moduleManager->bible()->chapterAdd() + 1, 10) +
+                      QString::number(m_moduleManager->bible()->chapterID() + 1) +
                       "," +
-                      QString::number(selection.startVerse, 10));
+                      QString::number(selection.startVerse + 1));
 
     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.m_moduleID = m_moduleManager->bible()->moduleID();
     urlConverter.m_bookID = m_moduleManager->bible()->bookID();
-    urlConverter.m_chapterID = m_moduleManager->bible()->chapterID() - m_moduleManager->bible()->chapterAdd();
+    urlConverter.m_chapterID = m_moduleManager->bible()->chapterID();
     urlConverter.m_verseID = selection.startVerse;
     bookmark->setText(1, urlConverter.convert());
 

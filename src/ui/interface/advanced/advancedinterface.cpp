@@ -199,8 +199,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     }
     connect(mForm->m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
     connect(mForm->m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
-    //todo: webview
-    //connect(mForm->m_ui->textBrowser, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(textBrowserContextMenu(QPoint)));
+
     connect(mForm->m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
     connect(mForm->m_view,SIGNAL(contextMenuRequested(QContextMenuEvent*)),this,SLOT(showContextMenu(QContextMenuEvent*)));
     connect(getView()->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()) );
@@ -586,21 +585,21 @@ void AdvancedInterface::pharseUrl(QString url)
                         loadModuleDataByID(bibleID);
                         readBookByID(bookID);
                         setCurrentBook(bookID);
-                        showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
+                        showChapter(chapterID, verseID);
                         setCurrentChapter(chapterID);
                         //load bible
                     } else if (bookID != m_moduleManager->bible()->bookID()) {
                         readBookByID(bookID);
                         setCurrentBook(bookID);
-                        showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
+                        showChapter(chapterID, verseID);
                         setCurrentChapter(chapterID);
                         //load book
                     } else if (chapterID != m_moduleManager->bible()->chapterID()) {
-                        showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
+                        showChapter(chapterID, verseID);
                         setCurrentChapter(chapterID);
                         //load chapter
                     } else {
-                        showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
+                        showChapter(chapterID, verseID);
                         setCurrentChapter(chapterID);
                     }
                     if (c.size() == 4 && c.at(3) == "searchInCurrentText=true") {//todo: not nice
@@ -637,7 +636,7 @@ void AdvancedInterface::pharseUrl(QString url)
             loadModuleDataByID(bibleID);
             readBookByID(bookID);
             setCurrentBook(bookID);
-            showChapter(chapterID+m_moduleManager->bible()->chapterAdd(),verseID);
+            showChapter(chapterID),verseID);
             setCurrentChapter(chapterID);
             //load bible
         }
@@ -645,15 +644,15 @@ void AdvancedInterface::pharseUrl(QString url)
         {
             readBookByID(bookID);
             setCurrentBook(bookID);
-            showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
+            showChapter(chapterID, verseID);
             setCurrentChapter(chapterID);
             //load book
         } else if (chapterID != m_moduleManager->bible()->chapterID()) {
-            showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
+            showChapter(chapterID, verseID);
             setCurrentChapter(chapterID);
             //load chapter
         } else {
-            showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
+            showChapter(chapterID, verseID);
             setCurrentChapter(chapterID);
         }
         emit historySetUrl(url_backup);
@@ -663,7 +662,7 @@ void AdvancedInterface::pharseUrl(QString url)
         bool ok;
         int c = url.toInt(&ok, 10);
         if (ok && c < m_moduleManager->bible()->chaptersCount() && m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c) {
-            showChapter(c + m_moduleManager->bible()->chapterAdd(), 0);
+            showChapter(c, 0);
             setCurrentChapter(c);
         } else {
             myDebug() << "anchor";
@@ -876,7 +875,7 @@ void AdvancedInterface::readChapter(const int &id)
 void AdvancedInterface::showChapter(const int &chapterID, const int &verseID)
 {
     m_bibleDisplay->setHtml(m_moduleManager->bibleList()->readChapter(chapterID, verseID));
-    setCurrentChapter(chapterID - m_moduleManager->bible()->chapterAdd());
+    setCurrentChapter(chapterID);
 }
 void AdvancedInterface::nextChapter()
 {
@@ -902,12 +901,6 @@ void AdvancedInterface::reloadChapter(bool full)
     DEBUG_FUNC_NAME
     if (!activeMdiChild())
         return;
-    //todo: webview
-
-  //  QTextBrowser *textBrowser = getView();
-
-   // int vsliderPosition = textBrowser->verticalScrollBar()->sliderPosition();
-  //  int hsliderPosition = textBrowser->horizontalScrollBar()->sliderPosition();
     QPoint p = getView()->page()->mainFrame()->scrollPosition();
     if (full) {
         loadModuleDataByID(m_moduleManager->bible()->moduleID());
@@ -915,14 +908,12 @@ void AdvancedInterface::reloadChapter(bool full)
         readBookByID(m_moduleManager->bible()->bookID());
         setCurrentBook(m_moduleManager->bible()->bookID());
 
-        readChapter(m_moduleManager->bible()->chapterID() - 1);
-        setCurrentChapter(m_moduleManager->bible()->chapterID() - 1);
+        readChapter(m_moduleManager->bible()->chapterID());
+        setCurrentChapter(m_moduleManager->bible()->chapterID());
     } else {
-        readChapter(m_moduleManager->bible()->chapterID() - 1);
+        readChapter(m_moduleManager->bible()->chapterID());
     }
     getView()->page()->mainFrame()->setScrollPosition(p);
-   // textBrowser->verticalScrollBar()->setSliderPosition(vsliderPosition);
-   // textBrowser->horizontalScrollBar()->setSliderPosition(hsliderPosition);
 }
 void AdvancedInterface::reloadActive()
 {
@@ -1164,10 +1155,10 @@ void AdvancedInterface::showContextMenu(QContextMenuEvent* ev)
     if (selection.startVerse != -1) {
         QString addText;
         if (selection.startVerse != selection.endVerse)
-            addText = " " + QString::number(selection.startVerse) + " - " + QString::number(selection.endVerse);
+            addText = " " + QString::number(selection.startVerse + 1) + " - " + QString::number(selection.endVerse+ 1);
         else
-            addText = " " + QString::number(selection.startVerse);
-        if (selection.startVerse < 0 || selection.endVerse <= 0) {
+            addText = " " + QString::number(selection.startVerse + 1);
+        if (selection.startVerse < 0 || selection.endVerse < 0) {
             actionCopyWholeVerse->setText(tr("Copy Verse"));
             actionCopyWholeVerse->setEnabled(false);
         } else {
@@ -1307,12 +1298,11 @@ int AdvancedInterface::copyWholeVerse(void)
         return 1;
     VerseSelection selection = verseSelection();
     if (selection.startVerse != -1) {
-
         QString sverse;
         if (selection.startVerse == selection.endVerse) {
-            sverse = "," + QString::number(selection.startVerse +1);
+            sverse = "," + QString::number(selection.startVerse + 1);
         } else {
-            sverse = "," + QString::number(selection.startVerse +1) + "-" + QString::number(selection.endVerse+1);
+            sverse = "," + QString::number(selection.startVerse + 1) + "-" + QString::number(selection.endVerse + 1);
         }
 
         int add = 0;
@@ -1451,7 +1441,7 @@ void AdvancedInterface::closing()
             urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
             urlConverter.m_moduleID = b->moduleID();
             urlConverter.m_bookID = b->bookID();
-            urlConverter.m_chapterID = b->chapterID() - b->chapterAdd();
+            urlConverter.m_chapterID = b->chapterID();
             urlConverter.m_verseID = 0;
             windowUrls << urlConverter.convert();
         } else {

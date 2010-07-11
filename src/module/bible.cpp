@@ -25,7 +25,6 @@ Bible::Bible()
     m_bookID = 0;
     m_chapterID = 0;
     m_verseID = 0;
-    m_chapterAdd = 0;
     textTitle = "";
     m_loaded = false;
     //!chtodo: wenn ich biblelists aktivire ( nach neustart) und einfach eine Bibel hinzufüge ohne die bestehende zu verändernd sind all dies Sache in Bible nicht gesetzt
@@ -87,7 +86,6 @@ int Bible::loadModuleData(const int &moduleID)
         bookCount = m_bq->m_bookCount;
         m_bookFullName = m_bq->m_bookFullName;
         m_bookPath = m_bq->m_bookPath;
-        m_chapterAdd = 1;
         m_biblePath = m_bq->m_biblePath;
         //ModuleCache
         m_settings->setTitle(path,m_bibleTitle);
@@ -113,7 +111,6 @@ int Bible::loadModuleData(const int &moduleID)
 
         bookCount = m_zef->bookCount;
         m_bookFullName = m_zef->bookFullName;
-        m_chapterAdd = 0;
         m_biblePath = m_zef->currentBiblePath;
         //ModuleCache
         m_settings->setTitle(path,m_bibleTitle);
@@ -134,6 +131,7 @@ int Bible::readBook(int id)
 {
     // DEBUG_FUNC_NAME
     m_bookID = id;
+    myDebug() << id;
     //myDebug() << "id = " << id << " bibleType = " << m_bibleType;
     switch (m_bibleType) {
     case Module::BibleQuoteModule: {
@@ -178,6 +176,7 @@ int Bible::readBook(int id)
 
 QString Bible::readChapter(int chapterID, int verseID = -1)
 {
+    myDebug() << chapterID;
     if(verseID != -1) {
         m_verseID = verseID;
     } else {
@@ -203,11 +202,11 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     QStringList versList;
     switch (m_bibleType) {
     case Module::BibleQuoteModule: {
-        if (chapterID >= m_chapterData.size()) {
-            myDebug() << "index out of range index chapter chapterID = " << chapterID  << " chapterData.size() = " << m_chapterData.size();
+        if (chapterID+1 >= m_chapterData.size()) {
+            myDebug() << "index out of range index chapter chapterID = " << chapterID+1  << " chapterData.size() = " << m_chapterData.size();
             break;
         }
-        Chapter chapter = m_chapterData.at(chapterID);//get data for this chapter
+        Chapter chapter = m_chapterData.at(chapterID+1);//get data for this chapter
         //find out whereto read verse
         int end;
         if (endVerse == -1) {
@@ -477,10 +476,7 @@ int Bible::chapterID()
 {
     return m_chapterID;
 }
-int Bible::chapterAdd()
-{
-    return m_chapterAdd;
-}
+
 int Bible::booksCount()
 {
     //todo: if there are another module rethink this function

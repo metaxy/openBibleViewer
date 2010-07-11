@@ -164,7 +164,7 @@ void SimpleInterface::pharseUrl(QString url)
                     readBookByID(bookID);
                     setCurrentBook(bookID);;
                 }
-                showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
+                showChapter(chapterID, verseID);
                 setCurrentChapter(chapterID);
             } else {
                 myDebug() << "invalid URL";
@@ -188,7 +188,7 @@ void SimpleInterface::pharseUrl(QString url)
             loadModuleDataByID(bibleID);
             readBookByID(bookID);
             setCurrentBook(bookID);
-            showChapter(chapterID+m_moduleManager->bible()->chapterAdd(),verseID);
+            showChapter(chapterID,verseID);
             setCurrentChapter(chapterID);
             //load bible
         }
@@ -196,15 +196,15 @@ void SimpleInterface::pharseUrl(QString url)
         {
             readBookByID(bookID);
             setCurrentBook(bookID);
-            showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
+            showChapter(chapterID, verseID);
             setCurrentChapter(chapterID);
             //load book
         } else if (chapterID != m_moduleManager->bible()->chapterID()) {
-            showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
+            showChapter(chapterID, verseID);
             setCurrentChapter(chapterID);
             //load chapter
         } else {
-            showChapter(chapterID + m_moduleManager->bible()->chapterAdd(), verseID);
+            showChapter(chapterID, verseID);
             setCurrentChapter(chapterID);
         }
         //emit historySetUrl(url_backup);
@@ -217,7 +217,7 @@ void SimpleInterface::pharseUrl(QString url)
         myDebug() << "c = " << c;
         if (ok && c < m_moduleManager->bible()->m_chapterData.size() && m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c) {
             myDebug() << "bq chapter link";
-            showChapter(c + m_moduleManager->bible()->chapterAdd(), 0);
+            showChapter(c, 0);
             setCurrentChapter(c);
             /*
             m_moduleManager->bible()->readChapter(c, 0);*/
@@ -301,7 +301,7 @@ void SimpleInterface::showChapter(const int &chapterID, const int &verseID)
 {
     //m_moduleManager->bible()->verseID() = verseID;//todo: check
     m_bibleDisplay->setHtml((m_moduleManager->bible()->readChapter(chapterID, verseID)));
-    setCurrentChapter(chapterID - m_moduleManager->bible()->chapterAdd());
+    setCurrentChapter(chapterID);
 }
 void SimpleInterface::nextChapter()
 {

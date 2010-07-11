@@ -320,26 +320,24 @@ Module * ModuleManager::getModule(const int &moduleID)
   */
 QString ModuleManager::notePos2Link(const QString &pos)
 {
-    //DEBUG_FUNC_NAME
-    QString string = "";
+    QString string;
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
     urlConverter.setModuleMap(m_moduleMap);
     urlConverter.pharse();
     QString link = urlConverter.convert();
 
-    string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," + QString::number(urlConverter.m_verseID);
+    string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," + QString::number(urlConverter.m_verseID +1);
     return  "<a href=\"" + link + "\" >" + string + "</a>";
 }
 QString ModuleManager::notePos2Text(const QString &pos)
 {
-    //DEBUG_FUNC_NAME
-    QString string = "";
+    QString string;
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
     urlConverter.setModuleMap(m_moduleMap);
     urlConverter.pharse();
     QString link = urlConverter.convert();
 
-    string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," + QString::number(urlConverter.m_verseID);
+    string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," + QString::number(urlConverter.m_verseID +1);
     return string;
 }
 QStringList ModuleManager::getBibleTitles()

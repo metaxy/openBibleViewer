@@ -430,7 +430,7 @@ void MainWindow::writeSettings()
         m_settingsFile->setValue("styleSheet", m.styleSheet);
     }
     m_settingsFile->endArray();
-    //todo: looks strange
+
     m_settingsFile->beginWriteArray("sessions");
     m_settingsFile->setArrayIndex(m_settings->sessionIDs.lastIndexOf(m_settings->sessionID));
     {
@@ -565,7 +565,7 @@ void MainWindow::changeEvent(QEvent *e)
                 m_toolBar = m_interface->toolBar();
                 addToolBar(m_toolBar);
             }
-            //todo: ugly, it fix the flickering when openig a file dialog
+            //todo: ugly but it fix the flickering when openig a file dialog
             m_reloadLang = false;
         }
         break;
