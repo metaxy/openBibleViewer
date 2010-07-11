@@ -217,15 +217,15 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         for (int i = startVerse; i < end; i++) {
             //no title formatting, because it is already formatted
             QString vers = chapter.data.at(i);
-
+            if(i > 1) {//because of the chapter
+                vers.prepend("<span verseID='"+QString::number(i-1)+"' chapterID='"+QString::number(chapterID)+"' bookID='"+QString::number(m_bookID)+"' moduleID='"+QString::number(m_moduleID)+"'>\n");
+                vers.append("</span>\n");
+            }
             if (i == markVerseID) {
                 vers.prepend("<b>");
                 vers.append("</b>"); //make the current verse bold
             }
-            if(i > 0) {//because of the chapter
-                vers.prepend("<span verseID='"+QString::number(i-1)+"' chapterID='"+QString::number(chapterID)+"' bookID='"+QString::number(m_bookID)+"' moduleID='"+QString::number(m_moduleID)+"'>\n");
-                vers.append("</span>\n");
-            }
+
             versList << vers;
         }
 
@@ -292,7 +292,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     default:
         return "";
     }
-    if (m_notes != 0 && m_bibleDisplaySettings->loadNotes == true) {
+   /* if (m_notes != 0 && m_bibleDisplaySettings->loadNotes == true) {
         for (int n = 0; n <  m_notes->getIDList().size(); ++n) {
             QString noteID = m_notes->getIDList().at(n);
             if (m_notes->getType(noteID) == "mark") {
@@ -358,7 +358,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         }
     }
 
-
+*/
     for (int i = 0; i < versList.size(); ++i) {
         out += versList.at(i);
         if (saveRawData)
@@ -366,10 +366,8 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     }
 
     if (saveRawData) {
-        //out += "</p>";
         m_lastout = out;
     }
-
     return out;
 }
 QString Bible::toUniformHtml(QString string)
