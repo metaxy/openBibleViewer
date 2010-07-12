@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>192</width>
+    <width>189</width>
     <height>300</height>
    </rect>
   </property>
@@ -36,7 +36,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../../icons.qrc">
           <normaloff>:/icons/16x16/go-jump-locationbar.png</normaloff>:/icons/16x16/go-jump-locationbar.png</iconset>
         </property>
         <property name="autoRaise">
@@ -56,6 +56,8 @@
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

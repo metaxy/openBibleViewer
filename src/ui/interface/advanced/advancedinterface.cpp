@@ -1434,19 +1434,31 @@ void AdvancedInterface::closing()
     for (int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
         //todo:
         m_windowCache.setCurrentWindowID(i);
-        //todo: save also bible list
-        if(m_windowCache.getBibleList() != 0 && m_windowCache.getBibleList()->bible() != 0 && m_windowCache.getBibleList()->bible()->moduleID() >= 0) {
-            Bible *b = m_windowCache.getBibleList()->bible();
-            UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
-            urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-            urlConverter.m_moduleID = b->moduleID();
-            urlConverter.m_bookID = b->bookID();
-            urlConverter.m_chapterID = b->chapterID();
-            urlConverter.m_verseID = 0;
-            windowUrls << urlConverter.convert();
-        } else {
-            windowUrls << "";
+        BibleList *list = m_windowCache.getBibleList();
+        QString u = "";
+        if(m_windowCache.getBibleList() != 0) {
+            QHashIterator<int, Bible *> i(list->m_bibles);
+            while(i.hasNext()) {
+                i.next();
+                Bible *b = i.value();
+                if(b != 0 && b->moduleID() >= 0) {
+                    UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
+                    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+                    urlConverter.m_moduleID = b->moduleID();
+                    urlConverter.m_bookID = b->bookID();
+                    urlConverter.m_chapterID = b->chapterID();
+                    urlConverter.m_verseID = 0;
+                    QString url = urlConverter.convert();
+                    QPoint point = list->m_biblePoints.value(i.key());
+                    if(u.isEmpty())
+                        u += QString::number(point.x()) + ":" + QString::number(point.y()) + ":" + url;
+                    else
+                        u += "|" + QString::number(point.x()) + ":" + QString::number(point.y()) + ":" + url;
+                }
+            }
         }
+        windowUrls << u;
+
         windowGeo << ui->mdiArea->subWindowList().at(i)->geometry();
         scrollPos << getView()->page()->mainFrame()->scrollPosition();
         zoom << getView()->zoomFactor();
@@ -1477,16 +1489,22 @@ void AdvancedInterface::restoreSession()
 
     for (int i = 0; i < windowUrls.size(); ++i) {
         newSubWindow(false);
-        myDebug() << "current window is " << tabIDof(activeMdiChild()) << " while window count is " << usableWindowList();
         //load bible
         QString url = windowUrls.at(i);
+        m_moduleManager->bibleList()->clear();
         if (!url.isEmpty() && url.size() != 0) {
-            myDebug() << "windows urls = " << windowUrls.at(i);
-            UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, windowUrls.at(i));
-            urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-            urlConverter.pharse();
-            myDebug() << "url = " << urlConverter.convert();
-            pharseUrl(urlConverter.convert());
+            QStringList list = url.split("|");
+            foreach(QString part, list) {
+                QStringList a = part.split(":");
+                int x = a.at(0).toInt();
+                int y = a.at(1).toInt();
+                QString u = a.at(2);
+                UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, u);
+                urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+                urlConverter.pharse();
+                m_moduleManager->newBible(urlConverter.m_moduleID,QPoint(x,y));
+                pharseUrl(urlConverter.convert()+",force=true");//TODO: MOVE IT OUT
+            }
         }
         //set geometry
         activeMdiChild()->setGeometry(windowGeo.at(i).toRect());
@@ -1495,9 +1513,10 @@ void AdvancedInterface::restoreSession()
             getView()->setZoomFactor(zoom.at(i).toReal());
 
     }
-    if (m_settings->session.getData("viewMode").toInt() == 0)
+    int viewMode = m_settings->session.getData("viewMode").toInt();
+    if (viewMode == 0)
         setSubWindowView();
-    else if (m_settings->session.getData("viewMode").toInt() == 1)
+    else
         setTabView();
     //restore
 }
@@ -1873,12 +1892,16 @@ void AdvancedInterface::newBookmark()
 {
     if (!m_moduleManager->bibleLoaded() && !activeMdiChild())
         return;
+    if(m_bookmarksDockWidget->isHidden())
+        m_bookmarksDockWidget->show();
     m_bookmarksDockWidget->newBookmark(verseSelection());
 }
 void AdvancedInterface::newNoteWithLink()
 {
     if (!m_moduleManager->bibleLoaded() && !activeMdiChild())
         return;
+    if(m_notesDockWidget->isHidden())
+        m_notesDockWidget->show();
     m_notesDockWidget->newNoteWithLink(verseSelection());
 }
 void AdvancedInterface::onlineHelp()

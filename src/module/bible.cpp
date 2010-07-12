@@ -216,10 +216,10 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         }
         for (int i = startVerse; i < end; i++) {
             //no title formatting, because it is already formatted
-            QString vers = chapter.data.at(i);
+            QString vers = toUniformHtml(chapter.data.at(i));//todo: that is too slow, use something else to make their invalid html code valid
             if(i > 1) {//because of the chapter
                 vers.prepend("<span verseID='"+QString::number(i-1)+"' chapterID='"+QString::number(chapterID)+"' bookID='"+QString::number(m_bookID)+"' moduleID='"+QString::number(m_moduleID)+"'>\n");
-                vers.append("</span>\n");
+                vers.append("</span><br />\n");
             }
             if (i == markVerseID) {
                 vers.prepend("<b>");
