@@ -81,7 +81,7 @@ NotesEditor::NotesEditor(QWidget *parent)
     connect(ui->actionZoomOut, SIGNAL(triggered()), SLOT(zoomOut()));
     connect(ui->actionZoomIn, SIGNAL(triggered()), SLOT(zoomIn()));
 
-    // these are forward to internal QWebView
+
     FORWARD_ACTION(ui->actionEditUndo, QWebPage::Undo);
     FORWARD_ACTION(ui->actionEditRedo, QWebPage::Redo);
     FORWARD_ACTION(ui->actionEditCut, QWebPage::Cut);
@@ -91,7 +91,7 @@ NotesEditor::NotesEditor(QWidget *parent)
     FORWARD_ACTION(ui->actionFormatItalic, QWebPage::ToggleItalic);
     FORWARD_ACTION(ui->actionFormatUnderline, QWebPage::ToggleUnderline);
 
-    // Qt 4.5.0 has a bug: always returns 0 for QWebPage::SelectAll
+
     connect(ui->actionEditSelectAll, SIGNAL(triggered()), SLOT(editSelectAll()));
 
     connect(ui->actionStyleParagraph, SIGNAL(triggered()), SLOT(styleParagraph()));
@@ -108,7 +108,7 @@ NotesEditor::NotesEditor(QWidget *parent)
     connect(ui->actionFormatTextColor, SIGNAL(triggered()), SLOT(formatTextColor()));
     connect(ui->actionFormatBackgroundColor, SIGNAL(triggered()), SLOT(formatBackgroundColor()));
 
-    // no page action exists yet for these, so use execCommand trick
+
     connect(ui->actionFormatStrikethrough, SIGNAL(triggered()), SLOT(formatStrikeThrough()));
     connect(ui->actionFormatAlignLeft, SIGNAL(triggered()), SLOT(formatAlignLeft()));
     connect(ui->actionFormatAlignCenter, SIGNAL(triggered()), SLOT(formatAlignCenter()));
@@ -120,7 +120,7 @@ NotesEditor::NotesEditor(QWidget *parent)
     connect(ui->actionFormatBulletedList, SIGNAL(triggered()), SLOT(formatBulletedList()));
 
 
-    // necessary to sync our actions
+
     connect(ui->webView->page(), SIGNAL(selectionChanged()), SLOT(adjustActions()));
 
 

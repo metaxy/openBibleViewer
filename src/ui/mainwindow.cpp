@@ -81,7 +81,7 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
     m_moduleManager->setNotes(m_notes);
     m_moduleManager->loadAllModules();
     loadInterface();
-    //restoreSession();
+    restoreSession();
     if(firstStart) {
         QTimer::singleShot(10, this, SLOT(showSettingsDialog_Module()));
     }
@@ -90,7 +90,6 @@ void MainWindow::loadInterface()
 {
     DEBUG_FUNC_NAME
     QString interface = m_settings->session.getData("interface").toString();
-    myDebug() << "interface = " << interface;
     if (interface == "advanced") {
         loadAdvancedInterface();
     } else if (interface == "simple") {

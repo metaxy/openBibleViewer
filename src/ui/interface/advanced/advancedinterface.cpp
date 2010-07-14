@@ -221,6 +221,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
 
     m_moduleManager->bibleList()->addBible(m_moduleManager->m_bible,QPoint(0,0));
     m_windowCache.setBibleList(m_moduleManager->m_bibleList);
+
     //clear old stuff
     setBooks(QStringList());
     setChapters(QStringList());
@@ -377,7 +378,6 @@ QList<QMdiSubWindow*> AdvancedInterface::usableWindowList()
             continue;
         ret.append(w);
     }
-    // return ret;
     return  ret;
 }
 int AdvancedInterface::currentWindowID()
@@ -446,7 +446,7 @@ int AdvancedInterface::closingWindow()
 }
 int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
 {
-
+    DEBUG_FUNC_NAME
     if (!m_enableReload) {
         return 1;
     }
@@ -665,11 +665,8 @@ void AdvancedInterface::pharseUrl(QString url)
             showChapter(c, 0);
             setCurrentChapter(c);
         } else {
-            myDebug() << "anchor";
             if (activeMdiChild()) {
-                //todo: webview
-                /*QTextBrowser *textBrowser = getTextBrowser();
-                textBrowser->scrollToAnchor(url);*/
+                getView()->page()->mainFrame()->evaluateJavaScript("window.location.hash='"+url+"';");
             }
         }
 
@@ -1097,6 +1094,40 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
     }
     return selection;
 }
+VerseSelection AdvancedInterface::verseSelection()
+{
+    VerseSelection s;
+    getView()->page()->mainFrame()->evaluateJavaScript("var verseSelection = new VerseSelection();verseSelection.getSelection();");
+    int start = getView()->page()->mainFrame()->evaluateJavaScript("verseSelection.startVerse;").toInt();
+    int end = getView()->page()->mainFrame()->evaluateJavaScript("verseSelection.endVerse;").toInt();
+    s.startVerse = start;
+    s.endVerse = end;
+    QString startVerseText = getView()->page()->mainFrame()->evaluateJavaScript("verseSelection.startVerseText;").toString();
+    QString endVerseText = getView()->page()->mainFrame()->evaluateJavaScript("verseSelection.endVerseText;").toString();
+    QString selectedText = getView()->page()->mainFrame()->evaluateJavaScript("verseSelection.selectedText;").toString();
+
+    QString sText;
+    for(int i = 0; i < selectedText.size()-1; i++) {
+         sText += selectedText.at(i);
+         int pos = startVerseText.indexOf(sText);
+         if(pos != -1 && startVerseText.lastIndexOf(sText) == pos) {
+              s.shortestStringInEndVerse = sText;
+             break;
+         }
+    }
+
+    sText = "";
+    for(int i = 0; i < selectedText.size()-1; i++) {
+         sText.prepend(selectedText.at(selectedText.size()-i-1));
+         int pos = endVerseText.indexOf(sText);
+         myDebug() << sText << pos;
+         if(pos != -1 && endVerseText.lastIndexOf(sText) == pos) {
+              s.shortestStringInStartVerse = sText;
+             break;
+         }
+    }
+    return s;
+}
 void AdvancedInterface::createDefaultMenu()
 {
     m_actionCopy = new QAction(QIcon::fromTheme("edit-copy",QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"),getView());
@@ -1421,12 +1452,12 @@ void AdvancedInterface::closing()
     DEBUG_FUNC_NAME
     m_notesDockWidget->saveNote();
     m_bookmarksDockWidget->saveBookmarks();
-    m_settings->session.setData("bookmarksDockGeometry", m_bookmarksDockWidget->saveGeometry());
+    /*m_settings->session.setData("bookmarksDockGeometry", m_bookmarksDockWidget->saveGeometry());
     m_settings->session.setData("notesDockGeometry", m_notesDockWidget->saveGeometry());
     m_settings->session.setData("bookDockGeometry", m_bookDockWidget->saveGeometry());
     m_settings->session.setData("moduleDockGeometry", m_moduleDockWidget->saveGeometry());
     m_settings->session.setData("searchResultDockGeometry", m_searchResultDockWidget->saveGeometry());
-    m_settings->session.setData("strongDockGeometry", m_strongDockWidget->saveGeometry());
+    m_settings->session.setData("strongDockGeometry", m_strongDockWidget->saveGeometry());*/
     QStringList windowUrls;
     QList<QVariant> windowGeo;
     QList<QVariant> scrollPos;
@@ -1474,12 +1505,12 @@ void AdvancedInterface::closing()
 void AdvancedInterface::restoreSession()
 {
     DEBUG_FUNC_NAME
-    m_bookmarksDockWidget->restoreGeometry(m_settings->session.getData("bookmarksDockGeometry").toByteArray());
+  /*  m_bookmarksDockWidget->restoreGeometry(m_settings->session.getData("bookmarksDockGeometry").toByteArray());
     m_notesDockWidget->restoreGeometry(m_settings->session.getData("notesDockGeometry").toByteArray());
     m_bookDockWidget->restoreGeometry(m_settings->session.getData("bookDockGeometry").toByteArray());
     m_moduleDockWidget->restoreGeometry(m_settings->session.getData("moduleDockGeometry").toByteArray());
     m_searchResultDockWidget->restoreGeometry(m_settings->session.getData("searchResultDockGeometry").toByteArray());
-    m_strongDockWidget->restoreGeometry(m_settings->session.getData("strongDockGeometry").toByteArray());
+    m_strongDockWidget->restoreGeometry(m_settings->session.getData("strongDockGeometry").toByteArray());*/
     myDebug() << "a";
     QStringList windowUrls = m_settings->session.getData("windowUrls").toStringList();
     QVariantList windowGeo = m_settings->session.getData("windowGeo").toList();
@@ -1997,16 +2028,7 @@ void AdvancedInterface::setSubWindowView()
     m_actionTabView->setChecked(false);
     m_actionSubWindowView->setChecked(true);
 }
-VerseSelection AdvancedInterface::verseSelection()
-{
-    VerseSelection s;
-    getView()->page()->mainFrame()->evaluateJavaScript("var verseSelection = new VerseSelection();verseSelection.getSelection();");
-    int start = getView()->page()->mainFrame()->evaluateJavaScript("verseSelection.startVerse;").toInt();
-    int end = getView()->page()->mainFrame()->evaluateJavaScript("verseSelection.endVerse;").toInt();
-    s.startVerse = start;
-    s.endVerse = end;
-    return s;
-}
+
 
 void AdvancedInterface::changeEvent(QEvent *e)
 {

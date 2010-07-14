@@ -50,13 +50,12 @@ int main(int argc, char *argv[])
 
 #ifdef Q_WS_WIN
 #ifdef _PORTABLE_VERSION
-      homeDataPath = QApplication::applicationDirPath() + "/";
-      settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-    #else
-      homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
-     settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
-                              "openBible", "openBibleViewer");
- #endif
+    homeDataPath = QApplication::applicationDirPath() + "/";
+    settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
+#else
+    homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
+    settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,"openBible", "openBibleViewer");
+#endif
 
 #endif
     QDir dir(homeDataPath);
@@ -78,15 +77,13 @@ int main(int argc, char *argv[])
         }
     }
 
-    QString themePath = settings->value("theme/path", homeDataPath + "stylesheet.css").toString();
+    //QString themePath = settings->value("theme/path", homeDataPath + "stylesheet.css").toString();
     QTranslator qtTranslator;
     qtTranslator.load("qt_" + lang, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     a.installTranslator(&qtTranslator);
 
     QTranslator myappTranslator;
-
     myappTranslator.load(":/data/obv_" + lang);
-
     a.installTranslator(&myappTranslator);
 
     MainWindow w;
