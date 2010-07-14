@@ -1111,7 +1111,7 @@ VerseSelection AdvancedInterface::verseSelection()
          sText += selectedText.at(i);
          int pos = startVerseText.indexOf(sText);
          if(pos != -1 && startVerseText.lastIndexOf(sText) == pos) {
-              s.shortestStringInEndVerse = sText;
+              s.shortestStringInStartVerse = sText;
              break;
          }
     }
@@ -1120,12 +1120,12 @@ VerseSelection AdvancedInterface::verseSelection()
     for(int i = 0; i < selectedText.size()-1; i++) {
          sText.prepend(selectedText.at(selectedText.size()-i-1));
          int pos = endVerseText.indexOf(sText);
-         myDebug() << sText << pos;
          if(pos != -1 && endVerseText.lastIndexOf(sText) == pos) {
-              s.shortestStringInStartVerse = sText;
+              s.shortestStringInEndVerse = sText;
              break;
          }
     }
+    myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
     return s;
 }
 void AdvancedInterface::createDefaultMenu()
@@ -1363,79 +1363,67 @@ void AdvancedInterface::debugger()
 void AdvancedInterface::newYellowMark()
 {
 
-   /* if (!m_moduleManager->bibleLoaded()) {
+    if (!m_moduleManager->bibleLoaded()) {
         return;
     }
     if (!activeMdiChild())
         return;
-    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
-    QTextCursor cursor = textBrowser->textCursor();
-    VerseSelection selection = verseSelectionFromCursor(cursor);
-    m_notesDockWidget->newMark(selection, QColor(255, 255, 0));*/
+   VerseSelection selection = verseSelection();
+    m_notesDockWidget->newMark(selection, QColor(255, 255, 0));
 }
 
 void AdvancedInterface::newGreenMark()
 {
-    /*if (!m_moduleManager->bibleLoaded()) {
+    if (!m_moduleManager->bibleLoaded()) {
         return;
     }
     if (!activeMdiChild())
         return;
-    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
-    QTextCursor cursor = textBrowser->textCursor();
-    VerseSelection selection = verseSelectionFromCursor(cursor);
-    m_notesDockWidget->newMark(selection, QColor(146, 243, 54));*/
+    VerseSelection selection = verseSelection();
+    m_notesDockWidget->newMark(selection, QColor(146, 243, 54));
 }
 void AdvancedInterface::newBlueMark()
 {
-    /*if (!m_moduleManager->bibleLoaded()) {
+    if (!m_moduleManager->bibleLoaded()) {
         return;
     }
     if (!activeMdiChild())
         return;
-    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
-    QTextCursor cursor = textBrowser->textCursor();
-    VerseSelection selection = verseSelectionFromCursor(cursor);
-    m_notesDockWidget->newMark(selection, QColor(77, 169, 243));*/
+    VerseSelection selection = verseSelection();
+    m_notesDockWidget->newMark(selection, QColor(77, 169, 243));
 }
 void AdvancedInterface::newOrangeMark()
 {
-   /* if (!m_moduleManager->bibleLoaded()) {
+    if (!m_moduleManager->bibleLoaded()) {
         return;
     }
     if (!activeMdiChild())
         return;
-    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
-    QTextCursor cursor = textBrowser->textCursor();
-    VerseSelection selection = verseSelectionFromCursor(cursor);
-    m_notesDockWidget->newMark(selection, QColor(243, 181, 57));*/
+    VerseSelection selection = verseSelection();
+    m_notesDockWidget->newMark(selection, QColor(243, 181, 57));
 }
 void AdvancedInterface::newVioletMark()
 {
-    /*if (!m_moduleManager->bibleLoaded()) {
+    if (!m_moduleManager->bibleLoaded()) {
         return;
     }
     if (!activeMdiChild())
         return;
-    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
-    QTextCursor cursor = textBrowser->textCursor();
-    VerseSelection selection = verseSelectionFromCursor(cursor);
-    m_notesDockWidget->newMark(selection, QColor(169, 102, 240));*/
+    VerseSelection selection = verseSelection();
+    m_notesDockWidget->newMark(selection, QColor(169, 102, 240));
 }
 void AdvancedInterface::newCustomMark()
 {
-    /*if (!m_moduleManager->bibleLoaded()) {
+    if (!m_moduleManager->bibleLoaded()) {
         return;
     }
     if (!activeMdiChild())
         return;
-    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
-    QTextCursor cursor = textBrowser->textCursor();
-    VerseSelection selection = verseSelectionFromCursor(cursor);
+    VerseSelection selection = verseSelection();
     QColor color = QColorDialog::getColor(Qt::green, this);
     if (color.isValid()) {
         m_notesDockWidget->newMark(selection, color);
-    }*/
+    }
 
 }
 void AdvancedInterface::removeMark()
@@ -1443,7 +1431,7 @@ void AdvancedInterface::removeMark()
     if (!m_moduleManager->bibleLoaded() && !activeMdiChild()) {
         return;
     }
-    VerseSelection selection = verseSelectionFromCursor(m_textCursor);
+    VerseSelection selection = verseSelection();
     m_notesDockWidget->removeMark(selection);
 }
 

@@ -179,9 +179,9 @@ void NotesDockWidget::newMark(VerseSelection selection, QColor color)
     urlConverter.m_bookID = m_moduleManager->bible()->bookID();
     urlConverter.m_chapterID = m_moduleManager->bible()->chapterID();
     urlConverter.m_verseID = selection.startVerse;
+    myDebug() << "verse = " << urlConverter.m_verseID;
     urlConverter.m_bookName = m_moduleManager->bible()->bookFullName().at(m_moduleManager->bible()->bookID());
     link = urlConverter.convert();
-
     m_notes->saveNotes();
     //reloadNotes();
     QString newID = m_notes->generateNewID();
@@ -190,8 +190,8 @@ void NotesDockWidget::newMark(VerseSelection selection, QColor color)
     m_notes->setType(newID, "mark");
     QMap<QString, QString> ref;
     ref["link"] = link;
-    ref["start"] = QString::number(selection.startVerse - 1);
-    ref["end"] = QString::number(selection.endVerse - 1);
+    ref["start"] = QString::number(selection.startVerse);
+    ref["end"] = QString::number(selection.endVerse);
     ref["startPos"] = QString::number(selection.posInStartVerse);
     ref["endPos"] = QString::number(selection.posInEndVerse);
     ref["startString"] = selection.shortestStringInStartVerse;
@@ -216,7 +216,7 @@ void NotesDockWidget::removeMark(VerseSelection selection)
             urlConverter.pharse();
 
             if (urlConverter.m_moduleID == m_moduleManager->bible()->moduleID() && urlConverter.m_bookID == m_moduleManager->bible()->bookID() && urlConverter.m_chapterID == m_moduleManager->bible()->chapterID()) {
-                int start = selection.startVerse - 1;
+                int start = selection.startVerse;
                 int end;
                 if (selection.endVerse != -1) {
                     end = selection.endVerse;
