@@ -26,7 +26,7 @@
 #include <QtGui>
 
 Highlighter::Highlighter(QTextDocument *document)
-        : QSyntaxHighlighter(document)
+    : QSyntaxHighlighter(document)
 {
     m_colors[DocType]        = QColor(192, 192, 192);
     m_colors[Entity]         = QColor(128, 128, 128);
@@ -43,28 +43,28 @@ void Highlighter::highlightBlock(const QString &text)
     int start = 0;
     int pos = 0;
 
-    while (pos < len) {
+    while(pos < len) {
 
-        switch (state) {
+        switch(state) {
 
         case State_Text:
         default:
 
-            while (pos < len) {
+            while(pos < len) {
                 QChar ch = text.at(pos);
-                if (ch == '<') {
-                    if (text.mid(pos, 4) == "<!--") {
+                if(ch == '<') {
+                    if(text.mid(pos, 4) == "<!--") {
                         state = State_Comment;
                     } else {
-                        if (text.mid(pos, 9).toUpper() == "<!DOCTYPE")
+                        if(text.mid(pos, 9).toUpper() == "<!DOCTYPE")
                             state = State_DocType;
                         else
                             state = State_TagStart;
                     }
                     break;
-                } else if (ch == '&') {
+                } else if(ch == '&') {
                     start = pos;
-                    while (pos < len
+                    while(pos < len
                             && text.at(pos++) != ';')
                         ;
                     setFormat(start, pos - start, m_colors[Entity]);
@@ -77,8 +77,8 @@ void Highlighter::highlightBlock(const QString &text)
 
         case State_Comment:
             start = pos;
-            while (pos < len) {
-                if (text.mid(pos, 3) == "-->") {
+            while(pos < len) {
+                if(text.mid(pos, 3) == "-->") {
                     pos += 3;
                     state = State_Text;
                     break;
@@ -91,10 +91,10 @@ void Highlighter::highlightBlock(const QString &text)
 
         case State_DocType:
             start = pos;
-            while (pos < len) {
+            while(pos < len) {
                 QChar ch = text.at(pos);
                 ++pos;
-                if (ch == '>') {
+                if(ch == '>') {
                     state = State_Text;
                     break;
                 }
@@ -105,14 +105,14 @@ void Highlighter::highlightBlock(const QString &text)
             // at '<' in e.g. "<span>foo</span>"
         case State_TagStart:
             start = pos + 1;
-            while (pos < len) {
+            while(pos < len) {
                 QChar ch = text.at(pos);
                 ++pos;
-                if (ch == '>') {
+                if(ch == '>') {
                     state = State_Text;
                     break;
                 }
-                if (!ch.isSpace()) {
+                if(!ch.isSpace()) {
                     --pos;
                     state = State_TagName;
                     break;
@@ -123,15 +123,15 @@ void Highlighter::highlightBlock(const QString &text)
             // at 'b' in e.g "<blockquote>foo</blockquote>"
         case State_TagName:
             start = pos;
-            while (pos < len) {
+            while(pos < len) {
                 QChar ch = text.at(pos);
                 ++pos;
-                if (ch.isSpace()) {
+                if(ch.isSpace()) {
                     --pos;
                     state = State_InsideTag;
                     break;
                 }
-                if (ch == '>') {
+                if(ch == '>') {
                     state = State_Text;
                     break;
                 }
@@ -143,19 +143,19 @@ void Highlighter::highlightBlock(const QString &text)
         case State_InsideTag:
             start = pos;
 
-            while (pos < len) {
+            while(pos < len) {
                 QChar ch = text.at(pos);
                 ++pos;
 
-                if (ch == '/')
+                if(ch == '/')
                     continue;
 
-                if (ch == '>') {
+                if(ch == '>') {
                     state = State_Text;
                     break;
                 }
 
-                if (!ch.isSpace()) {
+                if(!ch.isSpace()) {
                     --pos;
                     state = State_AttributeName;
                     break;
@@ -169,16 +169,16 @@ void Highlighter::highlightBlock(const QString &text)
         case State_AttributeName:
             start = pos;
 
-            while (pos < len) {
+            while(pos < len) {
                 QChar ch = text.at(pos);
                 ++pos;
 
-                if (ch == '=') {
+                if(ch == '=') {
                     state = State_AttributeValue;
                     break;
                 }
 
-                if (ch == '>' || ch == '/') {
+                if(ch == '>' || ch == '/') {
                     state = State_InsideTag;
                     break;
                 }
@@ -192,35 +192,35 @@ void Highlighter::highlightBlock(const QString &text)
             start = pos;
 
             // find first non-space character
-            while (pos < len) {
+            while(pos < len) {
                 QChar ch = text.at(pos);
                 ++pos;
 
                 // handle opening single quote
-                if (ch == '\'') {
+                if(ch == '\'') {
                     state = State_SingleQuote;
                     break;
                 }
 
                 // handle opening double quote
-                if (ch == '"') {
+                if(ch == '"') {
                     state = State_DoubleQuote;
                     break;
                 }
 
-                if (!ch.isSpace())
+                if(!ch.isSpace())
                     break;
             }
 
-            if (state == State_AttributeValue) {
+            if(state == State_AttributeValue) {
                 // attribute value without quote
                 // just stop at non-space or tag delimiter
                 start = pos;
-                while (pos < len) {
+                while(pos < len) {
                     QChar ch = text.at(pos);
-                    if (ch.isSpace())
+                    if(ch.isSpace())
                         break;
-                    if (ch == '>' || ch == '/')
+                    if(ch == '>' || ch == '/')
                         break;
                     ++pos;
                 }
@@ -234,10 +234,10 @@ void Highlighter::highlightBlock(const QString &text)
         case State_SingleQuote:
             start = pos;
 
-            while (pos < len) {
+            while(pos < len) {
                 QChar ch = text.at(pos);
                 ++pos;
-                if (ch == '\'')
+                if(ch == '\'')
                     break;
             }
 
@@ -250,10 +250,10 @@ void Highlighter::highlightBlock(const QString &text)
         case State_DoubleQuote:
             start = pos;
 
-            while (pos < len) {
+            while(pos < len) {
                 QChar ch = text.at(pos);
                 ++pos;
-                if (ch == '"')
+                if(ch == '"')
                     break;
             }
 

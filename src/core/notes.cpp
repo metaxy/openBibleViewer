@@ -50,18 +50,18 @@ int Notes::loadNotes()
     DEBUG_FUNC_NAME
     QFile file(m_fileName);
     doc.clear();
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         myDebug() << "cannot read the file";
         return 1;
     }
-    if (!doc.setContent(&file)) {
+    if(!doc.setContent(&file)) {
         myDebug() << "the file isnt valid";
         file.close();
         return 1;
     }
-    if (doc.documentElement().isElement() && !doc.documentElement().isNull()) {
+    if(doc.documentElement().isElement() && !doc.documentElement().isNull()) {
         QDomElement e = doc.documentElement();
-        if (e.attribute("version", "0.1") != m_version) {
+        if(e.attribute("version", "0.1") != m_version) {
             //errror to old version
             myDebug() << "too old version " << e.attribute("version", "0.1") << " current is " << m_version;
             file.close();
@@ -84,7 +84,7 @@ int Notes::loadNotes()
 QString Notes::getType(const QString &id)
 {
     // DEBUG_FUNC_NAME
-    if (!notesType[id].isEmpty())
+    if(!notesType[id].isEmpty())
         return notesType[id];
     else
         return QString();
@@ -96,7 +96,7 @@ QString Notes::getType(const QString &id)
 QString Notes::getTitle(const QString &id)
 {
     // DEBUG_FUNC_NAME
-    if (!notesTitle[id].isEmpty())
+    if(!notesTitle[id].isEmpty())
         return notesTitle[id];
     else
         return QString();
@@ -108,7 +108,7 @@ QString Notes::getTitle(const QString &id)
 QString Notes::getData(const QString &id)
 {
     //DEBUG_FUNC_NAME
-    if (!notesData[id].isEmpty())
+    if(!notesData[id].isEmpty())
         return notesData[id];
     else
         return QString();
@@ -122,9 +122,9 @@ QString Notes::getRef(const QString &id, const QString &refID)
 {
     // DEBUG_FUNC_NAME
     // myDebug() << " id = " << id;
-    if (!notesRef[id].isEmpty()) {
+    if(!notesRef[id].isEmpty()) {
         QMap<QString, QString> r = notesRef[id];
-        if (!r[refID].isEmpty())
+        if(!r[refID].isEmpty())
             return r[refID];
         else
             return QString();
@@ -140,7 +140,7 @@ QMap<QString, QString> Notes::getRef(const QString &id)
 {
     //DEBUG_FUNC_NAME
     //  myDebug() << " id = " << id << " notesRef = " << notesRef;
-    if (!notesRef[id].isEmpty())
+    if(!notesRef[id].isEmpty())
         return notesRef[id];
     else
         return QMap<QString, QString>();
@@ -183,7 +183,7 @@ void Notes::setType(const QString &id, const QString &type)
 void Notes::setTitle(const QString &id, const QString &title)
 {
     //DEBUG_FUNC_NAME
-    if (notesTitle[id] != title) {
+    if(notesTitle[id] != title) {
         notesTitle[id] = title;
         emit titleChanged(id, title);
     }
@@ -196,7 +196,7 @@ void Notes::setTitle(const QString &id, const QString &title)
 void Notes::setData(const QString &id, const QString &data)
 {
     //DEBUG_FUNC_NAME
-    if (notesData[id] != data) {
+    if(notesData[id] != data) {
         notesData[id] = data;
         emit dataChanged(id, data);
     }
@@ -209,7 +209,7 @@ void Notes::setData(const QString &id, const QString &data)
 void Notes::setRef(const QString &id, const QMap<QString, QString>  &ref)
 {
     DEBUG_FUNC_NAME
-    if (notesRef[id] != ref) {
+    if(notesRef[id] != ref) {
         myDebug() << "changed";
         notesRef[id] = ref;
         emit refChanged(id, ref);
@@ -223,11 +223,11 @@ QString Notes::generateNewID()
     //DEBUG_FUNC_NAME
     QMapIterator<QString, QString> i(notesType);
     int biggest = 0;
-    while (i.hasNext()) {
+    while(i.hasNext()) {
         i.next();
         myDebug() << " i.key() = " << i.key();
         int id = i.key().toInt();
-        if (id > biggest)
+        if(id > biggest)
             biggest = id;
     }
     myDebug() << "biggest = " << biggest;
@@ -267,31 +267,31 @@ int Notes::readNotes()
     //read all notes in notesData
     //DEBUG_FUNC_NAME
     QDomNode n = doc.documentElement().firstChild();
-    while (!n.isNull()) {
-        if (!n.isElement()) {
+    while(!n.isNull()) {
+        if(!n.isElement()) {
             n = n.nextSibling();
             continue;
         }
         QDomElement e = n.toElement();
-        if (e.hasAttribute("id")) {
+        if(e.hasAttribute("id")) {
             QString id = e.attribute("id", "");
-            if (id == "")
+            if(id == "")
                 continue;
             notesID << id;
             QDomNode n2 = e.firstChild();
-            while (!n2.isNull()) {
-                if (!n2.isElement()) {
+            while(!n2.isNull()) {
+                if(!n2.isElement()) {
                     n2 = n2.nextSibling();
                     continue;
                 }
                 QDomElement e2 = n2.toElement();
-                if (e2.tagName() == "data") {
+                if(e2.tagName() == "data") {
                     notesData[id] = e2.text();
-                } else if (e2.tagName() == "ref") {
+                } else if(e2.tagName() == "ref") {
                     QMap<QString, QString> map;
                     QDomNode n3 = e2.firstChild();
-                    while (!n3.isNull()) {
-                        if (!n3.isElement()) {
+                    while(!n3.isNull()) {
+                        if(!n3.isElement()) {
                             n3 = n3.nextSibling();
                             continue;
                         }
@@ -323,10 +323,10 @@ int Notes::saveNotes()
     root.setAttribute("version", m_version);
     sdoc.appendChild(root);
     QMapIterator<QString, QString> i(notesType);
-    while (i.hasNext()) {
+    while(i.hasNext()) {
         i.next();
         QString id = i.key();
-        if (id == "")
+        if(id == "")
             continue;
         QDomElement tag = sdoc.createElement("note");
         tag.setAttribute("title", notesTitle[id]);
@@ -340,7 +340,7 @@ int Notes::saveNotes()
         QDomElement ref = sdoc.createElement("ref");
         QMap<QString, QString> map = notesRef[id];
         QMapIterator<QString, QString> i(map);
-        while (i.hasNext()) {
+        while(i.hasNext()) {
             i.next();
             QDomElement e = sdoc.createElement(i.key());
             e.setAttribute("id", i.value());
@@ -349,7 +349,7 @@ int Notes::saveNotes()
         tag.appendChild(ref);
     }
     QFile file(m_fileName);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return 1;
     const int IndentSize = 4;
     QTextStream out(&file);

@@ -17,8 +17,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QModelIndexList>
 #include "src/core/core.h"
 ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
-        DockWidget(parent),
-        ui(new Ui::ModuleDockWidget)
+    DockWidget(parent),
+    ui(new Ui::ModuleDockWidget)
 {
     ui->setupUi(this);
     m_dontLoad = false;
@@ -52,7 +52,7 @@ void ModuleDockWidget::loadModuleData(QModelIndex index)
 {
     //DEBUG_FUNC_NAME
     QString data = index.data(Qt::UserRole + 1).toString();
-    if (data.toInt() >= 0 && m_dontLoad == false) {
+    if(data.toInt() >= 0 && m_dontLoad == false) {
         emit get("bible://" + data + "/0,0,0");
     }
 }
@@ -67,8 +67,8 @@ void ModuleDockWidget::loadedModule(int id)
     if(m_moduleID == id)
         return;
     m_moduleID = id;
-    QModelIndexList list = m_proxyModel->match(ui->treeView_module->model()->index(0,0), Qt::UserRole + 1, QString::number(id));
-    if (list.size() == 1) {
+    QModelIndexList list = m_proxyModel->match(ui->treeView_module->model()->index(0, 0), Qt::UserRole + 1, QString::number(id));
+    if(list.size() == 1) {
         m_selectionModel->clearSelection();
         m_selectionModel->setCurrentIndex(list.at(0), QItemSelectionModel::Select);
     }
@@ -77,10 +77,10 @@ void ModuleDockWidget::loadedModule(int id)
 }
 void ModuleDockWidget::filter(QString string)
 {
-    if (first == false && string != "") {
+    if(first == false && string != "") {
         first = true;
         QModelIndexList list = m_proxyModel->match(ui->treeView_module->model()->index(0, 0), Qt::UserRole + 1, "-1");
-        for (int i = 0; i < list.size(); ++i) {
+        for(int i = 0; i < list.size(); ++i) {
             ui->treeView_module->setExpanded(list.at(i), true);
         }
     }
@@ -90,14 +90,14 @@ void ModuleDockWidget::filter(QString string)
 ModuleDockWidget::~ModuleDockWidget()
 {
     delete ui;
- //   delete m_proxyModel;
- //   delete m_selectionModel;
+//   delete m_proxyModel;
+//   delete m_selectionModel;
 }
 
 void ModuleDockWidget::changeEvent(QEvent *e)
 {
     QDockWidget::changeEvent(e);
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;

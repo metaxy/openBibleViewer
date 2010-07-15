@@ -21,7 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class Module
 {
 public:
-    Module(Module *parent=0);
+    Module(Module *parent = 0);
     enum ModuleClass {
         NoneClass = 0,
         FolderClass = 3,

@@ -26,11 +26,11 @@ int bookmarks::loadBookmarks(void)
 {
     qDebug("bookmarks::loadBookmarks() start");
     QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug("notes::loadNotes() cant read the file");
         return 1;
     }
-    if (!doc.setContent(&file)) {
+    if(!doc.setContent(&file)) {
         qDebug("notes::loadNotes() the file isnt valid");
         return 1;
     }
@@ -42,9 +42,9 @@ int bookmarks::readBookmarks()
 {
     //read all notes in notesData notesTitle
     QDomNode n = doc.documentElement().firstChild();
-    while (!n.isNull()) {
+    while(!n.isNull()) {
         QDomElement e = n.toElement();
-        if (e.attribute("titel", "") != "") {
+        if(e.attribute("titel", "") != "") {
             bmData << e.text();
             bmTitel << e.attribute("titel", "(unbenannt)");
         }

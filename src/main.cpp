@@ -54,12 +54,12 @@ int main(int argc, char *argv[])
     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
 #else
     homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
-    settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,"openBible", "openBibleViewer");
+    settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "openBible", "openBibleViewer");
 #endif
 
 #endif
     QDir dir(homeDataPath);
-    if (!dir.exists(homeDataPath)) {
+    if(!dir.exists(homeDataPath)) {
         dir.mkpath(homeDataPath);
     }
 
@@ -70,9 +70,9 @@ int main(int argc, char *argv[])
 #endif
     QStringList avLang;
     avLang <<  "en" << "de" << "ru" << "cs";
-    if (avLang.lastIndexOf(lang) == -1) {
+    if(avLang.lastIndexOf(lang) == -1) {
         lang = lang.remove(lang.lastIndexOf("_"), lang.size());
-        if (avLang.lastIndexOf(lang) == -1) {
+        if(avLang.lastIndexOf(lang) == -1) {
             lang = avLang.at(0);
         }
     }
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.setTranslator(&myappTranslator, &qtTranslator);
-    w.init(homeDataPath,settings);
+    w.init(homeDataPath, settings);
 
     /*  QFile file(themePath);
       if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {

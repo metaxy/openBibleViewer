@@ -15,8 +15,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include  "ui_searchdialog.h"
 
 SearchDialog::SearchDialog(QWidget *parent) :
-        QDialog(parent),
-        m_ui(new Ui::SearchDialog)
+    QDialog(parent),
+    m_ui(new Ui::SearchDialog)
 {
     m_ui->setupUi(this);
     connect(m_ui->pushButton, SIGNAL(clicked()), this, SLOT(search()));
@@ -28,7 +28,7 @@ SearchDialog::~SearchDialog()
 }
 void SearchDialog::changeEvent(QEvent *e)
 {
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         m_ui->retranslateUi(this);
         break;
@@ -42,7 +42,7 @@ void SearchDialog::setText(const QString &text)
 }
 void SearchDialog::search(void)
 {
-    if (m_ui->lineEdit->text() != "") {
+    if(m_ui->lineEdit->text() != "") {
         SearchQuery query;
         query.searchText = m_ui->lineEdit->text();
         query.regExp = m_ui->checkBox_regexp->isChecked();

@@ -35,8 +35,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/core.h"
 #include <QWebInspector>
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
-        Interface(parent),
-        ui(new Ui::AdvancedInterface)
+    Interface(parent),
+    ui(new Ui::AdvancedInterface)
 {
     ui->setupUi(this);
 }
@@ -123,7 +123,7 @@ void AdvancedInterface::init()
     createDefaultMenu();
     connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
 
-    if (usableWindowList().size() == 0 &&  m_settings->session.getData("windowUrls").toStringList().size() == 0)
+    if(usableWindowList().size() == 0 &&  m_settings->session.getData("windowUrls").toStringList().size() == 0)
         QTimer::singleShot(0, this, SLOT(newSubWindow()));
 
 }
@@ -151,7 +151,7 @@ void AdvancedInterface::attachApi()
         frame->evaluateJavaScript(tools);
     }
 
-    frame->addToJavaScriptWindowObject("Bible",m_bibleApi);
+    frame->addToJavaScriptWindowObject("Bible", m_bibleApi);
     m_bibleApi->setFrame(frame);
 }
 
@@ -161,7 +161,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     m_enableReload = false;
     int windowsCount = usableWindowList().size();
     QMdiSubWindow *firstSubWindow = new QMdiSubWindow();
-    if (windowsCount == 1) {
+    if(windowsCount == 1) {
         firstSubWindow = usableWindowList().at(0);
     }
 
@@ -185,14 +185,14 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     attachApi();
 
     if(ui->mdiArea->viewMode() == QMdiArea::SubWindowView) {
-        if (windowsCount == 0  && doAutoLayout) {
+        if(windowsCount == 0  && doAutoLayout) {
             subWindow->showMaximized();
-        } else if (windowsCount == 1 && doAutoLayout) {
+        } else if(windowsCount == 1 && doAutoLayout) {
             firstSubWindow->resize(600, 600);
             firstSubWindow->showNormal();
             subWindow->resize(600, 600);
             subWindow->show();
-        } else if (doAutoLayout) {
+        } else if(doAutoLayout) {
             subWindow->resize(600, 600);
             subWindow->show();
         }
@@ -201,8 +201,8 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     connect(mForm->m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
 
     connect(mForm->m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
-    connect(mForm->m_view,SIGNAL(contextMenuRequested(QContextMenuEvent*)),this,SLOT(showContextMenu(QContextMenuEvent*)));
-    connect(getView()->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()) );
+    connect(mForm->m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
+    connect(getView()->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
 
     connect(mForm, SIGNAL(historyGo(QString)), this, SLOT(pharseUrl(QString)));
     connect(mForm, SIGNAL(previousChapter()), this, SLOT(previousChapter()));
@@ -210,7 +210,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     connect(this, SIGNAL(historySetUrl(QString)), mForm, SLOT(historyGetUrl(QString)));
     connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closingWindow()));
     m_enableReload = true;
-    if (doAutoLayout && ui->mdiArea->viewMode() == QMdiArea::SubWindowView) {
+    if(doAutoLayout && ui->mdiArea->viewMode() == QMdiArea::SubWindowView) {
         autoLayout();
     }
     m_internalWindows << subWindow;
@@ -219,7 +219,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     m_moduleManager->initBible();
     m_moduleManager->m_bibleList = new BibleList();
 
-    m_moduleManager->bibleList()->addBible(m_moduleManager->m_bible,QPoint(0,0));
+    m_moduleManager->bibleList()->addBible(m_moduleManager->m_bible, QPoint(0, 0));
     m_windowCache.setBibleList(m_moduleManager->m_bibleList);
 
     //clear old stuff
@@ -232,14 +232,14 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
 void AdvancedInterface::autoLayout()
 {
     DEBUG_FUNC_NAME
-    if (usableWindowList().size() > 1) {
-        if (m_settings->autoLayout == 1) {
+    if(usableWindowList().size() > 1) {
+        if(m_settings->autoLayout == 1) {
             myTile();
-        } else if (m_settings->autoLayout == 2) {
+        } else if(m_settings->autoLayout == 2) {
             myTileVertical();
-        } else if (m_settings->autoLayout == 3) {
+        } else if(m_settings->autoLayout == 3) {
             myTileHorizontal();
-        } else if (m_settings->autoLayout == 4) {
+        } else if(m_settings->autoLayout == 4) {
             myCascade();
         }
     }
@@ -248,20 +248,20 @@ void AdvancedInterface::autoLayout()
 QMdiSubWindow * AdvancedInterface::activeMdiChild()
 {
     QList<QMdiSubWindow*> list = usableWindowList();
-    if (QMdiSubWindow *activeSubWindow = ui->mdiArea->activeSubWindow()) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.at(i) == activeSubWindow) {
+    if(QMdiSubWindow *activeSubWindow = ui->mdiArea->activeSubWindow()) {
+        for(int i = 0; i < list.size(); i++) {
+            if(list.at(i) == activeSubWindow) {
                 m_lastActiveWindow = i;
             }
         }
         return activeSubWindow;
-    } else if (m_lastActiveWindow < list.size()) {
+    } else if(m_lastActiveWindow < list.size()) {
         ui->mdiArea->setActiveSubWindow(usableWindowList().at(m_lastActiveWindow));
-        if (QMdiSubWindow *activeSubWindow = ui->mdiArea->activeSubWindow())
+        if(QMdiSubWindow *activeSubWindow = ui->mdiArea->activeSubWindow())
             return activeSubWindow;
-    } else if (usableWindowList().count() > 0) {
+    } else if(usableWindowList().count() > 0) {
         ui->mdiArea->setActiveSubWindow(usableWindowList().at(0));
-        if (QMdiSubWindow *activeSubWindow = ui->mdiArea->activeSubWindow())
+        if(QMdiSubWindow *activeSubWindow = ui->mdiArea->activeSubWindow())
             return activeSubWindow;
     }
     return 0;
@@ -269,7 +269,7 @@ QMdiSubWindow * AdvancedInterface::activeMdiChild()
 void AdvancedInterface::myTileVertical()
 {
     DEBUG_FUNC_NAME
-    if (!m_enableReload || !usableWindowList().count()) {
+    if(!m_enableReload || !usableWindowList().count()) {
         return;
     }
     QList<QMdiSubWindow*> windows = usableWindowList();
@@ -278,7 +278,7 @@ void AdvancedInterface::myTileVertical()
 
     const int widthForEach = width() / windows.count();
     unsigned int x = 0;
-    foreach(QMdiSubWindow *window, windows) {
+    foreach(QMdiSubWindow * window, windows) {
         window->showNormal();
 
         const int preferredWidth = window->minimumWidth() + window->baseSize().width();
@@ -288,14 +288,14 @@ void AdvancedInterface::myTileVertical()
         x += actWidth;
     }
 
-    if (active) active->setFocus();
+    if(active) active->setFocus();
     m_enableReload = true;
 }
 
 void AdvancedInterface::myTileHorizontal()
 {
     DEBUG_FUNC_NAME
-    if (!m_enableReload || !usableWindowList().count()) {
+    if(!m_enableReload || !usableWindowList().count()) {
         return;
     }
     QList<QMdiSubWindow*> windows = usableWindowList();
@@ -304,7 +304,7 @@ void AdvancedInterface::myTileHorizontal()
 
     const int heightForEach = height() / windows.count();
     unsigned int y = 0;
-    foreach(QMdiSubWindow *window, windows) {
+    foreach(QMdiSubWindow * window, windows) {
         window->showNormal();
 
         const int preferredHeight = window->minimumHeight() + window->baseSize().height();
@@ -313,7 +313,7 @@ void AdvancedInterface::myTileHorizontal()
         window->setGeometry(0, y, width(), actHeight);
         y += actHeight;
     }
-    if (active)
+    if(active)
         active->setFocus();
     m_enableReload = true;
 
@@ -322,17 +322,17 @@ void AdvancedInterface::myTileHorizontal()
 void AdvancedInterface::myCascade()
 {
     DEBUG_FUNC_NAME
-    if (!m_enableReload || !usableWindowList().count()) {
+    if(!m_enableReload || !usableWindowList().count()) {
         return;
     }
 
     QList<QMdiSubWindow*> windows = usableWindowList();
 
-    if (ui->mdiArea->activeSubWindow() && ui->mdiArea->activeSubWindow()->isMaximized()) {
-        if (ui->mdiArea->activeSubWindow()->size() != this->size()) {
+    if(ui->mdiArea->activeSubWindow() && ui->mdiArea->activeSubWindow()->isMaximized()) {
+        if(ui->mdiArea->activeSubWindow()->size() != this->size()) {
             ui->mdiArea->activeSubWindow()->resize(this->size());
         }
-    } else if (windows.count() == 1) {
+    } else if(windows.count() == 1) {
         windows.at(0)->showMaximized();
     } else {
 
@@ -345,8 +345,8 @@ void AdvancedInterface::myCascade()
         unsigned int x = 0;
         unsigned int y = 0;
 
-        foreach(QMdiSubWindow* window, windows) {
-            if (window == active)//leave out the active window which should be the top window
+        foreach(QMdiSubWindow * window, windows) {
+            if(window == active) //leave out the active window which should be the top window
                 continue;
             window->raise(); //make it the on-top-of-window-stack window to make sure they're in the right order
             window->setGeometry(x, y, windowWidth, windowHeight);
@@ -362,7 +362,7 @@ void AdvancedInterface::myCascade()
 
 void AdvancedInterface::myTile()
 {
-    if (!m_enableReload || !usableWindowList().count()) {
+    if(!m_enableReload || !usableWindowList().count()) {
         return;
     }
     ui->mdiArea->tileSubWindows();
@@ -373,8 +373,8 @@ QList<QMdiSubWindow*> AdvancedInterface::usableWindowList()
 {
     //only if !ChildAdded-Event is triggered
     QList<QMdiSubWindow*> ret;
-    foreach(QMdiSubWindow* w, ui->mdiArea->subWindowList()) {
-        if (w->isHidden())
+    foreach(QMdiSubWindow * w, ui->mdiArea->subWindowList()) {
+        if(w->isHidden())
             continue;
         ret.append(w);
     }
@@ -382,8 +382,8 @@ QList<QMdiSubWindow*> AdvancedInterface::usableWindowList()
 }
 int AdvancedInterface::currentWindowID()
 {
-    for (int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
-        if (ui->mdiArea->activeSubWindow() ==  ui->mdiArea->subWindowList().at(i)) {
+    for(int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
+        if(ui->mdiArea->activeSubWindow() ==  ui->mdiArea->subWindowList().at(i)) {
             return i;
         }
     }
@@ -391,8 +391,8 @@ int AdvancedInterface::currentWindowID()
 }
 int AdvancedInterface::tabIDof(QMdiSubWindow* window)
 {
-    for (int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
-        if (window ==  ui->mdiArea->subWindowList().at(i)) {
+    for(int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
+        if(window ==  ui->mdiArea->subWindowList().at(i)) {
             return i;
         }
     }
@@ -405,34 +405,34 @@ void AdvancedInterface::closeSubWindow()
 int AdvancedInterface::closingWindow()
 {
     //DEBUG_FUNC_NAME
-    if (!m_enableReload) {
+    if(!m_enableReload) {
         myDebug() << "reload is not enabled";
         return 1;
     }
     //if one in the internal subwindow list list is missing that window was closed
-    if (ui->mdiArea->subWindowList().isEmpty()) {
+    if(ui->mdiArea->subWindowList().isEmpty()) {
         myDebug() << "subWindowList is empty";
         setBooks(QStringList());
         setChapters(QStringList());
         m_windowCache.clearAll();
         return 1;
     }
-    if (m_internalWindows.isEmpty()) {
+    if(m_internalWindows.isEmpty()) {
         myDebug() << "internaL is empty";
         setBooks(QStringList());
         setChapters(QStringList());
         m_windowCache.clearAll();
         return 1;
     }
-    for (int i = 0; i < m_internalWindows.size(); i++) {
-        if (ui->mdiArea->subWindowList().lastIndexOf(m_internalWindows.at(i)) == -1) {
+    for(int i = 0; i < m_internalWindows.size(); i++) {
+        if(ui->mdiArea->subWindowList().lastIndexOf(m_internalWindows.at(i)) == -1) {
             myDebug() << "found closed Window id = " << i;
             m_windowCache.removeWindow(i);
             m_internalWindows.removeAt(i);
             break;
         }
     }
-    if (ui->mdiArea->subWindowList().isEmpty()) { //last window closed
+    if(ui->mdiArea->subWindowList().isEmpty()) {  //last window closed
         myDebug() << "last closed";
         setBooks(QStringList());
         setChapters(QStringList());
@@ -447,14 +447,14 @@ int AdvancedInterface::closingWindow()
 int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
 {
     DEBUG_FUNC_NAME
-    if (!m_enableReload) {
+    if(!m_enableReload) {
         return 1;
     }
     int id = tabIDof(window);
-    if (id == -1) {
+    if(id == -1) {
         return 1;
     }
-    if (ui->mdiArea->subWindowList().count() <= 0) {
+    if(ui->mdiArea->subWindowList().count() <= 0) {
         return 1;
     }
 
@@ -478,8 +478,8 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
         return 1;
     }
     //todo: think about it
-   /* if (m_moduleManager->bibleList()->bible()->moduleID() == m_windowCache.getBibleList()->bible()->moduleID())
-        return 1;*/
+    /* if (m_moduleManager->bibleList()->bible()->moduleID() == m_windowCache.getBibleList()->bible()->moduleID())
+         return 1;*/
     m_moduleManager->m_bibleList = m_windowCache.getBibleList();
     m_moduleManager->m_bible = m_moduleManager->m_bibleList->bible();
     setTitle(m_moduleManager->bible()->bibleTitle());
@@ -499,13 +499,13 @@ void AdvancedInterface::loadModuleDataByID(int id)
 {
     DEBUG_FUNC_NAME
     myDebug() << "id = " << id;
-    if (ui->mdiArea->subWindowList().size() == 0)
+    if(ui->mdiArea->subWindowList().size() == 0)
         newSubWindow();
-    if (id < 0 || !m_moduleManager->contains(id)) {
+    if(id < 0 || !m_moduleManager->contains(id)) {
         myDebug() << "id = " << id << m_moduleManager->m_moduleMap->m_map;
         return;
     }
-    if (m_moduleManager->getModule(id)->m_moduleClass != Module::BibleModule) {
+    if(m_moduleManager->getModule(id)->m_moduleClass != Module::BibleModule) {
         myDebug() << "non bible module";
         return;
     }
@@ -553,7 +553,7 @@ void AdvancedInterface::pharseUrl(QString url)
     const QString anchor = "#";
     const QString note = "note://";
     const QString persistent = "persistent:";
-    if (url.startsWith(bible)) {
+    if(url.startsWith(bible)) {
         url = url.remove(0, bible.size());
         if(url == "current") {
             reloadChapter(true);
@@ -561,11 +561,11 @@ void AdvancedInterface::pharseUrl(QString url)
             reloadActive();
         } else {
             QStringList a = url.split("/");
-            if (a.size() == 2) {
+            if(a.size() == 2) {
                 QStringList c = a.at(1).split(",");
-                if (c.size() >= 3) {
+                if(c.size() >= 3) {
                     int bibleID;
-                    if (a.at(0) == "current") {
+                    if(a.at(0) == "current") {
                         bibleID = m_moduleManager->bible()->moduleID();
                     } else {
                         bibleID = a.at(0).toInt();
@@ -573,28 +573,28 @@ void AdvancedInterface::pharseUrl(QString url)
                     int bookID = c.at(0).toInt();
                     int chapterID = c.at(1).toInt();
                     int verseID = c.at(2).toInt();
-                    if (bookID < 0 || chapterID < 0 || verseID < 0) {
+                    if(bookID < 0 || chapterID < 0 || verseID < 0) {
                         myDebug() << "invalid url";
                         return;
                     }
                     bool force = false;
-                    if (c.size() == 4 && c.at(3) == "force=true") {
+                    if(c.size() == 4 && c.at(3) == "force=true") {
                         force = true;
                     }
-                    if (bibleID != m_moduleManager->bible()->moduleID() || !m_moduleManager->bible()->loaded() || force) {
+                    if(bibleID != m_moduleManager->bible()->moduleID() || !m_moduleManager->bible()->loaded() || force) {
                         loadModuleDataByID(bibleID);
                         readBookByID(bookID);
                         setCurrentBook(bookID);
                         showChapter(chapterID, verseID);
                         setCurrentChapter(chapterID);
                         //load bible
-                    } else if (bookID != m_moduleManager->bible()->bookID()) {
+                    } else if(bookID != m_moduleManager->bible()->bookID()) {
                         readBookByID(bookID);
                         setCurrentBook(bookID);
                         showChapter(chapterID, verseID);
                         setCurrentChapter(chapterID);
                         //load book
-                    } else if (chapterID != m_moduleManager->bible()->chapterID()) {
+                    } else if(chapterID != m_moduleManager->bible()->chapterID()) {
                         showChapter(chapterID, verseID);
                         setCurrentChapter(chapterID);
                         //load chapter
@@ -602,14 +602,13 @@ void AdvancedInterface::pharseUrl(QString url)
                         showChapter(chapterID, verseID);
                         setCurrentChapter(chapterID);
                     }
-                    if (c.size() == 4 && c.at(3) == "searchInCurrentText=true") {//todo: not nice
+                    if(c.size() == 4 && c.at(3) == "searchInCurrentText=true") { //todo: not nice
                         searchInText(m_moduleManager->bible()->m_lastSearchQuery);
                     }
                     emit historySetUrl(url_backup);
                 } else if(a.at(1) == "current") {
                     //load another bible but with current book and chapter id
-                }
-                else {
+                } else {
                     myDebug() << "invalid URL";
                 }
             } else {
@@ -617,14 +616,14 @@ void AdvancedInterface::pharseUrl(QString url)
             }
         }
         //bible://bibleID/bookID,chapterID,verseID
-    } else if (url.startsWith(strong)) {
+    } else if(url.startsWith(strong)) {
         url = url.remove(0, strong.size());
         m_strongDockWidget->showStrong(url);
         //strong://strongID
-    } else if (url.startsWith(http)) {
+    } else if(url.startsWith(http)) {
         QDesktopServices::openUrl(url);
         //its a web link
-    } else if (url.startsWith(bq)) {
+    } else if(url.startsWith(bq)) {
         //its a biblequote internal link, but i dont have the specifications!!!
         QStringList internal = url.split(" ");
         QString bibleID = internal.at(1);//todo: use it
@@ -640,14 +639,13 @@ void AdvancedInterface::pharseUrl(QString url)
             setCurrentChapter(chapterID);
             //load bible
         }
-        else */if (bookID != m_moduleManager->bible()->bookID())
-        {
+        else */if(bookID != m_moduleManager->bible()->bookID()) {
             readBookByID(bookID);
             setCurrentBook(bookID);
             showChapter(chapterID, verseID);
             setCurrentChapter(chapterID);
             //load book
-        } else if (chapterID != m_moduleManager->bible()->chapterID()) {
+        } else if(chapterID != m_moduleManager->bible()->chapterID()) {
             showChapter(chapterID, verseID);
             setCurrentChapter(chapterID);
             //load chapter
@@ -657,26 +655,26 @@ void AdvancedInterface::pharseUrl(QString url)
         }
         emit historySetUrl(url_backup);
 
-    } else if (url.startsWith(anchor)) {
+    } else if(url.startsWith(anchor)) {
         url = url.remove(0, anchor.size());
         bool ok;
         int c = url.toInt(&ok, 10);
-        if (ok && c < m_moduleManager->bible()->chaptersCount() && m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c) {
+        if(ok && c < m_moduleManager->bible()->chaptersCount() && m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c) {
             showChapter(c, 0);
             setCurrentChapter(c);
         } else {
-            if (activeMdiChild()) {
-                getView()->page()->mainFrame()->evaluateJavaScript("window.location.hash='"+url+"';");
+            if(activeMdiChild()) {
+                getView()->page()->mainFrame()->evaluateJavaScript("window.location.hash='" + url + "';");
             }
         }
 
-    } else if (url.startsWith(note)) {
+    } else if(url.startsWith(note)) {
         url = url.remove(0, note.size());
-        if (!m_notesDockWidget->isVisible()) {
+        if(!m_notesDockWidget->isVisible()) {
             m_notesDockWidget->show();
         }
         m_notesDockWidget->showNote(url);
-    } else if (url.startsWith(persistent)) {
+    } else if(url.startsWith(persistent)) {
         url = url.remove(0, persistent.size());
         UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
         urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
@@ -684,7 +682,7 @@ void AdvancedInterface::pharseUrl(QString url)
         QString i = urlConverter.convert();//it now a normal interface url
         pharseUrl(i);
     } else {
-        if (m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->bookPath().contains(url)) {
+        if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->bookPath().contains(url)) {
             emit get("bible://current/" + m_moduleManager->bible()->bookPath().lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
         } else {
             getView()->page()->mainFrame()->evaluateJavaScript(url);
@@ -696,7 +694,7 @@ void AdvancedInterface::pharseUrl(QString url)
 }
 QWebView* AdvancedInterface::getView()
 {
-    if (activeMdiChild()) {
+    if(activeMdiChild()) {
         QWebView *t = activeMdiChild()->widget()->findChild<QWebView *>("webView");
         return t;
     }
@@ -709,22 +707,22 @@ void AdvancedInterface::setEnableReload(bool enable)
 void AdvancedInterface::zoomIn()
 {
     QWebView *v = getView();
-    if (v) {
-        v->setZoomFactor(v->zoomFactor()+0.1);
+    if(v) {
+        v->setZoomFactor(v->zoomFactor() + 0.1);
     }
 
 }
 void AdvancedInterface::zoomOut()
 {
     QWebView *v = getView();
-    if (v) {
-        v->setZoomFactor(v->zoomFactor()-0.1);
+    if(v) {
+        v->setZoomFactor(v->zoomFactor() - 0.1);
     }
 }
 void AdvancedInterface::showText(const QString &text)
 {
     QWebView *v = getView();
-    if (v) {
+    if(v) {
         QString cssFile = m_settings->getModuleSettings(m_moduleManager->bible()->moduleID()).styleSheet;
         if(cssFile.isEmpty())
             cssFile = ":/data/css/default.css";
@@ -734,14 +732,14 @@ void AdvancedInterface::showText(const QString &text)
             v->settings()->setUserStyleSheetUrl(QUrl("data:text/css;charset=utf-8;base64," + file.readAll().toBase64()));
 
         v->setHtml(text);
-        if (m_moduleManager->bible()->verseID() > 1)
-             v->page()->mainFrame()->evaluateJavaScript("window.location.href = '#currentVerse';");
+        if(m_moduleManager->bible()->verseID() > 1)
+            v->page()->mainFrame()->evaluateJavaScript("window.location.href = '#currentVerse';");
     }
 }
 void AdvancedInterface::setTitle(const QString &title)
 {
     this->parentWidget()->setWindowTitle(title);//todo: + programmtitle
-    if (activeMdiChild()) {
+    if(activeMdiChild()) {
         activeMdiChild()->widget()->setWindowTitle(title);
     }
 }
@@ -750,20 +748,20 @@ void AdvancedInterface::setChapters(const QStringList &chapters)
 {
     //DEBUG_FUNC_NAME
     m_bookDockWidget->setChapters(chapters);
-    if (activeMdiChild()) {
+    if(activeMdiChild()) {
         QComboBox *comboBox_chapters = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_chapters");
-        if (comboBox_chapters) {
+        if(comboBox_chapters) {
             bool same = true;
-            if (comboBox_chapters->count() == chapters.count()) {
-                for (int i = 0; i < chapters.count(); i++) {
-                    if (comboBox_chapters->itemText(i) != chapters.at(i)) {
+            if(comboBox_chapters->count() == chapters.count()) {
+                for(int i = 0; i < chapters.count(); i++) {
+                    if(comboBox_chapters->itemText(i) != chapters.at(i)) {
                         same = false;
                     }
                 }
             } else {
                 same = false;
             }
-            if (!same) {
+            if(!same) {
                 comboBox_chapters->clear();
                 comboBox_chapters->insertItems(0, chapters);
             }
@@ -774,7 +772,7 @@ void AdvancedInterface::setCurrentChapter(const int &chapterID)
 {
     //DEBUG_FUNC_NAME
     m_bookDockWidget->setCurrentChapter(chapterID);
-    if (activeMdiChild()) {
+    if(activeMdiChild()) {
         QComboBox *comboBox_chapters = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_chapters");
         comboBox_chapters->setCurrentIndex(chapterID);
     }
@@ -785,20 +783,20 @@ void AdvancedInterface::setBooks(const QStringList &books)
     m_bookDockWidget->setBooks(books);
     m_quickJumpDockWidget->setBooks(books);
 
-    if (activeMdiChild()) {
+    if(activeMdiChild()) {
         QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
-        if (comboBox_books) {
+        if(comboBox_books) {
             bool same = true;
-            if (comboBox_books->count() == books.count()) {
-                for (int i = 0; i < books.count(); i++) {
-                    if (comboBox_books->itemText(i) != books.at(i)) {
+            if(comboBox_books->count() == books.count()) {
+                for(int i = 0; i < books.count(); i++) {
+                    if(comboBox_books->itemText(i) != books.at(i)) {
                         same = false;
                     }
                 }
             } else {
                 same = false;
             }
-            if (!same) {
+            if(!same) {
                 comboBox_books->clear();
                 comboBox_books->insertItems(0, books);
             }
@@ -809,9 +807,9 @@ void AdvancedInterface::setBooks(const QStringList &books)
 void AdvancedInterface::setCurrentBook(const int &bookID)
 {
     m_bookDockWidget->setCurrentBook(bookID);
-    if (activeMdiChild()) {
+    if(activeMdiChild()) {
         QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
-        if (comboBox_books) {
+        if(comboBox_books) {
             comboBox_books->setCurrentIndex(bookID);
         }
 
@@ -829,15 +827,15 @@ void AdvancedInterface::readBookByID(int id)
     myDebug() << "id = " << id;
     //todo: webview
     QWebView *v = getView();
-    if (v) {
+    if(v) {
         QApplication::setOverrideCursor(Qt::WaitCursor);
-        if (id < 0) {
+        if(id < 0) {
             QApplication::restoreOverrideCursor();
             QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
             myDebug() << "invalid bookID - 1";
             return;
         }
-        if (id >= m_moduleManager->bible()->booksCount()) {
+        if(id >= m_moduleManager->bible()->booksCount()) {
             QApplication::restoreOverrideCursor();
             QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
             myDebug() << "invalid bookID - 2(no book loaded) id = " << id << " count = " << m_moduleManager->bible()->booksCount();
@@ -845,7 +843,7 @@ void AdvancedInterface::readBookByID(int id)
             return;
         }
         int read = m_moduleManager->bibleList()->readBook(id);
-        if (read != 0) {
+        if(read != 0) {
             QApplication::restoreOverrideCursor();
             if(read == 2) {
                 setChapters(QStringList());
@@ -877,18 +875,18 @@ void AdvancedInterface::showChapter(const int &chapterID, const int &verseID)
 void AdvancedInterface::nextChapter()
 {
     //DEBUG_FUNC_NAME
-    if (m_moduleManager->bible()->chapterID() < m_moduleManager->bible()->chaptersCount() - 1) {
+    if(m_moduleManager->bible()->chapterID() < m_moduleManager->bible()->chaptersCount() - 1) {
         readChapter(m_moduleManager->bible()->chapterID() + 1);
-    } else if (m_moduleManager->bible()->bookID() < m_moduleManager->bible()->booksCount() - 1) {
+    } else if(m_moduleManager->bible()->bookID() < m_moduleManager->bible()->booksCount() - 1) {
         readBook(m_moduleManager->bible()->bookID() + 1);
     }
 }
 void AdvancedInterface::previousChapter()
 {
     //DEBUG_FUNC_NAME
-    if (m_moduleManager->bible()->chapterID() > 0) {
+    if(m_moduleManager->bible()->chapterID() > 0) {
         readChapter(m_moduleManager->bible()->chapterID() - 1);
-    } else if (m_moduleManager->bible()->bookID() > 0) {
+    } else if(m_moduleManager->bible()->bookID() > 0) {
         readBook(m_moduleManager->bible()->bookID() - 1);
         readChapter(m_moduleManager->bible()->chaptersCount() - 1);
     }
@@ -896,10 +894,10 @@ void AdvancedInterface::previousChapter()
 void AdvancedInterface::reloadChapter(bool full)
 {
     DEBUG_FUNC_NAME
-    if (!activeMdiChild())
+    if(!activeMdiChild())
         return;
     QPoint p = getView()->page()->mainFrame()->scrollPosition();
-    if (full) {
+    if(full) {
         loadModuleDataByID(m_moduleManager->bible()->moduleID());
 
         readBookByID(m_moduleManager->bible()->bookID());
@@ -923,11 +921,11 @@ void AdvancedInterface::reloadActive()
 
 VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
 {
-    VerseSelection selection;
+    /*VerseSelection selection;
     selection.endVerse = -1;
     selection.startVerse = -1;
 
-    if (cursor.hasSelection() == true) {
+    if(cursor.hasSelection() == true) {
         //an option is to remove allhtml tags and search there
         QString fragment = cursor.selection().toHtml();
         int from = fragment.indexOf("<!--StartFragment-->");
@@ -936,10 +934,10 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
         fragment.remove(0, from + QString("<!--StartFragment-->").size());
 
         //if fragment starts with a tag remove this
-        if (fragment.startsWith("<")) {
+        if(fragment.startsWith("<")) {
             fragment.remove(0, fragment.indexOf(">") + 1);
         }
-        if (fragment.endsWith(">")) {
+        if(fragment.endsWith(">")) {
             fragment.remove(fragment.lastIndexOf("<"), fragment.size());
         }
         QStringList chapterData = m_moduleManager->bible()->toUniformHtml(m_moduleManager->bible()->chapterDataList());
@@ -952,11 +950,11 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
         int n_counter = 0;
         int n_startVerse;
         QStringList n_chapterData = m_moduleManager->bible()->toUniformHtml(m_moduleManager->bible()->chapterDataList());
-        for (int i = 0; i < n_chapterData.size(); ++i) {
+        for(int i = 0; i < n_chapterData.size(); ++i) {
             QTextDocument t;
             t.setHtml(chapterData.at(i));
             n_counter += t.toPlainText().size();
-            if (n_pos < n_counter) {
+            if(n_pos < n_counter) {
                 n_startVerse = i;
                 break;
             }
@@ -964,16 +962,16 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
         myDebug() << "over cursor.position()(2) = " << n_startVerse;
         bool foundBoth = false;
 
-        while (startFragment != -1) {
+        while(startFragment != -1) {
             //do we have to do it on another way
             int counter = 0;
             VerseSelection newSelection;
             newSelection.endVerse = -1;
             newSelection.startVerse = -1;
-            for (int i = 0; i < chapterData.size(); ++i) {
+            for(int i = 0; i < chapterData.size(); ++i) {
                 counter += chapterData.at(i).size();
                 myDebug() << "i = " << i << " counter = " << counter;
-                if (newSelection.startVerse == -1 && startFragment < counter) {
+                if(newSelection.startVerse == -1 && startFragment < counter) {
                     myDebug() << "setted start";
                     newSelection.startVerse = i;
                     newSelection.posInStartVerse = startFragment - (counter - chapterData.at(i).size()) ;
@@ -982,17 +980,17 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
 
                     QString v = chapterData.at(i);
 
-                    if (fragment.size() < 6)//make faster
+                    if(fragment.size() < 6) //make faster
                         biggest = fragment.size();
-                    while (notFound) {
-                        for (int s = biggest; s < 100; s++) {
+                    while(notFound) {
+                        for(int s = biggest; s < 100; s++) {
                             QString b = fragment;
                             QString searchString = b.remove(s, fragment.size());
                             //todo: if it starts with a html tag remove that
 
                             int a1 = v.lastIndexOf(searchString);
                             int a2 = v.indexOf(searchString);
-                            if (a1 == a2) {
+                            if(a1 == a2) {
                                 myDebug() << "s = " << s << " searchString = " << searchString;
                                 newSelection.shortestStringInStartVerse = searchString;
                                 notFound = false;
@@ -1000,28 +998,28 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
                             }
                         }
                         biggest--;
-                        if (biggest == 0) {
+                        if(biggest == 0) {
                             break;
                         }
                     }
                 }
-                if (newSelection.endVerse == -1 && (startFragment + fragment.size()  < (counter))) {
+                if(newSelection.endVerse == -1 && (startFragment + fragment.size()  < (counter))) {
                     myDebug() << "setted end";
                     newSelection.endVerse = i;
                     newSelection.posInEndVerse = (startFragment + fragment.size()) - (counter - chapterData.at(i).size()) ;
                     bool notFound = true;
                     int biggest = 6;
-                    if (fragment.size() < 6)//make faster
+                    if(fragment.size() < 6) //make faster
                         biggest = fragment.size();
-                    while (notFound) {
-                        for (int s = biggest; s < 100/* or some another big value*/; s++) {
+                    while(notFound) {
+                        for(int s = biggest; s < 100; s++) {
                             QString b = fragment;
                             QString searchString = b.remove(0, b.size() - s);
                             //todo: if it starts with a html tag remove that
                             QString v = chapterData.at(i);
                             int a1 = v.lastIndexOf(searchString);
                             int a2 = v.indexOf(searchString);
-                            if (a1 == a2) {
+                            if(a1 == a2) {
                                 myDebug() << "s = " << s << " searchString = " << searchString;
                                 newSelection.shortestStringInEndVerse = searchString;
                                 notFound = false;
@@ -1029,7 +1027,7 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
                             }
                         }
                         biggest--;
-                        if (biggest == 0) {
+                        if(biggest == 0) {
                             break;
                         }
                     }
@@ -1038,7 +1036,7 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
                 }
             }
 
-            if (newSelection.startVerse == n_startVerse) { //and compare both ways
+            if(newSelection.startVerse == n_startVerse) {  //and compare both ways
                 myDebug() << "break newSelection.startVerse = " << newSelection.startVerse << " n_startVerse  = " << n_startVerse << " repeat = " << newSelection.repeat;
                 selection = newSelection;
                 foundBoth = true;
@@ -1076,70 +1074,79 @@ VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
           myDebug() << "repeat = " << repeat;
           selection.repeat = repeat;*/
 
-    } else {
+   /* } else {
 
         int pos = cursor.position();
         QStringList chapterData = m_moduleManager->bible()->toUniformHtml(m_moduleManager->bible()->chapterDataList());
         int counter = 0;
-        for (int i = 0; i < chapterData.size(); ++i) {
+        for(int i = 0; i < chapterData.size(); ++i) {
             QTextDocument t;
             t.setHtml(chapterData.at(i));
             counter += t.toPlainText().size();
-            if (selection.startVerse == -1 && pos < counter) {
+            if(selection.startVerse == -1 && pos < counter) {
                 selection.startVerse = i;
                 break;
             }
         }
         myDebug() << "over cursor.position() = " << selection.startVerse;
     }
-    return selection;
+    return selection;*/
 }
 VerseSelection AdvancedInterface::verseSelection()
 {
+    QWebFrame *f = getView()->page()->mainFrame();
     VerseSelection s;
-    getView()->page()->mainFrame()->evaluateJavaScript("var verseSelection = new VerseSelection();verseSelection.getSelection();");
-    int start = getView()->page()->mainFrame()->evaluateJavaScript("verseSelection.startVerse;").toInt();
-    int end = getView()->page()->mainFrame()->evaluateJavaScript("verseSelection.endVerse;").toInt();
-    s.startVerse = start;
+    if(!f)
+        return s;
+
+    f->evaluateJavaScript("var verseSelection = new VerseSelection();verseSelection.getSelection();");
+    int start = f->evaluateJavaScript("verseSelection.startVerse;").toInt();
+    int end = f->evaluateJavaScript("verseSelection.endVerse;").toInt();
+    s.moduleID = f->evaluateJavaScript("verseSelection.moduleID;").toInt();
+    s.bookID  = f->evaluateJavaScript("verseSelection.bookID;").toInt();
+    s.chapterID = f->evaluateJavaScript("verseSelection.chapterID;").toInt();
+
+    myDebug() << s.moduleID << s.bookID << s.chapterID,
+
+            s.startVerse = start;
     s.endVerse = end;
-    QString startVerseText = getView()->page()->mainFrame()->evaluateJavaScript("verseSelection.startVerseText;").toString();
-    QString endVerseText = getView()->page()->mainFrame()->evaluateJavaScript("verseSelection.endVerseText;").toString();
-    QString selectedText = getView()->page()->mainFrame()->evaluateJavaScript("verseSelection.selectedText;").toString();
+    QString startVerseText = f->evaluateJavaScript("verseSelection.startVerseText;").toString();
+    QString endVerseText = f->evaluateJavaScript("verseSelection.endVerseText;").toString();
+    QString selectedText = f->evaluateJavaScript("verseSelection.selectedText;").toString();
 
     QString sText;
-    for(int i = 0; i < selectedText.size()-1; i++) {
-         sText += selectedText.at(i);
-         int pos = startVerseText.indexOf(sText);
-         if(pos != -1 && startVerseText.lastIndexOf(sText) == pos) {
-              s.shortestStringInStartVerse = sText;
-             break;
-         }
+    for(int i = 0; i < selectedText.size() - 1; i++) {
+        sText += selectedText.at(i);
+        int pos = startVerseText.indexOf(sText);
+        if(pos != -1 && startVerseText.lastIndexOf(sText) == pos) {
+            s.shortestStringInStartVerse = sText;
+            break;
+        }
     }
 
     sText = "";
-    for(int i = 0; i < selectedText.size()-1; i++) {
-         sText.prepend(selectedText.at(selectedText.size()-i-1));
-         int pos = endVerseText.indexOf(sText);
-         if(pos != -1 && endVerseText.lastIndexOf(sText) == pos) {
-              s.shortestStringInEndVerse = sText;
-             break;
-         }
+    for(int i = 0; i < selectedText.size() - 1; i++) {
+        sText.prepend(selectedText.at(selectedText.size() - i - 1));
+        int pos = endVerseText.indexOf(sText);
+        if(pos != -1 && endVerseText.lastIndexOf(sText) == pos) {
+            s.shortestStringInEndVerse = sText;
+            break;
+        }
     }
     myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
     return s;
 }
 void AdvancedInterface::createDefaultMenu()
 {
-    m_actionCopy = new QAction(QIcon::fromTheme("edit-copy",QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"),getView());
+    m_actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), getView());
     connect(m_actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
 
-
-    m_actionSelect = new QAction(QIcon::fromTheme("edit-select-all",QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"),getView());
+    m_actionSelect = new QAction(QIcon::fromTheme("edit-select-all", QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"), getView());
     connect(m_actionSelect, SIGNAL(triggered()), this , SLOT(selectAll()));
 
     m_menuMark = new QMenu(this);
     m_menuMark->setTitle(tr("Mark this"));
-    m_menuMark->setIcon(QIcon::fromTheme("format-fill-color.png",QIcon(":/icons/16x16/format-fill-color.png")));
+    m_menuMark->setIcon(QIcon::fromTheme("format-fill-color.png", QIcon(":/icons/16x16/format-fill-color.png")));
 
     QAction *actionYellowMark = new QAction(QIcon(":/icons/16x16/mark-yellow.png"), tr("Yellow"), m_menuMark);
     connect(actionYellowMark, SIGNAL(triggered()), this , SLOT(newYellowMark()));
@@ -1165,15 +1172,14 @@ void AdvancedInterface::createDefaultMenu()
     connect(actionCustomMark, SIGNAL(triggered()), this , SLOT(newCustomMark()));
     m_menuMark->addAction(actionCustomMark);
 
-    m_actionRemoveMark = new QAction(QIcon(":/icons/16x16/mark-yellow.png"), tr("Remove Mark"),getView());
+    m_actionRemoveMark = new QAction(QIcon(":/icons/16x16/mark-yellow.png"), tr("Remove Mark"), getView());
     connect(m_actionRemoveMark, SIGNAL(triggered()), this , SLOT(removeMark()));
 
-    m_actionBookmark = new QAction(QIcon::fromTheme("bookmark-new",QIcon(":/icons/16x16/bookmark-new.png")), tr("Add Bookmark"), getView());
+    m_actionBookmark = new QAction(QIcon::fromTheme("bookmark-new", QIcon(":/icons/16x16/bookmark-new.png")), tr("Add Bookmark"), getView());
     connect(m_actionBookmark, SIGNAL(triggered()), this , SLOT(newBookmark()));
 
-    m_actionNote = new QAction(QIcon::fromTheme("view-pim-notes",QIcon(":/icons/16x16/view-pim-notes.png")), tr("Add Note"), getView());
+    m_actionNote = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/16x16/view-pim-notes.png")), tr("Add Note"), getView());
     connect(m_actionNote, SIGNAL(triggered()), this , SLOT(newNoteWithLink()));
-
 }
 
 void AdvancedInterface::showContextMenu(QContextMenuEvent* ev)
@@ -1181,15 +1187,15 @@ void AdvancedInterface::showContextMenu(QContextMenuEvent* ev)
     DEBUG_FUNC_NAME
     QMenu *contextMenu = new QMenu(this);
 
-    QAction *actionCopyWholeVerse = new QAction(QIcon::fromTheme("edit-copy",QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Verse"),contextMenu);
+    QAction *actionCopyWholeVerse = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Verse"), contextMenu);
     VerseSelection selection = verseSelection();
-    if (selection.startVerse != -1) {
+    if(selection.startVerse != -1) {
         QString addText;
-        if (selection.startVerse != selection.endVerse)
-            addText = " " + QString::number(selection.startVerse + 1) + " - " + QString::number(selection.endVerse+ 1);
+        if(selection.startVerse != selection.endVerse)
+            addText = " " + QString::number(selection.startVerse + 1) + " - " + QString::number(selection.endVerse + 1);
         else
             addText = " " + QString::number(selection.startVerse + 1);
-        if (selection.startVerse < 0 || selection.endVerse < 0) {
+        if(selection.startVerse < 0 || selection.endVerse < 0) {
             actionCopyWholeVerse->setText(tr("Copy Verse"));
             actionCopyWholeVerse->setEnabled(false);
         } else {
@@ -1202,7 +1208,7 @@ void AdvancedInterface::showContextMenu(QContextMenuEvent* ev)
         actionCopyWholeVerse->setEnabled(false);
     }
 
-    QAction *dbg = new QAction(QIcon::fromTheme("edit-copy",QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"),contextMenu);
+    QAction *dbg = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"), contextMenu);
     connect(dbg, SIGNAL(triggered()), this, SLOT(debugger()));
 
     contextMenu->addAction(m_actionCopy);
@@ -1219,118 +1225,15 @@ void AdvancedInterface::showContextMenu(QContextMenuEvent* ev)
 
 }
 
-int AdvancedInterface::textBrowserContextMenu(QPoint pos)
-{
-  /*  if (!activeMdiChild())
-        return 1;
-    QTextBrowser *textBrowser = activeMdiChild()->widget()->findChild<QTextBrowser *>("textBrowser");
-    QMenu *contextMenu = new QMenu(this);
-    QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy",":/icons/16x16/edit-copy.png"), tr("Copy"), contextMenu);
-    connect(actionCopy, SIGNAL(triggered()), textBrowser, SLOT(copy()));
-
-    QAction *actionCopyWholeVerse = new QAction(this);
-    QTextCursor cursor = textBrowser->cursorForPosition(pos);
-    QTextCursor cursor2 = textBrowser->textCursor();
-    if (cursor2.hasSelection()) {
-        cursor = cursor2;
-    }
-    m_textCursor = cursor;
-    VerseSelection selection = verseSelectionFromCursor(cursor);
-    if (selection.startVerse != -1) {
-        QString addText;
-        if (selection.startVerse != selection.endVerse)
-            addText = " " + QString::number(selection.startVerse) + " - " + QString::number(selection.endVerse);
-        else
-            addText = " " + QString::number(selection.startVerse);
-        if (selection.startVerse < 0 || selection.endVerse <= 0) {
-            actionCopyWholeVerse->setText(tr("Copy Verse"));
-            actionCopyWholeVerse->setEnabled(false);
-        } else {
-            actionCopyWholeVerse->setText(tr("Copy Verse %1").arg(addText));
-            actionCopyWholeVerse->setEnabled(true);
-            connect(actionCopyWholeVerse, SIGNAL(triggered()), this , SLOT(copyWholeVerse()));
-        }
-    } else {
-        actionCopyWholeVerse->setText(tr("Copy Verse"));
-        actionCopyWholeVerse->setEnabled(false);
-    }
-
-    QAction *actionSelect = new QAction(QIcon::fromTheme("edit-select-all",":/icons/16x16/edit-select-all.png"), tr("Select All"), contextMenu);
-    connect(actionSelect, SIGNAL(triggered()), textBrowser , SLOT(selectAll()));
-
-    QMenu *menuMark = new QMenu(this);
-
-    menuMark->setTitle(tr("Mark this"));
-    QIcon markIcon;
-    markIcon.addPixmap(QPixmap(":/icons/16x16/format-fill-color.png"), QIcon::Normal, QIcon::Off);
-    menuMark->setIcon(markIcon);
-    //connect(actionMark, SIGNAL(triggered()), this , SLOT(newMark()));
-    if (!cursor.hasSelection()) {
-        menuMark->setEnabled(false);
-    }
-
-    QAction *actionYellowMark = new QAction(QIcon(":/icons/16x16/mark-yellow.png"), tr("Yellow"), menuMark);
-    connect(actionYellowMark, SIGNAL(triggered()), this , SLOT(newYellowMark()));
-    menuMark->addAction(actionYellowMark);
-
-    QAction *actionGreenMark = new QAction(QIcon(":/icons/16x16/mark-green.png"), tr("Green"), menuMark);
-    connect(actionGreenMark, SIGNAL(triggered()), this , SLOT(newGreenMark()));
-    menuMark->addAction(actionGreenMark);
-
-    QAction *actionBlueMark = new QAction(QIcon(":/icons/16x16/mark-blue.png"), tr("Blue"), menuMark);
-    connect(actionBlueMark, SIGNAL(triggered()), this , SLOT(newBlueMark()));
-    menuMark->addAction(actionBlueMark);
-
-    QAction *actionOrangeMark = new QAction(QIcon(":/icons/16x16/mark-orange.png"), tr("Orange"), menuMark);
-    connect(actionOrangeMark, SIGNAL(triggered()), this , SLOT(newOrangeMark()));
-    menuMark->addAction(actionOrangeMark);
-
-    QAction *actionVioletMark = new QAction(QIcon(":/icons/16x16/mark-violet.png"), tr("Violet"), menuMark);
-    connect(actionVioletMark, SIGNAL(triggered()), this , SLOT(newVioletMark()));
-    menuMark->addAction(actionVioletMark);
-
-    QAction *actionCustomMark  = new QAction(QIcon(":/icons/16x16/format-fill-color.png"), tr("Custom Color"), menuMark);
-    connect(actionCustomMark, SIGNAL(triggered()), this , SLOT(newCustomMark()));
-    menuMark->addAction(actionCustomMark);
-
-    QAction *actionRemoveMark = new QAction(this);
-    actionRemoveMark->setText(tr("Remove Mark"));
-
-
-    QIcon removeMarkIcon;
-    removeMarkIcon.addPixmap(QPixmap(":/icons/16x16/mark-yellow.png"), QIcon::Normal, QIcon::Off);
-    actionRemoveMark->setIcon(removeMarkIcon);
-
-
-
-    connect(actionRemoveMark, SIGNAL(triggered()), this , SLOT(removeMark()));
-
-    QAction *actionBookmark = new QAction(QIcon::fromTheme("bookmark-new",":/icons/16x16/bookmark-new.png"), tr("Add Bookmark"), contextMenu);
-    connect(actionBookmark, SIGNAL(triggered()), this , SLOT(newBookmark()));
-
-    QAction *actionNote = new QAction(QIcon::fromTheme("view-pim-notes",":/icons/16x16/view-pim-notes.png"), tr("Add Note"), contextMenu);
-    connect(actionNote, SIGNAL(triggered()), this , SLOT(newNoteWithLink()));
-
-    contextMenu->addAction(actionCopy);
-    contextMenu->addAction(actionCopyWholeVerse);
-    contextMenu->addAction(actionSelect);
-    contextMenu->addSeparator();
-    contextMenu->addMenu(menuMark);
-    contextMenu->addAction(actionRemoveMark);
-    contextMenu->addAction(actionBookmark);
-    contextMenu->addAction(actionNote);
-    contextMenu->exec(QCursor::pos());
-    return 0;*/
-}
 
 int AdvancedInterface::copyWholeVerse(void)
 {
-    if (!activeMdiChild())
+    if(!activeMdiChild())
         return 1;
     VerseSelection selection = verseSelection();
-    if (selection.startVerse != -1) {
+    if(selection.startVerse != -1) {
         QString sverse;
-        if (selection.startVerse == selection.endVerse) {
+        if(selection.startVerse == selection.endVerse) {
             sverse = "," + QString::number(selection.startVerse + 1);
         } else {
             sverse = "," + QString::number(selection.startVerse + 1) + "-" + QString::number(selection.endVerse + 1);
@@ -1344,7 +1247,7 @@ int AdvancedInterface::copyWholeVerse(void)
         doc2.setHtml(stext);
         stext = doc2.toPlainText();
 
-        const QString curChapter = QString::number(m_moduleManager->bible()->chapterID()+1);
+        const QString curChapter = QString::number(m_moduleManager->bible()->chapterID() + 1);
 
         const QString newText = m_moduleManager->bible()->bookFullName().at(m_moduleManager->bible()->bookID()) + " " + curChapter + sverse + "\n" + stext;
         QClipboard *clipboard = QApplication::clipboard();
@@ -1355,7 +1258,7 @@ int AdvancedInterface::copyWholeVerse(void)
 }
 void AdvancedInterface::debugger()
 {
-    getView()->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled,true);
+    getView()->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
     QWebInspector *inspector = new QWebInspector;
     inspector->setPage(getView()->page());
     inspector->showNormal();
@@ -1363,72 +1266,72 @@ void AdvancedInterface::debugger()
 void AdvancedInterface::newYellowMark()
 {
 
-    if (!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->bibleLoaded()) {
         return;
     }
-    if (!activeMdiChild())
+    if(!activeMdiChild())
         return;
-   VerseSelection selection = verseSelection();
+    VerseSelection selection = verseSelection();
     m_notesDockWidget->newMark(selection, QColor(255, 255, 0));
 }
 
 void AdvancedInterface::newGreenMark()
 {
-    if (!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->bibleLoaded()) {
         return;
     }
-    if (!activeMdiChild())
+    if(!activeMdiChild())
         return;
     VerseSelection selection = verseSelection();
     m_notesDockWidget->newMark(selection, QColor(146, 243, 54));
 }
 void AdvancedInterface::newBlueMark()
 {
-    if (!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->bibleLoaded()) {
         return;
     }
-    if (!activeMdiChild())
+    if(!activeMdiChild())
         return;
     VerseSelection selection = verseSelection();
     m_notesDockWidget->newMark(selection, QColor(77, 169, 243));
 }
 void AdvancedInterface::newOrangeMark()
 {
-    if (!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->bibleLoaded()) {
         return;
     }
-    if (!activeMdiChild())
+    if(!activeMdiChild())
         return;
     VerseSelection selection = verseSelection();
     m_notesDockWidget->newMark(selection, QColor(243, 181, 57));
 }
 void AdvancedInterface::newVioletMark()
 {
-    if (!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->bibleLoaded()) {
         return;
     }
-    if (!activeMdiChild())
+    if(!activeMdiChild())
         return;
     VerseSelection selection = verseSelection();
     m_notesDockWidget->newMark(selection, QColor(169, 102, 240));
 }
 void AdvancedInterface::newCustomMark()
 {
-    if (!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->bibleLoaded()) {
         return;
     }
-    if (!activeMdiChild())
+    if(!activeMdiChild())
         return;
     VerseSelection selection = verseSelection();
     QColor color = QColorDialog::getColor(Qt::green, this);
-    if (color.isValid()) {
+    if(color.isValid()) {
         m_notesDockWidget->newMark(selection, color);
     }
 
 }
 void AdvancedInterface::removeMark()
 {
-    if (!m_moduleManager->bibleLoaded() && !activeMdiChild()) {
+    if(!m_moduleManager->bibleLoaded() && !activeMdiChild()) {
         return;
     }
     VerseSelection selection = verseSelection();
@@ -1450,7 +1353,7 @@ void AdvancedInterface::closing()
     QList<QVariant> windowGeo;
     QList<QVariant> scrollPos;
     QList<QVariant> zoom;
-    for (int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
+    for(int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
         //todo:
         m_windowCache.setCurrentWindowID(i);
         BibleList *list = m_windowCache.getBibleList();
@@ -1493,12 +1396,12 @@ void AdvancedInterface::closing()
 void AdvancedInterface::restoreSession()
 {
     DEBUG_FUNC_NAME
-  /*  m_bookmarksDockWidget->restoreGeometry(m_settings->session.getData("bookmarksDockGeometry").toByteArray());
-    m_notesDockWidget->restoreGeometry(m_settings->session.getData("notesDockGeometry").toByteArray());
-    m_bookDockWidget->restoreGeometry(m_settings->session.getData("bookDockGeometry").toByteArray());
-    m_moduleDockWidget->restoreGeometry(m_settings->session.getData("moduleDockGeometry").toByteArray());
-    m_searchResultDockWidget->restoreGeometry(m_settings->session.getData("searchResultDockGeometry").toByteArray());
-    m_strongDockWidget->restoreGeometry(m_settings->session.getData("strongDockGeometry").toByteArray());*/
+    /*  m_bookmarksDockWidget->restoreGeometry(m_settings->session.getData("bookmarksDockGeometry").toByteArray());
+      m_notesDockWidget->restoreGeometry(m_settings->session.getData("notesDockGeometry").toByteArray());
+      m_bookDockWidget->restoreGeometry(m_settings->session.getData("bookDockGeometry").toByteArray());
+      m_moduleDockWidget->restoreGeometry(m_settings->session.getData("moduleDockGeometry").toByteArray());
+      m_searchResultDockWidget->restoreGeometry(m_settings->session.getData("searchResultDockGeometry").toByteArray());
+      m_strongDockWidget->restoreGeometry(m_settings->session.getData("strongDockGeometry").toByteArray());*/
     myDebug() << "a";
     QStringList windowUrls = m_settings->session.getData("windowUrls").toStringList();
     QVariantList windowGeo = m_settings->session.getData("windowGeo").toList();
@@ -1506,12 +1409,12 @@ void AdvancedInterface::restoreSession()
     QVariantList zoom = m_settings->session.getData("zoom").toList();
     myDebug() << "b";
 
-    for (int i = 0; i < windowUrls.size(); ++i) {
+    for(int i = 0; i < windowUrls.size(); ++i) {
         newSubWindow(false);
         //load bible
         QString url = windowUrls.at(i);
         m_moduleManager->bibleList()->clear();
-        if (!url.isEmpty() && url.size() != 0) {
+        if(!url.isEmpty() && url.size() != 0) {
             QStringList list = url.split("|");
             foreach(QString part, list) {
                 QStringList a = part.split(":");
@@ -1521,19 +1424,19 @@ void AdvancedInterface::restoreSession()
                 UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, u);
                 urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
                 urlConverter.pharse();
-                m_moduleManager->newBible(urlConverter.m_moduleID,QPoint(x,y));
-                pharseUrl(urlConverter.convert()+",force=true");//TODO: MOVE IT OUT
+                m_moduleManager->newBible(urlConverter.m_moduleID, QPoint(x, y));
+                pharseUrl(urlConverter.convert() + ",force=true"); //TODO: MOVE IT OUT
             }
         }
         //set geometry
         activeMdiChild()->setGeometry(windowGeo.at(i).toRect());
         getView()->page()->mainFrame()->setScrollPosition(scrollPos.at(i).toPoint());
-        if (zoom.size() != 0 && i < zoom.size() && zoom.at(i).toReal() > 0)
+        if(zoom.size() != 0 && i < zoom.size() && zoom.at(i).toReal() > 0)
             getView()->setZoomFactor(zoom.at(i).toReal());
 
     }
     int viewMode = m_settings->session.getData("viewMode").toInt();
-    if (viewMode == 0)
+    if(viewMode == 0)
         setSubWindowView();
     else
         setTabView();
@@ -1544,26 +1447,26 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
     //DEBUG_FUNC_NAME
     //reload books
     bool reloadBibles = false;
-    if (oldSettings.encoding != newSettings.encoding) {
+    if(oldSettings.encoding != newSettings.encoding) {
         reloadBibles = true;
     }
-    if (oldSettings.m_moduleSettings.size() > newSettings.m_moduleSettings.size())
+    if(oldSettings.m_moduleSettings.size() > newSettings.m_moduleSettings.size())
         reloadBibles = true;
-    for (int i = 0; i < newSettings.m_moduleSettings.size(); ++i) {
-        if (oldSettings.m_moduleSettings.size() < i || oldSettings.m_moduleSettings.empty()) {
+    for(int i = 0; i < newSettings.m_moduleSettings.size(); ++i) {
+        if(oldSettings.m_moduleSettings.size() < i || oldSettings.m_moduleSettings.empty()) {
             reloadBibles = true;
             break;
         } else {
             ModuleSettings m1, m2;
             m1 = newSettings.m_moduleSettings.at(i);
             m2 = oldSettings.m_moduleSettings.at(i);
-            if (memcmp(&m1, &m2, sizeof(ModuleSettings))) {
+            if(memcmp(&m1, &m2, sizeof(ModuleSettings))) {
                 reloadBibles = true;
                 break;
             }
         }
     }
-    if (reloadBibles == true) {
+    if(reloadBibles == true) {
         myDebug() << "reload Module";
         m_moduleManager->loadAllModules();
         m_moduleDockWidget->init();
@@ -1571,7 +1474,7 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
         showText("");
         //m_windowCache.clearZefCache();
         //m_moduleManager->bible()->clearSoftCache();
-        if (m_moduleManager->bibleLoaded())
+        if(m_moduleManager->bibleLoaded())
             reloadChapter(true);
     }
 
@@ -1583,7 +1486,7 @@ void AdvancedInterface::showSearchDialog()
     connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
     QString text = getView()->selectedText();
     if(!text.isEmpty()) {
-         sDialog->setText(text);
+        sDialog->setText(text);
     }
     sDialog->show();
     sDialog->exec();
@@ -1591,7 +1494,7 @@ void AdvancedInterface::showSearchDialog()
 void AdvancedInterface::search(SearchQuery query)
 {
     //DEBUG_FUNC_NAME
-    if (!m_moduleManager->bibleLoaded())
+    if(!m_moduleManager->bibleLoaded())
         return;
     m_searchResultDockWidget->show();
     SearchResult result;
@@ -1603,45 +1506,45 @@ void AdvancedInterface::searchInText(SearchQuery query)
 {
     DEBUG_FUNC_NAME
     //todo: make regexp work
-    if (query.queryType == SearchQuery::Simple && !query.regExp) {
-        if (query.caseSensitive) {
-            getView()->findText(query.searchText,QWebPage::FindCaseSensitively | QWebPage::HighlightAllOccurrences);
+    if(query.queryType == SearchQuery::Simple && !query.regExp) {
+        if(query.caseSensitive) {
+            getView()->findText(query.searchText, QWebPage::FindCaseSensitively | QWebPage::HighlightAllOccurrences);
         } else {
-            getView()->findText(query.searchText,QWebPage::HighlightAllOccurrences);
+            getView()->findText(query.searchText, QWebPage::HighlightAllOccurrences);
         }
     }
 
-   /* if (query.queryType == SearchQuery::Simple) {
-        QTextDocument *doc = getView()->document();
-        QTextDocument::FindFlags flags;
-        if (query.caseSensitive) {
-            flags |= QTextDocument::FindCaseSensitively;
-        }
-        if (query.wholeWord) {
-            flags |= QTextDocument::FindWholeWords;
-        }
+    /* if (query.queryType == SearchQuery::Simple) {
+         QTextDocument *doc = getView()->document();
+         QTextDocument::FindFlags flags;
+         if (query.caseSensitive) {
+             flags |= QTextDocument::FindCaseSensitively;
+         }
+         if (query.wholeWord) {
+             flags |= QTextDocument::FindWholeWords;
+         }
 
-        if (query.regExp) {
-            QTextCursor cursor;
-            cursor = doc->find(QRegExp(query.searchText), 0);
-            while (!cursor.isNull()) {
-                cursor.insertHtml("<span style=\"background-color:#ffcf3d\">" + cursor.selectedText() + "</span>");
-                getView()->setTextCursor(cursor);
+         if (query.regExp) {
+             QTextCursor cursor;
+             cursor = doc->find(QRegExp(query.searchText), 0);
+             while (!cursor.isNull()) {
+                 cursor.insertHtml("<span style=\"background-color:#ffcf3d\">" + cursor.selectedText() + "</span>");
+                 getView()->setTextCursor(cursor);
 
-                cursor = doc->find(QRegExp(query.searchText), cursor);
-            }
-        } else {
-            QTextCursor cursor;
-            cursor = doc->find(query.searchText, 0, flags);
-            while (!cursor.isNull()) {
+                 cursor = doc->find(QRegExp(query.searchText), cursor);
+             }
+         } else {
+             QTextCursor cursor;
+             cursor = doc->find(query.searchText, 0, flags);
+             while (!cursor.isNull()) {
 
-                cursor.insertHtml("<span style=\"background-color:#ffcf3d\">" + cursor.selectedText() + "</span>");
-                getView()->setTextCursor(cursor);
+                 cursor.insertHtml("<span style=\"background-color:#ffcf3d\">" + cursor.selectedText() + "</span>");
+                 getView()->setTextCursor(cursor);
 
-                cursor = doc->find(query.searchText, cursor, flags);
-            }
-        }
-    }*/
+                 cursor = doc->find(query.searchText, cursor, flags);
+             }
+         }
+     }*/
 }
 
 void AdvancedInterface::copy()
@@ -1669,20 +1572,20 @@ QMenuBar* AdvancedInterface::menuBar()
     QMenuBar *bar = new QMenuBar(parentWidget());
     QMenu *menuFile = new QMenu(tr("File"), bar);
 
-    QAction *actionNewSubWindow = new QAction(QIcon::fromTheme("tab-new",QIcon(":/icons/16x16/tab-new.png")), tr("New SubWindow"), menuFile);
+    QAction *actionNewSubWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New SubWindow"), menuFile);
     connect(actionNewSubWindow, SIGNAL(triggered()), this, SLOT(newSubWindow()));
     actionNewSubWindow->setShortcut(QKeySequence(tr("Ctrl+T")));
 
-    QAction *actionCloseSubWindow = new QAction(QIcon::fromTheme("tab-close",QIcon(":/icons/16x16/tab-close.png")), tr("Close SubWindow"), menuFile);
+    QAction *actionCloseSubWindow = new QAction(QIcon::fromTheme("tab-close", QIcon(":/icons/16x16/tab-close.png")), tr("Close SubWindow"), menuFile);
     connect(actionCloseSubWindow, SIGNAL(triggered()), this, SLOT(closeSubWindow()));
 
-    QAction *actionSaveAs = new QAction(QIcon::fromTheme("document-save-as",QIcon(":/icons/16x16/document-save-as.png")), tr("Save As"), menuFile);
+    QAction *actionSaveAs = new QAction(QIcon::fromTheme("document-save-as", QIcon(":/icons/16x16/document-save-as.png")), tr("Save As"), menuFile);
     connect(actionSaveAs, SIGNAL(triggered()), this, SLOT(saveFile()));
 
-    QAction *actionPrint = new QAction(QIcon::fromTheme("document-print",QIcon(":/icons/16x16/document-print.png")), tr("Print"), menuFile);
+    QAction *actionPrint = new QAction(QIcon::fromTheme("document-print", QIcon(":/icons/16x16/document-print.png")), tr("Print"), menuFile);
     connect(actionPrint, SIGNAL(triggered()), this, SLOT(printFile()));
 
-    QAction *actionClose = new QAction(QIcon::fromTheme("application-exit",QIcon(":/icons/16x16/application-exit.png")), tr("Close"), menuFile);
+    QAction *actionClose = new QAction(QIcon::fromTheme("application-exit", QIcon(":/icons/16x16/application-exit.png")), tr("Close"), menuFile);
     connect(actionClose, SIGNAL(triggered()), this->parentWidget(), SLOT(close()));
     menuFile->addAction(actionNewSubWindow);
     menuFile->addAction(actionCloseSubWindow);
@@ -1693,21 +1596,21 @@ QMenuBar* AdvancedInterface::menuBar()
     menuFile->addAction(actionClose);
 
     QMenu *menuEdit = new QMenu(tr("Edit"), bar);
-    QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy",QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), menuEdit);
+    QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), menuEdit);
     connect(actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
 
-    QAction *actionSelectAll = new QAction(QIcon::fromTheme("edit-select-all",QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"), menuEdit);
+    QAction *actionSelectAll = new QAction(QIcon::fromTheme("edit-select-all", QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"), menuEdit);
     connect(actionSelectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
 
-    QAction *actionSearch = new QAction(QIcon::fromTheme("edit-find",QIcon(":/icons/16x16/edit-find.png")), tr("Search"), menuEdit);
+    QAction *actionSearch = new QAction(QIcon::fromTheme("edit-find", QIcon(":/icons/16x16/edit-find.png")), tr("Search"), menuEdit);
     actionSearch->setShortcut(QKeySequence(tr("Ctrl+F")));
     connect(actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
-    QAction *actionFindNext = new QAction(QIcon::fromTheme("go-down-search",QIcon(":/icons/16x16/go-down-search.png")), tr("Find Next"), menuEdit);
+    QAction *actionFindNext = new QAction(QIcon::fromTheme("go-down-search", QIcon(":/icons/16x16/go-down-search.png")), tr("Find Next"), menuEdit);
     connect(actionFindNext, SIGNAL(triggered()), this, SLOT(nextVerse()));
-    QAction *actionFindPrevious = new QAction(QIcon::fromTheme("go-up-search",QIcon(":/icons/16x16/go-up-search.png")), tr("Find Previous"), menuEdit);
+    QAction *actionFindPrevious = new QAction(QIcon::fromTheme("go-up-search", QIcon(":/icons/16x16/go-up-search.png")), tr("Find Previous"), menuEdit);
     connect(actionFindPrevious, SIGNAL(triggered()), this, SLOT(previousVerse()));
 
-    QAction *actionConfiguration = new QAction(QIcon::fromTheme("configure",QIcon(":/icons/16x16/configure.png")), tr("Configuration"), menuEdit);
+    QAction *actionConfiguration = new QAction(QIcon::fromTheme("configure", QIcon(":/icons/16x16/configure.png")), tr("Configuration"), menuEdit);
     connect(actionConfiguration, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_General()));
 
     menuEdit->addAction(actionCopy);
@@ -1721,10 +1624,10 @@ QMenuBar* AdvancedInterface::menuBar()
 
     QMenu *menuView = new QMenu(tr("View"), bar);
 
-    QAction *actionZoomIn = new QAction(QIcon::fromTheme("zoom-in",QIcon(":/icons/16x16/zoom-in.png")), tr("Zoom In"), menuView);
+    QAction *actionZoomIn = new QAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/16x16/zoom-in.png")), tr("Zoom In"), menuView);
     connect(actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
     actionZoomIn->setShortcut(QKeySequence(tr("Ctrl++")));
-    QAction *actionZoomOut = new QAction(QIcon::fromTheme("zoom-out",QIcon(":/icons/16x16/zoom-out.png")), tr("Zoom Out"), menuView);
+    QAction *actionZoomOut = new QAction(QIcon::fromTheme("zoom-out", QIcon(":/icons/16x16/zoom-out.png")), tr("Zoom Out"), menuView);
     actionZoomOut->setShortcut(QKeySequence(tr("Ctrl+-")));
     connect(actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
 
@@ -1759,10 +1662,10 @@ QMenuBar* AdvancedInterface::menuBar()
 
 
     QMenu *menuNotes = new QMenu(tr("Notes"), bar);
-    QAction *actionNotesEditor = new QAction(QIcon::fromTheme("notes-edit",QIcon(":/icons/16x16/notes-edit.png")), tr("Notes Editor"), menuNotes);
+    QAction *actionNotesEditor = new QAction(QIcon::fromTheme("notes-edit", QIcon(":/icons/16x16/notes-edit.png")), tr("Notes Editor"), menuNotes);
     connect(actionNotesEditor, SIGNAL(triggered()), this, SLOT(showNotesEditor()));
 
-    QAction *actionMarkList = new QAction(QIcon::fromTheme("table",QIcon(":/icons/16x16/table.png")), tr("Mark List"), menuNotes);
+    QAction *actionMarkList = new QAction(QIcon::fromTheme("table", QIcon(":/icons/16x16/table.png")), tr("Mark List"), menuNotes);
     connect(actionMarkList, SIGNAL(triggered()), this, SLOT(showMarkList()));
     QAction *actionMarkCategories = new QAction(QIcon(), tr("Mark Categories"), menuNotes);
     connect(actionMarkCategories, SIGNAL(triggered()), this, SLOT(showMarkCategories()));
@@ -1775,38 +1678,38 @@ QMenuBar* AdvancedInterface::menuBar()
 
     QAction *actionModule = new QAction(tr("Module"), menuDocks);
     actionModule->setCheckable(true);
-    connect(m_moduleDockWidget,SIGNAL(visibilityChanged(bool)),actionModule,SLOT(setChecked(bool)));
-    connect(actionModule,SIGNAL(triggered(bool)), m_moduleDockWidget, SLOT(setVisible(bool)));
+    connect(m_moduleDockWidget, SIGNAL(visibilityChanged(bool)), actionModule, SLOT(setChecked(bool)));
+    connect(actionModule, SIGNAL(triggered(bool)), m_moduleDockWidget, SLOT(setVisible(bool)));
 
     QAction *actionBooks = new QAction(tr("Books"), menuDocks);
     actionBooks->setCheckable(true);
-    connect(m_bookDockWidget,SIGNAL(visibilityChanged(bool)),actionBooks,SLOT(setChecked(bool)));
-    connect(actionBooks,SIGNAL(triggered(bool)), m_bookDockWidget, SLOT(setVisible(bool)));
+    connect(m_bookDockWidget, SIGNAL(visibilityChanged(bool)), actionBooks, SLOT(setChecked(bool)));
+    connect(actionBooks, SIGNAL(triggered(bool)), m_bookDockWidget, SLOT(setVisible(bool)));
 
-    QAction *actionNotes = new QAction(QIcon::fromTheme("notes-edit",QIcon(":/icons/16x16/notes-edit.png")), tr("Notes"), menuDocks);
+    QAction *actionNotes = new QAction(QIcon::fromTheme("notes-edit", QIcon(":/icons/16x16/notes-edit.png")), tr("Notes"), menuDocks);
     actionNotes->setCheckable(true);
-    connect(m_notesDockWidget,SIGNAL(visibilityChanged(bool)),actionNotes,SLOT(setChecked(bool)));
-    connect(actionNotes,SIGNAL(triggered(bool)), m_notesDockWidget, SLOT(setVisible(bool)));
+    connect(m_notesDockWidget, SIGNAL(visibilityChanged(bool)), actionNotes, SLOT(setChecked(bool)));
+    connect(actionNotes, SIGNAL(triggered(bool)), m_notesDockWidget, SLOT(setVisible(bool)));
 
-    QAction *actionStrong = new QAction( tr("Strong"), menuDocks);
+    QAction *actionStrong = new QAction(tr("Strong"), menuDocks);
     actionStrong->setCheckable(true);
-    connect(m_strongDockWidget,SIGNAL(visibilityChanged(bool)),actionStrong,SLOT(setChecked(bool)));
-    connect(actionStrong,SIGNAL(triggered(bool)), m_strongDockWidget, SLOT(setVisible(bool)));
+    connect(m_strongDockWidget, SIGNAL(visibilityChanged(bool)), actionStrong, SLOT(setChecked(bool)));
+    connect(actionStrong, SIGNAL(triggered(bool)), m_strongDockWidget, SLOT(setVisible(bool)));
 
-    QAction *actionBookmarks = new QAction(QIcon::fromTheme("bookmarks-organize",QIcon(":/icons/16x16/bookmarks-organize.png")), tr("Bookmarks"), menuDocks);
+    QAction *actionBookmarks = new QAction(QIcon::fromTheme("bookmarks-organize", QIcon(":/icons/16x16/bookmarks-organize.png")), tr("Bookmarks"), menuDocks);
     actionBookmarks->setCheckable(true);
-    connect(m_bookmarksDockWidget,SIGNAL(visibilityChanged(bool)),actionBookmarks,SLOT(setChecked(bool)));
-    connect(actionBookmarks,SIGNAL(triggered(bool)), m_bookmarksDockWidget, SLOT(setVisible(bool)));
+    connect(m_bookmarksDockWidget, SIGNAL(visibilityChanged(bool)), actionBookmarks, SLOT(setChecked(bool)));
+    connect(actionBookmarks, SIGNAL(triggered(bool)), m_bookmarksDockWidget, SLOT(setVisible(bool)));
 
-    QAction *actionQuickJump = new QAction( tr("Quick Jump"), menuDocks);
+    QAction *actionQuickJump = new QAction(tr("Quick Jump"), menuDocks);
     actionQuickJump->setCheckable(true);
-    connect(m_quickJumpDockWidget,SIGNAL(visibilityChanged(bool)),actionQuickJump,SLOT(setChecked(bool)));
-    connect(actionQuickJump,SIGNAL(triggered(bool)), m_quickJumpDockWidget, SLOT(setVisible(bool)));
+    connect(m_quickJumpDockWidget, SIGNAL(visibilityChanged(bool)), actionQuickJump, SLOT(setChecked(bool)));
+    connect(actionQuickJump, SIGNAL(triggered(bool)), m_quickJumpDockWidget, SLOT(setVisible(bool)));
 
-    QAction *actionSearchResults = new QAction(QIcon::fromTheme("table",QIcon(":/icons/16x16/table.png")), tr("Search Results"), menuDocks);
+    QAction *actionSearchResults = new QAction(QIcon::fromTheme("table", QIcon(":/icons/16x16/table.png")), tr("Search Results"), menuDocks);
     actionSearchResults->setCheckable(true);
-    connect(m_searchResultDockWidget,SIGNAL(visibilityChanged(bool)),actionSearchResults,SLOT(setChecked(bool)));
-    connect(actionSearchResults ,SIGNAL(triggered(bool)), m_searchResultDockWidget, SLOT(setVisible(bool)));
+    connect(m_searchResultDockWidget, SIGNAL(visibilityChanged(bool)), actionSearchResults, SLOT(setChecked(bool)));
+    connect(actionSearchResults , SIGNAL(triggered(bool)), m_searchResultDockWidget, SLOT(setVisible(bool)));
 
 
     menuDocks->addAction(actionModule);
@@ -1818,9 +1721,9 @@ QMenuBar* AdvancedInterface::menuBar()
     menuDocks->addAction(actionSearchResults);
 
     QMenu *menuHelp = new QMenu(tr("Help"), bar);
-    QAction *actionAbout = new QAction(QIcon::fromTheme("help-about",QIcon(":/icons/16x16/help-about.png")), tr("About"), menuHelp);
+    QAction *actionAbout = new QAction(QIcon::fromTheme("help-about", QIcon(":/icons/16x16/help-about.png")), tr("About"), menuHelp);
     connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
-    QAction *actionOnlineHelp = new QAction(QIcon::fromTheme("help-contents",QIcon(":/icons/16x16/help-contents.png")), tr("Online Help"), menuHelp);
+    QAction *actionOnlineHelp = new QAction(QIcon::fromTheme("help-contents", QIcon(":/icons/16x16/help-contents.png")), tr("Online Help"), menuHelp);
     connect(actionOnlineHelp, SIGNAL(triggered()), this, SLOT(onlineHelp()));
 
     menuHelp->addAction(actionOnlineHelp);
@@ -1848,25 +1751,25 @@ QToolBar * AdvancedInterface::toolBar()
     bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 #endif
     bar->setWindowTitle(tr("ToolBar"));
-    QAction *actionSearch = new QAction(QIcon::fromTheme("edit-find",QIcon(":/icons/32x32/edit-find.png")), tr("Search"), bar);
+    QAction *actionSearch = new QAction(QIcon::fromTheme("edit-find", QIcon(":/icons/32x32/edit-find.png")), tr("Search"), bar);
     connect(actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
 
-    QAction *actionBookmarks = new QAction(QIcon::fromTheme("bookmarks-organize",QIcon(":/icons/32x32/bookmarks-organize.png")), tr("Bookmarks"), bar);
+    QAction *actionBookmarks = new QAction(QIcon::fromTheme("bookmarks-organize", QIcon(":/icons/32x32/bookmarks-organize.png")), tr("Bookmarks"), bar);
     connect(actionBookmarks, SIGNAL(triggered()), this, SLOT(showBookmarksDock()));
     actionBookmarks->setCheckable(true);
     connect(m_bookmarksDockWidget, SIGNAL(visibilityChanged(bool)), actionBookmarks, SLOT(setChecked(bool)));
 
-    QAction *actionNotes = new QAction(QIcon::fromTheme("view-pim-notes",QIcon(":/icons/32x32/view-pim-notes.png")), tr("Notes"), bar);
+    QAction *actionNotes = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/32x32/view-pim-notes.png")), tr("Notes"), bar);
     connect(actionNotes, SIGNAL(triggered()), this, SLOT(showNotesDock()));
     actionNotes->setCheckable(true);
     connect(m_notesDockWidget, SIGNAL(visibilityChanged(bool)), actionNotes, SLOT(setChecked(bool)));
 
-    QAction *actionNewWindow = new QAction(QIcon::fromTheme("tab-new",QIcon(":/icons/32x32/tab-new.png")), tr("New Window"), bar);
+    QAction *actionNewWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/32x32/tab-new.png")), tr("New Window"), bar);
     connect(actionNewWindow, SIGNAL(triggered()), this, SLOT(newSubWindow()));
 
-    QAction *actionZoomIn = new QAction(QIcon::fromTheme("zoom-in",QIcon(":/icons/32x32/zoom-in.png")), tr("Zoom In"), bar);
+    QAction *actionZoomIn = new QAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/32x32/zoom-in.png")), tr("Zoom In"), bar);
     connect(actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
-    QAction *actionZoomOut = new QAction(QIcon::fromTheme("zoom-out",QIcon(":/icons/32x32/zoom-out.png")), tr("Zoom Out"), bar);
+    QAction *actionZoomOut = new QAction(QIcon::fromTheme("zoom-out", QIcon(":/icons/32x32/zoom-out.png")), tr("Zoom Out"), bar);
     connect(actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
 
     QAction *actionModule = new QAction(QIcon(":/icons/32x32/module.png"), tr("Module"), bar);
@@ -1892,7 +1795,7 @@ AdvancedInterface::~AdvancedInterface()
 }
 void AdvancedInterface::showBookmarksDock()
 {
-    if (m_bookmarksDockWidget->isVisible()) {
+    if(m_bookmarksDockWidget->isVisible()) {
         m_bookmarksDockWidget->hide();
     } else {
         m_bookmarksDockWidget->show();
@@ -1901,7 +1804,7 @@ void AdvancedInterface::showBookmarksDock()
 }
 void AdvancedInterface::showNotesDock()
 {
-    if (m_notesDockWidget->isVisible()) {
+    if(m_notesDockWidget->isVisible()) {
         m_notesDockWidget->hide();
     } else {
         m_notesDockWidget->show();
@@ -1909,7 +1812,7 @@ void AdvancedInterface::showNotesDock()
 }
 void AdvancedInterface::newBookmark()
 {
-    if (!m_moduleManager->bibleLoaded() && !activeMdiChild())
+    if(!m_moduleManager->bibleLoaded() && !activeMdiChild())
         return;
     if(m_bookmarksDockWidget->isHidden())
         m_bookmarksDockWidget->show();
@@ -1917,7 +1820,7 @@ void AdvancedInterface::newBookmark()
 }
 void AdvancedInterface::newNoteWithLink()
 {
-    if (!m_moduleManager->bibleLoaded() && !activeMdiChild())
+    if(!m_moduleManager->bibleLoaded() && !activeMdiChild())
         return;
     if(m_notesDockWidget->isHidden())
         m_notesDockWidget->show();
@@ -1934,9 +1837,9 @@ int AdvancedInterface::printFile(void)
     QPrinter printer;
     QPrintDialog *dialog = new QPrintDialog(&printer, this);
     dialog->setWindowTitle(tr("Print"));
-    if (dialog->exec() != QDialog::Accepted)
+    if(dialog->exec() != QDialog::Accepted)
         return 1;
-    if (activeMdiChild()) {
+    if(activeMdiChild()) {
         getView()->print(&printer);
     }
     return 0;
@@ -1949,18 +1852,18 @@ int AdvancedInterface::saveFile(void)
     //todo: save last place
     QString fileName = dialog.getSaveFileName(this, tr("Save output"), m_settings->lastPlaceSave, tr("Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)"));
     myDebug() << "fileName = " << fileName;
-    if (activeMdiChild()) {
+    if(activeMdiChild()) {
         QWebView *v = getView();
         QFileInfo fi(fileName);
         m_settings->lastPlaceSave = fi.path();
-        if (fileName.endsWith(".html") || fileName.endsWith(".htm")) {
+        if(fileName.endsWith(".html") || fileName.endsWith(".htm")) {
             QFile file(fileName);
-            if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+            if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
                 return 1;
             QTextStream out(&file);
             out << v->page()->mainFrame()->toHtml();
             file.close();
-        } else if (fileName.endsWith(".pdf")) {
+        } else if(fileName.endsWith(".pdf")) {
             QPrinter printer;
             printer.setOutputFormat(QPrinter::PdfFormat);
             printer.setOutputFileName(fileName);
@@ -1968,7 +1871,7 @@ int AdvancedInterface::saveFile(void)
 
         } else {
             QFile file(fileName);
-            if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+            if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
                 return 1;
             QTextStream out(&file);
             out << v->page()->mainFrame()->toPlainText();
@@ -2021,7 +1924,7 @@ void AdvancedInterface::setSubWindowView()
 void AdvancedInterface::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;

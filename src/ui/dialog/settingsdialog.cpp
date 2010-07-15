@@ -63,32 +63,32 @@ int SettingsDialog::setSettings(Settings settings)
     //Allgemeine
     ////Encoding
     m_encodings << "Apple Roman" << "Big5" << "Big5-HKSCS" << "EUC-JP" << "EUC-KR" << "GB18030-0" << "IBM 850"
-    << "IBM 866" << "IBM 874" << "ISO 2022-JP" << "ISO 8859-1" << "ISO 8859-2" << "ISO 8859-3" << "ISO 8859-4"
-    << "ISO 8859-5" << "ISO 8859-6" << "ISO 8859-7" << "ISO 8859-8" << "ISO 8859-9" << "ISO 8859-10"
-    << "ISO 8859-13" << "ISO 8859-14" << "ISO 8859-15" << "ISO 8859-16" << "Iscii-Bng" << "Dev" << "Gjr"
-    << "Knd" << "Mlm" << "Ori" << "Pnj" << "Tlg" << "Tml" << "JIS X 0201" << "JIS X 0208" << "KOI8-R"
-    << "KOI8-U" << "MuleLao-1" << "ROMAN8" << "Shift-JIS" << "TIS-620" << "TSCII" << "UTF-8" << "UTF-16"
-    << "UTF-16BE" << "UTF-16LE" << "UTF-32" << "UTF-32BE" << "UTF-32LE" << "Windows-1250" << "Windows-1251" << "Windows-1252"
-    << "Windows-1253" << "Windows-1254" << "Windows-1255" << "Windows-1256" << "Windows-1257" << "Windows-1258" << "WINSAMI2";
+                << "IBM 866" << "IBM 874" << "ISO 2022-JP" << "ISO 8859-1" << "ISO 8859-2" << "ISO 8859-3" << "ISO 8859-4"
+                << "ISO 8859-5" << "ISO 8859-6" << "ISO 8859-7" << "ISO 8859-8" << "ISO 8859-9" << "ISO 8859-10"
+                << "ISO 8859-13" << "ISO 8859-14" << "ISO 8859-15" << "ISO 8859-16" << "Iscii-Bng" << "Dev" << "Gjr"
+                << "Knd" << "Mlm" << "Ori" << "Pnj" << "Tlg" << "Tml" << "JIS X 0201" << "JIS X 0208" << "KOI8-R"
+                << "KOI8-U" << "MuleLao-1" << "ROMAN8" << "Shift-JIS" << "TIS-620" << "TSCII" << "UTF-8" << "UTF-16"
+                << "UTF-16BE" << "UTF-16LE" << "UTF-32" << "UTF-32BE" << "UTF-32LE" << "Windows-1250" << "Windows-1251" << "Windows-1252"
+                << "Windows-1253" << "Windows-1254" << "Windows-1255" << "Windows-1256" << "Windows-1257" << "Windows-1258" << "WINSAMI2";
     m_ui->comboBox_encoding->clear();
     m_ui->comboBox_encoding->insertItems(0, m_encodings);
     m_ui->comboBox_encoding->setCurrentIndex(m_encodings.lastIndexOf(m_set.encoding));
     //Language
     QStringList langs;
-    langs <<  tr("English") +"( English )" << tr("German") + "( Deutsch )" << tr("Russian") + QString::fromLocal8Bit("( русском )") << tr("Czech") + QString::fromLocal8Bit("( čeština )");
+    langs <<  tr("English") + "( English )" << tr("German") + "( Deutsch )" << tr("Russian") + QString::fromLocal8Bit("( русском )") << tr("Czech") + QString::fromLocal8Bit("( čeština )");
     m_langCode << "en" << "de" << "ru" << "cs";
     myDebug() << "set.language = " << m_set.language;
     m_ui->comboBox_language->clear();
     m_ui->comboBox_language->insertItems(0, langs);
     int code;
     code = m_langCode.lastIndexOf(m_set.language);
-    if (code == -1) {
+    if(code == -1) {
         QString lang = m_set.language;
         QString onlyLang = lang.remove(lang.lastIndexOf("_"), lang.size());
         code = m_langCode.lastIndexOf(onlyLang);
     }
     myDebug() << "code = " << code;
-    if (code != -1) {
+    if(code != -1) {
         m_ui->comboBox_language->setCurrentIndex(code);
     } else { // no lang code was written in the config file
         m_ui->comboBox_language->setCurrentIndex(0);
@@ -108,9 +108,9 @@ int SettingsDialog::setSettings(Settings settings)
     m_ui->comboBox_interface->insertItems(0, interface);
     int currentInterface;
     QString i = m_set.session.getData("interface", "advanced").toString();
-    if (i == "advanced") {
+    if(i == "advanced") {
         currentInterface = 1;
-    } else if (i == "simple") {
+    } else if(i == "simple") {
         currentInterface = 0;
     }
     myDebug() << " currentInterface = " << currentInterface;
@@ -123,15 +123,15 @@ void SettingsDialog::generateModuleTree()
 {
     m_ui->treeWidget_module->clear();
     QList<QTreeWidgetItem *> items;
-    for (int i = 0; i < m_set.m_moduleSettings.size(); i++) {
+    for(int i = 0; i < m_set.m_moduleSettings.size(); i++) {
         QTreeWidgetItem *ibible = new QTreeWidgetItem(m_ui->treeWidget_module);
         ibible->setText(0, m_set.m_moduleSettings.at(i).moduleName);
         ibible->setText(1, m_set.m_moduleSettings.at(i).modulePath);
         QString moduleType;
-        if (m_set.m_moduleSettings.at(i).isDir) {
+        if(m_set.m_moduleSettings.at(i).isDir) {
             moduleType = QObject::tr("Folder");
         } else {
-            switch (m_set.m_moduleSettings.at(i).moduleType.toInt()) {
+            switch(m_set.m_moduleSettings.at(i).moduleType.toInt()) {
             case Module::BibleQuoteModule:
                 moduleType = QObject::tr("Bible Quote");
                 break;
@@ -156,7 +156,7 @@ void SettingsDialog::addModuleFile(void)
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::ExistingFiles);
 
-    if (dialog.exec()) {
+    if(dialog.exec()) {
         QStringList fileName = dialog.selectedFiles();
         addModules(fileName, QStringList());
     }
@@ -171,31 +171,31 @@ void SettingsDialog::addModuleDir(void)
     dialog.setOption(QFileDialog::ShowDirsOnly, true);
 #endif
 
-    if (dialog.exec()) {
+    if(dialog.exec()) {
         QStringList fileName = dialog.selectedFiles();
         QList<QTreeWidgetItem *> items;
-        if (fileName.size() > 0) {
+        if(fileName.size() > 0) {
             QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size());
             progress.setWindowModality(Qt::WindowModal);
-            for (int i = 0; i < fileName.size(); i++) {
+            for(int i = 0; i < fileName.size(); i++) {
                 progress.setValue(i);
-                if (progress.wasCanceled())
+                if(progress.wasCanceled())
                     return;
                 QString f = fileName.at(i);
                 QString bibleName;
                 QString moduleType;
                 ModuleSettings m;
                 QFileInfo fileInfo(f);
-                if (fileInfo.isDir()) {
+                if(fileInfo.isDir()) {
                     moduleType = QObject::tr("Folder");
                     QString f = fileName.at(i);
-                    if (f.endsWith("/")) {
+                    if(f.endsWith("/")) {
                         f.remove(f.size() - 1, 10);
                     }
                     m.modulePath = f;
                     QStringList ldictname = (f + "/").split("/");
                     QString dictname;
-                    if (ldictname.size() > 0) {
+                    if(ldictname.size() > 0) {
                         dictname = ldictname[ldictname.size()-2];
                     } else {
                         QString spath_count;
@@ -249,7 +249,7 @@ void SettingsDialog::editModule()
 {
     //DEBUG_FUNC_NAME
     int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
-    if (row >= 0) {
+    if(row >= 0) {
         ModuleConfigDialog *mDialog = new ModuleConfigDialog(this);
         mDialog->setModule(m_set.m_moduleSettings.at(row));
         connect(mDialog, SIGNAL(save(ModuleSettings)), this, SLOT(saveModule(ModuleSettings)));
@@ -272,9 +272,9 @@ void SettingsDialog::save(void)
     m_set.language = m_langCode.at(m_ui->comboBox_language->currentIndex());
     m_set.autoLayout = m_ui->comboBox_autoLayout->currentIndex();
     int currentInterface = m_ui->comboBox_interface->currentIndex();
-    if (currentInterface == 0) {
+    if(currentInterface == 0) {
         m_set.session.setData("interface", "simple");
-    } else if (currentInterface == 1) {
+    } else if(currentInterface == 1) {
         m_set.session.setData("interface", "advanced");
     }
     //Alles andere, wie z.b die Module sind schon gespeichert
@@ -293,14 +293,14 @@ void SettingsDialog::downloadModule()
 }
 void SettingsDialog::addModules(QStringList fileName, QStringList names)
 {
-    if (fileName.size() > 0) {
+    if(fileName.size() > 0) {
         QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size() + 1);
         progress.setWindowModality(Qt::WindowModal);
         progress.show();
         progress.setValue(1);
-        for (int i = 0; i < fileName.size(); i++) {
+        for(int i = 0; i < fileName.size(); i++) {
             progress.setValue(i + 2);
-            if (progress.wasCanceled()) {
+            if(progress.wasCanceled()) {
                 progress.close();
                 generateModuleTree();
                 return;
@@ -317,8 +317,8 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
             zefStrong.setSettings(&m_set);
 
             QFileInfo fileInfo(f);
-            if (fileInfo.isFile()) {
-                if (f.endsWith(".zip")) {
+            if(fileInfo.isFile()) {
+                if(f.endsWith(".zip")) {
                     //todo: unzip first
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot open zipped files."));
                     return;
@@ -326,7 +326,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                 }
                 //open file
                 QFile file(f);
-                if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot read the file."));
                     progress.close();
                     generateModuleTree();
@@ -335,11 +335,11 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                 QTextStream in(&file);
                 fileData = in.readAll();
 
-                if (fileData.contains("BookQty", Qt::CaseInsensitive)) {
+                if(fileData.contains("BookQty", Qt::CaseInsensitive)) {
                     moduleType = Module::BibleQuoteModule;// BibleQuote
-                } else if (fileData.contains("XMLBIBLE", Qt::CaseInsensitive)) {
+                } else if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive)) {
                     moduleType = Module::ZefaniaBibleModule;// Zefania Bible
-                } else if (fileData.contains("<dictionary type=\"x-strong\"", Qt::CaseInsensitive)) {
+                } else if(fileData.contains("<dictionary type=\"x-strong\"", Qt::CaseInsensitive)) {
                     moduleType = Module::ZefaniaStrongModule;// Zefania Strong
                 } else {
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid."));
@@ -348,21 +348,21 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                     return;
                 }
 
-                switch (moduleType) {
+                switch(moduleType) {
                 case Module::BibleQuoteModule:
-                    if (names.size() == 0 || i >= names.size()) {
+                    if(names.size() == 0 || i >= names.size()) {
                         bibleName = bq.readInfo(file);
                     }
                     moduleTypeName = QObject::tr("Bible Quote");
                     break;
                 case Module::ZefaniaBibleModule:
-                    if (names.size() == 0 || i >= names.size()) {
+                    if(names.size() == 0 || i >= names.size()) {
                         bibleName = zef.readInfo(fileData);
                     }
                     moduleTypeName = QObject::tr("Zefania XML");
                     break;
                 case Module::ZefaniaStrongModule:
-                    if (names.size() == 0 || i >= names.size()) {
+                    if(names.size() == 0 || i >= names.size()) {
                         bibleName = zefStrong.loadFile(fileData, f);
                     }
                     moduleTypeName = QObject::tr("Zefania XML Strong");
@@ -373,7 +373,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                 }
                 m.modulePath = f;
 
-                if (names.size() > 0 && i < names.size()) { //if a name is given in the stringlist use it
+                if(names.size() > 0 && i < names.size()) {  //if a name is given in the stringlist use it
                     m.moduleName = names.at(i);
                 } else {//else use the biblename from the filename
                     m.moduleName = bibleName;
@@ -411,7 +411,7 @@ void SettingsDialog::setCurrentTab(int tabID)
 
 void SettingsDialog::changeEvent(QEvent *e)
 {
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         m_ui->retranslateUi(this);
         break;

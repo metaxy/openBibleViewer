@@ -34,7 +34,7 @@ public:
     bool bibleLoaded();
     bool strongLoaded();
     Bible * bible();
-    void initBible(Bible *b=0);
+    void initBible(Bible *b = 0);
     BibleList * bibleList();
     QString notePos2Link(const QString &pos);
     QString notePos2Text(const QString &pos);
@@ -56,7 +56,7 @@ public:
     QStringList getBiblePaths();
     QList<int> getBibleIDs();
     void checkCache(const int &moduleID);
-    Bible * newBible(const int &moduleID,QPoint p);
+    Bible * newBible(const int &moduleID, QPoint p);
 
 private:
 

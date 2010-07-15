@@ -16,8 +16,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include "src/core/core.h"
 StrongDockWidget::StrongDockWidget(QWidget *parent) :
-        DockWidget(parent),
-        ui(new Ui::StrongDockWidget)
+    DockWidget(parent),
+    ui(new Ui::StrongDockWidget)
 {
     ui->setupUi(this);
     connect(ui->comboBox_strongModule, SIGNAL(currentIndexChanged(int)), this, SLOT(loadModule(int)));
@@ -34,7 +34,7 @@ void StrongDockWidget::init()
     strongModuleTitle.clear();
     strongModuleID.clear();
     QMapIterator<int, Module *> i(m_moduleManager->m_moduleMap->m_map);
-    while (i.hasNext()) {
+    while(i.hasNext()) {
         i.next();
         Module *m = i.value();
         if(m->m_moduleClass == Module::StrongModule) {
@@ -49,15 +49,15 @@ void StrongDockWidget::init()
 void StrongDockWidget::search()
 {
     QString s = ui->lineEdit_strong->text();
-    if (s.size() > 0)
+    if(s.size() > 0)
         showStrong(s);
 }
 void StrongDockWidget::showStrong(QString strongID)
 {
-    if (isHidden()) {
+    if(isHidden()) {
         show();
     }
-    if (!m_moduleManager->strongLoaded()) {
+    if(!m_moduleManager->strongLoaded()) {
         loadModule(0);
     }
     ui->lineEdit_strong->setText(strongID);
@@ -66,7 +66,7 @@ void StrongDockWidget::showStrong(QString strongID)
 void StrongDockWidget::loadModule(int id)
 {
     //DEBUG_FUNC_NAME
-    if (strongModuleID.size() > id && id >= 0) {
+    if(strongModuleID.size() > id && id >= 0) {
         int moduleID = strongModuleID.at(id);
         m_strong.setSettings(m_settings);
         m_strong.loadStrongModule(moduleID, m_moduleManager->getModule(moduleID)->m_path);
@@ -80,7 +80,7 @@ void StrongDockWidget::get_(QUrl url)
 void StrongDockWidget::changeEvent(QEvent *e)
 {
     QDockWidget::changeEvent(e);
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;

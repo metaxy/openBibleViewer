@@ -2,7 +2,7 @@
 #include <QModelIndex>
 
 ModuleProxyModel::ModuleProxyModel(QObject *parent) :
-        QSortFilterProxyModel(parent)
+    QSortFilterProxyModel(parent)
 {
 }
 /**

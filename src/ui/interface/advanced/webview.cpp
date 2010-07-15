@@ -19,7 +19,7 @@ WebView::WebView(QWidget *parent) :
     QWebView(parent)
 {
 }
-void WebView::contextMenuEvent ( QContextMenuEvent * ev )
+void WebView::contextMenuEvent(QContextMenuEvent * ev)
 {
     emit contextMenuRequested(ev);
 }

@@ -44,7 +44,7 @@ void WindowCache::clearAll()
 
 bool WindowCache::setCurrentWindowID(const int &id)
 {
-    if (id < m_idList.size() && id >= 0) {
+    if(id < m_idList.size() && id >= 0) {
         m_currentWindowID = m_idList.at(id).toInt();
         return true;
     }

@@ -27,7 +27,7 @@ class ModuleDownloader : public QObject
 signals:
     void downloaded(QStringList downloadedFiles, QStringList names);
 public:
-    ModuleDownloader(QWidget *parent,QStringList urls,QMap<QString, QString> names);
+    ModuleDownloader(QWidget *parent, QStringList urls, QMap<QString, QString> names);
     void setSettings(Settings *settings);
     void start();
 

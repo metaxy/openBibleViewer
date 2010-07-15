@@ -14,6 +14,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "dockwidget.h"
 
 DockWidget::DockWidget(QWidget *parent) :
-        QDockWidget(parent)
+    QDockWidget(parent)
 {
 }

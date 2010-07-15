@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "interface.h"
 
 Interface::Interface(QWidget *parent) :
-        QWidget(parent)
+    QWidget(parent)
 {
 }
 bool Interface::hasMenuBar()

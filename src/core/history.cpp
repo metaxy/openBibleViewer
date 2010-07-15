@@ -21,7 +21,7 @@ History::History()
   */
 QString History::forward()
 {
-    if (!forwardItems.isEmpty()) {
+    if(!forwardItems.isEmpty()) {
         goF = true;
         return forwardItems.takeLast();
     } else
@@ -32,7 +32,7 @@ QString History::forward()
   */
 QString History::backward()
 {
-    if (backwardItems.size() >= 2) {
+    if(backwardItems.size() >= 2) {
         goF = true;
         forwardItems.append(backwardItems.takeLast());
         return backwardItems.takeLast();
@@ -59,7 +59,7 @@ bool History::backwardAvailable()
   */
 void History::setCurrent(const QString &url)
 {
-    if (goF == true) {
+    if(goF == true) {
         goF = false;
     } else {
         forwardItems.clear();

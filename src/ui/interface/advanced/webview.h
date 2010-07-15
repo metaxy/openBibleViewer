@@ -18,13 +18,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 class WebView : public QWebView
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     explicit WebView(QWidget *parent = 0);
-    void contextMenuEvent ( QContextMenuEvent * ev );
+    void contextMenuEvent(QContextMenuEvent * ev);
 
 signals:
-    void contextMenuRequested ( QContextMenuEvent * ev );
+    void contextMenuRequested(QContextMenuEvent * ev);
 public slots:
 
 };

@@ -17,11 +17,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QDialog>
 #include "src/core/basicclass.h"
 #include <QtGui/QStandardItemModel>
-namespace Ui {
-    class BibleListWidget;
+namespace Ui
+{
+class BibleListWidget;
 }
 
-class BibleListWidget : public QDialog, public BasicClass {
+class BibleListWidget : public QDialog, public BasicClass
+{
     Q_OBJECT
 public:
     explicit BibleListWidget(QWidget *parent = 0);

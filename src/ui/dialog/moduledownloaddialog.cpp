@@ -28,8 +28,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QSet>
 #include "src/core/moduledownloader.h"
 ModuleDownloadDialog::ModuleDownloadDialog(QWidget *parent) :
-        QDialog(parent),
-        ui(new Ui::ModuleDownloadDialog)
+    QDialog(parent),
+    ui(new Ui::ModuleDownloadDialog)
 {
     ui->setupUi(this);
     connect(ui->pushButton_download, SIGNAL(clicked()), this, SLOT(download()));//set httpRequestAborted = false
@@ -45,22 +45,22 @@ void ModuleDownloadDialog::readModules()
     //DEBUG_FUNC_NAME
     QDomDocument doc;
     QFile file(":/data/modules.xml");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         myDebug() << "cant read the file";
         return;
     }
-    if (!doc.setContent(&file)) {
+    if(!doc.setContent(&file)) {
         myDebug() << "the file isnt valid";
         return;
     }
     QList<QTreeWidgetItem *> items;
 
     QDomNode id = doc.documentElement().firstChild();
-    for (; !id.isNull();) {
+    for(; !id.isNull();) {
         QMap<QString, QStringList> map2;
         QMap<QString, QStringList> map;
         QDomNode item = id.firstChild();
-        for (; !item.isNull();) {
+        for(; !item.isNull();) {
             QDomElement e = item.toElement();
             map[e.attribute("lang", "unkown")].append(e.firstChild().toText().data());
             map2[e.attribute("lang", "unkown")].append(e.attribute("link", ""));
@@ -75,23 +75,23 @@ void ModuleDownloadDialog::readModules()
         top->setIcon(0, folderIcon);
         QDomElement e = id.toElement();
         QString typ = e.attribute("typ", "bible");
-        if (typ == "bible") {
+        if(typ == "bible") {
             top->setText(0, tr("Bibles"));
-        } else if (typ == "strong") {
+        } else if(typ == "strong") {
             top->setText(0, tr("Strong Modules"));
         }
         items.append(top);
 
         QMapIterator<QString, QStringList> i(map);
-        while (i.hasNext()) {
+        while(i.hasNext()) {
             i.next();
-            if (i.value().size() > 0) {
+            if(i.value().size() > 0) {
                 QTreeWidgetItem *langItem = new QTreeWidgetItem();
                 langItem->setText(0, i.key());
                 langItem->setCheckState(0, Qt::Unchecked);
                 langItem->setData(1, 0, "lang");
                 top->addChild(langItem);
-                for (int a = 0; a < i.value().size(); a++) {
+                for(int a = 0; a < i.value().size(); a++) {
                     QTreeWidgetItem *bibleItem = new QTreeWidgetItem();
                     bibleItem->setData(1, 0, "module");
                     bibleItem->setData(2, 0, map2[i.key()].at(a));
@@ -110,27 +110,27 @@ void ModuleDownloadDialog::item(QTreeWidgetItem* i)
 {
     //DEBUG_FUNC_NAME
     myDebug() << "i = " << i->data(1, 0) << " downloadList = " << m_downloadList;
-    if (i->data(1, 0) == "lang") {
-        if (i->checkState(0) == Qt::Checked) {
-            for (int c = 0; c < i->childCount(); c++) {
+    if(i->data(1, 0) == "lang") {
+        if(i->checkState(0) == Qt::Checked) {
+            for(int c = 0; c < i->childCount(); c++) {
                 i->child(c)->setCheckState(0, Qt::Checked);
                 item(i->child(c));
             }
             //check also all childrem of this
-        } else if (i->checkState(0) == Qt::Unchecked) {
-            for (int c = 0; c < i->childCount(); c++) {
+        } else if(i->checkState(0) == Qt::Unchecked) {
+            for(int c = 0; c < i->childCount(); c++) {
                 i->child(c)->setCheckState(0, Qt::Unchecked);
                 item(i->child(c));
             }
             //uncheck all children
         }
-    } else if (i->data(1, 0) == "module") {
+    } else if(i->data(1, 0) == "module") {
 
-        if (i->checkState(0) == Qt::Checked) {
+        if(i->checkState(0) == Qt::Checked) {
             m_downloadList.append(i->data(2, 0).toString());
             m_names[i->data(2, 0).toString()] = i->data(2, 1).toString();
             // add to download list
-        } else if (i->checkState(0) == Qt::Unchecked) {
+        } else if(i->checkState(0) == Qt::Unchecked) {
             m_downloadList.removeOne(i->data(2, 0).toString());
             m_names[i->data(2, 0).toString()] = "";
         }
@@ -143,8 +143,8 @@ void ModuleDownloadDialog::setSettings(Settings settings)
 void ModuleDownloadDialog::download()
 {
     DEBUG_FUNC_NAME
-    ModuleDownloader *m = new ModuleDownloader(this,m_downloadList,m_names);
-    connect(m,SIGNAL(downloaded(QStringList,QStringList)),this,SIGNAL(downloaded(QStringList,QStringList)));
+    ModuleDownloader *m = new ModuleDownloader(this, m_downloadList, m_names);
+    connect(m, SIGNAL(downloaded(QStringList, QStringList)), this, SIGNAL(downloaded(QStringList, QStringList)));
     m->setSettings(&m_set);
     m->start();
 }
@@ -157,7 +157,7 @@ ModuleDownloadDialog::~ModuleDownloadDialog()
 void ModuleDownloadDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;

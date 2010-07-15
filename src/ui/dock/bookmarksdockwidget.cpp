@@ -25,8 +25,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QMimeData>
 #include "src/core/core.h"
 BookmarksDockWidget::BookmarksDockWidget(QWidget *parent) :
-        DockWidget(parent),
-        ui(new Ui::BookmarksDockWidget)
+    DockWidget(parent),
+    ui(new Ui::BookmarksDockWidget)
 {
     ui->setupUi(this);
 }
@@ -43,10 +43,10 @@ int BookmarksDockWidget::init()
     connect(ui->treeWidget_bookmarks, SIGNAL(itemActivated(QTreeWidgetItem *, int)), this, SLOT(bookmarksGo(QTreeWidgetItem *)));
 
     QFile file(m_bookmarksFileName);
-    if (!file.open(QFile::ReadOnly | QFile::Text))
+    if(!file.open(QFile::ReadOnly | QFile::Text))
         return 1;
     XbelReader reader(ui->treeWidget_bookmarks);
-    if (!reader.read(&file))
+    if(!reader.read(&file))
         return 1;
     return 0;
 }
@@ -67,14 +67,14 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
 
     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.m_moduleID = m_moduleManager->bible()->moduleID();
-    urlConverter.m_bookID = m_moduleManager->bible()->bookID();
-    urlConverter.m_chapterID = m_moduleManager->bible()->chapterID();
+    urlConverter.m_moduleID = selection.moduleID;
+    urlConverter.m_bookID = selection.bookID;
+    urlConverter.m_chapterID = selection.chapterID;
     urlConverter.m_verseID = selection.startVerse;
     bookmark->setText(1, urlConverter.convert());
 
     bookmark->setData(0, Qt::UserRole, "bookmark");
-    if (ui->treeWidget_bookmarks->currentItem() && ui->treeWidget_bookmarks->currentItem()->data(0, Qt::UserRole).toString() == "folder") {
+    if(ui->treeWidget_bookmarks->currentItem() && ui->treeWidget_bookmarks->currentItem()->data(0, Qt::UserRole).toString() == "folder") {
         ui->treeWidget_bookmarks->currentItem()->addChild(bookmark);
     } else {
         ui->treeWidget_bookmarks->insertTopLevelItem(0, bookmark);
@@ -85,10 +85,10 @@ void BookmarksDockWidget::saveBookmarks(void)
 {
     QString fileName = m_bookmarksFileName;
     QFile file(fileName);
-    if (!file.open(QFile::WriteOnly | QFile::Text))
+    if(!file.open(QFile::WriteOnly | QFile::Text))
         return;
     XbelWriter writer(ui->treeWidget_bookmarks);
-    if (writer.writeFile(&file)) {
+    if(writer.writeFile(&file)) {
         //statusBar()->showMessage(tr("Bookmarks saved"), 5000);
     }
 }
@@ -104,7 +104,7 @@ void BookmarksDockWidget::newBookmarksFolder(void)
     folder->setText(0, tr("new folder"));
     folder->setText(1, "");
     folder->setData(0, Qt::UserRole, "folder");
-    if (ui->treeWidget_bookmarks->currentItem() && ui->treeWidget_bookmarks->currentItem()->data(0, Qt::UserRole).toString() == "folder") {
+    if(ui->treeWidget_bookmarks->currentItem() && ui->treeWidget_bookmarks->currentItem()->data(0, Qt::UserRole).toString() == "folder") {
         ui->treeWidget_bookmarks->currentItem()->addChild(folder);
     } else {
         ui->treeWidget_bookmarks->insertTopLevelItem(0, folder);
@@ -117,19 +117,19 @@ void BookmarksDockWidget::bookmarksContextMenu(void)
     QMenu *contextMenu = new QMenu(this);
     contextMenu->setObjectName("contextMenu");
 
-    QAction *actionGoTo = new QAction(QIcon::fromTheme("go-jump",QIcon(":/icons/32x32/go-jump.png")), tr("Go To"), contextMenu);
+    QAction *actionGoTo = new QAction(QIcon::fromTheme("go-jump", QIcon(":/icons/32x32/go-jump.png")), tr("Go To"), contextMenu);
     actionGoTo->setObjectName("actionGoTo");
     connect(actionGoTo, SIGNAL(triggered()), this, SLOT(bookmarksGo()));
 
-    QAction *actionNewFolder = new QAction(QIcon::fromTheme("folder-new",QIcon(":/icons/32x32/folder-new.png")), tr("New Folder"), contextMenu) ;
+    QAction *actionNewFolder = new QAction(QIcon::fromTheme("folder-new", QIcon(":/icons/32x32/folder-new.png")), tr("New Folder"), contextMenu) ;
     actionNewFolder->setObjectName("actionNewFolder");
     connect(actionNewFolder, SIGNAL(triggered()), this, SLOT(newBookmarksFolder()));
 
-    QAction *actionEdit = new QAction(QIcon::fromTheme("document-edit",QIcon(":/icons/32x32/document-edit.png")), tr("Edit"), contextMenu);
+    QAction *actionEdit = new QAction(QIcon::fromTheme("document-edit", QIcon(":/icons/32x32/document-edit.png")), tr("Edit"), contextMenu);
     actionEdit->setObjectName("actionEdit");
     connect(actionEdit, SIGNAL(triggered()), this, SLOT(editBookmark()));
 
-    QAction *actionRemove = new QAction(QIcon::fromTheme("list-remove",QIcon(":/icons/32x32/list-remove.png")), tr("Remove"), contextMenu);
+    QAction *actionRemove = new QAction(QIcon::fromTheme("list-remove", QIcon(":/icons/32x32/list-remove.png")), tr("Remove"), contextMenu);
     actionRemove->setObjectName("actionRemove");
     connect(actionRemove, SIGNAL(triggered()), this, SLOT(removeBookmark()));
 
@@ -142,14 +142,14 @@ void BookmarksDockWidget::bookmarksContextMenu(void)
 }
 void BookmarksDockWidget::removeBookmark()
 {
-    if (ui->treeWidget_bookmarks->currentItem())
+    if(ui->treeWidget_bookmarks->currentItem())
         delete ui->treeWidget_bookmarks->currentItem();
     else
         myDebug() << "nothing selected";
 }
 void BookmarksDockWidget::editBookmark()
 {
-    if (!ui->treeWidget_bookmarks->currentItem()) {
+    if(!ui->treeWidget_bookmarks->currentItem()) {
         myDebug() << "nothing selected";
         return;
     }
@@ -174,7 +174,7 @@ void BookmarksDockWidget::editBookmark()
 void BookmarksDockWidget::bookmarksGo()
 {
     QString pos = ui->treeWidget_bookmarks->currentItem()->text(1);
-    if (pos != "" && internalOpenPos(pos) != 0)
+    if(pos != "" && internalOpenPos(pos) != 0)
         QMessageBox::critical(0, tr("Error"), tr("This Bookmark is invalid."));
 }
 void BookmarksDockWidget::updateBookmark(QString pos)
@@ -183,9 +183,9 @@ void BookmarksDockWidget::updateBookmark(QString pos)
 }
 void BookmarksDockWidget::bookmarksGo(QTreeWidgetItem * item)
 {
-    if (m_settings->onClickBookmarkGo == true) {
+    if(m_settings->onClickBookmarkGo == true) {
         QString pos = item->text(1);
-        if (pos != "" && internalOpenPos(pos) != 0)
+        if(pos != "" && internalOpenPos(pos) != 0)
             QMessageBox::critical(0, tr("Error"), tr("This Bookmark is invalid."));
     }
 }
@@ -204,7 +204,7 @@ int BookmarksDockWidget::internalOpenPos(const QString &pos)
 void BookmarksDockWidget::changeEvent(QEvent *e)
 {
     QDockWidget::changeEvent(e);
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;

@@ -19,8 +19,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include "src/core/core.h"
 SearchResultDockWidget::SearchResultDockWidget(QWidget *parent) :
-        DockWidget(parent),
-        ui(new Ui::SearchResultDockWidget)
+    DockWidget(parent),
+    ui(new Ui::SearchResultDockWidget)
 {
     ui->setupUi(this);
     connect(ui->listWidget_search, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)), this, SLOT(goToSearchResult(QListWidgetItem *)));
@@ -39,7 +39,7 @@ void SearchResultDockWidget::setSearchResult(SearchResult searchResult)
     ui->label_search->setText(tr("Search: %1").arg(searchResult.searchQuery.searchText));
     QStringList outlist;
     QList<SearchHit> hits = searchResult.hits();
-    for (int i = 0; i < hits.size(); ++i) {
+    for(int i = 0; i < hits.size(); ++i) {
         SearchHit hit = hits.at(i);
         QString bookn = m_moduleManager->bible()->bookFullName().at(hit.bookID());
         outlist << bookn + " " + QString::number(hit.chapterID()) + " , " + QString::number(hit.verseID());
@@ -52,9 +52,9 @@ void SearchResultDockWidget::goToSearchResult(QListWidgetItem * item)
 {
     int id = ui->listWidget_search->row(item);
 
-    if (id < m_searchResult.hits().size() && id > 0) {
+    if(id < m_searchResult.hits().size() && id > 0) {
         SearchHit hit = m_searchResult.hits().at(id);
-        if (!m_moduleManager->contains(hit.bibleID()))
+        if(!m_moduleManager->contains(hit.bibleID()))
             return;
         emit get("bible://" + QString::number(hit.bibleID()) + "/" + QString::number(hit.bookID()) + "," + QString::number(hit.chapterID() - 1) + "," + QString::number(hit.verseID() - 1) + ",searchInCurrentText=true");
     }
@@ -64,7 +64,7 @@ void SearchResultDockWidget::searchInfo()
     SearchResult result;
     QStringList bookNames;
     QString searchString;
-    if (!m_moduleManager->contains(m_moduleManager->bible()->moduleID())) {
+    if(!m_moduleManager->contains(m_moduleManager->bible()->moduleID())) {
         QMessageBox::information(0, tr("Error"), tr("No search information available."));
         return;
     }
@@ -73,7 +73,7 @@ void SearchResultDockWidget::searchInfo()
     bookNames = m_moduleManager->bible()->bookFullName();
     result = m_searchResult;
 
-    for (int i = 0; i < result.hits().size(); ++i) {
+    for(int i = 0; i < result.hits().size(); ++i) {
         SearchHit hit = result.hits().at(i);
         QString bookn = m_moduleManager->bible()->bookFullName().at(hit.bookID()); //todo: maybe the bible isn't loaded and you need another bookNames
         textList << hit.text() + "\n - <i>" + bookn + " " + QString::number(hit.chapterID()) + " , " + QString::number(hit.verseID()) + "</i>";
@@ -89,11 +89,11 @@ void SearchResultDockWidget::searchInfo()
 }
 void SearchResultDockWidget::nextVerse()
 {
-    if (ui->listWidget_search->count() != 0) {
+    if(ui->listWidget_search->count() != 0) {
         int currentID = ui->listWidget_search->currentRow();
 
         int nextID = currentID + 1;
-        if (nextID < ui->listWidget_search->count()) {
+        if(nextID < ui->listWidget_search->count()) {
             ui->listWidget_search->setCurrentRow(nextID);
             goToSearchResult(ui->listWidget_search->currentItem());
         } else {
@@ -110,11 +110,11 @@ void SearchResultDockWidget::nextVerse()
 }
 void SearchResultDockWidget::previousVerse()
 {
-    if (ui->listWidget_search->count() != 0) {
+    if(ui->listWidget_search->count() != 0) {
         int currentID = ui->listWidget_search->currentRow();
 
         int nextID = currentID - 1;
-        if (nextID < ui->listWidget_search->count() && nextID >= 0) {
+        if(nextID < ui->listWidget_search->count() && nextID >= 0) {
             ui->listWidget_search->setCurrentRow(nextID);
             goToSearchResult(ui->listWidget_search->currentItem());
         }
@@ -126,7 +126,7 @@ void SearchResultDockWidget::previousVerse()
 void SearchResultDockWidget::changeEvent(QEvent *e)
 {
     QDockWidget::changeEvent(e);
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;

@@ -15,8 +15,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_aboutdialog.h"
 
 AboutDialog::AboutDialog(QWidget *parent) :
-        QDialog(parent),
-        m_ui(new Ui::AboutDialog)
+    QDialog(parent),
+    m_ui(new Ui::AboutDialog)
 {
     m_ui->setupUi(this);
     connect(m_ui->pushButton, SIGNAL(clicked()), this, SLOT(close()));
@@ -33,7 +33,7 @@ void AboutDialog::setText(const QString &text)
 
 void AboutDialog::changeEvent(QEvent *e)
 {
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         m_ui->retranslateUi(this);
         break;

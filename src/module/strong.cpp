@@ -12,17 +12,17 @@ QString Strong::loadStrong(QString strongString)
 {
     //DEBUG_FUNC_NAME
     m_zefStrong.setSettings(m_settings);
-    if (m_strongModuleID == -1) {
+    if(m_strongModuleID == -1) {
         myDebug() << "Nothing loaded";//should never happen
     }
     QString ret;
-    if (m_strongModuleID >= 0) {
+    if(m_strongModuleID >= 0) {
         m_strongString = strongString;
         ret = m_zefStrong.getStrong(strongString);
     } else {
         ret = QObject::tr("No strong module loaded.");
     }
-    if (ret.size() == 0)
+    if(ret.size() == 0)
         ret = QObject::tr("Strong not found.");
     return ret;
 }

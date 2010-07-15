@@ -2,8 +2,8 @@
 #include "ui_insertlinkdialog.h"
 
 InsertLinkDialog::InsertLinkDialog(QWidget *parent) :
-        QDialog(parent),
-        ui(new Ui::InsertLinkDialog)
+    QDialog(parent),
+    ui(new Ui::InsertLinkDialog)
 {
     ui->setupUi(this);
     m_itemModel = new QStandardItemModel(ui->treeView);
@@ -23,8 +23,8 @@ void InsertLinkDialog::init()
     QStringList id = m_notes->getIDList();
 
     QStandardItem *parentItem = m_itemModel->invisibleRootItem();
-    for (int i = 0; i < id.size(); i++) {
-        if (m_notes->getType(id.at(i)) == "text"/*really only text?*/) {
+    for(int i = 0; i < id.size(); i++) {
+        if(m_notes->getType(id.at(i)) == "text"/*really only text?*/) {
             QStandardItem *noteItem = new QStandardItem;
             noteItem->setText(m_notes->getTitle(id.at(i)));
             noteItem->setData(id.at(i));
@@ -62,7 +62,7 @@ void InsertLinkDialog::indexChanged(int index)
 {
     //DEBUG_FUNC_NAME
     //todo: use cache
-    if (index >= 0) {
+    if(index >= 0) {
         m_path = m_moduleManager->getBiblePaths().at(index);
         ui->comboBox_books->clear();
         ui->comboBox_books->insertItems(0, m_settings->getModuleCache(m_path).bookNames);
@@ -80,21 +80,21 @@ void InsertLinkDialog::indexChanged(int index)
 
 void InsertLinkDialog::save()
 {
-    if (ui->toolBox->currentIndex() == 0) {
+    if(ui->toolBox->currentIndex() == 0) {
         QString link = m_path
                        + ";" + QString::number(ui->comboBox_books->currentIndex())
                        + ";" + QString::number(ui->spinBox_chapter->value() - 1)
                        + ";" + QString::number(ui->spinBox_verse->value() - 1)
                        + ";" + m_settings->getModuleCache(m_path).bookNames.at(ui->comboBox_books->currentIndex());
         emit newLink("persistent://" + link);
-    } else if (ui->toolBox->currentIndex() == 1) {
+    } else if(ui->toolBox->currentIndex() == 1) {
         QModelIndexList list = m_selectionModel->selectedRows(0);
-        if (list.size() > 0) {
+        if(list.size() > 0) {
             QString id = list.at(0).data(Qt::UserRole + 1).toString();
             emit newLink("note://" + id);
         }
         ///get note id
-    } else if (ui->toolBox->currentIndex() == 2) {
+    } else if(ui->toolBox->currentIndex() == 2) {
         emit newLink(ui->lineEdit->text());
     }
     close();
@@ -102,7 +102,7 @@ void InsertLinkDialog::save()
 void InsertLinkDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;

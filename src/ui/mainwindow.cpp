@@ -28,8 +28,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <typeinfo>
 #include "src/core/core.h"
 MainWindow::MainWindow(QWidget *parent) :
-        QMainWindow(parent),
-        ui(new Ui::MainWindow)
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     m_reloadLang = false;
@@ -90,9 +90,9 @@ void MainWindow::loadInterface()
 {
     DEBUG_FUNC_NAME
     QString interface = m_settings->session.getData("interface").toString();
-    if (interface == "advanced") {
+    if(interface == "advanced") {
         loadAdvancedInterface();
-    } else if (interface == "simple") {
+    } else if(interface == "simple") {
         loadSimpleInterface();
     } else {
         loadAdvancedInterface();
@@ -101,44 +101,44 @@ void MainWindow::loadInterface()
 void MainWindow::deleteInterface()
 {
     DEBUG_FUNC_NAME
-    if (m_interface->hasToolBar()) {
+    if(m_interface->hasToolBar()) {
         myDebug() << "removing toolbar bar = " << m_interface->toolBar();
         removeToolBar(m_toolBar);
 
     }
-    if (m_interface->hasMenuBar()) {
+    if(m_interface->hasMenuBar()) {
         delete m_menuBar;
     }
 
 
-    if (typeid(*m_interface) == typeid(SimpleInterface)) {
+    if(typeid(*m_interface) == typeid(SimpleInterface)) {
         myDebug() << "delete simpleInterface";
 
-        if (m_interface->m_moduleDockWidget) {
+        if(m_interface->m_moduleDockWidget) {
             removeDockWidget(m_interface->m_moduleDockWidget);
         }
-        if (m_interface->m_bookDockWidget) {
+        if(m_interface->m_bookDockWidget) {
             removeDockWidget(m_interface->m_bookDockWidget);
         }
-        if (m_interface->m_searchResultDockWidget)
+        if(m_interface->m_searchResultDockWidget)
             removeDockWidget(m_interface->m_searchResultDockWidget);
 
-    } else if (typeid(*m_interface) == typeid(AdvancedInterface)) {
+    } else if(typeid(*m_interface) == typeid(AdvancedInterface)) {
         myDebug() << "delete advacedinterface";
-        if (m_interface->m_moduleDockWidget)
+        if(m_interface->m_moduleDockWidget)
             removeDockWidget(m_interface->m_moduleDockWidget);
-        if (m_interface->m_bookDockWidget)
+        if(m_interface->m_bookDockWidget)
             removeDockWidget(m_interface->m_bookDockWidget);
-        if (m_interface->m_searchResultDockWidget)
+        if(m_interface->m_searchResultDockWidget)
             removeDockWidget(m_interface->m_searchResultDockWidget);
 
-        if (m_interface->m_notesDockWidget)
+        if(m_interface->m_notesDockWidget)
             removeDockWidget(m_interface->m_notesDockWidget);
-        if (m_interface->m_bookmarksDockWidget)
+        if(m_interface->m_bookmarksDockWidget)
             removeDockWidget(m_interface->m_bookmarksDockWidget);
-        if (m_interface->m_strongDockWidget)
+        if(m_interface->m_strongDockWidget)
             removeDockWidget(m_interface->m_strongDockWidget);
-        if (m_interface->m_quickJumpDockWidget)
+        if(m_interface->m_quickJumpDockWidget)
             removeDockWidget(m_interface->m_quickJumpDockWidget);
     }
     delete this->centralWidget();
@@ -169,11 +169,11 @@ void MainWindow::loadSimpleInterface()
 
     m_interface->init();
     setCentralWidget(m_interface);
-    if (m_interface->hasMenuBar()) {
+    if(m_interface->hasMenuBar()) {
         m_menuBar = m_interface->menuBar();
         setMenuBar(m_menuBar);
     }
-    if (m_interface->hasToolBar())
+    if(m_interface->hasToolBar())
         m_toolBar = m_interface->toolBar();
     addToolBar(m_toolBar);
     connect(this, SIGNAL(settingsChanged(Settings, Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
@@ -216,11 +216,11 @@ void MainWindow::loadAdvancedInterface()
 
 
     setCentralWidget(m_interface);
-    if (m_interface->hasMenuBar()) {
+    if(m_interface->hasMenuBar()) {
         m_menuBar = m_interface->menuBar();
         setMenuBar(m_menuBar);
     }
-    if (m_interface->hasToolBar()) {
+    if(m_interface->hasToolBar()) {
         m_toolBar = m_interface->toolBar();
         addToolBar(m_toolBar);
     }
@@ -341,7 +341,7 @@ void MainWindow::loadSettings()
     m_settings->lastPlaceSave = m_settingsFile->value("ui/lastPlaceSave", QDir::homePath()).toString();
 
     int size = m_settingsFile->beginReadArray("module");
-    for (int i = 0; i < size; ++i) {
+    for(int i = 0; i < size; ++i) {
         m_settingsFile->setArrayIndex(i);
         ModuleSettings m;
         m.moduleName = m_settingsFile->value("name").toString();
@@ -355,11 +355,11 @@ void MainWindow::loadSettings()
         m.zefbible_showStudyNote = m_settingsFile->value("showStudyNote", true).toBool();
         m.isDir = m_settingsFile->value("isDir").toBool();
         m.encoding = m_settingsFile->value("encoding").toString();
-       /* m.bookCount = m_settingsFile->value("bookCount").toMap();
-        m.bookNames = m_settingsFile->value("bookNames").toMap();
-        m.bibleName = m_settingsFile->value("bibleName").toMap();
-        m.biblePath = m_settingsFile->value("biblePath").toMap();
-        m.uModuleCount = m_settingsFile->value("uModuleCount", 0).toInt();*/
+        /* m.bookCount = m_settingsFile->value("bookCount").toMap();
+         m.bookNames = m_settingsFile->value("bookNames").toMap();
+         m.bibleName = m_settingsFile->value("bibleName").toMap();
+         m.biblePath = m_settingsFile->value("biblePath").toMap();
+         m.uModuleCount = m_settingsFile->value("uModuleCount", 0).toInt();*/
         m.styleSheet = m_settingsFile->value("styleSheet", ":/data/default.css").toString();
         m_settings->m_moduleSettings.append(m);
 
@@ -368,12 +368,12 @@ void MainWindow::loadSettings()
     m_settings->sessionID = m_settingsFile->value("general/lastSession", "0").toString();
 
     size = m_settingsFile->beginReadArray("sessions");
-    for (int i = 0; i < size; ++i) {
+    for(int i = 0; i < size; ++i) {
         m_settingsFile->setArrayIndex(i);
         Session session;
-        if (m_settingsFile->value("id") == m_settings->sessionID) {
+        if(m_settingsFile->value("id") == m_settings->sessionID) {
             QStringList keys = m_settingsFile->childKeys();
-            for (int j = 0; j < keys.size(); j++) {
+            for(int j = 0; j < keys.size(); j++) {
                 session.setData(keys.at(j), m_settingsFile->value(keys.at(j)));
             }
             m_settings->session = session;//its the current session
@@ -386,13 +386,13 @@ void MainWindow::loadSettings()
 
     size = m_settingsFile->beginReadArray("modulecache");
 
-    for (int i = 0; i < size; ++i) {
+    for(int i = 0; i < size; ++i) {
         m_settingsFile->setArrayIndex(i);
         ModuleCache c;
         c.setBookCount(m_settingsFile->value("bookCount").toMap());
         c.bookNames = m_settingsFile->value("bookNames").toStringList();
         c.title = m_settingsFile->value("title").toString();
-        m_settings->m_moduleCache.insert(m_settings->recoverUrl(m_settingsFile->value("path").toString()),c);
+        m_settings->m_moduleCache.insert(m_settings->recoverUrl(m_settingsFile->value("path").toString()), c);
 
     }
     m_settingsFile->endArray();
@@ -412,7 +412,7 @@ void MainWindow::writeSettings()
     m_settingsFile->setValue("ui/lastPlaceSave", m_settings->lastPlaceSave);
 
     m_settingsFile->beginWriteArray("module");
-    for (int i = 0; i < m_settings->m_moduleSettings.size(); ++i) {
+    for(int i = 0; i < m_settings->m_moduleSettings.size(); ++i) {
         m_settingsFile->setArrayIndex(i);
         ModuleSettings m = m_settings->m_moduleSettings.at(i);
         m_settingsFile->setValue("name", m.moduleName);
@@ -434,7 +434,7 @@ void MainWindow::writeSettings()
     m_settingsFile->setArrayIndex(m_settings->sessionIDs.lastIndexOf(m_settings->sessionID));
     {
         QMapIterator <QString, QVariant> i = m_settings->session.getInterator();
-        while (i.hasNext()) {
+        while(i.hasNext()) {
             i.next();
             m_settingsFile->setValue(i.key(), i.value());
         }
@@ -444,18 +444,18 @@ void MainWindow::writeSettings()
     m_settingsFile->beginWriteArray("modulecache");
     QMapIterator<QString, ModuleCache> i(m_settings->m_moduleCache);
     int k = 0;
-     while (i.hasNext()) {
-         i.next();
-         k++;
-         m_settingsFile->setArrayIndex(k);
-         ModuleCache c = i.value();
-         QString url = m_settings->savableUrl(i.key());
-         m_settingsFile->setValue("title", c.title);
-         m_settingsFile->setValue("bookNames", c.bookNames);
-         m_settingsFile->setValue("bookCount", c.toStringMap());
-         m_settingsFile->setValue("path", url);
-     }
-     m_settingsFile->endArray();
+    while(i.hasNext()) {
+        i.next();
+        k++;
+        m_settingsFile->setArrayIndex(k);
+        ModuleCache c = i.value();
+        QString url = m_settings->savableUrl(i.key());
+        m_settingsFile->setValue("title", c.title);
+        m_settingsFile->setValue("bookNames", c.bookNames);
+        m_settingsFile->setValue("bookCount", c.toStringMap());
+        m_settingsFile->setValue("path", url);
+    }
+    m_settingsFile->endArray();
 
 
 
@@ -467,10 +467,10 @@ void MainWindow::saveSettings(Settings newSettings)
     setSettings(newSettings);
     writeSettings();
 
-    if (oldSettings.language != newSettings.language /* || m_settings->theme != set->theme*/) {
+    if(oldSettings.language != newSettings.language /* || m_settings->theme != set->theme*/) {
         loadLanguage(newSettings.language);
     }
-    if (oldSettings.session.getData("interface", "advanced") != newSettings.session.getData("interface", "advanced")) {
+    if(oldSettings.session.getData("interface", "advanced") != newSettings.session.getData("interface", "advanced")) {
         myDebug() << "loading new interface";
         reloadInterface();
     }
@@ -506,15 +506,15 @@ void MainWindow::loadLanguage(QString language)
     QTranslator qtTranslator;
     avLang <<  "en" << "de" << "ru" << "cs";
     myDebug() << "avLang = " << avLang << " lang = " << language;
-    if (avLang.lastIndexOf(language) == -1) {
+    if(avLang.lastIndexOf(language) == -1) {
         language = language.remove(language.lastIndexOf("_"), language.size());
-        if (avLang.lastIndexOf(language) == -1) {
+        if(avLang.lastIndexOf(language) == -1) {
             language = avLang.at(0);
         }
     }
     bool loaded = myappTranslator->load(":/data/obv_" + language + ".qm");
     m_reloadLang = true;
-    if (!loaded) {
+    if(!loaded) {
         QMessageBox::warning(this, tr("Installing Language failed"), tr("Please choose an another language."));
     }
 
@@ -527,10 +527,10 @@ void MainWindow::restoreSession()
     DEBUG_FUNC_NAME
     QByteArray geometry = QVariant(m_settings->session.getData("mainWindowGeometry")).toByteArray();
     QByteArray state = QVariant(m_settings->session.getData("mainWindowState")).toByteArray();
-    if (geometry.size() != 0) {
+    if(geometry.size() != 0) {
         restoreGeometry(geometry);
     }
-    if (state.size() != 0) {
+    if(state.size() != 0) {
         restoreState(state);
     }
     return;
@@ -549,17 +549,17 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         myDebug() << "retranslate";
         ui->retranslateUi(this);
         if(m_reloadLang) {
-            if (m_interface->hasMenuBar()) {
+            if(m_interface->hasMenuBar()) {
                 m_menuBar = m_interface->menuBar();
                 setMenuBar(m_menuBar);
             }
 
-            if (m_interface->hasToolBar()) {
+            if(m_interface->hasToolBar()) {
                 removeToolBar(m_toolBar);
                 m_toolBar = m_interface->toolBar();
                 addToolBar(m_toolBar);

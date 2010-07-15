@@ -18,8 +18,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QKeyEvent>
 #include "src/core/core.h"
 QuickJumpDockWidget::QuickJumpDockWidget(QWidget *parent) :
-        DockWidget(parent),
-        ui(new Ui::QuickJumpDockWidget)
+    DockWidget(parent),
+    ui(new Ui::QuickJumpDockWidget)
 {
     ui->setupUi(this);
     connect(ui->pushButton_goTo, SIGNAL(clicked()), this, SLOT(goToPos()));
@@ -65,7 +65,7 @@ void QuickJumpDockWidget::goToPos()
 void QuickJumpDockWidget::changeEvent(QEvent *e)
 {
     QDockWidget::changeEvent(e);
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;

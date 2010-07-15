@@ -16,14 +16,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>
-class ModuleCache {
+class ModuleCache
+{
 public:
     ModuleCache();
     QString title;
-    QMap<int,int> bookCount;
+    QMap<int, int> bookCount;
     QStringList bookNames;
-    QMap<QString,QVariant> toStringMap();
-    void setBookCount(QMap<QString,QVariant> count);
+    QMap<QString, QVariant> toStringMap();
+    void setBookCount(QMap<QString, QVariant> count);
 };
 
 #endif // MODULECACHE_H

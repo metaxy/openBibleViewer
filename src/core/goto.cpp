@@ -22,30 +22,30 @@ GoTo::GoTo(int currentBibleID, QStringList bookFullName)
 }
 QString GoTo::getUrl(const QString& text)
 {
-    if (text.size() < 1)
+    if(text.size() < 1)
         return QString();
     QStringList reg;
     QRegExp foundRegExp;
     reg << "(.*)" << "(.*)(\\s+)(\\d+)"  << "(.*)(\\s+)(\\d+),(\\d+)";
     int found = -1;
-    for (int i = reg.size() - 1; i >= 0; --i) {
+    for(int i = reg.size() - 1; i >= 0; --i) {
         QRegExp r(reg.at(i));
         int pos = r.indexIn(text);
-        if (pos > -1) {
+        if(pos > -1) {
             found = i;
             foundRegExp = r;
             break;
         }
     }
-    if (found == 0) { //example: Hiob
+    if(found == 0) {  //example: Hiob
         int bookID = bookNameToBookID(foundRegExp.cap(1));
         return "bible://" + QString::number(m_currentBibleID) + "/" + QString::number(bookID) + "," + QString::number(0) + "," + QString::number(0);
 
-    } else if (found == 1) { //Hiob 4
+    } else if(found == 1) {  //Hiob 4
         int bookID =  bookNameToBookID(foundRegExp.cap(1));
         int chapterID = foundRegExp.cap(3).toInt() - 1;
         return "bible://" + QString::number(m_currentBibleID) + "/" + QString::number(bookID) + "," + QString::number(chapterID) + "," + QString::number(0);
-    } else if (found == 2) { //Hiob 4,9
+    } else if(found == 2) {  //Hiob 4,9
         int bookID =  bookNameToBookID(foundRegExp.cap(1));
         int chapterID = foundRegExp.cap(3).toInt() - 1;
         int verseID = foundRegExp.cap(4).toInt() - 1;
@@ -57,15 +57,15 @@ int GoTo::bookNameToBookID(const QString& name)
 {
     //todo: use short names
     int min = -1, bookID = -1;
-    for (int i = 0; i < m_bookFullName.size(); ++i) {
-        if (name == m_bookFullName.at(i)) {
+    for(int i = 0; i < m_bookFullName.size(); ++i) {
+        if(name == m_bookFullName.at(i)) {
             bookID = i;
             break;
         }
     }
-    if (bookID == -1) {
-        for (int i = 0; i < m_bookFullName.size(); ++i) {
-            if (m_bookFullName.at(i).startsWith(name, Qt::CaseInsensitive)) {
+    if(bookID == -1) {
+        for(int i = 0; i < m_bookFullName.size(); ++i) {
+            if(m_bookFullName.at(i).startsWith(name, Qt::CaseInsensitive)) {
                 bookID = i;
                 break;
             }
@@ -79,10 +79,10 @@ int GoTo::bookNameToBookID(const QString& name)
               }
           }
       }*/
-    if (bookID == -1) {
-        for (int i = 0; i < m_bookFullName.size(); ++i) {
+    if(bookID == -1) {
+        for(int i = 0; i < m_bookFullName.size(); ++i) {
             int lev = levenshteinDistance(name, m_bookFullName.at(i));
-            if (lev < min || min < 0) {
+            if(lev < min || min < 0) {
                 bookID = i;
                 min = lev;
             }
@@ -99,7 +99,7 @@ int GoTo::levenshteinDistance(const QString& s, const QString& t)
 
     // make sure the matrix is big enough
 
-    if (m_d.size() < (m + 1) *(n + 1)) {
+    if(m_d.size() < (m + 1) *(n + 1)) {
         m_d.resize((m + 1) *(n + 1));
     }
 
@@ -109,16 +109,16 @@ int GoTo::levenshteinDistance(const QString& s, const QString& t)
 
     // init 0..m, 0..n as starting values - distance to ""
 
-    for (i = 0; i <= m; i++) {
+    for(i = 0; i <= m; i++) {
         m_d[i + 0*dWidth] = i;
     }
-    for (j = 0; j <= n; j++) {
+    for(j = 0; j <= n; j++) {
         m_d[0 + j*dWidth] = j;
     }
     int cost;
-    for (i = 1; i <= m; i++) {
-        for (j = 1; j <= n; j++) {
-            if (s[i-1] == t[j-1]) {
+    for(i = 1; i <= m; i++) {
+        for(j = 1; j <= n; j++) {
+            if(s[i-1] == t[j-1]) {
                 // if current char is equal, no cost for substitution
                 cost = 0;
             } else {

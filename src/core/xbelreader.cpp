@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "xbelreader.h"
 
 XbelReader::XbelReader(QTreeWidget *treeWidget)
-        : treeWidget(treeWidget)
+    : treeWidget(treeWidget)
 {
     QStyle *style = treeWidget->style();
 
@@ -28,10 +28,10 @@ XbelReader::XbelReader(QTreeWidget *treeWidget)
 bool XbelReader::read(QIODevice *device)
 {
     setDevice(device);
-    while (!atEnd()) {
+    while(!atEnd()) {
         readNext();
-        if (isStartElement()) {
-            if (name() == "xbel" && attributes().value("version") == "1.0")
+        if(isStartElement()) {
+            if(name() == "xbel" && attributes().value("version") == "1.0")
                 readXBEL();
             else
                 raiseError(QObject::tr("The file is not an XBEL version 1.0 file."));
@@ -44,11 +44,11 @@ void XbelReader::readUnknownElement()
 {
 
     Q_ASSERT(isStartElement());
-    while (!atEnd()) {
+    while(!atEnd()) {
         readNext();
-        if (isEndElement())
+        if(isEndElement())
             break;
-        if (isStartElement())
+        if(isStartElement())
             readUnknownElement();
     }
 
@@ -58,18 +58,18 @@ void XbelReader::readXBEL()
 {
 
     Q_ASSERT(isStartElement() && name() == "xbel");
-    while (!atEnd()) {
+    while(!atEnd()) {
         readNext();
 
-        if (isEndElement())
+        if(isEndElement())
             break;
 
-        if (isStartElement()) {
-            if (name() == "folder")
+        if(isStartElement()) {
+            if(name() == "folder")
                 readFolder(0);
-            else if (name() == "bookmark")
+            else if(name() == "bookmark")
                 readBookmark(0);
-            else if (name() == "separator")
+            else if(name() == "separator")
                 readSeparator(0);
             else
                 readUnknownElement();
@@ -113,20 +113,20 @@ void XbelReader::readFolder(QTreeWidgetItem *item)
     bool folded = (attributes().value("folded") != "no");
     treeWidget->setItemExpanded(folder, !folded);
 
-    while (!atEnd()) {
+    while(!atEnd()) {
         readNext();
 
-        if (isEndElement())
+        if(isEndElement())
             break;
 
-        if (isStartElement()) {
-            if (name() == "title")
+        if(isStartElement()) {
+            if(name() == "title")
                 readTitle(folder);
-            else if (name() == "folder")
+            else if(name() == "folder")
                 readFolder(folder);
-            else if (name() == "bookmark")
+            else if(name() == "bookmark")
                 readBookmark(folder);
-            else if (name() == "separator")
+            else if(name() == "separator")
                 readSeparator(folder);
             else
                 readUnknownElement();
@@ -145,14 +145,14 @@ void XbelReader::readBookmark(QTreeWidgetItem *item)
     bookmark->setIcon(0, bookmarkIcon);
     bookmark->setText(0, QObject::tr("Unknown title"));
     bookmark->setText(1, attributes().value("href").toString());
-    while (!atEnd()) {
+    while(!atEnd()) {
         readNext();
 
-        if (isEndElement())
+        if(isEndElement())
             break;
 
-        if (isStartElement()) {
-            if (name() == "title")
+        if(isStartElement()) {
+            if(name() == "title")
                 readTitle(bookmark);
             else
                 readUnknownElement();
@@ -164,7 +164,7 @@ void XbelReader::readBookmark(QTreeWidgetItem *item)
 QTreeWidgetItem *XbelReader::createChildItem(QTreeWidgetItem *item)
 {
     QTreeWidgetItem *childItem;
-    if (item) {
+    if(item) {
         childItem = new QTreeWidgetItem(item);
     } else {
         childItem = new QTreeWidgetItem(treeWidget);

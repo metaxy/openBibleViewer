@@ -40,12 +40,12 @@
 
 
 NotesEditor::NotesEditor(QWidget *parent)
-        : QMainWindow(parent)
-        , ui(new Ui::NotesEditor)
-        , m_sourceDirty(true)
-        , m_highlighter(0)
-        , ui_dialog(0)
-        , m_insertHtmlDialog(0)
+    : QMainWindow(parent)
+    , ui(new Ui::NotesEditor)
+    , m_sourceDirty(true)
+    , m_highlighter(0)
+    , ui_dialog(0)
+    , m_insertHtmlDialog(0)
 {
     DEBUG_FUNC_NAME
     ui->setupUi(this);
@@ -203,9 +203,9 @@ bool NotesEditor::fileSaveAs()
 {
     QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
                  QString(), tr("HTML-Files (*.htm *.html);;All Files (*)"));
-    if (fn.isEmpty())
+    if(fn.isEmpty())
         return false;
-    if (!(fn.endsWith(".htm", Qt::CaseInsensitive) || fn.endsWith(".html", Qt::CaseInsensitive)))
+    if(!(fn.endsWith(".htm", Qt::CaseInsensitive) || fn.endsWith(".html", Qt::CaseInsensitive)))
         fn += ".htm"; // default
 
     return fileSave();
@@ -222,9 +222,9 @@ void NotesEditor::insertImage()
 
     QString fn = QFileDialog::getOpenFileName(this, tr("Open image..."),
                  QString(), filters);
-    if (fn.isEmpty())
+    if(fn.isEmpty())
         return;
-    if (!QFile::exists(fn))
+    if(!QFile::exists(fn))
         return;
 
     QUrl url = QUrl::fromLocalFile(fn);
@@ -239,24 +239,24 @@ static QUrl guessUrlFromString(const QString &string)
 
     // Check if it looks like a qualified URL. Try parsing it and see.
     bool hasSchema = test.exactMatch(urlStr);
-    if (hasSchema) {
+    if(hasSchema) {
         QUrl url(urlStr, QUrl::TolerantMode);
-        if (url.isValid())
+        if(url.isValid())
             return url;
     }
 
     // Might be a file.
-    if (QFile::exists(urlStr))
+    if(QFile::exists(urlStr))
         return QUrl::fromLocalFile(urlStr);
 
     // Might be a shorturl - try to detect the schema.
-    if (!hasSchema) {
+    if(!hasSchema) {
         int dotIndex = urlStr.indexOf(QLatin1Char('.'));
-        if (dotIndex != -1) {
+        if(dotIndex != -1) {
             QString prefix = urlStr.left(dotIndex).toLower();
             QString schema = (prefix == QLatin1String("ftp")) ? prefix : QLatin1String("http");
             QUrl url(schema + QLatin1String("://") + urlStr, QUrl::TolerantMode);
-            if (url.isValid())
+            if(url.isValid())
                 return url;
         }
     }
@@ -279,11 +279,11 @@ void NotesEditor::createLink()
 }
 void NotesEditor::createLink(QString link)
 {
-    if (link.startsWith("bible://") || link.startsWith("persistent://") || link.startsWith("note://")) {
+    if(link.startsWith("bible://") || link.startsWith("persistent://") || link.startsWith("note://")) {
         execCommand("createLink", link);
     } else {
         QUrl url = guessUrlFromString(link);
-        if (url.isValid())
+        if(url.isValid())
             execCommand("createLink", url.toString());
     }
 }
@@ -294,7 +294,7 @@ void NotesEditor::pharseUrl(QUrl url)
     QString link = url.toString();
     myDebug() << "link = " << link;
     const QString note = "note://";
-    if (link.startsWith(note)) {
+    if(link.startsWith(note)) {
         link = link.remove(0, note.size());
         m_simpleNotes->showNote(link, true);
     } else {
@@ -304,9 +304,9 @@ void NotesEditor::pharseUrl(QUrl url)
 
 void NotesEditor::insertHtml()
 {
-    if (!m_insertHtmlDialog) {
+    if(!m_insertHtmlDialog) {
         m_insertHtmlDialog = new QDialog(this);
-        if (!ui_dialog)
+        if(!ui_dialog)
             ui_dialog = new Ui::InsertHtmlDialog;
         ui_dialog->setupUi(m_insertHtmlDialog);
         connect(ui_dialog->buttonBox, SIGNAL(accepted()),
@@ -319,7 +319,7 @@ void NotesEditor::insertHtml()
     ui_dialog->plainTextEdit->setFocus();
     Highlighter *hilite = new Highlighter(ui_dialog->plainTextEdit->document());
 
-    if (m_insertHtmlDialog->exec() == QDialog::Accepted)
+    if(m_insertHtmlDialog->exec() == QDialog::Accepted)
         execCommand("insertHTML", ui_dialog->plainTextEdit->toPlainText());
 
     delete hilite;
@@ -328,7 +328,7 @@ void NotesEditor::insertHtml()
 void NotesEditor::zoomOut()
 {
     int percent = static_cast<int>(ui->webView->zoomFactor() * 100);
-    if (percent > 25) {
+    if(percent > 25) {
         percent -= 25;
         percent = 25 * (int((percent + 25 - 1) / 25));
         qreal factor = static_cast<qreal>(percent) / 100;
@@ -342,7 +342,7 @@ void NotesEditor::zoomOut()
 void NotesEditor::zoomIn()
 {
     int percent = static_cast<int>(ui->webView->zoomFactor() * 100);
-    if (percent < 400) {
+    if(percent < 400) {
         percent += 25;
         percent = 25 * (int(percent / 25));
         qreal factor = static_cast<qreal>(percent) / 100;
@@ -477,7 +477,7 @@ void NotesEditor::formatFontName()
     QString family = QInputDialog::getItem(this, tr("Font"), tr("Select font:"),
                                            families, 0, false, &ok);
 
-    if (ok)
+    if(ok)
         execCommand("fontName", family);
 }
 
@@ -496,21 +496,21 @@ void NotesEditor::formatFontSize()
     QString size = QInputDialog::getItem(this, tr("Font Size"), tr("Select font size:"),
                                          sizes, sizes.indexOf("medium"), false, &ok);
 
-    if (ok)
+    if(ok)
         execCommand("fontSize", QString::number(sizes.indexOf(size)));
 }
 
 void NotesEditor::formatTextColor()
 {
     QColor color = QColorDialog::getColor(Qt::black, this);
-    if (color.isValid())
+    if(color.isValid())
         execCommand("foreColor", color.name());
 }
 
 void NotesEditor::formatBackgroundColor()
 {
     QColor color = QColorDialog::getColor(Qt::white, this);
-    if (color.isValid())
+    if(color.isValid())
         execCommand("hiliteColor", color.name());
 }
 
@@ -537,13 +537,13 @@ void NotesEditor::adjustSource()
 {
     m_sourceDirty = true;
 
-    if (ui->tabWidget->currentIndex() == 1)
+    if(ui->tabWidget->currentIndex() == 1)
         changeTab(1);
 }
 
 void NotesEditor::changeTab(int index)
 {
-    if (m_sourceDirty && (index == 1)) {
+    if(m_sourceDirty && (index == 1)) {
         QString content = ui->webView->page()->mainFrame()->toHtml();
         ui->plainTextEdit->setPlainText(content);
         m_sourceDirty = false;

@@ -22,7 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
   Conctruct a ModuleDownloader. Need a parent widget. And a list with links e.g http://example.com/a.xml
 and the names for it e.g names['http://example.com/a.xml'] = "A book".
   */
-ModuleDownloader::ModuleDownloader(QWidget *parent,QStringList urls,QMap<QString, QString> names)
+ModuleDownloader::ModuleDownloader(QWidget *parent, QStringList urls, QMap<QString, QString> names)
 {
     m_names = names;
     m_urls = urls;
@@ -31,14 +31,14 @@ ModuleDownloader::ModuleDownloader(QWidget *parent,QStringList urls,QMap<QString
     m_progressDialog = new QProgressDialog(m_parent);
     m_progressDialog->setModal(true);
     connect(m_http, SIGNAL(requestFinished(int, bool)),
-               this, SLOT(httpRequestFinished(int, bool)));
-       connect(m_http, SIGNAL(dataReadProgress(int, int)),
-              this, SLOT(updateDataReadProgress(int, int)));
-       connect(m_http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)),
-               this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
-       connect(m_progressDialog, SIGNAL(canceled()), this, SLOT(cancelDownload()));
-       m_currentDownload = -1;
-       m_httpRequestAborted = false;
+            this, SLOT(httpRequestFinished(int, bool)));
+    connect(m_http, SIGNAL(dataReadProgress(int, int)),
+            this, SLOT(updateDataReadProgress(int, int)));
+    connect(m_http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)),
+            this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
+    connect(m_progressDialog, SIGNAL(canceled()), this, SLOT(cancelDownload()));
+    m_currentDownload = -1;
+    m_httpRequestAborted = false;
 }
 void ModuleDownloader::setSettings(Settings *settings)
 {
@@ -60,14 +60,14 @@ void ModuleDownloader::start()
 }
 void ModuleDownloader::downloadNext()
 {
-    if (m_httpRequestAborted)
+    if(m_httpRequestAborted)
         return;
 
-    if (m_currentDownload + 1 == m_urls.size() && m_urls.size() != 0) {
+    if(m_currentDownload + 1 == m_urls.size() && m_urls.size() != 0) {
         emit downloaded(m_downloadedList, m_downNames);
         return;
     }
-    if (m_currentDownload < m_urls.size() && m_urls.size() != 0) {
+    if(m_currentDownload < m_urls.size() && m_urls.size() != 0) {
         m_currentDownload++;
         download(m_urls.at(m_currentDownload));
 
@@ -83,15 +83,15 @@ void ModuleDownloader::download(QString url_, bool addToList)
     QDir dir(m_settings->homePath);
     dir.mkpath(m_settings->homePath + "modules/" + fileInfo.fileName() + "/");
     QString fileName = m_settings->homePath + "modules/" + fileInfo.fileName() + "/" + fileInfo.fileName();
-    if (addToList) {
+    if(addToList) {
         m_downloadedList << fileName;
         m_downNames << m_names[m_urls.at(m_currentDownload)];
     }
-    if (QFile::exists(fileName)) {
+    if(QFile::exists(fileName)) {
         QFile::remove(fileName);
     }
     m_file = new QFile(fileName);
-    if (!m_file->open(QIODevice::WriteOnly)) {
+    if(!m_file->open(QIODevice::WriteOnly)) {
         QMessageBox::information(m_parent, tr("HTTP"), tr("Unable to save the file %1: %2.").arg(fileName).arg(m_file->errorString()));
         delete m_file;
         m_file = 0;
@@ -112,10 +112,10 @@ void ModuleDownloader::cancelDownload()
 
 void ModuleDownloader::httpRequestFinished(int requestId, bool error)
 {
-    if (requestId != m_httpGetId)
+    if(requestId != m_httpGetId)
         return;
-    if (m_httpRequestAborted) {
-        if (m_file) {
+    if(m_httpRequestAborted) {
+        if(m_file) {
             m_file->close();
             m_file->remove();
             delete m_file;
@@ -124,14 +124,14 @@ void ModuleDownloader::httpRequestFinished(int requestId, bool error)
         m_progressDialog->hide();
         return;
     }
-    if (requestId != m_httpGetId)
+    if(requestId != m_httpGetId)
         return;
-    if (m_currentDownload > m_urls.size() - 2 || m_urls.size() == 1) {
+    if(m_currentDownload > m_urls.size() - 2 || m_urls.size() == 1) {
         m_progressDialog->hide();
     }
     m_file->close();
 
-    if (error) {
+    if(error) {
         m_file->remove();
         QMessageBox::information(m_parent, tr("HTTP"), tr("Download failed: %1.").arg(m_http->errorString()));
     } else {
@@ -145,7 +145,7 @@ void ModuleDownloader::httpRequestFinished(int requestId, bool error)
 void ModuleDownloader::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
     myDebug() << responseHeader.statusCode() << responseHeader.toString();
-    switch (responseHeader.statusCode()) {
+    switch(responseHeader.statusCode()) {
     case 200:                   // Ok
 
         break;
@@ -154,7 +154,7 @@ void ModuleDownloader::readResponseHeader(const QHttpResponseHeader &responseHea
     case 307:                   // Temporary Redirect
     case 301:                   // Moved Permanently
         myDebug() << "moved";
-        if (responseHeader.hasKey("Location") && !responseHeader.value("Location").contains("failed")) {
+        if(responseHeader.hasKey("Location") && !responseHeader.value("Location").contains("failed")) {
             QString location = responseHeader.value("Location");
             download(location, false);
         }
@@ -171,18 +171,18 @@ void ModuleDownloader::readResponseHeader(const QHttpResponseHeader &responseHea
 
 void ModuleDownloader::updateDataReadProgress(int bytesRead, int totalBytes)
 {
-    if (m_httpRequestAborted)
+    if(m_httpRequestAborted)
         return;
-    m_progressDialog->setLabelText(tr("Downloading %1 / %2. %3 MB").arg(m_currentDownload + 1).arg(m_urls.size()).arg(QString::number((float)bytesRead / (1024*1024), 'f', 2)));
-    if (totalBytes == 0) {
-        if (m_progressDialog->maximum() != 0) {
+    m_progressDialog->setLabelText(tr("Downloading %1 / %2. %3 MB").arg(m_currentDownload + 1).arg(m_urls.size()).arg(QString::number((float)bytesRead / (1024 * 1024), 'f', 2)));
+    if(totalBytes == 0) {
+        if(m_progressDialog->maximum() != 0) {
             m_progressDialog->setMaximum(0);
             m_progressDialog->setMinimum(0);
             m_progressDialog->setValue(1);
         }
     } else {
 
-        if (m_progressDialog->maximum() != totalBytes) {
+        if(m_progressDialog->maximum() != totalBytes) {
             m_progressDialog->setMaximum(totalBytes);
         }
         m_progressDialog->setValue(bytesRead);

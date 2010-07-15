@@ -85,7 +85,6 @@ private slots:
     void previousVerse();
     void nextChapter();
     void previousChapter();
-    int textBrowserContextMenu(QPoint);
     int copyWholeVerse();
     void reloadChapter(bool full = false);
     void reloadActive();

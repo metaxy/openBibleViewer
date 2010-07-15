@@ -52,12 +52,12 @@ public:
     ModuleSettings getModuleSettings(const int &bibleID);
     void replaceModuleSettings(const int &bibleID, ModuleSettings m);
 
-    void setTitle( QString path, QString title);
+    void setTitle(QString path, QString title);
     void setBookCount(QString path, QMap<int, int> count);
     void setBookNames(QString path, QStringList names);
     ModuleCache getModuleCache(const QString &path);
-    void setModuleIDinMap(const int &moduleID, const int &pos );
-    QMap<QString,ModuleCache> m_moduleCache;
+    void setModuleIDinMap(const int &moduleID, const int &pos);
+    QMap<QString, ModuleCache> m_moduleCache;
 
     Session session;
     QString sessionID;

@@ -19,14 +19,14 @@ Settings::Settings()
     m_moduleID = QMap<int, int>();
 
 }
-void Settings::setModuleIDinMap(const int &moduleID, const int &pos )
+void Settings::setModuleIDinMap(const int &moduleID, const int &pos)
 {
     m_moduleID[moduleID] = pos;
 }
 ModuleSettings Settings::getModuleSettings(const int &moduleID)
 {
     int id = m_moduleID.value(moduleID);
-    if (m_moduleSettings.size() < id || m_moduleSettings.size() == 0) {
+    if(m_moduleSettings.size() < id || m_moduleSettings.size() == 0) {
         myDebug() << "No Settings aviable";
         return ModuleSettings();
     } else {
@@ -38,7 +38,7 @@ void Settings::replaceModuleSettings(const int &bibleID, ModuleSettings m)
     int id = m_moduleID[bibleID];
     m_moduleSettings.replace(id, m);
 }
-void Settings::setBookCount(QString path,QMap<int, int>count)
+void Settings::setBookCount(QString path, QMap<int, int>count)
 {
     ModuleCache c = m_moduleCache[path];
     c.bookCount = count;

@@ -23,6 +23,9 @@ public:
     int posInStartVerse;
     int posInEndVerse;
     int repeat;
+    int moduleID;
+    int bookID;
+    int chapterID;
     QString selectedText;
     QString shortestStringInStartVerse;
     QString shortestStringInEndVerse;

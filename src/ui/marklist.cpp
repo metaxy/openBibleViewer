@@ -17,15 +17,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/urlconverter.h"
 #include "src/core/core.h"
 MarkList::MarkList(QWidget *parent) :
-        QDialog(parent),
-        ui(new Ui::MarkList)
+    QDialog(parent),
+    ui(new Ui::MarkList)
 {
     ui->setupUi(this);
 
 }
 void MarkList::init()
 {
-    if (!m_notes->isLoaded()) {
+    if(!m_notes->isLoaded()) {
         m_notes->init(m_settings->homePath + "notes.xml");
         m_notes->loadNotes();
         m_notes->readNotes();
@@ -37,8 +37,8 @@ void MarkList::init()
     connect(this, SIGNAL(get(QString)), m_bibleDisplay, SIGNAL(get(QString)));
     QStringList marks;
     QStringList id = m_notes->getIDList();
-    for (int i = 0; i < id.size(); ++i) {
-        if (m_notes->getType(id.at(i)) == "mark") {
+    for(int i = 0; i < id.size(); ++i) {
+        if(m_notes->getType(id.at(i)) == "mark") {
             marks << id.at(i);
         }
     }
@@ -50,7 +50,7 @@ void MarkList::init()
 
     myDebug() << " id = " << id;
 
-    for (int row = 0; row < marks.size(); ++row) {
+    for(int row = 0; row < marks.size(); ++row) {
 
         QString string = "";
         UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, m_notes->getRef(marks.at(row), "link"));
@@ -98,7 +98,7 @@ MarkList::~MarkList()
 void MarkList::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         m_proxyModel->setHeaderData(0, Qt::Horizontal, tr("Mark Position"));

@@ -16,8 +16,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include "src/core/core.h"
 BookDockWidget::BookDockWidget(QWidget *parent) :
-        DockWidget(parent),
-        ui(new Ui::BookDockWidget)
+    DockWidget(parent),
+    ui(new Ui::BookDockWidget)
 {
     ui->setupUi(this);
     connect(ui->listWidget_books, SIGNAL(itemActivated(QListWidgetItem *)), this, SLOT(readBook(QListWidgetItem *)));
@@ -64,7 +64,7 @@ void BookDockWidget::setCurrentChapter(const int &chapterID)
 void BookDockWidget::changeEvent(QEvent *e)
 {
     QDockWidget::changeEvent(e);
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;

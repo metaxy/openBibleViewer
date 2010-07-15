@@ -33,7 +33,7 @@ MdiForm::MdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::MdiForm)
     m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
     connect(m_ui->toolButton_backward, SIGNAL(clicked()), this, SLOT(backward()));
     connect(m_ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
-    connect(m_ui->toolButton_bibleList,SIGNAL(clicked()), this, SLOT(showBibleListMenu()));
+    connect(m_ui->toolButton_bibleList, SIGNAL(clicked()), this, SLOT(showBibleListMenu()));
 
 
     setButtons();
@@ -42,7 +42,7 @@ MdiForm::MdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::MdiForm)
 }
 void MdiForm::changeEvent(QEvent *e)
 {
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         m_ui->retranslateUi(this);
         break;
@@ -67,12 +67,12 @@ void MdiForm::forward()
 }
 void MdiForm::setButtons()
 {
-    if (browserHistory.backwardAvailable()) {
+    if(browserHistory.backwardAvailable()) {
         m_ui->toolButton_backward->setDisabled(false);
     } else {
         m_ui->toolButton_backward->setDisabled(true);
     }
-    if (browserHistory.forwardAvailable()) {
+    if(browserHistory.forwardAvailable()) {
         m_ui->toolButton_forward->setDisabled(false);
     } else {
         m_ui->toolButton_forward->setDisabled(true);
@@ -83,9 +83,9 @@ void MdiForm::showBibleListMenu()
 {
     BibleListWidget *w = new BibleListWidget;
     setAll(w);;
-/*   QPoint p = QCursor::pos();
-    p.setX(p.x()-w->width());
-    w->move(p);*/
+    /*   QPoint p = QCursor::pos();
+        p.setX(p.x()-w->width());
+        w->move(p);*/
     w->init();
     w->exec();
 }

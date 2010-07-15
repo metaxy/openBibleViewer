@@ -6,8 +6,8 @@ class BibleList
 {
 public:
     BibleList();
-    QHash<int,Bible *> m_bibles;
-    QMap<int,QPoint> m_biblePoints;
+    QHash<int, Bible *> m_bibles;
+    QMap<int, QPoint> m_biblePoints;
     void clear();
     /**
       id is not the moduleID, it is the internal count
@@ -21,7 +21,7 @@ public:
     int m_currentBible;
 
 private:
-    QString title(Bible *b, const QString &active,const int &bibleListID);
+    QString title(Bible *b, const QString &active, const int &bibleListID);
     int countInCol(const int &col);
 
 };

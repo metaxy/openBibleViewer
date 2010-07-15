@@ -17,8 +17,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_biblepassagedialog.h"
 
 BiblePassageDialog::BiblePassageDialog(QWidget *parent) :
-        QDialog(parent),
-        m_ui(new Ui::BiblePassageDialog)
+    QDialog(parent),
+    m_ui(new Ui::BiblePassageDialog)
 {
     m_ui->setupUi(this);
     connect(m_ui->pushButton_save, SIGNAL(clicked()), this, SLOT(save()));
@@ -50,7 +50,7 @@ void BiblePassageDialog::indexChanged(int index)
 {
     //todo: use cache
     //DEBUG_FUNC_NAME
-    if (index >= 0) {
+    if(index >= 0) {
         m_path = m_moduleManager->getBiblePaths().at(index);
         m_ui->comboBox_books->clear();
         m_ui->comboBox_books->insertItems(0, m_settings->getModuleCache(m_path).bookNames);
@@ -82,7 +82,7 @@ void BiblePassageDialog::save()
 void BiblePassageDialog::changeEvent(QEvent *e)
 {
 
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         m_ui->retranslateUi(this);
         break;

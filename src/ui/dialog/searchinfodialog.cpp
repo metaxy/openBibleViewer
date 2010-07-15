@@ -18,8 +18,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include <math.h>
 SearchInfoDialog::SearchInfoDialog(QWidget *parent) :
-        QDialog(parent),
-        m_ui(new Ui::SearchInfoDialog)
+    QDialog(parent),
+    m_ui(new Ui::SearchInfoDialog)
 {
     m_ui->setupUi(this);
     connect(m_ui->pushButton_close, SIGNAL(clicked()), this, SLOT(close()));
@@ -37,7 +37,7 @@ void SearchInfoDialog::setInfo(SearchResult result, QStringList bookNames, QStri
     m_ui->label_searchText->setText(tr("Search string : '%1'").arg(searchText));
     m_ui->label_foundItems->setText(tr("Found verses : %1").arg(QString::number(size)));
     QMap<int, int> booksMap;
-    for (int i = 0; i < result.hits().size(); i++) {
+    for(int i = 0; i < result.hits().size(); i++) {
         SearchHit hit = result.hits().at(i);
         booksMap[hit.bookID()]++;
     }
@@ -51,9 +51,9 @@ void SearchInfoDialog::setInfo(SearchResult result, QStringList bookNames, QStri
     int countBooks = 0;
     int maxVerse = 0;
     QMapIterator<int, int> i2(booksMap);
-    while (i2.hasNext()) {
+    while(i2.hasNext()) {
         i2.next();
-        if (i2.value() > maxVerse) {
+        if(i2.value() > maxVerse) {
             maxVerse = i2.value();
         }
         countBooks++;
@@ -66,10 +66,10 @@ void SearchInfoDialog::setInfo(SearchResult result, QStringList bookNames, QStri
 
     QMapIterator<int, int> i(booksMap);
     int c = 0;
-    while (i.hasNext()) {
+    while(i.hasNext()) {
         c++;
         int color;
-        if (c % 2 == 0) {
+        if(c % 2 == 0) {
             color = 223;
         } else {
             color = 0;
@@ -103,7 +103,7 @@ void SearchInfoDialog::tabChanged(int index)
 {
     //DEBUG_FUNC_NAME
     myDebug() << "index = " << index;
-    if (index == 1 && m_textShown == false) { //tab_2
+    if(index == 1 && m_textShown == false) {  //tab_2
         m_ui->textBrowser_list->setHtml(m_textList.join("<br /><hr>"));
         m_textShown = true;
     }
@@ -119,7 +119,7 @@ int SearchInfoDialog::d2i(double d)
 }
 void SearchInfoDialog::changeEvent(QEvent *e)
 {
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         m_ui->retranslateUi(this);
         break;

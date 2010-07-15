@@ -15,8 +15,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_markcategories.h"
 
 MarkCategories::MarkCategories(QWidget *parent) :
-        QDialog(parent),
-        ui(new Ui::MarkCategories)
+    QDialog(parent),
+    ui(new Ui::MarkCategories)
 {
     ui->setupUi(this);
 }
@@ -29,7 +29,7 @@ MarkCategories::~MarkCategories()
 void MarkCategories::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;

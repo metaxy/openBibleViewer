@@ -21,8 +21,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 #include "src/core/core.h"
 NotesDockWidget::NotesDockWidget(QWidget *parent) :
-        DockWidget(parent),
-        ui(new Ui::NotesDockWidget)
+    DockWidget(parent),
+    ui(new Ui::NotesDockWidget)
 {
     ui->setupUi(this);
     m_simpleNotes = new SimpleNotes();
@@ -76,7 +76,7 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
     myDebug() << urlConverter.m_bookID << ":" << m_moduleManager->bible()->bookID();
     myDebug() << urlConverter.m_chapterID << ":" << m_moduleManager->bible()->chapterID();
 
-    if (urlConverter.m_moduleID == m_moduleManager->bible()->moduleID() &&
+    if(urlConverter.m_moduleID == m_moduleManager->bible()->moduleID() &&
             urlConverter.m_bookID == m_moduleManager->bible()->bookID() &&
             urlConverter.m_chapterID == m_moduleManager->bible()->chapterID()) {
         myDebug() << "reload";
@@ -97,7 +97,7 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     myDebug() << urlConverter.m_bookID << ":" << m_moduleManager->bible()->bookID();
     myDebug() << urlConverter.m_chapterID << ":" << m_moduleManager->bible()->chapterID();
 
-    if (urlConverter.m_moduleID == m_moduleManager->bible()->moduleID() &&
+    if(urlConverter.m_moduleID == m_moduleManager->bible()->moduleID() &&
             urlConverter.m_bookID == m_moduleManager->bible()->bookID() &&
             urlConverter.m_chapterID == m_moduleManager->bible()->chapterID()) {
         myDebug() << "reload";
@@ -126,7 +126,7 @@ void NotesDockWidget::newNoteWithLink(VerseSelection selection)
 }
 void NotesDockWidget::noteSetTextBold(void)
 {
-    if (ui->textBrowser->fontWeight() == QFont::Bold) {
+    if(ui->textBrowser->fontWeight() == QFont::Bold) {
         ui->textBrowser->setFontWeight(QFont::Normal);
     } else {
         ui->textBrowser->setFontWeight(QFont::Bold);
@@ -134,7 +134,7 @@ void NotesDockWidget::noteSetTextBold(void)
 }
 void NotesDockWidget::noteSetTextItalic(void)
 {
-    if (ui->textBrowser->fontItalic()) {
+    if(ui->textBrowser->fontItalic()) {
         ui->textBrowser->setFontItalic(false);
     } else {
         ui->textBrowser->setFontItalic(true);
@@ -142,7 +142,7 @@ void NotesDockWidget::noteSetTextItalic(void)
 }
 void NotesDockWidget::noteSetTextUnderline(void)
 {
-    if (ui->textBrowser->fontUnderline()) {
+    if(ui->textBrowser->fontUnderline()) {
         ui->textBrowser->setFontUnderline(false);
     } else {
         ui->textBrowser->setFontUnderline(true);
@@ -151,7 +151,7 @@ void NotesDockWidget::noteSetTextUnderline(void)
 void NotesDockWidget::noteSetTextColor(void)
 {
     QColor color = QColorDialog::getColor(Qt::green, this);
-    if (color.isValid()) {
+    if(color.isValid()) {
         ui->textBrowser->setTextColor(color);
     }
 }
@@ -167,19 +167,19 @@ void NotesDockWidget::noteRedo()
 void NotesDockWidget::newMark(VerseSelection selection, QColor color)
 {
     //DEBUG_FUNC_NAME
-    if (selection.shortestStringInEndVerse == "" || selection.shortestStringInStartVerse == "") {
+    if(selection.shortestStringInEndVerse == "" || selection.shortestStringInStartVerse == "") {
         myDebug() << "cannot create mark";
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot create mark."));
+        //todo: use full verse mark
         return;
     }
     QString link;
     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.m_moduleID = m_moduleManager->bible()->moduleID();
-    urlConverter.m_bookID = m_moduleManager->bible()->bookID();
-    urlConverter.m_chapterID = m_moduleManager->bible()->chapterID();
+    urlConverter.m_moduleID = selection.moduleID;
+    urlConverter.m_bookID = selection.bookID;
+    urlConverter.m_chapterID = selection.chapterID;
     urlConverter.m_verseID = selection.startVerse;
-    myDebug() << "verse = " << urlConverter.m_verseID;
     urlConverter.m_bookName = m_moduleManager->bible()->bookFullName().at(m_moduleManager->bible()->bookID());
     link = urlConverter.convert();
     m_notes->saveNotes();
@@ -206,36 +206,40 @@ void NotesDockWidget::newMark(VerseSelection selection, QColor color)
 void NotesDockWidget::removeMark(VerseSelection selection)
 {
     //DEBUG_FUNC_NAME
+    bool r = false;
     QStringList id = m_notes->getIDList();
-    for (int i = 0; i < id.size(); i++) {
-        if (m_notes->getType(id.at(i)) == "mark") {
+    for(int i = 0; i < id.size(); i++) {
+        if(m_notes->getType(id.at(i)) == "mark") {
             QString noteID = id.at(i);
             QString link = m_notes->getRef(noteID, "link");
             UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
             urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
             urlConverter.pharse();
 
-            if (urlConverter.m_moduleID == m_moduleManager->bible()->moduleID() && urlConverter.m_bookID == m_moduleManager->bible()->bookID() && urlConverter.m_chapterID == m_moduleManager->bible()->chapterID()) {
+            if(urlConverter.m_moduleID == m_moduleManager->bible()->moduleID() && urlConverter.m_bookID == m_moduleManager->bible()->bookID() && urlConverter.m_chapterID == m_moduleManager->bible()->chapterID()) {
                 int start = selection.startVerse;
                 int end;
-                if (selection.endVerse != -1) {
+                if(selection.endVerse != -1) {
                     end = selection.endVerse;
                 } else {
                     end = start;
                 }
-                if (m_notes->getRef(noteID, "start").toInt() <= start && end <= m_notes->getRef(noteID, "end").toInt()) {
+                if(m_notes->getRef(noteID, "start").toInt() <= start && end <= m_notes->getRef(noteID, "end").toInt()) {
                     //todo: work with positions in text
                     m_notes->removeNote(noteID);
-                    emit reloadChapter();
+                    r = true;
+
                 }
             }
         }
     }
+    if(r)
+        emit reloadChapter();
 }
 void NotesDockWidget::changeEvent(QEvent *e)
 {
     QDockWidget::changeEvent(e);
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;

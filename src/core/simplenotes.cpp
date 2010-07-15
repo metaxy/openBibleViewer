@@ -57,7 +57,7 @@ void SimpleNotes::init()
     m_itemModel = new QStandardItemModel(m_treeView);
     connect(m_treeView, SIGNAL(activated(QModelIndex)), this, SLOT(showNote(QModelIndex)));
     connect(m_treeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(notesContextMenu(QPoint)));
-    if (loadTextBrowser) {
+    if(loadTextBrowser) {
         connect(m_textEdit_note, SIGNAL(undoAvailable(bool)), this, SLOT(fastSave()));
         connect(m_textEdit_note, SIGNAL(redoAvailable(bool)), this, SLOT(fastSave()));
     }
@@ -66,7 +66,7 @@ void SimpleNotes::init()
     connect(m_pushButton_link, SIGNAL(clicked()), this, SLOT(editNoteLink()));
     connect(m_label_link, SIGNAL(linkActivated(QString)), m_bibleDisplay, SIGNAL(get(QString)));
 
-    if (!m_notes->isLoaded()) {
+    if(!m_notes->isLoaded()) {
         m_notes->init(m_settings->homePath + "notes.xml");
         m_notes->loadNotes();
         m_notes->readNotes();
@@ -85,8 +85,8 @@ void SimpleNotes::init()
 
     QStandardItem *parentItem = m_itemModel->invisibleRootItem();
     myDebug() << " id = " << id;
-    for (int i = 0; i < id.size(); i++) {
-        if (m_notes->getType(id.at(i)) == "text") {
+    for(int i = 0; i < id.size(); i++) {
+        if(m_notes->getType(id.at(i)) == "text") {
             QStandardItem *noteItem = new QStandardItem;
             noteItem->setText(m_notes->getTitle(id.at(i)));
             noteItem->setData(id.at(i));
@@ -112,9 +112,8 @@ void SimpleNotes::showNote(const QString &noteID, bool selectNote)
 {
     //DEBUG_FUNC_NAME
     //save current notes
-    if (selectNote)
+    if(selectNote)
         select(noteID);
-
     fastSave();
     aktNote();
     //load new notes
@@ -131,14 +130,14 @@ void SimpleNotes::setTitle(QString title)
 }
 void SimpleNotes::setData(QString data)
 {
-    if (loadTextBrowser)
+    if(loadTextBrowser)
         m_textEdit_note->setHtml(data);
     else
         m_frame->setHtml(data);
 }
 void SimpleNotes::setRef(QMap<QString, QString> ref)
 {
-    if (!ref["link"].isEmpty()) {
+    if(!ref["link"].isEmpty()) {
         m_label_link->setText(m_moduleManager->notePos2Link(ref["link"]));
         m_pushButton_link->setEnabled(true);
     } else {
@@ -175,18 +174,18 @@ void SimpleNotes::updateNote(QString link)
 void SimpleNotes::changeData(QString id, QString data)
 {
     DEBUG_FUNC_NAME
-    if (m_noteID == id) {
+    if(m_noteID == id) {
         setData(data);
     }
 }
 void SimpleNotes::changeTitle(QString id, QString title)
 {
     DEBUG_FUNC_NAME
-    if (m_noteID == id) {
+    if(m_noteID == id) {
         setTitle(title);
     }
     QModelIndexList list = m_treeView->model()->match(m_treeView->model()->index(0, 0), Qt::UserRole + 1, id);
-    if (list.size() != 1) {
+    if(list.size() != 1) {
         myDebug() << "invalid noteID = " << m_noteID;
         return;
     }
@@ -196,7 +195,7 @@ void SimpleNotes::changeTitle(QString id, QString title)
 void SimpleNotes::changeRef(QString id, QMap<QString, QString> ref)
 {
     DEBUG_FUNC_NAME
-    if (m_noteID == id) {
+    if(m_noteID == id) {
         setRef(ref);
     }
 }
@@ -206,14 +205,14 @@ void SimpleNotes::copyNote(void)
     QModelIndexList list = m_selectionModel->selectedRows(0);
     QClipboard *clipboard = QApplication::clipboard();
     QString text;
-    for (int i = 0; i < list.size(); i++) {
+    for(int i = 0; i < list.size(); i++) {
         QTextDocument doc;
         doc.setHtml(m_notes->getData(list.at(i).data(Qt::UserRole + 1).toString()));
-        if (i != 0)
+        if(i != 0)
             text += "\n";
         text += doc.toPlainText();
     }
-    if (!text.isEmpty()) {
+    if(!text.isEmpty()) {
         clipboard->setText(text);
     }
 }
@@ -230,7 +229,7 @@ void SimpleNotes::fastSave(void)
     disconnect(m_notes, SIGNAL(dataChanged(QString, QString)), this, SLOT(changeData(QString, QString)));
     disconnect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
 
-    if (loadTextBrowser)
+    if(loadTextBrowser)
         m_notes->setData(m_noteID, m_textEdit_note->toHtml());
     else
         m_notes->setData(m_noteID, m_frame->toHtml());
@@ -244,16 +243,16 @@ void SimpleNotes::fastSave(void)
 }
 void SimpleNotes::aktNote()
 {
-    if (m_noteID == "")
+    if(m_noteID == "")
         return;
     m_notes->setTitle(m_noteID, m_lineEdit_title->text());
     QModelIndexList list = m_treeView->model()->match(m_treeView->model()->index(0, 0), Qt::UserRole + 1, m_noteID);
-    if (list.size() != 1) {
+    if(list.size() != 1) {
         myDebug() << "invalid noteID = " << m_noteID;
         return;
     }
     QModelIndex index = list.at(0);
-    if (index.data(Qt::DisplayRole) != m_notes->getTitle(m_noteID)) {
+    if(index.data(Qt::DisplayRole) != m_notes->getTitle(m_noteID)) {
         m_treeView->model()->setData(index, m_notes->getTitle(m_noteID), Qt::DisplayRole);
 
 
@@ -262,7 +261,7 @@ void SimpleNotes::aktNote()
 void SimpleNotes::select(QString noteID)
 {
     QModelIndexList list = m_treeView->model()->match(m_treeView->model()->index(0, 0), Qt::UserRole + 1, noteID);
-    if (list.size() != 1) {
+    if(list.size() != 1) {
         return;
     }
     QModelIndex index = list.at(0);
@@ -306,7 +305,7 @@ void SimpleNotes::newNote(void)
 }
 void SimpleNotes::addNote(QString id)
 {
-    if (m_noteID != id && m_notes->getType(id) == "text") {
+    if(m_noteID != id && m_notes->getType(id) == "text") {
         //todo: if there is already this note(but something like that should never happen)
         QStandardItem *parentItem = m_itemModel->invisibleRootItem();
         QStandardItem *newItem = new QStandardItem;
@@ -325,9 +324,9 @@ void SimpleNotes::newNoteWithLink(VerseSelection selection)
     QString link;
     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.m_moduleID =  m_moduleManager->bible()->moduleID();
-    urlConverter.m_bookID = m_moduleManager->bible()->bookID();
-    urlConverter.m_chapterID = m_moduleManager->bible()->chapterID();
+    urlConverter.m_moduleID = selection.moduleID;
+    urlConverter.m_bookID = selection.bookID;
+    urlConverter.m_chapterID = selection.chapterID;
     urlConverter.m_verseID = selection.startVerse;
     urlConverter.m_bookName = m_moduleManager->bible()->bookFullName().at(m_moduleManager->bible()->bookID());
     link = urlConverter.convert();
@@ -366,21 +365,23 @@ void SimpleNotes::notesContextMenu(QPoint point)
     m_currentPoint = point;
     contextMenu->setObjectName("contextMenu");
 
-    QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy",QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), contextMenu);
+    QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), contextMenu);
     actionCopy->setObjectName("actionCopy");
     connect(actionCopy, SIGNAL(triggered()), this, SLOT(copyNote()));
 
-    QAction *actionNew = new QAction(QIcon::fromTheme("document-new",QIcon(":/icons/16x16/document-new.png")), tr("New"), contextMenu);
+    QAction *actionNew = new QAction(QIcon::fromTheme("document-new", QIcon(":/icons/16x16/document-new.png")), tr("New"), contextMenu);
     actionNew->setObjectName("actionNew");
     connect(actionNew, SIGNAL(triggered()), this, SLOT(newNote()));
 
-    QAction *actionDelete = new QAction(QIcon::fromTheme("edit-delete",QIcon(":/icons/16x16/edit-delete.png")), tr("Delete"), contextMenu);
+    QAction *actionDelete = new QAction(QIcon::fromTheme("edit-delete", QIcon(":/icons/16x16/edit-delete.png")), tr("Delete"), contextMenu);
     actionDelete->setObjectName("actionDelete");
     connect(actionDelete, SIGNAL(triggered()), this, SLOT(removeNote()));
 
-    contextMenu->addAction(actionCopy);
     contextMenu->addAction(actionNew);
     contextMenu->addAction(actionDelete);
+    contextMenu->addSeparator();
+    contextMenu->addAction(actionCopy);
+
     contextMenu->exec(QCursor::pos());
 }
 void SimpleNotes::removeNote()
@@ -389,11 +390,11 @@ void SimpleNotes::removeNote()
     QModelIndexList list = m_selectionModel->selectedRows(0);
     disconnect(m_notes, SIGNAL(noteRemoved(QString)), this, SLOT(removeNote(QString)));
     //todo: if note has link, check if the page where the link shows is currently displayed, if yes reloadChapter
-    if (list.size() == 0) {
+    if(list.size() == 0) {
         QModelIndex index = m_treeView->indexAt(m_currentPoint);
-        if (index.isValid()) {
+        if(index.isValid()) {
             QString id = index.data(Qt::UserRole + 1).toString();
-            if (id == m_noteID) {
+            if(id == m_noteID) {
                 setTitle("");
                 setData("");
                 setRef(QMap<QString, QString>());
@@ -403,9 +404,9 @@ void SimpleNotes::removeNote()
         }
 
     } else {
-        while (list.size() != 0) {
+        while(list.size() != 0) {
             QString id = list.at(0).data(Qt::UserRole + 1).toString();
-            if (id == m_noteID) {
+            if(id == m_noteID) {
                 setTitle("");
                 setData("");
                 setRef(QMap<QString, QString>());
@@ -421,13 +422,13 @@ void SimpleNotes::removeNote()
 void SimpleNotes::removeNote(QString id)
 {
     DEBUG_FUNC_NAME
-    if (id == m_noteID) {
+    if(id == m_noteID) {
         setTitle("");
         setData("");
         setRef(QMap<QString, QString>());
     }
     QModelIndexList list = m_treeView->model()->match(m_treeView->model()->index(0, 0), Qt::UserRole + 1, id);
-    if (list.size() != 1) {
+    if(list.size() != 1) {
         myDebug() << "invalid noteID = " << m_noteID;
         return;
     }

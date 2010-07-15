@@ -40,7 +40,7 @@ void ZefaniaStrong::setSettings(Settings *settings)
 QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
 {
     KoXmlDocument doc;
-    if (!doc.setContent(fileData)) {
+    if(!doc.setContent(fileData)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
         myDebug() << "the file isnt valid";
         return QString();
@@ -53,40 +53,40 @@ QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
     QStringList l_desc = QStringList();
 
     KoXmlNode item = doc.documentElement().firstChild();
-    for (int c = 0; !item.isNull();) {
+    for(int c = 0; !item.isNull();) {
         QString id = "";
         QString title = "";
         QString trans = "";
         QString pron = "";
         QString desc = "";
         KoXmlElement e = item.toElement();
-        if (e.tagName() == "INFORMATION") {
+        if(e.tagName() == "INFORMATION") {
             KoXmlNode titel = item.namedItem("title");
             fileTitle = titel.toElement().text();
-        } else if (e.tagName() == "item") {
+        } else if(e.tagName() == "item") {
             id = e.attribute("id");
             KoXmlNode details = item.firstChild();
-            while (!details.isNull()) {
+            while(!details.isNull()) {
                 KoXmlElement edetails = details.toElement();
-                if (edetails.tagName() == "title") {
+                if(edetails.tagName() == "title") {
                     title = edetails.text();
-                } else if (edetails.tagName() == "transliteration") {
+                } else if(edetails.tagName() == "transliteration") {
                     trans =  edetails.text();
-                } else if (edetails.tagName() == "pronunciation") {
+                } else if(edetails.tagName() == "pronunciation") {
                     KoXmlNode em = details.firstChild();
-                    while (!em.isNull()) {
-                        if (em.toElement().tagName() == "em")
+                    while(!em.isNull()) {
+                        if(em.toElement().tagName() == "em")
                             pron = "<em>" + em.toElement().text() + "</em>";
                         em = em.nextSibling();
                     }
-                } else if (edetails.tagName() == "description") {
+                } else if(edetails.tagName() == "description") {
                     KoXmlNode descNode = details.firstChild();
-                    while (!descNode.isNull()) {
-                        if (descNode.nodeType() == 2) {
+                    while(!descNode.isNull()) {
+                        if(descNode.nodeType() == 2) {
                             desc += descNode.toText().data();
-                        } else if (descNode.nodeType() == 1) {
+                        } else if(descNode.nodeType() == 1) {
                             KoXmlElement descElement  = descNode.toElement();
-                            if (descElement.tagName() == "reflink") {
+                            if(descElement.tagName() == "reflink") {
                                 QString mscope = descElement.attribute("mscope", ";;;");
                                 QStringList list = mscope.split(";");
                                 int bookID = list.at(0).toInt() - 1;
@@ -95,7 +95,7 @@ QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
                                 QString url = "bible://current/" + QString::number(bookID) + "," + QString::number(chapterID) + "," + QString::number(verseID) + ",";
                                 QString name = "";
 
-                                if (bookID < m_settings->bookNames.size()) {
+                                if(bookID < m_settings->bookNames.size()) {
                                     name = m_settings->bookNames.at(bookID) + " " + list.at(1) + "," + list.at(2);
                                 } else {
                                     name = list.at(0) + " " + list.at(1) + "," + list.at(2);
@@ -124,14 +124,14 @@ QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
     QString path = m_settings->homePath + "cache/" + hash.result().toBase64() + ".strong";
     //if cache folder exist then remove it
     QFileInfo info(path);
-    if (info.exists()) {
+    if(info.exists()) {
         QFile::remove(path);
     }
     //make a new cache folder
     QDir dir;
     dir.mkpath(m_settings->homePath + "cache/");
     QFile file(path);
-    if (!file.open(QIODevice::WriteOnly)) {
+    if(!file.open(QIODevice::WriteOnly)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not open cache file."));
         return QString();
     }
@@ -156,7 +156,7 @@ bool ZefaniaStrong::loadDataBase(QString fileName)
     hash.addData(fileName.toLocal8Bit());
     QFile file(m_settings->homePath + "cache/" + hash.result().toBase64() + ".strong");
     myDebug() << "fileName3 = " << m_settings->homePath + "cache/" + hash.result().toBase64() + ".strong";
-    if (!file.open(QIODevice::ReadOnly)) {
+    if(!file.open(QIODevice::ReadOnly)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not open cache file."));
         return false;
     }
@@ -182,14 +182,14 @@ bool ZefaniaStrong::loadDataBase(QString fileName)
 QString ZefaniaStrong::getStrong(QString strongID)
 {
     myDebug() << "strongID = " << strongID;
-    for (int i = 0; i < m_id.size(); ++i) {
+    for(int i = 0; i < m_id.size(); ++i) {
         QString id = m_id.at(i);
-        if (id.trimmed().toLower() == strongID.trimmed().toLower()) {
+        if(id.trimmed().toLower() == strongID.trimmed().toLower()) {
             QString ret = "<h3>" + m_id.at(i) + " - " + m_title.at(i) + "</h3>";
-            if (m_trans.at(i) != "") {
+            if(m_trans.at(i) != "") {
                 ret += " (" + m_trans.at(i) + ") ";
             }
-            if (m_pron.at(i) != "") {
+            if(m_pron.at(i) != "") {
                 ret += " [" + m_pron.at(i) + "] ";
             }
             ret += "<br />" + m_desc.at(i);

@@ -35,18 +35,18 @@ QString UrlConverter::convert()
 {
     DEBUG_FUNC_NAME
     QString ret;
-    if (m_to == InterfaceUrl) {
+    if(m_to == InterfaceUrl) {
         ret = "bible://" + QString::number(m_moduleID) + "/" + QString::number(m_bookID) + "," + QString::number(m_chapterID) + "," + QString::number(m_verseID);
-    } else if (m_to == PersistentUrl) {
+    } else if(m_to == PersistentUrl) {
         if(!m_moduleMap->m_map.contains(m_moduleID)) {
             myDebug() << "moduleID = " << m_moduleID;
             return "";
         }
         ret = m_moduleMap->m_map.value(m_moduleID)->m_path + ";" + QString::number(m_bookID) + ";" + QString::number(m_chapterID) + ";" + QString::number(m_verseID);
-        if (!m_bookName.isEmpty()) {
+        if(!m_bookName.isEmpty()) {
             ret += ";" + m_bookName;//check for invalid charatcers
         }
-    } else if (m_to == BibleQuoteUrl) {
+    } else if(m_to == BibleQuoteUrl) {
     }
     return ret;
 }
@@ -54,15 +54,15 @@ int UrlConverter::pharse()
 {
     //DEBUG_FUNC_NAME
     QString bible = "bible://";
-    if (m_from == InterfaceUrl) {
+    if(m_from == InterfaceUrl) {
         QString url = m_url;
-        if (url.startsWith(bible)) {
+        if(url.startsWith(bible)) {
             url = url.remove(0, bible.size());
             QStringList a = url.split("/");
-            if (a.size() == 2) {
+            if(a.size() == 2) {
                 QStringList c = a.at(1).split(",");
                 m_moduleID = a.at(0).toInt();
-                if (c.size() >= 3) {
+                if(c.size() >= 3) {
                     m_bookID = c.at(0).toInt();
                     m_chapterID = c.at(1).toInt();
                     m_verseID = c.at(2).toInt();
@@ -75,16 +75,16 @@ int UrlConverter::pharse()
             myDebug() << "invalid url, it must start with bible://";
             return 1;
         }
-    } else if (m_from == PersistentUrl) {
+    } else if(m_from == PersistentUrl) {
         QStringList list = m_url.split(";");
-        if (list.size() < 4) {
+        if(list.size() < 4) {
             return 1;
         }
         QString path = list.at(0);
         QString sbookID = list.at(1);
         QString schapterID = list.at(2);
         QString sverseID = list.at(3);
-        if (list.size() == 5) {
+        if(list.size() == 5) {
             m_bookName = list.at(4);
         } else {
             m_bookName = sbookID;//todo: find something better
@@ -95,14 +95,14 @@ int UrlConverter::pharse()
         m_verseID = sverseID.toInt();
         //get bibleID
         QMapIterator<int, Module *> i(m_moduleMap->m_map);
-         while (i.hasNext()) {
-             i.next();
-             if(i.value()->m_path == path) {
-                 m_moduleID = i.key();
-             }
-         }
+        while(i.hasNext()) {
+            i.next();
+            if(i.value()->m_path == path) {
+                m_moduleID = i.key();
+            }
+        }
 
-    } else if (m_from == BibleQuoteUrl) {
+    } else if(m_from == BibleQuoteUrl) {
     }
     return 0;
 }

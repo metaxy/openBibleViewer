@@ -19,8 +19,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QFileDialog>
 
 ModuleConfigDialog::ModuleConfigDialog(QWidget *parent) :
-        QDialog(parent),
-        m_ui(new Ui::ModuleConfigDialog)
+    QDialog(parent),
+    m_ui(new Ui::ModuleConfigDialog)
 {
     m_ui->setupUi(this);
     connect(m_ui->pushButton_ok, SIGNAL(clicked()), this, SLOT(bsave()));
@@ -41,41 +41,41 @@ void ModuleConfigDialog::setModule(ModuleSettings config)
     m_ui->lineEdit_path->setText(config.modulePath);
     m_ui->comboBox_type->setCurrentIndex(config.moduleType.toInt());
     m_ui->comboBox_textFromatting->setCurrentIndex(config.zefbible_textFormatting);
-    if (config.biblequote_removeHtml == true)
+    if(config.biblequote_removeHtml == true)
         m_ui->checkBox_removeHtml->setChecked(true);
     else
         m_ui->checkBox_removeHtml->setChecked(false);
 
-    if (config.zefbible_hardCache == true)
+    if(config.zefbible_hardCache == true)
         m_ui->checkBox_hardCache->setChecked(true);
     else
         m_ui->checkBox_hardCache->setChecked(false);
 
-    if (config.zefbible_softCache == true)
+    if(config.zefbible_softCache == true)
         m_ui->checkBox_softCache->setChecked(true);
     else
         m_ui->checkBox_softCache->setChecked(false);
 
-    if (config.zefbible_showStrong == true)
+    if(config.zefbible_showStrong == true)
         m_ui->checkBox_showStrong->setChecked(true);
     else
         m_ui->checkBox_showStrong->setChecked(false);
 
-    if (config.zefbible_showStudyNote == true)
+    if(config.zefbible_showStudyNote == true)
         m_ui->checkBox_showStudyNote->setChecked(true);
     else
         m_ui->checkBox_showStudyNote->setChecked(false);
     m_encodings << "Default" << "Apple Roman" << "Big5" << "Big5-HKSCS" << "EUC-JP" << "EUC-KR" << "GB18030-0" << "IBM 850"
-    << "IBM 866" << "IBM 874" << "ISO 2022-JP" << "ISO 8859-1" << "ISO 8859-2" << "ISO 8859-3" << "ISO 8859-4"
-    << "ISO 8859-5" << "ISO 8859-6" << "ISO 8859-7" << "ISO 8859-8" << "ISO 8859-9" << "ISO 8859-10"
-    << "ISO 8859-13" << "ISO 8859-14" << "ISO 8859-15" << "ISO 8859-16" << "Iscii-Bng" << "Dev" << "Gjr"
-    << "Knd" << "Mlm" << "Ori" << "Pnj" << "Tlg" << "Tml" << "JIS X 0201" << "JIS X 0208" << "KOI8-R"
-    << "KOI8-U" << "MuleLao-1" << "ROMAN8" << "Shift-JIS" << "TIS-620" << "TSCII" << "UTF-8" << "UTF-16"
-    << "UTF-16BE" << "UTF-16LE" << "UTF-32" << "UTF-32BE" << "UTF-32LE" << "Windows-1250" << "Windows-1251" << "Windows-1252"
-    << "Windows-1253" << "Windows-1254" << "Windows-1255" << "Windows-1256" << "Windows-1257" << "Windows-1258" << "WINSAMI2";
+                << "IBM 866" << "IBM 874" << "ISO 2022-JP" << "ISO 8859-1" << "ISO 8859-2" << "ISO 8859-3" << "ISO 8859-4"
+                << "ISO 8859-5" << "ISO 8859-6" << "ISO 8859-7" << "ISO 8859-8" << "ISO 8859-9" << "ISO 8859-10"
+                << "ISO 8859-13" << "ISO 8859-14" << "ISO 8859-15" << "ISO 8859-16" << "Iscii-Bng" << "Dev" << "Gjr"
+                << "Knd" << "Mlm" << "Ori" << "Pnj" << "Tlg" << "Tml" << "JIS X 0201" << "JIS X 0208" << "KOI8-R"
+                << "KOI8-U" << "MuleLao-1" << "ROMAN8" << "Shift-JIS" << "TIS-620" << "TSCII" << "UTF-8" << "UTF-16"
+                << "UTF-16BE" << "UTF-16LE" << "UTF-32" << "UTF-32BE" << "UTF-32LE" << "Windows-1250" << "Windows-1251" << "Windows-1252"
+                << "Windows-1253" << "Windows-1254" << "Windows-1255" << "Windows-1256" << "Windows-1257" << "Windows-1258" << "WINSAMI2";
     m_ui->comboBox_encoding->clear();
     m_ui->comboBox_encoding->insertItems(0, m_encodings);
-    if (m_encodings.lastIndexOf(config.encoding) != -1) {
+    if(m_encodings.lastIndexOf(config.encoding) != -1) {
         m_ui->comboBox_encoding->setCurrentIndex(m_encodings.lastIndexOf(config.encoding));
     } else {
         m_ui->comboBox_encoding->setCurrentIndex(0);
@@ -87,14 +87,14 @@ void ModuleConfigDialog::bsave()
 {
     //DEBUG_FUNC_NAME
 
-    if (m_moduleSettings.moduleType.toInt() == Module::ZefaniaBibleModule &&
+    if(m_moduleSettings.moduleType.toInt() == Module::ZefaniaBibleModule &&
             (m_moduleSettings.encoding != m_encodings.at(m_ui->comboBox_encoding->currentIndex()) ||
              m_moduleSettings.moduleType != QString::number(m_ui->comboBox_type->currentIndex()) ||
              m_moduleSettings.modulePath != m_ui->lineEdit_path->text())) {
         myDebug() << "clear hard in zefania cache";
         ZefaniaBible zef;
         zef.removeHardCache(m_ui->lineEdit_path->text());
-        if (m_moduleSettings.modulePath != m_ui->lineEdit_path->text()) {
+        if(m_moduleSettings.modulePath != m_ui->lineEdit_path->text()) {
             zef.removeHardCache(m_moduleSettings.modulePath);
         }
     }
@@ -117,7 +117,7 @@ void ModuleConfigDialog::moduleTypeChanged(int id)
     m_ui->groupBox_bq->setVisible(false);
     m_ui->groupBox_zefBible->setVisible(false);
     id = m_ui->comboBox_type->currentIndex();
-    switch (id) {
+    switch(id) {
     case Module::BibleQuoteModule:
         m_ui->groupBox_bq->setVisible(true);
         break;
@@ -129,22 +129,22 @@ void ModuleConfigDialog::moduleTypeChanged(int id)
 }
 void  ModuleConfigDialog::fileSelect()
 {
-    if (m_moduleSettings.isDir) {
+    if(m_moduleSettings.isDir) {
         QFileDialog dialog(this);
 
         dialog.setFileMode(QFileDialog::Directory);
 #if QT_VERSION >= 0x040500
         dialog.setOption(QFileDialog::ShowDirsOnly, true);
 #endif
-        if (dialog.exec()) {
+        if(dialog.exec()) {
             QStringList fileName = dialog.selectedFiles();
-            if (fileName.size() > 0) {
+            if(fileName.size() > 0) {
                 m_ui->lineEdit_path->setText(fileName.at(0));
             }
         }
     } else {
         QString fileName = QFileDialog::getOpenFileName(this, tr("Open Bible"), m_moduleSettings.modulePath, tr("Bibles (*.ini *.xml *.*)"));
-        if (fileName != "") {
+        if(fileName != "") {
             m_ui->lineEdit_path->setText(fileName);
         }
     }
@@ -153,7 +153,7 @@ void  ModuleConfigDialog::fileSelect()
 void ModuleConfigDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         m_ui->retranslateUi(this);
         break;

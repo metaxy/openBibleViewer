@@ -2,8 +2,8 @@
 #include "ui_studyinterface.h"
 
 StudyInterface::StudyInterface(QWidget *parent) :
-        Interface(parent),
-        ui(new Ui::StudyInterface)
+    Interface(parent),
+    ui(new Ui::StudyInterface)
 {
     ui->setupUi(this);
 }
@@ -19,7 +19,7 @@ StudyInterface::~StudyInterface()
 void StudyInterface::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;

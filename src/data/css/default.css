@@ -4,6 +4,12 @@
 }
 .verseNumber {
 	font-style: italic;
+    position: relative;
+    top: -0.2em;
+    font-weight: bold;
+    font-size: 60%;
+    vertical-align: top;
+    color:#235380;
 }
 .currentVerseClass {
 	font-weight: bold;
