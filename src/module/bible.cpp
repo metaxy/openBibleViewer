@@ -27,6 +27,7 @@ Bible::Bible()
     m_verseID = 0;
     textTitle = "";
     m_loaded = false;
+    m_bibleType = Module::NoneType;
 }
 
 void Bible::setModuleMap(ModuleMap *map)
@@ -63,10 +64,7 @@ int Bible::loadModuleData(const int &moduleID)
         return 1;
     }
     m_moduleID = moduleID;
-
-
     QString path = m_module->m_path;
-    myDebug()  << path;
 
     switch(m_bibleType) {
     case Module::BibleQuoteModule: {
@@ -131,7 +129,6 @@ int Bible::readBook(int id)
 {
     // DEBUG_FUNC_NAME
     m_bookID = id;
-    myDebug() << id;
     switch(m_bibleType) {
     case Module::BibleQuoteModule: {
         m_chapterData.clear();
@@ -174,7 +171,6 @@ int Bible::readBook(int id)
 
 QString Bible::readChapter(int chapterID, int verseID = -1)
 {
-    myDebug() << chapterID;
     if(verseID != -1) {
         m_verseID = verseID;
     } else {

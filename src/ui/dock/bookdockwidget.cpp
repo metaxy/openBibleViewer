@@ -30,12 +30,10 @@ BookDockWidget::~BookDockWidget()
 }
 void BookDockWidget::readBook(QListWidgetItem * item)
 {
-    //DEBUG_FUNC_NAME
     emit get("bible://current/" + QString::number(ui->listWidget_books->row(item)) + ",0,0");
 }
 void BookDockWidget::readChapter(QListWidgetItem * item)
 {
-    //DEBUG_FUNC_NAME
     int id = ui->listWidget_chapters->row(item);
     emit get("bible://current/" + QString::number(m_moduleManager->bible()->bookID()) + "," + QString::number(id) + ",0");
 }
@@ -46,7 +44,6 @@ void BookDockWidget::setChapters(const QStringList &chapters)
 }
 void BookDockWidget::setBooks(const QStringList &books)
 {
-    //DEBUG_FUNC_NAME
     ui->listWidget_books->clear();
     ui->listWidget_books->insertItems(0, books);
 }
@@ -57,7 +54,6 @@ void BookDockWidget::setCurrentBook(const int &bookID)
 }
 void BookDockWidget::setCurrentChapter(const int &chapterID)
 {
-    myDebug() << "chapterID = " << chapterID;
     ui->listWidget_chapters->setItemSelected(ui->listWidget_chapters->item(chapterID), true);
     ui->listWidget_chapters->scrollToItem(ui->listWidget_chapters->item(chapterID));
 }

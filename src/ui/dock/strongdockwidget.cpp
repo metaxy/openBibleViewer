@@ -65,7 +65,6 @@ void StrongDockWidget::showStrong(QString strongID)
 }
 void StrongDockWidget::loadModule(int id)
 {
-    //DEBUG_FUNC_NAME
     if(strongModuleID.size() > id && id >= 0) {
         int moduleID = strongModuleID.at(id);
         m_strong.setSettings(m_settings);

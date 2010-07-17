@@ -83,7 +83,6 @@ int Notes::loadNotes()
   */
 QString Notes::getType(const QString &id)
 {
-    // DEBUG_FUNC_NAME
     if(!notesType[id].isEmpty())
         return notesType[id];
     else
@@ -95,7 +94,6 @@ QString Notes::getType(const QString &id)
   */
 QString Notes::getTitle(const QString &id)
 {
-    // DEBUG_FUNC_NAME
     if(!notesTitle[id].isEmpty())
         return notesTitle[id];
     else
@@ -107,7 +105,6 @@ QString Notes::getTitle(const QString &id)
   */
 QString Notes::getData(const QString &id)
 {
-    //DEBUG_FUNC_NAME
     if(!notesData[id].isEmpty())
         return notesData[id];
     else
@@ -120,8 +117,6 @@ QString Notes::getData(const QString &id)
   */
 QString Notes::getRef(const QString &id, const QString &refID)
 {
-    // DEBUG_FUNC_NAME
-    // myDebug() << " id = " << id;
     if(!notesRef[id].isEmpty()) {
         QMap<QString, QString> r = notesRef[id];
         if(!r[refID].isEmpty())
@@ -138,8 +133,6 @@ QString Notes::getRef(const QString &id, const QString &refID)
   */
 QMap<QString, QString> Notes::getRef(const QString &id)
 {
-    //DEBUG_FUNC_NAME
-    //  myDebug() << " id = " << id << " notesRef = " << notesRef;
     if(!notesRef[id].isEmpty())
         return notesRef[id];
     else
@@ -150,7 +143,6 @@ QMap<QString, QString> Notes::getRef(const QString &id)
   */
 QStringList Notes::getIDList()
 {
-    //DEBUG_FUNC_NAME
     return notesID;
 }
 /*!
@@ -158,7 +150,6 @@ QStringList Notes::getIDList()
   */
 void Notes::clearAll()
 {
-    //DEBUG_FUNC_NAME
     notesData.clear();
     notesTitle.clear();
     notesRef.clear();
@@ -172,7 +163,6 @@ void Notes::clearAll()
   */
 void Notes::setType(const QString &id, const QString &type)
 {
-    //DEBUG_FUNC_NAME
     notesType[id] = type;
 }
 /*!
@@ -182,7 +172,6 @@ void Notes::setType(const QString &id, const QString &type)
   */
 void Notes::setTitle(const QString &id, const QString &title)
 {
-    //DEBUG_FUNC_NAME
     if(notesTitle[id] != title) {
         notesTitle[id] = title;
         emit titleChanged(id, title);
@@ -195,7 +184,6 @@ void Notes::setTitle(const QString &id, const QString &title)
   */
 void Notes::setData(const QString &id, const QString &data)
 {
-    //DEBUG_FUNC_NAME
     if(notesData[id] != data) {
         notesData[id] = data;
         emit dataChanged(id, data);
@@ -313,7 +301,7 @@ int Notes::readNotes()
     return 0;
 }
 /*!
-  Write note data in the xml-file
+  Save the data in a xml file
   */
 int Notes::saveNotes()
 {

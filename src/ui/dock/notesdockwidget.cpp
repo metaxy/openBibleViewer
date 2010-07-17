@@ -34,8 +34,6 @@ NotesDockWidget::~NotesDockWidget()
 }
 void NotesDockWidget::init()
 {
-    DEBUG_FUNC_NAME
-
     setAll(m_simpleNotes);
 
 
@@ -65,21 +63,16 @@ void NotesDockWidget::init()
 void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
 {
     Q_UNUSED(id);
-    DEBUG_FUNC_NAME
     QString link = ref["link"];
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, link);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.pharse();
     urlConverter.convert();
-    myDebug() << urlConverter.m_moduleID << ":" << m_moduleManager->bible()->moduleID();
-    myDebug() << urlConverter.m_bookID << ":" << m_moduleManager->bible()->bookID();
-    myDebug() << urlConverter.m_chapterID << ":" << m_moduleManager->bible()->chapterID();
 
     if(urlConverter.m_moduleID == m_moduleManager->bible()->moduleID() &&
             urlConverter.m_bookID == m_moduleManager->bible()->bookID() &&
             urlConverter.m_chapterID == m_moduleManager->bible()->chapterID()) {
-        myDebug() << "reload";
         emit reloadChapter();
     }
 
@@ -93,14 +86,10 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.pharse();
     urlConverter.convert();
-    myDebug() << urlConverter.m_moduleID << ":" << m_moduleManager->bible()->moduleID();
-    myDebug() << urlConverter.m_bookID << ":" << m_moduleManager->bible()->bookID();
-    myDebug() << urlConverter.m_chapterID << ":" << m_moduleManager->bible()->chapterID();
 
     if(urlConverter.m_moduleID == m_moduleManager->bible()->moduleID() &&
             urlConverter.m_bookID == m_moduleManager->bible()->bookID() &&
             urlConverter.m_chapterID == m_moduleManager->bible()->chapterID()) {
-        myDebug() << "reload";
         emit reloadChapter();
     }
 }
@@ -108,7 +97,6 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
 void NotesDockWidget::showNote(const QString &noteID)
 {
     m_simpleNotes->showNote(noteID, true);
-
 }
 
 void NotesDockWidget::saveNote(void)
@@ -166,7 +154,6 @@ void NotesDockWidget::noteRedo()
 
 void NotesDockWidget::newMark(VerseSelection selection, QColor color)
 {
-    //DEBUG_FUNC_NAME
     if(selection.shortestStringInEndVerse == "" || selection.shortestStringInStartVerse == "") {
         myDebug() << "cannot create mark";
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot create mark."));
@@ -205,7 +192,6 @@ void NotesDockWidget::newMark(VerseSelection selection, QColor color)
 }
 void NotesDockWidget::removeMark(VerseSelection selection)
 {
-    //DEBUG_FUNC_NAME
     bool r = false;
     QStringList id = m_notes->getIDList();
     for(int i = 0; i < id.size(); i++) {

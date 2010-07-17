@@ -13,6 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "simplenotes.h"
 #include <QSortFilterProxyModel>
+#include <QtCore/QDateTime>
 #include "src/core/dbghelper.h"
 #include <QtGui/QClipboard>
 #include <QtGui/QMenu>
@@ -281,7 +282,11 @@ void SimpleNotes::newNote(void)
     m_notes->setTitle(newID, tr("(unnamed)"));
     m_notes->setType(newID, "text");
 
+
     currentNoteRef = QMap<QString, QString>();
+    QDateTime t = QDateTime::currentDateTime();
+
+    currentNoteRef["created"] = t.toString(Qt::ISODate);
     m_notes->setRef(newID, currentNoteRef);
     m_noteID = newID;
     m_notes->insertID(newID);
@@ -337,6 +342,8 @@ void SimpleNotes::newNoteWithLink(VerseSelection selection)
     m_notes->setType(newID, "text");
 
     QMap<QString, QString> ref;
+    QDateTime t = QDateTime::currentDateTime();
+    ref["created"] = t.toString(Qt::ISODate);
     ref["link"] = link;
     currentNoteRef = ref;
 

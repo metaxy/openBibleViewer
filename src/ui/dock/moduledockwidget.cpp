@@ -29,8 +29,6 @@ ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
   */
 void ModuleDockWidget::init()
 {
-    DEBUG_FUNC_NAME
-
     m_proxyModel = new ModuleProxyModel(this);
     m_proxyModel->setSourceModel(m_moduleManager->m_moduleModel);
     m_proxyModel->setHeaderData(0, Qt::Horizontal, tr("Module"));
@@ -50,7 +48,6 @@ void ModuleDockWidget::init()
   */
 void ModuleDockWidget::loadModuleData(QModelIndex index)
 {
-    //DEBUG_FUNC_NAME
     QString data = index.data(Qt::UserRole + 1).toString();
     if(data.toInt() >= 0 && m_dontLoad == false) {
         emit get("bible://" + data + "/0,0,0");
@@ -90,8 +87,8 @@ void ModuleDockWidget::filter(QString string)
 ModuleDockWidget::~ModuleDockWidget()
 {
     delete ui;
-//   delete m_proxyModel;
-//   delete m_selectionModel;
+//  delete m_proxyModel;
+//  delete m_selectionModel;
 }
 
 void ModuleDockWidget::changeEvent(QEvent *e)

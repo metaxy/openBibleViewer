@@ -20,8 +20,6 @@ WindowCache::WindowCache()
 }
 void WindowCache::setBibleList(BibleList *b)
 {
-    DEBUG_FUNC_NAME
-    myDebug() << m_currentWindowID;
     m_b[m_currentWindowID] = b;
 }
 void WindowCache::newWindow()
@@ -41,7 +39,6 @@ void WindowCache::clearAll()
     m_b.clear();
 }
 
-
 bool WindowCache::setCurrentWindowID(const int &id)
 {
     if(id < m_idList.size() && id >= 0) {
@@ -59,5 +56,9 @@ BibleList* WindowCache::getBibleList()
         myDebug() << "no biblelist at " << m_currentWindowID;
         return 0;
     }
+}
+int WindowCache::currentWindowID()
+{
+    return m_currentWindowID;
 }
 

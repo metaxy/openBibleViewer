@@ -37,6 +37,7 @@ public:
 
     BibleList* getBibleList();
     bool m_reload;
+    int currentWindowID();
 private:
     QStringList m_idList;
     int m_currentWindowID;
