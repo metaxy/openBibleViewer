@@ -148,7 +148,7 @@ int Bible::readBook(int id)
         if(m_bq->m_chapterZero) {
             start = 0;
         }
-        for(int i = start; i < cc + start; i++) {
+        for(int i = start; i < cc + start; ++i) {
             m_chapterNames << QString::number(i);
         }
         break;
@@ -158,7 +158,7 @@ int Bible::readBook(int id)
         m_chapterNames.clear();
         m_zef->readBook(id);
         m_chapterData = m_zef->chapterData;
-        for(int i = 1; i <= m_zef->bookCount[id]; i++) {
+        for(int i = 1; i <= m_zef->bookCount[id]; ++i) {
             m_chapterNames << QString::number(i);
         }
         break;
@@ -211,12 +211,10 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         for(int i = startVerse; i < end; i++) {
             //no title formatting, because it is already formatted
             QString vers = toUniformHtml(chapter.data.at(i));//todo: that is too slow, use something else to make their invalid html code valid
-
             if(i == markVerseID) {
                 vers.prepend("<b>");
                 vers.append("</b>");//make the current verse bold
             }
-
             versList << vers;
         }
 
@@ -401,8 +399,7 @@ QString Bible::toUniformHtml(QString string)
 }
 
 /**
-  Search in the current module
-  \query The search query.
+  Search in the current bible. Returns the Results.
   */
 SearchResult Bible::search(SearchQuery query)
 {
@@ -452,11 +449,6 @@ int Bible::moduleID()
     return m_moduleID;
 }
 
-void Bible::setModuleID(const int &bible)
-{
-    m_moduleID = bible;
-}
-
 int Bible::bookID()
 {
     return m_bookID;
@@ -469,7 +461,6 @@ int Bible::chapterID()
 
 int Bible::booksCount()
 {
-    //todo: if there are another module rethink this function
     return m_bookFullName.size();
 }
 
@@ -523,6 +514,10 @@ Module::ModuleType Bible::bibleType()
 int Bible::verseID()
 {
     return m_verseID;
+}
+SearchQuery Bible::lastSearchQuery()
+{
+    return m_lastSearchQuery;
 }
 
 

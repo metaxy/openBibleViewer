@@ -35,14 +35,20 @@ void ZefaniaStrong::setSettings(Settings *settings)
     m_settings = settings;
 }
 /**
-  Load a Zefania XML Lex file the first time. Generate a cache file, for fast access.
+  Load a Zefania XML Lex file the first time. Generate a cache file for fast access.
   */
 QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
 {
+   /* QProgressDialog progress(QObject::tr("Loading Strongmodule"), QObject::tr("Cancel"), 0, 100);
+    progress.setWindowModality(Qt::WindowModal);
+    progress.setValue(1);*/
     KoXmlDocument doc;
-    if(!doc.setContent(fileData)) {
+    QString errorMsg;
+    int eLine;
+    int eCol;
+    if(!doc.setContent(fileData,&errorMsg,&eLine,&eCol)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
-        myDebug() << "the file isnt valid";
+        myDebug() << "the file isnt valid error = " << errorMsg << eLine << eCol << fileData.remove(1000,fileData.size());
         return QString();
     }
     QString fileTitle = "";
@@ -51,9 +57,10 @@ QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
     QStringList l_trans = QStringList();
     QStringList l_pron = QStringList();
     QStringList l_desc = QStringList();
-
+   // progress.setMaximum(doc.documentElement().childNodesCount()+1);
     KoXmlNode item = doc.documentElement().firstChild();
     for(int c = 0; !item.isNull();) {
+      //  progress.setValue(c+2);
         QString id = "";
         QString title = "";
         QString trans = "";
@@ -133,8 +140,10 @@ QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
     QFile file(path);
     if(!file.open(QIODevice::WriteOnly)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not open cache file."));
+        myDebug() << " f = " << file.fileName();
         return QString();
     }
+    myDebug() << "write cache file =" << file.fileName();
     //write data
     QDataStream out(&file);
     out << l_id;

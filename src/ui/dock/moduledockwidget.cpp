@@ -23,6 +23,7 @@ ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
     ui->setupUi(this);
     m_dontLoad = false;
     first = false;
+    m_moduleID = -1;
 }
 /**
   Init the ModuleDockWidget. Init proxyModel and selectionModel.

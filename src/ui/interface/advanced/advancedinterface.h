@@ -154,7 +154,6 @@ private:
     void setCurrentChapter(const int &chapterID);
 
     void readBookByID(int id);
-    VerseSelection verseSelectionFromCursor(QTextCursor cursor);
     VerseSelection verseSelection();
 
     void showChapter(const int &chapterID, const int &verseID);

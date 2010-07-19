@@ -16,12 +16,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 BibleDisplay::BibleDisplay()
 {
 }
-void BibleDisplay::setHtml(QString text)
+void BibleDisplay::setHtml(const QString &text)
 {
     m_text = text;
     emit newHtml(text);
 }
-void BibleDisplay::emitGet(QString url)
+void BibleDisplay::emitGet(const QString &url)
 {
     emit get(url);
 }

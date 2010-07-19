@@ -39,6 +39,7 @@ AdvancedInterface::AdvancedInterface(QWidget *parent) :
     ui(new Ui::AdvancedInterface)
 {
     ui->setupUi(this);
+    m_lastActiveWindow = -1;
 }
 
 void AdvancedInterface::setBookDockWidget(BookDockWidget *bookDockWidget)
@@ -263,7 +264,7 @@ QMdiSubWindow * AdvancedInterface::activeMdiChild()
             }
         }
         return activeSubWindow;
-    } else if(m_lastActiveWindow < list.size()) {
+    } else if(m_lastActiveWindow < list.size() && m_lastActiveWindow >= 0) {
         ui->mdiArea->setActiveSubWindow(usableWindowList().at(m_lastActiveWindow));
         if(QMdiSubWindow *activeSubWindow = ui->mdiArea->activeSubWindow())
             return activeSubWindow;
@@ -614,7 +615,7 @@ void AdvancedInterface::pharseUrl(QString url)
                         setCurrentChapter(chapterID);
                     }
                     if(c.size() == 4 && c.at(3) == "searchInCurrentText=true") { //todo: not nice
-                        searchInText(m_moduleManager->bible()->m_lastSearchQuery);
+                        searchInText(m_moduleManager->bible()->lastSearchQuery());
                     }
                     emit historySetUrl(url_backup);
                 } else if(a.at(1) == "current") {
@@ -930,179 +931,6 @@ void AdvancedInterface::reloadActive()
     setEnableReload(false);
 }
 
-VerseSelection AdvancedInterface::verseSelectionFromCursor(QTextCursor cursor)
-{
-    /*VerseSelection selection;
-    selection.endVerse = -1;
-    selection.startVerse = -1;
-
-    if(cursor.hasSelection() == true) {
-        //an option is to remove allhtml tags and search there
-        QString fragment = cursor.selection().toHtml();
-        int from = fragment.indexOf("<!--StartFragment-->");
-        int to = fragment.indexOf("<!--EndFragment-->");
-        fragment.remove(to, fragment.size());
-        fragment.remove(0, from + QString("<!--StartFragment-->").size());
-
-        //if fragment starts with a tag remove this
-        if(fragment.startsWith("<")) {
-            fragment.remove(0, fragment.indexOf(">") + 1);
-        }
-        if(fragment.endsWith(">")) {
-            fragment.remove(fragment.lastIndexOf("<"), fragment.size());
-        }
-        QStringList chapterData = m_moduleManager->bible()->toUniformHtml(m_moduleManager->bible()->chapterDataList());
-
-        QString text = chapterData.join("");
-        int startFragment = text.indexOf(fragment);
-
-        // Do it on one way: this way is more stable but you get only the start verse
-        int n_pos = cursor.position();
-        int n_counter = 0;
-        int n_startVerse;
-        QStringList n_chapterData = m_moduleManager->bible()->toUniformHtml(m_moduleManager->bible()->chapterDataList());
-        for(int i = 0; i < n_chapterData.size(); ++i) {
-            QTextDocument t;
-            t.setHtml(chapterData.at(i));
-            n_counter += t.toPlainText().size();
-            if(n_pos < n_counter) {
-                n_startVerse = i;
-                break;
-            }
-        }
-        myDebug() << "over cursor.position()(2) = " << n_startVerse;
-        bool foundBoth = false;
-
-        while(startFragment != -1) {
-            //do we have to do it on another way
-            int counter = 0;
-            VerseSelection newSelection;
-            newSelection.endVerse = -1;
-            newSelection.startVerse = -1;
-            for(int i = 0; i < chapterData.size(); ++i) {
-                counter += chapterData.at(i).size();
-                myDebug() << "i = " << i << " counter = " << counter;
-                if(newSelection.startVerse == -1 && startFragment < counter) {
-                    myDebug() << "setted start";
-                    newSelection.startVerse = i;
-                    newSelection.posInStartVerse = startFragment - (counter - chapterData.at(i).size()) ;
-                    bool notFound = true;
-                    int biggest = 6;
-
-                    QString v = chapterData.at(i);
-
-                    if(fragment.size() < 6) //make faster
-                        biggest = fragment.size();
-                    while(notFound) {
-                        for(int s = biggest; s < 100; s++) {
-                            QString b = fragment;
-                            QString searchString = b.remove(s, fragment.size());
-                            //todo: if it starts with a html tag remove that
-
-                            int a1 = v.lastIndexOf(searchString);
-                            int a2 = v.indexOf(searchString);
-                            if(a1 == a2) {
-                                myDebug() << "s = " << s << " searchString = " << searchString;
-                                newSelection.shortestStringInStartVerse = searchString;
-                                notFound = false;
-                                break;
-                            }
-                        }
-                        biggest--;
-                        if(biggest == 0) {
-                            break;
-                        }
-                    }
-                }
-                if(newSelection.endVerse == -1 && (startFragment + fragment.size()  < (counter))) {
-                    myDebug() << "setted end";
-                    newSelection.endVerse = i;
-                    newSelection.posInEndVerse = (startFragment + fragment.size()) - (counter - chapterData.at(i).size()) ;
-                    bool notFound = true;
-                    int biggest = 6;
-                    if(fragment.size() < 6) //make faster
-                        biggest = fragment.size();
-                    while(notFound) {
-                        for(int s = biggest; s < 100; s++) {
-                            QString b = fragment;
-                            QString searchString = b.remove(0, b.size() - s);
-                            //todo: if it starts with a html tag remove that
-                            QString v = chapterData.at(i);
-                            int a1 = v.lastIndexOf(searchString);
-                            int a2 = v.indexOf(searchString);
-                            if(a1 == a2) {
-                                myDebug() << "s = " << s << " searchString = " << searchString;
-                                newSelection.shortestStringInEndVerse = searchString;
-                                notFound = false;
-                                break;
-                            }
-                        }
-                        biggest--;
-                        if(biggest == 0) {
-                            break;
-                        }
-                    }
-                    myDebug() << "posInEndverse = " << newSelection.posInEndVerse;
-                    break;
-                }
-            }
-
-            if(newSelection.startVerse == n_startVerse) {  //and compare both ways
-                myDebug() << "break newSelection.startVerse = " << newSelection.startVerse << " n_startVerse  = " << n_startVerse << " repeat = " << newSelection.repeat;
-                selection = newSelection;
-                foundBoth = true;
-                break;
-            }
-            selection = newSelection;
-            //myDebug() << " start = " << selection.startVerse << " end = " << selection.endVerse << " repeat = " << selection.repeat;
-            startFragment = text.indexOf(fragment, startFragment + fragment.size());
-
-
-        }
-        //todo: implement repeat is impossible
-        /*  QString v = chapterData.at(selection.startVerse);
-          int repeat = 0;
-          if(v.indexOf(fragment) != -1 && v.indexOf(fragment,v.indexOf(fragment)+fragment.size())) {
-              myDebug() << "is more than one time there";
-              //todo: if the shortes string is too short(because the user selected a short string), and there is more than one in the verse, say whicht of it is
-              int pos = v.indexOf(fragment);
-              myDebug() << "pos = " << pos << " selection.posInStartVerse = " << selection.posInStartVerse;
-              if(pos != selection.posInStartVerse) {
-                  while(pos != -1) {
-
-                      repeat++;
-                      if(pos == selection.posInStartVerse) {
-                          break;
-                      }
-                      pos = v.indexOf(fragment,pos+fragment.size());
-                      myDebug() << "pos = " << pos << " repeat = " << repeat;
-
-
-                  }
-              }
-
-          }
-          myDebug() << "repeat = " << repeat;
-          selection.repeat = repeat;*/
-
-   /* } else {
-
-        int pos = cursor.position();
-        QStringList chapterData = m_moduleManager->bible()->toUniformHtml(m_moduleManager->bible()->chapterDataList());
-        int counter = 0;
-        for(int i = 0; i < chapterData.size(); ++i) {
-            QTextDocument t;
-            t.setHtml(chapterData.at(i));
-            counter += t.toPlainText().size();
-            if(selection.startVerse == -1 && pos < counter) {
-                selection.startVerse = i;
-                break;
-            }
-        }
-        myDebug() << "over cursor.position() = " << selection.startVerse;
-    }
-    return selection;*/
-}
 
 VerseSelection AdvancedInterface::verseSelection()
 {

@@ -13,10 +13,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "settings.h"
 #include "dbghelper.h"
-#include "QUrl"
+#include <QtCore/QUrl>
+#include <QtCore/QDir>
 Settings::Settings()
 {
     m_moduleID = QMap<int, int>();
+    homePath = "";
 
 }
 void Settings::setModuleIDinMap(const int &moduleID, const int &pos)
@@ -27,7 +29,7 @@ ModuleSettings Settings::getModuleSettings(const int &moduleID)
 {
     int id = m_moduleID.value(moduleID);
     if(m_moduleSettings.size() < id || m_moduleSettings.size() == 0) {
-        myDebug() << "No Settings aviable";
+        myDebug() << "no Settings available";
         return ModuleSettings();
     } else {
         return m_moduleSettings.at(id);
@@ -61,11 +63,33 @@ ModuleCache Settings::getModuleCache(const QString &path)
 {
     return m_moduleCache.value(path);
 }
+/**
+  Replace homePath and settingsPath to make it more portable.
+  */
 QString Settings::savableUrl(QString url)
 {
+    if(url.startsWith(homePath)) {
+        url.replace(homePath,"%obvHomePath%");
+        return url;
+    }
+    if(url.startsWith(QDir::homePath())) {
+        url.replace(QDir::homePath(),"%homePath%");
+        return url;
+    }
     return url;
 }
+/**
+  Recover Urls with were saved with Settings::savableUrl.
+  */
 QString Settings::recoverUrl(QString url)
 {
+    if(url.startsWith("%obvHomePath%")) {
+        url.replace("%obvHomePath%",homePath);
+        return url;
+    }
+    if(url.startsWith("%homePath%")) {
+        url.replace("%homePath%",QDir::homePath());
+        return url;
+    }
     return url;
 }

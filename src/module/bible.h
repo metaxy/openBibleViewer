@@ -24,9 +24,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/modulemap.h"
 /*!
  Bible represent a bible module(eg biblequote module or zefania xml module)
- It read the module over the module, get the raw data, format it.
-
- @author Paul Walger <metaxy@walger.name>
+ It reads the module, gets the raw data and formats it.
 */
 class Bible : public SimpleModuleClass
 {
@@ -48,7 +46,6 @@ public:
     SearchResult search(SearchQuery query);
 
     int moduleID();
-    void setModuleID(const int &bible);
 
     Module::ModuleType bibleType();
 
@@ -66,17 +63,8 @@ public:
     QStringList bookPath();
     QStringList chapterNames();
     QStringList chapterDataList();
+    SearchQuery lastSearchQuery();
 
-    SearchQuery m_lastSearchQuery;
-
-    QList<Chapter> m_chapterData;
-    QString textTitle;
-
-    Module *m_module;
-    BibleQuote *m_bq;
-    ZefaniaBible *m_zef;
-
-    ModuleMap *m_map;
     bool loaded();
 private:
     int m_moduleID;
@@ -99,8 +87,14 @@ private:
 
     SearchResult m_lastSearchResult;
     BibleDisplaySettings *m_bibleDisplaySettings;
+    ModuleMap *m_map;
+    Module *m_module;
+    BibleQuote *m_bq;
+    ZefaniaBible *m_zef;
     bool m_loaded;
-
+    SearchQuery m_lastSearchQuery;
+    QString textTitle;
+    QList<Chapter> m_chapterData;
 };
 
 #endif // BIBLE_H

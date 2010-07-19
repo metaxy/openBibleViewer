@@ -202,7 +202,7 @@ void NotesDockWidget::removeMark(VerseSelection selection)
             urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
             urlConverter.pharse();
 
-            if(urlConverter.m_moduleID == m_moduleManager->bible()->moduleID() && urlConverter.m_bookID == m_moduleManager->bible()->bookID() && urlConverter.m_chapterID == m_moduleManager->bible()->chapterID()) {
+            if(urlConverter.m_moduleID == selection.moduleID && urlConverter.m_bookID == selection.bookID && urlConverter.m_chapterID == selection.chapterID) {
                 int start = selection.startVerse;
                 int end;
                 if(selection.endVerse != -1) {
@@ -214,7 +214,6 @@ void NotesDockWidget::removeMark(VerseSelection selection)
                     //todo: work with positions in text
                     m_notes->removeNote(noteID);
                     r = true;
-
                 }
             }
         }

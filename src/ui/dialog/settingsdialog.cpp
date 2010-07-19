@@ -293,8 +293,9 @@ void SettingsDialog::downloadModule()
 }
 void SettingsDialog::addModules(QStringList fileName, QStringList names)
 {
+    DEBUG_FUNC_NAME
     if(fileName.size() > 0) {
-        QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size() + 1);
+        QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size() + 2);
         progress.setWindowModality(Qt::WindowModal);
         progress.show();
         progress.setValue(1);
@@ -333,21 +334,29 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                     return;
                 }
                 QTextStream in(&file);
-                fileData = in.readAll();
-
+                if(f.endsWith(".xml")) {
+                    for(int i = 0; i < 100;i++)
+                        fileData += in.readLine(i);
+                } else {
+                    fileData = in.readAll();
+                }
+                //todo: find something better
                 if(fileData.contains("BookQty", Qt::CaseInsensitive)) {
                     moduleType = Module::BibleQuoteModule;// BibleQuote
                 } else if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive)) {
                     moduleType = Module::ZefaniaBibleModule;// Zefania Bible
-                } else if(fileData.contains("<dictionary type=\"x-strong\"", Qt::CaseInsensitive)) {
+                } else if(fileData.contains("<dictionary", Qt::CaseInsensitive) &&  fileData.contains("type=\"x-strong\"", Qt::CaseInsensitive)) {
                     moduleType = Module::ZefaniaStrongModule;// Zefania Strong
                 } else {
-                    QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid."));
+                    QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
+                    myDebug() << "cannot detetct module type";
                     progress.close();
                     generateModuleTree();
                     return;
                 }
-
+                if(f.endsWith(".xml")) {
+                    fileData += in.readAll();
+                }
                 switch(moduleType) {
                 case Module::BibleQuoteModule:
                     if(names.size() == 0 || i >= names.size()) {
@@ -369,6 +378,8 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                     break;
                 case Module::NoneType:
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
+                    progress.close();
+                    generateModuleTree();
                     return;
                 }
                 m.modulePath = f;

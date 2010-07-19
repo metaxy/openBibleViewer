@@ -33,6 +33,8 @@ void StrongDockWidget::init()
 {
     strongModuleTitle.clear();
     strongModuleID.clear();
+    ui->comboBox_strongModule->clear();
+
     QMapIterator<int, Module *> i(m_moduleManager->m_moduleMap->m_map);
     while(i.hasNext()) {
         i.next();

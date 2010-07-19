@@ -214,7 +214,7 @@ void SimpleInterface::pharseUrl(QString url)
         bool ok;
         int c = url.toInt(&ok, 10);
         myDebug() << "c = " << c;
-        if(ok && c < m_moduleManager->bible()->m_chapterData.size() && m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c) {
+        if(ok && c < m_moduleManager->bible()->chaptersCount() && m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c) {
             myDebug() << "bq chapter link";
             showChapter(c, 0);
             setCurrentChapter(c);
@@ -296,7 +296,7 @@ void SimpleInterface::readChapter(const int &id)
     emit get("bible://current/" + QString::number(m_moduleManager->bible()->bookID()) + "," + QString::number(id) + ",0");
 }
 
-void SimpleInterface::showChapter(const int &chapterID, const int &verseID)
+void SimpleInterface::showChapter(int chapterID, int verseID)
 {
     //m_moduleManager->bible()->verseID() = verseID;//todo: check
     m_bibleDisplay->setHtml((m_moduleManager->bible()->readChapter(chapterID, verseID)));

@@ -16,11 +16,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/basicclass.h"
 #include <QObject>
 #include <QtWebKit/QWebFrame>
+/**
+  BibleAPI is a API to access to the bible and modulemanager
+  */
 class BibleApi : public QObject, public BasicClass
 {
     Q_OBJECT
 public slots:
-    void activateBible(int bibleListID);
+    void activateBible(const int &bibleListID);
 
 public:
     BibleApi();

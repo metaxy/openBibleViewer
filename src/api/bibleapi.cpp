@@ -17,9 +17,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 BibleApi::BibleApi()
 {
 }
-void BibleApi::activateBible(int bibleListID)
+void BibleApi::activateBible(const int &bibleListID)
 {
-    Q_UNUSED(bibleListID);
     DEBUG_FUNC_NAME
     m_moduleManager->bibleList()->m_currentBible = bibleListID;
     QWebElementCollection collection = m_frame->documentElement().findAll("td[class~=bibleListTitle]");

@@ -23,8 +23,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 /*!
  Settings represents the gobal settings
-
- @author Paul Walger <metaxy@walger.name>
 */
 class Settings
 {

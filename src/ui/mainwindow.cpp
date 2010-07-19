@@ -338,14 +338,14 @@ void MainWindow::loadSettings()
     m_settings->onClickBookmarkGo = m_settingsFile->value("window/onClickBookmarkGo", m_settings->onClickBookmarkGo).toBool();
 
     m_settings->textFormatting = m_settingsFile->value("bible/textFormatting", m_settings->textFormatting).toInt();
-    m_settings->lastPlaceSave = m_settingsFile->value("ui/lastPlaceSave", QDir::homePath()).toString();
+    m_settings->lastPlaceSave = m_settings->recoverUrl(m_settingsFile->value("ui/lastPlaceSave", QDir::homePath()).toString());
 
     int size = m_settingsFile->beginReadArray("module");
     for(int i = 0; i < size; ++i) {
         m_settingsFile->setArrayIndex(i);
         ModuleSettings m;
         m.moduleName = m_settingsFile->value("name").toString();
-        m.modulePath = m_settingsFile->value("path").toString();
+        m.modulePath = m_settings->recoverUrl(m_settingsFile->value("path").toString());
         m.moduleType = m_settingsFile->value("type").toString();
         m.biblequote_removeHtml = m_settingsFile->value("removeHtml", true).toInt();
         m.zefbible_textFormatting = m_settingsFile->value("textFormatting").toInt();
@@ -360,7 +360,7 @@ void MainWindow::loadSettings()
          m.bibleName = m_settingsFile->value("bibleName").toMap();
          m.biblePath = m_settingsFile->value("biblePath").toMap();
          m.uModuleCount = m_settingsFile->value("uModuleCount", 0).toInt();*/
-        m.styleSheet = m_settingsFile->value("styleSheet", ":/data/default.css").toString();
+        m.styleSheet = m_settings->recoverUrl(m_settingsFile->value("styleSheet", ":/data/default.css").toString());
         m_settings->m_moduleSettings.append(m);
 
     }
@@ -409,14 +409,14 @@ void MainWindow::writeSettings()
     m_settingsFile->setValue("window/layout", m_settings->autoLayout);
     m_settingsFile->setValue("window/onClickBookmarkGo", m_settings->onClickBookmarkGo);
     m_settingsFile->setValue("bible/textFormatting", m_settings->textFormatting);
-    m_settingsFile->setValue("ui/lastPlaceSave", m_settings->lastPlaceSave);
+    m_settingsFile->setValue("ui/lastPlaceSave",m_settings->savableUrl(m_settings->lastPlaceSave));
 
     m_settingsFile->beginWriteArray("module");
     for(int i = 0; i < m_settings->m_moduleSettings.size(); ++i) {
         m_settingsFile->setArrayIndex(i);
         ModuleSettings m = m_settings->m_moduleSettings.at(i);
         m_settingsFile->setValue("name", m.moduleName);
-        m_settingsFile->setValue("path", m.modulePath);
+        m_settingsFile->setValue("path", m_settings->savableUrl(m.modulePath));
         m_settingsFile->setValue("type", m.moduleType);
         m_settingsFile->setValue("textFormatting", m.zefbible_textFormatting);
         m_settingsFile->setValue("removeHtml", m.biblequote_removeHtml);
@@ -426,7 +426,7 @@ void MainWindow::writeSettings()
         m_settingsFile->setValue("showStudyNote", m.zefbible_showStudyNote);
         m_settingsFile->setValue("isDir", m.isDir);
         m_settingsFile->setValue("encoding", m.encoding);
-        m_settingsFile->setValue("styleSheet", m.styleSheet);
+        m_settingsFile->setValue("styleSheet", m_settings->savableUrl(m.styleSheet));
     }
     m_settingsFile->endArray();
 

@@ -22,13 +22,15 @@ class BibleDisplay : public QObject
 
 public:
     BibleDisplay();
-    void setHtml(QString text);
+    void setHtml(const QString &text);
+    void emitGet(const QString &url);
+private:
     QString m_text;
-    void emitGet(QString url);
 signals:
-    void newHtml(QString html);
-    void get(QString url);
-    void get(QUrl url);
+    void newHtml(const QString &html);
+    void get(const QString &url);
+    void get(const QUrl &url);
+
 };
 
 #endif // BIBLEDISPLAY_H
