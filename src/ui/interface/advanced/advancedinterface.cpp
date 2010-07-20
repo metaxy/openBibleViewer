@@ -33,7 +33,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/noteseditor.h"
 #include "src/ui/marklist.h"
 #include "src/core/core.h"
-#include <QWebInspector>
+#include <QtWebKit/QWebInspector>
+#include <QtWebKit/QWebElementCollection>
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
     Interface(parent),
     ui(new Ui::AdvancedInterface)
@@ -240,7 +241,6 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
 
 void AdvancedInterface::autoLayout()
 {
-    DEBUG_FUNC_NAME
     if(usableWindowList().size() > 1) {
         if(m_settings->autoLayout == 1) {
             myTile();
@@ -278,7 +278,6 @@ QMdiSubWindow * AdvancedInterface::activeMdiChild()
 
 void AdvancedInterface::myTileVertical()
 {
-    DEBUG_FUNC_NAME
     if(!m_enableReload || !usableWindowList().count()) {
         return;
     }
@@ -304,7 +303,6 @@ void AdvancedInterface::myTileVertical()
 
 void AdvancedInterface::myTileHorizontal()
 {
-    DEBUG_FUNC_NAME
     if(!m_enableReload || !usableWindowList().count()) {
         return;
     }
@@ -331,7 +329,6 @@ void AdvancedInterface::myTileHorizontal()
 
 void AdvancedInterface::myCascade()
 {
-    DEBUG_FUNC_NAME
     if(!m_enableReload || !usableWindowList().count()) {
         return;
     }
@@ -689,6 +686,7 @@ void AdvancedInterface::pharseUrl(QString url)
     } else if(url.startsWith(persistent)) {
         url = url.remove(0, persistent.size());
         UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
+        urlConverter.setSettings(m_settings);
         urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
         urlConverter.pharse();
         QString i = urlConverter.convert();//it now a normal interface url
@@ -749,6 +747,25 @@ void AdvancedInterface::showText(const QString &text)
         v->setHtml(text);
         if(m_moduleManager->bible()->verseID() > 1)
             v->page()->mainFrame()->evaluateJavaScript("window.location.href = '#currentVerse';");
+
+        if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule) {
+            QWebElementCollection collection = v->page()->mainFrame()->documentElement().findAll("img");
+            QStringList searchPaths = m_moduleManager->bible()->getSearchPaths();
+            myDebug() << searchPaths;
+            foreach(QWebElement paraElement, collection) {
+                QString url = paraElement.attribute("src");
+                if(url.startsWith(":/") || url.startsWith("http:"))
+                    continue;
+                foreach(QString pre, searchPaths) {
+                    QFileInfo i(pre+url);
+                    if(i.exists()) {
+                        myDebug() << pre+url;
+                        paraElement.setAttribute("src","file://"+pre+url);
+                    }
+                }
+
+            }
+        }
     }
 }
 
@@ -866,6 +883,7 @@ void AdvancedInterface::readBookByID(int id)
             return;
         }
         setChapters(m_moduleManager->bible()->chapterNames());
+
         //todo: webview
         //todo: make a javascript which search all images finds the right path and change it
         //t->setSearchPaths(m_moduleManager->bible()->getSearchPaths());
@@ -908,7 +926,8 @@ void AdvancedInterface::reloadChapter(bool full)
 {
     if(!activeMdiChild())
         return;
-    QPoint p = getView()->page()->mainFrame()->scrollPosition();
+    QWebView *v = getView();
+    QPoint p = v->page()->mainFrame()->scrollPosition();
     if(full) {
         loadModuleDataByID(m_moduleManager->bible()->moduleID());
 
@@ -920,7 +939,7 @@ void AdvancedInterface::reloadChapter(bool full)
     } else {
         readChapter(m_moduleManager->bible()->chapterID());
     }
-    getView()->page()->mainFrame()->setScrollPosition(p);
+    v->page()->mainFrame()->setScrollPosition(p);
 }
 
 void AdvancedInterface::reloadActive()
@@ -976,10 +995,11 @@ VerseSelection AdvancedInterface::verseSelection()
 
 void AdvancedInterface::createDefaultMenu()
 {
-    m_actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), getView());
+    QWebView *v = getView();
+    m_actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), v);
     connect(m_actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
 
-    m_actionSelect = new QAction(QIcon::fromTheme("edit-select-all", QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"), getView());
+    m_actionSelect = new QAction(QIcon::fromTheme("edit-select-all", QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"), v);
     connect(m_actionSelect, SIGNAL(triggered()), this , SLOT(selectAll()));
 
     m_menuMark = new QMenu(this);
@@ -1010,13 +1030,13 @@ void AdvancedInterface::createDefaultMenu()
     connect(actionCustomMark, SIGNAL(triggered()), this , SLOT(newCustomMark()));
     m_menuMark->addAction(actionCustomMark);
 
-    m_actionRemoveMark = new QAction(QIcon(":/icons/16x16/mark-yellow.png"), tr("Remove Mark"), getView());
+    m_actionRemoveMark = new QAction(QIcon(":/icons/16x16/mark-yellow.png"), tr("Remove Mark"), v);
     connect(m_actionRemoveMark, SIGNAL(triggered()), this , SLOT(removeMark()));
 
-    m_actionBookmark = new QAction(QIcon::fromTheme("bookmark-new", QIcon(":/icons/16x16/bookmark-new.png")), tr("Add Bookmark"), getView());
+    m_actionBookmark = new QAction(QIcon::fromTheme("bookmark-new", QIcon(":/icons/16x16/bookmark-new.png")), tr("Add Bookmark"), v);
     connect(m_actionBookmark, SIGNAL(triggered()), this , SLOT(newBookmark()));
 
-    m_actionNote = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/16x16/view-pim-notes.png")), tr("Add Note"), getView());
+    m_actionNote = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/16x16/view-pim-notes.png")), tr("Add Note"), v);
     connect(m_actionNote, SIGNAL(triggered()), this , SLOT(newNoteWithLink()));
 }
 
@@ -1208,6 +1228,7 @@ void AdvancedInterface::closing()
                 if(b != 0 && b->moduleID() >= 0) {
                     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
                     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+                    urlConverter.setSettings(m_settings);
                     urlConverter.m_moduleID = b->moduleID();
                     urlConverter.m_bookID = b->bookID();
                     urlConverter.m_chapterID = b->chapterID();
@@ -1222,10 +1243,10 @@ void AdvancedInterface::closing()
             }
         }
         windowUrls << u;
-
+        QWebView *v = getView();
         windowGeo << ui->mdiArea->subWindowList().at(i)->geometry();
-        scrollPos << getView()->page()->mainFrame()->scrollPosition();
-        zoom << getView()->zoomFactor();
+        scrollPos << v->page()->mainFrame()->scrollPosition();
+        zoom << v->zoomFactor();
     }
     m_settings->session.setData("windowUrls", windowUrls);
     m_settings->session.setData("windowGeo", windowGeo);
@@ -1233,9 +1254,6 @@ void AdvancedInterface::closing()
     m_settings->session.setData("zoom", zoom);
     m_settings->session.setData("viewMode", ui->mdiArea->viewMode());
     m_settings->session.setData("windowID",current);
-    myDebug() << current;
-
-
 }
 
 void AdvancedInterface::restoreSession()
@@ -1265,6 +1283,7 @@ void AdvancedInterface::restoreSession()
                 int y = a.at(1).toInt();
                 QString u = a.at(2);
                 UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, u);
+                urlConverter.setSettings(m_settings);
                 urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
                 urlConverter.pharse();
                 m_moduleManager->newBible(urlConverter.m_moduleID, QPoint(x, y));
@@ -1272,10 +1291,11 @@ void AdvancedInterface::restoreSession()
             }
         }
         //set geometry
+        QWebView *v = getView();
         activeMdiChild()->setGeometry(windowGeo.at(i).toRect());
-        getView()->page()->mainFrame()->setScrollPosition(scrollPos.at(i).toPoint());
+        v->page()->mainFrame()->setScrollPosition(scrollPos.at(i).toPoint());
         if(zoom.size() != 0 && i < zoom.size() && zoom.at(i).toReal() > 0)
-            getView()->setZoomFactor(zoom.at(i).toReal());
+            v->setZoomFactor(zoom.at(i).toReal());
     }
     int viewMode = m_settings->session.getData("viewMode").toInt();
     if(viewMode == 0)
@@ -1334,7 +1354,6 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
 
 void AdvancedInterface::showSearchDialog()
 {
-    DEBUG_FUNC_NAME
     SearchDialog *sDialog = new SearchDialog(this);
     connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
     QString text = getView()->selectedText();

@@ -19,7 +19,6 @@ BibleList::BibleList()
 }
 int BibleList::readBook(int id)
 {
-    DEBUG_FUNC_NAME
     foreach(Bible * b, m_bibles) {
         b->readBook(id);
     }
@@ -27,7 +26,6 @@ int BibleList::readBook(int id)
 }
 void BibleList::addBible(Bible* b, QPoint p)
 {
-    DEBUG_FUNC_NAME
     int id = m_biblePoints.size();
     m_currentBible = id;
     m_biblePoints[id] = p;
@@ -56,7 +54,6 @@ void BibleList::clear()
 
 QString BibleList::readChapter(int chapterID, int verseID)
 {
-    DEBUG_FUNC_NAME
     if(m_bibles.size() == 1) {
         return m_bibles[m_currentBible]->readChapter(chapterID, verseID);
     } else {

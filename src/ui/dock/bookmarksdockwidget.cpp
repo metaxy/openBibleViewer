@@ -66,6 +66,7 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
                       QString::number(selection.startVerse + 1));
 
     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
+    urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.m_moduleID = selection.moduleID;
     urlConverter.m_bookID = selection.bookID;
@@ -161,6 +162,7 @@ void BookmarksDockWidget::editBookmark()
     }*/
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, pos);
+    urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);//not nice, i know
     urlConverter.pharse();
 
@@ -193,6 +195,7 @@ int BookmarksDockWidget::internalOpenPos(const QString &pos)
 {
     //DEBUG_FUNC_NAME
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
+    urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.pharse();
     myDebug() << "url = " << urlConverter.convert();

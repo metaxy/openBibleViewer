@@ -54,6 +54,7 @@ void MarkList::init()
 
         QString string = "";
         UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, m_notes->getRef(marks.at(row), "link"));
+        urlConverter.setSettings(m_settings);
         urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
         urlConverter.pharse();
 
@@ -81,6 +82,7 @@ void MarkList::init()
 void MarkList::load(QModelIndex index)
 {
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, m_notes->getRef(index.data(Qt::UserRole + 1).toString(), "link"));
+    urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.pharse();
     QString link = urlConverter.convert();

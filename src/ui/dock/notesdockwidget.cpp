@@ -66,6 +66,7 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
     QString link = ref["link"];
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, link);
+    urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.pharse();
     urlConverter.convert();
@@ -83,6 +84,7 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     QString link = ref["link"];
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, link);
+    urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.pharse();
     urlConverter.convert();
@@ -154,6 +156,7 @@ void NotesDockWidget::noteRedo()
 
 void NotesDockWidget::newMark(VerseSelection selection, QColor color)
 {
+    myDebug() << selection.shortestStringInEndVerse << selection.shortestStringInStartVerse;
     if(selection.shortestStringInEndVerse == "" || selection.shortestStringInStartVerse == "") {
         myDebug() << "cannot create mark";
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot create mark."));
@@ -162,6 +165,7 @@ void NotesDockWidget::newMark(VerseSelection selection, QColor color)
     }
     QString link;
     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
+    urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.m_moduleID = selection.moduleID;
     urlConverter.m_bookID = selection.bookID;

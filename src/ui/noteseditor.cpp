@@ -135,7 +135,6 @@ NotesEditor::NotesEditor(QWidget *parent)
 }
 void NotesEditor::init()
 {
-    DEBUG_FUNC_NAME
 
     setAll(m_simpleNotes);
 

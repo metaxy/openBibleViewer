@@ -322,6 +322,7 @@ QString ModuleManager::notePos2Link(const QString &pos)
 {
     QString string;
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
+    urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleMap);
     urlConverter.pharse();
     QString link = urlConverter.convert();
@@ -333,9 +334,10 @@ QString ModuleManager::notePos2Text(const QString &pos)
 {
     QString string;
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
+    urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleMap);
     urlConverter.pharse();
-    QString link = urlConverter.convert();
+    urlConverter.convert();
 
     string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," + QString::number(urlConverter.m_verseID + 1);
     return string;
@@ -375,9 +377,7 @@ QList<int> ModuleManager::getBibleIDs()
 }
 void ModuleManager::checkCache(const int &moduleID)
 {
-    DEBUG_FUNC_NAME
     Module* m = m_moduleMap->m_map.value(moduleID);
-    // myDebug() << m->m_path << m_settings->m_moduleCache.keys();
     if(!m_settings->m_moduleCache.keys().contains(m->m_path)) {
         m_bible->setBibleType(m->m_moduleType);
         m_bible->loadModuleData(moduleID);//set cache

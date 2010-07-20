@@ -148,11 +148,11 @@ void SimpleNotes::setRef(QMap<QString, QString> ref)
 }
 void SimpleNotes::editNoteLink()
 {
-    DEBUG_FUNC_NAME
     QString link = currentNoteRef["link"];
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+    urlConverter.setSettings(m_settings);
     urlConverter.pharse();
 
     BiblePassageDialog *passageDialog = new  BiblePassageDialog();
@@ -166,7 +166,6 @@ void SimpleNotes::editNoteLink()
 }
 void SimpleNotes::updateNote(QString link)
 {
-    DEBUG_FUNC_NAME
     currentNoteRef["link"] = link;
     m_notes->setRef(m_noteID, currentNoteRef);
     setRef(currentNoteRef);
@@ -174,14 +173,12 @@ void SimpleNotes::updateNote(QString link)
 }
 void SimpleNotes::changeData(QString id, QString data)
 {
-    DEBUG_FUNC_NAME
     if(m_noteID == id) {
         setData(data);
     }
 }
 void SimpleNotes::changeTitle(QString id, QString title)
 {
-    DEBUG_FUNC_NAME
     if(m_noteID == id) {
         setTitle(title);
     }
@@ -195,7 +192,7 @@ void SimpleNotes::changeTitle(QString id, QString title)
 }
 void SimpleNotes::changeRef(QString id, QMap<QString, QString> ref)
 {
-    DEBUG_FUNC_NAME
+
     if(m_noteID == id) {
         setRef(ref);
     }
@@ -329,6 +326,7 @@ void SimpleNotes::newNoteWithLink(VerseSelection selection)
     QString link;
     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+    urlConverter.setSettings(m_settings);
     urlConverter.m_moduleID = selection.moduleID;
     urlConverter.m_bookID = selection.bookID;
     urlConverter.m_chapterID = selection.chapterID;
@@ -393,7 +391,6 @@ void SimpleNotes::notesContextMenu(QPoint point)
 }
 void SimpleNotes::removeNote()
 {
-    DEBUG_FUNC_NAME
     QModelIndexList list = m_selectionModel->selectedRows(0);
     disconnect(m_notes, SIGNAL(noteRemoved(QString)), this, SLOT(removeNote(QString)));
     //todo: if note has link, check if the page where the link shows is currently displayed, if yes reloadChapter
@@ -428,7 +425,6 @@ void SimpleNotes::removeNote()
 }
 void SimpleNotes::removeNote(QString id)
 {
-    DEBUG_FUNC_NAME
     if(id == m_noteID) {
         setTitle("");
         setData("");

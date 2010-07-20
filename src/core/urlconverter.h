@@ -44,11 +44,13 @@ public:
     int m_verseID;
     QString m_bookName;
     void setModuleMap(ModuleMap *moduleMap);
+    void setSettings(Settings *settings);
 private:
     UrlType m_from;
     UrlType m_to;
     QString m_url;
     ModuleMap *m_moduleMap;
+    Settings *m_settings;
 };
 
 #endif // URLCONVERTER_H

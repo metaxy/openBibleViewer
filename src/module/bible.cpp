@@ -248,6 +248,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                     if(m_notes->getType(noteID) == "text") {
                         QString link = m_notes->getRef(noteID, "link");
                         UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
+                        urlConverter.setSettings(m_settings);
                         urlConverter.setModuleMap(m_map);
                         urlConverter.pharse();
                         if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID && urlConverter.m_verseID == i) {
@@ -283,6 +284,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
             if(m_notes->getType(noteID) == "mark") {
                 QString link = m_notes->getRef(noteID, "link");
                 UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
+                urlConverter.setSettings(m_settings);
                 urlConverter.setModuleMap(m_map);
                 urlConverter.pharse();
 
@@ -380,17 +382,18 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
 
 QString Bible::toUniformHtml(QString string)
 {
-    DEBUG_FUNC_NAME
     QTextDocument t;
     t.setHtml(string);
     QString raw = t.toHtml();
     int firstPStyle = raw.indexOf("<p style=");
-    Q_ASSERT(firstPStyle != -1);
+    if(firstPStyle == -1)
+        return string;
     int endOfPStyle = raw.indexOf(">", firstPStyle);
 
     int i2 = raw.lastIndexOf("</p></body></html>");
 
-    Q_ASSERT(i2 != -1);
+    if(i2 == -1)
+        return string;
 
     raw.remove(i2, raw.size());
     raw.remove(0, endOfPStyle + 1);

@@ -30,10 +30,13 @@ void UrlConverter::setModuleMap(ModuleMap *moduleMap)
 {
     m_moduleMap = moduleMap;
 }
+void UrlConverter::setSettings(Settings *settings)
+{
+    m_settings = settings;
+}
 
 QString UrlConverter::convert()
 {
-    DEBUG_FUNC_NAME
     QString ret;
     if(m_to == InterfaceUrl) {
         ret = "bible://" + QString::number(m_moduleID) + "/" + QString::number(m_bookID) + "," + QString::number(m_chapterID) + "," + QString::number(m_verseID);
@@ -42,7 +45,7 @@ QString UrlConverter::convert()
             myDebug() << "moduleID = " << m_moduleID;
             return "";
         }
-        ret = m_moduleMap->m_map.value(m_moduleID)->m_path + ";" + QString::number(m_bookID) + ";" + QString::number(m_chapterID) + ";" + QString::number(m_verseID);
+        ret = m_settings->savableUrl(m_moduleMap->m_map.value(m_moduleID)->m_path) + ";" + QString::number(m_bookID) + ";" + QString::number(m_chapterID) + ";" + QString::number(m_verseID);
         if(!m_bookName.isEmpty()) {
             ret += ";" + m_bookName;//check for invalid charatcers
         }
@@ -52,7 +55,6 @@ QString UrlConverter::convert()
 }
 int UrlConverter::pharse()
 {
-    //DEBUG_FUNC_NAME
     QString bible = "bible://";
     if(m_from == InterfaceUrl) {
         QString url = m_url;
@@ -80,7 +82,7 @@ int UrlConverter::pharse()
         if(list.size() < 4) {
             return 1;
         }
-        QString path = list.at(0);
+        QString path = m_settings->recoverUrl(list.at(0));
         QString sbookID = list.at(1);
         QString schapterID = list.at(2);
         QString sverseID = list.at(3);

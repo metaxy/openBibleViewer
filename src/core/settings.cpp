@@ -68,6 +68,7 @@ ModuleCache Settings::getModuleCache(const QString &path)
   */
 QString Settings::savableUrl(QString url)
 {
+    DEBUG_FUNC_NAME
     if(url.startsWith(homePath)) {
         url.replace(homePath,"%obvHomePath%");
         return url;
@@ -79,10 +80,11 @@ QString Settings::savableUrl(QString url)
     return url;
 }
 /**
-  Recover Urls with were saved with Settings::savableUrl.
+  Recover Urls with were saved with savableUrl().
   */
 QString Settings::recoverUrl(QString url)
 {
+    DEBUG_FUNC_NAME
     if(url.startsWith("%obvHomePath%")) {
         url.replace("%obvHomePath%",homePath);
         return url;

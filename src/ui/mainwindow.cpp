@@ -244,6 +244,7 @@ void MainWindow::setSettings(Settings set)
 }
 void MainWindow::loadDefaultSettings()
 {
+    DEBUG_FUNC_NAME
     m_settings->encoding = "Windows-1251";
     m_settings->zoomstep = 1;
     m_settings->removeHtml = true;
@@ -253,6 +254,7 @@ void MainWindow::loadDefaultSettings()
     m_settings->onClickBookmarkGo = true;
     m_settings->textFormatting = 0;
     m_settings->homePath = m_homeDataPath;
+    myDebug() << m_settings->homePath;
     m_settings->zefaniaBible_hardCache = true;
     m_settings->zefaniaBible_softCache = true;
     QStringList bookNames;
@@ -355,12 +357,7 @@ void MainWindow::loadSettings()
         m.zefbible_showStudyNote = m_settingsFile->value("showStudyNote", true).toBool();
         m.isDir = m_settingsFile->value("isDir").toBool();
         m.encoding = m_settingsFile->value("encoding").toString();
-        /* m.bookCount = m_settingsFile->value("bookCount").toMap();
-         m.bookNames = m_settingsFile->value("bookNames").toMap();
-         m.bibleName = m_settingsFile->value("bibleName").toMap();
-         m.biblePath = m_settingsFile->value("biblePath").toMap();
-         m.uModuleCount = m_settingsFile->value("uModuleCount", 0).toInt();*/
-        m.styleSheet = m_settings->recoverUrl(m_settingsFile->value("styleSheet", ":/data/default.css").toString());
+        m.styleSheet = m_settings->recoverUrl(m_settingsFile->value("styleSheet", ":/data/css/default.css").toString());
         m_settings->m_moduleSettings.append(m);
 
     }
@@ -396,7 +393,6 @@ void MainWindow::loadSettings()
 
     }
     m_settingsFile->endArray();
-
     return;
 }
 void MainWindow::writeSettings()
@@ -505,7 +501,6 @@ void MainWindow::loadLanguage(QString language)
     //QTranslator myappTranslator;
     QTranslator qtTranslator;
     avLang <<  "en" << "de" << "ru" << "cs";
-    myDebug() << "avLang = " << avLang << " lang = " << language;
     if(avLang.lastIndexOf(language) == -1) {
         language = language.remove(language.lastIndexOf("_"), language.size());
         if(avLang.lastIndexOf(language) == -1) {
@@ -564,7 +559,7 @@ void MainWindow::changeEvent(QEvent *e)
                 m_toolBar = m_interface->toolBar();
                 addToolBar(m_toolBar);
             }
-            //todo: ugly but it fix the flickering when openig a file dialog
+            //todo: ugly but it fix the flickering when opening a file dialog
             m_reloadLang = false;
         }
         break;

@@ -128,7 +128,7 @@ QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
     doc.clear();
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(fileName.toLocal8Bit());
-    QString path = m_settings->homePath + "cache/" + hash.result().toBase64() + ".strong";
+    QString path = m_settings->homePath + "cache/" + QString(hash.result().toHex()) + ".strong";
     //if cache folder exist then remove it
     QFileInfo info(path);
     if(info.exists()) {
@@ -160,11 +160,9 @@ QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
   */
 bool ZefaniaStrong::loadDataBase(QString fileName)
 {
-    myDebug() << "fileName = " << fileName;
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(fileName.toLocal8Bit());
-    QFile file(m_settings->homePath + "cache/" + hash.result().toBase64() + ".strong");
-    myDebug() << "fileName3 = " << m_settings->homePath + "cache/" + hash.result().toBase64() + ".strong";
+    QFile file(m_settings->homePath + "cache/" + QString(hash.result().toHex()) + ".strong");
     if(!file.open(QIODevice::ReadOnly)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not open cache file."));
         return false;
@@ -180,7 +178,6 @@ bool ZefaniaStrong::loadDataBase(QString fileName)
     in >> m_trans;
     in >> m_pron;
     in >> m_desc;
-    myDebug() << "fileName2 = " << file.fileName() << " m_id.size() = "  << m_id.size();
     file.close();
     return true;
 }
@@ -193,12 +190,12 @@ QString ZefaniaStrong::getStrong(QString strongID)
     myDebug() << "strongID = " << strongID;
     for(int i = 0; i < m_id.size(); ++i) {
         QString id = m_id.at(i);
-        if(id.trimmed().toLower() == strongID.trimmed().toLower()) {
-            QString ret = "<h3>" + m_id.at(i) + " - " + m_title.at(i) + "</h3>";
-            if(m_trans.at(i) != "") {
+        if(id.trimmed().toLower().simplified() == strongID.trimmed().toLower().simplified()) {
+            QString ret = "<h3 class='strongTitle'>" + m_id.at(i) + " - " + m_title.at(i) + "</h3>";
+            if(!m_trans.at(i).isEmpty()) {
                 ret += " (" + m_trans.at(i) + ") ";
             }
-            if(m_pron.at(i) != "") {
+            if(!m_pron.at(i).isEmpty()) {
                 ret += " [" + m_pron.at(i) + "] ";
             }
             ret += "<br />" + m_desc.at(i);
