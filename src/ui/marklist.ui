@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>394</width>
     <height>300</height>
    </rect>
   </property>
@@ -22,6 +22,18 @@
      <property name="selectionMode">
       <enum>QAbstractItemView::MultiSelection</enum>
      </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
+     <attribute name="horizontalHeaderDefaultSectionSize">
+      <number>170</number>
+     </attribute>
+     <attribute name="horizontalHeaderDefaultSectionSize">
+      <number>170</number>
+     </attribute>
     </widget>
    </item>
   </layout>
