@@ -203,6 +203,7 @@ void NotesDockWidget::removeMark(VerseSelection selection)
             QString noteID = id.at(i);
             QString link = m_notes->getRef(noteID, "link");
             UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
+            urlConverter.setSettings(m_settings);
             urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
             urlConverter.pharse();
 

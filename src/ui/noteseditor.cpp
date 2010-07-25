@@ -150,20 +150,6 @@ void NotesEditor::init()
     connect(ui->webView->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
     connect(this, SIGNAL(get(QUrl)), m_bibleDisplay, SIGNAL(get(QUrl)));
 
-    /*connect(ui->toolButton_noteBold, SIGNAL(clicked()), this, SLOT(noteSetTextBold()));
-    connect(ui->toolButton_noteItalic, SIGNAL(clicked()), this, SLOT(noteSetTextItalic()));
-    connect(ui->toolButton_noteUnderline, SIGNAL(clicked()), this, SLOT(noteSetTextUnderline()));
-    connect(ui->toolButton_noteFontColor, SIGNAL(clicked()), this, SLOT(noteSetTextColor()));
-    connect(ui->toolButton_noteUndo, SIGNAL(clicked()), this, SLOT(noteUndo()));
-    connect(ui->toolButton_noteRedo, SIGNAL(clicked()), this, SLOT(noteRedo()));
-    connect(ui->toolButton_link, SIGNAL(clicked()), this, SLOT(addLink()));
-    connect(ui->toolButton_removeLink, SIGNAL(clicked()), this, SLOT(removeLink()));
-    connect(ui->textBrowser,SIGNAL(anchorClicked(QUrl)),m_bibleDisplay,SIGNAL(get(QUrl)));
-
-    connect(ui->textBrowser, SIGNAL(undoAvailable(bool)), ui->toolButton_noteUndo, SLOT(setEnabled(bool)));
-    connect(ui->textBrowser, SIGNAL(redoAvailable(bool)), ui->toolButton_noteRedo, SLOT(setEnabled(bool)));*/
-    // connect(ui->textBrowser, SIGNAL(undoAvailable(bool)), m_simpleNotes, SLOT(fastSave()));
-    //  connect(ui->textBrowser, SIGNAL(redoAvailable(bool)), m_simpleNotes, SLOT(fastSave()));
 
 }
 
