@@ -106,7 +106,7 @@ int SettingsDialog::setSettings(Settings settings)
     interface << tr("Simple") << tr("Advanced");
     m_ui->comboBox_interface->clear();
     m_ui->comboBox_interface->insertItems(0, interface);
-    int currentInterface;
+    int currentInterface = 0;
     QString i = m_set.session.getData("interface", "advanced").toString();
     if(i == "advanced") {
         currentInterface = 1;

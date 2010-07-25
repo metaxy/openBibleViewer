@@ -31,6 +31,10 @@ signals:
     void get(QString url);
 private slots:
     void load(QModelIndex index);
+    void showContextMenu(QPoint point);
+    void deleteMarks();
+    void addNote(QString id);
+    void removeNote(QString id);
 public:
     MarkList(QWidget *parent = 0);
     ~MarkList();
@@ -42,9 +46,9 @@ protected:
 private:
     Ui::MarkList *ui;
     QStandardItemModel *m_itemModel;
-    QTreeView *m_treeView;
     QSortFilterProxyModel *m_proxyModel;
     QItemSelectionModel *m_selectionModel;
+    QPoint m_currentPoint;
 };
 
 #endif // MARKLIST_H

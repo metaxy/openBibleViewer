@@ -30,7 +30,7 @@ QVariant Session::getData(QString key)
 }
 bool Session::isSet(QString key)
 {
-    if(m_data[key].isNull())
+    if(m_data.value(key).isNull())
         return false;
     return true;
 }

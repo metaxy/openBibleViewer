@@ -93,7 +93,20 @@
     </layout>
    </item>
    <item row="1" column="1">
-    <widget class="QTableView" name="tableView"/>
+    <widget class="QTableView" name="tableView">
+     <attribute name="horizontalHeaderDefaultSectionSize">
+      <number>200</number>
+     </attribute>
+     <attribute name="verticalHeaderDefaultSectionSize">
+      <number>80</number>
+     </attribute>
+     <attribute name="verticalHeaderDefaultSectionSize">
+      <number>80</number>
+     </attribute>
+     <attribute name="horizontalHeaderDefaultSectionSize">
+      <number>200</number>
+     </attribute>
+    </widget>
    </item>
   </layout>
  </widget>

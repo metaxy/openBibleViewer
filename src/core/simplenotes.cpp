@@ -391,10 +391,10 @@ void SimpleNotes::notesContextMenu(QPoint point)
 }
 void SimpleNotes::removeNote()
 {
-    QModelIndexList list = m_selectionModel->selectedRows(0);
+    QModelIndexList list = m_selectionModel->selectedRows();
     disconnect(m_notes, SIGNAL(noteRemoved(QString)), this, SLOT(removeNote(QString)));
     //todo: if note has link, check if the page where the link shows is currently displayed, if yes reloadChapter
-    if(list.size() == 0) {
+    if(list.isEmpty()) {
         QModelIndex index = m_treeView->indexAt(m_currentPoint);
         if(index.isValid()) {
             QString id = index.data(Qt::UserRole + 1).toString();

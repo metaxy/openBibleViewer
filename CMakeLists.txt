@@ -39,6 +39,10 @@ set ( openBibleViewer_HDRS
 	src/module/simplemoduleclass.h
 	src/core/session.h
 	src/core/basicclass.h
+	src/module/modulemap.h
+	src/module/biblelist.h
+	src/core/core.h
+	src/core/modulecache.h
 	)
 
 set ( openBibleViewer_SRCS
@@ -99,6 +103,14 @@ set ( openBibleViewer_SRCS
 	src/core/basicclass.cpp
 	src/ui/highlighter.cpp
 	src/ui/dialog/insertlinkdialog.cpp
+	src/core/moduledownloader.cpp
+	src/ui/interface/advanced/webview.cpp
+	src/module/biblelist.cpp
+	src/ui/interface/advanced/biblelistwidget.cpp
+	src/ui/interface/advanced/biblelistitemdelegate.cpp
+	src/module/modulemap.cpp
+	src/core/modulecache.cpp
+	src/api/bibleapi.cpp
 	)
 
 set ( openBibleViewer_UIS
@@ -126,6 +138,7 @@ set ( openBibleViewer_UIS
 	src/ui/noteseditor.ui
 	src/ui/dialog/inserthtmldialog.ui
 	src/ui/dialog/insertlinkdialog.ui
+	src/ui/interface/advanced/biblelistwidget.ui
 	)
 QT4_WRAP_UI(UIS ${openBibleViewer_UIS})
 
@@ -173,6 +186,11 @@ set ( openBibleViewer_MOCS
 	src/core/simplenotes.h
 	src/ui/highlighter.h
 	src/ui/dialog/insertlinkdialog.h
+	src/core/moduledownloader.h
+	src/ui/interface/advanced/webview.h
+	src/ui/interface/advanced/biblelistwidget.h
+	src/ui/interface/advanced/biblelistitemdelegate.h
+	src/api/bibleapi.h
 	)
 QT4_WRAP_CPP(MOCS ${openBibleViewer_MOCS})
 

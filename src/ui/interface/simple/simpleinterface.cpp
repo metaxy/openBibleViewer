@@ -45,6 +45,12 @@ void SimpleInterface::setSearchResultDockWidget(SearchResultDockWidget *searchRe
 
 void SimpleInterface::init()
 {
+    m_moduleManager->m_bible = new Bible();
+    m_moduleManager->initBible();
+    m_moduleManager->m_bibleList = new BibleList();
+
+    m_moduleManager->bibleList()->addBible(m_moduleManager->m_bible, QPoint(0, 0));
+
     m_moduleManager->bible()->setSettings(m_settings);
     setAll(m_moduleDockWidget);
     m_moduleDockWidget->init();

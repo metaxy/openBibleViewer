@@ -523,7 +523,7 @@ void AdvancedInterface::loadModuleDataByID(int id)
         return;
     }
     if(m_moduleManager->getModule(id)->m_moduleClass != Module::BibleModule) {
-        myDebug() << "non bible module";
+        myDebug() << "non bible module" << m_moduleManager->getModule(id)->m_moduleClass;
         return;
     }
     QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -1786,6 +1786,7 @@ void AdvancedInterface::showMarkCategories()
 
 void AdvancedInterface::showMarkList()
 {
+    DEBUG_FUNC_NAME
     MarkList *markList = new MarkList(this);
     setAll(markList);
     markList->init();
