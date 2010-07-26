@@ -211,7 +211,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         for(int i = startVerse; i < end; i++) {
             //no title formatting, because it is already formatted
             QString vers = toUniformHtml(chapter.data.at(i));//todo: that is too slow, use something else to make their invalid html code valid
-            if(i == markVerseID) {
+            if(i+1 == markVerseID) {//because of the chapter title
                 vers.prepend("<b>");
                 vers.append("</b>");//make the current verse bold
             }
@@ -416,6 +416,8 @@ SearchResult Bible::search(SearchQuery query)
         break;
     }
     case Module::ZefaniaBibleModule: {
+        if(!m_zef->hasIndex())
+            m_zef->buildIndex();
         result = m_zef->search(query);
         break;
     }

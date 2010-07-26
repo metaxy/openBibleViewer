@@ -44,6 +44,8 @@ public:
 
 
     SearchResult search(SearchQuery query);
+    bool hasIndex();
+    void buildIndex();
 
     int currentBookID, m_bibleID;
     SearchResult lastSearchResult;
@@ -71,6 +73,7 @@ private:
     QMap<int, QList<Chapter> > softCache();
     QList<Chapter> softCache(int bookID);
     QDomNode readBookFromHardCache(QString path, int bookID);
+    QString m_path;
 };
 
 #endif // ZEFANIABIBLE_H

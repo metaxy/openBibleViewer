@@ -27,6 +27,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 //Maximum index entry size, 1MiB for now
 //Lucene default is too small
 const unsigned long BT_MAX_LUCENE_FIELD_LENGTH = 1024 * 1024;
+#include <CLucene.h>
+#include <CLucene/util/Misc.h>
+#include <CLucene/util/Reader.h>
 
 ZefaniaBible::ZefaniaBible()
 {
@@ -43,6 +46,7 @@ void ZefaniaBible::loadBibleData(const int &id, const QString &path)
     DEBUG_FUNC_NAME
     bibleName = "";
     m_bibleID = id;
+    m_path = path;
     if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == false && m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Please activate Caching.(Hard or Soft Cache)"));
         return;
@@ -587,38 +591,42 @@ QList<Chapter> ZefaniaBible::fromHardToSoft(int bookID, QDomNode ncache)
     }
     return ret;
 }
-
-SearchResult ZefaniaBible::search(SearchQuery query)
+bool ZefaniaBible::hasIndex()
 {
-    if(query.wholeWord == true) {
-        query.searchText = " " + query.searchText + " ";
+    DEBUG_FUNC_NAME
+    QDir d;
+    if (!d.exists(m_settings->homePath+"index")) {
+        return false;
     }
-    lastSearchQuery = query;
-    SearchResult result;
-    result.searchQuery = query;
-    /*if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache== true)//hard cache
-    {
-        QProgressDialog progressCache(QObject::tr( "Read Cache" ), QObject::tr( "Cancel" ), 0, bookFullName.size()-1);
-        progressCache.setWindowModality(Qt::WindowModal);
-        for(int i=0;i<bookFullName.size();i++)
-        {
-            progressCache.setValue(i);
-            if(softCacheAvi[i] == false)
-            {
-                softCache[i] = readBookFromHardCache(currentBiblePath,i);
-                softCacheAvi[i] = true;
-            }
+    //todo: check versions
+    QString index = m_settings->homePath+"index/" + m_settings->hash(m_path);
+
+    return lucene::index::IndexReader::indexExists(index.toAscii().constData());
+}
+
+void ZefaniaBible::buildIndex()
+{
+    DEBUG_FUNC_NAME
+
+    QString index = m_settings->homePath+"index/" + m_settings->hash(m_path);
+    QDir dir("/");
+    dir.mkpath( index );
+
+    // do not use any stop words
+    const TCHAR* stop_words[]  = { NULL };
+    lucene::analysis::standard::StandardAnalyzer an( (const TCHAR**)stop_words );
+
+    if (lucene::index::IndexReader::indexExists(index.toAscii().constData())) {
+        if (lucene::index::IndexReader::isLocked(index.toAscii().constData()) ) {
+            lucene::index::IndexReader::unlock(index.toAscii().constData());
         }
-        progressCache.close();
-    }*/
-    //todo: read everything from the big data because its faster
-    QProgressDialog progress(QObject::tr("Searching"), QObject::tr("Cancel"), 0, bookFullName.size());
+    }
+    QScopedPointer<lucene::index::IndexWriter> writer( new lucene::index::IndexWriter(index.toAscii().constData(), &an, true) ); //always create a new index
+
+    QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, bookFullName.size());
     progress.setWindowModality(Qt::WindowModal);
     for(int i = 0; i < bookFullName.size(); ++i) {
         progress.setValue(i);
-        if(progress.wasCanceled()) {
-            return result;
-        }
         QList<Chapter> chapterList;
 
         //load book from cache(soft or hard)
@@ -631,28 +639,63 @@ SearchResult ZefaniaBible::search(SearchQuery query)
         } else {
             chapterList =  softCache(i);
         }
-
+        QByteArray textBuffer;
+        wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
         for(int chapterCounter = 0; chapterCounter < chapterList.size(); ++chapterCounter) {
             Chapter c = chapterList.at(chapterCounter);
             QStringList verse = c.data;
             for(int verseCounter = 0; verseCounter < verse.size(); ++verseCounter) {
-                bool b = false;
-                QString etext = verse.at(verseCounter);
-                if(query.regExp == true) {
-                    b = etext.contains(QRegExp(query.searchText));
-                } else {
-                    if(query.caseSensitive == true) {
-                        b = etext.contains(query.searchText, Qt::CaseSensitive);
-                    } else {
-                        b = etext.contains(query.searchText, Qt::CaseInsensitive);
-                    }
-                }
-                if(b == true) {
-                    result.addHit(m_bibleID, i, chapterCounter + 1, verseCounter + 1, etext);
-                }
+                QString t = verse.at(verseCounter);
+                QScopedPointer<lucene::document::Document> doc(new lucene::document::Document());
+                QString key = QString::number(i) +";"+QString::number(chapterCounter) + ";" + QString::number(verseCounter);
+
+                lucene_utf8towcs(wcharBuffer, key.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
+
+                doc->add(*(new lucene::document::Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer, lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_NO)));
+
+                lucene_utf8towcs(wcharBuffer, t.toUtf8().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
+
+                doc->add(*(new lucene::document::Field((const TCHAR*)_T("content"),
+                                                       (const TCHAR*)wcharBuffer,
+                                                       lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_TOKENIZED)));
+                textBuffer.resize(0); //clean up
+                writer->addDocument(doc.data());
             }
         }
     }
+    writer->optimize();
+    writer->close();
     progress.close();
-    return result;
+
+}
+SearchResult ZefaniaBible::search(SearchQuery query)
+{
+    SearchResult res;
+    QString index = m_settings->homePath+"index/" + m_settings->hash(m_path);
+    char utfBuffer[BT_MAX_LUCENE_FIELD_LENGTH  + 1];
+    wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
+
+
+    const TCHAR* stop_words[]  = { NULL };
+    lucene::analysis::standard::StandardAnalyzer analyzer( stop_words );
+
+    lucene::search::IndexSearcher searcher(index.toLocal8Bit().constData());
+    lucene_utf8towcs(wcharBuffer, query.searchText.toUtf8().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
+    QScopedPointer<lucene::search::Query> q( lucene::queryParser::QueryParser::parse((const TCHAR*)wcharBuffer, (const TCHAR*)_T("content"), &analyzer) );
+
+    QScopedPointer<lucene::search::Hits> h( searcher.search(q.data(), lucene::search::Sort::INDEXORDER) );
+
+    lucene::document::Document* doc = 0;
+    for (int i = 0; i < h->length(); ++i) {
+        doc = &h->doc(i);
+        lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("key")), BT_MAX_LUCENE_FIELD_LENGTH);
+        QString stelle(utfBuffer);
+        QStringList l = stelle.split(";");
+        lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), BT_MAX_LUCENE_FIELD_LENGTH);
+
+        QString content(utfBuffer);
+        res.addHit(m_bibleID,l.at(0).toInt(),l.at(1).toInt(),l.at(2).toInt(),content);
+
+    }
+    return res;
 }
