@@ -179,7 +179,7 @@ void SimpleNotes::changeTitle(QString id, QString title)
     }
     QModelIndexList list = m_treeView->model()->match(m_treeView->model()->index(0, 0), Qt::UserRole + 1, id);
     if(list.size() != 1) {
-        myDebug() << "invalid noteID = " << m_noteID;
+        myWarning() << "invalid noteID = " << m_noteID;
         return;
     }
     QModelIndex index = list.at(0);
@@ -239,7 +239,7 @@ void SimpleNotes::aktNote()
     m_notes->setTitle(m_noteID, m_lineEdit_title->text());
     QModelIndexList list = m_treeView->model()->match(m_treeView->model()->index(0, 0), Qt::UserRole + 1, m_noteID);
     if(list.size() != 1) {
-        myDebug() << "invalid noteID = " << m_noteID;
+        myWarning() << "invalid noteID = " << m_noteID;
         return;
     }
     QModelIndex index = list.at(0);
@@ -419,7 +419,7 @@ void SimpleNotes::removeNote(QString id)
     }
     QModelIndexList list = m_treeView->model()->match(m_treeView->model()->index(0, 0), Qt::UserRole + 1, id);
     if(list.size() != 1) {
-        myDebug() << "invalid noteID = " << m_noteID;
+        myWarning() << "invalid noteID = " << m_noteID;
         return;
     }
     QModelIndex index = list.at(0);

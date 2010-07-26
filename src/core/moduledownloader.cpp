@@ -76,7 +76,6 @@ void ModuleDownloader::downloadNext()
 void ModuleDownloader::download(QString url_, bool addToList)
 {
     DEBUG_FUNC_NAME
-    myDebug() << url_;
     QUrl url(url_);
     QFileInfo fileInfo(url.path());
     QDir d(m_settings->homePath + "modules/");
@@ -144,7 +143,6 @@ void ModuleDownloader::httpRequestFinished(int requestId, bool error)
 
 void ModuleDownloader::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
-    myDebug() << responseHeader.statusCode() << responseHeader.toString();
     switch(responseHeader.statusCode()) {
     case 200:                   // Ok
 

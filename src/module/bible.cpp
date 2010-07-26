@@ -138,7 +138,7 @@ int Bible::readBook(int id)
             if(r != 0)
                 return r;
         } else {
-            myDebug() << "index out of range bookPath.size() = " << m_bookPath.size() << " , id = " << id;
+            myWarning() << "index out of range bookPath.size() = " << m_bookPath.size() << " , id = " << id;
             return 1;
         }
         m_chapterData = m_bq->m_chapterData;
@@ -197,7 +197,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     switch(m_bibleType) {
     case Module::BibleQuoteModule: {
         if(chapterID + 1 >= m_chapterData.size()) {
-            myDebug() << "index out of range index chapter chapterID = " << chapterID + 1  << " chapterData.size() = " << m_chapterData.size();
+            myWarning() << "index out of range index chapter chapterID = " << chapterID + 1  << " chapterData.size() = " << m_chapterData.size();
             break;
         }
         Chapter chapter = m_chapterData.at(chapterID + 1); //get data for this chapter
@@ -223,7 +223,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     case Module::ZefaniaBibleModule: { //zefania
 
         if(chapterID >= m_chapterData.size()) {
-            myDebug() << "index out of range index chapterID = " << chapterID  << " chapterData.size() = " << m_chapterData.size();
+            myWarning() << "index out of range index chapterID = " << chapterID  << " chapterData.size() = " << m_chapterData.size();
             break;
         }
         Chapter c = m_chapterData.at(chapterID);

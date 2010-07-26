@@ -173,10 +173,10 @@ void SimpleInterface::pharseUrl(QString url)
                 showChapter(chapterID, verseID);
                 setCurrentChapter(chapterID);
             } else {
-                myDebug() << "invalid URL";
+                myWarning() << "invalid URL";
             }
         } else {
-            myDebug() << "invalid URL";
+            myWarning() << "invalid URL";
         }
         //bible://bibleID/bookID,chapterID,verseID
     } else if(url.startsWith(http)) {
@@ -234,7 +234,7 @@ void SimpleInterface::pharseUrl(QString url)
         if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->bookPath().contains(url)) {
             emit get("bible://current/" + m_moduleManager->bible()->bookPath().lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
         } else {
-            myDebug() << "invalid URL";
+            myWarning() << "invalid URL";
         }
     }
     return;
@@ -279,12 +279,12 @@ void SimpleInterface::readBookByID(int id)
     myDebug() << "id = " << id;
     if(id < 0) {
         QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
-        myDebug() << "invalid bookID - 1";
+        myWarning() << "invalid bookID - 1";
         return;
     }
     if(id >= m_moduleManager->bible()->booksCount()) {
         QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
-        myDebug() << "invalid bookID - 2(no book loaded)";
+        myWarning() << "invalid bookID - 2(no book loaded)";
         return;
     }
     if(m_moduleManager->bible()->readBook(id) != 0) {

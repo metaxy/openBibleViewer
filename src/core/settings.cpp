@@ -49,7 +49,6 @@ void Settings::setBookCount(QString path, QMap<int, int>count)
 }
 void Settings::setBookNames(QString path, QStringList names)
 {
-    myDebug() << path << names.size();
     ModuleCache c = m_moduleCache[path];
     c.bookNames = names;
     m_moduleCache[path] = c;
@@ -69,7 +68,6 @@ ModuleCache Settings::getModuleCache(const QString &path)
   */
 QString Settings::savableUrl(QString url)
 {
-    DEBUG_FUNC_NAME
     if(url.startsWith(homePath)) {
         url.replace(homePath, "%obvHomePath%");
         return url;
@@ -85,7 +83,6 @@ QString Settings::savableUrl(QString url)
   */
 QString Settings::recoverUrl(QString url)
 {
-    DEBUG_FUNC_NAME
     if(url.startsWith("%obvHomePath%")) {
         url.replace("%obvHomePath%", homePath);
         return url;
@@ -98,7 +95,6 @@ QString Settings::recoverUrl(QString url)
 }
 QString Settings::hash(const QString &path)
 {
-    myDebug() << path;
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(savableUrl(path).toLocal8Bit());
     return QString(hash.result().toHex());

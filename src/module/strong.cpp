@@ -13,7 +13,7 @@ QString Strong::loadStrong(QString strongString)
     //DEBUG_FUNC_NAME
     m_zefStrong.setSettings(m_settings);
     if(m_strongModuleID == -1) {
-        myDebug() << "nothing loaded";//should never happen
+        myWarning() << "nothing loaded";//should never happen
     }
     QString ret;
     if(m_strongModuleID >= 0) {

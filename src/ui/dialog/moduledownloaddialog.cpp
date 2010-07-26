@@ -46,11 +46,11 @@ void ModuleDownloadDialog::readModules()
     QDomDocument doc;
     QFile file(":/data/modules.xml");
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        myDebug() << "cant read the file";
+        myWarning() << "can't read the file";
         return;
     }
     if(!doc.setContent(&file)) {
-        myDebug() << "the file isnt valid";
+        myWarning() << "the file isn't valid";
         return;
     }
     QList<QTreeWidgetItem *> items;

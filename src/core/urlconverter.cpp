@@ -69,12 +69,12 @@ int UrlConverter::pharse()
                     m_chapterID = c.at(1).toInt();
                     m_verseID = c.at(2).toInt();
                 } else {
-                    myDebug() << "invalid url";
+                    myWarning() << "invalid url " << url;
                     return 1;
                 }
             }
         } else {
-            myDebug() << "invalid url, it must start with bible://";
+            myDebug() << "invalid url = " << url << ", it must starts with bible://";
             return 1;
         }
     } else if(m_from == PersistentUrl) {

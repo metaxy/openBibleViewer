@@ -78,13 +78,13 @@ QDomNode ZefaniaBible::readBookFromHardCache(QString path, int bookID)
 
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot read the file."));
-        myDebug() << "can't read the file";
+        myWarning() << "can't read the file";
         return e;
     }
     QDomDocument doc;
     if(!doc.setContent(&file)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid."));
-        myDebug() << "the file isn't valid";
+        myWarning() << "the file isn't valid";
         return e;
     }
     QDomElement root = doc.documentElement();
@@ -282,7 +282,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
 
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not read the file"));
-        myDebug() << "can't read the file";
+        myWarning() << "can't read the file";
         return;
     }
     progress.setValue(3);
@@ -294,7 +294,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     int c;
     if(!doc.setContent(&file, &error, &l, &c)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid. Errorstring: %1 in Line %2 at Position %2").arg(error).arg(l).arg(c));
-        myDebug() << "the file isn't valid";
+        myWarning() << "the file isn't valid";
         return;
     }
 #else
@@ -354,7 +354,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
 
     if(!doc.setContent(data, &error, &l, &c)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid. Errorstring: %1 in Line %2 at Position %2").arg(error).arg(l).arg(c));
-        myDebug() << "the file isnt valid";
+        myWarning() << "the file isn't valid";
         return;
     }
     data.clear();

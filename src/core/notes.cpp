@@ -51,11 +51,11 @@ int Notes::loadNotes()
     QFile file(m_fileName);
     doc.clear();
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        myDebug() << "cannot read the file";
+        myWarning() << "cannot read the file";
         return 1;
     }
     if(!doc.setContent(&file)) {
-        myDebug() << "the file isnt valid";
+        myWarning() << "the file isn't valid";
         file.close();
         return 1;
     }
@@ -63,7 +63,7 @@ int Notes::loadNotes()
         QDomElement e = doc.documentElement();
         if(e.attribute("version", "0.1") != m_version) {
             //errror to old version
-            myDebug() << "too old version " << e.attribute("version", "0.1") << " current is " << m_version;
+            myWarning() << "too old version " << e.attribute("version", "0.1") << " current is " << m_version;
             file.close();
             //make backup
             QDir dir(m_fileName);
@@ -203,7 +203,6 @@ void Notes::setRef(const QString &id, const QMap<QString, QString>  &ref)
 {
     DEBUG_FUNC_NAME
     if(notesRef[id] != ref) {
-        myDebug() << "changed";
         notesRef[id] = ref;
         emit refChanged(id, ref);
     }
@@ -218,12 +217,10 @@ QString Notes::generateNewID()
     int biggest = 0;
     while(i.hasNext()) {
         i.next();
-        myDebug() << " i.key() = " << i.key();
         int id = i.key().toInt();
         if(id > biggest)
             biggest = id;
     }
-    myDebug() << "biggest = " << biggest;
     return QString::number(biggest + 1);
 }
 /*!
@@ -232,8 +229,6 @@ QString Notes::generateNewID()
  */
 void Notes::insertID(const QString &id)
 {
-    // DEBUG_FUNC_NAME
-    // myDebug() << " id = " << id;
     notesID << id;
     emit noteAdded(id);
 }

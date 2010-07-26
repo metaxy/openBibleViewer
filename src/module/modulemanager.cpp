@@ -183,7 +183,7 @@ int ModuleManager::loadAllModules()
                             break;
                         }
                         default:
-                            myDebug() << "not supported " << rfile;
+                            myWarning() << "not supported " << rfile;
                         }
 
                     }
@@ -395,7 +395,7 @@ void ModuleManager::checkCache(const int &moduleID)
 Bible * ModuleManager::newBible(const int &moduleID, QPoint p)
 {
     if(!contains(moduleID)) {
-        myDebug() << "invalid moduleID = " << moduleID;
+        myWarning() << "invalid moduleID = " << moduleID;
         return 0;
     }
     int id = bibleList()->m_biblePoints.key(p, -1);

@@ -349,7 +349,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                     moduleType = Module::ZefaniaStrongModule;// Zefania Strong
                 } else {
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
-                    myDebug() << "cannot detetct module type";
+                    myWarning() << "cannot detetct module type";
                     progress.close();
                     generateModuleTree();
                     return;

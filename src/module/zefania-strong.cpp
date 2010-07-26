@@ -47,7 +47,7 @@ QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
     int eCol;
     if(!doc.setContent(fileData, &errorMsg, &eLine, &eCol)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
-        myDebug() << "the file isnt valid error = " << errorMsg << eLine << eCol << fileData.remove(1000, fileData.size());
+        myWarning() << "the file isn't valid error = " << errorMsg << eLine << eCol << fileData.remove(1000, fileData.size());
         return QString();
     }
     QString fileTitle = "";
@@ -137,7 +137,7 @@ QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
     QFile file(path);
     if(!file.open(QIODevice::WriteOnly)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not open cache file."));
-        myDebug() << " f = " << file.fileName();
+        myWarning() << " f = " << file.fileName();
         return QString();
     }
     myDebug() << "write cache file =" << file.fileName();

@@ -45,7 +45,7 @@ bool WindowCache::setCurrentWindowID(const int &id)
         m_currentWindowID = m_idList.at(id).toInt();
         return true;
     }
-    myDebug() << "failed to set current window id";
+    myWarning() << "failed to set current window id to " << id;
     return false;
 }
 BibleList* WindowCache::getBibleList()
@@ -53,7 +53,7 @@ BibleList* WindowCache::getBibleList()
     if(m_b.contains(m_currentWindowID))
         return m_b[m_currentWindowID];
     else {
-        myDebug() << "no biblelist at " << m_currentWindowID;
+        myWarning() << "no biblelist at " << m_currentWindowID;
         return 0;
     }
 }

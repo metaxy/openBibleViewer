@@ -519,11 +519,11 @@ void AdvancedInterface::loadModuleDataByID(int id)
     if(ui->mdiArea->subWindowList().size() == 0)
         newSubWindow();
     if(id < 0 || !m_moduleManager->contains(id)) {
-        myDebug() << "failed id = " << id << m_moduleManager->m_moduleMap->m_map;
+        myWarning() << "failed id = " << id << m_moduleManager->m_moduleMap->m_map;
         return;
     }
     if(m_moduleManager->getModule(id)->m_moduleClass != Module::BibleModule) {
-        myDebug() << "non bible module" << m_moduleManager->getModule(id)->m_moduleClass;
+        myWarning() << "non bible module" << m_moduleManager->getModule(id)->m_moduleClass;
         return;
     }
     QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -583,7 +583,7 @@ void AdvancedInterface::pharseUrl(QString url)
                     int chapterID = c.at(1).toInt();
                     int verseID = c.at(2).toInt();
                     if(bookID < 0 || chapterID < 0 || verseID < 0) {
-                        myDebug() << "invalid url";
+                        myWarning() << "invalid url";
                         return;
                     }
                     bool force = false;
@@ -618,10 +618,10 @@ void AdvancedInterface::pharseUrl(QString url)
                 } else if(a.at(1) == "current") {
                     //load another bible but with current book and chapter id
                 } else {
-                    myDebug() << "invalid URL";
+                    myWarning() << "invalid URL";
                 }
             } else {
-                myDebug() << "invalid URL";
+                myWarning() << "invalid URL";
             }
         }
         //bible://bibleID/bookID,chapterID,verseID
@@ -860,13 +860,13 @@ void AdvancedInterface::readBookByID(int id)
         if(id < 0) {
             QApplication::restoreOverrideCursor();
             QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
-            myDebug() << "invalid bookID - 1";
+            myWarning() << "invalid bookID - 1";
             return;
         }
         if(id >= m_moduleManager->bible()->booksCount()) {
             QApplication::restoreOverrideCursor();
             QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
-            myDebug() << "invalid bookID - 2(no book loaded) id = " << id << " count = " << m_moduleManager->bible()->booksCount();
+            myWarning() << "invalid bookID - 2(no book loaded) id = " << id << " count = " << m_moduleManager->bible()->booksCount();
 
             return;
         }
@@ -878,7 +878,7 @@ void AdvancedInterface::readBookByID(int id)
             } else {
                 QMessageBox::critical(0, tr("Error"), tr("Cannot read the book."));
             }
-            myDebug() << "read = " << read;
+            myWarning() << "read = " << read;
             //error while reading
             return;
         }

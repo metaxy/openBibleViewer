@@ -346,7 +346,7 @@ void BibleQuote::buildIndex()
             }
             bytetext << out;
         } else {
-            myDebug() << "cannot open the file " << file.fileName();
+            myWarning() << "cannot open the file " << file.fileName();
             continue;
         }
         QString encoding;
