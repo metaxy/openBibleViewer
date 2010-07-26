@@ -200,8 +200,6 @@ QString BibleQuote::readInfo(QFile &file)
 }
 int BibleQuote::readBook(int id, QString path)
 {
-    //DEBUG_FUNC_NAME
-    //chapterText.clear();
     m_chapterData.clear();
 
     m_bookID = id;
@@ -215,7 +213,7 @@ int BibleQuote::readBook(int id, QString path)
     int ccount2 = 0;
     QStringList chapterText;
     QStringList removeHtml2 = m_removeHtml.split(" ");
-    myDebug() << "id = " << id << " path = " << path << " fileName = " << file.fileName();
+
     if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QString encoding;
         if(m_settings->getModuleSettings(m_bibleID).encoding == "Default" || m_settings->getModuleSettings(m_bibleID).encoding == "") {
@@ -383,7 +381,9 @@ void BibleQuote::buildIndex()
                 QString key = QString::number(id) +";"+QString::number(chapterit) + ";" + QString::number(verseit);
                 lucene_utf8towcs(wcharBuffer, key.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
 
-                doc->add(*(new lucene::document::Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer, lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_NO)));
+                doc->add(*(new lucene::document::Field((const TCHAR*)_T("key"),
+                                                       (const TCHAR*)wcharBuffer,
+                                                       lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_NO)));
 
                 lucene_utf8towcs(wcharBuffer, (const char*) textBuffer.append(t), BT_MAX_LUCENE_FIELD_LENGTH);
 
@@ -403,6 +403,7 @@ void BibleQuote::buildIndex()
 SearchResult BibleQuote::search(SearchQuery query)
 {
     SearchResult res;
+    res.searchQuery = query;
     QString index = m_settings->homePath+"index/" + m_settings->hash(m_biblePath);
     char utfBuffer[BT_MAX_LUCENE_FIELD_LENGTH  + 1];
     wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];

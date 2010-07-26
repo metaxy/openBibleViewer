@@ -11,10 +11,10 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#include "searchresultdockwidget.h"
-#include "src/core/searchhit.h"
-#include "ui_searchresultdockwidget.h"
 #include <QtGui/QMessageBox>
+#include "searchresultdockwidget.h"
+#include "ui_searchresultdockwidget.h"
+#include "src/core/searchhit.h"
 #include "src/ui/dialog/searchinfodialog.h"
 #include "src/core/dbghelper.h"
 #include "src/core/core.h"
@@ -42,7 +42,7 @@ void SearchResultDockWidget::setSearchResult(SearchResult searchResult)
     for(int i = 0; i < hits.size(); ++i) {
         SearchHit hit = hits.at(i);
         QString bookn = m_moduleManager->bible()->bookFullName().at(hit.bookID());
-        outlist << bookn + " " + QString::number(hit.chapterID()) + " , " + QString::number(hit.verseID());
+        outlist << bookn + " " + QString::number(hit.chapterID() + 1) + " , " + QString::number(hit.verseID() + 1);
     }
     ui->listWidget_search->clear();
     ui->listWidget_search->insertItems(0, outlist);
@@ -56,7 +56,7 @@ void SearchResultDockWidget::goToSearchResult(QListWidgetItem * item)
         SearchHit hit = m_searchResult.hits().at(id);
         if(!m_moduleManager->contains(hit.bibleID()))
             return;
-        emit get("bible://" + QString::number(hit.bibleID()) + "/" + QString::number(hit.bookID()) + "," + QString::number(hit.chapterID() - 1) + "," + QString::number(hit.verseID() - 1) + ",searchInCurrentText=true");
+        emit get("bible://" + QString::number(hit.bibleID()) + "/" + QString::number(hit.bookID()) + "," + QString::number(hit.chapterID()) + "," + QString::number(hit.verseID()) + ",searchInCurrentText=true");
     }
 }
 void SearchResultDockWidget::searchInfo()
@@ -76,7 +76,7 @@ void SearchResultDockWidget::searchInfo()
     for(int i = 0; i < result.hits().size(); ++i) {
         SearchHit hit = result.hits().at(i);
         QString bookn = m_moduleManager->bible()->bookFullName().at(hit.bookID()); //todo: maybe the bible isn't loaded and you need another bookNames
-        textList << hit.text() + "\n - <i>" + bookn + " " + QString::number(hit.chapterID()) + " , " + QString::number(hit.verseID()) + "</i>";
+        textList << hit.text() + "\n - <i>" + bookn + " " + QString::number(hit.chapterID() +1) + " , " + QString::number(hit.verseID() +1) + "</i>";
     }
     searchString = m_searchResult.searchQuery.searchText;
 

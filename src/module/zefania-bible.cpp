@@ -671,6 +671,7 @@ void ZefaniaBible::buildIndex()
 SearchResult ZefaniaBible::search(SearchQuery query)
 {
     SearchResult res;
+    res.searchQuery = query;
     QString index = m_settings->homePath+"index/" + m_settings->hash(m_path);
     char utfBuffer[BT_MAX_LUCENE_FIELD_LENGTH  + 1];
     wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];

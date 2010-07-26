@@ -211,7 +211,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         for(int i = startVerse; i < end; i++) {
             //no title formatting, because it is already formatted
             QString vers = toUniformHtml(chapter.data.at(i));//todo: that is too slow, use something else to make their invalid html code valid
-            if(i+1 == markVerseID) {//because of the chapter title
+            if(i == markVerseID) {//because of the chapter title
                 vers.prepend("<b>");
                 vers.append("</b>");//make the current verse bold
             }
