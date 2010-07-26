@@ -52,6 +52,7 @@ public:
     void insertID(const QString &id);
     void removeNote(const QString &id);
     QStringList getIDList();
+    QStringList getIDList(const QString &type);
     bool isLoaded();
     void loadingNewInstance();
 

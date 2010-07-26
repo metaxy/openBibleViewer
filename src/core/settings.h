@@ -64,6 +64,8 @@ public:
 
     QString savableUrl(QString url);
     QString recoverUrl(QString url);
+
+    QString hash(const QString &path);
 private:
 
 };

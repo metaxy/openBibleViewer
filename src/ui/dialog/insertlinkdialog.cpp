@@ -9,7 +9,6 @@ InsertLinkDialog::InsertLinkDialog(QWidget *parent) :
     m_itemModel = new QStandardItemModel(ui->treeView);
     connect(ui->comboBox_bibles, SIGNAL(currentIndexChanged(int)), this, SLOT(indexChanged(int)));
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
-
 }
 
 InsertLinkDialog::~InsertLinkDialog()
@@ -18,18 +17,16 @@ InsertLinkDialog::~InsertLinkDialog()
 }
 void InsertLinkDialog::init()
 {
-
     m_itemModel->clear();
-    QStringList id = m_notes->getIDList();
-
     QStandardItem *parentItem = m_itemModel->invisibleRootItem();
-    for(int i = 0; i < id.size(); i++) {
-        if(m_notes->getType(id.at(i)) == "text"/*really only text?*/) {
-            QStandardItem *noteItem = new QStandardItem;
-            noteItem->setText(m_notes->getTitle(id.at(i)));
-            noteItem->setData(id.at(i));
-            parentItem->appendRow(noteItem);
-        }
+
+    const QStringList ids = m_notes->getIDList("text");
+
+    foreach(QString id, ids) {
+        QStandardItem *noteItem = new QStandardItem;
+        noteItem->setText(m_notes->getTitle(id));
+        noteItem->setData(id);
+        parentItem->appendRow(noteItem);
     }
 
     m_proxyModel = new QSortFilterProxyModel(this);
@@ -60,8 +57,6 @@ void InsertLinkDialog::setCurrent(const int &bible, const QString &path, const i
 }
 void InsertLinkDialog::indexChanged(int index)
 {
-    //DEBUG_FUNC_NAME
-    //todo: use cache
     if(index >= 0) {
         m_path = m_moduleManager->getBiblePaths().at(index);
         ui->comboBox_books->clear();
@@ -105,6 +100,7 @@ void InsertLinkDialog::changeEvent(QEvent *e)
     switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
+        m_proxyModel->setHeaderData(0, Qt::Horizontal, tr("Note Title"));
         break;
     default:
         break;

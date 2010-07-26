@@ -1,37 +1,32 @@
-/****************************************************************************
-**
-** Copyright (C) 2009 Nokia Corporation and/or its subsidiary(-ies).
-** Contact: Qt Software Information (qt-info@nokia.com)
-**
-** This file is part of the Graphics Dojo project on Qt Labs.
-**
-** This file may be used under the terms of the GNU General Public
-** License version 2.0 or 3.0 as published by the Free Software Foundation
-** and appearing in the file LICENSE.GPL included in the packaging of
-** this file.  Please review the following information to ensure GNU
-** General Public Licensing requirements will be met:
-** http://www.fsf.org/licensing/licenses/info/GPLv2.html and
-** http://www.gnu.org/copyleft/gpl.html.
-**
-** If you are unsure which license is appropriate for your use, please
-** contact the sales department at qt-sales@nokia.com.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-**
-****************************************************************************/
+/***************************************************************************
+openBibleViewer - Bible Study Tool
+Copyright (C) 2009-2010 Paul Walger
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the Free
+Software Foundation; either version 3 of the License, or (at your option)
+any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with
+this program; if not, see <http://www.gnu.org/licenses/>.
+*****************************************************************************/
 
 
-#include "noteseditor.h"
-#include "highlighter.h"
+
+
 #include "src/core/dbghelper.h"
 #include "src/ui/dialog/insertlinkdialog.h"
-#include "ui_noteseditor.h"
-#include "ui_inserthtmldialog.h"
-
-#include <QtGui>
-#include <QtWebKit>
 #include "src/core/core.h"
+
+#include "ui_noteseditor.h"
+#include "noteseditor.h"
+#include <QtGui/QFileDialog>
+#include <QtGui/QFontDatabase>
+#include <QtGui/QInputDialog>
+#include <QtGui/QColorDialog>
+#include "ui_inserthtmldialog.h"
+#include "highlighter.h"
 #define FORWARD_ACTION(action1, action2) \
     connect(action1, SIGNAL(triggered()), \
             ui->webView->pageAction(action2), SLOT(trigger())); \
@@ -66,7 +61,7 @@ NotesEditor::NotesEditor(QWidget *parent)
     m_zoomSlider = new QSlider(this);
     m_zoomSlider->setOrientation(Qt::Horizontal);
     m_zoomSlider->setMaximumWidth(150);
-    m_zoomSlider->setRange(25, 400);
+    m_zoomSlider->setRange(25, 500);
     m_zoomSlider->setSingleStep(25);
     m_zoomSlider->setPageStep(100);
     connect(m_zoomSlider, SIGNAL(valueChanged(int)), SLOT(changeZoom(int)));
@@ -119,10 +114,7 @@ NotesEditor::NotesEditor(QWidget *parent)
     connect(ui->actionFormatNumberedList, SIGNAL(triggered()), SLOT(formatNumberedList()));
     connect(ui->actionFormatBulletedList, SIGNAL(triggered()), SLOT(formatBulletedList()));
 
-
-
     connect(ui->webView->page(), SIGNAL(selectionChanged()), SLOT(adjustActions()));
-
 
     connect(ui->webView->page(), SIGNAL(contentsChanged()), SLOT(adjustSource()));
     ui->webView->setFocus();
@@ -135,10 +127,7 @@ NotesEditor::NotesEditor(QWidget *parent)
 }
 void NotesEditor::init()
 {
-
     setAll(m_simpleNotes);
-
-    //m_simpleNotes->setDataWidget(ui->textBrowser);
     m_simpleNotes->setFrameWidget(ui->webView->page()->mainFrame());
     m_simpleNotes->setViewWidget(ui->treeView);
     m_simpleNotes->setTitleWidget(ui->lineEdit_noteTitle);
@@ -149,8 +138,6 @@ void NotesEditor::init()
     ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
     connect(ui->webView->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
     connect(this, SIGNAL(get(QUrl)), m_bibleDisplay, SIGNAL(get(QUrl)));
-
-
 }
 
 NotesEditor::~NotesEditor()
@@ -186,12 +173,24 @@ bool NotesEditor::fileSave()
 
 bool NotesEditor::fileSaveAs()
 {
-    QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
-                 QString(), tr("HTML-Files (*.htm *.html);;All Files (*)"));
+    QFileDialog dialog(this);
+
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+
+    QString fn = dialog.getSaveFileName(this, tr("Save as..."),
+                 QString(), tr("HTML-Files (*.html *.htm);;Text-Files (*.txt);;All Files (*)"));
     if(fn.isEmpty())
         return false;
-    if(!(fn.endsWith(".htm", Qt::CaseInsensitive) || fn.endsWith(".html", Qt::CaseInsensitive)))
-        fn += ".htm"; // default
+    QFile data(fn);
+    if (data.open(QFile::WriteOnly | QFile::Truncate)) {
+        QTextStream out(&data);
+        if(fn.endsWith(".html", Qt::CaseInsensitive) || fn.endsWith(".htm", Qt::CaseInsensitive)) {
+            out <<  ui->webView->page()->mainFrame()->toHtml();
+        } else {
+            out <<  ui->webView->page()->mainFrame()->toPlainText();
+        }
+        data.close();
+    }
 
     return fileSave();
 }
@@ -274,10 +273,7 @@ void NotesEditor::createLink(QString link)
 }
 void NotesEditor::pharseUrl(QUrl url)
 {
-    DEBUG_FUNC_NAME
-
     QString link = url.toString();
-    myDebug() << "link = " << link;
     const QString note = "note://";
     if(link.startsWith(note)) {
         link = link.remove(0, note.size());
@@ -539,7 +535,7 @@ void NotesEditor::changeTab(int index)
 void NotesEditor::changeZoom(int percent)
 {
     ui->actionZoomOut->setEnabled(percent > 25);
-    ui->actionZoomIn->setEnabled(percent < 400);
+    ui->actionZoomIn->setEnabled(percent < 500);
     qreal factor = static_cast<qreal>(percent) / 100;
     ui->webView->setZoomFactor(factor);
 

@@ -20,7 +20,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QVariantList>
 #include <QtCore/QFile>
 #include <QtCore/QDataStream>
-#include <QtCore/QCryptographicHash>
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
 #include <QtGui/QMessageBox>
@@ -126,9 +125,7 @@ QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
         c++;
     }
     doc.clear();
-    QCryptographicHash hash(QCryptographicHash::Md5);
-    hash.addData(fileName.toLocal8Bit());
-    QString path = m_settings->homePath + "cache/" + QString(hash.result().toHex()) + ".strong";
+    QString path = m_settings->homePath + "cache/" + m_settings->hash(fileName) + ".strong";
     //if cache folder exist then remove it
     QFileInfo info(path);
     if(info.exists()) {
@@ -160,9 +157,7 @@ QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
   */
 bool ZefaniaStrong::loadDataBase(QString fileName)
 {
-    QCryptographicHash hash(QCryptographicHash::Md5);
-    hash.addData(fileName.toLocal8Bit());
-    QFile file(m_settings->homePath + "cache/" + QString(hash.result().toHex()) + ".strong");
+    QFile file(m_settings->homePath + "cache/" + m_settings->hash(fileName) + ".strong");
     if(!file.open(QIODevice::ReadOnly)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not open cache file."));
         return false;

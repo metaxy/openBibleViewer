@@ -75,12 +75,12 @@ private:
     QItemSelectionModel *m_selectionModel;
 
     QString m_noteID;
-    QMap<QString, QString> currentNoteRef;
+    QMap<QString, QString> m_noteRef;
     void setTitle(QString title);
     void setData(QString data);
     void setRef(QMap<QString, QString> ref);
     void aktNote();
-    void select(QString noteID);
+    void select(const QString &noteID);
     bool loadTextBrowser;
 
 };

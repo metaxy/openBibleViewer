@@ -145,6 +145,11 @@ QStringList Notes::getIDList()
 {
     return notesID;
 }
+QStringList Notes::getIDList(const QString &type)
+{
+    return notesType.keys(type);
+}
+
 /*!
   Clear all data
   */

@@ -82,17 +82,14 @@ void SimpleNotes::init()
     connect(m_notes, SIGNAL(noteRemoved(QString, QMap<QString, QString>)), this, SLOT(removeNote(QString)));
 
     m_itemModel->clear();
-    QStringList id = m_notes->getIDList();
-
     QStandardItem *parentItem = m_itemModel->invisibleRootItem();
-    myDebug() << " id = " << id;
-    for(int i = 0; i < id.size(); i++) {
-        if(m_notes->getType(id.at(i)) == "text") {
-            QStandardItem *noteItem = new QStandardItem;
-            noteItem->setText(m_notes->getTitle(id.at(i)));
-            noteItem->setData(id.at(i));
-            parentItem->appendRow(noteItem);
-        }
+
+    const QStringList id = m_notes->getIDList("text");
+    foreach(QString i, id) {
+        QStandardItem *noteItem = new QStandardItem;
+        noteItem->setText(m_notes->getTitle(i));
+        noteItem->setData(i);
+        parentItem->appendRow(noteItem);
     }
     m_noteID = "";
 
@@ -111,7 +108,6 @@ void SimpleNotes::showNote(QModelIndex index)
 }
 void SimpleNotes::showNote(const QString &noteID, bool selectNote)
 {
-    //DEBUG_FUNC_NAME
     //save current notes
     if(selectNote)
         select(noteID);
@@ -119,11 +115,11 @@ void SimpleNotes::showNote(const QString &noteID, bool selectNote)
     aktNote();
     //load new notes
     m_noteID = noteID;
-    currentNoteRef = m_notes->getRef(m_noteID);
+    m_noteRef = m_notes->getRef(m_noteID);
 
     setTitle(m_notes->getTitle(m_noteID));
     setData(m_notes->getData(m_noteID));
-    setRef(currentNoteRef);
+    setRef(m_noteRef);
 }
 void SimpleNotes::setTitle(QString title)
 {
@@ -148,7 +144,7 @@ void SimpleNotes::setRef(QMap<QString, QString> ref)
 }
 void SimpleNotes::editNoteLink()
 {
-    QString link = currentNoteRef["link"];
+    QString link = m_noteRef["link"];
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
@@ -160,15 +156,14 @@ void SimpleNotes::editNoteLink()
     passageDialog->setSettings(m_settings);
     passageDialog->setModuleManager(m_moduleManager);
     passageDialog->setCurrent(urlConverter.m_moduleID, urlConverter.m_path, urlConverter.m_bookID, urlConverter.m_chapterID + 1, urlConverter.m_verseID + 1);
-    passageDialog->show();
     passageDialog->exec();
 
 }
 void SimpleNotes::updateNote(QString link)
 {
-    currentNoteRef["link"] = link;
-    m_notes->setRef(m_noteID, currentNoteRef);
-    setRef(currentNoteRef);
+    m_noteRef["link"] = link;
+    m_notes->setRef(m_noteID, m_noteRef);
+    setRef(m_noteRef);
     return;
 }
 void SimpleNotes::changeData(QString id, QString data)
@@ -192,7 +187,6 @@ void SimpleNotes::changeTitle(QString id, QString title)
 }
 void SimpleNotes::changeRef(QString id, QMap<QString, QString> ref)
 {
-
     if(m_noteID == id) {
         setRef(ref);
     }
@@ -216,7 +210,6 @@ void SimpleNotes::copyNote(void)
 }
 void SimpleNotes::saveNote(void)
 {
-    //DEBUG_FUNC_NAME
     aktNote();
     fastSave();
     m_notes->saveNotes();
@@ -233,7 +226,7 @@ void SimpleNotes::fastSave(void)
         m_notes->setData(m_noteID, m_frame->toHtml());
 
     m_notes->setTitle(m_noteID, m_lineEdit_title->text());
-    m_notes->setRef(m_noteID, currentNoteRef);
+    m_notes->setRef(m_noteID, m_noteRef);
 
     connect(m_notes, SIGNAL(titleChanged(QString, QString)), this, SLOT(changeTitle(QString, QString)));
     connect(m_notes, SIGNAL(dataChanged(QString, QString)), this, SLOT(changeData(QString, QString)));
@@ -252,11 +245,9 @@ void SimpleNotes::aktNote()
     QModelIndex index = list.at(0);
     if(index.data(Qt::DisplayRole) != m_notes->getTitle(m_noteID)) {
         m_treeView->model()->setData(index, m_notes->getTitle(m_noteID), Qt::DisplayRole);
-
-
     }
 }
-void SimpleNotes::select(QString noteID)
+void SimpleNotes::select(const QString &noteID)
 {
     QModelIndexList list = m_treeView->model()->match(m_treeView->model()->index(0, 0), Qt::UserRole + 1, noteID);
     if(list.size() != 1) {
@@ -279,15 +270,13 @@ void SimpleNotes::newNote(void)
     m_notes->setTitle(newID, tr("(unnamed)"));
     m_notes->setType(newID, "text");
 
-
-    currentNoteRef = QMap<QString, QString>();
+    m_noteRef = QMap<QString, QString>();
     QDateTime t = QDateTime::currentDateTime();
 
-    currentNoteRef["created"] = t.toString(Qt::ISODate);
-    m_notes->setRef(newID, currentNoteRef);
+    m_noteRef["created"] = t.toString(Qt::ISODate);
+    m_notes->setRef(newID, m_noteRef);
     m_noteID = newID;
     m_notes->insertID(newID);
-
 
     QStandardItem *parentItem = m_itemModel->invisibleRootItem();
     QStandardItem *newItem = new QStandardItem;
@@ -301,9 +290,7 @@ void SimpleNotes::newNote(void)
 
     setTitle(tr("(unnamed)"));
     setData("");
-    setRef(currentNoteRef);
-
-
+    setRef(m_noteRef);
 }
 void SimpleNotes::addNote(QString id)
 {
@@ -343,9 +330,9 @@ void SimpleNotes::newNoteWithLink(VerseSelection selection)
     QDateTime t = QDateTime::currentDateTime();
     ref["created"] = t.toString(Qt::ISODate);
     ref["link"] = link;
-    currentNoteRef = ref;
+    m_noteRef = ref;
 
-    m_notes->setRef(newID, currentNoteRef);
+    m_notes->setRef(newID, m_noteRef);
 
     m_notes->insertID(newID);
     m_noteID = newID;
@@ -360,7 +347,7 @@ void SimpleNotes::newNoteWithLink(VerseSelection selection)
     connect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
     setTitle(tr("(unnamed)"));
     setData("");
-    setRef(currentNoteRef);
+    setRef(m_noteRef);
 
     emit reloadChapter();
 }

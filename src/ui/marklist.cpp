@@ -41,13 +41,8 @@ void MarkList::init()
     
     connect(ui->tableView, SIGNAL(activated(QModelIndex)), this, SLOT(load(QModelIndex)));
     connect(this, SIGNAL(get(QString)), m_bibleDisplay, SIGNAL(get(QString)));
-    QStringList marks;
-    const QStringList id = m_notes->getIDList();
-    for(int i = 0; i < id.size(); ++i) {
-        if(m_notes->getType(id.at(i)) == "mark") {
-            marks << id.at(i);
-        }
-    }
+
+    const QStringList marks = m_notes->getIDList("mark");
     m_itemModel = new QStandardItemModel(marks.size(), 2);
     m_proxyModel = new QSortFilterProxyModel(this);
     m_selectionModel = new QItemSelectionModel(m_proxyModel);

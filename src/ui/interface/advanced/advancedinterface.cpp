@@ -1786,11 +1786,10 @@ void AdvancedInterface::showMarkCategories()
 
 void AdvancedInterface::showMarkList()
 {
-    DEBUG_FUNC_NAME
     MarkList *markList = new MarkList(this);
     setAll(markList);
     markList->init();
-    markList->show();
+    markList->exec();
 }
 
 void AdvancedInterface::showNotesEditor()

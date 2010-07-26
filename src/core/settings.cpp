@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "dbghelper.h"
 #include <QtCore/QUrl>
 #include <QtCore/QDir>
+#include <QtCore/QCryptographicHash>
 Settings::Settings()
 {
     m_moduleID = QMap<int, int>();
@@ -94,4 +95,11 @@ QString Settings::recoverUrl(QString url)
         return url;
     }
     return url;
+}
+QString Settings::hash(const QString &path)
+{
+    myDebug() << path;
+    QCryptographicHash hash(QCryptographicHash::Md5);
+    hash.addData(savableUrl(path).toLocal8Bit());
+    return QString(hash.result().toHex());
 }

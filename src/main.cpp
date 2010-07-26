@@ -63,11 +63,11 @@ int main(int argc, char *argv[])
         dir.mkpath(homeDataPath);
     }
 
-#ifdef Q_WS_WIN
+/*#ifdef Q_WS_WIN
     QString lang = settings->value("general/language", "en").toString();
-#else
+#else*/
     QString lang = settings->value("general/language", QLocale::system().name()).toString();
-#endif
+/*#endif*/
     QStringList avLang;
     avLang <<  "en" << "de" << "ru" << "cs";
     if(avLang.lastIndexOf(lang) == -1) {
@@ -77,7 +77,6 @@ int main(int argc, char *argv[])
         }
     }
 
-    //QString themePath = settings->value("theme/path", homeDataPath + "stylesheet.css").toString();
     QTranslator qtTranslator;
     qtTranslator.load("qt_" + lang, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     a.installTranslator(&qtTranslator);
@@ -90,16 +89,6 @@ int main(int argc, char *argv[])
     w.setTranslator(&myappTranslator, &qtTranslator);
     w.init(homeDataPath, settings);
 
-    /*  QFile file(themePath);
-      if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-          QTextStream in(&file);
-          QString out;
-          while (!in.atEnd()) {
-              QString line = in.readLine();
-              out += line;
-          }
-          w.setStyleSheet(out);//load from file
-      }*/
     w.show();
     a.exec();
     return 0;
