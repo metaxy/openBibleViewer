@@ -410,6 +410,8 @@ SearchResult Bible::search(SearchQuery query)
     SearchResult result;
     switch(m_bibleType) {
     case Module::BibleQuoteModule: {
+        if(!m_bq->hasIndex())
+                m_bq->buildIndex();
         result = m_bq->search(query);
         break;
     }

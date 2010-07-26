@@ -19,6 +19,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QDir>
 #include <QtGui/QProgressDialog>
 #include <QtGui/QMessageBox>
+#include <CLucene.h>
+#include <CLucene/util/Misc.h>
+#include <CLucene/util/Reader.h>
+
+//Maximum index entry size, 1MiB for now
+//Lucene default is too small
+const unsigned long BT_MAX_LUCENE_FIELD_LENGTH = 1024 * 1024;
+
 BibleQuote::BibleQuote()
 {
     //m_settings = new Settings();
@@ -281,22 +289,44 @@ int BibleQuote::readBook(int id, QString path)
     return 0;
 
 }
-
-SearchResult BibleQuote::search(SearchQuery query)
+bool BibleQuote::hasIndex()
 {
-    //DEBUG_FUNC_NAME
-    if(query.wholeWord == true) {
-        query.searchText = " " + query.searchText + " ";
+    DEBUG_FUNC_NAME
+    QDir d;
+    if (!d.exists(m_settings->homePath+"index")) {
+        return false;
     }
+    //todo: check versions
+    QString index = m_settings->homePath+"index/" + m_settings->hash(m_biblePath);
+
+    return lucene::index::IndexReader::indexExists(index.toAscii().constData());
+}
+
+void BibleQuote::buildIndex()
+{
+    DEBUG_FUNC_NAME
+
+    QString index = m_settings->homePath+"index/" + m_settings->hash(m_biblePath);
+    QDir dir("/");
+    dir.mkpath( index );
+
+    // do not use any stop words
+    const TCHAR* stop_words[]  = { NULL };
+    lucene::analysis::standard::StandardAnalyzer an( (const TCHAR**)stop_words );
+
+    if (lucene::index::IndexReader::indexExists(index.toAscii().constData())) {
+        if (lucene::index::IndexReader::isLocked(index.toAscii().constData()) ) {
+            lucene::index::IndexReader::unlock(index.toAscii().constData());
+        }
+    }
+    QScopedPointer<lucene::index::IndexWriter> writer( new lucene::index::IndexWriter(index.toAscii().constData(), &an, true) ); //always create a new index
+
     QStringList ctext;
     QList<QByteArray> bytetext;
-    QProgressDialog progress(QObject::tr("Searching"), QObject::tr("Cancel"), 0, m_bookPath.size());
+    QProgressDialog progress(QObject::tr("Indexing"), QObject::tr("Cancel"), 0, m_bookPath.size());
     progress.setWindowModality(Qt::WindowModal);
-    SearchResult result;
-    result.searchQuery = query;
+
     for(int id = 0; id < m_bookPath.size(); id++) {
-        if(progress.wasCanceled())
-            return result;
         progress.setValue(id);
         bytetext.clear();
         ctext.clear();
@@ -333,8 +363,8 @@ SearchResult BibleQuote::search(SearchQuery query)
         } else {
             encoding = m_settings->getModuleSettings(m_bibleID).encoding;
         }
-        QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
-        QTextDecoder *decoder = codec->makeDecoder();
+        QTextCodec *codec  = QTextCodec::codecForName(encoding.toStdString().c_str());
+        QScopedPointer<QTextDecoder> decoder (codec->makeDecoder());
         if(ccount2 == 0) {
             ctext << decoder->toUnicode(out2);
             ccount2 = 1;
@@ -343,28 +373,62 @@ SearchResult BibleQuote::search(SearchQuery query)
                 ctext << decoder->toUnicode(bytetext.at(i));
             }
         }
-        myDebug() << "ctext.size() = " << ctext.size();
-        for(int chapterit = 0; chapterit < ctext.size(); chapterit++) {
+        QByteArray textBuffer;
+        wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
+        for(int chapterit = 0; chapterit < ctext.size(); ++chapterit) {
             QStringList verses = ctext[chapterit].split(m_verseSign);
             for(int verseit = 0; verseit < verses.size(); ++verseit) {
                 QString t = verses.at(verseit);
-                bool b2;
-                if(query.regExp == true) {
-                    b2 = t.contains(QRegExp(query.searchText));
-                } else {
-                    if(query.caseSensitive == true) {
-                        b2 = t.contains(query.searchText, Qt::CaseSensitive);
-                    } else {
-                        b2 = t.contains(query.searchText, Qt::CaseInsensitive);
-                    }
-                }
-                if(b2) {
-                    result.addHit(m_bookID, id, chapterit, verseit, t);
-                }
+                QScopedPointer<lucene::document::Document> doc(new lucene::document::Document());
+                QString key = QString::number(id) +";"+QString::number(chapterit) + ";" + QString::number(verseit);
+                lucene_utf8towcs(wcharBuffer, key.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
+
+                doc->add(*(new lucene::document::Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer, lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_NO)));
+
+                lucene_utf8towcs(wcharBuffer, (const char*) textBuffer.append(t), BT_MAX_LUCENE_FIELD_LENGTH);
+
+                doc->add(*(new lucene::document::Field((const TCHAR*)_T("content"),
+                                                       (const TCHAR*)wcharBuffer,
+                                                       lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_TOKENIZED)));
+                textBuffer.resize(0); //clean up
+                writer->addDocument(doc.data());
             }
         }
     }
+    writer->optimize();
+    writer->close();
     progress.close();
-    return result;
+
+}
+SearchResult BibleQuote::search(SearchQuery query)
+{
+    SearchResult res;
+    QString index = m_settings->homePath+"index/" + m_settings->hash(m_biblePath);
+    char utfBuffer[BT_MAX_LUCENE_FIELD_LENGTH  + 1];
+    wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
+
+
+    const TCHAR* stop_words[]  = { NULL };
+    lucene::analysis::standard::StandardAnalyzer analyzer( stop_words );
+
+    lucene::search::IndexSearcher searcher(index.toLocal8Bit().constData());
+    lucene_utf8towcs(wcharBuffer, query.searchText.toUtf8().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
+    QScopedPointer<lucene::search::Query> q( lucene::queryParser::QueryParser::parse((const TCHAR*)wcharBuffer, (const TCHAR*)_T("content"), &analyzer) );
+
+    QScopedPointer<lucene::search::Hits> h( searcher.search(q.data(), lucene::search::Sort::INDEXORDER) );
+
+    lucene::document::Document* doc = 0;
+    for (int i = 0; i < h->length(); ++i) {
+        doc = &h->doc(i);
+        lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("key")), BT_MAX_LUCENE_FIELD_LENGTH);
+        QString stelle(utfBuffer);
+        QStringList l = stelle.split(";");
+        lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), BT_MAX_LUCENE_FIELD_LENGTH);
+
+        QString content(utfBuffer);
+        res.addHit(m_bibleID,l.at(0).toInt(),l.at(1).toInt(),l.at(2).toInt(),content);
+
+    }
+    return res;
 
 }
