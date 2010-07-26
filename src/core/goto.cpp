@@ -15,10 +15,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include <QtCore/QStringList>
 #include <QtCore/QRegExp>
-GoTo::GoTo(int currentBibleID, QStringList bookFullName)
+GoTo::GoTo(int currentBibleID, QStringList bookFullName,QList<QStringList> bookShortName)
 {
     m_currentBibleID = currentBibleID;
     m_bookFullName = bookFullName;
+    m_bookShortName = bookShortName;
+    myDebug() << m_bookShortName;
 }
 QString GoTo::getUrl(const QString& text)
 {
@@ -64,21 +66,34 @@ int GoTo::bookNameToBookID(const QString& name)
         }
     }
     if(bookID == -1) {
+        for(int i = 0; i < m_bookShortName.size(); ++i) {
+            foreach(QString n, m_bookShortName.at(i)) {
+                if(name == n) {
+                    bookID = i;
+                    break;
+                }
+            }
+        }
+    }
+    if(bookID == -1) {
         for(int i = 0; i < m_bookFullName.size(); ++i) {
             if(m_bookFullName.at(i).startsWith(name, Qt::CaseInsensitive)) {
                 bookID = i;
                 break;
             }
         }
+
     }
-    /*  if (bookID == -1) {
-          for (int i = 0; i < bookFullName.size(); ++i) {
-              if (bookFullName.at(i).contains(name, Qt::CaseInsensitive)) {
-                  bookID = i;
-                  break;
-              }
-          }
-      }*/
+    if(bookID == -1) {
+        for(int i = 0; i < m_bookShortName.size(); ++i) {
+            foreach(QString n, m_bookShortName.at(i)) {
+                if(n.startsWith(name, Qt::CaseInsensitive)) {
+                    bookID = i;
+                    break;
+                }
+            }
+        }
+    }
     if(bookID == -1) {
         for(int i = 0; i < m_bookFullName.size(); ++i) {
             int lev = levenshteinDistance(name, m_bookFullName.at(i));
@@ -87,7 +102,17 @@ int GoTo::bookNameToBookID(const QString& name)
                 min = lev;
             }
         }
+        for(int i = 0; i < m_bookShortName.size(); ++i) {
+            foreach(QString n, m_bookShortName.at(i)) {
+                int lev = levenshteinDistance(n, m_bookFullName.at(i));
+                if(lev < min || min < 0) {
+                    bookID = i;
+                    min = lev;
+                }
+            }
+        }
     }
+
     return bookID;
 }
 int GoTo::levenshteinDistance(const QString& s, const QString& t)

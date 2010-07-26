@@ -343,7 +343,9 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                 //todo: find something better
                 if(fileData.contains("BookQty", Qt::CaseInsensitive)) {
                     moduleType = Module::BibleQuoteModule;// BibleQuote
-                } else if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive)) {
+                } else if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i cannot do this
+                                                                                  fileData.contains("x-cult", Qt::CaseInsensitive) ||
+                                                                                  fileData.contains("x-mormon", Qt::CaseInsensitive))) {
                     moduleType = Module::ZefaniaBibleModule;// Zefania Bible
                 } else if(fileData.contains("<dictionary", Qt::CaseInsensitive) &&  fileData.contains("type=\"x-strong\"", Qt::CaseInsensitive)) {
                     moduleType = Module::ZefaniaStrongModule;// Zefania Strong

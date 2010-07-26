@@ -57,7 +57,7 @@ void QuickJumpDockWidget::goToPos()
     m_completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->lineEdit_goTo->setCompleter(m_completer);
 
-    GoTo go(m_moduleManager->bible()->moduleID(), m_moduleManager->bible()->bookFullName());
+    GoTo go(m_moduleManager->bible()->moduleID(), m_moduleManager->bible()->bookFullName(), m_moduleManager->bible()->bookShortName());
     QString url = go.getUrl(text);
     emit get(url);
     return;

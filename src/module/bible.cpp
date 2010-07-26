@@ -84,6 +84,8 @@ int Bible::loadModuleData(const int &moduleID)
 
         bookCount = m_bq->m_bookCount;
         m_bookFullName = m_bq->m_bookFullName;
+
+        m_bookShortName = m_bq->m_bookShortName;
         m_bookPath = m_bq->m_bookPath;
         m_biblePath = m_bq->m_biblePath;
         //ModuleCache
@@ -106,9 +108,12 @@ int Bible::loadModuleData(const int &moduleID)
         m_bibleTitle = m.moduleName;
 
 
-        bookCount = m_zef->bookCount;
-        m_bookFullName = m_zef->bookFullName;
-        m_biblePath = m_zef->currentBiblePath;
+        bookCount = m_zef->m_bookCount;
+        m_bookFullName = m_zef->m_bookFullName;
+        foreach(QString s,m_zef->m_bookShortName) {
+            m_bookShortName.append(QStringList(s));
+        }
+        m_biblePath = m_zef->m_biblePath;
         //ModuleCache
         m_settings->setTitle(path, m_bibleTitle);
         m_settings->setBookCount(path, bookCount);
@@ -156,8 +161,8 @@ int Bible::readBook(int id)
         m_chapterData.clear();
         m_chapterNames.clear();
         m_zef->readBook(id);
-        m_chapterData = m_zef->chapterData;
-        for(int i = 1; i <= m_zef->bookCount[id]; ++i) {
+        m_chapterData = m_zef->m_chapterData;
+        for(int i = 1; i <= m_zef->m_bookCount[id]; ++i) {
             m_chapterNames << QString::number(i);
         }
         break;
@@ -496,6 +501,10 @@ QString Bible::bibleShortTitle()
 QStringList Bible::bookFullName()
 {
     return m_bookFullName;
+}
+QList<QStringList> Bible::bookShortName()
+{
+    return m_bookShortName;
 }
 
 QStringList Bible::bookPath()

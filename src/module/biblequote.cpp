@@ -120,7 +120,9 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
                         m_bookFullName << formatFromIni(line.remove(QRegExp("FullName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
 
                     } else if(line.contains("ShortName", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                        m_bookShortName << formatFromIni(line.remove(QRegExp("ShortName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
+                        QString s = formatFromIni(line.remove(QRegExp("ShortName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
+                        QStringList l = s.split(" ");
+                        m_bookShortName.append(l);
 
                     }
                 } else if(line.contains("PathName", Qt::CaseInsensitive) && !line.startsWith("//")) {

@@ -60,6 +60,7 @@ public:
     QString biblePath();
 
     QStringList bookFullName();
+    QList<QStringList> bookShortName();
     QStringList bookPath();
     QStringList chapterNames();
     QStringList chapterDataList();
@@ -80,6 +81,7 @@ private:
     QString m_biblePath;
 
     QStringList m_bookFullName;
+    QList<QStringList> m_bookShortName;
     QStringList m_chapterText;
     QStringList m_bookPath;
     QStringList m_chapterNames;

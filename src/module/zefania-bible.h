@@ -42,18 +42,18 @@ public:
     QString readInfo(QFile &file);
     QString readInfo(const QString &content);
 
-
     SearchResult search(SearchQuery query);
     bool hasIndex();
     void buildIndex();
 
-    int currentBookID, m_bibleID;
-    SearchResult lastSearchResult;
-    SearchQuery lastSearchQuery;
-    QString currentBiblePath, bibleName;
-    QStringList bookFullName, bookShortName;
-    QMap <int, int> bookCount;
-    QList<Chapter> chapterData;
+    int m_bookID;
+    int m_bibleID;
+    QString m_biblePath;
+    QString m_bibleName;
+    QStringList m_bookFullName;
+    QStringList m_bookShortName;
+    QMap <int, int> m_bookCount;
+    QList<Chapter> m_chapterData;
 
     void removeHardCache(const QString &path);
 
@@ -65,7 +65,7 @@ private:
     void loadCached(const int &id, const QString &path);
     QList<Chapter> fromHardToSoft(int id, QDomNode ncache);
 
-    QMap<int, QList<Chapter> > softCacheData;
+    QMap<int, QList<Chapter> > m_softCacheData;
 
     void clearSoftCache();
     void setSoftCache(QMap<int, QList<Chapter> >);
@@ -73,7 +73,7 @@ private:
     QMap<int, QList<Chapter> > softCache();
     QList<Chapter> softCache(int bookID);
     QDomNode readBookFromHardCache(QString path, int bookID);
-    QString m_path;
+
 };
 
 #endif // ZEFANIABIBLE_H

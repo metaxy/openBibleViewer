@@ -18,19 +18,18 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 /*!
  GoTo is a pharser for bible passage into a url
-
- @author Paul Walger <metaxy@walger.name>
 */
 class GoTo
 {
 public:
-    GoTo(int currentBibleID, QStringList bookFullName);
+    GoTo(int currentBibleID, QStringList bookFullName,QList<QStringList> bookShortName);
     QString getUrl(const QString& text);
 private:
     int bookNameToBookID(const QString& name);
     int levenshteinDistance(const QString& s, const QString& t);
     int m_currentBibleID;
     QStringList m_bookFullName;
+    QList<QStringList> m_bookShortName;
 };
 
 #endif // GOTO_H

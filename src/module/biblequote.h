@@ -48,7 +48,7 @@ public:
 
     QStringList m_bookPath;
     QStringList m_bookFullName;
-    QStringList m_bookShortName;
+    QList<QStringList> m_bookShortName;
     QMap <int, int> m_bookCount;
     QList<Chapter> m_chapterData;
 private:

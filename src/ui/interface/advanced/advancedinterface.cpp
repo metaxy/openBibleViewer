@@ -752,7 +752,7 @@ void AdvancedInterface::showText(const QString &text)
         if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule) {
             QWebElementCollection collection = v->page()->mainFrame()->documentElement().findAll("img");
             QStringList searchPaths = m_moduleManager->bible()->getSearchPaths();
-            myDebug() << searchPaths;
+
             foreach(QWebElement paraElement, collection) {
                 QString url = paraElement.attribute("src");
                 if(url.startsWith(":/") || url.startsWith("http:"))
@@ -768,7 +768,7 @@ void AdvancedInterface::showText(const QString &text)
                         QStringList list = d.entryList();
                         foreach(QString f, list) {
                             QFileInfo info2(f);
-                            myDebug() << info2.baseName() << i.baseName();
+
                             if(info2.baseName().compare(i.baseName(), Qt::CaseInsensitive) == 0) {
                                 paraElement.setAttribute("src", "file://"+pre+f);
                                  break;
@@ -776,7 +776,6 @@ void AdvancedInterface::showText(const QString &text)
                         }
                     }
                 }
-
             }
         }
     }
@@ -784,7 +783,7 @@ void AdvancedInterface::showText(const QString &text)
 
 void AdvancedInterface::setTitle(const QString &title)
 {
-    this->parentWidget()->setWindowTitle(title);//todo: + programmtitle
+    this->parentWidget()->setWindowTitle(title + tr("openBibleViewer"));
     if(activeMdiChild()) {
         activeMdiChild()->widget()->setWindowTitle(title);
     }
@@ -866,7 +865,6 @@ void AdvancedInterface::readBook(const int &id)
 
 void AdvancedInterface::readBookByID(int id)
 {
-    //todo: webview
     QWebView *v = getView();
     if(v) {
         QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -897,9 +895,6 @@ void AdvancedInterface::readBookByID(int id)
         }
         setChapters(m_moduleManager->bible()->chapterNames());
 
-        //todo: webview
-        //todo: make a javascript which search all images finds the right path and change it
-        //t->setSearchPaths(m_moduleManager->bible()->getSearchPaths());
         QApplication::restoreOverrideCursor();
     }
 

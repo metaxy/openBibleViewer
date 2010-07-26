@@ -247,7 +247,7 @@ void SimpleInterface::showText(const QString &text)
 }
 void SimpleInterface::setTitle(const QString &title)
 {
-    this->parentWidget()->setWindowTitle(title);//todo: + programmtitle
+    this->parentWidget()->setWindowTitle(title + tr("openBibleViewer"));
 }
 
 void SimpleInterface::setChapters(const QStringList &chapters)
