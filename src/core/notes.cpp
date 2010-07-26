@@ -131,7 +131,7 @@ QString Notes::getRef(const QString &id, const QString &refID)
         return QString();
     }
 }
-/*!
+/**
   Get all references of a note
   \param id note ID
   */
@@ -142,19 +142,23 @@ QMap<QString, QString> Notes::getRef(const QString &id)
     else
         return QMap<QString, QString>();
 }
-/*!
+/**
   Get all note IDs
   */
 QStringList Notes::getIDList()
 {
     return notesID;
 }
+/**
+  Get all notes IDs with a given type.
+  \param type The needed type.
+  */
 QStringList Notes::getIDList(const QString &type)
 {
     return notesType.keys(type);
 }
 
-/*!
+/**
   Clear all data
   */
 void Notes::clearAll()
@@ -218,10 +222,10 @@ QString Notes::generateNewID()
 {
     //DEBUG_FUNC_NAME
     QMapIterator<QString, QString> i(notesType);
-    int biggest = 0;
+    long biggest = 0;
     while(i.hasNext()) {
         i.next();
-        int id = i.key().toInt();
+        int id = i.key().toLong();
         if(id > biggest)
             biggest = id;
     }

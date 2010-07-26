@@ -636,6 +636,7 @@ void AdvancedInterface::pharseUrl(QString url)
         //its a biblequote internal link, but i dont have the specifications!!!
         QStringList internal = url.split(" ");
         QString bibleID = internal.at(1);//todo: use it
+        myDebug() << "bibleID = " << bibleID;
         int bookID = internal.at(2).toInt() - 1;
         int chapterID = internal.at(3).toInt() - 1;
         int verseID = internal.at(4).toInt();
@@ -761,6 +762,18 @@ void AdvancedInterface::showText(const QString &text)
                     if(i.exists()) {
                         myDebug() << pre + url;
                         paraElement.setAttribute("src", "file://" + pre + url);
+                        break;
+                    } else {
+                        QDir d(pre);
+                        QStringList list = d.entryList();
+                        foreach(QString f, list) {
+                            QFileInfo info2(f);
+                            myDebug() << info2.baseName() << i.baseName();
+                            if(info2.baseName().compare(i.baseName(), Qt::CaseInsensitive) == 0) {
+                                paraElement.setAttribute("src", "file://"+pre+f);
+                                 break;
+                            }
+                        }
                     }
                 }
 

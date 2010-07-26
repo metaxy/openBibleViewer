@@ -16,7 +16,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/modulesettings.h"
 #include "src/core/dbghelper.h"
 #include "src/core/urlconverter.h"
-#include <QtCore/QMapIterator>
 #include <QtCore/QDir>
 #include <QtGui/QTextDocument>
 Bible::Bible()
@@ -64,7 +63,7 @@ int Bible::loadModuleData(const int &moduleID)
         return 1;
     }
     m_moduleID = moduleID;
-    QString path = m_module->m_path;
+    const QString path = m_module->m_path;
 
     switch(m_bibleType) {
     case Module::BibleQuoteModule: {
@@ -294,13 +293,13 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID) {
                     versList = versList;
                     if(m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
-                        int versID = m_notes->getRef(noteID, "start").toInt();
+                        const int versID = m_notes->getRef(noteID, "start").toInt();
                         if(endVerse != -1) {
                             //todo: do something
                         }
                         QString vers = versList.at(versID);
-                        int startPos = vers.lastIndexOf(m_notes->getRef(noteID, "startString"));
-                        int endPos = vers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
+                        const int startPos = vers.lastIndexOf(m_notes->getRef(noteID, "startString"));
+                        const int endPos = vers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
                         /* QString vB = vers, vB2 = vers;
 
                          vB.remove(startPos, vB.size());
@@ -328,8 +327,8 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                         if(startVersID > 0 && endVersID > 0 && startVersID < versList.size() && endVersID < versList.size()) {
                             QString startVers = versList.at(startVersID);
                             QString endVers = versList.at(endVersID);
-                            int startPos = startVers.lastIndexOf(m_notes->getRef(noteID, "startString"));
-                            int endPos = endVers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
+                            const int startPos = startVers.lastIndexOf(m_notes->getRef(noteID, "startString"));
+                            const int endPos = endVers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
 
                             startVers.insert(startPos, pre);
                             startVers.append(ap);
