@@ -288,8 +288,9 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 urlConverter.setModuleMap(m_map);
                 urlConverter.pharse();
 
-                QString pre = "<span class=\"mark\" style=\"background-color:" + m_notes->getRef(noteID, "color") + "\">";
-                QString ap = "</span>";
+                const QString pre = "<span class=\"mark\" style=\"" + m_notes->getRef(noteID, "style") + "\">";
+
+                const QString ap = "</span>";
                 if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID) {
                     versList = versList;
                     if(m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {

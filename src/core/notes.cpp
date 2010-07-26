@@ -29,8 +29,9 @@ void Notes::init(const QString &fileName)
 {
     //DEBUG_FUNC_NAME
     m_fileName = fileName;
-    m_version = "0.2";
+    m_version = "0.3";
     m_isLoaded = false;
+    m_rePharse = "";
 }
 bool Notes::isLoaded()
 {
@@ -51,7 +52,7 @@ int Notes::loadNotes()
     QFile file(m_fileName);
     doc.clear();
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        myWarning() << "cannot read the file";
+        myWarning() << "cannot read the file " << file.fileName() << "error = " << file.errorString();
         return 1;
     }
     if(!doc.setContent(&file)) {
@@ -61,7 +62,8 @@ int Notes::loadNotes()
     }
     if(doc.documentElement().isElement() && !doc.documentElement().isNull()) {
         QDomElement e = doc.documentElement();
-        if(e.attribute("version", "0.1") != m_version) {
+        QString oldVersion = e.attribute("version", "0.1");
+        if(oldVersion == "0.1") {
             //errror to old version
             myWarning() << "too old version " << e.attribute("version", "0.1") << " current is " << m_version;
             file.close();
@@ -71,6 +73,8 @@ int Notes::loadNotes()
 
             loadNotes();
             return 2;
+        } else if(oldVersion == "0.2" && oldVersion != m_version) {
+            m_rePharse = "colorMarks";
         }
     }
     file.close();
@@ -284,7 +288,13 @@ int Notes::readNotes()
                             continue;
                         }
                         QDomElement e3 = n3.toElement();
-                        map[e3.tagName()] = e3.attribute("id", "");
+                        QString tag = e3.tagName();
+                        QString val = e3.attribute("id", "");
+                        if(m_rePharse == "colorMarks" && tag == "color") {
+                            tag = "style";
+                            val = "background-color:"+val+";";
+                        }
+                        map[tag] = val;
                         n3 = n3.nextSibling();
 
                     }

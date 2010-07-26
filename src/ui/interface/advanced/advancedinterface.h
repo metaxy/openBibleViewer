@@ -64,6 +64,9 @@ private slots:
 
     void newColorMark();
     void newCustomColorMark();
+    void newBoldMark();
+    void newItalicMark();
+    void newUnderlineMark();
 
     void removeMark();
     void newBookmark();

@@ -1034,6 +1034,20 @@ void AdvancedInterface::createDefaultMenu()
     QAction *actionCustomMark  = new QAction(QIcon(":/icons/16x16/format-fill-color.png"), tr("Custom Color"), m_menuMark);
     connect(actionCustomMark, SIGNAL(triggered()), this , SLOT(newCustomColorMark()));
     m_menuMark->addAction(actionCustomMark);
+    m_menuMark->addSeparator();
+
+    QAction *actionBoldMark  = new QAction(QIcon::fromTheme("format-text-bold", QIcon(":/icons/16x16/format-text-bold.png")), tr("Bold"), m_menuMark);
+    connect(actionBoldMark, SIGNAL(triggered()), this , SLOT(newBoldMark()));
+    m_menuMark->addAction(actionBoldMark);
+
+    QAction *actionItalicMark  = new QAction(QIcon::fromTheme("format-text-italic",QIcon(":/icons/16x16/format-text-italic.png")), tr("Italic"), m_menuMark);
+    connect(actionItalicMark, SIGNAL(triggered()), this , SLOT(newItalicMark()));
+    m_menuMark->addAction(actionItalicMark);
+
+    QAction *actionUnderlineMark  = new QAction(QIcon::fromTheme("format-text-underline",QIcon(":/icons/16x16/format-text-underline.png")), tr("Underline"), m_menuMark);
+    connect(actionUnderlineMark, SIGNAL(triggered()), this , SLOT(newUnderlineMark()));
+    m_menuMark->addAction(actionUnderlineMark);
+
 
     m_actionRemoveMark = new QAction(QIcon(":/icons/16x16/mark-yellow.png"), tr("Remove Mark"), v);
     connect(m_actionRemoveMark, SIGNAL(triggered()), this , SLOT(removeMark()));
@@ -1165,6 +1179,41 @@ void AdvancedInterface::newCustomColorMark()
     if(color.isValid()) {
         m_notesDockWidget->newMark(selection, color);
     }
+
+}
+
+void AdvancedInterface::newBoldMark()
+{
+    if(!m_moduleManager->bibleLoaded()) {
+        return;
+    }
+    if(!activeMdiChild())
+        return;
+    VerseSelection selection = verseSelection();
+    m_notesDockWidget->newStyleMark(selection, "font-weight: bold;");
+
+}
+
+void AdvancedInterface::newItalicMark()
+{
+    if(!m_moduleManager->bibleLoaded()) {
+        return;
+    }
+    if(!activeMdiChild())
+        return;
+    VerseSelection selection = verseSelection();
+    m_notesDockWidget->newStyleMark(selection,"font-style: italic;");
+
+}
+void AdvancedInterface::newUnderlineMark()
+{
+    if(!m_moduleManager->bibleLoaded()) {
+        return;
+    }
+    if(!activeMdiChild())
+        return;
+    VerseSelection selection = verseSelection();
+    m_notesDockWidget->newStyleMark(selection,"text-decoration:underline;");
 
 }
 

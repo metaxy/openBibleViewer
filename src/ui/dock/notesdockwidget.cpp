@@ -156,6 +156,10 @@ void NotesDockWidget::noteRedo()
 
 void NotesDockWidget::newMark(VerseSelection selection, QColor color)
 {
+    newStyleMark(selection, "background-color:"+color.name());
+}
+void NotesDockWidget::newStyleMark(VerseSelection selection, QString style)
+{
     myDebug() << selection.shortestStringInEndVerse << selection.shortestStringInStartVerse;
     if(selection.shortestStringInEndVerse == "" || selection.shortestStringInStartVerse == "") {
         myWarning() << "cannot create mark";
@@ -187,7 +191,7 @@ void NotesDockWidget::newMark(VerseSelection selection, QColor color)
     ref["endPos"] = QString::number(selection.posInEndVerse);
     ref["startString"] = selection.shortestStringInStartVerse;
     ref["endString"] = selection.shortestStringInEndVerse;
-    ref["color"] = color.name();
+    ref["style"] = style;
     m_notes->setRef(newID, ref);
     m_notes->insertID(newID);
 

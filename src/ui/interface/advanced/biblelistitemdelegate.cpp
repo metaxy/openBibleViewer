@@ -30,6 +30,7 @@ QWidget * BibleListItemDelegate::createEditor(QWidget *parent,
         const QStyleOptionViewItem & option ,
         const QModelIndex & index) const
 {
+    Q_UNUSED(option);
     QComboBox *combo = new QComboBox(parent);
     combo->insertItems(0, m_names);
     if(index.data(Qt::UserRole + 3).toInt() > 0) {

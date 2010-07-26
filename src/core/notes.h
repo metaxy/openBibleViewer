@@ -68,6 +68,8 @@ private:
     QString m_version;
     bool m_isLoaded;
     bool m_isInited;
+
+    QString m_rePharse;
 };
 
 #endif // NOTES_H

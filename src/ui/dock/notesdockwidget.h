@@ -46,6 +46,7 @@ public slots:
     void newNoteWithLink(VerseSelection selection);
 
     void newMark(VerseSelection selection, QColor color);
+    void newStyleMark(VerseSelection, QString style);
     void showNote(const QString &noteID);
     void removeMark(VerseSelection selection);
     void saveNote();
