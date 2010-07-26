@@ -97,12 +97,6 @@
      <attribute name="horizontalHeaderDefaultSectionSize">
       <number>200</number>
      </attribute>
-     <attribute name="verticalHeaderDefaultSectionSize">
-      <number>80</number>
-     </attribute>
-     <attribute name="verticalHeaderDefaultSectionSize">
-      <number>80</number>
-     </attribute>
      <attribute name="horizontalHeaderDefaultSectionSize">
       <number>200</number>
      </attribute>

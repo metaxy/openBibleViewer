@@ -75,7 +75,6 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
     QTextDecoder *decoder = codec->makeDecoder();
     if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         int countlines = 0;
-        //myDebug() << "encoding = " << m_settings->encoding;
         int i = 0;
         while(!file.atEnd()) {
 
@@ -85,22 +84,19 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
 
             if(line.contains("BibleName", Qt::CaseInsensitive) && !line.startsWith("//")) {
                 m_bibleName = formatFromIni(line.remove(QRegExp("BibleName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
-
             }
+            if(line.contains("BibleShortName", Qt::CaseInsensitive) && !line.startsWith("//")) {
+                m_bibleShortName = formatFromIni(line.remove(QRegExp("BibleShortName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
+            }
+
             if(line.contains("ChapterSign", Qt::CaseInsensitive) && !line.startsWith("//")) {
                 m_chapterSign = formatFromIni(line.remove(QRegExp("ChapterSign(\\s*)=(\\s*)", Qt::CaseInsensitive)));
-                myDebug() << "ChapterSign = " << m_chapterSign;
-                //chaptersign auslesen
             }
             if(line.contains("HTMLFilter", Qt::CaseInsensitive) && !line.startsWith("//")) {
                 m_removeHtml = formatFromIni(line.remove(QRegExp("HTMLFilter(\\s*)=(\\s*)", Qt::CaseInsensitive)));
-                myDebug() << "HtmlFilter = " << m_removeHtml;
-                //htmlfilter auslesen
             }
             if(line.contains("VerseSign", Qt::CaseInsensitive) && !line.startsWith("//")) {
                 m_verseSign = formatFromIni(line.remove(QRegExp("VerseSign(\\s*)=(\\s*)", Qt::CaseInsensitive)));
-                myDebug() << "VerseSign = " << m_verseSign;
-                //verse sign auslesen
             }
             if(line.contains("ChapterZero", Qt::CaseInsensitive) && !line.startsWith("//")) {
                 QString a = formatFromIni(line.remove(QRegExp("ChapterZero(\\s*)=(\\s*)", Qt::CaseInsensitive)));
@@ -109,8 +105,6 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
                 } else {
                     m_chapterZero = false;
                 }
-                //myDebug() << "chapterZero = " << m_chapterZero;
-                //verse sign auslesen
             }
             if(started == false && line.contains("BookQty", Qt::CaseInsensitive) && !line.startsWith("//")) {
                 started = true;
@@ -194,7 +188,7 @@ QString BibleQuote::readInfo(QFile &file)
         m_bibleName = m_bibleShortName;
     }
     if(m_bibleName.isEmpty()) {
-        myDebug() << "invalid ini File " << file.fileName();
+        myWarning() << "invalid ini File " << file.fileName();
     }
     return m_bibleName;
 }
@@ -378,7 +372,7 @@ void BibleQuote::buildIndex()
             for(int verseit = 0; verseit < verses.size(); ++verseit) {
                 QString t = verses.at(verseit);
                 QScopedPointer<lucene::document::Document> doc(new lucene::document::Document());
-                QString key = QString::number(id) + ";" + QString::number(chapterit) + ";" + QString::number(verseit);
+                QString key = QString::number(id) + ";" + QString::number(chapterit-1) + ";" + QString::number(verseit-1);
                 lucene_utf8towcs(wcharBuffer, key.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
 
                 doc->add(*(new lucene::document::Field((const TCHAR*)_T("key"),

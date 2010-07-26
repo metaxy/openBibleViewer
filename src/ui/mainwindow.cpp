@@ -59,8 +59,8 @@ MainWindow::~MainWindow()
 }
 void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 {
-    VERSION  = "0.4.2";
-    BUILD =  "2010-22-05";
+    VERSION  = "0.5a1";
+    BUILD =  "2010-26-07";
     m_homeDataPath = homeDataPath;
     m_settingsFile = settingsFile;
 
@@ -83,7 +83,7 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
     loadInterface();
     restoreSession();
     if(firstStart) {
-        QTimer::singleShot(10, this, SLOT(showSettingsDialog_Module()));
+        QTimer::singleShot(1, this, SLOT(showSettingsDialog_Module()));
     }
 }
 void MainWindow::loadInterface()

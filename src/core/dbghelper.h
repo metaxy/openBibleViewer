@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include <QtCore/QtDebug>
 #define myDebug() qDebug() << Q_FUNC_INFO << " "
-#define myWarning() qWarning() << Q_FUNC_INFO << " "
+#define myWarning() qWarning() << "W: "<< Q_FUNC_INFO << " "
 #ifndef QT_NO_DEBUG
 #define DEBUG_FUNC_NAME DbgHelper dbgHelper(Q_FUNC_INFO);
 #else

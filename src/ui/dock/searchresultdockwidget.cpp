@@ -50,12 +50,14 @@ void SearchResultDockWidget::setSearchResult(SearchResult searchResult)
 }
 void SearchResultDockWidget::goToSearchResult(QListWidgetItem * item)
 {
+
     int id = ui->listWidget_search->row(item);
 
-    if(id < m_searchResult.hits().size() && id > 0) {
+    if(id < m_searchResult.hits().size() && id >= 0) {
         SearchHit hit = m_searchResult.hits().at(id);
         if(!m_moduleManager->contains(hit.bibleID()))
             return;
+        myDebug() << hit.bookID() << hit.chapterID() << hit.verseID() << hit.text();
         emit get("bible://" + QString::number(hit.bibleID()) + "/" + QString::number(hit.bookID()) + "," + QString::number(hit.chapterID()) + "," + QString::number(hit.verseID()) + ",searchInCurrentText=true");
     }
 }
@@ -104,7 +106,7 @@ void SearchResultDockWidget::nextVerse()
             goToSearchResult(ui->listWidget_search->currentItem());
         }
     } else {
-        myDebug() << "no search Results available";
+        myWarning() << "no search Results available";
     }
     return;
 }
@@ -119,7 +121,7 @@ void SearchResultDockWidget::previousVerse()
             goToSearchResult(ui->listWidget_search->currentItem());
         }
     } else {
-        myDebug() << "no search Results available";
+        myWarning() << "no search Results available";
     }
     return;
 }

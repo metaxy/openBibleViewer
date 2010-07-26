@@ -60,7 +60,7 @@ int Bible::loadModuleData(const int &moduleID)
     m_loaded = true;
     m_module = m_map->m_map.value(moduleID);
     if(moduleID < 0 || !m_module) {
-        myDebug() << "invalid bibleID = " << moduleID;
+        myWarning() << "invalid bibleID = " << moduleID;
         return 1;
     }
     m_moduleID = moduleID;
@@ -211,7 +211,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         for(int i = startVerse; i < end; i++) {
             //no title formatting, because it is already formatted
             QString vers = toUniformHtml(chapter.data.at(i));//todo: that is too slow, use something else to make their invalid html code valid
-            if(i == markVerseID) {//because of the chapter title
+            if(i == markVerseID + 1) {//because of the chapter title
                 vers.prepend("<b>");
                 vers.append("</b>");//make the current verse bold
             }
