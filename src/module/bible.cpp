@@ -56,7 +56,6 @@ bool Bible::loaded()
 
 int Bible::loadModuleData(const int &moduleID)
 {
-    m_loaded = true;
     m_module = m_map->m_map.value(moduleID);
     if(moduleID < 0 || !m_module) {
         myWarning() << "invalid bibleID = " << moduleID;
@@ -110,9 +109,11 @@ int Bible::loadModuleData(const int &moduleID)
 
         bookCount = m_zef->m_bookCount;
         m_bookFullName = m_zef->m_bookFullName;
+        m_bookShortName.clear();
         foreach(QString s,m_zef->m_bookShortName) {
             m_bookShortName.append(QStringList(s));
         }
+        myDebug() << m_bookShortName;
         m_biblePath = m_zef->m_biblePath;
         //ModuleCache
         m_settings->setTitle(path, m_bibleTitle);
@@ -124,6 +125,7 @@ int Bible::loadModuleData(const int &moduleID)
     default:
         return 1;
     }
+    m_loaded = true;
     return 0;
 }
 /**

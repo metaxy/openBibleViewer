@@ -252,7 +252,6 @@ bool ZefaniaBible::checkForCacheFiles(const QString &path)
 void ZefaniaBible::loadNoCached(const int &id, const QString &path)
 {
     // DEBUG_FUNC_NAME
-    //todo: maybe i should remove the qdom support because koxml works really fine
     QProgressDialog progress(QObject::tr("Loading Bible"), QObject::tr("Cancel"), 0, 76);
     progress.setWindowModality(Qt::WindowModal);
     // Q_ASSERT(m_bibleID != id);
@@ -267,15 +266,10 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     progress.setValue(1);
 
     m_biblePath = path;
-
-#ifdef KOXML_USE_QDOM
-    QMap<int, KoXmlElement> myCache;
-#else
     //hard cache: genrate fileName
     const QString fileName = m_settings->homePath + "cache/" + m_settings->hash(path) + "/";
     QDir dir;
     dir.mkpath(fileName);
-#endif
     //
     progress.setValue(2);
     QFile file(path);
@@ -288,16 +282,6 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     progress.setValue(3);
     KoXmlDocument doc;
 
-#ifdef KOXML_USE_QDOM
-    QString error;
-    int l;
-    int c;
-    if(!doc.setContent(&file, &error, &l, &c)) {
-        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid. Errorstring: %1 in Line %2 at Position %2").arg(error).arg(l).arg(c));
-        myWarning() << "the file isn't valid";
-        return;
-    }
-#else
     QStringList fileList;
     QString data;
     QByteArray first = file.readLine();
@@ -345,7 +329,6 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
         data += l;
         fileList << l;
     }
-#endif
 
     progress.setValue(5);
     QString error;
@@ -377,12 +360,6 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
             progress.setValue(progressCounter);
         KoXmlElement e = n.toElement();
         if(e.attribute("bname", "") != "" || e.attribute("bnumber", "") != "") {
-#ifdef KOXML_USE_QDOM
-            myCache[c] = e;
-            if(moduleSettings.zefbible_hardCache == false) {
-                setSoftCache(i, fromHardToSoft(c, n));
-            }
-#else
             //it is the caching mechanisme
             int start = 0, end = 0;
             for(int i = currentPos; i < fileList.size(); ++i) {
@@ -415,7 +392,6 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
             QTextStream out(&file);
             out << data;
             file.close();
-#endif
             m_bookFullName << e.attribute("bname", e.attribute("bsname", ""));
             m_bookShortName << e.attribute("bsname", "");
             c++;
@@ -450,44 +426,6 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     file.close();
     if(moduleSettings.zefbible_hardCache == true) {
         //hard cache: write data
-#ifdef KOXML_USE_QDOM
-        //generate cache files
-        QProgressDialog progressCache(QObject::tr("Generate Cache"), QObject::tr("Cancel"), 0, myCache.size() + 1);
-        progressCache.setWindowModality(Qt::WindowModal);
-        progressCache.setValue(1);
-
-        QString fileName = m_settings->homePath + "cache/" + m_settings->hash(path));
-        QDir dir(path);
-        dir.mkpath(fileName + "/");
-
-        QFile file(fileName + "/data");
-        if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-            return;
-            QDataStream out(&file);
-            out << bookFullName << bibleName;
-
-            QMapIterator<int, KoXmlElement> i(myCache);
-            int counter = 1;
-            for(int counter = 1; i.hasNext(); ++counter) {
-            i.next();
-            QDomDocument sdoc("");
-            QDomElement root = sdoc.createElement("cache");
-            sdoc.appendChild(root);
-            root.appendChild(i.value());
-
-            QFile file(fileName + "/" + QString::number(i.key()) + ".xml");
-            if(!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                return;
-            }
-
-            QTextStream out(&file);
-            out << "<?xml version=\"1.0\"?>" + sdoc.toString();
-
-            file.close();
-            progressCache.setValue(counter);
-        }
-        progressCache.close();
-#else
         //write the booknames in a cache file
         QFile file(fileName + "data");
         if(!file.open(QIODevice::WriteOnly)) {
@@ -496,7 +434,6 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
         QDataStream out(&file);
         out << m_bibleName << m_bookFullName << m_bookShortName;
         file.close();
-#endif
     }
 }
 
@@ -527,6 +464,7 @@ void ZefaniaBible::loadCached(const int &id, const QString &path)
     m_bibleName = bibleName;
     m_bookFullName = fullName;
     m_bookShortName = shortName;
+    myDebug() << m_bookShortName;
     m_bibleID = id;
     m_biblePath = path;
     if(m_bibleName == "") {

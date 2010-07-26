@@ -20,7 +20,6 @@ GoTo::GoTo(int currentBibleID, QStringList bookFullName,QList<QStringList> bookS
     m_currentBibleID = currentBibleID;
     m_bookFullName = bookFullName;
     m_bookShortName = bookShortName;
-    myDebug() << m_bookShortName;
 }
 QString GoTo::getUrl(const QString& text)
 {
@@ -57,6 +56,7 @@ QString GoTo::getUrl(const QString& text)
 }
 int GoTo::bookNameToBookID(const QString& name)
 {
+    myDebug() << m_bookFullName << m_bookShortName;
     //todo: use short names
     int min = -1, bookID = -1;
     for(int i = 0; i < m_bookFullName.size(); ++i) {
@@ -70,6 +70,7 @@ int GoTo::bookNameToBookID(const QString& name)
             foreach(QString n, m_bookShortName.at(i)) {
                 if(name == n) {
                     bookID = i;
+                    i = m_bookShortName.size();
                     break;
                 }
             }
@@ -89,6 +90,7 @@ int GoTo::bookNameToBookID(const QString& name)
             foreach(QString n, m_bookShortName.at(i)) {
                 if(n.startsWith(name, Qt::CaseInsensitive)) {
                     bookID = i;
+                    i = m_bookShortName.size();
                     break;
                 }
             }
