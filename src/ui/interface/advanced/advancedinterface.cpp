@@ -1007,27 +1007,32 @@ void AdvancedInterface::createDefaultMenu()
     m_menuMark->setIcon(QIcon::fromTheme("format-fill-color.png", QIcon(":/icons/16x16/format-fill-color.png")));
 
     QAction *actionYellowMark = new QAction(QIcon(":/icons/16x16/mark-yellow.png"), tr("Yellow"), m_menuMark);
-    connect(actionYellowMark, SIGNAL(triggered()), this , SLOT(newYellowMark()));
+    actionYellowMark->setObjectName("yellowMark");
+    connect(actionYellowMark, SIGNAL(triggered()), this , SLOT(newColorMark()));
     m_menuMark->addAction(actionYellowMark);
 
     QAction *actionGreenMark = new QAction(QIcon(":/icons/16x16/mark-green.png"), tr("Green"), m_menuMark);
-    connect(actionGreenMark, SIGNAL(triggered()), this , SLOT(newGreenMark()));
+    actionGreenMark->setObjectName("greenMark");
+    connect(actionGreenMark, SIGNAL(triggered()), this , SLOT(newColorMark()));
     m_menuMark->addAction(actionGreenMark);
 
     QAction *actionBlueMark = new QAction(QIcon(":/icons/16x16/mark-blue.png"), tr("Blue"), m_menuMark);
-    connect(actionBlueMark, SIGNAL(triggered()), this , SLOT(newBlueMark()));
+    actionBlueMark->setObjectName("blueMark");
+    connect(actionBlueMark, SIGNAL(triggered()), this , SLOT(newColorMark()));
     m_menuMark->addAction(actionBlueMark);
 
     QAction *actionOrangeMark = new QAction(QIcon(":/icons/16x16/mark-orange.png"), tr("Orange"), m_menuMark);
-    connect(actionOrangeMark, SIGNAL(triggered()), this , SLOT(newOrangeMark()));
+    actionOrangeMark->setObjectName("orangeMark");
+    connect(actionOrangeMark, SIGNAL(triggered()), this , SLOT(newColorMark()));
     m_menuMark->addAction(actionOrangeMark);
 
     QAction *actionVioletMark = new QAction(QIcon(":/icons/16x16/mark-violet.png"), tr("Violet"), m_menuMark);
-    connect(actionVioletMark, SIGNAL(triggered()), this , SLOT(newVioletMark()));
+    actionVioletMark->setObjectName("violetMark");
+    connect(actionVioletMark, SIGNAL(triggered()), this , SLOT(newColorMark()));
     m_menuMark->addAction(actionVioletMark);
 
     QAction *actionCustomMark  = new QAction(QIcon(":/icons/16x16/format-fill-color.png"), tr("Custom Color"), m_menuMark);
-    connect(actionCustomMark, SIGNAL(triggered()), this , SLOT(newCustomMark()));
+    connect(actionCustomMark, SIGNAL(triggered()), this , SLOT(newCustomColorMark()));
     m_menuMark->addAction(actionCustomMark);
 
     m_actionRemoveMark = new QAction(QIcon(":/icons/16x16/mark-yellow.png"), tr("Remove Mark"), v);
@@ -1121,18 +1126,34 @@ void AdvancedInterface::debugger()
     inspector->showNormal();
 }
 
-void AdvancedInterface::newYellowMark()
+void AdvancedInterface::newColorMark()
 {
     if(!m_moduleManager->bibleLoaded()) {
         return;
     }
     if(!activeMdiChild())
         return;
+    QString colorName = sender()->objectName();
+    QColor color;
+    if(colorName == "yellowMark") {
+        color = QColor(255, 255, 0);
+    } else if(colorName == "greenMark") {
+        color = QColor(146, 243, 54);
+    } else if(colorName == "blueMark") {
+        color = QColor(77, 169, 243);
+    } else if(colorName == "orangeMark") {
+        color = QColor(243, 181, 57);
+    } else if(colorName == "violetMark") {
+        color = QColor(169, 102, 240);
+    } else {
+        color = QColor(255, 255, 0);
+    }
+
     VerseSelection selection = verseSelection();
-    m_notesDockWidget->newMark(selection, QColor(255, 255, 0));
+    m_notesDockWidget->newMark(selection, color);
 }
 
-void AdvancedInterface::newGreenMark()
+void AdvancedInterface::newCustomColorMark()
 {
     if(!m_moduleManager->bibleLoaded()) {
         return;
@@ -1140,51 +1161,7 @@ void AdvancedInterface::newGreenMark()
     if(!activeMdiChild())
         return;
     VerseSelection selection = verseSelection();
-    m_notesDockWidget->newMark(selection, QColor(146, 243, 54));
-}
-
-void AdvancedInterface::newBlueMark()
-{
-    if(!m_moduleManager->bibleLoaded()) {
-        return;
-    }
-    if(!activeMdiChild())
-        return;
-    VerseSelection selection = verseSelection();
-    m_notesDockWidget->newMark(selection, QColor(77, 169, 243));
-}
-
-void AdvancedInterface::newOrangeMark()
-{
-    if(!m_moduleManager->bibleLoaded()) {
-        return;
-    }
-    if(!activeMdiChild())
-        return;
-    VerseSelection selection = verseSelection();
-    m_notesDockWidget->newMark(selection, QColor(243, 181, 57));
-}
-
-void AdvancedInterface::newVioletMark()
-{
-    if(!m_moduleManager->bibleLoaded()) {
-        return;
-    }
-    if(!activeMdiChild())
-        return;
-    VerseSelection selection = verseSelection();
-    m_notesDockWidget->newMark(selection, QColor(169, 102, 240));
-}
-
-void AdvancedInterface::newCustomMark()
-{
-    if(!m_moduleManager->bibleLoaded()) {
-        return;
-    }
-    if(!activeMdiChild())
-        return;
-    VerseSelection selection = verseSelection();
-    QColor color = QColorDialog::getColor(Qt::green, this);
+    QColor color = QColorDialog::getColor(QColor(255, 255, 0), this);
     if(color.isValid()) {
         m_notesDockWidget->newMark(selection, color);
     }

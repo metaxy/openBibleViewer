@@ -62,12 +62,8 @@ private slots:
     void readBook(const int &id);
 
 
-    void newYellowMark();
-    void newGreenMark();
-    void newBlueMark();
-    void newOrangeMark();
-    void newVioletMark();
-    void newCustomMark();
+    void newColorMark();
+    void newCustomColorMark();
 
     void removeMark();
     void newBookmark();
