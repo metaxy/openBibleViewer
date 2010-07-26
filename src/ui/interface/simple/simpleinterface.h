@@ -73,7 +73,7 @@ private:
     void readBookByID(int id);
 
     void readChapter(const int &id);
-    void showChapter(int chapterID,int verseID);
+    void showChapter(int chapterID, int verseID);
     void nextChapter();
     void previousChapter();
 };

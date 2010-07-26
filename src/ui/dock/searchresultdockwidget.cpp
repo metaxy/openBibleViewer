@@ -76,7 +76,7 @@ void SearchResultDockWidget::searchInfo()
     for(int i = 0; i < result.hits().size(); ++i) {
         SearchHit hit = result.hits().at(i);
         QString bookn = m_moduleManager->bible()->bookFullName().at(hit.bookID()); //todo: maybe the bible isn't loaded and you need another bookNames
-        textList << hit.text() + "\n - <i>" + bookn + " " + QString::number(hit.chapterID() +1) + " , " + QString::number(hit.verseID() +1) + "</i>";
+        textList << hit.text() + "\n - <i>" + bookn + " " + QString::number(hit.chapterID() + 1) + " , " + QString::number(hit.verseID() + 1) + "</i>";
     }
     searchString = m_searchResult.searchQuery.searchText;
 

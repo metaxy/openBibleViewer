@@ -72,7 +72,7 @@ QDomNode ZefaniaBible::readBookFromHardCache(QString path, int bookID)
 {
     // DEBUG_FUNC_NAME
     QDomElement e;
-    
+
     QString fileName = m_settings->homePath + "cache/" + m_settings->hash(path) + "/";
     QFile file(fileName + QString::number(bookID) + ".xml");
 
@@ -463,12 +463,12 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
         QFile file(fileName + "/data");
         if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
             return;
-        QDataStream out(&file);
-        out << bookFullName << bibleName;
+            QDataStream out(&file);
+            out << bookFullName << bibleName;
 
-        QMapIterator<int, KoXmlElement> i(myCache);
-        int counter = 1;
-        for(int counter = 1; i.hasNext(); ++counter) {
+            QMapIterator<int, KoXmlElement> i(myCache);
+            int counter = 1;
+            for(int counter = 1; i.hasNext(); ++counter) {
             i.next();
             QDomDocument sdoc("");
             QDomElement root = sdoc.createElement("cache");
@@ -595,11 +595,11 @@ bool ZefaniaBible::hasIndex()
 {
     DEBUG_FUNC_NAME
     QDir d;
-    if (!d.exists(m_settings->homePath+"index")) {
+    if(!d.exists(m_settings->homePath + "index")) {
         return false;
     }
     //todo: check versions
-    QString index = m_settings->homePath+"index/" + m_settings->hash(m_path);
+    QString index = m_settings->homePath + "index/" + m_settings->hash(m_path);
 
     return lucene::index::IndexReader::indexExists(index.toAscii().constData());
 }
@@ -608,20 +608,20 @@ void ZefaniaBible::buildIndex()
 {
     DEBUG_FUNC_NAME
 
-    QString index = m_settings->homePath+"index/" + m_settings->hash(m_path);
+    QString index = m_settings->homePath + "index/" + m_settings->hash(m_path);
     QDir dir("/");
-    dir.mkpath( index );
+    dir.mkpath(index);
 
     // do not use any stop words
     const TCHAR* stop_words[]  = { NULL };
-    lucene::analysis::standard::StandardAnalyzer an( (const TCHAR**)stop_words );
+    lucene::analysis::standard::StandardAnalyzer an((const TCHAR**)stop_words);
 
-    if (lucene::index::IndexReader::indexExists(index.toAscii().constData())) {
-        if (lucene::index::IndexReader::isLocked(index.toAscii().constData()) ) {
+    if(lucene::index::IndexReader::indexExists(index.toAscii().constData())) {
+        if(lucene::index::IndexReader::isLocked(index.toAscii().constData())) {
             lucene::index::IndexReader::unlock(index.toAscii().constData());
         }
     }
-    QScopedPointer<lucene::index::IndexWriter> writer( new lucene::index::IndexWriter(index.toAscii().constData(), &an, true) ); //always create a new index
+    QScopedPointer<lucene::index::IndexWriter> writer(new lucene::index::IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
 
     QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, bookFullName.size());
     progress.setWindowModality(Qt::WindowModal);
@@ -647,7 +647,7 @@ void ZefaniaBible::buildIndex()
             for(int verseCounter = 0; verseCounter < verse.size(); ++verseCounter) {
                 QString t = verse.at(verseCounter);
                 QScopedPointer<lucene::document::Document> doc(new lucene::document::Document());
-                QString key = QString::number(i) +";"+QString::number(chapterCounter) + ";" + QString::number(verseCounter);
+                QString key = QString::number(i) + ";" + QString::number(chapterCounter) + ";" + QString::number(verseCounter);
 
                 lucene_utf8towcs(wcharBuffer, key.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
 
@@ -672,22 +672,22 @@ SearchResult ZefaniaBible::search(SearchQuery query)
 {
     SearchResult res;
     res.searchQuery = query;
-    QString index = m_settings->homePath+"index/" + m_settings->hash(m_path);
+    QString index = m_settings->homePath + "index/" + m_settings->hash(m_path);
     char utfBuffer[BT_MAX_LUCENE_FIELD_LENGTH  + 1];
     wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
 
 
     const TCHAR* stop_words[]  = { NULL };
-    lucene::analysis::standard::StandardAnalyzer analyzer( stop_words );
+    lucene::analysis::standard::StandardAnalyzer analyzer(stop_words);
 
     lucene::search::IndexSearcher searcher(index.toLocal8Bit().constData());
     lucene_utf8towcs(wcharBuffer, query.searchText.toUtf8().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
-    QScopedPointer<lucene::search::Query> q( lucene::queryParser::QueryParser::parse((const TCHAR*)wcharBuffer, (const TCHAR*)_T("content"), &analyzer) );
+    QScopedPointer<lucene::search::Query> q(lucene::queryParser::QueryParser::parse((const TCHAR*)wcharBuffer, (const TCHAR*)_T("content"), &analyzer));
 
-    QScopedPointer<lucene::search::Hits> h( searcher.search(q.data(), lucene::search::Sort::INDEXORDER) );
+    QScopedPointer<lucene::search::Hits> h(searcher.search(q.data(), lucene::search::Sort::INDEXORDER));
 
     lucene::document::Document* doc = 0;
-    for (int i = 0; i < h->length(); ++i) {
+    for(int i = 0; i < h->length(); ++i) {
         doc = &h->doc(i);
         lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("key")), BT_MAX_LUCENE_FIELD_LENGTH);
         QString stelle(utfBuffer);
@@ -695,7 +695,7 @@ SearchResult ZefaniaBible::search(SearchQuery query)
         lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), BT_MAX_LUCENE_FIELD_LENGTH);
 
         QString content(utfBuffer);
-        res.addHit(m_bibleID,l.at(0).toInt(),l.at(1).toInt(),l.at(2).toInt(),content);
+        res.addHit(m_bibleID, l.at(0).toInt(), l.at(1).toInt(), l.at(2).toInt(), content);
 
     }
     return res;

@@ -49,7 +49,7 @@ private:
     QSortFilterProxyModel *m_proxyModel;
     QItemSelectionModel *m_selectionModel;
     QPoint m_currentPoint;
-    void addMark(const int &row,const QString &id);
+    void addMark(const int &row, const QString &id);
 };
 
 #endif // MARKLIST_H

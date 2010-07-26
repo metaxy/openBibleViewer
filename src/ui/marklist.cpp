@@ -23,7 +23,7 @@ MarkList::MarkList(QWidget *parent) :
     ui(new Ui::MarkList)
 {
     ui->setupUi(this);
-    connect(ui->tableView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(showContextMenu(QPoint)));
+    connect(ui->tableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
 
 }
 void MarkList::init()
@@ -38,7 +38,7 @@ void MarkList::init()
     m_notes->loadingNewInstance();
     connect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
     connect(m_notes, SIGNAL(noteRemoved(QString, QMap<QString, QString>)), this, SLOT(removeNote(QString)));
-    
+
     connect(ui->tableView, SIGNAL(activated(QModelIndex)), this, SLOT(load(QModelIndex)));
     connect(this, SIGNAL(get(QString)), m_bibleDisplay, SIGNAL(get(QString)));
 
@@ -49,7 +49,7 @@ void MarkList::init()
 
 
     for(int row = 0; row < marks.size(); ++row) {
-        addMark(row,marks.at(row));
+        addMark(row, marks.at(row));
     }
     m_proxyModel->setSourceModel(m_itemModel);
     m_proxyModel->setHeaderData(0, Qt::Horizontal, tr("Mark Position"));
@@ -60,7 +60,7 @@ void MarkList::init()
     ui->tableView->setModel(m_proxyModel);
     ui->tableView->setSelectionModel(m_selectionModel);
 }
-void MarkList::addMark(const int &row,const QString &id)
+void MarkList::addMark(const int &row, const QString &id)
 {
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, m_notes->getRef(id, "link"));
     urlConverter.setSettings(m_settings);
@@ -68,7 +68,7 @@ void MarkList::addMark(const int &row,const QString &id)
     urlConverter.pharse();
 
     const QString string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," +
-              QString::number(urlConverter.m_verseID + 1);
+                            QString::number(urlConverter.m_verseID + 1);
 
     QStandardItem *stelle = new QStandardItem(string);
     stelle->setData(id);
@@ -88,7 +88,7 @@ void MarkList::addMark(const int &row,const QString &id)
 void MarkList::load(QModelIndex index)
 {
     const int row = index.row();
-    index = m_itemModel->index(row,0);
+    index = m_itemModel->index(row, 0);
     UrlConverter urlConverter(UrlConverter::PersistentUrl,
                               UrlConverter::InterfaceUrl,
                               m_notes->getRef(index.data(Qt::UserRole + 1).toString(), "link"));
@@ -112,7 +112,7 @@ void MarkList::showContextMenu(QPoint point)
                                         QIcon(":/icons/16x16/edit-delete.png")),
                                         tr("Delete"),
                                         contextMenu);
-    connect(actionDelete,SIGNAL(triggered()),this,SLOT(deleteMarks()));
+    connect(actionDelete, SIGNAL(triggered()), this, SLOT(deleteMarks()));
     contextMenu->addAction(actionDelete);
     contextMenu->exec(QCursor::pos());
     m_currentPoint = point;
@@ -120,14 +120,14 @@ void MarkList::showContextMenu(QPoint point)
 void MarkList::addNote(QString id)
 {
     if(m_notes->getType(id) == "mark") {
-        addMark(m_itemModel->rowCount(),id);
+        addMark(m_itemModel->rowCount(), id);
     }
 }
 void MarkList::removeNote(QString id)
 {
     QModelIndexList list = m_proxyModel->match(m_proxyModel->index(0, 0),
-                                               Qt::UserRole + 1,
-                                               id);
+                           Qt::UserRole + 1,
+                           id);
     if(list.size() != 1) {
         return;
     }
@@ -136,7 +136,7 @@ void MarkList::removeNote(QString id)
 }
 void MarkList::deleteMarks()
 {
-    disconnect(m_notes, SIGNAL(noteRemoved(QString,QMap<QString, QString>)),
+    disconnect(m_notes, SIGNAL(noteRemoved(QString, QMap<QString, QString>)),
                this, SLOT(removeNote(QString)));
     QModelIndexList list = m_selectionModel->selectedRows();
     if(list.isEmpty()) {
@@ -156,7 +156,7 @@ void MarkList::deleteMarks()
             list = m_selectionModel->selectedRows();
         }
     }
-    connect(m_notes, SIGNAL(noteRemoved(QString,QMap<QString, QString>)),
+    connect(m_notes, SIGNAL(noteRemoved(QString, QMap<QString, QString>)),
             this, SLOT(removeNote(QString)));
 }
 void MarkList::changeEvent(QEvent *e)

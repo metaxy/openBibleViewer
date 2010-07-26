@@ -335,7 +335,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                 }
                 QTextStream in(&file);
                 if(f.endsWith(".xml")) {
-                    for(int i = 0; i < 100;i++)
+                    for(int i = 0; i < 100; i++)
                         fileData += in.readLine(i);
                 } else {
                     fileData = in.readAll();

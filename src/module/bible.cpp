@@ -300,19 +300,19 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                         QString vers = versList.at(versID);
                         int startPos = vers.lastIndexOf(m_notes->getRef(noteID, "startString"));
                         int endPos = vers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
-                       /* QString vB = vers, vB2 = vers;
+                        /* QString vB = vers, vB2 = vers;
 
-                        vB.remove(startPos, vB.size());
-                        int lastOpen = vB.lastIndexOf("<");
-                        if(vB.lastIndexOf(">", lastOpen) == -1) {
-                            myDebug() << "startPos in in tag";
+                         vB.remove(startPos, vB.size());
+                         int lastOpen = vB.lastIndexOf("<");
+                         if(vB.lastIndexOf(">", lastOpen) == -1) {
+                             myDebug() << "startPos in in tag";
 
-                        }
-                        vB2.remove(0, endPos);
-                        int firstClose = vB2.indexOf(">");
-                        if(vB.indexOf("<") > firstClose || vB.indexOf("<") == -1) {
-                            myDebug() << "endPos in tag";
-                        }*/
+                         }
+                         vB2.remove(0, endPos);
+                         int firstClose = vB2.indexOf(">");
+                         if(vB.indexOf("<") > firstClose || vB.indexOf("<") == -1) {
+                             myDebug() << "endPos in tag";
+                         }*/
                         vers.insert(endPos, ap);
                         vers.insert(startPos, pre);
                         versList.replace(versID, vers);
@@ -411,7 +411,7 @@ SearchResult Bible::search(SearchQuery query)
     switch(m_bibleType) {
     case Module::BibleQuoteModule: {
         if(!m_bq->hasIndex())
-                m_bq->buildIndex();
+            m_bq->buildIndex();
         result = m_bq->search(query);
         break;
     }

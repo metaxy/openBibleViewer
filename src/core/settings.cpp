@@ -71,11 +71,11 @@ QString Settings::savableUrl(QString url)
 {
     DEBUG_FUNC_NAME
     if(url.startsWith(homePath)) {
-        url.replace(homePath,"%obvHomePath%");
+        url.replace(homePath, "%obvHomePath%");
         return url;
     }
     if(url.startsWith(QDir::homePath())) {
-        url.replace(QDir::homePath(),"%homePath%");
+        url.replace(QDir::homePath(), "%homePath%");
         return url;
     }
     return url;
@@ -87,11 +87,11 @@ QString Settings::recoverUrl(QString url)
 {
     DEBUG_FUNC_NAME
     if(url.startsWith("%obvHomePath%")) {
-        url.replace("%obvHomePath%",homePath);
+        url.replace("%obvHomePath%", homePath);
         return url;
     }
     if(url.startsWith("%homePath%")) {
-        url.replace("%homePath%",QDir::homePath());
+        url.replace("%homePath%", QDir::homePath());
         return url;
     }
     return url;

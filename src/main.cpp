@@ -63,11 +63,11 @@ int main(int argc, char *argv[])
         dir.mkpath(homeDataPath);
     }
 
-/*#ifdef Q_WS_WIN
-    QString lang = settings->value("general/language", "en").toString();
-#else*/
+    /*#ifdef Q_WS_WIN
+        QString lang = settings->value("general/language", "en").toString();
+    #else*/
     QString lang = settings->value("general/language", QLocale::system().name()).toString();
-/*#endif*/
+    /*#endif*/
     QStringList avLang;
     avLang <<  "en" << "de" << "ru" << "cs";
     if(avLang.lastIndexOf(lang) == -1) {

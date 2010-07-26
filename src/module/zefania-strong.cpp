@@ -38,16 +38,16 @@ void ZefaniaStrong::setSettings(Settings *settings)
   */
 QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
 {
-   /* QProgressDialog progress(QObject::tr("Loading Strongmodule"), QObject::tr("Cancel"), 0, 100);
-    progress.setWindowModality(Qt::WindowModal);
-    progress.setValue(1);*/
+    /* QProgressDialog progress(QObject::tr("Loading Strongmodule"), QObject::tr("Cancel"), 0, 100);
+     progress.setWindowModality(Qt::WindowModal);
+     progress.setValue(1);*/
     KoXmlDocument doc;
     QString errorMsg;
     int eLine;
     int eCol;
-    if(!doc.setContent(fileData,&errorMsg,&eLine,&eCol)) {
+    if(!doc.setContent(fileData, &errorMsg, &eLine, &eCol)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
-        myDebug() << "the file isnt valid error = " << errorMsg << eLine << eCol << fileData.remove(1000,fileData.size());
+        myDebug() << "the file isnt valid error = " << errorMsg << eLine << eCol << fileData.remove(1000, fileData.size());
         return QString();
     }
     QString fileTitle = "";
@@ -56,10 +56,10 @@ QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
     QStringList l_trans = QStringList();
     QStringList l_pron = QStringList();
     QStringList l_desc = QStringList();
-   // progress.setMaximum(doc.documentElement().childNodesCount()+1);
+    // progress.setMaximum(doc.documentElement().childNodesCount()+1);
     KoXmlNode item = doc.documentElement().firstChild();
     for(int c = 0; !item.isNull();) {
-      //  progress.setValue(c+2);
+        //  progress.setValue(c+2);
         QString id = "";
         QString title = "";
         QString trans = "";

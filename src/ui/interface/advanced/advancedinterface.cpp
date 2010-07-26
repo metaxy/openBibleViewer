@@ -416,7 +416,7 @@ int AdvancedInterface::closingWindow()
 {
     DEBUG_FUNC_NAME
     myDebug() << "enable reload = " << m_enableReload << "subWIndowList = "
-    << ui->mdiArea->subWindowList() << "internalWindow " << m_internalWindows;
+              << ui->mdiArea->subWindowList() << "internalWindow " << m_internalWindows;
     if(!m_enableReload) {
         myDebug() << "reload is not enabled";
         return 1;
@@ -460,7 +460,7 @@ int AdvancedInterface::closingWindow()
 int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
 {
     DEBUG_FUNC_NAME
-            myDebug() << " enable reload = " << m_enableReload;
+    myDebug() << " enable reload = " << m_enableReload;
     if(!m_enableReload) {
         return 1;
     }
@@ -757,10 +757,10 @@ void AdvancedInterface::showText(const QString &text)
                 if(url.startsWith(":/") || url.startsWith("http:"))
                     continue;
                 foreach(QString pre, searchPaths) {
-                    QFileInfo i(pre+url);
+                    QFileInfo i(pre + url);
                     if(i.exists()) {
-                        myDebug() << pre+url;
-                        paraElement.setAttribute("src","file://"+pre+url);
+                        myDebug() << pre + url;
+                        paraElement.setAttribute("src", "file://" + pre + url);
                     }
                 }
 
@@ -1253,7 +1253,7 @@ void AdvancedInterface::closing()
     m_settings->session.setData("scrollPos", scrollPos);
     m_settings->session.setData("zoom", zoom);
     m_settings->session.setData("viewMode", ui->mdiArea->viewMode());
-    m_settings->session.setData("windowID",current);
+    m_settings->session.setData("windowID", current);
 }
 
 void AdvancedInterface::restoreSession()
@@ -1303,12 +1303,12 @@ void AdvancedInterface::restoreSession()
     else
         setTabView();
 
-    int id = m_settings->session.getData("windowID",-1).toInt();
+    int id = m_settings->session.getData("windowID", -1).toInt();
     myDebug() << id << ui->mdiArea->subWindowList();
     if(id < ui->mdiArea->subWindowList().size() && id > 0) {
-       /* ui->mdiArea->subWindowList().at(id)->raise();
-        ui->mdiArea->subWindowList().at(id)->show();
-        ui->mdiArea->subWindowList().at(id)->activateWindow();*/
+        /* ui->mdiArea->subWindowList().at(id)->raise();
+         ui->mdiArea->subWindowList().at(id)->show();
+         ui->mdiArea->subWindowList().at(id)->activateWindow();*/
         ui->mdiArea->setActiveSubWindow(ui->mdiArea->subWindowList().at(id));
     }
     //restore

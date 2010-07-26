@@ -178,11 +178,11 @@ bool NotesEditor::fileSaveAs()
     dialog.setAcceptMode(QFileDialog::AcceptSave);
 
     QString fn = dialog.getSaveFileName(this, tr("Save as..."),
-                 QString(), tr("HTML-Files (*.html *.htm);;Text-Files (*.txt);;All Files (*)"));
+                                        QString(), tr("HTML-Files (*.html *.htm);;Text-Files (*.txt);;All Files (*)"));
     if(fn.isEmpty())
         return false;
     QFile data(fn);
-    if (data.open(QFile::WriteOnly | QFile::Truncate)) {
+    if(data.open(QFile::WriteOnly | QFile::Truncate)) {
         QTextStream out(&data);
         if(fn.endsWith(".html", Qt::CaseInsensitive) || fn.endsWith(".htm", Qt::CaseInsensitive)) {
             out <<  ui->webView->page()->mainFrame()->toHtml();

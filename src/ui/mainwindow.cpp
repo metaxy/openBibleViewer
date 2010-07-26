@@ -405,7 +405,7 @@ void MainWindow::writeSettings()
     m_settingsFile->setValue("window/layout", m_settings->autoLayout);
     m_settingsFile->setValue("window/onClickBookmarkGo", m_settings->onClickBookmarkGo);
     m_settingsFile->setValue("bible/textFormatting", m_settings->textFormatting);
-    m_settingsFile->setValue("ui/lastPlaceSave",m_settings->savableUrl(m_settings->lastPlaceSave));
+    m_settingsFile->setValue("ui/lastPlaceSave", m_settings->savableUrl(m_settings->lastPlaceSave));
 
     m_settingsFile->beginWriteArray("module");
     for(int i = 0; i < m_settings->m_moduleSettings.size(); ++i) {
