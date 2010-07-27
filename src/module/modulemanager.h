@@ -22,6 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/dictionary.h"
 #include <QtCore/QList>
 #include <QtGui/QStandardItemModel>
+#include <QtCore/QFileInfoList>
 #include "src/core/notes.h"
 class ModuleManager
 {
@@ -61,7 +62,7 @@ public:
     Bible * newBible(const int &moduleID, QPoint p);
 
 private:
-
+    QFileInfoList scan(const QString &path,int level);
     BibleDisplaySettings *m_bibleDisplaySettings;
 };
 

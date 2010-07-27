@@ -42,6 +42,24 @@ void ModuleManager::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySe
 {
     m_bibleDisplaySettings = bibleDisplaySettings;
 }
+QFileInfoList ModuleManager::scan(const QString &path, int level = 0)
+{
+    QFileInfoList ret;
+    QDir dir(path);
+    QFileInfoList list = dir.entryInfoList();
+    foreach(QFileInfo info, list) {
+        if(info.fileName() != ".." && info.fileName() != ".") {
+            if(info.isDir()) {
+                if(level <= 2)//i think this is ok
+                    ret.append(scan(info.absoluteFilePath(),level+1));
+            } else {
+                ret.append(info);
+            }
+        }
+    }
+    return ret;
+}
+
 /**
   Load all Modules, and generate a QStandardItemModel.
   */
@@ -88,50 +106,33 @@ int ModuleManager::loadAllModules()
             //search for bible in the dir
             QString rpath = m_settings->m_moduleSettings.at(i).modulePath + "/";
             Module::ModuleType moduleType = Module::NoneType;
-            QDir dir(rpath);
-            dir.setFilter(QDir::Dirs);
-            QFileInfoList list = dir.entryInfoList();
+
             Module *folder = new Module(root);
             folder->m_moduleClass = Module::FolderClass;
             folder->m_moduleType = Module::NoneType;
             folder->m_id = moduleID;
             folder->m_title = m_settings->m_moduleSettings.at(i).moduleName;
             moduleID++;
+            QFileInfoList list = scan(rpath);
+            foreach(QFileInfo fileInfo,list) {  //Alle Ordner auslesen
+                const QString fileName = fileInfo.fileName();
 
-            for(int fileCounter = 0; fileCounter < list.size(); ++fileCounter) {  //Alle Ordner auslesen
-                QFileInfo fileInfo = list.at(fileCounter);
-                QString dirname = fileInfo.fileName();
-                if(dirname != "." && dirname != "..") {
-                    QFile file;
-                    QString rfile;
-                    moduleType = Module::NoneType;
-                    file.setFileName(rpath + dirname + "/" + "BIBLEQT.INI");
-                    if(file.exists()) {
-                        rfile = file.fileName();
-                        moduleType = Module::BibleQuoteModule;
-                    }
-                    file.setFileName(rpath + dirname + "/" + "BIBLEQT.ini");
-                    if(moduleType == 0 && file.exists()) {
-                        rfile = file.fileName();
-                        moduleType = Module::BibleQuoteModule;
-                    }
-                    file.setFileName(rpath + dirname + "/" + "bibleqt.ini");
-                    if(moduleType == 0 && file.exists()) {
-                        rfile = file.fileName();
-                        moduleType = Module::BibleQuoteModule;
-                    }
-                    file.setFileName(rpath + dirname + "/" + dirname + ".xml");
-                    if(moduleType == 0 && file.exists()) {
-                        rfile = file.fileName();
-                        moduleType = Module::ZefaniaBibleModule;
-                    }
-                    file.setFileName(rfile);
-                    if(moduleType != 0 && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                        QString bname;
-                        switch(moduleType) {
-                        case Module::BibleQuoteModule: {
+                QFile file;
+                moduleType = Module::NoneType;
+
+                if(fileName.compare(fileName,"bibleqt.ini",Qt::CaseInsensitive) == 0) {
+                    moduleType = Module::BibleQuoteModule;
+                } else  if(fileInfo.suffix().compare("xml",Qt::CaseInsensitive) == 0) {
+                    moduleType = Module::ZefaniaBibleModule;//todo: cannot detect other xml files
+                }
+
+                file.setFileName(fileInfo.absoluteFilePath());
+                if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                    QString bname;
+                    switch(moduleType) {
+                    case Module::BibleQuoteModule: {
                             bname = bq.readInfo(file);
-                            if(bname.size() > 0) {
+                            if(!bname.isEmpty()) {
                                 Module *module = new Module(folder);
                                 module->m_path = file.fileName();
                                 module->m_moduleClass = Module::BibleModule;
@@ -155,10 +156,9 @@ int ModuleManager::loadAllModules()
                             }
                             break;
                         }
-                        case Module::ZefaniaBibleModule: {
-                            //ZenfaniaXML-Bible
+                    case Module::ZefaniaBibleModule: {
                             bname = zef.readInfo(file);
-                            if(bname.size() > 0) {
+                            if(!bname.isEmpty()) {
 
                                 Module *module = new Module(folder);
                                 module->m_path = file.fileName();
@@ -182,12 +182,12 @@ int ModuleManager::loadAllModules()
                             }
                             break;
                         }
-                        default:
-                            myWarning() << "not supported " << rfile;
-                        }
+                    default:
+                        break;
+                    }
 
                     }
-                }
+
             }
         } else {
             //load module
