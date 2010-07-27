@@ -28,12 +28,13 @@ class SearchResult
 public:
     SearchResult();
     void addHit(SearchHit hit);
-    void addHit(const int &bibleID, const int &bookID, const int &chapterID, const int &verseID, const QString &text);
     QList<SearchHit> hits();
+    QList<SearchHit> hits(SearchHit::SearchHitType type);
     SearchQuery searchQuery;
 
 private:
     QList<SearchHit> m_hits;
+    QMap<int, int> m_type;
 
 };
 

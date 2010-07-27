@@ -24,6 +24,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/basicclass.h"
 #include "src/ui/dock/bookdockwidget.h"
 #include "src/ui/dock/moduledockwidget.h"
+#include "src/ui/dock/advancedsearchresultdockwidget.h"
 #include "src/ui/dock/searchresultdockwidget.h"
 #include "src/ui/dock/notesdockwidget.h"
 #include "src/ui/dock/bookmarksdockwidget.h"
@@ -48,12 +49,14 @@ public:
     virtual void setBookDockWidget(BookDockWidget *bookDockWidget);
     virtual void setModuleDockWidget(ModuleDockWidget *moduleDockWidget);
     virtual void setSearchResultDockWidget(SearchResultDockWidget *searchResultDockWidget);
+    virtual void setAdvancedSearchResultDockWidget(AdvancedSearchResultDockWidget *searchResultDockWidget);
     virtual void setNotesDockWidget(NotesDockWidget *notesDockWidget);
     virtual void setBookmarksDockWidget(BookmarksDockWidget *boockmarksDockWidget);
     virtual void setStrongDockWidget(StrongDockWidget *strongDockWidget);
     virtual void setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget);
 
     SearchResultDockWidget *m_searchResultDockWidget;
+    AdvancedSearchResultDockWidget *m_advancedSearchResultDockWidget;
     BookDockWidget *m_bookDockWidget;
     ModuleDockWidget *m_moduleDockWidget;
     NotesDockWidget *m_notesDockWidget;

@@ -37,9 +37,10 @@ void SearchInfoDialog::setInfo(SearchResult result, QStringList bookNames, QStri
     m_ui->label_searchText->setText(tr("Search string : '%1'").arg(searchText));
     m_ui->label_foundItems->setText(tr("Found verses : %1").arg(QString::number(size)));
     QMap<int, int> booksMap;
-    for(int i = 0; i < result.hits().size(); i++) {
-        SearchHit hit = result.hits().at(i);
-        booksMap[hit.bookID()]++;
+    QList<SearchHit> hitList = result.hits(SearchHit::BibleHit);
+    for(int i = 0; i < hitList.size(); i++) {
+        SearchHit hit = hitList.at(i);
+        booksMap[hit.value(SearchHit::BookID).toInt()]++;
     }
 
     myDebug() << "booksMap = " << booksMap;

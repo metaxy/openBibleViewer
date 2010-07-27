@@ -24,3 +24,16 @@ void SimpleModuleClass::setNotes(Notes *notes)
 {
     m_notes = notes;
 }
+void SimpleModuleClass::setModuleMap(ModuleMap *map)
+{
+    m_map = map;
+}
+
+void SimpleModuleClass::setModuleType(const Module::ModuleType &type)
+{
+    m_moduleType = type;
+}
+int SimpleModuleClass::moduleID()
+{
+    return m_moduleID;
+}

@@ -1,0 +1,124 @@
+#include "advancedsearchresultdockwidget.h"
+#include "ui_advancedsearchresultdockwidget.h"
+#include <QtGui/QSortFilterProxyModel>
+#include <QtGui/QMessageBox>
+AdvancedSearchResultDockWidget::AdvancedSearchResultDockWidget(QWidget *parent) :
+    DockWidget(parent),
+    ui(new Ui::AdvancedSearchResultDockWidget)
+{
+    ui->setupUi(this);
+}
+
+AdvancedSearchResultDockWidget::~AdvancedSearchResultDockWidget()
+{
+    delete ui;
+}
+void AdvancedSearchResultDockWidget::init()
+{
+    m_itemModel = new QStandardItemModel(this);
+
+    m_proxyModel = new QSortFilterProxyModel(this);
+    m_proxyModel->setSourceModel(m_itemModel);
+    m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    m_selectionModel = new QItemSelectionModel(m_proxyModel);
+
+    //ui->treeView->setSortingEnabled(true);
+    ui->treeView->setModel(m_proxyModel);
+    ui->treeView->setSelectionModel(m_selectionModel);
+    connect(ui->treeView,SIGNAL(activated(QModelIndex)),this,SLOT(goToSearchResult(QModelIndex)));
+
+}
+void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
+{
+    m_searchResult = searchResult;
+    ui->label_searchInfo->setText(tr("Search: %1").arg(searchResult.searchQuery.searchText));
+    QStandardItem *parentItem = m_itemModel->invisibleRootItem();
+
+    QList<SearchHit> hits = m_searchResult.hits();
+    QMap<int, QStandardItem *> m_bookItems;
+    foreach(SearchHit hit, hits) {
+        if(hit.type() != SearchHit::BibleHit)
+            continue;
+        int book = hit.value(SearchHit::BookID).toInt();
+        if(m_bookItems.contains(book))
+            continue;
+        QStandardItem *bookItem = new QStandardItem(m_moduleManager->bible()->bookFullName().at(book));
+        parentItem->appendRow(bookItem);
+        m_bookItems.insert(book,bookItem);
+    }
+
+    for(int i = 0; i < hits.size(); ++i) {
+        SearchHit hit = hits.at(i);
+        if(hit.type() == SearchHit::BibleHit) {
+            QStandardItem *hitItem = new QStandardItem(QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + " , " +
+                                                       QString::number(hit.value(SearchHit::VerseID).toInt() + 1));
+            hitItem->setData(i,Qt::UserRole+1);
+
+            m_bookItems.value(hit.value(SearchHit::BookID).toInt())->appendRow(hitItem);
+        } else {
+            //myDebug() << "DUDE!";
+        }
+    }
+
+   // ui->pushButton_searchInfo->setDisabled(false);
+
+}
+void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
+{
+    int id = index.data(Qt::UserRole+1).toInt();
+    if(id < m_searchResult.hits().size() && id >= 0) {
+        SearchHit hit = m_searchResult.hits().at(id);
+        if(!m_moduleManager->contains(hit.value(SearchHit::BibleID).toInt()))
+            return;
+        emit get("bible://" + hit.value(SearchHit::BibleID).toString() + "/" + hit.value(SearchHit::BookID).toString() + "," + hit.value(SearchHit::ChapterID).toString() + "," + hit.value(SearchHit::VerseID).toString() + ",searchInCurrentText=true");
+    }
+}/*
+void AdvancedSearchResultDockWidget::nextVerse()
+{
+    if(m_itemModel->rowCount() != 0) {
+        int currentID = ui->treeView->currentIndex().data(Qt::UserRole+1).toInt();
+
+        int nextID = currentID + 1;
+        if(nextID < ui->listWidget_search->count()) {
+            QModelIndexList l =
+            //ui->treeView->setCurrentIndex(m_itemModel-);
+
+            goToSearchResult(ui->listWidget_search->currentItem());
+        } else {
+            //wieder von vorne
+            QMessageBox::information(this, tr("No more Results."), tr("Show the first result again?"));
+            nextID = 0;
+            ui->listWidget_search->setCurrentRow(nextID);
+            goToSearchResult(ui->treeView->currentIndex());
+        }
+    } else {
+        myWarning() << "no search Results available";
+    }
+    return;
+}
+void AdvancedSearchResultDockWidget::previousVerse()
+{
+    if(m_itemModel->rowCount() != 0) {
+        int currentID = ui->treeView->currentIndex().data(Qt::UserRole+1).toInt();
+
+        int nextID = currentID - 1;
+        if(nextID < ui->listWidget_search->count() && nextID >= 0) {
+            ui->listWidget_search->setCurrentRow(nextID);
+            goToSearchResult(ui->listWidget_search->currentItem());
+        }
+    } else {
+        myWarning() << "no search Results available";
+    }
+    return;
+}*/
+void AdvancedSearchResultDockWidget::changeEvent(QEvent *e)
+{
+    QDockWidget::changeEvent(e);
+    switch (e->type()) {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    default:
+        break;
+    }
+}

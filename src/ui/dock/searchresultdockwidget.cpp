@@ -38,11 +38,12 @@ void SearchResultDockWidget::setSearchResult(SearchResult searchResult)
 
     ui->label_search->setText(tr("Search: %1").arg(searchResult.searchQuery.searchText));
     QStringList outlist;
-    QList<SearchHit> hits = searchResult.hits();
+    QList<SearchHit> hits = searchResult.hits(SearchHit::BibleHit);
     for(int i = 0; i < hits.size(); ++i) {
         SearchHit hit = hits.at(i);
-        QString bookn = m_moduleManager->bible()->bookFullName().at(hit.bookID());
-        outlist << bookn + " " + QString::number(hit.chapterID() + 1) + " , " + QString::number(hit.verseID() + 1);
+        QString bookn = m_moduleManager->bible()->bookFullName().at(hit.value(SearchHit::BookID).toInt());
+        outlist << bookn + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + " , " +
+                QString::number(hit.value(SearchHit::VerseID).toInt() + 1);
     }
     ui->listWidget_search->clear();
     ui->listWidget_search->insertItems(0, outlist);
@@ -55,37 +56,33 @@ void SearchResultDockWidget::goToSearchResult(QListWidgetItem * item)
 
     if(id < m_searchResult.hits().size() && id >= 0) {
         SearchHit hit = m_searchResult.hits().at(id);
-        if(!m_moduleManager->contains(hit.bibleID()))
+        if(!m_moduleManager->contains(hit.value(SearchHit::BibleID).toInt()))
             return;
-        myDebug() << hit.bookID() << hit.chapterID() << hit.verseID() << hit.text();
-        emit get("bible://" + QString::number(hit.bibleID()) + "/" + QString::number(hit.bookID()) + "," + QString::number(hit.chapterID()) + "," + QString::number(hit.verseID()) + ",searchInCurrentText=true");
+        emit get("bible://" + hit.value(SearchHit::BibleID).toString() + "/" + hit.value(SearchHit::BookID).toString() + "," + hit.value(SearchHit::ChapterID).toString() + "," + hit.value(SearchHit::VerseID).toString() + ",searchInCurrentText=true");
     }
 }
 void SearchResultDockWidget::searchInfo()
 {
-    SearchResult result;
-    QStringList bookNames;
-    QString searchString;
     if(!m_moduleManager->contains(m_moduleManager->bible()->moduleID())) {
         QMessageBox::information(0, tr("Error"), tr("No search information available."));
         return;
     }
-    QStringList textList;
 
-    bookNames = m_moduleManager->bible()->bookFullName();
-    result = m_searchResult;
+    const QStringList bookNames = m_moduleManager->bible()->bookFullName();
+    SearchResult result = m_searchResult;
+    QList<SearchHit> list = result.hits(SearchHit::BibleHit);
 
-    for(int i = 0; i < result.hits().size(); ++i) {
-        SearchHit hit = result.hits().at(i);
-        QString bookn = m_moduleManager->bible()->bookFullName().at(hit.bookID()); //todo: maybe the bible isn't loaded and you need another bookNames
-        textList << hit.text() + "\n - <i>" + bookn + " " + QString::number(hit.chapterID() + 1) + " , " + QString::number(hit.verseID() + 1) + "</i>";
+     QStringList textList;
+    for(int i = 0; i < list.size(); ++i) {
+        SearchHit hit = list.at(i);
+        QString bookn = m_moduleManager->bible()->bookFullName().at(hit.value(SearchHit::BookID).toInt()); //todo: maybe the bible isn't loaded and you need another bookNames
+        textList << hit.value(SearchHit::VerseText).toString() + "\n - <i>" + bookn + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + " , " + QString::number(hit.value(SearchHit::VerseID).toInt() + 1) + "</i>";
     }
-    searchString = m_searchResult.searchQuery.searchText;
 
     SearchInfoDialog sDialog;
     sDialog.show();
 
-    sDialog.setInfo(result, bookNames, searchString, textList);
+    sDialog.setInfo(result, bookNames, m_searchResult.searchQuery.searchText, textList);
     sDialog.exec();
 
 }

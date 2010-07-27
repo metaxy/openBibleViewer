@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QListWidgetItem>
 #include "dockwidget.h"
 #include "src/core/searchresult.h"
+#include "src/core/basicclass.h"
 namespace Ui
 {
 class SearchResultDockWidget;

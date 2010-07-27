@@ -53,9 +53,9 @@ void AdvancedInterface::setModuleDockWidget(ModuleDockWidget *moduleDockWidget)
     m_moduleDockWidget = moduleDockWidget;
 }
 
-void AdvancedInterface::setSearchResultDockWidget(SearchResultDockWidget *searchResultDockWidget)
+void AdvancedInterface::setAdvancedSearchResultDockWidget(AdvancedSearchResultDockWidget *advancedSearchResultDockWidget)
 {
-    m_searchResultDockWidget = searchResultDockWidget;
+    m_advancedSearchResultDockWidget = advancedSearchResultDockWidget;
 }
 
 void AdvancedInterface::setNotesDockWidget(NotesDockWidget *notesDockWidget)
@@ -97,9 +97,10 @@ void AdvancedInterface::init()
     setAll(m_bookDockWidget);
     connect(m_bookDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
-    setAll(m_searchResultDockWidget);
-    m_searchResultDockWidget->hide();
-    connect(m_searchResultDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+    setAll(m_advancedSearchResultDockWidget);
+    m_advancedSearchResultDockWidget->init();
+    m_advancedSearchResultDockWidget->hide();
+    connect(m_advancedSearchResultDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
     setAll(m_notesDockWidget);
     m_notesDockWidget->init();
@@ -532,7 +533,7 @@ void AdvancedInterface::loadModuleDataByID(int id)
     //m_windowCache.setBibleList(m_moduleManager->bibleList());
 
     Module::ModuleType type = m_moduleManager->getModule(id)->m_moduleType;
-    m_moduleManager->bible()->setBibleType(type);
+    m_moduleManager->bible()->setModuleType(type);
     m_moduleManager->bible()->loadModuleData(id);
 
 
@@ -1242,7 +1243,7 @@ void AdvancedInterface::closing()
     m_settings->session.setData("notesDockGeometry", m_notesDockWidget->saveGeometry());
     m_settings->session.setData("bookDockGeometry", m_bookDockWidget->saveGeometry());
     m_settings->session.setData("moduleDockGeometry", m_moduleDockWidget->saveGeometry());
-    m_settings->session.setData("searchResultDockGeometry", m_searchResultDockWidget->saveGeometry());
+    m_settings->session.setData("searchResultDockGeometry", m_advancedSearchResultDockWidget->saveGeometry());
     m_settings->session.setData("strongDockGeometry", m_strongDockWidget->saveGeometry());*/
     QStringList windowUrls;
     QList<QVariant> windowGeo;
@@ -1297,7 +1298,7 @@ void AdvancedInterface::restoreSession()
       m_notesDockWidget->restoreGeometry(m_settings->session.getData("notesDockGeometry").toByteArray());
       m_bookDockWidget->restoreGeometry(m_settings->session.getData("bookDockGeometry").toByteArray());
       m_moduleDockWidget->restoreGeometry(m_settings->session.getData("moduleDockGeometry").toByteArray());
-      m_searchResultDockWidget->restoreGeometry(m_settings->session.getData("searchResultDockGeometry").toByteArray());
+      m_advancedSearchResultDockWidget->restoreGeometry(m_settings->session.getData("searchResultDockGeometry").toByteArray());
       m_strongDockWidget->restoreGeometry(m_settings->session.getData("strongDockGeometry").toByteArray());*/
     QStringList windowUrls = m_settings->session.getData("windowUrls").toStringList();
     QVariantList windowGeo = m_settings->session.getData("windowGeo").toList();
@@ -1403,10 +1404,10 @@ void AdvancedInterface::search(SearchQuery query)
     //DEBUG_FUNC_NAME
     if(!m_moduleManager->bibleLoaded())
         return;
-    m_searchResultDockWidget->show();
+    m_advancedSearchResultDockWidget->show();
     SearchResult result;
     result = m_moduleManager->bible()->search(query);
-    m_searchResultDockWidget->setSearchResult(result);
+    m_advancedSearchResultDockWidget->setSearchResult(result);
 
 }
 
@@ -1467,12 +1468,12 @@ void AdvancedInterface::selectAll()
 
 void AdvancedInterface::nextVerse()
 {
-    m_searchResultDockWidget->nextVerse();
+    //m_advancedSearchResultDockWidget->nextVerse();//todo:
 }
 
 void AdvancedInterface::previousVerse()
 {
-    m_searchResultDockWidget->previousVerse();
+    //m_advancedSearchResultDockWidget->previousVerse();//todo:
 }
 
 bool AdvancedInterface::hasMenuBar()
@@ -1621,8 +1622,8 @@ QMenuBar* AdvancedInterface::menuBar()
 
     QAction *actionSearchResults = new QAction(QIcon::fromTheme("table", QIcon(":/icons/16x16/table.png")), tr("Search Results"), menuDocks);
     actionSearchResults->setCheckable(true);
-    connect(m_searchResultDockWidget, SIGNAL(visibilityChanged(bool)), actionSearchResults, SLOT(setChecked(bool)));
-    connect(actionSearchResults , SIGNAL(triggered(bool)), m_searchResultDockWidget, SLOT(setVisible(bool)));
+    connect(m_advancedSearchResultDockWidget, SIGNAL(visibilityChanged(bool)), actionSearchResults, SLOT(setChecked(bool)));
+    connect(actionSearchResults , SIGNAL(triggered(bool)), m_advancedSearchResultDockWidget, SLOT(setVisible(bool)));
 
 
     menuDocks->addAction(actionModule);

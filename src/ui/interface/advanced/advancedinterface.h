@@ -19,6 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dock/bookdockwidget.h"
 #include "src/ui/dock/moduledockwidget.h"
 #include "src/ui/dock/searchresultdockwidget.h"
+#include "src/ui/dock/advancedsearchresultdockwidget.h"
 #include "src/ui/dock/notesdockwidget.h"
 #include "src/ui/dock/bookmarksdockwidget.h"
 #include "src/ui/dock/strongdockwidget.h"
@@ -116,7 +117,8 @@ public:
     QToolBar* toolBar();
     void setBookDockWidget(BookDockWidget *bookDockWidget);
     void setModuleDockWidget(ModuleDockWidget *moduleDockWidget);
-    void setSearchResultDockWidget(SearchResultDockWidget *searchResultDockWidget);
+    //void setSearchResultDockWidget(SearchResultDockWidget *searchResultDockWidget);
+    void setAdvancedSearchResultDockWidget(AdvancedSearchResultDockWidget *advancedSearchResultDockWidget);
     void setNotesDockWidget(NotesDockWidget *notesDockWidget);
     void setBookmarksDockWidget(BookmarksDockWidget *boockmarksDockWidget);
     void setStrongDockWidget(StrongDockWidget *strongDockWidget);

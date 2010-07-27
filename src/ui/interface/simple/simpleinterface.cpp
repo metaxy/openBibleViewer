@@ -127,7 +127,7 @@ void SimpleInterface::loadModuleDataByID(int id)
     if(id < 0 || !m_moduleManager->contains(id))
         return;
     Module::ModuleType type = m_moduleManager->getModule(id)->m_moduleType;
-    m_moduleManager->bible()->setBibleType(type);
+    m_moduleManager->bible()->setModuleType(type);
 
     m_moduleManager->bible()->loadModuleData(id);
 

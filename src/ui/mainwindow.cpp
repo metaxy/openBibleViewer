@@ -129,8 +129,8 @@ void MainWindow::deleteInterface()
             removeDockWidget(m_interface->m_moduleDockWidget);
         if(m_interface->m_bookDockWidget)
             removeDockWidget(m_interface->m_bookDockWidget);
-        if(m_interface->m_searchResultDockWidget)
-            removeDockWidget(m_interface->m_searchResultDockWidget);
+        if(m_interface->m_advancedSearchResultDockWidget)
+            removeDockWidget(m_interface->m_advancedSearchResultDockWidget);
 
         if(m_interface->m_notesDockWidget)
             removeDockWidget(m_interface->m_notesDockWidget);
@@ -194,9 +194,9 @@ void MainWindow::loadAdvancedInterface()
     m_interface->setBookDockWidget(bookDockWidget);
     addDockWidget(Qt::LeftDockWidgetArea, bookDockWidget);
 
-    SearchResultDockWidget *searchResultDockWidget = new SearchResultDockWidget(this);
-    m_interface->setSearchResultDockWidget(searchResultDockWidget);
-    addDockWidget(Qt::LeftDockWidgetArea, searchResultDockWidget);
+    AdvancedSearchResultDockWidget *advancedSearchResultDockWidget = new AdvancedSearchResultDockWidget(this);
+    m_interface->setAdvancedSearchResultDockWidget(advancedSearchResultDockWidget);
+    addDockWidget(Qt::LeftDockWidgetArea, advancedSearchResultDockWidget);
 
     NotesDockWidget *notesDockWidget = new NotesDockWidget(this);
     m_interface->setNotesDockWidget(notesDockWidget);

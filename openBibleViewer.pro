@@ -75,7 +75,9 @@ SOURCES += src/main.cpp \
     src/ui/interface/advanced/biblelistitemdelegate.cpp \
     src/module/modulemap.cpp \
     src/core/modulecache.cpp \
-    src/api/bibleapi.cpp
+    src/api/bibleapi.cpp \
+    src/ui/dock/advancedsearchresultdockwidget.cpp \
+    src/module/dictionary.cpp
 HEADERS += src/core/settings.h \
     src/module/biblequote.h \
     src/module/zefania-bible.h \
@@ -144,7 +146,9 @@ HEADERS += src/core/settings.h \
     src/core/core.h \
     src/ui/interface/advanced/biblelistitemdelegate.h \
     src/core/modulecache.h \
-    src/api/bibleapi.h
+    src/api/bibleapi.h \
+    src/ui/dock/advancedsearchresultdockwidget.h \
+    src/module/dictionary.h
 FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dialog/settingsdialog.ui \
     src/ui/dialog/searchinfodialog.ui \
@@ -169,7 +173,8 @@ FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/noteseditor.ui \
     src/ui/dialog/inserthtmldialog.ui \
     src/ui/dialog/insertlinkdialog.ui \
-    src/ui/interface/advanced/biblelistwidget.ui
+    src/ui/interface/advanced/biblelistwidget.ui \
+    src/ui/dock/advancedsearchresultdockwidget.ui
 RESOURCES += src/icons.qrc \
     src/data.qrc
 TRANSLATIONS = src/obv_de.ts \

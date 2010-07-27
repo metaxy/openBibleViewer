@@ -18,14 +18,18 @@ SearchResult::SearchResult()
 }
 void SearchResult::addHit(SearchHit hit)
 {
-    m_hits << hit;
-}
-void SearchResult::addHit(const int &bibleID, const int &bookID, const int &chapterID, const int &verseID, const QString &text)
-{
-    SearchHit hit(bibleID, bookID, chapterID, verseID, text);
+    m_type.insert(m_hits.size(),hit.type());
     m_hits << hit;
 }
 QList<SearchHit> SearchResult::hits()
 {
     return m_hits;
+}
+QList<SearchHit> SearchResult::hits(SearchHit::SearchHitType type)
+{
+    QList<SearchHit> l;
+    foreach(int id, m_type.keys(type)) {
+        l << m_hits.at(id);
+    }
+    return l;
 }

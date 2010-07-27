@@ -50,6 +50,10 @@ void Interface::setSearchResultDockWidget(SearchResultDockWidget *searchResultDo
 {
     Q_UNUSED(searchResultDockWidget);
 }
+void Interface::setAdvancedSearchResultDockWidget(AdvancedSearchResultDockWidget *advancedSearchResultDockWidget)
+{
+    Q_UNUSED(advancedSearchResultDockWidget);
+}
 void Interface::setNotesDockWidget(NotesDockWidget *notesDockWidget)
 {
     Q_UNUSED(notesDockWidget);

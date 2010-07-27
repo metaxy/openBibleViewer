@@ -14,26 +14,37 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef SEARCHHIT_H
 #define SEARCHHIT_H
 #include <QtCore/QString>
+#include <QtCore/QVariant>
+#include <QtCore/QMap>
 /*!
  SearcHit represent a hit in a bible search
 
- @author Paul Walger <metaxy@walger.name>
 */
 class SearchHit
 {
 public:
-    SearchHit(const int &bibleID, const int &bookID, const int &chapterID, const int &verseID, const QString &text);
-    int bookID();
-    int chapterID();
-    int verseID();
-    int bibleID();
-    QString text();
+    SearchHit();
+    enum SearchHitType {
+        BibleHit = 0,
+        NoteHit = 1
+    };
+    enum SearchHitKey {
+        BibleID = 0,
+        BookID = 1,
+        ChapterID = 2,
+        VerseID = 3,
+        VerseText = 4,
+        NoteID = 5,
+        NoteText = 6
+    };
+    SearchHitType type();
+    void setType(SearchHitType type);
+    QVariant value(SearchHitKey v);
+    void setValue(SearchHitKey k, QVariant value);
 private:
-    int m_bookID;
-    int m_chapterID;
-    int m_verseID;
-    int m_bibleID;
-    QString m_text;
+    SearchHitType m_type;
+    QMap<int, QVariant> m_map;
+
 };
 
 #endif // SEARCHHIT_H

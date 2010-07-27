@@ -379,7 +379,7 @@ void ModuleManager::checkCache(const int &moduleID)
 {
     Module* m = m_moduleMap->m_map.value(moduleID);
     if(!m_settings->m_moduleCache.keys().contains(m->m_path)) {
-        m_bible->setBibleType(m->m_moduleType);
+        m_bible->setModuleType(m->m_moduleType);
         m_bible->loadModuleData(moduleID);//set cache
         /*if(b.m_bq) {
             delete b.m_bq;
@@ -410,7 +410,7 @@ Bible * ModuleManager::newBible(const int &moduleID, QPoint p)
     //todo: check if this is possible
     /*if(b->moduleID() != moduleID) {*/
     Module::ModuleType type = getModule(moduleID)->m_moduleType;
-    b->setBibleType(type);
+    b->setModuleType(type);
     b->loadModuleData(moduleID);
     bibleList()->addBible(b, p);
     /*}*/

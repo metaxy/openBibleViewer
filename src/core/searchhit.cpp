@@ -13,32 +13,23 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "searchhit.h"
 
-SearchHit::SearchHit(const int &bibleID, const int &bookID, const int &chapterID, const int &verseID, const QString &text)
+SearchHit::SearchHit()
 {
-    m_bibleID = bibleID;
-    m_bookID = bookID;
-    m_chapterID = chapterID;
-    m_verseID = verseID;
-    m_text = text;
 
 }
-int SearchHit::bibleID()
+SearchHit::SearchHitType SearchHit::type()
 {
-    return m_bibleID;
+    return m_type;
 }
-int SearchHit::bookID()
+void SearchHit::setType(SearchHitType type)
 {
-    return m_bookID;
+    m_type = type;
 }
-int SearchHit::chapterID()
+QVariant SearchHit::value(SearchHitKey v)
 {
-    return m_chapterID;
+    return m_map.value(v);
 }
-int SearchHit::verseID()
+void SearchHit::setValue(SearchHitKey k, QVariant value)
 {
-    return m_verseID;
-}
-QString SearchHit::text()
-{
-    return m_text;
+    m_map.insert(k,value);
 }

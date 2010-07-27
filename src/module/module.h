@@ -42,7 +42,7 @@ public:
     int m_id;
     BibleQuote *m_bibleQuote;
     ZefaniaBible *m_zefaniaBible;
-    ZefaniaStrong m_zefaniaStrong;
+    ZefaniaStrong *m_zefaniaStrong;
 
     void setSettings(Settings *settings);
 

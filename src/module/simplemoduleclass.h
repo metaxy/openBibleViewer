@@ -15,14 +15,24 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define SIMPLEMODULECLASS_H
 #include "src/core/notes.h"
 #include "src/core/settings.h"
+#include "src/module/modulemap.h"
+#include "src/module/module.h"
 class SimpleModuleClass
 {
 public:
     SimpleModuleClass();
     virtual void setSettings(Settings *settings);
     virtual void setNotes(Notes *n);
+    void setModuleType(const Module::ModuleType &type);
+    void setModuleMap(ModuleMap *map);
+    int moduleID();
+
+protected:
+    int m_moduleID;
     Settings *m_settings;
     Notes *m_notes;
+    ModuleMap *m_map;
+    Module::ModuleType m_moduleType;
 private:
 
 };
