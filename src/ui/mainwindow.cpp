@@ -136,8 +136,8 @@ void MainWindow::deleteInterface()
             removeDockWidget(m_interface->m_notesDockWidget);
         if(m_interface->m_bookmarksDockWidget)
             removeDockWidget(m_interface->m_bookmarksDockWidget);
-        if(m_interface->m_strongDockWidget)
-            removeDockWidget(m_interface->m_strongDockWidget);
+        if(m_interface->m_dictionaryDockWidget)
+            removeDockWidget(m_interface->m_dictionaryDockWidget);
         if(m_interface->m_quickJumpDockWidget)
             removeDockWidget(m_interface->m_quickJumpDockWidget);
     }

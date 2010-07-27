@@ -35,8 +35,8 @@ void DictionaryDockWidget::init()
     dict->setNotes(m_notes);
     dict->setSettings(m_settings);
 
-    strongModuleTitle.clear();
-    strongModuleID.clear();
+    dictModuleTitle.clear();
+    dictModuleID.clear();
     ui->comboBox_strongModule->clear();
 
     QMapIterator<int, Module *> i(m_moduleManager->m_moduleMap->m_map);
@@ -44,14 +44,14 @@ void DictionaryDockWidget::init()
         i.next();
         Module *m = i.value();
         if(m->m_moduleClass == Module::DictionaryModule) {
-            strongModuleTitle << m->m_title;
-            strongModuleID << m->m_id;
+            dictModuleTitle << m->m_title;
+            dictModuleID << m->m_id;
         }
     }
-    ui->comboBox_strongModule->insertItems(0, strongModuleTitle);
+    ui->comboBox_strongModule->insertItems(0, dictModuleTitle);
     connect(ui->comboBox_strongModule, SIGNAL(currentIndexChanged(int)), this, SLOT(loadModule(int)));
     connect(ui->toolButton_strongSearch, SIGNAL(clicked()), this, SLOT(search()));
-    connect(ui->textBrowser_strong, SIGNAL(anchorClicked(QUrl)), this, SLOT(get_(QUrl)));
+    connect(ui->textBrowser_strong, SIGNAL(anchorClicked(QUrl)), m_bibleDisplay, SIGNAL(get(QUrl)));
 }
 
 void DictionaryDockWidget::search()
@@ -74,17 +74,13 @@ void DictionaryDockWidget::showStrong(QString strongID)
 void DictionaryDockWidget::loadModule(int id)
 {
     DEBUG_FUNC_NAME
-    if(strongModuleID.size() > id && id >= 0) {
-        int moduleID = strongModuleID.at(id);
+    if(dictModuleID.size() > id && id >= 0) {
+        int moduleID = dictModuleID.at(id);
         Module *m = m_moduleManager->getModule(moduleID);
         Module::ModuleType type = m->m_moduleType;
         m_moduleManager->dictionary()->setModuleType(type);
         m_moduleManager->dictionary()->loadModuleData(moduleID);
     }
-}
-void DictionaryDockWidget::get_(QUrl url)
-{
-    emit get(url);
 }
 
 void DictionaryDockWidget::changeEvent(QEvent *e)

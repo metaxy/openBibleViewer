@@ -121,7 +121,7 @@ public:
     void setAdvancedSearchResultDockWidget(AdvancedSearchResultDockWidget *advancedSearchResultDockWidget);
     void setNotesDockWidget(NotesDockWidget *notesDockWidget);
     void setBookmarksDockWidget(BookmarksDockWidget *boockmarksDockWidget);
-    void setDictionaryDockWidget(DictionaryDockWidget *strongDockWidget);
+    void setDictionaryDockWidget(DictionaryDockWidget *dictionaryDockWidget);
     void setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget);
 
 

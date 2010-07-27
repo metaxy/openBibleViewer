@@ -17,7 +17,7 @@ Module::Module(Module *parent)
 {
     m_bibleQuote = 0;
     m_zefaniaBible = 0;
-    m_zefaniaStrong = 0;
+    m_zefaniaLex = 0;
     m_parent = parent;
 
 }

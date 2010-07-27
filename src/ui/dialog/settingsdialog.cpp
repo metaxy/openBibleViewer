@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/modulesettings.h"
 #include "src/core/dbghelper.h"
 #include "src/module/zefania-bible.h"
-#include "src/module/zefania-strong.h"
+#include "src/module/zefania-lex.h"
 #include "src/module/biblequote.h"
 #include "src/module/bible.h"
 #include "src/module/module.h"
@@ -138,7 +138,7 @@ void SettingsDialog::generateModuleTree()
             case Module::ZefaniaBibleModule:
                 moduleType = QObject::tr("Zefania XML");;
                 break;
-            case Module::ZefaniaStrongModule:
+            case Module::ZefaniaLexModule:
                 moduleType = QObject::tr("Zefania XML Strong");;
                 break;
 
@@ -313,7 +313,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
             QString moduleTypeName = "";
             BibleQuote bq;
             ZefaniaBible zef;
-            ZefaniaStrong zefStrong;
+            ZefaniaLex zefStrong;
             ModuleSettings m;
             zefStrong.setSettings(&m_set);
 
@@ -348,7 +348,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                                                                                   fileData.contains("x-mormon", Qt::CaseInsensitive))) {
                     moduleType = Module::ZefaniaBibleModule;// Zefania Bible
                 } else if(fileData.contains("<dictionary", Qt::CaseInsensitive) &&  fileData.contains("type=\"x-strong\"", Qt::CaseInsensitive)) {
-                    moduleType = Module::ZefaniaStrongModule;// Zefania Strong
+                    moduleType = Module::ZefaniaLexModule;// Zefania Strong
                 } else {
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
                     myWarning() << "cannot detetct module type";
@@ -372,7 +372,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                     }
                     moduleTypeName = QObject::tr("Zefania XML");
                     break;
-                case Module::ZefaniaStrongModule:
+                case Module::ZefaniaLexModule:
                     if(names.size() == 0 || i >= names.size()) {
                         moduleName = zefStrong.loadFile(fileData, f);
                     }

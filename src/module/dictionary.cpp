@@ -2,7 +2,7 @@
 #include "src/core/dbghelper.h"
 Dictionary::Dictionary()
 {
-    m_zefaniaStrong = 0;
+    m_zefaniaLex = 0;
     m_moduleType = Module::NoneType;
     m_moduleID = -1;
 }
@@ -19,15 +19,15 @@ int Dictionary::loadModuleData(const int &moduleID)
 
 
     switch(m_moduleType) {
-    case Module::ZefaniaStrongModule: {
-        if(m_module->m_zefaniaStrong) {
-            m_zefaniaStrong = m_module->m_zefaniaStrong;
+    case Module::ZefaniaLexModule: {
+        if(m_module->m_zefaniaLex) {
+            m_zefaniaLex = m_module->m_zefaniaLex;
         } else {
-            m_zefaniaStrong = new ZefaniaStrong();
-            m_zefaniaStrong->setSettings(m_settings);
-            m_module->m_zefaniaStrong = m_zefaniaStrong;
+            m_zefaniaLex = new ZefaniaLex();
+            m_zefaniaLex->setSettings(m_settings);
+            m_module->m_zefaniaLex = m_zefaniaLex;
         }
-        m_zefaniaStrong->m_modulePath = path;
+        m_zefaniaLex->m_modulePath = path;
         break;
     }
 
@@ -41,8 +41,8 @@ QString Dictionary::getEntry(const QString &string)
     DEBUG_FUNC_NAME
     myDebug() << string << m_moduleType;
     switch(m_moduleType) {
-    case Module::ZefaniaStrongModule: {
-        return m_zefaniaStrong->getStrong(string);
+    case Module::ZefaniaLexModule: {
+        return m_zefaniaLex->getStrong(string);
         break;
     }
 

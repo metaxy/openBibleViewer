@@ -61,7 +61,7 @@ public:
     ModuleDockWidget *m_moduleDockWidget;
     NotesDockWidget *m_notesDockWidget;
     BookmarksDockWidget * m_bookmarksDockWidget;
-    DictionaryDockWidget * m_strongDockWidget;
+    DictionaryDockWidget * m_dictionaryDockWidget;
     QuickJumpDockWidget * m_quickJumpDockWidget;
 
 };

@@ -10,7 +10,7 @@ public:
     QString getEntry(const QString &string);
 private:
     Module *m_module;
-    ZefaniaStrong *m_zefaniaStrong;
+    ZefaniaLex *m_zefaniaLex;
 };
 
 #endif // DICTIONARY_H

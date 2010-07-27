@@ -18,7 +18,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QObject>
 #include <QStandardItem>
 #include "src/module/bible.h"
-#include "src/module/strong.h"
 #include "src/module/module.h"
 #include "src/module/modulemap.h"
 #include "src/core/dbghelper.h"
@@ -242,12 +241,12 @@ int ModuleManager::loadAllModules()
                     moduleID++;
                     break;
                 }
-                case Module::ZefaniaStrongModule: {
+                case Module::ZefaniaLexModule: {
 
                     Module *module = new Module(root);
                     module->m_path = m_settings->m_moduleSettings.at(i).modulePath;
                     module->m_moduleClass = Module::DictionaryModule;
-                    module->m_moduleType = Module::ZefaniaStrongModule;
+                    module->m_moduleType = Module::ZefaniaLexModule;
                     module->m_title = m_settings->m_moduleSettings.at(i).moduleName;
                     module->m_id = moduleID;
                     myDebug() << "zefania " << module->m_title << module->m_id;

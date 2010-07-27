@@ -29,7 +29,7 @@ SOURCES += src/main.cpp \
     src/ui/dialog/biblepassagedialog.cpp \
     src/ui/dialog/moduleconfigdialog.cpp \
     src/core/goto.cpp \
-    src/module/zefania-strong.cpp \
+    src/module/zefania-lex.cpp \
     src/core/history.cpp \
     src/ui/dialog/moduledownloaddialog.cpp \
     src/core/dbghelper.cpp \
@@ -44,7 +44,6 @@ SOURCES += src/main.cpp \
     src/ui/markcategories.cpp \
     src/module/modulemanager.cpp \
     src/module/module.cpp \
-    src/module/strong.cpp \
     src/ui/dock/dictionarydockwidget.cpp \
     src/ui/dock/searchresultdockwidget.cpp \
     src/ui/dock/notesdockwidget.cpp \
@@ -98,7 +97,7 @@ HEADERS += src/core/settings.h \
     src/ui/dialog/biblepassagedialog.h \
     src/ui/dialog/moduleconfigdialog.h \
     src/core/goto.h \
-    src/module/zefania-strong.h \
+    src/module/zefania-lex.h \
     src/core/history.h \
     src/ui/dialog/moduledownloaddialog.h \
     src/core/dbghelper.h \
@@ -114,7 +113,6 @@ HEADERS += src/core/settings.h \
     src/ui/markcategories.h \
     src/module/modulemanager.h \
     src/module/module.h \
-    src/module/strong.h \
     src/ui/dock/dictionarydockwidget.h \
     src/ui/dock/searchresultdockwidget.h \
     src/ui/dock/notesdockwidget.h \

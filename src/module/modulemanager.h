@@ -17,7 +17,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings.h"
 #include "src/module/bible.h"
 #include "src/module/biblelist.h"
-#include "src/module/strong.h"
 #include "src/module/modulemap.h"
 #include "src/module/dictionary.h"
 #include <QtCore/QList>

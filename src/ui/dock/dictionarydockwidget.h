@@ -17,7 +17,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QDockWidget>
 #include <QtCore/QUrl>
 #include "dockwidget.h"
-#include "src/module/strong.h"
 namespace Ui
 {
 class DictionaryDockWidget;
@@ -31,7 +30,6 @@ class DictionaryDockWidget : public DockWidget
 private slots:
     void loadModule(int id);
     void search();
-    void get_(QUrl url);
 public:
     DictionaryDockWidget(QWidget *parent = 0);
     ~DictionaryDockWidget();
@@ -39,12 +37,10 @@ public:
     void showStrong(QString id);
 protected:
     void changeEvent(QEvent *e);
-signals:
-    void get(QUrl);
 private:
     Ui::DictionaryDockWidget *ui;
-    QStringList strongModuleTitle;
-    QList<int> strongModuleID;
+    QStringList dictModuleTitle;
+    QList<int> dictModuleID;
 };
 
 #endif // STRONGDOCKWIDGET_H

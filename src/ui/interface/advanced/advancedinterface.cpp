@@ -68,9 +68,9 @@ void AdvancedInterface::setBookmarksDockWidget(BookmarksDockWidget *bookmarksDoc
     m_bookmarksDockWidget = bookmarksDockWidget;
 }
 
-void AdvancedInterface::setDictionaryDockWidget(DictionaryDockWidget *strongDockWidget)
+void AdvancedInterface::setDictionaryDockWidget(DictionaryDockWidget *dictionaryDockWidget)
 {
-    m_strongDockWidget = strongDockWidget;
+    m_dictionaryDockWidget = dictionaryDockWidget;
 }
 
 void AdvancedInterface::setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget)
@@ -113,10 +113,9 @@ void AdvancedInterface::init()
     m_bookmarksDockWidget->hide();
     connect(m_bookmarksDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
-    setAll(m_strongDockWidget);
-    m_strongDockWidget->init();
-    m_strongDockWidget->hide();
-    connect(m_strongDockWidget, SIGNAL(get(QUrl)), this, SLOT(pharseUrl(QUrl)));
+    setAll(m_dictionaryDockWidget);
+    m_dictionaryDockWidget->init();
+    m_dictionaryDockWidget->hide();
 
     setAll(m_quickJumpDockWidget);
     m_quickJumpDockWidget->init();
@@ -628,7 +627,7 @@ void AdvancedInterface::pharseUrl(QString url)
         //bible://bibleID/bookID,chapterID,verseID
     } else if(url.startsWith(strong)) {
         url = url.remove(0, strong.size());
-        m_strongDockWidget->showStrong(url);
+        m_dictionaryDockWidget->showStrong(url);
         //strong://strongID
     } else if(url.startsWith(http)) {
         QDesktopServices::openUrl(url);
@@ -976,9 +975,9 @@ VerseSelection AdvancedInterface::verseSelection()
 
     s.startVerse = start;
     s.endVerse = end;
-    QString startVerseText = f->evaluateJavaScript("verseSelection.startVerseText;").toString();
-    QString endVerseText = f->evaluateJavaScript("verseSelection.endVerseText;").toString();
-    QString selectedText = f->evaluateJavaScript("verseSelection.selectedText;").toString();
+    const QString startVerseText = f->evaluateJavaScript("verseSelection.startVerseText;").toString();
+    const QString endVerseText = f->evaluateJavaScript("verseSelection.endVerseText;").toString();
+    const QString selectedText = f->evaluateJavaScript("verseSelection.selectedText;").toString();
 
     QString sText;
     for(int i = 0; i < selectedText.size() - 1; i++) {
@@ -1377,7 +1376,7 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
         myDebug() << "reload Module";
         m_moduleManager->loadAllModules();
         m_moduleDockWidget->init();
-        m_strongDockWidget->init();
+        m_dictionaryDockWidget->init();
         showText("");
         //m_windowCache.clearZefCache();
         //m_moduleManager->bible()->clearSoftCache();
@@ -1607,8 +1606,8 @@ QMenuBar* AdvancedInterface::menuBar()
 
     QAction *actionStrong = new QAction(tr("Strong"), menuDocks);
     actionStrong->setCheckable(true);
-    connect(m_strongDockWidget, SIGNAL(visibilityChanged(bool)), actionStrong, SLOT(setChecked(bool)));
-    connect(actionStrong, SIGNAL(triggered(bool)), m_strongDockWidget, SLOT(setVisible(bool)));
+    connect(m_dictionaryDockWidget, SIGNAL(visibilityChanged(bool)), actionStrong, SLOT(setChecked(bool)));
+    connect(actionStrong, SIGNAL(triggered(bool)), m_dictionaryDockWidget, SLOT(setVisible(bool)));
 
     QAction *actionBookmarks = new QAction(QIcon::fromTheme("bookmarks-organize", QIcon(":/icons/16x16/bookmarks-organize.png")), tr("Bookmarks"), menuDocks);
     actionBookmarks->setCheckable(true);
