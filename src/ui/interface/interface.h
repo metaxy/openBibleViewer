@@ -28,7 +28,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dock/searchresultdockwidget.h"
 #include "src/ui/dock/notesdockwidget.h"
 #include "src/ui/dock/bookmarksdockwidget.h"
-#include "src/ui/dock/strongdockwidget.h"
+#include "src/ui/dock/dictionarydockwidget.h"
 #include "src/ui/dock/quickjumpdockwidget.h"
 class Interface : public QWidget, public BasicClass
 {
@@ -52,7 +52,7 @@ public:
     virtual void setAdvancedSearchResultDockWidget(AdvancedSearchResultDockWidget *searchResultDockWidget);
     virtual void setNotesDockWidget(NotesDockWidget *notesDockWidget);
     virtual void setBookmarksDockWidget(BookmarksDockWidget *boockmarksDockWidget);
-    virtual void setStrongDockWidget(StrongDockWidget *strongDockWidget);
+    virtual void setDictionaryDockWidget(DictionaryDockWidget *strongDockWidget);
     virtual void setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget);
 
     SearchResultDockWidget *m_searchResultDockWidget;
@@ -61,7 +61,7 @@ public:
     ModuleDockWidget *m_moduleDockWidget;
     NotesDockWidget *m_notesDockWidget;
     BookmarksDockWidget * m_bookmarksDockWidget;
-    StrongDockWidget * m_strongDockWidget;
+    DictionaryDockWidget * m_strongDockWidget;
     QuickJumpDockWidget * m_quickJumpDockWidget;
 
 };

@@ -206,8 +206,8 @@ void MainWindow::loadAdvancedInterface()
     m_interface->setBookmarksDockWidget(bookmarksDockWidget);
     addDockWidget(Qt::RightDockWidgetArea, bookmarksDockWidget);
 
-    StrongDockWidget *strongDockWidget = new StrongDockWidget(this);
-    m_interface->setStrongDockWidget(strongDockWidget);
+    DictionaryDockWidget *strongDockWidget = new DictionaryDockWidget(this);
+    m_interface->setDictionaryDockWidget(strongDockWidget);
     addDockWidget(Qt::RightDockWidgetArea, strongDockWidget);
 
     QuickJumpDockWidget *quickJumpDockWidget = new QuickJumpDockWidget(this);

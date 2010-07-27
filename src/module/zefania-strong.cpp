@@ -25,9 +25,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 #include <QtGui/QProgressDialog>
 #include <QtXml/QDomElement>
+#include <CLucene.h>
+#include <CLucene/util/Misc.h>
+#include <CLucene/util/Reader.h>
 ZefaniaStrong::ZefaniaStrong()
 {
-    m_settings = new Settings();
 }
 void ZefaniaStrong::setSettings(Settings *settings)
 {
@@ -38,6 +40,8 @@ void ZefaniaStrong::setSettings(Settings *settings)
   */
 QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
 {
+    m_modulePath = fileName;
+    //todo: progressdialog
     /* QProgressDialog progress(QObject::tr("Loading Strongmodule"), QObject::tr("Cancel"), 0, 100);
      progress.setWindowModality(Qt::WindowModal);
      progress.setValue(1);*/
@@ -125,78 +129,93 @@ QString ZefaniaStrong::loadFile(QString fileData, QString fileName)
         c++;
     }
     doc.clear();
-    QString path = m_settings->homePath + "cache/" + m_settings->hash(fileName) + ".strong";
-    //if cache folder exist then remove it
-    QFileInfo info(path);
-    if(info.exists()) {
-        QFile::remove(path);
+    QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
+    QDir dir("/");
+    dir.mkpath(index);
+
+    // do not use any stop words
+    const TCHAR* stop_words[]  = { NULL };
+    lucene::analysis::standard::StandardAnalyzer an((const TCHAR**)stop_words);
+
+    if(lucene::index::IndexReader::indexExists(index.toAscii().constData())) {
+        if(lucene::index::IndexReader::isLocked(index.toAscii().constData())) {
+            lucene::index::IndexReader::unlock(index.toAscii().constData());
+        }
     }
-    //make a new cache folder
-    QDir dir;
-    dir.mkpath(m_settings->homePath + "cache/");
-    QFile file(path);
-    if(!file.open(QIODevice::WriteOnly)) {
-        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not open cache file."));
-        myWarning() << " f = " << file.fileName();
-        return QString();
+    QScopedPointer<lucene::index::IndexWriter> writer(new lucene::index::IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
+
+    for(int i = 0; i < l_id.size(); ++i) {
+        QString id = l_id.at(i);
+        QString ret = "<h3 class='strongTitle'>" + l_id.at(i) + " - " + l_title.at(i) + "</h3>";
+        if(!l_trans.at(i).isEmpty()) {
+            ret += " (" + m_trans.at(i) + ") ";
+        }
+        if(!l_pron.at(i).isEmpty()) {
+            ret += " [" + l_pron.at(i) + "] ";
+        }
+        ret += "<br />" + l_desc.at(i);
+        //write into index
+
+        QByteArray textBuffer;
+        wchar_t wcharBuffer[    lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH + 1];
+
+        QScopedPointer<lucene::document::Document> doc(new lucene::document::Document());
+        QString key = id;
+
+        lucene_utf8towcs(wcharBuffer, key.toLocal8Bit().constData(),     lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
+
+        doc->add(*(new lucene::document::Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer, lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_TOKENIZED)));
+
+        lucene_utf8towcs(wcharBuffer, ret.toUtf8().constData(),     lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
+
+        doc->add(*(new lucene::document::Field((const TCHAR*)_T("content"),
+                                               (const TCHAR*)wcharBuffer,
+                                               lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_TOKENIZED)));
+        textBuffer.resize(0); //clean up
+        writer->addDocument(doc.data());
+
     }
-    myDebug() << "write cache file =" << file.fileName();
-    //write data
-    QDataStream out(&file);
-    out << l_id;
-    out << l_title;
-    out << l_trans;
-    out << l_pron;
-    out << l_desc;
-    file.close();
+    writer->optimize();
+    writer->close();
+
     return fileTitle;
-}
-/**
-  Load the cache file into memor
-  \fileName Location of the cache file.
-  */
-bool ZefaniaStrong::loadDataBase(QString fileName)
-{
-    QFile file(m_settings->homePath + "cache/" + m_settings->hash(fileName) + ".strong");
-    if(!file.open(QIODevice::ReadOnly)) {
-        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not open cache file."));
-        return false;
-    }
-    m_id.clear();
-    m_title.clear();
-    m_trans.clear();
-    m_pron.clear();
-    m_desc.clear();
-    QDataStream in(&file);
-    in >> m_id;
-    in >> m_title;
-    in >> m_trans;
-    in >> m_pron;
-    in >> m_desc;
-    file.close();
-    return true;
 }
 /**
   Returns a Strong.
   \strongID The strongID
   */
-QString ZefaniaStrong::getStrong(QString strongID)
+QString ZefaniaStrong::getStrong(const QString &strongID)
 {
+    DEBUG_FUNC_NAME
     myDebug() << "strongID = " << strongID;
-    for(int i = 0; i < m_id.size(); ++i) {
-        QString id = m_id.at(i);
-        if(id.trimmed().toLower().simplified() == strongID.trimmed().toLower().simplified()) {
-            QString ret = "<h3 class='strongTitle'>" + m_id.at(i) + " - " + m_title.at(i) + "</h3>";
-            if(!m_trans.at(i).isEmpty()) {
-                ret += " (" + m_trans.at(i) + ") ";
-            }
-            if(!m_pron.at(i).isEmpty()) {
-                ret += " [" + m_pron.at(i) + "] ";
-            }
-            ret += "<br />" + m_desc.at(i);
-            return ret;
-        }
+    myDebug() << m_modulePath;
+    QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
+    myDebug() << index << index.toLocal8Bit().constData();
+    const QString queryText = "key:"+strongID;
+    char utfBuffer[ lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH  + 1];
+    wchar_t wcharBuffer[ lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH + 1];
+    myDebug() << "1";
+    const TCHAR* stop_words[]  = { NULL };
+    lucene::analysis::standard::StandardAnalyzer analyzer(stop_words);
+    myDebug() << "2";
+    lucene::search::IndexSearcher searcher(index.toLocal8Bit().constData());
+    myDebug() << "3";
+    lucene_utf8towcs(wcharBuffer, queryText.toUtf8().constData(), lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
+    myDebug() << "4";
+    QScopedPointer<lucene::search::Query> q(lucene::queryParser::QueryParser::parse((const TCHAR*)wcharBuffer, (const TCHAR*)_T("content"), &analyzer));
+    myDebug() << "5";
+    QScopedPointer<lucene::search::Hits> h(searcher.search(q.data(), lucene::search::Sort::INDEXORDER));
+    myDebug() << "6";
+    lucene::document::Document* doc = 0;
+    for(int i = 0; i < h->length(); ++i) {
+        doc = &h->doc(i);
+        lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
+        QString content(utfBuffer);
+        myDebug() << "7";
+        return content;
+
     }
+
     return QString();
 }
 

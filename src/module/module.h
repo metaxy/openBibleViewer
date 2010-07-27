@@ -26,7 +26,7 @@ public:
         NoneClass = 0,
         FolderClass = 3,
         BibleModule = 1,
-        StrongModule = 2
+        DictionaryModule = 2
     };
     enum ModuleType {
         NoneType = 0,

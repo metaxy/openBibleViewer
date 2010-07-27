@@ -10,29 +10,12 @@ Strong::Strong()
   */
 QString Strong::loadStrong(QString strongString)
 {
-    //DEBUG_FUNC_NAME
-    m_zefStrong.setSettings(m_settings);
-    if(m_strongModuleID == -1) {
-        myWarning() << "nothing loaded";//should never happen
-    }
-    QString ret;
-    if(m_strongModuleID >= 0) {
-        m_strongString = strongString;
-        ret = m_zefStrong.getStrong(strongString);
-    } else {
-        ret = QObject::tr("No strong module loaded.");
-    }
-    if(ret.isEmpty())
-        ret = QObject::tr("Strong not found.");
-    return ret;
+
+    return QString();
 }
 /**
   Load a single strong module
 */
 void Strong::loadStrongModule(const int &id, QString path)
 {
-    //DEBUG_FUNC_NAME
-    m_zefStrong.setSettings(m_settings);
-    m_zefStrong.loadDataBase(path);
-    m_strongModuleID = id;
 }

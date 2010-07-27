@@ -11,33 +11,40 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef ZEFANIASTRONG_H
-#define ZEFANIASTRONG_H
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtXml/QDomElement>
-#include <QtXml/QDomDocument>
-#include "src/core/settings.h"
-/*!
- ZefaniaStrong represents a zefaniaxml(lex) module
+#ifndef STRONGDOCKWIDGET_H
+#define STRONGDOCKWIDGET_H
 
- @author Paul Walger <metaxy@walger.name>
-*/
-class ZefaniaStrong
+#include <QtGui/QDockWidget>
+#include <QtCore/QUrl>
+#include "dockwidget.h"
+#include "src/module/strong.h"
+namespace Ui
 {
-private:
-    Settings *m_settings;
-    QStringList m_id;
-    QStringList m_title;
-    QStringList m_trans;
-    QStringList m_pron;
-    QStringList m_desc;
+class DictionaryDockWidget;
+}
+/*!
+ DictionaryDockWidget represents a dock widget to show a strong.
+*/
+class DictionaryDockWidget : public DockWidget
+{
+    Q_OBJECT
+private slots:
+    void loadModule(int id);
+    void search();
+    void get_(QUrl url);
 public:
-    ZefaniaStrong();
-    void setSettings(Settings *settings);
-    QString loadFile(QString fileData, QString fileName);
-    QString getStrong(const QString &strongID);
-    QString m_modulePath;
+    DictionaryDockWidget(QWidget *parent = 0);
+    ~DictionaryDockWidget();
+    void init();
+    void showStrong(QString id);
+protected:
+    void changeEvent(QEvent *e);
+signals:
+    void get(QUrl);
+private:
+    Ui::DictionaryDockWidget *ui;
+    QStringList strongModuleTitle;
+    QList<int> strongModuleID;
 };
 
-#endif // ZEFANIASTRONG_H
+#endif // STRONGDOCKWIDGET_H

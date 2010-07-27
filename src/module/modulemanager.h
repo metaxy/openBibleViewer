@@ -19,6 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/biblelist.h"
 #include "src/module/strong.h"
 #include "src/module/modulemap.h"
+#include "src/module/dictionary.h"
 #include <QtCore/QList>
 #include <QtGui/QStandardItemModel>
 #include "src/core/notes.h"
@@ -33,23 +34,24 @@ public:
     void setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings);
     bool bibleLoaded();
     bool strongLoaded();
-    Bible * bible();
+    Bible* bible();
     void initBible(Bible *b = 0);
-    BibleList * bibleList();
+    BibleList* bibleList();
+    Dictionary* dictionary();
     QString notePos2Link(const QString &pos);
     QString notePos2Text(const QString &pos);
 
     Module * getModule(const int &moduleID);
     bool contains(const int &moduleID);
 
-    //QList<Module> m_moduleList;
     QStandardItemModel *m_moduleModel;
     Settings *m_settings;
     Notes *m_notes;
     ModuleMap *m_moduleMap;
+
     Bible *m_bible;
-    Strong m_strong;
     BibleList *m_bibleList;
+    Dictionary *m_dictionary;
 
     //todo: make it usable also for other classes
     QStringList getBibleTitles();

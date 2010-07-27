@@ -63,7 +63,7 @@ void Interface::setBookmarksDockWidget(BookmarksDockWidget *bookmarksDockWidget)
 {
     Q_UNUSED(bookmarksDockWidget);
 }
-void Interface::setStrongDockWidget(StrongDockWidget *strongDockWidget)
+void Interface::setDictionaryDockWidget(DictionaryDockWidget *strongDockWidget)
 {
     Q_UNUSED(strongDockWidget);
 }

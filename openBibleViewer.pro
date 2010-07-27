@@ -45,7 +45,7 @@ SOURCES += src/main.cpp \
     src/module/modulemanager.cpp \
     src/module/module.cpp \
     src/module/strong.cpp \
-    src/ui/dock/strongdockwidget.cpp \
+    src/ui/dock/dictionarydockwidget.cpp \
     src/ui/dock/searchresultdockwidget.cpp \
     src/ui/dock/notesdockwidget.cpp \
     src/ui/dock/bookmarksdockwidget.cpp \
@@ -115,7 +115,7 @@ HEADERS += src/core/settings.h \
     src/module/modulemanager.h \
     src/module/module.h \
     src/module/strong.h \
-    src/ui/dock/strongdockwidget.h \
+    src/ui/dock/dictionarydockwidget.h \
     src/ui/dock/searchresultdockwidget.h \
     src/ui/dock/notesdockwidget.h \
     src/ui/dock/bookmarksdockwidget.h \
@@ -159,7 +159,7 @@ FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dialog/moduledownloaddialog.ui \
     src/ui/marklist.ui \
     src/ui/markcategories.ui \
-    src/ui/dock/strongdockwidget.ui \
+    src/ui/dock/dictionarydockwidget.ui \
     src/ui/dock/searchresultdockwidget.ui \
     src/ui/dock/notesdockwidget.ui \
     src/ui/dock/bookmarksdockwidget.ui \

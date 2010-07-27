@@ -306,9 +306,9 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                 generateModuleTree();
                 return;
             }
-            QString f = fileName.at(i);
+            const QString f = fileName.at(i);
             QString fileData;
-            QString bibleName;
+            QString moduleName;
             Module::ModuleType moduleType = Module::NoneType;
             QString moduleTypeName = "";
             BibleQuote bq;
@@ -343,7 +343,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                 //todo: find something better
                 if(fileData.contains("BookQty", Qt::CaseInsensitive)) {
                     moduleType = Module::BibleQuoteModule;// BibleQuote
-                } else if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i cannot do this
+                } else if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i allow do this
                                                                                   fileData.contains("x-cult", Qt::CaseInsensitive) ||
                                                                                   fileData.contains("x-mormon", Qt::CaseInsensitive))) {
                     moduleType = Module::ZefaniaBibleModule;// Zefania Bible
@@ -362,19 +362,19 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                 switch(moduleType) {
                 case Module::BibleQuoteModule:
                     if(names.size() == 0 || i >= names.size()) {
-                        bibleName = bq.readInfo(file);
+                        moduleName = bq.readInfo(file);
                     }
                     moduleTypeName = QObject::tr("Bible Quote");
                     break;
                 case Module::ZefaniaBibleModule:
                     if(names.size() == 0 || i >= names.size()) {
-                        bibleName = zef.readInfo(fileData);
+                        moduleName = zef.readInfo(fileData);
                     }
                     moduleTypeName = QObject::tr("Zefania XML");
                     break;
                 case Module::ZefaniaStrongModule:
                     if(names.size() == 0 || i >= names.size()) {
-                        bibleName = zefStrong.loadFile(fileData, f);
+                        moduleName = zefStrong.loadFile(fileData, f);
                     }
                     moduleTypeName = QObject::tr("Zefania XML Strong");
                     break;
@@ -389,7 +389,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                 if(names.size() > 0 && i < names.size()) {  //if a name is given in the stringlist use it
                     m.moduleName = names.at(i);
                 } else {//else use the biblename from the filename
-                    m.moduleName = bibleName;
+                    m.moduleName = moduleName;
                 }
                 m.moduleType = QString::number(moduleType);
                 m.isDir = false;

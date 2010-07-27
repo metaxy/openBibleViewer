@@ -22,7 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dock/advancedsearchresultdockwidget.h"
 #include "src/ui/dock/notesdockwidget.h"
 #include "src/ui/dock/bookmarksdockwidget.h"
-#include "src/ui/dock/strongdockwidget.h"
+#include "src/ui/dock/dictionarydockwidget.h"
 #include "src/ui/dock/quickjumpdockwidget.h"
 #include "src/core/windowcache.h"
 #include "src/api/bibleapi.h"
@@ -121,7 +121,7 @@ public:
     void setAdvancedSearchResultDockWidget(AdvancedSearchResultDockWidget *advancedSearchResultDockWidget);
     void setNotesDockWidget(NotesDockWidget *notesDockWidget);
     void setBookmarksDockWidget(BookmarksDockWidget *boockmarksDockWidget);
-    void setStrongDockWidget(StrongDockWidget *strongDockWidget);
+    void setDictionaryDockWidget(DictionaryDockWidget *strongDockWidget);
     void setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget);
 
 

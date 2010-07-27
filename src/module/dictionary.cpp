@@ -1,10 +1,14 @@
 #include "dictionary.h"
-
+#include "src/core/dbghelper.h"
 Dictionary::Dictionary()
 {
+    m_zefaniaStrong = 0;
+    m_moduleType = Module::NoneType;
+    m_moduleID = -1;
 }
 int Dictionary::loadModuleData(const int &moduleID)
 {
+    DEBUG_FUNC_NAME
     m_module = m_map->m_map.value(moduleID);
     if(moduleID < 0 || !m_module) {
         myWarning() << "invalid moduleID = " << moduleID;
@@ -13,27 +17,36 @@ int Dictionary::loadModuleData(const int &moduleID)
     m_moduleID = moduleID;
     const QString path = m_module->m_path;
 
+
     switch(m_moduleType) {
     case Module::ZefaniaStrongModule: {
         if(m_module->m_zefaniaStrong) {
             m_zefaniaStrong = m_module->m_zefaniaStrong;
         } else {
             m_zefaniaStrong = new ZefaniaStrong();
+            m_zefaniaStrong->setSettings(m_settings);
             m_module->m_zefaniaStrong = m_zefaniaStrong;
         }
-        ModuleSettings m = m_settings->getModuleSettings(m_moduleID);
-
-
+        m_zefaniaStrong->m_modulePath = path;
         break;
     }
 
     default:
         return 1;
     }
-    m_loaded = true;
     return 0;
 }
-QString Dictionary::getEntryFor(const QString &string)
+QString Dictionary::getEntry(const QString &string)
 {
-    return QString();
+    DEBUG_FUNC_NAME
+    myDebug() << string << m_moduleType;
+    switch(m_moduleType) {
+    case Module::ZefaniaStrongModule: {
+        return m_zefaniaStrong->getStrong(string);
+        break;
+    }
+
+    default:
+        return QString();
+    }
 }

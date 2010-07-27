@@ -246,11 +246,11 @@ int ModuleManager::loadAllModules()
 
                     Module *module = new Module(root);
                     module->m_path = m_settings->m_moduleSettings.at(i).modulePath;
-                    module->m_moduleClass = Module::StrongModule;
+                    module->m_moduleClass = Module::DictionaryModule;
                     module->m_moduleType = Module::ZefaniaStrongModule;
                     module->m_title = m_settings->m_moduleSettings.at(i).moduleName;
                     module->m_id = moduleID;
-
+                    myDebug() << "zefania " << module->m_title << module->m_id;
                     m_moduleMap->m_map.insert(moduleID, module);
                     m_settings->setModuleIDinMap(moduleID, i);
                     moduleID++;
@@ -292,7 +292,7 @@ bool ModuleManager::bibleLoaded()
   */
 bool ModuleManager::strongLoaded()
 {
-    if(m_moduleMap->m_map.contains(m_strong.m_strongModuleID)  &&  m_strong.m_strongModuleID >= 0)
+    if(m_moduleMap->m_map.contains(m_dictionary->moduleID())  &&  m_dictionary->moduleID() >= 0)
         return true;
     return false;
 }
@@ -313,6 +313,10 @@ BibleList * ModuleManager::bibleList()
 Module * ModuleManager::getModule(const int &moduleID)
 {
     return m_moduleMap->m_map.value(moduleID);
+}
+Dictionary* ModuleManager::dictionary()
+{
+    return m_dictionary;
 }
 
 /**

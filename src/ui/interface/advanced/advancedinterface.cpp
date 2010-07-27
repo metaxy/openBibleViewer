@@ -68,7 +68,7 @@ void AdvancedInterface::setBookmarksDockWidget(BookmarksDockWidget *bookmarksDoc
     m_bookmarksDockWidget = bookmarksDockWidget;
 }
 
-void AdvancedInterface::setStrongDockWidget(StrongDockWidget *strongDockWidget)
+void AdvancedInterface::setDictionaryDockWidget(DictionaryDockWidget *strongDockWidget)
 {
     m_strongDockWidget = strongDockWidget;
 }
