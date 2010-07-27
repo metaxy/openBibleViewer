@@ -27,11 +27,32 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 
 #include "src/ui/mainwindow.h"
+bool removeDir(const QString &dirName)
+{
+    bool result = true;
+    QDir dir(dirName);
+
+    if (dir.exists(dirName)) {
+        Q_FOREACH(QFileInfo info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden  | QDir::AllDirs | QDir::Files, QDir::DirsFirst)) {
+            if (info.isDir()) {
+                result = removeDir(info.absoluteFilePath());
+            }
+            else {
+                result = QFile::remove(info.absoluteFilePath());
+            }
+
+            if (!result) {
+                return result;
+            }
+        }
+        result = dir.rmdir(dirName);
+    }
+
+    return result;
+}
 
 //CONFIG
 //#define _PORTABLE_VERSION
-//#define KOXML_USE_QDOM //WARNING QDOM USE VERY MUCH RAM
-int HAHA = 13;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -62,12 +83,13 @@ int main(int argc, char *argv[])
     if(!dir.exists(homeDataPath)) {
         dir.mkpath(homeDataPath);
     }
+    //remove cache dir if update from 0.4 or 0.3
+    const QString v = settings->value("general/version","0.4").toString();
+    if(v.startsWith("0.4")) {
+        removeDir(homeDataPath+"cache/");
+    }
 
-    /*#ifdef Q_WS_WIN
-        QString lang = settings->value("general/language", "en").toString();
-    #else*/
     QString lang = settings->value("general/language", QLocale::system().name()).toString();
-    /*#endif*/
     QStringList avLang;
     avLang <<  "en" << "de" << "ru" << "cs";
     if(avLang.lastIndexOf(lang) == -1) {

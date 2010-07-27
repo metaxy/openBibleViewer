@@ -329,6 +329,7 @@ void MainWindow::loadDefaultSettings()
 void MainWindow::loadSettings()
 {
     DEBUG_FUNC_NAME
+
     m_settings->encoding = m_settingsFile->value("general/encoding", m_settings->encoding).toString();
     m_settings->zoomstep = m_settingsFile->value("general/zoomstep", m_settings->zoomstep).toInt();
 #ifdef Q_WS_WIN
@@ -398,6 +399,7 @@ void MainWindow::loadSettings()
 void MainWindow::writeSettings()
 {
     DEBUG_FUNC_NAME
+    m_settingsFile->setValue("general/version", m_settings->version);
     m_settingsFile->setValue("general/encoding", m_settings->encoding);
     m_settingsFile->setValue("general/zoomstep", m_settings->zoomstep);
     m_settingsFile->setValue("general/language", m_settings->language);
