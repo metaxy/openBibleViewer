@@ -30,6 +30,7 @@ void AdvancedSearchResultDockWidget::init()
 }
 void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
 {
+    m_itemModel->clear();
     m_searchResult = searchResult;
     ui->label_searchInfo->setText(tr("Search: %1").arg(searchResult.searchQuery.searchText));
     QStandardItem *parentItem = m_itemModel->invisibleRootItem();
@@ -46,7 +47,7 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
         parentItem->appendRow(bookItem);
         m_bookItems.insert(book,bookItem);
     }
-
+    QStandardItem *notesItem = 0;
     for(int i = 0; i < hits.size(); ++i) {
         SearchHit hit = hits.at(i);
         if(hit.type() == SearchHit::BibleHit) {
@@ -55,8 +56,14 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
             hitItem->setData(i,Qt::UserRole+1);
 
             m_bookItems.value(hit.value(SearchHit::BookID).toInt())->appendRow(hitItem);
-        } else {
-            //myDebug() << "DUDE!";
+        } else if (hit.type() == SearchHit::NoteHit){
+            if(!notesItem) {
+                notesItem = new QStandardItem(tr("Notes"));
+                parentItem->appendRow(notesItem);
+            }
+            QStandardItem *hitItem = new QStandardItem(m_notes->getTitle(hit.value(SearchHit::NoteID).toString()));
+            hitItem->setData(i,Qt::UserRole+1);
+            notesItem->appendRow(hitItem);
         }
     }
 
@@ -68,9 +75,14 @@ void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
     int id = index.data(Qt::UserRole+1).toInt();
     if(id < m_searchResult.hits().size() && id >= 0) {
         SearchHit hit = m_searchResult.hits().at(id);
-        if(!m_moduleManager->contains(hit.value(SearchHit::BibleID).toInt()))
-            return;
-        emit get("bible://" + hit.value(SearchHit::BibleID).toString() + "/" + hit.value(SearchHit::BookID).toString() + "," + hit.value(SearchHit::ChapterID).toString() + "," + hit.value(SearchHit::VerseID).toString() + ",searchInCurrentText=true");
+        if(hit.type() == SearchHit::BibleHit) {
+            if(!m_moduleManager->contains(hit.value(SearchHit::BibleID).toInt()))
+                return;
+            emit get("bible://" + hit.value(SearchHit::BibleID).toString() + "/" + hit.value(SearchHit::BookID).toString() + "," + hit.value(SearchHit::ChapterID).toString() + "," + hit.value(SearchHit::VerseID).toString() + ",searchInCurrentText=true");
+        } else if (hit.type() == SearchHit::NoteHit){
+
+            emit get("note://"+hit.value(SearchHit::NoteID).toString());
+        }
     }
 }/*
 void AdvancedSearchResultDockWidget::nextVerse()

@@ -3,7 +3,7 @@
 # -------------------------------------------------
 TARGET = openBibleViewer
 QT += xml network webkit
-LIBS += -Llib -lclucene
+LIBS += -lclucene
 INCLUDEPATH += /usr/lib/
 
 TEMPLATE = app
@@ -76,7 +76,8 @@ SOURCES += src/main.cpp \
     src/core/modulecache.cpp \
     src/api/bibleapi.cpp \
     src/ui/dock/advancedsearchresultdockwidget.cpp \
-    src/module/dictionary.cpp
+    src/module/dictionary.cpp \
+    src/core/search.cpp
 HEADERS += src/core/settings.h \
     src/module/biblequote.h \
     src/module/zefania-bible.h \
@@ -146,7 +147,8 @@ HEADERS += src/core/settings.h \
     src/core/modulecache.h \
     src/api/bibleapi.h \
     src/ui/dock/advancedsearchresultdockwidget.h \
-    src/module/dictionary.h
+    src/module/dictionary.h \
+    src/core/search.h
 FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dialog/settingsdialog.ui \
     src/ui/dialog/searchinfodialog.ui \

@@ -360,5 +360,39 @@ int Notes::saveNotes()
     doc = sdoc;
     return 0;
 }
+void Notes::search(SearchQuery query, SearchResult *res)
+{
+    DEBUG_FUNC_NAME
+    QStringList f;
+    QMapIterator<QString, QString> i(notesTitle);
+    while (i.hasNext()) {
+        i.next();
+        if(i.value().contains(query.searchText)) {
+            //add hit
+            SearchHit hit;
+            hit.setType(SearchHit::NoteHit);
+            hit.setValue(SearchHit::NoteID,i.key());
+            res->addHit(hit);
+
+            f << i.key();
+        }
+        qDebug() << i.key() << ": " << i.value();
+    }
+    QMapIterator<QString, QString > i2(notesData);
+    while (i2.hasNext()) {
+        i2.next();
+        if(!f.contains(i2.key())) {
+
+            if(i2.value().contains(query.searchText)) {
+                SearchHit hit;
+                hit.setType(SearchHit::NoteHit);
+                hit.setValue(SearchHit::NoteID,i2.key());
+                res->addHit(hit);
+                myDebug() << "i = " << i2.key() << i2.value();
+            }
+        }
+
+    }
+}
 
 //  #include "moc_notes.cpp"

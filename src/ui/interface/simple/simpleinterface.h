@@ -53,7 +53,7 @@ public:
     QMenuBar* menuBar();
 
     bool hasToolBar();
-    QToolBar* toolBar();
+    QList<QToolBar*> toolBars();
 
 protected:
     void changeEvent(QEvent *e);

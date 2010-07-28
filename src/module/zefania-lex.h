@@ -11,26 +11,33 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef SEARCHQUERY_H
-#define SEARCHQUERY_H
+#ifndef ZefaniaLex_H
+#define ZefaniaLex_H
 #include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <QtXml/QDomElement>
+#include <QtXml/QDomDocument>
+#include "src/core/settings.h"
 /*!
- SearchQuery represent a search query
+ ZefaniaLex represents a zefaniaxml(lex) module
 
  @author Paul Walger <metaxy@walger.name>
 */
-class SearchQuery
+class ZefaniaLex
 {
+private:
+    Settings *m_settings;
+    QStringList m_id;
+    QStringList m_title;
+    QStringList m_trans;
+    QStringList m_pron;
+    QStringList m_desc;
 public:
-    SearchQuery();
-    enum Type {
-        Simple = 0,
-        Complex = 1
-    };
-
-    int queryType;
-    QString searchText;
-    bool searchInNotes;
+    ZefaniaLex();
+    void setSettings(Settings *settings);
+    QString loadFile(QString fileData, QString fileName);
+    QString getStrong(const QString &strongID);
+    QString m_modulePath;
 };
 
-#endif // SEARCHQUERY_H
+#endif // ZefaniaLex_H

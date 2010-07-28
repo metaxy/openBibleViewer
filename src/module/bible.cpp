@@ -398,28 +398,25 @@ QString Bible::toUniformHtml(QString string)
 /**
   Search in the current bible. Returns the Results.
   */
-SearchResult Bible::search(SearchQuery query)
+void Bible::search(SearchQuery query,SearchResult *result)
 {
     m_lastSearchQuery = query;
-    SearchResult result;
     switch(m_moduleType) {
     case Module::BibleQuoteModule: {
         if(!m_bq->hasIndex())
             m_bq->buildIndex();
-        result = m_bq->search(query);
+        m_bq->search(query,result);
         break;
     }
     case Module::ZefaniaBibleModule: {
         if(!m_zef->hasIndex())
             m_zef->buildIndex();
-        result = m_zef->search(query);
+        m_zef->search(query,result);
         break;
     }
     default:
         break;
     }
-    m_lastSearchResult = result;
-    return result;
 }
 
 QStringList Bible::getSearchPaths()

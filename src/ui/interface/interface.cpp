@@ -12,7 +12,6 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "interface.h"
-
 Interface::Interface(QWidget *parent) :
     QWidget(parent)
 {
@@ -30,9 +29,12 @@ bool Interface::hasToolBar()
 {
     return false;
 }
-QToolBar * Interface::toolBar()
+QList<QToolBar *> Interface::toolBars()
 {
-    return new QToolBar();
+    QToolBar * t = new QToolBar();
+    QList<QToolBar*> l;
+    l.append(t);
+    return l;
 }
 void Interface::closing()
 {

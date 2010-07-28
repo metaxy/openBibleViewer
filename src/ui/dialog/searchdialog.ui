@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>434</width>
-    <height>109</height>
+    <width>385</width>
+    <height>158</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,106 +20,84 @@
   <property name="layoutDirection">
    <enum>Qt::LeftToRight</enum>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <item>
-      <widget class="QLineEdit" name="lineEdit">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <widget class="QFrame" name="horizontalFrame">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>40</height>
+       </size>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLineEdit" name="lineEdit_query"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_search">
+         <property name="text">
+          <string>Search</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../icons.qrc">
+           <normaloff>:/icons/16x16/edit-find.png</normaloff>:/icons/16x16/edit-find.png</iconset>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="tabPosition">
+       <enum>QTabWidget::South</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tabWidgetPage2" native="true">
+       <attribute name="title">
+        <string>Range</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_2"/>
       </widget>
-     </item>
-     <item>
-      <widget class="QFrame" name="frame">
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <layout class="QGridLayout" name="gridLayout">
+      <widget class="QWidget" name="tabWidgetPage1" native="true">
+       <attribute name="title">
+        <string>Options</string>
+       </attribute>
+       <layout class="QFormLayout" name="formLayout_2">
+        <property name="fieldGrowthPolicy">
+         <enum>QFormLayout::ExpandingFieldsGrow</enum>
+        </property>
         <item row="0" column="0">
-         <widget class="QCheckBox" name="checkBox_regexp">
+         <widget class="QLabel" name="label">
           <property name="text">
-           <string>RegExp</string>
+           <string>Search In Notes</string>
           </property>
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QCheckBox" name="checkBox_casesen">
+         <widget class="QCheckBox" name="checkBox_searchInNotes">
           <property name="text">
-           <string>Case Sensitive</string>
+           <string>Search</string>
           </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QCheckBox" name="checkBox_whole">
-          <property name="text">
-           <string>Whole Words</string>
+          <property name="checked">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
        </layout>
       </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QPushButton" name="pushButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Search</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../icons.qrc">
-         <normaloff>:/icons/16x16/edit-find.png</normaloff>:/icons/16x16/edit-find.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>22</width>
-         <height>22</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>

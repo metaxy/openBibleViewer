@@ -74,6 +74,7 @@ private slots:
     void newNoteWithLink();
 
     void search(SearchQuery query);
+    void search();
 
     int saveFile();
     int printFile();
@@ -114,7 +115,7 @@ public:
     bool hasMenuBar();
     QMenuBar* menuBar();
     bool hasToolBar();
-    QToolBar* toolBar();
+    QList<QToolBar*> toolBars();
     void setBookDockWidget(BookDockWidget *bookDockWidget);
     void setModuleDockWidget(ModuleDockWidget *moduleDockWidget);
     //void setSearchResultDockWidget(SearchResultDockWidget *searchResultDockWidget);

@@ -69,7 +69,7 @@ private:
     /* SimpleInterface *simpleInterface;
      AdvancedInterface *advancedInterface ;
      StudyInterface *studyInterface;*/
-    QToolBar *m_toolBar;
+    QList<QToolBar *> m_toolBarList;
     QMenuBar *m_menuBar;
     void loadInterface();
     void deleteInterface();

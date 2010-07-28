@@ -33,8 +33,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/noteseditor.h"
 #include "src/ui/marklist.h"
 #include "src/core/core.h"
+#include "src/core/search.h"
 #include <QtWebKit/QWebInspector>
 #include <QtWebKit/QWebElementCollection>
+#include <QtGui/QLineEdit>
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
     Interface(parent),
     ui(new Ui::AdvancedInterface)
@@ -783,7 +785,7 @@ void AdvancedInterface::showText(const QString &text)
 
 void AdvancedInterface::setTitle(const QString &title)
 {
-    this->parentWidget()->setWindowTitle(title + tr("openBibleViewer"));
+    this->parentWidget()->setWindowTitle(title + " - " + tr("openBibleViewer"));
     if(activeMdiChild()) {
         activeMdiChild()->widget()->setWindowTitle(title);
     }
@@ -967,14 +969,12 @@ VerseSelection AdvancedInterface::verseSelection()
         return s;
 
     f->evaluateJavaScript("var verseSelection = new VerseSelection();verseSelection.getSelection();");
-    int start = f->evaluateJavaScript("verseSelection.startVerse;").toInt();
-    int end = f->evaluateJavaScript("verseSelection.endVerse;").toInt();
+    s.startVerse = f->evaluateJavaScript("verseSelection.startVerse;").toInt();
+    s.endVerse = f->evaluateJavaScript("verseSelection.endVerse;").toInt();
     s.moduleID = f->evaluateJavaScript("verseSelection.moduleID;").toInt();
     s.bookID  = f->evaluateJavaScript("verseSelection.bookID;").toInt();
     s.chapterID = f->evaluateJavaScript("verseSelection.chapterID;").toInt();
 
-    s.startVerse = start;
-    s.endVerse = end;
     const QString startVerseText = f->evaluateJavaScript("verseSelection.startVerseText;").toString();
     const QString endVerseText = f->evaluateJavaScript("verseSelection.endVerseText;").toString();
     const QString selectedText = f->evaluateJavaScript("verseSelection.selectedText;").toString();
@@ -997,6 +997,24 @@ VerseSelection AdvancedInterface::verseSelection()
             s.shortestStringInEndVerse = sText;
             break;
         }
+    }
+
+    if(s.shortestStringInStartVerse == "" || s.shortestStringInEndVerse == "") {
+        myDebug() "try another";
+        int i = qMin(selectedText.size(),2);
+
+        QString sText = selectedText;
+        sText = sText.remove(i,selectedText.size());
+        int pos = 0,npos = -1;
+        while(pos != npos) {
+           pos = startVerseText.indexOf(sText,pos);
+           QString n = selectedText;
+           n = n.remove(startVerseText.size()-pos, n.size());
+
+           npos = startVerseText.indexOf(n);
+           myDebug() << n << npos << pos;
+        }
+
     }
     return s;
 }
@@ -1397,62 +1415,32 @@ void AdvancedInterface::showSearchDialog()
     sDialog->show();
     sDialog->exec();
 }
+void AdvancedInterface::search()
+{
+    DEBUG_FUNC_NAME
+    SearchQuery query;
+    query.searchText = ((QLineEdit *) sender())->text();
+    query.searchInNotes = true;
+    query.queryType = SearchQuery::Simple;
+    search(query);
+}
 
 void AdvancedInterface::search(SearchQuery query)
 {
-    //DEBUG_FUNC_NAME
-    if(!m_moduleManager->bibleLoaded())
-        return;
+    DEBUG_FUNC_NAME
     m_advancedSearchResultDockWidget->show();
-    SearchResult result;
-    result = m_moduleManager->bible()->search(query);
-    m_advancedSearchResultDockWidget->setSearchResult(result);
-
+    Search s;
+    setAll(&s);
+    SearchResult *res = s.search(query);
+    m_advancedSearchResultDockWidget->setSearchResult(*res);
 }
 
 void AdvancedInterface::searchInText(SearchQuery query)
 {
     DEBUG_FUNC_NAME
-    //todo: make regexp work
-    if(query.queryType == SearchQuery::Simple && !query.regExp) {
-        if(query.caseSensitive) {
-            getView()->findText(query.searchText, QWebPage::FindCaseSensitively | QWebPage::HighlightAllOccurrences);
-        } else {
+    if(query.queryType == SearchQuery::Simple) {
             getView()->findText(query.searchText, QWebPage::HighlightAllOccurrences);
-        }
     }
-
-    /* if (query.queryType == SearchQuery::Simple) {
-         QTextDocument *doc = getView()->document();
-         QTextDocument::FindFlags flags;
-         if (query.caseSensitive) {
-             flags |= QTextDocument::FindCaseSensitively;
-         }
-         if (query.wholeWord) {
-             flags |= QTextDocument::FindWholeWords;
-         }
-
-         if (query.regExp) {
-             QTextCursor cursor;
-             cursor = doc->find(QRegExp(query.searchText), 0);
-             while (!cursor.isNull()) {
-                 cursor.insertHtml("<span style=\"background-color:#ffcf3d\">" + cursor.selectedText() + "</span>");
-                 getView()->setTextCursor(cursor);
-
-                 cursor = doc->find(QRegExp(query.searchText), cursor);
-             }
-         } else {
-             QTextCursor cursor;
-             cursor = doc->find(query.searchText, 0, flags);
-             while (!cursor.isNull()) {
-
-                 cursor.insertHtml("<span style=\"background-color:#ffcf3d\">" + cursor.selectedText() + "</span>");
-                 getView()->setTextCursor(cursor);
-
-                 cursor = doc->find(query.searchText, cursor, flags);
-             }
-         }
-     }*/
 }
 
 void AdvancedInterface::copy()
@@ -1655,39 +1643,36 @@ bool AdvancedInterface::hasToolBar()
     return true;
 }
 
-QToolBar * AdvancedInterface::toolBar()
+QList<QToolBar *> AdvancedInterface::toolBars()
 {
     QToolBar *bar = new QToolBar(this->parentWidget());
     bar->setObjectName("mainToolBar");
     bar->setIconSize(QSize(16, 16));
-#if QT_VERSION >= 0x040600
     bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
-#else
-    bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-#endif
-    bar->setWindowTitle(tr("ToolBar"));
-    QAction *actionSearch = new QAction(QIcon::fromTheme("edit-find", QIcon(":/icons/32x32/edit-find.png")), tr("Search"), bar);
+
+    bar->setWindowTitle(tr("Main Tool Bar"));
+    QAction *actionSearch = new QAction(QIcon::fromTheme("edit-find", QIcon(":/icons/16x16/edit-find.png")), tr("Search"), bar);
     connect(actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
 
-    QAction *actionBookmarks = new QAction(QIcon::fromTheme("bookmarks-organize", QIcon(":/icons/32x32/bookmarks-organize.png")), tr("Bookmarks"), bar);
+    QAction *actionBookmarks = new QAction(QIcon::fromTheme("bookmarks-organize", QIcon(":/icons/16x16/bookmarks-organize.png")), tr("Bookmarks"), bar);
     connect(actionBookmarks, SIGNAL(triggered()), this, SLOT(showBookmarksDock()));
     actionBookmarks->setCheckable(true);
     connect(m_bookmarksDockWidget, SIGNAL(visibilityChanged(bool)), actionBookmarks, SLOT(setChecked(bool)));
 
-    QAction *actionNotes = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/32x32/view-pim-notes.png")), tr("Notes"), bar);
+    QAction *actionNotes = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/16x16/view-pim-notes.png")), tr("Notes"), bar);
     connect(actionNotes, SIGNAL(triggered()), this, SLOT(showNotesDock()));
     actionNotes->setCheckable(true);
     connect(m_notesDockWidget, SIGNAL(visibilityChanged(bool)), actionNotes, SLOT(setChecked(bool)));
 
-    QAction *actionNewWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/32x32/tab-new.png")), tr("New Window"), bar);
+    QAction *actionNewWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New Window"), bar);
     connect(actionNewWindow, SIGNAL(triggered()), this, SLOT(newSubWindow()));
 
-    QAction *actionZoomIn = new QAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/32x32/zoom-in.png")), tr("Zoom In"), bar);
+    QAction *actionZoomIn = new QAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/16x16/zoom-in.png")), tr("Zoom In"), bar);
     connect(actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
-    QAction *actionZoomOut = new QAction(QIcon::fromTheme("zoom-out", QIcon(":/icons/32x32/zoom-out.png")), tr("Zoom Out"), bar);
+    QAction *actionZoomOut = new QAction(QIcon::fromTheme("zoom-out", QIcon(":/icons/16x16/zoom-out.png")), tr("Zoom Out"), bar);
     connect(actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
 
-    QAction *actionModule = new QAction(QIcon(":/icons/32x32/module.png"), tr("Module"), bar);
+    QAction *actionModule = new QAction(QIcon(":/icons/16x16/module.png"), tr("Module"), bar);
     connect(actionModule, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_Module()));
 
     bar->addAction(actionSearch);
@@ -1702,7 +1687,21 @@ QToolBar * AdvancedInterface::toolBar()
     bar->addAction(actionBookmarks);
     bar->addAction(actionNotes);
 
-    return bar;
+    QToolBar *searchBar = new QToolBar(this->parentWidget());
+    searchBar->setObjectName("searchToolBar");
+    searchBar->setIconSize(QSize(16, 16));
+    searchBar->setWindowTitle(tr("Search Bar"));
+
+    QLineEdit *edit = new QLineEdit(searchBar);
+    edit->setObjectName("lineEdit");
+
+    connect(edit,SIGNAL(returnPressed()),this,SLOT(search()));
+    searchBar->addWidget(edit);
+
+    QList<QToolBar *> list;
+    list.append(bar);
+    list.append(searchBar);
+    return list;
 }
 
 AdvancedInterface::~AdvancedInterface()

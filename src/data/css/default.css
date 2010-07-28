@@ -15,7 +15,6 @@
 	font-weight: bold;
 }
 .biblelisttitle {
-    font-size:12px;
 }
 .biblelisttitle a:link, a:visited, a:active{
     color:#000000;
@@ -35,7 +34,7 @@
     width:100%;
 }
 .biblelist {
-    padding-top:30px;
+    padding-top:25px;
     table-layout:fixed;
     width:100%;
 }

@@ -17,10 +17,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 #include <QtCore/QMap>
 #include <QtXml/QDomDocument>
+#include "src/core/searchresult.h"
+#include "src/core/searchquery.h"
 /**
  Notes represents a note system
-
- @author Paul Walger <metaxy@walger.name>
 */
 class Notes : public QObject
 {
@@ -55,6 +55,7 @@ public:
     QStringList getIDList(const QString &type);
     bool isLoaded();
     void loadingNewInstance();
+    void search(SearchQuery query, SearchResult *result);
 
 
 private:

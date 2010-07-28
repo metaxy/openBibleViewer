@@ -85,7 +85,7 @@ bool SimpleInterface::hasToolBar()
 {
     return true;
 }
-QToolBar * SimpleInterface::toolBar()
+QList<QToolBar *> SimpleInterface::toolBars()
 {
     QToolBar *bar = new QToolBar(this->parentWidget());
     bar->setObjectName("mainToolBar");
@@ -110,7 +110,9 @@ QToolBar * SimpleInterface::toolBar()
     bar->addAction(actionZoomOut);
     bar->addSeparator();
     bar->addAction(actionModule);
-    return bar;
+    QList<QToolBar *> list;
+    list.append(bar);
+    return list;
 }
 void SimpleInterface::zoomIn()
 {
@@ -247,7 +249,7 @@ void SimpleInterface::showText(const QString &text)
 }
 void SimpleInterface::setTitle(const QString &title)
 {
-    this->parentWidget()->setWindowTitle(title + tr("openBibleViewer"));
+    this->parentWidget()->setWindowTitle(title + " - " +tr("openBibleViewer"));
 }
 
 void SimpleInterface::setChapters(const QStringList &chapters)
@@ -399,12 +401,12 @@ void SimpleInterface::showSearchDialog()
 void SimpleInterface::search(SearchQuery query)
 {
     //DEBUG_FUNC_NAME
-    if(!m_moduleManager->bibleLoaded())
+  /*  if(!m_moduleManager->bibleLoaded())
         return;
     m_searchResultDockWidget->show();
     SearchResult result;
     result = m_moduleManager->bible()->search(query);
-    m_searchResultDockWidget->setSearchResult(result);
+    m_searchResultDockWidget->setSearchResult(result);*/
 }
 void SimpleInterface::changeEvent(QEvent *e)
 {

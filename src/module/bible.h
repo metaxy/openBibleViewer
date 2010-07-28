@@ -40,7 +40,7 @@ public:
     QStringList getSearchPaths();
     QString toUniformHtml(QString string);
 
-    SearchResult search(SearchQuery query);
+    void search(SearchQuery query,SearchResult *result);
 
 
 
@@ -82,7 +82,6 @@ private:
     QStringList m_chapterNames;
     QStringList m_chapterDataList;
 
-    SearchResult m_lastSearchResult;
     BibleDisplaySettings *m_bibleDisplaySettings;
 
     Module *m_module;

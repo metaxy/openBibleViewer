@@ -42,7 +42,7 @@ public:
     virtual QMenuBar* menuBar();
 
     virtual bool hasToolBar();
-    virtual QToolBar* toolBar();
+    virtual QList<QToolBar*> toolBars();
 
     virtual void init();
 

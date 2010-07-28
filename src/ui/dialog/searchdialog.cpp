@@ -19,7 +19,7 @@ SearchDialog::SearchDialog(QWidget *parent) :
     m_ui(new Ui::SearchDialog)
 {
     m_ui->setupUi(this);
-    connect(m_ui->pushButton, SIGNAL(clicked()), this, SLOT(search()));
+    connect(m_ui->pushButton_search, SIGNAL(clicked()), this, SLOT(search()));
 }
 
 SearchDialog::~SearchDialog()
@@ -38,16 +38,14 @@ void SearchDialog::changeEvent(QEvent *e)
 }
 void SearchDialog::setText(const QString &text)
 {
-    m_ui->lineEdit->setText(text);
+    m_ui->lineEdit_query->setText(text);
 }
 void SearchDialog::search(void)
 {
-    if(m_ui->lineEdit->text() != "") {
+    if(m_ui->lineEdit_query->text() != "") {
         SearchQuery query;
-        query.searchText = m_ui->lineEdit->text();
-        query.regExp = m_ui->checkBox_regexp->isChecked();
-        query.wholeWord = m_ui->checkBox_whole->isChecked();
-        query.caseSensitive = m_ui->checkBox_casesen->isChecked();
+        query.searchText = m_ui->lineEdit_query->text();
+        query.searchInNotes = m_ui->checkBox_searchInNotes->isChecked();
         emit searched(query);
         close();
     }

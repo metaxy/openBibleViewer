@@ -36,7 +36,7 @@ public:
     int readBook(int id, QString path);
     void loadBibleData(int bibleID, QString path);
     QString readInfo(QFile &file);
-    SearchResult search(SearchQuery query);
+    void search(SearchQuery query,SearchResult *res);
     bool hasIndex();
     void buildIndex();
 

@@ -396,10 +396,8 @@ void BibleQuote::buildIndex()
     progress.close();
 
 }
-SearchResult BibleQuote::search(SearchQuery query)
+void BibleQuote::search(SearchQuery query,SearchResult *res)
 {
-    SearchResult res;
-    res.searchQuery = query;
     QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
     char utfBuffer[BT_MAX_LUCENE_FIELD_LENGTH  + 1];
     wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
@@ -430,9 +428,8 @@ SearchResult BibleQuote::search(SearchQuery query)
         hit.setValue(SearchHit::ChapterID,l.at(1).toInt());
         hit.setValue(SearchHit::VerseID,l.at(2).toInt());
         hit.setValue(SearchHit::VerseText,content);
-        res.addHit(hit);
+        res->addHit(hit);
 
     }
-    return res;
 
 }

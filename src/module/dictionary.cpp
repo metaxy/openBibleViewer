@@ -49,4 +49,5 @@ QString Dictionary::getEntry(const QString &string)
     default:
         return QString();
     }
+    return QString();
 }

@@ -29,6 +29,8 @@ public:
     QString selectedText;
     QString shortestStringInStartVerse;
     QString shortestStringInEndVerse;
+    int rStart;
+    int rEnd;
 };
 
 #endif // VERSESELECTION_H
