@@ -748,8 +748,9 @@ void AdvancedInterface::showText(const QString &text)
             v->settings()->setUserStyleSheetUrl(QUrl("data:text/css;charset=utf-8;base64," + file.readAll().toBase64()));
 
         v->setHtml(text);
-        if(m_moduleManager->bible()->verseID() > 1)
-            v->page()->mainFrame()->evaluateJavaScript("window.location.href = '#currentVerse';");
+        if(m_moduleManager->bible()->verseID() > 1) {
+            v->page()->mainFrame()->evaluateJavaScript("window.location.href = '#currentVerse';window.scrollBy(0,-30);");
+        }
 
         if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule) {
             QWebElementCollection collection = v->page()->mainFrame()->documentElement().findAll("img");
