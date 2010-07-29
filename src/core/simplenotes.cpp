@@ -52,6 +52,31 @@ void SimpleNotes::setLinkButtonWidget(QPushButton *button)
 {
     m_pushButton_link = button;
 }
+void SimpleNotes::create(const QString &id, QStandardItem *parentItem)
+{
+    foreach(QString i, m_idC) {
+        if(id == "-1") {
+            parentItem = m_itemModel->invisibleRootItem();
+        }
+        if((id == "-1" && m_notes->getRef(i,"parent") ==  "") || m_notes->getRef(i,"parent") == id) {
+            if(m_notes->getType(i) == "text" ) {
+                QStandardItem *noteItem = new QStandardItem;
+                noteItem->setText(m_notes->getTitle(i));
+                noteItem->setData(i);
+                parentItem->appendRow(noteItem);
+                create(i,noteItem);
+            } else if(m_notes->getType(i) == "folder") {
+                QStandardItem *folderItem = new QStandardItem;
+                folderItem->setIcon(folderIcon);
+                folderItem->setText(m_notes->getTitle(i));
+                folderItem->setData(i);
+                parentItem->appendRow(folderItem);
+                create(i,folderItem);
+            }
+        }
+
+    }
+}
 
 void SimpleNotes::init()
 {
@@ -82,15 +107,14 @@ void SimpleNotes::init()
     connect(m_notes, SIGNAL(noteRemoved(QString, QMap<QString, QString>)), this, SLOT(removeNote(QString)));
 
     m_itemModel->clear();
-    QStandardItem *parentItem = m_itemModel->invisibleRootItem();
 
-    const QStringList id = m_notes->getIDList("text");
-    foreach(QString i, id) {
-        QStandardItem *noteItem = new QStandardItem;
-        noteItem->setText(m_notes->getTitle(i));
-        noteItem->setData(i);
-        parentItem->appendRow(noteItem);
-    }
+    QStyle *style = QApplication::style();
+
+    folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
+    folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
+    m_idC = m_notes->getIDList();
+    create("-1",0);
+
     m_noteID = "";
 
     m_proxyModel = new QSortFilterProxyModel(this);
@@ -208,10 +232,26 @@ void SimpleNotes::copyNote(void)
         clipboard->setText(text);
     }
 }
+void SimpleNotes::iterate(QStandardItem *item = 0)
+{
+    DEBUG_FUNC_NAME
+    const QString parent = item->data().toString();
+    for(int i = 0; i < item->rowCount(); ++i) {
+        QStandardItem *m = item->child(i);
+        m_notes->setRef(m->data().toString(),"parent",parent);
+        if(m->hasChildren())
+            iterate(m);
+    }
+}
+
 void SimpleNotes::saveNote(void)
 {
     aktNote();
     fastSave();
+    disconnect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
+    iterate(m_itemModel->invisibleRootItem());
+    connect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
+
     m_notes->saveNotes();
 }
 void SimpleNotes::fastSave(void)
@@ -227,6 +267,7 @@ void SimpleNotes::fastSave(void)
 
     m_notes->setTitle(m_noteID, m_lineEdit_title->text());
     m_notes->setRef(m_noteID, m_noteRef);
+
 
     connect(m_notes, SIGNAL(titleChanged(QString, QString)), this, SLOT(changeTitle(QString, QString)));
     connect(m_notes, SIGNAL(dataChanged(QString, QString)), this, SLOT(changeData(QString, QString)));
@@ -261,6 +302,11 @@ void SimpleNotes::select(const QString &noteID)
 void SimpleNotes::newNote(void)
 {
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
+
+    QStandardItem *parentItem = m_itemModel->itemFromIndex(m_treeView->currentIndex());
+    if(parentItem == 0)
+        parentItem = m_itemModel->invisibleRootItem();
+
     aktNote();
     fastSave();
     m_selectionModel->clearSelection();
@@ -274,11 +320,12 @@ void SimpleNotes::newNote(void)
     QDateTime t = QDateTime::currentDateTime();
 
     m_noteRef["created"] = t.toString(Qt::ISODate);
+    m_noteRef["parent"] = parentItem->data().toString();
     m_notes->setRef(newID, m_noteRef);
     m_noteID = newID;
     m_notes->insertID(newID);
 
-    QStandardItem *parentItem = m_itemModel->invisibleRootItem();
+
     QStandardItem *newItem = new QStandardItem;
     newItem->setText(m_notes->getTitle(m_noteID));
     newItem->setData(m_noteID);
@@ -292,6 +339,54 @@ void SimpleNotes::newNote(void)
     setData("");
     setRef(m_noteRef);
 }
+void SimpleNotes::newFolder()
+{
+    disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
+
+    QStandardItem *parentItem = m_itemModel->itemFromIndex(m_treeView->currentIndex());
+    if(parentItem == 0)
+        parentItem = m_itemModel->invisibleRootItem();
+
+    aktNote();
+    fastSave();
+    m_selectionModel->clearSelection();
+
+
+    QString newID = m_notes->generateNewID();
+    m_notes->setData(newID, "");
+    m_notes->setTitle(newID, tr("Folder"));
+    m_notes->setType(newID, "folder");
+
+    m_noteRef = QMap<QString, QString>();
+    QDateTime t = QDateTime::currentDateTime();
+
+    m_noteRef["created"] = t.toString(Qt::ISODate);
+    m_noteRef["parent"] = parentItem->data().toString();
+    m_notes->setRef(newID, m_noteRef);
+    m_noteID = newID;
+    m_notes->insertID(newID);
+
+
+
+    QStandardItem *newItem = new QStandardItem;
+    QStyle *style = QApplication::style();
+    QIcon folderIcon;
+    folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
+    folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
+    newItem->setIcon(folderIcon);
+    newItem->setText(tr("Folder"));
+    newItem->setData(newID);
+
+    parentItem->appendRow(newItem);
+    select(m_noteID);
+
+    connect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
+
+    setTitle(tr("Folder"));
+    setData("");
+    setRef(m_noteRef);
+}
+
 void SimpleNotes::addNote(QString id)
 {
     if(m_noteID != id && m_notes->getType(id) == "text") {
@@ -353,6 +448,7 @@ void SimpleNotes::newNoteWithLink(VerseSelection selection)
 }
 void SimpleNotes::notesContextMenu(QPoint point)
 {
+    m_point = point;
     QMenu *contextMenu = new QMenu(m_treeView);
     m_currentPoint = point;
     contextMenu->setObjectName("contextMenu");
@@ -365,6 +461,10 @@ void SimpleNotes::notesContextMenu(QPoint point)
     actionNew->setObjectName("actionNew");
     connect(actionNew, SIGNAL(triggered()), this, SLOT(newNote()));
 
+    QAction *actionNewFolder = new QAction(QIcon::fromTheme("document-new", QIcon(":/icons/16x16/document-new.png")), tr("New Folder"), contextMenu);
+    actionNew->setObjectName("actionNewFolder");
+    connect(actionNewFolder, SIGNAL(triggered()), this, SLOT(newFolder()));
+
     QAction *actionDelete = new QAction(QIcon::fromTheme("edit-delete", QIcon(":/icons/16x16/edit-delete.png")), tr("Delete"), contextMenu);
     actionDelete->setObjectName("actionDelete");
     connect(actionDelete, SIGNAL(triggered()), this, SLOT(removeNote()));
@@ -372,6 +472,7 @@ void SimpleNotes::notesContextMenu(QPoint point)
     contextMenu->addAction(actionNew);
     contextMenu->addAction(actionDelete);
     contextMenu->addSeparator();
+    contextMenu->addAction(actionNewFolder);
     contextMenu->addAction(actionCopy);
 
     contextMenu->exec(QCursor::pos());

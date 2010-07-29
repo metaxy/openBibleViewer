@@ -27,6 +27,9 @@
        <property name="editTriggers">
         <set>QAbstractItemView::NoEditTriggers</set>
        </property>
+       <property name="dragDropMode">
+        <enum>QAbstractItemView::InternalMove</enum>
+       </property>
        <property name="selectionMode">
         <enum>QAbstractItemView::ExtendedSelection</enum>
        </property>

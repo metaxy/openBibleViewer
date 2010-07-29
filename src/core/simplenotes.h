@@ -61,6 +61,7 @@ private slots:
     void removeNote();
     void editNoteLink();
     void updateNote(QString pos);
+    void newFolder();
 private:
     QLineEdit *m_lineEdit_title;
     QTextBrowser *m_textEdit_note;
@@ -82,6 +83,11 @@ private:
     void aktNote();
     void select(const QString &noteID);
     bool loadTextBrowser;
+    void create(const QString &id,QStandardItem *parentItem);
+    QIcon folderIcon;
+    QStringList m_idC;
+    QPoint m_point;
+    void iterate(QStandardItem *item);
 
 };
 

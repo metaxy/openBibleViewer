@@ -340,22 +340,27 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                 } else {
                     fileData = in.readAll();
                 }
-                //todo: find something better
-                if(fileData.contains("BookQty", Qt::CaseInsensitive)) {
-                    moduleType = Module::BibleQuoteModule;// BibleQuote
-                } else if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i allow do this
-                                                                                  fileData.contains("x-cult", Qt::CaseInsensitive) ||
-                                                                                  fileData.contains("x-mormon", Qt::CaseInsensitive))) {
-                    moduleType = Module::ZefaniaBibleModule;// Zefania Bible
-                } else if(fileData.contains("<dictionary", Qt::CaseInsensitive) &&  fileData.contains("type=\"x-strong\"", Qt::CaseInsensitive)) {
-                    moduleType = Module::ZefaniaLexModule;// Zefania Strong
+                if(fileInfo.suffix() == "idx") {
+                    moduleType = Module::BibleQuoteDictModule;
                 } else {
-                    QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
-                    myWarning() << "cannot detetct module type";
-                    progress.close();
-                    generateModuleTree();
-                    return;
+                    //todo: find something better
+                    if(fileData.contains("BookQty", Qt::CaseInsensitive)) {
+                        moduleType = Module::BibleQuoteModule;// BibleQuote
+                    } else if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i allow do this
+                                                                                      fileData.contains("x-cult", Qt::CaseInsensitive) ||
+                                                                                      fileData.contains("x-mormon", Qt::CaseInsensitive))) {
+                        moduleType = Module::ZefaniaBibleModule;// Zefania Bible
+                    } else if(fileData.contains("<dictionary", Qt::CaseInsensitive) &&  fileData.contains("type=\"x-strong\"", Qt::CaseInsensitive)) {
+                        moduleType = Module::ZefaniaLexModule;// Zefania Strong
+                    } else {
+                        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
+                        myWarning() << "cannot detetct module type";
+                        progress.close();
+                        generateModuleTree();
+                        return;
+                    }
                 }
+
                 if(f.endsWith(".xml")) {
                     fileData += in.readAll();
                 }

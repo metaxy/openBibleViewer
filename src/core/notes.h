@@ -48,6 +48,7 @@ public:
     void setTitle(const QString &id, const QString &title);
     void setData(const QString &id, const QString &data);
     void setRef(const QString &id, const QMap<QString, QString>  &ref);
+    void setRef(const QString &id, const QString &key, const QString &value);
     QString generateNewID();
     void insertID(const QString &id);
     void removeNote(const QString &id);

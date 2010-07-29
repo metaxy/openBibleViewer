@@ -202,7 +202,7 @@ void Notes::setData(const QString &id, const QString &data)
         emit dataChanged(id, data);
     }
 }
-/*!
+/**
   Set note reference
   \param id note ID
   \param ref note reference
@@ -215,7 +215,24 @@ void Notes::setRef(const QString &id, const QMap<QString, QString>  &ref)
         emit refChanged(id, ref);
     }
 }
-/*!
+/**
+  Set note reference
+  \param id The note ID.
+  \param key The key.
+  \param value The new value.
+  */
+void Notes::setRef(const QString &id, const QString &key, const QString &value)
+{
+    DEBUG_FUNC_NAME
+    QMap<QString, QString>  ref = notesRef[id];
+    if(ref.value(key) != value) {
+        myDebug() << id << key << value;
+        ref[key] = value;
+        notesRef[id] = ref;
+        emit refChanged(id, ref);
+    }
+}
+/**
     Generate a new note ID, without colliding with other IDs
  */
 QString Notes::generateNewID()
