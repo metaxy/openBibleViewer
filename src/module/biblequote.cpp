@@ -34,14 +34,13 @@ BibleQuote::BibleQuote()
 }
 
 
-int BibleQuote::setSettings(Settings *set)
+void BibleQuote::setSettings(Settings *set)
 {
     m_settings = set;
-    return 1;
 }
 QString BibleQuote::formatFromIni(QString input)
 {
-    input.replace(QString("\n"), QString(""));//und kein zeilenumbrüche
+    input.simplified();
     return input;
 }
 void BibleQuote::loadBibleData(int bibleID, QString path)
@@ -420,7 +419,7 @@ void BibleQuote::search(SearchQuery query,SearchResult *res)
         QStringList l = stelle.split(";");
         lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), BT_MAX_LUCENE_FIELD_LENGTH);
 
-        QString content(utfBuffer);
+        QString content = QString::fromUtf8(utfBuffer);
         SearchHit hit;
         hit.setType(SearchHit::BibleHit);
         hit.setValue(SearchHit::BibleID,m_bibleID);

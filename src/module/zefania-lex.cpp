@@ -157,12 +157,12 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
         //write into index
 
         QByteArray textBuffer;
-        wchar_t wcharBuffer[    lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH + 1];
+        wchar_t wcharBuffer[lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH + 1];
 
         QScopedPointer<lucene::document::Document> doc(new lucene::document::Document());
         QString key = id;
 
-        lucene_utf8towcs(wcharBuffer, key.toLocal8Bit().constData(),     lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
+        lucene_utf8towcs(wcharBuffer, key.toUtf8().constData(),     lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
 
         doc->add(*(new lucene::document::Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer, lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_TOKENIZED)));
 
@@ -181,13 +181,13 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
     return fileTitle;
 }
 /**
-  Returns a Strong.
-  \strongID The strongID
+  Returns a Entry.
+  \id The id of the entry.
   */
-QString ZefaniaLex::getStrong(const QString &strongID)
+QString ZefaniaLex::getEntry(const QString &id)
 {
     QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
-    const QString queryText = "key:"+strongID;
+    const QString queryText = "key:"+id;
     char utfBuffer[ lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH  + 1];
     wchar_t wcharBuffer[ lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH + 1];
     const TCHAR* stop_words[]  = { NULL };
@@ -200,7 +200,7 @@ QString ZefaniaLex::getStrong(const QString &strongID)
     for(int i = 0; i < h->length(); ++i) {
         doc = &h->doc(i);
         lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
-        QString content(utfBuffer);
+        QString content = QString::fromUtf8(utfBuffer);
         return content;
     }
 

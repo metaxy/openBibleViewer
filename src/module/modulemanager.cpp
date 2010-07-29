@@ -43,6 +43,7 @@ void ModuleManager::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySe
 }
 QFileInfoList ModuleManager::scan(const QString &path, int level = 0)
 {
+    //todo: make faster using name filter
     QFileInfoList ret;
     QDir dir(path);
     QFileInfoList list = dir.entryInfoList();
@@ -69,6 +70,9 @@ int ModuleManager::loadAllModules()
     bq.setSettings(m_settings);
     ZefaniaBible zef;
     zef.setSettings(m_settings);
+    BibleQuoteDict bqDict;
+    bqDict.setSettings(m_settings);
+
     initBible();
 
     m_moduleModel->clear();
@@ -123,6 +127,8 @@ int ModuleManager::loadAllModules()
                     moduleType = Module::BibleQuoteModule;
                 } else  if(fileInfo.suffix().compare("xml",Qt::CaseInsensitive) == 0) {
                     moduleType = Module::ZefaniaBibleModule;//todo: cannot detect other xml files
+                } else  if(fileInfo.suffix().compare("idx",Qt::CaseInsensitive) == 0) {
+                    moduleType = Module::BibleQuoteDictModule;//todo: cannot detect other xml files
                 }
 
                 file.setFileName(fileInfo.absoluteFilePath());
@@ -181,6 +187,23 @@ int ModuleManager::loadAllModules()
                             }
                             break;
                         }
+                    case Module::BibleQuoteDictModule: {
+                            bname = bqDict.readInfo(file);
+                            if(!bname.isEmpty()) {
+                                Module *module = new Module(folder);
+                                module->m_path = file.fileName();
+                                module->m_moduleClass = Module::DictionaryModule;
+                                module->m_moduleType = Module::BibleQuoteDictModule;
+                                module->m_title = bname;
+                                module->m_id = moduleID;
+                                m_moduleMap->m_map.insert(moduleID, module);
+                                folder->append(module);
+                                checkCache(moduleID);
+                                m_settings->setModuleIDinMap(moduleID, i);
+                                moduleID++;
+                                myDebug() << moduleID << bname;
+                            }
+                    }
                     default:
                         break;
                     }

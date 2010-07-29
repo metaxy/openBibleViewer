@@ -3,6 +3,7 @@
 Dictionary::Dictionary()
 {
     m_zefaniaLex = 0;
+    m_bibleQuoteDict = 0;
     m_moduleType = Module::NoneType;
     m_moduleID = -1;
 }
@@ -30,7 +31,16 @@ int Dictionary::loadModuleData(const int &moduleID)
         m_zefaniaLex->m_modulePath = path;
         break;
     }
-
+    case Module::BibleQuoteDictModule: {
+            if(m_module->m_bibleQuoteDict) {
+                m_bibleQuoteDict = m_module->m_bibleQuoteDict;
+            } else {
+                m_bibleQuoteDict = new BibleQuoteDict();
+                m_bibleQuoteDict->setSettings(m_settings);
+                m_bibleQuoteDict->setID(m_moduleID,path);
+            }
+            break;
+    }
     default:
         return 1;
     }
@@ -38,14 +48,15 @@ int Dictionary::loadModuleData(const int &moduleID)
 }
 QString Dictionary::getEntry(const QString &string)
 {
-    DEBUG_FUNC_NAME
-    myDebug() << string << m_moduleType;
     switch(m_moduleType) {
     case Module::ZefaniaLexModule: {
-        return m_zefaniaLex->getStrong(string);
+        return m_zefaniaLex->getEntry(string);
         break;
     }
-
+    case Module::BibleQuoteDictModule: {
+        return m_bibleQuoteDict->getEntry(string);
+        break;
+    }
     default:
         return QString();
     }

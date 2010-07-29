@@ -17,6 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/biblequote.h"
 #include "src/module/zefania-bible.h"
 #include "src/module/zefania-lex.h"
+#include "src/module/biblequote-dict.h"
 #include <QtCore/QString>
 class Module
 {
@@ -32,7 +33,8 @@ public:
         NoneType = 0,
         BibleQuoteModule = 1,
         ZefaniaBibleModule = 2,
-        ZefaniaLexModule = 3
+        ZefaniaLexModule = 3,
+        BibleQuoteDictModule = 4
     };
     ModuleClass m_moduleClass;
     ModuleType m_moduleType;
@@ -43,6 +45,7 @@ public:
     BibleQuote *m_bibleQuote;
     ZefaniaBible *m_zefaniaBible;
     ZefaniaLex *m_zefaniaLex;
+    BibleQuoteDict *m_bibleQuoteDict;
 
     void setSettings(Settings *settings);
 

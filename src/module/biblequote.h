@@ -32,7 +32,7 @@ class BibleQuote
 
 public:
     BibleQuote();
-    int setSettings(Settings *settings);
+    void setSettings(Settings *settings);
     int readBook(int id, QString path);
     void loadBibleData(int bibleID, QString path);
     QString readInfo(QFile &file);

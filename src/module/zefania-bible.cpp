@@ -564,7 +564,7 @@ void ZefaniaBible::buildIndex()
     QScopedPointer<lucene::index::IndexWriter> writer(new lucene::index::IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
 
     QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, m_bookFullName.size());
-    progress.setWindowModality(Qt::WindowModal);
+    progress.setWindowModality(Qt::NonModal);
     for(int i = 0; i < m_bookFullName.size(); ++i) {
         progress.setValue(i);
         QList<Chapter> chapterList;
@@ -579,7 +579,7 @@ void ZefaniaBible::buildIndex()
         } else {
             chapterList =  softCache(i);
         }
-        QByteArray textBuffer;
+      //  QByteArray textBuffer;
         wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
         for(int chapterCounter = 0; chapterCounter < chapterList.size(); ++chapterCounter) {
             Chapter c = chapterList.at(chapterCounter);
@@ -592,13 +592,12 @@ void ZefaniaBible::buildIndex()
                 lucene_utf8towcs(wcharBuffer, key.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
 
                 doc->add(*(new lucene::document::Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer, lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_NO)));
-
-                lucene_utf8towcs(wcharBuffer, t.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
+                lucene_utf8towcs(wcharBuffer, t.toUtf8().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
 
                 doc->add(*(new lucene::document::Field((const TCHAR*)_T("content"),
                                                        (const TCHAR*)wcharBuffer,
                                                        lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_TOKENIZED)));
-                textBuffer.resize(0); //clean up
+            //    textBuffer.resize(0); //clean up
                 writer->addDocument(doc.data());
             }
         }
@@ -632,7 +631,7 @@ void ZefaniaBible::search(SearchQuery query, SearchResult *res)
         QStringList l = stelle.split(";");
         lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), BT_MAX_LUCENE_FIELD_LENGTH);
 
-        QString content(utfBuffer);
+        QString content = QString::fromUtf8(utfBuffer);
         SearchHit hit;
         hit.setType(SearchHit::BibleHit);
         hit.setValue(SearchHit::BibleID,m_bibleID);
