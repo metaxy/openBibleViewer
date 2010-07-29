@@ -36,6 +36,7 @@ QString BibleQuoteDict::readInfo(QFile &file)
     file.close();
     return line.simplified();
 }
+
 bool BibleQuoteDict::hasIndex()
 {
     DEBUG_FUNC_NAME

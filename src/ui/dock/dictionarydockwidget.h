@@ -22,7 +22,7 @@ namespace Ui
 class DictionaryDockWidget;
 }
 /*!
- DictionaryDockWidget represents a dock widget to show a strong.
+ DictionaryDockWidget represents a dock widget to show a dictionary entry.
 */
 class DictionaryDockWidget : public DockWidget
 {

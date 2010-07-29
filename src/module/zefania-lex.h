@@ -36,7 +36,7 @@ public:
     ZefaniaLex();
     void setSettings(Settings *settings);
     QString loadFile(QString fileData, QString fileName);
-    QString getEntry(const QString &strongID);
+    QString getEntry(const QString &entry);
     QString m_modulePath;
 };
 

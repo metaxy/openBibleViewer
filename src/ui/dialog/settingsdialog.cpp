@@ -314,6 +314,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
             BibleQuote bq;
             ZefaniaBible zef;
             ZefaniaLex zefStrong;
+            BibleQuoteDict bibleQuoteDict;
             ModuleSettings m;
             zefStrong.setSettings(&m_set);
 
@@ -350,7 +351,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                                                                                       fileData.contains("x-cult", Qt::CaseInsensitive) ||
                                                                                       fileData.contains("x-mormon", Qt::CaseInsensitive))) {
                         moduleType = Module::ZefaniaBibleModule;// Zefania Bible
-                    } else if(fileData.contains("<dictionary", Qt::CaseInsensitive) &&  fileData.contains("type=\"x-strong\"", Qt::CaseInsensitive)) {
+                    } else if(fileData.contains("<dictionary", Qt::CaseInsensitive) ) {
                         moduleType = Module::ZefaniaLexModule;// Zefania Strong
                     } else {
                         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
@@ -381,8 +382,14 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                     if(names.size() == 0 || i >= names.size()) {
                         moduleName = zefStrong.loadFile(fileData, f);
                     }
-                    moduleTypeName = QObject::tr("Zefania XML Strong");
+                    moduleTypeName = QObject::tr("Zefania XML Dictionary");
                     break;
+                case Module::BibleQuoteDictModule:
+                    if(names.size() == 0 || i >= names.size()) {
+                        moduleName = bibleQuoteDict.readInfo(&f);
+                        bibleQuoteDict.buildIndex();
+                    }
+                    moduleTypeName = QObject::tr("Bible Quote Dictionary");
                 case Module::NoneType:
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
                     progress.close();

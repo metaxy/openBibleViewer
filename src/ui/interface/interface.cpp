@@ -65,9 +65,9 @@ void Interface::setBookmarksDockWidget(BookmarksDockWidget *bookmarksDockWidget)
 {
     Q_UNUSED(bookmarksDockWidget);
 }
-void Interface::setDictionaryDockWidget(DictionaryDockWidget *strongDockWidget)
+void Interface::setDictionaryDockWidget(DictionaryDockWidget *dictionaryDockWidget)
 {
-    Q_UNUSED(strongDockWidget);
+    Q_UNUSED(dictionaryDockWidget);
 }
 void Interface::setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget)
 {

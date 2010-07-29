@@ -78,7 +78,7 @@ void ModuleDownloadDialog::readModules()
         if(typ == "bible") {
             top->setText(0, tr("Bibles"));
         } else if(typ == "strong") {
-            top->setText(0, tr("Strong Modules"));
+            top->setText(0, tr("Dictionarys"));
         }
         items.append(top);
 

@@ -52,7 +52,7 @@ public:
     virtual void setAdvancedSearchResultDockWidget(AdvancedSearchResultDockWidget *searchResultDockWidget);
     virtual void setNotesDockWidget(NotesDockWidget *notesDockWidget);
     virtual void setBookmarksDockWidget(BookmarksDockWidget *boockmarksDockWidget);
-    virtual void setDictionaryDockWidget(DictionaryDockWidget *strongDockWidget);
+    virtual void setDictionaryDockWidget(DictionaryDockWidget *dictonaryDockWidget);
     virtual void setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget);
 
     SearchResultDockWidget *m_searchResultDockWidget;
