@@ -45,6 +45,25 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
     /* QProgressDialog progress(QObject::tr("Loading Strongmodule"), QObject::tr("Cancel"), 0, 100);
      progress.setWindowModality(Qt::WindowModal);
      progress.setValue(1);*/
+    QString fileTitle = "";
+    const QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
+    QDir dir("/");
+    dir.mkpath(index);
+
+    // do not use any stop words
+    const TCHAR* stop_words[]  = { NULL };
+    lucene::analysis::standard::StandardAnalyzer an((const TCHAR**)stop_words);
+
+    if(lucene::index::IndexReader::indexExists(index.toAscii().constData())) {
+        if(lucene::index::IndexReader::isLocked(index.toAscii().constData())) {
+            lucene::index::IndexReader::unlock(index.toAscii().constData());
+        }
+    }
+    QScopedPointer<lucene::index::IndexWriter> writer(new lucene::index::IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
+
+    QByteArray textBuffer;
+    wchar_t wcharBuffer[lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH + 1];
+
     KoXmlDocument doc;
     QString errorMsg;
     int eLine;
@@ -54,12 +73,7 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
         myWarning() << "the file isn't valid error = " << errorMsg << eLine << eCol << fileData.remove(1000, fileData.size());
         return QString();
     }
-    QString fileTitle = "";
-    QStringList l_id = QStringList();
-    QStringList l_title = QStringList();
-    QStringList l_trans = QStringList();
-    QStringList l_pron = QStringList();
-    QStringList l_desc = QStringList();
+
     // progress.setMaximum(doc.documentElement().childNodesCount()+1);
     KoXmlNode item = doc.documentElement().firstChild();
     for(int c = 0; !item.isNull();) {
@@ -98,11 +112,11 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
                             KoXmlElement descElement  = descNode.toElement();
                             if(descElement.tagName() == "reflink") {
                                 QString mscope = descElement.attribute("mscope", ";;;");
-                                QStringList list = mscope.split(";");
-                                int bookID = list.at(0).toInt() - 1;
-                                int chapterID = list.at(1).toInt() - 1;
-                                int verseID = list.at(2).toInt() - 1;
-                                QString url = "bible://current/" + QString::number(bookID) + "," + QString::number(chapterID) + "," + QString::number(verseID) + ",";
+                                const QStringList list = mscope.split(";");
+                                const int bookID = list.at(0).toInt() - 1;
+                                const int chapterID = list.at(1).toInt() - 1;
+                                const int verseID = list.at(2).toInt() - 1;
+                                const QString url = "bible://current/" + QString::number(bookID) + "," + QString::number(chapterID) + "," + QString::number(verseID) + ",";
                                 QString name = "";
 
                                 if(bookID < m_settings->bookNames.size()) {
@@ -119,62 +133,36 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
                 }
                 details = details.nextSibling();
             }
-            l_id << id;
-            l_title << title;
-            l_trans << trans;
-            l_pron << pron;
-            l_desc << desc;
+            QString ret = "<h3 class='strongTitle'>" + id + " - " + title + "</h3>";
+            if(!trans.isEmpty()) {
+                ret += " (" + trans + ") ";
+            }
+            if(!pron.isEmpty()) {
+                ret += " [" + pron + "] ";
+            }
+            ret += "<br />" + desc;
+
+            QScopedPointer<lucene::document::Document> doc(new lucene::document::Document());
+
+            lucene_utf8towcs(wcharBuffer, id.toUtf8().constData(),     lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
+
+            doc->add(*(new lucene::document::Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer, lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_TOKENIZED)));
+
+            lucene_utf8towcs(wcharBuffer, ret.toUtf8().constData(),     lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
+
+            doc->add(*(new lucene::document::Field((const TCHAR*)_T("content"),
+                                                   (const TCHAR*)wcharBuffer,
+                                                   lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_TOKENIZED)));
+            textBuffer.resize(0); //clean up
+            writer->addDocument(doc.data());
+
         }
         item = item.nextSibling();
         c++;
     }
     doc.clear();
-    QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
-    QDir dir("/");
-    dir.mkpath(index);
+    doc.unload();
 
-    // do not use any stop words
-    const TCHAR* stop_words[]  = { NULL };
-    lucene::analysis::standard::StandardAnalyzer an((const TCHAR**)stop_words);
-
-    if(lucene::index::IndexReader::indexExists(index.toAscii().constData())) {
-        if(lucene::index::IndexReader::isLocked(index.toAscii().constData())) {
-            lucene::index::IndexReader::unlock(index.toAscii().constData());
-        }
-    }
-    QScopedPointer<lucene::index::IndexWriter> writer(new lucene::index::IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
-
-    for(int i = 0; i < l_id.size(); ++i) {
-        QString id = l_id.at(i);
-        QString ret = "<h3 class='strongTitle'>" + l_id.at(i) + " - " + l_title.at(i) + "</h3>";
-        if(!l_trans.at(i).isEmpty()) {
-            ret += " (" + m_trans.at(i) + ") ";
-        }
-        if(!l_pron.at(i).isEmpty()) {
-            ret += " [" + l_pron.at(i) + "] ";
-        }
-        ret += "<br />" + l_desc.at(i);
-        //write into index
-
-        QByteArray textBuffer;
-        wchar_t wcharBuffer[lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH + 1];
-
-        QScopedPointer<lucene::document::Document> doc(new lucene::document::Document());
-        QString key = id;
-
-        lucene_utf8towcs(wcharBuffer, key.toUtf8().constData(),     lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
-
-        doc->add(*(new lucene::document::Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer, lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_TOKENIZED)));
-
-        lucene_utf8towcs(wcharBuffer, ret.toUtf8().constData(),     lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
-
-        doc->add(*(new lucene::document::Field((const TCHAR*)_T("content"),
-                                               (const TCHAR*)wcharBuffer,
-                                               lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_TOKENIZED)));
-        textBuffer.resize(0); //clean up
-        writer->addDocument(doc.data());
-
-    }
     writer->optimize();
     writer->close();
 

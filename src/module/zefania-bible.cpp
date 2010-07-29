@@ -587,13 +587,27 @@ void ZefaniaBible::buildIndex()
             for(int verseCounter = 0; verseCounter < verse.size(); ++verseCounter) {
                 QString t = verse.at(verseCounter);
                 QScopedPointer<lucene::document::Document> doc(new lucene::document::Document());
-                QString key = QString::number(i) + ";" + QString::number(chapterCounter) + ";" + QString::number(verseCounter);
+                const QString book = QString::number(i);
+                const QString chapter = QString::number(chapterCounter);
+                const QString verse = QString::number(verseCounter);
+
+                QString key = book + ";" + chapter + ";" + verse;
+
 
                 lucene_utf8towcs(wcharBuffer, key.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
-
                 doc->add(*(new lucene::document::Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer, lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_NO)));
-                lucene_utf8towcs(wcharBuffer, t.toUtf8().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
 
+                lucene_utf8towcs(wcharBuffer, book.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
+                doc->add(*(new lucene::document::Field((const TCHAR*)_T("book"), (const TCHAR*)wcharBuffer, lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_UNTOKENIZED)));
+
+                lucene_utf8towcs(wcharBuffer, chapter.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
+                doc->add(*(new lucene::document::Field((const TCHAR*)_T("chapter"), (const TCHAR*)wcharBuffer, lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_UNTOKENIZED)));
+
+                lucene_utf8towcs(wcharBuffer, verse.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
+                doc->add(*(new lucene::document::Field((const TCHAR*)_T("verse"), (const TCHAR*)wcharBuffer, lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_UNTOKENIZED)));
+
+
+                lucene_utf8towcs(wcharBuffer, t.toUtf8().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
                 doc->add(*(new lucene::document::Field((const TCHAR*)_T("content"),
                                                        (const TCHAR*)wcharBuffer,
                                                        lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_TOKENIZED)));
