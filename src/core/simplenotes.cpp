@@ -39,6 +39,7 @@ void SimpleNotes::setFrameWidget(QWebFrame *frame)
 void SimpleNotes::setTitleWidget(QLineEdit *title)
 {
     m_lineEdit_title = title;
+    connect(title,SIGNAL(editingFinished()),this,SLOT(updateTitle()));
 }
 void SimpleNotes::setViewWidget(QTreeView *treeView)
 {
@@ -117,7 +118,7 @@ void SimpleNotes::init()
 
     m_noteID = "";
 
-    m_proxyModel = new QSortFilterProxyModel(this);
+    m_proxyModel = new RecursivProxyModel(this);
     m_proxyModel->setSourceModel(m_itemModel);
     m_proxyModel->setHeaderData(0, Qt::Horizontal, tr("Note Title"));
     m_selectionModel = new QItemSelectionModel(m_proxyModel);
@@ -201,14 +202,28 @@ void SimpleNotes::changeTitle(QString id, QString title)
     if(m_noteID == id) {
         setTitle(title);
     }
-    QModelIndexList list = m_treeView->model()->match(m_treeView->model()->index(0, 0), Qt::UserRole + 1, id);
+    QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, id);
+    if(list.size() != 1) {
+        myWarning() << "invalid noteID = " << id;
+        return;
+    }
+    QModelIndex index = list.at(0);
+    m_itemModel->setData(index, title, Qt::DisplayRole);
+}
+void SimpleNotes::updateTitle()
+{
+    disconnect(m_notes, SIGNAL(titleChanged(QString, QString)), this, SLOT(changeTitle(QString, QString)));
+    m_notes->setTitle(m_noteID,m_lineEdit_title->text());
+    QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, m_noteID,-1);
     if(list.size() != 1) {
         myWarning() << "invalid noteID = " << m_noteID;
         return;
     }
     QModelIndex index = list.at(0);
-    m_treeView->model()->setData(index, title, Qt::DisplayRole);
+    m_itemModel->setData(index, m_lineEdit_title->text(), Qt::DisplayRole);
+    connect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
 }
+
 void SimpleNotes::changeRef(QString id, QMap<QString, QString> ref)
 {
     if(m_noteID == id) {
@@ -275,22 +290,25 @@ void SimpleNotes::fastSave(void)
 }
 void SimpleNotes::aktNote()
 {
+    DEBUG_FUNC_NAME
+
     if(m_noteID == "")
         return;
     m_notes->setTitle(m_noteID, m_lineEdit_title->text());
-    QModelIndexList list = m_treeView->model()->match(m_treeView->model()->index(0, 0), Qt::UserRole + 1, m_noteID);
+    QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, m_noteID,-1);
     if(list.size() != 1) {
         myWarning() << "invalid noteID = " << m_noteID;
         return;
     }
     QModelIndex index = list.at(0);
+
     if(index.data(Qt::DisplayRole) != m_notes->getTitle(m_noteID)) {
-        m_treeView->model()->setData(index, m_notes->getTitle(m_noteID), Qt::DisplayRole);
+         m_itemModel->setData(index, m_notes->getTitle(m_noteID), Qt::DisplayRole);
     }
 }
 void SimpleNotes::select(const QString &noteID)
 {
-    QModelIndexList list = m_treeView->model()->match(m_treeView->model()->index(0, 0), Qt::UserRole + 1, noteID);
+    QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, noteID);
     if(list.size() != 1) {
         return;
     }
@@ -303,7 +321,9 @@ void SimpleNotes::newNote(void)
 {
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
 
-    QStandardItem *parentItem = m_itemModel->itemFromIndex(m_treeView->currentIndex());
+    QStandardItem *parentItem = 0;
+    if(sender()->objectName() == "actionNew")
+        parentItem = m_itemModel->itemFromIndex(m_treeView->indexAt(m_point));
     if(parentItem == 0)
         parentItem = m_itemModel->invisibleRootItem();
 
@@ -342,8 +362,9 @@ void SimpleNotes::newNote(void)
 void SimpleNotes::newFolder()
 {
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
-
-    QStandardItem *parentItem = m_itemModel->itemFromIndex(m_treeView->currentIndex());
+    QStandardItem *parentItem = 0;
+    if(sender()->objectName() == "actionNewFolder")
+        parentItem = m_itemModel->itemFromIndex(m_treeView->indexAt(m_point));
     if(parentItem == 0)
         parentItem = m_itemModel->invisibleRootItem();
 
@@ -354,7 +375,7 @@ void SimpleNotes::newFolder()
 
     QString newID = m_notes->generateNewID();
     m_notes->setData(newID, "");
-    m_notes->setTitle(newID, tr("Folder"));
+    m_notes->setTitle(newID, tr("Folder")); // todo: count folders and generate an id
     m_notes->setType(newID, "folder");
 
     m_noteRef = QMap<QString, QString>();
@@ -492,7 +513,7 @@ void SimpleNotes::removeNote()
                 setRef(QMap<QString, QString>());
             }
             m_notes->removeNote(id);
-            m_treeView->model()->removeRow(index.row());
+            m_itemModel->removeRow(index.row());
         }
 
     } else {
@@ -504,7 +525,7 @@ void SimpleNotes::removeNote()
                 setRef(QMap<QString, QString>());
             }
             m_notes->removeNote(id);
-            m_treeView->model()->removeRow(list.at(0).row());
+            m_itemModel->removeRow(list.at(0).row());
             list = m_selectionModel->selectedRows(0);
         }
     }
@@ -518,11 +539,11 @@ void SimpleNotes::removeNote(QString id)
         setData("");
         setRef(QMap<QString, QString>());
     }
-    QModelIndexList list = m_treeView->model()->match(m_treeView->model()->index(0, 0), Qt::UserRole + 1, id);
+    QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, id);
     if(list.size() != 1) {
         myWarning() << "invalid noteID = " << m_noteID;
         return;
     }
     QModelIndex index = list.at(0);
-    m_treeView->model()->removeRow(index.row());
+    m_itemModel->removeRow(index.row());
 }

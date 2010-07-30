@@ -71,7 +71,7 @@ private:
     bool m_isLoaded;
     bool m_isInited;
 
-    QString m_rePharse;
+    QString m_oldVersion;
 };
 
 #endif // NOTES_H

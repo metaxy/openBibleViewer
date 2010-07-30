@@ -31,7 +31,7 @@ void Notes::init(const QString &fileName)
     m_fileName = fileName;
     m_version = "0.3";
     m_isLoaded = false;
-    m_rePharse = "";
+    m_oldVersion = "";
 }
 bool Notes::isLoaded()
 {
@@ -74,7 +74,7 @@ int Notes::loadNotes()
             loadNotes();
             return 2;
         } else if(oldVersion == "0.2" && oldVersion != m_version) {
-            m_rePharse = "colorMarks";
+            m_oldVersion = "0.2";
         }
     }
     file.close();
@@ -209,7 +209,6 @@ void Notes::setData(const QString &id, const QString &data)
   */
 void Notes::setRef(const QString &id, const QMap<QString, QString>  &ref)
 {
-    DEBUG_FUNC_NAME
     if(notesRef[id] != ref) {
         notesRef[id] = ref;
         emit refChanged(id, ref);
@@ -223,10 +222,8 @@ void Notes::setRef(const QString &id, const QMap<QString, QString>  &ref)
   */
 void Notes::setRef(const QString &id, const QString &key, const QString &value)
 {
-    DEBUG_FUNC_NAME
     QMap<QString, QString>  ref = notesRef[id];
     if(ref.value(key) != value) {
-        myDebug() << id << key << value;
         ref[key] = value;
         notesRef[id] = ref;
         emit refChanged(id, ref);
@@ -311,7 +308,7 @@ int Notes::readNotes()
                         QDomElement e3 = n3.toElement();
                         QString tag = e3.tagName();
                         QString val = e3.attribute("id", "");
-                        if(m_rePharse == "colorMarks" && tag == "color") {
+                        if(m_oldVersion == "0.2" && tag == "color") {
                             tag = "style";
                             val = "background-color:"+val+";";
                         }
@@ -353,7 +350,7 @@ int Notes::saveNotes()
         tag.setAttribute("id", id);
         root.appendChild(tag);
         QDomElement data = sdoc.createElement("data");
-        QDomText text = sdoc.createTextNode(notesData[id]);
+        QDomCDATASection text = sdoc.createCDATASection(notesData[id]);//todo: use cdata section
         data.appendChild(text);
         tag.appendChild(data);
         QDomElement ref = sdoc.createElement("ref");

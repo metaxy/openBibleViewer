@@ -100,7 +100,6 @@ int Bible::loadModuleData(const int &moduleID)
         foreach(QString s,m_zef->m_bookShortName) {
             m_bookShortName.append(QStringList(s));
         }
-        myDebug() << m_bookShortName;
         m_biblePath = m_zef->m_biblePath;
         //ModuleCache
         m_settings->setTitle(path, m_bibleTitle);

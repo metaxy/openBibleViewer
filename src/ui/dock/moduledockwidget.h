@@ -19,7 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QSortFilterProxyModel>
 #include <QItemSelectionModel>
 #include "dockwidget.h"
-#include "moduleproxymodel.h"
+#include "src/ui/recursivproxymodel.h"
 namespace Ui
 {
 class ModuleDockWidget;
@@ -47,7 +47,7 @@ private:
     Ui::ModuleDockWidget *ui;
     bool m_dontLoad;
     int m_moduleID;
-    ModuleProxyModel *m_proxyModel;
+    RecursivProxyModel *m_proxyModel;
     QItemSelectionModel *m_selectionModel;
     bool first;
 

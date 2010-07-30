@@ -386,7 +386,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                     break;
                 case Module::BibleQuoteDictModule:
                     if(names.size() == 0 || i >= names.size()) {
-                        moduleName = bibleQuoteDict.readInfo(&f);
+                        moduleName = bibleQuoteDict.readInfo(file);
                         bibleQuoteDict.buildIndex();
                     }
                     moduleTypeName = QObject::tr("Bible Quote Dictionary");
@@ -423,10 +423,9 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
             m.encoding = "Default";//no translating
             m_set.m_moduleSettings << m;
         }
-        progress.close();
         generateModuleTree();
+        progress.close();
     }
-    myDebug() << "files = " << fileName;
 }
 
 void SettingsDialog::setCurrentTab(int tabID)

@@ -27,6 +27,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/notes.h"
 #include "src/core/verseselection.h"
 #include "src/core/basicclass.h"
+#include "src/ui/recursivproxymodel.h"
 class SimpleNotes : public QObject, public BasicClass
 {
     Q_OBJECT
@@ -62,6 +63,7 @@ private slots:
     void editNoteLink();
     void updateNote(QString pos);
     void newFolder();
+    void updateTitle();
 private:
     QLineEdit *m_lineEdit_title;
     QTextBrowser *m_textEdit_note;
@@ -72,7 +74,7 @@ private:
 
     QStandardItemModel *m_itemModel;
     QTreeView *m_treeView;
-    QSortFilterProxyModel *m_proxyModel;
+    RecursivProxyModel *m_proxyModel;
     QItemSelectionModel *m_selectionModel;
 
     QString m_noteID;
@@ -88,6 +90,7 @@ private:
     QStringList m_idC;
     QPoint m_point;
     void iterate(QStandardItem *item);
+
 
 };
 

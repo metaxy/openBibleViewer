@@ -30,7 +30,7 @@ ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
   */
 void ModuleDockWidget::init()
 {
-    m_proxyModel = new ModuleProxyModel(this);
+    m_proxyModel = new RecursivProxyModel(this);
     m_proxyModel->setSourceModel(m_moduleManager->m_moduleModel);
     m_proxyModel->setHeaderData(0, Qt::Horizontal, tr("Module"));
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
@@ -55,20 +55,21 @@ void ModuleDockWidget::loadModuleData(QModelIndex index)
     }
 }
 /**
-  If a module is loaded not by the ModuleDock, select the module.
+  If a module is loaded not through the ModuleDock, select the module.
   */
 void ModuleDockWidget::loadedModule(int id)
 {
-    //todo: reimplement match in moduleproxymodel
-    // because it don't match modules in folders
     DEBUG_FUNC_NAME
-    if(m_moduleID == id)
-        return;
+    /*if(m_moduleID == id)
+        return;*/
+
     m_moduleID = id;
-    QModelIndexList list = m_proxyModel->match(ui->treeView_module->model()->index(0, 0), Qt::UserRole + 1, QString::number(id));
+    QModelIndexList list = m_proxyModel->match(m_moduleManager->m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, QString::number(id));
+
     if(list.size() == 1) {
+        myDebug() << id << list;
         m_selectionModel->clearSelection();
-        m_selectionModel->setCurrentIndex(list.at(0), QItemSelectionModel::Select);
+        m_selectionModel->setCurrentIndex(m_proxyModel->mapFromSource(list.at(0)), QItemSelectionModel::Select);
     }
 
 
@@ -77,7 +78,7 @@ void ModuleDockWidget::filter(QString string)
 {
     if(first == false && string != "") {
         first = true;
-        QModelIndexList list = m_proxyModel->match(ui->treeView_module->model()->index(0, 0), Qt::UserRole + 1, "-1");
+        QModelIndexList list = m_proxyModel->match(m_moduleManager->m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, "-1");
         for(int i = 0; i < list.size(); ++i) {
             ui->treeView_module->setExpanded(list.at(i), true);
         }
