@@ -49,8 +49,9 @@ void ModuleDockWidget::init()
   */
 void ModuleDockWidget::loadModuleData(QModelIndex index)
 {
-    QString data = index.data(Qt::UserRole + 1).toString();
+    const QString data = index.data(Qt::UserRole + 1).toString();
     if(data.toInt() >= 0 && m_dontLoad == false) {
+        m_moduleID = data.toInt();
         emit get("bible://" + data + "/0,0,0");
     }
 }
@@ -60,8 +61,8 @@ void ModuleDockWidget::loadModuleData(QModelIndex index)
 void ModuleDockWidget::loadedModule(int id)
 {
     DEBUG_FUNC_NAME
-    /*if(m_moduleID == id)
-        return;*/
+    if(m_moduleID == id)
+        return;
 
     m_moduleID = id;
     QModelIndexList list = m_proxyModel->match(m_moduleManager->m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, QString::number(id));
