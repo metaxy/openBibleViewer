@@ -11,24 +11,30 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef CHAPTER_H
-#define CHAPTER_H
-
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-/*!
- Chapter represents a bible chapter
-
- @author Paul Walger <metaxy@walger.name>
-*/
-struct Chapter {
-    QStringList data;
-    QStringList verseNumber;
-    QString chapterName;
-    QString bookName;
-    int verseCount;
-    int chapterID;
-
-};
-
-#endif // CHAPTER_H
+#include "book.h"
+#include "src/core/dbghelper.h"
+Book::Book()
+{
+}
+int Book::size()
+{
+    return m_chapters.size();
+}
+void Book::clear()
+{
+    m_chapters.clear();
+}
+void Book::addChapter(const int &chapterID,const Chapter &c)
+{
+    m_chapters.insert(chapterID,c);
+}
+bool Book::hasChapter(const int &chapterID)
+{
+    DEBUG_FUNC_NAME
+    myDebug() << m_chapters.size();
+    return m_chapters.contains(chapterID);
+}
+Chapter Book::getChapter(const int &chapterID)
+{
+    return m_chapters.value(chapterID);
+}

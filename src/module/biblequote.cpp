@@ -29,10 +29,8 @@ const unsigned long BT_MAX_LUCENE_FIELD_LENGTH = 1024 * 1024;
 
 BibleQuote::BibleQuote()
 {
-    //m_settings = new Settings();
     m_bibleID = -1;
 }
-
 
 void BibleQuote::setSettings(Settings *set)
 {
@@ -40,7 +38,7 @@ void BibleQuote::setSettings(Settings *set)
 }
 QString BibleQuote::formatFromIni(QString input)
 {
-    input.simplified();
+    input.replace(QString("\n"), QString(""));
     return input;
 }
 void BibleQuote::loadBibleData(int bibleID, QString path)
@@ -195,7 +193,7 @@ QString BibleQuote::readInfo(QFile &file)
 }
 int BibleQuote::readBook(int id, QString path)
 {
-    m_chapterData.clear();
+    m_book.clear();
 
     m_bookID = id;
     path = m_biblePath + "/" + path;
@@ -276,7 +274,7 @@ int BibleQuote::readBook(int id, QString path)
             b.replace(j, a.prepend(m_verseSign));
         }
         c.data << b;
-        m_chapterData << c;
+        m_book.addChapter(i,c);
     }
     file.close();
     return 0;

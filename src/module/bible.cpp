@@ -123,7 +123,7 @@ int Bible::readBook(int id)
     m_bookID = id;
     switch(m_moduleType) {
     case Module::BibleQuoteModule: {
-        m_chapterData.clear();
+        m_book.clear();
         m_chapterNames.clear();
         if(id < m_bookPath.size()) {
             int r = m_bq->readBook(id, m_bookPath.at(id));
@@ -133,7 +133,7 @@ int Bible::readBook(int id)
             myWarning() << "index out of range bookPath.size() = " << m_bookPath.size() << " , id = " << id;
             return 1;
         }
-        m_chapterData = m_bq->m_chapterData;
+        m_book = m_bq->m_book;
 
         int cc = bookCount[id];
         int start = 1;
@@ -145,13 +145,13 @@ int Bible::readBook(int id)
         }
         break;
     }
-    case Module::ZefaniaBibleModule: { //zefania
-        m_chapterData.clear();
+    case Module::ZefaniaBibleModule: {
+        m_book.clear();
         m_chapterNames.clear();
         m_zef->readBook(id);
-        m_chapterData = m_zef->m_chapterData;
+        m_book = m_zef->m_book;
         for(int i = 1; i <= m_zef->m_bookCount[id]; ++i) {
-            m_chapterNames << QString::number(i);
+            m_chapterNames << QString::number(i);//todo: not right
         }
         break;
     }
@@ -188,11 +188,11 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     QStringList versList;
     switch(m_moduleType) {
     case Module::BibleQuoteModule: {
-        if(chapterID + 1 >= m_chapterData.size()) {
-            myWarning() << "index out of range index chapter chapterID = " << chapterID + 1  << " chapterData.size() = " << m_chapterData.size();
+        if(!m_book.hasChapter(chapterID + 1)) {
+            myWarning() << "index out of range index chapter chapterID = " << chapterID + 1;
             break;
         }
-        Chapter chapter = m_chapterData.at(chapterID + 1); //get data for this chapter
+        Chapter chapter = m_book.getChapter(chapterID + 1); //get data for this chapter
         //find out whereto read verse
         int end;
         if(endVerse == -1) {
@@ -203,6 +203,22 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         for(int i = startVerse; i < end; i++) {
             //no title formatting, because it is already formatted
             QString vers = toUniformHtml(chapter.data.at(i));//todo: that is too slow, use something else to make their invalid html code valid
+            if(m_notes != 0 && m_bibleDisplaySettings->loadNotes == true) {
+                for(int n = 0; n < m_notes->getIDList().size(); ++n) {
+                    QString noteID = m_notes->getIDList().at(n);
+                    if(m_notes->getType(noteID) == "text") {
+                        QString link = m_notes->getRef(noteID, "link");
+                        UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
+                        urlConverter.setSettings(m_settings);
+                        urlConverter.setModuleMap(m_map);
+                        urlConverter.pharse();
+                        if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID && urlConverter.m_verseID +1 == i) {
+                            vers.append("<a href=\"note://" + noteID + "\"><img src=\":/icons/16x16/view-pim-notes.png\" title=\"" + m_notes->getRef(noteID, "title") + "\"></a>");
+                        }
+                    }
+                }
+            }
+
             if(i == markVerseID + 1) {//because of the chapter title
                 vers.prepend("<b>");
                 vers.append("</b>");//make the current verse bold
@@ -214,11 +230,11 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     }
     case Module::ZefaniaBibleModule: { //zefania
 
-        if(chapterID >= m_chapterData.size()) {
-            myWarning() << "index out of range index chapterID = " << chapterID  << " chapterData.size() = " << m_chapterData.size();
+        if(!m_book.hasChapter(chapterID)) {
+            myWarning() << "index out of range index chapterID = " << chapterID ;
             break;
         }
-        Chapter c = m_chapterData.at(chapterID);
+        Chapter c = m_book.getChapter(chapterID);
 
         if(saveRawData) {
             out += textTitle;//title
@@ -270,6 +286,8 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     default:
         return "";
     }
+    //now everything is readed
+    //insert marks
     if(m_notes != 0 && m_bibleDisplaySettings->loadNotes == true) {
         for(int n = 0; n <  m_notes->getIDList().size(); ++n) {
             QString noteID = m_notes->getIDList().at(n);
@@ -343,7 +361,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
             }
         }
     }
-
+    // now add id
     for(int i = 0; i < versList.size(); ++i) {
         QString vers = versList.at(i);
         switch(m_moduleType) {
@@ -458,7 +476,7 @@ int Bible::booksCount()
 
 int Bible::chaptersCount()
 {
-    return m_chapterData.size();
+    return m_book.size();
 }
 
 QString Bible::biblePath()

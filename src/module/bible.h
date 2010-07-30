@@ -90,7 +90,7 @@ private:
     bool m_loaded;
     SearchQuery m_lastSearchQuery;
     QString textTitle;
-    QList<Chapter> m_chapterData;
+    Book m_book;
 };
 
 #endif // BIBLE_H

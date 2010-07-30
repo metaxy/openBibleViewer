@@ -21,6 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 #include <QtCore/QFile>
 #include <QtCore/QMap>
+#include "src/core/book.h"
 /*!
  BibleQuote represents a biblequote module
 
@@ -50,7 +51,7 @@ public:
     QStringList m_bookFullName;
     QList<QStringList> m_bookShortName;
     QMap <int, int> m_bookCount;
-    QList<Chapter> m_chapterData;
+    Book m_book;
 private:
     Settings *m_settings;
     QString formatFromIni(QString input);

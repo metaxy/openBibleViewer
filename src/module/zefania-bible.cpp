@@ -109,17 +109,18 @@ void ZefaniaBible::readBook(const int &id)
     if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true && (!m_softCacheData.contains(id) || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {
         ncache = readBookFromHardCache(m_biblePath, id);
     } else {
-        m_chapterData = softCache(id);
-        m_bookCount[id] = m_chapterData.size();
+        m_book = softCache(id);
+        m_bookCount[id] = m_book.size();
         return;
     }
     //reading loaded data
-    m_chapterData.clear();
+    m_book.clear();
     m_bookID = id;
     QDomNode n = ncache.firstChild();
     QString outtext;
     int i;
     for(i = 0; !n.isNull(); ++i) {
+        QDomElement e = n.toElement();
         Chapter c;
         outtext = "";
         QDomNode n2 = n.firstChild();
@@ -131,16 +132,18 @@ void ZefaniaBible::readBook(const int &id)
             c.verseNumber << e2.attribute("vnumber", "");
             n2 = n2.nextSibling();
         }
-        c.chapterName = QString::number(i + 1, 10);
+        c.chapterName = e.attribute("cnumber",QString::number(i));
+        c.chapterID = c.chapterName.toInt() - 1;
+
         c.verseCount = verseCount;
         c.bookName = m_bookFullName.at(id);
-        m_chapterData << c;
+        m_book.addChapter(c.chapterID,c);
 
         n = n.nextSibling();
     }
 
     m_bookCount[id] = i;
-    setSoftCache(m_bookID, m_chapterData);
+    setSoftCache(m_bookID, m_book);
 }
 QDomElement ZefaniaBible::format(QDomElement e)
 {
@@ -182,30 +185,30 @@ QDomElement ZefaniaBible::format(QDomElement e)
 /**
   Returns the soft cache for all books.
   */
-QMap<int, QList<Chapter> > ZefaniaBible::softCache()
+QHash<int, Book> ZefaniaBible::softCache()
 {
     if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
         return m_softCacheData;
     }
-    return QMap<int, QList<Chapter> >();
+    return QHash<int, Book>();
 }
 /**
   Returns the soft cache for a book
   \param bookID The ID of the book.
   */
-QList<Chapter> ZefaniaBible::softCache(int bookID)
+Book ZefaniaBible::softCache(int bookID)
 {
     // DEBUG_FUNC_NAME
     if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
         return m_softCacheData[bookID];
     }
-    return QList<Chapter>();
+    return Book();
 }
 /**
   Set the soft cache
   \param QMap<int, QList<Chapter> > cache The cache data.
   */
-void ZefaniaBible::setSoftCache(QMap<int, QList<Chapter> > cache)
+void ZefaniaBible::setSoftCache(QHash<int, Book > cache)
 {
     DEBUG_FUNC_NAME
     if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
@@ -218,10 +221,10 @@ void ZefaniaBible::setSoftCache(QMap<int, QList<Chapter> > cache)
   \param bookID The ID of the book.
   \param chapterList New cache.
   */
-void ZefaniaBible::setSoftCache(int bookID, QList<Chapter> chapterList)
+void ZefaniaBible::setSoftCache(int bookID, Book book)
 {
     if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
-        m_softCacheData[bookID] = chapterList;
+        m_softCacheData[bookID] = book;
     }
 }
 /**
@@ -507,13 +510,14 @@ QString ZefaniaBible::readInfo(const QString &content)
   \param bookID The bookID.
   \param ncache The node to convert.
   */
-QList<Chapter> ZefaniaBible::fromHardToSoft(int bookID, QDomNode ncache)
+Book ZefaniaBible::fromHardToSoft(int bookID, QDomNode ncache)
 {
-    QList<Chapter> ret;
+    Book book;
     QDomNode n = ncache.firstChild();
     for(int i = 0; !n.isNull(); ++i) {
         Chapter c;
         QDomNode n2 = n.firstChild();
+        QDomElement e = n.toElement();
         int verseCount = 0;
         while(!n2.isNull()) {
             verseCount++;
@@ -523,13 +527,16 @@ QList<Chapter> ZefaniaBible::fromHardToSoft(int bookID, QDomNode ncache)
             c.verseNumber.append(e2.attribute("vnumber", ""));
             n2 = n2.nextSibling();
         }
-        c.chapterName = QString::number(i + 1, 10);
+        c.chapterName = e.attribute("cnumber",QString::number(i));
+        c.chapterID = c.chapterName.toInt() - 1;
         c.verseCount = verseCount;
         c.bookName = m_bookFullName.at(bookID);
-        ret.append(c);
+
+        book.addChapter(c.chapterID,c);
+
         n = n.nextSibling();
     }
-    return ret;
+    return book;
 }
 bool ZefaniaBible::hasIndex()
 {
@@ -567,28 +574,29 @@ void ZefaniaBible::buildIndex()
     progress.setWindowModality(Qt::NonModal);
     for(int i = 0; i < m_bookFullName.size(); ++i) {
         progress.setValue(i);
-        QList<Chapter> chapterList;
+        Book book;
 
         //load book from cache(soft or hard)
         //todo: check : if only 2 or 3 book are aviable in softcache then load whole book else load everything from hardcache
         //todo: cant load book if only softcache is enabled
 
         if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true && (!m_softCacheData.contains(i) || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {
-            chapterList = fromHardToSoft(i, readBookFromHardCache(m_biblePath, i));
-            setSoftCache(i, chapterList);
+            book = fromHardToSoft(i, readBookFromHardCache(m_biblePath, i));
+            setSoftCache(i, book);
         } else {
-            chapterList =  softCache(i);
+            book = softCache(i);
         }
         //  QByteArray textBuffer;
         wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
-        for(int chapterCounter = 0; chapterCounter < chapterList.size(); ++chapterCounter) {
-            Chapter c = chapterList.at(chapterCounter);
+        QHash<int, Chapter>::const_iterator it = book.m_chapters.constBegin();
+        while (it != book.m_chapters.constEnd()) {
+            Chapter c = it.value();
             QStringList verse = c.data;
             for(int verseCounter = 0; verseCounter < verse.size(); ++verseCounter) {
                 QString t = verse.at(verseCounter);
                 QScopedPointer<lucene::document::Document> doc(new lucene::document::Document());
                 const QString book = QString::number(i);
-                const QString chapter = QString::number(chapterCounter);
+                const QString chapter = QString::number(it.key());
                 const QString verse = QString::number(verseCounter);
 
                 QString key = book + ";" + chapter + ";" + verse;
@@ -614,6 +622,7 @@ void ZefaniaBible::buildIndex()
                 //    textBuffer.resize(0); //clean up
                 writer->addDocument(doc.data());
             }
+            ++i;
         }
     }
     writer->optimize();

@@ -78,7 +78,8 @@ SOURCES += src/main.cpp \
     src/ui/dock/advancedsearchresultdockwidget.cpp \
     src/module/dictionary.cpp \
     src/core/search.cpp \
-    src/module/biblequote-dict.cpp
+    src/module/biblequote-dict.cpp \
+    src/core/book.cpp
 HEADERS += src/core/settings.h \
     src/module/biblequote.h \
     src/module/zefania-bible.h \
@@ -150,7 +151,8 @@ HEADERS += src/core/settings.h \
     src/ui/dock/advancedsearchresultdockwidget.h \
     src/module/dictionary.h \
     src/core/search.h \
-    src/module/biblequote-dict.h
+    src/module/biblequote-dict.h \
+    src/core/book.h
 FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dialog/settingsdialog.ui \
     src/ui/dialog/searchinfodialog.ui \

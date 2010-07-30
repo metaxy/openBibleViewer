@@ -26,6 +26,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/searchquery.h"
 #include "src/core/searchresult.h"
 #include "src/core/KoXmlReader.h"
+#include "src/core/book.h"
 /*!
  ZefaniaBible represents a zefaniaxml(bible) module
 
@@ -53,7 +54,7 @@ public:
     QStringList m_bookFullName;
     QStringList m_bookShortName;
     QMap <int, int> m_bookCount;
-    QList<Chapter> m_chapterData;
+    Book m_book;
 
     void removeHardCache(const QString &path);
 
@@ -63,15 +64,15 @@ private:
     bool checkForCacheFiles(const QString &path);
     void loadNoCached(const int &id, const QString &path);
     void loadCached(const int &id, const QString &path);
-    QList<Chapter> fromHardToSoft(int id, QDomNode ncache);
+    Book fromHardToSoft(int id, QDomNode ncache);
 
-    QMap<int, QList<Chapter> > m_softCacheData;
+    QHash<int,Book> m_softCacheData;
 
     void clearSoftCache();
-    void setSoftCache(QMap<int, QList<Chapter> >);
-    void setSoftCache(int bookID, QList<Chapter> c);
-    QMap<int, QList<Chapter> > softCache();
-    QList<Chapter> softCache(int bookID);
+    void setSoftCache(QHash<int, Book >);
+    void setSoftCache(int bookID, Book b);
+    QHash<int, Book> softCache();
+    Book softCache(int bookID);
     QDomNode readBookFromHardCache(QString path, int bookID);
 
 };
