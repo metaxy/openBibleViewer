@@ -51,7 +51,7 @@ QFileInfoList ModuleManager::scan(const QString &path, int level = 0)
         if(info.fileName() != ".." && info.fileName() != ".") {
             if(info.isDir()) {
                 if(level <= 2)//i think this is ok
-                    ret.append(scan(info.absoluteFilePath(),level+1));
+                    ret.append(scan(info.absoluteFilePath(), level + 1));
             } else {
                 ret.append(info);
             }
@@ -117,17 +117,17 @@ int ModuleManager::loadAllModules()
             folder->m_title = m_settings->m_moduleSettings.at(i).moduleName;
             moduleID++;
             QFileInfoList list = scan(rpath);
-            foreach(QFileInfo fileInfo,list) {  //Alle Ordner auslesen
+            foreach(QFileInfo fileInfo, list) { //Alle Ordner auslesen
                 const QString fileName = fileInfo.fileName();
 
                 QFile file;
                 moduleType = Module::NoneType;
 
-                if(fileName.compare(fileName,"bibleqt.ini",Qt::CaseInsensitive) == 0) {
+                if(fileName.compare(fileName, "bibleqt.ini", Qt::CaseInsensitive) == 0) {
                     moduleType = Module::BibleQuoteModule;
-                } else  if(fileInfo.suffix().compare("xml",Qt::CaseInsensitive) == 0) {
+                } else  if(fileInfo.suffix().compare("xml", Qt::CaseInsensitive) == 0) {
                     moduleType = Module::ZefaniaBibleModule;//todo: cannot detect other xml files
-                } else  if(fileInfo.suffix().compare("idx",Qt::CaseInsensitive) == 0) {
+                } else  if(fileInfo.suffix().compare("idx", Qt::CaseInsensitive) == 0) {
                     moduleType = Module::BibleQuoteDictModule;//todo: cannot detect other xml files
                 }
 
@@ -136,79 +136,79 @@ int ModuleManager::loadAllModules()
                     QString bname;
                     switch(moduleType) {
                     case Module::BibleQuoteModule: {
-                            bname = bq.readInfo(file);
-                            if(!bname.isEmpty()) {
-                                Module *module = new Module(folder);
-                                module->m_path = file.fileName();
-                                module->m_moduleClass = Module::BibleModule;
-                                module->m_moduleType = Module::BibleQuoteModule;
-                                module->m_title = bname;
-                                module->m_id = moduleID;
-                                m_moduleMap->m_map.insert(moduleID, module);
-                                folder->append(module);
+                        bname = bq.readInfo(file);
+                        if(!bname.isEmpty()) {
+                            Module *module = new Module(folder);
+                            module->m_path = file.fileName();
+                            module->m_moduleClass = Module::BibleModule;
+                            module->m_moduleType = Module::BibleQuoteModule;
+                            module->m_title = bname;
+                            module->m_id = moduleID;
+                            m_moduleMap->m_map.insert(moduleID, module);
+                            folder->append(module);
 
-                                QStandardItem *bibleItem = new QStandardItem;
-                                bibleItem->setText(bname);
-                                bibleItem->setData(QString::number(moduleID));
-                                bibleItem->setToolTip(QObject::tr("BibleQuote Module") + " - " + module->m_path + " (" + QString::number(module->m_id) + ")");
+                            QStandardItem *bibleItem = new QStandardItem;
+                            bibleItem->setText(bname);
+                            bibleItem->setData(QString::number(moduleID));
+                            bibleItem->setToolTip(QObject::tr("BibleQuote Module") + " - " + module->m_path + " (" + QString::number(module->m_id) + ")");
 
-                                bibleItem->setIcon(bibleQuoteIcon);
-                                top->appendRow(bibleItem);
-                                checkCache(moduleID);
-                                m_settings->setModuleIDinMap(moduleID, i);
-                                moduleID++;
+                            bibleItem->setIcon(bibleQuoteIcon);
+                            top->appendRow(bibleItem);
+                            checkCache(moduleID);
+                            m_settings->setModuleIDinMap(moduleID, i);
+                            moduleID++;
 
-                            }
-                            break;
                         }
+                        break;
+                    }
                     case Module::ZefaniaBibleModule: {
-                            bname = zef.readInfo(file);
-                            if(!bname.isEmpty()) {
+                        bname = zef.readInfo(file);
+                        if(!bname.isEmpty()) {
 
-                                Module *module = new Module(folder);
-                                module->m_path = file.fileName();
-                                module->m_moduleClass = Module::BibleModule;
-                                module->m_moduleType = Module::ZefaniaBibleModule;
-                                module->m_title = bname;
-                                module->m_id = moduleID;
-                                m_moduleMap->m_map.insert(moduleID, module);
-                                folder->append(module);
+                            Module *module = new Module(folder);
+                            module->m_path = file.fileName();
+                            module->m_moduleClass = Module::BibleModule;
+                            module->m_moduleType = Module::ZefaniaBibleModule;
+                            module->m_title = bname;
+                            module->m_id = moduleID;
+                            m_moduleMap->m_map.insert(moduleID, module);
+                            folder->append(module);
 
-                                QStandardItem *bibleItem = new QStandardItem;
-                                bibleItem->setText(bname);
-                                bibleItem->setData(QString::number(moduleID));
-                                bibleItem->setToolTip(QObject::tr("Zefania XML Module") + " - " + module->m_path + " (" + QString::number(module->m_id) + ")");
+                            QStandardItem *bibleItem = new QStandardItem;
+                            bibleItem->setText(bname);
+                            bibleItem->setData(QString::number(moduleID));
+                            bibleItem->setToolTip(QObject::tr("Zefania XML Module") + " - " + module->m_path + " (" + QString::number(module->m_id) + ")");
 
-                                bibleItem->setIcon(bibleZefaniaIcon);
-                                top->appendRow(bibleItem);
-                                checkCache(moduleID);
-                                m_settings->setModuleIDinMap(moduleID, i);
-                                moduleID++;
-                            }
-                            break;
+                            bibleItem->setIcon(bibleZefaniaIcon);
+                            top->appendRow(bibleItem);
+                            checkCache(moduleID);
+                            m_settings->setModuleIDinMap(moduleID, i);
+                            moduleID++;
                         }
+                        break;
+                    }
                     case Module::BibleQuoteDictModule: {
-                            bname = bqDict.readInfo(file);
-                            if(!bname.isEmpty()) {
-                                Module *module = new Module(folder);
-                                module->m_path = file.fileName();
-                                module->m_moduleClass = Module::DictionaryModule;
-                                module->m_moduleType = Module::BibleQuoteDictModule;
-                                module->m_title = bname;
-                                module->m_id = moduleID;
-                                m_moduleMap->m_map.insert(moduleID, module);
-                                folder->append(module);
-                                checkCache(moduleID);
-                                m_settings->setModuleIDinMap(moduleID, i);
-                                moduleID++;
-                                myDebug() << moduleID << bname;
-                            }
+                        bname = bqDict.readInfo(file);
+                        if(!bname.isEmpty()) {
+                            Module *module = new Module(folder);
+                            module->m_path = file.fileName();
+                            module->m_moduleClass = Module::DictionaryModule;
+                            module->m_moduleType = Module::BibleQuoteDictModule;
+                            module->m_title = bname;
+                            module->m_id = moduleID;
+                            m_moduleMap->m_map.insert(moduleID, module);
+                            folder->append(module);
+                            checkCache(moduleID);
+                            m_settings->setModuleIDinMap(moduleID, i);
+                            moduleID++;
+                            myDebug() << moduleID << bname;
+                        }
                     }
                     default:
                         break;
                     }
 
-                    }
+                }
 
             }
         } else {

@@ -579,7 +579,7 @@ void ZefaniaBible::buildIndex()
         } else {
             chapterList =  softCache(i);
         }
-      //  QByteArray textBuffer;
+        //  QByteArray textBuffer;
         wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
         for(int chapterCounter = 0; chapterCounter < chapterList.size(); ++chapterCounter) {
             Chapter c = chapterList.at(chapterCounter);
@@ -611,7 +611,7 @@ void ZefaniaBible::buildIndex()
                 doc->add(*(new lucene::document::Field((const TCHAR*)_T("content"),
                                                        (const TCHAR*)wcharBuffer,
                                                        lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_TOKENIZED)));
-            //    textBuffer.resize(0); //clean up
+                //    textBuffer.resize(0); //clean up
                 writer->addDocument(doc.data());
             }
         }
@@ -648,11 +648,11 @@ void ZefaniaBible::search(SearchQuery query, SearchResult *res)
         QString content = QString::fromUtf8(utfBuffer);
         SearchHit hit;
         hit.setType(SearchHit::BibleHit);
-        hit.setValue(SearchHit::BibleID,m_bibleID);
-        hit.setValue(SearchHit::BookID,l.at(0).toInt());
-        hit.setValue(SearchHit::ChapterID,l.at(1).toInt());
-        hit.setValue(SearchHit::VerseID,l.at(2).toInt());
-        hit.setValue(SearchHit::VerseText,content);
+        hit.setValue(SearchHit::BibleID, m_bibleID);
+        hit.setValue(SearchHit::BookID, l.at(0).toInt());
+        hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
+        hit.setValue(SearchHit::VerseID, l.at(2).toInt());
+        hit.setValue(SearchHit::VerseText, content);
         res->addHit(hit);
 
     }

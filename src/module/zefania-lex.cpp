@@ -175,7 +175,7 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
 QString ZefaniaLex::getEntry(const QString &id)
 {
     QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
-    const QString queryText = "key:"+id;
+    const QString queryText = "key:" + id;
     char utfBuffer[ lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH  + 1];
     wchar_t wcharBuffer[ lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH + 1];
     const TCHAR* stop_words[]  = { NULL };

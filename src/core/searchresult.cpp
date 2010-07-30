@@ -18,7 +18,7 @@ SearchResult::SearchResult()
 }
 void SearchResult::addHit(SearchHit hit)
 {
-    m_type.insert(m_hits.size(),hit.type());
+    m_type.insert(m_hits.size(), hit.type());
     m_hits << hit;
 }
 QList<SearchHit> SearchResult::hits()

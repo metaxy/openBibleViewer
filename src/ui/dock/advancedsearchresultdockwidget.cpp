@@ -25,7 +25,7 @@ void AdvancedSearchResultDockWidget::init()
     //ui->treeView->setSortingEnabled(true);
     ui->treeView->setModel(m_proxyModel);
     ui->treeView->setSelectionModel(m_selectionModel);
-    connect(ui->treeView,SIGNAL(activated(QModelIndex)),this,SLOT(goToSearchResult(QModelIndex)));
+    connect(ui->treeView, SIGNAL(activated(QModelIndex)), this, SLOT(goToSearchResult(QModelIndex)));
 
 }
 void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
@@ -45,43 +45,43 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
             continue;
         QStandardItem *bookItem = new QStandardItem(m_moduleManager->bible()->bookFullName().at(book));
         parentItem->appendRow(bookItem);
-        m_bookItems.insert(book,bookItem);
+        m_bookItems.insert(book, bookItem);
     }
     QStandardItem *notesItem = 0;
     for(int i = 0; i < hits.size(); ++i) {
         SearchHit hit = hits.at(i);
         if(hit.type() == SearchHit::BibleHit) {
             QStandardItem *hitItem = new QStandardItem(QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + " , " +
-                                                       QString::number(hit.value(SearchHit::VerseID).toInt() + 1));
-            hitItem->setData(i,Qt::UserRole+1);
+                    QString::number(hit.value(SearchHit::VerseID).toInt() + 1));
+            hitItem->setData(i, Qt::UserRole + 1);
 
             m_bookItems.value(hit.value(SearchHit::BookID).toInt())->appendRow(hitItem);
-        } else if (hit.type() == SearchHit::NoteHit){
+        } else if(hit.type() == SearchHit::NoteHit) {
             if(!notesItem) {
                 notesItem = new QStandardItem(tr("Notes"));
                 parentItem->appendRow(notesItem);
             }
             QStandardItem *hitItem = new QStandardItem(m_notes->getTitle(hit.value(SearchHit::NoteID).toString()));
-            hitItem->setData(i,Qt::UserRole+1);
+            hitItem->setData(i, Qt::UserRole + 1);
             notesItem->appendRow(hitItem);
         }
     }
 
-   // ui->pushButton_searchInfo->setDisabled(false);
+    // ui->pushButton_searchInfo->setDisabled(false);
 
 }
 void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
 {
-    int id = index.data(Qt::UserRole+1).toInt();
+    int id = index.data(Qt::UserRole + 1).toInt();
     if(id < m_searchResult.hits().size() && id >= 0) {
         SearchHit hit = m_searchResult.hits().at(id);
         if(hit.type() == SearchHit::BibleHit) {
             if(!m_moduleManager->contains(hit.value(SearchHit::BibleID).toInt()))
                 return;
             emit get("bible://" + hit.value(SearchHit::BibleID).toString() + "/" + hit.value(SearchHit::BookID).toString() + "," + hit.value(SearchHit::ChapterID).toString() + "," + hit.value(SearchHit::VerseID).toString() + ",searchInCurrentText=true");
-        } else if (hit.type() == SearchHit::NoteHit){
+        } else if(hit.type() == SearchHit::NoteHit) {
 
-            emit get("note://"+hit.value(SearchHit::NoteID).toString());
+            emit get("note://" + hit.value(SearchHit::NoteID).toString());
         }
     }
 }/*
@@ -126,7 +126,7 @@ void AdvancedSearchResultDockWidget::previousVerse()
 void AdvancedSearchResultDockWidget::changeEvent(QEvent *e)
 {
     QDockWidget::changeEvent(e);
-    switch (e->type()) {
+    switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;

@@ -67,7 +67,7 @@ void BibleQuoteDict::buildIndex()
     QFileInfo htmlFileInfo;
     foreach(QFileInfo info, list) {
         myDebug() << info.suffix() << info.baseName() << fileInfo.baseName();
-        if((info.suffix() == "html" || info.suffix() == "htm") && info.baseName().compare(fileInfo.baseName(),Qt::CaseInsensitive) == 0) {
+        if((info.suffix() == "html" || info.suffix() == "htm") && info.baseName().compare(fileInfo.baseName(), Qt::CaseInsensitive) == 0) {
             htmlFileInfo = info;
         }
     }
@@ -79,7 +79,7 @@ void BibleQuoteDict::buildIndex()
     const QString encoding = m_settings->encoding;
     QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
 
-    if (!configFile.open(QIODevice::ReadOnly | QIODevice::Text) || !htmlFile.open(QIODevice::ReadOnly | QIODevice::Text) )
+    if(!configFile.open(QIODevice::ReadOnly | QIODevice::Text) || !htmlFile.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
     QTextStream configIn(&configFile);
     configIn.setCodec(codec);
@@ -101,7 +101,7 @@ void BibleQuoteDict::buildIndex()
     }
     QScopedPointer<lucene::index::IndexWriter> writer(new lucene::index::IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
 
-    QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0,0);
+    QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, 0);
     progress.setWindowModality(Qt::WindowModal);
 
     QByteArray textBuffer;
@@ -112,7 +112,7 @@ void BibleQuoteDict::buildIndex()
     const QString pre = htmlIn.read(num - 1);
     myDebug() << title << pre;
 
-    while (!configIn.atEnd()) {
+    while(!configIn.atEnd()) {
 
         int n = num;
         QString key = id;
@@ -148,7 +148,7 @@ QString BibleQuoteDict::getEntry(const QString &id)
         buildIndex();
 
     QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
-    const QString queryText = "key:"+id;
+    const QString queryText = "key:" + id;
     myDebug() << queryText;
 
     char utfBuffer[ BT_MAX_LUCENE_FIELD_LENGTH  + 1];

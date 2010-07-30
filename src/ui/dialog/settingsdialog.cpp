@@ -348,10 +348,10 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                     if(fileData.contains("BookQty", Qt::CaseInsensitive)) {
                         moduleType = Module::BibleQuoteModule;// BibleQuote
                     } else if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i allow do this
-                                                                                      fileData.contains("x-cult", Qt::CaseInsensitive) ||
-                                                                                      fileData.contains("x-mormon", Qt::CaseInsensitive))) {
+                              fileData.contains("x-cult", Qt::CaseInsensitive) ||
+                              fileData.contains("x-mormon", Qt::CaseInsensitive))) {
                         moduleType = Module::ZefaniaBibleModule;// Zefania Bible
-                    } else if(fileData.contains("<dictionary", Qt::CaseInsensitive) ) {
+                    } else if(fileData.contains("<dictionary", Qt::CaseInsensitive)) {
                         moduleType = Module::ZefaniaLexModule;// Zefania Strong
                     } else {
                         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));

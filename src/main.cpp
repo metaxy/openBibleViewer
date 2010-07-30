@@ -32,16 +32,15 @@ bool removeDir(const QString &dirName)
     bool result = true;
     QDir dir(dirName);
 
-    if (dir.exists(dirName)) {
+    if(dir.exists(dirName)) {
         Q_FOREACH(QFileInfo info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden  | QDir::AllDirs | QDir::Files, QDir::DirsFirst)) {
-            if (info.isDir()) {
+            if(info.isDir()) {
                 result = removeDir(info.absoluteFilePath());
-            }
-            else {
+            } else {
                 result = QFile::remove(info.absoluteFilePath());
             }
 
-            if (!result) {
+            if(!result) {
                 return result;
             }
         }
@@ -84,9 +83,9 @@ int main(int argc, char *argv[])
         dir.mkpath(homeDataPath);
     }
     //remove cache dir if update from 0.4 or 0.3
-    const QString v = settings->value("general/version","0.4").toString();
+    const QString v = settings->value("general/version", "0.4").toString();
     if(v.startsWith("0.4")) {
-        removeDir(homeDataPath+"cache/");
+        removeDir(homeDataPath + "cache/");
     }
 
     QString lang = settings->value("general/language", QLocale::system().name()).toString();

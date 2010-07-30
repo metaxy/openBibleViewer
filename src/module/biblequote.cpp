@@ -373,7 +373,7 @@ void BibleQuote::buildIndex()
             for(int verseit = 0; verseit < verses.size(); ++verseit) {
                 QString t = verses.at(verseit);
                 QScopedPointer<lucene::document::Document> doc(new lucene::document::Document());
-                QString key = QString::number(id) + ";" + QString::number(chapterit-1) + ";" + QString::number(verseit-1);
+                QString key = QString::number(id) + ";" + QString::number(chapterit - 1) + ";" + QString::number(verseit - 1);
                 lucene_utf8towcs(wcharBuffer, key.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
 
                 doc->add(*(new lucene::document::Field((const TCHAR*)_T("key"),
@@ -395,7 +395,7 @@ void BibleQuote::buildIndex()
     progress.close();
 
 }
-void BibleQuote::search(SearchQuery query,SearchResult *res)
+void BibleQuote::search(SearchQuery query, SearchResult *res)
 {
     QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
     char utfBuffer[BT_MAX_LUCENE_FIELD_LENGTH  + 1];
@@ -422,11 +422,11 @@ void BibleQuote::search(SearchQuery query,SearchResult *res)
         QString content = QString::fromUtf8(utfBuffer);
         SearchHit hit;
         hit.setType(SearchHit::BibleHit);
-        hit.setValue(SearchHit::BibleID,m_bibleID);
-        hit.setValue(SearchHit::BookID,l.at(0).toInt());
-        hit.setValue(SearchHit::ChapterID,l.at(1).toInt());
-        hit.setValue(SearchHit::VerseID,l.at(2).toInt());
-        hit.setValue(SearchHit::VerseText,content);
+        hit.setValue(SearchHit::BibleID, m_bibleID);
+        hit.setValue(SearchHit::BookID, l.at(0).toInt());
+        hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
+        hit.setValue(SearchHit::VerseID, l.at(2).toInt());
+        hit.setValue(SearchHit::VerseText, content);
         res->addHit(hit);
 
     }

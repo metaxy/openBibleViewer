@@ -72,7 +72,7 @@ void SearchResultDockWidget::searchInfo()
     SearchResult result = m_searchResult;
     QList<SearchHit> list = result.hits(SearchHit::BibleHit);
 
-     QStringList textList;
+    QStringList textList;
     for(int i = 0; i < list.size(); ++i) {
         SearchHit hit = list.at(i);
         QString bookn = m_moduleManager->bible()->bookFullName().at(hit.value(SearchHit::BookID).toInt()); //todo: maybe the bible isn't loaded and you need another bookNames

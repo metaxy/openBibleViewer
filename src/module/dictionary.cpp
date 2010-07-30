@@ -32,14 +32,14 @@ int Dictionary::loadModuleData(const int &moduleID)
         break;
     }
     case Module::BibleQuoteDictModule: {
-            if(m_module->m_bibleQuoteDict) {
-                m_bibleQuoteDict = m_module->m_bibleQuoteDict;
-            } else {
-                m_bibleQuoteDict = new BibleQuoteDict();
-                m_bibleQuoteDict->setSettings(m_settings);
-                m_bibleQuoteDict->setID(m_moduleID,path);
-            }
-            break;
+        if(m_module->m_bibleQuoteDict) {
+            m_bibleQuoteDict = m_module->m_bibleQuoteDict;
+        } else {
+            m_bibleQuoteDict = new BibleQuoteDict();
+            m_bibleQuoteDict->setSettings(m_settings);
+            m_bibleQuoteDict->setID(m_moduleID, path);
+        }
+        break;
     }
     default:
         return 1;

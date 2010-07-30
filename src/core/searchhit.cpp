@@ -31,5 +31,5 @@ QVariant SearchHit::value(SearchHitKey v)
 }
 void SearchHit::setValue(SearchHitKey k, QVariant value)
 {
-    m_map.insert(k,value);
+    m_map.insert(k, value);
 }

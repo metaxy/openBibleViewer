@@ -42,7 +42,7 @@ public:
     QString readInfo(QFile &file);
     QString readInfo(const QString &content);
 
-    void search(SearchQuery query,SearchResult *res);
+    void search(SearchQuery query, SearchResult *res);
     bool hasIndex();
     void buildIndex();
 

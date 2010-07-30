@@ -102,8 +102,8 @@ void MainWindow::deleteInterface()
 {
     DEBUG_FUNC_NAME
     if(m_interface->hasToolBar()) {
-        foreach(QToolBar *bar, m_toolBarList)
-            removeToolBar(bar);
+        foreach(QToolBar * bar, m_toolBarList)
+        removeToolBar(bar);
 
     }
     if(m_interface->hasMenuBar()) {
@@ -175,8 +175,8 @@ void MainWindow::loadSimpleInterface()
     }
     if(m_interface->hasToolBar()) {
         m_toolBarList = m_interface->toolBars();
-        foreach(QToolBar *bar, m_toolBarList)
-            addToolBar(bar);
+        foreach(QToolBar * bar, m_toolBarList)
+        addToolBar(bar);
     }
     connect(this, SIGNAL(settingsChanged(Settings, Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
@@ -224,8 +224,8 @@ void MainWindow::loadAdvancedInterface()
     }
     if(m_interface->hasToolBar()) {
         m_toolBarList = m_interface->toolBars();
-        foreach(QToolBar *bar, m_toolBarList)
-            addToolBar(bar);
+        foreach(QToolBar * bar, m_toolBarList)
+        addToolBar(bar);
     }
     connect(this, SIGNAL(settingsChanged(Settings, Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
@@ -560,11 +560,11 @@ void MainWindow::changeEvent(QEvent *e)
             }
 
             if(m_interface->hasToolBar()) {
-                foreach(QToolBar *bar,m_toolBarList)
-                    removeToolBar(bar);
+                foreach(QToolBar * bar, m_toolBarList)
+                removeToolBar(bar);
                 if(m_interface->hasToolBar()) {
-                    foreach(QToolBar *bar,m_interface->toolBars())
-                        addToolBar(bar);
+                    foreach(QToolBar * bar, m_interface->toolBars())
+                    addToolBar(bar);
                 }
             }
             //todo: ugly but it fix the flickering when opening a file dialog

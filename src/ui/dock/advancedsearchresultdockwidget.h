@@ -7,11 +7,13 @@
 #include "dockwidget.h"
 #include "src/core/searchresult.h"
 
-namespace Ui {
-    class AdvancedSearchResultDockWidget;
+namespace Ui
+{
+class AdvancedSearchResultDockWidget;
 }
 
-class AdvancedSearchResultDockWidget : public DockWidget {
+class AdvancedSearchResultDockWidget : public DockWidget
+{
     Q_OBJECT
 public:
     explicit AdvancedSearchResultDockWidget(QWidget *parent = 0);

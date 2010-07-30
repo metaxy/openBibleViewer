@@ -9,19 +9,17 @@ RecursivProxyModel::RecursivProxyModel(QObject *parent) :
   Filter rows, but show alway folders.
   */
 bool RecursivProxyModel::filterAcceptsRow(int sourceRow,
-                                        const QModelIndex &sourceParent) const
+        const QModelIndex &sourceParent) const
 {
     if(filterRegExp().isEmpty())
         return true;
 
     QModelIndex current(sourceModel()->index(sourceRow, filterKeyColumn(), sourceParent));
 
-    if(sourceModel()->hasChildren(current))
-    {
+    if(sourceModel()->hasChildren(current)) {
         bool atLeastOneValidChild = false;
         int i = 0;
-        while(!atLeastOneValidChild)
-        {
+        while(!atLeastOneValidChild) {
             const QModelIndex child(current.child(i, current.column()));
             if(!child.isValid())
                 break;
@@ -38,19 +36,19 @@ bool RecursivProxyModel::filterAcceptsRow(int sourceRow,
   Reimplemented match ( without the Qt::MatchFlags and hits ) to search recursiv.
   */
 QModelIndexList RecursivProxyModel::match(const QModelIndex &start, int role,
-                                             const QVariant &value, int hits,
-                                             Qt::MatchFlags flags) const
+        const QVariant &value, int hits,
+        Qt::MatchFlags flags) const
 {
     QModelIndexList list;
     for(int i = 0; i < sourceModel()->rowCount(start); ++i) {
-        const QModelIndex index = sourceModel()->index(i,0,start);
+        const QModelIndex index = sourceModel()->index(i, 0, start);
         if(!index.isValid())
             continue;
         if(index.data(role) == value) {
             list.append(index);
         }
         if(sourceModel()->hasChildren(index))
-            list.append(match(index,role,value,hits,flags));
+            list.append(match(index, role, value, hits, flags));
     }
     return list;
 }

@@ -39,7 +39,7 @@ void SimpleNotes::setFrameWidget(QWebFrame *frame)
 void SimpleNotes::setTitleWidget(QLineEdit *title)
 {
     m_lineEdit_title = title;
-    connect(title,SIGNAL(editingFinished()),this,SLOT(updateTitle()));
+    connect(title, SIGNAL(editingFinished()), this, SLOT(updateTitle()));
 }
 void SimpleNotes::setViewWidget(QTreeView *treeView)
 {
@@ -60,20 +60,20 @@ void SimpleNotes::create(const QString &id, QStandardItem *parentItem)
         if(id == "-1") {
             parentItem = m_itemModel->invisibleRootItem();
         }
-        if((id == "-1" && m_notes->getRef(i,"parent") ==  "") || m_notes->getRef(i,"parent") == id) {
-            if(m_notes->getType(i) == "text" ) {
+        if((id == "-1" && m_notes->getRef(i, "parent") ==  "") || m_notes->getRef(i, "parent") == id) {
+            if(m_notes->getType(i) == "text") {
                 QStandardItem *noteItem = new QStandardItem;
                 noteItem->setText(m_notes->getTitle(i));
                 noteItem->setData(i);
                 parentItem->appendRow(noteItem);
-                create(i,noteItem);
+                create(i, noteItem);
             } else if(m_notes->getType(i) == "folder") {
                 QStandardItem *folderItem = new QStandardItem;
                 folderItem->setIcon(folderIcon);
                 folderItem->setText(m_notes->getTitle(i));
                 folderItem->setData(i);
                 parentItem->appendRow(folderItem);
-                create(i,folderItem);
+                create(i, folderItem);
             }
         }
 
@@ -115,7 +115,7 @@ void SimpleNotes::init()
     folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
     folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
     m_idC = m_notes->getIDList();
-    create("-1",0);
+    create("-1", 0);
 
     m_noteID = "";
 
@@ -216,8 +216,8 @@ void SimpleNotes::updateTitle()
 {
     DEBUG_FUNC_NAME
     disconnect(m_notes, SIGNAL(titleChanged(QString, QString)), this, SLOT(changeTitle(QString, QString)));
-    m_notes->setTitle(m_noteID,m_lineEdit_title->text());
-    QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, m_noteID,-1);
+    m_notes->setTitle(m_noteID, m_lineEdit_title->text());
+    QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, m_noteID, -1);
     if(list.size() != 1) {
         myWarning() << "invalid noteID = " << m_noteID;
         return;
@@ -256,7 +256,7 @@ void SimpleNotes::iterate(QStandardItem *item = 0)
     const QString parent = item->data().toString();
     for(int i = 0; i < item->rowCount(); ++i) {
         QStandardItem *m = item->child(i);
-        m_notes->setRef(m->data().toString(),"parent",parent);
+        m_notes->setRef(m->data().toString(), "parent", parent);
         if(m->hasChildren())
             iterate(m);
     }
@@ -300,7 +300,7 @@ void SimpleNotes::aktNote()
     if(m_noteID == "")
         return;
     m_notes->setTitle(m_noteID, m_lineEdit_title->text());
-    QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, m_noteID,-1);
+    QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, m_noteID, -1);
     if(list.size() != 1) {
         myWarning() << "invalid noteID = " << m_noteID;
         return;
@@ -308,7 +308,7 @@ void SimpleNotes::aktNote()
     QModelIndex index = list.at(0);
 
     if(index.data(Qt::DisplayRole) != m_notes->getTitle(m_noteID)) {
-         m_itemModel->setData(index, m_notes->getTitle(m_noteID), Qt::DisplayRole);
+        m_itemModel->setData(index, m_notes->getTitle(m_noteID), Qt::DisplayRole);
     }
 }
 void SimpleNotes::select(const QString &noteID)
@@ -332,7 +332,7 @@ void SimpleNotes::newNote(void)
     myDebug() << sender()->objectName();
     if(sender()->objectName() == "actionNew") {
         myDebug() << m_point <<  m_treeView->indexAt(m_point).data();
-         parentItem = m_itemModel->itemFromIndex(m_proxyModel->mapToSource(m_treeView->indexAt(m_point)));
+        parentItem = m_itemModel->itemFromIndex(m_proxyModel->mapToSource(m_treeView->indexAt(m_point)));
     }
     if(parentItem == 0)
         parentItem = m_itemModel->invisibleRootItem();
@@ -518,7 +518,7 @@ void SimpleNotes::removeNote()
     disconnect(m_notes, SIGNAL(noteRemoved(QString)), this, SLOT(removeNote(QString)));
     //todo: if note has link, check if the page where the link shows is currently displayed, if yes reloadChapter
     if(list.isEmpty()) {
-        const QModelIndex index = m_proxyModel->mapToSource( m_treeView->indexAt(m_currentPoint) );
+        const QModelIndex index = m_proxyModel->mapToSource(m_treeView->indexAt(m_currentPoint));
         if(index.isValid()) {
             QString id = index.data(Qt::UserRole + 1).toString();
             if(id == m_noteID) {
@@ -527,12 +527,12 @@ void SimpleNotes::removeNote()
                 setRef(QMap<QString, QString>());
             }
             m_notes->removeNote(id);
-            m_itemModel->removeRow(index.row(),index.parent());
+            m_itemModel->removeRow(index.row(), index.parent());
         }
 
     } else {
         while(list.size() != 0) {
-            const QModelIndex index = m_proxyModel->mapToSource( list.at(0) );
+            const QModelIndex index = m_proxyModel->mapToSource(list.at(0));
             QString id = index.data(Qt::UserRole + 1).toString();
             if(id == m_noteID) {
                 setTitle("");
@@ -540,7 +540,7 @@ void SimpleNotes::removeNote()
                 setRef(QMap<QString, QString>());
             }
             m_notes->removeNote(id);
-            m_itemModel->removeRow(index.row(),index.parent());
+            m_itemModel->removeRow(index.row(), index.parent());
             list = m_selectionModel->selectedRows(0);
         }
     }
@@ -561,5 +561,5 @@ void SimpleNotes::removeNote(QString id)
         return;
     }
     const QModelIndex index = list.at(0);
-    m_itemModel->removeRow(index.row(),index.parent());
+    m_itemModel->removeRow(index.row(), index.parent());
 }

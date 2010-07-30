@@ -61,7 +61,7 @@ public:
     Bible * newBible(const int &moduleID, QPoint p);
 
 private:
-    QFileInfoList scan(const QString &path,int level);
+    QFileInfoList scan(const QString &path, int level);
     BibleDisplaySettings *m_bibleDisplaySettings;
 };
 

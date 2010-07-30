@@ -97,7 +97,7 @@ int Bible::loadModuleData(const int &moduleID)
         bookCount = m_zef->m_bookCount;
         m_bookFullName = m_zef->m_bookFullName;
         m_bookShortName.clear();
-        foreach(QString s,m_zef->m_bookShortName) {
+        foreach(QString s, m_zef->m_bookShortName) {
             m_bookShortName.append(QStringList(s));
         }
         m_biblePath = m_zef->m_biblePath;
@@ -397,20 +397,20 @@ QString Bible::toUniformHtml(QString string)
 /**
   Search in the current bible. Returns the Results.
   */
-void Bible::search(SearchQuery query,SearchResult *result)
+void Bible::search(SearchQuery query, SearchResult *result)
 {
     m_lastSearchQuery = query;
     switch(m_moduleType) {
     case Module::BibleQuoteModule: {
         if(!m_bq->hasIndex())
             m_bq->buildIndex();
-        m_bq->search(query,result);
+        m_bq->search(query, result);
         break;
     }
     case Module::ZefaniaBibleModule: {
         if(!m_zef->hasIndex())
             m_zef->buildIndex();
-        m_zef->search(query,result);
+        m_zef->search(query, result);
         break;
     }
     default:

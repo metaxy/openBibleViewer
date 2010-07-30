@@ -40,7 +40,7 @@ public:
     QStringList getSearchPaths();
     QString toUniformHtml(QString string);
 
-    void search(SearchQuery query,SearchResult *result);
+    void search(SearchQuery query, SearchResult *result);
 
 
 

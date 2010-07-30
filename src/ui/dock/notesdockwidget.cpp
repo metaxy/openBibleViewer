@@ -156,7 +156,7 @@ void NotesDockWidget::noteRedo()
 
 void NotesDockWidget::newMark(VerseSelection selection, QColor color)
 {
-    newStyleMark(selection, "background-color:"+color.name());
+    newStyleMark(selection, "background-color:" + color.name());
 }
 void NotesDockWidget::newStyleMark(VerseSelection selection, QString style)
 {

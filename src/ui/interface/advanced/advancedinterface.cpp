@@ -773,8 +773,8 @@ void AdvancedInterface::showText(const QString &text)
                             QFileInfo info2(f);
 
                             if(info2.baseName().compare(i.baseName(), Qt::CaseInsensitive) == 0) {
-                                paraElement.setAttribute("src", "file://"+pre+f);
-                                 break;
+                                paraElement.setAttribute("src", "file://" + pre + f);
+                                break;
                             }
                         }
                     }
@@ -1002,18 +1002,18 @@ VerseSelection AdvancedInterface::verseSelection()
 
     if(s.shortestStringInStartVerse == "" || s.shortestStringInEndVerse == "") {
         myDebug() "try another";
-        int i = qMin(selectedText.size(),2);
+        int i = qMin(selectedText.size(), 2);
 
         QString sText = selectedText;
-        sText = sText.remove(i,selectedText.size());
-        int pos = 0,npos = -1;
+        sText = sText.remove(i, selectedText.size());
+        int pos = 0, npos = -1;
         while(pos != npos) {
-           pos = startVerseText.indexOf(sText,pos);
-           QString n = selectedText;
-           n = n.remove(startVerseText.size()-pos, n.size());
+            pos = startVerseText.indexOf(sText, pos);
+            QString n = selectedText;
+            n = n.remove(startVerseText.size() - pos, n.size());
 
-           npos = startVerseText.indexOf(n);
-           myDebug() << n << npos << pos;
+            npos = startVerseText.indexOf(n);
+            myDebug() << n << npos << pos;
         }
 
     }
@@ -1067,11 +1067,11 @@ void AdvancedInterface::createDefaultMenu()
     connect(actionBoldMark, SIGNAL(triggered()), this , SLOT(newBoldMark()));
     m_menuMark->addAction(actionBoldMark);
 
-    QAction *actionItalicMark  = new QAction(QIcon::fromTheme("format-text-italic",QIcon(":/icons/16x16/format-text-italic.png")), tr("Italic"), m_menuMark);
+    QAction *actionItalicMark  = new QAction(QIcon::fromTheme("format-text-italic", QIcon(":/icons/16x16/format-text-italic.png")), tr("Italic"), m_menuMark);
     connect(actionItalicMark, SIGNAL(triggered()), this , SLOT(newItalicMark()));
     m_menuMark->addAction(actionItalicMark);
 
-    QAction *actionUnderlineMark  = new QAction(QIcon::fromTheme("format-text-underline",QIcon(":/icons/16x16/format-text-underline.png")), tr("Underline"), m_menuMark);
+    QAction *actionUnderlineMark  = new QAction(QIcon::fromTheme("format-text-underline", QIcon(":/icons/16x16/format-text-underline.png")), tr("Underline"), m_menuMark);
     connect(actionUnderlineMark, SIGNAL(triggered()), this , SLOT(newUnderlineMark()));
     m_menuMark->addAction(actionUnderlineMark);
 
@@ -1229,7 +1229,7 @@ void AdvancedInterface::newItalicMark()
     if(!activeMdiChild())
         return;
     VerseSelection selection = verseSelection();
-    m_notesDockWidget->newStyleMark(selection,"font-style: italic;");
+    m_notesDockWidget->newStyleMark(selection, "font-style: italic;");
 
 }
 void AdvancedInterface::newUnderlineMark()
@@ -1240,7 +1240,7 @@ void AdvancedInterface::newUnderlineMark()
     if(!activeMdiChild())
         return;
     VerseSelection selection = verseSelection();
-    m_notesDockWidget->newStyleMark(selection,"text-decoration:underline;");
+    m_notesDockWidget->newStyleMark(selection, "text-decoration:underline;");
 
 }
 
@@ -1440,7 +1440,7 @@ void AdvancedInterface::searchInText(SearchQuery query)
 {
     DEBUG_FUNC_NAME
     if(query.queryType == SearchQuery::Simple) {
-            getView()->findText(query.searchText, QWebPage::HighlightAllOccurrences);
+        getView()->findText(query.searchText, QWebPage::HighlightAllOccurrences);
     }
 }
 
@@ -1696,7 +1696,7 @@ QList<QToolBar *> AdvancedInterface::toolBars()
     QLineEdit *edit = new QLineEdit(searchBar);
     edit->setObjectName("lineEdit");
 
-    connect(edit,SIGNAL(returnPressed()),this,SLOT(search()));
+    connect(edit, SIGNAL(returnPressed()), this, SLOT(search()));
     searchBar->addWidget(edit);
 
     QList<QToolBar *> list;

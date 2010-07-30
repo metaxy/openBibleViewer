@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include <QtCore/QStringList>
 #include <QtCore/QRegExp>
-GoTo::GoTo(int currentBibleID, QStringList bookFullName,QList<QStringList> bookShortName)
+GoTo::GoTo(int currentBibleID, QStringList bookFullName, QList<QStringList> bookShortName)
 {
     m_currentBibleID = currentBibleID;
     m_bookFullName = bookFullName;

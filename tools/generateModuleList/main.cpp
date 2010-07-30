@@ -8,20 +8,20 @@ void readSourceforge()
 {
     QDomDocument doc;
     QFile file("doc.xml");
-    if (!file.open(QIODevice::ReadOnly)) {
+    if(!file.open(QIODevice::ReadOnly)) {
         qDebug() << "connot open file";
         return;
     }
     QString error;
     int line; int c;
-    if (!doc.setContent(&file, true, &error, &line, &c)) {
+    if(!doc.setContent(&file, true, &error, &line, &c)) {
         qDebug() << "cannot set content" << error  << line << c;
         file.close();
         return;
     }
     file.close();
     QFile outFile("modules.xml");
-    if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text))
+    if(!outFile.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
 
     QTextStream out(&outFile);
@@ -34,12 +34,12 @@ void readSourceforge()
     int counter = 0;
     QDomElement docElem = doc.documentElement();
     QDomNode n = docElem.firstChild();
-    while (!n.isNull()) {// all tr nodes
+    while(!n.isNull()) { // all tr nodes
         QDomElement e = n.toElement(); // try to convert the node to an element.
-        if (!e.isNull()) {
+        if(!e.isNull()) {
             //cout << qPrintable(e.tagName()) << endl; // the node really is an element.
         }
-        if (e.hasChildNodes()) {
+        if(e.hasChildNodes()) {
             QDomNode n2 = e.firstChild();
             bool pharseIt = false;
             QString link = "";
@@ -47,27 +47,27 @@ void readSourceforge()
             QString size = "";
             QString lang = "";
 
-            while (!n2.isNull()) {// all tr nodes
+            while(!n2.isNull()) { // all tr nodes
                 QDomElement e2 = n2.toElement(); // try to convert the node to an element.
-                if (!e2.isNull()) {
-                    if (e2.attribute("class") == "tree")
+                if(!e2.isNull()) {
+                    if(e2.attribute("class") == "tree")
                         pharseIt = true;
-                    if (pharseIt) {
-                        if (e2.attribute("class") == "tree") {
+                    if(pharseIt) {
+                        if(e2.attribute("class") == "tree") {
                             QDomElement e3 = e2.firstChild().toElement();
                             link = e3.attribute("class");
                             name = e3.attribute("title");
-                        } else if (e2.text().contains("MB") || e2.text().contains("KB")) {
+                        } else if(e2.text().contains("MB") || e2.text().contains("KB")) {
                             size = e2.text();
                         }
                     }
                 }
-                if (pharseIt == false)
+                if(pharseIt == false)
                     break;
                 n2 = n2.nextSibling();
             }
             // qDebug() << "link = " << link << " name = " << name << " size = " << size;
-            if (link.size() > 0) {
+            if(link.size() > 0) {
                 counter++;
                 QString url = link.remove(0, link.lastIndexOf(" { url:") + 9);
                 url = url.remove(url.size() - 3, 4);

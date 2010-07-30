@@ -22,7 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class GoTo
 {
 public:
-    GoTo(int currentBibleID, QStringList bookFullName,QList<QStringList> bookShortName);
+    GoTo(int currentBibleID, QStringList bookFullName, QList<QStringList> bookShortName);
     QString getUrl(const QString& text);
 private:
     int bookNameToBookID(const QString& name);
