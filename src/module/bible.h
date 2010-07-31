@@ -56,8 +56,12 @@ public:
     QString bibleShortTitle();
     QString biblePath();
 
-    QStringList bookFullName();
-    QList<QStringList> bookShortName();
+    QString bookName(const int &bookID, bool preferShort = false);
+
+    QStringList bookFullNames();
+    QHash<int, QString> bookFullName();
+    QList<QStringList> bookShortNames();
+    QList<int> bookIDs();
     QStringList bookPath();
     QStringList chapterNames();
     QStringList chapterDataList();
@@ -75,12 +79,15 @@ private:
     QString m_bibleShortTitle;
     QString m_biblePath;
 
-    QStringList m_bookFullName;
-    QList<QStringList> m_bookShortName;
+    //QStringList m_bookFullName;
+    //QList<QStringList> m_bookShortName;
     QStringList m_chapterText;
     QStringList m_bookPath;
     QStringList m_chapterNames;
     QStringList m_chapterDataList;
+    QHash<int, QString> m_bookFullName;
+    QHash<int, QStringList> m_bookShortName;
+    QList<int> m_bookIDs;
 
     BibleDisplaySettings *m_bibleDisplaySettings;
 

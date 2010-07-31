@@ -43,7 +43,7 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
         int book = hit.value(SearchHit::BookID).toInt();
         if(m_bookItems.contains(book))
             continue;
-        QStandardItem *bookItem = new QStandardItem(m_moduleManager->bible()->bookFullName().at(book));
+        QStandardItem *bookItem = new QStandardItem(m_moduleManager->bible()->bookName(book));
         parentItem->appendRow(bookItem);
         m_bookItems.insert(book, bookItem);
     }

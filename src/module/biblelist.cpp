@@ -125,6 +125,8 @@ QString BibleList::readChapter(int chapterID, int verseID)
                     }
                     if(verse < b->chapterDataList().size())
                         out += "<td >" + b->chapterDataList().at(verse) + "</td>\n";
+                    else
+                        out += "<td ></td>\n";
                 }
                 out += "</tr>\n";
             }

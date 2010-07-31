@@ -47,7 +47,7 @@ void Settings::setBookCount(QString path, QMap<int, int>count)
     c.bookCount = count;
     m_moduleCache[path] = c;
 }
-void Settings::setBookNames(QString path, QStringList names)
+void Settings::setBookNames(QString path, QHash<int, QString> names)
 {
     ModuleCache c = m_moduleCache[path];
     c.bookNames = names;

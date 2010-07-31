@@ -52,7 +52,7 @@ public:
 
     void setTitle(QString path, QString title);
     void setBookCount(QString path, QMap<int, int> count);
-    void setBookNames(QString path, QStringList names);
+    void setBookNames(QString path, QHash<int, QString> names);
     ModuleCache getModuleCache(const QString &path);
     void setModuleIDinMap(const int &moduleID, const int &pos);
     QMap<QString, ModuleCache> m_moduleCache;

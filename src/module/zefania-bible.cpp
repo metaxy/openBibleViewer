@@ -70,15 +70,14 @@ void ZefaniaBible::removeHardCache(const QString &path)
 
 QDomNode ZefaniaBible::readBookFromHardCache(QString path, int bookID)
 {
-    // DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     QDomElement e;
 
     const QString pre = m_settings->homePath + "cache/" + m_settings->hash(path) + "/";
     QFile file(pre + QString::number(bookID) + ".xml");
-
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot read the file."));
-        myWarning() << "can't read the file";
+        //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot read the file."));
+        myWarning() << "can't read the file" << pre << QString::number(bookID) << ".xml";
         return e;
     }
     QDomDocument doc;
@@ -136,7 +135,7 @@ void ZefaniaBible::readBook(const int &id)
         c.chapterID = c.chapterName.toInt() - 1;
 
         c.verseCount = verseCount;
-        c.bookName = m_bookFullName.at(id);
+        c.bookName = m_bookFullName.at(m_bookIDs.indexOf(QString::number(id)));//todo: use also in zefania-bible the qhash system
         m_book.addChapter(c.chapterID,c);
 
         n = n.nextSibling();
@@ -152,6 +151,7 @@ QDomElement ZefaniaBible::format(QDomElement e)
     while(!n.isNull()) {  //all verses
         if(n.nodeName().toLower() == "note") {
             QDomNode node = n;
+
             QDomText t = node.firstChild().toText();
             if(moduleSettings.zefbible_showStudyNote == true && n.toElement().attribute("type", "") == "x-studynote") {
                 t.setData("[<span style=\" font-size:small;\">" + t.data() + "</span>]");
@@ -172,6 +172,26 @@ QDomElement ZefaniaBible::format(QDomElement e)
                 add = "G";
 
             t.setData(t.data() + "<sup><a href=\"strong://" + add + b.attribute("str", "") + "\">" + add + b.attribute("str", "") + "</a></sup>  ");
+            node.replaceChild(t, node.firstChild());
+            e.replaceChild(node, n);
+        } else if(n.nodeName().toLower() == "reflink") {
+            QDomNode node = n;
+            QDomElement b = n.toElement();
+            QDomText t = n.firstChild().toText();
+
+            QString mscope = b.attribute("mscope", ";;;");
+            const QStringList list = mscope.split(";");
+            const int bookID = list.at(0).toInt() - 1;
+            const int chapterID = list.at(1).toInt() - 1;
+            const int verseID = list.at(2).toInt() - 1;
+            const QString url = "bible://current/" + QString::number(bookID) + "," + QString::number(chapterID) + "," + QString::number(verseID);
+            QString name = "";
+            if(bookID < m_settings->bookNames.size()) {
+                name = m_settings->bookNames.at(bookID) + " " + list.at(1) + "," + list.at(2);
+            } else {
+                name = list.at(0) + " " + list.at(1) + "," + list.at(2);
+            }
+            t.setData(" <a href=\"" + url + "\">" + name + "</a> ");
             node.replaceChild(t, node.firstChild());
             e.replaceChild(node, n);
         }
@@ -365,6 +385,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
         if(e.attribute("bname", "") != "" || e.attribute("bnumber", "") != "") {
             //it is the caching mechanisme
             int start = 0, end = 0;
+            QString bookID = e.attribute("bnumber");
             for(int i = currentPos; i < fileList.size(); ++i) {
                 QString line = fileList.at(i);
                 if(line.contains("<BIBLEBOOK", Qt::CaseInsensitive)) {
@@ -388,7 +409,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
                 data += fileList.at(i);
             }
             data += "</cache>";
-            QFile file(fileName + "/" + QString::number(c) + ".xml");
+            QFile file(fileName + "/" + bookID + ".xml");
             if(!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
                 return;
             }
@@ -397,6 +418,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
             file.close();
             m_bookFullName << e.attribute("bname", e.attribute("bsname", ""));
             m_bookShortName << e.attribute("bsname", "");
+            m_bookIDs << bookID;
             c++;
         }
         n = n.nextSibling();
@@ -435,7 +457,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
             return;
         }
         QDataStream out(&file);
-        out << m_bibleName << m_bookFullName << m_bookShortName;
+        out << m_bibleName << m_bookFullName << m_bookShortName << m_bookIDs;
         file.close();
     }
 }
@@ -463,10 +485,12 @@ void ZefaniaBible::loadCached(const int &id, const QString &path)
     QString bibleName;
     QStringList fullName;
     QStringList shortName;
-    in >> bibleName >> fullName >> shortName;
+    QStringList bookIDs;
+    in >> bibleName >> fullName >> shortName >> bookIDs;
     m_bibleName = bibleName;
     m_bookFullName = fullName;
     m_bookShortName = shortName;
+    m_bookIDs = bookIDs;
     myDebug() << m_bookShortName;
     m_bibleID = id;
     m_biblePath = path;

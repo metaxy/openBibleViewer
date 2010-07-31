@@ -59,7 +59,7 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
     bookmarkIcon.addPixmap(style->standardPixmap(QStyle::SP_FileLinkIcon));
     bookmark->setIcon(0, bookmarkIcon);
     bookmark->setText(0,
-                      m_moduleManager->bible()->bookFullName().at(m_moduleManager->bible()->bookID()) +
+                      m_moduleManager->bible()->bookName(m_moduleManager->bible()->bookID()) +
                       " " +
                       QString::number(m_moduleManager->bible()->chapterID() + 1) +
                       "," +

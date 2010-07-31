@@ -30,7 +30,7 @@ BookDockWidget::~BookDockWidget()
 }
 void BookDockWidget::readBook(QListWidgetItem * item)
 {
-    emit get("bible://current/" + QString::number(ui->listWidget_books->row(item)) + ",0,0");
+    emit get("bible://current/" +  item->data(Qt::UserRole + 1).toString() + ",0,0");
 }
 void BookDockWidget::readChapter(QListWidgetItem * item)
 {
@@ -39,14 +39,29 @@ void BookDockWidget::readChapter(QListWidgetItem * item)
 }
 void BookDockWidget::setChapters(const QStringList &chapters)
 {
+    //todo:
     ui->listWidget_chapters->clear();
     ui->listWidget_chapters->insertItems(0, chapters);
 }
-void BookDockWidget::setBooks(const QStringList &books)
+void BookDockWidget::setBooks(const QHash<int, QString> &books)
 {
     ui->listWidget_books->clear();
-    ui->listWidget_books->insertItems(0, books);
+    QHashIterator<int, QString> i(books);
+    int count = 0;
+    while (i.hasNext()) {
+        i.next();
+        QListWidgetItem *item = new QListWidgetItem(i.value());
+        item->setData(Qt::UserRole+1,i.key());
+        ui->listWidget_books->insertItem(count, item);
+        myDebug() << i.value() << i.key();
+        count++;
+    }
 }
+void BookDockWidget::clearBooks()
+{
+    ui->listWidget_books->clear();
+}
+
 void BookDockWidget::setCurrentBook(const int &bookID)
 {
     ui->listWidget_books->setItemSelected(ui->listWidget_books->item(bookID), true);

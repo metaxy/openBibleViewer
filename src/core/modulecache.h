@@ -22,7 +22,7 @@ public:
     ModuleCache();
     QString title;
     QMap<int, int> bookCount;
-    QStringList bookNames;
+    QHash<int, QString> bookNames;
     QMap<QString, QVariant> toStringMap();
     void setBookCount(QMap<QString, QVariant> count);
 };

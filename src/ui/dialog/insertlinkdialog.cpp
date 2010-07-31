@@ -60,7 +60,7 @@ void InsertLinkDialog::indexChanged(int index)
     if(index >= 0) {
         m_path = m_moduleManager->getBiblePaths().at(index);
         ui->comboBox_books->clear();
-        ui->comboBox_books->insertItems(0, m_settings->getModuleCache(m_path).bookNames);
+        ui->comboBox_books->insertItems(0, m_settings->getModuleCache(m_path).bookNames.values());
 
         ui->comboBox_books->setCurrentIndex(0);
         ui->spinBox_chapter->setValue(1);
@@ -80,7 +80,7 @@ void InsertLinkDialog::save()
                        + ";" + QString::number(ui->comboBox_books->currentIndex())
                        + ";" + QString::number(ui->spinBox_chapter->value() - 1)
                        + ";" + QString::number(ui->spinBox_verse->value() - 1)
-                       + ";" + m_settings->getModuleCache(m_path).bookNames.at(ui->comboBox_books->currentIndex());
+                       + ";" + m_settings->getModuleCache(m_path).bookNames.values().at(ui->comboBox_books->currentIndex());
         emit newLink("persistent://" + link);
     } else if(ui->toolBox->currentIndex() == 1) {
         QModelIndexList list = m_selectionModel->selectedRows(0);

@@ -29,8 +29,6 @@ Bible::Bible()
     m_moduleType = Module::NoneType;
 }
 
-
-
 void Bible::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings)
 {
     m_bibleDisplaySettings = bibleDisplaySettings;
@@ -69,9 +67,16 @@ int Bible::loadModuleData(const int &moduleID)
         m_bibleShortTitle = m_bq->m_bibleShortName;
 
         bookCount = m_bq->m_bookCount;
-        m_bookFullName = m_bq->m_bookFullName;
+        m_bookFullName.clear();
+        m_bookShortName.clear();
+        m_bookIDs.clear();
 
-        m_bookShortName = m_bq->m_bookShortName;
+        for(int c = 0; c < m_bq->m_bookFullName.size(); ++c) {
+            m_bookIDs.append(c);
+            m_bookFullName[c] = m_bq->m_bookFullName.at(c);
+            m_bookShortName[c] = m_bq->m_bookShortName.at(c);
+        }
+
         m_bookPath = m_bq->m_bookPath;
         m_biblePath = m_bq->m_biblePath;
         //ModuleCache
@@ -95,10 +100,18 @@ int Bible::loadModuleData(const int &moduleID)
 
 
         bookCount = m_zef->m_bookCount;
-        m_bookFullName = m_zef->m_bookFullName;
+        m_bookFullName.clear();
         m_bookShortName.clear();
-        foreach(QString s, m_zef->m_bookShortName) {
-            m_bookShortName.append(QStringList(s));
+        m_bookIDs.clear();
+        int count = 0;
+        foreach(QString bookID, m_zef->m_bookIDs) {
+            const int id = bookID.toInt();
+            m_bookIDs.append(id);
+            m_bookFullName[id] = m_zef->m_bookFullName.at(count);
+            foreach(QString s, m_zef->m_bookShortName.at(count)) {
+                m_bookShortName[id] = QStringList(s) ;
+            }
+            count++;
         }
         m_biblePath = m_zef->m_biblePath;
         //ModuleCache
@@ -193,7 +206,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
             break;
         }
         Chapter chapter = m_book.getChapter(chapterID + 1); //get data for this chapter
-        //find out whereto read verse
+        //find out where to read verse
         int end;
         if(endVerse == -1) {
             end = chapter.data.size();
@@ -496,13 +509,18 @@ QString Bible::bibleShortTitle()
     return m_bibleShortTitle;
 }
 
-QStringList Bible::bookFullName()
+QStringList Bible::bookFullNames()
+{
+    return m_bookFullName.values();
+}
+QHash<int, QString> Bible::bookFullName()
 {
     return m_bookFullName;
 }
-QList<QStringList> Bible::bookShortName()
+
+QList<QStringList> Bible::bookShortNames()
 {
-    return m_bookShortName;
+    return m_bookShortName.values();
 }
 
 QStringList Bible::bookPath()
@@ -534,4 +552,12 @@ SearchQuery Bible::lastSearchQuery()
     return m_lastSearchQuery;
 }
 
-
+QList<int> Bible::bookIDs()
+{
+    return m_bookIDs;
+}
+QString Bible::bookName(const int &bookID, bool preferShort)
+{
+    //todo: use preferShort
+    return m_bookFullName.value(bookID);
+}

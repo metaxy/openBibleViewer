@@ -391,7 +391,13 @@ void MainWindow::loadSettings()
         m_settingsFile->setArrayIndex(i);
         ModuleCache c;
         c.setBookCount(m_settingsFile->value("bookCount").toMap());
-        c.bookNames = m_settingsFile->value("bookNames").toStringList();
+        QStringList names = m_settingsFile->value("bookNames").toStringList();
+        QStringList ids =m_settingsFile->value("bookIds").toStringList();
+        QHash<int, QString> bookNames;
+        for(int n = 0; n < ids.size(); ++n) {
+            bookNames[ids.at(n).toInt()] = names.at(n);
+        }
+        c.bookNames = bookNames;
         c.title = m_settingsFile->value("title").toString();
         m_settings->m_moduleCache.insert(m_settings->recoverUrl(m_settingsFile->value("path").toString()), c);
 
@@ -452,7 +458,16 @@ void MainWindow::writeSettings()
         ModuleCache c = i.value();
         QString url = m_settings->savableUrl(i.key());
         m_settingsFile->setValue("title", c.title);
-        m_settingsFile->setValue("bookNames", c.bookNames);
+        QHashIterator<int, QString> i(c.bookNames);
+        QStringList bookNames;
+        QStringList bookIDs;
+        while (i.hasNext()) {
+             i.next();
+             bookNames << i.value();
+             bookIDs << QString::number(i.key());
+        }
+        m_settingsFile->setValue("bookNames", bookNames);
+        m_settingsFile->setValue("bookIDs", bookIDs);
         m_settingsFile->setValue("bookCount", c.toStringMap());
         m_settingsFile->setValue("path", url);
     }

@@ -35,9 +35,10 @@ public:
     BookDockWidget(QWidget *parent = 0);
     ~BookDockWidget();
     void setChapters(const QStringList &chapters);
-    void setBooks(const QStringList &books);
+    void setBooks(const QHash<int, QString> &books);
     void setCurrentBook(const int &bookID);
     void setCurrentChapter(const int &chapterID);
+    void clearBooks();
 
 protected:
     void changeEvent(QEvent *e);

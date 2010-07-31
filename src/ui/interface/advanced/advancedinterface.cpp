@@ -234,7 +234,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     m_windowCache.setBibleList(m_moduleManager->m_bibleList);
 
     //clear old stuff
-    setBooks(QStringList());
+    clearBooks();
     setChapters(QStringList());
 
 
@@ -426,14 +426,14 @@ int AdvancedInterface::closingWindow()
     //if one in the internal subwindow list list is missing that window was closed
     if(ui->mdiArea->subWindowList().isEmpty()) {
         myDebug() << "subWindowList is empty";
-        setBooks(QStringList());
+        clearBooks();
         setChapters(QStringList());
         m_windowCache.clearAll();
         return 1;
     }
     if(m_internalWindows.isEmpty()) {
         myDebug() << "internaL is empty";
-        setBooks(QStringList());
+        clearBooks();
         setChapters(QStringList());
         m_windowCache.clearAll();
         return 1;
@@ -448,7 +448,7 @@ int AdvancedInterface::closingWindow()
     }
     if(ui->mdiArea->subWindowList().isEmpty()) {  //last window closed
         myDebug() << "last closed";
-        setBooks(QStringList());
+        clearBooks();
         setChapters(QStringList());
         m_windowCache.clearAll();
         return 1;
@@ -480,19 +480,19 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
     //todo: add last active window and if it is the same do nohting
     if(!m_windowCache.getBibleList()) {
         setChapters(QStringList());
-        setBooks(QStringList());
+        clearBooks();
         myDebug() << "no biblelist";
         return 1;
     }
     if(!m_windowCache.getBibleList()->bible()) {
         setChapters(QStringList());
-        setBooks(QStringList());
+        clearBooks();
         myDebug() << "no bible";
         return 1;
     }
     if(m_windowCache.getBibleList()->bible()->moduleID() < 0) {
         setChapters(QStringList());
-        setBooks(QStringList());
+        clearBooks();
         myDebug() << "no moduleID";
         return 1;
     }
@@ -825,27 +825,43 @@ void AdvancedInterface::setCurrentChapter(const int &chapterID)
     }
 }
 
-void AdvancedInterface::setBooks(const QStringList &books)
+void AdvancedInterface::setBooks(const QHash<int, QString> &books)
 {
     m_bookDockWidget->setBooks(books);
-    m_quickJumpDockWidget->setBooks(books);
+    m_quickJumpDockWidget->setBooks(books.values()); //todo:
     if(activeMdiChild()) {
         QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
         if(comboBox_books) {
+
             bool same = true;
+            QHashIterator<int, QString> i(books);
+            int count = 0;
             if(comboBox_books->count() == books.count()) {
-                for(int i = 0; i < books.count(); i++) {
-                    if(comboBox_books->itemText(i) != books.at(i)) {
+                while (i.hasNext()) {
+                    i.next();
+                    if(comboBox_books->itemText(count) != i.value()) {
                         same = false;
+                        break;
                     }
+                    count++;
                 }
             } else {
                 same = false;
             }
             if(!same) {
                 comboBox_books->clear();
-                comboBox_books->insertItems(0, books);
+                comboBox_books->insertItems(0, books.values());
             }
+        }
+    }
+}
+void AdvancedInterface::clearBooks()
+{
+    m_bookDockWidget->clearBooks();
+    if(activeMdiChild()) {
+        QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
+        if(comboBox_books) {
+            comboBox_books->clear();
         }
     }
 }
@@ -877,13 +893,13 @@ void AdvancedInterface::readBookByID(int id)
             myWarning() << "invalid bookID - 1";
             return;
         }
-        if(id >= m_moduleManager->bible()->booksCount()) {
+        /*if(!m_moduleManager->bible()->bookIDs().contains(id)) {
             QApplication::restoreOverrideCursor();
             QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
             myWarning() << "invalid bookID - 2(no book loaded) id = " << id << " count = " << m_moduleManager->bible()->booksCount();
 
             return;
-        }
+        }*/
         int read = m_moduleManager->bibleList()->readBook(id);
         if(read != 0) {
             QApplication::restoreOverrideCursor();
@@ -1151,7 +1167,7 @@ int AdvancedInterface::copyWholeVerse(void)
 
         const QString curChapter = QString::number(m_moduleManager->bible()->chapterID() + 1);
 
-        const QString newText = m_moduleManager->bible()->bookFullName().at(m_moduleManager->bible()->bookID()) + " " + curChapter + sverse + "\n" + stext;
+        const QString newText = m_moduleManager->bible()->bookName(m_moduleManager->bible()->bookID()) + " " + curChapter + sverse + "\n" + stext;
         QClipboard *clipboard = QApplication::clipboard();
         clipboard->setText(newText);
 

@@ -54,6 +54,7 @@ public:
     QStringList m_bookFullName;
     QStringList m_bookShortName;
     QMap <int, int> m_bookCount;
+    QStringList m_bookIDs;
     Book m_book;
 
     void removeHardCache(const QString &path);

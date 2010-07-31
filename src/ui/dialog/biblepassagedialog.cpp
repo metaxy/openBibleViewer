@@ -51,7 +51,7 @@ void BiblePassageDialog::indexChanged(int index)
     if(index >= 0) {
         m_path = m_moduleManager->getBiblePaths().at(index);
         m_ui->comboBox_books->clear();
-        m_ui->comboBox_books->insertItems(0, m_settings->getModuleCache(m_path).bookNames);
+        m_ui->comboBox_books->insertItems(0, m_settings->getModuleCache(m_path).bookNames.values());
         //todo: set max using bookCount
         m_ui->comboBox_books->setCurrentIndex(0);
         m_ui->spinBox_chapter->setValue(1);
@@ -70,7 +70,7 @@ void BiblePassageDialog::save()
                    + ";" + QString::number(m_ui->comboBox_books->currentIndex())
                    + ";" + QString::number(m_ui->spinBox_chapter->value() - 1)
                    + ";" + QString::number(m_ui->spinBox_verse->value() - 1)
-                   + ";" + m_settings->getModuleCache(m_path).bookNames.at(m_ui->comboBox_books->currentIndex());
+                   + ";" + m_settings->getModuleCache(m_path).bookNames.values().at(m_ui->comboBox_books->currentIndex());
 
 
     emit updated(link);

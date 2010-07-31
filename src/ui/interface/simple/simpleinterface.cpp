@@ -257,7 +257,7 @@ void SimpleInterface::setChapters(const QStringList &chapters)
     m_bookDockWidget->setChapters(chapters);
 }
 
-void SimpleInterface::setBooks(const QStringList &books)
+void SimpleInterface::setBooks(const QHash<int, QString> &books)
 {
     m_bookDockWidget->setBooks(books);
 }

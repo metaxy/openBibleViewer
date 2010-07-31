@@ -41,7 +41,7 @@ void SearchResultDockWidget::setSearchResult(SearchResult searchResult)
     QList<SearchHit> hits = searchResult.hits(SearchHit::BibleHit);
     for(int i = 0; i < hits.size(); ++i) {
         SearchHit hit = hits.at(i);
-        QString bookn = m_moduleManager->bible()->bookFullName().at(hit.value(SearchHit::BookID).toInt());
+        QString bookn = m_moduleManager->bible()->bookName(hit.value(SearchHit::BookID).toInt());
         outlist << bookn + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + " , " +
                 QString::number(hit.value(SearchHit::VerseID).toInt() + 1);
     }
@@ -68,14 +68,14 @@ void SearchResultDockWidget::searchInfo()
         return;
     }
 
-    const QStringList bookNames = m_moduleManager->bible()->bookFullName();
+    const QStringList bookNames = m_moduleManager->bible()->bookFullNames();//todo: check
     SearchResult result = m_searchResult;
     QList<SearchHit> list = result.hits(SearchHit::BibleHit);
 
     QStringList textList;
     for(int i = 0; i < list.size(); ++i) {
         SearchHit hit = list.at(i);
-        QString bookn = m_moduleManager->bible()->bookFullName().at(hit.value(SearchHit::BookID).toInt()); //todo: maybe the bible isn't loaded and you need another bookNames
+        QString bookn = m_moduleManager->bible()->bookName(hit.value(SearchHit::BookID).toInt()); //todo: maybe the bible isn't loaded and you need another bookNames
         textList << hit.value(SearchHit::VerseText).toString() + "\n - <i>" + bookn + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + " , " + QString::number(hit.value(SearchHit::VerseID).toInt() + 1) + "</i>";
     }
 
