@@ -183,6 +183,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     QVBoxLayout *layout = new QVBoxLayout(widget);
 
     MdiForm *mForm = new MdiForm(widget);
+    mForm->setObjectName("mdiForm");
     setAll(mForm);
     layout->addWidget(mForm);
 
@@ -208,8 +209,6 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
             subWindow->show();
         }
     }
-    connect(mForm->m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
-    connect(mForm->m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
 
     connect(mForm->m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
     connect(mForm->m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
@@ -235,10 +234,7 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
 
     //clear old stuff
     clearBooks();
-    setChapters(QStringList());
-
-
-
+    clearChapters();
 }
 
 void AdvancedInterface::autoLayout()
@@ -427,14 +423,14 @@ int AdvancedInterface::closingWindow()
     if(ui->mdiArea->subWindowList().isEmpty()) {
         myDebug() << "subWindowList is empty";
         clearBooks();
-        setChapters(QStringList());
+        clearChapters();
         m_windowCache.clearAll();
         return 1;
     }
     if(m_internalWindows.isEmpty()) {
         myDebug() << "internaL is empty";
         clearBooks();
-        setChapters(QStringList());
+        clearChapters();
         m_windowCache.clearAll();
         return 1;
     }
@@ -449,7 +445,7 @@ int AdvancedInterface::closingWindow()
     if(ui->mdiArea->subWindowList().isEmpty()) {  //last window closed
         myDebug() << "last closed";
         clearBooks();
-        setChapters(QStringList());
+        clearChapters();
         m_windowCache.clearAll();
         return 1;
     }
@@ -479,19 +475,19 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
 
     //todo: add last active window and if it is the same do nohting
     if(!m_windowCache.getBibleList()) {
-        setChapters(QStringList());
+        clearChapters();
         clearBooks();
         myDebug() << "no biblelist";
         return 1;
     }
     if(!m_windowCache.getBibleList()->bible()) {
-        setChapters(QStringList());
+        clearChapters();
         clearBooks();
         myDebug() << "no bible";
         return 1;
     }
     if(m_windowCache.getBibleList()->bible()->moduleID() < 0) {
-        setChapters(QStringList());
+        clearChapters();
         clearBooks();
         myDebug() << "no moduleID";
         return 1;
@@ -507,7 +503,7 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
 
     setCurrentChapter(m_moduleManager->bible()->chapterID());
 
-    setBooks(m_moduleManager->bible()->bookFullName());
+    setBooks(m_moduleManager->bible()->bookFullName(),m_moduleManager->bible()->bookIDs());
     setCurrentBook(m_moduleManager->bible()->bookID());
     m_moduleDockWidget->loadedModule(m_moduleManager->bible()->moduleID());
 
@@ -539,7 +535,7 @@ void AdvancedInterface::loadModuleDataByID(int id)
 
 
     setTitle(m_moduleManager->bible()->bibleTitle());
-    setBooks(m_moduleManager->bible()->bookFullName());
+    setBooks(m_moduleManager->bible()->bookFullName(),m_moduleManager->bible()->bookIDs());
     m_moduleDockWidget->loadedModule(id);//select current Module
     QApplication::restoreOverrideCursor();
 
@@ -818,20 +814,35 @@ void AdvancedInterface::setChapters(const QStringList &chapters)
 
 void AdvancedInterface::setCurrentChapter(const int &chapterID)
 {
+    DEBUG_FUNC_NAME
+    myDebug() << chapterID;
     m_bookDockWidget->setCurrentChapter(chapterID);
     if(activeMdiChild()) {
         QComboBox *comboBox_chapters = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_chapters");
+        MdiForm *mForm = activeMdiChild()->widget()->findChild<MdiForm *>("mdiForm");
+        disconnect(mForm->m_ui->comboBox_chapters,SIGNAL(activated(int)), mForm, SLOT(readChapter(int)));
         comboBox_chapters->setCurrentIndex(chapterID);
+        connect(mForm->m_ui->comboBox_chapters,SIGNAL(activated(int)), mForm, SLOT(readChapter(int)));
+
     }
 }
-
-void AdvancedInterface::setBooks(const QHash<int, QString> &books)
+void AdvancedInterface::clearChapters()
+{
+    m_bookDockWidget->clearChapters();
+    if(activeMdiChild()) {
+        QComboBox *comboBox_chapters = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_chapters");
+        if(comboBox_chapters)
+            comboBox_chapters->clear();
+    }
+}
+void AdvancedInterface::setBooks(const QHash<int, QString> &books,QList<int> ids)
 {
     m_bookDockWidget->setBooks(books);
     m_quickJumpDockWidget->setBooks(books.values()); //todo:
     if(activeMdiChild()) {
         QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
-        if(comboBox_books) {
+        MdiForm *mForm = activeMdiChild()->widget()->findChild<MdiForm *>("mdiForm");
+        if(comboBox_books && mForm) {
 
             bool same = true;
             QHashIterator<int, QString> i(books);
@@ -851,8 +862,25 @@ void AdvancedInterface::setBooks(const QHash<int, QString> &books)
             if(!same) {
                 comboBox_books->clear();
                 comboBox_books->insertItems(0, books.values());
+                mForm->m_bookIDs = ids;
             }
         }
+    }
+}
+
+void AdvancedInterface::setCurrentBook(const int &bookID)
+{
+    m_bookDockWidget->setCurrentBook(bookID);
+    if(activeMdiChild()) {
+        QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
+        MdiForm *mForm = activeMdiChild()->widget()->findChild<MdiForm *>("mdiForm");
+        disconnect(mForm->m_ui->comboBox_books,SIGNAL(activated(int)), mForm, SLOT(readBook(int)));
+
+        if(comboBox_books) {
+            comboBox_books->setCurrentIndex(m_moduleManager->bible()->bookIDs().indexOf(bookID));
+        }
+        connect(mForm->m_ui->comboBox_books,SIGNAL(activated(int)), mForm, SLOT(readBook(int)));
+
     }
 }
 void AdvancedInterface::clearBooks()
@@ -865,18 +893,6 @@ void AdvancedInterface::clearBooks()
         }
     }
 }
-
-void AdvancedInterface::setCurrentBook(const int &bookID)
-{
-    m_bookDockWidget->setCurrentBook(bookID);
-    if(activeMdiChild()) {
-        QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
-        if(comboBox_books) {
-            comboBox_books->setCurrentIndex(bookID);
-        }
-    }
-}
-
 void AdvancedInterface::readBook(const int &id)
 {
     emit get("bible://current/" + QString::number(id) + ",0,0");
@@ -893,18 +909,14 @@ void AdvancedInterface::readBookByID(int id)
             myWarning() << "invalid bookID - 1";
             return;
         }
-        /*if(!m_moduleManager->bible()->bookIDs().contains(id)) {
-            QApplication::restoreOverrideCursor();
-            QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
+        if(!m_moduleManager->bible()->bookIDs().contains(id)) {
             myWarning() << "invalid bookID - 2(no book loaded) id = " << id << " count = " << m_moduleManager->bible()->booksCount();
-
-            return;
-        }*/
+        }
         int read = m_moduleManager->bibleList()->readBook(id);
         if(read != 0) {
             QApplication::restoreOverrideCursor();
             if(read == 2) {
-                setChapters(QStringList());
+                clearChapters();
             } else {
                 QMessageBox::critical(0, tr("Error"), tr("Cannot read the book."));
             }
@@ -912,9 +924,9 @@ void AdvancedInterface::readBookByID(int id)
             //error while reading
             return;
         }
+        QApplication::restoreOverrideCursor();
         setChapters(m_moduleManager->bible()->chapterNames());
 
-        QApplication::restoreOverrideCursor();
     }
 
 }

@@ -36,8 +36,11 @@ public:
     virtual ~MdiForm();
     Ui::MdiForm *m_ui;
     WebView *m_view;
+    QList<int> m_bookIDs;
 private slots:
     void showBibleListMenu();
+    void readBook(int id);
+    void readChapter(int id);
 signals:
     void onClose();
     void historyGo(QString);
@@ -54,6 +57,7 @@ protected:
 private:
     History browserHistory;
     void setButtons();
+
 
 };
 

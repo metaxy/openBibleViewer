@@ -151,8 +151,9 @@ private:
 
     void setTitle(const QString &title);
     void setChapters(const QStringList &chapters);
-    void setBooks(const QHash<int, QString> &books);
+    void setBooks(const QHash<int, QString> &books,QList<int> ids);
     void clearBooks();
+    void clearChapters();
     void setCurrentBook(const int &bookID);
     void setCurrentChapter(const int &chapterID);
 

@@ -35,6 +35,8 @@ MdiForm::MdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::MdiForm)
     connect(m_ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
     connect(m_ui->toolButton_bibleList, SIGNAL(clicked()), this, SLOT(showBibleListMenu()));
 
+    connect(m_ui->comboBox_books,SIGNAL(activated(int)), this, SLOT(readBook(int)));
+    connect(m_ui->comboBox_chapters,SIGNAL(activated(int)), this, SLOT(readChapter(int)));
 
     setButtons();
     //m_ui->textBrowser->installEventFilter(this);
@@ -82,12 +84,20 @@ void MdiForm::setButtons()
 void MdiForm::showBibleListMenu()
 {
     BibleListWidget *w = new BibleListWidget;
-    setAll(w);;
-    /*   QPoint p = QCursor::pos();
-        p.setX(p.x()-w->width());
-        w->move(p);*/
+    setAll(w);
     w->init();
     w->exec();
+}
+
+void MdiForm::readChapter(int id)
+{
+    m_bibleDisplay->emitGet("bible://current/" + QString::number(m_moduleManager->bible()->bookID()) + "," + QString::number(id) + ",0");
+}
+
+void MdiForm::readBook(int id)
+{
+    int i = m_bookIDs.at(id);
+    m_bibleDisplay->emitGet("bible://current/" + QString::number(i) + ",0,0");
 }
 
 bool MdiForm::eventFilter(QObject *obj, QEvent *event)

@@ -127,8 +127,10 @@ void ZefaniaBible::readBook(const int &id)
         while(!n2.isNull()) {  //alle verse
             verseCount++;
             QDomElement e2 = n2.toElement();
-            c.data <<  e2.text();
-            c.verseNumber << e2.attribute("vnumber", "");
+            if(e2.tagName().toLower() == "vers") { // read only verse
+                c.data <<  e2.text();
+                c.verseNumber << e2.attribute("vnumber", "");
+            } //todo: all other data
             n2 = n2.nextSibling();
         }
         c.chapterName = e.attribute("cnumber",QString::number(i));
@@ -385,7 +387,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
         if(e.attribute("bname", "") != "" || e.attribute("bnumber", "") != "") {
             //it is the caching mechanisme
             int start = 0, end = 0;
-            QString bookID = e.attribute("bnumber");
+            QString bookID = QString::number(e.attribute("bnumber").toInt()-1);//i count from zero
             for(int i = currentPos; i < fileList.size(); ++i) {
                 QString line = fileList.at(i);
                 if(line.contains("<BIBLEBOOK", Qt::CaseInsensitive)) {
@@ -552,7 +554,7 @@ Book ZefaniaBible::fromHardToSoft(int bookID, QDomNode ncache)
             n2 = n2.nextSibling();
         }
         c.chapterName = e.attribute("cnumber",QString::number(i));
-        c.chapterID = c.chapterName.toInt() - 1;
+        c.chapterID = c.chapterName.toInt() - 1;//i count from zero
         c.verseCount = verseCount;
         c.bookName = m_bookFullName.at(bookID);
 

@@ -29,8 +29,8 @@ class BookDockWidget : public DockWidget
 {
     Q_OBJECT
 private slots:
-    void readBook(QListWidgetItem * item);
-    void readChapter(QListWidgetItem * item);
+    void readBook(QModelIndex index);
+    void readChapter(QModelIndex index);
 public:
     BookDockWidget(QWidget *parent = 0);
     ~BookDockWidget();
@@ -39,6 +39,7 @@ public:
     void setCurrentBook(const int &bookID);
     void setCurrentChapter(const int &chapterID);
     void clearBooks();
+    void clearChapters();
 
 protected:
     void changeEvent(QEvent *e);
@@ -46,6 +47,10 @@ signals:
     void get(QString);
 private:
     Ui::BookDockWidget *ui;
+    QStandardItemModel *m_bookModel;
+    QStandardItemModel *m_chapterModel;
+    QItemSelectionModel *m_bookSelection;
+    QItemSelectionModel *m_chapterSelection;
 
 };
 
