@@ -503,7 +503,7 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
 
     setCurrentChapter(m_moduleManager->bible()->chapterID());
 
-    setBooks(m_moduleManager->bible()->bookFullName(),m_moduleManager->bible()->bookIDs());
+    setBooks(m_moduleManager->bible()->bookNames(),m_moduleManager->bible()->bookIDs());
     setCurrentBook(m_moduleManager->bible()->bookID());
     m_moduleDockWidget->loadedModule(m_moduleManager->bible()->moduleID());
 
@@ -535,7 +535,7 @@ void AdvancedInterface::loadModuleDataByID(int id)
 
 
     setTitle(m_moduleManager->bible()->bibleTitle());
-    setBooks(m_moduleManager->bible()->bookFullName(),m_moduleManager->bible()->bookIDs());
+    setBooks(m_moduleManager->bible()->bookNames(),m_moduleManager->bible()->bookIDs());
     m_moduleDockWidget->loadedModule(id);//select current Module
     QApplication::restoreOverrideCursor();
 

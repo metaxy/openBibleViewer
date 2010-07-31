@@ -119,8 +119,8 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
                                 const QString url = "bible://current/" + QString::number(bookID) + "," + QString::number(chapterID) + "," + QString::number(verseID) + ",";
                                 QString name = "";
 
-                                if(bookID < m_settings->bookNames.size()) {
-                                    name = m_settings->bookNames.at(bookID) + " " + list.at(1) + "," + list.at(2);
+                                if(bookID < m_settings->bookFullNames.size()) {
+                                    name = m_settings->bookFullNames.at(bookID) + " " + list.at(1) + "," + list.at(2);
                                 } else {
                                     name = list.at(0) + " " + list.at(1) + "," + list.at(2);
                                 }

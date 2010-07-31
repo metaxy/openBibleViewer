@@ -188,8 +188,8 @@ QDomElement ZefaniaBible::format(QDomElement e)
             const int verseID = list.at(2).toInt() - 1;
             const QString url = "bible://current/" + QString::number(bookID) + "," + QString::number(chapterID) + "," + QString::number(verseID);
             QString name = "";
-            if(bookID < m_settings->bookNames.size()) {
-                name = m_settings->bookNames.at(bookID) + " " + list.at(1) + "," + list.at(2);
+            if(bookID < m_settings->bookFullNames.size()) {
+                name = m_settings->bookFullNames.at(bookID) + " " + list.at(1) + "," + list.at(2);
             } else {
                 name = list.at(0) + " " + list.at(1) + "," + list.at(2);
             }
@@ -438,11 +438,11 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
         if(m_bookFullName.size() == 66) {
             m_bookFullName.clear();
             //load default booknames
-            m_bookFullName = m_settings->bookNames;
+            m_bookFullName = m_settings->bookFullNames;
         } else if(m_bookFullName.size() == 27) {
             m_bookFullName.clear();
             //load default booknames
-            QStringList b = m_settings->bookNames;
+            QStringList b = m_settings->bookFullNames;
             for(int v = 0; v < 39; v++) {
                 b.removeFirst();
             }

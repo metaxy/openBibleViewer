@@ -43,7 +43,8 @@ public:
     bool zefaniaBible_hardCache;
     bool zefaniaBible_softCache;
     QString homePath;
-    QStringList bookNames;
+    QStringList bookFullNames;
+    QList<QStringList> bookShortNames;
     QString lastPlaceSave;
 
 

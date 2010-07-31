@@ -134,7 +134,7 @@ void SimpleInterface::loadModuleDataByID(int id)
     m_moduleManager->bible()->loadModuleData(id);
 
     setTitle(m_moduleManager->bible()->bibleTitle());
-    setBooks(m_moduleManager->bible()->bookFullName());
+    setBooks(m_moduleManager->bible()->bookNames());
 
 }
 void SimpleInterface::pharseUrl(QUrl url)

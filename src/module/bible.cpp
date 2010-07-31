@@ -509,18 +509,14 @@ QString Bible::bibleShortTitle()
     return m_bibleShortTitle;
 }
 
-QStringList Bible::bookFullNames()
-{
-    return m_bookFullName.values();
-}
-QHash<int, QString> Bible::bookFullName()
+QHash<int, QString> Bible::bookFullNames()
 {
     return m_bookFullName;
 }
 
-QList<QStringList> Bible::bookShortNames()
+QHash<int, QStringList> Bible::bookShortNames()
 {
-    return m_bookShortName.values();
+    return m_bookShortName;
 }
 
 QStringList Bible::bookPath()
@@ -559,5 +555,42 @@ QList<int> Bible::bookIDs()
 QString Bible::bookName(const int &bookID, bool preferShort)
 {
     //todo: use preferShort
-    return m_bookFullName.value(bookID);
+    if(m_bookShortName.value(bookID).size() != 0) {
+        if(preferShort) {
+            return m_bookShortName.value(bookID).first();
+        } else {
+            return m_bookFullName.value(bookID,m_bookShortName.value(bookID).first());
+        }
+    } else {
+         return m_bookFullName.value(bookID);
+    }
+
+
+}
+QHash<int, QString> Bible::bookNames(bool preferShort)
+{
+    if(preferShort) {
+        if(m_bookShortName.size() != 0) {
+            QHash<int, QString> ret;
+            QHashIterator<int, QStringList> i(m_bookShortName);
+            while (i.hasNext()) {
+                ret[i.key()] = i.value().first();
+            }
+            return ret;
+        } else {
+            return m_bookFullName;
+        }
+    } else {
+        if(m_bookFullName.size() != 0) {
+            return m_bookFullName;
+        } else {
+            QHash<int, QString> ret;
+            QHashIterator<int, QStringList> i(m_bookShortName);
+            while (i.hasNext()) {
+                ret[i.key()] = i.value().first();
+            }
+            return ret;
+        }
+
+    }
 }

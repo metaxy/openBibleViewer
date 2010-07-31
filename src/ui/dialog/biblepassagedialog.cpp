@@ -42,7 +42,7 @@ void BiblePassageDialog::setCurrent(const int &bible, const QString &path, const
 
     int newIndex = m_moduleManager->getBiblePaths().lastIndexOf(path);
     m_ui->comboBox_bibles->setCurrentIndex(newIndex);//todo: if lastindexof == -1 show a warning
-    m_ui->comboBox_books->setCurrentIndex(book);
+    m_ui->comboBox_books->setCurrentIndex(m_settings->getModuleCache(m_path).bookNames.keys().indexOf(book));
     m_ui->spinBox_chapter->setValue(chapter);
     m_ui->spinBox_verse->setValue(verse);
 }
@@ -67,7 +67,7 @@ void BiblePassageDialog::indexChanged(int index)
 void BiblePassageDialog::save()
 {
     QString link = m_path
-                   + ";" + QString::number(m_ui->comboBox_books->currentIndex())
+                   + ";" + QString::number(m_settings->getModuleCache(m_path).bookNames.keys().at(m_ui->comboBox_books->currentIndex()))
                    + ";" + QString::number(m_ui->spinBox_chapter->value() - 1)
                    + ";" + QString::number(m_ui->spinBox_verse->value() - 1)
                    + ";" + m_settings->getModuleCache(m_path).bookNames.values().at(m_ui->comboBox_books->currentIndex());

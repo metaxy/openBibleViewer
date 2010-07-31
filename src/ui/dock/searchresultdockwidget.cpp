@@ -68,7 +68,7 @@ void SearchResultDockWidget::searchInfo()
         return;
     }
 
-    const QStringList bookNames = m_moduleManager->bible()->bookFullNames();//todo: check
+    const QStringList bookNames = m_moduleManager->bible()->bookNames().values();//todo: check
     SearchResult result = m_searchResult;
     QList<SearchHit> list = result.hits(SearchHit::BibleHit);
 

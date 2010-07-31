@@ -57,10 +57,10 @@ public:
     QString biblePath();
 
     QString bookName(const int &bookID, bool preferShort = false);
+    QHash<int, QString> bookNames(bool preferShort = false);
 
-    QStringList bookFullNames();
-    QHash<int, QString> bookFullName();
-    QList<QStringList> bookShortNames();
+    QHash<int, QString> bookFullNames();
+    QHash<int, QStringList> bookShortNames();
     QList<int> bookIDs();
     QStringList bookPath();
     QStringList chapterNames();
