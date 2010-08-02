@@ -4,10 +4,14 @@ set ( CMAKE_BUILD_TYPE Release )
 add_definitions ( -Wall )
 find_package ( Qt4 REQUIRED )
 include ( ${QT_USE_FILE} )
+SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+FIND_PACKAGE(CLucene REQUIRED)
 include_directories (
 	${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
-	${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR} ${QT_QTXML_INCLUDE_DIR} ${QT_QTNETWORK_INCLUDE_DIR} ${QT_QTWEBKIT_INCLUDE_DIR}
-	)
+	${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR} ${QT_QTXML_INCLUDE_DIR} ${QT_QTNETWORK_INCLUDE_DIR} ${QT_QTWEBKIT_INCLUDE_DIR}  ${CLUCENE_INCLUDE_DIR} ${CLUCENE_LIBRARY_DIR})
+LINK_DIRECTORIES(
+    ${CLUCENE_LIBRARY_DIR}
+)
 set ( openBibleViewer_HDRS
 	src/core/settings.h
 	src/module/biblequote.h
@@ -21,7 +25,7 @@ set ( openBibleViewer_HDRS
 	src/module/bible.h
 	src/core/chapter.h
 	src/core/goto.h
-	src/module/zefania-strong.h
+	src/module/zefania-lex.h
 	src/core/history.h
 	src/core/dbghelper.h
 	src/core/searchquery.h
@@ -34,7 +38,6 @@ set ( openBibleViewer_HDRS
 	src/core/verseselection.h
 	src/module/modulemanager.h
 	src/module/module.h
-	src/module/strong.h
 	src/core/bibledisplaysettings.h
 	src/module/simplemoduleclass.h
 	src/core/session.h
@@ -43,6 +46,10 @@ set ( openBibleViewer_HDRS
 	src/module/biblelist.h
 	src/core/core.h
 	src/core/modulecache.h
+	src/module/dictionary.h
+	src/core/search.h
+	src/module/biblequote-dict.h
+	src/core/book.h
 	)
 
 set ( openBibleViewer_SRCS
@@ -64,7 +71,7 @@ set ( openBibleViewer_SRCS
 	src/ui/dialog/biblepassagedialog.cpp
 	src/ui/dialog/moduleconfigdialog.cpp
 	src/core/goto.cpp
-	src/module/zefania-strong.cpp
+	src/module/zefania-lex.cpp
 	src/core/history.cpp
 	src/ui/dialog/moduledownloaddialog.cpp
 	src/core/dbghelper.cpp
@@ -79,8 +86,7 @@ set ( openBibleViewer_SRCS
 	src/ui/markcategories.cpp
 	src/module/modulemanager.cpp
 	src/module/module.cpp
-	src/module/strong.cpp
-	src/ui/dock/strongdockwidget.cpp
+	src/ui/dock/dictionarydockwidget.cpp
 	src/ui/dock/searchresultdockwidget.cpp
 	src/ui/dock/notesdockwidget.cpp
 	src/ui/dock/bookmarksdockwidget.cpp
@@ -98,7 +104,7 @@ set ( openBibleViewer_SRCS
 	src/module/simplemoduleclass.cpp
 	src/ui/noteseditor.cpp
 	src/core/session.cpp
-	src/ui/dock/moduleproxymodel.cpp
+	src/ui/recursivproxymodel.cpp
 	src/core/simplenotes.cpp
 	src/core/basicclass.cpp
 	src/ui/highlighter.cpp
@@ -111,6 +117,11 @@ set ( openBibleViewer_SRCS
 	src/module/modulemap.cpp
 	src/core/modulecache.cpp
 	src/api/bibleapi.cpp
+	src/ui/dock/advancedsearchresultdockwidget.cpp
+	src/module/dictionary.cpp
+	src/core/search.cpp
+	src/module/biblequote-dict.cpp
+	src/core/book.cpp
 	)
 
 set ( openBibleViewer_UIS
@@ -124,7 +135,7 @@ set ( openBibleViewer_UIS
 	src/ui/dialog/moduledownloaddialog.ui
 	src/ui/marklist.ui
 	src/ui/markcategories.ui
-	src/ui/dock/strongdockwidget.ui
+	src/ui/dock/dictionarydockwidget.ui
 	src/ui/dock/searchresultdockwidget.ui
 	src/ui/dock/notesdockwidget.ui
 	src/ui/dock/bookmarksdockwidget.ui
@@ -139,6 +150,7 @@ set ( openBibleViewer_UIS
 	src/ui/dialog/inserthtmldialog.ui
 	src/ui/dialog/insertlinkdialog.ui
 	src/ui/interface/advanced/biblelistwidget.ui
+	src/ui/dock/advancedsearchresultdockwidget.ui
 	)
 QT4_WRAP_UI(UIS ${openBibleViewer_UIS})
 
@@ -152,6 +164,7 @@ set ( openBibleViewer_TRS
 	src/obv_de.ts
 	src/obv_ru.ts
 	src/obv_en.ts
+	src/obv_cs.ts
 	)
 QT4_ADD_TRANSLATION(TRS ${openBibleViewer_TRS})
 
@@ -167,7 +180,7 @@ set ( openBibleViewer_MOCS
 	src/ui/dialog/moduledownloaddialog.h
 	src/ui/marklist.h
 	src/ui/markcategories.h
-	src/ui/dock/strongdockwidget.h
+	src/ui/dock/dictionarydockwidget.h
 	src/ui/dock/searchresultdockwidget.h
 	src/ui/dock/notesdockwidget.h
 	src/ui/dock/bookmarksdockwidget.h
@@ -182,7 +195,7 @@ set ( openBibleViewer_MOCS
 	src/ui/interface/interface.h
 	src/ui/dock/dockwidget.h
 	src/ui/noteseditor.h
-	src/ui/dock/moduleproxymodel.h
+	src/ui/recursivproxymodel.h
 	src/core/simplenotes.h
 	src/ui/highlighter.h
 	src/ui/dialog/insertlinkdialog.h
@@ -191,8 +204,9 @@ set ( openBibleViewer_MOCS
 	src/ui/interface/advanced/biblelistwidget.h
 	src/ui/interface/advanced/biblelistitemdelegate.h
 	src/api/bibleapi.h
+	src/ui/dock/advancedsearchresultdockwidget.h
 	)
 QT4_WRAP_CPP(MOCS ${openBibleViewer_MOCS})
 
 add_executable ( openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${TRS} ${MOCS} )
-target_link_libraries ( openBibleViewer  ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTNETWORK_LIBRARY} ${QT_QTWEBKIT_LIBRARY} )
+target_link_libraries ( openBibleViewer  ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTNETWORK_LIBRARY} ${QT_QTWEBKIT_LIBRARY} ${CLUCENE_LIBRARY} ${CLUCENE_LIBRARY})
