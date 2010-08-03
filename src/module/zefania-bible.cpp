@@ -360,7 +360,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
         data += l;
         fileList << l;
     }
-
+#endif
     progress.setValue(5);
     QString error;
     int l;
@@ -372,7 +372,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
         return;
     }
     data.clear();
-#endif
+
 
 
     progress.setValue(10);

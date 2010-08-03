@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
 
 #endif
 
-#if !defined(Q_WS_MAC) || !defined(Q_WS_X11)  || !  defined(Q_WS_WIN) //all other os
+#if !defined(Q_WS_MAC) && !defined(Q_WS_X11)  && !defined(Q_WS_WIN) //all other os
     homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
 #endif
