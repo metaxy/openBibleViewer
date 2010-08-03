@@ -26,6 +26,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QDir>
 #include <stdlib.h>
 
+#ifdef Q_OS_WIN32
+#include <windows.h>
+#include <stdio.h>
+#include <QWindowsVistaStyle>
+#include <QCleanlooksStyle>
+#endif
+
 #include "src/ui/mainwindow.h"
 bool removeDir(const QString &dirName)
 {
@@ -55,6 +62,22 @@ bool removeDir(const QString &dirName)
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    #ifdef Q_OS_WIN32
+        OSVERSIONINFO osvi;
+        BOOL bIsWindowsXPorLater;
+
+        ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
+        osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+
+        GetVersionEx(&osvi);
+
+        if(osvi.dwMajorVersion >= 6)
+            a.setStyle(new QWindowsVistaStyle);
+       else
+            a.setStyle(new QCleanlooksStyle);
+    #endif
+
     QSettings *settings;
     QString homeDataPath;
 
@@ -69,15 +92,21 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef Q_WS_WIN
-#ifdef _PORTABLE_VERSION
-    homeDataPath = QApplication::applicationDirPath() + "/";
-    settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-#else
-    homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
-    settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "openBible", "openBibleViewer");
-#endif
+    #ifdef _PORTABLE_VERSION
+        homeDataPath = QApplication::applicationDirPath() + "/";
+        settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
+    #else
+        homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
+        settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "openBible", "openBibleViewer");
+    #endif
 
 #endif
+
+#if !defined(Q_WS_MAC) || !defined(Q_WS_X11)  || !  defined(Q_WS_WIN) //all other os
+    homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
+    settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
+#endif
+
     QDir dir(homeDataPath);
     if(!dir.exists(homeDataPath)) {
         dir.mkpath(homeDataPath);

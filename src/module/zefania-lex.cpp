@@ -28,6 +28,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <CLucene.h>
 #include <CLucene/util/Misc.h>
 #include <CLucene/util/Reader.h>
+#ifndef Q_OS_WIN32
+using namespace lucene::search;
+using namespace lucene::index;
+using namespace lucene::queryParser;
+using namespace lucene::document;
+using namespace lucene::analysis::standard;
+#endif
 ZefaniaLex::ZefaniaLex()
 {
 }
@@ -52,17 +59,17 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
 
     // do not use any stop words
     const TCHAR* stop_words[]  = { NULL };
-    lucene::analysis::standard::StandardAnalyzer an((const TCHAR**)stop_words);
+     StandardAnalyzer an((const TCHAR**)stop_words);
 
-    if(lucene::index::IndexReader::indexExists(index.toAscii().constData())) {
-        if(lucene::index::IndexReader::isLocked(index.toAscii().constData())) {
-            lucene::index::IndexReader::unlock(index.toAscii().constData());
+    if( IndexReader::indexExists(index.toAscii().constData())) {
+        if( IndexReader::isLocked(index.toAscii().constData())) {
+             IndexReader::unlock(index.toAscii().constData());
         }
     }
-    QScopedPointer<lucene::index::IndexWriter> writer(new lucene::index::IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
+    QScopedPointer< IndexWriter> writer(new  IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
 
     QByteArray textBuffer;
-    wchar_t wcharBuffer[lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH + 1];
+    wchar_t wcharBuffer[ IndexWriter::DEFAULT_MAX_FIELD_LENGTH + 1];
 
     KoXmlDocument doc;
     QString errorMsg;
@@ -142,17 +149,17 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
             }
             ret += "<br />" + desc;
 
-            QScopedPointer<lucene::document::Document> doc(new lucene::document::Document());
+            QScopedPointer< Document> doc(new  Document());
 
-            lucene_utf8towcs(wcharBuffer, id.toUtf8().constData(),     lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
+            lucene_utf8towcs(wcharBuffer, id.toUtf8().constData(),      IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
 
-            doc->add(*(new lucene::document::Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer, lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_TOKENIZED)));
+            doc->add(*(new  Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_TOKENIZED)));
 
-            lucene_utf8towcs(wcharBuffer, ret.toUtf8().constData(),     lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
+            lucene_utf8towcs(wcharBuffer, ret.toUtf8().constData(),      IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
 
-            doc->add(*(new lucene::document::Field((const TCHAR*)_T("content"),
+            doc->add(*(new  Field((const TCHAR*)_T("content"),
                                                    (const TCHAR*)wcharBuffer,
-                                                   lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_TOKENIZED)));
+                                                    Field::STORE_YES |  Field::INDEX_TOKENIZED)));
             textBuffer.resize(0); //clean up
             writer->addDocument(doc.data());
 
@@ -176,18 +183,18 @@ QString ZefaniaLex::getEntry(const QString &id)
 {
     QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
     const QString queryText = "key:" + id;
-    char utfBuffer[ lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH  + 1];
-    wchar_t wcharBuffer[ lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH + 1];
+    char utfBuffer[  IndexWriter::DEFAULT_MAX_FIELD_LENGTH  + 1];
+    wchar_t wcharBuffer[  IndexWriter::DEFAULT_MAX_FIELD_LENGTH + 1];
     const TCHAR* stop_words[]  = { NULL };
-    lucene::analysis::standard::StandardAnalyzer analyzer(stop_words);
-    lucene::search::IndexSearcher searcher(index.toLocal8Bit().constData());
-    lucene_utf8towcs(wcharBuffer, queryText.toUtf8().constData(), lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH);;
-    QScopedPointer<lucene::search::Query> q(lucene::queryParser::QueryParser::parse((const TCHAR*)wcharBuffer, (const TCHAR*)_T("content"), &analyzer));
-    QScopedPointer<lucene::search::Hits> h(searcher.search(q.data(), lucene::search::Sort::INDEXORDER));
-    lucene::document::Document* doc = 0;
+     StandardAnalyzer analyzer(stop_words);
+     IndexSearcher searcher(index.toLocal8Bit().constData());
+    lucene_utf8towcs(wcharBuffer, queryText.toUtf8().constData(),  IndexWriter::DEFAULT_MAX_FIELD_LENGTH);;
+    QScopedPointer< Query> q( QueryParser::parse((const TCHAR*)wcharBuffer, (const TCHAR*)_T("content"), &analyzer));
+    QScopedPointer< Hits> h(searcher.search(q.data(),  Sort::INDEXORDER));
+     Document* doc = 0;
     for(int i = 0; i < h->length(); ++i) {
         doc = &h->doc(i);
-        lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), lucene::index::IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
+        lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")),  IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
         QString content = QString::fromUtf8(utfBuffer);
         return content;
     }

@@ -30,7 +30,13 @@ const unsigned long BT_MAX_LUCENE_FIELD_LENGTH = 1024 * 1024;
 #include <CLucene.h>
 #include <CLucene/util/Misc.h>
 #include <CLucene/util/Reader.h>
-
+#ifndef Q_OS_WIN32
+using namespace lucene::search;
+using namespace lucene::index;
+using namespace lucene::queryParser;
+using namespace lucene::document;
+using namespace lucene::analysis::standard;
+#endif
 ZefaniaBible::ZefaniaBible()
 {
     m_settings = new Settings();
@@ -574,7 +580,7 @@ bool ZefaniaBible::hasIndex()
     //todo: check versions
     QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
 
-    return lucene::index::IndexReader::indexExists(index.toAscii().constData());
+    return  IndexReader::indexExists(index.toAscii().constData());
 }
 
 void ZefaniaBible::buildIndex()
@@ -587,14 +593,14 @@ void ZefaniaBible::buildIndex()
 
     // do not use any stop words
     const TCHAR* stop_words[]  = { NULL };
-    lucene::analysis::standard::StandardAnalyzer an((const TCHAR**)stop_words);
+     StandardAnalyzer an((const TCHAR**)stop_words);
 
-    if(lucene::index::IndexReader::indexExists(index.toAscii().constData())) {
-        if(lucene::index::IndexReader::isLocked(index.toAscii().constData())) {
-            lucene::index::IndexReader::unlock(index.toAscii().constData());
+    if( IndexReader::indexExists(index.toAscii().constData())) {
+        if( IndexReader::isLocked(index.toAscii().constData())) {
+             IndexReader::unlock(index.toAscii().constData());
         }
     }
-    QScopedPointer<lucene::index::IndexWriter> writer(new lucene::index::IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
+    QScopedPointer< IndexWriter> writer(new  IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
 
     QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, m_bookFullName.size());
     progress.setWindowModality(Qt::NonModal);
@@ -620,7 +626,7 @@ void ZefaniaBible::buildIndex()
             QStringList verse = c.data;
             for(int verseCounter = 0; verseCounter < verse.size(); ++verseCounter) {
                 QString t = verse.at(verseCounter);
-                QScopedPointer<lucene::document::Document> doc(new lucene::document::Document());
+                QScopedPointer< Document> doc(new  Document());
                 const QString book = QString::number(i);
                 const QString chapter = QString::number(it.key());
                 const QString verse = QString::number(verseCounter);
@@ -629,22 +635,22 @@ void ZefaniaBible::buildIndex()
 
 
                 lucene_utf8towcs(wcharBuffer, key.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
-                doc->add(*(new lucene::document::Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer, lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_NO)));
+                doc->add(*(new  Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_NO)));
 
                 lucene_utf8towcs(wcharBuffer, book.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
-                doc->add(*(new lucene::document::Field((const TCHAR*)_T("book"), (const TCHAR*)wcharBuffer, lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_UNTOKENIZED)));
+                doc->add(*(new  Field((const TCHAR*)_T("book"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_UNTOKENIZED)));
 
                 lucene_utf8towcs(wcharBuffer, chapter.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
-                doc->add(*(new lucene::document::Field((const TCHAR*)_T("chapter"), (const TCHAR*)wcharBuffer, lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_UNTOKENIZED)));
+                doc->add(*(new  Field((const TCHAR*)_T("chapter"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_UNTOKENIZED)));
 
                 lucene_utf8towcs(wcharBuffer, verse.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
-                doc->add(*(new lucene::document::Field((const TCHAR*)_T("verse"), (const TCHAR*)wcharBuffer, lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_UNTOKENIZED)));
+                doc->add(*(new  Field((const TCHAR*)_T("verse"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_UNTOKENIZED)));
 
 
                 lucene_utf8towcs(wcharBuffer, t.toUtf8().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
-                doc->add(*(new lucene::document::Field((const TCHAR*)_T("content"),
+                doc->add(*(new  Field((const TCHAR*)_T("content"),
                                                        (const TCHAR*)wcharBuffer,
-                                                       lucene::document::Field::STORE_YES | lucene::document::Field::INDEX_TOKENIZED)));
+                                                        Field::STORE_YES |  Field::INDEX_TOKENIZED)));
                 //    textBuffer.resize(0); //clean up
                 writer->addDocument(doc.data());
             }
@@ -664,15 +670,15 @@ void ZefaniaBible::search(SearchQuery query, SearchResult *res)
 
 
     const TCHAR* stop_words[]  = { NULL };
-    lucene::analysis::standard::StandardAnalyzer analyzer(stop_words);
+    StandardAnalyzer analyzer(stop_words);
 
-    lucene::search::IndexSearcher searcher(index.toLocal8Bit().constData());
+    IndexSearcher searcher(index.toLocal8Bit().constData());
     lucene_utf8towcs(wcharBuffer, query.searchText.toUtf8().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
-    QScopedPointer<lucene::search::Query> q(lucene::queryParser::QueryParser::parse((const TCHAR*)wcharBuffer, (const TCHAR*)_T("content"), &analyzer));
+    QScopedPointer<Query> q(QueryParser::parse((const TCHAR*)wcharBuffer, (const TCHAR*)_T("content"), &analyzer));
 
-    QScopedPointer<lucene::search::Hits> h(searcher.search(q.data(), lucene::search::Sort::INDEXORDER));
+    QScopedPointer<Hits> h(searcher.search(q.data(),  Sort::INDEXORDER));
 
-    lucene::document::Document* doc = 0;
+     Document* doc = 0;
     for(int i = 0; i < h->length(); ++i) {
         doc = &h->doc(i);
         lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("key")), BT_MAX_LUCENE_FIELD_LENGTH);
