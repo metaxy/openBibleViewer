@@ -32,6 +32,10 @@ void BibleList::addBible(Bible* b, QPoint p)
     m_bibles[id] = b;
 
 }
+/**
+  Returns the bible at id.
+  \param id The bibleList internal id, not the moduleID
+  */
 Bible * BibleList::bible(const int &id)
 {
     if(id == -1) {
@@ -56,10 +60,11 @@ QString BibleList::readChapter(int chapterID, int verseID)
 {
     if(m_bibles.size() == 1) {
         return m_bibles[m_currentBible]->readChapter(chapterID, verseID);
-    } else {
+    } else if(m_bibles.size() > 1){
         foreach(Bible * b, m_bibles) {
             b->readChapter(chapterID, verseID);
         }
+
         int maxRow = 0;
         int maxCol = 0;
         foreach(QPoint p, m_biblePoints) {
@@ -134,6 +139,8 @@ QString BibleList::readChapter(int chapterID, int verseID)
         out += "</tbody>\n";
         out += "</table>\n";
         return out;
+    } else {
+        return "";
     }
 }
 int BibleList::countInCol(const int &col)

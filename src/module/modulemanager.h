@@ -49,7 +49,6 @@ public:
     Notes *m_notes;
     ModuleMap *m_moduleMap;
 
-    Bible *m_bible;
     BibleList *m_bibleList;
     Dictionary *m_dictionary;
 

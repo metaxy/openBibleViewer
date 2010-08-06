@@ -147,7 +147,7 @@ private:
     int m_lastActiveWindow;
     QWebView* getView();
     void setEnableReload(bool enable);
-    void loadModuleDataByID(int id);
+    bool loadModuleDataByID(int id);
 
     void setTitle(const QString &title);
     void setChapters(const QStringList &chapters);

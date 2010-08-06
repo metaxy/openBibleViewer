@@ -2,6 +2,9 @@
 #define BIBLELIST_H
 #include "src/module/bible.h"
 #include <QPoint>
+/**
+  BibleList represents a list of bible to display them in one window. It is a some kind of parallel view
+*/
 class BibleList
 {
 public:
@@ -9,9 +12,6 @@ public:
     QHash<int, Bible *> m_bibles;
     QMap<int, QPoint> m_biblePoints;
     void clear();
-    /**
-      id is not the moduleID, it is the internal count
-      */
     Bible * bible(const int &id = -1);
     void addBible(Bible* b, QPoint p);
 

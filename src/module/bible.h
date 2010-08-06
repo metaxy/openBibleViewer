@@ -23,7 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/bibledisplaysettings.h"
 
 /*!
- Bible represent a bible module(eg biblequote module or zefania xml module)
+ Bible represent a bible module(eg. biblequote module or zefania xml module)
  It reads the module, gets the raw data and formats it.
 */
 class Bible : public SimpleModuleClass

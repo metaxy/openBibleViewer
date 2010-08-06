@@ -49,8 +49,7 @@ void BibleListWidget::init()
     ui->tableView->setSelectionModel(m_selectionModel);
     for(int i = 0; i <= maxRow; i++) {
         for(int j = 0; j <= maxCol; j++) {
-
-            int id = m_moduleManager->bibleList()->m_biblePoints.key(QPoint(i, j), -1);
+            const int id = m_moduleManager->bibleList()->m_biblePoints.key(QPoint(i, j), -1);
             Bible *b = m_moduleManager->bibleList()->bible(id);
             myDebug() << "id = " << id;
             QStandardItem *item;
@@ -106,36 +105,19 @@ void BibleListWidget::addRow()
 }
 void BibleListWidget::save()
 {
-    //Bible *last = m_moduleManager->bible();
     int book = m_moduleManager->bible()->bookID();
     int chapter = m_moduleManager->bible()->chapterID();
-    /* //list of setted points
-     QList<QPoint> list;
-     for(int x = 0; x < m_model->rowCount();++x) {
-         for(int y = 0; y < m_model->columnCount(); ++y) {
-             if(m_model->index(x,y).data(Qt::UserRole+2).toInt() > 0) {
-                 list << QPoint(x,y);
-                 myDebug() << "list  x = " << x << " y = " << y;
-             }
-         }
-     }
-     //remove all not used bibles( not setted points)
-     QMapIterator<int, QPoint> i(m_moduleManager->bibleList()->m_biblePoints);
-     while(i.hasNext()) {
-         i.next();
-         if(!list.contains(i.value())) {
-             m_moduleManager->bibleList()->m_biblePoints.remove(i.key());
-             m_moduleManager->bibleList()->m_bibles.remove(i.key());
-         }
-     }*/
     m_moduleManager->bibleList()->clear();
     //load them
     int selectedModule = -1;//the selected bible
     int lastModule;
+    bool atLeastOne = false;
     for(int x = 0; x < m_model->rowCount(); ++x) {
         for(int y = 0; y < m_model->columnCount(); ++y) {
             int id = m_model->item(x, y)->data(Qt::UserRole + 2).toInt();
-            if(id > 0) {
+            myDebug() <<"id = "<< id << " x= " << x <<"y = " << y;
+            if(id >= 0) {
+                atLeastOne = true;
                 m_moduleManager->newBible(id, QPoint(x, y));
                 if(m_selectionModel->selection().contains(m_model->index(x, y)))
                     selectedModule = m_moduleManager->bibleList()->m_currentBible;
@@ -143,12 +125,19 @@ void BibleListWidget::save()
             }
         }
     }
+
     if(selectedModule != -1)
         m_moduleManager->bibleList()->m_currentBible = selectedModule;
     else
         m_moduleManager->bibleList()->m_currentBible = lastModule;
-    myDebug() << book << chapter;
-    m_bibleDisplay->emitGet("bible://" + QString::number(m_moduleManager->bibleList()->bible()->moduleID()) + "/" + QString::number(book) + "," + QString::number(chapter) + ",0,force=true"); //todo: make better
+    myDebug() <<  m_model->rowCount() << m_model->columnCount();
+    if(atLeastOne) {
+        m_bibleDisplay->emitGet("bible://" + QString::number(m_moduleManager->bible()->moduleID()) + "/" + QString::number(book) + "," + QString::number(chapter) + ",0,force=true"); //todo: make better
+    } else {
+        Bible *b = new Bible();
+        m_moduleManager->initBible(b);
+        m_moduleManager->bibleList()->addBible(b, QPoint(0,0));
+    }
     close();
 }
 

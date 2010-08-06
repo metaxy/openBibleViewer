@@ -25,7 +25,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 ModuleManager::ModuleManager()
 {
     m_moduleModel = new QStandardItemModel;
-    m_bible = new Bible();
     m_moduleMap = new ModuleMap();
 }
 void ModuleManager::setSettings(Settings *settings)
@@ -72,8 +71,6 @@ int ModuleManager::loadAllModules()
     zef.setSettings(m_settings);
     BibleQuoteDict bqDict;
     bqDict.setSettings(m_settings);
-
-    initBible();
 
     m_moduleModel->clear();
 
@@ -287,12 +284,7 @@ int ModuleManager::loadAllModules()
 }
 void ModuleManager::initBible(Bible *b)
 {
-    if(b == 0) {
-        m_bible->setSettings(m_settings);
-        m_bible->setNotes(m_notes);
-        m_bible->setModuleMap(m_moduleMap);
-        m_bible->setBibleDisplaySettings(m_bibleDisplaySettings);
-    } else {
+    if(b != 0) {
         b->setSettings(m_settings);
         b->setNotes(m_notes);
         b->setModuleMap(m_moduleMap);
@@ -305,7 +297,7 @@ void ModuleManager::initBible(Bible *b)
   */
 bool ModuleManager::bibleLoaded()
 {
-    if(m_moduleMap->m_map.contains(m_bible->moduleID()) && m_bible->moduleID() >= 0)
+    if(m_moduleMap->m_map.contains(bible()->moduleID()) && bible()->moduleID() >= 0)
         return true;
     return false;
 }
@@ -325,8 +317,8 @@ bool ModuleManager::contains(const int &moduleID)
 
 Bible * ModuleManager::bible()
 {
-    m_bible = bibleList()->bible();
-    return m_bible;
+    Bible *b = bibleList()->bible();
+    return b;
 }
 BibleList * ModuleManager::bibleList()
 {
@@ -404,17 +396,11 @@ QList<int> ModuleManager::getBibleIDs()
 void ModuleManager::checkCache(const int &moduleID)
 {
     Module* m = m_moduleMap->m_map.value(moduleID);
+    Bible *b = new Bible();
+    initBible(b);
     if(!m_settings->m_moduleCache.keys().contains(m->m_path)) {
-        m_bible->setModuleType(m->m_moduleType);
-        m_bible->loadModuleData(moduleID);//set cache
-        /*if(b.m_bq) {
-            delete b.m_bq;
-            b.m_bq = 0;
-        }
-        if(b.m_bq) {
-            delete b.m_zef;
-            b.m_zef = 0;
-        }*/
+        b->setModuleType(m->m_moduleType);
+        b->loadModuleData(moduleID);//set cache
     }
 
 }

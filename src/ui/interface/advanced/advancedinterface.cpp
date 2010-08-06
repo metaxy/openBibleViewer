@@ -224,12 +224,9 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
         autoLayout();
     }
     m_internalWindows << subWindow;
-
-    m_moduleManager->m_bible = new Bible();
-    m_moduleManager->initBible();
     m_moduleManager->m_bibleList = new BibleList();
 
-    m_moduleManager->bibleList()->addBible(m_moduleManager->m_bible, QPoint(0, 0));
+    m_moduleManager->bibleList()->addBible(m_moduleManager->bible(), QPoint(0, 0));
     m_windowCache.setBibleList(m_moduleManager->m_bibleList);
 
     //clear old stuff
@@ -493,10 +490,9 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
         return 1;
     }
     //todo: think about it
-    /* if (m_moduleManager->bibleList()->bible()->moduleID() == m_windowCache.getBibleList()->bible()->moduleID())
+    /* if (m_moduleManager->bible()->moduleID() == m_windowCache.getBibleList()->bible()->moduleID())
          return 1;*/
     m_moduleManager->m_bibleList = m_windowCache.getBibleList();
-    m_moduleManager->m_bible = m_moduleManager->m_bibleList->bible();
     setTitle(m_moduleManager->bible()->bibleTitle());
 
     setChapters(m_moduleManager->bible()->chapterNames());
@@ -510,19 +506,20 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
     return 0;
 }
 
-void AdvancedInterface::loadModuleDataByID(int id)
+bool AdvancedInterface::loadModuleDataByID(int id)
 {
     DEBUG_FUNC_NAME
     myDebug() << "id = " << id;
+    //open a new window if they are none
     if(ui->mdiArea->subWindowList().size() == 0)
         newSubWindow();
     if(id < 0 || !m_moduleManager->contains(id)) {
         myWarning() << "failed id = " << id << m_moduleManager->m_moduleMap->m_map;
-        return;
+        return 1;
     }
     if(m_moduleManager->getModule(id)->m_moduleClass != Module::BibleModule) {
         myWarning() << "non bible module" << m_moduleManager->getModule(id)->m_moduleClass;
-        return;
+        return 1;
     }
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
@@ -538,6 +535,7 @@ void AdvancedInterface::loadModuleDataByID(int id)
     setBooks(m_moduleManager->bible()->bookNames(),m_moduleManager->bible()->bookIDs());
     m_moduleDockWidget->loadedModule(id);//select current Module
     QApplication::restoreOverrideCursor();
+    return 0;
 
 }
 
@@ -589,7 +587,11 @@ void AdvancedInterface::pharseUrl(QString url)
                         force = true;
                     }
                     if(bibleID != m_moduleManager->bible()->moduleID() || !m_moduleManager->bible()->loaded() || force) {
-                        loadModuleDataByID(bibleID);
+                        int ret = loadModuleDataByID(bibleID);
+                        if(ret == 1) {
+                            showText("");
+                            return; //todo: show text "bible not found";
+                        }
                         readBookByID(bookID);
                         setCurrentBook(bookID);
                         showChapter(chapterID, verseID);
@@ -968,8 +970,10 @@ void AdvancedInterface::reloadChapter(bool full)
     QWebView *v = getView();
     QPoint p = v->page()->mainFrame()->scrollPosition();
     if(full) {
-        loadModuleDataByID(m_moduleManager->bible()->moduleID());
-
+        const int ret = loadModuleDataByID(m_moduleManager->bible()->moduleID());
+        if(ret == 1) {
+            return;
+        }
         readBookByID(m_moduleManager->bible()->bookID());
         setCurrentBook(m_moduleManager->bible()->bookID());
 
@@ -1340,12 +1344,6 @@ void AdvancedInterface::closing()
 void AdvancedInterface::restoreSession()
 {
     DEBUG_FUNC_NAME
-    /*  m_bookmarksDockWidget->restoreGeometry(m_settings->session.getData("bookmarksDockGeometry").toByteArray());
-      m_notesDockWidget->restoreGeometry(m_settings->session.getData("notesDockGeometry").toByteArray());
-      m_bookDockWidget->restoreGeometry(m_settings->session.getData("bookDockGeometry").toByteArray());
-      m_moduleDockWidget->restoreGeometry(m_settings->session.getData("moduleDockGeometry").toByteArray());
-      m_advancedSearchResultDockWidget->restoreGeometry(m_settings->session.getData("searchResultDockGeometry").toByteArray());
-      m_strongDockWidget->restoreGeometry(m_settings->session.getData("strongDockGeometry").toByteArray());*/
     QStringList windowUrls = m_settings->session.getData("windowUrls").toStringList();
     QVariantList windowGeo = m_settings->session.getData("windowGeo").toList();
     QVariantList scrollPos = m_settings->session.getData("scrollPos").toList();
@@ -1370,6 +1368,10 @@ void AdvancedInterface::restoreSession()
                 m_moduleManager->newBible(urlConverter.m_moduleID, QPoint(x, y));
                 pharseUrl(urlConverter.convert() + ",force=true"); //todo: MOVE IT OUT
             }
+        } else {
+            Bible *b = new Bible();
+            m_moduleManager->initBible(b);
+            m_moduleManager->bibleList()->addBible(b, QPoint(0,0));
         }
         //set geometry
         QWebView *v = getView();
@@ -1378,21 +1380,17 @@ void AdvancedInterface::restoreSession()
         if(zoom.size() != 0 && i < zoom.size() && zoom.at(i).toReal() > 0)
             v->setZoomFactor(zoom.at(i).toReal());
     }
-    int viewMode = m_settings->session.getData("viewMode").toInt();
+    const int viewMode = m_settings->session.getData("viewMode").toInt();
     if(viewMode == 0)
         setSubWindowView();
     else
         setTabView();
 
-    int id = m_settings->session.getData("windowID", -1).toInt();
+    const int id = m_settings->session.getData("windowID", -1).toInt();
     myDebug() << id << ui->mdiArea->subWindowList();
     if(id < ui->mdiArea->subWindowList().size() && id > 0) {
-        /* ui->mdiArea->subWindowList().at(id)->raise();
-         ui->mdiArea->subWindowList().at(id)->show();
-         ui->mdiArea->subWindowList().at(id)->activateWindow();*/
         ui->mdiArea->setActiveSubWindow(ui->mdiArea->subWindowList().at(id));
     }
-    //restore
 }
 
 void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettings)
