@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_bookdockwidget.h"
 #include "src/core/dbghelper.h"
 #include "src/core/core.h"
+#include "src/core/bibleurl.h"
 BookDockWidget::BookDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::BookDockWidget)
@@ -44,17 +45,26 @@ BookDockWidget::~BookDockWidget()
 }
 void BookDockWidget::readBook(QModelIndex index)
 {
-    emit get("bible://current/" +  index.data(Qt::UserRole + 1).toString() + ",0,0");
+    BibleUrl url;
+    url.setBible(BibleUrl::LoadCurrentBible);
+    url.setBookID(index.data(Qt::UserRole + 1).toInt());
+    url.setChapter(BibleUrl::LoadFirstChapter);
+    url.setVerse(BibleUrl::LoadFirstVerse);
+    emit get(url.toString());
 }
 void BookDockWidget::readChapter(QModelIndex index)
 {
-    emit get("bible://current/" + QString::number(m_moduleManager->bible()->bookID()) + "," + index.data(Qt::UserRole + 1).toString() + ",0");
+    BibleUrl url;
+    url.setBible(BibleUrl::LoadCurrentBible);
+    url.setBook(BibleUrl::LoadCurrentBook);
+    url.setChapterID(index.data(Qt::UserRole + 1).toInt());
+    url.setVerse(BibleUrl::LoadFirstVerse);
+    emit get(url.toString());
 }
 void BookDockWidget::setChapters(const QStringList &chapters)
 {
     m_chapterModel->clear();
     for(int i = 0; i < chapters.size(); ++i) {
-        myDebug() << i << chapters.at(i);
         QStandardItem *top = new QStandardItem;
         top->setText(chapters.at(i));
         top->setData(i,Qt::UserRole +1);
@@ -95,8 +105,6 @@ void BookDockWidget::setCurrentBook(const int &bookID)
 }
 void BookDockWidget::setCurrentChapter(const int &chapterID)
 {
-    DEBUG_FUNC_NAME
-    myDebug() << chapterID;
     QModelIndexList list = m_bookModel->match(m_chapterModel->index(0,0), Qt::UserRole + 1, chapterID);
     if(list.size() == 1) {
         m_chapterSelection->clearSelection();

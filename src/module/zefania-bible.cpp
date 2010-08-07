@@ -23,7 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/zefania-bible.h"
 #include "src/core/KoXmlWriter.h"
 #include "src/core/dbghelper.h"
-
+#include "src/core/bibleurl.h"
 //Maximum index entry size, 1MiB for now
 //Lucene default is too small
 const unsigned long BT_MAX_LUCENE_FIELD_LENGTH = 1024 * 1024;
@@ -192,7 +192,14 @@ QDomElement ZefaniaBible::format(QDomElement e)
             const int bookID = list.at(0).toInt() - 1;
             const int chapterID = list.at(1).toInt() - 1;
             const int verseID = list.at(2).toInt() - 1;
-            const QString url = "bible://current/" + QString::number(bookID) + "," + QString::number(chapterID) + "," + QString::number(verseID);
+
+            BibleUrl burl;
+            burl.setBible(BibleUrl::LoadCurrentBible);
+            burl.setBookID(bookID);
+            burl.setChapterID(chapterID);
+            burl.setVerseID(verseID);
+            const QString url = burl.toString();
+
             QString name = "";
             if(bookID < m_settings->bookFullNames.size()) {
                 name = m_settings->bookFullNames.at(bookID) + " " + list.at(1) + "," + list.at(2);

@@ -21,6 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 #include <QWebFrame>
 #include "src/core/core.h"
+#include "src/core/bibleurl.h"
 MdiForm::MdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::MdiForm)
 {
     m_ui->setupUi(this);
@@ -91,13 +92,24 @@ void MdiForm::showBibleListMenu()
 
 void MdiForm::readChapter(int id)
 {
-    m_bibleDisplay->emitGet("bible://current/" + QString::number(m_moduleManager->bible()->bookID()) + "," + QString::number(id) + ",0");
+    BibleUrl url;
+    url.setBible(BibleUrl::LoadCurrentBible);
+    url.setBook(BibleUrl::LoadCurrentBook);
+    url.setChapterID(id);
+    url.setVerse(BibleUrl::LoadCurrentVerse);
+    m_bibleDisplay->emitGet(url.toString());
 }
 
 void MdiForm::readBook(int id)
 {
-    int i = m_bookIDs.at(id);
-    m_bibleDisplay->emitGet("bible://current/" + QString::number(i) + ",0,0");
+    const int i = m_bookIDs.at(id);
+    BibleUrl url;
+    url.setBible(BibleUrl::LoadCurrentBible);
+    url.setBookID(i);
+    url.setChapter(BibleUrl::LoadFirstChapter);
+    url.setVerse(BibleUrl::LoadCurrentVerse);
+
+    m_bibleDisplay->emitGet(url.toString());
 }
 
 bool MdiForm::eventFilter(QObject *obj, QEvent *event)

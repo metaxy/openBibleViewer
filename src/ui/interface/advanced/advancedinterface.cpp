@@ -34,6 +34,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/marklist.h"
 #include "src/core/core.h"
 #include "src/core/search.h"
+#include "src/core/bibleurl.h"
 #include <QtWebKit/QWebInspector>
 #include <QtWebKit/QWebElementCollection>
 #include <QtGui/QLineEdit>
@@ -559,72 +560,104 @@ void AdvancedInterface::pharseUrl(QString url)
     const QString note = "note://";
     const QString persistent = "persistent:";
     if(url.startsWith(bible)) {
-        url = url.remove(0, bible.size());
-        if(url == "current") {
-            reloadChapter(true);
-        } else if(url == "reloadActive") {
+        BibleUrl bibleUrl;
+        if(!bibleUrl.fromString(url)) {
+            return;
+        }
+        if(bibleUrl.bible() == BibleUrl::ReloadActive) {
             reloadActive();
         } else {
-            QStringList a = url.split("/");
-            if(a.size() == 2) {
-                QStringList c = a.at(1).split(",");
-                if(c.size() >= 3) {
-                    int bibleID;
-                    if(a.at(0) == "current") {
-                        bibleID = m_moduleManager->bible()->moduleID();
-                    } else {
-                        bibleID = a.at(0).toInt();
-                    }
-                    int bookID = c.at(0).toInt();
-                    int chapterID = c.at(1).toInt();
-                    int verseID = c.at(2).toInt();
-                    if(bookID < 0 || chapterID < 0 || verseID < 0) {
-                        myWarning() << "invalid url";
-                        return;
-                    }
-                    bool force = false;
-                    if(c.size() == 4 && c.at(3) == "force=true") {
-                        force = true;
-                    }
-                    if(bibleID != m_moduleManager->bible()->moduleID() || !m_moduleManager->bible()->loaded() || force) {
-                        int ret = loadModuleDataByID(bibleID);
-                        if(ret == 1) {
-                            showText("");
-                            return; //todo: show text "bible not found";
-                        }
-                        readBookByID(bookID);
-                        setCurrentBook(bookID);
-                        showChapter(chapterID, verseID);
-                        setCurrentChapter(chapterID);
-                        //load bible
-                    } else if(bookID != m_moduleManager->bible()->bookID()) {
-                        readBookByID(bookID);
-                        setCurrentBook(bookID);
-                        showChapter(chapterID, verseID);
-                        setCurrentChapter(chapterID);
-                        //load book
-                    } else if(chapterID != m_moduleManager->bible()->chapterID()) {
-                        showChapter(chapterID, verseID);
-                        setCurrentChapter(chapterID);
-                        //load chapter
-                    } else {
-                        showChapter(chapterID, verseID);
-                        setCurrentChapter(chapterID);
-                    }
-                    if(c.size() == 4 && c.at(3) == "searchInCurrentText=true") { //todo: not nice
-                        searchInText(m_moduleManager->bible()->lastSearchQuery());
-                    }
-                    emit historySetUrl(url_backup);
-                } else if(a.at(1) == "current") {
-                    //load another bible but with current book and chapter id
-                } else {
-                    myWarning() << "invalid URL";
-                }
-            } else {
-                myWarning() << "invalid URL";
+            bool reloadBible = false;
+            bool reloadBook = false;
+            bool reloadChapter = false;
+            bool reloadVerse = false;
+            if(( bibleUrl.bibleID() != m_moduleManager->bible()->moduleID()  && bibleUrl.bible() == BibleUrl::LoadBibleByID)
+                || !m_moduleManager->bible()->loaded() || (bibleUrl.hasParam("force") && bibleUrl.getParam("force") == "true")) {
+                reloadBible = true;
             }
+
+            if(reloadBible) {
+                myDebug() << "bibleID = " << bibleUrl.bibleID();
+                int ret = loadModuleDataByID(bibleUrl.bibleID());
+                if(ret == 1) {
+                    showText("");
+                    return; //todo: show text "bible not found";
+                }
+            }
+
+            int firstBook;
+            if(bibleUrl.book() == BibleUrl::LoadFirstBook) {
+                firstBook = m_moduleManager->bible()->bookIDs().first();
+            }
+            if( (bibleUrl.bookID() != m_moduleManager->bible()->bookID() && bibleUrl.book() == BibleUrl::LoadBookByID) ||
+                (firstBook != m_moduleManager->bible()->bookID() && bibleUrl.book() == BibleUrl::LoadFirstBook) ||
+                reloadBible) {
+                reloadBook = true;
+            }
+
+            int firstChapter;
+            if(bibleUrl.chapter() == BibleUrl::LoadFirstChapter) {
+                firstChapter = 0; // todo: change when we support to start chapters from another value
+            }
+            if( (bibleUrl.chapterID() != m_moduleManager->bible()->chapterID() && bibleUrl.chapter() == BibleUrl::LoadChapterByID) ||
+                (firstChapter != m_moduleManager->bible()->chapterID() && bibleUrl.chapter() == BibleUrl::LoadFirstChapter) ||
+                reloadBible || reloadBook) {
+                reloadChapter = true;
+            }
+
+            int firstVerse;
+            if(bibleUrl.verse() == BibleUrl::LoadFirstVerse) {
+                firstVerse = 0; // todo: change when we support to start verse from another value
+            }
+            if( ((bibleUrl.verseID() != m_moduleManager->bible()->verseID() && bibleUrl.verse() == BibleUrl::LoadVerseByID) ||
+                (firstVerse != m_moduleManager->bible()->verseID() && bibleUrl.verse() == BibleUrl::LoadFirstVerse) )
+                && !reloadBible && !reloadBook && !reloadChapter) {
+                reloadVerse = true;
+            }
+            myDebug() << "bible = " << reloadBible << " book = " << reloadBook << " chapter = " << reloadChapter<< " verse = " << reloadVerse;
+
+
+            if(reloadBook) {
+                int bookID;
+                if(bibleUrl.book() == BibleUrl::LoadFirstBook) {
+                    bookID = firstBook;
+                } else {
+                    bookID = bibleUrl.bookID();
+                }
+                myDebug() << "bookID = " << bookID;
+                readBookByID(bookID);
+                setCurrentBook(bookID);
+            }
+
+            int chapterID;
+            if(bibleUrl.chapter() == BibleUrl::LoadFirstChapter) {
+                chapterID = firstChapter;
+            } else {
+                chapterID = bibleUrl.chapterID();
+            }
+            int verseID;
+            if(bibleUrl.verse() == BibleUrl::LoadFirstVerse) {
+                verseID = firstVerse;
+            } else {
+                verseID = bibleUrl.verseID();
+            }
+
+            if(reloadChapter) {
+                myDebug() << "chapter ID " << chapterID ;
+                showChapter(chapterID, verseID);
+                setCurrentChapter(chapterID);
+            }
+            if(reloadVerse) {
+                myDebug() << "verse ID " << verseID ;
+                showChapter(chapterID, verseID);
+                setCurrentChapter(chapterID);
+            }
+
+            if(bibleUrl.hasParam("searchInCurrentText") && bibleUrl.getParam("searchInCurrentText") == "true") {
+                searchInText(m_moduleManager->bible()->lastSearchQuery());
+            }
+            emit historySetUrl(url_backup);
         }
-        //bible://bibleID/bookID,chapterID,verseID
     } else if(url.startsWith(strong)) {
         url = url.remove(0, strong.size());
         m_dictionaryDockWidget->showStrong(url);
@@ -747,7 +780,7 @@ void AdvancedInterface::showText(const QString &text)
 
         v->setHtml(text);
         if(m_moduleManager->bible()->verseID() > 1) {
-            v->page()->mainFrame()->evaluateJavaScript("window.location.href = '#currentVerse';window.scrollBy(0,-30);");
+            v->page()->mainFrame()->evaluateJavaScript("window.location.href = '#currentVerse';window.scrollBy(0,-30);");//due to the biblelist bar on top
         }
 
         if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule) {
@@ -761,7 +794,6 @@ void AdvancedInterface::showText(const QString &text)
                 foreach(QString pre, searchPaths) {
                     QFileInfo i(pre + url);
                     if(i.exists()) {
-                        myDebug() << pre + url;
                         paraElement.setAttribute("src", "file://" + pre + url);
                         break;
                     } else {
@@ -769,7 +801,6 @@ void AdvancedInterface::showText(const QString &text)
                         QStringList list = d.entryList();
                         foreach(QString f, list) {
                             QFileInfo info2(f);
-
                             if(info2.baseName().compare(i.baseName(), Qt::CaseInsensitive) == 0) {
                                 paraElement.setAttribute("src", "file://" + pre + f);
                                 break;
@@ -897,7 +928,12 @@ void AdvancedInterface::clearBooks()
 }
 void AdvancedInterface::readBook(const int &id)
 {
-    emit get("bible://current/" + QString::number(id) + ",0,0");
+    BibleUrl url;
+    url.setBible(BibleUrl::LoadCurrentBible);
+    url.setBookID(id);
+    url.setChapter(BibleUrl::LoadFirstChapter);
+    url.setVerse(BibleUrl::LoadFirstVerse);
+    emit get(url.toString());
 }
 
 void AdvancedInterface::readBookByID(int id)
@@ -935,7 +971,12 @@ void AdvancedInterface::readBookByID(int id)
 
 void AdvancedInterface::readChapter(const int &id)
 {
-    emit get("bible://current/" + QString::number(m_moduleManager->bible()->bookID()) + "," + QString::number(id) + ",0");
+    BibleUrl url;
+    url.setBible(BibleUrl::LoadCurrentBible);
+    url.setBook(BibleUrl::LoadCurrentBook);
+    url.setChapterID(id);
+    url.setVerse(BibleUrl::LoadCurrentVerse);
+    emit get(url.toString());
 }
 
 void AdvancedInterface::showChapter(const int &chapterID, const int &verseID)

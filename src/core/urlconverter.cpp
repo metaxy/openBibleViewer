@@ -13,6 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "urlconverter.h"
 #include "dbghelper.h"
+#include "src/core/bibleurl.h"
 UrlConverter::UrlConverter(const UrlType &from, const UrlType &to, const QString &url)
 {
     m_from = from;
@@ -39,7 +40,12 @@ QString UrlConverter::convert()
 {
     QString ret;
     if(m_to == InterfaceUrl) {
-        ret = "bible://" + QString::number(m_moduleID) + "/" + QString::number(m_bookID) + "," + QString::number(m_chapterID) + "," + QString::number(m_verseID);
+        BibleUrl url;
+        url.setBibleID(m_moduleID);
+        url.setBookID(m_bookID);
+        url.setChapterID(m_chapterID);
+        url.setVerseID(m_verseID);
+        ret = url.toString();
     } else if(m_to == PersistentUrl) {
         if(!m_moduleMap->m_map.contains(m_moduleID)) {
             myDebug() << "moduleID = " << m_moduleID;

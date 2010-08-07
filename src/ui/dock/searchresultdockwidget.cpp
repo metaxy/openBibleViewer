@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dialog/searchinfodialog.h"
 #include "src/core/dbghelper.h"
 #include "src/core/core.h"
+#include "src/core/bibleurl.h"
 SearchResultDockWidget::SearchResultDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::SearchResultDockWidget)
@@ -58,8 +59,14 @@ void SearchResultDockWidget::goToSearchResult(QListWidgetItem * item)
         SearchHit hit = m_searchResult.hits().at(id);
         if(!m_moduleManager->contains(hit.value(SearchHit::BibleID).toInt()))
             return;
-        emit get("bible://" + hit.value(SearchHit::BibleID).toString() + "/" + hit.value(SearchHit::BookID).toString() + "," + hit.value(SearchHit::ChapterID).toString() + "," + hit.value(SearchHit::VerseID).toString() + ",searchInCurrentText=true");
-    }
+        BibleUrl url;
+        url.setBibleID(hit.value(SearchHit::BibleID).toInt());
+        url.setBookID(hit.value(SearchHit::BookID).toInt());
+        url.setChapterID(hit.value(SearchHit::ChapterID).toInt());
+        url.setVerseID(hit.value(SearchHit::VerseID).toInt());
+        url.setParam("searchInCurrentText","true");
+        emit get(url.toString());
+     }
 }
 void SearchResultDockWidget::searchInfo()
 {

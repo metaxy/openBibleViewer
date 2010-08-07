@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include <QtCore/QStringList>
 #include <QtCore/QRegExp>
+#include "src/core/bibleurl.h"
 GoTo::GoTo(int currentBibleID, QStringList bookFullName, QList<QStringList> bookShortName)
 {
     m_currentBibleID = currentBibleID;
@@ -38,19 +39,30 @@ QString GoTo::getUrl(const QString& text)
             break;
         }
     }
+    BibleUrl url;
+    url.setBible(BibleUrl::LoadCurrentBible);
     if(found == 0) {  //example: Hiob
-        int bookID = bookNameToBookID(foundRegExp.cap(1));
-        return "bible://" + QString::number(m_currentBibleID) + "/" + QString::number(bookID) + "," + QString::number(0) + "," + QString::number(0);
+        const int bookID = bookNameToBookID(foundRegExp.cap(1));
+        url.setBookID(bookID);
+        url.setChapter(BibleUrl::LoadFirstChapter);
+        url.setVerse(BibleUrl::LoadFirstVerse);
+        return url.toString();
 
     } else if(found == 1) {  //Hiob 4
-        int bookID =  bookNameToBookID(foundRegExp.cap(1));
-        int chapterID = foundRegExp.cap(3).toInt() - 1;
-        return "bible://" + QString::number(m_currentBibleID) + "/" + QString::number(bookID) + "," + QString::number(chapterID) + "," + QString::number(0);
+        const int bookID = bookNameToBookID(foundRegExp.cap(1));
+        const int chapterID = foundRegExp.cap(3).toInt() - 1;
+        url.setBookID(bookID);
+        url.setChapterID(chapterID);
+        url.setVerse(BibleUrl::LoadFirstVerse);
+        return url.toString();
     } else if(found == 2) {  //Hiob 4,9
-        int bookID =  bookNameToBookID(foundRegExp.cap(1));
-        int chapterID = foundRegExp.cap(3).toInt() - 1;
-        int verseID = foundRegExp.cap(4).toInt() - 1;
-        return "bible://" + QString::number(m_currentBibleID) + "/" + QString::number(bookID) + "," + QString::number(chapterID) + "," + QString::number(verseID);
+        const int bookID = bookNameToBookID(foundRegExp.cap(1));
+        const int chapterID = foundRegExp.cap(3).toInt() - 1;
+        const int verseID = foundRegExp.cap(4).toInt() - 1;
+        url.setBookID(bookID);
+        url.setChapterID(chapterID);
+        url.setVerseID(verseID);
+        return url.toString();
     }
     return QString();
 }

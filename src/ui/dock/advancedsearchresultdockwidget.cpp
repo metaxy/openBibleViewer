@@ -2,6 +2,7 @@
 #include "ui_advancedsearchresultdockwidget.h"
 #include <QtGui/QSortFilterProxyModel>
 #include <QtGui/QMessageBox>
+#include "src/core/bibleurl.h"
 AdvancedSearchResultDockWidget::AdvancedSearchResultDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::AdvancedSearchResultDockWidget)
@@ -78,7 +79,13 @@ void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
         if(hit.type() == SearchHit::BibleHit) {
             if(!m_moduleManager->contains(hit.value(SearchHit::BibleID).toInt()))
                 return;
-            emit get("bible://" + hit.value(SearchHit::BibleID).toString() + "/" + hit.value(SearchHit::BookID).toString() + "," + hit.value(SearchHit::ChapterID).toString() + "," + hit.value(SearchHit::VerseID).toString() + ",searchInCurrentText=true");
+            BibleUrl url;
+            url.setBibleID(hit.value(SearchHit::BibleID).toInt());
+            url.setBookID(hit.value(SearchHit::BookID).toInt());
+            url.setChapterID(hit.value(SearchHit::ChapterID).toInt());
+            url.setVerseID(hit.value(SearchHit::VerseID).toInt());
+            url.setParam("searchInCurrentText","true");
+            emit get(url.toString());
         } else if(hit.type() == SearchHit::NoteHit) {
 
             emit get("note://" + hit.value(SearchHit::NoteID).toString());

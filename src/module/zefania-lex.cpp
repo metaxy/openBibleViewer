@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomNode>
 #include "src/core/KoXmlReader.h"
 #include "src/core/dbghelper.h"
+#include "src/core/bibleurl.h"
 #include <QtCore/QFile>
 #include <QtCore/QVariantList>
 #include <QtCore/QFile>
@@ -123,7 +124,14 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
                                 const int bookID = list.at(0).toInt() - 1;
                                 const int chapterID = list.at(1).toInt() - 1;
                                 const int verseID = list.at(2).toInt() - 1;
-                                const QString url = "bible://current/" + QString::number(bookID) + "," + QString::number(chapterID) + "," + QString::number(verseID) + ",";
+
+                                BibleUrl burl;
+                                burl.setBible(BibleUrl::LoadCurrentBible);
+                                burl.setBookID(bookID);
+                                burl.setChapterID(chapterID);
+                                burl.setVerseID(verseID);
+                                const QString url = burl.toString();
+
                                 QString name = "";
 
                                 if(bookID < m_settings->bookFullNames.size()) {

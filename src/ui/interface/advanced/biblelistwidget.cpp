@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "biblelistwidget.h"
 #include "ui_biblelistwidget.h"
 #include "src/core/dbghelper.h"
+#include "src/core/bibleurl.h"
 #include "biblelistitemdelegate.h"
 #include <QtGui/QComboBox>
 #include <QtGui/QDialogButtonBox>
@@ -132,7 +133,13 @@ void BibleListWidget::save()
         m_moduleManager->bibleList()->m_currentBible = lastModule;
     myDebug() <<  m_model->rowCount() << m_model->columnCount();
     if(atLeastOne) {
-        m_bibleDisplay->emitGet("bible://" + QString::number(m_moduleManager->bible()->moduleID()) + "/" + QString::number(book) + "," + QString::number(chapter) + ",0,force=true"); //todo: make better
+        BibleUrl url;
+        url.setBibleID(m_moduleManager->bible()->moduleID());
+        url.setBookID(book);
+        url.setChapterID(chapter);
+        url.setVerse(BibleUrl::LoadFirstVerse);
+        url.setParam("force","true");
+        m_bibleDisplay->emitGet(url.toString());
     } else {
         Bible *b = new Bible();
         m_moduleManager->initBible(b);
