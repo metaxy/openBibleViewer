@@ -27,10 +27,17 @@ public:
         Simple = 0,
         Complex = 1
     };
+    enum Range {
+        Whole,
+        OT,
+        NT,
+        Custom
+    };
 
     int queryType;
     QString searchText;
     bool searchInNotes;
+    Range range;
 };
 
 #endif // SEARCHQUERY_H

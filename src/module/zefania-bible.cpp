@@ -600,7 +600,7 @@ void ZefaniaBible::buildIndex()
 
     // do not use any stop words
     const TCHAR* stop_words[]  = { NULL };
-     StandardAnalyzer an((const TCHAR**)stop_words);
+    StandardAnalyzer an((const TCHAR**)stop_words);
 
     if( IndexReader::indexExists(index.toAscii().constData())) {
         if( IndexReader::isLocked(index.toAscii().constData())) {
@@ -614,10 +614,7 @@ void ZefaniaBible::buildIndex()
     for(int i = 0; i < m_bookFullName.size(); ++i) {
         progress.setValue(i);
         Book book;
-
-        //load book from cache(soft or hard)
-        //todo: check : if only 2 or 3 book are aviable in softcache then load whole book else load everything from hardcache
-        //todo: cant load book if only softcache is enabled
+        myDebug() << "book = " << i;
 
         if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true && (!m_softCacheData.contains(i) || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {
             book = fromHardToSoft(i, readBookFromHardCache(m_biblePath, i));
@@ -671,8 +668,9 @@ void ZefaniaBible::buildIndex()
 }
 void ZefaniaBible::search(SearchQuery query, SearchResult *res)
 {
-    QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
-    char utfBuffer[BT_MAX_LUCENE_FIELD_LENGTH  + 1];
+    myDebug() << (query.range == SearchQuery::Whole);
+    const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
+    char utfBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
     wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
 
 
@@ -685,23 +683,24 @@ void ZefaniaBible::search(SearchQuery query, SearchResult *res)
 
     QScopedPointer<Hits> h(searcher.search(q.data(),  Sort::INDEXORDER));
 
-     Document* doc = 0;
+    Document* doc = 0;
     for(int i = 0; i < h->length(); ++i) {
         doc = &h->doc(i);
         lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("key")), BT_MAX_LUCENE_FIELD_LENGTH);
         QString stelle(utfBuffer);
         QStringList l = stelle.split(";");
-        lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), BT_MAX_LUCENE_FIELD_LENGTH);
 
-        QString content = QString::fromUtf8(utfBuffer);
-        SearchHit hit;
-        hit.setType(SearchHit::BibleHit);
-        hit.setValue(SearchHit::BibleID, m_bibleID);
-        hit.setValue(SearchHit::BookID, l.at(0).toInt());
-        hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
-        hit.setValue(SearchHit::VerseID, l.at(2).toInt());
-        hit.setValue(SearchHit::VerseText, content);
-        res->addHit(hit);
+        if(query.range == SearchQuery::Whole || (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) || (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
+            lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), BT_MAX_LUCENE_FIELD_LENGTH);
 
+            SearchHit hit;
+            hit.setType(SearchHit::BibleHit);
+            hit.setValue(SearchHit::BibleID, m_bibleID);
+            hit.setValue(SearchHit::BookID, l.at(0).toInt());
+            hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
+            hit.setValue(SearchHit::VerseID, l.at(2).toInt());
+            hit.setValue(SearchHit::VerseText, QString::fromUtf8(utfBuffer));
+            res->addHit(hit);
+        }
     }
 }

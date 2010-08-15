@@ -421,17 +421,21 @@ void BibleQuote::search(SearchQuery query, SearchResult *res)
         lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("key")), BT_MAX_LUCENE_FIELD_LENGTH);
         QString stelle(utfBuffer);
         QStringList l = stelle.split(";");
-        lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), BT_MAX_LUCENE_FIELD_LENGTH);
+        if(query.range == SearchQuery::Whole ||
+          (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) ||
+          (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
+            lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), BT_MAX_LUCENE_FIELD_LENGTH);
 
-        QString content = QString::fromUtf8(utfBuffer);
-        SearchHit hit;
-        hit.setType(SearchHit::BibleHit);
-        hit.setValue(SearchHit::BibleID, m_bibleID);
-        hit.setValue(SearchHit::BookID, l.at(0).toInt());
-        hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
-        hit.setValue(SearchHit::VerseID, l.at(2).toInt());
-        hit.setValue(SearchHit::VerseText, content);
-        res->addHit(hit);
+            const QString content = QString::fromUtf8(utfBuffer);
+            SearchHit hit;
+            hit.setType(SearchHit::BibleHit);
+            hit.setValue(SearchHit::BibleID, m_bibleID);
+            hit.setValue(SearchHit::BookID, l.at(0).toInt());
+            hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
+            hit.setValue(SearchHit::VerseID, l.at(2).toInt());
+            hit.setValue(SearchHit::VerseText, content);
+            res->addHit(hit);
+        }
 
     }
 

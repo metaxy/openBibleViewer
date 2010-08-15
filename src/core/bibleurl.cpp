@@ -142,11 +142,12 @@ QString BibleUrl::toString()
     } else if(m_verseParam == BibleUrl::LoadFirstVerse) {
         ret += "first";
     }
-
-    QHashIterator<QString, QString> i(m_params);
-    while (i.hasNext()) {
-        ret += "," + i.key() + "=" + i.value();
-        i.next();
+    if(!m_params.isEmpty()) {
+        QHashIterator<QString, QString> i(m_params);
+        while (i.hasNext()) {
+            i.next();
+            ret += "," + i.key() + "=" + i.value();
+        }
     }
     return ret;
 }
