@@ -55,7 +55,7 @@ NotesEditor::NotesEditor(QWidget *parent)
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     ui->standardToolBar->insertWidget(ui->actionZoomOut, spacer);
 
-    m_zoomLabel = new QLabel;
+    m_zoomLabel = new QLabel(this);
     ui->standardToolBar->insertWidget(ui->actionZoomOut, m_zoomLabel);
 
     m_zoomSlider = new QSlider(this);
@@ -142,6 +142,9 @@ void NotesEditor::init()
 
 NotesEditor::~NotesEditor()
 {
+    delete m_simpleNotes;
+    delete m_highlighter;
+
     delete ui;
     delete ui_dialog;
 }

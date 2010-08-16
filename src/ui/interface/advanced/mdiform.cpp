@@ -40,7 +40,6 @@ MdiForm::MdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::MdiForm)
     connect(m_ui->comboBox_chapters,SIGNAL(activated(int)), this, SLOT(readChapter(int)));
 
     setButtons();
-    //m_ui->textBrowser->installEventFilter(this);
 
 }
 void MdiForm::changeEvent(QEvent *e)
@@ -84,7 +83,7 @@ void MdiForm::setButtons()
 
 void MdiForm::showBibleListMenu()
 {
-    BibleListWidget *w = new BibleListWidget;
+    BibleListWidget *w = new BibleListWidget(this);
     setAll(w);
     w->init();
     w->exec();

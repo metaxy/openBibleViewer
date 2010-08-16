@@ -9,6 +9,7 @@ class BibleList
 {
 public:
     BibleList();
+    ~BibleList();
     QHash<int, Bible *> m_bibles;
     QMap<int, QPoint> m_biblePoints;
     void clear();

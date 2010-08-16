@@ -17,6 +17,16 @@ BibleList::BibleList()
 {
     m_currentBible = 0;
 }
+BibleList::~BibleList()
+{
+    foreach(Bible * b, m_bibles) {
+        if(b) {
+            delete b;
+            b = 0;
+        }
+    }
+}
+
 int BibleList::readBook(int id)
 {
     foreach(Bible * b, m_bibles) {
@@ -52,6 +62,12 @@ Bible * BibleList::bible(const int &id)
 void BibleList::clear()
 {
     m_biblePoints.clear();
+    foreach(Bible * b, m_bibles) {
+        if(b) {
+            delete b;
+            b = 0;
+        }
+    }
     m_bibles.clear();
     m_currentBible = 0;
 }

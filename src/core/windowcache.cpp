@@ -30,11 +30,23 @@ void WindowCache::newWindow()
 void WindowCache::removeWindow(const int &id)
 {
     DEBUG_FUNC_NAME
+    BibleList *list = m_b[id];
+    if(list) {
+        delete list;
+        list = 0;
+        m_b.remove(id);
+    }
+
     m_idList.removeAt(id);
 }
 void WindowCache::clearAll()
 {
     DEBUG_FUNC_NAME
+    foreach(BibleList *list, m_b) {
+        if(list) {
+            delete list;
+        }
+    }
     m_idList.clear();
     m_b.clear();
 }

@@ -139,6 +139,10 @@ void MainWindow::deleteInterface()
         if(m_interface->m_quickJumpDockWidget)
             removeDockWidget(m_interface->m_quickJumpDockWidget);
     }
+    /*if(m_interface != 0) {
+        delete m_interface;
+        m_interface = 0;
+    }*/
     delete this->centralWidget();
 }
 void MainWindow::reloadInterface()

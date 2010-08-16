@@ -1775,7 +1775,22 @@ QList<QToolBar *> AdvancedInterface::toolBars()
 
 AdvancedInterface::~AdvancedInterface()
 {
+   /* delete m_actionTabView;
+    delete m_actionSubWindowView;*/
+    m_windowCache.clearAll();
+
+    /*delete m_bibleApi;
+    m_bibleApi = 0;*/
+    /*delete m_actionCopy;
+    delete m_actionSelect;
+    delete m_menuMark;
+    delete m_actionRemoveMark;
+    delete m_actionBookmark;
+    delete m_actionNote;*/
+
+
     delete ui;
+    ui = 0;
 }
 
 void AdvancedInterface::showBookmarksDock()
