@@ -89,13 +89,11 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 void MainWindow::loadInterface()
 {
     DEBUG_FUNC_NAME
-    QString interface = m_settings->session.getData("interface").toString();
+    QString interface = m_settings->session.getData("interface",QString("advanced")).toString();
     if(interface == "advanced") {
         loadAdvancedInterface();
     } else if(interface == "simple") {
         loadSimpleInterface();
-    } else {
-        loadAdvancedInterface();
     }
 }
 void MainWindow::deleteInterface()
@@ -167,8 +165,9 @@ void MainWindow::loadSimpleInterface()
     m_interface->setSearchResultDockWidget(searchResultDockWidget);
     addDockWidget(Qt::LeftDockWidgetArea, searchResultDockWidget);
 
-    m_interface->init();
+
     setCentralWidget(m_interface);
+
     if(m_interface->hasMenuBar()) {
         m_menuBar = m_interface->menuBar();
         setMenuBar(m_menuBar);
@@ -180,6 +179,7 @@ void MainWindow::loadSimpleInterface()
     }
     connect(this, SIGNAL(settingsChanged(Settings, Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
+    m_interface->init();
 }
 
 void MainWindow::loadAdvancedInterface()

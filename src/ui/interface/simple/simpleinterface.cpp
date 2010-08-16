@@ -20,6 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 #include <QtGui/QKeyEvent>
 #include "src/core/core.h"
+#include "src/core/search.h"
 SimpleInterface::SimpleInterface(QWidget *parent) :
     Interface(parent),
     ui(new Ui::SimpleInterface)
@@ -46,8 +47,9 @@ void SimpleInterface::setSearchResultDockWidget(SearchResultDockWidget *searchRe
 void SimpleInterface::init()
 {
     m_moduleManager->m_bibleList = new BibleList();
-
-    m_moduleManager->bibleList()->addBible(m_moduleManager->bible(), QPoint(0, 0));
+    Bible *b = new Bible();
+    m_moduleManager->initBible(b);
+    m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
 
     m_moduleManager->bible()->setSettings(m_settings);
     setAll(m_moduleDockWidget);
@@ -241,7 +243,13 @@ void SimpleInterface::pharseUrl(QString url)
 }
 void SimpleInterface::showText(const QString &text)
 {
+    QString cssFile = m_settings->getModuleSettings(m_moduleManager->bible()->moduleID()).styleSheet;
+    if(cssFile.isEmpty())
+        cssFile = ":/data/css/default.css";
+
     ui->textBrowser->setHtml(text);
+    ui->textBrowser->loadResource(QTextDocument::StyleSheetResource,QUrl(cssFile));
+
     if(m_moduleManager->bible()->verseID() > 1)
         ui->textBrowser->scrollToAnchor("currentVerse");
 }
@@ -388,7 +396,6 @@ void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings
 }
 void SimpleInterface::showSearchDialog()
 {
-    //DEBUG_FUNC_NAME
     SearchDialog *sDialog = new SearchDialog(this);
     connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
     if(ui->textBrowser->textCursor().hasSelection() == true) //something is selected
@@ -398,13 +405,11 @@ void SimpleInterface::showSearchDialog()
 }
 void SimpleInterface::search(SearchQuery query)
 {
-    //DEBUG_FUNC_NAME
-    /*  if(!m_moduleManager->bibleLoaded())
-          return;
-      m_searchResultDockWidget->show();
-      SearchResult result;
-      result = m_moduleManager->bible()->search(query);
-      m_searchResultDockWidget->setSearchResult(result);*/
+    m_searchResultDockWidget->show();
+    Search s;
+    setAll(&s);
+    SearchResult *res = s.search(query);
+    m_searchResultDockWidget->setSearchResult(*res);
 }
 void SimpleInterface::changeEvent(QEvent *e)
 {

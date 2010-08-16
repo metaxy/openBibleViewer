@@ -226,8 +226,9 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     }
     m_internalWindows << subWindow;
     m_moduleManager->m_bibleList = new BibleList();
-
-    m_moduleManager->bibleList()->addBible(m_moduleManager->bible(), QPoint(0, 0));
+    Bible *b = new Bible();
+    m_moduleManager->initBible(b);
+    m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
     m_windowCache.setBibleList(m_moduleManager->m_bibleList);
 
     //clear old stuff

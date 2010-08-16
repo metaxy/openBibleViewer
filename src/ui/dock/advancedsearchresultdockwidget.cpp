@@ -41,7 +41,7 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
     foreach(SearchHit hit, hits) {
         if(hit.type() != SearchHit::BibleHit)
             continue;
-        int book = hit.value(SearchHit::BookID).toInt();
+        const int book = hit.value(SearchHit::BookID).toInt();
         if(m_bookItems.contains(book))
             continue;
         QStandardItem *bookItem = new QStandardItem(m_moduleManager->bible()->bookName(book));
@@ -52,7 +52,8 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
     for(int i = 0; i < hits.size(); ++i) {
         SearchHit hit = hits.at(i);
         if(hit.type() == SearchHit::BibleHit) {
-            QStandardItem *hitItem = new QStandardItem(QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + " , " +
+            QStandardItem *hitItem = new QStandardItem(m_moduleManager->bible()->bookName(hit.value(SearchHit::BookID).toInt()) + " " +
+                                                       QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + ":" +
                     QString::number(hit.value(SearchHit::VerseID).toInt() + 1));
             hitItem->setData(i, Qt::UserRole + 1);
 

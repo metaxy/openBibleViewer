@@ -28,7 +28,7 @@ QString GoTo::getUrl(const QString& text)
         return QString();
     QStringList reg;
     QRegExp foundRegExp;
-    reg << "(.*)" << "(.*)(\\s+)(\\d+)"  << "(.*)(\\s+)(\\d+),(\\d+)";
+    reg << "(.*)" << "(.*)(\\s+)(\\d+)"  << "(.*)(\\s+)(\\d+),(\\d+)" << "(.*)(\\s+)(\\d+):(\\d+)";
     int found = -1;
     for(int i = reg.size() - 1; i >= 0; --i) {
         QRegExp r(reg.at(i));
@@ -55,7 +55,7 @@ QString GoTo::getUrl(const QString& text)
         url.setChapterID(chapterID);
         url.setVerse(BibleUrl::LoadFirstVerse);
         return url.toString();
-    } else if(found == 2) {  //Hiob 4,9
+    } else if(found == 2 || found == 3) {  //Hiob 4,9
         const int bookID = bookNameToBookID(foundRegExp.cap(1));
         const int chapterID = foundRegExp.cap(3).toInt() - 1;
         const int verseID = foundRegExp.cap(4).toInt() - 1;

@@ -71,7 +71,7 @@
         <item>
          <widget class="QToolButton" name="toolButton_whole">
           <property name="text">
-           <string>Whole</string>
+           <string>All</string>
           </property>
           <property name="checkable">
            <bool>true</bool>
