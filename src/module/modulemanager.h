@@ -58,10 +58,11 @@ public:
     QList<int> getBibleIDs();
     void checkCache(const int &moduleID);
     Bible * newBible(const int &moduleID, QPoint p);
+    BibleDisplaySettings *m_bibleDisplaySettings;
 
 private:
     QFileInfoList scan(const QString &path, int level);
-    BibleDisplaySettings *m_bibleDisplaySettings;
+
 };
 
 #endif // MODULEMANAGER_H

@@ -46,6 +46,12 @@ void SimpleInterface::setSearchResultDockWidget(SearchResultDockWidget *searchRe
 
 void SimpleInterface::init()
 {
+    BibleDisplaySettings *bibleDisplaySettings = new BibleDisplaySettings();
+    bibleDisplaySettings->loadNotes = false;
+    bibleDisplaySettings->showMarks = false;
+    bibleDisplaySettings->showNotes = false;
+    m_moduleManager->setBibleDisplaySettings(bibleDisplaySettings);
+
     m_moduleManager->m_bibleList = new BibleList();
     Bible *b = new Bible();
     m_moduleManager->initBible(b);
@@ -65,12 +71,6 @@ void SimpleInterface::init()
 
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
-
-    BibleDisplaySettings *bibleDisplaySettings = new BibleDisplaySettings();
-    bibleDisplaySettings->loadNotes = false;
-    bibleDisplaySettings->showMarks = false;
-    bibleDisplaySettings->showNotes = false;
-    m_moduleManager->bible()->setBibleDisplaySettings(bibleDisplaySettings);
 
 }
 bool SimpleInterface::hasMenuBar()
@@ -361,6 +361,8 @@ bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
 
 SimpleInterface::~SimpleInterface()
 {
+    delete m_moduleManager->m_bibleDisplaySettings;
+    m_moduleManager->m_bibleDisplaySettings = 0;
     delete ui;
 }
 void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings)

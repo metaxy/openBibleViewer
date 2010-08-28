@@ -3,11 +3,13 @@
 #include <QtGui/QSortFilterProxyModel>
 #include <QtGui/QMessageBox>
 #include "src/core/bibleurl.h"
+#include "src/ui/dialog/searchinfodialog.h"
 AdvancedSearchResultDockWidget::AdvancedSearchResultDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::AdvancedSearchResultDockWidget)
 {
     ui->setupUi(this);
+    connect(ui->pushButton_searchInfo, SIGNAL(clicked()), this, SLOT(searchInfo()));
 }
 
 AdvancedSearchResultDockWidget::~AdvancedSearchResultDockWidget()
@@ -54,7 +56,7 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
         if(hit.type() == SearchHit::BibleHit) {
             QStandardItem *hitItem = new QStandardItem(m_moduleManager->bible()->bookName(hit.value(SearchHit::BookID).toInt()) + " " +
                                                        QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + ":" +
-                    QString::number(hit.value(SearchHit::VerseID).toInt() + 1));
+                                                       QString::number(hit.value(SearchHit::VerseID).toInt() + 1));
             hitItem->setData(i, Qt::UserRole + 1);
 
             m_bookItems.value(hit.value(SearchHit::BookID).toInt())->appendRow(hitItem);
@@ -69,7 +71,7 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
         }
     }
 
-    // ui->pushButton_searchInfo->setDisabled(false);
+    ui->pushButton_searchInfo->setDisabled(false);
 
 }
 void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
@@ -92,7 +94,37 @@ void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
             emit get("note://" + hit.value(SearchHit::NoteID).toString());
         }
     }
-}/*
+}
+void AdvancedSearchResultDockWidget::searchInfo()
+{
+    if(!m_moduleManager->contains(m_moduleManager->bible()->moduleID())) {
+        QMessageBox::information(0, tr("Error"), tr("No search information available."));
+        return;
+    }
+
+    const QStringList bookNames = m_moduleManager->bible()->bookNames().values();//todo: check
+    SearchResult result = m_searchResult;
+    QList<SearchHit> list = result.hits(SearchHit::BibleHit);
+
+    QStringList textList;
+    for(int i = 0; i < list.size(); ++i) {
+        SearchHit hit = list.at(i);
+        if(hit.type() == SearchHit::BibleHit) {
+            const QString bookn = m_moduleManager->bible()->bookName(hit.value(SearchHit::BookID).toInt()); //todo: maybe the bible isn't loaded and you need another bookNames
+            textList << hit.value(SearchHit::VerseText).toString() + "\n - <i>" + bookn
+                    + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1)
+                    + " , " + QString::number(hit.value(SearchHit::VerseID).toInt() + 1) + "</i>";
+        }
+    }
+
+    SearchInfoDialog sDialog;
+    sDialog.show();
+
+    sDialog.setInfo(result, bookNames, m_searchResult.searchQuery.searchText, textList);
+    sDialog.exec();
+}
+
+/*
 void AdvancedSearchResultDockWidget::nextVerse()
 {
     if(m_itemModel->rowCount() != 0) {

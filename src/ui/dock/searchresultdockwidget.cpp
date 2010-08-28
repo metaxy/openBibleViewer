@@ -82,8 +82,12 @@ void SearchResultDockWidget::searchInfo()
     QStringList textList;
     for(int i = 0; i < list.size(); ++i) {
         SearchHit hit = list.at(i);
-        QString bookn = m_moduleManager->bible()->bookName(hit.value(SearchHit::BookID).toInt()); //todo: maybe the bible isn't loaded and you need another bookNames
-        textList << hit.value(SearchHit::VerseText).toString() + "\n - <i>" + bookn + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + " , " + QString::number(hit.value(SearchHit::VerseID).toInt() + 1) + "</i>";
+        if(hit.type() == SearchHit::BibleHit) {
+            const QString bookn = m_moduleManager->bible()->bookName(hit.value(SearchHit::BookID).toInt()); //todo: maybe the bible isn't loaded and you need another bookNames
+            textList << hit.value(SearchHit::VerseText).toString() + "\n - <i>" + bookn
+                    + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1)
+                    + " , " + QString::number(hit.value(SearchHit::VerseID).toInt() + 1) + "</i>";
+        }
     }
 
     SearchInfoDialog sDialog;
@@ -125,7 +129,7 @@ void SearchResultDockWidget::previousVerse()
             goToSearchResult(ui->listWidget_search->currentItem());
         }
     } else {
-        myWarning() << "no search Results available";
+        myWarning() << "no search results available";
     }
     return;
 }

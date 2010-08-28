@@ -24,8 +24,8 @@ BookDockWidget::BookDockWidget(QWidget *parent) :
     connect(ui->listView_books,SIGNAL(activated(QModelIndex)),this,SLOT(readBook(QModelIndex)));
     connect(ui->listView_chapters,SIGNAL(activated(QModelIndex)),this,SLOT(readChapter(QModelIndex)));
 
-    m_bookModel = new QStandardItemModel();
-    m_chapterModel = new QStandardItemModel();
+    m_bookModel = new QStandardItemModel(this);
+    m_chapterModel = new QStandardItemModel(this);
 
     m_bookSelection =  new QItemSelectionModel(m_bookModel);
     m_chapterSelection = new QItemSelectionModel(m_chapterModel);

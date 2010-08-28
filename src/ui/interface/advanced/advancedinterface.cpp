@@ -1788,6 +1788,8 @@ AdvancedInterface::~AdvancedInterface()
     delete m_actionBookmark;
     delete m_actionNote;*/
 
+    delete m_moduleManager->m_bibleDisplaySettings;
+    m_moduleManager->m_bibleDisplaySettings = 0;
 
     delete ui;
     ui = 0;

@@ -39,7 +39,7 @@ using namespace lucene::analysis::standard;
 #endif
 ZefaniaBible::ZefaniaBible()
 {
-    m_settings = new Settings();
+    m_settings = 0;
     m_bibleID = 0;
     m_bookID = 0;
 }

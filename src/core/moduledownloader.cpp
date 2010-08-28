@@ -102,6 +102,7 @@ void ModuleDownloader::download(QString url_, bool addToList)
     m_progressDialog->setWindowTitle(tr("Downloading"));
     m_progressDialog->setLabelText(tr("Downloading %1 / %2. %3 MB").arg(m_currentDownload + 1).arg(m_urls.size()).arg(0));
     m_progressDialog->setModal(true);
+
 }
 void ModuleDownloader::cancelDownload()
 {

@@ -22,6 +22,7 @@ public:
     void setSearchResult(SearchResult searchResult);
 private slots:
     void goToSearchResult(QModelIndex index);
+    void searchInfo();
 protected:
     void changeEvent(QEvent *e);
 

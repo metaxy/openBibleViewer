@@ -30,6 +30,7 @@ NotesDockWidget::NotesDockWidget(QWidget *parent) :
 
 NotesDockWidget::~NotesDockWidget()
 {
+    delete m_simpleNotes;
     delete ui;
 }
 void NotesDockWidget::init()
