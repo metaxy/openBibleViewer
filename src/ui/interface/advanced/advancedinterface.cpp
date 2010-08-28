@@ -1524,12 +1524,12 @@ void AdvancedInterface::selectAll()
 
 void AdvancedInterface::nextVerse()
 {
-    //m_advancedSearchResultDockWidget->nextVerse();//todo:
+    m_advancedSearchResultDockWidget->nextVerse();
 }
 
 void AdvancedInterface::previousVerse()
 {
-    //m_advancedSearchResultDockWidget->previousVerse();//todo:
+    m_advancedSearchResultDockWidget->previousVerse();
 }
 
 bool AdvancedInterface::hasMenuBar()
@@ -1542,21 +1542,31 @@ QMenuBar* AdvancedInterface::menuBar()
     QMenuBar *bar = new QMenuBar(parentWidget());
     QMenu *menuFile = new QMenu(tr("File"), bar);
 
+    //New Sub Window
     QAction *actionNewSubWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New SubWindow"), menuFile);
     connect(actionNewSubWindow, SIGNAL(triggered()), this, SLOT(newSubWindow()));
-    actionNewSubWindow->setShortcut(QKeySequence(tr("Ctrl+T")));
+    actionNewSubWindow->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_T));//on KDE using const KeySequence is Ctrl+Shift+N ( and that is not good )
 
+    //Close Sub Window
     QAction *actionCloseSubWindow = new QAction(QIcon::fromTheme("tab-close", QIcon(":/icons/16x16/tab-close.png")), tr("Close SubWindow"), menuFile);
     connect(actionCloseSubWindow, SIGNAL(triggered()), this, SLOT(closeSubWindow()));
+    actionCloseSubWindow->setShortcut(QKeySequence::Close);
 
+    //Save As
     QAction *actionSaveAs = new QAction(QIcon::fromTheme("document-save-as", QIcon(":/icons/16x16/document-save-as.png")), tr("Save As"), menuFile);
     connect(actionSaveAs, SIGNAL(triggered()), this, SLOT(saveFile()));
+    actionSaveAs->setShortcut(QKeySequence::SaveAs);
 
+    //Print
     QAction *actionPrint = new QAction(QIcon::fromTheme("document-print", QIcon(":/icons/16x16/document-print.png")), tr("Print"), menuFile);
     connect(actionPrint, SIGNAL(triggered()), this, SLOT(printFile()));
+    actionPrint->setShortcut(QKeySequence::Print);
 
-    QAction *actionClose = new QAction(QIcon::fromTheme("application-exit", QIcon(":/icons/16x16/application-exit.png")), tr("Close"), menuFile);
+    //Close
+    QAction *actionClose = new QAction(QIcon::fromTheme("application-exit", QIcon(":/icons/16x16/application-exit.png")), tr("Quit"), menuFile);
     connect(actionClose, SIGNAL(triggered()), this->parentWidget(), SLOT(close()));
+    actionClose->setShortcut(QKeySequence::Quit);
+
     menuFile->addAction(actionNewSubWindow);
     menuFile->addAction(actionCloseSubWindow);
     menuFile->addSeparator();
@@ -1566,22 +1576,36 @@ QMenuBar* AdvancedInterface::menuBar()
     menuFile->addAction(actionClose);
 
     QMenu *menuEdit = new QMenu(tr("Edit"), bar);
+
+    //Copy
     QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), menuEdit);
     connect(actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
+    actionCopy->setShortcut(QKeySequence::Copy);
 
+    //SelectAll
     QAction *actionSelectAll = new QAction(QIcon::fromTheme("edit-select-all", QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"), menuEdit);
     connect(actionSelectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
+    actionSelectAll->setShortcut(QKeySequence::SelectAll);
 
+    //Search
     QAction *actionSearch = new QAction(QIcon::fromTheme("edit-find", QIcon(":/icons/16x16/edit-find.png")), tr("Search"), menuEdit);
-    actionSearch->setShortcut(QKeySequence(tr("Ctrl+F")));
+    actionSearch->setShortcut(QKeySequence::Find);
     connect(actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
+
+    //Find Next
     QAction *actionFindNext = new QAction(QIcon::fromTheme("go-down-search", QIcon(":/icons/16x16/go-down-search.png")), tr("Find Next"), menuEdit);
     connect(actionFindNext, SIGNAL(triggered()), this, SLOT(nextVerse()));
+    actionFindNext->setShortcut(QKeySequence::FindNext);
+
+    //Find Previous
     QAction *actionFindPrevious = new QAction(QIcon::fromTheme("go-up-search", QIcon(":/icons/16x16/go-up-search.png")), tr("Find Previous"), menuEdit);
     connect(actionFindPrevious, SIGNAL(triggered()), this, SLOT(previousVerse()));
+    actionFindPrevious->setShortcut(QKeySequence::FindPrevious);
 
+    //Config
     QAction *actionConfiguration = new QAction(QIcon::fromTheme("configure", QIcon(":/icons/16x16/configure.png")), tr("Configuration"), menuEdit);
     connect(actionConfiguration, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_General()));
+    actionConfiguration->setShortcut(QKeySequence::Preferences);
 
     menuEdit->addAction(actionCopy);
     menuEdit->addAction(actionSelectAll);
@@ -1594,28 +1618,39 @@ QMenuBar* AdvancedInterface::menuBar()
 
     QMenu *menuView = new QMenu(tr("View"), bar);
 
+    //Zoom In
     QAction *actionZoomIn = new QAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/16x16/zoom-in.png")), tr("Zoom In"), menuView);
     connect(actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
-    actionZoomIn->setShortcut(QKeySequence(tr("Ctrl++")));
+    actionZoomIn->setShortcut(QKeySequence::ZoomIn);
+
+    //Zoom Out
     QAction *actionZoomOut = new QAction(QIcon::fromTheme("zoom-out", QIcon(":/icons/16x16/zoom-out.png")), tr("Zoom Out"), menuView);
-    actionZoomOut->setShortcut(QKeySequence(tr("Ctrl+-")));
+    actionZoomOut->setShortcut(QKeySequence::ZoomOut);
     connect(actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
 
+    //TabView
     m_actionTabView = new QAction(QIcon(), tr("Tabbed View"), menuView);
     m_actionTabView->setCheckable(true);
     connect(m_actionTabView, SIGNAL(triggered()), this, SLOT(setTabView()));
 
+    //SubWindowView
     m_actionSubWindowView = new QAction(QIcon(), tr("Sub Window View"), menuView);
     m_actionSubWindowView->setCheckable(true);
     connect(m_actionSubWindowView, SIGNAL(triggered()), this, SLOT(setSubWindowView()));
 
+    //Cascade
     QAction *actionCascade = new QAction(QIcon(":/icons/svg/cascade.svg"), tr("Cascade"), menuView);
     connect(actionCascade, SIGNAL(triggered()), this, SLOT(myCascade()));
+
+    //Tile
     QAction *actionTile = new QAction(QIcon(":/icons/svg/tile.svg"), tr("Tile"), menuView);
     connect(actionTile, SIGNAL(triggered()), this, SLOT(myTile()));
 
+    //Tile Vertical
     QAction *actionTileVertical = new QAction(QIcon(":/icons/svg/tile_vert.svg"), tr("Tile Vertical"), menuView);
     connect(actionTileVertical, SIGNAL(triggered()), this, SLOT(myTileVertical()));
+
+    //Tile Horizontal
     QAction *actionTileHorizontal = new QAction(QIcon(":/icons/svg/tile_horiz.svg"), tr("Tile Horizontal"), menuView);
     connect(actionTileHorizontal, SIGNAL(triggered()), this, SLOT(myTileHorizontal()));
 
@@ -1632,13 +1667,20 @@ QMenuBar* AdvancedInterface::menuBar()
 
 
     QMenu *menuNotes = new QMenu(tr("Notes"), bar);
+
+    //Notes Editor
     QAction *actionNotesEditor = new QAction(QIcon::fromTheme("notes-edit", QIcon(":/icons/16x16/notes-edit.png")), tr("Notes Editor"), menuNotes);
     connect(actionNotesEditor, SIGNAL(triggered()), this, SLOT(showNotesEditor()));
 
+    //Mark List
     QAction *actionMarkList = new QAction(QIcon::fromTheme("table", QIcon(":/icons/16x16/table.png")), tr("Mark List"), menuNotes);
     connect(actionMarkList, SIGNAL(triggered()), this, SLOT(showMarkList()));
+
+    //Mark Categories
     QAction *actionMarkCategories = new QAction(QIcon(), tr("Mark Categories"), menuNotes);
     connect(actionMarkCategories, SIGNAL(triggered()), this, SLOT(showMarkCategories()));
+
+
     menuNotes->addAction(actionNotesEditor);
     //menuNotes->addSeparator();
     menuNotes->addAction(actionMarkList);
@@ -1646,40 +1688,48 @@ QMenuBar* AdvancedInterface::menuBar()
 
     QMenu *menuDocks = new QMenu(tr("Docks"), bar);
 
+
     QAction *actionModule = new QAction(tr("Module"), menuDocks);
     actionModule->setCheckable(true);
     connect(m_moduleDockWidget, SIGNAL(visibilityChanged(bool)), actionModule, SLOT(setChecked(bool)));
     connect(actionModule, SIGNAL(triggered(bool)), m_moduleDockWidget, SLOT(setVisible(bool)));
+    actionModule->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_M));
 
     QAction *actionBooks = new QAction(tr("Books"), menuDocks);
     actionBooks->setCheckable(true);
     connect(m_bookDockWidget, SIGNAL(visibilityChanged(bool)), actionBooks, SLOT(setChecked(bool)));
     connect(actionBooks, SIGNAL(triggered(bool)), m_bookDockWidget, SLOT(setVisible(bool)));
+    actionBooks->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_C));
 
     QAction *actionNotes = new QAction(QIcon::fromTheme("notes-edit", QIcon(":/icons/16x16/notes-edit.png")), tr("Notes"), menuDocks);
     actionNotes->setCheckable(true);
     connect(m_notesDockWidget, SIGNAL(visibilityChanged(bool)), actionNotes, SLOT(setChecked(bool)));
     connect(actionNotes, SIGNAL(triggered(bool)), m_notesDockWidget, SLOT(setVisible(bool)));
+    actionNotes->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_N));
 
-    QAction *actionStrong = new QAction(tr("Strong"), menuDocks);
+    QAction *actionStrong = new QAction(tr("Dictionay"), menuDocks);
     actionStrong->setCheckable(true);
     connect(m_dictionaryDockWidget, SIGNAL(visibilityChanged(bool)), actionStrong, SLOT(setChecked(bool)));
     connect(actionStrong, SIGNAL(triggered(bool)), m_dictionaryDockWidget, SLOT(setVisible(bool)));
+    actionStrong->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_D));
 
     QAction *actionBookmarks = new QAction(QIcon::fromTheme("bookmarks-organize", QIcon(":/icons/16x16/bookmarks-organize.png")), tr("Bookmarks"), menuDocks);
     actionBookmarks->setCheckable(true);
     connect(m_bookmarksDockWidget, SIGNAL(visibilityChanged(bool)), actionBookmarks, SLOT(setChecked(bool)));
     connect(actionBookmarks, SIGNAL(triggered(bool)), m_bookmarksDockWidget, SLOT(setVisible(bool)));
+    actionBookmarks->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_B));
 
     QAction *actionQuickJump = new QAction(tr("Quick Jump"), menuDocks);
     actionQuickJump->setCheckable(true);
     connect(m_quickJumpDockWidget, SIGNAL(visibilityChanged(bool)), actionQuickJump, SLOT(setChecked(bool)));
     connect(actionQuickJump, SIGNAL(triggered(bool)), m_quickJumpDockWidget, SLOT(setVisible(bool)));
+    actionQuickJump->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Q));
 
     QAction *actionSearchResults = new QAction(QIcon::fromTheme("table", QIcon(":/icons/16x16/table.png")), tr("Search Results"), menuDocks);
     actionSearchResults->setCheckable(true);
     connect(m_advancedSearchResultDockWidget, SIGNAL(visibilityChanged(bool)), actionSearchResults, SLOT(setChecked(bool)));
     connect(actionSearchResults , SIGNAL(triggered(bool)), m_advancedSearchResultDockWidget, SLOT(setVisible(bool)));
+    actionSearchResults->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_S));
 
 
     menuDocks->addAction(actionModule);
@@ -1691,13 +1741,20 @@ QMenuBar* AdvancedInterface::menuBar()
     menuDocks->addAction(actionSearchResults);
 
     QMenu *menuHelp = new QMenu(tr("Help"), bar);
+
+    //About
     QAction *actionAbout = new QAction(QIcon::fromTheme("help-about", QIcon(":/icons/16x16/help-about.png")), tr("About"), menuHelp);
     connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
+
+    //Online Help
     QAction *actionOnlineHelp = new QAction(QIcon::fromTheme("help-contents", QIcon(":/icons/16x16/help-contents.png")), tr("Online Help"), menuHelp);
     connect(actionOnlineHelp, SIGNAL(triggered()), this, SLOT(onlineHelp()));
+    actionOnlineHelp->setShortcut(QKeySequence::HelpContents);
 
     menuHelp->addAction(actionOnlineHelp);
     menuHelp->addAction(actionAbout);
+
+
     bar->addMenu(menuFile);
     bar->addMenu(menuEdit);
     bar->addMenu(menuView);

@@ -20,6 +20,9 @@ public:
     ~AdvancedSearchResultDockWidget();
     void init();
     void setSearchResult(SearchResult searchResult);
+public slots:
+    void nextVerse();
+    void previousVerse();
 private slots:
     void goToSearchResult(QModelIndex index);
     void searchInfo();

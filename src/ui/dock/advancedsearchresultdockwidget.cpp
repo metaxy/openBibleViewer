@@ -4,6 +4,7 @@
 #include <QtGui/QMessageBox>
 #include "src/core/bibleurl.h"
 #include "src/ui/dialog/searchinfodialog.h"
+#include "src/core/dbghelper.h"
 AdvancedSearchResultDockWidget::AdvancedSearchResultDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::AdvancedSearchResultDockWidget)
@@ -47,6 +48,7 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
         if(m_bookItems.contains(book))
             continue;
         QStandardItem *bookItem = new QStandardItem(m_moduleManager->bible()->bookName(book));
+        bookItem->setData("book",Qt::UserRole + 2);
         parentItem->appendRow(bookItem);
         m_bookItems.insert(book, bookItem);
     }
@@ -58,7 +60,7 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
                                                        QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + ":" +
                                                        QString::number(hit.value(SearchHit::VerseID).toInt() + 1));
             hitItem->setData(i, Qt::UserRole + 1);
-
+            hitItem->setData("bibleHit",Qt::UserRole + 2);
             m_bookItems.value(hit.value(SearchHit::BookID).toInt())->appendRow(hitItem);
         } else if(hit.type() == SearchHit::NoteHit) {
             if(!notesItem) {
@@ -67,6 +69,7 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
             }
             QStandardItem *hitItem = new QStandardItem(m_notes->getTitle(hit.value(SearchHit::NoteID).toString()));
             hitItem->setData(i, Qt::UserRole + 1);
+             hitItem->setData("noteHit",Qt::UserRole + 2);
             notesItem->appendRow(hitItem);
         }
     }
@@ -124,13 +127,24 @@ void AdvancedSearchResultDockWidget::searchInfo()
     sDialog.exec();
 }
 
-/*
 void AdvancedSearchResultDockWidget::nextVerse()
 {
+    DEBUG_FUNC_NAME
     if(m_itemModel->rowCount() != 0) {
-        int currentID = ui->treeView->currentIndex().data(Qt::UserRole+1).toInt();
-
-        int nextID = currentID + 1;
+        const QModelIndex index = m_selectionModel->currentIndex();
+        int rowID = index.row();
+        myDebug() << rowID << index << index.data(Qt::UserRole +2);
+        forever {
+            rowID++;
+            const QModelIndex n = m_proxyModel->index(rowID,0,index.parent());
+            if(n.data(Qt::UserRole +2) == "bibleHit") {
+                goToSearchResult(n);
+                break;
+            }
+            if(rowID >= m_proxyModel->rowCount())
+                break;
+        }
+        /*int nextID = currentID + 1;
         if(nextID < ui->listWidget_search->count()) {
             QModelIndexList l =
             //ui->treeView->setCurrentIndex(m_itemModel-);
@@ -142,7 +156,7 @@ void AdvancedSearchResultDockWidget::nextVerse()
             nextID = 0;
             ui->listWidget_search->setCurrentRow(nextID);
             goToSearchResult(ui->treeView->currentIndex());
-        }
+        }*/
     } else {
         myWarning() << "no search Results available";
     }
@@ -150,7 +164,7 @@ void AdvancedSearchResultDockWidget::nextVerse()
 }
 void AdvancedSearchResultDockWidget::previousVerse()
 {
-    if(m_itemModel->rowCount() != 0) {
+   /* if(m_itemModel->rowCount() != 0) {
         int currentID = ui->treeView->currentIndex().data(Qt::UserRole+1).toInt();
 
         int nextID = currentID - 1;
@@ -161,8 +175,8 @@ void AdvancedSearchResultDockWidget::previousVerse()
     } else {
         myWarning() << "no search Results available";
     }
-    return;
-}*/
+    return;*/
+}
 void AdvancedSearchResultDockWidget::changeEvent(QEvent *e)
 {
     QDockWidget::changeEvent(e);
