@@ -36,6 +36,9 @@ MdiForm::MdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::MdiForm)
     connect(m_ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
     connect(m_ui->toolButton_bibleList, SIGNAL(clicked()), this, SLOT(showBibleListMenu()));
 
+    m_ui->toolButton_backward->setShortcut(QKeySequence::Back);
+    m_ui->toolButton_forward->setShortcut(QKeySequence::Forward);
+
     connect(m_ui->comboBox_books,SIGNAL(activated(int)), this, SLOT(readBook(int)));
     connect(m_ui->comboBox_chapters,SIGNAL(activated(int)), this, SLOT(readChapter(int)));
 

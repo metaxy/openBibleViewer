@@ -98,6 +98,7 @@ void AdvancedInterface::init()
     connect(m_moduleDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
     setAll(m_bookDockWidget);
+    m_bookDockWidget->hide();
     connect(m_bookDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
     setAll(m_advancedSearchResultDockWidget);
