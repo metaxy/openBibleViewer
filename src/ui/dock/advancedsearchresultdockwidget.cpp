@@ -79,7 +79,8 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
 }
 void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
 {
-    int id = index.data(Qt::UserRole + 1).toInt();
+    DEBUG_FUNC_NAME
+    const int id = index.data(Qt::UserRole + 1).toInt();
     if(id < m_searchResult.hits().size() && id >= 0) {
         SearchHit hit = m_searchResult.hits().at(id);
         if(hit.type() == SearchHit::BibleHit) {
@@ -93,7 +94,6 @@ void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
             url.setParam("searchInCurrentText","true");
             emit get(url.toString());
         } else if(hit.type() == SearchHit::NoteHit) {
-
             emit get("note://" + hit.value(SearchHit::NoteID).toString());
         }
     }
@@ -132,31 +132,29 @@ void AdvancedSearchResultDockWidget::nextVerse()
     DEBUG_FUNC_NAME
     if(m_itemModel->rowCount() != 0) {
         const QModelIndex index = m_selectionModel->currentIndex();
-        int rowID = index.row();
-        myDebug() << rowID << index << index.data(Qt::UserRole +2);
+        QModelIndex parent = index.parent();
         forever {
-            rowID++;
-            const QModelIndex n = m_proxyModel->index(rowID,0,index.parent());
-            if(n.data(Qt::UserRole +2) == "bibleHit") {
-                goToSearchResult(n);
+            if(parent.parent() != QModelIndex()) {
+                parent = parent.parent();
+            } else {
                 break;
             }
+        }
+        int rowID = index.row();
+        myDebug() << rowID << index << index.data(Qt::UserRole + 2);
+        forever {
             if(rowID >= m_proxyModel->rowCount())
                 break;
-        }
-        /*int nextID = currentID + 1;
-        if(nextID < ui->listWidget_search->count()) {
-            QModelIndexList l =
-            //ui->treeView->setCurrentIndex(m_itemModel-);
+            rowID++;
+            const QModelIndex n = m_proxyModel->index(rowID,0,parent);
+            if(n.data(Qt::UserRole +2) == "bibleHit") {
+                goToSearchResult(n);
+                m_selectionModel->clearSelection();
+                m_selectionModel->setCurrentIndex(n,QItemSelectionModel::Select);
+                break;
+            }
 
-            goToSearchResult(ui->listWidget_search->currentItem());
-        } else {
-            //wieder von vorne
-            QMessageBox::information(this, tr("No more Results."), tr("Show the first result again?"));
-            nextID = 0;
-            ui->listWidget_search->setCurrentRow(nextID);
-            goToSearchResult(ui->treeView->currentIndex());
-        }*/
+        }
     } else {
         myWarning() << "no search Results available";
     }
@@ -164,18 +162,34 @@ void AdvancedSearchResultDockWidget::nextVerse()
 }
 void AdvancedSearchResultDockWidget::previousVerse()
 {
-   /* if(m_itemModel->rowCount() != 0) {
-        int currentID = ui->treeView->currentIndex().data(Qt::UserRole+1).toInt();
+    if(m_itemModel->rowCount() != 0) {
+        const QModelIndex index = m_selectionModel->currentIndex();
+        QModelIndex parent = index.parent();
+        forever {
+            if(parent.parent() != QModelIndex()) {
+                parent = parent.parent();
+            } else {
+                break;
+            }
+        }
+        int rowID = index.row();
+        myDebug() << rowID << index << index.data(Qt::UserRole +2);
+        forever {
+            if(rowID == 0)
+                break;
+            rowID--;
+            const QModelIndex n = m_proxyModel->index(rowID,0,parent);
+            if(n.data(Qt::UserRole + 2) == "bibleHit") {
+                goToSearchResult(n);
+                m_selectionModel->clearSelection();
+                m_selectionModel->setCurrentIndex(n,QItemSelectionModel::Select);
+                break;
+            }
 
-        int nextID = currentID - 1;
-        if(nextID < ui->listWidget_search->count() && nextID >= 0) {
-            ui->listWidget_search->setCurrentRow(nextID);
-            goToSearchResult(ui->listWidget_search->currentItem());
         }
     } else {
         myWarning() << "no search Results available";
     }
-    return;*/
 }
 void AdvancedSearchResultDockWidget::changeEvent(QEvent *e)
 {
