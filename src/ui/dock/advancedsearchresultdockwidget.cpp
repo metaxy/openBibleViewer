@@ -142,6 +142,7 @@ void AdvancedSearchResultDockWidget::nextVerse()
         }
         int rowID = index.row();
         myDebug() << rowID << index << index.data(Qt::UserRole + 2);
+        //todo: folder
         forever {
             if(rowID >= m_proxyModel->rowCount())
                 break;

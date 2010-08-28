@@ -53,7 +53,6 @@ public slots:
 
 protected:
     virtual void changeEvent(QEvent *e);
-    bool eventFilter(QObject *obj, QEvent *ev);
 private:
     History browserHistory;
     void setButtons();

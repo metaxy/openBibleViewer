@@ -1035,7 +1035,6 @@ void AdvancedInterface::reloadActive()
     setEnableReload(false);
 }
 
-
 VerseSelection AdvancedInterface::verseSelection()
 {
     QWebFrame *f = getView()->page()->mainFrame();
@@ -1248,7 +1247,7 @@ void AdvancedInterface::newColorMark()
     }
     if(!activeMdiChild())
         return;
-    QString colorName = sender()->objectName();
+    const QString colorName = sender()->objectName();
     QColor color;
     if(colorName == "yellowMark") {
         color = QColor(255, 255, 0);
@@ -1508,7 +1507,10 @@ void AdvancedInterface::searchInText(SearchQuery query)
 {
     DEBUG_FUNC_NAME
     if(query.queryType == SearchQuery::Simple) {
-        getView()->findText(query.searchText, QWebPage::HighlightAllOccurrences);
+        QString s = query.searchText;
+        s.remove('*');
+        s.remove('?');
+        getView()->findText(s, QWebPage::HighlightAllOccurrences);
     }
 }
 
@@ -1602,6 +1604,16 @@ QMenuBar* AdvancedInterface::menuBar()
     connect(actionFindPrevious, SIGNAL(triggered()), this, SLOT(previousVerse()));
     actionFindPrevious->setShortcut(QKeySequence::FindPrevious);
 
+    //Next Chapter
+    QAction *actionNextChapter = new QAction(QIcon(""), tr("Next Chapter"), menuEdit);
+    connect(actionNextChapter, SIGNAL(triggered()), this, SLOT(nextChapter()));
+    actionNextChapter->setShortcut(QKeySequence::MoveToNextPage);
+
+    //Prev Chapter
+    QAction *actionPrevChapter = new QAction(QIcon(""), tr("Previous Chapter"), menuEdit);
+    connect(actionPrevChapter, SIGNAL(triggered()), this, SLOT(previousChapter()));
+    actionPrevChapter->setShortcut(QKeySequence::MoveToPreviousPage);
+
     //Config
     QAction *actionConfiguration = new QAction(QIcon::fromTheme("configure", QIcon(":/icons/16x16/configure.png")), tr("Configuration"), menuEdit);
     connect(actionConfiguration, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_General()));
@@ -1613,6 +1625,9 @@ QMenuBar* AdvancedInterface::menuBar()
     menuEdit->addAction(actionSearch);
     menuEdit->addAction(actionFindNext);
     menuEdit->addAction(actionFindPrevious);
+    menuEdit->addSeparator();
+    menuEdit->addAction(actionNextChapter);
+    menuEdit->addAction(actionPrevChapter);
     menuEdit->addSeparator();
     menuEdit->addAction(actionConfiguration);
 
@@ -1653,6 +1668,8 @@ QMenuBar* AdvancedInterface::menuBar()
     //Tile Horizontal
     QAction *actionTileHorizontal = new QAction(QIcon(":/icons/svg/tile_horiz.svg"), tr("Tile Horizontal"), menuView);
     connect(actionTileHorizontal, SIGNAL(triggered()), this, SLOT(myTileHorizontal()));
+
+
 
     menuView->addAction(actionZoomIn);
     menuView->addAction(actionZoomOut);
@@ -1832,18 +1849,7 @@ QList<QToolBar *> AdvancedInterface::toolBars()
 
 AdvancedInterface::~AdvancedInterface()
 {
-   /* delete m_actionTabView;
-    delete m_actionSubWindowView;*/
     m_windowCache.clearAll();
-
-    /*delete m_bibleApi;
-    m_bibleApi = 0;*/
-    /*delete m_actionCopy;
-    delete m_actionSelect;
-    delete m_menuMark;
-    delete m_actionRemoveMark;
-    delete m_actionBookmark;
-    delete m_actionNote;*/
 
     delete m_moduleManager->m_bibleDisplaySettings;
     m_moduleManager->m_bibleDisplaySettings = 0;

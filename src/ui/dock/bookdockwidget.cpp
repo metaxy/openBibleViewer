@@ -40,8 +40,6 @@ BookDockWidget::BookDockWidget(QWidget *parent) :
 BookDockWidget::~BookDockWidget()
 {
     delete ui;
-    delete m_bookModel;
-    delete m_chapterModel;
 }
 void BookDockWidget::readBook(QModelIndex index)
 {
@@ -67,7 +65,7 @@ void BookDockWidget::setChapters(const QStringList &chapters)
     for(int i = 0; i < chapters.size(); ++i) {
         QStandardItem *top = new QStandardItem;
         top->setText(chapters.at(i));
-        top->setData(i,Qt::UserRole +1);
+        top->setData(i,Qt::UserRole + 1);
         m_chapterModel->appendRow(top);
     }
 }
@@ -96,19 +94,21 @@ void BookDockWidget::clearChapters()
 
 void BookDockWidget::setCurrentBook(const int &bookID)
 {
-    QModelIndexList list = m_bookModel->match(m_bookModel->index(0,0), Qt::UserRole + 1, bookID);
+    QModelIndexList list = m_bookModel->match(m_bookModel->index(0,0), Qt::UserRole + 1, bookID,1,Qt::MatchExactly);
     if(list.size() == 1) {
         m_bookSelection->clearSelection();
         m_bookSelection->setCurrentIndex(list.at(0), QItemSelectionModel::Select);
+        ui->listView_books->scrollTo(list.at(0),QAbstractItemView::EnsureVisible);
     }
 
 }
 void BookDockWidget::setCurrentChapter(const int &chapterID)
 {
-    QModelIndexList list = m_bookModel->match(m_chapterModel->index(0,0), Qt::UserRole + 1, chapterID);
+    QModelIndexList list = m_chapterModel->match(m_chapterModel->index(0,0), Qt::UserRole + 1, chapterID,1,Qt::MatchExactly);
     if(list.size() == 1) {
         m_chapterSelection->clearSelection();
         m_chapterSelection->setCurrentIndex(list.at(0), QItemSelectionModel::Select);
+        ui->listView_chapters->scrollTo(list.at(0),QAbstractItemView::EnsureVisible);
     }
 }
 void BookDockWidget::changeEvent(QEvent *e)

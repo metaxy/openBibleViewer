@@ -110,30 +110,6 @@ void MdiForm::readBook(int id)
 
     m_bibleDisplay->emitGet(url.toString());
 }
-
-bool MdiForm::eventFilter(QObject *obj, QEvent *event)
-{
-    /*if (obj == m_view) {
-        if (event->type() == QEvent::KeyPress) {
-            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-            if (keyEvent->key() == Qt::Key_Left) {
-                emit previousChapter();
-                return true;
-            } else if (keyEvent->key() == Qt::Key_Right) {
-                emit nextChapter();
-                return true;
-            } else {
-                return QWidget::eventFilter(obj, event);
-            }
-
-        } else {
-            return QWidget::eventFilter(obj, event);;
-        }
-    } else {
-        return QWidget::eventFilter(obj, event);
-    }*/
-    return QWidget::eventFilter(obj, event);
-}
 MdiForm::~MdiForm()
 {
     delete m_ui;
