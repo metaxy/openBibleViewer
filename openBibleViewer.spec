@@ -1,5 +1,5 @@
 #
-# spec file for package openBibleViewer (Version 0.4)
+# spec file for package openBibleViewer (Version 0.5)
 #
 # Copyright 2009-2010 Paul Walger http://paul.walger.eu
 #
@@ -11,7 +11,7 @@ Summary: Bible study tool
 Name: %{name}
 License: GPLv3
 URL: http://openbv.uucyc.name
-Version: 0.4.1
+Version: 0.5b1
 Release: 62
 Group: Amusements/Teaching/Other
 Source: %{name}-%{version}.tar.bz2
@@ -19,15 +19,15 @@ Packager: Paul Walger
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
 
 %if 0%{?fedora_version}
-BuildRequires: qt-devel >= 4.5 gcc-c++
+BuildRequires: qt-devel >= 4.6 gcc-c++ clcucene-devel
 %endif
 
 %if 0%{?mandriva_version}
-BuildRequires: libqt4-devel >= 4.5 gcc-c++
+BuildRequires: libqt4-devel >= 4.6 gcc-c++ clcucene-devel
 %endif
 
 %if 0%{?suse_version}
-BuildRequires: libqt4-devel libQtWebKit-devel >= 4.5 gcc-c++
+BuildRequires: libqt4-devel libQtWebKit-devel >= 4.6 gcc-c++ clcucene-devel
 %endif
 
 %description
@@ -51,9 +51,6 @@ make install DESTDIR=$RPM_BUILD_ROOT $INSTALL_TARGET
 %__install -m 644 src/icons/124x124/%{name}.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
 %__install -m 644 %{name}.desktop %{buildroot}%{_datadir}/applications
 
-%if 0%{?suse_version} == 1110
-%suse_update_desktop_file %{name}.desktop Teaching
-%endif
 
 %clean
 %{__rm} -rf $RPM_BUILD_ROOT
