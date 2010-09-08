@@ -271,7 +271,7 @@ int BibleQuote::readBook(int id, QString path)
         ccount2 = 1;
     }
 
-    for(int i = 1; i < chapterText.size(); i++) {
+    for(int i = 1/* why 1?*/; i < chapterText.size(); i++) {
         Chapter c;
         QString a = chapterText.at(i);
         QStringList b = a.split(m_verseSign);
