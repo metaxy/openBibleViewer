@@ -585,16 +585,16 @@ bool ZefaniaBible::hasIndex()
         return false;
     }
     //todo: check versions
-    QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
-
+    const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
     return  IndexReader::indexExists(index.toAscii().constData());
 }
 
 void ZefaniaBible::buildIndex()
 {
     DEBUG_FUNC_NAME
-
-    QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
+    QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, m_bookFullName.size()+2);
+    progress.setValue(1);
+    const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
     QDir dir("/");
     dir.mkpath(index);
 
@@ -607,12 +607,13 @@ void ZefaniaBible::buildIndex()
             IndexReader::unlock(index.toAscii().constData());
         }
     }
-    QScopedPointer< IndexWriter> writer(new  IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
 
-    QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, m_bookFullName.size());
+
     progress.setWindowModality(Qt::NonModal);
+    QScopedPointer< IndexWriter> writer(new  IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
+    progress.setValue(2);
     for(int i = 0; i < m_bookFullName.size(); ++i) {
-        progress.setValue(i);
+        progress.setValue(i+3);
         Book book;
         myDebug() << "book = " << i;
 
@@ -629,7 +630,7 @@ void ZefaniaBible::buildIndex()
             Chapter c = it.value();
             QStringList verse = c.data;
             for(int verseCounter = 0; verseCounter < verse.size(); ++verseCounter) {
-                QString t = verse.at(verseCounter);
+                const QString t = verse.at(verseCounter);
                 QScopedPointer< Document> doc(new  Document());
                 const QString book = QString::number(i);
                 const QString chapter = QString::number(it.key());
@@ -658,7 +659,7 @@ void ZefaniaBible::buildIndex()
                 //    textBuffer.resize(0); //clean up
                 writer->addDocument(doc.data());
             }
-            ++i;
+            it++;
         }
     }
     writer->optimize();
@@ -668,20 +669,20 @@ void ZefaniaBible::buildIndex()
 }
 void ZefaniaBible::search(SearchQuery query, SearchResult *res)
 {
-    myDebug() << (query.range == SearchQuery::Whole);
+    DEBUG_FUNC_NAME
     const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
     char utfBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
     wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
 
 
-    const TCHAR* stop_words[]  = { NULL };
+    const TCHAR* stop_words[] = { NULL };
     StandardAnalyzer analyzer(stop_words);
 
     IndexSearcher searcher(index.toLocal8Bit().constData());
     lucene_utf8towcs(wcharBuffer, query.searchText.toUtf8().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
     QScopedPointer<Query> q(QueryParser::parse((const TCHAR*)wcharBuffer, (const TCHAR*)_T("content"), &analyzer));
 
-    QScopedPointer<Hits> h(searcher.search(q.data(),  Sort::INDEXORDER));
+    QScopedPointer<Hits> h(searcher.search(q.data(), Sort::INDEXORDER));
 
     Document* doc = 0;
     for(int i = 0; i < h->length(); ++i) {
@@ -689,10 +690,10 @@ void ZefaniaBible::search(SearchQuery query, SearchResult *res)
         lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("key")), BT_MAX_LUCENE_FIELD_LENGTH);
         QString stelle(utfBuffer);
         QStringList l = stelle.split(";");
-
+        //todo: quite hacky the hardcoded book count
         if(query.range == SearchQuery::Whole || (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) || (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
             lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), BT_MAX_LUCENE_FIELD_LENGTH);
-
+            myDebug() << stelle << QString::fromUtf8(utfBuffer);
             SearchHit hit;
             hit.setType(SearchHit::BibleHit);
             hit.setValue(SearchHit::BibleID, m_bibleID);
