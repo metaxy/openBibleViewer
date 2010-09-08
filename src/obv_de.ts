@@ -58,7 +58,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="600"/>
         <source>No such bible found.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Keine solche Bibel gefunden.</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="830"/>
@@ -103,17 +103,17 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1151"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fett</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1155"/>
         <source>Italic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kursiv</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1159"/>
         <source>Underline</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Unterstrichen</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1164"/>
@@ -257,17 +257,17 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1575"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Schließen</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1615"/>
         <source>Next Chapter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nächstes Kapitel</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1620"/>
         <source>Previous Chapter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vorheriges Kapitel</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1693"/>
@@ -299,7 +299,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1722"/>
         <source>Books</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bücher</translation>
     </message>
     <message>
         <source>Strong</source>
@@ -313,7 +313,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1752"/>
         <source>Search Results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Such Ergebnisse</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1767"/>
@@ -354,22 +354,22 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1734"/>
         <source>Dictionay</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wörterbuch</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1803"/>
         <source>Main Tool Bar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hauptwerkzeugleiste</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1843"/>
         <source>Search Bar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SUchleiste</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1898"/>
         <source>http://openbv.uucyc.name/faq.html</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">http://openbv.uucyc.name/de/faq.html</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1921"/>
@@ -402,7 +402,7 @@
     <message>
         <location filename="ui/dock/advancedsearchresultdockwidget.ui" line="14"/>
         <source>Search Results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Such Ergebnisse</translation>
     </message>
     <message>
         <location filename="ui/dock/advancedsearchresultdockwidget.ui" line="39"/>
@@ -443,7 +443,7 @@
     <message>
         <location filename="ui/interface/advanced/biblelistwidget.ui" line="14"/>
         <source>Bible List</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bibelliste</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/biblelistwidget.ui" line="22"/>
@@ -504,7 +504,7 @@
     <message>
         <location filename="ui/dock/bookmarksdockwidget.cpp" line="121"/>
         <source>Go To</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gehe zu</translation>
     </message>
     <message>
         <location filename="ui/dock/bookmarksdockwidget.cpp" line="125"/>
@@ -539,7 +539,7 @@
     <message>
         <location filename="ui/dock/dictionarydockwidget.ui" line="14"/>
         <source>Dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wörterbuch</translation>
     </message>
 </context>
 <context>
@@ -1828,7 +1828,7 @@
     <message>
         <location filename="ui/dialog/moduledownloaddialog.cpp" line="81"/>
         <source>Dictionarys</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wörterbücher</translation>
     </message>
     <message>
         <source>Strong Modules</source>
@@ -1855,12 +1855,12 @@
     <message>
         <location filename="core/moduledownloader.cpp" line="94"/>
         <source>Unable to save the file %1: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Es ist nicht möglich die Datei zu speichern %1: %2.</translation>
     </message>
     <message>
         <location filename="core/moduledownloader.cpp" line="102"/>
         <source>Downloading</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Runterladen</translation>
     </message>
     <message>
         <location filename="core/moduledownloader.cpp" line="103"/>
@@ -2254,42 +2254,42 @@
     <message>
         <location filename="ui/noteseditor.cpp" line="183"/>
         <source>Save as...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Speichern als...</translation>
     </message>
     <message>
         <location filename="ui/noteseditor.cpp" line="47"/>
         <source>Normal View</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Normale Ansicht</translation>
     </message>
     <message>
         <location filename="ui/noteseditor.cpp" line="48"/>
         <source>HTML Source</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">HTML Quelltext</translation>
     </message>
     <message>
         <location filename="ui/noteseditor.cpp" line="184"/>
         <source>HTML-Files (*.html *.htm);;Text-Files (*.txt);;All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">HTML-Dateien (*.html *.htm);;Text-Dateien (*.txt);;Alle Dateien (*)</translation>
     </message>
     <message>
         <location filename="ui/noteseditor.cpp" line="204"/>
         <source>Common Graphics (*.png *.jpg *.jpeg *.gif);;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bilder (*.png *.jpg *.jpeg *.gif);;</translation>
     </message>
     <message>
         <location filename="ui/noteseditor.cpp" line="205"/>
         <source>Portable Network Graphics (PNG) (*.png);;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bilder (PNG) (*.png);;</translation>
     </message>
     <message>
         <location filename="ui/noteseditor.cpp" line="206"/>
         <source>JPEG (*.jpg *.jpeg);;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">JPEG (*.jpg *.jpeg);;</translation>
     </message>
     <message>
         <location filename="ui/noteseditor.cpp" line="207"/>
         <source>Graphics Interchange Format (*.gif);;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bilder (*.gif);;</translation>
     </message>
     <message>
         <location filename="ui/noteseditor.cpp" line="208"/>
@@ -2352,7 +2352,7 @@
         <location filename="module/biblequote-dict.cpp" line="124"/>
         <location filename="module/zefania-bible.cpp" line="612"/>
         <source>Build index</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Indizieren</translation>
     </message>
     <message>
         <location filename="module/modulemanager.cpp" line="77"/>
@@ -2489,33 +2489,33 @@
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="325"/>
         <source>Cannot open zipped files.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zip Dateien werden nicht unterstützt.</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="332"/>
         <source>Cannot read the file.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kann die Datei nicht lesen.</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="357"/>
         <location filename="ui/dialog/settingsdialog.cpp" line="394"/>
         <source>Cannot determine the module type.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kann den Type nicht bestimmen.</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="385"/>
         <source>Zefania XML Dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zefania XMl Wörterbuch</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="392"/>
         <source>Bible Quote Dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bible Quote Wörterbuch</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="410"/>
         <source>Cannot open the file.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kann die Datei nicht öffnen.</translation>
     </message>
     <message>
         <source>Open File</source>
@@ -2537,7 +2537,7 @@
     <message>
         <location filename="module/biblequote.cpp" line="323"/>
         <source>Indexing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Indizieren</translation>
     </message>
 </context>
 <context>
@@ -2559,32 +2559,32 @@
     <message>
         <location filename="ui/dialog/searchdialog.ui" line="68"/>
         <source>Range</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bereich</translation>
     </message>
     <message>
         <location filename="ui/dialog/searchdialog.ui" line="74"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alle</translation>
     </message>
     <message>
         <location filename="ui/dialog/searchdialog.ui" line="87"/>
         <source>OT</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">AT</translation>
     </message>
     <message>
         <location filename="ui/dialog/searchdialog.ui" line="97"/>
         <source>NT</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">NT</translation>
     </message>
     <message>
         <location filename="ui/dialog/searchdialog.ui" line="121"/>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Optionen</translation>
     </message>
     <message>
         <location filename="ui/dialog/searchdialog.ui" line="130"/>
         <source>Search In Notes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">In Notizen suchen</translation>
     </message>
     <message>
         <source>Case Sensitive</source>
@@ -2770,22 +2770,22 @@
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="78"/>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Englisch</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="78"/>
         <source>German</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Deutsch</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="78"/>
         <source>Russian</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Russisch</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="78"/>
         <source>Czech</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tschechisch</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="100"/>
