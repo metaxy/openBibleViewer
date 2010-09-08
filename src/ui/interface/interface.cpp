@@ -22,7 +22,7 @@ bool Interface::hasMenuBar()
 }
 QMenuBar* Interface::menuBar()
 {
-    return new QMenuBar();
+    return 0;
 }
 
 bool Interface::hasToolBar()
@@ -31,13 +31,11 @@ bool Interface::hasToolBar()
 }
 QList<QToolBar *> Interface::toolBars()
 {
-    QToolBar * t = new QToolBar();
-    QList<QToolBar*> l;
-    l.append(t);
-    return l;
+    return QList<QToolBar *>();
 }
 void Interface::closing()
 {
+
 }
 
 void Interface::setBookDockWidget(BookDockWidget *bookDockWidget)

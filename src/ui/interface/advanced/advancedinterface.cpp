@@ -46,6 +46,17 @@ AdvancedInterface::AdvancedInterface(QWidget *parent) :
     m_lastActiveWindow = -1;
 }
 
+AdvancedInterface::~AdvancedInterface()
+{
+    m_windowCache.clearAll();
+
+    delete m_moduleManager->m_bibleDisplaySettings;
+    m_moduleManager->m_bibleDisplaySettings = 0;
+
+    delete ui;
+    ui = 0;
+}
+
 void AdvancedInterface::setBookDockWidget(BookDockWidget *bookDockWidget)
 {
     m_bookDockWidget = bookDockWidget;
@@ -375,7 +386,6 @@ void AdvancedInterface::myTile()
 
 QList<QMdiSubWindow*> AdvancedInterface::usableWindowList()
 {
-    //only if !ChildAdded-Event is triggered
     QList<QMdiSubWindow*> ret;
     foreach(QMdiSubWindow * w, ui->mdiArea->subWindowList()) {
         if(w->isHidden())
@@ -419,7 +429,7 @@ int AdvancedInterface::closingWindow()
         myDebug() << "reload is not enabled";
         return 1;
     }
-    //if one in the internal subwindow list list is missing that window was closed
+
     if(ui->mdiArea->subWindowList().isEmpty()) {
         myDebug() << "subWindowList is empty";
         clearBooks();
@@ -434,6 +444,7 @@ int AdvancedInterface::closingWindow()
         m_windowCache.clearAll();
         return 1;
     }
+    //if one in the internal subwindow list list is missing that window was closed
     for(int i = 0; i < m_internalWindows.size(); i++) {
         if(ui->mdiArea->subWindowList().lastIndexOf(m_internalWindows.at(i)) == -1) {
             myDebug() << "found closed Window id = " << i;
@@ -449,7 +460,7 @@ int AdvancedInterface::closingWindow()
         m_windowCache.clearAll();
         return 1;
     }
-    reloadWindow(ui->mdiArea->currentSubWindow());
+    //reloadWindow(ui->mdiArea->currentSubWindow());
     if(ui->mdiArea->viewMode() == QMdiArea::SubWindowView)
         autoLayout();
     return 0;
@@ -462,8 +473,10 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
     if(!m_enableReload) {
         return 1;
     }
-    int id = tabIDof(window);
+    const int id = tabIDof(window);
+
     myDebug() << "id = " << id;
+
     if(id == -1) {
         return 1;
     }
@@ -473,7 +486,6 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
 
     m_windowCache.setCurrentWindowID(id);
 
-    //todo: add last active window and if it is the same do nohting
     if(!m_windowCache.getBibleList()) {
         clearChapters();
         clearBooks();
@@ -495,16 +507,16 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
     //todo: think about it
     /* if (m_moduleManager->bible()->moduleID() == m_windowCache.getBibleList()->bible()->moduleID())
          return 1;*/
+
     m_moduleManager->m_bibleList = m_windowCache.getBibleList();
     setTitle(m_moduleManager->bible()->bibleTitle());
+    m_moduleDockWidget->loadedModule(m_moduleManager->bible()->moduleID());
 
     setChapters(m_moduleManager->bible()->chapterNames());
-
     setCurrentChapter(m_moduleManager->bible()->chapterID());
 
     setBooks(m_moduleManager->bible()->bookNames(),m_moduleManager->bible()->bookIDs());
     setCurrentBook(m_moduleManager->bible()->bookID());
-    m_moduleDockWidget->loadedModule(m_moduleManager->bible()->moduleID());
 
     return 0;
 }
@@ -521,13 +533,13 @@ bool AdvancedInterface::loadModuleDataByID(int id)
         return 1;
     }
     if(m_moduleManager->getModule(id)->m_moduleClass != Module::BibleModule) {
-        myWarning() << "non bible module" << m_moduleManager->getModule(id)->m_moduleClass;
+        myWarning() << "non bible module " << m_moduleManager->getModule(id)->m_moduleClass;
         return 1;
     }
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
     m_windowCache.setCurrentWindowID(currentWindowID());
-    //m_windowCache.setBibleList(m_moduleManager->bibleList());
+    m_windowCache.setBibleList(m_moduleManager->bibleList());
 
     Module::ModuleType type = m_moduleManager->getModule(id)->m_moduleType;
     m_moduleManager->bible()->setModuleType(type);
@@ -551,9 +563,11 @@ void AdvancedInterface::pharseUrl(QUrl url)
 void AdvancedInterface::pharseUrl(QString url)
 {
     DEBUG_FUNC_NAME
+
     QString url_backup = url;
     setEnableReload(false);
     myDebug() << "url = " << url;
+
     const QString bible = "bible://";
     const QString strong = "strong://";
     const QString http = "http://";
@@ -561,6 +575,7 @@ void AdvancedInterface::pharseUrl(QString url)
     const QString anchor = "#";
     const QString note = "note://";
     const QString persistent = "persistent:";
+
     if(url.startsWith(bible)) {
         BibleUrl bibleUrl;
         if(!bibleUrl.fromString(url)) {
@@ -573,17 +588,17 @@ void AdvancedInterface::pharseUrl(QString url)
             bool reloadBook = false;
             bool reloadChapter = false;
             bool reloadVerse = false;
-            if(( bibleUrl.bibleID() != m_moduleManager->bible()->moduleID()  && bibleUrl.bible() == BibleUrl::LoadBibleByID)
-                || !m_moduleManager->bible()->loaded() || (bibleUrl.hasParam("force") && bibleUrl.getParam("force") == "true")) {
+
+            if(( bibleUrl.bibleID() != m_moduleManager->bible()->moduleID()  && bibleUrl.bible() == BibleUrl::LoadBibleByID) ||
+               !m_moduleManager->bible()->loaded() || (bibleUrl.hasParam("force") && bibleUrl.getParam("force") == "true")) {
                 reloadBible = true;
             }
 
             if(reloadBible) {
-                myDebug() << "bibleID = " << bibleUrl.bibleID();
                 int ret = loadModuleDataByID(bibleUrl.bibleID());
                 if(ret == 1) {
-                    showText("");
-                    return; //todo: show text "bible not found";
+                    showText(tr("No such bible found."));
+                    return;
                 }
             }
 
@@ -616,8 +631,6 @@ void AdvancedInterface::pharseUrl(QString url)
                 && !reloadBible && !reloadBook && !reloadChapter) {
                 reloadVerse = true;
             }
-            myDebug() << "bible = " << reloadBible << " book = " << reloadBook << " chapter = " << reloadChapter<< " verse = " << reloadVerse;
-
 
             if(reloadBook) {
                 int bookID;
@@ -626,7 +639,6 @@ void AdvancedInterface::pharseUrl(QString url)
                 } else {
                     bookID = bibleUrl.bookID();
                 }
-                myDebug() << "bookID = " << bookID;
                 readBookByID(bookID);
                 setCurrentBook(bookID);
             }
@@ -645,12 +657,10 @@ void AdvancedInterface::pharseUrl(QString url)
             }
 
             if(reloadChapter) {
-                myDebug() << "chapter ID " << chapterID ;
                 showChapter(chapterID, verseID);
                 setCurrentChapter(chapterID);
             }
             if(reloadVerse) {
-                myDebug() << "verse ID " << verseID ;
                 showChapter(chapterID, verseID);
                 setCurrentChapter(chapterID);
             }
@@ -1031,6 +1041,7 @@ void AdvancedInterface::reloadChapter(bool full)
 void AdvancedInterface::reloadActive()
 {
     DEBUG_FUNC_NAME
+
     setEnableReload(true);
     reloadWindow(ui->mdiArea->currentSubWindow());
     setEnableReload(false);
@@ -1331,12 +1342,7 @@ void AdvancedInterface::closing()
 {
     m_notesDockWidget->saveNote();
     m_bookmarksDockWidget->saveBookmarks();
-    /*m_settings->session.setData("bookmarksDockGeometry", m_bookmarksDockWidget->saveGeometry());
-    m_settings->session.setData("notesDockGeometry", m_notesDockWidget->saveGeometry());
-    m_settings->session.setData("bookDockGeometry", m_bookDockWidget->saveGeometry());
-    m_settings->session.setData("moduleDockGeometry", m_moduleDockWidget->saveGeometry());
-    m_settings->session.setData("searchResultDockGeometry", m_advancedSearchResultDockWidget->saveGeometry());
-    m_settings->session.setData("strongDockGeometry", m_strongDockWidget->saveGeometry());*/
+
     QStringList windowUrls;
     QList<QVariant> windowGeo;
     QList<QVariant> scrollPos;
@@ -1848,16 +1854,6 @@ QList<QToolBar *> AdvancedInterface::toolBars()
     return list;
 }
 
-AdvancedInterface::~AdvancedInterface()
-{
-    m_windowCache.clearAll();
-
-    delete m_moduleManager->m_bibleDisplaySettings;
-    m_moduleManager->m_bibleDisplaySettings = 0;
-
-    delete ui;
-    ui = 0;
-}
 
 void AdvancedInterface::showBookmarksDock()
 {
@@ -1899,7 +1895,7 @@ void AdvancedInterface::newNoteWithLink()
 void AdvancedInterface::onlineHelp()
 {
     //open the online faq
-    QDesktopServices::openUrl(QString("http://openbv.uucyc.name/faq.html"));
+    QDesktopServices::openUrl(tr("http://openbv.uucyc.name/faq.html"));
 }
 
 int AdvancedInterface::printFile(void)
@@ -1913,21 +1909,21 @@ int AdvancedInterface::printFile(void)
     if(activeMdiChild()) {
         getView()->print(&printer);
     }
+    delete dialog;
     return 0;
 }
 
 int AdvancedInterface::saveFile(void)
 {
     QFileDialog dialog(this);
-    //dialog.setFileMode(QFileDialog::AnyFile);
     dialog.setAcceptMode(QFileDialog::AcceptSave);
-    //todo: save last place
-    QString fileName = dialog.getSaveFileName(this, tr("Save output"), m_settings->lastPlaceSave, tr("Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)"));
-    myDebug() << "fileName = " << fileName;
+    const QString lastPlace = m_settings->session.getData("lastSaveFilePlace").toString();
+    const QString fileName = dialog.getSaveFileName(this, tr("Save output"), lastPlace, tr("Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)"));
+
     if(activeMdiChild()) {
         QWebView *v = getView();
         QFileInfo fi(fileName);
-        m_settings->lastPlaceSave = fi.path();
+        m_settings->session.setData("lastSaveFilePlace",fi.path());
         if(fileName.endsWith(".html") || fileName.endsWith(".htm")) {
             QFile file(fileName);
             if(!file.open(QIODevice::WriteOnly | QIODevice::Text))

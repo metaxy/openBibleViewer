@@ -15,9 +15,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_mainwindow.h"
 
 #include "src/ui/dialog/settingsdialog.h"
-#include "src/ui/dock/searchresultdockwidget.h"
-#include "src/ui/dock/notesdockwidget.h"
-#include "src/ui/dock/quickjumpdockwidget.h"
 #include "src/core/dbghelper.h"
 #include "src/core/modulecache.h"
 #include <QtGui/QMessageBox>
@@ -69,6 +66,7 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
     m_settings = new Settings();
     m_notes = new Notes();
     m_session = new Session();
+
     bool firstStart = false;
     QFileInfo info(settingsFile->fileName());
     if(!info.exists()) {
@@ -80,6 +78,7 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
     m_moduleManager->setSettings(m_settings);
     m_moduleManager->setNotes(m_notes);
     m_moduleManager->loadAllModules();
+
     loadInterface();
     restoreSession();
     if(firstStart) {
@@ -102,15 +101,14 @@ void MainWindow::deleteInterface()
     if(m_interface->hasToolBar()) {
         foreach(QToolBar * bar, m_toolBarList)
         removeToolBar(bar);
-
     }
+
     if(m_interface->hasMenuBar()) {
         delete m_menuBar;
     }
 
-
     if(typeid(*m_interface) == typeid(SimpleInterface)) {
-        myDebug() << "delete simpleInterface";
+        //myDebug() << "delete simpleInterface";
 
         if(m_interface->m_moduleDockWidget) {
             removeDockWidget(m_interface->m_moduleDockWidget);
@@ -122,7 +120,7 @@ void MainWindow::deleteInterface()
             removeDockWidget(m_interface->m_searchResultDockWidget);
 
     } else if(typeid(*m_interface) == typeid(AdvancedInterface)) {
-        myDebug() << "delete advacedinterface";
+        //myDebug() << "delete advacedinterface";
         if(m_interface->m_moduleDockWidget)
             removeDockWidget(m_interface->m_moduleDockWidget);
         if(m_interface->m_bookDockWidget)
@@ -139,6 +137,7 @@ void MainWindow::deleteInterface()
         if(m_interface->m_quickJumpDockWidget)
             removeDockWidget(m_interface->m_quickJumpDockWidget);
     }
+    //todo: why not?
     /*if(m_interface != 0) {
         delete m_interface;
         m_interface = 0;
@@ -179,7 +178,7 @@ void MainWindow::loadSimpleInterface()
     if(m_interface->hasToolBar()) {
         m_toolBarList = m_interface->toolBars();
         foreach(QToolBar * bar, m_toolBarList)
-        addToolBar(bar);
+            addToolBar(bar);
     }
     connect(this, SIGNAL(settingsChanged(Settings, Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
@@ -261,7 +260,7 @@ void MainWindow::loadDefaultSettings()
     m_settings->onClickBookmarkGo = true;
     m_settings->textFormatting = 0;
     m_settings->homePath = m_homeDataPath;
-    myDebug() << m_settings->homePath;
+    //myDebug() << m_settings->homePath;
     m_settings->zefaniaBible_hardCache = true;
     m_settings->zefaniaBible_softCache = true;
     QStringList bookNames;
@@ -407,16 +406,15 @@ void MainWindow::loadSettings()
 
     m_settings->encoding = m_settingsFile->value("general/encoding", m_settings->encoding).toString();
     m_settings->zoomstep = m_settingsFile->value("general/zoomstep", m_settings->zoomstep).toInt();
-#ifdef Q_WS_WIN
+/*#ifdef Q_WS_WIN
     m_settings->language = m_settingsFile->value("general/language", "en").toString();
-#else
+#else*/
     m_settings->language = m_settingsFile->value("general/language", QLocale::system().name()).toString();
-#endif
+/*#endif*/
     m_settings->autoLayout = m_settingsFile->value("window/layout", m_settings->autoLayout).toInt();
     m_settings->onClickBookmarkGo = m_settingsFile->value("window/onClickBookmarkGo", m_settings->onClickBookmarkGo).toBool();
 
     m_settings->textFormatting = m_settingsFile->value("bible/textFormatting", m_settings->textFormatting).toInt();
-    m_settings->lastPlaceSave = m_settings->recoverUrl(m_settingsFile->value("ui/lastPlaceSave", QDir::homePath()).toString());
 
     int size = m_settingsFile->beginReadArray("module");
     for(int i = 0; i < size; ++i) {
@@ -435,7 +433,6 @@ void MainWindow::loadSettings()
         m.encoding = m_settingsFile->value("encoding").toString();
         m.styleSheet = m_settings->recoverUrl(m_settingsFile->value("styleSheet", ":/data/css/default.css").toString());
         m_settings->m_moduleSettings.append(m);
-
     }
     m_settingsFile->endArray();
     m_settings->sessionID = m_settingsFile->value("general/lastSession", "0").toString();
@@ -445,7 +442,7 @@ void MainWindow::loadSettings()
         m_settingsFile->setArrayIndex(i);
         Session session;
         if(m_settingsFile->value("id") == m_settings->sessionID) {
-            QStringList keys = m_settingsFile->childKeys();
+            const QStringList keys = m_settingsFile->childKeys();
             for(int j = 0; j < keys.size(); j++) {
                 session.setData(keys.at(j), m_settingsFile->value(keys.at(j)));
             }
@@ -463,8 +460,8 @@ void MainWindow::loadSettings()
         m_settingsFile->setArrayIndex(i);
         ModuleCache c;
         c.setBookCount(m_settingsFile->value("bookCount").toMap());
-        QStringList names = m_settingsFile->value("bookNames").toStringList();
-        QStringList ids =m_settingsFile->value("bookIds").toStringList();
+        const QStringList names = m_settingsFile->value("bookNames").toStringList();
+        const QStringList ids = m_settingsFile->value("bookIDs").toStringList();
         QHash<int, QString> bookNames;
         for(int n = 0; n < ids.size(); ++n) {
             bookNames[ids.at(n).toInt()] = names.at(n);
@@ -488,7 +485,6 @@ void MainWindow::writeSettings()
     m_settingsFile->setValue("window/layout", m_settings->autoLayout);
     m_settingsFile->setValue("window/onClickBookmarkGo", m_settings->onClickBookmarkGo);
     m_settingsFile->setValue("bible/textFormatting", m_settings->textFormatting);
-    m_settingsFile->setValue("ui/lastPlaceSave", m_settings->savableUrl(m_settings->lastPlaceSave));
 
     m_settingsFile->beginWriteArray("module");
     for(int i = 0; i < m_settings->m_moduleSettings.size(); ++i) {
@@ -544,9 +540,6 @@ void MainWindow::writeSettings()
         m_settingsFile->setValue("path", url);
     }
     m_settingsFile->endArray();
-
-
-
 }
 void MainWindow::saveSettings(Settings newSettings)
 {
@@ -559,7 +552,7 @@ void MainWindow::saveSettings(Settings newSettings)
         loadLanguage(newSettings.language);
     }
     if(oldSettings.session.getData("interface", "advanced") != newSettings.session.getData("interface", "advanced")) {
-        myDebug() << "loading new interface";
+        //myDebug() << "loading new interface";
         reloadInterface();
     }
     emit settingsChanged(oldSettings, newSettings);
@@ -602,7 +595,7 @@ void MainWindow::loadLanguage(QString language)
     bool loaded = myappTranslator->load(":/data/obv_" + language + ".qm");
     m_reloadLang = true;
     if(!loaded) {
-        QMessageBox::warning(this, tr("Installing Language failed"), tr("Please choose an another language."));
+        QMessageBox::warning(this, tr("Installing language failed."), tr("Please choose an another language."));
     }
 
     qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
@@ -625,7 +618,7 @@ void MainWindow::restoreSession()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     Q_UNUSED(event);
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     //save session
     m_settings->session.setData("id", m_settings->sessionID);
     m_settings->session.setData("mainWindowGeometry", QVariant(saveGeometry()));

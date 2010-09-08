@@ -45,7 +45,6 @@ public:
     QString homePath;
     QStringList bookFullNames;
     QList<QStringList> bookShortNames;
-    QString lastPlaceSave;
 
 
     ModuleSettings getModuleSettings(const int &bibleID);

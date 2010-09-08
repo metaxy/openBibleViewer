@@ -64,6 +64,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     #ifdef Q_OS_WIN32
+        //get the windows version
         OSVERSIONINFO osvi;
         BOOL bIsWindowsXPorLater;
 
@@ -71,7 +72,7 @@ int main(int argc, char *argv[])
         osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 
         GetVersionEx(&osvi);
-
+        //6 is vista and 6.1 windows 7
         if(osvi.dwMajorVersion >= 6)
             a.setStyle(new QWindowsVistaStyle);
        else
@@ -92,6 +93,7 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef Q_WS_WIN
+    //a protable version is needed only for windows
     #ifdef _PORTABLE_VERSION
         homeDataPath = QApplication::applicationDirPath() + "/";
         settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);

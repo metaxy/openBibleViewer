@@ -16,11 +16,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include "src/ui/dialog/searchdialog.h"
 #include "src/core/bibledisplaysettings.h"
+#include "src/core/core.h"
+#include "src/core/search.h"
 #include <QtGui/QDesktopServices>
 #include <QtGui/QMessageBox>
 #include <QtGui/QKeyEvent>
-#include "src/core/core.h"
-#include "src/core/search.h"
+
 SimpleInterface::SimpleInterface(QWidget *parent) :
     Interface(parent),
     ui(new Ui::SimpleInterface)
@@ -90,11 +91,7 @@ QList<QToolBar *> SimpleInterface::toolBars()
     QToolBar *bar = new QToolBar(this->parentWidget());
     bar->setObjectName("mainToolBar");
     bar->setIconSize(QSize(32, 32));
-#if QT_VERSION >= 0x040600
-    bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
-#else
     bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-#endif
 
     QAction *actionSearch = new QAction(QIcon::fromTheme("edit-find", QIcon(":/icons/32x32/edit-find.png")), tr("Search"), bar);
     connect(actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
@@ -125,7 +122,7 @@ void SimpleInterface::zoomOut()
 void SimpleInterface::loadModuleDataByID(int id)
 {
     //DEBUG_FUNC_NAME
-    myDebug() << "id = " << id;
+    //myDebug() << "id = " << id;
     if(id < 0 || !m_moduleManager->contains(id))
         return;
     Module::ModuleType type = m_moduleManager->getModule(id)->m_moduleType;
@@ -340,10 +337,10 @@ bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
     if(obj == ui->textBrowser) {
         if(event->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-            if(keyEvent->key() == Qt::Key_Left) {
+            if(keyEvent->key() == Qt::Key_Left || keyEvent->key() == Qt::Key_PageUp) {
                 previousChapter();
                 return true;
-            } else if(keyEvent->key() == Qt::Key_Right) {
+            } else if(keyEvent->key() == Qt::Key_Right || keyEvent->key() == Qt::Key_PageDown) {
                 nextChapter();
                 return true;
             } else {

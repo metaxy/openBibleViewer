@@ -47,7 +47,6 @@ void MarkList::init()
     m_proxyModel = new QSortFilterProxyModel(this);
     m_selectionModel = new QItemSelectionModel(m_proxyModel);
 
-
     for(int row = 0; row < marks.size(); ++row) {
         addMark(row, marks.at(row));
     }
@@ -76,11 +75,10 @@ void MarkList::addMark(const int &row, const QString &id)
     m_itemModel->setItem(row, 0, stelle);
 
 
-    QString t;
+    QString t = "";
     if(m_moduleManager->getModule(urlConverter.m_moduleID) && !m_moduleManager->getModule(urlConverter.m_moduleID)->m_title.isEmpty())
         t = m_moduleManager->getModule(urlConverter.m_moduleID)->m_title;
-    else
-        t = "";
+
     QStandardItem *module = new QStandardItem(t);
     m_itemModel->setItem(row, 1, module);
 }
@@ -95,8 +93,7 @@ void MarkList::load(QModelIndex index)
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.pharse();
-    const QString link = urlConverter.convert();
-    emit get(link);
+    emit get(urlConverter.convert());
 }
 
 MarkList::~MarkList()
@@ -117,13 +114,13 @@ void MarkList::showContextMenu(QPoint point)
     contextMenu->exec(QCursor::pos());
     m_currentPoint = point;
 }
-void MarkList::addNote(QString id)
+void MarkList::addNote(const QString &id)
 {
     if(m_notes->getType(id) == "mark") {
         addMark(m_itemModel->rowCount(), id);
     }
 }
-void MarkList::removeNote(QString id)
+void MarkList::removeNote(const QString &id)
 {
     QModelIndexList list = m_proxyModel->match(m_proxyModel->index(0, 0),
                            Qt::UserRole + 1,

@@ -133,60 +133,70 @@ void AdvancedSearchResultDockWidget::nextVerse()
     if(m_itemModel->rowCount() != 0) {
         const QModelIndex index = m_selectionModel->currentIndex();
         QModelIndex parent = index.parent();
-        forever {
-            if(parent.parent() != QModelIndex()) {
-                parent = parent.parent();
-            } else {
-                break;
-            }
-        }
+        bool found = false;
         int rowID = index.row();
-        myDebug() << rowID << index << index.data(Qt::UserRole + 2);
-        //todo: folder
-        forever {
-            if(rowID >= m_proxyModel->rowCount())
-                break;
-            rowID++;
-            const QModelIndex n = m_proxyModel->index(rowID,0,parent);
-            if(n.data(Qt::UserRole +2) == "bibleHit") {
-                goToSearchResult(n);
-                m_selectionModel->clearSelection();
-                m_selectionModel->setCurrentIndex(n,QItemSelectionModel::Select);
-                break;
+       /* for(int indent = 0; !found; indent++) {
+            while(!found) {
+                if(rowID >= m_proxyModel->rowCount()) {
+                    break;
+                }
+                rowID++;
+                const QModelIndex n = m_proxyModel->index(rowID,0,parent);
+                myDebug() << rowID << n.data(Qt::UserRole + 2);
+                if(n.data(Qt::UserRole + 2) == "bibleHit") {
+                    found = true;
+                    goToSearchResult(n);
+                    m_selectionModel->clearSelection();
+                    m_selectionModel->setCurrentIndex(n,QItemSelectionModel::Select);
+                    break;
+                } else if(m_proxyModel->hasChildren(n)) {
+
+                }
             }
 
-        }
+            if(parent == QModelIndex()) {
+                break;
+            }
+           parent = parent.parent();
+        }*/
+
+        myDebug() << "parent = " << parent.data() << parent.data(Qt::UserRole + 2);
+        myDebug() << rowID << index << index.data(Qt::UserRole + 2);
+        //todo: folder
+
     } else {
         myWarning() << "no search Results available";
     }
     return;
 }
+
 void AdvancedSearchResultDockWidget::previousVerse()
 {
     if(m_itemModel->rowCount() != 0) {
         const QModelIndex index = m_selectionModel->currentIndex();
         QModelIndex parent = index.parent();
-        forever {
-            if(parent.parent() != QModelIndex()) {
-                parent = parent.parent();
-            } else {
+        for(int indent = 0;; indent++) {
+
+            if(parent == QModelIndex()) {
                 break;
             }
+           parent = parent.parent();
         }
+
         int rowID = index.row();
+        myDebug() << "parent = " << parent.data() << parent.data(Qt::UserRole + 2);
         myDebug() << rowID << index << index.data(Qt::UserRole +2);
         forever {
             if(rowID == 0)
                 break;
             rowID--;
             const QModelIndex n = m_proxyModel->index(rowID,0,parent);
-            if(n.data(Qt::UserRole + 2) == "bibleHit") {
+            if(n.data(Qt::UserRole + 2) == "bibleHit" || n.data(Qt::UserRole + 2) == "noteHit") {
                 goToSearchResult(n);
                 m_selectionModel->clearSelection();
                 m_selectionModel->setCurrentIndex(n,QItemSelectionModel::Select);
                 break;
             }
-
         }
     } else {
         myWarning() << "no search Results available";

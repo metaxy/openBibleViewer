@@ -33,8 +33,8 @@ private slots:
     void load(QModelIndex index);
     void showContextMenu(QPoint point);
     void deleteMarks();
-    void addNote(QString id);
-    void removeNote(QString id);
+    void addNote(const QString &id);
+    void removeNote(const QString &id);
 public:
     MarkList(QWidget *parent = 0);
     ~MarkList();

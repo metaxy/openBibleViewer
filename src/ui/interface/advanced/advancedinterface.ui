@@ -21,7 +21,14 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QMdiArea" name="mdiArea"/>
+    <widget class="QMdiArea" name="mdiArea">
+     <property name="activationOrder">
+      <enum>QMdiArea::ActivationHistoryOrder</enum>
+     </property>
+     <property name="viewMode">
+      <enum>QMdiArea::TabbedView</enum>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
