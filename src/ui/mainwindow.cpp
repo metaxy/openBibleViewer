@@ -552,7 +552,6 @@ void MainWindow::saveSettings(Settings newSettings)
         loadLanguage(newSettings.language);
     }
     if(oldSettings.session.getData("interface", "advanced") != newSettings.session.getData("interface", "advanced")) {
-        //myDebug() << "loading new interface";
         reloadInterface();
     }
     emit settingsChanged(oldSettings, newSettings);
@@ -617,9 +616,7 @@ void MainWindow::restoreSession()
 }
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    Q_UNUSED(event);
-    //DEBUG_FUNC_NAME
-    //save session
+    Q_UNUSED(event)
     m_settings->session.setData("id", m_settings->sessionID);
     m_settings->session.setData("mainWindowGeometry", QVariant(saveGeometry()));
     m_settings->session.setData("mainWindowState", QVariant(saveState()));

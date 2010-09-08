@@ -211,7 +211,7 @@ int BibleQuote::readBook(int id, QString path)
     bool chapterstarted = false;
     int ccount2 = 0;
     QStringList chapterText;
-    QStringList removeHtml2 = m_removeHtml.split(" ");
+    const QStringList removeHtml2 = m_removeHtml.split(" ");
 
     if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QString encoding;
@@ -271,7 +271,7 @@ int BibleQuote::readBook(int id, QString path)
         ccount2 = 1;
     }
 
-    for(int i = 0; i < chapterText.size(); i++) {
+    for(int i = 1; i < chapterText.size(); i++) {
         Chapter c;
         QString a = chapterText.at(i);
         QStringList b = a.split(m_verseSign);
