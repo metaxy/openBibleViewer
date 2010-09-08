@@ -64,9 +64,9 @@ void SearchResultDockWidget::goToSearchResult(QListWidgetItem * item)
         url.setBookID(hit.value(SearchHit::BookID).toInt());
         url.setChapterID(hit.value(SearchHit::ChapterID).toInt());
         url.setVerseID(hit.value(SearchHit::VerseID).toInt());
-        url.setParam("searchInCurrentText","true");
+        url.setParam("searchInCurrentText", "true");
         emit get(url.toString());
-     }
+    }
 }
 void SearchResultDockWidget::searchInfo()
 {
@@ -85,8 +85,8 @@ void SearchResultDockWidget::searchInfo()
         if(hit.type() == SearchHit::BibleHit) {
             const QString bookn = m_moduleManager->bible()->bookName(hit.value(SearchHit::BookID).toInt()); //todo: maybe the bible isn't loaded and you need another bookNames
             textList << hit.value(SearchHit::VerseText).toString() + "\n - <i>" + bookn
-                    + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1)
-                    + " , " + QString::number(hit.value(SearchHit::VerseID).toInt() + 1) + "</i>";
+                     + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1)
+                     + " , " + QString::number(hit.value(SearchHit::VerseID).toInt() + 1) + "</i>";
         }
     }
 

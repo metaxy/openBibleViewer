@@ -43,10 +43,10 @@ void SearchDialog::uncheck()
 {
     if(static_cast<QToolButton *>(sender())->isChecked()) {
         const QString senderName = sender()->objectName();
-        if(senderName == "toolButton_whole" ) {
+        if(senderName == "toolButton_whole") {
             m_ui->toolButton_nt->setChecked(false);
             m_ui->toolButton_ot->setChecked(false);
-        } else if(senderName == "toolButton_ot" ) {
+        } else if(senderName == "toolButton_ot") {
             m_ui->toolButton_nt->setChecked(false);
             m_ui->toolButton_whole->setChecked(false);
         } else if(senderName == "toolButton_nt") {

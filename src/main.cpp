@@ -63,21 +63,21 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    #ifdef Q_OS_WIN32
-        //get the windows version
-        OSVERSIONINFO osvi;
-        BOOL bIsWindowsXPorLater;
+#ifdef Q_OS_WIN32
+    //get the windows version
+    OSVERSIONINFO osvi;
+    BOOL bIsWindowsXPorLater;
 
-        ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
-        osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+    ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
+    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 
-        GetVersionEx(&osvi);
-        //6 is vista and 6.1 windows 7
-        if(osvi.dwMajorVersion >= 6)
-            a.setStyle(new QWindowsVistaStyle);
-       else
-            a.setStyle(new QCleanlooksStyle);
-    #endif
+    GetVersionEx(&osvi);
+    //6 is vista and 6.1 windows 7
+    if(osvi.dwMajorVersion >= 6)
+        a.setStyle(new QWindowsVistaStyle);
+    else
+        a.setStyle(new QCleanlooksStyle);
+#endif
 
     QSettings *settings;
     QString homeDataPath;
@@ -94,13 +94,13 @@ int main(int argc, char *argv[])
 
 #ifdef Q_WS_WIN
     //a protable version is needed only for windows
-    #ifdef _PORTABLE_VERSION
-        homeDataPath = QApplication::applicationDirPath() + "/";
-        settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-    #else
-        homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
-        settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "openBible", "openBibleViewer");
-    #endif
+#ifdef _PORTABLE_VERSION
+    homeDataPath = QApplication::applicationDirPath() + "/";
+    settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
+#else
+    homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
+    settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "openBible", "openBibleViewer");
+#endif
 
 #endif
 

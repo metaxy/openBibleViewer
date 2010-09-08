@@ -139,12 +139,12 @@ void ZefaniaBible::readBook(const int &id)
             } //todo: all other data
             n2 = n2.nextSibling();
         }
-        c.chapterName = e.attribute("cnumber",QString::number(i));
+        c.chapterName = e.attribute("cnumber", QString::number(i));
         c.chapterID = c.chapterName.toInt() - 1;
 
         c.verseCount = verseCount;
         c.bookName = m_bookFullName.at(m_bookIDs.indexOf(QString::number(id)));//todo: use also in zefania-bible the qhash system
-        m_book.addChapter(c.chapterID,c);
+        m_book.addChapter(c.chapterID, c);
 
         n = n.nextSibling();
     }
@@ -400,7 +400,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
         if(e.attribute("bname", "") != "" || e.attribute("bnumber", "") != "") {
             //it is the caching mechanisme
             int start = 0, end = 0;
-            QString bookID = QString::number(e.attribute("bnumber").toInt()-1);//i count from zero
+            QString bookID = QString::number(e.attribute("bnumber").toInt() - 1); //i count from zero
             for(int i = currentPos; i < fileList.size(); ++i) {
                 QString line = fileList.at(i);
                 if(line.contains("<BIBLEBOOK", Qt::CaseInsensitive)) {
@@ -566,12 +566,12 @@ Book ZefaniaBible::fromHardToSoft(int bookID, QDomNode ncache)
             c.verseNumber.append(e2.attribute("vnumber", ""));
             n2 = n2.nextSibling();
         }
-        c.chapterName = e.attribute("cnumber",QString::number(i));
+        c.chapterName = e.attribute("cnumber", QString::number(i));
         c.chapterID = c.chapterName.toInt() - 1;//i count from zero
         c.verseCount = verseCount;
         c.bookName = m_bookFullName.at(bookID);
 
-        book.addChapter(c.chapterID,c);
+        book.addChapter(c.chapterID, c);
 
         n = n.nextSibling();
     }
@@ -602,9 +602,9 @@ void ZefaniaBible::buildIndex()
     const TCHAR* stop_words[]  = { NULL };
     StandardAnalyzer an((const TCHAR**)stop_words);
 
-    if( IndexReader::indexExists(index.toAscii().constData())) {
-        if( IndexReader::isLocked(index.toAscii().constData())) {
-             IndexReader::unlock(index.toAscii().constData());
+    if(IndexReader::indexExists(index.toAscii().constData())) {
+        if(IndexReader::isLocked(index.toAscii().constData())) {
+            IndexReader::unlock(index.toAscii().constData());
         }
     }
     QScopedPointer< IndexWriter> writer(new  IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
@@ -625,7 +625,7 @@ void ZefaniaBible::buildIndex()
         //  QByteArray textBuffer;
         wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
         QHash<int, Chapter>::const_iterator it = book.m_chapters.constBegin();
-        while (it != book.m_chapters.constEnd()) {
+        while(it != book.m_chapters.constEnd()) {
             Chapter c = it.value();
             QStringList verse = c.data;
             for(int verseCounter = 0; verseCounter < verse.size(); ++verseCounter) {
@@ -653,8 +653,8 @@ void ZefaniaBible::buildIndex()
 
                 lucene_utf8towcs(wcharBuffer, t.toUtf8().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
                 doc->add(*(new  Field((const TCHAR*)_T("content"),
-                                                       (const TCHAR*)wcharBuffer,
-                                                        Field::STORE_YES |  Field::INDEX_TOKENIZED)));
+                                      (const TCHAR*)wcharBuffer,
+                                      Field::STORE_YES |  Field::INDEX_TOKENIZED)));
                 //    textBuffer.resize(0); //clean up
                 writer->addDocument(doc.data());
             }

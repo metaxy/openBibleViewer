@@ -67,7 +67,7 @@ private:
     void loadCached(const int &id, const QString &path);
     Book fromHardToSoft(int id, QDomNode ncache);
 
-    QHash<int,Book> m_softCacheData;
+    QHash<int, Book> m_softCacheData;
 
     void clearSoftCache();
     void setSoftCache(QHash<int, Book >);

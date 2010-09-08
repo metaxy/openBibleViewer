@@ -116,7 +116,7 @@ void BibleListWidget::save()
     for(int x = 0; x < m_model->rowCount(); ++x) {
         for(int y = 0; y < m_model->columnCount(); ++y) {
             int id = m_model->item(x, y)->data(Qt::UserRole + 2).toInt();
-            myDebug() <<"id = "<< id << " x= " << x <<"y = " << y;
+            myDebug() << "id = " << id << " x= " << x << "y = " << y;
             if(id >= 0) {
                 atLeastOne = true;
                 m_moduleManager->newBible(id, QPoint(x, y));
@@ -138,12 +138,12 @@ void BibleListWidget::save()
         url.setBookID(book);
         url.setChapterID(chapter);
         url.setVerse(BibleUrl::LoadFirstVerse);
-        url.setParam("force","true");
+        url.setParam("force", "true");
         m_bibleDisplay->emitGet(url.toString());
     } else {
         Bible *b = new Bible();
         m_moduleManager->initBible(b);
-        m_moduleManager->bibleList()->addBible(b, QPoint(0,0));
+        m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
     }
     close();
 }

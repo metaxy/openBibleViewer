@@ -225,7 +225,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                         urlConverter.setSettings(m_settings);
                         urlConverter.setModuleMap(m_map);
                         urlConverter.pharse();
-                        if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID && urlConverter.m_verseID +1 == i) {
+                        if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID && urlConverter.m_verseID + 1 == i) {
                             vers.append("<a href=\"note://" + noteID + "\"><img src=\":/icons/16x16/view-pim-notes.png\" title=\"" + m_notes->getRef(noteID, "title") + "\"></a>");
                         }
                     }
@@ -559,10 +559,10 @@ QString Bible::bookName(const int &bookID, bool preferShort)
         if(preferShort) {
             return m_bookShortName.value(bookID).first();
         } else {
-            return m_bookFullName.value(bookID,m_bookShortName.value(bookID).first());
+            return m_bookFullName.value(bookID, m_bookShortName.value(bookID).first());
         }
     } else {
-         return m_bookFullName.value(bookID);
+        return m_bookFullName.value(bookID);
     }
 
 
@@ -573,7 +573,7 @@ QHash<int, QString> Bible::bookNames(bool preferShort)
         if(m_bookShortName.size() != 0) {
             QHash<int, QString> ret;
             QHashIterator<int, QStringList> i(m_bookShortName);
-            while (i.hasNext()) {
+            while(i.hasNext()) {
                 ret[i.key()] = i.value().first();
             }
             return ret;
@@ -586,7 +586,7 @@ QHash<int, QString> Bible::bookNames(bool preferShort)
         } else {
             QHash<int, QString> ret;
             QHashIterator<int, QStringList> i(m_bookShortName);
-            while (i.hasNext()) {
+            while(i.hasNext()) {
                 ret[i.key()] = i.value().first();
             }
             return ret;

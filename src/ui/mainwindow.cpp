@@ -88,7 +88,7 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 void MainWindow::loadInterface()
 {
     DEBUG_FUNC_NAME
-    QString interface = m_settings->session.getData("interface",QString("advanced")).toString();
+    QString interface = m_settings->session.getData("interface", QString("advanced")).toString();
     if(interface == "advanced") {
         loadAdvancedInterface();
     } else if(interface == "simple") {
@@ -178,7 +178,7 @@ void MainWindow::loadSimpleInterface()
     if(m_interface->hasToolBar()) {
         m_toolBarList = m_interface->toolBars();
         foreach(QToolBar * bar, m_toolBarList)
-            addToolBar(bar);
+        addToolBar(bar);
     }
     connect(this, SIGNAL(settingsChanged(Settings, Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
@@ -406,11 +406,11 @@ void MainWindow::loadSettings()
 
     m_settings->encoding = m_settingsFile->value("general/encoding", m_settings->encoding).toString();
     m_settings->zoomstep = m_settingsFile->value("general/zoomstep", m_settings->zoomstep).toInt();
-/*#ifdef Q_WS_WIN
-    m_settings->language = m_settingsFile->value("general/language", "en").toString();
-#else*/
+    /*#ifdef Q_WS_WIN
+        m_settings->language = m_settingsFile->value("general/language", "en").toString();
+    #else*/
     m_settings->language = m_settingsFile->value("general/language", QLocale::system().name()).toString();
-/*#endif*/
+    /*#endif*/
     m_settings->autoLayout = m_settingsFile->value("window/layout", m_settings->autoLayout).toInt();
     m_settings->onClickBookmarkGo = m_settingsFile->value("window/onClickBookmarkGo", m_settings->onClickBookmarkGo).toBool();
 
@@ -529,10 +529,10 @@ void MainWindow::writeSettings()
         QHashIterator<int, QString> i(c.bookNames);
         QStringList bookNames;
         QStringList bookIDs;
-        while (i.hasNext()) {
-             i.next();
-             bookNames << i.value();
-             bookIDs << QString::number(i.key());
+        while(i.hasNext()) {
+            i.next();
+            bookNames << i.value();
+            bookIDs << QString::number(i.key());
         }
         m_settingsFile->setValue("bookNames", bookNames);
         m_settingsFile->setValue("bookIDs", bookIDs);

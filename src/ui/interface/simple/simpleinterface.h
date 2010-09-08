@@ -66,7 +66,7 @@ private:
     WindowCache m_windowCache;
     void setTitle(const QString &title);
     void setChapters(const QStringList &chapters);
-    void setBooks(const QHash<int,QString> &books);
+    void setBooks(const QHash<int, QString> &books);
     void setCurrentBook(const int &bookID);
     void setCurrentChapter(const int &chapterID);
     void readBook(const int &id);

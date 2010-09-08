@@ -280,7 +280,7 @@ int BibleQuote::readBook(int id, QString path)
             b.replace(j, a.prepend(m_verseSign));
         }
         c.data << b;
-        m_book.addChapter(i,c);
+        m_book.addChapter(i, c);
     }
     file.close();
     return 0;
@@ -309,11 +309,11 @@ void BibleQuote::buildIndex()
 
     // do not use any stop words
     const TCHAR* stop_words[]  = { NULL };
-     StandardAnalyzer an((const TCHAR**)stop_words);
+    StandardAnalyzer an((const TCHAR**)stop_words);
 
-    if( IndexReader::indexExists(index.toAscii().constData())) {
-        if( IndexReader::isLocked(index.toAscii().constData())) {
-             IndexReader::unlock(index.toAscii().constData());
+    if(IndexReader::indexExists(index.toAscii().constData())) {
+        if(IndexReader::isLocked(index.toAscii().constData())) {
+            IndexReader::unlock(index.toAscii().constData());
         }
     }
     QScopedPointer< IndexWriter> writer(new  IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
@@ -381,14 +381,14 @@ void BibleQuote::buildIndex()
                 lucene_utf8towcs(wcharBuffer, key.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
 
                 doc->add(*(new  Field((const TCHAR*)_T("key"),
-                                                       (const TCHAR*)wcharBuffer,
-                                                        Field::STORE_YES |  Field::INDEX_NO)));
+                                      (const TCHAR*)wcharBuffer,
+                                      Field::STORE_YES |  Field::INDEX_NO)));
 
                 lucene_utf8towcs(wcharBuffer, (const char*) textBuffer.append(t), BT_MAX_LUCENE_FIELD_LENGTH);
 
                 doc->add(*(new  Field((const TCHAR*)_T("content"),
-                                                       (const TCHAR*)wcharBuffer,
-                                                        Field::STORE_YES |  Field::INDEX_TOKENIZED)));
+                                      (const TCHAR*)wcharBuffer,
+                                      Field::STORE_YES |  Field::INDEX_TOKENIZED)));
                 textBuffer.resize(0); //clean up
                 writer->addDocument(doc.data());
             }
@@ -407,23 +407,23 @@ void BibleQuote::search(SearchQuery query, SearchResult *res)
 
 
     const TCHAR* stop_words[]  = { NULL };
-     StandardAnalyzer analyzer(stop_words);
+    StandardAnalyzer analyzer(stop_words);
 
     IndexSearcher searcher(index.toLocal8Bit().constData());
     lucene_utf8towcs(wcharBuffer, query.searchText.toUtf8().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
-    QScopedPointer< Query> q( QueryParser::parse((const TCHAR*)wcharBuffer, (const TCHAR*)_T("content"), &analyzer));
+    QScopedPointer< Query> q(QueryParser::parse((const TCHAR*)wcharBuffer, (const TCHAR*)_T("content"), &analyzer));
 
     QScopedPointer< Hits> h(searcher.search(q.data(),  Sort::INDEXORDER));
 
-     Document* doc = 0;
+    Document* doc = 0;
     for(int i = 0; i < h->length(); ++i) {
         doc = &h->doc(i);
         lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("key")), BT_MAX_LUCENE_FIELD_LENGTH);
         QString stelle(utfBuffer);
         QStringList l = stelle.split(";");
         if(query.range == SearchQuery::Whole ||
-          (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) ||
-          (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
+                (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) ||
+                (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
             lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), BT_MAX_LUCENE_FIELD_LENGTH);
 
             const QString content = QString::fromUtf8(utfBuffer);

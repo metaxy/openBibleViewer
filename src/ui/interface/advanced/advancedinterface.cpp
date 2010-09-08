@@ -515,7 +515,7 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
     setChapters(m_moduleManager->bible()->chapterNames());
     setCurrentChapter(m_moduleManager->bible()->chapterID());
 
-    setBooks(m_moduleManager->bible()->bookNames(),m_moduleManager->bible()->bookIDs());
+    setBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
     setCurrentBook(m_moduleManager->bible()->bookID());
 
     return 0;
@@ -547,7 +547,7 @@ bool AdvancedInterface::loadModuleDataByID(int id)
 
 
     setTitle(m_moduleManager->bible()->bibleTitle());
-    setBooks(m_moduleManager->bible()->bookNames(),m_moduleManager->bible()->bookIDs());
+    setBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
     m_moduleDockWidget->loadedModule(id);//select current Module
     QApplication::restoreOverrideCursor();
     return 0;
@@ -589,8 +589,8 @@ void AdvancedInterface::pharseUrl(QString url)
             bool reloadChapter = false;
             bool reloadVerse = false;
 
-            if(( bibleUrl.bibleID() != m_moduleManager->bible()->moduleID()  && bibleUrl.bible() == BibleUrl::LoadBibleByID) ||
-               !m_moduleManager->bible()->loaded() || (bibleUrl.hasParam("force") && bibleUrl.getParam("force") == "true")) {
+            if((bibleUrl.bibleID() != m_moduleManager->bible()->moduleID()  && bibleUrl.bible() == BibleUrl::LoadBibleByID) ||
+                    !m_moduleManager->bible()->loaded() || (bibleUrl.hasParam("force") && bibleUrl.getParam("force") == "true")) {
                 reloadBible = true;
             }
 
@@ -606,9 +606,9 @@ void AdvancedInterface::pharseUrl(QString url)
             if(bibleUrl.book() == BibleUrl::LoadFirstBook) {
                 firstBook = m_moduleManager->bible()->bookIDs().first();
             }
-            if( (bibleUrl.bookID() != m_moduleManager->bible()->bookID() && bibleUrl.book() == BibleUrl::LoadBookByID) ||
-                (firstBook != m_moduleManager->bible()->bookID() && bibleUrl.book() == BibleUrl::LoadFirstBook) ||
-                reloadBible) {
+            if((bibleUrl.bookID() != m_moduleManager->bible()->bookID() && bibleUrl.book() == BibleUrl::LoadBookByID) ||
+                    (firstBook != m_moduleManager->bible()->bookID() && bibleUrl.book() == BibleUrl::LoadFirstBook) ||
+                    reloadBible) {
                 reloadBook = true;
             }
 
@@ -616,9 +616,9 @@ void AdvancedInterface::pharseUrl(QString url)
             if(bibleUrl.chapter() == BibleUrl::LoadFirstChapter) {
                 firstChapter = 0; // todo: change when we support to start chapters from another value
             }
-            if( (bibleUrl.chapterID() != m_moduleManager->bible()->chapterID() && bibleUrl.chapter() == BibleUrl::LoadChapterByID) ||
-                (firstChapter != m_moduleManager->bible()->chapterID() && bibleUrl.chapter() == BibleUrl::LoadFirstChapter) ||
-                reloadBible || reloadBook) {
+            if((bibleUrl.chapterID() != m_moduleManager->bible()->chapterID() && bibleUrl.chapter() == BibleUrl::LoadChapterByID) ||
+                    (firstChapter != m_moduleManager->bible()->chapterID() && bibleUrl.chapter() == BibleUrl::LoadFirstChapter) ||
+                    reloadBible || reloadBook) {
                 reloadChapter = true;
             }
 
@@ -626,9 +626,9 @@ void AdvancedInterface::pharseUrl(QString url)
             if(bibleUrl.verse() == BibleUrl::LoadFirstVerse) {
                 firstVerse = 0; // todo: change when we support to start verse from another value
             }
-            if( ((bibleUrl.verseID() != m_moduleManager->bible()->verseID() && bibleUrl.verse() == BibleUrl::LoadVerseByID) ||
-                (firstVerse != m_moduleManager->bible()->verseID() && bibleUrl.verse() == BibleUrl::LoadFirstVerse) )
-                && !reloadBible && !reloadBook && !reloadChapter) {
+            if(((bibleUrl.verseID() != m_moduleManager->bible()->verseID() && bibleUrl.verse() == BibleUrl::LoadVerseByID) ||
+                    (firstVerse != m_moduleManager->bible()->verseID() && bibleUrl.verse() == BibleUrl::LoadFirstVerse))
+                    && !reloadBible && !reloadBook && !reloadChapter) {
                 reloadVerse = true;
             }
 
@@ -865,9 +865,9 @@ void AdvancedInterface::setCurrentChapter(const int &chapterID)
     if(activeMdiChild()) {
         QComboBox *comboBox_chapters = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_chapters");
         MdiForm *mForm = activeMdiChild()->widget()->findChild<MdiForm *>("mdiForm");
-        disconnect(mForm->m_ui->comboBox_chapters,SIGNAL(activated(int)), mForm, SLOT(readChapter(int)));
+        disconnect(mForm->m_ui->comboBox_chapters, SIGNAL(activated(int)), mForm, SLOT(readChapter(int)));
         comboBox_chapters->setCurrentIndex(chapterID);
-        connect(mForm->m_ui->comboBox_chapters,SIGNAL(activated(int)), mForm, SLOT(readChapter(int)));
+        connect(mForm->m_ui->comboBox_chapters, SIGNAL(activated(int)), mForm, SLOT(readChapter(int)));
 
     }
 }
@@ -880,7 +880,7 @@ void AdvancedInterface::clearChapters()
             comboBox_chapters->clear();
     }
 }
-void AdvancedInterface::setBooks(const QHash<int, QString> &books,QList<int> ids)
+void AdvancedInterface::setBooks(const QHash<int, QString> &books, QList<int> ids)
 {
     m_bookDockWidget->setBooks(books);
     m_quickJumpDockWidget->setBooks(books.values()); //todo:
@@ -893,7 +893,7 @@ void AdvancedInterface::setBooks(const QHash<int, QString> &books,QList<int> ids
             QHashIterator<int, QString> i(books);
             int count = 0;
             if(comboBox_books->count() == books.count()) {
-                while (i.hasNext()) {
+                while(i.hasNext()) {
                     i.next();
                     if(comboBox_books->itemText(count) != i.value()) {
                         same = false;
@@ -919,12 +919,12 @@ void AdvancedInterface::setCurrentBook(const int &bookID)
     if(activeMdiChild()) {
         QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
         MdiForm *mForm = activeMdiChild()->widget()->findChild<MdiForm *>("mdiForm");
-        disconnect(mForm->m_ui->comboBox_books,SIGNAL(activated(int)), mForm, SLOT(readBook(int)));
+        disconnect(mForm->m_ui->comboBox_books, SIGNAL(activated(int)), mForm, SLOT(readBook(int)));
 
         if(comboBox_books) {
             comboBox_books->setCurrentIndex(m_moduleManager->bible()->bookIDs().indexOf(bookID));
         }
-        connect(mForm->m_ui->comboBox_books,SIGNAL(activated(int)), mForm, SLOT(readBook(int)));
+        connect(mForm->m_ui->comboBox_books, SIGNAL(activated(int)), mForm, SLOT(readBook(int)));
 
     }
 }
@@ -1419,7 +1419,7 @@ void AdvancedInterface::restoreSession()
         } else {
             Bible *b = new Bible();
             m_moduleManager->initBible(b);
-            m_moduleManager->bibleList()->addBible(b, QPoint(0,0));
+            m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
         }
         //set geometry
         QWebView *v = getView();
@@ -1923,7 +1923,7 @@ int AdvancedInterface::saveFile(void)
     if(activeMdiChild()) {
         QWebView *v = getView();
         QFileInfo fi(fileName);
-        m_settings->session.setData("lastSaveFilePlace",fi.path());
+        m_settings->session.setData("lastSaveFilePlace", fi.path());
         if(fileName.endsWith(".html") || fileName.endsWith(".htm")) {
             QFile file(fileName);
             if(!file.open(QIODevice::WriteOnly | QIODevice::Text))

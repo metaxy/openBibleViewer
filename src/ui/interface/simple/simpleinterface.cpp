@@ -245,7 +245,7 @@ void SimpleInterface::showText(const QString &text)
         cssFile = ":/data/css/default.css";
 
     ui->textBrowser->setHtml(text);
-    ui->textBrowser->loadResource(QTextDocument::StyleSheetResource,QUrl(cssFile));
+    ui->textBrowser->loadResource(QTextDocument::StyleSheetResource, QUrl(cssFile));
 
     if(m_moduleManager->bible()->verseID() > 1)
         ui->textBrowser->scrollToAnchor("currentVerse");

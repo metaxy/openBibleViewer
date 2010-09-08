@@ -24,9 +24,9 @@ void Book::clear()
 {
     m_chapters.clear();
 }
-void Book::addChapter(const int &chapterID,const Chapter &c)
+void Book::addChapter(const int &chapterID, const Chapter &c)
 {
-    m_chapters.insert(chapterID,c);
+    m_chapters.insert(chapterID, c);
 }
 bool Book::hasChapter(const int &chapterID)
 {

@@ -42,7 +42,7 @@ void WindowCache::removeWindow(const int &id)
 void WindowCache::clearAll()
 {
     DEBUG_FUNC_NAME
-    foreach(BibleList *list, m_b) {
+    foreach(BibleList * list, m_b) {
         if(list) {
             delete list;
         }

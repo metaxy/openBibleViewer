@@ -76,7 +76,7 @@ QString BibleList::readChapter(int chapterID, int verseID)
 {
     if(m_bibles.size() == 1) {
         return m_bibles[m_currentBible]->readChapter(chapterID, verseID);
-    } else if(m_bibles.size() > 1){
+    } else if(m_bibles.size() > 1) {
         foreach(Bible * b, m_bibles) {
             b->readChapter(chapterID, verseID);
         }

@@ -22,7 +22,7 @@ public:
     QHash<int, Chapter> m_chapters;
     int size();
     void clear();
-    void addChapter(const int &chapterID,const Chapter &c);
+    void addChapter(const int &chapterID, const Chapter &c);
     bool hasChapter(const int &chapterID);
     Chapter getChapter(const int &chapterID);
 };

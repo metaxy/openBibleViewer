@@ -89,7 +89,7 @@ BibleUrl::VerseLoadParams BibleUrl::verse()
 void BibleUrl::setParam(const QString &name, const QString &value)
 {
     //check if name or value contains / or , or =
-    m_params.insert(name,value);
+    m_params.insert(name, value);
 }
 
 bool BibleUrl::hasParam(const QString &name)
@@ -144,7 +144,7 @@ QString BibleUrl::toString()
     }
     if(!m_params.isEmpty()) {
         QHashIterator<QString, QString> i(m_params);
-        while (i.hasNext()) {
+        while(i.hasNext()) {
             i.next();
             ret += "," + i.key() + "=" + i.value();
         }
@@ -157,7 +157,7 @@ bool BibleUrl::fromString(QString url)
     if(!url.startsWith("bible://")) {
         return false;
     }
-    url.remove(0,8); // remove bible://
+    url.remove(0, 8); // remove bible://
     myDebug() << url;
     const QStringList slash = url.split("/");
     if(slash.size() != 2) {//there should be only two
@@ -211,9 +211,9 @@ bool BibleUrl::fromString(QString url)
                 QStringList s = p.split("=");
                 const QString key = s.first();
                 const QString value = s.last();
-                m_params.insert(key,value);
+                m_params.insert(key, value);
             } else {
-                m_params.insert(p,"true");
+                m_params.insert(p, "true");
             }
         }
     }

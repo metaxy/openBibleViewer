@@ -48,7 +48,7 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
         if(m_bookItems.contains(book))
             continue;
         QStandardItem *bookItem = new QStandardItem(m_moduleManager->bible()->bookName(book));
-        bookItem->setData("book",Qt::UserRole + 2);
+        bookItem->setData("book", Qt::UserRole + 2);
         parentItem->appendRow(bookItem);
         m_bookItems.insert(book, bookItem);
     }
@@ -57,10 +57,10 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
         SearchHit hit = hits.at(i);
         if(hit.type() == SearchHit::BibleHit) {
             QStandardItem *hitItem = new QStandardItem(m_moduleManager->bible()->bookName(hit.value(SearchHit::BookID).toInt()) + " " +
-                                                       QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + ":" +
-                                                       QString::number(hit.value(SearchHit::VerseID).toInt() + 1));
+                    QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + ":" +
+                    QString::number(hit.value(SearchHit::VerseID).toInt() + 1));
             hitItem->setData(i, Qt::UserRole + 1);
-            hitItem->setData("bibleHit",Qt::UserRole + 2);
+            hitItem->setData("bibleHit", Qt::UserRole + 2);
             m_bookItems.value(hit.value(SearchHit::BookID).toInt())->appendRow(hitItem);
         } else if(hit.type() == SearchHit::NoteHit) {
             if(!notesItem) {
@@ -69,7 +69,7 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
             }
             QStandardItem *hitItem = new QStandardItem(m_notes->getTitle(hit.value(SearchHit::NoteID).toString()));
             hitItem->setData(i, Qt::UserRole + 1);
-             hitItem->setData("noteHit",Qt::UserRole + 2);
+            hitItem->setData("noteHit", Qt::UserRole + 2);
             notesItem->appendRow(hitItem);
         }
     }
@@ -91,7 +91,7 @@ void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
             url.setBookID(hit.value(SearchHit::BookID).toInt());
             url.setChapterID(hit.value(SearchHit::ChapterID).toInt());
             url.setVerseID(hit.value(SearchHit::VerseID).toInt());
-            url.setParam("searchInCurrentText","true");
+            url.setParam("searchInCurrentText", "true");
             emit get(url.toString());
         } else if(hit.type() == SearchHit::NoteHit) {
             emit get("note://" + hit.value(SearchHit::NoteID).toString());
@@ -115,8 +115,8 @@ void AdvancedSearchResultDockWidget::searchInfo()
         if(hit.type() == SearchHit::BibleHit) {
             const QString bookn = m_moduleManager->bible()->bookName(hit.value(SearchHit::BookID).toInt()); //todo: maybe the bible isn't loaded and you need another bookNames
             textList << hit.value(SearchHit::VerseText).toString() + "\n - <i>" + bookn
-                    + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1)
-                    + " , " + QString::number(hit.value(SearchHit::VerseID).toInt() + 1) + "</i>";
+                     + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1)
+                     + " , " + QString::number(hit.value(SearchHit::VerseID).toInt() + 1) + "</i>";
         }
     }
 
@@ -135,30 +135,30 @@ void AdvancedSearchResultDockWidget::nextVerse()
         QModelIndex parent = index.parent();
         bool found = false;
         int rowID = index.row();
-       /* for(int indent = 0; !found; indent++) {
-            while(!found) {
-                if(rowID >= m_proxyModel->rowCount()) {
-                    break;
-                }
-                rowID++;
-                const QModelIndex n = m_proxyModel->index(rowID,0,parent);
-                myDebug() << rowID << n.data(Qt::UserRole + 2);
-                if(n.data(Qt::UserRole + 2) == "bibleHit") {
-                    found = true;
-                    goToSearchResult(n);
-                    m_selectionModel->clearSelection();
-                    m_selectionModel->setCurrentIndex(n,QItemSelectionModel::Select);
-                    break;
-                } else if(m_proxyModel->hasChildren(n)) {
+        /* for(int indent = 0; !found; indent++) {
+             while(!found) {
+                 if(rowID >= m_proxyModel->rowCount()) {
+                     break;
+                 }
+                 rowID++;
+                 const QModelIndex n = m_proxyModel->index(rowID,0,parent);
+                 myDebug() << rowID << n.data(Qt::UserRole + 2);
+                 if(n.data(Qt::UserRole + 2) == "bibleHit") {
+                     found = true;
+                     goToSearchResult(n);
+                     m_selectionModel->clearSelection();
+                     m_selectionModel->setCurrentIndex(n,QItemSelectionModel::Select);
+                     break;
+                 } else if(m_proxyModel->hasChildren(n)) {
 
-                }
-            }
+                 }
+             }
 
-            if(parent == QModelIndex()) {
-                break;
-            }
-           parent = parent.parent();
-        }*/
+             if(parent == QModelIndex()) {
+                 break;
+             }
+            parent = parent.parent();
+         }*/
 
         myDebug() << "parent = " << parent.data() << parent.data(Qt::UserRole + 2);
         myDebug() << rowID << index << index.data(Qt::UserRole + 2);
@@ -180,21 +180,21 @@ void AdvancedSearchResultDockWidget::previousVerse()
             if(parent == QModelIndex()) {
                 break;
             }
-           parent = parent.parent();
+            parent = parent.parent();
         }
 
         int rowID = index.row();
         myDebug() << "parent = " << parent.data() << parent.data(Qt::UserRole + 2);
-        myDebug() << rowID << index << index.data(Qt::UserRole +2);
+        myDebug() << rowID << index << index.data(Qt::UserRole + 2);
         forever {
             if(rowID == 0)
                 break;
             rowID--;
-            const QModelIndex n = m_proxyModel->index(rowID,0,parent);
+            const QModelIndex n = m_proxyModel->index(rowID, 0, parent);
             if(n.data(Qt::UserRole + 2) == "bibleHit" || n.data(Qt::UserRole + 2) == "noteHit") {
                 goToSearchResult(n);
                 m_selectionModel->clearSelection();
-                m_selectionModel->setCurrentIndex(n,QItemSelectionModel::Select);
+                m_selectionModel->setCurrentIndex(n, QItemSelectionModel::Select);
                 break;
             }
         }

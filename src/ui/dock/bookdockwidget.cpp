@@ -21,8 +21,8 @@ BookDockWidget::BookDockWidget(QWidget *parent) :
     ui(new Ui::BookDockWidget)
 {
     ui->setupUi(this);
-    connect(ui->listView_books,SIGNAL(activated(QModelIndex)),this,SLOT(readBook(QModelIndex)));
-    connect(ui->listView_chapters,SIGNAL(activated(QModelIndex)),this,SLOT(readChapter(QModelIndex)));
+    connect(ui->listView_books, SIGNAL(activated(QModelIndex)), this, SLOT(readBook(QModelIndex)));
+    connect(ui->listView_chapters, SIGNAL(activated(QModelIndex)), this, SLOT(readChapter(QModelIndex)));
 
     m_bookModel = new QStandardItemModel(this);
     m_chapterModel = new QStandardItemModel(this);
@@ -65,7 +65,7 @@ void BookDockWidget::setChapters(const QStringList &chapters)
     for(int i = 0; i < chapters.size(); ++i) {
         QStandardItem *top = new QStandardItem;
         top->setText(chapters.at(i));
-        top->setData(i,Qt::UserRole + 1);
+        top->setData(i, Qt::UserRole + 1);
         m_chapterModel->appendRow(top);
     }
 }
@@ -74,7 +74,7 @@ void BookDockWidget::setBooks(const QHash<int, QString> &books)
     m_bookModel->clear();
     QHashIterator<int, QString> i(books);
     int count = 0;
-    while (i.hasNext()) {
+    while(i.hasNext()) {
         i.next();
         QStandardItem *top = new QStandardItem;
         top->setText(i.value());
@@ -94,21 +94,21 @@ void BookDockWidget::clearChapters()
 
 void BookDockWidget::setCurrentBook(const int &bookID)
 {
-    QModelIndexList list = m_bookModel->match(m_bookModel->index(0,0), Qt::UserRole + 1, bookID,1,Qt::MatchExactly);
+    QModelIndexList list = m_bookModel->match(m_bookModel->index(0, 0), Qt::UserRole + 1, bookID, 1, Qt::MatchExactly);
     if(list.size() == 1) {
         m_bookSelection->clearSelection();
         m_bookSelection->setCurrentIndex(list.at(0), QItemSelectionModel::Select);
-        ui->listView_books->scrollTo(list.at(0),QAbstractItemView::EnsureVisible);
+        ui->listView_books->scrollTo(list.at(0), QAbstractItemView::EnsureVisible);
     }
 
 }
 void BookDockWidget::setCurrentChapter(const int &chapterID)
 {
-    QModelIndexList list = m_chapterModel->match(m_chapterModel->index(0,0), Qt::UserRole + 1, chapterID,1,Qt::MatchExactly);
+    QModelIndexList list = m_chapterModel->match(m_chapterModel->index(0, 0), Qt::UserRole + 1, chapterID, 1, Qt::MatchExactly);
     if(list.size() == 1) {
         m_chapterSelection->clearSelection();
         m_chapterSelection->setCurrentIndex(list.at(0), QItemSelectionModel::Select);
-        ui->listView_chapters->scrollTo(list.at(0),QAbstractItemView::EnsureVisible);
+        ui->listView_chapters->scrollTo(list.at(0), QAbstractItemView::EnsureVisible);
     }
 }
 void BookDockWidget::changeEvent(QEvent *e)
