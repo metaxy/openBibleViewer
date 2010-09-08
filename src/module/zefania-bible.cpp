@@ -623,7 +623,7 @@ void ZefaniaBible::buildIndex()
         } else {
             book = softCache(i);
         }
-        //  QByteArray textBuffer;
+        //QByteArray textBuffer;
         wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
         QHash<int, Chapter>::const_iterator it = book.m_chapters.constBegin();
         while(it != book.m_chapters.constEnd()) {
@@ -656,7 +656,7 @@ void ZefaniaBible::buildIndex()
                 doc->add(*(new  Field((const TCHAR*)_T("content"),
                                       (const TCHAR*)wcharBuffer,
                                       Field::STORE_YES |  Field::INDEX_TOKENIZED)));
-                //    textBuffer.resize(0); //clean up
+                //-not nedded textBuffer.resize(0); //clean up
                 writer->addDocument(doc.data());
             }
             it++;
