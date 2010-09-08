@@ -1,0 +1,2335 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Language: en\n"
+"X-Qt-Contexts: true\n"
+
+#: ui/dialog/aboutdialog.ui:14
+msgctxt "AboutDialog|"
+msgid "About"
+msgstr ""
+
+#: ui/dialog/aboutdialog.ui:56
+msgctxt "AboutDialog|"
+msgid "Close"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:958
+#: ui/interface/advanced/advancedinterface.cpp:971
+msgctxt "AdvancedInterface|"
+msgid "Error"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:958
+msgctxt "AdvancedInterface|"
+msgid "This book is not available."
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:971
+msgctxt "AdvancedInterface|"
+msgid "Cannot read the book."
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1111
+#: ui/interface/advanced/advancedinterface.cpp:1590
+msgctxt "AdvancedInterface|"
+msgid "Copy"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1178
+#: ui/interface/advanced/advancedinterface.cpp:1187
+msgctxt "AdvancedInterface|"
+msgid "Copy Verse"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1190
+#, qt-format
+msgctxt "AdvancedInterface|"
+msgid "Copy Verse %1"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1114
+#: ui/interface/advanced/advancedinterface.cpp:1595
+msgctxt "AdvancedInterface|"
+msgid "Select All"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:600
+msgctxt "AdvancedInterface|"
+msgid "No such bible found."
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:830
+msgctxt "AdvancedInterface|"
+msgid "openBibleViewer"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1118
+msgctxt "AdvancedInterface|"
+msgid "Mark this"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1121
+msgctxt "AdvancedInterface|"
+msgid "Yellow"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1126
+msgctxt "AdvancedInterface|"
+msgid "Green"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1131
+msgctxt "AdvancedInterface|"
+msgid "Blue"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1136
+msgctxt "AdvancedInterface|"
+msgid "Orange"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1141
+msgctxt "AdvancedInterface|"
+msgid "Violet"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1146
+msgctxt "AdvancedInterface|"
+msgid "Custom Color"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1151
+msgctxt "AdvancedInterface|"
+msgid "Bold"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1155
+msgctxt "AdvancedInterface|"
+msgid "Italic"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1159
+msgctxt "AdvancedInterface|"
+msgid "Underline"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1164
+msgctxt "AdvancedInterface|"
+msgid "Remove Mark"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1167
+msgctxt "AdvancedInterface|"
+msgid "Add Bookmark"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1170
+msgctxt "AdvancedInterface|"
+msgid "Add Note"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1199
+msgctxt "AdvancedInterface|"
+msgid "Debugger"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1552
+msgctxt "AdvancedInterface|"
+msgid "File"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1555
+msgctxt "AdvancedInterface|"
+msgid "New SubWindow"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1560
+msgctxt "AdvancedInterface|"
+msgid "Close SubWindow"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1565
+msgctxt "AdvancedInterface|"
+msgid "Save As"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1570
+#: ui/interface/advanced/advancedinterface.cpp:1906
+msgctxt "AdvancedInterface|"
+msgid "Print"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1587
+msgctxt "AdvancedInterface|"
+msgid "Edit"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1600
+#: ui/interface/advanced/advancedinterface.cpp:1804
+msgctxt "AdvancedInterface|"
+msgid "Search"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1605
+msgctxt "AdvancedInterface|"
+msgid "Find Next"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1610
+msgctxt "AdvancedInterface|"
+msgid "Find Previous"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1625
+msgctxt "AdvancedInterface|"
+msgid "Configuration"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1641
+msgctxt "AdvancedInterface|"
+msgid "View"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1644
+#: ui/interface/advanced/advancedinterface.cpp:1820
+msgctxt "AdvancedInterface|"
+msgid "Zoom In"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1649
+#: ui/interface/advanced/advancedinterface.cpp:1822
+msgctxt "AdvancedInterface|"
+msgid "Zoom Out"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1654
+msgctxt "AdvancedInterface|"
+msgid "Tabbed View"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1659
+msgctxt "AdvancedInterface|"
+msgid "Sub Window View"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1668
+msgctxt "AdvancedInterface|"
+msgid "Tile"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1672
+msgctxt "AdvancedInterface|"
+msgid "Tile Vertical"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1676
+msgctxt "AdvancedInterface|"
+msgid "Tile Horizontal"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1664
+msgctxt "AdvancedInterface|"
+msgid "Cascade"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1575
+msgctxt "AdvancedInterface|"
+msgid "Quit"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1615
+msgctxt "AdvancedInterface|"
+msgid "Next Chapter"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1620
+msgctxt "AdvancedInterface|"
+msgid "Previous Chapter"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1693
+#: ui/interface/advanced/advancedinterface.cpp:1728
+#: ui/interface/advanced/advancedinterface.cpp:1812
+msgctxt "AdvancedInterface|"
+msgid "Notes"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1696
+msgctxt "AdvancedInterface|"
+msgid "Notes Editor"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1700
+msgctxt "AdvancedInterface|"
+msgid "Mark List"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1704
+msgctxt "AdvancedInterface|"
+msgid "Mark Categories"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1713
+msgctxt "AdvancedInterface|"
+msgid "Docks"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1722
+msgctxt "AdvancedInterface|"
+msgid "Books"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1746
+msgctxt "AdvancedInterface|"
+msgid "Quick Jump"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1752
+msgctxt "AdvancedInterface|"
+msgid "Search Results"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1767
+msgctxt "AdvancedInterface|"
+msgid "Help"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1770
+msgctxt "AdvancedInterface|"
+msgid "About"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1774
+msgctxt "AdvancedInterface|"
+msgid "Online Help"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1740
+#: ui/interface/advanced/advancedinterface.cpp:1807
+msgctxt "AdvancedInterface|"
+msgid "Bookmarks"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1817
+msgctxt "AdvancedInterface|"
+msgid "New Window"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1716
+#: ui/interface/advanced/advancedinterface.cpp:1825
+msgctxt "AdvancedInterface|"
+msgid "Module"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1734
+msgctxt "AdvancedInterface|"
+msgid "Dictionay"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1803
+msgctxt "AdvancedInterface|"
+msgid "Main Tool Bar"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1843
+msgctxt "AdvancedInterface|"
+msgid "Search Bar"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1898
+msgctxt "AdvancedInterface|"
+msgid "http://openbv.uucyc.name/faq.html"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1921
+msgctxt "AdvancedInterface|"
+msgid "Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1921
+msgctxt "AdvancedInterface|"
+msgid "Save output"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1955
+msgctxt "AdvancedInterface|"
+msgid "About openBibleViewer"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.cpp:1957
+#, qt-format
+msgctxt "AdvancedInterface|"
+msgid ""
+"openBibleViewer <br> version: %1 build: %2<br> <a "
+"href=\"http://openbv.uucyc.name/\"> Official Website</a> | <a "
+"href=\"http://openbv.uucyc.name/bug/\">Bug report</a>"
+msgstr ""
+
+#: ui/interface/advanced/advancedinterface.ui:20
+msgctxt "AdvancedInterface|"
+msgid "WindowForm"
+msgstr ""
+
+#: ui/dock/advancedsearchresultdockwidget.ui:14
+msgctxt "AdvancedSearchResultDockWidget|"
+msgid "Search Results"
+msgstr ""
+
+#: ui/dock/advancedsearchresultdockwidget.ui:39
+msgctxt "AdvancedSearchResultDockWidget|"
+msgid "Info"
+msgstr ""
+
+#: ui/dock/advancedsearchresultdockwidget.cpp:39
+#, qt-format
+msgctxt "AdvancedSearchResultDockWidget|"
+msgid "Search: %1"
+msgstr ""
+
+#: ui/dock/advancedsearchresultdockwidget.cpp:67
+msgctxt "AdvancedSearchResultDockWidget|"
+msgid "Notes"
+msgstr ""
+
+#: ui/dock/advancedsearchresultdockwidget.cpp:104
+msgctxt "AdvancedSearchResultDockWidget|"
+msgid "Error"
+msgstr ""
+
+#: ui/dock/advancedsearchresultdockwidget.cpp:104
+msgctxt "AdvancedSearchResultDockWidget|"
+msgid "No search information available."
+msgstr ""
+
+#: ui/interface/advanced/biblelistitemdelegate.cpp:25
+msgctxt "BibleListItemDelegate|"
+msgid "None"
+msgstr ""
+
+#: ui/interface/advanced/biblelistwidget.ui:14
+msgctxt "BibleListWidget|"
+msgid "Bible List"
+msgstr ""
+
+#: ui/interface/advanced/biblelistwidget.ui:22
+#: ui/interface/advanced/biblelistwidget.ui:46
+#: ui/interface/advanced/biblelistwidget.ui:61
+#: ui/interface/advanced/biblelistwidget.ui:85
+msgctxt "BibleListWidget|"
+msgid "..."
+msgstr ""
+
+#: ui/dialog/biblepassagedialog.ui:17
+msgctxt "BiblePassageDialog|"
+msgid "Bible Passage"
+msgstr ""
+
+#: ui/dialog/biblepassagedialog.ui:58
+msgctxt "BiblePassageDialog|"
+msgid "Save"
+msgstr ""
+
+#: ui/dialog/biblepassagedialog.ui:69
+msgctxt "BiblePassageDialog|"
+msgid "Cancel"
+msgstr ""
+
+#: ui/dock/bookdockwidget.ui:23
+msgctxt "BookDockWidget|"
+msgid "Book Select"
+msgstr ""
+
+#: ui/dock/bookmarksdockwidget.ui:14
+msgctxt "BookmarksDockWidget|"
+msgid "Bookmarks"
+msgstr ""
+
+#: ui/dock/bookmarksdockwidget.ui:54
+msgctxt "BookmarksDockWidget|"
+msgid "Title"
+msgstr ""
+
+#: ui/dock/bookmarksdockwidget.cpp:105
+msgctxt "BookmarksDockWidget|"
+msgid "new folder"
+msgstr ""
+
+#: ui/dock/bookmarksdockwidget.cpp:121
+msgctxt "BookmarksDockWidget|"
+msgid "Go To"
+msgstr ""
+
+#: ui/dock/bookmarksdockwidget.cpp:125
+msgctxt "BookmarksDockWidget|"
+msgid "New Folder"
+msgstr ""
+
+#: ui/dock/bookmarksdockwidget.cpp:129
+msgctxt "BookmarksDockWidget|"
+msgid "Edit"
+msgstr ""
+
+#: ui/dock/bookmarksdockwidget.cpp:133
+msgctxt "BookmarksDockWidget|"
+msgid "Remove"
+msgstr ""
+
+#: ui/dock/bookmarksdockwidget.cpp:176 ui/dock/bookmarksdockwidget.cpp:187
+msgctxt "BookmarksDockWidget|"
+msgid "Error"
+msgstr ""
+
+#: ui/dock/bookmarksdockwidget.cpp:176 ui/dock/bookmarksdockwidget.cpp:187
+msgctxt "BookmarksDockWidget|"
+msgid "This Bookmark is invalid."
+msgstr ""
+
+#: ui/dock/dictionarydockwidget.ui:14
+msgctxt "DictionaryDockWidget|"
+msgid "Dictionary"
+msgstr ""
+
+#: ui/dialog/inserthtmldialog.ui:14
+msgctxt "InsertHtmlDialog|"
+msgid "Insert HTML"
+msgstr ""
+
+#: ui/dialog/inserthtmldialog.ui:20
+msgctxt "InsertHtmlDialog|"
+msgid "HTML Code:"
+msgstr ""
+
+#: ui/dialog/insertlinkdialog.ui:14
+msgctxt "InsertLinkDialog|"
+msgid "Insert Link"
+msgstr ""
+
+#: ui/dialog/insertlinkdialog.ui:32
+msgctxt "InsertLinkDialog|"
+msgid "Bible"
+msgstr ""
+
+#: ui/dialog/insertlinkdialog.ui:67
+msgctxt "InsertLinkDialog|"
+msgid "Note"
+msgstr ""
+
+#: ui/dialog/insertlinkdialog.ui:85
+msgctxt "InsertLinkDialog|"
+msgid "Custom"
+msgstr ""
+
+#: ui/dialog/insertlinkdialog.cpp:34 ui/dialog/insertlinkdialog.cpp:103
+msgctxt "InsertLinkDialog|"
+msgid "Note Title"
+msgstr ""
+
+#: ui/mainwindow.cpp:267
+msgctxt "MainWindow|"
+msgid "Genesis"
+msgstr ""
+
+#: ui/mainwindow.cpp:268
+msgctxt "MainWindow|"
+msgid "Exodus"
+msgstr ""
+
+#: ui/mainwindow.cpp:269
+msgctxt "MainWindow|"
+msgid "Leviticus"
+msgstr ""
+
+#: ui/mainwindow.cpp:270
+msgctxt "MainWindow|"
+msgid "Numbers"
+msgstr ""
+
+#: ui/mainwindow.cpp:271
+msgctxt "MainWindow|"
+msgid "Deuteronomy"
+msgstr ""
+
+#: ui/mainwindow.cpp:272
+msgctxt "MainWindow|"
+msgid "Joshua"
+msgstr ""
+
+#: ui/mainwindow.cpp:273
+msgctxt "MainWindow|"
+msgid "Judges"
+msgstr ""
+
+#: ui/mainwindow.cpp:274
+msgctxt "MainWindow|"
+msgid "Ruth"
+msgstr ""
+
+#: ui/mainwindow.cpp:275
+msgctxt "MainWindow|"
+msgid "1 Samuel"
+msgstr ""
+
+#: ui/mainwindow.cpp:276
+msgctxt "MainWindow|"
+msgid "2 Samuel"
+msgstr ""
+
+#: ui/mainwindow.cpp:277
+msgctxt "MainWindow|"
+msgid "1 Kings"
+msgstr ""
+
+#: ui/mainwindow.cpp:278
+msgctxt "MainWindow|"
+msgid "2 Kings"
+msgstr ""
+
+#: ui/mainwindow.cpp:279
+msgctxt "MainWindow|"
+msgid "1 Chronicles"
+msgstr ""
+
+#: ui/mainwindow.cpp:280
+msgctxt "MainWindow|"
+msgid "2 Chronicles"
+msgstr ""
+
+#: ui/mainwindow.cpp:281
+msgctxt "MainWindow|"
+msgid "Ezrav"
+msgstr ""
+
+#: ui/mainwindow.cpp:282
+msgctxt "MainWindow|"
+msgid "Nehemiah"
+msgstr ""
+
+#: ui/mainwindow.cpp:283
+msgctxt "MainWindow|"
+msgid "Esther"
+msgstr ""
+
+#: ui/mainwindow.cpp:284
+msgctxt "MainWindow|"
+msgid "Job"
+msgstr ""
+
+#: ui/mainwindow.cpp:285
+msgctxt "MainWindow|"
+msgid "Psalm"
+msgstr ""
+
+#: ui/mainwindow.cpp:286
+msgctxt "MainWindow|"
+msgid "Proverbs"
+msgstr ""
+
+#: ui/mainwindow.cpp:287
+msgctxt "MainWindow|"
+msgid "Ecclesiastes"
+msgstr ""
+
+#: ui/mainwindow.cpp:288
+msgctxt "MainWindow|"
+msgid "Song of Solomon"
+msgstr ""
+
+#: ui/mainwindow.cpp:289
+msgctxt "MainWindow|"
+msgid "Isaiah"
+msgstr ""
+
+#: ui/mainwindow.cpp:290
+msgctxt "MainWindow|"
+msgid "Jeremiah"
+msgstr ""
+
+#: ui/mainwindow.cpp:291
+msgctxt "MainWindow|"
+msgid "Lamentations"
+msgstr ""
+
+#: ui/mainwindow.cpp:292
+msgctxt "MainWindow|"
+msgid "Ezekiel"
+msgstr ""
+
+#: ui/mainwindow.cpp:293
+msgctxt "MainWindow|"
+msgid "Daniel"
+msgstr ""
+
+#: ui/mainwindow.cpp:294
+msgctxt "MainWindow|"
+msgid "Hosea"
+msgstr ""
+
+#: ui/mainwindow.cpp:295
+msgctxt "MainWindow|"
+msgid "Joel"
+msgstr ""
+
+#: ui/mainwindow.cpp:296
+msgctxt "MainWindow|"
+msgid "Amos"
+msgstr ""
+
+#: ui/mainwindow.cpp:297
+msgctxt "MainWindow|"
+msgid "Obadiah"
+msgstr ""
+
+#: ui/mainwindow.cpp:298
+msgctxt "MainWindow|"
+msgid "Jonah"
+msgstr ""
+
+#: ui/mainwindow.cpp:299
+msgctxt "MainWindow|"
+msgid "Micah"
+msgstr ""
+
+#: ui/mainwindow.cpp:300
+msgctxt "MainWindow|"
+msgid "Nahum"
+msgstr ""
+
+#: ui/mainwindow.cpp:301
+msgctxt "MainWindow|"
+msgid "Habakkuk"
+msgstr ""
+
+#: ui/mainwindow.cpp:302
+msgctxt "MainWindow|"
+msgid "Zephaniah"
+msgstr ""
+
+#: ui/mainwindow.cpp:303
+msgctxt "MainWindow|"
+msgid "Haggai"
+msgstr ""
+
+#: ui/mainwindow.cpp:304
+msgctxt "MainWindow|"
+msgid "Zechariah"
+msgstr ""
+
+#: ui/mainwindow.cpp:305
+msgctxt "MainWindow|"
+msgid "Malachi"
+msgstr ""
+
+#: ui/mainwindow.cpp:306
+msgctxt "MainWindow|"
+msgid "Matthew"
+msgstr ""
+
+#: ui/mainwindow.cpp:307
+msgctxt "MainWindow|"
+msgid "Mark"
+msgstr ""
+
+#: ui/mainwindow.cpp:308
+msgctxt "MainWindow|"
+msgid "Luke"
+msgstr ""
+
+#: ui/mainwindow.cpp:309
+msgctxt "MainWindow|"
+msgid "John"
+msgstr ""
+
+#: ui/mainwindow.cpp:310
+msgctxt "MainWindow|"
+msgid "Acts"
+msgstr ""
+
+#: ui/mainwindow.cpp:311
+msgctxt "MainWindow|"
+msgid "Romans"
+msgstr ""
+
+#: ui/mainwindow.cpp:312
+msgctxt "MainWindow|"
+msgid "1 Corinthians"
+msgstr ""
+
+#: ui/mainwindow.cpp:313
+msgctxt "MainWindow|"
+msgid "2 Corinthians"
+msgstr ""
+
+#: ui/mainwindow.cpp:314
+msgctxt "MainWindow|"
+msgid "Galatians"
+msgstr ""
+
+#: ui/mainwindow.cpp:315
+msgctxt "MainWindow|"
+msgid "Ephesians"
+msgstr ""
+
+#: ui/mainwindow.cpp:316
+msgctxt "MainWindow|"
+msgid "Philippians"
+msgstr ""
+
+#: ui/mainwindow.cpp:317
+msgctxt "MainWindow|"
+msgid "Colossians"
+msgstr ""
+
+#: ui/mainwindow.cpp:318
+msgctxt "MainWindow|"
+msgid "1 Thessalonians"
+msgstr ""
+
+#: ui/mainwindow.cpp:319
+msgctxt "MainWindow|"
+msgid "2 Thessalonians"
+msgstr ""
+
+#: ui/mainwindow.cpp:320
+msgctxt "MainWindow|"
+msgid "1 Timothy"
+msgstr ""
+
+#: ui/mainwindow.cpp:321
+msgctxt "MainWindow|"
+msgid "2 Timothy"
+msgstr ""
+
+#: ui/mainwindow.cpp:322
+msgctxt "MainWindow|"
+msgid "Titus"
+msgstr ""
+
+#: ui/mainwindow.cpp:323
+msgctxt "MainWindow|"
+msgid "Philemon"
+msgstr ""
+
+#: ui/mainwindow.cpp:324
+msgctxt "MainWindow|"
+msgid "Hebrews"
+msgstr ""
+
+#: ui/mainwindow.cpp:325
+msgctxt "MainWindow|"
+msgid "James"
+msgstr ""
+
+#: ui/mainwindow.cpp:326
+msgctxt "MainWindow|"
+msgid "1 Peter"
+msgstr ""
+
+#: ui/mainwindow.cpp:327
+msgctxt "MainWindow|"
+msgid "2 Peter"
+msgstr ""
+
+#: ui/mainwindow.cpp:328
+msgctxt "MainWindow|"
+msgid "1 John"
+msgstr ""
+
+#: ui/mainwindow.cpp:329
+msgctxt "MainWindow|"
+msgid "2 John"
+msgstr ""
+
+#: ui/mainwindow.cpp:330
+msgctxt "MainWindow|"
+msgid "3 John"
+msgstr ""
+
+#: ui/mainwindow.cpp:331
+msgctxt "MainWindow|"
+msgid "Jude"
+msgstr ""
+
+#: ui/mainwindow.cpp:332
+msgctxt "MainWindow|"
+msgid "Revelation"
+msgstr ""
+
+#: ui/mainwindow.cpp:335
+msgctxt "MainWindow|"
+msgid "Gen, Ge, Gn"
+msgstr ""
+
+#: ui/mainwindow.cpp:336
+msgctxt "MainWindow|"
+msgid "Exodus Lev, Le, Lv"
+msgstr ""
+
+#: ui/mainwindow.cpp:337
+msgctxt "MainWindow|"
+msgid "Num, Nu, Nm, Nb"
+msgstr ""
+
+#: ui/mainwindow.cpp:338
+msgctxt "MainWindow|"
+msgid "Deut, Dt"
+msgstr ""
+
+#: ui/mainwindow.cpp:339
+msgctxt "MainWindow|"
+msgid "Josh, Jos, Jsh"
+msgstr ""
+
+#: ui/mainwindow.cpp:340
+msgctxt "MainWindow|"
+msgid "Judg, Jdg, Jg, Jdgs"
+msgstr ""
+
+#: ui/mainwindow.cpp:341
+msgctxt "MainWindow|"
+msgid "Rth, Ru"
+msgstr ""
+
+#: ui/mainwindow.cpp:342
+msgctxt "MainWindow|"
+msgid "1 Sam, 1 Sa, 1Samuel, 1S, I Sa, 1 Sm, 1Sa, I Sam, 1Sam"
+msgstr ""
+
+#: ui/mainwindow.cpp:343
+msgctxt "MainWindow|"
+msgid "2 Sam, 2 Sa, 2S, II Sa, 2 Sm, 2Sa, II Sam, 2Sam"
+msgstr ""
+
+#: ui/mainwindow.cpp:344
+msgctxt "MainWindow|"
+msgid ""
+"1 Kgs, 1 Ki, 1K, I Kgs, 1Kgs, I Ki, 1Ki, I Kings, 1Kings, 1st Kgs, 1st "
+"Kings, 1Kin"
+msgstr ""
+
+#: ui/mainwindow.cpp:345
+msgctxt "MainWindow|"
+msgid ""
+"2 Kgs, 2 Ki, 2K, II Kgs, 2Kgs, II Ki, 2Ki, II Kings, 2Kings, 2nd Kgs, 2nd "
+"Kings, 2Kin"
+msgstr ""
+
+#: ui/mainwindow.cpp:346
+msgctxt "MainWindow|"
+msgid "1 Chron, 1 Ch, I Ch, 1Ch, 1 Chr, I Chr, 1Chr, I Chron, 1Chron"
+msgstr ""
+
+#: ui/mainwindow.cpp:347
+msgctxt "MainWindow|"
+msgid "2 Chron, 2 Ch, II Ch, 2Ch, II Chr, 2Chr, II Chron, 2Chron"
+msgstr ""
+
+#: ui/mainwindow.cpp:348
+msgctxt "MainWindow|"
+msgid "Ezra, Ezr"
+msgstr ""
+
+#: ui/mainwindow.cpp:349
+msgctxt "MainWindow|"
+msgid "Neh, Ne"
+msgstr ""
+
+#: ui/mainwindow.cpp:350
+msgctxt "MainWindow|"
+msgid "Esth, Es"
+msgstr ""
+
+#: ui/mainwindow.cpp:351
+msgctxt "MainWindow|"
+msgid "Job, Job, Jb"
+msgstr ""
+
+#: ui/mainwindow.cpp:352
+msgctxt "MainWindow|"
+msgid "Pslm, Ps, Psalms, Psa, Psm, Pss"
+msgstr ""
+
+#: ui/mainwindow.cpp:353
+msgctxt "MainWindow|"
+msgid "Prov, Pr, Prv"
+msgstr ""
+
+#: ui/mainwindow.cpp:354
+msgctxt "MainWindow|"
+msgid "Eccles, Ec, Qoh, Qoheleth"
+msgstr ""
+
+#: ui/mainwindow.cpp:355
+msgctxt "MainWindow|"
+msgid "Song, So, SOS"
+msgstr ""
+
+#: ui/mainwindow.cpp:356
+msgctxt "MainWindow|"
+msgid "Isa, Is"
+msgstr ""
+
+#: ui/mainwindow.cpp:357
+msgctxt "MainWindow|"
+msgid "Jer, Je, Jr"
+msgstr ""
+
+#: ui/mainwindow.cpp:358
+msgctxt "MainWindow|"
+msgid "Lam, La"
+msgstr ""
+
+#: ui/mainwindow.cpp:359
+msgctxt "MainWindow|"
+msgid "Ezek, Eze, Ezk"
+msgstr ""
+
+#: ui/mainwindow.cpp:360
+msgctxt "MainWindow|"
+msgid "Dan, Da, Dn"
+msgstr ""
+
+#: ui/mainwindow.cpp:361
+msgctxt "MainWindow|"
+msgid "Hos, Ho"
+msgstr ""
+
+#: ui/mainwindow.cpp:362
+msgctxt "MainWindow|"
+msgid "Joel, Joe, Jl"
+msgstr ""
+
+#: ui/mainwindow.cpp:363
+msgctxt "MainWindow|"
+msgid "Amos, Am"
+msgstr ""
+
+#: ui/mainwindow.cpp:364
+msgctxt "MainWindow|"
+msgid "Obad, Ob"
+msgstr ""
+
+#: ui/mainwindow.cpp:365
+msgctxt "MainWindow|"
+msgid "Jnh, Jon"
+msgstr ""
+
+#: ui/mainwindow.cpp:366
+msgctxt "MainWindow|"
+msgid "Micah, Mic"
+msgstr ""
+
+#: ui/mainwindow.cpp:367
+msgctxt "MainWindow|"
+msgid "Nah, Na"
+msgstr ""
+
+#: ui/mainwindow.cpp:368
+msgctxt "MainWindow|"
+msgid "Hab, Hab"
+msgstr ""
+
+#: ui/mainwindow.cpp:369
+msgctxt "MainWindow|"
+msgid "Zeph, Zep, Zp"
+msgstr ""
+
+#: ui/mainwindow.cpp:370
+msgctxt "MainWindow|"
+msgid "Haggai, Hag, Hg"
+msgstr ""
+
+#: ui/mainwindow.cpp:371
+msgctxt "MainWindow|"
+msgid "Zech, Zec, Zc"
+msgstr ""
+
+#: ui/mainwindow.cpp:372
+msgctxt "MainWindow|"
+msgid "Mal, Mal, Ml"
+msgstr ""
+
+#: ui/mainwindow.cpp:373
+msgctxt "MainWindow|"
+msgid "Matt, Mt"
+msgstr ""
+
+#: ui/mainwindow.cpp:374
+msgctxt "MainWindow|"
+msgid "Mrk, Mk, Mr"
+msgstr ""
+
+#: ui/mainwindow.cpp:375
+msgctxt "MainWindow|"
+msgid "Luk, Lk"
+msgstr ""
+
+#: ui/mainwindow.cpp:376
+msgctxt "MainWindow|"
+msgid "John, Jn, Jhn"
+msgstr ""
+
+#: ui/mainwindow.cpp:377
+msgctxt "MainWindow|"
+msgid "Acts, Ac"
+msgstr ""
+
+#: ui/mainwindow.cpp:378
+msgctxt "MainWindow|"
+msgid "Rom, Ro, Rm"
+msgstr ""
+
+#: ui/mainwindow.cpp:379
+msgctxt "MainWindow|"
+msgid "1 Cor, 1 Co, I Co, 1Co, I Cor, 1Cor"
+msgstr ""
+
+#: ui/mainwindow.cpp:380
+msgctxt "MainWindow|"
+msgid "2 Cor, 2 Co, II Co, 2Co, II Cor, 2Cor"
+msgstr ""
+
+#: ui/mainwindow.cpp:381
+msgctxt "MainWindow|"
+msgid "Gal, Ga"
+msgstr ""
+
+#: ui/mainwindow.cpp:382
+msgctxt "MainWindow|"
+msgid "Ephes, Eph"
+msgstr ""
+
+#: ui/mainwindow.cpp:383
+msgctxt "MainWindow|"
+msgid "Phil, Php"
+msgstr ""
+
+#: ui/mainwindow.cpp:384
+msgctxt "MainWindow|"
+msgid "Col, Col"
+msgstr ""
+
+#: ui/mainwindow.cpp:385
+msgctxt "MainWindow|"
+msgid "1 Thess, 1 Th, I Th, 1Th, I Thes, 1Thes, I Thess, 1Thess"
+msgstr ""
+
+#: ui/mainwindow.cpp:386
+msgctxt "MainWindow|"
+msgid "2 Thess, 2 Th, II Th, 2Th, II Thes, 2Thes, II Thess, 2Thess"
+msgstr ""
+
+#: ui/mainwindow.cpp:387
+msgctxt "MainWindow|"
+msgid "1 Tim, 1 Ti, I Ti, 1Ti, I Tim, 1Tim"
+msgstr ""
+
+#: ui/mainwindow.cpp:388
+msgctxt "MainWindow|"
+msgid "2 Tim, 2 Ti, II Ti, 2Ti, II Tim, 2Tim"
+msgstr ""
+
+#: ui/mainwindow.cpp:389
+msgctxt "MainWindow|"
+msgid "Titus, Tit"
+msgstr ""
+
+#: ui/mainwindow.cpp:390
+msgctxt "MainWindow|"
+msgid "Philem, Phm"
+msgstr ""
+
+#: ui/mainwindow.cpp:391
+msgctxt "MainWindow|"
+msgid "Hebrews, Heb"
+msgstr ""
+
+#: ui/mainwindow.cpp:392
+msgctxt "MainWindow|"
+msgid "James, Jas, Jm"
+msgstr ""
+
+#: ui/mainwindow.cpp:393
+msgctxt "MainWindow|"
+msgid "1 Pet, 1 Pe, I Pe, 1Pe, I Pet, 1Pet, I Pt, 1 Pt, 1Pt"
+msgstr ""
+
+#: ui/mainwindow.cpp:394
+msgctxt "MainWindow|"
+msgid "2 Pet, 2 Pe, II Pe, 2Pe, II Pet, 2Pet, II Pt, 2 Pt, 2Pt"
+msgstr ""
+
+#: ui/mainwindow.cpp:395
+msgctxt "MainWindow|"
+msgid ""
+"1 John, 1 Jn, I Jn, 1Jn, I Jo, 1Jo, I Joh, 1Joh, I Jhn, 1 Jhn, 1Jhn, I John, "
+"1John"
+msgstr ""
+
+#: ui/mainwindow.cpp:396
+msgctxt "MainWindow|"
+msgid ""
+"2 John, 2 Jn, II Jn, 2Jn, II Jo, 2Jo, II Joh, 2Joh, II Jhn, 2 Jhn, 2Jhn, II "
+"John, 2John"
+msgstr ""
+
+#: ui/mainwindow.cpp:397
+msgctxt "MainWindow|"
+msgid ""
+"3 John, 3 Jn, III Jn, 3Jn, III Jo, 3Jo, III Joh, 3Joh, III Jhn, 3 Jhn, 3Jhn, "
+"III John, 3John"
+msgstr ""
+
+#: ui/mainwindow.cpp:398
+msgctxt "MainWindow|"
+msgid "Jude, Jud"
+msgstr ""
+
+#: ui/mainwindow.cpp:399
+msgctxt "MainWindow|"
+msgid "Rev, Re, The Revelation"
+msgstr ""
+
+#: ui/mainwindow.cpp:598
+msgctxt "MainWindow|"
+msgid "Please choose an another language."
+msgstr ""
+
+#: ui/mainwindow.cpp:598
+msgctxt "MainWindow|"
+msgid "Installing language failed."
+msgstr ""
+
+#: ui/mainwindow.cpp:565
+msgctxt "MainWindow|"
+msgid "Configuration"
+msgstr ""
+
+#: ui/mainwindow.ui:14
+msgctxt "MainWindow|"
+msgid "openBibleViewer"
+msgstr ""
+
+#: ui/markcategories.ui:13
+msgctxt "MarkCategories|"
+msgid "Dialog"
+msgstr ""
+
+#: ui/marklist.ui:14
+msgctxt "MarkList|"
+msgid "Mark List"
+msgstr ""
+
+#: ui/marklist.cpp:54 ui/marklist.cpp:165
+msgctxt "MarkList|"
+msgid "Mark Position"
+msgstr ""
+
+#: ui/marklist.cpp:55 ui/marklist.cpp:166
+msgctxt "MarkList|"
+msgid "Module"
+msgstr ""
+
+#: ui/marklist.cpp:110
+msgctxt "MarkList|"
+msgid "Delete"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:14
+msgctxt "ModuleConfigDialog|"
+msgid "Module Config"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:22
+msgctxt "ModuleConfigDialog|"
+msgid "Path"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:50
+msgctxt "ModuleConfigDialog|"
+msgid "Name"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:60
+msgctxt "ModuleConfigDialog|"
+msgid "Type"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:68
+msgctxt "ModuleConfigDialog|"
+msgid "unkown"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:73
+msgctxt "ModuleConfigDialog|"
+msgid "BibleQuote"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:78 ui/dialog/moduleconfigdialog.ui:149
+msgctxt "ModuleConfigDialog|"
+msgid "Zefania Bible"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:83
+msgctxt "ModuleConfigDialog|"
+msgid "Zefania Xml Strong"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:91
+msgctxt "ModuleConfigDialog|"
+msgid "Encoding"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:101
+msgctxt "ModuleConfigDialog|"
+msgid "StyleSheet"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:113
+msgctxt "ModuleConfigDialog|"
+msgid "Bible Quote"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:124
+msgctxt "ModuleConfigDialog|"
+msgid "Remove Html"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:131
+msgctxt "ModuleConfigDialog|"
+msgid "remove"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:160
+msgctxt "ModuleConfigDialog|"
+msgid "Text Fromatting"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:174
+msgctxt "ModuleConfigDialog|"
+msgid "New line after verse"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:179
+msgctxt "ModuleConfigDialog|"
+msgid "Not formated text pad"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:187
+msgctxt "ModuleConfigDialog|"
+msgid "Hard Cache"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:194 ui/dialog/moduleconfigdialog.ui:208
+msgctxt "ModuleConfigDialog|"
+msgid "enabled"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:201
+msgctxt "ModuleConfigDialog|"
+msgid "RAM Cache"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:215
+msgctxt "ModuleConfigDialog|"
+msgid "Show Strong"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:222 ui/dialog/moduleconfigdialog.ui:236
+msgctxt "ModuleConfigDialog|"
+msgid "show"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:229
+msgctxt "ModuleConfigDialog|"
+msgid "Show Study Notes"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:269
+msgctxt "ModuleConfigDialog|"
+msgid "OK"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.ui:289
+msgctxt "ModuleConfigDialog|"
+msgid "Cancel"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.cpp:146
+msgctxt "ModuleConfigDialog|"
+msgid "Open Bible"
+msgstr ""
+
+#: ui/dialog/moduleconfigdialog.cpp:146
+msgctxt "ModuleConfigDialog|"
+msgid "Bibles (*.ini *.xml *.*)"
+msgstr ""
+
+#: ui/dock/moduledockwidget.ui:35 ui/dock/moduledockwidget.cpp:36
+msgctxt "ModuleDockWidget|"
+msgid "Module"
+msgstr ""
+
+#: ui/dialog/moduledownloaddialog.ui:14
+msgctxt "ModuleDownloadDialog|"
+msgid "Download Module"
+msgstr ""
+
+#: ui/dialog/moduledownloaddialog.ui:58
+msgctxt "ModuleDownloadDialog|"
+msgid "Download"
+msgstr ""
+
+#: ui/dialog/moduledownloaddialog.ui:75
+msgctxt "ModuleDownloadDialog|"
+msgid "Cancel"
+msgstr ""
+
+#: ui/dialog/moduledownloaddialog.cpp:79
+msgctxt "ModuleDownloadDialog|"
+msgid "Bibles"
+msgstr ""
+
+#: ui/dialog/moduledownloaddialog.cpp:81
+msgctxt "ModuleDownloadDialog|"
+msgid "Dictionarys"
+msgstr ""
+
+#: core/moduledownloader.cpp:94 core/moduledownloader.cpp:136
+#: core/moduledownloader.cpp:162
+msgctxt "ModuleDownloader|"
+msgid "HTTP"
+msgstr ""
+
+#: core/moduledownloader.cpp:94
+#, qt-format
+msgctxt "ModuleDownloader|"
+msgid "Unable to save the file %1: %2."
+msgstr ""
+
+#: core/moduledownloader.cpp:102
+msgctxt "ModuleDownloader|"
+msgid "Downloading"
+msgstr ""
+
+#: core/moduledownloader.cpp:103 core/moduledownloader.cpp:175
+#, qt-format
+msgctxt "ModuleDownloader|"
+msgid "Downloading %1 / %2. %3 MB"
+msgstr ""
+
+#: core/moduledownloader.cpp:136 core/moduledownloader.cpp:163
+#, qt-format
+msgctxt "ModuleDownloader|"
+msgid "Download failed: %1."
+msgstr ""
+
+#: ui/dock/notesdockwidget.ui:14
+msgctxt "NotesDockWidget|"
+msgid "Notes"
+msgstr ""
+
+#: ui/dock/notesdockwidget.ui:48
+msgctxt "NotesDockWidget|"
+msgid "Note"
+msgstr ""
+
+#: ui/dock/notesdockwidget.ui:253
+msgctxt "NotesDockWidget|"
+msgid "Save"
+msgstr ""
+
+#: ui/dock/notesdockwidget.ui:260
+msgctxt "NotesDockWidget|"
+msgid "Ctrl+S"
+msgstr ""
+
+#: ui/dock/notesdockwidget.cpp:185
+msgctxt "NotesDockWidget|"
+msgid "(unnamed)"
+msgstr ""
+
+#: ui/noteseditor.ui:14
+msgctxt "NotesEditor|"
+msgid "Notes Editor"
+msgstr ""
+
+#: ui/noteseditor.ui:61
+msgctxt "NotesEditor|"
+msgid "Tab 1"
+msgstr ""
+
+#: ui/noteseditor.ui:71
+msgctxt "NotesEditor|"
+msgid "Tab 2"
+msgstr ""
+
+#: ui/noteseditor.ui:122
+msgctxt "NotesEditor|"
+msgid "&File"
+msgstr ""
+
+#: ui/noteseditor.ui:131
+msgctxt "NotesEditor|"
+msgid "F&ormat"
+msgstr ""
+
+#: ui/noteseditor.ui:135
+msgctxt "NotesEditor|"
+msgid "St&yle"
+msgstr ""
+
+#: ui/noteseditor.ui:149
+msgctxt "NotesEditor|"
+msgid "&Align"
+msgstr ""
+
+#: ui/noteseditor.ui:178
+msgctxt "NotesEditor|"
+msgid "&Edit"
+msgstr ""
+
+#: ui/noteseditor.ui:199
+msgctxt "NotesEditor|"
+msgid "Standard"
+msgstr ""
+
+#: ui/noteseditor.ui:221
+msgctxt "NotesEditor|"
+msgid "Formatting"
+msgstr ""
+
+#: ui/noteseditor.ui:255
+msgctxt "NotesEditor|"
+msgid "&Save"
+msgstr ""
+
+#: ui/noteseditor.ui:258
+msgctxt "NotesEditor|"
+msgid "Ctrl+S"
+msgstr ""
+
+#: ui/noteseditor.ui:263
+msgctxt "NotesEditor|"
+msgid "Save &As..."
+msgstr ""
+
+#: ui/noteseditor.ui:272
+msgctxt "NotesEditor|"
+msgid "&Undo"
+msgstr ""
+
+#: ui/noteseditor.ui:275
+msgctxt "NotesEditor|"
+msgid "Ctrl+Z"
+msgstr ""
+
+#: ui/noteseditor.ui:284
+msgctxt "NotesEditor|"
+msgid "&Redo"
+msgstr ""
+
+#: ui/noteseditor.ui:287
+msgctxt "NotesEditor|"
+msgid "Ctrl+Y"
+msgstr ""
+
+#: ui/noteseditor.ui:296
+msgctxt "NotesEditor|"
+msgid "Cu&t"
+msgstr ""
+
+#: ui/noteseditor.ui:299
+msgctxt "NotesEditor|"
+msgid "Ctrl+X"
+msgstr ""
+
+#: ui/noteseditor.ui:308
+msgctxt "NotesEditor|"
+msgid "&Copy"
+msgstr ""
+
+#: ui/noteseditor.ui:311
+msgctxt "NotesEditor|"
+msgid "Ctrl+C"
+msgstr ""
+
+#: ui/noteseditor.ui:320
+msgctxt "NotesEditor|"
+msgid "&Paste"
+msgstr ""
+
+#: ui/noteseditor.ui:323
+msgctxt "NotesEditor|"
+msgid "Ctrl+V"
+msgstr ""
+
+#: ui/noteseditor.ui:332
+msgctxt "NotesEditor|"
+msgid "Select A&ll"
+msgstr ""
+
+#: ui/noteseditor.ui:335
+msgctxt "NotesEditor|"
+msgid "Ctrl+A"
+msgstr ""
+
+#: ui/noteseditor.ui:347
+msgctxt "NotesEditor|"
+msgid "&Bold"
+msgstr ""
+
+#: ui/noteseditor.ui:350
+msgctxt "NotesEditor|"
+msgid "Ctrl+B"
+msgstr ""
+
+#: ui/noteseditor.ui:362
+msgctxt "NotesEditor|"
+msgid "&Italic"
+msgstr ""
+
+#: ui/noteseditor.ui:365
+msgctxt "NotesEditor|"
+msgid "Ctrl+I"
+msgstr ""
+
+#: ui/noteseditor.ui:377
+msgctxt "NotesEditor|"
+msgid "&Underline"
+msgstr ""
+
+#: ui/noteseditor.ui:380
+msgctxt "NotesEditor|"
+msgid "Ctrl+U"
+msgstr ""
+
+#: ui/noteseditor.ui:392
+msgctxt "NotesEditor|"
+msgid "&Strikethrough"
+msgstr ""
+
+#: ui/noteseditor.ui:401
+msgctxt "NotesEditor|"
+msgid "Align &Left"
+msgstr ""
+
+#: ui/noteseditor.ui:410
+msgctxt "NotesEditor|"
+msgid "Align &Center"
+msgstr ""
+
+#: ui/noteseditor.ui:419
+msgctxt "NotesEditor|"
+msgid "Align &Right"
+msgstr ""
+
+#: ui/noteseditor.ui:428
+msgctxt "NotesEditor|"
+msgid "Align &Justify"
+msgstr ""
+
+#: ui/noteseditor.ui:437
+msgctxt "NotesEditor|"
+msgid "I&ncrease Indent"
+msgstr ""
+
+#: ui/noteseditor.ui:446
+msgctxt "NotesEditor|"
+msgid "&Decrease Indent"
+msgstr ""
+
+#: ui/noteseditor.ui:458
+msgctxt "NotesEditor|"
+msgid "Bulle&ted List"
+msgstr ""
+
+#: ui/noteseditor.ui:470
+msgctxt "NotesEditor|"
+msgid "&Numbered List"
+msgstr ""
+
+#: ui/noteseditor.ui:479
+msgctxt "NotesEditor|"
+msgid "Insert &Image..."
+msgstr ""
+
+#: ui/noteseditor.ui:488
+msgctxt "NotesEditor|"
+msgid "Create Link..."
+msgstr ""
+
+#: ui/noteseditor.ui:497
+msgctxt "NotesEditor|"
+msgid "Zoom Out"
+msgstr ""
+
+#: ui/noteseditor.ui:506
+msgctxt "NotesEditor|"
+msgid "Zoom In"
+msgstr ""
+
+#: ui/noteseditor.ui:511
+msgctxt "NotesEditor|"
+msgid "E&xit"
+msgstr ""
+
+#: ui/noteseditor.ui:514
+msgctxt "NotesEditor|"
+msgid "Ctrl+Q"
+msgstr ""
+
+#: ui/noteseditor.ui:519
+msgctxt "NotesEditor|"
+msgid "&Paragraph"
+msgstr ""
+
+#: ui/noteseditor.ui:524
+msgctxt "NotesEditor|"
+msgid "Heading &1"
+msgstr ""
+
+#: ui/noteseditor.ui:529
+msgctxt "NotesEditor|"
+msgid "Heading &2"
+msgstr ""
+
+#: ui/noteseditor.ui:534
+msgctxt "NotesEditor|"
+msgid "Heading &3"
+msgstr ""
+
+#: ui/noteseditor.ui:539
+msgctxt "NotesEditor|"
+msgid "Heading &4"
+msgstr ""
+
+#: ui/noteseditor.ui:544
+msgctxt "NotesEditor|"
+msgid "Heading &5"
+msgstr ""
+
+#: ui/noteseditor.ui:549
+msgctxt "NotesEditor|"
+msgid "Heading &6"
+msgstr ""
+
+#: ui/noteseditor.ui:554
+msgctxt "NotesEditor|"
+msgid "Pre&formatted"
+msgstr ""
+
+#: ui/noteseditor.ui:559
+msgctxt "NotesEditor|"
+msgid "&Address"
+msgstr ""
+
+#: ui/noteseditor.ui:564
+msgctxt "NotesEditor|"
+msgid "&Font Name..."
+msgstr ""
+
+#: ui/noteseditor.ui:569
+msgctxt "NotesEditor|"
+msgid "Text &Color..."
+msgstr ""
+
+#: ui/noteseditor.ui:574
+msgctxt "NotesEditor|"
+msgid "Bac&kground Color..."
+msgstr ""
+
+#: ui/noteseditor.ui:579
+msgctxt "NotesEditor|"
+msgid "Font Si&ze..."
+msgstr ""
+
+#: ui/noteseditor.ui:588
+msgctxt "NotesEditor|"
+msgid "Insert HTML..."
+msgstr ""
+
+#: ui/noteseditor.ui:591
+msgctxt "NotesEditor|"
+msgid "Insert HTML"
+msgstr ""
+
+#: ui/noteseditor.ui:99
+msgctxt "NotesEditor|"
+msgid "Edit"
+msgstr ""
+
+#: ui/noteseditor.cpp:183
+msgctxt "NotesEditor|"
+msgid "Save as..."
+msgstr ""
+
+#: ui/noteseditor.cpp:47
+msgctxt "NotesEditor|"
+msgid "Normal View"
+msgstr ""
+
+#: ui/noteseditor.cpp:48
+msgctxt "NotesEditor|"
+msgid "HTML Source"
+msgstr ""
+
+#: ui/noteseditor.cpp:184
+msgctxt "NotesEditor|"
+msgid "HTML-Files (*.html *.htm);;Text-Files (*.txt);;All Files (*)"
+msgstr ""
+
+#: ui/noteseditor.cpp:204
+msgctxt "NotesEditor|"
+msgid "Common Graphics (*.png *.jpg *.jpeg *.gif);;"
+msgstr ""
+
+#: ui/noteseditor.cpp:205
+msgctxt "NotesEditor|"
+msgid "Portable Network Graphics (PNG) (*.png);;"
+msgstr ""
+
+#: ui/noteseditor.cpp:206
+msgctxt "NotesEditor|"
+msgid "JPEG (*.jpg *.jpeg);;"
+msgstr ""
+
+#: ui/noteseditor.cpp:207
+msgctxt "NotesEditor|"
+msgid "Graphics Interchange Format (*.gif);;"
+msgstr ""
+
+#: ui/noteseditor.cpp:208
+msgctxt "NotesEditor|"
+msgid "All Files (*)"
+msgstr ""
+
+#: ui/noteseditor.cpp:210
+msgctxt "NotesEditor|"
+msgid "Open image..."
+msgstr ""
+
+#: ui/noteseditor.cpp:461
+msgctxt "NotesEditor|"
+msgid "Font"
+msgstr ""
+
+#: ui/noteseditor.cpp:461
+msgctxt "NotesEditor|"
+msgid "Select font:"
+msgstr ""
+
+#: ui/noteseditor.cpp:480
+msgctxt "NotesEditor|"
+msgid "Font Size"
+msgstr ""
+
+#: ui/noteseditor.cpp:480
+msgctxt "NotesEditor|"
+msgid "Select font size:"
+msgstr ""
+
+#: ui/noteseditor.cpp:545
+#, qt-format
+msgctxt "NotesEditor|"
+msgid " Zoom: %1% "
+msgstr ""
+
+#: module/biblequote-dict.cpp:124 module/biblequote.cpp:323
+#: module/modulemanager.cpp:77 module/zefania-bible.cpp:293
+#: module/zefania-bible.cpp:612 ui/dialog/settingsdialog.cpp:178
+#: ui/dialog/settingsdialog.cpp:298
+msgctxt "QObject|"
+msgid "Cancel"
+msgstr ""
+
+#: module/biblequote-dict.cpp:124 module/zefania-bible.cpp:612
+msgctxt "QObject|"
+msgid "Build index"
+msgstr ""
+
+#: core/xbelreader.cpp:37
+msgctxt "QObject|"
+msgid "The file is not an XBEL version 1.0 file."
+msgstr ""
+
+#: core/xbelreader.cpp:146
+msgctxt "QObject|"
+msgid "Unknown title"
+msgstr ""
+
+#: core/notes.cpp:324
+msgctxt "QObject|"
+msgid "(unnamed)"
+msgstr ""
+
+#: module/zefania-bible.cpp:57 module/zefania-bible.cpp:91
+#: module/zefania-bible.cpp:316 module/zefania-bible.cpp:377
+#: module/zefania-lex.cpp:80 ui/dialog/settingsdialog.cpp:209
+#: ui/dialog/settingsdialog.cpp:325 ui/dialog/settingsdialog.cpp:332
+#: ui/dialog/settingsdialog.cpp:357 ui/dialog/settingsdialog.cpp:394
+#: ui/dialog/settingsdialog.cpp:410 ui/dock/notesdockwidget.cpp:167
+msgctxt "QObject|"
+msgid "Error"
+msgstr ""
+
+#: module/zefania-bible.cpp:91
+msgctxt "QObject|"
+msgid "The file is not valid."
+msgstr ""
+
+#: module/zefania-bible.cpp:293
+msgctxt "QObject|"
+msgid "Loading Bible"
+msgstr ""
+
+#: module/zefania-bible.cpp:316
+msgctxt "QObject|"
+msgid "Can not read the file"
+msgstr ""
+
+#: module/zefania-bible.cpp:377
+#, qt-format
+msgctxt "QObject|"
+msgid "The file is not valid. Errorstring: %1 in Line %2 at Position %2"
+msgstr ""
+
+#: module/zefania-lex.cpp:80 ui/dialog/settingsdialog.cpp:209
+msgctxt "QObject|"
+msgid "The file is not valid"
+msgstr ""
+
+#: module/zefania-bible.cpp:57
+msgctxt "QObject|"
+msgid "Please activate Caching.(Hard or Soft Cache)"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:132 ui/dialog/settingsdialog.cpp:190
+msgctxt "QObject|"
+msgid "Folder"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:136 ui/dialog/settingsdialog.cpp:373
+msgctxt "QObject|"
+msgid "Bible Quote"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:139 ui/dialog/settingsdialog.cpp:379
+msgctxt "QObject|"
+msgid "Zefania XML"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:142
+msgctxt "QObject|"
+msgid "Zefania XML Strong"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:178 ui/dialog/settingsdialog.cpp:298
+msgctxt "QObject|"
+msgid "Adding Modules"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:325
+msgctxt "QObject|"
+msgid "Cannot open zipped files."
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:332
+msgctxt "QObject|"
+msgid "Cannot read the file."
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:357 ui/dialog/settingsdialog.cpp:394
+msgctxt "QObject|"
+msgid "Cannot determine the module type."
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:385
+msgctxt "QObject|"
+msgid "Zefania XML Dictionary"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:392
+msgctxt "QObject|"
+msgid "Bible Quote Dictionary"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:410
+msgctxt "QObject|"
+msgid "Cannot open the file."
+msgstr ""
+
+#: module/modulemanager.cpp:77
+msgctxt "QObject|"
+msgid "Loading Module"
+msgstr ""
+
+#: module/modulemanager.cpp:150 module/modulemanager.cpp:231
+msgctxt "QObject|"
+msgid "BibleQuote Module"
+msgstr ""
+
+#: module/modulemanager.cpp:177 module/modulemanager.cpp:255
+msgctxt "QObject|"
+msgid "Zefania XML Module"
+msgstr ""
+
+#: ui/dock/notesdockwidget.cpp:167
+msgctxt "QObject|"
+msgid "Cannot create mark."
+msgstr ""
+
+#: module/biblequote.cpp:323
+msgctxt "QObject|"
+msgid "Indexing"
+msgstr ""
+
+#: ui/dock/quickjumpdockwidget.ui:14
+msgctxt "QuickJumpDockWidget|"
+msgid "Quick Jump"
+msgstr ""
+
+#: ui/dialog/searchdialog.ui:14 ui/dialog/searchdialog.ui:43
+msgctxt "SearchDialog|"
+msgid "Search"
+msgstr ""
+
+#: ui/dialog/searchdialog.ui:68
+msgctxt "SearchDialog|"
+msgid "Range"
+msgstr ""
+
+#: ui/dialog/searchdialog.ui:74
+msgctxt "SearchDialog|"
+msgid "All"
+msgstr ""
+
+#: ui/dialog/searchdialog.ui:87
+msgctxt "SearchDialog|"
+msgid "OT"
+msgstr ""
+
+#: ui/dialog/searchdialog.ui:97
+msgctxt "SearchDialog|"
+msgid "NT"
+msgstr ""
+
+#: ui/dialog/searchdialog.ui:121
+msgctxt "SearchDialog|"
+msgid "Options"
+msgstr ""
+
+#: ui/dialog/searchdialog.ui:130
+msgctxt "SearchDialog|"
+msgid "Search In Notes"
+msgstr ""
+
+#: ui/dialog/searchinfodialog.ui:14
+msgctxt "SearchInfoDialog|"
+msgid "Search Info"
+msgstr ""
+
+#: ui/dialog/searchinfodialog.ui:34
+msgctxt "SearchInfoDialog|"
+msgid "General"
+msgstr ""
+
+#: ui/dialog/searchinfodialog.ui:55
+msgctxt "SearchInfoDialog|"
+msgid "List"
+msgstr ""
+
+#: ui/dialog/searchinfodialog.ui:65
+msgctxt "SearchInfoDialog|"
+msgid "Statistic"
+msgstr ""
+
+#: ui/dialog/searchinfodialog.ui:99
+msgctxt "SearchInfoDialog|"
+msgid "Close"
+msgstr ""
+
+#: ui/dialog/searchinfodialog.cpp:37
+#, qt-format
+msgctxt "SearchInfoDialog|"
+msgid "Search string : '%1'"
+msgstr ""
+
+#: ui/dialog/searchinfodialog.cpp:38
+#, qt-format
+msgctxt "SearchInfoDialog|"
+msgid "Found verses : %1"
+msgstr ""
+
+#: ui/dock/searchresultdockwidget.ui:14
+msgctxt "SearchResultDockWidget|"
+msgid "Search Result"
+msgstr ""
+
+#: ui/dock/searchresultdockwidget.ui:46
+msgctxt "SearchResultDockWidget|"
+msgid "Info"
+msgstr ""
+
+#: ui/dock/searchresultdockwidget.cpp:40
+#, qt-format
+msgctxt "SearchResultDockWidget|"
+msgid "Search: %1"
+msgstr ""
+
+#: ui/dock/searchresultdockwidget.cpp:74
+msgctxt "SearchResultDockWidget|"
+msgid "Error"
+msgstr ""
+
+#: ui/dock/searchresultdockwidget.cpp:74
+msgctxt "SearchResultDockWidget|"
+msgid "No search information available."
+msgstr ""
+
+#: ui/dock/searchresultdockwidget.cpp:111
+msgctxt "SearchResultDockWidget|"
+msgid "No more Results."
+msgstr ""
+
+#: ui/dock/searchresultdockwidget.cpp:111
+msgctxt "SearchResultDockWidget|"
+msgid "Show the first result again?"
+msgstr ""
+
+#: ui/dialog/settingsdialog.ui:14
+msgctxt "SettingsDialog|"
+msgid "Settings"
+msgstr ""
+
+#: ui/dialog/settingsdialog.ui:30
+msgctxt "SettingsDialog|"
+msgid "General"
+msgstr ""
+
+#: ui/dialog/settingsdialog.ui:38
+msgctxt "SettingsDialog|"
+msgid "Language"
+msgstr ""
+
+#: ui/dialog/settingsdialog.ui:48
+msgctxt "SettingsDialog|"
+msgid "Encoding"
+msgstr ""
+
+#: ui/dialog/settingsdialog.ui:58
+msgctxt "SettingsDialog|"
+msgid "Auto Layout"
+msgstr ""
+
+#: ui/dialog/settingsdialog.ui:68
+msgctxt "SettingsDialog|"
+msgid "Interface"
+msgstr ""
+
+#: ui/dialog/settingsdialog.ui:81
+msgctxt "SettingsDialog|"
+msgid "Module"
+msgstr ""
+
+#: ui/dialog/settingsdialog.ui:91
+msgctxt "SettingsDialog|"
+msgid "Add File"
+msgstr ""
+
+#: ui/dialog/settingsdialog.ui:102
+msgctxt "SettingsDialog|"
+msgid "Add Dir"
+msgstr ""
+
+#: ui/dialog/settingsdialog.ui:113
+msgctxt "SettingsDialog|"
+msgid "Download"
+msgstr ""
+
+#: ui/dialog/settingsdialog.ui:148
+msgctxt "SettingsDialog|"
+msgid "Name"
+msgstr ""
+
+#: ui/dialog/settingsdialog.ui:153
+msgctxt "SettingsDialog|"
+msgid "Path"
+msgstr ""
+
+#: ui/dialog/settingsdialog.ui:158
+msgctxt "SettingsDialog|"
+msgid "Typ"
+msgstr ""
+
+#: ui/dialog/settingsdialog.ui:168
+msgctxt "SettingsDialog|"
+msgid "Edit"
+msgstr ""
+
+#: ui/dialog/settingsdialog.ui:179
+msgctxt "SettingsDialog|"
+msgid "Remove"
+msgstr ""
+
+#: ui/dialog/settingsdialog.ui:228
+msgctxt "SettingsDialog|"
+msgid "OK"
+msgstr ""
+
+#: ui/dialog/settingsdialog.ui:245
+msgctxt "SettingsDialog|"
+msgid "Reset"
+msgstr ""
+
+#: ui/dialog/settingsdialog.ui:252
+msgctxt "SettingsDialog|"
+msgid "Cancel"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:78
+msgctxt "SettingsDialog|"
+msgid "English"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:78
+msgctxt "SettingsDialog|"
+msgid "German"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:78
+msgctxt "SettingsDialog|"
+msgid "Russian"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:78
+msgctxt "SettingsDialog|"
+msgid "Czech"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:100
+msgctxt "SettingsDialog|"
+msgid "None"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:100
+msgctxt "SettingsDialog|"
+msgid "Vertical tile"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:100
+msgctxt "SettingsDialog|"
+msgid "Horizontal tile"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:100
+msgctxt "SettingsDialog|"
+msgid "Cascade"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:100
+msgctxt "SettingsDialog|"
+msgid "Tile"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:106
+msgctxt "SettingsDialog|"
+msgid "Simple"
+msgstr ""
+
+#: ui/dialog/settingsdialog.cpp:106
+msgctxt "SettingsDialog|"
+msgid "Advanced"
+msgstr ""
+
+#: ui/interface/simple/simpleinterface.ui:14
+msgctxt "SimpleInterface|"
+msgid "Form"
+msgstr ""
+
+#: ui/interface/simple/simpleinterface.cpp:96
+msgctxt "SimpleInterface|"
+msgid "Search"
+msgstr ""
+
+#: ui/interface/simple/simpleinterface.cpp:98
+msgctxt "SimpleInterface|"
+msgid "Zoom In"
+msgstr ""
+
+#: ui/interface/simple/simpleinterface.cpp:100
+msgctxt "SimpleInterface|"
+msgid "Zoom Out"
+msgstr ""
+
+#: ui/interface/simple/simpleinterface.cpp:102
+msgctxt "SimpleInterface|"
+msgid "Module"
+msgstr ""
+
+#: ui/interface/simple/simpleinterface.cpp:255
+msgctxt "SimpleInterface|"
+msgid "openBibleViewer"
+msgstr ""
+
+#: ui/interface/simple/simpleinterface.cpp:286
+#: ui/interface/simple/simpleinterface.cpp:291
+#: ui/interface/simple/simpleinterface.cpp:296
+msgctxt "SimpleInterface|"
+msgid "Error"
+msgstr ""
+
+#: ui/interface/simple/simpleinterface.cpp:286
+#: ui/interface/simple/simpleinterface.cpp:291
+msgctxt "SimpleInterface|"
+msgid "This book is not available."
+msgstr ""
+
+#: ui/interface/simple/simpleinterface.cpp:296
+msgctxt "SimpleInterface|"
+msgid "Cannot read the book."
+msgstr ""
+
+#: core/simplenotes.cpp:124
+msgctxt "SimpleNotes|"
+msgid "Note Title"
+msgstr ""
+
+#: core/simplenotes.cpp:346 core/simplenotes.cpp:368 core/simplenotes.cpp:454
+#: core/simplenotes.cpp:476
+msgctxt "SimpleNotes|"
+msgid "(unnamed)"
+msgstr ""
+
+#: core/simplenotes.cpp:389 core/simplenotes.cpp:409 core/simplenotes.cpp:417
+msgctxt "SimpleNotes|"
+msgid "Folder"
+msgstr ""
+
+#: core/simplenotes.cpp:490
+msgctxt "SimpleNotes|"
+msgid "Copy"
+msgstr ""
+
+#: core/simplenotes.cpp:494
+msgctxt "SimpleNotes|"
+msgid "New"
+msgstr ""
+
+#: core/simplenotes.cpp:498
+msgctxt "SimpleNotes|"
+msgid "New Folder"
+msgstr ""
+
+#: core/simplenotes.cpp:502
+msgctxt "SimpleNotes|"
+msgid "Delete"
+msgstr ""
+
+#: ui/interface/study/studyinterface.ui:16
+msgctxt "StudyInterface|"
+msgid "Form"
+msgstr ""
