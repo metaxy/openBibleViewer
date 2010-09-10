@@ -50,7 +50,7 @@ void BibleListItemDelegate::setEditorData(QWidget *editor, const QModelIndex &in
         QItemDelegate::setEditorData(editor, index);
         return;
     }
-    myDebug() << "set index = " << index.model()->data(index, Qt::UserRole + 3).toInt();
+
     combo->setCurrentIndex(index.model()->data(index, Qt::UserRole + 3).toInt());
 }
 void BibleListItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
@@ -61,7 +61,6 @@ void BibleListItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *mo
         QItemDelegate::setModelData(editor, model, index);
         return;
     }
-    myDebug() << "current Text = " << combo->currentText() << " index = " << combo->currentIndex() << " id = " << m_id.at(combo->currentIndex());
     model->setData(index, combo->currentIndex(), Qt::UserRole + 3);
     if(combo->currentIndex() > 0)
         model->setData(index, combo->currentText());

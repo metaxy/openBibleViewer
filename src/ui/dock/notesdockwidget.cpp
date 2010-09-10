@@ -64,7 +64,7 @@ void NotesDockWidget::init()
 void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
 {
     Q_UNUSED(id);
-    QString link = ref["link"];
+    const QString link = ref["link"];
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, link);
     urlConverter.setSettings(m_settings);
@@ -82,7 +82,7 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
 void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
 {
     Q_UNUSED(id);
-    QString link = ref["link"];
+    const QString link = ref["link"];
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, link);
     urlConverter.setSettings(m_settings);
@@ -141,7 +141,7 @@ void NotesDockWidget::noteSetTextUnderline(void)
 }
 void NotesDockWidget::noteSetTextColor(void)
 {
-    QColor color = QColorDialog::getColor(Qt::green, this);
+    const QColor color = QColorDialog::getColor(Qt::green, this);
     if(color.isValid()) {
         ui->textBrowser->setTextColor(color);
     }
@@ -180,7 +180,7 @@ void NotesDockWidget::newStyleMark(VerseSelection selection, QString style)
     link = urlConverter.convert();
     m_notes->saveNotes();
     //reloadNotes();
-    QString newID = m_notes->generateNewID();
+    const QString newID = m_notes->generateNewID();
     m_notes->setData(newID, "");
     m_notes->setTitle(newID, tr("(unnamed)"));
     m_notes->setType(newID, "mark");
@@ -202,11 +202,11 @@ void NotesDockWidget::newStyleMark(VerseSelection selection, QString style)
 void NotesDockWidget::removeMark(VerseSelection selection)
 {
     bool r = false;
-    QStringList id = m_notes->getIDList();
+    const QStringList id = m_notes->getIDList();
     for(int i = 0; i < id.size(); i++) {
         if(m_notes->getType(id.at(i)) == "mark") {
-            QString noteID = id.at(i);
-            QString link = m_notes->getRef(noteID, "link");
+            const QString noteID = id.at(i);
+            const QString link = m_notes->getRef(noteID, "link");
             UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
             urlConverter.setSettings(m_settings);
             urlConverter.setModuleMap(m_moduleManager->m_moduleMap);

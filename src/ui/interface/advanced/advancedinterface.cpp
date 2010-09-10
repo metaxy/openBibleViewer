@@ -38,6 +38,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtWebKit/QWebInspector>
 #include <QtWebKit/QWebElementCollection>
 #include <QtGui/QLineEdit>
+#include <QtCore/QScopedPointer>
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
     Interface(parent),
     ui(new Ui::AdvancedInterface)
@@ -156,6 +157,7 @@ void AdvancedInterface::init()
 void AdvancedInterface::attachApi()
 {
     QWebFrame * frame = getView()->page()->mainFrame();
+    /*
     {
         QFile file(":/data/js/jquery-1.4.2.min.js");
         if(!file.open(QFile::ReadOnly | QFile::Text))
@@ -164,7 +166,7 @@ void AdvancedInterface::attachApi()
         QString jquery = stream.readAll();
         file.close();
         frame->evaluateJavaScript(jquery);
-    }
+    }*/
 
     {
         QFile file(":/data/js/tools.js");
@@ -680,7 +682,7 @@ void AdvancedInterface::pharseUrl(QString url)
     } else if(url.startsWith(bq)) {
         //its a biblequote internal link, but i dont have the specifications!!!
         QStringList internal = url.split(" ");
-        QString bibleID = internal.at(1);//todo: use it
+        const QString bibleID = internal.at(1);//todo: use it
         myDebug() << "bibleID = " << bibleID;
         int bookID = internal.at(2).toInt() - 1;
         int chapterID = internal.at(3).toInt() - 1;
@@ -735,7 +737,7 @@ void AdvancedInterface::pharseUrl(QString url)
         urlConverter.setSettings(m_settings);
         urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
         urlConverter.pharse();
-        QString i = urlConverter.convert();//it now a normal interface url
+        const QString i = urlConverter.convert();//it now a normal interface url
         pharseUrl(i);
     } else {
         if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->bookPath().contains(url)) {
@@ -860,7 +862,6 @@ void AdvancedInterface::setChapters(const QStringList &chapters)
 void AdvancedInterface::setCurrentChapter(const int &chapterID)
 {
     DEBUG_FUNC_NAME
-    myDebug() << chapterID;
     m_bookDockWidget->setCurrentChapter(chapterID);
     if(activeMdiChild()) {
         QComboBox *comboBox_chapters = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_chapters");
@@ -868,7 +869,6 @@ void AdvancedInterface::setCurrentChapter(const int &chapterID)
         disconnect(mForm->m_ui->comboBox_chapters, SIGNAL(activated(int)), mForm, SLOT(readChapter(int)));
         comboBox_chapters->setCurrentIndex(chapterID);
         connect(mForm->m_ui->comboBox_chapters, SIGNAL(activated(int)), mForm, SLOT(readChapter(int)));
-
     }
 }
 void AdvancedInterface::clearChapters()
@@ -883,12 +883,11 @@ void AdvancedInterface::clearChapters()
 void AdvancedInterface::setBooks(const QHash<int, QString> &books, QList<int> ids)
 {
     m_bookDockWidget->setBooks(books);
-    m_quickJumpDockWidget->setBooks(books.values()); //todo:
+    m_quickJumpDockWidget->setBooks(books.values());
     if(activeMdiChild()) {
         QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
         MdiForm *mForm = activeMdiChild()->widget()->findChild<MdiForm *>("mdiForm");
         if(comboBox_books && mForm) {
-
             bool same = true;
             QHashIterator<int, QString> i(books);
             int count = 0;
@@ -1021,7 +1020,7 @@ void AdvancedInterface::reloadChapter(bool full)
     if(!activeMdiChild())
         return;
     QWebView *v = getView();
-    QPoint p = v->page()->mainFrame()->scrollPosition();
+    const QPoint p = v->page()->mainFrame()->scrollPosition();
     if(full) {
         const int ret = loadModuleDataByID(m_moduleManager->bible()->moduleID());
         if(ret == 1) {
@@ -1068,7 +1067,7 @@ VerseSelection AdvancedInterface::verseSelection()
     QString sText;
     for(int i = 0; i < selectedText.size() - 1; i++) {
         sText += selectedText.at(i);
-        int pos = startVerseText.indexOf(sText);
+        const int pos = startVerseText.indexOf(sText);
         if(pos != -1 && startVerseText.lastIndexOf(sText) == pos) {
             s.shortestStringInStartVerse = sText;
             break;
@@ -1078,7 +1077,7 @@ VerseSelection AdvancedInterface::verseSelection()
     sText = "";
     for(int i = 0; i < selectedText.size() - 1; i++) {
         sText.prepend(selectedText.at(selectedText.size() - i - 1));
-        int pos = endVerseText.indexOf(sText);
+        const int pos = endVerseText.indexOf(sText);
         if(pos != -1 && endVerseText.lastIndexOf(sText) == pos) {
             s.shortestStringInEndVerse = sText;
             break;
@@ -1287,7 +1286,7 @@ void AdvancedInterface::newCustomColorMark()
     if(!activeMdiChild())
         return;
     VerseSelection selection = verseSelection();
-    QColor color = QColorDialog::getColor(QColor(255, 255, 0), this);
+    const QColor color = QColorDialog::getColor(QColor(255, 255, 0), this);
     if(color.isValid()) {
         m_notesDockWidget->newMark(selection, color);
     }
@@ -1366,8 +1365,8 @@ void AdvancedInterface::closing()
                     urlConverter.m_bookID = b->bookID();
                     urlConverter.m_chapterID = b->chapterID();
                     urlConverter.m_verseID = 0;
-                    QString url = urlConverter.convert();
-                    QPoint point = list->m_biblePoints.value(i.key());
+                    const QString url = urlConverter.convert();
+                    const QPoint point = list->m_biblePoints.value(i.key());
                     if(u.isEmpty())
                         u += QString::number(point.x()) + ":" + QString::number(point.y()) + ":" + url;
                     else
@@ -1392,10 +1391,10 @@ void AdvancedInterface::closing()
 void AdvancedInterface::restoreSession()
 {
     DEBUG_FUNC_NAME
-    QStringList windowUrls = m_settings->session.getData("windowUrls").toStringList();
-    QVariantList windowGeo = m_settings->session.getData("windowGeo").toList();
-    QVariantList scrollPos = m_settings->session.getData("scrollPos").toList();
-    QVariantList zoom = m_settings->session.getData("zoom").toList();
+    const QStringList windowUrls = m_settings->session.getData("windowUrls").toStringList();
+    const QVariantList windowGeo = m_settings->session.getData("windowGeo").toList();
+    const QVariantList scrollPos = m_settings->session.getData("scrollPos").toList();
+    const QVariantList zoom = m_settings->session.getData("zoom").toList();
 
     for(int i = 0; i < windowUrls.size(); ++i) {
         newSubWindow(false);
@@ -1483,7 +1482,7 @@ void AdvancedInterface::showSearchDialog()
 {
     SearchDialog *sDialog = new SearchDialog(this);
     connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
-    QString text = getView()->selectedText();
+    const QString text = getView()->selectedText();
     if(!text.isEmpty()) {
         sDialog->setText(text);
     }
@@ -1902,14 +1901,13 @@ int AdvancedInterface::printFile(void)
 {
     //DEBUG_FUNC_NAME
     QPrinter printer;
-    QPrintDialog *dialog = new QPrintDialog(&printer, this);
+    QScopedPointer<QPrintDialog> dialog(new QPrintDialog(&printer, this));
     dialog->setWindowTitle(tr("Print"));
     if(dialog->exec() != QDialog::Accepted)
         return 1;
     if(activeMdiChild()) {
         getView()->print(&printer);
     }
-    delete dialog;
     return 0;
 }
 

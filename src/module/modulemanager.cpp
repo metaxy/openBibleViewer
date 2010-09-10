@@ -24,12 +24,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/urlconverter.h"
 ModuleManager::ModuleManager()
 {
-    m_moduleModel = new QStandardItemModel(this);
+    m_moduleModel = new QStandardItemModel;
     m_moduleMap = new ModuleMap();
 }
 ModuleManager::~ModuleManager()
 {
+    DEBUG_FUNC_NAME
     delete m_moduleMap;
+    delete m_moduleModel;
 }
 
 void ModuleManager::setSettings(Settings *settings)

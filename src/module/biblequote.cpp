@@ -208,8 +208,8 @@ int BibleQuote::readBook(int id, QString path)
     QFile file;
     file.setFileName(path);
 
-    QString out();
-    QString out2();
+    QString out;
+    QString out2;
     bool chapterstarted = false;
     int ccount2 = 0;
     QStringList chapterText;
@@ -273,13 +273,14 @@ int BibleQuote::readBook(int id, QString path)
         ccount2 = 1;
     }
 
+    //todo: its slow
     for(int i = 1/* why 1?*/; i < chapterText.size(); i++) {
         Chapter c;
         QString a = chapterText.at(i);
         QStringList b = a.split(m_verseSign);
         for(int j = 0; j < b.size(); j++) { //split removes versesign but it is needed
-            const QString v = b.at(j);
-            b.replace(v, a.prepend(m_verseSign));
+            QString v = b.at(j);
+            b.replace(j, v.prepend(m_verseSign));
         }
         c.data << b;
         m_book.addChapter(i, c);
@@ -296,7 +297,7 @@ bool BibleQuote::hasIndex()
         return false;
     }
     //todo: check versions
-    QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
+    const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
 
     return  IndexReader::indexExists(index.toAscii().constData());
 }
@@ -305,7 +306,7 @@ void BibleQuote::buildIndex()
 {
     DEBUG_FUNC_NAME
 
-    QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
+    const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
     QDir dir("/");
     dir.mkpath(index);
 
@@ -339,8 +340,8 @@ void BibleQuote::buildIndex()
         progress.setValue(id);
         bytetext.clear();
         ctext.clear();
-        const QString path = m_bookPath.at(id);
-        path = m_biblePath + "/" + path;
+        const QString path = m_biblePath + "/" + m_bookPath.at(id);
+
         QFile file(path);
         QByteArray out;
         QByteArray out2;

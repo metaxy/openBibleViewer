@@ -131,11 +131,8 @@ void  ModuleConfigDialog::fileSelect()
 {
     if(m_moduleSettings.isDir) {
         QFileDialog dialog(this);
-
         dialog.setFileMode(QFileDialog::Directory);
-#if QT_VERSION >= 0x040500
         dialog.setOption(QFileDialog::ShowDirsOnly, true);
-#endif
         if(dialog.exec()) {
             QStringList fileName = dialog.selectedFiles();
             if(fileName.size() > 0) {

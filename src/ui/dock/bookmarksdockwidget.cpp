@@ -155,7 +155,7 @@ void BookmarksDockWidget::editBookmark()
         return;
     }
 
-    QString pos = ui->treeWidget_bookmarks->currentItem()->text(1);
+    const QString pos = ui->treeWidget_bookmarks->currentItem()->text(1);
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, pos);
     urlConverter.setSettings(m_settings);
@@ -171,8 +171,8 @@ void BookmarksDockWidget::editBookmark()
 }
 void BookmarksDockWidget::bookmarksGo()
 {
-    QString pos = ui->treeWidget_bookmarks->currentItem()->text(1);
-    if(pos != "" && internalOpenPos(pos) != 0)
+    const QString pos = ui->treeWidget_bookmarks->currentItem()->text(1);
+    if(!pos.isEmpty() && internalOpenPos(pos) != 0)
         QMessageBox::critical(0, tr("Error"), tr("This Bookmark is invalid."));
 }
 void BookmarksDockWidget::updateBookmark(QString pos)
@@ -183,7 +183,7 @@ void BookmarksDockWidget::bookmarksGo(QTreeWidgetItem * item)
 {
     if(m_settings->onClickBookmarkGo == true) {
         QString pos = item->text(1);
-        if(pos != "" && internalOpenPos(pos) != 0)
+        if(!pos.isEmpty() && internalOpenPos(pos) != 0)
             QMessageBox::critical(0, tr("Error"), tr("This Bookmark is invalid."));
     }
 }
@@ -194,7 +194,7 @@ int BookmarksDockWidget::internalOpenPos(const QString &pos)
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.pharse();
-    myDebug() << "url = " << urlConverter.convert();
+
     emit get(urlConverter.convert());
     return 0;
 }

@@ -76,16 +76,16 @@ void InsertLinkDialog::indexChanged(int index)
 void InsertLinkDialog::save()
 {
     if(ui->toolBox->currentIndex() == 0) {
-        QString link = m_path
+        const QString link = m_path
                        + ";" + QString::number(ui->comboBox_books->currentIndex())
                        + ";" + QString::number(ui->spinBox_chapter->value() - 1)
                        + ";" + QString::number(ui->spinBox_verse->value() - 1)
                        + ";" + m_settings->getModuleCache(m_path).bookNames.values().at(ui->comboBox_books->currentIndex());
         emit newLink("persistent://" + link);
     } else if(ui->toolBox->currentIndex() == 1) {
-        QModelIndexList list = m_selectionModel->selectedRows(0);
-        if(list.size() > 0) {
-            QString id = list.at(0).data(Qt::UserRole + 1).toString();
+        const QModelIndexList list = m_selectionModel->selectedRows(0);
+        if(!list.isEmpty()) {
+            const QString id = list.at(0).data(Qt::UserRole + 1).toString();
             emit newLink("note://" + id);
         }
         ///get note id

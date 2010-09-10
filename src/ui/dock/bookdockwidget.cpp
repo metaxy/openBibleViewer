@@ -94,7 +94,7 @@ void BookDockWidget::clearChapters()
 
 void BookDockWidget::setCurrentBook(const int &bookID)
 {
-    QModelIndexList list = m_bookModel->match(m_bookModel->index(0, 0), Qt::UserRole + 1, bookID, 1, Qt::MatchExactly);
+    const QModelIndexList list = m_bookModel->match(m_bookModel->index(0, 0), Qt::UserRole + 1, bookID, 1, Qt::MatchExactly);
     if(list.size() == 1) {
         m_bookSelection->clearSelection();
         m_bookSelection->setCurrentIndex(list.at(0), QItemSelectionModel::Select);
@@ -104,7 +104,7 @@ void BookDockWidget::setCurrentBook(const int &bookID)
 }
 void BookDockWidget::setCurrentChapter(const int &chapterID)
 {
-    QModelIndexList list = m_chapterModel->match(m_chapterModel->index(0, 0), Qt::UserRole + 1, chapterID, 1, Qt::MatchExactly);
+    const QModelIndexList list = m_chapterModel->match(m_chapterModel->index(0, 0), Qt::UserRole + 1, chapterID, 1, Qt::MatchExactly);
     if(list.size() == 1) {
         m_chapterSelection->clearSelection();
         m_chapterSelection->setCurrentIndex(list.at(0), QItemSelectionModel::Select);

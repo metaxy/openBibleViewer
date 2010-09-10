@@ -52,7 +52,7 @@ void BibleListWidget::init()
         for(int j = 0; j <= maxCol; j++) {
             const int id = m_moduleManager->bibleList()->m_biblePoints.key(QPoint(i, j), -1);
             Bible *b = m_moduleManager->bibleList()->bible(id);
-            myDebug() << "id = " << id;
+
             QStandardItem *item;
             if(id >= 0 && b) {
                 myDebug() << " title = " << b->bibleTitle() << " id = " << m_moduleManager->getBibleIDs().indexOf(b->moduleID()) << " moduleID " << b->moduleID();
@@ -116,7 +116,7 @@ void BibleListWidget::save()
     for(int x = 0; x < m_model->rowCount(); ++x) {
         for(int y = 0; y < m_model->columnCount(); ++y) {
             int id = m_model->item(x, y)->data(Qt::UserRole + 2).toInt();
-            myDebug() << "id = " << id << " x= " << x << "y = " << y;
+
             if(id >= 0) {
                 atLeastOne = true;
                 m_moduleManager->newBible(id, QPoint(x, y));

@@ -38,12 +38,11 @@ void SearchInfoDialog::setInfo(SearchResult result, QStringList bookNames, QStri
     m_ui->label_foundItems->setText(tr("Found verses : %1").arg(QString::number(size)));
     QMap<int, int> booksMap;
     QList<SearchHit> hitList = result.hits(SearchHit::BibleHit);
-    for(int i = 0; i < hitList.size(); i++) {
-        SearchHit hit = hitList.at(i);
+    foreach(SearchHit hit, hitList) {
         booksMap[hit.value(SearchHit::BookID).toInt()]++;
     }
 
-    myDebug() << "booksMap = " << booksMap;
+
     //stat
     const int mWidth = 290;
     const int padding = 5;
@@ -78,7 +77,7 @@ void SearchInfoDialog::setInfo(SearchResult result, QStringList bookNames, QStri
         i.next();
         QPen pen(Qt::black, 1);
         p.setPen(pen);
-        int s = d2i((double)(255 / (double)maxVerse) * (double)i.value());
+        int s = d2i((double)(255 / (double) maxVerse) * (double)i.value());
         QLinearGradient linearGrad(QPointF(padding, x), QPointF(padding, x + (height / 2)));
         linearGrad.setColorAt(0,  Qt::white);
         linearGrad.setColorAt(1, QColor::fromHsv(color, s, 255));

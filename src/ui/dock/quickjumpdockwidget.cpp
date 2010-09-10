@@ -47,7 +47,7 @@ void QuickJumpDockWidget::setBooks(QStringList list)
 
 void QuickJumpDockWidget::goToPos()
 {
-    QString text = ui->lineEdit_goTo->text();
+    const QString text = ui->lineEdit_goTo->text();
     m_hist << text;
 
     QStringList l;
@@ -58,8 +58,8 @@ void QuickJumpDockWidget::goToPos()
     ui->lineEdit_goTo->setCompleter(m_completer);
 
     GoTo go(m_moduleManager->bible()->moduleID(), m_moduleManager->bible()->bookFullNames().values(), m_moduleManager->bible()->bookShortNames().values());
-    QString url = go.getUrl(text);
-    emit get(url);
+
+    emit get(go.getUrl(text));
     return;
 }
 void QuickJumpDockWidget::changeEvent(QEvent *e)

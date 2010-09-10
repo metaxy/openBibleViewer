@@ -71,7 +71,7 @@ void ModuleDockWidget::loadedModule(int id)
         return;
 
     m_moduleID = id;
-    QModelIndexList list = m_proxyModel->match(m_moduleManager->m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, QString::number(id));
+    const QModelIndexList list = m_proxyModel->match(m_moduleManager->m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, QString::number(id));
 
     if(list.size() == 1) {
         myDebug() << id << list;
@@ -83,9 +83,9 @@ void ModuleDockWidget::loadedModule(int id)
 }
 void ModuleDockWidget::filter(QString string)
 {
-    if(first == false && string != "") {
+    if(first == false && !string.isEmpty()) {
         first = true;
-        QModelIndexList list = m_proxyModel->match(m_moduleManager->m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, "-1");
+        const QModelIndexList list = m_proxyModel->match(m_moduleManager->m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, "-1");
         for(int i = 0; i < list.size(); ++i) {
             ui->treeView_module->setExpanded(list.at(i), true);
         }

@@ -84,7 +84,7 @@ int SettingsDialog::setSettings(Settings settings)
     code = m_langCode.lastIndexOf(m_set.language);
     if(code == -1) {
         QString lang = m_set.language;
-        QString onlyLang = lang.remove(lang.lastIndexOf("_"), lang.size());
+        const QString onlyLang = lang.remove(lang.lastIndexOf("_"), lang.size());
         code = m_langCode.lastIndexOf(onlyLang);
     }
     myDebug() << "code = " << code;
@@ -107,7 +107,7 @@ int SettingsDialog::setSettings(Settings settings)
     m_ui->comboBox_interface->clear();
     m_ui->comboBox_interface->insertItems(0, interface);
     int currentInterface = 0;
-    QString i = m_set.session.getData("interface", "advanced").toString();
+    const QString i = m_set.session.getData("interface", "advanced").toString();
     if(i == "advanced") {
         currentInterface = 1;
     } else if(i == "simple") {
@@ -157,7 +157,7 @@ void SettingsDialog::addModuleFile(void)
     dialog.setFileMode(QFileDialog::ExistingFiles);
 
     if(dialog.exec()) {
-        QStringList fileName = dialog.selectedFiles();
+        const QStringList fileName = dialog.selectedFiles();
         addModules(fileName, QStringList());
     }
     return;
@@ -167,12 +167,10 @@ void SettingsDialog::addModuleDir(void)
     QFileDialog dialog(this);
 
     dialog.setFileMode(QFileDialog::Directory);
-#if QT_VERSION >= 0x040500
     dialog.setOption(QFileDialog::ShowDirsOnly, true);
-#endif
 
     if(dialog.exec()) {
-        QStringList fileName = dialog.selectedFiles();
+        const QStringList fileName = dialog.selectedFiles();
         QList<QTreeWidgetItem *> items;
         if(fileName.size() > 0) {
             QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size());
@@ -181,7 +179,7 @@ void SettingsDialog::addModuleDir(void)
                 progress.setValue(i);
                 if(progress.wasCanceled())
                     return;
-                QString f = fileName.at(i);
+                const QString f = fileName.at(i);
                 QString bibleName;
                 QString moduleType;
                 ModuleSettings m;
@@ -198,9 +196,7 @@ void SettingsDialog::addModuleDir(void)
                     if(ldictname.size() > 0) {
                         dictname = ldictname[ldictname.size()-2];
                     } else {
-                        QString spath_count;
-                        spath_count.setNum(i, 10);
-                        dictname = "(" + spath_count + ")";
+                        dictname = "(" + QString::number(i) + ")";
                     }
                     m.moduleName = dictname;
                     m.moduleType = QString::number(Module::NoneType);
@@ -294,7 +290,7 @@ void SettingsDialog::downloadModule()
 void SettingsDialog::addModules(QStringList fileName, QStringList names)
 {
     DEBUG_FUNC_NAME
-    if(fileName.size() > 0) {
+    if(!fileName.isEmpty()) {
         QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size() + 2);
         progress.setWindowModality(Qt::WindowModal);
         progress.show();

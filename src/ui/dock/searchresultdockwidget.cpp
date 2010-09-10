@@ -39,10 +39,9 @@ void SearchResultDockWidget::setSearchResult(SearchResult searchResult)
 
     ui->label_search->setText(tr("Search: %1").arg(searchResult.searchQuery.searchText));
     QStringList outlist;
-    QList<SearchHit> hits = searchResult.hits(SearchHit::BibleHit);
-    for(int i = 0; i < hits.size(); ++i) {
-        SearchHit hit = hits.at(i);
-        QString bookn = m_moduleManager->bible()->bookName(hit.value(SearchHit::BookID).toInt());
+    const QList<SearchHit> hits = searchResult.hits(SearchHit::BibleHit);
+    foreach(SearchHit hit, hits) {
+        const QString bookn = m_moduleManager->bible()->bookName(hit.value(SearchHit::BookID).toInt());
         outlist << bookn + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + " , " +
                 QString::number(hit.value(SearchHit::VerseID).toInt() + 1);
     }
@@ -77,11 +76,10 @@ void SearchResultDockWidget::searchInfo()
 
     const QStringList bookNames = m_moduleManager->bible()->bookNames().values();//todo: check
     SearchResult result = m_searchResult;
-    QList<SearchHit> list = result.hits(SearchHit::BibleHit);
+    const QList<SearchHit> list = result.hits(SearchHit::BibleHit);
 
     QStringList textList;
-    for(int i = 0; i < list.size(); ++i) {
-        SearchHit hit = list.at(i);
+    foreach(SearchHit hit, list) {
         if(hit.type() == SearchHit::BibleHit) {
             const QString bookn = m_moduleManager->bible()->bookName(hit.value(SearchHit::BookID).toInt()); //todo: maybe the bible isn't loaded and you need another bookNames
             textList << hit.value(SearchHit::VerseText).toString() + "\n - <i>" + bookn
