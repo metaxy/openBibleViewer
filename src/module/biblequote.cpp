@@ -63,8 +63,10 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
     int lastPos = path.lastIndexOf("/");
     QString path_ = path;
     m_biblePath = path_.remove(lastPos, path.size());
-    bool started = false, started2 = false;
+    bool started = false;
+    bool started2 = false;
     int count = 0;
+
     QFile file;
     file.setFileName(path);
     //myDebug() << "id = " << m_bibleID << " fileName = " << file.fileName() << " currentBiblePath = " << m_biblePath;
@@ -77,13 +79,14 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
     QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
     QTextDecoder *decoder = codec->makeDecoder();
     if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        int countlines = 0;
         int i = 0;
         while(!file.atEnd()) {
-
-            countlines++;
-            QByteArray byteline = file.readLine();
+            const QByteArray byteline = file.readLine();
             QString line = decoder->toUnicode(byteline);
+
+            if(line.startsWith("//")) {//it is a comment
+                continue;
+            }
 
             if(line.contains("BibleName", Qt::CaseInsensitive) && !line.startsWith("//")) {
                 m_bibleName = formatFromIni(line.remove(QRegExp("BibleName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
@@ -91,7 +94,6 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
             if(line.contains("BibleShortName", Qt::CaseInsensitive) && !line.startsWith("//")) {
                 m_bibleShortName = formatFromIni(line.remove(QRegExp("BibleShortName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
             }
-
             if(line.contains("ChapterSign", Qt::CaseInsensitive) && !line.startsWith("//")) {
                 m_chapterSign = formatFromIni(line.remove(QRegExp("ChapterSign(\\s*)=(\\s*)", Qt::CaseInsensitive)));
             }
@@ -102,8 +104,8 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
                 m_verseSign = formatFromIni(line.remove(QRegExp("VerseSign(\\s*)=(\\s*)", Qt::CaseInsensitive)));
             }
             if(line.contains("ChapterZero", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                QString a = formatFromIni(line.remove(QRegExp("ChapterZero(\\s*)=(\\s*)", Qt::CaseInsensitive)));
-                if(a.compare("Y", Qt::CaseInsensitive) == 0) {
+                const QString zero = formatFromIni(line.remove(QRegExp("ChapterZero(\\s*)=(\\s*)", Qt::CaseInsensitive)));
+                if(zero.compare("Y", Qt::CaseInsensitive) == 0) {
                     m_chapterZero = true;
                 } else {
                     m_chapterZero = false;
@@ -123,7 +125,7 @@ void BibleQuote::loadBibleData(int bibleID, QString path)
                         m_bookFullName << formatFromIni(line.remove(QRegExp("FullName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
 
                     } else if(line.contains("ShortName", Qt::CaseInsensitive) && !line.startsWith("//")) {
-                        QString s = formatFromIni(line.remove(QRegExp("ShortName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
+                        const QString s = formatFromIni(line.remove(QRegExp("ShortName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
                         QStringList l = s.split(" ");
                         m_bookShortName.append(l);
 
@@ -186,7 +188,6 @@ QString BibleQuote::readInfo(QFile &file)
                 break;
         }
 
-
     }
     file.close();
     if(useShortName) {
@@ -207,7 +208,8 @@ int BibleQuote::readBook(int id, QString path)
     QFile file;
     file.setFileName(path);
 
-    QString out = "", out2;
+    QString out();
+    QString out2();
     bool chapterstarted = false;
     int ccount2 = 0;
     QStringList chapterText;
@@ -224,15 +226,15 @@ int BibleQuote::readBook(int id, QString path)
         QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
         QTextDecoder *decoder = codec->makeDecoder();
         while(!file.atEnd()) {
-            QByteArray byteline = file.readLine();
+            const QByteArray byteline = file.readLine();
             QString line = decoder->toUnicode(byteline);
 
             //filterout
             if(m_settings->getModuleSettings(m_bibleID).biblequote_removeHtml == true && removeHtml2.size() > 0) {
-                for(int i = 0; i < removeHtml2.size(); i++) {
-                    QString r = removeHtml2.at(i);
-                    line = line.remove(r, Qt::CaseInsensitive);
+                foreach(QString r, removeHtml2) {
+                     line = line.remove(r, Qt::CaseInsensitive);
                 }
+
                 /*line = line.remove(QRegExp("CLASS=\"(\\w+)\">"));
                 line = line.remove(QRegExp("<DIV CLASS=\"(\\w+)\">"));
                 line = line.remove("CLASS=\"Tx\">");*/
@@ -276,8 +278,8 @@ int BibleQuote::readBook(int id, QString path)
         QString a = chapterText.at(i);
         QStringList b = a.split(m_verseSign);
         for(int j = 0; j < b.size(); j++) { //split removes versesign but it is needed
-            QString a = b.at(j);
-            b.replace(j, a.prepend(m_verseSign));
+            const QString v = b.at(j);
+            b.replace(v, a.prepend(m_verseSign));
         }
         c.data << b;
         m_book.addChapter(i, c);
@@ -307,7 +309,6 @@ void BibleQuote::buildIndex()
     QDir dir("/");
     dir.mkpath(index);
 
-    // do not use any stop words
     const TCHAR* stop_words[]  = { NULL };
     StandardAnalyzer an((const TCHAR**)stop_words);
 
@@ -323,14 +324,26 @@ void BibleQuote::buildIndex()
     QProgressDialog progress(QObject::tr("Indexing"), QObject::tr("Cancel"), 0, m_bookPath.size());
     progress.setWindowModality(Qt::WindowModal);
 
+    QString encoding;
+    if(m_settings->getModuleSettings(m_bibleID).encoding == "Default" || m_settings->getModuleSettings(m_bibleID).encoding == "") {
+        encoding = m_settings->encoding;
+    } else {
+        encoding = m_settings->getModuleSettings(m_bibleID).encoding;
+    }
+    QTextCodec *codec  = QTextCodec::codecForName(encoding.toStdString().c_str());
+    QScopedPointer<QTextDecoder> decoder(codec->makeDecoder());
+    QByteArray textBuffer;
+
+
     for(int id = 0; id < m_bookPath.size(); id++) {
         progress.setValue(id);
         bytetext.clear();
         ctext.clear();
-        QString path = m_bookPath.at(id);
+        const QString path = m_bookPath.at(id);
         path = m_biblePath + "/" + path;
         QFile file(path);
-        QByteArray out = "", out2 = "";
+        QByteArray out;
+        QByteArray out2;
         bool chapterstarted = false;
         int ccount2 = 0;
         if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -354,14 +367,7 @@ void BibleQuote::buildIndex()
             myWarning() << "cannot open the file " << file.fileName();
             continue;
         }
-        QString encoding;
-        if(m_settings->getModuleSettings(m_bibleID).encoding == "Default" || m_settings->getModuleSettings(m_bibleID).encoding == "") {
-            encoding = m_settings->encoding;
-        } else {
-            encoding = m_settings->getModuleSettings(m_bibleID).encoding;
-        }
-        QTextCodec *codec  = QTextCodec::codecForName(encoding.toStdString().c_str());
-        QScopedPointer<QTextDecoder> decoder(codec->makeDecoder());
+
         if(ccount2 == 0) {
             ctext << decoder->toUnicode(out2);
             ccount2 = 1;
@@ -370,7 +376,7 @@ void BibleQuote::buildIndex()
                 ctext << decoder->toUnicode(bytetext.at(i));
             }
         }
-        QByteArray textBuffer;
+
         wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
         for(int chapterit = 0; chapterit < ctext.size(); ++chapterit) {
             QStringList verses = ctext[chapterit].split(m_verseSign);
@@ -397,7 +403,6 @@ void BibleQuote::buildIndex()
     writer->optimize();
     writer->close();
     progress.close();
-
 }
 void BibleQuote::search(SearchQuery query, SearchResult *res)
 {

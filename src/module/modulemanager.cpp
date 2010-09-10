@@ -24,9 +24,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/urlconverter.h"
 ModuleManager::ModuleManager()
 {
-    m_moduleModel = new QStandardItemModel;
+    m_moduleModel = new QStandardItemModel(this);
     m_moduleMap = new ModuleMap();
 }
+ModuleManager::~ModuleManager()
+{
+    delete m_moduleMap;
+}
+
 void ModuleManager::setSettings(Settings *settings)
 {
     m_settings = settings;
@@ -45,7 +50,7 @@ QFileInfoList ModuleManager::scan(const QString &path, int level = 0)
     //todo: make faster using name filter
     QFileInfoList ret;
     QDir dir(path);
-    QFileInfoList list = dir.entryInfoList();
+    const QFileInfoList list = dir.entryInfoList();
     foreach(QFileInfo info, list) {
         if(info.fileName() != ".." && info.fileName() != ".") {
             if(info.isDir()) {
@@ -81,7 +86,9 @@ int ModuleManager::loadAllModules()
     root->m_id = 0;
     root->m_moduleClass = Module::FolderClass;
     root->m_moduleType = Module::NoneType;
+
     QStandardItem *parentItem = m_moduleModel->invisibleRootItem();
+
     QIcon bibleQuoteIcon = QIcon::fromTheme("text-x-generic", QIcon(":/icons/16x16/text-x-generic.png"));
     QStyle *style = QApplication::style();
     QIcon folderIcon;
@@ -214,7 +221,6 @@ int ModuleManager::loadAllModules()
             if(bibletype != 0) {
                 switch(bibletype) {
                 case Module::BibleQuoteModule: {
-                    //BibleQuote
                     Module *module = new Module(root);
                     module->m_path = m_settings->m_moduleSettings.at(i).modulePath;
                     module->m_moduleClass = Module::BibleModule;
@@ -238,7 +244,6 @@ int ModuleManager::loadAllModules()
                     break;
                 }
                 case Module::ZefaniaBibleModule: {
-                    //ZenfaniaXML
                     Module *module = new Module(root);
                     module->m_path = m_settings->m_moduleSettings.at(i).modulePath;
                     module->m_moduleClass = Module::BibleModule;
@@ -317,8 +322,7 @@ bool ModuleManager::contains(const int &moduleID)
 
 Bible * ModuleManager::bible()
 {
-    Bible *b = bibleList()->bible();
-    return b;
+    return bibleList()->bible();
 }
 BibleList * ModuleManager::bibleList()
 {
@@ -334,7 +338,7 @@ Dictionary* ModuleManager::dictionary()
 }
 
 /**
-  Converts a Persistent Url to a link.
+  Converts a persistent url to a link.
   */
 QString ModuleManager::notePos2Link(const QString &pos)
 {
@@ -346,7 +350,7 @@ QString ModuleManager::notePos2Link(const QString &pos)
     QString link = urlConverter.convert();
 
     string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + ":" + QString::number(urlConverter.m_verseID + 1);
-    return  "<a href=\"" + link + "\" >" + string + "</a>";
+    return "<a href=\"" + link + "\" >" + string + "</a>";
 }
 QString ModuleManager::notePos2Text(const QString &pos)
 {
@@ -357,7 +361,7 @@ QString ModuleManager::notePos2Text(const QString &pos)
     urlConverter.pharse();
     urlConverter.convert();
 
-    string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + ":" + QString::number(urlConverter.m_verseID + 1);
+    string = urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + ":" + QString::number(urlConverter.m_verseID + 1);
     return string;
 }
 QStringList ModuleManager::getBibleTitles()
@@ -384,14 +388,14 @@ QStringList ModuleManager::getBiblePaths()
 }
 QList<int> ModuleManager::getBibleIDs()
 {
-    QList<int> paths;
+    QList<int> ids;
     QMapIterator<int, Module *> i(m_moduleMap->m_map);
     while(i.hasNext()) {
         i.next();
         if(i.value()->m_moduleClass == Module::BibleModule)
-            paths.append(i.value()->m_id);
+            ids.append(i.value()->m_id);
     }
-    return paths;
+    return ids;
 }
 void ModuleManager::checkCache(const int &moduleID)
 {

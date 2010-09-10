@@ -21,6 +21,7 @@ const unsigned long BT_MAX_LUCENE_FIELD_LENGTH = 1024 * 512;
 #include <CLucene/util/Misc.h>
 #include <CLucene/util/Reader.h>
 #include "src/core/dbghelper.h"
+
 #ifndef Q_OS_WIN32
 using namespace lucene::search;
 using namespace lucene::index;
@@ -28,6 +29,7 @@ using namespace lucene::queryParser;
 using namespace lucene::document;
 using namespace lucene::analysis::standard;
 #endif
+
 BibleQuoteDict::BibleQuoteDict()
 {
 }
@@ -43,7 +45,7 @@ void BibleQuoteDict::setID(const int &id, const QString &path)
 }
 
 /**
-  Reads the ini-file and returns the dictionary name.
+  Reads the ini file and returns the dictionary name.
   */
 QString BibleQuoteDict::readInfo(QFile &file)
 {

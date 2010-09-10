@@ -14,7 +14,7 @@ public:
     QMap<int, QPoint> m_biblePoints;
     void clear();
     Bible * bible(const int &id = -1);
-    void addBible(Bible* b, QPoint p);
+    void addBible(Bible* b, const QPoint &p);
 
     int readBook(int id);
     QString readChapter(int chapterID, int verseID);

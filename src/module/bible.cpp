@@ -104,7 +104,7 @@ int Bible::loadModuleData(const int &moduleID)
         m_bookShortName.clear();
         m_bookIDs.clear();
         int count = 0;
-        foreach(QString bookID, m_zef->m_bookIDs) {
+        foreach(const QString bookID, m_zef->m_bookIDs) {
             const int id = bookID.toInt();
             m_bookIDs.append(id);
             m_bookFullName[id] = m_zef->m_bookFullName.at(count);
@@ -164,7 +164,7 @@ int Bible::readBook(int id)
         m_zef->readBook(id);
         m_book = m_zef->m_book;
         for(int i = 1; i <= m_zef->m_bookCount[id]; ++i) {
-            m_chapterNames << QString::number(i);//todo: not right
+            m_chapterNames << QString::number(i);
         }
         break;
     }
@@ -186,6 +186,7 @@ QString Bible::readChapter(int chapterID, int verseID = -1)
 }
 /**
     Pharse the loaded book.
+    if endVerse == -1 then it read all verse.
  */
 QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVerseID = -1, bool saveRawData = false)
 {
@@ -197,7 +198,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     if(saveRawData)
         m_chapterDataList.clear();
     ModuleSettings moduleSettings = m_settings->getModuleSettings(m_moduleID);
-    QString out = "";//Return
+    QString out = "";//return
     QStringList versList;
     switch(m_moduleType) {
     case Module::BibleQuoteModule: {
@@ -211,7 +212,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         if(endVerse == -1) {
             end = chapter.data.size();
         } else {
-            end  = endVerse;
+            end = endVerse;
         }
         for(int i = startVerse; i < end; i++) {
             //no title formatting, because it is already formatted
@@ -265,7 +266,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
 
             if(m_notes != 0 && m_bibleDisplaySettings->loadNotes == true) {
                 for(int n = 0; n < m_notes->getIDList().size(); ++n) {
-                    QString noteID = m_notes->getIDList().at(n);
+                    const QString noteID = m_notes->getIDList().at(n);
                     if(m_notes->getType(noteID) == "text") {
                         QString link = m_notes->getRef(noteID, "link");
                         UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
@@ -288,7 +289,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 vers.prepend("<sup>" + c.verseNumber.at(i) + "</sup> ");
                 vers.append("<br />");
             } else {
-                vers.prepend("<sup>" + c.verseNumber.at(i) + "</sup>    ");
+                vers.prepend("<sup>" + c.verseNumber.at(i) + "</sup> ");
                 vers.append("");
             }
 
@@ -591,6 +592,5 @@ QHash<int, QString> Bible::bookNames(bool preferShort)
             }
             return ret;
         }
-
     }
 }

@@ -28,6 +28,7 @@ class ModuleManager
 
 public:
     ModuleManager();
+    ~ModuleManager();
     int loadAllModules();
     void setSettings(Settings *settings);
     void setNotes(Notes *notes);

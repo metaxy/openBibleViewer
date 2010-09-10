@@ -34,9 +34,9 @@ int BibleList::readBook(int id)
     }
     return 0;
 }
-void BibleList::addBible(Bible* b, QPoint p)
+void BibleList::addBible(Bible* b, const QPoint &p)
 {
-    int id = m_biblePoints.size();
+    const int id = m_biblePoints.size();
     m_currentBible = id;
     m_biblePoints[id] = p;
     m_bibles[id] = b;
@@ -44,7 +44,7 @@ void BibleList::addBible(Bible* b, QPoint p)
 }
 /**
   Returns the bible at id.
-  \param id The bibleList internal id, not the moduleID
+  \param id The bibleList internal id, not the moduleID. If id == -1 then current bible;
   */
 Bible * BibleList::bible(const int &id)
 {
@@ -128,9 +128,9 @@ QString BibleList::readChapter(int chapterID, int verseID)
         out += "<tbody>";
         for(int verse = 0; verse < bible()->chapterDataList().size(); verse++) {
             for(int i = 0; i <= maxRow; i++) {
-                out += "<tr>";
+                out += "<tr>\n";
                 for(int j = 0; j <= maxCol; j++) {
-                    int id = m_biblePoints.key(QPoint(i, j), -1);
+                    const int id = m_biblePoints.key(QPoint(i, j), -1);
                     Bible *b;
                     if(id != -1) {
                         b = m_bibles.value(id);
@@ -141,7 +141,7 @@ QString BibleList::readChapter(int chapterID, int verseID)
                     if(countInCol(j) > 1) {
                         QString active = " rowTitle";
                         if(id == m_currentBible)
-                            active = " active";
+                            active += " active";
                         out += title(b, active, id);
                     }
                     if(verse < b->chapterDataList().size())
@@ -152,8 +152,7 @@ QString BibleList::readChapter(int chapterID, int verseID)
                 out += "</tr>\n";
             }
         }
-        out += "</tbody>\n";
-        out += "</table>\n";
+        out += "</tbody>\n</table>\n";
         return out;
     } else {
         return "";
@@ -172,5 +171,8 @@ int BibleList::countInCol(const int &col)
 
 QString BibleList::title(Bible *b, const QString &active, const int &bibleListID)
 {
-    return "<td class='bibleListTitle" + active + "' titleOf='" + QString::number(b->moduleID()) + "' bibleListID='" + QString::number(bibleListID) + "'><a href='#' onclick=\"Bible.activateBible('" + QString::number(bibleListID) + "');\"  class='bibleListTitleLink'>" + b->bibleShortTitle() + "</a></td>";
+    return "<td class='bibleListTitle" + active + "' titleOf='" +
+            QString::number(b->moduleID()) + "' bibleListID='" +
+            QString::number(bibleListID) + "'><a href='#' onclick=\"Bible.activateBible('" +
+            QString::number(bibleListID) + "');\"  class='bibleListTitleLink'>" + b->bibleShortTitle() + "</a></td>";
 }
