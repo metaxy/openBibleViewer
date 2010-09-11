@@ -24,12 +24,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/KoXmlWriter.h"
 #include "src/core/dbghelper.h"
 #include "src/core/bibleurl.h"
-//Maximum index entry size, 1MiB for now
-//Lucene default is too small
 const unsigned long BT_MAX_LUCENE_FIELD_LENGTH = 1024 * 1024;
 #include <CLucene.h>
 #include <CLucene/util/Misc.h>
 #include <CLucene/util/Reader.h>
+
 #ifndef Q_OS_WIN32
 using namespace lucene::search;
 using namespace lucene::index;
@@ -37,6 +36,7 @@ using namespace lucene::queryParser;
 using namespace lucene::document;
 using namespace lucene::analysis::standard;
 #endif
+
 ZefaniaBible::ZefaniaBible()
 {
     m_settings = 0;
@@ -80,6 +80,7 @@ QDomNode ZefaniaBible::readBookFromHardCache(QString path, int bookID)
     QDomElement e;
 
     const QString pre = m_settings->homePath + "cache/" + m_settings->hash(path) + "/";
+
     QFile file(pre + QString::number(bookID) + ".xml");
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot read the file."));
@@ -220,7 +221,7 @@ QDomElement ZefaniaBible::format(QDomElement e)
 /**
   Returns the soft cache for all books.
   */
-QHash<int, Book> ZefaniaBible::softCache()
+QHash<int, Book> ZefaniaBible::softCache() const
 {
     if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
         return m_softCacheData;
@@ -231,7 +232,7 @@ QHash<int, Book> ZefaniaBible::softCache()
   Returns the soft cache for a book
   \param bookID The ID of the book.
   */
-Book ZefaniaBible::softCache(int bookID)
+Book ZefaniaBible::softCache(const int &bookID) const
 {
     // DEBUG_FUNC_NAME
     if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
@@ -256,7 +257,7 @@ void ZefaniaBible::setSoftCache(QHash<int, Book > cache)
   \param bookID The ID of the book.
   \param chapterList New cache.
   */
-void ZefaniaBible::setSoftCache(int bookID, Book book)
+void ZefaniaBible::setSoftCache(const int &bookID, Book book)
 {
     if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
         m_softCacheData[bookID] = book;
@@ -549,7 +550,7 @@ QString ZefaniaBible::readInfo(const QString &content)
   \param bookID The bookID.
   \param ncache The node to convert.
   */
-Book ZefaniaBible::fromHardToSoft(int bookID, QDomNode ncache)
+Book ZefaniaBible::fromHardToSoft(const int &bookID, QDomNode ncache)
 {
     Book book;
     QDomNode n = ncache.firstChild();
@@ -577,7 +578,7 @@ Book ZefaniaBible::fromHardToSoft(int bookID, QDomNode ncache)
     }
     return book;
 }
-bool ZefaniaBible::hasIndex()
+bool ZefaniaBible::hasIndex() const
 {
     DEBUG_FUNC_NAME
     QDir d;

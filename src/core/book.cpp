@@ -30,8 +30,6 @@ void Book::addChapter(const int &chapterID, const Chapter &c)
 }
 bool Book::hasChapter(const int &chapterID)
 {
-    DEBUG_FUNC_NAME
-    myDebug() << m_chapters.size();
     return m_chapters.contains(chapterID);
 }
 Chapter Book::getChapter(const int &chapterID)

@@ -590,7 +590,9 @@ void AdvancedInterface::pharseUrl(QString url)
             bool reloadBook = false;
             bool reloadChapter = false;
             bool reloadVerse = false;
-
+            if(!activeMdiChild()) {
+                newSubWindow();
+            }
             if((bibleUrl.bibleID() != m_moduleManager->bible()->moduleID()  && bibleUrl.bible() == BibleUrl::LoadBibleByID) ||
                     !m_moduleManager->bible()->loaded() || (bibleUrl.hasParam("force") && bibleUrl.getParam("force") == "true")) {
                 reloadBible = true;
@@ -1514,6 +1516,7 @@ void AdvancedInterface::searchInText(SearchQuery query)
     DEBUG_FUNC_NAME
     if(query.queryType == SearchQuery::Simple) {
         QString s = query.searchText;
+        //todo hacky
         s.remove('*');
         s.remove('?');
         getView()->findText(s, QWebPage::HighlightAllOccurrences);
@@ -1821,7 +1824,7 @@ QList<QToolBar *> AdvancedInterface::toolBars()
     QAction *actionZoomOut = new QAction(QIcon::fromTheme("zoom-out", QIcon(":/icons/16x16/zoom-out.png")), tr("Zoom Out"), bar);
     connect(actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
 
-    QAction *actionModule = new QAction(QIcon(":/icons/16x16/module.png"), tr("Module"), bar);
+    QAction *actionModule = new QAction(QIcon(":/icons/32x32/module.png"), tr("Module"), bar);
     connect(actionModule, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_Module()));
 
     bar->addAction(actionSearch);
@@ -1861,7 +1864,6 @@ void AdvancedInterface::showBookmarksDock()
     } else {
         m_bookmarksDockWidget->show();
     }
-
 }
 
 void AdvancedInterface::showNotesDock()
@@ -1963,6 +1965,7 @@ void AdvancedInterface::showMarkCategories()
 
 void AdvancedInterface::showMarkList()
 {
+    //todo: scoped pointer ?
     MarkList *markList = new MarkList(this);
     setAll(markList);
     markList->init();

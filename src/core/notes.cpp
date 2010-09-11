@@ -18,28 +18,34 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomAttr>
 #include <QtXml/QDomElement>
 #include <QtCore/QTextStream>
-#include <QtCore/QDebug>
 #include <QtCore/QDir>
 Notes::Notes()
 {
     m_isLoaded = false;
 }
-
+/**
+  Init the notes;
+  \param fileName The path to the notes xml file.
+  */
 void Notes::init(const QString &fileName)
 {
-    //DEBUG_FUNC_NAME
     m_fileName = fileName;
     m_version = "0.3";
     m_isLoaded = false;
     m_oldVersion = "";
 }
-bool Notes::isLoaded()
+/**
+  Returns true if in this instance the notes are loaded.
+  */
+bool Notes::isLoaded() const
 {
     return m_isLoaded;
 }
+/**
+  Emits a signal to save data in all other instances.
+  */
 void Notes::loadingNewInstance()
 {
-    //DEBUG_FUNC_NAME
     emit saveAll();
 }
 
@@ -145,7 +151,7 @@ QMap<QString, QString> Notes::getRef(const QString &id)
 /**
   Get all note IDs
   */
-QStringList Notes::getIDList()
+QStringList Notes::getIDList() const
 {
     return notesID;
 }
@@ -153,7 +159,7 @@ QStringList Notes::getIDList()
   Get all notes IDs with a given type.
   \param type The needed type.
   */
-QStringList Notes::getIDList(const QString &type)
+QStringList Notes::getIDList(const QString &type) const
 {
     return notesType.keys(type);
 }
@@ -232,7 +238,7 @@ void Notes::setRef(const QString &id, const QString &key, const QString &value)
 /**
     Generate a new note ID, without colliding with other IDs
  */
-QString Notes::generateNewID()
+QString Notes::generateNewID() const
 {
     //DEBUG_FUNC_NAME
     QMapIterator<QString, QString> i(notesType);
@@ -374,7 +380,12 @@ int Notes::saveNotes()
     doc = sdoc;
     return 0;
 }
-void Notes::search(SearchQuery query, SearchResult *res)
+/**
+  Search in Notes.
+  \param query The Search Query
+  \param res The Results.
+  */
+void Notes::search(SearchQuery query, SearchResult *res) const
 {
     DEBUG_FUNC_NAME
     QStringList f;

@@ -52,8 +52,8 @@ void ModuleDownloader::start()
     //create folder where the modules should be downloaded
     QDir dir(m_settings->homePath);
     dir.mkdir(m_settings->homePath + "modules");
-    //hack: remove dupilicates
-    QSet<QString> set = m_urls.toSet();
+    //hack: remove duplicates
+    const QSet<QString> set = m_urls.toSet();
     m_urls = set.toList();
 
     downloadNext();
@@ -76,12 +76,12 @@ void ModuleDownloader::downloadNext()
 void ModuleDownloader::download(QString url_, bool addToList)
 {
     DEBUG_FUNC_NAME
-    QUrl url(url_);
+    const QUrl url(url_);
     QFileInfo fileInfo(url.path());
     QDir d(m_settings->homePath + "modules/");
     QDir dir(m_settings->homePath);
     dir.mkpath(m_settings->homePath + "modules/" + fileInfo.fileName() + "/");
-    QString fileName = m_settings->homePath + "modules/" + fileInfo.fileName() + "/" + fileInfo.fileName();
+    const QString fileName = m_settings->homePath + "modules/" + fileInfo.fileName() + "/" + fileInfo.fileName();
     if(addToList) {
         m_downloadedList << fileName;
         m_downNames << m_names[m_urls.at(m_currentDownload)];

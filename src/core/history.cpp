@@ -47,7 +47,7 @@ bool History::forwardAvailable()
     return !forwardItems.isEmpty();
 }
 /*!
-    Check if a prevoius url is available.
+    Check if a previous url is available.
   */
 bool History::backwardAvailable()
 {

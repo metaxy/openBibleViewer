@@ -13,16 +13,19 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef MODULEMANAGER_H
 #define MODULEMANAGER_H
-#include "src/module/module.h"
+#include "src/core/notes.h"
 #include "src/core/settings.h"
 #include "src/module/bible.h"
 #include "src/module/biblelist.h"
-#include "src/module/modulemap.h"
 #include "src/module/dictionary.h"
+#include "src/module/module.h"
+#include "src/module/modulemap.h"
+
+#include <QtCore/QFileInfoList>
 #include <QtCore/QList>
 #include <QtGui/QStandardItemModel>
-#include <QtCore/QFileInfoList>
-#include "src/core/notes.h"
+
+
 class ModuleManager
 {
 
@@ -53,7 +56,6 @@ public:
     BibleList *m_bibleList;
     Dictionary *m_dictionary;
 
-    //todo: make it usable also for other classes
     QStringList getBibleTitles();
     QStringList getBiblePaths();
     QList<int> getBibleIDs();

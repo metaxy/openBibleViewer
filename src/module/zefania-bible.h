@@ -13,24 +13,23 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef ZEFANIABIBLE_H
 #define ZEFANIABIBLE_H
-#include <QtCore/QString>
-#include <QtCore/QStringList>
 #include <QtCore/QFile>
 #include <QtCore/QMap>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
-#include "src/core/settings.h"
+#include "src/core/book.h"
 #include "src/core/chapter.h"
+#include "src/core/KoXmlReader.h"
 #include "src/core/modulesettings.h"
 #include "src/core/searchquery.h"
 #include "src/core/searchresult.h"
-#include "src/core/KoXmlReader.h"
-#include "src/core/book.h"
-/*!
- ZefaniaBible represents a zefaniaxml(bible) module
+#include "src/core/settings.h"
 
- @author Paul Walger <metaxy@walger.name>
+/*!
+ ZefaniaBible represents a zefaniaxml(bible) module.
 */
 class ZefaniaBible
 {
@@ -44,7 +43,7 @@ public:
     QString readInfo(const QString &content);
 
     void search(SearchQuery query, SearchResult *res);
-    bool hasIndex();
+    bool hasIndex() const;
     void buildIndex();
 
     int m_bookID;
@@ -53,7 +52,7 @@ public:
     QString m_bibleName;
     QStringList m_bookFullName;
     QStringList m_bookShortName;
-    QMap <int, int> m_bookCount;
+    QMap<int, int> m_bookCount;
     QStringList m_bookIDs;
     Book m_book;
 
@@ -65,15 +64,15 @@ private:
     bool checkForCacheFiles(const QString &path);
     void loadNoCached(const int &id, const QString &path);
     void loadCached(const int &id, const QString &path);
-    Book fromHardToSoft(int id, QDomNode ncache);
+    Book fromHardToSoft(const int &id, QDomNode ncache);
 
     QHash<int, Book> m_softCacheData;
 
     void clearSoftCache();
     void setSoftCache(QHash<int, Book >);
-    void setSoftCache(int bookID, Book b);
-    QHash<int, Book> softCache();
-    Book softCache(int bookID);
+    void setSoftCache(const int &bookID, Book b);
+    QHash<int, Book> softCache() const;
+    Book softCache(const int &bookID) const;
     QDomNode readBookFromHardCache(QString path, int bookID);
 
 };

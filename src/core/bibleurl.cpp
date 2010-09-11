@@ -158,7 +158,7 @@ bool BibleUrl::fromString(QString url)
         return false;
     }
     url.remove(0, 8); // remove bible://
-    myDebug() << url;
+
     const QStringList slash = url.split("/");
     if(slash.size() != 2) {//there should be only two
         return false;
@@ -175,7 +175,7 @@ bool BibleUrl::fromString(QString url)
         m_bibleID = bibleID.toInt();
         m_bibleParam = BibleUrl::LoadBibleByID;
     }
-    QString other = slash.at(1);
+    const QString other = slash.at(1);
     const QStringList params = other.split(",");
     for(int i = 0; i < params.size(); ++i) {
         const QString p = params.at(i);
@@ -208,7 +208,7 @@ bool BibleUrl::fromString(QString url)
             }
         } else {
             if(p.contains("=")) {
-                QStringList s = p.split("=");
+                const QStringList s = p.split("=");
                 const QString key = s.first();
                 const QString value = s.last();
                 m_params.insert(key, value);

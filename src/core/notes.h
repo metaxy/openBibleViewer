@@ -49,14 +49,14 @@ public:
     void setData(const QString &id, const QString &data);
     void setRef(const QString &id, const QMap<QString, QString>  &ref);
     void setRef(const QString &id, const QString &key, const QString &value);
-    QString generateNewID();
+    QString generateNewID() const;
     void insertID(const QString &id);
     void removeNote(const QString &id);
-    QStringList getIDList();
-    QStringList getIDList(const QString &type);
-    bool isLoaded();
+    QStringList getIDList() const;
+    QStringList getIDList(const QString &type) const;
+    bool isLoaded() const;
     void loadingNewInstance();
-    void search(SearchQuery query, SearchResult *result);
+    void search(SearchQuery query, SearchResult *result) const;
 
 
 private:
