@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/urlconverter.h"
 #include <QtCore/QDir>
 #include <QtGui/QTextDocument>
+//#include <valgrind/callgrind.h>
 Bible::Bible()
 {
     m_moduleID = -1;
@@ -41,6 +42,7 @@ bool Bible::loaded()
 
 int Bible::loadModuleData(const int &moduleID)
 {
+    //CALLGRIND_START_INSTRUMENTATION;
     m_module = m_map->m_map.value(moduleID);
     if(moduleID < 0 || !m_module) {
         myWarning() << "invalid bibleID = " << moduleID;
@@ -126,6 +128,7 @@ int Bible::loadModuleData(const int &moduleID)
     }
     m_loaded = true;
     return 0;
+   // CALLGRIND_STOP_INSTRUMENTATION;
 }
 /**
   Load only the book without pharsing.

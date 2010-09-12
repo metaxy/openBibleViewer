@@ -805,7 +805,7 @@ void AdvancedInterface::showText(const QString &text)
 
             foreach(QWebElement paraElement, collection) {
                 QString url = paraElement.attribute("src");
-                if(url.startsWith(":/") || url.startsWith("http:"))
+                if(url.startsWith(":/") || url.startsWith("http"))
                     continue;
                 foreach(QString pre, searchPaths) {
                     QFileInfo i(pre + url);
