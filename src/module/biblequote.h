@@ -34,11 +34,11 @@ class BibleQuote
 public:
     BibleQuote();
     void setSettings(Settings *settings);
-    int readBook(int id, QString path);
-    void loadBibleData(int bibleID, QString path);
+    int readBook(const int &id, QString path);
+    void loadBibleData(const int &bibleID, QString path);
     QString readInfo(QFile &file);
-    void search(SearchQuery query, SearchResult *res);
-    bool hasIndex();
+    void search(const SearchQuery &query, SearchResult *res);
+    bool hasIndex() const;
     void buildIndex();
 
     bool m_chapterZero;
@@ -50,11 +50,12 @@ public:
     QStringList m_bookPath;
     QStringList m_bookFullName;
     QList<QStringList> m_bookShortName;
-    QMap <int, int> m_bookCount;
+    QMap<int, int> m_bookCount;
     Book m_book;
 private:
     Settings *m_settings;
-    QString formatFromIni(QString input);
+    inline QString formatFromIni(QString input);
+    QString indexPath() const;
     int m_bookID;
     int m_bibleID;
     QString m_verseSign;

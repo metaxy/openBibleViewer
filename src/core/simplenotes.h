@@ -52,16 +52,16 @@ public slots:
     void fastSave();
 private slots:
     void copyNote();
-    void changeData(QString id, QString data);
-    void changeTitle(QString id, QString title);
-    void changeRef(QString id, QMap<QString, QString> ref);
-    void addNote(QString id);
-    void removeNote(QString id);
-    void showNote(QModelIndex index);
+    void changeData(const QString &id, const QString &data);
+    void changeTitle(const QString &id, const QString &title);
+    void changeRef(const QString &id, const QMap<QString, QString> &ref);
+    void addNote(const QString &id);
+    void removeNote(const QString &id);
+    void showNote(const QModelIndex &index);
     void notesContextMenu(QPoint point);
     void removeNote();
     void editNoteLink();
-    void updateNote(QString pos);
+    void updateNote(const QString &pos);
     void newFolder();
     void updateTitle();
 private:

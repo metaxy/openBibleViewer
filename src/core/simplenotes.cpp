@@ -128,7 +128,7 @@ void SimpleNotes::init()
     m_treeView->setModel(m_proxyModel);
     m_treeView->setSelectionModel(m_selectionModel);
 }
-void SimpleNotes::showNote(QModelIndex index)
+void SimpleNotes::showNote(const QModelIndex &index)
 {
     showNote(index.data(Qt::UserRole + 1).toString());
 }
@@ -170,7 +170,7 @@ void SimpleNotes::setRef(QMap<QString, QString> ref)
 }
 void SimpleNotes::editNoteLink()
 {
-    QString link = m_noteRef["link"];
+    const QString link = m_noteRef["link"];
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
@@ -185,49 +185,47 @@ void SimpleNotes::editNoteLink()
     passageDialog->exec();
 
 }
-void SimpleNotes::updateNote(QString link)
+void SimpleNotes::updateNote(const QString &link)
 {
     m_noteRef["link"] = link;
     m_notes->setRef(m_noteID, m_noteRef);
     setRef(m_noteRef);
     return;
 }
-void SimpleNotes::changeData(QString id, QString data)
+void SimpleNotes::changeData(const QString &id, const QString &data)
 {
     if(m_noteID == id) {
         setData(data);
     }
 }
-void SimpleNotes::changeTitle(QString id, QString title)
+void SimpleNotes::changeTitle(const QString &id, const QString &title)
 {
     DEBUG_FUNC_NAME
     if(m_noteID == id) {
         setTitle(title);
     }
-    QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, id);
+    const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, id);
     if(list.size() != 1) {
         myWarning() << "invalid noteID = " << id;
         return;
     }
-    QModelIndex index = list.at(0);
-    m_itemModel->setData(index, title, Qt::DisplayRole);
+    m_itemModel->setData(list.at(0), title, Qt::DisplayRole);
 }
 void SimpleNotes::updateTitle()
 {
     DEBUG_FUNC_NAME
     disconnect(m_notes, SIGNAL(titleChanged(QString, QString)), this, SLOT(changeTitle(QString, QString)));
     m_notes->setTitle(m_noteID, m_lineEdit_title->text());
-    QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, m_noteID, -1);
+    const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, m_noteID, -1);
     if(list.size() != 1) {
         myWarning() << "invalid noteID = " << m_noteID;
         return;
     }
-    QModelIndex index = list.at(0);
-    m_itemModel->setData(index, m_lineEdit_title->text(), Qt::DisplayRole);
+    m_itemModel->setData(list.at(0), m_lineEdit_title->text(), Qt::DisplayRole);
     connect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
 }
 
-void SimpleNotes::changeRef(QString id, QMap<QString, QString> ref)
+void SimpleNotes::changeRef(const QString &id, const QMap<QString, QString> &ref)
 {
     if(m_noteID == id) {
         setRef(ref);
@@ -236,7 +234,7 @@ void SimpleNotes::changeRef(QString id, QMap<QString, QString> ref)
 
 void SimpleNotes::copyNote(void)
 {
-    QModelIndexList list = m_selectionModel->selectedRows(0);
+    const QModelIndexList list = m_selectionModel->selectedRows(0);
     QClipboard *clipboard = QApplication::clipboard();
     QString text;
     for(int i = 0; i < list.size(); i++) {
@@ -300,12 +298,12 @@ void SimpleNotes::aktNote()
     if(m_noteID == "")
         return;
     m_notes->setTitle(m_noteID, m_lineEdit_title->text());
-    QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, m_noteID, -1);
+    const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, m_noteID, -1);
     if(list.size() != 1) {
         myWarning() << "invalid noteID = " << m_noteID;
         return;
     }
-    QModelIndex index = list.at(0);
+    const QModelIndex index = list.at(0);
 
     if(index.data(Qt::DisplayRole) != m_notes->getTitle(m_noteID)) {
         m_itemModel->setData(index, m_notes->getTitle(m_noteID), Qt::DisplayRole);
@@ -314,11 +312,11 @@ void SimpleNotes::aktNote()
 void SimpleNotes::select(const QString &noteID)
 {
     DEBUG_FUNC_NAME
-    QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, noteID);
+    const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, noteID);
     if(list.size() != 1) {
         return;
     }
-    QModelIndex index = m_proxyModel->mapFromSource(list.at(0));
+    const QModelIndex index = m_proxyModel->mapFromSource(list.at(0));
     m_selectionModel->clearSelection();
     m_selectionModel->setCurrentIndex(index, QItemSelectionModel::Select);
 }
@@ -341,13 +339,13 @@ void SimpleNotes::newNote(void)
     fastSave();
     m_selectionModel->clearSelection();
 
-    QString newID = m_notes->generateNewID();
+    const QString newID = m_notes->generateNewID();
     m_notes->setData(newID, "");
     m_notes->setTitle(newID, tr("(unnamed)"));
     m_notes->setType(newID, "text");
 
     m_noteRef = QMap<QString, QString>();
-    QDateTime t = QDateTime::currentDateTime();
+    const QDateTime t = QDateTime::currentDateTime();
 
     m_noteRef["created"] = t.toString(Qt::ISODate);
     m_noteRef["parent"] = parentItem->data().toString();
@@ -384,13 +382,13 @@ void SimpleNotes::newFolder()
     m_selectionModel->clearSelection();
 
 
-    QString newID = m_notes->generateNewID();
+    const QString newID = m_notes->generateNewID();
     m_notes->setData(newID, "");
     m_notes->setTitle(newID, tr("Folder")); // todo: count folders and generate an id
     m_notes->setType(newID, "folder");
 
     m_noteRef = QMap<QString, QString>();
-    QDateTime t = QDateTime::currentDateTime();
+    const QDateTime t = QDateTime::currentDateTime();
 
     m_noteRef["created"] = t.toString(Qt::ISODate);
     m_noteRef["parent"] = parentItem->data().toString();
@@ -419,7 +417,7 @@ void SimpleNotes::newFolder()
     setRef(m_noteRef);
 }
 
-void SimpleNotes::addNote(QString id)
+void SimpleNotes::addNote(const QString &id)
 {
     DEBUG_FUNC_NAME
     if(m_noteID != id && m_notes->getType(id) == "text") {
@@ -449,7 +447,7 @@ void SimpleNotes::newNoteWithLink(VerseSelection selection)
     urlConverter.m_bookName = m_moduleManager->bible()->bookName(m_moduleManager->bible()->bookID(), true);
     link = urlConverter.convert();
 
-    QString newID = m_notes->generateNewID();
+    const QString newID = m_notes->generateNewID();
     m_notes->setData(newID, "");
     m_notes->setTitle(newID, tr("(unnamed)"));
     m_notes->setType(newID, "text");
@@ -520,7 +518,7 @@ void SimpleNotes::removeNote()
     if(list.isEmpty()) {
         const QModelIndex index = m_proxyModel->mapToSource(m_treeView->indexAt(m_currentPoint));
         if(index.isValid()) {
-            QString id = index.data(Qt::UserRole + 1).toString();
+            const QString id = index.data(Qt::UserRole + 1).toString();
             if(id == m_noteID) {
                 setTitle("");
                 setData("");
@@ -533,7 +531,7 @@ void SimpleNotes::removeNote()
     } else {
         while(list.size() != 0) {
             const QModelIndex index = m_proxyModel->mapToSource(list.at(0));
-            QString id = index.data(Qt::UserRole + 1).toString();
+            const QString id = index.data(Qt::UserRole + 1).toString();
             if(id == m_noteID) {
                 setTitle("");
                 setData("");
@@ -547,7 +545,7 @@ void SimpleNotes::removeNote()
 
     connect(m_notes, SIGNAL(noteRemoved(QString)), this, SLOT(removeNote(QString)));
 }
-void SimpleNotes::removeNote(QString id)
+void SimpleNotes::removeNote(const QString &id)
 {
     DEBUG_FUNC_NAME
     if(id == m_noteID) {
@@ -555,7 +553,7 @@ void SimpleNotes::removeNote(QString id)
         setData("");
         setRef(QMap<QString, QString>());
     }
-    QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, id);
+    const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, id);
     if(list.size() != 1) {
         myWarning() << "invalid noteID = " << m_noteID;
         return;

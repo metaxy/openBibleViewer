@@ -47,7 +47,7 @@ QString BibleQuote::formatFromIni(QString input)
     input.replace(QString("\n"), QString(""));
     return input;
 }
-void BibleQuote::loadBibleData(int bibleID, QString path)
+void BibleQuote::loadBibleData(const int &bibleID, QString path)
 {
     //DEBUG_FUNC_NAME
     m_bibleID = bibleID;
@@ -198,7 +198,7 @@ QString BibleQuote::readInfo(QFile &file)
     }
     return m_bibleName;
 }
-int BibleQuote::readBook(int id, QString path)
+int BibleQuote::readBook(const int &id, QString path)
 {
     m_book.clear();
 
@@ -289,7 +289,11 @@ int BibleQuote::readBook(int id, QString path)
     return 0;
 
 }
-bool BibleQuote::hasIndex()
+QString BibleQuote::indexPath() const
+{
+    return  m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
+}
+bool BibleQuote::hasIndex() const
 {
     DEBUG_FUNC_NAME
     QDir d;
@@ -297,16 +301,15 @@ bool BibleQuote::hasIndex()
         return false;
     }
     //todo: check versions
-    const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
 
-    return  IndexReader::indexExists(index.toAscii().constData());
+    return  IndexReader::indexExists(indexPath().toAscii().constData());
 }
 
 void BibleQuote::buildIndex()
 {
     DEBUG_FUNC_NAME
 
-    const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
+    const QString index = indexPath();
     QDir dir("/");
     dir.mkpath(index);
 
@@ -405,7 +408,7 @@ void BibleQuote::buildIndex()
     writer->close();
     progress.close();
 }
-void BibleQuote::search(SearchQuery query, SearchResult *res)
+void BibleQuote::search(const SearchQuery &query, SearchResult *res)
 {
     QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
     char utfBuffer[BT_MAX_LUCENE_FIELD_LENGTH  + 1];
