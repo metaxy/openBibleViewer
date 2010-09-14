@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_advancedinterface.h"
 #include "src/core/dbghelper.h"
 #include "src/ui/dialog/searchdialog.h"
+#include "src/core/faststart.h"
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QSizePolicy>
 #include <QtGui/QMdiSubWindow>
@@ -1467,6 +1468,9 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
         }
     }
     if(reloadBibles == true) {
+        FastStart fastStart;
+        fastStart.setSettings(m_settings);
+        fastStart.remove();
         myDebug() << "reload Module";
         m_moduleManager->loadAllModules();
         m_moduleDockWidget->init();

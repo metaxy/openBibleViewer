@@ -81,7 +81,8 @@ SOURCES += src/main.cpp \
     src/module/biblequote-dict.cpp \
     src/core/book.cpp \
     src/core/url.cpp \
-    src/core/bibleurl.cpp
+    src/core/bibleurl.cpp \
+    src/core/faststart.cpp
 HEADERS += src/core/settings.h \
     src/module/biblequote.h \
     src/module/zefania-bible.h \
@@ -156,7 +157,8 @@ HEADERS += src/core/settings.h \
     src/module/biblequote-dict.h \
     src/core/book.h \
     src/core/url.h \
-    src/core/bibleurl.h
+    src/core/bibleurl.h \
+    src/core/faststart.h
 FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dialog/settingsdialog.ui \
     src/ui/dialog/searchinfodialog.ui \

@@ -22,6 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/modulemap.h"
 #include "src/core/dbghelper.h"
 #include "src/core/urlconverter.h"
+#include "src/core/faststart.h"
 ModuleManager::ModuleManager()
 {
     m_moduleModel = new QStandardItemModel;
@@ -80,7 +81,9 @@ int ModuleManager::loadAllModules()
     bqDict.setSettings(m_settings);
 
     m_moduleModel->clear();
-
+    FastStart fastStart;
+    fastStart.setSettings(m_settings);
+    fastStart.load();
     QProgressDialog progress(QObject::tr("Loading Module"), QObject::tr("Cancel"), 0, m_settings->m_moduleSettings.size());
     progress.setWindowModality(Qt::WindowModal);
     int moduleID = 1;//Counter for the Module ID
@@ -122,10 +125,22 @@ int ModuleManager::loadAllModules()
             folder->m_id = moduleID;
             folder->m_title = m_settings->m_moduleSettings.at(i).moduleName;
             moduleID++;
-            QFileInfoList list = scan(rpath);
+            QFileInfoList list;
+            bool scaned = false;
+            if(fastStart.hasCache(rpath)) {
+                const QStringList m = fastStart.getFileNames(rpath);
+                foreach(QString f, m) {
+                    list << QFileInfo(f);
+                }
+            } else {
+                list = scan(rpath);
+                scaned = true;
+            }
+            QStringList fastSaveList;
             foreach(QFileInfo fileInfo, list) { //Alle Ordner auslesen
                 const QString fileName = fileInfo.fileName();
-
+                if(scaned)
+                    fastSaveList << fileName;
                 QFile file;
                 moduleType = Module::NoneType;
 
@@ -217,6 +232,8 @@ int ModuleManager::loadAllModules()
                 }
 
             }
+            if(scaned)
+                fastStart.setFileNames(rpath, fastSaveList);
         } else {
             //load module
             int bibletype = m_settings->m_moduleSettings.at(i).moduleType.toInt();
@@ -287,6 +304,8 @@ int ModuleManager::loadAllModules()
             }
         }
     }
+    if(fastStart.changed())
+        fastStart.save();
     return 0;
 }
 void ModuleManager::initBible(Bible *b)

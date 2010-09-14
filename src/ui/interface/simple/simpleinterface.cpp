@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/bibledisplaysettings.h"
 #include "src/core/core.h"
 #include "src/core/search.h"
+#include "src/core/faststart.h"
 #include <QtGui/QDesktopServices>
 #include <QtGui/QMessageBox>
 #include <QtGui/QKeyEvent>
@@ -385,6 +386,9 @@ void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings
         }
     }
     if(reloadBibles == true) {
+        FastStart fastStart;
+        fastStart.setSettings(m_settings);
+        fastStart.remove();
         myDebug() << "reload Bibles";
         m_moduleManager->loadAllModules();
         m_moduleDockWidget->init();

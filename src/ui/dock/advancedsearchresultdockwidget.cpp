@@ -114,6 +114,7 @@ void AdvancedSearchResultDockWidget::searchInfo()
         SearchHit hit = list.at(i);
         if(hit.type() == SearchHit::BibleHit) {
             const QString bookn = m_moduleManager->bible()->bookName(hit.value(SearchHit::BookID).toInt()); //todo: maybe the bible isn't loaded and you need another bookNames
+                                                                                                            //or we call it a feature
             textList << hit.value(SearchHit::VerseText).toString() + "\n - <i>" + bookn
                      + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1)
                      + " , " + QString::number(hit.value(SearchHit::VerseID).toInt() + 1) + "</i>";
@@ -129,7 +130,6 @@ void AdvancedSearchResultDockWidget::searchInfo()
 
 void AdvancedSearchResultDockWidget::nextVerse()
 {
-    DEBUG_FUNC_NAME
     if(m_itemModel->rowCount() != 0) {
         const QModelIndex index = m_selectionModel->currentIndex();
         const QModelIndex parent = index.parent();
@@ -184,14 +184,12 @@ void AdvancedSearchResultDockWidget::nextVerse()
 
 void AdvancedSearchResultDockWidget::previousVerse()
 {
-    DEBUG_FUNC_NAME
     if(m_itemModel->rowCount() != 0) {
         const QModelIndex index = m_selectionModel->currentIndex();
         const QModelIndex parent = index.parent();
         QModelIndex neededIndex;
         bool found = false;
         int rowID = index.row();
-        myDebug() << "index.row = " << rowID;
         while(!found) {
             if(rowID == 0) {
                 break;
