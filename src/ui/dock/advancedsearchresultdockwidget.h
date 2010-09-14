@@ -35,6 +35,7 @@ private:
     QSortFilterProxyModel *m_proxyModel;
     QItemSelectionModel *m_selectionModel;
     QStandardItemModel *m_itemModel;
+    QModelIndex findNext(QModelIndex start, const int &rowID,const int &level, int currentLevel);
 };
 
 #endif // ADVANCEDSEARCHRESULTDOCKWIDGET_H
