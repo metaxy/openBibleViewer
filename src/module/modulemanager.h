@@ -64,7 +64,7 @@ public:
     BibleDisplaySettings *m_bibleDisplaySettings;
 
 private:
-    QFileInfoList scan(const QString &path, int level);
+    QStringList scan(const QString &path, const int &level);
 
 };
 

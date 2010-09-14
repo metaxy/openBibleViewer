@@ -48,10 +48,10 @@ void ModuleManager::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySe
 {
     m_bibleDisplaySettings = bibleDisplaySettings;
 }
-QFileInfoList ModuleManager::scan(const QString &path, int level = 0)
+QStringList ModuleManager::scan(const QString &path, const int &level = 0)
 {
     //todo: make faster using name filter
-    QFileInfoList ret;
+    QStringList ret;
     QDir dir(path);
     const QFileInfoList list = dir.entryInfoList();
     foreach(QFileInfo info, list) {
@@ -60,7 +60,7 @@ QFileInfoList ModuleManager::scan(const QString &path, int level = 0)
                 if(level <= 2)//i think this is ok
                     ret.append(scan(info.absoluteFilePath(), level + 1));
             } else {
-                ret.append(info);
+                ret.append(info.absoluteFilePath());
             }
         }
     }
@@ -125,34 +125,26 @@ int ModuleManager::loadAllModules()
             folder->m_id = moduleID;
             folder->m_title = m_settings->m_moduleSettings.at(i).moduleName;
             moduleID++;
-            QFileInfoList list;
+            QStringList list;
             bool scaned = false;
             if(fastStart.hasCache(rpath)) {
-                const QStringList m = fastStart.getFileNames(rpath);
-                foreach(QString f, m) {
-                    list << QFileInfo(f);
-                }
+                list = fastStart.getFileNames(rpath);
             } else {
                 list = scan(rpath);
                 scaned = true;
             }
-            QStringList fastSaveList;
-            foreach(QFileInfo fileInfo, list) { //Alle Ordner auslesen
-                const QString fileName = fileInfo.fileName();
-                if(scaned)
-                    fastSaveList << fileName;
+            foreach(QString fileName, list) { //Alle Ordner auslesen
                 QFile file;
                 moduleType = Module::NoneType;
-
                 if(fileName.compare(fileName, "bibleqt.ini", Qt::CaseInsensitive) == 0) {
                     moduleType = Module::BibleQuoteModule;
-                } else  if(fileInfo.suffix().compare("xml", Qt::CaseInsensitive) == 0) {
+                } else  if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
                     moduleType = Module::ZefaniaBibleModule;//todo: cannot detect other xml files
-                } else  if(fileInfo.suffix().compare("idx", Qt::CaseInsensitive) == 0) {
+                } else  if(fileName.endsWith(".idx", Qt::CaseInsensitive) ) {
                     moduleType = Module::BibleQuoteDictModule;//todo: cannot detect other xml files
                 }
 
-                file.setFileName(fileInfo.absoluteFilePath());
+                file.setFileName(fileName);
                 if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
                     QString bname;
                     switch(moduleType) {
@@ -233,7 +225,7 @@ int ModuleManager::loadAllModules()
 
             }
             if(scaned)
-                fastStart.setFileNames(rpath, fastSaveList);
+                fastStart.setFileNames(rpath, list);
         } else {
             //load module
             int bibletype = m_settings->m_moduleSettings.at(i).moduleType.toInt();
@@ -421,9 +413,9 @@ QList<int> ModuleManager::getBibleIDs()
 void ModuleManager::checkCache(const int &moduleID)
 {
     Module* m = m_moduleMap->m_map.value(moduleID);
-    Bible *b = new Bible();
-    initBible(b);
     if(!m_settings->m_moduleCache.keys().contains(m->m_path)) {
+        Bible *b = new Bible();
+        initBible(b);
         b->setModuleType(m->m_moduleType);
         b->loadModuleData(moduleID);//set cache
     }

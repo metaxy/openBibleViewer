@@ -39,7 +39,7 @@ bool FastStart::remove()
     return dir.remove(filePath());
 }
 
-void FastStart::setFileNames(const QString &dir,const QStringList &files)
+void FastStart::setFileNames(const QString &dir, const QStringList &files)
 {
     m_data[dir] = files;
     m_changed = true;
@@ -52,8 +52,6 @@ QStringList FastStart::getFileNames(const QString &dir) const
 
 bool FastStart::hasCache(const QString &dir) const
 {
-    DEBUG_FUNC_NAME
-    myDebug() << dir << m_data.contains(dir) << m_data.keys();
     return m_data.contains(dir);
 }
 
