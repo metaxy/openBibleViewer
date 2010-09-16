@@ -10,7 +10,7 @@
     <message>
         <location filename="ui/dialog/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished">O programu</translation>
+        <translation>O programu</translation>
     </message>
     <message>
         <location filename="ui/dialog/aboutdialog.ui" line="56"/>
@@ -66,12 +66,12 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="600"/>
         <source>No such bible found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Žádná taková Bible nebyla nalezena.</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="830"/>
         <source>openBibleViewer</source>
-        <translation type="unfinished">openBibleViewer</translation>
+        <translation>openBibleViewer</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1118"/>
@@ -111,17 +111,17 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1151"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Tučné</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1155"/>
         <source>Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>Kurzíva</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1159"/>
         <source>Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>Podtržení</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1164"/>
@@ -141,7 +141,7 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1199"/>
         <source>Debugger</source>
-        <translation type="unfinished"></translation>
+        <translation>Ladič</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1552"/>
@@ -265,17 +265,17 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1575"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukončit</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1615"/>
         <source>Next Chapter</source>
-        <translation type="unfinished"></translation>
+        <translation>Další kapitola</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1620"/>
         <source>Previous Chapter</source>
-        <translation type="unfinished"></translation>
+        <translation>Předchozí kapitola</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1693"/>
@@ -302,12 +302,12 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1713"/>
         <source>Docks</source>
-        <translation type="unfinished"></translation>
+        <translation>Panely</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1722"/>
         <source>Books</source>
-        <translation type="unfinished"></translation>
+        <translation>Knihy</translation>
     </message>
     <message>
         <source>Strong</source>
@@ -316,12 +316,12 @@
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1746"/>
         <source>Quick Jump</source>
-        <translation type="unfinished">Přejít na</translation>
+        <translation>Rychlý skok</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1752"/>
         <source>Search Results</source>
-        <translation type="unfinished"></translation>
+        <translation>Výsledky hledání</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1767"/>
@@ -363,22 +363,22 @@ Nápověda na internetu</translation>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1734"/>
         <source>Dictionay</source>
-        <translation type="unfinished"></translation>
+        <translation>Slovník</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1803"/>
         <source>Main Tool Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlavní nástrojový pruh</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1843"/>
         <source>Search Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Pruh pro hledání</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1898"/>
         <source>http://openbv.uucyc.name/faq.html</source>
-        <translation type="unfinished"></translation>
+        <translation>http://openbv.uucyc.name/faq.html</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.cpp" line="1921"/>
@@ -403,7 +403,7 @@ Nápověda na internetu</translation>
     <message>
         <location filename="ui/interface/advanced/advancedinterface.ui" line="20"/>
         <source>WindowForm</source>
-        <translation type="unfinished"></translation>
+        <translation>Podoba okna</translation>
     </message>
 </context>
 <context>
@@ -411,32 +411,32 @@ Nápověda na internetu</translation>
     <message>
         <location filename="ui/dock/advancedsearchresultdockwidget.ui" line="14"/>
         <source>Search Results</source>
-        <translation type="unfinished"></translation>
+        <translation>Výsledky hledání</translation>
     </message>
     <message>
         <location filename="ui/dock/advancedsearchresultdockwidget.ui" line="39"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace</translation>
     </message>
     <message>
         <location filename="ui/dock/advancedsearchresultdockwidget.cpp" line="39"/>
         <source>Search: %1</source>
-        <translation type="unfinished">Hledání: %1</translation>
+        <translation>Hledání: %1</translation>
     </message>
     <message>
         <location filename="ui/dock/advancedsearchresultdockwidget.cpp" line="67"/>
         <source>Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Poznámky</translation>
     </message>
     <message>
         <location filename="ui/dock/advancedsearchresultdockwidget.cpp" line="104"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="ui/dock/advancedsearchresultdockwidget.cpp" line="104"/>
         <source>No search information available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nejsou dostupné žádné informace o hledání.</translation>
     </message>
 </context>
 <context>
@@ -444,7 +444,7 @@ Nápověda na internetu</translation>
     <message>
         <location filename="ui/interface/advanced/biblelistitemdelegate.cpp" line="25"/>
         <source>None</source>
-        <translation type="unfinished">Žádný</translation>
+        <translation>Žádný</translation>
     </message>
 </context>
 <context>
@@ -452,7 +452,7 @@ Nápověda na internetu</translation>
     <message>
         <location filename="ui/interface/advanced/biblelistwidget.ui" line="14"/>
         <source>Bible List</source>
-        <translation type="unfinished"></translation>
+        <translation>Seznam s Biblemi</translation>
     </message>
     <message>
         <location filename="ui/interface/advanced/biblelistwidget.ui" line="22"/>
@@ -460,7 +460,7 @@ Nápověda na internetu</translation>
         <location filename="ui/interface/advanced/biblelistwidget.ui" line="61"/>
         <location filename="ui/interface/advanced/biblelistwidget.ui" line="85"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
 </context>
 <context>
@@ -513,7 +513,7 @@ Nápověda na internetu</translation>
     <message>
         <location filename="ui/dock/bookmarksdockwidget.cpp" line="121"/>
         <source>Go To</source>
-        <translation type="unfinished"></translation>
+        <translation>Jít na</translation>
     </message>
     <message>
         <location filename="ui/dock/bookmarksdockwidget.cpp" line="125"/>
@@ -548,7 +548,7 @@ Nápověda na internetu</translation>
     <message>
         <location filename="ui/dock/dictionarydockwidget.ui" line="14"/>
         <source>Dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>Slovník</translation>
     </message>
 </context>
 <context>
@@ -948,337 +948,337 @@ Nápověda na internetu</translation>
     <message>
         <location filename="ui/mainwindow.cpp" line="335"/>
         <source>Gen, Ge, Gn</source>
-        <translation type="unfinished"></translation>
+        <translation>Gen, Ge, Gn</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="336"/>
         <source>Exodus Lev, Le, Lv</source>
-        <translation type="unfinished"></translation>
+        <translation>Exodus, Lev, Le, Lv</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="337"/>
         <source>Num, Nu, Nm, Nb</source>
-        <translation type="unfinished"></translation>
+        <translation>Num, Nu, Nm</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="338"/>
         <source>Deut, Dt</source>
-        <translation type="unfinished"></translation>
+        <translation>Deut, Dt</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="339"/>
         <source>Josh, Jos, Jsh</source>
-        <translation type="unfinished"></translation>
+        <translation>Joz, Jo, J</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="340"/>
         <source>Judg, Jdg, Jg, Jdgs</source>
-        <translation type="unfinished"></translation>
+        <translation>Soudc, Soud, Sou, So</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="341"/>
         <source>Rth, Ru</source>
-        <translation type="unfinished"></translation>
+        <translation>Rt, Ru</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="342"/>
         <source>1 Sam, 1 Sa, 1Samuel, 1S, I Sa, 1 Sm, 1Sa, I Sam, 1Sam</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Sam, 1 Sa, 1 Samuel, 1 S, I Sam, I Sa, 1 Sm, I S, I Samuel</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="343"/>
         <source>2 Sam, 2 Sa, 2S, II Sa, 2 Sm, 2Sa, II Sam, 2Sam</source>
-        <translation type="unfinished"></translation>
+        <translation>2 Sam, 2 Sa, 2 S, 2 Samuel, II Sam, II Sa, II S, II Samuel</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="344"/>
         <source>1 Kgs, 1 Ki, 1K, I Kgs, 1Kgs, I Ki, 1Ki, I Kings, 1Kings, 1st Kgs, 1st Kings, 1Kin</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Král, 1 Kr, 1 K, I Král, I Kr, I K</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="345"/>
         <source>2 Kgs, 2 Ki, 2K, II Kgs, 2Kgs, II Ki, 2Ki, II Kings, 2Kings, 2nd Kgs, 2nd Kings, 2Kin</source>
-        <translation type="unfinished"></translation>
+        <translation>2 Král, 2 Kr, 2 K, I Král, I Kr, I K</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="346"/>
         <source>1 Chron, 1 Ch, I Ch, 1Ch, 1 Chr, I Chr, 1Chr, I Chron, 1Chron</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Paral, 1 Par, I Pa, 1 Pa, I Par, I Paral</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="347"/>
         <source>2 Chron, 2 Ch, II Ch, 2Ch, II Chr, 2Chr, II Chron, 2Chron</source>
-        <translation type="unfinished"></translation>
+        <translation>2 Paral, 2 Par, II Pa, 2 Pa, II Par, II Paral</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="348"/>
         <source>Ezra, Ezr</source>
-        <translation type="unfinished"></translation>
+        <translation>Ezra, Ezr</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="349"/>
         <source>Neh, Ne</source>
-        <translation type="unfinished"></translation>
+        <translation>Neh, Ne</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="350"/>
         <source>Esth, Es</source>
-        <translation type="unfinished"></translation>
+        <translation>Est, Es</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="351"/>
         <source>Job, Job, Jb</source>
-        <translation type="unfinished"></translation>
+        <translation>Job, Jb</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="352"/>
         <source>Pslm, Ps, Psalms, Psa, Psm, Pss</source>
-        <translation type="unfinished"></translation>
+        <translation>Žalm, Žal, Ža</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="353"/>
         <source>Prov, Pr, Prv</source>
-        <translation type="unfinished"></translation>
+        <translation>Přísl, Přís, Pří, Př</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="354"/>
         <source>Eccles, Ec, Qoh, Qoheleth</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaz, Ka</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="355"/>
         <source>Song, So, SOS</source>
-        <translation type="unfinished"></translation>
+        <translation>Pís, Pí</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="356"/>
         <source>Isa, Is</source>
-        <translation type="unfinished"></translation>
+        <translation>Iza, Iz</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="357"/>
         <source>Jer, Je, Jr</source>
-        <translation type="unfinished"></translation>
+        <translation>Jer, Je, Jr</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="358"/>
         <source>Lam, La</source>
-        <translation type="unfinished"></translation>
+        <translation>Pláč, Plá, Pl</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="359"/>
         <source>Ezek, Eze, Ezk</source>
-        <translation type="unfinished"></translation>
+        <translation>Ezech, Eze, Ezch</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="360"/>
         <source>Dan, Da, Dn</source>
-        <translation type="unfinished"></translation>
+        <translation>Dan, Da, Dn</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="361"/>
         <source>Hos, Ho</source>
-        <translation type="unfinished"></translation>
+        <translation>Oze, Oz</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="362"/>
         <source>Joel, Joe, Jl</source>
-        <translation type="unfinished"></translation>
+        <translation>Jóel, Jóe, Jl</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="363"/>
         <source>Amos, Am</source>
-        <translation type="unfinished"></translation>
+        <translation>Ámos, Ám</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="364"/>
         <source>Obad, Ob</source>
-        <translation type="unfinished"></translation>
+        <translation>Abdi, Abd, Ab</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="365"/>
         <source>Jnh, Jon</source>
-        <translation type="unfinished"></translation>
+        <translation>Jnš, Jon</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="366"/>
         <source>Micah, Mic</source>
-        <translation type="unfinished"></translation>
+        <translation>Mich, Mi</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="367"/>
         <source>Nah, Na</source>
-        <translation type="unfinished"></translation>
+        <translation>Nah, Na</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="368"/>
         <source>Hab, Hab</source>
-        <translation type="unfinished"></translation>
+        <translation>Aba</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="369"/>
         <source>Zeph, Zep, Zp</source>
-        <translation type="unfinished"></translation>
+        <translation>Sofon, Sof, Sf</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="370"/>
         <source>Haggai, Hag, Hg</source>
-        <translation type="unfinished"></translation>
+        <translation>Age</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="371"/>
         <source>Zech, Zec, Zc</source>
-        <translation type="unfinished"></translation>
+        <translation>Zach, Zch</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="372"/>
         <source>Mal, Mal, Ml</source>
-        <translation type="unfinished"></translation>
+        <translation>Mal, Ml</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="373"/>
         <source>Matt, Mt</source>
-        <translation type="unfinished"></translation>
+        <translation>Mat, Mt</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="374"/>
         <source>Mrk, Mk, Mr</source>
-        <translation type="unfinished"></translation>
+        <translation>Mrk, Mk, Mr</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="375"/>
         <source>Luk, Lk</source>
-        <translation type="unfinished"></translation>
+        <translation>Luk, Lk</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="376"/>
         <source>John, Jn, Jhn</source>
-        <translation type="unfinished"></translation>
+        <translation>Jan, Jn</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="377"/>
         <source>Acts, Ac</source>
-        <translation type="unfinished"></translation>
+        <translation>Skutky, Sk</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="378"/>
         <source>Rom, Ro, Rm</source>
-        <translation type="unfinished"></translation>
+        <translation>Řím</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="379"/>
         <source>1 Cor, 1 Co, I Co, 1Co, I Cor, 1Cor</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Kor, 1 Ko, I Ko, I Kor</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="380"/>
         <source>2 Cor, 2 Co, II Co, 2Co, II Cor, 2Cor</source>
-        <translation type="unfinished"></translation>
+        <translation>2 Kor, 2 Ko, II Ko, II Kor</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="381"/>
         <source>Gal, Ga</source>
-        <translation type="unfinished"></translation>
+        <translation>Gal, Ga</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="382"/>
         <source>Ephes, Eph</source>
-        <translation type="unfinished"></translation>
+        <translation>Efez, Ef</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="383"/>
         <source>Phil, Php</source>
-        <translation type="unfinished"></translation>
+        <translation>Fil, Filip</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="384"/>
         <source>Col, Col</source>
-        <translation type="unfinished"></translation>
+        <translation>Kol</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="385"/>
         <source>1 Thess, 1 Th, I Th, 1Th, I Thes, 1Thes, I Thess, 1Thess</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Tes, 1 Te, I Te, I Tes</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="386"/>
         <source>2 Thess, 2 Th, II Th, 2Th, II Thes, 2Thes, II Thess, 2Thess</source>
-        <translation type="unfinished"></translation>
+        <translation>2 Tes, 2 Te, II Te, II Tes</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="387"/>
         <source>1 Tim, 1 Ti, I Ti, 1Ti, I Tim, 1Tim</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Tim, 1 Ti, I Ti, I Tim</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="388"/>
         <source>2 Tim, 2 Ti, II Ti, 2Ti, II Tim, 2Tim</source>
-        <translation type="unfinished"></translation>
+        <translation>2 Tim, 2 Ti, II Ti, II Tim</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="389"/>
         <source>Titus, Tit</source>
-        <translation type="unfinished"></translation>
+        <translation>Tit</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="390"/>
         <source>Philem, Phm</source>
-        <translation type="unfinished"></translation>
+        <translation>Filem, File</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="391"/>
         <source>Hebrews, Heb</source>
-        <translation type="unfinished"></translation>
+        <translation>Židům, Žid</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="392"/>
         <source>James, Jas, Jm</source>
-        <translation type="unfinished"></translation>
+        <translation>Jakub, Jak</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="393"/>
         <source>1 Pet, 1 Pe, I Pe, 1Pe, I Pet, 1Pet, I Pt, 1 Pt, 1Pt</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Pet, 1 Pe, I Pe, I Pet, I Pt, 1 Pt</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="394"/>
         <source>2 Pet, 2 Pe, II Pe, 2Pe, II Pet, 2Pet, II Pt, 2 Pt, 2Pt</source>
-        <translation type="unfinished"></translation>
+        <translation>2 Pet, 2 Pe, II Pe, II Pet, II Pt, 2 Pt</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="395"/>
         <source>1 John, 1 Jn, I Jn, 1Jn, I Jo, 1Jo, I Joh, 1Joh, I Jhn, 1 Jhn, 1Jhn, I John, 1John</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Jan, 1 Ja, 1 Jn, I Jn, I Ja, I Jan</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="396"/>
         <source>2 John, 2 Jn, II Jn, 2Jn, II Jo, 2Jo, II Joh, 2Joh, II Jhn, 2 Jhn, 2Jhn, II John, 2John</source>
-        <translation type="unfinished"></translation>
+        <translation>2 Jan, 2 Ja, 2 Jn, II Jn, II Ja, II Jan</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="397"/>
         <source>3 John, 3 Jn, III Jn, 3Jn, III Jo, 3Jo, III Joh, 3Joh, III Jhn, 3 Jhn, 3Jhn, III John, 3John</source>
-        <translation type="unfinished"></translation>
+        <translation>3 Jan, 3 Ja, 3 Jn, III Jn, III Ja, III Jan</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="398"/>
         <source>Jude, Jud</source>
-        <translation type="unfinished"></translation>
+        <translation>Jud</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="399"/>
         <source>Rev, Re, The Revelation</source>
-        <translation type="unfinished"></translation>
+        <translation>Zjevení, Zjev, Zjevení Janovo</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="598"/>
         <source>Please choose an another language.</source>
-        <translation>Vyberte, prosím, jiný jazyk</translation>
+        <translation>Vyberte, prosím, jiný jazyk.</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.cpp" line="598"/>
         <source>Installing language failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jazyk se nepodařilo nainstalovat.</translation>
     </message>
     <message>
         <source>This book is not available.</source>
@@ -1664,7 +1664,7 @@ Nápověda na internetu</translation>
     <message>
         <location filename="ui/marklist.cpp" line="110"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazat</translation>
     </message>
 </context>
 <context>
@@ -1841,7 +1841,7 @@ Nápověda na internetu</translation>
     <message>
         <location filename="ui/dialog/moduledownloaddialog.cpp" line="81"/>
         <source>Dictionarys</source>
-        <translation type="unfinished"></translation>
+        <translation>Slovníky</translation>
     </message>
     <message>
         <source>Strong Modules</source>
@@ -1875,29 +1875,29 @@ Nápověda na internetu</translation>
         <location filename="core/moduledownloader.cpp" line="136"/>
         <location filename="core/moduledownloader.cpp" line="162"/>
         <source>HTTP</source>
-        <translation type="unfinished">HTTP</translation>
+        <translation>HTTP</translation>
     </message>
     <message>
         <location filename="core/moduledownloader.cpp" line="94"/>
         <source>Unable to save the file %1: %2.</source>
-        <translation type="unfinished">Soubor %1 nelze uložit: %2.</translation>
+        <translation>Soubor %1 nelze uložit: %2.</translation>
     </message>
     <message>
         <location filename="core/moduledownloader.cpp" line="102"/>
         <source>Downloading</source>
-        <translation type="unfinished">Stahuje se</translation>
+        <translation>Stahuje se</translation>
     </message>
     <message>
         <location filename="core/moduledownloader.cpp" line="103"/>
         <location filename="core/moduledownloader.cpp" line="175"/>
         <source>Downloading %1 / %2. %3 MB</source>
-        <translation type="unfinished">Stahuje se %1 z %2. %3 MB</translation>
+        <translation>Stahuje se %1 z %2. %3 MB</translation>
     </message>
     <message>
         <location filename="core/moduledownloader.cpp" line="136"/>
         <location filename="core/moduledownloader.cpp" line="163"/>
         <source>Download failed: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stažení se nezdařilo: %1.</translation>
     </message>
 </context>
 <context>
@@ -2288,17 +2288,17 @@ Nápověda na internetu</translation>
     <message>
         <location filename="ui/noteseditor.cpp" line="47"/>
         <source>Normal View</source>
-        <translation type="unfinished"></translation>
+        <translation>Obvyklý pohled</translation>
     </message>
     <message>
         <location filename="ui/noteseditor.cpp" line="48"/>
         <source>HTML Source</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdroj HTML</translation>
     </message>
     <message>
         <location filename="ui/noteseditor.cpp" line="184"/>
         <source>HTML-Files (*.html *.htm);;Text-Files (*.txt);;All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubory HTML (*.html *.htm);;Textové soubory (*.txt);;Všechny soubory (*)</translation>
     </message>
     <message>
         <location filename="ui/noteseditor.cpp" line="204"/>
@@ -2371,7 +2371,7 @@ Nápověda na internetu</translation>
         <location filename="module/biblequote.cpp" line="323"/>
         <location filename="module/modulemanager.cpp" line="77"/>
         <location filename="module/zefania-bible.cpp" line="293"/>
-        <location filename="module/zefania-bible.cpp" line="612"/>
+        <location filename="module/zefania-bible.cpp" line="595"/>
         <location filename="ui/dialog/settingsdialog.cpp" line="178"/>
         <location filename="ui/dialog/settingsdialog.cpp" line="298"/>
         <source>Cancel</source>
@@ -2379,9 +2379,9 @@ Nápověda na internetu</translation>
     </message>
     <message>
         <location filename="module/biblequote-dict.cpp" line="124"/>
-        <location filename="module/zefania-bible.cpp" line="612"/>
+        <location filename="module/zefania-bible.cpp" line="595"/>
         <source>Build index</source>
-        <translation type="unfinished"></translation>
+        <translation>Sestavit rejstřík</translation>
     </message>
     <message>
         <location filename="module/modulemanager.cpp" line="77"/>
@@ -2519,33 +2519,33 @@ Soubor není platný. Chybný řetězec: %1 na řádku %2 v poloze %2</translati
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="325"/>
         <source>Cannot open zipped files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zazipované soubory nelze otevřít.</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="332"/>
         <source>Cannot read the file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor nelze přečíst.</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="357"/>
         <location filename="ui/dialog/settingsdialog.cpp" line="394"/>
         <source>Cannot determine the module type.</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ modulu nelze určit.</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="385"/>
         <source>Zefania XML Dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>Slovník XML Zefania</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="392"/>
         <source>Bible Quote Dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>Slovník BibleQuote</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="410"/>
         <source>Cannot open the file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor nelze otevřít.</translation>
     </message>
     <message>
         <source>Open File</source>
@@ -2567,7 +2567,7 @@ Soubor není platný. Chybný řetězec: %1 na řádku %2 v poloze %2</translati
     <message>
         <location filename="module/biblequote.cpp" line="323"/>
         <source>Indexing</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejstříkuje se</translation>
     </message>
 </context>
 <context>
@@ -2589,32 +2589,32 @@ Soubor není platný. Chybný řetězec: %1 na řádku %2 v poloze %2</translati
     <message>
         <location filename="ui/dialog/searchdialog.ui" line="68"/>
         <source>Range</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozsah</translation>
     </message>
     <message>
         <location filename="ui/dialog/searchdialog.ui" line="74"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Vše</translation>
     </message>
     <message>
         <location filename="ui/dialog/searchdialog.ui" line="87"/>
         <source>OT</source>
-        <translation type="unfinished"></translation>
+        <translation>Starý zákon</translation>
     </message>
     <message>
         <location filename="ui/dialog/searchdialog.ui" line="97"/>
         <source>NT</source>
-        <translation type="unfinished"></translation>
+        <translation>Nový zákon</translation>
     </message>
     <message>
         <location filename="ui/dialog/searchdialog.ui" line="121"/>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Volby</translation>
     </message>
     <message>
         <location filename="ui/dialog/searchdialog.ui" line="130"/>
         <source>Search In Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Hledat v poznámkách</translation>
     </message>
     <message>
         <source>RegExp</source>
@@ -2718,7 +2718,7 @@ Soubor není platný. Chybný řetězec: %1 na řádku %2 v poloze %2</translati
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="14"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.ui" line="30"/>
@@ -2808,22 +2808,22 @@ Soubor není platný. Chybný řetězec: %1 na řádku %2 v poloze %2</translati
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="78"/>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>Anglický</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="78"/>
         <source>German</source>
-        <translation type="unfinished"></translation>
+        <translation>Německý</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="78"/>
         <source>Russian</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruský</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="78"/>
         <source>Czech</source>
-        <translation type="unfinished"></translation>
+        <translation>Český</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="100"/>
@@ -2853,12 +2853,12 @@ Soubor není platný. Chybný řetězec: %1 na řádku %2 v poloze %2</translati
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="106"/>
         <source>Simple</source>
-        <translation type="unfinished"></translation>
+        <translation>Jednoduché</translation>
     </message>
     <message>
         <location filename="ui/dialog/settingsdialog.cpp" line="106"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokročilé</translation>
     </message>
 </context>
 <context>
@@ -2891,7 +2891,7 @@ Soubor není platný. Chybný řetězec: %1 na řádku %2 v poloze %2</translati
     <message>
         <location filename="ui/interface/simple/simpleinterface.cpp" line="255"/>
         <source>openBibleViewer</source>
-        <translation type="unfinished">openBibleViewer</translation>
+        <translation>openBibleViewer</translation>
     </message>
     <message>
         <location filename="ui/interface/simple/simpleinterface.cpp" line="286"/>
@@ -2932,7 +2932,7 @@ Soubor není platný. Chybný řetězec: %1 na řádku %2 v poloze %2</translati
         <location filename="core/simplenotes.cpp" line="409"/>
         <location filename="core/simplenotes.cpp" line="417"/>
         <source>Folder</source>
-        <translation type="unfinished">Složka</translation>
+        <translation>Složka</translation>
     </message>
     <message>
         <location filename="core/simplenotes.cpp" line="490"/>
@@ -2947,7 +2947,7 @@ Soubor není platný. Chybný řetězec: %1 na řádku %2 v poloze %2</translati
     <message>
         <location filename="core/simplenotes.cpp" line="498"/>
         <source>New Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Nová složka</translation>
     </message>
     <message>
         <location filename="core/simplenotes.cpp" line="502"/>
