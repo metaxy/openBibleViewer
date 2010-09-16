@@ -375,7 +375,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     int c;
 
     if(!doc.setContent(data, &error, &l, &c)) {
-        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid. Errorstring: %1 in Line %2 at Position %2").arg(error).arg(l).arg(c));
+        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid. Errorstring: %1 in Line %2 at Position %3").arg(error).arg(l).arg(c));
         myWarning() << "the file isn't valid";
         return;
     }

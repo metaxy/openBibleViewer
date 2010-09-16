@@ -187,10 +187,10 @@ FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dock/advancedsearchresultdockwidget.ui
 RESOURCES += src/icons.qrc \
     src/data.qrc
-TRANSLATIONS = src/obv_de.ts \
-    src/obv_ru.ts \
-    src/obv_en.ts \
-    src/obv_cs.ts
+TRANSLATIONS = src/locales/obv_de.ts \
+    src/locales/obv_ru.ts \
+    src/locales/obv_en.ts \
+    src/locales/obv_cs.ts
 
 #DEFINES += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
 
