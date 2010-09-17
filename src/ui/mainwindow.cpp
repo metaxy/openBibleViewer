@@ -88,7 +88,7 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 void MainWindow::loadInterface()
 {
     DEBUG_FUNC_NAME
-    QString interface = m_settings->session.getData("interface", QString("advanced")).toString();
+    const QString interface = m_settings->session.getData("interface", QString("advanced")).toString();
     if(interface == "advanced") {
         loadAdvancedInterface();
     } else if(interface == "simple") {
@@ -628,7 +628,7 @@ void MainWindow::changeEvent(QEvent *e)
     QMainWindow::changeEvent(e);
     switch(e->type()) {
     case QEvent::LanguageChange:
-        myDebug() << "retranslate";
+        //myDebug() << "retranslate";
         ui->retranslateUi(this);
         if(m_reloadLang) {
             if(m_interface->hasMenuBar()) {

@@ -426,22 +426,21 @@ void AdvancedInterface::closeSubWindow()
 int AdvancedInterface::closingWindow()
 {
     DEBUG_FUNC_NAME
-    myDebug() << "enable reload = " << m_enableReload << "subWIndowList = "
-              << ui->mdiArea->subWindowList() << "internalWindow " << m_internalWindows;
+    //myDebug() << "enable reload = " << m_enableReload << "subWIndowList = " << ui->mdiArea->subWindowList() << "internalWindow " << m_internalWindows;
     if(!m_enableReload) {
-        myDebug() << "reload is not enabled";
+        //myDebug() << "reload is not enabled";
         return 1;
     }
 
     if(ui->mdiArea->subWindowList().isEmpty()) {
-        myDebug() << "subWindowList is empty";
+        //myDebug() << "subWindowList is empty";
         clearBooks();
         clearChapters();
         m_windowCache.clearAll();
         return 1;
     }
     if(m_internalWindows.isEmpty()) {
-        myDebug() << "internaL is empty";
+        //myDebug() << "internaL is empty";
         clearBooks();
         clearChapters();
         m_windowCache.clearAll();
@@ -457,7 +456,7 @@ int AdvancedInterface::closingWindow()
         }
     }
     if(ui->mdiArea->subWindowList().isEmpty()) {  //last window closed
-        myDebug() << "last closed";
+        //myDebug() << "last closed";
         clearBooks();
         clearChapters();
         m_windowCache.clearAll();
@@ -472,13 +471,13 @@ int AdvancedInterface::closingWindow()
 int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
 {
     DEBUG_FUNC_NAME
-    myDebug() << " enable reload = " << m_enableReload;
+    //myDebug() << " enable reload = " << m_enableReload;
     if(!m_enableReload) {
         return 1;
     }
     const int id = tabIDof(window);
 
-    myDebug() << "id = " << id;
+    //myDebug() << "id = " << id;
 
     if(id == -1) {
         return 1;
@@ -492,19 +491,19 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
     if(!m_windowCache.getBibleList()) {
         clearChapters();
         clearBooks();
-        myDebug() << "no biblelist";
+        //myDebug() << "no biblelist";
         return 1;
     }
     if(!m_windowCache.getBibleList()->bible()) {
         clearChapters();
         clearBooks();
-        myDebug() << "no bible";
+        //myDebug() << "no bible";
         return 1;
     }
     if(m_windowCache.getBibleList()->bible()->moduleID() < 0) {
         clearChapters();
         clearBooks();
-        myDebug() << "no moduleID";
+        //myDebug() << "no moduleID";
         return 1;
     }
     //todo: think about it
@@ -527,7 +526,7 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
 bool AdvancedInterface::loadModuleDataByID(int id)
 {
     DEBUG_FUNC_NAME
-    myDebug() << "id = " << id;
+    //myDebug() << "id = " << id;
     //open a new window if they are none
     if(ui->mdiArea->subWindowList().size() == 0)
         newSubWindow();
@@ -569,7 +568,7 @@ void AdvancedInterface::pharseUrl(QString url)
 
     QString url_backup = url;
     setEnableReload(false);
-    myDebug() << "url = " << url;
+    //myDebug() << "url = " << url;
 
     const QString bible = "bible://";
     const QString strong = "strong://";
@@ -686,7 +685,7 @@ void AdvancedInterface::pharseUrl(QString url)
         //its a biblequote internal link, but i dont have the specifications!!!
         QStringList internal = url.split(" ");
         const QString bibleID = internal.at(1);//todo: use it
-        myDebug() << "bibleID = " << bibleID;
+        //myDebug() << "bibleID = " << bibleID;
         int bookID = internal.at(2).toInt() - 1;
         int chapterID = internal.at(3).toInt() - 1;
         int verseID = internal.at(4).toInt();
@@ -1088,7 +1087,7 @@ VerseSelection AdvancedInterface::verseSelection()
     }
 
     if(s.shortestStringInStartVerse == "" || s.shortestStringInEndVerse == "") {
-        myDebug() "try another";
+        //myDebug() "try another";
         int i = qMin(selectedText.size(), 2);
 
         QString sText = selectedText;
@@ -1100,7 +1099,7 @@ VerseSelection AdvancedInterface::verseSelection()
             n = n.remove(startVerseText.size() - pos, n.size());
 
             npos = startVerseText.indexOf(n);
-            myDebug() << n << npos << pos;
+            //myDebug() << n << npos << pos;
         }
 
     }
@@ -1437,7 +1436,7 @@ void AdvancedInterface::restoreSession()
         setTabView();
 
     const int id = m_settings->session.getData("windowID", -1).toInt();
-    myDebug() << id << ui->mdiArea->subWindowList();
+    //myDebug() << id << ui->mdiArea->subWindowList();
     if(id < ui->mdiArea->subWindowList().size() && id > 0) {
         ui->mdiArea->setActiveSubWindow(ui->mdiArea->subWindowList().at(id));
     }
@@ -1471,7 +1470,7 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
         FastStart fastStart;
         fastStart.setSettings(m_settings);
         fastStart.remove();
-        myDebug() << "reload Module";
+        //myDebug() << "reload Module";
         m_moduleManager->loadAllModules();
         m_moduleDockWidget->init();
         m_dictionaryDockWidget->init();

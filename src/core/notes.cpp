@@ -68,7 +68,7 @@ int Notes::loadNotes()
     }
     if(doc.documentElement().isElement() && !doc.documentElement().isNull()) {
         QDomElement e = doc.documentElement();
-        QString oldVersion = e.attribute("version", "0.1");
+        const QString oldVersion = e.attribute("version", "0.1");
         if(oldVersion == "0.1") {
             //errror to old version
             myWarning() << "too old version " << e.attribute("version", "0.1") << " current is " << m_version;
@@ -245,7 +245,7 @@ QString Notes::generateNewID() const
     long biggest = 0;
     while(i.hasNext()) {
         i.next();
-        int id = i.key().toLong();
+        const int id = i.key().toLong();
         if(id > biggest)
             biggest = id;
     }
@@ -290,7 +290,7 @@ int Notes::readNotes()
         }
         QDomElement e = n.toElement();
         if(e.hasAttribute("id")) {
-            QString id = e.attribute("id", "");
+            const QString id = e.attribute("id", "");
             if(id == "")
                 continue;
             notesID << id;
@@ -347,7 +347,7 @@ int Notes::saveNotes()
     QMapIterator<QString, QString> i(notesType);
     while(i.hasNext()) {
         i.next();
-        QString id = i.key();
+        const QString id = i.key();
         if(id == "")
             continue;
         QDomElement tag = sdoc.createElement("note");
@@ -398,10 +398,8 @@ void Notes::search(SearchQuery query, SearchResult *res) const
             hit.setType(SearchHit::NoteHit);
             hit.setValue(SearchHit::NoteID, i.key());
             res->addHit(hit);
-
             f << i.key();
         }
-        qDebug() << i.key() << ": " << i.value();
     }
     QMapIterator<QString, QString > i2(notesData);
     while(i2.hasNext()) {
@@ -413,11 +411,9 @@ void Notes::search(SearchQuery query, SearchResult *res) const
                 hit.setType(SearchHit::NoteHit);
                 hit.setValue(SearchHit::NoteID, i2.key());
                 res->addHit(hit);
-                myDebug() << "i = " << i2.key() << i2.value();
             }
         }
 
     }
 }
 
-//  #include "moc_notes.cpp"

@@ -141,7 +141,7 @@ int ModuleManager::loadAllModules()
                 } else  if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
                     moduleType = Module::ZefaniaBibleModule;//todo: cannot detect other xml files
                 } else  if(fileName.endsWith(".idx", Qt::CaseInsensitive) ) {
-                    moduleType = Module::BibleQuoteDictModule;//todo: cannot detect other xml files
+                    moduleType = Module::BibleQuoteDictModule;
                 }
 
                 file.setFileName(fileName);
@@ -214,7 +214,7 @@ int ModuleManager::loadAllModules()
                             checkCache(moduleID);
                             m_settings->setModuleIDinMap(moduleID, i);
                             moduleID++;
-                            myDebug() << moduleID << bname;
+                            //myDebug() << moduleID << bname;
                         }
                     }
                     default:
@@ -285,7 +285,7 @@ int ModuleManager::loadAllModules()
                     module->m_moduleType = Module::ZefaniaLexModule;
                     module->m_title = m_settings->m_moduleSettings.at(i).moduleName;
                     module->m_id = moduleID;
-                    myDebug() << "zefania " << module->m_title << module->m_id;
+                    //myDebug() << "zefania " << module->m_title << module->m_id;
                     m_moduleMap->m_map.insert(moduleID, module);
                     m_settings->setModuleIDinMap(moduleID, i);
                     moduleID++;

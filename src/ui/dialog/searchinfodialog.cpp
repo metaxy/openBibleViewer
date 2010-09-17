@@ -102,7 +102,7 @@ void SearchInfoDialog::setInfo(SearchResult result, QStringList bookNames, QStri
 void SearchInfoDialog::tabChanged(int index)
 {
     //DEBUG_FUNC_NAME
-    myDebug() << "index = " << index;
+    //myDebug() << "index = " << index;
     if(index == 1 && m_textShown == false) {  //tab_2
         m_ui->textBrowser_list->setHtml(m_textList.join("<br /><hr>"));
         m_textShown = true;

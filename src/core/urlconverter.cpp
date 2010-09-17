@@ -48,7 +48,7 @@ QString UrlConverter::convert()
         ret = url.toString();
     } else if(m_to == PersistentUrl) {
         if(!m_moduleMap->m_map.contains(m_moduleID)) {
-            myDebug() << "moduleID = " << m_moduleID;
+            //myDebug() << "moduleID = " << m_moduleID;
             return "";
         }
         ret = m_settings->savableUrl(m_moduleMap->m_map.value(m_moduleID)->m_path) + ";" + QString::number(m_bookID) + ";" + QString::number(m_chapterID) + ";" + QString::number(m_verseID);
@@ -80,7 +80,7 @@ int UrlConverter::pharse()
                 }
             }
         } else {
-            myDebug() << "invalid url = " << url << ", it must starts with bible://";
+            myWarning() << "invalid url = " << url << ", it must starts with bible://";
             return 1;
         }
     } else if(m_from == PersistentUrl) {

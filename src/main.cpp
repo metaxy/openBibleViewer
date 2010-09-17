@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
     a.installTranslator(&qtTranslator);
 
     QTranslator myappTranslator;
-    myappTranslator.load(":/data/obv_" + lang);
+    myappTranslator.load(":/data/obv_" + lang);//todo: if there is noting in :/data/ then load from current dir
     a.installTranslator(&myappTranslator);
 
     MainWindow w;

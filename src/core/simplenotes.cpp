@@ -323,13 +323,13 @@ void SimpleNotes::select(const QString &noteID)
 
 void SimpleNotes::newNote(void)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
 
     QStandardItem *parentItem = 0;
-    myDebug() << sender()->objectName();
+    //myDebug() << sender()->objectName();
     if(sender()->objectName() == "actionNew") {
-        myDebug() << m_point <<  m_treeView->indexAt(m_point).data();
+        //myDebug() << m_point <<  m_treeView->indexAt(m_point).data();
         parentItem = m_itemModel->itemFromIndex(m_proxyModel->mapToSource(m_treeView->indexAt(m_point)));
     }
     if(parentItem == 0)

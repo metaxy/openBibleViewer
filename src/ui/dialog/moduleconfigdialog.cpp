@@ -91,7 +91,7 @@ void ModuleConfigDialog::bsave()
             (m_moduleSettings.encoding != m_encodings.at(m_ui->comboBox_encoding->currentIndex()) ||
              m_moduleSettings.moduleType != QString::number(m_ui->comboBox_type->currentIndex()) ||
              m_moduleSettings.modulePath != m_ui->lineEdit_path->text())) {
-        myDebug() << "clear hard in zefania cache";
+        //myDebug() << "clear hard in zefania cache";
         ZefaniaBible zef;
         zef.removeHardCache(m_ui->lineEdit_path->text());
         if(m_moduleSettings.modulePath != m_ui->lineEdit_path->text()) {

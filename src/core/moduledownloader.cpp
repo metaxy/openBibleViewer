@@ -152,7 +152,7 @@ void ModuleDownloader::readResponseHeader(const QHttpResponseHeader &responseHea
     case 303:                   // See Other
     case 307:                   // Temporary Redirect
     case 301:                   // Moved Permanently
-        myDebug() << "moved";
+        //myDebug() << "moved";
         if(responseHeader.hasKey("Location") && !responseHeader.value("Location").contains("failed")) {
             QString location = responseHeader.value("Location");
             download(location, false);

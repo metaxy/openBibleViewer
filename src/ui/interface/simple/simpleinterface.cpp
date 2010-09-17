@@ -221,13 +221,13 @@ void SimpleInterface::pharseUrl(QString url)
         int c = url.toInt(&ok, 10);
         myDebug() << "c = " << c;
         if(ok && c < m_moduleManager->bible()->chaptersCount() && m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c) {
-            myDebug() << "bq chapter link";
+            //myDebug() << "bq chapter link";
             showChapter(c, 0);
             setCurrentChapter(c);
             /*
             m_moduleManager->bible()->readChapter(c, 0);*/
         } else {
-            myDebug() << "anchor";
+            //myDebug() << "anchor";
             ui->textBrowser->scrollToAnchor(url);
         }
     } else {
@@ -277,12 +277,12 @@ void SimpleInterface::setCurrentChapter(const int &chapterID)
 }
 void SimpleInterface::readBook(const int &id)
 {
-    myDebug() << "id = " << id;
+    //myDebug() << "id = " << id;
     emit get("bible://current/" + QString::number(id) + ",0,0");
 }
 void SimpleInterface::readBookByID(int id)
 {
-    myDebug() << "id = " << id;
+    //myDebug() << "id = " << id;
     if(id < 0) {
         QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
         myWarning() << "invalid bookID - 1";
@@ -389,7 +389,7 @@ void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings
         FastStart fastStart;
         fastStart.setSettings(m_settings);
         fastStart.remove();
-        myDebug() << "reload Bibles";
+        //myDebug() << "reload Bibles";
         m_moduleManager->loadAllModules();
         m_moduleDockWidget->init();
         ui->textBrowser->setHtml("");

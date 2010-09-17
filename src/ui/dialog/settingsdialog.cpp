@@ -77,7 +77,7 @@ int SettingsDialog::setSettings(Settings settings)
     QStringList langs;
     langs <<  tr("English") + "( English )" << tr("German") + "( Deutsch )" << tr("Russian") + QString::fromLocal8Bit("( русском )") << tr("Czech") + QString::fromLocal8Bit("( čeština )");
     m_langCode << "en" << "de" << "ru" << "cs";
-    myDebug() << "set.language = " << m_set.language;
+    //myDebug() << "set.language = " << m_set.language;
     m_ui->comboBox_language->clear();
     m_ui->comboBox_language->insertItems(0, langs);
     int code;
@@ -87,7 +87,7 @@ int SettingsDialog::setSettings(Settings settings)
         const QString onlyLang = lang.remove(lang.lastIndexOf("_"), lang.size());
         code = m_langCode.lastIndexOf(onlyLang);
     }
-    myDebug() << "code = " << code;
+    //myDebug() << "code = " << code;
     if(code != -1) {
         m_ui->comboBox_language->setCurrentIndex(code);
     } else { // no lang code was written in the config file
@@ -113,7 +113,7 @@ int SettingsDialog::setSettings(Settings settings)
     } else if(i == "simple") {
         currentInterface = 0;
     }
-    myDebug() << " currentInterface = " << currentInterface;
+    //myDebug() << " currentInterface = " << currentInterface;
     m_ui->comboBox_interface->setCurrentIndex(currentInterface);
 
     return 0;
@@ -207,7 +207,7 @@ void SettingsDialog::addModuleDir(void)
                 }
 
 
-                myDebug() << "new Module file" << f << " moduleName" << bibleName << " moduleType" << moduleType;
+                //myDebug() << "new Module file" << f << " moduleName" << bibleName << " moduleType" << moduleType;
                 // standard config
                 m.biblequote_removeHtml = m_set.removeHtml;
                 m.zefbible_hardCache = m_set.zefaniaBible_hardCache;

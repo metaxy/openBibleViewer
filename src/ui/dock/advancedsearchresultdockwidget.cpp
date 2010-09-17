@@ -196,7 +196,7 @@ void AdvancedSearchResultDockWidget::previousVerse()
             }
             rowID--;
             const QModelIndex n = m_proxyModel->index(rowID,0,parent);
-            myDebug() << rowID << n.data();
+            //myDebug() << rowID << n.data();
             if(n.data(Qt::UserRole + 2) == "bibleHit") {
                 found = true;
                 neededIndex = n;
@@ -213,7 +213,7 @@ void AdvancedSearchResultDockWidget::previousVerse()
                 rowID--;
                 const QModelIndex n = m_proxyModel->index(rowID,0,parent2);
                 if(m_proxyModel->hasChildren(n)) {
-                    myDebug() << m_proxyModel->rowCount(n) - 1;
+                    //myDebug() << m_proxyModel->rowCount(n) - 1;
                      const QModelIndex n2 = m_proxyModel->index(m_proxyModel->rowCount(n) - 1,0,n);//the last
                      if(n2.data(Qt::UserRole + 2) == "bibleHit") {
                          found = true;

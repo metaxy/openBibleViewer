@@ -74,7 +74,7 @@ void ModuleDockWidget::loadedModule(int id)
     const QModelIndexList list = m_proxyModel->match(m_moduleManager->m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, QString::number(id));
 
     if(list.size() == 1) {
-        myDebug() << id << list;
+        //myDebug() << id << list;
         m_selectionModel->clearSelection();
         m_selectionModel->setCurrentIndex(m_proxyModel->mapFromSource(list.at(0)), QItemSelectionModel::Select);
     }

@@ -146,12 +146,12 @@ void BookmarksDockWidget::removeBookmark()
     if(ui->treeWidget_bookmarks->currentItem())
         delete ui->treeWidget_bookmarks->currentItem();
     else
-        myDebug() << "nothing selected";
+        myWarning() << "nothing selected";
 }
 void BookmarksDockWidget::editBookmark()
 {
     if(!ui->treeWidget_bookmarks->currentItem()) {
-        myDebug() << "nothing selected";
+        myWarning() << "nothing selected";
         return;
     }
 

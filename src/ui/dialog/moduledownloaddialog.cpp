@@ -109,7 +109,7 @@ void ModuleDownloadDialog::readModules()
 void ModuleDownloadDialog::item(QTreeWidgetItem* i)
 {
     //DEBUG_FUNC_NAME
-    myDebug() << "i = " << i->data(1, 0) << " downloadList = " << m_downloadList;
+    //myDebug() << "i = " << i->data(1, 0) << " downloadList = " << m_downloadList;
     if(i->data(1, 0) == "lang") {
         if(i->checkState(0) == Qt::Checked) {
             for(int c = 0; c < i->childCount(); c++) {

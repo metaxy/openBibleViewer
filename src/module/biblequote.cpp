@@ -25,7 +25,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 //Maximum index entry size, 1MiB for now
 //Lucene default is too small
-const unsigned long BT_MAX_LUCENE_FIELD_LENGTH = 1024 * 1024;
+const unsigned long MAX_LUCENE_FIELD_LENGTH = 1024 * 1024;
 #ifndef Q_OS_WIN32
 using namespace lucene::search;
 using namespace lucene::index;
@@ -222,7 +222,7 @@ int BibleQuote::readBook(const int &id, QString path)
         } else {
             encoding = m_settings->getModuleSettings(m_bibleID).encoding;
         }
-        myDebug() << "encoding = " << encoding;
+        //myDebug() << "encoding = " << encoding;
         QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
         QTextDecoder *decoder = codec->makeDecoder();
         while(!file.atEnd()) {
@@ -381,20 +381,20 @@ void BibleQuote::buildIndex()
             }
         }
 
-        wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
+        wchar_t wcharBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
         for(int chapterit = 0; chapterit < ctext.size(); ++chapterit) {
             QStringList verses = ctext[chapterit].split(m_verseSign);
             for(int verseit = 0; verseit < verses.size(); ++verseit) {
                 QString t = verses.at(verseit);
                 QScopedPointer< Document> doc(new  Document());
                 QString key = QString::number(id) + ";" + QString::number(chapterit - 1) + ";" + QString::number(verseit - 1);
-                lucene_utf8towcs(wcharBuffer, key.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
+                lucene_utf8towcs(wcharBuffer, key.toLocal8Bit().constData(), MAX_LUCENE_FIELD_LENGTH);
 
                 doc->add(*(new  Field((const TCHAR*)_T("key"),
                                       (const TCHAR*)wcharBuffer,
                                       Field::STORE_YES |  Field::INDEX_NO)));
 
-                lucene_utf8towcs(wcharBuffer, (const char*) textBuffer.append(t), BT_MAX_LUCENE_FIELD_LENGTH);
+                lucene_utf8towcs(wcharBuffer, (const char*) textBuffer.append(t), MAX_LUCENE_FIELD_LENGTH);
 
                 doc->add(*(new  Field((const TCHAR*)_T("content"),
                                       (const TCHAR*)wcharBuffer,
@@ -411,15 +411,15 @@ void BibleQuote::buildIndex()
 void BibleQuote::search(const SearchQuery &query, SearchResult *res)
 {
     QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
-    char utfBuffer[BT_MAX_LUCENE_FIELD_LENGTH  + 1];
-    wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
+    char utfBuffer[MAX_LUCENE_FIELD_LENGTH  + 1];
+    wchar_t wcharBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
 
 
     const TCHAR* stop_words[]  = { NULL };
     StandardAnalyzer analyzer(stop_words);
 
     IndexSearcher searcher(index.toLocal8Bit().constData());
-    lucene_utf8towcs(wcharBuffer, query.searchText.toUtf8().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
+    lucene_utf8towcs(wcharBuffer, query.searchText.toUtf8().constData(), MAX_LUCENE_FIELD_LENGTH);
     QScopedPointer< Query> q(QueryParser::parse((const TCHAR*)wcharBuffer, (const TCHAR*)_T("content"), &analyzer));
 
     QScopedPointer< Hits> h(searcher.search(q.data(),  Sort::INDEXORDER));
@@ -427,13 +427,13 @@ void BibleQuote::search(const SearchQuery &query, SearchResult *res)
     Document* doc = 0;
     for(int i = 0; i < h->length(); ++i) {
         doc = &h->doc(i);
-        lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("key")), BT_MAX_LUCENE_FIELD_LENGTH);
+        lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("key")), MAX_LUCENE_FIELD_LENGTH);
         QString stelle(utfBuffer);
         QStringList l = stelle.split(";");
         if(query.range == SearchQuery::Whole ||
                 (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) ||
                 (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
-            lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), BT_MAX_LUCENE_FIELD_LENGTH);
+            lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), MAX_LUCENE_FIELD_LENGTH);
 
             const QString content = QString::fromUtf8(utfBuffer);
             SearchHit hit;

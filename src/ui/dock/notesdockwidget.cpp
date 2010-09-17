@@ -161,7 +161,7 @@ void NotesDockWidget::newMark(VerseSelection selection, QColor color)
 }
 void NotesDockWidget::newStyleMark(VerseSelection selection, QString style)
 {
-    myDebug() << selection.shortestStringInEndVerse << selection.shortestStringInStartVerse;
+    //myDebug() << selection.shortestStringInEndVerse << selection.shortestStringInStartVerse;
     if(selection.shortestStringInEndVerse == "" || selection.shortestStringInStartVerse == "") {
         myWarning() << "cannot create mark";
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot create mark."));

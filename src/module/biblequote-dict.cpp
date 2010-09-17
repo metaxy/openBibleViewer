@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QDir>
 #include <QtGui/QProgressDialog>
 #include <QtCore/QTextStream>
-const unsigned long BT_MAX_LUCENE_FIELD_LENGTH = 1024 * 512;
+const unsigned long MAX_LUCENE_FIELD_LENGTH = 1024 * 512;
 #include <CLucene.h>
 #include <CLucene/util/Misc.h>
 #include <CLucene/util/Reader.h>
@@ -73,27 +73,23 @@ bool BibleQuoteDict::hasIndex()
 void BibleQuoteDict::buildIndex()
 {
     DEBUG_FUNC_NAME
-    //get file list from folder
-    //find the html file
-    //load the html file
-    //load the idx file
 
     // pharse both and add docs to the indexwriter
-    myDebug() << m_modulePath;
+    //myDebug() << m_modulePath;
     QFileInfo fileInfo(m_modulePath);
-    myDebug() << fileInfo.absoluteDir();
+    //myDebug() << fileInfo.absoluteDir();
     QDir moduleDir(fileInfo.absoluteDir());
     moduleDir.setFilter(QDir::Files);
     QFileInfoList list = moduleDir.entryInfoList();
 
     QFileInfo htmlFileInfo;
     foreach(QFileInfo info, list) {
-        myDebug() << info.suffix() << info.baseName() << fileInfo.baseName();
+        //myDebug() << info.suffix() << info.baseName() << fileInfo.baseName();
         if((info.suffix() == "html" || info.suffix() == "htm") && info.baseName().compare(fileInfo.baseName(), Qt::CaseInsensitive) == 0) {
             htmlFileInfo = info;
         }
     }
-    myDebug() << htmlFileInfo.absoluteFilePath();
+    //myDebug() << htmlFileInfo.absoluteFilePath();
 
     QFile configFile(fileInfo.absoluteFilePath());
     QFile htmlFile(htmlFileInfo.absoluteFilePath());
@@ -127,12 +123,12 @@ void BibleQuoteDict::buildIndex()
     progress.setWindowModality(Qt::WindowModal);
 
     QByteArray textBuffer;
-    wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
+    wchar_t wcharBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
     const QString title = configIn.readLine();
     QString id = configIn.readLine();
     long num = configIn.readLine().toLong();
     const QString pre = htmlIn.read(num - 1);
-    myDebug() << title << pre;
+    //myDebug() << title << pre;
 
     while(!configIn.atEnd()) {
 
@@ -142,14 +138,14 @@ void BibleQuoteDict::buildIndex()
         id = configIn.readLine();
         num = configIn.readLine().toLong();
         const QString data = htmlIn.read(num - n - 1);
-        myDebug() << num << n << key << data;
+        //myDebug() << num << n << key << data;
         QScopedPointer< Document> doc(new  Document());
 
-        lucene_utf8towcs(wcharBuffer, key.toUtf8().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
+        lucene_utf8towcs(wcharBuffer, key.toUtf8().constData(), MAX_LUCENE_FIELD_LENGTH);
 
         doc->add(*(new  Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_TOKENIZED)));
 
-        lucene_utf8towcs(wcharBuffer, data.toUtf8().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
+        lucene_utf8towcs(wcharBuffer, data.toUtf8().constData(), MAX_LUCENE_FIELD_LENGTH);
 
         doc->add(*(new  Field((const TCHAR*)_T("content"),
                               (const TCHAR*)wcharBuffer,
@@ -171,22 +167,22 @@ QString BibleQuoteDict::getEntry(const QString &id)
 
     QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
     const QString queryText = "key:" + id;
-    myDebug() << queryText;
+    //myDebug() << queryText;
 
-    char utfBuffer[ BT_MAX_LUCENE_FIELD_LENGTH  + 1];
-    wchar_t wcharBuffer[ BT_MAX_LUCENE_FIELD_LENGTH + 1];
+    char utfBuffer[ MAX_LUCENE_FIELD_LENGTH  + 1];
+    wchar_t wcharBuffer[ MAX_LUCENE_FIELD_LENGTH + 1];
     const TCHAR* stop_words[]  = { NULL };
     StandardAnalyzer analyzer(stop_words);
     IndexSearcher searcher(index.toLocal8Bit().constData());
-    lucene_utf8towcs(wcharBuffer, queryText.toUtf8().constData(), BT_MAX_LUCENE_FIELD_LENGTH);;
+    lucene_utf8towcs(wcharBuffer, queryText.toUtf8().constData(), MAX_LUCENE_FIELD_LENGTH);;
     QScopedPointer< Query> q(QueryParser::parse((const TCHAR*)wcharBuffer, (const TCHAR*)_T("content"), &analyzer));
     QScopedPointer< Hits> h(searcher.search(q.data(),  Sort::INDEXORDER));
     Document* doc = 0;
-    myDebug() << h->length();
+    //myDebug() << h->length();
     QString ret = "";
     for(int i = 0; i < h->length(); ++i) {
         doc = &h->doc(i);
-        lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), BT_MAX_LUCENE_FIELD_LENGTH);
+        lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), MAX_LUCENE_FIELD_LENGTH);
         if(ret.isEmpty())
             ret.append(QString::fromUtf8(utfBuffer));
         else

@@ -55,7 +55,7 @@ void BibleListWidget::init()
 
             QStandardItem *item;
             if(id >= 0 && b) {
-                myDebug() << " title = " << b->bibleTitle() << " id = " << m_moduleManager->getBibleIDs().indexOf(b->moduleID()) << " moduleID " << b->moduleID();
+                //myDebug() << " title = " << b->bibleTitle() << " id = " << m_moduleManager->getBibleIDs().indexOf(b->moduleID()) << " moduleID " << b->moduleID();
                 item = new QStandardItem(b->bibleTitle());
                 item->setData(QVariant(b->moduleID()), Qt::UserRole + 2);
                 item->setData(QVariant(m_moduleManager->getBibleIDs().indexOf(b->moduleID()) + 1), Qt::UserRole + 3); //todo: check if indexOF return -1
@@ -131,7 +131,7 @@ void BibleListWidget::save()
         m_moduleManager->bibleList()->m_currentBible = selectedModule;
     else
         m_moduleManager->bibleList()->m_currentBible = lastModule;
-    myDebug() <<  m_model->rowCount() << m_model->columnCount();
+    //myDebug() <<  m_model->rowCount() << m_model->columnCount();
     if(atLeastOne) {
         BibleUrl url;
         url.setBibleID(m_moduleManager->bible()->moduleID());
