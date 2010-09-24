@@ -12,7 +12,6 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include <QtCore/QFile>
-#include <QtCore/QDebug>
 #include <QtCore/QRegExp>
 #include <QtCore/QTimer>
 #include <QtGui/QMessageBox>
@@ -24,7 +23,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/KoXmlWriter.h"
 #include "src/core/dbghelper.h"
 #include "src/core/bibleurl.h"
-const unsigned long BT_MAX_LUCENE_FIELD_LENGTH = 1024 * 1024;
+
+const unsigned long MAX_LUCENE_FIELD_LENGTH = 1024 * 124;
 #include <CLucene.h>
 #include <CLucene/util/Misc.h>
 #include <CLucene/util/Reader.h>
@@ -109,7 +109,7 @@ void ZefaniaBible::readBook(const int &id)
     QDomNode ncache;
 
     if(!m_softCacheData.contains(id)) {
-        myDebug() << "soft cache is empty";
+        //myDebug() << "soft cache is empty";
     }
     //book is not in soft cache
     if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true && (!m_softCacheData.contains(id) || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {
@@ -338,7 +338,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     } else {
         codecString = moduleSettings.encoding;
     }
-    myDebug() << "encoding = " << codecString;
+    //myDebug() << "encoding = " << codecString;
     //if codecString is not a valid decoder name, there can be problems
 #ifdef Q_WS_WIN
     //windows need some extra decoder functions, i do not know why
@@ -507,7 +507,7 @@ void ZefaniaBible::loadCached(const int &id, const QString &path)
     m_bookFullName = fullName;
     m_bookShortName = shortName;
     m_bookIDs = bookIDs;
-    myDebug() << m_bookShortName;
+    //myDebug() << m_bookShortName;
     m_bibleID = id;
     m_biblePath = path;
     if(m_bibleName == "") {
@@ -535,14 +535,12 @@ QString ZefaniaBible::readInfo(QFile &file)
 QString ZefaniaBible::readInfo(const QString &content)
 {
     //todo: read only the first 20 lines and find in them the biblename
-    QString cbiblename;
     KoXmlDocument doc;
     if(!doc.setContent(content)) {
         return "";
     }
     KoXmlElement root = doc.documentElement();
-    cbiblename = root.attribute("biblename", "");
-    m_bibleName = cbiblename;
+    m_bibleName = root.attribute("biblename", "");
     return m_bibleName;
 }
 /**
@@ -593,6 +591,9 @@ bool ZefaniaBible::hasIndex() const
 void ZefaniaBible::buildIndex()
 {
     DEBUG_FUNC_NAME
+    QTime t;
+    t.start();
+
     QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, m_bookFullName.size()+2);
     progress.setValue(1);
     const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
@@ -609,78 +610,95 @@ void ZefaniaBible::buildIndex()
         }
     }
 
-
-    progress.setWindowModality(Qt::NonModal);
     QScopedPointer< IndexWriter> writer(new  IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
     progress.setValue(2);
-    for(int i = 0; i < m_bookFullName.size(); ++i) {
-        progress.setValue(i+3);
-        Book book;
-        myDebug() << "book = " << i;
 
-        if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true && (!m_softCacheData.contains(i) || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {
-            book = fromHardToSoft(i, readBookFromHardCache(m_biblePath, i));
-            setSoftCache(i, book);
-        } else {
-            book = softCache(i);
-        }
-        //QByteArray textBuffer;
-        wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
-        QHash<int, Chapter>::const_iterator it = book.m_chapters.constBegin();
-        while(it != book.m_chapters.constEnd()) {
-            Chapter c = it.value();
-            QStringList verse = c.data;
-            for(int verseCounter = 0; verseCounter < verse.size(); ++verseCounter) {
-                const QString t = verse.at(verseCounter);
-                QScopedPointer< Document> doc(new  Document());
-                const QString book = QString::number(i);
-                const QString chapter = QString::number(it.key());
-                const QString verse = QString::number(verseCounter);
-
-                QString key = book + ";" + chapter + ";" + verse;
-
-
-                lucene_utf8towcs(wcharBuffer, key.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
-                doc->add(*(new  Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_NO)));
-
-                lucene_utf8towcs(wcharBuffer, book.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
-                doc->add(*(new  Field((const TCHAR*)_T("book"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_UNTOKENIZED)));
-
-                lucene_utf8towcs(wcharBuffer, chapter.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
-                doc->add(*(new  Field((const TCHAR*)_T("chapter"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_UNTOKENIZED)));
-
-                lucene_utf8towcs(wcharBuffer, verse.toLocal8Bit().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
-                doc->add(*(new  Field((const TCHAR*)_T("verse"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_UNTOKENIZED)));
-
-
-                lucene_utf8towcs(wcharBuffer, t.toUtf8().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
-                doc->add(*(new  Field((const TCHAR*)_T("content"),
-                                      (const TCHAR*)wcharBuffer,
-                                      Field::STORE_YES |  Field::INDEX_TOKENIZED)));
-                //-not nedded textBuffer.resize(0); //clean up
-                writer->addDocument(doc.data());
-            }
-            it++;
-        }
+    QFile file(m_biblePath);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not read the file"));
+        myWarning() << "can't read the file";
+        return;
     }
+    KoXmlDocument xmlDoc;
+    QString error;
+    int l;
+    int c;
+    if(!xmlDoc.setContent(&file, &error, &l, &c)) {
+        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid. Errorstring: %1 in Line %2 at Position %3").arg(error).arg(l).arg(c));
+        myWarning() << "the file isn't valid";
+        return;
+    }
+    wchar_t wcharBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
+    myDebug() << "start indexing";
+    KoXmlNode nBooks = xmlDoc.documentElement().firstChild();
+    //QScopedPointer<Document> doc(new  Document());
+    for(int c = 0; !nBooks.isNull();) {
+        KoXmlElement eBooks = nBooks.toElement();
+        if(eBooks.attribute("bname", "") != "" || eBooks.attribute("bnumber", "") != "") {
+            const QString bookID = QString::number(eBooks.attribute("bnumber").toInt() - 1);
+            myDebug() << bookID;
+            progress.setValue(c+3);
+            KoXmlNode nChapters = nBooks.firstChild();
+            for(int i = 0; !nChapters.isNull(); ++i) {
+                KoXmlNode nVerse = nChapters.firstChild();
+                const QString chapterID = nChapters.toElement().attribute("cnumber", QString::number(i));
+                while(!nVerse.isNull()) {
+                    KoXmlElement eVerse = nVerse.toElement();
+                    if(eVerse.tagName().toLower() == "vers") {// read only verse
+                        QScopedPointer<Document> doc(new Document());
+                        const QString verseText = eVerse.text();
+                        const QString verseID = eVerse.attribute("vnumber", "");
+                        const QString key = bookID + ";" + chapterID + ";" + verseID;
+
+                        lucene_utf8towcs(wcharBuffer, key.toLocal8Bit().constData(), MAX_LUCENE_FIELD_LENGTH);
+                        doc->add(*(new  Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_NO)));
+/*
+                        lucene_utf8towcs(wcharBuffer, bookID.toLocal8Bit().constData(), MAX_LUCENE_FIELD_LENGTH);
+                        doc->add(*(new  Field((const TCHAR*)_T("book"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_UNTOKENIZED)));
+
+                        lucene_utf8towcs(wcharBuffer, chapterID.toLocal8Bit().constData(), MAX_LUCENE_FIELD_LENGTH);
+                        doc->add(*(new  Field((const TCHAR*)_T("chapter"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_UNTOKENIZED)));
+
+                        lucene_utf8towcs(wcharBuffer, verseID.toLocal8Bit().constData(), MAX_LUCENE_FIELD_LENGTH);
+                        doc->add(*(new  Field((const TCHAR*)_T("verse"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_UNTOKENIZED)));
+
+*/
+
+                        lucene_utf8towcs(wcharBuffer, verseText.toUtf8().constData() , MAX_LUCENE_FIELD_LENGTH);
+                        doc->add(*(new  Field((const TCHAR*)_T("content"),
+                                              (const TCHAR*) wcharBuffer,
+                                              Field::STORE_YES |  Field::INDEX_TOKENIZED)));
+                        writer->addDocument(doc.data());
+
+                    }
+                    nVerse = nVerse.nextSibling();
+                }
+                nChapters = nChapters.nextSibling();
+            }
+            c++;
+        }
+        nBooks = nBooks.nextSibling();
+    }
+    xmlDoc.clear();
     writer->optimize();
     writer->close();
+    writer.reset();
     progress.close();
+    myDebug() << "Time elapsed: " << t.elapsed() << "ms";
 
 }
 void ZefaniaBible::search(SearchQuery query, SearchResult *res)
 {
     DEBUG_FUNC_NAME
     const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
-    char utfBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
-    wchar_t wcharBuffer[BT_MAX_LUCENE_FIELD_LENGTH + 1];
-
+    char utfBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
+    wchar_t wcharBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
 
     const TCHAR* stop_words[] = { NULL };
     StandardAnalyzer analyzer(stop_words);
 
     IndexSearcher searcher(index.toLocal8Bit().constData());
-    lucene_utf8towcs(wcharBuffer, query.searchText.toUtf8().constData(), BT_MAX_LUCENE_FIELD_LENGTH);
+    lucene_utf8towcs(wcharBuffer, query.searchText.toUtf8().constData(), MAX_LUCENE_FIELD_LENGTH);
     QScopedPointer<Query> q(QueryParser::parse((const TCHAR*)wcharBuffer, (const TCHAR*)_T("content"), &analyzer));
 
     QScopedPointer<Hits> h(searcher.search(q.data(), Sort::INDEXORDER));
@@ -688,13 +706,13 @@ void ZefaniaBible::search(SearchQuery query, SearchResult *res)
     Document* doc = 0;
     for(int i = 0; i < h->length(); ++i) {
         doc = &h->doc(i);
-        lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("key")), BT_MAX_LUCENE_FIELD_LENGTH);
+        lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("key")), MAX_LUCENE_FIELD_LENGTH);
         QString stelle(utfBuffer);
         QStringList l = stelle.split(";");
         //todo: quite hacky the hardcoded book count
         if(query.range == SearchQuery::Whole || (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) || (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
-            lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), BT_MAX_LUCENE_FIELD_LENGTH);
-            myDebug() << stelle << QString::fromUtf8(utfBuffer);
+            lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), MAX_LUCENE_FIELD_LENGTH);
+            //myDebug() << stelle << QString::fromUtf8(utfBuffer);
             SearchHit hit;
             hit.setType(SearchHit::BibleHit);
             hit.setValue(SearchHit::BibleID, m_bibleID);

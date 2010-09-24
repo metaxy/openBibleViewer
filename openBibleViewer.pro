@@ -20,6 +20,7 @@ SOURCES += src/main.cpp \
     src/core/windowcache.cpp \
     src/core/KoXmlReader.cpp \
     src/core/KoXmlWriter.cpp \
+    src/core/KoXmlNS.cpp \
     src/core/notes.cpp \
     src/core/xbelreader.cpp \
     src/core/xbelwriter.cpp \
@@ -91,6 +92,7 @@ HEADERS += src/core/settings.h \
     src/core/windowcache.h \
     src/core/KoXmlReader.h \
     src/core/KoXmlWriter.h \
+    src/core/KoXmlNS.h \
     src/core/KoXmlReaderForward.h \
     src/ui/dialog/aboutdialog.h \
     src/core/notes.h \

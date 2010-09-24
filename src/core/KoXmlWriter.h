@@ -25,7 +25,6 @@
 #include <QStack>
 #include <QMap>
 #include <QIODevice>
-//#include "/*/*KOSTORE_EXPORT*/*/.h"
 
 
 /**
@@ -34,7 +33,7 @@
  * document in memory (like QDom does), and avoids using QTextStream at all
  * (which in Qt3 has major performance issues when converting to utf8).
  */
-class /*KOSTORE_EXPORT*/ KoXmlWriter
+class /*KOODF_EXPORT*/ KoXmlWriter
 {
 public:
     /**
@@ -237,8 +236,8 @@ public:
 private:
     struct Tag {
         Tag(const char* t = 0, bool ind = true)
-            : tagName(t), hasChildren(false), lastChildIsText(false),
-              openingTagClosed(false), indentInside(ind) {}
+                : tagName(t), hasChildren(false), lastChildIsText(false),
+                openingTagClosed(false), indentInside(ind) {}
         const char* tagName;
         bool hasChildren : 1; ///< element or text children
         bool lastChildIsText : 1; ///< last child is a text node
@@ -261,7 +260,7 @@ private:
         device()->putChar(c);
     }
     inline void closeStartElement(Tag& tag) {
-        if(!tag.openingTagClosed) {
+        if (!tag.openingTagClosed) {
             tag.openingTagClosed = true;
             writeChar('>');
         }
