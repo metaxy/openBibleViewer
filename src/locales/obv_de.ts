@@ -17,349 +17,349 @@
 <context>
     <name>AdvancedInterface</name>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="960"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="973"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="959"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="972"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="960"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="959"/>
         <source>This book is not available.</source>
         <translation>Dieses Buch ist nicht verfügbar.</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="973"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="972"/>
         <source>Cannot read the book.</source>
         <translation>Das Buch kann nicht gelesen werden.</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1113"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1596"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1112"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1595"/>
         <source>Copy</source>
         <translation>Kopieren</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1180"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1189"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1179"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1188"/>
         <source>Copy Verse</source>
         <translation>Kopiere Verse</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1192"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1191"/>
         <source>Copy Verse %1</source>
         <translation>Kopiere Vers %1</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1116"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1601"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1115"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1600"/>
         <source>Select All</source>
         <translation>Alles auswählen</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="605"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="604"/>
         <source>No such bible found.</source>
         <translation>Keine solche Bibel gefunden.</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="835"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="834"/>
         <source>openBibleViewer</source>
         <translation>openBibleViewer</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1120"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1119"/>
         <source>Mark this</source>
         <translation>Markiere</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1123"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1122"/>
         <source>Yellow</source>
         <translation>Gelb</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1128"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1127"/>
         <source>Green</source>
         <translation>Grün</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1133"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1132"/>
         <source>Blue</source>
         <translation>Blau</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1138"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1137"/>
         <source>Orange</source>
         <translation>Orange</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1143"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1142"/>
         <source>Violet</source>
         <translation>Violett</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1148"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1147"/>
         <source>Custom Color</source>
         <translation>Eigne Farbe</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1153"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1152"/>
         <source>Bold</source>
         <translation>Fett</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1157"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1156"/>
         <source>Italic</source>
         <translation>Kursiv</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1161"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1160"/>
         <source>Underline</source>
         <translation>Unterstrichen</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1166"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1165"/>
         <source>Remove Mark</source>
         <translation>Entferne Markierung</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1169"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1168"/>
         <source>Add Bookmark</source>
         <translation>Lesezeichen hinzufügen</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1172"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1171"/>
         <source>Add Note</source>
         <translation>Notiz hinzufügen</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1201"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1200"/>
         <source>Debugger</source>
         <translation>Debugger</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1558"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1557"/>
         <source>File</source>
         <translation>Datei</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1561"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1560"/>
         <source>New SubWindow</source>
         <translation>Neues Unterfenster</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1566"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1565"/>
         <source>Close SubWindow</source>
         <translation>Schließe Unterfenster</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1571"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1570"/>
         <source>Save As</source>
         <translation>Speichern als</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1576"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1911"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1575"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1910"/>
         <source>Print</source>
         <translation>Drucken</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1593"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1592"/>
         <source>Edit</source>
         <translation>Bearbeiten</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1606"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1810"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1605"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1809"/>
         <source>Search</source>
         <translation>Suchen</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1611"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1610"/>
         <source>Find Next</source>
         <translation>Nächste Stelle</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1616"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1615"/>
         <source>Find Previous</source>
         <translation>Vorherige Stelle</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1631"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1630"/>
         <source>Configuration</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1647"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1646"/>
         <source>View</source>
         <translation>Ansicht</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1650"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1826"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1649"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1825"/>
         <source>Zoom In</source>
         <translation>Vergrößern</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1655"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1828"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1654"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1827"/>
         <source>Zoom Out</source>
         <translation>Verkleinern</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1660"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1659"/>
         <source>Tabbed View</source>
         <translation>Registerkarten</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1665"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1664"/>
         <source>Sub Window View</source>
         <translation>Unterfenster</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1674"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1673"/>
         <source>Tile</source>
         <translation>Kacheln</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1678"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1677"/>
         <source>Tile Vertical</source>
         <translation>Vertikal kacheln</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1682"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1681"/>
         <source>Tile Horizontal</source>
         <translation>Horizontal kacheln</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1670"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1669"/>
         <source>Cascade</source>
         <translation>Staffeln</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1581"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1580"/>
         <source>Quit</source>
         <translation>Schließen</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1621"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1620"/>
         <source>Next Chapter</source>
         <translation>Nächstes Kapitel</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1626"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1625"/>
         <source>Previous Chapter</source>
         <translation>Vorheriges Kapitel</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1699"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1734"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1818"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1698"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1733"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1817"/>
         <source>Notes</source>
         <translation>Notizen</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1702"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1701"/>
         <source>Notes Editor</source>
         <translation>Notizen bearbeiten</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1706"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1705"/>
         <source>Mark List</source>
         <translation>Liste der Markierungen</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1710"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1709"/>
         <source>Mark Categories</source>
         <translation>Kategorien von Markierungen</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1719"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1718"/>
         <source>Docks</source>
         <translation>Docks</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1728"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1727"/>
         <source>Books</source>
         <translation>Bücher</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1752"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1751"/>
         <source>Quick Jump</source>
         <translation>Gehe zu</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1758"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1757"/>
         <source>Search Results</source>
         <translation>Such Ergebnisse</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1773"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1772"/>
         <source>Help</source>
         <translation>Hilfe</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1776"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1775"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1780"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1779"/>
         <source>Online Help</source>
         <translation>Online Hilfe</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1746"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1813"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1745"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1812"/>
         <source>Bookmarks</source>
         <translation>Lesezeichen</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1823"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1822"/>
         <source>New Window</source>
         <translation>Neues Fenster</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1722"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1831"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1721"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1830"/>
         <source>Module</source>
         <translation>Module</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1740"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1739"/>
         <source>Dictionay</source>
         <translation>Wörterbuch</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1809"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1808"/>
         <source>Main Tool Bar</source>
         <translation>Hauptwerkzeugleiste</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1849"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1848"/>
         <source>Search Bar</source>
         <translation>Suchleiste</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1903"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1902"/>
         <source>http://openbv.uucyc.name/faq.html</source>
         <translation>http://openbv.uucyc.name/de/faq.html</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1925"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1924"/>
         <source>Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)</source>
         <translation>Html (*.html *.htm);;PDF (*.pdf);;Text (*.txt)</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1925"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1924"/>
         <source>Save output</source>
         <translation>Ausgabe speichern</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1959"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1958"/>
         <source>About openBibleViewer</source>
         <translation>Über openBibleViewer</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1961"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="1960"/>
         <source>openBibleViewer &lt;br&gt; version: %1 build: %2&lt;br&gt; &lt;a href=&quot;http://openbv.uucyc.name/&quot;&gt; Official Website&lt;/a&gt; | &lt;a href=&quot;http://openbv.uucyc.name/bug/&quot;&gt;Bug report&lt;/a&gt;</source>
         <translation>openBibleViewer &lt;br&gt; Version %1 Build %2 &lt;br&gt; &lt;a href=&quot;http://openbv.uucyc.name/de&quot;&gt; Offizielle Website&lt;/a&gt; | &lt;a href=&quot;http://openbv.uucyc.name/bug/&quot;&gt;Fehler melden&lt;/a&gt;</translation>
     </message>
@@ -887,340 +887,345 @@
     <message>
         <location filename="../ui/mainwindow.cpp" line="335"/>
         <source>Gen, Ge, Gn</source>
-        <translation type="unfinished"></translation>
+        <translation>Gen, 1.Mos, 1Mos</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="336"/>
-        <source>Exodus Lev, Le, Lv</source>
-        <translation type="unfinished"></translation>
+        <source>Ex, Exo, Exd</source>
+        <translation>Ex, 2.Mos, 2Mos</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="337"/>
-        <source>Num, Nu, Nm, Nb</source>
-        <translation type="unfinished"></translation>
+        <source>Lev, Le, Lv</source>
+        <translation>Lev, 3.Mos, 3Mos</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="338"/>
-        <source>Deut, Dt</source>
-        <translation type="unfinished"></translation>
+        <source>Num, Nu, Nm, Nb</source>
+        <translation>Num, 4.Mos, 4Mos</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="339"/>
-        <source>Josh, Jos, Jsh</source>
-        <translation type="unfinished"></translation>
+        <source>Deut, Dt</source>
+        <translation>Deut, Dtn, 5.Mos, 5Mos</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="340"/>
-        <source>Judg, Jdg, Jg, Jdgs</source>
-        <translation type="unfinished"></translation>
+        <source>Josh, Jos, Jsh</source>
+        <translation>Jos</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="341"/>
-        <source>Rth, Ru</source>
-        <translation type="unfinished"></translation>
+        <source>Judg, Jdg, Jg, Jdgs</source>
+        <translation>Ri</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="342"/>
-        <source>1 Sam, 1 Sa, 1Samuel, 1S, I Sa, 1 Sm, 1Sa, I Sam, 1Sam</source>
-        <translation type="unfinished"></translation>
+        <source>Rth, Ru</source>
+        <translation>Rut</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="343"/>
-        <source>2 Sam, 2 Sa, 2S, II Sa, 2 Sm, 2Sa, II Sam, 2Sam</source>
-        <translation type="unfinished"></translation>
+        <source>1 Sam, 1 Sa, 1Samuel, 1S, I Sa, 1 Sm, 1Sa, I Sam, 1Sam</source>
+        <translation>1.Sam, 1.Sa, 1Sam, 1Sa</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="344"/>
-        <source>1 Kgs, 1 Ki, 1K, I Kgs, 1Kgs, I Ki, 1Ki, I Kings, 1Kings, 1st Kgs, 1st Kings, 1Kin</source>
-        <translation type="unfinished"></translation>
+        <source>2 Sam, 2 Sa, 2S, II Sa, 2 Sm, 2Sa, II Sam, 2Sam</source>
+        <translation>2.Sam, 2.Sa, 2Sam, 2Sa</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="345"/>
-        <source>2 Kgs, 2 Ki, 2K, II Kgs, 2Kgs, II Ki, 2Ki, II Kings, 2Kings, 2nd Kgs, 2nd Kings, 2Kin</source>
-        <translation type="unfinished"></translation>
+        <source>1 Kgs, 1 Ki, 1K, I Kgs, 1Kgs, I Ki, 1Ki, I Kings, 1Kings, 1st Kgs, 1st Kings, 1Kin</source>
+        <translation>1.Kön, 1Kön</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="346"/>
-        <source>1 Chron, 1 Ch, I Ch, 1Ch, 1 Chr, I Chr, 1Chr, I Chron, 1Chron</source>
-        <translation type="unfinished"></translation>
+        <source>2 Kgs, 2 Ki, 2K, II Kgs, 2Kgs, II Ki, 2Ki, II Kings, 2Kings, 2nd Kgs, 2nd Kings, 2Kin</source>
+        <translation>2.Kön, 2Kön</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="347"/>
-        <source>2 Chron, 2 Ch, II Ch, 2Ch, II Chr, 2Chr, II Chron, 2Chron</source>
-        <translation type="unfinished"></translation>
+        <source>1 Chron, 1 Ch, I Ch, 1Ch, 1 Chr, I Chr, 1Chr, I Chron, 1Chron</source>
+        <translation>1.Chr, 1Chr</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="348"/>
-        <source>Ezra, Ezr</source>
-        <translation type="unfinished"></translation>
+        <source>2 Chron, 2 Ch, II Ch, 2Ch, II Chr, 2Chr, II Chron, 2Chron</source>
+        <translation>2.Chr, 2Chr</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="349"/>
-        <source>Neh, Ne</source>
-        <translation type="unfinished"></translation>
+        <source>Ezra, Ezr</source>
+        <translation>Esr, Esra</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="350"/>
-        <source>Esth, Es</source>
-        <translation type="unfinished"></translation>
+        <source>Neh, Ne</source>
+        <translation>Neh</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="351"/>
-        <source>Job, Job, Jb</source>
-        <translation type="unfinished"></translation>
+        <source>Esth, Es</source>
+        <translation>Est</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="352"/>
-        <source>Pslm, Ps, Psalms, Psa, Psm, Pss</source>
-        <translation type="unfinished"></translation>
+        <source>Job, Job, Jb</source>
+        <translation>Hi, Ijob</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="353"/>
-        <source>Prov, Pr, Prv</source>
-        <translation type="unfinished"></translation>
+        <source>Pslm, Ps, Psalms, Psa, Psm, Pss</source>
+        <translation>Ps</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="354"/>
-        <source>Eccles, Ec, Qoh, Qoheleth</source>
-        <translation type="unfinished"></translation>
+        <source>Prov, Pr, Prv</source>
+        <translation>Spr</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="355"/>
-        <source>Song, So, SOS</source>
-        <translation type="unfinished"></translation>
+        <source>Eccles, Ec, Qoh, Qoheleth</source>
+        <translation>Pred, Koh</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="356"/>
-        <source>Isa, Is</source>
-        <translation type="unfinished"></translation>
+        <source>Song, So, SOS</source>
+        <translation>Hld, Hl</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="357"/>
-        <source>Jer, Je, Jr</source>
-        <translation type="unfinished"></translation>
+        <source>Isa, Is</source>
+        <translation>Jes</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="358"/>
-        <source>Lam, La</source>
-        <translation type="unfinished"></translation>
+        <source>Jer, Je, Jr</source>
+        <translation>Jer</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="359"/>
-        <source>Ezek, Eze, Ezk</source>
-        <translation type="unfinished"></translation>
+        <source>Lam, La</source>
+        <translation>Kla, Klgl</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="360"/>
-        <source>Dan, Da, Dn</source>
-        <translation type="unfinished"></translation>
+        <source>Ezek, Eze, Ezk</source>
+        <translation>Hes, Ez</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="361"/>
-        <source>Hos, Ho</source>
-        <translation type="unfinished"></translation>
+        <source>Dan, Da, Dn</source>
+        <translation>Dan</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="362"/>
-        <source>Joel, Joe, Jl</source>
-        <translation type="unfinished"></translation>
+        <source>Hos, Ho</source>
+        <translation>Hos</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="363"/>
-        <source>Amos, Am</source>
-        <translation type="unfinished"></translation>
+        <source>Joel, Joe, Jl</source>
+        <translation>Joe</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="364"/>
-        <source>Obad, Ob</source>
-        <translation type="unfinished"></translation>
+        <source>Amos, Am</source>
+        <translation>Am</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="365"/>
-        <source>Jnh, Jon</source>
-        <translation type="unfinished"></translation>
+        <source>Obad, Ob</source>
+        <translation>Obd, Ob</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="366"/>
-        <source>Micah, Mic</source>
-        <translation type="unfinished"></translation>
+        <source>Jnh, Jon</source>
+        <translation>Jon</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="367"/>
-        <source>Nah, Na</source>
-        <translation type="unfinished"></translation>
+        <source>Micah, Mic</source>
+        <translation>Mi</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="368"/>
-        <source>Hab, Hab</source>
-        <translation type="unfinished"></translation>
+        <source>Nah, Na</source>
+        <translation>Nah</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="369"/>
-        <source>Zeph, Zep, Zp</source>
-        <translation type="unfinished"></translation>
+        <source>Hab, Hab</source>
+        <translation>Hab</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="370"/>
-        <source>Haggai, Hag, Hg</source>
-        <translation type="unfinished"></translation>
+        <source>Zeph, Zep, Zp</source>
+        <translation>Zef</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="371"/>
-        <source>Zech, Zec, Zc</source>
-        <translation type="unfinished"></translation>
+        <source>Haggai, Hag, Hg</source>
+        <translation>Hag</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="372"/>
-        <source>Mal, Mal, Ml</source>
-        <translation type="unfinished"></translation>
+        <source>Zech, Zec, Zc</source>
+        <translation>Sach</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="373"/>
-        <source>Matt, Mt</source>
-        <translation type="unfinished"></translation>
+        <source>Mal, Mal, Ml</source>
+        <translation>Mal</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="374"/>
-        <source>Mrk, Mk, Mr</source>
-        <translation type="unfinished"></translation>
+        <source>Matt, Mt</source>
+        <translation>Mt</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="375"/>
-        <source>Luk, Lk</source>
-        <translation type="unfinished"></translation>
+        <source>Mrk, Mk, Mr</source>
+        <translation>Mk</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="376"/>
-        <source>John, Jn, Jhn</source>
-        <translation type="unfinished"></translation>
+        <source>Luk, Lk</source>
+        <translation>Lk</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="377"/>
-        <source>Acts, Ac</source>
-        <translation type="unfinished"></translation>
+        <source>John, Jn, Jhn</source>
+        <translation>Joh</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="378"/>
-        <source>Rom, Ro, Rm</source>
-        <translation type="unfinished"></translation>
+        <source>Acts, Ac</source>
+        <translation>Apg</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="379"/>
-        <source>1 Cor, 1 Co, I Co, 1Co, I Cor, 1Cor</source>
-        <translation type="unfinished"></translation>
+        <source>Rom, Ro, Rm</source>
+        <translation>Röm</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="380"/>
-        <source>2 Cor, 2 Co, II Co, 2Co, II Cor, 2Cor</source>
-        <translation type="unfinished"></translation>
+        <source>1 Cor, 1 Co, I Co, 1Co, I Cor, 1Cor</source>
+        <translation>1.Kor, 1Kor</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="381"/>
-        <source>Gal, Ga</source>
-        <translation type="unfinished"></translation>
+        <source>2 Cor, 2 Co, II Co, 2Co, II Cor, 2Cor</source>
+        <translation>2.Kor, 2Kor</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="382"/>
-        <source>Ephes, Eph</source>
-        <translation type="unfinished"></translation>
+        <source>Gal, Ga</source>
+        <translation>Gal</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="383"/>
-        <source>Phil, Php</source>
-        <translation type="unfinished"></translation>
+        <source>Ephes, Eph</source>
+        <translation>Eph</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="384"/>
-        <source>Col, Col</source>
-        <translation type="unfinished"></translation>
+        <source>Phil, Php</source>
+        <translation>Phil</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="385"/>
-        <source>1 Thess, 1 Th, I Th, 1Th, I Thes, 1Thes, I Thess, 1Thess</source>
-        <translation type="unfinished"></translation>
+        <source>Col, Col</source>
+        <translation>Kol</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="386"/>
-        <source>2 Thess, 2 Th, II Th, 2Th, II Thes, 2Thes, II Thess, 2Thess</source>
-        <translation type="unfinished"></translation>
+        <source>1 Thess, 1 Th, I Th, 1Th, I Thes, 1Thes, I Thess, 1Thess</source>
+        <translation>1.Thes, 1Thes, 1.Thess,1Thess</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="387"/>
-        <source>1 Tim, 1 Ti, I Ti, 1Ti, I Tim, 1Tim</source>
-        <translation type="unfinished"></translation>
+        <source>2 Thess, 2 Th, II Th, 2Th, II Thes, 2Thes, II Thess, 2Thess</source>
+        <translation>2.Thes, 2Thes, 2.Thess,2Thess</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="388"/>
-        <source>2 Tim, 2 Ti, II Ti, 2Ti, II Tim, 2Tim</source>
-        <translation type="unfinished"></translation>
+        <source>1 Tim, 1 Ti, I Ti, 1Ti, I Tim, 1Tim</source>
+        <translation>1.Tim, 1Tim</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="389"/>
-        <source>Titus, Tit</source>
-        <translation type="unfinished"></translation>
+        <source>2 Tim, 2 Ti, II Ti, 2Ti, II Tim, 2Tim</source>
+        <translation>2.Tim, 2Tim</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="390"/>
-        <source>Philem, Phm</source>
-        <translation type="unfinished"></translation>
+        <source>Titus, Tit</source>
+        <translation>Tit</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="391"/>
-        <source>Hebrews, Heb</source>
-        <translation type="unfinished"></translation>
+        <source>Philem, Phm</source>
+        <translation>Phim, Phlm</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="392"/>
-        <source>James, Jas, Jm</source>
-        <translation type="unfinished"></translation>
+        <source>Hebrews, Heb</source>
+        <translation>Hebr</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="393"/>
-        <source>1 Pet, 1 Pe, I Pe, 1Pe, I Pet, 1Pet, I Pt, 1 Pt, 1Pt</source>
-        <translation type="unfinished"></translation>
+        <source>James, Jas, Jm</source>
+        <translation>Jak</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="394"/>
-        <source>2 Pet, 2 Pe, II Pe, 2Pe, II Pet, 2Pet, II Pt, 2 Pt, 2Pt</source>
-        <translation type="unfinished"></translation>
+        <source>1 Pet, 1 Pe, I Pe, 1Pe, I Pet, 1Pet, I Pt, 1 Pt, 1Pt</source>
+        <translation>1.Petr, 1Petr</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="395"/>
-        <source>1 John, 1 Jn, I Jn, 1Jn, I Jo, 1Jo, I Joh, 1Joh, I Jhn, 1 Jhn, 1Jhn, I John, 1John</source>
-        <translation type="unfinished"></translation>
+        <source>2 Pet, 2 Pe, II Pe, 2Pe, II Pet, 2Pet, II Pt, 2 Pt, 2Pt</source>
+        <translation>2.Petr, 2Petr</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="396"/>
-        <source>2 John, 2 Jn, II Jn, 2Jn, II Jo, 2Jo, II Joh, 2Joh, II Jhn, 2 Jhn, 2Jhn, II John, 2John</source>
-        <translation type="unfinished"></translation>
+        <source>1 John, 1 Jn, I Jn, 1Jn, I Jo, 1Jo, I Joh, 1Joh, I Jhn, 1 Jhn, 1Jhn, I John, 1John</source>
+        <translation>1.Joh, 1Joh</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="397"/>
-        <source>3 John, 3 Jn, III Jn, 3Jn, III Jo, 3Jo, III Joh, 3Joh, III Jhn, 3 Jhn, 3Jhn, III John, 3John</source>
-        <translation type="unfinished"></translation>
+        <source>2 John, 2 Jn, II Jn, 2Jn, II Jo, 2Jo, II Joh, 2Joh, II Jhn, 2 Jhn, 2Jhn, II John, 2John</source>
+        <translation>2.Joh, 2Joh</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="398"/>
-        <source>Jude, Jud</source>
-        <translation type="unfinished"></translation>
+        <source>3 John, 3 Jn, III Jn, 3Jn, III Jo, 3Jo, III Joh, 3Joh, III Jhn, 3 Jhn, 3Jhn, III John, 3John</source>
+        <translation>3.Joh, 3Joh</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="399"/>
-        <source>Rev, Re, The Revelation</source>
-        <translation type="unfinished"></translation>
+        <source>Jude, Jud</source>
+        <translation>Jud</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.cpp" line="597"/>
+        <location filename="../ui/mainwindow.cpp" line="400"/>
+        <source>Rev, Re, The Revelation</source>
+        <translation>Offb</translation>
+    </message>
+    <message>
+        <location filename="../ui/mainwindow.cpp" line="598"/>
         <source>Please choose an another language.</source>
         <translation>Bitte wählen sie eine andere Sprache.</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.cpp" line="597"/>
+        <location filename="../ui/mainwindow.cpp" line="598"/>
         <source>Installing language failed.</source>
         <translation>Installieren der Sprache fehlgeschlagen.</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.cpp" line="564"/>
+        <location filename="../ui/mainwindow.cpp" line="565"/>
         <source>Configuration</source>
         <translation>Einstellungen</translation>
     </message>
@@ -1228,14 +1233,6 @@
         <location filename="../ui/mainwindow.ui" line="14"/>
         <source>openBibleViewer</source>
         <translation>openBibleViewer</translation>
-    </message>
-</context>
-<context>
-    <name>MarkCategories</name>
-    <message>
-        <location filename="../ui/markcategories.ui" line="13"/>
-        <source>Dialog</source>
-        <translation></translation>
     </message>
 </context>
 <context>
@@ -1502,16 +1499,6 @@
         <location filename="../ui/noteseditor.ui" line="14"/>
         <source>Notes Editor</source>
         <translation>Notizen Editor</translation>
-    </message>
-    <message>
-        <location filename="../ui/noteseditor.ui" line="61"/>
-        <source>Tab 1</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../ui/noteseditor.ui" line="71"/>
-        <source>Tab 2</source>
-        <translation></translation>
     </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="122"/>
@@ -1887,19 +1874,19 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../module/biblequote-dict.cpp" line="126"/>
+        <location filename="../module/biblequote-dict.cpp" line="122"/>
         <location filename="../module/biblequote.cpp" line="328"/>
         <location filename="../module/modulemanager.cpp" line="87"/>
         <location filename="../module/zefania-bible.cpp" line="294"/>
-        <location filename="../module/zefania-bible.cpp" line="596"/>
+        <location filename="../module/zefania-bible.cpp" line="597"/>
         <location filename="../ui/dialog/settingsdialog.cpp" line="176"/>
         <location filename="../ui/dialog/settingsdialog.cpp" line="294"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../module/biblequote-dict.cpp" line="126"/>
-        <location filename="../module/zefania-bible.cpp" line="596"/>
+        <location filename="../module/biblequote-dict.cpp" line="122"/>
+        <location filename="../module/zefania-bible.cpp" line="597"/>
         <source>Build index</source>
         <translation>Indizieren</translation>
     </message>
@@ -1940,6 +1927,8 @@
         <location filename="../module/zefania-bible.cpp" line="92"/>
         <location filename="../module/zefania-bible.cpp" line="317"/>
         <location filename="../module/zefania-bible.cpp" line="378"/>
+        <location filename="../module/zefania-bible.cpp" line="618"/>
+        <location filename="../module/zefania-bible.cpp" line="627"/>
         <location filename="../module/zefania-lex.cpp" line="80"/>
         <location filename="../ui/dialog/settingsdialog.cpp" line="205"/>
         <location filename="../ui/dialog/settingsdialog.cpp" line="321"/>
@@ -1963,11 +1952,13 @@
     </message>
     <message>
         <location filename="../module/zefania-bible.cpp" line="317"/>
+        <location filename="../module/zefania-bible.cpp" line="618"/>
         <source>Can not read the file</source>
         <translation>Kann die Datei nicht lesen</translation>
     </message>
     <message>
         <location filename="../module/zefania-bible.cpp" line="378"/>
+        <location filename="../module/zefania-bible.cpp" line="627"/>
         <source>The file is not valid. Errorstring: %1 in Line %2 at Position %3</source>
         <translation>DIe Datei ist nicht konform: Fehler: %1 in Zeile %2 an der Stelle %3</translation>
     </message>

@@ -333,7 +333,8 @@ void MainWindow::loadDefaultSettings()
 
     QList<QStringList> bookShortNames;
     bookShortNames.append(tr("Gen, Ge, Gn").split(", "));
-    bookShortNames.append(tr("Exodus Lev, Le, Lv").split(", "));
+    bookShortNames.append(tr("Ex, Exo, Exd").split(", "));
+    bookShortNames.append(tr("Lev, Le, Lv").split(", "));
     bookShortNames.append(tr("Num, Nu, Nm, Nb").split(", "));
     bookShortNames.append(tr("Deut, Dt").split(", "));
     bookShortNames.append(tr("Josh, Jos, Jsh").split(", "));
