@@ -219,4 +219,9 @@ target_link_libraries ( openBibleViewer  ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY
 
 install (TARGETS openBibleViewer
          RUNTIME DESTINATION bin)
-
+install (FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/icons/124x124/openBibleViewer.png"
+    DESTINATION "share/pixmaps/"
+)
+install (FILES "${CMAKE_CURRENT_SOURCE_DIR}/openBibleViewer.desktop"
+    DESTINATION "share/applications/"
+)

@@ -15,7 +15,6 @@ Version: 0.5
 Release: 128
 Group: Amusements/Teaching/Other
 Source: %{name}-%{version}.tar.bz2
-Packager: Paul Walger
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
 
 %if 0%{?fedora_version}
@@ -35,29 +34,30 @@ BuildRequires: desktop-file-utils cmake
 %description
 This program allows one to work with the bible and study it.
 %prep
-%setup
+%setup -q
+
 %build
-cmake -DCMAKE_INSTALL_PREFIX='%{_prefix}' 
+cmake -DCMAKE_INSTALL_PREFIX="%{_prefix}"
 make
 %install
 
-make install
+make DESTDIR=%{buildroot} install
 
-%__install -m 644 src/icons/124x124/%{name}.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
-%__install -m 644 %{name}.desktop %{buildroot}%{_datadir}/applications
+#%__install -m 644 src/icons/124x124/%{name}.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
+#%__install -m 644 %{name}.desktop %{buildroot}%{_datadir}/applications
 
 
 %clean
-%{__rm} -rf $RPM_BUILD_ROOT
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
 %doc README INSTALL LICENSE
 %{_bindir}/%{name}
 
-%{_datadir}/applications/%{name}.desktop
-%{_datadir}/pixmaps/%{name}.png
-%{_datadir}/%{name}
+#%{_datadir}/applications/%{name}.desktop
+#%{_datadir}/pixmaps/%{name}.png
+#%{_datadir}/%{name}
 %changelog
 * Sat Sep 25 2010 Paul Walger
 - update to 0.5
