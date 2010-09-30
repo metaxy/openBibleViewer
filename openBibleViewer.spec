@@ -55,9 +55,9 @@ make DESTDIR=%{buildroot} install
 %doc README INSTALL LICENSE
 %{_bindir}/%{name}
 
-#%{_datadir}/applications/%{name}.desktop
-#%{_datadir}/pixmaps/%{name}.png
-#%{_datadir}/%{name}
+%{_datadir}/applications/%{name}.desktop
+%{_datadir}/pixmaps/%{name}.png
+
 %changelog
 * Sat Sep 25 2010 Paul Walger
 - update to 0.5
