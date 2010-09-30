@@ -216,3 +216,7 @@ QT4_WRAP_CPP(MOCS ${openBibleViewer_MOCS})
 
 add_executable ( openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS} )
 target_link_libraries ( openBibleViewer  ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTNETWORK_LIBRARY} ${QT_QTWEBKIT_LIBRARY} ${CLUCENE_LIBRARY})
+
+install (TARGETS openBibleViewer
+         RUNTIME DESTINATION bin)
+
