@@ -11,23 +11,23 @@ Summary: Bible study tool
 Name: %{name}
 License: GPLv3
 URL: http://openbv.uucyc.name
-Version: 0.5b1
-Release: 62
+Version: 0.5
+Release: 128
 Group: Amusements/Teaching/Other
 Source: %{name}-%{version}.tar.bz2
 Packager: Paul Walger
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
 
 %if 0%{?fedora_version}
-BuildRequires: qt-devel >= 4.6 gcc-c++ clcucene-devel
+BuildRequires: qt-devel >= 4.6 gcc-c++ clucene-core-devel
 %endif
 
 %if 0%{?mandriva_version}
-BuildRequires: libqt4-devel >= 4.6 gcc-c++ clcucene-devel
+BuildRequires: libqt4-devel >= 4.6 gcc-c++ clucene-devel
 %endif
 
 %if 0%{?suse_version}
-BuildRequires: libqt4-devel libQtWebKit-devel >= 4.6 gcc-c++ clcucene-devel
+BuildRequires: libqt4-devel libQtWebKit-devel >= 4.6 gcc-c++ clucene-core-devel clucene-core
 %endif
 
 %description
@@ -64,6 +64,8 @@ make install DESTDIR=$RPM_BUILD_ROOT $INSTALL_TARGET
 %{_datadir}/pixmaps/%{name}.png
 %{_datadir}/%{name}
 %changelog
+* Sat Sep 25 2010 Paul Walger
+- update to 0.5
 * Sat Apr 17 2010 Paul Walger
 - update to 0.4.1
 * Sat Apr 10 2010 Paul Walger

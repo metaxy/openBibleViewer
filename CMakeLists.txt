@@ -4,14 +4,10 @@ set ( CMAKE_BUILD_TYPE Release )
 add_definitions ( -Wall )
 find_package ( Qt4 REQUIRED )
 include ( ${QT_USE_FILE} )
-SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-FIND_PACKAGE(CLucene REQUIRED)
 include_directories (
 	${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
-	${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR} ${QT_QTXML_INCLUDE_DIR} ${QT_QTNETWORK_INCLUDE_DIR} ${QT_QTWEBKIT_INCLUDE_DIR}  ${CLUCENE_INCLUDE_DIR} ${CLUCENE_LIBRARY_DIR})
-LINK_DIRECTORIES(
-    ${CLUCENE_LIBRARY_DIR}
-)
+	${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR} ${QT_QTXML_INCLUDE_DIR} ${QT_QTNETWORK_INCLUDE_DIR} ${QT_QTWEBKIT_INCLUDE_DIR}
+	/usr/lib/ /usr/lib/CLucene/)
 set ( openBibleViewer_HDRS
 	src/core/settings.h
 	src/module/biblequote.h
@@ -19,6 +15,7 @@ set ( openBibleViewer_HDRS
 	src/core/windowcache.h
 	src/core/KoXmlReader.h
 	src/core/KoXmlWriter.h
+	src/core/KoXmlNS.h
 	src/core/KoXmlReaderForward.h
 	src/core/xbelreader.h
 	src/core/xbelwriter.h
@@ -50,6 +47,9 @@ set ( openBibleViewer_HDRS
 	src/core/search.h
 	src/module/biblequote-dict.h
 	src/core/book.h
+	src/core/url.h
+	src/core/bibleurl.h
+	src/core/faststart.h
 	)
 
 set ( openBibleViewer_SRCS
@@ -62,6 +62,7 @@ set ( openBibleViewer_SRCS
 	src/core/windowcache.cpp
 	src/core/KoXmlReader.cpp
 	src/core/KoXmlWriter.cpp
+	src/core/KoXmlNS.cpp
 	src/core/notes.cpp
 	src/core/xbelreader.cpp
 	src/core/xbelwriter.cpp
@@ -122,6 +123,9 @@ set ( openBibleViewer_SRCS
 	src/core/search.cpp
 	src/module/biblequote-dict.cpp
 	src/core/book.cpp
+	src/core/url.cpp
+	src/core/bibleurl.cpp
+	src/core/faststart.cpp
 	)
 
 set ( openBibleViewer_UIS
@@ -161,10 +165,10 @@ set ( openBibleViewer_RSCS
 QT4_ADD_RESOURCES(RSCS ${openBibleViewer_RSCS})
 
 set ( openBibleViewer_TRS
-	src/obv_de.ts
-	src/obv_ru.ts
-	src/obv_en.ts
-	src/obv_cs.ts
+	src/locales/obv_de.ts
+	src/locales/obv_ru.ts
+	src/locales/obv_en.ts
+	src/locales/obv_cs.ts
 	)
 QT4_ADD_TRANSLATION(TRS ${openBibleViewer_TRS})
 
@@ -209,4 +213,4 @@ set ( openBibleViewer_MOCS
 QT4_WRAP_CPP(MOCS ${openBibleViewer_MOCS})
 
 add_executable ( openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${TRS} ${MOCS} )
-target_link_libraries ( openBibleViewer  ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTNETWORK_LIBRARY} ${QT_QTWEBKIT_LIBRARY} ${CLUCENE_LIBRARY} ${CLUCENE_LIBRARY})
+target_link_libraries ( openBibleViewer  ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTNETWORK_LIBRARY} ${QT_QTWEBKIT_LIBRARY} )
