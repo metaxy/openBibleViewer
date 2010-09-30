@@ -30,23 +30,19 @@ BuildRequires: libqt4-devel >= 4.6 gcc-c++ clucene-devel
 BuildRequires: libqt4-devel libQtWebKit-devel >= 4.6 gcc-c++ clucene-core-devel clucene-core
 %endif
 
+BuildRequires:  desktop-file-utils
+
 %description
 This program allows one to work with the bible and study it.
 %prep
-%setup
-%build
-%if 0%{?fedora_version}
-qmake-qt4 -makefile %{name}.pro 'target.path = %{buildroot}%{_bindir}'
-qmake-qt4 'target.path = %{buildroot}%{_bindir}'
-%else
-qmake -makefile %{name}.pro 'target.path = %{buildroot}%{_bindir}'
-qmake 'target.path = %{buildroot}%{_bindir}' 
-%endif
+%setup -q -n %{name}-%{version}
 
+%build
+cmake -DCMAKE_INSTALL_PREFIX='%{_prefix}' 
 make
 %install
 %__mkdir -p %{buildroot}/%{_bindir} %{buildroot}/usr/share/{%{name}/{fonts,translation},applications,pixmaps} %{buildroot}/%{_docdir}/%{name}
-make install DESTDIR=$RPM_BUILD_ROOT $INSTALL_TARGET
+make INSTALL_ROOT=%{buildroot}/usr install
 
 %__install -m 644 src/icons/124x124/%{name}.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
 %__install -m 644 %{name}.desktop %{buildroot}%{_datadir}/applications
@@ -56,7 +52,7 @@ make install DESTDIR=$RPM_BUILD_ROOT $INSTALL_TARGET
 %{__rm} -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,root,-)
 %doc README INSTALL LICENSE
 %{_bindir}/%{name}
 
