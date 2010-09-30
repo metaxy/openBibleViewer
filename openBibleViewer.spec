@@ -37,7 +37,6 @@ This program allows one to work with the bible and study it.
 %prep
 %setup
 %build
-cp /usr/lib/clucene-config.h /usr/include/CLucene
 cmake -DCMAKE_INSTALL_PREFIX='%{_prefix}' 
 make
 %install

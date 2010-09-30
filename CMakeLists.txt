@@ -1,5 +1,6 @@
 project( openBibleViewer )
 cmake_minimum_required( VERSION 2.6 )
+SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 set ( CMAKE_BUILD_TYPE Release )
 add_definitions ( -Wall )
 find_package ( Qt4 REQUIRED )
