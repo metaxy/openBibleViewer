@@ -30,19 +30,18 @@ BuildRequires: libqt4-devel >= 4.6 gcc-c++ clucene-devel
 BuildRequires: libqt4-devel libQtWebKit-devel >= 4.6 gcc-c++ clucene-core-devel clucene-core
 %endif
 
-BuildRequires:  desktop-file-utils
+BuildRequires: desktop-file-utils cmake
 
 %description
 This program allows one to work with the bible and study it.
 %prep
-%setup -q -n %{name}-%{version}
-
+%setup
 %build
 cmake -DCMAKE_INSTALL_PREFIX='%{_prefix}' 
 make
 %install
-%__mkdir -p %{buildroot}/%{_bindir} %{buildroot}/usr/share/{%{name}/{fonts,translation},applications,pixmaps} %{buildroot}/%{_docdir}/%{name}
-make INSTALL_ROOT=%{buildroot}/usr install
+
+make install
 
 %__install -m 644 src/icons/124x124/%{name}.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
 %__install -m 644 %{name}.desktop %{buildroot}%{_datadir}/applications

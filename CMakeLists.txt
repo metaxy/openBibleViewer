@@ -164,13 +164,13 @@ set ( openBibleViewer_RSCS
 	)
 QT4_ADD_RESOURCES(RSCS ${openBibleViewer_RSCS})
 
-set ( openBibleViewer_TRS
-	src/locales/obv_de.ts
-	src/locales/obv_ru.ts
-	src/locales/obv_en.ts
-	src/locales/obv_cs.ts
-	)
-QT4_ADD_TRANSLATION(TRS ${openBibleViewer_TRS})
+#set ( openBibleViewer_TRS
+	#src/locales/obv_de.ts
+	#src/locales/obv_ru.ts
+	#src/locales/obv_en.ts
+	#src/locales/obv_cs.ts
+	#)
+#QT4_ADD_TRANSLATION(TRS ${openBibleViewer_TRS})
 
 set ( openBibleViewer_MOCS
 	src/ui/dialog/searchdialog.h
@@ -212,5 +212,5 @@ set ( openBibleViewer_MOCS
 	)
 QT4_WRAP_CPP(MOCS ${openBibleViewer_MOCS})
 
-add_executable ( openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${TRS} ${MOCS} )
+add_executable ( openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS} )
 target_link_libraries ( openBibleViewer  ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTNETWORK_LIBRARY} ${QT_QTWEBKIT_LIBRARY} )
