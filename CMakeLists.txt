@@ -9,7 +9,7 @@ include ( ${QT_USE_FILE} )
 include_directories (
 	${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
 	${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR} ${QT_QTXML_INCLUDE_DIR} ${QT_QTNETWORK_INCLUDE_DIR} ${QT_QTWEBKIT_INCLUDE_DIR}
-	/usr/lib/ /usr/lib/CLucene/)
+	/usr/lib/ /usr/lib64/)
 set ( openBibleViewer_HDRS
 	src/core/settings.h
 	src/module/biblequote.h
