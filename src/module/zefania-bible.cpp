@@ -50,7 +50,7 @@ void ZefaniaBible::setSettings(Settings *set)
 void ZefaniaBible::loadBibleData(const int &id, const QString &path)
 {
     DEBUG_FUNC_NAME
-    m_bibleName = "";
+            m_bibleName = "";
     m_bibleID = id;
 
     if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == false && m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false) {
@@ -77,7 +77,7 @@ void ZefaniaBible::removeHardCache(const QString &path)
 QDomNode ZefaniaBible::readBookFromHardCache(QString path, int bookID)
 {
     DEBUG_FUNC_NAME
-    QDomElement e;
+            QDomElement e;
 
     const QString pre = m_settings->homePath + "cache/" + m_settings->hash(path) + "/";
 
@@ -247,7 +247,7 @@ Book ZefaniaBible::softCache(const int &bookID) const
 void ZefaniaBible::setSoftCache(QHash<int, Book > cache)
 {
     DEBUG_FUNC_NAME
-    if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
+            if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
         m_softCacheData = cache;
     }
     return;
@@ -579,7 +579,7 @@ Book ZefaniaBible::fromHardToSoft(const int &bookID, QDomNode ncache)
 bool ZefaniaBible::hasIndex() const
 {
     DEBUG_FUNC_NAME
-    QDir d;
+            QDir d;
     if(!d.exists(m_settings->homePath + "index")) {
         return false;
     }
@@ -587,7 +587,7 @@ bool ZefaniaBible::hasIndex() const
     const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
     return  IndexReader::indexExists(index.toAscii().constData());
 }
-
+/*
 void ZefaniaBible::buildIndex()
 {
     DEBUG_FUNC_NAME
@@ -652,7 +652,7 @@ void ZefaniaBible::buildIndex()
 
                         lucene_utf8towcs(wcharBuffer, key.toLocal8Bit().constData(), MAX_LUCENE_FIELD_LENGTH);
                         doc->add(*(new  Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_NO)));
-/*
+
                         lucene_utf8towcs(wcharBuffer, bookID.toLocal8Bit().constData(), MAX_LUCENE_FIELD_LENGTH);
                         doc->add(*(new  Field((const TCHAR*)_T("book"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_UNTOKENIZED)));
 
@@ -662,7 +662,7 @@ void ZefaniaBible::buildIndex()
                         lucene_utf8towcs(wcharBuffer, verseID.toLocal8Bit().constData(), MAX_LUCENE_FIELD_LENGTH);
                         doc->add(*(new  Field((const TCHAR*)_T("verse"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_UNTOKENIZED)));
 
-*/
+
 
                         lucene_utf8towcs(wcharBuffer, verseText.toUtf8().constData() , MAX_LUCENE_FIELD_LENGTH);
                         doc->add(*(new  Field((const TCHAR*)_T("content"),
@@ -687,10 +687,85 @@ void ZefaniaBible::buildIndex()
     myDebug() << "Time elapsed: " << t.elapsed() << "ms";
 
 }
+*/
+
+
+void ZefaniaBible::buildIndex()
+{
+    DEBUG_FUNC_NAME
+
+    QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, m_bookFullName.size()+2);
+    progress.setValue(1);
+
+    const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
+    QDir dir("/");
+    dir.mkpath(index);
+
+    // do not use any stop words
+    const TCHAR* stop_words[]  = { NULL };
+    StandardAnalyzer an((const TCHAR**)stop_words);
+
+    if(IndexReader::indexExists(index.toAscii().constData())) {
+        if(IndexReader::isLocked(index.toAscii().constData())) {
+            IndexReader::unlock(index.toAscii().constData());
+        }
+    }
+
+    QScopedPointer< IndexWriter> writer(new  IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
+    progress.setValue(2);
+    progress.setWindowModality(Qt::NonModal);
+
+    for(int i = 0; i < m_bookFullName.size(); ++i) {
+        progress.setValue(i+3);
+        Book book;
+        myDebug() << "book = " << i;
+
+        if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true && (!m_softCacheData.contains(i) || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {
+            book = fromHardToSoft(i, readBookFromHardCache(m_biblePath, i));
+            setSoftCache(i, book);
+        } else {
+            book = softCache(i);
+        }
+
+        wchar_t wcharBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
+        QHash<int, Chapter>::const_iterator it = book.m_chapters.constBegin();
+        while(it != book.m_chapters.constEnd()) {
+            Chapter c = it.value();
+            QStringList verse = c.data;
+            for(int verseCounter = 0; verseCounter < verse.size(); ++verseCounter) {
+                const QString t = verse.at(verseCounter);
+                QScopedPointer< Document> doc(new  Document());
+                const QString book = QString::number(i);
+                const QString chapter = QString::number(it.key());
+                const QString verse = QString::number(verseCounter);
+
+                QString key = book + ";" + chapter + ";" + verse;
+
+
+                lucene_utf8towcs(wcharBuffer, key.toLocal8Bit().constData(), MAX_LUCENE_FIELD_LENGTH);
+                doc->add(*(new  Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_NO)));
+
+                lucene_utf8towcs(wcharBuffer, t.toUtf8().constData(), MAX_LUCENE_FIELD_LENGTH);
+                doc->add(*(new  Field((const TCHAR*)_T("content"),
+                                      (const TCHAR*)wcharBuffer,
+                                      Field::STORE_YES |  Field::INDEX_TOKENIZED)));
+
+                writer->addDocument(doc.data());
+            }
+            it++;
+        }
+    }
+
+    writer->optimize();
+    writer->close();
+    writer.reset();
+    progress.close();
+
+}
 void ZefaniaBible::search(SearchQuery query, SearchResult *res)
 {
     DEBUG_FUNC_NAME
-    const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
+            const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
     char utfBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
     wchar_t wcharBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
 
