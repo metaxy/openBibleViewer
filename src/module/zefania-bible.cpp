@@ -50,7 +50,7 @@ void ZefaniaBible::setSettings(Settings *set)
 void ZefaniaBible::loadBibleData(const int &id, const QString &path)
 {
     DEBUG_FUNC_NAME
-            m_bibleName = "";
+    m_bibleName = "";
     m_bibleID = id;
 
     if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == false && m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false) {
@@ -77,7 +77,7 @@ void ZefaniaBible::removeHardCache(const QString &path)
 QDomNode ZefaniaBible::readBookFromHardCache(QString path, int bookID)
 {
     DEBUG_FUNC_NAME
-            QDomElement e;
+    QDomElement e;
 
     const QString pre = m_settings->homePath + "cache/" + m_settings->hash(path) + "/";
 
@@ -247,7 +247,7 @@ Book ZefaniaBible::softCache(const int &bookID) const
 void ZefaniaBible::setSoftCache(QHash<int, Book > cache)
 {
     DEBUG_FUNC_NAME
-            if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
+    if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
         m_softCacheData = cache;
     }
     return;
@@ -579,7 +579,7 @@ Book ZefaniaBible::fromHardToSoft(const int &bookID, QDomNode ncache)
 bool ZefaniaBible::hasIndex() const
 {
     DEBUG_FUNC_NAME
-            QDir d;
+    QDir d;
     if(!d.exists(m_settings->homePath + "index")) {
         return false;
     }
@@ -694,7 +694,7 @@ void ZefaniaBible::buildIndex()
 {
     DEBUG_FUNC_NAME
 
-    QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, m_bookFullName.size()+2);
+    QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, m_bookFullName.size() + 2);
     progress.setValue(1);
 
     const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
@@ -716,7 +716,7 @@ void ZefaniaBible::buildIndex()
     progress.setWindowModality(Qt::NonModal);
 
     for(int i = 0; i < m_bookFullName.size(); ++i) {
-        progress.setValue(i+3);
+        progress.setValue(i + 3);
         Book book;
         myDebug() << "book = " << i;
 
@@ -765,7 +765,7 @@ void ZefaniaBible::buildIndex()
 void ZefaniaBible::search(SearchQuery query, SearchResult *res)
 {
     DEBUG_FUNC_NAME
-            const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
+    const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
     char utfBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
     wchar_t wcharBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
 

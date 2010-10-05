@@ -76,6 +76,9 @@ int Bible::loadModuleData(const int &moduleID)
         for(int c = 0; c < m_bq->m_bookFullName.size(); ++c) {
             m_bookIDs.append(c);
             m_bookFullName[c] = m_bq->m_bookFullName.at(c);
+        }
+        //todo: if m_bookFullName.size() !0 >m_bookShortName.size() should then i really add the shortnames or let them empty
+        for(int c = 0; c < m_bq->m_bookShortName.size(); ++c) {
             m_bookShortName[c] = m_bq->m_bookShortName.at(c);
         }
 

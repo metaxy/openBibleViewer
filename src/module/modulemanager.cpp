@@ -126,25 +126,32 @@ int ModuleManager::loadAllModules()
             folder->m_title = m_settings->m_moduleSettings.at(i).moduleName;
             moduleID++;
             QStringList list;
+            QStringList newList;
             bool scaned = false;
             if(fastStart.hasCache(rpath)) {
                 list = fastStart.getFileNames(rpath);
+                if(list.isEmpty()) {
+                    list = scan(rpath);
+                    scaned = true;
+                }
             } else {
                 list = scan(rpath);
                 scaned = true;
             }
             foreach(QString fileName, list) { //Alle Ordner auslesen
                 QFile file;
-                moduleType = Module::NoneType;
-                if(fileName.compare(fileName, "bibleqt.ini", Qt::CaseInsensitive) == 0) {
+                moduleType = Module::NoneType;                if(fileName.endsWith("bibleqt.ini", Qt::CaseInsensitive)) {
                     moduleType = Module::BibleQuoteModule;
                 } else  if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
                     moduleType = Module::ZefaniaBibleModule;//todo: cannot detect other xml files
                 } else  if(fileName.endsWith(".idx", Qt::CaseInsensitive) ) {
                     moduleType = Module::BibleQuoteDictModule;
                 }
-
+                if(moduleType == Module::NoneType)
+                    continue;
                 file.setFileName(fileName);
+                newList << fileName;
+
                 if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
                     QString bname;
                     switch(moduleType) {
@@ -225,7 +232,7 @@ int ModuleManager::loadAllModules()
 
             }
             if(scaned)
-                fastStart.setFileNames(rpath, list);
+                fastStart.setFileNames(rpath, newList);
         } else {
             //load module
             int bibletype = m_settings->m_moduleSettings.at(i).moduleType.toInt();
