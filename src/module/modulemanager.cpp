@@ -140,13 +140,16 @@ int ModuleManager::loadAllModules()
             }
             foreach(QString fileName, list) { //Alle Ordner auslesen
                 QFile file;
-                moduleType = Module::NoneType;                if(fileName.endsWith("bibleqt.ini", Qt::CaseInsensitive)) {
+                moduleType = Module::NoneType;
+
+                if(fileName.endsWith("bibleqt.ini", Qt::CaseInsensitive)) {
                     moduleType = Module::BibleQuoteModule;
                 } else  if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
                     moduleType = Module::ZefaniaBibleModule;//todo: cannot detect other xml files
-                } else  if(fileName.endsWith(".idx", Qt::CaseInsensitive) ) {
+                } else  if(fileName.endsWith(".idx", Qt::CaseInsensitive)) {
                     moduleType = Module::BibleQuoteDictModule;
                 }
+
                 if(moduleType == Module::NoneType)
                     continue;
                 file.setFileName(fileName);
