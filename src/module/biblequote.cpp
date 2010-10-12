@@ -19,20 +19,24 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QDir>
 #include <QtGui/QProgressDialog>
 #include <QtGui/QMessageBox>
-#include <CLucene.h>
-#include <CLucene/util/Misc.h>
-#include <CLucene/util/Reader.h>
 
-//Maximum index entry size, 1MiB for now
-//Lucene default is too small
-const unsigned long MAX_LUCENE_FIELD_LENGTH = 1024 * 1024;
-#ifndef Q_OS_WIN32
-using namespace lucene::search;
-using namespace lucene::index;
-using namespace lucene::queryParser;
-using namespace lucene::document;
-using namespace lucene::analysis::standard;
+#ifdef CLUCENE_LEGACY
+    #include <CLucene.h>
+    #include <CLucene/util/Misc.h>
+    #include <CLucene/util/Reader.h>
+
+    //Maximum index entry size, 1MiB for now
+    //Lucene default is too small
+    const unsigned long MAX_LUCENE_FIELD_LENGTH = 1024 * 1024;
+    #ifndef Q_OS_WIN32
+    using namespace lucene::search;
+    using namespace lucene::index;
+    using namespace lucene::queryParser;
+    using namespace lucene::document;
+    using namespace lucene::analysis::standard;
+    #endif
 #endif
+
 BibleQuote::BibleQuote()
 {
     m_bibleID = -1;
@@ -296,19 +300,20 @@ QString BibleQuote::indexPath() const
 bool BibleQuote::hasIndex() const
 {
     DEBUG_FUNC_NAME
-    QDir d;
+   /* QDir d;
     if(!d.exists(m_settings->homePath + "index")) {
         return false;
     }
     //todo: check versions
 
-    return  IndexReader::indexExists(indexPath().toAscii().constData());
+    return  IndexReader::indexExists(indexPath().toAscii().constData());*/
+   return false;
 }
 
 void BibleQuote::buildIndex()
 {
     DEBUG_FUNC_NAME
-
+/*
     const QString index = indexPath();
     QDir dir("/");
     dir.mkpath(index);
@@ -406,11 +411,11 @@ void BibleQuote::buildIndex()
     }
     writer->optimize();
     writer->close();
-    progress.close();
+    progress.close();*/
 }
 void BibleQuote::search(const SearchQuery &query, SearchResult *res)
 {
-    QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
+  /*  QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
     char utfBuffer[MAX_LUCENE_FIELD_LENGTH  + 1];
     wchar_t wcharBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
 
@@ -446,6 +451,6 @@ void BibleQuote::search(const SearchQuery &query, SearchResult *res)
             res->addHit(hit);
         }
 
-    }
+    }*/
 
 }

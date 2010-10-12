@@ -4,12 +4,15 @@ SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 set ( CMAKE_BUILD_TYPE Release )
 add_definitions ( -Wall )
 find_package ( Qt4 REQUIRED )
-find_package (CLucene REQUIRED)
+find_package(PkgConfig)
+pkg_check_modules(CLucene libclucene)
+find_library(CLUCENE_LIB "libclucene-core.so" PATHS ${CLucene_LIBRARIES})
+MESSAGE(STATUS "Found CLucene:  ${CLucene_LIBRARIES} ${CLUCENE_LIB}")
 include ( ${QT_USE_FILE} )
 include_directories (
 	${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
-	${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR} ${QT_QTXML_INCLUDE_DIR} ${QT_QTNETWORK_INCLUDE_DIR} ${QT_QTWEBKIT_INCLUDE_DIR}
-	/usr/lib/ /usr/lib64/)
+	${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR} ${QT_QTXML_INCLUDE_DIR} ${QT_QTNETWORK_INCLUDE_DIR} ${QT_QTWEBKIT_INCLUDE_DIR} ${CLucene_INCLUDEDIR}
+)
 set ( openBibleViewer_HDRS
 	src/core/settings.h
 	src/module/biblequote.h
@@ -213,9 +216,10 @@ set ( openBibleViewer_MOCS
 	src/ui/dock/advancedsearchresultdockwidget.h
 	)
 QT4_WRAP_CPP(MOCS ${openBibleViewer_MOCS})
-
+# 
 add_executable ( openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS} )
-target_link_libraries ( openBibleViewer  ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTNETWORK_LIBRARY} ${QT_QTWEBKIT_LIBRARY} ${CLUCENE_LIBRARY})
+target_link_libraries ( openBibleViewer  ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTNETWORK_LIBRARY} ${QT_QTWEBKIT_LIBRARY} ${CLUCENE_LIB})
+
 
 install (TARGETS openBibleViewer
          RUNTIME DESTINATION bin)

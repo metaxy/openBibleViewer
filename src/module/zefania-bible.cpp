@@ -23,18 +23,30 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/KoXmlWriter.h"
 #include "src/core/dbghelper.h"
 #include "src/core/bibleurl.h"
+#ifdef CLUCENE_LEGACY
+    const unsigned long MAX_LUCENE_FIELD_LENGTH = 1024 * 124;
+    #include <CLucene.h>
+    #include <CLucene/util/Misc.h>
+    #include <CLucene/util/Reader.h>
 
-const unsigned long MAX_LUCENE_FIELD_LENGTH = 1024 * 124;
-#include <CLucene.h>
-#include <CLucene/util/Misc.h>
-#include <CLucene/util/Reader.h>
+    #ifndef Q_OS_WIN32
+    using namespace lucene::search;
+    using namespace lucene::index;
+    using namespace lucene::queryParser;
+    using namespace lucene::document;
+    using namespace lucene::analysis::standard;
+    #endif
+#else
+     #include <CLucene.h>
+    #include <CLucene/util/dirent.h>
+    #include <CLucene/util/StringBuffer.h>
 
-#ifndef Q_OS_WIN32
-using namespace lucene::search;
-using namespace lucene::index;
-using namespace lucene::queryParser;
-using namespace lucene::document;
-using namespace lucene::analysis::standard;
+    using namespace std;
+    using namespace lucene::index;
+    using namespace lucene::analysis;
+    using namespace lucene::util;
+    using namespace lucene::store;
+    using namespace lucene::document;
 #endif
 
 ZefaniaBible::ZefaniaBible()
@@ -578,14 +590,15 @@ Book ZefaniaBible::fromHardToSoft(const int &bookID, QDomNode ncache)
 }
 bool ZefaniaBible::hasIndex() const
 {
-    DEBUG_FUNC_NAME
+   /* DEBUG_FUNC_NAME
     QDir d;
     if(!d.exists(m_settings->homePath + "index")) {
         return false;
     }
     //todo: check versions
     const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
-    return  IndexReader::indexExists(index.toAscii().constData());
+    return  IndexReader::indexExists(index.toAscii().constData());*/
+    return false;
 }
 /*
 void ZefaniaBible::buildIndex()
@@ -693,14 +706,13 @@ void ZefaniaBible::buildIndex()
 void ZefaniaBible::buildIndex()
 {
     DEBUG_FUNC_NAME
-
     QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, m_bookFullName.size() + 2);
     progress.setValue(1);
 
     const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
     QDir dir("/");
     dir.mkpath(index);
-
+    #ifdef CLUCENE_LEGACY
     // do not use any stop words
     const TCHAR* stop_words[]  = { NULL };
     StandardAnalyzer an((const TCHAR**)stop_words);
@@ -759,12 +771,73 @@ void ZefaniaBible::buildIndex()
     writer->optimize();
     writer->close();
     writer.reset();
+    #else /*****************************************************************************************/
+    IndexWriter* writer = NULL;
+    lucene::analysis::WhitespaceAnalyzer an;
+    if ( !clearIndex && IndexReader::indexExists(target) ){
+        if ( IndexReader::isLocked(target) ){
+            myDebug() << "Index was locked... unlocking it.";
+            IndexReader::unlock(target);
+        }
+        writer = _CLNEW IndexWriter( target, &an, false);
+    } else {
+        writer = _CLNEW IndexWriter( target ,&an, true);
+    }
+    writer->setMaxFieldLength(0x7FFFFFFFL);
+    writer->setUseCompoundFile(false);
+
+    //index
+    Document doc;
+    for(int i = 0; i < m_bookFullName.size(); ++i) {
+        progress.setValue(i + 3);
+        Book book;
+        myDebug() << "book = " << i;
+
+        if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true && (!m_softCacheData.contains(i) || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {
+            book = fromHardToSoft(i, readBookFromHardCache(m_biblePath, i));
+            setSoftCache(i, book);
+        } else {
+            book = softCache(i);
+        }
+
+        wchar_t wcharBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
+        QHash<int, Chapter>::const_iterator it = book.m_chapters.constBegin();
+        while(it != book.m_chapters.constEnd()) {
+            Chapter c = it.value();
+            QStringList verse = c.data;
+            for(int verseCounter = 0; verseCounter < verse.size(); ++verseCounter) {
+                doc.clear();
+                const QString t = verse.at(verseCounter);
+                QScopedPointer< Document> doc(new  Document());
+                const QString book = QString::number(i);
+                const QString chapter = QString::number(it.key());
+                const QString verse = QString::number(verseCounter);
+
+                QString key = book + ";" + chapter + ";" + verse;
+
+                doc->add( *_CLNEW Field(_T("key"), (const TCHAR*)key.toLocal8Bit().constData(), Field::STORE_YES |  Field::INDEX_NO ) );
+                doc->add( *_CLNEW Field(_T("content"), (const TCHAR*)t.toUtf8().constData(), Field::STORE_YES |  Field::INDEX_TOKENIZED) );
+
+                writer->addDocument( &doc );
+            }
+            it++;
+        }
+    }
+
+
+    writer->setUseCompoundFile(true);
+    writer->optimize();
+
+    writer->close();
+    _CLLDELETE(writer);
+    #endif
     progress.close();
 
 }
 void ZefaniaBible::search(SearchQuery query, SearchResult *res)
 {
     DEBUG_FUNC_NAME
+    #ifdef CLUCENE_LEGACY
     const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
     char utfBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
     wchar_t wcharBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
@@ -798,4 +871,7 @@ void ZefaniaBible::search(SearchQuery query, SearchResult *res)
             res->addHit(hit);
         }
     }
+    #else
+
+    #endif
 }

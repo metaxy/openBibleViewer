@@ -26,6 +26,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 #include <QtGui/QProgressDialog>
 #include <QtXml/QDomElement>
+#ifdef CLUCENE_LEGACY
 #include <CLucene.h>
 #include <CLucene/util/Misc.h>
 #include <CLucene/util/Reader.h>
@@ -35,6 +36,7 @@ using namespace lucene::index;
 using namespace lucene::queryParser;
 using namespace lucene::document;
 using namespace lucene::analysis::standard;
+#endif
 #endif
 ZefaniaLex::ZefaniaLex()
 {
@@ -53,7 +55,10 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
     /* QProgressDialog progress(QObject::tr("Loading Strongmodule"), QObject::tr("Cancel"), 0, 100);
      progress.setWindowModality(Qt::WindowModal);
      progress.setValue(1);*/
+
+
     QString fileTitle = "";
+    /*
     const QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
     QDir dir("/");
     dir.mkpath(index);
@@ -180,7 +185,7 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
 
     writer->optimize();
     writer->close();
-
+*/
     return fileTitle;
 }
 /**
@@ -189,6 +194,7 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
   */
 QString ZefaniaLex::getEntry(const QString &id)
 {
+    /*
     QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
     const QString queryText = "key:" + id;
     char utfBuffer[  IndexWriter::DEFAULT_MAX_FIELD_LENGTH  + 1];
@@ -206,7 +212,7 @@ QString ZefaniaLex::getEntry(const QString &id)
         QString content = QString::fromUtf8(utfBuffer);
         return content;
     }
-
+*/
     return QString();
 }
 

@@ -16,18 +16,20 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QDir>
 #include <QtGui/QProgressDialog>
 #include <QtCore/QTextStream>
+#include "src/core/dbghelper.h"
+
+#ifdef CLUCENE_LEGACY
 const unsigned long MAX_LUCENE_FIELD_LENGTH = 1024 * 512;
 #include <CLucene.h>
 #include <CLucene/util/Misc.h>
 #include <CLucene/util/Reader.h>
-#include "src/core/dbghelper.h"
-
 #ifndef Q_OS_WIN32
 using namespace lucene::search;
 using namespace lucene::index;
 using namespace lucene::queryParser;
 using namespace lucene::document;
 using namespace lucene::analysis::standard;
+#endif
 #endif
 
 BibleQuoteDict::BibleQuoteDict()
@@ -61,18 +63,19 @@ QString BibleQuoteDict::readInfo(QFile &file)
 
 bool BibleQuoteDict::hasIndex()
 {
-    DEBUG_FUNC_NAME
+    /*DEBUG_FUNC_NAME
     QDir d;
     if(!d.exists(m_settings->homePath + "index")) {
         return false;
     }
     //todo: check versions
     QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
-    return  IndexReader::indexExists(index.toAscii().constData());
+    return  IndexReader::indexExists(index.toAscii().constData());*/
+    return false;
 }
 void BibleQuoteDict::buildIndex()
 {
-    DEBUG_FUNC_NAME
+    /*DEBUG_FUNC_NAME
 
     // pharse both and add docs to the indexwriter
     //myDebug() << m_modulePath;
@@ -156,12 +159,12 @@ void BibleQuoteDict::buildIndex()
 
     writer->optimize();
     writer->close();
-    progress.close();
+    progress.close();*/
 }
 
 QString BibleQuoteDict::getEntry(const QString &id)
 {
-    DEBUG_FUNC_NAME
+    /*DEBUG_FUNC_NAME
     if(!hasIndex())
         buildIndex();
 
@@ -189,5 +192,6 @@ QString BibleQuoteDict::getEntry(const QString &id)
             ret.append("<hr /> " + QString::fromUtf8(utfBuffer));
     }
 
-    return ret;
+    return ret;*/
+    return QString();
 }

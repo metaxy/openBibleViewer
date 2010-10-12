@@ -17,7 +17,7 @@ INCLUDE(CheckSymbolExists)
 INCLUDE(FindLibraryWithDebug)
 
 if(NOT CLUCENE_MIN_VERSION)
-  set(CLUCENE_MIN_VERSION "0.9.19")
+  set(CLUCENE_MIN_VERSION "0.9.23")
 endif(NOT CLUCENE_MIN_VERSION)
 
 IF(EXISTS ${PROJECT_CMAKE}/CLuceneConfig.cmake)
@@ -25,25 +25,10 @@ IF(EXISTS ${PROJECT_CMAKE}/CLuceneConfig.cmake)
 ENDIF(EXISTS ${PROJECT_CMAKE}/CLuceneConfig.cmake)
 
 SET(TRIAL_LIBRARY_PATHS
-  $ENV{CLUCENE_HOME}/lib${LIB_SUFFIX}
-  ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}
-  ${CMAKE_LIBRARY_PATH}
-  /usr/local/lib${LIB_SUFFIX}
-  /opt/local/lib${LIB_SUFFIX}
-  /usr/lib${LIB_SUFFIX}
-  /usr/lib64
-  /sw/lib${LIB_SUFFIX}
-  /usr/pkg/lib${LIB_SUFFIX}
-  ${WIN_CLUCENE_SEARCH_PATH}
+  /home/paul/kde/lib
   )
 SET(TRIAL_INCLUDE_PATHS
-  $ENV{CLUCENE_HOME}/include
-  ${CMAKE_INSTALL_PREFIX}/include
-  /usr/local/include
-  /usr/include
-  /sw/include
-  /usr/pkg/include
-  ${WIN_CLUCENE_INCLUDE_PATH}
+  /home/paul/kde/include
   )
 FIND_LIBRARY_WITH_DEBUG(CLUCENE_LIBRARY
   WIN32_DEBUG_POSTFIX d
