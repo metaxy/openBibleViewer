@@ -21,20 +21,20 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 
 #ifdef CLUCENE_LEGACY
-    #include <CLucene.h>
-    #include <CLucene/util/Misc.h>
-    #include <CLucene/util/Reader.h>
+#include <CLucene.h>
+#include <CLucene/util/Misc.h>
+#include <CLucene/util/Reader.h>
 
-    //Maximum index entry size, 1MiB for now
-    //Lucene default is too small
-    const unsigned long MAX_LUCENE_FIELD_LENGTH = 1024 * 1024;
-    #ifndef Q_OS_WIN32
-    using namespace lucene::search;
-    using namespace lucene::index;
-    using namespace lucene::queryParser;
-    using namespace lucene::document;
-    using namespace lucene::analysis::standard;
-    #endif
+//Maximum index entry size, 1MiB for now
+//Lucene default is too small
+const unsigned long MAX_LUCENE_FIELD_LENGTH = 1024 * 1024;
+#ifndef Q_OS_WIN32
+using namespace lucene::search;
+using namespace lucene::index;
+using namespace lucene::queryParser;
+using namespace lucene::document;
+using namespace lucene::analysis::standard;
+#endif
 #endif
 
 BibleQuote::BibleQuote()
@@ -236,7 +236,7 @@ int BibleQuote::readBook(const int &id, QString path)
             //filterout
             if(m_settings->getModuleSettings(m_bibleID).biblequote_removeHtml == true && removeHtml2.size() > 0) {
                 foreach(QString r, removeHtml2) {
-                     line = line.remove(r, Qt::CaseInsensitive);
+                    line = line.remove(r, Qt::CaseInsensitive);
                 }
 
                 /*line = line.remove(QRegExp("CLASS=\"(\\w+)\">"));
@@ -300,20 +300,24 @@ QString BibleQuote::indexPath() const
 bool BibleQuote::hasIndex() const
 {
     DEBUG_FUNC_NAME
-   /* QDir d;
+    QDir d;
     if(!d.exists(m_settings->homePath + "index")) {
         return false;
     }
     //todo: check versions
 
-    return  IndexReader::indexExists(indexPath().toAscii().constData());*/
-   return false;
+#ifdef CLUCENE_LEGACY
+    return  IndexReader::indexExists(indexPath().toAscii().constData());
+#else
+    return false;
+#endif
+
 }
 
 void BibleQuote::buildIndex()
 {
     DEBUG_FUNC_NAME
-/*
+#ifdef CLUCENE_LEGACY
     const QString index = indexPath();
     QDir dir("/");
     dir.mkpath(index);
@@ -411,11 +415,14 @@ void BibleQuote::buildIndex()
     }
     writer->optimize();
     writer->close();
-    progress.close();*/
+    progress.close();
+    //#else
+#endif
 }
 void BibleQuote::search(const SearchQuery &query, SearchResult *res)
 {
-  /*  QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
+#ifdef CLUCENE_LEGACY
+    QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
     char utfBuffer[MAX_LUCENE_FIELD_LENGTH  + 1];
     wchar_t wcharBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
 
@@ -451,6 +458,8 @@ void BibleQuote::search(const SearchQuery &query, SearchResult *res)
             res->addHit(hit);
         }
 
-    }*/
+    }
+    / #else
+#endif
 
-}
+    }

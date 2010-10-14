@@ -63,20 +63,23 @@ QString BibleQuoteDict::readInfo(QFile &file)
 
 bool BibleQuoteDict::hasIndex()
 {
-    /*DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     QDir d;
     if(!d.exists(m_settings->homePath + "index")) {
         return false;
     }
     //todo: check versions
+#ifdef CLUCENE_LEGACY
     QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
-    return  IndexReader::indexExists(index.toAscii().constData());*/
+    return  IndexReader::indexExists(index.toAscii().constData());
+#else
     return false;
+#endif
 }
 void BibleQuoteDict::buildIndex()
 {
-    /*DEBUG_FUNC_NAME
-
+    DEBUG_FUNC_NAME
+#ifdef CLUCENE_LEGACY
     // pharse both and add docs to the indexwriter
     //myDebug() << m_modulePath;
     QFileInfo fileInfo(m_modulePath);
@@ -159,12 +162,15 @@ void BibleQuoteDict::buildIndex()
 
     writer->optimize();
     writer->close();
-    progress.close();*/
+    progress.close();
+//#else
+#endif
 }
 
 QString BibleQuoteDict::getEntry(const QString &id)
 {
-    /*DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
+#ifdef CLUCENE_LEGACY
     if(!hasIndex())
         buildIndex();
 
@@ -192,6 +198,8 @@ QString BibleQuoteDict::getEntry(const QString &id)
             ret.append("<hr /> " + QString::fromUtf8(utfBuffer));
     }
 
-    return ret;*/
+    return ret;
+#else
     return QString();
+#endif
 }

@@ -51,6 +51,7 @@ void ZefaniaLex::setSettings(Settings *settings)
 QString ZefaniaLex::loadFile(QString fileData, QString fileName)
 {
     m_modulePath = fileName;
+#ifdef CLUCENE_LEGACY
     //todo: progressdialog
     /* QProgressDialog progress(QObject::tr("Loading Strongmodule"), QObject::tr("Cancel"), 0, 100);
      progress.setWindowModality(Qt::WindowModal);
@@ -58,7 +59,7 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
 
 
     QString fileTitle = "";
-    /*
+
     const QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
     QDir dir("/");
     dir.mkpath(index);
@@ -185,8 +186,11 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
 
     writer->optimize();
     writer->close();
-*/
+
     return fileTitle;
+#else
+    return "";
+#endif
 }
 /**
   Returns a Entry.
@@ -194,7 +198,7 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
   */
 QString ZefaniaLex::getEntry(const QString &id)
 {
-    /*
+#ifdef CLUCENE_LEGACY
     QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
     const QString queryText = "key:" + id;
     char utfBuffer[  IndexWriter::DEFAULT_MAX_FIELD_LENGTH  + 1];
@@ -212,7 +216,8 @@ QString ZefaniaLex::getEntry(const QString &id)
         QString content = QString::fromUtf8(utfBuffer);
         return content;
     }
-*/
+#else
     return QString();
+#endif
 }
 

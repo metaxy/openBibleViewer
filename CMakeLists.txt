@@ -4,11 +4,113 @@ SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 set ( CMAKE_BUILD_TYPE Release )
 add_definitions ( -Wall )
 find_package ( Qt4 REQUIRED )
-find_package(PkgConfig)
-pkg_check_modules(CLucene libclucene)
-find_library(CLUCENE_LIB "libclucene-core.so" PATHS ${CLucene_LIBRARIES})
-MESSAGE(STATUS "Found CLucene:  ${CLucene_LIBRARIES} ${CLUCENE_LIB}")
-include ( ${QT_USE_FILE} )
+set(CLUCENE_LEGACY_MODE "Off")
+if(NOT CLUCENE_LEGACY_MODE)
+#build own clucene
+    set( BUILD_STATIC_LIBRARIES "On")
+    set(CLUCENE_VERSION_MAJOR "0")
+    SET(CLUCENE_VERSION_MINOR "9")
+    SET(CLUCENE_VERSION_REVISION "23")
+    SET(CLUCENE_VERSION_PATCH "0")
+    SET(CLUCENE_INT_VERSION 92300)
+
+    SET(CLUCENE_VERSION "${CLUCENE_VERSION_MAJOR}.${CLUCENE_VERSION_MINOR}.${CLUCENE_VERSION_REVISION}.${CLUCENE_VERSION_PATCH}")
+    SET(CLUCENE_SOVERSION "${CLUCENE_VERSION_MAJOR}.${CLUCENE_VERSION_MINOR}.${CLUCENE_VERSION_REVISION}")
+
+    Include (FindThreads)
+    IF(NOT CMAKE_BUILD_TYPE)
+        SET(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING
+        "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
+        FORCE)
+    ELSE(NOT CMAKE_BUILD_TYPE)
+        MESSAGE( "Compiling as ${CMAKE_BUILD_TYPE}" )
+    ENDIF(NOT CMAKE_BUILD_TYPE)
+
+    OPTION(ENABLE_DEBUG
+    "enable debug support"
+    OFF)
+    OPTION(ENABLE_MMAP
+    "enable mmap support (experimental)"
+    OFF)
+    OPTION(DISABLE_MULTITHREADING
+    "disable multithreading - remove all locking code"
+    OFF)
+    OPTION(ENABLE_DMALLOC
+    "enable dmalloc memory leak checker"
+    OFF)
+    OPTION(ENABLE_ASCII_MODE
+    "enable ascii support"
+    OFF)
+    OPTION(LUCENE_USE_INTERNAL_CHAR_FUNCTIONS
+    "use internal character functions. required to run tests correctly"
+    ON)
+    OPTION(ENABLE_PACKAGING
+    "create build scripts for creating clucene packages"
+    OFF)
+    OPTION(
+    "create targets for building static libraries"
+    OFF)
+    OPTION(BUILD_CONTRIBS
+    "create targets for building the clucene-contribs"
+    OFF)
+    OPTION(BUILD_CONTRIBS_LIB
+    "create targets for building the clucene-contribs-lib"
+    OFF)
+    SET(LUCENE_SYS_INCLUDES "" CACHE PATH
+        "location for non-system independent files. defaults to CMAKE_INSTALL_PREFIX. see INSTALL documentation for further information."
+        )
+
+
+    SET ( ENABLE_COMPILE_TESTS_VALUE ON )
+    IF ( MSVC_IDE )
+        #this is annoying...
+        SET ( ENABLE_COMPILE_TESTS_VALUE OFF )
+    ENDIF( MSVC_IDE )
+
+    OPTION(ENABLE_COMPILE_TESTS
+    "enable various projects that test alternative build switches"
+    ${ENABLE_COMPILE_TESTS_VALUE})
+
+    #check flags...
+    INCLUDE (TestCXXAcceptsFlag)
+    IF ( CMAKE_COMPILER_IS_GNUCC )
+        CHECK_CXX_ACCEPTS_FLAG(-pg GccFlagPg)
+        IF ( GccFlagPg )
+            OPTION(ENABLE_GPROF
+            "turn on gprof profiling support"
+            OFF)
+
+            IF ( ENABLE_GPROF )
+                SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
+                SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pg")
+                SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -pg")
+                SET(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -pg")
+            ENDIF ( ENABLE_GPROF )
+        ENDIF ( GccFlagPg )
+        
+        IF("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64")
+            SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC"  )
+        ENDIF("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64")
+
+    ENDIF(CMAKE_COMPILER_IS_GNUCC) 
+
+    INCLUDE_DIRECTORIES(  ${openBibleViewer_SOURCE_DIR}/src/clucene/core )
+    INCLUDE_DIRECTORIES( ${openBibleViewer_SOURCE_DIR}/src/clucene/shared )
+    INCLUDE_DIRECTORIES( ${openBibleViewer_BINARY_DIR}/src/clucene/shared )
+    ADD_SUBDIRECTORY (src/clucene/core)
+    ADD_SUBDIRECTORY (src/clucene/shared)
+    include ( ${QT_USE_FILE} )
+    
+    MESSAGE(STATUS "static  ${clucene-core-static} ${clucene-shared-static}")
+    set(C_LIB "clucene-core-static clucene-shared-static")
+ELSE (NOT CLUCENE_LEGACY_MODE)
+    find_package(CLucene REQUIRED)
+    include_directories ("/usr/lib/ /usr/lib64/")
+    set(C_LIB "${CLUCENE_LIBRARY}")
+#todo: enbale legacy mode in openBibleViewqer
+ENDIF (NOT CLUCENE_LEGACY_MODE)
+
+#other stuff like openBibleViewer
 include_directories (
 	${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
 	${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR} ${QT_QTXML_INCLUDE_DIR} ${QT_QTNETWORK_INCLUDE_DIR} ${QT_QTWEBKIT_INCLUDE_DIR} ${CLucene_INCLUDEDIR}
@@ -217,8 +319,8 @@ set ( openBibleViewer_MOCS
 	)
 QT4_WRAP_CPP(MOCS ${openBibleViewer_MOCS})
 # 
-add_executable ( openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS} )
-target_link_libraries ( openBibleViewer  ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTNETWORK_LIBRARY} ${QT_QTWEBKIT_LIBRARY} ${CLUCENE_LIB})
+add_executable ( openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS}  )
+target_link_libraries ( openBibleViewer  ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTNETWORK_LIBRARY} ${QT_QTWEBKIT_LIBRARY} clucene-core-static clucene-shared-static)
 
 
 install (TARGETS openBibleViewer

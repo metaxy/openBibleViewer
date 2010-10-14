@@ -606,7 +606,7 @@ void AdvancedInterface::pharseUrl(QString url)
                 }
             }
 
-            int firstBook;
+            int firstBook = 0;
             if(bibleUrl.book() == BibleUrl::LoadFirstBook) {
                 firstBook = m_moduleManager->bible()->bookIDs().first();
             }
@@ -616,7 +616,7 @@ void AdvancedInterface::pharseUrl(QString url)
                 reloadBook = true;
             }
 
-            int firstChapter;
+            int firstChapter = 0;
             if(bibleUrl.chapter() == BibleUrl::LoadFirstChapter) {
                 firstChapter = 0; // todo: change when we support to start chapters from another value
             }
@@ -626,7 +626,7 @@ void AdvancedInterface::pharseUrl(QString url)
                 reloadChapter = true;
             }
 
-            int firstVerse;
+            int firstVerse = 0;
             if(bibleUrl.verse() == BibleUrl::LoadFirstVerse) {
                 firstVerse = 0; // todo: change when we support to start verse from another value
             }
