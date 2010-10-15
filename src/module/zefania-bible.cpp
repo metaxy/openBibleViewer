@@ -600,20 +600,19 @@ Book ZefaniaBible::fromHardToSoft(const int &bookID, QDomNode ncache)
 }
 bool ZefaniaBible::hasIndex() const
 {
-     DEBUG_FUNC_NAME
-     QDir d;
-     if(!d.exists(m_settings->homePath + "index")) {
-         return false;
-     }
-     //todo: check versions
-     
-     const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
-     
+    DEBUG_FUNC_NAME
+    QDir d;
+    if(!d.exists(m_settings->homePath + "index")) {
+        return false;
+    }
+    //todo: check versions
+
+    const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
+
 #ifdef CLUCENE_LEGACY
-     return IndexReader::indexExists(index.toAscii().constData());
+    return IndexReader::indexExists(index.toLocal8Bit().constData());
 #else
-     myDebug() << "path = " << index.toStdString().c_str();
-     return IndexReader::indexExists(index.toStdString().c_str());
+    return IndexReader::indexExists(index.toStdString().c_str());
 #endif
 }
 //A faster (10%) alternative
@@ -791,7 +790,6 @@ void ZefaniaBible::buildIndex()
 #else
     IndexWriter* writer = NULL;
     lucene::analysis::WhitespaceAnalyzer an;
-    myDebug() << "check while target  exists ";
     if(IndexReader::indexExists(index.toStdString().c_str())) {
         if(IndexReader::isLocked(index.toStdString().c_str())) {
             myDebug() << "Index was locked... unlocking it.";
@@ -801,7 +799,6 @@ void ZefaniaBible::buildIndex()
     } else {
         writer = _CLNEW IndexWriter(index.toStdString().c_str() , &an, true);
     }
-    myDebug() << "writer = " << writer;
     writer->setMaxFieldLength(0x7FFFFFFFL);
     writer->setUseCompoundFile(false);
 
@@ -832,11 +829,8 @@ void ZefaniaBible::buildIndex()
                 const QString verse = QString::number(verseCounter);
 
                 QString key = book + ";" + chapter + ";" + verse;
-
-                /*doc.add(*_CLNEW Field(_T("key"), (const TCHAR*)key.toLocal8Bit().constData(), Field::STORE_YES |  Field::INDEX_NO));
-                doc.add(*_CLNEW Field(_T("content"), (const TCHAR*)t.toUtf8().constData(), Field::STORE_YES |  Field::INDEX_TOKENIZED));*/
-                doc.add(*_CLNEW Field(_T("key"), (const TCHAR*)key.toLocal8Bit().constData(), Field::STORE_YES |  Field::INDEX_NO));
-                doc.add(*_CLNEW Field(_T("content"), _T("god int"), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                doc.add(*_CLNEW Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
+                doc.add(*_CLNEW Field(_T("content"), t.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 
                 writer->addDocument(&doc);
             }
@@ -857,10 +851,10 @@ void ZefaniaBible::buildIndex()
 void ZefaniaBible::search(SearchQuery query, SearchResult *res)
 {
     DEBUG_FUNC_NAME
-    const QString i = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);    
-    
+    const QString i = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
+
 #ifdef CLUCENE_LEGACY
-   
+
     char utfBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
     wchar_t wcharBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
 
@@ -894,30 +888,26 @@ void ZefaniaBible::search(SearchQuery query, SearchResult *res)
         }
     }
 #else
-    myDebug() << "path = " << i.toStdString().c_str();
     standard::StandardAnalyzer analyzer;
     IndexReader* reader = IndexReader::open(i.toStdString().c_str());
     IndexSearcher s(reader);
-    Query* q = QueryParser::parse(/*query.searchText.toStdWString().c_str()*/_T("god"),_T("content"),&analyzer);
+    Query* q = QueryParser::parse(query.searchText.toStdWString().c_str(), _T("content"), &analyzer);
     Hits* h = s.search(q);
-    myDebug() << "hits = " << h->length() << query.searchText.toStdWString().c_str();
-    for ( size_t i=0;i<h->length();i++ ){
-             Document* doc = &h->doc(i);
-             myDebug() << "found = " << i;
-            /* const TCHAR* buf = doc->get(_T("key"));
-             QString stelle = QString::fromWCharArray(buf);
-             // h->score(i)
-             QStringList l = stelle.split(";");
-             if(query.range == SearchQuery::Whole || (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) || (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
-                SearchHit hit;
-                hit.setType(SearchHit::BibleHit);
-                hit.setValue(SearchHit::BibleID, m_bibleID);
-                hit.setValue(SearchHit::BookID, l.at(0).toInt());
-                hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
-                hit.setValue(SearchHit::VerseID, l.at(2).toInt());
-                hit.setValue(SearchHit::VerseText, QString::fromWCharArray(doc->get(_T("content"))));
-                res->addHit(hit);
-             }*/
+    for(size_t i = 0; i < h->length(); i++) {
+        Document* doc = &h->doc(i);
+        const QString stelle = QString::fromWCharArray(doc->get(_T("key")));
+        // h->score(i)
+        QStringList l = stelle.split(";");
+        if(query.range == SearchQuery::Whole || (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) || (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
+            SearchHit hit;
+            hit.setType(SearchHit::BibleHit);
+            hit.setValue(SearchHit::BibleID, m_bibleID);
+            hit.setValue(SearchHit::BookID, l.at(0).toInt());
+            hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
+            hit.setValue(SearchHit::VerseID, l.at(2).toInt());
+            hit.setValue(SearchHit::VerseText, QString::fromWCharArray(doc->get(_T("content"))));
+            res->addHit(hit);
+        }
     }
 #endif
 }
