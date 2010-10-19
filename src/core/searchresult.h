@@ -31,10 +31,12 @@ public:
     QList<SearchHit> hits();
     QList<SearchHit> hits(SearchHit::SearchHitType type);
     SearchQuery searchQuery;
+    void sort();
 
 private:
     QList<SearchHit> m_hits;
     QMap<int, int> m_type;
+
 
 };
 

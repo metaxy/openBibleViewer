@@ -23,9 +23,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/KoXmlWriter.h"
 #include "src/core/dbghelper.h"
 #include "src/core/bibleurl.h"
+#include "config.h"
 #include <QDir>
 
-#ifdef CLUCENE_LEGACY
+#ifdef _CLUCENE_LEGACY
 const unsigned long MAX_LUCENE_FIELD_LENGTH = 1024 * 124;
 #include <CLucene.h>
 #include <CLucene/util/Misc.h>
@@ -38,6 +39,7 @@ using namespace lucene::queryParser;
 using namespace lucene::document;
 using namespace lucene::analysis::standard;
 #endif
+
 #else
 #include <CLucene.h>
 #include <CLucene/util/dirent.h>
@@ -609,7 +611,7 @@ bool ZefaniaBible::hasIndex() const
 
     const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
 
-#ifdef CLUCENE_LEGACY
+#ifdef _CLUCENE_LEGACY
     return IndexReader::indexExists(index.toLocal8Bit().constData());
 #else
     return IndexReader::indexExists(index.toStdString().c_str());
@@ -633,13 +635,13 @@ void ZefaniaBible::buildIndex()
     const TCHAR* stop_words[]  = { NULL };
     StandardAnalyzer an((const TCHAR**)stop_words);
 
-    if(IndexReader::indexExists(index.toAscii().constData())) {
-        if(IndexReader::isLocked(index.toAscii().constData())) {
-            IndexReader::unlock(index.toAscii().constData());
+    if(IndexReader::indexExists(index.toLocal8Bit().constData())) {
+        if(IndexReader::isLocked(index.toLocal8Bit().constData())) {
+            IndexReader::unlock(index.toLocal8Bit().constData());
         }
     }
 
-    QScopedPointer< IndexWriter> writer(new  IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
+    QScopedPointer< IndexWriter> writer(new  IndexWriter(index.toLocal8Bit().constData(), &an, true));   //always create a new index
     progress.setValue(2);
 
     QFile file(m_biblePath);
@@ -728,18 +730,18 @@ void ZefaniaBible::buildIndex()
     const QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
     QDir dir("/");
     dir.mkpath(index);
-#ifdef CLUCENE_LEGACY
+#ifdef _CLUCENE_LEGACY
     // do not use any stop words
     const TCHAR* stop_words[]  = { NULL };
     StandardAnalyzer an((const TCHAR**)stop_words);
 
-    if(IndexReader::indexExists(index.toAscii().constData())) {
-        if(IndexReader::isLocked(index.toAscii().constData())) {
-            IndexReader::unlock(index.toAscii().constData());
+    if(IndexReader::indexExists(index.toLocal8Bit().constData())) {
+        if(IndexReader::isLocked(index.toLocal8Bit().constData())) {
+            IndexReader::unlock(index.toLocal8Bit().constData());
         }
     }
 
-    QScopedPointer< IndexWriter> writer(new  IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
+    QScopedPointer< IndexWriter> writer(new  IndexWriter(index.toLocal8Bit().constData(), &an, true));   //always create a new index
     progress.setValue(2);
     progress.setWindowModality(Qt::NonModal);
 
@@ -853,7 +855,7 @@ void ZefaniaBible::search(SearchQuery query, SearchResult *res)
     DEBUG_FUNC_NAME
     const QString i = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
 
-#ifdef CLUCENE_LEGACY
+#ifdef _CLUCENE_LEGACY
 
     char utfBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
     wchar_t wcharBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
@@ -861,7 +863,7 @@ void ZefaniaBible::search(SearchQuery query, SearchResult *res)
     const TCHAR* stop_words[] = { NULL };
     StandardAnalyzer analyzer(stop_words);
 
-    IndexSearcher searcher(index.toLocal8Bit().constData());
+    IndexSearcher searcher(i.toLocal8Bit().constData());
     lucene_utf8towcs(wcharBuffer, query.searchText.toUtf8().constData(), MAX_LUCENE_FIELD_LENGTH);
     QScopedPointer<Query> q(QueryParser::parse((const TCHAR*)wcharBuffer, (const TCHAR*)_T("content"), &analyzer));
 
@@ -888,7 +890,8 @@ void ZefaniaBible::search(SearchQuery query, SearchResult *res)
         }
     }
 #else
-    standard::StandardAnalyzer analyzer;
+    const TCHAR* stop_words[] = { NULL };
+    standard::StandardAnalyzer analyzer(stop_words);
     IndexReader* reader = IndexReader::open(i.toStdString().c_str());
     IndexSearcher s(reader);
     Query* q = QueryParser::parse(query.searchText.toStdWString().c_str(), _T("content"), &analyzer);

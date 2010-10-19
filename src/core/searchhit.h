@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QVariant>
 #include <QtCore/QMap>
 /*!
- SearcHit represent a hit in a bible search
+ SearchHit represents a hit in a search.
 
 */
 class SearchHit
@@ -37,9 +37,9 @@ public:
         NoteID = 5,
         NoteText = 6
     };
-    SearchHitType type();
+    SearchHitType type() const;
     void setType(SearchHitType type);
-    QVariant value(SearchHitKey v);
+    QVariant value(SearchHitKey v) const;
     void setValue(SearchHitKey k, QVariant value);
 private:
     SearchHitType m_type;

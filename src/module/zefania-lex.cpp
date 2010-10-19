@@ -26,7 +26,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 #include <QtGui/QProgressDialog>
 #include <QtXml/QDomElement>
-#ifdef CLUCENE_LEGACY
+#include "config.h"
+#ifdef _CLUCENE_LEGACY
 #include <CLucene.h>
 #include <CLucene/util/Misc.h>
 #include <CLucene/util/Reader.h>
@@ -51,7 +52,7 @@ void ZefaniaLex::setSettings(Settings *settings)
 QString ZefaniaLex::loadFile(QString fileData, QString fileName)
 {
     m_modulePath = fileName;
-#ifdef CLUCENE_LEGACY
+#ifdef _CLUCENE_LEGACY
     //todo: progressdialog
     /* QProgressDialog progress(QObject::tr("Loading Strongmodule"), QObject::tr("Cancel"), 0, 100);
      progress.setWindowModality(Qt::WindowModal);
@@ -198,7 +199,7 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
   */
 QString ZefaniaLex::getEntry(const QString &id)
 {
-#ifdef CLUCENE_LEGACY
+#ifdef _CLUCENE_LEGACY
     QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
     const QString queryText = "key:" + id;
     char utfBuffer[  IndexWriter::DEFAULT_MAX_FIELD_LENGTH  + 1];

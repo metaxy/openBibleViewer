@@ -19,8 +19,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QDir>
 #include <QtGui/QProgressDialog>
 #include <QtGui/QMessageBox>
-
-#ifdef CLUCENE_LEGACY
+#include "config.h"
+#ifdef _CLUCENE_LEGACY
 #include <CLucene.h>
 #include <CLucene/util/Misc.h>
 #include <CLucene/util/Reader.h>
@@ -35,6 +35,25 @@ using namespace lucene::queryParser;
 using namespace lucene::document;
 using namespace lucene::analysis::standard;
 #endif
+#else
+#include <CLucene.h>
+#include <CLucene/util/dirent.h>
+#include <CLucene/util/StringBuffer.h>
+#include "CLucene/StdHeader.h"
+#include "CLucene/_clucene-config.h"
+
+#include "CLucene/config/repl_tchar.h"
+#include "CLucene/config/repl_wchar.h"
+#include "CLucene/util/Misc.h"
+
+using namespace lucene::store;
+using namespace std;
+using namespace lucene::analysis;
+using namespace lucene::index;
+using namespace lucene::util;
+using namespace lucene::queryParser;
+using namespace lucene::document;
+using namespace lucene::search;
 #endif
 
 BibleQuote::BibleQuote()
@@ -306,10 +325,10 @@ bool BibleQuote::hasIndex() const
     }
     //todo: check versions
 
-#ifdef CLUCENE_LEGACY
+#ifdef _CLUCENE_LEGACY
     return  IndexReader::indexExists(indexPath().toAscii().constData());
 #else
-    return false;
+    return IndexReader::indexExists(indexPath().toStdString().c_str());
 #endif
 
 }
@@ -317,7 +336,7 @@ bool BibleQuote::hasIndex() const
 void BibleQuote::buildIndex()
 {
     DEBUG_FUNC_NAME
-#ifdef CLUCENE_LEGACY
+#ifdef _CLUCENE_LEGACY
     const QString index = indexPath();
     QDir dir("/");
     dir.mkpath(index);
@@ -416,13 +435,114 @@ void BibleQuote::buildIndex()
     writer->optimize();
     writer->close();
     progress.close();
-    //#else
+#else
+    const QString index = indexPath();
+    QDir dir("/");
+    dir.mkpath(index);
+
+
+    IndexWriter* writer = NULL;
+    lucene::analysis::WhitespaceAnalyzer an;
+    if(IndexReader::indexExists(index.toStdString().c_str())) {
+        if(IndexReader::isLocked(index.toStdString().c_str())) {
+            myDebug() << "Index was locked... unlocking it.";
+            IndexReader::unlock(index.toStdString().c_str());
+        }
+        writer = _CLNEW IndexWriter(index.toStdString().c_str(), &an, false);
+    } else {
+        writer = _CLNEW IndexWriter(index.toStdString().c_str() , &an, true);
+    }
+    writer->setMaxFieldLength(0x7FFFFFFFL);
+    writer->setUseCompoundFile(false);
+
+    //index
+    Document doc;
+
+    QStringList ctext;
+    QList<QByteArray> bytetext;
+    QProgressDialog progress(QObject::tr("Indexing"), QObject::tr("Cancel"), 0, m_bookPath.size());
+    progress.setWindowModality(Qt::WindowModal);
+
+    QString encoding;
+    if(m_settings->getModuleSettings(m_bibleID).encoding == "Default" || m_settings->getModuleSettings(m_bibleID).encoding == "") {
+        encoding = m_settings->encoding;
+    } else {
+        encoding = m_settings->getModuleSettings(m_bibleID).encoding;
+    }
+    QTextCodec *codec  = QTextCodec::codecForName(encoding.toStdString().c_str());
+    QScopedPointer<QTextDecoder> decoder(codec->makeDecoder());
+    QByteArray textBuffer;
+
+
+    for(int id = 0; id < m_bookPath.size(); id++) {
+        progress.setValue(id);
+        bytetext.clear();
+        ctext.clear();
+        const QString path = m_biblePath + "/" + m_bookPath.at(id);
+
+        QFile file(path);
+        QByteArray out;
+        QByteArray out2;
+        bool chapterstarted = false;
+        int ccount2 = 0;
+        if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            while(!file.atEnd()) {
+                QByteArray byteline = file.readLine();
+                QString line(byteline);
+                out2 += byteline;
+                if(chapterstarted == false && line.contains(m_chapterSign)) {
+                    chapterstarted = true;
+                }
+                if(chapterstarted == true && line.contains(m_chapterSign)) {
+                    ccount2++;
+                    bytetext << out;
+                    out = byteline;
+                } else if(chapterstarted == true) {
+                    out += byteline;
+                }
+            }
+            bytetext << out;
+        } else {
+            myWarning() << "cannot open the file " << file.fileName();
+            continue;
+        }
+
+        if(ccount2 == 0) {
+            ctext << decoder->toUnicode(out2);
+            ccount2 = 1;
+        } else {
+            for(int i = 0; i < bytetext.size(); i++) {
+                ctext << decoder->toUnicode(bytetext.at(i));
+            }
+        }
+
+        for(int chapterit = 0; chapterit < ctext.size(); ++chapterit) {
+            const QStringList verses = ctext[chapterit].split(m_verseSign);
+            for(int verseit = 0; verseit < verses.size(); ++verseit) {
+                doc.clear();
+                const QString t = verses.at(verseit);
+                const QString key = QString::number(id) + ";" + QString::number(chapterit - 1) + ";" + QString::number(verseit - 1);
+                doc.add(*_CLNEW Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
+                doc.add(*_CLNEW Field(_T("content"), t.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+
+                writer->addDocument(&doc);
+            }
+        }
+    }
+    writer->setUseCompoundFile(true);
+    writer->optimize();
+
+    writer->close();
+    _CLLDELETE(writer);
+    progress.close();
 #endif
 }
 void BibleQuote::search(const SearchQuery &query, SearchResult *res)
 {
-#ifdef CLUCENE_LEGACY
-    QString index = m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
+    DEBUG_FUNC_NAME
+    const QString index = indexPath();
+#ifdef _CLUCENE_LEGACY
+
     char utfBuffer[MAX_LUCENE_FIELD_LENGTH  + 1];
     wchar_t wcharBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
 
@@ -459,7 +579,30 @@ void BibleQuote::search(const SearchQuery &query, SearchResult *res)
         }
 
     }
-    / #else
+#else
+     const TCHAR* stop_words[] = { NULL };
+    standard::StandardAnalyzer analyzer(stop_words);
+    myDebug() << index.toStdString().c_str() << QString::fromWCharArray(query.searchText.toStdWString().c_str());
+    IndexReader* reader = IndexReader::open(index.toStdString().c_str());
+    IndexSearcher s(reader);
+    Query* q = QueryParser::parse(query.searchText.toStdWString().c_str(), _T("content"), &analyzer);
+    Hits* h = s.search(q);
+    for(size_t i = 0; i < h->length(); i++) {
+        Document* doc = &h->doc(i);
+        const QString stelle = QString::fromWCharArray(doc->get(_T("key")));
+        // h->score(i)
+        QStringList l = stelle.split(";");
+        if(query.range == SearchQuery::Whole || (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) || (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
+            SearchHit hit;
+            hit.setType(SearchHit::BibleHit);
+            hit.setValue(SearchHit::BibleID, m_bibleID);
+            hit.setValue(SearchHit::BookID, l.at(0).toInt());
+            hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
+            hit.setValue(SearchHit::VerseID, l.at(2).toInt());
+            hit.setValue(SearchHit::VerseText, QString::fromWCharArray(doc->get(_T("content"))));
+            res->addHit(hit);
+        }
+    }
 #endif
 
-    }
+}

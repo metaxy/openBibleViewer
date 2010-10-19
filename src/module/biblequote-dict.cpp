@@ -17,8 +17,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QProgressDialog>
 #include <QtCore/QTextStream>
 #include "src/core/dbghelper.h"
-
-#ifdef CLUCENE_LEGACY
+#include "config.h"
+#ifdef _CLUCENE_LEGACY
 const unsigned long MAX_LUCENE_FIELD_LENGTH = 1024 * 512;
 #include <CLucene.h>
 #include <CLucene/util/Misc.h>
@@ -30,6 +30,8 @@ using namespace lucene::queryParser;
 using namespace lucene::document;
 using namespace lucene::analysis::standard;
 #endif
+#else
+
 #endif
 
 BibleQuoteDict::BibleQuoteDict()
@@ -69,7 +71,7 @@ bool BibleQuoteDict::hasIndex()
         return false;
     }
     //todo: check versions
-#ifdef CLUCENE_LEGACY
+#ifdef _CLUCENE_LEGACY
     QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
     return  IndexReader::indexExists(index.toAscii().constData());
 #else
@@ -79,7 +81,7 @@ bool BibleQuoteDict::hasIndex()
 void BibleQuoteDict::buildIndex()
 {
     DEBUG_FUNC_NAME
-#ifdef CLUCENE_LEGACY
+#ifdef _CLUCENE_LEGACY
     // pharse both and add docs to the indexwriter
     //myDebug() << m_modulePath;
     QFileInfo fileInfo(m_modulePath);
@@ -170,7 +172,7 @@ void BibleQuoteDict::buildIndex()
 QString BibleQuoteDict::getEntry(const QString &id)
 {
     DEBUG_FUNC_NAME
-#ifdef CLUCENE_LEGACY
+#ifdef _CLUCENE_LEGACY
     if(!hasIndex())
         buildIndex();
 

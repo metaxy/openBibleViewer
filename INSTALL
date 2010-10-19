@@ -7,6 +7,7 @@ openBibleViewer requires:
 - Qt-devel => 4.6
   or libqt-devel => 4.6
 - CLucence
+- cmake
 
 
 Compile openBibleViewer:

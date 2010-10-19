@@ -17,7 +17,7 @@ SearchHit::SearchHit()
 {
 
 }
-SearchHit::SearchHitType SearchHit::type()
+SearchHit::SearchHitType SearchHit::type() const
 {
     return m_type;
 }
@@ -25,7 +25,7 @@ void SearchHit::setType(SearchHitType type)
 {
     m_type = type;
 }
-QVariant SearchHit::value(SearchHitKey v)
+QVariant SearchHit::value(SearchHitKey v) const
 {
     return m_map.value(v);
 }
