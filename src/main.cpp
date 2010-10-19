@@ -34,6 +34,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #include "src/ui/mainwindow.h"
+#include "config.h"
 bool removeDir(const QString &dirName)
 {
     bool result = true;
@@ -57,8 +58,7 @@ bool removeDir(const QString &dirName)
     return result;
 }
 
-//CONFIG
-//#define _PORTABLE_VERSION
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

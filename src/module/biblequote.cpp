@@ -580,7 +580,7 @@ void BibleQuote::search(const SearchQuery &query, SearchResult *res)
 
     }
 #else
-     const TCHAR* stop_words[] = { NULL };
+    const TCHAR* stop_words[] = { NULL };
     standard::StandardAnalyzer analyzer(stop_words);
     myDebug() << index.toStdString().c_str() << QString::fromWCharArray(query.searchText.toStdWString().c_str());
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());

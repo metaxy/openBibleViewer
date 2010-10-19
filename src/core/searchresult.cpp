@@ -70,5 +70,5 @@ QList<SearchHit> SearchResult::hits(SearchHit::SearchHitType type)
 void SearchResult::sort()
 {
     DEBUG_FUNC_NAME
-    qSort(m_hits.begin(),m_hits.end(),searchResultLessThanByVerse);
+    qSort(m_hits.begin(), m_hits.end(), searchResultLessThanByVerse);
 }
