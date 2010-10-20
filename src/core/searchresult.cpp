@@ -12,8 +12,8 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "searchresult.h"
-#include <QtCore/QMap>
 #include "src/core/dbghelper.h"
+
 bool searchResultLessThanByVerse(const SearchHit &hit1, const SearchHit &hit2)
 {
     if(hit1.type() == SearchHit::BibleHit && hit2.type() == SearchHit::BibleHit) {
@@ -30,8 +30,10 @@ bool searchResultLessThanByVerse(const SearchHit &hit1, const SearchHit &hit2)
             return hit1.value(SearchHit::VerseID).toInt() < hit2.value(SearchHit::VerseID).toInt();
         }
         return false;
-    } else {
+    } else if(hit1.type() == SearchHit::BibleHit || hit2.type() == SearchHit::BibleHit) {
         return hit1.type() == SearchHit::BibleHit;
+    } else {
+        return false;
     }
 }
 
