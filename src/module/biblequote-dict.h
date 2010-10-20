@@ -28,10 +28,12 @@ public:
     bool hasIndex();
     QString getEntry(const QString &id);
     void setID(const int &id, const QString &path);
+    QStringList getAllKeys();
 private:
     Settings *m_settings;
     QString m_modulePath;
     int m_moduleID;
+    QString indexPath() const;
 };
 
 #endif // BIBLEQUOTEDICT_H

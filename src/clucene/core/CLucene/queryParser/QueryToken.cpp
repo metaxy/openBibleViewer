@@ -25,27 +25,27 @@ QueryToken::QueryToken() :
 QueryToken::~QueryToken()
 {
 #ifndef LUCENE_TOKEN_WORD_LENGTH
-	_CLDELETE_LCARRAY( image );
+    _CLDELETE_LCARRAY(image);
 #endif
 }
 
 TCHAR* QueryToken::toString() const
 {
 #ifndef LUCENE_TOKEN_WORD_LENGTH
-	return image;
+    return image;
 #else
-	return STRDUP_TtoT(image);
+    return STRDUP_TtoT(image);
 #endif
 }
 
 /*static*/
 QueryToken* QueryToken::newToken(const int32_t /*ofKind*/)
 {
-	//switch(ofKind)
-	//{
-	//default : return _CLNEW Token();
-	//}
-	return _CLNEW QueryToken();
+    //switch(ofKind)
+    //{
+    //default : return _CLNEW Token();
+    //}
+    return _CLNEW QueryToken();
 }
 
 CL_NS_END

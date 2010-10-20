@@ -20,29 +20,31 @@ class IndexWriter;
  * <p><b>NOTE:</b> This API is new and still experimental
  * (subject to change suddenly in the next release)</p>
 */
-class CLUCENE_EXPORT MergeScheduler: public CL_NS(util)::NamedObject {
+class CLUCENE_EXPORT MergeScheduler: public CL_NS(util)::NamedObject
+{
 public:
-  /** Run the merges provided by {@link IndexWriter#getNextMerge()}. */
-  virtual void merge(IndexWriter* writer) = 0;
+    /** Run the merges provided by {@link IndexWriter#getNextMerge()}. */
+    virtual void merge(IndexWriter* writer) = 0;
 
-  /** Close this MergeScheduler. */
-  virtual void close() = 0;
+    /** Close this MergeScheduler. */
+    virtual void close() = 0;
 };
 
 /** A {@link MergeScheduler} that simply does each merge
  *  sequentially, using the current thread. */
-class CLUCENE_EXPORT SerialMergeScheduler: public MergeScheduler {
+class CLUCENE_EXPORT SerialMergeScheduler: public MergeScheduler
+{
 public:
-  DEFINE_MUTEX(THIS_LOCK)
+    DEFINE_MUTEX(THIS_LOCK)
 
-  /** Just do the merges in sequence. We do this
-   * "synchronized" so that even if the application is using
-   * multiple threads, only one merge may run at a time. */
-  void merge(IndexWriter* writer);
-  void close();
+    /** Just do the merges in sequence. We do this
+     * "synchronized" so that even if the application is using
+     * multiple threads, only one merge may run at a time. */
+    void merge(IndexWriter* writer);
+    void close();
 
-  const char* getObjectName() const;
-  static const char* getClassName();
+    const char* getObjectName() const;
+    static const char* getClassName();
 };
 
 

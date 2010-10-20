@@ -18,21 +18,25 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QTextStream>
 #include "src/core/dbghelper.h"
 #include "config.h"
-#ifdef _CLUCENE_LEGACY
-const unsigned long MAX_LUCENE_FIELD_LENGTH = 1024 * 512;
 #include <CLucene.h>
-#include <CLucene/util/Misc.h>
-#include <CLucene/util/Reader.h>
-#ifndef Q_OS_WIN32
-using namespace lucene::search;
+#include <CLucene/util/dirent.h>
+#include <CLucene/util/StringBuffer.h>
+#include "CLucene/StdHeader.h"
+#include "CLucene/_clucene-config.h"
+
+#include "CLucene/config/repl_tchar.h"
+#include "CLucene/config/repl_wchar.h"
+#include "CLucene/util/Misc.h"
+
+using namespace lucene::store;
+using namespace std;
+using namespace lucene::analysis;
 using namespace lucene::index;
+using namespace lucene::util;
 using namespace lucene::queryParser;
 using namespace lucene::document;
-using namespace lucene::analysis::standard;
-#endif
-#else
+using namespace lucene::search;
 
-#endif
 
 BibleQuoteDict::BibleQuoteDict()
 {
@@ -70,34 +74,30 @@ bool BibleQuoteDict::hasIndex()
     if(!d.exists(m_settings->homePath + "index")) {
         return false;
     }
+    const QString index = indexPath();
+
     //todo: check versions
-#ifdef _CLUCENE_LEGACY
-    QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
-    return  IndexReader::indexExists(index.toAscii().constData());
-#else
-    return false;
-#endif
+    return IndexReader::indexExists(index.toStdString().c_str());
 }
 void BibleQuoteDict::buildIndex()
 {
     DEBUG_FUNC_NAME
-#ifdef _CLUCENE_LEGACY
+
     // pharse both and add docs to the indexwriter
-    //myDebug() << m_modulePath;
+    myDebug() << m_modulePath;
     QFileInfo fileInfo(m_modulePath);
-    //myDebug() << fileInfo.absoluteDir();
+    myDebug() << fileInfo.absoluteDir();
     QDir moduleDir(fileInfo.absoluteDir());
     moduleDir.setFilter(QDir::Files);
     QFileInfoList list = moduleDir.entryInfoList();
 
     QFileInfo htmlFileInfo;
     foreach(QFileInfo info, list) {
-        //myDebug() << info.suffix() << info.baseName() << fileInfo.baseName();
         if((info.suffix() == "html" || info.suffix() == "htm") && info.baseName().compare(fileInfo.baseName(), Qt::CaseInsensitive) == 0) {
             htmlFileInfo = info;
         }
     }
-    //myDebug() << htmlFileInfo.absoluteFilePath();
+    myDebug() << htmlFileInfo.absoluteFilePath();
 
     QFile configFile(fileInfo.absoluteFilePath());
     QFile htmlFile(htmlFileInfo.absoluteFilePath());
@@ -112,96 +112,99 @@ void BibleQuoteDict::buildIndex()
     QTextStream htmlIn(&htmlFile);
     htmlIn.setCodec(codec);
 
-    QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
+    const QString index = indexPath();
     QDir dir("/");
     dir.mkpath(index);
-
-    // do not use any stop words
-    const TCHAR* stop_words[]  = { NULL };
-    StandardAnalyzer an((const TCHAR**)stop_words);
-
-    if(IndexReader::indexExists(index.toAscii().constData())) {
-        if(IndexReader::isLocked(index.toAscii().constData())) {
-            IndexReader::unlock(index.toAscii().constData());
-        }
-    }
-    QScopedPointer< IndexWriter> writer(new  IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
-
     QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, 0);
     progress.setWindowModality(Qt::WindowModal);
 
-    QByteArray textBuffer;
-    wchar_t wcharBuffer[MAX_LUCENE_FIELD_LENGTH + 1];
+    IndexWriter* writer = NULL;
+    const TCHAR* stop_words[] = { NULL };
+    standard::StandardAnalyzer an(stop_words);
+
+    if(IndexReader::indexExists(index.toStdString().c_str())) {
+        if(IndexReader::isLocked(index.toStdString().c_str())) {
+            myDebug() << "Index was locked... unlocking it.";
+            IndexReader::unlock(index.toStdString().c_str());
+        }
+    }
+    writer = _CLNEW IndexWriter(index.toStdString().c_str() , &an, true);
+
+    writer->setMaxFieldLength(0x7FFFFFFFL);
+    writer->setUseCompoundFile(false);
+
+    //index
+    Document indexdoc;
+
     const QString title = configIn.readLine();
     QString id = configIn.readLine();
     long num = configIn.readLine().toLong();
     const QString pre = htmlIn.read(num - 1);
-    //myDebug() << title << pre;
+    myDebug() << title << pre;
 
     while(!configIn.atEnd()) {
-
         int n = num;
-        QString key = id;
-
+        const QString key = id;
         id = configIn.readLine();
         num = configIn.readLine().toLong();
         const QString data = htmlIn.read(num - n - 1);
-        //myDebug() << num << n << key << data;
-        QScopedPointer< Document> doc(new  Document());
 
-        lucene_utf8towcs(wcharBuffer, key.toUtf8().constData(), MAX_LUCENE_FIELD_LENGTH);
+        indexdoc.clear();
+        indexdoc.add(*_CLNEW Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+        indexdoc.add(*_CLNEW Field(_T("content"), data.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+        writer->addDocument(&indexdoc);
 
-        doc->add(*(new  Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_TOKENIZED)));
-
-        lucene_utf8towcs(wcharBuffer, data.toUtf8().constData(), MAX_LUCENE_FIELD_LENGTH);
-
-        doc->add(*(new  Field((const TCHAR*)_T("content"),
-                              (const TCHAR*)wcharBuffer,
-                              Field::STORE_YES |  Field::INDEX_TOKENIZED)));
-        textBuffer.resize(0); //clean up
-        writer->addDocument(doc.data());
     }
 
+    writer->setUseCompoundFile(true);
     writer->optimize();
+
     writer->close();
-    progress.close();
-//#else
-#endif
+    _CLLDELETE(writer);
 }
 
 QString BibleQuoteDict::getEntry(const QString &id)
 {
     DEBUG_FUNC_NAME
-#ifdef _CLUCENE_LEGACY
     if(!hasIndex())
         buildIndex();
-
-    QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
+    const QString index = indexPath();
     const QString queryText = "key:" + id;
-    //myDebug() << queryText;
+    myDebug() << queryText;
 
-    char utfBuffer[ MAX_LUCENE_FIELD_LENGTH  + 1];
-    wchar_t wcharBuffer[ MAX_LUCENE_FIELD_LENGTH + 1];
-    const TCHAR* stop_words[]  = { NULL };
-    StandardAnalyzer analyzer(stop_words);
-    IndexSearcher searcher(index.toLocal8Bit().constData());
-    lucene_utf8towcs(wcharBuffer, queryText.toUtf8().constData(), MAX_LUCENE_FIELD_LENGTH);;
-    QScopedPointer< Query> q(QueryParser::parse((const TCHAR*)wcharBuffer, (const TCHAR*)_T("content"), &analyzer));
-    QScopedPointer< Hits> h(searcher.search(q.data(),  Sort::INDEXORDER));
-    Document* doc = 0;
-    //myDebug() << h->length();
+    const TCHAR* stop_words[] = { NULL };
+    standard::StandardAnalyzer analyzer(stop_words);
+    IndexReader* reader = IndexReader::open(index.toStdString().c_str());
+    IndexSearcher s(reader);
+    Query* q = QueryParser::parse(queryText.toStdWString().c_str(), _T("content"), &analyzer); //todo: or use querytext and as the field content
+    Hits* h = s.search(q);
     QString ret = "";
-    for(int i = 0; i < h->length(); ++i) {
-        doc = &h->doc(i);
-        lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")), MAX_LUCENE_FIELD_LENGTH);
-        if(ret.isEmpty())
-            ret.append(QString::fromUtf8(utfBuffer));
-        else
-            ret.append("<hr /> " + QString::fromUtf8(utfBuffer));
+    myDebug() << "hits = " << h->length();
+    for(size_t i = 0; i < h->length(); i++) {
+        Document* doc = &h->doc(i);
+        if(!ret.isEmpty())
+            ret.append("<hr /> ");
+        ret.append(QString::fromWCharArray(doc->get(_T("content"))));
     }
-
     return ret;
-#else
-    return QString();
-#endif
+}
+QStringList BibleQuoteDict::getAllKeys()
+{
+    DEBUG_FUNC_NAME
+    if(!hasIndex())
+        buildIndex();
+    const QString index = indexPath();
+    IndexReader* reader = IndexReader::open(index.toStdString().c_str());
+    QStringList ret;
+    myDebug() << "hits = " << reader->numDocs();
+    for(size_t i = 0; i < reader->numDocs(); i++) {
+        Document* doc = reader->document(i);
+        ret.append(QString::fromWCharArray(doc->get(_T("key"))));
+    }
+    myDebug() << ret;
+    return ret;
+}
+QString BibleQuoteDict::indexPath() const
+{
+    return m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
 }

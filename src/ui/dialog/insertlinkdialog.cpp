@@ -77,10 +77,10 @@ void InsertLinkDialog::save()
 {
     if(ui->toolBox->currentIndex() == 0) {
         const QString link = m_path
-                       + ";" + QString::number(ui->comboBox_books->currentIndex())
-                       + ";" + QString::number(ui->spinBox_chapter->value() - 1)
-                       + ";" + QString::number(ui->spinBox_verse->value() - 1)
-                       + ";" + m_settings->getModuleCache(m_path).bookNames.values().at(ui->comboBox_books->currentIndex());
+                             + ";" + QString::number(ui->comboBox_books->currentIndex())
+                             + ";" + QString::number(ui->spinBox_chapter->value() - 1)
+                             + ";" + QString::number(ui->spinBox_verse->value() - 1)
+                             + ";" + m_settings->getModuleCache(m_path).bookNames.values().at(ui->comboBox_books->currentIndex());
         emit newLink("persistent://" + link);
     } else if(ui->toolBox->currentIndex() == 1) {
         const QModelIndexList list = m_selectionModel->selectedRows(0);

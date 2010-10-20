@@ -114,7 +114,7 @@ void AdvancedSearchResultDockWidget::searchInfo()
         SearchHit hit = list.at(i);
         if(hit.type() == SearchHit::BibleHit) {
             const QString bookn = m_moduleManager->bible()->bookName(hit.value(SearchHit::BookID).toInt()); //todo: maybe the bible isn't loaded and you need another bookNames
-                                                                                                            //or we call it a feature
+            //or we call it a feature
             textList << hit.value(SearchHit::VerseText).toString() + "\n - <i>" + bookn
                      + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1)
                      + " , " + QString::number(hit.value(SearchHit::VerseID).toInt() + 1) + "</i>";
@@ -141,7 +141,7 @@ void AdvancedSearchResultDockWidget::nextVerse()
                 break;
             }
             rowID++;
-            const QModelIndex n = m_proxyModel->index(rowID,0,parent);
+            const QModelIndex n = m_proxyModel->index(rowID, 0, parent);
             if(n.data(Qt::UserRole + 2) == "bibleHit") {
                 found = true;
                 neededIndex = n;
@@ -156,14 +156,14 @@ void AdvancedSearchResultDockWidget::nextVerse()
                     break;
                 }
                 rowID++;
-                const QModelIndex n = m_proxyModel->index(rowID,0,parent2);
+                const QModelIndex n = m_proxyModel->index(rowID, 0, parent2);
                 if(m_proxyModel->hasChildren(n)) {
-                     const QModelIndex n2 = m_proxyModel->index(0,0,n);//the first
-                     if(n2.data(Qt::UserRole + 2) == "bibleHit") {
-                         found = true;
-                         neededIndex = n2;
-                         break;
-                     }
+                    const QModelIndex n2 = m_proxyModel->index(0, 0, n); //the first
+                    if(n2.data(Qt::UserRole + 2) == "bibleHit") {
+                        found = true;
+                        neededIndex = n2;
+                        break;
+                    }
                 }
             }
 
@@ -172,7 +172,7 @@ void AdvancedSearchResultDockWidget::nextVerse()
         if(found) {
             goToSearchResult(neededIndex);
             m_selectionModel->clearSelection();
-            m_selectionModel->setCurrentIndex(neededIndex,QItemSelectionModel::Select);
+            m_selectionModel->setCurrentIndex(neededIndex, QItemSelectionModel::Select);
         }
 
     } else {
@@ -195,7 +195,7 @@ void AdvancedSearchResultDockWidget::previousVerse()
                 break;
             }
             rowID--;
-            const QModelIndex n = m_proxyModel->index(rowID,0,parent);
+            const QModelIndex n = m_proxyModel->index(rowID, 0, parent);
             //myDebug() << rowID << n.data();
             if(n.data(Qt::UserRole + 2) == "bibleHit") {
                 found = true;
@@ -211,15 +211,15 @@ void AdvancedSearchResultDockWidget::previousVerse()
                     break;
                 }
                 rowID--;
-                const QModelIndex n = m_proxyModel->index(rowID,0,parent2);
+                const QModelIndex n = m_proxyModel->index(rowID, 0, parent2);
                 if(m_proxyModel->hasChildren(n)) {
                     //myDebug() << m_proxyModel->rowCount(n) - 1;
-                     const QModelIndex n2 = m_proxyModel->index(m_proxyModel->rowCount(n) - 1,0,n);//the last
-                     if(n2.data(Qt::UserRole + 2) == "bibleHit") {
-                         found = true;
-                         neededIndex = n2;
-                         break;
-                     }
+                    const QModelIndex n2 = m_proxyModel->index(m_proxyModel->rowCount(n) - 1, 0, n); //the last
+                    if(n2.data(Qt::UserRole + 2) == "bibleHit") {
+                        found = true;
+                        neededIndex = n2;
+                        break;
+                    }
                 }
             }
         }
@@ -227,7 +227,7 @@ void AdvancedSearchResultDockWidget::previousVerse()
         if(found) {
             goToSearchResult(neededIndex);
             m_selectionModel->clearSelection();
-            m_selectionModel->setCurrentIndex(neededIndex,QItemSelectionModel::Select);
+            m_selectionModel->setCurrentIndex(neededIndex, QItemSelectionModel::Select);
         }
 
     } else {

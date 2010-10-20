@@ -25,6 +25,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 */
 class ZefaniaLex
 {
+
+public:
+    ZefaniaLex();
+    void setSettings(Settings *settings);
+    QString loadFile(QString fileData, QString fileName);
+    QString getEntry(const QString &entry);
+    QString m_modulePath;
+    QStringList getAllKeys();
 private:
     Settings *m_settings;
     QStringList m_id;
@@ -32,12 +40,7 @@ private:
     QStringList m_trans;
     QStringList m_pron;
     QStringList m_desc;
-public:
-    ZefaniaLex();
-    void setSettings(Settings *settings);
-    QString loadFile(QString fileData, QString fileName);
-    QString getEntry(const QString &entry);
-    QString m_modulePath;
+    QString indexPath() const;
 };
 
 #endif // ZefaniaLex_H

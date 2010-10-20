@@ -1,7 +1,7 @@
 /*------------------------------------------------------------------------------
 * Copyright (C) 2003-2006 Ben van Klinken and the CLucene Team
-* 
-* Distributable under the terms of either the Apache License (Version 2.0) or 
+*
+* Distributable under the terms of either the Apache License (Version 2.0) or
 * the GNU Lesser General Public License, as specified in the COPYING file.
 ------------------------------------------------------------------------------*/
 
@@ -10,7 +10,7 @@
 
 #include "Filter.h"
 
-CL_CLASS_DEF(index,Term)
+CL_CLASS_DEF(index, Term)
 
 CL_NS_DEF(search)
 
@@ -23,14 +23,14 @@ CL_NS_DEF(search)
  *
  * </p>
  */
-class CLUCENE_EXPORT RangeFilter: public Filter 
+class CLUCENE_EXPORT RangeFilter: public Filter
 {
 private:
-	TCHAR* fieldName;
-	TCHAR* lowerTerm;
-	TCHAR* upperTerm;
-	bool   includeLower;
-	bool   includeUpper;
+    TCHAR* fieldName;
+    TCHAR* lowerTerm;
+    TCHAR* upperTerm;
+    bool   includeLower;
+    bool   includeUpper;
 
 public:
     /**
@@ -40,35 +40,35 @@ public:
      * @param includeLower Does this range include the lower bound?
      * @param includeUpper Does this range include the upper bound?
      */
-	RangeFilter( const TCHAR* fieldName, const TCHAR* lowerTerm, const TCHAR* upperTerm,
-        bool includeLower, bool includeUpper );
+    RangeFilter(const TCHAR* fieldName, const TCHAR* lowerTerm, const TCHAR* upperTerm,
+                bool includeLower, bool includeUpper);
     virtual ~RangeFilter();
-	
+
     /**
     * Constructs a filter for field <code>fieldName</code> matching
     * less than or equal to <code>upperTerm</code>.
     */
-	static RangeFilter* Less( const TCHAR* fieldName, const TCHAR* upperTerm );
-	
+    static RangeFilter* Less(const TCHAR* fieldName, const TCHAR* upperTerm);
+
     /**
     * Constructs a filter for field <code>fieldName</code> matching
     * more than or equal to <code>lowerTerm</code>.
     */
-	static RangeFilter* More( const TCHAR* fieldName, const TCHAR* lowerTerm );
-	
+    static RangeFilter* More(const TCHAR* fieldName, const TCHAR* lowerTerm);
+
     /**
     * Returns a BitSet with true for documents which should be
     * permitted in search results, and false for those that should
     * not.
     */
-	CL_NS(util)::BitSet* bits( CL_NS(index)::IndexReader* reader );
-	
-	Filter* clone() const;
-	
-	TCHAR* toString();
+    CL_NS(util)::BitSet* bits(CL_NS(index)::IndexReader* reader);
+
+    Filter* clone() const;
+
+    TCHAR* toString();
 
 protected:
-	RangeFilter( const RangeFilter& copy );
+    RangeFilter(const RangeFilter& copy);
 };
 
 CL_NS_END

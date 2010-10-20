@@ -12,21 +12,24 @@
 CL_NS_DEF(index)
 
 
-const char* SerialMergeScheduler::getObjectName() const{
-	return getClassName();
+const char* SerialMergeScheduler::getObjectName() const
+{
+    return getClassName();
 }
-const char* SerialMergeScheduler::getClassName(){
-	return "SerialMergeScheduler";
+const char* SerialMergeScheduler::getClassName()
+{
+    return "SerialMergeScheduler";
 }
 
-void SerialMergeScheduler::merge(IndexWriter* writer){
-  SCOPED_LOCK_MUTEX(THIS_LOCK)
-  while(true) {
-    MergePolicy::OneMerge* merge = writer->getNextMerge();
-    if (merge == NULL)
-      break;
-    writer->merge(merge);
-  }
+void SerialMergeScheduler::merge(IndexWriter* writer)
+{
+    SCOPED_LOCK_MUTEX(THIS_LOCK)
+    while(true) {
+        MergePolicy::OneMerge* merge = writer->getNextMerge();
+        if(merge == NULL)
+            break;
+        writer->merge(merge);
+    }
 }
 
 void SerialMergeScheduler::close() {}

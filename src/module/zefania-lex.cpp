@@ -26,20 +26,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 #include <QtGui/QProgressDialog>
 #include <QtXml/QDomElement>
-#include "config.h"
-#ifdef _CLUCENE_LEGACY
-#include <CLucene.h>
-#include <CLucene/util/Misc.h>
-#include <CLucene/util/Reader.h>
-#ifndef Q_OS_WIN32
-using namespace lucene::search;
-using namespace lucene::index;
-using namespace lucene::queryParser;
-using namespace lucene::document;
-using namespace lucene::analysis::standard;
-#endif
 
-#else
 #include <CLucene.h>
 #include <CLucene/util/dirent.h>
 #include <CLucene/util/StringBuffer.h>
@@ -51,14 +38,13 @@ using namespace lucene::analysis::standard;
 #include "CLucene/util/Misc.h"
 
 using namespace lucene::store;
-using namespace std;
 using namespace lucene::analysis;
 using namespace lucene::index;
 using namespace lucene::util;
 using namespace lucene::queryParser;
 using namespace lucene::document;
 using namespace lucene::search;
-#endif
+
 ZefaniaLex::ZefaniaLex()
 {
 }
@@ -67,7 +53,7 @@ void ZefaniaLex::setSettings(Settings *settings)
     m_settings = settings;
 }
 /**
-  Load a Zefania XML Lex file the first time. Generate a cache file for fast access.
+  Load a Zefania XML Lex file the first time. Generates an index for fast access.
   */
 QString ZefaniaLex::loadFile(QString fileData, QString fileName)
 {
@@ -82,24 +68,9 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
 
     QString fileTitle = "";
 
-    const QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
+    const QString index = indexPath();
     QDir dir("/");
     dir.mkpath(index);
-    #ifdef _CLUCENE_LEGACY
-    // do not use any stop words
-    const TCHAR* stop_words[]  = { NULL };
-    StandardAnalyzer an((const TCHAR**)stop_words);
-
-    if(IndexReader::indexExists(index.toAscii().constData())) {
-        if(IndexReader::isLocked(index.toAscii().constData())) {
-            IndexReader::unlock(index.toAscii().constData());
-        }
-    }
-    QScopedPointer< IndexWriter> writer(new  IndexWriter(index.toAscii().constData(), &an, true));   //always create a new index
-
-    QByteArray textBuffer;
-    wchar_t wcharBuffer[ IndexWriter::DEFAULT_MAX_FIELD_LENGTH + 1];
-    #else
     IndexWriter* writer = NULL;
     const TCHAR* stop_words[] = { NULL };
     standard::StandardAnalyzer an(stop_words);
@@ -117,14 +88,16 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
 
     //index
     Document indexdoc;
-    #endif
+
     KoXmlDocument xmldoc;
     QString errorMsg;
     int eLine;
     int eCol;
     if(!xmldoc.setContent(fileData, &errorMsg, &eLine, &eCol)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
-        myWarning() << "the file isn't valid error = " << errorMsg << eLine << eCol << fileData.remove(1000, fileData.size());
+        myWarning() << "the file isn't valid , error = " << errorMsg
+                    << " line = " << eLine
+                    << " column = " << eCol;
         return QString();
     }
 
@@ -138,33 +111,33 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
         QString pron = "";
         QString desc = "";
         KoXmlElement e = item.toElement();
-        if(e.tagName() == "INFORMATION") {
+        if(e.tagName().compare("INFORMATION", Qt::CaseInsensitive) == 0) {
             KoXmlNode titel = item.namedItem("title");
             fileTitle = titel.toElement().text();
-        } else if(e.tagName() == "item") {
+        } else if(e.tagName().compare("item", Qt::CaseInsensitive) == 0) {
             id = e.attribute("id");
             KoXmlNode details = item.firstChild();
             while(!details.isNull()) {
                 KoXmlElement edetails = details.toElement();
-                if(edetails.tagName() == "title") {
+                if(edetails.tagName().compare("title", Qt::CaseInsensitive) == 0) {
                     title = edetails.text();
-                } else if(edetails.tagName() == "transliteration") {
+                } else if(edetails.tagName().compare("transliteration", Qt::CaseInsensitive) == 0) {
                     trans =  edetails.text();
-                } else if(edetails.tagName() == "pronunciation") {
+                } else if(edetails.tagName().compare("pronunciation", Qt::CaseInsensitive) == 0) {
                     KoXmlNode em = details.firstChild();
                     while(!em.isNull()) {
-                        if(em.toElement().tagName() == "em")
+                        if(em.toElement().tagName().compare("em", Qt::CaseInsensitive) == 0)
                             pron = "<em>" + em.toElement().text() + "</em>";
                         em = em.nextSibling();
                     }
-                } else if(edetails.tagName() == "description") {
+                } else if(edetails.tagName().compare("description", Qt::CaseInsensitive) == 0) {
                     KoXmlNode descNode = details.firstChild();
                     while(!descNode.isNull()) {
                         if(descNode.nodeType() == 2) {
                             desc += descNode.toText().data();
                         } else if(descNode.nodeType() == 1) {
                             KoXmlElement descElement  = descNode.toElement();
-                            if(descElement.tagName() == "reflink") {
+                            if(descElement.tagName().compare("reflink", Qt::CaseInsensitive) == 0) {
                                 QString mscope = descElement.attribute("mscope", ";;;");
                                 const QStringList list = mscope.split(";");
                                 const int bookID = list.at(0).toInt() - 1;
@@ -202,87 +175,55 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
                 ret += " [" + pron + "] ";
             }
             ret += "<br />" + desc;
-            #ifdef _CLUCENE_LEGACY
-            QScopedPointer< Document> doc(new  Document());
-
-            lucene_utf8towcs(wcharBuffer, id.toUtf8().constData(),      IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
-
-            doc->add(*(new  Field((const TCHAR*)_T("key"), (const TCHAR*)wcharBuffer,  Field::STORE_YES |  Field::INDEX_TOKENIZED)));
-
-            lucene_utf8towcs(wcharBuffer, ret.toUtf8().constData(),      IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
-
-            doc->add(*(new  Field((const TCHAR*)_T("content"),
-                                  (const TCHAR*)wcharBuffer,
-                                  Field::STORE_YES |  Field::INDEX_TOKENIZED)));
-            textBuffer.resize(0); //clean up
-            writer->addDocument(doc.data());
-            #else
             indexdoc.clear();
             indexdoc.add(*_CLNEW Field(_T("key"), id.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
             indexdoc.add(*_CLNEW Field(_T("content"), ret.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
             writer->addDocument(&indexdoc);
-            #endif
 
         }
         item = item.nextSibling();
         c++;
     }
-    #ifdef _CLUCENE_LEGACY
-    doc.clear();
-    doc.unload();
-
-    writer->optimize();
-    writer->close();
-
-    #else
     writer->setUseCompoundFile(true);
     writer->optimize();
 
     writer->close();
     _CLLDELETE(writer);
-    #endif
     return fileTitle;
 }
 /**
   Returns a Entry.
-  \id The id of the entry.
+  \id The key of the entry.
   */
-QString ZefaniaLex::getEntry(const QString &id)
+QString ZefaniaLex::getEntry(const QString &key)
 {
-    DEBUG_FUNC_NAME
-    const QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
-    const QString queryText = "key:" + id;
-    myDebug() << "index = " << index;
-#ifdef _CLUCENE_LEGACY
-
-    char utfBuffer[  IndexWriter::DEFAULT_MAX_FIELD_LENGTH  + 1];
-    wchar_t wcharBuffer[  IndexWriter::DEFAULT_MAX_FIELD_LENGTH + 1];
-    const TCHAR* stop_words[]  = { NULL };
-    StandardAnalyzer analyzer(stop_words);
-    IndexSearcher searcher(index.toLocal8Bit().constData());
-    lucene_utf8towcs(wcharBuffer, queryText.toUtf8().constData(),  IndexWriter::DEFAULT_MAX_FIELD_LENGTH);;
-    QScopedPointer< Query> q(QueryParser::parse((const TCHAR*)wcharBuffer, (const TCHAR*)_T("content"), &analyzer));
-    QScopedPointer< Hits> h(searcher.search(q.data(),  Sort::INDEXORDER));
-    Document* doc = 0;
-    for(int i = 0; i < h->length(); ++i) {
-        doc = &h->doc(i);
-        lucene_wcstoutf8(utfBuffer, (const wchar_t*)doc->get((const TCHAR*)_T("content")),  IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
-        QString content = QString::fromUtf8(utfBuffer);
-        return content;
-    }
-#else
+    const QString index = indexPath();
+    const QString queryText = "key:" + key;
     const TCHAR* stop_words[] = { NULL };
     standard::StandardAnalyzer analyzer(stop_words);
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     IndexSearcher s(reader);
-    Query* q = QueryParser::parse(queryText.toStdWString().c_str(), _T("content"), &analyzer); //todo: or use querytext and as the field content
+    Query* q = QueryParser::parse(queryText.toStdWString().c_str(), _T("content"), &analyzer);
     Hits* h = s.search(q);
-    myDebug() << "hits = " << h->length() << "queryText = " << queryText;
     for(size_t i = 0; i < h->length(); i++) {
         Document* doc = &h->doc(i);
         return QString::fromWCharArray(doc->get(_T("content")));
     }
     return QString();
-#endif
 }
 
+QStringList ZefaniaLex::getAllKeys()
+{
+    const QString index = indexPath();
+    IndexReader* reader = IndexReader::open(index.toStdString().c_str());
+    QStringList ret;
+    for(int i = 0; i < reader->numDocs(); i++) {
+        Document* doc = reader->document(i);
+        ret.append(QString::fromWCharArray(doc->get(_T("key"))));
+    }
+    return ret;
+}
+QString ZefaniaLex::indexPath() const
+{
+    return m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
+}

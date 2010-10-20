@@ -35,7 +35,8 @@ enum StreamStatus {
  * stupid / does not work by design :)
  * Because of this I've introduced this StreamBaseBase class
  */
-class StreamBaseBase { //krazy:exclude=dpointer
+class StreamBaseBase   //krazy:exclude=dpointer
+{
 protected:
     /** The size of the stream (-1 if unknown) */
     int64_t m_size;
@@ -52,7 +53,7 @@ public:
     /**
      * @brief  Constructor: initialises everything to sane defaults
      **/
-    StreamBaseBase() :m_size(-1), m_position(0), m_status(Ok) {}
+    StreamBaseBase() : m_size(-1), m_position(0), m_status(Ok) {}
     /**
      * @brief Destructor
      **/
@@ -61,16 +62,22 @@ public:
      * @brief  Return a string representation of the last error.
      * If no error has occurred, an empty string is returned.
      **/
-    const char* error() const { return m_error.c_str(); }
+    const char* error() const {
+        return m_error.c_str();
+    }
     /**
      * @brief  Return the status of the stream.
      **/
-    StreamStatus status() const { return m_status; }
+    StreamStatus status() const {
+        return m_status;
+    }
     /**
      * @brief Get the current position in the stream.
      * The value obtained from this function can be used to reset the stream.
      **/
-    int64_t position() const { return m_position; }
+    int64_t position() const {
+        return m_position;
+    }
     /**
      * @brief Return the size of the stream.
      *
@@ -81,7 +88,9 @@ public:
      * @return the size of the stream, if it is known, or -1 if the size
      * of the stream is unknown
      **/
-    int64_t size() const { return m_size; }
+    int64_t size() const {
+        return m_size;
+    }
 };
 
 /**
@@ -97,10 +106,11 @@ public:
  * transformers.
  */
 template <class T>
-class StreamBase : public StreamBaseBase {
+class StreamBase : public StreamBaseBase
+{
 public:
     StreamBase() { }
-    virtual ~StreamBase(){}
+    virtual ~StreamBase() {}
     /**
      * @brief Reads items from the stream and sets @p start to point to
      * the first item that was read.
@@ -180,21 +190,22 @@ public:
 
 template <class T>
 int64_t
-StreamBase<T>::skip(int64_t ntoskip) {
+StreamBase<T>::skip(int64_t ntoskip)
+{
     const T* begin;
     int32_t nread;
     int64_t skipped = 0;
-    while (ntoskip > 0) {
+    while(ntoskip > 0) {
         // make sure we do not overflow uint32_t
         int32_t maxstep = (int32_t)((ntoskip > 10000000)
-                       ?10000000 :ntoskip);
+                                    ? 10000000 : ntoskip);
         // the default implementation is to simply read the data that we want
         // to skip
         nread = read(begin, 1, maxstep);
-        if (nread < -1 ) {
+        if(nread < -1) {
             // an error occurred
             return nread;
-        } else if (nread < 1) {
+        } else if(nread < 1) {
             // the end of the stream was encountered
             ntoskip = 0;
         } else {

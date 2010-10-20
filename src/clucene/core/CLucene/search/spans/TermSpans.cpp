@@ -1,7 +1,7 @@
 /*------------------------------------------------------------------------------
  * Copyright (C) 2003-2006 Ben van Klinken and the CLucene Team
- * 
- * Distributable under the terms of either the Apache License (Version 2.0) or 
+ *
+ * Distributable under the terms of either the Apache License (Version 2.0) or
  * the GNU Lesser General Public License, as specified in the COPYING file.
  ------------------------------------------------------------------------------*/
 #include "CLucene/_ApiHeader.h"
@@ -13,10 +13,10 @@
 #include <climits>
 CL_NS_DEF2(search, spans)
 
-TermSpans::TermSpans( CL_NS(index)::TermPositions * positions, CL_NS(index)::Term * term )
+TermSpans::TermSpans(CL_NS(index)::TermPositions * positions, CL_NS(index)::Term * term)
 {
     this->positions = positions;
-    this->term = _CL_POINTER( term );
+    this->term = _CL_POINTER(term);
     doc_ = -1;
     freq = 0;
     count = 0;
@@ -25,16 +25,14 @@ TermSpans::TermSpans( CL_NS(index)::TermPositions * positions, CL_NS(index)::Ter
 
 TermSpans::~TermSpans()
 {
-    _CLLDELETE( positions );
-    _CLLDECDELETE( term );
+    _CLLDELETE(positions);
+    _CLLDECDELETE(term);
 }
 
 bool TermSpans::next()
 {
-    if( count == freq )
-    {
-        if( ! positions->next())
-        {
+    if(count == freq) {
+        if(! positions->next()) {
             doc_ = INT_MAX;
             return false;
         }
@@ -47,14 +45,13 @@ bool TermSpans::next()
     return true;
 }
 
-bool TermSpans::skipTo( int32_t target )
+bool TermSpans::skipTo(int32_t target)
 {
     // are we already at the correct position?
-    if( doc_ >= target )
+    if(doc_ >= target)
         return true;
 
-    if( !positions->skipTo( target ))
-    {
+    if(!positions->skipTo(target)) {
         doc_ = INT_MAX;
         return false;
     }
@@ -71,23 +68,22 @@ bool TermSpans::skipTo( int32_t target )
 
 TCHAR* TermSpans::toString() const
 {
-    CL_NS(util)::StringBuffer strBuf( 50 );
+    CL_NS(util)::StringBuffer strBuf(50);
 
     TCHAR * tszTerm = term->toString();
-    strBuf.append( _T( "spans(" ));
-    strBuf.append( tszTerm );
-    strBuf.append( _T( ")@" ));
-    if( doc_ == -1 )
-        strBuf.append( _T( "START" ));
-    else if( doc_ == INT_MAX )
-        strBuf.append( _T( "END" ));
-    else
-    {
-        strBuf.appendInt( doc_ );
-        strBuf.append( _T( "-" ));
-        strBuf.appendInt( position );
+    strBuf.append(_T("spans("));
+    strBuf.append(tszTerm);
+    strBuf.append(_T(")@"));
+    if(doc_ == -1)
+        strBuf.append(_T("START"));
+    else if(doc_ == INT_MAX)
+        strBuf.append(_T("END"));
+    else {
+        strBuf.appendInt(doc_);
+        strBuf.append(_T("-"));
+        strBuf.appendInt(position);
     }
-    _CLDELETE_CARRAY( tszTerm );
+    _CLDELETE_CARRAY(tszTerm);
 
     return strBuf.toString();
 }

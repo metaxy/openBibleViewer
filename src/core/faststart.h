@@ -13,7 +13,7 @@ public:
     bool load();
     bool save();
     bool remove();
-    void setFileNames(const QString &dir,const QStringList &files);
+    void setFileNames(const QString &dir, const QStringList &files);
     QStringList getFileNames(const QString &dir) const;
     bool hasCache(const QString &dir) const ;
     bool changed() const;

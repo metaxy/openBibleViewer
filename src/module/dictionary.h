@@ -7,7 +7,8 @@ class Dictionary : public SimpleModuleClass
 public:
     Dictionary();
     int loadModuleData(const int &id);
-    QString getEntry(const QString &string);
+    QString getEntry(const QString &key);
+    QStringList getAllKeys();
 private:
     Module *m_module;
     ZefaniaLex *m_zefaniaLex;

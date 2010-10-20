@@ -8,36 +8,43 @@
 #include "IndexDeletionPolicy.h"
 
 CL_NS_DEF(index)
-	
-IndexDeletionPolicy::~IndexDeletionPolicy(){
+
+IndexDeletionPolicy::~IndexDeletionPolicy()
+{
 }
-IndexCommitPoint::~IndexCommitPoint(){
-}
-
-
-
-KeepOnlyLastCommitDeletionPolicy::~KeepOnlyLastCommitDeletionPolicy(){
+IndexCommitPoint::~IndexCommitPoint()
+{
 }
 
-void KeepOnlyLastCommitDeletionPolicy::onInit(std::vector<IndexCommitPoint*>& commits) {
-  // Note that commits.size() should normally be 1:
-  onCommit(commits);
+
+
+KeepOnlyLastCommitDeletionPolicy::~KeepOnlyLastCommitDeletionPolicy()
+{
 }
 
-void KeepOnlyLastCommitDeletionPolicy::onCommit(std::vector<IndexCommitPoint*>& commits) {
-  // Note that commits.size() should normally be 2 (if not
-  // called by onInit above):
-  size_t size = commits.size();
-  for(size_t i=0;i<size-1;i++) {
-    commits[i]->deleteCommitPoint();
-  }
+void KeepOnlyLastCommitDeletionPolicy::onInit(std::vector<IndexCommitPoint*>& commits)
+{
+    // Note that commits.size() should normally be 1:
+    onCommit(commits);
 }
 
-const char* KeepOnlyLastCommitDeletionPolicy::getClassName(){
-	return "KeepOnlyLastCommitDeletionPolicy";
+void KeepOnlyLastCommitDeletionPolicy::onCommit(std::vector<IndexCommitPoint*>& commits)
+{
+    // Note that commits.size() should normally be 2 (if not
+    // called by onInit above):
+    size_t size = commits.size();
+    for(size_t i = 0; i < size - 1; i++) {
+        commits[i]->deleteCommitPoint();
+    }
 }
-const char* KeepOnlyLastCommitDeletionPolicy::getObjectName() const{
-	return getClassName();
+
+const char* KeepOnlyLastCommitDeletionPolicy::getClassName()
+{
+    return "KeepOnlyLastCommitDeletionPolicy";
+}
+const char* KeepOnlyLastCommitDeletionPolicy::getObjectName() const
+{
+    return getClassName();
 }
 
 

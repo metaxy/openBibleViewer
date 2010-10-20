@@ -21,7 +21,8 @@ CL_NS_DEF(util)
  * BufferedStream will do the rest.
  */
 template <class T>
-class BufferedStreamImpl : public StreamBase<T> {
+class BufferedStreamImpl : public StreamBase<T>
+{
 private:
     StreamBuffer<T> buffer;
     bool finishedWritingToBuffer;
@@ -59,7 +60,7 @@ protected:
         StreamBase<T>::m_error.assign("");
         StreamBase<T>::m_status = Ok;
         buffer.readPos = buffer.start;
-        buffer.avail = 0; 
+        buffer.avail = 0;
         finishedWritingToBuffer = false;
     }
     /**
@@ -84,77 +85,81 @@ typedef BufferedStreamImpl<TCHAR> BufferedReaderImpl;
 
 
 template <class T>
-BufferedStreamImpl<T>::BufferedStreamImpl() {
+BufferedStreamImpl<T>::BufferedStreamImpl()
+{
     finishedWritingToBuffer = false;
 }
 
 template <class T>
 void
-BufferedStreamImpl<T>::writeToBuffer(int32_t ntoread, int32_t maxread) {
+BufferedStreamImpl<T>::writeToBuffer(int32_t ntoread, int32_t maxread)
+{
     int32_t missing = ntoread - buffer.avail;
     int32_t nwritten = 0;
-    while (missing > 0 && nwritten >= 0) {
+    while(missing > 0 && nwritten >= 0) {
         int32_t space;
         space = buffer.makeSpace(missing);
-        if (maxread >= ntoread && space > maxread) {
-             space = maxread;
+        if(maxread >= ntoread && space > maxread) {
+            space = maxread;
         }
         T* start = buffer.readPos + buffer.avail;
         nwritten = fillBuffer(start, space);
         assert(StreamBase<T>::m_status != Eof);
-        if (nwritten > 0) {
+        if(nwritten > 0) {
             buffer.avail += nwritten;
             missing = ntoread - buffer.avail;
         }
     }
-    if (nwritten < 0) {
+    if(nwritten < 0) {
         finishedWritingToBuffer = true;
     }
 }
 template <class T>
 int32_t
-BufferedStreamImpl<T>::read(const T*& start, int32_t min, int32_t max) {
-    if (StreamBase<T>::m_status == Error) return -2;
-    if (StreamBase<T>::m_status == Eof) return -1;
+BufferedStreamImpl<T>::read(const T*& start, int32_t min, int32_t max)
+{
+    if(StreamBase<T>::m_status == Error) return -2;
+    if(StreamBase<T>::m_status == Eof) return -1;
 
     // do we need to read data into the buffer?
-    if (min > max) max = 0;
-    if (!finishedWritingToBuffer && min > buffer.avail) {
+    if(min > max) max = 0;
+    if(!finishedWritingToBuffer && min > buffer.avail) {
         // do we have enough space in the buffer?
         writeToBuffer(min, max);
-        if (StreamBase<T>::m_status == Error) return -2;
+        if(StreamBase<T>::m_status == Error) return -2;
     }
 
     int32_t nread = buffer.read(start, max);
 
     StreamBase<T>::m_position += nread;
-    if (StreamBase<T>::m_position > StreamBase<T>::m_size
-        && StreamBase<T>::m_size > 0) {
+    if(StreamBase<T>::m_position > StreamBase<T>::m_size
+            && StreamBase<T>::m_size > 0) {
         // error: we read more than was specified in size
         // this is an error because all dependent code might have been labouring
         // under a misapprehension
         StreamBase<T>::m_status = Error;
         StreamBase<T>::m_error = "Stream is longer than specified.";
         nread = -2;
-    } else if (StreamBase<T>::m_status == Ok && buffer.avail == 0
-            && finishedWritingToBuffer) {
+    } else if(StreamBase<T>::m_status == Ok && buffer.avail == 0
+              && finishedWritingToBuffer) {
         StreamBase<T>::m_status = Eof;
-        if (StreamBase<T>::m_size == -1) {
+        if(StreamBase<T>::m_size == -1) {
             StreamBase<T>::m_size = StreamBase<T>::m_position;
         }
         // save one call to read() by already returning -1 if no data is there
-        if (nread == 0) nread = -1;
+        if(nread == 0) nread = -1;
     }
     return nread;
 }
 template <class T>
 int64_t
-BufferedStreamImpl<T>::reset(int64_t newpos) {
+BufferedStreamImpl<T>::reset(int64_t newpos)
+{
     assert(newpos >= 0);
-    if (StreamBase<T>::m_status == Error) return -2;
+    if(StreamBase<T>::m_status == Error) return -2;
     // check to see if we have this position
     int64_t d = StreamBase<T>::m_position - newpos;
-    if (buffer.readPos - d >= buffer.start && -d < buffer.avail) {
+    if(buffer.readPos - d >= buffer.start && -d < buffer.avail) {
         StreamBase<T>::m_position -= d;
         buffer.avail += (int32_t)d;
         buffer.readPos -= d;
@@ -164,14 +169,15 @@ BufferedStreamImpl<T>::reset(int64_t newpos) {
 }
 template <class T>
 int64_t
-BufferedStreamImpl<T>::skip(int64_t ntoskip) {
+BufferedStreamImpl<T>::skip(int64_t ntoskip)
+{
     const T *begin;
     int32_t nread;
     int64_t skipped = 0;
-    while (ntoskip) {
-        int32_t step = (int32_t)((ntoskip > buffer.size) ?buffer.size :ntoskip);
+    while(ntoskip) {
+        int32_t step = (int32_t)((ntoskip > buffer.size) ? buffer.size : ntoskip);
         nread = read(begin, 1, step);
-        if (nread <= 0) {
+        if(nread <= 0) {
             return skipped;
         }
         ntoskip -= nread;

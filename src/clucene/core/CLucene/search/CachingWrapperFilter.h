@@ -19,25 +19,29 @@ CL_NS_DEF(search)
  */
 class CLUCENE_EXPORT AbstractCachingFilter: public Filter
 {
-	struct Internal;
-	Internal* _internal;
-	void closeCallback(CL_NS(index)::IndexReader* reader, void* param);
+    struct Internal;
+    Internal* _internal;
+    void closeCallback(CL_NS(index)::IndexReader* reader, void* param);
 protected:
-	AbstractCachingFilter( const AbstractCachingFilter& copy );
-	virtual CL_NS(util)::BitSet* doBits( CL_NS(index)::IndexReader* reader ) = 0;
-	virtual bool doShouldDeleteBitSet( CL_NS(util)::BitSet* /*bits*/ ){ return false; }
-	AbstractCachingFilter();
+    AbstractCachingFilter(const AbstractCachingFilter& copy);
+    virtual CL_NS(util)::BitSet* doBits(CL_NS(index)::IndexReader* reader) = 0;
+    virtual bool doShouldDeleteBitSet(CL_NS(util)::BitSet* /*bits*/) {
+        return false;
+    }
+    AbstractCachingFilter();
 public:
-	virtual ~AbstractCachingFilter();
+    virtual ~AbstractCachingFilter();
 
-	/** Returns a BitSet with true for documents which should be permitted in
-	search results, and false for those that should not. */
-	CL_NS(util)::BitSet* bits( CL_NS(index)::IndexReader* reader );
+    /** Returns a BitSet with true for documents which should be permitted in
+    search results, and false for those that should not. */
+    CL_NS(util)::BitSet* bits(CL_NS(index)::IndexReader* reader);
 
-	virtual Filter *clone() const = 0;
-	virtual TCHAR *toString() = 0;
+    virtual Filter *clone() const = 0;
+    virtual TCHAR *toString() = 0;
 
-	bool shouldDeleteBitSet( const CL_NS(util)::BitSet* /*bits*/ ) const{ return false; }
+    bool shouldDeleteBitSet(const CL_NS(util)::BitSet* /*bits*/) const {
+        return false;
+    }
 };
 
 /**
@@ -48,18 +52,18 @@ public:
 class CLUCENE_EXPORT CachingWrapperFilter: public AbstractCachingFilter
 {
 private:
-	Filter* filter;
-	bool deleteFilter;
+    Filter* filter;
+    bool deleteFilter;
 protected:
-	CachingWrapperFilter( const CachingWrapperFilter& copy );
-	CL_NS(util)::BitSet* doBits( CL_NS(index)::IndexReader* reader );
-	bool doShouldDeleteBitSet( CL_NS(util)::BitSet* bits );
+    CachingWrapperFilter(const CachingWrapperFilter& copy);
+    CL_NS(util)::BitSet* doBits(CL_NS(index)::IndexReader* reader);
+    bool doShouldDeleteBitSet(CL_NS(util)::BitSet* bits);
 public:
-	CachingWrapperFilter( Filter* filter, bool deleteFilter=true );
-	~CachingWrapperFilter();
+    CachingWrapperFilter(Filter* filter, bool deleteFilter = true);
+    ~CachingWrapperFilter();
 
-	Filter *clone() const;
-	TCHAR *toString();
+    Filter *clone() const;
+    TCHAR *toString();
 };
 
 CL_NS_END

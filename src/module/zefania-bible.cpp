@@ -230,7 +230,7 @@ QDomElement ZefaniaBible::format(QDomElement e)
             }
             node.replaceChild(t, node.firstChild());
             e.replaceChild(node, n);
-        } else if(moduleSettings.zefbible_showStrong == true && (n.nodeName().toLower() == "gram" || n.nodeName().toLower() == "gr") && n.toElement().attribute("str", "") != "" ) {
+        } else if(moduleSettings.zefbible_showStrong == true && (n.nodeName().toLower() == "gram" || n.nodeName().toLower() == "gr") && n.toElement().attribute("str", "") != "") {
             QDomNode node = n;
             QDomText t = n.firstChild().toText();
             QDomElement b = n.toElement();

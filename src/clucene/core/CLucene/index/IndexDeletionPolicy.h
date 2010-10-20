@@ -13,31 +13,32 @@
 CL_NS_DEF(index)
 
 
-class CLUCENE_EXPORT IndexCommitPoint {
+class CLUCENE_EXPORT IndexCommitPoint
+{
 public:
-  virtual ~IndexCommitPoint();
-  /**
-   * Get the segments file (<code>segments_N</code>) associated
-   * with this commit point.
-   */
-  virtual std::string getSegmentsFileName() = 0;
+    virtual ~IndexCommitPoint();
+    /**
+     * Get the segments file (<code>segments_N</code>) associated
+     * with this commit point.
+     */
+    virtual std::string getSegmentsFileName() = 0;
 
-  /**
-   * Returns all index files referenced by this commit point.
-   */
-  virtual const std::vector<std::string>& getFileNames() = 0;
+    /**
+     * Returns all index files referenced by this commit point.
+     */
+    virtual const std::vector<std::string>& getFileNames() = 0;
 
-  /**
-   * Delete this commit point.
-   * <p>
-   * Upon calling this, the writer is notified that this commit
-   * point should be deleted.
-   * <p>
-   * Decision that a commit-point should be deleted is taken by the {@link IndexDeletionPolicy} in effect
-   * and therefore this should only be called by its {@link IndexDeletionPolicy#onInit onInit()} or
-   * {@link IndexDeletionPolicy#onCommit onCommit()} methods.
-  */
-  virtual void deleteCommitPoint() = 0;
+    /**
+     * Delete this commit point.
+     * <p>
+     * Upon calling this, the writer is notified that this commit
+     * point should be deleted.
+     * <p>
+     * Decision that a commit-point should be deleted is taken by the {@link IndexDeletionPolicy} in effect
+     * and therefore this should only be called by its {@link IndexDeletionPolicy#onInit onInit()} or
+     * {@link IndexDeletionPolicy#onCommit onCommit()} methods.
+    */
+    virtual void deleteCommitPoint() = 0;
 };
 
 /**
@@ -67,58 +68,59 @@ public:
  * href="http://issues.apache.org/jira/browse/LUCENE-710">LUCENE-710</a>
  * for details.</p>
  */
-class CLUCENE_EXPORT IndexDeletionPolicy: public CL_NS(util)::NamedObject{
+class CLUCENE_EXPORT IndexDeletionPolicy: public CL_NS(util)::NamedObject
+{
 public:
-  virtual ~IndexDeletionPolicy();
+    virtual ~IndexDeletionPolicy();
 
-  /**
-   * <p>This is called once when a writer is first
-   * instantiated to give the policy a chance to remove old
-   * commit points.</p>
-   *
-   * <p>The writer locates all index commits present in the
-   * index directory and calls this method.  The policy may
-   * choose to delete some of the commit points, doing so by
-   * calling method {@link IndexCommitPoint#delete delete()}
-   * of {@link IndexCommitPoint}.</p>
-   *
-   * <p><u>Note:</u> the last CommitPoint is the most recent one,
-   * i.e. the "front index state". Be careful not to delete it,
-   * unless you know for sure what you are doing, and unless
-   * you can afford to lose the index content while doing that.
-   *
-   * @param commits List of current
-   * {@link IndexCommitPoint point-in-time commits},
-   *  sorted by age (the 0th one is the oldest commit).
-   */
-  virtual void onInit(std::vector<IndexCommitPoint*>& commits) = 0;
+    /**
+     * <p>This is called once when a writer is first
+     * instantiated to give the policy a chance to remove old
+     * commit points.</p>
+     *
+     * <p>The writer locates all index commits present in the
+     * index directory and calls this method.  The policy may
+     * choose to delete some of the commit points, doing so by
+     * calling method {@link IndexCommitPoint#delete delete()}
+     * of {@link IndexCommitPoint}.</p>
+     *
+     * <p><u>Note:</u> the last CommitPoint is the most recent one,
+     * i.e. the "front index state". Be careful not to delete it,
+     * unless you know for sure what you are doing, and unless
+     * you can afford to lose the index content while doing that.
+     *
+     * @param commits List of current
+     * {@link IndexCommitPoint point-in-time commits},
+     *  sorted by age (the 0th one is the oldest commit).
+     */
+    virtual void onInit(std::vector<IndexCommitPoint*>& commits) = 0;
 
-  /**
-   * <p>This is called each time the writer completed a commit.
-   * This gives the policy a chance to remove old commit points
-   * with each commit.</p>
-   *
-   * <p>The policy may now choose to delete old commit points
-   * by calling method {@link IndexCommitPoint#delete delete()}
-   * of {@link IndexCommitPoint}.</p>
-   *
-   * <p>If writer has <code>autoCommit = true</code> then
-   * this method will in general be called many times during
-   * one instance of {@link IndexWriter}.  If
-   * <code>autoCommit = false</code> then this method is
-   * only called once when {@link IndexWriter#close} is
-   * called, or not at all if the {@link IndexWriter#abort}
-   * is called.
-   *
-   * <p><u>Note:</u> the last CommitPoint is the most recent one,
-   * i.e. the "front index state". Be careful not to delete it,
-   * unless you know for sure what you are doing, and unless
-   * you can afford to lose the index content while doing that.
-   *
-   * @param commits List of {@link IndexCommitPoint},
-   *  sorted by age (the 0th one is the oldest commit).
-   */
-  virtual void onCommit(std::vector<IndexCommitPoint*>& commits) = 0;
+    /**
+     * <p>This is called each time the writer completed a commit.
+     * This gives the policy a chance to remove old commit points
+     * with each commit.</p>
+     *
+     * <p>The policy may now choose to delete old commit points
+     * by calling method {@link IndexCommitPoint#delete delete()}
+     * of {@link IndexCommitPoint}.</p>
+     *
+     * <p>If writer has <code>autoCommit = true</code> then
+     * this method will in general be called many times during
+     * one instance of {@link IndexWriter}.  If
+     * <code>autoCommit = false</code> then this method is
+     * only called once when {@link IndexWriter#close} is
+     * called, or not at all if the {@link IndexWriter#abort}
+     * is called.
+     *
+     * <p><u>Note:</u> the last CommitPoint is the most recent one,
+     * i.e. the "front index state". Be careful not to delete it,
+     * unless you know for sure what you are doing, and unless
+     * you can afford to lose the index content while doing that.
+     *
+     * @param commits List of {@link IndexCommitPoint},
+     *  sorted by age (the 0th one is the oldest commit).
+     */
+    virtual void onCommit(std::vector<IndexCommitPoint*>& commits) = 0;
 };
 
 
@@ -131,21 +133,22 @@ public:
  * the default deletion policy.
  */
 
-class CLUCENE_EXPORT KeepOnlyLastCommitDeletionPolicy: public IndexDeletionPolicy {
+class CLUCENE_EXPORT KeepOnlyLastCommitDeletionPolicy: public IndexDeletionPolicy
+{
 public:
-  virtual ~KeepOnlyLastCommitDeletionPolicy();
-  /**
-   * Deletes all commits except the most recent one.
-   */
-  void onInit(std::vector<IndexCommitPoint*>& commits);
+    virtual ~KeepOnlyLastCommitDeletionPolicy();
+    /**
+     * Deletes all commits except the most recent one.
+     */
+    void onInit(std::vector<IndexCommitPoint*>& commits);
 
-  /**
-   * Deletes all commits except the most recent one.
-   */
-  void onCommit(std::vector<IndexCommitPoint*>& commits);
+    /**
+     * Deletes all commits except the most recent one.
+     */
+    void onCommit(std::vector<IndexCommitPoint*>& commits);
 
-	static const char* getClassName();
-	const char* getObjectName() const;
+    static const char* getClassName();
+    const char* getObjectName() const;
 };
 
 CL_NS_END

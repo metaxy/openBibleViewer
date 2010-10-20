@@ -9,25 +9,26 @@
 
 
 #ifdef _CL_HAVE_SYS_STAT_H
-	#include <sys/stat.h>
+#include <sys/stat.h>
 #endif
 
 
-const TCHAR* _LUCENE_BLANK_STRING=_T("");
-const char* _LUCENE_BLANK_ASTRING="";
+const TCHAR* _LUCENE_BLANK_STRING = _T("");
+const char* _LUCENE_BLANK_ASTRING = "";
 
 
 #if defined(_ASCII)
-  #if defined(_LUCENE_PRAGMA_WARNINGS)
-	 #pragma message ("==================Using ascii mode!!!==================")
-	#else
-	 #warning "==================Using ascii mode!!!=================="
-	#endif
+#if defined(_LUCENE_PRAGMA_WARNINGS)
+#pragma message ("==================Using ascii mode!!!==================")
+#else
+#warning "==================Using ascii mode!!!=================="
+#endif
 #endif
 
-wchar_t* lucene_wcsdup( const wchar_t* str ){
-	size_t len = wcslen(str);
-	wchar_t* ret = (wchar_t*)malloc( (len + 1) * sizeof(wchar_t) );
-	wcscpy(ret, str);
-	return ret;
+wchar_t* lucene_wcsdup(const wchar_t* str)
+{
+    size_t len = wcslen(str);
+    wchar_t* ret = (wchar_t*)malloc((len + 1) * sizeof(wchar_t));
+    wcscpy(ret, str);
+    return ret;
 }

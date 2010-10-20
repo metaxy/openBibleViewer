@@ -1,13 +1,13 @@
 /*------------------------------------------------------------------------------
 * Copyright (C) 2003-2006 Ben van Klinken and the CLucene Team
-* 
-* Distributable under the terms of either the Apache License (Version 2.0) or 
+*
+* Distributable under the terms of either the Apache License (Version 2.0) or
 * the GNU Lesser General Public License, as specified in the COPYING file.
 ------------------------------------------------------------------------------*/
 #ifndef _lucene_search_ConstantScoreQuery_
 #define _lucene_search_ConstantScoreQuery_
 
-CL_CLASS_DEF(index,IndexReader)
+CL_CLASS_DEF(index, IndexReader)
 
 #include "Query.h"
 #include "Filter.h"
@@ -20,12 +20,13 @@ CL_NS_DEF(search)
  * query boost for every document in the filter.
  *
  */
-class CLUCENE_EXPORT ConstantScoreQuery : public Query {
+class CLUCENE_EXPORT ConstantScoreQuery : public Query
+{
 protected:
     Filter* filter;
 
 public:
-    /** 
+    /**
     * Constructs a new ConstantScoreQuery, and takes ownership of the filter object
     *
     * @memory this object consumes _filter
@@ -39,7 +40,7 @@ public:
     Query* rewrite(CL_NS(index)::IndexReader* reader);
 
     /** Constant score query does not return any terms */
-    void extractTerms( TermSet * termset );    
+    void extractTerms(TermSet * termset);
 
 protected:
     Weight* _createWeight(Searcher* searcher);
@@ -60,7 +61,7 @@ public:
     friend class ConstantWeight;
 
 protected:
-    ConstantScoreQuery( const ConstantScoreQuery& copy );
+    ConstantScoreQuery(const ConstantScoreQuery& copy);
 };
 
 
@@ -86,19 +87,29 @@ private:
 
 public:
     ConstantScoreRangeQuery(const TCHAR* _fieldName, const TCHAR* _lowerVal, const TCHAR* _upperVal,
-        bool _includeLower, bool _includeUpper);
+                            bool _includeLower, bool _includeUpper);
     virtual ~ConstantScoreRangeQuery();
 
     /** Returns the field name for this query */
-    TCHAR* getField() const { return fieldName; }
+    TCHAR* getField() const {
+        return fieldName;
+    }
     /** Returns the value of the lower endpoint of this range query, null if open ended */
-    TCHAR* getLowerVal() const { return lowerVal; }
+    TCHAR* getLowerVal() const {
+        return lowerVal;
+    }
     /** Returns the value of the upper endpoint of this range query, null if open ended */
-    TCHAR* getUpperVal() const { return upperVal; }
+    TCHAR* getUpperVal() const {
+        return upperVal;
+    }
     /** Returns <code>true</code> if the lower endpoint is inclusive */
-    bool includesLower() const { return includeLower; }
+    bool includesLower() const {
+        return includeLower;
+    }
     /** Returns <code>true</code> if the upper endpoint is inclusive */
-    bool includesUpper() const { return includeUpper; }
+    bool includesUpper() const {
+        return includeUpper;
+    }
 
     Query* rewrite(CL_NS(index)::IndexReader* reader);
 
@@ -114,7 +125,7 @@ public:
     const char* getObjectName() const;
     Query* clone() const;
 protected:
-    ConstantScoreRangeQuery( const ConstantScoreRangeQuery& copy );
+    ConstantScoreRangeQuery(const ConstantScoreRangeQuery& copy);
 };
 
 CL_NS_END

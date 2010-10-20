@@ -12,29 +12,30 @@
 CL_NS_DEF(search)
 
 /** Scorer for conjunctions, sets of queries, all of which are required. */
-class ConjunctionScorer: public Scorer {
+class ConjunctionScorer: public Scorer
+{
 private:
-  CL_NS(util)::ArrayBase<Scorer*>* scorers;
-  typedef CL_NS(util)::CLVector<Scorer*,CL_NS(util)::Deletor::Object<Scorer> > ScorersType;
-  bool firstTime;
-  bool more;
-  float_t coord;
-  int32_t lastDoc;
+    CL_NS(util)::ArrayBase<Scorer*>* scorers;
+    typedef CL_NS(util)::CLVector<Scorer*, CL_NS(util)::Deletor::Object<Scorer> > ScorersType;
+    bool firstTime;
+    bool more;
+    float_t coord;
+    int32_t lastDoc;
 
-  Scorer* last();
-  bool doNext();
+    Scorer* last();
+    bool doNext();
 
-  bool init(int32_t target);
+    bool init(int32_t target);
 public:
-  ConjunctionScorer(Similarity* similarity, ScorersType* scorers);
-  ConjunctionScorer(Similarity* similarity, const CL_NS(util)::ArrayBase<Scorer*>* scorers);
-  virtual ~ConjunctionScorer();
-  virtual TCHAR* toString();
-  int32_t doc() const;
-  bool next();
-  bool skipTo(int32_t target);
-  virtual float_t score();
-  virtual Explanation* explain(int32_t doc);
+    ConjunctionScorer(Similarity* similarity, ScorersType* scorers);
+    ConjunctionScorer(Similarity* similarity, const CL_NS(util)::ArrayBase<Scorer*>* scorers);
+    virtual ~ConjunctionScorer();
+    virtual TCHAR* toString();
+    int32_t doc() const;
+    bool next();
+    bool skipTo(int32_t target);
+    virtual float_t score();
+    virtual Explanation* explain(int32_t doc);
 };
 
 CL_NS_END

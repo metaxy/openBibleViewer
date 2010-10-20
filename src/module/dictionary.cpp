@@ -62,3 +62,18 @@ QString Dictionary::getEntry(const QString &string)
     }
     return QString();
 }
+QStringList Dictionary::getAllKeys()
+{
+    DEBUG_FUNC_NAME
+    switch(m_moduleType) {
+    case Module::ZefaniaLexModule: {
+        return m_zefaniaLex->getAllKeys();
+    }
+    case Module::BibleQuoteDictModule: {
+        return m_bibleQuoteDict->getAllKeys();
+    }
+    default:
+        return QStringList();
+    }
+    return QStringList();
+}

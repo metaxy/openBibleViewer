@@ -336,7 +336,7 @@ namespace KoXml
  * Note: do *NOT* use getElementsByTagNameNS, it's recursive!
  */
 /*KOODF_EXPORT*/ KoXmlElement namedItemNS(const KoXmlNode& node,
-                                        const QString& nsURI, const QString& localName);
+        const QString& nsURI, const QString& localName);
 
 /**
  * Explicitly load child nodes of specified node, up to given depth.
@@ -378,8 +378,8 @@ namespace KoXml
  * Note: it is assumed that the XML uses UTF-8 encoding.
  */
 /*KOODF_EXPORT*/ bool setDocument(KoXmlDocument& doc, QIODevice* device,
-                                bool namespaceProcessing, QString* errorMsg = 0,
-                                int* errorLine = 0, int* errorColumn = 0);
+                                  bool namespaceProcessing, QString* errorMsg = 0,
+                                  int* errorLine = 0, int* errorColumn = 0);
 }
 
 /**

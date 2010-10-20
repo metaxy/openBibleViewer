@@ -1,7 +1,7 @@
 /*------------------------------------------------------------------------------
  * Copyright (C) 2003-2006 Ben van Klinken and the CLucene Team
- * 
- * Distributable under the terms of either the Apache License (Version 2.0) or 
+ *
+ * Distributable under the terms of either the Apache License (Version 2.0) or
  * the GNU Lesser General Public License, as specified in the COPYING file.
  ------------------------------------------------------------------------------*/
 #include "CLucene/_ApiHeader.h"
@@ -12,7 +12,7 @@
 #include "SpanNotQuery.h"
 #include "Spans.h"
 
-CL_NS_DEF2( search, spans )
+CL_NS_DEF2(search, spans)
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -27,57 +27,61 @@ private:
     bool            moreExclude;
 
 public:
-    SpanNotQuerySpans( SpanNotQuery * parentQuery, CL_NS(index)::IndexReader * reader );
+    SpanNotQuerySpans(SpanNotQuery * parentQuery, CL_NS(index)::IndexReader * reader);
     virtual ~SpanNotQuerySpans();
 
     bool next();
-    bool skipTo( int32_t target );
+    bool skipTo(int32_t target);
 
-    int32_t doc() const     { return includeSpans->doc(); }
-    int32_t start() const   { return includeSpans->start(); }
-    int32_t end() const     { return includeSpans->end(); }
+    int32_t doc() const     {
+        return includeSpans->doc();
+    }
+    int32_t start() const   {
+        return includeSpans->start();
+    }
+    int32_t end() const     {
+        return includeSpans->end();
+    }
 
     TCHAR* toString() const;
 };
 
-SpanNotQuery::SpanNotQuerySpans::SpanNotQuerySpans( SpanNotQuery * parentQuery, CL_NS(index)::IndexReader * reader )
+SpanNotQuery::SpanNotQuerySpans::SpanNotQuerySpans(SpanNotQuery * parentQuery, CL_NS(index)::IndexReader * reader)
 {
     this->parentQuery = parentQuery;
 
-    includeSpans = parentQuery->include->getSpans( reader );
+    includeSpans = parentQuery->include->getSpans(reader);
     moreInclude = true;
 
-    excludeSpans = parentQuery->exclude->getSpans( reader );
+    excludeSpans = parentQuery->exclude->getSpans(reader);
     moreExclude = excludeSpans->next();
 }
 
 SpanNotQuery::SpanNotQuerySpans::~SpanNotQuerySpans()
 {
-    _CLLDELETE( includeSpans );
-    _CLLDELETE( excludeSpans );
+    _CLLDELETE(includeSpans);
+    _CLLDELETE(excludeSpans);
 }
- 
+
 bool SpanNotQuery::SpanNotQuerySpans::next()
 {
-    if( moreInclude )                           // move to next include
+    if(moreInclude)                             // move to next include
         moreInclude = includeSpans->next();
 
-    while( moreInclude && moreExclude )
-    {
-        if( includeSpans->doc() > excludeSpans->doc() ) // skip exclude
-            moreExclude = excludeSpans->skipTo( includeSpans->doc() );
+    while(moreInclude && moreExclude) {
+        if(includeSpans->doc() > excludeSpans->doc())   // skip exclude
+            moreExclude = excludeSpans->skipTo(includeSpans->doc());
 
-        while( moreExclude                      // while exclude is before
-               && includeSpans->doc() == excludeSpans->doc()
-               && excludeSpans->end() <= includeSpans->start())
-        {
+        while(moreExclude                       // while exclude is before
+                && includeSpans->doc() == excludeSpans->doc()
+                && excludeSpans->end() <= includeSpans->start()) {
             moreExclude = excludeSpans->next();  // increment exclude
         }
 
-        if( ! moreExclude                       // if no intersection
-            || includeSpans->doc() != excludeSpans->doc()
-            || includeSpans->end() <= excludeSpans->start())
-        break;                                  // we found a match
+        if(! moreExclude                        // if no intersection
+                || includeSpans->doc() != excludeSpans->doc()
+                || includeSpans->end() <= excludeSpans->start())
+            break;                                  // we found a match
 
         moreInclude = includeSpans->next();      // intersected: keep scanning
     }
@@ -85,32 +89,29 @@ bool SpanNotQuery::SpanNotQuerySpans::next()
     return moreInclude;
 }
 
-    
-bool SpanNotQuery::SpanNotQuerySpans::skipTo( int32_t target )
-{
-    if( moreInclude )                           // skip include
-        moreInclude = includeSpans->skipTo( target );
 
-    if( ! moreInclude )
+bool SpanNotQuery::SpanNotQuerySpans::skipTo(int32_t target)
+{
+    if(moreInclude)                             // skip include
+        moreInclude = includeSpans->skipTo(target);
+
+    if(! moreInclude)
         return false;
 
-    if( moreExclude                             // skip exclude
-        && includeSpans->doc() > excludeSpans->doc())
-    {
-        moreExclude = excludeSpans->skipTo( includeSpans->doc() );
+    if(moreExclude                              // skip exclude
+            && includeSpans->doc() > excludeSpans->doc()) {
+        moreExclude = excludeSpans->skipTo(includeSpans->doc());
     }
 
-    while( moreExclude                          // while exclude is before
-           && includeSpans->doc() == excludeSpans->doc()
-           && excludeSpans->end() <= includeSpans->start()) 
-    {
+    while(moreExclude                           // while exclude is before
+            && includeSpans->doc() == excludeSpans->doc()
+            && excludeSpans->end() <= includeSpans->start()) {
         moreExclude = excludeSpans->next();     // increment exclude
     }
 
-    if( ! moreExclude                           // if no intersection
-        || includeSpans->doc() != excludeSpans->doc()
-        || includeSpans->end() <= excludeSpans->start())
-    {
+    if(! moreExclude                            // if no intersection
+            || includeSpans->doc() != excludeSpans->doc()
+            || includeSpans->end() <= excludeSpans->start()) {
         return true;                            // we found a match
     }
 
@@ -122,28 +123,28 @@ TCHAR* SpanNotQuery::SpanNotQuerySpans::toString() const
     CL_NS(util)::StringBuffer buffer;
     TCHAR *      tszQry = parentQuery->toString();
 
-    buffer.append( _T( "spans(" ));
-    buffer.append( tszQry );
-    buffer.append( _T( ")" ));
+    buffer.append(_T("spans("));
+    buffer.append(tszQry);
+    buffer.append(_T(")"));
 
-    _CLDELETE_LARRAY( tszQry );
+    _CLDELETE_LARRAY(tszQry);
     return buffer.toString();
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-SpanNotQuery::SpanNotQuery( SpanQuery * include, SpanQuery * exclude, bool bDeleteQueries )
+SpanNotQuery::SpanNotQuery(SpanQuery * include, SpanQuery * exclude, bool bDeleteQueries)
 {
     this->include = include;
     this->exclude = exclude;
     this->bDeleteQueries = bDeleteQueries;
 
-    if( 0 != _tcscmp( include->getField(), exclude->getField()))
-        _CLTHROWA( CL_ERR_IllegalArgument, "Clauses must have same field." );
+    if(0 != _tcscmp(include->getField(), exclude->getField()))
+        _CLTHROWA(CL_ERR_IllegalArgument, "Clauses must have same field.");
 }
 
-SpanNotQuery::SpanNotQuery( const SpanNotQuery& clone ) :
-    SpanQuery( clone )
+SpanNotQuery::SpanNotQuery(const SpanNotQuery& clone) :
+    SpanQuery(clone)
 {
     include = (SpanQuery *) clone.include->clone();
     exclude = (SpanQuery *) clone.exclude->clone();
@@ -152,26 +153,25 @@ SpanNotQuery::SpanNotQuery( const SpanNotQuery& clone ) :
 
 SpanNotQuery::~SpanNotQuery()
 {
-    if( bDeleteQueries )
-    {
-        _CLLDELETE( include );
-        _CLLDELETE( exclude );
+    if(bDeleteQueries) {
+        _CLLDELETE(include);
+        _CLLDELETE(exclude);
     }
 }
 
 CL_NS(search)::Query * SpanNotQuery::clone() const
 {
-    return _CLNEW SpanNotQuery( *this );
+    return _CLNEW SpanNotQuery(*this);
 }
 
 const char * SpanNotQuery::getClassName()
 {
-	return "SpanNotQuery";
+    return "SpanNotQuery";
 }
 
-const char * SpanNotQuery::getObjectName() const 
+const char * SpanNotQuery::getObjectName() const
 {
-	return getClassName();
+    return getClassName();
 }
 
 SpanQuery * SpanNotQuery::getInclude() const
@@ -181,7 +181,7 @@ SpanQuery * SpanNotQuery::getInclude() const
 
 SpanQuery * SpanNotQuery::getExclude() const
 {
-    return exclude; 
+    return exclude;
 }
 
 const TCHAR * SpanNotQuery::getField() const
@@ -189,70 +189,68 @@ const TCHAR * SpanNotQuery::getField() const
     return include->getField();
 }
 
-void SpanNotQuery::extractTerms( CL_NS(search)::TermSet * terms )
+void SpanNotQuery::extractTerms(CL_NS(search)::TermSet * terms)
 {
-    include->extractTerms( terms );
+    include->extractTerms(terms);
 }
 
-TCHAR* SpanNotQuery::toString( const TCHAR* field ) const
+TCHAR* SpanNotQuery::toString(const TCHAR* field) const
 {
     CL_NS(util)::StringBuffer buffer;
-    
+
     TCHAR * tmp;
 
-    buffer.append( _T( "spanNot(" ));
-    tmp = include->toString( field );
-    buffer.append( tmp );
-    _CLDELETE_ARRAY( tmp );
+    buffer.append(_T("spanNot("));
+    tmp = include->toString(field);
+    buffer.append(tmp);
+    _CLDELETE_ARRAY(tmp);
 
-    buffer.append( _T( ", " ));
-    tmp = exclude->toString( field );
-    buffer.append( tmp );
-    _CLDELETE_ARRAY( tmp );
+    buffer.append(_T(", "));
+    tmp = exclude->toString(field);
+    buffer.append(tmp);
+    _CLDELETE_ARRAY(tmp);
 
-    buffer.append( _T( ")" ));
-    buffer.appendFloat(  getBoost(), 1 );
-    
+    buffer.append(_T(")"));
+    buffer.appendFloat(getBoost(), 1);
+
     return buffer.toString();
 }
 
-CL_NS(search)::Query * SpanNotQuery::rewrite( CL_NS(index)::IndexReader * reader )
+CL_NS(search)::Query * SpanNotQuery::rewrite(CL_NS(index)::IndexReader * reader)
 {
     SpanNotQuery * clone = NULL;
 
-    SpanQuery * rewrittenInclude = (SpanQuery *) include->rewrite( reader );
-    if( rewrittenInclude != include )
-    {
+    SpanQuery * rewrittenInclude = (SpanQuery *) include->rewrite(reader);
+    if(rewrittenInclude != include) {
         clone = (SpanNotQuery *) this->clone();
-        _CLLDELETE( clone->include );
+        _CLLDELETE(clone->include);
         clone->include = rewrittenInclude;
     }
 
-    SpanQuery * rewrittenExclude = (SpanQuery *) exclude->rewrite( reader );
-    if( rewrittenExclude != exclude )
-    {
-        if( ! clone ) 
+    SpanQuery * rewrittenExclude = (SpanQuery *) exclude->rewrite(reader);
+    if(rewrittenExclude != exclude) {
+        if(! clone)
             clone = (SpanNotQuery *) this->clone();
-        _CLLDELETE( clone->exclude );
+        _CLLDELETE(clone->exclude);
         clone->exclude = rewrittenExclude;
     }
 
-    if( clone ) 
+    if(clone)
         return clone;                        // some clauses rewrote
-    else       
+    else
         return this;                         // no clauses rewrote
 }
 
-bool SpanNotQuery::equals( Query* other ) const
+bool SpanNotQuery::equals(Query* other) const
 {
-    if( this == other ) return true;
-    if( other == NULL || !( other->instanceOf( SpanNotQuery::getClassName() )))
-	    return false;
+    if(this == other) return true;
+    if(other == NULL || !(other->instanceOf(SpanNotQuery::getClassName())))
+        return false;
 
-	SpanNotQuery * that = (SpanNotQuery *) other;
-    return include->equals( that->include )
-        && exclude->equals( that->exclude )
-        && getBoost() == that->getBoost();
+    SpanNotQuery * that = (SpanNotQuery *) other;
+    return include->equals(that->include)
+           && exclude->equals(that->exclude)
+           && getBoost() == that->getBoost();
 }
 
 size_t SpanNotQuery::hashCode() const
@@ -261,14 +259,14 @@ size_t SpanNotQuery::hashCode() const
     h = (h << 1) | (h >> 31);  // rotate left
     h ^= exclude->hashCode();
     h = (h << 1) | (h >> 31);  // rotate left
-    h ^= Similarity::floatToByte( getBoost() );
+    h ^= Similarity::floatToByte(getBoost());
 
     return h;
 }
 
-Spans * SpanNotQuery::getSpans( CL_NS(index)::IndexReader * reader )
+Spans * SpanNotQuery::getSpans(CL_NS(index)::IndexReader * reader)
 {
-   return _CLNEW SpanNotQuerySpans( this, reader );
+    return _CLNEW SpanNotQuerySpans(this, reader);
 }
 
 CL_NS_END2

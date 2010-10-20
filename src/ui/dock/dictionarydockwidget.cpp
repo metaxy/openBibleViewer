@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_dictionarydockwidget.h"
 #include "src/core/dbghelper.h"
 #include "src/core/core.h"
+#include <QtGui/QCompleter>
 DictionaryDockWidget::DictionaryDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::DictionaryDockWidget)
@@ -80,6 +81,9 @@ void DictionaryDockWidget::loadModule(int id)
         Module::ModuleType type = m->m_moduleType;
         m_moduleManager->dictionary()->setModuleType(type);
         m_moduleManager->dictionary()->loadModuleData(moduleID);
+        QCompleter *completer = new QCompleter(m_moduleManager->dictionary()->getAllKeys(), this);
+        completer->setCaseSensitivity(Qt::CaseInsensitive);
+        ui->lineEdit_strong->setCompleter(completer);
     }
 }
 

@@ -1,7 +1,7 @@
 /*------------------------------------------------------------------------------
 * Copyright (C) 2003-2006 Ben van Klinken and the CLucene Team
-* 
-* Distributable under the terms of either the Apache License (Version 2.0) or 
+*
+* Distributable under the terms of either the Apache License (Version 2.0) or
 * the GNU Lesser General Public License, as specified in the COPYING file.
 ------------------------------------------------------------------------------*/
 #ifndef _lucene_search_ExactPhraseScorer_
@@ -11,18 +11,19 @@
 
 CL_NS_DEF(search)
 
-  class ExactPhraseScorer: public PhraseScorer {
-    public:
-    ExactPhraseScorer(Weight* weight, CL_NS(index)::TermPositions** tps, int32_t* offsets, 
-       Similarity* similarity, uint8_t* norms );
-       
-	virtual ~ExactPhraseScorer();
+class ExactPhraseScorer: public PhraseScorer
+{
+public:
+    ExactPhraseScorer(Weight* weight, CL_NS(index)::TermPositions** tps, int32_t* offsets,
+                      Similarity* similarity, uint8_t* norms);
 
-	virtual TCHAR* toString();
+    virtual ~ExactPhraseScorer();
 
-    protected:
-      //Returns the exact freqency of the phrase
-      float_t phraseFreq();
-    };
+    virtual TCHAR* toString();
+
+protected:
+    //Returns the exact freqency of the phrase
+    float_t phraseFreq();
+};
 CL_NS_END
 #endif

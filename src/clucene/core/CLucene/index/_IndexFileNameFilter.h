@@ -11,10 +11,11 @@
 #include "CLucene/util/VoidList.h"
 
 CL_NS_DEF(index)
-class FilenameFilter{
+class FilenameFilter
+{
 public:
-	virtual bool accept(const char* dir, const char* name) const = 0;
-	virtual ~FilenameFilter();
+    virtual bool accept(const char* dir, const char* name) const = 0;
+    virtual ~FilenameFilter();
 };
 
 /**
@@ -23,29 +24,30 @@ public:
  * @author Daniel Naber / Bernhard Messer
  * @version $rcs = ' $Id: Exp $ ' ;
  */
-class IndexFileNameFilter: public FilenameFilter {
-  static IndexFileNameFilter* singleton;
-  CL_NS(util)::CLHashSet<const char*, CL_NS(util)::Compare::Char> extensions;
-  CL_NS(util)::CLHashSet<const char*, CL_NS(util)::Compare::Char> extensionsInCFS;
+class IndexFileNameFilter: public FilenameFilter
+{
+    static IndexFileNameFilter* singleton;
+    CL_NS(util)::CLHashSet<const char*, CL_NS(util)::Compare::Char> extensions;
+    CL_NS(util)::CLHashSet<const char*, CL_NS(util)::Compare::Char> extensionsInCFS;
 public:
-  IndexFileNameFilter();
-  virtual ~IndexFileNameFilter();
+    IndexFileNameFilter();
+    virtual ~IndexFileNameFilter();
 
-  /* (non-Javadoc)
-   * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
-   */
-  bool accept(const char* dir, const char* name) const;
+    /* (non-Javadoc)
+     * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
+     */
+    bool accept(const char* dir, const char* name) const;
 
-  /**
-   * Returns true if this is a file that would be contained
-   * in a CFS file.  This function should only be called on
-   * files that pass the above "accept" (ie, are already
-   * known to be a Lucene index file).
-   */
-  bool isCFSFile(const char* name) const;
-  static const IndexFileNameFilter* getFilter();
+    /**
+     * Returns true if this is a file that would be contained
+     * in a CFS file.  This function should only be called on
+     * files that pass the above "accept" (ie, are already
+     * known to be a Lucene index file).
+     */
+    bool isCFSFile(const char* name) const;
+    static const IndexFileNameFilter* getFilter();
 
-  static void _shutdown();
+    static void _shutdown();
 };
 
 

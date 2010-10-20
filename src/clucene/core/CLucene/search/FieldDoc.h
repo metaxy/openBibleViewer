@@ -1,7 +1,7 @@
 /*------------------------------------------------------------------------------
 * Copyright (C) 2003-2006 Ben van Klinken and the CLucene Team
-* 
-* Distributable under the terms of either the Apache License (Version 2.0) or 
+*
+* Distributable under the terms of either the Apache License (Version 2.0) or
 * the GNU Lesser General Public License, as specified in the COPYING file.
 ------------------------------------------------------------------------------*/
 #ifndef _lucene_search_FieldDoc_
@@ -27,24 +27,25 @@ CL_NS_DEF(search)
  * @see ScoreDoc
  * @see TopFieldDocs
  */
-class CLUCENE_EXPORT FieldDoc: LUCENE_BASE {
+class CLUCENE_EXPORT FieldDoc: LUCENE_BASE
+{
 public:
-	//FieldDoc did inherit from ScoreDoc, but now we make the scoredoc a member
-	struct ScoreDoc scoreDoc;
+    //FieldDoc did inherit from ScoreDoc, but now we make the scoredoc a member
+    struct ScoreDoc scoreDoc;
 
-	/** Expert: The values which are used to sort the referenced document.
-	 * The order of these will match the original sort criteria given by a
-	 * Sort object.  Each Object will be either an Integer, Float or String,
-	 * depending on the type of values in the terms of the original field.
-	 * @see Sort
-	 * @see Searchable#search(Query,Filter,int32_t,Sort)
-	 */
-	CL_NS(util)::Comparable** fields;
+    /** Expert: The values which are used to sort the referenced document.
+     * The order of these will match the original sort criteria given by a
+     * Sort object.  Each Object will be either an Integer, Float or String,
+     * depending on the type of values in the terms of the original field.
+     * @see Sort
+     * @see Searchable#search(Query,Filter,int32_t,Sort)
+     */
+    CL_NS(util)::Comparable** fields;
 
-	/** Expert: Creates one of these objects with empty sort information. */
-	FieldDoc (int32_t doc, float_t score);
-	/** Expert: Creates one of these objects with the given sort information. */
-	FieldDoc (int32_t doc, float_t score, CL_NS(util)::Comparable** fields);
+    /** Expert: Creates one of these objects with empty sort information. */
+    FieldDoc(int32_t doc, float_t score);
+    /** Expert: Creates one of these objects with the given sort information. */
+    FieldDoc(int32_t doc, float_t score, CL_NS(util)::Comparable** fields);
     ~FieldDoc();
 };
 

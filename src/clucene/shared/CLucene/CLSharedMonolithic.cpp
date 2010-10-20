@@ -1,13 +1,13 @@
 /*------------------------------------------------------------------------------
 * Copyright (C) 2003-2006 Ben van Klinken and the CLucene Team
-* 
-* Distributable under the terms of either the Apache License (Version 2.0) or 
+*
+* Distributable under the terms of either the Apache License (Version 2.0) or
 * the GNU Lesser General Public License, as specified in the COPYING file.
 ------------------------------------------------------------------------------*/
 /*
 * this is a monolithic file that can be used to compile clucene using one source file.
 * it simplifies some build processes by avoiding static & dynamic compalation pitfalls.
-* 
+*
 * note: when creating a project add either this file, or all the other .cpp files, not both!
 */
 #include "CLucene/SharedHeader.cpp"

@@ -17,7 +17,8 @@ CL_NS_DEF(util)
  * @brief Provides a buffer for the use of BufferedStream
  */
 template <class T>
-class StreamBuffer {
+class StreamBuffer
+{
 private:
 public:
     /**
@@ -81,7 +82,7 @@ public:
      * @return the size of the data pointed to by @p start
      * (always less than or equal to @p max)
      */
-    int32_t read(const T*& start, int32_t max=0);
+    int32_t read(const T*& start, int32_t max = 0);
 
     /**
      * @internal
@@ -92,26 +93,29 @@ public:
      *
      * @return the number of available places
      **/
-     int32_t makeSpace(int32_t needed);
+    int32_t makeSpace(int32_t needed);
 };
 
 template <class T>
-StreamBuffer<T>::StreamBuffer() {
+StreamBuffer<T>::StreamBuffer()
+{
     readPos = start = 0;
     size = avail = 0;
 }
 template <class T>
-StreamBuffer<T>::~StreamBuffer() {
+StreamBuffer<T>::~StreamBuffer()
+{
     std::free(start);
 }
 template <class T>
 void
-StreamBuffer<T>::setSize(int32_t size) {
+StreamBuffer<T>::setSize(int32_t size)
+{
     // store pointer information
     int32_t offset = readPos - start;
 
     // allocate memory in the buffer
-    start = (T*)std::realloc(start, size*sizeof(T));
+    start = (T*)std::realloc(start, size * sizeof(T));
     this->size = size;
 
     // restore pointer information
@@ -119,19 +123,20 @@ StreamBuffer<T>::setSize(int32_t size) {
 }
 template <class T>
 int32_t
-StreamBuffer<T>::makeSpace(int32_t needed) {
+StreamBuffer<T>::makeSpace(int32_t needed)
+{
     // determine how much space is available for writing
     int32_t space = size - (readPos - start) - avail;
-    if (space >= needed) {
+    if(space >= needed) {
         // there's enough space
         return space;
     }
 
-    if (avail) {
-        if (readPos != start) {
+    if(avail) {
+        if(readPos != start) {
 //            printf("moving\n");
             // move data to the start of the buffer
-            std::memmove(start, readPos, avail*sizeof(T));
+            std::memmove(start, readPos, avail * sizeof(T));
             space += readPos - start;
             readPos = start;
         }
@@ -140,7 +145,7 @@ StreamBuffer<T>::makeSpace(int32_t needed) {
         readPos = start;
         space = size;
     }
-    if (space >= needed) {
+    if(space >= needed) {
         // there's enough space now
         return space;
     }
@@ -152,9 +157,10 @@ StreamBuffer<T>::makeSpace(int32_t needed) {
 }
 template <class T>
 int32_t
-StreamBuffer<T>::read(const T*& start, int32_t max) {
+StreamBuffer<T>::read(const T*& start, int32_t max)
+{
     start = readPos;
-    if (max <= 0 || max > avail) {
+    if(max <= 0 || max > avail) {
         max = avail;
     }
     readPos += max;

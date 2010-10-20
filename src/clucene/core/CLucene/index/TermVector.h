@@ -21,62 +21,63 @@ class TermPositionVector;
  * {@link org.apache.lucene.document.Document} and a parallel array of frequencies.  Thus, getTermFrequencies()[5] corresponds with the
  * frequency of getTerms()[5], assuming there are at least 5 terms in the Document.
  */
-class CLUCENE_EXPORT TermFreqVector:LUCENE_BASE {
+class CLUCENE_EXPORT TermFreqVector: LUCENE_BASE
+{
 public:
-	virtual ~TermFreqVector(){
-	}
+    virtual ~TermFreqVector() {
+    }
 
-	/**
-	* The Field name.
-	* @return The name of the field this vector is associated with.
-	*
-	*/
-	virtual const TCHAR* getField() = 0;
-
-	/**
-	* @return The number of terms in the term vector.
-	*/
-	virtual int32_t size() = 0;
-
-	/**
-	* @return An Array of term texts in ascending order.
-	*/
-	virtual const CL_NS(util)::ArrayBase<const TCHAR*>* getTerms() = 0;
-
-
-	/** Array of term frequencies. Locations of the array correspond one to one
-	*  to the terms in the array obtained from <code>getTerms</code>
-	*  method. Each location in the array contains the number of times this
-	*  term occurs in the document or the document field.
-	*
-	*  The size of the returned array is size()
-	*  @memory Returning a pointer to internal data. Do not delete.
-	*/
-	virtual const CL_NS(util)::ArrayBase<int32_t>* getTermFrequencies() = 0;
-
-
-	/** Return an index in the term numbers array returned from
-	*  <code>getTerms</code> at which the term with the specified
-	*  <code>term</code> appears. If this term does not appear in the array,
-	*  return -1.
-	*/
-	virtual int32_t indexOf(const TCHAR* term) = 0;
-
-	/** Just like <code>indexOf(int32_t)</code> but searches for a number of terms
-	*  at the same time. Returns an array that has the same size as the number
-	*  of terms searched for, each slot containing the result of searching for
-	*  that term number.
-	*
-	*  @param terms array containing terms to look for
-	*  @param start index in the array where the list of terms starts
-	*  @param len the number of terms in the list
-	*/
-	virtual CL_NS(util)::ArrayBase<int32_t>* indexesOf(const CL_NS(util)::ArrayBase<TCHAR*>& terms, const int32_t start, const int32_t len) = 0;
-
-	/** Solve the diamond inheritence problem by providing a reinterpret function.
-    *	No dynamic casting is required and no RTTI data is needed to do this
+    /**
+    * The Field name.
+    * @return The name of the field this vector is associated with.
+    *
     */
-	virtual TermPositionVector* __asTermPositionVector()=0;
+    virtual const TCHAR* getField() = 0;
+
+    /**
+    * @return The number of terms in the term vector.
+    */
+    virtual int32_t size() = 0;
+
+    /**
+    * @return An Array of term texts in ascending order.
+    */
+    virtual const CL_NS(util)::ArrayBase<const TCHAR*>* getTerms() = 0;
+
+
+    /** Array of term frequencies. Locations of the array correspond one to one
+    *  to the terms in the array obtained from <code>getTerms</code>
+    *  method. Each location in the array contains the number of times this
+    *  term occurs in the document or the document field.
+    *
+    *  The size of the returned array is size()
+    *  @memory Returning a pointer to internal data. Do not delete.
+    */
+    virtual const CL_NS(util)::ArrayBase<int32_t>* getTermFrequencies() = 0;
+
+
+    /** Return an index in the term numbers array returned from
+    *  <code>getTerms</code> at which the term with the specified
+    *  <code>term</code> appears. If this term does not appear in the array,
+    *  return -1.
+    */
+    virtual int32_t indexOf(const TCHAR* term) = 0;
+
+    /** Just like <code>indexOf(int32_t)</code> but searches for a number of terms
+    *  at the same time. Returns an array that has the same size as the number
+    *  of terms searched for, each slot containing the result of searching for
+    *  that term number.
+    *
+    *  @param terms array containing terms to look for
+    *  @param start index in the array where the list of terms starts
+    *  @param len the number of terms in the list
+    */
+    virtual CL_NS(util)::ArrayBase<int32_t>* indexesOf(const CL_NS(util)::ArrayBase<TCHAR*>& terms, const int32_t start, const int32_t len) = 0;
+
+    /** Solve the diamond inheritence problem by providing a reinterpret function.
+    *   No dynamic casting is required and no RTTI data is needed to do this
+    */
+    virtual TermPositionVector* __asTermPositionVector() = 0;
 };
 
 
@@ -94,26 +95,26 @@ public: // TODO: Remove after TermVectorWriter has been ported;
     ~TermVectorOffsetInfo();
     TermVectorOffsetInfo(int32_t startOffset, int32_t endOffset);
 
-	/**
-	* The accessor for the ending offset for the term
-	* @return The offset
-	*/
+    /**
+    * The accessor for the ending offset for the term
+    * @return The offset
+    */
     int32_t getEndOffset() const;
     void setEndOffset(const int32_t _endOffset);
 
-	/**
-	* The accessor for the starting offset of the term.
-	*
-	* @return The offset
-	*/
+    /**
+    * The accessor for the starting offset of the term.
+    *
+    * @return The offset
+    */
     int32_t getStartOffset() const;
     void setStartOffset(const int32_t _startOffset);
 
-	/**
-	* Two TermVectorOffsetInfos are equals if both the start and end offsets are the same
-	* @param o The comparison Object
-	* @return true if both {@link #getStartOffset()} and {@link #getEndOffset()} are the same for both objects.
-	*/
+    /**
+    * Two TermVectorOffsetInfos are equals if both the start and end offsets are the same
+    * @param o The comparison Object
+    * @return true if both {@link #getStartOffset()} and {@link #getEndOffset()} are the same for both objects.
+    */
     bool equals(TermVectorOffsetInfo* o);
     size_t hashCode() const;
 };
@@ -128,7 +129,8 @@ extern CL_NS(util)::ObjectArray<TermVectorOffsetInfo>* TermVectorOffsetInfo_EMPT
  *  positions in which each of the terms is found. A TermPositionVector not necessarily
  * contains both positions and offsets, but at least one of these arrays exists.
  */
-class CLUCENE_EXPORT TermPositionVector: public virtual TermFreqVector {
+class CLUCENE_EXPORT TermPositionVector: public virtual TermFreqVector
+{
 public:
 
     /** Returns an array of positions in which the term is found.
@@ -147,10 +149,10 @@ public:
      * @param index The position in the array to get the offsets from
      * @return An array of TermVectorOffsetInfo objects or the empty list
      */
-     virtual const CL_NS(util)::ArrayBase<TermVectorOffsetInfo*>* getOffsets(const size_t index) = 0;
+    virtual const CL_NS(util)::ArrayBase<TermVectorOffsetInfo*>* getOffsets(const size_t index) = 0;
 
-     virtual ~TermPositionVector(){
-	 }
+    virtual ~TermPositionVector() {
+    }
 };
 
 

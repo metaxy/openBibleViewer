@@ -18,202 +18,199 @@ CL_NS_USE(util)
 CL_NS_USE(document)
 
 
-ChainedFilter::ChainedFilter( Filter ** _filters, int _op ):
-	Filter(),
-	filters(_filters),
-	logicArray(NULL),
-	logic(_op)
+ChainedFilter::ChainedFilter(Filter ** _filters, int _op):
+    Filter(),
+    filters(_filters),
+    logicArray(NULL),
+    logic(_op)
 {
 }
-ChainedFilter::ChainedFilter( Filter** _filters, int* _array ):
-	Filter(),
-	filters(_filters),
-	logicArray(_array),
-	logic(-1)
+ChainedFilter::ChainedFilter(Filter** _filters, int* _array):
+    Filter(),
+    filters(_filters),
+    logicArray(_array),
+    logic(-1)
 {
 }
-ChainedFilter::ChainedFilter( const ChainedFilter& copy ) :
-	Filter(copy),
-	logicArray( copy.logicArray ),
-	logic( copy.logic )
+ChainedFilter::ChainedFilter(const ChainedFilter& copy) :
+    Filter(copy),
+    logicArray(copy.logicArray),
+    logic(copy.logic)
 {
-	filters = copy.filters;
+    filters = copy.filters;
 }
 ChainedFilter::~ChainedFilter(void)
 {
 
 }
 
-Filter* ChainedFilter::clone() const {
-	return _CLNEW ChainedFilter(*this );
+Filter* ChainedFilter::clone() const
+{
+    return _CLNEW ChainedFilter(*this);
 }
 
-const TCHAR* ChainedFilter::getLogicString(int logic){
-	if ( logic == ChainedFilter::OR )
-		return _T("OR");
-	else if ( logic == ChainedFilter::AND )
-		return _T("AND");
-	else if ( logic == ChainedFilter::ANDNOT )
-		return _T("ANDNOT");
-	else if ( logic == ChainedFilter::XOR )
-		return _T("XOR");
-	else if ( logic >= ChainedFilter::USER ){
-		return _T("USER");
-	}
-	return _T("");
+const TCHAR* ChainedFilter::getLogicString(int logic)
+{
+    if(logic == ChainedFilter::OR)
+        return _T("OR");
+    else if(logic == ChainedFilter::AND)
+        return _T("AND");
+    else if(logic == ChainedFilter::ANDNOT)
+        return _T("ANDNOT");
+    else if(logic == ChainedFilter::XOR)
+        return _T("XOR");
+    else if(logic >= ChainedFilter::USER) {
+        return _T("USER");
+    }
+    return _T("");
 }
 
 TCHAR* ChainedFilter::toString()
 {
 
-	Filter** filter = filters;
+    Filter** filter = filters;
 
-	StringBuffer buf(_T("ChainedFilter: ["));
-	int* la = logicArray;
-	while(*filter )
-	{
-		if ( filter != filters )
-			buf.appendChar(' ');
-		buf.append(getLogicString(logic==-1?*la:logic));
-		buf.appendChar(' ');
+    StringBuffer buf(_T("ChainedFilter: ["));
+    int* la = logicArray;
+    while(*filter) {
+        if(filter != filters)
+            buf.appendChar(' ');
+        buf.append(getLogicString(logic == -1 ? *la : logic));
+        buf.appendChar(' ');
 
-		TCHAR* filterstr = (*filter)->toString();
-		buf.append(filterstr);
-		_CLDELETE_ARRAY( filterstr );
+        TCHAR* filterstr = (*filter)->toString();
+        buf.append(filterstr);
+        _CLDELETE_ARRAY(filterstr);
 
-		filter++;
-		if ( logic == -1 )
-			la++;
-	}
+        filter++;
+        if(logic == -1)
+            la++;
+    }
 
-	buf.appendChar(']');
+    buf.appendChar(']');
 
-	return buf.toString();
+    return buf.toString();
 }
 
 
 /** Returns a BitSet with true for documents which should be permitted in
 search results, and false for those that should not. */
-BitSet* ChainedFilter::bits( IndexReader* reader )
+BitSet* ChainedFilter::bits(IndexReader* reader)
 {
-	if( logic != -1 )
-		return bits( reader, logic );
-	else if( logicArray != NULL )
-		return bits( reader, logicArray );
-	else
-		return bits( reader, DEFAULT );
+    if(logic != -1)
+        return bits(reader, logic);
+    else if(logicArray != NULL)
+        return bits(reader, logicArray);
+    else
+        return bits(reader, DEFAULT);
 }
 
 
-BitSet* ChainedFilter::bits( IndexReader* reader, int logic )
+BitSet* ChainedFilter::bits(IndexReader* reader, int logic)
 {
-	BitSet* bts = NULL;
+    BitSet* bts = NULL;
 
-	Filter** filter = filters;
+    Filter** filter = filters;
 
-	// see discussion at top of file
-	if( *filter ) {
-		BitSet* tmp = (*filter)->bits( reader );
-		if ( (*filter)->shouldDeleteBitSet(tmp) ) //if we are supposed to delete this BitSet, then
-			bts = tmp; //we can safely call it our own
-		else if ( tmp == NULL ){
-			int32_t len = reader->maxDoc();
-			bts = _CLNEW BitSet( len ); //bitset returned null, which means match _all_
-			for (int32_t i=0;i<len;i++ )
-				bts->set(i);
-		}else{
-			bts = tmp->clone(); //else it is probably cached, so we need to copy it before using it.
-		}
-		filter++;
-	}
-	else
-		bts = _CLNEW BitSet( reader->maxDoc() );
+    // see discussion at top of file
+    if(*filter) {
+        BitSet* tmp = (*filter)->bits(reader);
+        if((*filter)->shouldDeleteBitSet(tmp))    //if we are supposed to delete this BitSet, then
+            bts = tmp; //we can safely call it our own
+        else if(tmp == NULL) {
+            int32_t len = reader->maxDoc();
+            bts = _CLNEW BitSet(len);   //bitset returned null, which means match _all_
+            for(int32_t i = 0; i < len; i++)
+                bts->set(i);
+        } else {
+            bts = tmp->clone(); //else it is probably cached, so we need to copy it before using it.
+        }
+        filter++;
+    } else
+        bts = _CLNEW BitSet(reader->maxDoc());
 
-	while( *filter ) {
-		doChain( bts, reader, logic, *filter );
-		filter++;
-	}
+    while(*filter) {
+        doChain(bts, reader, logic, *filter);
+        filter++;
+    }
 
-	return bts;
+    return bts;
 }
 
 
-BitSet* ChainedFilter::bits( IndexReader* reader, int* _logicArray )
+BitSet* ChainedFilter::bits(IndexReader* reader, int* _logicArray)
 {
-	BitSet* bts = NULL;
+    BitSet* bts = NULL;
 
-	Filter** filter = filters;
-	int* logic = _logicArray;
+    Filter** filter = filters;
+    int* logic = _logicArray;
 
-	// see discussion at top of file
-	if( *filter ) {
-		BitSet* tmp = (*filter)->bits( reader );
-		if ( (*filter)->shouldDeleteBitSet(tmp) ) //if we are supposed to delete this BitSet, then
-			bts = tmp; //we can safely call it our own
-		else if ( tmp == NULL ){
-			int32_t len = reader->maxDoc();
-			bts = _CLNEW BitSet( len ); //bitset returned null, which means match _all_
-			for (int32_t i=0;i<len;i++ )
-				bts->set(i); //todo: this could mean that we can skip certain types of filters
-		}
-		else
-		{
-			bts = tmp->clone(); //else it is probably cached, so we need to copy it before using it.
-		}
-		filter++;
-		logic++;
-	}
-	else
-		bts = _CLNEW BitSet( reader->maxDoc() );
+    // see discussion at top of file
+    if(*filter) {
+        BitSet* tmp = (*filter)->bits(reader);
+        if((*filter)->shouldDeleteBitSet(tmp))    //if we are supposed to delete this BitSet, then
+            bts = tmp; //we can safely call it our own
+        else if(tmp == NULL) {
+            int32_t len = reader->maxDoc();
+            bts = _CLNEW BitSet(len);   //bitset returned null, which means match _all_
+            for(int32_t i = 0; i < len; i++)
+                bts->set(i); //todo: this could mean that we can skip certain types of filters
+        } else {
+            bts = tmp->clone(); //else it is probably cached, so we need to copy it before using it.
+        }
+        filter++;
+        logic++;
+    } else
+        bts = _CLNEW BitSet(reader->maxDoc());
 
-	while( *filter ) {
-		doChain( bts, reader, *logic, *filter );
-		filter++;
-		logic++;
-	}
+    while(*filter) {
+        doChain(bts, reader, *logic, *filter);
+        filter++;
+        logic++;
+    }
 
-	return bts;
+    return bts;
 }
 
-void ChainedFilter::doUserChain( CL_NS(util)::BitSet* /*chain*/, CL_NS(util)::BitSet* /*filter*/, int /*logic*/ ){
-	_CLTHROWA(CL_ERR_Runtime,"User chain logic not implemented by superclass");
+void ChainedFilter::doUserChain(CL_NS(util)::BitSet* /*chain*/, CL_NS(util)::BitSet* /*filter*/, int /*logic*/)
+{
+    _CLTHROWA(CL_ERR_Runtime, "User chain logic not implemented by superclass");
 }
 
-BitSet* ChainedFilter::doChain( BitSet* resultset, IndexReader* reader, int logic, Filter* filter )
+BitSet* ChainedFilter::doChain(BitSet* resultset, IndexReader* reader, int logic, Filter* filter)
 {
-	BitSet* filterbits = filter->bits( reader );
-	int32_t maxDoc = reader->maxDoc();
-	int32_t i=0;
-	if ( logic >= ChainedFilter::USER ){
-		doUserChain(resultset,filterbits,logic);
-	}else{
-		switch( logic )
-		{
-		case OR:
-			for( i=0; i < maxDoc; i++ )
-				resultset->set( i, (resultset->get(i) || (filterbits==NULL || filterbits->get(i) ))?1:0 );
-			break;
-		case AND:
-			for( i=0; i < maxDoc; i++ )
-				resultset->set( i, (resultset->get(i) && (filterbits==NULL || filterbits->get(i) ))?1:0 );
-			break;
-		case ANDNOT:
-			for( i=0; i < maxDoc; i++ )
-				resultset->set( i, (resultset->get(i) && (filterbits==NULL || filterbits->get(i)))?0:1 );
-			break;
-		case XOR:
-			for( i=0; i < maxDoc; i++ )
-				resultset->set( i, resultset->get(i) ^ ((filterbits==NULL || filterbits->get(i) )?1:0) );
-			break;
-		default:
-			doChain( resultset, reader, DEFAULT, filter );
-		}
-	}
+    BitSet* filterbits = filter->bits(reader);
+    int32_t maxDoc = reader->maxDoc();
+    int32_t i = 0;
+    if(logic >= ChainedFilter::USER) {
+        doUserChain(resultset, filterbits, logic);
+    } else {
+        switch(logic) {
+        case OR:
+            for(i = 0; i < maxDoc; i++)
+                resultset->set(i, (resultset->get(i) || (filterbits == NULL || filterbits->get(i))) ? 1 : 0);
+            break;
+        case AND:
+            for(i = 0; i < maxDoc; i++)
+                resultset->set(i, (resultset->get(i) && (filterbits == NULL || filterbits->get(i))) ? 1 : 0);
+            break;
+        case ANDNOT:
+            for(i = 0; i < maxDoc; i++)
+                resultset->set(i, (resultset->get(i) && (filterbits == NULL || filterbits->get(i))) ? 0 : 1);
+            break;
+        case XOR:
+            for(i = 0; i < maxDoc; i++)
+                resultset->set(i, resultset->get(i) ^((filterbits == NULL || filterbits->get(i)) ? 1 : 0));
+            break;
+        default:
+            doChain(resultset, reader, DEFAULT, filter);
+        }
+    }
 
-	if ( filter->shouldDeleteBitSet(filterbits) )
-		_CLDELETE( filterbits );
+    if(filter->shouldDeleteBitSet(filterbits))
+        _CLDELETE(filterbits);
 
-	return resultset;
+    return resultset;
 }
 
 CL_NS_END

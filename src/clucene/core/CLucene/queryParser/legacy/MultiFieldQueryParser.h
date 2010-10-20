@@ -10,29 +10,29 @@
 #include "QueryParser.h"
 #include "CLucene/util/VoidMap.h"
 
-CL_NS_DEF2(queryParser,legacy)
+CL_NS_DEF2(queryParser, legacy)
 
-  typedef CL_NS(util)::CLHashMap<const TCHAR*,
-           float_t,
-           CL_NS(util)::Compare::TChar,
-           CL_NS(util)::Equals::TChar,
-           CL_NS(util)::Deletor::Dummy,
-           CL_NS(util)::Deletor::DummyFloat
-          > BoostMap;
+typedef CL_NS(util)::CLHashMap < const TCHAR*,
+        float_t,
+        CL_NS(util)::Compare::TChar,
+        CL_NS(util)::Equals::TChar,
+        CL_NS(util)::Deletor::Dummy,
+        CL_NS(util)::Deletor::DummyFloat
+        > BoostMap;
 
-  /**
-   * A QueryParser which constructs queries to search multiple fields.
-   *
-   */
-  class CLUCENE_EXPORT MultiFieldQueryParser: public QueryParser
-  {
-	protected:
-	  const TCHAR** fields;
+/**
+ * A QueryParser which constructs queries to search multiple fields.
+ *
+ */
+class CLUCENE_EXPORT MultiFieldQueryParser: public QueryParser
+{
+protected:
+    const TCHAR** fields;
     BoostMap* boosts;
-  public:
-  	LUCENE_STATIC_CONSTANT(uint8_t, NORMAL_FIELD=0);
-	  LUCENE_STATIC_CONSTANT(uint8_t, REQUIRED_FIELD=1);
-	  LUCENE_STATIC_CONSTANT(uint8_t, PROHIBITED_FIELD=2);
+public:
+    LUCENE_STATIC_CONSTANT(uint8_t, NORMAL_FIELD = 0);
+    LUCENE_STATIC_CONSTANT(uint8_t, REQUIRED_FIELD = 1);
+    LUCENE_STATIC_CONSTANT(uint8_t, PROHIBITED_FIELD = 2);
 
     /**
     * Creates a MultiFieldQueryParser.
@@ -54,8 +54,8 @@ CL_NS_DEF2(queryParser,legacy)
     * <p>In other words, all the query's terms must appear, but it doesn't matter in
     * what fields they appear.</p>
     */
-		MultiFieldQueryParser(const TCHAR** fields, CL_NS(analysis)::Analyzer* a, BoostMap* boosts = NULL);
-		virtual ~MultiFieldQueryParser();
+    MultiFieldQueryParser(const TCHAR** fields, CL_NS(analysis)::Analyzer* a, BoostMap* boosts = NULL);
+    virtual ~MultiFieldQueryParser();
 
     /**
      * <p>
@@ -74,7 +74,7 @@ CL_NS_DEF2(queryParser,legacy)
      * @throws ParserException if query parsing fails
      * @throws TokenMgrError if query parsing fails
      */
-		static CL_NS(search)::Query* parse(const TCHAR* query, const TCHAR** fields, CL_NS(analysis)::Analyzer* analyzer);
+    static CL_NS(search)::Query* parse(const TCHAR* query, const TCHAR** fields, CL_NS(analysis)::Analyzer* analyzer);
 
     /**
      * <p>
@@ -106,26 +106,28 @@ CL_NS_DEF2(queryParser,legacy)
      * @throws ParserException if query parsing fails
      * @throws TokenMgrError if query parsing fails
      */
-		static CL_NS(search)::Query* parse(const TCHAR* query, const TCHAR** fields, const uint8_t* flags, CL_NS(analysis)::Analyzer* analyzer);
+    static CL_NS(search)::Query* parse(const TCHAR* query, const TCHAR** fields, const uint8_t* flags, CL_NS(analysis)::Analyzer* analyzer);
 
-		// non-static version of the above
-		CL_NS(search)::Query* parse(const TCHAR* query);
+    // non-static version of the above
+    CL_NS(search)::Query* parse(const TCHAR* query);
 
-	protected:
-		CL_NS(search)::Query* GetFieldQuery(const TCHAR* field, TCHAR* queryText);
-		CL_NS(search)::Query* GetFieldQuery(const TCHAR* field, TCHAR* queryText, int32_t slop);
-        CL_NS(search)::Query* GetFuzzyQuery(const TCHAR* field, TCHAR* termStr);
-		CL_NS(search)::Query* GetRangeQuery(const TCHAR* field, TCHAR* part1, TCHAR* part2, bool inclusive);
-	    CL_NS(search)::Query* GetPrefixQuery(const TCHAR* field, TCHAR* termStr);
-	    CL_NS(search)::Query* GetWildcardQuery(const TCHAR* field, TCHAR* termStr);
+protected:
+    CL_NS(search)::Query* GetFieldQuery(const TCHAR* field, TCHAR* queryText);
+    CL_NS(search)::Query* GetFieldQuery(const TCHAR* field, TCHAR* queryText, int32_t slop);
+    CL_NS(search)::Query* GetFuzzyQuery(const TCHAR* field, TCHAR* termStr);
+    CL_NS(search)::Query* GetRangeQuery(const TCHAR* field, TCHAR* part1, TCHAR* part2, bool inclusive);
+    CL_NS(search)::Query* GetPrefixQuery(const TCHAR* field, TCHAR* termStr);
+    CL_NS(search)::Query* GetWildcardQuery(const TCHAR* field, TCHAR* termStr);
 
-		/**
-		* A special virtual function for the MultiFieldQueryParser which can be used
-		* to clean up queries. Once the field name is known and the query has been
-		* created, its passed to this function.
-		* An example of this usage is to set boosts.
-		*/
-		virtual CL_NS(search)::Query* QueryAddedCallback(const TCHAR* field, CL_NS(search)::Query* query){ return query; }
-  };
+    /**
+    * A special virtual function for the MultiFieldQueryParser which can be used
+    * to clean up queries. Once the field name is known and the query has been
+    * created, its passed to this function.
+    * An example of this usage is to set boosts.
+    */
+    virtual CL_NS(search)::Query* QueryAddedCallback(const TCHAR* field, CL_NS(search)::Query* query) {
+        return query;
+    }
+};
 CL_NS_END2
 #endif

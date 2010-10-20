@@ -1,7 +1,7 @@
 /*------------------------------------------------------------------------------
 * Copyright (C) 2003-2006 Ben van Klinken and the CLucene Team
-* 
-* Distributable under the terms of either the Apache License (Version 2.0) or 
+*
+* Distributable under the terms of either the Apache License (Version 2.0) or
 * the GNU Lesser General Public License, as specified in the COPYING file.
 ------------------------------------------------------------------------------*/
 #ifndef lucene_internal_sharedheader_h
@@ -36,13 +36,13 @@
 #define cl_max3(a,b,c) ((a)>(b) ? ((a)>(c) ? (a) : (c)) : ((b)>(c) ? (b) : (c)))
 
 #ifdef _CL_HAVE_SAFE_CRT
-	#define cl_sprintf sprintf_s
-	#define cl_stprintf _stprintf_s
-	#define cl_strcpy(Dst,Src,DstLen) strcpy_s(Dst,DstLen,Src)
+#define cl_sprintf sprintf_s
+#define cl_stprintf _stprintf_s
+#define cl_strcpy(Dst,Src,DstLen) strcpy_s(Dst,DstLen,Src)
 #else
-	#define cl_sprintf _snprintf
-	#define cl_stprintf _sntprintf
-	#define cl_strcpy(Dst,Src,DstLen) strcpy(Dst,Src)
+#define cl_sprintf _snprintf
+#define cl_stprintf _sntprintf
+#define cl_strcpy(Dst,Src,DstLen) strcpy(Dst,Src)
 #endif
 
 
@@ -53,9 +53,9 @@ CLUCENE_SHARED_EXPORT extern const char* _LUCENE_BLANK_ASTRING;
 #define LUCENE_BLANK_ASTRING _LUCENE_BLANK_ASTRING
 
 #if defined(_WIN32) || defined(_WIN64)
-    #define PATH_DELIMITERA "\\"
+#define PATH_DELIMITERA "\\"
 #else
-    #define PATH_DELIMITERA "/"
+#define PATH_DELIMITERA "/"
 #endif
 
 #define _LUCENE_SLEEP(ms) CL_NS(util)::Misc::sleep(ms)

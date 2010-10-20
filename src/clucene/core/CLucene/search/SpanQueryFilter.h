@@ -1,7 +1,7 @@
 /*------------------------------------------------------------------------------
  * Copyright (C) 2003-2006 Ben van Klinken and the CLucene Team
- * 
- * Distributable under the terms of either the Apache License (Version 2.0) or 
+ *
+ * Distributable under the terms of either the Apache License (Version 2.0) or
  * the GNU Lesser General Public License, as specified in the COPYING file.
  ------------------------------------------------------------------------------*/
 #ifndef _lucene_search_SpanQueryFilter_
@@ -24,34 +24,34 @@ CL_NS_DEF(search)
  *
  * @version $Id:$
  */
-class CLUCENE_EXPORT SpanQueryFilter : public SpanFilter 
+class CLUCENE_EXPORT SpanQueryFilter : public SpanFilter
 {
 protected:
-    CL_NS2(search,spans)::SpanQuery *   query;
+    CL_NS2(search, spans)::SpanQuery *   query;
     bool                                bDeleteQuery;
 
 protected:
     SpanQueryFilter();
-    SpanQueryFilter( const SpanQueryFilter& copy );
+    SpanQueryFilter(const SpanQueryFilter& copy);
 
 public:
     /** Constructs a filter which only matches documents matching
      * <code>query</code>.
      * @param query The {@link org.apache.lucene.search.spans.SpanQuery} to use as the basis for the Filter.
      */
-    SpanQueryFilter( const CL_NS2(search,spans)::SpanQuery * query );
+    SpanQueryFilter(const CL_NS2(search, spans)::SpanQuery * query);
 
-    SpanQueryFilter( CL_NS2(search,spans)::SpanQuery * query, bool bDeleteQuery );
+    SpanQueryFilter(CL_NS2(search, spans)::SpanQuery * query, bool bDeleteQuery);
 
     virtual ~SpanQueryFilter();
 
     virtual Filter* clone() const;
 
-    virtual CL_NS(util)::BitSet* bits( CL_NS(index)::IndexReader * reader );
+    virtual CL_NS(util)::BitSet* bits(CL_NS(index)::IndexReader * reader);
 
-    virtual SpanFilterResult * bitSpans( CL_NS(index)::IndexReader * reader );
+    virtual SpanFilterResult * bitSpans(CL_NS(index)::IndexReader * reader);
 
-    CL_NS2(search,spans)::SpanQuery * getQuery();
+    CL_NS2(search, spans)::SpanQuery * getQuery();
 
     virtual TCHAR* toString();
 
@@ -59,13 +59,13 @@ public:
 //     public boolean equals( Object o ) {
 //         return o instanceof SpanQueryFilter && this.query.equals(((SpanQueryFilter) o).query);
 //     }
-// 
+//
 //     public int hashCode() {
 //         return query.hashCode() ^ 0x923F64B9;
 //     }
 };
 
-inline CL_NS2(search,spans)::SpanQuery * SpanQueryFilter::getQuery()
+inline CL_NS2(search, spans)::SpanQuery * SpanQueryFilter::getQuery()
 {
     return query;
 }

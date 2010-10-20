@@ -35,8 +35,8 @@
 
 /*------------------------------------------------------------------------------
 * Copyright (C) 2003-2006 Ben van Klinken and the CLucene Team
-* 
-* Distributable under the terms of either the Apache License (Version 2.0) or 
+*
+* Distributable under the terms of either the Apache License (Version 2.0) or
 * the GNU Lesser General Public License, as specified in the COPYING file.
 ------------------------------------------------------------------------------*/
 
@@ -56,53 +56,74 @@ class md5
 {
 // Methods
 public:
-	md5() { Init(); }
-	void	Init();
-	void	Update(uint8_t* chInput, uint32_t nInputLen);
-	void	Finalize();
-	uint8_t*	Digest() { return m_Digest; }
+    md5() {
+        Init();
+    }
+    void    Init();
+    void    Update(uint8_t* chInput, uint32_t nInputLen);
+    void    Finalize();
+    uint8_t*    Digest() {
+        return m_Digest;
+    }
 
 private:
 
-	void	Transform(uint8_t* block);
-	void	Encode(uint8_t* dest, uint32_t* src, uint32_t nLength);
-	void	Decode(uint32_t* dest, uint8_t* src, uint32_t nLength);
+    void    Transform(uint8_t* block);
+    void    Encode(uint8_t* dest, uint32_t* src, uint32_t nLength);
+    void    Decode(uint32_t* dest, uint8_t* src, uint32_t nLength);
 
 
-	inline	uint32_t	rotate_left(uint32_t x, uint32_t n)
-	                 { return ((x << n) | (x >> (32-n))); }
+    inline  uint32_t    rotate_left(uint32_t x, uint32_t n) {
+        return ((x << n) | (x >> (32 - n)));
+    }
 
-	inline	uint32_t	F(uint32_t x, uint32_t y, uint32_t z)
-	                 { return ((x & y) | (~x & z)); }
+    inline  uint32_t    F(uint32_t x, uint32_t y, uint32_t z) {
+        return ((x & y) | (~x & z));
+    }
 
-	inline  uint32_t	G(uint32_t x, uint32_t y, uint32_t z)
-	                 { return ((x & z) | (y & ~z)); }
+    inline  uint32_t    G(uint32_t x, uint32_t y, uint32_t z) {
+        return ((x & z) | (y & ~z));
+    }
 
-	inline  uint32_t	H(uint32_t x, uint32_t y, uint32_t z)
-	                 { return (x ^ y ^ z); }
+    inline  uint32_t    H(uint32_t x, uint32_t y, uint32_t z) {
+        return (x ^ y ^ z);
+    }
 
-	inline  uint32_t	I(uint32_t x, uint32_t y, uint32_t z)
-	                 { return (y ^ (x | ~z)); }
+    inline  uint32_t    I(uint32_t x, uint32_t y, uint32_t z) {
+        return (y ^(x | ~z));
+    }
 
-	inline	void	FF(uint32_t& a, uint32_t b, uint32_t c, uint32_t d, uint32_t x, uint32_t s, uint32_t ac)
-	                 { a += F(b, c, d) + x + ac; a = rotate_left(a, s); a += b; }
+    inline  void    FF(uint32_t& a, uint32_t b, uint32_t c, uint32_t d, uint32_t x, uint32_t s, uint32_t ac) {
+        a += F(b, c, d) + x + ac;
+        a = rotate_left(a, s);
+        a += b;
+    }
 
-	inline	void	GG(uint32_t& a, uint32_t b, uint32_t c, uint32_t d, uint32_t x, uint32_t s, uint32_t ac)
-                     { a += G(b, c, d) + x + ac; a = rotate_left(a, s); a += b; }
+    inline  void    GG(uint32_t& a, uint32_t b, uint32_t c, uint32_t d, uint32_t x, uint32_t s, uint32_t ac) {
+        a += G(b, c, d) + x + ac;
+        a = rotate_left(a, s);
+        a += b;
+    }
 
-	inline	void	HH(uint32_t& a, uint32_t b, uint32_t c, uint32_t d, uint32_t x, uint32_t s, uint32_t ac)
-                     { a += H(b, c, d) + x + ac; a = rotate_left(a, s); a += b; }
+    inline  void    HH(uint32_t& a, uint32_t b, uint32_t c, uint32_t d, uint32_t x, uint32_t s, uint32_t ac) {
+        a += H(b, c, d) + x + ac;
+        a = rotate_left(a, s);
+        a += b;
+    }
 
-	inline	void	II(uint32_t& a, uint32_t b, uint32_t c, uint32_t d, uint32_t x, uint32_t s, uint32_t ac)
-                     { a += I(b, c, d) + x + ac; a = rotate_left(a, s); a += b; }
+    inline  void    II(uint32_t& a, uint32_t b, uint32_t c, uint32_t d, uint32_t x, uint32_t s, uint32_t ac) {
+        a += I(b, c, d) + x + ac;
+        a = rotate_left(a, s);
+        a += b;
+    }
 
 // Data
 private:
-	uint32_t		m_State[4];
-	uint32_t		m_Count[2];
-	uint8_t		m_Buffer[64];
-	uint8_t		m_Digest[16];
-	uint8_t		m_Finalized;
+    uint32_t        m_State[4];
+    uint32_t        m_Count[2];
+    uint8_t     m_Buffer[64];
+    uint8_t     m_Digest[16];
+    uint8_t     m_Finalized;
 
 };
 
