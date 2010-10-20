@@ -11,6 +11,6 @@ SearchResult* Search::search(SearchQuery query)
     if(query.searchInNotes) {
         m_notes->search(query, result);
     }
-    result.sort();//todo: move maybe to the display section, to avoid double sorting if there is the possibilty to change sort settings
+    result->sort();//todo: move maybe to the display section, to avoid double sorting if there is the possibilty to change sort settings
     return result;
 }

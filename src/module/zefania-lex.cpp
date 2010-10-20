@@ -38,6 +38,26 @@ using namespace lucene::queryParser;
 using namespace lucene::document;
 using namespace lucene::analysis::standard;
 #endif
+
+#else
+#include <CLucene.h>
+#include <CLucene/util/dirent.h>
+#include <CLucene/util/StringBuffer.h>
+#include "CLucene/StdHeader.h"
+#include "CLucene/_clucene-config.h"
+
+#include "CLucene/config/repl_tchar.h"
+#include "CLucene/config/repl_wchar.h"
+#include "CLucene/util/Misc.h"
+
+using namespace lucene::store;
+using namespace std;
+using namespace lucene::analysis;
+using namespace lucene::index;
+using namespace lucene::util;
+using namespace lucene::queryParser;
+using namespace lucene::document;
+using namespace lucene::search;
 #endif
 ZefaniaLex::ZefaniaLex()
 {
@@ -51,8 +71,9 @@ void ZefaniaLex::setSettings(Settings *settings)
   */
 QString ZefaniaLex::loadFile(QString fileData, QString fileName)
 {
+    DEBUG_FUNC_NAME
     m_modulePath = fileName;
-#ifdef _CLUCENE_LEGACY
+
     //todo: progressdialog
     /* QProgressDialog progress(QObject::tr("Loading Strongmodule"), QObject::tr("Cancel"), 0, 100);
      progress.setWindowModality(Qt::WindowModal);
@@ -64,7 +85,7 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
     const QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
     QDir dir("/");
     dir.mkpath(index);
-
+    #ifdef _CLUCENE_LEGACY
     // do not use any stop words
     const TCHAR* stop_words[]  = { NULL };
     StandardAnalyzer an((const TCHAR**)stop_words);
@@ -78,19 +99,37 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
 
     QByteArray textBuffer;
     wchar_t wcharBuffer[ IndexWriter::DEFAULT_MAX_FIELD_LENGTH + 1];
+    #else
+    IndexWriter* writer = NULL;
+    const TCHAR* stop_words[] = { NULL };
+    standard::StandardAnalyzer an(stop_words);
 
-    KoXmlDocument doc;
+    if(IndexReader::indexExists(index.toStdString().c_str())) {
+        if(IndexReader::isLocked(index.toStdString().c_str())) {
+            myDebug() << "Index was locked... unlocking it.";
+            IndexReader::unlock(index.toStdString().c_str());
+        }
+    }
+    writer = _CLNEW IndexWriter(index.toStdString().c_str() , &an, true);
+
+    writer->setMaxFieldLength(0x7FFFFFFFL);
+    writer->setUseCompoundFile(false);
+
+    //index
+    Document indexdoc;
+    #endif
+    KoXmlDocument xmldoc;
     QString errorMsg;
     int eLine;
     int eCol;
-    if(!doc.setContent(fileData, &errorMsg, &eLine, &eCol)) {
+    if(!xmldoc.setContent(fileData, &errorMsg, &eLine, &eCol)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
         myWarning() << "the file isn't valid error = " << errorMsg << eLine << eCol << fileData.remove(1000, fileData.size());
         return QString();
     }
 
     // progress.setMaximum(doc.documentElement().childNodesCount()+1);
-    KoXmlNode item = doc.documentElement().firstChild();
+    KoXmlNode item = xmldoc.documentElement().firstChild();
     for(int c = 0; !item.isNull();) {
         //  progress.setValue(c+2);
         QString id = "";
@@ -163,7 +202,7 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
                 ret += " [" + pron + "] ";
             }
             ret += "<br />" + desc;
-
+            #ifdef _CLUCENE_LEGACY
             QScopedPointer< Document> doc(new  Document());
 
             lucene_utf8towcs(wcharBuffer, id.toUtf8().constData(),      IndexWriter::DEFAULT_MAX_FIELD_LENGTH);
@@ -177,21 +216,32 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
                                   Field::STORE_YES |  Field::INDEX_TOKENIZED)));
             textBuffer.resize(0); //clean up
             writer->addDocument(doc.data());
+            #else
+            indexdoc.clear();
+            indexdoc.add(*_CLNEW Field(_T("key"), id.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+            indexdoc.add(*_CLNEW Field(_T("content"), ret.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+            writer->addDocument(&indexdoc);
+            #endif
 
         }
         item = item.nextSibling();
         c++;
     }
+    #ifdef _CLUCENE_LEGACY
     doc.clear();
     doc.unload();
 
     writer->optimize();
     writer->close();
 
+    #else
+    writer->setUseCompoundFile(true);
+    writer->optimize();
+
+    writer->close();
+    _CLLDELETE(writer);
+    #endif
     return fileTitle;
-#else
-    return "";
-#endif
 }
 /**
   Returns a Entry.
@@ -199,9 +249,12 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
   */
 QString ZefaniaLex::getEntry(const QString &id)
 {
-#ifdef _CLUCENE_LEGACY
-    QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
+    DEBUG_FUNC_NAME
+    const QString index = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
     const QString queryText = "key:" + id;
+    myDebug() << "index = " << index;
+#ifdef _CLUCENE_LEGACY
+
     char utfBuffer[  IndexWriter::DEFAULT_MAX_FIELD_LENGTH  + 1];
     wchar_t wcharBuffer[  IndexWriter::DEFAULT_MAX_FIELD_LENGTH + 1];
     const TCHAR* stop_words[]  = { NULL };
@@ -218,6 +271,17 @@ QString ZefaniaLex::getEntry(const QString &id)
         return content;
     }
 #else
+    const TCHAR* stop_words[] = { NULL };
+    standard::StandardAnalyzer analyzer(stop_words);
+    IndexReader* reader = IndexReader::open(index.toStdString().c_str());
+    IndexSearcher s(reader);
+    Query* q = QueryParser::parse(queryText.toStdWString().c_str(), _T("content"), &analyzer); //todo: or use querytext and as the field content
+    Hits* h = s.search(q);
+    myDebug() << "hits = " << h->length() << "queryText = " << queryText;
+    for(size_t i = 0; i < h->length(); i++) {
+        Document* doc = &h->doc(i);
+        return QString::fromWCharArray(doc->get(_T("content")));
+    }
     return QString();
 #endif
 }

@@ -797,10 +797,9 @@ void ZefaniaBible::buildIndex()
             myDebug() << "Index was locked... unlocking it.";
             IndexReader::unlock(index.toStdString().c_str());
         }
-        writer = _CLNEW IndexWriter(index.toStdString().c_str(), &an, false);
-    } else {
-        writer = _CLNEW IndexWriter(index.toStdString().c_str() , &an, true);
     }
+    writer = _CLNEW IndexWriter(index.toStdString().c_str() , &an, true);
+
     writer->setMaxFieldLength(0x7FFFFFFFL);
     writer->setUseCompoundFile(false);
 
