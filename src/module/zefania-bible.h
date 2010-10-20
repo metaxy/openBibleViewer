@@ -75,6 +75,8 @@ private:
     Book softCache(const int &bookID) const;
     QDomNode readBookFromHardCache(QString path, int bookID);
 
+    QString indexPath() const;
+
 };
 
 #endif // ZEFANIABIBLE_H

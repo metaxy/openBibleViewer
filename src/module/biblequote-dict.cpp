@@ -17,22 +17,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QProgressDialog>
 #include <QtCore/QTextStream>
 #include "src/core/dbghelper.h"
-#include "config.h"
-#include <CLucene.h>
-#include <CLucene/util/dirent.h>
-#include <CLucene/util/StringBuffer.h>
-#include "CLucene/StdHeader.h"
+#include "CLucene.h"
 #include "CLucene/_clucene-config.h"
 
-#include "CLucene/config/repl_tchar.h"
-#include "CLucene/config/repl_wchar.h"
-#include "CLucene/util/Misc.h"
 
-using namespace lucene::store;
-using namespace std;
+
+
 using namespace lucene::analysis;
 using namespace lucene::index;
-using namespace lucene::util;
 using namespace lucene::queryParser;
 using namespace lucene::document;
 using namespace lucene::search;

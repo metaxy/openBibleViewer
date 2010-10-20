@@ -27,20 +27,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QProgressDialog>
 #include <QtXml/QDomElement>
 
-#include <CLucene.h>
-#include <CLucene/util/dirent.h>
-#include <CLucene/util/StringBuffer.h>
-#include "CLucene/StdHeader.h"
+#include "CLucene.h"
 #include "CLucene/_clucene-config.h"
 
-#include "CLucene/config/repl_tchar.h"
-#include "CLucene/config/repl_wchar.h"
-#include "CLucene/util/Misc.h"
-
-using namespace lucene::store;
 using namespace lucene::analysis;
 using namespace lucene::index;
-using namespace lucene::util;
 using namespace lucene::queryParser;
 using namespace lucene::document;
 using namespace lucene::search;
@@ -176,8 +167,8 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
             }
             ret += "<br />" + desc;
             indexdoc.clear();
-            indexdoc.add(*_CLNEW Field(_T("key"), id.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-            indexdoc.add(*_CLNEW Field(_T("content"), ret.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+            indexdoc.add(*new Field(_T("key"), id.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+            indexdoc.add(*new Field(_T("content"), ret.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
             writer->addDocument(&indexdoc);
 
         }
