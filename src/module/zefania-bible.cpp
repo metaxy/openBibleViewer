@@ -158,8 +158,9 @@ void ZefaniaBible::readBook(const int &id)
         while(!n2.isNull()) {  //alle verse
             verseCount++;
             QDomElement e2 = n2.toElement();
+            e2 = format(e2);
             if(e2.tagName().toLower() == "vers") { // read only verse
-                c.data <<  e2.text();
+                c.data << e2.text();
                 c.verseNumber << e2.attribute("vnumber", "");
             } //todo: all other data
             n2 = n2.nextSibling();
@@ -173,9 +174,45 @@ void ZefaniaBible::readBook(const int &id)
 
         n = n.nextSibling();
     }
+    //m_book = fromHardToSoft(m_bookID, ncache);
 
     m_bookCount[id] = i;
     setSoftCache(m_bookID, m_book);
+}
+/**
+  Convert a node into a chapterlist.
+  \param bookID The bookID.
+  \param ncache The node to convert.
+  */
+Book ZefaniaBible::fromHardToSoft(const int &bookID, QDomNode ncache)
+{
+    Book book;
+    QDomNode n = ncache.firstChild();
+    int i;
+    for(i = 0; !n.isNull(); ++i) {
+        QDomElement e = n.toElement();
+        Chapter c;
+        QDomNode n2 = n.firstChild();
+        int verseCount = 0;
+        while(!n2.isNull()) {  //alle verse
+            verseCount++;
+            QDomElement e2 = n2.toElement();
+            e2 = format(e2);
+            if(e2.tagName().toLower() == "vers") { // read only verse
+                c.data <<  e2.text();
+                c.verseNumber << e2.attribute("vnumber", "");
+            } //todo: all other data
+            n2 = n2.nextSibling();
+        }
+        c.chapterName = e.attribute("cnumber", QString::number(i));
+        c.chapterID = c.chapterName.toInt() - 1;
+
+        c.verseCount = verseCount;
+        c.bookName = m_bookFullName.at(m_bookIDs.indexOf(QString::number(bookID)));//todo: use also in zefania-bible the qhash system
+        book.addChapter(c.chapterID, c);
+        n = n.nextSibling();
+    }
+    return book;
 }
 QDomElement ZefaniaBible::format(QDomElement e)
 {
@@ -193,7 +230,7 @@ QDomElement ZefaniaBible::format(QDomElement e)
             }
             node.replaceChild(t, node.firstChild());
             e.replaceChild(node, n);
-        } else if((n.nodeName().toLower() == "gram" || n.nodeName().toLower() == "gr") && n.toElement().attribute("str", "") != "" && moduleSettings.zefbible_showStrong == true) {
+        } else if(moduleSettings.zefbible_showStrong == true && (n.nodeName().toLower() == "gram" || n.nodeName().toLower() == "gr") && n.toElement().attribute("str", "") != "" ) {
             QDomNode node = n;
             QDomText t = n.firstChild().toText();
             QDomElement b = n.toElement();
@@ -567,39 +604,7 @@ QString ZefaniaBible::readInfo(const QString &content)
     m_bibleName = root.attribute("biblename", "");
     return m_bibleName;
 }
-/**
-  Convert a node into a chapterlist.
-  \param bookID The bookID.
-  \param ncache The node to convert.
-  */
-Book ZefaniaBible::fromHardToSoft(const int &bookID, QDomNode ncache)
-{
-    Book book;
-    QDomNode n = ncache.firstChild();
-    for(int i = 0; !n.isNull(); ++i) {
-        Chapter c;
-        QDomNode n2 = n.firstChild();
-        QDomElement e = n.toElement();
-        int verseCount = 0;
-        while(!n2.isNull()) {
-            verseCount++;
-            QDomElement e2 = n2.toElement();
-            e2 = format(e2);
-            c.data.append(e2.text());
-            c.verseNumber.append(e2.attribute("vnumber", ""));
-            n2 = n2.nextSibling();
-        }
-        c.chapterName = e.attribute("cnumber", QString::number(i));
-        c.chapterID = c.chapterName.toInt() - 1;//i count from zero
-        c.verseCount = verseCount;
-        c.bookName = m_bookFullName.at(bookID);
 
-        book.addChapter(c.chapterID, c);
-
-        n = n.nextSibling();
-    }
-    return book;
-}
 bool ZefaniaBible::hasIndex() const
 {
     DEBUG_FUNC_NAME
