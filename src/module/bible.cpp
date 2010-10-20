@@ -288,11 +288,11 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
 
 
             if(i == markVerseID) {
-                vers.prepend("<a name=\"currentVerse\"><span style=\"font-weight: bold;\">");
-                vers.append("</span></a>");
+                vers.prepend("<span style=\"font-weight: bold;\">");
+                vers.append("</span>");
             }
             if(moduleSettings.zefbible_textFormatting == 0) {
-                vers.prepend("<sup>" + c.verseNumber.at(i) + "</sup> ");
+                vers.prepend("<a name=\"currentVerse\"><sup>" + c.verseNumber.at(i) + "</sup></a> ");
                 vers.append("<br />");
             } else {
                 vers.prepend("<sup>" + c.verseNumber.at(i) + "</sup> ");
@@ -306,7 +306,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     default:
         return "";
     }
-    //now everything is readed
+    //now everything is read
     //insert marks
     if(m_notes != 0 && m_bibleDisplaySettings->loadNotes == true) {
         for(int n = 0; n <  m_notes->getIDList().size(); ++n) {
@@ -408,6 +408,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
 
     if(saveRawData)
         m_lastout = out;
+    myDebug() << out;
     return out;
 }
 

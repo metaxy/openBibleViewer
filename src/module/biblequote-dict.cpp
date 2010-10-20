@@ -85,11 +85,17 @@ void BibleQuoteDict::buildIndex()
 
     QFileInfo htmlFileInfo;
     foreach(QFileInfo info, list) {
-        if((info.suffix() == "html" || info.suffix() == "htm") && info.baseName().compare(fileInfo.baseName(), Qt::CaseInsensitive) == 0) {
+        if((info.suffix().compare("html",Qt::CaseInsensitive) == 0 || info.suffix().compare("htm",Qt::CaseInsensitive) == 0) && info.baseName().compare(fileInfo.baseName(), Qt::CaseInsensitive) == 0) {
             htmlFileInfo = info;
+            break;
         }
     }
     myDebug() << htmlFileInfo.absoluteFilePath();
+    if(!htmlFileInfo.isReadable() || !fileInfo.isReadable()) {
+        myWarning() << "cannot open file to build index";
+        //todo: qmessagebox
+        return;
+    }
 
     QFile configFile(fileInfo.absoluteFilePath());
     QFile htmlFile(htmlFileInfo.absoluteFilePath());
@@ -135,7 +141,7 @@ void BibleQuoteDict::buildIndex()
     myDebug() << title << pre;
 
     while(!configIn.atEnd()) {
-        int n = num;
+        long n = num;
         const QString key = id;
         id = configIn.readLine();
         num = configIn.readLine().toLong();
@@ -155,14 +161,13 @@ void BibleQuoteDict::buildIndex()
     _CLLDELETE(writer);
 }
 
-QString BibleQuoteDict::getEntry(const QString &id)
+QString BibleQuoteDict::getEntry(const QString &key)
 {
     DEBUG_FUNC_NAME
     if(!hasIndex())
         buildIndex();
     const QString index = indexPath();
-    const QString queryText = "key:" + id;
-    myDebug() << queryText;
+    const QString queryText = "key:" + key;
 
     const TCHAR* stop_words[] = { NULL };
     standard::StandardAnalyzer analyzer(stop_words);
@@ -171,14 +176,13 @@ QString BibleQuoteDict::getEntry(const QString &id)
     Query* q = QueryParser::parse(queryText.toStdWString().c_str(), _T("content"), &analyzer); //todo: or use querytext and as the field content
     Hits* h = s.search(q);
     QString ret = "";
-    myDebug() << "hits = " << h->length();
     for(size_t i = 0; i < h->length(); i++) {
         Document* doc = &h->doc(i);
         if(!ret.isEmpty())
             ret.append("<hr /> ");
-        ret.append(QString::fromWCharArray(doc->get(_T("content"))));
+        ret.append("<b>"+QString::fromWCharArray(doc->get(_T("key")))+"</b><br />"+ QString::fromWCharArray(doc->get(_T("content"))));
     }
-    return ret;
+    return ret.isEmpty() ? QObject::tr("Nothing found for %1").arg(key) : ret;
 }
 QStringList BibleQuoteDict::getAllKeys()
 {
@@ -188,12 +192,10 @@ QStringList BibleQuoteDict::getAllKeys()
     const QString index = indexPath();
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     QStringList ret;
-    myDebug() << "hits = " << reader->numDocs();
     for(size_t i = 0; i < reader->numDocs(); i++) {
         Document* doc = reader->document(i);
         ret.append(QString::fromWCharArray(doc->get(_T("key"))));
     }
-    myDebug() << ret;
     return ret;
 }
 QString BibleQuoteDict::indexPath() const

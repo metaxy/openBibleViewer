@@ -196,11 +196,14 @@ QString ZefaniaLex::getEntry(const QString &key)
     IndexSearcher s(reader);
     Query* q = QueryParser::parse(queryText.toStdWString().c_str(), _T("content"), &analyzer);
     Hits* h = s.search(q);
+    QString ret = "";
     for(size_t i = 0; i < h->length(); i++) {
         Document* doc = &h->doc(i);
-        return QString::fromWCharArray(doc->get(_T("content")));
+        if(!ret.isEmpty())
+            ret.append("<hr /> ");
+        ret.append("<b>"+QString::fromWCharArray(doc->get(_T("key")))+"</b><br />"+ QString::fromWCharArray(doc->get(_T("content"))));
     }
-    return QString();
+    return ret.isEmpty() ? QObject::tr("Nothing found for %1").arg(key) : ret;
 }
 
 QStringList ZefaniaLex::getAllKeys()
