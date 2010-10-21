@@ -51,12 +51,15 @@ AdvancedInterface::AdvancedInterface(QWidget *parent) :
 AdvancedInterface::~AdvancedInterface()
 {
     m_windowCache.clearAll();
+    if(m_bibleDisplaySettings != NULL) {
+        delete m_bibleDisplaySettings;
+        m_bibleDisplaySettings = 0;
+    }
 
-    delete m_moduleManager->m_bibleDisplaySettings;
-    m_moduleManager->m_bibleDisplaySettings = 0;
-
-    delete ui;
-    ui = 0;
+    if(ui != NULL) {
+        delete ui;
+        ui = 0;
+    }
 }
 
 void AdvancedInterface::setBookDockWidget(BookDockWidget *bookDockWidget)
