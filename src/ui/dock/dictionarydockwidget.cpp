@@ -21,6 +21,7 @@ DictionaryDockWidget::DictionaryDockWidget(QWidget *parent) :
     ui(new Ui::DictionaryDockWidget)
 {
     ui->setupUi(this);
+    connect(ui->lineEdit_strong, SIGNAL(returnPressed()), this, SLOT(search()));
 
 }
 
@@ -58,7 +59,7 @@ void DictionaryDockWidget::init()
 void DictionaryDockWidget::search()
 {
     QString s = ui->lineEdit_strong->text();
-    if(s.size() > 0)
+    if(!s.isEmpty())
         showStrong(s);
 }
 void DictionaryDockWidget::showStrong(QString strongID)
@@ -85,6 +86,7 @@ void DictionaryDockWidget::loadModule(int id)
         completer->setCaseSensitivity(Qt::CaseInsensitive);
         ui->lineEdit_strong->setCompleter(completer);
     }
+    search();
 }
 
 void DictionaryDockWidget::changeEvent(QEvent *e)
