@@ -29,7 +29,7 @@ class ZefaniaLex
 public:
     ZefaniaLex();
     void setSettings(Settings *settings);
-    QString loadFile(QString fileData, QString fileName);
+    QString loadFile(const QString &fileData,const QString &fileName);
     QString getEntry(const QString &entry);
     QString m_modulePath;
     QStringList getAllKeys();

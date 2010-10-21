@@ -20,15 +20,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "CLucene.h"
 #include "CLucene/_clucene-config.h"
 
-
-
-
 using namespace lucene::analysis;
 using namespace lucene::index;
 using namespace lucene::queryParser;
 using namespace lucene::document;
 using namespace lucene::search;
-
 
 BibleQuoteDict::BibleQuoteDict()
 {
@@ -71,14 +67,14 @@ bool BibleQuoteDict::hasIndex()
     //todo: check versions
     return IndexReader::indexExists(index.toStdString().c_str());
 }
-void BibleQuoteDict::buildIndex()
+int BibleQuoteDict::buildIndex()
 {
     DEBUG_FUNC_NAME
 
     // pharse both and add docs to the indexwriter
-    myDebug() << m_modulePath;
+    //myDebug() << m_modulePath;
     QFileInfo fileInfo(m_modulePath);
-    myDebug() << fileInfo.absoluteDir();
+    //myDebug() << fileInfo.absoluteDir();
     QDir moduleDir(fileInfo.absoluteDir());
     moduleDir.setFilter(QDir::Files);
     QFileInfoList list = moduleDir.entryInfoList();
@@ -90,11 +86,11 @@ void BibleQuoteDict::buildIndex()
             break;
         }
     }
-    myDebug() << htmlFileInfo.absoluteFilePath();
+    //myDebug() << htmlFileInfo.absoluteFilePath();
     if(!htmlFileInfo.isReadable() || !fileInfo.isReadable()) {
         myWarning() << "cannot open file to build index";
         //todo: qmessagebox
-        return;
+        return 1;
     }
 
     QFile configFile(fileInfo.absoluteFilePath());
@@ -103,8 +99,10 @@ void BibleQuoteDict::buildIndex()
     const QString encoding = m_settings->encoding;
     QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
 
-    if(!configFile.open(QIODevice::ReadOnly | QIODevice::Text) || !htmlFile.open(QIODevice::ReadOnly | QIODevice::Text))
-        return;
+    if(!configFile.open(QIODevice::ReadOnly | QIODevice::Text) || !htmlFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        myWarning() << "cannot open file to build index";
+        return 1;
+    }
     QTextStream configIn(&configFile);
     configIn.setCodec(codec);
     QTextStream htmlIn(&htmlFile);
@@ -126,7 +124,7 @@ void BibleQuoteDict::buildIndex()
             IndexReader::unlock(index.toStdString().c_str());
         }
     }
-    writer = _CLNEW IndexWriter(index.toStdString().c_str() , &an, true);
+    writer = new IndexWriter(index.toStdString().c_str() , &an, true);
 
     writer->setMaxFieldLength(0x7FFFFFFFL);
     writer->setUseCompoundFile(false);
@@ -158,14 +156,18 @@ void BibleQuoteDict::buildIndex()
     writer->optimize();
 
     writer->close();
-    _CLLDELETE(writer);
+    delete writer;
+    return 0;
 }
 
 QString BibleQuoteDict::getEntry(const QString &key)
 {
     DEBUG_FUNC_NAME
-    if(!hasIndex())
-        buildIndex();
+    if(!hasIndex()) {
+        if(buildIndex() != 0) {
+            return QObject::tr("Cannot build index.");
+        }
+    }
     const QString index = indexPath();
     const QString queryText = "key:" + key;
 
@@ -180,7 +182,7 @@ QString BibleQuoteDict::getEntry(const QString &key)
         Document* doc = &h->doc(i);
         if(!ret.isEmpty())
             ret.append("<hr /> ");
-        ret.append("<b>"+QString::fromWCharArray(doc->get(_T("key")))+"</b><br />"+ QString::fromWCharArray(doc->get(_T("content"))));
+        ret.append(QString::fromWCharArray(doc->get(_T("content"))));
     }
     return ret.isEmpty() ? QObject::tr("Nothing found for %1").arg(key) : ret;
 }

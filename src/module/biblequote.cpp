@@ -15,13 +15,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include <QtCore/QString>
 #include <QtCore/QFile>
-#include <QtCore/QTextCodec>
+
 #include <QtCore/QDir>
 #include <QtGui/QProgressDialog>
 #include <QtGui/QMessageBox>
 #include "CLucene.h"
 #include "CLucene/_clucene-config.h"
-
 
 using namespace lucene::store;
 using namespace lucene::analysis;
@@ -30,12 +29,15 @@ using namespace lucene::queryParser;
 using namespace lucene::document;
 using namespace lucene::search;
 
-
 BibleQuote::BibleQuote()
 {
     m_bibleID = -1;
+    m_codec = NULL;
 }
+BibleQuote::~BibleQuote()
+{
 
+}
 void BibleQuote::setSettings(Settings *set)
 {
     m_settings = set;
@@ -47,6 +49,7 @@ QString BibleQuote::formatFromIni(QString input)
 }
 void BibleQuote::loadBibleData(const int &bibleID, QString path)
 {
+
     //DEBUG_FUNC_NAME
     m_bibleID = bibleID;
     m_bookFullName.clear();
@@ -74,8 +77,8 @@ void BibleQuote::loadBibleData(const int &bibleID, QString path)
     } else {
         encoding = m_settings->getModuleSettings(m_bibleID).encoding;
     }
-    QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
-    QTextDecoder *decoder = codec->makeDecoder();
+    m_codec = QTextCodec::codecForName(encoding.toStdString().c_str());
+    QTextDecoder *decoder = m_codec->makeDecoder();
     if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         int i = 0;
         while(!file.atEnd()) {
@@ -148,16 +151,16 @@ QString BibleQuote::readInfo(QFile &file)
     m_bibleName.clear();
     m_bibleShortName.clear();
     int countlines = 0;
-    QString encoding;
-    if(m_settings->getModuleSettings(m_bibleID).encoding == "Default" || m_settings->getModuleSettings(m_bibleID).encoding == "") {
-        encoding = m_settings->encoding;
-    } else {
-        encoding = m_settings->getModuleSettings(m_bibleID).encoding;
+    if(m_codec == NULL) {
+        QString encoding;
+        if(m_settings->getModuleSettings(m_bibleID).encoding == "Default" || m_settings->getModuleSettings(m_bibleID).encoding == "") {
+            encoding = m_settings->encoding;
+        } else {
+            encoding = m_settings->getModuleSettings(m_bibleID).encoding;
+        }
+        m_codec = QTextCodec::codecForName(encoding.toStdString().c_str());
     }
-    if(encoding == "")
-        encoding = m_settings->encoding;
-    QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
-    QTextDecoder *decoder = codec->makeDecoder();
+    QTextDecoder *decoder = m_codec->makeDecoder();
     while(!file.atEnd()) {
         /*if (countlines > 50) { //wenn eine ini datei ungueltig ist soll damit nicht zuviel zeit verguedet werden
             break;
@@ -214,28 +217,17 @@ int BibleQuote::readBook(const int &id, QString path)
     const QStringList removeHtml2 = m_removeHtml.split(" ");
 
     if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QString encoding;
-        if(m_settings->getModuleSettings(m_bibleID).encoding == "Default" || m_settings->getModuleSettings(m_bibleID).encoding == "") {
-            encoding = m_settings->encoding;
-        } else {
-            encoding = m_settings->getModuleSettings(m_bibleID).encoding;
-        }
-        //myDebug() << "encoding = " << encoding;
-        QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
-        QTextDecoder *decoder = codec->makeDecoder();
+        QTextDecoder *decoder = m_codec->makeDecoder();
         while(!file.atEnd()) {
             const QByteArray byteline = file.readLine();
             QString line = decoder->toUnicode(byteline);
 
             //filterout
             if(m_settings->getModuleSettings(m_bibleID).biblequote_removeHtml == true && removeHtml2.size() > 0) {
-                foreach(QString r, removeHtml2) {
+                foreach(const QString &r, removeHtml2) {
                     line = line.remove(r, Qt::CaseInsensitive);
                 }
 
-                /*line = line.remove(QRegExp("CLASS=\"(\\w+)\">"));
-                line = line.remove(QRegExp("<DIV CLASS=\"(\\w+)\">"));
-                line = line.remove("CLASS=\"Tx\">");*/
             }
             out2 += line;
             if(chapterstarted == false && line.contains(m_chapterSign)) {
@@ -258,7 +250,7 @@ int BibleQuote::readBook(const int &id, QString path)
         QDir d(info.absoluteDir());
         QStringList list = d.entryList();
 
-        foreach(QString f, list) {
+        foreach(const QString &f, list) {
             QFileInfo info2(f);
             if(info2.baseName().compare(info.baseName(), Qt::CaseInsensitive) == 0) {
                 return readBook(id, f);
@@ -301,8 +293,6 @@ bool BibleQuote::hasIndex() const
     //todo: check versions
 
     return IndexReader::indexExists(indexPath().toStdString().c_str());
-
-
 }
 
 void BibleQuote::buildIndex()
@@ -313,6 +303,16 @@ void BibleQuote::buildIndex()
     dir.mkpath(index);
 
 
+    if(m_codec == NULL) {
+        QString encoding;
+        if(m_settings->getModuleSettings(m_bibleID).encoding == "Default" || m_settings->getModuleSettings(m_bibleID).encoding == "") {
+            encoding = m_settings->encoding;
+        } else {
+            encoding = m_settings->getModuleSettings(m_bibleID).encoding;
+        }
+        m_codec = QTextCodec::codecForName(encoding.toStdString().c_str());
+    }
+
     IndexWriter* writer = NULL;
     lucene::analysis::WhitespaceAnalyzer an;
     if(IndexReader::indexExists(index.toStdString().c_str())) {
@@ -321,7 +321,7 @@ void BibleQuote::buildIndex()
             IndexReader::unlock(index.toStdString().c_str());
         }
     }
-    writer = _CLNEW IndexWriter(index.toStdString().c_str() , &an, true);
+    writer = new IndexWriter(index.toStdString().c_str() , &an, true);
 
     writer->setMaxFieldLength(0x7FFFFFFFL);
     writer->setUseCompoundFile(false);
@@ -334,16 +334,7 @@ void BibleQuote::buildIndex()
     QProgressDialog progress(QObject::tr("Indexing"), QObject::tr("Cancel"), 0, m_bookPath.size());
     progress.setWindowModality(Qt::WindowModal);
 
-    QString encoding;
-    if(m_settings->getModuleSettings(m_bibleID).encoding == "Default" || m_settings->getModuleSettings(m_bibleID).encoding == "") {
-        encoding = m_settings->encoding;
-    } else {
-        encoding = m_settings->getModuleSettings(m_bibleID).encoding;
-    }
-    QTextCodec *codec  = QTextCodec::codecForName(encoding.toStdString().c_str());
-    QScopedPointer<QTextDecoder> decoder(codec->makeDecoder());
-    QByteArray textBuffer;
-
+    QScopedPointer<QTextDecoder> decoder(m_codec->makeDecoder());
 
     for(int id = 0; id < m_bookPath.size(); id++) {
         progress.setValue(id);

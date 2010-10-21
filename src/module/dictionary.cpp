@@ -24,13 +24,12 @@ int Dictionary::loadModuleData(const int &moduleID)
 {
     DEBUG_FUNC_NAME
     m_module = m_map->m_map.value(moduleID);
-    if(moduleID < 0 || !m_module) {
+    if(moduleID < 0 || m_module == NULL) {
         myWarning() << "invalid moduleID = " << moduleID;
         return 1;
     }
     m_moduleID = moduleID;
     const QString path = m_module->m_path;
-
 
     switch(m_moduleType) {
     case Module::ZefaniaLexModule: {
@@ -77,7 +76,7 @@ QString Dictionary::getEntry(const QString &string)
 }
 QStringList Dictionary::getAllKeys()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     switch(m_moduleType) {
     case Module::ZefaniaLexModule: {
         return m_zefaniaLex->getAllKeys();

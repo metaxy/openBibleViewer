@@ -46,22 +46,18 @@ void ZefaniaLex::setSettings(Settings *settings)
 /**
   Load a Zefania XML Lex file the first time. Generates an index for fast access.
   */
-QString ZefaniaLex::loadFile(QString fileData, QString fileName)
+QString ZefaniaLex::loadFile(const QString &fileData, const QString &fileName)
 {
     DEBUG_FUNC_NAME
     m_modulePath = fileName;
 
     //todo: progressdialog
-    /* QProgressDialog progress(QObject::tr("Loading Strongmodule"), QObject::tr("Cancel"), 0, 100);
-     progress.setWindowModality(Qt::WindowModal);
-     progress.setValue(1);*/
-
-
     QString fileTitle = "";
-
     const QString index = indexPath();
+
     QDir dir("/");
     dir.mkpath(index);
+
     IndexWriter* writer = NULL;
     const TCHAR* stop_words[] = { NULL };
     standard::StandardAnalyzer an(stop_words);
@@ -72,15 +68,15 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
             IndexReader::unlock(index.toStdString().c_str());
         }
     }
-    writer = _CLNEW IndexWriter(index.toStdString().c_str() , &an, true);
+    writer = new IndexWriter(index.toStdString().c_str() , &an, true);
 
     writer->setMaxFieldLength(0x7FFFFFFFL);
     writer->setUseCompoundFile(false);
 
     //index
     Document indexdoc;
-
     KoXmlDocument xmldoc;
+
     QString errorMsg;
     int eLine;
     int eCol;
@@ -92,10 +88,8 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
         return QString();
     }
 
-    // progress.setMaximum(doc.documentElement().childNodesCount()+1);
     KoXmlNode item = xmldoc.documentElement().firstChild();
     for(int c = 0; !item.isNull();) {
-        //  progress.setValue(c+2);
         QString id = "";
         QString title = "";
         QString trans = "";
@@ -179,7 +173,7 @@ QString ZefaniaLex::loadFile(QString fileData, QString fileName)
     writer->optimize();
 
     writer->close();
-    _CLLDELETE(writer);
+    delete writer;
     return fileTitle;
 }
 /**
@@ -201,7 +195,7 @@ QString ZefaniaLex::getEntry(const QString &key)
         Document* doc = &h->doc(i);
         if(!ret.isEmpty())
             ret.append("<hr /> ");
-        ret.append("<b>"+QString::fromWCharArray(doc->get(_T("key")))+"</b><br />"+ QString::fromWCharArray(doc->get(_T("content"))));
+        ret.append(QString::fromWCharArray(doc->get(_T("content"))));
     }
     return ret.isEmpty() ? QObject::tr("Nothing found for %1").arg(key) : ret;
 }

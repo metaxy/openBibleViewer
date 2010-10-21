@@ -24,7 +24,7 @@ public:
     void setSettings(Settings *settings);
     QString readInfo(QFile &file);
     QString readInfo(QString data);
-    void buildIndex();
+    int buildIndex();
     bool hasIndex();
     QString getEntry(const QString &id);
     void setID(const int &id, const QString &path);

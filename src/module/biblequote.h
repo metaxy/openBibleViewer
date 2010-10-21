@@ -13,15 +13,18 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BIBLEQUOTE_H
 #define BIBLEQUOTE_H
-#include "src/core/settings.h"
+#include "src/core/book.h"
 #include "src/core/chapter.h"
 #include "src/core/searchquery.h"
 #include "src/core/searchresult.h"
-#include <QtCore/QString>
-#include <QtCore/QStringList>
+#include "src/core/settings.h"
 #include <QtCore/QFile>
 #include <QtCore/QMap>
-#include "src/core/book.h"
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <QtCore/QTextCodec>
+
+
 /*!
  BibleQuote represents a biblequote module
 
@@ -33,6 +36,7 @@ class BibleQuote
 
 public:
     BibleQuote();
+    ~BibleQuote();
     void setSettings(Settings *settings);
     int readBook(const int &id, QString path);
     void loadBibleData(const int &bibleID, QString path);
@@ -61,6 +65,7 @@ private:
     QString m_verseSign;
     QString m_chapterSign;
     QString m_removeHtml;
+    QTextCodec *m_codec;
 };
 
 #endif // BIBLEQUOTE_H

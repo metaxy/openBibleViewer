@@ -296,7 +296,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 vers.append("<br />");
             } else {
                 vers.prepend("<sup>" + c.verseNumber.at(i) + "</sup> ");
-                vers.append("");
+                //vers.append("");
             }
 
             versList << vers;
