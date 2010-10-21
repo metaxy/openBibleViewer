@@ -15,9 +15,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define ZefaniaLex_H
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-#include <QtXml/QDomElement>
-#include <QtXml/QDomDocument>
 #include "src/core/settings.h"
+#include "src/core/KoXmlReader.h"
 /*!
  ZefaniaLex represents a zefaniaxml(lex) module
 
@@ -29,10 +28,13 @@ class ZefaniaLex
 public:
     ZefaniaLex();
     void setSettings(Settings *settings);
-    QString loadFile(const QString &fileData,const QString &fileName);
+    void setID(int moduleID, const QString &path);
+    QString buildIndexFromData(const QString &fileData,const QString &fileName);
     QString getEntry(const QString &entry);
-    QString m_modulePath;
     QStringList getAllKeys();
+    bool hasIndex();
+    int buildIndex();
+    QString buildIndexFromXmlDoc(KoXmlDocument *xmldoc);
 private:
     Settings *m_settings;
     QStringList m_id;
@@ -41,6 +43,8 @@ private:
     QStringList m_pron;
     QStringList m_desc;
     QString indexPath() const;
+    int m_moduleID;
+    QString m_modulePath;
 };
 
 #endif // ZefaniaLex_H

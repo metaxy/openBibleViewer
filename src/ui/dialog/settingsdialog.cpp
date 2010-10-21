@@ -309,10 +309,10 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
             QString moduleTypeName = "";
             BibleQuote bq;
             ZefaniaBible zef;
-            ZefaniaLex zefStrong;
+            ZefaniaLex zefLex;
             BibleQuoteDict bibleQuoteDict;
             ModuleSettings m;
-            zefStrong.setSettings(&m_set);
+            zefLex.setSettings(&m_set);
 
             QFileInfo fileInfo(f);
             if(fileInfo.isFile()) {
@@ -343,7 +343,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                     //todo: find something better
                     if(fileData.contains("BookQty", Qt::CaseInsensitive)) {
                         moduleType = Module::BibleQuoteModule;// BibleQuote
-                    } else if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i allow do this
+                    } else if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i cannot allow this
                               fileData.contains("x-cult", Qt::CaseInsensitive) ||
                               fileData.contains("x-mormon", Qt::CaseInsensitive))) {
                         moduleType = Module::ZefaniaBibleModule;// Zefania Bible
@@ -376,7 +376,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                     break;
                 case Module::ZefaniaLexModule:
                     if(names.size() == 0 || i >= names.size()) {
-                        moduleName = zefStrong.loadFile(fileData, f);
+                        moduleName = zefLex.buildIndexFromData(fileData, f);
                     }
                     moduleTypeName = QObject::tr("Zefania XML Dictionary");
                     break;

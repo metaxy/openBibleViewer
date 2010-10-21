@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "zefania-lex.h"
 
 #include <QtXml/QDomNode>
-#include "src/core/KoXmlReader.h"
+
 #include "src/core/dbghelper.h"
 #include "src/core/bibleurl.h"
 #include <QtCore/QFile>
@@ -25,8 +25,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QDir>
 #include <QtGui/QMessageBox>
 #include <QtGui/QProgressDialog>
-#include <QtXml/QDomElement>
-
+#include "src/core/KoXmlReader.h"
 #include "CLucene.h"
 #include "CLucene/_clucene-config.h"
 
@@ -43,18 +42,118 @@ void ZefaniaLex::setSettings(Settings *settings)
 {
     m_settings = settings;
 }
+void ZefaniaLex::setID(int moduleID, const QString &path)
+{
+    m_moduleID = moduleID;
+    m_modulePath = path;
+}
+
 /**
   Load a Zefania XML Lex file the first time. Generates an index for fast access.
   */
-QString ZefaniaLex::loadFile(const QString &fileData, const QString &fileName)
+QString ZefaniaLex::buildIndexFromData(const QString &fileData, const QString &fileName)
 {
     DEBUG_FUNC_NAME
     m_modulePath = fileName;
 
-    //todo: progressdialog
-    QString fileTitle = "";
-    const QString index = indexPath();
+    KoXmlDocument xmldoc;
 
+    QString errorMsg;
+    int eLine;
+    int eCol;
+    if(!xmldoc.setContent(fileData, &errorMsg, &eLine, &eCol)) {
+        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
+        myWarning() << "the file isn't valid , error = " << errorMsg
+                    << " line = " << eLine
+                    << " column = " << eCol;
+        return QString();
+    }
+    return buildIndexFromXmlDoc(&xmldoc);
+}
+/**
+  Returns a Entry.
+  \id The key of the entry.
+  */
+QString ZefaniaLex::getEntry(const QString &key)
+{
+    if(!hasIndex()) {
+        if(buildIndex() != 0) {
+            return QObject::tr("Cannot build index.");
+        }
+    }
+    const QString index = indexPath();
+    const QString queryText = "key:" + key;
+    const TCHAR* stop_words[] = { NULL };
+    standard::StandardAnalyzer analyzer(stop_words);
+    IndexReader* reader = IndexReader::open(index.toStdString().c_str());
+    IndexSearcher s(reader);
+    Query* q = QueryParser::parse(queryText.toStdWString().c_str(), _T("content"), &analyzer);
+    Hits* h = s.search(q);
+    QString ret = "";
+    for(size_t i = 0; i < h->length(); i++) {
+        Document* doc = &h->doc(i);
+        if(!ret.isEmpty())
+            ret.append("<hr /> ");
+        ret.append(QString::fromWCharArray(doc->get(_T("content"))));
+    }
+    return ret.isEmpty() ? QObject::tr("Nothing found for %1").arg(key) : ret;
+}
+
+QStringList ZefaniaLex::getAllKeys()
+{
+    if(!hasIndex()) {
+        if(buildIndex() != 0) {
+            return QStringList();
+        }
+    }
+    const QString index = indexPath();
+    IndexReader* reader = IndexReader::open(index.toStdString().c_str());
+    QStringList ret;
+    for(int i = 0; i < reader->numDocs(); i++) {
+        Document* doc = reader->document(i);
+        ret.append(QString::fromWCharArray(doc->get(_T("key"))));
+    }
+    return ret;
+}
+QString ZefaniaLex::indexPath() const
+{
+    return m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
+}
+bool ZefaniaLex::hasIndex()
+{
+    QDir d;
+    if(!d.exists(m_settings->homePath + "index")) {
+        return false;
+    }
+
+    const QString index = indexPath();
+    return IndexReader::indexExists(index.toStdString().c_str());
+}
+int ZefaniaLex::buildIndex()
+{
+    QFile file(m_modulePath);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not read the file"));
+        myWarning() << "can't read the file";
+        return 1;
+    }
+    KoXmlDocument xmlDoc;
+    QString error;
+    int l;
+    int c;
+    if(!xmlDoc.setContent(&file, &error, &l, &c)) {
+        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid. Errorstring: %1 in Line %2 at Position %3").arg(error).arg(l).arg(c));
+        myWarning() << "the file isn't valid";
+        return 1;
+    }
+    return buildIndexFromXmlDoc(&xmlDoc).isEmpty() ? 2 : 0;
+}
+
+QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
+{
+    Document indexdoc;
+    const QString index = indexPath();
+    QString fileTitle = "";
     QDir dir("/");
     dir.mkpath(index);
 
@@ -73,24 +172,9 @@ QString ZefaniaLex::loadFile(const QString &fileData, const QString &fileName)
     writer->setMaxFieldLength(0x7FFFFFFFL);
     writer->setUseCompoundFile(false);
 
-    //index
-    Document indexdoc;
-    KoXmlDocument xmldoc;
-
-    QString errorMsg;
-    int eLine;
-    int eCol;
-    if(!xmldoc.setContent(fileData, &errorMsg, &eLine, &eCol)) {
-        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
-        myWarning() << "the file isn't valid , error = " << errorMsg
-                    << " line = " << eLine
-                    << " column = " << eCol;
-        return QString();
-    }
-
-    KoXmlNode item = xmldoc.documentElement().firstChild();
+    KoXmlNode item = xmldoc->documentElement().firstChild();
     for(int c = 0; !item.isNull();) {
-        QString id = "";
+        QString key = "";
         QString title = "";
         QString trans = "";
         QString pron = "";
@@ -100,7 +184,7 @@ QString ZefaniaLex::loadFile(const QString &fileData, const QString &fileName)
             KoXmlNode titel = item.namedItem("title");
             fileTitle = titel.toElement().text();
         } else if(e.tagName().compare("item", Qt::CaseInsensitive) == 0) {
-            id = e.attribute("id");
+            key = e.attribute("id");
             KoXmlNode details = item.firstChild();
             while(!details.isNull()) {
                 KoXmlElement edetails = details.toElement();
@@ -152,17 +236,17 @@ QString ZefaniaLex::loadFile(const QString &fileData, const QString &fileName)
                 }
                 details = details.nextSibling();
             }
-            QString ret = "<h3 class='strongTitle'>" + id + " - " + title + "</h3>";
+            QString content = "<h3 class='strongTitle'>" + key + " - " + title + "</h3>";
             if(!trans.isEmpty()) {
-                ret += " (" + trans + ") ";
+                content += " (" + trans + ") ";
             }
             if(!pron.isEmpty()) {
-                ret += " [" + pron + "] ";
+                content += " [" + pron + "] ";
             }
-            ret += "<br />" + desc;
+            content += "<br />" + desc;
             indexdoc.clear();
-            indexdoc.add(*new Field(_T("key"), id.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-            indexdoc.add(*new Field(_T("content"), ret.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+            indexdoc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+            indexdoc.add(*new Field(_T("content"), content.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
             writer->addDocument(&indexdoc);
 
         }
@@ -175,43 +259,4 @@ QString ZefaniaLex::loadFile(const QString &fileData, const QString &fileName)
     writer->close();
     delete writer;
     return fileTitle;
-}
-/**
-  Returns a Entry.
-  \id The key of the entry.
-  */
-QString ZefaniaLex::getEntry(const QString &key)
-{
-    const QString index = indexPath();
-    const QString queryText = "key:" + key;
-    const TCHAR* stop_words[] = { NULL };
-    standard::StandardAnalyzer analyzer(stop_words);
-    IndexReader* reader = IndexReader::open(index.toStdString().c_str());
-    IndexSearcher s(reader);
-    Query* q = QueryParser::parse(queryText.toStdWString().c_str(), _T("content"), &analyzer);
-    Hits* h = s.search(q);
-    QString ret = "";
-    for(size_t i = 0; i < h->length(); i++) {
-        Document* doc = &h->doc(i);
-        if(!ret.isEmpty())
-            ret.append("<hr /> ");
-        ret.append(QString::fromWCharArray(doc->get(_T("content"))));
-    }
-    return ret.isEmpty() ? QObject::tr("Nothing found for %1").arg(key) : ret;
-}
-
-QStringList ZefaniaLex::getAllKeys()
-{
-    const QString index = indexPath();
-    IndexReader* reader = IndexReader::open(index.toStdString().c_str());
-    QStringList ret;
-    for(int i = 0; i < reader->numDocs(); i++) {
-        Document* doc = reader->document(i);
-        ret.append(QString::fromWCharArray(doc->get(_T("key"))));
-    }
-    return ret;
-}
-QString ZefaniaLex::indexPath() const
-{
-    return m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
 }
