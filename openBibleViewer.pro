@@ -83,7 +83,8 @@ SOURCES += src/main.cpp \
     src/core/book.cpp \
     src/core/url.cpp \
     src/core/bibleurl.cpp \
-    src/core/faststart.cpp
+    src/core/faststart.cpp \
+    src/ui/interface/advanced/mdiareafilter.cpp
 HEADERS += src/core/settings.h \
     src/module/biblequote.h \
     src/module/zefania-bible.h \
@@ -160,7 +161,8 @@ HEADERS += src/core/settings.h \
     src/core/book.h \
     src/core/url.h \
     src/core/bibleurl.h \
-    src/core/faststart.h
+    src/core/faststart.h \
+    src/ui/interface/advanced/mdiareafilter.h
 FORMS += src/ui/dialog/searchdialog.ui \
     src/ui/dialog/settingsdialog.ui \
     src/ui/dialog/searchinfodialog.ui \

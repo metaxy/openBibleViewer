@@ -40,6 +40,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtWebKit/QWebElementCollection>
 #include <QtGui/QLineEdit>
 #include <QtCore/QScopedPointer>
+
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
     Interface(parent),
     ui(new Ui::AdvancedInterface)
@@ -99,6 +100,9 @@ void AdvancedInterface::setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDoc
 
 void AdvancedInterface::init()
 {
+    m_mdiAreaFilter = new MdiAreaFilter(ui->mdiArea);
+    connect(m_mdiAreaFilter, SIGNAL(resized()),this,SLOT(mdiAreaResized()));
+
     m_bibleDisplaySettings = new BibleDisplaySettings();
     m_bibleDisplaySettings->loadNotes = true;
     m_bibleDisplaySettings->showMarks = true;
@@ -155,6 +159,7 @@ void AdvancedInterface::init()
 
     if(usableWindowList().size() == 0 &&  m_settings->session.getData("windowUrls").toStringList().size() == 0)
         QTimer::singleShot(0, this, SLOT(newSubWindow()));
+    ui->mdiArea->installEventFilter(m_mdiAreaFilter);
 
 }
 
@@ -231,7 +236,15 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
 
     connect(mForm->m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
     connect(mForm->m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
-    connect(getView()->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
+    connect(mForm->m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
+
+    mForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows,true);
+    mForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard,true);
+    mForm->m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled,true);
+    mForm->m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled,true);
+    mForm->m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled,true);
+    mForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls,true);
+    mForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls,true);
 
     connect(mForm, SIGNAL(historyGo(QString)), this, SLOT(pharseUrl(QString)));
     connect(mForm, SIGNAL(previousChapter()), this, SLOT(previousChapter()));
@@ -480,35 +493,18 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
     }
     const int id = tabIDof(window);
 
-    //myDebug() << "id = " << id;
-
-    if(id == -1) {
+    if(id == -1 || ui->mdiArea->subWindowList().count() <= 0) {
         return 1;
     }
-    if(ui->mdiArea->subWindowList().count() <= 0) {
-        return 1;
-    }
-
     m_windowCache.setCurrentWindowID(id);
 
-    if(!m_windowCache.getBibleList()) {
+    if(!m_windowCache.getBibleList() || !m_windowCache.getBibleList()->bible() || m_windowCache.getBibleList()->bible()->moduleID() < 0) {
         clearChapters();
         clearBooks();
         //myDebug() << "no biblelist";
         return 1;
     }
-    if(!m_windowCache.getBibleList()->bible()) {
-        clearChapters();
-        clearBooks();
-        //myDebug() << "no bible";
-        return 1;
-    }
-    if(m_windowCache.getBibleList()->bible()->moduleID() < 0) {
-        clearChapters();
-        clearBooks();
-        //myDebug() << "no moduleID";
-        return 1;
-    }
+
     //todo: think about it
     /* if (m_moduleManager->bible()->moduleID() == m_windowCache.getBibleList()->bible()->moduleID())
          return 1;*/
@@ -524,6 +520,12 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
     setCurrentBook(m_moduleManager->bible()->bookID());
 
     return 0;
+}
+void AdvancedInterface::mdiAreaResized()
+{
+    DEBUG_FUNC_NAME
+            //todo: really every do time autoLayout ?
+    autoLayout();
 }
 
 bool AdvancedInterface::loadModuleDataByID(int id)

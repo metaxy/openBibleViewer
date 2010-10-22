@@ -159,6 +159,7 @@ set ( openBibleViewer_HDRS
 	src/core/url.h
 	src/core/bibleurl.h
 	src/core/faststart.h
+    src/
 	)
 
 set ( openBibleViewer_SRCS
@@ -235,6 +236,7 @@ set ( openBibleViewer_SRCS
 	src/core/url.cpp
 	src/core/bibleurl.cpp
 	src/core/faststart.cpp
+    src/ui/interface/advanced/mdiareafilter.cpp
 	)
 
 set ( openBibleViewer_UIS
@@ -316,6 +318,7 @@ set ( openBibleViewer_MOCS
 	src/ui/interface/advanced/webview.h
 	src/ui/interface/advanced/biblelistwidget.h
 	src/ui/interface/advanced/biblelistitemdelegate.h
+    src/ui/interface/advanced/mdiareafilter.h
 	src/api/bibleapi.h
 	src/ui/dock/advancedsearchresultdockwidget.h
 	)

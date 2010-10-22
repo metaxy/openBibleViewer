@@ -26,6 +26,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dock/quickjumpdockwidget.h"
 #include "src/core/windowcache.h"
 #include "src/api/bibleapi.h"
+#include "mdiareafilter.h"
 #include <QtGui/QMdiSubWindow>
 #include <QtGui/QCloseEvent>
 #include "mdiform.h"
@@ -106,6 +107,8 @@ private slots:
     void showContextMenu(QContextMenuEvent*ev);
     void debugger();
 
+    void mdiAreaResized();
+
 
 
 public:
@@ -178,6 +181,7 @@ private:
     QAction *m_actionBookmark;
     QAction *m_actionNote;
     void createDefaultMenu();
+    MdiAreaFilter *m_mdiAreaFilter;
 
 };
 

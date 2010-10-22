@@ -21,7 +21,6 @@ DictionaryDockWidget::DictionaryDockWidget(QWidget *parent) :
     ui(new Ui::DictionaryDockWidget)
 {
     ui->setupUi(this);
-    connect(ui->lineEdit_strong, SIGNAL(returnPressed()), this, SLOT(search()));
 
 }
 
@@ -33,10 +32,11 @@ void DictionaryDockWidget::init()
 {
     if(m_moduleManager->m_dictionary == NULL) {
         Dictionary *dict = new Dictionary();
-        m_moduleManager->m_dictionary = dict;
+
         dict->setModuleMap(m_moduleManager->m_moduleMap);
         dict->setNotes(m_notes);
         dict->setSettings(m_settings);
+        m_moduleManager->m_dictionary = dict;
     }
 
     dictModuleTitle.clear();
@@ -55,13 +55,17 @@ void DictionaryDockWidget::init()
     ui->comboBox_strongModule->insertItems(0, dictModuleTitle);
     connect(ui->comboBox_strongModule, SIGNAL(currentIndexChanged(int)), this, SLOT(loadModule(int)));
     connect(ui->comboBox_strongModule, SIGNAL(currentIndexChanged(int)), this, SLOT(search()));
+
     connect(ui->toolButton_strongSearch, SIGNAL(clicked()), this, SLOT(search()));
+    connect(ui->lineEdit_strong, SIGNAL(returnPressed()), this, SLOT(search()));
+
     connect(ui->textBrowser_strong, SIGNAL(anchorClicked(QUrl)), m_bibleDisplay, SIGNAL(get(QUrl)));
+
 }
 
 void DictionaryDockWidget::search()
 {
-    QString s = ui->lineEdit_strong->text();
+    const QString s = ui->lineEdit_strong->text();
     if(!s.isEmpty())
         showStrong(s);
 }
@@ -71,7 +75,7 @@ void DictionaryDockWidget::showStrong(QString strongID)
         show();
     }
     if(!m_moduleManager->strongLoaded()) {
-        QString last = m_settings->session.getData("lastDictModule").toString();
+        const QString last = m_settings->session.getData("lastDictModule").toString();
         int moduleID = 0;
         if(!last.isEmpty()) {
             const QString l = m_settings->recoverUrl(last);
