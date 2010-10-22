@@ -42,14 +42,15 @@ public:
     QString readInfo(QFile &file);
     QString readInfo(const QString &content);
 
-    void search(SearchQuery query, SearchResult *res);
+    void search(SearchQuery query, SearchResult *res) const;
     bool hasIndex() const;
     void buildIndex();
 
-    int m_bookID;
-    int m_bibleID;
-    QString m_biblePath;
-    QString m_bibleName;
+    int bookID() const;
+    int bibleID() const;
+    QString biblePath() const;
+    QString bibleName () const;
+
     QStringList m_bookFullName;
     QStringList m_bookShortName;
     QMap<int, int> m_bookCount;
@@ -61,7 +62,7 @@ public:
 private:
     Settings *m_settings;
     QDomElement* format(QDomElement* e);
-    bool checkForCacheFiles(const QString &path);
+    bool checkForCacheFiles(const QString &path) const;
     void loadNoCached(const int &id, const QString &path);
     void loadCached(const int &id, const QString &path);
     Book fromHardToSoft(const int &id, const QDomNode *ncache);
@@ -76,6 +77,11 @@ private:
     QDomNode readBookFromHardCache(QString path, int bookID);
 
     QString indexPath() const;
+
+    int m_bookID;
+    int m_bibleID;
+    QString m_biblePath;
+    QString m_bibleName;
 
 };
 

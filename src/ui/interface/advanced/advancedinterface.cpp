@@ -837,7 +837,7 @@ void AdvancedInterface::showText(const QString &text)
                 QString url = paraElement.attribute("src");
                 if(url.startsWith(":/") || url.startsWith("http"))
                     continue;
-                foreach(QString pre, searchPaths) {
+                foreach(const QString &pre, searchPaths) {
                     QFileInfo i(pre + url);
                     if(i.exists()) {
                         paraElement.setAttribute("src", "file://" + pre + url);
@@ -845,7 +845,7 @@ void AdvancedInterface::showText(const QString &text)
                     } else {
                         QDir d(pre);
                         QStringList list = d.entryList();
-                        foreach(QString f, list) {
+                        foreach(const QString &f, list) {
                             QFileInfo info2(f);
                             if(info2.baseName().compare(i.baseName(), Qt::CaseInsensitive) == 0) {
                                 paraElement.setAttribute("src", "file://" + pre + f);

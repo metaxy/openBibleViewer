@@ -80,7 +80,7 @@ int BibleQuoteDict::buildIndex()
     QFileInfoList list = moduleDir.entryInfoList();
 
     QFileInfo htmlFileInfo;
-    foreach(QFileInfo info, list) {
+    foreach(const QFileInfo &info, list) {
         if((info.suffix().compare("html",Qt::CaseInsensitive) == 0 || info.suffix().compare("htm",Qt::CaseInsensitive) == 0) && info.baseName().compare(fileInfo.baseName(), Qt::CaseInsensitive) == 0) {
             htmlFileInfo = info;
             break;

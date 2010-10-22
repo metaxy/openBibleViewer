@@ -109,16 +109,16 @@ int Bible::loadModuleData(const int &moduleID)
         m_bookShortName.clear();
         m_bookIDs.clear();
         int count = 0;
-        foreach(const QString bookID, m_zef->m_bookIDs) {
+        foreach(const QString &bookID, m_zef->m_bookIDs) {
             const int id = bookID.toInt();
             m_bookIDs.append(id);
             m_bookFullName[id] = m_zef->m_bookFullName.at(count);
-            foreach(QString s, m_zef->m_bookShortName.at(count)) {
+            foreach(const QString &s, m_zef->m_bookShortName.at(count)) {
                 m_bookShortName[id] = QStringList(s) ;
             }
             count++;
         }
-        m_biblePath = m_zef->m_biblePath;
+        m_biblePath = m_zef->biblePath();
         //ModuleCache
         m_settings->setTitle(path, m_bibleTitle);
         m_settings->setBookCount(path, bookCount);

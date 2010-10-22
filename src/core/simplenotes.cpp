@@ -56,7 +56,7 @@ void SimpleNotes::setLinkButtonWidget(QPushButton *button)
 void SimpleNotes::create(const QString &id, QStandardItem *parentItem)
 {
     DEBUG_FUNC_NAME
-    foreach(QString i, m_idC) {
+    foreach(const QString &i, m_idC) {
         if(id == "-1") {
             parentItem = m_itemModel->invisibleRootItem();
         }

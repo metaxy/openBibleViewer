@@ -38,7 +38,7 @@ void SearchInfoDialog::setInfo(SearchResult result, QStringList bookNames, QStri
     m_ui->label_foundItems->setText(tr("Found verses : %1").arg(QString::number(size)));
     QMap<int, int> booksMap;
     QList<SearchHit> hitList = result.hits(SearchHit::BibleHit);
-    foreach(SearchHit hit, hitList) {
+    foreach(const SearchHit &hit, hitList) {
         booksMap[hit.value(SearchHit::BookID).toInt()]++;
     }
 

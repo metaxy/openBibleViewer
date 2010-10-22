@@ -309,7 +309,7 @@ void ZefaniaBible::clearSoftCache()
   Checks if there are cache files for a given module. If not it returns false.
   \param path The path of the module.
  */
-bool ZefaniaBible::checkForCacheFiles(const QString &path)
+bool ZefaniaBible::checkForCacheFiles(const QString &path) const
 {
     const QString fileName = m_settings->homePath + "cache/" + m_settings->hash(path) + "/";
     QFile file(fileName + "data");
@@ -577,6 +577,22 @@ QString ZefaniaBible::readInfo(const QString &content)
     m_bibleName = root.attribute("biblename", "");
     return m_bibleName;
 }
+int ZefaniaBible::bookID() const
+{
+    return m_bookID;
+}
+int ZefaniaBible::bibleID() const
+{
+    return m_bibleID;
+}
+QString ZefaniaBible::biblePath() const
+{
+    return m_biblePath;
+}
+QString ZefaniaBible::bibleName() const
+{
+    return m_bibleName;
+}
 
 bool ZefaniaBible::hasIndex() const
 {
@@ -761,7 +777,7 @@ void ZefaniaBible::buildIndex()
     progress.close();
 
 }
-void ZefaniaBible::search(SearchQuery query, SearchResult *res)
+void ZefaniaBible::search(SearchQuery query, SearchResult *res) const
 {
     DEBUG_FUNC_NAME
     const QString index = indexPath();

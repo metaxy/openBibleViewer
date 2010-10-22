@@ -35,7 +35,7 @@ void InsertLinkDialog::init()
 
     const QStringList ids = m_notes->getIDList("text");
 
-    foreach(QString id, ids) {
+    foreach(const QString &id, ids) {
         QStandardItem *noteItem = new QStandardItem;
         noteItem->setText(m_notes->getTitle(id));
         noteItem->setData(id);
