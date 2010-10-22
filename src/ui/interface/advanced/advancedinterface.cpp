@@ -1032,19 +1032,42 @@ void AdvancedInterface::showChapter(const int &chapterID, const int &verseID)
 void AdvancedInterface::nextChapter()
 {
     if(m_moduleManager->bible()->chapterID() < m_moduleManager->bible()->chaptersCount() - 1) {
-        readChapter(m_moduleManager->bible()->chapterID() + 1);
+        BibleUrl burl;
+        burl.setBible(BibleUrl::LoadCurrentBible);
+        burl.setBook(BibleUrl::LoadCurrentBook);
+        burl.setChapterID(m_moduleManager->bible()->chapterID() + 1);
+        burl.setVerse(BibleUrl::LoadFirstVerse);
+        const QString url = burl.toString();
+        emit get(url);
     } else if(m_moduleManager->bible()->bookID() < m_moduleManager->bible()->booksCount() - 1) {
-        readBook(m_moduleManager->bible()->bookID() + 1);
+        BibleUrl burl;
+        burl.setBible(BibleUrl::LoadCurrentBible);
+        burl.setBookID(m_moduleManager->bible()->bookID() + 1);
+        burl.setChapter(BibleUrl::LoadFirstChapter);
+        burl.setVerse(BibleUrl::LoadFirstVerse);
+        const QString url = burl.toString();
+        emit get(url);
     }
 }
 
 void AdvancedInterface::previousChapter()
 {
     if(m_moduleManager->bible()->chapterID() > 0) {
-        readChapter(m_moduleManager->bible()->chapterID() - 1);
+        BibleUrl burl;
+        burl.setBible(BibleUrl::LoadCurrentBible);
+        burl.setBook(BibleUrl::LoadCurrentBook);
+        burl.setChapterID(m_moduleManager->bible()->chapterID() - 1);
+        burl.setVerse(BibleUrl::LoadFirstVerse);
+        const QString url = burl.toString();
+        emit get(url);
     } else if(m_moduleManager->bible()->bookID() > 0) {
-        readBook(m_moduleManager->bible()->bookID() - 1);
-        readChapter(m_moduleManager->bible()->chaptersCount() - 1);
+        BibleUrl burl;
+        burl.setBible(BibleUrl::LoadCurrentBible);
+        burl.setBookID(m_moduleManager->bible()->bookID() - 1);
+        burl.setChapterID(m_moduleManager->bible()->chaptersCount() - 1);//todo: use lastchapter
+        burl.setVerse(BibleUrl::LoadFirstVerse);
+        const QString url = burl.toString();
+        emit get(url);
     }
 }
 

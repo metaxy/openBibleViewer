@@ -25,7 +25,7 @@ public:
         LoadCurrentBible,
         ReloadActive
     };
-    enum BookLoadParams {
+    enum BookLoadParams {//todo: add LoadLastBook
         LoadBookByID,
         LoadCurrentBook,
         LoadFirstBook

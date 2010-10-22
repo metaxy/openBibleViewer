@@ -5,7 +5,7 @@ set ( CMAKE_BUILD_TYPE Release )
 add_definitions ( -Wall )
 find_package ( Qt4 REQUIRED )
 
-#build own clucene
+#build own clucene because no distribution ships clucene >= 0.9.23 
 set( BUILD_STATIC_LIBRARIES "On")
 set(CLUCENE_VERSION_MAJOR "0")
 set(CLUCENE_VERSION_MINOR "9")
@@ -163,12 +163,12 @@ set ( openBibleViewer_HDRS
 	)
 
 set ( openBibleViewer_SRCS
-	src/main.cpp
-	src/module/biblequote.cpp
-	src/module/zefania-bible.cpp
-	src/ui/dialog/searchdialog.cpp
-	src/ui/dialog/settingsdialog.cpp
-	src/ui/dialog/aboutdialog.cpp
+    src/api/bibleapi.cpp
+
+	src/core/book.cpp
+    src/core/url.cpp
+    src/core/bibleurl.cpp
+    src/core/faststart.cpp
 	src/core/windowcache.cpp
 	src/core/KoXmlReader.cpp
 	src/core/KoXmlWriter.cpp
@@ -176,80 +176,86 @@ set ( openBibleViewer_SRCS
 	src/core/notes.cpp
 	src/core/xbelreader.cpp
 	src/core/xbelwriter.cpp
-	src/ui/dialog/searchinfodialog.cpp
+    src/core/dbghelper.cpp
+    src/core/settings.cpp
+    src/core/modulesettings.cpp
+    src/core/searchresult.cpp
+    src/core/searchquery.cpp
+    src/core/searchhit.cpp
+    src/core/urlconverter.cpp
+    src/core/verseselection.cpp
+    src/core/search.cpp
+    src/core/modulecache.cpp
+    src/core/session.cpp
+    src/core/simplenotes.cpp
+    src/core/basicclass.cpp
+    src/core/moduledownloader.cpp
+    src/core/bibledisplay.cpp
+    src/core/bibledisplaysettings.cpp
+    src/core/goto.cpp
+    src/core/history.cpp
+
 	src/module/bible.cpp
-	src/ui/interface/advanced/mdiform.cpp
-	src/ui/dialog/biblepassagedialog.cpp
-	src/ui/dialog/moduleconfigdialog.cpp
-	src/core/goto.cpp
+    src/module/biblequote.cpp
+    src/module/zefania-bible.cpp
 	src/module/zefania-lex.cpp
-	src/core/history.cpp
-	src/ui/dialog/moduledownloaddialog.cpp
-	src/core/dbghelper.cpp
-	src/core/settings.cpp
-	src/core/modulesettings.cpp
-	src/core/searchresult.cpp
-	src/core/searchquery.cpp
-	src/core/searchhit.cpp
-	src/core/urlconverter.cpp
-	src/core/verseselection.cpp
-	src/ui/marklist.cpp
-	src/ui/markcategories.cpp
 	src/module/modulemanager.cpp
 	src/module/module.cpp
-	src/ui/dock/dictionarydockwidget.cpp
-	src/ui/dock/searchresultdockwidget.cpp
-	src/ui/dock/notesdockwidget.cpp
-	src/ui/dock/bookmarksdockwidget.cpp
-	src/ui/dock/moduledockwidget.cpp
-	src/ui/dock/bookdockwidget.cpp
-	src/ui/dock/quickjumpdockwidget.cpp
-	src/ui/mainwindow.cpp
-	src/core/bibledisplay.cpp
-	src/ui/interface/simple/simpleinterface.cpp
-	src/ui/interface/advanced/advancedinterface.cpp
-	src/ui/interface/study/studyinterface.cpp
-	src/ui/interface/interface.cpp
-	src/ui/dock/dockwidget.cpp
-	src/core/bibledisplaysettings.cpp
 	src/module/simplemoduleclass.cpp
-	src/ui/noteseditor.cpp
-	src/core/session.cpp
-	src/ui/recursivproxymodel.cpp
-	src/core/simplenotes.cpp
-	src/core/basicclass.cpp
-	src/ui/highlighter.cpp
-	src/ui/dialog/insertlinkdialog.cpp
-	src/core/moduledownloader.cpp
-	src/ui/interface/advanced/webview.cpp
-	src/module/biblelist.cpp
-	src/ui/interface/advanced/biblelistwidget.cpp
-	src/ui/interface/advanced/biblelistitemdelegate.cpp
+	src/module/biblelist.cüp
 	src/module/modulemap.cpp
-	src/core/modulecache.cpp
-	src/api/bibleapi.cpp
-	src/ui/dock/advancedsearchresultdockwidget.cpp
 	src/module/dictionary.cpp
-	src/core/search.cpp
 	src/module/biblequote-dict.cpp
-	src/core/book.cpp
-	src/core/url.cpp
-	src/core/bibleurl.cpp
-	src/core/faststart.cpp
+    
+    src/ui/dialog/searchdialog.cpp
+    src/ui/dialog/settingsdialog.cpp
+    src/ui/dialog/aboutdialog.cpp
+    src/ui/dialog/biblepassagedialog.cpp
+    src/ui/dialog/moduleconfigdialog.cpp
+    src/ui/dialog/moduledownloaddialog.cpp
+    src/ui/dialog/searchinfodialog.cpp
+    src/ui/dialog/insertlinkdialog.cpp
+    
+    src/ui/dock/dockwidget.cpp
+    src/ui/dock/dictionarydockwidget.cpp
+    src/ui/dock/searchresultdockwidget.cpp
+    src/ui/dock/notesdockwidget.cpp
+    src/ui/dock/bookmarksdockwidget.cpp
+    src/ui/dock/moduledockwidget.cpp
+    src/ui/dock/bookdockwidget.cpp
+    src/ui/dock/quickjumpdockwidget.cpp
+    src/ui/dock/advancedsearchresultdockwidget.cpp
+    
+    src/ui/interface/simple/simpleinterface.cpp
+    src/ui/interface/advanced/biblelistwidget.cpp
+    src/ui/interface/advanced/biblelistitemdelegate.cpp
     src/ui/interface/advanced/mdiareafilter.cpp
+    src/ui/interface/advanced/mdiform.cpp
+    src/ui/interface/advanced/webview.cpp
+    src/ui/interface/advanced/advancedinterface.cpp
+    src/ui/interface/study/studyinterface.cpp
+    src/ui/interface/interface.cpp
+
+    src/ui/mainwindow.cpp
+    src/ui/noteseditor.cpp
+    src/ui/recursivproxymodel.cpp
+    src/ui/highlighter.cpp
+    src/ui/marklist.cpp
+    src/ui/markcategories.cpp
+    src/main.cpp
 	)
 
 set ( openBibleViewer_UIS
 	src/ui/dialog/searchdialog.ui
 	src/ui/dialog/settingsdialog.ui
 	src/ui/dialog/searchinfodialog.ui
-	src/ui/interface/advanced/mdiform.ui
 	src/ui/dialog/biblepassagedialog.ui
 	src/ui/dialog/aboutdialog.ui
 	src/ui/dialog/moduleconfigdialog.ui
 	src/ui/dialog/moduledownloaddialog.ui
-	src/ui/marklist.ui
-	src/ui/markcategories.ui
+    src/ui/dialog/inserthtmldialog.ui
+    src/ui/dialog/insertlinkdialog.ui
+
 	src/ui/dock/dictionarydockwidget.ui
 	src/ui/dock/searchresultdockwidget.ui
 	src/ui/dock/notesdockwidget.ui
@@ -257,15 +263,19 @@ set ( openBibleViewer_UIS
 	src/ui/dock/moduledockwidget.ui
 	src/ui/dock/bookdockwidget.ui
 	src/ui/dock/quickjumpdockwidget.ui
-	src/ui/mainwindow.ui
+    src/ui/dock/advancedsearchresultdockwidget.ui
+
 	src/ui/interface/simple/simpleinterface.ui
 	src/ui/interface/advanced/advancedinterface.ui
 	src/ui/interface/study/studyinterface.ui
-	src/ui/noteseditor.ui
-	src/ui/dialog/inserthtmldialog.ui
-	src/ui/dialog/insertlinkdialog.ui
+    src/ui/interface/advanced/mdiform.ui
 	src/ui/interface/advanced/biblelistwidget.ui
-	src/ui/dock/advancedsearchresultdockwidget.ui
+
+    src/ui/mainwindow.ui
+    src/ui/noteseditor.ui
+    src/ui/marklist.ui
+    src/ui/markcategories.ui
+
 	)
 QT4_WRAP_UI(UIS ${openBibleViewer_UIS})
 
