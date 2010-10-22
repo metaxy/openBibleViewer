@@ -31,7 +31,7 @@ DictionaryDockWidget::~DictionaryDockWidget()
 }
 void DictionaryDockWidget::init()
 {
-    Dictionary *dict = new Dictionary();
+   Dictionary *dict = new Dictionary();
     m_moduleManager->m_dictionary = dict;
     dict->setModuleMap(m_moduleManager->m_moduleMap);
     dict->setNotes(m_notes);
@@ -52,6 +52,7 @@ void DictionaryDockWidget::init()
     }
     ui->comboBox_strongModule->insertItems(0, dictModuleTitle);
     connect(ui->comboBox_strongModule, SIGNAL(currentIndexChanged(int)), this, SLOT(loadModule(int)));
+    connect(ui->comboBox_strongModule, SIGNAL(currentIndexChanged(int)), this, SLOT(search()));
     connect(ui->toolButton_strongSearch, SIGNAL(clicked()), this, SLOT(search()));
     connect(ui->textBrowser_strong, SIGNAL(anchorClicked(QUrl)), m_bibleDisplay, SIGNAL(get(QUrl)));
 }
@@ -68,7 +69,22 @@ void DictionaryDockWidget::showStrong(QString strongID)
         show();
     }
     if(!m_moduleManager->strongLoaded()) {
-        loadModule(0);
+        QString last = m_settings->session.getData("lastDictModule").toString();
+        int moduleID = 0;
+        if(!last.isEmpty()) {
+            const QString l = m_settings->recoverUrl(last);
+            QMapIterator<int, Module *> i(m_moduleManager->m_moduleMap->m_map);
+            while(i.hasNext()) {
+                i.next();
+                if(i.value()->m_path == l) {
+                    moduleID = dictModuleID.lastIndexOf(i.key());
+                    break;
+                }
+
+            }
+        }
+        moduleID = moduleID != -1 ? moduleID : 0;
+        loadModule(moduleID);
     }
     ui->lineEdit_strong->setText(strongID);
     ui->textBrowser_strong->setText(m_moduleManager->dictionary()->getEntry(strongID));
@@ -77,7 +93,8 @@ void DictionaryDockWidget::loadModule(int id)
 {
     DEBUG_FUNC_NAME
     if(dictModuleID.size() > id && id >= 0) {
-        int moduleID = dictModuleID.at(id);
+        ui->comboBox_strongModule->setCurrentIndex(id);//select item in combobox
+        int moduleID = dictModuleID.at(id);//convert id to module id
         Module *m = m_moduleManager->getModule(moduleID);
         Module::ModuleType type = m->m_moduleType;
         m_moduleManager->dictionary()->setModuleType(type);
@@ -85,8 +102,8 @@ void DictionaryDockWidget::loadModule(int id)
         QCompleter *completer = new QCompleter(m_moduleManager->dictionary()->getAllKeys(), this);
         completer->setCaseSensitivity(Qt::CaseInsensitive);
         ui->lineEdit_strong->setCompleter(completer);
+        m_settings->session.setData("lastDictModule",m_settings->savableUrl(m->m_path));
     }
-    search();
 }
 
 void DictionaryDockWidget::changeEvent(QEvent *e)
