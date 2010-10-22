@@ -129,7 +129,7 @@ void ZefaniaBible::readBook(const int &id)
         while(!n2.isNull()) {  //alle verse
             verseCount++;
             QDomElement e2 = n2.toElement();
-            e2 = format(e2);
+            format(&e2);
             if(e2.tagName().toLower() == "vers") { // read only verse
                 c.data << e2.text();
                 c.verseNumber << e2.attribute("vnumber", "");
@@ -145,7 +145,7 @@ void ZefaniaBible::readBook(const int &id)
 
         n = n.nextSibling();
     }
-    //m_book = fromHardToSoft(m_bookID, ncache);
+    //m_book = fromHardToSoft(m_bookID, &ncache);
 
     m_bookCount[id] = i;
     setSoftCache(m_bookID, m_book);
@@ -155,10 +155,10 @@ void ZefaniaBible::readBook(const int &id)
   \param bookID The bookID.
   \param ncache The node to convert.
   */
-Book ZefaniaBible::fromHardToSoft(const int &bookID, QDomNode ncache)
+Book ZefaniaBible::fromHardToSoft(const int &bookID, const QDomNode *ncache)
 {
     Book book;
-    QDomNode n = ncache.firstChild();
+    QDomNode n = ncache->firstChild();
     int i;
     for(i = 0; !n.isNull(); ++i) {
         QDomElement e = n.toElement();
@@ -168,7 +168,7 @@ Book ZefaniaBible::fromHardToSoft(const int &bookID, QDomNode ncache)
         while(!n2.isNull()) {  //alle verse
             verseCount++;
             QDomElement e2 = n2.toElement();
-            e2 = format(e2);
+            format(&e2);
             if(e2.tagName().toLower() == "vers") { // read only verse
                 c.data <<  e2.text();
                 c.verseNumber << e2.attribute("vnumber", "");
@@ -185,26 +185,26 @@ Book ZefaniaBible::fromHardToSoft(const int &bookID, QDomNode ncache)
     }
     return book;
 }
-QDomElement ZefaniaBible::format(QDomElement e)
+QDomElement* ZefaniaBible::format(QDomElement *e)
 {
     ModuleSettings moduleSettings = m_settings->getModuleSettings(m_bibleID);
-    QDomNode n = e.firstChild();
+    QDomNode n = e->firstChild();
     while(!n.isNull()) {  //all verses
+        QDomElement element = n.toElement();
         if(n.nodeName().toLower() == "note") {
             QDomNode node = n;
 
             QDomText t = node.firstChild().toText();
-            if(moduleSettings.zefbible_showStudyNote == true && n.toElement().attribute("type", "") == "x-studynote") {
+            if(moduleSettings.zefbible_showStudyNote == true && element.attribute("type", "") == "x-studynote") {
                 t.setData("[<span style=\" font-size:small;\">" + t.data() + "</span>]");
             } else {
                 t.setData("");
             }
             node.replaceChild(t, node.firstChild());
-            e.replaceChild(node, n);
-        } else if(moduleSettings.zefbible_showStrong == true && (n.nodeName().toLower() == "gram" || n.nodeName().toLower() == "gr") && n.toElement().attribute("str", "") != "") {
+            e->replaceChild(node, n);
+        } else if(moduleSettings.zefbible_showStrong == true && (n.nodeName().toLower() == "gram" || n.nodeName().toLower() == "gr") && element.attribute("str", "") != "") {
             QDomNode node = n;
             QDomText t = n.firstChild().toText();
-            QDomElement b = n.toElement();
             QString add;
             //todo: that isn't  nice
             if(m_bookID < 39)
@@ -212,15 +212,14 @@ QDomElement ZefaniaBible::format(QDomElement e)
             else
                 add = "G";
 
-            t.setData(t.data() + "<sup><a href=\"strong://" + add + b.attribute("str", "") + "\">" + add + b.attribute("str", "") + "</a></sup>  ");
+            t.setData(t.data() + "<sup><a href=\"strong://" + add + element.attribute("str", "") + "\">" + add + element.attribute("str", "") + "</a></sup>  ");
             node.replaceChild(t, node.firstChild());
-            e.replaceChild(node, n);
+            e->replaceChild(node, n);
         } else if(n.nodeName().toLower() == "reflink") {
             QDomNode node = n;
-            QDomElement b = n.toElement();
             QDomText t = n.firstChild().toText();
 
-            QString mscope = b.attribute("mscope", ";;;");
+            QString mscope = element.attribute("mscope", ";;;");
             const QStringList list = mscope.split(";");
             const int bookID = list.at(0).toInt() - 1;
             const int chapterID = list.at(1).toInt() - 1;
@@ -241,10 +240,13 @@ QDomElement ZefaniaBible::format(QDomElement e)
             }
             t.setData(" <a href=\"" + url + "\">" + name + "</a> ");
             node.replaceChild(t, node.firstChild());
-            e.replaceChild(node, n);
+            e->replaceChild(node, n);
         }
-        if(n.childNodes().count() > 0)
-            e.replaceChild(format(n.toElement()), n);
+        if(n.childNodes().count() > 0) {
+            const QDomNode oldChild = n;
+            QDomElement *el = format(&element);
+            e->replaceChild(*el, oldChild);
+        }
         n = n.nextSibling();
     }
     return e;
@@ -276,7 +278,7 @@ Book ZefaniaBible::softCache(const int &bookID) const
   Set the soft cache
   \param QMap<int, QList<Chapter> > cache The cache data.
   */
-void ZefaniaBible::setSoftCache(QHash<int, Book > cache)
+void ZefaniaBible::setSoftCache(const QHash<int, Book > &cache)
 {
     DEBUG_FUNC_NAME
     if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
@@ -289,7 +291,7 @@ void ZefaniaBible::setSoftCache(QHash<int, Book > cache)
   \param bookID The ID of the book.
   \param chapterList New cache.
   */
-void ZefaniaBible::setSoftCache(const int &bookID, Book book)
+void ZefaniaBible::setSoftCache(const int &bookID, const Book &book)
 {
     if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
         m_softCacheData[bookID] = book;
@@ -722,7 +724,8 @@ void ZefaniaBible::buildIndex()
         Book book;
 
         if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true && (!m_softCacheData.contains(i) || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {
-            book = fromHardToSoft(i, readBookFromHardCache(m_biblePath, i));
+            const QDomNode node = readBookFromHardCache(m_biblePath, i);
+            book = fromHardToSoft(i, &node);
             setSoftCache(i, book);
         } else {
             book = softCache(i);

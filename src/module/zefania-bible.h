@@ -60,17 +60,17 @@ public:
 
 private:
     Settings *m_settings;
-    QDomElement format(QDomElement e);
+    QDomElement* format(QDomElement* e);
     bool checkForCacheFiles(const QString &path);
     void loadNoCached(const int &id, const QString &path);
     void loadCached(const int &id, const QString &path);
-    Book fromHardToSoft(const int &id, QDomNode ncache);
+    Book fromHardToSoft(const int &id, const QDomNode *ncache);
 
     QHash<int, Book> m_softCacheData;
 
     void clearSoftCache();
-    void setSoftCache(QHash<int, Book >);
-    void setSoftCache(const int &bookID, Book b);
+    void setSoftCache(const QHash<int, Book >&softCache);
+    void setSoftCache(const int &bookID, const Book &b);
     QHash<int, Book> softCache() const;
     Book softCache(const int &bookID) const;
     QDomNode readBookFromHardCache(QString path, int bookID);
