@@ -34,6 +34,8 @@ public:
     QString readVerse(int chapterID, int startVerse, int endVerse, int markVerseID, bool saveRawDatas);
     int m_currentBible;
 
+    bool hasTopBar();
+
 private:
     QString title(Bible *b, const QString &active, const int &bibleListID);
     int countInCol(const int &col);

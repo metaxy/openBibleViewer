@@ -291,12 +291,22 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 vers.prepend("<span style=\"font-weight: bold;\">");
                 vers.append("</span>");
             }
-            if(moduleSettings.zefbible_textFormatting == 0) {
-                vers.prepend("<a name=\"currentVerse\"><sup>" + c.verseNumber.at(i) + "</sup></a> ");
-                vers.append("<br />");
-            } else {
-                vers.prepend("<sup>" + c.verseNumber.at(i) + "</sup> ");
-                //vers.append("");
+            {
+                QString prepend;
+                QString append;
+                if(moduleSettings.zefbible_textFormatting == 0) {
+                    prepend = "<sup>" + c.verseNumber.at(i) + "</sup> ";
+                    append = "<br />";
+                } else {
+                    prepend = "<sup>" + c.verseNumber.at(i) + "</sup> ";
+                    append = "\n";
+                }
+                if(i == markVerseID) {
+                    prepend.prepend("<a name=\"currentVerse\">");
+                    prepend.append("</a>");
+                }
+                vers.prepend(prepend);
+                vers.append(append);
             }
 
             versList << vers;

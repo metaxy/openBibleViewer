@@ -571,7 +571,7 @@ void AdvancedInterface::pharseUrl(QString url)
 
     QString url_backup = url;
     setEnableReload(false);
-    //myDebug() << "url = " << url;
+    myDebug() << "url = " << url;
 
     const QString bible = "bible://";
     const QString strong = "strong://";
@@ -745,8 +745,27 @@ void AdvancedInterface::pharseUrl(QString url)
         const QString i = urlConverter.convert();//it now a normal interface url
         pharseUrl(i);
     } else {
-        if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->bookPath().contains(url)) {
-            emit get("bible://current/" + m_moduleManager->bible()->bookPath().lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
+        //todo: unterstand links like about:blank#a04
+        if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule) {
+            myDebug() << m_moduleManager->bible()->biblePath();
+            bool isInBookPath = false;
+            int b = 0;
+            const QStringList books = m_moduleManager->bible()->bookPath();
+            myDebug() << books;
+            int i = 0;
+            foreach(const QString &book, books) {
+                if(book.endsWith(url,Qt::CaseInsensitive)) {
+                    b = i;
+                    isInBookPath = true;
+                    myDebug() << b;
+                    break; // todo: check if there are more similiar
+                }
+                i++;
+            }
+            if(isInBookPath) {
+                myDebug() << "getting";
+                emit get("bible://current/" + QString::number(b));
+            }
         } else {
             getView()->page()->mainFrame()->evaluateJavaScript(url);
         }
@@ -799,7 +818,13 @@ void AdvancedInterface::showText(const QString &text)
 
         v->setHtml(text);
         if(m_moduleManager->bible()->verseID() > 1) {
-            v->page()->mainFrame()->evaluateJavaScript("window.location.href = '#currentVerse';window.scrollBy(0,-30);");//due to the biblelist bar on top
+#if QT_VERSION >= 0x040700
+            v->page()->mainFrame()->scrollToAnchor("currentVerse");
+#else
+            v->page()->mainFrame()->evaluateJavaScript("window.location.href = '#currentVerse';");
+#endif
+            if(m_moduleManager->bibleList()->hasTopBar())
+                v->page()->mainFrame()->scroll(0,-30);//due to the biblelist bar on top
         }
 
         if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule) {
@@ -999,6 +1024,7 @@ void AdvancedInterface::showChapter(const int &chapterID, const int &verseID)
 {
     m_bibleDisplay->setHtml(m_moduleManager->bibleList()->readChapter(chapterID, verseID));
     setCurrentChapter(chapterID);
+
 }
 
 void AdvancedInterface::nextChapter()

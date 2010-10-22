@@ -176,3 +176,8 @@ QString BibleList::title(Bible *b, const QString &active, const int &bibleListID
            QString::number(bibleListID) + "'><a href='#' onclick=\"Bible.activateBible('" +
            QString::number(bibleListID) + "');\"  class='bibleListTitleLink'>" + b->bibleShortTitle() + "</a></td>";
 }
+
+bool BibleList::hasTopBar()
+{
+    return true;
+}
