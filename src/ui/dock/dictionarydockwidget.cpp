@@ -31,11 +31,13 @@ DictionaryDockWidget::~DictionaryDockWidget()
 }
 void DictionaryDockWidget::init()
 {
-   Dictionary *dict = new Dictionary();
-    m_moduleManager->m_dictionary = dict;
-    dict->setModuleMap(m_moduleManager->m_moduleMap);
-    dict->setNotes(m_notes);
-    dict->setSettings(m_settings);
+    if(m_moduleManager->m_dictionary == NULL) {
+        Dictionary *dict = new Dictionary();
+        m_moduleManager->m_dictionary = dict;
+        dict->setModuleMap(m_moduleManager->m_moduleMap);
+        dict->setNotes(m_notes);
+        dict->setSettings(m_settings);
+    }
 
     dictModuleTitle.clear();
     dictModuleID.clear();

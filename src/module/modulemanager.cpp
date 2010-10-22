@@ -27,12 +27,15 @@ ModuleManager::ModuleManager()
 {
     m_moduleModel = new QStandardItemModel;
     m_moduleMap = new ModuleMap();
+    m_dictionary = NULL;
 }
 ModuleManager::~ModuleManager()
 {
     DEBUG_FUNC_NAME
     delete m_moduleMap;
     delete m_moduleModel;
+    if(m_dictionary != NULL)
+        delete m_dictionary;
 }
 
 void ModuleManager::setSettings(Settings *settings)
