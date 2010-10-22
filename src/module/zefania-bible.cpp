@@ -31,7 +31,7 @@ using namespace lucene::index;
 using namespace lucene::queryParser;
 using namespace lucene::document;
 using namespace lucene::search;
-
+extern bool removeDir(const QString &dirName);
 ZefaniaBible::ZefaniaBible()
 {
     m_settings = 0;
@@ -89,23 +89,12 @@ QDomNode ZefaniaBible::readBookFromHardCache(QString path, int bookID)
         return e;
     }
     QDomElement root = doc.documentElement();
-    //cache in ram
-    //e = root.firstChild().toElement();
-    if(!m_softCacheData.contains(bookID) && m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
-        /*  softCache[bookID] = e;
-        softCacheAvi[bookID] = true;*///todo: check
-    }
     return root.firstChild();
 
 }
 void ZefaniaBible::readBook(const int &id)
 {
-    //  DEBUG_FUNC_NAME
     QDomNode ncache;
-
-    if(!m_softCacheData.contains(id)) {
-        //myDebug() << "soft cache is empty";
-    }
     //book is not in soft cache
     if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true && (!m_softCacheData.contains(id) || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {
         ncache = readBookFromHardCache(m_biblePath, id);
@@ -268,7 +257,6 @@ QHash<int, Book> ZefaniaBible::softCache() const
   */
 Book ZefaniaBible::softCache(const int &bookID) const
 {
-    // DEBUG_FUNC_NAME
     if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
         return m_softCacheData[bookID];
     }
@@ -327,7 +315,6 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     // DEBUG_FUNC_NAME
     QProgressDialog progress(QObject::tr("Loading Bible"), QObject::tr("Cancel"), 0, 76);
     progress.setWindowModality(Qt::WindowModal);
-    // Q_ASSERT(m_bibleID != id);
     if(m_bibleID != id) {
         m_bookFullName.clear();
         m_bookShortName.clear();
@@ -339,7 +326,6 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     progress.setValue(1);
 
     m_biblePath = path;
-    //hard cache: genrate fileName
     const QString fileName = m_settings->homePath + "cache/" + m_settings->hash(path) + "/";
     QDir dir;
     dir.mkpath(fileName);
@@ -372,8 +358,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     } else {
         codecString = moduleSettings.encoding;
     }
-    //myDebug() << "encoding = " << codecString;
-    //if codecString is not a valid decoder name, there can be problems
+    //if codecString is not a valid decoder name, there can be a crash
 #ifdef Q_WS_WIN
     //windows need some extra decoder functions, i do not know why
     if(codecString.toLower() == "utf-8") {
@@ -414,8 +399,6 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
         return;
     }
     data.clear();
-
-
 
     progress.setValue(10);
     KoXmlElement root = doc.documentElement();
@@ -512,7 +495,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     }
 }
 
-/*
+/**
   load only booknames and not every book and his data
   */
 void ZefaniaBible::loadCached(const int &id, const QString &path)
@@ -720,7 +703,8 @@ void ZefaniaBible::buildIndex()
     dir.mkpath(index);
 
     IndexWriter* writer = NULL;
-    lucene::analysis::WhitespaceAnalyzer an;
+    const TCHAR* stop_words[] = { NULL };
+    standard::StandardAnalyzer an(stop_words);
     if(IndexReader::indexExists(index.toStdString().c_str())) {
         if(IndexReader::isLocked(index.toStdString().c_str())) {
             myDebug() << "Index was locked... unlocking it.";
@@ -734,43 +718,48 @@ void ZefaniaBible::buildIndex()
 
     //index
     Document doc;
-    myDebug() << m_bookFullName.size();
-    for(int i = 0; i < m_bookFullName.size(); ++i) {
-        progress.setValue(i + 3);
-        Book book;
-
-        if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true && (!m_softCacheData.contains(i) || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {
-            const QDomNode node = readBookFromHardCache(m_biblePath, i);
-            book = fromHardToSoft(i, &node);
-            setSoftCache(i, book);
-        } else {
-            book = softCache(i);
+    bool canceled = false;
+    for(int bookCounter = 0; bookCounter < m_bookFullName.size(); ++bookCounter) {
+        if(progress.wasCanceled()) {
+            canceled = true;
+            break;
         }
+        progress.setValue(bookCounter+2);
+        QDomNode ncache;
+        ncache = readBookFromHardCache(m_biblePath, bookCounter);
+        QDomNode n = ncache.firstChild();
+        int chapterCounter;
+        const QString book = QString::number(bookCounter);
+        for(chapterCounter = 0; !n.isNull(); ++chapterCounter) {
+            QDomNode n2 = n.firstChild();
+            int verseCount = 0;
+            const QString chapter = QString::number(chapterCounter);
+            while(!n2.isNull()) {  //all verse
+                verseCount++;
+                QDomElement e2 = n2.toElement();
+                if(e2.tagName().toLower() == "vers") { // read only verse
+                    doc.clear();
+                    const QString t = e2.text();
+                    const QString verse = e2.attribute("vnumber", QString::number(verseCount));
 
-        QHash<int, Chapter>::const_iterator it = book.m_chapters.constBegin();
-        while(it != book.m_chapters.constEnd()) {
-            Chapter c = it.value();
-            QStringList verse = c.data;
-            for(int verseCounter = 0; verseCounter < verse.size(); ++verseCounter) {
-                doc.clear();
-                const QString t = verse.at(verseCounter);
-                const QString book = QString::number(i);
-                const QString chapter = QString::number(it.key());
-                const QString verse = QString::number(verseCounter);
+                    QString key = book + ";" + chapter + ";" + verse;
+                    doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
+                    doc.add(*new Field(_T("content"), t.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 
-                QString key = book + ";" + chapter + ";" + verse;
-                doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
-                doc.add(*new Field(_T("content"), t.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-
-                writer->addDocument(&doc);
+                    writer->addDocument(&doc);
+                }
+                n2 = n2.nextSibling();
             }
-            it++;
+            n = n.nextSibling();
         }
     }
 
-
-    writer->setUseCompoundFile(true);
-    writer->optimize();
+    if(canceled) {
+       removeDir(index);
+    } else {
+        writer->setUseCompoundFile(true);
+        writer->optimize();
+    }
 
     writer->close();
     delete writer;
@@ -791,7 +780,7 @@ void ZefaniaBible::search(SearchQuery query, SearchResult *res) const
         Document* doc = &h->doc(i);
         const QString stelle = QString::fromWCharArray(doc->get(_T("key")));
         // h->score(i)
-        QStringList l = stelle.split(";");
+        const QStringList l = stelle.split(";");
         if(query.range == SearchQuery::Whole || (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) || (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
             SearchHit hit;
             hit.setType(SearchHit::BibleHit);
