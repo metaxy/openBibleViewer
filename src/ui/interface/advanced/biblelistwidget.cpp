@@ -111,7 +111,7 @@ void BibleListWidget::save()
     m_moduleManager->bibleList()->clear();
     //load them
     int selectedModule = -1;//the selected bible
-    int lastModule;
+    int lastModule = 0;
     bool atLeastOne = false;
     for(int x = 0; x < m_model->rowCount(); ++x) {
         for(int y = 0; y < m_model->columnCount(); ++y) {

@@ -179,5 +179,9 @@ QString BibleList::title(Bible *b, const QString &active, const int &bibleListID
 
 bool BibleList::hasTopBar()
 {
-    return true;
+    int maxCol = 0;
+    foreach(const QPoint &p, m_biblePoints) {
+        maxCol = qMax(maxCol, p.y());
+    }
+    return maxCol >= 1;
 }

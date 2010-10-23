@@ -185,7 +185,7 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
 
             QDomText t = node.firstChild().toText();
             if(moduleSettings.zefbible_showStudyNote == true && element.attribute("type", "") == "x-studynote") {
-                t.setData("[<span style=\" font-size:small;\">" + t.data() + "</span>]");
+                t.setData("<span class =\"studynote\">" + t.data() + "</span>");
             } else {
                 t.setData("");
             }
@@ -201,7 +201,7 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
             else
                 add = "G";
 
-            t.setData(t.data() + "<sup><a href=\"strong://" + add + element.attribute("str", "") + "\">" + add + element.attribute("str", "") + "</a></sup>  ");
+            t.setData(t.data() + "<span class=\"gramlink\"><a href=\"gram://" + add + element.attribute("str", "") + "\">" + add + element.attribute("str", "") + "</a></span>");
             node.replaceChild(t, node.firstChild());
             e->replaceChild(node, n);
         } else if(n.nodeName().toLower() == "reflink") {
@@ -227,7 +227,7 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
             } else {
                 name = list.at(0) + " " + list.at(1) + "," + list.at(2);
             }
-            t.setData(" <a href=\"" + url + "\">" + name + "</a> ");
+            t.setData("<span class=\"crossreference\"><a class=\"reflink\" href=\"" + url + "\">" + name + "</a></span>");
             node.replaceChild(t, node.firstChild());
             e->replaceChild(node, n);
         }
@@ -508,7 +508,6 @@ void ZefaniaBible::loadCached(const int &id, const QString &path)
         clearSoftCache();
     }
 
-
     const QString fileName = m_settings->homePath + "cache/" + m_settings->hash(path) + "/";
     QFile file(fileName + "data");
     if(!file.open(QIODevice::ReadOnly)) {
@@ -580,13 +579,13 @@ QString ZefaniaBible::bibleName() const
 bool ZefaniaBible::hasIndex() const
 {
     DEBUG_FUNC_NAME
+    const QString index = indexPath();
     QDir d;
-    if(!d.exists(m_settings->homePath + "index")) {
+    if(!d.exists(index)) {
         return false;
     }
     //todo: check versions
 
-    const QString index = indexPath();
     return IndexReader::indexExists(index.toStdString().c_str());
 }
 //A faster (10%) alternative
@@ -695,9 +694,7 @@ void ZefaniaBible::buildIndex()
 void ZefaniaBible::buildIndex()
 {
     DEBUG_FUNC_NAME
-    QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, m_bookFullName.size() + 2);
-    progress.setValue(1);
-
+    QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, m_bookFullName.size());
     const QString index = indexPath();
     QDir dir("/");
     dir.mkpath(index);
@@ -724,7 +721,7 @@ void ZefaniaBible::buildIndex()
             canceled = true;
             break;
         }
-        progress.setValue(bookCounter+2);
+        progress.setValue(bookCounter);
         QDomNode ncache;
         ncache = readBookFromHardCache(m_biblePath, bookCounter);
         QDomNode n = ncache.firstChild();
@@ -740,7 +737,7 @@ void ZefaniaBible::buildIndex()
                 if(e2.tagName().toLower() == "vers") { // read only verse
                     doc.clear();
                     const QString t = e2.text();
-                    const QString verse = e2.attribute("vnumber", QString::number(verseCount));
+                    const QString verse = QString::number(e2.attribute("vnumber", QString::number(verseCount)).toInt()-1);
 
                     QString key = book + ";" + chapter + ";" + verse;
                     doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));

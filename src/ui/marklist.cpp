@@ -24,7 +24,12 @@ MarkList::MarkList(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->tableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
-
+}
+MarkList::~MarkList()
+{
+    delete ui;
+    delete m_itemModel;
+    delete m_proxyModel;
 }
 void MarkList::init()
 {
@@ -74,7 +79,6 @@ void MarkList::addMark(const int &row, const QString &id)
 
     m_itemModel->setItem(row, 0, stelle);
 
-
     QString t = "";
     if(m_moduleManager->getModule(urlConverter.m_moduleID) && !m_moduleManager->getModule(urlConverter.m_moduleID)->m_title.isEmpty())
         t = m_moduleManager->getModule(urlConverter.m_moduleID)->m_title;
@@ -96,12 +100,7 @@ void MarkList::load(QModelIndex index)
     emit get(urlConverter.convert());
 }
 
-MarkList::~MarkList()
-{
-    delete ui;
-    delete m_itemModel;
-    delete m_proxyModel;
-}
+
 void MarkList::showContextMenu(QPoint point)
 {
     QMenu *contextMenu = new QMenu(this);

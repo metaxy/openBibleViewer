@@ -13,9 +13,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "advancedinterface.h"
 #include "ui_advancedinterface.h"
+#include "src/core/faststart.h"
+#include "src/core/core.h"
+#include "src/core/search.h"
+#include "src/core/bibleurl.h"
 #include "src/core/dbghelper.h"
 #include "src/ui/dialog/searchdialog.h"
-#include "src/core/faststart.h"
+#include "src/ui/dialog/aboutdialog.h"
+#include "src/ui/noteseditor.h"
+#include "src/ui/marklist.h"
+
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QSizePolicy>
 #include <QtGui/QMdiSubWindow>
@@ -27,19 +34,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QFileDialog>
 #include <QtGui/QPrintDialog>
 #include <QtGui/QPrinter>
-#include <QtCore/QTimer>
 #include <QtGui/QColorDialog>
 #include <QtGui/QKeySequence>
-#include "src/ui/dialog/aboutdialog.h"
-#include "src/ui/noteseditor.h"
-#include "src/ui/marklist.h"
-#include "src/core/core.h"
-#include "src/core/search.h"
-#include "src/core/bibleurl.h"
-#include <QtWebKit/QWebInspector>
-#include <QtWebKit/QWebElementCollection>
 #include <QtGui/QLineEdit>
 #include <QtCore/QScopedPointer>
+#include <QtCore/QTimer>
+#include <QtWebKit/QWebInspector>
+#include <QtWebKit/QWebElementCollection>
 
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
     Interface(parent),
@@ -101,7 +102,7 @@ void AdvancedInterface::setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDoc
 void AdvancedInterface::init()
 {
     m_mdiAreaFilter = new MdiAreaFilter(ui->mdiArea);
-    connect(m_mdiAreaFilter, SIGNAL(resized()),this,SLOT(mdiAreaResized()));
+    connect(m_mdiAreaFilter, SIGNAL(resized()), this, SLOT(mdiAreaResized()));
 
     m_bibleDisplaySettings = new BibleDisplaySettings();
     m_bibleDisplaySettings->loadNotes = true;
@@ -443,20 +444,8 @@ int AdvancedInterface::closingWindow()
 {
     DEBUG_FUNC_NAME
     //myDebug() << "enable reload = " << m_enableReload << "subWIndowList = " << ui->mdiArea->subWindowList() << "internalWindow " << m_internalWindows;
-    if(!m_enableReload) {
-        //myDebug() << "reload is not enabled";
-        return 1;
-    }
-
-    if(ui->mdiArea->subWindowList().isEmpty()) {
+    if(!m_enableReload || ui->mdiArea->subWindowList().isEmpty() || m_internalWindows.isEmpty()) {
         //myDebug() << "subWindowList is empty";
-        clearBooks();
-        clearChapters();
-        m_windowCache.clearAll();
-        return 1;
-    }
-    if(m_internalWindows.isEmpty()) {
-        //myDebug() << "internaL is empty";
         clearBooks();
         clearChapters();
         m_windowCache.clearAll();
@@ -577,6 +566,7 @@ void AdvancedInterface::pharseUrl(QString url)
 
     const QString bible = "bible://";
     const QString strong = "strong://";
+    const QString gram = "gram://";
     const QString http = "http://";
     const QString bq = "go";
     const QString anchor = "#";
@@ -683,6 +673,10 @@ void AdvancedInterface::pharseUrl(QString url)
         url = url.remove(0, strong.size());
         m_dictionaryDockWidget->showStrong(url);
         //strong://strongID
+    } else if(url.startsWith(gram)) {
+        url = url.remove(0, gram.size());
+        m_dictionaryDockWidget->showStrong(url);
+        //gram://strongID
     } else if(url.startsWith(http)) {
         QDesktopServices::openUrl(url);
         //its a web link
@@ -826,7 +820,7 @@ void AdvancedInterface::showText(const QString &text)
             v->page()->mainFrame()->evaluateJavaScript("window.location.href = '#currentVerse';");
 #endif
             if(m_moduleManager->bibleList()->hasTopBar())
-                v->page()->mainFrame()->scroll(0,-30);//due to the biblelist bar on top
+                v->page()->mainFrame()->scroll(0,-40);//due to the biblelist bar on top
         }
 
         if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule) {
@@ -993,7 +987,7 @@ void AdvancedInterface::readBookByID(int id)
         if(!m_moduleManager->bible()->bookIDs().contains(id)) {
             myWarning() << "invalid bookID - 2(no book loaded) id = " << id << " count = " << m_moduleManager->bible()->booksCount();
         }
-        int read = m_moduleManager->bibleList()->readBook(id);
+        const int read = m_moduleManager->bibleList()->readBook(id);
         if(read != 0) {
             QApplication::restoreOverrideCursor();
             if(read == 2) {
@@ -1075,7 +1069,7 @@ void AdvancedInterface::reloadChapter(bool full)
 {
     if(!activeMdiChild())
         return;
-    QWebView *v = getView();
+    const QWebView *v = getView();
     const QPoint p = v->page()->mainFrame()->scrollPosition();
     if(full) {
         const int ret = loadModuleDataByID(m_moduleManager->bible()->moduleID());
@@ -1096,7 +1090,6 @@ void AdvancedInterface::reloadChapter(bool full)
 void AdvancedInterface::reloadActive()
 {
     DEBUG_FUNC_NAME
-
     setEnableReload(true);
     reloadWindow(ui->mdiArea->currentSubWindow());
     setEnableReload(false);
@@ -1413,7 +1406,7 @@ void AdvancedInterface::closing()
             while(i.hasNext()) {
                 i.next();
                 Bible *b = i.value();
-                if(b != 0 && b->moduleID() >= 0) {
+                if(b != NULL && b->moduleID() >= 0) {
                     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
                     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
                     urlConverter.setSettings(m_settings);
@@ -1981,14 +1974,15 @@ int AdvancedInterface::saveFile(void)
         QWebView *v = getView();
         QFileInfo fi(fileName);
         m_settings->session.setData("lastSaveFilePlace", fi.path());
-        if(fileName.endsWith(".html") || fileName.endsWith(".htm")) {
+        if(fi.suffix().compare("html",Qt::CaseInsensitive) == 0 ||
+           fi.suffix().compare("htm",Qt::CaseInsensitive) == 0) {
             QFile file(fileName);
             if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
                 return 1;
             QTextStream out(&file);
             out << v->page()->mainFrame()->toHtml();
             file.close();
-        } else if(fileName.endsWith(".pdf")) {
+        } else if(fi.suffix().compare("pdf",Qt::CaseInsensitive) == 0) {
             QPrinter printer;
             printer.setOutputFormat(QPrinter::PdfFormat);
             printer.setOutputFileName(fileName);

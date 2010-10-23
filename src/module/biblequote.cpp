@@ -49,8 +49,6 @@ QString BibleQuote::formatFromIni(QString input)
 }
 void BibleQuote::loadBibleData(const int &bibleID, QString path)
 {
-
-    //DEBUG_FUNC_NAME
     m_bibleID = bibleID;
     m_bookFullName.clear();
     m_bookPath.clear();
@@ -61,6 +59,7 @@ void BibleQuote::loadBibleData(const int &bibleID, QString path)
     m_removeHtml = "";
     m_verseSign = "";
     m_chapterZero = false;
+
     int lastPos = path.lastIndexOf("/");
     QString path_ = path;
     m_biblePath = path_.remove(lastPos, path.size());
@@ -70,7 +69,6 @@ void BibleQuote::loadBibleData(const int &bibleID, QString path)
 
     QFile file;
     file.setFileName(path);
-    //myDebug() << "id = " << m_bibleID << " fileName = " << file.fileName() << " currentBiblePath = " << m_biblePath;
     QString encoding;
     if(m_settings->getModuleSettings(m_bibleID).encoding == "Default" || m_settings->getModuleSettings(m_bibleID).encoding == "") {
         encoding = m_settings->encoding;
@@ -89,22 +87,22 @@ void BibleQuote::loadBibleData(const int &bibleID, QString path)
                 continue;
             }
 
-            if(line.contains("BibleName", Qt::CaseInsensitive) && !line.startsWith("//")) {
+            if(line.contains("BibleName", Qt::CaseInsensitive)) {
                 m_bibleName = formatFromIni(line.remove(QRegExp("BibleName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
             }
-            if(line.contains("BibleShortName", Qt::CaseInsensitive) && !line.startsWith("//")) {
+            if(line.contains("BibleShortName", Qt::CaseInsensitive)) {
                 m_bibleShortName = formatFromIni(line.remove(QRegExp("BibleShortName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
             }
-            if(line.contains("ChapterSign", Qt::CaseInsensitive) && !line.startsWith("//")) {
+            if(line.contains("ChapterSign", Qt::CaseInsensitive)) {
                 m_chapterSign = formatFromIni(line.remove(QRegExp("ChapterSign(\\s*)=(\\s*)", Qt::CaseInsensitive)));
             }
-            if(line.contains("HTMLFilter", Qt::CaseInsensitive) && !line.startsWith("//")) {
+            if(line.contains("HTMLFilter", Qt::CaseInsensitive)) {
                 m_removeHtml = formatFromIni(line.remove(QRegExp("HTMLFilter(\\s*)=(\\s*)", Qt::CaseInsensitive)));
             }
-            if(line.contains("VerseSign", Qt::CaseInsensitive) && !line.startsWith("//")) {
+            if(line.contains("VerseSign", Qt::CaseInsensitive)) {
                 m_verseSign = formatFromIni(line.remove(QRegExp("VerseSign(\\s*)=(\\s*)", Qt::CaseInsensitive)));
             }
-            if(line.contains("ChapterZero", Qt::CaseInsensitive) && !line.startsWith("//")) {
+            if(line.contains("ChapterZero", Qt::CaseInsensitive)) {
                 const QString zero = formatFromIni(line.remove(QRegExp("ChapterZero(\\s*)=(\\s*)", Qt::CaseInsensitive)));
                 if(zero.compare("Y", Qt::CaseInsensitive) == 0) {
                     m_chapterZero = true;
@@ -112,30 +110,30 @@ void BibleQuote::loadBibleData(const int &bibleID, QString path)
                     m_chapterZero = false;
                 }
             }
-            if(started == false && line.contains("BookQty", Qt::CaseInsensitive) && !line.startsWith("//")) {
+
+            if(started == false && line.contains("BookQty", Qt::CaseInsensitive)) {
                 started = true;
             }
             if(started == true) {
                 if(started2 == true) {
-                    if(line.contains("ChapterQty", Qt::CaseInsensitive) && !line.startsWith("//")) {
+                    if(line.contains("ChapterQty", Qt::CaseInsensitive)) {
                         m_bookCount[i] = formatFromIni(line.remove(QRegExp("ChapterQty(\\s*)=(\\s*)", Qt::CaseInsensitive))).toInt();
                         i++;
-                        //chapterqty auslesen
                         started2 = false;
-                    } else if(line.contains("FullName", Qt::CaseInsensitive) && !line.startsWith("//")) {
+                    } else if(line.contains("FullName", Qt::CaseInsensitive)) {
                         m_bookFullName << formatFromIni(line.remove(QRegExp("FullName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
 
-                    } else if(line.contains("ShortName", Qt::CaseInsensitive) && !line.startsWith("//")) {
+                    } else if(line.contains("ShortName", Qt::CaseInsensitive)) {
                         const QString s = formatFromIni(line.remove(QRegExp("ShortName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
                         QStringList l = s.split(" ");
                         m_bookShortName.append(l);
 
                     }
-                } else if(line.contains("PathName", Qt::CaseInsensitive) && !line.startsWith("//")) {
+                } else if(line.contains("PathName", Qt::CaseInsensitive)) {
                     count++;
                     started2 = true;
                     m_bookPath << formatFromIni(line.remove(QRegExp("PathName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
-                    //pathname auslesen
+
                 }
             }
 
@@ -314,7 +312,8 @@ void BibleQuote::buildIndex()
     }
 
     IndexWriter* writer = NULL;
-    lucene::analysis::WhitespaceAnalyzer an;
+    const TCHAR* stop_words[] = { NULL };
+    standard::StandardAnalyzer an(stop_words);
     if(IndexReader::indexExists(index.toStdString().c_str())) {
         if(IndexReader::isLocked(index.toStdString().c_str())) {
             myDebug() << "Index was locked... unlocking it.";

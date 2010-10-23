@@ -54,3 +54,61 @@
 td.rowTitle {
     width:5em;
 }
+.currententry {
+    font-weight:bold;
+    padding: 2px;
+    /*vertical-align: middle;*/
+    text-align: justify;
+    background-color: #E6E4FF;
+}
+
+.gramlink {
+    font-size: 70%;
+    vertical-align: super;
+}
+.gramlink:after {
+    content: "  ";
+}
+.gramlink a{
+    color:#323232;
+    text-decoration:none;
+}
+.gramlink a:hover{
+    color:#0080AF;
+    text-decoration:underline;
+}
+.crossreference {
+    font-size: 80%;
+    color: blue;
+}
+.crossreference:before {
+    content: " [";
+}
+.crossreference:after {
+    content: "] ";
+}
+.crossreference a{
+    color: blue;
+}
+.crossreference a:hover{
+    color: green;
+}
+
+.studynote:before {
+    content: "(";
+}
+.studynote:after {
+    content: ")";
+}
+.studynote {
+    font-size: small;
+}
+
+
+.verseNumber {
+    font-size: smaller;
+    vertical-align: super;
+}
+.verseNumber:after {
+    content: " ";
+}

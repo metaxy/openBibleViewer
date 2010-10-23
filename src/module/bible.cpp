@@ -288,17 +288,16 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
 
 
             if(i == markVerseID) {
-                vers.prepend("<span style=\"font-weight: bold;\">");
+                vers.prepend("<span class=\"currententry\">");
                 vers.append("</span>");
             }
             {
                 QString prepend;
                 QString append;
+                prepend = "<span class=\"verseNumber\">" + c.verseNumber.at(i) + "</span>";
                 if(moduleSettings.zefbible_textFormatting == 0) {
-                    prepend = "<sup>" + c.verseNumber.at(i) + "</sup> ";
                     append = "<br />";
                 } else {
-                    prepend = "<sup>" + c.verseNumber.at(i) + "</sup> ";
                     append = "\n";
                 }
                 if(i == markVerseID) {
