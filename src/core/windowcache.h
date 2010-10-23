@@ -28,19 +28,22 @@ class WindowCache
 public:
     WindowCache();
 
-    void newWindow();
+    int newWindow();
     void removeWindow(const int &id);
     void clearAll();
 
     bool setCurrentWindowID(const int &id);
+    bool setCurrentWindowName(const int &name);
     void setBibleList(BibleList *b);
 
-    BibleList* getBibleList();
-    bool m_reload;
-    int currentWindowID();
+    BibleList* getBibleList() const;
+
+    int currentWindowID() const;
+    QList<int> nameList() const;
 private:
-    QStringList m_idList;
-    int m_currentWindowID;
+    bool m_reload;
+    QList<int> m_nameList;
+    int m_windowName;
     QMap<int, BibleList*> m_b;
 
 };

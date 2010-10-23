@@ -417,7 +417,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
 
     if(saveRawData)
         m_lastout = out;
-    myDebug() << out;
+    //myDebug() << out;
     return out;
 }
 

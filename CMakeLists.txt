@@ -202,7 +202,7 @@ set ( openBibleViewer_SRCS
 	src/module/modulemanager.cpp
 	src/module/module.cpp
 	src/module/simplemoduleclass.cpp
-	src/module/biblelist.cüp
+	src/module/biblelist.cpp
 	src/module/modulemap.cpp
 	src/module/dictionary.cpp
 	src/module/biblequote-dict.cpp

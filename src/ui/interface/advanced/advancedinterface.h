@@ -142,10 +142,7 @@ private:
 
     QMdiSubWindow *activeMdiChild();
     QList<QMdiSubWindow*> usableWindowList();
-    QList<QMdiSubWindow *> m_internalWindows;
-
-    int currentWindowID();
-    int tabIDof(QMdiSubWindow* window);
+    int currentWindowName();
     WindowCache m_windowCache;
     int m_lastActiveWindow;
     QWebView* getView();

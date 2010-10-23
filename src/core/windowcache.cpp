@@ -20,25 +20,33 @@ WindowCache::WindowCache()
 }
 void WindowCache::setBibleList(BibleList *b)
 {
-    m_b[m_currentWindowID] = b;
+    m_b[m_windowName] = b;
 }
-void WindowCache::newWindow()
+/**
+  Generate a new window name
+  @return the window name
+  */
+int WindowCache::newWindow()
 {
-    m_currentWindowID = m_idList.size();
-    m_idList << QString::number(m_idList.size());
+    m_windowName = m_nameList.size();//Generate a new window
+    m_nameList << m_windowName;
+    return m_windowName;
 }
-void WindowCache::removeWindow(const int &id)
+void WindowCache::removeWindow(const int &name)
 {
     DEBUG_FUNC_NAME
-    BibleList *list = m_b[id];
+    BibleList *list = m_b[name];
     if(list) {
         delete list;
         list = 0;
-        m_b.remove(id);
+        m_b.remove(name);
     }
+    m_nameList.removeOne(name);
 
-    m_idList.removeAt(id);
 }
+/**
+  Deletes all BibleLists and clears internal data
+  */
 void WindowCache::clearAll()
 {
     DEBUG_FUNC_NAME
@@ -47,30 +55,52 @@ void WindowCache::clearAll()
             delete list;
         }
     }
-    m_idList.clear();
+    m_nameList.clear();
     m_b.clear();
+    m_windowName = 0;
 }
 
 bool WindowCache::setCurrentWindowID(const int &id)
 {
-    if(id < m_idList.size() && id >= 0) {
-        m_currentWindowID = m_idList.at(id).toInt();
+    myDebug() << id;
+    if(id < m_nameList.size() && id >= 0) {
+        m_windowName = m_nameList.at(id);
         return true;
     }
     myWarning() << "failed to set current window id to " << id;
     return false;
 }
-BibleList* WindowCache::getBibleList()
+bool WindowCache::setCurrentWindowName(const int &name)
 {
-    if(m_b.contains(m_currentWindowID))
-        return m_b[m_currentWindowID];
+    if(name >= 0) {
+        m_windowName = name;
+        return true;
+    }
+    myWarning() << "failed to set current window name to " << name;
+    return false;
+}
+BibleList* WindowCache::getBibleList() const
+{
+    DEBUG_FUNC_NAME
+    myDebug() << "window Name = " << m_windowName << " windowID = " << currentWindowID();
+
+    if(m_b.contains(m_windowName))
+        return m_b[m_windowName];
     else {
-        myWarning() << "no biblelist at " << m_currentWindowID;
+        myWarning() << "no biblelist at " << m_windowName;
         return 0;
     }
 }
-int WindowCache::currentWindowID()
+/**
+  @return current Window ID
+  */
+int WindowCache::currentWindowID() const
 {
-    return m_currentWindowID;
+    return m_nameList.value(m_windowName);
+}
+
+QList<int> WindowCache::nameList() const
+{
+    return m_nameList;
 }
 
