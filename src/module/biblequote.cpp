@@ -222,7 +222,7 @@ int BibleQuote::readBook(const int &id, QString path)
 
             //filterout
             if(m_settings->getModuleSettings(m_bibleID).biblequote_removeHtml == true && removeHtml2.size() > 0) {
-                foreach(const QString &r, removeHtml2) {
+                foreach(const QString & r, removeHtml2) {
                     line = line.remove(r, Qt::CaseInsensitive);
                 }
 
@@ -248,7 +248,7 @@ int BibleQuote::readBook(const int &id, QString path)
         QDir d(info.absoluteDir());
         QStringList list = d.entryList();
 
-        foreach(const QString &f, list) {
+        foreach(const QString & f, list) {
             QFileInfo info2(f);
             if(info2.baseName().compare(info.baseName(), Qt::CaseInsensitive) == 0) {
                 return readBook(id, f);

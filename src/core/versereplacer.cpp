@@ -43,23 +43,23 @@ void VerseReplacer::exec(QStringList *list)
             QStack<int> posStack;
             QStack<QString> stringStack;
             QMapIterator<int, QString> i(m_inserts.value(verse));
-            while (i.hasNext()) {
+            while(i.hasNext()) {
                 i.next();
                 posStack.push(i.key());
                 stringStack.push(i.value());
             }
             QString vers = list->at(verse);
-            while (!posStack.isEmpty()) {
+            while(!posStack.isEmpty()) {
                 int pos = posStack.pop();
                 QString in = stringStack.pop();
                 //myDebug() << "pos = " << pos << " in = " << in;
-                vers.insert(pos,in);
+                vers.insert(pos, in);
             }
             //than append and prepend
             vers.append(m_appends.value(verse));
             vers.prepend(m_prepends.value(verse));
             //myDebug() << "vers = " << vers;
-            list->replace(verse,vers);
+            list->replace(verse, vers);
         }
     }
 }

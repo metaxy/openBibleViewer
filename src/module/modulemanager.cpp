@@ -57,7 +57,7 @@ QStringList ModuleManager::scan(const QString &path, const int &level = 0)
     QStringList ret;
     QDir dir(path);
     const QFileInfoList list = dir.entryInfoList();
-    foreach(const QFileInfo &info, list) {
+    foreach(const QFileInfo & info, list) {
         if(info.fileName() != ".." && info.fileName() != ".") {
             if(info.isDir()) {
                 if(level <= 2)//i think this is ok
@@ -141,7 +141,7 @@ int ModuleManager::loadAllModules()
                 list = scan(rpath);
                 scaned = true;
             }
-            foreach(const QString &fileName, list) { //Alle Ordner auslesen
+            foreach(const QString & fileName, list) { //Alle Ordner auslesen
                 QFile file;
                 moduleType = Module::NoneType;
 

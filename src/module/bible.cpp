@@ -111,11 +111,11 @@ int Bible::loadModuleData(const int &moduleID)
         m_bookShortName.clear();
         m_bookIDs.clear();
         int count = 0;
-        foreach(const QString &bookID, m_zef->m_bookIDs) {
+        foreach(const QString & bookID, m_zef->m_bookIDs) {
             const int id = bookID.toInt();
             m_bookIDs.append(id);
             m_bookFullName[id] = m_zef->m_bookFullName.at(count);
-            foreach(const QString &s, m_zef->m_bookShortName.at(count)) {
+            foreach(const QString & s, m_zef->m_bookShortName.at(count)) {
                 m_bookShortName[id] = QStringList(s) ;
             }
             count++;
@@ -171,7 +171,7 @@ int Bible::readBook(int id)
         m_chapterNames.clear();
         m_zef->readBook(id);
         m_book = m_zef->m_book;
-        for(int i = 1; i <= m_zef->m_bookCount.value(id,0); ++i) {
+        for(int i = 1; i <= m_zef->m_bookCount.value(id, 0); ++i) {
             m_chapterNames << QString::number(i);
         }
         break;
@@ -216,7 +216,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
         }
         Chapter chapter = m_book.getChapter(chapterID + 1); //get data for this chapter
         if(saveRawData)
-             m_rawChapter = chapter;
+            m_rawChapter = chapter;
         //find out where to read verse
         int end;
         if(endVerse == -1) {
@@ -368,14 +368,14 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
 
 
                             replacer.setInsert(startVersID, startPos, pre);
-                            replacer.setAppend(startVersID,ap);
+                            replacer.setAppend(startVersID, ap);
                             for(int i = startVersID + 1; i < endVersID; i++) {
-                                replacer.setAppend(i,ap);
-                                replacer.setPrepend(i,pre);
+                                replacer.setAppend(i, ap);
+                                replacer.setPrepend(i, pre);
 
                             }
                             replacer.setInsert(endVersID, endPos, ap);
-                            replacer.setPrepend(endVersID,pre);
+                            replacer.setPrepend(endVersID, pre);
 
                         }
                     }

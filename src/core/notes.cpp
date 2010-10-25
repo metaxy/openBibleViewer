@@ -93,7 +93,7 @@ int Notes::loadNotes()
   */
 QString Notes::getType(const QString &id)
 {
-    return notesType.value(id,"");
+    return notesType.value(id, "");
 }
 /*!
   Get the note title
@@ -109,7 +109,7 @@ QString Notes::getTitle(const QString &id)
   */
 QString Notes::getData(const QString &id)
 {
-        return notesData.value(id, "");
+    return notesData.value(id, "");
 }
 /*!
   Get the note reference
@@ -120,7 +120,7 @@ QString Notes::getRef(const QString &id, const QString &refID)
 {
     if(notesRef.contains(id)) {
         QMap<QString, QString> r = notesRef.value(id);
-        return r.value(refID,"");
+        return r.value(refID, "");
     } else {
         return QString();
     }

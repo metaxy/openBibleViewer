@@ -108,7 +108,7 @@ void DictionaryDockWidget::loadModule(int id)
         QCompleter *completer = new QCompleter(m_moduleManager->dictionary()->getAllKeys(), this);
         completer->setCaseSensitivity(Qt::CaseInsensitive);
         ui->lineEdit_strong->setCompleter(completer);
-        m_settings->session.setData("lastDictModule",m_settings->savableUrl(m->m_path));
+        m_settings->session.setData("lastDictModule", m_settings->savableUrl(m->m_path));
     }
 }
 

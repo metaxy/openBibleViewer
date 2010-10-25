@@ -54,7 +54,7 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
 
     QList<SearchHit> hits = m_searchResult.hits();
     QMap<int, QStandardItem *> m_bookItems;
-    foreach(const SearchHit &hit, hits) {
+    foreach(const SearchHit & hit, hits) {
         if(hit.type() != SearchHit::BibleHit)
             continue;
         const int book = hit.value(SearchHit::BookID).toInt();

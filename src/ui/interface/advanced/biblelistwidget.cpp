@@ -40,7 +40,7 @@ void BibleListWidget::init()
 {
     int maxRow = 0;
     int maxCol = 0;
-    foreach(const QPoint &p, m_moduleManager->bibleList()->m_biblePoints) {
+    foreach(const QPoint & p, m_moduleManager->bibleList()->m_biblePoints) {
         maxRow = qMax(maxRow, p.x());
         maxCol = qMax(maxCol, p.y());
     }

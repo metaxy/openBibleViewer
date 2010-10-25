@@ -49,7 +49,7 @@ public:
     int bookID() const;
     int bibleID() const;
     QString biblePath() const;
-    QString bibleName () const;
+    QString bibleName() const;
 
     QStringList m_bookFullName;
     QStringList m_bookShortName;

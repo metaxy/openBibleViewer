@@ -41,7 +41,7 @@ bool removeDir(const QString &dirName)
     QDir dir(dirName);
 
     if(dir.exists(dirName)) {
-        foreach(const QFileInfo &info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden  | QDir::AllDirs | QDir::Files, QDir::DirsFirst)) {
+        foreach(const QFileInfo & info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden  | QDir::AllDirs | QDir::Files, QDir::DirsFirst)) {
             if(info.isDir()) {
                 result = removeDir(info.absoluteFilePath());
             } else {

@@ -79,7 +79,7 @@ int GoTo::bookNameToBookID(const QString& name)
     }
     if(bookID == -1) {
         for(int i = 0; i < m_bookShortName.size(); ++i) {
-            foreach(const QString &n, m_bookShortName.at(i)) {
+            foreach(const QString & n, m_bookShortName.at(i)) {
                 if(name == n) {
                     bookID = i;
                     i = m_bookShortName.size();
@@ -99,7 +99,7 @@ int GoTo::bookNameToBookID(const QString& name)
     }
     if(bookID == -1) {
         for(int i = 0; i < m_bookShortName.size(); ++i) {
-            foreach(const QString &n, m_bookShortName.at(i)) {
+            foreach(const QString & n, m_bookShortName.at(i)) {
                 if(n.startsWith(name, Qt::CaseInsensitive)) {
                     bookID = i;
                     i = m_bookShortName.size();
@@ -117,7 +117,7 @@ int GoTo::bookNameToBookID(const QString& name)
             }
         }
         for(int i = 0; i < m_bookShortName.size(); ++i) {
-            foreach(const QString &n, m_bookShortName.at(i)) {
+            foreach(const QString & n, m_bookShortName.at(i)) {
                 int lev = levenshteinDistance(n, m_bookFullName.at(i));
                 if(lev < min || min < 0) {
                     bookID = i;

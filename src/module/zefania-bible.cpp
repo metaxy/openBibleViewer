@@ -136,7 +136,7 @@ void ZefaniaBible::readBook(const int &id)
     }
     //m_book = fromHardToSoft(m_bookID, &ncache);
 
-    m_bookCount.insert(id,i);
+    m_bookCount.insert(id, i);
     setSoftCache(m_bookID, m_book);
 }
 /**
@@ -737,7 +737,7 @@ void ZefaniaBible::buildIndex()
                 if(e2.tagName().toLower() == "vers") { // read only verse
                     doc.clear();
                     const QString t = e2.text();
-                    const QString verse = QString::number(e2.attribute("vnumber", QString::number(verseCount)).toInt()-1);
+                    const QString verse = QString::number(e2.attribute("vnumber", QString::number(verseCount)).toInt() - 1);
 
                     QString key = book + ";" + chapter + ";" + verse;
                     doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
@@ -752,7 +752,7 @@ void ZefaniaBible::buildIndex()
     }
 
     if(canceled) {
-       removeDir(index);
+        removeDir(index);
     } else {
         writer->setUseCompoundFile(true);
         writer->optimize();

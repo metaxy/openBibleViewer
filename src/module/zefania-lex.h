@@ -29,7 +29,7 @@ public:
     ZefaniaLex();
     void setSettings(Settings *settings);
     void setID(int moduleID, const QString &path);
-    QString buildIndexFromData(const QString &fileData,const QString &fileName);
+    QString buildIndexFromData(const QString &fileData, const QString &fileName);
     QString getEntry(const QString &entry);
     QStringList getAllKeys();
     bool hasIndex();

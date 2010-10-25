@@ -18,7 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 class MdiAreaFilter : public QObject
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     explicit MdiAreaFilter(QObject *parent = 0);
 

@@ -465,7 +465,7 @@ void MainWindow::loadSettings()
         const QStringList ids = m_settingsFile->value("bookIDs").toStringList();
         QHash<int, QString> bookNames;
         for(int n = 0; n < ids.size(); ++n) {
-            bookNames.insert(ids.at(n).toInt(),names.at(n));
+            bookNames.insert(ids.at(n).toInt(), names.at(n));
         }
         c.bookNames = bookNames;
         c.title = m_settingsFile->value("title").toString();

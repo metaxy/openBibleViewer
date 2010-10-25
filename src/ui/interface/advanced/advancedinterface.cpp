@@ -247,13 +247,13 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
     connect(mForm->m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     connect(mForm->m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
 
-    mForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows,true);
-    mForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard,true);
-    mForm->m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled,true);
-    mForm->m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled,true);
-    mForm->m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled,true);
-    mForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls,true);
-    mForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls,true);
+    mForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
+    mForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
+    mForm->m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
+    mForm->m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled, true);
+    mForm->m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
+    mForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
+    mForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
 
     connect(mForm, SIGNAL(historyGo(QString)), this, SLOT(pharseUrl(QString)));
     connect(mForm, SIGNAL(previousChapter()), this, SLOT(previousChapter()));
@@ -433,8 +433,8 @@ void AdvancedInterface::closeSubWindow()
 int AdvancedInterface::closingWindow()
 {
     DEBUG_FUNC_NAME
-   // myDebug() << "enable reload = " << m_enableReload << "subWIndowList = " << ui->mdiArea->subWindowList() << "internalWindow " << m_internalWindows;
-    if( ui->mdiArea->subWindowList().isEmpty()) {
+    // myDebug() << "enable reload = " << m_enableReload << "subWIndowList = " << ui->mdiArea->subWindowList() << "internalWindow " << m_internalWindows;
+    if(ui->mdiArea->subWindowList().isEmpty()) {
         myDebug() << "subWindowList is empty";
         clearBooks();
         clearChapters();
@@ -444,13 +444,13 @@ int AdvancedInterface::closingWindow()
     //if one in the internal subwindow list list is missing that window was closed
     QList<int> nameList = m_windowCache.nameList();
     QList<int> deletedList = nameList;
-    foreach(QMdiSubWindow *win, ui->mdiArea->subWindowList()) {
+    foreach(QMdiSubWindow * win, ui->mdiArea->subWindowList()) {
         if(nameList.contains(win->objectName().toInt())) {
             deletedList.removeOne(win->objectName().toInt());
         }
 
     }
-    foreach(const int &name, deletedList) {
+    foreach(const int & name, deletedList) {
         m_windowCache.removeWindow(name);
     }
 
@@ -514,7 +514,7 @@ int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
 void AdvancedInterface::mdiAreaResized()
 {
     DEBUG_FUNC_NAME
-            //todo: really every do time autoLayout ?
+    //todo: really every do time autoLayout ?
     if(ui->mdiArea->viewMode() == QMdiArea::SubWindowView)
         autoLayout();
 }
@@ -765,8 +765,8 @@ void AdvancedInterface::pharseUrl(QString url)
             const QStringList books = m_moduleManager->bible()->bookPath();
             myDebug() << books;
             int i = 0;
-            foreach(const QString &book, books) {
-                if(book.endsWith(url,Qt::CaseInsensitive)) {
+            foreach(const QString & book, books) {
+                if(book.endsWith(url, Qt::CaseInsensitive)) {
                     b = i;
                     isInBookPath = true;
                     myDebug() << b;
@@ -836,7 +836,7 @@ void AdvancedInterface::showText(const QString &text)
             v->page()->mainFrame()->evaluateJavaScript("window.location.href = '#currentVerse';");
 #endif
             if(m_moduleManager->bibleList()->hasTopBar())
-                v->page()->mainFrame()->scroll(0,-40);//due to the biblelist bar on top
+                v->page()->mainFrame()->scroll(0, -40); //due to the biblelist bar on top
         }
 
         if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule) {
@@ -847,7 +847,7 @@ void AdvancedInterface::showText(const QString &text)
                 QString url = paraElement.attribute("src");
                 if(url.startsWith(":/") || url.startsWith("http"))
                     continue;
-                foreach(const QString &pre, searchPaths) {
+                foreach(const QString & pre, searchPaths) {
                     QFileInfo i(pre + url);
                     if(i.exists()) {
                         paraElement.setAttribute("src", "file://" + pre + url);
@@ -855,7 +855,7 @@ void AdvancedInterface::showText(const QString &text)
                     } else {
                         QDir d(pre);
                         QStringList list = d.entryList();
-                        foreach(const QString &f, list) {
+                        foreach(const QString & f, list) {
                             QFileInfo info2(f);
                             if(info2.baseName().compare(i.baseName(), Qt::CaseInsensitive) == 0) {
                                 paraElement.setAttribute("src", "file://" + pre + f);
@@ -1094,7 +1094,7 @@ void AdvancedInterface::reloadChapter(bool full)
         url.setBook(BibleUrl::LoadCurrentBook);
         url.setChapter(BibleUrl::LoadCurrentChapter);
         url.setVerse(BibleUrl::LoadCurrentVerse);
-        url.setParam("force","true");
+        url.setParam("force", "true");
         emit get(url.toString());
     } else {
         BibleUrl url;
@@ -1102,7 +1102,7 @@ void AdvancedInterface::reloadChapter(bool full)
         url.setBook(BibleUrl::LoadCurrentBook);
         url.setChapter(BibleUrl::LoadCurrentChapter);
         url.setVerse(BibleUrl::LoadCurrentVerse);
-        url.setParam("forceReloadChapter","true");
+        url.setParam("forceReloadChapter", "true");
         emit get(url.toString());
     }
     v->page()->mainFrame()->setScrollPosition(p);
@@ -1156,13 +1156,13 @@ VerseSelection AdvancedInterface::verseSelection()
             //find the last long string if the selection is over more than one verse long
             QString lastLongest = selectedText;
             int lastPos = -2;
-            for(int i = selectedText.size()-1; i > 0; i--) {
+            for(int i = selectedText.size() - 1; i > 0; i--) {
                 const int pos = startVerseText.lastIndexOf(lastLongest);
                 if(pos != -1) {
                     lastPos = pos;
                     break;
                 }
-                lastLongest.remove(i,selectedText.size());
+                lastLongest.remove(i, selectedText.size());
             }
             //and shorten it
             sText.clear();
@@ -1196,7 +1196,7 @@ VerseSelection AdvancedInterface::verseSelection()
                     firstPos = pos;
                     break;
                 }
-                firstLongest.remove(0,1);
+                firstLongest.remove(0, 1);
             }
             //and shorten it
             sText.clear();
@@ -1218,42 +1218,42 @@ VerseSelection AdvancedInterface::verseSelection()
     }
     myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
     //todo: 0.6
-   /* if(s.canBeUsedForMarks() == false) {
-        //now the ultimative alogrithm
-        f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection();adVerseSelection.getSelection();");
-        const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
+    /* if(s.canBeUsedForMarks() == false) {
+         //now the ultimative alogrithm
+         f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection();adVerseSelection.getSelection();");
+         const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
 
-        const QString uniqueString = "!-_OPENBIBLEVIEWER_INSERT_-!";
-        int posOfInsert = startVerseText2.lastIndexOf(uniqueString);
+         const QString uniqueString = "!-_OPENBIBLEVIEWER_INSERT_-!";
+         int posOfInsert = startVerseText2.lastIndexOf(uniqueString);
 
-        QString back = selectedText;
-        QString longestString;
-        for(int i = selectedText.size()-1; i > 0; i--) {
-            const int pos = startVerseText2.indexOf(back);
-            if(pos != -1) {
-                longestString = back;
-                break;
-            }
-            back.remove(i,selectedText.size());
-        }
+         QString back = selectedText;
+         QString longestString;
+         for(int i = selectedText.size()-1; i > 0; i--) {
+             const int pos = startVerseText2.indexOf(back);
+             if(pos != -1) {
+                 longestString = back;
+                 break;
+             }
+             back.remove(i,selectedText.size());
+         }
 
-        int count = 0;
-        int currentPos = 0;
-        while(true) {
-            currentPos = startVerseText2.indexOf(longestString,currentPos+1);
-            if(currentPos > posOfInsert || currentPos == -1) {
-                break;
-            }
-            count++;
-        }
-        s.type = VerseSelection::RepeatOfLongestString;
-        s.repeat = count;
-        s.longestString = longestString;
-        //s.setCanBeUsedForMarks(true);
-        //todo: end
-        //myDebug() << longestString << " count = " << count;
+         int count = 0;
+         int currentPos = 0;
+         while(true) {
+             currentPos = startVerseText2.indexOf(longestString,currentPos+1);
+             if(currentPos > posOfInsert || currentPos == -1) {
+                 break;
+             }
+             count++;
+         }
+         s.type = VerseSelection::RepeatOfLongestString;
+         s.repeat = count;
+         s.longestString = longestString;
+         //s.setCanBeUsedForMarks(true);
+         //todo: end
+         //myDebug() << longestString << " count = " << count;
 
-    }*/
+     }*/
     return s;
 }
 
@@ -2077,15 +2077,15 @@ int AdvancedInterface::saveFile(void)
         QWebView *v = getView();
         QFileInfo fi(fileName);
         m_settings->session.setData("lastSaveFilePlace", fi.path());
-        if(fi.suffix().compare("html",Qt::CaseInsensitive) == 0 ||
-           fi.suffix().compare("htm",Qt::CaseInsensitive) == 0) {
+        if(fi.suffix().compare("html", Qt::CaseInsensitive) == 0 ||
+                fi.suffix().compare("htm", Qt::CaseInsensitive) == 0) {
             QFile file(fileName);
             if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
                 return 1;
             QTextStream out(&file);
             out << v->page()->mainFrame()->toHtml();
             file.close();
-        } else if(fi.suffix().compare("pdf",Qt::CaseInsensitive) == 0) {
+        } else if(fi.suffix().compare("pdf", Qt::CaseInsensitive) == 0) {
             QPrinter printer;
             printer.setOutputFormat(QPrinter::PdfFormat);
             printer.setOutputFileName(fileName);

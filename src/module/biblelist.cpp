@@ -83,7 +83,7 @@ QString BibleList::readChapter(int chapterID, int verseID)
 
         int maxRow = 0;
         int maxCol = 0;
-        foreach(const QPoint &p, m_biblePoints) {
+        foreach(const QPoint & p, m_biblePoints) {
             maxRow = qMax(maxRow, p.x());
             maxCol = qMax(maxCol, p.y());
         }
@@ -162,7 +162,7 @@ int BibleList::countInCol(const int &col)
 {
     QList<QPoint> list = m_biblePoints.values();
     int count = 0;
-    foreach(const QPoint &p, list) {
+    foreach(const QPoint & p, list) {
         if(p.y() == col)
             count++;
     }
@@ -180,7 +180,7 @@ QString BibleList::title(Bible *b, const QString &active, const int &bibleListID
 bool BibleList::hasTopBar()
 {
     int maxCol = 0;
-    foreach(const QPoint &p, m_biblePoints) {
+    foreach(const QPoint & p, m_biblePoints) {
         maxCol = qMax(maxCol, p.y());
     }
     return maxCol >= 1;

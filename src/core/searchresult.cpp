@@ -60,7 +60,7 @@ QList<SearchHit> SearchResult::hits()
 QList<SearchHit> SearchResult::hits(SearchHit::SearchHitType type)
 {
     QList<SearchHit> l;
-    foreach(const SearchHit &h, m_hits) {
+    foreach(const SearchHit & h, m_hits) {
         if(h.type() == type)
             l << h;
     }
