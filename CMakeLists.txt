@@ -101,7 +101,6 @@ include ( ${QT_USE_FILE} )
 
 message ( STATUS "Build static clucene" )
 
-
 option( _PORTABLE_VERSION "Build a protable version" OFF )
 
 configure_file( ${openBibleViewer_SOURCE_DIR}/src/config.h.cmake 
