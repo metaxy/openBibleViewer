@@ -18,15 +18,15 @@ Source: %{name}-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
 
 %if 0%{?fedora_version}
-BuildRequires: qt-devel >= 4.6 gcc-c++ clucene-core-devel
+BuildRequires: qt-devel >= 4.6 gcc-c++ clucene-core-devel libz
 %endif
 
 %if 0%{?mandriva_version}
-BuildRequires: libqt4-devel >= 4.6 gcc-c++ clucene-devel
+BuildRequires: libqt4-devel >= 4.6 gcc-c++ clucene-devel libz
 %endif
 
 %if 0%{?suse_version}
-BuildRequires: libqt4-devel libQtWebKit-devel >= 4.6 gcc-c++ clucene-core-devel clucene-core
+BuildRequires: libqt4-devel libQtWebKit-devel >= 4.6 gcc-c++ clucene-core-devel clucene-core libz
 %endif
 
 BuildRequires: desktop-file-utils cmake
