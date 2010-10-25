@@ -61,5 +61,5 @@ VerseSelection::SelectionPosInTextType VerseSelection::typeFromString(const QStr
     } else if(t == "ShortestString") {
         return VerseSelection::ShortestString;
     }
-    return VerseSelection::NotSet;
+    return VerseSelection::ShortestString;//default
 }

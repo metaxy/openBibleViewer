@@ -1152,7 +1152,7 @@ VerseSelection AdvancedInterface::verseSelection()
                 break;
             }
         }
-        if(s.shortestStringInStartVerse.isEmpty() && (s.startVerse != s.endVerse)) {
+        if(s.shortestStringInStartVerse.isEmpty() && s.startVerse != s.endVerse) {
             //find the last long string if the selection is over more than one verse long
             QString lastLongest = selectedText;
             int lastPos = -2;
@@ -1186,7 +1186,7 @@ VerseSelection AdvancedInterface::verseSelection()
                 break;
             }
         }
-        if(s.shortestStringInEndVerse.isEmpty() && (s.startVerse != s.endVerse)) {
+        if(s.shortestStringInEndVerse.isEmpty() && s.startVerse != s.endVerse) {
             //find the first longest string if the selection is over more than one verse long
             QString firstLongest = selectedText;
             int firstPos = -2;
@@ -1216,8 +1216,9 @@ VerseSelection AdvancedInterface::verseSelection()
             s.setCanBeUsedForMarks(true);
         }
     }
-
-    if(s.canBeUsedForMarks() == false) {
+    myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
+    //todo: 0.6
+   /* if(s.canBeUsedForMarks() == false) {
         //now the ultimative alogrithm
         f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection();adVerseSelection.getSelection();");
         const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
@@ -1252,7 +1253,7 @@ VerseSelection AdvancedInterface::verseSelection()
         //todo: end
         //myDebug() << longestString << " count = " << count;
 
-    }
+    }*/
     return s;
 }
 

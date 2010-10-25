@@ -163,7 +163,7 @@ void NotesDockWidget::newMark(VerseSelection selection, QColor color)
 }
 void NotesDockWidget::newStyleMark(VerseSelection selection, QString style)
 {
-    m_simpleNotes->newStyleMark(selection,style);
+    m_simpleNotes->newStyleMark(selection, style);
 
 }
 void NotesDockWidget::removeMark(VerseSelection selection)

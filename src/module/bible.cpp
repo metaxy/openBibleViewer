@@ -338,7 +338,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID) {
                     versList = versList;
                     if(m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
-                        VerseSelection::SelectionPosInTextType type = VerseSelection::typeFromString(m_notes->getRef(noteID, "start"));
+                        VerseSelection::SelectionPosInTextType type = VerseSelection::typeFromString(m_notes->getRef(noteID, "selection_pos_type"));
                         if(type == VerseSelection::ShortestString) {
                             const int verseID = m_notes->getRef(noteID, "start").toInt();
                             if(endVerse != -1) {
