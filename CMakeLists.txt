@@ -17,6 +17,7 @@ set(CLUCENE_VERSION "${CLUCENE_VERSION_MAJOR}.${CLUCENE_VERSION_MINOR}.${CLUCENE
 set(CLUCENE_SOVERSION "${CLUCENE_VERSION_MAJOR}.${CLUCENE_VERSION_MINOR}.${CLUCENE_VERSION_REVISION}")
 
 include (FindThreads)
+include (FindZlib)
 if( NOT CMAKE_BUILD_TYPE )
     set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING
     "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
@@ -346,7 +347,7 @@ target_link_libraries ( openBibleViewer
                         ${QT_QTWEBKIT_LIBRARY} 
                         clucene-core-static 
                         clucene-shared-static
-                        libz
+                        ${ZLIB_LIBRARY}
 )
 
 install ( TARGETS openBibleViewer
