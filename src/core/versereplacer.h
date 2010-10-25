@@ -11,44 +11,24 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef VERSESELECTION_H
-#define VERSESELECTION_H
+#ifndef VERSEREPLACER_H
+#define VERSEREPLACER_H
 #include <QtCore/QString>
-class VerseSelection
+#include <QtCore/QMap>
+#include <QtCore/QStringList>
+class VerseReplacer
 {
 public:
-    VerseSelection();
-    enum SelectionPosInTextType {
-        ShortestString,
-        RepeatOfLongestString,
-        NotSet
-    };
+    VerseReplacer();
+    void setInsert(const int &verseID, const int &pos, const QString &insert);
+    void setPrepend(const int &verseID, const QString &prepend);
+    void setAppend(const int &verseID, const QString &append);
 
-    SelectionPosInTextType type;
-
-    int startVerse;
-    int endVerse;
-
-    int moduleID;
-    int bookID;
-    int chapterID;
-
-    QString selectedText;
-    QString shortestStringInStartVerse;
-    QString shortestStringInEndVerse;
-
-    QString longestString;
-    int repeat;
-
-    bool canBeUsedForMarks();
-    void setCanBeUsedForMarks(bool newValue);
-
-    QString typeToString();
-    static QString typeToString(const int &t);
-
-    static VerseSelection::SelectionPosInTextType typeFromString(const QString &t);
+    void exec(QStringList *list);
 private:
-    bool m_readyForMarks;
+    QMap<int, QMap<int, QString> > m_inserts;
+    QMap<int, QString> m_prepends;
+    QMap<int, QString> m_appends;
 };
 
-#endif // VERSESELECTION_H
+#endif // VERSEREPLACER_H

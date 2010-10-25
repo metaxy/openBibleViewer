@@ -16,6 +16,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/modulesettings.h"
 #include "src/core/dbghelper.h"
 #include "src/core/urlconverter.h"
+#include "src/core/verseselection.h"
+#include "src/core/versereplacer.h"
 #include <QtCore/QDir>
 #include <QtGui/QTextDocument>
 //#include <valgrind/callgrind.h>
@@ -213,6 +215,8 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
             break;
         }
         Chapter chapter = m_book.getChapter(chapterID + 1); //get data for this chapter
+        if(saveRawData)
+             m_rawChapter = chapter;
         //find out where to read verse
         int end;
         if(endVerse == -1) {
@@ -255,9 +259,9 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
             break;
         }
         Chapter c = m_book.getChapter(chapterID);
-
         if(saveRawData) {
             out += textTitle;//title
+            m_rawChapter = c;
         }
 
         int end;
@@ -318,6 +322,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     //now everything is read
     //insert marks
     if(m_notes != 0 && m_bibleDisplaySettings->loadNotes == true) {
+        VerseReplacer replacer;
         for(int n = 0; n <  m_notes->getIDList().size(); ++n) {
             QString noteID = m_notes->getIDList().at(n);
             if(m_notes->getType(noteID) == "mark") {
@@ -333,29 +338,20 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID) {
                     versList = versList;
                     if(m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
-                        const int versID = m_notes->getRef(noteID, "start").toInt();
-                        if(endVerse != -1) {
-                            //todo: do something
+                        VerseSelection::SelectionPosInTextType type = VerseSelection::typeFromString(m_notes->getRef(noteID, "start"));
+                        if(type == VerseSelection::ShortestString) {
+                            const int verseID = m_notes->getRef(noteID, "start").toInt();
+                            if(endVerse != -1) {
+                                //todo: do something
+                            }
+                            QString vers = versList.at(verseID);
+                            const int startPos = vers.lastIndexOf(m_notes->getRef(noteID, "startString"));
+                            const int endPos = vers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
+                            replacer.setInsert(verseID, endPos, ap);
+                            replacer.setInsert(verseID, startPos, pre);
+                        } else if(type == VerseSelection::RepeatOfLongestString) {
+
                         }
-                        QString vers = versList.at(versID);
-                        const int startPos = vers.lastIndexOf(m_notes->getRef(noteID, "startString"));
-                        const int endPos = vers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
-                        /* QString vB = vers, vB2 = vers;
-
-                         vB.remove(startPos, vB.size());
-                         int lastOpen = vB.lastIndexOf("<");
-                         if(vB.lastIndexOf(">", lastOpen) == -1) {
-                             myDebug() << "startPos in in tag";
-
-                         }
-                         vB2.remove(0, endPos);
-                         int firstClose = vB2.indexOf(">");
-                         if(vB.indexOf("<") > firstClose || vB.indexOf("<") == -1) {
-                             myDebug() << "endPos in tag";
-                         }*/
-                        vers.insert(endPos, ap);
-                        vers.insert(startPos, pre);
-                        versList.replace(versID, vers);
 
                     } else {
 
@@ -370,25 +366,24 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                             const int startPos = startVers.lastIndexOf(m_notes->getRef(noteID, "startString"));
                             const int endPos = endVers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
 
-                            startVers.insert(startPos, pre);
-                            startVers.append(ap);
-                            for(int i = startVersID + 1; i < endVersID; i++) {
-                                QString v = versList.at(i);
-                                v.prepend(pre);
-                                v.append(ap);
-                                versList.replace(i, v);
-                            }
-                            endVers.insert(endPos, ap);
-                            endVers.prepend(pre);
 
-                            versList.replace(startVersID, startVers);
-                            versList.replace(endVersID, endVers);
+                            replacer.setInsert(startVersID, startPos, pre);
+                            replacer.setAppend(startVersID,ap);
+                            for(int i = startVersID + 1; i < endVersID; i++) {
+                                replacer.setAppend(i,ap);
+                                replacer.setPrepend(i,pre);
+
+                            }
+                            replacer.setInsert(endVersID, endPos, ap);
+                            replacer.setPrepend(endVersID,pre);
+
                         }
                     }
 
                 }
             }
         }
+        replacer.exec(&versList);
     }
     // now add id
     for(int i = 0; i < versList.size(); ++i) {
@@ -420,7 +415,19 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     //myDebug() << out;
     return out;
 }
+/* QString vB = vers, vB2 = vers;
 
+ vB.remove(startPos, vB.size());
+ int lastOpen = vB.lastIndexOf("<");
+ if(vB.lastIndexOf(">", lastOpen) == -1) {
+     myDebug() << "startPos in in tag";
+
+ }
+ vB2.remove(0, endPos);
+ int firstClose = vB2.indexOf(">");
+ if(vB.indexOf("<") > firstClose || vB.indexOf("<") == -1) {
+     myDebug() << "endPos in tag";
+ }*/
 QString Bible::toUniformHtml(QString string)
 {
     QTextDocument t;
@@ -440,6 +447,10 @@ QString Bible::toUniformHtml(QString string)
     raw.remove(0, endOfPStyle + 1);
 
     return raw;
+}
+Chapter Bible::rawChapter()
+{
+    return m_rawChapter;
 }
 
 /**

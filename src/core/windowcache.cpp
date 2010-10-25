@@ -34,7 +34,6 @@ int WindowCache::newWindow()
 }
 void WindowCache::removeWindow(const int &name)
 {
-    DEBUG_FUNC_NAME
     BibleList *list = m_b[name];
     if(list) {
         delete list;
@@ -49,7 +48,6 @@ void WindowCache::removeWindow(const int &name)
   */
 void WindowCache::clearAll()
 {
-    DEBUG_FUNC_NAME
     foreach(BibleList * list, m_b) {
         if(list) {
             delete list;
@@ -62,7 +60,6 @@ void WindowCache::clearAll()
 
 bool WindowCache::setCurrentWindowID(const int &id)
 {
-    myDebug() << id;
     if(id < m_nameList.size() && id >= 0) {
         m_windowName = m_nameList.at(id);
         return true;
@@ -81,9 +78,6 @@ bool WindowCache::setCurrentWindowName(const int &name)
 }
 BibleList* WindowCache::getBibleList() const
 {
-    DEBUG_FUNC_NAME
-    myDebug() << "window Name = " << m_windowName << " windowID = " << currentWindowID();
-
     if(m_b.contains(m_windowName))
         return m_b[m_windowName];
     else {
@@ -92,13 +86,15 @@ BibleList* WindowCache::getBibleList() const
     }
 }
 /**
-  @return current Window ID
+  @returns current window ID
   */
 int WindowCache::currentWindowID() const
 {
     return m_nameList.value(m_windowName);
 }
-
+/**
+  @returns all window names.
+  */
 QList<int> WindowCache::nameList() const
 {
     return m_nameList;

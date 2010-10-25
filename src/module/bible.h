@@ -68,6 +68,7 @@ public:
     SearchQuery lastSearchQuery();
 
     bool loaded();
+    Chapter rawChapter();
 private:
     int m_bookID;
     int m_chapterID;
@@ -98,6 +99,8 @@ private:
     SearchQuery m_lastSearchQuery;
     QString textTitle;
     Book m_book;
+
+    Chapter m_rawChapter;
 };
 
 #endif // BIBLE_H

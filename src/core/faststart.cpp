@@ -60,7 +60,7 @@ void FastStart::setFileNames(const QString &dir, const QStringList &files)
 
 QStringList FastStart::getFileNames(const QString &dir) const
 {
-    return m_data[dir];
+    return m_data.value(dir);
 }
 
 bool FastStart::hasCache(const QString &dir) const

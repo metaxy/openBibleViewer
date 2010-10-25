@@ -167,7 +167,7 @@ void AdvancedInterface::init()
 void AdvancedInterface::attachApi()
 {
     QWebFrame * frame = getView()->page()->mainFrame();
-    /*
+
     {
         QFile file(":/data/js/jquery-1.4.2.min.js");
         if(!file.open(QFile::ReadOnly | QFile::Text))
@@ -176,7 +176,7 @@ void AdvancedInterface::attachApi()
         QString jquery = stream.readAll();
         file.close();
         frame->evaluateJavaScript(jquery);
-    }*/
+    }
 
     {
         QFile file(":/data/js/tools.js");
@@ -592,11 +592,17 @@ void AdvancedInterface::pharseUrl(QString url)
                 newSubWindow();
             }
             if((bibleUrl.bibleID() != m_moduleManager->bible()->moduleID()  && bibleUrl.bible() == BibleUrl::LoadBibleByID) ||
-                    !m_moduleManager->bible()->loaded() || (bibleUrl.hasParam("force") && bibleUrl.getParam("force") == "true")) {
+                    !m_moduleManager->bible()->loaded() || (bibleUrl.getParam("force") == "true")) {
                 reloadBible = true;
             }
 
             if(reloadBible) {
+                int id;
+                if(bibleUrl.bible() == BibleUrl::LoadBibleByID) {
+                    id = bibleUrl.bibleID();
+                } else if(bibleUrl.bible() == BibleUrl::LoadCurrentBible) {
+                    id = m_moduleManager->bible()->moduleID();
+                }
                 int ret = loadModuleDataByID(bibleUrl.bibleID());
                 if(ret == 1) {
                     showText(tr("No such bible found."));
@@ -610,17 +616,17 @@ void AdvancedInterface::pharseUrl(QString url)
             }
             if((bibleUrl.bookID() != m_moduleManager->bible()->bookID() && bibleUrl.book() == BibleUrl::LoadBookByID) ||
                     (firstBook != m_moduleManager->bible()->bookID() && bibleUrl.book() == BibleUrl::LoadFirstBook) ||
-                    reloadBible) {
+                    reloadBible || bibleUrl.getParam("forceReloadBook") == "true") {
                 reloadBook = true;
             }
 
             int firstChapter = 0;
-            if(bibleUrl.chapter() == BibleUrl::LoadFirstChapter) {
+            /*if(bibleUrl.chapter() == BibleUrl::LoadFirstChapter) {
                 firstChapter = 0; // todo: change when we support to start chapters from another value
-            }
+            }*/
             if((bibleUrl.chapterID() != m_moduleManager->bible()->chapterID() && bibleUrl.chapter() == BibleUrl::LoadChapterByID) ||
                     (firstChapter != m_moduleManager->bible()->chapterID() && bibleUrl.chapter() == BibleUrl::LoadFirstChapter) ||
-                    reloadBible || reloadBook) {
+                    reloadBible || reloadBook || bibleUrl.getParam("forceReloadChapter") == "true") {
                 reloadChapter = true;
             }
 
@@ -638,6 +644,8 @@ void AdvancedInterface::pharseUrl(QString url)
                 int bookID;
                 if(bibleUrl.book() == BibleUrl::LoadFirstBook) {
                     bookID = firstBook;
+                } else if(bibleUrl.book() == BibleUrl::LoadCurrentBook) {
+                    bookID = m_moduleManager->bible()->bookID();
                 } else {
                     bookID = bibleUrl.bookID();
                 }
@@ -648,12 +656,17 @@ void AdvancedInterface::pharseUrl(QString url)
             int chapterID;
             if(bibleUrl.chapter() == BibleUrl::LoadFirstChapter) {
                 chapterID = firstChapter;
+            } else if(bibleUrl.chapter() == BibleUrl::LoadCurrentChapter) {
+                chapterID = m_moduleManager->bible()->chapterID();
             } else {
                 chapterID = bibleUrl.chapterID();
             }
+
             int verseID;
             if(bibleUrl.verse() == BibleUrl::LoadFirstVerse) {
                 verseID = firstVerse;
+            } else if(bibleUrl.verse() == BibleUrl::LoadCurrentVerse) {
+                verseID = m_moduleManager->bible()->verseID();
             } else {
                 verseID = bibleUrl.verseID();
             }
@@ -1070,22 +1083,27 @@ void AdvancedInterface::previousChapter()
 
 void AdvancedInterface::reloadChapter(bool full)
 {
+    DEBUG_FUNC_NAME
     if(!activeMdiChild())
         return;
     const QWebView *v = getView();
     const QPoint p = v->page()->mainFrame()->scrollPosition();
     if(full) {
-        const int ret = loadModuleDataByID(m_moduleManager->bible()->moduleID());
-        if(ret == 1) {
-            return;
-        }
-        readBookByID(m_moduleManager->bible()->bookID());
-        setCurrentBook(m_moduleManager->bible()->bookID());
-
-        readChapter(m_moduleManager->bible()->chapterID());
-        setCurrentChapter(m_moduleManager->bible()->chapterID());
+        BibleUrl url;
+        url.setBible(BibleUrl::LoadCurrentBible);
+        url.setBook(BibleUrl::LoadCurrentBook);
+        url.setChapter(BibleUrl::LoadCurrentChapter);
+        url.setVerse(BibleUrl::LoadCurrentVerse);
+        url.setParam("force","true");
+        emit get(url.toString());
     } else {
-        readChapter(m_moduleManager->bible()->chapterID());
+        BibleUrl url;
+        url.setBible(BibleUrl::LoadCurrentBible);
+        url.setBook(BibleUrl::LoadCurrentBook);
+        url.setChapter(BibleUrl::LoadCurrentChapter);
+        url.setVerse(BibleUrl::LoadCurrentVerse);
+        url.setParam("forceReloadChapter","true");
+        emit get(url.toString());
     }
     v->page()->mainFrame()->setScrollPosition(p);
 }
@@ -1111,46 +1129,128 @@ VerseSelection AdvancedInterface::verseSelection()
     s.moduleID = f->evaluateJavaScript("verseSelection.moduleID;").toInt();
     s.bookID  = f->evaluateJavaScript("verseSelection.bookID;").toInt();
     s.chapterID = f->evaluateJavaScript("verseSelection.chapterID;").toInt();
+    Chapter c = m_moduleManager->bible()->rawChapter();
 
-    const QString startVerseText = f->evaluateJavaScript("verseSelection.startVerseText;").toString();
-    const QString endVerseText = f->evaluateJavaScript("verseSelection.endVerseText;").toString();
+    const QString startVerseText = c.data.at(s.startVerse);
+    QString endVerseText;
+    if(s.startVerse != s.endVerse)
+        endVerseText = c.data.at(s.endVerse);
+    else
+        endVerseText = startVerseText;
+
     const QString selectedText = f->evaluateJavaScript("verseSelection.selectedText;").toString();
 
-    QString sText;
-    for(int i = 0; i < selectedText.size() - 1; i++) {
-        sText += selectedText.at(i);
-        const int pos = startVerseText.indexOf(sText);
-        if(pos != -1 && startVerseText.lastIndexOf(sText) == pos) {
-            s.shortestStringInStartVerse = sText;
-            break;
+    myDebug() << "startVerseText = " << startVerseText;
+    myDebug() << "endVerseText = " << endVerseText;
+    {
+        QString sText;
+        for(int i = 0; i < selectedText.size() - 1; i++) {
+            sText += selectedText.at(i);
+            const int pos = startVerseText.indexOf(sText);
+            if(pos != -1 && startVerseText.lastIndexOf(sText) == pos) {
+                s.shortestStringInStartVerse = sText;
+                break;
+            }
+        }
+        if(s.shortestStringInStartVerse.isEmpty() && (s.startVerse != s.endVerse)) {
+            //find the last long string if the selection is over more than one verse long
+            QString lastLongest = selectedText;
+            int lastPos = -2;
+            for(int i = selectedText.size()-1; i > 0; i--) {
+                const int pos = startVerseText.lastIndexOf(lastLongest);
+                if(pos != -1) {
+                    lastPos = pos;
+                    break;
+                }
+                lastLongest.remove(i,selectedText.size());
+            }
+            //and shorten it
+            sText.clear();
+            for(int i = 0; i < selectedText.size() - 1; i++) {
+                sText += selectedText.at(i);
+                const int pos = startVerseText.lastIndexOf(sText);
+                if(pos != -1 && lastPos == pos) {
+                    s.shortestStringInStartVerse = sText;
+                    break;
+                }
+            }
+
+
+        }
+        sText.clear();
+        for(int i = 0; i < selectedText.size() - 1; i++) {
+            sText.prepend(selectedText.at(selectedText.size() - i - 1));
+            const int pos = endVerseText.indexOf(sText);
+            if(pos != -1 && endVerseText.lastIndexOf(sText) == pos) {
+                s.shortestStringInEndVerse = sText;
+                break;
+            }
+        }
+        if(s.shortestStringInEndVerse.isEmpty() && (s.startVerse != s.endVerse)) {
+            //find the first longest string if the selection is over more than one verse long
+            QString firstLongest = selectedText;
+            int firstPos = -2;
+            for(int i = 0; i < selectedText.size(); i++) {
+                const int pos = endVerseText.indexOf(firstLongest);
+                if(pos != -1) {
+                    firstPos = pos;
+                    break;
+                }
+                firstLongest.remove(0,1);
+            }
+            //and shorten it
+            sText.clear();
+            for(int i = 0; i < selectedText.size() - 1; i++) {
+                sText.prepend(selectedText.at(selectedText.size() - i - 1));
+                const int pos = endVerseText.indexOf(sText);
+                if(pos != -1 && firstPos == pos) {
+                    s.shortestStringInEndVerse = sText;
+                    break;
+                }
+            }
+        }
+        s.type = VerseSelection::ShortestString;
+        if(s.shortestStringInStartVerse.isEmpty() || s.shortestStringInEndVerse.isEmpty()) {
+            s.setCanBeUsedForMarks(false);
+        } else {
+            s.setCanBeUsedForMarks(true);
         }
     }
 
-    sText = "";
-    for(int i = 0; i < selectedText.size() - 1; i++) {
-        sText.prepend(selectedText.at(selectedText.size() - i - 1));
-        const int pos = endVerseText.indexOf(sText);
-        if(pos != -1 && endVerseText.lastIndexOf(sText) == pos) {
-            s.shortestStringInEndVerse = sText;
-            break;
+    if(s.canBeUsedForMarks() == false) {
+        //now the ultimative alogrithm
+        f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection();adVerseSelection.getSelection();");
+        const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
+
+        const QString uniqueString = "!-_OPENBIBLEVIEWER_INSERT_-!";
+        int posOfInsert = startVerseText2.lastIndexOf(uniqueString);
+
+        QString back = selectedText;
+        QString longestString;
+        for(int i = selectedText.size()-1; i > 0; i--) {
+            const int pos = startVerseText2.indexOf(back);
+            if(pos != -1) {
+                longestString = back;
+                break;
+            }
+            back.remove(i,selectedText.size());
         }
-    }
 
-    if(s.shortestStringInStartVerse == "" || s.shortestStringInEndVerse == "") {
-        //myDebug() "try another";
-        int i = qMin(selectedText.size(), 2);
-
-        QString sText = selectedText;
-        sText = sText.remove(i, selectedText.size());
-        int pos = 0, npos = -1;
-        while(pos != npos) {
-            pos = startVerseText.indexOf(sText, pos);
-            QString n = selectedText;
-            n = n.remove(startVerseText.size() - pos, n.size());
-
-            npos = startVerseText.indexOf(n);
-            //myDebug() << n << npos << pos;
+        int count = 0;
+        int currentPos = 0;
+        while(true) {
+            currentPos = startVerseText2.indexOf(longestString,currentPos+1);
+            if(currentPos > posOfInsert || currentPos == -1) {
+                break;
+            }
+            count++;
         }
+        s.type = VerseSelection::RepeatOfLongestString;
+        s.repeat = count;
+        s.longestString = longestString;
+        //s.setCanBeUsedForMarks(true);
+        //todo: end
+        //myDebug() << longestString << " count = " << count;
 
     }
     return s;
@@ -1158,11 +1258,10 @@ VerseSelection AdvancedInterface::verseSelection()
 
 void AdvancedInterface::createDefaultMenu()
 {
-    QWebView *v = getView();
-    m_actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), v);
+    m_actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), this);
     connect(m_actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
 
-    m_actionSelect = new QAction(QIcon::fromTheme("edit-select-all", QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"), v);
+    m_actionSelect = new QAction(QIcon::fromTheme("edit-select-all", QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"), this);
     connect(m_actionSelect, SIGNAL(triggered()), this , SLOT(selectAll()));
 
     m_menuMark = new QMenu(this);
@@ -1212,13 +1311,13 @@ void AdvancedInterface::createDefaultMenu()
     m_menuMark->addAction(actionUnderlineMark);
 
 
-    m_actionRemoveMark = new QAction(QIcon(":/icons/16x16/mark-yellow.png"), tr("Remove Mark"), v);
+    m_actionRemoveMark = new QAction(QIcon(":/icons/16x16/mark-yellow.png"), tr("Remove Mark"), this);
     connect(m_actionRemoveMark, SIGNAL(triggered()), this , SLOT(removeMark()));
 
-    m_actionBookmark = new QAction(QIcon::fromTheme("bookmark-new", QIcon(":/icons/16x16/bookmark-new.png")), tr("Add Bookmark"), v);
+    m_actionBookmark = new QAction(QIcon::fromTheme("bookmark-new", QIcon(":/icons/16x16/bookmark-new.png")), tr("Add Bookmark"), this);
     connect(m_actionBookmark, SIGNAL(triggered()), this , SLOT(newBookmark()));
 
-    m_actionNote = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/16x16/view-pim-notes.png")), tr("Add Note"), v);
+    m_actionNote = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/16x16/view-pim-notes.png")), tr("Add Note"), this);
     connect(m_actionNote, SIGNAL(triggered()), this , SLOT(newNoteWithLink()));
 }
 
@@ -1398,7 +1497,7 @@ void AdvancedInterface::closing()
     QList<QVariant> windowGeo;
     QList<QVariant> scrollPos;
     QList<QVariant> zoom;
-    int current = m_windowCache.currentWindowID();
+    const int current = m_windowCache.currentWindowID();
     for(int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
         //todo:
         m_windowCache.setCurrentWindowID(i);

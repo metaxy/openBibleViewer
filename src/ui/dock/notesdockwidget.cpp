@@ -60,6 +60,8 @@ void NotesDockWidget::init()
 
     connect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
     connect(m_notes, SIGNAL(noteRemoved(QString, QMap<QString, QString>)), this, SLOT(removeNote(QString, QMap<QString, QString>)));
+
+    connect(m_simpleNotes, SIGNAL(reloadChapter()), this, SIGNAL(reloadChapter()));
 }
 void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
 {
@@ -161,42 +163,7 @@ void NotesDockWidget::newMark(VerseSelection selection, QColor color)
 }
 void NotesDockWidget::newStyleMark(VerseSelection selection, QString style)
 {
-    //myDebug() << selection.shortestStringInEndVerse << selection.shortestStringInStartVerse;
-    if(selection.shortestStringInEndVerse == "" || selection.shortestStringInStartVerse == "") {
-        myWarning() << "cannot create mark";
-        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot create mark."));
-        //todo: use full verse mark
-        return;
-    }
-    QString link;
-    UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
-    urlConverter.setSettings(m_settings);
-    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.m_moduleID = selection.moduleID;
-    urlConverter.m_bookID = selection.bookID;
-    urlConverter.m_chapterID = selection.chapterID;
-    urlConverter.m_verseID = selection.startVerse;
-    urlConverter.m_bookName = m_moduleManager->bible()->bookName(m_moduleManager->bible()->bookID());
-    link = urlConverter.convert();
-    m_notes->saveNotes();
-    //reloadNotes();
-    const QString newID = m_notes->generateNewID();
-    m_notes->setData(newID, "");
-    m_notes->setTitle(newID, tr("(unnamed)"));
-    m_notes->setType(newID, "mark");
-    QMap<QString, QString> ref;
-    ref["link"] = link;
-    ref["start"] = QString::number(selection.startVerse);
-    ref["end"] = QString::number(selection.endVerse);
-    ref["startPos"] = QString::number(selection.posInStartVerse);
-    ref["endPos"] = QString::number(selection.posInEndVerse);
-    ref["startString"] = selection.shortestStringInStartVerse;
-    ref["endString"] = selection.shortestStringInEndVerse;
-    ref["style"] = style;
-    m_notes->setRef(newID, ref);
-    m_notes->insertID(newID);
-
-    emit reloadChapter();
+    m_simpleNotes->newStyleMark(selection,style);
 
 }
 void NotesDockWidget::removeMark(VerseSelection selection)

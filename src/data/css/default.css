@@ -1,3 +1,7 @@
+html {
+    background-color:#ffffff;
+    color:#000000;
+}
 .biblelisttitle {
 }
 .biblelisttitle a:link, a:visited, a:active{
@@ -40,9 +44,6 @@ td.rowTitle {
 }
 .currententry {
     font-weight:bold;
-    /*padding: 2px;*/
-    /*vertical-align: middle;*/
-    text-align: justify;
 }
 
 .gramlink {

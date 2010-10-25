@@ -17,8 +17,6 @@ VerseSelection::VerseSelection()
 {
     startVerse = 0;
     endVerse = 0;
-    posInStartVerse = 0;
-    posInEndVerse = 0;
     selectedText = "";
     shortestStringInStartVerse = "";
     shortestStringInEndVerse = "";
@@ -26,4 +24,42 @@ VerseSelection::VerseSelection()
     moduleID = -1;
     chapterID = -1;
     bookID = -1;
+    repeat = -1;
+    longestString = "";
+    m_readyForMarks = false;
+}
+bool VerseSelection::canBeUsedForMarks()
+{
+    return m_readyForMarks;
+}
+void VerseSelection::setCanBeUsedForMarks(bool newValue)
+{
+    m_readyForMarks = newValue;
+}
+QString VerseSelection::typeToString()
+{
+    if(type == VerseSelection::RepeatOfLongestString) {
+        return "RepeatOfLongestString";
+    } else if(type == VerseSelection::ShortestString) {
+        return "ShortestString";
+    }
+    return QString();
+}
+QString VerseSelection::typeToString(const int &t)
+{
+    if(t == VerseSelection::RepeatOfLongestString) {
+        return "RepeatOfLongestString";
+    } else if(t == VerseSelection::ShortestString) {
+        return "ShortestString";
+    }
+    return QString();
+}
+VerseSelection::SelectionPosInTextType VerseSelection::typeFromString(const QString &t)
+{
+    if(t == "RepeatOfLongestString") {
+        return VerseSelection::RepeatOfLongestString;
+    } else if(t == "ShortestString") {
+        return VerseSelection::ShortestString;
+    }
+    return VerseSelection::NotSet;
 }

@@ -93,10 +93,7 @@ int Notes::loadNotes()
   */
 QString Notes::getType(const QString &id)
 {
-    if(!notesType[id].isEmpty())
-        return notesType[id];
-    else
-        return QString();
+    return notesType.value(id,"");
 }
 /*!
   Get the note title
@@ -104,10 +101,7 @@ QString Notes::getType(const QString &id)
   */
 QString Notes::getTitle(const QString &id)
 {
-    if(!notesTitle[id].isEmpty())
-        return notesTitle[id];
-    else
-        return QString();
+    return notesTitle.value(id, "");
 }
 /*!
   Get the note data
@@ -115,10 +109,7 @@ QString Notes::getTitle(const QString &id)
   */
 QString Notes::getData(const QString &id)
 {
-    if(!notesData[id].isEmpty())
-        return notesData[id];
-    else
-        return QString();
+        return notesData.value(id, "");
 }
 /*!
   Get the note reference
@@ -127,12 +118,9 @@ QString Notes::getData(const QString &id)
   */
 QString Notes::getRef(const QString &id, const QString &refID)
 {
-    if(!notesRef[id].isEmpty()) {
-        QMap<QString, QString> r = notesRef[id];
-        if(!r[refID].isEmpty())
-            return r[refID];
-        else
-            return QString();
+    if(notesRef.contains(id)) {
+        QMap<QString, QString> r = notesRef.value(id);
+        return r.value(refID,"");
     } else {
         return QString();
     }
@@ -143,8 +131,8 @@ QString Notes::getRef(const QString &id, const QString &refID)
   */
 QMap<QString, QString> Notes::getRef(const QString &id)
 {
-    if(!notesRef[id].isEmpty())
-        return notesRef[id];
+    if(notesRef.contains(id))
+        return notesRef.value(id);
     else
         return QMap<QString, QString>();
 }

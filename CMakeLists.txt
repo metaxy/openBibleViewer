@@ -128,6 +128,7 @@ set ( openBibleViewer_HDRS
 	src/core/KoXmlReaderForward.h
 	src/core/xbelreader.h
 	src/core/xbelwriter.h
+    src/core/versereplacer.h
 	src/module/bible.h
 	src/core/chapter.h
 	src/core/goto.h
@@ -194,6 +195,7 @@ set ( openBibleViewer_SRCS
     src/core/bibledisplaysettings.cpp
     src/core/goto.cpp
     src/core/history.cpp
+    src/core/versereplacer.cpp
 
 	src/module/bible.cpp
     src/module/biblequote.cpp

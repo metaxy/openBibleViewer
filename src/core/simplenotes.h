@@ -50,6 +50,7 @@ public slots:
     void saveNote();
     void newNoteWithLink(VerseSelection selection);
     void fastSave();
+    void newStyleMark(VerseSelection selection, const QString &style);
 private slots:
     void copyNote();
     void changeData(const QString &id, const QString &data);
@@ -64,6 +65,7 @@ private slots:
     void updateNote(const QString &pos);
     void newFolder();
     void updateTitle();
+
 private:
     QLineEdit *m_lineEdit_title;
     QTextBrowser *m_textEdit_note;

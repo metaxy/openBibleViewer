@@ -111,7 +111,7 @@ bool BibleUrl::hasParam(const QString &name)
 }
 QString BibleUrl::getParam(const QString &name)
 {
-    return m_params[name];
+    return m_params.value(name,"");
 }
 
 QString BibleUrl::toString()

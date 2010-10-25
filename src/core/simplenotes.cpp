@@ -12,16 +12,19 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "simplenotes.h"
-#include <QSortFilterProxyModel>
-#include <QtCore/QDateTime>
-#include "src/core/dbghelper.h"
-#include <QtGui/QClipboard>
-#include <QtGui/QMenu>
-#include <QtGui/QColorDialog>
-#include <QApplication>
 #include "src/ui/dialog/biblepassagedialog.h"
 #include "src/core/urlconverter.h"
 #include "src/core/core.h"
+#include "src/core/dbghelper.h"
+
+#include <QtGui/QSortFilterProxyModel>
+#include <QtCore/QDateTime>
+#include <QtGui/QClipboard>
+#include <QtGui/QMenu>
+#include <QtGui/QColorDialog>
+#include <QtGui/QMessageBox>
+#include <QtGui/QApplication>
+
 SimpleNotes::SimpleNotes()
 {
 }
@@ -457,7 +460,6 @@ void SimpleNotes::newNoteWithLink(VerseSelection selection)
     ref["created"] = t.toString(Qt::ISODate);
     ref["link"] = link;
     m_noteRef = ref;
-
     m_notes->setRef(newID, m_noteRef);
 
     m_notes->insertID(newID);
@@ -475,6 +477,56 @@ void SimpleNotes::newNoteWithLink(VerseSelection selection)
     setData("");
     setRef(m_noteRef);
 
+    emit reloadChapter();
+}
+void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style)
+{
+
+    //myDebug() << selection.shortestStringInEndVerse << selection.shortestStringInStartVerse;
+    if(selection.shortestStringInEndVerse == "" || selection.shortestStringInStartVerse == "") {
+        myWarning() << "cannot create mark";
+        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot create mark."));
+        //todo: use full verse mark
+        return;
+    }
+    disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
+    aktNote();
+    fastSave();
+    QString link;
+    UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
+    urlConverter.setSettings(m_settings);
+    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+    urlConverter.m_moduleID = selection.moduleID;
+    urlConverter.m_bookID = selection.bookID;
+    urlConverter.m_chapterID = selection.chapterID;
+    urlConverter.m_verseID = selection.startVerse;
+    urlConverter.m_bookName = m_moduleManager->bible()->bookName(m_moduleManager->bible()->bookID());
+    link = urlConverter.convert();
+
+    //reloadNotes();
+    const QString newID = m_notes->generateNewID();
+    m_notes->setData(newID, "");
+    m_notes->setTitle(newID, tr("(unnamed)"));
+    m_notes->setType(newID, "mark");
+
+    QMap<QString, QString> ref;
+    ref["link"] = link;
+    ref["start"] = QString::number(selection.startVerse);
+    ref["end"] = QString::number(selection.endVerse);
+    ref["selection_pos_type"] = selection.typeToString();
+
+    if(selection.type == VerseSelection::RepeatOfLongestString) {
+        ref["repeat"] = QString::number(selection.repeat);
+        ref["longeststring"] = selection.longestString;
+    } else if(selection.type == VerseSelection::ShortestString) {
+        ref["startString"] = selection.shortestStringInStartVerse;
+        ref["endString"] = selection.shortestStringInEndVerse;
+    }
+
+    ref["style"] = style;
+    m_notes->setRef(newID, ref);
+    m_notes->insertID(newID);
+    connect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
     emit reloadChapter();
 }
 void SimpleNotes::notesContextMenu(QPoint point)
