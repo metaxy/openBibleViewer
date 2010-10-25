@@ -1,4 +1,4 @@
-VERSION=0.5.1
+VERSION=0.5.2
 REPPATH=/home/paul/c++/openBibleViewer
 BUILDPATH=/home/paul/build/home:metaxy/openbibleviewer
 TAR=openbibleviewer-$VERSION.tar.gz
