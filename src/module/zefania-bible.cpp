@@ -100,7 +100,7 @@ void ZefaniaBible::readBook(const int &id)
         ncache = readBookFromHardCache(m_biblePath, id);
     } else {
         m_book = softCache(id);
-        m_bookCount[id] = m_book.size();
+        m_bookCount.insert(id, m_book.size());
         return;
     }
     //reading loaded data
@@ -136,7 +136,7 @@ void ZefaniaBible::readBook(const int &id)
     }
     //m_book = fromHardToSoft(m_bookID, &ncache);
 
-    m_bookCount[id] = i;
+    m_bookCount.insert(id,i);
     setSoftCache(m_bookID, m_book);
 }
 /**
@@ -258,7 +258,7 @@ QHash<int, Book> ZefaniaBible::softCache() const
 Book ZefaniaBible::softCache(const int &bookID) const
 {
     if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
-        return m_softCacheData[bookID];
+        return m_softCacheData.value(bookID);
     }
     return Book();
 }
@@ -282,7 +282,7 @@ void ZefaniaBible::setSoftCache(const QHash<int, Book > &cache)
 void ZefaniaBible::setSoftCache(const int &bookID, const Book &book)
 {
     if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
-        m_softCacheData[bookID] = book;
+        m_softCacheData.insert(bookID, book);
     }
 }
 /**

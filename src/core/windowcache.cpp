@@ -79,7 +79,7 @@ bool WindowCache::setCurrentWindowName(const int &name)
 BibleList* WindowCache::getBibleList() const
 {
     if(m_b.contains(m_windowName))
-        return m_b[m_windowName];
+        return m_b.value(m_windowName);
     else {
         myWarning() << "no biblelist at " << m_windowName;
         return 0;

@@ -173,7 +173,7 @@ void SimpleNotes::setRef(QMap<QString, QString> ref)
 }
 void SimpleNotes::editNoteLink()
 {
-    const QString link = m_noteRef["link"];
+    const QString link = m_noteRef.value("link");
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);

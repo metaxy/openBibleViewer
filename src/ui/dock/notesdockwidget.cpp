@@ -66,7 +66,7 @@ void NotesDockWidget::init()
 void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
 {
     Q_UNUSED(id);
-    const QString link = ref["link"];
+    const QString link = ref.value("link");
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, link);
     urlConverter.setSettings(m_settings);
@@ -84,7 +84,7 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
 void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
 {
     Q_UNUSED(id);
-    const QString link = ref["link"];
+    const QString link = ref.value("link");
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, link);
     urlConverter.setSettings(m_settings);

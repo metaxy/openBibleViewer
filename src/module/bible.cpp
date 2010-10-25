@@ -171,7 +171,7 @@ int Bible::readBook(int id)
         m_chapterNames.clear();
         m_zef->readBook(id);
         m_book = m_zef->m_book;
-        for(int i = 1; i <= m_zef->m_bookCount[id]; ++i) {
+        for(int i = 1; i <= m_zef->m_bookCount.value(id,0); ++i) {
             m_chapterNames << QString::number(i);
         }
         break;

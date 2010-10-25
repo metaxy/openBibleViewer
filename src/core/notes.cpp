@@ -170,7 +170,7 @@ void Notes::clearAll()
   */
 void Notes::setType(const QString &id, const QString &type)
 {
-    notesType[id] = type;
+    notesType.insert(id, type);
 }
 /*!
   Set note title
@@ -179,8 +179,8 @@ void Notes::setType(const QString &id, const QString &type)
   */
 void Notes::setTitle(const QString &id, const QString &title)
 {
-    if(notesTitle[id] != title) {
-        notesTitle[id] = title;
+    if(notesTitle.value(id) != title) {
+        notesTitle.insert(id, title);
         emit titleChanged(id, title);
     }
 }
@@ -191,8 +191,8 @@ void Notes::setTitle(const QString &id, const QString &title)
   */
 void Notes::setData(const QString &id, const QString &data)
 {
-    if(notesData[id] != data) {
-        notesData[id] = data;
+    if(notesData.value(id) != data) {
+        notesData.insert(id, data);
         emit dataChanged(id, data);
     }
 }
@@ -203,8 +203,8 @@ void Notes::setData(const QString &id, const QString &data)
   */
 void Notes::setRef(const QString &id, const QMap<QString, QString>  &ref)
 {
-    if(notesRef[id] != ref) {
-        notesRef[id] = ref;
+    if(notesRef.value(id) != ref) {
+        notesRef.insert(id, ref);
         emit refChanged(id, ref);
     }
 }
@@ -216,10 +216,10 @@ void Notes::setRef(const QString &id, const QMap<QString, QString>  &ref)
   */
 void Notes::setRef(const QString &id, const QString &key, const QString &value)
 {
-    QMap<QString, QString>  ref = notesRef[id];
+    QMap<QString, QString>  ref = notesRef.value(id);
     if(ref.value(key) != value) {
-        ref[key] = value;
-        notesRef[id] = ref;
+        ref.insert(key, value);
+        notesRef.insert(id, ref);
         emit refChanged(id, ref);
     }
 }
@@ -290,7 +290,7 @@ int Notes::readNotes()
                 }
                 QDomElement e2 = n2.toElement();
                 if(e2.tagName() == "data") {
-                    notesData[id] = e2.text();
+                    notesData.insert(id, e2.text());
                 } else if(e2.tagName() == "ref") {
                     QMap<QString, QString> map;
                     QDomNode n3 = e2.firstChild();
@@ -306,17 +306,17 @@ int Notes::readNotes()
                             tag = "style";
                             val = "background-color:" + val + ";";
                         }
-                        map[tag] = val;
+                        map.insert(tag, val);
                         n3 = n3.nextSibling();
 
                     }
-                    notesRef[id] = map;
+                    notesRef.insert(id, map);
                 }
                 n2 = n2.nextSibling();
             }
 
-            notesTitle[id] = e.attribute("title", QObject::tr("(unnamed)"));
-            notesType[id] = e.attribute("type", "unkown");
+            notesTitle.insert(id, e.attribute("title", QObject::tr("(unnamed)")));
+            notesType.insert(id, e.attribute("type", "unkown"));
         }
         n = n.nextSibling();
     }
@@ -339,16 +339,16 @@ int Notes::saveNotes()
         if(id == "")
             continue;
         QDomElement tag = sdoc.createElement("note");
-        tag.setAttribute("title", notesTitle[id]);
-        tag.setAttribute("type", notesType[id]);
+        tag.setAttribute("title", notesTitle.value(id));
+        tag.setAttribute("type", notesType.value(id));
         tag.setAttribute("id", id);
         root.appendChild(tag);
         QDomElement data = sdoc.createElement("data");
-        QDomCDATASection text = sdoc.createCDATASection(notesData[id]);//todo: use cdata section
+        QDomCDATASection text = sdoc.createCDATASection(notesData.value(id));
         data.appendChild(text);
         tag.appendChild(data);
         QDomElement ref = sdoc.createElement("ref");
-        QMap<QString, QString> map = notesRef[id];
+        QMap<QString, QString> map = notesRef.value(id);
         QMapIterator<QString, QString> i(map);
         while(i.hasNext()) {
             i.next();

@@ -38,8 +38,8 @@ void BibleList::addBible(Bible* b, const QPoint &p)
 {
     const int id = m_biblePoints.size();
     m_currentBible = id;
-    m_biblePoints[id] = p;
-    m_bibles[id] = b;
+    m_biblePoints.insert(id, p);
+    m_bibles.insert(id, b);
 
 }
 /**

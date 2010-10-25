@@ -21,7 +21,7 @@ VerseReplacer::VerseReplacer()
 void VerseReplacer::setInsert(const int &verseID, const int &pos, const QString &insert)
 {
     QMap<int, QString> m = m_inserts[verseID];
-    m[pos] = m[pos] + insert;
+    m[pos] += insert;
     m_inserts[verseID] = m;
 }
 
@@ -39,7 +39,7 @@ void VerseReplacer::exec(QStringList *list)
     for(int verse = 0; verse < list->size(); verse++) {
         //myDebug() << "verse = " << verse;
         //first insert
-        if(m_appends.contains(vers) || m_prepends.contains(vers) || m_inserts.contains(vers)) {
+        if(m_appends.contains(verse) || m_prepends.contains(verse) || m_inserts.contains(verse)) {
             QStack<int> posStack;
             QStack<QString> stringStack;
             QMapIterator<int, QString> i(m_inserts.value(verse));
