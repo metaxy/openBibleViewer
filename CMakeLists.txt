@@ -345,7 +345,9 @@ target_link_libraries ( openBibleViewer
                         ${QT_QTNETWORK_LIBRARY} 
                         ${QT_QTWEBKIT_LIBRARY} 
                         clucene-core-static 
-                        clucene-shared-static)
+                        clucene-shared-static
+                        libz
+)
 
 install ( TARGETS openBibleViewer
          RUNTIME DESTINATION bin )
