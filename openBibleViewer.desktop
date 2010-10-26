@@ -1,4 +1,5 @@
 [Desktop Entry]
+X-SuSE-translate=true
 Name=openBibleViewer
 Exec=openBibleViewer %u
 GenericName=Bible Study Tool
@@ -7,5 +8,6 @@ GenericName[de]=Bibelstudium
 Terminal=false
 Type=Application
 Icon=openBibleViewer
-Categories=Teaching
+Categories=Education;Teaching;
 StartupNotify=true
+Comment=An easy to use bible study tool
