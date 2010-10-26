@@ -43,10 +43,6 @@ make
 
 make DESTDIR=%{buildroot} install
 
-#%__install -m 644 src/icons/124x124/%{name}.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
-#%__install -m 644 %{name}.desktop %{buildroot}%{_datadir}/applications
-
-
 %clean
 %{__rm} -rf %{buildroot}
 
@@ -59,6 +55,8 @@ make DESTDIR=%{buildroot} install
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Sat Oct 26 2010 Paul Walger
+- update to 0.5.2
 * Sat Sep 25 2010 Paul Walger
 - update to 0.5
 * Sat Apr 17 2010 Paul Walger
