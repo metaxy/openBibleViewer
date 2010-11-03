@@ -110,11 +110,11 @@ void NotesDockWidget::saveNote(void)
 }
 void NotesDockWidget::newNote(void)
 {
-    m_simpleNotes->newNote();
+    m_simpleNotes->newTextNote();
 }
 void NotesDockWidget::newNoteWithLink(VerseSelection selection)
 {
-    m_simpleNotes->newNoteWithLink(selection);
+    m_simpleNotes->newTextNoteWithLink(selection);
     emit reloadChapter();
 }
 void NotesDockWidget::noteSetTextBold(void)

@@ -250,6 +250,7 @@ void SimpleNotes::copyNote(void)
     if(!text.isEmpty()) {
         clipboard->setText(text);
     }
+
 }
 void SimpleNotes::iterate(QStandardItem *item = 0)
 {
@@ -324,7 +325,7 @@ void SimpleNotes::select(const QString &noteID)
     m_selectionModel->setCurrentIndex(index, QItemSelectionModel::Select);
 }
 
-void SimpleNotes::newNote(void)
+void SimpleNotes::newTextNote(void)
 {
     //DEBUG_FUNC_NAME
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
@@ -543,7 +544,7 @@ void SimpleNotes::notesContextMenu(QPoint point)
 
     QAction *actionNew = new QAction(QIcon::fromTheme("document-new", QIcon(":/icons/16x16/document-new.png")), tr("New"), contextMenu);
     actionNew->setObjectName("actionNew");
-    connect(actionNew, SIGNAL(triggered()), this, SLOT(newNote()));
+    connect(actionNew, SIGNAL(triggered()), this, SLOT(newTextNote()));
 
     QAction *actionNewFolder = new QAction(QIcon::fromTheme("document-new", QIcon(":/icons/16x16/document-new.png")), tr("New Folder"), contextMenu);
     actionNewFolder->setObjectName("actionNewFolder");

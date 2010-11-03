@@ -45,13 +45,36 @@ public:
 signals:
     void reloadChapter();
 public slots:
-    void newNote();
+    /**
+     * Creates a new text note, and insert an item in the ViewWidget
+     */
+    void newTextNote();
+    /**
+     * Show the note with given noteID in the frame.
+     * if selectNote is true it select the note item in the ViewWidget
+     */
     void showNote(const QString &noteID, bool selectNote = false);
+    /**
+     * Save current note, the note hiarchy and write them to hard disk.
+     */
     void saveNote();
-    void newNoteWithLink(VerseSelection selection);
+    
+    /**
+     * Similiar to saveNote() but without saveing the note hiarchy and writing to hard disk
+     */
     void fastSave();
+    /**
+     * Same as newTextNote() but add also an verse link ref using the given selection
+     */
+    void newTextNoteWithLink(VerseSelection selection);
+    /**
+     * Creates a new mark note using the given selection and style
+     */
     void newStyleMark(VerseSelection selection, const QString &style);
 private slots:
+    /**
+     * Insert the text(not html) of the current select note in the clipboard
+     */
     void copyNote();
     void changeData(const QString &id, const QString &data);
     void changeTitle(const QString &id, const QString &title);
