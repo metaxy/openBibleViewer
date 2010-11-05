@@ -19,18 +19,31 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class BibleDisplay : public QObject
 {
     Q_OBJECT
-
 public:
     BibleDisplay();
+    /**
+     * Set the Displaytext to text
+     */
     void setHtml(const QString &text);
+    /**
+     * emits get(const QString &url)
+     */
     void emitGet(const QString &url);
-private:
-    QString m_text;
-signals:
+Q_SIGNALS:
+    /**
+     * Emits signal if newHtml was called
+     */
     void newHtml(const QString &html);
+    /**
+     * Is connect to the get in the Interface
+     */
     void get(const QString &url);
+    /**
+     * Is connect to the get in the Interface
+     */
     void get(const QUrl &url);
-
+private:
+    //QString m_text;
 };
 
 #endif // BIBLEDISPLAY_H
