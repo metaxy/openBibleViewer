@@ -70,8 +70,10 @@ QString Dictionary::getEntry(const QString &string)
         return m_bibleQuoteDict->getEntry(string);
         break;
     }
+    default:
+        return QString();
     }
-    return QString();
+   
 }
 QStringList Dictionary::getAllKeys()
 {
@@ -83,6 +85,8 @@ QStringList Dictionary::getAllKeys()
     case Module::BibleQuoteDictModule: {
         return m_bibleQuoteDict->getAllKeys();
     }
+    default:
+        return QStringList();
     }
-    return QStringList();
+    
 }

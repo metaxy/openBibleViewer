@@ -19,8 +19,22 @@ class Dictionary : public SimpleModuleClass
 {
 public:
     Dictionary();
+    /**
+     * Loads the module with the given id.
+     * @returns 0 If loads fine
+     * @returns 1 If there was an error
+     */
     int loadModuleData(const int &id);
+    /**
+     * Search for the entry and returns them fully formated
+     * @return Fullyformated entry
+     * @returns QString() if not found
+     */
     QString getEntry(const QString &key);
+    /**
+     * @return All keys
+     * @returns QStringList() if failed.
+     */
     QStringList getAllKeys();
 private:
     Module *m_module;

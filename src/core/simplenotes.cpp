@@ -434,7 +434,7 @@ void SimpleNotes::addNote(const QString &id)
     }
 }
 
-void SimpleNotes::newNoteWithLink(VerseSelection selection)
+void SimpleNotes::newTextNoteWithLink(VerseSelection selection)
 {
     DEBUG_FUNC_NAME
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
