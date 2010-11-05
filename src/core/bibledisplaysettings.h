@@ -18,9 +18,30 @@ class BibleDisplaySettings
 {
 public:
     BibleDisplaySettings();
-    bool loadNotes;
-    bool showMarks;
-    bool showNotes;
+    void setLoadNotes(bool loadNotes);
+    /**
+     * Load notes when loading the module
+     */
+    bool loadNotes();
+    
+    void setShowMarks(bool showMarks);
+    /**
+     * Show the marks from notes.
+     * If this is true, loadNotes is also set true.
+     */
+    bool showMarks();
+    
+    void setShowNotes(bool showNotes);
+    /**
+     * Show a link to a note connected to the verse.
+     * If this is true, loadNotes is also set true.
+     */
+    bool showNotes();
+    
+private:    
+    bool m_loadNotes;
+    bool m_showMarks;
+    bool m_showNotes;
 
 };
 

@@ -105,9 +105,10 @@ void AdvancedInterface::init()
     connect(m_mdiAreaFilter, SIGNAL(resized()), this, SLOT(mdiAreaResized()));
 
     m_bibleDisplaySettings = new BibleDisplaySettings();
-    m_bibleDisplaySettings->loadNotes = true;
-    m_bibleDisplaySettings->showMarks = true;
-    m_bibleDisplaySettings->showNotes = true;
+    m_bibleDisplaySettings->setShowMarks(true);
+    m_bibleDisplaySettings->setShowNotes(true);
+    m_bibleDisplaySettings->setLoadNotes(true);
+    
 
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
     connect(m_bibleDisplay, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));

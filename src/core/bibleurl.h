@@ -40,11 +40,24 @@ public:
         LoadCurrentVerse,
         LoadFirstVerse
     };
-
+    
+    /**
+     * Sets the bibleID
+     */
     void setBibleID(const int &bibleID);
+    /**
+     * Set how to load the bible
+     */
     void setBible(const BibleLoadParams &param);
-
+    
+    /**
+     * If set bible() == LoadBibleByID then it is the id of bible
+     * Else is not definied
+     */
     int bibleID();
+    /**
+     * Returns how to load the bible
+     */
     BibleLoadParams bible();
 
     void setBookID(const int &bookID);

@@ -49,9 +49,9 @@ void SimpleInterface::setSearchResultDockWidget(SearchResultDockWidget *searchRe
 void SimpleInterface::init()
 {
     BibleDisplaySettings *bibleDisplaySettings = new BibleDisplaySettings();
-    bibleDisplaySettings->loadNotes = false;
-    bibleDisplaySettings->showMarks = false;
-    bibleDisplaySettings->showNotes = false;
+    bibleDisplaySettings->setLoadNotes(false);
+    bibleDisplaySettings->setShowMarks(false);
+    bibleDisplaySettings->setShowNotes(false);
     m_moduleManager->setBibleDisplaySettings(bibleDisplaySettings);
 
     m_moduleManager->m_bibleList = new BibleList();

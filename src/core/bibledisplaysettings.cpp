@@ -16,3 +16,34 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 BibleDisplaySettings::BibleDisplaySettings()
 {
 }
+
+void BibleDisplaySettings::setLoadNotes(bool loadNotes)
+{
+    m_loadNotes = loadNotes;
+}
+bool BibleDisplaySettings::loadNotes()
+{
+    return m_loadNotes;
+}
+
+void BibleDisplaySettings::setShowMarks(bool showMarks)
+{
+    if(showMarks)
+        m_loadNotes = true;
+    m_showMarks = showMarks;
+}
+bool BibleDisplaySettings::showMarks()
+{
+    return m_showMarks;
+}
+
+bool BibleDisplaySettings::showNotes()
+{
+    return m_showNotes;
+}
+void BibleDisplaySettings::setShowNotes(bool showNotes)
+{
+   if(showNotes)
+        m_loadNotes = true;
+    m_showNotes = showNotes;
+}
