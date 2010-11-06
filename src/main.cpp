@@ -25,7 +25,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QFSFileEngine>
 #include <QtCore/QDir>
 #include <stdlib.h>
-
+#include "src/core/dbghelper.h"
 #ifdef Q_OS_WIN32
 #include <windows.h>
 #include <stdio.h>
@@ -120,8 +120,9 @@ int main(int argc, char *argv[])
     }
 
     QString lang = settings->value("general/language", QLocale::system().name()).toString();
-    QStringList avLang;
-    avLang <<  "en" << "de" << "ru" << "cs";
+    QString av(_AV_LANG);
+    QStringList avLang = av.split(";");
+    myDebug() << avLang;
     if(avLang.lastIndexOf(lang) == -1) {
         lang = lang.remove(lang.lastIndexOf("_"), lang.size());
         if(avLang.lastIndexOf(lang) == -1) {
@@ -134,7 +135,10 @@ int main(int argc, char *argv[])
     a.installTranslator(&qtTranslator);
 
     QTranslator myappTranslator;
-    myappTranslator.load(":/data/obv_" + lang);//todo: if there is noting in :/data/ then load from current dir
+    bool loaded = myappTranslator.load(":/data/obv_" + lang);
+    if(!loaded)
+        myappTranslator.load(lang);
+    
     a.installTranslator(&myappTranslator);
 
     MainWindow w;

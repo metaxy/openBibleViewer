@@ -23,7 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/module.h"
 #include "moduleconfigdialog.h"
 #include "moduledownloaddialog.h"
-
+#include "config.h"
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QtCore/QStringList>
@@ -75,8 +75,16 @@ int SettingsDialog::setSettings(Settings settings)
     m_ui->comboBox_encoding->setCurrentIndex(m_encodings.lastIndexOf(m_set.encoding));
     //Language
     QStringList langs;
-    langs <<  tr("English") + "( English )" << tr("German") + "( Deutsch )" << tr("Russian") + QString::fromLocal8Bit("( русском )") << tr("Czech") + QString::fromLocal8Bit("( čeština )");
-    m_langCode << "en" << "de" << "ru" << "cs";
+    QString name(_AV_LANG_NAME);
+    QStringList names = name.split(";");
+    QString nativeName = QString::fromLocal8Bit(_AV_LANG_NAME_NATIVE);
+    QStringList nativeNames = nativeName.split(";");
+    for(int i = 0; i < names.size(); i++) {
+        langs << tr(names.at(i).toStdString().c_str()) + "( "+ nativeNames.at(i) + " )";
+    }
+    
+    QString av(_AV_LANG);
+    m_langCode << av.split(";");
     //myDebug() << "set.language = " << m_set.language;
     m_ui->comboBox_language->clear();
     m_ui->comboBox_language->insertItems(0, langs);

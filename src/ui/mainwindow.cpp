@@ -24,6 +24,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QDir>
 #include <typeinfo>
 #include "src/core/core.h"
+#include "config.h"
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -585,7 +586,8 @@ void MainWindow::loadLanguage(QString language)
     QStringList avLang;
     //QTranslator myappTranslator;
     QTranslator qtTranslator;
-    avLang <<  "en" << "de" << "ru" << "cs";
+    QString av(_AV_LANG);
+    avLang << av.split(";");
     if(avLang.lastIndexOf(language) == -1) {
         language = language.remove(language.lastIndexOf("_"), language.size());
         if(avLang.lastIndexOf(language) == -1) {
@@ -595,7 +597,9 @@ void MainWindow::loadLanguage(QString language)
     bool loaded = myappTranslator->load(":/data/obv_" + language + ".qm");
     m_reloadLang = true;
     if(!loaded) {
-        QMessageBox::warning(this, tr("Installing language failed."), tr("Please choose an another language."));
+        loaded = myappTranslator->load(language);
+        if(!loaded)
+            QMessageBox::warning(this, tr("Installing language failed."), tr("Please choose an another language."));
     }
 
     qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
