@@ -440,7 +440,7 @@ Bible * ModuleManager::newBible(const int &moduleID, QPoint p)
 {
     if(!contains(moduleID)) {
         myWarning() << "invalid moduleID = " << moduleID;
-        return 0;
+        return NULL;
     }
     int id = bibleList()->m_biblePoints.key(p, -1);
     Bible *b;

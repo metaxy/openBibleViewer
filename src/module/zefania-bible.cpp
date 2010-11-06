@@ -166,7 +166,6 @@ Book ZefaniaBible::fromHardToSoft(const int &bookID, const QDomNode *ncache)
         }
         c.chapterName = e.attribute("cnumber", QString::number(i));
         c.chapterID = c.chapterName.toInt() - 1;
-
         c.verseCount = verseCount;
         c.bookName = m_bookFullName.at(m_bookIDs.indexOf(QString::number(bookID)));//todo: use also in zefania-bible the qhash system
         book.addChapter(c.chapterID, c);
