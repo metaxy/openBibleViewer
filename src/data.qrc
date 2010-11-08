@@ -5,6 +5,8 @@
         <file>data/obv_ru.qm</file>
         <file>data/obv_en.qm</file>
         <file>data/obv_cs.qm</file>
+        <file>data/obv_tr.qm</file>
+        <file>data/obv_sk.qm</file>
         <file>data/js/jquery-1.4.2.min.js</file>
         <file>data/css/default.css</file>
         <file>data/js/tools.js</file>
