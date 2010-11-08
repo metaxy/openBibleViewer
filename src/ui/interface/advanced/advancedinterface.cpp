@@ -108,7 +108,7 @@ void AdvancedInterface::init()
     m_bibleDisplaySettings->setShowMarks(true);
     m_bibleDisplaySettings->setShowNotes(true);
     m_bibleDisplaySettings->setLoadNotes(true);
-    
+
 
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
     connect(m_bibleDisplay, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
@@ -250,13 +250,13 @@ void AdvancedInterface::newSubWindow(bool doAutoLayout)
 
     mForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
     mForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
-    #if QT_VERSION >= 0x040700
+#if QT_VERSION >= 0x040700
     mForm->m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
     mForm->m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled, true);
     mForm->m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
     mForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
     mForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
-    #endif
+#endif
 
     connect(mForm, SIGNAL(historyGo(QString)), this, SLOT(pharseUrl(QString)));
     connect(mForm, SIGNAL(previousChapter()), this, SLOT(previousChapter()));

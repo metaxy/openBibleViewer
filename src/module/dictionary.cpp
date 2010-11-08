@@ -73,7 +73,7 @@ QString Dictionary::getEntry(const QString &string)
     default:
         return QString();
     }
-   
+
 }
 QStringList Dictionary::getAllKeys()
 {
@@ -88,5 +88,5 @@ QStringList Dictionary::getAllKeys()
     default:
         return QStringList();
     }
-    
+
 }

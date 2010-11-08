@@ -3,5 +3,9 @@ find . -type f -name "*.orig" -exec rm -f {} \;
 
 #format
 
-astyle --indent=spaces=4 --brackets=linux --indent-labels --pad=oper --unpad=paren  --one-line=keep-statements --convert-tabs  --indent-preprocessor
+astyle --indent=spaces=4 --brackets=linux --indent-labels --pad=oper --unpad=paren  --one-line=keep-statements --convert-tabs  --indent-preprocessor        `find -type f -name '*.cpp'` `find -type f -name '*.cc'` `find -type f -name '*.h'`
 
+#convert po files to ts
+lconvert -i src_openbibleviewer_openbibleviewer-tr.po  -o obv_tr.ts  --of ts -if po
+#make qm
+lrelease obv_tr.ts

@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
     myDebug() << loaded;
     if(!loaded)
         myappTranslator.load(lang);
-    
+
     a.installTranslator(&myappTranslator);
 
     MainWindow w;

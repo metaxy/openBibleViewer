@@ -43,7 +43,7 @@ bool BibleDisplaySettings::showNotes()
 }
 void BibleDisplaySettings::setShowNotes(bool showNotes)
 {
-   if(showNotes)
+    if(showNotes)
         m_loadNotes = true;
     m_showNotes = showNotes;
 }

@@ -58,7 +58,7 @@ public slots:
      * Save current note, the note hiarchy and write them to hard disk.
      */
     void saveNote();
-    
+
     /**
      * Similiar to saveNote() but without saveing the note hiarchy and writing to hard disk
      */

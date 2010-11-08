@@ -80,9 +80,9 @@ int SettingsDialog::setSettings(Settings settings)
     QString nativeName = QString::fromLocal8Bit(_AV_LANG_NAME_NATIVE);
     QStringList nativeNames = nativeName.split(";");
     for(int i = 0; i < names.size(); i++) {
-        langs << tr(names.at(i).toStdString().c_str()) + "( "+ nativeNames.at(i) + " )";
+        langs << tr(names.at(i).toStdString().c_str()) + "( " + nativeNames.at(i) + " )";
     }
-    
+
     QString av(_AV_LANG);
     m_langCode << av.split(";");
     //myDebug() << "set.language = " << m_set.language;
