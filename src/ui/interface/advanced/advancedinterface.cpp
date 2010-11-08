@@ -163,17 +163,20 @@ void AdvancedInterface::init()
     
 
 }
+/*
+ * Todo: Use it
+ */
 void AdvancedInterface::installResizeFilter()
 {
     m_mdiAreaFilter = new MdiAreaFilter(ui->mdiArea);
-    ui->mdiArea->installEventFilter(m_mdiAreaFilter);
     connect(m_mdiAreaFilter, SIGNAL(resized()), this, SLOT(mdiAreaResized()));
+    ui->mdiArea->installEventFilter(m_mdiAreaFilter);
 }
 
 void AdvancedInterface::attachApi()
 {
     QWebFrame * frame = getView()->page()->mainFrame();
-    {
+    /*{
         QFile file(":/data/js/jquery-1.4.2.min.js");
         if(!file.open(QFile::ReadOnly | QFile::Text))
             return;
@@ -182,7 +185,7 @@ void AdvancedInterface::attachApi()
         file.close();
         frame->evaluateJavaScript(jquery);
     }
-
+*/
     {
         QFile file(":/data/js/tools.js");
         if(!file.open(QFile::ReadOnly | QFile::Text))
