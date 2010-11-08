@@ -101,10 +101,7 @@ include ( ${QT_USE_FILE} )
 
 message ( STATUS "Build static clucene" )
 
-option( _PORTABLE_VERSION "Build a protable version" OFF )
-option( _AV_LANG "All aviable Languages" "en;de;ru;cs" )
-option( _AV_LANG_NAME "All aviable Languages" "English;German;Russian;Czech" )
-option( _AV_LANG_NAME_NATIVE "All aviable Languages" "English;Deutsch;русском;čeština" )
+option( _PORTABLE_VERSION "Build a portable version" OFF )
 configure_file( ${openBibleViewer_SOURCE_DIR}/src/config.h.cmake 
                 ${openBibleViewer_BINARY_DIR}/src/config.h )
 

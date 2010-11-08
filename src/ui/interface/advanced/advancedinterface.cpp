@@ -101,9 +101,6 @@ void AdvancedInterface::setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDoc
 
 void AdvancedInterface::init()
 {
-    m_mdiAreaFilter = new MdiAreaFilter(ui->mdiArea);
-    connect(m_mdiAreaFilter, SIGNAL(resized()), this, SLOT(mdiAreaResized()));
-
     m_bibleDisplaySettings = new BibleDisplaySettings();
     m_bibleDisplaySettings->setShowMarks(true);
     m_bibleDisplaySettings->setShowNotes(true);
@@ -159,16 +156,23 @@ void AdvancedInterface::init()
     createDefaultMenu();
     connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
 
-    if(usableWindowList().size() == 0 &&  m_settings->session.getData("windowUrls").toStringList().size() == 0)
-        QTimer::singleShot(0, this, SLOT(newSubWindow()));
-    ui->mdiArea->installEventFilter(m_mdiAreaFilter);
+    if(m_settings->session.getData("windowUrls").toStringList().size() == 0)
+        QTimer::singleShot(10, this, SLOT(newSubWindow()));
+    
+    //QTimer::singleShot(1000, this, SLOT(installResizeFilter()));
+    
 
+}
+void AdvancedInterface::installResizeFilter()
+{
+    m_mdiAreaFilter = new MdiAreaFilter(ui->mdiArea);
+    ui->mdiArea->installEventFilter(m_mdiAreaFilter);
+    connect(m_mdiAreaFilter, SIGNAL(resized()), this, SLOT(mdiAreaResized()));
 }
 
 void AdvancedInterface::attachApi()
 {
     QWebFrame * frame = getView()->page()->mainFrame();
-
     {
         QFile file(":/data/js/jquery-1.4.2.min.js");
         if(!file.open(QFile::ReadOnly | QFile::Text))
@@ -1552,7 +1556,7 @@ void AdvancedInterface::restoreSession()
     const QVariantList zoom = m_settings->session.getData("zoom").toList();
 
     for(int i = 0; i < windowUrls.size(); ++i) {
-        newSubWindow(false);
+        newSubWindow(true);
         //load bible
         QString url = windowUrls.at(i);
         m_moduleManager->bibleList()->clear();
@@ -1576,6 +1580,7 @@ void AdvancedInterface::restoreSession()
             m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
         }
         //set geometry
+        myDebug() << "new Window " << i << " url = " << url << "rect = " << windowGeo.at(i).toRect();
         QWebView *v = getView();
         activeMdiChild()->setGeometry(windowGeo.at(i).toRect());
         v->page()->mainFrame()->setScrollPosition(scrollPos.at(i).toPoint());

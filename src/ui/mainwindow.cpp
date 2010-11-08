@@ -234,7 +234,7 @@ void MainWindow::loadAdvancedInterface()
     connect(this, SIGNAL(settingsChanged(Settings, Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
     m_interface->init();
-    QTimer::singleShot(1, m_interface, SLOT(restoreSession()));
+    QTimer::singleShot(0, m_interface, SLOT(restoreSession()));
 
 }
 void MainWindow::loadStudyInterface()

@@ -108,6 +108,8 @@ private slots:
     void debugger();
 
     void mdiAreaResized();
+    
+    void installResizeFilter();
 
 
 
