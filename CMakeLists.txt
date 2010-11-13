@@ -161,6 +161,8 @@ set ( openBibleViewer_HDRS
 	src/core/faststart.h
     src/core/version.h
     src/api/notesapi.h
+    src/core/searchprovider.h
+    src/core/searchproviders.h
 	)
 
 set ( openBibleViewer_SRCS
@@ -198,6 +200,8 @@ set ( openBibleViewer_SRCS
     src/core/history.cpp
     src/core/versereplacer.cpp
     src/core/version.cpp
+    src/core/searchprovider.cpp
+    src/core/searchproviders.cpp
 
 	src/module/bible.cpp
     src/module/biblequote.cpp
