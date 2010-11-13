@@ -25,6 +25,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <typeinfo>
 #include "src/core/core.h"
 #include "config.h"
+#include "src/core/version.h"
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -57,7 +58,7 @@ MainWindow::~MainWindow()
 }
 void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 {
-    VERSION  = "0.5.3";
+    VERSION  = "0.6.a1";
     BUILD =  "2010-11-8";
     m_homeDataPath = homeDataPath;
     m_settingsFile = settingsFile;
@@ -406,14 +407,22 @@ void MainWindow::loadDefaultSettings()
 void MainWindow::loadSettings()
 {
     DEBUG_FUNC_NAME
+    Version currentVersion(m_settings->version);
+    Version settingsVersion(m_settingsFile->value("general/version", m_settings->version).toString());
+    //myDebug() << settingsVersion.minorVersion() << currentVersion.minorVersion();
+    if(settingsVersion.minorVersion() == 5 && currentVersion.minorVersion() >  settingsVersion.minorVersion()) {
+        //change from 0.5 to 0.6
+        //remove module cache from openBibleViewer.ini
+        m_settingsFile->beginGroup("moduleCache");
+        m_settingsFile->remove("");
+        m_settingsFile->endGroup();
+        //myDebug() << "remove ModuleCache";
+
+    }
 
     m_settings->encoding = m_settingsFile->value("general/encoding", m_settings->encoding).toString();
     m_settings->zoomstep = m_settingsFile->value("general/zoomstep", m_settings->zoomstep).toInt();
-    /*#ifdef Q_WS_WIN
-        m_settings->language = m_settingsFile->value("general/language", "en").toString();
-    #else*/
     m_settings->language = m_settingsFile->value("general/language", QLocale::system().name()).toString();
-    /*#endif*/
     m_settings->autoLayout = m_settingsFile->value("window/layout", m_settings->autoLayout).toInt();
     m_settings->onClickBookmarkGo = m_settingsFile->value("window/onClickBookmarkGo", m_settings->onClickBookmarkGo).toBool();
 
@@ -480,6 +489,7 @@ void MainWindow::loadSettings()
 void MainWindow::writeSettings()
 {
     DEBUG_FUNC_NAME
+    
     m_settingsFile->setValue("general/version", m_settings->version);
     m_settingsFile->setValue("general/encoding", m_settings->encoding);
     m_settingsFile->setValue("general/zoomstep", m_settings->zoomstep);
