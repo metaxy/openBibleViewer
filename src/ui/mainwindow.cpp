@@ -410,7 +410,7 @@ void MainWindow::loadSettings()
     Version currentVersion(m_settings->version);
     Version settingsVersion(m_settingsFile->value("general/version", m_settings->version).toString());
     //myDebug() << settingsVersion.minorVersion() << currentVersion.minorVersion();
-    if(settingsVersion.minorVersion() == 5 && currentVersion.minorVersion() >  settingsVersion.minorVersion()) {
+    if(settingsVersion.minorVersion() <= 5 && currentVersion.minorVersion() >  settingsVersion.minorVersion()) {
         //change from 0.5 to 0.6
         //remove module cache from openBibleViewer.ini
         m_settingsFile->beginGroup("moduleCache");
