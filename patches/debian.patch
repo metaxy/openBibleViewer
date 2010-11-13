@@ -1,8 +1,0 @@
---- openBibleViewer.pro	2010-03-14 18:04:37.644066124 +0100
-+++ openBibleViewer.pro	2010-03-14 19:07:02.884070447 +0100
-@@ -146,3 +146,4 @@
- 
- DEFINES += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
- unix:INSTALLS += target
-+target.path =    $$PREFIX/bin
-\ Kein Zeilenumbruch am Dateiende.
