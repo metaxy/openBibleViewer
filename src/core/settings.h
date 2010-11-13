@@ -47,13 +47,13 @@ public:
     QList<QStringList> bookShortNames;
 
 
-    ModuleSettings getModuleSettings(const int &bibleID);
+    ModuleSettings getModuleSettings(const int& moduleID) const;
     void replaceModuleSettings(const int &bibleID, ModuleSettings m);
 
     void setTitle(QString path, QString title);
     void setBookCount(QString path, QMap<int, int> count);
     void setBookNames(QString path, QHash<int, QString> names);
-    ModuleCache getModuleCache(const QString &path);
+    ModuleCache getModuleCache(const QString& path) const;
     void setModuleIDinMap(const int &moduleID, const int &pos);
     QMap<QString, ModuleCache> m_moduleCache;
 
@@ -62,10 +62,10 @@ public:
     QStringList sessionNames;
     QStringList sessionIDs;
 
-    QString savableUrl(QString url);
-    QString recoverUrl(QString url);
+    QString savableUrl(QString url) const;
+    QString recoverUrl(QString url) const;
 
-    QString hash(const QString &path);
+    QString hash(const QString& path) const;
 private:
 
 };

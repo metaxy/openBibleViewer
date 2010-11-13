@@ -26,7 +26,7 @@ void Settings::setModuleIDinMap(const int &moduleID, const int &pos)
 {
     m_moduleID[moduleID] = pos;
 }
-ModuleSettings Settings::getModuleSettings(const int &moduleID)
+ModuleSettings Settings::getModuleSettings(const int &moduleID) const
 {
     int id = m_moduleID.value(moduleID);
     if(m_moduleSettings.size() < id || m_moduleSettings.size() == 0) {
@@ -59,14 +59,14 @@ void Settings::setTitle(QString path, QString title)
     c.title = title;
     m_moduleCache[path] = c;
 }
-ModuleCache Settings::getModuleCache(const QString &path)
+ModuleCache Settings::getModuleCache(const QString &path) const
 {
     return m_moduleCache.value(path);
 }
 /**
   Replace homePath and settingsPath to make it more portable.
   */
-QString Settings::savableUrl(QString url)
+QString Settings::savableUrl(QString url) const
 {
     if(url.startsWith(homePath)) {
         url.replace(homePath, "%obvHomePath%");
@@ -81,7 +81,7 @@ QString Settings::savableUrl(QString url)
 /**
   Recover Urls with were saved with savableUrl().
   */
-QString Settings::recoverUrl(QString url)
+QString Settings::recoverUrl(QString url) const
 {
     if(url.startsWith("%obvHomePath%")) {
         url.replace("%obvHomePath%", homePath);
@@ -93,7 +93,10 @@ QString Settings::recoverUrl(QString url)
     }
     return url;
 }
-QString Settings::hash(const QString &path)
+/**
+ * Generate a hash from a string 
+ */
+QString Settings::hash(const QString &path) const
 {
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(savableUrl(path).toLocal8Bit());

@@ -160,10 +160,12 @@ set ( openBibleViewer_HDRS
 	src/core/bibleurl.h
 	src/core/faststart.h
     src/core/version.h
+    src/api/notesapi.h
 	)
 
 set ( openBibleViewer_SRCS
     src/api/bibleapi.cpp
+    src/api/notesapi.cpp
 
 	src/core/book.cpp
     src/core/url.cpp
