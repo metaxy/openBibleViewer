@@ -61,6 +61,7 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
     BUILD =  "2010-11-8";
     m_homeDataPath = homeDataPath;
     m_settingsFile = settingsFile;
+    m_moduleCacheFile = new QSettings(homeDataPath + "moduleCache.ini", QSettings::IniFormat);
 
     m_moduleManager = new ModuleManager();
     m_bibleDisplay = new BibleDisplay();
@@ -456,25 +457,25 @@ void MainWindow::loadSettings()
     }
     m_settingsFile->endArray();
 
-    size = m_settingsFile->beginReadArray("modulecache");
+    size = m_moduleCacheFile->beginReadArray("modulecache");
 
     for(int i = 0; i < size; ++i) {
-        m_settingsFile->setArrayIndex(i);
+        m_moduleCacheFile->setArrayIndex(i);
         ModuleCache c;
-        c.setBookCount(m_settingsFile->value("bookCount").toMap());
-        const QStringList names = m_settingsFile->value("bookNames").toStringList();
-        const QStringList ids = m_settingsFile->value("bookIDs").toStringList();
+        c.setBookCount(m_moduleCacheFile->value("bookCount").toMap());
+        const QStringList names = m_moduleCacheFile->value("bookNames").toStringList();
+        const QStringList ids = m_moduleCacheFile->value("bookIDs").toStringList();
         QHash<int, QString> bookNames;
         for(int n = 0; n < ids.size(); ++n) {
             bookNames.insert(ids.at(n).toInt(), names.at(n));
         }
         c.bookNames = bookNames;
-        c.title = m_settingsFile->value("title").toString();
-        m_settings->m_moduleCache.insert(m_settings->recoverUrl(m_settingsFile->value("path").toString()), c);
+        c.title = m_moduleCacheFile->value("title").toString();
+        m_settings->m_moduleCache.insert(m_settings->recoverUrl(m_moduleCacheFile->value("path").toString()), c);
 
     }
-    m_settingsFile->endArray();
-    return;
+    m_moduleCacheFile->endArray();
+
 }
 void MainWindow::writeSettings()
 {
@@ -518,16 +519,17 @@ void MainWindow::writeSettings()
     }
     m_settingsFile->endArray();
 
-    m_settingsFile->beginWriteArray("modulecache");
+    
+    m_moduleCacheFile->beginWriteArray("modulecache");
     QMapIterator<QString, ModuleCache> i(m_settings->m_moduleCache);
     int k = 0;
     while(i.hasNext()) {
         i.next();
         k++;
-        m_settingsFile->setArrayIndex(k);
+        m_moduleCacheFile->setArrayIndex(k);
         ModuleCache c = i.value();
         QString url = m_settings->savableUrl(i.key());
-        m_settingsFile->setValue("title", c.title);
+        m_moduleCacheFile->setValue("title", c.title);
         QHashIterator<int, QString> i(c.bookNames);
         QStringList bookNames;
         QStringList bookIDs;
@@ -536,12 +538,12 @@ void MainWindow::writeSettings()
             bookNames << i.value();
             bookIDs << QString::number(i.key());
         }
-        m_settingsFile->setValue("bookNames", bookNames);
-        m_settingsFile->setValue("bookIDs", bookIDs);
-        m_settingsFile->setValue("bookCount", c.toStringMap());
-        m_settingsFile->setValue("path", url);
+        m_moduleCacheFile->setValue("bookNames", bookNames);
+        m_moduleCacheFile->setValue("bookIDs", bookIDs);
+        m_moduleCacheFile->setValue("bookCount", c.toStringMap());
+        m_moduleCacheFile->setValue("path", url);
     }
-    m_settingsFile->endArray();
+    m_moduleCacheFile->endArray();
 }
 void MainWindow::saveSettings(Settings newSettings)
 {

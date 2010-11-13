@@ -47,6 +47,7 @@ public:
     ~MainWindow();
     void init(const QString &homeDataPath, QSettings * settingsFile);
     QSettings *m_settingsFile;
+    QSettings *m_moduleCacheFile;
     QString VERSION, BUILD;
     QString m_homeDataPath;
     void setSettings(Settings settings);
@@ -66,9 +67,6 @@ signals:
 private:
     Ui::MainWindow *ui;
     Interface *m_interface;
-    /* SimpleInterface *simpleInterface;
-     AdvancedInterface *advancedInterface ;
-     StudyInterface *studyInterface;*/
     QList<QToolBar *> m_toolBarList;
     QMenuBar *m_menuBar;
     void loadInterface();
