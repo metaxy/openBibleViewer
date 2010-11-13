@@ -410,7 +410,7 @@ void MainWindow::loadSettings()
     Version currentVersion(m_settings->version);
     Version settingsVersion(m_settingsFile->value("general/version", m_settings->version).toString());
     //myDebug() << settingsVersion.minorVersion() << currentVersion.minorVersion();
-    if(settingsVersion.minorVersion() <= 5 && currentVersion.minorVersion() >  settingsVersion.minorVersion()) {
+    if(settingsVersion.minorVersion() <= 5 && currentVersion.minorVersion() > settingsVersion.minorVersion()) {
         //change from 0.5 to 0.6
         //remove module cache from openBibleViewer.ini
         m_settingsFile->beginGroup("moduleCache");
@@ -489,7 +489,7 @@ void MainWindow::loadSettings()
 void MainWindow::writeSettings()
 {
     DEBUG_FUNC_NAME
-    
+
     m_settingsFile->setValue("general/version", m_settings->version);
     m_settingsFile->setValue("general/encoding", m_settings->encoding);
     m_settingsFile->setValue("general/zoomstep", m_settings->zoomstep);
@@ -529,7 +529,7 @@ void MainWindow::writeSettings()
     }
     m_settingsFile->endArray();
 
-    
+
     m_moduleCacheFile->beginWriteArray("modulecache");
     QMapIterator<QString, ModuleCache> i(m_settings->m_moduleCache);
     int k = 0;

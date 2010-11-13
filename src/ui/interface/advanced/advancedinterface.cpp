@@ -158,9 +158,9 @@ void AdvancedInterface::init()
 
     if(m_settings->session.getData("windowUrls").toStringList().size() == 0)
         QTimer::singleShot(10, this, SLOT(newSubWindow()));
-    
+
     //QTimer::singleShot(1000, this, SLOT(installResizeFilter()));
-    
+
 
 }
 /*
@@ -185,7 +185,7 @@ void AdvancedInterface::attachApi()
         file.close();
         frame->evaluateJavaScript(jquery);
     }
-*/
+    */
     {
         QFile file(":/data/js/tools.js");
         if(!file.open(QFile::ReadOnly | QFile::Text))

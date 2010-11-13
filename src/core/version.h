@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QString>
 class Version
 {
-public:    
+public:
     Version(const QString &versionString);
     int majorVersion();
     int minorVersion();

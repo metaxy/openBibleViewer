@@ -30,8 +30,8 @@ Version::Version(const QString& versionString)
         m_maintenance = 0;
     }
     //myDebug() << "major = " << m_major << " minor = " << m_minor;
-    
-  
+
+
 }
 int Version::maintenanceVersion()
 {
