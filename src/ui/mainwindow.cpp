@@ -182,7 +182,7 @@ void MainWindow::loadSimpleInterface()
             addToolBar(bar);
         }
     }
-    connect(this, SIGNAL(settingsChanged(Settings, Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
+    connect(this, SIGNAL(settingsChanged(Settings, Settings, bool)), m_interface, SLOT(settingsChanged(Settings, Settings, bool)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
     m_interface->init();
 }
@@ -233,7 +233,7 @@ void MainWindow::loadAdvancedInterface()
             addToolBar(bar);
         }
     }
-    connect(this, SIGNAL(settingsChanged(Settings, Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
+    connect(this, SIGNAL(settingsChanged(Settings, Settings, bool)), m_interface, SLOT(settingsChanged(Settings, Settings, bool)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
     m_interface->init();
     QTimer::singleShot(0, m_interface, SLOT(restoreSession()));
@@ -545,7 +545,7 @@ void MainWindow::writeSettings()
     }
     m_settingsFile->endArray();
 }
-void MainWindow::saveSettings(Settings newSettings)
+void MainWindow::saveSettings(Settings newSettings, bool modifedModuleSettings)
 {
     Settings oldSettings = *m_settings;
 
@@ -558,12 +558,12 @@ void MainWindow::saveSettings(Settings newSettings)
     if(oldSettings.session.getData("interface", "advanced") != newSettings.session.getData("interface", "advanced")) {
         reloadInterface();
     }
-    emit settingsChanged(oldSettings, newSettings);
+    emit settingsChanged(oldSettings, newSettings,modifedModuleSettings);
 }
 void MainWindow::showSettingsDialog(int tabID)
 {
     SettingsDialog setDialog(this);
-    connect(&setDialog, SIGNAL(settingsChanged(Settings)), this, SLOT(saveSettings(Settings)));
+    connect(&setDialog, SIGNAL(settingsChanged(Settings,bool)), this, SLOT(saveSettings(Settings,bool)));
     setDialog.setSettings(*m_settings);
     setDialog.setWindowTitle(tr("Configuration"));
     setDialog.setCurrentTab(tabID);

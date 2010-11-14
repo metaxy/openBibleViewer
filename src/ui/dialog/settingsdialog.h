@@ -38,7 +38,7 @@ public slots:
     void downloadModule();
     void addModules(QStringList files, QStringList names);
 signals:
-    int settingsChanged(Settings settings);
+    int settingsChanged(Settings settings, bool modifedModuleSettings);
 public:
     explicit SettingsDialog(QWidget *parent = 0);
     virtual ~SettingsDialog();
@@ -56,6 +56,7 @@ private:
     QStringList m_encodings;
     QStringList m_langCode;
     Ui::SettingsDialog *m_ui;
+    bool m_modifedModuleSettings;
 };
 
 #endif // SETTINGSDIALOG_H

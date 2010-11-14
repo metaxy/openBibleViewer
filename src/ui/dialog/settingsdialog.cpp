@@ -34,7 +34,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), m_ui(new Ui::SettingsDialog)
 {
     m_ui->setupUi(this);
-
+    m_modifedModuleSettings = false;
     connect(m_ui->pushButton_downloadModule, SIGNAL(clicked()), this, SLOT(downloadModule()));
     connect(m_ui->pushButton_addFile, SIGNAL(clicked()), this, SLOT(addModuleFile()));
     connect(m_ui->pushButton_addDir, SIGNAL(clicked()), this, SLOT(addModuleDir()));
@@ -51,6 +51,7 @@ SettingsDialog::~SettingsDialog()
 }
 void SettingsDialog::reset()
 {
+    m_modifedModuleSettings = false;
     m_set = m_backupSet;
     setSettings(m_set);
 }
@@ -161,6 +162,7 @@ void SettingsDialog::generateModuleTree()
 
 void SettingsDialog::addModuleFile(void)
 {
+    m_modifedModuleSettings = true;
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::ExistingFiles);
 
@@ -172,6 +174,7 @@ void SettingsDialog::addModuleFile(void)
 }
 void SettingsDialog::addModuleDir(void)
 {
+    m_modifedModuleSettings = true;
     QFileDialog dialog(this);
 
     dialog.setFileMode(QFileDialog::Directory);
@@ -241,6 +244,7 @@ void SettingsDialog::addModuleDir(void)
 }
 void SettingsDialog::removeModule()
 {
+    m_modifedModuleSettings = true;
     int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
     //remove from listWidget
     QTreeWidgetItem * token = m_ui->treeWidget_module->currentItem();
@@ -252,6 +256,7 @@ void SettingsDialog::removeModule()
 void SettingsDialog::editModule()
 {
     //DEBUG_FUNC_NAME
+    m_modifedModuleSettings = true;
     int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
     if(row >= 0) {
         ModuleConfigDialog *mDialog = new ModuleConfigDialog(this);
@@ -282,7 +287,7 @@ void SettingsDialog::save(void)
         m_set.session.setData("interface", "advanced");
     }
     //Alles andere, wie z.b die Module sind schon gespeichert
-    emit settingsChanged(m_set);//Speichern
+    emit settingsChanged(m_set,m_modifedModuleSettings);//Speichern
     close();
 }
 void SettingsDialog::downloadModule()

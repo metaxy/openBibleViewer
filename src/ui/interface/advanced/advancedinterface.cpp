@@ -1606,29 +1606,39 @@ void AdvancedInterface::restoreSession()
     }
 }
 
-void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettings)
+void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettings, bool modifedModuleSettings)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     //reload books
     bool reloadBibles = false;
     if(oldSettings.encoding != newSettings.encoding) {
+        myDebug() << "encoding changed from "  << oldSettings.encoding << " to " << newSettings.encoding;
         reloadBibles = true;
     }
-    if(oldSettings.m_moduleSettings.size() > newSettings.m_moduleSettings.size())
-        reloadBibles = true;
-    for(int i = 0; i < newSettings.m_moduleSettings.size(); ++i) {
-        if(oldSettings.m_moduleSettings.size() < i || oldSettings.m_moduleSettings.empty()) {
+    if(reloadBibles == false) {
+        if(oldSettings.m_moduleSettings.size() != newSettings.m_moduleSettings.size()) {
+            myDebug() << "module settings size changed from "  << oldSettings.m_moduleSettings.size() << " to " << newSettings.m_moduleSettings.size();
             reloadBibles = true;
-            break;
-        } else {
-            ModuleSettings m1, m2;
-            m1 = newSettings.m_moduleSettings.at(i);
-            m2 = oldSettings.m_moduleSettings.at(i);
-            if(memcmp(&m1, &m2, sizeof(ModuleSettings))) {
+        }
+    }
+    if(modifedModuleSettings == true) {
+        reloadBibles = true;
+        /*
+        for(int i = 0; i < newSettings.m_moduleSettings.size(); ++i) {
+            if(oldSettings.m_moduleSettings.size() < i || oldSettings.m_moduleSettings.empty()) {
+                myDebug() << "not enough " << i;
                 reloadBibles = true;
                 break;
-            }
-        }
+            } else {
+                ModuleSettings m1, m2;
+                m1 = newSettings.m_moduleSettings.at(i);
+                m2 = oldSettings.m_moduleSettings.at(i);
+                if(memcmp(&m1, &m2, sizeof(ModuleSettings)) != 0) {
+                    myDebug() << "m1 not equal m2";
+                    reloadBibles = true;
+                    break;
+                }
+            }*/
     }
     if(reloadBibles == true) {
         FastStart fastStart;
