@@ -748,7 +748,11 @@ void AdvancedInterface::pharseUrl(QString url)
             setCurrentChapter(c);
         } else {
             if(activeMdiChild()) {
-                getView()->page()->mainFrame()->evaluateJavaScript("window.location.hash='" + url + "';");
+                #if QT_VERSION >= 0x040700
+                            getView()->page()->mainFrame()->scrollToAnchor(url);
+                #else
+                            getView()->page()->mainFrame()->evaluateJavaScript("window.location.href = '" + url + "';");
+                #endif
             }
         }
 
