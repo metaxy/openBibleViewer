@@ -535,7 +535,7 @@ void AdvancedInterface::mdiAreaResized()
 bool AdvancedInterface::loadModuleDataByID(int moduleID)
 {
     DEBUG_FUNC_NAME
-    //myDebug() << "id = " << id;
+    myDebug() << "id = " << moduleID;
     //open a new window if they are none
     if(ui->mdiArea->subWindowList().size() == 0)
         newSubWindow();
@@ -610,13 +610,14 @@ void AdvancedInterface::pharseUrl(QString url)
             }
 
             if(reloadBible) {
-                int id;
+                int id = -1;
                 if(bibleUrl.bible() == BibleUrl::LoadBibleByID) {
                     id = bibleUrl.bibleID();
                 } else if(bibleUrl.bible() == BibleUrl::LoadCurrentBible) {
                     id = m_moduleManager->bible()->moduleID();
                 }
-                int ret = loadModuleDataByID(bibleUrl.bibleID());
+                myDebug() << "reloadBible with id = " << id;
+                int ret = loadModuleDataByID(id);
                 if(ret == 1) {
                     showText(tr("No such bible found."));
                     return;
@@ -1099,8 +1100,10 @@ void AdvancedInterface::reloadChapter(bool full)
     DEBUG_FUNC_NAME
     if(!activeMdiChild())
         return;
+    setEnableReload(false);
     const QWebView *v = getView();
     const QPoint p = v->page()->mainFrame()->scrollPosition();
+    myDebug() << m_moduleManager->bible()->moduleID();
     if(full) {
         BibleUrl url;
         url.setBible(BibleUrl::LoadCurrentBible);
@@ -1119,6 +1122,7 @@ void AdvancedInterface::reloadChapter(bool full)
         emit get(url.toString());
     }
     v->page()->mainFrame()->setScrollPosition(p);
+    setEnableReload(true);
 }
 
 void AdvancedInterface::reloadActive()
@@ -1641,6 +1645,7 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
             }*/
     }
     if(reloadBibles == true) {
+        QApplication::setOverrideCursor(Qt::WaitCursor);
         FastStart fastStart;
         fastStart.setSettings(m_settings);
         fastStart.remove();
@@ -1653,6 +1658,7 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
         //m_moduleManager->bible()->clearSoftCache();
         if(m_moduleManager->bibleLoaded())
             reloadChapter(true);
+        QApplication::restoreOverrideCursor();
     }
 
 }
