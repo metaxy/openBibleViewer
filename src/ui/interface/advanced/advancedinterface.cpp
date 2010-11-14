@@ -47,6 +47,7 @@ AdvancedInterface::AdvancedInterface(QWidget *parent) :
     ui(new Ui::AdvancedInterface)
 {
     ui->setupUi(this);
+    createToolBars();
     m_lastActiveWindow = -1;
 }
 
@@ -111,7 +112,6 @@ void AdvancedInterface::init()
     connect(m_bibleDisplay, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
     connect(m_bibleDisplay, SIGNAL(get(QUrl)), this, SLOT(pharseUrl(QUrl)));
 
-
     setAll(m_moduleDockWidget);
     m_moduleDockWidget->init();
     connect(m_moduleDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
@@ -130,11 +130,14 @@ void AdvancedInterface::init()
     m_notesDockWidget->hide();
     connect(m_notesDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
     connect(m_notesDockWidget, SIGNAL(reloadChapter()), this, SLOT(reloadChapter()));
+    connect(m_notesDockWidget, SIGNAL(visibilityChanged(bool)), m_mainBarActionNotes, SLOT(setChecked(bool)));
 
     setAll(m_bookmarksDockWidget);
     m_bookmarksDockWidget->init();
     m_bookmarksDockWidget->hide();
     connect(m_bookmarksDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+    connect(m_bookmarksDockWidget, SIGNAL(visibilityChanged(bool)), m_mainBarActionBookmarks, SLOT(setChecked(bool)));
+
 
     setAll(m_dictionaryDockWidget);
     m_dictionaryDockWidget->init();
@@ -1714,13 +1717,13 @@ bool AdvancedInterface::hasMenuBar()
 
 QMenuBar* AdvancedInterface::menuBar()
 {
-    QMenuBar *bar = new QMenuBar(parentWidget());
+    QMenuBar *bar = new QMenuBar(this);
     QMenu *menuFile = new QMenu(tr("File"), bar);
 
     //New Sub Window
     QAction *actionNewSubWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New SubWindow"), menuFile);
     connect(actionNewSubWindow, SIGNAL(triggered()), this, SLOT(newSubWindow()));
-    actionNewSubWindow->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_T));//on KDE using const KeySequence is Ctrl+Shift+N ( and that is not good )
+    actionNewSubWindow->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_T));//using const KeySequence on KDE will be Ctrl+Shift+N
 
     //Close Sub Window
     QAction *actionCloseSubWindow = new QAction(QIcon::fromTheme("tab-close", QIcon(":/icons/16x16/tab-close.png")), tr("Close SubWindow"), menuFile);
@@ -1958,65 +1961,68 @@ bool AdvancedInterface::hasToolBar()
 {
     return true;
 }
-
-QList<QToolBar *> AdvancedInterface::toolBars()
+void AdvancedInterface::createToolBars()
 {
-    QToolBar *bar = new QToolBar(this->parentWidget());
-    bar->setObjectName("mainToolBar");
-    bar->setIconSize(QSize(16, 16));
-    bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+    DEBUG_FUNC_NAME
+    m_mainBar = new QToolBar(this);
+    m_mainBar->setObjectName("mainToolBar");
+    m_mainBar->setIconSize(QSize(16, 16));
+    m_mainBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+    m_mainBar->setWindowTitle(tr("Main Tool Bar"));
 
-    bar->setWindowTitle(tr("Main Tool Bar"));
-    QAction *actionSearch = new QAction(QIcon::fromTheme("edit-find", QIcon(":/icons/16x16/edit-find.png")), tr("Search"), bar);
-    connect(actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
+    m_mainBarActionSearch = new QAction(QIcon::fromTheme("edit-find", QIcon(":/icons/16x16/edit-find.png")), tr("Search"), m_mainBar);
+    connect(m_mainBarActionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
 
-    QAction *actionBookmarks = new QAction(QIcon::fromTheme("bookmarks-organize", QIcon(":/icons/16x16/bookmarks-organize.png")), tr("Bookmarks"), bar);
-    connect(actionBookmarks, SIGNAL(triggered()), this, SLOT(showBookmarksDock()));
-    actionBookmarks->setCheckable(true);
-    connect(m_bookmarksDockWidget, SIGNAL(visibilityChanged(bool)), actionBookmarks, SLOT(setChecked(bool)));
+    m_mainBarActionBookmarks = new QAction(QIcon::fromTheme("bookmarks-organize", QIcon(":/icons/16x16/bookmarks-organize.png")), tr("Bookmarks"), m_mainBar);
+    connect(m_mainBarActionBookmarks, SIGNAL(triggered()), this, SLOT(showBookmarksDock()));
+    m_mainBarActionBookmarks->setCheckable(true);
 
-    QAction *actionNotes = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/16x16/view-pim-notes.png")), tr("Notes"), bar);
-    connect(actionNotes, SIGNAL(triggered()), this, SLOT(showNotesDock()));
-    actionNotes->setCheckable(true);
-    connect(m_notesDockWidget, SIGNAL(visibilityChanged(bool)), actionNotes, SLOT(setChecked(bool)));
+    m_mainBarActionNotes = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/16x16/view-pim-notes.png")), tr("Notes"), m_mainBar);
+    connect(m_mainBarActionNotes, SIGNAL(triggered()), this, SLOT(showNotesDock()));
+    m_mainBarActionNotes->setCheckable(true);
 
-    QAction *actionNewWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New Window"), bar);
-    connect(actionNewWindow, SIGNAL(triggered()), this, SLOT(newSubWindow()));
 
-    QAction *actionZoomIn = new QAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/16x16/zoom-in.png")), tr("Zoom In"), bar);
-    connect(actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
-    QAction *actionZoomOut = new QAction(QIcon::fromTheme("zoom-out", QIcon(":/icons/16x16/zoom-out.png")), tr("Zoom Out"), bar);
-    connect(actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
+    m_mainBarActionNewWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New Window"), m_mainBar);
+    connect(m_mainBarActionNewWindow, SIGNAL(triggered()), this, SLOT(newSubWindow()));
 
-    QAction *actionModule = new QAction(QIcon(":/icons/32x32/module.png"), tr("Module"), bar);
-    connect(actionModule, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_Module()));
+    m_mainBarActionZoomIn = new QAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/16x16/zoom-in.png")), tr("Zoom In"), m_mainBar);
+    connect(m_mainBarActionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
 
-    bar->addAction(actionSearch);
-    bar->addSeparator();
-    bar->addAction(actionNewWindow);
-    bar->addSeparator();
-    bar->addAction(actionZoomIn);
-    bar->addAction(actionZoomOut);
-    bar->addSeparator();
-    bar->addAction(actionModule);
-    bar->addSeparator();
-    bar->addAction(actionBookmarks);
-    bar->addAction(actionNotes);
+    m_mainBarActionZoomOut = new QAction(QIcon::fromTheme("zoom-out", QIcon(":/icons/16x16/zoom-out.png")), tr("Zoom Out"), m_mainBar);
+    connect(m_mainBarActionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
 
-    QToolBar *searchBar = new QToolBar(this->parentWidget());
-    searchBar->setObjectName("searchToolBar");
-    searchBar->setIconSize(QSize(16, 16));
-    searchBar->setWindowTitle(tr("Search Bar"));
+    m_mainBarActionModule = new QAction(QIcon(":/icons/32x32/module.png"), tr("Module"), m_mainBar);
+    connect(m_mainBarActionModule, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_Module()));
 
-    QLineEdit *edit = new QLineEdit(searchBar);
+    m_mainBar->addAction(m_mainBarActionSearch);
+    m_mainBar->addSeparator();
+    m_mainBar->addAction(m_mainBarActionNewWindow);
+    m_mainBar->addSeparator();
+    m_mainBar->addAction(m_mainBarActionZoomIn);
+    m_mainBar->addAction(m_mainBarActionZoomOut);
+    m_mainBar->addSeparator();
+    m_mainBar->addAction(m_mainBarActionModule);
+    m_mainBar->addSeparator();
+    m_mainBar->addAction(m_mainBarActionBookmarks);
+    m_mainBar->addAction(m_mainBarActionNotes);
+
+    m_searchBar = new QToolBar(this);
+    m_searchBar->setObjectName("searchToolBar");
+    m_searchBar->setIconSize(QSize(16, 16));
+    m_searchBar->setWindowTitle(tr("Search Bar"));
+
+    QLineEdit *edit = new QLineEdit(m_searchBar);
     edit->setObjectName("lineEdit");
 
     connect(edit, SIGNAL(returnPressed()), this, SLOT(search()));
-    searchBar->addWidget(edit);
+    m_searchBar->addWidget(edit);
+}
 
+QList<QToolBar *> AdvancedInterface::toolBars()
+{
     QList<QToolBar *> list;
-    list.append(bar);
-    list.append(searchBar);
+    list.append(m_mainBar);
+    list.append(m_searchBar);
     return list;
 }
 
@@ -2161,10 +2167,22 @@ void AdvancedInterface::setSubWindowView()
 
 void AdvancedInterface::changeEvent(QEvent *e)
 {
-    QWidget::changeEvent(e);
+    //QWidget::changeEvent(e);
     switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
+
+        //retranslate menu bar
+        m_mainBar->setWindowTitle(tr("Main Tool Bar"));
+        m_mainBarActionSearch->setText(tr("Search"));
+        m_mainBarActionBookmarks->setText(tr("Bookmarks"));
+        m_mainBarActionNotes->setText(tr("Notes"));
+        m_mainBarActionNewWindow->setText( tr("New Window"));
+        m_mainBarActionZoomIn->setText(tr("Zoom In"));
+        m_mainBarActionZoomOut->setText( tr("Zoom Out"));
+        m_mainBarActionModule->setText(tr("Module"));
+        m_searchBar->setWindowTitle(tr("Search Bar"));
+
         break;
     default:
         break;

@@ -178,8 +178,9 @@ void MainWindow::loadSimpleInterface()
     }
     if(m_interface->hasToolBar()) {
         m_toolBarList = m_interface->toolBars();
-        foreach(QToolBar * bar, m_toolBarList)
-        addToolBar(bar);
+        foreach(QToolBar * bar, m_toolBarList) {
+            addToolBar(bar);
+        }
     }
     connect(this, SIGNAL(settingsChanged(Settings, Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
@@ -228,8 +229,9 @@ void MainWindow::loadAdvancedInterface()
     }
     if(m_interface->hasToolBar()) {
         m_toolBarList = m_interface->toolBars();
-        foreach(QToolBar * bar, m_toolBarList)
-        addToolBar(bar);
+        foreach(QToolBar * bar, m_toolBarList) {
+            addToolBar(bar);
+        }
     }
     connect(this, SIGNAL(settingsChanged(Settings, Settings)), m_interface, SLOT(settingsChanged(Settings, Settings)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
@@ -630,25 +632,27 @@ void MainWindow::closeEvent(QCloseEvent *event)
 }
 void MainWindow::changeEvent(QEvent *e)
 {
-    QMainWindow::changeEvent(e);
+    DEBUG_FUNC_NAME
+    //QMainWindow::changeEvent(e);
     switch(e->type()) {
     case QEvent::LanguageChange:
-        //myDebug() << "retranslate";
+        myDebug() << "retranslate";
         ui->retranslateUi(this);
         if(m_reloadLang) {
             if(m_interface->hasMenuBar()) {
                 m_menuBar = m_interface->menuBar();
                 setMenuBar(m_menuBar);
             }
-
-            if(m_interface->hasToolBar()) {
-                foreach(QToolBar * bar, m_toolBarList)
-                removeToolBar(bar);
-                if(m_interface->hasToolBar()) {
-                    foreach(QToolBar * bar, m_interface->toolBars())
+            /*if(m_interface->hasToolBar()) {
+                foreach(QToolBar * bar, m_toolBarList) {
+                    myDebug() << bar;
+                    removeToolBar(bar);
+                    myDebug() << "ok";
+                }
+                foreach(QToolBar * bar, m_interface->toolBars()) {
                     addToolBar(bar);
                 }
-            }
+            }*/
             //todo: ugly but it fix the flickering when opening a file dialog
             m_reloadLang = false;
         }
