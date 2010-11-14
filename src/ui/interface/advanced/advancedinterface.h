@@ -41,7 +41,7 @@ class AdvancedInterface : public Interface
     Q_OBJECT
 public slots:
     void closing();
-    void settingsChanged(Settings oldSettings, Settings newSettings);
+    void settingsChanged(Settings oldSettings, Settings newSettings,bool modifedModuleSettings);
     void restoreSession();
 private slots:
     void myCascade();
@@ -181,6 +181,19 @@ private:
     QAction *m_actionNote;
     void createDefaultMenu();
     MdiAreaFilter *m_mdiAreaFilter;
+
+    void createToolBars();
+    QToolBar *m_mainBar;
+    QToolBar *m_searchBar;
+
+    QAction *m_mainBarActionSearch;
+    QAction *m_mainBarActionBookmarks;
+    QAction *m_mainBarActionNotes;
+    QAction *m_mainBarActionNewWindow;
+    QAction *m_mainBarActionZoomIn;
+    QAction *m_mainBarActionZoomOut;
+    QAction *m_mainBarActionModule;
+
 
 };
 

@@ -31,7 +31,7 @@ class SimpleInterface : public Interface
 {
     Q_OBJECT
 public slots:
-    void settingsChanged(Settings oldSettings, Settings newSettings);
+    void settingsChanged(Settings oldSettings, Settings newSettings, bool modifedModuleSettings);
 private slots:
     void pharseUrl(QUrl url);
     void pharseUrl(QString url);

@@ -148,6 +148,7 @@ void SimpleInterface::pharseUrl(QString url)
     const QString bq = "go";
     const QString anchor = "#";
     if(url.startsWith(bible)) {
+        //todo: handle it like in advancedinterface
         url = url.remove(0, bible.size());
         QStringList a = url.split("/");
         if(a.size() == 2) {
@@ -178,10 +179,10 @@ void SimpleInterface::pharseUrl(QString url)
         } else {
             myWarning() << "invalid URL";
         }
-        //bible://bibleID/bookID,chapterID,verseID
+
     } else if(url.startsWith(http)) {
         QDesktopServices::openUrl(url);
-        //its a web link
+        //it's a web link
     } else if(url.startsWith(bq)) {
         //its a biblequote internal link, but i dont have the specifications!!!
         QStringList internal = url.split(" ");
@@ -363,7 +364,7 @@ SimpleInterface::~SimpleInterface()
     m_moduleManager->m_bibleDisplaySettings = 0;
     delete ui;
 }
-void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings)
+void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings, bool modifedModuleSettings)
 {
     //DEBUG_FUNC_NAME
     //reload books
@@ -371,7 +372,7 @@ void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings
     if(oldSettings.encoding != newSettings.encoding) {
         reloadBibles = true;
     }
-    for(int i = 0; i < newSettings.m_moduleSettings.size(); ++i) {
+    /*for(int i = 0; i < newSettings.m_moduleSettings.size(); ++i) {
         if(oldSettings.m_moduleSettings.size() < i || oldSettings.m_moduleSettings.empty()) {
             reloadBibles = true;
             break;
@@ -384,6 +385,9 @@ void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings
                 break;
             }
         }
+    }*/
+    if(modifedModuleSettings) {
+        reloadBibles = true;
     }
     if(reloadBibles == true) {
         FastStart fastStart;
