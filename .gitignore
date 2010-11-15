@@ -1,0 +1,6 @@
+doc/
+build/
+tmp/
+*~
+*.orig
+
