@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define MODULECONFIGDIALOG_H
 
 #include <QtGui/QDialog>
-#include "src/core/modulesettings.h"
+#include "src/core/settings/modulesettings.h"
 
 namespace Ui
 {

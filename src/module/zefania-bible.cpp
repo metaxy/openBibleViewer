@@ -22,7 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/zefania-bible.h"
 #include "src/core/KoXmlWriter.h"
 #include "src/core/dbghelper.h"
-#include "src/core/bibleurl.h"
+#include "src/core/bible/bibleurl.h"
 #include "CLucene.h"
 #include "CLucene/_clucene-config.h"
 

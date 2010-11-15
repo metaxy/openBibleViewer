@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomNode>
 
 #include "src/core/dbghelper.h"
-#include "src/core/bibleurl.h"
+#include "src/core/bible/bibleurl.h"
 #include <QtCore/QFile>
 #include <QtCore/QVariantList>
 #include <QtCore/QFile>

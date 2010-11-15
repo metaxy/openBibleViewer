@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef MODULEMANAGER_H
 #define MODULEMANAGER_H
 #include "src/core/notes.h"
-#include "src/core/settings.h"
+#include "src/core/settings/settings.h"
 #include "src/module/bible.h"
 #include "src/module/biblelist.h"
 #include "src/module/dictionary.h"

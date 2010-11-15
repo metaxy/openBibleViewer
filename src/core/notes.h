@@ -17,8 +17,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 #include <QtCore/QMap>
 #include <QtXml/QDomDocument>
-#include "src/core/searchresult.h"
-#include "src/core/searchquery.h"
+#include "src/core/search/searchresult.h"
+#include "src/core/search/searchquery.h"
 /**
  Notes represents a note system
 */

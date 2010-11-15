@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "biblelistwidget.h"
 #include "ui_biblelistwidget.h"
 #include "src/core/dbghelper.h"
-#include "src/core/bibleurl.h"
+#include "src/core/bible/bibleurl.h"
 #include "biblelistitemdelegate.h"
 #include <QtGui/QComboBox>
 #include <QtGui/QDialogButtonBox>

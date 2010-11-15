@@ -11,33 +11,20 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef SEARCHRESULT_H
-#define SEARCHRESULT_H
-#include "searchhit.h"
-#include "src/core/searchquery.h"
-#include <QtCore/QList>
-#include <QtCore/QString>
-#include <QtGui/QListWidget>
-/*!
- Searchresult represents the results for a search
-
- @author Paul Walger <metaxy@walger.name>
-*/
-class SearchResult
+#ifndef BOOK_H
+#define BOOK_H
+#include <QtCore/QHash>
+#include "src/core/bible/chapter.h"
+class Book
 {
 public:
-    SearchResult();
-    void addHit(SearchHit hit);
-    QList<SearchHit> hits();
-    QList<SearchHit> hits(SearchHit::SearchHitType type);
-    SearchQuery searchQuery;
-    void sort();
-
-private:
-    QList<SearchHit> m_hits;
-    QMap<int, int> m_type;
-
-
+    Book();
+    QHash<int, Chapter> m_chapters;
+    int size();
+    void clear();
+    void addChapter(const int &chapterID, const Chapter &c);
+    bool hasChapter(const int &chapterID);
+    Chapter getChapter(const int &chapterID);
 };
 
-#endif // SEARCHRESULT_H
+#endif // BOOK_H

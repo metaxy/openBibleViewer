@@ -106,9 +106,9 @@ configure_file( ${openBibleViewer_SOURCE_DIR}/src/config.h.cmake
                 ${openBibleViewer_BINARY_DIR}/src/config.h )
 
 include_directories (
-	${CMAKE_SOURCE_DIR} 
+    ${CMAKE_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-	${QT_QTCORE_INCLUDE_DIR} 
+    ${QT_QTCORE_INCLUDE_DIR}
     ${QT_QTGUI_INCLUDE_DIR} 
     ${QT_QTXML_INCLUDE_DIR} 
     ${QT_QTNETWORK_INCLUDE_DIR} 
@@ -117,103 +117,116 @@ include_directories (
     ${openBibleViewer_BINARY_DIR}/src  
     )
 set ( openBibleViewer_HDRS
-	src/core/settings.h
-	src/module/biblequote.h
-	src/module/zefania-bible.h
-	src/core/windowcache.h
-	src/core/KoXmlReader.h
-	src/core/KoXmlWriter.h
-	src/core/KoXmlNS.h
-	src/core/KoXmlReaderForward.h
-	src/core/xbelreader.h
-	src/core/xbelwriter.h
-    src/core/versereplacer.h
-	src/module/bible.h
-	src/core/chapter.h
-	src/core/goto.h
-	src/module/zefania-lex.h
-	src/core/history.h
-	src/core/dbghelper.h
-	src/core/searchquery.h
-	src/core/settings.h
-	src/core/modulesettings.h
-	src/core/searchresult.h
-	src/core/searchquery.h
-	src/core/searchhit.h
-	src/core/urlconverter.h
-	src/core/verseselection.h
-	src/module/modulemanager.h
-	src/module/module.h
-	src/core/bibledisplaysettings.h
-	src/module/simplemoduleclass.h
-	src/core/session.h
-	src/core/basicclass.h
-	src/module/modulemap.h
-	src/module/biblelist.h
-	src/core/core.h
-	src/core/modulecache.h
-	src/module/dictionary.h
-	src/core/search.h
-	src/module/biblequote-dict.h
-	src/core/book.h
-	src/core/url.h
-	src/core/bibleurl.h
-	src/core/faststart.h
-    src/core/version.h
+
     src/api/notesapi.h
-    src/core/searchprovider.h
-    src/core/searchproviders.h
-	)
+    src/api/bibleapi.h
+
+    src/core/bible/chapter.h
+    src/core/bible/book.h
+    src/core/bible/bibleurl.h
+    src/core/bible/bibledisplay.h
+
+
+    src/core/KoXmlReader.h
+    src/core/KoXmlWriter.h
+    src/core/KoXmlNS.h
+    src/core/KoXmlReaderForward.h
+    src/core/core.h
+
+    src/core/history.h
+    src/core/dbghelper.h
+
+    src/core/urlconverter.h
+    src/core/verseselection.h
+    src/core/goto.h
+    src/core/basicclass.h
+    src/core/core.h
+    src/core/faststart.h
+    src/core/search/searchprovider.h
+    src/core/search/searchproviders.h
+    src/core/search/search.h
+    src/core/search/searchresult.h
+    src/core/search/searchquery.h
+    src/core/search/searchhit.h
+    src/core/settings/settings.h
+    src/core/settings/session.h
+    src/core/settings/bibledisplaysettings.h
+    src/core/settings/modulecache.h
+    src/core/settings/modulesettings.h
+
+    src/core/versereplacer.h
+    src/core/version.h
+    src/core/url.h
+    src/core/windowcache.h
+    src/core/xbelreader.h
+    src/core/xbelwriter.h
+
+    src/module/biblequote.h
+    src/module/zefania-bible.h
+    src/module/bible.h
+    src/module/simplemoduleclass.h
+    src/module/modulemanager.h
+    src/module/module.h
+    src/module/zefania-lex.h
+    src/module/modulemap.h
+    src/module/biblelist.h
+    src/module/dictionary.h
+    src/module/biblequote-dict.h
+
+
+    )
 
 set ( openBibleViewer_SRCS
     src/api/bibleapi.cpp
     src/api/notesapi.cpp
 
-	src/core/book.cpp
-    src/core/url.cpp
-    src/core/bibleurl.cpp
+    src/core/bible/book.cpp
+    src/core/bible/bibleurl.cpp
+    src/core/bible/bibledisplay.cpp
+
+
     src/core/faststart.cpp
-	src/core/windowcache.cpp
-	src/core/KoXmlReader.cpp
-	src/core/KoXmlWriter.cpp
-	src/core/KoXmlNS.cpp
-	src/core/notes.cpp
-	src/core/xbelreader.cpp
-	src/core/xbelwriter.cpp
+    src/core/KoXmlReader.cpp
+    src/core/KoXmlWriter.cpp
+    src/core/KoXmlNS.cpp
+    src/core/notes.cpp
     src/core/dbghelper.cpp
-    src/core/settings.cpp
-    src/core/modulesettings.cpp
-    src/core/searchresult.cpp
-    src/core/searchquery.cpp
-    src/core/searchhit.cpp
-    src/core/urlconverter.cpp
     src/core/verseselection.cpp
-    src/core/search.cpp
-    src/core/modulecache.cpp
-    src/core/session.cpp
     src/core/simplenotes.cpp
     src/core/basicclass.cpp
     src/core/moduledownloader.cpp
-    src/core/bibledisplay.cpp
-    src/core/bibledisplaysettings.cpp
     src/core/goto.cpp
     src/core/history.cpp
+    src/core/search/search.cpp
+    src/core/search/searchprovider.cpp
+    src/core/search/searchproviders.cpp
+    src/core/search/searchresult.cpp
+    src/core/search/searchquery.cpp
+    src/core/search/searchhit.cpp
+    src/core/settings/settings.cpp
+    src/core/settings/modulesettings.cpp
+    src/core/settings/modulecache.cpp
+    src/core/settings/session.cpp
+    src/core/settings/bibledisplaysettings.cpp
+    src/core/windowcache.cpp
+    src/core/url.cpp
+    src/core/urlconverter.cpp
     src/core/versereplacer.cpp
     src/core/version.cpp
-    src/core/searchprovider.cpp
-    src/core/searchproviders.cpp
+    src/core/xbelreader.cpp
+    src/core/xbelwriter.cpp
 
-	src/module/bible.cpp
+    src/module/bible.cpp
     src/module/biblequote.cpp
     src/module/zefania-bible.cpp
-	src/module/zefania-lex.cpp
-	src/module/modulemanager.cpp
-	src/module/module.cpp
-	src/module/simplemoduleclass.cpp
-	src/module/biblelist.cpp
-	src/module/modulemap.cpp
-	src/module/dictionary.cpp
-	src/module/biblequote-dict.cpp
+    src/module/zefania-lex.cpp
+    src/module/modulemanager.cpp
+    src/module/module.cpp
+    src/module/simplemoduleclass.cpp
+    src/module/biblelist.cpp
+    src/module/modulemap.cpp
+    src/module/dictionary.cpp
+    src/module/biblequote-dict.cpp
     
     src/ui/dialog/searchdialog.cpp
     src/ui/dialog/settingsdialog.cpp
@@ -254,30 +267,30 @@ set ( openBibleViewer_SRCS
 	)
 
 set ( openBibleViewer_UIS
-	src/ui/dialog/searchdialog.ui
-	src/ui/dialog/settingsdialog.ui
-	src/ui/dialog/searchinfodialog.ui
-	src/ui/dialog/biblepassagedialog.ui
-	src/ui/dialog/aboutdialog.ui
-	src/ui/dialog/moduleconfigdialog.ui
-	src/ui/dialog/moduledownloaddialog.ui
+    src/ui/dialog/searchdialog.ui
+    src/ui/dialog/settingsdialog.ui
+    src/ui/dialog/searchinfodialog.ui
+    src/ui/dialog/biblepassagedialog.ui
+    src/ui/dialog/aboutdialog.ui
+    src/ui/dialog/moduleconfigdialog.ui
+    src/ui/dialog/moduledownloaddialog.ui
     src/ui/dialog/inserthtmldialog.ui
     src/ui/dialog/insertlinkdialog.ui
 
-	src/ui/dock/dictionarydockwidget.ui
-	src/ui/dock/searchresultdockwidget.ui
-	src/ui/dock/notesdockwidget.ui
-	src/ui/dock/bookmarksdockwidget.ui
-	src/ui/dock/moduledockwidget.ui
-	src/ui/dock/bookdockwidget.ui
-	src/ui/dock/quickjumpdockwidget.ui
+    src/ui/dock/dictionarydockwidget.ui
+    src/ui/dock/searchresultdockwidget.ui
+    src/ui/dock/notesdockwidget.ui
+    src/ui/dock/bookmarksdockwidget.ui
+    src/ui/dock/moduledockwidget.ui
+    src/ui/dock/bookdockwidget.ui
+    src/ui/dock/quickjumpdockwidget.ui
     src/ui/dock/advancedsearchresultdockwidget.ui
 
-	src/ui/interface/simple/simpleinterface.ui
-	src/ui/interface/advanced/advancedinterface.ui
-	src/ui/interface/study/studyinterface.ui
+    src/ui/interface/simple/simpleinterface.ui
+    src/ui/interface/advanced/advancedinterface.ui
+    src/ui/interface/study/studyinterface.ui
     src/ui/interface/advanced/mdiform.ui
-	src/ui/interface/advanced/biblelistwidget.ui
+    src/ui/interface/advanced/biblelistwidget.ui
 
     src/ui/mainwindow.ui
     src/ui/noteseditor.ui
@@ -302,43 +315,51 @@ QT4_ADD_RESOURCES(RSCS ${openBibleViewer_RSCS})
 #QT4_ADD_TRANSLATION(TRS ${openBibleViewer_TRS})
 
 set ( openBibleViewer_MOCS
-	src/ui/dialog/searchdialog.h
-	src/ui/dialog/settingsdialog.h
-	src/ui/dialog/aboutdialog.h
-	src/core/notes.h
-	src/ui/dialog/searchinfodialog.h
-	src/ui/interface/advanced/mdiform.h
-	src/ui/dialog/biblepassagedialog.h
-	src/ui/dialog/moduleconfigdialog.h
-	src/ui/dialog/moduledownloaddialog.h
-	src/ui/marklist.h
-	src/ui/markcategories.h
-	src/ui/dock/dictionarydockwidget.h
-	src/ui/dock/searchresultdockwidget.h
-	src/ui/dock/notesdockwidget.h
-	src/ui/dock/bookmarksdockwidget.h
-	src/ui/dock/moduledockwidget.h
-	src/ui/dock/bookdockwidget.h
-	src/ui/dock/quickjumpdockwidget.h
-	src/ui/mainwindow.h
-	src/core/bibledisplay.h
-	src/ui/interface/simple/simpleinterface.h
-	src/ui/interface/advanced/advancedinterface.h
-	src/ui/interface/study/studyinterface.h
-	src/ui/interface/interface.h
-	src/ui/dock/dockwidget.h
-	src/ui/noteseditor.h
-	src/ui/recursivproxymodel.h
-	src/core/simplenotes.h
-	src/ui/highlighter.h
-	src/ui/dialog/insertlinkdialog.h
-	src/core/moduledownloader.h
-	src/ui/interface/advanced/webview.h
-	src/ui/interface/advanced/biblelistwidget.h
-	src/ui/interface/advanced/biblelistitemdelegate.h
+    src/api/bibleapi.h
+    src/api/notesapi.h
+
+    src/core/bible/bibledisplay.h
+    src/core/notes.h
+    src/core/simplenotes.h
+    src/core/moduledownloader.h
+
+    src/ui/dialog/searchdialog.h
+    src/ui/dialog/settingsdialog.h
+    src/ui/dialog/aboutdialog.h
+    src/ui/dialog/searchinfodialog.h
+    src/ui/dialog/biblepassagedialog.h
+    src/ui/dialog/moduleconfigdialog.h
+    src/ui/dialog/moduledownloaddialog.h
+    src/ui/dialog/insertlinkdialog.h
+
+    src/ui/marklist.h
+    src/ui/markcategories.h
+    src/ui/mainwindow.h
+    src/ui/highlighter.h
+    src/ui/noteseditor.h
+    src/ui/recursivproxymodel.h
+
+    src/ui/dock/dictionarydockwidget.h
+    src/ui/dock/searchresultdockwidget.h
+    src/ui/dock/notesdockwidget.h
+    src/ui/dock/bookmarksdockwidget.h
+    src/ui/dock/moduledockwidget.h
+    src/ui/dock/bookdockwidget.h
+    src/ui/dock/quickjumpdockwidget.h
+    src/ui/dock/dockwidget.h
+    src/ui/dock/advancedsearchresultdockwidget.h
+
+    src/ui/interface/interface.h
+    src/ui/interface/simple/simpleinterface.h
+    src/ui/interface/study/studyinterface.h
+
+    src/ui/interface/advanced/mdiform.h
+    src/ui/interface/advanced/advancedinterface.h
+    src/ui/interface/advanced/webview.h
+    src/ui/interface/advanced/biblelistwidget.h
+    src/ui/interface/advanced/biblelistitemdelegate.h
     src/ui/interface/advanced/mdiareafilter.h
-	src/api/bibleapi.h
-	src/ui/dock/advancedsearchresultdockwidget.h
+
 	)
 QT4_WRAP_CPP ( MOCS ${openBibleViewer_MOCS} )
 

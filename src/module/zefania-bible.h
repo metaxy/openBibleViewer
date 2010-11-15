@@ -20,13 +20,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
-#include "src/core/book.h"
-#include "src/core/chapter.h"
+#include "src/core/bible/book.h"
+#include "src/core/bible/chapter.h"
 #include "src/core/KoXmlReader.h"
-#include "src/core/modulesettings.h"
-#include "src/core/searchquery.h"
-#include "src/core/searchresult.h"
-#include "src/core/settings.h"
+#include "src/core/settings/modulesettings.h"
+#include "src/core/search/searchquery.h"
+#include "src/core/search/searchresult.h"
+#include "src/core/settings/settings.h"
 
 /*!
  ZefaniaBible represents a zefaniaxml(bible) module.

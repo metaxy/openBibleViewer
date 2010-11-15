@@ -24,3 +24,12 @@ NotesApi::~NotesApi()
 
 }
 
+QString NotesApi::addTextNote(const QString &title, const QString &text)
+{
+    return QString();
+}
+
+bool NotesApi::removeNote(const QString &noteID)
+{
+    return false;
+}

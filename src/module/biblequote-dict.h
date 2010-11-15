@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define BIBLEQUOTEDICT_H
 #include <QtCore/QString>
 #include <QtCore/QFile>
-#include "src/core/settings.h"
+#include "src/core/settings/settings.h"
 
 class BibleQuoteDict
 {

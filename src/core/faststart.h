@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QHash>
-#include "src/core/settings.h"
+#include "src/core/settings/settings.h"
 
 class FastStart
 {

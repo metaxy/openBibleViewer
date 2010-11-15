@@ -11,8 +11,8 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#include "settings.h"
-#include "dbghelper.h"
+#include "src/core/settings/settings.h"
+#include "src/core/dbghelper.h"
 #include <QtCore/QUrl>
 #include <QtCore/QDir>
 #include <QtCore/QCryptographicHash>
@@ -20,7 +20,6 @@ Settings::Settings()
 {
     m_moduleID = QMap<int, int>();
     homePath = "";
-
 }
 void Settings::setModuleIDinMap(const int &moduleID, const int &pos)
 {

@@ -14,8 +14,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef SEARCH_H
 #define SEARCH_H
 #include "src/core/basicclass.h"
-#include "src/core/searchresult.h"
-#include "src/core/searchquery.h"
+#include "src/core/search/searchresult.h"
+#include "src/core/search/searchquery.h"
 class Search : public BasicClass
 {
 public:

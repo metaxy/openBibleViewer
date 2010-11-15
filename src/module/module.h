@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef MODULE_H
 #define MODULE_H
-#include "src/core/settings.h"
+#include "src/core/settings/settings.h"
 #include "src/module/biblequote.h"
 #include "src/module/zefania-bible.h"
 #include "src/module/zefania-lex.h"

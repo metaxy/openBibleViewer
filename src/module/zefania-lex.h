@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define ZefaniaLex_H
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-#include "src/core/settings.h"
+#include "src/core/settings/settings.h"
 #include "src/core/KoXmlReader.h"
 /*!
  ZefaniaLex represents a zefaniaxml(lex) module

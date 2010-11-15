@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include <QModelIndexList>
 #include "src/core/core.h"
-#include "src/core/bibleurl.h"
+#include "src/core/bible/bibleurl.h"
 ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::ModuleDockWidget)

@@ -14,11 +14,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 #include "searchresultdockwidget.h"
 #include "ui_searchresultdockwidget.h"
-#include "src/core/searchhit.h"
+#include "src/core/search/searchhit.h"
 #include "src/ui/dialog/searchinfodialog.h"
 #include "src/core/dbghelper.h"
 #include "src/core/core.h"
-#include "src/core/bibleurl.h"
+#include "src/core/bible/bibleurl.h"
 SearchResultDockWidget::SearchResultDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::SearchResultDockWidget)

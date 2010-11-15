@@ -13,9 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef SETTINGS_H
 #define SETTINGS_H
-#include "src/core/modulesettings.h"
-#include "src/core/session.h"
-#include "src/core/modulecache.h"
+#include "src/core/settings/modulesettings.h"
+#include "src/core/settings/session.h"
+#include "src/core/settings/modulecache.h"
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QMap>

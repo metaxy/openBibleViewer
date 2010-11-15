@@ -21,7 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 class NotesApi : public QObject, public BasicClass
 {
-
+Q_OBJECT
 public:
     explicit NotesApi(QObject* parent = 0);
     virtual ~NotesApi();

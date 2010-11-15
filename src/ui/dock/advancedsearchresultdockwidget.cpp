@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_advancedsearchresultdockwidget.h"
 #include <QtGui/QSortFilterProxyModel>
 #include <QtGui/QMessageBox>
-#include "src/core/bibleurl.h"
+#include "src/core/bible/bibleurl.h"
 #include "src/ui/dialog/searchinfodialog.h"
 #include "src/core/dbghelper.h"
 AdvancedSearchResultDockWidget::AdvancedSearchResultDockWidget(QWidget *parent) :

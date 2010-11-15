@@ -12,8 +12,8 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "bible.h"
-#include "src/core/settings.h"
-#include "src/core/modulesettings.h"
+#include "src/core/settings/settings.h"
+#include "src/core/settings/modulesettings.h"
 #include "src/core/dbghelper.h"
 #include "src/core/urlconverter.h"
 #include "src/core/verseselection.h"

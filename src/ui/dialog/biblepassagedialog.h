@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BIBLEPASSAGEDIALOG_H
 #define BIBLEPASSAGEDIALOG_H
-#include "src/core/settings.h"
+#include "src/core/settings/settings.h"
 #include "src/core/basicclass.h"
 #include <QtGui/QDialog>
 

@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define SETTINGSDIALOG_H
 
 #include <QtGui/QDialog>
-#include "src/core/settings.h"
+#include "src/core/settings/settings.h"
 namespace Ui
 {
 class SettingsDialog;

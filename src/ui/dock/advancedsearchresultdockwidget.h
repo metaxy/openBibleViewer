@@ -18,7 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QSortFilterProxyModel>
 #include <QtGui/QItemSelectionModel>
 #include "dockwidget.h"
-#include "src/core/searchresult.h"
+#include "src/core/search/searchresult.h"
 
 namespace Ui
 {

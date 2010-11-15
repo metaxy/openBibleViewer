@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define SEARCHDIALOG_H
 
 #include <QtGui/QDialog>
-#include "src/core/searchquery.h"
+#include "src/core/search/searchquery.h"
 namespace Ui
 {
 class SearchDialog;

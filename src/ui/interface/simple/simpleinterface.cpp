@@ -15,9 +15,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_simpleinterface.h"
 #include "src/core/dbghelper.h"
 #include "src/ui/dialog/searchdialog.h"
-#include "src/core/bibledisplaysettings.h"
+#include "src/core/settings/bibledisplaysettings.h"
 #include "src/core/core.h"
-#include "src/core/search.h"
+#include "src/core/search/search.h"
 #include "src/core/faststart.h"
 #include <QtGui/QDesktopServices>
 #include <QtGui/QMessageBox>

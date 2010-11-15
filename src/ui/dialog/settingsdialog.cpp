@@ -13,8 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
-#include "src/core/settings.h"
-#include "src/core/modulesettings.h"
+#include "src/core/settings/settings.h"
+#include "src/core/settings/modulesettings.h"
 #include "src/core/dbghelper.h"
 #include "src/module/zefania-bible.h"
 #include "src/module/zefania-lex.h"

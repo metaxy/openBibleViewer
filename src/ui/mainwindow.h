@@ -19,10 +19,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QTranslator>
 #include <QtGui/QToolBar>
 #include "src/module/modulemanager.h"
-#include "src/core/bibledisplay.h"
-#include "src/core/settings.h"
+#include "src/core/bible/bibledisplay.h"
+#include "src/core/settings/settings.h"
 #include "src/core/notes.h"
-#include "src/core/session.h"
+#include "src/core/settings/session.h"
 #include "src/ui/interface/interface.h"
 #include "src/ui/interface/simple/simpleinterface.h"
 #include "src/ui/interface/advanced/advancedinterface.h"

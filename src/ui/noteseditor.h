@@ -18,7 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QMainWindow>
 #include "highlighter.h"
-#include "src/core/settings.h"
+#include "src/core/settings/settings.h"
 #include "src/core/notes.h"
 #include "src/module/modulemanager.h"
 #include "src/core/verseselection.h"

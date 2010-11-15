@@ -13,11 +13,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BIBLEQUOTE_H
 #define BIBLEQUOTE_H
-#include "src/core/book.h"
-#include "src/core/chapter.h"
-#include "src/core/searchquery.h"
-#include "src/core/searchresult.h"
-#include "src/core/settings.h"
+#include "src/core/bible/book.h"
+#include "src/core/bible/chapter.h"
+#include "src/core/search/searchquery.h"
+#include "src/core/search/searchresult.h"
+#include "src/core/settings/settings.h"
 #include <QtCore/QFile>
 #include <QtCore/QMap>
 #include <QtCore/QString>

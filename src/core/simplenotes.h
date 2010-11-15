@@ -23,7 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QLabel>
 #include <QtGui/QItemSelectionModel>
 #include <QtWebKit/QWebFrame>
-#include "src/core/settings.h"
+#include "src/core/settings/settings.h"
 #include "src/core/notes.h"
 #include "src/core/verseselection.h"
 #include "src/core/basicclass.h"

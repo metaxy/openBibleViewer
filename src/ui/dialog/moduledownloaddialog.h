@@ -21,7 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtNetwork/QHttp>
 #include <QtCore/QFile>
 #include <QtGui/QProgressDialog>
-#include "src/core/settings.h"
+#include "src/core/settings/settings.h"
 
 namespace Ui
 {

@@ -17,10 +17,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QMap>
 #include "src/module/biblequote.h"
 #include "src/module/zefania-bible.h"
-#include "src/core/searchquery.h"
-#include "src/core/searchresult.h"
+#include "src/core/search/searchquery.h"
+#include "src/core/search/searchresult.h"
 #include "src/module/simplemoduleclass.h"
-#include "src/core/bibledisplaysettings.h"
+#include "src/core/settings/bibledisplaysettings.h"
 
 /*!
  Bible represent a bible module(eg. biblequote module or zefania xml module)
@@ -41,8 +41,6 @@ public:
     QString toUniformHtml(QString string);
 
     void search(SearchQuery query, SearchResult *result);
-
-
 
     Module::ModuleType bibleType();
 
@@ -80,8 +78,6 @@ private:
     QString m_bibleShortTitle;
     QString m_biblePath;
 
-    //QStringList m_bookFullName;
-    //QList<QStringList> m_bookShortName;
     QStringList m_chapterText;
     QStringList m_bookPath;
     QStringList m_chapterNames;

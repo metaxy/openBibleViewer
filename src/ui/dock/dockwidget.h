@@ -16,8 +16,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QDockWidget>
 #include "src/module/modulemanager.h"
-#include "src/core/bibledisplay.h"
-#include "src/core/settings.h"
+#include "src/core/bible/bibledisplay.h"
+#include "src/core/settings/settings.h"
 #include "src/core/notes.h"
 #include "src/core/basicclass.h"
 /*!

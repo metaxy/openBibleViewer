@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/ui/dialog/settingsdialog.h"
 #include "src/core/dbghelper.h"
-#include "src/core/modulecache.h"
+#include "src/core/settings/modulecache.h"
 #include <QtGui/QMessageBox>
 #include <QtCore/QLibraryInfo>
 #include <QtCore/QMapIterator>
@@ -49,10 +49,10 @@ MainWindow::~MainWindow()
     m_notes = 0;
     delete m_settingsFile;
     m_settingsFile = 0;
-    /*delete m_toolBar;
-    m_toolBar = 0;*/
-    delete m_menuBar;
-    m_menuBar = 0;
+    delete m_moduleCacheFile;
+    m_moduleCacheFile = 0;
+    /*delete m_menuBar;
+    m_menuBar = 0;*/
     delete m_interface;
     m_interface = 0;
 }
@@ -102,8 +102,9 @@ void MainWindow::deleteInterface()
 {
     DEBUG_FUNC_NAME
     if(m_interface->hasToolBar()) {
-        foreach(QToolBar * bar, m_toolBarList)
-        removeToolBar(bar);
+        foreach(QToolBar * bar, m_toolBarList) {
+            removeToolBar(bar);
+        }
     }
 
     if(m_interface->hasMenuBar()) {

@@ -21,7 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 #include <QWebFrame>
 #include "src/core/core.h"
-#include "src/core/bibleurl.h"
+#include "src/core/bible/bibleurl.h"
 MdiForm::MdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::MdiForm)
 {
     m_ui->setupUi(this);

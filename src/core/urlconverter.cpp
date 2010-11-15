@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "urlconverter.h"
 #include "dbghelper.h"
-#include "src/core/bibleurl.h"
+#include "src/core/bible/bibleurl.h"
 UrlConverter::UrlConverter(const UrlType &from, const UrlType &to, const QString &url)
 {
     m_from = from;
