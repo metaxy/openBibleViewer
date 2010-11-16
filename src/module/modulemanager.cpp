@@ -165,7 +165,7 @@ int ModuleManager::loadAllModules()
                         if(!moduleTitle.isEmpty()) {
                             Module *module = new Module(folder);
                             module->m_path = file.fileName();
-                            module->m_moduleClass = Module::BibleModule;
+                            module->m_moduleClass = Module::BibleModuleClass;
                             module->m_moduleType = Module::BibleQuoteModule;
                             module->m_title = moduleTitle;
                             module->m_id = moduleID;
@@ -192,7 +192,7 @@ int ModuleManager::loadAllModules()
 
                             Module *module = new Module(folder);
                             module->m_path = file.fileName();
-                            module->m_moduleClass = Module::BibleModule;
+                            module->m_moduleClass = Module::BibleModuleClass;
                             module->m_moduleType = Module::ZefaniaBibleModule;
                             module->m_title = moduleTitle;
                             module->m_id = moduleID;
@@ -217,7 +217,7 @@ int ModuleManager::loadAllModules()
                         if(!moduleTitle.isEmpty()) {
                             Module *module = new Module(folder);
                             module->m_path = file.fileName();
-                            module->m_moduleClass = Module::DictionaryModule;
+                            module->m_moduleClass = Module::DictionaryModuleClass;
                             module->m_moduleType = Module::BibleQuoteDictModule;
                             module->m_title = moduleTitle;
                             module->m_id = moduleID;
@@ -249,7 +249,7 @@ int ModuleManager::loadAllModules()
                 case Module::BibleQuoteModule: {
                     Module *module = new Module(root);
                     module->m_path = m_settings->m_moduleSettings.at(i).modulePath;
-                    module->m_moduleClass = Module::BibleModule;
+                    module->m_moduleClass = Module::BibleModuleClass;
                     module->m_moduleType = Module::BibleQuoteModule;
                     module->m_title = m_settings->m_moduleSettings.at(i).moduleName;
                     module->m_id = moduleID;
@@ -272,7 +272,7 @@ int ModuleManager::loadAllModules()
                 case Module::ZefaniaBibleModule: {
                     Module *module = new Module(root);
                     module->m_path = m_settings->m_moduleSettings.at(i).modulePath;
-                    module->m_moduleClass = Module::BibleModule;
+                    module->m_moduleClass = Module::BibleModuleClass;
                     module->m_moduleType = Module::ZefaniaBibleModule;
                     module->m_title = m_settings->m_moduleSettings.at(i).moduleName;
                     module->m_id = moduleID;
@@ -296,7 +296,7 @@ int ModuleManager::loadAllModules()
 
                     Module *module = new Module(root);
                     module->m_path = m_settings->m_moduleSettings.at(i).modulePath;
-                    module->m_moduleClass = Module::DictionaryModule;
+                    module->m_moduleClass = Module::DictionaryModuleClass;
                     module->m_moduleType = Module::ZefaniaLexModule;
                     module->m_title = m_settings->m_moduleSettings.at(i).moduleName;
                     module->m_id = moduleID;
@@ -398,7 +398,7 @@ QStringList ModuleManager::getBibleTitles()
     QMapIterator<int, Module *> i(m_moduleMap->m_map);
     while(i.hasNext()) {
         i.next();
-        if(i.value()->m_moduleClass == Module::BibleModule)
+        if(i.value()->m_moduleClass == Module::BibleModuleClass)
             titles.append(i.value()->m_title);
     }
     return titles;
@@ -409,7 +409,7 @@ QStringList ModuleManager::getBiblePaths()
     QMapIterator<int, Module *> i(m_moduleMap->m_map);
     while(i.hasNext()) {
         i.next();
-        if(i.value()->m_moduleClass == Module::BibleModule)
+        if(i.value()->m_moduleClass == Module::BibleModuleClass)
             paths.append(i.value()->m_path);
     }
     return paths;
@@ -420,7 +420,7 @@ QList<int> ModuleManager::getBibleIDs()
     QMapIterator<int, Module *> i(m_moduleMap->m_map);
     while(i.hasNext()) {
         i.next();
-        if(i.value()->m_moduleClass == Module::BibleModule)
+        if(i.value()->m_moduleClass == Module::BibleModuleClass)
             ids.append(i.value()->m_id);
     }
     return ids;

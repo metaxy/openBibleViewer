@@ -55,76 +55,52 @@ int Bible::loadModuleData(const int &moduleID)
 
     switch(m_moduleType) {
     case Module::BibleQuoteModule: {
-        if(m_module->m_bibleQuote) {
-            m_bq = m_module->m_bibleQuote;
+        if(m_module->m_bibleModule) {
+            m_bibleModule = m_module->m_bibleModule;
         } else {
-            m_bq = new BibleQuote();
-            m_module->m_bibleQuote = m_bq;
+            m_bibleModule = new BibleQuote();
+            m_module->m_bibleModule = m_bibleModule;
         }
         ModuleSettings m = m_settings->getModuleSettings(m_moduleID);
-        m_bq->setSettings(m_settings);
-        m_bq->loadBibleData(moduleID, path);
+        m_bibleModule->setSettings(m_settings);
+        m_bibleModule->loadBibleData(moduleID, path);
         if(m.moduleName.isEmpty())
-            m_bibleTitle = m_bq->m_bibleName;
+            m_bibleTitle = m_bibleModule->bibleName(false);
         else
             m_bibleTitle = m.moduleName;
-        m_bibleShortTitle = m_bq->m_bibleShortName;
+        m_bibleShortTitle = m_bibleModule->bibleName(true);
 
-        bookCount = m_bq->m_bookCount;
-        m_bookFullName.clear();
-        m_bookShortName.clear();
-        m_bookIDs.clear();
+        bookCount = m_bibleModule->bookCount();
+        m_names = m_bibleModule->getBookNames();
 
-        for(int c = 0; c < m_bq->m_bookFullName.size(); ++c) {
-            m_bookIDs.append(c);
-            m_bookFullName[c] = m_bq->m_bookFullName.at(c);
-        }
-        //todo: if m_bookFullName.size() != >m_bookShortName.size() should then i really add the shortnames or let them empty
-        for(int c = 0; c < m_bq->m_bookShortName.size(); ++c) {
-            m_bookShortName[c] = m_bq->m_bookShortName.at(c);
-        }
-
-        m_bookPath = m_bq->m_bookPath;
-        m_biblePath = m_bq->m_biblePath;
+        m_bookPath = ((BibleQuote *)m_bibleModule)->m_bookPath;
+        m_biblePath = m_bibleModule->biblePath();
         //ModuleCache
         m_settings->setTitle(path, m_bibleTitle);
         m_settings->setBookCount(path, bookCount);
-        m_settings->setBookNames(path, m_bookFullName);
+        m_settings->setBookNames(path, m_names.m_bookFullName);
 
         break;
     }
     case Module::ZefaniaBibleModule: {
-        if(m_module->m_zefaniaBible) {
-            m_zef = m_module->m_zefaniaBible;
+        if(m_module->m_bibleModule) {
+            m_bibleModule = m_module->m_bibleModule;
         } else {
-            m_zef = new ZefaniaBible();
-            m_module->m_zefaniaBible = m_zef;
+            m_bibleModule = new ZefaniaBible();
+            m_module->m_bibleModule = m_bibleModule;
         }
         ModuleSettings m = m_settings->getModuleSettings(m_moduleID);
-        m_zef->setSettings(m_settings);
-        m_zef->loadBibleData(moduleID, path);
+        m_bibleModule->setSettings(m_settings);
+        m_bibleModule->loadBibleData(moduleID, path);
         m_bibleTitle = m.moduleName;
 
-
-        bookCount = m_zef->m_bookCount;
-        m_bookFullName.clear();
-        m_bookShortName.clear();
-        m_bookIDs.clear();
-        int count = 0;
-        foreach(const QString & bookID, m_zef->m_bookIDs) {
-            const int id = bookID.toInt();
-            m_bookIDs.append(id);
-            m_bookFullName[id] = m_zef->m_bookFullName.at(count);
-            foreach(const QString & s, m_zef->m_bookShortName.at(count)) {
-                m_bookShortName[id] = QStringList(s) ;
-            }
-            count++;
-        }
-        m_biblePath = m_zef->biblePath();
+        bookCount = m_bibleModule->bookCount();
+        m_names = m_bibleModule->getBookNames();
+        m_biblePath = m_bibleModule->biblePath();
         //ModuleCache
         m_settings->setTitle(path, m_bibleTitle);
         m_settings->setBookCount(path, bookCount);
-        m_settings->setBookNames(path, m_bookFullName);
+        m_settings->setBookNames(path, m_names.m_bookFullName);
 
         break;
     }
@@ -147,18 +123,18 @@ int Bible::readBook(int id)
         m_book.clear();
         m_chapterNames.clear();
         if(id < m_bookPath.size()) {
-            int r = m_bq->readBook(id, m_bookPath.at(id));
+            int r = m_bibleModule->readBook(id);
             if(r != 0)
                 return r;
         } else {
             myWarning() << "index out of range bookPath.size() = " << m_bookPath.size() << " , id = " << id;
             return 1;
         }
-        m_book = m_bq->m_book;
+        m_book = m_bibleModule->book();
 
         int cc = bookCount[id];
         int start = 1;
-        if(m_bq->m_chapterZero) {
+        if(((BibleQuote *)m_bibleModule)->m_chapterZero) {
             start = 0;
         }
         for(int i = start; i < cc + start; ++i) {
@@ -169,9 +145,9 @@ int Bible::readBook(int id)
     case Module::ZefaniaBibleModule: {
         m_book.clear();
         m_chapterNames.clear();
-        m_zef->readBook(id);
-        m_book = m_zef->m_book;
-        for(int i = 1; i <= m_zef->m_bookCount.value(id, 0); ++i) {
+        m_bibleModule->readBook(id);
+        m_book = m_bibleModule->book();
+        for(int i = 1; i <= m_bibleModule->bookCount().value(id, 0); ++i) {
             m_chapterNames << QString::number(i);
         }
         break;
@@ -302,7 +278,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
                 if(moduleSettings.zefbible_textFormatting == 0) {
                     append = "<br />";
                 } else {
-                    append = "\n";
+                    append = "\n";//not visible
                 }
                 if(i == markVerseID) {
                     prepend.prepend("<a name=\"currentVerse\">");
@@ -461,15 +437,15 @@ void Bible::search(SearchQuery query, SearchResult *result)
     m_lastSearchQuery = query;
     switch(m_moduleType) {
     case Module::BibleQuoteModule: {
-        if(!m_bq->hasIndex())
-            m_bq->buildIndex();
-        m_bq->search(query, result);
+        if(!m_bibleModule->hasIndex())
+            m_bibleModule->buildIndex();
+        m_bibleModule->search(query, result);
         break;
     }
     case Module::ZefaniaBibleModule: {
-        if(!m_zef->hasIndex())
-            m_zef->buildIndex();
-        m_zef->search(query, result);
+        if(!m_bibleModule->hasIndex())
+            m_bibleModule->buildIndex();
+        m_bibleModule->search(query, result);
         break;
     }
     default:
@@ -512,7 +488,7 @@ int Bible::chapterID()
 
 int Bible::booksCount()
 {
-    return m_bookFullName.size();
+    return m_names.m_bookFullName.size();
 }
 
 int Bible::chaptersCount()
@@ -539,12 +515,12 @@ QString Bible::bibleShortTitle()
 
 QHash<int, QString> Bible::bookFullNames()
 {
-    return m_bookFullName;
+    return m_names.m_bookFullName;
 }
 
 QHash<int, QStringList> Bible::bookShortNames()
 {
-    return m_bookShortName;
+    return m_names.m_bookShortName;
 }
 
 QStringList Bible::bookPath()
@@ -578,42 +554,40 @@ SearchQuery Bible::lastSearchQuery()
 
 QList<int> Bible::bookIDs()
 {
-    return m_bookIDs;
+    return m_names.m_bookIDs;
 }
 QString Bible::bookName(const int &bookID, bool preferShort)
 {
     //todo: use preferShort
-    if(m_bookShortName.value(bookID).size() != 0) {
+    if(m_names.m_bookShortName.value(bookID).size() != 0) {
         if(preferShort) {
-            return m_bookShortName.value(bookID).first();
+            return m_names.m_bookShortName.value(bookID).first();
         } else {
-            return m_bookFullName.value(bookID, m_bookShortName.value(bookID).first());
+            return m_names.m_bookFullName.value(bookID, m_names.m_bookShortName.value(bookID).first());
         }
     } else {
-        return m_bookFullName.value(bookID);
+        return m_names.m_bookFullName.value(bookID);
     }
-
-
 }
 QHash<int, QString> Bible::bookNames(bool preferShort)
 {
     if(preferShort) {
-        if(m_bookShortName.size() != 0) {
+        if(m_names.m_bookShortName.size() != 0) {
             QHash<int, QString> ret;
-            QHashIterator<int, QStringList> i(m_bookShortName);
+            QHashIterator<int, QStringList> i(m_names.m_bookShortName);
             while(i.hasNext()) {
                 ret[i.key()] = i.value().first();
             }
             return ret;
         } else {
-            return m_bookFullName;
+            return m_names.m_bookFullName;
         }
     } else {
-        if(m_bookFullName.size() != 0) {
-            return m_bookFullName;
+        if(m_names.m_bookFullName.size() != 0) {
+            return m_names.m_bookFullName;
         } else {
             QHash<int, QString> ret;
-            QHashIterator<int, QStringList> i(m_bookShortName);
+            QHashIterator<int, QStringList> i(m_names.m_bookShortName);
             while(i.hasNext()) {
                 ret[i.key()] = i.value().first();
             }

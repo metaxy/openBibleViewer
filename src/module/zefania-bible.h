@@ -22,22 +22,22 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/core/bible/book.h"
 #include "src/core/bible/chapter.h"
+#include "src/module/biblemodule.h"
 #include "src/core/KoXmlReader.h"
 #include "src/core/settings/modulesettings.h"
 #include "src/core/search/searchquery.h"
 #include "src/core/search/searchresult.h"
 #include "src/core/settings/settings.h"
-
+#include "src/core/bible/booknames.h"
 /*!
  ZefaniaBible represents a zefaniaxml(bible) module.
 */
-class ZefaniaBible
+class ZefaniaBible : public BibleModule
 {
 
 public:
     ZefaniaBible();
-    void setSettings(Settings *settings);
-    void readBook(const int &id);
+    int readBook(const int &id);
     void loadBibleData(const int &id, const QString &path);
     QString readInfo(QFile &file);
     QString readInfo(const QString &content);
@@ -46,10 +46,12 @@ public:
     bool hasIndex() const;
     void buildIndex();
 
-    int bookID() const;
     int bibleID() const;
     QString biblePath() const;
-    QString bibleName() const;
+    QString bibleName(bool preferShortName = false) const;
+    QMap<int, int> bookCount() const;
+    BookNames getBookNames();
+    Book book() const;
 
     QStringList m_bookFullName;
     QStringList m_bookShortName;
@@ -60,7 +62,6 @@ public:
     void removeHardCache(const QString &path);
 
 private:
-    Settings *m_settings;
     QDomElement* format(QDomElement* e);
     bool checkForCacheFiles(const QString &path) const;
     void loadNoCached(const int &id, const QString &path);

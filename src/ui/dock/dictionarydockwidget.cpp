@@ -47,7 +47,7 @@ void DictionaryDockWidget::init()
     while(i.hasNext()) {
         i.next();
         Module *m = i.value();
-        if(m->m_moduleClass == Module::DictionaryModule) {
+        if(m->m_moduleClass == Module::DictionaryModuleClass) {
             dictModuleTitle << m->m_title;
             dictModuleID << m->m_id;
         }

@@ -544,7 +544,7 @@ bool AdvancedInterface::loadModuleDataByID(int moduleID)
         myWarning() << "failed id = " << moduleID << m_moduleManager->m_moduleMap->m_map;
         return 1;
     }
-    if(m_moduleManager->getModule(moduleID)->m_moduleClass != Module::BibleModule) {
+    if(m_moduleManager->getModule(moduleID)->m_moduleClass != Module::BibleModuleClass) {
         myWarning() << "non bible module " << m_moduleManager->getModule(moduleID)->m_moduleClass;
         return 1;
     }

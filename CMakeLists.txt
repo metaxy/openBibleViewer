@@ -125,6 +125,7 @@ set ( openBibleViewer_HDRS
     src/core/bible/book.h
     src/core/bible/bibleurl.h
     src/core/bible/bibledisplay.h
+    src/core/bible/booknames.h
 
 
     src/core/KoXmlReader.h
@@ -172,6 +173,7 @@ set ( openBibleViewer_HDRS
     src/module/biblelist.h
     src/module/dictionary.h
     src/module/biblequote-dict.h
+    src/module/biblemodule.h
 
 
     )
@@ -183,6 +185,7 @@ set ( openBibleViewer_SRCS
     src/core/bible/book.cpp
     src/core/bible/bibleurl.cpp
     src/core/bible/bibledisplay.cpp
+    src/core/bible/booknames.cpp
 
 
     src/core/faststart.cpp
@@ -227,6 +230,7 @@ set ( openBibleViewer_SRCS
     src/module/modulemap.cpp
     src/module/dictionary.cpp
     src/module/biblequote-dict.cpp
+    src/module/biblemodule.cpp
     
     src/ui/dialog/searchdialog.cpp
     src/ui/dialog/settingsdialog.cpp

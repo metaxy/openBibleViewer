@@ -38,10 +38,6 @@ ZefaniaBible::ZefaniaBible()
     m_bibleID = 0;
     m_bookID = 0;
 }
-void ZefaniaBible::setSettings(Settings *set)
-{
-    m_settings = set;
-}
 void ZefaniaBible::loadBibleData(const int &id, const QString &path)
 {
     DEBUG_FUNC_NAME
@@ -79,7 +75,7 @@ QDomNode ZefaniaBible::readBookFromHardCache(QString path, int bookID)
     QFile file(pre + QString::number(bookID) + ".xml");
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot read the file."));
-        myWarning() << "can't read the file" << pre << QString::number(bookID) << ".xml";
+        myWarning() << "can't read the file" << pre + QString::number(bookID) + ".xml";
         return e;
     }
     QDomDocument doc;
@@ -92,16 +88,17 @@ QDomNode ZefaniaBible::readBookFromHardCache(QString path, int bookID)
     return root.firstChild();
 
 }
-void ZefaniaBible::readBook(const int &id)
+int ZefaniaBible::readBook(const int &id)
 {
     QDomNode ncache;
     //book is not in soft cache
-    if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true && (!m_softCacheData.contains(id) || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {
+    if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true &&
+            (!m_softCacheData.contains(id) || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {
         ncache = readBookFromHardCache(m_biblePath, id);
     } else {
         m_book = softCache(id);
         m_bookCount.insert(id, m_book.size());
-        return;
+        return 1;
     }
     //reading loaded data
     m_book.clear();
@@ -138,6 +135,7 @@ void ZefaniaBible::readBook(const int &id)
 
     m_bookCount.insert(id, i);
     setSoftCache(m_bookID, m_book);
+    return 0;
 }
 /**
   Convert a node into a chapterlist.
@@ -558,10 +556,10 @@ QString ZefaniaBible::readInfo(const QString &content)
     m_bibleName = root.attribute("biblename", "");
     return m_bibleName;
 }
-int ZefaniaBible::bookID() const
+/*int ZefaniaBible::bookID() const
 {
     return m_bookID;
-}
+}*/
 int ZefaniaBible::bibleID() const
 {
     return m_bibleID;
@@ -570,11 +568,33 @@ QString ZefaniaBible::biblePath() const
 {
     return m_biblePath;
 }
-QString ZefaniaBible::bibleName() const
+QString ZefaniaBible::bibleName(bool preferShortName) const
 {
     return m_bibleName;
 }
-
+QMap<int, int> ZefaniaBible::bookCount() const
+{
+    return m_bookCount;
+}
+BookNames ZefaniaBible::getBookNames()
+{
+   BookNames names;
+   int count = 0;
+    foreach(const QString & bookID, m_bookIDs) {
+        const int id = bookID.toInt();
+        names.m_bookIDs.append(id);
+        names.m_bookFullName[id] = m_bookFullName.at(count);
+        foreach(const QString & s, m_bookShortName.at(count)) {
+            names.m_bookShortName[id] = QStringList(s) ;
+        }
+        count++;
+    }
+    return names;
+}
+Book ZefaniaBible::book() const
+{
+    return m_book;
+}
 bool ZefaniaBible::hasIndex() const
 {
     DEBUG_FUNC_NAME

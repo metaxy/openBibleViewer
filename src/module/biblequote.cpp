@@ -47,7 +47,7 @@ QString BibleQuote::formatFromIni(QString input)
     input.replace(QString("\n"), QString(""));
     return input;
 }
-void BibleQuote::loadBibleData(const int &bibleID, QString path)
+void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
 {
     m_bibleID = bibleID;
     m_bookFullName.clear();
@@ -59,7 +59,6 @@ void BibleQuote::loadBibleData(const int &bibleID, QString path)
     m_removeHtml = "";
     m_verseSign = "";
     m_chapterZero = false;
-
     int lastPos = path.lastIndexOf("/");
     QString path_ = path;
     m_biblePath = path_.remove(lastPos, path.size());
@@ -197,13 +196,12 @@ QString BibleQuote::readInfo(QFile &file)
     }
     return m_bibleName;
 }
-int BibleQuote::readBook(const int &id, QString path)
+int BibleQuote::readBook(const int &id)
 {
     m_book.clear();
 
     m_bookID = id;
-    path = m_biblePath + "/" + path;
-
+    const QString path = m_biblePath + "/" + m_bookPath.at(id);
     QFile file;
     file.setFileName(path);
 
@@ -248,10 +246,11 @@ int BibleQuote::readBook(const int &id, QString path)
         QDir d(info.absoluteDir());
         QStringList list = d.entryList();
 
-        foreach(const QString & f, list) {
+        foreach(QString f, list) {
             QFileInfo info2(f);
             if(info2.baseName().compare(info.baseName(), Qt::CaseInsensitive) == 0) {
-                return readBook(id, f);
+                m_bookPath.replace(id,f.remove(m_biblePath + "/"));
+                return readBook(id);
             }
         }
         return 2;//don't show a error
@@ -427,4 +426,38 @@ void BibleQuote::search(const SearchQuery &query, SearchResult *res)
     }
     reader->close();
     delete reader;
+}
+int BibleQuote::bibleID() const
+{
+    return m_bibleID;
+}
+QString BibleQuote::biblePath() const
+{
+    return m_biblePath;
+}
+QString BibleQuote::bibleName(bool preferShortName) const
+{
+    return m_bibleName;
+}
+QMap<int, int> BibleQuote::bookCount()
+{
+    return m_bookCount;
+}
+BookNames BibleQuote::getBookNames()
+{
+    BookNames names;
+
+    for(int c = 0; c < m_bookFullName.size(); ++c) {
+        names.m_bookIDs.append(c);
+        names.m_bookFullName[c] = m_bookFullName.at(c);
+    }
+    //todo: if m_bookFullName.size() != >m_bookShortName.size() should then i really add the shortnames or let them be empty
+    for(int c = 0; c < m_bookShortName.size(); ++c) {
+        names.m_bookShortName[c] = m_bookShortName.at(c);
+    }
+    return names;
+}
+Book BibleQuote::book() const
+{
+    return m_book;
 }

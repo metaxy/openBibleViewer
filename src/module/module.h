@@ -14,11 +14,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef MODULE_H
 #define MODULE_H
 #include "src/core/settings/settings.h"
-#include "src/module/biblequote.h"
-#include "src/module/zefania-bible.h"
 #include "src/module/zefania-lex.h"
 #include "src/module/biblequote-dict.h"
 #include <QtCore/QString>
+#include "src/module/biblemodule.h"
 class Module
 {
 public:
@@ -26,8 +25,8 @@ public:
     enum ModuleClass {
         NoneClass = 0,
         FolderClass = 3,
-        BibleModule = 1,
-        DictionaryModule = 2
+        BibleModuleClass = 1,
+        DictionaryModuleClass = 2
     };
     enum ModuleType {
         NoneType = 0,
@@ -42,8 +41,9 @@ public:
     QString m_path;
     QString m_title;
     int m_id;
-    BibleQuote *m_bibleQuote;
-    ZefaniaBible *m_zefaniaBible;
+
+    BibleModule *m_bibleModule;
+
     ZefaniaLex *m_zefaniaLex;
     BibleQuoteDict *m_bibleQuoteDict;
 

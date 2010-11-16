@@ -15,8 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 Module::Module(Module *parent)
 {
-    m_bibleQuote = 0;
-    m_zefaniaBible = 0;
+    m_bibleModule = 0;
     m_zefaniaLex = 0;
     m_bibleQuoteDict = 0;
     m_parent = parent;

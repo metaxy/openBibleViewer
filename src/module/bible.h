@@ -21,7 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/search/searchresult.h"
 #include "src/module/simplemoduleclass.h"
 #include "src/core/settings/bibledisplaysettings.h"
-
+#include "src/core/bible/booknames.h"
 /*!
  Bible represent a bible module(eg. biblequote module or zefania xml module)
  It reads the module, gets the raw data and formats it.
@@ -82,15 +82,14 @@ private:
     QStringList m_bookPath;
     QStringList m_chapterNames;
     QStringList m_chapterDataList;
-    QHash<int, QString> m_bookFullName;
-    QHash<int, QStringList> m_bookShortName;
-    QList<int> m_bookIDs;
+    BookNames m_names;
 
     BibleDisplaySettings *m_bibleDisplaySettings;
 
     Module *m_module;
-    BibleQuote *m_bq;
-    ZefaniaBible *m_zef;
+    BibleModule *m_bibleModule;
+    /*BibleQuote *m_bibleModule;
+    ZefaniaBible *m_bibleModule;*/
     bool m_loaded;
     SearchQuery m_lastSearchQuery;
     QString textTitle;

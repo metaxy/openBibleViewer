@@ -15,9 +15,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define BIBLEQUOTE_H
 #include "src/core/bible/book.h"
 #include "src/core/bible/chapter.h"
+#include "src/module/biblemodule.h"
 #include "src/core/search/searchquery.h"
 #include "src/core/search/searchresult.h"
 #include "src/core/settings/settings.h"
+#include "src/core/bible/booknames.h"
 #include <QtCore/QFile>
 #include <QtCore/QMap>
 #include <QtCore/QString>
@@ -25,25 +27,31 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QTextCodec>
 
 
-/*!
- BibleQuote represents a biblequote module
-
- @author Paul Walger <metaxy@walger.name>
-*/
-class BibleQuote
+/**
+ * BibleQuote represents a biblequote module
+ * see http://jesuschrist.ru/software/
+ */
+class BibleQuote : public BibleModule
 {
 
 
 public:
     BibleQuote();
     ~BibleQuote();
-    void setSettings(Settings *settings);
-    int readBook(const int &id, QString path);
-    void loadBibleData(const int &bibleID, QString path);
-    QString readInfo(QFile &file);
-    void search(const SearchQuery &query, SearchResult *res);
-    bool hasIndex() const;
-    void buildIndex();
+    void setSettings(Settings *settings);//1
+    /*virtual*/ int readBook(const int &id);//3
+   /* virtual*/ void loadBibleData(const int &bibleID, const QString &path);//2
+   /* virtual*/ QString readInfo(QFile &file);//4
+    /*virtual*/ void search(const SearchQuery &query, SearchResult *res);//5
+    /*virtual*/ bool hasIndex() const;//6
+    /*virtual*/ void buildIndex();//7
+
+    /*virtual*/ int bibleID() const;//8
+   /* virtual*/ QString biblePath() const;//9
+    /*virtual*/ QString bibleName(bool preferShortName = false) const;//10
+    /*virtual*/ QMap<int, int> bookCount();//11
+    /*virtual*/ BookNames getBookNames();//12
+    /*virtual*/ Book book() const;//13
 
     bool m_chapterZero;
 
@@ -57,7 +65,6 @@ public:
     QMap<int, int> m_bookCount;
     Book m_book;
 private:
-    Settings *m_settings;
     inline QString formatFromIni(QString input);
     QString indexPath() const;
     int m_bookID;
