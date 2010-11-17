@@ -22,7 +22,7 @@ class SearchProviders
 public:
     SearchProviders();
     virtual ~SearchProviders();
-    
+
     void loadProviders();
     QList<SearchProvider *> getProviders(const int &count);
     //void setUsed

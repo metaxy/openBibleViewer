@@ -578,8 +578,8 @@ QMap<int, int> ZefaniaBible::bookCount() const
 }
 BookNames ZefaniaBible::getBookNames()
 {
-   BookNames names;
-   int count = 0;
+    BookNames names;
+    int count = 0;
     foreach(const QString & bookID, m_bookIDs) {
         const int id = bookID.toInt();
         names.m_bookIDs.append(id);

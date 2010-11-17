@@ -21,14 +21,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 class NotesApi : public QObject, public BasicClass
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     explicit NotesApi(QObject* parent = 0);
     virtual ~NotesApi();
 public slots:
     QString addTextNote(const QString &title, const QString &text);
     bool removeNote(const QString &noteID);
-    
+
 };
 
 #endif // NOTESAPI_H

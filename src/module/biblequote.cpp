@@ -249,7 +249,7 @@ int BibleQuote::readBook(const int &id)
         foreach(QString f, list) {
             QFileInfo info2(f);
             if(info2.baseName().compare(info.baseName(), Qt::CaseInsensitive) == 0) {
-                m_bookPath.replace(id,f.remove(m_biblePath + "/"));
+                m_bookPath.replace(id, f.remove(m_biblePath + "/"));
                 return readBook(id);
             }
         }

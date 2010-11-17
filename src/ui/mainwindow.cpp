@@ -571,12 +571,12 @@ void MainWindow::saveSettings(Settings newSettings, bool modifedModuleSettings)
     if(oldSettings.session.getData("interface", "advanced") != newSettings.session.getData("interface", "advanced")) {
         reloadInterface();
     }
-    emit settingsChanged(oldSettings, newSettings,modifedModuleSettings);
+    emit settingsChanged(oldSettings, newSettings, modifedModuleSettings);
 }
 void MainWindow::showSettingsDialog(int tabID)
 {
     SettingsDialog setDialog(this);
-    connect(&setDialog, SIGNAL(settingsChanged(Settings,bool)), this, SLOT(saveSettings(Settings,bool)));
+    connect(&setDialog, SIGNAL(settingsChanged(Settings, bool)), this, SLOT(saveSettings(Settings, bool)));
     setDialog.setSettings(*m_settings);
     setDialog.setWindowTitle(tr("Configuration"));
     setDialog.setCurrentTab(tabID);

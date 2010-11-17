@@ -287,7 +287,7 @@ void SettingsDialog::save(void)
         m_set.session.setData("interface", "advanced");
     }
     //Alles andere, wie z.b die Module sind schon gespeichert
-    emit settingsChanged(m_set,m_modifedModuleSettings);//Speichern
+    emit settingsChanged(m_set, m_modifedModuleSettings); //Speichern
     close();
 }
 void SettingsDialog::downloadModule()

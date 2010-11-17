@@ -752,11 +752,11 @@ void AdvancedInterface::pharseUrl(QString url)
             setCurrentChapter(c);
         } else {
             if(activeMdiChild()) {
-                #if QT_VERSION >= 0x040700
-                            getView()->page()->mainFrame()->scrollToAnchor(url);
-                #else
-                            getView()->page()->mainFrame()->evaluateJavaScript("window.location.href = '" + url + "';");
-                #endif
+#if QT_VERSION >= 0x040700
+                getView()->page()->mainFrame()->scrollToAnchor(url);
+#else
+                getView()->page()->mainFrame()->evaluateJavaScript("window.location.href = '" + url + "';");
+#endif
             }
         }
 
@@ -2197,9 +2197,9 @@ void AdvancedInterface::changeEvent(QEvent *e)
         m_mainBarActionSearch->setText(tr("Search"));
         m_mainBarActionBookmarks->setText(tr("Bookmarks"));
         m_mainBarActionNotes->setText(tr("Notes"));
-        m_mainBarActionNewWindow->setText( tr("New Window"));
+        m_mainBarActionNewWindow->setText(tr("New Window"));
         m_mainBarActionZoomIn->setText(tr("Zoom In"));
-        m_mainBarActionZoomOut->setText( tr("Zoom Out"));
+        m_mainBarActionZoomOut->setText(tr("Zoom Out"));
         m_mainBarActionModule->setText(tr("Module"));
         m_searchBar->setWindowTitle(tr("Search Bar"));
 

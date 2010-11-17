@@ -41,7 +41,7 @@ class AdvancedInterface : public Interface
     Q_OBJECT
 public slots:
     void closing();
-    void settingsChanged(Settings oldSettings, Settings newSettings,bool modifedModuleSettings);
+    void settingsChanged(Settings oldSettings, Settings newSettings, bool modifedModuleSettings);
     void restoreSession();
 private slots:
     void myCascade();

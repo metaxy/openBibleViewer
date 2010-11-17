@@ -72,10 +72,10 @@ void lucene_vfnwprintf(StringBuffer* buffer, size_t /*count*/, const wchar_t * f
                         _i64tot((int64_t)va_arg(valist, int64_t), b, 10);
                         tmp->append(b);
                     }/*else{
-            TCHAR b[100];
-            _i64tot((int64_t)va_arg(valist, void*),b,10);
-            tmp->append(b);
-        }*/
+        TCHAR b[100];
+        _i64tot((int64_t)va_arg(valist, void*),b,10);
+        tmp->append(b);
+    }*/
                 }
                 iter++;
                 break;

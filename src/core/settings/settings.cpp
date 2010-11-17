@@ -93,7 +93,7 @@ QString Settings::recoverUrl(QString url) const
     return url;
 }
 /**
- * Generate a hash from a string 
+ * Generate a hash from a string
  */
 QString Settings::hash(const QString &path) const
 {
