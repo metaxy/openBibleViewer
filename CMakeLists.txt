@@ -126,6 +126,9 @@ set ( openBibleViewer_HDRS
     src/core/bible/bibleurl.h
     src/core/bible/bibledisplay.h
     src/core/bible/booknames.h
+    src/core/bible/range.h
+    src/core/bible/ranges.h
+    src/core/bible/rangeenum.h
 
 
     src/core/KoXmlReader.h
@@ -186,7 +189,9 @@ set ( openBibleViewer_SRCS
     src/core/bible/bibleurl.cpp
     src/core/bible/bibledisplay.cpp
     src/core/bible/booknames.cpp
-
+    src/core/bible/range.cpp
+    src/core/bible/ranges.cpp
+    src/core/bible/rangeenum.cpp
 
     src/core/faststart.cpp
     src/core/KoXmlReader.cpp

@@ -42,7 +42,6 @@ bool XbelReader::read(QIODevice *device)
 
 void XbelReader::readUnknownElement()
 {
-
     Q_ASSERT(isStartElement());
     while(!atEnd()) {
         readNext();
@@ -56,7 +55,6 @@ void XbelReader::readUnknownElement()
 
 void XbelReader::readXBEL()
 {
-
     Q_ASSERT(isStartElement() && name() == "xbel");
     while(!atEnd()) {
         readNext();

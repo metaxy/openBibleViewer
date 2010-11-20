@@ -1703,7 +1703,7 @@ void AdvancedInterface::searchInText(SearchQuery query)
     DEBUG_FUNC_NAME
     if(query.queryType == SearchQuery::Simple) {
         QString s = query.searchText;
-        //todo hacky
+        //todo: hacky
         s.remove('*');
         s.remove('?');
         getView()->findText(s, QWebPage::HighlightAllOccurrences);
