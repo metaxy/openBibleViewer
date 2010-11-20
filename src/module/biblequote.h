@@ -38,20 +38,20 @@ class BibleQuote : public BibleModule
 public:
     BibleQuote();
     ~BibleQuote();
-    void setSettings(Settings *settings);//1
-    /*virtual*/ int readBook(const int &id);//3
-    /* virtual*/ void loadBibleData(const int &bibleID, const QString &path);//2
-    /* virtual*/ QString readInfo(QFile &file);//4
-    /*virtual*/ void search(const SearchQuery &query, SearchResult *res);//5
-    /*virtual*/ bool hasIndex() const;//6
-    /*virtual*/ void buildIndex();//7
+    void setSettings(Settings *settings);
+    int readBook(const int &id);
+    void loadBibleData(const int &bibleID, const QString &path);
+    QString readInfo(QFile &file);
+    void search(const SearchQuery &query, SearchResult *res) const;
+    bool hasIndex() const;
+    void buildIndex();
 
-    /*virtual*/ int bibleID() const;//8
-    /* virtual*/ QString biblePath() const;//9
-    /*virtual*/ QString bibleName(bool preferShortName = false) const;//10
-    /*virtual*/ QMap<int, int> bookCount();//11
-    /*virtual*/ BookNames getBookNames();//12
-    /*virtual*/ Book book() const;//13
+    int bibleID() const;
+    QString biblePath() const;
+    QString bibleName(bool preferShortName = false) const;
+    QMap<int, int> bookCount();
+    BookNames getBookNames();
+    Book book() const;
 
     bool m_chapterZero;
 

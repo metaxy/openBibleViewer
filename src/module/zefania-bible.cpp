@@ -782,19 +782,22 @@ void ZefaniaBible::buildIndex()
     progress.close();
 
 }
-void ZefaniaBible::search(SearchQuery query, SearchResult *res) const
+void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
 {
     DEBUG_FUNC_NAME
     const QString index = indexPath();
+    myDebug() << " index = " << index;
     const TCHAR* stop_words[] = { NULL };
     standard::StandardAnalyzer analyzer(stop_words);
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     IndexSearcher s(reader);
     Query* q = QueryParser::parse(query.searchText.toStdWString().c_str(), _T("content"), &analyzer);
     Hits* h = s.search(q);
+    myDebug() << "query string = " << q->toString();
     for(size_t i = 0; i < h->length(); i++) {
         Document* doc = &h->doc(i);
         const QString stelle = QString::fromWCharArray(doc->get(_T("key")));
+        myDebug() << "found stelle = " << stelle;
         // h->score(i)
         const QStringList l = stelle.split(";");
         if(query.range == SearchQuery::Whole || (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) || (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
@@ -805,11 +808,15 @@ void ZefaniaBible::search(SearchQuery query, SearchResult *res) const
             hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
             hit.setValue(SearchHit::VerseID, l.at(2).toInt());
             hit.setValue(SearchHit::VerseText, QString::fromWCharArray(doc->get(_T("content"))));
+
             res->addHit(hit);
         }
     }
+    reader->close();
+    delete reader;
 }
 QString ZefaniaBible::indexPath() const
 {
+    DEBUG_FUNC_NAME
     return m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
 }

@@ -253,7 +253,7 @@ int BibleQuote::readBook(const int &id)
                 return readBook(id);
             }
         }
-        return 2;//don't show a error
+        return 1;
     }
     if(ccount2 == 0) {
         chapterText << out2;
@@ -287,8 +287,6 @@ bool BibleQuote::hasIndex() const
     if(!d.exists(m_settings->homePath + "index")) {
         return false;
     }
-    //todo: check versions
-
     return IndexReader::indexExists(indexPath().toStdString().c_str());
 }
 
@@ -397,7 +395,7 @@ void BibleQuote::buildIndex()
     progress.close();
 
 }
-void BibleQuote::search(const SearchQuery &query, SearchResult *res)
+void BibleQuote::search(const SearchQuery &query, SearchResult *res) const
 {
     DEBUG_FUNC_NAME
     const QString index = indexPath();

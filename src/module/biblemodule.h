@@ -11,14 +11,14 @@ class BibleModule
 {
 public:
     BibleModule();
-    //virtual ~BibleModule();
+    virtual ~BibleModule(){}
     virtual void setSettings(Settings *settings);
 
     virtual void loadBibleData(const int &bibleID, const QString &path);
     virtual QString readInfo(QFile &file);
     virtual int readBook(const int &id);
 
-    virtual void search(const SearchQuery &query, SearchResult *res);
+    virtual void search(const SearchQuery &query, SearchResult *res) const;
     virtual bool hasIndex() const;
     virtual void buildIndex();
 

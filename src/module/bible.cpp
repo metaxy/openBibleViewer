@@ -434,22 +434,28 @@ Chapter Bible::rawChapter()
   */
 void Bible::search(SearchQuery query, SearchResult *result)
 {
+    /*if(!m_loaded)
+        return;
+    m_lastSearchQuery = query;
+    if(!m_bibleModule->hasIndex())
+        m_bibleModule->buildIndex();
+    m_bibleModule->search(query, result);*/
     m_lastSearchQuery = query;
     switch(m_moduleType) {
-    case Module::BibleQuoteModule: {
-        if(!m_bibleModule->hasIndex())
+        case Module::BibleQuoteModule: {
+            if(!m_bibleModule->hasIndex())
             m_bibleModule->buildIndex();
-        m_bibleModule->search(query, result);
-        break;
-    }
-    case Module::ZefaniaBibleModule: {
-        if(!m_bibleModule->hasIndex())
+            m_bibleModule->search(query, result);
+            break;
+        }
+        case Module::ZefaniaBibleModule: {
+            if(!m_bibleModule->hasIndex())
             m_bibleModule->buildIndex();
-        m_bibleModule->search(query, result);
-        break;
-    }
-    default:
-        break;
+            m_bibleModule->search(query, result);
+            break;
+        }
+        default:
+            break;
     }
 }
 
