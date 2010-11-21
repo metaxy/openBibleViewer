@@ -7,6 +7,7 @@ class Ranges
 public:
     Ranges();
     void addRange(Range range);
+    QList<Range> getList() const;
 private:
     QList<Range> m_ranges;
 };

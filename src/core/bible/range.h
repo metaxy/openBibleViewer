@@ -23,6 +23,22 @@ public:
     void setStartVerse(RangeEnum::VerseRange verse);
     void setEndVerse(const int &verseID);
     void setEndVerse(RangeEnum::VerseRange verse);
+
+    int startBookID();
+    RangeEnum::BookRange startBook();
+    int endBookID();
+    RangeEnum::BookRange endBook();
+
+    int startChaperID();
+    RangeEnum::ChapterRange startChapter();
+    int endChapterID();
+    RangeEnum::ChapterRange endChapter();
+
+    int startVerseID();
+    RangeEnum::VerseRange startVerse();
+    int endVerseID();
+    RangeEnum::VerseRange endVerse();
+
 private:
     int m_startVerseID;
     RangeEnum::VerseRange m_startVerse;

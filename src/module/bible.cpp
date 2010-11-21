@@ -428,6 +428,13 @@ Chapter Bible::rawChapter()
 {
     return m_rawChapter;
 }
+TextRange Bible::readRanges(Ranges ranges)
+{
+    TextRange ret;
+    foreach(const Range &r, ranges.getList()) {
+        ret.addVerse();
+    }
+}
 
 /**
   Search in the current bible. Returns the Results.

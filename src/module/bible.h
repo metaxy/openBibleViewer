@@ -22,6 +22,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/simplemoduleclass.h"
 #include "src/core/settings/bibledisplaysettings.h"
 #include "src/core/bible/booknames.h"
+#include "src/core/bible/ranges.h"
+#include "src/core/bible/textrange.h"
 /*!
  Bible represent a bible module(eg. biblequote module or zefania xml module)
  It reads the module, gets the raw data and formats it.
@@ -37,6 +39,9 @@ public:
     int readBook(int id);
     QString readChapter(int chapterID, int verseID);
     QString readVerse(int chapterID, int startVerse, int endVerse, int markVerseID, bool saveRawDatas);
+
+    TextRange readRanges(Ranges ranges);
+
     QStringList getSearchPaths();
     QString toUniformHtml(QString string);
 
