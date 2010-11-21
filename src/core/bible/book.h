@@ -25,6 +25,10 @@ public:
     void addChapter(const int &chapterID, const Chapter &c);
     bool hasChapter(const int &chapterID);
     Chapter getChapter(const int &chapterID);
+    void setID(const int &id);
+    int id();
+private:
+    int m_id;
 };
 
 #endif // BOOK_H

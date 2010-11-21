@@ -4,45 +4,27 @@ Range::Range()
 {
 }
 
-void Range::setStartBook(const int &bookID)
+void Range::setBook(const int &bookID)
 {
-    m_startBookID = bookID;
+    m_bookID = bookID;
 }
 
-void Range::setStartBook(RangeEnum::BookRange book)
+void Range::setBook(RangeEnum::BookRange book)
 {
-    m_startBook = book;
+    m_book = book;
 }
 
-void Range::setEndBook(const int &bookID)
+void Range::setChapter(const int &chapterID)
 {
-    m_endBookID = bookID;
+    m_chapterID = chapterID;
 }
 
-void Range::setEndBook(RangeEnum::BookRange book)
+void Range::setChapter(RangeEnum::ChapterRange chapter)
 {
-    m_endBook = book;
+    m_chapter = chapter;
 }
 
-void Range::setStartChapter(const int &chapterID)
-{
-    m_startChapterID = chapterID;
-}
 
-void Range::setStartChapter(RangeEnum::ChapterRange chapter)
-{
-    m_startChapter = chapter;
-}
-
-void Range::setEndChapter(const int &chapterID)
-{
-    m_endChapterID = chapterID;
-}
-
-void Range::setEndChapter(RangeEnum::ChapterRange chapter)
-{
-    m_endChapter = chapter;
-}
 
 void Range::setStartVerse(const int &verseID)
 {
@@ -63,45 +45,27 @@ void Range::setEndVerse(RangeEnum::VerseRange verse)
 {
     m_endVerse = verse;
 }
-int Range::startBookID()
+int Range::bookID()
 {
-    return m_startBookID;
+    return m_bookID;
 }
 
-RangeEnum::BookRange Range::startBook()
+RangeEnum::BookRange Range::book()
 {
-    return m_startBook;
+    return m_book;
 }
 
-int Range::endBookID()
+
+int Range::chaperID()
 {
-    return m_endBookID;
+    return m_chapterID;
 }
 
-RangeEnum::BookRange Range::endBook()
+RangeEnum::ChapterRange Range::chapter()
 {
-    return m_endBook;
+    return m_chapter;
 }
 
-int Range::startChaperID()
-{
-    return m_startChapterID;
-}
-
-RangeEnum::ChapterRange Range::startChapter()
-{
-    return m_startChapter;
-}
-
-int Range::endChapterID()
-{
-    return m_endChapterID;
-}
-
-RangeEnum::ChapterRange Range::endChapter()
-{
-    return m_endChapter;
-}
 
 int Range::startVerseID()
 {

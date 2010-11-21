@@ -36,3 +36,13 @@ Chapter Book::getChapter(const int &chapterID)
 {
     return m_chapters.value(chapterID);
 }
+
+void Book::setID(const int &id)
+{
+    m_id = id;
+}
+
+void Book::id()
+{
+    return m_id;
+}

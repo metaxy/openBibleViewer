@@ -6,33 +6,23 @@ class Range
 public:
     Range();
 
-    void setStartBook(const int &bookID);
-    void setStartBook(RangeEnum::BookRange book);
-    void setEndBook(const int &bookID);
-    void setEndBook(RangeEnum::BookRange book);
-    //void setBook(const int &startID, const int &endID);
+    void setBook(const int &bookID);
+    void setBook(RangeEnum::BookRange book);
 
 
-    void setStartChapter(const int &chapterID);
-    void setStartChapter(RangeEnum::ChapterRange chapter);
-    void setEndChapter(const int &chapterID);
-    void setEndChapter(RangeEnum::ChapterRange chapter);
-
+    void setChapter(const int &chapterID);
+    void setChapter(RangeEnum::ChapterRange chapter);
 
     void setStartVerse(const int &verseID);
     void setStartVerse(RangeEnum::VerseRange verse);
     void setEndVerse(const int &verseID);
     void setEndVerse(RangeEnum::VerseRange verse);
 
-    int startBookID();
-    RangeEnum::BookRange startBook();
-    int endBookID();
-    RangeEnum::BookRange endBook();
+    int bookID();
+    RangeEnum::BookRange book();
 
-    int startChaperID();
-    RangeEnum::ChapterRange startChapter();
-    int endChapterID();
-    RangeEnum::ChapterRange endChapter();
+    int chapterID();
+    RangeEnum::ChapterRange chapter();
 
     int startVerseID();
     RangeEnum::VerseRange startVerse();
@@ -45,15 +35,13 @@ private:
     int m_endVerseID;
     RangeEnum::VerseRange m_endVerse;
 
-    int m_startChapterID;
-    RangeEnum::ChapterRange m_startChapter;
-    int m_endChapterID;
-    RangeEnum::ChapterRange m_endChapter;
+    int m_chapterID;
+    RangeEnum::ChapterRange m_chapter;
 
-    int m_startBookID;
-    RangeEnum::BookRange m_startBook;
-    int m_endBookID;
-    RangeEnum::BookRange m_endBook;
+
+    int m_bookID;
+    RangeEnum::BookRange m_book;
+
 };
 
 #endif // RANGE_H

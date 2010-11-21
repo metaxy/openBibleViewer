@@ -432,7 +432,26 @@ TextRange Bible::readRanges(Ranges ranges)
 {
     TextRange ret;
     foreach(const Range &r, ranges.getList()) {
-        ret.addVerse();
+        int newBookID;
+        if(r.book() == RangeEnum::BookByID) {
+            newBookID = r.bookID();
+        } //todo: else
+
+        if(m_book.id() != newBookID) {//todo: set always the book.id()
+            m_book.clear();
+            m_chapterNames.clear();
+            m_bibleModule->readBook(id);
+            m_book = m_bibleModule->book();
+
+        }
+        int newChapterID;
+        if(r.chapter() == RangeEnum::ChapterByID) {
+            newChapterID = r.chapterID();
+        }//todo: else
+
+        //for : verse
+
+            ret.addVerse();
     }
 }
 
