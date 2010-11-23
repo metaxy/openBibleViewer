@@ -176,7 +176,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
 {
     //DEBUG_FUNC_NAME
     //endVerse == -1 means all verse
-    m_chapterID = chapterID;
+   /* m_chapterID = chapterID;
     if(startVerse < 0)
         startVerse = 0;
     if(saveRawData)
@@ -274,7 +274,7 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
             {
                 QString prepend;
                 QString append;
-                prepend = "<span class=\"verseNumber\">" + c.verseNumber.at(i) + "</span>";
+                prepend = "<span class=\"verseNumber\">" + c.m_verseNumber.at(i) + "</span>";
                 if(moduleSettings.zefbible_textFormatting == 0) {
                     append = "<br />";
                 } else {
@@ -389,7 +389,10 @@ QString Bible::readVerse(int chapterID, int startVerse, int endVerse, int markVe
     if(saveRawData)
         m_lastout = out;
     //myDebug() << out;
+
     return out;
+    */
+    return "Not working";
 }
 /* QString vB = vers, vB2 = vers;
 
@@ -428,31 +431,194 @@ Chapter Bible::rawChapter()
 {
     return m_rawChapter;
 }
-TextRange Bible::readRanges(Ranges ranges)
+TextRange Bible::readRange(const Range &range)
 {
     TextRange ret;
-    foreach(const Range &r, ranges.getList()) {
-        int newBookID;
-        if(r.book() == RangeEnum::BookByID) {
-            newBookID = r.bookID();
-        } //todo: else
 
-        if(m_book.id() != newBookID) {//todo: set always the book.id()
-            m_book.clear();
-            m_chapterNames.clear();
-            m_bibleModule->readBook(id);
-            m_book = m_bibleModule->book();
+    int newBookID;
+    if(range.book() == RangeEnum::BookByID) {
+        newBookID = range.bookID();
+    } //todo: else
+
+    if(m_book.bookID() != newBookID) {//todo: set always the book.id()
+        m_book.clear();
+        m_chapterNames.clear();
+        m_bibleModule->readBook(newBookID);
+        m_book = m_bibleModule->book();
+
+    }
+    const ModuleSettings moduleSettings = m_settings->getModuleSettings(m_moduleID);
+    int newChapterID;
+    if(range.chapter() == RangeEnum::ChapterByID) {
+        newChapterID = range.chapterID();
+    }//todo: else
+
+    if(!m_book.hasChapter(newChapterID)) {
+        myWarning() << "index out of range index chapterID = " << newChapterID;
+        return ret;
+    }
+    Chapter c = m_book.getChapter(newChapterID);
+
+    int startVerse;
+    int endVerse;
+    int markVerseID = 0;
+    if(range.startVerse() == RangeEnum::VerseByID) {
+        startVerse = range.startVerseID();
+    } //todo: else
+
+    if(range.endVerse() == RangeEnum::VerseByID) {
+        endVerse = range.endVerseID();
+    }
+
+    QHash<int,Verse> data = c.getData();
+    QList<Verse> verseList;
+    for(int verseCounter = startVerse; verseCounter <= endVerse; verseCounter++) {
+        Verse verse = data.value(verseCounter);
+        //main formatting
+
+        if(m_notes != 0 && m_bibleDisplaySettings->showNotes() == true) {
+            for(int n = 0; n < m_notes->getIDList().size(); ++n) {
+                const QString noteID = m_notes->getIDList().at(n);
+                if(m_notes->getType(noteID) == "text") {
+                    const QString link = m_notes->getRef(noteID, "link");
+                    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
+                    urlConverter.setSettings(m_settings);
+                    urlConverter.setModuleMap(m_map);
+                    urlConverter.pharse();
+                    if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == newChapterID && urlConverter.m_verseID == verseCounter) {
+                        verse.append("<a href=\"note://" + noteID + "\"><img src=\":/icons/16x16/view-pim-notes.png\" title=\"" + m_notes->getRef(noteID, "title") + "\"></a>");
+                    }
+                }
+            }
+        }
+
+
+        if(verseCounter == markVerseID) {
+            verse.prepend("<span class=\"currententry\">");
+            verse.append("</span>");
+        }
+
+        {
+            QString prepend;
+            QString append;
+            prepend = "<span class=\"verseNumber\">" + QString::number(verse.verseID()) + "</span>";
+            if(moduleSettings.zefbible_textFormatting == 0) {
+                append = "<br />";
+            } else {
+                append = "\n";//not visible
+            }
+            /*if(verseCounter == markVerseID) {
+                prepend.prepend("<a name=\"currentVerse\">");
+                prepend.append("</a>");
+            }*/
+            verse.prepend(prepend);
+            verse.append(append);
+        }
+
+        verseList << verse;
+
+        //ret.addVerse(vers);
+    }
+
+    //todo: insert marks
+    /*if(m_notes != 0 && m_bibleDisplaySettings->showMarks() == true) {
+        VerseReplacer<Verse> replacer;
+        for(int n = 0; n <  m_notes->getIDList().size(); ++n) {
+            QString noteID = m_notes->getIDList().at(n);
+            if(m_notes->getType(noteID) == "mark") {
+                const QString link = m_notes->getRef(noteID, "link");
+                UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
+                urlConverter.setSettings(m_settings);
+                urlConverter.setModuleMap(m_map);
+                urlConverter.pharse();
+
+                const QString pre = "<span class=\"mark\" style=\"" + m_notes->getRef(noteID, "style") + "\">";
+
+                const QString ap = "</span>";
+                if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID) {
+                    versList = versList;
+                    if(m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
+                        VerseSelection::SelectionPosInTextType type = VerseSelection::typeFromString(m_notes->getRef(noteID, "selection_pos_type"));
+                        if(type == VerseSelection::ShortestString) {
+                            const int verseID = m_notes->getRef(noteID, "start").toInt();
+                            if(endVerse != -1) {
+                                //todo: do something
+                            }
+                            QString vers = versList.at(verseID);
+                            const int startPos = vers.lastIndexOf(m_notes->getRef(noteID, "startString"));
+                            const int endPos = vers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
+                            replacer.setInsert(verseID, endPos, ap);
+                            replacer.setInsert(verseID, startPos, pre);
+                        } else if(type == VerseSelection::RepeatOfLongestString) {
+
+                        }
+
+                    } else {
+
+                        int startVersID = m_notes->getRef(noteID, "start").toInt();
+                        int endVersID = m_notes->getRef(noteID, "end").toInt();
+                        if(endVerse != -1) {
+                            //todo: do something
+                        }
+                        if(startVersID > 0 && endVersID > 0 && startVersID < versList.size() && endVersID < versList.size()) {
+                            QString startVers = versList.at(startVersID);
+                            QString endVers = versList.at(endVersID);
+                            const int startPos = startVers.lastIndexOf(m_notes->getRef(noteID, "startString"));
+                            const int endPos = endVers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
+
+
+                            replacer.setInsert(startVersID, startPos, pre);
+                            replacer.setAppend(startVersID, ap);
+                            for(int i = startVersID + 1; i < endVersID; i++) {
+                                replacer.setAppend(i, ap);
+                                replacer.setPrepend(i, pre);
+
+                            }
+                            replacer.setInsert(endVersID, endPos, ap);
+                            replacer.setPrepend(endVersID, pre);
+
+                        }
+                    }
+
+                }
+            }
+        }
+        replacer.exec(&versList);
+    }*/
+    // now add id
+    //it have to be done as last
+    for(int i = 0; i < verseList.size(); ++i) {
+        Verse verse = verseList.at(i);
+        switch(m_moduleType) {
+        case Module::BibleQuoteModule: {
+            if(i > 1) {//because of the chapter
+                verse.prepend("<span verseID='" + QString::number(i - 1) + "' chapterID='" + QString::number(newChapterID) + "' bookID='" + QString::number(m_bookID) + "' moduleID='" + QString::number(m_moduleID) + "'>\n");
+                verse.append("</span><br />\n");
+            }
+            break;
 
         }
-        int newChapterID;
-        if(r.chapter() == RangeEnum::ChapterByID) {
-            newChapterID = r.chapterID();
-        }//todo: else
-
-        //for : verse
-
-            ret.addVerse();
+        case Module::ZefaniaBibleModule: {
+            verse.prepend("<span verseID='" + QString::number(i) + "' chapterID='" + QString::number(newChapterID) + "' bookID='" + QString::number(m_bookID) + "' moduleID='" + QString::number(m_moduleID) + "'>\n");
+            verse.append("</span>\n");
+            break;
+        }
+        default:
+            break;
+        }
+        ret.addVerse(verse);
     }
+
+    return ret;
+
+}
+TextRanges Bible::readRanges(const Ranges &ranges)
+{
+    TextRanges rn;
+    foreach(const Range &r,ranges.getList()) {
+        rn.addTextRange(readRange(r));
+    }
+    return rn;
 }
 
 /**

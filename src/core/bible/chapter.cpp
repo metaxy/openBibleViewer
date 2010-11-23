@@ -11,30 +11,31 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef CHAPTER_H
-#define CHAPTER_H
-
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QHash>
-#include "src/core/bible/verse.h"
-/**
- Chapter represents a bible chapter
-*/
-class Chapter {
-public:
-    Chapter();
-    Chapter(const int &chapterID);
-    void addVerse(const int &verseID, const Verse &verse);
-    QHash<int, Verse> getData();
-    int verseCount();
-    void setChapterID(const int &chapterID);
-private:
-    QHash<int, Verse> m_data;
-    QStringList m_verseNumber;
-    int m_verseCount;
-    int m_chapterID;
-
-};
-
-#endif // CHAPTER_H
+#include "chapter.h"
+Chapter::Chapter()
+{
+    m_chapterID = -1;
+    m_verseCount = 0;
+}
+Chapter::Chapter(const int &chapterID)
+{
+    m_chapterID = chapterID;
+    m_verseCount = 0;
+}
+void Chapter::addVerse(const int &verseID, const Verse &verse)
+{
+    m_verseCount++;
+    m_data.insert(verseID, verse);
+}
+QHash<int, Verse> Chapter::getData()
+{
+    return m_data;
+}
+int Chapter::verseCount()
+{
+    return m_verseCount;
+}
+void Chapter::setChapterID(const int &chapterID)
+{
+    m_chapterID = chapterID;
+}

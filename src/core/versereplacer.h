@@ -16,19 +16,19 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QString>
 #include <QtCore/QMap>
 #include <QtCore/QStringList>
-class VerseReplacer
+template<class T> class VerseReplacer
 {
 public:
     VerseReplacer();
-    void setInsert(const int &verseID, const int &pos, const QString &insert);
-    void setPrepend(const int &verseID, const QString &prepend);
-    void setAppend(const int &verseID, const QString &append);
+    void setInsert(const int &verseID, const int &pos, const T &insert);
+    void setPrepend(const int &verseID, const T &prepend);
+    void setAppend(const int &verseID, const T &append);
 
-    void exec(QStringList *list);
+    void exec(QList<T> *list);
 private:
-    QMap<int, QMap<int, QString> > m_inserts;
-    QMap<int, QString> m_prepends;
-    QMap<int, QString> m_appends;
+    QMap<int, QMap<int, T> > m_inserts;
+    QMap<int, T> m_prepends;
+    QMap<int, T> m_appends;
 };
 
 #endif // VERSEREPLACER_H

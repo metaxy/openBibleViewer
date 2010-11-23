@@ -26,7 +26,7 @@ public:
     bool hasChapter(const int &chapterID);
     Chapter getChapter(const int &chapterID);
     void setID(const int &id);
-    int id();
+    int bookID();
 private:
     int m_id;
 };

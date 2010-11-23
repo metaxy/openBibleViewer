@@ -23,6 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/KoXmlWriter.h"
 #include "src/core/dbghelper.h"
 #include "src/core/bible/bibleurl.h"
+#include "src/core/bible/verse.h"
 #include "CLucene.h"
 #include "CLucene/_clucene-config.h"
 
@@ -105,35 +106,27 @@ int ZefaniaBible::readBook(const int &id)
     m_bookID = id;
     QDomNode n = ncache.firstChild();
     QString outtext;
-    int i;
-    for(i = 0; !n.isNull(); ++i) {
-        QDomElement e = n.toElement();
-        Chapter c;
+    int chapterCounter;
+    for(chapterCounter = 0; !n.isNull(); ++chapterCounter) {
+        Chapter c(chapterCounter);
         outtext = "";
         QDomNode n2 = n.firstChild();
-        int verseCount = 0;
         while(!n2.isNull()) {  //alle verse
-            verseCount++;
             QDomElement e2 = n2.toElement();
             format(&e2);
             if(e2.tagName().toLower() == "vers") { // read only verse
-                c.data << e2.text();
-                c.verseNumber << e2.attribute("vnumber", QString::number(verseCount));
+                const int verseID = e2.attribute("vnumber", QString::number(verseCount)).toInt();
+                Verse verse(verseID, e2.text());
+                c.addVerse(verseID,verse);
             } //todo: all other data
             n2 = n2.nextSibling();
         }
-        c.chapterName = e.attribute("cnumber", QString::number(i));
-        c.chapterID = c.chapterName.toInt() - 1;
-
-        c.verseCount = verseCount;
-        c.bookName = m_bookFullName.at(m_bookIDs.indexOf(QString::number(id)));//todo: use also in zefania-bible the qhash system
-        m_book.addChapter(c.chapterID, c);
+        m_book.addChapter(chapterCounter, c);
 
         n = n.nextSibling();
     }
-    //m_book = fromHardToSoft(m_bookID, &ncache);
 
-    m_bookCount.insert(id, i);
+    m_bookCount.insert(id, chapterCounter);
     setSoftCache(m_bookID, m_book);
     return 0;
 }
@@ -146,27 +139,22 @@ Book ZefaniaBible::fromHardToSoft(const int &bookID, const QDomNode *ncache)
 {
     Book book;
     QDomNode n = ncache->firstChild();
-    int i;
-    for(i = 0; !n.isNull(); ++i) {
-        QDomElement e = n.toElement();
-        Chapter c;
+    int chapterCounter;
+    for(chapterCounter = 0; !n.isNull(); ++chapterCounter) {
+        Chapter c(chapterCounter);
         QDomNode n2 = n.firstChild();
-        int verseCount = 0;
         while(!n2.isNull()) {  //alle verse
-            verseCount++;
             QDomElement e2 = n2.toElement();
             format(&e2);
             if(e2.tagName().toLower() == "vers") { // read only verse
-                c.data <<  e2.text();
-                c.verseNumber << e2.attribute("vnumber", QString::number(verseCount));
+                const int verseID = e2.attribute("vnumber", QString::number(verseCount)).toInt();
+                Verse verse(verseID, e2.text());
+                c.addVerse(verseID,verse);
             } //todo: all other data
             n2 = n2.nextSibling();
         }
-        c.chapterName = e.attribute("cnumber", QString::number(i));
-        c.chapterID = c.chapterName.toInt() - 1;
-        c.verseCount = verseCount;
-        c.bookName = m_bookFullName.at(m_bookIDs.indexOf(QString::number(bookID)));//todo: use also in zefania-bible the qhash system
-        book.addChapter(c.chapterID, c);
+        book.addChapter(chapterCounter, c);
+
         n = n.nextSibling();
     }
     return book;

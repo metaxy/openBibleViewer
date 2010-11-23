@@ -15,43 +15,46 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QMapIterator>
 #include <QtCore/QStack>
 #include "src/core/dbghelper.h"
-VerseReplacer::VerseReplacer()
+template<class T> VerseReplacer<T>::VerseReplacer()
 {
 }
-void VerseReplacer::setInsert(const int &verseID, const int &pos, const QString &insert)
+
+template<class T> void VerseReplacer<T>::setInsert(const int &verseID, const int &pos, const T &insert)
 {
-    QMap<int, QString> m = m_inserts[verseID];
+    QMap<int, T> m = m_inserts[verseID];
     m[pos] += insert;
     m_inserts[verseID] = m;
 }
 
-void VerseReplacer::setPrepend(const int &verseID, const QString &prepend)
+template<class T> void VerseReplacer<T>::setPrepend(const int &verseID, const T &prepend)
 {
     m_prepends[verseID] = prepend + m_prepends[verseID];
 }
-void VerseReplacer::setAppend(const int &verseID, const QString &append)
+
+template<class T> void VerseReplacer<T>::setAppend(const int &verseID, const T &append)
 {
     m_appends[verseID] = m_appends[verseID] + append;
 }
 
-void VerseReplacer::exec(QStringList *list)
+
+template<class T> void VerseReplacer<T>::exec(QList<T> *list)
 {
     for(int verse = 0; verse < list->size(); verse++) {
         //myDebug() << "verse = " << verse;
         //first insert
         if(m_appends.contains(verse) || m_prepends.contains(verse) || m_inserts.contains(verse)) {
             QStack<int> posStack;
-            QStack<QString> stringStack;
-            QMapIterator<int, QString> i(m_inserts.value(verse));
+            QStack<T> stringStack;
+            QMapIterator<int, T> i(m_inserts.value(verse));
             while(i.hasNext()) {
                 i.next();
                 posStack.push(i.key());
                 stringStack.push(i.value());
             }
-            QString vers = list->at(verse);
+            T vers = list->at(verse);
             while(!posStack.isEmpty()) {
                 int pos = posStack.pop();
-                QString in = stringStack.pop();
+                T in = stringStack.pop();
                 //myDebug() << "pos = " << pos << " in = " << in;
                 vers.insert(pos, in);
             }

@@ -42,7 +42,7 @@ void Book::setID(const int &id)
     m_id = id;
 }
 
-void Book::id()
+int Book::bookID()
 {
     return m_id;
 }
