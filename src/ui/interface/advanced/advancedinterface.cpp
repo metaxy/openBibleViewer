@@ -1143,7 +1143,7 @@ VerseSelection AdvancedInterface::verseSelection()
     VerseSelection s;
     if(!f)
         return s;
-
+/*
     f->evaluateJavaScript("var verseSelection = new VerseSelection();verseSelection.getSelection();");
     s.startVerse = f->evaluateJavaScript("verseSelection.startVerse;").toInt();
     s.endVerse = f->evaluateJavaScript("verseSelection.endVerse;").toInt();

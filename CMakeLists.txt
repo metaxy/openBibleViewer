@@ -130,6 +130,7 @@ set ( openBibleViewer_HDRS
     src/core/bible/ranges.h
     src/core/bible/rangeenum.h
     src/core/bible/textrange.h
+    src/core/bible/textranges.h
     src/core/bible/verse.h
 
 
@@ -187,6 +188,7 @@ set ( openBibleViewer_SRCS
     src/api/bibleapi.cpp
     src/api/notesapi.cpp
 
+    src/core/bible/chapter.cpp
     src/core/bible/book.cpp
     src/core/bible/bibleurl.cpp
     src/core/bible/bibledisplay.cpp
@@ -195,6 +197,7 @@ set ( openBibleViewer_SRCS
     src/core/bible/ranges.cpp
     src/core/bible/rangeenum.cpp
     src/core/bible/textrange.cpp
+    src/core/bible/textranges.cpp
     src/core/bible/verse.cpp
 
     src/core/faststart.cpp
