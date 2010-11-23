@@ -263,13 +263,12 @@ int BibleQuote::readBook(const int &id)
     //todo: its slow
     for(int i = 1/* why 1?*/; i < chapterText.size(); i++) {
         Chapter c;
-        QString a = chapterText.at(i);
-        QStringList b = a.split(m_verseSign);
-        for(int j = 0; j < b.size(); j++) { //split removes versesign but it is needed
-            QString v = b.at(j);
-            b.replace(j, v.prepend(m_verseSign));
+        QStringList rawVerseList = chapterText.at(i).split(m_verseSign);
+        for(int j = 0; j < rawVerseList.size(); j++) { //split removes versesign but it is needed
+            QString verseText = rawVerseList.at(j);
+            Verse v(j,verseText.prepend(m_verseSign));
+            c.addVerse(j,v);
         }
-        c.data << b;
         m_book.addChapter(i, c);
     }
     file.close();
@@ -278,7 +277,7 @@ int BibleQuote::readBook(const int &id)
 }
 QString BibleQuote::indexPath() const
 {
-    return  m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
+    return m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
 }
 bool BibleQuote::hasIndex() const
 {

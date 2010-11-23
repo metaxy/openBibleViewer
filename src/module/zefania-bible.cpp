@@ -111,6 +111,7 @@ int ZefaniaBible::readBook(const int &id)
         Chapter c(chapterCounter);
         outtext = "";
         QDomNode n2 = n.firstChild();
+        int verseCount = 0;
         while(!n2.isNull()) {  //alle verse
             QDomElement e2 = n2.toElement();
             format(&e2);
@@ -118,6 +119,7 @@ int ZefaniaBible::readBook(const int &id)
                 const int verseID = e2.attribute("vnumber", QString::number(verseCount)).toInt();
                 Verse verse(verseID, e2.text());
                 c.addVerse(verseID,verse);
+                verseCount++;
             } //todo: all other data
             n2 = n2.nextSibling();
         }
@@ -143,6 +145,7 @@ Book ZefaniaBible::fromHardToSoft(const int &bookID, const QDomNode *ncache)
     for(chapterCounter = 0; !n.isNull(); ++chapterCounter) {
         Chapter c(chapterCounter);
         QDomNode n2 = n.firstChild();
+        int verseCount = 0;
         while(!n2.isNull()) {  //alle verse
             QDomElement e2 = n2.toElement();
             format(&e2);
@@ -150,6 +153,7 @@ Book ZefaniaBible::fromHardToSoft(const int &bookID, const QDomNode *ncache)
                 const int verseID = e2.attribute("vnumber", QString::number(verseCount)).toInt();
                 Verse verse(verseID, e2.text());
                 c.addVerse(verseID,verse);
+                verseCount++;
             } //todo: all other data
             n2 = n2.nextSibling();
         }
