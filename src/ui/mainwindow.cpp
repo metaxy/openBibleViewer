@@ -110,37 +110,37 @@ void MainWindow::deleteInterface()
     if(m_interface->hasMenuBar()) {
         delete m_menuBar;
     }
+    /*
+        if(typeid(*m_interface) == typeid(SimpleInterface)) {
+            //myDebug() << "delete simpleInterface";
 
-    if(typeid(*m_interface) == typeid(SimpleInterface)) {
-        //myDebug() << "delete simpleInterface";
+            if(m_interface->m_moduleDockWidget) {
+                removeDockWidget(m_interface->m_moduleDockWidget);
+            }
+            if(m_interface->m_bookDockWidget) {
+                removeDockWidget(m_interface->m_bookDockWidget);
+            }
+            if(m_interface->m_searchResultDockWidget)
+                removeDockWidget(m_interface->m_searchResultDockWidget);
 
-        if(m_interface->m_moduleDockWidget) {
-            removeDockWidget(m_interface->m_moduleDockWidget);
-        }
-        if(m_interface->m_bookDockWidget) {
-            removeDockWidget(m_interface->m_bookDockWidget);
-        }
-        if(m_interface->m_searchResultDockWidget)
-            removeDockWidget(m_interface->m_searchResultDockWidget);
+        } else if(typeid(*m_interface) == typeid(AdvancedInterface)) {
+            //myDebug() << "delete advacedinterface";
+            if(m_interface->m_moduleDockWidget)
+                removeDockWidget(m_interface->m_moduleDockWidget);
+            if(m_interface->m_bookDockWidget)
+                removeDockWidget(m_interface->m_bookDockWidget);
+            if(m_interface->m_advancedSearchResultDockWidget)
+                removeDockWidget(m_interface->m_advancedSearchResultDockWidget);
 
-    } else if(typeid(*m_interface) == typeid(AdvancedInterface)) {
-        //myDebug() << "delete advacedinterface";
-        if(m_interface->m_moduleDockWidget)
-            removeDockWidget(m_interface->m_moduleDockWidget);
-        if(m_interface->m_bookDockWidget)
-            removeDockWidget(m_interface->m_bookDockWidget);
-        if(m_interface->m_advancedSearchResultDockWidget)
-            removeDockWidget(m_interface->m_advancedSearchResultDockWidget);
-
-        if(m_interface->m_notesDockWidget)
-            removeDockWidget(m_interface->m_notesDockWidget);
-        if(m_interface->m_bookmarksDockWidget)
-            removeDockWidget(m_interface->m_bookmarksDockWidget);
-        if(m_interface->m_dictionaryDockWidget)
-            removeDockWidget(m_interface->m_dictionaryDockWidget);
-        if(m_interface->m_quickJumpDockWidget)
-            removeDockWidget(m_interface->m_quickJumpDockWidget);
-    }
+            if(m_interface->m_notesDockWidget)
+                removeDockWidget(m_interface->m_notesDockWidget);
+            if(m_interface->m_bookmarksDockWidget)
+                removeDockWidget(m_interface->m_bookmarksDockWidget);
+            if(m_interface->m_dictionaryDockWidget)
+                removeDockWidget(m_interface->m_dictionaryDockWidget);
+            if(m_interface->m_quickJumpDockWidget)
+                removeDockWidget(m_interface->m_quickJumpDockWidget);
+        }*/
     //todo: why not?
     /*if(m_interface != 0) {
         delete m_interface;
@@ -160,19 +160,6 @@ void MainWindow::loadSimpleInterface()
     m_interface = new SimpleInterface(this);
     setAll(m_interface);
 
-    ModuleDockWidget *moduleDockWidget = new ModuleDockWidget(this);
-    m_interface->setModuleDockWidget(moduleDockWidget);
-    addDockWidget(Qt::LeftDockWidgetArea, moduleDockWidget);
-
-    BookDockWidget *bookDockWidget = new BookDockWidget(this);
-    m_interface->setBookDockWidget(bookDockWidget);
-    addDockWidget(Qt::LeftDockWidgetArea, bookDockWidget);
-
-    SearchResultDockWidget *searchResultDockWidget = new SearchResultDockWidget(this);
-    m_interface->setSearchResultDockWidget(searchResultDockWidget);
-    addDockWidget(Qt::LeftDockWidgetArea, searchResultDockWidget);
-
-
     setCentralWidget(m_interface);
 
     if(m_interface->hasMenuBar()) {
@@ -188,6 +175,12 @@ void MainWindow::loadSimpleInterface()
     connect(this, SIGNAL(settingsChanged(Settings, Settings, bool)), m_interface, SLOT(settingsChanged(Settings, Settings, bool)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
     m_interface->init();
+
+    QHashIterator<DockWidget *, Qt::DockWidgetArea> i(m_interface->docks());
+    while(i.hasNext()) {
+        i.next();
+        addDockWidget(i.value(),i.key());
+    }
 }
 
 void MainWindow::loadAdvancedInterface()
@@ -196,35 +189,6 @@ void MainWindow::loadAdvancedInterface()
     m_interface = new AdvancedInterface(this);
     setAll(m_interface);
 
-    ModuleDockWidget *moduleDockWidget = new ModuleDockWidget(this);
-    m_interface->setModuleDockWidget(moduleDockWidget);
-    addDockWidget(Qt::LeftDockWidgetArea, moduleDockWidget);
-
-    BookDockWidget *bookDockWidget = new BookDockWidget(this);
-    m_interface->setBookDockWidget(bookDockWidget);
-    addDockWidget(Qt::LeftDockWidgetArea, bookDockWidget);
-
-    AdvancedSearchResultDockWidget *advancedSearchResultDockWidget = new AdvancedSearchResultDockWidget(this);
-    m_interface->setAdvancedSearchResultDockWidget(advancedSearchResultDockWidget);
-    addDockWidget(Qt::LeftDockWidgetArea, advancedSearchResultDockWidget);
-
-    NotesDockWidget *notesDockWidget = new NotesDockWidget(this);
-    m_interface->setNotesDockWidget(notesDockWidget);
-    addDockWidget(Qt::RightDockWidgetArea, notesDockWidget);
-
-    BookmarksDockWidget *bookmarksDockWidget = new BookmarksDockWidget(this);
-    m_interface->setBookmarksDockWidget(bookmarksDockWidget);
-    addDockWidget(Qt::RightDockWidgetArea, bookmarksDockWidget);
-
-    DictionaryDockWidget *dictionaryDockWidget = new DictionaryDockWidget(this);
-    m_interface->setDictionaryDockWidget(dictionaryDockWidget);
-    addDockWidget(Qt::RightDockWidgetArea, dictionaryDockWidget);
-
-    QuickJumpDockWidget *quickJumpDockWidget = new QuickJumpDockWidget(this);
-    m_interface->setQuickJumpDockWidget(quickJumpDockWidget);
-    addDockWidget(Qt::RightDockWidgetArea, quickJumpDockWidget);
-
-
     setCentralWidget(m_interface);
     if(m_interface->hasMenuBar()) {
         m_menuBar = m_interface->menuBar();
@@ -239,6 +203,13 @@ void MainWindow::loadAdvancedInterface()
     connect(this, SIGNAL(settingsChanged(Settings, Settings, bool)), m_interface, SLOT(settingsChanged(Settings, Settings, bool)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
     m_interface->init();
+
+    QHashIterator<DockWidget *, Qt::DockWidgetArea> i(m_interface->docks());
+    while(i.hasNext()) {
+        i.next();
+        addDockWidget(i.value(),i.key());
+    }
+
     QTimer::singleShot(0, m_interface, SLOT(restoreSession()));
 
 }

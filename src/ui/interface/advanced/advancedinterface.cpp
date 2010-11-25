@@ -65,43 +65,9 @@ AdvancedInterface::~AdvancedInterface()
     }
 }
 
-void AdvancedInterface::setBookDockWidget(BookDockWidget *bookDockWidget)
-{
-    m_bookDockWidget = bookDockWidget;
-}
-
-void AdvancedInterface::setModuleDockWidget(ModuleDockWidget *moduleDockWidget)
-{
-    m_moduleDockWidget = moduleDockWidget;
-}
-
-void AdvancedInterface::setAdvancedSearchResultDockWidget(AdvancedSearchResultDockWidget *advancedSearchResultDockWidget)
-{
-    m_advancedSearchResultDockWidget = advancedSearchResultDockWidget;
-}
-
-void AdvancedInterface::setNotesDockWidget(NotesDockWidget *notesDockWidget)
-{
-    m_notesDockWidget = notesDockWidget;
-}
-
-void AdvancedInterface::setBookmarksDockWidget(BookmarksDockWidget *bookmarksDockWidget)
-{
-    m_bookmarksDockWidget = bookmarksDockWidget;
-}
-
-void AdvancedInterface::setDictionaryDockWidget(DictionaryDockWidget *dictionaryDockWidget)
-{
-    m_dictionaryDockWidget = dictionaryDockWidget;
-}
-
-void AdvancedInterface::setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget)
-{
-    m_quickJumpDockWidget = quickJumpDockWidget;
-}
-
 void AdvancedInterface::init()
 {
+    DEBUG_FUNC_NAME
     m_bibleDisplaySettings = new BibleDisplaySettings();
     m_bibleDisplaySettings->setShowMarks(true);
     m_bibleDisplaySettings->setShowNotes(true);
@@ -112,19 +78,23 @@ void AdvancedInterface::init()
     connect(m_bibleDisplay, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
     connect(m_bibleDisplay, SIGNAL(get(QUrl)), this, SLOT(pharseUrl(QUrl)));
 
+    m_moduleDockWidget = new ModuleDockWidget(this->parentWidget());
     setAll(m_moduleDockWidget);
     m_moduleDockWidget->init();
     connect(m_moduleDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
+    m_bookDockWidget = new BookDockWidget(this->parentWidget());
     setAll(m_bookDockWidget);
     m_bookDockWidget->hide();
     connect(m_bookDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
+    m_advancedSearchResultDockWidget = new AdvancedSearchResultDockWidget(this->parentWidget());
     setAll(m_advancedSearchResultDockWidget);
     m_advancedSearchResultDockWidget->init();
     m_advancedSearchResultDockWidget->hide();
     connect(m_advancedSearchResultDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
+    m_notesDockWidget = new NotesDockWidget(this->parentWidget());
     setAll(m_notesDockWidget);
     m_notesDockWidget->init();
     m_notesDockWidget->hide();
@@ -132,17 +102,19 @@ void AdvancedInterface::init()
     connect(m_notesDockWidget, SIGNAL(reloadChapter()), this, SLOT(reloadChapter()));
     connect(m_notesDockWidget, SIGNAL(visibilityChanged(bool)), m_mainBarActionNotes, SLOT(setChecked(bool)));
 
+    m_bookmarksDockWidget = new BookmarksDockWidget(this->parentWidget());
     setAll(m_bookmarksDockWidget);
     m_bookmarksDockWidget->init();
     m_bookmarksDockWidget->hide();
     connect(m_bookmarksDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
     connect(m_bookmarksDockWidget, SIGNAL(visibilityChanged(bool)), m_mainBarActionBookmarks, SLOT(setChecked(bool)));
 
-
+    m_dictionaryDockWidget = new DictionaryDockWidget(this->parentWidget());
     setAll(m_dictionaryDockWidget);
     m_dictionaryDockWidget->init();
     m_dictionaryDockWidget->hide();
 
+    m_quickJumpDockWidget = new QuickJumpDockWidget(this->parentWidget());
     setAll(m_quickJumpDockWidget);
     m_quickJumpDockWidget->init();
     m_quickJumpDockWidget->hide();
@@ -166,6 +138,20 @@ void AdvancedInterface::init()
 
 
 }
+QHash<DockWidget*, Qt::DockWidgetArea> AdvancedInterface::docks()
+{
+    DEBUG_FUNC_NAME
+    QHash<DockWidget *, Qt::DockWidgetArea> ret;
+    ret.insert(m_advancedSearchResultDockWidget, Qt::LeftDockWidgetArea);
+    ret.insert(m_bookDockWidget, Qt::LeftDockWidgetArea);
+    ret.insert(m_moduleDockWidget, Qt::LeftDockWidgetArea);
+    ret.insert(m_notesDockWidget, Qt::RightDockWidgetArea);
+    ret.insert(m_bookmarksDockWidget, Qt::RightDockWidgetArea);
+    ret.insert(m_dictionaryDockWidget, Qt::BottomDockWidgetArea);
+    ret.insert(m_quickJumpDockWidget, Qt::RightDockWidgetArea);
+    return ret;
+
+}
 /*
  * Todo: Use it
  */
@@ -175,6 +161,7 @@ void AdvancedInterface::installResizeFilter()
     connect(m_mdiAreaFilter, SIGNAL(resized()), this, SLOT(mdiAreaResized()));
     ui->mdiArea->installEventFilter(m_mdiAreaFilter);
 }
+
 
 void AdvancedInterface::attachApi()
 {
@@ -1143,138 +1130,138 @@ VerseSelection AdvancedInterface::verseSelection()
     VerseSelection s;
     if(!f)
         return s;
-/*
-    f->evaluateJavaScript("var verseSelection = new VerseSelection();verseSelection.getSelection();");
-    s.startVerse = f->evaluateJavaScript("verseSelection.startVerse;").toInt();
-    s.endVerse = f->evaluateJavaScript("verseSelection.endVerse;").toInt();
-    s.moduleID = f->evaluateJavaScript("verseSelection.moduleID;").toInt();
-    s.bookID  = f->evaluateJavaScript("verseSelection.bookID;").toInt();
-    s.chapterID = f->evaluateJavaScript("verseSelection.chapterID;").toInt();
-    Chapter c = m_moduleManager->bible()->rawChapter();
+    /*
+        f->evaluateJavaScript("var verseSelection = new VerseSelection();verseSelection.getSelection();");
+        s.startVerse = f->evaluateJavaScript("verseSelection.startVerse;").toInt();
+        s.endVerse = f->evaluateJavaScript("verseSelection.endVerse;").toInt();
+        s.moduleID = f->evaluateJavaScript("verseSelection.moduleID;").toInt();
+        s.bookID  = f->evaluateJavaScript("verseSelection.bookID;").toInt();
+        s.chapterID = f->evaluateJavaScript("verseSelection.chapterID;").toInt();
+        Chapter c = m_moduleManager->bible()->rawChapter();
 
-    const QString startVerseText = c.data.at(s.startVerse);
-    QString endVerseText;
-    if(s.startVerse != s.endVerse)
-        endVerseText = c.data.at(s.endVerse);
-    else
-        endVerseText = startVerseText;
+        const QString startVerseText = c.data.at(s.startVerse);
+        QString endVerseText;
+        if(s.startVerse != s.endVerse)
+            endVerseText = c.data.at(s.endVerse);
+        else
+            endVerseText = startVerseText;
 
-    const QString selectedText = f->evaluateJavaScript("verseSelection.selectedText;").toString();
+        const QString selectedText = f->evaluateJavaScript("verseSelection.selectedText;").toString();
 
-    myDebug() << "startVerseText = " << startVerseText;
-    myDebug() << "endVerseText = " << endVerseText;
-    {
-        QString sText;
-        for(int i = 0; i < selectedText.size() - 1; i++) {
-            sText += selectedText.at(i);
-            const int pos = startVerseText.indexOf(sText);
-            if(pos != -1 && startVerseText.lastIndexOf(sText) == pos) {
-                s.shortestStringInStartVerse = sText;
-                break;
-            }
-        }
-        if(s.shortestStringInStartVerse.isEmpty() && s.startVerse != s.endVerse) {
-            //find the last long string if the selection is over more than one verse long
-            QString lastLongest = selectedText;
-            int lastPos = -2;
-            for(int i = selectedText.size() - 1; i > 0; i--) {
-                const int pos = startVerseText.lastIndexOf(lastLongest);
-                if(pos != -1) {
-                    lastPos = pos;
-                    break;
-                }
-                lastLongest.remove(i, selectedText.size());
-            }
-            //and shorten it
-            sText.clear();
+        myDebug() << "startVerseText = " << startVerseText;
+        myDebug() << "endVerseText = " << endVerseText;
+        {
+            QString sText;
             for(int i = 0; i < selectedText.size() - 1; i++) {
                 sText += selectedText.at(i);
-                const int pos = startVerseText.lastIndexOf(sText);
-                if(pos != -1 && lastPos == pos) {
+                const int pos = startVerseText.indexOf(sText);
+                if(pos != -1 && startVerseText.lastIndexOf(sText) == pos) {
                     s.shortestStringInStartVerse = sText;
                     break;
                 }
             }
-
-
-        }
-        sText.clear();
-        for(int i = 0; i < selectedText.size() - 1; i++) {
-            sText.prepend(selectedText.at(selectedText.size() - i - 1));
-            const int pos = endVerseText.indexOf(sText);
-            if(pos != -1 && endVerseText.lastIndexOf(sText) == pos) {
-                s.shortestStringInEndVerse = sText;
-                break;
-            }
-        }
-        if(s.shortestStringInEndVerse.isEmpty() && s.startVerse != s.endVerse) {
-            //find the first longest string if the selection is over more than one verse long
-            QString firstLongest = selectedText;
-            int firstPos = -2;
-            for(int i = 0; i < selectedText.size(); i++) {
-                const int pos = endVerseText.indexOf(firstLongest);
-                if(pos != -1) {
-                    firstPos = pos;
-                    break;
+            if(s.shortestStringInStartVerse.isEmpty() && s.startVerse != s.endVerse) {
+                //find the last long string if the selection is over more than one verse long
+                QString lastLongest = selectedText;
+                int lastPos = -2;
+                for(int i = selectedText.size() - 1; i > 0; i--) {
+                    const int pos = startVerseText.lastIndexOf(lastLongest);
+                    if(pos != -1) {
+                        lastPos = pos;
+                        break;
+                    }
+                    lastLongest.remove(i, selectedText.size());
                 }
-                firstLongest.remove(0, 1);
+                //and shorten it
+                sText.clear();
+                for(int i = 0; i < selectedText.size() - 1; i++) {
+                    sText += selectedText.at(i);
+                    const int pos = startVerseText.lastIndexOf(sText);
+                    if(pos != -1 && lastPos == pos) {
+                        s.shortestStringInStartVerse = sText;
+                        break;
+                    }
+                }
+
+
             }
-            //and shorten it
             sText.clear();
             for(int i = 0; i < selectedText.size() - 1; i++) {
                 sText.prepend(selectedText.at(selectedText.size() - i - 1));
                 const int pos = endVerseText.indexOf(sText);
-                if(pos != -1 && firstPos == pos) {
+                if(pos != -1 && endVerseText.lastIndexOf(sText) == pos) {
                     s.shortestStringInEndVerse = sText;
                     break;
                 }
             }
+            if(s.shortestStringInEndVerse.isEmpty() && s.startVerse != s.endVerse) {
+                //find the first longest string if the selection is over more than one verse long
+                QString firstLongest = selectedText;
+                int firstPos = -2;
+                for(int i = 0; i < selectedText.size(); i++) {
+                    const int pos = endVerseText.indexOf(firstLongest);
+                    if(pos != -1) {
+                        firstPos = pos;
+                        break;
+                    }
+                    firstLongest.remove(0, 1);
+                }
+                //and shorten it
+                sText.clear();
+                for(int i = 0; i < selectedText.size() - 1; i++) {
+                    sText.prepend(selectedText.at(selectedText.size() - i - 1));
+                    const int pos = endVerseText.indexOf(sText);
+                    if(pos != -1 && firstPos == pos) {
+                        s.shortestStringInEndVerse = sText;
+                        break;
+                    }
+                }
+            }
+            s.type = VerseSelection::ShortestString;
+            if(s.shortestStringInStartVerse.isEmpty() || s.shortestStringInEndVerse.isEmpty()) {
+                s.setCanBeUsedForMarks(false);
+            } else {
+                s.setCanBeUsedForMarks(true);
+            }
         }
-        s.type = VerseSelection::ShortestString;
-        if(s.shortestStringInStartVerse.isEmpty() || s.shortestStringInEndVerse.isEmpty()) {
-            s.setCanBeUsedForMarks(false);
-        } else {
-            s.setCanBeUsedForMarks(true);
-        }
-    }
-    myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
-    //todo: 0.6
-    /* if(s.canBeUsedForMarks() == false) {
-         //now the ultimative alogrithm
-         f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection();adVerseSelection.getSelection();");
-         const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
+        myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
+        //todo: 0.6
+        /* if(s.canBeUsedForMarks() == false) {
+             //now the ultimative alogrithm
+             f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection();adVerseSelection.getSelection();");
+             const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
 
-         const QString uniqueString = "!-_OPENBIBLEVIEWER_INSERT_-!";
-         int posOfInsert = startVerseText2.lastIndexOf(uniqueString);
+             const QString uniqueString = "!-_OPENBIBLEVIEWER_INSERT_-!";
+             int posOfInsert = startVerseText2.lastIndexOf(uniqueString);
 
-         QString back = selectedText;
-         QString longestString;
-         for(int i = selectedText.size()-1; i > 0; i--) {
-             const int pos = startVerseText2.indexOf(back);
-             if(pos != -1) {
-                 longestString = back;
-                 break;
+             QString back = selectedText;
+             QString longestString;
+             for(int i = selectedText.size()-1; i > 0; i--) {
+                 const int pos = startVerseText2.indexOf(back);
+                 if(pos != -1) {
+                     longestString = back;
+                     break;
+                 }
+                 back.remove(i,selectedText.size());
              }
-             back.remove(i,selectedText.size());
-         }
 
-         int count = 0;
-         int currentPos = 0;
-         while(true) {
-             currentPos = startVerseText2.indexOf(longestString,currentPos+1);
-             if(currentPos > posOfInsert || currentPos == -1) {
-                 break;
+             int count = 0;
+             int currentPos = 0;
+             while(true) {
+                 currentPos = startVerseText2.indexOf(longestString,currentPos+1);
+                 if(currentPos > posOfInsert || currentPos == -1) {
+                     break;
+                 }
+                 count++;
              }
-             count++;
-         }
-         s.type = VerseSelection::RepeatOfLongestString;
-         s.repeat = count;
-         s.longestString = longestString;
-         //s.setCanBeUsedForMarks(true);
-         //todo: end
-         //myDebug() << longestString << " count = " << count;
+             s.type = VerseSelection::RepeatOfLongestString;
+             s.repeat = count;
+             s.longestString = longestString;
+             //s.setCanBeUsedForMarks(true);
+             //todo: end
+             //myDebug() << longestString << " count = " << count;
 
-     }*/
+         }*/
     return s;
 }
 

@@ -9,5 +9,5 @@ void TextRanges::addTextRange(const TextRange &range)
 }
 QList<TextRange> TextRanges::textRanges()
 {
-     return m_ranges;
+    return m_ranges;
 }

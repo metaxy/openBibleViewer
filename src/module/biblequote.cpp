@@ -266,8 +266,8 @@ int BibleQuote::readBook(const int &id)
         QStringList rawVerseList = chapterText.at(i).split(m_verseSign);
         for(int j = 0; j < rawVerseList.size(); j++) { //split removes versesign but it is needed
             QString verseText = rawVerseList.at(j);
-            Verse v(j,verseText.prepend(m_verseSign));
-            c.addVerse(j,v);
+            Verse v(j, verseText.prepend(m_verseSign));
+            c.addVerse(j, v);
         }
         m_book.addChapter(i, c);
     }

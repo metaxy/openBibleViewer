@@ -21,7 +21,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 /**
  Chapter represents a bible chapter
 */
-class Chapter {
+class Chapter
+{
 public:
     Chapter();
     Chapter(const int &chapterID);

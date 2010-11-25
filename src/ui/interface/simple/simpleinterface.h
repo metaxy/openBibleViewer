@@ -43,9 +43,7 @@ private slots:
 public:
     SimpleInterface(QWidget *parent = 0);
     ~SimpleInterface();
-    void setModuleDockWidget(ModuleDockWidget *moduleDockWidget);
-    void setBookDockWidget(BookDockWidget *bookDockWidget);
-    void setSearchResultDockWidget(SearchResultDockWidget *searchResultDockWidget);
+    QHash<DockWidget *, Qt::DockWidgetArea> docks();
     void init();
     void loadModuleDataByID(int id);
 
@@ -76,6 +74,9 @@ private:
     void showChapter(int chapterID, int verseID);
     void nextChapter();
     void previousChapter();
+    ModuleDockWidget *m_moduleDockWidget;
+    BookDockWidget *m_bookDockWidget;
+    SearchResultDockWidget *m_searchResultDockWidget;
 };
 
 #endif // SIMPLEINTERFACE_H

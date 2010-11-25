@@ -118,7 +118,7 @@ int ZefaniaBible::readBook(const int &id)
             if(e2.tagName().toLower() == "vers") { // read only verse
                 const int verseID = e2.attribute("vnumber", QString::number(verseCount)).toInt();
                 Verse verse(verseID, e2.text());
-                c.addVerse(verseID,verse);
+                c.addVerse(verseID, verse);
                 verseCount++;
             } //todo: all other data
             n2 = n2.nextSibling();
@@ -152,7 +152,7 @@ Book ZefaniaBible::fromHardToSoft(const int &bookID, const QDomNode *ncache)
             if(e2.tagName().toLower() == "vers") { // read only verse
                 const int verseID = e2.attribute("vnumber", QString::number(verseCount)).toInt();
                 Verse verse(verseID, e2.text());
-                c.addVerse(verseID,verse);
+                c.addVerse(verseID, verse);
                 verseCount++;
             } //todo: all other data
             n2 = n2.nextSibling();

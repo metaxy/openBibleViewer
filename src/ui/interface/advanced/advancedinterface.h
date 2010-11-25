@@ -121,14 +121,7 @@ public:
     QMenuBar* menuBar();
     bool hasToolBar();
     QList<QToolBar*> toolBars();
-    void setBookDockWidget(BookDockWidget *bookDockWidget);
-    void setModuleDockWidget(ModuleDockWidget *moduleDockWidget);
-    //void setSearchResultDockWidget(SearchResultDockWidget *searchResultDockWidget);
-    void setAdvancedSearchResultDockWidget(AdvancedSearchResultDockWidget *advancedSearchResultDockWidget);
-    void setNotesDockWidget(NotesDockWidget *notesDockWidget);
-    void setBookmarksDockWidget(BookmarksDockWidget *boockmarksDockWidget);
-    void setDictionaryDockWidget(DictionaryDockWidget *dictionaryDockWidget);
-    void setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget);
+    QHash<DockWidget *, Qt::DockWidgetArea> docks();
 
 
 
@@ -193,6 +186,14 @@ private:
     QAction *m_mainBarActionZoomIn;
     QAction *m_mainBarActionZoomOut;
     QAction *m_mainBarActionModule;
+
+    AdvancedSearchResultDockWidget *m_advancedSearchResultDockWidget;
+    BookDockWidget *m_bookDockWidget;
+    ModuleDockWidget *m_moduleDockWidget;
+    NotesDockWidget *m_notesDockWidget;
+    BookmarksDockWidget * m_bookmarksDockWidget;
+    DictionaryDockWidget * m_dictionaryDockWidget;
+    QuickJumpDockWidget * m_quickJumpDockWidget;
 
 
 };

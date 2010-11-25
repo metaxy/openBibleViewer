@@ -20,7 +20,7 @@ QString TextRange::join(const QString &seperator)
 {
     QString out;
     for(int i = 0; i < m_verse.size(); i++) {
-        out += m_verse.at(i).data() + (i == m_verse.size() -1 ? "" : seperator);
+        out += m_verse.at(i).data() + (i == m_verse.size() - 1 ? "" : seperator);
     }
     return out;
 }

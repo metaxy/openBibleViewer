@@ -20,7 +20,7 @@ void Ranges::addRange(Range range)
 {
     m_ranges << range;
 }
- QList<Range> Ranges::getList() const
- {
-     return m_ranges;
- }
+QList<Range> Ranges::getList() const
+{
+    return m_ranges;
+}

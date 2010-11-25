@@ -45,7 +45,11 @@ public:
     virtual QList<QToolBar*> toolBars();
 
     virtual void init();
-
+    virtual QHash<DockWidget *, Qt::DockWidgetArea> docks();
+    virtual void createDocks();
+    virtual void createToolBars();
+    virtual void createMenu();
+    /*
     virtual void setBookDockWidget(BookDockWidget *bookDockWidget);
     virtual void setModuleDockWidget(ModuleDockWidget *moduleDockWidget);
     virtual void setSearchResultDockWidget(SearchResultDockWidget *searchResultDockWidget);
@@ -53,16 +57,9 @@ public:
     virtual void setNotesDockWidget(NotesDockWidget *notesDockWidget);
     virtual void setBookmarksDockWidget(BookmarksDockWidget *boockmarksDockWidget);
     virtual void setDictionaryDockWidget(DictionaryDockWidget *dictonaryDockWidget);
-    virtual void setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget);
+    virtual void setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget);*/
 
-    SearchResultDockWidget *m_searchResultDockWidget;
-    AdvancedSearchResultDockWidget *m_advancedSearchResultDockWidget;
-    BookDockWidget *m_bookDockWidget;
-    ModuleDockWidget *m_moduleDockWidget;
-    NotesDockWidget *m_notesDockWidget;
-    BookmarksDockWidget * m_bookmarksDockWidget;
-    DictionaryDockWidget * m_dictionaryDockWidget;
-    QuickJumpDockWidget * m_quickJumpDockWidget;
+
 
 };
 

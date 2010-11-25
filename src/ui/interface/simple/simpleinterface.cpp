@@ -33,19 +33,6 @@ SimpleInterface::SimpleInterface(QWidget *parent) :
     connect(ui->textBrowser, SIGNAL(anchorClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
 
 }
-void SimpleInterface::setBookDockWidget(BookDockWidget *bookDockWidget)
-{
-    m_bookDockWidget = bookDockWidget;
-}
-void SimpleInterface::setModuleDockWidget(ModuleDockWidget *moduleDockWidget)
-{
-    m_moduleDockWidget = moduleDockWidget;
-}
-void SimpleInterface::setSearchResultDockWidget(SearchResultDockWidget *searchResultDockWidget)
-{
-    m_searchResultDockWidget = searchResultDockWidget;
-}
-
 void SimpleInterface::init()
 {
     BibleDisplaySettings *bibleDisplaySettings = new BibleDisplaySettings();
@@ -60,19 +47,31 @@ void SimpleInterface::init()
     m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
 
     m_moduleManager->bible()->setSettings(m_settings);
+    m_moduleDockWidget = new ModuleDockWidget(this->parentWidget());
     setAll(m_moduleDockWidget);
     m_moduleDockWidget->init();
     connect(m_moduleDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
+    m_bookDockWidget = new BookDockWidget(this->parentWidget());
     setAll(m_bookDockWidget);
     connect(m_bookDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
+    m_searchResultDockWidget = new SearchResultDockWidget(this->parentWidget());
     setAll(m_searchResultDockWidget);
     m_searchResultDockWidget->hide();
     connect(m_searchResultDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+
+}
+QHash<DockWidget*, Qt::DockWidgetArea> SimpleInterface::docks()
+{
+    QHash<DockWidget *, Qt::DockWidgetArea> ret;
+    ret.insert(m_searchResultDockWidget, Qt::RightDockWidgetArea);
+    ret.insert(m_bookDockWidget, Qt::LeftDockWidgetArea);
+    ret.insert(m_moduleDockWidget, Qt::LeftDockWidgetArea);
+    return ret;
 
 }
 bool SimpleInterface::hasMenuBar()
