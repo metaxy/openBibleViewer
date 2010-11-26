@@ -121,14 +121,13 @@ void AdvancedInterface::createDocks()
     m_notesDockWidget->hide();
     connect(m_notesDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
     connect(m_notesDockWidget, SIGNAL(reloadChapter()), this, SLOT(reloadChapter()));
-    connect(m_notesDockWidget, SIGNAL(visibilityChanged(bool)), m_mainBarActionNotes, SLOT(setChecked(bool)));
 
     m_bookmarksDockWidget = new BookmarksDockWidget(this->parentWidget());
     setAll(m_bookmarksDockWidget);
     m_bookmarksDockWidget->init();
     m_bookmarksDockWidget->hide();
     connect(m_bookmarksDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
-    connect(m_bookmarksDockWidget, SIGNAL(visibilityChanged(bool)), m_mainBarActionBookmarks, SLOT(setChecked(bool)));
+
 
     m_dictionaryDockWidget = new DictionaryDockWidget(this->parentWidget());
     setAll(m_dictionaryDockWidget);
@@ -1990,10 +1989,14 @@ void AdvancedInterface::createToolBars()
     m_mainBarActionBookmarks = new QAction(QIcon::fromTheme("bookmarks-organize", QIcon(":/icons/16x16/bookmarks-organize.png")), tr("Bookmarks"), m_mainBar);
     connect(m_mainBarActionBookmarks, SIGNAL(triggered()), this, SLOT(showBookmarksDock()));
     m_mainBarActionBookmarks->setCheckable(true);
+    connect(m_bookmarksDockWidget, SIGNAL(visibilityChanged(bool)), m_mainBarActionBookmarks, SLOT(setChecked(bool)));
 
     m_mainBarActionNotes = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/16x16/view-pim-notes.png")), tr("Notes"), m_mainBar);
     connect(m_mainBarActionNotes, SIGNAL(triggered()), this, SLOT(showNotesDock()));
     m_mainBarActionNotes->setCheckable(true);
+    connect(m_notesDockWidget, SIGNAL(visibilityChanged(bool)), m_mainBarActionNotes, SLOT(setChecked(bool)));
+
+
 
 
     m_mainBarActionNewWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New Window"), m_mainBar);
