@@ -47,7 +47,6 @@ AdvancedInterface::AdvancedInterface(QWidget *parent) :
     ui(new Ui::AdvancedInterface)
 {
     ui->setupUi(this);
-    createToolBars();
     m_lastActiveWindow = -1;
 }
 
@@ -78,6 +77,28 @@ void AdvancedInterface::init()
     connect(m_bibleDisplay, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
     connect(m_bibleDisplay, SIGNAL(get(QUrl)), this, SLOT(pharseUrl(QUrl)));
 
+
+
+
+    connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+
+    m_moduleManager->setBibleDisplaySettings(m_bibleDisplaySettings);
+
+    m_bibleApi = new BibleApi();
+    setAll(m_bibleApi);
+
+    createDefaultMenu();
+    connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
+
+    if(m_settings->session.getData("windowUrls").toStringList().size() == 0)
+        QTimer::singleShot(10, this, SLOT(newSubWindow()));
+
+    //QTimer::singleShot(1000, this, SLOT(installResizeFilter()));
+
+
+}
+void AdvancedInterface::createDocks()
+{
     m_moduleDockWidget = new ModuleDockWidget(this->parentWidget());
     setAll(m_moduleDockWidget);
     m_moduleDockWidget->init();
@@ -119,25 +140,11 @@ void AdvancedInterface::init()
     m_quickJumpDockWidget->init();
     m_quickJumpDockWidget->hide();
     connect(m_quickJumpDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
-
-
-    connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
-
-    m_moduleManager->setBibleDisplaySettings(m_bibleDisplaySettings);
-
-    m_bibleApi = new BibleApi();
-    setAll(m_bibleApi);
-
-    createDefaultMenu();
-    connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
-
-    if(m_settings->session.getData("windowUrls").toStringList().size() == 0)
-        QTimer::singleShot(10, this, SLOT(newSubWindow()));
-
-    //QTimer::singleShot(1000, this, SLOT(installResizeFilter()));
-
-
 }
+void AdvancedInterface::createMenu()
+{
+}
+
 QHash<DockWidget*, Qt::DockWidgetArea> AdvancedInterface::docks()
 {
     DEBUG_FUNC_NAME

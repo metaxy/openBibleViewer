@@ -46,8 +46,17 @@ public:
 
     virtual void init();
     virtual QHash<DockWidget *, Qt::DockWidgetArea> docks();
+    /**
+      * createDocks() is called first on construction. Should on depend only on init()
+      */
     virtual void createDocks();
+    /**
+      * createToolsBars() is called second on construction. Should depend only in init() and createDocks()
+      */
     virtual void createToolBars();
+    /**
+      * createMenu() is called as last on construction. It can depend on init(), createDocks() and createToolBars()
+      */
     virtual void createMenu();
     /*
     virtual void setBookDockWidget(BookDockWidget *bookDockWidget);

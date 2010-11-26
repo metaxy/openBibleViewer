@@ -123,6 +123,10 @@ public:
     QList<QToolBar*> toolBars();
     QHash<DockWidget *, Qt::DockWidgetArea> docks();
 
+    void createDocks();
+    void createToolBars();
+    void createMenu();
+
 
 
 protected:
@@ -175,7 +179,6 @@ private:
     void createDefaultMenu();
     MdiAreaFilter *m_mdiAreaFilter;
 
-    void createToolBars();
     QToolBar *m_mainBar;
     QToolBar *m_searchBar;
 

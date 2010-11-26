@@ -35,16 +35,25 @@ QList<QToolBar *> Interface::toolBars()
 }
 void Interface::closing()
 {
-
 }
 
 void Interface::init()
 {
-
 }
 QHash<DockWidget*, Qt::DockWidgetArea> Interface::docks()
 {
     QHash<DockWidget *, Qt::DockWidgetArea> ret;
     return ret;
 
+}
+void Interface::createDocks()
+{
+}
+
+void Interface::createToolBars()
+{
+}
+
+void Interface::createMenu()
+{
 }
