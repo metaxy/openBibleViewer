@@ -46,7 +46,9 @@ public:
     QHash<DockWidget *, Qt::DockWidgetArea> docks();
     void init();
     void loadModuleDataByID(int id);
-
+    void createDocks();
+    void createToolBars();
+    void createMenu();
     bool hasMenuBar();
     QMenuBar* menuBar();
 
@@ -77,6 +79,12 @@ private:
     ModuleDockWidget *m_moduleDockWidget;
     BookDockWidget *m_bookDockWidget;
     SearchResultDockWidget *m_searchResultDockWidget;
+
+    QToolBar *m_bar;
+    QAction *m_actionSearch;
+    QAction *m_actionZoomIn;
+    QAction *m_actionZoomOut;
+    QAction *m_actionModule;
 };
 
 #endif // SIMPLEINTERFACE_H

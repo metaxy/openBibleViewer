@@ -47,6 +47,14 @@ void SimpleInterface::init()
     m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
 
     m_moduleManager->bible()->setSettings(m_settings);
+
+
+    connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
+    connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+
+}
+void SimpleInterface::createDocks()
+{
     m_moduleDockWidget = new ModuleDockWidget(this->parentWidget());
     setAll(m_moduleDockWidget);
     m_moduleDockWidget->init();
@@ -60,11 +68,36 @@ void SimpleInterface::init()
     setAll(m_searchResultDockWidget);
     m_searchResultDockWidget->hide();
     connect(m_searchResultDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
-
-    connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
-    connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
-
 }
+
+void SimpleInterface::createToolBars()
+{
+    m_bar = new QToolBar(this->parentWidget());
+    m_bar->setObjectName("mainToolBar");
+    m_bar->setIconSize(QSize(32, 32));
+    m_bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+
+    m_actionSearch = new QAction(QIcon::fromTheme("edit-find", QIcon(":/icons/32x32/edit-find.png")), tr("Search"), m_bar);
+    connect(m_actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
+    m_actionZoomIn = new QAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/32x32/zoom-in.png")), tr("Zoom In"), m_bar);
+    connect(m_actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
+    m_actionZoomOut = new QAction(QIcon::fromTheme("zoom-out", QIcon(":/icons/32x32/zoom-out.png")), tr("Zoom Out"), m_bar);
+    connect(m_actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
+    m_actionModule = new QAction(QIcon(":/icons/32x32/module.png"), tr("Module"), m_bar);
+    connect(m_actionModule, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_Module()));
+    m_bar->addAction(m_actionSearch);
+    m_bar->addSeparator();
+    m_bar->addAction(m_actionZoomIn);
+    m_bar->addAction(m_actionZoomOut);
+    m_bar->addSeparator();
+    m_bar->addAction(m_actionModule);
+}
+
+void SimpleInterface::createMenu()
+{
+    //don't have one
+}
+
 QHash<DockWidget*, Qt::DockWidgetArea> SimpleInterface::docks()
 {
     QHash<DockWidget *, Qt::DockWidgetArea> ret;
@@ -88,27 +121,8 @@ bool SimpleInterface::hasToolBar()
 }
 QList<QToolBar *> SimpleInterface::toolBars()
 {
-    QToolBar *bar = new QToolBar(this->parentWidget());
-    bar->setObjectName("mainToolBar");
-    bar->setIconSize(QSize(32, 32));
-    bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-
-    QAction *actionSearch = new QAction(QIcon::fromTheme("edit-find", QIcon(":/icons/32x32/edit-find.png")), tr("Search"), bar);
-    connect(actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
-    QAction *actionZoomIn = new QAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/32x32/zoom-in.png")), tr("Zoom In"), bar);
-    connect(actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
-    QAction *actionZoomOut = new QAction(QIcon::fromTheme("zoom-out", QIcon(":/icons/32x32/zoom-out.png")), tr("Zoom Out"), bar);
-    connect(actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
-    QAction *actionModule = new QAction(QIcon(":/icons/32x32/module.png"), tr("Module"), bar);
-    connect(actionModule, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_Module()));
-    bar->addAction(actionSearch);
-    bar->addSeparator();
-    bar->addAction(actionZoomIn);
-    bar->addAction(actionZoomOut);
-    bar->addSeparator();
-    bar->addAction(actionModule);
     QList<QToolBar *> list;
-    list.append(bar);
+    list.append(m_bar);
     return list;
 }
 void SimpleInterface::zoomIn()
@@ -423,6 +437,10 @@ void SimpleInterface::changeEvent(QEvent *e)
     switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
+        m_actionSearch->setText(tr("Search"));
+        m_actionZoomIn->setText(tr("Zoom In"));
+        m_actionZoomOut->setText(tr("Zoom Out"));
+        m_actionModule->setText(tr("Module"));
         break;
     default:
         break;

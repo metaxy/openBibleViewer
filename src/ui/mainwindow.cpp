@@ -159,8 +159,12 @@ void MainWindow::loadSimpleInterface()
     DEBUG_FUNC_NAME
     m_interface = new SimpleInterface(this);
     setAll(m_interface);
-
     setCentralWidget(m_interface);
+    m_interface->init();
+    m_interface->createDocks();
+    m_interface->createToolBars();
+    m_interface->createMenu();
+
 
     if(m_interface->hasMenuBar()) {
         m_menuBar = m_interface->menuBar();
@@ -174,7 +178,6 @@ void MainWindow::loadSimpleInterface()
     }
     connect(this, SIGNAL(settingsChanged(Settings, Settings, bool)), m_interface, SLOT(settingsChanged(Settings, Settings, bool)));
     connect(this, SIGNAL(closing()), m_interface, SLOT(closing()));
-    m_interface->init();
 
     QHashIterator<DockWidget *, Qt::DockWidgetArea> i(m_interface->docks());
     while(i.hasNext()) {
@@ -191,6 +194,7 @@ void MainWindow::loadAdvancedInterface()
     m_interface->init();
     m_interface->createDocks();
     m_interface->createToolBars();
+    m_interface->createMenu();
     setCentralWidget(m_interface);
     if(m_interface->hasMenuBar()) {
         m_menuBar = m_interface->menuBar();
