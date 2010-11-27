@@ -1996,9 +1996,6 @@ void AdvancedInterface::createToolBars()
     m_mainBarActionNotes->setCheckable(true);
     connect(m_notesDockWidget, SIGNAL(visibilityChanged(bool)), m_mainBarActionNotes, SLOT(setChecked(bool)));
 
-
-
-
     m_mainBarActionNewWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New Window"), m_mainBar);
     connect(m_mainBarActionNewWindow, SIGNAL(triggered()), this, SLOT(newSubWindow()));
 
