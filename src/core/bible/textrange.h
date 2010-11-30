@@ -15,20 +15,24 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define TEXTRANGE_H
 #include <QtCore/QString>
 #include <QtCore/QList>
+#include <QtCore/QMap>
 #include "src/core/bible/verse.h"
 class TextRange
 {
 public:
     TextRange();
-    QString join(const QString &seperator);
+    QString join(const QString &seperator) const;
     void addVerse(const Verse &verse);
     void addVerse(const QList<Verse> &verse);
     void setTitle(const QString &title);
-    QList<Verse> verse();
-    QString title();
+    QList<Verse> verseList() const;
+    QMap<int,Verse> verseMap() const;
+    QString title() const;
+
+    Verse getVerse(const int &verseID) const;
 
 private:
-    QList<Verse> m_verse;
+    QMap<int,Verse> m_verse;
     QString m_title;
 };
 

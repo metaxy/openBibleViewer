@@ -14,7 +14,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef BIBLELIST_H
 #define BIBLELIST_H
 #include "src/module/bible.h"
-#include <QPoint>
+#include <QtCore/QPoint>
+
 /**
   BibleList represents a list of bible to display them in one window. It is a some kind of parallel view
 */
@@ -31,14 +32,15 @@ public:
 
     int readBook(int id);
     QString readChapter(int chapterID, int verseID);
-    QString readVerse(int chapterID, int startVerse, int endVerse, int markVerseID, bool saveRawDatas);
+    QString readRanges(const Ranges &ranges) const;
+
     int m_currentBible;
 
-    bool hasTopBar();
+    bool hasTopBar() const;
 
 private:
-    QString title(Bible *b, const QString &active, const int &bibleListID);
-    int countInCol(const int &col);
+    QString title(Bible *b, const QString &active, const int &bibleListID) const;
+    int countInCol(const int &col) const;
 
 };
 

@@ -13,4 +13,4 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef CORE_H
 #define CORE_H
-#endif // CORE_H
+#endif //CORE_H

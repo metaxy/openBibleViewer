@@ -16,23 +16,27 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 TextRange::TextRange()
 {
 }
-QString TextRange::join(const QString &seperator)
+QString TextRange::join(const QString &seperator) const
 {
     QString out;
-    for(int i = 0; i < m_verse.size(); i++) {
-        out += m_verse.at(i).data() + (i == m_verse.size() - 1 ? "" : seperator);
+    QMapIterator<int,Verse> i(m_verse);
+    while (i.hasNext()) {
+        i.next();
+        out += i.value().data() + (i.hasNext() ? seperator : "");
     }
     return out;
 }
 
 void TextRange::addVerse(const Verse &verse)
 {
-    m_verse.append(verse);
+    m_verse.insert(verse.verseID(),verse);
 }
 
 void TextRange::addVerse(const QList<Verse> &verse)
 {
-    m_verse.append(verse);
+    foreach(const Verse &v,verse) {
+        addVerse(v);
+    }
 }
 
 void TextRange::setTitle(const QString &title)
@@ -40,12 +44,19 @@ void TextRange::setTitle(const QString &title)
     m_title = title;
 }
 
-QList<Verse> TextRange::verse()
+QList<Verse> TextRange::verseList() const
+{
+    return m_verse.values();
+}
+QMap<int,Verse> TextRange::verseMap() const
 {
     return m_verse;
 }
-
-QString TextRange::title()
+QString TextRange::title() const
 {
     return m_title;
+}
+Verse TextRange::getVerse(const int &verseID) const
+{
+    return m_verse.value(verseID);
 }
