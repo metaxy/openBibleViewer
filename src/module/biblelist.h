@@ -27,11 +27,11 @@ public:
     QHash<int, Bible *> m_bibles;
     QMap<int, QPoint> m_biblePoints;
     void clear();
-    Bible * bible(const int &id = -1);
+    Bible * bible(const int &id = -1) const;
     void addBible(Bible* b, const QPoint &p);
 
     int readBook(int id);
-    QString readChapter(int chapterID, int verseID);
+    QString readChapter(const int &chapterID, const int &verseID) const;
     QString readRanges(const Ranges &ranges) const;
 
     int m_currentBible;

@@ -462,7 +462,7 @@ TextRange Bible::readRange(const Range &range)
     if(range.chapter() == RangeEnum::ChapterByID) {
         newChapterID = range.chapterID();
     }//todo: else
-    myDebug() << "new ChapterID = " << newChapterID;
+    //myDebug() << "new ChapterID = " << newChapterID;
     if(!m_book.hasChapter(newChapterID)) {
         myWarning() << "index out of range index chapterID = " << newChapterID;
         return ret;
@@ -472,7 +472,6 @@ TextRange Bible::readRange(const Range &range)
 
     int startVerse = 0;
     int endVerse = 0;
-    int markVerseID = 0;
     QHash<int, Verse> data = c.getData();
     int max = 0;
     int min = 0;
@@ -525,7 +524,7 @@ TextRange Bible::readRange(const Range &range)
         }
 
 
-        if(verseCounter == markVerseID) {
+        if(range.selectedVerse().contains(verseCounter)) {
             verse.prepend("<span class=\"currententry\">");
             verse.append("</span>");
         }
@@ -647,11 +646,11 @@ TextRange Bible::readRange(const Range &range)
 TextRanges Bible::readRanges(const Ranges &ranges)
 {
     DEBUG_FUNC_NAME
-    TextRanges rn;
+    TextRanges textRanges;
     foreach(const Range & r, ranges.getList()) {
-        rn.addTextRange(readRange(r));
+        textRanges.addTextRange(readRange(r));
     }
-    return rn;
+    return textRanges;
 }
 
 /**

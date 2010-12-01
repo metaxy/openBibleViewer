@@ -104,3 +104,16 @@ RangeEnum::VerseRange Range::endVerse() const
 {
     return m_endVerse;
 }
+void Range::setSelectedVerse(const int &verseID)
+{
+    m_selectedVerse.append(verseID);
+}
+
+void Range::setSelectedVerse(const QList<int> &verseIDs)
+{
+    m_selectedVerse = verseIDs;
+}
+QList<int> Range::selectedVerse() const
+{
+    return m_selectedVerse;
+}

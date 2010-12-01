@@ -1412,7 +1412,7 @@ int AdvancedInterface::copyWholeVerse(void)
 void AdvancedInterface::debugger()
 {
     getView()->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
-    QWebInspector *inspector = new QWebInspector;
+    QWebInspector *inspector = new QWebInspector(this);
     inspector->setPage(getView()->page());
     inspector->showNormal();
 }

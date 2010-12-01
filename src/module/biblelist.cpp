@@ -46,7 +46,7 @@ void BibleList::addBible(Bible* b, const QPoint &p)
   Returns the bible at id.
   \param id The bibleList internal id, not the moduleID. If id == -1 then current bible;
   */
-Bible * BibleList::bible(const int &id)
+Bible * BibleList::bible(const int &id) const
 {
     if(id == -1) {
         if(m_bibles.contains(m_currentBible)) {
@@ -72,7 +72,7 @@ void BibleList::clear()
     m_currentBible = 0;
 }
 
-QString BibleList::readChapter(int chapterID, int verseID)
+QString BibleList::readChapter(const int &chapterID, const int &verseID) const
 {
     DEBUG_FUNC_NAME
     Ranges ranges;
@@ -82,6 +82,7 @@ QString BibleList::readChapter(int chapterID, int verseID)
     f.setChapter(chapterID);
     f.setStartVerse(RangeEnum::FirstVerse);
     f.setEndVerse(RangeEnum::LastVerse);
+    f.setSelectedVerse(verseID);
     ranges.addRange(f);
     return readRanges(ranges);
 }

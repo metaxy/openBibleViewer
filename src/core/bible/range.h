@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef RANGE_H
 #define RANGE_H
 #include "src/core/bible/rangeenum.h"
+#include <QtCore/QList>
 class Range
 {
 public:
@@ -32,6 +33,11 @@ public:
     void setEndVerse(const int &verseID);
     void setEndVerse(RangeEnum::VerseRange verse);
 
+    void setSelectedVerse(const QList<int> &verseIDs);
+    void setSelectedVerse(const int &verseID);
+
+    //void setSelectedVerse(RangeEnum::VerseRange verse);
+
     int bookID() const;
     RangeEnum::BookRange book() const;
 
@@ -43,6 +49,8 @@ public:
     int endVerseID() const;
     RangeEnum::VerseRange endVerse() const;
 
+    QList<int> selectedVerse() const;
+
 private:
     int m_startVerseID;
     RangeEnum::VerseRange m_startVerse;
@@ -52,9 +60,9 @@ private:
     int m_chapterID;
     RangeEnum::ChapterRange m_chapter;
 
-
     int m_bookID;
     RangeEnum::BookRange m_book;
+    QList<int> m_selectedVerse;
 
 };
 
