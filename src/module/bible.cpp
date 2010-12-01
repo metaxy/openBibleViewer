@@ -551,7 +551,7 @@ TextRange Bible::readRange(const Range &range)
 
     //todo: insert marks
     if(m_notes != 0 && m_bibleDisplaySettings->showMarks() == true) {
-        VerseReplacer<Verse> replacer;
+        VerseReplacer replacer;
         for(int n = 0; n <  m_notes->getIDList().size(); ++n) {
             const QString noteID = m_notes->getIDList().at(n);
             if(m_notes->getType(noteID) == "mark") {
@@ -618,6 +618,7 @@ TextRange Bible::readRange(const Range &range)
     //it have to be done as last
     QMapIterator<int, Verse> i(verseMap);
     while (i.hasNext()) {
+         i.next();
          Verse verse = i.value();
          myDebug() << verse.verseID();
          switch(m_moduleType) {
@@ -644,7 +645,7 @@ TextRange Bible::readRange(const Range &range)
              break;
          }
          ret.addVerse(verse);
-         i.next();
+
 
     }
 

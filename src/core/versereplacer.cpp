@@ -16,47 +16,46 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStack>
 #include "src/core/dbghelper.h"
 #include "src/core/bible/verse.h"
-template<class T> VerseReplacer<T>::VerseReplacer()
+VerseReplacer::VerseReplacer()
 {
 }
 
-template<class T> void VerseReplacer<T>::setInsert(const int &verseID, const int &pos, const QString &insert)
+void VerseReplacer::setInsert(const int &verseID, const int &pos, const QString &insert)
 {
-    QMap<int, T> m = m_inserts[verseID];
+    QMap<int, QString> m = m_inserts[verseID];
     m[pos] += insert;
     m_inserts[verseID] = m;
 }
 
-template<class T> void VerseReplacer<T>::setPrepend(const int &verseID, const QString &prepend)
+void VerseReplacer::setPrepend(const int &verseID, const QString &prepend)
 {
     m_prepends[verseID] = prepend + m_prepends[verseID];
 }
 
-template<class T> void VerseReplacer<T>::setAppend(const int &verseID, const QString &append)
+void VerseReplacer::setAppend(const int &verseID, const QString &append)
 {
     m_appends[verseID] = m_appends[verseID] + append;
 }
 
 
-template<class T> void VerseReplacer<T>::exec(QMap<int, T> *map)
+void VerseReplacer::exec(QMap<int, Verse> *map)
 {
-    QMutableMapIterator<int, T> i(map);
+    QMutableMapIterator<int, Verse> i(*map);
     while (i.hasNext()) {
         i.next();
-        qDebug() << i.key() << ": " << i.value();
         if(m_appends.contains(i.key()) || m_prepends.contains(i.key()) || m_inserts.contains(i.key())) {
             QStack<int> posStack;
-            QStack<T> stringStack;
-            QMapIterator<int, T> it(m_inserts.value(i.key()));
+            QStack<QString> stringStack;
+            QMapIterator<int, QString> it(m_inserts.value(i.key()));
             while(it.hasNext()) {
                 it.next();
                 posStack.push(it.key());
                 stringStack.push(it.value());
             }
-            T vers = i.value();
+            Verse vers = i.value();
             while(!posStack.isEmpty()) {
                 int pos = posStack.pop();
-                T in = stringStack.pop();
+                QString in = stringStack.pop();
                 vers.insert(pos, in);
             }
             vers.append(m_appends.value(i.key()));

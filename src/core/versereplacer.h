@@ -16,7 +16,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QString>
 #include <QtCore/QMap>
 #include <QtCore/QStringList>
-template<class T> class VerseReplacer
+#include "src/core/bible/verse.h"
+class VerseReplacer
 {
 public:
     VerseReplacer();
@@ -24,11 +25,11 @@ public:
     void setPrepend(const int &verseID, const QString &prepend);
     void setAppend(const int &verseID, const QString &append);
 
-    void exec(QMap<int,T> *list);
+    void exec(QMap<int,Verse> *list);
 private:
-    QMap<int, QMap<int, T> > m_inserts;
-    QMap<int, T> m_prepends;
-    QMap<int, T> m_appends;
+    QMap<int, QMap<int, QString> > m_inserts;
+    QMap<int, QString> m_prepends;
+    QMap<int, QString> m_appends;
 };
 
 #endif // VERSEREPLACER_H
