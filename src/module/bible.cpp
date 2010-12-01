@@ -616,28 +616,38 @@ TextRange Bible::readRange(const Range &range)
     }
     // now add id
     //it have to be done as last
-    for(int i = 0; i < verseMap.size(); ++i) {
-        Verse verse = verseMap.value(i);
-        myDebug() << verse.verseID();
-        switch(m_moduleType) {
-        case Module::BibleQuoteModule: {
-            if(i > 1) {//because of the chapter
-                verse.prepend("<span verseID='" + QString::number(i - 1) + "' chapterID='" + QString::number(newChapterID) + "' bookID='" + QString::number(m_bookID) + "' moduleID='" + QString::number(m_moduleID) + "'>\n");
-                verse.append("</span><br />\n");
-            }
-            break;
+    QMapIterator<int, Verse> i(verseMap);
+    while (i.hasNext()) {
+         Verse verse = i.value();
+         myDebug() << verse.verseID();
+         switch(m_moduleType) {
+         case Module::BibleQuoteModule: {
+             if(i.key() > 1) {//because of the chapter
+                 verse.prepend("<span verseID='" + QString::number(i.key() - 1) +
+                               "' chapterID='" + QString::number(newChapterID) +
+                               "' bookID='" + QString::number(newBookID) +
+                               "' moduleID='" + QString::number(m_moduleID) + "'>\n");
+                 verse.append("</span><br />\n");
+             }
+             break;
 
-        }
-        case Module::ZefaniaBibleModule: {
-            verse.prepend("<span verseID='" + QString::number(i) + "' chapterID='" + QString::number(newChapterID) + "' bookID='" + QString::number(m_bookID) + "' moduleID='" + QString::number(m_moduleID) + "'>\n");
-            verse.append("</span>\n");
-            break;
-        }
-        default:
-            break;
-        }
-        ret.addVerse(verse);
+         }
+         case Module::ZefaniaBibleModule: {
+             verse.prepend("<span verseID='" + QString::number(i.key()) +
+                           "' chapterID='" + QString::number(newChapterID) +
+                           "' bookID='" + QString::number(newBookID) +
+                           "' moduleID='" + QString::number(m_moduleID) + "'>\n");
+             verse.append("</span>\n");
+             break;
+         }
+         default:
+             break;
+         }
+         ret.addVerse(verse);
+         i.next();
+
     }
+
 
     return ret;
 
