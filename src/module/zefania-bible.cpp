@@ -106,6 +106,7 @@ int ZefaniaBible::readBook(const int &id)
     //reading loaded data
     m_book.clear();
     m_bookID = id;
+    m_book.setID(m_bookID);
     QDomNode n = ncache.firstChild();
     QString outtext;
     int chapterCounter;

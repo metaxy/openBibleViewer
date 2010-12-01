@@ -199,8 +199,8 @@ QString BibleQuote::readInfo(QFile &file)
 int BibleQuote::readBook(const int &id)
 {
     m_book.clear();
-
     m_bookID = id;
+    m_book.setID(m_bookID);
     const QString path = m_biblePath + "/" + m_bookPath.at(id);
     QFile file;
     file.setFileName(path);

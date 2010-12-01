@@ -22,6 +22,7 @@ int Book::size()
 }
 void Book::clear()
 {
+    m_id = 0;
     m_chapters.clear();
 }
 void Book::addChapter(const int &chapterID, const Chapter &c)

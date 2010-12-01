@@ -434,19 +434,21 @@ Chapter Bible::rawChapter()
 TextRange Bible::readRange(const Range &range)
 {
     DEBUG_FUNC_NAME
+
+    //todo: what about biblequote
     TextRange ret;
 
     int newBookID = -1;
     if(range.book() == RangeEnum::BookByID) {
         newBookID = range.bookID();
     } //todo: else
-    myDebug() << "new BookID = " << newBookID;
+    //myDebug() << "new BookID = " << newBookID;
 
     if(newBookID < 0) {
         myWarning() << "index out of range index bookID = " << newBookID;
         return ret;
     }
-    if(m_book.bookID() != newBookID) {//todo: set always the book.id()
+    if(m_book.bookID() != newBookID) {
         m_book.clear();
         m_chapterNames.clear();
         if(m_bibleModule->readBook(newBookID) != 0) {
@@ -500,16 +502,15 @@ TextRange Bible::readRange(const Range &range)
         endVerse = max;
     }
 
-    myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
-    QList<Verse> verseList;
-    myDebug() << "data.keys() = " << data.keys();
+    //myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
+    QMap<int, Verse> verseMap;
+    //myDebug() << "data.keys() = " << data.keys();
     for(int verseCounter = startVerse; verseCounter <= endVerse; verseCounter++) {
         if(!data.contains(verseCounter))
             continue; //todo: or should i better add an empty verse?
         Verse verse = data.value(verseCounter);
         myDebug() << "verse = " << verse.verseID();
         //main formatting
-
         if(m_notes != 0 && m_bibleDisplaySettings->showNotes() == true) {
             for(int n = 0; n < m_notes->getIDList().size(); ++n) {
                 const QString noteID = m_notes->getIDList().at(n);
@@ -539,26 +540,20 @@ TextRange Bible::readRange(const Range &range)
             if(moduleSettings.zefbible_textFormatting == 0) {
                 append = "<br />";
             } else {
-                append = "\n";//not visible
+                append = "\n";//not visible line break
             }
-            /*if(verseCounter == markVerseID) {
-                prepend.prepend("<a name=\"currentVerse\">");
-                prepend.append("</a>");
-            }*/
+
             verse.prepend(prepend);
             verse.append(append);
         }
-
-        verseList << verse;
-
-        //ret.addVerse(vers);
+        verseMap.insert(verse.verseID(), verse);
     }
 
     //todo: insert marks
-    /*if(m_notes != 0 && m_bibleDisplaySettings->showMarks() == true) {
+    if(m_notes != 0 && m_bibleDisplaySettings->showMarks() == true) {
         VerseReplacer<Verse> replacer;
         for(int n = 0; n <  m_notes->getIDList().size(); ++n) {
-            QString noteID = m_notes->getIDList().at(n);
+            const QString noteID = m_notes->getIDList().at(n);
             if(m_notes->getType(noteID) == "mark") {
                 const QString link = m_notes->getRef(noteID, "link");
                 UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
@@ -569,8 +564,8 @@ TextRange Bible::readRange(const Range &range)
                 const QString pre = "<span class=\"mark\" style=\"" + m_notes->getRef(noteID, "style") + "\">";
 
                 const QString ap = "</span>";
-                if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID) {
-                    versList = versList;
+                if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == newBookID && urlConverter.m_chapterID == newChapterID) {
+                    //versList = versList;
                     if(m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
                         VerseSelection::SelectionPosInTextType type = VerseSelection::typeFromString(m_notes->getRef(noteID, "selection_pos_type"));
                         if(type == VerseSelection::ShortestString) {
@@ -578,9 +573,9 @@ TextRange Bible::readRange(const Range &range)
                             if(endVerse != -1) {
                                 //todo: do something
                             }
-                            QString vers = versList.at(verseID);
-                            const int startPos = vers.lastIndexOf(m_notes->getRef(noteID, "startString"));
-                            const int endPos = vers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
+                            Verse verse = verseMap.value(verseID);
+                            const int startPos = verse.data().lastIndexOf(m_notes->getRef(noteID, "startString"));
+                            const int endPos = verse.data().lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
                             replacer.setInsert(verseID, endPos, ap);
                             replacer.setInsert(verseID, startPos, pre);
                         } else if(type == VerseSelection::RepeatOfLongestString) {
@@ -594,11 +589,11 @@ TextRange Bible::readRange(const Range &range)
                         if(endVerse != -1) {
                             //todo: do something
                         }
-                        if(startVersID > 0 && endVersID > 0 && startVersID < versList.size() && endVersID < versList.size()) {
-                            QString startVers = versList.at(startVersID);
-                            QString endVers = versList.at(endVersID);
-                            const int startPos = startVers.lastIndexOf(m_notes->getRef(noteID, "startString"));
-                            const int endPos = endVers.lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
+                        if(startVersID > 0 && endVersID > 0 /*&& startVersID < versList.size() && endVersID < versList.size()*/) {
+                            Verse startVerse = verseMap.value(startVersID);
+                            Verse endVerse = verseMap.value(endVersID);
+                            const int startPos = startVerse.data().lastIndexOf(m_notes->getRef(noteID, "startString"));
+                            const int endPos = endVerse.data().lastIndexOf(m_notes->getRef(noteID, "endString")) + m_notes->getRef(noteID, "endString").size();
 
 
                             replacer.setInsert(startVersID, startPos, pre);
@@ -617,12 +612,12 @@ TextRange Bible::readRange(const Range &range)
                 }
             }
         }
-        replacer.exec(&versList);
-    }*/
+        replacer.exec(&verseMap);
+    }
     // now add id
     //it have to be done as last
-    for(int i = 0; i < verseList.size(); ++i) {
-        Verse verse = verseList.at(i);
+    for(int i = 0; i < verseMap.size(); ++i) {
+        Verse verse = verseMap.value(i);
         myDebug() << verse.verseID();
         switch(m_moduleType) {
         case Module::BibleQuoteModule: {

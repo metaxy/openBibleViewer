@@ -24,6 +24,7 @@ public:
 
     void append(const QString &str);
     void prepend(const QString &str);
+    void insert(int position, const QString & str);
 private:
     int m_verseID;
     QString m_text;

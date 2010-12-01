@@ -12,57 +12,56 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "versereplacer.h"
-#include <QtCore/QMapIterator>
+#include <QtCore/QMutableMapIterator>
 #include <QtCore/QStack>
 #include "src/core/dbghelper.h"
+#include "src/core/bible/verse.h"
 template<class T> VerseReplacer<T>::VerseReplacer()
 {
 }
 
-template<class T> void VerseReplacer<T>::setInsert(const int &verseID, const int &pos, const T &insert)
+template<class T> void VerseReplacer<T>::setInsert(const int &verseID, const int &pos, const QString &insert)
 {
     QMap<int, T> m = m_inserts[verseID];
     m[pos] += insert;
     m_inserts[verseID] = m;
 }
 
-template<class T> void VerseReplacer<T>::setPrepend(const int &verseID, const T &prepend)
+template<class T> void VerseReplacer<T>::setPrepend(const int &verseID, const QString &prepend)
 {
     m_prepends[verseID] = prepend + m_prepends[verseID];
 }
 
-template<class T> void VerseReplacer<T>::setAppend(const int &verseID, const T &append)
+template<class T> void VerseReplacer<T>::setAppend(const int &verseID, const QString &append)
 {
     m_appends[verseID] = m_appends[verseID] + append;
 }
 
 
-template<class T> void VerseReplacer<T>::exec(QList<T> *list)
+template<class T> void VerseReplacer<T>::exec(QMap<int, T> *map)
 {
-    for(int verse = 0; verse < list->size(); verse++) {
-        //myDebug() << "verse = " << verse;
-        //first insert
-        if(m_appends.contains(verse) || m_prepends.contains(verse) || m_inserts.contains(verse)) {
+    QMutableMapIterator<int, T> i(map);
+    while (i.hasNext()) {
+        i.next();
+        qDebug() << i.key() << ": " << i.value();
+        if(m_appends.contains(i.key()) || m_prepends.contains(i.key()) || m_inserts.contains(i.key())) {
             QStack<int> posStack;
             QStack<T> stringStack;
-            QMapIterator<int, T> i(m_inserts.value(verse));
-            while(i.hasNext()) {
-                i.next();
-                posStack.push(i.key());
-                stringStack.push(i.value());
+            QMapIterator<int, T> it(m_inserts.value(i.key()));
+            while(it.hasNext()) {
+                it.next();
+                posStack.push(it.key());
+                stringStack.push(it.value());
             }
-            T vers = list->at(verse);
+            T vers = i.value();
             while(!posStack.isEmpty()) {
                 int pos = posStack.pop();
                 T in = stringStack.pop();
-                //myDebug() << "pos = " << pos << " in = " << in;
                 vers.insert(pos, in);
             }
-            //than append and prepend
-            vers.append(m_appends.value(verse));
-            vers.prepend(m_prepends.value(verse));
-            //myDebug() << "vers = " << vers;
-            list->replace(verse, vers);
+            vers.append(m_appends.value(i.key()));
+            vers.prepend(m_prepends.value(i.key()));
+            map->insert(i.key(), vers);
         }
     }
 }

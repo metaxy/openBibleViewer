@@ -41,3 +41,7 @@ void Verse::prepend(const QString &str)
 {
     m_text.prepend(str);
 }
+void Verse::insert(int position, const QString & str)
+{
+    m_text.insert(position, str);
+}

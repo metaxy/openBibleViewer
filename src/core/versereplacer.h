@@ -20,11 +20,11 @@ template<class T> class VerseReplacer
 {
 public:
     VerseReplacer();
-    void setInsert(const int &verseID, const int &pos, const T &insert);
-    void setPrepend(const int &verseID, const T &prepend);
-    void setAppend(const int &verseID, const T &append);
+    void setInsert(const int &verseID, const int &pos, const QString &insert);
+    void setPrepend(const int &verseID, const QString &prepend);
+    void setAppend(const int &verseID, const QString &append);
 
-    void exec(QList<T> *list);
+    void exec(QMap<int,T> *list);
 private:
     QMap<int, QMap<int, T> > m_inserts;
     QMap<int, T> m_prepends;
