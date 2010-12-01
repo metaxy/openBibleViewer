@@ -502,7 +502,10 @@ TextRange Bible::readRange(const Range &range)
 
     myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
     QList<Verse> verseList;
+    myDebug() << "data.keys() = " << data.keys();
     for(int verseCounter = startVerse; verseCounter <= endVerse; verseCounter++) {
+        if(!data.contains(verseCounter))
+            continue; //todo: or should i better add an empty verse?
         Verse verse = data.value(verseCounter);
         myDebug() << "verse = " << verse.verseID();
         //main formatting
@@ -532,7 +535,7 @@ TextRange Bible::readRange(const Range &range)
         {
             QString prepend;
             QString append;
-            prepend = "<span class=\"verseNumber\">" + QString::number(verse.verseID()) + "</span>";
+            prepend = "<span class=\"verseNumber\">" + QString::number(verse.verseID()+1) + "</span>";
             if(moduleSettings.zefbible_textFormatting == 0) {
                 append = "<br />";
             } else {
@@ -620,6 +623,7 @@ TextRange Bible::readRange(const Range &range)
     //it have to be done as last
     for(int i = 0; i < verseList.size(); ++i) {
         Verse verse = verseList.at(i);
+        myDebug() << verse.verseID();
         switch(m_moduleType) {
         case Module::BibleQuoteModule: {
             if(i > 1) {//because of the chapter
