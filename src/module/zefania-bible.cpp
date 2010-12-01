@@ -38,6 +38,8 @@ ZefaniaBible::ZefaniaBible()
     m_settings = 0;
     m_bibleID = 0;
     m_bookID = 0;
+    m_biblePath = "";
+    m_bibleName = "";
 }
 void ZefaniaBible::loadBibleData(const int &id, const QString &path)
 {
@@ -99,7 +101,7 @@ int ZefaniaBible::readBook(const int &id)
     } else {
         m_book = softCache(id);
         m_bookCount.insert(id, m_book.size());
-        return 1;
+        return 0;
     }
     //reading loaded data
     m_book.clear();

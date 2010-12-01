@@ -15,11 +15,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 Range::Range()
 {
+    m_bookID = -1;
+    m_chapterID = -1;
+    m_startVerseID = -1;
+    m_endVerseID = -1;
 }
 
 void Range::setBook(const int &bookID)
 {
     m_bookID = bookID;
+    m_book = RangeEnum::BookByID;
 }
 
 void Range::setBook(RangeEnum::BookRange book)
@@ -30,6 +35,7 @@ void Range::setBook(RangeEnum::BookRange book)
 void Range::setChapter(const int &chapterID)
 {
     m_chapterID = chapterID;
+    m_chapter = RangeEnum::ChapterByID;
 }
 
 void Range::setChapter(RangeEnum::ChapterRange chapter)

@@ -1047,7 +1047,6 @@ void AdvancedInterface::showChapter(const int &chapterID, const int &verseID)
 {
     m_bibleDisplay->setHtml(m_moduleManager->bibleList()->readChapter(chapterID, verseID));
     setCurrentChapter(chapterID);
-
 }
 
 void AdvancedInterface::nextChapter()
@@ -1382,6 +1381,7 @@ int AdvancedInterface::copyWholeVerse(void)
 {
     if(!activeMdiChild())
         return 1;
+    //todo: make it much better by using Ranges
     VerseSelection selection = verseSelection();
     if(selection.startVerse != -1) {
         QString sverse;

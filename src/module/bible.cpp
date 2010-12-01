@@ -433,47 +433,79 @@ Chapter Bible::rawChapter()
 }
 TextRange Bible::readRange(const Range &range)
 {
+    DEBUG_FUNC_NAME
     TextRange ret;
 
-    int newBookID;
+    int newBookID = -1;
     if(range.book() == RangeEnum::BookByID) {
         newBookID = range.bookID();
     } //todo: else
+    myDebug() << "new BookID = " << newBookID;
 
+    if(newBookID < 0) {
+        myWarning() << "index out of range index bookID = " << newBookID;
+        return ret;
+    }
     if(m_book.bookID() != newBookID) {//todo: set always the book.id()
         m_book.clear();
         m_chapterNames.clear();
-        m_bibleModule->readBook(newBookID);
+        if(m_bibleModule->readBook(newBookID) != 0) {
+            myWarning() << "index out of range index bookID = " << newBookID;
+            return ret;
+        }
         m_book = m_bibleModule->book();
-
+        m_bookID = newBookID;
     }
+
     const ModuleSettings moduleSettings = m_settings->getModuleSettings(m_moduleID);
-    int newChapterID;
+    int newChapterID = -1;
     if(range.chapter() == RangeEnum::ChapterByID) {
         newChapterID = range.chapterID();
     }//todo: else
-
+    myDebug() << "new ChapterID = " << newChapterID;
     if(!m_book.hasChapter(newChapterID)) {
         myWarning() << "index out of range index chapterID = " << newChapterID;
         return ret;
     }
+
     Chapter c = m_book.getChapter(newChapterID);
 
-    int startVerse;
-    int endVerse;
+    int startVerse = 0;
+    int endVerse = 0;
     int markVerseID = 0;
+    QHash<int, Verse> data = c.getData();
+    int max = 0;
+    int min = 0;
+
+    foreach(const int &key,data.keys()) {
+        if(key >= max) {
+            max = key;
+        } else if(key <= min){
+            min = key;
+        }
+    }
+    myDebug() << "min = " << min << " max = " << max;
     if(range.startVerse() == RangeEnum::VerseByID) {
         startVerse = range.startVerseID();
-    } //todo: else
+    } else if(range.startVerse() == RangeEnum::FirstVerse) {
+        startVerse = min;
+    } else if(range.startVerse() == RangeEnum::LastVerse) {
+        startVerse = max;
+    }
 
     if(range.endVerse() == RangeEnum::VerseByID) {
         endVerse = range.endVerseID();
+    } else if(range.endVerse() == RangeEnum::FirstVerse) {
+        endVerse = min;
+    } else if(range.endVerse() == RangeEnum::LastVerse) {
+        endVerse = max;
     }
 
-    QHash<int, Verse> data = c.getData();
+    myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
     QList<Verse> verseList;
     for(int verseCounter = startVerse; verseCounter <= endVerse; verseCounter++) {
         Verse verse = data.value(verseCounter);
+        myDebug() << "verse = " << verse.verseID();
         //main formatting
 
         if(m_notes != 0 && m_bibleDisplaySettings->showNotes() == true) {
@@ -614,6 +646,7 @@ TextRange Bible::readRange(const Range &range)
 }
 TextRanges Bible::readRanges(const Ranges &ranges)
 {
+    DEBUG_FUNC_NAME
     TextRanges rn;
     foreach(const Range & r, ranges.getList()) {
         rn.addTextRange(readRange(r));

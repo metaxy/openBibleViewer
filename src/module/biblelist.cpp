@@ -74,95 +74,25 @@ void BibleList::clear()
 
 QString BibleList::readChapter(int chapterID, int verseID)
 {
-    if(m_bibles.size() == 1) {
-        return m_bibles[m_currentBible]->readChapter(chapterID, verseID);
-    } else if(m_bibles.size() > 1) {
-        foreach(Bible * b, m_bibles) {
-            b->readChapter(chapterID, verseID);
-        }
-
-        int maxRow = 0;
-        int maxCol = 0;
-        foreach(const QPoint & p, m_biblePoints) {
-            maxRow = qMax(maxRow, p.x());
-            maxCol = qMax(maxCol, p.y());
-        }
-        QString out;
-
-
-        if(maxCol >= 1) {
-            out += "<table id='topTable'><tr>\n";
-            for(int i = 0; i <= maxCol; i++) {
-                int id = m_biblePoints.key(QPoint(0, i), -1);
-                if(countInCol(i) > 1) {
-                    out += "<td class=\"rowTitle\"></td>\n";
-                }
-                bool countInColEq = (countInCol(i) == 1);
-                if(id != -1 && countInColEq) {
-                    Bible *b = m_bibles.value(id);
-                    QString active = "";
-                    if(id == m_currentBible)
-                        active = " active";
-                    out += title(b, active, id);
-                } else if(countInColEq) {
-                    for(int j = 0; j <= maxRow; j++) {
-                        id = m_biblePoints.key(QPoint(j, i), -1);
-                        if(id != -1) {
-                            Bible *b = m_bibles.value(id);
-                            QString active = "";
-                            if(id == m_currentBible)
-                                active = " active";
-                            out += title(b, active, id);
-                            break;
-                        }
-                    }
-                } else {
-                    out += "<td></td>\n";
-                }
-
-            }
-            out += "</tr></table>\n";
-        }
-        out += "<table class='biblelist'>\n";
-        //for all verse
-        out += "<tbody>";
-        for(int verse = 0; verse < bible()->chapterDataList().size(); verse++) {
-            for(int i = 0; i <= maxRow; i++) {
-                out += "<tr>\n";
-                for(int j = 0; j <= maxCol; j++) {
-                    const int id = m_biblePoints.key(QPoint(i, j), -1);
-                    Bible *b;
-                    if(id != -1) {
-                        b = m_bibles.value(id);
-                    } else {
-                        out += "<td></td>\n";
-                        continue;
-                    }
-                    if(countInCol(j) > 1) {
-                        QString active = " rowTitle";
-                        if(id == m_currentBible)
-                            active += " active";
-                        out += title(b, active, id);
-                    }
-                    if(verse < b->chapterDataList().size())
-                        out += "<td >" + b->chapterDataList().at(verse) + "</td>\n";
-                    else
-                        out += "<td ></td>\n";
-                }
-                out += "</tr>\n";
-            }
-        }
-        out += "</tbody>\n</table>\n";
-        return out;
-    } else {
-        return "";
-    }
+    DEBUG_FUNC_NAME
+    Ranges ranges;
+    Range f;
+    myDebug() << "bookID = " << bible()->bookID() << " chapterID = " << chapterID;
+    f.setBook(bible()->bookID());
+    f.setChapter(chapterID);
+    f.setStartVerse(RangeEnum::FirstVerse);
+    f.setEndVerse(RangeEnum::LastVerse);
+    ranges.addRange(f);
+    return readRanges(ranges);
 }
 QString BibleList::readRanges(const Ranges &ranges) const
 {
+    DEBUG_FUNC_NAME
     if(m_bibles.size() == 1) {
+        myDebug() << "size is one";
         return m_bibles[m_currentBible]->readRanges(ranges).join("");
     } else if(m_bibles.size() > 1) {
+        myDebug() << "oh a real biblelist";
         QHash<int,TextRanges> data;
         QHashIterator<int, Bible *> i(m_bibles);
         TextRanges def;
