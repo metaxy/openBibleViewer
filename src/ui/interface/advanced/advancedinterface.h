@@ -27,10 +27,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/windowcache.h"
 #include "src/api/bibleapi.h"
 #include "mdiareafilter.h"
+#include "mdiform.h"
+#include "windowmanager.h"
 #include <QtGui/QMdiSubWindow>
 #include <QtGui/QCloseEvent>
-#include "mdiform.h"
-#include <QContextMenuEvent>
+#include <QtGui/QContextMenuEvent>
 namespace Ui
 {
 class AdvancedInterface;
@@ -44,22 +45,13 @@ public slots:
     void settingsChanged(Settings oldSettings, Settings newSettings, bool modifedModuleSettings);
     void restoreSession();
 private slots:
-    void myCascade();
-    void myTileVertical();
-    void myTileHorizontal();
-    void myTile();
 
-    void newSubWindow(bool doAutoLayout = true);
-    void closeSubWindow();
-    int closingWindow();
-    int reloadWindow(QMdiSubWindow * window);
 
     void pharseUrl(QUrl url);
     void pharseUrl(QString url);
 
     void showText(const QString &text);
-    void zoomIn();
-    void zoomOut();
+
     void readChapter(const int &id);
     void readBook(const int &id);
 
@@ -107,7 +99,7 @@ private slots:
     void showContextMenu(QContextMenuEvent*ev);
     void debugger();
 
-    void mdiAreaResized();
+
 
     void installResizeFilter();
 
@@ -137,15 +129,8 @@ signals:
     void reloadInterface();
 private:
     Ui::AdvancedInterface *ui;
-    bool m_enableReload;
 
-    QMdiSubWindow *activeMdiChild();
-    QList<QMdiSubWindow*> usableWindowList();
-    int currentWindowName();
-    WindowCache m_windowCache;
-    int m_lastActiveWindow;
-    QWebView* getView();
-    void setEnableReload(bool enable);
+
     bool loadModuleDataByID(int id);
 
     void setTitle(const QString &title);
@@ -197,6 +182,8 @@ private:
     BookmarksDockWidget * m_bookmarksDockWidget;
     DictionaryDockWidget * m_dictionaryDockWidget;
     QuickJumpDockWidget * m_quickJumpDockWidget;
+
+    WindowManager *m_windowManager;
 
 
 };

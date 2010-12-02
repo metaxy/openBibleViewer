@@ -78,8 +78,6 @@ void AdvancedInterface::init()
     connect(m_bibleDisplay, SIGNAL(get(QUrl)), this, SLOT(pharseUrl(QUrl)));
 
 
-
-
     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
     m_moduleManager->setBibleDisplaySettings(m_bibleDisplaySettings);
@@ -88,7 +86,11 @@ void AdvancedInterface::init()
     setAll(m_bibleApi);
 
     createDefaultMenu();
-    connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
+    m_windowManager = new WindowManager(this);
+    setAll(m_windowManager);
+    m_windowManager->setMdiArea(ui->mdiArea);
+
+
 
     if(m_settings->session.getData("windowUrls").toStringList().size() == 0)
         QTimer::singleShot(10, this, SLOT(newSubWindow()));
@@ -196,334 +198,6 @@ void AdvancedInterface::attachApi()
     m_bibleApi->setFrame(frame);
 }
 
-void AdvancedInterface::newSubWindow(bool doAutoLayout)
-{
-    DEBUG_FUNC_NAME
-    m_enableReload = false;
-    int windowsCount = usableWindowList().size();
-    QMdiSubWindow *firstSubWindow = new QMdiSubWindow();
-    if(windowsCount == 1) {
-        firstSubWindow = usableWindowList().at(0);
-    }
-
-    const int windowName = m_windowCache.newWindow();
-
-    QWidget *widget = new QWidget(ui->mdiArea);
-    QVBoxLayout *layout = new QVBoxLayout(widget);
-
-    MdiForm *mForm = new MdiForm(widget);
-    mForm->setObjectName("mdiForm");
-    setAll(mForm);
-    layout->addWidget(mForm);
-
-    widget->setLayout(layout);
-    QMdiSubWindow *subWindow = ui->mdiArea->addSubWindow(widget);
-    subWindow->setObjectName(QString::number(windowName));
-    subWindow->setWindowIcon(QIcon(":/icons/16x16/main.png"));
-    subWindow->setWindowOpacity(1.0);
-    subWindow->setAttribute(Qt::WA_DeleteOnClose);
-    subWindow->show();
-    ui->mdiArea->setActiveSubWindow(subWindow);
-    attachApi();
-
-    m_moduleManager->m_bibleList = new BibleList();
-    Bible *b = new Bible();
-    m_moduleManager->initBible(b);
-    m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
-    m_windowCache.setBibleList(m_moduleManager->m_bibleList);
-
-
-    if(ui->mdiArea->viewMode() == QMdiArea::SubWindowView) {
-        if(windowsCount == 0  && doAutoLayout) {
-            subWindow->showMaximized();
-        } else if(windowsCount == 1 && doAutoLayout) {
-            firstSubWindow->resize(600, 600);
-            firstSubWindow->showNormal();
-            subWindow->resize(600, 600);
-            subWindow->show();
-        } else if(doAutoLayout) {
-            subWindow->resize(600, 600);
-            subWindow->show();
-        }
-    }
-
-    connect(mForm->m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
-    connect(mForm->m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
-    connect(mForm->m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
-
-    mForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
-    mForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
-#if QT_VERSION >= 0x040700
-    mForm->m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
-    mForm->m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled, true);
-    mForm->m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
-    mForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
-    mForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
-#endif
-
-    connect(mForm, SIGNAL(historyGo(QString)), this, SLOT(pharseUrl(QString)));
-    connect(mForm, SIGNAL(previousChapter()), this, SLOT(previousChapter()));
-    connect(mForm, SIGNAL(nextChapter()), this, SLOT(nextChapter()));
-    connect(this, SIGNAL(historySetUrl(QString)), mForm, SLOT(historyGetUrl(QString)));
-    connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closingWindow()));
-    m_enableReload = true;
-    if(doAutoLayout && ui->mdiArea->viewMode() == QMdiArea::SubWindowView) {
-        autoLayout();
-    }
-
-    //clear old stuff
-    clearBooks();
-    clearChapters();
-}
-
-void AdvancedInterface::autoLayout()
-{
-    if(usableWindowList().size() > 1) {
-        if(m_settings->autoLayout == 1) {
-            myTile();
-        } else if(m_settings->autoLayout == 2) {
-            myTileVertical();
-        } else if(m_settings->autoLayout == 3) {
-            myTileHorizontal();
-        } else if(m_settings->autoLayout == 4) {
-            myCascade();
-        }
-    }
-}
-
-QMdiSubWindow * AdvancedInterface::activeMdiChild()
-{
-    QList<QMdiSubWindow*> list = usableWindowList();
-    if(QMdiSubWindow *activeSubWindow = ui->mdiArea->activeSubWindow()) {
-        for(int i = 0; i < list.size(); i++) {
-            if(list.at(i) == activeSubWindow) {
-                m_lastActiveWindow = i;
-            }
-        }
-        return activeSubWindow;
-    } else if(m_lastActiveWindow < list.size() && m_lastActiveWindow >= 0) {
-        ui->mdiArea->setActiveSubWindow(usableWindowList().at(m_lastActiveWindow));
-        if(QMdiSubWindow *activeSubWindow = ui->mdiArea->activeSubWindow())
-            return activeSubWindow;
-    } else if(usableWindowList().count() > 0) {
-        ui->mdiArea->setActiveSubWindow(usableWindowList().at(0));
-        if(QMdiSubWindow *activeSubWindow = ui->mdiArea->activeSubWindow())
-            return activeSubWindow;
-    }
-    return 0;
-}
-
-void AdvancedInterface::myTileVertical()
-{
-    if(!m_enableReload || !usableWindowList().count()) {
-        return;
-    }
-    QList<QMdiSubWindow*> windows = usableWindowList();
-    m_enableReload = false;
-    QMdiSubWindow* active = ui->mdiArea->activeSubWindow();
-
-    const int widthForEach = width() / windows.count();
-    unsigned int x = 0;
-    foreach(QMdiSubWindow * window, windows) {
-        window->showNormal();
-
-        const int preferredWidth = window->minimumWidth() + window->baseSize().width();
-        const int actWidth = qMax(widthForEach, preferredWidth);
-
-        window->setGeometry(x, 0, actWidth, height());
-        x += actWidth;
-    }
-
-    if(active) active->setFocus();
-    m_enableReload = true;
-}
-
-void AdvancedInterface::myTileHorizontal()
-{
-    if(!m_enableReload || !usableWindowList().count()) {
-        return;
-    }
-    QList<QMdiSubWindow*> windows = usableWindowList();
-    setEnableReload(false);
-    QMdiSubWindow* active = ui->mdiArea->activeSubWindow();
-
-    const int heightForEach = height() / windows.count();
-    unsigned int y = 0;
-    foreach(QMdiSubWindow * window, windows) {
-        window->showNormal();
-
-        const int preferredHeight = window->minimumHeight() + window->baseSize().height();
-        const int actHeight = qMax(heightForEach, preferredHeight);
-
-        window->setGeometry(0, y, width(), actHeight);
-        y += actHeight;
-    }
-    if(active)
-        active->setFocus();
-    setEnableReload(true);
-}
-
-void AdvancedInterface::myCascade()
-{
-    if(!m_enableReload || !usableWindowList().count()) {
-        return;
-    }
-
-    QList<QMdiSubWindow*> windows = usableWindowList();
-
-    if(ui->mdiArea->activeSubWindow() && ui->mdiArea->activeSubWindow()->isMaximized()) {
-        if(ui->mdiArea->activeSubWindow()->size() != this->size()) {
-            ui->mdiArea->activeSubWindow()->resize(this->size());
-        }
-    } else if(windows.count() == 1) {
-        windows.at(0)->showMaximized();
-    } else {
-
-        QMdiSubWindow* active = ui->mdiArea->activeSubWindow();
-        setEnableReload(false);
-        const unsigned int offsetX = 40;
-        const unsigned int offsetY = 40;
-        const unsigned int windowWidth =  ui->mdiArea->width() - (windows.count() - 1) * offsetX;
-        const unsigned int windowHeight = ui->mdiArea->height() - (windows.count() - 1) * offsetY;
-        unsigned int x = 0;
-        unsigned int y = 0;
-
-        foreach(QMdiSubWindow * window, windows) {
-            if(window == active) //leave out the active window which should be the top window
-                continue;
-            window->raise(); //make it the on-top-of-window-stack window to make sure they're in the right order
-            window->setGeometry(x, y, windowWidth, windowHeight);
-            x += offsetX;
-            y += offsetY;
-        }
-        active->setGeometry(x, y, windowWidth, windowHeight);
-        active->raise();
-        active->activateWindow();
-        setEnableReload(true);
-    }
-}
-
-void AdvancedInterface::myTile()
-{
-    if(!m_enableReload || !usableWindowList().count()) {
-        return;
-    }
-    ui->mdiArea->tileSubWindows();
-}
-
-QList<QMdiSubWindow*> AdvancedInterface::usableWindowList()
-{
-    QList<QMdiSubWindow*> ret;
-    foreach(QMdiSubWindow * w, ui->mdiArea->subWindowList()) {
-        if(w->isHidden())
-            continue;
-        ret.append(w);
-    }
-    return  ret;
-}
-
-int AdvancedInterface::currentWindowName()
-{
-    if(ui->mdiArea->activeSubWindow() != NULL) {
-        return ui->mdiArea->activeSubWindow()->objectName().toInt();
-    }
-    return -1;
-}
-
-
-void AdvancedInterface::closeSubWindow()
-{
-    activeMdiChild()->close();
-}
-
-int AdvancedInterface::closingWindow()
-{
-    DEBUG_FUNC_NAME
-    // myDebug() << "enable reload = " << m_enableReload << "subWIndowList = " << ui->mdiArea->subWindowList() << "internalWindow " << m_internalWindows;
-    if(ui->mdiArea->subWindowList().isEmpty()) {
-        myDebug() << "subWindowList is empty";
-        clearBooks();
-        clearChapters();
-        m_windowCache.clearAll();
-        return 1;
-    }
-    //if one in the internal subwindow list list is missing that window was closed
-    QList<int> nameList = m_windowCache.nameList();
-    QList<int> deletedList = nameList;
-    foreach(QMdiSubWindow * win, ui->mdiArea->subWindowList()) {
-        if(nameList.contains(win->objectName().toInt())) {
-            deletedList.removeOne(win->objectName().toInt());
-        }
-
-    }
-    foreach(const int & name, deletedList) {
-        m_windowCache.removeWindow(name);
-    }
-
-    if(ui->mdiArea->subWindowList().isEmpty()) {  //last window closed
-        myDebug() << "last closed";
-        clearBooks();
-        clearChapters();
-        m_windowCache.clearAll();
-        return 1;
-    }
-    reloadWindow(ui->mdiArea->currentSubWindow());
-    if(ui->mdiArea->viewMode() == QMdiArea::SubWindowView)
-        autoLayout();
-    return 0;
-}
-
-int AdvancedInterface::reloadWindow(QMdiSubWindow * window)
-{
-    DEBUG_FUNC_NAME
-    //myDebug() << " enable reload = " << m_enableReload;
-    if(!m_enableReload || window == NULL) {
-        return 1;
-    }
-    const int windowName = window->objectName().toInt();
-    myDebug() << "window name = " << windowName;
-
-    if(ui->mdiArea->subWindowList().count() <= 0) {
-        return 1;
-    }
-    m_windowCache.setCurrentWindowName(windowName);
-    BibleList *list = m_windowCache.getBibleList();
-    if(list == NULL || list->bible() == NULL) {
-        clearChapters();
-        clearBooks();
-        setTitle("");
-        m_moduleManager->m_bibleList = NULL;
-        return 1;
-    }
-    if(list->bible()->moduleID() < 0) {
-        clearChapters();
-        clearBooks();
-        setTitle("");
-        m_moduleManager->m_bibleList = list;
-        return 1;
-    }
-
-
-    m_moduleManager->m_bibleList = list;
-    myDebug() << "current bible title = " << m_moduleManager->bible()->bibleTitle();
-    setTitle(m_moduleManager->bible()->bibleTitle());
-    m_moduleDockWidget->loadedModule(m_moduleManager->bible()->moduleID());
-
-    setChapters(m_moduleManager->bible()->chapterNames());
-    setCurrentChapter(m_moduleManager->bible()->chapterID());
-
-    setBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
-    setCurrentBook(m_moduleManager->bible()->bookID());
-
-    return 0;
-}
-void AdvancedInterface::mdiAreaResized()
-{
-    DEBUG_FUNC_NAME
-    //todo: really every do time autoLayout ?
-    if(ui->mdiArea->viewMode() == QMdiArea::SubWindowView)
-        autoLayout();
-}
 
 bool AdvancedInterface::loadModuleDataByID(int moduleID)
 {
@@ -677,7 +351,7 @@ void AdvancedInterface::pharseUrl(QString url)
             } else {
                 verseID = bibleUrl.verseID();
             }
-
+            myDebug() << "chapterID = " << chapterID << " verseID = " << verseID;
             if(reloadChapter) {
                 showChapter(chapterID, verseID);
                 setCurrentChapter(chapterID);
@@ -890,6 +564,7 @@ void AdvancedInterface::setTitle(const QString &title)
 
 void AdvancedInterface::setChapters(const QStringList &chapters)
 {
+    DEBUG_FUNC_NAME;
     m_bookDockWidget->setChapters(chapters);
     if(activeMdiChild()) {
         QComboBox *comboBox_chapters = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_chapters");
@@ -926,6 +601,7 @@ void AdvancedInterface::setCurrentChapter(const int &chapterID)
 }
 void AdvancedInterface::clearChapters()
 {
+    DEBUG_FUNC_NAME
     m_bookDockWidget->clearChapters();
     if(activeMdiChild()) {
         QComboBox *comboBox_chapters = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_chapters");
@@ -935,6 +611,7 @@ void AdvancedInterface::clearChapters()
 }
 void AdvancedInterface::setBooks(const QHash<int, QString> &books, QList<int> ids)
 {
+    DEBUG_FUNC_NAME
     m_bookDockWidget->setBooks(books);
     m_quickJumpDockWidget->setBooks(books.values());
     if(activeMdiChild()) {
@@ -967,6 +644,7 @@ void AdvancedInterface::setBooks(const QHash<int, QString> &books, QList<int> id
 
 void AdvancedInterface::setCurrentBook(const int &bookID)
 {
+    DEBUG_FUNC_NAME
     m_bookDockWidget->setCurrentBook(bookID);
     if(activeMdiChild()) {
         QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
@@ -982,6 +660,7 @@ void AdvancedInterface::setCurrentBook(const int &bookID)
 }
 void AdvancedInterface::clearBooks()
 {
+    DEBUG_FUNC_NAME
     m_bookDockWidget->clearBooks();
     if(activeMdiChild()) {
         QComboBox *comboBox_books = activeMdiChild()->widget()->findChild<QComboBox *>("comboBox_books");
@@ -992,6 +671,7 @@ void AdvancedInterface::clearBooks()
 }
 void AdvancedInterface::readBook(const int &id)
 {
+    myDebug() << "id = " << id;
     BibleUrl url;
     url.setBible(BibleUrl::LoadCurrentBible);
     url.setBookID(id);
@@ -1035,6 +715,8 @@ void AdvancedInterface::readBookByID(int id)
 
 void AdvancedInterface::readChapter(const int &id)
 {
+    DEBUG_FUNC_NAME
+    myDebug() << "id = " << id;
     BibleUrl url;
     url.setBible(BibleUrl::LoadCurrentBible);
     url.setBook(BibleUrl::LoadCurrentBook);
@@ -1045,6 +727,8 @@ void AdvancedInterface::readChapter(const int &id)
 
 void AdvancedInterface::showChapter(const int &chapterID, const int &verseID)
 {
+    DEBUG_FUNC_NAME
+    myDebug() << "chapter ID = " << chapterID << "verse ID = " << verseID;
     m_bibleDisplay->setHtml(m_moduleManager->bibleList()->readChapter(chapterID, verseID));
     setCurrentChapter(chapterID);
 }
@@ -1496,10 +1180,12 @@ void AdvancedInterface::newUnderlineMark()
 
 void AdvancedInterface::removeMark()
 {
+    DEBUG_FUNC_NAME;
     if(!m_moduleManager->bibleLoaded() && !activeMdiChild()) {
         return;
     }
     VerseSelection selection = verseSelection();
+    myDebug() << "selection = " << selection.moduleID << selection.bookID << selection.chapterID << selection.startVerse;
     m_notesDockWidget->removeMark(selection);
 }
 

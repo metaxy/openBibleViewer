@@ -168,6 +168,7 @@ void NotesDockWidget::newStyleMark(VerseSelection selection, QString style)
 }
 void NotesDockWidget::removeMark(VerseSelection selection)
 {
+    DEBUG_FUNC_NAME
     bool r = false;
     const QStringList id = m_notes->getIDList();
     for(int i = 0; i < id.size(); i++) {
@@ -188,6 +189,7 @@ void NotesDockWidget::removeMark(VerseSelection selection)
                     end = start;
                 }
                 if(m_notes->getRef(noteID, "start").toInt() <= start && end <= m_notes->getRef(noteID, "end").toInt()) {
+                    myDebug() << "remove = " << m_notes->getRef(noteID, "start");
                     //todo: work with positions in text
                     m_notes->removeNote(noteID);
                     r = true;

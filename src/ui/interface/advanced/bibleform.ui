@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MdiForm</class>
- <widget class="QWidget" name="MdiForm">
+ <class>BibleForm</class>
+ <widget class="QWidget" name="BibleForm">
   <property name="geometry">
    <rect>
     <x>0</x>

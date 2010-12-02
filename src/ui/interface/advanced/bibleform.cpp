@@ -11,8 +11,8 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#include "mdiform.h"
-#include "ui_mdiform.h"
+#include "bibleform.h"
+#include "ui_bibleform.h"
 #include "src/core/dbghelper.h"
 #include "biblelistwidget.h"
 #include <QtGui/QAction>
@@ -22,7 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QWebFrame>
 #include "src/core/core.h"
 #include "src/core/bible/bibleurl.h"
-MdiForm::MdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::MdiForm)
+BibleForm::BibleForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::BibleForm)
 {
     m_ui->setupUi(this);
 
@@ -45,7 +45,7 @@ MdiForm::MdiForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::MdiForm)
     setButtons();
 
 }
-void MdiForm::changeEvent(QEvent *e)
+void BibleForm::changeEvent(QEvent *e)
 {
     switch(e->type()) {
     case QEvent::LanguageChange:
@@ -55,22 +55,22 @@ void MdiForm::changeEvent(QEvent *e)
         break;
     }
 }
-void MdiForm::historyGetUrl(QString url)
+void BibleForm::historyGetUrl(QString url)
 {
     browserHistory.setCurrent(url);
     setButtons();
 }
-void MdiForm::backward()
+void BibleForm::backward()
 {
     emit historyGo(browserHistory.backward());
     setButtons();
 }
-void MdiForm::forward()
+void BibleForm::forward()
 {
     emit historyGo(browserHistory.forward());
     setButtons();
 }
-void MdiForm::setButtons()
+void BibleForm::setButtons()
 {
     if(browserHistory.backwardAvailable()) {
         m_ui->toolButton_backward->setDisabled(false);
@@ -84,7 +84,7 @@ void MdiForm::setButtons()
     }
 }
 
-void MdiForm::showBibleListMenu()
+void BibleForm::showBibleListMenu()
 {
     BibleListWidget *w = new BibleListWidget(this);
     setAll(w);
@@ -92,7 +92,7 @@ void MdiForm::showBibleListMenu()
     w->exec();
 }
 
-void MdiForm::readChapter(int id)
+void BibleForm::readChapter(int id)
 {
     BibleUrl url;
     url.setBible(BibleUrl::LoadCurrentBible);
@@ -102,7 +102,7 @@ void MdiForm::readChapter(int id)
     m_bibleDisplay->emitGet(url.toString());
 }
 
-void MdiForm::readBook(int id)
+void BibleForm::readBook(int id)
 {
     const int i = m_bookIDs.at(id);
     BibleUrl url;
@@ -113,7 +113,7 @@ void MdiForm::readBook(int id)
 
     m_bibleDisplay->emitGet(url.toString());
 }
-MdiForm::~MdiForm()
+BibleForm::~BibleForm()
 {
     delete m_ui;
 }

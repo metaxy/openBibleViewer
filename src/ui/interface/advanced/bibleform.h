@@ -11,30 +11,30 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef MDIFORM_H
-#define MDIFORM_H
+#ifndef BIBLEFORM_H
+#define BIBLEFORM_H
 
 #include <QtGui/QWidget>
 #include <QtGui/QCloseEvent>
 #include <QtGui/QToolBar>
 #include "src/core/basicclass.h"
-#include "ui_mdiform.h"
+#include "ui_bibleform.h"
 #include "src/core/history.h"
 #include "webview.h"
 #include <QContextMenuEvent>
 namespace Ui
 {
-class MdiForm;
+class BibleForm;
 }
 
-class MdiForm : public QWidget, public BasicClass
+class BibleForm : public QWidget, public BasicClass
 {
     Q_OBJECT
-    Q_DISABLE_COPY(MdiForm)
+    Q_DISABLE_COPY(BibleForm)
 public:
-    explicit MdiForm(QWidget *parent = 0);
-    virtual ~MdiForm();
-    Ui::MdiForm *m_ui;
+    explicit BibleForm(QWidget *parent = 0);
+    virtual ~BibleForm();
+    Ui::BibleForm *m_ui;
     WebView *m_view;
     QList<int> m_bookIDs;
 private slots:
@@ -50,14 +50,14 @@ public slots:
     void historyGetUrl(QString url);
     void backward();
     void forward();
+    void zoomIn();
+    void zoomOut();
 
 protected:
     virtual void changeEvent(QEvent *e);
 private:
     History browserHistory;
     void setButtons();
-
-
 };
 
-#endif // MDIFORM_H
+#endif // BIBLEFORM_H

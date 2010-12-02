@@ -267,8 +267,9 @@ set ( openBibleViewer_SRCS
     src/ui/interface/advanced/biblelistwidget.cpp
     src/ui/interface/advanced/biblelistitemdelegate.cpp
     src/ui/interface/advanced/mdiareafilter.cpp
-    src/ui/interface/advanced/mdiform.cpp
+    src/ui/interface/advanced/bibleform.cpp
     src/ui/interface/advanced/webview.cpp
+    src/ui/interface/advanced/windowmanager.cpp
     src/ui/interface/advanced/advancedinterface.cpp
     src/ui/interface/study/studyinterface.cpp
     src/ui/interface/interface.cpp
@@ -305,7 +306,7 @@ set ( openBibleViewer_UIS
     src/ui/interface/simple/simpleinterface.ui
     src/ui/interface/advanced/advancedinterface.ui
     src/ui/interface/study/studyinterface.ui
-    src/ui/interface/advanced/mdiform.ui
+    src/ui/interface/advanced/bibleform.ui
     src/ui/interface/advanced/biblelistwidget.ui
 
     src/ui/mainwindow.ui
@@ -375,7 +376,7 @@ set ( openBibleViewer_MOCS
     src/ui/interface/advanced/biblelistwidget.h
     src/ui/interface/advanced/biblelistitemdelegate.h
     src/ui/interface/advanced/mdiareafilter.h
-
+    src/ui/interface/advanced/windowmanager.h
 	)
 QT4_WRAP_CPP ( MOCS ${openBibleViewer_MOCS} )
 

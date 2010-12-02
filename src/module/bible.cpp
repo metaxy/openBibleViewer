@@ -509,7 +509,7 @@ TextRange Bible::readRange(const Range &range)
         if(!data.contains(verseCounter))
             continue; //todo: or should i better add an empty verse?
         Verse verse = data.value(verseCounter);
-        myDebug() << "verse = " << verse.verseID();
+        //myDebug() << "verse = " << verse.verseID();
         //main formatting
         if(m_notes != 0 && m_bibleDisplaySettings->showNotes() == true) {
             for(int n = 0; n < m_notes->getIDList().size(); ++n) {
@@ -620,7 +620,7 @@ TextRange Bible::readRange(const Range &range)
     while (i.hasNext()) {
          i.next();
          Verse verse = i.value();
-         myDebug() << verse.verseID();
+         //myDebug() << verse.verseID();
          switch(m_moduleType) {
          case Module::BibleQuoteModule: {
              if(i.key() > 1) {//because of the chapter
