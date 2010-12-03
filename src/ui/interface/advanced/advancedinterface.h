@@ -98,12 +98,7 @@ private slots:
     void attachApi();
     void showContextMenu(QContextMenuEvent*ev);
     void debugger();
-
-
-
     void installResizeFilter();
-
-
 
 public:
     AdvancedInterface(QWidget *parent = 0);

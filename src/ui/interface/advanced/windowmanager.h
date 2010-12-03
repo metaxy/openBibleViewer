@@ -5,6 +5,7 @@
 #include <QtGui/QMdiArea>
 #include "src/core/basicclass.h"
 #include "src/core/windowcache.h"
+#include "bibleform.h"
 #include <QWebView>
 class WindowManager : public QObject , public BasicClass
 {
@@ -28,14 +29,15 @@ public slots:
     int reloadWindow(QMdiSubWindow * window);
     void mdiAreaResized();
 
+
 private:
     QMdiArea *m_area;//not in our control
     bool m_enableReload;
 
     QMdiSubWindow *activeMdiChild();
+    BibleForm *activeForm();
     QList<QMdiSubWindow*> usableWindowList();
     int currentWindowName();
-    WindowCache m_windowCache;
     int m_lastActiveWindow;
     QWebView* getView();
     void setEnableReload(bool enable);

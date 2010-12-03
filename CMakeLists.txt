@@ -370,7 +370,7 @@ set ( openBibleViewer_MOCS
     src/ui/interface/simple/simpleinterface.h
     src/ui/interface/study/studyinterface.h
 
-    src/ui/interface/advanced/mdiform.h
+    src/ui/interface/advanced/bibleform.h
     src/ui/interface/advanced/advancedinterface.h
     src/ui/interface/advanced/webview.h
     src/ui/interface/advanced/biblelistwidget.h

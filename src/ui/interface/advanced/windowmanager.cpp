@@ -1,5 +1,7 @@
 #include "windowmanager.h"
 #include "src/core/dbghelper.h"
+#include "bibleform.h"
+#include <QtGui/QMdiSubWindow>
 WindowManager::WindowManager(QObject *parent) :
     QObject(parent)
 {
@@ -16,22 +18,21 @@ void WindowManager::init()
 void WindowManager::newSubWindow(bool doAutoLayout)
 {
     DEBUG_FUNC_NAME;
-    m_enableReload = false;
+    setEnableReload(false);
     int windowsCount = usableWindowList().size();
     QMdiSubWindow *firstSubWindow = new QMdiSubWindow();
     if(windowsCount == 1) {
         firstSubWindow = usableWindowList().at(0);
     }
 
-    const int windowName = m_windowCache.newWindow();
-
     QWidget *widget = new QWidget(m_area);
     QVBoxLayout *layout = new QVBoxLayout(widget);
 
-    MdiForm *mForm = new MdiForm(widget);
-    mForm->setObjectName("mdiForm");
-    setAll(mForm);
-    layout->addWidget(mForm);
+    BibleForm *bibleForm = new BibleForm(widget);
+    bibleForm->setObjectName("mdiForm");
+    setAll(bibleForm);
+    bibleForm->init();
+    layout->addWidget(bibleForm);
 
     widget->setLayout(layout);
     QMdiSubWindow *subWindow = m_area->addSubWindow(widget);
@@ -42,13 +43,6 @@ void WindowManager::newSubWindow(bool doAutoLayout)
     subWindow->show();
     m_area->setActiveSubWindow(subWindow);
     attachApi();
-
-    m_moduleManager->m_bibleList = new BibleList();
-    Bible *b = new Bible();
-    m_moduleManager->initBible(b);
-    m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
-    m_windowCache.setBibleList(m_moduleManager->m_bibleList);
-
 
     if(m_area->viewMode() == QMdiArea::SubWindowView) {
         if(windowsCount == 0  && doAutoLayout) {
@@ -64,26 +58,27 @@ void WindowManager::newSubWindow(bool doAutoLayout)
         }
     }
 
-    connect(mForm->m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
-    connect(mForm->m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
-    connect(mForm->m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
+    connect(bibleForm->m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
+    connect(bibleForm->m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
+    connect(bibleForm->m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
 
-    mForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
-    mForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
+    bibleForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
+    bibleForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
 #if QT_VERSION >= 0x040700
-    mForm->m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
-    mForm->m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled, true);
-    mForm->m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
-    mForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
-    mForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
+    bibleForm->m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
+    bibleForm->m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled, true);
+    bibleForm->m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
+    bibleForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
+    bibleForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
 #endif
 
-    connect(mForm, SIGNAL(historyGo(QString)), this, SLOT(pharseUrl(QString)));
-    connect(mForm, SIGNAL(previousChapter()), this, SLOT(previousChapter()));
-    connect(mForm, SIGNAL(nextChapter()), this, SLOT(nextChapter()));
-    connect(this, SIGNAL(historySetUrl(QString)), mForm, SLOT(historyGetUrl(QString)));
+    connect(bibleForm, SIGNAL(historyGo(QString)), this, SLOT(pharseUrl(QString)));
+    connect(bibleForm, SIGNAL(previousChapter()), this, SLOT(previousChapter()));
+    connect(bibleForm, SIGNAL(nextChapter()), this, SLOT(nextChapter()));
+    connect(this, SIGNAL(historySetUrl(QString)), bibleForm, SLOT(historyGetUrl(QString)));
     connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closingWindow()));
-    m_enableReload = true;
+
+    setEnableReload(true);
     if(doAutoLayout && m_area->viewMode() == QMdiArea::SubWindowView) {
         autoLayout();
     }
@@ -127,9 +122,24 @@ QMdiSubWindow * WindowManager::activeMdiChild()
         if(QMdiSubWindow *activeSubWindow = m_area->activeSubWindow())
             return activeSubWindow;
     }
-    return 0;
+    return NULL;
+}
+BibleForm * WindowManager::activeForm()
+{
+    if(activeMdiChild()) {
+        return activeMdiChild()->activeMdiChild()->widget()->findChild<BibleForm *>("mdiForm");
+    }
+    return NULL;
 }
 
+QWebView* WindowManager::getView()
+{
+    if(activeMdiChild()) {
+        QWebView *t = activeMdiChild()->widget()->findChild<QWebView *>("webView");
+        return t;
+    }
+    return NULL;
+}
 void WindowManager::myTileVertical()
 {
     if(!m_enableReload || !usableWindowList().count()) {
@@ -258,30 +268,15 @@ int WindowManager::closingWindow()
     DEBUG_FUNC_NAME
     // myDebug() << "enable reload = " << m_enableReload << "subWIndowList = " << m_area->subWindowList() << "internalWindow " << m_internalWindows;
     if(m_area->subWindowList().isEmpty()) {
-        myDebug() << "subWindowList is empty";
         clearBooks();
         clearChapters();
-        m_windowCache.clearAll();
         return 1;
-    }
-    //if one in the internal subwindow list list is missing that window was closed
-    QList<int> nameList = m_windowCache.nameList();
-    QList<int> deletedList = nameList;
-    foreach(QMdiSubWindow * win, m_area->subWindowList()) {
-        if(nameList.contains(win->objectName().toInt())) {
-            deletedList.removeOne(win->objectName().toInt());
-        }
-
-    }
-    foreach(const int & name, deletedList) {
-        m_windowCache.removeWindow(name);
     }
 
     if(m_area->subWindowList().isEmpty()) {  //last window closed
         myDebug() << "last closed";
         clearBooks();
         clearChapters();
-        m_windowCache.clearAll();
         return 1;
     }
     reloadWindow(m_area->currentSubWindow());
@@ -303,8 +298,7 @@ int WindowManager::reloadWindow(QMdiSubWindow * window)
     if(m_area->subWindowList().count() <= 0) {
         return 1;
     }
-    m_windowCache.setCurrentWindowName(windowName);
-    BibleList *list = m_windowCache.getBibleList();
+    BibleList *list = activeForm()->m_bibleList;
     if(list == NULL || list->bible() == NULL) {
         clearChapters();
         clearBooks();
@@ -340,4 +334,22 @@ void WindowManager::mdiAreaResized()
     //todo: really every do time autoLayout ?
     if(m_area->viewMode() == QMdiArea::SubWindowView)
         autoLayout();
+}
+
+
+void WindowManager::setEnableReload(bool enable)
+{
+    m_enableReload = enable;
+}
+
+void WindowManager::zoomIn()
+{
+    if(activeForm())
+        activeForm()->zoomIn();
+}
+
+void WindowManager::zoomOut()
+{
+    if(activeForm())
+        activeForm()->zoomOut();
 }

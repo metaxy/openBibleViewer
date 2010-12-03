@@ -22,6 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/history.h"
 #include "webview.h"
 #include <QContextMenuEvent>
+#include "src/module/biblelist.h"
 namespace Ui
 {
 class BibleForm;
@@ -34,9 +35,11 @@ class BibleForm : public QWidget, public BasicClass
 public:
     explicit BibleForm(QWidget *parent = 0);
     virtual ~BibleForm();
+    void init();
     Ui::BibleForm *m_ui;
     WebView *m_view;
     QList<int> m_bookIDs;
+    BibleList *m_bibleList;
 private slots:
     void showBibleListMenu();
     void readBook(int id);
@@ -52,6 +55,15 @@ public slots:
     void forward();
     void zoomIn();
     void zoomOut();
+
+
+    void setTitle(const QString &title);
+    void setChapters(const QStringList &chapters);
+    void setBooks(const QHash<int, QString> &books, QList<int> ids);
+    void clearBooks();
+    void clearChapters();
+    void setCurrentBook(const int &bookID);
+    void setCurrentChapter(const int &chapterID);
 
 protected:
     virtual void changeEvent(QEvent *e);

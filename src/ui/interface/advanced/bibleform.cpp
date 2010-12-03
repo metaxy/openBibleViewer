@@ -45,6 +45,15 @@ BibleForm::BibleForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::BibleForm)
     setButtons();
 
 }
+void BibleForm::init()
+{
+    m_moduleManager->m_bibleList = new BibleList();
+    Bible *b = new Bible();
+    m_moduleManager->initBible(b);
+    m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
+    m_bibleList = m_moduleManager->m_bibleList;
+}
+
 void BibleForm::changeEvent(QEvent *e)
 {
     switch(e->type()) {
@@ -113,8 +122,18 @@ void BibleForm::readBook(int id)
 
     m_bibleDisplay->emitGet(url.toString());
 }
+void BibleForm::zoomIn()
+{
+    m_view->setZoomFactor(m_view->zoomFactor() + 0.1);
+}
+
+void BibleForm::zoomOut()
+{
+    m_view->setZoomFactor(m_view->zoomFactor() - 0.1);
+}
 BibleForm::~BibleForm()
 {
     delete m_ui;
+    delete m_bibleList;
 }
 

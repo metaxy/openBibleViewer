@@ -471,35 +471,6 @@ void AdvancedInterface::pharseUrl(QString url)
     return;
 }
 
-QWebView* AdvancedInterface::getView()
-{
-    if(activeMdiChild()) {
-        QWebView *t = activeMdiChild()->widget()->findChild<QWebView *>("webView");
-        return t;
-    }
-    return 0;
-}
-
-void AdvancedInterface::setEnableReload(bool enable)
-{
-    m_enableReload = enable;
-}
-
-void AdvancedInterface::zoomIn()
-{
-    QWebView *v = getView();
-    if(v) {
-        v->setZoomFactor(v->zoomFactor() + 0.1);
-    }
-}
-
-void AdvancedInterface::zoomOut()
-{
-    QWebView *v = getView();
-    if(v) {
-        v->setZoomFactor(v->zoomFactor() - 0.1);
-    }
-}
 
 void AdvancedInterface::showText(const QString &text)
 {
