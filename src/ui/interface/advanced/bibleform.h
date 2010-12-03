@@ -56,8 +56,6 @@ public slots:
     void zoomIn();
     void zoomOut();
 
-
-    void setTitle(const QString &title);
     void setChapters(const QStringList &chapters);
     void setBooks(const QHash<int, QString> &books, QList<int> ids);
 

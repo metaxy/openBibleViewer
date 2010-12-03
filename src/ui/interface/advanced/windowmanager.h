@@ -14,6 +14,8 @@ public:
     explicit WindowManager(QObject *parent = 0);
     void setMdiArea(QMdiArea *area);
     void init();
+    BibleForm *activeForm();
+    QMdiSubWindow *activeMdiChild();
 
 signals:
 
@@ -28,20 +30,17 @@ public slots:
     int closingWindow();
     int reloadWindow(QMdiSubWindow * window);
     void mdiAreaResized();
-
-    BibleForm *activeForm();
+    void zoomIn();
+    void zoomOut();
 
 
 private:
     QMdiArea *m_area;//not in our control
     bool m_enableReload;
-
-    QMdiSubWindow *activeMdiChild();
-
+    void autoLayout();
     QList<QMdiSubWindow*> usableWindowList();
     int currentWindowName();
     int m_lastActiveWindow;
-    QWebView* getView();
     void setEnableReload(bool enable);
 
 };

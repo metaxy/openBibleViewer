@@ -83,9 +83,9 @@ void WindowManager::newSubWindow(bool doAutoLayout)
         autoLayout();
     }
 
-    //clear old stuff
-    clearBooks();
-    clearChapters();
+    //todo: clear old stuff
+    //clearBooks();
+    //clearChapters();
 }
 
 void WindowManager::autoLayout()
@@ -127,19 +127,11 @@ QMdiSubWindow * WindowManager::activeMdiChild()
 BibleForm * WindowManager::activeForm()
 {
     if(activeMdiChild()) {
-        return activeMdiChild()->activeMdiChild()->widget()->findChild<BibleForm *>("mdiForm");
+        return activeMdiChild()->widget()->findChild<BibleForm *>("mdiForm");
     }
     return NULL;
 }
 
-QWebView* WindowManager::getView()
-{
-    if(activeMdiChild()) {
-        QWebView *t = activeMdiChild()->widget()->findChild<QWebView *>("webView");
-        return t;
-    }
-    return NULL;
-}
 void WindowManager::myTileVertical()
 {
     if(!m_enableReload || !usableWindowList().count()) {
@@ -149,7 +141,7 @@ void WindowManager::myTileVertical()
     m_enableReload = false;
     QMdiSubWindow* active = m_area->activeSubWindow();
 
-    const int widthForEach = width() / windows.count();
+    const int widthForEach = m_area->width() / windows.count();
     unsigned int x = 0;
     foreach(QMdiSubWindow * window, windows) {
         window->showNormal();
@@ -157,7 +149,7 @@ void WindowManager::myTileVertical()
         const int preferredWidth = window->minimumWidth() + window->baseSize().width();
         const int actWidth = qMax(widthForEach, preferredWidth);
 
-        window->setGeometry(x, 0, actWidth, height());
+        window->setGeometry(x, 0, actWidth, m_area->height());
         x += actWidth;
     }
 
@@ -174,7 +166,7 @@ void WindowManager::myTileHorizontal()
     setEnableReload(false);
     QMdiSubWindow* active = m_area->activeSubWindow();
 
-    const int heightForEach = height() / windows.count();
+    const int heightForEach = m_area->height() / windows.count();
     unsigned int y = 0;
     foreach(QMdiSubWindow * window, windows) {
         window->showNormal();
@@ -182,7 +174,7 @@ void WindowManager::myTileHorizontal()
         const int preferredHeight = window->minimumHeight() + window->baseSize().height();
         const int actHeight = qMax(heightForEach, preferredHeight);
 
-        window->setGeometry(0, y, width(), actHeight);
+        window->setGeometry(0, y, m_area->width(), actHeight);
         y += actHeight;
     }
     if(active)
@@ -199,8 +191,8 @@ void WindowManager::myCascade()
     QList<QMdiSubWindow*> windows = usableWindowList();
 
     if(m_area->activeSubWindow() && m_area->activeSubWindow()->isMaximized()) {
-        if(m_area->activeSubWindow()->size() != this->size()) {
-            m_area->activeSubWindow()->resize(this->size());
+        if(m_area->activeSubWindow()->size() != m_area->size()) {
+            m_area->activeSubWindow()->resize(m_area->size());
         }
     } else if(windows.count() == 1) {
         windows.at(0)->showMaximized();
@@ -268,15 +260,15 @@ int WindowManager::closingWindow()
     DEBUG_FUNC_NAME
     // myDebug() << "enable reload = " << m_enableReload << "subWIndowList = " << m_area->subWindowList() << "internalWindow " << m_internalWindows;
     if(m_area->subWindowList().isEmpty()) {
-        clearBooks();
-        clearChapters();
+        //clearBooks();
+        //clearChapters();
         return 1;
     }
 
     if(m_area->subWindowList().isEmpty()) {  //last window closed
         myDebug() << "last closed";
-        clearBooks();
-        clearChapters();
+        //clearBooks();
+        //clearChapters();
         return 1;
     }
     reloadWindow(m_area->currentSubWindow());

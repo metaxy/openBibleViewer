@@ -140,8 +140,7 @@ private:
     VerseSelection verseSelection();
 
     void showChapter(const int &chapterID, const int &verseID);
-    void autoLayout();
-    QTextCursor m_textCursor;
+
     BibleDisplaySettings *m_bibleDisplaySettings;
 
     //Menu

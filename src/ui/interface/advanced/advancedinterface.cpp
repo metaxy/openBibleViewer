@@ -528,8 +528,8 @@ void AdvancedInterface::showText(const QString &text)
 void AdvancedInterface::setTitle(const QString &title)
 {
     this->parentWidget()->setWindowTitle(title + " - " + tr("openBibleViewer"));
-    if(activeMdiChild()) {
-        activeMdiChild()->widget()->setWindowTitle(title);
+    if(m_windowManager->activeMdiChild()) {
+        m_windowManager->activeMdiChild()->widget()->setWindowTitle(title);
     }
 }
 
