@@ -131,6 +131,73 @@ void BibleForm::zoomOut()
 {
     m_view->setZoomFactor(m_view->zoomFactor() - 0.1);
 }
+
+void BibleForm::setChapters(const QStringList &chapters)
+{
+    bool same = true;
+    if(m_ui->comboBox_chapters->count() == chapters.count()) {
+        for(int i = 0; i < chapters.count(); i++) {
+            if(m_ui->comboBox_chapters->itemText(i) != chapters.at(i)) {
+                same = false;
+            }
+        }
+    } else {
+        same = false;
+    }
+    if(!same) {
+        m_ui->comboBox_chapters->clear();
+        m_ui->comboBox_chapters->insertItems(0, chapters);
+    }
+}
+
+void BibleForm::clearChapters()
+{
+    m_ui->comboBox_chapters->clear();
+}
+void BibleForm::setCurrentChapter(const int &chapterID)
+{
+    disconnect(m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
+    m_ui->comboBox_chapters->setCurrentIndex(chapterID);
+    connect(m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
+}
+
+void BibleForm::setBooks(const QHash<int, QString> &books, QList<int> ids)
+{
+    bool same = true;
+    QHashIterator<int, QString> i(books);
+    int count = 0;
+    if(m_ui->comboBox_books->count() == books.count()) {
+        while(i.hasNext()) {
+            i.next();
+            if(m_ui->comboBox_books->itemText(count) != i.value()) {
+                same = false;
+                break;
+            }
+            count++;
+        }
+    } else {
+        same = false;
+    }
+    if(!same) {
+        m_ui->comboBox_books->clear();
+        m_ui->comboBox_books->insertItems(0, books.values());
+        m_bookIDs = ids;
+    }
+
+}
+void BibleForm::clearBooks()
+{
+    m_ui->comboBox_books->clear();
+}
+void BibleForm::setCurrentBook(const int &bookID)
+{
+    //todo: is there a better way then disconnect and connect?
+    disconnect(m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
+    m_ui->comboBox_books->setCurrentIndex(m_moduleManager->bible()->bookIDs().indexOf(bookID));
+    connect(m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
+}
+
+
 BibleForm::~BibleForm()
 {
     delete m_ui;

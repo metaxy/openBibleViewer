@@ -36,7 +36,7 @@ void WindowManager::newSubWindow(bool doAutoLayout)
 
     widget->setLayout(layout);
     QMdiSubWindow *subWindow = m_area->addSubWindow(widget);
-    subWindow->setObjectName(QString::number(windowName));
+    //subWindow->setObjectName(QString::number(windowName)); //todo:
     subWindow->setWindowIcon(QIcon(":/icons/16x16/main.png"));
     subWindow->setWindowOpacity(1.0);
     subWindow->setAttribute(Qt::WA_DeleteOnClose);

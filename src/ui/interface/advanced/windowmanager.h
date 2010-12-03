@@ -29,13 +29,15 @@ public slots:
     int reloadWindow(QMdiSubWindow * window);
     void mdiAreaResized();
 
+    BibleForm *activeForm();
+
 
 private:
     QMdiArea *m_area;//not in our control
     bool m_enableReload;
 
     QMdiSubWindow *activeMdiChild();
-    BibleForm *activeForm();
+
     QList<QMdiSubWindow*> usableWindowList();
     int currentWindowName();
     int m_lastActiveWindow;
