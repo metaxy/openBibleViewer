@@ -25,9 +25,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dock/dictionarydockwidget.h"
 #include "src/ui/dock/quickjumpdockwidget.h"
 #include "src/core/windowcache.h"
-#include "src/api/bibleapi.h"
+#include "src/api/api.h"
 #include "mdiareafilter.h"
-#include "mdiform.h"
 #include "windowmanager.h"
 #include <QtGui/QMdiSubWindow>
 #include <QtGui/QCloseEvent>
@@ -81,7 +80,7 @@ private slots:
     void previousChapter();
     int copyWholeVerse();
     void reloadChapter(bool full = false);
-    void reloadActive();
+
 
     void showBookmarksDock();
     void showNotesDock();
@@ -95,7 +94,6 @@ private slots:
     void setTabView();
     void setSubWindowView();
 
-    void attachApi();
     void showContextMenu(QContextMenuEvent*ev);
     void debugger();
     void installResizeFilter();
@@ -136,13 +134,13 @@ private:
     void setCurrentBook(const int &bookID);
     void setCurrentChapter(const int &chapterID);
 
-    void readBookByID(int id);
+    void readBookByID(const int &id);
     VerseSelection verseSelection();
 
     void showChapter(const int &chapterID, const int &verseID);
 
     BibleDisplaySettings *m_bibleDisplaySettings;
-
+    Api *m_api;
     //Menu
     QAction *m_actionTabView;
     QAction *m_actionSubWindowView;

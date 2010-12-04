@@ -5,6 +5,7 @@
 #include <QtGui/QMdiArea>
 #include "src/core/basicclass.h"
 #include "src/core/windowcache.h"
+#include "src/api/api.h"
 #include "bibleform.h"
 #include <QWebView>
 class WindowManager : public QObject , public BasicClass
@@ -13,6 +14,7 @@ class WindowManager : public QObject , public BasicClass
 public:
     explicit WindowManager(QObject *parent = 0);
     void setMdiArea(QMdiArea *area);
+    void setApi(Api *api);
     void init();
     BibleForm *activeForm();
     QMdiSubWindow *activeMdiChild();
@@ -32,10 +34,13 @@ public slots:
     void mdiAreaResized();
     void zoomIn();
     void zoomOut();
+    void reloadActive();
 
 
 private:
     QMdiArea *m_area;//not in our control
+    Api *m_api;//not in out control
+
     bool m_enableReload;
     void autoLayout();
     QList<QMdiSubWindow*> usableWindowList();

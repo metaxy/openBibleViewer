@@ -47,12 +47,10 @@ AdvancedInterface::AdvancedInterface(QWidget *parent) :
     ui(new Ui::AdvancedInterface)
 {
     ui->setupUi(this);
-    m_lastActiveWindow = -1;
 }
 
 AdvancedInterface::~AdvancedInterface()
 {
-    m_windowCache.clearAll();
     if(m_bibleDisplaySettings != NULL) {
         delete m_bibleDisplaySettings;
         m_bibleDisplaySettings = 0;
@@ -72,32 +70,27 @@ void AdvancedInterface::init()
     m_bibleDisplaySettings->setShowNotes(true);
     m_bibleDisplaySettings->setLoadNotes(true);
 
-
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
     connect(m_bibleDisplay, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
     connect(m_bibleDisplay, SIGNAL(get(QUrl)), this, SLOT(pharseUrl(QUrl)));
-
 
     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
     m_moduleManager->setBibleDisplaySettings(m_bibleDisplaySettings);
 
-    m_bibleApi = new BibleApi();
-    setAll(m_bibleApi);
+    m_api = new Api();
+    setAll(m_api);
+    m_api->init();
 
     createDefaultMenu();
     m_windowManager = new WindowManager(this);
     setAll(m_windowManager);
     m_windowManager->setMdiArea(ui->mdiArea);
 
-
-
     if(m_settings->session.getData("windowUrls").toStringList().size() == 0)
         QTimer::singleShot(10, this, SLOT(newSubWindow()));
 
     //QTimer::singleShot(1000, this, SLOT(installResizeFilter()));
-
-
 }
 void AdvancedInterface::createDocks()
 {
@@ -170,42 +163,13 @@ void AdvancedInterface::installResizeFilter()
     ui->mdiArea->installEventFilter(m_mdiAreaFilter);
 }
 
-
-void AdvancedInterface::attachApi()
-{
-    QWebFrame * frame = getView()->page()->mainFrame();
-    /*{
-        QFile file(":/data/js/jquery-1.4.2.min.js");
-        if(!file.open(QFile::ReadOnly | QFile::Text))
-            return;
-        QTextStream stream(&file);
-        QString jquery = stream.readAll();
-        file.close();
-        frame->evaluateJavaScript(jquery);
-    }
-    */
-    {
-        QFile file(":/data/js/tools.js");
-        if(!file.open(QFile::ReadOnly | QFile::Text))
-            return;
-        QTextStream stream(&file);
-        QString tools = stream.readAll();
-        file.close();
-        frame->evaluateJavaScript(tools);
-    }
-
-    frame->addToJavaScriptWindowObject("Bible", m_bibleApi);
-    m_bibleApi->setFrame(frame);
-}
-
-
 bool AdvancedInterface::loadModuleDataByID(int moduleID)
 {
     DEBUG_FUNC_NAME
     myDebug() << "id = " << moduleID;
     //open a new window if they are none
     if(ui->mdiArea->subWindowList().size() == 0)
-        newSubWindow();
+        m_windowManager->newSubWindow();
 
     if(moduleID < 0 || !m_moduleManager->contains(moduleID)) {
         myWarning() << "failed id = " << moduleID << m_moduleManager->m_moduleMap->m_map;
@@ -217,13 +181,9 @@ bool AdvancedInterface::loadModuleDataByID(int moduleID)
     }
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
-    m_windowCache.setCurrentWindowName(currentWindowName());
-    m_windowCache.setBibleList(m_moduleManager->bibleList());
-
     Module::ModuleType type = m_moduleManager->getModule(moduleID)->m_moduleType;
     m_moduleManager->bible()->setModuleType(type);
     m_moduleManager->bible()->loadModuleData(moduleID);
-
 
     setTitle(m_moduleManager->bible()->bibleTitle());
     setBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
@@ -244,7 +204,7 @@ void AdvancedInterface::pharseUrl(QString url)
     DEBUG_FUNC_NAME
 
     QString url_backup = url;
-    setEnableReload(false);
+    //setEnableReload(false);
     myDebug() << "url = " << url;
 
     const QString bible = "bible://";
@@ -262,14 +222,14 @@ void AdvancedInterface::pharseUrl(QString url)
             return;
         }
         if(bibleUrl.bible() == BibleUrl::ReloadActive) {
-            reloadActive();
+            m_windowManager->reloadActive();
         } else {
             bool reloadBible = false;
             bool reloadBook = false;
             bool reloadChapter = false;
             bool reloadVerse = false;
-            if(!activeMdiChild()) {
-                newSubWindow();
+            if(!m_windowManager->activeMdiChild()) {
+                m_windowManager->newSubWindow();
             }
             if((bibleUrl.bibleID() != m_moduleManager->bible()->moduleID()  && bibleUrl.bible() == BibleUrl::LoadBibleByID) ||
                     !m_moduleManager->bible()->loaded() || (bibleUrl.getParam("force") == "true")) {
@@ -418,13 +378,8 @@ void AdvancedInterface::pharseUrl(QString url)
             showChapter(c, 0);
             setCurrentChapter(c);
         } else {
-            if(activeMdiChild()) {
-#if QT_VERSION >= 0x040700
-                getView()->page()->mainFrame()->scrollToAnchor(url);
-#else
-                getView()->page()->mainFrame()->evaluateJavaScript("window.location.href = '" + url + "';");
-#endif
-            }
+            if(m_windowManager->activeForm())
+                m_windowManager->activeForm()->scrollToAnchor(url);
         }
 
     } else if(url.startsWith(note)) {
@@ -464,64 +419,19 @@ void AdvancedInterface::pharseUrl(QString url)
                 emit get("bible://current/" + QString::number(b));
             }
         } else {
-            getView()->page()->mainFrame()->evaluateJavaScript(url);
+            if(m_windowManager->activeForm())
+                m_windowManager->activeForm()->evaluateJavaScript(url);
         }
     }
-    setEnableReload(true);
+    //setEnableReload(true);
     return;
 }
 
 
 void AdvancedInterface::showText(const QString &text)
 {
-    QWebView *v = getView();
-    if(v) {
-        QString cssFile = m_settings->getModuleSettings(m_moduleManager->bible()->moduleID()).styleSheet;
-        if(cssFile.isEmpty())
-            cssFile = ":/data/css/default.css";
-
-        QFile file(cssFile);
-        if(file.open(QFile::ReadOnly))
-            v->settings()->setUserStyleSheetUrl(QUrl("data:text/css;charset=utf-8;base64," + file.readAll().toBase64()));
-
-        v->setHtml(text);
-        if(m_moduleManager->bible()->verseID() > 1) {
-#if QT_VERSION >= 0x040700
-            v->page()->mainFrame()->scrollToAnchor("currentVerse");
-#else
-            v->page()->mainFrame()->evaluateJavaScript("window.location.href = '#currentVerse';");
-#endif
-            if(m_moduleManager->bibleList()->hasTopBar())
-                v->page()->mainFrame()->scroll(0, -40); //due to the biblelist bar on top
-        }
-
-        if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule) {
-            QWebElementCollection collection = v->page()->mainFrame()->documentElement().findAll("img");
-            QStringList searchPaths = m_moduleManager->bible()->getSearchPaths();
-
-            foreach(QWebElement paraElement, collection) {
-                QString url = paraElement.attribute("src");
-                if(url.startsWith(":/") || url.startsWith("http"))
-                    continue;
-                foreach(const QString & pre, searchPaths) {
-                    QFileInfo i(pre + url);
-                    if(i.exists()) {
-                        paraElement.setAttribute("src", "file://" + pre + url);
-                        break;
-                    } else {
-                        QDir d(pre);
-                        QStringList list = d.entryList();
-                        foreach(const QString & f, list) {
-                            QFileInfo info2(f);
-                            if(info2.baseName().compare(i.baseName(), Qt::CaseInsensitive) == 0) {
-                                paraElement.setAttribute("src", "file://" + pre + f);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    if(m_windowManager->activeForm()) {
+        m_windowManager->activeForm()->showText(text);
     }
 }
 
@@ -547,7 +457,7 @@ void AdvancedInterface::setCurrentChapter(const int &chapterID)
     DEBUG_FUNC_NAME
     m_bookDockWidget->setCurrentChapter(chapterID);
     if(m_windowManager->activeForm()) {
-        m_windowManager->activeForm()->setCurrentChapter(bookID);
+        m_windowManager->activeForm()->setCurrentChapter(chapterID);
     }
 }
 void AdvancedInterface::clearChapters()
@@ -596,7 +506,7 @@ void AdvancedInterface::readBook(const int &id)
     emit get(url.toString());
 }
 
-void AdvancedInterface::readBookByID(int id)
+void AdvancedInterface::readBookByID(const int &id)
 {
     QApplication::setOverrideCursor(Qt::WaitCursor);
     if(id < 0) {
@@ -689,10 +599,11 @@ void AdvancedInterface::previousChapter()
 void AdvancedInterface::reloadChapter(bool full)
 {
     DEBUG_FUNC_NAME
-    if(!activeMdiChild())
+    if(!m_windowManager->activeMdiChild())
         return;
-    setEnableReload(false);
-    const QWebView *v = getView();
+    //setEnableReload(false);
+    //todo: hacky
+    const QWebView *v = m_windowManager->activeForm()->m_view;
     const QPoint p = v->page()->mainFrame()->scrollPosition();
     myDebug() << m_moduleManager->bible()->moduleID();
     if(full) {
@@ -713,20 +624,12 @@ void AdvancedInterface::reloadChapter(bool full)
         emit get(url.toString());
     }
     v->page()->mainFrame()->setScrollPosition(p);
-    setEnableReload(true);
-}
-
-void AdvancedInterface::reloadActive()
-{
-    DEBUG_FUNC_NAME
-    setEnableReload(true);
-    reloadWindow(ui->mdiArea->currentSubWindow());
-    setEnableReload(false);
+    //setEnableReload(true);
 }
 
 VerseSelection AdvancedInterface::verseSelection()
 {
-    QWebFrame *f = getView()->page()->mainFrame();
+   /* QWebFrame *f = getView()->page()->mainFrame();*/
     VerseSelection s;
     if(!f)
         return s;
@@ -974,7 +877,7 @@ void AdvancedInterface::showContextMenu(QContextMenuEvent* ev)
 
 int AdvancedInterface::copyWholeVerse(void)
 {
-    if(!activeMdiChild())
+    if(!m_windowManager->activeMdiChild())
         return 1;
     //todo: make it much better by using Ranges
     VerseSelection selection = verseSelection();
@@ -1006,10 +909,11 @@ int AdvancedInterface::copyWholeVerse(void)
 
 void AdvancedInterface::debugger()
 {
-    getView()->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
+    //todo: reenable
+    /*getView()->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
     QWebInspector *inspector = new QWebInspector(this);
     inspector->setPage(getView()->page());
-    inspector->showNormal();
+    inspector->showNormal();*/
 }
 
 void AdvancedInterface::newColorMark()
@@ -1017,7 +921,7 @@ void AdvancedInterface::newColorMark()
     if(!m_moduleManager->bibleLoaded()) {
         return;
     }
-    if(!activeMdiChild())
+    if(!m_windowManager->activeMdiChild())
         return;
     const QString colorName = sender()->objectName();
     QColor color;
@@ -1044,7 +948,7 @@ void AdvancedInterface::newCustomColorMark()
     if(!m_moduleManager->bibleLoaded()) {
         return;
     }
-    if(!activeMdiChild())
+    if(!m_windowManager->activeMdiChild())
         return;
     VerseSelection selection = verseSelection();
     const QColor color = QColorDialog::getColor(QColor(255, 255, 0), this);
@@ -1059,7 +963,7 @@ void AdvancedInterface::newBoldMark()
     if(!m_moduleManager->bibleLoaded()) {
         return;
     }
-    if(!activeMdiChild())
+    if(!m_windowManager->activeMdiChild())
         return;
     VerseSelection selection = verseSelection();
     m_notesDockWidget->newStyleMark(selection, "font-weight: bold;");
@@ -1071,7 +975,7 @@ void AdvancedInterface::newItalicMark()
     if(!m_moduleManager->bibleLoaded()) {
         return;
     }
-    if(!activeMdiChild())
+    if(!m_windowManager->activeMdiChild())
         return;
     VerseSelection selection = verseSelection();
     m_notesDockWidget->newStyleMark(selection, "font-style: italic;");
@@ -1082,7 +986,7 @@ void AdvancedInterface::newUnderlineMark()
     if(!m_moduleManager->bibleLoaded()) {
         return;
     }
-    if(!activeMdiChild())
+    if(!m_windowManager->activeMdiChild())
         return;
     VerseSelection selection = verseSelection();
     m_notesDockWidget->newStyleMark(selection, "text-decoration:underline;");
@@ -1092,7 +996,7 @@ void AdvancedInterface::newUnderlineMark()
 void AdvancedInterface::removeMark()
 {
     DEBUG_FUNC_NAME;
-    if(!m_moduleManager->bibleLoaded() && !activeMdiChild()) {
+    if(!m_moduleManager->bibleLoaded() && !m_windowManager->activeMdiChild()) {
         return;
     }
     VerseSelection selection = verseSelection();
@@ -1102,7 +1006,7 @@ void AdvancedInterface::removeMark()
 
 void AdvancedInterface::closing()
 {
-    m_notesDockWidget->saveNote();
+   /* m_notesDockWidget->saveNote();
     m_bookmarksDockWidget->saveBookmarks();
 
     QStringList windowUrls;
@@ -1148,19 +1052,19 @@ void AdvancedInterface::closing()
     m_settings->session.setData("scrollPos", scrollPos);
     m_settings->session.setData("zoom", zoom);
     m_settings->session.setData("viewMode", ui->mdiArea->viewMode());
-    m_settings->session.setData("windowID", current);
+    m_settings->session.setData("windowID", current);*/
 }
 
 void AdvancedInterface::restoreSession()
 {
-    DEBUG_FUNC_NAME
+    /*DEBUG_FUNC_NAME
     const QStringList windowUrls = m_settings->session.getData("windowUrls").toStringList();
     const QVariantList windowGeo = m_settings->session.getData("windowGeo").toList();
     const QVariantList scrollPos = m_settings->session.getData("scrollPos").toList();
     const QVariantList zoom = m_settings->session.getData("zoom").toList();
 
     for(int i = 0; i < windowUrls.size(); ++i) {
-        newSubWindow(true);
+        m_windowManager->newSubWindow(true);
         //load bible
         QString url = windowUrls.at(i);
         m_moduleManager->bibleList()->clear();
@@ -1201,7 +1105,7 @@ void AdvancedInterface::restoreSession()
     //myDebug() << id << ui->mdiArea->subWindowList();
     if(id < ui->mdiArea->subWindowList().size() && id > 0) {
         ui->mdiArea->setActiveSubWindow(ui->mdiArea->subWindowList().at(id));
-    }
+    }*/
 }
 
 void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettings, bool modifedModuleSettings)

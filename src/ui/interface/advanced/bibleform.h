@@ -23,6 +23,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "webview.h"
 #include <QContextMenuEvent>
 #include "src/module/biblelist.h"
+#include "src/api/api.h"
+
 namespace Ui
 {
 class BibleForm;
@@ -36,6 +38,8 @@ public:
     explicit BibleForm(QWidget *parent = 0);
     virtual ~BibleForm();
     void init();
+    void setApi(Api *api);
+
     Ui::BibleForm *m_ui;
     WebView *m_view;
     QList<int> m_bookIDs;
@@ -44,6 +48,7 @@ private slots:
     void showBibleListMenu();
     void readBook(int id);
     void readChapter(int id);
+    void attachApi();
 signals:
     void onClose();
     void historyGo(QString);
@@ -65,10 +70,19 @@ public slots:
     void setCurrentBook(const int &bookID);
     void setCurrentChapter(const int &chapterID);
 
+    void activated();
+
+    void scrollToAnchor(const QString &anchor);
+
+    void showText(const QString &text);
+
+    void evaluateJavaScript(const QString &js);
+
 protected:
     virtual void changeEvent(QEvent *e);
 private:
     History browserHistory;
+    Api *m_api;//not in out control
     void setButtons();
 };
 

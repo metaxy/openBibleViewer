@@ -19,7 +19,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMenu>
 #include <QtGui/QCursor>
 #include <QtGui/QMessageBox>
-#include <QWebFrame>
+#include <QtWebKit/QWebFrame>
+#include <QtWebKit/QWebElementCollection>
+#include <QtWebKit/QWebElement>
+#include <QtCore/QDir>
 #include "src/core/core.h"
 #include "src/core/bible/bibleurl.h"
 BibleForm::BibleForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::BibleForm)
@@ -52,18 +55,41 @@ void BibleForm::init()
     m_moduleManager->initBible(b);
     m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
     m_bibleList = m_moduleManager->m_bibleList;
+    attachApi();
+    connect(m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
+}
+void BibleForm::setApi(Api *api)
+{
+    m_api = api;
 }
 
-void BibleForm::changeEvent(QEvent *e)
+void BibleForm::attachApi()
 {
-    switch(e->type()) {
-    case QEvent::LanguageChange:
-        m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
+    QWebFrame * frame = m_view->page()->mainFrame();
+    /*{
+        QFile file(":/data/js/jquery-1.4.2.min.js");
+        if(!file.open(QFile::ReadOnly | QFile::Text))
+            return;
+        QTextStream stream(&file);
+        QString jquery = stream.readAll();
+        file.close();
+        frame->evaluateJavaScript(jquery);
     }
+    */
+    {
+        QFile file(":/data/js/tools.js");
+        if(!file.open(QFile::ReadOnly | QFile::Text))
+            return;
+        QTextStream stream(&file);
+        QString tools = stream.readAll();
+        file.close();
+        frame->evaluateJavaScript(tools);
+    }
+
+    frame->addToJavaScriptWindowObject("Bible", m_api->bibleApi());
+    m_api->bibleApi()->setFrame(frame);//todo: use it on activated
 }
+
 void BibleForm::historyGetUrl(QString url)
 {
     browserHistory.setCurrent(url);
@@ -196,7 +222,106 @@ void BibleForm::setCurrentBook(const int &bookID)
     m_ui->comboBox_books->setCurrentIndex(m_moduleManager->bible()->bookIDs().indexOf(bookID));
     connect(m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
 }
+void BibleForm::activated()
+{
+    BibleList *list = m_bibleList;
+    if(m_bibleList == NULL || m_bibleList->bible() == NULL) {
+        clearChapters();
+        clearBooks();
+        //setTitle("");
+        m_moduleManager->m_bibleList = NULL;
+        return;
+    }
+    if(m_bibleList->bible()->moduleID() < 0) {
+        clearChapters();
+        clearBooks();
+        //setTitle("");
+        m_moduleManager->m_bibleList = list;
+        return;
+    }
 
+
+    m_moduleManager->m_bibleList = m_bibleList;
+    myDebug() << "current bible title = " << m_moduleManager->bible()->bibleTitle();
+    //setTitle(m_moduleManager->bible()->bibleTitle());
+    //m_moduleDockWidget->loadedModule(m_moduleManager->bible()->moduleID()); //todo:
+
+    setChapters(m_moduleManager->bible()->chapterNames());
+    setCurrentChapter(m_moduleManager->bible()->chapterID());
+
+    setBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
+    setCurrentBook(m_moduleManager->bible()->bookID());
+}
+
+void BibleForm::changeEvent(QEvent *e)
+{
+    switch(e->type()) {
+    case QEvent::LanguageChange:
+        m_ui->retranslateUi(this);
+        break;
+    default:
+        break;
+    }
+}
+void BibleForm::scrollToAnchor(const QString &anchor)
+{
+#if QT_VERSION >= 0x040700
+        m_view->page()->mainFrame()->scrollToAnchor(anchor);
+#else
+        m_view->page()->mainFrame()->evaluateJavaScript("window.location.href = '" + anchor + "';");
+#endif
+
+}
+void BibleForm::showText(const QString &text)
+{
+    QString cssFile = m_settings->getModuleSettings(m_moduleManager->bible()->moduleID()).styleSheet;
+    if(cssFile.isEmpty())
+        cssFile = ":/data/css/default.css";
+
+    QFile file(cssFile);
+    if(file.open(QFile::ReadOnly))
+        m_view->settings()->setUserStyleSheetUrl(QUrl("data:text/css;charset=utf-8;base64," + file.readAll().toBase64()));
+
+    m_view->setHtml(text);
+    if(m_moduleManager->bible()->verseID() > 1) {
+        scrollToAnchor("currentVerse");
+        if(m_moduleManager->bibleList()->hasTopBar())
+            m_view->page()->mainFrame()->scroll(0, -40); //due to the biblelist bar on top
+    }
+
+    if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule) {
+        QWebElementCollection collection = m_view->page()->mainFrame()->documentElement().findAll("img");
+        QStringList searchPaths = m_moduleManager->bible()->getSearchPaths();
+
+        foreach(QWebElement paraElement, collection) {
+            QString url = paraElement.attribute("src");
+            if(url.startsWith(":/") || url.startsWith("http"))
+                continue;
+            foreach(const QString & pre, searchPaths) {
+                QFileInfo i(pre + url);
+                if(i.exists()) {
+                    paraElement.setAttribute("src", "file://" + pre + url);
+                    break;
+                } else {
+                    QDir d(pre);
+                    QStringList list = d.entryList();
+                    foreach(const QString & f, list) {
+                        QFileInfo info2(f);
+                        if(info2.baseName().compare(i.baseName(), Qt::CaseInsensitive) == 0) {
+                            paraElement.setAttribute("src", "file://" + pre + f);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+void BibleForm::evaluateJavaScript(const QString &js)
+{
+    m_view->page()->mainFrame()->evaluateJavaScript(js);
+}
 
 BibleForm::~BibleForm()
 {

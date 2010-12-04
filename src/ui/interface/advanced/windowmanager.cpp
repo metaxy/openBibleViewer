@@ -10,6 +10,10 @@ void WindowManager::setMdiArea(QMdiArea *area)
 {
     m_area = area;
 }
+void WindowManager::setApi(Api *api)
+{
+    m_api = api;
+}
 void WindowManager::init()
 {
     connect(m_area, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
@@ -42,7 +46,7 @@ void WindowManager::newSubWindow(bool doAutoLayout)
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
     subWindow->show();
     m_area->setActiveSubWindow(subWindow);
-    attachApi();
+
 
     if(m_area->viewMode() == QMdiArea::SubWindowView) {
         if(windowsCount == 0  && doAutoLayout) {
@@ -60,7 +64,6 @@ void WindowManager::newSubWindow(bool doAutoLayout)
 
     connect(bibleForm->m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
     connect(bibleForm->m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
-    connect(bibleForm->m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
 
     bibleForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
     bibleForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
@@ -290,33 +293,8 @@ int WindowManager::reloadWindow(QMdiSubWindow * window)
     if(m_area->subWindowList().count() <= 0) {
         return 1;
     }
-    BibleList *list = activeForm()->m_bibleList;
-    if(list == NULL || list->bible() == NULL) {
-        clearChapters();
-        clearBooks();
-        setTitle("");
-        m_moduleManager->m_bibleList = NULL;
-        return 1;
-    }
-    if(list->bible()->moduleID() < 0) {
-        clearChapters();
-        clearBooks();
-        setTitle("");
-        m_moduleManager->m_bibleList = list;
-        return 1;
-    }
+    activeForm()->activated();
 
-
-    m_moduleManager->m_bibleList = list;
-    myDebug() << "current bible title = " << m_moduleManager->bible()->bibleTitle();
-    setTitle(m_moduleManager->bible()->bibleTitle());
-    m_moduleDockWidget->loadedModule(m_moduleManager->bible()->moduleID());
-
-    setChapters(m_moduleManager->bible()->chapterNames());
-    setCurrentChapter(m_moduleManager->bible()->chapterID());
-
-    setBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
-    setCurrentBook(m_moduleManager->bible()->bookID());
 
     return 0;
 }
@@ -327,7 +305,13 @@ void WindowManager::mdiAreaResized()
     if(m_area->viewMode() == QMdiArea::SubWindowView)
         autoLayout();
 }
-
+void WindowManager::reloadActive()
+{
+    DEBUG_FUNC_NAME
+    //setEnableReload(true);
+    reloadWindow(m_area->currentSubWindow());
+    //setEnableReload(false);
+}
 
 void WindowManager::setEnableReload(bool enable)
 {
