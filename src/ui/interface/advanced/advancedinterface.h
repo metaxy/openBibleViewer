@@ -68,8 +68,8 @@ private slots:
     void search(SearchQuery query);
     void search();
 
-    int saveFile();
-    int printFile();
+    void saveFile();
+    void printFile();
     void onlineHelp();
 
     void copy();

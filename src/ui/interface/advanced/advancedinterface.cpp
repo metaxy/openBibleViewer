@@ -86,9 +86,10 @@ void AdvancedInterface::init()
     m_windowManager = new WindowManager(this);
     setAll(m_windowManager);
     m_windowManager->setMdiArea(ui->mdiArea);
+    m_windowManager->setApi(m_api);
 
     if(m_settings->session.getData("windowUrls").toStringList().size() == 0)
-        QTimer::singleShot(10, this, SLOT(newSubWindow()));
+        QTimer::singleShot(10, m_windowManager, SLOT(newSubWindow()));
 
     //QTimer::singleShot(1000, this, SLOT(installResizeFilter()));
 }
@@ -631,8 +632,8 @@ VerseSelection AdvancedInterface::verseSelection()
 {
    /* QWebFrame *f = getView()->page()->mainFrame();*/
     VerseSelection s;
-    if(!f)
-        return s;
+    /*if(!f)
+        return s;*/
     /*
         f->evaluateJavaScript("var verseSelection = new VerseSelection();verseSelection.getSelection();");
         s.startVerse = f->evaluateJavaScript("verseSelection.startVerse;").toInt();
@@ -1165,9 +1166,11 @@ void AdvancedInterface::showSearchDialog()
 {
     SearchDialog *sDialog = new SearchDialog(this);
     connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
-    const QString text = getView()->selectedText();
-    if(!text.isEmpty()) {
-        sDialog->setText(text);
+    if(m_windowManager->activeForm()) {
+        const QString text = m_windowManager->activeForm()->selectedText();
+        if(!text.isEmpty()) {
+            sDialog->setText(text);
+        }
     }
     sDialog->show();
     sDialog->exec();
@@ -1195,23 +1198,26 @@ void AdvancedInterface::search(SearchQuery query)
 void AdvancedInterface::searchInText(SearchQuery query)
 {
     DEBUG_FUNC_NAME
-    if(query.queryType == SearchQuery::Simple) {
+            //todo: refractor
+   /* if(query.queryType == SearchQuery::Simple) {
         QString s = query.searchText;
         //todo: hacky
         s.remove('*');
         s.remove('?');
         getView()->findText(s, QWebPage::HighlightAllOccurrences);
-    }
+    }*/
 }
 
 void AdvancedInterface::copy()
 {
-    getView()->page()->triggerAction(QWebPage::Copy);
+    if(m_windowManager->activeForm())
+        m_windowManager->activeForm()->copy();
 }
 
 void AdvancedInterface::selectAll()
 {
-    getView()->page()->triggerAction(QWebPage::SelectAll);
+    if(m_windowManager->activeForm())
+        m_windowManager->activeForm()->selectAll();
 }
 
 void AdvancedInterface::nextVerse()
@@ -1236,12 +1242,12 @@ QMenuBar* AdvancedInterface::menuBar()
 
     //New Sub Window
     QAction *actionNewSubWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New SubWindow"), menuFile);
-    connect(actionNewSubWindow, SIGNAL(triggered()), this, SLOT(newSubWindow()));
+    connect(actionNewSubWindow, SIGNAL(triggered()), m_windowManager, SLOT(newSubWindow()));
     actionNewSubWindow->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_T));//using const KeySequence on KDE will be Ctrl+Shift+N
 
     //Close Sub Window
     QAction *actionCloseSubWindow = new QAction(QIcon::fromTheme("tab-close", QIcon(":/icons/16x16/tab-close.png")), tr("Close SubWindow"), menuFile);
-    connect(actionCloseSubWindow, SIGNAL(triggered()), this, SLOT(closeSubWindow()));
+    connect(actionCloseSubWindow, SIGNAL(triggered()), m_windowManager, SLOT(closeSubWindow()));
     actionCloseSubWindow->setShortcut(QKeySequence::Close);
 
     //Save As
@@ -1336,28 +1342,28 @@ QMenuBar* AdvancedInterface::menuBar()
     //TabView
     m_actionTabView = new QAction(QIcon(), tr("Tabbed View"), menuView);
     m_actionTabView->setCheckable(true);
-    connect(m_actionTabView, SIGNAL(triggered()), this, SLOT(setTabView()));
+    connect(m_actionTabView, SIGNAL(triggered()), m_windowManager, SLOT(setTabView()));
 
     //SubWindowView
     m_actionSubWindowView = new QAction(QIcon(), tr("Sub Window View"), menuView);
     m_actionSubWindowView->setCheckable(true);
-    connect(m_actionSubWindowView, SIGNAL(triggered()), this, SLOT(setSubWindowView()));
+    connect(m_actionSubWindowView, SIGNAL(triggered()), m_windowManager, SLOT(setSubWindowView()));
 
     //Cascade
     QAction *actionCascade = new QAction(QIcon(":/icons/svg/cascade.svg"), tr("Cascade"), menuView);
-    connect(actionCascade, SIGNAL(triggered()), this, SLOT(myCascade()));
+    connect(actionCascade, SIGNAL(triggered()), m_windowManager, SLOT(myCascade()));
 
     //Tile
     QAction *actionTile = new QAction(QIcon(":/icons/svg/tile.svg"), tr("Tile"), menuView);
-    connect(actionTile, SIGNAL(triggered()), this, SLOT(myTile()));
+    connect(actionTile, SIGNAL(triggered()), m_windowManager, SLOT(myTile()));
 
     //Tile Vertical
     QAction *actionTileVertical = new QAction(QIcon(":/icons/svg/tile_vert.svg"), tr("Tile Vertical"), menuView);
-    connect(actionTileVertical, SIGNAL(triggered()), this, SLOT(myTileVertical()));
+    connect(actionTileVertical, SIGNAL(triggered()), m_windowManager, SLOT(myTileVertical()));
 
     //Tile Horizontal
     QAction *actionTileHorizontal = new QAction(QIcon(":/icons/svg/tile_horiz.svg"), tr("Tile Horizontal"), menuView);
-    connect(actionTileHorizontal, SIGNAL(triggered()), this, SLOT(myTileHorizontal()));
+    connect(actionTileHorizontal, SIGNAL(triggered()), m_windowManager, SLOT(myTileHorizontal()));
 
 
 
@@ -1498,13 +1504,13 @@ void AdvancedInterface::createToolBars()
     connect(m_notesDockWidget, SIGNAL(visibilityChanged(bool)), m_mainBarActionNotes, SLOT(setChecked(bool)));
 
     m_mainBarActionNewWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New Window"), m_mainBar);
-    connect(m_mainBarActionNewWindow, SIGNAL(triggered()), this, SLOT(newSubWindow()));
+    connect(m_mainBarActionNewWindow, SIGNAL(triggered()), m_windowManager, SLOT(newSubWindow()));
 
     m_mainBarActionZoomIn = new QAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/16x16/zoom-in.png")), tr("Zoom In"), m_mainBar);
-    connect(m_mainBarActionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
+    connect(m_mainBarActionZoomIn, SIGNAL(triggered()), m_windowManager, SLOT(zoomIn()));
 
     m_mainBarActionZoomOut = new QAction(QIcon::fromTheme("zoom-out", QIcon(":/icons/16x16/zoom-out.png")), tr("Zoom Out"), m_mainBar);
-    connect(m_mainBarActionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
+    connect(m_mainBarActionZoomOut, SIGNAL(triggered()), m_windowManager, SLOT(zoomOut()));
 
     m_mainBarActionModule = new QAction(QIcon(":/icons/32x32/module.png"), tr("Module"), m_mainBar);
     connect(m_mainBarActionModule, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_Module()));
@@ -1562,7 +1568,7 @@ void AdvancedInterface::showNotesDock()
 
 void AdvancedInterface::newBookmark()
 {
-    if(!m_moduleManager->bibleLoaded() && !activeMdiChild())
+    if(!m_moduleManager->bibleLoaded() && !m_windowManager->activeMdiChild())
         return;
     if(m_bookmarksDockWidget->isHidden())
         m_bookmarksDockWidget->show();
@@ -1571,7 +1577,7 @@ void AdvancedInterface::newBookmark()
 
 void AdvancedInterface::newNoteWithLink()
 {
-    if(!m_moduleManager->bibleLoaded() && !activeMdiChild())
+    if(!m_moduleManager->bibleLoaded() && !m_windowManager->activeMdiChild())
         return;
     if(m_notesDockWidget->isHidden())
         m_notesDockWidget->show();
@@ -1584,55 +1590,18 @@ void AdvancedInterface::onlineHelp()
     QDesktopServices::openUrl(tr("http://openbv.uucyc.name/faq.html"));
 }
 
-int AdvancedInterface::printFile(void)
+void AdvancedInterface::printFile(void)
 {
-    //DEBUG_FUNC_NAME
-    QPrinter printer;
-    QScopedPointer<QPrintDialog> dialog(new QPrintDialog(&printer, this));
-    dialog->setWindowTitle(tr("Print"));
-    if(dialog->exec() != QDialog::Accepted)
-        return 1;
-    if(activeMdiChild()) {
-        getView()->print(&printer);
+    if(m_windowManager->activeForm()) {
+        m_windowManager->activeForm()->print();
     }
-    return 0;
 }
 
-int AdvancedInterface::saveFile(void)
+void AdvancedInterface::saveFile(void)
 {
-    QFileDialog dialog(this);
-    dialog.setAcceptMode(QFileDialog::AcceptSave);
-    const QString lastPlace = m_settings->session.getData("lastSaveFilePlace").toString();
-    const QString fileName = dialog.getSaveFileName(this, tr("Save output"), lastPlace, tr("Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)"));
-
-    if(activeMdiChild()) {
-        QWebView *v = getView();
-        QFileInfo fi(fileName);
-        m_settings->session.setData("lastSaveFilePlace", fi.path());
-        if(fi.suffix().compare("html", Qt::CaseInsensitive) == 0 ||
-                fi.suffix().compare("htm", Qt::CaseInsensitive) == 0) {
-            QFile file(fileName);
-            if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-                return 1;
-            QTextStream out(&file);
-            out << v->page()->mainFrame()->toHtml();
-            file.close();
-        } else if(fi.suffix().compare("pdf", Qt::CaseInsensitive) == 0) {
-            QPrinter printer;
-            printer.setOutputFormat(QPrinter::PdfFormat);
-            printer.setOutputFileName(fileName);
-            v->print(&printer);
-
-        } else {
-            QFile file(fileName);
-            if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-                return 1;
-            QTextStream out(&file);
-            out << v->page()->mainFrame()->toPlainText();
-            file.close();
-        }
+    if(m_windowManager->activeForm()) {
+        m_windowManager->activeForm()->saveFile();
     }
-    return 0;
 }
 
 int AdvancedInterface::showAboutDialog(void)

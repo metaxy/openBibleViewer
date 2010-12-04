@@ -35,7 +35,9 @@ void WindowManager::newSubWindow(bool doAutoLayout)
     BibleForm *bibleForm = new BibleForm(widget);
     bibleForm->setObjectName("mdiForm");
     setAll(bibleForm);
+    bibleForm->setApi(m_api);
     bibleForm->init();
+
     layout->addWidget(bibleForm);
 
     widget->setLayout(layout);

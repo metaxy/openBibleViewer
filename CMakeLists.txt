@@ -1,7 +1,7 @@
 project( openBibleViewer )
 cmake_minimum_required( VERSION 2.6 )
 set ( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
-set ( CMAKE_BUILD_TYPE Release )
+#set ( CMAKE_BUILD_TYPE Release )
 add_definitions ( -Wall )
 find_package ( Qt4 REQUIRED )
 
@@ -120,6 +120,7 @@ set ( openBibleViewer_HDRS
 
     src/api/notesapi.h
     src/api/bibleapi.h
+    src/api/api.h
 
     src/core/bible/chapter.h
     src/core/bible/book.h
@@ -187,6 +188,7 @@ set ( openBibleViewer_HDRS
 set ( openBibleViewer_SRCS
     src/api/bibleapi.cpp
     src/api/notesapi.cpp
+    src/api/api.cpp
 
     src/core/bible/chapter.cpp
     src/core/bible/book.cpp
@@ -334,6 +336,7 @@ QT4_ADD_RESOURCES(RSCS ${openBibleViewer_RSCS})
 set ( openBibleViewer_MOCS
     src/api/bibleapi.h
     src/api/notesapi.h
+    src/api/api.h
 
     src/core/bible/bibledisplay.h
     src/core/notes.h

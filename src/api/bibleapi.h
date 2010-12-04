@@ -26,7 +26,7 @@ public slots:
     void activateBible(const int &bibleListID);
 
 public:
-    BibleApi();
+    explicit BibleApi(QObject *parent = 0);
     void setFrame(QWebFrame *frame);
 private:
     QWebFrame *m_frame;

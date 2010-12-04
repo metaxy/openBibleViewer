@@ -14,7 +14,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "bibleapi.h"
 #include "src/core/dbghelper.h"
 #include <QWebElementCollection>
-BibleApi::BibleApi()
+BibleApi::BibleApi(QObject *parent) :
+    QObject(parent)
 {
 }
 void BibleApi::activateBible(const int &bibleListID)

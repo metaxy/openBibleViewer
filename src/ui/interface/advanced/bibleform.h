@@ -77,6 +77,12 @@ public slots:
     void showText(const QString &text);
 
     void evaluateJavaScript(const QString &js);
+    void print();
+    void saveFile();
+    QString selectedText();
+
+    void copy();
+    void selectAll();
 
 protected:
     virtual void changeEvent(QEvent *e);

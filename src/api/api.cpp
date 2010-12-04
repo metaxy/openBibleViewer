@@ -8,7 +8,8 @@ void Api::init()
 {
     m_bibleApi = new BibleApi();
     setAll(m_bibleApi);
-    m_notesApi = new NotesApi();
+
+    m_notesApi = new NotesApi(this);
     setAll(m_notesApi);
 }
 BibleApi* Api::bibleApi() const
