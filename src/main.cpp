@@ -64,9 +64,9 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
 #ifdef Q_OS_WIN32
+    //todo: would it be better if we use QSysInfo::windowsVersion() instead?
     //get the windows version
     OSVERSIONINFO osvi;
-    BOOL bIsWindowsXPorLater;
 
     ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
     osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);

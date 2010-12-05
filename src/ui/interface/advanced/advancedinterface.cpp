@@ -1007,6 +1007,7 @@ void AdvancedInterface::removeMark()
 
 void AdvancedInterface::closing()
 {
+    m_windowManager->disable();
    /* m_notesDockWidget->saveNote();
     m_bookmarksDockWidget->saveBookmarks();
 

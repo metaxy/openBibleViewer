@@ -95,6 +95,8 @@ void WindowManager::newSubWindow(bool doAutoLayout)
 
 void WindowManager::autoLayout()
 {
+    if(!m_enableReload)
+        return;
     if(usableWindowList().size() > 1) {
         if(m_settings->autoLayout == 1) {
             myTile();
@@ -262,6 +264,8 @@ void WindowManager::closeSubWindow()
 
 int WindowManager::closingWindow()
 {
+    if(!m_enableReload)
+        return 1;
     DEBUG_FUNC_NAME
     // myDebug() << "enable reload = " << m_enableReload << "subWIndowList = " << m_area->subWindowList() << "internalWindow " << m_internalWindows;
     if(m_area->subWindowList().isEmpty()) {
@@ -309,6 +313,7 @@ void WindowManager::mdiAreaResized()
 }
 void WindowManager::reloadActive()
 {
+    if(!m_enableReload)
     DEBUG_FUNC_NAME
     //setEnableReload(true);
     reloadWindow(m_area->currentSubWindow());
@@ -330,4 +335,13 @@ void WindowManager::zoomOut()
 {
     if(activeForm())
         activeForm()->zoomOut();
+}
+void WindowManager::disable()
+{
+    m_enableReload = false;
+}
+
+void WindowManager::enable()
+{
+    m_enableReload = true;
 }

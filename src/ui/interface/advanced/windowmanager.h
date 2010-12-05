@@ -36,6 +36,9 @@ public slots:
     void zoomOut();
     void reloadActive();
 
+    void disable();
+    void enable();
+
 
 private:
     QMdiArea *m_area;//not in our control
