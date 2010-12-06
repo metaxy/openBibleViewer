@@ -16,18 +16,17 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QWidget>
 #include "src/ui/interface/interface.h"
-#include "src/ui/dock/bookdockwidget.h"
-#include "src/ui/dock/moduledockwidget.h"
-#include "src/ui/dock/searchresultdockwidget.h"
-#include "src/ui/dock/advancedsearchresultdockwidget.h"
+
 #include "src/ui/dock/notesdockwidget.h"
 #include "src/ui/dock/bookmarksdockwidget.h"
 #include "src/ui/dock/dictionarydockwidget.h"
-#include "src/ui/dock/quickjumpdockwidget.h"
+
 #include "src/core/windowcache.h"
 #include "src/api/api.h"
 #include "mdiareafilter.h"
 #include "windowmanager.h"
+#include "biblemanager.h"
+#include "notesmanager.h"
 #include <QtGui/QMdiSubWindow>
 #include <QtGui/QCloseEvent>
 #include <QtGui/QContextMenuEvent>
@@ -167,15 +166,15 @@ private:
     QAction *m_mainBarActionZoomOut;
     QAction *m_mainBarActionModule;
 
-    AdvancedSearchResultDockWidget *m_advancedSearchResultDockWidget;
-    BookDockWidget *m_bookDockWidget;
-    ModuleDockWidget *m_moduleDockWidget;
+
     NotesDockWidget *m_notesDockWidget;
     BookmarksDockWidget * m_bookmarksDockWidget;
     DictionaryDockWidget * m_dictionaryDockWidget;
-    QuickJumpDockWidget * m_quickJumpDockWidget;
+
 
     WindowManager *m_windowManager;
+    BibleManager *m_bibleManager;
+    NotesManager *m_notesManager;
 
 
 };

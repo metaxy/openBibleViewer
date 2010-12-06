@@ -88,6 +88,13 @@ void AdvancedInterface::init()
     m_windowManager->setMdiArea(ui->mdiArea);
     m_windowManager->setApi(m_api);
 
+    m_bibleManager = new BibleManager(this);
+    setAll(m_bibleManager);
+    m_bibleManager->init();
+
+    m_notesManager = new NotesManager(this);
+    setAll(m_notesManager);
+
     if(m_settings->session.getData("windowUrls").toStringList().size() == 0)
         QTimer::singleShot(10, m_windowManager, SLOT(newSubWindow()));
 
@@ -95,21 +102,8 @@ void AdvancedInterface::init()
 }
 void AdvancedInterface::createDocks()
 {
-    m_moduleDockWidget = new ModuleDockWidget(this->parentWidget());
-    setAll(m_moduleDockWidget);
-    m_moduleDockWidget->init();
-    connect(m_moduleDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
-    m_bookDockWidget = new BookDockWidget(this->parentWidget());
-    setAll(m_bookDockWidget);
-    m_bookDockWidget->hide();
-    connect(m_bookDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
-
-    m_advancedSearchResultDockWidget = new AdvancedSearchResultDockWidget(this->parentWidget());
-    setAll(m_advancedSearchResultDockWidget);
-    m_advancedSearchResultDockWidget->init();
-    m_advancedSearchResultDockWidget->hide();
-    connect(m_advancedSearchResultDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+    m_bibleManager->createDocks();
 
     m_notesDockWidget = new NotesDockWidget(this->parentWidget());
     setAll(m_notesDockWidget);
@@ -130,11 +124,7 @@ void AdvancedInterface::createDocks()
     m_dictionaryDockWidget->init();
     m_dictionaryDockWidget->hide();
 
-    m_quickJumpDockWidget = new QuickJumpDockWidget(this->parentWidget());
-    setAll(m_quickJumpDockWidget);
-    m_quickJumpDockWidget->init();
-    m_quickJumpDockWidget->hide();
-    connect(m_quickJumpDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+
 }
 void AdvancedInterface::createMenu()
 {
@@ -144,13 +134,10 @@ QHash<DockWidget*, Qt::DockWidgetArea> AdvancedInterface::docks()
 {
     DEBUG_FUNC_NAME
     QHash<DockWidget *, Qt::DockWidgetArea> ret;
-    ret.insert(m_advancedSearchResultDockWidget, Qt::LeftDockWidgetArea);
-    ret.insert(m_bookDockWidget, Qt::LeftDockWidgetArea);
-    ret.insert(m_moduleDockWidget, Qt::LeftDockWidgetArea);
+    ret.unite(m_bibleManager->docks());
     ret.insert(m_notesDockWidget, Qt::RightDockWidgetArea);
     ret.insert(m_bookmarksDockWidget, Qt::RightDockWidgetArea);
     ret.insert(m_dictionaryDockWidget, Qt::BottomDockWidgetArea);
-    ret.insert(m_quickJumpDockWidget, Qt::RightDockWidgetArea);
     return ret;
 
 }
