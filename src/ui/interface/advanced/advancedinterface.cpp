@@ -82,7 +82,7 @@ void AdvancedInterface::init()
     setAll(m_api);
     m_api->init();
 
-    createDefaultMenu();
+
     m_windowManager = new WindowManager(this);
     setAll(m_windowManager);
     m_windowManager->setMdiArea(ui->mdiArea);
@@ -141,12 +141,13 @@ QHash<DockWidget*, Qt::DockWidgetArea> AdvancedInterface::docks()
 /*
  * Todo: Use it
  */
+/*
 void AdvancedInterface::installResizeFilter()
 {
     m_mdiAreaFilter = new MdiAreaFilter(ui->mdiArea);
     connect(m_mdiAreaFilter, SIGNAL(resized()), this, SLOT(mdiAreaResized()));
     ui->mdiArea->installEventFilter(m_mdiAreaFilter);
-}
+}*/
 
 
 void AdvancedInterface::pharseUrl(QUrl url)
@@ -188,7 +189,8 @@ void AdvancedInterface::pharseUrl(QString url)
     } else if(url.startsWith(bq)) {
         m_bibleManager->pharseUrl(url);
     } else if(url.startsWith(anchor)) {
-        url = url.remove(0, anchor.size());
+        //todo:
+        /*url = url.remove(0, anchor.size());
         bool ok;
         int c = url.toInt(&ok, 10);
         if(ok && c < m_moduleManager->bible()->chaptersCount() && m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c) {
@@ -197,14 +199,14 @@ void AdvancedInterface::pharseUrl(QString url)
         } else {
             if(m_windowManager->activeForm())
                 m_windowManager->activeForm()->scrollToAnchor(url);
-        }
+        }*/
 
     } else if(url.startsWith(note)) {
-        url = url.remove(0, note.size());
+        /*url = url.remove(0, note.size());
         if(!m_notesDockWidget->isVisible()) {
             m_notesDockWidget->show();
         }
-        m_notesDockWidget->showNote(url);
+        m_notesDockWidget->showNote(url);*/
     } else if(url.startsWith(persistent)) {
         url = url.remove(0, persistent.size());
         UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
@@ -244,7 +246,7 @@ void AdvancedInterface::pharseUrl(QString url)
     return;
 }
 
-
+/*
 void AdvancedInterface::showText(const QString &text)
 {
     if(m_windowManager->activeForm()) {
@@ -260,7 +262,7 @@ void AdvancedInterface::setTitle(const QString &title)
     }
 }
 
-
+*/
 
 void AdvancedInterface::closing()
 {
@@ -408,9 +410,9 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
         fastStart.remove();
         //myDebug() << "reload Module";
         m_moduleManager->loadAllModules();
-        m_moduleDockWidget->init();
+        //m_moduleDockWidget->init();//todo:
         m_dictionaryDockWidget->init();
-        showText("");
+        //showText(""); //todo:
         //m_windowCache.clearZefCache();
         //m_moduleManager->bible()->clearSoftCache();
         if(m_moduleManager->bibleLoaded())
@@ -446,11 +448,11 @@ void AdvancedInterface::search()
 void AdvancedInterface::search(SearchQuery query)
 {
     DEBUG_FUNC_NAME
-    m_advancedSearchResultDockWidget->show();
+    //m_advancedSearchResultDockWidget->show();
     Search s;
     setAll(&s);
     SearchResult *res = s.search(query);
-    m_advancedSearchResultDockWidget->setSearchResult(*res);
+    //m_advancedSearchResultDockWidget->setSearchResult(*res);
 }
 
 void AdvancedInterface::searchInText(SearchQuery query)
@@ -480,12 +482,12 @@ void AdvancedInterface::selectAll()
 
 void AdvancedInterface::nextVerse()
 {
-    m_advancedSearchResultDockWidget->nextVerse();
+    //m_advancedSearchResultDockWidget->nextVerse();
 }
 
 void AdvancedInterface::previousVerse()
 {
-    m_advancedSearchResultDockWidget->previousVerse();
+    //m_advancedSearchResultDockWidget->previousVerse();
 }
 
 bool AdvancedInterface::hasMenuBar()
@@ -662,20 +664,20 @@ QMenuBar* AdvancedInterface::menuBar()
 
     QAction *actionModule = new QAction(tr("Module"), menuDocks);
     actionModule->setCheckable(true);
-    connect(m_moduleDockWidget, SIGNAL(visibilityChanged(bool)), actionModule, SLOT(setChecked(bool)));
-    connect(actionModule, SIGNAL(triggered(bool)), m_moduleDockWidget, SLOT(setVisible(bool)));
+    //connect(m_moduleDockWidget, SIGNAL(visibilityChanged(bool)), actionModule, SLOT(setChecked(bool)));
+    //connect(actionModule, SIGNAL(triggered(bool)), m_moduleDockWidget, SLOT(setVisible(bool)));
     actionModule->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_M));
 
     QAction *actionBooks = new QAction(tr("Books"), menuDocks);
     actionBooks->setCheckable(true);
-    connect(m_bookDockWidget, SIGNAL(visibilityChanged(bool)), actionBooks, SLOT(setChecked(bool)));
-    connect(actionBooks, SIGNAL(triggered(bool)), m_bookDockWidget, SLOT(setVisible(bool)));
+    //connect(m_bookDockWidget, SIGNAL(visibilityChanged(bool)), actionBooks, SLOT(setChecked(bool)));
+    //connect(actionBooks, SIGNAL(triggered(bool)), m_bookDockWidget, SLOT(setVisible(bool)));
     actionBooks->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_C));
 
     QAction *actionNotes = new QAction(QIcon::fromTheme("notes-edit", QIcon(":/icons/16x16/notes-edit.png")), tr("Notes"), menuDocks);
     actionNotes->setCheckable(true);
-    connect(m_notesDockWidget, SIGNAL(visibilityChanged(bool)), actionNotes, SLOT(setChecked(bool)));
-    connect(actionNotes, SIGNAL(triggered(bool)), m_notesDockWidget, SLOT(setVisible(bool)));
+    //connect(m_notesDockWidget, SIGNAL(visibilityChanged(bool)), actionNotes, SLOT(setChecked(bool)));
+    //connect(actionNotes, SIGNAL(triggered(bool)), m_notesDockWidget, SLOT(setVisible(bool)));
     actionNotes->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_N));
 
     QAction *actionStrong = new QAction(tr("Dictionay"), menuDocks);
@@ -692,14 +694,14 @@ QMenuBar* AdvancedInterface::menuBar()
 
     QAction *actionQuickJump = new QAction(tr("Quick Jump"), menuDocks);
     actionQuickJump->setCheckable(true);
-    connect(m_quickJumpDockWidget, SIGNAL(visibilityChanged(bool)), actionQuickJump, SLOT(setChecked(bool)));
-    connect(actionQuickJump, SIGNAL(triggered(bool)), m_quickJumpDockWidget, SLOT(setVisible(bool)));
+    //connect(m_quickJumpDockWidget, SIGNAL(visibilityChanged(bool)), actionQuickJump, SLOT(setChecked(bool)));
+    //connect(actionQuickJump, SIGNAL(triggered(bool)), m_quickJumpDockWidget, SLOT(setVisible(bool)));
     actionQuickJump->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Q));
 
     QAction *actionSearchResults = new QAction(QIcon::fromTheme("table", QIcon(":/icons/16x16/table.png")), tr("Search Results"), menuDocks);
     actionSearchResults->setCheckable(true);
-    connect(m_advancedSearchResultDockWidget, SIGNAL(visibilityChanged(bool)), actionSearchResults, SLOT(setChecked(bool)));
-    connect(actionSearchResults , SIGNAL(triggered(bool)), m_advancedSearchResultDockWidget, SLOT(setVisible(bool)));
+    //connect(m_advancedSearchResultDockWidget, SIGNAL(visibilityChanged(bool)), actionSearchResults, SLOT(setChecked(bool)));
+    //connect(actionSearchResults , SIGNAL(triggered(bool)), m_advancedSearchResultDockWidget, SLOT(setVisible(bool)));
     actionSearchResults->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_S));
 
 
@@ -759,7 +761,7 @@ void AdvancedInterface::createToolBars()
     m_mainBarActionNotes = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/16x16/view-pim-notes.png")), tr("Notes"), m_mainBar);
     connect(m_mainBarActionNotes, SIGNAL(triggered()), this, SLOT(showNotesDock()));
     m_mainBarActionNotes->setCheckable(true);
-    connect(m_notesDockWidget, SIGNAL(visibilityChanged(bool)), m_mainBarActionNotes, SLOT(setChecked(bool)));
+    //connect(m_notesDockWidget, SIGNAL(visibilityChanged(bool)), m_mainBarActionNotes, SLOT(setChecked(bool)));
 
     m_mainBarActionNewWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New Window"), m_mainBar);
     connect(m_mainBarActionNewWindow, SIGNAL(triggered()), m_windowManager, SLOT(newSubWindow()));
@@ -808,22 +810,22 @@ QList<QToolBar *> AdvancedInterface::toolBars()
 
 void AdvancedInterface::showBookmarksDock()
 {
-    if(m_bookmarksDockWidget->isVisible()) {
+    /*if(m_bookmarksDockWidget->isVisible()) {
         m_bookmarksDockWidget->hide();
     } else {
         m_bookmarksDockWidget->show();
-    }
+    }*/
 }
 
 void AdvancedInterface::showNotesDock()
 {
-    if(m_notesDockWidget->isVisible()) {
+    /*if(m_notesDockWidget->isVisible()) {
         m_notesDockWidget->hide();
     } else {
         m_notesDockWidget->show();
-    }
+    }*/
 }
-
+/*
 void AdvancedInterface::newBookmark()
 {
     if(!m_moduleManager->bibleLoaded() && !m_windowManager->activeMdiChild())
@@ -841,7 +843,7 @@ void AdvancedInterface::newNoteWithLink()
         m_notesDockWidget->show();
     m_notesDockWidget->newNoteWithLink(verseSelection());
 }
-
+*/
 void AdvancedInterface::onlineHelp()
 {
     //open the online faq
