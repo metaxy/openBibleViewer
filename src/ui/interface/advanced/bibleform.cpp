@@ -27,11 +27,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QPrinter>
 #include <QtGui/QPrintDialog>
 #include <QtCore/QScopedPointer>
+#include <QtGui/QTextDocument>
+#include <QtGui/QClipboard>
+#include <QtGui/QColorDialog>
 #include "src/core/core.h"
 #include "src/core/bible/bibleurl.h"
 BibleForm::BibleForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::BibleForm)
 {
     DEBUG_FUNC_NAME
+    m_id = -1;
     m_ui->setupUi(this);
 
     m_view = new WebView(this);
@@ -49,10 +53,17 @@ BibleForm::BibleForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::BibleForm)
 
     connect(m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
     connect(m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
+
     m_api = 0;
     setButtons();
 
+
 }
+void BibleForm::setID(const int &id)
+{
+    m_id = id;
+}
+
 void BibleForm::init()
 {
     DEBUG_FUNC_NAME
@@ -63,13 +74,27 @@ void BibleForm::init()
     m_bibleList = m_moduleManager->m_bibleList;
     attachApi();
     connect(m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
+
+    connect(m_bibleManager, SIGNAL(updateChapters(QStringList)), this, SLOT(forwardSetChapters(QStringList)));
+    connect(m_bibleManager, SIGNAL(updateBooks(QHash<int,QString>,QList<int>)),this, SLOT(forwardSetBooks(QHash<int,QString>,QList<int>)));
+    connect(m_bibleManager, SIGNAL(setCurrentBook(int)), this, SLOT(forwardSetCurrentBook(int)));
+    connect(m_bibleManager, SIGNAL(setCurrentChapter(int)), this, SLOT(forwardSetCurrentChapter(int)));
+    createDefaultMenu();
 }
 void BibleForm::setApi(Api *api)
 {
     DEBUG_FUNC_NAME
     m_api = api;
 }
+void BibleForm::setBibleManager(BibleManager *bibleManager)
+{
+    m_bibleManager = bibleManager;
+}
 
+void BibleForm::setNotesManager(NotesManager *notesManager)
+{
+    m_notesManager = notesManager;
+}
 void BibleForm::attachApi()
 {
     DEBUG_FUNC_NAME
@@ -397,7 +422,418 @@ void BibleForm::selectAll()
 {
     m_view->page()->triggerAction(QWebPage::SelectAll);
 }
+void BibleForm::forwardSetChapters(const QStringList &chapters)
+{
+    if(!active())
+        return;
+    setChapters(chapters);
+}
 
+void BibleForm::forwardSetBooks(const QHash<int, QString> &books, QList<int> ids)
+{
+    if(!active())
+        return;
+    setBooks(books,ids);
+}
+
+void BibleForm::forwardClearBooks()
+{
+    if(!active())
+        return;
+    clearBooks();
+}
+
+void BibleForm::forwardClearChapters()
+{
+    if(!active())
+        return;
+    clearChapters();
+}
+
+void BibleForm::forwardSetCurrentBook(const int &bookID)
+{
+    if(!active())
+        return;
+    setCurrentBook(bookID);
+}
+
+void BibleForm::forwardSetCurrentChapter(const int &chapterID)
+{
+    if(!active())
+        return;
+    setCurrentChapter(chapterID);
+}
+bool BibleForm::active()
+{
+    return false;
+}
+
+void BibleForm::createDefaultMenu()
+{
+    m_actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), this);
+    connect(m_actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
+
+    m_actionSelect = new QAction(QIcon::fromTheme("edit-select-all", QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"), this);
+    connect(m_actionSelect, SIGNAL(triggered()), this , SLOT(selectAll()));
+
+    m_menuMark = new QMenu(this);
+    m_menuMark->setTitle(tr("Mark this"));
+    m_menuMark->setIcon(QIcon::fromTheme("format-fill-color.png", QIcon(":/icons/16x16/format-fill-color.png")));
+
+    QAction *actionYellowMark = new QAction(QIcon(":/icons/16x16/mark-yellow.png"), tr("Yellow"), m_menuMark);
+    actionYellowMark->setObjectName("yellowMark");
+    connect(actionYellowMark, SIGNAL(triggered()), this , SLOT(newColorMark()));
+    m_menuMark->addAction(actionYellowMark);
+
+    QAction *actionGreenMark = new QAction(QIcon(":/icons/16x16/mark-green.png"), tr("Green"), m_menuMark);
+    actionGreenMark->setObjectName("greenMark");
+    connect(actionGreenMark, SIGNAL(triggered()), this , SLOT(newColorMark()));
+    m_menuMark->addAction(actionGreenMark);
+
+    QAction *actionBlueMark = new QAction(QIcon(":/icons/16x16/mark-blue.png"), tr("Blue"), m_menuMark);
+    actionBlueMark->setObjectName("blueMark");
+    connect(actionBlueMark, SIGNAL(triggered()), this , SLOT(newColorMark()));
+    m_menuMark->addAction(actionBlueMark);
+
+    QAction *actionOrangeMark = new QAction(QIcon(":/icons/16x16/mark-orange.png"), tr("Orange"), m_menuMark);
+    actionOrangeMark->setObjectName("orangeMark");
+    connect(actionOrangeMark, SIGNAL(triggered()), this , SLOT(newColorMark()));
+    m_menuMark->addAction(actionOrangeMark);
+
+    QAction *actionVioletMark = new QAction(QIcon(":/icons/16x16/mark-violet.png"), tr("Violet"), m_menuMark);
+    actionVioletMark->setObjectName("violetMark");
+    connect(actionVioletMark, SIGNAL(triggered()), this , SLOT(newColorMark()));
+    m_menuMark->addAction(actionVioletMark);
+
+    QAction *actionCustomMark  = new QAction(QIcon(":/icons/16x16/format-fill-color.png"), tr("Custom Color"), m_menuMark);
+    connect(actionCustomMark, SIGNAL(triggered()), this , SLOT(newCustomColorMark()));
+    m_menuMark->addAction(actionCustomMark);
+    m_menuMark->addSeparator();
+
+    QAction *actionBoldMark  = new QAction(QIcon::fromTheme("format-text-bold", QIcon(":/icons/16x16/format-text-bold.png")), tr("Bold"), m_menuMark);
+    connect(actionBoldMark, SIGNAL(triggered()), this , SLOT(newBoldMark()));
+    m_menuMark->addAction(actionBoldMark);
+
+    QAction *actionItalicMark  = new QAction(QIcon::fromTheme("format-text-italic", QIcon(":/icons/16x16/format-text-italic.png")), tr("Italic"), m_menuMark);
+    connect(actionItalicMark, SIGNAL(triggered()), this , SLOT(newItalicMark()));
+    m_menuMark->addAction(actionItalicMark);
+
+    QAction *actionUnderlineMark  = new QAction(QIcon::fromTheme("format-text-underline", QIcon(":/icons/16x16/format-text-underline.png")), tr("Underline"), m_menuMark);
+    connect(actionUnderlineMark, SIGNAL(triggered()), this , SLOT(newUnderlineMark()));
+    m_menuMark->addAction(actionUnderlineMark);
+
+
+    m_actionRemoveMark = new QAction(QIcon(":/icons/16x16/mark-yellow.png"), tr("Remove Mark"), this);
+    connect(m_actionRemoveMark, SIGNAL(triggered()), this , SLOT(removeMark()));
+
+    m_actionBookmark = new QAction(QIcon::fromTheme("bookmark-new", QIcon(":/icons/16x16/bookmark-new.png")), tr("Add Bookmark"), this);
+    connect(m_actionBookmark, SIGNAL(triggered()), this , SLOT(newBookmark()));
+
+    m_actionNote = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/16x16/view-pim-notes.png")), tr("Add Note"), this);
+    connect(m_actionNote, SIGNAL(triggered()), this , SLOT(newNoteWithLink()));
+}
+
+void BibleForm::showContextMenu(QContextMenuEvent* ev)
+{
+    QMenu *contextMenu = new QMenu(this);
+
+    QAction *actionCopyWholeVerse = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Verse"), contextMenu);
+    VerseSelection selection = verseSelection();
+    if(selection.startVerse != -1) {
+        QString addText;
+        if(selection.startVerse != selection.endVerse)
+            addText = " " + QString::number(selection.startVerse + 1) + " - " + QString::number(selection.endVerse + 1);
+        else
+            addText = " " + QString::number(selection.startVerse + 1);
+        if(selection.startVerse < 0 || selection.endVerse < 0) {
+            actionCopyWholeVerse->setText(tr("Copy Verse"));
+            actionCopyWholeVerse->setEnabled(false);
+        } else {
+            actionCopyWholeVerse->setText(tr("Copy Verse %1").arg(addText));
+            actionCopyWholeVerse->setEnabled(true);
+
+            connect(actionCopyWholeVerse, SIGNAL(triggered()), this , SLOT(copyWholeVerse()));
+        }
+    } else {
+        actionCopyWholeVerse->setEnabled(false);
+    }
+
+    QAction *dbg = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"), contextMenu);
+    connect(dbg, SIGNAL(triggered()), this, SLOT(debugger()));
+
+    contextMenu->addAction(m_actionCopy);
+    contextMenu->addAction(actionCopyWholeVerse);
+    contextMenu->addAction(m_actionSelect);
+    contextMenu->addSeparator();
+    contextMenu->addMenu(m_menuMark);
+    contextMenu->addAction(m_actionRemoveMark);
+    contextMenu->addSeparator();
+    contextMenu->addAction(m_actionBookmark);
+    contextMenu->addAction(m_actionNote);
+    contextMenu->addAction(dbg);
+    contextMenu->exec(ev->globalPos());
+
+}
+
+void BibleForm::copyWholeVerse(void)
+{
+    //todo: make it much better by using Ranges
+    VerseSelection selection = verseSelection();
+    if(selection.startVerse != -1) {
+        QString sverse;
+        if(selection.startVerse == selection.endVerse) {
+            sverse = "," + QString::number(selection.startVerse + 1);
+        } else {
+            sverse = "," + QString::number(selection.startVerse + 1) + "-" + QString::number(selection.endVerse + 1);
+        }
+
+        int add = 0;
+        if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule)
+            add = 1; //because of the title
+        QString stext = m_moduleManager->bible()->readVerse(m_moduleManager->bible()->chapterID(), selection.startVerse + add, selection.endVerse + 1 + add, -1, false);
+        QTextDocument doc2;
+        doc2.setHtml(stext);
+        stext = doc2.toPlainText();
+
+        const QString curChapter = QString::number(m_moduleManager->bible()->chapterID() + 1);
+
+        const QString newText = m_moduleManager->bible()->bookName(m_moduleManager->bible()->bookID()) + " " + curChapter + sverse + "\n" + stext;
+        QClipboard *clipboard = QApplication::clipboard();
+        clipboard->setText(newText);
+
+    }
+}
+
+void BibleForm::debugger()
+{
+    //todo: reenable
+    /*getView()->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
+    QWebInspector *inspector = new QWebInspector(this);
+    inspector->setPage(getView()->page());
+    inspector->showNormal();*/
+}
+
+void BibleForm::newColorMark()
+{
+    if(!m_moduleManager->bibleLoaded()) {
+        return;
+    }
+    const QString colorName = sender()->objectName();
+    QColor color;
+    if(colorName == "yellowMark") {
+        color = QColor(255, 255, 0);
+    } else if(colorName == "greenMark") {
+        color = QColor(146, 243, 54);
+    } else if(colorName == "blueMark") {
+        color = QColor(77, 169, 243);
+    } else if(colorName == "orangeMark") {
+        color = QColor(243, 181, 57);
+    } else if(colorName == "violetMark") {
+        color = QColor(169, 102, 240);
+    } else {
+        color = QColor(255, 255, 0);
+    }
+
+    VerseSelection selection = verseSelection();
+    m_notesManager->newCustomColorMark(selection, color);
+}
+
+void BibleForm::newCustomColorMark()
+{
+    if(!m_moduleManager->bibleLoaded()) {
+        return;
+    }
+    VerseSelection selection = verseSelection();
+    const QColor color = QColorDialog::getColor(QColor(255, 255, 0), this);
+    if(color.isValid()) {
+        m_notesManager->newCustomColorMark(selection, color);
+    }
+
+}
+
+void BibleForm::newBoldMark()
+{
+    if(!m_moduleManager->bibleLoaded()) {
+        return;
+    }
+    VerseSelection selection = verseSelection();
+    m_notesManager->newBoldMark(selection);
+
+}
+
+void BibleForm::newItalicMark()
+{
+    if(!m_moduleManager->bibleLoaded()) {
+        return;
+    }
+
+    VerseSelection selection = verseSelection();
+    m_notesManager->newItalicMark(selection);
+
+}
+void BibleForm::newUnderlineMark()
+{
+    if(!m_moduleManager->bibleLoaded()) {
+        return;
+    }
+
+    VerseSelection selection = verseSelection();
+    m_notesManager->newUnderlineMark(selection);
+}
+
+void BibleForm::removeMark()
+{
+    DEBUG_FUNC_NAME;
+    if(!m_moduleManager->bibleLoaded()) {
+        return;
+    }
+    VerseSelection selection = verseSelection();
+    myDebug() << "selection = " << selection.moduleID << selection.bookID << selection.chapterID << selection.startVerse;
+    m_notesManager->removeMark(selection);
+}
+
+
+
+VerseSelection BibleForm::verseSelection()
+{
+   /* QWebFrame *f = getView()->page()->mainFrame();*/
+    VerseSelection s;
+    /*if(!f)
+        return s;*/
+    /*
+        f->evaluateJavaScript("var verseSelection = new VerseSelection();verseSelection.getSelection();");
+        s.startVerse = f->evaluateJavaScript("verseSelection.startVerse;").toInt();
+        s.endVerse = f->evaluateJavaScript("verseSelection.endVerse;").toInt();
+        s.moduleID = f->evaluateJavaScript("verseSelection.moduleID;").toInt();
+        s.bookID  = f->evaluateJavaScript("verseSelection.bookID;").toInt();
+        s.chapterID = f->evaluateJavaScript("verseSelection.chapterID;").toInt();
+        Chapter c = m_moduleManager->bible()->rawChapter();
+
+        const QString startVerseText = c.data.at(s.startVerse);
+        QString endVerseText;
+        if(s.startVerse != s.endVerse)
+            endVerseText = c.data.at(s.endVerse);
+        else
+            endVerseText = startVerseText;
+
+        const QString selectedText = f->evaluateJavaScript("verseSelection.selectedText;").toString();
+
+        myDebug() << "startVerseText = " << startVerseText;
+        myDebug() << "endVerseText = " << endVerseText;
+        {
+            QString sText;
+            for(int i = 0; i < selectedText.size() - 1; i++) {
+                sText += selectedText.at(i);
+                const int pos = startVerseText.indexOf(sText);
+                if(pos != -1 && startVerseText.lastIndexOf(sText) == pos) {
+                    s.shortestStringInStartVerse = sText;
+                    break;
+                }
+            }
+            if(s.shortestStringInStartVerse.isEmpty() && s.startVerse != s.endVerse) {
+                //find the last long string if the selection is over more than one verse long
+                QString lastLongest = selectedText;
+                int lastPos = -2;
+                for(int i = selectedText.size() - 1; i > 0; i--) {
+                    const int pos = startVerseText.lastIndexOf(lastLongest);
+                    if(pos != -1) {
+                        lastPos = pos;
+                        break;
+                    }
+                    lastLongest.remove(i, selectedText.size());
+                }
+                //and shorten it
+                sText.clear();
+                for(int i = 0; i < selectedText.size() - 1; i++) {
+                    sText += selectedText.at(i);
+                    const int pos = startVerseText.lastIndexOf(sText);
+                    if(pos != -1 && lastPos == pos) {
+                        s.shortestStringInStartVerse = sText;
+                        break;
+                    }
+                }
+
+
+            }
+            sText.clear();
+            for(int i = 0; i < selectedText.size() - 1; i++) {
+                sText.prepend(selectedText.at(selectedText.size() - i - 1));
+                const int pos = endVerseText.indexOf(sText);
+                if(pos != -1 && endVerseText.lastIndexOf(sText) == pos) {
+                    s.shortestStringInEndVerse = sText;
+                    break;
+                }
+            }
+            if(s.shortestStringInEndVerse.isEmpty() && s.startVerse != s.endVerse) {
+                //find the first longest string if the selection is over more than one verse long
+                QString firstLongest = selectedText;
+                int firstPos = -2;
+                for(int i = 0; i < selectedText.size(); i++) {
+                    const int pos = endVerseText.indexOf(firstLongest);
+                    if(pos != -1) {
+                        firstPos = pos;
+                        break;
+                    }
+                    firstLongest.remove(0, 1);
+                }
+                //and shorten it
+                sText.clear();
+                for(int i = 0; i < selectedText.size() - 1; i++) {
+                    sText.prepend(selectedText.at(selectedText.size() - i - 1));
+                    const int pos = endVerseText.indexOf(sText);
+                    if(pos != -1 && firstPos == pos) {
+                        s.shortestStringInEndVerse = sText;
+                        break;
+                    }
+                }
+            }
+            s.type = VerseSelection::ShortestString;
+            if(s.shortestStringInStartVerse.isEmpty() || s.shortestStringInEndVerse.isEmpty()) {
+                s.setCanBeUsedForMarks(false);
+            } else {
+                s.setCanBeUsedForMarks(true);
+            }
+        }
+        myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
+        //todo: 0.6
+        /* if(s.canBeUsedForMarks() == false) {
+             //now the ultimative alogrithm
+             f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection();adVerseSelection.getSelection();");
+             const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
+
+             const QString uniqueString = "!-_OPENBIBLEVIEWER_INSERT_-!";
+             int posOfInsert = startVerseText2.lastIndexOf(uniqueString);
+
+             QString back = selectedText;
+             QString longestString;
+             for(int i = selectedText.size()-1; i > 0; i--) {
+                 const int pos = startVerseText2.indexOf(back);
+                 if(pos != -1) {
+                     longestString = back;
+                     break;
+                 }
+                 back.remove(i,selectedText.size());
+             }
+
+             int count = 0;
+             int currentPos = 0;
+             while(true) {
+                 currentPos = startVerseText2.indexOf(longestString,currentPos+1);
+                 if(currentPos > posOfInsert || currentPos == -1) {
+                     break;
+                 }
+                 count++;
+             }
+             s.type = VerseSelection::RepeatOfLongestString;
+             s.repeat = count;
+             s.longestString = longestString;
+             //s.setCanBeUsedForMarks(true);
+             //todo: end
+             //myDebug() << longestString << " count = " << count;
+
+         }*/
+    return s;
+}
 BibleForm::~BibleForm()
 {
     delete m_ui;

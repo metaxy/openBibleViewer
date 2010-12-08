@@ -15,16 +15,44 @@ class BibleManager : public QObject, public BasicClass
 public:
     explicit BibleManager(QObject *parent = 0);
     void init();
-
+    void setWidget(QWidget *p);
     void createDocks();
     QHash<DockWidget *, Qt::DockWidgetArea> docks();
 
+    //todo:
+
+    bool loadModuleDataByID(const int &id);
+    void readBookByID(const int &id);
+    void showChapter(const int &chapterID, const int &verseID);
 
 signals:
+    void setTitle(const QString &title);
+    void updateChapters(const QStringList &chapters);
+    void updateBooks(const QHash<int, QString> &books, QList<int> ids);
+    void updateChapters();
+    void updateBooks();
+
+    void setCurrentBook(const int &bookID);
+    void setCurrentChapter(const int &chapterID);
+    void get(const QString &url);
 
 public slots:
+    //todo:
     void pharseUrl(const QString &url);
+    void showText(const QString &text);
+/*
+    void readChapter(const int &id);
+    void readBook(const int &id);
+*/
+    void nextVerse();
+    void previousVerse();
+
+    void nextChapter();
+    void previousChapter();
+    int copyWholeVerse();
+    void reloadChapter(bool full = false);
 private:
+    QWidget *m_p;
     AdvancedSearchResultDockWidget *m_advancedSearchResultDockWidget;
     BookDockWidget *m_bookDockWidget;
     ModuleDockWidget *m_moduleDockWidget;

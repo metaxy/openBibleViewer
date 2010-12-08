@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QWidget>
 #include "src/ui/interface/interface.h"
 
-#include "src/ui/dock/notesdockwidget.h"
+
 #include "src/ui/dock/bookmarksdockwidget.h"
 #include "src/ui/dock/dictionarydockwidget.h"
 
@@ -48,22 +48,6 @@ private slots:
     void pharseUrl(QUrl url);
     void pharseUrl(QString url);
 
-    void showText(const QString &text);
-
-    void readChapter(const int &id);
-    void readBook(const int &id);
-
-
-    void newColorMark();
-    void newCustomColorMark();
-    void newBoldMark();
-    void newItalicMark();
-    void newUnderlineMark();
-
-    void removeMark();
-    void newBookmark();
-    void newNoteWithLink();
-
     void search(SearchQuery query);
     void search();
 
@@ -93,7 +77,6 @@ private slots:
     void setTabView();
     void setSubWindowView();
 
-    void showContextMenu(QContextMenuEvent*ev);
     void debugger();
     void installResizeFilter();
 
@@ -123,21 +106,6 @@ private:
     Ui::AdvancedInterface *ui;
 
 
-    bool loadModuleDataByID(int id);
-
-    void setTitle(const QString &title);
-    void setChapters(const QStringList &chapters);
-    void setBooks(const QHash<int, QString> &books, QList<int> ids);
-    void clearBooks();
-    void clearChapters();
-    void setCurrentBook(const int &bookID);
-    void setCurrentChapter(const int &chapterID);
-
-    void readBookByID(const int &id);
-    VerseSelection verseSelection();
-
-    void showChapter(const int &chapterID, const int &verseID);
-
     BibleDisplaySettings *m_bibleDisplaySettings;
     Api *m_api;
     //Menu
@@ -145,15 +113,6 @@ private:
     QAction *m_actionSubWindowView;
     void searchInText(SearchQuery query);
 
-    BibleApi *m_bibleApi;
-    QAction *m_actionCopy;
-    QAction *m_actionSelect;
-    QMenu *m_menuMark;
-    QAction *m_actionRemoveMark;
-    QAction *m_actionBookmark;
-    QAction *m_actionNote;
-    void createDefaultMenu();
-    MdiAreaFilter *m_mdiAreaFilter;
 
     QToolBar *m_mainBar;
     QToolBar *m_searchBar;
@@ -167,7 +126,7 @@ private:
     QAction *m_mainBarActionModule;
 
 
-    NotesDockWidget *m_notesDockWidget;
+
     BookmarksDockWidget * m_bookmarksDockWidget;
     DictionaryDockWidget * m_dictionaryDockWidget;
 

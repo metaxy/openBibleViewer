@@ -24,6 +24,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QContextMenuEvent>
 #include "src/module/biblelist.h"
 #include "src/api/api.h"
+#include "biblemanager.h"
+#include "notesmanager.h"
 
 namespace Ui
 {
@@ -37,13 +39,18 @@ class BibleForm : public QWidget, public BasicClass
 public:
     explicit BibleForm(QWidget *parent = 0);
     virtual ~BibleForm();
+    void setID(const int &id);
     void init();
     void setApi(Api *api);
+    void setBibleManager(BibleManager *bibleManager);
+    void setNotesManager(NotesManager *notesManager);
 
     Ui::BibleForm *m_ui;
     WebView *m_view;
     QList<int> m_bookIDs;
     BibleList *m_bibleList;
+
+    VerseSelection verseSelection();//todo:
 private slots:
     void showBibleListMenu();
     void readBook(int id);
@@ -70,6 +77,15 @@ public slots:
     void setCurrentBook(const int &bookID);
     void setCurrentChapter(const int &chapterID);
 
+    void forwardSetChapters(const QStringList &chapters);
+    void forwardSetBooks(const QHash<int, QString> &books, QList<int> ids);
+
+    void forwardClearBooks();
+    void forwardClearChapters();
+
+    void forwardSetCurrentBook(const int &bookID);
+    void forwardSetCurrentChapter(const int &chapterID);
+
     void activated();
 
     void scrollToAnchor(const QString &anchor);
@@ -84,12 +100,38 @@ public slots:
     void copy();
     void selectAll();
 
+    void showContextMenu(QContextMenuEvent*ev);
+    void copyWholeVerse();
+    void debugger();
+    void newColorMark();
+    void newCustomColorMark();
+    void newBoldMark();
+    void newItalicMark();
+    void newUnderlineMark();
+    void removeMark();
+
+    bool active();
+
+
 protected:
     virtual void changeEvent(QEvent *e);
 private:
+    int m_id;
     History browserHistory;
     Api *m_api;//not in out control
     void setButtons();
+
+    QAction *m_actionCopy;
+    QAction *m_actionSelect;
+    QMenu *m_menuMark;
+    QAction *m_actionRemoveMark;
+    QAction *m_actionBookmark;
+    QAction *m_actionNote;
+    void createDefaultMenu();
+
+
+    BibleManager *m_bibleManager;
+    NotesManager *m_notesManager;
 };
 
 #endif // BIBLEFORM_H

@@ -5,6 +5,7 @@
 WindowManager::WindowManager(QObject *parent) :
     QObject(parent)
 {
+    m_nameCounter = 0;
 }
 void WindowManager::setMdiArea(QMdiArea *area)
 {
@@ -14,6 +15,16 @@ void WindowManager::setApi(Api *api)
 {
     m_api = api;
 }
+void WindowManager::setBibleManager(BibleManager *bibleManager)
+{
+    m_bibleManager = bibleManager;
+}
+
+void WindowManager::setNotesManager(NotesManager *notesManager)
+{
+    m_notesManager = notesManager;
+}
+
 void WindowManager::init()
 {
     connect(m_area, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
@@ -31,11 +42,14 @@ void WindowManager::newSubWindow(bool doAutoLayout)
 
     QWidget *widget = new QWidget(m_area);
     QVBoxLayout *layout = new QVBoxLayout(widget);
-
+    m_nameCounter++;
     BibleForm *bibleForm = new BibleForm(widget);
+    bibleForm->setID(m_nameCounter);
     bibleForm->setObjectName("mdiForm");
     setAll(bibleForm);
     bibleForm->setApi(m_api);
+    bibleForm->setBibleManager(m_bibleManager);
+    bibleForm->setNotesManager(m_notesManager);
     bibleForm->init();
 
     layout->addWidget(bibleForm);
