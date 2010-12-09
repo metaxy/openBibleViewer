@@ -117,3 +117,11 @@ QList<int> Range::selectedVerse() const
 {
     return m_selectedVerse;
 }
+void Range::setModule(const int &moduleID)
+{
+    m_moduleID = moduleID;
+}
+int Range::moduleID() const
+{
+    return m_moduleID;
+}

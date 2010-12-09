@@ -21,6 +21,8 @@ class Range
 public:
     Range();
 
+    void setModule(const int &moduleID);
+
     void setBook(const int &bookID);
     void setBook(RangeEnum::BookRange book);
 
@@ -30,6 +32,7 @@ public:
 
     void setStartVerse(const int &verseID);
     void setStartVerse(RangeEnum::VerseRange verse);
+
     void setEndVerse(const int &verseID);
     void setEndVerse(RangeEnum::VerseRange verse);
 
@@ -37,6 +40,7 @@ public:
     void setSelectedVerse(const int &verseID);
 
     //void setSelectedVerse(RangeEnum::VerseRange verse);
+    int moduleID() const;
 
     int bookID() const;
     RangeEnum::BookRange book() const;
@@ -63,6 +67,8 @@ private:
     int m_bookID;
     RangeEnum::BookRange m_book;
     QList<int> m_selectedVerse;
+
+    int m_moduleID;
 
 };
 
