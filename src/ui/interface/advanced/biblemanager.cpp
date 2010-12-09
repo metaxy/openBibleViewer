@@ -88,7 +88,7 @@ Ranges BibleManager::bibleUrlRangeToRanges(BibleUrlRange range)
     if(range.endVerse() == BibleUrlRange::LoadFirstVerse) {
         r.setEndVerse(RangeEnum::FirstVerse);
     } else if(range.endVerse() == BibleUrlRange::LoadCurrentVerse) {
-        r.setStartVerse(m_moduleManager->bible()->verseID());
+        r.setEndVerse(m_moduleManager->bible()->verseID());
     } else if(range.endVerse() == BibleUrlRange::LoadLastVerse) {
         r.setEndVerse(RangeEnum::LastVerse);
     } else {

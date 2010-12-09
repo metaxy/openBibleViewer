@@ -159,7 +159,6 @@ void BibleUrlRange::setEndVerse(const int &verseID)
 void BibleUrlRange::setEndVerse(const VerseLoadParams &param)
 {
     m_endVerseParam = param;
-
 }
 int BibleUrlRange::endVerseID() const
 {

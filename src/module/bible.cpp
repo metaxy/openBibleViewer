@@ -55,7 +55,7 @@ int Bible::loadModuleData(const int &moduleID)
     m_moduleID = moduleID;
     const QString path = m_module->m_path;
     myDebug() << " moduleID ="  << moduleID << " path = " << path;
-    switch(m_moduleType) {
+    switch(m_module->m_moduleType) {
     case Module::BibleQuoteModule: {
         if(m_module->m_bibleModule) {
             m_bibleModule = m_module->m_bibleModule;
@@ -120,7 +120,7 @@ int Bible::readBook(int id)
 {
     DEBUG_FUNC_NAME
     m_bookID = id;
-    switch(m_moduleType) {
+    switch(m_module->m_moduleType) {
     case Module::BibleQuoteModule: {
         m_book.clear();
         m_chapterNames.clear();
@@ -145,6 +145,7 @@ int Bible::readBook(int id)
         break;
     }
     case Module::ZefaniaBibleModule: {
+        myDebug() << "read zefania bible with id= " << id;
         m_book.clear();
         m_chapterNames.clear();
         m_bibleModule->readBook(id);
@@ -152,6 +153,7 @@ int Bible::readBook(int id)
         for(int i = 1; i <= m_bibleModule->bookCount().value(id, 0); ++i) {
             m_chapterNames << QString::number(i);
         }
+        myDebug() << m_chapterNames;
         break;
     }
     default:
@@ -467,18 +469,8 @@ TextRange Bible::readRange(const Range &range)
 
     if(m_book.bookID() != newBookID) {
         readBook(newBookID);
-       /* myDebug() << "bookID = " << m_book.bookID();
-        m_book.clear();
-        m_chapterNames.clear();
-        myDebug() << "readBook";
-        if(m_bibleModule->readBook(newBookID) != 0) {
-            myWarning() << "index out of range index bookID = " << newBookID;
-            return ret;
-        }
-        myDebug() << "get book";
-        m_book = m_bibleModule->book();
-        m_bookID = newBookID;*/
     }
+
     myDebug() << "go on modulesettings";
     const ModuleSettings moduleSettings = m_settings->getModuleSettings(m_moduleID);
     myDebug() << "m_settings = " << m_settings;
@@ -519,27 +511,33 @@ TextRange Bible::readRange(const Range &range)
     if(range.startVerse() == RangeEnum::VerseByID) {
         startVerse = range.startVerseID();
     } else if(range.startVerse() == RangeEnum::FirstVerse) {
+        myDebug() << "start verse = last verse";
         startVerse = min;
     } else if(range.startVerse() == RangeEnum::LastVerse) {
+        myDebug() << "start verse = first verse";
         startVerse = max;
     }
 
     if(range.endVerse() == RangeEnum::VerseByID) {
+        myDebug() << "endVerse id = " << range.endVerseID();
         endVerse = range.endVerseID();
     } else if(range.endVerse() == RangeEnum::FirstVerse) {
+        myDebug() << "end verse = first verse";
         endVerse = min;
     } else if(range.endVerse() == RangeEnum::LastVerse) {
+        myDebug() << "end verse = last verse";
         endVerse = max;
     }
 
-    //myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
+
+    myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
     QMap<int, Verse> verseMap;
-    //myDebug() << "data.keys() = " << data.keys();
+    myDebug() << "data.keys() = " << data.keys();
     for(int verseCounter = startVerse; verseCounter <= endVerse; verseCounter++) {
         if(!data.contains(verseCounter))
             continue; //todo: or should i better add an empty verse?
         Verse verse = data.value(verseCounter);
-        //myDebug() << "verse = " << verse.verseID();
+        myDebug() << "verse = " << verse.verseID();
         //main formatting
         if(m_notes != 0 && m_bibleDisplaySettings->showNotes() == true) {
             for(int n = 0; n < m_notes->getIDList().size(); ++n) {
