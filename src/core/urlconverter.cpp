@@ -39,7 +39,8 @@ void UrlConverter::setSettings(Settings *settings)
 QString UrlConverter::convert()
 {
     QString ret;
-    if(m_to == InterfaceUrl) {
+    //todo:
+    /*if(m_to == InterfaceUrl) {
         BibleUrl url;
         url.setBibleID(m_moduleID);
         url.setBookID(m_bookID);
@@ -56,11 +57,12 @@ QString UrlConverter::convert()
             ret += ";" + m_bookName;//check for invalid charatcers
         }
     } else if(m_to == BibleQuoteUrl) {
-    }
+    }*/
     return ret;
 }
 int UrlConverter::pharse()
 {
+    //todo: this won't work
     QString bible = "bible://";
     if(m_from == InterfaceUrl) {
         QString url = m_url;

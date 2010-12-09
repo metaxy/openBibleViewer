@@ -20,24 +20,20 @@ void BibleManager::createDocks()
     m_moduleDockWidget = new ModuleDockWidget(m_p);
     setAll(m_moduleDockWidget);
     m_moduleDockWidget->init();
-    connect(m_moduleDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
     m_bookDockWidget = new BookDockWidget(m_p);
     setAll(m_bookDockWidget);
     m_bookDockWidget->hide();
-    connect(m_bookDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
     m_advancedSearchResultDockWidget = new AdvancedSearchResultDockWidget(m_p);
     setAll(m_advancedSearchResultDockWidget);
     m_advancedSearchResultDockWidget->init();
     m_advancedSearchResultDockWidget->hide();
-    connect(m_advancedSearchResultDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
     m_quickJumpDockWidget = new QuickJumpDockWidget(m_p);
     setAll(m_quickJumpDockWidget);
     m_quickJumpDockWidget->init();
     m_quickJumpDockWidget->hide();
-    connect(m_quickJumpDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 }
 
 QHash<DockWidget*, Qt::DockWidgetArea> BibleManager::docks()
@@ -51,131 +47,86 @@ QHash<DockWidget*, Qt::DockWidgetArea> BibleManager::docks()
     return ret;
 
 }
+Ranges BibleManager::bibleUrlRangeToRanges(BibleUrlRange range)
+{
+    DEBUG_FUNC_NAME
+    Ranges ranges;
+    Range r;
+    //todo: currently we do not support real ranges
+    if(range.bible() == BibleUrlRange::LoadBibleByID) {
+        r.setModule(range.bibleID());
+    } else if(range.bible() == BibleUrlRange::LoadCurrentBible) {
+        r.setModule(m_moduleManager->bible()->moduleID());
+    }
+
+    if(range.startBook() == BibleUrlRange::LoadFirstBook) {
+        r.setBook(RangeEnum::FirstBook);
+    } else if(range.startBook() == BibleUrlRange::LoadCurrentBook) {
+        r.setBook(m_moduleManager->bible()->bookID());
+    } else {
+        r.setBook(range.startBookID());
+    }
+
+    if(range.startChapter() == BibleUrlRange::LoadFirstChapter) {
+        r.setChapter(RangeEnum::FirstChapter);
+    } else if(range.startChapter()== BibleUrlRange::LoadCurrentChapter) {
+        r.setChapter(m_moduleManager->bible()->chapterID());
+    } else {
+        r.setChapter(range.startChapterID());
+    }
+
+    if(range.startVerse() == BibleUrlRange::LoadFirstVerse) {
+        r.setStartVerse(RangeEnum::FirstVerse);
+    } else if(range.startVerse() == BibleUrlRange::LoadCurrentVerse) {
+        r.setStartVerse(m_moduleManager->bible()->verseID());
+    } else if(range.startVerse() == BibleUrlRange::LoadLastVerse) {
+        r.setStartVerse(RangeEnum::LastVerse);
+    } else {
+        r.setStartVerse(range.startVerseID());
+    }
+
+    if(range.endVerse() == BibleUrlRange::LoadFirstVerse) {
+        r.setEndVerse(RangeEnum::FirstVerse);
+    } else if(range.endVerse() == BibleUrlRange::LoadCurrentVerse) {
+        r.setStartVerse(m_moduleManager->bible()->verseID());
+    } else if(range.endVerse() == BibleUrlRange::LoadLastVerse) {
+        r.setEndVerse(RangeEnum::LastVerse);
+    } else {
+        r.setEndVerse(range.endVerseID());
+    }
+    //myDebug() << r.moduleID() << r.book() << r.bookID() << r.chapter() << r.chapterID() << r.startVerse() << r.startVerseID() << r.endVerse() << r.endVerseID();
+
+    ranges.addRange(r);
+    return ranges;
+}
+
 void BibleManager::pharseUrl(const QString &url)
 {
+    DEBUG_FUNC_NAME
     const QString bible = "bible://";
     const QString bq = "go";
 
     if(url.startsWith(bible)) {
         BibleUrl bibleUrl;
+        Ranges ranges;
         if(!bibleUrl.fromString(url)) {
             return;
         }
-        if(bibleUrl.bible() == BibleUrl::ReloadActive) {
-            //m_windowManager->reloadActive();//todo:
-        } else {
-            bool reloadBible = false;
-            bool reloadBook = false;
-            bool reloadChapter = false;
-            bool reloadVerse = false;
-            /*if(!m_windowManager->activeMdiChild()) {
-                m_windowManager->newSubWindow();//todo:
-            }*/
-            if((bibleUrl.bibleID() != m_moduleManager->bible()->moduleID()  && bibleUrl.bible() == BibleUrl::LoadBibleByID) ||
-                    !m_moduleManager->bible()->loaded() || (bibleUrl.getParam("force") == "true")) {
-                reloadBible = true;
-            }
-
-            if(reloadBible) {
-                int id = -1;
-                if(bibleUrl.bible() == BibleUrl::LoadBibleByID) {
-                    id = bibleUrl.bibleID();
-                } else if(bibleUrl.bible() == BibleUrl::LoadCurrentBible) {
-                    id = m_moduleManager->bible()->moduleID();
-                }
-                myDebug() << "reloadBible with id = " << id;
-                int ret = loadModuleDataByID(id);
-                if(ret == 1) {
-                    showText(tr("No such bible found."));
-                    return;
-                }
-            }
-
-            int firstBook = 0;
-            if(bibleUrl.book() == BibleUrl::LoadFirstBook) {
-                firstBook = m_moduleManager->bible()->bookIDs().first();
-            }
-            if((bibleUrl.bookID() != m_moduleManager->bible()->bookID() && bibleUrl.book() == BibleUrl::LoadBookByID) ||
-                    (firstBook != m_moduleManager->bible()->bookID() && bibleUrl.book() == BibleUrl::LoadFirstBook) ||
-                    reloadBible || bibleUrl.getParam("forceReloadBook") == "true") {
-                reloadBook = true;
-            }
-
-            int firstChapter = 0;
-            /*if(bibleUrl.chapter() == BibleUrl::LoadFirstChapter) {
-                firstChapter = 0; // todo: change when we support to start chapters from another value
-            }*/
-            if((bibleUrl.chapterID() != m_moduleManager->bible()->chapterID() && bibleUrl.chapter() == BibleUrl::LoadChapterByID) ||
-                    (firstChapter != m_moduleManager->bible()->chapterID() && bibleUrl.chapter() == BibleUrl::LoadFirstChapter) ||
-                    reloadBible || reloadBook || bibleUrl.getParam("forceReloadChapter") == "true") {
-                reloadChapter = true;
-            }
-
-            int firstVerse = 0;
-            if(bibleUrl.verse() == BibleUrl::LoadFirstVerse) {
-                firstVerse = 0; // todo: change when we support to start verse from another value
-            }
-            if(((bibleUrl.verseID() != m_moduleManager->bible()->verseID() && bibleUrl.verse() == BibleUrl::LoadVerseByID) ||
-                    (firstVerse != m_moduleManager->bible()->verseID() && bibleUrl.verse() == BibleUrl::LoadFirstVerse))
-                    && !reloadBible && !reloadBook && !reloadChapter) {
-                reloadVerse = true;
-            }
-
-            if(reloadBook) {
-                int bookID;
-                if(bibleUrl.book() == BibleUrl::LoadFirstBook) {
-                    bookID = firstBook;
-                } else if(bibleUrl.book() == BibleUrl::LoadCurrentBook) {
-                    bookID = m_moduleManager->bible()->bookID();
-                } else {
-                    bookID = bibleUrl.bookID();
-                }
-                readBookByID(bookID);
-                emit setCurrentBook(bookID);
-            }
-
-            int chapterID;
-            if(bibleUrl.chapter() == BibleUrl::LoadFirstChapter) {
-                chapterID = firstChapter;
-            } else if(bibleUrl.chapter() == BibleUrl::LoadCurrentChapter) {
-                chapterID = m_moduleManager->bible()->chapterID();
-            } else {
-                chapterID = bibleUrl.chapterID();
-            }
-
-            int verseID;
-            if(bibleUrl.verse() == BibleUrl::LoadFirstVerse) {
-                verseID = firstVerse;
-            } else if(bibleUrl.verse() == BibleUrl::LoadCurrentVerse) {
-                verseID = m_moduleManager->bible()->verseID();
-            } else {
-                verseID = bibleUrl.verseID();
-            }
-            myDebug() << "chapterID = " << chapterID << " verseID = " << verseID;
-            if(reloadChapter) {
-                showChapter(chapterID, verseID);
-                emit setCurrentChapter(chapterID);
-            }
-            if(reloadVerse) {
-                showChapter(chapterID, verseID);
-                emit setCurrentChapter(chapterID);
-            }
-
-            if(bibleUrl.hasParam("searchInCurrentText") && bibleUrl.getParam("searchInCurrentText") == "true") {
-                //searchInText(m_moduleManager->bible()->lastSearchQuery());
-                //todo:
-            }
-            //emit historySetUrl(url_backup);
+        foreach(BibleUrlRange range, bibleUrl.ranges()) {
+            //ranges.addRanges(bibleUrlRangeToRanges(range));
+            ranges = bibleUrlRangeToRanges(range);
         }
+
+        m_bibleDisplay->setHtml(m_moduleManager->bibleList()->readRanges(ranges));
     } else if(url.startsWith(bq)) {
         //its a biblequote internal link, but i dont have the specifications!!!
-        QStringList internal = url.split(" ");
+       /* QStringList internal = url.split(" ");
         const QString bibleID = internal.at(1);//todo: use it
         //myDebug() << "bibleID = " << bibleID;
         int bookID = internal.at(2).toInt() - 1;
         int chapterID = internal.at(3).toInt() - 1;
         int verseID = internal.at(4).toInt();
-        /*if(bibleID != m_moduleManager->bible()->bibleID())
+        if(bibleID != m_moduleManager->bible()->bibleID())
         {
             loadModuleDataByID(bibleID);
             readBookByID(bookID);
@@ -184,7 +135,7 @@ void BibleManager::pharseUrl(const QString &url)
             setCurrentChapter(chapterID);
             //load bible
         }
-        else */if(bookID != m_moduleManager->bible()->bookID()) {
+        else if(bookID != m_moduleManager->bible()->bookID()) {
             readBookByID(bookID);
             setCurrentBook(bookID);
             showChapter(chapterID, verseID);
@@ -197,7 +148,7 @@ void BibleManager::pharseUrl(const QString &url)
         } else {
             showChapter(chapterID, verseID);
             setCurrentChapter(chapterID);
-        }
+        }*/
         //emit historySetUrl(url_backup);//todo:
     }
 }
@@ -206,10 +157,6 @@ bool BibleManager::loadModuleDataByID(const int &moduleID)
 {
     DEBUG_FUNC_NAME
     myDebug() << "id = " << moduleID;
-    //open a new window if they are none
-   /* if(ui->mdiArea->subWindowList().size() == 0)
-        m_windowManager->newSubWindow();*/ //todo:
-
     if(moduleID < 0 || !m_moduleManager->contains(moduleID)) {
         myWarning() << "failed id = " << moduleID << m_moduleManager->m_moduleMap->m_map;
         return 1;
@@ -292,7 +239,7 @@ void BibleManager::showChapter(const int &chapterID, const int &verseID)
 
 void BibleManager::nextChapter()
 {
-    if(m_moduleManager->bible()->chapterID() < m_moduleManager->bible()->chaptersCount() - 1) {
+   /* if(m_moduleManager->bible()->chapterID() < m_moduleManager->bible()->chaptersCount() - 1) {
         BibleUrl burl;
         burl.setBible(BibleUrl::LoadCurrentBible);
         burl.setBook(BibleUrl::LoadCurrentBook);
@@ -308,12 +255,12 @@ void BibleManager::nextChapter()
         burl.setVerse(BibleUrl::LoadFirstVerse);
         const QString url = burl.toString();
         emit get(url);
-    }
+    }*/
 }
 
 void BibleManager::previousChapter()
 {
-    if(m_moduleManager->bible()->chapterID() > 0) {
+    /*if(m_moduleManager->bible()->chapterID() > 0) {
         BibleUrl burl;
         burl.setBible(BibleUrl::LoadCurrentBible);
         burl.setBook(BibleUrl::LoadCurrentBook);
@@ -329,7 +276,7 @@ void BibleManager::previousChapter()
         burl.setVerse(BibleUrl::LoadFirstVerse);
         const QString url = burl.toString();
         emit get(url);
-    }
+    }*/
 }
 
 void BibleManager::reloadChapter(bool full)

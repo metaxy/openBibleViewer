@@ -57,12 +57,6 @@ private slots:
 
     void copy();
     void selectAll();
-    void nextVerse();
-    void previousVerse();
-    void nextChapter();
-    void previousChapter();
-    int copyWholeVerse();
-    void reloadChapter(bool full = false);
 
 
     void showBookmarksDock();
@@ -77,8 +71,6 @@ private slots:
     void setTabView();
     void setSubWindowView();
 
-    void debugger();
-    void installResizeFilter();
 
 public:
     AdvancedInterface(QWidget *parent = 0);
@@ -105,14 +97,12 @@ signals:
 private:
     Ui::AdvancedInterface *ui;
 
-
     BibleDisplaySettings *m_bibleDisplaySettings;
     Api *m_api;
     //Menu
     QAction *m_actionTabView;
     QAction *m_actionSubWindowView;
     void searchInText(SearchQuery query);
-
 
     QToolBar *m_mainBar;
     QToolBar *m_searchBar;
@@ -125,17 +115,12 @@ private:
     QAction *m_mainBarActionZoomOut;
     QAction *m_mainBarActionModule;
 
-
-
     BookmarksDockWidget * m_bookmarksDockWidget;
     DictionaryDockWidget * m_dictionaryDockWidget;
-
 
     WindowManager *m_windowManager;
     BibleManager *m_bibleManager;
     NotesManager *m_notesManager;
-
-
 };
 
 #endif // ADVANCEDINTERFACE_H

@@ -29,6 +29,7 @@ public:
 
     QString toString();
     bool fromString(QString url);
+    QList<BibleUrlRange> ranges();
 private:
     QHash<QString, QString> m_params;
     QList<BibleUrlRange> m_ranges;

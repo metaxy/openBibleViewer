@@ -52,3 +52,7 @@ void NotesManager::removeMark(VerseSelection selection)
 {
     m_notesDockWidget->removeMark(selection);
 }
+void NotesManager::newNoteWithLink(VerseSelection selection)
+{
+    m_notesDockWidget->newNoteWithLink(selection);
+}

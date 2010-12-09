@@ -206,12 +206,14 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
             const int chapterID = list.at(1).toInt() - 1;
             const int verseID = list.at(2).toInt() - 1;
 
-            BibleUrl burl;
+           /* BibleUrl burl;
             burl.setBible(BibleUrl::LoadCurrentBible);
             burl.setBookID(bookID);
             burl.setChapterID(chapterID);
             burl.setVerseID(verseID);
-            const QString url = burl.toString();
+            const QString url = burl.toString();*/
+
+            const QString url = "";//todo:
 
             QString name = "";
             if(bookID < m_settings->bookFullNames.size()) {

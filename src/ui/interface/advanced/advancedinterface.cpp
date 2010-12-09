@@ -16,7 +16,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/faststart.h"
 #include "src/core/core.h"
 #include "src/core/search/search.h"
-#include "src/core/bible/bibleurl.h"
 #include "src/core/dbghelper.h"
 #include "src/ui/dialog/searchdialog.h"
 #include "src/ui/dialog/aboutdialog.h"
@@ -81,15 +80,6 @@ void AdvancedInterface::init()
     m_api = new Api();
     setAll(m_api);
     m_api->init();
-
-
-    m_windowManager = new WindowManager(this);
-    setAll(m_windowManager);
-    m_windowManager->setMdiArea(ui->mdiArea);
-    m_windowManager->setApi(m_api);
-    m_windowManager->setBibleManager(m_bibleManager);
-    m_windowManager->setNotesManager(m_notesManager);
-
     m_bibleManager = new BibleManager(this);
     setAll(m_bibleManager);
     m_bibleManager->setWidget(this->parentWidget());
@@ -98,6 +88,15 @@ void AdvancedInterface::init()
     m_notesManager = new NotesManager(this);
     m_notesManager->setWidget(this->parentWidget());
     setAll(m_notesManager);
+
+    m_windowManager = new WindowManager(this);
+    setAll(m_windowManager);
+    m_windowManager->setMdiArea(ui->mdiArea);
+    m_windowManager->setApi(m_api);
+    m_windowManager->setBibleManager(m_bibleManager);
+    m_windowManager->setNotesManager(m_notesManager);
+
+
 
     if(m_settings->session.getData("windowUrls").toStringList().size() == 0)
         QTimer::singleShot(10, m_windowManager, SLOT(newSubWindow()));
@@ -415,8 +414,8 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
         //showText(""); //todo:
         //m_windowCache.clearZefCache();
         //m_moduleManager->bible()->clearSoftCache();
-        if(m_moduleManager->bibleLoaded())
-            reloadChapter(true);
+        //if(m_moduleManager->bibleLoaded())
+            //reloadChapter(true);
         QApplication::restoreOverrideCursor();
     }
 
@@ -480,7 +479,7 @@ void AdvancedInterface::selectAll()
         m_windowManager->activeForm()->selectAll();
 }
 
-void AdvancedInterface::nextVerse()
+/*void AdvancedInterface::nextVerse()
 {
     //m_advancedSearchResultDockWidget->nextVerse();
 }
@@ -488,7 +487,7 @@ void AdvancedInterface::nextVerse()
 void AdvancedInterface::previousVerse()
 {
     //m_advancedSearchResultDockWidget->previousVerse();
-}
+}*/
 
 bool AdvancedInterface::hasMenuBar()
 {
@@ -825,15 +824,15 @@ void AdvancedInterface::showNotesDock()
         m_notesDockWidget->show();
     }*/
 }
-/*
-void AdvancedInterface::newBookmark()
+
+/*void AdvancedInterface::newBookmark()
 {
     if(!m_moduleManager->bibleLoaded() && !m_windowManager->activeMdiChild())
         return;
     if(m_bookmarksDockWidget->isHidden())
         m_bookmarksDockWidget->show();
     m_bookmarksDockWidget->newBookmark(verseSelection());
-}
+}*//*
 
 void AdvancedInterface::newNoteWithLink()
 {

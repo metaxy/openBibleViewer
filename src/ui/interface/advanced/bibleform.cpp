@@ -79,6 +79,8 @@ void BibleForm::init()
     connect(m_bibleManager, SIGNAL(updateBooks(QHash<int,QString>,QList<int>)),this, SLOT(forwardSetBooks(QHash<int,QString>,QList<int>)));
     connect(m_bibleManager, SIGNAL(setCurrentBook(int)), this, SLOT(forwardSetCurrentBook(int)));
     connect(m_bibleManager, SIGNAL(setCurrentChapter(int)), this, SLOT(forwardSetCurrentChapter(int)));
+
+    connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(forwardShowText(QString)));
     createDefaultMenu();
 }
 void BibleForm::setApi(Api *api)
@@ -88,11 +90,13 @@ void BibleForm::setApi(Api *api)
 }
 void BibleForm::setBibleManager(BibleManager *bibleManager)
 {
+    DEBUG_FUNC_NAME
     m_bibleManager = bibleManager;
 }
 
 void BibleForm::setNotesManager(NotesManager *notesManager)
 {
+    DEBUG_FUNC_NAME
     m_notesManager = notesManager;
 }
 void BibleForm::attachApi()
@@ -163,22 +167,31 @@ void BibleForm::showBibleListMenu()
 
 void BibleForm::readChapter(int id)
 {
+
+    BibleUrlRange r;
+    r.setBible(BibleUrlRange::LoadCurrentBible);
+    r.setStartBook(BibleUrlRange::LoadCurrentBook);
+    r.setStartChapter(id);
+    r.setStartVerse(BibleUrlRange::LoadFirstVerse);
+    r.setEndVerse(BibleUrlRange::LoadLastVerse);
     BibleUrl url;
-    url.setBible(BibleUrl::LoadCurrentBible);
-    url.setBook(BibleUrl::LoadCurrentBook);
-    url.setChapterID(id);
-    url.setVerse(BibleUrl::LoadCurrentVerse);
+    url.addRange(r);
+
     m_bibleDisplay->emitGet(url.toString());
 }
 
 void BibleForm::readBook(int id)
 {
     const int i = m_bookIDs.at(id);
+
+    BibleUrlRange r;
+    r.setBible(BibleUrlRange::LoadCurrentBible);
+    r.setStartBook(i);
+    r.setStartChapter(BibleUrlRange::LoadFirstChapter);
+    r.setStartVerse(BibleUrlRange::LoadFirstVerse);
+    r.setEndVerse(BibleUrlRange::LoadLastVerse);
     BibleUrl url;
-    url.setBible(BibleUrl::LoadCurrentBible);
-    url.setBookID(i);
-    url.setChapter(BibleUrl::LoadFirstChapter);
-    url.setVerse(BibleUrl::LoadCurrentVerse);
+    url.addRange(r);
 
     m_bibleDisplay->emitGet(url.toString());
 }
@@ -463,9 +476,16 @@ void BibleForm::forwardSetCurrentChapter(const int &chapterID)
         return;
     setCurrentChapter(chapterID);
 }
+
+void BibleForm::forwardShowText(const QString &text)
+{
+    if(!active())
+        return;
+    showText(text);
+}
 bool BibleForm::active()
 {
-    return false;
+    return true;
 }
 
 void BibleForm::createDefaultMenu()

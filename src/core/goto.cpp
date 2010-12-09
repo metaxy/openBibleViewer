@@ -26,7 +26,9 @@ QString GoTo::getUrl(const QString& text)
 {
     if(text.size() < 1)
         return QString();
-    QStringList reg;
+
+    //todo: enable
+    /*QStringList reg;
     QRegExp foundRegExp;
     reg << "(.*)" << "(.*)(\\s+)(\\d+)"  << "(.*)(\\s+)(\\d+),(\\d+)" << "(.*)(\\s+)(\\d+):(\\d+)";
     int found = -1;
@@ -63,7 +65,7 @@ QString GoTo::getUrl(const QString& text)
         url.setChapterID(chapterID);
         url.setVerseID(verseID);
         return url.toString();
-    }
+    }*/
     return QString();
 }
 int GoTo::bookNameToBookID(const QString& name)

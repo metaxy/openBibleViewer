@@ -54,11 +54,13 @@ void ModuleDockWidget::loadModuleData(QModelIndex index)
     if(data.toInt() >= 0 && m_dontLoad == false) {
         m_moduleID = data.toInt();
         BibleUrl url;
-        url.setBibleID(m_moduleID);
-        url.setBook(BibleUrl::LoadFirstBook);
-        url.setChapter(BibleUrl::LoadFirstChapter);
-        url.setVerse(BibleUrl::LoadFirstVerse);
-        emit get(url.toString());
+        BibleUrlRange range;
+        range.setBible(m_moduleID);
+        range.setBook(BibleUrlRange::LoadFirstBook);
+        range.setChapter(BibleUrlRange::LoadFirstChapter);
+        range.setWholeChapter();
+        url.addRange(range);
+        m_bibleDisplay->emitGet(url.toString());
     }
 }
 /**

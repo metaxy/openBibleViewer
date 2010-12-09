@@ -25,7 +25,6 @@ public slots:
     void newUnderlineMark(VerseSelection selection);
 
     void removeMark(VerseSelection selection);
-    void newBookmark(VerseSelection selection);
     void newNoteWithLink(VerseSelection selection);
 private:
      QWidget *m_p;

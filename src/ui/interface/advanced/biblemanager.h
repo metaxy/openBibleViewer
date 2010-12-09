@@ -9,6 +9,7 @@
 #include "src/ui/dock/moduledockwidget.h"
 #include "src/ui/dock/advancedsearchresultdockwidget.h"
 #include "src/ui/dock/quickjumpdockwidget.h"
+#include "src/core/bible/bibleurlrange.h"
 class BibleManager : public QObject, public BasicClass
 {
     Q_OBJECT
@@ -39,19 +40,19 @@ signals:
 public slots:
     //todo:
     void pharseUrl(const QString &url);
-    void showText(const QString &text);
 /*
     void readChapter(const int &id);
     void readBook(const int &id);
 */
-    void nextVerse();
-    void previousVerse();
+    //void nextVerse();
+    //void previousVerse();
 
     void nextChapter();
     void previousChapter();
-    int copyWholeVerse();
+    //int copyWholeVerse();
     void reloadChapter(bool full = false);
 private:
+    Ranges bibleUrlRangeToRanges(BibleUrlRange r);
     QWidget *m_p;
     AdvancedSearchResultDockWidget *m_advancedSearchResultDockWidget;
     BookDockWidget *m_bookDockWidget;

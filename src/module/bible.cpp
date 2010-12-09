@@ -30,6 +30,7 @@ Bible::Bible()
     textTitle = "";
     m_loaded = false;
     m_moduleType = Module::NoneType;
+    m_bibleModule = 0;
 }
 
 void Bible::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings)
@@ -44,6 +45,7 @@ bool Bible::loaded()
 
 int Bible::loadModuleData(const int &moduleID)
 {
+    DEBUG_FUNC_NAME
     //CALLGRIND_START_INSTRUMENTATION;
     m_module = m_map->m_map.value(moduleID);
     if(moduleID < 0 || !m_module) {
@@ -52,7 +54,7 @@ int Bible::loadModuleData(const int &moduleID)
     }
     m_moduleID = moduleID;
     const QString path = m_module->m_path;
-
+    myDebug() << " moduleID ="  << moduleID << " path = " << path;
     switch(m_moduleType) {
     case Module::BibleQuoteModule: {
         if(m_module->m_bibleModule) {
@@ -116,7 +118,7 @@ int Bible::loadModuleData(const int &moduleID)
 */
 int Bible::readBook(int id)
 {
-    // DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     m_bookID = id;
     switch(m_moduleType) {
     case Module::BibleQuoteModule: {
@@ -437,34 +439,62 @@ TextRange Bible::readRange(const Range &range)
 
     //todo: what about biblequote
     TextRange ret;
+    if(range.moduleID() != m_moduleID) {
+        myDebug() << "loadModule = " << range.moduleID();
+        loadModuleData(range.moduleID());
+    }
 
     int newBookID = -1;
     if(range.book() == RangeEnum::BookByID) {
         newBookID = range.bookID();
-    } //todo: else
-    //myDebug() << "new BookID = " << newBookID;
+    } else if(range.book() == RangeEnum::FirstBook) {
+        myDebug() << "find min bible bookIDs = " << bookIDs();
+        foreach(int id, bookIDs()) {
+            if(id < newBookID || newBookID == -1) {
+                newBookID = id;
+                myDebug() << id;
+            }
+        }
+        if(newBookID == -1)
+            newBookID = 0;
+    }
+    myDebug() << "new BookID = " << newBookID;
 
     if(newBookID < 0) {
         myWarning() << "index out of range index bookID = " << newBookID;
         return ret;
     }
+
     if(m_book.bookID() != newBookID) {
+        readBook(newBookID);
+       /* myDebug() << "bookID = " << m_book.bookID();
         m_book.clear();
         m_chapterNames.clear();
+        myDebug() << "readBook";
         if(m_bibleModule->readBook(newBookID) != 0) {
             myWarning() << "index out of range index bookID = " << newBookID;
             return ret;
         }
+        myDebug() << "get book";
         m_book = m_bibleModule->book();
-        m_bookID = newBookID;
+        m_bookID = newBookID;*/
     }
-
+    myDebug() << "go on modulesettings";
     const ModuleSettings moduleSettings = m_settings->getModuleSettings(m_moduleID);
+    myDebug() << "m_settings = " << m_settings;
     int newChapterID = -1;
     if(range.chapter() == RangeEnum::ChapterByID) {
         newChapterID = range.chapterID();
-    }//todo: else
-    //myDebug() << "new ChapterID = " << newChapterID;
+    } else if(range.chapter() == RangeEnum::FirstChapter) {
+        myDebug() << "chapters = " << m_book.m_chapters.size() << m_book.size();
+        foreach(int id,  m_book.m_chapters.keys()) {
+            if(newChapterID == -1 || id < newChapterID)
+                newChapterID = id;
+        }
+        if(newChapterID == -1)
+            newChapterID = 0;
+    }
+    myDebug() << "new ChapterID = " << newChapterID;
     if(!m_book.hasChapter(newChapterID)) {
         myWarning() << "index out of range index chapterID = " << newChapterID;
         return ret;

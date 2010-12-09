@@ -99,13 +99,13 @@ void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
         if(hit.type() == SearchHit::BibleHit) {
             if(!m_moduleManager->contains(hit.value(SearchHit::BibleID).toInt()))
                 return;
-            BibleUrl url;
+           /* BibleUrl url;
             url.setBibleID(hit.value(SearchHit::BibleID).toInt());
             url.setBookID(hit.value(SearchHit::BookID).toInt());
             url.setChapterID(hit.value(SearchHit::ChapterID).toInt());
             url.setVerseID(hit.value(SearchHit::VerseID).toInt());
             url.setParam("searchInCurrentText", "true");
-            emit get(url.toString());
+            emit get(url.toString());*///todo:
         } else if(hit.type() == SearchHit::NoteHit) {
             emit get("note://" + hit.value(SearchHit::NoteID).toString());
         }

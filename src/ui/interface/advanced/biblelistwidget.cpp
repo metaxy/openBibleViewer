@@ -134,12 +134,17 @@ void BibleListWidget::save()
     //myDebug() <<  m_model->rowCount() << m_model->columnCount();
     if(atLeastOne) {
         BibleUrl url;
-        url.setBibleID(m_moduleManager->bible()->moduleID());
-        url.setBookID(book);
-        url.setChapterID(chapter);
-        url.setVerse(BibleUrl::LoadFirstVerse);
+        BibleUrlRange range;
+        range.setBible(m_moduleManager->bible()->moduleID());
+        range.setBook(book);
+        range.setChapter(chapter);
+        range.setWholeChapter();
         url.setParam("force", "true");
+        url.addRange(range);
         m_bibleDisplay->emitGet(url.toString());
+
+
+
     } else {
         Bible *b = new Bible();
         m_moduleManager->initBible(b);

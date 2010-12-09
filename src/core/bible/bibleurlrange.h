@@ -23,7 +23,8 @@ public:
     enum VerseLoadParams {
         LoadVerseByID,
         LoadCurrentVerse,
-        LoadFirstVerse
+        LoadFirstVerse,
+        LoadLastVerse
     };
 
     /**
@@ -39,42 +40,47 @@ public:
      * If set bible() == LoadBibleByID then it is the id of bible
      * Else is not definied
      */
-    int bibleID();
+    int bibleID() const;
     /**
      * Returns how to load the bible
      */
-    BibleLoadParams bible();
+    BibleLoadParams bible() const;
 
+    void setBook(const int &bookID);
+    void setBook(const BookLoadParams &param);
     void setStartBook(const int &bookID);
     void setStartBook(const BookLoadParams &param);
     void setEndBook(const int &bookID);
     void setEndBook(const BookLoadParams &param);
 
-    int startBookID();
-    BookLoadParams startBook();
-    int endBookID();
-    BookLoadParams endBook();
+    int startBookID() const;
+    BookLoadParams startBook() const;
+    int endBookID() const;
+    BookLoadParams endBook() const;
+
+    void setChapter(const int &chapterID);
+    void setChapter(const ChapterLoadParams &param);
 
     void setStartChapter(const int &chapterID);
     void setStartChapter(const ChapterLoadParams &param);
     void setEndChapter(const int &chapterID);
     void setEndChapter(const ChapterLoadParams &param);
 
-    int startChapterID();
-    ChapterLoadParams startChapter();
-    int endChapterID();
-    ChapterLoadParams endChapter();
+    int startChapterID() const;
+    ChapterLoadParams startChapter() const;
+    int endChapterID() const;
+    ChapterLoadParams endChapter() const;
 
     void setStartVerse(const int &verseID);
     void setStartVerse(const VerseLoadParams &param);
     void setEndVerse(const int &verseID);
     void setEndVerse(const VerseLoadParams &param);
 
-    int startVerseID();
-    BookLoadParams startVerse();
-    int endVerseID();
-    BookLoadParams endVerse();
-
+    int startVerseID() const;
+    VerseLoadParams startVerse() const;
+    int endVerseID() const;
+    VerseLoadParams endVerse() const;
+    void setWholeChapter();
 
 private:
     int m_bibleID;

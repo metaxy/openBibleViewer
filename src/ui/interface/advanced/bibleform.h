@@ -85,6 +85,7 @@ public slots:
 
     void forwardSetCurrentBook(const int &bookID);
     void forwardSetCurrentChapter(const int &chapterID);
+    void forwardShowText(const QString &text);
 
     void activated();
 

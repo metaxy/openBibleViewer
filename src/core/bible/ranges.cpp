@@ -20,6 +20,10 @@ void Ranges::addRange(Range range)
 {
     m_ranges << range;
 }
+void Ranges::addRanges(Ranges ranges)
+{
+    m_ranges << ranges.getList();
+}
 QList<Range> Ranges::getList() const
 {
     return m_ranges;

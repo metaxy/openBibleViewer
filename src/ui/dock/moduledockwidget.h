@@ -41,8 +41,6 @@ public:
     void loadedModule(int id);
 protected:
     void changeEvent(QEvent *e);
-signals:
-    void get(QString);
 private:
     Ui::ModuleDockWidget *ui;
     bool m_dontLoad;

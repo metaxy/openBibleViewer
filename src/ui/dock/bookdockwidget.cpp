@@ -43,21 +43,21 @@ BookDockWidget::~BookDockWidget()
 }
 void BookDockWidget::readBook(QModelIndex index)
 {
-    BibleUrl url;
+    /*BibleUrl url;
     url.setBible(BibleUrl::LoadCurrentBible);
     url.setBookID(index.data(Qt::UserRole + 1).toInt());
     url.setChapter(BibleUrl::LoadFirstChapter);
     url.setVerse(BibleUrl::LoadFirstVerse);
-    emit get(url.toString());
+    emit get(url.toString());*///todo:
 }
 void BookDockWidget::readChapter(QModelIndex index)
 {
-    BibleUrl url;
+    /*BibleUrl url;
     url.setBible(BibleUrl::LoadCurrentBible);
     url.setBook(BibleUrl::LoadCurrentBook);
     url.setChapterID(index.data(Qt::UserRole + 1).toInt());
     url.setVerse(BibleUrl::LoadFirstVerse);
-    emit get(url.toString());
+    emit get(url.toString());*///todo:
 }
 void BookDockWidget::setChapters(const QStringList &chapters)
 {
