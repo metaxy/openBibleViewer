@@ -40,10 +40,10 @@ signals:
 public slots:
     //todo:
     void pharseUrl(const QString &url);
-/*
-    void readChapter(const int &id);
-    void readBook(const int &id);
-*/
+    /*
+        void readChapter(const int &id);
+        void readBook(const int &id);
+    */
     //void nextVerse();
     //void previousVerse();
 

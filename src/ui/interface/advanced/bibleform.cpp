@@ -76,7 +76,7 @@ void BibleForm::init()
     connect(m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
 
     connect(m_bibleManager, SIGNAL(updateChapters(QStringList)), this, SLOT(forwardSetChapters(QStringList)));
-    connect(m_bibleManager, SIGNAL(updateBooks(QHash<int,QString>,QList<int>)),this, SLOT(forwardSetBooks(QHash<int,QString>,QList<int>)));
+    connect(m_bibleManager, SIGNAL(updateBooks(QHash<int, QString>, QList<int>)), this, SLOT(forwardSetBooks(QHash<int, QString>, QList<int>)));
     connect(m_bibleManager, SIGNAL(setCurrentBook(int)), this, SLOT(forwardSetCurrentBook(int)));
     connect(m_bibleManager, SIGNAL(setCurrentChapter(int)), this, SLOT(forwardSetCurrentChapter(int)));
 
@@ -322,9 +322,9 @@ void BibleForm::scrollToAnchor(const QString &anchor)
 {
     DEBUG_FUNC_NAME
 #if QT_VERSION >= 0x040700
-        m_view->page()->mainFrame()->scrollToAnchor(anchor);
+    m_view->page()->mainFrame()->scrollToAnchor(anchor);
 #else
-        m_view->page()->mainFrame()->evaluateJavaScript("window.location.href = '" + anchor + "';");
+    m_view->page()->mainFrame()->evaluateJavaScript("window.location.href = '" + anchor + "';");
 #endif
 
 }
@@ -449,7 +449,7 @@ void BibleForm::forwardSetBooks(const QHash<int, QString> &books, QList<int> ids
     DEBUG_FUNC_NAME
     if(!active())
         return;
-    setBooks(books,ids);
+    setBooks(books, ids);
 }
 
 void BibleForm::forwardClearBooks()
@@ -719,7 +719,7 @@ void BibleForm::removeMark()
 
 VerseSelection BibleForm::verseSelection()
 {
-   /* QWebFrame *f = getView()->page()->mainFrame();*/
+    /* QWebFrame *f = getView()->page()->mainFrame();*/
     VerseSelection s;
     /*if(!f)
         return s;*/

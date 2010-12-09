@@ -14,8 +14,8 @@ void NotesManager::createDocks()
     setAll(m_notesDockWidget);
     m_notesDockWidget->init();
     m_notesDockWidget->hide();
-  //  connect(m_notesDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
-   // connect(m_notesDockWidget, SIGNAL(reloadChapter()), this, SLOT(reloadChapter()));
+    //  connect(m_notesDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+    // connect(m_notesDockWidget, SIGNAL(reloadChapter()), this, SLOT(reloadChapter()));
 }
 
 QHash<DockWidget*, Qt::DockWidgetArea> NotesManager::docks()
@@ -29,7 +29,7 @@ QHash<DockWidget*, Qt::DockWidgetArea> NotesManager::docks()
 
 void NotesManager::newCustomColorMark(VerseSelection selection, QColor color)
 {
-    m_notesDockWidget->newStyleMark(selection,  "font-color: "+color.name()+";");
+    m_notesDockWidget->newStyleMark(selection,  "font-color: " + color.name() + ";");
 }
 
 void NotesManager::newBoldMark(VerseSelection selection)

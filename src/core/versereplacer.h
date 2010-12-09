@@ -25,7 +25,7 @@ public:
     void setPrepend(const int &verseID, const QString &prepend);
     void setAppend(const int &verseID, const QString &append);
 
-    void exec(QMap<int,Verse> *list);
+    void exec(QMap<int, Verse> *list);
 private:
     QMap<int, QMap<int, QString> > m_inserts;
     QMap<int, QString> m_prepends;

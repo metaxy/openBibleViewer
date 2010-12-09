@@ -26,13 +26,13 @@ public:
     void addVerse(const QList<Verse> &verse);
     void setTitle(const QString &title);
     QList<Verse> verseList() const;
-    QMap<int,Verse> verseMap() const;
+    QMap<int, Verse> verseMap() const;
     QString title() const;
 
     Verse getVerse(const int &verseID) const;
 
 private:
-    QMap<int,Verse> m_verse;
+    QMap<int, Verse> m_verse;
     QString m_title;
 };
 

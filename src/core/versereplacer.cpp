@@ -41,7 +41,7 @@ void VerseReplacer::setAppend(const int &verseID, const QString &append)
 void VerseReplacer::exec(QMap<int, Verse> *map)
 {
     QMutableMapIterator<int, Verse> i(*map);
-    while (i.hasNext()) {
+    while(i.hasNext()) {
         i.next();
         if(m_appends.contains(i.key()) || m_prepends.contains(i.key()) || m_inserts.contains(i.key())) {
             QStack<int> posStack;

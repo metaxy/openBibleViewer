@@ -94,14 +94,14 @@ QString BibleList::readRanges(const Ranges &ranges) const
         return m_bibles[m_currentBible]->readRanges(ranges).join("");
     } else if(m_bibles.size() > 1) {
         myDebug() << "oh a real biblelist";
-        QHash<int,TextRanges> data;
+        QHash<int, TextRanges> data;
         QHashIterator<int, Bible *> i(m_bibles);
         TextRanges def;
-        while (i.hasNext()) {
-             i.next();
-             const TextRanges r = i.value()->readRanges(ranges);
-             data.insert(i.key(),r);
-             def = r;
+        while(i.hasNext()) {
+            i.next();
+            const TextRanges r = i.value()->readRanges(ranges);
+            data.insert(i.key(), r);
+            def = r;
         }
 
         int maxRow = 0;
@@ -149,10 +149,10 @@ QString BibleList::readRanges(const Ranges &ranges) const
         //for all verse
         out += "<tbody>";
         int countTextRange = 0;
-        foreach(const TextRange &textRange, def.textRanges()) {
+        foreach(const TextRange & textRange, def.textRanges()) {
             //todo: its a new range
             QMapIterator<int, Verse> mapIt(textRange.verseMap());
-            while (mapIt.hasNext()) {
+            while(mapIt.hasNext()) {
                 mapIt.next();
                 for(int i = 0; i <= maxRow; i++) {
                     out += "<tr>\n";

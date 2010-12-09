@@ -500,10 +500,10 @@ TextRange Bible::readRange(const Range &range)
     int max = 0;
     int min = 0;
 
-    foreach(const int &key,data.keys()) {
+    foreach(const int & key, data.keys()) {
         if(key >= max) {
             max = key;
-        } else if(key <= min){
+        } else if(key <= min) {
             min = key;
         }
     }
@@ -514,7 +514,7 @@ TextRange Bible::readRange(const Range &range)
         //myDebug() << "start verse = last verse";
         startVerse = min;
     } else if(range.startVerse() == RangeEnum::LastVerse) {
-       // myDebug() << "start verse = first verse";
+        // myDebug() << "start verse = first verse";
         startVerse = max;
     }
 
@@ -564,7 +564,7 @@ TextRange Bible::readRange(const Range &range)
         {
             QString prepend;
             QString append;
-            prepend = "<span class=\"verseNumber\">" + QString::number(verse.verseID()+1) + "</span>";
+            prepend = "<span class=\"verseNumber\">" + QString::number(verse.verseID() + 1) + "</span>";
             if(moduleSettings.zefbible_textFormatting == 0) {
                 append = "<br />";
             } else {
@@ -645,34 +645,34 @@ TextRange Bible::readRange(const Range &range)
     // now add id
     //it have to be done as last
     QMapIterator<int, Verse> i(verseMap);
-    while (i.hasNext()) {
-         i.next();
-         Verse verse = i.value();
-         //myDebug() << verse.verseID();
-         switch(m_moduleType) {
-         case Module::BibleQuoteModule: {
-             if(i.key() > 1) {//because of the chapter
-                 verse.prepend("<span verseID='" + QString::number(i.key() - 1) +
-                               "' chapterID='" + QString::number(newChapterID) +
-                               "' bookID='" + QString::number(newBookID) +
-                               "' moduleID='" + QString::number(m_moduleID) + "'>\n");
-                 verse.append("</span><br />\n");
-             }
-             break;
+    while(i.hasNext()) {
+        i.next();
+        Verse verse = i.value();
+        //myDebug() << verse.verseID();
+        switch(m_moduleType) {
+        case Module::BibleQuoteModule: {
+            if(i.key() > 1) {//because of the chapter
+                verse.prepend("<span verseID='" + QString::number(i.key() - 1) +
+                              "' chapterID='" + QString::number(newChapterID) +
+                              "' bookID='" + QString::number(newBookID) +
+                              "' moduleID='" + QString::number(m_moduleID) + "'>\n");
+                verse.append("</span><br />\n");
+            }
+            break;
 
-         }
-         case Module::ZefaniaBibleModule: {
-             verse.prepend("<span verseID='" + QString::number(i.key()) +
-                           "' chapterID='" + QString::number(newChapterID) +
-                           "' bookID='" + QString::number(newBookID) +
-                           "' moduleID='" + QString::number(m_moduleID) + "'>\n");
-             verse.append("</span>\n");
-             break;
-         }
-         default:
-             break;
-         }
-         ret.addVerse(verse);
+        }
+        case Module::ZefaniaBibleModule: {
+            verse.prepend("<span verseID='" + QString::number(i.key()) +
+                          "' chapterID='" + QString::number(newChapterID) +
+                          "' bookID='" + QString::number(newBookID) +
+                          "' moduleID='" + QString::number(m_moduleID) + "'>\n");
+            verse.append("</span>\n");
+            break;
+        }
+        default:
+            break;
+        }
+        ret.addVerse(verse);
 
 
     }

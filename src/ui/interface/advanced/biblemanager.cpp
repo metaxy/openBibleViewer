@@ -69,7 +69,7 @@ Ranges BibleManager::bibleUrlRangeToRanges(BibleUrlRange range)
 
     if(range.startChapter() == BibleUrlRange::LoadFirstChapter) {
         r.setChapter(RangeEnum::FirstChapter);
-    } else if(range.startChapter()== BibleUrlRange::LoadCurrentChapter) {
+    } else if(range.startChapter() == BibleUrlRange::LoadCurrentChapter) {
         r.setChapter(m_moduleManager->bible()->chapterID());
     } else {
         r.setChapter(range.startChapterID());
@@ -125,35 +125,35 @@ void BibleManager::pharseUrl(const QString &url)
         emit setCurrentChapter(const int &chapterID);*/
     } else if(url.startsWith(bq)) {
         //its a biblequote internal link, but i dont have the specifications!!!
-       /* QStringList internal = url.split(" ");
-        const QString bibleID = internal.at(1);//todo: use it
-        //myDebug() << "bibleID = " << bibleID;
-        int bookID = internal.at(2).toInt() - 1;
-        int chapterID = internal.at(3).toInt() - 1;
-        int verseID = internal.at(4).toInt();
-        if(bibleID != m_moduleManager->bible()->bibleID())
-        {
-            loadModuleDataByID(bibleID);
-            readBookByID(bookID);
-            setCurrentBook(bookID);
-            showChapter(chapterID),verseID);
-            setCurrentChapter(chapterID);
-            //load bible
-        }
-        else if(bookID != m_moduleManager->bible()->bookID()) {
-            readBookByID(bookID);
-            setCurrentBook(bookID);
-            showChapter(chapterID, verseID);
-            setCurrentChapter(chapterID);
-            //load book
-        } else if(chapterID != m_moduleManager->bible()->chapterID()) {
-            showChapter(chapterID, verseID);
-            setCurrentChapter(chapterID);
-            //load chapter
-        } else {
-            showChapter(chapterID, verseID);
-            setCurrentChapter(chapterID);
-        }*/
+        /* QStringList internal = url.split(" ");
+         const QString bibleID = internal.at(1);//todo: use it
+         //myDebug() << "bibleID = " << bibleID;
+         int bookID = internal.at(2).toInt() - 1;
+         int chapterID = internal.at(3).toInt() - 1;
+         int verseID = internal.at(4).toInt();
+         if(bibleID != m_moduleManager->bible()->bibleID())
+         {
+             loadModuleDataByID(bibleID);
+             readBookByID(bookID);
+             setCurrentBook(bookID);
+             showChapter(chapterID),verseID);
+             setCurrentChapter(chapterID);
+             //load bible
+         }
+         else if(bookID != m_moduleManager->bible()->bookID()) {
+             readBookByID(bookID);
+             setCurrentBook(bookID);
+             showChapter(chapterID, verseID);
+             setCurrentChapter(chapterID);
+             //load book
+         } else if(chapterID != m_moduleManager->bible()->chapterID()) {
+             showChapter(chapterID, verseID);
+             setCurrentChapter(chapterID);
+             //load chapter
+         } else {
+             showChapter(chapterID, verseID);
+             setCurrentChapter(chapterID);
+         }*/
         //emit historySetUrl(url_backup);//todo:
     }
 }
@@ -244,23 +244,23 @@ void BibleManager::showChapter(const int &chapterID, const int &verseID)
 
 void BibleManager::nextChapter()
 {
-   /* if(m_moduleManager->bible()->chapterID() < m_moduleManager->bible()->chaptersCount() - 1) {
-        BibleUrl burl;
-        burl.setBible(BibleUrl::LoadCurrentBible);
-        burl.setBook(BibleUrl::LoadCurrentBook);
-        burl.setChapterID(m_moduleManager->bible()->chapterID() + 1);
-        burl.setVerse(BibleUrl::LoadFirstVerse);
-        const QString url = burl.toString();
-        emit get(url);
-    } else if(m_moduleManager->bible()->bookID() < m_moduleManager->bible()->booksCount() - 1) {
-        BibleUrl burl;
-        burl.setBible(BibleUrl::LoadCurrentBible);
-        burl.setBookID(m_moduleManager->bible()->bookID() + 1);
-        burl.setChapter(BibleUrl::LoadFirstChapter);
-        burl.setVerse(BibleUrl::LoadFirstVerse);
-        const QString url = burl.toString();
-        emit get(url);
-    }*/
+    /* if(m_moduleManager->bible()->chapterID() < m_moduleManager->bible()->chaptersCount() - 1) {
+         BibleUrl burl;
+         burl.setBible(BibleUrl::LoadCurrentBible);
+         burl.setBook(BibleUrl::LoadCurrentBook);
+         burl.setChapterID(m_moduleManager->bible()->chapterID() + 1);
+         burl.setVerse(BibleUrl::LoadFirstVerse);
+         const QString url = burl.toString();
+         emit get(url);
+     } else if(m_moduleManager->bible()->bookID() < m_moduleManager->bible()->booksCount() - 1) {
+         BibleUrl burl;
+         burl.setBible(BibleUrl::LoadCurrentBible);
+         burl.setBookID(m_moduleManager->bible()->bookID() + 1);
+         burl.setChapter(BibleUrl::LoadFirstChapter);
+         burl.setVerse(BibleUrl::LoadFirstVerse);
+         const QString url = burl.toString();
+         emit get(url);
+     }*/
 }
 
 void BibleManager::previousChapter()
@@ -287,31 +287,31 @@ void BibleManager::previousChapter()
 void BibleManager::reloadChapter(bool full)
 {
     //todo:
-  /*  DEBUG_FUNC_NAME
-    if(!m_windowManager->activeMdiChild())
-        return;
-    //setEnableReload(false);
-    //todo: hacky
-    const QWebView *v = m_windowManager->activeForm()->m_view;
-    const QPoint p = v->page()->mainFrame()->scrollPosition();
-    myDebug() << m_moduleManager->bible()->moduleID();
-    if(full) {
-        BibleUrl url;
-        url.setBible(BibleUrl::LoadCurrentBible);
-        url.setBook(BibleUrl::LoadCurrentBook);
-        url.setChapter(BibleUrl::LoadCurrentChapter);
-        url.setVerse(BibleUrl::LoadCurrentVerse);
-        url.setParam("force", "true");
-        emit get(url.toString());
-    } else {
-        BibleUrl url;
-        url.setBible(BibleUrl::LoadCurrentBible);
-        url.setBook(BibleUrl::LoadCurrentBook);
-        url.setChapter(BibleUrl::LoadCurrentChapter);
-        url.setVerse(BibleUrl::LoadCurrentVerse);
-        url.setParam("forceReloadChapter", "true");
-        emit get(url.toString());
-    }
-    v->page()->mainFrame()->setScrollPosition(p);
-    //setEnableReload(true);*/
+    /*  DEBUG_FUNC_NAME
+      if(!m_windowManager->activeMdiChild())
+          return;
+      //setEnableReload(false);
+      //todo: hacky
+      const QWebView *v = m_windowManager->activeForm()->m_view;
+      const QPoint p = v->page()->mainFrame()->scrollPosition();
+      myDebug() << m_moduleManager->bible()->moduleID();
+      if(full) {
+          BibleUrl url;
+          url.setBible(BibleUrl::LoadCurrentBible);
+          url.setBook(BibleUrl::LoadCurrentBook);
+          url.setChapter(BibleUrl::LoadCurrentChapter);
+          url.setVerse(BibleUrl::LoadCurrentVerse);
+          url.setParam("force", "true");
+          emit get(url.toString());
+      } else {
+          BibleUrl url;
+          url.setBible(BibleUrl::LoadCurrentBible);
+          url.setBook(BibleUrl::LoadCurrentBook);
+          url.setChapter(BibleUrl::LoadCurrentChapter);
+          url.setVerse(BibleUrl::LoadCurrentVerse);
+          url.setParam("forceReloadChapter", "true");
+          emit get(url.toString());
+      }
+      v->page()->mainFrame()->setScrollPosition(p);
+      //setEnableReload(true);*/
 }

@@ -262,53 +262,53 @@ void AdvancedInterface::setTitle(const QString &title)
 void AdvancedInterface::closing()
 {
     m_windowManager->disable();
-   /* m_notesDockWidget->saveNote();
-    m_bookmarksDockWidget->saveBookmarks();
+    /* m_notesDockWidget->saveNote();
+     m_bookmarksDockWidget->saveBookmarks();
 
-    QStringList windowUrls;
-    QList<QVariant> windowGeo;
-    QList<QVariant> scrollPos;
-    QList<QVariant> zoom;
-    const int current = m_windowCache.currentWindowID();
-    for(int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
-        //todo:
-        m_windowCache.setCurrentWindowID(i);
-        BibleList *list = m_windowCache.getBibleList();
-        QString u = "";
-        if(m_windowCache.getBibleList() != 0) {
-            QHashIterator<int, Bible *> i(list->m_bibles);
-            while(i.hasNext()) {
-                i.next();
-                Bible *b = i.value();
-                if(b != NULL && b->moduleID() >= 0) {
-                    UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
-                    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-                    urlConverter.setSettings(m_settings);
-                    urlConverter.m_moduleID = b->moduleID();
-                    urlConverter.m_bookID = b->bookID();
-                    urlConverter.m_chapterID = b->chapterID();
-                    urlConverter.m_verseID = 0;
-                    const QString url = urlConverter.convert();
-                    const QPoint point = list->m_biblePoints.value(i.key());
-                    if(u.isEmpty())
-                        u += QString::number(point.x()) + ":" + QString::number(point.y()) + ":" + url;
-                    else
-                        u += "|" + QString::number(point.x()) + ":" + QString::number(point.y()) + ":" + url;
-                }
-            }
-        }
-        windowUrls << u;
-        QWebView *v = getView();
-        windowGeo << ui->mdiArea->subWindowList().at(i)->geometry();
-        scrollPos << v->page()->mainFrame()->scrollPosition();
-        zoom << v->zoomFactor();
-    }
-    m_settings->session.setData("windowUrls", windowUrls);
-    m_settings->session.setData("windowGeo", windowGeo);
-    m_settings->session.setData("scrollPos", scrollPos);
-    m_settings->session.setData("zoom", zoom);
-    m_settings->session.setData("viewMode", ui->mdiArea->viewMode());
-    m_settings->session.setData("windowID", current);*/
+     QStringList windowUrls;
+     QList<QVariant> windowGeo;
+     QList<QVariant> scrollPos;
+     QList<QVariant> zoom;
+     const int current = m_windowCache.currentWindowID();
+     for(int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
+         //todo:
+         m_windowCache.setCurrentWindowID(i);
+         BibleList *list = m_windowCache.getBibleList();
+         QString u = "";
+         if(m_windowCache.getBibleList() != 0) {
+             QHashIterator<int, Bible *> i(list->m_bibles);
+             while(i.hasNext()) {
+                 i.next();
+                 Bible *b = i.value();
+                 if(b != NULL && b->moduleID() >= 0) {
+                     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
+                     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+                     urlConverter.setSettings(m_settings);
+                     urlConverter.m_moduleID = b->moduleID();
+                     urlConverter.m_bookID = b->bookID();
+                     urlConverter.m_chapterID = b->chapterID();
+                     urlConverter.m_verseID = 0;
+                     const QString url = urlConverter.convert();
+                     const QPoint point = list->m_biblePoints.value(i.key());
+                     if(u.isEmpty())
+                         u += QString::number(point.x()) + ":" + QString::number(point.y()) + ":" + url;
+                     else
+                         u += "|" + QString::number(point.x()) + ":" + QString::number(point.y()) + ":" + url;
+                 }
+             }
+         }
+         windowUrls << u;
+         QWebView *v = getView();
+         windowGeo << ui->mdiArea->subWindowList().at(i)->geometry();
+         scrollPos << v->page()->mainFrame()->scrollPosition();
+         zoom << v->zoomFactor();
+     }
+     m_settings->session.setData("windowUrls", windowUrls);
+     m_settings->session.setData("windowGeo", windowGeo);
+     m_settings->session.setData("scrollPos", scrollPos);
+     m_settings->session.setData("zoom", zoom);
+     m_settings->session.setData("viewMode", ui->mdiArea->viewMode());
+     m_settings->session.setData("windowID", current);*/
 }
 
 void AdvancedInterface::restoreSession()
@@ -411,7 +411,7 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
         //m_windowCache.clearZefCache();
         //m_moduleManager->bible()->clearSoftCache();
         //if(m_moduleManager->bibleLoaded())
-            //reloadChapter(true);
+        //reloadChapter(true);
         QApplication::restoreOverrideCursor();
     }
 
@@ -453,14 +453,14 @@ void AdvancedInterface::search(SearchQuery query)
 void AdvancedInterface::searchInText(SearchQuery query)
 {
     DEBUG_FUNC_NAME
-            //todo: refractor
-   /* if(query.queryType == SearchQuery::Simple) {
-        QString s = query.searchText;
-        //todo: hacky
-        s.remove('*');
-        s.remove('?');
-        getView()->findText(s, QWebPage::HighlightAllOccurrences);
-    }*/
+    //todo: refractor
+    /* if(query.queryType == SearchQuery::Simple) {
+         QString s = query.searchText;
+         //todo: hacky
+         s.remove('*');
+         s.remove('?');
+         getView()->findText(s, QWebPage::HighlightAllOccurrences);
+     }*/
 }
 
 void AdvancedInterface::copy()

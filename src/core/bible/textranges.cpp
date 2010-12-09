@@ -6,7 +6,7 @@ TextRanges::TextRanges()
 QString TextRanges::join(const QString &seperator) const
 {
     QString out;
-    foreach(const TextRange &r, m_ranges) {
+    foreach(const TextRange & r, m_ranges) {
         out += r.join(seperator);
     }
     return out;

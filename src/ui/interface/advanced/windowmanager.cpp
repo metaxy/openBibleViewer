@@ -328,9 +328,9 @@ void WindowManager::mdiAreaResized()
 void WindowManager::reloadActive()
 {
     if(!m_enableReload)
-    DEBUG_FUNC_NAME
-    //setEnableReload(true);
-    reloadWindow(m_area->currentSubWindow());
+        DEBUG_FUNC_NAME
+        //setEnableReload(true);
+        reloadWindow(m_area->currentSubWindow());
     //setEnableReload(false);
 }
 

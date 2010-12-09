@@ -213,12 +213,12 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                                 const int chapterID = list.at(1).toInt() - 1;
                                 const int verseID = list.at(2).toInt() - 1;
 
-                               /* BibleUrl burl;
-                                burl.setBible(BibleUrl::LoadCurrentBible);
-                                burl.setBookID(bookID);
-                                burl.setChapterID(chapterID);
-                                burl.setVerseID(verseID);
-                                const QString url = burl.toString();*/
+                                /* BibleUrl burl;
+                                 burl.setBible(BibleUrl::LoadCurrentBible);
+                                 burl.setBookID(bookID);
+                                 burl.setChapterID(chapterID);
+                                 burl.setVerseID(verseID);
+                                 const QString url = burl.toString();*/
                                 const QString url = "";//todo:
 
                                 QString name = "";

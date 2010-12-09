@@ -119,7 +119,7 @@ int ZefaniaBible::readBook(const int &id)
             QDomElement e2 = n2.toElement();
             format(&e2);
             if(e2.tagName().toLower() == "vers") { // read only verse
-                const int verseID = e2.attribute("vnumber", QString::number(verseCount+1)).toInt() - 1;
+                const int verseID = e2.attribute("vnumber", QString::number(verseCount + 1)).toInt() - 1;
                 Verse verse(verseID, e2.text());
                 c.addVerse(verseID, verse);
                 verseCount++;
@@ -153,7 +153,7 @@ Book ZefaniaBible::fromHardToSoft(const int &bookID, const QDomNode *ncache)
             QDomElement e2 = n2.toElement();
             format(&e2);
             if(e2.tagName().toLower() == "vers") { // read only verse
-                const int verseID = e2.attribute("vnumber", QString::number(verseCount+1)).toInt() - 1;
+                const int verseID = e2.attribute("vnumber", QString::number(verseCount + 1)).toInt() - 1;
                 Verse verse(verseID, e2.text());
                 c.addVerse(verseID, verse);
                 verseCount++;
@@ -206,12 +206,12 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
             const int chapterID = list.at(1).toInt() - 1;
             const int verseID = list.at(2).toInt() - 1;
 
-           /* BibleUrl burl;
-            burl.setBible(BibleUrl::LoadCurrentBible);
-            burl.setBookID(bookID);
-            burl.setChapterID(chapterID);
-            burl.setVerseID(verseID);
-            const QString url = burl.toString();*/
+            /* BibleUrl burl;
+             burl.setBible(BibleUrl::LoadCurrentBible);
+             burl.setBookID(bookID);
+             burl.setChapterID(chapterID);
+             burl.setVerseID(verseID);
+             const QString url = burl.toString();*/
 
             const QString url = "";//todo:
 

@@ -19,8 +19,8 @@ TextRange::TextRange()
 QString TextRange::join(const QString &seperator) const
 {
     QString out;
-    QMapIterator<int,Verse> i(m_verse);
-    while (i.hasNext()) {
+    QMapIterator<int, Verse> i(m_verse);
+    while(i.hasNext()) {
         i.next();
         out += i.value().data() + (i.hasNext() ? seperator : "");
     }
@@ -29,12 +29,12 @@ QString TextRange::join(const QString &seperator) const
 
 void TextRange::addVerse(const Verse &verse)
 {
-    m_verse.insert(verse.verseID(),verse);
+    m_verse.insert(verse.verseID(), verse);
 }
 
 void TextRange::addVerse(const QList<Verse> &verse)
 {
-    foreach(const Verse &v,verse) {
+    foreach(const Verse & v, verse) {
         addVerse(v);
     }
 }
@@ -48,7 +48,7 @@ QList<Verse> TextRange::verseList() const
 {
     return m_verse.values();
 }
-QMap<int,Verse> TextRange::verseMap() const
+QMap<int, Verse> TextRange::verseMap() const
 {
     return m_verse;
 }

@@ -182,7 +182,7 @@ void MainWindow::loadSimpleInterface()
     QHashIterator<DockWidget *, Qt::DockWidgetArea> i(m_interface->docks());
     while(i.hasNext()) {
         i.next();
-        addDockWidget(i.value(),i.key());
+        addDockWidget(i.value(), i.key());
     }
 }
 
@@ -212,7 +212,7 @@ void MainWindow::loadAdvancedInterface()
     QHashIterator<DockWidget *, Qt::DockWidgetArea> i(m_interface->docks());
     while(i.hasNext()) {
         i.next();
-        addDockWidget(i.value(),i.key());
+        addDockWidget(i.value(), i.key());
     }
 
     QTimer::singleShot(0, m_interface, SLOT(restoreSession()));

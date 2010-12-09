@@ -41,7 +41,7 @@ void BibleUrl::addRange(const BibleUrlRange &range)
 QString BibleUrl::toString()
 {
     QString ret = "";
-    foreach (const BibleUrlRange range, m_ranges) {
+    foreach(const BibleUrlRange range, m_ranges) {
         if(!ret.isEmpty())
             ret += "|";
         ret += "bible://";
@@ -67,7 +67,7 @@ QString BibleUrl::toString()
             ret += "last";
         }
         if(range.startBook() != range.endBook() ||
-          (range.startBook() == range.endBook() && range.startBook() == BibleUrlRange::LoadBookByID && range.startBookID() != range.endBookID())) {
+                (range.startBook() == range.endBook() && range.startBook() == BibleUrlRange::LoadBookByID && range.startBookID() != range.endBookID())) {
             ret += "-";
             if(range.endBook() == BibleUrlRange::LoadBookByID) {
                 ret += QString::number(range.endBookID());
@@ -92,7 +92,7 @@ QString BibleUrl::toString()
             ret += "last";
         }
         if(range.startChapter() != range.endChapter() ||
-          (range.startChapter() == range.endChapter() && range.startChapter() == BibleUrlRange::LoadChapterByID && range.startChapterID() != range.endChapterID())) {
+                (range.startChapter() == range.endChapter() && range.startChapter() == BibleUrlRange::LoadChapterByID && range.startChapterID() != range.endChapterID())) {
             ret += "-";
             if(range.endChapter() == BibleUrlRange::LoadChapterByID) {
                 ret += QString::number(range.endChapterID());
@@ -116,7 +116,7 @@ QString BibleUrl::toString()
             ret += "last";
         }
         if(range.startVerse() != range.endVerse() ||
-          (range.startVerse() == range.endVerse() && range.startVerse() == BibleUrlRange::LoadVerseByID && range.startVerseID() != range.endVerseID())) {
+                (range.startVerse() == range.endVerse() && range.startVerse() == BibleUrlRange::LoadVerseByID && range.startVerseID() != range.endVerseID())) {
             ret += "-";
             if(range.endVerse() == BibleUrlRange::LoadVerseByID) {
                 ret += QString::number(range.endVerseID());
@@ -192,12 +192,12 @@ bool BibleUrl::fromString(QString url)
                 range.setEndBook(BibleUrlRange::LoadFirstBook);
             } else if(p2 == "last") {
                 range.setEndBook(BibleUrlRange::LoadLastBook);
-            } else if(!p2.isEmpty()){
+            } else if(!p2.isEmpty()) {
                 range.setEndBook(p2.toInt());
             }
         } else if(i == 1) {
             if(p.contains("-")) {
-                QStringList tmp= p.split("-");
+                QStringList tmp = p.split("-");
                 p = tmp.first();
                 p2 = tmp.last();
             }
@@ -216,12 +216,12 @@ bool BibleUrl::fromString(QString url)
                 range.setEndChapter(BibleUrlRange::LoadFirstChapter);
             } else if(p2 == "last") {
                 range.setEndChapter(BibleUrlRange::LoadLastChapter);
-            } else if(!p2.isEmpty()){
+            } else if(!p2.isEmpty()) {
                 range.setEndChapter(p2.toInt());
             }
         } else if(i == 2) {
             if(p.contains("-")) {
-                QStringList tmp= p.split("-");
+                QStringList tmp = p.split("-");
                 p = tmp.first();
                 p2 = tmp.last();
             }
@@ -241,7 +241,7 @@ bool BibleUrl::fromString(QString url)
                 range.setEndVerse(BibleUrlRange::LoadFirstVerse);
             } else if(p2 == "last") {
                 range.setEndVerse(BibleUrlRange::LoadLastVerse);
-            } else if(!p2.isEmpty()){
+            } else if(!p2.isEmpty()) {
                 range.setEndVerse(p2.toInt());
             }
         } else {

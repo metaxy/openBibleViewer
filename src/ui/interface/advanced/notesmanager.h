@@ -28,7 +28,7 @@ public slots:
     void removeMark(VerseSelection selection);
     void newNoteWithLink(VerseSelection selection);
 private:
-     QWidget *m_p;
+    QWidget *m_p;
     NotesDockWidget *m_notesDockWidget;
 };
 
