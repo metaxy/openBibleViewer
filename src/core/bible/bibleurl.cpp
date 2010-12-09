@@ -63,6 +63,8 @@ QString BibleUrl::toString()
             ret += "current";
         } else if(range.startBook() == BibleUrlRange::LoadFirstBook) {
             ret += "first";
+        } else if(range.startBook() == BibleUrlRange::LoadLastBook) {
+            ret += "last";
         }
         if(range.startBook() != range.endBook() ||
           (range.startBook() == range.endBook() && range.startBook() == BibleUrlRange::LoadBookByID && range.startBookID() != range.endBookID())) {
@@ -73,6 +75,8 @@ QString BibleUrl::toString()
                 ret += "current";
             } else if(range.endBook() == BibleUrlRange::LoadFirstBook) {
                 ret += "first";
+            } else if(range.endBook() == BibleUrlRange::LoadLastBook) {
+                ret += "last";
             }
         }
         ret += ",";
@@ -84,6 +88,8 @@ QString BibleUrl::toString()
             ret += "current";
         } else if(range.startChapter() == BibleUrlRange::LoadFirstChapter) {
             ret += "first";
+        } else if(range.startChapter() == BibleUrlRange::LoadLastChapter) {
+            ret += "last";
         }
         if(range.startChapter() != range.endChapter() ||
           (range.startChapter() == range.endChapter() && range.startChapter() == BibleUrlRange::LoadChapterByID && range.startChapterID() != range.endChapterID())) {
@@ -94,6 +100,8 @@ QString BibleUrl::toString()
                 ret += "current";
             } else if(range.endChapter() == BibleUrlRange::LoadFirstChapter) {
                 ret += "first";
+            } else if(range.endChapter() == BibleUrlRange::LoadLastChapter) {
+                ret += "last";
             }
         }
         ret += ",";
@@ -116,7 +124,7 @@ QString BibleUrl::toString()
                 ret += "current";
             } else if(range.endVerse() == BibleUrlRange::LoadFirstVerse) {
                 ret += "first";
-            }else if(range.endVerse() == BibleUrlRange::LoadLastVerse) {
+            } else if(range.endVerse() == BibleUrlRange::LoadLastVerse) {
                 ret += "last";
             }
         }
@@ -165,7 +173,7 @@ bool BibleUrl::fromString(QString url)
         QString p2;
         if(i == 0) {//Book
             if(p.contains("-")) {
-                QStringList tmp= p.split("-");
+                QStringList tmp = p.split("-");
                 p = tmp.first();
                 p2 = tmp.last();
             }
@@ -173,6 +181,8 @@ bool BibleUrl::fromString(QString url)
                 range.setStartBook(BibleUrlRange::LoadCurrentBook);
             } else if(p == "first") {
                 range.setStartBook(BibleUrlRange::LoadFirstBook);
+            } else if(p == "last") {
+                range.setStartBook(BibleUrlRange::LoadLastBook);
             } else {
                 range.setStartBook(p.toInt());
             }
@@ -180,6 +190,8 @@ bool BibleUrl::fromString(QString url)
                 range.setEndBook(BibleUrlRange::LoadCurrentBook);
             } else if(p2 == "first") {
                 range.setEndBook(BibleUrlRange::LoadFirstBook);
+            } else if(p2 == "last") {
+                range.setEndBook(BibleUrlRange::LoadLastBook);
             } else if(!p2.isEmpty()){
                 range.setEndBook(p2.toInt());
             }
@@ -193,6 +205,8 @@ bool BibleUrl::fromString(QString url)
                 range.setStartChapter(BibleUrlRange::LoadCurrentChapter);
             } else if(p == "first") {
                 range.setStartChapter(BibleUrlRange::LoadFirstChapter);
+            } else if(p == "last") {
+                range.setStartChapter(BibleUrlRange::LoadLastChapter);
             } else {
                 range.setStartChapter(p.toInt());
             }
@@ -200,6 +214,8 @@ bool BibleUrl::fromString(QString url)
                 range.setEndChapter(BibleUrlRange::LoadCurrentChapter);
             } else if(p2 == "first") {
                 range.setEndChapter(BibleUrlRange::LoadFirstChapter);
+            } else if(p2 == "last") {
+                range.setEndChapter(BibleUrlRange::LoadLastChapter);
             } else if(!p2.isEmpty()){
                 range.setEndChapter(p2.toInt());
             }

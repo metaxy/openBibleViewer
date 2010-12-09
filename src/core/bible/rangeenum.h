@@ -7,7 +7,7 @@ public:
     RangeEnum();
 
 
-    enum BookRange {//todo: add LoadLastBook
+    enum BookRange {
         BookByID,
         FirstBook,
         LastBook,

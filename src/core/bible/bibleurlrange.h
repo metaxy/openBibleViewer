@@ -10,15 +10,17 @@ public:
         LoadCurrentBible,
         ReloadActive
     };
-    enum BookLoadParams {//todo: add LoadLastBook
+    enum BookLoadParams {
         LoadBookByID,
         LoadCurrentBook,
-        LoadFirstBook
+        LoadFirstBook,
+        LoadLastBook
     };
     enum ChapterLoadParams {
         LoadChapterByID,
         LoadCurrentChapter,
-        LoadFirstChapter
+        LoadFirstChapter,
+        LoadLastChapter
     };
     enum VerseLoadParams {
         LoadVerseByID,

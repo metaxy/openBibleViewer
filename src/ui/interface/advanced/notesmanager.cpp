@@ -56,3 +56,10 @@ void NotesManager::newNoteWithLink(VerseSelection selection)
 {
     m_notesDockWidget->newNoteWithLink(selection);
 }
+void NotesManager::openNote(const QString &noteID)
+{
+    if(!m_notesDockWidget->isVisible()) {
+        m_notesDockWidget->show();
+    }
+    m_notesDockWidget->showNote(noteID);
+}
