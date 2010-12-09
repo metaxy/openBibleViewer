@@ -113,11 +113,16 @@ void BibleManager::pharseUrl(const QString &url)
             return;
         }
         foreach(BibleUrlRange range, bibleUrl.ranges()) {
-            //ranges.addRanges(bibleUrlRangeToRanges(range));
-            ranges = bibleUrlRangeToRanges(range);
+            ranges.addRanges(bibleUrlRangeToRanges(range));
         }
 
         m_bibleDisplay->setHtml(m_moduleManager->bibleList()->readRanges(ranges));
+        emit updateChapters(m_moduleManager->bible()->chapterNames());
+        m_bookDockWidget->setChapters(m_moduleManager->bible()->chapterNames());
+        emit updateBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
+        m_bookDockWidget->setBooks(m_moduleManager->bible()->bookNames());
+        /*emit setCurrentBook(m_moduleManager->bible()->ranges().getList().first().bookID());
+        emit setCurrentChapter(const int &chapterID);*/
     } else if(url.startsWith(bq)) {
         //its a biblequote internal link, but i dont have the specifications!!!
        /* QStringList internal = url.split(" ");

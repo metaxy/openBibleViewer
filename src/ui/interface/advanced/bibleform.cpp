@@ -437,6 +437,8 @@ void BibleForm::selectAll()
 }
 void BibleForm::forwardSetChapters(const QStringList &chapters)
 {
+    DEBUG_FUNC_NAME
+    myDebug() << "chapters = " << chapters;
     if(!active())
         return;
     setChapters(chapters);
@@ -444,6 +446,7 @@ void BibleForm::forwardSetChapters(const QStringList &chapters)
 
 void BibleForm::forwardSetBooks(const QHash<int, QString> &books, QList<int> ids)
 {
+    DEBUG_FUNC_NAME
     if(!active())
         return;
     setBooks(books,ids);

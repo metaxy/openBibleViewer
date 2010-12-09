@@ -31,6 +31,7 @@ class BookDockWidget : public DockWidget
 private slots:
     void readBook(QModelIndex index);
     void readChapter(QModelIndex index);
+
 public:
     BookDockWidget(QWidget *parent = 0);
     ~BookDockWidget();
@@ -43,8 +44,6 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
-signals:
-    void get(QString);
 private:
     Ui::BookDockWidget *ui;
     QStandardItemModel *m_bookModel;
