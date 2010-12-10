@@ -244,44 +244,53 @@ void BibleManager::showChapter(const int &chapterID, const int &verseID)
 
 void BibleManager::nextChapter()
 {
-    /* if(m_moduleManager->bible()->chapterID() < m_moduleManager->bible()->chaptersCount() - 1) {
-         BibleUrl burl;
-         burl.setBible(BibleUrl::LoadCurrentBible);
-         burl.setBook(BibleUrl::LoadCurrentBook);
-         burl.setChapterID(m_moduleManager->bible()->chapterID() + 1);
-         burl.setVerse(BibleUrl::LoadFirstVerse);
-         const QString url = burl.toString();
-         emit get(url);
-     } else if(m_moduleManager->bible()->bookID() < m_moduleManager->bible()->booksCount() - 1) {
-         BibleUrl burl;
-         burl.setBible(BibleUrl::LoadCurrentBible);
-         burl.setBookID(m_moduleManager->bible()->bookID() + 1);
-         burl.setChapter(BibleUrl::LoadFirstChapter);
-         burl.setVerse(BibleUrl::LoadFirstVerse);
-         const QString url = burl.toString();
-         emit get(url);
-     }*/
+    if(m_moduleManager->bible()->chapterID() < m_moduleManager->bible()->chaptersCount() - 1) {
+        BibleUrl bibleUrl;
+        BibleUrlRange range;
+        range.setBible(BibleUrlRange::LoadCurrentBible);
+        range.setBook(BibleUrlRange::LoadCurrentBook);
+        range.setChapter(m_moduleManager->bible()->chapterID() - 1);
+        range.setWholeChapter();
+        bibleUrl.addRange(range);
+        const QString url = bibleUrl.toString();
+        emit get(url);
+    } else if(m_moduleManager->bible()->bookID() < m_moduleManager->bible()->booksCount() - 1) {
+        BibleUrl bibleUrl;
+        BibleUrlRange range;
+        range.setBible(BibleUrlRange::LoadCurrentBible);
+        range.setBook(m_moduleManager->bible()->bookID() + 1);
+        range.setChapter(BibleUrlRange::LoadFirstChapter);
+        range.setWholeChapter();
+        bibleUrl.addRange(range);
+        const QString url = bibleUrl.toString();
+        emit get(url);
+    }
 }
 
 void BibleManager::previousChapter()
 {
-    /*if(m_moduleManager->bible()->chapterID() > 0) {
-        BibleUrl burl;
-        burl.setBible(BibleUrl::LoadCurrentBible);
-        burl.setBook(BibleUrl::LoadCurrentBook);
-        burl.setChapterID(m_moduleManager->bible()->chapterID() - 1);
-        burl.setVerse(BibleUrl::LoadFirstVerse);
-        const QString url = burl.toString();
+
+    if(m_moduleManager->bible()->chapterID() > 0) {
+        BibleUrl bibleUrl;
+        BibleUrlRange range;
+        range.setBible(BibleUrlRange::LoadCurrentBible);
+        range.setBook(BibleUrlRange::LoadCurrentBook);
+        range.setChapter(m_moduleManager->bible()->chapterID() - 1);
+        range.setWholeChapter();
+        bibleUrl.addRange(range);
+        const QString url = bibleUrl.toString();
         emit get(url);
     } else if(m_moduleManager->bible()->bookID() > 0) {
-        BibleUrl burl;
-        burl.setBible(BibleUrl::LoadCurrentBible);
-        burl.setBookID(m_moduleManager->bible()->bookID() - 1);
-        burl.setChapterID(m_moduleManager->bible()->chaptersCount() - 1);//todo: use lastchapter
-        burl.setVerse(BibleUrl::LoadFirstVerse);
-        const QString url = burl.toString();
+        BibleUrl bibleUrl;
+        BibleUrlRange range;
+        range.setBible(BibleUrlRange::LoadCurrentBible);
+        range.setBook(m_moduleManager->bible()->bookID() - 1);
+        range.setChapter(BibleUrlRange::LoadLastChapter);
+        range.setWholeChapter();
+        bibleUrl.addRange(range);
+        const QString url = bibleUrl.toString();
         emit get(url);
-    }*/
+    }
 }
 
 void BibleManager::reloadChapter(bool full)
