@@ -21,6 +21,9 @@ signals:
 
     void _showNote(const QString &nodeID);
 
+    void _setCurrentBook(const int &bookID);
+    void _setCurrentChapter(const int &chapterID);
+
 public slots:
     /**
       Show a chapter in current SubWindow.
@@ -32,6 +35,9 @@ public slots:
     void get(const BibleUrl &url);
 
     void showNote(const QString &noteID);
+
+    void setCurrentBook(const int &bookID);
+    void setCurrentChapter(const int &chapterID);
 
 };
 

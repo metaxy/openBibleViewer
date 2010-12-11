@@ -94,7 +94,6 @@ Ranges BibleManager::bibleUrlRangeToRanges(BibleUrlRange range)
     } else {
         r.setEndVerse(range.endVerseID());
     }
-    //myDebug() << r.moduleID() << r.book() << r.bookID() << r.chapter() << r.chapterID() << r.startVerse() << r.startVerseID() << r.endVerse() << r.endVerseID();
 
     ranges.addRange(r);
     return ranges;

@@ -92,12 +92,8 @@ void AdvancedInterface::init()
     m_windowManager->setBibleManager(m_bibleManager);
     m_windowManager->setNotesManager(m_notesManager);
 
-
-
     if(m_settings->session.getData("windowUrls").toStringList().size() == 0)
         QTimer::singleShot(10, m_windowManager, SLOT(newSubWindow()));
-
-    //QTimer::singleShot(1000, this, SLOT(installResizeFilter()));
 }
 void AdvancedInterface::createDocks()
 {
@@ -110,16 +106,14 @@ void AdvancedInterface::createDocks()
     m_bookmarksDockWidget->hide();
     connect(m_bookmarksDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
-
     m_dictionaryDockWidget = new DictionaryDockWidget(this->parentWidget());
     setAll(m_dictionaryDockWidget);
     m_dictionaryDockWidget->init();
     m_dictionaryDockWidget->hide();
-
-
 }
 void AdvancedInterface::createMenu()
 {
+
 }
 
 QHash<DockWidget*, Qt::DockWidgetArea> AdvancedInterface::docks()
@@ -143,14 +137,11 @@ void AdvancedInterface::installResizeFilter()
     connect(m_mdiAreaFilter, SIGNAL(resized()), this, SLOT(mdiAreaResized()));
     ui->mdiArea->installEventFilter(m_mdiAreaFilter);
 }*/
-
-
 void AdvancedInterface::pharseUrl(QUrl url)
 {
     DEBUG_FUNC_NAME
     pharseUrl(url.toString());
 }
-
 void AdvancedInterface::pharseUrl(QString url)
 {
     DEBUG_FUNC_NAME
@@ -254,7 +245,6 @@ void AdvancedInterface::setTitle(const QString &title)
 }
 
 */
-
 void AdvancedInterface::closing()
 {
     m_windowManager->disable();
@@ -867,6 +857,7 @@ int AdvancedInterface::showAboutDialog(void)
 
 void AdvancedInterface::showMarkCategories()
 {
+
 }
 
 void AdvancedInterface::showMarkList()
@@ -906,7 +897,6 @@ void AdvancedInterface::changeEvent(QEvent *e)
     switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
-
         //retranslate menu bar
         m_mainBar->setWindowTitle(tr("Main Tool Bar"));
         m_mainBarActionSearch->setText(tr("Search"));

@@ -24,3 +24,11 @@ void Actions::showNote(const QString &noteID)
 {
     emit _showNote(noteID);
 }
+void Actions::setCurrentBook(const int &bookID)
+{
+    emit _setCurrentBook(bookID);
+}
+void Actions::setCurrentChapter(const int &chapterID)
+{
+    emit _setCurrentChapter(chapterID);
+}

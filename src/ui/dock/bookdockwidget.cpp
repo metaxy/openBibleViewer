@@ -43,21 +43,26 @@ BookDockWidget::~BookDockWidget()
 }
 void BookDockWidget::readBook(QModelIndex index)
 {
-    /*BibleUrl url;
-    url.setBible(BibleUrl::LoadCurrentBible);
-    url.setBookID(index.data(Qt::UserRole + 1).toInt());
-    url.setChapter(BibleUrl::LoadFirstChapter);
-    url.setVerse(BibleUrl::LoadFirstVerse);
-    m_actions->get(url.toString());*///todo:
+    BibleUrl url;
+    BibleUrlRange range;
+    range.setBible(BibleUrlRange::LoadCurrentBible);
+    range.setBook(index.data(Qt::UserRole + 1).toInt());
+    range.setChapter(BibleUrlRange::LoadFirstChapter);
+    range.setWholeChapter();
+    url.addRange(range);
+    m_actions->get(url);
+
 }
 void BookDockWidget::readChapter(QModelIndex index)
 {
-    /*BibleUrl url;
-    url.setBible(BibleUrl::LoadCurrentBible);
-    url.setBook(BibleUrl::LoadCurrentBook);
-    url.setChapterID(index.data(Qt::UserRole + 1).toInt());
-    url.setVerse(BibleUrl::LoadFirstVerse);
-    m_actions->get(url.toString());*///todo:
+    BibleUrl url;
+    BibleUrlRange range;
+    range.setBible(BibleUrlRange::LoadCurrentBible);
+    range.setBook(BibleUrlRange::LoadCurrentBook);
+    range.setChapter(index.data(Qt::UserRole + 1).toInt());
+    range.setWholeChapter();
+    url.addRange(range);
+    m_actions->get(url);
 }
 void BookDockWidget::setChapters(const QStringList &chapters)
 {
