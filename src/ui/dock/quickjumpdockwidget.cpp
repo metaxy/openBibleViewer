@@ -59,7 +59,7 @@ void QuickJumpDockWidget::goToPos()
 
     GoTo go(m_moduleManager->bible()->moduleID(), m_moduleManager->bible()->bookFullNames().values(), m_moduleManager->bible()->bookShortNames().values());
 
-    emit get(go.getUrl(text));
+    m_actions->get(go.getUrl(text));
     return;
 }
 void QuickJumpDockWidget::changeEvent(QEvent *e)

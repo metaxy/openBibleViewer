@@ -29,8 +29,6 @@ class DockWidget : public QDockWidget, public BasicClass
     Q_OBJECT
 public:
     DockWidget(QWidget *parent);
-signals:
-    void get(QString url);
 };
 
 #endif // DOCKWIDGET_H

@@ -48,7 +48,7 @@ void BookDockWidget::readBook(QModelIndex index)
     url.setBookID(index.data(Qt::UserRole + 1).toInt());
     url.setChapter(BibleUrl::LoadFirstChapter);
     url.setVerse(BibleUrl::LoadFirstVerse);
-    emit get(url.toString());*///todo:
+    m_actions->get(url.toString());*///todo:
 }
 void BookDockWidget::readChapter(QModelIndex index)
 {
@@ -57,7 +57,7 @@ void BookDockWidget::readChapter(QModelIndex index)
     url.setBook(BibleUrl::LoadCurrentBook);
     url.setChapterID(index.data(Qt::UserRole + 1).toInt());
     url.setVerse(BibleUrl::LoadFirstVerse);
-    emit get(url.toString());*///todo:
+    m_actions->get(url.toString());*///todo:
 }
 void BookDockWidget::setChapters(const QStringList &chapters)
 {

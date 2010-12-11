@@ -44,8 +44,6 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
-signals:
-    void get(QString);
 private:
     Ui::SearchResultDockWidget *ui;
     SearchResult m_searchResult;

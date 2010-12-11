@@ -53,8 +53,6 @@ private:
     Ui::BookmarksDockWidget *ui;
     int internalOpenPos(const QString &pos);
     QString m_bookmarksFileName;
-signals:
-    void get(QString url);
 };
 
 #endif // BOOKMARKSDOCKWIDGET_H

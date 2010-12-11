@@ -107,7 +107,7 @@ void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
              url.setParam("searchInCurrentText", "true");
              emit get(url.toString());*///todo:
         } else if(hit.type() == SearchHit::NoteHit) {
-            emit get("note://" + hit.value(SearchHit::NoteID).toString());
+            m_actions->get("note://" + hit.value(SearchHit::NoteID).toString());
         }
     }
 }

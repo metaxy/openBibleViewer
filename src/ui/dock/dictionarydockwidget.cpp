@@ -59,7 +59,7 @@ void DictionaryDockWidget::init()
     connect(ui->toolButton_strongSearch, SIGNAL(clicked()), this, SLOT(search()));
     connect(ui->lineEdit_strong, SIGNAL(returnPressed()), this, SLOT(search()));
 
-    connect(ui->textBrowser_strong, SIGNAL(anchorClicked(QUrl)), m_bibleDisplay, SIGNAL(get(QUrl)));
+    connect(ui->textBrowser_strong, SIGNAL(anchorClicked(QUrl)), m_actions, SIGNAL(get(QUrl)));
 
 }
 

@@ -32,6 +32,10 @@ void BasicClass::setNotes(Notes *notes)
 {
     m_notes = notes;
 }
+void BasicClass::setActions(Actions *actions)
+{
+    m_actions = actions;
+}
 
 void BasicClass::setAll(BasicClass *c)
 {
@@ -39,4 +43,5 @@ void BasicClass::setAll(BasicClass *c)
     c->setModuleManager(m_moduleManager);
     c->setSettings(m_settings);
     c->setNotes(m_notes);
+    c->setActions(m_actions);
 }

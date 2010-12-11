@@ -69,11 +69,7 @@ void AdvancedInterface::init()
     m_bibleDisplaySettings->setShowNotes(true);
     m_bibleDisplaySettings->setLoadNotes(true);
 
-    connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
-    connect(m_bibleDisplay, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
-    connect(m_bibleDisplay, SIGNAL(get(QUrl)), this, SLOT(pharseUrl(QUrl)));
-
-    connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+    connect(m_actions, SIGNAL(_get(QString)), this, SLOT(pharseUrl(QString)));
 
     m_moduleManager->setBibleDisplaySettings(m_bibleDisplaySettings);
 
@@ -230,7 +226,7 @@ void AdvancedInterface::pharseUrl(QString url)
             }
             if(isInBookPath) {
                 myDebug() << "getting";
-                emit get("bible://current/" + QString::number(b));
+                m_action->get("bible://current/" + QString::number(b));
             }
         } else {
             if(m_windowManager->activeForm())

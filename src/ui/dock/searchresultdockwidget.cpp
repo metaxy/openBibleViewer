@@ -64,7 +64,7 @@ void SearchResultDockWidget::goToSearchResult(QListWidgetItem * item)
         url.setChapterID(hit.value(SearchHit::ChapterID).toInt());
         url.setVerseID(hit.value(SearchHit::VerseID).toInt());
         url.setParam("searchInCurrentText", "true");
-        emit get(url.toString());*///todo:
+        m_actions->get(url.toString());*///todo:
     }
 }
 void SearchResultDockWidget::searchInfo()

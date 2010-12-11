@@ -45,7 +45,6 @@ void MarkList::init()
     connect(m_notes, SIGNAL(noteRemoved(QString, QMap<QString, QString>)), this, SLOT(removeNote(QString)));
 
     connect(ui->tableView, SIGNAL(activated(QModelIndex)), this, SLOT(load(QModelIndex)));
-    connect(this, SIGNAL(get(QString)), m_bibleDisplay, SIGNAL(get(QString)));
 
     const QStringList marks = m_notes->getIDList("mark");
     m_itemModel = new QStandardItemModel(marks.size(), 2);
@@ -97,7 +96,7 @@ void MarkList::load(QModelIndex index)
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.pharse();
-    emit get(urlConverter.convert());
+    m_actions->get(urlConverter.convert());
 }
 
 

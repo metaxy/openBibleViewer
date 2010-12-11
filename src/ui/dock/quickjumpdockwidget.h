@@ -38,8 +38,6 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
-signals:
-    void get(QString url);
 private:
     Ui::QuickJumpDockWidget *ui;
     QStringList m_hist;

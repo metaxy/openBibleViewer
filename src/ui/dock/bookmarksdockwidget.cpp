@@ -195,7 +195,7 @@ int BookmarksDockWidget::internalOpenPos(const QString &pos)
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.pharse();
 
-    emit get(urlConverter.convert());
+    m_actions->get(urlConverter.convert());
     return 0;
 }
 

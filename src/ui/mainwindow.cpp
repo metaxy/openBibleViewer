@@ -69,6 +69,7 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
     m_settings = new Settings();
     m_notes = new Notes();
     m_session = new Session();
+    m_actions = new Actions(this);
 
     bool firstStart = false;
     QFileInfo info(settingsFile->fileName());

@@ -60,7 +60,7 @@ void ModuleDockWidget::loadModuleData(QModelIndex index)
         range.setChapter(BibleUrlRange::LoadFirstChapter);
         range.setWholeChapter();
         url.addRange(range);
-        m_bibleDisplay->emitGet(url.toString());
+        m_actions->get(url);
     }
 }
 /**

@@ -35,11 +35,11 @@ signals:
 
     void setCurrentBook(const int &bookID);
     void setCurrentChapter(const int &chapterID);
-    void get(const QString &url);
 
 public slots:
     //todo:
     void pharseUrl(const QString &url);
+    void pharseUrl(const BibleUrl &url);
     /*
         void readChapter(const int &id);
         void readBook(const int &id);
@@ -52,6 +52,7 @@ public slots:
     //int copyWholeVerse();
     void reloadChapter(bool full = false);
 private:
+    void showRanges(Ranges ranges);
     Ranges bibleUrlRangeToRanges(BibleUrlRange r);
     QWidget *m_p;
     AdvancedSearchResultDockWidget *m_advancedSearchResultDockWidget;

@@ -91,7 +91,6 @@ public:
 protected:
     void changeEvent(QEvent *e);
 signals:
-    void get(QString);
     void historySetUrl(QString url);
     void reloadInterface();
 private:

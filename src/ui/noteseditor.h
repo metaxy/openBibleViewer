@@ -39,8 +39,6 @@ class NotesEditor : public QMainWindow, public BasicClass
 {
     Q_OBJECT
 
-signals:
-    void get(QUrl url);
 public:
     NotesEditor(QWidget *parent = 0);
     ~NotesEditor();

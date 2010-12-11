@@ -58,7 +58,6 @@ public:
 protected:
     void changeEvent(QEvent *e);
 signals:
-    void get(QString url);
     void reloadChapter();
 private:
     Ui::NotesDockWidget *ui;

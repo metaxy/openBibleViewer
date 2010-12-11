@@ -177,7 +177,7 @@ void BibleForm::readChapter(int id)
     BibleUrl url;
     url.addRange(r);
 
-    m_bibleDisplay->emitGet(url.toString());
+    m_actions->get(url);
 }
 
 void BibleForm::readBook(int id)
@@ -193,7 +193,7 @@ void BibleForm::readBook(int id)
     BibleUrl url;
     url.addRange(r);
 
-    m_bibleDisplay->emitGet(url.toString());
+    m_actions->get(url);
 }
 void BibleForm::zoomIn()
 {

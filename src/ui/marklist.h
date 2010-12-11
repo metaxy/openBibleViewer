@@ -27,8 +27,6 @@ class MarkList;
 class MarkList : public QDialog, public BasicClass
 {
     Q_OBJECT
-signals:
-    void get(QString url);
 private slots:
     void load(QModelIndex index);
     void showContextMenu(QPoint point);

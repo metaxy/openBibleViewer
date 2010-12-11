@@ -287,6 +287,7 @@ set ( openBibleViewer_SRCS
     src/ui/highlighter.cpp
     src/ui/marklist.cpp
     src/ui/markcategories.cpp
+    src/ui/actions.cpp
     src/main.cpp
 	)
 
@@ -387,6 +388,7 @@ set ( openBibleViewer_MOCS
     src/ui/interface/advanced/windowmanager.h
     src/ui/interface/advanced/biblemanager.h
     src/ui/interface/advanced/notesmanager.h
+    src/ui/actions.h
 	)
 QT4_WRAP_CPP ( MOCS ${openBibleViewer_MOCS} )
 

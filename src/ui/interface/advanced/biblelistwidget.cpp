@@ -141,7 +141,7 @@ void BibleListWidget::save()
         range.setWholeChapter();
         url.setParam("force", "true");
         url.addRange(range);
-        m_bibleDisplay->emitGet(url.toString());
+        m_actions->get(url);
 
 
 

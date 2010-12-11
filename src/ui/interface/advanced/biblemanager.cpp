@@ -13,7 +13,7 @@ void BibleManager::setWidget(QWidget *p)
 }
 void BibleManager::init()
 {
-
+    connect(m_actions, SIGNAL(_get(BibleUrl)), this, SLOT(pharseUrl(BibleUrl)));
 }
 void BibleManager::createDocks()
 {
@@ -99,6 +99,14 @@ Ranges BibleManager::bibleUrlRangeToRanges(BibleUrlRange range)
     ranges.addRange(r);
     return ranges;
 }
+void BibleManager::pharseUrl(const BibleUrl &url)
+{
+    Ranges ranges;
+    foreach(BibleUrlRange range, url.ranges()) {
+        ranges.addRanges(bibleUrlRangeToRanges(range));
+    }
+    showRanges(ranges);
+}
 
 void BibleManager::pharseUrl(const QString &url)
 {
@@ -115,14 +123,7 @@ void BibleManager::pharseUrl(const QString &url)
         foreach(BibleUrlRange range, bibleUrl.ranges()) {
             ranges.addRanges(bibleUrlRangeToRanges(range));
         }
-
-        m_bibleDisplay->setHtml(m_moduleManager->bibleList()->readRanges(ranges));
-        emit updateChapters(m_moduleManager->bible()->chapterNames());
-        m_bookDockWidget->setChapters(m_moduleManager->bible()->chapterNames());
-        emit updateBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
-        m_bookDockWidget->setBooks(m_moduleManager->bible()->bookNames());
-        /*emit setCurrentBook(m_moduleManager->bible()->ranges().getList().first().bookID());
-        emit setCurrentChapter(const int &chapterID);*/
+        showRanges(ranges);
     } else if(url.startsWith(bq)) {
         //its a biblequote internal link, but i dont have the specifications!!!
         /* QStringList internal = url.split(" ");
@@ -156,6 +157,17 @@ void BibleManager::pharseUrl(const QString &url)
          }*/
         //emit historySetUrl(url_backup);//todo:
     }
+}
+void BibleManager::showRanges(Ranges ranges)
+{
+    m_bibleDisplay->setHtml(m_moduleManager->bibleList()->readRanges(ranges));
+    emit updateChapters(m_moduleManager->bible()->chapterNames());
+    m_bookDockWidget->setChapters(m_moduleManager->bible()->chapterNames());
+    emit updateBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
+    m_bookDockWidget->setBooks(m_moduleManager->bible()->bookNames());#
+
+    /*emit setCurrentBook(m_moduleManager->bible()->ranges().getList().first().bookID());
+    emit setCurrentChapter(const int &chapterID);*/
 }
 
 bool BibleManager::loadModuleDataByID(const int &moduleID)
@@ -252,8 +264,7 @@ void BibleManager::nextChapter()
         range.setChapter(m_moduleManager->bible()->chapterID() - 1);
         range.setWholeChapter();
         bibleUrl.addRange(range);
-        const QString url = bibleUrl.toString();
-        emit get(url);
+        m_actions->get(bibleUrl);
     } else if(m_moduleManager->bible()->bookID() < m_moduleManager->bible()->booksCount() - 1) {
         BibleUrl bibleUrl;
         BibleUrlRange range;
@@ -262,14 +273,12 @@ void BibleManager::nextChapter()
         range.setChapter(BibleUrlRange::LoadFirstChapter);
         range.setWholeChapter();
         bibleUrl.addRange(range);
-        const QString url = bibleUrl.toString();
-        emit get(url);
+        m_actions->get(bibleUrl);
     }
 }
 
 void BibleManager::previousChapter()
 {
-
     if(m_moduleManager->bible()->chapterID() > 0) {
         BibleUrl bibleUrl;
         BibleUrlRange range;
@@ -278,8 +287,7 @@ void BibleManager::previousChapter()
         range.setChapter(m_moduleManager->bible()->chapterID() - 1);
         range.setWholeChapter();
         bibleUrl.addRange(range);
-        const QString url = bibleUrl.toString();
-        emit get(url);
+        m_actions->get(bibleUrl);
     } else if(m_moduleManager->bible()->bookID() > 0) {
         BibleUrl bibleUrl;
         BibleUrlRange range;
@@ -289,7 +297,7 @@ void BibleManager::previousChapter()
         range.setWholeChapter();
         bibleUrl.addRange(range);
         const QString url = bibleUrl.toString();
-        emit get(url);
+        m_actions->get(ubibleUrl);
     }
 }
 

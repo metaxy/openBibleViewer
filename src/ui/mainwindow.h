@@ -31,7 +31,9 @@ namespace Ui
 {
 class MainWindow;
 }
-
+/**
+  MainWindow is the first BasicClass.
+  */
 class MainWindow : public QMainWindow, public BasicClass
 {
     Q_OBJECT

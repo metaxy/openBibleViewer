@@ -133,7 +133,6 @@ void NotesEditor::init()
     m_simpleNotes->init();
     ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
     connect(ui->webView->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
-    connect(this, SIGNAL(get(QUrl)), m_bibleDisplay, SIGNAL(get(QUrl)));
 }
 
 NotesEditor::~NotesEditor()
@@ -278,7 +277,7 @@ void NotesEditor::pharseUrl(QUrl url)
         link = link.remove(0, note.size());
         m_simpleNotes->showNote(link, true);
     } else {
-        emit get(url);
+        m_actions->get(url);
     }
 }
 
