@@ -226,7 +226,7 @@ void AdvancedInterface::pharseUrl(QString url)
             }
             if(isInBookPath) {
                 myDebug() << "getting";
-                m_action->get("bible://current/" + QString::number(b));
+                m_actions->get("bible://current/" + QString::number(b));
             }
         } else {
             if(m_windowManager->activeForm())

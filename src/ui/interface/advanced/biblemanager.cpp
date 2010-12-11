@@ -164,7 +164,7 @@ void BibleManager::showRanges(Ranges ranges)
     emit updateChapters(m_moduleManager->bible()->chapterNames());
     m_bookDockWidget->setChapters(m_moduleManager->bible()->chapterNames());
     emit updateBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
-    m_bookDockWidget->setBooks(m_moduleManager->bible()->bookNames());#
+    m_bookDockWidget->setBooks(m_moduleManager->bible()->bookNames());
 
     /*emit setCurrentBook(m_moduleManager->bible()->ranges().getList().first().bookID());
     emit setCurrentChapter(const int &chapterID);*/
@@ -296,8 +296,7 @@ void BibleManager::previousChapter()
         range.setChapter(BibleUrlRange::LoadLastChapter);
         range.setWholeChapter();
         bibleUrl.addRange(range);
-        const QString url = bibleUrl.toString();
-        m_actions->get(ubibleUrl);
+        m_actions->get(bibleUrl);
     }
 }
 

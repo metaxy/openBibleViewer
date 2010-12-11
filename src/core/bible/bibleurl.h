@@ -27,9 +27,9 @@ public:
     QString getParam(const QString &name);
 
 
-    QString toString();
+    QString toString() const;
     bool fromString(QString url);
-    QList<BibleUrlRange> ranges();
+    QList<BibleUrlRange> ranges() const;
 private:
     QHash<QString, QString> m_params;
     QList<BibleUrlRange> m_ranges;

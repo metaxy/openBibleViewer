@@ -38,12 +38,12 @@ void BibleUrl::addRange(const BibleUrlRange &range)
     m_ranges.append(range);
 }
 
-QString BibleUrl::toString()
+QString BibleUrl::toString() const
 {
     QString ret = "";
     foreach(const BibleUrlRange range, m_ranges) {
         if(!ret.isEmpty())
-            ret += "|";
+            ret += "|";//seperator
         ret += "bible://";
 
         if(range.bible() == BibleUrlRange::LoadBibleByID) {
@@ -258,7 +258,7 @@ bool BibleUrl::fromString(QString url)
     m_ranges.append(range);
     return true;
 }
-QList<BibleUrlRange> BibleUrl::ranges()
+QList<BibleUrlRange> BibleUrl::ranges() const
 {
     return m_ranges;
 }
