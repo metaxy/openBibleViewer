@@ -7,6 +7,7 @@ class TextRanges
 public:
     TextRanges();
     void addTextRange(const TextRange &range);
+    void addTextRanges(const TextRanges &ranges);
     QList<TextRange> textRanges() const;
     QString join(const QString &seperator) const;
 private:

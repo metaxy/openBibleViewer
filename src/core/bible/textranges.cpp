@@ -15,6 +15,11 @@ void TextRanges::addTextRange(const TextRange &range)
 {
     m_ranges.append(range);
 }
+void TextRanges::addTextRanges(const TextRanges &ranges)
+{
+    m_ranges.append(ranges.textRanges());
+}
+
 QList<TextRange> TextRanges::textRanges() const
 {
     return m_ranges;

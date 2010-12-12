@@ -84,26 +84,34 @@ QString BibleList::readChapter(const int &chapterID, const int &verseID) const
     f.setEndVerse(RangeEnum::LastVerse);
     f.setSelectedVerse(verseID);
     ranges.addRange(f);
-    return readRanges(ranges);
+    return readRanges(ranges).first;
 }
-QString BibleList::readRanges(const Ranges &ranges) const
+std::pair<QString, TextRanges> BibleList::readRanges(const Ranges &ranges) const
 {
     DEBUG_FUNC_NAME
     if(m_bibles.size() == 1) {
-        myDebug() << "size is one";
-        return m_bibles[m_currentBible]->readRanges(ranges).join("");
+        std::pair<QString, TextRanges> ret;
+        ret.second = m_bibles[m_currentBible]->readRanges(ranges);
+        ret.first = ret.second.join("");
+        return ret;
     } else if(m_bibles.size() > 1) {
+        std::pair<QString, TextRanges> ret;
+
         myDebug() << "oh a real biblelist";
         QHash<int, TextRanges> data;
         QHashIterator<int, Bible *> i(m_bibles);
         TextRanges def;
+        TextRanges tret;
+
         while(i.hasNext()) {
+            //todo: add them all to ret.second
             i.next();
             const TextRanges r = i.value()->readRanges(ranges);
             data.insert(i.key(), r);
             def = r;
+            tret.addTextRanges(r);
         }
-
+        ret.second = tret;
         int maxRow = 0;
         int maxCol = 0;
         foreach(const QPoint & p, m_biblePoints) {
@@ -180,9 +188,11 @@ QString BibleList::readRanges(const Ranges &ranges) const
         }
 
         out += "</tbody>\n</table>\n";
-        return out;
+        ret.first = out;
+        return ret;
     } else {
-        return "";
+        std::pair<QString, TextRanges> ret;
+        return ret;
     }
 }
 int BibleList::countInCol(const int &col) const

@@ -159,7 +159,7 @@ void BibleManager::pharseUrl(const QString &url)
 }
 void BibleManager::showRanges(Ranges ranges)
 {
-    m_bibleDisplay->setHtml(m_moduleManager->bibleList()->readRanges(ranges));
+    m_bibleDisplay->setHtml(m_moduleManager->bibleList()->readRanges(ranges).first);
     emit updateChapters(m_moduleManager->bible()->chapterNames());
     m_bookDockWidget->setChapters(m_moduleManager->bible()->chapterNames());
     emit updateBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
