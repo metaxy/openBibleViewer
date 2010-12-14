@@ -102,17 +102,17 @@ Ranges BibleManager::bibleUrlRangeToRanges(BibleUrlRange range)
     } else {
         r.setEndVerse(range.endVerseID());
     }
-   /* if(range.activeVerse() == BibleUrlRange::LoadFirstVerse) {
-        //r.setEndVerse(RangeEnum::FirstVerse);
-    } else if(range.activeVerse() == BibleUrlRange::LoadCurrentVerse) {
-        //r.setEndVerse(m_moduleManager->bible()->verseID());
-    } else if(range.activeVerse() == BibleUrlRange::LoadLastVerse) {
-        //r.setEndVerse(RangeEnum::LastVerse);
-    } else {
-        r.setSelectedVerse(range.activeVerseID());
-    }*/
-    if(range.activeVerse() == BibleUrlRange::LoadVerseByID) {
+    /* if(range.activeVerse() == BibleUrlRange::LoadFirstVerse) {
+         //r.setEndVerse(RangeEnum::FirstVerse);
+     } else if(range.activeVerse() == BibleUrlRange::LoadCurrentVerse) {
+         //r.setEndVerse(m_moduleManager->bible()->verseID());
+     } else if(range.activeVerse() == BibleUrlRange::LoadLastVerse) {
+         //r.setEndVerse(RangeEnum::LastVerse);
+     } else {
          r.setSelectedVerse(range.activeVerseID());
+     }*/
+    if(range.activeVerse() == BibleUrlRange::LoadVerseByID) {
+        r.setSelectedVerse(range.activeVerseID());
     }
 
     ranges.addRange(r);

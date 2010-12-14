@@ -38,7 +38,7 @@ BookDockWidget::BookDockWidget(QWidget *parent) :
 }
 void BookDockWidget::init()
 {
-    connect(m_actions,SIGNAL(_setCurrentBook(QSet<int>)), this, SLOT(setCurrentBook(QSet<int>)));
+    connect(m_actions, SIGNAL(_setCurrentBook(QSet<int>)), this, SLOT(setCurrentBook(QSet<int>)));
     connect(m_actions, SIGNAL(_setCurrentChapter(QSet<int>)), this, SLOT(setCurrentChapter(QSet<int>)));
 }
 BookDockWidget::~BookDockWidget()
@@ -128,13 +128,13 @@ void BookDockWidget::setCurrentBook(const QSet<int> &bookID)
     foreach(int b, bookID) {
         const QModelIndexList list = m_bookModel->match(m_bookModel->index(0, 0), Qt::UserRole + 1, b, 1, Qt::MatchExactly);
         if(list.size() == 1) {
-                sel << list.at(0);
+            sel << list.at(0);
         }
     }
     if(!sel.isEmpty())  {
         m_bookSelection->clearSelection();
         m_bookSelection->setCurrentIndex(sel.at(0), QItemSelectionModel::Select);
-        foreach(const QModelIndex &i, sel) {
+        foreach(const QModelIndex & i, sel) {
             m_bookSelection->select(i, QItemSelectionModel::Select);
         }
         ui->listView_books->scrollTo(sel.at(0), QAbstractItemView::EnsureVisible);
@@ -154,7 +154,7 @@ void BookDockWidget::setCurrentChapter(const QSet<int> &chapterID)
     if(!sel.isEmpty())  {
         m_chapterSelection->clearSelection();
         m_chapterSelection->setCurrentIndex(sel.at(0), QItemSelectionModel::Select);
-        foreach(const QModelIndex &i, sel) {
+        foreach(const QModelIndex & i, sel) {
             m_chapterSelection->select(i, QItemSelectionModel::Select);
         }
         ui->listView_chapters->scrollTo(sel.at(0), QAbstractItemView::EnsureVisible);

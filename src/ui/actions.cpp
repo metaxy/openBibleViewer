@@ -63,7 +63,7 @@ void Actions::updateChapters(const QStringList &chapters)
 
 void Actions::updateBooks(const QHash<int, QString> &books, QList<int> ids)
 {
-    emit _updateBooks(books,ids);
+    emit _updateBooks(books, ids);
 }
 void Actions::setCurrentModule(const int &moduleID)
 {

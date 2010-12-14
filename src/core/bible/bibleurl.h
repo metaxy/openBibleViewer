@@ -26,7 +26,6 @@ public:
     bool hasParam(const QString &name);
     QString getParam(const QString &name);
 
-
     QString toString() const;
     bool fromString(QString url);
     QList<BibleUrlRange> ranges() const;

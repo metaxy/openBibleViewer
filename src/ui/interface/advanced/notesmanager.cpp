@@ -17,18 +17,18 @@ NotesManager::NotesManager(QObject *parent) :
     QObject(parent)
 {
 }
+
 void NotesManager::setWidget(QWidget *p)
 {
     m_p = p;
 }
+
 void NotesManager::createDocks()
 {
     m_notesDockWidget = new NotesDockWidget(m_p);
     setAll(m_notesDockWidget);
     m_notesDockWidget->init();
     m_notesDockWidget->hide();
-    //  connect(m_notesDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
-    // connect(m_notesDockWidget, SIGNAL(reloadChapter()), this, SLOT(reloadChapter()));
 }
 
 QHash<DockWidget*, Qt::DockWidgetArea> NotesManager::docks()
@@ -55,6 +55,7 @@ void NotesManager::newItalicMark(VerseSelection selection)
     m_notesDockWidget->newStyleMark(selection, "font-style: italic;");
 
 }
+
 void NotesManager::newUnderlineMark(VerseSelection selection)
 {
     m_notesDockWidget->newStyleMark(selection, "text-decoration:underline;");
@@ -65,10 +66,12 @@ void NotesManager::removeMark(VerseSelection selection)
 {
     m_notesDockWidget->removeMark(selection);
 }
+
 void NotesManager::newNoteWithLink(VerseSelection selection)
 {
     m_notesDockWidget->newNoteWithLink(selection);
 }
+
 void NotesManager::openNote(const QString &noteID)
 {
     if(!m_notesDockWidget->isVisible()) {
@@ -76,11 +79,13 @@ void NotesManager::openNote(const QString &noteID)
     }
     m_notesDockWidget->showNote(noteID);
 }
+
 void NotesManager::save()
 {
     m_notesDockWidget->saveNote();
 }
- NotesDockWidget *NotesManager::notesDockWidget()
- {
-     return m_notesDockWidget;
- }
+
+NotesDockWidget *NotesManager::notesDockWidget()
+{
+    return m_notesDockWidget;
+}

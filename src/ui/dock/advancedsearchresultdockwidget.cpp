@@ -102,16 +102,16 @@ void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
             if(!m_moduleManager->contains(hit.value(SearchHit::BibleID).toInt()))
                 return;
 
-             BibleUrl url;
-             BibleUrlRange range;
-             range.setBible(hit.value(SearchHit::BibleID).toInt());
-             range.setBook(hit.value(SearchHit::BookID).toInt());
-             range.setChapter(hit.value(SearchHit::ChapterID).toInt());
-             range.setActiveVerse(hit.value(SearchHit::VerseID).toInt());
-             range.setWholeChapter();
-             url.addRange(range);
-             url.setParam("searchInCurrentText", "true");
-             m_actions->get(url);
+            BibleUrl url;
+            BibleUrlRange range;
+            range.setBible(hit.value(SearchHit::BibleID).toInt());
+            range.setBook(hit.value(SearchHit::BookID).toInt());
+            range.setChapter(hit.value(SearchHit::ChapterID).toInt());
+            range.setActiveVerse(hit.value(SearchHit::VerseID).toInt());
+            range.setWholeChapter();
+            url.addRange(range);
+            url.setParam("searchInCurrentText", "true");
+            m_actions->get(url);
         } else if(hit.type() == SearchHit::NoteHit) {
             m_actions->get("note://" + hit.value(SearchHit::NoteID).toString());
         }

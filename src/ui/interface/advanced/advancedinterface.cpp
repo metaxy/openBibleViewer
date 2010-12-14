@@ -93,8 +93,8 @@ void AdvancedInterface::init()
     if(m_settings->session.getData("windowUrls").toStringList().size() == 0)
         QTimer::singleShot(10, m_windowManager, SLOT(newSubWindow()));
     connect(m_actions, SIGNAL(_setTitle(QString)), this , SLOT(setTitle(QString)));
-    connect(m_actions,SIGNAL(_setTabbedView()), this, SLOT(setTabbedView()));
-    connect(m_actions,SIGNAL(_setSubWindowView()), this,SLOT(setSubWindowView()));
+    connect(m_actions, SIGNAL(_setTabbedView()), this, SLOT(setTabbedView()));
+    connect(m_actions, SIGNAL(_setSubWindowView()), this, SLOT(setSubWindowView()));
 }
 void AdvancedInterface::createDocks()
 {
@@ -229,9 +229,9 @@ void AdvancedInterface::setTitle(const QString &title)
 
 void AdvancedInterface::closing()
 {
-     m_notesManager->save();
-     m_bookmarksDockWidget->saveBookmarks();
-     m_windowManager->save();
+    m_notesManager->save();
+    m_bookmarksDockWidget->saveBookmarks();
+    m_windowManager->save();
 }
 
 void AdvancedInterface::restoreSession()

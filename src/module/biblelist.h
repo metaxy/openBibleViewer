@@ -32,7 +32,7 @@ public:
 
     int readBook(int id);
     QString readChapter(const int &chapterID, const int &verseID) const;
-    std::pair<QString,TextRanges> readRanges(const Ranges &ranges) const;
+    std::pair<QString, TextRanges> readRanges(const Ranges &ranges) const;
 
     int m_currentBible;
 

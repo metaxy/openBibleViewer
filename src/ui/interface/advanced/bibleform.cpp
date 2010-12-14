@@ -509,17 +509,17 @@ void BibleForm::forwardShowText(const QString &text)
 bool BibleForm::active()
 {
     DEBUG_FUNC_NAME
-   /* QMdiArea *area = (QMdiArea*) this->parentWidget()->parentWidget();
-    if(area) {
-        QMdiSubWindow *window = area->activeSubWindow();
-        myDebug() << "area = "<< area;
-        myDebug() << "window = " << window;
-        myDebug() << "mdiForm = " << window->widget()->findChild<BibleForm *>("mdiForm");
-        myDebug() << "this = " << this;
-        if(window && window->widget()->findChild<BibleForm *>("mdiForm") == this)
-            return true;
-    }
-*/
+    /* QMdiArea *area = (QMdiArea*) this->parentWidget()->parentWidget();
+     if(area) {
+         QMdiSubWindow *window = area->activeSubWindow();
+         myDebug() << "area = "<< area;
+         myDebug() << "window = " << window;
+         myDebug() << "mdiForm = " << window->widget()->findChild<BibleForm *>("mdiForm");
+         myDebug() << "this = " << this;
+         if(window && window->widget()->findChild<BibleForm *>("mdiForm") == this)
+             return true;
+     }
+    */
 
     if(*currentWindowID == m_id)
         return true;
