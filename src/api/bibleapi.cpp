@@ -29,7 +29,7 @@ void BibleApi::activateBible(const int &bibleListID)
             paraElement.addClass("active");
         }
     }
-    m_bibleDisplay->emitGet("bible://reloadActive");
+    m_actions->reloadActiveBible();
 }
 void BibleApi::setFrame(QWebFrame *frame)
 {

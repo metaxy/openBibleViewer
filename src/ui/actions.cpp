@@ -24,11 +24,15 @@ void Actions::showNote(const QString &noteID)
 {
     emit _showNote(noteID);
 }
-void Actions::setCurrentBook(const int &bookID)
+void Actions::setCurrentBook(const QSet<int> &bookID)
 {
     emit _setCurrentBook(bookID);
 }
-void Actions::setCurrentChapter(const int &chapterID)
+void Actions::setCurrentChapter(const QSet<int> &chapterID)
 {
     emit _setCurrentChapter(chapterID);
+}
+void Actions::reloadActiveBible()
+{
+    emit _reloadActiveBible();
 }

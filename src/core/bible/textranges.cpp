@@ -24,3 +24,21 @@ QList<TextRange> TextRanges::textRanges() const
 {
     return m_ranges;
 }
+QSet<int> TextRanges::booksIDs()
+{
+    QSet<int> ret;
+    foreach(TextRange range, m_ranges) {
+        ret.insert(range.bookID());
+    }
+
+    return ret;
+}
+QSet<int> TextRanges::chapterIDs()
+{
+    QSet<int> ret;
+    foreach(TextRange range, m_ranges) {
+        ret.insert(range.chapterID());
+    }
+
+    return ret;
+}

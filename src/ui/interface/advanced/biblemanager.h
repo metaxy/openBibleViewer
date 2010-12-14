@@ -33,9 +33,6 @@ signals:
     void updateChapters();
     void updateBooks();
 
-    void setCurrentBook(const int &bookID);
-    void setCurrentChapter(const int &chapterID);
-
 public slots:
     //todo:
     void pharseUrl(const QString &url);

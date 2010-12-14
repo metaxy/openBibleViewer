@@ -21,8 +21,10 @@ signals:
 
     void _showNote(const QString &nodeID);
 
-    void _setCurrentBook(const int &bookID);
-    void _setCurrentChapter(const int &chapterID);
+    void _setCurrentBook(const QSet<int> &bookID);
+    void _setCurrentChapter(const QSet<int> &chapterID);
+
+    void _reloadActiveBible();
 
 public slots:
     /**
@@ -36,8 +38,10 @@ public slots:
 
     void showNote(const QString &noteID);
 
-    void setCurrentBook(const int &bookID);
-    void setCurrentChapter(const int &chapterID);
+    void setCurrentBook(const QSet<int> &bookID);
+    void setCurrentChapter(const QSet<int> &chapterID);
+
+    void reloadActiveBible();
 
 };
 

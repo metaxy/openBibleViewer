@@ -159,14 +159,14 @@ void BibleManager::pharseUrl(const QString &url)
 }
 void BibleManager::showRanges(Ranges ranges)
 {
-    m_bibleDisplay->setHtml(m_moduleManager->bibleList()->readRanges(ranges).first);
+    std::pair<QString, TextRanges> r = m_moduleManager->bibleList()->readRanges(ranges);
+    m_bibleDisplay->setHtml(r.first);
     emit updateChapters(m_moduleManager->bible()->chapterNames());
     m_bookDockWidget->setChapters(m_moduleManager->bible()->chapterNames());
     emit updateBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
     m_bookDockWidget->setBooks(m_moduleManager->bible()->bookNames());
-
-    /*emit setCurrentBook(m_moduleManager->bible()->ranges().getList().first().bookID());
-    emit setCurrentChapter(const int &chapterID);*/
+    m_actions->setCurrentBook(r.second.booksIDs());
+    m_actions->setCurrentChapter(r.second.chapterIDs());
 }
 
 bool BibleManager::loadModuleDataByID(const int &moduleID)
@@ -250,7 +250,7 @@ void BibleManager::showChapter(const int &chapterID, const int &verseID)
     DEBUG_FUNC_NAME
     myDebug() << "chapter ID = " << chapterID << "verse ID = " << verseID;
     m_bibleDisplay->setHtml(m_moduleManager->bibleList()->readChapter(chapterID, verseID));
-    emit setCurrentChapter(chapterID);
+    //emit setCurrentChapter(chapterID);
 }
 
 void BibleManager::nextChapter()

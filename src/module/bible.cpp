@@ -493,7 +493,8 @@ TextRange Bible::readRange(const Range &range)
     }
 
     Chapter c = m_book.getChapter(newChapterID);
-
+    ret.setBookID(newBookID);
+    ret.setChapterID(newChapterID);
     int startVerse = 0;
     int endVerse = 0;
     QHash<int, Verse> data = c.getData();

@@ -60,3 +60,19 @@ Verse TextRange::getVerse(const int &verseID) const
 {
     return m_verse.value(verseID);
 }
+void TextRange::setBookID(const int &bookID)
+{
+    m_bookID = bookID;
+}
+void TextRange::setChapterID(const int &chapterID)
+{
+    m_chapterID = chapterID;
+}
+int TextRange::bookID()
+{
+    return m_bookID;
+}
+int TextRange::chapterID()
+{
+    return m_chapterID;
+}

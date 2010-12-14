@@ -112,6 +112,7 @@ std::pair<QString, TextRanges> BibleList::readRanges(const Ranges &ranges) const
             tret.addTextRanges(r);
         }
         ret.second = tret;
+
         int maxRow = 0;
         int maxCol = 0;
         foreach(const QPoint & p, m_biblePoints) {

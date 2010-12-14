@@ -25,23 +25,11 @@ public:
      * Set the Displaytext to text
      */
     void setHtml(const QString &text);
-    /**
-     * emits get(const QString &url)
-     */
-    void emitGet(const QString &url);
 Q_SIGNALS:
     /**
      * Emits signal if newHtml was called
      */
     void newHtml(const QString &html);
-    /**
-     * Is connect to the get in the Interface
-     */
-    void get(const QString &url);
-    /**
-     * Is connect to the get in the Interface
-     */
-    void get(const QUrl &url);
 private:
     //QString m_text;
 };

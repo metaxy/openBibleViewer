@@ -31,9 +31,17 @@ public:
 
     Verse getVerse(const int &verseID) const;
 
+    void setBookID(const int &bookID);
+    void setChapterID(const int &chapterID);
+
+    int bookID();
+    int chapterID();
 private:
     QMap<int, Verse> m_verse;
     QString m_title;
+
+    int m_bookID;
+    int m_chapterID;
 };
 
 #endif // TEXTRANGE_H
