@@ -102,6 +102,18 @@ Ranges BibleManager::bibleUrlRangeToRanges(BibleUrlRange range)
     } else {
         r.setEndVerse(range.endVerseID());
     }
+   /* if(range.activeVerse() == BibleUrlRange::LoadFirstVerse) {
+        //r.setEndVerse(RangeEnum::FirstVerse);
+    } else if(range.activeVerse() == BibleUrlRange::LoadCurrentVerse) {
+        //r.setEndVerse(m_moduleManager->bible()->verseID());
+    } else if(range.activeVerse() == BibleUrlRange::LoadLastVerse) {
+        //r.setEndVerse(RangeEnum::LastVerse);
+    } else {
+        r.setSelectedVerse(range.activeVerseID());
+    }*/
+    if(range.activeVerse() == BibleUrlRange::LoadVerseByID) {
+         r.setSelectedVerse(range.activeVerseID());
+    }
 
     ranges.addRange(r);
     return ranges;
@@ -336,4 +348,18 @@ void BibleManager::reloadChapter(bool full)
       }
       v->page()->mainFrame()->setScrollPosition(p);
       //setEnableReload(true);*/
+}
+BookDockWidget *BibleManager::bookDockWidget()
+{
+    return m_bookDockWidget;
+}
+
+ModuleDockWidget *BibleManager::moduleDockWidget()
+{
+    return m_moduleDockWidget;
+}
+
+QuickJumpDockWidget * BibleManager::quickJumpDockWidget()
+{
+    return m_quickJumpDockWidget;
 }

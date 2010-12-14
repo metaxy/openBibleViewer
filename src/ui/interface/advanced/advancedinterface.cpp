@@ -479,21 +479,21 @@ QMenuBar* AdvancedInterface::menuBar()
 
     QAction *actionModule = new QAction(tr("Module"), menuDocks);
     actionModule->setCheckable(true);
-    //todo: show docks
-    //connect(m_moduleDockWidget, SIGNAL(visibilityChanged(bool)), actionModule, SLOT(setChecked(bool)));
-    //connect(actionModule, SIGNAL(triggered(bool)), m_moduleDockWidget, SLOT(setVisible(bool)));
+
+    connect(m_bibleManager->moduleDockWidget(), SIGNAL(visibilityChanged(bool)), actionModule, SLOT(setChecked(bool)));
+    connect(actionModule, SIGNAL(triggered(bool)), m_bibleManager->moduleDockWidget(), SLOT(setVisible(bool)));
     actionModule->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_M));
 
     QAction *actionBooks = new QAction(tr("Books"), menuDocks);
     actionBooks->setCheckable(true);
-    //connect(m_bookDockWidget, SIGNAL(visibilityChanged(bool)), actionBooks, SLOT(setChecked(bool)));
-    //connect(actionBooks, SIGNAL(triggered(bool)), m_bookDockWidget, SLOT(setVisible(bool)));
+    connect(m_bibleManager->bookDockWidget(), SIGNAL(visibilityChanged(bool)), actionBooks, SLOT(setChecked(bool)));
+    connect(actionBooks, SIGNAL(triggered(bool)), m_bibleManager->bookDockWidget(), SLOT(setVisible(bool)));
     actionBooks->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_C));
 
     QAction *actionNotes = new QAction(QIcon::fromTheme("notes-edit", QIcon(":/icons/16x16/notes-edit.png")), tr("Notes"), menuDocks);
     actionNotes->setCheckable(true);
-    //connect(m_notesDockWidget, SIGNAL(visibilityChanged(bool)), actionNotes, SLOT(setChecked(bool)));
-    //connect(actionNotes, SIGNAL(triggered(bool)), m_notesDockWidget, SLOT(setVisible(bool)));
+    connect(m_notesManager->notesDockWidget(), SIGNAL(visibilityChanged(bool)), actionNotes, SLOT(setChecked(bool)));
+    connect(actionNotes, SIGNAL(triggered(bool)), m_notesManager->notesDockWidget(), SLOT(setVisible(bool)));
     actionNotes->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_N));
 
     QAction *actionStrong = new QAction(tr("Dictionay"), menuDocks);
@@ -510,14 +510,14 @@ QMenuBar* AdvancedInterface::menuBar()
 
     QAction *actionQuickJump = new QAction(tr("Quick Jump"), menuDocks);
     actionQuickJump->setCheckable(true);
-    //connect(m_quickJumpDockWidget, SIGNAL(visibilityChanged(bool)), actionQuickJump, SLOT(setChecked(bool)));
-    //connect(actionQuickJump, SIGNAL(triggered(bool)), m_quickJumpDockWidget, SLOT(setVisible(bool)));
+    connect(m_bibleManager->quickJumpDockWidget(), SIGNAL(visibilityChanged(bool)), actionQuickJump, SLOT(setChecked(bool)));
+    connect(actionQuickJump, SIGNAL(triggered(bool)), m_bibleManager->quickJumpDockWidget(), SLOT(setVisible(bool)));
     actionQuickJump->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Q));
 
     QAction *actionSearchResults = new QAction(QIcon::fromTheme("table", QIcon(":/icons/16x16/table.png")), tr("Search Results"), menuDocks);
     actionSearchResults->setCheckable(true);
-    //connect(m_advancedSearchResultDockWidget, SIGNAL(visibilityChanged(bool)), actionSearchResults, SLOT(setChecked(bool)));
-    //connect(actionSearchResults , SIGNAL(triggered(bool)), m_advancedSearchResultDockWidget, SLOT(setVisible(bool)));
+    connect(m_searchManager->advancedSearchResultDockWidget(), SIGNAL(visibilityChanged(bool)), actionSearchResults, SLOT(setChecked(bool)));
+    connect(actionSearchResults , SIGNAL(triggered(bool)), m_searchManager->advancedSearchResultDockWidget(), SLOT(setVisible(bool)));
     actionSearchResults->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_S));
 
 

@@ -186,3 +186,17 @@ void BibleUrlRange::setWholeChapter()
     setStartVerse(BibleUrlRange::LoadFirstVerse);
     setEndVerse(BibleUrlRange::LoadLastVerse);
 }
+//active Verse
+void BibleUrlRange::setActiveVerse(const int &verseID)
+{
+    m_activeVerseID = verseID;
+    m_activeVerseParam = BibleUrlRange::LoadVerseByID;
+}
+int BibleUrlRange::activeVerseID() const
+{
+    return m_activeVerseID;
+}
+BibleUrlRange::VerseLoadParams BibleUrlRange::activeVerse() const
+{
+    return m_activeVerseParam;
+}

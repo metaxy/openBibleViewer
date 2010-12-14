@@ -129,7 +129,9 @@ QString BibleUrl::toString() const
             }
         }
         ret += ",";
-
+        if(range.activeVerse() == BibleUrlRange::LoadVerseByID) {
+            ret += "active="+QString::number(range.activeVerseID())+",";
+        }
         if(!m_params.isEmpty()) {
             QHashIterator<QString, QString> i(m_params);
             while(i.hasNext()) {
@@ -249,7 +251,11 @@ bool BibleUrl::fromString(QString url)
                 const QStringList s = p.split("=");
                 const QString key = s.first();
                 const QString value = s.last();
-                m_params.insert(key, value);
+                if(key == "active") {
+                    range.setActiveVerse(key.toInt());
+                } else {
+                    m_params.insert(key, value);
+                }
             } else {
                 m_params.insert(p, "true");
             }

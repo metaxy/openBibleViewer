@@ -80,3 +80,7 @@ void NotesManager::save()
 {
     m_notesDockWidget->saveNote();
 }
+ NotesDockWidget *NotesManager::notesDockWidget()
+ {
+     return m_notesDockWidget;
+ }

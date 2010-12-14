@@ -36,6 +36,10 @@ public:
     void readBookByID(const int &id);
     void showChapter(const int &chapterID, const int &verseID);
 
+    BookDockWidget *bookDockWidget();
+    ModuleDockWidget *moduleDockWidget();
+    QuickJumpDockWidget * quickJumpDockWidget();
+
 signals:
 
     void updateChapters();

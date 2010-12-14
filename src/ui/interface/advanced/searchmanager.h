@@ -15,6 +15,7 @@ public:
     void setWindowManager(WindowManager *windowManager);
     void createDocks();
     QHash<DockWidget *, Qt::DockWidgetArea> docks();
+    AdvancedSearchResultDockWidget *advancedSearchResultDockWidget();
 signals:
 
 public slots:

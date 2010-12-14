@@ -58,7 +58,7 @@ void SearchManager::search()
 void SearchManager::search(SearchQuery query)
 {
     DEBUG_FUNC_NAME
-    //m_advancedSearchResultDockWidget->show();
+    m_advancedSearchResultDockWidget->show();
     Search s;
     setAll(&s);
     SearchResult *res = s.search(query);
@@ -86,4 +86,8 @@ void SearchManager::nextVerse()
 void SearchManager::previousVerse()
 {
     m_advancedSearchResultDockWidget->previousVerse();
+}
+AdvancedSearchResultDockWidget *SearchManager::advancedSearchResultDockWidget()
+{
+    return m_advancedSearchResultDockWidget;
 }

@@ -28,6 +28,7 @@ public:
     void createDocks();
     QHash<DockWidget *, Qt::DockWidgetArea> docks();
     void openNote(const QString &noteID);
+    NotesDockWidget *notesDockWidget();
 
 signals:
 

@@ -95,6 +95,11 @@ public:
     VerseLoadParams startVerse() const;
     int endVerseID() const;
     VerseLoadParams endVerse() const;
+
+    void setActiveVerse(const int &verseID);
+    int activeVerseID() const;
+    VerseLoadParams activeVerse() const;
+
     void setWholeChapter();
 
 private:
@@ -115,6 +120,9 @@ private:
     int m_endVerseID;
     VerseLoadParams m_startVerseParam;
     VerseLoadParams m_endVerseParam;
+
+    int m_activeVerseID;
+    VerseLoadParams m_activeVerseParam;
 
 };
 

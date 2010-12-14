@@ -316,10 +316,14 @@ void BibleForm::activated()
     m_actions->setCurrentModule(m_moduleManager->bible()->moduleID());
 
     m_actions->updateChapters(m_moduleManager->bible()->chapterNames());
-   // m_actions->setCurrentChapter(m_moduleManager->bible()->chapterID());//todo:
+    QSet<int> c;
+    c.insert(m_moduleManager->bible()->chapterID());
+    m_actions->setCurrentChapter(c);
 
     m_actions->updateBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
-    //m_actions->setCurrentBook(m_moduleManager->bible()->bookID());//todo:
+    QSet<int> b;
+    b.insert(m_moduleManager->bible()->bookID());
+    m_actions->setCurrentBook(b);
 }
 
 void BibleForm::changeEvent(QEvent *e)
