@@ -162,9 +162,9 @@ void BibleManager::showRanges(Ranges ranges)
 {
     std::pair<QString, TextRanges> r = m_moduleManager->bibleList()->readRanges(ranges);
     m_bibleDisplay->setHtml(r.first);
-    emit updateChapters(m_moduleManager->bible()->chapterNames());
+    m_actions->updateChapters(m_moduleManager->bible()->chapterNames());
     m_bookDockWidget->setChapters(m_moduleManager->bible()->chapterNames());
-    emit updateBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
+    m_actions->updateBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
     m_bookDockWidget->setBooks(m_moduleManager->bible()->bookNames());
     m_actions->setCurrentBook(r.second.booksIDs());
     m_actions->setCurrentChapter(r.second.chapterIDs());
@@ -188,9 +188,8 @@ bool BibleManager::loadModuleDataByID(const int &moduleID)
     m_moduleManager->bible()->setModuleType(type);
     m_moduleManager->bible()->loadModuleData(moduleID);
 
-    emit setTitle(m_moduleManager->bible()->bibleTitle());
-    emit updateBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
-    m_moduleDockWidget->loadedModule(moduleID);//select current Module
+    m_actions->setTitle(m_moduleManager->bible()->bibleTitle());
+    m_actions->setCurrentModule(moduleID);
     QApplication::restoreOverrideCursor();
     return 0;
 
@@ -222,7 +221,7 @@ void BibleManager::readBookByID(const int &id)
     if(read != 0) {
         QApplication::restoreOverrideCursor();
         if(read == 2) {
-            emit updateChapters();
+            ///emit updateChapters();
         } else {
             QMessageBox::critical(0, tr("Error"), tr("Cannot read the book."));
         }
@@ -231,7 +230,7 @@ void BibleManager::readBookByID(const int &id)
         return;
     }
     QApplication::restoreOverrideCursor();
-    emit updateChapters(m_moduleManager->bible()->chapterNames());
+    m_actions->updateChapters(m_moduleManager->bible()->chapterNames());
 }
 
 /*void BibleManager::readChapter(const int &id)

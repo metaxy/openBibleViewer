@@ -94,6 +94,7 @@ void AdvancedInterface::init()
 
     if(m_settings->session.getData("windowUrls").toStringList().size() == 0)
         QTimer::singleShot(10, m_windowManager, SLOT(newSubWindow()));
+    connect(m_actions, SIGNAL(_setTitle(QString)), this , SLOT(setTitle(QString)));
 }
 void AdvancedInterface::createDocks()
 {
@@ -235,16 +236,13 @@ void AdvancedInterface::showText(const QString &text)
         m_windowManager->activeForm()->showText(text);
     }
 }
-
+*/
 void AdvancedInterface::setTitle(const QString &title)
 {
     this->parentWidget()->setWindowTitle(title + " - " + tr("openBibleViewer"));
-    if(m_windowManager->activeMdiChild()) {
-        m_windowManager->activeMdiChild()->widget()->setWindowTitle(title);
-    }
 }
 
-*/
+
 void AdvancedInterface::closing()
 {
     m_windowManager->disable();

@@ -38,3 +38,21 @@ void Actions::reloadActiveBible()
 {
     emit _reloadActiveBible();
 }
+void Actions::setTitle(const QString &title)
+{
+    emit _setTitle(title);
+}
+
+void Actions::updateChapters(const QStringList &chapters)
+{
+    emit _updateChapters(chapters);
+}
+
+void Actions::updateBooks(const QHash<int, QString> &books, QList<int> ids)
+{
+    emit _updateBooks(books,ids);
+}
+void Actions::setCurrentModule(const int &moduleID)
+{
+    emit _setCurrentModule(moduleID);
+}

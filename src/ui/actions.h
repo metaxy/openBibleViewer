@@ -26,6 +26,11 @@ signals:
 
     void _reloadActiveBible();
 
+    void _setTitle(const QString &title);
+    void _updateChapters(const QStringList &chapters);
+    void _updateBooks(const QHash<int, QString> &books, QList<int> ids);
+
+    void _setCurrentModule(const int &moduleID);
 public slots:
     /**
       Show a chapter in current SubWindow.
@@ -42,6 +47,12 @@ public slots:
     void setCurrentChapter(const QSet<int> &chapterID);
 
     void reloadActiveBible();
+
+    void setTitle(const QString &title);
+    void updateChapters(const QStringList &chapters);
+    void updateBooks(const QHash<int, QString> &books, QList<int> ids);
+
+    void setCurrentModule(const int &moduleID);
 
 };
 

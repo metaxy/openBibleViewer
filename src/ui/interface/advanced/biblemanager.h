@@ -27,9 +27,7 @@ public:
     void showChapter(const int &chapterID, const int &verseID);
 
 signals:
-    void setTitle(const QString &title);
-    void updateChapters(const QStringList &chapters);
-    void updateBooks(const QHash<int, QString> &books, QList<int> ids);
+
     void updateChapters();
     void updateBooks();
 

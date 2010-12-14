@@ -75,8 +75,8 @@ void BibleForm::init()
     attachApi();
     connect(m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
 
-    connect(m_bibleManager, SIGNAL(updateChapters(QStringList)), this, SLOT(forwardSetChapters(QStringList)));
-    connect(m_bibleManager, SIGNAL(updateBooks(QHash<int, QString>, QList<int>)), this, SLOT(forwardSetBooks(QHash<int, QString>, QList<int>)));
+    connect(m_actions, SIGNAL(_updateChapters(QStringList)), this, SLOT(forwardSetChapters(QStringList)));
+    connect(m_actions, SIGNAL(_updateBooks(QHash<int, QString>, QList<int>)), this, SLOT(forwardSetBooks(QHash<int, QString>, QList<int>)));
 
     connect(m_actions, SIGNAL(_setCurrentBook(QSet<int>)), this, SLOT(forwardSetCurrentBook(QSet<int>)));
     connect(m_actions, SIGNAL(_setCurrentChapter(QSet<int>)), this, SLOT(forwardSetCurrentChapter(QSet<int>)));
@@ -308,15 +308,15 @@ void BibleForm::activated()
 
 
     m_moduleManager->m_bibleList = m_bibleList;
-    myDebug() << "current bible title = " << m_moduleManager->bible()->bibleTitle();
-    //setTitle(m_moduleManager->bible()->bibleTitle());
-    //m_moduleDockWidget->loadedModule(m_moduleManager->bible()->moduleID()); //todo:
 
-    /*setChapters(m_moduleManager->bible()->chapterNames());
-    setCurrentChapter(m_moduleManager->bible()->chapterID());
+    m_actions->setTitle(m_moduleManager->bible()->bibleTitle());
+    m_actions->setCurrentModule(m_moduleManager->bible()->moduleID());
 
-    setBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
-    setCurrentBook(m_moduleManager->bible()->bookID());*/
+    m_actions->updateChapters(m_moduleManager->bible()->chapterNames());
+   // m_actions->setCurrentChapter(m_moduleManager->bible()->chapterID());//todo:
+
+    m_actions->updateBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
+    //m_actions->setCurrentBook(m_moduleManager->bible()->bookID());//todo:
 }
 
 void BibleForm::changeEvent(QEvent *e)

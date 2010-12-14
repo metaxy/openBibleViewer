@@ -70,6 +70,7 @@ private slots:
 
     void setTabView();
     void setSubWindowView();
+    void setTitle(const QString &title);
 
 
 public:

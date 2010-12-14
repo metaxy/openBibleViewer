@@ -44,6 +44,7 @@ void ModuleDockWidget::init()
     ui->treeView_module->setModel(m_proxyModel);
     ui->treeView_module->setSelectionModel(m_selectionModel);
     m_proxyModel->sort(0);
+    connect(m_actions, SIGNAL(_setCurrentModule(int)), this, SLOT(loadedModule(int)));
 }
 /**
   Emits get to load the selected module.

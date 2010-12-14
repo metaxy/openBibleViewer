@@ -34,11 +34,12 @@ class ModuleDockWidget : public DockWidget
 private slots:
     void loadModuleData(QModelIndex index);
     void filter(QString string);
+    void loadedModule(int id);
 public:
     ModuleDockWidget(QWidget *parent = 0);
     ~ModuleDockWidget();
     void init();
-    void loadedModule(int id);
+
 protected:
     void changeEvent(QEvent *e);
 private:
