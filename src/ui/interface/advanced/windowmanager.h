@@ -59,6 +59,9 @@ public slots:
     void setTabbedView();
     void setSubWindowView();
 
+    void save();
+    void restore();
+
 
 private:
     int m_nameCounter;

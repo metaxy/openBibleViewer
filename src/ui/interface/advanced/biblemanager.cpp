@@ -39,11 +39,6 @@ void BibleManager::createDocks()
     m_bookDockWidget->init();
     m_bookDockWidget->hide();
 
-    m_advancedSearchResultDockWidget = new AdvancedSearchResultDockWidget(m_p);
-    setAll(m_advancedSearchResultDockWidget);
-    m_advancedSearchResultDockWidget->init();
-    m_advancedSearchResultDockWidget->hide();
-
     m_quickJumpDockWidget = new QuickJumpDockWidget(m_p);
     setAll(m_quickJumpDockWidget);
     m_quickJumpDockWidget->init();
@@ -54,7 +49,6 @@ QHash<DockWidget*, Qt::DockWidgetArea> BibleManager::docks()
 {
     DEBUG_FUNC_NAME
     QHash<DockWidget *, Qt::DockWidgetArea> ret;
-    ret.insert(m_advancedSearchResultDockWidget, Qt::LeftDockWidgetArea);
     ret.insert(m_bookDockWidget, Qt::LeftDockWidgetArea);
     ret.insert(m_moduleDockWidget, Qt::LeftDockWidgetArea);
     ret.insert(m_quickJumpDockWidget, Qt::RightDockWidgetArea);

@@ -27,6 +27,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "windowmanager.h"
 #include "biblemanager.h"
 #include "notesmanager.h"
+#include "searchmanager.h"
 #include <QtGui/QMdiSubWindow>
 #include <QtGui/QCloseEvent>
 #include <QtGui/QContextMenuEvent>
@@ -48,8 +49,6 @@ private slots:
     void pharseUrl(QUrl url);
     void pharseUrl(QString url);
 
-    void search(SearchQuery query);
-    void search();
 
     void saveFile();
     void printFile();
@@ -62,7 +61,6 @@ private slots:
     void showBookmarksDock();
     void showNotesDock();
 
-    void showSearchDialog();
     int showAboutDialog();
     void showMarkCategories();
     void showMarkList();
@@ -121,6 +119,7 @@ private:
     WindowManager *m_windowManager;
     BibleManager *m_bibleManager;
     NotesManager *m_notesManager;
+    SearchManager *m_searchManager;
 };
 
 #endif // ADVANCEDINTERFACE_H

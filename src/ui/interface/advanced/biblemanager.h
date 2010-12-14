@@ -20,7 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/basicclass.h"
 #include "src/ui/dock/bookdockwidget.h"
 #include "src/ui/dock/moduledockwidget.h"
-#include "src/ui/dock/advancedsearchresultdockwidget.h"
+
 #include "src/ui/dock/quickjumpdockwidget.h"
 #include "src/core/bible/bibleurlrange.h"
 class BibleManager : public QObject, public BasicClass
@@ -49,8 +49,7 @@ public slots:
         void readChapter(const int &id);
         void readBook(const int &id);
     */
-    //void nextVerse();
-    //void previousVerse();
+
 
     void nextChapter();
     void previousChapter();
@@ -60,7 +59,7 @@ private:
     void showRanges(Ranges ranges);
     Ranges bibleUrlRangeToRanges(BibleUrlRange r);
     QWidget *m_p;
-    AdvancedSearchResultDockWidget *m_advancedSearchResultDockWidget;
+
     BookDockWidget *m_bookDockWidget;
     ModuleDockWidget *m_moduleDockWidget;
     QuickJumpDockWidget * m_quickJumpDockWidget;

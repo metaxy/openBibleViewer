@@ -76,3 +76,7 @@ void NotesManager::openNote(const QString &noteID)
     }
     m_notesDockWidget->showNote(noteID);
 }
+void NotesManager::save()
+{
+    m_notesDockWidget->saveNote();
+}

@@ -40,6 +40,8 @@ public slots:
 
     void removeMark(VerseSelection selection);
     void newNoteWithLink(VerseSelection selection);
+
+    void save();
 private:
     QWidget *m_p;
     NotesDockWidget *m_notesDockWidget;

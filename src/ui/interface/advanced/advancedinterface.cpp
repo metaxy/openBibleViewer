@@ -15,31 +15,23 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_advancedinterface.h"
 #include "src/core/faststart.h"
 #include "src/core/core.h"
-#include "src/core/search/search.h"
 #include "src/core/dbghelper.h"
-#include "src/ui/dialog/searchdialog.h"
+
 #include "src/ui/dialog/aboutdialog.h"
 #include "src/ui/noteseditor.h"
 #include "src/ui/marklist.h"
 
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QSizePolicy>
-#include <QtGui/QMdiSubWindow>
 #include <QtGui/QMessageBox>
 #include <QtGui/QDesktopServices>
-#include <QtGui/QClipboard>
-#include <QtGui/QTextDocumentFragment>
 #include <QtGui/QScrollBar>
 #include <QtGui/QFileDialog>
 #include <QtGui/QPrintDialog>
-#include <QtGui/QPrinter>
-#include <QtGui/QColorDialog>
 #include <QtGui/QKeySequence>
 #include <QtGui/QLineEdit>
 #include <QtCore/QScopedPointer>
 #include <QtCore/QTimer>
-#include <QtWebKit/QWebInspector>
-#include <QtWebKit/QWebElementCollection>
 
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
     Interface(parent),
@@ -93,6 +85,11 @@ void AdvancedInterface::init()
     m_windowManager->setNotesManager(m_notesManager);
     m_windowManager->init();
 
+    m_searchManager = new SearchManager(this);
+    setAll(m_searchManager);
+    m_searchManager->setWindowManager(m_windowManager);
+    m_searchManager->setWidget(this->parentWidget());
+
     if(m_settings->session.getData("windowUrls").toStringList().size() == 0)
         QTimer::singleShot(10, m_windowManager, SLOT(newSubWindow()));
     connect(m_actions, SIGNAL(_setTitle(QString)), this , SLOT(setTitle(QString)));
@@ -103,6 +100,7 @@ void AdvancedInterface::createDocks()
 {
     m_bibleManager->createDocks();
     m_notesManager->createDocks();
+    m_searchManager->createDocks();
 
     m_bookmarksDockWidget = new BookmarksDockWidget(this->parentWidget());
     setAll(m_bookmarksDockWidget);
@@ -125,21 +123,13 @@ QHash<DockWidget*, Qt::DockWidgetArea> AdvancedInterface::docks()
     QHash<DockWidget *, Qt::DockWidgetArea> ret;
     ret.unite(m_bibleManager->docks());
     ret.unite(m_notesManager->docks());
+    ret.unite(m_searchManager->docks());
     ret.insert(m_bookmarksDockWidget, Qt::RightDockWidgetArea);
     ret.insert(m_dictionaryDockWidget, Qt::BottomDockWidgetArea);
     return ret;
 
 }
-/*
- * Todo: Use it
- */
-/*
-void AdvancedInterface::installResizeFilter()
-{
-    m_mdiAreaFilter = new MdiAreaFilter(ui->mdiArea);
-    connect(m_mdiAreaFilter, SIGNAL(resized()), this, SLOT(mdiAreaResized()));
-    ui->mdiArea->installEventFilter(m_mdiAreaFilter);
-}*/
+
 void AdvancedInterface::pharseUrl(QUrl url)
 {
     DEBUG_FUNC_NAME
@@ -231,14 +221,6 @@ void AdvancedInterface::pharseUrl(QString url)
     return;
 }
 
-/*
-void AdvancedInterface::showText(const QString &text)
-{
-    if(m_windowManager->activeForm()) {
-        m_windowManager->activeForm()->showText(text);
-    }
-}
-*/
 void AdvancedInterface::setTitle(const QString &title)
 {
     this->parentWidget()->setWindowTitle(title + " - " + tr("openBibleViewer"));
@@ -247,107 +229,14 @@ void AdvancedInterface::setTitle(const QString &title)
 
 void AdvancedInterface::closing()
 {
-    m_windowManager->disable();
-    /* m_notesDockWidget->saveNote();
+     m_notesManager->save();
      m_bookmarksDockWidget->saveBookmarks();
-
-     QStringList windowUrls;
-     QList<QVariant> windowGeo;
-     QList<QVariant> scrollPos;
-     QList<QVariant> zoom;
-     const int current = m_windowCache.currentWindowID();
-     for(int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
-         //todo:
-         m_windowCache.setCurrentWindowID(i);
-         BibleList *list = m_windowCache.getBibleList();
-         QString u = "";
-         if(m_windowCache.getBibleList() != 0) {
-             QHashIterator<int, Bible *> i(list->m_bibles);
-             while(i.hasNext()) {
-                 i.next();
-                 Bible *b = i.value();
-                 if(b != NULL && b->moduleID() >= 0) {
-                     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
-                     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-                     urlConverter.setSettings(m_settings);
-                     urlConverter.m_moduleID = b->moduleID();
-                     urlConverter.m_bookID = b->bookID();
-                     urlConverter.m_chapterID = b->chapterID();
-                     urlConverter.m_verseID = 0;
-                     const QString url = urlConverter.convert();
-                     const QPoint point = list->m_biblePoints.value(i.key());
-                     if(u.isEmpty())
-                         u += QString::number(point.x()) + ":" + QString::number(point.y()) + ":" + url;
-                     else
-                         u += "|" + QString::number(point.x()) + ":" + QString::number(point.y()) + ":" + url;
-                 }
-             }
-         }
-         windowUrls << u;
-         QWebView *v = getView();
-         windowGeo << ui->mdiArea->subWindowList().at(i)->geometry();
-         scrollPos << v->page()->mainFrame()->scrollPosition();
-         zoom << v->zoomFactor();
-     }
-     m_settings->session.setData("windowUrls", windowUrls);
-     m_settings->session.setData("windowGeo", windowGeo);
-     m_settings->session.setData("scrollPos", scrollPos);
-     m_settings->session.setData("zoom", zoom);
-     m_settings->session.setData("viewMode", ui->mdiArea->viewMode());
-     m_settings->session.setData("windowID", current);*/
+     m_windowManager->save();
 }
 
 void AdvancedInterface::restoreSession()
 {
-    /*DEBUG_FUNC_NAME
-    const QStringList windowUrls = m_settings->session.getData("windowUrls").toStringList();
-    const QVariantList windowGeo = m_settings->session.getData("windowGeo").toList();
-    const QVariantList scrollPos = m_settings->session.getData("scrollPos").toList();
-    const QVariantList zoom = m_settings->session.getData("zoom").toList();
-
-    for(int i = 0; i < windowUrls.size(); ++i) {
-        m_windowManager->newSubWindow(true);
-        //load bible
-        QString url = windowUrls.at(i);
-        m_moduleManager->bibleList()->clear();
-        if(!url.isEmpty() && url.size() != 0) {
-            QStringList list = url.split("|");
-            foreach(QString part, list) {
-                QStringList a = part.split(":");
-                int x = a.at(0).toInt();
-                int y = a.at(1).toInt();
-                QString u = a.at(2);
-                UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, u);
-                urlConverter.setSettings(m_settings);
-                urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-                urlConverter.pharse();
-                m_moduleManager->newBible(urlConverter.m_moduleID, QPoint(x, y));
-                pharseUrl(urlConverter.convert() + ",force=true"); //todo: MOVE IT OUT
-            }
-        } else {
-            Bible *b = new Bible();
-            m_moduleManager->initBible(b);
-            m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
-        }
-        //set geometry
-        myDebug() << "new Window " << i << " url = " << url << "rect = " << windowGeo.at(i).toRect();
-        QWebView *v = getView();
-        activeMdiChild()->setGeometry(windowGeo.at(i).toRect());
-        v->page()->mainFrame()->setScrollPosition(scrollPos.at(i).toPoint());
-        if(zoom.size() != 0 && i < zoom.size() && zoom.at(i).toReal() > 0)
-            v->setZoomFactor(zoom.at(i).toReal());
-    }
-    const int viewMode = m_settings->session.getData("viewMode").toInt();
-    if(viewMode == 0)
-        setSubWindowView();
-    else
-        setTabView();
-
-    const int id = m_settings->session.getData("windowID", -1).toInt();
-    //myDebug() << id << ui->mdiArea->subWindowList();
-    if(id < ui->mdiArea->subWindowList().size() && id > 0) {
-        ui->mdiArea->setActiveSubWindow(ui->mdiArea->subWindowList().at(id));
-    }*/
+    m_windowManager->restore();
 }
 
 void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettings, bool modifedModuleSettings)
@@ -403,51 +292,6 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
 
 }
 
-void AdvancedInterface::showSearchDialog()
-{
-    SearchDialog *sDialog = new SearchDialog(this);
-    connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
-    if(m_windowManager->activeForm()) {
-        const QString text = m_windowManager->activeForm()->selectedText();
-        if(!text.isEmpty()) {
-            sDialog->setText(text);
-        }
-    }
-    sDialog->show();
-    sDialog->exec();
-}
-void AdvancedInterface::search()
-{
-    DEBUG_FUNC_NAME
-    SearchQuery query;
-    query.searchText = ((QLineEdit *) sender())->text();
-    query.searchInNotes = true;
-    query.queryType = SearchQuery::Simple;
-    search(query);
-}
-
-void AdvancedInterface::search(SearchQuery query)
-{
-    DEBUG_FUNC_NAME
-    //m_advancedSearchResultDockWidget->show();
-    Search s;
-    setAll(&s);
-    SearchResult *res = s.search(query);
-    //m_advancedSearchResultDockWidget->setSearchResult(*res);
-}
-
-void AdvancedInterface::searchInText(SearchQuery query)
-{
-    DEBUG_FUNC_NAME
-    //todo: refractor
-    /* if(query.queryType == SearchQuery::Simple) {
-         QString s = query.searchText;
-         //todo: hacky
-         s.remove('*');
-         s.remove('?');
-         getView()->findText(s, QWebPage::HighlightAllOccurrences);
-     }*/
-}
 
 void AdvancedInterface::copy()
 {
@@ -460,16 +304,6 @@ void AdvancedInterface::selectAll()
     if(m_windowManager->activeForm())
         m_windowManager->activeForm()->selectAll();
 }
-
-/*void AdvancedInterface::nextVerse()
-{
-    //m_advancedSearchResultDockWidget->nextVerse();
-}
-
-void AdvancedInterface::previousVerse()
-{
-    //m_advancedSearchResultDockWidget->previousVerse();
-}*/
 
 bool AdvancedInterface::hasMenuBar()
 {
@@ -529,16 +363,16 @@ QMenuBar* AdvancedInterface::menuBar()
     //Search
     QAction *actionSearch = new QAction(QIcon::fromTheme("edit-find", QIcon(":/icons/16x16/edit-find.png")), tr("Search"), menuEdit);
     actionSearch->setShortcut(QKeySequence::Find);
-    connect(actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
+    connect(actionSearch, SIGNAL(triggered()), m_searchManager, SLOT(showSearchDialog()));
 
     //Find Next
     QAction *actionFindNext = new QAction(QIcon::fromTheme("go-down-search", QIcon(":/icons/16x16/go-down-search.png")), tr("Find Next"), menuEdit);
-    connect(actionFindNext, SIGNAL(triggered()), this, SLOT(nextVerse()));
+    connect(actionFindNext, SIGNAL(triggered()), m_searchManager, SLOT(nextVerse()));
     actionFindNext->setShortcut(QKeySequence::FindNext);
 
     //Find Previous
     QAction *actionFindPrevious = new QAction(QIcon::fromTheme("go-up-search", QIcon(":/icons/16x16/go-up-search.png")), tr("Find Previous"), menuEdit);
-    connect(actionFindPrevious, SIGNAL(triggered()), this, SLOT(previousVerse()));
+    connect(actionFindPrevious, SIGNAL(triggered()), m_searchManager, SLOT(previousVerse()));
     actionFindPrevious->setShortcut(QKeySequence::FindPrevious);
 
     //Next Chapter
@@ -733,7 +567,7 @@ void AdvancedInterface::createToolBars()
     m_mainBar->setWindowTitle(tr("Main Tool Bar"));
 
     m_mainBarActionSearch = new QAction(QIcon::fromTheme("edit-find", QIcon(":/icons/16x16/edit-find.png")), tr("Search"), m_mainBar);
-    connect(m_mainBarActionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
+    connect(m_mainBarActionSearch, SIGNAL(triggered()), m_searchManager, SLOT(showSearchDialog()));
 
     m_mainBarActionBookmarks = new QAction(QIcon::fromTheme("bookmarks-organize", QIcon(":/icons/16x16/bookmarks-organize.png")), tr("Bookmarks"), m_mainBar);
     connect(m_mainBarActionBookmarks, SIGNAL(triggered()), this, SLOT(showBookmarksDock()));
@@ -777,7 +611,7 @@ void AdvancedInterface::createToolBars()
     QLineEdit *edit = new QLineEdit(m_searchBar);
     edit->setObjectName("lineEdit");
 
-    connect(edit, SIGNAL(returnPressed()), this, SLOT(search()));
+    connect(edit, SIGNAL(returnPressed()), m_searchManager, SLOT(search()));
     m_searchBar->addWidget(edit);
 }
 
