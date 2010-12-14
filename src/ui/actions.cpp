@@ -69,3 +69,12 @@ void Actions::setCurrentModule(const int &moduleID)
 {
     emit _setCurrentModule(moduleID);
 }
+void Actions::setTabbedView()
+{
+    emit _setTabbedView();
+}
+
+void Actions::setSubWindowView()
+{
+    emit _setSubWindowView();
+}

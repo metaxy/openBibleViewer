@@ -95,6 +95,8 @@ void AdvancedInterface::init()
     if(m_settings->session.getData("windowUrls").toStringList().size() == 0)
         QTimer::singleShot(10, m_windowManager, SLOT(newSubWindow()));
     connect(m_actions, SIGNAL(_setTitle(QString)), this , SLOT(setTitle(QString)));
+    connect(m_actions,SIGNAL(_setTabbedView()), this, SLOT(setTabbedView()));
+    connect(m_actions,SIGNAL(_setSubWindowView()), this,SLOT(setSubWindowView()));
 }
 void AdvancedInterface::createDocks()
 {
@@ -105,7 +107,6 @@ void AdvancedInterface::createDocks()
     setAll(m_bookmarksDockWidget);
     m_bookmarksDockWidget->init();
     m_bookmarksDockWidget->hide();
-    connect(m_bookmarksDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
     m_dictionaryDockWidget = new DictionaryDockWidget(this->parentWidget());
     setAll(m_dictionaryDockWidget);
@@ -541,12 +542,12 @@ QMenuBar* AdvancedInterface::menuBar()
 
     //Next Chapter
     QAction *actionNextChapter = new QAction(QIcon(""), tr("Next Chapter"), menuEdit);
-    connect(actionNextChapter, SIGNAL(triggered()), this, SLOT(nextChapter()));
+    connect(actionNextChapter, SIGNAL(triggered()), m_bibleManager, SLOT(nextChapter()));
     actionNextChapter->setShortcut(QKeySequence::MoveToNextPage);
 
     //Prev Chapter
     QAction *actionPrevChapter = new QAction(QIcon(""), tr("Previous Chapter"), menuEdit);
-    connect(actionPrevChapter, SIGNAL(triggered()), this, SLOT(previousChapter()));
+    connect(actionPrevChapter, SIGNAL(triggered()), m_bibleManager, SLOT(previousChapter()));
     actionPrevChapter->setShortcut(QKeySequence::MoveToPreviousPage);
 
     //Config
@@ -570,23 +571,23 @@ QMenuBar* AdvancedInterface::menuBar()
 
     //Zoom In
     QAction *actionZoomIn = new QAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/16x16/zoom-in.png")), tr("Zoom In"), menuView);
-    connect(actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
+    connect(actionZoomIn, SIGNAL(triggered()), m_windowManager, SLOT(zoomIn()));
     actionZoomIn->setShortcut(QKeySequence::ZoomIn);
 
     //Zoom Out
     QAction *actionZoomOut = new QAction(QIcon::fromTheme("zoom-out", QIcon(":/icons/16x16/zoom-out.png")), tr("Zoom Out"), menuView);
     actionZoomOut->setShortcut(QKeySequence::ZoomOut);
-    connect(actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
+    connect(actionZoomOut, SIGNAL(triggered()), m_windowManager, SLOT(zoomOut()));
 
     //TabView
-    m_actionTabView = new QAction(QIcon(), tr("Tabbed View"), menuView);
-    m_actionTabView->setCheckable(true);
-    connect(m_actionTabView, SIGNAL(triggered()), m_windowManager, SLOT(setTabView()));
+    m_actionTabbedView = new QAction(QIcon(), tr("Tabbed View"), menuView);
+    m_actionTabbedView->setCheckable(true);
+    connect(m_actionTabbedView, SIGNAL(triggered()), m_actions, SLOT(setTabbedView()));
 
     //SubWindowView
     m_actionSubWindowView = new QAction(QIcon(), tr("Sub Window View"), menuView);
     m_actionSubWindowView->setCheckable(true);
-    connect(m_actionSubWindowView, SIGNAL(triggered()), m_windowManager, SLOT(setSubWindowView()));
+    connect(m_actionSubWindowView, SIGNAL(triggered()), m_actions, SLOT(setSubWindowView()));
 
     //Cascade
     QAction *actionCascade = new QAction(QIcon(":/icons/svg/cascade.svg"), tr("Cascade"), menuView);
@@ -609,7 +610,7 @@ QMenuBar* AdvancedInterface::menuBar()
     menuView->addAction(actionZoomIn);
     menuView->addAction(actionZoomOut);
     menuView->addSeparator();
-    menuView->addAction(m_actionTabView);
+    menuView->addAction(m_actionTabbedView);
     menuView->addAction(m_actionSubWindowView);
     menuView->addSeparator();
     menuView->addAction(actionCascade);
@@ -875,17 +876,15 @@ void AdvancedInterface::showNotesEditor()
     notesEditor->show();
 }
 
-void AdvancedInterface::setTabView()
+void AdvancedInterface::setTabbedView()
 {
-    ui->mdiArea->setViewMode(QMdiArea::TabbedView);
-    m_actionTabView->setChecked(true);
+    m_actionTabbedView->setChecked(true);
     m_actionSubWindowView->setChecked(false);
 }
 
 void AdvancedInterface::setSubWindowView()
 {
-    ui->mdiArea->setViewMode(QMdiArea::SubWindowView);
-    m_actionTabView->setChecked(false);
+    m_actionTabbedView->setChecked(false);
     m_actionSubWindowView->setChecked(true);
 }
 

@@ -147,7 +147,7 @@ int main(int argc, char *argv[])
     w.setTranslator(&myappTranslator, &qtTranslator);
     w.init(homeDataPath, settings);
 
-    w.showMaximized();
+    w.show();
     a.exec();
     return 0;
 }

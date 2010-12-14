@@ -44,6 +44,9 @@ signals:
     void _updateBooks(const QHash<int, QString> &books, QList<int> ids);
 
     void _setCurrentModule(const int &moduleID);
+
+    void _setTabbedView();
+    void _setSubWindowView();
 public slots:
     /**
       Show a chapter in current SubWindow.
@@ -66,6 +69,9 @@ public slots:
     void updateBooks(const QHash<int, QString> &books, QList<int> ids);
 
     void setCurrentModule(const int &moduleID);
+
+    void setTabbedView();
+    void setSubWindowView();
 
 };
 

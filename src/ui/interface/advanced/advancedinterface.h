@@ -68,7 +68,7 @@ private slots:
     void showMarkList();
     void showNotesEditor();
 
-    void setTabView();
+    void setTabbedView();
     void setSubWindowView();
     void setTitle(const QString &title);
 
@@ -100,7 +100,7 @@ private:
     BibleDisplaySettings *m_bibleDisplaySettings;
     Api *m_api;
     //Menu
-    QAction *m_actionTabView;
+    QAction *m_actionTabbedView;
     QAction *m_actionSubWindowView;
     void searchInText(SearchQuery query);
 

@@ -22,6 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtWebKit/QWebFrame>
 #include <QtWebKit/QWebElementCollection>
 #include <QtWebKit/QWebElement>
+#include <QtWebKit/QWebInspector>
 #include <QtCore/QDir>
 #include <QtGui/QFileDialog>
 #include <QtGui/QPrinter>
@@ -82,6 +83,7 @@ void BibleForm::init()
     connect(m_actions, SIGNAL(_setCurrentChapter(QSet<int>)), this, SLOT(forwardSetCurrentChapter(QSet<int>)));
 
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(forwardShowText(QString)));
+    connect(m_view, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
     createDefaultMenu();
 }
 void BibleForm::setApi(Api *api)
@@ -567,7 +569,7 @@ void BibleForm::createDefaultMenu()
     connect(m_actionNote, SIGNAL(triggered()), this , SLOT(newNoteWithLink()));
 }
 
-void BibleForm::showContextMenu(QContextMenuEvent* ev)
+void BibleForm::showContextMenu(QPoint p)
 {
     QMenu *contextMenu = new QMenu(this);
 
@@ -605,7 +607,7 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
     contextMenu->addAction(m_actionBookmark);
     contextMenu->addAction(m_actionNote);
     contextMenu->addAction(dbg);
-    contextMenu->exec(ev->globalPos());
+    contextMenu->exec(p);
 
 }
 
@@ -640,11 +642,11 @@ void BibleForm::copyWholeVerse(void)
 
 void BibleForm::debugger()
 {
-    //todo: reenable
-    /*getView()->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
+    //todo: maybe a memory leak
+    m_view->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
     QWebInspector *inspector = new QWebInspector(this);
-    inspector->setPage(getView()->page());
-    inspector->showNormal();*/
+    inspector->setPage(m_view->page());
+    inspector->showNormal();
 }
 
 void BibleForm::newColorMark()

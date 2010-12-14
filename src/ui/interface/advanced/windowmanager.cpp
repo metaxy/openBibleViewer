@@ -41,6 +41,8 @@ void WindowManager::setNotesManager(NotesManager *notesManager)
 void WindowManager::init()
 {
     connect(m_area, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
+    connect(m_actions,SIGNAL(_setTabbedView()), this, SLOT(setTabbedView()));
+    connect(m_actions,SIGNAL(_setSubWindowView()), this,SLOT(setSubWindowView()));
 }
 
 void WindowManager::newSubWindow(bool doAutoLayout)
@@ -69,7 +71,6 @@ void WindowManager::newSubWindow(bool doAutoLayout)
 
     widget->setLayout(layout);
     QMdiSubWindow *subWindow = m_area->addSubWindow(widget);
-    //subWindow->setObjectName(QString::number(windowName)); //todo:
     subWindow->setWindowIcon(QIcon(":/icons/16x16/main.png"));
     subWindow->setWindowOpacity(1.0);
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
@@ -371,4 +372,12 @@ void WindowManager::disable()
 void WindowManager::enable()
 {
     m_enableReload = true;
+}
+void WindowManager::setSubWindowView()
+{
+    m_area->setViewMode(QMdiArea::SubWindowView);
+}
+void WindowManager::setTabbedView()
+{
+    m_area->setViewMode(QMdiArea::TabbedView);
 }

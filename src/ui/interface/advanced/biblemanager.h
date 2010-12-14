@@ -32,9 +32,6 @@ public:
     void setWidget(QWidget *p);
     void createDocks();
     QHash<DockWidget *, Qt::DockWidgetArea> docks();
-
-    //todo:
-
     bool loadModuleDataByID(const int &id);
     void readBookByID(const int &id);
     void showChapter(const int &chapterID, const int &verseID);
