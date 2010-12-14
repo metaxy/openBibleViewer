@@ -23,6 +23,7 @@ void BibleManager::createDocks()
 
     m_bookDockWidget = new BookDockWidget(m_p);
     setAll(m_bookDockWidget);
+    m_bookDockWidget->init();
     m_bookDockWidget->hide();
 
     m_advancedSearchResultDockWidget = new AdvancedSearchResultDockWidget(m_p);

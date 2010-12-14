@@ -36,7 +36,11 @@ BookDockWidget::BookDockWidget(QWidget *parent) :
     ui->listView_books->setSelectionModel(m_bookSelection);
     ui->listView_chapters->setSelectionModel(m_chapterSelection);
 }
-
+void BookDockWidget::init()
+{
+    connect(m_actions,SIGNAL(_setCurrentBook(QSet<int>)), this, SLOT(setCurrentBook(QSet<int>)));
+    connect(m_actions, SIGNAL(_setCurrentChapter(QSet<int>)), this, SLOT(setCurrentChapter(QSet<int>)));
+}
 BookDockWidget::~BookDockWidget()
 {
     delete ui;
@@ -114,6 +118,46 @@ void BookDockWidget::setCurrentChapter(const int &chapterID)
         m_chapterSelection->clearSelection();
         m_chapterSelection->setCurrentIndex(list.at(0), QItemSelectionModel::Select);
         ui->listView_chapters->scrollTo(list.at(0), QAbstractItemView::EnsureVisible);
+    }
+}
+
+void BookDockWidget::setCurrentBook(const QSet<int> &bookID)
+{
+    DEBUG_FUNC_NAME
+    QModelIndexList sel;
+    foreach(int b, bookID) {
+        const QModelIndexList list = m_bookModel->match(m_bookModel->index(0, 0), Qt::UserRole + 1, b, 1, Qt::MatchExactly);
+        if(list.size() == 1) {
+                sel << list.at(0);
+        }
+    }
+    if(!sel.isEmpty())  {
+        m_bookSelection->clearSelection();
+        m_bookSelection->setCurrentIndex(sel.at(0), QItemSelectionModel::Select);
+        foreach(const QModelIndex &i, sel) {
+            m_bookSelection->select(i, QItemSelectionModel::Select);
+        }
+        ui->listView_books->scrollTo(sel.at(0), QAbstractItemView::EnsureVisible);
+    }
+
+}
+void BookDockWidget::setCurrentChapter(const QSet<int> &chapterID)
+{
+    DEBUG_FUNC_NAME
+    QModelIndexList sel;
+    foreach(int c, chapterID) {
+        const QModelIndexList list = m_chapterModel->match(m_chapterModel->index(0, 0), Qt::UserRole + 1, c, 1, Qt::MatchExactly);
+        if(list.size() == 1) {
+            sel << list.at(0);
+        }
+    }
+    if(!sel.isEmpty())  {
+        m_chapterSelection->clearSelection();
+        m_chapterSelection->setCurrentIndex(sel.at(0), QItemSelectionModel::Select);
+        foreach(const QModelIndex &i, sel) {
+            m_chapterSelection->select(i, QItemSelectionModel::Select);
+        }
+        ui->listView_chapters->scrollTo(sel.at(0), QAbstractItemView::EnsureVisible);
     }
 }
 void BookDockWidget::changeEvent(QEvent *e)

@@ -77,8 +77,9 @@ void BibleForm::init()
 
     connect(m_bibleManager, SIGNAL(updateChapters(QStringList)), this, SLOT(forwardSetChapters(QStringList)));
     connect(m_bibleManager, SIGNAL(updateBooks(QHash<int, QString>, QList<int>)), this, SLOT(forwardSetBooks(QHash<int, QString>, QList<int>)));
-    connect(m_bibleManager, SIGNAL(setCurrentBook(int)), this, SLOT(forwardSetCurrentBook(int)));
-    connect(m_bibleManager, SIGNAL(setCurrentChapter(int)), this, SLOT(forwardSetCurrentChapter(int)));
+
+    connect(m_actions, SIGNAL(_setCurrentBook(QSet<int>)), this, SLOT(forwardSetCurrentBook(QSet<int>)));
+    connect(m_actions, SIGNAL(_setCurrentChapter(QSet<int>)), this, SLOT(forwardSetCurrentChapter(QSet<int>)));
 
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(forwardShowText(QString)));
     createDefaultMenu();
@@ -229,11 +230,16 @@ void BibleForm::clearChapters()
     DEBUG_FUNC_NAME
     m_ui->comboBox_chapters->clear();
 }
-void BibleForm::setCurrentChapter(const int &chapterID)
+void BibleForm::setCurrentChapter(const QSet<int> &chapterID)
 {
     DEBUG_FUNC_NAME
     disconnect(m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
-    m_ui->comboBox_chapters->setCurrentIndex(chapterID);
+    int min = -1;
+    foreach(int c, chapterID) {
+        if(c < min || min == -1)
+            min = c;
+    }
+    m_ui->comboBox_chapters->setCurrentIndex(min);
     connect(m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
 }
 
@@ -267,12 +273,17 @@ void BibleForm::clearBooks()
     DEBUG_FUNC_NAME
     m_ui->comboBox_books->clear();
 }
-void BibleForm::setCurrentBook(const int &bookID)
+void BibleForm::setCurrentBook(const QSet<int> &bookID)
 {
     DEBUG_FUNC_NAME
     //todo: is there a better way then disconnect and connect?
     disconnect(m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
-    m_ui->comboBox_books->setCurrentIndex(m_moduleManager->bible()->bookIDs().indexOf(bookID));
+    int min = -1;
+    foreach(int b, bookID) {
+        if(b < min || min == -1)
+            min = b;
+    }
+    m_ui->comboBox_books->setCurrentIndex(m_moduleManager->bible()->bookIDs().indexOf(min));
     connect(m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
 }
 void BibleForm::activated()
@@ -301,11 +312,11 @@ void BibleForm::activated()
     //setTitle(m_moduleManager->bible()->bibleTitle());
     //m_moduleDockWidget->loadedModule(m_moduleManager->bible()->moduleID()); //todo:
 
-    setChapters(m_moduleManager->bible()->chapterNames());
+    /*setChapters(m_moduleManager->bible()->chapterNames());
     setCurrentChapter(m_moduleManager->bible()->chapterID());
 
     setBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
-    setCurrentBook(m_moduleManager->bible()->bookID());
+    setCurrentBook(m_moduleManager->bible()->bookID());*/
 }
 
 void BibleForm::changeEvent(QEvent *e)
@@ -466,14 +477,14 @@ void BibleForm::forwardClearChapters()
     clearChapters();
 }
 
-void BibleForm::forwardSetCurrentBook(const int &bookID)
+void BibleForm::forwardSetCurrentBook(const QSet<int> &bookID)
 {
     if(!active())
         return;
     setCurrentBook(bookID);
 }
 
-void BibleForm::forwardSetCurrentChapter(const int &chapterID)
+void BibleForm::forwardSetCurrentChapter(const QSet<int> &chapterID)
 {
     if(!active())
         return;

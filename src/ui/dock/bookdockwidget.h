@@ -31,14 +31,18 @@ class BookDockWidget : public DockWidget
 private slots:
     void readBook(QModelIndex index);
     void readChapter(QModelIndex index);
+    void setCurrentBook(const QSet<int> &bookID);
+    void setCurrentChapter(const QSet<int> &chapterID);
 
 public:
     BookDockWidget(QWidget *parent = 0);
     ~BookDockWidget();
+    void init();
     void setChapters(const QStringList &chapters);
     void setBooks(const QHash<int, QString> &books);
     void setCurrentBook(const int &bookID);
     void setCurrentChapter(const int &chapterID);
+
     void clearBooks();
     void clearChapters();
 

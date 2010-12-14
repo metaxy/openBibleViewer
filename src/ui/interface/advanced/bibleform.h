@@ -74,8 +74,8 @@ public slots:
     void clearBooks();
     void clearChapters();
 
-    void setCurrentBook(const int &bookID);
-    void setCurrentChapter(const int &chapterID);
+    void setCurrentBook(const QSet<int> &bookID);
+    void setCurrentChapter(const QSet<int> &chapterID);
 
     void forwardSetChapters(const QStringList &chapters);
     void forwardSetBooks(const QHash<int, QString> &books, QList<int> ids);
@@ -83,8 +83,9 @@ public slots:
     void forwardClearBooks();
     void forwardClearChapters();
 
-    void forwardSetCurrentBook(const int &bookID);
-    void forwardSetCurrentChapter(const int &chapterID);
+    void forwardSetCurrentBook(const QSet<int> &bookID);
+    void forwardSetCurrentChapter(const QSet<int> &chapterID);
+
     void forwardShowText(const QString &text);
 
     void activated();

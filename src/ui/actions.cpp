@@ -1,5 +1,5 @@
 #include "actions.h"
-
+#include "src/core/dbghelper.h"
 Actions::Actions(QObject *parent) :
     QObject(parent)
 {
@@ -26,10 +26,12 @@ void Actions::showNote(const QString &noteID)
 }
 void Actions::setCurrentBook(const QSet<int> &bookID)
 {
+    DEBUG_FUNC_NAME
     emit _setCurrentBook(bookID);
 }
 void Actions::setCurrentChapter(const QSet<int> &chapterID)
 {
+    DEBUG_FUNC_NAME
     emit _setCurrentChapter(chapterID);
 }
 void Actions::reloadActiveBible()
