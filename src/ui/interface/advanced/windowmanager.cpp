@@ -70,6 +70,7 @@ void WindowManager::newSubWindow(bool doAutoLayout)
     bibleForm->setNotesManager(m_notesManager);
     bibleForm->init();
 
+    *m_currentWindowID = bibleForm->id();
     layout->addWidget(bibleForm);
 
     widget->setLayout(layout);

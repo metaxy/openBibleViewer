@@ -37,7 +37,6 @@ QHash<DockWidget*, Qt::DockWidgetArea> NotesManager::docks()
     QHash<DockWidget *, Qt::DockWidgetArea> ret;
     ret.insert(m_notesDockWidget, Qt::RightDockWidgetArea);
     return ret;
-
 }
 
 void NotesManager::newCustomColorMark(VerseSelection selection, QColor color)
