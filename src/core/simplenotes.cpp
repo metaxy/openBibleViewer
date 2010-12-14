@@ -95,7 +95,7 @@ void SimpleNotes::init()
 
 
     connect(m_pushButton_link, SIGNAL(clicked()), this, SLOT(editNoteLink()));
-    connect(m_label_link, SIGNAL(linkActivated(QString)), m_bibleDisplay, SIGNAL(get(QString)));
+    connect(m_label_link, SIGNAL(linkActivated(QString)), m_actions, SLOT(get(QString)));
 
     if(!m_notes->isLoaded()) {
         m_notes->init(m_settings->homePath + "notes.xml");

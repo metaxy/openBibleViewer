@@ -91,6 +91,7 @@ void AdvancedInterface::init()
     m_windowManager->setApi(m_api);
     m_windowManager->setBibleManager(m_bibleManager);
     m_windowManager->setNotesManager(m_notesManager);
+    m_windowManager->init();
 
     if(m_settings->session.getData("windowUrls").toStringList().size() == 0)
         QTimer::singleShot(10, m_windowManager, SLOT(newSubWindow()));
@@ -644,6 +645,7 @@ QMenuBar* AdvancedInterface::menuBar()
 
     QAction *actionModule = new QAction(tr("Module"), menuDocks);
     actionModule->setCheckable(true);
+    //todo: show docks
     //connect(m_moduleDockWidget, SIGNAL(visibilityChanged(bool)), actionModule, SLOT(setChecked(bool)));
     //connect(actionModule, SIGNAL(triggered(bool)), m_moduleDockWidget, SLOT(setVisible(bool)));
     actionModule->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_M));

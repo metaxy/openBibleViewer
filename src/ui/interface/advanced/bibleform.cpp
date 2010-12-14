@@ -83,7 +83,8 @@ void BibleForm::init()
     connect(m_actions, SIGNAL(_setCurrentChapter(QSet<int>)), this, SLOT(forwardSetCurrentChapter(QSet<int>)));
 
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(forwardShowText(QString)));
-    connect(m_view, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
+
+    connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     createDefaultMenu();
 }
 void BibleForm::setApi(Api *api)
@@ -569,8 +570,9 @@ void BibleForm::createDefaultMenu()
     connect(m_actionNote, SIGNAL(triggered()), this , SLOT(newNoteWithLink()));
 }
 
-void BibleForm::showContextMenu(QPoint p)
+void BibleForm::showContextMenu(QContextMenuEvent* ev)
 {
+    DEBUG_FUNC_NAME
     QMenu *contextMenu = new QMenu(this);
 
     QAction *actionCopyWholeVerse = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Verse"), contextMenu);
@@ -607,7 +609,7 @@ void BibleForm::showContextMenu(QPoint p)
     contextMenu->addAction(m_actionBookmark);
     contextMenu->addAction(m_actionNote);
     contextMenu->addAction(dbg);
-    contextMenu->exec(p);
+    contextMenu->exec(ev->globalPos());
 
 }
 

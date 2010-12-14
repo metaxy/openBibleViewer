@@ -41,8 +41,8 @@ void WindowManager::setNotesManager(NotesManager *notesManager)
 void WindowManager::init()
 {
     connect(m_area, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
-    connect(m_actions,SIGNAL(_setTabbedView()), this, SLOT(setTabbedView()));
-    connect(m_actions,SIGNAL(_setSubWindowView()), this,SLOT(setSubWindowView()));
+    connect(m_actions, SIGNAL(_setTabbedView()), this, SLOT(setTabbedView()));
+    connect(m_actions, SIGNAL(_setSubWindowView()), this,SLOT(setSubWindowView()));
 }
 
 void WindowManager::newSubWindow(bool doAutoLayout)
@@ -92,8 +92,7 @@ void WindowManager::newSubWindow(bool doAutoLayout)
         }
     }
 
-    connect(bibleForm->m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
-    connect(bibleForm->m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
+    connect(bibleForm->m_view->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
 
     bibleForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
     bibleForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
@@ -105,9 +104,9 @@ void WindowManager::newSubWindow(bool doAutoLayout)
     bibleForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
 #endif
 
-    connect(bibleForm, SIGNAL(historyGo(QString)), this, SLOT(pharseUrl(QString)));
-    connect(bibleForm, SIGNAL(previousChapter()), this, SLOT(previousChapter()));
-    connect(bibleForm, SIGNAL(nextChapter()), this, SLOT(nextChapter()));
+    connect(bibleForm, SIGNAL(historyGo(QString)), m_actions, SLOT(get(QString)));
+    connect(bibleForm, SIGNAL(previousChapter()), m_actions, SLOT(previousChapter()));
+    connect(bibleForm, SIGNAL(nextChapter()), m_actions, SLOT(nextChapter()));
     connect(this, SIGNAL(historySetUrl(QString)), bibleForm, SLOT(historyGetUrl(QString)));
     connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closingWindow()));
 

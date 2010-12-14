@@ -102,7 +102,7 @@ public slots:
     void copy();
     void selectAll();
 
-    void showContextMenu(QPoint p);
+    void showContextMenu(QContextMenuEvent* ev);
     void copyWholeVerse();
     void debugger();
     void newColorMark();
