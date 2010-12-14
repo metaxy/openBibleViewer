@@ -40,6 +40,7 @@ public:
     explicit BibleForm(QWidget *parent = 0);
     virtual ~BibleForm();
     void setID(const int &id);
+    int id();
     void init();
     void setApi(Api *api);
     void setBibleManager(BibleManager *bibleManager);
@@ -51,6 +52,8 @@ public:
     BibleList *m_bibleList;
 
     VerseSelection verseSelection();//todo:
+
+    int *currentWindowID;
 private slots:
     void showBibleListMenu();
     void readBook(int id);

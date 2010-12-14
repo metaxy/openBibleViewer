@@ -63,6 +63,7 @@ public slots:
     void restore();
 
 
+
 private:
     int m_nameCounter;
     QMdiArea *m_area;//not in our control
@@ -77,6 +78,7 @@ private:
 
     BibleManager *m_bibleManager;
     NotesManager *m_notesManager;
+    int *m_currentWindowID;
 
 };
 

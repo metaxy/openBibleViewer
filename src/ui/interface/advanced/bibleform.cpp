@@ -31,6 +31,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QTextDocument>
 #include <QtGui/QClipboard>
 #include <QtGui/QColorDialog>
+#include <QtGui/QMdiArea>
+#include <QtGui/QMdiSubWindow>
 #include "src/core/core.h"
 #include "src/core/bible/bibleurl.h"
 BibleForm::BibleForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::BibleForm)
@@ -506,7 +508,27 @@ void BibleForm::forwardShowText(const QString &text)
 }
 bool BibleForm::active()
 {
-    return true;
+    DEBUG_FUNC_NAME
+   /* QMdiArea *area = (QMdiArea*) this->parentWidget()->parentWidget();
+    if(area) {
+        QMdiSubWindow *window = area->activeSubWindow();
+        myDebug() << "area = "<< area;
+        myDebug() << "window = " << window;
+        myDebug() << "mdiForm = " << window->widget()->findChild<BibleForm *>("mdiForm");
+        myDebug() << "this = " << this;
+        if(window && window->widget()->findChild<BibleForm *>("mdiForm") == this)
+            return true;
+    }
+*/
+
+    if(*currentWindowID == m_id)
+        return true;
+    myDebug() << "returns false";
+    return false;
+}
+int BibleForm::id()
+{
+    return m_id;
 }
 
 void BibleForm::createDefaultMenu()

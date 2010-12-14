@@ -47,6 +47,8 @@ void AdvancedSearchResultDockWidget::init()
 }
 void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
 {
+    DEBUG_FUNC_NAME
+
     m_itemModel->clear();
     m_searchResult = searchResult;
     ui->label_searchInfo->setText(tr("Search: %1").arg(searchResult.searchQuery.searchText));

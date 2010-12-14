@@ -697,13 +697,16 @@ TextRanges Bible::readRanges(const Ranges &ranges)
   */
 void Bible::search(SearchQuery query, SearchResult *result)
 {
-    /*if(!m_loaded)
+    DEBUG_FUNC_NAME
+    if(!m_loaded)
         return;
     m_lastSearchQuery = query;
     if(!m_bibleModule->hasIndex())
         m_bibleModule->buildIndex();
-    m_bibleModule->search(query, result);*/
+    m_bibleModule->search(query, result);
     m_lastSearchQuery = query;
+    myDebug() << "hits.size() = " << result->hits().size();
+    /*
     switch(m_moduleType) {
     case Module::BibleQuoteModule: {
         if(!m_bibleModule->hasIndex())
@@ -715,11 +718,12 @@ void Bible::search(SearchQuery query, SearchResult *result)
         if(!m_bibleModule->hasIndex())
             m_bibleModule->buildIndex();
         m_bibleModule->search(query, result);
+
         break;
     }
     default:
         break;
-    }
+    }*/
 }
 
 QStringList Bible::getSearchPaths()

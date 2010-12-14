@@ -19,6 +19,7 @@ WindowManager::WindowManager(QObject *parent) :
     QObject(parent)
 {
     m_nameCounter = 0;
+    m_currentWindowID = new int;
 }
 void WindowManager::setMdiArea(QMdiArea *area)
 {
@@ -43,6 +44,7 @@ void WindowManager::init()
     connect(m_area, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
     connect(m_actions, SIGNAL(_setTabbedView()), this, SLOT(setTabbedView()));
     connect(m_actions, SIGNAL(_setSubWindowView()), this,SLOT(setSubWindowView()));
+    connect(m_area, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
 }
 
 void WindowManager::newSubWindow(bool doAutoLayout)
@@ -61,6 +63,7 @@ void WindowManager::newSubWindow(bool doAutoLayout)
     BibleForm *bibleForm = new BibleForm(widget);
     bibleForm->setID(m_nameCounter);
     bibleForm->setObjectName("mdiForm");
+    bibleForm->currentWindowID = m_currentWindowID;
     setAll(bibleForm);
     bibleForm->setApi(m_api);
     bibleForm->setBibleManager(m_bibleManager);
@@ -327,8 +330,8 @@ int WindowManager::reloadWindow(QMdiSubWindow * window)
         return 1;
     }
     activeForm()->activated();
-
-
+    *m_currentWindowID = activeForm()->id();
+    myDebug() << "currentWindowID = " << *m_currentWindowID;
     return 0;
 }
 void WindowManager::mdiAreaResized()
@@ -340,11 +343,11 @@ void WindowManager::mdiAreaResized()
 }
 void WindowManager::reloadActive()
 {
-    if(!m_enableReload)
-        DEBUG_FUNC_NAME
-        //setEnableReload(true);
-        reloadWindow(m_area->currentSubWindow());
-    //setEnableReload(false);
+    DEBUG_FUNC_NAME;
+     //force
+    /*if(!m_enableReload)
+        return;*/
+    reloadWindow(activeMdiChild());
 }
 
 void WindowManager::setEnableReload(bool enable)
