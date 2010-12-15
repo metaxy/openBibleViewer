@@ -34,6 +34,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMdiArea>
 #include <QtGui/QMdiSubWindow>
 #include <QtGui/QPrintPreviewDialog>
+#include <QtGui/QTextDocumentWriter>
 #include "src/core/core.h"
 #include "src/core/bible/bibleurl.h"
 BibleForm::BibleForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::BibleForm)
@@ -423,11 +424,11 @@ void BibleForm::saveFile()
     QFileDialog dialog(this);
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     const QString lastPlace = m_settings->session.getData("lastSaveFilePlace").toString();
-    const QString fileName = dialog.getSaveFileName(this, tr("Save output"), lastPlace, tr("Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)"));
+    const QString fileName = dialog.getSaveFileName(this, tr("Save output"), lastPlace, tr("Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Plain (*.txt)"));
     QFileInfo fi(fileName);
     m_settings->session.setData("lastSaveFilePlace", fi.path());
     if(fi.suffix().compare("html", Qt::CaseInsensitive) == 0 ||
-            fi.suffix().compare("htm", Qt::CaseInsensitive) == 0) {
+       fi.suffix().compare("htm", Qt::CaseInsensitive) == 0) {
         QFile file(fileName);
         if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
             return;
@@ -439,7 +440,13 @@ void BibleForm::saveFile()
         printer.setOutputFormat(QPrinter::PdfFormat);
         printer.setOutputFileName(fileName);
         m_view->print(&printer);
-
+    } else if(fi.suffix().compare("odt", Qt::CaseInsensitive) == 0) {
+        QTextDocumentWriter writer;
+        writer.setFormat("odf");
+        writer.setFileName(fileName);
+        QTextDocument doc;
+        doc.setHtml(m_view->page()->mainFrame()->toHtml());
+        writer.write(&doc);
     } else {
         QFile file(fileName);
         if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
