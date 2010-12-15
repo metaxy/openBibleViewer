@@ -428,7 +428,7 @@ void BibleForm::saveFile()
     QFileInfo fi(fileName);
     m_settings->session.setData("lastSaveFilePlace", fi.path());
     if(fi.suffix().compare("html", Qt::CaseInsensitive) == 0 ||
-       fi.suffix().compare("htm", Qt::CaseInsensitive) == 0) {
+            fi.suffix().compare("htm", Qt::CaseInsensitive) == 0) {
         QFile file(fileName);
         if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
             return;
@@ -474,7 +474,7 @@ void BibleForm::selectAll()
 void BibleForm::forwardSetChapters(const QStringList &chapters)
 {
     //DEBUG_FUNC_NAME
-   // myDebug() << "chapters = " << chapters;
+    // myDebug() << "chapters = " << chapters;
     if(!active())
         return;
     setChapters(chapters);

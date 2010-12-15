@@ -59,7 +59,7 @@ void WindowSessionData::read()
     //DEBUG_FUNC_NAME
     for(int i = 0; i < propSize(); ++i) {
         QList<QVariant> list = m_settings->session.getData(getPropName(i)).toList();
-        myDebug() << "name = " << getPropName(i) << "list = " << list;
+        //myDebug() << "name = " << getPropName(i) << "list = " << list;
         QMap<int, QVariant> *d = propToPointer(i);
         for(int j = 0; j < list.size(); j++) {
             d->insert(j, list.at(j));
@@ -75,8 +75,8 @@ void WindowSessionData::write()
         foreach(QVariant v, d) {
             list << v;
         }
-         myDebug() << "name = " << getPropName(i) << "list = " <<list;
-        m_settings->session.setData(getPropName(i),list);
+        //myDebug() << "name = " << getPropName(i) << "list = " << list;
+        m_settings->session.setData(getPropName(i), list);
     }
 }
 
@@ -122,7 +122,7 @@ void WindowSessionData::setZoom(qreal zoom, const int &windowID)
 
 void WindowSessionData::setGeo(const QRect &rect)
 {
-    setGeo(rect,m_windowID);
+    setGeo(rect, m_windowID);
 }
 
 void WindowSessionData::setGeo(const QRect &rect, const int &windowID)
