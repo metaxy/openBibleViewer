@@ -21,6 +21,16 @@ void Actions::showChapter(const int &moduleID, const int &bookID, const int &cha
 {
     emit _showChapter(moduleID, bookID, chapterID);
 }
+void Actions::previousChapter()
+{
+    emit _previousChapter();
+}
+
+void Actions::nextChapter()
+{
+    emit _nextChapter();
+}
+
 void Actions::get(const QString &url)
 {
     emit _get(url);

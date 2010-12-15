@@ -16,12 +16,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QObject>
 #include <QtGui/QMdiArea>
+#include <QtWebKit/QWebView>
 #include "src/core/basicclass.h"
 #include "src/core/windowcache.h"
 #include "src/api/api.h"
 #include "bibleform.h"
 #include "mdiareafilter.h"
-#include <QWebView>
 class WindowManager : public QObject , public BasicClass
 {
     Q_OBJECT
@@ -33,16 +33,13 @@ public:
     void setNotesManager(NotesManager *notesManager);
     void init();
     BibleForm *activeForm();
-    QMdiSubWindow *activeMdiChild();
-
-signals:
-
+    QMdiSubWindow *activeSubWindow();
 
 public slots:
-    void myCascade();
-    void myTileVertical();
-    void myTileHorizontal();
-    void myTile();
+    void cascade();
+    void tileVertical();
+    void tileHorizontal();
+    void tile();
 
     void newSubWindow(bool doAutoLayout = true);
     void closeSubWindow();

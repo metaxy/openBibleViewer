@@ -383,12 +383,12 @@ QMenuBar* AdvancedInterface::menuBar()
 
     //Next Chapter
     QAction *actionNextChapter = new QAction(QIcon(""), tr("Next Chapter"), menuEdit);
-    connect(actionNextChapter, SIGNAL(triggered()), m_bibleManager, SLOT(nextChapter()));
+    connect(actionNextChapter, SIGNAL(triggered()), m_actions, SLOT(nextChapter()));
     actionNextChapter->setShortcut(QKeySequence::MoveToNextPage);
 
     //Prev Chapter
     QAction *actionPrevChapter = new QAction(QIcon(""), tr("Previous Chapter"), menuEdit);
-    connect(actionPrevChapter, SIGNAL(triggered()), m_bibleManager, SLOT(previousChapter()));
+    connect(actionPrevChapter, SIGNAL(triggered()), m_actions, SLOT(previousChapter()));
     actionPrevChapter->setShortcut(QKeySequence::MoveToPreviousPage);
 
     //Config
@@ -432,19 +432,19 @@ QMenuBar* AdvancedInterface::menuBar()
 
     //Cascade
     QAction *actionCascade = new QAction(QIcon(":/icons/svg/cascade.svg"), tr("Cascade"), menuView);
-    connect(actionCascade, SIGNAL(triggered()), m_windowManager, SLOT(myCascade()));
+    connect(actionCascade, SIGNAL(triggered()), m_windowManager, SLOT(cascade()));
 
     //Tile
     QAction *actionTile = new QAction(QIcon(":/icons/svg/tile.svg"), tr("Tile"), menuView);
-    connect(actionTile, SIGNAL(triggered()), m_windowManager, SLOT(myTile()));
+    connect(actionTile, SIGNAL(triggered()), m_windowManager, SLOT(tile()));
 
     //Tile Vertical
     QAction *actionTileVertical = new QAction(QIcon(":/icons/svg/tile_vert.svg"), tr("Tile Vertical"), menuView);
-    connect(actionTileVertical, SIGNAL(triggered()), m_windowManager, SLOT(myTileVertical()));
+    connect(actionTileVertical, SIGNAL(triggered()), m_windowManager, SLOT(tileVertical()));
 
     //Tile Horizontal
     QAction *actionTileHorizontal = new QAction(QIcon(":/icons/svg/tile_horiz.svg"), tr("Tile Horizontal"), menuView);
-    connect(actionTileHorizontal, SIGNAL(triggered()), m_windowManager, SLOT(myTileHorizontal()));
+    connect(actionTileHorizontal, SIGNAL(triggered()), m_windowManager, SLOT(tileHorizontal()));
 
 
 

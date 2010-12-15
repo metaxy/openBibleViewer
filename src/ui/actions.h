@@ -26,6 +26,8 @@ public:
 
 signals:
     void _showChapter(const int &moduleID, const int &bookID, const int &chapterID);
+    void _previousChapter();
+    void _nextChapter();
     /**
       By default the Interface pharse all urls.
       */
@@ -52,6 +54,8 @@ public slots:
       Show a chapter in current SubWindow.
       */
     void showChapter(const int &moduleID, const int &bookID, const int &chapterID);
+    void previousChapter();
+    void nextChapter();
 
     void get(const QString &url);
     void get(const QUrl &url);
@@ -72,6 +76,7 @@ public slots:
 
     void setTabbedView();
     void setSubWindowView();
+
 
 };
 

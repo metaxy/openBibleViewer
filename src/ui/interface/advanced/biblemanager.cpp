@@ -27,6 +27,8 @@ void BibleManager::setWidget(QWidget *p)
 void BibleManager::init()
 {
     connect(m_actions, SIGNAL(_get(BibleUrl)), this, SLOT(pharseUrl(BibleUrl)));
+    connect(m_actions, SIGNAL(_previousChapter()), this, SLOT(previousChapter()));
+    connect(m_actions, SIGNAL(_nextChapter()), this, SLOT(nextChapter()));
 }
 void BibleManager::createDocks()
 {
