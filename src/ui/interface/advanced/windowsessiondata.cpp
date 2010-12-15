@@ -1,5 +1,5 @@
 #include "windowsessiondata.h"
-
+#include "src/core/dbghelper.h"
 WindowSessionData::WindowSessionData()
 {
 }
@@ -19,11 +19,11 @@ QMap<int, QVariant> WindowSessionData::getProp(const int &i) const
 QString WindowSessionData::getPropName(const int &i) const
 {
     if(i == 0)
-        return "geo";
+        return "windowGeo";
     else if(i == 1)
-        return "scrollPosition";
+        return "scrollPos";
     else if(i == 2)
-        return "url";
+        return "windowUrls";
     else if(i == 3)
         return "zoom";
     else
@@ -56,8 +56,10 @@ void WindowSessionData::clear()
 
 void WindowSessionData::read()
 {
+    DEBUG_FUNC_NAME
     for(int i = 0; i < propSize(); ++i) {
         QList<QVariant> list = m_settings->session.getData(getPropName(i)).toList();
+        myDebug() << "name = " << getPropName(i) << "list = " << list;
         QMap<int, QVariant> *d = propToPointer(i);
         for(int j = 0; j < list.size(); j++) {
             d->insert(j, list.at(j));
@@ -73,6 +75,7 @@ void WindowSessionData::write()
         foreach(QVariant v, d) {
             list << v;
         }
+         myDebug() << "name = " << getPropName(i) << "list = " <<list;
         m_settings->session.setData(getPropName(i),list);
     }
 }

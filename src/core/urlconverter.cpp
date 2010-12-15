@@ -40,12 +40,15 @@ QString UrlConverter::convert()
 {
     QString ret;
     //todo:
-    /*if(m_to == InterfaceUrl) {
+    if(m_to == InterfaceUrl) {
         BibleUrl url;
-        url.setBibleID(m_moduleID);
-        url.setBookID(m_bookID);
-        url.setChapterID(m_chapterID);
-        url.setVerseID(m_verseID);
+        BibleUrlRange range;
+        range.setBible(m_moduleID);
+        range.setStartBook(m_bookID);
+        range.setStartChapter(m_chapterID);
+        range.setWholeChapter();
+        range.setActiveVerse(m_verseID);
+        url.addRange(range);
         ret = url.toString();
     } else if(m_to == PersistentUrl) {
         if(!m_moduleMap->m_map.contains(m_moduleID)) {
@@ -57,7 +60,7 @@ QString UrlConverter::convert()
             ret += ";" + m_bookName;//check for invalid charatcers
         }
     } else if(m_to == BibleQuoteUrl) {
-    }*/
+    }
     return ret;
 }
 int UrlConverter::pharse()
@@ -65,26 +68,14 @@ int UrlConverter::pharse()
     //todo: this won't work
     QString bible = "bible://";
     if(m_from == InterfaceUrl) {
-        QString url = m_url;
-        if(url.startsWith(bible)) {
-            url = url.remove(0, bible.size());
-            QStringList a = url.split("/");
-            if(a.size() == 2) {
-                QStringList c = a.at(1).split(",");
-                m_moduleID = a.at(0).toInt();
-                if(c.size() >= 3) {
-                    m_bookID = c.at(0).toInt();
-                    m_chapterID = c.at(1).toInt();
-                    m_verseID = c.at(2).toInt();
-                } else {
-                    myWarning() << "invalid url " << url;
-                    return 1;
-                }
-            }
-        } else {
-            myWarning() << "invalid url = " << url << ", it must starts with bible://";
-            return 1;
-        }
+        //pharse with the help of BibleUrL
+        BibleUrl url;
+        url.fromString(m_url);
+        BibleUrlRange r = url.ranges().first();
+        m_bookID = r.startBookID();
+        m_chapterID = r.startChapterID();
+        m_verseID = r.activeVerseID();
+
     } else if(m_from == PersistentUrl) {
         QStringList list = m_url.split(";");
         if(list.size() < 4) {
