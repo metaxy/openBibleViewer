@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "windowmanager.h"
 #include "src/core/dbghelper.h"
 #include "bibleform.h"
+#include "windowsessiondata.h"
 #include <QtGui/QMdiSubWindow>
 WindowManager::WindowManager(QObject *parent) :
     QObject(parent)
@@ -44,7 +45,7 @@ void WindowManager::init()
     connect(m_area, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
     connect(m_actions, SIGNAL(_setTabbedView()), this, SLOT(setTabbedView()));
     connect(m_actions, SIGNAL(_setSubWindowView()), this, SLOT(setSubWindowView()));
-    connect(m_area, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
+    connect(m_actions, SIGNAL(_setTitle(QString)), this, SLOT(setTitle(QString)));
 }
 
 void WindowManager::newSubWindow(bool doAutoLayout)
@@ -279,14 +280,18 @@ QList<QMdiSubWindow*> WindowManager::usableWindowList()
     return  ret;
 }
 
-int WindowManager::currentWindowName()
+/*int WindowManager::currentWindowName()
 {
     if(m_area->activeSubWindow() != NULL) {
         return m_area->activeSubWindow()->objectName().toInt();
     }
     return -1;
-}
+}*/
 
+void WindowManager::setTitle(const QString &title)
+{
+    activeMdiChild()->setWindowTitle(title);
+}
 
 void WindowManager::closeSubWindow()
 {
@@ -381,105 +386,99 @@ void WindowManager::setTabbedView()
 {
     m_area->setViewMode(QMdiArea::TabbedView);
 }
+
 void WindowManager::save()
 {
-    /*
-        QStringList windowUrls;
-        QList<QVariant> windowGeo;
-        QList<QVariant> scrollPos;
-        QList<QVariant> zoom;
-        const int current = m_windowCache.currentWindowID();
-        for(int i = 0; i < ui->mdiArea->subWindowList().count(); i++) {
-            //todo:
-            m_windowCache.setCurrentWindowID(i);
-            BibleList *list = m_windowCache.getBibleList();
-            QString u = "";
-            if(m_windowCache.getBibleList() != 0) {
-                QHashIterator<int, Bible *> i(list->m_bibles);
-                while(i.hasNext()) {
-                    i.next();
-                    Bible *b = i.value();
-                    if(b != NULL && b->moduleID() >= 0) {
-                        UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
-                        urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-                        urlConverter.setSettings(m_settings);
-                        urlConverter.m_moduleID = b->moduleID();
-                        urlConverter.m_bookID = b->bookID();
-                        urlConverter.m_chapterID = b->chapterID();
-                        urlConverter.m_verseID = 0;
-                        const QString url = urlConverter.convert();
-                        const QPoint point = list->m_biblePoints.value(i.key());
-                        if(u.isEmpty())
-                            u += QString::number(point.x()) + ":" + QString::number(point.y()) + ":" + url;
-                        else
-                            u += "|" + QString::number(point.x()) + ":" + QString::number(point.y()) + ":" + url;
-                    }
+    WindowSessionData data;
+    data.setSettings(m_settings);
+    int current = 0;
+    QMdiSubWindow *currentSubWindow = activeMdiChild();
+    for(int i = 0, count = i < m_area->subWindowList().count(); i < count; i++) {
+        QMdiSubWindow *a = m_area->subWindowList().at(i);
+        data.setWindowID(i);
+        if(currentSubWindow == a)
+            current = i;
+        BibleForm *form = a->widget()->findChild<BibleForm *>("mdiForm");
+        BibleList *list = form->m_bibleList;
+        QString u = "";
+        if(list > 0) {
+            QHashIterator<int, Bible *> i(list->m_bibles);
+            while(i.hasNext()) {
+                i.next();
+                Bible *b = i.value();
+                if(b != NULL && b->moduleID() >= 0) {
+                    UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
+                    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+                    urlConverter.setSettings(m_settings);
+                    urlConverter.m_moduleID = b->moduleID();
+                    urlConverter.m_bookID = b->bookID();
+                    urlConverter.m_chapterID = b->chapterID();
+                    urlConverter.m_verseID = 0;
+                    const QString url = urlConverter.convert();
+                    const QPoint point = list->m_biblePoints.value(i.key());
+                    if(u.isEmpty())
+                        u += QString::number(point.x()) + ":" + QString::number(point.y()) + ":" + url;
+                    else
+                        u += "|" + QString::number(point.x()) + ":" + QString::number(point.y()) + ":" + url;
                 }
             }
-            windowUrls << u;
-            QWebView *v = getView();
-            windowGeo << ui->mdiArea->subWindowList().at(i)->geometry();
-            scrollPos << v->page()->mainFrame()->scrollPosition();
-            zoom << v->zoomFactor();
         }
-        m_settings->session.setData("windowUrls", windowUrls);
-        m_settings->session.setData("windowGeo", windowGeo);
-        m_settings->session.setData("scrollPos", scrollPos);
-        m_settings->session.setData("zoom", zoom);
-        m_settings->session.setData("viewMode", ui->mdiArea->viewMode());
-        m_settings->session.setData("windowID", current);*/
+        data.setUrl(u);
+        data.setScrollPosition(form->m_view->page()->mainFrame()->scrollPosition());
+        data.setZoom(form->m_view->zoomFactor());
+        data.setGeo(a->geometry());
+    }
+    data.write();
+    m_settings->session.setData("viewMode", m_area->viewMode());
+    m_settings->session.setData("windowID", current);
 }
 void WindowManager::restore()
 {
-    /*
-       const QStringList windowUrls = m_settings->session.getData("windowUrls").toStringList();
-       const QVariantList windowGeo = m_settings->session.getData("windowGeo").toList();
-       const QVariantList scrollPos = m_settings->session.getData("scrollPos").toList();
-       const QVariantList zoom = m_settings->session.getData("zoom").toList();
+    WindowSessionData data;
+    data.setSettings(m_settings);
+    data.read();
+    for(int i = 0; i < data.size(); ++i) {
+        newSubWindow(true);
+        data.setWindowID(i);
+        //load bible
+        const QString url = data.url();
+        m_moduleManager->bibleList()->clear();
 
-       for(int i = 0; i < windowUrls.size(); ++i) {
-           m_windowManager->newSubWindow(true);
-           //load bible
-           QString url = windowUrls.at(i);
-           m_moduleManager->bibleList()->clear();
-           if(!url.isEmpty() && url.size() != 0) {
-               QStringList list = url.split("|");
-               foreach(QString part, list) {
-                   QStringList a = part.split(":");
-                   int x = a.at(0).toInt();
-                   int y = a.at(1).toInt();
-                   QString u = a.at(2);
-                   UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, u);
-                   urlConverter.setSettings(m_settings);
-                   urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-                   urlConverter.pharse();
-                   m_moduleManager->newBible(urlConverter.m_moduleID, QPoint(x, y));
-                   pharseUrl(urlConverter.convert() + ",force=true"); //todo: MOVE IT OUT
-               }
-           } else {
-               Bible *b = new Bible();
-               m_moduleManager->initBible(b);
-               m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
-           }
-           //set geometry
-           myDebug() << "new Window " << i << " url = " << url << "rect = " << windowGeo.at(i).toRect();
-           QWebView *v = getView();
-           activeMdiChild()->setGeometry(windowGeo.at(i).toRect());
-           v->page()->mainFrame()->setScrollPosition(scrollPos.at(i).toPoint());
-           if(zoom.size() != 0 && i < zoom.size() && zoom.at(i).toReal() > 0)
-               v->setZoomFactor(zoom.at(i).toReal());
-       }
-       const int viewMode = m_settings->session.getData("viewMode").toInt();
-       if(viewMode == 0)
-           setSubWindowView();
-       else
-           setTabView();
+        if(!url.isEmpty() && url.size() != 0) {
+            QStringList list = url.split("|");
+            foreach(QString part, list) {
+                QStringList a = part.split(":");
+                const int x = a.at(0).toInt();
+                const int y = a.at(1).toInt();
+                const QString u = a.at(2);
+                UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, u);
+                urlConverter.setSettings(m_settings);
+                urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+                urlConverter.pharse();
+                m_moduleManager->newBible(urlConverter.m_moduleID, QPoint(x, y));
 
-       const int id = m_settings->session.getData("windowID", -1).toInt();
-       //myDebug() << id << ui->mdiArea->subWindowList();
-       if(id < ui->mdiArea->subWindowList().size() && id > 0) {
-           ui->mdiArea->setActiveSubWindow(ui->mdiArea->subWindowList().at(id));
-       }*/
+                m_actions->get(urlConverter.convert() + ",force=true"); //todo: MOVE IT OUT
+            }
+        } else {
+            Bible *b = new Bible();
+            m_moduleManager->initBible(b);
+            m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
+        }
+        activeMdiChild()->setGeometry(data.geo());
+        QWebView *v = activeForm()->m_view;
+        v->page()->mainFrame()->setScrollPosition(data.scrollPosition());
+        v->setZoomFactor(data.zoom());
+    }
+    const int viewMode = m_settings->session.getData("viewMode").toInt();
+    if(viewMode == 0)
+        m_actions->setSubWindowView();
+    else
+        m_actions->setTabbedView();
+
+    const int id = m_settings->session.getData("windowID", -1).toInt();
+    if(id < m_area->subWindowList().size() && id > 0) {
+        m_area->setActiveSubWindow(m_area->subWindowList().at(id));
+    }
 }
 /*
  * Todo: Use it
@@ -491,3 +490,5 @@ void AdvancedInterface::installResizeFilter()
     connect(m_mdiAreaFilter, SIGNAL(resized()), this, SLOT(mdiAreaResized()));
     ui->mdiArea->installEventFilter(m_mdiAreaFilter);
 }*/
+
+

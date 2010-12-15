@@ -184,7 +184,7 @@ set ( openBibleViewer_HDRS
     src/module/biblequote-dict.h
     src/module/biblemodule.h
 
-
+    src/ui/interface/advanced/windowsessiondata.h
     )
 
 set ( openBibleViewer_SRCS
@@ -279,6 +279,7 @@ set ( openBibleViewer_SRCS
     src/ui/interface/advanced/notesmanager.cpp
     src/ui/interface/advanced/searchmanager.cpp
     src/ui/interface/advanced/advancedinterface.cpp
+    src/ui/interface/advanced/windowsessiondata.cpp
     src/ui/interface/study/studyinterface.cpp
     src/ui/interface/interface.cpp
 

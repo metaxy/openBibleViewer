@@ -61,7 +61,7 @@ public slots:
 
     void save();
     void restore();
-
+    void setTitle(const QString &title);
 
 
 private:
@@ -72,7 +72,7 @@ private:
     bool m_enableReload;
     void autoLayout();
     QList<QMdiSubWindow*> usableWindowList();
-    int currentWindowName();
+    /*int currentWindowName();*/
     int m_lastActiveWindow;
     void setEnableReload(bool enable);
 
