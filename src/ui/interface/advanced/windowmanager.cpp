@@ -302,7 +302,7 @@ int WindowManager::closingWindow()
 {
     if(!m_enableReload)
         return 1;
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     // myDebug() << "enable reload = " << m_enableReload << "subWIndowList = " << m_area->subWindowList() << "internalWindow " << m_internalWindows;
     if(m_area->subWindowList().isEmpty()) {
         //clearBooks();
@@ -324,7 +324,7 @@ int WindowManager::closingWindow()
 
 int WindowManager::reloadWindow(QMdiSubWindow * window)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     //myDebug() << " enable reload = " << m_enableReload;
     if(!m_enableReload || window == NULL) {
         return 1;
@@ -342,14 +342,14 @@ int WindowManager::reloadWindow(QMdiSubWindow * window)
 }
 void WindowManager::mdiAreaResized()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     //todo: really every do time autoLayout ?
     if(m_area->viewMode() == QMdiArea::SubWindowView)
         autoLayout();
 }
 void WindowManager::reloadActive()
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     reloadWindow(activeMdiChild());
 }
 

@@ -99,6 +99,7 @@ public slots:
 
     void evaluateJavaScript(const QString &js);
     void print();
+    void printPreview();
     void saveFile();
     QString selectedText();
 

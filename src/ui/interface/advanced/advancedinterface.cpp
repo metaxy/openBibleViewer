@@ -334,6 +334,11 @@ QMenuBar* AdvancedInterface::menuBar()
     QAction *actionPrint = new QAction(QIcon::fromTheme("document-print", QIcon(":/icons/16x16/document-print.png")), tr("Print"), menuFile);
     connect(actionPrint, SIGNAL(triggered()), this, SLOT(printFile()));
     actionPrint->setShortcut(QKeySequence::Print);
+    //Print
+
+    QAction *actionPrintPreview = new QAction(QIcon::fromTheme("document-print-preview", QIcon(":/icons/16x16/document-print-preview.png")), tr("Print Preview"), menuFile);
+    connect(actionPrintPreview, SIGNAL(triggered()), this, SLOT(printPreview()));
+    //actionPrint->setShortcut(QKeySequence::Pr);
 
     //Close
     QAction *actionClose = new QAction(QIcon::fromTheme("application-exit", QIcon(":/icons/16x16/application-exit.png")), tr("Quit"), menuFile);
@@ -345,6 +350,7 @@ QMenuBar* AdvancedInterface::menuBar()
     menuFile->addSeparator();
     menuFile->addAction(actionSaveAs);
     menuFile->addAction(actionPrint);
+    menuFile->addAction(actionPrintPreview);
     menuFile->addSeparator();
     menuFile->addAction(actionClose);
 
@@ -672,7 +678,12 @@ void AdvancedInterface::printFile(void)
         m_windowManager->activeForm()->print();
     }
 }
-
+void AdvancedInterface::printPreview(void)
+{
+    if(m_windowManager->activeForm()) {
+        m_windowManager->activeForm()->printPreview();
+    }
+}
 void AdvancedInterface::saveFile(void)
 {
     if(m_windowManager->activeForm()) {

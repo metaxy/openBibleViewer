@@ -52,6 +52,7 @@ private slots:
 
     void saveFile();
     void printFile();
+    void printPreview();
     void onlineHelp();
 
     void copy();

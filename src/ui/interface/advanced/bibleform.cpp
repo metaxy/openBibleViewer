@@ -33,6 +33,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QColorDialog>
 #include <QtGui/QMdiArea>
 #include <QtGui/QMdiSubWindow>
+#include <QtGui/QPrintPreviewDialog>
 #include "src/core/core.h"
 #include "src/core/bible/bibleurl.h"
 BibleForm::BibleForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::BibleForm)
@@ -69,7 +70,7 @@ void BibleForm::setID(const int &id)
 
 void BibleForm::init()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_moduleManager->m_bibleList = new BibleList();
     Bible *b = new Bible();
     m_moduleManager->initBible(b);
@@ -91,18 +92,18 @@ void BibleForm::init()
 }
 void BibleForm::setApi(Api *api)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_api = api;
 }
 void BibleForm::setBibleManager(BibleManager *bibleManager)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_bibleManager = bibleManager;
 }
 
 void BibleForm::setNotesManager(NotesManager *notesManager)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_notesManager = notesManager;
 }
 void BibleForm::attachApi()
@@ -213,7 +214,7 @@ void BibleForm::zoomOut()
 
 void BibleForm::setChapters(const QStringList &chapters)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     bool same = true;
     if(m_ui->comboBox_chapters->count() == chapters.count()) {
         for(int i = 0; i < chapters.count(); i++) {
@@ -232,12 +233,12 @@ void BibleForm::setChapters(const QStringList &chapters)
 
 void BibleForm::clearChapters()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_ui->comboBox_chapters->clear();
 }
 void BibleForm::setCurrentChapter(const QSet<int> &chapterID)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     disconnect(m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
     int min = -1;
     foreach(int c, chapterID) {
@@ -250,7 +251,7 @@ void BibleForm::setCurrentChapter(const QSet<int> &chapterID)
 
 void BibleForm::setBooks(const QHash<int, QString> &books, QList<int> ids)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     bool same = true;
     QHashIterator<int, QString> i(books);
     int count = 0;
@@ -275,12 +276,12 @@ void BibleForm::setBooks(const QHash<int, QString> &books, QList<int> ids)
 }
 void BibleForm::clearBooks()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_ui->comboBox_books->clear();
 }
 void BibleForm::setCurrentBook(const QSet<int> &bookID)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     //todo: is there a better way then disconnect and connect?
     disconnect(m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
     int min = -1;
@@ -293,7 +294,7 @@ void BibleForm::setCurrentBook(const QSet<int> &bookID)
 }
 void BibleForm::activated()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_api->bibleApi()->setFrame(m_view->page()->mainFrame());
     BibleList *list = m_bibleList;
     if(m_bibleList == NULL || m_bibleList->bible() == NULL) {
@@ -340,7 +341,7 @@ void BibleForm::changeEvent(QEvent *e)
 }
 void BibleForm::scrollToAnchor(const QString &anchor)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
 #if QT_VERSION >= 0x040700
     m_view->page()->mainFrame()->scrollToAnchor(anchor);
 #else
@@ -350,7 +351,7 @@ void BibleForm::scrollToAnchor(const QString &anchor)
 }
 void BibleForm::showText(const QString &text)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QString cssFile = m_settings->getModuleSettings(m_moduleManager->bible()->moduleID()).styleSheet;
     if(cssFile.isEmpty())
         cssFile = ":/data/css/default.css";
@@ -397,7 +398,7 @@ void BibleForm::showText(const QString &text)
 }
 void BibleForm::evaluateJavaScript(const QString &js)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_view->page()->mainFrame()->evaluateJavaScript(js);
 }
 void BibleForm::print()
@@ -407,8 +408,16 @@ void BibleForm::print()
     dialog->setWindowTitle(tr("Print"));
     if(dialog->exec() != QDialog::Accepted)
         return;
-    m_view->print(&printer);
+
 }
+void BibleForm::printPreview()
+{
+    QPrinter printer;
+    QPrintPreviewDialog preview(&printer, this);
+    connect(&preview, SIGNAL(paintRequested(QPrinter *)), m_view, SLOT(print(QPrinter *)));
+    preview.exec();
+}
+
 void BibleForm::saveFile()
 {
     QFileDialog dialog(this);
@@ -457,8 +466,8 @@ void BibleForm::selectAll()
 }
 void BibleForm::forwardSetChapters(const QStringList &chapters)
 {
-    DEBUG_FUNC_NAME
-    myDebug() << "chapters = " << chapters;
+    //DEBUG_FUNC_NAME
+   // myDebug() << "chapters = " << chapters;
     if(!active())
         return;
     setChapters(chapters);
@@ -466,7 +475,7 @@ void BibleForm::forwardSetChapters(const QStringList &chapters)
 
 void BibleForm::forwardSetBooks(const QHash<int, QString> &books, QList<int> ids)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if(!active())
         return;
     setBooks(books, ids);
@@ -508,7 +517,7 @@ void BibleForm::forwardShowText(const QString &text)
 }
 bool BibleForm::active()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     /* QMdiArea *area = (QMdiArea*) this->parentWidget()->parentWidget();
      if(area) {
          QMdiSubWindow *window = area->activeSubWindow();
@@ -523,7 +532,6 @@ bool BibleForm::active()
 
     if(*currentWindowID == m_id)
         return true;
-    myDebug() << "returns false";
     return false;
 }
 int BibleForm::id()
@@ -598,7 +606,7 @@ void BibleForm::createDefaultMenu()
 
 void BibleForm::showContextMenu(QContextMenuEvent* ev)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QMenu *contextMenu = new QMenu(this);
 
     QAction *actionCopyWholeVerse = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Verse"), contextMenu);
@@ -664,17 +672,15 @@ void BibleForm::copyWholeVerse(void)
         const QString newText = m_moduleManager->bible()->bookName(m_moduleManager->bible()->bookID()) + " " + curChapter + sverse + "\n" + stext;
         QClipboard *clipboard = QApplication::clipboard();
         clipboard->setText(newText);
-
     }
 }
 
 void BibleForm::debugger()
 {
-    //todo: maybe a memory leak
     m_view->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
-    QWebInspector *inspector = new QWebInspector(this);
-    inspector->setPage(m_view->page());
-    inspector->showNormal();
+    QWebInspector inspector;
+    inspector.setPage(m_view->page());
+    inspector.showNormal();
 }
 
 void BibleForm::newColorMark()

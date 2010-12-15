@@ -39,7 +39,6 @@ void UrlConverter::setSettings(Settings *settings)
 QString UrlConverter::convert()
 {
     QString ret;
-    //todo:
     if(m_to == InterfaceUrl) {
         BibleUrl url;
         BibleUrlRange range;

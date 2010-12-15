@@ -56,7 +56,7 @@ void WindowSessionData::clear()
 
 void WindowSessionData::read()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     for(int i = 0; i < propSize(); ++i) {
         QList<QVariant> list = m_settings->session.getData(getPropName(i)).toList();
         myDebug() << "name = " << getPropName(i) << "list = " << list;
