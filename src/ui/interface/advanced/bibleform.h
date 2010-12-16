@@ -65,7 +65,7 @@ signals:
     void previousChapter();
     void nextChapter();
 public slots:
-    void historyGetUrl(QString url);
+    void historySetUrl(QString url);
     void backward();
     void forward();
     void zoomIn();
@@ -90,6 +90,8 @@ public slots:
     void forwardSetCurrentChapter(const QSet<int> &chapterID);
 
     void forwardShowText(const QString &text);
+
+    void forwardHistorySetUrl(const QString &url);
 
     void activated();
 
@@ -116,7 +118,7 @@ public slots:
     void newUnderlineMark();
     void removeMark();
 
-    bool active();
+    void showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url);
 
 
 protected:
@@ -138,6 +140,10 @@ private:
 
     BibleManager *m_bibleManager;
     NotesManager *m_notesManager;
+    bool active();
+
+    TextRanges m_lastTextRanges;
+    BibleUrl m_lastUrl;
 };
 
 #endif // BIBLEFORM_H

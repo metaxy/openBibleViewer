@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QString>
 #include <QtCore/QUrl>
 #include "src/core/bible/bibleurl.h"
+#include "src/core/bible/textranges.h"
 class Actions : public QObject
 {
     Q_OBJECT
@@ -49,9 +50,18 @@ signals:
 
     void _setTabbedView();
     void _setSubWindowView();
+
+    /**
+      I will remove it soon.
+      */
+    void _newBookmark();
+
+    void _historySetUrl(const QString &url);
+    void _showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url);
+
 public slots:
     /**
-      Show a chapter in current SubWindow.
+      * Show a chapter in current SubWindow.
       */
     void showChapter(const int &moduleID, const int &bookID, const int &chapterID);
     void previousChapter();
@@ -76,6 +86,12 @@ public slots:
 
     void setTabbedView();
     void setSubWindowView();
+
+    void historySetUrl(const QString &url);
+    /**
+      * Using showTextRanges there is no need to call historySetUrl seperatly.
+      */
+    void showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url);
 
 
 };

@@ -60,6 +60,10 @@ Verse TextRange::getVerse(const int &verseID) const
 {
     return m_verse.value(verseID);
 }
+bool TextRange::hasVerse(const int &verseID) const
+{
+    return m_verse.contains(verseID);
+}
 void TextRange::setBookID(const int &bookID)
 {
     m_bookID = bookID;

@@ -88,3 +88,11 @@ void Actions::setSubWindowView()
 {
     emit _setSubWindowView();
 }
+void Actions::historySetUrl(const QString &url)
+{
+    emit _historySetUrl(url);
+}
+void Actions::showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url)
+{
+    emit _showTextRanges(html, range, url);
+}

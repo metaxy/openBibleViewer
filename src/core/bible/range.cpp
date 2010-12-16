@@ -46,6 +46,7 @@ void Range::setChapter(RangeEnum::ChapterRange chapter)
 
 void Range::setStartVerse(const int &verseID)
 {
+    m_startVerse = RangeEnum::VerseByID;
     m_startVerseID = verseID;
 }
 
@@ -56,6 +57,7 @@ void Range::setStartVerse(RangeEnum::VerseRange verse)
 
 void Range::setEndVerse(const int &verseID)
 {
+    m_endVerse = RangeEnum::VerseByID;
     m_endVerseID = verseID;
 }
 

@@ -126,7 +126,7 @@ void BibleManager::pharseUrl(const BibleUrl &url)
     foreach(BibleUrlRange range, url.ranges()) {
         ranges.addRanges(bibleUrlRangeToRanges(range));
     }
-    showRanges(ranges);
+    showRanges(ranges,url);
 }
 
 void BibleManager::pharseUrl(const QString &url)
@@ -144,7 +144,7 @@ void BibleManager::pharseUrl(const QString &url)
         foreach(BibleUrlRange range, bibleUrl.ranges()) {
             ranges.addRanges(bibleUrlRangeToRanges(range));
         }
-        showRanges(ranges);
+        showRanges(ranges,bibleUrl);
     } else if(url.startsWith(bq)) {
         //its a biblequote internal link, but i dont have the specifications!!!
         /* QStringList internal = url.split(" ");
@@ -179,10 +179,11 @@ void BibleManager::pharseUrl(const QString &url)
         //emit historySetUrl(url_backup);//todo:
     }
 }
-void BibleManager::showRanges(Ranges ranges)
+void BibleManager::showRanges(const Ranges &ranges, const BibleUrl &url)
 {
     std::pair<QString, TextRanges> r = m_moduleManager->bibleList()->readRanges(ranges);
-    m_bibleDisplay->setHtml(r.first);
+    m_actions->showTextRanges(r.first,r.second,url);
+
     m_actions->updateChapters(m_moduleManager->bible()->chapterNames());
     m_bookDockWidget->setChapters(m_moduleManager->bible()->chapterNames());
     m_actions->updateBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());

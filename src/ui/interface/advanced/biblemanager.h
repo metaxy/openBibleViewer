@@ -60,7 +60,7 @@ public slots:
     //int copyWholeVerse();
     void reloadChapter(bool full = false);
 private:
-    void showRanges(Ranges ranges);
+    void showRanges(const Ranges &ranges, const BibleUrl &url);
     Ranges bibleUrlRangeToRanges(BibleUrlRange r);
     QWidget *m_p;
 

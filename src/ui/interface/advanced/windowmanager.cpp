@@ -419,6 +419,7 @@ void WindowManager::save()
         data.setScrollPosition(form->m_view->page()->mainFrame()->scrollPosition());
         data.setZoom(form->m_view->zoomFactor());
         data.setGeo(a->geometry());
+        //Qt::WindowMaximized save also this
     }
     data.write();
     m_settings->session.setData("viewMode", m_area->viewMode());

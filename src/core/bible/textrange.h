@@ -30,6 +30,7 @@ public:
     QString title() const;
 
     Verse getVerse(const int &verseID) const;
+    bool hasVerse(const int &verseID) const;
 
     void setBookID(const int &bookID);
     void setChapterID(const int &chapterID);

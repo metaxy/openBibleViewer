@@ -85,8 +85,10 @@ void BibleForm::init()
 
     connect(m_actions, SIGNAL(_setCurrentBook(QSet<int>)), this, SLOT(forwardSetCurrentBook(QSet<int>)));
     connect(m_actions, SIGNAL(_setCurrentChapter(QSet<int>)), this, SLOT(forwardSetCurrentChapter(QSet<int>)));
-
+    connect(m_actions, SIGNAL(_historySetUrl(QString)), this,SLOT(forwardHistorySetUrl(QString)));
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(forwardShowText(QString)));
+    connect(m_actions, SIGNAL(_showTextRanges(QString,TextRanges,BibleUrl)), this, SLOT(showTextRanges(QString,TextRanges,BibleUrl)));
+
 
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     createDefaultMenu();
@@ -136,7 +138,7 @@ void BibleForm::attachApi()
     m_api->bibleApi()->setFrame(frame);
 }
 
-void BibleForm::historyGetUrl(QString url)
+void BibleForm::historySetUrl(QString url)
 {
     browserHistory.setCurrent(url);
     setButtons();
@@ -397,6 +399,13 @@ void BibleForm::showText(const QString &text)
     }
 
 }
+void BibleForm::showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url)
+{
+    showText(html);
+    m_lastTextRanges = range;
+    m_lastUrl = url;
+    historySetUrl(url.toString());
+}
 void BibleForm::evaluateJavaScript(const QString &js)
 {
     //DEBUG_FUNC_NAME
@@ -409,6 +418,7 @@ void BibleForm::print()
     dialog->setWindowTitle(tr("Print"));
     if(dialog->exec() != QDialog::Accepted)
         return;
+
 
 }
 void BibleForm::printPreview()
@@ -522,6 +532,12 @@ void BibleForm::forwardShowText(const QString &text)
         return;
     showText(text);
 }
+void BibleForm::forwardHistorySetUrl(const QString &url)
+{
+    if(!active())
+        return;
+    historySetUrl(url);
+}
 bool BibleForm::active()
 {
     //DEBUG_FUNC_NAME
@@ -605,7 +621,7 @@ void BibleForm::createDefaultMenu()
     connect(m_actionRemoveMark, SIGNAL(triggered()), this , SLOT(removeMark()));
 
     m_actionBookmark = new QAction(QIcon::fromTheme("bookmark-new", QIcon(":/icons/16x16/bookmark-new.png")), tr("Add Bookmark"), this);
-    connect(m_actionBookmark, SIGNAL(triggered()), this , SLOT(newBookmark()));
+    connect(m_actionBookmark, SIGNAL(triggered()), this, SLOT(newBookmark()));
 
     m_actionNote = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/16x16/view-pim-notes.png")), tr("Add Note"), this);
     connect(m_actionNote, SIGNAL(triggered()), this , SLOT(newNoteWithLink()));
@@ -656,7 +672,7 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
 
 void BibleForm::copyWholeVerse(void)
 {
-    //todo: make it much better by using Ranges
+    DEBUG_FUNC_NAME
     VerseSelection selection = verseSelection();
     if(selection.startVerse != -1) {
         QString sverse;
@@ -669,7 +685,16 @@ void BibleForm::copyWholeVerse(void)
         int add = 0;
         if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule)
             add = 1; //because of the title
-        QString stext = m_moduleManager->bible()->readVerse(m_moduleManager->bible()->chapterID(), selection.startVerse + add, selection.endVerse + 1 + add, -1, false);
+        myDebug() << "startVerse = " << selection.startVerse << " endVerse = " << selection.endVerse;
+        Range r;
+        r.setBook(selection.bookID);
+        r.setChapter(selection.chapterID);
+        r.setModule(selection.moduleID);
+        r.setStartVerse(selection.startVerse);
+        r.setEndVerse(selection.endVerse);
+        QString stext = m_moduleManager->bible()->readRange(r).join(" ");
+        myDebug() << stext;
+
         QTextDocument doc2;
         doc2.setHtml(stext);
         stext = doc2.toPlainText();
@@ -773,105 +798,103 @@ void BibleForm::removeMark()
 
 VerseSelection BibleForm::verseSelection()
 {
-    /* QWebFrame *f = getView()->page()->mainFrame();*/
+    QWebFrame *f = m_view->page()->mainFrame();
     VerseSelection s;
-    /*if(!f)
-        return s;*/
-    /*
-        f->evaluateJavaScript("var verseSelection = new VerseSelection();verseSelection.getSelection();");
-        s.startVerse = f->evaluateJavaScript("verseSelection.startVerse;").toInt();
-        s.endVerse = f->evaluateJavaScript("verseSelection.endVerse;").toInt();
-        s.moduleID = f->evaluateJavaScript("verseSelection.moduleID;").toInt();
-        s.bookID  = f->evaluateJavaScript("verseSelection.bookID;").toInt();
-        s.chapterID = f->evaluateJavaScript("verseSelection.chapterID;").toInt();
-        Chapter c = m_moduleManager->bible()->rawChapter();
+    if(!f)
+        return s;
+    f->evaluateJavaScript("var verseSelection = new VerseSelection();verseSelection.getSelection();");
+    s.startVerse = f->evaluateJavaScript("verseSelection.startVerse;").toInt();
+    s.endVerse = f->evaluateJavaScript("verseSelection.endVerse;").toInt();
+    s.moduleID = f->evaluateJavaScript("verseSelection.moduleID;").toInt();
+    s.bookID  = f->evaluateJavaScript("verseSelection.bookID;").toInt();
+    s.chapterID = f->evaluateJavaScript("verseSelection.chapterID;").toInt();
 
-        const QString startVerseText = c.data.at(s.startVerse);
-        QString endVerseText;
-        if(s.startVerse != s.endVerse)
-            endVerseText = c.data.at(s.endVerse);
-        else
-            endVerseText = startVerseText;
+    const QString startVerseText = m_lastTextRanges.getVerse(s.bookID, s.chapterID, s.startVerse).data();
+    QString endVerseText;
+    if(s.startVerse != s.endVerse)
+        endVerseText = m_lastTextRanges.getVerse(s.bookID, s.chapterID, s.endVerse).data();
+    else
+        endVerseText = startVerseText;
 
-        const QString selectedText = f->evaluateJavaScript("verseSelection.selectedText;").toString();
+    const QString selectedText = f->evaluateJavaScript("verseSelection.selectedText;").toString();
 
-        myDebug() << "startVerseText = " << startVerseText;
-        myDebug() << "endVerseText = " << endVerseText;
-        {
-            QString sText;
+    myDebug() << "startVerseText = " << startVerseText;
+    myDebug() << "endVerseText = " << endVerseText;
+    {
+        QString sText;
+        for(int i = 0; i < selectedText.size() - 1; i++) {
+            sText += selectedText.at(i);
+            const int pos = startVerseText.indexOf(sText);
+            if(pos != -1 && startVerseText.lastIndexOf(sText) == pos) {
+                s.shortestStringInStartVerse = sText;
+                break;
+            }
+        }
+        if(s.shortestStringInStartVerse.isEmpty() && s.startVerse != s.endVerse) {
+            //find the last long string if the selection is over more than one verse long
+            QString lastLongest = selectedText;
+            int lastPos = -2;
+            for(int i = selectedText.size() - 1; i > 0; i--) {
+                const int pos = startVerseText.lastIndexOf(lastLongest);
+                if(pos != -1) {
+                    lastPos = pos;
+                    break;
+                }
+                lastLongest.remove(i, selectedText.size());
+            }
+            //and shorten it
+            sText.clear();
             for(int i = 0; i < selectedText.size() - 1; i++) {
                 sText += selectedText.at(i);
-                const int pos = startVerseText.indexOf(sText);
-                if(pos != -1 && startVerseText.lastIndexOf(sText) == pos) {
+                const int pos = startVerseText.lastIndexOf(sText);
+                if(pos != -1 && lastPos == pos) {
                     s.shortestStringInStartVerse = sText;
                     break;
                 }
             }
-            if(s.shortestStringInStartVerse.isEmpty() && s.startVerse != s.endVerse) {
-                //find the last long string if the selection is over more than one verse long
-                QString lastLongest = selectedText;
-                int lastPos = -2;
-                for(int i = selectedText.size() - 1; i > 0; i--) {
-                    const int pos = startVerseText.lastIndexOf(lastLongest);
-                    if(pos != -1) {
-                        lastPos = pos;
-                        break;
-                    }
-                    lastLongest.remove(i, selectedText.size());
-                }
-                //and shorten it
-                sText.clear();
-                for(int i = 0; i < selectedText.size() - 1; i++) {
-                    sText += selectedText.at(i);
-                    const int pos = startVerseText.lastIndexOf(sText);
-                    if(pos != -1 && lastPos == pos) {
-                        s.shortestStringInStartVerse = sText;
-                        break;
-                    }
-                }
 
 
+        }
+        sText.clear();
+        for(int i = 0; i < selectedText.size() - 1; i++) {
+            sText.prepend(selectedText.at(selectedText.size() - i - 1));
+            const int pos = endVerseText.indexOf(sText);
+            if(pos != -1 && endVerseText.lastIndexOf(sText) == pos) {
+                s.shortestStringInEndVerse = sText;
+                break;
             }
+        }
+        if(s.shortestStringInEndVerse.isEmpty() && s.startVerse != s.endVerse) {
+            //find the first longest string if the selection is over more than one verse long
+            QString firstLongest = selectedText;
+            int firstPos = -2;
+            for(int i = 0; i < selectedText.size(); i++) {
+                const int pos = endVerseText.indexOf(firstLongest);
+                if(pos != -1) {
+                    firstPos = pos;
+                    break;
+                }
+                firstLongest.remove(0, 1);
+            }
+            //and shorten it
             sText.clear();
             for(int i = 0; i < selectedText.size() - 1; i++) {
                 sText.prepend(selectedText.at(selectedText.size() - i - 1));
                 const int pos = endVerseText.indexOf(sText);
-                if(pos != -1 && endVerseText.lastIndexOf(sText) == pos) {
+                if(pos != -1 && firstPos == pos) {
                     s.shortestStringInEndVerse = sText;
                     break;
                 }
             }
-            if(s.shortestStringInEndVerse.isEmpty() && s.startVerse != s.endVerse) {
-                //find the first longest string if the selection is over more than one verse long
-                QString firstLongest = selectedText;
-                int firstPos = -2;
-                for(int i = 0; i < selectedText.size(); i++) {
-                    const int pos = endVerseText.indexOf(firstLongest);
-                    if(pos != -1) {
-                        firstPos = pos;
-                        break;
-                    }
-                    firstLongest.remove(0, 1);
-                }
-                //and shorten it
-                sText.clear();
-                for(int i = 0; i < selectedText.size() - 1; i++) {
-                    sText.prepend(selectedText.at(selectedText.size() - i - 1));
-                    const int pos = endVerseText.indexOf(sText);
-                    if(pos != -1 && firstPos == pos) {
-                        s.shortestStringInEndVerse = sText;
-                        break;
-                    }
-                }
-            }
-            s.type = VerseSelection::ShortestString;
-            if(s.shortestStringInStartVerse.isEmpty() || s.shortestStringInEndVerse.isEmpty()) {
-                s.setCanBeUsedForMarks(false);
-            } else {
-                s.setCanBeUsedForMarks(true);
-            }
         }
-        myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
+        s.type = VerseSelection::ShortestString;
+        if(s.shortestStringInStartVerse.isEmpty() || s.shortestStringInEndVerse.isEmpty()) {
+            s.setCanBeUsedForMarks(false);
+        } else {
+            s.setCanBeUsedForMarks(true);
+        }
+    }
+    myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
         //todo: 0.6
         /* if(s.canBeUsedForMarks() == false) {
              //now the ultimative alogrithm

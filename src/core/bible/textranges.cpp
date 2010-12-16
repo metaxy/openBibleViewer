@@ -55,3 +55,11 @@ QSet<int> TextRanges::chapterIDs()
 
     return ret;
 }
+Verse TextRanges::getVerse(const int &bookID, const int &chapterID, const int &verseID)
+{
+    foreach(TextRange range, m_ranges) {
+        if(range.bookID() == bookID && range.chapterID() == chapterID && range.hasVerse(verseID))
+            return range.getVerse(verseID);
+    }
+    return Verse();
+}

@@ -431,10 +431,6 @@ QString Bible::toUniformHtml(QString string)
 
     return raw;
 }
-Chapter Bible::rawChapter()
-{
-    return m_rawChapter;
-}
 TextRange Bible::readRange(const Range &range)
 {
     DEBUG_FUNC_NAME
@@ -531,7 +527,7 @@ TextRange Bible::readRange(const Range &range)
     }
 
 
-    //myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
+    myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
     QMap<int, Verse> verseMap;
     //myDebug() << "data.keys() = " << data.keys();
     for(int verseCounter = startVerse; verseCounter <= endVerse; verseCounter++) {
@@ -565,7 +561,7 @@ TextRange Bible::readRange(const Range &range)
         {
             QString prepend;
             QString append;
-            prepend = "<span class=\"verseNumber\">" + QString::number(verse.verseID() + 1) + "</span>";
+            prepend = "<span class=\"verseNumber\">" + QString::number(verse.verseID() + 1) + "</span> ";
             if(moduleSettings.zefbible_textFormatting == 0) {
                 append = "<br />";
             } else {
