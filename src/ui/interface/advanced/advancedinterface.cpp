@@ -107,6 +107,7 @@ void AdvancedInterface::createDocks()
     m_bookmarksDockWidget->init();
     m_bookmarksDockWidget->hide();
 
+
     m_dictionaryDockWidget = new DictionaryDockWidget(this->parentWidget());
     setAll(m_dictionaryDockWidget);
     m_dictionaryDockWidget->init();
@@ -391,10 +392,7 @@ QMenuBar* AdvancedInterface::menuBar()
     connect(actionPrevChapter, SIGNAL(triggered()), m_actions, SLOT(previousChapter()));
     actionPrevChapter->setShortcut(QKeySequence::MoveToPreviousPage);
 
-    //Config
-    QAction *actionConfiguration = new QAction(QIcon::fromTheme("configure", QIcon(":/icons/16x16/configure.png")), tr("Configuration"), menuEdit);
-    connect(actionConfiguration, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_General()));
-    actionConfiguration->setShortcut(QKeySequence::Preferences);
+
 
     menuEdit->addAction(actionCopy);
     menuEdit->addAction(actionSelectAll);
@@ -405,8 +403,7 @@ QMenuBar* AdvancedInterface::menuBar()
     menuEdit->addSeparator();
     menuEdit->addAction(actionNextChapter);
     menuEdit->addAction(actionPrevChapter);
-    menuEdit->addSeparator();
-    menuEdit->addAction(actionConfiguration);
+
 
     QMenu *menuView = new QMenu(tr("View"), bar);
 
@@ -535,8 +532,18 @@ QMenuBar* AdvancedInterface::menuBar()
     menuDocks->addAction(actionStrong);
     menuDocks->addAction(actionSearchResults);
 
-    QMenu *menuHelp = new QMenu(tr("Help"), bar);
+    QMenu *menuSettings = new QMenu(tr("Settings"), bar);
 
+    //Config
+    QAction *actionConfiguration = new QAction(QIcon::fromTheme("configure", QIcon(":/icons/16x16/configure.png")), tr("Configuration"), menuEdit);
+    connect(actionConfiguration, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_General()));
+    actionConfiguration->setShortcut(QKeySequence::Preferences);
+
+    menuSettings->addMenu(menuDocks);
+    menuSettings->addSeparator();
+    menuSettings->addAction(actionConfiguration);
+
+    QMenu *menuHelp = new QMenu(tr("Help"), bar);
     //About
     QAction *actionAbout = new QAction(QIcon::fromTheme("help-about", QIcon(":/icons/16x16/help-about.png")), tr("About"), menuHelp);
     connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
@@ -554,7 +561,7 @@ QMenuBar* AdvancedInterface::menuBar()
     bar->addMenu(menuEdit);
     bar->addMenu(menuView);
     bar->addMenu(menuNotes);
-    bar->addMenu(menuDocks);
+    bar->addMenu(menuSettings);
     bar->addMenu(menuHelp);
     return bar;
 }
