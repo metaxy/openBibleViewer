@@ -70,7 +70,7 @@ void ZefaniaBible::removeHardCache(const QString &path)
 
 QDomNode ZefaniaBible::readBookFromHardCache(QString path, int bookID)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QDomElement e;
 
     const QString pre = m_settings->homePath + "cache/" + m_settings->hash(path) + "/";

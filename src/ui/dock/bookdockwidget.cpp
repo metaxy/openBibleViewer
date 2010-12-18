@@ -123,7 +123,7 @@ void BookDockWidget::setCurrentChapter(const int &chapterID)
 
 void BookDockWidget::setCurrentBook(const QSet<int> &bookID)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QModelIndexList sel;
     foreach(int b, bookID) {
         const QModelIndexList list = m_bookModel->match(m_bookModel->index(0, 0), Qt::UserRole + 1, b, 1, Qt::MatchExactly);
@@ -143,7 +143,7 @@ void BookDockWidget::setCurrentBook(const QSet<int> &bookID)
 }
 void BookDockWidget::setCurrentChapter(const QSet<int> &chapterID)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QModelIndexList sel;
     foreach(int c, chapterID) {
         const QModelIndexList list = m_chapterModel->match(m_chapterModel->index(0, 0), Qt::UserRole + 1, c, 1, Qt::MatchExactly);

@@ -20,13 +20,13 @@ class Book
 public:
     Book();
     QHash<int, Chapter> m_chapters;
-    int size();
+    int size() const;
     void clear();
     void addChapter(const int &chapterID, const Chapter &c);
-    bool hasChapter(const int &chapterID);
+    bool hasChapter(const int &chapterID) const;
     Chapter getChapter(const int &chapterID);
     void setID(const int &id);
-    int bookID();
+    int bookID() const;
 private:
     int m_id;
 };

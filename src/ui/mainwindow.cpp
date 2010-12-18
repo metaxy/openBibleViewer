@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     delete ui;
     ui = 0;
     delete m_moduleManager;
@@ -91,7 +91,7 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 }
 void MainWindow::loadInterface()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     const QString interface = m_settings->session.getData("interface", QString("advanced")).toString();
     if(interface == "advanced") {
         loadAdvancedInterface();
@@ -101,7 +101,7 @@ void MainWindow::loadInterface()
 }
 void MainWindow::deleteInterface()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if(m_interface->hasToolBar()) {
         foreach(QToolBar * bar, m_toolBarList) {
             removeToolBar(bar);
@@ -151,13 +151,13 @@ void MainWindow::deleteInterface()
 }
 void MainWindow::reloadInterface()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     deleteInterface();
     loadInterface();
 }
 void MainWindow::loadSimpleInterface()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_interface = new SimpleInterface(this);
     setAll(m_interface);
     setCentralWidget(m_interface);
@@ -189,7 +189,7 @@ void MainWindow::loadSimpleInterface()
 
 void MainWindow::loadAdvancedInterface()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_interface = new AdvancedInterface(this);
     setAll(m_interface);
     m_interface->init();
@@ -233,7 +233,7 @@ void MainWindow::setSettings(Settings set)
 }
 void MainWindow::loadDefaultSettings()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_settings->encoding = "Windows-1251";
     m_settings->zoomstep = 1;
     m_settings->removeHtml = true;
@@ -386,7 +386,7 @@ void MainWindow::loadDefaultSettings()
 }
 void MainWindow::loadSettings()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     Version currentVersion(m_settings->version);
     Version settingsVersion(m_settingsFile->value("general/version", m_settings->version).toString());
     //myDebug() << settingsVersion.minorVersion() << currentVersion.minorVersion();
@@ -468,7 +468,7 @@ void MainWindow::loadSettings()
 }
 void MainWindow::writeSettings()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
 
     m_settingsFile->setValue("general/version", m_settings->version);
     m_settingsFile->setValue("general/encoding", m_settings->encoding);
@@ -600,7 +600,7 @@ void MainWindow::loadLanguage(QString language)
 }
 void MainWindow::restoreSession()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QByteArray geometry = QVariant(m_settings->session.getData("mainWindowGeometry")).toByteArray();
     QByteArray state = QVariant(m_settings->session.getData("mainWindowState")).toByteArray();
     if(geometry.size() != 0) {
@@ -622,11 +622,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
 }
 void MainWindow::changeEvent(QEvent *e)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     //QMainWindow::changeEvent(e);
     switch(e->type()) {
     case QEvent::LanguageChange:
-        myDebug() << "retranslate";
+        //myDebug() << "retranslate";
         ui->retranslateUi(this);
         if(m_reloadLang) {
             if(m_interface->hasMenuBar()) {

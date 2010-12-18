@@ -18,7 +18,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMdiArea>
 #include <QtWebKit/QWebView>
 #include "src/core/basicclass.h"
-#include "src/core/windowcache.h"
 #include "src/api/api.h"
 #include "bibleform.h"
 #include "mdiareafilter.h"

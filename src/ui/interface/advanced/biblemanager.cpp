@@ -49,7 +49,7 @@ void BibleManager::createDocks()
 
 QHash<DockWidget*, Qt::DockWidgetArea> BibleManager::docks()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QHash<DockWidget *, Qt::DockWidgetArea> ret;
     ret.insert(m_bookDockWidget, Qt::LeftDockWidgetArea);
     ret.insert(m_moduleDockWidget, Qt::LeftDockWidgetArea);
@@ -59,7 +59,7 @@ QHash<DockWidget*, Qt::DockWidgetArea> BibleManager::docks()
 }
 Ranges BibleManager::bibleUrlRangeToRanges(BibleUrlRange range)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     Ranges ranges;
     Range r;
     //todo: currently we do not support real ranges
@@ -134,7 +134,7 @@ void BibleManager::pharseUrl(const QString &url)
     DEBUG_FUNC_NAME
     const QString bible = "bible://";
     const QString bq = "go";
-
+    myDebug() << "url = " << url;
     if(url.startsWith(bible)) {
         BibleUrl bibleUrl;
         Ranges ranges;
@@ -194,7 +194,7 @@ void BibleManager::showRanges(const Ranges &ranges, const BibleUrl &url)
 
 bool BibleManager::loadModuleDataByID(const int &moduleID)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     myDebug() << "id = " << moduleID;
     if(moduleID < 0 || !m_moduleManager->contains(moduleID)) {
         myWarning() << "failed id = " << moduleID << m_moduleManager->m_moduleMap->m_map;
@@ -269,7 +269,7 @@ void BibleManager::readBookByID(const int &id)
 */
 void BibleManager::showChapter(const int &chapterID, const int &verseID)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     myDebug() << "chapter ID = " << chapterID << "verse ID = " << verseID;
     m_bibleDisplay->setHtml(m_moduleManager->bibleList()->readChapter(chapterID, verseID));
     //emit setCurrentChapter(chapterID);

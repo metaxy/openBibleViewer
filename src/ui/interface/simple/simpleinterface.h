@@ -21,7 +21,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dock/moduledockwidget.h"
 #include "src/ui/dock/bookdockwidget.h"
 #include "src/ui/dock/searchresultdockwidget.h"
-#include "src/core/windowcache.h"
 namespace Ui
 {
 class SimpleInterface;
@@ -63,7 +62,6 @@ signals:
     void reloadInterface();
 private:
     Ui::SimpleInterface *ui;
-    WindowCache m_windowCache;
     void setTitle(const QString &title);
     void setChapters(const QStringList &chapters);
     void setBooks(const QHash<int, QString> &books);

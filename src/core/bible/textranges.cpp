@@ -63,3 +63,11 @@ Verse TextRanges::getVerse(const int &bookID, const int &chapterID, const int &v
     }
     return Verse();
 }
+int TextRanges::verseCount() const
+{
+    int count = 0;
+    foreach(TextRange range, m_ranges) {
+        count += range.verseList().size();
+    }
+    return count;
+}

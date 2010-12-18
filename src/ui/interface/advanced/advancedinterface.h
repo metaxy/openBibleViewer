@@ -21,7 +21,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dock/bookmarksdockwidget.h"
 #include "src/ui/dock/dictionarydockwidget.h"
 
-#include "src/core/windowcache.h"
 #include "src/api/api.h"
 #include "mdiareafilter.h"
 #include "windowmanager.h"

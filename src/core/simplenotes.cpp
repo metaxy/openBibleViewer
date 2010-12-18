@@ -58,7 +58,7 @@ void SimpleNotes::setLinkButtonWidget(QPushButton *button)
 }
 void SimpleNotes::create(const QString &id, QStandardItem *parentItem)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     foreach(const QString & i, m_idC) {
         if(id == "-1") {
             parentItem = m_itemModel->invisibleRootItem();
@@ -203,7 +203,7 @@ void SimpleNotes::changeData(const QString &id, const QString &data)
 }
 void SimpleNotes::changeTitle(const QString &id, const QString &title)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if(m_noteID == id) {
         setTitle(title);
     }
@@ -216,7 +216,7 @@ void SimpleNotes::changeTitle(const QString &id, const QString &title)
 }
 void SimpleNotes::updateTitle()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     disconnect(m_notes, SIGNAL(titleChanged(QString, QString)), this, SLOT(changeTitle(QString, QString)));
     m_notes->setTitle(m_noteID, m_lineEdit_title->text());
     const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, m_noteID, -1);
@@ -254,7 +254,7 @@ void SimpleNotes::copyNote(void)
 }
 void SimpleNotes::iterate(QStandardItem *item = 0)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     const QString parent = item->data().toString();
     for(int i = 0; i < item->rowCount(); ++i) {
         QStandardItem *m = item->child(i);
@@ -266,7 +266,7 @@ void SimpleNotes::iterate(QStandardItem *item = 0)
 
 void SimpleNotes::saveNote(void)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     aktNote();
     fastSave();
     disconnect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
@@ -277,7 +277,7 @@ void SimpleNotes::saveNote(void)
 }
 void SimpleNotes::fastSave(void)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     disconnect(m_notes, SIGNAL(titleChanged(QString, QString)), this, SLOT(changeTitle(QString, QString)));
     disconnect(m_notes, SIGNAL(dataChanged(QString, QString)), this, SLOT(changeData(QString, QString)));
     disconnect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
@@ -297,7 +297,7 @@ void SimpleNotes::fastSave(void)
 }
 void SimpleNotes::aktNote()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
 
     if(m_noteID == "")
         return;
@@ -315,7 +315,7 @@ void SimpleNotes::aktNote()
 }
 void SimpleNotes::select(const QString &noteID)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, noteID);
     if(list.size() != 1) {
         return;
@@ -373,7 +373,7 @@ void SimpleNotes::newTextNote(void)
 }
 void SimpleNotes::newFolder()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
     QStandardItem *parentItem = 0;
     if(sender()->objectName() == "actionNewFolder")
@@ -384,7 +384,6 @@ void SimpleNotes::newFolder()
     aktNote();
     fastSave();
     m_selectionModel->clearSelection();
-
 
     const QString newID = m_notes->generateNewID();
     m_notes->setData(newID, "");
@@ -399,8 +398,6 @@ void SimpleNotes::newFolder()
     m_notes->setRef(newID, m_noteRef);
     m_noteID = newID;
     m_notes->insertID(newID);
-
-
 
     QStandardItem *newItem = new QStandardItem;
     QStyle *style = QApplication::style();
@@ -423,7 +420,7 @@ void SimpleNotes::newFolder()
 
 void SimpleNotes::addNote(const QString &id)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if(m_noteID != id && m_notes->getType(id) == "text") {
         //todo: if there is already this note(but something like that should never happen)
         QStandardItem *parentItem = m_itemModel->invisibleRootItem();
@@ -436,7 +433,7 @@ void SimpleNotes::addNote(const QString &id)
 
 void SimpleNotes::newTextNoteWithLink(VerseSelection selection)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
     aktNote();
     fastSave();
@@ -482,7 +479,6 @@ void SimpleNotes::newTextNoteWithLink(VerseSelection selection)
 }
 void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style)
 {
-
     //myDebug() << selection.shortestStringInEndVerse << selection.shortestStringInStartVerse;
     if(selection.shortestStringInEndVerse == "" || selection.shortestStringInStartVerse == "") {
         myWarning() << "cannot create mark";
@@ -532,7 +528,7 @@ void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style)
 }
 void SimpleNotes::notesContextMenu(QPoint point)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_point = point;
     QMenu *contextMenu = new QMenu(m_treeView);
     m_currentPoint = point;
@@ -564,7 +560,7 @@ void SimpleNotes::notesContextMenu(QPoint point)
 }
 void SimpleNotes::removeNote()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QModelIndexList list = m_selectionModel->selectedRows();
     disconnect(m_notes, SIGNAL(noteRemoved(QString)), this, SLOT(removeNote(QString)));
     //todo: if note has link, check if the page where the link shows is currently displayed, if yes reloadChapter
@@ -600,7 +596,7 @@ void SimpleNotes::removeNote()
 }
 void SimpleNotes::removeNote(const QString &id)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if(id == m_noteID) {
         setTitle("");
         setData("");

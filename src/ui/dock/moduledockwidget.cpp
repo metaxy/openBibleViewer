@@ -69,7 +69,7 @@ void ModuleDockWidget::loadModuleData(QModelIndex index)
   */
 void ModuleDockWidget::loadedModule(int id)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if(m_moduleID == id)
         return;
 

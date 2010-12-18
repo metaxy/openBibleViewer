@@ -42,7 +42,7 @@ html {
 td.rowTitle {
     width:5em;
 }
-.currententry {
+.selectedEntry {
     font-weight:bold;
 }
 

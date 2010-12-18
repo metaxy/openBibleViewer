@@ -21,6 +21,7 @@ class BibleUrl : public Url
 {
 public:
     BibleUrl();
+    BibleUrl(const BibleUrlRange &range);
     void addRange(const BibleUrlRange &range);
     void setParam(const QString &name, const QString &value);
     bool hasParam(const QString &name);

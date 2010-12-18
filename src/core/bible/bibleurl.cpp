@@ -18,6 +18,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 BibleUrl::BibleUrl()
 {
 }
+BibleUrl::BibleUrl(const BibleUrlRange &range)
+{
+    addRange(range);
+}
 
 void BibleUrl::setParam(const QString &name, const QString &value)
 {
@@ -50,11 +54,7 @@ QString BibleUrl::toString() const
             ret += QString::number(range.bibleID());
         } else if(range.bible() == BibleUrlRange::LoadCurrentBible) {
             ret += "current";
-        } else if(range.bible() == BibleUrlRange::ReloadActive) {
-            ret += "reloadActive";
-            return ret;
         }
-
         ret += "/";
         //Book
         if(range.startBook() == BibleUrlRange::LoadBookByID) {
@@ -162,9 +162,6 @@ bool BibleUrl::fromString(QString url)
     const QString bibleID = slash.at(0);
     if(bibleID == "current") {
         range.setBible(BibleUrlRange::LoadCurrentBible);
-    } else if(bibleID == "reloadActive") {
-        range.setBible(BibleUrlRange::ReloadActive);
-        return true;
     } else {
         range.setBible(bibleID.toInt());
     }

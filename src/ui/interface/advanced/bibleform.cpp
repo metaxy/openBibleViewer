@@ -39,7 +39,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/bible/bibleurl.h"
 BibleForm::BibleForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::BibleForm)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_id = -1;
     m_ui->setupUi(this);
 
@@ -111,7 +111,7 @@ void BibleForm::setNotesManager(NotesManager *notesManager)
 }
 void BibleForm::attachApi()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QWebFrame * frame = m_view->page()->mainFrame();
     /*{
         QFile file(":/data/js/jquery-1.4.2.min.js");
@@ -132,7 +132,6 @@ void BibleForm::attachApi()
         file.close();
         frame->evaluateJavaScript(tools);
     }
-    myDebug() << m_api;
 
     frame->addToJavaScriptWindowObject("Bible", m_api->bibleApi());
     m_api->bibleApi()->setFrame(frame);
@@ -177,7 +176,6 @@ void BibleForm::showBibleListMenu()
 
 void BibleForm::readChapter(int id)
 {
-
     BibleUrlRange r;
     r.setBible(BibleUrlRange::LoadCurrentBible);
     r.setStartBook(BibleUrlRange::LoadCurrentBook);
@@ -343,7 +341,7 @@ void BibleForm::changeEvent(QEvent *e)
 }
 void BibleForm::scrollToAnchor(const QString &anchor)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
 #if QT_VERSION >= 0x040700
     m_view->page()->mainFrame()->scrollToAnchor(anchor);
 #else
@@ -363,15 +361,18 @@ void BibleForm::showText(const QString &text)
         m_view->settings()->setUserStyleSheetUrl(QUrl("data:text/css;charset=utf-8;base64," + file.readAll().toBase64()));
 
     m_view->setHtml(text);
-    if(m_moduleManager->bible()->verseID() > 1) {
-        scrollToAnchor("currentVerse");
+    if(m_lastTextRanges.verseCount() > 1) {
+        myDebug() << "scrolling";
+        scrollToAnchor("currentEntry");
         if(m_moduleManager->bibleList()->hasTopBar())
             m_view->page()->mainFrame()->scroll(0, -40); //due to the biblelist bar on top
+        //todo: it could be that the top bar has a width more than 40px
+        //because the user zoomed in.
     }
 
     if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule) {
         QWebElementCollection collection = m_view->page()->mainFrame()->documentElement().findAll("img");
-        QStringList searchPaths = m_moduleManager->bible()->getSearchPaths();
+        const QStringList searchPaths = m_moduleManager->bible()->getSearchPaths();
 
         foreach(QWebElement paraElement, collection) {
             QString url = paraElement.attribute("src");
@@ -491,7 +492,6 @@ void BibleForm::forwardSetChapters(const QStringList &chapters)
 
 void BibleForm::forwardSetBooks(const QHash<int, QString> &books, QList<int> ids)
 {
-    //DEBUG_FUNC_NAME
     if(!active())
         return;
     setBooks(books, ids);
@@ -671,7 +671,7 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
 
 void BibleForm::copyWholeVerse(void)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     VerseSelection selection = verseSelection();
     if(selection.startVerse != -1) {
         QString sverse;
@@ -709,9 +709,9 @@ void BibleForm::copyWholeVerse(void)
 void BibleForm::debugger()
 {
     m_view->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
-    QWebInspector inspector;
-    inspector.setPage(m_view->page());
-    inspector.showNormal();
+    QWebInspector *inspector = new QWebInspector;
+    inspector->setPage(m_view->page());
+    inspector->showNormal();
 }
 
 void BibleForm::newColorMark()

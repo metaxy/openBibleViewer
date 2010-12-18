@@ -20,8 +20,7 @@ public:
     BibleUrlRange();
     enum BibleLoadParams {
         LoadBibleByID,
-        LoadCurrentBible,
-        ReloadActive
+        LoadCurrentBible
     };
     enum BookLoadParams {
         LoadBookByID,

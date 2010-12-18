@@ -45,18 +45,18 @@ public:
     TextRanges readRanges(const Ranges &ranges);
     TextRange readRange(const Range &range);
 
-    QStringList getSearchPaths();
+    QStringList getSearchPaths() const;
     QString toUniformHtml(QString string);
 
     void search(SearchQuery query, SearchResult *result);
 
-    Module::ModuleType bibleType();
+    Module::ModuleType bibleType() const;
 
-    int bookID();
-    int chapterID();
-    int verseID();
-    int booksCount();
-    int chaptersCount();
+    int bookID() const;
+    int chapterID() const;
+    int verseID() const;
+    int booksCount() const;
+    int chaptersCount() const;
 
     QString bibleTitle();
     QString bibleShortTitle();

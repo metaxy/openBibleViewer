@@ -118,7 +118,7 @@ int Bible::loadModuleData(const int &moduleID)
 */
 int Bible::readBook(int id)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_bookID = id;
     switch(m_module->m_moduleType) {
     case Module::BibleQuoteModule: {
@@ -153,7 +153,7 @@ int Bible::readBook(int id)
         for(int i = 1; i <= m_bibleModule->bookCount().value(id, 0); ++i) {
             m_chapterNames << QString::number(i);
         }
-        myDebug() << m_chapterNames;
+        //myDebug() << m_chapterNames;
         break;
     }
     default:
@@ -433,8 +433,7 @@ QString Bible::toUniformHtml(QString string)
 }
 TextRange Bible::readRange(const Range &range)
 {
-    DEBUG_FUNC_NAME
-
+    //DEBUG_FUNC_NAME
     //todo: what about biblequote
     TextRange ret;
     if(range.moduleID() != m_moduleID) {
@@ -504,32 +503,27 @@ TextRange Bible::readRange(const Range &range)
             min = key;
         }
     }
-    //myDebug() << "min = " << min << " max = " << max;
+
     if(range.startVerse() == RangeEnum::VerseByID) {
         startVerse = range.startVerseID();
     } else if(range.startVerse() == RangeEnum::FirstVerse) {
-        //myDebug() << "start verse = last verse";
         startVerse = min;
     } else if(range.startVerse() == RangeEnum::LastVerse) {
-        // myDebug() << "start verse = first verse";
         startVerse = max;
     }
 
     if(range.endVerse() == RangeEnum::VerseByID) {
-        //myDebug() << "endVerse id = " << range.endVerseID();
         endVerse = range.endVerseID();
     } else if(range.endVerse() == RangeEnum::FirstVerse) {
-        //myDebug() << "end verse = first verse";
         endVerse = min;
     } else if(range.endVerse() == RangeEnum::LastVerse) {
-        //myDebug() << "end verse = last verse";
         endVerse = max;
     }
 
 
-    myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
+    //myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
     QMap<int, Verse> verseMap;
-    //myDebug() << "data.keys() = " << data.keys();
+    bool currentVerse = false;
     for(int verseCounter = startVerse; verseCounter <= endVerse; verseCounter++) {
         if(!data.contains(verseCounter))
             continue; //todo: or should i better add an empty verse?
@@ -554,7 +548,14 @@ TextRange Bible::readRange(const Range &range)
 
 
         if(range.selectedVerse().contains(verseCounter)) {
-            verse.prepend("<span class=\"currententry\">");
+            if(!currentVerse) {
+                currentVerse = true;//todo: cuurently the first selected entry is the current entry
+                //change this to provide maybe more future features
+                verse.prepend("<span id = \"currentEntry\" class = \"selectedEntry\"> ");
+            }
+            else {
+                verse.prepend("<span class = \"selectedEntry\">");
+            }
             verse.append("</span>");
         }
 
@@ -670,11 +671,7 @@ TextRange Bible::readRange(const Range &range)
             break;
         }
         ret.addVerse(verse);
-
-
     }
-
-
     return ret;
 
 }
@@ -722,7 +719,7 @@ void Bible::search(SearchQuery query, SearchResult *result)
     }*/
 }
 
-QStringList Bible::getSearchPaths()
+QStringList Bible::getSearchPaths() const
 {
     if(m_moduleType == Module::ZefaniaBibleModule) {
         return QStringList();
@@ -731,7 +728,7 @@ QStringList Bible::getSearchPaths()
         l.append(QString(m_biblePath + QDir::separator()));
         if(m_bookID < m_bookPath.size()) {
             QString p = m_bookPath.at(m_bookID);
-            int pos = p.lastIndexOf(QDir::separator());
+            const int pos = p.lastIndexOf(QDir::separator());
             if(pos != -1) {
                 p = p.remove(pos, p.size());
             }
@@ -745,22 +742,22 @@ QStringList Bible::getSearchPaths()
     return QStringList();
 }
 
-int Bible::bookID()
+int Bible::bookID() const
 {
     return m_bookID;
 }
 
-int Bible::chapterID()
+int Bible::chapterID() const
 {
     return m_chapterID;
 }
 
-int Bible::booksCount()
+int Bible::booksCount() const
 {
     return m_names.m_bookFullName.size();
 }
 
-int Bible::chaptersCount()
+int Bible::chaptersCount() const
 {
     return m_book.size();
 }
@@ -807,12 +804,12 @@ QStringList Bible::chapterNames()
     return m_chapterNames;
 }
 
-Module::ModuleType Bible::bibleType()
+Module::ModuleType Bible::bibleType() const
 {
     return m_moduleType;
 }
 
-int Bible::verseID()
+int Bible::verseID() const
 {
     return m_verseID;
 }

@@ -33,7 +33,7 @@ void NotesManager::createDocks()
 
 QHash<DockWidget*, Qt::DockWidgetArea> NotesManager::docks()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QHash<DockWidget *, Qt::DockWidgetArea> ret;
     ret.insert(m_notesDockWidget, Qt::RightDockWidgetArea);
     return ret;

@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 Book::Book()
 {
 }
-int Book::size()
+int Book::size() const
 {
     return m_chapters.size();
 }
@@ -29,7 +29,7 @@ void Book::addChapter(const int &chapterID, const Chapter &c)
 {
     m_chapters.insert(chapterID, c);
 }
-bool Book::hasChapter(const int &chapterID)
+bool Book::hasChapter(const int &chapterID) const
 {
     return m_chapters.contains(chapterID);
 }
@@ -37,13 +37,11 @@ Chapter Book::getChapter(const int &chapterID)
 {
     return m_chapters.value(chapterID);
 }
-
 void Book::setID(const int &id)
 {
     m_id = id;
 }
-
-int Book::bookID()
+int Book::bookID() const
 {
     return m_id;
 }
