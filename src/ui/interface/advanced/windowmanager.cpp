@@ -46,6 +46,7 @@ void WindowManager::init()
     connect(m_actions, SIGNAL(_setTabbedView()), this, SLOT(setTabbedView()));
     connect(m_actions, SIGNAL(_setSubWindowView()), this, SLOT(setSubWindowView()));
     connect(m_actions, SIGNAL(_setTitle(QString)), this, SLOT(setTitle(QString)));
+    connect(m_actions, SIGNAL(_reloadActive()), this, SLOT(reloadActive()));
 }
 
 void WindowManager::newSubWindow(bool doAutoLayout)
@@ -325,7 +326,6 @@ int WindowManager::reloadWindow(QMdiSubWindow * window)
     if(!m_enableReload || window == NULL) {
         return 1;
     }
-    //const int windowName = window->objectName().toInt();
     if(m_area->subWindowList().isEmpty()) {
         return 1;
     }

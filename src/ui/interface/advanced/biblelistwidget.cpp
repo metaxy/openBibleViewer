@@ -121,16 +121,16 @@ void BibleListWidget::save()
                 atLeastOne = true;
                 m_moduleManager->newBible(id, QPoint(x, y));
                 if(m_selectionModel->selection().contains(m_model->index(x, y)))
-                    selectedModule = m_moduleManager->bibleList()->m_currentBible;
-                lastModule = m_moduleManager->bibleList()->m_currentBible;
+                    selectedModule = m_moduleManager->bibleList()->currentBibleListID();
+                lastModule = m_moduleManager->bibleList()->currentBibleListID();
             }
         }
     }
 
     if(selectedModule != -1)
-        m_moduleManager->bibleList()->m_currentBible = selectedModule;
+        m_moduleManager->bibleList()->setCurrentBibleListID(selectedModule);
     else
-        m_moduleManager->bibleList()->m_currentBible = lastModule;
+        m_moduleManager->bibleList()->setCurrentBibleListID(lastModule);
     //myDebug() <<  m_model->rowCount() << m_model->columnCount();
     if(atLeastOne) {
         BibleUrl url;
@@ -142,9 +142,6 @@ void BibleListWidget::save()
         url.setParam("force", "true");
         url.addRange(range);
         m_actions->get(url);
-
-
-
     } else {
         Bible *b = new Bible();
         m_moduleManager->initBible(b);

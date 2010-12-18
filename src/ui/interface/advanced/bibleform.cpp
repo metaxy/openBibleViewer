@@ -315,7 +315,6 @@ void BibleForm::activated()
         return;
     }
 
-
     m_moduleManager->m_bibleList = m_bibleList;
 
     m_actions->setTitle(m_moduleManager->bible()->bibleTitle());

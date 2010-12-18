@@ -34,6 +34,15 @@ int BibleList::readBook(int id)
     }
     return 0;
 }
+void BibleList::setCurrentBibleListID(const int &bibleListID)
+{
+    m_currentBible = bibleListID;
+}
+int BibleList::currentBibleListID() const
+{
+    return m_currentBible;
+}
+
 void BibleList::addBible(Bible* b, const QPoint &p)
 {
     const int id = m_biblePoints.size();
@@ -42,10 +51,7 @@ void BibleList::addBible(Bible* b, const QPoint &p)
     m_bibles.insert(id, b);
 
 }
-/**
-  Returns the bible at id.
-  \param id The bibleList internal id, not the moduleID. If id == -1 then current bible;
-  */
+
 Bible * BibleList::bible(const int &id) const
 {
     if(id == -1) {

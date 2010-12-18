@@ -57,9 +57,9 @@ void Actions::setCurrentChapter(const QSet<int> &chapterID)
     DEBUG_FUNC_NAME
     emit _setCurrentChapter(chapterID);
 }
-void Actions::reloadActiveBible()
+void Actions::reloadActive()
 {
-    emit _reloadActiveBible();
+    emit _reloadActive();
 }
 void Actions::setTitle(const QString &title)
 {

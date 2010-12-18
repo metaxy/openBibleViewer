@@ -167,7 +167,6 @@ set ( openBibleViewer_HDRS
     src/core/versereplacer.h
     src/core/version.h
     src/core/url.h
-    src/core/windowcache.h
     src/core/xbelreader.h
     src/core/xbelwriter.h
 
@@ -228,7 +227,6 @@ set ( openBibleViewer_SRCS
     src/core/settings/modulecache.cpp
     src/core/settings/session.cpp
     src/core/settings/bibledisplaysettings.cpp
-    src/core/windowcache.cpp
     src/core/url.cpp
     src/core/urlconverter.cpp
     src/core/versereplacer.cpp

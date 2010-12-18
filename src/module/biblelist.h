@@ -23,24 +23,34 @@ class BibleList
 {
 public:
     BibleList();
+    /**
+      * Deletes all bibles of the BibleList
+      */
     ~BibleList();
-    QHash<int, Bible *> m_bibles;
-    QMap<int, QPoint> m_biblePoints;
+
     void clear();
+    /**
+      Returns the bible at id.
+      \param id The bibleList internal id, not the moduleID. If id == -1 then current bible;
+      */
     Bible * bible(const int &id = -1) const;
     void addBible(Bible* b, const QPoint &p);
+    void setCurrentBibleListID(const int &bibleListID);
+    int currentBibleListID() const;
 
     int readBook(int id);
     QString readChapter(const int &chapterID, const int &verseID) const;
     std::pair<QString, TextRanges> readRanges(const Ranges &ranges) const;
 
-    int m_currentBible;
-
     bool hasTopBar() const;
+
+    QHash<int, Bible *> m_bibles;
+    QMap<int, QPoint> m_biblePoints;
 
 private:
     QString title(Bible *b, const QString &active, const int &bibleListID) const;
     int countInCol(const int &col) const;
+    int m_currentBible;
 
 };
 

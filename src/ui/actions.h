@@ -40,7 +40,7 @@ signals:
     void _setCurrentBook(const QSet<int> &bookID);
     void _setCurrentChapter(const QSet<int> &chapterID);
 
-    void _reloadActiveBible();
+    void _reloadActive();
 
     void _setTitle(const QString &title);
     void _updateChapters(const QStringList &chapters);
@@ -76,7 +76,7 @@ public slots:
     void setCurrentBook(const QSet<int> &bookID);
     void setCurrentChapter(const QSet<int> &chapterID);
 
-    void reloadActiveBible();
+    void reloadActive();
 
     void setTitle(const QString &title);
     void updateChapters(const QStringList &chapters);

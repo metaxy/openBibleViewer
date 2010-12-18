@@ -21,7 +21,8 @@ BibleApi::BibleApi(QObject *parent) :
 void BibleApi::activateBible(const int &bibleListID)
 {
     DEBUG_FUNC_NAME
-    m_moduleManager->bibleList()->m_currentBible = bibleListID;
+    m_moduleManager->bibleList()->setCurrentBibleListID(bibleListID);
+
     QWebElementCollection collection = m_frame->documentElement().findAll("td[class~=bibleListTitle]");
     foreach(QWebElement paraElement, collection) {
         paraElement.removeClass("active");
@@ -29,7 +30,7 @@ void BibleApi::activateBible(const int &bibleListID)
             paraElement.addClass("active");
         }
     }
-    m_actions->reloadActiveBible();
+    m_actions->reloadActive();
 }
 void BibleApi::setFrame(QWebFrame *frame)
 {
