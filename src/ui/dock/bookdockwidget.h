@@ -28,7 +28,7 @@ class BookDockWidget;
 class BookDockWidget : public DockWidget
 {
     Q_OBJECT
-private slots:
+public slots:
     void readBook(QModelIndex index);
     void readChapter(QModelIndex index);
     void setCurrentBook(const QSet<int> &bookID);
