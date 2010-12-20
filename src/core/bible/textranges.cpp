@@ -43,7 +43,6 @@ QSet<int> TextRanges::booksIDs()
     foreach(TextRange range, m_ranges) {
         ret.insert(range.bookID());
     }
-
     return ret;
 }
 QSet<int> TextRanges::chapterIDs()

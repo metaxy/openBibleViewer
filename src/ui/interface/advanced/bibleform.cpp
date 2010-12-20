@@ -216,6 +216,7 @@ void BibleForm::zoomOut()
 void BibleForm::setChapters(const QStringList &chapters)
 {
     //DEBUG_FUNC_NAME
+    myDebug() << " windowID = " << m_id;
     bool same = true;
     if(m_ui->comboBox_chapters->count() == chapters.count()) {
         for(int i = 0; i < chapters.count(); i++) {
@@ -240,12 +241,15 @@ void BibleForm::clearChapters()
 void BibleForm::setCurrentChapter(const QSet<int> &chapterID)
 {
     //DEBUG_FUNC_NAME
+    myDebug() << " windowID = " << m_id;
+    myDebug() << chapterID;
     disconnect(m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
     int min = -1;
     foreach(int c, chapterID) {
         if(c < min || min == -1)
             min = c;
     }
+    myDebug() << "min = " << min;
     m_ui->comboBox_chapters->setCurrentIndex(min);
     connect(m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
 }
@@ -295,50 +299,40 @@ void BibleForm::setCurrentBook(const QSet<int> &bookID)
 }
 void BibleForm::activated()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
+    myDebug() << " windowID = " << m_id;
     m_api->bibleApi()->setFrame(m_view->page()->mainFrame());
     BibleList *list = m_bibleList;
     if(m_bibleList == NULL || m_bibleList->bible() == NULL) {
+        myDebug() << "no biblelist or no bible";
         clearChapters();
         clearBooks();
-        //setTitle("");
+        m_actions->setTitle("");
         m_moduleManager->m_bibleList = NULL;
         return;
     }
     if(m_bibleList->bible()->moduleID() < 0) {
+        myDebug() << "invalid moduleID";
         clearChapters();
         clearBooks();
-        //setTitle("");
+        m_actions->setTitle("");
         m_moduleManager->m_bibleList = list;
         return;
     }
-
     m_moduleManager->m_bibleList = m_bibleList;
 
     m_actions->setTitle(m_moduleManager->bible()->bibleTitle());
     m_actions->setCurrentModule(m_moduleManager->bible()->moduleID());
 
     m_actions->updateChapters(m_moduleManager->bible()->chapterNames());
-    QSet<int> c;
-    c.insert(m_moduleManager->bible()->chapterID());
-    m_actions->setCurrentChapter(c);
-
     m_actions->updateBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
-    QSet<int> b;
-    b.insert(m_moduleManager->bible()->bookID());
-    m_actions->setCurrentBook(b);
+    if(m_lastTextRanges.verseCount() != 0) {
+        m_actions->setCurrentChapter(m_lastTextRanges.chapterIDs());
+        m_actions->setCurrentBook(m_lastTextRanges.booksIDs());
+    }
+
 }
 
-void BibleForm::changeEvent(QEvent *e)
-{
-    switch(e->type()) {
-    case QEvent::LanguageChange:
-        m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
-}
 void BibleForm::scrollToAnchor(const QString &anchor)
 {
     //DEBUG_FUNC_NAME
@@ -949,3 +943,14 @@ BibleForm::~BibleForm()
     delete m_bibleList;
 }
 
+
+void BibleForm::changeEvent(QEvent *e)
+{
+    switch(e->type()) {
+    case QEvent::LanguageChange:
+        m_ui->retranslateUi(this);
+        break;
+    default:
+        break;
+    }
+}
