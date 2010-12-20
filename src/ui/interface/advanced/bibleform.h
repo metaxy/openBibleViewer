@@ -93,6 +93,7 @@ public slots:
 
     void forwardHistorySetUrl(const QString &url);
 
+
     void activated();
 
     void scrollToAnchor(const QString &anchor);

@@ -33,18 +33,21 @@ private slots:
     void readChapter(QModelIndex index);
     void setCurrentBook(const QSet<int> &bookID);
     void setCurrentChapter(const QSet<int> &chapterID);
+    void clearBooks();
+    void clearChapters();
+    void setChapters(const QStringList &chapters);
+    void setBooks(const QHash<int, QString> &books);
+    //void setBooks(const QHash<int, QString> &books, QList<int> ids);
 
 public:
     BookDockWidget(QWidget *parent = 0);
     ~BookDockWidget();
     void init();
-    void setChapters(const QStringList &chapters);
-    void setBooks(const QHash<int, QString> &books);
+
     void setCurrentBook(const int &bookID);
     void setCurrentChapter(const int &chapterID);
 
-    void clearBooks();
-    void clearChapters();
+
 
 protected:
     void changeEvent(QEvent *e);

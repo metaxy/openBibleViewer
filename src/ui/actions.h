@@ -44,7 +44,9 @@ signals:
 
     void _setTitle(const QString &title);
     void _updateChapters(const QStringList &chapters);
+    void _clearChapters();
     void _updateBooks(const QHash<int, QString> &books, QList<int> ids);
+    void _clearBooks();
 
     void _setCurrentModule(const int &moduleID);
 
@@ -79,8 +81,11 @@ public slots:
     void reloadActive();
 
     void setTitle(const QString &title);
+
     void updateChapters(const QStringList &chapters);
+    void clearChapters();
     void updateBooks(const QHash<int, QString> &books, QList<int> ids);
+    void clearBooks();
 
     void setCurrentModule(const int &moduleID);
 

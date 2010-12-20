@@ -75,6 +75,15 @@ void Actions::updateBooks(const QHash<int, QString> &books, QList<int> ids)
 {
     emit _updateBooks(books, ids);
 }
+void Actions::clearBooks()
+{
+    emit _clearBooks();
+}
+void Actions::clearChapters()
+{
+    emit _clearChapters();
+}
+
 void Actions::setCurrentModule(const int &moduleID)
 {
     emit _setCurrentModule(moduleID);

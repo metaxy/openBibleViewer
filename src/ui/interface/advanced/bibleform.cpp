@@ -83,6 +83,9 @@ void BibleForm::init()
     connect(m_actions, SIGNAL(_updateChapters(QStringList)), this, SLOT(forwardSetChapters(QStringList)));
     connect(m_actions, SIGNAL(_updateBooks(QHash<int, QString>, QList<int>)), this, SLOT(forwardSetBooks(QHash<int, QString>, QList<int>)));
 
+    connect(m_actions, SIGNAL(_clearBooks()), this, SLOT(forwardClearBooks()));
+    connect(m_actions, SIGNAL(_clearChapters()), this, SLOT(forwardClearChapters()));
+
     connect(m_actions, SIGNAL(_setCurrentBook(QSet<int>)), this, SLOT(forwardSetCurrentBook(QSet<int>)));
     connect(m_actions, SIGNAL(_setCurrentChapter(QSet<int>)), this, SLOT(forwardSetCurrentChapter(QSet<int>)));
     connect(m_actions, SIGNAL(_historySetUrl(QString)), this,SLOT(forwardHistorySetUrl(QString)));
@@ -95,18 +98,15 @@ void BibleForm::init()
 }
 void BibleForm::setApi(Api *api)
 {
-    //DEBUG_FUNC_NAME
     m_api = api;
 }
 void BibleForm::setBibleManager(BibleManager *bibleManager)
 {
-    //DEBUG_FUNC_NAME
     m_bibleManager = bibleManager;
 }
 
 void BibleForm::setNotesManager(NotesManager *notesManager)
 {
-    //DEBUG_FUNC_NAME
     m_notesManager = notesManager;
 }
 void BibleForm::attachApi()

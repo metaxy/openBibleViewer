@@ -40,6 +40,12 @@ void BookDockWidget::init()
 {
     connect(m_actions, SIGNAL(_setCurrentBook(QSet<int>)), this, SLOT(setCurrentBook(QSet<int>)));
     connect(m_actions, SIGNAL(_setCurrentChapter(QSet<int>)), this, SLOT(setCurrentChapter(QSet<int>)));
+
+    connect(m_actions, SIGNAL(_clearBooks()), this, SLOT(clearBooks()));
+    connect(m_actions, SIGNAL(_clearChapters()), this, SLOT(clearChapters()));
+
+    connect(m_actions, SIGNAL(_updateBooks(QHash<int,QString>,QList<int>)), this, SLOT(setBooks(QHash<int,QString>)));
+    connect(m_actions, SIGNAL(_updateChapters(QStringList)), this, SLOT(setChapters(QStringList)));
 }
 BookDockWidget::~BookDockWidget()
 {
