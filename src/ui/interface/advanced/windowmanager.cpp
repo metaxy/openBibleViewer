@@ -302,19 +302,16 @@ void WindowManager::closeSubWindow()
 
 int WindowManager::closingWindow()
 {
+    DEBUG_FUNC_NAME
     if(!m_enableReload)
         return 1;
     if(m_area->subWindowList().isEmpty()) {
+        myDebug() << "last window closed";
         //clearBooks();
         //clearChapters();
         return 1;
     }
 
-    if(m_area->subWindowList().isEmpty()) {  //last window closed
-        //clearBooks();
-        //clearChapters();
-        return 1;
-    }
     reloadWindow(m_area->currentSubWindow());
     if(m_area->viewMode() == QMdiArea::SubWindowView)
         autoLayout();
@@ -323,14 +320,20 @@ int WindowManager::closingWindow()
 
 int WindowManager::reloadWindow(QMdiSubWindow * window)
 {
+    DEBUG_FUNC_NAME
     if(!m_enableReload || window == NULL) {
+        myDebug() << "reload is not enabled or window == NULL";
         return 1;
     }
     if(m_area->subWindowList().isEmpty()) {
+        myDebug() << "sub window list is empty";
         return 1;
     }
-    *m_currentWindowID = activeForm()->id();
-    activeForm()->activated();
+    BibleForm *form =  window->widget()->findChild<BibleForm *>("mdiForm");
+    *m_currentWindowID = form->id();
+    myDebug() << "window ID  = " << *m_currentWindowID;
+    form->activated();
+    m_area->setActiveSubWindow(window);
     return 0;
 }
 void WindowManager::mdiAreaResized()
@@ -342,6 +345,7 @@ void WindowManager::mdiAreaResized()
 }
 void WindowManager::reloadActive()
 {
+    DEBUG_FUNC_NAME
     reloadWindow(activeSubWindow());
 }
 
@@ -363,11 +367,13 @@ void WindowManager::zoomOut()
 }
 void WindowManager::disable()
 {
+    DEBUG_FUNC_NAME
     m_enableReload = false;
 }
 
 void WindowManager::enable()
 {
+    DEBUG_FUNC_NAME
     m_enableReload = true;
 }
 void WindowManager::setSubWindowView()

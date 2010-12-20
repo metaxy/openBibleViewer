@@ -143,6 +143,7 @@ int ZefaniaBible::readBook(const int &id)
 Book ZefaniaBible::fromHardToSoft(const int &bookID, const QDomNode *ncache)
 {
     Book book;
+    book.setID(bookID);
     QDomNode n = ncache->firstChild();
     int chapterCounter;
     for(chapterCounter = 0; !n.isNull(); ++chapterCounter) {
@@ -206,17 +207,14 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
             const int chapterID = list.at(1).toInt() - 1;
             const int verseID = list.at(2).toInt() - 1;
 
-            BibleUrl burl;
-            BibleUrlRange range;
 
+            BibleUrlRange range;
             range.setBible(BibleUrlRange::LoadCurrentBible);
             range.setBook(bookID);
             range.setChapter(chapterID);
             range.setWholeChapter();
             range.setActiveVerse(verseID);
-            burl.addRange(range);
-            const QString url = burl.toString();
-
+            BibleUrl burl(range);
 
             QString name = "";
             if(bookID < m_settings->bookFullNames.size()) {
@@ -224,7 +222,7 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
             } else {
                 name = list.at(0) + " " + list.at(1) + "," + list.at(2);
             }
-            t.setData("<span class=\"crossreference\"><a class=\"reflink\" href=\"" + url + "\">" + name + "</a></span>");
+            t.setData("<span class=\"crossreference\"><a class=\"reflink\" href=\"" + burl.toString() + "\">" + name + "</a></span>");
             node.replaceChild(t, node.firstChild());
             e->replaceChild(node, n);
         }
@@ -786,20 +784,20 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
 {
     DEBUG_FUNC_NAME
     const QString index = indexPath();
-    myDebug() << " index = " << index;
+    //myDebug() << " index = " << index;
     const TCHAR* stop_words[] = { NULL };
     standard::StandardAnalyzer analyzer(stop_words);
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     IndexSearcher s(reader);
     Query* q = QueryParser::parse(query.searchText.toStdWString().c_str(), _T("content"), &analyzer);
     Hits* h = s.search(q);
-    myDebug() << "query string = " << q->toString();
+    //myDebug() << "query string = " << q->toString();
     for(size_t i = 0; i < h->length(); i++) {
         Document* doc = &h->doc(i);
         const QString stelle = QString::fromWCharArray(doc->get(_T("key")));
-        myDebug() << "found stelle = " << stelle;
-        // h->score(i)
+        //myDebug() << "found stelle = " << stelle;
         const QStringList l = stelle.split(";");
+        //hacky filter
         if(query.range == SearchQuery::Whole || (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) || (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
             SearchHit hit;
             hit.setType(SearchHit::BibleHit);
@@ -808,6 +806,7 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
             hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
             hit.setValue(SearchHit::VerseID, l.at(2).toInt());
             hit.setValue(SearchHit::VerseText, QString::fromWCharArray(doc->get(_T("content"))));
+            hit.setValue(SearchHit::Score, (double) h->score(i));
 
             res->addHit(hit);
         }
@@ -815,6 +814,9 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
     reader->close();
     delete reader;
 }
+/**
+  * Returns the path, where all indexed files are stored.
+  */
 QString ZefaniaBible::indexPath() const
 {
     DEBUG_FUNC_NAME

@@ -49,12 +49,12 @@ void Actions::showNote(const QString &noteID)
 }
 void Actions::setCurrentBook(const QSet<int> &bookID)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     emit _setCurrentBook(bookID);
 }
 void Actions::setCurrentChapter(const QSet<int> &chapterID)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     emit _setCurrentChapter(chapterID);
 }
 void Actions::reloadActive()

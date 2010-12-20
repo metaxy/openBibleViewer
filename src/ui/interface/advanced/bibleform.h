@@ -117,7 +117,7 @@ public slots:
     void newItalicMark();
     void newUnderlineMark();
     void removeMark();
-
+    void forwardShowTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url);
     void showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url);
 
 

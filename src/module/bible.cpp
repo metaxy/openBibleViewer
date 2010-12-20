@@ -677,7 +677,7 @@ TextRange Bible::readRange(const Range &range)
 }
 TextRanges Bible::readRanges(const Ranges &ranges)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     TextRanges textRanges;
     foreach(const Range & r, ranges.getList()) {
         textRanges.addTextRange(readRange(r));

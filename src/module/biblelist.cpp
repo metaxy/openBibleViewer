@@ -80,7 +80,7 @@ void BibleList::clear()
 
 QString BibleList::readChapter(const int &chapterID, const int &verseID) const
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     Ranges ranges;
     Range f;
     myDebug() << "bookID = " << bible()->bookID() << " chapterID = " << chapterID;
@@ -94,7 +94,7 @@ QString BibleList::readChapter(const int &chapterID, const int &verseID) const
 }
 std::pair<QString, TextRanges> BibleList::readRanges(const Ranges &ranges) const
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if(m_bibles.size() == 1) {
         std::pair<QString, TextRanges> ret;
         ret.second = m_bibles[m_currentBible]->readRanges(ranges);

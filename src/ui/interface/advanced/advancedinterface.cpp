@@ -704,7 +704,9 @@ int AdvancedInterface::showAboutDialog(void)
     AboutDialog aDialog;
     aDialog.setWindowTitle(tr("About openBibleViewer"));
     aDialog.show();
-    aDialog.setText(tr("openBibleViewer <br> version: %1 build: %2<br> <a href=\"http://openbv.uucyc.name/\"> Official Website</a> | <a href=\"http://openbv.uucyc.name/bug/\">Bug report</a>")
+    aDialog.setText(tr("openBibleViewer <br /> version: %1 build: %2<br /> "
+                       "<a href='http://openbv.uucyc.name/'> Official Website</a> <br />"
+                       "<a href='https://github.com/metaxy/openBibleViewer/issues'>Bug report</a>")
                     .arg(m_settings->version).arg(m_settings->build));
     return aDialog.exec();
 }

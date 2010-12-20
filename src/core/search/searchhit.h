@@ -35,7 +35,8 @@ public:
         VerseID = 3,
         VerseText = 4,
         NoteID = 5,
-        NoteText = 6
+        NoteText = 6,
+        Score = 7
     };
     SearchHitType type() const;
     void setType(SearchHitType type);

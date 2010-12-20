@@ -87,7 +87,7 @@ void BibleForm::init()
     connect(m_actions, SIGNAL(_setCurrentChapter(QSet<int>)), this, SLOT(forwardSetCurrentChapter(QSet<int>)));
     connect(m_actions, SIGNAL(_historySetUrl(QString)), this,SLOT(forwardHistorySetUrl(QString)));
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(forwardShowText(QString)));
-    connect(m_actions, SIGNAL(_showTextRanges(QString,TextRanges,BibleUrl)), this, SLOT(showTextRanges(QString,TextRanges,BibleUrl)));
+    connect(m_actions, SIGNAL(_showTextRanges(QString,TextRanges,BibleUrl)), this, SLOT(forwardShowTextRanges(QString,TextRanges,BibleUrl)));
 
 
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
@@ -295,7 +295,7 @@ void BibleForm::setCurrentBook(const QSet<int> &bookID)
 }
 void BibleForm::activated()
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     m_api->bibleApi()->setFrame(m_view->page()->mainFrame());
     BibleList *list = m_bibleList;
     if(m_bibleList == NULL || m_bibleList->bible() == NULL) {
@@ -341,7 +341,7 @@ void BibleForm::changeEvent(QEvent *e)
 }
 void BibleForm::scrollToAnchor(const QString &anchor)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
 #if QT_VERSION >= 0x040700
     m_view->page()->mainFrame()->scrollToAnchor(anchor);
 #else
@@ -352,6 +352,7 @@ void BibleForm::scrollToAnchor(const QString &anchor)
 void BibleForm::showText(const QString &text)
 {
     //DEBUG_FUNC_NAME
+    myDebug() << " windowID = " << m_id;
     QString cssFile = m_settings->getModuleSettings(m_moduleManager->bible()->moduleID()).styleSheet;
     if(cssFile.isEmpty())
         cssFile = ":/data/css/default.css";
@@ -399,6 +400,13 @@ void BibleForm::showText(const QString &text)
     }
 
 }
+void BibleForm::forwardShowTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url)
+{
+    if(!active())
+        return;
+    showTextRanges(html,range,url);
+}
+
 void BibleForm::showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url)
 {
     showText(html);
@@ -527,6 +535,7 @@ void BibleForm::forwardSetCurrentChapter(const QSet<int> &chapterID)
 
 void BibleForm::forwardShowText(const QString &text)
 {
+    DEBUG_FUNC_NAME
     if(!active())
         return;
     showText(text);
@@ -539,7 +548,7 @@ void BibleForm::forwardHistorySetUrl(const QString &url)
 }
 bool BibleForm::active()
 {
-    //DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME;
     /* QMdiArea *area = (QMdiArea*) this->parentWidget()->parentWidget();
      if(area) {
          QMdiSubWindow *window = area->activeSubWindow();
@@ -551,9 +560,10 @@ bool BibleForm::active()
              return true;
      }
     */
-
+    myDebug() << "current = " << *currentWindowID << " m_ID = " << m_id;
     if(*currentWindowID == m_id)
         return true;
+    //myDebug() << "false";
     return false;
 }
 int BibleForm::id()
