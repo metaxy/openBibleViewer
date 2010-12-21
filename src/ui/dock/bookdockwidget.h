@@ -47,8 +47,6 @@ public:
     void setCurrentBook(const int &bookID);
     void setCurrentChapter(const int &chapterID);
 
-
-
 protected:
     void changeEvent(QEvent *e);
 private:

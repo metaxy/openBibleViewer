@@ -216,7 +216,7 @@ void BibleForm::zoomOut()
 void BibleForm::setChapters(const QStringList &chapters)
 {
     //DEBUG_FUNC_NAME
-    myDebug() << " windowID = " << m_id;
+    //myDebug() << " windowID = " << m_id;
     bool same = true;
     if(m_ui->comboBox_chapters->count() == chapters.count()) {
         for(int i = 0; i < chapters.count(); i++) {
@@ -241,15 +241,15 @@ void BibleForm::clearChapters()
 void BibleForm::setCurrentChapter(const QSet<int> &chapterID)
 {
     //DEBUG_FUNC_NAME
-    myDebug() << " windowID = " << m_id;
-    myDebug() << chapterID;
+    //myDebug() << " windowID = " << m_id;
+    //myDebug() << chapterID;
     disconnect(m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
     int min = -1;
     foreach(int c, chapterID) {
         if(c < min || min == -1)
             min = c;
     }
-    myDebug() << "min = " << min;
+    //myDebug() << "min = " << min;
     m_ui->comboBox_chapters->setCurrentIndex(min);
     connect(m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
 }
@@ -300,7 +300,7 @@ void BibleForm::setCurrentBook(const QSet<int> &bookID)
 void BibleForm::activated()
 {
     //DEBUG_FUNC_NAME
-    myDebug() << " windowID = " << m_id;
+    //myDebug() << " windowID = " << m_id;
     m_api->bibleApi()->setFrame(m_view->page()->mainFrame());
     BibleList *list = m_bibleList;
     if(m_bibleList == NULL || m_bibleList->bible() == NULL) {
@@ -345,8 +345,8 @@ void BibleForm::scrollToAnchor(const QString &anchor)
 }
 void BibleForm::showText(const QString &text)
 {
-    //DEBUG_FUNC_NAME
-    myDebug() << " windowID = " << m_id;
+    DEBUG_FUNC_NAME
+    //myDebug() << " windowID = " << m_id;
     QString cssFile = m_settings->getModuleSettings(m_moduleManager->bible()->moduleID()).styleSheet;
     if(cssFile.isEmpty())
         cssFile = ":/data/css/default.css";
@@ -357,7 +357,7 @@ void BibleForm::showText(const QString &text)
 
     m_view->setHtml(text);
     if(m_lastTextRanges.verseCount() > 1) {
-        myDebug() << "scrolling";
+        //myDebug() << "scrolling";
         scrollToAnchor("currentEntry");
         if(m_moduleManager->bibleList()->hasTopBar())
             m_view->page()->mainFrame()->scroll(0, -40); //due to the biblelist bar on top
@@ -403,6 +403,7 @@ void BibleForm::forwardShowTextRanges(const QString &html, const TextRanges &ran
 
 void BibleForm::showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url)
 {
+    DEBUG_FUNC_NAME;
     showText(html);
     m_lastTextRanges = range;
     m_lastUrl = url;
@@ -554,7 +555,7 @@ bool BibleForm::active()
              return true;
      }
     */
-    myDebug() << "current = " << *currentWindowID << " m_ID = " << m_id;
+    //myDebug() << "current = " << *currentWindowID << " m_ID = " << m_id;
     if(*currentWindowID == m_id)
         return true;
     //myDebug() << "false";

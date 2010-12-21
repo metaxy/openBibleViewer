@@ -20,7 +20,8 @@ BibleApi::BibleApi(QObject *parent) :
 }
 void BibleApi::activateBible(const int &bibleListID)
 {
-    DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME;
+    myDebug() << bibleListID;
     m_moduleManager->bibleList()->setCurrentBibleListID(bibleListID);
 
     QWebElementCollection collection = m_frame->documentElement().findAll("td[class~=bibleListTitle]");

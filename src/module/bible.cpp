@@ -45,7 +45,7 @@ bool Bible::loaded()
 
 int Bible::loadModuleData(const int &moduleID)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     //CALLGRIND_START_INSTRUMENTATION;
     m_module = m_map->m_map.value(moduleID);
     if(moduleID < 0 || !m_module) {
@@ -118,7 +118,7 @@ int Bible::loadModuleData(const int &moduleID)
 */
 int Bible::readBook(int id)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     m_bookID = id;
     switch(m_module->m_moduleType) {
     case Module::BibleQuoteModule: {
@@ -431,12 +431,12 @@ QString Bible::toUniformHtml(QString string)
 
     return raw;
 }
-TextRange Bible::readRange(const Range &range)
+TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     //todo: what about biblequote
     TextRange ret;
-    if(range.moduleID() != m_moduleID) {
+    if(range.moduleID() != m_moduleID && !ignoreModuleID) {
         //myDebug() << "loadModule = " << range.moduleID();
         loadModuleData(range.moduleID());
     }
@@ -675,12 +675,12 @@ TextRange Bible::readRange(const Range &range)
     return ret;
 
 }
-TextRanges Bible::readRanges(const Ranges &ranges)
+TextRanges Bible::readRanges(const Ranges &ranges, bool ignoreModuleID)
 {
     //DEBUG_FUNC_NAME
     TextRanges textRanges;
     foreach(const Range & r, ranges.getList()) {
-        textRanges.addTextRange(readRange(r));
+        textRanges.addTextRange(readRange(r,ignoreModuleID));
     }
     return textRanges;
 }

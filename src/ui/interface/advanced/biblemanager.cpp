@@ -122,6 +122,8 @@ Ranges BibleManager::bibleUrlRangeToRanges(BibleUrlRange range)
 }
 void BibleManager::pharseUrl(const BibleUrl &url)
 {
+    DEBUG_FUNC_NAME;
+    myDebug() << "url = " << url.toString();
     Ranges ranges;
     foreach(BibleUrlRange range, url.ranges()) {
         ranges.addRanges(bibleUrlRangeToRanges(range));
@@ -131,7 +133,7 @@ void BibleManager::pharseUrl(const BibleUrl &url)
 
 void BibleManager::pharseUrl(const QString &url)
 {
-    DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME;
     const QString bible = "bible://";
     const QString bq = "go";
     myDebug() << "url = " << url;

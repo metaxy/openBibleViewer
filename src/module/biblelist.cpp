@@ -36,6 +36,7 @@ int BibleList::readBook(int id)
 }
 void BibleList::setCurrentBibleListID(const int &bibleListID)
 {
+    DEBUG_FUNC_NAME;
     m_currentBible = bibleListID;
 }
 int BibleList::currentBibleListID() const
@@ -45,6 +46,7 @@ int BibleList::currentBibleListID() const
 
 void BibleList::addBible(Bible* b, const QPoint &p)
 {
+    DEBUG_FUNC_NAME;
     const int id = m_biblePoints.size();
     m_currentBible = id;
     m_biblePoints.insert(id, p);
@@ -56,6 +58,7 @@ Bible * BibleList::bible(const int &id) const
 {
     if(id == -1) {
         if(m_bibles.contains(m_currentBible)) {
+            //myDebug() << "return bible with " << m_currentBible;
             return m_bibles.value(m_currentBible);
         }
     } else {
@@ -94,7 +97,7 @@ QString BibleList::readChapter(const int &chapterID, const int &verseID) const
 }
 std::pair<QString, TextRanges> BibleList::readRanges(const Ranges &ranges) const
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     if(m_bibles.size() == 1) {
         std::pair<QString, TextRanges> ret;
         ret.second = m_bibles[m_currentBible]->readRanges(ranges);
@@ -103,16 +106,16 @@ std::pair<QString, TextRanges> BibleList::readRanges(const Ranges &ranges) const
     } else if(m_bibles.size() > 1) {
         std::pair<QString, TextRanges> ret;
 
-        myDebug() << "oh a real biblelist";
+        //myDebug() << "oh a real biblelist";
         QHash<int, TextRanges> data;
         QHashIterator<int, Bible *> i(m_bibles);
         TextRanges def;
         TextRanges tret;
 
         while(i.hasNext()) {
-            //todo: add them all to ret.second
             i.next();
-            const TextRanges r = i.value()->readRanges(ranges);
+            myDebug() << "read = " << i.value()->moduleID();
+            const TextRanges r = i.value()->readRanges(ranges, true);
             data.insert(i.key(), r);
             def = r;
             tret.addTextRanges(r);

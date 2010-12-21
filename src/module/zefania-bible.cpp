@@ -43,7 +43,7 @@ ZefaniaBible::ZefaniaBible()
 }
 void ZefaniaBible::loadBibleData(const int &id, const QString &path)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_bibleName = "";
     m_bibleID = id;
 

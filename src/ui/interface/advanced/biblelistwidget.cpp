@@ -106,8 +106,8 @@ void BibleListWidget::addRow()
 }
 void BibleListWidget::save()
 {
-    int book = m_moduleManager->bible()->bookID();
-    int chapter = m_moduleManager->bible()->chapterID();
+    DEBUG_FUNC_NAME
+
     m_moduleManager->bibleList()->clear();
     //load them
     int selectedModule = -1;//the selected bible
@@ -116,7 +116,6 @@ void BibleListWidget::save()
     for(int x = 0; x < m_model->rowCount(); ++x) {
         for(int y = 0; y < m_model->columnCount(); ++y) {
             int id = m_model->item(x, y)->data(Qt::UserRole + 2).toInt();
-
             if(id >= 0) {
                 atLeastOne = true;
                 m_moduleManager->newBible(id, QPoint(x, y));
@@ -126,23 +125,25 @@ void BibleListWidget::save()
             }
         }
     }
-
+    myDebug() << "selectedModule = " << selectedModule << " lastModule = " << lastModule;
     if(selectedModule != -1)
         m_moduleManager->bibleList()->setCurrentBibleListID(selectedModule);
     else
         m_moduleManager->bibleList()->setCurrentBibleListID(lastModule);
-    //myDebug() <<  m_model->rowCount() << m_model->columnCount();
+
     if(atLeastOne) {
+        myDebug() << "at least one";
         BibleUrl url;
         BibleUrlRange range;
-        range.setBible(m_moduleManager->bible()->moduleID());
-        range.setBook(book);
-        range.setChapter(chapter);
+        range.setBible(BibleUrlRange::LoadCurrentBible);
+        range.setBook(BibleUrlRange::LoadCurrentBook);
+        range.setChapter(BibleUrlRange::LoadCurrentChapter);
         range.setWholeChapter();
         url.setParam("force", "true");
         url.addRange(range);
         m_actions->get(url);
     } else {
+        myDebug() << "not at least one";
         Bible *b = new Bible();
         m_moduleManager->initBible(b);
         m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
@@ -160,7 +161,6 @@ BibleListWidget::~BibleListWidget()
 
 void BibleListWidget::changeEvent(QEvent *e)
 {
-
     QWidget::changeEvent(e);
     switch(e->type()) {
     case QEvent::LanguageChange:

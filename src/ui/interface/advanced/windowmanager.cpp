@@ -307,8 +307,8 @@ int WindowManager::closingWindow()
         return 1;
     if(m_area->subWindowList().isEmpty()) {
         myDebug() << "last window closed";
-        //clearBooks();
-        //clearChapters();
+        m_actions->clearBooks();
+        m_actions->clearChapters();
         return 1;
     }
 

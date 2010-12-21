@@ -44,7 +44,7 @@ QWidget * BibleListItemDelegate::createEditor(QWidget *parent,
 
 void BibleListItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QComboBox *combo = qobject_cast<QComboBox *>(editor);
     if(!combo) {
         QItemDelegate::setEditorData(editor, index);
@@ -55,7 +55,7 @@ void BibleListItemDelegate::setEditorData(QWidget *editor, const QModelIndex &in
 }
 void BibleListItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QComboBox *combo = qobject_cast<QComboBox *>(editor);
     if(!combo) {
         QItemDelegate::setModelData(editor, model, index);
