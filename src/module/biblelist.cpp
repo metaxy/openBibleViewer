@@ -38,6 +38,7 @@ void BibleList::setCurrentBibleListID(const int &bibleListID)
 {
     DEBUG_FUNC_NAME;
     m_currentBible = bibleListID;
+    setLastTextRanges(m_lastTextRanges);
 }
 int BibleList::currentBibleListID() const
 {
@@ -51,6 +52,7 @@ void BibleList::addBible(Bible* b, const QPoint &p)
     m_currentBible = id;
     m_biblePoints.insert(id, p);
     m_bibles.insert(id, b);
+    setLastTextRanges(m_lastTextRanges);
 
 }
 
@@ -97,7 +99,8 @@ QString BibleList::readChapter(const int &chapterID, const int &verseID) const
 }
 std::pair<QString, TextRanges> BibleList::readRanges(const Ranges &ranges) const
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
+
     if(m_bibles.size() == 1) {
         std::pair<QString, TextRanges> ret;
         ret.second = m_bibles[m_currentBible]->readRanges(ranges);
@@ -221,7 +224,7 @@ QString BibleList::title(Bible *b, const QString &active, const int &bibleListID
     return "<td class='bibleListTitle" + active + "' titleOf='" +
            QString::number(b->moduleID()) + "' bibleListID='" +
            QString::number(bibleListID) + "'><a href='#' onclick=\"Bible.activateBible('" +
-           QString::number(bibleListID) + "');\"  class='bibleListTitleLink'>" + b->bibleShortTitle() + "</a></td>";
+           QString::number(bibleListID) + "');\" class='bibleListTitleLink'>" + b->bibleShortTitle() + "</a></td>";
 }
 
 bool BibleList::hasTopBar() const
@@ -231,4 +234,15 @@ bool BibleList::hasTopBar() const
         maxCol = qMax(maxCol, p.y());
     }
     return maxCol >= 1;
+}
+void BibleList::setLastTextRanges(TextRanges *textRanges)
+{
+    m_lastTextRanges = textRanges;
+    foreach(Bible *b, m_bibles) {
+        b->setLastTextRanges(textRanges);
+    }
+}
+TextRanges *BibleList::lastTextRanges()
+{
+    return m_lastTextRanges;
 }

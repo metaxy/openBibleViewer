@@ -71,8 +71,10 @@ Ranges BibleManager::bibleUrlRangeToRanges(BibleUrlRange range)
 
     if(range.startBook() == BibleUrlRange::LoadFirstBook) {
         r.setBook(RangeEnum::FirstBook);
+    } else if(range.startBook() == BibleUrlRange::LoadLastBook) {
+        r.setBook(RangeEnum::LastBook);
     } else if(range.startBook() == BibleUrlRange::LoadCurrentBook) {
-        r.setBook(m_moduleManager->bible()->bookID());
+        r.setBook(RangeEnum::CurrentBook);
     } else {
         r.setBook(range.startBookID());
     }

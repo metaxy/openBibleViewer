@@ -40,6 +40,7 @@ public:
 
     int readBook(int id);
     QString readChapter(const int &chapterID, const int &verseID) const;
+    //todo: should be const, but uses
     std::pair<QString, TextRanges> readRanges(const Ranges &ranges) const;
 
     bool hasTopBar() const;
@@ -47,10 +48,14 @@ public:
     QHash<int, Bible *> m_bibles;
     QMap<int, QPoint> m_biblePoints;
 
+    void setLastTextRanges(TextRanges *textRanges);
+    TextRanges *lastTextRanges();
+
 private:
     QString title(Bible *b, const QString &active, const int &bibleListID) const;
     int countInCol(const int &col) const;
     int m_currentBible;
+    TextRanges *m_lastTextRanges;
 
 };
 

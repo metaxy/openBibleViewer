@@ -31,6 +31,7 @@ Bible::Bible()
     m_loaded = false;
     m_moduleType = Module::NoneType;
     m_bibleModule = 0;
+    m_lastTextRanges = 0;
 }
 
 void Bible::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings)
@@ -434,62 +435,91 @@ QString Bible::toUniformHtml(QString string)
 TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 {
     DEBUG_FUNC_NAME
+    myDebug() << m_loaded;
     //todo: what about biblequote
     TextRange ret;
-    if(range.moduleID() != m_moduleID && !ignoreModuleID) {
-        //myDebug() << "loadModule = " << range.moduleID();
+    if((range.moduleID() != m_moduleID && !ignoreModuleID) || !m_loaded) {
         loadModuleData(range.moduleID());
     }
 
-    int newBookID = -1;
+    int bookID = -1;
     if(range.book() == RangeEnum::BookByID) {
-        newBookID = range.bookID();
+        bookID = range.bookID();
     } else if(range.book() == RangeEnum::FirstBook) {
-        //myDebug() << "find min bible bookIDs = " << bookIDs();
         foreach(int id, bookIDs()) {
-            if(id < newBookID || newBookID == -1) {
-                newBookID = id;
-                myDebug() << id;
+            if(id < bookID || bookID == -1) {
+                bookID = id;
             }
         }
-        if(newBookID == -1)
-            newBookID = 0;
-    }
-    //myDebug() << "new BookID = " << newBookID;
-
-    if(newBookID < 0) {
-        myWarning() << "index out of range index bookID = " << newBookID;
-        return ret;
-    }
-
-    if(m_book.bookID() != newBookID) {
-        readBook(newBookID);
-    }
-
-    //myDebug() << "go on modulesettings";
-    const ModuleSettings moduleSettings = m_settings->getModuleSettings(m_moduleID);
-    //myDebug() << "m_settings = " << m_settings;
-    int newChapterID = -1;
-    if(range.chapter() == RangeEnum::ChapterByID) {
-        newChapterID = range.chapterID();
-    } else if(range.chapter() == RangeEnum::FirstChapter) {
-        //myDebug() << "chapters = " << m_book.m_chapters.size() << m_book.size();
-        foreach(int id,  m_book.m_chapters.keys()) {
-            if(newChapterID == -1 || id < newChapterID)
-                newChapterID = id;
+        if(bookID == -1)
+            bookID = 0;
+    } else if(range.book() == RangeEnum::LastBook) {
+        foreach(int id, bookIDs()) {
+            if(id > bookID || bookID == -1) {
+                bookID = id;
+            }
         }
-        if(newChapterID == -1)
-            newChapterID = 0;
+        if(bookID == -1)
+            bookID = 0;
+    } else if(range.book() == RangeEnum::CurrentBook) {
+        if(m_lastTextRanges != 0 && !m_lastTextRanges->booksIDs().isEmpty()) {
+            bookID = *m_lastTextRanges->booksIDs().begin();
+        } else {
+            foreach(int id, bookIDs()) {
+                if(id < bookID || bookID == -1) {
+                    bookID = id;
+                }
+            }
+        }
     }
-    //myDebug() << "new ChapterID = " << newChapterID;
-    if(!m_book.hasChapter(newChapterID)) {
-        //myWarning() << "index out of range index chapterID = " << newChapterID;
+
+    if(bookID < 0) {
+        myWarning() << "index out of range index bookID = " << bookID;
         return ret;
     }
 
-    Chapter c = m_book.getChapter(newChapterID);
-    ret.setBookID(newBookID);
-    ret.setChapterID(newChapterID);
+    if(m_book.bookID() != bookID) {
+        readBook(bookID);
+    }
+
+    const ModuleSettings moduleSettings = m_settings->getModuleSettings(m_moduleID);
+
+    int chapterID = -1;
+    if(range.chapter() == RangeEnum::ChapterByID) {
+        chapterID = range.chapterID();
+    } else if(range.chapter() == RangeEnum::FirstChapter) {
+        foreach(int id,  m_book.m_chapters.keys()) {
+            if(chapterID == -1 || id < chapterID)
+                chapterID = id;
+        }
+        if(chapterID == -1)
+            chapterID = 0;
+    } else if(range.chapter() == RangeEnum::LastChapter) {
+        foreach(int id,  m_book.m_chapters.keys()) {
+            if(chapterID == -1 || id > chapterID)
+                chapterID = id;
+        }
+        if(chapterID == -1)
+            chapterID = 0;
+    } else if(range.chapter() == RangeEnum::CurrentChapter) {
+        if(m_lastTextRanges != 0 && !m_lastTextRanges->chapterIDs().isEmpty()) {
+            chapterID = *m_lastTextRanges->chapterIDs().begin();
+        } else {
+            foreach(int id,  m_book.m_chapters.keys()) {
+                if(chapterID == -1 || id < chapterID)
+                    chapterID = id;
+            }
+        }
+        myDebug() << "current chapter = " << chapterID;
+    }
+    if(!m_book.hasChapter(chapterID)) {
+        myWarning() << "index out of range index chapterID = " << chapterID;
+        return ret;
+    }
+
+    Chapter c = m_book.getChapter(chapterID);
+    ret.setBookID(bookID);
+    ret.setChapterID(chapterID);
     int startVerse = 0;
     int endVerse = 0;
     QHash<int, Verse> data = c.getData();
@@ -520,15 +550,13 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         endVerse = max;
     }
 
-
-    //myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
     QMap<int, Verse> verseMap;
     bool currentVerse = false;
     for(int verseCounter = startVerse; verseCounter <= endVerse; verseCounter++) {
         if(!data.contains(verseCounter))
             continue; //todo: or should i better add an empty verse?
         Verse verse = data.value(verseCounter);
-        //myDebug() << "verse = " << verse.verseID();
+
         //main formatting
         if(m_notes != 0 && m_bibleDisplaySettings->showNotes() == true) {
             for(int n = 0; n < m_notes->getIDList().size(); ++n) {
@@ -539,7 +567,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                     urlConverter.setSettings(m_settings);
                     urlConverter.setModuleMap(m_map);
                     urlConverter.pharse();
-                    if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == newChapterID && urlConverter.m_verseID == verseCounter) {
+                    if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID && urlConverter.m_verseID == verseCounter) {
                         verse.append("<a href=\"note://" + noteID + "\"><img src=\":/icons/16x16/view-pim-notes.png\" title=\"" + m_notes->getRef(noteID, "title") + "\"></a>");
                     }
                 }
@@ -590,8 +618,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                 const QString pre = "<span class=\"mark\" style=\"" + m_notes->getRef(noteID, "style") + "\">";
 
                 const QString ap = "</span>";
-                if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == newBookID && urlConverter.m_chapterID == newChapterID) {
-                    //versList = versList;
+                if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == bookID && urlConverter.m_chapterID == chapterID) {
                     if(m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
                         VerseSelection::SelectionPosInTextType type = VerseSelection::typeFromString(m_notes->getRef(noteID, "selection_pos_type"));
                         if(type == VerseSelection::ShortestString) {
@@ -646,13 +673,13 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     while(i.hasNext()) {
         i.next();
         Verse verse = i.value();
-        //myDebug() << verse.verseID();
+
         switch(m_moduleType) {
         case Module::BibleQuoteModule: {
             if(i.key() > 1) {//because of the chapter
                 verse.prepend("<span verseID='" + QString::number(i.key() - 1) +
-                              "' chapterID='" + QString::number(newChapterID) +
-                              "' bookID='" + QString::number(newBookID) +
+                              "' chapterID='" + QString::number(chapterID) +
+                              "' bookID='" + QString::number(bookID) +
                               "' moduleID='" + QString::number(m_moduleID) + "'>\n");
                 verse.append("</span><br />\n");
             }
@@ -661,8 +688,8 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         }
         case Module::ZefaniaBibleModule: {
             verse.prepend("<span verseID='" + QString::number(i.key()) +
-                          "' chapterID='" + QString::number(newChapterID) +
-                          "' bookID='" + QString::number(newBookID) +
+                          "' chapterID='" + QString::number(chapterID) +
+                          "' bookID='" + QString::number(bookID) +
                           "' moduleID='" + QString::number(m_moduleID) + "'>\n");
             verse.append("</span>\n");
             break;
@@ -677,7 +704,6 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 }
 TextRanges Bible::readRanges(const Ranges &ranges, bool ignoreModuleID)
 {
-    //DEBUG_FUNC_NAME
     TextRanges textRanges;
     foreach(const Range & r, ranges.getList()) {
         textRanges.addTextRange(readRange(r,ignoreModuleID));
@@ -860,4 +886,12 @@ QHash<int, QString> Bible::bookNames(bool preferShort)
             return ret;
         }
     }
+}
+void Bible::setLastTextRanges(TextRanges *textRanges)
+{
+    m_lastTextRanges = textRanges;
+}
+TextRanges *Bible::lastTextRanges()
+{
+    return m_lastTextRanges;
 }

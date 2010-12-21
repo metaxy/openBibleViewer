@@ -74,6 +74,8 @@ public:
     SearchQuery lastSearchQuery();
 
     bool loaded();
+    void setLastTextRanges(TextRanges *textRanges);
+    TextRanges *lastTextRanges();
 private:
     int m_bookID;
     int m_chapterID;
@@ -95,10 +97,12 @@ private:
 
     Module *m_module;
     BibleModule *m_bibleModule;
+    TextRanges *m_lastTextRanges;
     bool m_loaded;
     SearchQuery m_lastSearchQuery;
     QString textTitle;
     Book m_book;
+
 };
 
 #endif // BIBLE_H
