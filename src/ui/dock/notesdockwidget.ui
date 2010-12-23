@@ -37,15 +37,18 @@
         <enum>QAbstractItemView::SelectItems</enum>
        </property>
       </widget>
-      <widget class="QGroupBox" name="groupBox">
+      <widget class="QFrame" name="frame">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="title">
-        <string>Note</string>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
