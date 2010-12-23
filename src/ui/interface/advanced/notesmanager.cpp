@@ -43,39 +43,36 @@ void NotesManager::newCustomColorMark(VerseSelection selection, QColor color)
 {
     DEBUG_FUNC_NAME
     m_notesDockWidget->newStyleMark(selection,  "background-color: " + color.name() + ";");
-    m_actions->reloadChapter();
 }
 
 void NotesManager::newBoldMark(VerseSelection selection)
 {
     m_notesDockWidget->newStyleMark(selection, "font-weight: bold;");
-    m_actions->reloadChapter();
 }
 
 void NotesManager::newItalicMark(VerseSelection selection)
 {
     m_notesDockWidget->newStyleMark(selection, "font-style: italic;");
-    m_actions->reloadChapter();
 
 }
 
 void NotesManager::newUnderlineMark(VerseSelection selection)
 {
     m_notesDockWidget->newStyleMark(selection, "text-decoration:underline;");
-    m_actions->reloadChapter();
-
 }
 
 void NotesManager::removeMark(VerseSelection selection)
 {
     m_notesDockWidget->removeMark(selection);
-    m_actions->reloadChapter();
 }
 
 void NotesManager::newNoteWithLink(VerseSelection selection)
 {
+    DEBUG_FUNC_NAME;
+    if(m_notesDockWidget->isVisible()) {
+        m_notesDockWidget->show();
+    }
     m_notesDockWidget->newNoteWithLink(selection);
-    m_actions->reloadChapter();
 }
 
 void NotesManager::openNote(const QString &noteID)

@@ -475,7 +475,7 @@ void SimpleNotes::newTextNoteWithLink(VerseSelection selection)
     setData("");
     setRef(m_noteRef);
 
-    emit reloadChapter();
+    m_actions->reloadChapter();
 }
 void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style)
 {
@@ -524,7 +524,7 @@ void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style)
     m_notes->setRef(newID, ref);
     m_notes->insertID(newID);
     connect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
-    emit reloadChapter();
+    m_actions->reloadChapter();
 }
 void SimpleNotes::notesContextMenu(QPoint point)
 {

@@ -60,8 +60,6 @@ void NotesDockWidget::init()
 
     connect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
     connect(m_notes, SIGNAL(noteRemoved(QString, QMap<QString, QString>)), this, SLOT(removeNote(QString, QMap<QString, QString>)));
-
-    connect(m_simpleNotes, SIGNAL(reloadChapter()), this, SIGNAL(reloadChapter()));
 }
 void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
 {
@@ -77,7 +75,7 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
     if(urlConverter.m_moduleID == m_moduleManager->bible()->moduleID() &&
             urlConverter.m_bookID == m_moduleManager->bible()->bookID() &&
             urlConverter.m_chapterID == m_moduleManager->bible()->chapterID()) {
-        emit reloadChapter();
+        m_actions->reloadChapter();
     }
 
 }
@@ -95,7 +93,7 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     if(urlConverter.m_moduleID == m_moduleManager->bible()->moduleID() &&
             urlConverter.m_bookID == m_moduleManager->bible()->bookID() &&
             urlConverter.m_chapterID == m_moduleManager->bible()->chapterID()) {
-        emit reloadChapter();
+         m_actions->reloadChapter();
     }
 }
 
@@ -115,7 +113,7 @@ void NotesDockWidget::newNote(void)
 void NotesDockWidget::newNoteWithLink(VerseSelection selection)
 {
     m_simpleNotes->newTextNoteWithLink(selection);
-    emit reloadChapter();
+    m_actions->reloadChapter();
 }
 void NotesDockWidget::noteSetTextBold(void)
 {
@@ -198,7 +196,7 @@ void NotesDockWidget::removeMark(VerseSelection selection)
         }
     }
     if(r)
-        emit reloadChapter();
+         m_actions->reloadChapter();
 }
 void NotesDockWidget::changeEvent(QEvent *e)
 {

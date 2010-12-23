@@ -678,6 +678,17 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
     contextMenu->exec(ev->globalPos());
 
 }
+void BibleForm::newNoteWithLink()
+{
+    if(!m_moduleManager->bibleLoaded()) {
+        return;
+    }
+    m_notesManager->newNoteWithLink(verseSelection());
+}
+void BibleForm::newBookmark()
+{
+
+}
 
 void BibleForm::copyWholeVerse(void)
 {
@@ -719,7 +730,7 @@ void BibleForm::copyWholeVerse(void)
 void BibleForm::debugger()
 {
     m_view->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
-    QWebInspector *inspector = new QWebInspector;
+    QWebInspector *inspector = new QWebInspector(QApplication::activeWindow());
     inspector->setPage(m_view->page());
     inspector->showNormal();
 }
