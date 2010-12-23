@@ -23,7 +23,7 @@ public:
     QString title;
     QMap<int, int> bookCount;
     QHash<int, QString> bookNames;
-    QMap<QString, QVariant> toStringMap();
+    QMap<QString, QVariant> toStringMap() const;
     void setBookCount(QMap<QString, QVariant> count);
 };
 

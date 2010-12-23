@@ -19,10 +19,10 @@ class Session
 public:
     Session();
     void setData(QString key, QVariant value);
-    QVariant getData(QString key, QVariant defaultValue);
-    QVariant getData(QString key);
-    bool isSet(QString key);
-    QMapIterator<QString, QVariant> getInterator();
+    QVariant getData(QString key, QVariant defaultValue) const;
+    QVariant getData(QString key) const;
+    bool isSet(QString key) const;
+    QMapIterator<QString, QVariant> getInterator() const;
 private:
     QMap<QString, QVariant> m_data;
 

@@ -59,7 +59,7 @@ int Dictionary::loadModuleData(const int &moduleID)
     }
     return 0;
 }
-QString Dictionary::getEntry(const QString &string)
+QString Dictionary::getEntry(const QString &string) const
 {
     switch(m_moduleType) {
     case Module::ZefaniaLexModule: {
@@ -75,7 +75,7 @@ QString Dictionary::getEntry(const QString &string)
     }
 
 }
-QStringList Dictionary::getAllKeys()
+QStringList Dictionary::getAllKeys() const
 {
     //DEBUG_FUNC_NAME
     switch(m_moduleType) {

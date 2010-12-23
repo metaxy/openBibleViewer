@@ -17,7 +17,7 @@ ModuleCache::ModuleCache()
 {
 }
 
-QMap<QString, QVariant> ModuleCache::toStringMap()
+QMap<QString, QVariant> ModuleCache::toStringMap() const
 {
     QMap<QString, QVariant> n;
     QMapIterator<int, int> i(bookCount);

@@ -91,7 +91,7 @@ int Notes::loadNotes()
   Get the type of a note(eg. text, mark, tag)
   \param id Note ID
   */
-QString Notes::getType(const QString &id)
+QString Notes::getType(const QString &id) const
 {
     return notesType.value(id, "");
 }
@@ -99,7 +99,7 @@ QString Notes::getType(const QString &id)
   Get the note title
   \param id Note ID
   */
-QString Notes::getTitle(const QString &id)
+QString Notes::getTitle(const QString &id) const
 {
     return notesTitle.value(id, "");
 }
@@ -107,7 +107,7 @@ QString Notes::getTitle(const QString &id)
   Get the note data
   \param id Note ID
   */
-QString Notes::getData(const QString &id)
+QString Notes::getData(const QString &id) const
 {
     return notesData.value(id, "");
 }
@@ -116,7 +116,7 @@ QString Notes::getData(const QString &id)
   \param id note ID
   \param refID reference ID
   */
-QString Notes::getRef(const QString &id, const QString &refID)
+QString Notes::getRef(const QString &id, const QString &refID) const
 {
     if(notesRef.contains(id)) {
         QMap<QString, QString> r = notesRef.value(id);
@@ -129,7 +129,7 @@ QString Notes::getRef(const QString &id, const QString &refID)
   Get all references of a note
   \param id note ID
   */
-QMap<QString, QString> Notes::getRef(const QString &id)
+QMap<QString, QString> Notes::getRef(const QString &id) const
 {
     if(notesRef.contains(id))
         return notesRef.value(id);

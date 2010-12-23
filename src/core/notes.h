@@ -39,11 +39,11 @@ public:
     int readNotes();
     int saveNotes();
     void clearAll();
-    QString getType(const QString &id);
-    QString getTitle(const QString &id);
-    QString getData(const QString &id);
-    QString getRef(const QString &id, const QString &refID);
-    QMap<QString, QString> getRef(const QString &id);
+    QString getType(const QString &id) const;
+    QString getTitle(const QString &id) const;
+    QString getData(const QString &id) const;
+    QString getRef(const QString &id, const QString &refID) const;
+    QMap<QString, QString> getRef(const QString &id) const;
     void setType(const QString &id, const QString &type);
     void setTitle(const QString &id, const QString &title);
     void setData(const QString &id, const QString &data);

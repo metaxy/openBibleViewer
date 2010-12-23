@@ -30,7 +30,7 @@ public:
     virtual void setNotes(Notes *n);
     void setModuleType(const Module::ModuleType &type);
     void setModuleMap(ModuleMap *map);
-    int moduleID();
+    int moduleID() const;
     void setModuleID(const int &moduleID);
 
 protected:

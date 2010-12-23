@@ -19,9 +19,9 @@ class Version
 {
 public:
     Version(const QString &versionString);
-    int majorVersion();
-    int minorVersion();
-    int maintenanceVersion();
+    int majorVersion() const;
+    int minorVersion() const;
+    int maintenanceVersion() const;
 private:
     int m_major;
     int m_minor;

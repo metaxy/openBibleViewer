@@ -33,15 +33,15 @@ Version::Version(const QString& versionString)
 
 
 }
-int Version::maintenanceVersion()
+int Version::maintenanceVersion() const
 {
     return m_maintenance;
 }
-int Version::majorVersion()
+int Version::majorVersion() const
 {
     return m_major;
 }
-int Version::minorVersion()
+int Version::minorVersion() const
 {
     return m_minor;
 }

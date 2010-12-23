@@ -33,7 +33,7 @@ void SimpleModuleClass::setModuleType(const Module::ModuleType &type)
 {
     m_moduleType = type;
 }
-int SimpleModuleClass::moduleID()
+int SimpleModuleClass::moduleID() const
 {
     return m_moduleID;
 }

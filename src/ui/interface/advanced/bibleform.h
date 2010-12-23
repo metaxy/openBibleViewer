@@ -47,9 +47,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtWebKit/QWebFrame>
 #include <QtWebKit/QWebElementCollection>
 #include <QtWebKit/QWebInspector>
-
-
-
 namespace Ui
 {
 class BibleForm;
@@ -105,15 +102,11 @@ public slots:
 
     void forwardSetChapters(const QStringList &chapters);
     void forwardSetBooks(const QHash<int, QString> &books, QList<int> ids);
-
     void forwardClearBooks();
     void forwardClearChapters();
-
     void forwardSetCurrentBook(const QSet<int> &bookID);
     void forwardSetCurrentChapter(const QSet<int> &chapterID);
-
     void forwardShowText(const QString &text);
-
     void forwardHistorySetUrl(const QString &url);
 
 
@@ -146,8 +139,6 @@ public slots:
     void forwardShowTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url);
     void showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url);
 
-
-
 protected:
     virtual void changeEvent(QEvent *e);
 private:
@@ -164,7 +155,6 @@ private:
     QAction *m_actionNote;
     void createDefaultMenu();
     void deleteDefaultMenu();
-
 
     BibleManager *m_bibleManager;
     NotesManager *m_notesManager;

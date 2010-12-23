@@ -30,12 +30,12 @@ public:
      * @return Fullyformated entry
      * @returns QString() if not found
      */
-    QString getEntry(const QString &key);
+    QString getEntry(const QString &key) const;
     /**
      * @return All keys
      * @returns QStringList() if failed.
      */
-    QStringList getAllKeys();
+    QStringList getAllKeys() const;
 private:
     Module *m_module;
     ZefaniaLex *m_zefaniaLex;
