@@ -69,7 +69,7 @@ void NotesManager::removeMark(VerseSelection selection)
 void NotesManager::newNoteWithLink(VerseSelection selection)
 {
     DEBUG_FUNC_NAME;
-    if(m_notesDockWidget->isVisible()) {
+    if(m_notesDockWidget->isHidden()) {
         m_notesDockWidget->show();
     }
     m_notesDockWidget->newNoteWithLink(selection);
@@ -77,7 +77,7 @@ void NotesManager::newNoteWithLink(VerseSelection selection)
 
 void NotesManager::openNote(const QString &noteID)
 {
-    if(!m_notesDockWidget->isVisible()) {
+    if(!m_notesDockWidget->isHidden()) {
         m_notesDockWidget->show();
     }
     m_notesDockWidget->showNote(noteID);
