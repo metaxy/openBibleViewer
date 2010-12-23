@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 BookNames::BookNames()
 {
-    m_bookFullName = QHash<int,QString>();
+    m_bookFullName = QHash<int, QString>();
     m_bookShortName = QHash<int, QStringList>();
     m_bookIDs = QList<int>();
 }

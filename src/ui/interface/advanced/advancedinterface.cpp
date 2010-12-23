@@ -591,7 +591,7 @@ void AdvancedInterface::createToolBars()
     connect(m_mainBarActionBookmarks, SIGNAL(triggered(bool)), m_bookmarksDockWidget, SLOT(setVisible(bool)));
 
 
-    m_mainBarActionNotes = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/16x16/view-pim-notes.png")), tr("Notes"), m_mainBar);  
+    m_mainBarActionNotes = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/16x16/view-pim-notes.png")), tr("Notes"), m_mainBar);
     m_mainBarActionNotes->setCheckable(true);
     connect(m_notesManager->notesDockWidget(), SIGNAL(visibilityChanged(bool)), m_mainBarActionNotes, SLOT(setChecked(bool)));
     connect(m_mainBarActionNotes, SIGNAL(triggered(bool)), m_notesManager->notesDockWidget(), SLOT(setVisible(bool)));

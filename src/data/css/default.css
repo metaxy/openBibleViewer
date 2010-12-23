@@ -22,7 +22,7 @@ html {
     width:100%;
 }
 .biblelist {
-    padding-top:25px;
+    padding-top:2.5em;
     table-layout:fixed;
     width:100%;
 }
@@ -32,7 +32,6 @@ html {
     width:100%;
     background:rgba(255,255,255,0.8);
     border-bottom: 1px solid rgba(68,69,68,0.6);
-
 }
 #topTable td{
     text-align:center; 

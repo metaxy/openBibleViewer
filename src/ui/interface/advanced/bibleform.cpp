@@ -13,30 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "bibleform.h"
 #include "ui_bibleform.h"
-#include "src/core/dbghelper.h"
-#include "biblelistwidget.h"
-#include <QtGui/QAction>
-#include <QtGui/QMenu>
-#include <QtGui/QCursor>
-#include <QtGui/QMessageBox>
-#include <QtWebKit/QWebFrame>
-#include <QtWebKit/QWebElementCollection>
-#include <QtWebKit/QWebElement>
-#include <QtWebKit/QWebInspector>
-#include <QtCore/QDir>
-#include <QtGui/QFileDialog>
-#include <QtGui/QPrinter>
-#include <QtGui/QPrintDialog>
-#include <QtCore/QScopedPointer>
-#include <QtGui/QTextDocument>
-#include <QtGui/QClipboard>
-#include <QtGui/QColorDialog>
-#include <QtGui/QMdiArea>
-#include <QtGui/QMdiSubWindow>
-#include <QtGui/QPrintPreviewDialog>
-#include <QtGui/QTextDocumentWriter>
-#include "src/core/core.h"
-#include "src/core/bible/bibleurl.h"
+
 BibleForm::BibleForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::BibleForm)
 {
     //DEBUG_FUNC_NAME
@@ -88,9 +65,9 @@ void BibleForm::init()
 
     connect(m_actions, SIGNAL(_setCurrentBook(QSet<int>)), this, SLOT(forwardSetCurrentBook(QSet<int>)));
     connect(m_actions, SIGNAL(_setCurrentChapter(QSet<int>)), this, SLOT(forwardSetCurrentChapter(QSet<int>)));
-    connect(m_actions, SIGNAL(_historySetUrl(QString)), this,SLOT(forwardHistorySetUrl(QString)));
+    connect(m_actions, SIGNAL(_historySetUrl(QString)), this, SLOT(forwardHistorySetUrl(QString)));
     connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(forwardShowText(QString)));
-    connect(m_actions, SIGNAL(_showTextRanges(QString,TextRanges,BibleUrl)), this, SLOT(forwardShowTextRanges(QString,TextRanges,BibleUrl)));
+    connect(m_actions, SIGNAL(_showTextRanges(QString, TextRanges, BibleUrl)), this, SLOT(forwardShowTextRanges(QString, TextRanges, BibleUrl)));
 
 
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
@@ -401,7 +378,7 @@ void BibleForm::forwardShowTextRanges(const QString &html, const TextRanges &ran
 {
     if(!active())
         return;
-    showTextRanges(html,range,url);
+    showTextRanges(html, range, url);
 }
 
 void BibleForm::showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url)
@@ -635,13 +612,27 @@ void BibleForm::createDefaultMenu()
     m_actionNote = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/16x16/view-pim-notes.png")), tr("Add Note"), this);
     connect(m_actionNote, SIGNAL(triggered()), this , SLOT(newNoteWithLink()));
 }
-
+void BibleForm::deleteDefaultMenu()
+{
+    delete m_actionCopy;
+    m_actionCopy = 0;
+    delete m_actionSelect;
+    m_actionSelect = 0;
+    delete m_menuMark;
+    m_menuMark = 0;
+    delete m_actionRemoveMark;
+    m_actionRemoveMark = 0;
+    delete m_actionBookmark;
+    m_actionBookmark = 0;
+    delete m_actionNote;
+    m_actionNote = 0;
+}
 void BibleForm::showContextMenu(QContextMenuEvent* ev)
 {
     //DEBUG_FUNC_NAME
-    QMenu *contextMenu = new QMenu(this);
+    QScopedPointer<QMenu> contextMenu(new QMenu(this));
 
-    QAction *actionCopyWholeVerse = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Verse"), contextMenu);
+    QAction *actionCopyWholeVerse = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Verse"), contextMenu.data());
     VerseSelection selection = verseSelection();
     if(selection.startVerse != -1) {
         QString addText;
@@ -662,7 +653,7 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
         actionCopyWholeVerse->setEnabled(false);
     }
 
-    QAction *dbg = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"), contextMenu);
+    QAction *dbg = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"), contextMenu.data());
     connect(dbg, SIGNAL(triggered()), this, SLOT(debugger()));
 
     contextMenu->addAction(m_actionCopy);
@@ -729,10 +720,13 @@ void BibleForm::copyWholeVerse(void)
 
 void BibleForm::debugger()
 {
+    DEBUG_FUNC_NAME
     m_view->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
-    QWebInspector *inspector = new QWebInspector(QApplication::activeWindow());
-    inspector->setPage(m_view->page());
-    inspector->showNormal();
+    if(m_inspector == 0) {
+        m_inspector = new QWebInspector;
+        m_inspector->setPage(m_view->page());
+    }
+    m_inspector->showNormal();
 }
 
 void BibleForm::newColorMark()
@@ -810,7 +804,7 @@ void BibleForm::removeMark()
         return;
     }
     VerseSelection selection = verseSelection();
-    myDebug() << "selection = " << selection.moduleID << selection.bookID << selection.chapterID << selection.startVerse;
+    //myDebug() << "selection = " << selection.moduleID << selection.bookID << selection.chapterID << selection.startVerse;
     m_notesManager->removeMark(selection);
 }
 
@@ -915,43 +909,43 @@ VerseSelection BibleForm::verseSelection()
         }
     }
     myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
-        //todo: 0.6
-        /* if(s.canBeUsedForMarks() == false) {
-             //now the ultimative alogrithm
-             f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection();adVerseSelection.getSelection();");
-             const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
+    //todo: 0.6
+    /* if(s.canBeUsedForMarks() == false) {
+         //now the ultimative alogrithm
+         f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection();adVerseSelection.getSelection();");
+         const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
 
-             const QString uniqueString = "!-_OPENBIBLEVIEWER_INSERT_-!";
-             int posOfInsert = startVerseText2.lastIndexOf(uniqueString);
+         const QString uniqueString = "!-_OPENBIBLEVIEWER_INSERT_-!";
+         int posOfInsert = startVerseText2.lastIndexOf(uniqueString);
 
-             QString back = selectedText;
-             QString longestString;
-             for(int i = selectedText.size()-1; i > 0; i--) {
-                 const int pos = startVerseText2.indexOf(back);
-                 if(pos != -1) {
-                     longestString = back;
-                     break;
-                 }
-                 back.remove(i,selectedText.size());
+         QString back = selectedText;
+         QString longestString;
+         for(int i = selectedText.size()-1; i > 0; i--) {
+             const int pos = startVerseText2.indexOf(back);
+             if(pos != -1) {
+                 longestString = back;
+                 break;
              }
+             back.remove(i,selectedText.size());
+         }
 
-             int count = 0;
-             int currentPos = 0;
-             while(true) {
-                 currentPos = startVerseText2.indexOf(longestString,currentPos+1);
-                 if(currentPos > posOfInsert || currentPos == -1) {
-                     break;
-                 }
-                 count++;
+         int count = 0;
+         int currentPos = 0;
+         while(true) {
+             currentPos = startVerseText2.indexOf(longestString,currentPos+1);
+             if(currentPos > posOfInsert || currentPos == -1) {
+                 break;
              }
-             s.type = VerseSelection::RepeatOfLongestString;
-             s.repeat = count;
-             s.longestString = longestString;
-             //s.setCanBeUsedForMarks(true);
-             //todo: end
-             //myDebug() << longestString << " count = " << count;
+             count++;
+         }
+         s.type = VerseSelection::RepeatOfLongestString;
+         s.repeat = count;
+         s.longestString = longestString;
+         //s.setCanBeUsedForMarks(true);
+         //todo: end
+         //myDebug() << longestString << " count = " << count;
 
-         }*/
+     }*/
     return s;
 }
 BibleForm::~BibleForm()
@@ -965,6 +959,8 @@ void BibleForm::changeEvent(QEvent *e)
 {
     switch(e->type()) {
     case QEvent::LanguageChange:
+        deleteDefaultMenu();
+        createDefaultMenu();
         m_ui->retranslateUi(this);
         break;
     default:

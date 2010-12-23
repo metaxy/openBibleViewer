@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "bibleform.h"
 #include "windowsessiondata.h"
 #include <QtGui/QMdiSubWindow>
+#include <QtGui/QVBoxLayout>
 WindowManager::WindowManager(QObject *parent) :
     QObject(parent)
 {

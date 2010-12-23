@@ -93,7 +93,7 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     if(urlConverter.m_moduleID == m_moduleManager->bible()->moduleID() &&
             urlConverter.m_bookID == m_moduleManager->bible()->bookID() &&
             urlConverter.m_chapterID == m_moduleManager->bible()->chapterID()) {
-         m_actions->reloadChapter();
+        m_actions->reloadChapter();
     }
 }
 
@@ -196,7 +196,7 @@ void NotesDockWidget::removeMark(VerseSelection selection)
         }
     }
     if(r)
-         m_actions->reloadChapter();
+        m_actions->reloadChapter();
 }
 void NotesDockWidget::changeEvent(QEvent *e)
 {

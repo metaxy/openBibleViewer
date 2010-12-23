@@ -13,19 +13,42 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BIBLEFORM_H
 #define BIBLEFORM_H
-
-#include <QtGui/QWidget>
-#include <QtGui/QCloseEvent>
-#include <QtGui/QToolBar>
+#include "src/core/dbghelper.h"
+#include "src/core/core.h"
+#include "src/core/bible/bibleurl.h"
 #include "src/core/basicclass.h"
-#include "ui_bibleform.h"
 #include "src/core/history.h"
-#include "webview.h"
-#include <QContextMenuEvent>
 #include "src/module/biblelist.h"
 #include "src/api/api.h"
+
+#include "webview.h"
 #include "biblemanager.h"
 #include "notesmanager.h"
+#include "biblelistwidget.h"
+
+#include <QtCore/QDir>
+#include <QtCore/QScopedPointer>
+
+#include <QtGui/QMenu>
+#include <QtGui/QCursor>
+#include <QtGui/QMessageBox>
+#include <QtGui/QFileDialog>
+#include <QtGui/QPrinter>
+#include <QtGui/QPrintDialog>
+#include <QtGui/QClipboard>
+#include <QtGui/QColorDialog>
+#include <QtGui/QMdiArea>
+#include <QtGui/QPrintPreviewDialog>
+#include <QtGui/QTextDocumentWriter>
+#include <QtGui/QCloseEvent>
+#include <QtGui/QToolBar>
+#include <QtGui/QContextMenuEvent>
+
+#include <QtWebKit/QWebFrame>
+#include <QtWebKit/QWebElementCollection>
+#include <QtWebKit/QWebInspector>
+
+
 
 namespace Ui
 {
@@ -140,6 +163,7 @@ private:
     QAction *m_actionBookmark;
     QAction *m_actionNote;
     void createDefaultMenu();
+    void deleteDefaultMenu();
 
 
     BibleManager *m_bibleManager;
@@ -148,6 +172,8 @@ private:
 
     TextRanges m_lastTextRanges;
     BibleUrl m_lastUrl;
+
+    QWebInspector *m_inspector;
 };
 
 #endif // BIBLEFORM_H

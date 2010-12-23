@@ -44,6 +44,9 @@ public:
     //todo: should be const, but uses
     std::pair<QString, TextRanges> readRanges(const Ranges &ranges) const;
 
+    /**
+      * Retruns true if a top bar is shown.
+      */
     bool hasTopBar() const;
 
     QHash<int, Bible *> m_bibles;

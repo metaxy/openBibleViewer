@@ -238,7 +238,7 @@ bool BibleList::hasTopBar() const
 void BibleList::setLastTextRanges(TextRanges *textRanges)
 {
     m_lastTextRanges = textRanges;
-    foreach(Bible *b, m_bibles) {
+    foreach(Bible * b, m_bibles) {
         b->setLastTextRanges(textRanges);
     }
 }

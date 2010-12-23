@@ -582,8 +582,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                 currentVerse = true;//todo: cuurently the first selected entry is the current entry
                 //change this to provide maybe more future features
                 verse.prepend("<span id = \"currentEntry\" class = \"selectedEntry\"> ");
-            }
-            else {
+            } else {
                 verse.prepend("<span class = \"selectedEntry\">");
             }
             verse.append("</span>");
@@ -711,7 +710,7 @@ TextRanges Bible::readRanges(const Ranges &ranges, bool ignoreModuleID)
 {
     TextRanges textRanges;
     foreach(const Range & r, ranges.getList()) {
-        textRanges.addTextRange(readRange(r,ignoreModuleID));
+        textRanges.addTextRange(readRange(r, ignoreModuleID));
     }
     return textRanges;
 }

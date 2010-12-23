@@ -133,15 +133,15 @@ int GoTo::bookNameToBookID(const QString& name)
 }
 int GoTo::levenshteinDistance(const QString& s, const QString& t)
 {
-    QByteArray m_d;
-    int m = s.length();
-    int n = t.length();
-    int dWidth = m + 1 ;
+    QByteArray array;
+    const int m = s.length();
+    const int n = t.length();
+    const int dWidth = m + 1;
 
     // make sure the matrix is big enough
 
-    if(m_d.size() < (m + 1) *(n + 1)) {
-        m_d.resize((m + 1) *(n + 1));
+    if(array.size() < (m + 1) * (n + 1)) {
+        array.resize((m + 1) * (n + 1));
     }
 
     int i;
@@ -151,10 +151,10 @@ int GoTo::levenshteinDistance(const QString& s, const QString& t)
     // init 0..m, 0..n as starting values - distance to ""
 
     for(i = 0; i <= m; i++) {
-        m_d[i + 0*dWidth] = i;
+        array[i + 0*dWidth] = i;
     }
     for(j = 0; j <= n; j++) {
-        m_d[0 + j*dWidth] = j;
+        array[0 + j*dWidth] = j;
     }
     int cost;
     for(i = 1; i <= m; i++) {
@@ -166,12 +166,12 @@ int GoTo::levenshteinDistance(const QString& s, const QString& t)
                 cost = 1;
             }
 
-            m_d[i + j*dWidth] = qMin(qMin(// min of three possibilities
-                                         m_d[i-1 + (j)*dWidth] + 1,// deletion
-                                         m_d[i   + (j-1)*dWidth] + 1),// insertion
-                                     m_d[i-1 + (j-1)*dWidth] + cost);// substitution
+            array[i + j*dWidth] = qMin(qMin(// min of three possibilities
+                                         array[i-1 + (j)*dWidth] + 1,// deletion
+                                         array[i   + (j-1)*dWidth] + 1),// insertion
+                                     array[i-1 + (j-1)*dWidth] + cost);// substitution
         }
     }
 
-    return m_d[m + n*dWidth];
+    return array[m + n*dWidth];
 }

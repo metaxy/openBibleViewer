@@ -82,13 +82,13 @@ void SearchManager::searchInText(SearchQuery query)
 {
     DEBUG_FUNC_NAME
     //todo: refractor
-     /*if(query.queryType == SearchQuery::Simple) {
-         QString s = query.searchText;
-         //todo: hacky
-         s.remove('*');
-         s.remove('?');
-         getView()->findText(s, QWebPage::HighlightAllOccurrences);
-     }*/
+    /*if(query.queryType == SearchQuery::Simple) {
+        QString s = query.searchText;
+        //todo: hacky
+        s.remove('*');
+        s.remove('?');
+        getView()->findText(s, QWebPage::HighlightAllOccurrences);
+    }*/
 }
 
 void SearchManager::nextVerse()
