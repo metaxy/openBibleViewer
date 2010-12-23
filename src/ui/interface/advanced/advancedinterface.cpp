@@ -224,7 +224,10 @@ void AdvancedInterface::pharseUrl(QString url)
 
 void AdvancedInterface::setTitle(const QString &title)
 {
-    this->parentWidget()->setWindowTitle(title + " - " + tr("openBibleViewer"));
+    if(title.isEmpty())
+        this->parentWidget()->setWindowTitle(tr("openBibleViewer"));
+    else
+        this->parentWidget()->setWindowTitle(title + " - " + tr("openBibleViewer"));
 }
 
 
