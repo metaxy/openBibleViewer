@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef BIBLELIST_H
 #define BIBLELIST_H
 #include "src/module/bible.h"
+#include "src/core/bible/bibleurl.h"
 #include <QtCore/QPoint>
 #include <utility>
 /**
@@ -49,13 +50,16 @@ public:
     QMap<int, QPoint> m_biblePoints;
 
     void setLastTextRanges(TextRanges *textRanges);
+    void setLastUrl(BibleUrl *url);
     TextRanges *lastTextRanges();
+    BibleUrl *lastBibleUrl();
 
 private:
     QString title(Bible *b, const QString &active, const int &bibleListID) const;
     int countInCol(const int &col) const;
     int m_currentBible;
     TextRanges *m_lastTextRanges;
+    BibleUrl *m_lastUrl;
 
 };
 

@@ -331,6 +331,8 @@ void BibleForm::activated()
         m_actions->setCurrentBook(m_lastTextRanges.booksIDs());
     }
     m_moduleManager->bibleList()->setLastTextRanges(&m_lastTextRanges);
+    m_moduleManager->bibleList()->setLastUrl(&m_lastUrl);
+
 
 }
 
@@ -409,6 +411,7 @@ void BibleForm::showTextRanges(const QString &html, const TextRanges &range, con
     m_lastTextRanges = range;
     m_lastUrl = url;
     m_moduleManager->bibleList()->setLastTextRanges(&m_lastTextRanges);
+    m_moduleManager->bibleList()->setLastUrl(&m_lastUrl);
     historySetUrl(url.toString());
 }
 void BibleForm::evaluateJavaScript(const QString &js)

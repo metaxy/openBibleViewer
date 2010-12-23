@@ -46,19 +46,15 @@ signals:
     void updateBooks();
 
 public slots:
-    //todo:
     void pharseUrl(const QString &url);
     void pharseUrl(const BibleUrl &url);
-    /*
-        void readChapter(const int &id);
-        void readBook(const int &id);
-    */
-
 
     void nextChapter();
     void previousChapter();
-    void reloadChapter(bool full = false);
     void loadBibleList(bool hadBible);
+
+    void reshowCurrentRange();
+    void reloadBible();
 private:
     void showRanges(const Ranges &ranges, const BibleUrl &url);
     Ranges bibleUrlRangeToRanges(BibleUrlRange r);

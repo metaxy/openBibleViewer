@@ -30,6 +30,8 @@ void BibleManager::init()
     connect(m_actions, SIGNAL(_previousChapter()), this, SLOT(previousChapter()));
     connect(m_actions, SIGNAL(_nextChapter()), this, SLOT(nextChapter()));
     connect(m_actions, SIGNAL(_loadBibleList(bool)), this, SLOT(loadBibleList(bool)));
+    connect(m_actions, SIGNAL(_reshowCurrentRange()), this, SLOT(reshowCurrentRange()));
+    connect(m_actions, SIGNAL(_reloadBible()), this, SLOT(reloadBible()));
 }
 void BibleManager::createDocks()
 {
@@ -219,19 +221,7 @@ bool BibleManager::loadModuleDataByID(const int &moduleID)
     m_actions->setCurrentModule(moduleID);
     QApplication::restoreOverrideCursor();
     return 0;
-
 }
-/*void BibleManager::readBook(const int &id)
-{
-    myDebug() << "id = " << id;
-    BibleUrl url;
-    url.setBible(BibleUrl::LoadCurrentBible);
-    url.setBookID(id);
-    url.setChapter(BibleUrl::LoadFirstChapter);
-    url.setVerse(BibleUrl::LoadFirstVerse);
-    emit get(url.toString());
-}*/
-
 void BibleManager::readBookByID(const int &id)
 {
     QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -260,18 +250,6 @@ void BibleManager::readBookByID(const int &id)
     m_actions->updateChapters(m_moduleManager->bible()->chapterNames());
 }
 
-/*void BibleManager::readChapter(const int &id)
-{
-    DEBUG_FUNC_NAME
-    myDebug() << "id = " << id;
-    BibleUrl url;
-    url.setBible(BibleUrl::LoadCurrentBible);
-    url.setBook(BibleUrl::LoadCurrentBook);
-    url.setChapterID(id);
-    url.setVerse(BibleUrl::LoadCurrentVerse);
-    emit get(url.toString());
-}
-*/
 void BibleManager::showChapter(const int &chapterID, const int &verseID)
 {
     //DEBUG_FUNC_NAME
@@ -349,37 +327,18 @@ void BibleManager::loadBibleList(bool hadBible)
         m_actions->get(url);
     }
 }
-
-void BibleManager::reloadChapter(bool full)
+void BibleManager::reshowCurrentRange()
 {
-    //todo:
-    /*  DEBUG_FUNC_NAME
-
-      //setEnableReload(false);
-      //todo: hacky
-      const QWebView *v = m_windowManager->activeForm()->m_view;
-      const QPoint p = v->page()->mainFrame()->scrollPosition();
-      myDebug() << m_moduleManager->bible()->moduleID();
-      if(full) {
-          BibleUrl url;
-          url.setBible(BibleUrl::LoadCurrentBible);
-          url.setBook(BibleUrl::LoadCurrentBook);
-          url.setChapter(BibleUrl::LoadCurrentChapter);
-          url.setVerse(BibleUrl::LoadCurrentVerse);
-          url.setParam("force", "true");
-          emit get(url.toString());
-      } else {
-          BibleUrl url;
-          url.setBible(BibleUrl::LoadCurrentBible);
-          url.setBook(BibleUrl::LoadCurrentBook);
-          url.setChapter(BibleUrl::LoadCurrentChapter);
-          url.setVerse(BibleUrl::LoadCurrentVerse);
-          url.setParam("forceReloadChapter", "true");
-          emit get(url.toString());
-      }
-      v->page()->mainFrame()->setScrollPosition(p);
-      //setEnableReload(true);*/
+    DEBUG_FUNC_NAME
+    m_actions->get(*m_moduleManager->bibleList()->lastBibleUrl());
 }
+void BibleManager::reloadBible()
+{
+    DEBUG_FUNC_NAME
+    //todo: make it
+    myWarning() << "implement it";
+}
+
 BookDockWidget *BibleManager::bookDockWidget()
 {
     return m_bookDockWidget;

@@ -62,6 +62,10 @@ signals:
     void _showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url);
 
     void _loadBibleList(bool hadBible);
+    void _reloadChapter(bool full);
+
+    void _reloadBible();
+    void _reshowCurrentRange();
 
 public slots:
     /**
@@ -81,6 +85,11 @@ public slots:
     void setCurrentChapter(const QSet<int> &chapterID);
 
     void reloadActive();
+    /**
+      * Same as reloadChapter(false)
+      */
+    void reloadChapter();
+    void reloadChapter(bool full);
 
     void setTitle(const QString &title);
 
@@ -101,6 +110,9 @@ public slots:
     void showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url);
 
     void loadBibleList(bool hadBible);
+
+    void reloadBible();
+    void reshowCurrentRange();
 
 
 

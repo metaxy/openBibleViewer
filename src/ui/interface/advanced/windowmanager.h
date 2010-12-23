@@ -59,6 +59,8 @@ public slots:
     void restore();
     void setTitle(const QString &title);
 
+    void reloadChapter(bool full);
+
 
 private:
     int m_nameCounter;

@@ -47,6 +47,7 @@ void WindowManager::init()
     connect(m_actions, SIGNAL(_setSubWindowView()), this, SLOT(setSubWindowView()));
     connect(m_actions, SIGNAL(_setTitle(QString)), this, SLOT(setTitle(QString)));
     connect(m_actions, SIGNAL(_reloadActive()), this, SLOT(reloadActive()));
+    connect(m_actions, SIGNAL(_reloadChapter(bool)), this, SLOT(reloadChapter(bool)));
 }
 
 void WindowManager::newSubWindow(bool doAutoLayout)
@@ -491,5 +492,18 @@ void AdvancedInterface::installResizeFilter()
     connect(m_mdiAreaFilter, SIGNAL(resized()), this, SLOT(mdiAreaResized()));
     ui->mdiArea->installEventFilter(m_mdiAreaFilter);
 }*/
+void WindowManager::reloadChapter(bool full)
+{
+    DEBUG_FUNC_NAME;
+    //todo: currently this does not support some other ranges than a whole chapter
+    const QWebView *v = activeForm()->m_view;
+    const QPoint p = v->page()->mainFrame()->scrollPosition();
+    if(full) {
+        m_actions->reloadBible();
+    } else {
+        m_actions->reshowCurrentRange();
+    }
+    v->page()->mainFrame()->setScrollPosition(p);
 
+}
 

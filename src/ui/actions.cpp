@@ -109,3 +109,20 @@ void Actions::loadBibleList(bool hadBible)
 {
     emit _loadBibleList(hadBible);
 }
+void Actions::reloadChapter()
+{
+    reloadChapter(false);
+}
+void Actions::reloadChapter(bool full)
+{
+    emit _reloadChapter(full);
+}
+void Actions::reloadBible()
+{
+    emit _reloadBible();
+}
+
+void Actions::reshowCurrentRange()
+{
+    emit _reshowCurrentRange();
+}
