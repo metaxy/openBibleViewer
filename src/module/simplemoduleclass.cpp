@@ -37,3 +37,7 @@ int SimpleModuleClass::moduleID()
 {
     return m_moduleID;
 }
+void SimpleModuleClass::setModuleID(const int &moduleID)
+{
+    m_moduleID = moduleID;
+}

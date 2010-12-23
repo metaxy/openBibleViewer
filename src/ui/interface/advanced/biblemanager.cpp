@@ -29,6 +29,7 @@ void BibleManager::init()
     connect(m_actions, SIGNAL(_get(BibleUrl)), this, SLOT(pharseUrl(BibleUrl)));
     connect(m_actions, SIGNAL(_previousChapter()), this, SLOT(previousChapter()));
     connect(m_actions, SIGNAL(_nextChapter()), this, SLOT(nextChapter()));
+    connect(m_actions, SIGNAL(_loadBibleList(bool)), this, SLOT(loadBibleList(bool)));
 }
 void BibleManager::createDocks()
 {
@@ -81,8 +82,10 @@ Ranges BibleManager::bibleUrlRangeToRanges(BibleUrlRange range)
 
     if(range.startChapter() == BibleUrlRange::LoadFirstChapter) {
         r.setChapter(RangeEnum::FirstChapter);
+    } else if(range.startChapter() == BibleUrlRange::LoadLastChapter) {
+        r.setChapter(RangeEnum::LastChapter);
     } else if(range.startChapter() == BibleUrlRange::LoadCurrentChapter) {
-        r.setChapter(m_moduleManager->bible()->chapterID());
+        r.setChapter(RangeEnum::CurrentChapter);
     } else {
         r.setChapter(range.startChapterID());
     }
@@ -322,13 +325,36 @@ void BibleManager::previousChapter()
         m_actions->get(bibleUrl);
     }
 }
+void BibleManager::loadBibleList(bool hadBible)
+{
+    if(hadBible) {
+        BibleUrl url;
+        BibleUrlRange range;
+        range.setBible(BibleUrlRange::LoadCurrentBible);
+        range.setBook(BibleUrlRange::LoadCurrentBook);
+        range.setChapter(BibleUrlRange::LoadCurrentChapter);
+        range.setWholeChapter();
+        url.setParam("force", "true");
+        url.addRange(range);
+        m_actions->get(url);
+    } else {
+        BibleUrl url;
+        BibleUrlRange range;
+        range.setBible(BibleUrlRange::LoadCurrentBible);
+        range.setBook(BibleUrlRange::LoadFirstBook);
+        range.setChapter(BibleUrlRange::LoadFirstChapter);
+        range.setWholeChapter();
+        url.setParam("force", "true");
+        url.addRange(range);
+        m_actions->get(url);
+    }
+}
 
 void BibleManager::reloadChapter(bool full)
 {
     //todo:
     /*  DEBUG_FUNC_NAME
-      if(!m_windowManager->activeMdiChild())
-          return;
+
       //setEnableReload(false);
       //todo: hacky
       const QWebView *v = m_windowManager->activeForm()->m_view;

@@ -455,7 +455,8 @@ Bible * ModuleManager::newBible(const int &moduleID, QPoint p)
     /*if(b->moduleID() != moduleID) {*/
     Module::ModuleType type = getModule(moduleID)->m_moduleType;
     b->setModuleType(type);
-    //b->loadModuleData(moduleID);
+    b->setModuleID(moduleID);
+    b->loadModuleData(moduleID);
     bibleList()->addBible(b, p);
     /*}*/
     return b;

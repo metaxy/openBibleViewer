@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 Book::Book()
 {
+    m_id = -1;
 }
 int Book::size() const
 {
@@ -22,7 +23,7 @@ int Book::size() const
 }
 void Book::clear()
 {
-    m_id = 0;
+    m_id = -1;
     m_chapters.clear();
 }
 void Book::addChapter(const int &chapterID, const Chapter &c)

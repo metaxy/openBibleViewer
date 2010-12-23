@@ -20,6 +20,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QMap>
 #include "src/core/bible/booknames.h"
 #include "src/core/bible/book.h"
+/**
+  * This is an abstract class for bible modules, which are used in the Bible Class.
+  * All this virtual methods have to be implemented in the bible module.
+  */
 class BibleModule
 {
 public:
@@ -35,7 +39,7 @@ public:
     virtual bool hasIndex() const;
     virtual void buildIndex();
 
-    virtual int bibleID() const ;
+    virtual int bibleID() const;
     virtual QString biblePath() const ;
     virtual QString bibleName(bool preferShortName = false) const ;
     virtual QMap<int, int> bookCount() const ;//11

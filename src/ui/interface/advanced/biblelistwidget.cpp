@@ -107,7 +107,7 @@ void BibleListWidget::addRow()
 void BibleListWidget::save()
 {
     DEBUG_FUNC_NAME
-
+    bool hadBible = m_moduleManager->bibleLoaded();
     m_moduleManager->bibleList()->clear();
     //load them
     int selectedModule = -1;//the selected bible
@@ -133,17 +133,9 @@ void BibleListWidget::save()
 
     if(atLeastOne) {
         myDebug() << "at least one";
-        BibleUrl url;
-        BibleUrlRange range;
-        range.setBible(BibleUrlRange::LoadCurrentBible);
-        range.setBook(BibleUrlRange::LoadCurrentBook);
-        range.setChapter(BibleUrlRange::LoadCurrentChapter);
-        range.setWholeChapter();
-        url.setParam("force", "true");
-        url.addRange(range);
-        m_actions->get(url);
+        m_actions->loadBibleList(hadBible);
     } else {
-        myDebug() << "not at least one";
+        myDebug() << "none";
         Bible *b = new Bible();
         m_moduleManager->initBible(b);
         m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));

@@ -17,6 +17,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/settings.h"
 #include "src/module/modulemap.h"
 #include "src/module/module.h"
+/**
+  * It is an abstract class for classes like bible or dictionary, which are meta modules.
+  * They contains other similiar modules to provide an simple access to them.
+  */
+
 class SimpleModuleClass
 {
 public:
@@ -26,6 +31,7 @@ public:
     void setModuleType(const Module::ModuleType &type);
     void setModuleMap(ModuleMap *map);
     int moduleID();
+    void setModuleID(const int &moduleID);
 
 protected:
     int m_moduleID;

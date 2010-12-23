@@ -49,7 +49,6 @@ public:
 
     void setSettings(Settings *settings);
 
-
     void append(Module *child);
     Module *parent() const;
 private:

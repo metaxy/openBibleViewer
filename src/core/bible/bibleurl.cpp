@@ -128,9 +128,8 @@ QString BibleUrl::toString() const
                 ret += "last";
             }
         }
-        ret += ",";
         if(range.activeVerse() == BibleUrlRange::LoadVerseByID) {
-            ret += "active=" + QString::number(range.activeVerseID()) + ",";
+            ret += ",active=" + QString::number(range.activeVerseID());
         }
         if(!m_params.isEmpty()) {
             QHashIterator<QString, QString> i(m_params);

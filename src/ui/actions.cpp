@@ -105,3 +105,7 @@ void Actions::showTextRanges(const QString &html, const TextRanges &range, const
 {
     emit _showTextRanges(html, range, url);
 }
+void Actions::loadBibleList(bool hadBible)
+{
+    emit _loadBibleList(hadBible);
+}

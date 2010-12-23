@@ -61,6 +61,8 @@ signals:
     void _historySetUrl(const QString &url);
     void _showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url);
 
+    void _loadBibleList(bool hadBible);
+
 public slots:
     /**
       * Show a chapter in current SubWindow.
@@ -97,6 +99,9 @@ public slots:
       * Using showTextRanges there is no need to call historySetUrl seperatly.
       */
     void showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url);
+
+    void loadBibleList(bool hadBible);
+
 
 
 };

@@ -36,7 +36,7 @@ void BibleModule::loadBibleData(const int &bibleID, const QString &path)
     myWarning() << "calling BibleModule";
 }
 
-QString BibleModule::readInfo(QFile &file)//3
+QString BibleModule::readInfo(QFile &file)
 {
     myWarning() << "calling BibleModule";
     return "";

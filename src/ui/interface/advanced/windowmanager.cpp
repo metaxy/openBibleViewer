@@ -82,6 +82,7 @@ void WindowManager::newSubWindow(bool doAutoLayout)
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
     subWindow->show();
     m_area->setActiveSubWindow(subWindow);
+    bibleForm->activated();
 
 
     if(m_area->viewMode() == QMdiArea::SubWindowView) {
@@ -309,6 +310,7 @@ int WindowManager::closingWindow()
         myDebug() << "last window closed";
         m_actions->clearBooks();
         m_actions->clearChapters();
+        //m_moduleManager->m_bibleList = NULL;
         return 1;
     }
 

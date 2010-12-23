@@ -29,6 +29,7 @@ public:
     QSet<int> chapterIDs();
     Verse getVerse(const int &bookID, const int &chapterID, const int &verseID);
     int verseCount() const;
+    bool isEmpty();
 private:
     QList<TextRange> m_ranges;
 };

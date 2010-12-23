@@ -70,3 +70,7 @@ int TextRanges::verseCount() const
     }
     return count;
 }
+bool TextRanges::isEmpty()
+{
+    return m_ranges.isEmpty();
+}

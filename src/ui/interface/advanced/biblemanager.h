@@ -57,8 +57,8 @@ public slots:
 
     void nextChapter();
     void previousChapter();
-    //int copyWholeVerse();
     void reloadChapter(bool full = false);
+    void loadBibleList(bool hadBible);
 private:
     void showRanges(const Ranges &ranges, const BibleUrl &url);
     Ranges bibleUrlRangeToRanges(BibleUrlRange r);

@@ -55,7 +55,7 @@ int Bible::loadModuleData(const int &moduleID)
     }
     m_moduleID = moduleID;
     const QString path = m_module->m_path;
-    //myDebug() << " moduleID ="  << moduleID << " path = " << path;
+    m_book.clear();
     switch(m_module->m_moduleType) {
     case Module::BibleQuoteModule: {
         if(m_module->m_bibleModule) {
@@ -462,7 +462,8 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         if(bookID == -1)
             bookID = 0;
     } else if(range.book() == RangeEnum::CurrentBook) {
-        if(m_lastTextRanges != 0 && !m_lastTextRanges->booksIDs().isEmpty()) {
+
+        if(m_lastTextRanges != 0 && !m_lastTextRanges->isEmpty() && !m_lastTextRanges->booksIDs().isEmpty()) {
             bookID = *m_lastTextRanges->booksIDs().begin();
         } else {
             foreach(int id, bookIDs()) {
@@ -471,6 +472,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                 }
             }
         }
+        myDebug() << "current book " << bookID;
     }
 
     if(bookID < 0) {
@@ -502,7 +504,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         if(chapterID == -1)
             chapterID = 0;
     } else if(range.chapter() == RangeEnum::CurrentChapter) {
-        if(m_lastTextRanges != 0 && !m_lastTextRanges->chapterIDs().isEmpty()) {
+        if(m_lastTextRanges != 0  && !m_lastTextRanges->isEmpty() && !m_lastTextRanges->chapterIDs().isEmpty()) {
             chapterID = *m_lastTextRanges->chapterIDs().begin();
         } else {
             foreach(int id,  m_book.m_chapters.keys()) {
