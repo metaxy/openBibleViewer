@@ -56,7 +56,7 @@ QString UrlConverter::convert()
         }
         ret = m_settings->savableUrl(m_moduleMap->m_map.value(m_moduleID)->m_path) + ";" + QString::number(m_bookID) + ";" + QString::number(m_chapterID) + ";" + QString::number(m_verseID);
         if(!m_bookName.isEmpty()) {
-            ret += ";" + m_bookName;//check for invalid charatcers
+            ret += ";" + m_bookName;//todo: check for invalid charatcers
         }
     } else if(m_to == BibleQuoteUrl) {
     }
@@ -65,7 +65,6 @@ QString UrlConverter::convert()
 int UrlConverter::pharse()
 {
     //todo: this won't work
-    QString bible = "bible://";
     if(m_from == InterfaceUrl) {
         //pharse with the help of BibleUrL
         BibleUrl url;

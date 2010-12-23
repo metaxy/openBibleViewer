@@ -58,15 +58,7 @@ public:
       * createMenu() is called as last on construction. It can depend on init(), createDocks() and createToolBars()
       */
     virtual void createMenu();
-    /*
-    virtual void setBookDockWidget(BookDockWidget *bookDockWidget);
-    virtual void setModuleDockWidget(ModuleDockWidget *moduleDockWidget);
-    virtual void setSearchResultDockWidget(SearchResultDockWidget *searchResultDockWidget);
-    virtual void setAdvancedSearchResultDockWidget(AdvancedSearchResultDockWidget *searchResultDockWidget);
-    virtual void setNotesDockWidget(NotesDockWidget *notesDockWidget);
-    virtual void setBookmarksDockWidget(BookmarksDockWidget *boockmarksDockWidget);
-    virtual void setDictionaryDockWidget(DictionaryDockWidget *dictonaryDockWidget);
-    virtual void setQuickJumpDockWidget(QuickJumpDockWidget *quickJumpDockWidget);*/
+
 
 
 

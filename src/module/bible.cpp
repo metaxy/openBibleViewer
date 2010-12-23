@@ -519,7 +519,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         return ret;
     }
 
-    Chapter c = m_book.getChapter(chapterID);
+    const Chapter c = m_book.getChapter(chapterID);
     ret.setBookID(bookID);
     ret.setChapterID(chapterID);
     int startVerse = 0;

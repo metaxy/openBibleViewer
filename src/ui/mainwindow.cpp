@@ -110,6 +110,7 @@ void MainWindow::deleteInterface()
 
     if(m_interface->hasMenuBar()) {
         delete m_menuBar;
+        //todo: remove the docks
     }
     /*
         if(typeid(*m_interface) == typeid(SimpleInterface)) {

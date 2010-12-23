@@ -27,11 +27,11 @@ void Chapter::addVerse(const int &verseID, const Verse &verse)
     m_verseCount++;
     m_data.insert(verseID, verse);
 }
-QHash<int, Verse> Chapter::getData()
+QHash<int, Verse> Chapter::getData() const
 {
     return m_data;
 }
-int Chapter::verseCount()
+int Chapter::verseCount() const
 {
     return m_verseCount;
 }

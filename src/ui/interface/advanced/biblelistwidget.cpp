@@ -125,17 +125,17 @@ void BibleListWidget::save()
             }
         }
     }
-    myDebug() << "selectedModule = " << selectedModule << " lastModule = " << lastModule;
+    //myDebug() << "selectedModule = " << selectedModule << " lastModule = " << lastModule;
     if(selectedModule != -1)
         m_moduleManager->bibleList()->setCurrentBibleListID(selectedModule);
     else
         m_moduleManager->bibleList()->setCurrentBibleListID(lastModule);
 
     if(atLeastOne) {
-        myDebug() << "at least one";
+        //myDebug() << "at least one";
         m_actions->loadBibleList(hadBible);
     } else {
-        myDebug() << "none";
+        //myDebug() << "none";
         Bible *b = new Bible();
         m_moduleManager->initBible(b);
         m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));

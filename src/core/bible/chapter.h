@@ -27,8 +27,8 @@ public:
     Chapter();
     Chapter(const int &chapterID);
     void addVerse(const int &verseID, const Verse &verse);
-    QHash<int, Verse> getData();
-    int verseCount();
+    QHash<int, Verse> getData() const;
+    int verseCount() const;
     void setChapterID(const int &chapterID);
 private:
     QHash<int, Verse> m_data;
