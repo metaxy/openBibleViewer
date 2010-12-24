@@ -67,6 +67,7 @@ set ( openBibleViewer_HDRS
     module/dictionary.h
     module/biblequote-dict.h
     module/biblemodule.h
+    module/thewordbible.h
 
     ui/interface/advanced/windowsessiondata.h
     )
@@ -131,6 +132,7 @@ set ( openBibleViewer_SRCS
     module/dictionary.cpp
     module/biblequote-dict.cpp
     module/biblemodule.cpp
+    module/thewordbible.cpp
     
     ui/dialog/searchdialog.cpp
     ui/dialog/settingsdialog.cpp

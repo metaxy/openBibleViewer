@@ -65,6 +65,7 @@ public:
     QString modulePath();
 
     QString bookName(const int &bookID, bool preferShort = false);
+    //todo: used instead of hash a map.
     QHash<int, QString> bookNames(bool preferShort = false);
 
     QHash<int, QString> bookFullNames();
