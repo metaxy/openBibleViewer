@@ -27,7 +27,6 @@ Bible::Bible()
     m_bookID = 0;
     m_chapterID = 0;
     m_verseID = 0;
-    textTitle = "";
     m_loaded = false;
     m_moduleType = Module::NoneType;
     m_bibleModule = 0;
@@ -68,18 +67,18 @@ int Bible::loadModuleData(const int &moduleID)
         m_bibleModule->setSettings(m_settings);
         m_bibleModule->loadBibleData(moduleID, path);
         if(m.moduleName.isEmpty())
-            m_bibleTitle = m_bibleModule->bibleName(false);
+            m_moduleTitle = m_bibleModule->moduleName(false);
         else
-            m_bibleTitle = m.moduleName;
-        m_bibleShortTitle = m_bibleModule->bibleName(true);
+            m_moduleTitle = m.moduleName;
+        m_moduleShortTitle = m_bibleModule->moduleName(true);
 
         bookCount = m_bibleModule->bookCount();
         m_names = m_bibleModule->getBookNames();
 
         m_bookPath = ((BibleQuote *)m_bibleModule)->m_bookPath;
-        m_biblePath = m_bibleModule->biblePath();
+        m_modulePath = m_bibleModule->modulePath();
         //ModuleCache
-        m_settings->setTitle(path, m_bibleTitle);
+        m_settings->setTitle(path, m_moduleTitle);
         m_settings->setBookCount(path, bookCount);
         m_settings->setBookNames(path, m_names.m_bookFullName);
 
@@ -95,13 +94,13 @@ int Bible::loadModuleData(const int &moduleID)
         ModuleSettings m = m_settings->getModuleSettings(m_moduleID);
         m_bibleModule->setSettings(m_settings);
         m_bibleModule->loadBibleData(moduleID, path);
-        m_bibleTitle = m.moduleName;
+        m_moduleTitle = m.moduleName;
 
         bookCount = m_bibleModule->bookCount();
         m_names = m_bibleModule->getBookNames();
-        m_biblePath = m_bibleModule->biblePath();
+        m_modulePath = m_bibleModule->modulePath();
         //ModuleCache
-        m_settings->setTitle(path, m_bibleTitle);
+        m_settings->setTitle(path, m_moduleTitle);
         m_settings->setBookCount(path, bookCount);
         m_settings->setBookNames(path, m_names.m_bookFullName);
 
@@ -755,15 +754,15 @@ QStringList Bible::getSearchPaths() const
         return QStringList();
     } else if(m_moduleType == Module::BibleQuoteModule) {
         QStringList l;
-        l.append(QString(m_biblePath + QDir::separator()));
+        l.append(QString(m_modulePath + QDir::separator()));
         if(m_bookID < m_bookPath.size()) {
             QString p = m_bookPath.at(m_bookID);
             const int pos = p.lastIndexOf(QDir::separator());
             if(pos != -1) {
                 p = p.remove(pos, p.size());
             }
-            if(!p.startsWith(m_biblePath)) {
-                p = m_biblePath + QDir::separator() + p + QDir::separator();
+            if(!p.startsWith(m_modulePath)) {
+                p = m_modulePath + QDir::separator() + p + QDir::separator();
             }
             l.append(p);
         }
@@ -792,21 +791,21 @@ int Bible::chaptersCount() const
     return m_book.size();
 }
 
-QString Bible::biblePath()
+QString Bible::modulePath()
 {
-    return m_biblePath;
+    return m_modulePath;
 }
 
-QString Bible::bibleTitle()
+QString Bible::moduleTitle()
 {
-    return m_bibleTitle;
+    return m_moduleTitle;
 }
 
-QString Bible::bibleShortTitle()
+QString Bible::moduleShortTitle()
 {
-    if(m_bibleShortTitle.isEmpty())
-        return bibleTitle();
-    return m_bibleShortTitle;
+    if(m_moduleShortTitle.isEmpty())
+        return moduleTitle();
+    return m_moduleShortTitle;
 }
 
 QHash<int, QString> Bible::bookFullNames()
@@ -822,11 +821,6 @@ QHash<int, QStringList> Bible::bookShortNames()
 QStringList Bible::bookPath()
 {
     return m_bookPath;
-}
-
-QStringList Bible::chapterDataList()
-{
-    return m_chapterDataList;
 }
 
 QStringList Bible::chapterNames()

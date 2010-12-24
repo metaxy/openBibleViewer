@@ -31,7 +31,7 @@ using namespace lucene::search;
 
 BibleQuote::BibleQuote()
 {
-    m_bibleID = -1;
+    m_moduleID = -1;
     m_codec = NULL;
 }
 BibleQuote::~BibleQuote()
@@ -49,19 +49,19 @@ QString BibleQuote::formatFromIni(QString input)
 }
 void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
 {
-    m_bibleID = bibleID;
+    m_moduleID = bibleID;
     m_bookFullName.clear();
     m_bookPath.clear();
     m_bookShortName.clear();
     m_bookCount.clear();
-    m_bibleName = "";
+    m_moduleName = "";
     m_chapterSign = "";
     m_removeHtml = "";
     m_verseSign = "";
     m_chapterZero = false;
     int lastPos = path.lastIndexOf("/");
     QString path_ = path;
-    m_biblePath = path_.remove(lastPos, path.size());
+    m_modulePath = path_.remove(lastPos, path.size());
     bool started = false;
     bool started2 = false;
     int count = 0;
@@ -69,10 +69,10 @@ void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
     QFile file;
     file.setFileName(path);
     QString encoding;
-    if(m_settings->getModuleSettings(m_bibleID).encoding == "Default" || m_settings->getModuleSettings(m_bibleID).encoding == "") {
+    if(m_settings->getModuleSettings(m_moduleID).encoding == "Default" || m_settings->getModuleSettings(m_moduleID).encoding == "") {
         encoding = m_settings->encoding;
     } else {
-        encoding = m_settings->getModuleSettings(m_bibleID).encoding;
+        encoding = m_settings->getModuleSettings(m_moduleID).encoding;
     }
     m_codec = QTextCodec::codecForName(encoding.toStdString().c_str());
     QTextDecoder *decoder = m_codec->makeDecoder();
@@ -87,10 +87,10 @@ void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
             }
 
             if(line.contains("BibleName", Qt::CaseInsensitive)) {
-                m_bibleName = formatFromIni(line.remove(QRegExp("BibleName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
+                m_moduleName = formatFromIni(line.remove(QRegExp("BibleName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
             }
             if(line.contains("BibleShortName", Qt::CaseInsensitive)) {
-                m_bibleShortName = formatFromIni(line.remove(QRegExp("BibleShortName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
+                m_moduleShortName = formatFromIni(line.remove(QRegExp("BibleShortName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
             }
             if(line.contains("ChapterSign", Qt::CaseInsensitive)) {
                 m_chapterSign = formatFromIni(line.remove(QRegExp("ChapterSign(\\s*)=(\\s*)", Qt::CaseInsensitive)));
@@ -145,15 +145,15 @@ void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
 QString BibleQuote::readInfo(QFile &file)
 {
     bool useShortName = false;
-    m_bibleName.clear();
-    m_bibleShortName.clear();
+    m_moduleName.clear();
+    m_moduleShortName.clear();
     int countlines = 0;
     if(m_codec == NULL) {
         QString encoding;
-        if(m_settings->getModuleSettings(m_bibleID).encoding == "Default" || m_settings->getModuleSettings(m_bibleID).encoding == "") {
+        if(m_settings->getModuleSettings(m_moduleID).encoding == "Default" || m_settings->getModuleSettings(m_moduleID).encoding == "") {
             encoding = m_settings->encoding;
         } else {
-            encoding = m_settings->getModuleSettings(m_bibleID).encoding;
+            encoding = m_settings->getModuleSettings(m_moduleID).encoding;
         }
         m_codec = QTextCodec::codecForName(encoding.toStdString().c_str());
     }
@@ -170,18 +170,18 @@ QString BibleQuote::readInfo(QFile &file)
             continue;
         }
         if(line.contains("BibleName", Qt::CaseInsensitive)) {
-            m_bibleName = formatFromIni(line.remove(QRegExp("BibleName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
-            if(m_bibleName == "") {
+            m_moduleName = formatFromIni(line.remove(QRegExp("BibleName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
+            if(m_moduleName == "") {
                 useShortName = true;
             }
-            if(useShortName && m_bibleShortName != "") {
+            if(useShortName && m_moduleShortName != "") {
                 break;
             } else if(!useShortName) {
                 break;
             }
         }
         if(line.contains("BibleShortName", Qt::CaseInsensitive)) {
-            m_bibleShortName = formatFromIni(line.remove(QRegExp("BibleShortName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
+            m_moduleShortName = formatFromIni(line.remove(QRegExp("BibleShortName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
             if(useShortName)
                 break;
         }
@@ -189,19 +189,18 @@ QString BibleQuote::readInfo(QFile &file)
     }
     file.close();
     if(useShortName) {
-        m_bibleName = m_bibleShortName;
+        m_moduleName = m_moduleShortName;
     }
-    if(m_bibleName.isEmpty()) {
+    if(m_moduleName.isEmpty()) {
         myWarning() << "invalid ini File " << file.fileName();
     }
-    return m_bibleName;
+    return m_moduleName;
 }
 int BibleQuote::readBook(const int &id)
 {
     m_book.clear();
-    m_bookID = id;
-    m_book.setID(m_bookID);
-    const QString path = m_biblePath + "/" + m_bookPath.at(id);
+    m_book.setID(id);
+    const QString path = m_modulePath + "/" + m_bookPath.at(id);
     QFile file;
     file.setFileName(path);
 
@@ -219,7 +218,7 @@ int BibleQuote::readBook(const int &id)
             QString line = decoder->toUnicode(byteline);
 
             //filterout
-            if(m_settings->getModuleSettings(m_bibleID).biblequote_removeHtml == true && removeHtml2.size() > 0) {
+            if(m_settings->getModuleSettings(m_moduleID).biblequote_removeHtml == true && removeHtml2.size() > 0) {
                 foreach(const QString & r, removeHtml2) {
                     line = line.remove(r, Qt::CaseInsensitive);
                 }
@@ -249,7 +248,7 @@ int BibleQuote::readBook(const int &id)
         foreach(QString f, list) {
             QFileInfo info2(f);
             if(info2.baseName().compare(info.baseName(), Qt::CaseInsensitive) == 0) {
-                m_bookPath.replace(id, f.remove(m_biblePath + "/"));
+                m_bookPath.replace(id, f.remove(m_modulePath + "/"));
                 return readBook(id);
             }
         }
@@ -277,7 +276,7 @@ int BibleQuote::readBook(const int &id)
 }
 QString BibleQuote::indexPath() const
 {
-    return m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
+    return m_settings->homePath + "index/" + m_settings->hash(m_modulePath);
 }
 bool BibleQuote::hasIndex() const
 {
@@ -299,10 +298,10 @@ void BibleQuote::buildIndex()
 
     if(m_codec == NULL) {
         QString encoding;
-        if(m_settings->getModuleSettings(m_bibleID).encoding == "Default" || m_settings->getModuleSettings(m_bibleID).encoding == "") {
+        if(m_settings->getModuleSettings(m_moduleID).encoding == "Default" || m_settings->getModuleSettings(m_moduleID).encoding == "") {
             encoding = m_settings->encoding;
         } else {
-            encoding = m_settings->getModuleSettings(m_bibleID).encoding;
+            encoding = m_settings->getModuleSettings(m_moduleID).encoding;
         }
         m_codec = QTextCodec::codecForName(encoding.toStdString().c_str());
     }
@@ -335,7 +334,7 @@ void BibleQuote::buildIndex()
         progress.setValue(id);
         bytetext.clear();
         ctext.clear();
-        const QString path = m_biblePath + "/" + m_bookPath.at(id);
+        const QString path = m_modulePath + "/" + m_bookPath.at(id);
 
         QFile file(path);
         QByteArray out;
@@ -413,7 +412,7 @@ void BibleQuote::search(const SearchQuery &query, SearchResult *res) const
         if(query.range == SearchQuery::Whole || (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) || (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
             SearchHit hit;
             hit.setType(SearchHit::BibleHit);
-            hit.setValue(SearchHit::BibleID, m_bibleID);
+            hit.setValue(SearchHit::BibleID, m_moduleID);
             hit.setValue(SearchHit::BookID, l.at(0).toInt());
             hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
             hit.setValue(SearchHit::VerseID, l.at(2).toInt());
@@ -424,17 +423,17 @@ void BibleQuote::search(const SearchQuery &query, SearchResult *res) const
     reader->close();
     delete reader;
 }
-int BibleQuote::bibleID() const
+int BibleQuote::moduleID() const
 {
-    return m_bibleID;
+    return m_moduleID;
 }
-QString BibleQuote::biblePath() const
+QString BibleQuote::modulePath() const
 {
-    return m_biblePath;
+    return m_modulePath;
 }
-QString BibleQuote::bibleName(bool preferShortName) const
+QString BibleQuote::moduleName(bool preferShortName) const
 {
-    return m_bibleName;
+    return m_moduleName;
 }
 QMap<int, int> BibleQuote::bookCount()
 {

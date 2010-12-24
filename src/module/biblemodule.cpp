@@ -56,17 +56,17 @@ void BibleModule::buildIndex()
 {
     myWarning() << "calling BibleModule";
 }
-int BibleModule::bibleID() const
+int BibleModule::moduleID() const
 {
     myWarning() << "calling BibleModule";
     return 0;
 }
-QString BibleModule::biblePath() const
+QString BibleModule::modulePath() const
 {
     myWarning() << "calling BibleModule";
     return "";
 }
-QString BibleModule::bibleName(bool preferShortName) const
+QString BibleModule::moduleName(bool preferShortName) const
 {
     myWarning() << "calling BibleModule";
     return "";

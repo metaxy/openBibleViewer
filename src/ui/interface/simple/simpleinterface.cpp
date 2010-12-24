@@ -144,7 +144,7 @@ void SimpleInterface::loadModuleDataByID(int id)
 
     m_moduleManager->bible()->loadModuleData(id);
 
-    setTitle(m_moduleManager->bible()->bibleTitle());
+    setTitle(m_moduleManager->bible()->moduleTitle());
     setBooks(m_moduleManager->bible()->bookNames());
 
 }

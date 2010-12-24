@@ -194,7 +194,7 @@ void AdvancedInterface::pharseUrl(QString url)
     } else {
         //todo: unterstand links like about:blank#a04
         if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule) {
-            myDebug() << m_moduleManager->bible()->biblePath();
+            myDebug() << m_moduleManager->bible()->modulePath();
             bool isInBookPath = false;
             int b = 0;
             const QStringList books = m_moduleManager->bible()->bookPath();

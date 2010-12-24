@@ -46,9 +46,9 @@ public:
     bool hasIndex() const;
     void buildIndex();
 
-    int bibleID() const;
-    QString biblePath() const;
-    QString bibleName(bool preferShortName = false) const;
+    int moduleID() const;
+    QString modulePath() const;
+    QString moduleName(bool preferShortName = false) const;
     QMap<int, int> bookCount() const;
     BookNames getBookNames();
     Book book() const;
@@ -80,9 +80,9 @@ private:
     QString indexPath() const;
 
     int m_bookID;
-    int m_bibleID;
-    QString m_biblePath;
-    QString m_bibleName;
+    int m_moduleID;
+    QString m_modulePath;
+    QString m_moduleName;
 
 };
 

@@ -217,7 +217,7 @@ bool BibleManager::loadModuleDataByID(const int &moduleID)
     m_moduleManager->bible()->setModuleType(type);
     m_moduleManager->bible()->loadModuleData(moduleID);
 
-    m_actions->setTitle(m_moduleManager->bible()->bibleTitle());
+    m_actions->setTitle(m_moduleManager->bible()->moduleTitle());
     m_actions->setCurrentModule(moduleID);
     QApplication::restoreOverrideCursor();
     return 0;

@@ -31,7 +31,7 @@ public:
     virtual ~BibleModule() {}
     virtual void setSettings(Settings *settings);
 
-    virtual void loadBibleData(const int &bibleID, const QString &path);
+    virtual void loadBibleData(const int &moduleID, const QString &path);
     virtual QString readInfo(QFile &file);
     virtual int readBook(const int &id);
 
@@ -39,10 +39,10 @@ public:
     virtual bool hasIndex() const;
     virtual void buildIndex();
 
-    virtual int bibleID() const;
-    virtual QString biblePath() const ;
-    virtual QString bibleName(bool preferShortName = false) const ;
-    virtual QMap<int, int> bookCount() const ;//11
+    virtual int moduleID() const;
+    virtual QString modulePath() const;
+    virtual QString moduleName(bool preferShortName = false) const;
+    virtual QMap<int, int> bookCount() const ;
 
     virtual BookNames getBookNames();
     virtual Book book() const;

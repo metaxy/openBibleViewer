@@ -56,7 +56,7 @@ void BibleListWidget::init()
             QStandardItem *item;
             if(id >= 0 && b) {
                 //myDebug() << " title = " << b->bibleTitle() << " id = " << m_moduleManager->getBibleIDs().indexOf(b->moduleID()) << " moduleID " << b->moduleID();
-                item = new QStandardItem(b->bibleTitle());
+                item = new QStandardItem(b->moduleTitle());
                 item->setData(QVariant(b->moduleID()), Qt::UserRole + 2);
                 item->setData(QVariant(m_moduleManager->getBibleIDs().indexOf(b->moduleID()) + 1), Qt::UserRole + 3); //todo: check if indexOF return -1
 

@@ -44,9 +44,11 @@ public:
 
     TextRanges readRanges(const Ranges &ranges, bool ignoreModuleID = false);
     TextRange readRange(const Range &range, bool ignoreModuleID = false);
-
+    /**
+      * Used only by BibleQuote modules.
+      * @returns A list of paths, where images can be found.
+      */
     QStringList getSearchPaths() const;
-    QString toUniformHtml(QString string);
 
     void search(SearchQuery query, SearchResult *result);
 
@@ -58,9 +60,9 @@ public:
     int booksCount() const;
     int chaptersCount() const;
 
-    QString bibleTitle();
-    QString bibleShortTitle();
-    QString biblePath();
+    QString moduleTitle();
+    QString moduleShortTitle();
+    QString modulePath();
 
     QString bookName(const int &bookID, bool preferShort = false);
     QHash<int, QString> bookNames(bool preferShort = false);
@@ -70,7 +72,6 @@ public:
     QList<int> bookIDs();
     QStringList bookPath();
     QStringList chapterNames();
-    QStringList chapterDataList();
     SearchQuery lastSearchQuery();
 
     bool loaded();
@@ -82,15 +83,12 @@ private:
     int m_verseID;
 
     QMap <int, int> bookCount;
-    QString m_lastout;
-    QString m_bibleTitle;
-    QString m_bibleShortTitle;
-    QString m_biblePath;
+    QString m_moduleTitle;
+    QString m_moduleShortTitle;
+    QString m_modulePath;
 
-    QStringList m_chapterText;
     QStringList m_bookPath;
     QStringList m_chapterNames;
-    QStringList m_chapterDataList;
     BookNames m_names;
 
     BibleDisplaySettings *m_bibleDisplaySettings;
@@ -100,8 +98,9 @@ private:
     TextRanges *m_lastTextRanges;
     bool m_loaded;
     SearchQuery m_lastSearchQuery;
-    QString textTitle;
     Book m_book;
+
+    QString toUniformHtml(QString string);
 
 };
 

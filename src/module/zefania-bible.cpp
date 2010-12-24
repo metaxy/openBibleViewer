@@ -36,22 +36,22 @@ extern bool removeDir(const QString &dirName);
 ZefaniaBible::ZefaniaBible()
 {
     m_settings = 0;
-    m_bibleID = 0;
+    m_moduleID = 0;
     m_bookID = 0;
-    m_biblePath = "";
-    m_bibleName = "";
+    m_modulePath = "";
+    m_moduleName = "";
 }
 void ZefaniaBible::loadBibleData(const int &id, const QString &path)
 {
     //DEBUG_FUNC_NAME
-    m_bibleName = "";
-    m_bibleID = id;
+    m_moduleName = "";
+    m_moduleID = id;
 
-    if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == false && m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false) {
+    if(m_settings->getModuleSettings(m_moduleID).zefbible_hardCache == false && m_settings->getModuleSettings(m_moduleID).zefbible_softCache == false) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Please activate Caching.(Hard or Soft Cache)"));
         return;
     }
-    if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true) {
+    if(m_settings->getModuleSettings(m_moduleID).zefbible_hardCache == true) {
         if(checkForCacheFiles(path)) {
             loadCached(id, path);//load the hard cache files
         } else {
@@ -95,9 +95,9 @@ int ZefaniaBible::readBook(const int &id)
 {
     QDomNode ncache;
     //book is not in soft cache
-    if(m_settings->getModuleSettings(m_bibleID).zefbible_hardCache == true &&
-            (!m_softCacheData.contains(id) || m_settings->getModuleSettings(m_bibleID).zefbible_softCache == false)) {
-        ncache = readBookFromHardCache(m_biblePath, id);
+    if(m_settings->getModuleSettings(m_moduleID).zefbible_hardCache == true &&
+            (!m_softCacheData.contains(id) || m_settings->getModuleSettings(m_moduleID).zefbible_softCache == false)) {
+        ncache = readBookFromHardCache(m_modulePath, id);
     } else {
         m_book = softCache(id);
         m_bookCount.insert(id, m_book.size());
@@ -169,7 +169,7 @@ Book ZefaniaBible::fromHardToSoft(const int &bookID, const QDomNode *ncache)
 }
 QDomElement* ZefaniaBible::format(QDomElement *e)
 {
-    ModuleSettings moduleSettings = m_settings->getModuleSettings(m_bibleID);
+    ModuleSettings moduleSettings = m_settings->getModuleSettings(m_moduleID);
     QDomNode n = e->firstChild();
     while(!n.isNull()) {  //all verses
         QDomElement element = n.toElement();
@@ -241,7 +241,7 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
   */
 QHash<int, Book> ZefaniaBible::softCache() const
 {
-    if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
+    if(m_settings->getModuleSettings(m_moduleID).zefbible_softCache == true) {
         return m_softCacheData;
     }
     return QHash<int, Book>();
@@ -252,7 +252,7 @@ QHash<int, Book> ZefaniaBible::softCache() const
   */
 Book ZefaniaBible::softCache(const int &bookID) const
 {
-    if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
+    if(m_settings->getModuleSettings(m_moduleID).zefbible_softCache == true) {
         return m_softCacheData.value(bookID);
     }
     return Book();
@@ -264,7 +264,7 @@ Book ZefaniaBible::softCache(const int &bookID) const
 void ZefaniaBible::setSoftCache(const QHash<int, Book > &cache)
 {
     DEBUG_FUNC_NAME
-    if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
+    if(m_settings->getModuleSettings(m_moduleID).zefbible_softCache == true) {
         m_softCacheData = cache;
     }
     return;
@@ -276,7 +276,7 @@ void ZefaniaBible::setSoftCache(const QHash<int, Book > &cache)
   */
 void ZefaniaBible::setSoftCache(const int &bookID, const Book &book)
 {
-    if(m_settings->getModuleSettings(m_bibleID).zefbible_softCache == true) {
+    if(m_settings->getModuleSettings(m_moduleID).zefbible_softCache == true) {
         m_softCacheData.insert(bookID, book);
     }
 }
@@ -310,17 +310,17 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     // DEBUG_FUNC_NAME
     QProgressDialog progress(QObject::tr("Loading Bible"), QObject::tr("Cancel"), 0, 76);
     progress.setWindowModality(Qt::WindowModal);
-    if(m_bibleID != id) {
+    if(m_moduleID != id) {
         m_bookFullName.clear();
         m_bookShortName.clear();
         m_bookCount.clear();
         clearSoftCache();
     }
-    m_bibleID = id;
-    ModuleSettings moduleSettings = m_settings->getModuleSettings(m_bibleID);
+    m_moduleID = id;
+    ModuleSettings moduleSettings = m_settings->getModuleSettings(m_moduleID);
     progress.setValue(1);
 
-    m_biblePath = path;
+    m_modulePath = path;
     const QString fileName = m_settings->homePath + "cache/" + m_settings->hash(path) + "/";
     QDir dir;
     dir.mkpath(fileName);
@@ -397,9 +397,9 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
 
     progress.setValue(10);
     KoXmlElement root = doc.documentElement();
-    m_bibleName = root.attribute("biblename", "");
-    if(m_bibleName == "") {
-        m_bibleName = moduleSettings.moduleName;
+    m_moduleName = root.attribute("biblename", "");
+    if(m_moduleName == "") {
+        m_moduleName = moduleSettings.moduleName;
     }
 
     KoXmlNode n = doc.documentElement().firstChild();
@@ -485,7 +485,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
             return;
         }
         QDataStream out(&file);
-        out << m_bibleName << m_bookFullName << m_bookShortName << m_bookIDs;
+        out << m_moduleName << m_bookFullName << m_bookShortName << m_bookIDs;
         file.close();
     }
 }
@@ -495,7 +495,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
   */
 void ZefaniaBible::loadCached(const int &id, const QString &path)
 {
-    if(m_bibleID != id) {
+    if(m_moduleID != id) {
         //clear old data
         m_bookFullName.clear();
         m_bookShortName.clear();
@@ -514,15 +514,15 @@ void ZefaniaBible::loadCached(const int &id, const QString &path)
     QStringList shortName;
     QStringList bookIDs;
     in >> bibleName >> fullName >> shortName >> bookIDs;
-    m_bibleName = bibleName;
+    m_moduleName = bibleName;
     m_bookFullName = fullName;
     m_bookShortName = shortName;
     m_bookIDs = bookIDs;
     //myDebug() << m_bookShortName;
-    m_bibleID = id;
-    m_biblePath = path;
-    if(m_bibleName == "") {
-        m_bibleName = m_settings->getModuleSettings(m_bibleID).moduleName;
+    m_moduleID = id;
+    m_modulePath = path;
+    if(m_moduleName == "") {
+        m_moduleName = m_settings->getModuleSettings(m_moduleID).moduleName;
     }
 }
 
@@ -535,9 +535,9 @@ QString ZefaniaBible::readInfo(QFile &file)
     }
 
     KoXmlElement root = doc.documentElement();
-    m_bibleName = root.attribute("biblename", "");
+    m_moduleName = root.attribute("biblename", "");
     file.close();
-    return m_bibleName;
+    return m_moduleName;
 }
 /**
   Read the module file and returns the bible name
@@ -551,24 +551,24 @@ QString ZefaniaBible::readInfo(const QString &content)
         return "";
     }
     KoXmlElement root = doc.documentElement();
-    m_bibleName = root.attribute("biblename", "");
-    return m_bibleName;
+    m_moduleName = root.attribute("biblename", "");
+    return m_moduleName;
 }
 /*int ZefaniaBible::bookID() const
 {
     return m_bookID;
 }*/
-int ZefaniaBible::bibleID() const
+int ZefaniaBible::moduleID() const
 {
-    return m_bibleID;
+    return m_moduleID;
 }
-QString ZefaniaBible::biblePath() const
+QString ZefaniaBible::modulePath() const
 {
-    return m_biblePath;
+    return m_modulePath;
 }
-QString ZefaniaBible::bibleName(bool preferShortName) const
+QString ZefaniaBible::moduleName(bool preferShortName) const
 {
-    return m_bibleName;
+    return m_moduleName;
 }
 QMap<int, int> ZefaniaBible::bookCount() const
 {
@@ -740,7 +740,7 @@ void ZefaniaBible::buildIndex()
         }
         progress.setValue(bookCounter);
         QDomNode ncache;
-        ncache = readBookFromHardCache(m_biblePath, bookCounter);
+        ncache = readBookFromHardCache(m_modulePath, bookCounter);
         QDomNode n = ncache.firstChild();
         int chapterCounter;
         const QString book = QString::number(bookCounter);
@@ -801,7 +801,7 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
         if(query.range == SearchQuery::Whole || (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) || (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
             SearchHit hit;
             hit.setType(SearchHit::BibleHit);
-            hit.setValue(SearchHit::BibleID, m_bibleID);
+            hit.setValue(SearchHit::BibleID, m_moduleID);
             hit.setValue(SearchHit::BookID, l.at(0).toInt());
             hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
             hit.setValue(SearchHit::VerseID, l.at(2).toInt());
@@ -820,5 +820,5 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
 QString ZefaniaBible::indexPath() const
 {
     DEBUG_FUNC_NAME
-    return m_settings->homePath + "index/" + m_settings->hash(m_biblePath);
+    return m_settings->homePath + "index/" + m_settings->hash(m_modulePath);
 }

@@ -298,7 +298,7 @@ void BibleForm::activated()
     }
     m_moduleManager->m_bibleList = m_bibleList;
 
-    m_actions->setTitle(m_moduleManager->bible()->bibleTitle());
+    m_actions->setTitle(m_moduleManager->bible()->moduleTitle());
     m_actions->setCurrentModule(m_moduleManager->bible()->moduleID());
 
     m_actions->updateChapters(m_moduleManager->bible()->chapterNames());

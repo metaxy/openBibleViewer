@@ -224,7 +224,7 @@ QString BibleList::title(Bible *b, const QString &active, const int &bibleListID
     return "<td class='bibleListTitle" + active + "' titleOf='" +
            QString::number(b->moduleID()) + "' bibleListID='" +
            QString::number(bibleListID) + "'><a href='#' onclick=\"Bible.activateBible('" +
-           QString::number(bibleListID) + "');\" class='bibleListTitleLink'>" + b->bibleShortTitle() + "</a></td>";
+           QString::number(bibleListID) + "');\" class='bibleListTitleLink'>" + b->moduleShortTitle() + "</a></td>";
 }
 
 bool BibleList::hasTopBar() const

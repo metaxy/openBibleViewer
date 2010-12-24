@@ -40,24 +40,24 @@ public:
     ~BibleQuote();
     void setSettings(Settings *settings);
     int readBook(const int &id);
-    void loadBibleData(const int &bibleID, const QString &path);
+    void loadBibleData(const int &moduleID, const QString &path);
     QString readInfo(QFile &file);
     void search(const SearchQuery &query, SearchResult *res) const;
     bool hasIndex() const;
     void buildIndex();
 
-    int bibleID() const;
-    QString biblePath() const;
-    QString bibleName(bool preferShortName = false) const;
+    int moduleID() const;
+    QString modulePath() const;
+    QString moduleName(bool preferShortName = false) const;
     QMap<int, int> bookCount();
     BookNames getBookNames();
     Book book() const;
 
     bool m_chapterZero;
 
-    QString m_biblePath;
-    QString m_bibleName;
-    QString m_bibleShortName;
+    QString m_modulePath;
+    QString m_moduleName;
+    QString m_moduleShortName;
 
     QStringList m_bookPath;
     QStringList m_bookFullName;
@@ -67,8 +67,7 @@ public:
 private:
     inline QString formatFromIni(QString input);
     QString indexPath() const;
-    int m_bookID;
-    int m_bibleID;
+    int m_moduleID;
     QString m_verseSign;
     QString m_chapterSign;
     QString m_removeHtml;
