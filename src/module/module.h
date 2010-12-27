@@ -43,7 +43,6 @@ public:
     int m_id;
 
     BibleModule *m_bibleModule;
-
     ZefaniaLex *m_zefaniaLex;
     BibleQuoteDict *m_bibleQuoteDict;
 

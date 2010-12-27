@@ -34,7 +34,6 @@ private:
     bool hasNT() const;
     bool hasOT() const;
     bool hasONT() const;
-    std::pair<int, int> dataFromLine();
 
 };
 

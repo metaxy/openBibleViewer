@@ -53,9 +53,11 @@ int TheWordBible::moduleID() const
 
 QString TheWordBible::modulePath() const
 {
+    return m_modulePath;
 }
 QString TheWordBible::moduleName(bool preferShortName = false) const
 {
+    return "";
 }
 QMap<int, int> TheWordBible::bookCount()
 {
