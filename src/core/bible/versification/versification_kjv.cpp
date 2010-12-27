@@ -348,13 +348,24 @@ QList<QStringList> Versification_KJV::multipleBookShortNames(VersificationFilter
 }
 QStringList Versification_KJV::bookShortNames(VersificationFilterFlags filter) const
 {
-    return QStringList();
+    QList<QStringList> mul = multipleBookShortNames(filter);
+    QStringList ret;
+    foreach(const QStringList &a, mul) {
+        if(a.isEmpty())
+            ret.append("");
+        else
+            ret.append(a.first());
+    }
+
+    return ret;
 }
 QList<int> Versification_KJV::maxChapter(VersificationFilterFlags filter) const
 {
-    return m_maxChapter;
+    if(filter.testFlag(Versification::ReturnAll) || (filter.testFlag(Versification::ReturnOT) && filter.testFlag(Versification::ReturnNT)))
+        return m_maxChapter;
 }
 QList<QList<int> > Versification_KJV::maxVerse(VersificationFilterFlags filter) const
 {
-    return m_maxVerse;
+    if(filter.testFlag(Versification::ReturnAll) || (filter.testFlag(Versification::ReturnOT) && filter.testFlag(Versification::ReturnNT)))
+        return m_maxVerse;
 }
