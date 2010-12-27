@@ -3,7 +3,7 @@
 #include "src/core/bible/versification.h"
 #include <QtCore/QFlags>
 #include <QtCore/QObject>
-class Versification_KJV : public Versification, public QObject
+class Versification_KJV : public Versification
 {
     Q_OBJECT
 public:

@@ -239,6 +239,8 @@ set ( openBibleViewer_MOCS
     core/notes.h
     core/simplenotes.h
     core/moduledownloader.h
+    core/bible/versification/versification_kjv.h
+    core/bible/versification.h
 
     ui/dialog/searchdialog.h
     ui/dialog/settingsdialog.h

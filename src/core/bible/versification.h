@@ -2,8 +2,9 @@
 #define VERSIFICATION_H
 #include <QtCore/QStringList>
 #include <QtCore/QFlags>
-class Versification
+class Versification: public QObject
 {
+    Q_OBJECT
 public:
     Versification();
     enum VersificationFilter {
