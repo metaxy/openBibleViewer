@@ -339,12 +339,13 @@ QStringList Versification_KJV::getBookNames(VersificationFilterFlags filter) con
     //in kjv ALL equals to OT && NT
     if(filter.testFlag(Versification::ReturnAll) || (filter.testFlag(Versification::ReturnOT) && filter.testFlag(Versification::ReturnNT)))
         return m_bookNames;
-
+    return m_bookNames;
 }
 QList<QStringList> Versification_KJV::multipleBookShortNames(VersificationFilterFlags filter) const
 {
     if(filter.testFlag(Versification::ReturnAll) || (filter.testFlag(Versification::ReturnOT) && filter.testFlag(Versification::ReturnNT)))
         return m_bookShortNames;
+    return m_bookShortNames;
 }
 QStringList Versification_KJV::bookShortNames(VersificationFilterFlags filter) const
 {
@@ -356,16 +357,17 @@ QStringList Versification_KJV::bookShortNames(VersificationFilterFlags filter) c
         else
             ret.append(a.first());
     }
-
     return ret;
 }
 QList<int> Versification_KJV::maxChapter(VersificationFilterFlags filter) const
 {
     if(filter.testFlag(Versification::ReturnAll) || (filter.testFlag(Versification::ReturnOT) && filter.testFlag(Versification::ReturnNT)))
         return m_maxChapter;
+    return m_maxChapter;
 }
 QList<QList<int> > Versification_KJV::maxVerse(VersificationFilterFlags filter) const
 {
     if(filter.testFlag(Versification::ReturnAll) || (filter.testFlag(Versification::ReturnOT) && filter.testFlag(Versification::ReturnNT)))
         return m_maxVerse;
+    return m_maxVerse;
 }

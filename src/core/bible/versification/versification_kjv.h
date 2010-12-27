@@ -11,8 +11,8 @@ public:
     QStringList getBookNames(VersificationFilterFlags filter) const;
     QList<QStringList> multipleBookShortNames(VersificationFilterFlags filter) const;
     QStringList bookShortNames(VersificationFilterFlags filter) const;
-    QList<int> maxChapter(VersificationFilterFlags filter) const = 0;
-    QList<QList<int> > maxVerse(VersificationFilterFlags filter) const = 0;
+    QList<int> maxChapter(VersificationFilterFlags filter) const;
+    QList<QList<int> > maxVerse(VersificationFilterFlags filter) const;
 };
 
 #endif // VERSIFICATION_KJV_H

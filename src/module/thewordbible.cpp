@@ -1,5 +1,6 @@
 #include "thewordbible.h"
-
+#include "src/core/bible/versification/versification_kjv.h"
+#include "src/core/dbghelper.h"
 TheWordBible::TheWordBible()
 {
 }
@@ -23,17 +24,37 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
         return;
 
     QTextStream in(&file);
+    int book = 0;
+    int chapter = 0;
+    int verse = 0;
+    Versification *v = new Versification_KJV();
     for(int lineCount = 0; !in.atEnd(); lineCount++) {
         const QString line = in.readLine();
+        if(verse < v->maxVerse(Versification::ReturnAll).at(book).at(chapter)) {
+            verse++;
+        } else {
+            if(chapter < v->maxChapter(Versification::ReturnAll).at(book)) {
+                chapter++;
+                verse = 0;
+            } else {
+                //todo: it should never be more
+                book++;
+                chapter = 0;
+                verse = 0;
+            }
+        }
+        myDebug() << book << chapter << verse << line;
     }
 
 }
 int TheWordBible::readBook(const int &id)
 {
+    return 0;
 }
 
 QString TheWordBible::readInfo(QFile &file)
 {
+    return "";
 }
 
 void TheWordBible::search(const SearchQuery &query, SearchResult *res) const
@@ -41,6 +62,7 @@ void TheWordBible::search(const SearchQuery &query, SearchResult *res) const
 }
 bool TheWordBible::hasIndex() const
 {
+    return false;
 }
 void TheWordBible::buildIndex()
 {
@@ -55,21 +77,23 @@ QString TheWordBible::modulePath() const
 {
     return m_modulePath;
 }
-QString TheWordBible::moduleName(bool preferShortName = false) const
+QString TheWordBible::moduleName(bool preferShortName) const
 {
     return "";
 }
 QMap<int, int> TheWordBible::bookCount()
 {
+    return QMap<int,int>();
 }
 BookNames TheWordBible::getBookNames()
 {
 
+    return BookNames();
 }
 
 Book TheWordBible::book() const
 {
-
+    return Book();
 }
 bool TheWordBible::hasNT() const
 {
