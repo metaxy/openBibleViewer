@@ -39,8 +39,6 @@ public:
 
     int loadModuleData(const int &bibleID);
     int readBook(int id);
-    QString readChapter(int chapterID, int verseID);
-    QString readVerse(int chapterID, int startVerse, int endVerse, int markVerseID, bool saveRawDatas);
 
     TextRanges readRanges(const Ranges &ranges, bool ignoreModuleID = false);
     TextRange readRange(const Range &range, bool ignoreModuleID = false);

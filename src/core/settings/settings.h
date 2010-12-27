@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/modulesettings.h"
 #include "src/core/settings/session.h"
 #include "src/core/settings/modulecache.h"
+#include "src/core/bible/versification.h"
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QMap>
@@ -43,8 +44,7 @@ public:
     bool zefaniaBible_hardCache;
     bool zefaniaBible_softCache;
     QString homePath;
-    QStringList bookFullNames;
-    QList<QStringList> bookShortNames;
+    Versification *defaultVersification;
 
 
     ModuleSettings getModuleSettings(const int& moduleID) const;

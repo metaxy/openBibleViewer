@@ -225,10 +225,9 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                                 const QString url = burl.toString();
 
 
-                                QString name = "";
-
-                                if(bookID < m_settings->bookFullNames.size()) {
-                                    name = m_settings->bookFullNames.at(bookID) + " " + list.at(1) + "," + list.at(2);
+                                QString name;
+                                if(bookID < m_settings->defaultVersification->getBookNames(Versification::ReturnAll).size()) {
+                                    name = m_settings->defaultVersification->getBookNames(Versification::ReturnAll).at(bookID) + " " + list.at(1) + "," + list.at(2);
                                 } else {
                                     name = list.at(0) + " " + list.at(1) + "," + list.at(2);
                                 }

@@ -325,7 +325,8 @@ void SimpleInterface::readChapter(const int &id)
 void SimpleInterface::showChapter(int chapterID, int verseID)
 {
     //m_moduleManager->bible()->verseID() = verseID;//todo: check
-    m_bibleDisplay->setHtml((m_moduleManager->bible()->readChapter(chapterID, verseID)));
+    //todo: use the new ranges
+    //m_bibleDisplay->setHtml((m_moduleManager->bible()->readChapter(chapterID, verseID)));
     setCurrentChapter(chapterID);
 }
 void SimpleInterface::nextChapter()
