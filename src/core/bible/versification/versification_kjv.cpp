@@ -202,6 +202,73 @@ Versification_KJV::Versification_KJV()
 
 
 
+    m_maxChapter << 50;
+    m_maxChapter << 40;
+    m_maxChapter << 27;
+    m_maxChapter << 36;
+    m_maxChapter << 34;
+    m_maxChapter << 24;
+    m_maxChapter << 21;
+    m_maxChapter << 4;
+    m_maxChapter << 31;
+    m_maxChapter << 24;
+    m_maxChapter << 22;
+    m_maxChapter << 25;
+    m_maxChapter << 29;
+    m_maxChapter << 36;
+    m_maxChapter << 10;
+    m_maxChapter << 13;
+    m_maxChapter << 10;
+    m_maxChapter << 42;
+    m_maxChapter << 150;
+    m_maxChapter << 31;
+    m_maxChapter << 12;
+    m_maxChapter << 8;
+    m_maxChapter << 66;
+    m_maxChapter << 52;
+    m_maxChapter << 5;
+    m_maxChapter << 48;
+    m_maxChapter << 12;
+    m_maxChapter << 14;
+    m_maxChapter << 3;
+    m_maxChapter << 9;
+    m_maxChapter << 1;
+    m_maxChapter << 4;
+    m_maxChapter << 7;
+    m_maxChapter << 3;
+    m_maxChapter << 3;
+    m_maxChapter << 3;
+    m_maxChapter << 2;
+    m_maxChapter << 14;
+    m_maxChapter << 4;
+    m_maxChapter << 28;
+    m_maxChapter << 16;
+    m_maxChapter << 24;
+    m_maxChapter << 21;
+    m_maxChapter << 28;
+    m_maxChapter << 16;
+    m_maxChapter << 16;
+    m_maxChapter << 13;
+    m_maxChapter << 6;
+    m_maxChapter << 6;
+    m_maxChapter << 4;
+    m_maxChapter << 4;
+    m_maxChapter << 5;
+    m_maxChapter << 3;
+    m_maxChapter << 6;
+    m_maxChapter << 4;
+    m_maxChapter << 3;
+    m_maxChapter << 1;
+    m_maxChapter << 13;
+    m_maxChapter << 5;
+    m_maxChapter << 5;
+    m_maxChapter << 3;
+    m_maxChapter << 5;
+    m_maxChapter << 1;
+    m_maxChapter << 1;
+    m_maxChapter << 1;
+    m_maxChapter << 22;
+
 
 
 
