@@ -22,6 +22,13 @@ BibleUrlRange::BibleUrlRange()
     m_endChapterID = -1;
     m_startVerseID = -1;
     m_endVerseID = -1;
+    m_startBookParam = LoadBookByID;
+    m_endBookParam = LoadBookByID;
+    m_startChapterParam = LoadChapterByID;
+    m_endChapterParam = LoadChapterByID;
+    m_startVerseParam = LoadVerseByID;
+    m_endVerseParam = LoadVerseByID;
+
 
 }
 void BibleUrlRange::setBible(const int &bibleID)

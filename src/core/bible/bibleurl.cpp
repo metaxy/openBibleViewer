@@ -17,6 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 BibleUrl::BibleUrl()
 {
+
 }
 BibleUrl::BibleUrl(const BibleUrlRange &range)
 {

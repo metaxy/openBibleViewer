@@ -338,6 +338,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
 
                 }
                 moduleType = ModuleManager::recognizeModuleType(f);
+
                 if(moduleType == Module::NoneType) {
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
                     myWarning() << "cannot detetct module type";
@@ -371,11 +372,13 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                         bibleQuoteDict.buildIndex();
                     }
                     moduleTypeName = QObject::tr("Bible Quote Dictionary");
+                    break;
                 case Module::TheWordBibleModule:
                     if(names.size() == 0 || i >= names.size()) {
                         moduleName = theWordBible.readInfo(f);
                     }
                     moduleTypeName = QObject::tr("The Word Bible");
+                    break;
                 case Module::NoneType:
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
                     progress.close();

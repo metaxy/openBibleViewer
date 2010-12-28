@@ -3,6 +3,7 @@
 #include "src/core/dbghelper.h"
 TheWordBible::TheWordBible()
 {
+    m_versification = new Versification_KJV();
 }
 void TheWordBible::setSettings(Settings *set)
 {
@@ -27,43 +28,68 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
     int book = 0;
     int chapter = 0;
     int verse = 0;
-    Versification *v = new Versification_KJV();
+    Book *currentBook = new Book();
+    currentBook->setID(book);
+    Chapter *currentChapter = new Chapter();
+    currentChapter->setChapterID(chapter);
+    const int linesToSkip = 31102;//see spec
+
     for(int lineCount = 0; !in.atEnd(); lineCount++) {
         const QString line = in.readLine();
-        if(verse < v->maxVerse(Versification::ReturnAll).at(book).at(chapter)) {
-            verse++;
+        if(lineCount >= linesToSkip) {
+            if(line.startsWith("title")) {
+                const QStringList list = line.split("=");
+                m_moduleName = list.last();
+            }
         } else {
-            if(chapter < v->maxChapter(Versification::ReturnAll).at(book)) {
-                chapter++;
-                verse = 0;
+            Verse v(verse,line);
+            currentChapter->addVerse(verse, v);
+            if(verse < m_versification->maxVerse(Versification::ReturnAll).at(book).at(chapter)) {
+                verse++;
             } else {
-                //todo: it should never be more
-                book++;
-                chapter = 0;
-                verse = 0;
+                if(chapter < m_versification->maxChapter(Versification::ReturnAll).at(book)) {
+                    currentBook->addChapter(chapter, *currentChapter);
+                    currentChapter = new Chapter();
+                    chapter++;
+                    currentChapter->setChapterID(chapter);
+                    verse = 0;
+                } else {
+                    //todo: it should never be more
+                    m_books.insert(book, *currentBook);
+                    currentBook = new Book();
+                    currentChapter = new Chapter();
+                    book++;
+                    currentBook->setID(book);
+                    chapter = 0;
+                    verse = 0;
+                    currentChapter->setChapterID(chapter);
+                }
             }
         }
-        myDebug() << book << chapter << verse << line;
     }
+    m_bookNames = m_versification->toBookNames();
 
 }
 int TheWordBible::readBook(const int &id)
 {
+    m_currentBookID = id;
     return 0;
 }
 
 QString TheWordBible::readInfo(QFile &file)
 {
-    const int linesToSkip = 37860;
+    const int linesToSkip = 31102;//see spec
     QTextStream in(&file);
     for(int lineCount = 0; !in.atEnd(); lineCount++) {
-        in.readLine();
-        if(lineCount > linesToSkip) {
-            const QString line = in.readAll();
+        if(lineCount >= linesToSkip) {
+            const QString line = in.readLine();
+            myDebug() << line;
             if(line.startsWith("title")) {
                 const QStringList list = line.split("=");
                 return list.last();
             }
+        } else {
+            in.readLine();
         }
     }
     return "";
@@ -98,7 +124,7 @@ QString TheWordBible::modulePath() const
 }
 QString TheWordBible::moduleName(bool preferShortName) const
 {
-    return "";
+    return m_moduleName;
 }
 QMap<int, int> TheWordBible::bookCount()
 {
@@ -106,13 +132,12 @@ QMap<int, int> TheWordBible::bookCount()
 }
 BookNames TheWordBible::getBookNames()
 {
-
-    return BookNames();
+    return m_bookNames;
 }
 
 Book TheWordBible::book() const
 {
-    return Book();
+    return m_books.value(m_currentBookID);
 }
 bool TheWordBible::hasNT() const
 {
