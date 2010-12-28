@@ -21,6 +21,11 @@ Settings::Settings()
     m_moduleID = QMap<int, int>();
     homePath = "";
 }
+Settings::~Settings()
+{
+    delete defaultVersification;
+}
+
 void Settings::setModuleIDinMap(const int &moduleID, const int &pos)
 {
     m_moduleID[moduleID] = pos;

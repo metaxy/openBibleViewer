@@ -8,6 +8,7 @@ class Versification_KJV : public Versification
     Q_OBJECT
 public:
     Versification_KJV();
+    ~Versification_KJV();
     QStringList getBookNames(VersificationFilterFlags filter) const;
     QList<QStringList> multipleBookShortNames(VersificationFilterFlags filter) const;
     QStringList bookShortNames(VersificationFilterFlags filter) const;

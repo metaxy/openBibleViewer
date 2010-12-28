@@ -7,6 +7,7 @@ class Versification: public QObject
     Q_OBJECT
 public:
     Versification();
+    virtual ~Versification();
     enum VersificationFilter {
         ReturnAll = 0x0,
         ReturnOT = 0x1,

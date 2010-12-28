@@ -29,6 +29,7 @@ class Settings
 {
 public:
     Settings();
+    ~Settings();
     QString encoding;
     QList<ModuleSettings> m_moduleSettings;
     QMap<int, int> m_moduleID;

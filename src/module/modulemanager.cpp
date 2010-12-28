@@ -298,6 +298,29 @@ int ModuleManager::loadAllModules()
                     moduleID++;
                     break;
                 }
+                case Module::TheWordBibleModule: {
+                    Module *module = new Module(root);
+                    module->m_path = m_settings->m_moduleSettings.at(i).modulePath;
+                    module->m_moduleClass = Module::BibleModuleClass;
+                    module->m_moduleType = Module::TheWordBibleModule;
+                    module->m_title = m_settings->m_moduleSettings.at(i).moduleName;
+                    module->m_id = moduleID;
+
+                    m_moduleMap->m_map.insert(moduleID, module);
+                    root->append(module);
+
+                    QStandardItem *bibleItem = new QStandardItem;
+                    bibleItem->setText(m_settings->m_moduleSettings.at(i).moduleName);
+                    bibleItem->setData(QString::number(moduleID));
+                    bibleItem->setToolTip(QObject::tr("The Word Bible Module") + " - " + module->m_path + " (" + QString::number(module->m_id) + ")");
+
+                    bibleItem->setIcon(bibleZefaniaIcon);
+                    parentItem->appendRow(bibleItem);
+                    checkCache(moduleID);
+                    m_settings->setModuleIDinMap(moduleID, i);
+                    moduleID++;
+                    break;
+                }
 
                 }
             }
@@ -455,6 +478,7 @@ Bible * ModuleManager::newBible(const int &moduleID, QPoint p)
 }
 Module::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
 {
+    myDebug() << fileName;
     if(fileName.endsWith("bibleqt.ini", Qt::CaseInsensitive)) {
         return Module::BibleQuoteModule;
     } else if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
@@ -476,6 +500,7 @@ Module::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
     } else if(fileName.endsWith(".idx", Qt::CaseInsensitive)) {
         return Module::BibleQuoteDictModule;
     } else if(fileName.endsWith(".nt", Qt::CaseInsensitive) || fileName.endsWith(".ot", Qt::CaseInsensitive) || fileName.endsWith(".ont", Qt::CaseInsensitive)) {
+        myDebug() << "the word module";
         return Module::TheWordBibleModule;
     }
     return Module::NoneType;

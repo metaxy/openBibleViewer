@@ -54,7 +54,26 @@ int TheWordBible::readBook(const int &id)
 
 QString TheWordBible::readInfo(QFile &file)
 {
+    const int linesToSkip = 37860;
+    QTextStream in(&file);
+    for(int lineCount = 0; !in.atEnd(); lineCount++) {
+        in.readLine();
+        if(lineCount > linesToSkip) {
+            const QString line = in.readAll();
+            if(line.startsWith("title")) {
+                const QStringList list = line.split("=");
+                return list.last();
+            }
+        }
+    }
     return "";
+}
+QString TheWordBible::readInfo(const QString &fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly))
+        return "";
+    return readInfo(file);
 }
 
 void TheWordBible::search(const SearchQuery &query, SearchResult *res) const

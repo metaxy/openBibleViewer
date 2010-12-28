@@ -3,3 +3,6 @@
 Versification::Versification()
 {
 }
+Versification::~Versification()
+{
+}

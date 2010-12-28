@@ -334,6 +334,10 @@ Versification_KJV::Versification_KJV()
     m_maxVerse << (QList<int>() << 20 << 29 << 22 << 11 << 14 << 17 << 17 << 13 << 21 << 11 << 19 << 17 << 18 << 20 << 8 << 21 << 18 << 24 << 21 << 15 << 27 << 21);
 
 }
+Versification_KJV::~Versification_KJV()
+{
+}
+
 QStringList Versification_KJV::getBookNames(VersificationFilterFlags filter) const
 {
     //in kjv ALL equals to OT && NT

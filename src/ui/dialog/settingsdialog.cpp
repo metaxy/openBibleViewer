@@ -20,6 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/zefania-bible.h"
 #include "src/module/zefania-lex.h"
 #include "src/module/biblequote.h"
+#include "src/module/thewordbible.h"
 #include "src/module/bible.h"
 #include "src/module/module.h"
 #include "moduleconfigdialog.h"
@@ -324,6 +325,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
             ZefaniaBible zef;
             ZefaniaLex zefLex;
             BibleQuoteDict bibleQuoteDict;
+            TheWordBible theWordBible;
             ModuleSettings m;
             zefLex.setSettings(&m_set);
 
@@ -369,6 +371,11 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                         bibleQuoteDict.buildIndex();
                     }
                     moduleTypeName = QObject::tr("Bible Quote Dictionary");
+                case Module::TheWordBibleModule:
+                    if(names.size() == 0 || i >= names.size()) {
+                        moduleName = theWordBible.readInfo(f);
+                    }
+                    moduleTypeName = QObject::tr("The Word Bible");
                 case Module::NoneType:
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
                     progress.close();
