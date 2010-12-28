@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/settings.h"
 #include "src/core/settings/modulesettings.h"
 #include "src/core/dbghelper.h"
+#include "src/module/modulemanager.h"
 #include "src/module/zefania-bible.h"
 #include "src/module/zefania-lex.h"
 #include "src/module/biblequote.h"
@@ -316,7 +317,6 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                 return;
             }
             const QString f = fileName.at(i);
-            QString fileData;
             QString moduleName;
             Module::ModuleType moduleType = Module::NoneType;
             QString moduleTypeName = "";
@@ -335,67 +335,37 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                     return;
 
                 }
-                //open file
-                QFile file(f);
-                if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                    QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot read the file."));
+                moduleType = ModuleManager::recognizeModuleType(f);
+                if(moduleType == Module::NoneType) {
+                    QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
+                    myWarning() << "cannot detetct module type";
                     progress.close();
                     generateModuleTree();
                     return;
                 }
-                QTextStream in(&file);
-                if(f.endsWith(".xml")) {
-                    for(int i = 0; i < 100; i++)
-                        fileData += in.readLine(i);
-                } else {
-                    fileData = in.readAll();
-                }
-                if(fileInfo.suffix() == "idx") {
-                    moduleType = Module::BibleQuoteDictModule;
-                } else {
-                    //todo: find something better
-                    if(fileData.contains("BookQty", Qt::CaseInsensitive)) {
-                        moduleType = Module::BibleQuoteModule;// BibleQuote
-                    } else if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i cannot allow this
-                              fileData.contains("x-cult", Qt::CaseInsensitive) ||
-                              fileData.contains("x-mormon", Qt::CaseInsensitive))) {
-                        moduleType = Module::ZefaniaBibleModule;// Zefania Bible
-                    } else if(fileData.contains("<dictionary", Qt::CaseInsensitive)) {
-                        moduleType = Module::ZefaniaLexModule;// Zefania Strong
-                    } else {
-                        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
-                        myWarning() << "cannot detetct module type";
-                        progress.close();
-                        generateModuleTree();
-                        return;
-                    }
-                }
 
-                if(f.endsWith(".xml")) {
-                    fileData += in.readAll();
-                }
                 switch(moduleType) {
                 case Module::BibleQuoteModule:
                     if(names.size() == 0 || i >= names.size()) {
-                        moduleName = bq.readInfo(file);
+                        moduleName = bq.readInfo(f);
                     }
                     moduleTypeName = QObject::tr("Bible Quote");
                     break;
                 case Module::ZefaniaBibleModule:
                     if(names.size() == 0 || i >= names.size()) {
-                        moduleName = zef.readInfo(fileData);
+                        moduleName = zef.readInfo(f);
                     }
                     moduleTypeName = QObject::tr("Zefania XML");
                     break;
                 case Module::ZefaniaLexModule:
                     if(names.size() == 0 || i >= names.size()) {
-                        moduleName = zefLex.buildIndexFromData(fileData, f);
+                        moduleName = zefLex.buildIndexFromFile(f);
                     }
                     moduleTypeName = QObject::tr("Zefania XML Dictionary");
                     break;
                 case Module::BibleQuoteDictModule:
                     if(names.size() == 0 || i >= names.size()) {
-                        moduleName = bibleQuoteDict.readInfo(file);
+                        moduleName = bibleQuoteDict.readInfo(f);
                         bibleQuoteDict.buildIndex();
                     }
                     moduleTypeName = QObject::tr("Bible Quote Dictionary");

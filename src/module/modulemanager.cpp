@@ -143,15 +143,7 @@ int ModuleManager::loadAllModules()
             }
             foreach(const QString & fileName, list) { //Alle Ordner auslesen
                 QFile file;
-                moduleType = Module::NoneType;
-
-                if(fileName.endsWith("bibleqt.ini", Qt::CaseInsensitive)) {
-                    moduleType = Module::BibleQuoteModule;
-                } else  if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
-                    moduleType = Module::ZefaniaBibleModule;//todo: cannot detect other xml files
-                } else  if(fileName.endsWith(".idx", Qt::CaseInsensitive)) {
-                    moduleType = Module::BibleQuoteDictModule;
-                }
+                moduleType = recognizeModuleType(fileName);
 
                 if(moduleType == Module::NoneType)
                     continue;
@@ -460,4 +452,31 @@ Bible * ModuleManager::newBible(const int &moduleID, QPoint p)
     bibleList()->addBible(b, p);
     /*}*/
     return b;
+}
+Module::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
+{
+    if(fileName.endsWith("bibleqt.ini", Qt::CaseInsensitive)) {
+        return Module::BibleQuoteModule;
+    } else if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
+        QFile data(fileName);
+        if (data.open(QFile::WriteOnly | QFile::Truncate)) {
+            QString fileData = "";
+            QTextStream in(&data);
+            for(int i = 0; i < 10; i++)
+                fileData += in.readLine();
+            if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i cannot allow this
+                                 fileData.contains("x-cult", Qt::CaseInsensitive) ||
+                                 fileData.contains("x-mormon", Qt::CaseInsensitive))) {
+                return Module::ZefaniaBibleModule;
+            } else if(fileData.contains("<dictionary", Qt::CaseInsensitive)) {
+                return Module::ZefaniaLexModule;
+            }
+
+        }
+    } else if(fileName.endsWith(".idx", Qt::CaseInsensitive)) {
+        return Module::BibleQuoteDictModule;
+    } else if(fileName.endsWith(".nt", Qt::CaseInsensitive) || fileName.endsWith(".ot", Qt::CaseInsensitive) || fileName.endsWith(".ont", Qt::CaseInsensitive)) {
+        return Module::TheWordBibleModule;
+    }
+    return Module::NoneType;
 }

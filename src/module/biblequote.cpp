@@ -196,6 +196,13 @@ QString BibleQuote::readInfo(QFile &file)
     }
     return m_moduleName;
 }
+QString BibleQuote::readInfo(const QString &fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly))
+        return "";
+    return readInfo(file);
+}
 int BibleQuote::readBook(const int &id)
 {
     m_book.clear();

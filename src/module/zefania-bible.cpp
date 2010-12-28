@@ -533,18 +533,14 @@ QString ZefaniaBible::readInfo(QFile &file)
 }
 /**
   Read the module file and returns the bible name
-  \param content  Content of the module file.
+  \param fileName The fileName of the module.
  */
-QString ZefaniaBible::readInfo(const QString &content)
+QString ZefaniaBible::readInfo(const QString &fileName)
 {
-    //todo: read only the first 20 lines and find in them the biblename
-    KoXmlDocument doc;
-    if(!doc.setContent(content)) {
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly))
         return "";
-    }
-    KoXmlElement root = doc.documentElement();
-    m_moduleName = root.attribute("biblename", "");
-    return m_moduleName;
+    return readInfo(file);
 }
 /*int ZefaniaBible::bookID() const
 {

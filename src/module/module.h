@@ -33,7 +33,8 @@ public:
         BibleQuoteModule = 1,
         ZefaniaBibleModule = 2,
         ZefaniaLexModule = 3,
-        BibleQuoteDictModule = 4
+        BibleQuoteDictModule = 4,
+        TheWordBibleModule = 5
     };
     ModuleClass m_moduleClass;
     ModuleType m_moduleType;

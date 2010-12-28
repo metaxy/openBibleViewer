@@ -23,7 +23,7 @@ public:
     BibleQuoteDict();
     void setSettings(Settings *settings);
     QString readInfo(QFile &file);
-    QString readInfo(QString data);
+    QString readInfo(const QString &fileName);
     int buildIndex();
     bool hasIndex();
     QString getEntry(const QString &id);

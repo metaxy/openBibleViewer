@@ -62,9 +62,11 @@ public:
     void checkCache(const int &moduleID);
     Bible * newBible(const int &moduleID, QPoint p);
     BibleDisplaySettings *m_bibleDisplaySettings;
+    static Module::ModuleType recognizeModuleType(const QString &fileName);
 
 private:
-    QStringList scan(const QString &path, const int &level);
+    static QStringList scan(const QString &path, const int &level);
+
 
 };
 

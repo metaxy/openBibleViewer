@@ -70,6 +70,28 @@ QString ZefaniaLex::buildIndexFromData(const QString &fileData, const QString &f
     }
     return buildIndexFromXmlDoc(&xmldoc);
 }
+QString ZefaniaLex::buildIndexFromFile(const QString &fileName)
+{
+    KoXmlDocument xmldoc;
+    QString errorMsg;
+    int eLine;
+    int eCol;
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly))
+        return QString();
+
+    if(!xmldoc.setContent(&file,&errorMsg,&eLine,&eCol)) {
+        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
+        myWarning() << "the file isn't valid , error = " << errorMsg
+                    << " line = " << eLine
+                    << " column = " << eCol;
+        return QString();
+    }
+    const QString ret = buildIndexFromXmlDoc(&xmldoc);
+    file.close();
+    return ret;
+}
+
 /**
   Returns a Entry.
   \id The key of the entry.

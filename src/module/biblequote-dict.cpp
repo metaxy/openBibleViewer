@@ -54,6 +54,13 @@ QString BibleQuoteDict::readInfo(QFile &file)
     file.close();
     return line.simplified();
 }
+QString BibleQuoteDict::readInfo(const QString &fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly))
+        return "";
+    return readInfo(file);
+}
 
 bool BibleQuoteDict::hasIndex()
 {
