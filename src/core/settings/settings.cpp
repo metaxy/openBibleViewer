@@ -20,10 +20,12 @@ Settings::Settings()
 {
     m_moduleID = QMap<int, int>();
     homePath = "";
+    defaultVersification = 0;
 }
 Settings::~Settings()
 {
-    delete defaultVersification;
+    /*if(defaultVersification != 0)
+        delete defaultVersification;*/
 }
 
 void Settings::setModuleIDinMap(const int &moduleID, const int &pos)

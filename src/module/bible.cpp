@@ -106,9 +106,32 @@ int Bible::loadModuleData(const int &moduleID)
 
         break;
     }
+    case Module::TheWordBibleModule: {
+        if(m_module->m_bibleModule) {
+            m_bibleModule = m_module->m_bibleModule;
+        } else {
+            m_bibleModule = new TheWordBible();
+            m_module->m_bibleModule = m_bibleModule;
+        }
+        ModuleSettings m = m_settings->getModuleSettings(m_moduleID);
+        m_bibleModule->setSettings(m_settings);
+        m_bibleModule->loadBibleData(moduleID, path);
+        m_moduleTitle = m.moduleName;
+
+        bookCount = m_bibleModule->bookCount();
+        m_names = m_bibleModule->getBookNames();
+        m_modulePath = m_bibleModule->modulePath();
+        //ModuleCache
+        m_settings->setTitle(path, m_moduleTitle);
+        m_settings->setBookCount(path, bookCount);
+        m_settings->setBookNames(path, m_names.m_bookFullName);
+
+        break;
+    }
     default:
         return 1;
     }
+    myDebug() << "loaded bible";
     m_loaded = true;
     return 0;
     // CALLGRIND_STOP_INSTRUMENTATION;
@@ -156,9 +179,22 @@ int Bible::readBook(int id)
         //myDebug() << m_chapterNames;
         break;
     }
+    case Module::TheWordBibleModule: {
+        myDebug() << "read zefania bible with id= " << id;
+        m_book.clear();
+        m_chapterNames.clear();
+        m_bibleModule->readBook(id);
+        m_book = m_bibleModule->book();
+        for(int i = 1; i <= m_bibleModule->bookCount().value(id, 0); ++i) {
+            m_chapterNames << QString::number(i);
+        }
+        //myDebug() << m_chapterNames;
+        break;
+    }
     default:
         return 1;
     }
+    myDebug() << "read book";
     return 0;
 }
 
@@ -266,6 +302,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         myDebug() << "current chapter = " << chapterID;
     }
     if(!m_book.hasChapter(chapterID)) {
+        myDebug() << "size = " << m_book.size();
         myWarning() << "index out of range index chapterID = " << chapterID;
         return ret;
     }

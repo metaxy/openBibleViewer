@@ -40,14 +40,19 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
             if(line.startsWith("title")) {
                 const QStringList list = line.split("=");
                 m_moduleName = list.last();
+            } else if(line.startsWith("short.title")) {
+                const QStringList list = line.split("=");
+                m_shortModuleName = list.last();
             }
         } else {
             Verse v(verse,line);
             currentChapter->addVerse(verse, v);
-            if(verse < m_versification->maxVerse(Versification::ReturnAll).at(book).at(chapter)) {
+            if(verse + 1 < m_versification->maxVerse(Versification::ReturnAll).at(book).at(chapter)) {
                 verse++;
             } else {
-                if(chapter < m_versification->maxChapter(Versification::ReturnAll).at(book)) {
+                myDebug() << "book = " << book << "max chapter = " << m_versification->maxChapter(Versification::ReturnAll).at(book);
+                if(chapter + 1 < m_versification->maxChapter(Versification::ReturnAll).at(book)) {
+                    myDebug() << "chapter = " << chapter;
                     currentBook->addChapter(chapter, *currentChapter);
                     currentChapter = new Chapter();
                     chapter++;
@@ -55,6 +60,7 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
                     verse = 0;
                 } else {
                     //todo: it should never be more
+                    myDebug() << " book "  << book;
                     m_books.insert(book, *currentBook);
                     currentBook = new Book();
                     currentChapter = new Chapter();
@@ -68,6 +74,7 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
         }
     }
     m_bookNames = m_versification->toBookNames();
+    m_bookCount = m_versification->toBookCount();
 
 }
 int TheWordBible::readBook(const int &id)
@@ -124,11 +131,23 @@ QString TheWordBible::modulePath() const
 }
 QString TheWordBible::moduleName(bool preferShortName) const
 {
-    return m_moduleName;
+    if(preferShortName) {
+        if(!m_shortModuleName.isEmpty()) {
+            return m_shortModuleName;
+        } else {
+            return m_moduleName;
+        }
+    } else {
+        if(!m_moduleName.isEmpty()) {
+            return m_moduleName;
+        } else {
+            return m_shortModuleName;
+        }
+    }
 }
 QMap<int, int> TheWordBible::bookCount()
 {
-    return QMap<int,int>();
+    return m_bookCount;
 }
 BookNames TheWordBible::getBookNames()
 {

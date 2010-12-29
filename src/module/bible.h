@@ -17,6 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QMap>
 #include "src/module/biblequote.h"
 #include "src/module/zefania-bible.h"
+#include "src/module/thewordbible.h"
 #include "src/core/search/searchquery.h"
 #include "src/core/search/searchresult.h"
 #include "src/module/simplemoduleclass.h"

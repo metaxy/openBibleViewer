@@ -23,3 +23,11 @@ BookNames Versification::toBookNames()
     ret.m_bookIDs = bookIDs;
     return ret;
 }
+QMap<int, int> Versification::toBookCount()
+{
+    QMap<int, int> ret;
+    for(int i = 0; i < m_maxChapter.size(); i++) {
+        ret.insert(i, m_maxChapter.at(i));
+    }
+    return ret;
+}

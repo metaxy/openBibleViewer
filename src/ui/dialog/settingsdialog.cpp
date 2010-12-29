@@ -378,6 +378,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                         moduleName = theWordBible.readInfo(f);
                     }
                     moduleTypeName = QObject::tr("The Word Bible");
+                    myDebug() << "the word bible module " << moduleTypeName;
                     break;
                 case Module::NoneType:
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));

@@ -2,6 +2,7 @@
 #define VERSIFICATION_H
 #include <QtCore/QStringList>
 #include <QtCore/QFlags>
+#include <QtCore/QMap>
 #include "src/core/bible/booknames.h"
 class Versification: public QObject
 {
@@ -22,6 +23,7 @@ public:
     virtual QList<int> maxChapter(VersificationFilterFlags filter) const = 0;
     virtual QList< QList<int> > maxVerse(VersificationFilterFlags filter) const = 0;
     BookNames toBookNames();
+    QMap<int, int> toBookCount();
 
 protected:
     QStringList m_bookNames;

@@ -1,6 +1,6 @@
 configure_file( ${openBibleViewer_SOURCE_DIR}/src/config.h.cmake 
                 ${openBibleViewer_BINARY_DIR}/config.h )
-
+include (FindZlib)
 set ( openBibleViewer_HDRS
 
     api/notesapi.h
@@ -23,22 +23,19 @@ set ( openBibleViewer_HDRS
     core/bible/versification/versification_kjv.h
 
 
-
+    core/core.h
+    core/basicclass.h
+    core/dbghelper.h
+    core/faststart.h
+    core/goto.h
+    core/history.h
     core/KoXmlReader.h
     core/KoXmlWriter.h
     core/KoXmlNS.h
     core/KoXmlReaderForward.h
-    core/core.h
+   
+    
 
-    core/history.h
-    core/dbghelper.h
-
-    core/urlconverter.h
-    core/verseselection.h
-    core/goto.h
-    core/basicclass.h
-    core/core.h
-    core/faststart.h
     core/search/searchprovider.h
     core/search/searchproviders.h
     core/search/search.h
@@ -51,8 +48,10 @@ set ( openBibleViewer_HDRS
     core/settings/modulecache.h
     core/settings/modulesettings.h
 
+    core/urlconverter.h
     core/versereplacer.h
     core/version.h
+    core/verseselection.h
     core/url.h
     core/xbelreader.h
     core/xbelwriter.h
@@ -302,8 +301,8 @@ target_link_libraries ( openBibleViewer
 install ( TARGETS openBibleViewer
          RUNTIME DESTINATION bin )
 
-install ( FILES "${CMAKE_CURRENT_SOURCE_DIR}/icons/124x124/openBibleViewer.png"
+install ( FILES "${openBibleViewer_SOURCE_DIR}/src/icons/124x124/openBibleViewer.png"
     DESTINATION "share/pixmaps/" )
 
-install ( FILES "${CMAKE_CURRENT_SOURCE_DIR}/openBibleViewer.desktop"
+install ( FILES "${openBibleViewer_SOURCE_DIR}/openBibleViewer.desktop"
     DESTINATION "share/applications/" ) 
