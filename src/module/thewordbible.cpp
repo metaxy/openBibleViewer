@@ -1,3 +1,16 @@
+/***************************************************************************
+openBibleViewer - Bible Study Tool
+Copyright (C) 2009-2010 Paul Walger
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the Free
+Software Foundation; either version 3 of the License, or (at your option)
+any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with
+this program; if not, see <http://www.gnu.org/licenses/>.
+*****************************************************************************/
 #include "thewordbible.h"
 #include "src/core/bible/versification/versification_kjv.h"
 #include "src/core/dbghelper.h"
@@ -29,7 +42,7 @@ void TheWordBible::setSettings(Settings *set)
   */
 void TheWordBible::loadBibleData(const int &id, const QString &path)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_moduleID = id;
     m_modulePath = path;
     QString dataFilePath = path;
@@ -37,11 +50,9 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
     Versification::VersificationFilterFlags flags;
     if(path.endsWith(".nt")) {
         flags = Versification::ReturnNT;
-    }
-    else if(path.endsWith(".ot")) {
+    } else if(path.endsWith(".ot")) {
         flags = Versification::ReturnOT;
-    }
-    else if(path.endsWith(".ont")) {
+    } else if(path.endsWith(".ont")) {
         flags = Versification::ReturnAll;
     }
 
@@ -149,20 +160,16 @@ QString TheWordBible::readInfo(const QString &fileName)
 void TheWordBible::search(const SearchQuery &query, SearchResult *res) const
 {
     const QString index = indexPath();
-    //myDebug() << " index = " << index;
     const TCHAR* stop_words[] = { NULL };
     standard::StandardAnalyzer analyzer(stop_words);
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     IndexSearcher s(reader);
     Query* q = QueryParser::parse(query.searchText.toStdWString().c_str(), _T("content"), &analyzer);
     Hits* h = s.search(q);
-    //myDebug() << "query string = " << q->toString();
     for(size_t i = 0; i < h->length(); i++) {
         Document* doc = &h->doc(i);
         const QString stelle = QString::fromWCharArray(doc->get(_T("key")));
-        //myDebug() << "found stelle = " << stelle;
         const QStringList l = stelle.split(";");
-        //hacky filter
         if(query.range == SearchQuery::Whole || (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) || (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
             SearchHit hit;
             hit.setType(SearchHit::BibleHit);
@@ -215,7 +222,7 @@ void TheWordBible::buildIndex()
     Document doc;
     bool canceled = false;
     QHashIterator<int, Book> bookIt(m_books);
-    for (int c = 0; bookIt.hasNext(); c++) {
+    for(int c = 0; bookIt.hasNext(); c++) {
         if(progress.wasCanceled()) {
             canceled = true;
             break;
@@ -223,17 +230,17 @@ void TheWordBible::buildIndex()
         progress.setValue(c);
         bookIt.next();
         QHashIterator<int, Chapter> chapterIt(bookIt.value().m_chapters);
-        while (chapterIt.hasNext()) {
+        while(chapterIt.hasNext()) {
             chapterIt.next();
             QHashIterator<int, Verse> verseIt(chapterIt.value().getData());
-            while (verseIt.hasNext()) {
-                 verseIt.next();
-                 doc.clear();
-                 const QString key = QString::number(bookIt.value().bookID()) + ";" + QString::number(chapterIt.value().chapterID()) + ";" + QString::number(verseIt.value().verseID());
-                 const QString text = verseIt.value().data();
-                 doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
-                 doc.add(*new Field(_T("content"), text.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-                 writer->addDocument(&doc);
+            while(verseIt.hasNext()) {
+                verseIt.next();
+                doc.clear();
+                const QString key = QString::number(bookIt.value().bookID()) + ";" + QString::number(chapterIt.value().chapterID()) + ";" + QString::number(verseIt.value().verseID());
+                const QString text = verseIt.value().data();
+                doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
+                doc.add(*new Field(_T("content"), text.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                writer->addDocument(&doc);
 
             }
         }
