@@ -16,16 +16,25 @@ void TheWordBible::setSettings(Settings *set)
 }
 /**
   * Loads the Data.
-  * path is e.g /home/paul/bible/akjv. The real files are then
-  * /home/paul/bible/akjv.ont or /home/paul/bible/akjv.nt
-  * or /home/paul/bible/akjv.ot and /home/paul/bible/akjv.nt
   */
 void TheWordBible::loadBibleData(const int &id, const QString &path)
 {
+    DEBUG_FUNC_NAME
     m_moduleID = id;
     m_modulePath = path;
     QString dataFilePath = path;
     QFile file(dataFilePath);
+    Versification::VersificationFilterFlags flags;
+    if(path.endsWith(".nt")) {
+        flags = Versification::ReturnNT;
+    }
+    else if(path.endsWith(".ot")) {
+        flags = Versification::ReturnOT;
+    }
+    else if(path.endsWith(".ont")) {
+        flags = Versification::ReturnAll;
+    }
+
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
 
@@ -38,48 +47,58 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
     Chapter *currentChapter = new Chapter();
     currentChapter->setChapterID(chapter);
     const int linesToSkip = 31102;//see spec
-
+    bool readingVerse = true;
     for(int lineCount = 0; !in.atEnd(); lineCount++) {
         const QString line = in.readLine();
-        if(lineCount >= linesToSkip) {
+        if(lineCount >= linesToSkip || line == "") {
+            readingVerse = false;
+        }
+        if(readingVerse) {
+            Verse v(verse, line);
+            currentChapter->addVerse(verse, v);
+            if(verse + 1 < m_versification->maxVerse(flags).at(book).at(chapter)) {
+                verse++;
+            } else {
+                //myDebug() << " book = " << book << " maxChapter = " << m_versification->maxChapter(flags).at(book);
+                if(chapter + 1 < m_versification->maxChapter(flags).at(book)) {
+                    //myDebug() << "next chapter = " << chapter;
+                    currentBook->addChapter(chapter, *currentChapter);
+                    chapter++;
+                    verse = 0;
+
+                    currentChapter = new Chapter();
+                    currentChapter->setChapterID(chapter);
+                } else {
+                    m_books.insert(book, *currentBook);
+
+                    book++;
+                    chapter = 0;
+                    verse = 0;
+
+                    currentBook = new Book();
+                    currentBook->setID(book);
+
+                    currentChapter = new Chapter();
+                    currentChapter->setChapterID(chapter);
+                }
+            }
+        } else {
+            //info
             if(line.startsWith("title")) {
                 const QStringList list = line.split("=");
                 m_moduleName = list.last();
             } else if(line.startsWith("short.title")) {
                 const QStringList list = line.split("=");
                 m_shortModuleName = list.last();
-            }
-        } else {
-            Verse v(verse, line);
-            currentChapter->addVerse(verse, v);
-            if(verse + 1 < m_versification->maxVerse(Versification::ReturnAll).at(book).at(chapter)) {
-                verse++;
-            } else {
-                //myDebug() << "book = " << book << "max chapter = " << m_versification->maxChapter(Versification::ReturnAll).at(book);
-                if(chapter + 1 < m_versification->maxChapter(Versification::ReturnAll).at(book)) {
-                    //myDebug() << "chapter = " << chapter;
-                    currentBook->addChapter(chapter, *currentChapter);
-                    currentChapter = new Chapter();
-                    chapter++;
-                    currentChapter->setChapterID(chapter);
-                    verse = 0;
-                } else {
-                    //todo: it should never be more
-                    myDebug() << " book "  << book;
-                    m_books.insert(book, *currentBook);
-                    currentBook = new Book();
-                    currentChapter = new Chapter();
-                    book++;
-                    currentBook->setID(book);
-                    chapter = 0;
-                    verse = 0;
-                    currentChapter->setChapterID(chapter);
-                }
+            } else if(line.startsWith("id")) {
+                const QStringList list = line.split("=");
+                m_uID = list.last();
             }
         }
+
     }
-    m_bookNames = m_versification->toBookNames();
-    m_bookCount = m_versification->toBookCount();
+    m_bookNames = m_versification->toBookNames(flags);
+    m_bookCount = m_versification->toBookCount(flags);
 
 }
 int TheWordBible::readBook(const int &id)

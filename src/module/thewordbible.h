@@ -24,7 +24,7 @@ public:
     QMap<int, int> bookCount() const;
     BookNames getBookNames();
     Book book() const;
-
+    QString uID() const;
 
 private:
     Book m_book;
@@ -42,6 +42,8 @@ private:
     BookNames m_bookNames;
     QString m_moduleName;
     QString m_shortModuleName;
+    QString m_uID;
+
 
 };
 

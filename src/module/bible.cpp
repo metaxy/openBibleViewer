@@ -47,7 +47,7 @@ int Bible::loadModuleData(const int &moduleID)
 {
     DEBUG_FUNC_NAME
     //CALLGRIND_START_INSTRUMENTATION;
-    m_module = m_map->m_map.value(moduleID);
+    m_module = m_map->m_map.value(moduleID, 0);
     if(moduleID < 0 || !m_module) {
         myWarning() << "invalid bibleID = " << moduleID;
         return 1;
@@ -117,7 +117,7 @@ int Bible::loadModuleData(const int &moduleID)
         m_bibleModule->setSettings(m_settings);
         m_bibleModule->loadBibleData(moduleID, path);
         m_moduleTitle = m.moduleName;
-
+        myDebug() << "setting some stuff";
         bookCount = m_bibleModule->bookCount();
         m_names = m_bibleModule->getBookNames();
         m_modulePath = m_bibleModule->modulePath();

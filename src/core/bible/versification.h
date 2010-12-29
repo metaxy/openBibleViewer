@@ -22,8 +22,8 @@ public:
     virtual QStringList bookShortNames(VersificationFilterFlags filter) const = 0;
     virtual QList<int> maxChapter(VersificationFilterFlags filter) const = 0;
     virtual QList< QList<int> > maxVerse(VersificationFilterFlags filter) const = 0;
-    BookNames toBookNames();
-    QMap<int, int> toBookCount();
+    BookNames toBookNames(VersificationFilterFlags filter);
+    QMap<int, int> toBookCount(VersificationFilterFlags filter);
 
 protected:
     QStringList m_bookNames;

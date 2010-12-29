@@ -1,19 +1,25 @@
 #include "versification.h"
-
+#include "src/core/dbghelper.h"
 Versification::Versification()
 {
 }
 Versification::~Versification()
 {
 }
-BookNames Versification::toBookNames()
+BookNames Versification::toBookNames(VersificationFilterFlags filter)
 {
+    DEBUG_FUNC_NAME
     QHash<int, QString> bookFullName;
     QHash<int, QStringList> bookShortName;
     QList<int> bookIDs;
-    for(int i = 0; i < m_bookNames.size(); i++) {
-        bookFullName.insert(i, m_bookNames.at(i));
-        bookShortName.insert(i, m_bookShortNames.at(i));
+
+    QStringList bNames = getBookNames(filter);
+    QList<QStringList> bShortNames = multipleBookShortNames(filter);
+
+    myDebug() << bNames;
+    for(int i = 0; i < bNames.size(); i++) {
+        bookFullName.insert(i, bNames.at(i));
+        bookShortName.insert(i, bShortNames.at(i));
         bookIDs.append(i);
     }
 
@@ -23,11 +29,13 @@ BookNames Versification::toBookNames()
     ret.m_bookIDs = bookIDs;
     return ret;
 }
-QMap<int, int> Versification::toBookCount()
+QMap<int, int> Versification::toBookCount(VersificationFilterFlags filter)
 {
+    DEBUG_FUNC_NAME
     QMap<int, int> ret;
-    for(int i = 0; i < m_maxChapter.size(); i++) {
-        ret.insert(i, m_maxChapter.at(i));
+    QList<int> mChapter = maxChapter(filter);
+    for(int i = 0; i < mChapter.size(); i++) {
+        ret.insert(i, mChapter.at(i));
     }
     return ret;
 }

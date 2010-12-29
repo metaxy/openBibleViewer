@@ -37,7 +37,7 @@ ModuleSettings Settings::getModuleSettings(const int &moduleID) const
 {
     int id = m_moduleID.value(moduleID);
     if(m_moduleSettings.size() < id || m_moduleSettings.size() == 0) {
-        //myDebug() << "no Settings available";
+        myDebug() << "no Settings available";
         return ModuleSettings();
     } else {
         return m_moduleSettings.at(id);
