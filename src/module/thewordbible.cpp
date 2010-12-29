@@ -69,6 +69,7 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
                     currentChapter = new Chapter();
                     currentChapter->setChapterID(chapter);
                 } else {
+                    currentBook->addChapter(chapter, *currentChapter);
                     m_books.insert(book, *currentBook);
 
                     book++;
