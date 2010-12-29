@@ -55,9 +55,9 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
             if(verse + 1 < m_versification->maxVerse(Versification::ReturnAll).at(book).at(chapter)) {
                 verse++;
             } else {
-                myDebug() << "book = " << book << "max chapter = " << m_versification->maxChapter(Versification::ReturnAll).at(book);
+                //myDebug() << "book = " << book << "max chapter = " << m_versification->maxChapter(Versification::ReturnAll).at(book);
                 if(chapter + 1 < m_versification->maxChapter(Versification::ReturnAll).at(book)) {
-                    myDebug() << "chapter = " << chapter;
+                    //myDebug() << "chapter = " << chapter;
                     currentBook->addChapter(chapter, *currentChapter);
                     currentChapter = new Chapter();
                     chapter++;
@@ -90,19 +90,21 @@ int TheWordBible::readBook(const int &id)
 
 QString TheWordBible::readInfo(QFile &file)
 {
-    const int linesToSkip = 31102;//see spec
+    bool skipping = true;
     QTextStream in(&file);
+    const int linesToSkip = 31102;//see spec
     for(int lineCount = 0; !in.atEnd(); lineCount++) {
-        if(lineCount >= linesToSkip) {
-            const QString line = in.readLine();
+        const QString line = in.readLine();
+        if(skipping) {
             myDebug() << line;
             if(line.startsWith("title")) {
                 const QStringList list = line.split("=");
                 return list.last();
             }
-        } else {
-            in.readLine();
         }
+        if(line == "" || lineCount >= linesToSkip)
+            skipping = false;
+
     }
     return "";
 }
