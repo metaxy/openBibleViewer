@@ -185,6 +185,7 @@ int Bible::readBook(int id)
         m_chapterNames.clear();
         m_bibleModule->readBook(id);
         m_book = m_bibleModule->book();
+        myDebug() << "chapterCount = " << m_bibleModule->bookCount().value(id, 0);
         for(int i = 1; i <= m_bibleModule->bookCount().value(id, 0); ++i) {
             m_chapterNames << QString::number(i);
         }

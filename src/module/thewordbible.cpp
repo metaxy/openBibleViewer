@@ -5,13 +5,18 @@ TheWordBible::TheWordBible()
 {
     m_versification = new Versification_KJV();
 }
+TheWordBible::~TheWordBible()
+{
+    delete m_versification;
+}
+
 void TheWordBible::setSettings(Settings *set)
 {
     m_settings = set;
 }
 /**
   * Loads the Data.
-  * path is e.g /home/paul/bible/akjv . The real files are then
+  * path is e.g /home/paul/bible/akjv. The real files are then
   * /home/paul/bible/akjv.ont or /home/paul/bible/akjv.nt
   * or /home/paul/bible/akjv.ot and /home/paul/bible/akjv.nt
   */
@@ -145,7 +150,7 @@ QString TheWordBible::moduleName(bool preferShortName) const
         }
     }
 }
-QMap<int, int> TheWordBible::bookCount()
+QMap<int, int> TheWordBible::bookCount() const
 {
     return m_bookCount;
 }

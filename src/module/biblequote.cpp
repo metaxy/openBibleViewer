@@ -442,7 +442,7 @@ QString BibleQuote::moduleName(bool preferShortName) const
 {
     return m_moduleName;
 }
-QMap<int, int> BibleQuote::bookCount()
+QMap<int, int> BibleQuote::bookCount() const
 {
     return m_bookCount;
 }

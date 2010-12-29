@@ -50,7 +50,7 @@ public:
     int moduleID() const;
     QString modulePath() const;
     QString moduleName(bool preferShortName = false) const;
-    QMap<int, int> bookCount();
+    QMap<int, int> bookCount() const;
     BookNames getBookNames();
     Book book() const;
 

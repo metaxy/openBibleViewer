@@ -24,6 +24,7 @@ Settings::Settings()
 }
 Settings::~Settings()
 {
+    //todo: memory leak
     /*if(defaultVersification != 0)
         delete defaultVersification;*/
 }
