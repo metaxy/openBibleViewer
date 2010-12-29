@@ -355,7 +355,7 @@ QStringList Versification_KJV::bookShortNames(VersificationFilterFlags filter) c
 {
     QList<QStringList> mul = multipleBookShortNames(filter);
     QStringList ret;
-    foreach(const QStringList &a, mul) {
+    foreach(const QStringList & a, mul) {
         if(a.isEmpty())
             ret.append("");
         else

@@ -538,7 +538,7 @@ QString ZefaniaBible::readInfo(QFile &file)
 QString ZefaniaBible::readInfo(const QString &fileName)
 {
     QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly))
+    if(!file.open(QIODevice::ReadOnly))
         return "";
     return readInfo(file);
 }

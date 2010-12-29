@@ -199,7 +199,7 @@ QString BibleQuote::readInfo(QFile &file)
 QString BibleQuote::readInfo(const QString &fileName)
 {
     QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly))
+    if(!file.open(QIODevice::ReadOnly))
         return "";
     return readInfo(file);
 }

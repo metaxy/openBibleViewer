@@ -483,14 +483,14 @@ Module::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
         return Module::BibleQuoteModule;
     } else if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
         QFile data(fileName);
-        if (data.open(QFile::WriteOnly | QFile::Truncate)) {
+        if(data.open(QFile::WriteOnly | QFile::Truncate)) {
             QString fileData = "";
             QTextStream in(&data);
             for(int i = 0; i < 10; i++)
                 fileData += in.readLine();
             if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i cannot allow this
-                                 fileData.contains("x-cult", Qt::CaseInsensitive) ||
-                                 fileData.contains("x-mormon", Qt::CaseInsensitive))) {
+                    fileData.contains("x-cult", Qt::CaseInsensitive) ||
+                    fileData.contains("x-mormon", Qt::CaseInsensitive))) {
                 return Module::ZefaniaBibleModule;
             } else if(fileData.contains("<dictionary", Qt::CaseInsensitive)) {
                 return Module::ZefaniaLexModule;

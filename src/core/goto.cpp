@@ -140,8 +140,8 @@ int GoTo::levenshteinDistance(const QString& s, const QString& t)
 
     // make sure the matrix is big enough
 
-    if(array.size() < (m + 1) * (n + 1)) {
-        array.resize((m + 1) * (n + 1));
+    if(array.size() < (m + 1) *(n + 1)) {
+        array.resize((m + 1) *(n + 1));
     }
 
     int i;
@@ -167,9 +167,9 @@ int GoTo::levenshteinDistance(const QString& s, const QString& t)
             }
 
             array[i + j*dWidth] = qMin(qMin(// min of three possibilities
-                                         array[i-1 + (j)*dWidth] + 1,// deletion
-                                         array[i   + (j-1)*dWidth] + 1),// insertion
-                                     array[i-1 + (j-1)*dWidth] + cost);// substitution
+                                           array[i-1 + (j)*dWidth] + 1,// deletion
+                                           array[i   + (j-1)*dWidth] + 1),// insertion
+                                       array[i-1 + (j-1)*dWidth] + cost);// substitution
         }
     }
 

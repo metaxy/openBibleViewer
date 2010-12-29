@@ -77,10 +77,10 @@ QString ZefaniaLex::buildIndexFromFile(const QString &fileName)
     int eLine;
     int eCol;
     QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly))
+    if(!file.open(QIODevice::ReadOnly))
         return QString();
 
-    if(!xmldoc.setContent(&file,&errorMsg,&eLine,&eCol)) {
+    if(!xmldoc.setContent(&file, &errorMsg, &eLine, &eCol)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
         myWarning() << "the file isn't valid , error = " << errorMsg
                     << " line = " << eLine

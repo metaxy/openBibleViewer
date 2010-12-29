@@ -26,7 +26,7 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
     m_modulePath = path;
     QString dataFilePath = path;
     QFile file(dataFilePath);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
 
     QTextStream in(&file);
@@ -50,7 +50,7 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
                 m_shortModuleName = list.last();
             }
         } else {
-            Verse v(verse,line);
+            Verse v(verse, line);
             currentChapter->addVerse(verse, v);
             if(verse + 1 < m_versification->maxVerse(Versification::ReturnAll).at(book).at(chapter)) {
                 verse++;
@@ -111,7 +111,7 @@ QString TheWordBible::readInfo(QFile &file)
 QString TheWordBible::readInfo(const QString &fileName)
 {
     QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly))
+    if(!file.open(QIODevice::ReadOnly))
         return "";
     return readInfo(file);
 }
