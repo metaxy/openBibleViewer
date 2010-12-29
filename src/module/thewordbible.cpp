@@ -1,6 +1,16 @@
 #include "thewordbible.h"
 #include "src/core/bible/versification/versification_kjv.h"
 #include "src/core/dbghelper.h"
+#include "CLucene.h"
+#include "CLucene/_clucene-config.h"
+#include <QtGui/QProgressDialog>
+#include <QtCore/QDir>
+using namespace lucene::analysis;
+using namespace lucene::index;
+using namespace lucene::queryParser;
+using namespace lucene::document;
+using namespace lucene::search;
+extern bool removeDir(const QString &dirName);
 TheWordBible::TheWordBible()
 {
     m_versification = new Versification_KJV();
@@ -138,13 +148,106 @@ QString TheWordBible::readInfo(const QString &fileName)
 
 void TheWordBible::search(const SearchQuery &query, SearchResult *res) const
 {
+    const QString index = indexPath();
+    //myDebug() << " index = " << index;
+    const TCHAR* stop_words[] = { NULL };
+    standard::StandardAnalyzer analyzer(stop_words);
+    IndexReader* reader = IndexReader::open(index.toStdString().c_str());
+    IndexSearcher s(reader);
+    Query* q = QueryParser::parse(query.searchText.toStdWString().c_str(), _T("content"), &analyzer);
+    Hits* h = s.search(q);
+    //myDebug() << "query string = " << q->toString();
+    for(size_t i = 0; i < h->length(); i++) {
+        Document* doc = &h->doc(i);
+        const QString stelle = QString::fromWCharArray(doc->get(_T("key")));
+        //myDebug() << "found stelle = " << stelle;
+        const QStringList l = stelle.split(";");
+        //hacky filter
+        if(query.range == SearchQuery::Whole || (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) || (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
+            SearchHit hit;
+            hit.setType(SearchHit::BibleHit);
+            hit.setValue(SearchHit::BibleID, m_moduleID);
+            hit.setValue(SearchHit::BookID, l.at(0).toInt());
+            hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
+            hit.setValue(SearchHit::VerseID, l.at(2).toInt());
+            hit.setValue(SearchHit::VerseText, QString::fromWCharArray(doc->get(_T("content"))));
+            hit.setValue(SearchHit::Score, (double) h->score(i));
+
+            res->addHit(hit);
+        }
+    }
+    reader->close();
+    delete reader;
 }
 bool TheWordBible::hasIndex() const
 {
-    return false;
+    const QString index = indexPath();
+    QDir d;
+    if(!d.exists(index)) {
+        return false;
+    }
+    //todo: check versions
+
+    return IndexReader::indexExists(index.toStdString().c_str());
 }
 void TheWordBible::buildIndex()
 {
+    QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, m_books.size());
+    const QString index = indexPath();
+    QDir dir("/");
+    dir.mkpath(index);
+
+    IndexWriter* writer = NULL;
+    const TCHAR* stop_words[] = { NULL };
+    standard::StandardAnalyzer an(stop_words);
+    if(IndexReader::indexExists(index.toStdString().c_str())) {
+        if(IndexReader::isLocked(index.toStdString().c_str())) {
+            myDebug() << "Index was locked... unlocking it.";
+            IndexReader::unlock(index.toStdString().c_str());
+        }
+    }
+    writer = new IndexWriter(index.toStdString().c_str() , &an, true);
+
+    writer->setMaxFieldLength(0x7FFFFFFFL);
+    writer->setUseCompoundFile(false);
+
+    //index
+    Document doc;
+    bool canceled = false;
+    QHashIterator<int, Book> bookIt(m_books);
+    for (int c = 0; bookIt.hasNext(); c++) {
+        if(progress.wasCanceled()) {
+            canceled = true;
+            break;
+        }
+        progress.setValue(c);
+        bookIt.next();
+        QHashIterator<int, Chapter> chapterIt(bookIt.value().m_chapters);
+        while (chapterIt.hasNext()) {
+            chapterIt.next();
+            QHashIterator<int, Verse> verseIt(chapterIt.value().getData());
+            while (verseIt.hasNext()) {
+                 verseIt.next();
+                 doc.clear();
+                 const QString key = QString::number(bookIt.value().bookID()) + ";" + QString::number(chapterIt.value().chapterID()) + ";" + QString::number(verseIt.value().verseID());
+                 const QString text = verseIt.value().data();
+                 doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
+                 doc.add(*new Field(_T("content"), text.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                 writer->addDocument(&doc);
+
+            }
+        }
+    }
+    if(canceled) {
+        removeDir(index);
+    } else {
+        writer->setUseCompoundFile(true);
+        writer->optimize();
+    }
+
+    writer->close();
+    delete writer;
+    progress.close();
 }
 
 int TheWordBible::moduleID() const
@@ -199,4 +302,11 @@ bool TheWordBible::hasONT() const
 {
     QFileInfo f(m_modulePath + ".ont");
     return f.exists();
+}
+/**
+  * Returns the path, where all indexed files are stored.
+  */
+QString TheWordBible::indexPath() const
+{
+    return m_settings->homePath + "index/" + m_settings->hash(m_modulePath);
 }

@@ -807,6 +807,6 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
   */
 QString ZefaniaBible::indexPath() const
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     return m_settings->homePath + "index/" + m_settings->hash(m_modulePath);
 }

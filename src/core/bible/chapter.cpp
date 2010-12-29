@@ -39,3 +39,7 @@ void Chapter::setChapterID(const int &chapterID)
 {
     m_chapterID = chapterID;
 }
+int Chapter::chapterID() const
+{
+    return m_chapterID;
+}

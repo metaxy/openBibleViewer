@@ -30,6 +30,7 @@ public:
     QHash<int, Verse> getData() const;
     int verseCount() const;
     void setChapterID(const int &chapterID);
+    int chapterID() const;
 private:
     QHash<int, Verse> m_data;
     QStringList m_verseNumber;
