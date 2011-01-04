@@ -483,31 +483,10 @@ void Bible::search(SearchQuery query, SearchResult *result)
     m_bibleModule->search(query, result);
     m_lastSearchQuery = query;
     myDebug() << "hits.size() = " << result->hits().size();
-    /*
-    switch(m_moduleType) {
-    case Module::BibleQuoteModule: {
-        if(!m_bibleModule->hasIndex())
-            m_bibleModule->buildIndex();
-        m_bibleModule->search(query, result);
-        break;
-    }
-    case Module::ZefaniaBibleModule: {
-        if(!m_bibleModule->hasIndex())
-            m_bibleModule->buildIndex();
-        m_bibleModule->search(query, result);
-
-        break;
-    }
-    default:
-        break;
-    }*/
 }
-
 QStringList Bible::getSearchPaths() const
 {
-    if(m_moduleType == Module::ZefaniaBibleModule) {
-        return QStringList();
-    } else if(m_moduleType == Module::BibleQuoteModule) {
+    if(m_moduleType == Module::BibleQuoteModule) {
         QStringList l;
         l.append(QString(m_modulePath + QDir::separator()));
         if(m_bookID < m_bookPath.size()) {

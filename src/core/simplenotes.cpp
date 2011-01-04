@@ -445,7 +445,7 @@ void SimpleNotes::newTextNoteWithLink(VerseSelection selection)
     urlConverter.m_bookID = selection.bookID;
     urlConverter.m_chapterID = selection.chapterID;
     urlConverter.m_verseID = selection.startVerse;
-    urlConverter.m_bookName = m_moduleManager->bible()->bookName(m_moduleManager->bible()->bookID(), true);
+    urlConverter.m_bookName = m_moduleManager->bible()->bookName(urlConverter.m_bookID, true);
     link = urlConverter.convert();
 
     const QString newID = m_notes->generateNewID();
@@ -497,7 +497,7 @@ void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style)
     urlConverter.m_bookID = selection.bookID;
     urlConverter.m_chapterID = selection.chapterID;
     urlConverter.m_verseID = selection.startVerse;
-    urlConverter.m_bookName = m_moduleManager->bible()->bookName(m_moduleManager->bible()->bookID());
+    urlConverter.m_bookName = m_moduleManager->bible()->bookName(urlConverter.m_bookID);
     link = urlConverter.convert();
 
     //reloadNotes();

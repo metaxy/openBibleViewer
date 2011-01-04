@@ -409,6 +409,7 @@ void WindowManager::save()
                 i.next();
                 Bible *b = i.value();
                 if(b != NULL && b->moduleID() >= 0) {
+                    //todo: implement last shown url
                     UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
                     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
                     urlConverter.setSettings(m_settings);

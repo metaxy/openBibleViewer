@@ -712,7 +712,7 @@ void BibleForm::copyWholeVerse(void)
 
         const QString curChapter = QString::number(m_moduleManager->bible()->chapterID() + 1);
 
-        const QString newText = m_moduleManager->bible()->bookName(m_moduleManager->bible()->bookID()) + " " + curChapter + sverse + "\n" + stext;
+        const QString newText = m_moduleManager->bible()->bookName(selection.bookID) + " " + curChapter + sverse + "\n" + stext;
         QClipboard *clipboard = QApplication::clipboard();
         clipboard->setText(newText);
     }

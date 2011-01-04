@@ -88,7 +88,7 @@ QString BibleList::readChapter(const int &chapterID, const int &verseID) const
     //DEBUG_FUNC_NAME
     Ranges ranges;
     Range f;
-    myDebug() << "bookID = " << bible()->bookID() << " chapterID = " << chapterID;
+    //myDebug() << "bookID = " << bible()->bookID() << " chapterID = " << chapterID;
     f.setBook(bible()->bookID());
     f.setChapter(chapterID);
     f.setStartVerse(RangeEnum::FirstVerse);
