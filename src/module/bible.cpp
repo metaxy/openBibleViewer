@@ -84,7 +84,7 @@ int Bible::loadModuleData(const int &moduleID)
 
         break;
     }
-    case Module::ZefaniaBibleModule: {
+    case Module::ZefaniaBibleModule: case Module::TheWordBibleModule:{
         if(m_module->m_bibleModule) {
             m_bibleModule = m_module->m_bibleModule;
         } else {
@@ -96,28 +96,6 @@ int Bible::loadModuleData(const int &moduleID)
         m_bibleModule->loadBibleData(moduleID, path);
         m_moduleTitle = m.moduleName;
 
-        bookCount = m_bibleModule->bookCount();
-        m_names = m_bibleModule->getBookNames();
-        m_modulePath = m_bibleModule->modulePath();
-        //ModuleCache
-        m_settings->setTitle(path, m_moduleTitle);
-        m_settings->setBookCount(path, bookCount);
-        m_settings->setBookNames(path, m_names.m_bookFullName);
-
-        break;
-    }
-    case Module::TheWordBibleModule: {
-        if(m_module->m_bibleModule) {
-            m_bibleModule = m_module->m_bibleModule;
-        } else {
-            m_bibleModule = new TheWordBible();
-            m_module->m_bibleModule = m_bibleModule;
-        }
-        ModuleSettings m = m_settings->getModuleSettings(m_moduleID);
-        m_bibleModule->setSettings(m_settings);
-        m_bibleModule->loadBibleData(moduleID, path);
-        m_moduleTitle = m.moduleName;
-        myDebug() << "setting some stuff";
         bookCount = m_bibleModule->bookCount();
         m_names = m_bibleModule->getBookNames();
         m_modulePath = m_bibleModule->modulePath();
@@ -167,8 +145,8 @@ int Bible::readBook(int id)
         }
         break;
     }
-    case Module::ZefaniaBibleModule: {
-        myDebug() << "read zefania bible with id= " << id;
+    case Module::ZefaniaBibleModule: case Module::TheWordBibleModule: {
+        myDebug() << "read zefania bible with id = " << id;
         m_book.clear();
         m_chapterNames.clear();
         m_bibleModule->readBook(id);
@@ -176,26 +154,12 @@ int Bible::readBook(int id)
         for(int i = 1; i <= m_bibleModule->bookCount().value(id, 0); ++i) {
             m_chapterNames << QString::number(i);
         }
-        //myDebug() << m_chapterNames;
-        break;
-    }
-    case Module::TheWordBibleModule: {
-        myDebug() << "read zefania bible with id= " << id;
-        m_book.clear();
-        m_chapterNames.clear();
-        m_bibleModule->readBook(id);
-        m_book = m_bibleModule->book();
-        myDebug() << "chapterCount = " << m_bibleModule->bookCount().value(id, 0);
-        for(int i = 1; i <= m_bibleModule->bookCount().value(id, 0); ++i) {
-            m_chapterNames << QString::number(i);
-        }
-        //myDebug() << m_chapterNames;
         break;
     }
     default:
         return 1;
     }
-    myDebug() << "read book";
+    //myDebug() << "read book";
     return 0;
 }
 
@@ -396,13 +360,13 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     //todo: insert marks
 
     if(m_notes != 0 && m_bibleDisplaySettings->showMarks() == true) {
-        myDebug() << "insert notes";
+        //myDebug() << "insert notes";
         VerseReplacer replacer;
         for(int n = 0; n <  m_notes->getIDList().size(); ++n) {
             const QString noteID = m_notes->getIDList().at(n);
             if(m_notes->getType(noteID) == "mark") {
                 const QString link = m_notes->getRef(noteID, "link");
-                myDebug() << "link = " << link;
+                //myDebug() << "link = " << link;
                 UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
                 urlConverter.setSettings(m_settings);
                 urlConverter.setModuleMap(m_map);
@@ -411,7 +375,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                 const QString pre = "<span class=\"mark\" style=\"" + m_notes->getRef(noteID, "style") + "\">";
                 const QString ap = "</span>";
                 if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == bookID && urlConverter.m_chapterID == chapterID) {
-                    myDebug() << "insert note id = " << noteID << " link " << link;
+                    //myDebug() << "insert note id = " << noteID << " link " << link;
                     if(m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
                         VerseSelection::SelectionPosInTextType type = VerseSelection::typeFromString(m_notes->getRef(noteID, "selection_pos_type"));
                         if(type == VerseSelection::ShortestString) {
@@ -479,7 +443,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             break;
 
         }
-        case Module::ZefaniaBibleModule: {
+        case Module::ZefaniaBibleModule: case Module::TheWordBibleModule: {
             verse.prepend("<span verseID='" + QString::number(i.key()) +
                           "' chapterID='" + QString::number(chapterID) +
                           "' bookID='" + QString::number(bookID) +
@@ -491,6 +455,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             break;
         }
         ret.addVerse(verse);
+
     }
     return ret;
 
