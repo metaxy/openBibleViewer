@@ -1,7 +1,7 @@
 project( openBibleViewer )
 cmake_minimum_required( VERSION 2.6 )
 set ( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
-add_definitions ( -Wall )
+add_definitions ( -Wall -g)
 find_package ( Qt4 REQUIRED )
 include (FindThreads)
 include (FindZlib)
@@ -27,7 +27,7 @@ message("-- Using build type: ${CMAKE_BUILD_TYPE}")
 
 option(ENABLE_DEBUG
 "enable debug support"
-OFF)
+ON)
 option(ENABLE_MMAP
 "enable mmap support (experimental)"
 OFF)
