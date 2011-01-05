@@ -267,9 +267,10 @@ int BibleQuote::readBook(const int &id)
     }
 
     //todo: its slow
-    for(int i = 1/* why 1?*/; i < chapterText.size(); i++) {
+    for(int i = 0; i < chapterText.size() - 1; i++) {
         Chapter c;
-        QStringList rawVerseList = chapterText.at(i).split(m_verseSign);
+        c.setChapterID(i);
+        QStringList rawVerseList = chapterText.at(i+1).split(m_verseSign);
         for(int j = 0; j < rawVerseList.size(); j++) { //split removes versesign but it is needed
             QString verseText = rawVerseList.at(j);
             Verse v(j, verseText.prepend(m_verseSign));
