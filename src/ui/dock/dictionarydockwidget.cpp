@@ -47,9 +47,9 @@ void DictionaryDockWidget::init()
     while(i.hasNext()) {
         i.next();
         Module *m = i.value();
-        if(m->m_moduleClass == Module::DictionaryModuleClass) {
-            dictModuleTitle << m->m_title;
-            dictModuleID << m->m_id;
+        if(m->moduleClass() == Module::DictionaryModuleClass) {
+            dictModuleTitle << m->title();
+            dictModuleID << m->moduleID();
         }
     }
     ui->comboBox_strongModule->insertItems(0, dictModuleTitle);
@@ -78,11 +78,11 @@ void DictionaryDockWidget::showStrong(QString strongID)
         const QString last = m_settings->session.getData("lastDictModule").toString();
         int moduleID = 0;
         if(!last.isEmpty()) {
-            const QString l = m_settings->recoverUrl(last);
+            const QString lastUrl = m_settings->recoverUrl(last);
             QMapIterator<int, Module *> i(m_moduleManager->m_moduleMap->m_map);
             while(i.hasNext()) {
                 i.next();
-                if(i.value()->m_path == l) {
+                if(i.value()->path() == lastUrl) {
                     moduleID = dictModuleID.lastIndexOf(i.key());
                     break;
                 }
@@ -100,15 +100,18 @@ void DictionaryDockWidget::loadModule(int id)
     DEBUG_FUNC_NAME
     if(dictModuleID.size() > id && id >= 0) {
         ui->comboBox_strongModule->setCurrentIndex(id);//select item in combobox
-        int moduleID = dictModuleID.at(id);//convert id to module id
+        const int moduleID = dictModuleID.at(id);//convert id to module id
         Module *m = m_moduleManager->getModule(moduleID);
-        Module::ModuleType type = m->m_moduleType;
+        Module::ModuleType type = m->moduleType();
         m_moduleManager->dictionary()->setModuleType(type);
         m_moduleManager->dictionary()->loadModuleData(moduleID);
+
         QCompleter *completer = new QCompleter(m_moduleManager->dictionary()->getAllKeys(), this);
         completer->setCaseSensitivity(Qt::CaseInsensitive);
         ui->lineEdit_strong->setCompleter(completer);
-        m_settings->session.setData("lastDictModule", m_settings->savableUrl(m->m_path));
+
+        //todo: do this when closing
+        m_settings->session.setData("lastDictModule", m_settings->savableUrl(m->path()));
     }
 }
 

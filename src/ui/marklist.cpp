@@ -79,8 +79,9 @@ void MarkList::addMark(const int &row, const QString &id)
     m_itemModel->setItem(row, 0, stelle);
 
     QString t = "";
-    if(m_moduleManager->getModule(urlConverter.m_moduleID) && !m_moduleManager->getModule(urlConverter.m_moduleID)->m_title.isEmpty())
-        t = m_moduleManager->getModule(urlConverter.m_moduleID)->m_title;
+    //todo: this can be faster
+    if(m_moduleManager->getModule(urlConverter.m_moduleID) && !m_moduleManager->getModule(urlConverter.m_moduleID)->title().isEmpty())
+        t = m_moduleManager->getModule(urlConverter.m_moduleID)->title();
 
     QStandardItem *module = new QStandardItem(t);
     m_itemModel->setItem(row, 1, module);

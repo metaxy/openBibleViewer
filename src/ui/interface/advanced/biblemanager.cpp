@@ -201,24 +201,24 @@ void BibleManager::showRanges(const Ranges &ranges, const BibleUrl &url)
 
 bool BibleManager::loadModuleDataByID(const int &moduleID)
 {
-    //DEBUG_FUNC_NAME
-    myDebug() << "id = " << moduleID;
     if(moduleID < 0 || !m_moduleManager->contains(moduleID)) {
         myWarning() << "failed id = " << moduleID << m_moduleManager->m_moduleMap->m_map;
         return 1;
     }
-    if(m_moduleManager->getModule(moduleID)->m_moduleClass != Module::BibleModuleClass) {
-        myWarning() << "non bible module " << m_moduleManager->getModule(moduleID)->m_moduleClass;
+    if(m_moduleManager->getModule(moduleID)->moduleClass() != Module::BibleModuleClass) {
+        myWarning() << "non bible module " << m_moduleManager->getModule(moduleID)->moduleClass();
         return 1;
     }
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
-    Module::ModuleType type = m_moduleManager->getModule(moduleID)->m_moduleType;
+    Module::ModuleType type = m_moduleManager->getModule(moduleID)->moduleType();
     m_moduleManager->bible()->setModuleType(type);
     m_moduleManager->bible()->loadModuleData(moduleID);
 
+    //update current title and selected module
     m_actions->setTitle(m_moduleManager->bible()->moduleTitle());
     m_actions->setCurrentModule(moduleID);
+
     QApplication::restoreOverrideCursor();
     return 0;
 }
@@ -232,13 +232,15 @@ void BibleManager::readBookByID(const int &id)
         return;
     }
     if(!m_moduleManager->bible()->bookIDs().contains(id)) {
+        QApplication::restoreOverrideCursor();
         myWarning() << "invalid bookID - 2(no book loaded) id = " << id << " count = " << m_moduleManager->bible()->booksCount();
+        return;
     }
     const int read = m_moduleManager->bibleList()->readBook(id);
     if(read != 0) {
         QApplication::restoreOverrideCursor();
         if(read == 2) {
-            ///emit updateChapters();
+            m_actions->clearChapters();
         } else {
             QMessageBox::critical(0, tr("Error"), tr("Cannot read the book."));
         }

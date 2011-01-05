@@ -36,12 +36,18 @@ public:
         BibleQuoteDictModule = 4,
         TheWordBibleModule = 5
     };
-    ModuleClass m_moduleClass;
-    ModuleType m_moduleType;
 
-    QString m_path;
-    QString m_title;
-    int m_id;
+    QString path() const;
+    QString title() const;
+    int moduleID() const;
+    ModuleClass moduleClass() const;
+    ModuleType moduleType() const;
+
+    void setPath(const QString &path);
+    void setTitle(const QString &title);
+    void setModuleID(const int &moduleID);
+    void setModuleClass(const ModuleClass &c);
+    void setModuleType(const ModuleType &t);
 
     BibleModule *m_bibleModule;
     ZefaniaLex *m_zefaniaLex;
@@ -55,6 +61,12 @@ private:
     Module* m_parent;
     QList<Module *> m_children;
     Settings *m_settings;
+
+    QString m_path;
+    QString m_title;
+    int m_id;
+    ModuleClass m_moduleClass;
+    ModuleType m_moduleType;
 };
 
 #endif // MODULE_H

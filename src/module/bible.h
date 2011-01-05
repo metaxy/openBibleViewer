@@ -39,7 +39,10 @@ public:
     void setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings);
 
     int loadModuleData(const int &bibleID);
-    int readBook(int id);
+    /**
+      * Load only the book without pharsing.
+      */
+    int readBook(const int &id);
 
     TextRanges readRanges(const Ranges &ranges, bool ignoreModuleID = false);
     TextRange readRange(const Range &range, bool ignoreModuleID = false);

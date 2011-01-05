@@ -54,7 +54,7 @@ QString UrlConverter::convert()
             //myDebug() << "moduleID = " << m_moduleID;
             return "";
         }
-        ret = m_settings->savableUrl(m_moduleMap->m_map.value(m_moduleID)->m_path) + ";" + QString::number(m_bookID) + ";" + QString::number(m_chapterID) + ";" + QString::number(m_verseID);
+        ret = m_settings->savableUrl(m_moduleMap->m_map.value(m_moduleID)->path()) + ";" + QString::number(m_bookID) + ";" + QString::number(m_chapterID) + ";" + QString::number(m_verseID);
         if(!m_bookName.isEmpty()) {
             ret += ";" + m_bookName;//todo: check for invalid charatcers
         }
@@ -96,7 +96,7 @@ int UrlConverter::pharse()
         QMapIterator<int, Module *> i(m_moduleMap->m_map);
         while(i.hasNext()) {
             i.next();
-            if(i.value()->m_path == path) {
+            if(i.value()->path() == path) {
                 m_moduleID = i.key();
             }
         }

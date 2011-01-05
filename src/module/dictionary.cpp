@@ -29,7 +29,7 @@ int Dictionary::loadModuleData(const int &moduleID)
         return 1;
     }
     m_moduleID = moduleID;
-    const QString path = m_module->m_path;
+    const QString path = m_module->path();
 
     switch(m_moduleType) {
     case Module::ZefaniaLexModule: {

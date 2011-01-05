@@ -34,3 +34,49 @@ void Module::append(Module* child)
 {
     m_children.append(child);
 }
+
+QString Module::path() const
+{
+    return m_path;
+}
+QString Module::title() const
+{
+    return m_title;
+}
+int Module::moduleID() const
+{
+    return m_id;
+}
+Module::ModuleClass Module::moduleClass() const
+{
+    return m_moduleClass;
+}
+Module::ModuleType Module::moduleType() const
+{
+    return m_moduleType;
+}
+
+void Module::setPath(const QString &path)
+{
+    m_path = path;
+}
+
+void Module::setTitle(const QString &title)
+{
+    m_title = title;
+}
+
+void Module::setModuleID(const int &moduleID)
+{
+    m_id = moduleID;
+}
+
+void Module::setModuleClass(const Module::ModuleClass &c)
+{
+    m_moduleClass = c;
+}
+
+void Module::setModuleType(const Module::ModuleType &t)
+{
+    m_moduleType = t;
+}

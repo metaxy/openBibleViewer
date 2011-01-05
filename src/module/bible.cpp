@@ -23,7 +23,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 //#include <valgrind/callgrind.h>
 Bible::Bible()
 {
-    m_moduleID = -1;
     m_bookID = 0;
     m_chapterID = 0;
     m_verseID = 0;
@@ -45,17 +44,18 @@ bool Bible::loaded()
 
 int Bible::loadModuleData(const int &moduleID)
 {
-    DEBUG_FUNC_NAME
-    //CALLGRIND_START_INSTRUMENTATION;
+    //DEBUG_FUNC_NAME
     m_module = m_map->m_map.value(moduleID, 0);
+
+    //not valid module
     if(moduleID < 0 || !m_module) {
         myWarning() << "invalid bibleID = " << moduleID;
         return 1;
     }
-    m_moduleID = moduleID;
-    const QString path = m_module->m_path;
+    m_module->setModuleID(moduleID); //todo: is it nescciary?
     m_book.clear();
-    switch(m_module->m_moduleType) {
+
+    switch(m_module->moduleType()) {
     case Module::BibleQuoteModule: {
         if(m_module->m_bibleModule) {
             m_bibleModule = m_module->m_bibleModule;
@@ -63,9 +63,9 @@ int Bible::loadModuleData(const int &moduleID)
             m_bibleModule = new BibleQuote();
             m_module->m_bibleModule = m_bibleModule;
         }
-        ModuleSettings m = m_settings->getModuleSettings(m_moduleID);
+        ModuleSettings m = m_settings->getModuleSettings(m_module->moduleID());
         m_bibleModule->setSettings(m_settings);
-        m_bibleModule->loadBibleData(moduleID, path);
+        m_bibleModule->loadBibleData(m_module->moduleID(), m_module->path());
         if(m.moduleName.isEmpty())
             m_moduleTitle = m_bibleModule->moduleName(false);
         else
@@ -78,9 +78,9 @@ int Bible::loadModuleData(const int &moduleID)
         m_bookPath = ((BibleQuote *)m_bibleModule)->m_bookPath;
         m_modulePath = m_bibleModule->modulePath();
         //ModuleCache
-        m_settings->setTitle(path, m_moduleTitle);
-        m_settings->setBookCount(path, bookCount);
-        m_settings->setBookNames(path, m_names.m_bookFullName);
+        m_settings->setTitle(m_module->path(), m_moduleTitle);
+        m_settings->setBookCount(m_module->path(), bookCount);
+        m_settings->setBookNames(m_module->path(), m_names.m_bookFullName);
 
         break;
     }
@@ -91,18 +91,18 @@ int Bible::loadModuleData(const int &moduleID)
             m_bibleModule = new ZefaniaBible();
             m_module->m_bibleModule = m_bibleModule;
         }
-        ModuleSettings m = m_settings->getModuleSettings(m_moduleID);
+        ModuleSettings m = m_settings->getModuleSettings(m_module->moduleID());
         m_bibleModule->setSettings(m_settings);
-        m_bibleModule->loadBibleData(moduleID, path);
+        m_bibleModule->loadBibleData(m_module->moduleID(), m_module->path());
         m_moduleTitle = m.moduleName;
 
         bookCount = m_bibleModule->bookCount();
         m_names = m_bibleModule->getBookNames();
         m_modulePath = m_bibleModule->modulePath();
         //ModuleCache
-        m_settings->setTitle(path, m_moduleTitle);
-        m_settings->setBookCount(path, bookCount);
-        m_settings->setBookNames(path, m_names.m_bookFullName);
+        m_settings->setTitle(m_module->path(), m_moduleTitle);
+        m_settings->setBookCount(m_module->path(), bookCount);
+        m_settings->setBookNames(m_module->path(), m_names.m_bookFullName);
 
         break;
     }
@@ -114,14 +114,12 @@ int Bible::loadModuleData(const int &moduleID)
     return 0;
     // CALLGRIND_STOP_INSTRUMENTATION;
 }
-/**
-  Load only the book without pharsing.
-*/
-int Bible::readBook(int id)
+
+int Bible::readBook(const int &id)
 {
     DEBUG_FUNC_NAME
     m_bookID = id;
-    switch(m_module->m_moduleType) {
+    switch(m_module->moduleType()) {
     case Module::BibleQuoteModule: {
         m_book.clear();
         m_chapterNames.clear();
@@ -190,7 +188,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     myDebug() << m_loaded;
     //todo: what about biblequote
     TextRange ret;
-    if((range.moduleID() != m_moduleID && !ignoreModuleID) || !m_loaded) {
+    if((range.moduleID() != m_module->moduleID() && !ignoreModuleID) || !m_loaded) {
         loadModuleData(range.moduleID());
     }
 
@@ -236,7 +234,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         readBook(bookID);
     }
 
-    const ModuleSettings moduleSettings = m_settings->getModuleSettings(m_moduleID);
+    const ModuleSettings moduleSettings = m_settings->getModuleSettings(m_module->moduleID());
 
     int chapterID = -1;
     if(range.chapter() == RangeEnum::ChapterByID) {
@@ -322,7 +320,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                     urlConverter.setSettings(m_settings);
                     urlConverter.setModuleMap(m_map);
                     urlConverter.pharse();
-                    if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID && urlConverter.m_verseID == verseCounter) {
+                    if(urlConverter.m_moduleID == m_module->moduleID() && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID && urlConverter.m_verseID == verseCounter) {
                         verse.append("<a href=\"note://" + noteID + "\"><img src=\":/icons/16x16/view-pim-notes.png\" title=\"" + m_notes->getRef(noteID, "title") + "\"></a>");
                     }
                 }
@@ -374,7 +372,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 
                 const QString pre = "<span class=\"mark\" style=\"" + m_notes->getRef(noteID, "style") + "\">";
                 const QString ap = "</span>";
-                if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == bookID && urlConverter.m_chapterID == chapterID) {
+                if(urlConverter.m_moduleID == m_module->moduleID() && urlConverter.m_bookID == bookID && urlConverter.m_chapterID == chapterID) {
                     //myDebug() << "insert note id = " << noteID << " link " << link;
                     if(m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
                         VerseSelection::SelectionPosInTextType type = VerseSelection::typeFromString(m_notes->getRef(noteID, "selection_pos_type"));
@@ -437,7 +435,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                 verse.prepend("<span verseID='" + QString::number(i.key() - 1) +
                               "' chapterID='" + QString::number(chapterID) +
                               "' bookID='" + QString::number(bookID) +
-                              "' moduleID='" + QString::number(m_moduleID) + "'>\n");
+                              "' moduleID='" + QString::number(m_module->moduleID()) + "'>\n");
                 verse.append("</span><br />\n");
             }
             break;
@@ -447,7 +445,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             verse.prepend("<span verseID='" + QString::number(i.key()) +
                           "' chapterID='" + QString::number(chapterID) +
                           "' bookID='" + QString::number(bookID) +
-                          "' moduleID='" + QString::number(m_moduleID) + "'>\n");
+                          "' moduleID='" + QString::number(m_module->moduleID()) + "'>\n");
             verse.append("</span>\n");
             break;
         }
