@@ -182,6 +182,7 @@ void AdvancedInterface::pharseUrl(QString url)
         }*/
 
     } else if(url.startsWith(note)) {
+        url = url.remove(0, note.size());
         m_notesManager->openNote(url);
     } else if(url.startsWith(persistent)) {
         url = url.remove(0, persistent.size());
