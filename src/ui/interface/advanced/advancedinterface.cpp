@@ -77,18 +77,26 @@ void AdvancedInterface::init()
     m_notesManager->setWidget(this->parentWidget());
     setAll(m_notesManager);
 
+    m_bookmarksManager = new BookmarksManager(this);
+    setAll(m_bookmarksManager);
+    m_bookmarksManager->setWidget(this->parentWidget());
+
     m_windowManager = new WindowManager(this);
     setAll(m_windowManager);
     m_windowManager->setMdiArea(ui->mdiArea);
     m_windowManager->setApi(m_api);
     m_windowManager->setBibleManager(m_bibleManager);
     m_windowManager->setNotesManager(m_notesManager);
+    m_windowManager->setBookmarksManager(m_bookmarksManager);
+
     m_windowManager->init();
 
     m_searchManager = new SearchManager(this);
     setAll(m_searchManager);
     m_searchManager->setWindowManager(m_windowManager);
     m_searchManager->setWidget(this->parentWidget());
+
+
 
     if(m_settings->session.getData("windowUrls").toStringList().size() == 0)
         QTimer::singleShot(10, m_windowManager, SLOT(newSubWindow()));
@@ -101,12 +109,7 @@ void AdvancedInterface::createDocks()
     m_bibleManager->createDocks();
     m_notesManager->createDocks();
     m_searchManager->createDocks();
-
-    m_bookmarksDockWidget = new BookmarksDockWidget(this->parentWidget());
-    setAll(m_bookmarksDockWidget);
-    m_bookmarksDockWidget->init();
-    m_bookmarksDockWidget->hide();
-
+    m_bookmarksManager->createDocks();
 
     m_dictionaryDockWidget = new DictionaryDockWidget(this->parentWidget());
     setAll(m_dictionaryDockWidget);
@@ -125,7 +128,7 @@ QHash<DockWidget*, Qt::DockWidgetArea> AdvancedInterface::docks()
     ret.unite(m_bibleManager->docks());
     ret.unite(m_notesManager->docks());
     ret.unite(m_searchManager->docks());
-    ret.insert(m_bookmarksDockWidget, Qt::RightDockWidgetArea);
+    ret.unite(m_bookmarksManager->docks());
     ret.insert(m_dictionaryDockWidget, Qt::BottomDockWidgetArea);
     return ret;
 
@@ -235,7 +238,7 @@ void AdvancedInterface::setTitle(const QString &title)
 void AdvancedInterface::closing()
 {
     m_notesManager->save();
-    m_bookmarksDockWidget->saveBookmarks();
+    m_bookmarksManager->save();
     m_windowManager->save();
 }
 
@@ -511,8 +514,8 @@ QMenuBar* AdvancedInterface::menuBar()
 
     QAction *actionBookmarks = new QAction(QIcon::fromTheme("bookmarks-organize", QIcon(":/icons/16x16/bookmarks-organize.png")), tr("Bookmarks"), menuDocks);
     actionBookmarks->setCheckable(true);
-    connect(m_bookmarksDockWidget, SIGNAL(visibilityChanged(bool)), actionBookmarks, SLOT(setChecked(bool)));
-    connect(actionBookmarks, SIGNAL(triggered(bool)), m_bookmarksDockWidget, SLOT(setVisible(bool)));
+    connect(m_bookmarksManager->bookmarksDockWidget(), SIGNAL(visibilityChanged(bool)), actionBookmarks, SLOT(setChecked(bool)));
+    connect(actionBookmarks, SIGNAL(triggered(bool)), m_bookmarksManager->bookmarksDockWidget(), SLOT(setVisible(bool)));
     actionBookmarks->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_B));
 
     QAction *actionQuickJump = new QAction(tr("Quick Jump"), menuDocks);
@@ -588,8 +591,8 @@ void AdvancedInterface::createToolBars()
 
     m_mainBarActionBookmarks = new QAction(QIcon::fromTheme("bookmarks-organize", QIcon(":/icons/16x16/bookmarks-organize.png")), tr("Bookmarks"), m_mainBar);
     m_mainBarActionBookmarks->setCheckable(true);
-    connect(m_bookmarksDockWidget, SIGNAL(visibilityChanged(bool)), m_mainBarActionBookmarks, SLOT(setChecked(bool)));
-    connect(m_mainBarActionBookmarks, SIGNAL(triggered(bool)), m_bookmarksDockWidget, SLOT(setVisible(bool)));
+    connect(m_bookmarksManager->bookmarksDockWidget(), SIGNAL(visibilityChanged(bool)), m_mainBarActionBookmarks, SLOT(setChecked(bool)));
+    connect(m_mainBarActionBookmarks, SIGNAL(triggered(bool)), m_bookmarksManager->bookmarksDockWidget(), SLOT(setVisible(bool)));
 
 
     m_mainBarActionNotes = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/16x16/view-pim-notes.png")), tr("Notes"), m_mainBar);

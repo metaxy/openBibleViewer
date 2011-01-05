@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QString>
 #include <QtCore/QHash>
 #include "bibleurlrange.h"
+#include "textranges.h"
 #include "src/core/url.h"
 class BibleUrl : public Url
 {

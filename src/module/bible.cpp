@@ -315,7 +315,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                     urlConverter.setModuleMap(m_map);
                     urlConverter.pharse();
                     if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID && urlConverter.m_verseID == verseCounter) {
-                        myDebug() << "append note icon";
+                        //myDebug() << "append note icon";
                         verse.append("<a href='note://" + noteID + "'><img src='qrc:/icons/16x16/view-pim-notes.png' class='noteIcon' title='" + m_notes->getTitle(noteID) + "' /></a>");
                     }
                 }

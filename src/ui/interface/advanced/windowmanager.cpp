@@ -40,7 +40,10 @@ void WindowManager::setNotesManager(NotesManager *notesManager)
 {
     m_notesManager = notesManager;
 }
-
+void WindowManager::setBookmarksManager(BookmarksManager *bookmarksManager)
+{
+    m_bookmarksManager = bookmarksManager;
+}
 void WindowManager::init()
 {
     connect(m_area, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
@@ -72,6 +75,7 @@ void WindowManager::newSubWindow(bool doAutoLayout)
     bibleForm->setApi(m_api);
     bibleForm->setBibleManager(m_bibleManager);
     bibleForm->setNotesManager(m_notesManager);
+    bibleForm->setBookmarksManager(m_bookmarksManager);
     bibleForm->init();
 
     *m_currentWindowID = bibleForm->id();
@@ -414,8 +418,8 @@ void WindowManager::save()
                     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
                     urlConverter.setSettings(m_settings);
                     urlConverter.m_moduleID = b->moduleID();
-                    urlConverter.m_bookID = b->bookID();
-                    urlConverter.m_chapterID = b->chapterID();
+                    urlConverter.m_bookID = b->lastTextRanges()->minBookID();
+                    urlConverter.m_chapterID = b->lastTextRanges()->minChapterID();
                     urlConverter.m_verseID = 0;
                     const QString url = urlConverter.convert();
                     const QPoint point = list->m_biblePoints.value(i.key());

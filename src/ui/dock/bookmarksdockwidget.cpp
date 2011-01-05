@@ -61,7 +61,7 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
     bookmark->setText(0,
                       m_moduleManager->bible()->bookName(selection.bookID) +
                       " " +
-                      QString::number(m_moduleManager->bible()->chapterID() + 1) +
+                      QString::number(selection.chapterID + 1) +
                       "," +
                       QString::number(selection.startVerse + 1));
 

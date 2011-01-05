@@ -84,6 +84,10 @@ void BibleForm::setNotesManager(NotesManager *notesManager)
 {
     m_notesManager = notesManager;
 }
+void BibleForm::setBookmarksManager(BookmarksManager *bookmarksManager)
+{
+    m_bookmarksManager = bookmarksManager;
+}
 void BibleForm::attachApi()
 {
     //DEBUG_FUNC_NAME
@@ -676,7 +680,10 @@ void BibleForm::newNoteWithLink()
 }
 void BibleForm::newBookmark()
 {
-
+    if(!m_moduleManager->bibleLoaded()) {
+        return;
+    }
+    m_bookmarksManager->newBookmark(verseSelection());
 }
 
 void BibleForm::copyWholeVerse(void)
@@ -708,7 +715,7 @@ void BibleForm::copyWholeVerse(void)
         doc2.setHtml(stext);
         stext = doc2.toPlainText();
 
-        const QString curChapter = QString::number(m_moduleManager->bible()->chapterID() + 1);
+        const QString curChapter = QString::number(selection.chapterID + 1);
 
         const QString newText = m_moduleManager->bible()->bookName(selection.bookID) + " " + curChapter + sverse + "\n" + stext;
         QClipboard *clipboard = QApplication::clipboard();

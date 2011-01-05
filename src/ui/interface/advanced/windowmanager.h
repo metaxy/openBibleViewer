@@ -21,6 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/api/api.h"
 #include "bibleform.h"
 #include "mdiareafilter.h"
+#include "bookmarksmanager.h"
 class WindowManager : public QObject , public BasicClass
 {
     Q_OBJECT
@@ -30,6 +31,7 @@ public:
     void setApi(Api *api);
     void setBibleManager(BibleManager *bibleManager);
     void setNotesManager(NotesManager *notesManager);
+    void setBookmarksManager(BookmarksManager *bookmarksManager);
     void init();
     BibleForm *activeForm();
     QMdiSubWindow *activeSubWindow();
@@ -76,6 +78,7 @@ private:
 
     BibleManager *m_bibleManager;
     NotesManager *m_notesManager;
+    BookmarksManager *m_bookmarksManager;
     int *m_currentWindowID;
 
 };

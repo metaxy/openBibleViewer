@@ -18,7 +18,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/interface/interface.h"
 
 
-#include "src/ui/dock/bookmarksdockwidget.h"
 #include "src/ui/dock/dictionarydockwidget.h"
 
 #include "src/api/api.h"
@@ -27,6 +26,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "biblemanager.h"
 #include "notesmanager.h"
 #include "searchmanager.h"
+#include "bookmarksmanager.h"
 #include <QtGui/QMdiSubWindow>
 #include <QtGui/QCloseEvent>
 #include <QtGui/QContextMenuEvent>
@@ -113,13 +113,14 @@ private:
     QAction *m_mainBarActionZoomOut;
     QAction *m_mainBarActionModule;
 
-    BookmarksDockWidget * m_bookmarksDockWidget;
+
     DictionaryDockWidget * m_dictionaryDockWidget;
 
     WindowManager *m_windowManager;
     BibleManager *m_bibleManager;
     NotesManager *m_notesManager;
     SearchManager *m_searchManager;
+    BookmarksManager *m_bookmarksManager;
 };
 
 #endif // ADVANCEDINTERFACE_H

@@ -25,6 +25,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "biblemanager.h"
 #include "notesmanager.h"
 #include "biblelistwidget.h"
+#include "bookmarksmanager.h"
 
 #include <QtCore/QDir>
 #include <QtCore/QScopedPointer>
@@ -65,6 +66,7 @@ public:
     void setApi(Api *api);
     void setBibleManager(BibleManager *bibleManager);
     void setNotesManager(NotesManager *notesManager);
+    void setBookmarksManager(BookmarksManager *bookmarksManager);
 
     Ui::BibleForm *m_ui;
     WebView *m_view;
@@ -158,6 +160,7 @@ private:
 
     BibleManager *m_bibleManager;
     NotesManager *m_notesManager;
+    BookmarksManager *m_bookmarksManager;
     bool active();
 
     TextRanges m_lastTextRanges;

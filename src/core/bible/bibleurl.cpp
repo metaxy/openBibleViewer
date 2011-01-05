@@ -265,3 +265,4 @@ QList<BibleUrlRange> BibleUrl::ranges() const
 {
     return m_ranges;
 }
+
