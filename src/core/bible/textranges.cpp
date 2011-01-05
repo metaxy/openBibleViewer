@@ -178,7 +178,17 @@ int TextRanges::maxVerseID(const int &bookID, const int &chapterID) const
 }
 QSet<int> TextRanges::verseIDs(const int &bookID, const int &chapterID) const
 {
-
+    QSet<int> ret;
+    foreach(const TextRange &range, m_ranges) {
+        if(bookID == range.bookID() && chapterID == range.chapterID()) {
+            QSet<int> ids;
+            foreach(const Verse &verse, range.verseList()) {
+                ids.insert(verse.verseID());
+            }
+            ret.unite(ids);
+        }
+    }
+    return ret;
 }
 
 bool TextRanges::contains(const int &bookID, const int &chapterID) const
