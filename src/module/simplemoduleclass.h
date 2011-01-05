@@ -35,6 +35,7 @@ public:
 
 protected:
     int m_moduleID;
+    Module *m_module;
     Settings *m_settings;
     Notes *m_notes;
     ModuleMap *m_map;

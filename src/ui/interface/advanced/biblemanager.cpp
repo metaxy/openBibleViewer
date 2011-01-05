@@ -150,6 +150,7 @@ void BibleManager::pharseUrl(const QString &url)
         if(!bibleUrl.fromString(url)) {
             return;
         }
+
         foreach(BibleUrlRange range, bibleUrl.ranges()) {
             ranges.addRanges(bibleUrlRangeToRanges(range));
         }
@@ -197,6 +198,7 @@ void BibleManager::showRanges(const Ranges &ranges, const BibleUrl &url)
     m_actions->updateBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
     m_actions->setCurrentBook(r.second.bookIDs());
     m_actions->setCurrentChapter(r.second.chapterIDs());
+    m_actions->setTitle(m_moduleManager->bible()->moduleTitle());
 }
 
 bool BibleManager::loadModuleDataByID(const int &moduleID)
@@ -250,6 +252,7 @@ void BibleManager::readBookByID(const int &id)
     }
     QApplication::restoreOverrideCursor();
     m_actions->updateChapters(m_moduleManager->bible()->chapterNames());
+    m_actions->setTitle(m_moduleManager->bible()->moduleTitle());
 }
 
 void BibleManager::showChapter(const int &chapterID, const int &verseID)

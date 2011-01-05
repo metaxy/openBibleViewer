@@ -63,6 +63,7 @@ void Actions::reloadActive()
 }
 void Actions::setTitle(const QString &title)
 {
+    //myDebug() << title;
     emit _setTitle(title);
 }
 

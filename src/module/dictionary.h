@@ -37,7 +37,7 @@ public:
      */
     QStringList getAllKeys() const;
 private:
-    Module *m_module;
+
     ZefaniaLex *m_zefaniaLex;
     BibleQuoteDict *m_bibleQuoteDict;
 };

@@ -99,7 +99,6 @@ private:
 
     BibleDisplaySettings *m_bibleDisplaySettings;
 
-    Module *m_module;
     BibleModule *m_bibleModule;
     TextRanges *m_lastTextRanges;
     Ranges m_ranges;
