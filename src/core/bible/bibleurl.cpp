@@ -249,7 +249,7 @@ bool BibleUrl::fromString(QString url)
                 const QString key = s.first();
                 const QString value = s.last();
                 if(key == "active") {
-                    range.setActiveVerse(key.toInt());
+                    range.setActiveVerse(value.toInt());
                 } else {
                     m_params.insert(key, value);
                 }
