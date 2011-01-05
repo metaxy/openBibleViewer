@@ -21,8 +21,8 @@ BiblePassageDialog::BiblePassageDialog(QWidget *parent) :
     m_ui(new Ui::BiblePassageDialog)
 {
     m_ui->setupUi(this);
-    connect(m_ui->pushButton_save, SIGNAL(clicked()), this, SLOT(save()));
-    connect(m_ui->pushButton_cancel, SIGNAL(clicked()), this, SLOT(close()));
+    connect(m_ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
+    connect(m_ui->buttonBox, SIGNAL(rejected()), this, SLOT(close()));
     connect(m_ui->comboBox_bibles, SIGNAL(currentIndexChanged(int)), this, SLOT(indexChanged(int)));
 }
 

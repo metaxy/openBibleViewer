@@ -66,6 +66,7 @@ signals:
 
     void _reloadBible();
     void _reshowCurrentRange();
+    void _newSubWindowIfEmpty();
 
 public slots:
     /**
@@ -102,6 +103,7 @@ public slots:
 
     void setTabbedView();
     void setSubWindowView();
+    void newSubWindowIfEmpty();
 
     void historySetUrl(const QString &url);
     /**

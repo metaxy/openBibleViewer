@@ -62,6 +62,7 @@ public slots:
     void setTitle(const QString &title);
 
     void reloadChapter(bool full);
+    void newSubWindowIfEmpty();
 
 
 private:

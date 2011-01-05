@@ -131,6 +131,7 @@ void BibleManager::pharseUrl(const BibleUrl &url)
 {
     DEBUG_FUNC_NAME;
     myDebug() << "url = " << url.toString();
+    m_actions->newSubWindowIfEmpty();
     Ranges ranges;
     foreach(BibleUrlRange range, url.ranges()) {
         ranges.addRanges(bibleUrlRangeToRanges(range));
@@ -145,6 +146,7 @@ void BibleManager::pharseUrl(const QString &url)
     const QString bq = "go";
     myDebug() << "url = " << url;
     if(url.startsWith(bible)) {
+        m_actions->newSubWindowIfEmpty();
         BibleUrl bibleUrl;
         Ranges ranges;
         if(!bibleUrl.fromString(url)) {
@@ -265,6 +267,8 @@ void BibleManager::showChapter(const int &chapterID, const int &verseID)
 
 void BibleManager::nextChapter()
 {
+    if(!m_moduleManager->bibleLoaded())
+        return;
     if(m_moduleManager->bible()->lastTextRanges()->minChapterID() < m_moduleManager->bible()->chaptersCount() - 1) {
         BibleUrl bibleUrl;
         BibleUrlRange range;
@@ -288,6 +292,8 @@ void BibleManager::nextChapter()
 
 void BibleManager::previousChapter()
 {
+    if(!m_moduleManager->bibleLoaded())
+        return;
     if(m_moduleManager->bible()->lastTextRanges()->minChapterID() > 0) {
         BibleUrl bibleUrl;
         BibleUrlRange range;
@@ -335,6 +341,8 @@ void BibleManager::loadBibleList(bool hadBible)
 void BibleManager::reshowCurrentRange()
 {
     DEBUG_FUNC_NAME
+    if(!m_moduleManager->bibleLoaded())
+        return;
     m_actions->get(*m_moduleManager->bibleList()->lastBibleUrl());
 }
 void BibleManager::reloadBible()

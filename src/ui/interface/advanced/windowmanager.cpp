@@ -52,6 +52,12 @@ void WindowManager::init()
     connect(m_actions, SIGNAL(_setTitle(QString)), this, SLOT(setTitle(QString)));
     connect(m_actions, SIGNAL(_reloadActive()), this, SLOT(reloadActive()));
     connect(m_actions, SIGNAL(_reloadChapter(bool)), this, SLOT(reloadChapter(bool)));
+    connect(m_actions, SIGNAL(_newSubWindowIfEmpty()), this, SLOT(newSubWindowIfEmpty()));
+}
+void WindowManager::newSubWindowIfEmpty()
+{
+    if(usableWindowList().isEmpty())
+        newSubWindow();
 }
 
 void WindowManager::newSubWindow(bool doAutoLayout)

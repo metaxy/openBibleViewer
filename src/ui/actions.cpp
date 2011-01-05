@@ -127,3 +127,7 @@ void Actions::reshowCurrentRange()
 {
     emit _reshowCurrentRange();
 }
+void Actions::newSubWindowIfEmpty()
+{
+    emit _newSubWindowIfEmpty();
+}

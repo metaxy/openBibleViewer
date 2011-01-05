@@ -19,7 +19,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
     m_ui(new Ui::AboutDialog)
 {
     m_ui->setupUi(this);
-    connect(m_ui->pushButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(m_ui->buttonBox, SIGNAL(accepted()), this, SLOT(close()));
 }
 
 AboutDialog::~AboutDialog()
