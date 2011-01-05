@@ -68,7 +68,8 @@ QString BibleUrl::toString() const
             ret += "last";
         }
         if(range.startBook() != range.endBook() ||
-                (range.startBook() == range.endBook() && range.startBook() == BibleUrlRange::LoadBookByID && range.startBookID() != range.endBookID())) {
+                (range.startBook() == range.endBook() && range.startBook() == BibleUrlRange::LoadBookByID && range.startBookID() != range.endBookID() && range.endBookID() != -1)
+                && range.endBook() != BibleUrlRange::LoadBookNotSet) {
             ret += "-";
             if(range.endBook() == BibleUrlRange::LoadBookByID) {
                 ret += QString::number(range.endBookID());
@@ -93,7 +94,8 @@ QString BibleUrl::toString() const
             ret += "last";
         }
         if(range.startChapter() != range.endChapter() ||
-                (range.startChapter() == range.endChapter() && range.startChapter() == BibleUrlRange::LoadChapterByID && range.startChapterID() != range.endChapterID())) {
+                (range.startChapter() == range.endChapter() && range.startChapter() == BibleUrlRange::LoadChapterByID && range.startChapterID() != range.endChapterID() && range.endChapterID() != -1)
+                && range.endChapter() != BibleUrlRange::LoadChapterNotSet) {
             ret += "-";
             if(range.endChapter() == BibleUrlRange::LoadChapterByID) {
                 ret += QString::number(range.endChapterID());
@@ -117,7 +119,8 @@ QString BibleUrl::toString() const
             ret += "last";
         }
         if(range.startVerse() != range.endVerse() ||
-                (range.startVerse() == range.endVerse() && range.startVerse() == BibleUrlRange::LoadVerseByID && range.startVerseID() != range.endVerseID())) {
+                (range.startVerse() == range.endVerse() && range.startVerse() == BibleUrlRange::LoadVerseByID && range.startVerseID() != range.endVerseID() && range.endVerseID() != -1)
+                && range.endVerse() != BibleUrlRange::LoadVerseNotSet) {
             ret += "-";
             if(range.endVerse() == BibleUrlRange::LoadVerseByID) {
                 ret += QString::number(range.endVerseID());

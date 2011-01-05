@@ -20,25 +20,29 @@ public:
     BibleUrlRange();
     enum BibleLoadParams {
         LoadBibleByID,
-        LoadCurrentBible
+        LoadCurrentBible,
+        LoadBibleNotSet
     };
     enum BookLoadParams {
         LoadBookByID,
         LoadCurrentBook,
         LoadFirstBook,
-        LoadLastBook
+        LoadLastBook,
+        LoadBookNotSet
     };
     enum ChapterLoadParams {
         LoadChapterByID,
         LoadCurrentChapter,
         LoadFirstChapter,
-        LoadLastChapter
+        LoadLastChapter,
+        LoadChapterNotSet
     };
     enum VerseLoadParams {
         LoadVerseByID,
         LoadCurrentVerse,
         LoadFirstVerse,
-        LoadLastVerse
+        LoadLastVerse,
+        LoadVerseNotSet
     };
 
     /**

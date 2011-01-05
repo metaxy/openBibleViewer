@@ -22,12 +22,12 @@ BibleUrlRange::BibleUrlRange()
     m_endChapterID = -1;
     m_startVerseID = -1;
     m_endVerseID = -1;
-    m_startBookParam = LoadBookByID;
-    m_endBookParam = LoadBookByID;
-    m_startChapterParam = LoadChapterByID;
-    m_endChapterParam = LoadChapterByID;
-    m_startVerseParam = LoadVerseByID;
-    m_endVerseParam = LoadVerseByID;
+    m_startBookParam = LoadBookNotSet;
+    m_endBookParam = LoadBookNotSet;
+    m_startChapterParam = LoadChapterNotSet;
+    m_endChapterParam = LoadChapterNotSet;
+    m_startVerseParam = LoadVerseNotSet;
+    m_endVerseParam = LoadVerseNotSet;
 
 
 }
