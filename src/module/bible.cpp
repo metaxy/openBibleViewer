@@ -44,73 +44,70 @@ bool Bible::loaded()
 
 int Bible::loadModuleData(const int &moduleID)
 {
-    //DEBUG_FUNC_NAME
-    m_module = m_map->m_map.value(moduleID, 0);
+    DEBUG_FUNC_NAME
 
+    m_module = m_map->m_map.value(moduleID, 0);
     //not valid module
-    if(moduleID < 0 || !m_module) {
+    if(moduleID < 0 || !m_module ) {
         myWarning() << "invalid bibleID = " << moduleID;
         return 1;
     }
+    if(m_module->moduleType() == Module::NoneType || m_module->moduleClass() != Module::BibleModuleClass) {
+        myDebug() << "invalid type " << m_module->moduleType();
+        return 2;
+    }
     m_moduleID = moduleID;
-    m_module->setModuleID(moduleID); //todo: is it nescciary?
     m_book.clear();
-
-    switch(m_module->moduleType()) {
-    case Module::BibleQuoteModule: {
+    ModuleSettings m = m_settings->getModuleSettings(m_moduleID);
+    m_bookPath.clear();
+    m_modulePath.clear();
+    if(m_module->moduleType() == Module::BibleQuoteModule) {
         if(m_module->m_bibleModule) {
             m_bibleModule = m_module->m_bibleModule;
         } else {
             m_bibleModule = new BibleQuote();
             m_module->m_bibleModule = m_bibleModule;
         }
-        ModuleSettings m = m_settings->getModuleSettings(m_moduleID);
+
         m_bibleModule->setSettings(m_settings);
         m_bibleModule->loadBibleData(m_moduleID, m_module->path());
-        if(m.moduleName.isEmpty())
-            m_moduleTitle = m_bibleModule->moduleName(false);
-        else
-            m_moduleTitle = m.moduleName;
-        m_moduleShortTitle = m_bibleModule->moduleName(true);
-
-        bookCount = m_bibleModule->bookCount();
-        m_names = m_bibleModule->getBookNames();
 
         m_bookPath = ((BibleQuote *)m_bibleModule)->m_bookPath;
         m_modulePath = m_bibleModule->modulePath();
-        //ModuleCache
-        m_settings->setTitle(m_module->path(), m_moduleTitle);
-        m_settings->setBookCount(m_module->path(), bookCount);
-        m_settings->setBookNames(m_module->path(), m_names.m_bookFullName);
-
-        break;
     }
-    case Module::ZefaniaBibleModule: case Module::TheWordBibleModule:{
-        if(m_module->m_bibleModule) {
-            m_bibleModule = m_module->m_bibleModule;
-        } else {
-            m_bibleModule = new ZefaniaBible();
-            m_module->m_bibleModule = m_bibleModule;
+    else if(m_module->moduleType() == Module::ZefaniaBibleModule || m_module->moduleType() == Module::TheWordBibleModule) {
+        if(m_module->moduleType() == Module::ZefaniaBibleModule) {
+            if(m_module->m_bibleModule) {
+                m_bibleModule = m_module->m_bibleModule;
+            } else {
+                m_bibleModule = new ZefaniaBible();
+                m_module->m_bibleModule = m_bibleModule;
+            }
+        } else if(m_module->moduleType() == Module::TheWordBibleModule) {
+            if(m_module->m_bibleModule) {
+                m_bibleModule = m_module->m_bibleModule;
+            } else {
+                m_bibleModule = new TheWordBible();
+                m_module->m_bibleModule = m_bibleModule;
+            }
+
         }
-        ModuleSettings m = m_settings->getModuleSettings(m_moduleID);
         m_bibleModule->setSettings(m_settings);
         m_bibleModule->loadBibleData(m_moduleID, m_module->path());
+    }
+
+    bookCount = m_bibleModule->bookCount();
+    m_names = m_bibleModule->getBookNames();
+    if(m.moduleName.isEmpty())
+        m_moduleTitle = m_bibleModule->moduleName(false);
+    else
         m_moduleTitle = m.moduleName;
+    m_moduleShortTitle = m_bibleModule->moduleName(true);
 
-        bookCount = m_bibleModule->bookCount();
-        m_names = m_bibleModule->getBookNames();
-        m_modulePath = m_bibleModule->modulePath();
-        //ModuleCache
-        m_settings->setTitle(m_module->path(), m_moduleTitle);
-        m_settings->setBookCount(m_module->path(), bookCount);
-        m_settings->setBookNames(m_module->path(), m_names.m_bookFullName);
+    m_settings->setTitle(m_module->path(), m_moduleTitle);
+    m_settings->setBookCount(m_module->path(), bookCount);
+    m_settings->setBookNames(m_module->path(), m_names.m_bookFullName);
 
-        break;
-    }
-    default:
-        return 1;
-    }
-    myDebug() << "loaded bible";
     m_loaded = true;
     return 0;
     // CALLGRIND_STOP_INSTRUMENTATION;
@@ -120,10 +117,11 @@ int Bible::readBook(const int &id)
 {
     DEBUG_FUNC_NAME
     m_bookID = id;
+    m_book.clear();
+    m_chapterNames.clear();
+
     switch(m_module->moduleType()) {
     case Module::BibleQuoteModule: {
-        m_book.clear();
-        m_chapterNames.clear();
         if(id < m_bookPath.size()) {
             int r = m_bibleModule->readBook(id);
             if(r != 0)
@@ -132,8 +130,6 @@ int Bible::readBook(const int &id)
             myWarning() << "index out of range bookPath.size() = " << m_bookPath.size() << " , id = " << id;
             return 1;
         }
-        m_book = m_bibleModule->book();
-
         int cc = bookCount[id];
         int start = 1;
         if(((BibleQuote *)m_bibleModule)->m_chapterZero) {
@@ -145,11 +141,7 @@ int Bible::readBook(const int &id)
         break;
     }
     case Module::ZefaniaBibleModule: case Module::TheWordBibleModule: {
-        myDebug() << "read zefania bible with id = " << id;
-        m_book.clear();
-        m_chapterNames.clear();
         m_bibleModule->readBook(id);
-        m_book = m_bibleModule->book();
         for(int i = 1; i <= m_bibleModule->bookCount().value(id, 0); ++i) {
             m_chapterNames << QString::number(i);
         }
@@ -158,6 +150,7 @@ int Bible::readBook(const int &id)
     default:
         return 1;
     }
+    m_book = m_bibleModule->book();
     //myDebug() << "read book";
     return 0;
 }

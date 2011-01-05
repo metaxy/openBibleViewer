@@ -305,7 +305,7 @@ void WindowManager::closeSubWindow()
 
 int WindowManager::closingWindow()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if(!m_enableReload)
         return 1;
     if(m_area->subWindowList().isEmpty()) {
@@ -324,7 +324,7 @@ int WindowManager::closingWindow()
 
 int WindowManager::reloadWindow(QMdiSubWindow * window)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if(!m_enableReload || window == NULL) {
         myDebug() << "reload is not enabled or window == NULL";
         return 1;
@@ -349,7 +349,7 @@ void WindowManager::mdiAreaResized()
 }
 void WindowManager::reloadActive()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     reloadWindow(activeSubWindow());
 }
 
@@ -371,13 +371,13 @@ void WindowManager::zoomOut()
 }
 void WindowManager::disable()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_enableReload = false;
 }
 
 void WindowManager::enable()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_enableReload = true;
 }
 void WindowManager::setSubWindowView()

@@ -445,7 +445,7 @@ QList<int> ModuleManager::getBibleIDs()
 void ModuleManager::checkCache(const int &moduleID)
 {
     Module *m = m_moduleMap->m_map.value(moduleID);
-    if(!m_settings->m_moduleCache.keys().contains(m->path())) {
+    if(m->moduleClass() == Module::BibleModuleClass && !m_settings->m_moduleCache.keys().contains(m->path())) {
         Bible *b = new Bible();
         initBible(b);
         b->setModuleType(m->moduleType());

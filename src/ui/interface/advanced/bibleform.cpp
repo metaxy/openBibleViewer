@@ -38,8 +38,6 @@ BibleForm::BibleForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::BibleForm)
 
     m_api = 0;
     setButtons();
-
-
 }
 void BibleForm::setID(const int &id)
 {
@@ -325,7 +323,7 @@ void BibleForm::scrollToAnchor(const QString &anchor)
 }
 void BibleForm::showText(const QString &text)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     //myDebug() << " windowID = " << m_id;
     QString cssFile = m_settings->getModuleSettings(m_moduleManager->bible()->moduleID()).styleSheet;
     if(cssFile.isEmpty())
@@ -383,7 +381,7 @@ void BibleForm::forwardShowTextRanges(const QString &html, const TextRanges &ran
 
 void BibleForm::showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     showText(html);
     m_lastTextRanges = range;
     m_lastUrl = url;
@@ -512,7 +510,7 @@ void BibleForm::forwardSetCurrentChapter(const QSet<int> &chapterID)
 
 void BibleForm::forwardShowText(const QString &text)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if(!active())
         return;
     showText(text);
@@ -720,7 +718,7 @@ void BibleForm::copyWholeVerse(void)
 
 void BibleForm::debugger()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_view->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
     if(m_inspector == 0) {
         m_inspector = new QWebInspector;
@@ -799,7 +797,7 @@ void BibleForm::newUnderlineMark()
 
 void BibleForm::removeMark()
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     if(!m_moduleManager->bibleLoaded()) {
         return;
     }

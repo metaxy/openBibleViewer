@@ -22,7 +22,7 @@ BibleModule::BibleModule()
 }
 void BibleModule::setSettings(Settings *settings)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_settings = settings;
 }
 int BibleModule::readBook(const int &id)
