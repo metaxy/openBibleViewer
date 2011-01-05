@@ -255,7 +255,7 @@ void NotesEditor::createLink()
 
     insertLinkDialog->init();
     insertLinkDialog->setCurrent(m_moduleManager->bible()->moduleID(), m_moduleManager->bible()->modulePath(),
-                                 m_moduleManager->bible()->bookID(), m_moduleManager->bible()->chapterID() + 1, 1);
+                                 m_moduleManager->bible()->lastTextRanges()->minBookID(), m_moduleManager->bible()->lastTextRanges()->minChapterID() + 1, 1);
     insertLinkDialog->show();
     insertLinkDialog->exec();
 }

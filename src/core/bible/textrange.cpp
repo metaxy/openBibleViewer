@@ -72,11 +72,11 @@ void TextRange::setChapterID(const int &chapterID)
 {
     m_chapterID = chapterID;
 }
-int TextRange::bookID()
+int TextRange::bookID() const
 {
     return m_bookID;
 }
-int TextRange::chapterID()
+int TextRange::chapterID() const
 {
     return m_chapterID;
 }

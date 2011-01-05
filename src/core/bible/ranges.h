@@ -22,6 +22,7 @@ public:
     void addRange(Range range);
     void addRanges(Ranges range);
     QList<Range> getList() const;
+
 private:
     QList<Range> m_ranges;
 };

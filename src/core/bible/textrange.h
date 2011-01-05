@@ -35,8 +35,8 @@ public:
     void setBookID(const int &bookID);
     void setChapterID(const int &chapterID);
 
-    int bookID();
-    int chapterID();
+    int bookID() const;
+    int chapterID() const;
 private:
     QMap<int, Verse> m_verse;
     QString m_title;

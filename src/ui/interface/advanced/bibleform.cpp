@@ -305,7 +305,7 @@ void BibleForm::activated()
     m_actions->updateBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
     if(m_lastTextRanges.verseCount() != 0) {
         m_actions->setCurrentChapter(m_lastTextRanges.chapterIDs());
-        m_actions->setCurrentBook(m_lastTextRanges.booksIDs());
+        m_actions->setCurrentBook(m_lastTextRanges.bookIDs());
     }
     m_moduleManager->bibleList()->setLastTextRanges(&m_lastTextRanges);
     m_moduleManager->bibleList()->setLastUrl(&m_lastUrl);

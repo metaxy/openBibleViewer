@@ -213,8 +213,8 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             bookID = 0;
     } else if(range.book() == RangeEnum::CurrentBook) {
 
-        if(m_lastTextRanges != 0 && !m_lastTextRanges->isEmpty() && !m_lastTextRanges->booksIDs().isEmpty()) {
-            bookID = *m_lastTextRanges->booksIDs().begin();
+        if(m_lastTextRanges != 0 && !m_lastTextRanges->isEmpty() && !m_lastTextRanges->bookIDs().isEmpty()) {
+            bookID = *m_lastTextRanges->bookIDs().begin();
         } else {
             foreach(int id, bookIDs()) {
                 if(id < bookID || bookID == -1) {
@@ -569,7 +569,7 @@ int Bible::verseID() const
 {
     return m_verseID;
 }
-SearchQuery Bible::lastSearchQuery()
+SearchQuery Bible::lastSearchQuery() const
 {
     return m_lastSearchQuery;
 }
@@ -621,7 +621,16 @@ void Bible::setLastTextRanges(TextRanges *textRanges)
 {
     m_lastTextRanges = textRanges;
 }
-TextRanges *Bible::lastTextRanges()
+TextRanges *Bible::lastTextRanges() const
 {
     return m_lastTextRanges;
+}
+void Bible::setLastRanges(const Ranges &ranges)
+{
+    m_ranges = ranges;
+}
+
+Ranges Bible::lastRanges() const
+{
+    return m_ranges;
 }

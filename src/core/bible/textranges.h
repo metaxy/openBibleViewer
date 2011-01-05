@@ -25,11 +25,31 @@ public:
     QList<TextRange> textRanges() const;
     QString join(const QString &seperator) const;
 
-    QSet<int> booksIDs();
-    QSet<int> chapterIDs();
     Verse getVerse(const int &bookID, const int &chapterID, const int &verseID);
     int verseCount() const;
     bool isEmpty();
+
+    int minBookID() const;
+    int maxBookID() const;
+    QSet<int> bookIDs() const;
+
+    int minChapterID() const;
+    int maxChapterID() const;
+    QSet<int> chapterIDs() const;
+
+    int minChapterID(const int &bookID) const;
+    int maxChapterID(const int &bookID) const;
+    QSet<int> chapterIDs(const int &bookID) const;
+
+    int minVerseID() const;
+    int maxVerseID() const;
+    QSet<int> verseIDs() const;
+
+    int minVerseID(const int &bookID, const int &chapterID) const;
+    int maxVerseID(const int &bookID, const int &chapterID) const;
+    QSet<int> verseIDs(const int &bookID, const int &chapterID) const;
+
+    bool contains(const int &bookID, const int &chapterID) const;
 private:
     QList<TextRange> m_ranges;
 };

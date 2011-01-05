@@ -75,11 +75,14 @@ public:
     QList<int> bookIDs();
     QStringList bookPath();
     QStringList chapterNames();
-    SearchQuery lastSearchQuery();
+    SearchQuery lastSearchQuery() const;
 
     bool loaded();
     void setLastTextRanges(TextRanges *textRanges);
-    TextRanges *lastTextRanges();
+    TextRanges *lastTextRanges() const;
+
+    void setLastRanges(const Ranges &ranges);
+    Ranges lastRanges() const;
 private:
     int m_bookID;
     int m_chapterID;
@@ -99,6 +102,7 @@ private:
     Module *m_module;
     BibleModule *m_bibleModule;
     TextRanges *m_lastTextRanges;
+    Ranges m_ranges;
     bool m_loaded;
     SearchQuery m_lastSearchQuery;
     Book m_book;

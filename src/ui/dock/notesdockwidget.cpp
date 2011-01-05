@@ -72,9 +72,7 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
     urlConverter.pharse();
     urlConverter.convert();
 
-    if(urlConverter.m_moduleID == m_moduleManager->bible()->moduleID() &&
-            urlConverter.m_bookID == m_moduleManager->bible()->bookID() &&
-            urlConverter.m_chapterID == m_moduleManager->bible()->chapterID()) {
+    if(m_moduleManager->bible()->moduleID() == urlConverter.m_moduleID && m_moduleManager->bible()->lastTextRanges()->contains(urlConverter.m_bookID, urlConverter.m_chapterID)) {
         m_actions->reloadChapter();
     }
 
@@ -90,9 +88,7 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     urlConverter.pharse();
     urlConverter.convert();
 
-    if(urlConverter.m_moduleID == m_moduleManager->bible()->moduleID() &&
-            urlConverter.m_bookID == m_moduleManager->bible()->bookID() &&
-            urlConverter.m_chapterID == m_moduleManager->bible()->chapterID()) {
+    if(m_moduleManager->bible()->moduleID() == urlConverter.m_moduleID && m_moduleManager->bible()->lastTextRanges()->contains(urlConverter.m_bookID, urlConverter.m_chapterID)) {
         m_actions->reloadChapter();
     }
 }

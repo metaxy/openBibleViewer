@@ -89,7 +89,7 @@ QString BibleList::readChapter(const int &chapterID, const int &verseID) const
     Ranges ranges;
     Range f;
     //myDebug() << "bookID = " << bible()->bookID() << " chapterID = " << chapterID;
-    f.setBook(bible()->bookID());
+    f.setBook(bible()->lastTextRanges()->minBookID());
     f.setChapter(chapterID);
     f.setStartVerse(RangeEnum::FirstVerse);
     f.setEndVerse(RangeEnum::LastVerse);
@@ -103,8 +103,12 @@ std::pair<QString, TextRanges> BibleList::readRanges(const Ranges &ranges) const
 
     if(m_bibles.size() == 1) {
         std::pair<QString, TextRanges> ret;
-        ret.second = m_bibles[m_currentBible]->readRanges(ranges);
-        ret.first = ret.second.join("");
+        Bible *b = m_bibles.value(m_currentBible, 0);
+        if(b) {
+            ret.second = b->readRanges(ranges);
+            ret.first = ret.second.join("");
+        }
+
         return ret;
     } else if(m_bibles.size() > 1) {
         std::pair<QString, TextRanges> ret;
