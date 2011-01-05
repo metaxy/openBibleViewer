@@ -67,9 +67,8 @@ QString BibleUrl::toString() const
         } else if(range.startBook() == BibleUrlRange::LoadLastBook) {
             ret += "last";
         }
-        if(range.startBook() != range.endBook() ||
-                (range.startBook() == range.endBook() && range.startBook() == BibleUrlRange::LoadBookByID && range.startBookID() != range.endBookID() && range.endBookID() != -1)
-                && range.endBook() != BibleUrlRange::LoadBookNotSet) {
+        if((range.startBook() != range.endBook() && range.endBook() != BibleUrlRange::LoadBookNotSet) ||
+                (range.startBook() == range.endBook() && range.startBook() == BibleUrlRange::LoadBookByID && range.startBookID() != range.endBookID() && range.endBookID() != -1)) {
             ret += "-";
             if(range.endBook() == BibleUrlRange::LoadBookByID) {
                 ret += QString::number(range.endBookID());
@@ -93,9 +92,8 @@ QString BibleUrl::toString() const
         } else if(range.startChapter() == BibleUrlRange::LoadLastChapter) {
             ret += "last";
         }
-        if(range.startChapter() != range.endChapter() ||
-                (range.startChapter() == range.endChapter() && range.startChapter() == BibleUrlRange::LoadChapterByID && range.startChapterID() != range.endChapterID() && range.endChapterID() != -1)
-                && range.endChapter() != BibleUrlRange::LoadChapterNotSet) {
+        if((range.startChapter() != range.endChapter() && range.endChapter() != BibleUrlRange::LoadChapterNotSet) ||
+                (range.startChapter() == range.endChapter() && range.startChapter() == BibleUrlRange::LoadChapterByID && range.startChapterID() != range.endChapterID() && range.endChapterID() != -1)) {
             ret += "-";
             if(range.endChapter() == BibleUrlRange::LoadChapterByID) {
                 ret += QString::number(range.endChapterID());
@@ -118,9 +116,8 @@ QString BibleUrl::toString() const
         } else if(range.startVerse() == BibleUrlRange::LoadLastVerse) {
             ret += "last";
         }
-        if(range.startVerse() != range.endVerse() ||
-                (range.startVerse() == range.endVerse() && range.startVerse() == BibleUrlRange::LoadVerseByID && range.startVerseID() != range.endVerseID() && range.endVerseID() != -1)
-                && range.endVerse() != BibleUrlRange::LoadVerseNotSet) {
+        if((range.startVerse() != range.endVerse() && range.endVerse() != BibleUrlRange::LoadVerseNotSet) ||
+                (range.startVerse() == range.endVerse() && range.startVerse() == BibleUrlRange::LoadVerseByID && range.startVerseID() != range.endVerseID() && range.endVerseID() != -1)) {
             ret += "-";
             if(range.endVerse() == BibleUrlRange::LoadVerseByID) {
                 ret += QString::number(range.endVerseID());
