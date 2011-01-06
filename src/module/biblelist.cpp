@@ -107,7 +107,15 @@ std::pair<QString, TextRanges> BibleList::readRanges(const Ranges &ranges) const
         if(b) {
             ret.second = b->readRanges(ranges);
             //todo: not just simple join but add titles
-            ret.first = ret.second.join("");
+            if(ret.second.textRanges().size() == 1)
+                ret.first = ret.second.join("");
+            else {
+                foreach(const TextRange &range, ret.second.textRanges()) {
+                    //todo: use in future range.title()
+                    ret.first += "<h2 class='bibleTitle'> " + b->bookName(range.bookID(),true) + " " + QString::number(range.chapterID()+1) + "</h2>\n";
+                    ret.first += range.join("");
+                }
+            }
         }
 
         return ret;
