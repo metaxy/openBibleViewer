@@ -194,7 +194,7 @@ std::pair<QString, TextRanges> BibleList::readRanges(const Ranges &ranges) const
                 }
             }
             if(def.textRanges().size() != 1)
-                out += "<tr><td class='rangeTitle' colspan='"+QString::number(rMaxCol)+"'>" + defBible->bookName(textRange.bookID()) + " " + QString::number(textRange.chapterID()+1) + "</td></tr>\n";
+                out += "<tr><td align='center' class='rangeTitle' colspan='"+QString::number(rMaxCol)+"'>" + defBible->bookName(textRange.bookID()) + " " + QString::number(textRange.chapterID()+1) + "</td></tr>\n";
 
             QMapIterator<int, Verse> mapIt(textRange.verseMap());
             while(mapIt.hasNext()) {
