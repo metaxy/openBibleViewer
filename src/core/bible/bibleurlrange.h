@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BIBLEURLRANGE_H
 #define BIBLEURLRANGE_H
-
+#include <QtCore/QString>
 class BibleUrlRange
 {
 public:
@@ -21,7 +21,8 @@ public:
     enum BibleLoadParams {
         LoadBibleByID,
         LoadCurrentBible,
-        LoadBibleNotSet
+        LoadBibleNotSet,
+        LoadBibleByUID
     };
     enum BookLoadParams {
         LoadBookByID,
@@ -53,6 +54,7 @@ public:
      * Set how to load the bible
      */
     void setBible(const BibleLoadParams &param);
+    void setBible(const QString &uid);
 
     /**
      * If set bible() == LoadBibleByID then it is the id of bible
@@ -63,6 +65,7 @@ public:
      * Returns how to load the bible
      */
     BibleLoadParams bible() const;
+    QString bibleUID() const;
 
     void setBook(const int &bookID);
     void setBook(const BookLoadParams &param);
@@ -108,6 +111,7 @@ public:
 private:
     int m_bibleID;
     BibleLoadParams m_bibleParam;
+    QString m_bibleUID;
 
     int m_startBookID;
     int m_endBookID;

@@ -109,7 +109,6 @@ private:
     Book m_book;
 
     QString toUniformHtml(QString string);
-
 };
 
 #endif // BIBLE_H

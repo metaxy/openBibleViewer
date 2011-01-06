@@ -46,15 +46,19 @@ void BibleUrl::addRange(const BibleUrlRange &range)
 QString BibleUrl::toString() const
 {
     QString ret = "";
+    int c = 0;
     foreach(const BibleUrlRange range, m_ranges) {
         if(!ret.isEmpty())
             ret += "|";//seperator
-        ret += "bible://";
+        else
+            ret += "bible://";
 
         if(range.bible() == BibleUrlRange::LoadBibleByID) {
             ret += QString::number(range.bibleID());
         } else if(range.bible() == BibleUrlRange::LoadCurrentBible) {
             ret += "current";
+        } else if(range.bible() == BibleUrlRange::LoadBibleByUID) {
+            ret += "uid=" + range.bibleUID();
         }
         ret += "/";
         //Book
@@ -148,121 +152,129 @@ QString BibleUrl::toString() const
 bool BibleUrl::fromString(QString url)
 {
     m_ranges.clear();
-    BibleUrlRange range;
+
     //bible://bibleID/bookID,chapterID,verseID,otherStuf=otherValue
     if(!url.startsWith("bible://")) {
         return false;
     }
     url.remove(0, 8); // remove bible://
-
-    const QStringList slash = url.split("/");
-    if(slash.size() != 2) {//there should be only two
-        return false;
-    }
-    const QString bibleID = slash.at(0);
-    if(bibleID == "current") {
-        range.setBible(BibleUrlRange::LoadCurrentBible);
-    } else {
-        range.setBible(bibleID.toInt());
-    }
-    const QString other = slash.at(1);
-    const QStringList params = other.split(",");
-    for(int i = 0; i < params.size(); ++i) {
-        QString p = params.at(i);
-        QString p2;
-        if(i == 0) {//Book
-            if(p.contains("-")) {
-                QStringList tmp = p.split("-");
-                p = tmp.first();
-                p2 = tmp.last();
-            }
-            if(p == "current") {
-                range.setStartBook(BibleUrlRange::LoadCurrentBook);
-            } else if(p == "first") {
-                range.setStartBook(BibleUrlRange::LoadFirstBook);
-            } else if(p == "last") {
-                range.setStartBook(BibleUrlRange::LoadLastBook);
-            } else {
-                range.setStartBook(p.toInt());
-            }
-            if(p2 == "current") {
-                range.setEndBook(BibleUrlRange::LoadCurrentBook);
-            } else if(p2 == "first") {
-                range.setEndBook(BibleUrlRange::LoadFirstBook);
-            } else if(p2 == "last") {
-                range.setEndBook(BibleUrlRange::LoadLastBook);
-            } else if(!p2.isEmpty()) {
-                range.setEndBook(p2.toInt());
-            }
-        } else if(i == 1) {
-            if(p.contains("-")) {
-                QStringList tmp = p.split("-");
-                p = tmp.first();
-                p2 = tmp.last();
-            }
-            if(p == "current") {
-                range.setStartChapter(BibleUrlRange::LoadCurrentChapter);
-            } else if(p == "first") {
-                range.setStartChapter(BibleUrlRange::LoadFirstChapter);
-            } else if(p == "last") {
-                range.setStartChapter(BibleUrlRange::LoadLastChapter);
-            } else {
-                range.setStartChapter(p.toInt());
-            }
-            if(p2 == "current") {
-                range.setEndChapter(BibleUrlRange::LoadCurrentChapter);
-            } else if(p2 == "first") {
-                range.setEndChapter(BibleUrlRange::LoadFirstChapter);
-            } else if(p2 == "last") {
-                range.setEndChapter(BibleUrlRange::LoadLastChapter);
-            } else if(!p2.isEmpty()) {
-                range.setEndChapter(p2.toInt());
-            }
-        } else if(i == 2) {
-            if(p.contains("-")) {
-                QStringList tmp = p.split("-");
-                p = tmp.first();
-                p2 = tmp.last();
-            }
-            if(p == "current") {
-                range.setStartVerse(BibleUrlRange::LoadCurrentVerse);
-            } else if(p == "first") {
-                range.setStartVerse(BibleUrlRange::LoadFirstVerse);
-            } else if(p == "last") {
-                range.setStartVerse(BibleUrlRange::LoadLastVerse);
-            } else {
-                range.setStartVerse(p.toInt());
-            }
-
-            if(p2 == "current") {
-                range.setEndVerse(BibleUrlRange::LoadCurrentVerse);
-            } else if(p2 == "first") {
-                range.setEndVerse(BibleUrlRange::LoadFirstVerse);
-            } else if(p2 == "last") {
-                range.setEndVerse(BibleUrlRange::LoadLastVerse);
-            } else if(!p2.isEmpty()) {
-                range.setEndVerse(p2.toInt());
-            }
-        } else {
-            if(p.contains("=")) {
-                const QStringList s = p.split("=");
-                const QString key = s.first();
-                const QString value = s.last();
-                if(key == "active") {
-                    range.setActiveVerse(value.toInt());
+    QStringList urls = url.split("|");
+    foreach(const QString nUrl, urls) {
+        BibleUrlRange range;
+        const QStringList slash = nUrl.split("/");
+        if(slash.size() != 2) {//there should be only two
+            return false;
+        }
+        QString bibleID = slash.at(0);
+        if(bibleID == "current") {
+            range.setBible(BibleUrlRange::LoadCurrentBible);
+        } else if(bibleID.startsWith("uid=")) {
+            range.setBible(bibleID.remove(0,4));
+        }else {
+            range.setBible(bibleID.toInt());
+        }
+        const QString other = slash.at(1);
+        const QStringList params = other.split(",");
+        for(int i = 0; i < params.size(); ++i) {
+            QString p = params.at(i);
+            QString p2;
+            if(i == 0) {//Book
+                if(p.contains("-")) {
+                    QStringList tmp = p.split("-");
+                    p = tmp.first();
+                    p2 = tmp.last();
+                }
+                if(p == "current") {
+                    range.setStartBook(BibleUrlRange::LoadCurrentBook);
+                } else if(p == "first") {
+                    range.setStartBook(BibleUrlRange::LoadFirstBook);
+                } else if(p == "last") {
+                    range.setStartBook(BibleUrlRange::LoadLastBook);
                 } else {
-                    m_params.insert(key, value);
+                    range.setStartBook(p.toInt());
+                }
+                if(p2 == "current") {
+                    range.setEndBook(BibleUrlRange::LoadCurrentBook);
+                } else if(p2 == "first") {
+                    range.setEndBook(BibleUrlRange::LoadFirstBook);
+                } else if(p2 == "last") {
+                    range.setEndBook(BibleUrlRange::LoadLastBook);
+                } else if(!p2.isEmpty()) {
+                    range.setEndBook(p2.toInt());
+                }
+            } else if(i == 1) {
+                if(p.contains("-")) {
+                    QStringList tmp = p.split("-");
+                    p = tmp.first();
+                    p2 = tmp.last();
+                }
+                if(p == "current") {
+                    range.setStartChapter(BibleUrlRange::LoadCurrentChapter);
+                } else if(p == "first") {
+                    range.setStartChapter(BibleUrlRange::LoadFirstChapter);
+                } else if(p == "last") {
+                    range.setStartChapter(BibleUrlRange::LoadLastChapter);
+                } else {
+                    range.setStartChapter(p.toInt());
+                }
+                if(p2 == "current") {
+                    range.setEndChapter(BibleUrlRange::LoadCurrentChapter);
+                } else if(p2 == "first") {
+                    range.setEndChapter(BibleUrlRange::LoadFirstChapter);
+                } else if(p2 == "last") {
+                    range.setEndChapter(BibleUrlRange::LoadLastChapter);
+                } else if(!p2.isEmpty()) {
+                    range.setEndChapter(p2.toInt());
+                }
+            } else if(i == 2) {
+                if(p.contains("-")) {
+                    QStringList tmp = p.split("-");
+                    p = tmp.first();
+                    p2 = tmp.last();
+                }
+                if(p == "current") {
+                    range.setStartVerse(BibleUrlRange::LoadCurrentVerse);
+                } else if(p == "first") {
+                    range.setStartVerse(BibleUrlRange::LoadFirstVerse);
+                } else if(p == "last") {
+                    range.setStartVerse(BibleUrlRange::LoadLastVerse);
+                } else {
+                    range.setStartVerse(p.toInt());
+                }
+
+                if(p2 == "current") {
+                    range.setEndVerse(BibleUrlRange::LoadCurrentVerse);
+                } else if(p2 == "first") {
+                    range.setEndVerse(BibleUrlRange::LoadFirstVerse);
+                } else if(p2 == "last") {
+                    range.setEndVerse(BibleUrlRange::LoadLastVerse);
+                } else if(!p2.isEmpty()) {
+                    range.setEndVerse(p2.toInt());
                 }
             } else {
-                m_params.insert(p, "true");
+                if(p.contains("=")) {
+                    const QStringList s = p.split("=");
+                    const QString key = s.first();
+                    const QString value = s.last();
+                    if(key == "active") {
+                        range.setActiveVerse(value.toInt());
+                    } else {
+                        m_params.insert(key, value);
+                    }
+                } else {
+                    m_params.insert(p, "true");
+                }
             }
         }
+        m_ranges.append(range);
     }
-    m_ranges.append(range);
     return true;
 }
 QList<BibleUrlRange> BibleUrl::ranges() const
 {
     return m_ranges;
 }
-
+void BibleUrl::clearRanges()
+{
+    m_ranges.clear();
+}

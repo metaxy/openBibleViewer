@@ -27,7 +27,6 @@ Bible::Bible()
     m_chapterID = 0;
     m_verseID = 0;
     m_loaded = false;
-    m_moduleType = Module::NoneType;
     m_bibleModule = 0;
     m_lastTextRanges = 0;
 }
@@ -481,7 +480,7 @@ void Bible::search(SearchQuery query, SearchResult *result)
 }
 QStringList Bible::getSearchPaths() const
 {
-    if(m_moduleType == Module::BibleQuoteModule) {
+    if(m_module->moduleType() == Module::BibleQuoteModule) {
         QStringList l;
         l.append(QString(m_modulePath + QDir::separator()));
         if(m_bookID < m_bookPath.size()) {
@@ -559,7 +558,7 @@ QStringList Bible::chapterNames()
 
 Module::ModuleType Bible::bibleType() const
 {
-    return m_moduleType;
+    return m_module->moduleType();
 }
 
 int Bible::verseID() const

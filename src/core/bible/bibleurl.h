@@ -31,6 +31,7 @@ public:
     QString toString() const;
     bool fromString(QString url);
     QList<BibleUrlRange> ranges() const;
+    void clearRanges();
 private:
     QHash<QString, QString> m_params;
     QList<BibleUrlRange> m_ranges;

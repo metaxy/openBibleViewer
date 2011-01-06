@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 BibleUrlRange::BibleUrlRange()
 {
     m_bibleID = -1;
+    m_bibleUID = "";
     m_startBookID = -1;
     m_endBookID = -1;
     m_startChapterID = -1;
@@ -41,6 +42,11 @@ void BibleUrlRange::setBible(const BibleLoadParams &param)
 {
     m_bibleParam = param;
 }
+void BibleUrlRange::setBible(const QString &bibleUID)
+{
+    m_bibleUID = bibleUID;
+    m_bibleParam = BibleUrlRange::LoadBibleByUID;
+}
 int BibleUrlRange::bibleID() const
 {
     return m_bibleID;
@@ -48,6 +54,10 @@ int BibleUrlRange::bibleID() const
 BibleUrlRange::BibleLoadParams BibleUrlRange::bible() const
 {
     return m_bibleParam;
+}
+QString BibleUrlRange::bibleUID() const
+{
+    return m_bibleUID;
 }
 //Books
 void BibleUrlRange::setBook(const int &bookID)
