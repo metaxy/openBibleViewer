@@ -36,7 +36,6 @@ html {
 #topTable td{
     text-align:center; 
     border: 1px solid #000000;
-
 }
 td.rowTitle {
     width:5em;
@@ -86,8 +85,6 @@ td.rowTitle {
 .studynote {
     font-size: small;
 }
-
-
 .verseNumber {
     color:#014B88;
     font-size: smaller;
@@ -96,4 +93,12 @@ td.rowTitle {
 .verseNumber:after {
     content: " ";
 }
-
+.rangeTitle {
+    font-size: 110%;
+    display: block;
+    padding-top:2em;
+    padding-bottom:2em;
+}
+td .rangeTitle {
+    text-align: center;
+}

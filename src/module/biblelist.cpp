@@ -112,7 +112,7 @@ std::pair<QString, TextRanges> BibleList::readRanges(const Ranges &ranges) const
             else {
                 foreach(const TextRange &range, ret.second.textRanges()) {
                     //todo: use in future range.title()
-                    ret.first += "<h2 class='bibleTitle'> " + b->bookName(range.bookID(),true) + " " + QString::number(range.chapterID()+1) + "</h2>\n";
+                    ret.first += "<span class='rangeTitle'> " + b->bookName(range.bookID(),true) + " " + QString::number(range.chapterID()+1) + "</span>\n";
                     ret.first += range.join("");
                 }
             }
@@ -126,14 +126,16 @@ std::pair<QString, TextRanges> BibleList::readRanges(const Ranges &ranges) const
         QHash<int, TextRanges> data;
         QHashIterator<int, Bible *> i(m_bibles);
         TextRanges def;
+        Bible *defBible = 0;
         TextRanges tret;
 
         while(i.hasNext()) {
             i.next();
-            myDebug() << "read = " << i.value()->moduleID();
+            //myDebug() << "read = " << i.value()->moduleID();
             const TextRanges r = i.value()->readRanges(ranges, true);
             data.insert(i.key(), r);
             def = r;
+            defBible = i.value();
             tret.addTextRanges(r);
         }
         ret.second = tret;
@@ -184,7 +186,16 @@ std::pair<QString, TextRanges> BibleList::readRanges(const Ranges &ranges) const
         out += "<tbody>";
         int countTextRange = 0;
         foreach(const TextRange & textRange, def.textRanges()) {
-            //todo: its a new range
+            int rMaxCol = 0;
+            for(int i = 0; i <= maxCol; i++) {
+                rMaxCol++;
+                if(countInCol(i) > 1) {
+                    rMaxCol++;
+                }
+            }
+            if(def.textRanges().size() != 1)
+                out += "<tr><td class='rangeTitle' colspan='"+QString::number(rMaxCol)+"'>" + defBible->bookName(textRange.bookID()) + " " + QString::number(textRange.chapterID()+1) + "</td></tr>\n";
+
             QMapIterator<int, Verse> mapIt(textRange.verseMap());
             while(mapIt.hasNext()) {
                 mapIt.next();
