@@ -422,36 +422,37 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     // now add id
     //it have to be done as last
     QMapIterator<int, Verse> i(verseMap);
-    while(i.hasNext()) {
-        i.next();
-        Verse verse = i.value();
-
-        switch(m_moduleType) {
-        case Module::BibleQuoteModule: {
+    if(m_module->moduleType() == Module::BibleQuoteModule) {
+        const QString pre = "<span verseID='";
+        const QString pre2 = "' chapterID='" + QString::number(chapterID) +
+                "' bookID='" + QString::number(bookID) +
+                "' moduleID='" + QString::number(m_moduleID) + "'>\n";
+        const QString ap = "</span><br />\n";
+        while(i.hasNext()) {
+            i.next();
+            Verse verse = i.value();
             if(i.key() > 1) {//because of the chapter
-                verse.prepend("<span verseID='" + QString::number(i.key() - 1) +
-                              "' chapterID='" + QString::number(chapterID) +
-                              "' bookID='" + QString::number(bookID) +
-                              "' moduleID='" + QString::number(m_moduleID) + "'>\n");
-                verse.append("</span><br />\n");
+                verse.prepend( pre + QString::number(i.key() - 1) + pre2);
+                verse.append(ap);
             }
-            break;
+            ret.addVerse(verse);
+        }
 
+    } else if(m_module->moduleType() == Module::ZefaniaBibleModule || m_module->moduleType() == Module::TheWordBibleModule) {
+        const QString pre ="<span verseID='";
+        const QString pre2 =  "' chapterID='" + QString::number(chapterID) +
+                "' bookID='" + QString::number(bookID) +
+                "' moduleID='" + QString::number(m_moduleID) + "'>\n";
+        const QString ap = "</span>\n";
+        while(i.hasNext()) {
+            i.next();
+            Verse verse = i.value();
+            verse.prepend( pre + QString::number(i.key()) + pre2);
+            verse.append(ap);
+            ret.addVerse(verse);
         }
-        case Module::ZefaniaBibleModule: case Module::TheWordBibleModule: {
-            verse.prepend("<span verseID='" + QString::number(i.key()) +
-                          "' chapterID='" + QString::number(chapterID) +
-                          "' bookID='" + QString::number(bookID) +
-                          "' moduleID='" + QString::number(m_moduleID) + "'>\n");
-            verse.append("</span>\n");
-            break;
-        }
-        default:
-            break;
-        }
-        ret.addVerse(verse);
-
     }
+
     return ret;
 
 }

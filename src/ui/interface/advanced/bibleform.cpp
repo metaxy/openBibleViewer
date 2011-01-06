@@ -92,7 +92,6 @@ void BibleForm::attachApi()
 {
     DEBUG_FUNC_NAME
     QWebFrame * frame = m_view->page()->mainFrame();
-    myDebug() << frame->toPlainText() << frame->toHtml();
     {
         QFile file(":/data/js/jquery-1.4.2.min.js");
         if(!file.open(QFile::ReadOnly | QFile::Text))
@@ -330,30 +329,21 @@ void BibleForm::showText(const QString &text)
         if(file.open(QFile::ReadOnly))
             m_view->settings()->setUserStyleSheetUrl(QUrl("data:text/css;charset=utf-8;base64," + file.readAll().toBase64()));
     }
-    m_view->setHtml(text);
+    //todo: often it isn't real html but some fragments and sometimes it's a whole html page
+    //eg biblequote
 
-    //append tools.js
-/*
-    QWebElement doc = frame->documentElement();
-    QWebElement head = doc.firstChild();
-    myDebug() << "head = " << head.tagName();
-    {
-        QWebElement script;
+    //this make it probably a bit better than append it every attachapi()
+    //but does not work with biblequote see above
 
-        script.setAttribute("type","text/javascript");
-        QFile file(":/data/js/tools.js");
-        if(!file.open(QFile::ReadOnly | QFile::Text))
-            return;
-        QTextStream stream(&file);
-        const QString tools = stream.readAll();
-        file.close();
-        script.setInnerXml("<script>\n//<![CDATA[\n"+tools+"\n //]]>\n</script>");
-        head.appendInside(script);
+    /*QString showText;
+    if(!text.contains("<html>")) {
+        showText = "<html><head><script type='text/javascript' src='qrc:/data/js/tools.js'></script></head><body>"+text + "</body></html>";
     }*/
+
+    m_view->setHtml(showText);
 
 
     if(m_lastTextRanges.verseCount() > 1) {
-        //myDebug() << "scrolling";
         scrollToAnchor("currentEntry");
         if(m_moduleManager->bibleList()->hasTopBar())
             frame->scroll(0, -40); //due to the biblelist bar on top
@@ -399,7 +389,7 @@ void BibleForm::forwardShowTextRanges(const QString &html, const TextRanges &ran
 
 void BibleForm::showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url)
 {
-    //DEBUG_FUNC_NAME;
+    DEBUG_FUNC_NAME
     showText(html);
     m_lastTextRanges = range;
     m_lastUrl = url;
@@ -409,7 +399,6 @@ void BibleForm::showTextRanges(const QString &html, const TextRanges &range, con
 }
 void BibleForm::evaluateJavaScript(const QString &js)
 {
-    //DEBUG_FUNC_NAME
     m_view->page()->mainFrame()->evaluateJavaScript(js);
 }
 void BibleForm::print()
@@ -419,8 +408,6 @@ void BibleForm::print()
     dialog->setWindowTitle(tr("Print"));
     if(dialog->exec() != QDialog::Accepted)
         return;
-
-
 }
 void BibleForm::printPreview()
 {
@@ -810,6 +797,7 @@ void BibleForm::newItalicMark()
     m_notesManager->newItalicMark(selection);
 
 }
+
 void BibleForm::newUnderlineMark()
 {
     if(!m_moduleManager->bibleLoaded()) {
@@ -831,20 +819,21 @@ void BibleForm::removeMark()
     m_notesManager->removeMark(selection);
 }
 
-
-
 VerseSelection BibleForm::verseSelection()
 {
     QWebFrame *f = m_view->page()->mainFrame();
     VerseSelection s;
     if(!f)
         return s;
-    f->evaluateJavaScript("var verseSelection = new VerseSelection();verseSelection.getSelection();");
-    s.startVerse = f->evaluateJavaScript("verseSelection.startVerse;").toInt();
-    s.endVerse = f->evaluateJavaScript("verseSelection.endVerse;").toInt();
-    s.moduleID = f->evaluateJavaScript("verseSelection.moduleID;").toInt();
-    s.bookID  = f->evaluateJavaScript("verseSelection.bookID;").toInt();
-    s.chapterID = f->evaluateJavaScript("verseSelection.chapterID;").toInt();
+    myDebug() << "running verselection";
+
+    f->evaluateJavaScript("var vS = new VerseSelection(); vS.getSelection();");
+    s.startVerse = f->evaluateJavaScript("vS.startVerse;").toInt();
+    s.endVerse = f->evaluateJavaScript("vS.endVerse;").toInt();
+    s.moduleID = f->evaluateJavaScript("vS.moduleID;").toInt();
+    s.bookID  = f->evaluateJavaScript("vS.bookID;").toInt();
+    s.chapterID = f->evaluateJavaScript("vS.chapterID;").toInt();
+    myDebug() << "start verse = " << s.startVerse << " end verse = " << s.endVerse;
 
     const QString startVerseText = m_lastTextRanges.getVerse(s.bookID, s.chapterID, s.startVerse).data();
     QString endVerseText;
@@ -853,8 +842,8 @@ VerseSelection BibleForm::verseSelection()
     else
         endVerseText = startVerseText;
 
-    const QString selectedText = f->evaluateJavaScript("verseSelection.selectedText;").toString();
-
+    const QString selectedText = f->evaluateJavaScript("vS.selectedText;").toString();
+    myDebug() << "slected text = " << selectedText;
     myDebug() << "startVerseText = " << startVerseText;
     myDebug() << "endVerseText = " << endVerseText;
     {

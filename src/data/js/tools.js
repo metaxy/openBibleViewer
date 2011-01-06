@@ -1,21 +1,26 @@
 function VerseSelection() {
-	this.getSelection = verseGetSelection;
-	this.startVerse = -1;
-	this.endVerse = -1;
-	this.selectedText = "";
+    this.getSelection = verseGetSelection;
+    this.startVerse = -1;
+    this.endVerse = -1;
+    this.selectedText = "";
     this.moduleID = -1;
     this.bookID = -1;
     this.chapterID = -1;
 
 }
 function verseGetSelection () {
-	if(window.getSelection().type == 'Range') {
- 		var a = window.getSelection().getRangeAt(0);
+    //console.log("getting verseselection");
+    if(window.getSelection().type == 'Range') {
+        //console.log("its a range");
+        var a = window.getSelection().getRangeAt(0);
         if(a != null) {
+            //console.log("and range 0 is not null");
             this.selectedText = window.getSelection().toString();
+
             var start = a.startContainer;
             var end = a.endContainer;
             var it = start;
+            //todo: make it better
             while(true) {
                 var e = it.parentNode;
                 if(e == null)
@@ -27,7 +32,8 @@ function verseGetSelection () {
                     it = e;
                 }
             }
-            
+       
+            console.log("we found start verse", this.startVerse);
             it = end;
             while(true) {
                 var e = it.parentNode;
@@ -50,7 +56,7 @@ function verseGetSelection () {
 	}
 }
 
-
+/*
 function AdVerseSelection() {
     this.getSelection = adVerseGetSelection;
     this.startVerse = -1;
@@ -85,4 +91,4 @@ function adVerseGetSelection () {
             x.parentNode.removeChild(x);
         }
     }
-}
+}*/
