@@ -90,9 +90,10 @@ void BibleForm::setBookmarksManager(BookmarksManager *bookmarksManager)
 }
 void BibleForm::attachApi()
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     QWebFrame * frame = m_view->page()->mainFrame();
-    /*{
+    myDebug() << frame->toPlainText() << frame->toHtml();
+    {
         QFile file(":/data/js/jquery-1.4.2.min.js");
         if(!file.open(QFile::ReadOnly | QFile::Text))
             return;
@@ -101,17 +102,7 @@ void BibleForm::attachApi()
         file.close();
         frame->evaluateJavaScript(jquery);
     }
-    */
-    {
-        QFile file(":/data/js/tools.js");
-        if(!file.open(QFile::ReadOnly | QFile::Text))
-            return;
-        QTextStream stream(&file);
-        QString tools = stream.readAll();
-        file.close();
-        frame->evaluateJavaScript(tools);
-    }
-
+    myDebug() << m_api->bibleApi();
     frame->addToJavaScriptWindowObject("Bible", m_api->bibleApi());
     m_api->bibleApi()->setFrame(frame);
 }
@@ -329,31 +320,54 @@ void BibleForm::showText(const QString &text)
 {
     //DEBUG_FUNC_NAME
     //myDebug() << " windowID = " << m_id;
-    QString cssFile = m_settings->getModuleSettings(m_moduleManager->bible()->moduleID()).styleSheet;
-    if(cssFile.isEmpty())
-        cssFile = ":/data/css/default.css";
+    QWebFrame * frame = m_view->page()->mainFrame();
+    {
+        QString cssFile = m_settings->getModuleSettings(m_moduleManager->bible()->moduleID()).styleSheet;
+        if(cssFile.isEmpty())
+            cssFile = ":/data/css/default.css";
 
-    QFile file(cssFile);
-    if(file.open(QFile::ReadOnly))
-        m_view->settings()->setUserStyleSheetUrl(QUrl("data:text/css;charset=utf-8;base64," + file.readAll().toBase64()));
-
+        QFile file(cssFile);
+        if(file.open(QFile::ReadOnly))
+            m_view->settings()->setUserStyleSheetUrl(QUrl("data:text/css;charset=utf-8;base64," + file.readAll().toBase64()));
+    }
     m_view->setHtml(text);
+
+    //append tools.js
+/*
+    QWebElement doc = frame->documentElement();
+    QWebElement head = doc.firstChild();
+    myDebug() << "head = " << head.tagName();
+    {
+        QWebElement script;
+
+        script.setAttribute("type","text/javascript");
+        QFile file(":/data/js/tools.js");
+        if(!file.open(QFile::ReadOnly | QFile::Text))
+            return;
+        QTextStream stream(&file);
+        const QString tools = stream.readAll();
+        file.close();
+        script.setInnerXml("<script>\n//<![CDATA[\n"+tools+"\n //]]>\n</script>");
+        head.appendInside(script);
+    }*/
+
+
     if(m_lastTextRanges.verseCount() > 1) {
         //myDebug() << "scrolling";
         scrollToAnchor("currentEntry");
         if(m_moduleManager->bibleList()->hasTopBar())
-            m_view->page()->mainFrame()->scroll(0, -40); //due to the biblelist bar on top
+            frame->scroll(0, -40); //due to the biblelist bar on top
         //todo: it could be that the top bar has a width more than 40px
         //because the user zoomed in.
     }
 
     if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule) {
-        QWebElementCollection collection = m_view->page()->mainFrame()->documentElement().findAll("img");
+        QWebElementCollection collection = frame->documentElement().findAll("img");
         const QStringList searchPaths = m_moduleManager->bible()->getSearchPaths();
 
         foreach(QWebElement paraElement, collection) {
             QString url = paraElement.attribute("src");
-            if(url.startsWith(":/") || url.startsWith("http"))
+            if(url.startsWith(":/") || url.startsWith("http") || url.startsWith("qrc:/"))
                 continue;
             foreach(const QString & pre, searchPaths) {
                 QFileInfo i(pre + url);
@@ -727,11 +741,15 @@ void BibleForm::debugger()
 {
     //DEBUG_FUNC_NAME
     m_view->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
-    if(m_inspector == 0) {
+    /*if(m_inspector == 0) {
         m_inspector = new QWebInspector;
         m_inspector->setPage(m_view->page());
     }
-    m_inspector->showNormal();
+    m_inspector->showNormal();*/
+    QWebInspector *i = new QWebInspector;
+    i->setPage(m_view->page());
+    i->showNormal();
+
 }
 
 void BibleForm::newColorMark()
