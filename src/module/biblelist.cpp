@@ -106,6 +106,7 @@ std::pair<QString, TextRanges> BibleList::readRanges(const Ranges &ranges) const
         Bible *b = m_bibles.value(m_currentBible, 0);
         if(b) {
             ret.second = b->readRanges(ranges);
+            //todo: not just simple join but add titles
             ret.first = ret.second.join("");
         }
 

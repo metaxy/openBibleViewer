@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>179</width>
-    <height>214</height>
+    <width>526</width>
+    <height>228</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -48,6 +48,9 @@
          <height>0</height>
         </size>
        </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
       </widget>
       <widget class="QListView" name="listView_chapters">
        <property name="sizePolicy">
@@ -61,6 +64,12 @@
          <width>10</width>
          <height>0</height>
         </size>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::EditKeyPressed</set>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::ExtendedSelection</enum>
        </property>
       </widget>
      </widget>

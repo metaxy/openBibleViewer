@@ -340,7 +340,7 @@ void BibleForm::showText(const QString &text)
         showText = "<html><head><script type='text/javascript' src='qrc:/data/js/tools.js'></script></head><body>"+text + "</body></html>";
     }*/
 
-    m_view->setHtml(showText);
+    m_view->setHtml(text);
 
 
     if(m_lastTextRanges.verseCount() > 1) {

@@ -422,6 +422,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     // now add id
     //it have to be done as last
     QMapIterator<int, Verse> i(verseMap);
+
     if(m_module->moduleType() == Module::BibleQuoteModule) {
         const QString pre = "<span verseID='";
         const QString pre2 = "' chapterID='" + QString::number(chapterID) +

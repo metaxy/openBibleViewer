@@ -152,6 +152,12 @@ void SettingsDialog::generateModuleTree()
             case Module::ZefaniaLexModule:
                 moduleType = QObject::tr("Zefania XML Strong");;
                 break;
+            case Module::TheWordBibleModule:
+                moduleType = QObject::tr("The Word Bible");;
+                break;
+            case Module::BibleQuoteDictModule:
+                moduleType = QObject::tr("Bible Quote Dictionary");;
+                break;
 
             }
         }
@@ -159,7 +165,6 @@ void SettingsDialog::generateModuleTree()
         items << ibible;
     }
     m_ui->treeWidget_module->insertTopLevelItems(0, items);
-
 }
 
 void SettingsDialog::addModuleFile(void)
