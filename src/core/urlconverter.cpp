@@ -14,18 +14,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "urlconverter.h"
 #include "dbghelper.h"
 #include "src/core/bible/bibleurl.h"
-UrlConverter::UrlConverter(const UrlType &from, const UrlType &to, const QString &url)
+UrlConverter::UrlConverter(const UrlType &from, const UrlType &to, const BibleUrl &url)
 {
     m_from = from;
     m_to = to;
     m_url = url;
-
-    m_moduleID = -1;
-    m_path = "";
-    m_chapterID = -1;
-    m_bookID = -1;
-    m_verseID = -1;
-    m_bookName = "";
 }
 void UrlConverter::setModuleMap(ModuleMap *moduleMap)
 {
@@ -35,75 +28,48 @@ void UrlConverter::setSettings(Settings *settings)
 {
     m_settings = settings;
 }
-
-QString UrlConverter::convert()
+void UrlConverter::setBookNames(BookNames bookNames)
 {
-    QString ret;
+    m_bookNames = bookNames;
+}
+
+BibleUrl UrlConverter::convert()
+{
+    BibleUrl url = m_bibleUrl;
     if(m_to == InterfaceUrl) {
-        BibleUrl url;
-        BibleUrlRange range;
-        range.setBible(m_moduleID);
-        range.setStartBook(m_bookID);
-        range.setStartChapter(m_chapterID);
-        range.setWholeChapter();
-        range.setActiveVerse(m_verseID);
-        url.addRange(range);
-        ret = url.toString();
+        url.clearRanges();
+        foreach(BibleUrlRange range, m_bibleUrl.ranges()) {
+            if(range.bible() == BibleUrlRange::LoadBibleByUID) {
+                foreach(Module *module, m_moduleMap->m_map) {
+                    if(m_settings->savableUrl(module->path()) == range.bibleUID())  {
+                        range.setBible(module->moduleID());
+                    }
+                }
+            }
+            url.addRange(range);
+        }
+        for(int i = 0; i < m_bibleUrl.ranges().size(); i++) {
+            url.unsetParam("b"+QString::number(i));
+        }
     } else if(m_to == PersistentUrl) {
         if(!m_moduleMap->m_map.contains(m_moduleID)) {
-            //myDebug() << "moduleID = " << m_moduleID;
-            return "";
+            return url;
         }
-        ret = m_settings->savableUrl(m_moduleMap->m_map.value(m_moduleID)->path()) + ";" + QString::number(m_bookID) + ";" + QString::number(m_chapterID) + ";" + QString::number(m_verseID);
-        if(!m_bookName.isEmpty()) {
-            ret += ";" + m_bookName;//todo: check for invalid charatcers
-        }
-    } else if(m_to == BibleQuoteUrl) {
-    }
-    return ret;
-}
-int UrlConverter::pharse()
-{
-    //todo: this won't work    //myDebug() << "false";
-    if(m_from == InterfaceUrl) {
-        //pharse with the help of BibleUrL
-        BibleUrl url;
-        url.fromString(m_url);
-        BibleUrlRange r = url.ranges().first();
-        m_bookID = r.startBookID();
-        m_chapterID = r.startChapterID();
-        m_verseID = r.activeVerseID();
+        url.clearRanges();
+        QSet<int> bookIDs;
 
-    } else if(m_from == PersistentUrl) {
-        QStringList list = m_url.split(";");
-        if(list.size() < 4) {
-            return 1;
-        }
-        QString path = m_settings->recoverUrl(list.at(0));
-        QString sbookID = list.at(1);
-        QString schapterID = list.at(2);
-        QString sverseID = list.at(3);
-        if(list.size() == 5) {
-            m_bookName = list.at(4);
-        } else {
-            m_bookName = sbookID;//todo: find something better
-        }
-        m_path = path;
-        m_bookID = sbookID.toInt();
-        m_chapterID = schapterID.toInt();
-        m_verseID = sverseID.toInt();
-        //get bibleID
-        QMapIterator<int, Module *> i(m_moduleMap->m_map);
-        while(i.hasNext()) {
-            i.next();
-            if(i.value()->path() == path) {
-                m_moduleID = i.key();
+        foreach(BibleUrlRange range, m_bibleUrl.ranges()) {
+            if(range.bible() == BibleUrlRange::LoadBibleByID) {
+                range.setBible(m_settings->savableUrl(m_moduleMap->m_map.value(range.bibleID())->path()));
             }
+            url.addRange(range);
+            bookIDs.insert(range.startBookID());
         }
-
-    } else if(m_from == BibleQuoteUrl) {
+        for(int i = 0; i < bookIDs.size(); i++) {
+            url.setParam("b"+QString::number(i), m_bookNames.bookName(i));
+        }
     }
-    return 0;
+    return url;
 }
 void UrlConverter::setFrom(const UrlType &urlType)
 {

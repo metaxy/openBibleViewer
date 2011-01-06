@@ -147,10 +147,9 @@ void BibleForm::readChapter(int id)
 {
     BibleUrlRange r;
     r.setBible(BibleUrlRange::LoadCurrentBible);
-    r.setStartBook(BibleUrlRange::LoadCurrentBook);
-    r.setStartChapter(id);
-    r.setStartVerse(BibleUrlRange::LoadFirstVerse);
-    r.setEndVerse(BibleUrlRange::LoadLastVerse);
+    r.setBook(BibleUrlRange::LoadCurrentBook);
+    r.setChapter(id);
+    r.setWholeChapter();
     BibleUrl url;
     url.addRange(r);
 
@@ -163,10 +162,9 @@ void BibleForm::readBook(int id)
 
     BibleUrlRange r;
     r.setBible(BibleUrlRange::LoadCurrentBible);
-    r.setStartBook(i);
-    r.setStartChapter(BibleUrlRange::LoadFirstChapter);
-    r.setStartVerse(BibleUrlRange::LoadFirstVerse);
-    r.setEndVerse(BibleUrlRange::LoadLastVerse);
+    r.setBook(i);
+    r.setChapter(BibleUrlRange::LoadFirstChapter);
+    r.setWholeChapter();
     BibleUrl url;
     url.addRange(r);
 

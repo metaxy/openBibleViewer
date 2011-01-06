@@ -19,3 +19,16 @@ BookNames::BookNames()
     m_bookShortName = QHash<int, QStringList>();
     m_bookIDs = QList<int>();
 }
+QString BookNames::bookName(const int &bookID, bool preferShort) const
+{
+    //todo: use preferShort
+    if(m_bookShortName.value(bookID).size() != 0) {
+        if(preferShort) {
+            return m_bookShortName.value(bookID).first();
+        } else {
+            return m_bookFullName.value(bookID, m_bookShortName.value(bookID).first());
+        }
+    } else {
+        return m_bookFullName.value(bookID);
+    }
+}

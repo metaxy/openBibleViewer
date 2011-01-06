@@ -309,11 +309,13 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                 const QString noteID = m_notes->getIDList().at(n);
                 if(m_notes->getType(noteID) == "text") {
                     const QString link = m_notes->getRef(noteID, "link");
-                    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
+                    BibleUrl url;
+                    url.fromString(link);
+                    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
                     urlConverter.setSettings(m_settings);
                     urlConverter.setModuleMap(m_map);
-                    urlConverter.pharse();
-                    if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == m_bookID && urlConverter.m_chapterID == chapterID && urlConverter.m_verseID == verseCounter) {
+                    BibleUrl newUrl = urlConverter.convert();
+                    if(newUrl.contains(m_moduleID, m_bookID, chapterID, verseCounter)) {
                         //myDebug() << "append note icon";
                         verse.append("<a href='note://" + noteID + "'><img src='qrc:/icons/16x16/view-pim-notes.png' class='noteIcon' title='" + m_notes->getTitle(noteID) + "' /></a>");
                     }
@@ -361,10 +363,16 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             if(m_notes->getType(noteID) == "mark") {
                 const QString link = m_notes->getRef(noteID, "link");
                 //myDebug() << "link = " << link;
-                UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
+                BibleUrl url;
+                url.fromString(link);
+                UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, url);
                 urlConverter.setSettings(m_settings);
                 urlConverter.setModuleMap(m_map);
-                urlConverter.pharse();
+                BibleUrl newUrl = urlConverter.convert();
+                if(newUrl.contains(m_moduleID, m_bookID, chapterID, verseCounter)) {
+
+                }
+
 
                 const QString pre = "<span class=\"mark\" style=\"" + m_notes->getRef(noteID, "style") + "\">";
                 const QString ap = "</span>";
@@ -576,16 +584,7 @@ QList<int> Bible::bookIDs()
 }
 QString Bible::bookName(const int &bookID, bool preferShort)
 {
-    //todo: use preferShort
-    if(m_names.m_bookShortName.value(bookID).size() != 0) {
-        if(preferShort) {
-            return m_names.m_bookShortName.value(bookID).first();
-        } else {
-            return m_names.m_bookFullName.value(bookID, m_names.m_bookShortName.value(bookID).first());
-        }
-    } else {
-        return m_names.m_bookFullName.value(bookID);
-    }
+   return m_names.bookName(bookID, preferShort);
 }
 QHash<int, QString> Bible::bookNames(bool preferShort)
 {

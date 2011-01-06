@@ -69,15 +69,9 @@ public:
 
     void setBook(const int &bookID);
     void setBook(const BookLoadParams &param);
-    void setStartBook(const int &bookID);
-    void setStartBook(const BookLoadParams &param);
-    void setEndBook(const int &bookID);
-    void setEndBook(const BookLoadParams &param);
 
-    int startBookID() const;
-    BookLoadParams startBook() const;
-    int endBookID() const;
-    BookLoadParams endBook() const;
+    int bookID() const;
+    BookLoadParams book() const;
 
     void setChapter(const int &chapterID);
     void setChapter(const ChapterLoadParams &param);
@@ -108,15 +102,17 @@ public:
 
     void setWholeChapter();
 
+    bool containsChapter(const int &chapterID);
+    bool containsVerse(const int &verseID);
+
 private:
     int m_bibleID;
     BibleLoadParams m_bibleParam;
     QString m_bibleUID;
 
-    int m_startBookID;
-    int m_endBookID;
-    BookLoadParams m_startBookParam;
-    BookLoadParams m_endBookParam;
+    int m_bookID;
+    BookLoadParams m_bookParam;
+
 
     int m_startChapterID;
     int m_endChapterID;

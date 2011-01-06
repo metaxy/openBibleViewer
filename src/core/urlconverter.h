@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include "src/module/modulemap.h"
+#include "src/core/bible/bibleurl.h"
 /*!
   UrlConverter is an convrter for urls. Sometimes you have a url from a biblequote module and need to pharse it.
 
@@ -26,31 +27,23 @@ public:
     enum UrlType {
         None = 0,
         InterfaceUrl = 1,
-        PersistentUrl = 2,
-        BibleQuoteUrl = 3
+        PersistentUrl = 2
     };
-    UrlConverter(const UrlType &from, const UrlType &to, const QString &url);
+    UrlConverter(const UrlType &from, const UrlType &to, const BibleUrl &url);
 
     void setFrom(const UrlType &urlType);
     void setTo(const UrlType &urlType);
-    void setUrl(const QString &url);
-    int pharse();
+    void setUrl(const BibleUrl &url);
 
-    QString convert();
-    int m_moduleID;
-    QString m_path;
-    int m_chapterID;
-    int m_bookID;
-    int m_verseID;
-    QString m_bookName;
+    BibleUrl convert();
     void setModuleMap(ModuleMap *moduleMap);
     void setSettings(Settings *settings);
+    void setBookNames(BookNames bookNames);
 private:
-    UrlType m_from;
-    UrlType m_to;
-    QString m_url;
     ModuleMap *m_moduleMap;
     Settings *m_settings;
+    BibleUrl m_bibleUrl;
+    BookNames m_bookNames;
 };
 
 #endif // URLCONVERTER_H

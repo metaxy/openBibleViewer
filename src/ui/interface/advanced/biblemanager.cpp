@@ -72,14 +72,14 @@ Ranges BibleManager::bibleUrlRangeToRanges(BibleUrlRange range)
         r.setModule(m_moduleManager->bible()->moduleID());
     }
 
-    if(range.startBook() == BibleUrlRange::LoadFirstBook) {
+    if(range.book() == BibleUrlRange::LoadFirstBook) {
         r.setBook(RangeEnum::FirstBook);
-    } else if(range.startBook() == BibleUrlRange::LoadLastBook) {
+    } else if(range.book() == BibleUrlRange::LoadLastBook) {
         r.setBook(RangeEnum::LastBook);
-    } else if(range.startBook() == BibleUrlRange::LoadCurrentBook) {
+    } else if(range.book() == BibleUrlRange::LoadCurrentBook) {
         r.setBook(RangeEnum::CurrentBook);
     } else {
-        r.setBook(range.startBookID());
+        r.setBook(range.bookID());
     }
 
     if(range.startChapter() == BibleUrlRange::LoadFirstChapter) {

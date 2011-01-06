@@ -17,14 +17,13 @@ BibleUrlRange::BibleUrlRange()
 {
     m_bibleID = -1;
     m_bibleUID = "";
-    m_startBookID = -1;
-    m_endBookID = -1;
+    m_bookID = -1;
+
     m_startChapterID = -1;
     m_endChapterID = -1;
     m_startVerseID = -1;
     m_endVerseID = -1;
-    m_startBookParam = LoadBookNotSet;
-    m_endBookParam = LoadBookNotSet;
+    m_bookParam = LoadBookNotSet;
     m_startChapterParam = LoadChapterNotSet;
     m_endChapterParam = LoadChapterNotSet;
     m_startVerseParam = LoadVerseNotSet;
@@ -60,54 +59,24 @@ QString BibleUrlRange::bibleUID() const
     return m_bibleUID;
 }
 //Books
+
 void BibleUrlRange::setBook(const int &bookID)
 {
-    setStartBook(bookID);
-    setEndBook(bookID);
+    m_bookID = bookID;
+    m_bookParam = BibleUrlRange::LoadBookByID;
 }
 
 void BibleUrlRange::setBook(const BookLoadParams &param)
 {
-    setStartBook(param);
-    setEndBook(param);
+    m_bookParam = param;
 }
-
-void BibleUrlRange::setStartBook(const int &bookID)
+int BibleUrlRange::bookID() const
 {
-    m_startBookID = bookID;
-    m_startBookParam = BibleUrlRange::LoadBookByID;
+    return m_bookID;
 }
-
-void BibleUrlRange::setStartBook(const BookLoadParams &param)
+BibleUrlRange::BookLoadParams BibleUrlRange::book() const
 {
-    m_startBookParam = param;
-}
-int BibleUrlRange::startBookID() const
-{
-    return m_startBookID;
-}
-BibleUrlRange::BookLoadParams BibleUrlRange::startBook() const
-{
-    return m_startBookParam;
-}
-
-void BibleUrlRange::setEndBook(const int &bookID)
-{
-    m_endBookID = bookID;
-    m_endBookParam = BibleUrlRange::LoadBookByID;
-}
-
-void BibleUrlRange::setEndBook(const BookLoadParams &param)
-{
-    m_endBookParam = param;
-}
-int BibleUrlRange::endBookID() const
-{
-    return m_endBookID;
-}
-BibleUrlRange::BookLoadParams BibleUrlRange::endBook() const
-{
-    return m_endBookParam;
+    return m_bookParam;
 }
 
 //Chapter
@@ -216,4 +185,13 @@ int BibleUrlRange::activeVerseID() const
 BibleUrlRange::VerseLoadParams BibleUrlRange::activeVerse() const
 {
     return m_activeVerseParam;
+}
+bool BibleUrlRange::containsChapter(const int &chapterID)
+{
+    return (chapterID >= m_startChapterID && chapterID <= m_endChapterID);
+}
+
+bool BibleUrlRange::containsVerse(const int &verseID)
+{
+    return (verseID >= m_startVerseID && verseID <= m_endVerseID);
 }

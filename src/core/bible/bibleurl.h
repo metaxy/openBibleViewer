@@ -27,11 +27,13 @@ public:
     void setParam(const QString &name, const QString &value);
     bool hasParam(const QString &name);
     QString getParam(const QString &name);
+    void unsetParam(const QString &name);
 
     QString toString() const;
     bool fromString(QString url);
     QList<BibleUrlRange> ranges() const;
     void clearRanges();
+    bool contains(const int &moduleID, const int &bookID, const int &chapterID, const int &verseID);
 private:
     QHash<QString, QString> m_params;
     QList<BibleUrlRange> m_ranges;

@@ -19,6 +19,7 @@ class BookNames
 {
 public:
     BookNames();
+    QString bookName(const int &bookID, bool preferShort = false) const;
     QHash<int, QString> m_bookFullName;
     QHash<int, QStringList> m_bookShortName;
     QList<int> m_bookIDs;
