@@ -466,9 +466,7 @@ TextRanges Bible::readRanges(const Ranges &ranges, bool ignoreModuleID)
     return textRanges;
 }
 
-/**
-  Search in the current bible. Returns the Results.
-  */
+
 void Bible::search(SearchQuery query, SearchResult *result)
 {
     DEBUG_FUNC_NAME
@@ -479,7 +477,7 @@ void Bible::search(SearchQuery query, SearchResult *result)
         m_bibleModule->buildIndex();
     m_bibleModule->search(query, result);
     m_lastSearchQuery = query;
-    myDebug() << "hits.size() = " << result->hits().size();
+    //myDebug() << "hits.size() = " << result->hits().size();
 }
 QStringList Bible::getSearchPaths() const
 {

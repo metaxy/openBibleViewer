@@ -471,8 +471,6 @@ void BibleForm::selectAll()
 }
 void BibleForm::forwardSetChapters(const QStringList &chapters)
 {
-    //DEBUG_FUNC_NAME
-    // myDebug() << "chapters = " << chapters;
     if(!active())
         return;
     setChapters(chapters);
@@ -515,7 +513,6 @@ void BibleForm::forwardSetCurrentChapter(const QSet<int> &chapterID)
 
 void BibleForm::forwardShowText(const QString &text)
 {
-    //DEBUG_FUNC_NAME
     if(!active())
         return;
     showText(text);
@@ -528,22 +525,8 @@ void BibleForm::forwardHistorySetUrl(const QString &url)
 }
 bool BibleForm::active()
 {
-    //DEBUG_FUNC_NAME;
-    /* QMdiArea *area = (QMdiArea*) this->parentWidget()->parentWidget();
-     if(area) {
-         QMdiSubWindow *window = area->activeSubWindow();
-         myDebug() << "area = "<< area;
-         myDebug() << "window = " << window;
-         myDebug() << "mdiForm = " << window->widget()->findChild<BibleForm *>("mdiForm");
-         myDebug() << "this = " << this;
-         if(window && window->widget()->findChild<BibleForm *>("mdiForm") == this)
-             return true;
-     }
-    */
-    //myDebug() << "current = " << *currentWindowID << " m_ID = " << m_id;
     if(*currentWindowID == m_id)
         return true;
-    //myDebug() << "false";
     return false;
 }
 int BibleForm::id()

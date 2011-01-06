@@ -51,7 +51,9 @@ public:
       * @returns A list of paths, where images can be found.
       */
     QStringList getSearchPaths() const;
-
+    /**
+      * Search in the current bible. Saves the results int the second argument (*result).
+      */
     void search(SearchQuery query, SearchResult *result);
 
     Module::ModuleType bibleType() const;

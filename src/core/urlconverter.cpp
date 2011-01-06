@@ -64,7 +64,7 @@ QString UrlConverter::convert()
 }
 int UrlConverter::pharse()
 {
-    //todo: this won't work
+    //todo: this won't work    //myDebug() << "false";
     if(m_from == InterfaceUrl) {
         //pharse with the help of BibleUrL
         BibleUrl url;
