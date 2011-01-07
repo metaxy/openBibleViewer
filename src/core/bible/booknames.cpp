@@ -22,11 +22,12 @@ BookNames::BookNames()
 QString BookNames::bookName(const int &bookID, bool preferShort) const
 {
     //todo: use preferShort
-    if(m_bookShortName.value(bookID).size() != 0) {
+    const QStringList shortNames = m_bookShortName.value(bookID);
+    if(!shortNames.isEmpty()) {
         if(preferShort) {
-            return m_bookShortName.value(bookID).first();
+            return shortNames.first();
         } else {
-            return m_bookFullName.value(bookID, m_bookShortName.value(bookID).first());
+            return m_bookFullName.value(bookID, shortNames.first());
         }
     } else {
         return m_bookFullName.value(bookID);

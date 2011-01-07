@@ -111,7 +111,7 @@ std::pair<QString, TextRanges> BibleList::readRanges(const Ranges &ranges) const
             else {
                 foreach(const TextRange & range, ret.second.textRanges()) {
                     //todo: use in future range.title()
-                    ret.first += "<span class='rangeTitle'> " + b->bookName(range.bookID(), true) + " " + QString::number(range.chapterID() + 1) + "</span>\n";
+                    ret.first += "<span class='rangeTitle'> " + b->bookName(range.bookID()) + " " + QString::number(range.chapterID() + 1) + "</span>\n";
                     ret.first += range.join("");
                 }
             }
@@ -120,7 +120,6 @@ std::pair<QString, TextRanges> BibleList::readRanges(const Ranges &ranges) const
         return ret;
     } else if(m_bibles.size() > 1) {
         std::pair<QString, TextRanges> ret;
-
         //myDebug() << "oh a real biblelist";
         QHash<int, TextRanges> data;
         QHashIterator<int, Bible *> i(m_bibles);

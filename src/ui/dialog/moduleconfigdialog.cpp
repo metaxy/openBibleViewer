@@ -132,14 +132,14 @@ void  ModuleConfigDialog::fileSelect()
         dialog.setFileMode(QFileDialog::Directory);
         dialog.setOption(QFileDialog::ShowDirsOnly, true);
         if(dialog.exec()) {
-            QStringList fileName = dialog.selectedFiles();
+            const QStringList fileName = dialog.selectedFiles();
             if(fileName.size() > 0) {
-                m_ui->lineEdit_path->setText(fileName.at(0));
+                m_ui->lineEdit_path->setText(fileName.first());
             }
         }
     } else {
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Open Bible"), m_moduleSettings.modulePath, tr("Bibles (*.ini *.xml *.*)"));
-        if(fileName != "") {
+        const QString fileName = QFileDialog::getOpenFileName(this, tr("Open Bible"), m_moduleSettings.modulePath, tr("Bibles (*.ini *.xml *.*)"));
+        if(!fileName.isEmpty()) {
             m_ui->lineEdit_path->setText(fileName);
         }
     }
