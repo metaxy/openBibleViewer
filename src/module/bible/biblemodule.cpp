@@ -66,17 +66,6 @@ QString BibleModule::moduleName(bool preferShortName) const
     myWarning() << "calling BibleModule";
     return "";
 }
-QMap<int, int> BibleModule::bookCount() const
-{
-    myWarning() << "calling BibleModule";
-    return QMap<int, int> ();
-}
-BookNames BibleModule::getBookNames()
-{
-    myWarning() << "calling BibleModule";
-    BookNames m;
-    return m;
-}
 
 Book BibleModule::book() const
 {

@@ -680,9 +680,9 @@ Versification_KJV::~Versification_KJV()
 {
 }
 
-bool Versification_KJV::filter(const int &bookID, VersificationFilterFlags filter) const
+bool Versification_KJV::filter(const int &bookID, VersificationFilterFlags flags) const
 {
-    if(filter.testFlag(Versification::ReturnAll) || (filter.testFlag(Versification::ReturnOT) && filter.testFlag(Versification::ReturnNT)))
+    if(flags.testFlag(Versification::ReturnAll) || (flags.testFlag(Versification::ReturnOT) && flags.testFlag(Versification::ReturnNT)))
         return true;
     //todo: do it
     return true;

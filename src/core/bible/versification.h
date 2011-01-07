@@ -33,24 +33,24 @@ public:
 
     void setFlags(VersificationFilterFlags filter);
 
-    QStringList bookNames(VersificationFilterFlags filter) const;
-    QList<QStringList> multipleBookShortNames(VersificationFilterFlags filter) const;
-    QStringList bookShortNames(VersificationFilterFlags filter) const;
-    QList<int> maxChapter(VersificationFilterFlags filter) const;
-    QList< QList<int> > maxVerse(VersificationFilterFlags filter) const;
+    QHash<int, QString> bookNames(VersificationFilterFlags filter) const;
+    QHash<int, QStringList> multipleBookShortNames(VersificationFilterFlags filter) const;
+    QHash<int, QString> bookShortNames(VersificationFilterFlags filter) const;
+    QHash<int, int> maxChapter(VersificationFilterFlags filter) const;
+    QHash<int, QList<int> > maxVerse(VersificationFilterFlags filter) const;
     int bookCount(VersificationFilterFlags filter) const;
 
-    QStringList bookNames() const;
-    QList<QStringList> multipleBookShortNames() const;
-    QStringList bookShortNames() const;
-    QList<int> maxChapter() const;
-    QList< QList<int> > maxVerse() const;
+    QHash<int, QString> bookNames() const;
+    QHash<int, QStringList> multipleBookShortNames() const;
+    QHash<int, QString> bookShortNames() const;
+    QHash<int, int> maxChapter() const;
+    QHash<int, QList<int> > maxVerse() const;
     int bookCount() const;
 
-    BookNames toBookNames(VersificationFilterFlags filter) const;
+   /* BookNames toBookNames(VersificationFilterFlags filter) const;
     QMap<int, int> toBookCount(VersificationFilterFlags filter) const;
-
-    QString bookName(const int &bookID, bool preferShort) const;
+*/
+    QString bookName(const int &bookID, bool preferShort = false) const;
     QMap<int, BookV11N> data() const;
 
 protected:

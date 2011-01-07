@@ -65,14 +65,14 @@ BibleUrl UrlConverter::convert()
         myDebug() << m_bibleUrl.toString();
 //todo: catch errors
         url.clearRanges();
-        QSet<int> bookIDs;
+        QList<int> bookIDs;
 
         foreach(BibleUrlRange range, m_bibleUrl.ranges()) {
             if(range.bible() == BibleUrlRange::LoadBibleByID) {
                 range.setBible(m_settings->savableUrl(m_moduleMap->m_map.value(range.bibleID())->path()));
             }
             url.addRange(range);
-            bookIDs.insert(range.bookID());
+            bookIDs.append(range.bookID());
         }
         if(m_setBookNames) {
             for(int i = 0; i < bookIDs.size(); i++) {

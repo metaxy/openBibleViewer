@@ -83,13 +83,13 @@ public:
     QStringList chapterNames();
     SearchQuery lastSearchQuery() const;
 
-    bool loaded();
+    bool loaded() const;
     void setLastTextRanges(TextRanges *textRanges);
     TextRanges *lastTextRanges() const;
 
     void setLastRanges(const Ranges &ranges);
     Ranges lastRanges() const;
-    Versification *versification();
+    Versification *versification() const;
 private:
     Versification *m_versification;
     int m_bookID;
@@ -103,7 +103,6 @@ private:
 
     QStringList m_bookPath;
     QStringList m_chapterNames;
-    Versification *m_versification;
 
     BibleDisplaySettings *m_bibleDisplaySettings;
 
@@ -115,6 +114,8 @@ private:
     Book m_book;
 
     QString toUniformHtml(QString string);
+
+    QList<int> bookIDs() const;
 };
 
 #endif // BIBLE_H

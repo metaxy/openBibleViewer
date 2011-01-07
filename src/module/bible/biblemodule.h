@@ -49,9 +49,9 @@ public:
     virtual QString modulePath() const;
     virtual QString moduleName(bool preferShortName = false) const;
 
-    virtual Versification *versification();
+    virtual Versification *versification() const;
     virtual Book book() const;
-procteted:
+protected:
     Versification *m_versification;
     Settings *m_settings;
 };

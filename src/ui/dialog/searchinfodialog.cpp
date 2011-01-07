@@ -31,7 +31,7 @@ SearchInfoDialog::~SearchInfoDialog()
 {
     delete m_ui;
 }
-void SearchInfoDialog::setInfo(SearchResult result, QStringList bookNames, QString searchText, QStringList textList)
+void SearchInfoDialog::setInfo(SearchResult result, Versification *v11n, QString searchText, QStringList textList)
 {
     int size = result.hits().size();
     m_ui->label_searchText->setText(tr("Search string : '%1'").arg(searchText));
@@ -89,7 +89,7 @@ void SearchInfoDialog::setInfo(SearchResult result, QStringList bookNames, QStri
 
         p.drawRect(rectangle);
         double prozent = mRound((i.value() * 100) / size, 2);
-        p.drawText((3 / 2)*padding, x + height - 4, bookNames.at(i.key()) + " - " + QString::number(i.value()) + "(" + QString::number(prozent) + "%)");
+        p.drawText((3 / 2)*padding, x + height - 4, v11n->bookName(i.key()) + " - " + QString::number(i.value()) + "(" + QString::number(prozent) + "%)");
         x += (5 / 4) * height;
     }
     QGraphicsPixmapItem *item = new QGraphicsPixmapItem(pm);

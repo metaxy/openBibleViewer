@@ -72,11 +72,11 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
         if(readingVerse) {
             Verse v(verse, line);
             currentChapter->addVerse(verse, v);
-            if(verse + 1 < m_versification->maxVerse(flags).at(book).at(chapter)) {
+            if(verse + 1 < m_versification->maxVerse(flags).value(book).at(chapter)) {
                 verse++;
             } else {
                 //myDebug() << " book = " << book << " maxChapter = " << m_versification->maxChapter(flags).at(book);
-                if(chapter + 1 < m_versification->maxChapter(flags).at(book)) {
+                if(chapter + 1 < m_versification->maxChapter(flags).value(book)) {
                     //myDebug() << "next chapter = " << chapter;
                     currentBook->addChapter(chapter, *currentChapter);
                     chapter++;
@@ -114,8 +114,6 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
         }
 
     }
-    m_bookNames = m_versification->toBookNames(flags);
-    m_bookCount = m_versification->toBookCount(flags);
 
 }
 int TheWordBible::readBook(const int &id)

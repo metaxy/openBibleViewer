@@ -17,6 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtGui/QDialog>
 #include "src/core/search/searchresult.h"
+#include "src/core/bible/versification.h"
 namespace Ui
 {
 class SearchInfoDialog;
@@ -32,7 +33,7 @@ private slots:
     void tabChanged(int index);
 public:
     explicit SearchInfoDialog(QWidget *parent = 0);
-    void setInfo(SearchResult, QStringList bookNames, QString searchText, QStringList textList);
+    void setInfo(SearchResult, Versification *v11n, QString searchText, QStringList textList);
     virtual ~SearchInfoDialog();
     double mRound(double Zahl, int Stellen);
     int d2i(double d);

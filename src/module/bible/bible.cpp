@@ -29,7 +29,7 @@ void Bible::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings)
     m_bibleDisplaySettings = bibleDisplaySettings;
 }
 
-bool Bible::loaded()
+bool Bible::loaded() const
 {
     return m_loaded;
 }
@@ -119,7 +119,7 @@ int Bible::readBook(const int &id)
             myWarning() << "index out of range bookPath.size() = " << m_bookPath.size() << " , id = " << id;
             return 1;
         }
-        int cc = m_versification->maxChapter();
+        int cc = m_versification->maxChapter().value(id);
         int start = 1;
         if(((BibleQuote *)m_bibleModule)->m_chapterZero) {
             start = 0;
@@ -131,7 +131,7 @@ int Bible::readBook(const int &id)
     }
     case Module::ZefaniaBibleModule: case Module::TheWordBibleModule: {
         m_bibleModule->readBook(id);
-        for(int i = 1; i <= m_versification->maxChapter(); ++i) {
+        for(int i = 1; i <= m_versification->maxChapter().value(id); ++i) {
             m_chapterNames << QString::number(i);
         }
         break;
@@ -557,7 +557,7 @@ SearchQuery Bible::lastSearchQuery() const
 
 QString Bible::bookName(const int &bookID, bool preferShort)
 {
-    return m_versification.bookName(bookID, preferShort);
+    return m_versification->bookName(bookID, preferShort);
 }
 
 void Bible::setLastTextRanges(TextRanges *textRanges)
@@ -580,4 +580,8 @@ Ranges Bible::lastRanges() const
 Versification *Bible::versification() const
 {
     return m_versification;
+}
+QList<int> Bible::bookIDs() const
+{
+    return m_versification->maxChapter().keys();
 }

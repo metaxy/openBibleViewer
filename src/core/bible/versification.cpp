@@ -19,7 +19,7 @@ Versification::Versification()
 Versification::~Versification()
 {
 }
-BookNames Versification::toBookNames(VersificationFilterFlags filter)
+/*BookNames Versification::toBookNames(VersificationFilterFlags filter) const
 {
     //DEBUG_FUNC_NAME
     QHash<int, QString> bookFullName;
@@ -42,7 +42,7 @@ BookNames Versification::toBookNames(VersificationFilterFlags filter)
     ret.m_bookIDs = bookIDs;
     return ret;
 }
-QMap<int, int> Versification::toBookCount(VersificationFilterFlags filter)
+QMap<int, int> Versification::toBookCount(VersificationFilterFlags filter) const
 {
     //DEBUG_FUNC_NAME
     QMap<int, int> ret;
@@ -51,95 +51,100 @@ QMap<int, int> Versification::toBookCount(VersificationFilterFlags filter)
         ret.insert(i, mChapter.at(i));
     }
     return ret;
-}
-QStringList Versification::bookNames(VersificationFilterFlags filter) const
+}*/
+
+QHash<int, QString> Versification::bookNames(VersificationFilterFlags flags) const
 {
-    QStringList ret;
+    QHash<int, QString> ret;
     foreach(const BookV11N &book, m_books) {
-        if(!filter(book.bookID))
+        if(!filter(book.bookID, flags))
             continue;
-        ret.append(book.name);
+        ret[book.bookID] = book.name;
     }
     return ret;
 }
-QList<QStringList> Versification::multipleBookShortNames(VersificationFilterFlags filter) const
+QHash<int, QStringList> Versification::multipleBookShortNames(VersificationFilterFlags flags) const
 {
-    QList<QStringList> ret;
+    QHash<int, QStringList> ret;
     foreach(const BookV11N &book, m_books) {
-        if(!filter(book.bookID))
+        if(!filter(book.bookID, flags))
             continue;
-        ret.append(book.shortNames);
+        ret[book.bookID] = book.shortNames;
     }
     return ret;
 }
-QStringList Versification::bookShortNames(VersificationFilterFlags filter) const
+QHash<int, QString> Versification::bookShortNames(VersificationFilterFlags flags) const
 {
-    QList<QStringList> mul = multipleBookShortNames(filter);
-    QStringList ret;
-    foreach(const QStringList & a, mul) {
-        if(a.isEmpty())
-            ret.append("");
+    QHash<int, QStringList> mul = multipleBookShortNames(flags);
+    QHash<int, QString> ret;
+
+    QHashIterator<int, QStringList> i(mul);
+    while (i.hasNext()) {
+        i.next();
+        if(i.value().isEmpty())
+            ret[i.key()] = "";
         else
-            ret.append(a.first());
+            ret[i.key()] = i.value().first();
     }
+
     return ret;
 }
-QList<int> Versification::maxChapter(VersificationFilterFlags filter) const
+QHash<int, int> Versification::maxChapter(VersificationFilterFlags flags) const
 {
-    QList<int> ret;
+    QHash<int, int> ret;
     foreach(const BookV11N &book, m_books) {
-        if(!filter(book.bookID))
+        if(!filter(book.bookID, flags))
             continue;
-        ret.append(book.maxChapter);
+        ret[book.bookID] = book.maxChapter;
     }
     return ret;
 }
-QList<QList<int> > Versification::maxVerse(VersificationFilterFlags filter) const
+QHash<int, QList<int> > Versification::maxVerse(VersificationFilterFlags flags) const
 {
-    QList<QList<int> > ret;
+    QHash<int, QList<int> > ret;
     foreach(const BookV11N &book, m_books) {
-        if(!filter(book.bookID))
+        if(!filter(book.bookID, flags))
             continue;
-        ret.append(book.maxVerse);
+        ret[book.bookID] = book.maxVerse;
     }
     return ret;
 }
-int Versification::bookCount(VersificationFilterFlags filter) const
+int Versification::bookCount(VersificationFilterFlags flags) const
 {
-    return bookNames(filter).size();
+    return bookNames(flags).size();
 }
-bool Versification::filter(const int &bookID, VersificationFilterFlags filter) const
+bool Versification::filter(const int &bookID, VersificationFilterFlags flags) const
 {
-    if(filter.testFlag(Versification::ReturnAll) || (filter.testFlag(Versification::ReturnOT) && filter.testFlag(Versification::ReturnNT)))
+    if(flags.testFlag(Versification::ReturnAll) || (flags.testFlag(Versification::ReturnOT) && flags.testFlag(Versification::ReturnNT)))
         return true;
     return true;
 }
-void Versification::setFlags(VersificationFilterFlags filter)
+void Versification::setFlags(VersificationFilterFlags flags)
 {
-    m_filter = filter;
+    m_filter = flags;
 }
 
-QStringList Versification::bookNames() const
+QHash<int, QString> Versification::bookNames() const
 {
     return bookNames(m_filter);
 }
-QList<QStringList> Versification::multipleBookShortNames() const
+QHash<int, QStringList> Versification::multipleBookShortNames() const
 {
     return multipleBookShortNames(m_filter);
 }
-QStringList Versification::bookShortNames() const
+QHash<int, QString> Versification::bookShortNames() const
 {
     return bookShortNames(m_filter);
 }
-QList<int> Versification::maxChapter() const
+QHash<int, int> Versification::maxChapter() const
 {
     return maxChapter(m_filter);
 }
-QList< QList<int> > Versification::maxVerse() const
+QHash<int, QList<int> >Versification::maxVerse() const
 {
     return maxVerse(m_filter);
 }
-int Versification::bookCount()
+int Versification::bookCount() const
 {
     return bookCount(m_filter);
 }
@@ -150,7 +155,10 @@ QString Versification::bookName(const int &bookID, bool preferShort) const
         if(preferShort) {
             return shortNames.first();
         } else {
-            return m_books.value(bookID,shortNames.first()).name;
+            if(!m_books.value(bookID).name.isEmpty())
+                return m_books.value(bookID).name;
+            else
+               return shortNames.first();
         }
     } else {
         return m_books.value(bookID).name;

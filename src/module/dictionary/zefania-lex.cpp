@@ -212,7 +212,7 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                         } else if(descNode.nodeType() == 1) {
                             KoXmlElement descElement  = descNode.toElement();
                             if(descElement.tagName().compare("reflink", Qt::CaseInsensitive) == 0) {
-                                QString mscope = descElement.attribute("mscope", ";;;");
+                                const QString mscope = descElement.attribute("mscope", ";;;");
                                 const QStringList list = mscope.split(";");
                                 const int bookID = list.at(0).toInt() - 1;
                                 const int chapterID = list.at(1).toInt() - 1;
@@ -231,11 +231,13 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
 
 
                                 QString name;
-                                if(bookID < m_settings->defaultVersification->getBookNames(Versification::ReturnAll).size()) {
-                                    name = m_settings->defaultVersification->getBookNames(Versification::ReturnAll).at(bookID) + " " + list.at(1) + "," + list.at(2);
+                                if(bookID < m_settings->defaultVersification->bookNames(Versification::ReturnAll).size()) {
+                                    name = m_settings->defaultVersification->bookNames(Versification::ReturnAll).value(bookID);
                                 } else {
-                                    name = list.at(0) + " " + list.at(1) + "," + list.at(2);
+                                    name = list.at(0);
                                 }
+                                name += " " + list.at(1) + "," + list.at(2);
+
                                 desc += " <a href=\"" + url + "\">" + name + "</a> ";
                             }
                         }

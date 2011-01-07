@@ -203,8 +203,8 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
             BibleUrl burl(range);
 
             QString name;
-            if(bookID < m_settings->defaultVersification->getBookNames(Versification::ReturnAll).size()) {
-                name = m_settings->defaultVersification->getBookNames(Versification::ReturnAll).at(bookID) + " " + list.at(1) + "," + list.at(2);
+            if(bookID < m_settings->defaultVersification->bookNames(Versification::ReturnAll).size()) {
+                name = m_settings->defaultVersification->bookNames(Versification::ReturnAll).value(bookID) + " " + list.at(1) + "," + list.at(2);
             } else {
                 name = list.at(0) + " " + list.at(1) + "," + list.at(2);
             }
@@ -447,11 +447,11 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     }
     if(!hasAny) {
         //whole bible
-        if(m_bookFullName.size() == 66) {
-            m_bookFullName = m_settings->defaultVersification->getBookNames(Versification::ReturnNT | Versification::ReturnOT);
+       /* if(m_bookFullName.size() == 66) {
+            m_bookFullName = m_settings->defaultVersification->bookNames(Versification::ReturnNT | Versification::ReturnOT);
         } else if(m_bookFullName.size() == 27) {
-            m_bookFullName = m_settings->defaultVersification->getBookNames(Versification::ReturnNT);
-        } /* what else ?*/
+            m_bookFullName = m_settings->defaultVersification->bookNames(Versification::ReturnNT);
+        } */
     }
     progress.hide();
     file.close();
