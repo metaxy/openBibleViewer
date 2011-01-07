@@ -29,7 +29,7 @@ BookDockWidget::BookDockWidget(QWidget *parent) :
 
     m_bookSelection =  new QItemSelectionModel(m_bookModel);
     m_chapterSelection = new QItemSelectionModel(m_chapterModel);
-    connect(m_chapterSelection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(readChapter()));
+    connect(m_chapterSelection, SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(readChapter()));
 
     ui->listView_books->setModel(m_bookModel);
     ui->listView_chapters->setModel(m_chapterModel);
@@ -67,7 +67,7 @@ void BookDockWidget::readBook(QModelIndex index)
 void BookDockWidget::readChapter()
 {
     BibleUrl url;
-    foreach(const QModelIndex &i, m_chapterSelection->selectedIndexes()) {
+    foreach(const QModelIndex & i, m_chapterSelection->selectedIndexes()) {
         BibleUrlRange range;
         range.setBible(BibleUrlRange::LoadCurrentBible);
         range.setBook(BibleUrlRange::LoadCurrentBook);
@@ -123,14 +123,14 @@ void BookDockWidget::setCurrentBook(const int &bookID)
 }
 void BookDockWidget::setCurrentChapter(const int &chapterID)
 {
-    disconnect(m_chapterSelection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(readChapter()));
+    disconnect(m_chapterSelection, SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(readChapter()));
     const QModelIndexList list = m_chapterModel->match(m_chapterModel->index(0, 0), Qt::UserRole + 1, chapterID, 1, Qt::MatchExactly);
     if(list.size() == 1) {
         m_chapterSelection->clearSelection();
         m_chapterSelection->setCurrentIndex(list.at(0), QItemSelectionModel::Select);
         ui->listView_chapters->scrollTo(list.at(0), QAbstractItemView::EnsureVisible);
     }
-    connect(m_chapterSelection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(readChapter()));
+    connect(m_chapterSelection, SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(readChapter()));
 
 }
 
@@ -157,7 +157,7 @@ void BookDockWidget::setCurrentBook(const QSet<int> &bookID)
 void BookDockWidget::setCurrentChapter(const QSet<int> &chapterID)
 {
     //DEBUG_FUNC_NAME
-    disconnect(m_chapterSelection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(readChapter()));
+    disconnect(m_chapterSelection, SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(readChapter()));
 
     QModelIndexList sel;
     foreach(int c, chapterID) {
@@ -174,7 +174,7 @@ void BookDockWidget::setCurrentChapter(const QSet<int> &chapterID)
         }
         ui->listView_chapters->scrollTo(sel.at(0), QAbstractItemView::EnsureVisible);
     }
-    connect(m_chapterSelection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(readChapter()));
+    connect(m_chapterSelection, SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(readChapter()));
 
 }
 void BookDockWidget::changeEvent(QEvent *e)

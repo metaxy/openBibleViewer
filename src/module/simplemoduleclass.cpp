@@ -17,6 +17,9 @@ SimpleModuleClass::SimpleModuleClass()
 {
     m_moduleID = -1;
 }
+SimpleModuleClass::~SimpleModuleClass()
+{
+}
 void SimpleModuleClass::setSettings(Settings *settings)
 {
     m_settings = settings;

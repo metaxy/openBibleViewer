@@ -13,18 +13,28 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef MODULEMANAGER_H
 #define MODULEMANAGER_H
-#include "src/core/notes.h"
+#include <QtCore/QFileInfoList>
+#include <QtCore/QList>
+#include <QtCore/QDir>
+#include <QtCore/QObject>
+
+#include <QtGui/QStandardItemModel>
+#include <QtGui/QProgressDialog>
+#include <QtGui/QApplication>
+#include <QtGui/QStandardItem>
+
 #include "src/core/settings/settings.h"
-#include "src/module/bible.h"
+
+#include "src/module/bible/bible.h"
 #include "src/module/biblelist.h"
-#include "src/module/dictionary.h"
+#include "src/module/dictionary/dictionary.h"
 #include "src/module/module.h"
 #include "src/module/modulemap.h"
 
-#include <QtCore/QFileInfoList>
-#include <QtCore/QList>
-#include <QtGui/QStandardItemModel>
-
+#include "src/core/notes.h"
+#include "src/core/dbghelper.h"
+#include "src/core/urlconverter.h"
+#include "src/core/faststart.h"
 
 class ModuleManager
 {
@@ -66,8 +76,6 @@ public:
 
 private:
     static QStringList scan(const QString &path, const int &level);
-
-
 };
 
 #endif // MODULEMANAGER_H

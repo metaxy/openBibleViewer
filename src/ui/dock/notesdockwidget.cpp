@@ -187,7 +187,7 @@ void NotesDockWidget::removeMark(VerseSelection selection)
             urlConverter.setBookNames(m_moduleManager->bible()->bookNames());
             BibleUrl newUrl = urlConverter.convert();
 
-            if(newUrl.contains(selection.moduleID, selection.bookID,selection.chapterID)) {
+            if(newUrl.contains(selection.moduleID, selection.bookID, selection.chapterID)) {
                 int start = selection.startVerse;
                 int end;
                 if(selection.endVerse != -1) {

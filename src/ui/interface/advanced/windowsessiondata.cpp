@@ -12,7 +12,6 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "windowsessiondata.h"
-#include "src/core/dbghelper.h"
 WindowSessionData::WindowSessionData()
 {
 }
@@ -126,7 +125,7 @@ void WindowSessionData::setBiblePoint(const QList<QPoint> &p)
 void WindowSessionData::setBiblePoint(const QList<QPoint> &p, const int &windowID)
 {
     QStringList save;
-    foreach(const QPoint &point, p) {
+    foreach(const QPoint & point, p) {
         save << QString::number(point.x()) + ";" + QString::number(point.y());
     }
     m_biblePoints.insert(windowID, save);
@@ -176,7 +175,7 @@ QList<QPoint> WindowSessionData::biblePoint(const int &windowID)
 {
     const QStringList l = m_biblePoints.value(windowID).toStringList();
     QList<QPoint> ret;
-    foreach(const QString &s, l) {
+    foreach(const QString & s, l) {
         const QStringList split = s.split(";");
         ret << QPoint(split.first().toInt(), split.last().toInt());
     }

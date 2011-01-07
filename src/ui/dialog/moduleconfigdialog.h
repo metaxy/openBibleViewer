@@ -15,38 +15,40 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define MODULECONFIGDIALOG_H
 
 #include <QtGui/QDialog>
+#include <QtGui/QFileDialog>
 #include "src/core/settings/modulesettings.h"
+#include "src/core/dbghelper.h"
+#include "src/module/bible/zefania-bible.h"
+#include "src/module/module.h"
 
 namespace Ui
 {
 class ModuleConfigDialog;
 }
-/*!
- ModuleConfigDialog represents a dialog to change module settings
-
-*/
+/**
+ * ModuleConfigDialog represents a dialog to change module settings
+ */
 class ModuleConfigDialog : public QDialog
 {
     Q_OBJECT
     Q_DISABLE_COPY(ModuleConfigDialog)
+signals:
+    void save(ModuleSettings config);
 public:
     explicit ModuleConfigDialog(QWidget *parent = 0);
     virtual ~ModuleConfigDialog();
     void setModule(ModuleSettings config);
-
 protected:
     virtual void changeEvent(QEvent *e);
 
-private:
-    Ui::ModuleConfigDialog *m_ui;
-    ModuleSettings m_moduleSettings;
-    QStringList m_encodings;
-signals:
-    void save(ModuleSettings config);
 private slots:
     void bsave();
     void moduleTypeChanged(int id);
     void fileSelect();
+private:
+    Ui::ModuleConfigDialog *m_ui;
+    ModuleSettings m_moduleSettings;
+    QStringList m_encodings;
 };
 
 #endif // MODULECONFIGDIALOG_H

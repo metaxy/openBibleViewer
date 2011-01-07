@@ -13,15 +13,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef MODULE_H
 #define MODULE_H
-#include "src/core/settings/settings.h"
-#include "src/module/zefania-lex.h"
-#include "src/module/biblequote-dict.h"
 #include <QtCore/QString>
-#include "src/module/biblemodule.h"
+#include "src/core/settings/settings.h"
+#include "src/module/dictionary/biblequote-dict.h"
+#include "src/module/dictionary/zefania-lex.h"
+#include "src/module/bible/biblemodule.h"
 class Module
 {
 public:
     Module(Module *parent = 0);
+    virtual ~Module();
     enum ModuleClass {
         NoneClass = 0,
         FolderClass = 3,

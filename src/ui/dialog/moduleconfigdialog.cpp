@@ -12,11 +12,8 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "moduleconfigdialog.h"
-#include "src/core/dbghelper.h"
-#include "src/module/zefania-bible.h"
-#include "src/module/bible.h"
 #include "ui_moduleconfigdialog.h"
-#include <QtGui/QFileDialog>
+
 
 ModuleConfigDialog::ModuleConfigDialog(QWidget *parent) :
     QDialog(parent),
@@ -27,7 +24,7 @@ ModuleConfigDialog::ModuleConfigDialog(QWidget *parent) :
     connect(m_ui->pushButton_cancel, SIGNAL(clicked()), this, SLOT(close()));
     connect(m_ui->toolButton_file, SIGNAL(clicked()), this, SLOT(fileSelect()));
     connect(m_ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this, SLOT(moduleTypeChanged(int)));
-    m_ui->comboBox_type->insertItems(0,Module::moduleTypeNames());
+    m_ui->comboBox_type->insertItems(0, Module::moduleTypeNames());
 }
 
 ModuleConfigDialog::~ModuleConfigDialog()

@@ -26,6 +26,7 @@ class SimpleModuleClass
 {
 public:
     SimpleModuleClass();
+    virtual ~SimpleModuleClass();
     virtual void setSettings(Settings *settings);
     virtual void setNotes(Notes *n);
     void setModuleType(const Module::ModuleType &type);
@@ -34,11 +35,12 @@ public:
     void setModuleID(const int &moduleID);
 
 protected:
-    int m_moduleID;
     Module *m_module;
     Settings *m_settings;
     Notes *m_notes;
     ModuleMap *m_map;
+
+    int m_moduleID;
     Module::ModuleType m_moduleType;
 private:
 

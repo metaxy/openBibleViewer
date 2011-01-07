@@ -15,8 +15,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define BIBLELISTWIDGET_H
 
 #include <QtGui/QDialog>
-#include "src/core/basicclass.h"
+#include <QtGui/QComboBox>
+#include <QtGui/QDialogButtonBox>
 #include <QtGui/QStandardItemModel>
+
+#include "src/core/basicclass.h"
+#include "src/core/dbghelper.h"
+#include "src/core/bible/bibleurl.h"
+
+#include "biblelistitemdelegate.h"
 namespace Ui
 {
 class BibleListWidget;

@@ -13,25 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "advancedinterface.h"
 #include "ui_advancedinterface.h"
-#include "src/core/faststart.h"
-#include "src/core/core.h"
-#include "src/core/dbghelper.h"
 
-#include "src/ui/dialog/aboutdialog.h"
-#include "src/ui/noteseditor.h"
-#include "src/ui/marklist.h"
-
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QSizePolicy>
-#include <QtGui/QMessageBox>
-#include <QtGui/QDesktopServices>
-#include <QtGui/QScrollBar>
-#include <QtGui/QFileDialog>
-#include <QtGui/QPrintDialog>
-#include <QtGui/QKeySequence>
-#include <QtGui/QLineEdit>
-#include <QtCore/QScopedPointer>
-#include <QtCore/QTimer>
 
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
     Interface(parent),

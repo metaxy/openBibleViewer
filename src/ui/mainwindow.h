@@ -14,25 +14,44 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QtGui/QMainWindow>
+
 #include <QtCore/QSettings>
 #include <QtCore/QTranslator>
+#include <QtCore/QLibraryInfo>
+#include <QtCore/QMapIterator>
+#include <QtCore/QTimer>
+#include <QtCore/QDir>
+
 #include <QtGui/QToolBar>
+#include <QtGui/QMessageBox>
+#include <QtGui/QMainWindow>
+
+#include <typeinfo>
+
 #include "src/module/modulemanager.h"
+
 #include "src/core/bible/bibledisplay.h"
+#include "src/core/bible/versification/versification_kjv.h"
 #include "src/core/settings/settings.h"
-#include "src/core/notes.h"
+#include "src/core/settings/modulecache.h"
 #include "src/core/settings/session.h"
 #include "src/ui/interface/interface.h"
 #include "src/ui/interface/simple/simpleinterface.h"
 #include "src/ui/interface/advanced/advancedinterface.h"
 #include "src/ui/interface/study/studyinterface.h"
+#include "src/ui/dialog/settingsdialog.h"
+
+#include "src/core/notes.h"
+#include "src/core/dbghelper.h"
+#include "src/core/core.h"
+#include "config.h"
+#include "src/core/version.h"
 namespace Ui
 {
 class MainWindow;
 }
 /**
-  MainWindow is the first BasicClass.
+  * MainWindow is the first BasicClass.
   */
 class MainWindow : public QMainWindow, public BasicClass
 {
@@ -59,7 +78,6 @@ public:
     void setTranslator(QTranslator *my, QTranslator *qt);
     QTranslator *myappTranslator;
     QTranslator *qtTranslator;
-
 
 protected:
     void changeEvent(QEvent *e);

@@ -161,7 +161,7 @@ bool BibleUrl::fromString(QString url)
                 if(p == "current") {
                     range.setBible(BibleUrlRange::LoadCurrentBible);
                 } else if(p.startsWith("uid=")) {
-                    range.setBible(p.remove(0,4));
+                    range.setBible(p.remove(0, 4));
                 } else {
                     range.setBible(p.toInt());
                 }
@@ -258,7 +258,7 @@ void BibleUrl::unsetParam(const QString &name)
 }
 bool BibleUrl::contains(const int &moduleID, const int &bookID, const int &chapterID, const int &verseID) const
 {
-    foreach(const BibleUrlRange &range, m_ranges) {
+    foreach(const BibleUrlRange & range, m_ranges) {
         if(range.bibleID() == moduleID && range.bookID() == bookID && range.containsChapter(chapterID) && range.containsVerse(verseID))
             return true;
     }
@@ -266,7 +266,7 @@ bool BibleUrl::contains(const int &moduleID, const int &bookID, const int &chapt
 }
 bool BibleUrl::contains(const int &moduleID, const int &bookID, const int &chapterID) const
 {
-    foreach(const BibleUrlRange &range, m_ranges) {
+    foreach(const BibleUrlRange & range, m_ranges) {
         if(range.bibleID() == moduleID && range.bookID() == bookID && range.containsChapter(chapterID))
             return true;
     }

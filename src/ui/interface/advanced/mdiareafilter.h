@@ -15,7 +15,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define MDIAREAFILTER_H
 
 #include <QObject>
-
+#include <QtCore/QEvent>
+#include <QtGui/QResizeEvent>
 class MdiAreaFilter : public QObject
 {
     Q_OBJECT

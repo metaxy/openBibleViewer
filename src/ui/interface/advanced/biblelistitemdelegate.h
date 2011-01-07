@@ -16,7 +16,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QItemDelegate>
 #include <QtCore/QStringList>
+#include <QtCore/QTimer>
+#include <QtGui/QComboBox>
+
 #include "src/core/basicclass.h"
+#include "src/core/dbghelper.h"
+
 
 class BibleListItemDelegate : public QItemDelegate , public BasicClass
 {

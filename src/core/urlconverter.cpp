@@ -48,7 +48,7 @@ BibleUrl UrlConverter::convert()
         url.clearRanges();
         foreach(BibleUrlRange range, m_bibleUrl.ranges()) {
             if(range.bible() == BibleUrlRange::LoadBibleByUID) {
-                foreach(Module *module, m_moduleMap->m_map) {
+                foreach(Module * module, m_moduleMap->m_map) {
                     myDebug() << m_settings->savableUrl(module->path()) << " vs " << range.bibleUID();
                     if(m_settings->savableUrl(module->path()) == range.bibleUID())  {
                         range.setBible(module->moduleID());
@@ -58,7 +58,7 @@ BibleUrl UrlConverter::convert()
             url.addRange(range);
         }
         for(int i = 0; i < m_bibleUrl.ranges().size(); i++) {
-            url.unsetParam("b"+QString::number(i));
+            url.unsetParam("b" + QString::number(i));
         }
     } else if(m_to == PersistentUrl) {
         myDebug() << "to persisent url";
@@ -76,7 +76,7 @@ BibleUrl UrlConverter::convert()
         }
         if(m_setBookNames) {
             for(int i = 0; i < bookIDs.size(); i++) {
-                url.setParam("b"+QString::number(i), m_bookNames.value(i));
+                url.setParam("b" + QString::number(i), m_bookNames.value(i));
             }
         }
     }

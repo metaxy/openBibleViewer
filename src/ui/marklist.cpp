@@ -70,7 +70,7 @@ void MarkList::addMark(const int &row, const QString &id)
     urlConverter.convert();
 
     const QString string = urlConverter.bookName() + " " + QString::number(urlConverter.chapterID() + 1) + "," +
-                            QString::number(urlConverter.verseID() + 1);
+                           QString::number(urlConverter.verseID() + 1);
 
     QStandardItem *stelle = new QStandardItem(string);
     stelle->setData(id);

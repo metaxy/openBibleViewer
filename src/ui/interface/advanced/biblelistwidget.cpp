@@ -13,11 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "biblelistwidget.h"
 #include "ui_biblelistwidget.h"
-#include "src/core/dbghelper.h"
-#include "src/core/bible/bibleurl.h"
-#include "biblelistitemdelegate.h"
-#include <QtGui/QComboBox>
-#include <QtGui/QDialogButtonBox>
+
 BibleListWidget::BibleListWidget(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::BibleListWidget)

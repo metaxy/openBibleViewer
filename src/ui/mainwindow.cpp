@@ -14,19 +14,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "src/ui/dialog/settingsdialog.h"
-#include "src/core/dbghelper.h"
-#include "src/core/settings/modulecache.h"
-#include "src/core/bible/versification/versification_kjv.h"
-#include <QtGui/QMessageBox>
-#include <QtCore/QLibraryInfo>
-#include <QtCore/QMapIterator>
-#include <QtCore/QTimer>
-#include <QtCore/QDir>
-#include <typeinfo>
-#include "src/core/core.h"
-#include "config.h"
-#include "src/core/version.h"
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)

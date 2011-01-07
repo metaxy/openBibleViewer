@@ -15,6 +15,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define WEBVIEW_H
 
 #include <QWebView>
+#include <QtGui/QMenu>
+#include <QtGui/QAction>
+#include <QtGui/QContextMenuEvent>
 
 class WebView : public QWebView
 {

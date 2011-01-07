@@ -57,19 +57,19 @@ set ( openBibleViewer_HDRS
     core/xbelreader.h
     core/xbelwriter.h
 
-    module/biblequote.h
-    module/zefania-bible.h
-    module/bible.h
+    module/bible/biblequote.h
+    module/bible/zefania-bible.h
+    module/bible/bible.h
     module/simplemoduleclass.h
     module/modulemanager.h
     module/module.h
-    module/zefania-lex.h
+    module/dictionary/zefania-lex.h
     module/modulemap.h
     module/biblelist.h
-    module/dictionary.h
-    module/biblequote-dict.h
-    module/biblemodule.h
-    module/thewordbible.h
+    module/dictionary/dictionary.h
+    module/dictionary/biblequote-dict.h
+    module/bible/biblemodule.h
+    module/bible/thewordbible.h
 
     ui/interface/advanced/windowsessiondata.h
     )
@@ -125,19 +125,19 @@ set ( openBibleViewer_SRCS
     core/xbelreader.cpp
     core/xbelwriter.cpp
 
-    module/bible.cpp
-    module/biblequote.cpp
-    module/zefania-bible.cpp
-    module/zefania-lex.cpp
+    module/bible/bible.cpp
+    module/bible/biblequote.cpp
+    module/bible/zefania-bible.cpp
+    module/dictionary/zefania-lex.cpp
     module/modulemanager.cpp
     module/module.cpp
     module/simplemoduleclass.cpp
     module/biblelist.cpp
     module/modulemap.cpp
-    module/dictionary.cpp
-    module/biblequote-dict.cpp
-    module/biblemodule.cpp
-    module/thewordbible.cpp
+    module/dictionary/dictionary.cpp
+    module/dictionary/biblequote-dict.cpp
+    module/bible/biblemodule.cpp
+    module/bible/thewordbible.cpp
     
     ui/dialog/searchdialog.cpp
     ui/dialog/settingsdialog.cpp
@@ -162,13 +162,13 @@ set ( openBibleViewer_SRCS
     ui/interface/advanced/biblelistwidget.cpp
     ui/interface/advanced/biblelistitemdelegate.cpp
     ui/interface/advanced/mdiareafilter.cpp
-    ui/interface/advanced/bibleform.cpp
+    ui/interface/advanced/form/bibleform.cpp
     ui/interface/advanced/webview.cpp
-    ui/interface/advanced/windowmanager.cpp
-    ui/interface/advanced/bookmarksmanager.cpp
-    ui/interface/advanced/biblemanager.cpp
-    ui/interface/advanced/notesmanager.cpp
-    ui/interface/advanced/searchmanager.cpp
+    ui/interface/advanced/manager/windowmanager.cpp
+    ui/interface/advanced/manager/bookmarksmanager.cpp
+    ui/interface/advanced/manager/biblemanager.cpp
+    ui/interface/advanced/manager/notesmanager.cpp
+    ui/interface/advanced/manager/searchmanager.cpp
     ui/interface/advanced/advancedinterface.cpp
     ui/interface/advanced/windowsessiondata.cpp
     ui/interface/study/studyinterface.cpp
@@ -207,7 +207,7 @@ set ( openBibleViewer_UIS
     ui/interface/simple/simpleinterface.ui
     ui/interface/advanced/advancedinterface.ui
     ui/interface/study/studyinterface.ui
-    ui/interface/advanced/bibleform.ui
+    ui/interface/advanced/form/bibleform.ui
     ui/interface/advanced/biblelistwidget.ui
 
     ui/mainwindow.ui
@@ -274,17 +274,17 @@ set ( openBibleViewer_MOCS
     ui/interface/simple/simpleinterface.h
     ui/interface/study/studyinterface.h
 
-    ui/interface/advanced/bibleform.h
+    ui/interface/advanced/form/bibleform.h
     ui/interface/advanced/advancedinterface.h
     ui/interface/advanced/webview.h
     ui/interface/advanced/biblelistwidget.h
     ui/interface/advanced/biblelistitemdelegate.h
     ui/interface/advanced/mdiareafilter.h
-    ui/interface/advanced/windowmanager.h
-    ui/interface/advanced/bookmarksmanager.h
-    ui/interface/advanced/biblemanager.h
-    ui/interface/advanced/notesmanager.h
-    ui/interface/advanced/searchmanager.h
+    ui/interface/advanced/manager/windowmanager.h
+    ui/interface/advanced/manager/bookmarksmanager.h
+    ui/interface/advanced/manager/biblemanager.h
+    ui/interface/advanced/manager/notesmanager.h
+    ui/interface/advanced/manager/searchmanager.h
     ui/actions.h
 	)
 QT4_WRAP_CPP ( MOCS ${openBibleViewer_MOCS} )

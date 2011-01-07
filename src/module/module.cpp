@@ -19,7 +19,9 @@ Module::Module(Module *parent)
     m_zefaniaLex = 0;
     m_bibleQuoteDict = 0;
     m_parent = parent;
-
+}
+Module::~Module()
+{
 }
 QStringList Module::moduleTypeNames()
 {

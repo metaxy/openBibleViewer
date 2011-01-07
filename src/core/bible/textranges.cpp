@@ -63,7 +63,7 @@ bool TextRanges::isEmpty()
 int TextRanges::minBookID() const
 {
     int ret = -1;
-    foreach(const TextRange &r, m_ranges) {
+    foreach(const TextRange & r, m_ranges) {
         if((r.bookID() < ret || ret == -1))
             ret = r.bookID();
     }
@@ -72,8 +72,8 @@ int TextRanges::minBookID() const
 int TextRanges::maxBookID() const
 {
     int ret = -1;
-    foreach(const TextRange &r, m_ranges) {
-        if((r.bookID() > ret) )
+    foreach(const TextRange & r, m_ranges) {
+        if((r.bookID() > ret))
             ret = r.bookID();
     }
     return ret;
@@ -102,7 +102,7 @@ QSet<int> TextRanges::chapterIDs() const
 int TextRanges::minChapterID(const int &bookID) const
 {
     int ret = -1;
-    foreach(const TextRange &r, m_ranges) {
+    foreach(const TextRange & r, m_ranges) {
         if((r.chapterID() < ret || ret == -1) && r.bookID() == bookID)
             ret = r.chapterID();
     }
@@ -111,7 +111,7 @@ int TextRanges::minChapterID(const int &bookID) const
 int TextRanges::maxChapterID(const int &bookID) const
 {
     int ret = -1;
-    foreach(const TextRange &r, m_ranges) {
+    foreach(const TextRange & r, m_ranges) {
         if((r.chapterID() > ret) && r.bookID() == bookID)
             ret = r.chapterID();
     }
@@ -120,7 +120,7 @@ int TextRanges::maxChapterID(const int &bookID) const
 QSet<int> TextRanges::chapterIDs(const int &bookID) const
 {
     QSet<int> ret;
-    foreach(const TextRange &range, m_ranges) {
+    foreach(const TextRange & range, m_ranges) {
         if(bookID == range.bookID())
             ret.insert(range.chapterID());
     }
@@ -145,11 +145,11 @@ QSet<int>TextRanges::verseIDs() const
 int TextRanges::minVerseID(const int &bookID, const int &chapterID) const
 {
     int ret = -1;
-    foreach(const TextRange &r, m_ranges) {
+    foreach(const TextRange & r, m_ranges) {
         if(r.bookID() == bookID && r.chapterID() == chapterID) {
             QList<Verse> verseList = r.verseList();
             int min = -1;
-            foreach(const Verse &verse, verseList) {
+            foreach(const Verse & verse, verseList) {
                 if(verse.verseID() < min || min == -1)
                     min = verse.verseID();
             }
@@ -162,11 +162,11 @@ int TextRanges::minVerseID(const int &bookID, const int &chapterID) const
 int TextRanges::maxVerseID(const int &bookID, const int &chapterID) const
 {
     int ret = -1;
-    foreach(const TextRange &r, m_ranges) {
+    foreach(const TextRange & r, m_ranges) {
         if(r.bookID() == bookID && r.chapterID() == chapterID) {
             QList<Verse> verseList = r.verseList();
             int max = -1;
-            foreach(const Verse &verse, verseList) {
+            foreach(const Verse & verse, verseList) {
                 if(verse.verseID() > max)
                     max = verse.verseID();
             }
@@ -179,10 +179,10 @@ int TextRanges::maxVerseID(const int &bookID, const int &chapterID) const
 QSet<int> TextRanges::verseIDs(const int &bookID, const int &chapterID) const
 {
     QSet<int> ret;
-    foreach(const TextRange &range, m_ranges) {
+    foreach(const TextRange & range, m_ranges) {
         if(bookID == range.bookID() && chapterID == range.chapterID()) {
             QSet<int> ids;
-            foreach(const Verse &verse, range.verseList()) {
+            foreach(const Verse & verse, range.verseList()) {
                 ids.insert(verse.verseID());
             }
             ret.unite(ids);
@@ -193,7 +193,7 @@ QSet<int> TextRanges::verseIDs(const int &bookID, const int &chapterID) const
 
 bool TextRanges::contains(const int &bookID, const int &chapterID) const
 {
-    foreach(const TextRange &r, m_ranges) {
+    foreach(const TextRange & r, m_ranges) {
         if(r.bookID() == bookID && r.chapterID() == chapterID)
             return true;
     }
@@ -202,14 +202,14 @@ bool TextRanges::contains(const int &bookID, const int &chapterID) const
 QList<BibleUrlRange> TextRanges::toBibleUrlRanges() const
 {
     QList<BibleUrlRange> ret;
-    foreach(const TextRange &r, m_ranges) {
+    foreach(const TextRange & r, m_ranges) {
         BibleUrlRange range;
         range.setBible(r.moduleID());
         range.setBook(r.bookID());
         range.setChapter(r.chapterID());
         int minVerse = -1;
         int maxVerse = -1;
-        foreach(const Verse &v, r.verseList()) {
+        foreach(const Verse & v, r.verseList()) {
             if(v.verseID() < minVerse || minVerse == -1)
                 minVerse = v.verseID();
             if(v.verseID() >= maxVerse)

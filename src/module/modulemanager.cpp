@@ -11,18 +11,8 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#include "src/module/modulemanager.h"
-#include <QtGui/QProgressDialog>
-#include <QtGui/QApplication>
-#include <QtCore/QDir>
-#include <QtCore/QObject>
-#include <QStandardItem>
-#include "src/module/bible.h"
-#include "src/module/module.h"
-#include "src/module/modulemap.h"
-#include "src/core/dbghelper.h"
-#include "src/core/urlconverter.h"
-#include "src/core/faststart.h"
+#include "modulemanager.h"
+
 ModuleManager::ModuleManager()
 {
     m_moduleModel = new QStandardItemModel;
@@ -394,7 +384,7 @@ QString ModuleManager::notePos2Link(const QString &pos)
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleMap);
     BibleUrl newUrl = urlConverter.convert();
-    const QString string = url.getParam("b0") + " " + QString::number(newUrl.ranges().first().startChapterID() + 1) + QString::number(newUrl.ranges().first().activeVerseID()+1);
+    const QString string = url.getParam("b0") + " " + QString::number(newUrl.ranges().first().startChapterID() + 1) + QString::number(newUrl.ranges().first().activeVerseID() + 1);
 
     const QString link = newUrl.toString();
     return "<a href=\"" + link + "\" >" + string + "</a>";
@@ -407,7 +397,7 @@ QString ModuleManager::notePos2Text(const QString &pos)
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleMap);
     BibleUrl newUrl = urlConverter.convert();
-    const QString string = url.getParam("b0") + " " + QString::number(newUrl.ranges().first().startChapterID() + 1) + QString::number(newUrl.ranges().first().activeVerseID()+1);
+    const QString string = url.getParam("b0") + " " + QString::number(newUrl.ranges().first().startChapterID() + 1) + QString::number(newUrl.ranges().first().activeVerseID() + 1);
     return string;
 }
 QStringList ModuleManager::getBibleTitles()

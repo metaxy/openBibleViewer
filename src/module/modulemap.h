@@ -14,7 +14,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef MODULEMAP_H
 #define MODULEMAP_H
 #include "module.h"
-#include <QtCore/QCache>
 class ModuleMap
 {
 public:

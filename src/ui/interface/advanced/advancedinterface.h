@@ -14,22 +14,40 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef ADVANCEDINTERFACE_H
 #define ADVANCEDINTERFACE_H
 
-#include <QWidget>
-#include "src/ui/interface/interface.h"
+#include <QtGui/QWidget>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QSizePolicy>
+#include <QtGui/QMessageBox>
+#include <QtGui/QDesktopServices>
+#include <QtGui/QScrollBar>
+#include <QtGui/QFileDialog>
+#include <QtGui/QKeySequence>
+#include <QtGui/QLineEdit>
+#include <QtGui/QCloseEvent>
 
-
-#include "src/ui/dock/dictionarydockwidget.h"
+#include <QtCore/QScopedPointer>
+#include <QtCore/QTimer>
 
 #include "src/api/api.h"
+
+#include "src/core/core.h"
+#include "src/core/dbghelper.h"
+
+#include "src/ui/interface/interface.h"
+#include "src/ui/dock/dictionarydockwidget.h"
+
+#include "src/ui/interface/advanced/manager/windowmanager.h"
+#include "src/ui/interface/advanced/manager/biblemanager.h"
+#include "src/ui/interface/advanced/manager/notesmanager.h"
+#include "src/ui/interface/advanced/manager/searchmanager.h"
+#include "src/ui/interface/advanced/manager/bookmarksmanager.h"
+
 #include "mdiareafilter.h"
-#include "windowmanager.h"
-#include "biblemanager.h"
-#include "notesmanager.h"
-#include "searchmanager.h"
-#include "bookmarksmanager.h"
-#include <QtGui/QMdiSubWindow>
-#include <QtGui/QCloseEvent>
-#include <QtGui/QContextMenuEvent>
+
+#include "src/ui/dialog/aboutdialog.h"
+#include "src/ui/noteseditor.h"
+#include "src/ui/marklist.h"
+
 namespace Ui
 {
 class AdvancedInterface;

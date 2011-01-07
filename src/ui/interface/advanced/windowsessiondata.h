@@ -17,6 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QRect>
 #include <QtCore/QVariant>
 #include "src/core/settings/settings.h"
+#include "src/core/dbghelper.h"
 class WindowSessionData
 {
 public:

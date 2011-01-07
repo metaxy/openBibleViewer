@@ -12,7 +12,6 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "biblelist.h"
-#include "src/core/dbghelper.h"
 BibleList::BibleList()
 {
     m_currentBible = 0;
@@ -110,9 +109,9 @@ std::pair<QString, TextRanges> BibleList::readRanges(const Ranges &ranges) const
             if(ret.second.textRanges().size() == 1)
                 ret.first = ret.second.join("");
             else {
-                foreach(const TextRange &range, ret.second.textRanges()) {
+                foreach(const TextRange & range, ret.second.textRanges()) {
                     //todo: use in future range.title()
-                    ret.first += "<span class='rangeTitle'> " + b->bookName(range.bookID(),true) + " " + QString::number(range.chapterID()+1) + "</span>\n";
+                    ret.first += "<span class='rangeTitle'> " + b->bookName(range.bookID(), true) + " " + QString::number(range.chapterID() + 1) + "</span>\n";
                     ret.first += range.join("");
                 }
             }
@@ -194,7 +193,7 @@ std::pair<QString, TextRanges> BibleList::readRanges(const Ranges &ranges) const
                 }
             }
             if(def.textRanges().size() != 1)
-                out += "<tr><td align='center' class='rangeTitle' colspan='"+QString::number(rMaxCol)+"'>" + defBible->bookName(textRange.bookID()) + " " + QString::number(textRange.chapterID()+1) + "</td></tr>\n";
+                out += "<tr><td align='center' class='rangeTitle' colspan='" + QString::number(rMaxCol) + "'>" + defBible->bookName(textRange.bookID()) + " " + QString::number(textRange.chapterID() + 1) + "</td></tr>\n";
 
             QMapIterator<int, Verse> mapIt(textRange.verseMap());
             while(mapIt.hasNext()) {

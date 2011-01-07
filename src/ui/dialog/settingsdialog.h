@@ -14,8 +14,30 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef SETTINGSDIALOG_H
 #define SETTINGSDIALOG_H
 
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
+#include <QtCore/QStringList>
+#include <QtGui/QProgressDialog>
+#include <QtGui/QMessageBox>
+#include <QtGui/QFileDialog>
 #include <QtGui/QDialog>
+
 #include "src/core/settings/settings.h"
+#include "src/core/settings/modulesettings.h"
+#include "src/core/dbghelper.h"
+
+#include "src/module/modulemanager.h"
+#include "src/module/bible/zefania-bible.h"
+#include "src/module/dictionary/zefania-lex.h"
+#include "src/module/bible/biblequote.h"
+#include "src/module/bible/thewordbible.h"
+#include "src/module/bible/bible.h"
+#include "src/module/module.h"
+
+#include "moduleconfigdialog.h"
+#include "moduledownloaddialog.h"
+#include "config.h"
+
 namespace Ui
 {
 class SettingsDialog;

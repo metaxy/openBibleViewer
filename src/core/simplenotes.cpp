@@ -175,17 +175,17 @@ void SimpleNotes::editNoteLink()
 {
     const QString link = m_noteRef.value("link");
 //todo: urlconverter
-   /* UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
-    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.setSettings(m_settings);
-    urlConverter.pharse();
+    /* UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
+     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+     urlConverter.setSettings(m_settings);
+     urlConverter.pharse();
 
-    BiblePassageDialog *passageDialog = new  BiblePassageDialog();
-    connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateNote(QString)));
-    passageDialog->setSettings(m_settings);
-    passageDialog->setModuleManager(m_moduleManager);
-    passageDialog->setCurrent(urlConverter.m_moduleID, urlConverter.m_path, urlConverter.m_bookID, urlConverter.m_chapterID + 1, urlConverter.m_verseID + 1);
-    passageDialog->exec();*/
+     BiblePassageDialog *passageDialog = new  BiblePassageDialog();
+     connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateNote(QString)));
+     passageDialog->setSettings(m_settings);
+     passageDialog->setModuleManager(m_moduleManager);
+     passageDialog->setCurrent(urlConverter.m_moduleID, urlConverter.m_path, urlConverter.m_bookID, urlConverter.m_chapterID + 1, urlConverter.m_verseID + 1);
+     passageDialog->exec();*/
 
 }
 void SimpleNotes::updateNote(const QString &link)
