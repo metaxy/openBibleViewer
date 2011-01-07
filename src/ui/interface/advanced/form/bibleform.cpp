@@ -261,7 +261,7 @@ void BibleForm::setCurrentBook(const QSet<int> &bookID)
         if(b < min || min == -1)
             min = b;
     }
-    m_ui->comboBox_books->setCurrentIndex(m_moduleManager->bible()->bookIDs().indexOf(min));
+    m_ui->comboBox_books->setCurrentIndex(m_moduleManager->bible()->versification()->data().keys().indexOf(min));
     connect(m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
 }
 void BibleForm::activated()
@@ -291,8 +291,8 @@ void BibleForm::activated()
     m_actions->setTitle(m_moduleManager->bible()->moduleTitle());
     m_actions->setCurrentModule(m_moduleManager->bible()->moduleID());
 
-    m_actions->updateChapters(m_moduleManager->bible()->chapterNames());
-    m_actions->updateBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
+    m_actions->updateChapters(m_moduleManager->bible()->versification());
+    m_actions->updateBooks(m_moduleManager->bible()->versification());
     if(m_lastTextRanges.verseCount() != 0) {
         m_actions->setCurrentChapter(m_lastTextRanges.chapterIDs());
         m_actions->setCurrentBook(m_lastTextRanges.bookIDs());

@@ -39,15 +39,15 @@ public:
     BibleUrl convert();
     void setModuleMap(ModuleMap *moduleMap);
     void setSettings(Settings *settings);
-    void setBookNames(QHash<int, QString> bookNames);
+    void setV11n(Versification *v11n);
 private:
     UrlType m_from;
     UrlType m_to;
     ModuleMap *m_moduleMap;
     Settings *m_settings;
     BibleUrl m_bibleUrl;
-    QHash<int, QString> m_bookNames;
     bool m_setBookNames;
+    Versification *m_v11n;
 };
 
 #endif // URLCONVERTER_H

@@ -39,9 +39,9 @@ void UrlConverter2::setSM(Settings *settings, ModuleMap *map)
     m_urlConverter.setModuleMap(map);
 }
 
-void UrlConverter2::setBookNames(QHash<int, QString> bookNames)
+void UrlConverter2::setV11n(Versification *v11n)
 {
-    m_urlConverter.setBookNames(bookNames);
+    m_urlConverter.setV11n(v11n);
 }
 
 void UrlConverter2::setUrl(BibleUrl url)

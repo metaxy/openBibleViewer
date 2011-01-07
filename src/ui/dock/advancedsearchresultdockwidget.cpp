@@ -124,7 +124,6 @@ void AdvancedSearchResultDockWidget::searchInfo()
         return;
     }
 
-    const QStringList bookNames = m_moduleManager->bible()->bookNames().values();//todo: check
     SearchResult result = m_searchResult;
     QList<SearchHit> list = result.hits(SearchHit::BibleHit);
 
@@ -143,7 +142,7 @@ void AdvancedSearchResultDockWidget::searchInfo()
     SearchInfoDialog sDialog;
     sDialog.show();
 
-    sDialog.setInfo(result, bookNames, m_searchResult.searchQuery.searchText, textList);
+    sDialog.setInfo(result, m_moduleManager->bible()->versification(), m_searchResult.searchQuery.searchText, textList);
     sDialog.exec();
 }
 

@@ -84,3 +84,8 @@ Book BibleModule::book() const
     Book b;
     return b;
 }
+
+Versification* BibleModule::versification() const
+{
+    return m_versification;
+}

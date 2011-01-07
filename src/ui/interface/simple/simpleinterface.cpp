@@ -145,7 +145,8 @@ void SimpleInterface::loadModuleDataByID(int id)
     m_moduleManager->bible()->loadModuleData(id);
 
     setTitle(m_moduleManager->bible()->moduleTitle());
-    setBooks(m_moduleManager->bible()->bookNames());
+    //todo: port to v11n
+    //setBooks(m_moduleManager->bible()->bookNames());
 
 }
 void SimpleInterface::pharseUrl(QUrl url)

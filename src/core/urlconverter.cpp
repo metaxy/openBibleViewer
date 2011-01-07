@@ -33,9 +33,9 @@ void UrlConverter::setSettings(Settings *settings)
 {
     m_settings = settings;
 }
-void UrlConverter::setBookNames(QHash<int, QString> bookNames)
+void UrlConverter::setV11n(Versification *v11n)
 {
-    m_bookNames = bookNames;
+    m_v11n = v11n;
     m_setBookNames = true;
 }
 
@@ -76,7 +76,7 @@ BibleUrl UrlConverter::convert()
         }
         if(m_setBookNames) {
             for(int i = 0; i < bookIDs.size(); i++) {
-                url.setParam("b" + QString::number(i), m_bookNames.value(i));
+                url.setParam("b" + QString::number(i), m_v11n->bookName(bookIDs.at(i)));
             }
         }
     }

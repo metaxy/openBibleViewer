@@ -52,3 +52,111 @@ QMap<int, int> Versification::toBookCount(VersificationFilterFlags filter)
     }
     return ret;
 }
+QStringList Versification::bookNames(VersificationFilterFlags filter) const
+{
+    QStringList ret;
+    foreach(const BookV11N &book, m_books) {
+        if(!filter(book.bookID))
+            continue;
+        ret.append(book.name);
+    }
+    return ret;
+}
+QList<QStringList> Versification::multipleBookShortNames(VersificationFilterFlags filter) const
+{
+    QList<QStringList> ret;
+    foreach(const BookV11N &book, m_books) {
+        if(!filter(book.bookID))
+            continue;
+        ret.append(book.shortNames);
+    }
+    return ret;
+}
+QStringList Versification::bookShortNames(VersificationFilterFlags filter) const
+{
+    QList<QStringList> mul = multipleBookShortNames(filter);
+    QStringList ret;
+    foreach(const QStringList & a, mul) {
+        if(a.isEmpty())
+            ret.append("");
+        else
+            ret.append(a.first());
+    }
+    return ret;
+}
+QList<int> Versification::maxChapter(VersificationFilterFlags filter) const
+{
+    QList<int> ret;
+    foreach(const BookV11N &book, m_books) {
+        if(!filter(book.bookID))
+            continue;
+        ret.append(book.maxChapter);
+    }
+    return ret;
+}
+QList<QList<int> > Versification::maxVerse(VersificationFilterFlags filter) const
+{
+    QList<QList<int> > ret;
+    foreach(const BookV11N &book, m_books) {
+        if(!filter(book.bookID))
+            continue;
+        ret.append(book.maxVerse);
+    }
+    return ret;
+}
+int Versification::bookCount(VersificationFilterFlags filter) const
+{
+    return bookNames(filter).size();
+}
+bool Versification::filter(const int &bookID, VersificationFilterFlags filter) const
+{
+    if(filter.testFlag(Versification::ReturnAll) || (filter.testFlag(Versification::ReturnOT) && filter.testFlag(Versification::ReturnNT)))
+        return true;
+    return true;
+}
+void Versification::setFlags(VersificationFilterFlags filter)
+{
+    m_filter = filter;
+}
+
+QStringList Versification::bookNames() const
+{
+    return bookNames(m_filter);
+}
+QList<QStringList> Versification::multipleBookShortNames() const
+{
+    return multipleBookShortNames(m_filter);
+}
+QStringList Versification::bookShortNames() const
+{
+    return bookShortNames(m_filter);
+}
+QList<int> Versification::maxChapter() const
+{
+    return maxChapter(m_filter);
+}
+QList< QList<int> > Versification::maxVerse() const
+{
+    return maxVerse(m_filter);
+}
+int Versification::bookCount()
+{
+    return bookCount(m_filter);
+}
+QString Versification::bookName(const int &bookID, bool preferShort) const
+{
+    const QStringList shortNames = m_books.value(bookID).shortNames;
+    if(!shortNames.isEmpty()) {
+        if(preferShort) {
+            return shortNames.first();
+        } else {
+            return m_books.value(bookID,shortNames.first()).name;
+        }
+    } else {
+        return m_books.value(bookID).name;
+    }
+}
+QMap<int, BookV11N> Versification::data() const
+{
+    return m_books;
+}

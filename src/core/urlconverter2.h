@@ -21,7 +21,7 @@ public:
     UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType to, QString url);
     void setFromTo(UrlConverter::UrlType from, UrlConverter::UrlType to);
     void setSM(Settings *settings, ModuleMap *map);
-    void setBookNames(QHash<int, QString> bookNames);
+    void setV11n(Versification *versification);
     void setUrl(BibleUrl url);
     void convert();
 

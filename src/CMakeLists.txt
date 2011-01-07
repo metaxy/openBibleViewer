@@ -21,6 +21,7 @@ set ( openBibleViewer_HDRS
     core/bible/verse.h
     core/bible/versification.h
     core/bible/versification/versification_kjv.h
+    core/bible/versification/bookv11n.h
 
 
     core/core.h
@@ -93,6 +94,7 @@ set ( openBibleViewer_SRCS
     core/bible/verse.cpp
     core/bible/versification.cpp
     core/bible/versification/versification_kjv.cpp
+    core/bible/versification/bookv11n.cpp
 
     core/faststart.cpp
     core/KoXmlReader.cpp

@@ -78,12 +78,7 @@ public:
     QString modulePath();
 
     QString bookName(const int &bookID, bool preferShort = false);
-    //todo: used instead a map instead of hash
-    QHash<int, QString> bookNames(bool preferShort = false);
 
-    QHash<int, QString> bookFullNames();
-    QHash<int, QStringList> bookShortNames();
-    QList<int> bookIDs();
     QStringList bookPath();
     QStringList chapterNames();
     SearchQuery lastSearchQuery() const;
@@ -94,7 +89,9 @@ public:
 
     void setLastRanges(const Ranges &ranges);
     Ranges lastRanges() const;
+    Versification *versification();
 private:
+    Versification *m_versification;
     int m_bookID;
     int m_chapterID;
     int m_verseID;
@@ -106,7 +103,7 @@ private:
 
     QStringList m_bookPath;
     QStringList m_chapterNames;
-    BookNames m_names;
+    Versification *m_versification;
 
     BibleDisplaySettings *m_bibleDisplaySettings;
 

@@ -21,6 +21,7 @@ Bible::Bible()
     m_loaded = false;
     m_bibleModule = 0;
     m_lastTextRanges = 0;
+    m_versification = 0;
 }
 
 void Bible::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings)
@@ -36,7 +37,7 @@ bool Bible::loaded()
 int Bible::loadModuleData(const int &moduleID)
 {
     DEBUG_FUNC_NAME
-
+    m_versification = 0;
     m_module = m_map->m_map.value(moduleID, 0);
     //not valid module
     if(moduleID < 0 || !m_module) {
@@ -85,9 +86,8 @@ int Bible::loadModuleData(const int &moduleID)
         m_bibleModule->setSettings(m_settings);
         m_bibleModule->loadBibleData(m_moduleID, m_module->path());
     }
+    m_versification = m_bibleModule->versification();
 
-    bookCount = m_bibleModule->bookCount();
-    m_names = m_bibleModule->getBookNames();
     if(m.moduleName.isEmpty())
         m_moduleTitle = m_bibleModule->moduleName(false);
     else
@@ -95,8 +95,7 @@ int Bible::loadModuleData(const int &moduleID)
     m_moduleShortTitle = m_bibleModule->moduleName(true);
 
     m_settings->setTitle(m_module->path(), m_moduleTitle);
-    m_settings->setBookCount(m_module->path(), bookCount);
-    m_settings->setBookNames(m_module->path(), m_names.m_bookFullName);
+    //todo: port to set cache
 
     m_loaded = true;
     return 0;
@@ -120,7 +119,7 @@ int Bible::readBook(const int &id)
             myWarning() << "index out of range bookPath.size() = " << m_bookPath.size() << " , id = " << id;
             return 1;
         }
-        int cc = bookCount[id];
+        int cc = m_versification->maxChapter();
         int start = 1;
         if(((BibleQuote *)m_bibleModule)->m_chapterZero) {
             start = 0;
@@ -132,7 +131,7 @@ int Bible::readBook(const int &id)
     }
     case Module::ZefaniaBibleModule: case Module::TheWordBibleModule: {
         m_bibleModule->readBook(id);
-        for(int i = 1; i <= m_bibleModule->bookCount().value(id, 0); ++i) {
+        for(int i = 1; i <= m_versification->maxChapter(); ++i) {
             m_chapterNames << QString::number(i);
         }
         break;
@@ -506,7 +505,7 @@ int Bible::chapterID() const
 
 int Bible::booksCount() const
 {
-    return m_names.m_bookFullName.size();
+    return m_versification->bookCount();
 }
 
 int Bible::chaptersCount() const
@@ -531,15 +530,6 @@ QString Bible::moduleShortTitle()
     return m_moduleShortTitle;
 }
 
-QHash<int, QString> Bible::bookFullNames()
-{
-    return m_names.m_bookFullName;
-}
-
-QHash<int, QStringList> Bible::bookShortNames()
-{
-    return m_names.m_bookShortName;
-}
 
 QStringList Bible::bookPath()
 {
@@ -565,40 +555,11 @@ SearchQuery Bible::lastSearchQuery() const
     return m_lastSearchQuery;
 }
 
-QList<int> Bible::bookIDs()
-{
-    return m_names.m_bookIDs;
-}
 QString Bible::bookName(const int &bookID, bool preferShort)
 {
-    return m_names.bookName(bookID, preferShort);
+    return m_versification.bookName(bookID, preferShort);
 }
-QHash<int, QString> Bible::bookNames(bool preferShort)
-{
-    if(preferShort) {
-        if(m_names.m_bookShortName.size() != 0) {
-            QHash<int, QString> ret;
-            QHashIterator<int, QStringList> i(m_names.m_bookShortName);
-            while(i.hasNext()) {
-                ret[i.key()] = i.value().first();
-            }
-            return ret;
-        } else {
-            return m_names.m_bookFullName;
-        }
-    } else {
-        if(m_names.m_bookFullName.size() != 0) {
-            return m_names.m_bookFullName;
-        } else {
-            QHash<int, QString> ret;
-            QHashIterator<int, QStringList> i(m_names.m_bookShortName);
-            while(i.hasNext()) {
-                ret[i.key()] = i.value().first();
-            }
-            return ret;
-        }
-    }
-}
+
 void Bible::setLastTextRanges(TextRanges *textRanges)
 {
     m_lastTextRanges = textRanges;
@@ -616,4 +577,7 @@ Ranges Bible::lastRanges() const
 {
     return m_ranges;
 }
-
+Versification *Bible::versification() const
+{
+    return m_versification;
+}

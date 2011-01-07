@@ -22,11 +22,8 @@ class Versification_KJV : public Versification
 public:
     Versification_KJV();
     ~Versification_KJV();
-    QStringList getBookNames(VersificationFilterFlags filter) const;
-    QList<QStringList> multipleBookShortNames(VersificationFilterFlags filter) const;
-    QStringList bookShortNames(VersificationFilterFlags filter) const;
-    QList<int> maxChapter(VersificationFilterFlags filter) const;
-    QList<QList<int> > maxVerse(VersificationFilterFlags filter) const;
+private:
+    bool filter(const int &bookID, VersificationFilterFlags filter) const;
 };
 
 #endif // VERSIFICATION_KJV_H

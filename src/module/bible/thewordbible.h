@@ -61,7 +61,6 @@ private:
     QHash<int, Book> m_books;
     QMap<int, int> m_bookCount;
     int m_currentBookID;
-    Versification *m_versification;
     BookNames m_bookNames;
     QString m_moduleName;
     QString m_shortModuleName;

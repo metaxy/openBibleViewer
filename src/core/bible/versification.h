@@ -17,6 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QFlags>
 #include <QtCore/QMap>
 #include "src/core/bible/booknames.h"
+#include "src/core/bible/versification/bookv11n.h"
 class Versification: public QObject
 {
     Q_OBJECT
@@ -30,19 +31,32 @@ public:
     };
     Q_DECLARE_FLAGS(VersificationFilterFlags, VersificationFilter)
 
-    virtual QStringList getBookNames(VersificationFilterFlags filter) const = 0;
-    virtual QList<QStringList> multipleBookShortNames(VersificationFilterFlags filter) const = 0;
-    virtual QStringList bookShortNames(VersificationFilterFlags filter) const = 0;
-    virtual QList<int> maxChapter(VersificationFilterFlags filter) const = 0;
-    virtual QList< QList<int> > maxVerse(VersificationFilterFlags filter) const = 0;
-    BookNames toBookNames(VersificationFilterFlags filter);
-    QMap<int, int> toBookCount(VersificationFilterFlags filter);
+    void setFlags(VersificationFilterFlags filter);
+
+    QStringList bookNames(VersificationFilterFlags filter) const;
+    QList<QStringList> multipleBookShortNames(VersificationFilterFlags filter) const;
+    QStringList bookShortNames(VersificationFilterFlags filter) const;
+    QList<int> maxChapter(VersificationFilterFlags filter) const;
+    QList< QList<int> > maxVerse(VersificationFilterFlags filter) const;
+    int bookCount(VersificationFilterFlags filter) const;
+
+    QStringList bookNames() const;
+    QList<QStringList> multipleBookShortNames() const;
+    QStringList bookShortNames() const;
+    QList<int> maxChapter() const;
+    QList< QList<int> > maxVerse() const;
+    int bookCount() const;
+
+    BookNames toBookNames(VersificationFilterFlags filter) const;
+    QMap<int, int> toBookCount(VersificationFilterFlags filter) const;
+
+    QString bookName(const int &bookID, bool preferShort) const;
+    QMap<int, BookV11N> data() const;
 
 protected:
-    QStringList m_bookNames;
-    QList<QStringList> m_bookShortNames;
-    QList<int> m_maxChapter;
-    QList<QList<int> > m_maxVerse;
+    QMap<int, BookV11N> m_books;
+    virtual bool filter(const int &bookID, VersificationFilterFlags filter) const;
+    VersificationFilterFlags m_filter;
 
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(Versification::VersificationFilterFlags)

@@ -74,7 +74,7 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
     UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.setBookNames(m_moduleManager->bible()->bookNames());
+    urlConverter.setV11n(m_moduleManager->bible()->versification());
     BibleUrl newUrl = urlConverter.convert();
 
     bookmark->setText(1, newUrl.toString());
@@ -167,7 +167,7 @@ void BookmarksDockWidget::editBookmark()
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.setBookNames(m_moduleManager->bible()->bookNames());
+    urlConverter.setV11n(m_moduleManager->bible()->versification());
     BibleUrl newUrl = urlConverter.convert();
     BibleUrlRange r = newUrl.ranges().first();
 

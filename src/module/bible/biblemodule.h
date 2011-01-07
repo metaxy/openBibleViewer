@@ -48,10 +48,11 @@ public:
     virtual int moduleID() const;
     virtual QString modulePath() const;
     virtual QString moduleName(bool preferShortName = false) const;
-    virtual QMap<int, int> bookCount() const ;
 
-    virtual BookNames getBookNames();
+    virtual Versification *versification();
     virtual Book book() const;
+procteted:
+    Versification *m_versification;
     Settings *m_settings;
 };
 

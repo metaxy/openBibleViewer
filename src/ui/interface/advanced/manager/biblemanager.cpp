@@ -193,8 +193,8 @@ void BibleManager::showRanges(const Ranges &ranges, const BibleUrl &url)
     std::pair<QString, TextRanges> r = m_moduleManager->bibleList()->readRanges(ranges);
     m_actions->showTextRanges(r.first, r.second, url);
 
-    m_actions->updateChapters(m_moduleManager->bible()->chapterNames());
-    m_actions->updateBooks(m_moduleManager->bible()->bookNames(), m_moduleManager->bible()->bookIDs());
+    m_actions->updateChapters(m_moduleManager->bible()->versification());
+    m_actions->updateBooks(m_moduleManager->bible()->versification());
     m_actions->setCurrentBook(r.second.bookIDs());
     m_actions->setCurrentChapter(r.second.chapterIDs());
     m_actions->setTitle(m_moduleManager->bible()->moduleTitle());
@@ -232,11 +232,11 @@ void BibleManager::readBookByID(const int &id)
         myWarning() << "invalid bookID - 1";
         return;
     }
-    if(!m_moduleManager->bible()->bookIDs().contains(id)) {
+    /*if(!m_moduleManager->bible()->bookIDs().contains(id)) {
         QApplication::restoreOverrideCursor();
         myWarning() << "invalid bookID - 2(no book loaded) id = " << id << " count = " << m_moduleManager->bible()->booksCount();
         return;
-    }
+    }*/
     const int read = m_moduleManager->bibleList()->readBook(id);
     if(read != 0) {
         QApplication::restoreOverrideCursor();
