@@ -142,24 +142,7 @@ void SettingsDialog::generateModuleTree()
         if(m_set.m_moduleSettings.at(i).isDir) {
             moduleType = QObject::tr("Folder");
         } else {
-            switch(m_set.m_moduleSettings.at(i).moduleType.toInt()) {
-            case Module::BibleQuoteModule:
-                moduleType = QObject::tr("Bible Quote");
-                break;
-            case Module::ZefaniaBibleModule:
-                moduleType = QObject::tr("Zefania XML");;
-                break;
-            case Module::ZefaniaLexModule:
-                moduleType = QObject::tr("Zefania XML Strong");;
-                break;
-            case Module::TheWordBibleModule:
-                moduleType = QObject::tr("The Word Bible");;
-                break;
-            case Module::BibleQuoteDictModule:
-                moduleType = QObject::tr("Bible Quote Dictionary");;
-                break;
-
-            }
+            moduleType = Module::moduleTypeNames().at(m_set.m_moduleSettings.at(i).moduleType.toInt());
         }
         ibible->setText(2, moduleType);
         items << ibible;

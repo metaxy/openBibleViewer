@@ -21,6 +21,14 @@ Module::Module(Module *parent)
     m_parent = parent;
 
 }
+QStringList Module::moduleTypeNames()
+{
+    QStringList l;
+    l << QObject::tr("Unkown") << QObject::tr("BibleQuote") << QObject::tr("Zefania XML Bible")
+      << QObject::tr("Zefania Lex Module") << QObject::tr("BibleQuote Dictionary") << QObject::tr("The Word Bible");
+    return l;
+}
+
 void Module::setSettings(Settings *settings)
 {
     m_settings = settings;
