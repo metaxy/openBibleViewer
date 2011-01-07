@@ -19,6 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtWebKit/QWebView>
 #include "src/core/basicclass.h"
 #include "src/api/api.h"
+#include "src/core/urlconverter2.h"
 #include "bibleform.h"
 #include "mdiareafilter.h"
 #include "bookmarksmanager.h"

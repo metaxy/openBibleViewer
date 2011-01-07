@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 SimpleModuleClass::SimpleModuleClass()
 {
+    m_moduleID = -1;
 }
 void SimpleModuleClass::setSettings(Settings *settings)
 {

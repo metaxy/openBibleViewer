@@ -181,6 +181,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     myDebug() << m_loaded;
     //todo: what about biblequote
     TextRange ret;
+    ret.setModuleID(range.moduleID());
     if((range.moduleID() != m_moduleID && !ignoreModuleID) || !m_loaded) {
         loadModuleData(range.moduleID());
     }
@@ -365,18 +366,14 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                 //myDebug() << "link = " << link;
                 BibleUrl url;
                 url.fromString(link);
-                UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, url);
+                UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
                 urlConverter.setSettings(m_settings);
                 urlConverter.setModuleMap(m_map);
                 BibleUrl newUrl = urlConverter.convert();
-                if(newUrl.contains(m_moduleID, m_bookID, chapterID, verseCounter)) {
-
-                }
-
 
                 const QString pre = "<span class=\"mark\" style=\"" + m_notes->getRef(noteID, "style") + "\">";
                 const QString ap = "</span>";
-                if(urlConverter.m_moduleID == m_moduleID && urlConverter.m_bookID == bookID && urlConverter.m_chapterID == chapterID) {
+                if(newUrl.contains(m_moduleID, bookID, chapterID)) {
                     //myDebug() << "insert note id = " << noteID << " link " << link;
                     if(m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
                         VerseSelection::SelectionPosInTextType type = VerseSelection::typeFromString(m_notes->getRef(noteID, "selection_pos_type"));
@@ -629,3 +626,4 @@ Ranges Bible::lastRanges() const
 {
     return m_ranges;
 }
+

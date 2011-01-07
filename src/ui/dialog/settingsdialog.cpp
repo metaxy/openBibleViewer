@@ -346,7 +346,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
 
                 if(moduleType == Module::NoneType) {
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
-                    myWarning() << "cannot detetct module type";
+                    myWarning() << "cannot determine module type";
                     progress.close();
                     generateModuleTree();
                     return;

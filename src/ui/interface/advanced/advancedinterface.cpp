@@ -189,12 +189,12 @@ void AdvancedInterface::pharseUrl(QString url)
         m_notesManager->openNote(url);
     } else if(url.startsWith(persistent)) {
         url = url.remove(0, persistent.size());
-        UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
+        /*UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
         urlConverter.setSettings(m_settings);
         urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
         urlConverter.pharse();
         const QString i = urlConverter.convert();//it now a normal interface url
-        pharseUrl(i);
+        pharseUrl(i);*/
     } else {
         //todo: unterstand links like about:blank#a04
         if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule) {

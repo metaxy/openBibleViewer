@@ -319,7 +319,9 @@ void BibleForm::showText(const QString &text)
     //myDebug() << " windowID = " << m_id;
     QWebFrame * frame = m_view->page()->mainFrame();
     {
-        QString cssFile = m_settings->getModuleSettings(m_moduleManager->bible()->moduleID()).styleSheet;
+        QString cssFile;
+        if(m_moduleManager->bibleLoaded())
+            cssFile = m_settings->getModuleSettings(m_moduleManager->bible()->moduleID()).styleSheet;
         if(cssFile.isEmpty())
             cssFile = ":/data/css/default.css";
 

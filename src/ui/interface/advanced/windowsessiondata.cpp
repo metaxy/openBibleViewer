@@ -26,6 +26,8 @@ QMap<int, QVariant> WindowSessionData::getProp(const int &i) const
         return m_url;
     else if(i == 3)
         return m_zoom;
+    else if(i == 4)
+        return m_biblePoints;
     else
         return QMap<int, QVariant>();
 }
@@ -39,6 +41,8 @@ QString WindowSessionData::getPropName(const int &i) const
         return "windowUrls";
     else if(i == 3)
         return "zoom";
+    else if(i == 4)
+        return "biblePoint";
     else
         return "";
 }
@@ -52,12 +56,14 @@ QMap<int, QVariant>* WindowSessionData::propToPointer(const int &i)
         return &m_url;
     else if(i == 3)
         return &m_zoom;
+    else if(i == 4)
+        return &m_biblePoints;
     else
         return 0;
 }
 int WindowSessionData::propSize() const
 {
-    return 4;
+    return 5;
 }
 void WindowSessionData::clear()
 {
@@ -103,14 +109,27 @@ void WindowSessionData::setWindowID(const int &windowID)
     m_windowID = windowID;
 }
 
-void WindowSessionData::setUrl(const QString &url)
+void WindowSessionData::setUrl(const QStringList &url)
 {
     setUrl(url, m_windowID);
 }
 
-void WindowSessionData::setUrl(const QString &url, const int &windowID)
+void WindowSessionData::setUrl(const QStringList &url, const int &windowID)
 {
     m_url.insert(windowID, url);
+}
+void WindowSessionData::setBiblePoint(const QList<QPoint> &p)
+{
+    setBiblePoint(p, m_windowID);
+}
+
+void WindowSessionData::setBiblePoint(const QList<QPoint> &p, const int &windowID)
+{
+    QStringList save;
+    foreach(const QPoint &point, p) {
+        save << QString::number(point.x()) + ";" + QString::number(point.y());
+    }
+    m_biblePoints.insert(windowID, save);
 }
 
 void WindowSessionData::setScrollPosition(const QPoint &point)
@@ -144,16 +163,30 @@ void WindowSessionData::setGeo(const QRect &rect, const int &windowID)
 }
 
 
-QString WindowSessionData::url(const int &windowID)
+QStringList WindowSessionData::url(const int &windowID)
 {
-    return m_url.value(windowID).toString();
+    return m_url.value(windowID).toStringList();
 }
 
-QString WindowSessionData::url()
+QStringList WindowSessionData::url()
 {
     return url(m_windowID);
 }
+QList<QPoint> WindowSessionData::biblePoint(const int &windowID)
+{
+    const QStringList l = m_biblePoints.value(windowID).toStringList();
+    QList<QPoint> ret;
+    foreach(const QString &s, l) {
+        const QStringList split = s.split(";");
+        ret << QPoint(split.first().toInt(), split.last().toInt());
+    }
+    return ret;
+}
 
+QList<QPoint> WindowSessionData::biblePoint()
+{
+    return biblePoint(m_windowID);
+}
 QPoint WindowSessionData::scrollPosition(const int &windowID)
 {
     return m_scrollPosition.value(windowID).toPoint();

@@ -80,3 +80,11 @@ int TextRange::chapterID() const
 {
     return m_chapterID;
 }
+int TextRange::moduleID() const
+{
+    return m_moduleID;
+}
+void TextRange::setModuleID(const int &id)
+{
+    m_moduleID = id;
+}

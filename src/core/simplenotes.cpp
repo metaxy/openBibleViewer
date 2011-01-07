@@ -174,8 +174,8 @@ void SimpleNotes::setRef(QMap<QString, QString> ref)
 void SimpleNotes::editNoteLink()
 {
     const QString link = m_noteRef.value("link");
-
-    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
+//todo: urlconverter
+   /* UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.setSettings(m_settings);
     urlConverter.pharse();
@@ -185,7 +185,7 @@ void SimpleNotes::editNoteLink()
     passageDialog->setSettings(m_settings);
     passageDialog->setModuleManager(m_moduleManager);
     passageDialog->setCurrent(urlConverter.m_moduleID, urlConverter.m_path, urlConverter.m_bookID, urlConverter.m_chapterID + 1, urlConverter.m_verseID + 1);
-    passageDialog->exec();
+    passageDialog->exec();*/
 
 }
 void SimpleNotes::updateNote(const QString &link)
@@ -438,7 +438,8 @@ void SimpleNotes::newTextNoteWithLink(VerseSelection selection)
     aktNote();
     fastSave();
     QString link;
-    UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
+    //todo: urlconverter
+    /*UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.setSettings(m_settings);
     urlConverter.m_moduleID = selection.moduleID;
@@ -446,7 +447,7 @@ void SimpleNotes::newTextNoteWithLink(VerseSelection selection)
     urlConverter.m_chapterID = selection.chapterID;
     urlConverter.m_verseID = selection.startVerse;
     urlConverter.m_bookName = m_moduleManager->bible()->bookName(urlConverter.m_bookID, true);
-    link = urlConverter.convert();
+    link = urlConverter.convert();*/
 
     const QString newID = m_notes->generateNewID();
     m_notes->setData(newID, "");
@@ -490,7 +491,8 @@ void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style)
     aktNote();
     fastSave();
     QString link;
-    UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
+    //todo: urlconverter
+    /*UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.m_moduleID = selection.moduleID;
@@ -498,7 +500,7 @@ void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style)
     urlConverter.m_chapterID = selection.chapterID;
     urlConverter.m_verseID = selection.startVerse;
     urlConverter.m_bookName = m_moduleManager->bible()->bookName(urlConverter.m_bookID);
-    link = urlConverter.convert();
+    link = urlConverter.convert();*/
 
     //reloadNotes();
     const QString newID = m_notes->generateNewID();

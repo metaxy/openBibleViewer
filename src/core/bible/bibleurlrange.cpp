@@ -186,12 +186,12 @@ BibleUrlRange::VerseLoadParams BibleUrlRange::activeVerse() const
 {
     return m_activeVerseParam;
 }
-bool BibleUrlRange::containsChapter(const int &chapterID)
+bool BibleUrlRange::containsChapter(const int &chapterID) const
 {
     return (chapterID >= m_startChapterID && chapterID <= m_endChapterID);
 }
 
-bool BibleUrlRange::containsVerse(const int &verseID)
+bool BibleUrlRange::containsVerse(const int &verseID) const
 {
     return (verseID >= m_startVerseID && verseID <= m_endVerseID);
 }

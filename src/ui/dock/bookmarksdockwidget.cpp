@@ -64,15 +64,20 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
                       QString::number(selection.chapterID + 1) +
                       "," +
                       QString::number(selection.startVerse + 1));
+    BibleUrl url;
+    BibleUrlRange range;
+    range.setBible(selection.moduleID);
+    range.setBook(selection.bookID);
+    range.setChapter(selection.chapterID);
+    range.setActiveVerse(selection.startVerse);
 
-    UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
+    UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.m_moduleID = selection.moduleID;
-    urlConverter.m_bookID = selection.bookID;
-    urlConverter.m_chapterID = selection.chapterID;
-    urlConverter.m_verseID = selection.startVerse;
-    bookmark->setText(1, urlConverter.convert());
+    urlConverter.setBookNames(m_moduleManager->bible()->bookNames());
+    BibleUrl newUrl = urlConverter.convert();
+
+    bookmark->setText(1, newUrl.toString());
 
     bookmark->setData(0, Qt::UserRole, "bookmark");
     if(ui->treeWidget_bookmarks->currentItem() && ui->treeWidget_bookmarks->currentItem()->data(0, Qt::UserRole).toString() == "folder") {
@@ -156,16 +161,21 @@ void BookmarksDockWidget::editBookmark()
     }
 
     const QString pos = ui->treeWidget_bookmarks->currentItem()->text(1);
+    BibleUrl url;
+    url.fromString(pos);
 
-    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, pos);
+    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
-    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);//not nice, i know
-    urlConverter.pharse();
+    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+    urlConverter.setBookNames(m_moduleManager->bible()->bookNames());
+    BibleUrl newUrl = urlConverter.convert();
+    BibleUrlRange r = newUrl.ranges().first();
+
 
     BiblePassageDialog *passageDialog = new  BiblePassageDialog(this);
     connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateBookmark(QString)));
     setAll(passageDialog);
-    passageDialog->setCurrent(urlConverter.m_moduleID, urlConverter.m_path, urlConverter.m_bookID, urlConverter.m_chapterID + 1, urlConverter.m_verseID + 1);
+    passageDialog->setCurrent(r.bibleID(), url.ranges().first().bibleUID(), r.bookID() + 1, r.startChapterID() + 1, r.activeVerseID() + 1);
     passageDialog->show();
     passageDialog->exec();
 }
@@ -190,12 +200,15 @@ void BookmarksDockWidget::bookmarksGo(QTreeWidgetItem * item)
 int BookmarksDockWidget::internalOpenPos(const QString &pos)
 {
     //DEBUG_FUNC_NAME
-    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
+    BibleUrl url;
+    url.fromString(pos);
+
+    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.pharse();
+    BibleUrl newUrl = urlConverter.convert();
 
-    m_actions->get(urlConverter.convert());
+    m_actions->get(newUrl);
     return 0;
 }
 

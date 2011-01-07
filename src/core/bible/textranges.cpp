@@ -199,3 +199,25 @@ bool TextRanges::contains(const int &bookID, const int &chapterID) const
     }
     return false;
 }
+QList<BibleUrlRange> TextRanges::toBibleUrlRanges() const
+{
+    QList<BibleUrlRange> ret;
+    foreach(const TextRange &r, m_ranges) {
+        BibleUrlRange range;
+        range.setBible(r.moduleID());
+        range.setBook(r.bookID());
+        range.setChapter(r.chapterID());
+        int minVerse = -1;
+        int maxVerse = -1;
+        foreach(const Verse &v, r.verseList()) {
+            if(v.verseID() < minVerse || minVerse == -1)
+                minVerse = v.verseID();
+            if(v.verseID() >= maxVerse)
+                maxVerse = v.verseID();
+        }
+        range.setStartVerse(minVerse);
+        range.setEndVerse(maxVerse);
+        ret << range;
+    }
+    return ret;
+}

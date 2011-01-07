@@ -387,26 +387,27 @@ Dictionary* ModuleManager::dictionary()
   */
 QString ModuleManager::notePos2Link(const QString &pos)
 {
-    QString string;
-    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
+    //todo: use ranges
+    BibleUrl url;
+    url.fromString(pos);
+    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleMap);
-    urlConverter.pharse();
-    const QString link = urlConverter.convert();
+    BibleUrl newUrl = urlConverter.convert();
+    const QString string = url.getParam("b0") + " " + QString::number(newUrl.ranges().first().startChapterID() + 1) + QString::number(newUrl.ranges().first().activeVerseID()+1);
 
-    string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + ":" + QString::number(urlConverter.m_verseID + 1);
+    const QString link = newUrl.toString();
     return "<a href=\"" + link + "\" >" + string + "</a>";
 }
 QString ModuleManager::notePos2Text(const QString &pos)
 {
-    QString string;
-    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, pos);
+    BibleUrl url;
+    url.fromString(pos);
+    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleMap);
-    urlConverter.pharse();
-    urlConverter.convert();
-
-    string = urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + ":" + QString::number(urlConverter.m_verseID + 1);
+    BibleUrl newUrl = urlConverter.convert();
+    const QString string = url.getParam("b0") + " " + QString::number(newUrl.ranges().first().startChapterID() + 1) + QString::number(newUrl.ranges().first().activeVerseID()+1);
     return string;
 }
 QStringList ModuleManager::getBibleTitles()
@@ -485,11 +486,12 @@ Module::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
         return Module::BibleQuoteModule;
     } else if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
         QFile data(fileName);
-        if(data.open(QFile::WriteOnly | QFile::Truncate)) {
+        if(data.open(QFile::ReadOnly)) {
             QString fileData = "";
             QTextStream in(&data);
             for(int i = 0; i < 10; i++)
                 fileData += in.readLine();
+            myDebug() << "fileData = " << fileData;
             if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i cannot allow this
                     fileData.contains("x-cult", Qt::CaseInsensitive) ||
                     fileData.contains("x-mormon", Qt::CaseInsensitive))) {

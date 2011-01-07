@@ -49,6 +49,7 @@ set ( openBibleViewer_HDRS
     core/settings/modulesettings.h
 
     core/urlconverter.h
+    core/urlconverter2.h
     core/versereplacer.h
     core/version.h
     core/verseselection.h
@@ -118,6 +119,7 @@ set ( openBibleViewer_SRCS
     core/settings/bibledisplaysettings.cpp
     core/url.cpp
     core/urlconverter.cpp
+    core/urlconverter2.cpp
     core/versereplacer.cpp
     core/version.cpp
     core/xbelreader.cpp

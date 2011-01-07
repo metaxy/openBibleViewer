@@ -1,0 +1,89 @@
+#include "urlconverter2.h"
+
+UrlConverter2::UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType to, BibleUrl url)
+{
+    m_urlConverter.setFrom(from);
+    m_urlConverter.setTo(to);
+     m_urlConverter.setUrl(url);
+}
+UrlConverter2::UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType to, QString url)
+{
+    m_urlConverter.setFrom(from);
+    m_urlConverter.setTo(to);
+    BibleUrl u;
+    u.fromString(url);
+    m_urlConverter.setUrl(u);
+}
+void UrlConverter2::setFromTo(UrlConverter::UrlType from, UrlConverter::UrlType to)
+{
+    m_urlConverter.setFrom(from);
+    m_urlConverter.setTo(to);
+}
+
+void UrlConverter2::setSM(Settings *settings, ModuleMap *map)
+{
+    m_urlConverter.setSettings(settings);
+    m_urlConverter.setModuleMap(map);
+}
+
+void UrlConverter2::setBookNames(QHash<int, QString> bookNames)
+{
+    m_urlConverter.setBookNames(bookNames);
+}
+
+void UrlConverter2::setUrl(BibleUrl url)
+{
+    m_urlConverter.setUrl(url);
+}
+
+void UrlConverter2::convert()
+{
+    m_newUrl = m_urlConverter.convert();
+}
+
+bool UrlConverter2::contains(const int &moduleID, const int &bookID, const int &chapterID, const int &verseID) const
+{
+    return m_newUrl.contains(moduleID, bookID, chapterID, verseID);
+}
+
+bool UrlConverter2::contains(const int &moduleID, const int &bookID, const int &chapterID) const
+{
+    return m_newUrl.contains(moduleID, bookID, chapterID);
+}
+
+QString UrlConverter2::bookName() const
+{
+    return m_url.getParam("b0");
+}
+
+int UrlConverter2::moduleID() const
+{
+    if(m_newUrl.ranges().isEmpty())
+        return -1;
+    return m_newUrl.ranges().first().bibleID();
+}
+
+int UrlConverter2::bookID() const
+{
+    if(m_newUrl.ranges().isEmpty())
+        return -1;
+     return m_newUrl.ranges().first().bookID();
+}
+
+int UrlConverter2::chapterID() const
+{
+    if(m_newUrl.ranges().isEmpty())
+        return -1;
+     return m_newUrl.ranges().first().startChapterID();
+}
+
+int UrlConverter2::verseID() const
+{
+    if(m_newUrl.ranges().isEmpty())
+        return -1;
+     return m_newUrl.ranges().first().activeVerseID();
+}
+BibleUrl UrlConverter2::url() const
+{
+    return m_newUrl;
+}

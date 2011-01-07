@@ -24,16 +24,18 @@ public:
     BibleUrl();
     BibleUrl(const BibleUrlRange &range);
     void addRange(const BibleUrlRange &range);
+    void addRanges(const QList<BibleUrlRange> &ranges);
     void setParam(const QString &name, const QString &value);
-    bool hasParam(const QString &name);
-    QString getParam(const QString &name);
+    bool hasParam(const QString &name) const;
+    QString getParam(const QString &name) const;
     void unsetParam(const QString &name);
 
     QString toString() const;
     bool fromString(QString url);
     QList<BibleUrlRange> ranges() const;
     void clearRanges();
-    bool contains(const int &moduleID, const int &bookID, const int &chapterID, const int &verseID);
+    bool contains(const int &moduleID, const int &bookID, const int &chapterID, const int &verseID) const;
+    bool contains(const int &moduleID, const int &bookID, const int &chapterID) const;
 private:
     QHash<QString, QString> m_params;
     QList<BibleUrlRange> m_ranges;

@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "marklist.h"
 #include "ui_marklist.h"
 #include "src/core/dbghelper.h"
-#include "src/core/urlconverter.h"
+#include "src/core/urlconverter2.h"
 #include "src/core/core.h"
 #include <QtGui/QMenu>
 #include <QtGui/QCursor>
@@ -65,13 +65,12 @@ void MarkList::init()
 }
 void MarkList::addMark(const int &row, const QString &id)
 {
-    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, m_notes->getRef(id, "link"));
-    urlConverter.setSettings(m_settings);
-    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.pharse();
+    UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, m_notes->getRef(id, "link"));
+    urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
+    urlConverter.convert();
 
-    const QString string =  urlConverter.m_bookName + " " + QString::number(urlConverter.m_chapterID + 1) + "," +
-                            QString::number(urlConverter.m_verseID + 1);
+    const QString string = urlConverter.bookName() + " " + QString::number(urlConverter.chapterID() + 1) + "," +
+                            QString::number(urlConverter.verseID() + 1);
 
     QStandardItem *stelle = new QStandardItem(string);
     stelle->setData(id);
@@ -80,8 +79,8 @@ void MarkList::addMark(const int &row, const QString &id)
 
     QString t = "";
     //todo: this can be faster
-    if(m_moduleManager->getModule(urlConverter.m_moduleID) && !m_moduleManager->getModule(urlConverter.m_moduleID)->title().isEmpty())
-        t = m_moduleManager->getModule(urlConverter.m_moduleID)->title();
+    if(m_moduleManager->getModule(urlConverter.moduleID()) && !m_moduleManager->getModule(urlConverter.moduleID())->title().isEmpty())
+        t = m_moduleManager->getModule(urlConverter.moduleID())->title();
 
     QStandardItem *module = new QStandardItem(t);
     m_itemModel->setItem(row, 1, module);
@@ -91,13 +90,10 @@ void MarkList::load(QModelIndex index)
 {
     const int row = index.row();
     index = m_itemModel->index(row, 0);
-    UrlConverter urlConverter(UrlConverter::PersistentUrl,
-                              UrlConverter::InterfaceUrl,
-                              m_notes->getRef(index.data(Qt::UserRole + 1).toString(), "link"));
-    urlConverter.setSettings(m_settings);
-    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.pharse();
-    m_actions->get(urlConverter.convert());
+    UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, m_notes->getRef(index.data(Qt::UserRole + 1).toString(), "link"));
+    urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
+    urlConverter.convert();
+    m_actions->get(urlConverter.url());
 }
 
 

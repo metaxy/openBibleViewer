@@ -412,35 +412,38 @@ void WindowManager::save()
             current = i;
         BibleForm *form = a->widget()->findChild<BibleForm *>("mdiForm");
         BibleList *list = form->m_bibleList;
-        QString u = "";
+
+        QList<QString> urls;
+        QList<QPoint> points;
         if(list > 0) {
             QHashIterator<int, Bible *> i(list->m_bibles);
             while(i.hasNext()) {
                 i.next();
                 Bible *b = i.value();
                 if(b != NULL && b->moduleID() >= 0) {
-                    //todo: implement last shown url
-                    UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
-                    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+                    BibleUrl bibleUrl;
+                    bibleUrl.addRanges(b->lastTextRanges()->toBibleUrlRanges());
+
+                    UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, bibleUrl);
                     urlConverter.setSettings(m_settings);
-                    urlConverter.m_moduleID = b->moduleID();
-                    urlConverter.m_bookID = b->lastTextRanges()->minBookID();
-                    urlConverter.m_chapterID = b->lastTextRanges()->minChapterID();
-                    urlConverter.m_verseID = 0;
-                    const QString url = urlConverter.convert();
+                    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+                    BibleUrl newUrl = urlConverter.convert();
+
+                    const QString url = newUrl.toString();
                     const QPoint point = list->m_biblePoints.value(i.key());
-                    if(u.isEmpty())
-                        u += QString::number(point.x()) + ":" + QString::number(point.y()) + ":" + url;
-                    else
-                        u += "|" + QString::number(point.x()) + ":" + QString::number(point.y()) + ":" + url;
+                    urls << url;
+                    points << point;
+                    myDebug() << "save url = " << url;
                 }
             }
         }
-        data.setUrl(u);
+        data.setUrl(urls);
+        data.setBiblePoint(points);
+
         data.setScrollPosition(form->m_view->page()->mainFrame()->scrollPosition());
         data.setZoom(form->m_view->zoomFactor());
         data.setGeo(a->geometry());
-        //Qt::WindowMaximized save also this
+        //todo: save Qt::WindowMaximized
     }
     data.write();
     m_settings->session.setData("viewMode", m_area->viewMode());
@@ -455,29 +458,31 @@ void WindowManager::restore()
         newSubWindow(true);
         data.setWindowID(i);
         //load bible
-        const QString url = data.url();
         m_moduleManager->bibleList()->clear();
-
-        if(!url.isEmpty() && url.size() != 0) {
-            QStringList list = url.split("|");
-            foreach(QString part, list) {
-                QStringList a = part.split(":");
-                const int x = a.at(0).toInt();
-                const int y = a.at(1).toInt();
-                const QString u = a.at(2);
-                UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, u);
-                urlConverter.setSettings(m_settings);
-                urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-                urlConverter.pharse();
-                m_moduleManager->newBible(urlConverter.m_moduleID, QPoint(x, y));
-
-                m_actions->get(urlConverter.convert() + ",force=true"); //todo: MOVE IT OUT
+        const QList<QString> urls = data.url();
+        const QList<QPoint> points = data.biblePoint();
+        for(int j = 0; j < urls.size() && j < points.size(); j++) {
+            const QString url = urls.at(j);
+            const QPoint point = points.at(j);
+            UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
+            urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
+            urlConverter.convert();
+            if(urlConverter.moduleID() != -1) {
+                m_moduleManager->newBible(urlConverter.moduleID(), point);
+                m_actions->get(urlConverter.url());
+                myDebug() << urlConverter.url().toString();
+            } else {
+                Bible *b = new Bible();
+                m_moduleManager->initBible(b);
+                m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
             }
-        } else {
+        }
+        if(urls.isEmpty()) {
             Bible *b = new Bible();
             m_moduleManager->initBible(b);
             m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
         }
+
         activeSubWindow()->setGeometry(data.geo());
         QWebView *v = activeForm()->m_view;
         v->page()->mainFrame()->setScrollPosition(data.scrollPosition());

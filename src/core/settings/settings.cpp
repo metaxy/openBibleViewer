@@ -76,26 +76,29 @@ ModuleCache Settings::getModuleCache(const QString &path) const
 QString Settings::savableUrl(QString url) const
 {
     if(url.startsWith(homePath)) {
-        url.replace(homePath, "%obvHomePath%");
-        return url;
+        url.replace(homePath, "?obvHomePath?");
+        const QByteArray ba = QUrl::toPercentEncoding(url);
+        return QString(ba.constData());
     }
     if(url.startsWith(QDir::homePath())) {
-        url.replace(QDir::homePath(), "%homePath%");
-        return url;
+        url.replace(QDir::homePath(), "?homePath?");
+        const QByteArray ba = QUrl::toPercentEncoding(url);
+        return QString(ba.constData());
     }
     return url;
 }
 /**
-  Recover Urls with were saved with savableUrl().
+  Recover Urls which were saved with savableUrl().
   */
 QString Settings::recoverUrl(QString url) const
 {
-    if(url.startsWith("%obvHomePath%")) {
-        url.replace("%obvHomePath%", homePath);
+    url = QUrl::fromPercentEncoding(url.toLocal8Bit());
+    if(url.startsWith("?obvHomePath?")) {
+        url.replace("?obvHomePath?", homePath);
         return url;
     }
-    if(url.startsWith("%homePath%")) {
-        url.replace("%homePath%", QDir::homePath());
+    if(url.startsWith("?homePath?")) {
+        url.replace("?homePath?", QDir::homePath());
         return url;
     }
     return url;

@@ -66,13 +66,17 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
     Q_UNUSED(id);
     const QString link = ref.value("link");
 
-    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, link);
+    BibleUrl url;
+    url.fromString(link);
+
+    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.pharse();
-    urlConverter.convert();
+    urlConverter.setBookNames(m_moduleManager->bible()->bookNames());
+    BibleUrl newUrl = urlConverter.convert();
+    BibleUrlRange r = newUrl.ranges().first();
 
-    if(m_moduleManager->bible()->moduleID() == urlConverter.m_moduleID && m_moduleManager->bible()->lastTextRanges()->contains(urlConverter.m_bookID, urlConverter.m_chapterID)) {
+    if(m_moduleManager->bible()->moduleID() == r.bibleID() && m_moduleManager->bible()->lastTextRanges()->contains(r.bookID(), r.startChapterID())) {
         m_actions->reloadChapter();
     }
 
@@ -82,13 +86,18 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     Q_UNUSED(id);
     const QString link = ref.value("link");
 
-    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, link);
+    BibleUrl url;
+    url.fromString(link);
+
+    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.pharse();
-    urlConverter.convert();
+    urlConverter.setBookNames(m_moduleManager->bible()->bookNames());
+    BibleUrl newUrl = urlConverter.convert();
+    BibleUrlRange r = newUrl.ranges().first();
 
-    if(m_moduleManager->bible()->moduleID() == urlConverter.m_moduleID && m_moduleManager->bible()->lastTextRanges()->contains(urlConverter.m_bookID, urlConverter.m_chapterID)) {
+
+    if(m_moduleManager->bible()->moduleID() == r.bibleID() && m_moduleManager->bible()->lastTextRanges()->contains(r.bookID(), r.startChapterID())) {
         m_actions->reloadChapter();
     }
 }
@@ -169,12 +178,16 @@ void NotesDockWidget::removeMark(VerseSelection selection)
         if(m_notes->getType(id.at(i)) == "mark") {
             const QString noteID = id.at(i);
             const QString link = m_notes->getRef(noteID, "link");
-            UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
+            BibleUrl url;
+            url.fromString(link);
+
+            UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
             urlConverter.setSettings(m_settings);
             urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-            urlConverter.pharse();
+            urlConverter.setBookNames(m_moduleManager->bible()->bookNames());
+            BibleUrl newUrl = urlConverter.convert();
 
-            if(urlConverter.m_moduleID == selection.moduleID && urlConverter.m_bookID == selection.bookID && urlConverter.m_chapterID == selection.chapterID) {
+            if(newUrl.contains(selection.moduleID, selection.bookID,selection.chapterID)) {
                 int start = selection.startVerse;
                 int end;
                 if(selection.endVerse != -1) {

@@ -102,8 +102,8 @@ public:
 
     void setWholeChapter();
 
-    bool containsChapter(const int &chapterID);
-    bool containsVerse(const int &verseID);
+    bool containsChapter(const int &chapterID) const;
+    bool containsVerse(const int &verseID) const;
 
 private:
     int m_bibleID;

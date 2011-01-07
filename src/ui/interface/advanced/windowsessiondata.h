@@ -26,8 +26,10 @@ public:
     void setSettings(Settings *settings);
     void setWindowID(const int &windowID);
 
-    void setUrl(const QString &url);
-    void setUrl(const QString &url, const int &windowID);
+    void setUrl(const QStringList &url);
+    void setUrl(const QStringList &url, const int &windowID);
+    void setBiblePoint(const QList<QPoint> &url);
+    void setBiblePoint(const QList<QPoint> &url, const int &windowID);
 
     void setScrollPosition(const QPoint &point);
     void setScrollPosition(const QPoint &point, const int &windowID);
@@ -41,12 +43,17 @@ public:
     void read();
     void write();
 
-    QString url(const int &windowID);
-    QString url();
+    QStringList url(const int &windowID);
+    QStringList url();
+    QList<QPoint> biblePoint(const int &windowID);
+    QList<QPoint> biblePoint();
+
     QPoint scrollPosition(const int &windowID);
     QPoint scrollPosition();
+
     qreal zoom(const int &windowID);
     qreal zoom();
+
     QRect geo(const int &windowID);
     QRect geo();
 
@@ -57,6 +64,7 @@ private:
     QMap<int, QVariant> m_scrollPosition;
     QMap<int, QVariant> m_zoom;
     QMap<int, QVariant> m_geo;
+    QMap<int, QVariant> m_biblePoints;
 
     Settings *m_settings;
     int m_windowID;

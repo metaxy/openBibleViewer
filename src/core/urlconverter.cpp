@@ -18,7 +18,12 @@ UrlConverter::UrlConverter(const UrlType &from, const UrlType &to, const BibleUr
 {
     m_from = from;
     m_to = to;
-    m_url = url;
+    m_bibleUrl = url;
+    m_setBookNames = false;
+}
+UrlConverter::UrlConverter()
+{
+    m_setBookNames = false;
 }
 void UrlConverter::setModuleMap(ModuleMap *moduleMap)
 {
@@ -28,19 +33,23 @@ void UrlConverter::setSettings(Settings *settings)
 {
     m_settings = settings;
 }
-void UrlConverter::setBookNames(BookNames bookNames)
+void UrlConverter::setBookNames(QHash<int, QString> bookNames)
 {
     m_bookNames = bookNames;
+    m_setBookNames = true;
 }
 
 BibleUrl UrlConverter::convert()
 {
     BibleUrl url = m_bibleUrl;
     if(m_to == InterfaceUrl) {
+        myDebug() << "to interface url";
+        myDebug() << m_bibleUrl.toString();
         url.clearRanges();
         foreach(BibleUrlRange range, m_bibleUrl.ranges()) {
             if(range.bible() == BibleUrlRange::LoadBibleByUID) {
                 foreach(Module *module, m_moduleMap->m_map) {
+                    myDebug() << m_settings->savableUrl(module->path()) << " vs " << range.bibleUID();
                     if(m_settings->savableUrl(module->path()) == range.bibleUID())  {
                         range.setBible(module->moduleID());
                     }
@@ -52,9 +61,9 @@ BibleUrl UrlConverter::convert()
             url.unsetParam("b"+QString::number(i));
         }
     } else if(m_to == PersistentUrl) {
-        if(!m_moduleMap->m_map.contains(m_moduleID)) {
-            return url;
-        }
+        myDebug() << "to persisent url";
+        myDebug() << m_bibleUrl.toString();
+//todo: catch errors
         url.clearRanges();
         QSet<int> bookIDs;
 
@@ -63,10 +72,12 @@ BibleUrl UrlConverter::convert()
                 range.setBible(m_settings->savableUrl(m_moduleMap->m_map.value(range.bibleID())->path()));
             }
             url.addRange(range);
-            bookIDs.insert(range.startBookID());
+            bookIDs.insert(range.bookID());
         }
-        for(int i = 0; i < bookIDs.size(); i++) {
-            url.setParam("b"+QString::number(i), m_bookNames.bookName(i));
+        if(m_setBookNames) {
+            for(int i = 0; i < bookIDs.size(); i++) {
+                url.setParam("b"+QString::number(i), m_bookNames.value(i));
+            }
         }
     }
     return url;
@@ -79,7 +90,7 @@ void UrlConverter::setTo(const UrlType &urlType)
 {
     m_to = urlType;
 }
-void UrlConverter::setUrl(const QString &url)
+void UrlConverter::setUrl(const BibleUrl &url)
 {
-    m_url = url;
+    m_bibleUrl = url;
 }

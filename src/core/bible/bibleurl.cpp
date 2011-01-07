@@ -30,17 +30,21 @@ void BibleUrl::setParam(const QString &name, const QString &value)
     m_params.insert(name, value);
 }
 
-bool BibleUrl::hasParam(const QString &name)
+bool BibleUrl::hasParam(const QString &name) const
 {
     return m_params.contains(name);
 }
-QString BibleUrl::getParam(const QString &name)
+QString BibleUrl::getParam(const QString &name) const
 {
     return m_params.value(name, "");
 }
 void BibleUrl::addRange(const BibleUrlRange &range)
 {
     m_ranges.append(range);
+}
+void BibleUrl::addRanges(const QList<BibleUrlRange> &ranges)
+{
+    m_ranges.append(ranges);
 }
 
 QString BibleUrl::toString() const
@@ -60,7 +64,7 @@ QString BibleUrl::toString() const
         } else if(range.bible() == BibleUrlRange::LoadBibleByUID) {
             ret += "uid=" + range.bibleUID();
         }
-        ret += "/";
+        ret += ",";
         //Book
         if(range.book() == BibleUrlRange::LoadBookByID) {
             ret += QString::number(range.bookID());
@@ -141,7 +145,7 @@ bool BibleUrl::fromString(QString url)
 {
     m_ranges.clear();
 
-    //bible://bibleID/bookID,chapterID,verseID,otherStuf=otherValue
+    //bible://bibleID,bookID,chapterID,verseID,otherStuf=otherValue
     if(!url.startsWith("bible://")) {
         return false;
     }
@@ -149,24 +153,19 @@ bool BibleUrl::fromString(QString url)
     QStringList urls = url.split("|");
     foreach(const QString nUrl, urls) {
         BibleUrlRange range;
-        const QStringList slash = nUrl.split("/");
-        if(slash.size() != 2) {//there should be only two
-            return false;
-        }
-        QString bibleID = slash.at(0);
-        if(bibleID == "current") {
-            range.setBible(BibleUrlRange::LoadCurrentBible);
-        } else if(bibleID.startsWith("uid=")) {
-            range.setBible(bibleID.remove(0,4));
-        }else {
-            range.setBible(bibleID.toInt());
-        }
-        const QString other = slash.at(1);
-        const QStringList params = other.split(",");
+        const QStringList params = nUrl.split(",");
         for(int i = 0; i < params.size(); ++i) {
             QString p = params.at(i);
             QString p2;
-            if(i == 0) {//Book
+            if(i == 0) {//Bible
+                if(p == "current") {
+                    range.setBible(BibleUrlRange::LoadCurrentBible);
+                } else if(p.startsWith("uid=")) {
+                    range.setBible(p.remove(0,4));
+                } else {
+                    range.setBible(p.toInt());
+                }
+            } else if(i == 1) {//Book
                 if(p == "current") {
                     range.setBook(BibleUrlRange::LoadCurrentBook);
                 } else if(p == "first") {
@@ -177,7 +176,7 @@ bool BibleUrl::fromString(QString url)
                     range.setBook(p.toInt());
                 }
 
-            } else if(i == 1) {
+            } else if(i == 2) {
                 if(p.contains("-")) {
                     QStringList tmp = p.split("-");
                     p = tmp.first();
@@ -201,7 +200,7 @@ bool BibleUrl::fromString(QString url)
                 } else if(!p2.isEmpty()) {
                     range.setEndChapter(p2.toInt());
                 }
-            } else if(i == 2) {
+            } else if(i == 3) {
                 if(p.contains("-")) {
                     QStringList tmp = p.split("-");
                     p = tmp.first();
@@ -257,10 +256,18 @@ void BibleUrl::unsetParam(const QString &name)
 {
     m_params.remove(name);
 }
-bool BibleUrl::contains(const int &moduleID, const int &bookID, const int &chapterID, const int &verseID)
+bool BibleUrl::contains(const int &moduleID, const int &bookID, const int &chapterID, const int &verseID) const
 {
     foreach(const BibleUrlRange &range, m_ranges) {
         if(range.bibleID() == moduleID && range.bookID() == bookID && range.containsChapter(chapterID) && range.containsVerse(verseID))
+            return true;
+    }
+    return false;
+}
+bool BibleUrl::contains(const int &moduleID, const int &bookID, const int &chapterID) const
+{
+    foreach(const BibleUrlRange &range, m_ranges) {
+        if(range.bibleID() == moduleID && range.bookID() == bookID && range.containsChapter(chapterID))
             return true;
     }
     return false;

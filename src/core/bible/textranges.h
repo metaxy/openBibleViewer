@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QList>
 #include <QtCore/QSet>
 #include "src/core/bible/textrange.h"
+#include "src/core/bible/bibleurlrange.h"
 class TextRanges
 {
 public:
@@ -24,6 +25,8 @@ public:
     void addTextRanges(const TextRanges &ranges);
     QList<TextRange> textRanges() const;
     QString join(const QString &seperator) const;
+
+
 
     Verse getVerse(const int &bookID, const int &chapterID, const int &verseID);
     int verseCount() const;
@@ -50,6 +53,7 @@ public:
     QSet<int> verseIDs(const int &bookID, const int &chapterID) const;
 
     bool contains(const int &bookID, const int &chapterID) const;
+    QList<BibleUrlRange> toBibleUrlRanges() const;
 private:
     QList<TextRange> m_ranges;
 };

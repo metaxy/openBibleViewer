@@ -29,6 +29,7 @@ public:
         InterfaceUrl = 1,
         PersistentUrl = 2
     };
+    UrlConverter();
     UrlConverter(const UrlType &from, const UrlType &to, const BibleUrl &url);
 
     void setFrom(const UrlType &urlType);
@@ -38,12 +39,15 @@ public:
     BibleUrl convert();
     void setModuleMap(ModuleMap *moduleMap);
     void setSettings(Settings *settings);
-    void setBookNames(BookNames bookNames);
+    void setBookNames(QHash<int, QString> bookNames);
 private:
+    UrlType m_from;
+    UrlType m_to;
     ModuleMap *m_moduleMap;
     Settings *m_settings;
     BibleUrl m_bibleUrl;
-    BookNames m_bookNames;
+    QHash<int, QString> m_bookNames;
+    bool m_setBookNames;
 };
 
 #endif // URLCONVERTER_H
