@@ -26,8 +26,6 @@ public:
     QList<TextRange> textRanges() const;
     QString join(const QString &seperator) const;
 
-
-
     Verse getVerse(const int &bookID, const int &chapterID, const int &verseID);
     int verseCount() const;
     bool isEmpty();

@@ -324,11 +324,11 @@ int ModuleManager::loadAllModules()
 }
 void ModuleManager::initVerseModule(VerseModule *b)
 {
+    DEBUG_FUNC_NAME
     if(b != 0) {
         b->setSettings(m_settings);
         b->setNotes(m_notes);
         b->setModuleMap(m_moduleMap);
-        //todo: what todo?
         b->setBibleDisplaySettings(m_bibleDisplaySettings);
     }
 }
@@ -338,6 +338,7 @@ void ModuleManager::initVerseModule(VerseModule *b)
   */
 bool ModuleManager::bibleLoaded()
 {
+    DEBUG_FUNC_NAME
     if(m_moduleMap->m_map.contains(verseModule()->moduleID()) && verseModule()->moduleID() >= 0)
         return true;
     return false;
@@ -347,6 +348,7 @@ bool ModuleManager::bibleLoaded()
   */
 bool ModuleManager::strongLoaded()
 {
+
     if(m_moduleMap->m_map.contains(m_dictionary->moduleID())  &&  m_dictionary->moduleID() >= 0)
         return true;
     return false;
@@ -447,21 +449,22 @@ void ModuleManager::checkCache(const int &moduleID)
 }
 VerseModule * ModuleManager::newVerseModule(const int &moduleID, QPoint p)
 {
+    DEBUG_FUNC_NAME
     if(!contains(moduleID)) {
         myWarning() << "invalid moduleID = " << moduleID;
         return NULL;
     }
-    int id = verseTable()->m_points.key(p, -1);
-
+    const int id = verseTable()->m_points.key(p, -1);
+    myDebug() << "id = " << id;
     VerseModule *m;
     if(id != -1) {
         m = verseTable()->verseModule(id);
         initVerseModule(m);
     } else {//todo: support for other VerseModules
-        if(getModule(moduleID)->moduleClass() == Module::BibleModuleClass) {
+        //if(getModule(moduleID)->moduleClass() == Module::BibleModuleClass) {
             m = new Bible();
             initVerseModule(m);
-        }
+        //}
     }
     //todo: check if this is possible
     /*if(b->moduleID() != moduleID) {*/
@@ -469,9 +472,9 @@ VerseModule * ModuleManager::newVerseModule(const int &moduleID, QPoint p)
     m->setModuleType(type);
     m->setModuleID(moduleID);
     //todo: load module data?
-    if(getModule(moduleID)->moduleClass() == Module::BibleModuleClass) {
+    //if(getModule(moduleID)->moduleClass() == Module::BibleModuleClass) {
         ((Bible*)m)->loadModuleData(moduleID);
-    }
+    //}
     verseTable()->addModule(m, p);
     /*}*/
     return m;

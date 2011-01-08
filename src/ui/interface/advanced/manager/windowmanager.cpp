@@ -455,7 +455,6 @@ void WindowManager::restore()
         m_moduleManager->verseTable()->clear();
         const QList<QString> urls = data.url();
         const QList<QPoint> points = data.biblePoint();
-        //todo: new VerseModule()
         for(int j = 0; j < urls.size() && j < points.size(); j++) {
             const QString url = urls.at(j);
             const QPoint point = points.at(j);
@@ -467,11 +466,12 @@ void WindowManager::restore()
                 m_actions->get(urlConverter.url());
                 myDebug() << urlConverter.url().toString();
             } else {
-                if(m_moduleManager->getModule(urlConverter.moduleID())->moduleClass() == Module::BibleModuleClass) {
+                //todo: other modules
+                /*if(m_moduleManager->getModule(urlConverter.moduleID())->moduleClass() == Module::BibleModuleClass) {*/
                     VerseModule *m = new Bible();
                     m_moduleManager->initVerseModule(m);
                     m_moduleManager->verseTable()->addModule(m, QPoint(0, 0));
-                }
+                /*}*/
             }
         }
         if(urls.isEmpty()) {

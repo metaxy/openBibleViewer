@@ -68,21 +68,15 @@ int Bible::loadModuleData(const int &moduleID)
         m_bookPath = ((BibleQuote *)m_bibleModule)->m_bookPath;
         m_modulePath = m_bibleModule->modulePath();
     } else if(moduleType() == Module::ZefaniaBibleModule || moduleType() == Module::TheWordBibleModule) {
-        if(moduleType() == Module::ZefaniaBibleModule) {
-            if(m_module->m_bibleModule) {
-                m_bibleModule = m_module->m_bibleModule;
-            } else {
+        if(m_module->m_bibleModule) {
+            m_bibleModule = m_module->m_bibleModule;
+        } else {
+            if(moduleType() == Module::ZefaniaBibleModule) {
                 m_bibleModule = new ZefaniaBible();
-                m_module->m_bibleModule = m_bibleModule;
-            }
-        } else if(moduleType() == Module::TheWordBibleModule) {
-            if(m_module->m_bibleModule) {
-                m_bibleModule = m_module->m_bibleModule;
-            } else {
+            } else if(moduleType() == Module::TheWordBibleModule) {
                 m_bibleModule = new TheWordBible();
-                m_module->m_bibleModule = m_bibleModule;
             }
-
+            m_module->m_bibleModule = m_bibleModule;
         }
         m_bibleModule->setSettings(m_settings);
         m_bibleModule->loadBibleData(m_moduleID, m_module->path());

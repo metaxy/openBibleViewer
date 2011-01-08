@@ -24,10 +24,10 @@ void BibleApi::activateBible(const int &bibleListID)
     myDebug() << bibleListID;
     m_moduleManager->verseTable()->setCurrentVerseTableID(bibleListID);
 
-    QWebElementCollection collection = m_frame->documentElement().findAll("td[class~=bibleListTitle]");
+    QWebElementCollection collection = m_frame->documentElement().findAll("td[class~=verseTableTitle]");
     foreach(QWebElement paraElement, collection) {
         paraElement.removeClass("active");
-        if(paraElement.attribute("bibleListID") == QString::number(bibleListID)) {
+        if(paraElement.attribute("verseTableID") == QString::number(bibleListID)) {
             paraElement.addClass("active");
         }
     }

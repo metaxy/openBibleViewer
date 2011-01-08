@@ -17,4 +17,6 @@ SearchQuery::SearchQuery()
 {
     queryType = 0;
     range = SearchQuery::Whole;
+    searchInNotes = false;
+    searchText = "";
 }

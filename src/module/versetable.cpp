@@ -75,11 +75,12 @@ void VerseTable::clear()
 
 std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) const
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
 
     if(m_modules.size() == 1) {
         std::pair<QString, TextRanges> ret;
         VerseModule *b = m_modules.value(m_currentModule, 0);
+        myDebug() << b;
         if(b) {
             ret.second = b->readRanges(ranges);
             //todo: not just simple join but add titles
