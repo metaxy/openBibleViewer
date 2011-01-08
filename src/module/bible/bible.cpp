@@ -558,27 +558,7 @@ QString Bible::bookName(const int &bookID, bool preferShort)
     return m_versification->bookName(bookID, preferShort);
 }
 
-void Bible::setLastTextRanges(TextRanges *textRanges)
-{
-    m_lastTextRanges = textRanges;
-}
-TextRanges *Bible::lastTextRanges() const
-{
-    return m_lastTextRanges;
-}
-void Bible::setLastRanges(const Ranges &ranges)
-{
-    m_ranges = ranges;
-}
 
-Ranges Bible::lastRanges() const
-{
-    return m_ranges;
-}
-Versification *Bible::versification() const
-{
-    return m_versification;
-}
 QList<int> Bible::bookIDs() const
 {
     return m_versification->maxChapter().keys();

@@ -21,31 +21,27 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/bible/biblequote.h"
 #include "src/module/bible/zefania-bible.h"
 #include "src/module/bible/thewordbible.h"
-#include "src/module/simplemoduleclass.h"
-
-#include "src/core/bible/ranges.h"
-#include "src/core/bible/range.h"
-#include "src/core/bible/textrange.h"
-#include "src/core/bible/textranges.h"
+#include "src/module/versemodule.h"
 
 #include "src/core/settings/modulesettings.h"
 #include "src/core/settings/bibledisplaysettings.h"
 
 #include "src/core/dbghelper.h"
 #include "src/core/urlconverter.h"
-#include "src/core/verseselection.h"
 #include "src/core/versereplacer.h"
-
+#include "src/core/verseselection.h"
 /*!
  Bible represent a bible module(eg. biblequote module or zefania xml module)
  It reads the module, gets the raw data and formats it.
 */
-class Bible : public SimpleModuleClass
+class Bible : public VerseModule
 {
 public:
 
     Bible();
     void setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings);
+    virtual TextRanges readRanges(const Ranges &ranges, bool ignoreModuleID = false);
+    virtual TextRange readRange(const Range &range, bool ignoreModuleID = false);
 
     int loadModuleData(const int &bibleID);
     /**
@@ -53,8 +49,6 @@ public:
       */
     int readBook(const int &id);
 
-    TextRanges readRanges(const Ranges &ranges, bool ignoreModuleID = false);
-    TextRange readRange(const Range &range, bool ignoreModuleID = false);
     /**
       * Used only by BibleQuote modules.
       * @returns A list of paths, where images can be found.
@@ -82,16 +76,10 @@ public:
     QStringList bookPath();
     QStringList chapterNames();
     SearchQuery lastSearchQuery() const;
-
     bool loaded() const;
-    void setLastTextRanges(TextRanges *textRanges);
-    TextRanges *lastTextRanges() const;
 
-    void setLastRanges(const Ranges &ranges);
-    Ranges lastRanges() const;
-    Versification *versification() const;
 private:
-    Versification *m_versification;
+
     int m_bookID;
     int m_chapterID;
     int m_verseID;
@@ -107,8 +95,7 @@ private:
     BibleDisplaySettings *m_bibleDisplaySettings;
 
     BibleModule *m_bibleModule;
-    TextRanges *m_lastTextRanges;
-    Ranges m_ranges;
+
     bool m_loaded;
     SearchQuery m_lastSearchQuery;
     Book m_book;
