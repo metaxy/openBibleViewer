@@ -44,8 +44,9 @@ int Bible::loadModuleData(const int &moduleID)
         myWarning() << "invalid bibleID = " << moduleID;
         return 1;
     }
-    if(m_module->moduleType() == Module::NoneType || m_module->moduleClass() != Module::BibleModuleClass) {
-        myDebug() << "invalid type " << m_module->moduleType();
+    m_moduleType = m_module->moduleType();
+    if(moduleType() == Module::NoneType || m_module->moduleClass() != Module::BibleModuleClass) {
+        myDebug() << "invalid type " << moduleType();
         return 2;
     }
     m_moduleID = moduleID;
@@ -53,7 +54,7 @@ int Bible::loadModuleData(const int &moduleID)
     ModuleSettings m = m_settings->getModuleSettings(m_moduleID);
     m_bookPath.clear();
     m_modulePath.clear();
-    if(m_module->moduleType() == Module::BibleQuoteModule) {
+    if(moduleType() == Module::BibleQuoteModule) {
         if(m_module->m_bibleModule) {
             m_bibleModule = m_module->m_bibleModule;
         } else {
@@ -66,15 +67,15 @@ int Bible::loadModuleData(const int &moduleID)
 
         m_bookPath = ((BibleQuote *)m_bibleModule)->m_bookPath;
         m_modulePath = m_bibleModule->modulePath();
-    } else if(m_module->moduleType() == Module::ZefaniaBibleModule || m_module->moduleType() == Module::TheWordBibleModule) {
-        if(m_module->moduleType() == Module::ZefaniaBibleModule) {
+    } else if(moduleType() == Module::ZefaniaBibleModule || moduleType() == Module::TheWordBibleModule) {
+        if(moduleType() == Module::ZefaniaBibleModule) {
             if(m_module->m_bibleModule) {
                 m_bibleModule = m_module->m_bibleModule;
             } else {
                 m_bibleModule = new ZefaniaBible();
                 m_module->m_bibleModule = m_bibleModule;
             }
-        } else if(m_module->moduleType() == Module::TheWordBibleModule) {
+        } else if(moduleType() == Module::TheWordBibleModule) {
             if(m_module->m_bibleModule) {
                 m_bibleModule = m_module->m_bibleModule;
             } else {
@@ -109,7 +110,7 @@ int Bible::readBook(const int &id)
     m_book.clear();
     m_chapterNames.clear();
 
-    switch(m_module->moduleType()) {
+    switch(moduleType()) {
     case Module::BibleQuoteModule: {
         if(id < m_bookPath.size()) {
             int r = m_bibleModule->readBook(id);
@@ -326,7 +327,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             verse.append("</span>");
         }
 
-        if(m_module->moduleType() == Module::TheWordBibleModule || m_module->moduleType() == Module::ZefaniaBibleModule) {
+        if(moduleType() == Module::TheWordBibleModule || moduleType() == Module::ZefaniaBibleModule) {
             QString prepend;
             QString append;
             prepend = "<span class=\"verseNumber\">" + QString::number(verse.verseID() + 1) + "</span> ";
@@ -338,7 +339,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 
             verse.prepend(prepend);
             verse.append(append);
-        } else if(m_module->moduleType() == Module::BibleQuoteModule) {
+        } else if(moduleType() == Module::BibleQuoteModule) {
         }
         verseMap.insert(verse.verseID(), verse);
     }
@@ -414,7 +415,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     //it have to be done as last
     QMapIterator<int, Verse> i(verseMap);
 
-    if(m_module->moduleType() == Module::BibleQuoteModule) {
+    if(moduleType() == Module::BibleQuoteModule) {
         const QString pre = "<span verseID='";
         const QString pre2 = "' chapterID='" + QString::number(chapterID) +
                              "' bookID='" + QString::number(bookID) +
@@ -430,7 +431,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             ret.addVerse(verse);
         }
 
-    } else if(m_module->moduleType() == Module::ZefaniaBibleModule || m_module->moduleType() == Module::TheWordBibleModule) {
+    } else if(moduleType() == Module::ZefaniaBibleModule || moduleType() == Module::TheWordBibleModule) {
         const QString pre = "<span verseID='";
         const QString pre2 =  "' chapterID='" + QString::number(chapterID) +
                               "' bookID='" + QString::number(bookID) +
@@ -472,7 +473,7 @@ void Bible::search(SearchQuery query, SearchResult *result)
 }
 QStringList Bible::getSearchPaths() const
 {
-    if(m_module->moduleType() == Module::BibleQuoteModule) {
+    if(moduleType() == Module::BibleQuoteModule) {
         QStringList l;
         l.append(QString(m_modulePath + QDir::separator()));
         if(m_bookID < m_bookPath.size()) {
@@ -511,17 +512,17 @@ int Bible::chaptersCount() const
     return m_book.size();
 }
 
-QString Bible::modulePath()
+QString Bible::modulePath() const
 {
     return m_modulePath;
 }
 
-QString Bible::moduleTitle()
+QString Bible::moduleTitle() const
 {
     return m_moduleTitle;
 }
 
-QString Bible::moduleShortTitle()
+QString Bible::moduleShortTitle() const
 {
     if(m_moduleShortTitle.isEmpty())
         return moduleTitle();
@@ -539,19 +540,12 @@ QStringList Bible::chapterNames()
     return m_chapterNames;
 }
 
-Module::ModuleType Bible::bibleType() const
-{
-    return m_module->moduleType();
-}
 
 int Bible::verseID() const
 {
     return m_verseID;
 }
-SearchQuery Bible::lastSearchQuery() const
-{
-    return m_lastSearchQuery;
-}
+
 
 QString Bible::bookName(const int &bookID, bool preferShort)
 {

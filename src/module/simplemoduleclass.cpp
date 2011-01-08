@@ -45,3 +45,21 @@ void SimpleModuleClass::setModuleID(const int &moduleID)
 {
     m_moduleID = moduleID;
 }
+QString SimpleModuleClass::moduleTitle() const
+{
+    return QString();
+}
+
+QString SimpleModuleClass::moduleShortTitle() const
+{
+    return QString();
+}
+
+QString SimpleModuleClass::modulePath() const
+{
+    return QString();
+}
+Module::ModuleType SimpleModuleClass::moduleType() const
+{
+    return m_moduleType;
+}

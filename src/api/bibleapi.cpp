@@ -22,7 +22,7 @@ void BibleApi::activateBible(const int &bibleListID)
 {
     DEBUG_FUNC_NAME;
     myDebug() << bibleListID;
-    m_moduleManager->bibleList()->setCurrentBibleListID(bibleListID);
+    m_moduleManager->verseTable()->setCurrentVerseTableID(bibleListID);
 
     QWebElementCollection collection = m_frame->documentElement().findAll("td[class~=bibleListTitle]");
     foreach(QWebElement paraElement, collection) {

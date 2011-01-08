@@ -40,7 +40,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/verseurl.h"
 #include "src/core/basicclass.h"
 #include "src/core/history.h"
-#include "src/module/biblelist.h"
+#include "src/module/versetable.h"
 #include "src/api/api.h"
 
 #include "src/ui/interface/advanced/webview.h"
@@ -71,7 +71,7 @@ public:
     Ui::BibleForm *m_ui;
     WebView *m_view;
     QList<int> m_bookIDs;
-    BibleList *m_bibleList;
+    VerseTable *m_verseTable;
 
     VerseSelection verseSelection();
 

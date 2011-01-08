@@ -65,7 +65,7 @@ set ( openBibleViewer_HDRS
     module/versemodule.h
     module/dictionary/zefania-lex.h
     module/modulemap.h
-    module/biblelist.h
+    module/versetable.h
     module/dictionary/dictionary.h
     module/dictionary/biblequote-dict.h
     module/bible/biblemodule.h
@@ -133,7 +133,7 @@ set ( openBibleViewer_SRCS
     module/module.cpp
     module/versemodule.cpp
     module/simplemoduleclass.cpp
-    module/biblelist.cpp
+    module/versetable.cpp
     module/modulemap.cpp
     module/dictionary/dictionary.cpp
     module/dictionary/biblequote-dict.cpp

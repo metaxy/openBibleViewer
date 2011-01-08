@@ -72,11 +72,11 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.setV11n(m_moduleManager->bible()->versification());
+    urlConverter.setV11n(m_moduleManager->verseModule()->versification());
     VerseUrl newUrl = urlConverter.convert();
     VerseUrlRange r = newUrl.ranges().first();
 
-    if(m_moduleManager->bible()->moduleID() == r.bibleID() && m_moduleManager->bible()->lastTextRanges()->contains(r.bookID(), r.startChapterID())) {
+    if(m_moduleManager->verseModule()->moduleID() == r.bibleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.startChapterID())) {
         m_actions->reloadChapter();
     }
 
@@ -92,12 +92,12 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.setV11n(m_moduleManager->bible()->versification());
+    urlConverter.setV11n(m_moduleManager->verseModule()->versification());
     VerseUrl newUrl = urlConverter.convert();
     VerseUrlRange r = newUrl.ranges().first();
 
 
-    if(m_moduleManager->bible()->moduleID() == r.bibleID() && m_moduleManager->bible()->lastTextRanges()->contains(r.bookID(), r.startChapterID())) {
+    if(m_moduleManager->verseModule()->moduleID() == r.bibleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.startChapterID())) {
         m_actions->reloadChapter();
     }
 }
@@ -184,7 +184,7 @@ void NotesDockWidget::removeMark(VerseSelection selection)
             UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
             urlConverter.setSettings(m_settings);
             urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-            urlConverter.setV11n(m_moduleManager->bible()->versification());
+            urlConverter.setV11n(m_moduleManager->verseModule()->versification());
             VerseUrl newUrl = urlConverter.convert();
 
             if(newUrl.contains(selection.moduleID, selection.bookID, selection.chapterID)) {

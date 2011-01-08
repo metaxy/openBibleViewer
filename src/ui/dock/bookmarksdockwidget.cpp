@@ -59,7 +59,7 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
     bookmarkIcon.addPixmap(style->standardPixmap(QStyle::SP_FileLinkIcon));
     bookmark->setIcon(0, bookmarkIcon);
     bookmark->setText(0,
-                      m_moduleManager->bible()->bookName(selection.bookID) +
+                      m_moduleManager->verseModule()->bookName(selection.bookID) +
                       " " +
                       QString::number(selection.chapterID + 1) +
                       "," +
@@ -74,7 +74,7 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
     UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.setV11n(m_moduleManager->bible()->versification());
+    urlConverter.setV11n(m_moduleManager->verseModule()->versification());
     VerseUrl newUrl = urlConverter.convert();
 
     bookmark->setText(1, newUrl.toString());
@@ -167,7 +167,7 @@ void BookmarksDockWidget::editBookmark()
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.setV11n(m_moduleManager->bible()->versification());
+    urlConverter.setV11n(m_moduleManager->verseModule()->versification());
     VerseUrl newUrl = urlConverter.convert();
     VerseUrlRange r = newUrl.ranges().first();
 

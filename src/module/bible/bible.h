@@ -54,12 +54,8 @@ public:
       * @returns A list of paths, where images can be found.
       */
     QStringList getSearchPaths() const;
-    /**
-      * Search in the current bible. Saves the results int the second argument (*result).
-      */
-    void search(SearchQuery query, SearchResult *result);
 
-    Module::ModuleType bibleType() const;
+    void search(SearchQuery query, SearchResult *result);
 
     int bookID() const;
     int chapterID() const;
@@ -67,9 +63,9 @@ public:
     int booksCount() const;
     int chaptersCount() const;
 
-    QString moduleTitle();
-    QString moduleShortTitle();
-    QString modulePath();
+    QString moduleTitle() const;
+    QString moduleShortTitle() const;
+    QString modulePath() const;
 
     QString bookName(const int &bookID, bool preferShort = false);
 
@@ -97,7 +93,7 @@ private:
     BibleModule *m_bibleModule;
 
     bool m_loaded;
-    SearchQuery m_lastSearchQuery;
+
     Book m_book;
 
     QString toUniformHtml(QString string);

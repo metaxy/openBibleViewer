@@ -30,9 +30,16 @@ public:
     virtual void setSettings(Settings *settings);
     virtual void setNotes(Notes *n);
     void setModuleType(const Module::ModuleType &type);
+    Module::ModuleType moduleType() const;
+
     void setModuleMap(ModuleMap *map);
     int moduleID() const;
     void setModuleID(const int &moduleID);
+
+
+    virtual QString moduleTitle() const;
+    virtual QString moduleShortTitle() const;
+    virtual QString modulePath() const;
 
 protected:
     Module *m_module;

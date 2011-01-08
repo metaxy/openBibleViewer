@@ -47,11 +47,11 @@ void BibleForm::setID(const int &id)
 void BibleForm::init()
 {
     //DEBUG_FUNC_NAME
-    m_moduleManager->m_bibleList = new BibleList();
+    m_moduleManager->m_verseTable = new VerseTable();
     Bible *b = new Bible();
-    m_moduleManager->initBible(b);
-    m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
-    m_bibleList = m_moduleManager->m_bibleList;
+    m_moduleManager->initVerseModule(b);
+    m_moduleManager->verseTable()->addModule(b, QPoint(0, 0));
+    m_verseTable = m_moduleManager->m_verseTable;
     attachApi();
     connect(m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
 
@@ -262,7 +262,7 @@ void BibleForm::setCurrentBook(const QSet<int> &bookID)
         if(b < min || min == -1)
             min = b;
     }
-    m_ui->comboBox_books->setCurrentIndex(m_moduleManager->bible()->versification()->data().keys().indexOf(min));
+    m_ui->comboBox_books->setCurrentIndex(m_moduleManager->verseModule()->versification()->data().keys().indexOf(min));
     connect(m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
 }
 void BibleForm::activated()
@@ -270,36 +270,36 @@ void BibleForm::activated()
     //DEBUG_FUNC_NAME
     //myDebug() << " windowID = " << m_id;
     m_api->bibleApi()->setFrame(m_view->page()->mainFrame());
-    BibleList *list = m_bibleList;
-    if(m_bibleList == NULL || m_bibleList->bible() == NULL) {
+    VerseTable *table = m_verseTable;
+    if(m_verseTable == NULL || m_verseTable->verseModule() == NULL) {
         myDebug() << "no biblelist or no bible";
         clearChapters();
         clearBooks();
         m_actions->setTitle("");
-        m_moduleManager->m_bibleList = NULL;
+        m_moduleManager->m_verseTable = NULL;
         return;
     }
-    if(m_bibleList->bible()->moduleID() < 0) {
+    if(m_verseTable->verseModule()->moduleID() < 0) {
         myDebug() << "invalid moduleID";
         clearChapters();
         clearBooks();
         m_actions->setTitle("");
-        m_moduleManager->m_bibleList = list;
+        m_moduleManager->m_verseTable = table;
         return;
     }
-    m_moduleManager->m_bibleList = m_bibleList;
+    m_moduleManager->m_verseTable = m_verseTable;
 
-    m_actions->setTitle(m_moduleManager->bible()->moduleTitle());
-    m_actions->setCurrentModule(m_moduleManager->bible()->moduleID());
+    m_actions->setTitle(m_moduleManager->verseModule()->moduleTitle());
+    m_actions->setCurrentModule(m_moduleManager->verseModule()->moduleID());
 
-    m_actions->updateChapters(m_moduleManager->bible()->chapterNames());
-    m_actions->updateBooks(m_moduleManager->bible()->versification());
+    m_actions->updateChapters(m_moduleManager->verseModule()->chapterNames());
+    m_actions->updateBooks(m_moduleManager->verseModule()->versification());
     if(m_lastTextRanges.verseCount() != 0) {
         m_actions->setCurrentChapter(m_lastTextRanges.chapterIDs());
         m_actions->setCurrentBook(m_lastTextRanges.bookIDs());
     }
-    m_moduleManager->bibleList()->setLastTextRanges(&m_lastTextRanges);
-    m_moduleManager->bibleList()->setLastUrl(&m_lastUrl);
+    m_moduleManager->verseTable()->setLastTextRanges(&m_lastTextRanges);
+    m_moduleManager->verseTable()->setLastUrl(&m_lastUrl);
 
 
 }
@@ -322,7 +322,7 @@ void BibleForm::showText(const QString &text)
     {
         QString cssFile;
         if(m_moduleManager->bibleLoaded())
-            cssFile = m_settings->getModuleSettings(m_moduleManager->bible()->moduleID()).styleSheet;
+            cssFile = m_settings->getModuleSettings(m_moduleManager->verseModule()->moduleID()).styleSheet;
         if(cssFile.isEmpty())
             cssFile = ":/data/css/default.css";
 
@@ -346,15 +346,16 @@ void BibleForm::showText(const QString &text)
 
     if(m_lastTextRanges.verseCount() > 1) {
         scrollToAnchor("currentEntry");
-        if(m_moduleManager->bibleList()->hasTopBar())
+        if(m_moduleManager->verseTable()->hasTopBar())
             frame->scroll(0, -40); //due to the biblelist bar on top
         //todo: it could be that the top bar has a width more than 40px
         //because the user zoomed in.
     }
 
-    if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule) {
-        QWebElementCollection collection = frame->documentElement().findAll("img");
-        const QStringList searchPaths = m_moduleManager->bible()->getSearchPaths();
+    if(m_moduleManager->verseModule()->moduleType() == Module::BibleQuoteModule) {
+        //todo: uncomment
+       /* QWebElementCollection collection = frame->documentElement().findAll("img");
+        const QStringList searchPaths = m_moduleManager->verseModule()->getSearchPaths();
 
         foreach(QWebElement paraElement, collection) {
             QString url = paraElement.attribute("src");
@@ -377,7 +378,7 @@ void BibleForm::showText(const QString &text)
                     }
                 }
             }
-        }
+        }*/
     }
 
 }
@@ -394,8 +395,8 @@ void BibleForm::showTextRanges(const QString &html, const TextRanges &range, con
     showText(html);
     m_lastTextRanges = range;
     m_lastUrl = url;
-    m_moduleManager->bibleList()->setLastTextRanges(&m_lastTextRanges);
-    m_moduleManager->bibleList()->setLastUrl(&m_lastUrl);
+    m_moduleManager->verseTable()->setLastTextRanges(&m_lastTextRanges);
+    m_moduleManager->verseTable()->setLastUrl(&m_lastUrl);
     historySetUrl(url.toString());
 }
 void BibleForm::evaluateJavaScript(const QString &js)
@@ -684,7 +685,7 @@ void BibleForm::copyWholeVerse(void)
         }
 
         int add = 0;
-        if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule)
+        if(m_moduleManager->verseModule()->moduleType() == Module::BibleQuoteModule)
             add = 1; //because of the title
         myDebug() << "startVerse = " << selection.startVerse << " endVerse = " << selection.endVerse;
         Range r;
@@ -693,7 +694,7 @@ void BibleForm::copyWholeVerse(void)
         r.setModule(selection.moduleID);
         r.setStartVerse(selection.startVerse);
         r.setEndVerse(selection.endVerse);
-        QString stext = m_moduleManager->bible()->readRange(r).join(" ");
+        QString stext = m_moduleManager->verseModule()->readRange(r).join(" ");
         myDebug() << stext;
 
         QTextDocument doc2;
@@ -702,7 +703,7 @@ void BibleForm::copyWholeVerse(void)
 
         const QString curChapter = QString::number(selection.chapterID + 1);
 
-        const QString newText = m_moduleManager->bible()->bookName(selection.bookID) + " " + curChapter + sverse + "\n" + stext;
+        const QString newText = m_moduleManager->verseModule()->bookName(selection.bookID) + " " + curChapter + sverse + "\n" + stext;
         QClipboard *clipboard = QApplication::clipboard();
         clipboard->setText(newText);
     }
@@ -947,7 +948,7 @@ VerseSelection BibleForm::verseSelection()
 BibleForm::~BibleForm()
 {
     delete m_ui;
-    delete m_bibleList;
+    delete m_verseTable;
 }
 
 

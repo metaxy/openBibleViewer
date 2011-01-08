@@ -66,7 +66,7 @@ Ranges BibleManager::bibleUrlRangeToRanges(VerseUrlRange range)
     if(range.bible() == VerseUrlRange::LoadBibleByID) {
         r.setModule(range.bibleID());
     } else if(range.bible() == VerseUrlRange::LoadCurrentModule) {
-        r.setModule(m_moduleManager->bible()->moduleID());
+        r.setModule(m_moduleManager->verseModule()->moduleID());
     }
 
     if(range.book() == VerseUrlRange::LoadFirstBook) {
@@ -189,96 +189,34 @@ void BibleManager::pharseUrl(const QString &url)
 }
 void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
 {
-    std::pair<QString, TextRanges> r = m_moduleManager->bibleList()->readRanges(ranges);
+    std::pair<QString, TextRanges> r = m_moduleManager->verseTable()->readRanges(ranges);
     m_actions->showTextRanges(r.first, r.second, url);
 
-    m_actions->updateChapters(m_moduleManager->bible()->chapterNames());
-    m_actions->updateBooks(m_moduleManager->bible()->versification());
+    m_actions->updateChapters(m_moduleManager->verseModule()->chapterNames());
+    m_actions->updateBooks(m_moduleManager->verseModule()->versification());
     m_actions->setCurrentBook(r.second.bookIDs());
     m_actions->setCurrentChapter(r.second.chapterIDs());
-    m_actions->setTitle(m_moduleManager->bible()->moduleTitle());
-}
-
-bool BibleManager::loadModuleDataByID(const int &moduleID)
-{
-    if(moduleID < 0 || !m_moduleManager->contains(moduleID)) {
-        myWarning() << "failed id = " << moduleID << m_moduleManager->m_moduleMap->m_map;
-        return 1;
-    }
-    if(m_moduleManager->getModule(moduleID)->moduleClass() != Module::BibleModuleClass) {
-        myWarning() << "non bible module " << m_moduleManager->getModule(moduleID)->moduleClass();
-        return 1;
-    }
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-
-    Module::ModuleType type = m_moduleManager->getModule(moduleID)->moduleType();
-    m_moduleManager->bible()->setModuleType(type);
-    m_moduleManager->bible()->loadModuleData(moduleID);
-
-    //update current title and selected module
-    m_actions->setTitle(m_moduleManager->bible()->moduleTitle());
-    m_actions->setCurrentModule(moduleID);
-
-    QApplication::restoreOverrideCursor();
-    return 0;
-}
-void BibleManager::readBookByID(const int &id)
-{
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-    if(id < 0) {
-        QApplication::restoreOverrideCursor();
-        QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
-        myWarning() << "invalid bookID - 1";
-        return;
-    }
-    /*if(!m_moduleManager->bible()->bookIDs().contains(id)) {
-        QApplication::restoreOverrideCursor();
-        myWarning() << "invalid bookID - 2(no book loaded) id = " << id << " count = " << m_moduleManager->bible()->booksCount();
-        return;
-    }*/
-    const int read = m_moduleManager->bibleList()->readBook(id);
-    if(read != 0) {
-        QApplication::restoreOverrideCursor();
-        if(read == 2) {
-            m_actions->clearChapters();
-        } else {
-            QMessageBox::critical(0, tr("Error"), tr("Cannot read the book."));
-        }
-        myWarning() << "read = " << read;
-        //error while reading
-        return;
-    }
-    QApplication::restoreOverrideCursor();
-    m_actions->updateChapters(m_moduleManager->bible()->chapterNames());
-    m_actions->setTitle(m_moduleManager->bible()->moduleTitle());
-}
-
-void BibleManager::showChapter(const int &chapterID, const int &verseID)
-{
-    //DEBUG_FUNC_NAME
-    myDebug() << "chapter ID = " << chapterID << "verse ID = " << verseID;
-    //m_bibleDisplay->setHtml(m_moduleManager->bibleList()->readChapter(chapterID, verseID));
-    //emit setCurrentChapter(chapterID);
+    m_actions->setTitle(m_moduleManager->verseModule()->moduleTitle());
 }
 
 void BibleManager::nextChapter()
 {
     if(!m_moduleManager->bibleLoaded())
         return;
-    if(m_moduleManager->bible()->lastTextRanges()->minChapterID() < m_moduleManager->bible()->chaptersCount() - 1) {
+    if(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() < m_moduleManager->verseModule()->chaptersCount() - 1) {
         VerseUrl bibleUrl;
         VerseUrlRange range;
         range.setModule(VerseUrlRange::LoadCurrentModule);
         range.setBook(VerseUrlRange::LoadCurrentBook);
-        range.setChapter(m_moduleManager->bible()->lastTextRanges()->minChapterID() - 1);
+        range.setChapter(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() - 1);
         range.setWholeChapter();
         bibleUrl.addRange(range);
         m_actions->get(bibleUrl);
-    } else if(m_moduleManager->bible()->lastTextRanges()->minBookID() < m_moduleManager->bible()->booksCount() - 1) {
+    } else if(m_moduleManager->verseModule()->lastTextRanges()->minBookID() < m_moduleManager->verseModule()->booksCount() - 1) {
         VerseUrl bibleUrl;
         VerseUrlRange range;
         range.setModule(VerseUrlRange::LoadCurrentModule);
-        range.setBook(m_moduleManager->bible()->lastTextRanges()->minBookID() + 1);
+        range.setBook(m_moduleManager->verseModule()->lastTextRanges()->minBookID() + 1);
         range.setChapter(VerseUrlRange::LoadFirstChapter);
         range.setWholeChapter();
         bibleUrl.addRange(range);
@@ -290,20 +228,20 @@ void BibleManager::previousChapter()
 {
     if(!m_moduleManager->bibleLoaded())
         return;
-    if(m_moduleManager->bible()->lastTextRanges()->minChapterID() > 0) {
+    if(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() > 0) {
         VerseUrl bibleUrl;
         VerseUrlRange range;
         range.setModule(VerseUrlRange::LoadCurrentModule);
         range.setBook(VerseUrlRange::LoadCurrentBook);
-        range.setChapter(m_moduleManager->bible()->lastTextRanges()->minChapterID() - 1);
+        range.setChapter(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() - 1);
         range.setWholeChapter();
         bibleUrl.addRange(range);
         m_actions->get(bibleUrl);
-    } else if(m_moduleManager->bible()->lastTextRanges()->minBookID() > 0) {
+    } else if(m_moduleManager->verseModule()->lastTextRanges()->minBookID() > 0) {
         VerseUrl bibleUrl;
         VerseUrlRange range;
         range.setModule(VerseUrlRange::LoadCurrentModule);
-        range.setBook(m_moduleManager->bible()->lastTextRanges()->minBookID() - 1);
+        range.setBook(m_moduleManager->verseModule()->lastTextRanges()->minBookID() - 1);
         range.setChapter(VerseUrlRange::LoadLastChapter);
         range.setWholeChapter();
         bibleUrl.addRange(range);
@@ -339,7 +277,7 @@ void BibleManager::reshowCurrentRange()
     DEBUG_FUNC_NAME
     if(!m_moduleManager->bibleLoaded())
         return;
-    m_actions->get(*m_moduleManager->bibleList()->lastBibleUrl());
+    m_actions->get(*m_moduleManager->verseTable()->lastVerseUrl());
 }
 void BibleManager::reloadBible()
 {

@@ -35,27 +35,27 @@ SimpleInterface::SimpleInterface(QWidget *parent) :
 }
 void SimpleInterface::init()
 {
-    BibleDisplaySettings *bibleDisplaySettings = new BibleDisplaySettings();
+   /* BibleDisplaySettings *bibleDisplaySettings = new BibleDisplaySettings();
     bibleDisplaySettings->setLoadNotes(false);
     bibleDisplaySettings->setShowMarks(false);
     bibleDisplaySettings->setShowNotes(false);
     m_moduleManager->setBibleDisplaySettings(bibleDisplaySettings);
 
-    m_moduleManager->m_bibleList = new BibleList();
+    m_moduleManager->m_verseTable = new VerseTable();
     Bible *b = new Bible();
-    m_moduleManager->initBible(b);
-    m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
+    m_moduleManager->initVerseModule(b);
+    m_moduleManager->verseTable()->addModule(b, QPoint(0, 0));
 
-    m_moduleManager->bible()->setSettings(m_settings);
+    m_moduleManager->verseModule()->setSettings(m_settings);
 
 
    // connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
-    connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+    connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));*/
 
 }
 void SimpleInterface::createDocks()
 {
-    m_moduleDockWidget = new ModuleDockWidget(this->parentWidget());
+    /*m_moduleDockWidget = new ModuleDockWidget(this->parentWidget());
     setAll(m_moduleDockWidget);
     m_moduleDockWidget->init();
     connect(m_moduleDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
@@ -67,12 +67,12 @@ void SimpleInterface::createDocks()
     m_searchResultDockWidget = new SearchResultDockWidget(this->parentWidget());
     setAll(m_searchResultDockWidget);
     m_searchResultDockWidget->hide();
-    connect(m_searchResultDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
+    connect(m_searchResultDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));*/
 }
 
 void SimpleInterface::createToolBars()
 {
-    m_bar = new QToolBar(this->parentWidget());
+   /* m_bar = new QToolBar(this->parentWidget());
     m_bar->setObjectName("mainToolBar");
     m_bar->setIconSize(QSize(32, 32));
     m_bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
@@ -90,7 +90,7 @@ void SimpleInterface::createToolBars()
     m_bar->addAction(m_actionZoomIn);
     m_bar->addAction(m_actionZoomOut);
     m_bar->addSeparator();
-    m_bar->addAction(m_actionModule);
+    m_bar->addAction(m_actionModule);*/
 }
 
 void SimpleInterface::createMenu()
@@ -100,53 +100,53 @@ void SimpleInterface::createMenu()
 
 QHash<DockWidget*, Qt::DockWidgetArea> SimpleInterface::docks()
 {
-    QHash<DockWidget *, Qt::DockWidgetArea> ret;
+    /*QHash<DockWidget *, Qt::DockWidgetArea> ret;
     ret.insert(m_searchResultDockWidget, Qt::RightDockWidgetArea);
     ret.insert(m_bookDockWidget, Qt::LeftDockWidgetArea);
     ret.insert(m_moduleDockWidget, Qt::LeftDockWidgetArea);
-    return ret;
+    return ret;*/
 
 }
 bool SimpleInterface::hasMenuBar()
 {
-    return false;
+    //return false;
 }
 QMenuBar* SimpleInterface::menuBar()
 {
-    return 0;
+    //return 0;
 }
 bool SimpleInterface::hasToolBar()
 {
-    return true;
+    //return true;
 }
 QList<QToolBar *> SimpleInterface::toolBars()
 {
-    QList<QToolBar *> list;
+   /* QList<QToolBar *> list;
     list.append(m_bar);
-    return list;
+    return list;*/
 }
 void SimpleInterface::zoomIn()
 {
-    ui->textBrowser->zoomIn();
+    //ui->textBrowser->zoomIn();
 }
 void SimpleInterface::zoomOut()
 {
-    ui->textBrowser->zoomOut();
+    //ui->textBrowser->zoomOut();
 }
 void SimpleInterface::loadModuleDataByID(int id)
 {
-    //DEBUG_FUNC_NAME
+    /*//DEBUG_FUNC_NAME
     //myDebug() << "id = " << id;
     if(id < 0 || !m_moduleManager->contains(id))
         return;
     Module::ModuleType type = m_moduleManager->getModule(id)->moduleType();
-    m_moduleManager->bible()->setModuleType(type);
+    m_moduleManager->verseModule()->setModuleType(type);
 
-    m_moduleManager->bible()->loadModuleData(id);
+    m_moduleManager->verseModule()->loadModuleData(id);
 
-    setTitle(m_moduleManager->bible()->moduleTitle());
+    setTitle(m_moduleManager->verseModule()->moduleTitle());
     //todo: port to v11n
-    //setBooks(m_moduleManager->bible()->bookNames());
+    //setBooks(m_moduleManager->bible()->bookNames());*/
 
 }
 void SimpleInterface::pharseUrl(QUrl url)
@@ -155,7 +155,7 @@ void SimpleInterface::pharseUrl(QUrl url)
 }
 void SimpleInterface::pharseUrl(QString url)
 {
-    //DEBUG_FUNC_NAME
+   /* //DEBUG_FUNC_NAME
     myDebug() << "url = " << url;
     const QString bible = "bible://";
     const QString http = "http://";
@@ -170,18 +170,18 @@ void SimpleInterface::pharseUrl(QString url)
             if(c.size() >= 3) {
                 int bibleID;
                 if(a.at(0) == "current") {
-                    bibleID = m_moduleManager->bible()->moduleID();
+                    bibleID = m_moduleManager->verseModule()->moduleID();
                 } else {
                     bibleID = a.at(0).toInt();
                 }
                 int bookID = c.at(0).toInt();
                 int chapterID = c.at(1).toInt();
                 int verseID = c.at(2).toInt();
-                if(bibleID != m_moduleManager->bible()->moduleID()) {
+                if(bibleID != m_moduleManager->verseModule()->moduleID()) {
                     loadModuleDataByID(bibleID);
                     readBookByID(bookID);
                     setCurrentBook(bookID);;
-                } else if(bookID != m_moduleManager->bible()->bookID()) {
+                } else if(bookID != m_moduleManager->verseModule()->bookID()) {
                     readBookByID(bookID);
                     setCurrentBook(bookID);;
                 }
@@ -204,7 +204,7 @@ void SimpleInterface::pharseUrl(QString url)
         int bookID = internal.at(2).toInt() - 1;
         int chapterID = internal.at(3).toInt() - 1;
         int verseID = internal.at(4).toInt();
-        /*if(bibleID != m_moduleManager->bible()->bibleID())
+        if(bibleID != m_moduleManager->bible()->bibleID())
         {
             loadModuleDataByID(bibleID);
             readBookByID(bookID);
@@ -213,13 +213,13 @@ void SimpleInterface::pharseUrl(QString url)
             setCurrentChapter(chapterID);
             //load bible
         }
-        else */if(bookID != m_moduleManager->bible()->bookID()) {
+        else if(bookID != m_moduleManager->verseModule()->bookID()) {
             readBookByID(bookID);
             setCurrentBook(bookID);
             showChapter(chapterID, verseID);
             setCurrentChapter(chapterID);
             //load book
-        } else if(chapterID != m_moduleManager->bible()->chapterID()) {
+        } else if(chapterID != m_moduleManager->verseModule()->chapterID()) {
             showChapter(chapterID, verseID);
             setCurrentChapter(chapterID);
             //load chapter
@@ -235,45 +235,45 @@ void SimpleInterface::pharseUrl(QString url)
         bool ok;
         int c = url.toInt(&ok, 10);
         myDebug() << "c = " << c;
-        if(ok && c < m_moduleManager->bible()->chaptersCount() && m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c) {
+        if(ok && c < m_moduleManager->verseModule()->chaptersCount() && m_moduleManager->verseModule()->moduletype() == Module::BibleQuoteModule && m_moduleManager->verseModule()->chapterID() != c) {
             //myDebug() << "bq chapter link";
             showChapter(c, 0);
-            setCurrentChapter(c);
+            setCurrentChapter(c);*/
             /*
             m_moduleManager->bible()->readChapter(c, 0);*/
-        } else {
+       /* } else {
             //myDebug() << "anchor";
             ui->textBrowser->scrollToAnchor(url);
         }
     } else {
-        if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->bookPath().contains(url)) {
-            emit get("bible://current/" + m_moduleManager->bible()->bookPath().lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
+        if(m_moduleManager->verseModule()->moduletype() == Module::BibleQuoteModule && m_moduleManager->verseModule()->bookPath().contains(url)) {
+            emit get("bible://current/" + m_moduleManager->verseModule()->bookPath().lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
         } else {
             myWarning() << "invalid URL";
         }
     }
-    return;
+    return;*/
 }
 void SimpleInterface::showText(const QString &text)
 {
-    QString cssFile = m_settings->getModuleSettings(m_moduleManager->bible()->moduleID()).styleSheet;
+  /*  QString cssFile = m_settings->getModuleSettings(m_moduleManager->verseModule()->moduleID()).styleSheet;
     if(cssFile.isEmpty())
         cssFile = ":/data/css/default.css";
 
     ui->textBrowser->setHtml(text);
     ui->textBrowser->loadResource(QTextDocument::StyleSheetResource, QUrl(cssFile));
 
-    if(m_moduleManager->bible()->verseID() > 1)
-        ui->textBrowser->scrollToAnchor("currentVerse");
+    if(m_moduleManager->verseModule()->verseID() > 1)
+        ui->textBrowser->scrollToAnchor("currentVerse");*/
 }
 void SimpleInterface::setTitle(const QString &title)
 {
-    this->parentWidget()->setWindowTitle(title + " - " + tr("openBibleViewer"));
+    //this->parentWidget()->setWindowTitle(title + " - " + tr("openBibleViewer"));
 }
 
 void SimpleInterface::setChapters(const QStringList &chapters)
 {
-    m_bookDockWidget->setChapters(chapters);
+   // m_bookDockWidget->setChapters(chapters);
 }
 
 void SimpleInterface::setBooks(const QHash<int, QString> &books)
@@ -284,12 +284,12 @@ void SimpleInterface::setBooks(const QHash<int, QString> &books)
 
 void SimpleInterface::setCurrentBook(const int &bookID)
 {
-    m_bookDockWidget->setCurrentBook(bookID);
+   // m_bookDockWidget->setCurrentBook(bookID);
 }
 
 void SimpleInterface::setCurrentChapter(const int &chapterID)
 {
-    m_bookDockWidget->setCurrentChapter(chapterID);
+   // m_bookDockWidget->setCurrentChapter(chapterID);
 }
 void SimpleInterface::readBook(const int &id)
 {
@@ -299,29 +299,29 @@ void SimpleInterface::readBook(const int &id)
 void SimpleInterface::readBookByID(int id)
 {
     //myDebug() << "id = " << id;
-    if(id < 0) {
+   /* if(id < 0) {
         QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
         myWarning() << "invalid bookID - 1";
         return;
     }
-    if(id >= m_moduleManager->bible()->booksCount()) {
+    if(id >= m_moduleManager->verseModule()->booksCount()) {
         QMessageBox::critical(0, tr("Error"), tr("This book is not available."));
         myWarning() << "invalid bookID - 2(no book loaded)";
         return;
     }
-    if(m_moduleManager->bible()->readBook(id) != 0) {
+    if(m_moduleManager->verseModule()->readBook(id) != 0) {
         QMessageBox::critical(0, tr("Error"), tr("Cannot read the book."));
         //error while reading
         return;
     }
-    setChapters(m_moduleManager->bible()->chapterNames());
-    ui->textBrowser->setSearchPaths(m_moduleManager->bible()->getSearchPaths());
+    setChapters(m_moduleManager->verseModule()->chapterNames());
+    ui->textBrowser->setSearchPaths(m_moduleManager->verseModule()->getSearchPaths());*/
 
 }
 void SimpleInterface::readChapter(const int &id)
 {
     //DEBUG_FUNC_NAME
-    emit get("bible://current/" + QString::number(m_moduleManager->bible()->bookID()) + "," + QString::number(id) + ",0");
+  //  emit get("bible://current/" + QString::number(m_moduleManager->verseModule()->bookID()) + "," + QString::number(id) + ",0");
 }
 
 void SimpleInterface::showChapter(int chapterID, int verseID)
@@ -329,30 +329,30 @@ void SimpleInterface::showChapter(int chapterID, int verseID)
     //m_moduleManager->bible()->verseID() = verseID;//todo: check
     //todo: use the new ranges
     //m_bibleDisplay->setHtml((m_moduleManager->bible()->readChapter(chapterID, verseID)));
-    setCurrentChapter(chapterID);
+   // setCurrentChapter(chapterID);
 }
 void SimpleInterface::nextChapter()
 {
-    //DEBUG_FUNC_NAME
-    if(m_moduleManager->bible()->chapterID() < m_moduleManager->bible()->chaptersCount() - 1) {
-        readChapter(m_moduleManager->bible()->chapterID() + 1);
-    } else if(m_moduleManager->bible()->bookID() < m_moduleManager->bible()->booksCount() - 1) {
-        readBook(m_moduleManager->bible()->bookID() + 1);
-    }
+   /* //DEBUG_FUNC_NAME
+    if(m_moduleManager->verseModule()->chapterID() < m_moduleManager->verseModule()->chaptersCount() - 1) {
+        readChapter(m_moduleManager->verseModule()->chapterID() + 1);
+    } else if(m_moduleManager->verseModule()->bookID() < m_moduleManager->verseModule()->booksCount() - 1) {
+        readBook(m_moduleManager->verseModule()->bookID() + 1);
+    }*/
 }
 void SimpleInterface::previousChapter()
 {
     //DEBUG_FUNC_NAME
-    if(m_moduleManager->bible()->chapterID() > 0) {
-        readChapter(m_moduleManager->bible()->chapterID() - 1);
-    } else if(m_moduleManager->bible()->bookID() > 0) {
-        readBook(m_moduleManager->bible()->bookID() - 1);
-        readChapter(m_moduleManager->bible()->chaptersCount() - 1);
-    }
+   /* if(m_moduleManager->verseModule()->chapterID() > 0) {
+        readChapter(m_moduleManager->verseModule()->chapterID() - 1);
+    } else if(m_moduleManager->verseModule()->bookID() > 0) {
+        readBook(m_moduleManager->verseModule()->bookID() - 1);
+        readChapter(m_moduleManager->verseModule()->chaptersCount() - 1);
+    }*/
 }
 bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
 {
-    if(obj == ui->textBrowser) {
+    /*if(obj == ui->textBrowser) {
         if(event->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
             if(keyEvent->key() == Qt::Key_Left || keyEvent->key() == Qt::Key_PageUp) {
@@ -371,23 +371,23 @@ bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
     } else {
         return QWidget::eventFilter(obj, event);
     }
-    return QWidget::eventFilter(obj, event);
+    return QWidget::eventFilter(obj, event);*/
 }
 
 SimpleInterface::~SimpleInterface()
 {
-    delete m_moduleManager->m_bibleDisplaySettings;
+    /*delete m_moduleManager->m_bibleDisplaySettings;
     m_moduleManager->m_bibleDisplaySettings = 0;
-    delete ui;
+    delete ui;*/
 }
 void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings, bool modifedModuleSettings)
 {
     //DEBUG_FUNC_NAME
     //reload books
-    bool reloadBibles = false;
+    /*bool reloadBibles = false;
     if(oldSettings.encoding != newSettings.encoding) {
         reloadBibles = true;
-    }
+    }*/
     /*for(int i = 0; i < newSettings.m_moduleSettings.size(); ++i) {
         if(oldSettings.m_moduleSettings.size() < i || oldSettings.m_moduleSettings.empty()) {
             reloadBibles = true;
@@ -402,7 +402,7 @@ void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings
             }
         }
     }*/
-    if(modifedModuleSettings) {
+ /*   if(modifedModuleSettings) {
         reloadBibles = true;
     }
     if(reloadBibles == true) {
@@ -414,29 +414,29 @@ void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings
         m_moduleDockWidget->init();
         ui->textBrowser->setHtml("");
         //todo: clear everything
-    }
+    }*/
 
 }
 void SimpleInterface::showSearchDialog()
 {
-    SearchDialog *sDialog = new SearchDialog(this);
+   /* SearchDialog *sDialog = new SearchDialog(this);
     connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
     if(ui->textBrowser->textCursor().hasSelection() == true) //something is selected
         sDialog->setText(ui->textBrowser->textCursor().selectedText());
     sDialog->show();
-    sDialog->exec();
+    sDialog->exec();*/
 }
 void SimpleInterface::search(SearchQuery query)
 {
-    m_searchResultDockWidget->show();
+    /*m_searchResultDockWidget->show();
     Search s;
     setAll(&s);
     SearchResult *res = s.search(query);
-    m_searchResultDockWidget->setSearchResult(*res);
+    m_searchResultDockWidget->setSearchResult(*res);*/
 }
 void SimpleInterface::changeEvent(QEvent *e)
 {
-    QWidget::changeEvent(e);
+    /*QWidget::changeEvent(e);
     switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
@@ -447,5 +447,5 @@ void SimpleInterface::changeEvent(QEvent *e)
         break;
     default:
         break;
-    }
+    }*/
 }

@@ -179,11 +179,12 @@ void AdvancedInterface::pharseUrl(QString url)
         pharseUrl(i);*/
     } else {
         //todo: unterstand links like about:blank#a04
-        if(m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule) {
-            myDebug() << m_moduleManager->bible()->modulePath();
+        //todo: uncomment
+        /*if(m_moduleManager->verseModule()->moduleType() == Module::BibleQuoteModule) {
+            myDebug() << m_moduleManager->verseModule()->modulePath();
             bool isInBookPath = false;
             int b = 0;
-            const QStringList books = m_moduleManager->bible()->bookPath();
+            const QStringList books = m_moduleManager->verseModule()->bookPath();
             myDebug() << books;
             int i = 0;
             foreach(const QString & book, books) {
@@ -202,7 +203,7 @@ void AdvancedInterface::pharseUrl(QString url)
         } else {
             if(m_windowManager->activeForm())
                 m_windowManager->activeForm()->evaluateJavaScript(url);
-        }
+        }*/
     }
     //setEnableReload(true);
     return;

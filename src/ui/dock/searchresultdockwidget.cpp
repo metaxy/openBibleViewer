@@ -41,7 +41,7 @@ void SearchResultDockWidget::setSearchResult(SearchResult searchResult)
     QStringList outlist;
     const QList<SearchHit> hits = searchResult.hits(SearchHit::BibleHit);
     foreach(const SearchHit & hit, hits) {
-        const QString bookn = m_moduleManager->bible()->bookName(hit.value(SearchHit::BookID).toInt());
+        const QString bookn = m_moduleManager->verseModule()->bookName(hit.value(SearchHit::BookID).toInt());
         outlist << bookn + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + " , " +
                 QString::number(hit.value(SearchHit::VerseID).toInt() + 1);
     }
@@ -73,7 +73,7 @@ void SearchResultDockWidget::goToSearchResult(QListWidgetItem * item)
 }
 void SearchResultDockWidget::searchInfo()
 {
-    if(!m_moduleManager->contains(m_moduleManager->bible()->moduleID())) {
+    if(!m_moduleManager->contains(m_moduleManager->verseModule()->moduleID())) {
         QMessageBox::information(0, tr("Error"), tr("No search information available."));
         return;
     }
@@ -84,7 +84,7 @@ void SearchResultDockWidget::searchInfo()
     QStringList textList;
     foreach(const SearchHit & hit, list) {
         if(hit.type() == SearchHit::BibleHit) {
-            const QString bookn = m_moduleManager->bible()->bookName(hit.value(SearchHit::BookID).toInt()); //todo: maybe the bible isn't loaded and you need another bookNames
+            const QString bookn = m_moduleManager->verseModule()->bookName(hit.value(SearchHit::BookID).toInt()); //todo: maybe the bible isn't loaded and you need another bookNames
             textList << hit.value(SearchHit::VerseText).toString() + "\n - <i>" + bookn
                      + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1)
                      + " , " + QString::number(hit.value(SearchHit::VerseID).toInt() + 1) + "</i>";
@@ -94,7 +94,7 @@ void SearchResultDockWidget::searchInfo()
     SearchInfoDialog sDialog;
     sDialog.show();
 
-    sDialog.setInfo(result, m_moduleManager->bible()->versification(), m_searchResult.searchQuery.searchText, textList);
+    sDialog.setInfo(result, m_moduleManager->verseModule()->versification(), m_searchResult.searchQuery.searchText, textList);
     sDialog.exec();
 
 }

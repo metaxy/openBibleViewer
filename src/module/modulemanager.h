@@ -26,7 +26,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/settings.h"
 
 #include "src/module/bible/bible.h"
-#include "src/module/biblelist.h"
+#include "src/module/versetable.h"
 #include "src/module/dictionary/dictionary.h"
 #include "src/module/module.h"
 #include "src/module/modulemap.h"
@@ -48,9 +48,9 @@ public:
     void setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings);
     bool bibleLoaded();
     bool strongLoaded();
-    Bible* bible();
-    void initBible(Bible *b = 0);
-    BibleList* bibleList();
+    VerseModule* verseModule();
+    void initVerseModule(VerseModule *m = 0);
+    VerseTable* verseTable();
     Dictionary* dictionary();
     QString notePos2Link(const QString &pos);
     QString notePos2Text(const QString &pos);
@@ -63,14 +63,14 @@ public:
     Notes *m_notes;
     ModuleMap *m_moduleMap;
 
-    BibleList *m_bibleList;
+    VerseTable *m_verseTable;
     Dictionary *m_dictionary;
 
     QStringList getBibleTitles();
     QStringList getBiblePaths();
     QList<int> getBibleIDs();
     void checkCache(const int &moduleID);
-    Bible * newBible(const int &moduleID, QPoint p);
+    VerseModule * newVerseModule(const int &moduleID, QPoint p);
     BibleDisplaySettings *m_bibleDisplaySettings;
     static Module::ModuleType recognizeModuleType(const QString &fileName);
 

@@ -405,15 +405,15 @@ void WindowManager::save()
         if(currentSubWindow == a)
             current = i;
         BibleForm *form = a->widget()->findChild<BibleForm *>("mdiForm");
-        BibleList *list = form->m_bibleList;
+        VerseTable *list = form->m_verseTable;
 
         QList<QString> urls;
         QList<QPoint> points;
         if(list > 0) {
-            QHashIterator<int, Bible *> i(list->m_bibles);
+            QHashIterator<int, VerseModule *> i(list->m_modules);
             while(i.hasNext()) {
                 i.next();
-                Bible *b = i.value();
+                VerseModule *b = i.value();
                 if(b != NULL && b->moduleID() >= 0) {
                     VerseUrl bibleUrl;
                     bibleUrl.addRanges(b->lastTextRanges()->toBibleUrlRanges());
@@ -424,7 +424,7 @@ void WindowManager::save()
                     VerseUrl newUrl = urlConverter.convert();
 
                     const QString url = newUrl.toString();
-                    const QPoint point = list->m_biblePoints.value(i.key());
+                    const QPoint point = list->m_points.value(i.key());
                     urls << url;
                     points << point;
                     myDebug() << "save url = " << url;
@@ -452,9 +452,10 @@ void WindowManager::restore()
         newSubWindow(true);
         data.setWindowID(i);
         //load bible
-        m_moduleManager->bibleList()->clear();
+        m_moduleManager->verseTable()->clear();
         const QList<QString> urls = data.url();
         const QList<QPoint> points = data.biblePoint();
+        //todo: new VerseModule()
         for(int j = 0; j < urls.size() && j < points.size(); j++) {
             const QString url = urls.at(j);
             const QPoint point = points.at(j);
@@ -462,19 +463,21 @@ void WindowManager::restore()
             urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
             urlConverter.convert();
             if(urlConverter.moduleID() != -1) {
-                m_moduleManager->newBible(urlConverter.moduleID(), point);
+                m_moduleManager->newVerseModule(urlConverter.moduleID(), point);
                 m_actions->get(urlConverter.url());
                 myDebug() << urlConverter.url().toString();
             } else {
-                Bible *b = new Bible();
-                m_moduleManager->initBible(b);
-                m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
+                if(m_moduleManager->getModule(urlConverter.moduleID())->moduleClass() == Module::BibleModuleClass) {
+                    VerseModule *m = new Bible();
+                    m_moduleManager->initVerseModule(m);
+                    m_moduleManager->verseTable()->addModule(m, QPoint(0, 0));
+                }
             }
         }
         if(urls.isEmpty()) {
-            Bible *b = new Bible();
-            m_moduleManager->initBible(b);
-            m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
+            VerseModule *b = new Bible();
+            m_moduleManager->initVerseModule(b);
+            m_moduleManager->verseTable()->addModule(b, QPoint(0, 0));
         }
 
         activeSubWindow()->setGeometry(data.geo());

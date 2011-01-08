@@ -36,7 +36,7 @@ void BibleListWidget::init()
 {
     int maxRow = 0;
     int maxCol = 0;
-    foreach(const QPoint & p, m_moduleManager->bibleList()->m_biblePoints) {
+    foreach(const QPoint & p, m_moduleManager->verseTable()->m_points) {
         maxRow = qMax(maxRow, p.x());
         maxCol = qMax(maxCol, p.y());
     }
@@ -46,15 +46,15 @@ void BibleListWidget::init()
     ui->tableView->setSelectionModel(m_selectionModel);
     for(int i = 0; i <= maxRow; i++) {
         for(int j = 0; j <= maxCol; j++) {
-            const int id = m_moduleManager->bibleList()->m_biblePoints.key(QPoint(i, j), -1);
-            Bible *b = m_moduleManager->bibleList()->bible(id);
+            const int id = m_moduleManager->verseTable()->m_points.key(QPoint(i, j), -1);
+            VerseModule *m = m_moduleManager->verseTable()->verseModule(id);
 
             QStandardItem *item;
-            if(id >= 0 && b) {
+            if(id >= 0 && m) {
                 //myDebug() << " title = " << b->bibleTitle() << " id = " << m_moduleManager->getBibleIDs().indexOf(b->moduleID()) << " moduleID " << b->moduleID();
-                item = new QStandardItem(b->moduleTitle());
-                item->setData(QVariant(b->moduleID()), Qt::UserRole + 2);
-                item->setData(QVariant(m_moduleManager->getBibleIDs().indexOf(b->moduleID()) + 1), Qt::UserRole + 3); //todo: check if indexOF return -1
+                item = new QStandardItem(m->moduleTitle());
+                item->setData(QVariant(m->moduleID()), Qt::UserRole + 2);
+                item->setData(QVariant(m_moduleManager->getBibleIDs().indexOf(m->moduleID()) + 1), Qt::UserRole + 3); //todo: check if indexOF return -1
 
             } else {
                 item = new QStandardItem("");
@@ -104,7 +104,7 @@ void BibleListWidget::save()
 {
     DEBUG_FUNC_NAME
     bool hadBible = m_moduleManager->bibleLoaded();
-    m_moduleManager->bibleList()->clear();
+    m_moduleManager->verseTable()->clear();
     //load them
     int selectedModule = -1;//the selected bible
     int lastModule = 0;
@@ -114,18 +114,18 @@ void BibleListWidget::save()
             int id = m_model->item(x, y)->data(Qt::UserRole + 2).toInt();
             if(id >= 0) {
                 atLeastOne = true;
-                m_moduleManager->newBible(id, QPoint(x, y));
+                m_moduleManager->newVerseModule(id, QPoint(x, y));
                 if(m_selectionModel->selection().contains(m_model->index(x, y)))
-                    selectedModule = m_moduleManager->bibleList()->currentBibleListID();
-                lastModule = m_moduleManager->bibleList()->currentBibleListID();
+                    selectedModule = m_moduleManager->verseTable()->currentVerseTableID();
+                lastModule = m_moduleManager->verseTable()->currentVerseTableID();
             }
         }
     }
     //myDebug() << "selectedModule = " << selectedModule << " lastModule = " << lastModule;
     if(selectedModule != -1)
-        m_moduleManager->bibleList()->setCurrentBibleListID(selectedModule);
+        m_moduleManager->verseTable()->setCurrentVerseTableID(selectedModule);
     else
-        m_moduleManager->bibleList()->setCurrentBibleListID(lastModule);
+        m_moduleManager->verseTable()->setCurrentVerseTableID(lastModule);
 
     if(atLeastOne) {
         //myDebug() << "at least one";
@@ -133,8 +133,8 @@ void BibleListWidget::save()
     } else {
         //myDebug() << "none";
         Bible *b = new Bible();
-        m_moduleManager->initBible(b);
-        m_moduleManager->bibleList()->addBible(b, QPoint(0, 0));
+        m_moduleManager->initVerseModule(b);
+        m_moduleManager->verseTable()->addModule(b, QPoint(0, 0));
     }
     close();
 }

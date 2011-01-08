@@ -322,12 +322,13 @@ int ModuleManager::loadAllModules()
         fastStart.save();
     return 0;
 }
-void ModuleManager::initBible(Bible *b)
+void ModuleManager::initVerseModule(VerseModule *b)
 {
     if(b != 0) {
         b->setSettings(m_settings);
         b->setNotes(m_notes);
         b->setModuleMap(m_moduleMap);
+        //todo: what todo?
         b->setBibleDisplaySettings(m_bibleDisplaySettings);
     }
 }
@@ -337,7 +338,7 @@ void ModuleManager::initBible(Bible *b)
   */
 bool ModuleManager::bibleLoaded()
 {
-    if(m_moduleMap->m_map.contains(bible()->moduleID()) && bible()->moduleID() >= 0)
+    if(m_moduleMap->m_map.contains(verseModule()->moduleID()) && verseModule()->moduleID() >= 0)
         return true;
     return false;
 }
@@ -355,13 +356,13 @@ bool ModuleManager::contains(const int &moduleID)
     return m_moduleMap->m_map.contains(moduleID);
 }
 
-Bible * ModuleManager::bible()
+VerseModule * ModuleManager::verseModule()
 {
-    return bibleList()->bible();
+    return verseTable()->verseModule();
 }
-BibleList * ModuleManager::bibleList()
+VerseTable * ModuleManager::verseTable()
 {
-    return m_bibleList;
+    return m_verseTable;
 }
 Module * ModuleManager::getModule(const int &moduleID)
 {
@@ -438,36 +439,42 @@ void ModuleManager::checkCache(const int &moduleID)
     Module *m = m_moduleMap->m_map.value(moduleID);
     if(m->moduleClass() == Module::BibleModuleClass && !m_settings->m_moduleCache.keys().contains(m->path())) {
         Bible *b = new Bible();
-        initBible(b);
+        initVerseModule(b);
         b->setModuleType(m->moduleType());
         b->loadModuleData(moduleID);//set cache
     }
 
 }
-Bible * ModuleManager::newBible(const int &moduleID, QPoint p)
+VerseModule * ModuleManager::newVerseModule(const int &moduleID, QPoint p)
 {
     if(!contains(moduleID)) {
         myWarning() << "invalid moduleID = " << moduleID;
         return NULL;
     }
-    int id = bibleList()->m_biblePoints.key(p, -1);
-    Bible *b;
+    int id = verseTable()->m_points.key(p, -1);
+
+    VerseModule *m;
     if(id != -1) {
-        b = bibleList()->bible(id);
-        initBible(b);
-    } else {
-        b = new Bible();
-        initBible(b);
+        m = verseTable()->verseModule(id);
+        initVerseModule(m);
+    } else {//todo: support for other VerseModules
+        if(getModule(moduleID)->moduleClass() == Module::BibleModuleClass) {
+            m = new Bible();
+            initVerseModule(m);
+        }
     }
     //todo: check if this is possible
     /*if(b->moduleID() != moduleID) {*/
     Module::ModuleType type = getModule(moduleID)->moduleType();
-    b->setModuleType(type);
-    b->setModuleID(moduleID);
-    b->loadModuleData(moduleID);
-    bibleList()->addBible(b, p);
+    m->setModuleType(type);
+    m->setModuleID(moduleID);
+    //todo: load module data?
+    if(getModule(moduleID)->moduleClass() == Module::BibleModuleClass) {
+        ((Bible*)m)->loadModuleData(moduleID);
+    }
+    verseTable()->addModule(m, p);
     /*}*/
-    return b;
+    return m;
 }
 Module::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
 {
