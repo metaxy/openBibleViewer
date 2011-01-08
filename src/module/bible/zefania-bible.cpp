@@ -26,15 +26,16 @@ ZefaniaBible::ZefaniaBible()
     m_bookID = 0;
     m_modulePath = "";
     m_moduleName = "";
+    m_versification = NULL;
 }
 void ZefaniaBible::loadBibleData(const int &id, const QString &path)
 {
     //DEBUG_FUNC_NAME
     m_moduleName = "";
     m_moduleID = id;
-    if(m_versification)
+    if(m_versification != NULL)
         delete m_versification;
-    m_versification = 0;
+    m_versification = NULL;
     if(m_settings->getModuleSettings(m_moduleID).zefbible_hardCache == false && m_settings->getModuleSettings(m_moduleID).zefbible_softCache == false) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Please activate Caching.(Hard or Soft Cache)"));
         return;
