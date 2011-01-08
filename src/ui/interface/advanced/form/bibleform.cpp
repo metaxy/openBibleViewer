@@ -101,9 +101,9 @@ void BibleForm::attachApi()
         file.close();
         frame->evaluateJavaScript(jquery);
     }
-    myDebug() << m_api->bibleApi();
-    frame->addToJavaScriptWindowObject("Module", m_api->bibleApi());
-    m_api->bibleApi()->setFrame(frame);
+    myDebug() << m_api->moduleApi();
+    frame->addToJavaScriptWindowObject("Module", m_api->moduleApi());
+    m_api->moduleApi()->setFrame(frame);
 }
 
 void BibleForm::historySetUrl(QString url)
@@ -269,7 +269,7 @@ void BibleForm::activated()
 {
     //DEBUG_FUNC_NAME
     //myDebug() << " windowID = " << m_id;
-    m_api->bibleApi()->setFrame(m_view->page()->mainFrame());
+    m_api->moduleApi()->setFrame(m_view->page()->mainFrame());
     VerseTable *table = m_verseTable;
     if(m_verseTable == NULL || m_verseTable->verseModule() == NULL) {
         myDebug() << "no biblelist or no bible";
