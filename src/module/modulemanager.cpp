@@ -378,12 +378,12 @@ Dictionary* ModuleManager::dictionary()
 QString ModuleManager::notePos2Link(const QString &pos)
 {
     //todo: use ranges
-    BibleUrl url;
+    VerseUrl url;
     url.fromString(pos);
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleMap);
-    BibleUrl newUrl = urlConverter.convert();
+    VerseUrl newUrl = urlConverter.convert();
     const QString string = url.getParam("b0") + " " + QString::number(newUrl.ranges().first().startChapterID() + 1) + QString::number(newUrl.ranges().first().activeVerseID() + 1);
 
     const QString link = newUrl.toString();
@@ -391,12 +391,12 @@ QString ModuleManager::notePos2Link(const QString &pos)
 }
 QString ModuleManager::notePos2Text(const QString &pos)
 {
-    BibleUrl url;
+    VerseUrl url;
     url.fromString(pos);
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleMap);
-    BibleUrl newUrl = urlConverter.convert();
+    VerseUrl newUrl = urlConverter.convert();
     const QString string = url.getParam("b0") + " " + QString::number(newUrl.ranges().first().startChapterID() + 1) + QString::number(newUrl.ranges().first().activeVerseID() + 1);
     return string;
 }

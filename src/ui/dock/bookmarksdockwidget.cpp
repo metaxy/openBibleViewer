@@ -64,8 +64,8 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
                       QString::number(selection.chapterID + 1) +
                       "," +
                       QString::number(selection.startVerse + 1));
-    BibleUrl url;
-    BibleUrlRange range;
+    VerseUrl url;
+    VerseUrlRange range;
     range.setModule(selection.moduleID);
     range.setBook(selection.bookID);
     range.setChapter(selection.chapterID);
@@ -75,7 +75,7 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.setV11n(m_moduleManager->bible()->versification());
-    BibleUrl newUrl = urlConverter.convert();
+    VerseUrl newUrl = urlConverter.convert();
 
     bookmark->setText(1, newUrl.toString());
 
@@ -161,15 +161,15 @@ void BookmarksDockWidget::editBookmark()
     }
 
     const QString pos = ui->treeWidget_bookmarks->currentItem()->text(1);
-    BibleUrl url;
+    VerseUrl url;
     url.fromString(pos);
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.setV11n(m_moduleManager->bible()->versification());
-    BibleUrl newUrl = urlConverter.convert();
-    BibleUrlRange r = newUrl.ranges().first();
+    VerseUrl newUrl = urlConverter.convert();
+    VerseUrlRange r = newUrl.ranges().first();
 
 
     BiblePassageDialog *passageDialog = new  BiblePassageDialog(this);
@@ -200,13 +200,13 @@ void BookmarksDockWidget::bookmarksGo(QTreeWidgetItem * item)
 int BookmarksDockWidget::internalOpenPos(const QString &pos)
 {
     //DEBUG_FUNC_NAME
-    BibleUrl url;
+    VerseUrl url;
     url.fromString(pos);
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    BibleUrl newUrl = urlConverter.convert();
+    VerseUrl newUrl = urlConverter.convert();
 
     m_actions->get(newUrl);
     return 0;

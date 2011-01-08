@@ -218,10 +218,10 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                                 const int chapterID = list.at(1).toInt() - 1;
                                 const int verseID = list.at(2).toInt() - 1;
 
-                                BibleUrl burl;
-                                BibleUrlRange range;
+                                VerseUrl burl;
+                                VerseUrlRange range;
 
-                                range.setModule(BibleUrlRange::LoadCurrentModule);
+                                range.setModule(VerseUrlRange::LoadCurrentModule);
                                 range.setBook(bookID);
                                 range.setChapter(chapterID);
                                 range.setWholeChapter();

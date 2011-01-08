@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include "src/module/modulemap.h"
-#include "src/core/verse/bibleurl.h"
+#include "src/core/verse/verseurl.h"
 /*!
   UrlConverter is an convrter for urls. Sometimes you have a url from a biblequote module and need to pharse it.
 
@@ -30,13 +30,13 @@ public:
         PersistentUrl = 2
     };
     UrlConverter();
-    UrlConverter(const UrlType &from, const UrlType &to, const BibleUrl &url);
+    UrlConverter(const UrlType &from, const UrlType &to, const VerseUrl &url);
 
     void setFrom(const UrlType &urlType);
     void setTo(const UrlType &urlType);
-    void setUrl(const BibleUrl &url);
+    void setUrl(const VerseUrl &url);
 
-    BibleUrl convert();
+    VerseUrl convert();
     void setModuleMap(ModuleMap *moduleMap);
     void setSettings(Settings *settings);
     void setV11n(Versification *v11n);
@@ -45,7 +45,7 @@ private:
     UrlType m_to;
     ModuleMap *m_moduleMap;
     Settings *m_settings;
-    BibleUrl m_bibleUrl;
+    VerseUrl m_bibleUrl;
     bool m_setBookNames;
     Versification *m_v11n;
 };

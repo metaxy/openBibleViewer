@@ -13,8 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "urlconverter.h"
 #include "dbghelper.h"
-#include "src/core/verse/bibleurl.h"
-UrlConverter::UrlConverter(const UrlType &from, const UrlType &to, const BibleUrl &url)
+#include "src/core/verse/verseurl.h"
+UrlConverter::UrlConverter(const UrlType &from, const UrlType &to, const VerseUrl &url)
 {
     m_from = from;
     m_to = to;
@@ -39,15 +39,15 @@ void UrlConverter::setV11n(Versification *v11n)
     m_setBookNames = true;
 }
 
-BibleUrl UrlConverter::convert()
+VerseUrl UrlConverter::convert()
 {
-    BibleUrl url = m_bibleUrl;
+    VerseUrl url = m_bibleUrl;
     if(m_to == InterfaceUrl) {
         myDebug() << "to interface url";
         myDebug() << m_bibleUrl.toString();
         url.clearRanges();
-        foreach(BibleUrlRange range, m_bibleUrl.ranges()) {
-            if(range.bible() == BibleUrlRange::LoadModuleByUID) {
+        foreach(VerseUrlRange range, m_bibleUrl.ranges()) {
+            if(range.bible() == VerseUrlRange::LoadModuleByUID) {
                 foreach(Module * module, m_moduleMap->m_map) {
                     myDebug() << m_settings->savableUrl(module->path()) << " vs " << range.bibleUID();
                     if(m_settings->savableUrl(module->path()) == range.bibleUID())  {
@@ -67,8 +67,8 @@ BibleUrl UrlConverter::convert()
         url.clearRanges();
         QList<int> bookIDs;
 
-        foreach(BibleUrlRange range, m_bibleUrl.ranges()) {
-            if(range.bible() == BibleUrlRange::LoadBibleByID) {
+        foreach(VerseUrlRange range, m_bibleUrl.ranges()) {
+            if(range.bible() == VerseUrlRange::LoadBibleByID) {
                 range.setModule(m_settings->savableUrl(m_moduleMap->m_map.value(range.bibleID())->path()));
             }
             url.addRange(range);
@@ -90,7 +90,7 @@ void UrlConverter::setTo(const UrlType &urlType)
 {
     m_to = urlType;
 }
-void UrlConverter::setUrl(const BibleUrl &url)
+void UrlConverter::setUrl(const VerseUrl &url)
 {
     m_bibleUrl = url;
 }

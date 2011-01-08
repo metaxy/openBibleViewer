@@ -22,7 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dock/moduledockwidget.h"
 
 #include "src/ui/dock/quickjumpdockwidget.h"
-#include "src/core/verse/bibleurlrange.h"
+#include "src/core/verse/verseurlrange.h"
 #include "src/core/dbghelper.h"
 class BibleManager : public QObject, public BasicClass
 {
@@ -48,7 +48,7 @@ signals:
 
 public slots:
     void pharseUrl(const QString &url);
-    void pharseUrl(const BibleUrl &url);
+    void pharseUrl(const VerseUrl &url);
 
     void nextChapter();
     void previousChapter();
@@ -57,8 +57,8 @@ public slots:
     void reshowCurrentRange();
     void reloadBible();
 private:
-    void showRanges(const Ranges &ranges, const BibleUrl &url);
-    Ranges bibleUrlRangeToRanges(BibleUrlRange r);
+    void showRanges(const Ranges &ranges, const VerseUrl &url);
+    Ranges bibleUrlRangeToRanges(VerseUrlRange r);
     QWidget *m_p;
 
     BookDockWidget *m_bookDockWidget;

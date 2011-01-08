@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QObject>
 #include <QtCore/QString>
 #include <QtCore/QUrl>
-#include "src/core/verse/bibleurl.h"
+#include "src/core/verse/verseurl.h"
 #include "src/core/verse/textranges.h"
 #include "src/core/verse/versification.h"
 class Actions : public QObject
@@ -34,7 +34,7 @@ signals:
       By default the Interface pharse all urls.
       */
     void _get(const QString &url);
-    void _get(const BibleUrl &url);
+    void _get(const VerseUrl &url);
 
     void _showNote(const QString &nodeID);
 
@@ -60,7 +60,7 @@ signals:
     void _newBookmark();
 
     void _historySetUrl(const QString &url);
-    void _showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url);
+    void _showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
 
     void _loadBibleList(bool hadBible);
     void _reloadChapter(bool full);
@@ -79,7 +79,7 @@ public slots:
 
     void get(const QString &url);
     void get(const QUrl &url);
-    void get(const BibleUrl &url);
+    void get(const VerseUrl &url);
 
     void showNote(const QString &noteID);
 
@@ -110,7 +110,7 @@ public slots:
     /**
       * Using showTextRanges there is no need to call historySetUrl seperatly.
       */
-    void showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url);
+    void showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
 
     void loadBibleList(bool hadBible);
 

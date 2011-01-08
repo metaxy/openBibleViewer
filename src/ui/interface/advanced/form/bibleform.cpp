@@ -65,7 +65,7 @@ void BibleForm::init()
     connect(m_actions, SIGNAL(_setCurrentChapter(QSet<int>)), this, SLOT(forwardSetCurrentChapter(QSet<int>)));
     connect(m_actions, SIGNAL(_historySetUrl(QString)), this, SLOT(forwardHistorySetUrl(QString)));
     //connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(forwardShowText(QString)));
-    connect(m_actions, SIGNAL(_showTextRanges(QString, TextRanges, BibleUrl)), this, SLOT(forwardShowTextRanges(QString, TextRanges, BibleUrl)));
+    connect(m_actions, SIGNAL(_showTextRanges(QString, TextRanges, VerseUrl)), this, SLOT(forwardShowTextRanges(QString, TextRanges, VerseUrl)));
 
 
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
@@ -145,12 +145,12 @@ void BibleForm::showBibleListMenu()
 
 void BibleForm::readChapter(int id)
 {
-    BibleUrlRange r;
-    r.setModule(BibleUrlRange::LoadCurrentModule);
-    r.setBook(BibleUrlRange::LoadCurrentBook);
+    VerseUrlRange r;
+    r.setModule(VerseUrlRange::LoadCurrentModule);
+    r.setBook(VerseUrlRange::LoadCurrentBook);
     r.setChapter(id);
     r.setWholeChapter();
-    BibleUrl url;
+    VerseUrl url;
     url.addRange(r);
 
     m_actions->get(url);
@@ -160,12 +160,12 @@ void BibleForm::readBook(int id)
 {
     const int i = m_bookIDs.at(id);
 
-    BibleUrlRange r;
-    r.setModule(BibleUrlRange::LoadCurrentModule);
+    VerseUrlRange r;
+    r.setModule(VerseUrlRange::LoadCurrentModule);
     r.setBook(i);
-    r.setChapter(BibleUrlRange::LoadFirstChapter);
+    r.setChapter(VerseUrlRange::LoadFirstChapter);
     r.setWholeChapter();
-    BibleUrl url;
+    VerseUrl url;
     url.addRange(r);
 
     m_actions->get(url);
@@ -381,14 +381,14 @@ void BibleForm::showText(const QString &text)
     }
 
 }
-void BibleForm::forwardShowTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url)
+void BibleForm::forwardShowTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url)
 {
     if(!active())
         return;
     showTextRanges(html, range, url);
 }
 
-void BibleForm::showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url)
+void BibleForm::showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url)
 {
     DEBUG_FUNC_NAME
     showText(html);

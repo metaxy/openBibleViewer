@@ -300,12 +300,12 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                 const QString noteID = m_notes->getIDList().at(n);
                 if(m_notes->getType(noteID) == "text") {
                     const QString link = m_notes->getRef(noteID, "link");
-                    BibleUrl url;
+                    VerseUrl url;
                     url.fromString(link);
                     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
                     urlConverter.setSettings(m_settings);
                     urlConverter.setModuleMap(m_map);
-                    BibleUrl newUrl = urlConverter.convert();
+                    VerseUrl newUrl = urlConverter.convert();
                     if(newUrl.contains(m_moduleID, m_bookID, chapterID, verseCounter)) {
                         //myDebug() << "append note icon";
                         verse.append("<a href='note://" + noteID + "'><img src='qrc:/icons/16x16/view-pim-notes.png' class='noteIcon' title='" + m_notes->getTitle(noteID) + "' /></a>");
@@ -351,12 +351,12 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             if(m_notes->getType(noteID) == "mark") {
                 const QString link = m_notes->getRef(noteID, "link");
                 //myDebug() << "link = " << link;
-                BibleUrl url;
+                VerseUrl url;
                 url.fromString(link);
                 UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
                 urlConverter.setSettings(m_settings);
                 urlConverter.setModuleMap(m_map);
-                BibleUrl newUrl = urlConverter.convert();
+                VerseUrl newUrl = urlConverter.convert();
 
                 const QString pre = "<span class=\"mark\" style=\"" + m_notes->getRef(noteID, "style") + "\">";
                 const QString ap = "</span>";

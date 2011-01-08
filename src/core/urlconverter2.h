@@ -17,12 +17,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class UrlConverter2
 {
 public:
-    UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType to, BibleUrl url);
+    UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType to, VerseUrl url);
     UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType to, QString url);
     void setFromTo(UrlConverter::UrlType from, UrlConverter::UrlType to);
     void setSM(Settings *settings, ModuleMap *map);
     void setV11n(Versification *versification);
-    void setUrl(BibleUrl url);
+    void setUrl(VerseUrl url);
     void convert();
 
     bool contains(const int &moduleID, const int &bookID, const int &chapterID, const int &verseID) const;
@@ -33,11 +33,11 @@ public:
     int bookID() const;
     int chapterID() const;
     int verseID() const;
-    BibleUrl url() const;
+    VerseUrl url() const;
 private:
     UrlConverter m_urlConverter;
-    BibleUrl m_url;
-    BibleUrl m_newUrl;
+    VerseUrl m_url;
+    VerseUrl m_newUrl;
 
 };
 

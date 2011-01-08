@@ -9,8 +9,8 @@ set ( openBibleViewer_HDRS
 
     core/verse/chapter.h
     core/verse/book.h
-    core/verse/bibleurl.h
-    core/verse/bibleurlrange.h
+    core/verse/verseurl.h
+    core/verse/verseurlrange.h
     core/verse/range.h
     core/verse/ranges.h
     core/verse/rangeenum.h
@@ -81,8 +81,8 @@ set ( openBibleViewer_SRCS
 
     core/verse/chapter.cpp
     core/verse/book.cpp
-    core/verse/bibleurl.cpp
-    core/verse/bibleurlrange.cpp
+    core/verse/verseurl.cpp
+    core/verse/verseurlrange.cpp
     core/verse/range.cpp
     core/verse/ranges.cpp
     core/verse/rangeenum.cpp

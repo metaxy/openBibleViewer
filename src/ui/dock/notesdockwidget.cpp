@@ -66,15 +66,15 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
     Q_UNUSED(id);
     const QString link = ref.value("link");
 
-    BibleUrl url;
+    VerseUrl url;
     url.fromString(link);
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.setV11n(m_moduleManager->bible()->versification());
-    BibleUrl newUrl = urlConverter.convert();
-    BibleUrlRange r = newUrl.ranges().first();
+    VerseUrl newUrl = urlConverter.convert();
+    VerseUrlRange r = newUrl.ranges().first();
 
     if(m_moduleManager->bible()->moduleID() == r.bibleID() && m_moduleManager->bible()->lastTextRanges()->contains(r.bookID(), r.startChapterID())) {
         m_actions->reloadChapter();
@@ -86,15 +86,15 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     Q_UNUSED(id);
     const QString link = ref.value("link");
 
-    BibleUrl url;
+    VerseUrl url;
     url.fromString(link);
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.setV11n(m_moduleManager->bible()->versification());
-    BibleUrl newUrl = urlConverter.convert();
-    BibleUrlRange r = newUrl.ranges().first();
+    VerseUrl newUrl = urlConverter.convert();
+    VerseUrlRange r = newUrl.ranges().first();
 
 
     if(m_moduleManager->bible()->moduleID() == r.bibleID() && m_moduleManager->bible()->lastTextRanges()->contains(r.bookID(), r.startChapterID())) {
@@ -178,14 +178,14 @@ void NotesDockWidget::removeMark(VerseSelection selection)
         if(m_notes->getType(id.at(i)) == "mark") {
             const QString noteID = id.at(i);
             const QString link = m_notes->getRef(noteID, "link");
-            BibleUrl url;
+            VerseUrl url;
             url.fromString(link);
 
             UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
             urlConverter.setSettings(m_settings);
             urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
             urlConverter.setV11n(m_moduleManager->bible()->versification());
-            BibleUrl newUrl = urlConverter.convert();
+            VerseUrl newUrl = urlConverter.convert();
 
             if(newUrl.contains(selection.moduleID, selection.bookID, selection.chapterID)) {
                 int start = selection.startVerse;

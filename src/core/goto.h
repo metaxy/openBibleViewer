@@ -18,7 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 #include "src/core/verse/versification.h"
 #include "src/core/dbghelper.h"
-#include "src/core/verse/bibleurl.h"
+#include "src/core/verse/verseurl.h"
 /**
  * GoTo is a pharser for bible passage into a url
  */
@@ -26,7 +26,7 @@ class GoTo
 {
 public:
     GoTo(int currentBibleID, Versification *v11n);
-    BibleUrl getUrl(const QString& text);
+    VerseUrl getUrl(const QString& text);
 private:
     int bookNameToBookID(const QString& name);
     int levenshteinDistance(const QString& s, const QString& t);

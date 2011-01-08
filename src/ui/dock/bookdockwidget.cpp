@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_bookdockwidget.h"
 #include "src/core/dbghelper.h"
 #include "src/core/core.h"
-#include "src/core/verse/bibleurl.h"
+#include "src/core/verse/verseurl.h"
 BookDockWidget::BookDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::BookDockWidget)
@@ -54,11 +54,11 @@ BookDockWidget::~BookDockWidget()
 }
 void BookDockWidget::readBook(QModelIndex index)
 {
-    BibleUrl url;
-    BibleUrlRange range;
-    range.setModule(BibleUrlRange::LoadCurrentModule);
+    VerseUrl url;
+    VerseUrlRange range;
+    range.setModule(VerseUrlRange::LoadCurrentModule);
     range.setBook(index.data(Qt::UserRole + 1).toInt());
-    range.setChapter(BibleUrlRange::LoadFirstChapter);
+    range.setChapter(VerseUrlRange::LoadFirstChapter);
     range.setWholeChapter();
     url.addRange(range);
     m_actions->get(url);
@@ -66,11 +66,11 @@ void BookDockWidget::readBook(QModelIndex index)
 }
 void BookDockWidget::readChapter()
 {
-    BibleUrl url;
+    VerseUrl url;
     foreach(const QModelIndex & i, m_chapterSelection->selectedIndexes()) {
-        BibleUrlRange range;
-        range.setModule(BibleUrlRange::LoadCurrentModule);
-        range.setBook(BibleUrlRange::LoadCurrentBook);
+        VerseUrlRange range;
+        range.setModule(VerseUrlRange::LoadCurrentModule);
+        range.setBook(VerseUrlRange::LoadCurrentBook);
         range.setChapter(i.data(Qt::UserRole + 1).toInt());
         range.setWholeChapter();
         url.addRange(range);

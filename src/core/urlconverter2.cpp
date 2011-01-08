@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "urlconverter2.h"
 
-UrlConverter2::UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType to, BibleUrl url)
+UrlConverter2::UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType to, VerseUrl url)
 {
     m_urlConverter.setFrom(from);
     m_urlConverter.setTo(to);
@@ -23,7 +23,7 @@ UrlConverter2::UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType t
 {
     m_urlConverter.setFrom(from);
     m_urlConverter.setTo(to);
-    BibleUrl u;
+    VerseUrl u;
     u.fromString(url);
     m_urlConverter.setUrl(u);
 }
@@ -44,7 +44,7 @@ void UrlConverter2::setV11n(Versification *v11n)
     m_urlConverter.setV11n(v11n);
 }
 
-void UrlConverter2::setUrl(BibleUrl url)
+void UrlConverter2::setUrl(VerseUrl url)
 {
     m_urlConverter.setUrl(url);
 }
@@ -96,7 +96,7 @@ int UrlConverter2::verseID() const
         return -1;
     return m_newUrl.ranges().first().activeVerseID();
 }
-BibleUrl UrlConverter2::url() const
+VerseUrl UrlConverter2::url() const
 {
     return m_newUrl;
 }

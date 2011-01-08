@@ -197,13 +197,13 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
             const int verseID = list.at(2).toInt() - 1;
 
 
-            BibleUrlRange range;
-            range.setModule(BibleUrlRange::LoadCurrentModule);
+            VerseUrlRange range;
+            range.setModule(VerseUrlRange::LoadCurrentModule);
             range.setBook(bookID);
             range.setChapter(chapterID);
             range.setWholeChapter();
             range.setActiveVerse(verseID);
-            BibleUrl burl(range);
+            VerseUrl burl(range);
 
             QString name;
             if(bookID < m_settings->defaultVersification->bookNames(Versification::ReturnAll).size()) {

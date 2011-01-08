@@ -21,7 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/core/basicclass.h"
 #include "src/core/dbghelper.h"
-#include "src/core/verse/bibleurl.h"
+#include "src/core/verse/verseurl.h"
 
 #include "biblelistitemdelegate.h"
 namespace Ui

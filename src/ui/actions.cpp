@@ -39,7 +39,7 @@ void Actions::get(const QUrl &url)
 {
     emit _get(url.toString());
 }
-void Actions::get(const BibleUrl &url)
+void Actions::get(const VerseUrl &url)
 {
     emit _get(url);
 }
@@ -102,7 +102,7 @@ void Actions::historySetUrl(const QString &url)
 {
     emit _historySetUrl(url);
 }
-void Actions::showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url)
+void Actions::showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url)
 {
     emit _showTextRanges(html, range, url);
 }

@@ -268,11 +268,11 @@ TextRanges *BibleList::lastTextRanges()
 {
     return m_lastTextRanges;
 }
-void BibleList::setLastUrl(BibleUrl *bibleUrl)
+void BibleList::setLastUrl(VerseUrl *bibleUrl)
 {
     m_lastUrl = bibleUrl;
 }
-BibleUrl *BibleList::lastBibleUrl()
+VerseUrl *BibleList::lastBibleUrl()
 {
     return m_lastUrl;
 }

@@ -37,7 +37,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/core/dbghelper.h"
 #include "src/core/core.h"
-#include "src/core/verse/bibleurl.h"
+#include "src/core/verse/verseurl.h"
 #include "src/core/basicclass.h"
 #include "src/core/history.h"
 #include "src/module/biblelist.h"
@@ -138,8 +138,8 @@ public slots:
     void removeMark();
     void newNoteWithLink();
     void newBookmark();
-    void forwardShowTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url);
-    void showTextRanges(const QString &html, const TextRanges &range, const BibleUrl &url);
+    void forwardShowTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
+    void showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
 
 protected:
     virtual void changeEvent(QEvent *e);
@@ -164,7 +164,7 @@ private:
     bool active();
 
     TextRanges m_lastTextRanges;
-    BibleUrl m_lastUrl;
+    VerseUrl m_lastUrl;
 
     QWebInspector *m_inspector;
 };

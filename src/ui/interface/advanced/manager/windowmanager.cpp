@@ -415,13 +415,13 @@ void WindowManager::save()
                 i.next();
                 Bible *b = i.value();
                 if(b != NULL && b->moduleID() >= 0) {
-                    BibleUrl bibleUrl;
+                    VerseUrl bibleUrl;
                     bibleUrl.addRanges(b->lastTextRanges()->toBibleUrlRanges());
 
                     UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, bibleUrl);
                     urlConverter.setSettings(m_settings);
                     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-                    BibleUrl newUrl = urlConverter.convert();
+                    VerseUrl newUrl = urlConverter.convert();
 
                     const QString url = newUrl.toString();
                     const QPoint point = list->m_biblePoints.value(i.key());

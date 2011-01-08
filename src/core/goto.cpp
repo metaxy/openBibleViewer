@@ -18,10 +18,10 @@ GoTo::GoTo(int currentBibleID, Versification *v11n)
     m_currentBibleID = currentBibleID;
     m_v11n = v11n;
 }
-BibleUrl GoTo::getUrl(const QString& text)
+VerseUrl GoTo::getUrl(const QString& text)
 {
     if(text.size() < 1)
-        return BibleUrl();
+        return VerseUrl();
 
     //todo: enable
     QStringList reg;
@@ -38,11 +38,11 @@ BibleUrl GoTo::getUrl(const QString& text)
         }
     }
 
-    BibleUrlRange range;
+    VerseUrlRange range;
     if(found == 0) {  //example: Hiob
         const int bookID = bookNameToBookID(foundRegExp.cap(1));
         range.setBook(bookID);
-        range.setChapter(BibleUrlRange::LoadFirstChapter);
+        range.setChapter(VerseUrlRange::LoadFirstChapter);
         range.setWholeChapter();
     } else if(found == 1) {  //Hiob 4
         const int bookID = bookNameToBookID(foundRegExp.cap(1));
@@ -58,7 +58,7 @@ BibleUrl GoTo::getUrl(const QString& text)
         range.setChapter(chapterID);
         range.setActiveVerse(verseID);
     }
-    BibleUrl url(range);
+    VerseUrl url(range);
     return url;
 }
 int GoTo::bookNameToBookID(const QString& name)
