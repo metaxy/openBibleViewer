@@ -56,7 +56,7 @@ void BibleForm::init()
     connect(m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
 
     connect(m_actions, SIGNAL(_updateChapters(QStringList)), this, SLOT(forwardSetChapters(QStringList)));
-    connect(m_actions, SIGNAL(_updateBooks(QHash<int, QString>, QList<int>)), this, SLOT(forwardSetBooks(QHash<int, QString>, QList<int>)));
+    connect(m_actions, SIGNAL(_updateBooks(Versification *)), this, SLOT(forwardSetBooks(Versification *)));
 
     connect(m_actions, SIGNAL(_clearBooks()), this, SLOT(forwardClearBooks()));
     connect(m_actions, SIGNAL(_clearChapters()), this, SLOT(forwardClearChapters()));
@@ -221,10 +221,11 @@ void BibleForm::setCurrentChapter(const QSet<int> &chapterID)
     connect(m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
 }
 
-void BibleForm::setBooks(const QHash<int, QString> &books, QList<int> ids)
+void BibleForm::setBooks(Versification *v11n)
 {
     //DEBUG_FUNC_NAME
     bool same = true;
+    QHash<int, QString> books = v11n->bookNames();
     QHashIterator<int, QString> i(books);
     int count = 0;
     if(m_ui->comboBox_books->count() == books.count()) {
@@ -242,7 +243,7 @@ void BibleForm::setBooks(const QHash<int, QString> &books, QList<int> ids)
     if(!same) {
         m_ui->comboBox_books->clear();
         m_ui->comboBox_books->insertItems(0, books.values());
-        m_bookIDs = ids;
+        m_bookIDs = books.keys();
     }
 
 }
@@ -291,7 +292,7 @@ void BibleForm::activated()
     m_actions->setTitle(m_moduleManager->bible()->moduleTitle());
     m_actions->setCurrentModule(m_moduleManager->bible()->moduleID());
 
-    m_actions->updateChapters(m_moduleManager->bible()->versification());
+    m_actions->updateChapters(m_moduleManager->bible()->chapterNames());
     m_actions->updateBooks(m_moduleManager->bible()->versification());
     if(m_lastTextRanges.verseCount() != 0) {
         m_actions->setCurrentChapter(m_lastTextRanges.chapterIDs());
@@ -476,11 +477,11 @@ void BibleForm::forwardSetChapters(const QStringList &chapters)
     setChapters(chapters);
 }
 
-void BibleForm::forwardSetBooks(const QHash<int, QString> &books, QList<int> ids)
+void BibleForm::forwardSetBooks(Versification *v11n)
 {
     if(!active())
         return;
-    setBooks(books, ids);
+    setBooks(v11n);
 }
 
 void BibleForm::forwardClearBooks()

@@ -270,12 +270,12 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
         fastStart.remove();
         //myDebug() << "reload Module";
         m_moduleManager->loadAllModules();
-        //m_moduleDockWidget->init();//todo:
+        m_bibleManager->moduleDockWidget()->init();
         m_dictionaryDockWidget->init();
         //showText(""); //todo:
-        //m_windowCache.clearZefCache();
         //m_moduleManager->bible()->clearSoftCache();
         //if(m_moduleManager->bibleLoaded())
+
         //reloadChapter(true);
         QApplication::restoreOverrideCursor();
     }

@@ -278,7 +278,8 @@ void SimpleInterface::setChapters(const QStringList &chapters)
 
 void SimpleInterface::setBooks(const QHash<int, QString> &books)
 {
-    m_bookDockWidget->setBooks(books);
+    //todo: port simpleinterface to v11n
+    //m_bookDockWidget->setBooks(books);
 }
 
 void SimpleInterface::setCurrentBook(const int &bookID)

@@ -129,10 +129,8 @@ void WindowManager::newSubWindow(bool doAutoLayout)
     if(doAutoLayout && m_area->viewMode() == QMdiArea::SubWindowView) {
         autoLayout();
     }
-
-    //todo: clear old stuff
-    //clearBooks();
-    //clearChapters();
+    m_actions->clearBooks();
+    m_actions->clearChapters();
 }
 
 void WindowManager::autoLayout()
@@ -508,7 +506,6 @@ void AdvancedInterface::installResizeFilter()
 void WindowManager::reloadChapter(bool full)
 {
     DEBUG_FUNC_NAME;
-    //todo: currently this does not support some other ranges than a whole chapter
     const QWebView *v = activeForm()->m_view;
     const QPoint p = v->page()->mainFrame()->scrollPosition();
     if(full) {

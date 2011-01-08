@@ -21,7 +21,6 @@ BookNames::BookNames()
 }
 QString BookNames::bookName(const int &bookID, bool preferShort) const
 {
-    //todo: use preferShort
     const QStringList shortNames = m_bookShortName.value(bookID);
     if(!shortNames.isEmpty()) {
         if(preferShort) {

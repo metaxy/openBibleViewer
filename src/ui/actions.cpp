@@ -72,9 +72,9 @@ void Actions::updateChapters(const QStringList &chapters)
     emit _updateChapters(chapters);
 }
 
-void Actions::updateBooks(const QHash<int, QString> &books, QList<int> ids)
+void Actions::updateBooks(Versification *v11n)
 {
-    emit _updateBooks(books, ids);
+    emit _updateBooks(v11n);
 }
 void Actions::clearBooks()
 {

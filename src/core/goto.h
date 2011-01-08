@@ -14,22 +14,26 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef GOTO_H
 #define GOTO_H
 
-#include <QtCore/QString>
+#include <QtCore/QRegExp>
 #include <QtCore/QStringList>
-/*!
- GoTo is a pharser for bible passage into a url
-*/
+#include "src/core/bible/versification.h"
+#include "src/core/dbghelper.h"
+#include "src/core/bible/bibleurl.h"
+/**
+ * GoTo is a pharser for bible passage into a url
+ */
 class GoTo
 {
 public:
-    GoTo(int currentBibleID, QStringList bookFullName, QList<QStringList> bookShortName);
-    QString getUrl(const QString& text);
+    GoTo(int currentBibleID, Versification *v11n);
+    BibleUrl getUrl(const QString& text);
 private:
     int bookNameToBookID(const QString& name);
     int levenshteinDistance(const QString& s, const QString& t);
     int m_currentBibleID;
     QStringList m_bookFullName;
     QList<QStringList> m_bookShortName;
+    Versification *m_v11n;
 };
 
 #endif // GOTO_H

@@ -58,13 +58,17 @@ void SearchResultDockWidget::goToSearchResult(QListWidgetItem * item)
         SearchHit hit = m_searchResult.hits().at(id);
         if(!m_moduleManager->contains(hit.value(SearchHit::BibleID).toInt()))
             return;
-        /*BibleUrl url;
-        url.setBibleID(hit.value(SearchHit::BibleID).toInt());
-        url.setBookID(hit.value(SearchHit::BookID).toInt());
-        url.setChapterID(hit.value(SearchHit::ChapterID).toInt());
-        url.setVerseID(hit.value(SearchHit::VerseID).toInt());
+
+        BibleUrlRange range;
+        range.setBible(hit.value(SearchHit::BibleID).toInt());
+        range.setBook(hit.value(SearchHit::BookID).toInt());
+        range.setChapter(hit.value(SearchHit::ChapterID).toInt());
+        range.setActiveVerse(hit.value(SearchHit::VerseID).toInt());
+        range.setWholeChapter();
+
+        BibleUrl url(range);
         url.setParam("searchInCurrentText", "true");
-        m_actions->get(url.toString());*///todo:
+        m_actions->get(url);
     }
 }
 void SearchResultDockWidget::searchInfo()

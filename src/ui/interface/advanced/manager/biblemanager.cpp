@@ -62,7 +62,7 @@ Ranges BibleManager::bibleUrlRangeToRanges(BibleUrlRange range)
     //DEBUG_FUNC_NAME
     Ranges ranges;
     Range r;
-    //todo: currently we do not support real ranges
+    //todo: currently we do not support real ranges but its ok
     if(range.bible() == BibleUrlRange::LoadBibleByID) {
         r.setModule(range.bibleID());
     } else if(range.bible() == BibleUrlRange::LoadCurrentBible) {
@@ -185,7 +185,6 @@ void BibleManager::pharseUrl(const QString &url)
              showChapter(chapterID, verseID);
              setCurrentChapter(chapterID);
          }*/
-        //emit historySetUrl(url_backup);//todo:
     }
 }
 void BibleManager::showRanges(const Ranges &ranges, const BibleUrl &url)
@@ -193,7 +192,7 @@ void BibleManager::showRanges(const Ranges &ranges, const BibleUrl &url)
     std::pair<QString, TextRanges> r = m_moduleManager->bibleList()->readRanges(ranges);
     m_actions->showTextRanges(r.first, r.second, url);
 
-    m_actions->updateChapters(m_moduleManager->bible()->versification());
+    m_actions->updateChapters(m_moduleManager->bible()->chapterNames());
     m_actions->updateBooks(m_moduleManager->bible()->versification());
     m_actions->setCurrentBook(r.second.bookIDs());
     m_actions->setCurrentChapter(r.second.chapterIDs());

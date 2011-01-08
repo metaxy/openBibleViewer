@@ -73,7 +73,7 @@ public:
     QList<int> m_bookIDs;
     BibleList *m_bibleList;
 
-    VerseSelection verseSelection();//todo:
+    VerseSelection verseSelection();
 
     int *currentWindowID;
 private slots:
@@ -94,7 +94,7 @@ public slots:
     void zoomOut();
 
     void setChapters(const QStringList &chapters);
-    void setBooks(const QHash<int, QString> &books, QList<int> ids);
+    void setBooks(Versification *v11n);
 
     void clearBooks();
     void clearChapters();
@@ -103,7 +103,7 @@ public slots:
     void setCurrentChapter(const QSet<int> &chapterID);
 
     void forwardSetChapters(const QStringList &chapters);
-    void forwardSetBooks(const QHash<int, QString> &books, QList<int> ids);
+    void forwardSetBooks(Versification *v11n);
     void forwardClearBooks();
     void forwardClearChapters();
     void forwardSetCurrentBook(const QSet<int> &bookID);

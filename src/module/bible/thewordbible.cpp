@@ -186,8 +186,6 @@ bool TheWordBible::hasIndex() const
     if(!d.exists(index)) {
         return false;
     }
-    //todo: check versions
-
     return IndexReader::indexExists(index.toStdString().c_str());
 }
 void TheWordBible::buildIndex()

@@ -343,8 +343,6 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         verseMap.insert(verse.verseID(), verse);
     }
 
-    //todo: insert marks
-
     if(m_notes != 0 && m_bibleDisplaySettings->showMarks() == true) {
         //myDebug() << "insert notes";
         VerseReplacer replacer;

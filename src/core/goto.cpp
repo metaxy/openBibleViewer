@@ -12,23 +12,19 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "src/core/goto.h"
-#include "src/core/dbghelper.h"
-#include <QtCore/QStringList>
-#include <QtCore/QRegExp>
-#include "src/core/bible/bibleurl.h"
-GoTo::GoTo(int currentBibleID, QStringList bookFullName, QList<QStringList> bookShortName)
+
+GoTo::GoTo(int currentBibleID, Versification *v11n)
 {
     m_currentBibleID = currentBibleID;
-    m_bookFullName = bookFullName;
-    m_bookShortName = bookShortName;
+    m_v11n = v11n;
 }
-QString GoTo::getUrl(const QString& text)
+BibleUrl GoTo::getUrl(const QString& text)
 {
     if(text.size() < 1)
-        return QString();
+        return BibleUrl();
 
     //todo: enable
-    /*QStringList reg;
+    QStringList reg;
     QRegExp foundRegExp;
     reg << "(.*)" << "(.*)(\\s+)(\\d+)"  << "(.*)(\\s+)(\\d+),(\\d+)" << "(.*)(\\s+)(\\d+):(\\d+)";
     int found = -1;
@@ -41,89 +37,104 @@ QString GoTo::getUrl(const QString& text)
             break;
         }
     }
-    BibleUrl url;
-    url.setBible(BibleUrl::LoadCurrentBible);
+
+    BibleUrlRange range;
     if(found == 0) {  //example: Hiob
         const int bookID = bookNameToBookID(foundRegExp.cap(1));
-        url.setBookID(bookID);
-        url.setChapter(BibleUrl::LoadFirstChapter);
-        url.setVerse(BibleUrl::LoadFirstVerse);
-        return url.toString();
-
+        range.setBook(bookID);
+        range.setChapter(BibleUrlRange::LoadFirstChapter);
+        range.setWholeChapter();
     } else if(found == 1) {  //Hiob 4
         const int bookID = bookNameToBookID(foundRegExp.cap(1));
         const int chapterID = foundRegExp.cap(3).toInt() - 1;
-        url.setBookID(bookID);
-        url.setChapterID(chapterID);
-        url.setVerse(BibleUrl::LoadFirstVerse);
-        return url.toString();
-    } else if(found == 2 || found == 3) {  //Hiob 4,9
+        range.setBook(bookID);
+        range.setChapter(chapterID);
+        range.setWholeChapter();
+    } else if(found == 2 || found == 3) {  //Hiob 4:9
         const int bookID = bookNameToBookID(foundRegExp.cap(1));
         const int chapterID = foundRegExp.cap(3).toInt() - 1;
         const int verseID = foundRegExp.cap(4).toInt() - 1;
-        url.setBookID(bookID);
-        url.setChapterID(chapterID);
-        url.setVerseID(verseID);
-        return url.toString();
-    }*/
-    return QString();
+        range.setBook(bookID);
+        range.setChapter(chapterID);
+        range.setActiveVerse(verseID);
+    }
+    BibleUrl url(range);
+    return url;
 }
 int GoTo::bookNameToBookID(const QString& name)
 {
-    //myDebug() << m_bookFullName << m_bookShortName;
-    //todo: use short names
     int min = -1, bookID = -1;
-    for(int i = 0; i < m_bookFullName.size(); ++i) {
-        if(name == m_bookFullName.at(i)) {
-            bookID = i;
-            break;
+    QHash<int, QString> full = m_v11n->bookNames();
+    QHash<int, QStringList> shortNames = m_v11n->multipleBookShortNames();
+    {
+        QHashIterator<int, QString> i(full);
+        while (i.hasNext()) {
+            i.next();
+            if(i.value() == name) {
+                 bookID = i.key();
+                 break;
+            }
         }
     }
-    if(bookID == -1) {
-        for(int i = 0; i < m_bookShortName.size(); ++i) {
-            foreach(const QString & n, m_bookShortName.at(i)) {
+    if(bookID == -1)
+    {
+        QHashIterator<int, QStringList> i(shortNames);
+        while (i.hasNext() && bookID != -1) {
+            i.next();
+            foreach(const QString & n, i.value()) {
                 if(name == n) {
-                    bookID = i;
-                    i = m_bookShortName.size();
+                    bookID = i.key();
                     break;
                 }
             }
         }
     }
-    if(bookID == -1) {
-        for(int i = 0; i < m_bookFullName.size(); ++i) {
-            if(m_bookFullName.at(i).startsWith(name, Qt::CaseInsensitive)) {
-                bookID = i;
-                break;
+    if(bookID == -1)
+    {
+        QHashIterator<int, QString> i(full);
+        while (i.hasNext()) {
+            i.next();
+            if(i.value().startsWith(name, Qt::CaseInsensitive)) {
+                 bookID = i.key();
+                 break;
             }
         }
-
     }
-    if(bookID == -1) {
-        for(int i = 0; i < m_bookShortName.size(); ++i) {
-            foreach(const QString & n, m_bookShortName.at(i)) {
+    if(bookID == -1)
+    {
+        QHashIterator<int, QStringList> i(shortNames);
+        while (i.hasNext() && bookID != -1) {
+            i.next();
+            foreach(const QString & n, i.value()) {
                 if(n.startsWith(name, Qt::CaseInsensitive)) {
-                    bookID = i;
-                    i = m_bookShortName.size();
+                    bookID = i.key();
                     break;
                 }
             }
         }
     }
     if(bookID == -1) {
-        for(int i = 0; i < m_bookFullName.size(); ++i) {
-            int lev = levenshteinDistance(name, m_bookFullName.at(i));
-            if(lev < min || min < 0) {
-                bookID = i;
-                min = lev;
+        {
+            QHashIterator<int, QString> i(full);
+            while (i.hasNext()) {
+                i.next();
+                int lev = levenshteinDistance(name, i.value());
+                if(lev < min || min < 0) {
+                    bookID = i.key();
+                    min = lev;
+                }
             }
         }
-        for(int i = 0; i < m_bookShortName.size(); ++i) {
-            foreach(const QString & n, m_bookShortName.at(i)) {
-                int lev = levenshteinDistance(n, m_bookFullName.at(i));
-                if(lev < min || min < 0) {
-                    bookID = i;
-                    min = lev;
+        {
+            QHashIterator<int, QStringList> i(shortNames);
+            while (i.hasNext() && bookID != -1) {
+                i.next();
+                foreach(const QString & n, i.value()) {
+                    int lev = levenshteinDistance(name, n);
+                    if(lev < min || min < 0) {
+                        bookID = i.key();
+                        min = lev;
+                    }
                 }
             }
         }

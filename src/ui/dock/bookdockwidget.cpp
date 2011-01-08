@@ -45,7 +45,7 @@ void BookDockWidget::init()
     connect(m_actions, SIGNAL(_clearBooks()), this, SLOT(clearBooks()));
     connect(m_actions, SIGNAL(_clearChapters()), this, SLOT(clearChapters()));
 
-    connect(m_actions, SIGNAL(_updateBooks(QHash<int, QString>, QList<int>)), this, SLOT(setBooks(QHash<int, QString>)));
+    connect(m_actions, SIGNAL(_updateBooks(Versification *)), this, SLOT(setBooks(Versification *)));
     connect(m_actions, SIGNAL(_updateChapters(QStringList)), this, SLOT(setChapters(QStringList)));
 }
 BookDockWidget::~BookDockWidget()
@@ -87,10 +87,10 @@ void BookDockWidget::setChapters(const QStringList &chapters)
         m_chapterModel->appendRow(top);
     }
 }
-void BookDockWidget::setBooks(const QHash<int, QString> &books)
+void BookDockWidget::setBooks(Versification *v11n)
 {
     m_bookModel->clear();
-    QHashIterator<int, QString> i(books);
+    QHashIterator<int, QString> i(v11n->bookNames());
     int count = 0;
     while(i.hasNext()) {
         i.next();

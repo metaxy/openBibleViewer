@@ -140,7 +140,6 @@ QString BibleUrl::toString() const
 
     return ret;
 }
-//todo: reads currently only one range
 bool BibleUrl::fromString(QString url)
 {
     m_ranges.clear();

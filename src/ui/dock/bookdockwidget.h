@@ -36,8 +36,7 @@ public slots:
     void clearBooks();
     void clearChapters();
     void setChapters(const QStringList &chapters);
-    void setBooks(const QHash<int, QString> &books);
-    //void setBooks(const QHash<int, QString> &books, QList<int> ids);
+    void setBooks(Versification *v11n);
 
 public:
     BookDockWidget(QWidget *parent = 0);

@@ -19,6 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QUrl>
 #include "src/core/bible/bibleurl.h"
 #include "src/core/bible/textranges.h"
+#include "src/core/bible/versification.h"
 class Actions : public QObject
 {
     Q_OBJECT
@@ -45,7 +46,7 @@ signals:
     void _setTitle(const QString &title);
     void _updateChapters(const QStringList &chapters);
     void _clearChapters();
-    void _updateBooks(const QHash<int, QString> &books, QList<int> ids);
+    void _updateBooks(Versification *v11n);
     void _clearBooks();
 
     void _setCurrentModule(const int &moduleID);
@@ -96,7 +97,7 @@ public slots:
 
     void updateChapters(const QStringList &chapters);
     void clearChapters();
-    void updateBooks(const QHash<int, QString> &books, QList<int> ids);
+    void updateBooks(Versification *v11n);
     void clearBooks();
 
     void setCurrentModule(const int &moduleID);
