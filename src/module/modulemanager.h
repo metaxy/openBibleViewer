@@ -47,6 +47,7 @@ public:
     void setNotes(Notes *notes);
     void setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings);
     bool bibleLoaded();
+    bool hasBible();
     bool strongLoaded();
     VerseModule* verseModule();
     void initVerseModule(VerseModule *m = 0);

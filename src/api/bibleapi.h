@@ -19,14 +19,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 /**
   BibleAPI is a API to access to the bible and modulemanager
   */
-class BibleApi : public QObject, public BasicClass
+class ModuleApi : public QObject, public BasicClass
 {
     Q_OBJECT
 public slots:
-    void activateBible(const int &bibleListID);
+    void activateModule(const int &verseTableID);
 
 public:
-    explicit BibleApi(QObject *parent = 0);
+    explicit ModuleApi(QObject *parent = 0);
     void setFrame(QWebFrame *frame);
 private:
     QWebFrame *m_frame;

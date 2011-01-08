@@ -19,15 +19,15 @@ Api::Api(QObject *parent) :
 }
 void Api::init()
 {
-    m_bibleApi = new BibleApi();
-    setAll(m_bibleApi);
+    m_moduleApi = new ModuleApi();
+    setAll(m_moduleApi);
 
     m_notesApi = new NotesApi(this);
     setAll(m_notesApi);
 }
-BibleApi* Api::bibleApi() const
+ModuleApi* Api::moduleApi() const
 {
-    return m_bibleApi;
+    return m_moduleApi;
 }
 NotesApi* Api::notesApi() const
 {

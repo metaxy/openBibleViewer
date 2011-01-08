@@ -19,6 +19,7 @@ VerseTable::VerseTable()
 VerseTable::~VerseTable()
 {
     foreach(VerseModule * m, m_modules) {
+        myDebug() << m;
         if(m) {
             delete m;
             m = NULL;
@@ -41,6 +42,8 @@ void VerseTable::addModule(VerseModule* m, const QPoint &p)
 {
     DEBUG_FUNC_NAME;
     const int id = m_points.size();
+    myDebug() << m << id << p;
+    myDebug() << m->moduleID();
     m_currentModule = id;
     m_points.insert(id, p);
     m_modules.insert(id, m);

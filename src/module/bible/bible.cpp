@@ -16,12 +16,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 Bible::Bible()
 {
     m_bookID = 0;
-    m_chapterID = 0;
-    m_verseID = 0;
     m_loaded = false;
     m_bibleModule = 0;
     m_lastTextRanges = 0;
     m_versification = 0;
+}
+Bible::~Bible()
+{
+    //Bible do not delete anything!
 }
 
 void Bible::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings)
@@ -39,21 +41,25 @@ int Bible::loadModuleData(const int &moduleID)
     DEBUG_FUNC_NAME
     m_versification = 0;
     m_module = m_map->m_map.value(moduleID, 0);
+
     //not valid module
     if(moduleID < 0 || !m_module) {
         myWarning() << "invalid bibleID = " << moduleID;
         return 1;
     }
+
     m_moduleType = m_module->moduleType();
     if(moduleType() == Module::NoneType || m_module->moduleClass() != Module::BibleModuleClass) {
         myDebug() << "invalid type " << moduleType();
         return 2;
     }
     m_moduleID = moduleID;
-    m_book.clear();
     ModuleSettings m = m_settings->getModuleSettings(m_moduleID);
+
+    m_book.clear();
     m_bookPath.clear();
     m_modulePath.clear();
+
     if(moduleType() == Module::BibleQuoteModule) {
         if(m_module->m_bibleModule) {
             m_bibleModule = m_module->m_bibleModule;
@@ -91,10 +97,8 @@ int Bible::loadModuleData(const int &moduleID)
 
     m_settings->setTitle(m_module->path(), m_moduleTitle);
     //todo: port to set cache
-
     m_loaded = true;
     return 0;
-    // CALLGRIND_STOP_INSTRUMENTATION;
 }
 
 int Bible::readBook(const int &id)
@@ -104,8 +108,7 @@ int Bible::readBook(const int &id)
     m_book.clear();
     m_chapterNames.clear();
 
-    switch(moduleType()) {
-    case Module::BibleQuoteModule: {
+    if(moduleType() == Module::BibleQuoteModule) {
         if(id < m_bookPath.size()) {
             int r = m_bibleModule->readBook(id);
             if(r != 0)
@@ -114,7 +117,7 @@ int Bible::readBook(const int &id)
             myWarning() << "index out of range bookPath.size() = " << m_bookPath.size() << " , id = " << id;
             return 1;
         }
-        int cc = m_versification->maxChapter().value(id);
+        const int cc = m_versification->maxChapter().value(id);
         int start = 1;
         if(((BibleQuote *)m_bibleModule)->m_chapterZero) {
             start = 0;
@@ -122,20 +125,16 @@ int Bible::readBook(const int &id)
         for(int i = start; i < cc + start; ++i) {
             m_chapterNames << QString::number(i);
         }
-        break;
-    }
-    case Module::ZefaniaBibleModule: case Module::TheWordBibleModule: {
+    } else if(moduleType() == Module::ZefaniaBibleModule || moduleType() == Module::TheWordBibleModule) {
         m_bibleModule->readBook(id);
-        for(int i = 1; i <= m_versification->maxChapter().value(id); ++i) {
+        myDebug() << m_versification;
+        for(int i = 1; i <= m_versification->maxChapter().value(id,0); ++i) {
             m_chapterNames << QString::number(i);
         }
-        break;
     }
-    default:
-        return 1;
-    }
+
     m_book = m_bibleModule->book();
-    //myDebug() << "read book";
+
     return 0;
 }
 
@@ -301,7 +300,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                     urlConverter.setSettings(m_settings);
                     urlConverter.setModuleMap(m_map);
                     VerseUrl newUrl = urlConverter.convert();
-                    if(newUrl.contains(m_moduleID, m_bookID, chapterID, verseCounter)) {
+                    if(newUrl.contains(m_moduleID, bookID, chapterID, verseCounter)) {
                         //myDebug() << "append note icon";
                         verse.append("<a href='note://" + noteID + "'><img src='qrc:/icons/16x16/view-pim-notes.png' class='noteIcon' title='" + m_notes->getTitle(noteID) + "' /></a>");
                     }
@@ -491,10 +490,6 @@ int Bible::bookID() const
     return m_bookID;
 }
 
-int Bible::chapterID() const
-{
-    return m_chapterID;
-}
 
 int Bible::booksCount() const
 {
@@ -534,11 +529,6 @@ QStringList Bible::chapterNames()
     return m_chapterNames;
 }
 
-
-int Bible::verseID() const
-{
-    return m_verseID;
-}
 
 
 QString Bible::bookName(const int &bookID, bool preferShort)

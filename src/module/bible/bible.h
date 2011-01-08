@@ -39,6 +39,7 @@ class Bible : public VerseModule
 public:
 
     Bible();
+    ~Bible();
     void setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings);
     virtual TextRanges readRanges(const Ranges &ranges, bool ignoreModuleID = false);
     virtual TextRange readRange(const Range &range, bool ignoreModuleID = false);
@@ -75,29 +76,32 @@ public:
     bool loaded() const;
 
 private:
+    bool m_loaded;
 
     int m_bookID;
-    int m_chapterID;
-    int m_verseID;
 
-    QMap <int, int> bookCount;
     QString m_moduleTitle;
     QString m_moduleShortTitle;
     QString m_modulePath;
 
+    /**
+      * Used by BibleQuote to store where the books are
+      */
     QStringList m_bookPath;
+    /**
+      * Because BibleQuote supports an Chapter 0.
+      */
     QStringList m_chapterNames;
 
     BibleDisplaySettings *m_bibleDisplaySettings;
 
     BibleModule *m_bibleModule;
 
-    bool m_loaded;
+
 
     Book m_book;
 
     QString toUniformHtml(QString string);
-
     QList<int> bookIDs() const;
 };
 

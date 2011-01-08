@@ -2,26 +2,25 @@ html {
     background-color:#ffffff;
     color:#000000;
 }
-.biblelisttitle {
-}
-.biblelisttitle a:link, a:visited, a:active{
+
+.verseTableTitle a:link, a:visited, a:active{
     color:#000000;
 }
-.biblelisttitle a:hover {
+.verseTableTitle a:hover {
     color:#0080AF;
     text-shadow: 1px 1px 0px #fff;
 }
-.biblelist td[class~=active] a:link, a:visited, a:active, #topTable td[class~=active] a:link, a:visited, a:active{
+.verseTable td[class~=active] a:link, a:visited, a:active, #topTable td[class~=active] a:link, a:visited, a:active{
     color:#0080AF;
 }
-.biblelist td[class~=active] a:hover, #topTable td[class~=active] a:hover  {
+.verseTable td[class~=active] a:hover, #topTable td[class~=active] a:hover  {
     color:#0080AF;
     text-shadow: 1px 1px 0px #fff;
 }
-.biblelist td {
+.verseTable td {
     width:100%;
 }
-.biblelist {
+.verseTable {
     padding-top:2.5em;
     table-layout:fixed;
     width:100%;

@@ -14,26 +14,26 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "bibleapi.h"
 #include "src/core/dbghelper.h"
 #include <QWebElementCollection>
-BibleApi::BibleApi(QObject *parent) :
+ModuleApi::ModuleApi(QObject *parent) :
     QObject(parent)
 {
 }
-void BibleApi::activateBible(const int &bibleListID)
+void ModuleApi::activateModule(const int &verseTableID)
 {
     DEBUG_FUNC_NAME;
-    myDebug() << bibleListID;
-    m_moduleManager->verseTable()->setCurrentVerseTableID(bibleListID);
+    myDebug() << verseTableID;
+    m_moduleManager->verseTable()->setCurrentVerseTableID(verseTableID);
 
     QWebElementCollection collection = m_frame->documentElement().findAll("td[class~=verseTableTitle]");
     foreach(QWebElement paraElement, collection) {
         paraElement.removeClass("active");
-        if(paraElement.attribute("verseTableID") == QString::number(bibleListID)) {
+        if(paraElement.attribute("verseTableID") == QString::number(verseTableID)) {
             paraElement.addClass("active");
         }
     }
     m_actions->reloadActive();
 }
-void BibleApi::setFrame(QWebFrame *frame)
+void ModuleApi::setFrame(QWebFrame *frame)
 {
     m_frame = frame;
 }

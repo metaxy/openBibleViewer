@@ -465,21 +465,8 @@ void WindowManager::restore()
                 m_moduleManager->newVerseModule(urlConverter.moduleID(), point);
                 m_actions->get(urlConverter.url());
                 myDebug() << urlConverter.url().toString();
-            } else {
-                //todo: other modules
-                /*if(m_moduleManager->getModule(urlConverter.moduleID())->moduleClass() == Module::BibleModuleClass) {*/
-                    VerseModule *m = new Bible();
-                    m_moduleManager->initVerseModule(m);
-                    m_moduleManager->verseTable()->addModule(m, QPoint(0, 0));
-                /*}*/
             }
         }
-        if(urls.isEmpty()) {
-            VerseModule *b = new Bible();
-            m_moduleManager->initVerseModule(b);
-            m_moduleManager->verseTable()->addModule(b, QPoint(0, 0));
-        }
-
         activeSubWindow()->setGeometry(data.geo());
         QWebView *v = activeForm()->m_view;
         v->page()->mainFrame()->setScrollPosition(data.scrollPosition());

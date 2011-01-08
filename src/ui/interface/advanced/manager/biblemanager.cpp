@@ -66,7 +66,8 @@ Ranges BibleManager::bibleUrlRangeToRanges(VerseUrlRange range)
     if(range.bible() == VerseUrlRange::LoadBibleByID) {
         r.setModule(range.bibleID());
     } else if(range.bible() == VerseUrlRange::LoadCurrentModule) {
-        r.setModule(m_moduleManager->verseModule()->moduleID());
+        if(m_moduleManager->bibleLoaded())
+            r.setModule(m_moduleManager->verseModule()->moduleID());
     }
 
     if(range.book() == VerseUrlRange::LoadFirstBook) {
@@ -189,6 +190,9 @@ void BibleManager::pharseUrl(const QString &url)
 }
 void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
 {
+    if(!m_moduleManager->hasBible()) {
+        m_moduleManager->newVerseModule(ranges.getList().first().moduleID(),QPoint(0,0));
+    }
     std::pair<QString, TextRanges> r = m_moduleManager->verseTable()->readRanges(ranges);
     m_actions->showTextRanges(r.first, r.second, url);
 

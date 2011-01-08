@@ -25,13 +25,13 @@ public:
     explicit Api(QObject *parent = 0);
     void init();
     NotesApi* notesApi() const;
-    BibleApi* bibleApi() const;
+    ModuleApi* moduleApi() const;
 signals:
 
 public slots:
 private:
     NotesApi *m_notesApi;
-    BibleApi *m_bibleApi;
+    ModuleApi *m_moduleApi;
 };
 
 #endif // API_H

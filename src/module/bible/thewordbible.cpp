@@ -26,6 +26,7 @@ TheWordBible::TheWordBible()
 TheWordBible::~TheWordBible()
 {
     delete m_versification;
+    m_versification = 0;
 }
 
 void TheWordBible::setSettings(Settings *set)

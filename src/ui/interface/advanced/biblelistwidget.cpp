@@ -130,11 +130,6 @@ void BibleListWidget::save()
     if(atLeastOne) {
         //myDebug() << "at least one";
         m_actions->loadBibleList(hadBible);
-    } else {
-        //myDebug() << "none";
-        VerseModule *b = new Bible();
-        m_moduleManager->initVerseModule(b);
-        m_moduleManager->verseTable()->addModule(b, QPoint(0, 0));
     }
     close();
 }

@@ -102,7 +102,7 @@ void BibleForm::attachApi()
         frame->evaluateJavaScript(jquery);
     }
     myDebug() << m_api->bibleApi();
-    frame->addToJavaScriptWindowObject("Bible", m_api->bibleApi());
+    frame->addToJavaScriptWindowObject("Module", m_api->bibleApi());
     m_api->bibleApi()->setFrame(frame);
 }
 
@@ -300,8 +300,6 @@ void BibleForm::activated()
     }
     m_moduleManager->verseTable()->setLastTextRanges(&m_lastTextRanges);
     m_moduleManager->verseTable()->setLastUrl(&m_lastUrl);
-
-
 }
 
 void BibleForm::scrollToAnchor(const QString &anchor)
