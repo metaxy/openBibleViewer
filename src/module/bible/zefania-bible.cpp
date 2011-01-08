@@ -88,7 +88,7 @@ int ZefaniaBible::readBook(const int &id)
         ncache = readBookFromHardCache(m_modulePath, id);
     } else {
         m_book = softCache(id);
-        m_bookCount.insert(id, m_book.size());
+        ((Versification_Zefania*)m_versification)->setMaxChapter(id, m_book.size());
         return 0;
     }
     //reading loaded data
@@ -119,7 +119,7 @@ int ZefaniaBible::readBook(const int &id)
         n = n.nextSibling();
     }
 
-    m_bookCount.insert(id, chapterCounter);
+    ((Versification_Zefania*)m_versification)->setMaxChapter(id, m_book.size());
     setSoftCache(m_bookID, m_book);
     return 0;
 }
@@ -299,11 +299,11 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     QProgressDialog progress(QObject::tr("Loading Bible"), QObject::tr("Cancel"), 0, 76);
     progress.setWindowModality(Qt::WindowModal);
     if(m_moduleID != id) {
-        m_bookFullName.clear();
-        m_bookShortName.clear();
-        m_bookCount.clear();
         clearSoftCache();
     }
+    QStringList fullName;
+    QStringList shortName;
+    QStringList bookIDs;
     m_moduleID = id;
     ModuleSettings moduleSettings = m_settings->getModuleSettings(m_moduleID);
     progress.setValue(1);
@@ -432,17 +432,17 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
             QTextStream out(&file);
             out << data;
             file.close();
-            m_bookFullName << e.attribute("bname", e.attribute("bsname", ""));
-            m_bookShortName << e.attribute("bsname", "");
-            m_bookIDs << bookID;
+            fullName << e.attribute("bname", e.attribute("bsname", ""));
+            shortName << e.attribute("bsname", "");
+            bookIDs << bookID;
             c++;
         }
         n = n.nextSibling();
     }
     fileList.clear();
     bool hasAny = false;
-    for(int i = 0; i < m_bookFullName.size(); i++) {
-        if(m_bookFullName.at(i) != "") {
+    for(int i = 0; i < fullName.size(); i++) {
+        if(fullName.at(i) != "") {
             hasAny = true;
             break;
         }
@@ -465,7 +465,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
             return;
         }
         QDataStream out(&file);
-        out << m_moduleName << m_bookFullName << m_bookShortName << m_bookIDs;
+        out << m_moduleName << fullName << shortName << bookIDs;
         file.close();
     }
 }
@@ -476,10 +476,6 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
 void ZefaniaBible::loadCached(const int &id, const QString &path)
 {
     if(m_moduleID != id) {
-        //clear old data
-        m_bookFullName.clear();
-        m_bookShortName.clear();
-        m_bookCount.clear();
         clearSoftCache();
     }
 
@@ -495,9 +491,7 @@ void ZefaniaBible::loadCached(const int &id, const QString &path)
     QStringList bookIDs;
     in >> bibleName >> fullName >> shortName >> bookIDs;
     m_moduleName = bibleName;
-    m_bookFullName = fullName;
-    m_bookShortName = shortName;
-    m_bookIDs = bookIDs;
+    m_versification = new Versification_Zefania(fullName, shortName, bookIDs);
     //myDebug() << m_bookShortName;
     m_moduleID = id;
     m_modulePath = path;
@@ -545,25 +539,6 @@ QString ZefaniaBible::modulePath() const
 QString ZefaniaBible::moduleName(bool preferShortName) const
 {
     return m_moduleName;
-}
-QMap<int, int> ZefaniaBible::bookCount() const
-{
-    return m_bookCount;
-}
-BookNames ZefaniaBible::getBookNames()
-{
-    BookNames names;
-    int count = 0;
-    foreach(const QString & bookID, m_bookIDs) {
-        const int id = bookID.toInt();
-        names.m_bookIDs.append(id);
-        names.m_bookFullName[id] = m_bookFullName.at(count);
-        foreach(const QString & s, m_bookShortName.at(count)) {
-            names.m_bookShortName[id] = QStringList(s) ;
-        }
-        count++;
-    }
-    return names;
 }
 Book ZefaniaBible::book() const
 {
@@ -686,7 +661,7 @@ void ZefaniaBible::buildIndex()
 void ZefaniaBible::buildIndex()
 {
     DEBUG_FUNC_NAME
-    QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, m_bookFullName.size());
+    QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, m_versification->bookCount());
     const QString index = indexPath();
     QDir dir("/");
     dir.mkpath(index);
@@ -708,7 +683,7 @@ void ZefaniaBible::buildIndex()
     //index
     Document doc;
     bool canceled = false;
-    for(int bookCounter = 0; bookCounter < m_bookFullName.size(); ++bookCounter) {
+    for(int bookCounter = 0; bookCounter < m_versification->bookCount(); ++bookCounter) {
         if(progress.wasCanceled()) {
             canceled = true;
             break;

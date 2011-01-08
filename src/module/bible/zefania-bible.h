@@ -31,6 +31,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/bible/bibleurl.h"
 #include "src/core/bible/verse.h"
 #include "src/core/bible/chapter.h"
+#include "src/core/bible/versification/versification_zefania.h"
 
 #include "src/core/settings/modulesettings.h"
 
@@ -62,18 +63,9 @@ public:
     int moduleID() const;
     QString modulePath() const;
     QString moduleName(bool preferShortName = false) const;
-    QMap<int, int> bookCount() const;
-    BookNames getBookNames();
     Book book() const;
 
-    QStringList m_bookFullName;
-    QStringList m_bookShortName;
-    QMap<int, int> m_bookCount;
-    QStringList m_bookIDs;
-    Book m_book;
-
     void removeHardCache(const QString &path);
-
 private:
     QDomElement* format(QDomElement* e);
     bool checkForCacheFiles(const QString &path) const;
@@ -96,6 +88,7 @@ private:
     int m_moduleID;
     QString m_modulePath;
     QString m_moduleName;
+    Book m_book;
 
 };
 
