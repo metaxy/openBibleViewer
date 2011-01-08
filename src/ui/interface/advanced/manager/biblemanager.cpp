@@ -139,7 +139,7 @@ void BibleManager::pharseUrl(const VerseUrl &url)
 void BibleManager::pharseUrl(const QString &url)
 {
     DEBUG_FUNC_NAME;
-    const QString bible = "bible://";
+    const QString bible = "verse://";
     const QString bq = "go";
     myDebug() << "url = " << url;
     if(url.startsWith(bible)) {
