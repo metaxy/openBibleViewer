@@ -221,7 +221,7 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                                 BibleUrl burl;
                                 BibleUrlRange range;
 
-                                range.setBible(BibleUrlRange::LoadCurrentBible);
+                                range.setModule(BibleUrlRange::LoadCurrentModule);
                                 range.setBook(bookID);
                                 range.setChapter(chapterID);
                                 range.setWholeChapter();

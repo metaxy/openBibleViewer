@@ -273,14 +273,6 @@ QString TheWordBible::moduleName(bool preferShortName) const
         }
     }
 }
-QMap<int, int> TheWordBible::bookCount() const
-{
-    return m_bookCount;
-}
-BookNames TheWordBible::getBookNames()
-{
-    return m_bookNames;
-}
 
 Book TheWordBible::book() const
 {

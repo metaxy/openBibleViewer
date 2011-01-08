@@ -17,9 +17,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QObject>
 #include <QtCore/QString>
 #include <QtCore/QUrl>
-#include "src/core/bible/bibleurl.h"
-#include "src/core/bible/textranges.h"
-#include "src/core/bible/versification.h"
+#include "src/core/verse/bibleurl.h"
+#include "src/core/verse/textranges.h"
+#include "src/core/verse/versification.h"
 class Actions : public QObject
 {
     Q_OBJECT

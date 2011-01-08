@@ -37,7 +37,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/core/dbghelper.h"
 #include "src/core/core.h"
-#include "src/core/bible/bibleurl.h"
+#include "src/core/verse/bibleurl.h"
 #include "src/core/basicclass.h"
 #include "src/core/history.h"
 #include "src/module/biblelist.h"

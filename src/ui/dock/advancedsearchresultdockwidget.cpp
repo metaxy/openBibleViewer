@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_advancedsearchresultdockwidget.h"
 #include <QtGui/QSortFilterProxyModel>
 #include <QtGui/QMessageBox>
-#include "src/core/bible/bibleurl.h"
+#include "src/core/verse/bibleurl.h"
 #include "src/ui/dialog/searchinfodialog.h"
 #include "src/core/dbghelper.h"
 AdvancedSearchResultDockWidget::AdvancedSearchResultDockWidget(QWidget *parent) :
@@ -104,7 +104,7 @@ void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
 
             BibleUrl url;
             BibleUrlRange range;
-            range.setBible(hit.value(SearchHit::BibleID).toInt());
+            range.setModule(hit.value(SearchHit::BibleID).toInt());
             range.setBook(hit.value(SearchHit::BookID).toInt());
             range.setChapter(hit.value(SearchHit::ChapterID).toInt());
             range.setActiveVerse(hit.value(SearchHit::VerseID).toInt());

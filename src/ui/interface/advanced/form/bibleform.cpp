@@ -64,7 +64,7 @@ void BibleForm::init()
     connect(m_actions, SIGNAL(_setCurrentBook(QSet<int>)), this, SLOT(forwardSetCurrentBook(QSet<int>)));
     connect(m_actions, SIGNAL(_setCurrentChapter(QSet<int>)), this, SLOT(forwardSetCurrentChapter(QSet<int>)));
     connect(m_actions, SIGNAL(_historySetUrl(QString)), this, SLOT(forwardHistorySetUrl(QString)));
-    connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(forwardShowText(QString)));
+    //connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(forwardShowText(QString)));
     connect(m_actions, SIGNAL(_showTextRanges(QString, TextRanges, BibleUrl)), this, SLOT(forwardShowTextRanges(QString, TextRanges, BibleUrl)));
 
 
@@ -146,7 +146,7 @@ void BibleForm::showBibleListMenu()
 void BibleForm::readChapter(int id)
 {
     BibleUrlRange r;
-    r.setBible(BibleUrlRange::LoadCurrentBible);
+    r.setModule(BibleUrlRange::LoadCurrentModule);
     r.setBook(BibleUrlRange::LoadCurrentBook);
     r.setChapter(id);
     r.setWholeChapter();
@@ -161,7 +161,7 @@ void BibleForm::readBook(int id)
     const int i = m_bookIDs.at(id);
 
     BibleUrlRange r;
-    r.setBible(BibleUrlRange::LoadCurrentBible);
+    r.setModule(BibleUrlRange::LoadCurrentModule);
     r.setBook(i);
     r.setChapter(BibleUrlRange::LoadFirstChapter);
     r.setWholeChapter();

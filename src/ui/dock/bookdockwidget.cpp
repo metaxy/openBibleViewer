@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_bookdockwidget.h"
 #include "src/core/dbghelper.h"
 #include "src/core/core.h"
-#include "src/core/bible/bibleurl.h"
+#include "src/core/verse/bibleurl.h"
 BookDockWidget::BookDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::BookDockWidget)
@@ -56,7 +56,7 @@ void BookDockWidget::readBook(QModelIndex index)
 {
     BibleUrl url;
     BibleUrlRange range;
-    range.setBible(BibleUrlRange::LoadCurrentBible);
+    range.setModule(BibleUrlRange::LoadCurrentModule);
     range.setBook(index.data(Qt::UserRole + 1).toInt());
     range.setChapter(BibleUrlRange::LoadFirstChapter);
     range.setWholeChapter();
@@ -69,7 +69,7 @@ void BookDockWidget::readChapter()
     BibleUrl url;
     foreach(const QModelIndex & i, m_chapterSelection->selectedIndexes()) {
         BibleUrlRange range;
-        range.setBible(BibleUrlRange::LoadCurrentBible);
+        range.setModule(BibleUrlRange::LoadCurrentModule);
         range.setBook(BibleUrlRange::LoadCurrentBook);
         range.setChapter(i.data(Qt::UserRole + 1).toInt());
         range.setWholeChapter();

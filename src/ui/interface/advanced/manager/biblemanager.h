@@ -22,7 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dock/moduledockwidget.h"
 
 #include "src/ui/dock/quickjumpdockwidget.h"
-#include "src/core/bible/bibleurlrange.h"
+#include "src/core/verse/bibleurlrange.h"
 #include "src/core/dbghelper.h"
 class BibleManager : public QObject, public BasicClass
 {

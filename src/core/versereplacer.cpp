@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QMutableMapIterator>
 #include <QtCore/QStack>
 #include "src/core/dbghelper.h"
-#include "src/core/bible/verse.h"
+#include "src/core/verse/verse.h"
 VerseReplacer::VerseReplacer()
 {
 }

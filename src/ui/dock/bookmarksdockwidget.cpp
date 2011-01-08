@@ -66,7 +66,7 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
                       QString::number(selection.startVerse + 1));
     BibleUrl url;
     BibleUrlRange range;
-    range.setBible(selection.moduleID);
+    range.setModule(selection.moduleID);
     range.setBook(selection.bookID);
     range.setChapter(selection.chapterID);
     range.setActiveVerse(selection.startVerse);

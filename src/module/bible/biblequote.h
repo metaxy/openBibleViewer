@@ -23,7 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QProgressDialog>
 #include <QtGui/QMessageBox>
 
-#include "src/core/bible/chapter.h"
+#include "src/core/verse/chapter.h"
 #include "src/module/bible/biblemodule.h"
 #include "src/core/dbghelper.h"
 
@@ -53,8 +53,6 @@ public:
     int moduleID() const;
     QString modulePath() const;
     QString moduleName(bool preferShortName = false) const;
-    QMap<int, int> bookCount() const;
-    BookNames getBookNames();
     Book book() const;
 
     bool m_chapterZero;

@@ -29,8 +29,6 @@ MainWindow::~MainWindow()
     ui = 0;
     delete m_moduleManager;
     m_moduleManager = 0;
-    delete m_bibleDisplay;
-    m_bibleDisplay = 0;
     delete m_settings;
     m_settings = 0;
     delete m_notes;
@@ -46,14 +44,13 @@ MainWindow::~MainWindow()
 }
 void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 {
-    VERSION  = "0.6.a1";
+    VERSION = "0.6.a1";
     BUILD =  "2010-11-8";
     m_homeDataPath = homeDataPath;
     m_settingsFile = settingsFile;
     m_moduleCacheFile = new QSettings(homeDataPath + "moduleCache.ini", QSettings::IniFormat);
 
     m_moduleManager = new ModuleManager();
-    m_bibleDisplay = new BibleDisplay();
     m_settings = new Settings();
     m_notes = new Notes();
     m_session = new Session();

@@ -1,10 +1,10 @@
 #ifndef VERSEMODULE_H
 #define VERSEMODULE_H
-#include "src/core/bible/ranges.h"
-#include "src/core/bible/range.h"
-#include "src/core/bible/textrange.h"
-#include "src/core/bible/textranges.h"
-#include "src/core/bible/versification.h"
+#include "src/core/verse/ranges.h"
+#include "src/core/verse/range.h"
+#include "src/core/verse/textrange.h"
+#include "src/core/verse/textranges.h"
+#include "src/core/verse/versification.h"
 #include "src/module/simplemoduleclass.h"
 /**
   * VerseModule is an abstract class for modules classes like Bible or StudyNotes which are based on a versification.

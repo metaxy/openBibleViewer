@@ -16,19 +16,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/notes.h"
 #include "src/module/modulemanager.h"
 #include "src/core/settings/settings.h"
-#include "src/core/bible/bibledisplay.h"
 #include "src/ui/actions.h"
 class BasicClass
 {
 public:
     BasicClass();
     ModuleManager *m_moduleManager;
-    BibleDisplay *m_bibleDisplay;
     Settings *m_settings;
     Notes *m_notes;
     Actions *m_actions;
     void setModuleManager(ModuleManager *manager);
-    void setBibleDisplay(BibleDisplay *bibleDisplay);
     void setSettings(Settings *settings);
     void setNotes(Notes *notes);
     void setActions(Actions *actions);

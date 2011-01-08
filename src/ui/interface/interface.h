@@ -18,7 +18,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMenuBar>
 #include <QtGui/QToolBar>
 #include "src/module/modulemanager.h"
-#include "src/core/bible/bibledisplay.h"
 #include "src/core/settings/settings.h"
 #include "src/core/notes.h"
 #include "src/core/basicclass.h"
@@ -47,11 +46,11 @@ public:
     virtual void init();
     virtual QHash<DockWidget *, Qt::DockWidgetArea> docks();
     /**
-      * createDocks() is called first on construction. Should on depend only on init()
+      * createDocks() is called first on construction. Should depend only on init()
       */
     virtual void createDocks();
     /**
-      * createToolsBars() is called second on construction. Should depend only in init() and createDocks()
+      * createToolsBars() is called second on construction. Should depend only on init() and createDocks()
       */
     virtual void createToolBars();
     /**

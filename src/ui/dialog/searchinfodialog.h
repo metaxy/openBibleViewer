@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtGui/QDialog>
 #include "src/core/search/searchresult.h"
-#include "src/core/bible/versification.h"
+#include "src/core/verse/versification.h"
 namespace Ui
 {
 class SearchInfoDialog;

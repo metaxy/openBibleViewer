@@ -198,7 +198,7 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
 
 
             BibleUrlRange range;
-            range.setBible(BibleUrlRange::LoadCurrentBible);
+            range.setModule(BibleUrlRange::LoadCurrentModule);
             range.setBook(bookID);
             range.setChapter(chapterID);
             range.setWholeChapter();

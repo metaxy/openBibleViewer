@@ -22,8 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/core/settings/settings.h"
 
-#include "src/core/bible/booknames.h"
-#include "src/core/bible/book.h"
+#include "src/core/verse/book.h"
 
 #include "src/core/dbghelper.h"
 /**

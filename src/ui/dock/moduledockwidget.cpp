@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include <QModelIndexList>
 #include "src/core/core.h"
-#include "src/core/bible/bibleurl.h"
+#include "src/core/verse/bibleurl.h"
 ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::ModuleDockWidget)
@@ -56,7 +56,7 @@ void ModuleDockWidget::loadModuleData(QModelIndex index)
         m_moduleID = data.toInt();
         BibleUrl url;
         BibleUrlRange range;
-        range.setBible(m_moduleID);
+        range.setModule(m_moduleID);
         range.setBook(BibleUrlRange::LoadFirstBook);
         range.setChapter(BibleUrlRange::LoadFirstChapter);
         range.setWholeChapter();

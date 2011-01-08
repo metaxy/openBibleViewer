@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef BIBLELIST_H
 #define BIBLELIST_H
 #include "src/module/bible/bible.h"
-#include "src/core/bible/bibleurl.h"
+#include "src/core/verse/bibleurl.h"
 #include "src/core/dbghelper.h"
 #include <QtCore/QPoint>
 #include <utility>

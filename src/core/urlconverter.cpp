@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "urlconverter.h"
 #include "dbghelper.h"
-#include "src/core/bible/bibleurl.h"
+#include "src/core/verse/bibleurl.h"
 UrlConverter::UrlConverter(const UrlType &from, const UrlType &to, const BibleUrl &url)
 {
     m_from = from;
@@ -47,11 +47,11 @@ BibleUrl UrlConverter::convert()
         myDebug() << m_bibleUrl.toString();
         url.clearRanges();
         foreach(BibleUrlRange range, m_bibleUrl.ranges()) {
-            if(range.bible() == BibleUrlRange::LoadBibleByUID) {
+            if(range.bible() == BibleUrlRange::LoadModuleByUID) {
                 foreach(Module * module, m_moduleMap->m_map) {
                     myDebug() << m_settings->savableUrl(module->path()) << " vs " << range.bibleUID();
                     if(m_settings->savableUrl(module->path()) == range.bibleUID())  {
-                        range.setBible(module->moduleID());
+                        range.setModule(module->moduleID());
                     }
                 }
             }
@@ -69,7 +69,7 @@ BibleUrl UrlConverter::convert()
 
         foreach(BibleUrlRange range, m_bibleUrl.ranges()) {
             if(range.bible() == BibleUrlRange::LoadBibleByID) {
-                range.setBible(m_settings->savableUrl(m_moduleMap->m_map.value(range.bibleID())->path()));
+                range.setModule(m_settings->savableUrl(m_moduleMap->m_map.value(range.bibleID())->path()));
             }
             url.addRange(range);
             bookIDs.append(range.bookID());

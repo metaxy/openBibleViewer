@@ -20,7 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QDir>
 #include <utility>
 
-#include "src/core/bible/versification/versification_kjv.h"
+#include "src/core/verse/versification/versification_kjv.h"
 #include "src/core/dbghelper.h"
 
 #include "CLucene.h"
@@ -44,8 +44,6 @@ public:
     int moduleID() const;
     QString modulePath() const;
     QString moduleName(bool preferShortName = false) const;
-    QMap<int, int> bookCount() const;
-    BookNames getBookNames();
     Book book() const;
     QString uID() const;
 
@@ -59,9 +57,7 @@ private:
     bool hasOT() const;
     bool hasONT() const;
     QHash<int, Book> m_books;
-    QMap<int, int> m_bookCount;
     int m_currentBookID;
-    BookNames m_bookNames;
     QString m_moduleName;
     QString m_shortModuleName;
     QString m_uID;

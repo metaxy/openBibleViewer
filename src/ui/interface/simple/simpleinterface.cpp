@@ -49,7 +49,7 @@ void SimpleInterface::init()
     m_moduleManager->bible()->setSettings(m_settings);
 
 
-    connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
+   // connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
 }

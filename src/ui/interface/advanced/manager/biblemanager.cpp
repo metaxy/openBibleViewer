@@ -65,7 +65,7 @@ Ranges BibleManager::bibleUrlRangeToRanges(BibleUrlRange range)
     //todo: currently we do not support real ranges but its ok
     if(range.bible() == BibleUrlRange::LoadBibleByID) {
         r.setModule(range.bibleID());
-    } else if(range.bible() == BibleUrlRange::LoadCurrentBible) {
+    } else if(range.bible() == BibleUrlRange::LoadCurrentModule) {
         r.setModule(m_moduleManager->bible()->moduleID());
     }
 
@@ -257,7 +257,7 @@ void BibleManager::showChapter(const int &chapterID, const int &verseID)
 {
     //DEBUG_FUNC_NAME
     myDebug() << "chapter ID = " << chapterID << "verse ID = " << verseID;
-    m_bibleDisplay->setHtml(m_moduleManager->bibleList()->readChapter(chapterID, verseID));
+    //m_bibleDisplay->setHtml(m_moduleManager->bibleList()->readChapter(chapterID, verseID));
     //emit setCurrentChapter(chapterID);
 }
 
@@ -268,7 +268,7 @@ void BibleManager::nextChapter()
     if(m_moduleManager->bible()->lastTextRanges()->minChapterID() < m_moduleManager->bible()->chaptersCount() - 1) {
         BibleUrl bibleUrl;
         BibleUrlRange range;
-        range.setBible(BibleUrlRange::LoadCurrentBible);
+        range.setModule(BibleUrlRange::LoadCurrentModule);
         range.setBook(BibleUrlRange::LoadCurrentBook);
         range.setChapter(m_moduleManager->bible()->lastTextRanges()->minChapterID() - 1);
         range.setWholeChapter();
@@ -277,7 +277,7 @@ void BibleManager::nextChapter()
     } else if(m_moduleManager->bible()->lastTextRanges()->minBookID() < m_moduleManager->bible()->booksCount() - 1) {
         BibleUrl bibleUrl;
         BibleUrlRange range;
-        range.setBible(BibleUrlRange::LoadCurrentBible);
+        range.setModule(BibleUrlRange::LoadCurrentModule);
         range.setBook(m_moduleManager->bible()->lastTextRanges()->minBookID() + 1);
         range.setChapter(BibleUrlRange::LoadFirstChapter);
         range.setWholeChapter();
@@ -293,7 +293,7 @@ void BibleManager::previousChapter()
     if(m_moduleManager->bible()->lastTextRanges()->minChapterID() > 0) {
         BibleUrl bibleUrl;
         BibleUrlRange range;
-        range.setBible(BibleUrlRange::LoadCurrentBible);
+        range.setModule(BibleUrlRange::LoadCurrentModule);
         range.setBook(BibleUrlRange::LoadCurrentBook);
         range.setChapter(m_moduleManager->bible()->lastTextRanges()->minChapterID() - 1);
         range.setWholeChapter();
@@ -302,7 +302,7 @@ void BibleManager::previousChapter()
     } else if(m_moduleManager->bible()->lastTextRanges()->minBookID() > 0) {
         BibleUrl bibleUrl;
         BibleUrlRange range;
-        range.setBible(BibleUrlRange::LoadCurrentBible);
+        range.setModule(BibleUrlRange::LoadCurrentModule);
         range.setBook(m_moduleManager->bible()->lastTextRanges()->minBookID() - 1);
         range.setChapter(BibleUrlRange::LoadLastChapter);
         range.setWholeChapter();
@@ -315,7 +315,7 @@ void BibleManager::loadBibleList(bool hadBible)
     if(hadBible) {
         BibleUrl url;
         BibleUrlRange range;
-        range.setBible(BibleUrlRange::LoadCurrentBible);
+        range.setModule(BibleUrlRange::LoadCurrentModule);
         range.setBook(BibleUrlRange::LoadCurrentBook);
         range.setChapter(BibleUrlRange::LoadCurrentChapter);
         range.setWholeChapter();
@@ -325,7 +325,7 @@ void BibleManager::loadBibleList(bool hadBible)
     } else {
         BibleUrl url;
         BibleUrlRange range;
-        range.setBible(BibleUrlRange::LoadCurrentBible);
+        range.setModule(BibleUrlRange::LoadCurrentModule);
         range.setBook(BibleUrlRange::LoadFirstBook);
         range.setChapter(BibleUrlRange::LoadFirstChapter);
         range.setWholeChapter();

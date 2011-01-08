@@ -18,7 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dialog/searchinfodialog.h"
 #include "src/core/dbghelper.h"
 #include "src/core/core.h"
-#include "src/core/bible/bibleurl.h"
+#include "src/core/verse/bibleurl.h"
 SearchResultDockWidget::SearchResultDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::SearchResultDockWidget)
@@ -60,7 +60,7 @@ void SearchResultDockWidget::goToSearchResult(QListWidgetItem * item)
             return;
 
         BibleUrlRange range;
-        range.setBible(hit.value(SearchHit::BibleID).toInt());
+        range.setModule(hit.value(SearchHit::BibleID).toInt());
         range.setBook(hit.value(SearchHit::BookID).toInt());
         range.setChapter(hit.value(SearchHit::ChapterID).toInt());
         range.setActiveVerse(hit.value(SearchHit::VerseID).toInt());

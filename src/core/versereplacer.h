@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QString>
 #include <QtCore/QMap>
 #include <QtCore/QStringList>
-#include "src/core/bible/verse.h"
+#include "src/core/verse/verse.h"
 class VerseReplacer
 {
 public:

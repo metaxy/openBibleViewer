@@ -7,21 +7,19 @@ set ( openBibleViewer_HDRS
     api/bibleapi.h
     api/api.h
 
-    core/bible/chapter.h
-    core/bible/book.h
-    core/bible/bibleurl.h
-    core/bible/bibleurlrange.h
-    core/bible/bibledisplay.h
-    core/bible/booknames.h
-    core/bible/range.h
-    core/bible/ranges.h
-    core/bible/rangeenum.h
-    core/bible/textrange.h
-    core/bible/textranges.h
-    core/bible/verse.h
-    core/bible/versification.h
-    core/bible/versification/versification_kjv.h
-    core/bible/versification/bookv11n.h
+    core/verse/chapter.h
+    core/verse/book.h
+    core/verse/bibleurl.h
+    core/verse/bibleurlrange.h
+    core/verse/range.h
+    core/verse/ranges.h
+    core/verse/rangeenum.h
+    core/verse/textrange.h
+    core/verse/textranges.h
+    core/verse/verse.h
+    core/verse/versification.h
+    core/verse/versification/versification_kjv.h
+    core/verse/versification/bookv11n.h
 
 
     core/core.h
@@ -81,22 +79,20 @@ set ( openBibleViewer_SRCS
     api/notesapi.cpp
     api/api.cpp
 
-    core/bible/chapter.cpp
-    core/bible/book.cpp
-    core/bible/bibleurl.cpp
-    core/bible/bibleurlrange.cpp
-    core/bible/bibledisplay.cpp
-    core/bible/booknames.cpp
-    core/bible/range.cpp
-    core/bible/ranges.cpp
-    core/bible/rangeenum.cpp
-    core/bible/textrange.cpp
-    core/bible/textranges.cpp
-    core/bible/verse.cpp
-    core/bible/versification.cpp
-    core/bible/versification/versification_kjv.cpp
-    core/bible/versification/versification_zefania.cpp
-    core/bible/versification/bookv11n.cpp
+    core/verse/chapter.cpp
+    core/verse/book.cpp
+    core/verse/bibleurl.cpp
+    core/verse/bibleurlrange.cpp
+    core/verse/range.cpp
+    core/verse/ranges.cpp
+    core/verse/rangeenum.cpp
+    core/verse/textrange.cpp
+    core/verse/textranges.cpp
+    core/verse/verse.cpp
+    core/verse/versification.cpp
+    core/verse/versification/versification_kjv.cpp
+    core/verse/versification/versification_zefania.cpp
+    core/verse/versification/bookv11n.cpp
 
     core/faststart.cpp
     core/KoXmlReader.cpp
@@ -242,13 +238,12 @@ set ( openBibleViewer_MOCS
     api/notesapi.h
     api/api.h
 
-    core/bible/bibledisplay.h
     core/notes.h
     core/simplenotes.h
     core/moduledownloader.h
-    core/bible/versification/versification_kjv.h
-    core/bible/versification/versification_zefania.h
-    core/bible/versification.h
+    core/verse/versification/versification_kjv.h
+    core/verse/versification/versification_zefania.h
+    core/verse/versification.h
 
     ui/dialog/searchdialog.h
     ui/dialog/settingsdialog.h
