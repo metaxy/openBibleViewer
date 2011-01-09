@@ -67,11 +67,16 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
     const int linesToSkip = 31102;//see spec
     bool readingVerse = true;
     for(int lineCount = 0; !in.atEnd(); lineCount++) {
-        const QString line = in.readLine();
+        QString line = in.readLine();
         if(lineCount >= linesToSkip || line == "") {
             readingVerse = false;
         }
         if(readingVerse) {
+            QRegExp strong("<W(G|H)(.*?)>");
+            QRegExp newLine("<CL>");
+            //line.replace(strong,"<span class=\"gramlink\"><a href=\"gram://\\1\\2\">\\1\\2</a></span>");
+            line.replace(strong, "AAA");
+            line.replace(newLine,"<br />");
             Verse v(verse, line);
             currentChapter->addVerse(verse, v);
             if(verse + 1 < m_versification->maxVerse(flags).value(book).at(chapter)) {
@@ -132,7 +137,6 @@ QString TheWordBible::readInfo(QFile &file)
     for(int lineCount = 0; !in.atEnd(); lineCount++) {
         const QString line = in.readLine();
         if(skipping) {
-            myDebug() << line;
             if(line.startsWith("title")) {
                 const QStringList list = line.split("=");
                 return list.last();

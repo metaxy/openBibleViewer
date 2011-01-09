@@ -50,7 +50,6 @@ void VerseUrl::addRanges(const QList<VerseUrlRange> &ranges)
 QString VerseUrl::toString() const
 {
     QString ret = "";
-    int c = 0;
     foreach(const VerseUrlRange range, m_ranges) {
         if(!ret.isEmpty())
             ret += "|";//seperator

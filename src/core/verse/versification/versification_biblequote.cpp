@@ -11,7 +11,6 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#include "versetable.h"
 #include "versification_biblequote.h"
 
 Versification_BibleQuote::Versification_BibleQuote(const QStringList &fullNames, const QList<QStringList> &shortNames, const QMap<int, int> &bookCount)

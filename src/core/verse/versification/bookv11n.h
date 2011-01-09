@@ -11,7 +11,6 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#include "versetable.h"
 #ifndef BOOKV11N_H
 #define BOOKV11N_H
 #include <QtCore/QStringList>

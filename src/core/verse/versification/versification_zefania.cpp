@@ -11,7 +11,6 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#include "versetable.h"
 #include "versification_zefania.h"
 
 Versification_Zefania::Versification_Zefania(const QStringList &fullNames, const QStringList &shortNames, const QStringList &bookIDs)
