@@ -18,6 +18,7 @@ VerseTable::VerseTable()
 }
 VerseTable::~VerseTable()
 {
+    DEBUG_FUNC_NAME
     foreach(VerseModule * m, m_modules) {
         myDebug() << m;
         if(m) {
@@ -30,9 +31,12 @@ VerseTable::~VerseTable()
 void VerseTable::setCurrentVerseTableID(const int &verseTableID)
 {
     DEBUG_FUNC_NAME;
+    myDebug() << "currentVerseTableID = " << verseTableID;
+    myDebug() << m_modules;
     m_currentModule = verseTableID;
     setLastTextRanges(m_lastTextRanges);
 }
+
 int VerseTable::currentVerseTableID() const
 {
     return m_currentModule;
@@ -40,12 +44,18 @@ int VerseTable::currentVerseTableID() const
 
 void VerseTable::addModule(VerseModule* m, const QPoint &p)
 {
-    DEBUG_FUNC_NAME;#
-    //todo: if it contains already a module with point p
+    DEBUG_FUNC_NAME;
+    //if it contains already a module with point p
     //then delete the old and insert the new
+    if(m_points.values().contains(p)) {
+        const int id = m_points.key(p,-1);
+        if(m_modules.contains(id) && m_modules.value(id) != NULL) {
+            delete m_modules.value(id);
+            m_modules.remove(id);
+            m_points.remove(id);
+        }
+    }
     const int id = m_points.size();
-    myDebug() << m << id << p;
-    myDebug() << m->moduleID();
     m_currentModule = id;
     m_points.insert(id, p);
     m_modules.insert(id, m);
@@ -67,6 +77,7 @@ VerseModule * VerseTable::verseModule(const int &id) const
 }
 void VerseTable::clear()
 {
+    DEBUG_FUNC_NAME
     m_points.clear();
     foreach(VerseModule * b, m_modules) {
         if(b) {
@@ -88,6 +99,7 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
         myDebug() << b;
         if(b) {
             ret.second = b->readRanges(ranges);
+            ret.second.setVerseTableID(0);
             //todo: not just simple join but add titles
             if(ret.second.textRanges().size() == 1)
                 ret.first = ret.second.join("");
@@ -112,7 +124,9 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
         while(i.hasNext()) {
             i.next();
             //myDebug() << "read = " << i.value()->moduleID();
-            const TextRanges r = i.value()->readRanges(ranges, true);
+            TextRanges r = i.value()->readRanges(ranges, true);
+            r.setVerseTableID(i.key());
+
             data.insert(i.key(), r);
             def = r;
             defModule = i.value();

@@ -2,6 +2,8 @@
 
 VerseModule::VerseModule()
 {
+    m_versification = 0;
+    m_lastTextRanges = 0;
 }
 VerseModule::~VerseModule()
 {

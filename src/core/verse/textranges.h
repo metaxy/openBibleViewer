@@ -17,6 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QSet>
 #include "src/core/verse/textrange.h"
 #include "src/core/verse/verseurlrange.h"
+#include "src/core/dbghelper.h"
 class TextRanges
 {
 public:
@@ -52,6 +53,9 @@ public:
 
     bool contains(const int &bookID, const int &chapterID) const;
     QList<VerseUrlRange> toBibleUrlRanges() const;
+    QList<VerseUrlRange> toBibleUrlRanges(int verseTableID) const;
+
+    void setVerseTableID(int verseTableID);
 private:
     QList<TextRange> m_ranges;
 };

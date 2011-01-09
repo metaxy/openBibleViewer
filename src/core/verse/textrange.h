@@ -35,10 +35,12 @@ public:
     void setBookID(const int &bookID);
     void setChapterID(const int &chapterID);
     void setModuleID(const int &id);
+    void setVerseTableID(int verseTableID);
 
     int bookID() const;
     int chapterID() const;
     int moduleID() const;
+    int verseTableID() const;
 private:
     QMap<int, Verse> m_verse;
     QString m_title;
@@ -46,6 +48,7 @@ private:
     int m_bookID;
     int m_chapterID;
     int m_moduleID;
+    int m_verseTableID;
 };
 
 #endif // TEXTRANGE_H

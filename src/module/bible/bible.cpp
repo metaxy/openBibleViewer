@@ -39,7 +39,7 @@ bool Bible::loaded() const
 int Bible::loadModuleData(const int &moduleID)
 {
     DEBUG_FUNC_NAME
-    m_versification = 0;
+    //m_versification = 0;
     m_module = m_map->m_map.value(moduleID, 0);
 
     //not valid module
@@ -87,6 +87,7 @@ int Bible::loadModuleData(const int &moduleID)
         m_bibleModule->setSettings(m_settings);
         m_bibleModule->loadBibleData(m_moduleID, m_module->path());
     }
+    myDebug() << "setting an another versification";
     m_versification = m_bibleModule->versification();
 
     if(m.moduleName.isEmpty())

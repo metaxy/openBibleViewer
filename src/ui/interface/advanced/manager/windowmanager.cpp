@@ -415,8 +415,9 @@ void WindowManager::save()
                 i.next();
                 VerseModule *b = i.value();
                 if(b != NULL && b->moduleID() >= 0) {
+                    myDebug() << "key = " << i.key();
                     VerseUrl bibleUrl;
-                    bibleUrl.addRanges(b->lastTextRanges()->toBibleUrlRanges());
+                    bibleUrl.addRanges(b->lastTextRanges()->toBibleUrlRanges(i.key()));
 
                     UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, bibleUrl);
                     urlConverter.setSettings(m_settings);
@@ -425,9 +426,9 @@ void WindowManager::save()
 
                     const QString url = newUrl.toString();
                     const QPoint point = list->m_points.value(i.key());
+                    myDebug() << "url = " << url << " at " << point;
                     urls << url;
                     points << point;
-                    myDebug() << "save url = " << url;
                 }
             }
         }
@@ -458,6 +459,7 @@ void WindowManager::restore()
         for(int j = 0; j < urls.size() && j < points.size(); j++) {
             const QString url = urls.at(j);
             const QPoint point = points.at(j);
+            myDebug() << "url = " << url << " point = "<< point;
             UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
             urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
             urlConverter.convert();

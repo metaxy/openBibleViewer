@@ -15,6 +15,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 TextRange::TextRange()
 {
+    m_verseTableID = 0;//the default versetableid is 0
+    m_bookID = -1;
+    m_chapterID = -1;
+    m_moduleID = -1;
 }
 QString TextRange::join(const QString &seperator) const
 {
@@ -87,4 +91,12 @@ int TextRange::moduleID() const
 void TextRange::setModuleID(const int &id)
 {
     m_moduleID = id;
+}
+int TextRange::verseTableID() const
+{
+    return m_verseTableID;
+}
+void TextRange::setVerseTableID(int verseTableID)
+{
+    m_verseTableID = verseTableID;
 }

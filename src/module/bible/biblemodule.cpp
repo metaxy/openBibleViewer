@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "biblemodule.h"
 BibleModule::BibleModule()
 {
+    m_versification = 0;
 }
 void BibleModule::setSettings(Settings *settings)
 {
@@ -76,5 +77,7 @@ Book BibleModule::book() const
 
 Versification* BibleModule::versification() const
 {
+    myDebug() << "return versification";
+    myDebug() << m_versification;
     return m_versification;
 }

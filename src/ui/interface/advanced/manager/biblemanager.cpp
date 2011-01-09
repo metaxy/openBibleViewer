@@ -254,6 +254,7 @@ void BibleManager::previousChapter()
 }
 void BibleManager::loadBibleList(bool hadBible)
 {
+    DEBUG_FUNC_NAME
     if(hadBible) {
         VerseUrl url;
         VerseUrlRange range;

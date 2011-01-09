@@ -90,6 +90,8 @@ void BookDockWidget::setChapters(const QStringList &chapters)
 void BookDockWidget::setBooks(Versification *v11n)
 {
     m_bookModel->clear();
+    if(v11n == NULL)
+        return;
     QHashIterator<int, QString> i(v11n->bookNames());
     int count = 0;
     while(i.hasNext()) {
@@ -112,7 +114,6 @@ void BookDockWidget::clearChapters()
 
 void BookDockWidget::setCurrentBook(const int &bookID)
 {
-
     const QModelIndexList list = m_bookModel->match(m_bookModel->index(0, 0), Qt::UserRole + 1, bookID, 1, Qt::MatchExactly);
     if(list.size() == 1) {
         m_bookSelection->clearSelection();

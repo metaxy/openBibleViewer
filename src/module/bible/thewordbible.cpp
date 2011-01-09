@@ -25,6 +25,7 @@ TheWordBible::TheWordBible()
 }
 TheWordBible::~TheWordBible()
 {
+    DEBUG_FUNC_NAME
     delete m_versification;
     m_versification = 0;
 }

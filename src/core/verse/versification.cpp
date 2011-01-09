@@ -15,9 +15,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 Versification::Versification()
 {
+    DEBUG_FUNC_NAME
 }
 Versification::~Versification()
 {
+    DEBUG_FUNC_NAME
 }
 /*BookNames Versification::toBookNames(VersificationFilterFlags filter) const
 {

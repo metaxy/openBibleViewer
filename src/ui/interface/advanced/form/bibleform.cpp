@@ -267,8 +267,8 @@ void BibleForm::setCurrentBook(const QSet<int> &bookID)
 }
 void BibleForm::activated()
 {
-    //DEBUG_FUNC_NAME
-    //myDebug() << " windowID = " << m_id;
+    DEBUG_FUNC_NAME
+    myDebug() << " windowID = " << m_id;
     m_api->moduleApi()->setFrame(m_view->page()->mainFrame());
     VerseTable *table = m_verseTable;
     if(m_verseTable == NULL || m_verseTable->verseModule() == NULL) {
@@ -293,12 +293,16 @@ void BibleForm::activated()
         m_moduleManager->m_verseTable = table;
         return;
     }
+    myDebug() << "before " << m_moduleManager->m_verseTable;
     m_moduleManager->m_verseTable = m_verseTable;
+    myDebug() << "after " << m_moduleManager->m_verseTable;
 
     m_actions->setTitle(m_moduleManager->verseModule()->moduleTitle());
     m_actions->setCurrentModule(m_moduleManager->verseModule()->moduleID());
 
     m_actions->updateChapters(m_moduleManager->verseModule()->chapterNames());
+    myDebug() << "moduleID = " << m_moduleManager->verseModule()->moduleID();
+    myDebug() << "versification = " << m_moduleManager->verseModule()->versification();
     m_actions->updateBooks(m_moduleManager->verseModule()->versification());
     if(m_lastTextRanges.verseCount() != 0) {
         m_actions->setCurrentChapter(m_lastTextRanges.chapterIDs());

@@ -464,7 +464,7 @@ VerseModule * ModuleManager::newVerseModule(const int &moduleID, QPoint p)
         myWarning() << "invalid moduleID = " << moduleID;
         return NULL;
     }
-
+    myDebug() << "point = " << p;
     const int id = verseTable()->m_points.key(p, -1);
     myDebug() << "id = " << id;
 
@@ -499,7 +499,7 @@ VerseModule * ModuleManager::newVerseModule(const int &moduleID, QPoint p)
 }
 Module::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
 {
-    myDebug() << fileName;
+    //myDebug() << fileName;
     if(fileName.endsWith("bibleqt.ini", Qt::CaseInsensitive)) {
         return Module::BibleQuoteModule;
     } else if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
@@ -509,7 +509,7 @@ Module::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
             QTextStream in(&data);
             for(int i = 0; i < 10; i++)
                 fileData += in.readLine();
-            myDebug() << "fileData = " << fileData;
+            //myDebug() << "fileData = " << fileData;
             if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i cannot allow this
                     fileData.contains("x-cult", Qt::CaseInsensitive) ||
                     fileData.contains("x-mormon", Qt::CaseInsensitive))) {

@@ -41,9 +41,9 @@ QString BibleQuote::formatFromIni(QString input)
 }
 void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
 {
-    if(m_versification != NULL)
+    /*if(m_versification != NULL)
         delete m_versification;
-    m_versification = NULL;
+    m_versification = NULL;*/
 
     QStringList bookFullName;
     QList<QStringList> bookShortName;

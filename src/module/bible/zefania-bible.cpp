@@ -28,14 +28,19 @@ ZefaniaBible::ZefaniaBible()
     m_moduleName = "";
     m_versification = NULL;
 }
+ZefaniaBible::~ZefaniaBible()
+{
+    DEBUG_FUNC_NAME
+    //delete m_versification;
+}
 void ZefaniaBible::loadBibleData(const int &id, const QString &path)
 {
     //DEBUG_FUNC_NAME
     m_moduleName = "";
     m_moduleID = id;
-    if(m_versification != NULL)
+    /*if(m_versification != NULL)
         delete m_versification;
-    m_versification = NULL;
+    m_versification = NULL;*/
     if(m_settings->getModuleSettings(m_moduleID).zefbible_hardCache == false && m_settings->getModuleSettings(m_moduleID).zefbible_softCache == false) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Please activate Caching.(Hard or Soft Cache)"));
         return;
@@ -66,7 +71,7 @@ QDomNode ZefaniaBible::readBookFromHardCache(QString path, int bookID)
 
     QFile file(pre + QString::number(bookID) + ".xml");
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot read the file."));
+        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot read the file."));
         myWarning() << "can't read the file" << pre + QString::number(bookID) + ".xml";
         return e;
     }
@@ -96,6 +101,7 @@ int ZefaniaBible::readBook(const int &id)
     m_book.clear();
     m_bookID = id;
     m_book.setID(m_bookID);
+
     QDomNode n = ncache.firstChild();
     QString outtext;
     int chapterCounter;

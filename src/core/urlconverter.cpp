@@ -43,13 +43,13 @@ VerseUrl UrlConverter::convert()
 {
     VerseUrl url = m_bibleUrl;
     if(m_to == InterfaceUrl) {
-        myDebug() << "to interface url";
-        myDebug() << m_bibleUrl.toString();
+        //myDebug() << "to interface url";
+        //myDebug() << m_bibleUrl.toString();
         url.clearRanges();
         foreach(VerseUrlRange range, m_bibleUrl.ranges()) {
             if(range.bible() == VerseUrlRange::LoadModuleByUID) {
                 foreach(Module * module, m_moduleMap->m_map) {
-                    myDebug() << m_settings->savableUrl(module->path()) << " vs " << range.bibleUID();
+                    //myDebug() << m_settings->savableUrl(module->path()) << " vs " << range.bibleUID();
                     if(m_settings->savableUrl(module->path()) == range.bibleUID())  {
                         range.setModule(module->moduleID());
                     }
@@ -61,8 +61,8 @@ VerseUrl UrlConverter::convert()
             url.unsetParam("b" + QString::number(i));
         }
     } else if(m_to == PersistentUrl) {
-        myDebug() << "to persisent url";
-        myDebug() << m_bibleUrl.toString();
+        //myDebug() << "to persisent url";
+        //myDebug() << m_bibleUrl.toString();
 //todo: catch errors
         url.clearRanges();
         QList<int> bookIDs;

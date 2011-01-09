@@ -28,6 +28,8 @@ VerseUrlRange::VerseUrlRange()
     m_endChapterParam = LoadChapterNotSet;
     m_startVerseParam = LoadVerseNotSet;
     m_endVerseParam = LoadVerseNotSet;
+    m_activeVerseID = -1;
+    m_activeVerseParam = LoadVerseNotSet;
 
 
 }

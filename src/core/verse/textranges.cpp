@@ -221,3 +221,39 @@ QList<VerseUrlRange> TextRanges::toBibleUrlRanges() const
     }
     return ret;
 }
+QList<VerseUrlRange> TextRanges::toBibleUrlRanges(int verseTableID) const
+{
+    QList<VerseUrlRange> ret;
+    foreach(const TextRange & r, m_ranges) {
+        myDebug() << "verseTableID = " << verseTableID << "r.*" << r.verseTableID();
+        if(r.verseTableID() == verseTableID) {
+            VerseUrlRange range;
+            range.setModule(r.moduleID());
+            range.setBook(r.bookID());
+            range.setChapter(r.chapterID());
+            int minVerse = -1;
+            int maxVerse = -1;
+            foreach(const Verse & v, r.verseList()) {
+                if(v.verseID() < minVerse || minVerse == -1)
+                    minVerse = v.verseID();
+                if(v.verseID() >= maxVerse)
+                    maxVerse = v.verseID();
+            }
+            range.setStartVerse(minVerse);
+            range.setEndVerse(maxVerse);
+            ret << range;
+        }
+    }
+    return ret;
+}
+void TextRanges::setVerseTableID(int verseTableID)
+{
+    DEBUG_FUNC_NAME;
+    myDebug() << "setting = "<< verseTableID;
+    QList<TextRange> ret;
+    foreach(TextRange r, m_ranges) {
+        r.setVerseTableID(verseTableID);
+        ret << r;
+    }
+    m_ranges = ret;
+}
