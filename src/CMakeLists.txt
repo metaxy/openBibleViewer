@@ -92,6 +92,7 @@ set ( openBibleViewer_SRCS
     core/verse/versification.cpp
     core/verse/versification/versification_kjv.cpp
     core/verse/versification/versification_zefania.cpp
+    core/verse/versification/versification_biblequote.cpp
     core/verse/versification/bookv11n.cpp
 
     core/faststart.cpp
@@ -243,6 +244,7 @@ set ( openBibleViewer_MOCS
     core/moduledownloader.h
     core/verse/versification/versification_kjv.h
     core/verse/versification/versification_zefania.h
+    core/verse/versification/versification_biblequote.h
     core/verse/versification.h
 
     ui/dialog/searchdialog.h

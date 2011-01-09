@@ -276,7 +276,13 @@ void BibleForm::activated()
         clearChapters();
         clearBooks();
         m_actions->setTitle("");
-        m_moduleManager->m_verseTable = NULL;
+
+        m_moduleManager->m_verseTable = new VerseTable();
+        Bible *b = new Bible();
+        m_moduleManager->initVerseModule(b);
+        m_moduleManager->verseTable()->addModule(b, QPoint(0, 0));
+        m_verseTable = m_moduleManager->m_verseTable;
+
         return;
     }
     if(m_verseTable->verseModule()->moduleID() < 0) {

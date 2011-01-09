@@ -24,6 +24,7 @@ BibleQuote::BibleQuote()
 {
     m_moduleID = -1;
     m_codec = NULL;
+    m_versification = NULL;
 }
 BibleQuote::~BibleQuote()
 {
@@ -40,16 +41,22 @@ QString BibleQuote::formatFromIni(QString input)
 }
 void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
 {
+    if(m_versification != NULL)
+        delete m_versification;
+    m_versification = NULL;
+
+    QStringList bookFullName;
+    QList<QStringList> bookShortName;
+    QMap<int, int> bookCount;
+
     m_moduleID = bibleID;
-    m_bookFullName.clear();
     m_bookPath.clear();
-    m_bookShortName.clear();
-    m_bookCount.clear();
     m_moduleName = "";
     m_chapterSign = "";
     m_removeHtml = "";
     m_verseSign = "";
     m_chapterZero = false;
+
     int lastPos = path.lastIndexOf("/");
     QString path_ = path;
     m_modulePath = path_.remove(lastPos, path.size());
@@ -107,16 +114,16 @@ void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
             if(started == true) {
                 if(started2 == true) {
                     if(line.contains("ChapterQty", Qt::CaseInsensitive)) {
-                        m_bookCount[i] = formatFromIni(line.remove(QRegExp("ChapterQty(\\s*)=(\\s*)", Qt::CaseInsensitive))).toInt();
+                        bookCount[i] = formatFromIni(line.remove(QRegExp("ChapterQty(\\s*)=(\\s*)", Qt::CaseInsensitive))).toInt();
                         i++;
                         started2 = false;
                     } else if(line.contains("FullName", Qt::CaseInsensitive)) {
-                        m_bookFullName << formatFromIni(line.remove(QRegExp("FullName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
+                        bookFullName << formatFromIni(line.remove(QRegExp("FullName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
 
                     } else if(line.contains("ShortName", Qt::CaseInsensitive)) {
                         const QString s = formatFromIni(line.remove(QRegExp("ShortName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
                         QStringList l = s.split(" ");
-                        m_bookShortName.append(l);
+                        bookShortName.append(l);
 
                     }
                 } else if(line.contains("PathName", Qt::CaseInsensitive)) {
@@ -129,6 +136,7 @@ void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
 
         }
     }
+    m_versification = new Versification_BibleQuote(bookFullName, bookShortName, bookCount);
 }
 /**
   Reads the ini-file and returns the bible name. If the file is invalid is returns an empty QString.
@@ -139,6 +147,7 @@ QString BibleQuote::readInfo(QFile &file)
     m_moduleName.clear();
     m_moduleShortName.clear();
     int countlines = 0;
+
     if(m_codec == NULL) {
         QString encoding;
         if(m_settings->getModuleSettings(m_moduleID).encoding == "Default" || m_settings->getModuleSettings(m_moduleID).encoding == "") {
@@ -148,6 +157,7 @@ QString BibleQuote::readInfo(QFile &file)
         }
         m_codec = QTextCodec::codecForName(encoding.toStdString().c_str());
     }
+
     QTextDecoder *decoder = m_codec->makeDecoder();
     while(!file.atEnd()) {
         /*if (countlines > 50) { //wenn eine ini datei ungueltig ist soll damit nicht zuviel zeit verguedet werden
@@ -434,24 +444,6 @@ QString BibleQuote::moduleName(bool preferShortName) const
 {
     return m_moduleName;
 }
-/*QMap<int, int> BibleQuote::bookCount() const
-{
-    return m_bookCount;
-}
-BookNames BibleQuote::getBookNames()
-{
-    BookNames names;
-
-    for(int c = 0; c < m_bookFullName.size(); ++c) {
-        names.m_bookIDs.append(c);
-        names.m_bookFullName[c] = m_bookFullName.at(c);
-    }
-    //todo: if m_bookFullName.size() != >m_bookShortName.size() should then i really add the shortnames or let them be empty
-    for(int c = 0; c < m_bookShortName.size(); ++c) {
-        names.m_bookShortName[c] = m_bookShortName.at(c);
-    }
-    return names;
-}*/
 Book BibleQuote::book() const
 {
     return m_book;

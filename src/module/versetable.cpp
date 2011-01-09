@@ -40,7 +40,9 @@ int VerseTable::currentVerseTableID() const
 
 void VerseTable::addModule(VerseModule* m, const QPoint &p)
 {
-    DEBUG_FUNC_NAME;
+    DEBUG_FUNC_NAME;#
+    //todo: if it contains already a module with point p
+    //then delete the old and insert the new
     const int id = m_points.size();
     myDebug() << m << id << p;
     myDebug() << m->moduleID();

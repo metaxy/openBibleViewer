@@ -1,7 +1,7 @@
 #ifndef VERSIFICATION_ZEFANIA_H
 #define VERSIFICATION_ZEFANIA_H
 #include "src/core/verse/versification.h"
-class Versification_Zefania: public Versification
+class Versification_Zefania : public Versification
 {
      Q_OBJECT
 public:
