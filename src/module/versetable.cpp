@@ -48,7 +48,7 @@ void VerseTable::addModule(VerseModule* m, const QPoint &p)
     //if it contains already a module with point p
     //then delete the old and insert the new
     if(m_points.values().contains(p)) {
-        const int id = m_points.key(p,-1);
+        const int id = m_points.key(p, -1);
         if(m_modules.contains(id) && m_modules.value(id) != NULL) {
             delete m_modules.value(id);
             m_modules.remove(id);

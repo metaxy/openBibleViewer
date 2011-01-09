@@ -688,7 +688,7 @@ bool Versification_KJV::filter(const int &bookID, VersificationFilterFlags flags
     else if(flags.testFlag(Versification::ReturnOT)) {
         return (bookID >= 0 && bookID <= 38);
     } else if(flags.testFlag(Versification::ReturnNT)) {
-         return (bookID >= 39);
+        return (bookID >= 39);
     }
     return true;
 }

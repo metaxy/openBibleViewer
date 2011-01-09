@@ -68,18 +68,17 @@ int GoTo::bookNameToBookID(const QString& name)
     QHash<int, QStringList> shortNames = m_v11n->multipleBookShortNames();
     {
         QHashIterator<int, QString> i(full);
-        while (i.hasNext()) {
+        while(i.hasNext()) {
             i.next();
             if(i.value() == name) {
-                 bookID = i.key();
-                 break;
+                bookID = i.key();
+                break;
             }
         }
     }
-    if(bookID == -1)
-    {
+    if(bookID == -1) {
         QHashIterator<int, QStringList> i(shortNames);
-        while (i.hasNext() && bookID != -1) {
+        while(i.hasNext() && bookID != -1) {
             i.next();
             foreach(const QString & n, i.value()) {
                 if(name == n) {
@@ -89,21 +88,19 @@ int GoTo::bookNameToBookID(const QString& name)
             }
         }
     }
-    if(bookID == -1)
-    {
+    if(bookID == -1) {
         QHashIterator<int, QString> i(full);
-        while (i.hasNext()) {
+        while(i.hasNext()) {
             i.next();
             if(i.value().startsWith(name, Qt::CaseInsensitive)) {
-                 bookID = i.key();
-                 break;
+                bookID = i.key();
+                break;
             }
         }
     }
-    if(bookID == -1)
-    {
+    if(bookID == -1) {
         QHashIterator<int, QStringList> i(shortNames);
-        while (i.hasNext() && bookID != -1) {
+        while(i.hasNext() && bookID != -1) {
             i.next();
             foreach(const QString & n, i.value()) {
                 if(n.startsWith(name, Qt::CaseInsensitive)) {
@@ -116,7 +113,7 @@ int GoTo::bookNameToBookID(const QString& name)
     if(bookID == -1) {
         {
             QHashIterator<int, QString> i(full);
-            while (i.hasNext()) {
+            while(i.hasNext()) {
                 i.next();
                 int lev = levenshteinDistance(name, i.value());
                 if(lev < min || min < 0) {
@@ -127,7 +124,7 @@ int GoTo::bookNameToBookID(const QString& name)
         }
         {
             QHashIterator<int, QStringList> i(shortNames);
-            while (i.hasNext() && bookID != -1) {
+            while(i.hasNext() && bookID != -1) {
                 i.next();
                 foreach(const QString & n, i.value()) {
                     int lev = levenshteinDistance(name, n);

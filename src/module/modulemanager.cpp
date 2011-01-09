@@ -488,10 +488,10 @@ VerseModule * ModuleManager::newVerseModule(const int &moduleID, QPoint p)
     m->setModuleType(type);
     m->setModuleID(moduleID);
     //todo: load module data?
-   /* if(getModule(moduleID)->moduleClass() == Module::BibleModuleClass) {
-        myDebug() << "loading the module data";
-        ((Bible*)m)->loadModuleData(moduleID);
-    }*/
+    /* if(getModule(moduleID)->moduleClass() == Module::BibleModuleClass) {
+         myDebug() << "loading the module data";
+         ((Bible*)m)->loadModuleData(moduleID);
+     }*/
 
 
     verseTable()->addModule(m, p);

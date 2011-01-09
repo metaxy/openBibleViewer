@@ -129,7 +129,7 @@ int Bible::readBook(const int &id)
     } else if(moduleType() == Module::ZefaniaBibleModule || moduleType() == Module::TheWordBibleModule) {
         m_bibleModule->readBook(id);
         myDebug() << m_versification;
-        for(int i = 1; i <= m_versification->maxChapter().value(id,0); ++i) {
+        for(int i = 1; i <= m_versification->maxChapter().value(id, 0); ++i) {
             m_chapterNames << QString::number(i);
         }
     }

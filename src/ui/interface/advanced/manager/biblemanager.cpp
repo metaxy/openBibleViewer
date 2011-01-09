@@ -191,7 +191,7 @@ void BibleManager::pharseUrl(const QString &url)
 void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
 {
     if(!m_moduleManager->hasBible()) {
-        m_moduleManager->newVerseModule(ranges.getList().first().moduleID(),QPoint(0,0));
+        m_moduleManager->newVerseModule(ranges.getList().first().moduleID(), QPoint(0, 0));
     }
     std::pair<QString, TextRanges> r = m_moduleManager->verseTable()->readRanges(ranges);
     m_actions->showTextRanges(r.first, r.second, url);

@@ -459,7 +459,7 @@ void WindowManager::restore()
         for(int j = 0; j < urls.size() && j < points.size(); j++) {
             const QString url = urls.at(j);
             const QPoint point = points.at(j);
-            myDebug() << "url = " << url << " point = "<< point;
+            myDebug() << "url = " << url << " point = " << point;
             UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
             urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
             urlConverter.convert();

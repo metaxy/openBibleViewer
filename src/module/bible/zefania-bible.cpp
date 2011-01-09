@@ -456,11 +456,11 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     }
     if(!hasAny) {
         //whole bible
-       /* if(m_bookFullName.size() == 66) {
-            m_bookFullName = m_settings->defaultVersification->bookNames(Versification::ReturnNT | Versification::ReturnOT);
-        } else if(m_bookFullName.size() == 27) {
-            m_bookFullName = m_settings->defaultVersification->bookNames(Versification::ReturnNT);
-        } */
+        /* if(m_bookFullName.size() == 66) {
+             m_bookFullName = m_settings->defaultVersification->bookNames(Versification::ReturnNT | Versification::ReturnOT);
+         } else if(m_bookFullName.size() == 27) {
+             m_bookFullName = m_settings->defaultVersification->bookNames(Versification::ReturnNT);
+         } */
     }
     progress.hide();
     file.close();

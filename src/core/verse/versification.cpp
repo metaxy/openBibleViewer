@@ -58,7 +58,7 @@ QMap<int, int> Versification::toBookCount(VersificationFilterFlags filter) const
 QHash<int, QString> Versification::bookNames(VersificationFilterFlags flags) const
 {
     QHash<int, QString> ret;
-    foreach(const BookV11N &book, m_books) {
+    foreach(const BookV11N & book, m_books) {
         if(!filter(book.bookID, flags))
             continue;
         ret[book.bookID] = book.name;
@@ -68,7 +68,7 @@ QHash<int, QString> Versification::bookNames(VersificationFilterFlags flags) con
 QHash<int, QStringList> Versification::multipleBookShortNames(VersificationFilterFlags flags) const
 {
     QHash<int, QStringList> ret;
-    foreach(const BookV11N &book, m_books) {
+    foreach(const BookV11N & book, m_books) {
         if(!filter(book.bookID, flags))
             continue;
         ret[book.bookID] = book.shortNames;
@@ -81,7 +81,7 @@ QHash<int, QString> Versification::bookShortNames(VersificationFilterFlags flags
     QHash<int, QString> ret;
 
     QHashIterator<int, QStringList> i(mul);
-    while (i.hasNext()) {
+    while(i.hasNext()) {
         i.next();
         if(i.value().isEmpty())
             ret[i.key()] = "";
@@ -94,7 +94,7 @@ QHash<int, QString> Versification::bookShortNames(VersificationFilterFlags flags
 QHash<int, int> Versification::maxChapter(VersificationFilterFlags flags) const
 {
     QHash<int, int> ret;
-    foreach(const BookV11N &book, m_books) {
+    foreach(const BookV11N & book, m_books) {
         if(!filter(book.bookID, flags))
             continue;
         ret[book.bookID] = book.maxChapter;
@@ -104,7 +104,7 @@ QHash<int, int> Versification::maxChapter(VersificationFilterFlags flags) const
 QHash<int, QList<int> > Versification::maxVerse(VersificationFilterFlags flags) const
 {
     QHash<int, QList<int> > ret;
-    foreach(const BookV11N &book, m_books) {
+    foreach(const BookV11N & book, m_books) {
         if(!filter(book.bookID, flags))
             continue;
         ret[book.bookID] = book.maxVerse;
@@ -160,7 +160,7 @@ QString Versification::bookName(const int &bookID, bool preferShort) const
             if(!m_books.value(bookID).name.isEmpty())
                 return m_books.value(bookID).name;
             else
-               return shortNames.first();
+                return shortNames.first();
         }
     } else {
         return m_books.value(bookID).name;

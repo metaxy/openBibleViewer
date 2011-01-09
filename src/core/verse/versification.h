@@ -46,9 +46,9 @@ public:
     QHash<int, QList<int> > maxVerse() const;
     int bookCount() const;
 
-   /* BookNames toBookNames(VersificationFilterFlags filter) const;
-    QMap<int, int> toBookCount(VersificationFilterFlags filter) const;
-*/
+    /* BookNames toBookNames(VersificationFilterFlags filter) const;
+     QMap<int, int> toBookCount(VersificationFilterFlags filter) const;
+    */
     QString bookName(const int &bookID, bool preferShort = false) const;
     QMap<int, BookV11N> data() const;
 

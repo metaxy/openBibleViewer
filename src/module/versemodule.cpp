@@ -45,7 +45,7 @@ SearchQuery VerseModule::lastSearchQuery() const
 }
 void VerseModule::search(SearchQuery query, SearchResult *result)
 {
-myWarning() << "calling VerseModule";
+    myWarning() << "calling VerseModule";
 }
 
 QString VerseModule::bookName(const int &bookID, bool preferShort)

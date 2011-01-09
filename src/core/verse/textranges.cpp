@@ -249,7 +249,7 @@ QList<VerseUrlRange> TextRanges::toBibleUrlRanges(int verseTableID) const
 void TextRanges::setVerseTableID(int verseTableID)
 {
     DEBUG_FUNC_NAME;
-    myDebug() << "setting = "<< verseTableID;
+    myDebug() << "setting = " << verseTableID;
     QList<TextRange> ret;
     foreach(TextRange r, m_ranges) {
         r.setVerseTableID(verseTableID);
