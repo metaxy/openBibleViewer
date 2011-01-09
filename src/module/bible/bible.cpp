@@ -164,7 +164,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 {
     DEBUG_FUNC_NAME
     myDebug() << m_loaded;
-    //todo: what about biblequote
+
     TextRange ret;
     ret.setModuleID(range.moduleID());
     if((range.moduleID() != m_moduleID && !ignoreModuleID) || !m_loaded) {

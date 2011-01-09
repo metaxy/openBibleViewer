@@ -82,9 +82,7 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
             if(verse + 1 < m_versification->maxVerse(flags).value(book).at(chapter)) {
                 verse++;
             } else {
-                //myDebug() << " book = " << book << " maxChapter = " << m_versification->maxChapter(flags).at(book);
                 if(chapter + 1 < m_versification->maxChapter(flags).value(book)) {
-                    //myDebug() << "next chapter = " << chapter;
                     currentBook->addChapter(chapter, *currentChapter);
                     chapter++;
                     verse = 0;

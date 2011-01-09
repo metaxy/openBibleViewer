@@ -174,18 +174,20 @@ void SimpleNotes::setRef(QMap<QString, QString> ref)
 void SimpleNotes::editNoteLink()
 {
     const QString link = m_noteRef.value("link");
-//todo: urlconverter
-    /* UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::None, link);
-     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-     urlConverter.setSettings(m_settings);
-     urlConverter.pharse();
+    UrlConverter2 urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, link);
+    urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
+    urlConverter.convert();
 
-     BiblePassageDialog *passageDialog = new  BiblePassageDialog();
-     connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateNote(QString)));
-     passageDialog->setSettings(m_settings);
-     passageDialog->setModuleManager(m_moduleManager);
-     passageDialog->setCurrent(urlConverter.m_moduleID, urlConverter.m_path, urlConverter.m_bookID, urlConverter.m_chapterID + 1, urlConverter.m_verseID + 1);
-     passageDialog->exec();*/
+    BiblePassageDialog *passageDialog = new BiblePassageDialog();
+    connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateNote(QString)));
+    passageDialog->setSettings(m_settings);
+    passageDialog->setModuleManager(m_moduleManager);
+    passageDialog->setCurrent(urlConverter.url().ranges().first().bibleID(),
+                           urlConverter.url().ranges().first().bibleUID(),
+                           urlConverter.url().ranges().first().bookID(),
+                           urlConverter.url().ranges().first().startChapterID() + 1,
+                           urlConverter.url().ranges().first().startVerseID() + 1);
+    passageDialog->exec();
 
 }
 void SimpleNotes::updateNote(const QString &link)
@@ -437,17 +439,18 @@ void SimpleNotes::newTextNoteWithLink(VerseSelection selection)
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
     aktNote();
     fastSave();
-    QString link;
-    //todo: urlconverter
-    /*UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
-    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.setSettings(m_settings);
-    urlConverter.m_moduleID = selection.moduleID;
-    urlConverter.m_bookID = selection.bookID;
-    urlConverter.m_chapterID = selection.chapterID;
-    urlConverter.m_verseID = selection.startVerse;
-    urlConverter.m_bookName = m_moduleManager->bible()->bookName(urlConverter.m_bookID, true);
-    link = urlConverter.convert();*/
+
+    VerseUrlRange range;
+    range.setModule(selection.moduleID);
+    range.setBook(selection.bookID);
+    range.setChapter(selection.chapterID);
+    range.setStartVerse(selection.startVerse);
+    VerseUrl url(range);
+    UrlConverter2 urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
+    urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
+    urlConverter.setV11n(m_moduleManager->verseModule()->versification());
+    urlConverter.convert();
+    const QString link = urlConverter.url().toString();
 
     const QString newID = m_notes->generateNewID();
     m_notes->setData(newID, "");
@@ -490,17 +493,18 @@ void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style)
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
     aktNote();
     fastSave();
-    QString link;
-    //todo: urlconverter
-    /*UrlConverter urlConverter(UrlConverter::None, UrlConverter::PersistentUrl, "");
-    urlConverter.setSettings(m_settings);
-    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.m_moduleID = selection.moduleID;
-    urlConverter.m_bookID = selection.bookID;
-    urlConverter.m_chapterID = selection.chapterID;
-    urlConverter.m_verseID = selection.startVerse;
-    urlConverter.m_bookName = m_moduleManager->bible()->bookName(urlConverter.m_bookID);
-    link = urlConverter.convert();*/
+
+    VerseUrlRange range;
+    range.setModule(selection.moduleID);
+    range.setBook(selection.bookID);
+    range.setChapter(selection.chapterID);
+    range.setStartVerse(selection.startVerse);
+    VerseUrl url(range);
+    UrlConverter2 urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
+    urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
+    urlConverter.setV11n(m_moduleManager->verseModule()->versification());
+    urlConverter.convert();
+    const QString link = urlConverter.url().toString();
 
     //reloadNotes();
     const QString newID = m_notes->generateNewID();
