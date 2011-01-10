@@ -72,10 +72,9 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
             readingVerse = false;
         }
         if(readingVerse) {
-            QRegExp strong("<W(G|H)(.*?)>");
+            QRegExp strong("<W(G|H)(\\d+)(x|s)?>");
             QRegExp newLine("<CL>");
-            //line.replace(strong,"<span class=\"gramlink\"><a href=\"gram://\\1\\2\">\\1\\2</a></span>");
-            line.replace(strong, "AAA");
+            line.replace(strong,"<span class=\"gramlink\"><a href=\"gram://\\1\\2\">\\1\\2</a></span>");
             line.replace(newLine,"<br />");
             Verse v(verse, line);
             currentChapter->addVerse(verse, v);
