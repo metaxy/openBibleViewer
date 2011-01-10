@@ -12,18 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "simplenotes.h"
-#include "src/ui/dialog/biblepassagedialog.h"
-#include "src/core/urlconverter.h"
-#include "src/core/core.h"
-#include "src/core/dbghelper.h"
 
-#include <QtGui/QSortFilterProxyModel>
-#include <QtCore/QDateTime>
-#include <QtGui/QClipboard>
-#include <QtGui/QMenu>
-#include <QtGui/QColorDialog>
-#include <QtGui/QMessageBox>
-#include <QtGui/QApplication>
 
 SimpleNotes::SimpleNotes()
 {
@@ -177,17 +166,18 @@ void SimpleNotes::editNoteLink()
     UrlConverter2 urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, link);
     urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
     urlConverter.convert();
-
+    if(urlConverter.url().isValid()) {
     BiblePassageDialog *passageDialog = new BiblePassageDialog();
-    connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateNote(QString)));
-    passageDialog->setSettings(m_settings);
-    passageDialog->setModuleManager(m_moduleManager);
-    passageDialog->setCurrent(urlConverter.url().ranges().first().bibleID(),
-                           urlConverter.url().ranges().first().bibleUID(),
-                           urlConverter.url().ranges().first().bookID(),
-                           urlConverter.url().ranges().first().startChapterID() + 1,
-                           urlConverter.url().ranges().first().startVerseID() + 1);
-    passageDialog->exec();
+        connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateNote(QString)));
+        passageDialog->setSettings(m_settings);
+        passageDialog->setModuleManager(m_moduleManager);
+        passageDialog->setCurrent(urlConverter.url().ranges().first().bibleID(),
+                               urlConverter.url().ranges().first().bibleUID(),
+                               urlConverter.url().ranges().first().bookID(),
+                               urlConverter.url().ranges().first().startChapterID() + 1,
+                               urlConverter.url().ranges().first().startVerseID() + 1);
+        passageDialog->exec();
+    }
 
 }
 void SimpleNotes::updateNote(const QString &link)

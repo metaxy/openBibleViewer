@@ -29,7 +29,17 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/basicclass.h"
 #include "src/ui/recursivproxymodel.h"
 #include "src/core/urlconverter2.h"
+#include "src/ui/dialog/biblepassagedialog.h"
+#include "src/core/core.h"
+#include "src/core/dbghelper.h"
 
+#include <QtGui/QSortFilterProxyModel>
+#include <QtCore/QDateTime>
+#include <QtGui/QClipboard>
+#include <QtGui/QMenu>
+#include <QtGui/QColorDialog>
+#include <QtGui/QMessageBox>
+#include <QtGui/QApplication>
 class SimpleNotes : public QObject, public BasicClass
 {
     Q_OBJECT
@@ -86,8 +96,14 @@ private slots:
     void showNote(const QModelIndex &index);
     void notesContextMenu(QPoint point);
     void removeNote();
+    /**
+      * Shows an BiblePassageDialog where you can edit the note link.
+      */
     void editNoteLink();
     void updateNote(const QString &pos);
+    /**
+      * Adds a new Folder with the default title (unnamed)
+      */
     void newFolder();
     void updateTitle();
 

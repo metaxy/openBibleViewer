@@ -36,9 +36,11 @@ public:
     void clearRanges();
     bool contains(const int &moduleID, const int &bookID, const int &chapterID, const int &verseID) const;
     bool contains(const int &moduleID, const int &bookID, const int &chapterID) const;
+    bool isValid() const;
 private:
     QHash<QString, QString> m_params;
     QList<VerseUrlRange> m_ranges;
+    bool m_isValid;
 };
 
 #endif // BIBLEURL_H

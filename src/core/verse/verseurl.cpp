@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 VerseUrl::VerseUrl()
 {
-
+    m_isValid = true;
 }
 VerseUrl::VerseUrl(const VerseUrlRange &range)
 {
@@ -145,6 +145,7 @@ bool VerseUrl::fromString(QString url)
 
     //bible://bibleID,bookID,chapterID,verseID,otherStuf=otherValue
     if(!url.startsWith("verse://")) {
+        m_isValid = false;
         return false;
     }
     url.remove(0, 8); // remove verse://
@@ -269,4 +270,8 @@ bool VerseUrl::contains(const int &moduleID, const int &bookID, const int &chapt
             return true;
     }
     return false;
+}
+bool VerseUrl::isValid() const
+{
+    return m_isValid;
 }

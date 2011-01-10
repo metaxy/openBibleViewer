@@ -49,9 +49,9 @@ VerseUrl UrlConverter::convert()
         foreach(VerseUrlRange range, m_bibleUrl.ranges()) {
             if(range.bible() == VerseUrlRange::LoadModuleByUID) {
                 foreach(Module * module, m_moduleMap->m_map) {
-                    //myDebug() << m_settings->savableUrl(module->path()) << " vs " << range.bibleUID();
                     if(m_settings->savableUrl(module->path()) == range.bibleUID())  {
                         range.setModule(module->moduleID());
+                        break;
                     }
                 }
             }
@@ -68,7 +68,7 @@ VerseUrl UrlConverter::convert()
         QList<int> bookIDs;
 
         foreach(VerseUrlRange range, m_bibleUrl.ranges()) {
-            if(range.bible() == VerseUrlRange::LoadBibleByID) {
+            if(range.bible() == VerseUrlRange::LoadBibleByID && m_moduleMap->m_map.contains(range.bibleID())) {
                 range.setModule(m_settings->savableUrl(m_moduleMap->m_map.value(range.bibleID())->path()));
             }
             url.addRange(range);
