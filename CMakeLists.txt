@@ -350,11 +350,13 @@ target_link_libraries ( openBibleViewer
 install ( TARGETS openBibleViewer
          RUNTIME DESTINATION bin )
 
-install ( FILES "${openBibleViewer_SOURCE_DIR}/src/icons/124x124/openBibleViewer.png"
-    DESTINATION "share/pixmaps/" )
+IF(UNIX AND NOT WIN32)
+    install ( FILES "${openBibleViewer_SOURCE_DIR}/src/icons/124x124/openBibleViewer.png"
+        DESTINATION "share/pixmaps/" )
 
-install ( FILES "${openBibleViewer_SOURCE_DIR}/openBibleViewer.desktop"
-    DESTINATION "share/applications/" ) 
+    install ( FILES "${openBibleViewer_SOURCE_DIR}/openBibleViewer.desktop"
+        DESTINATION "share/applications/" ) 
+ENDIF(UNIX AND NOT WIN32)
 
 INCLUDE(InstallRequiredSystemLibraries)
 
