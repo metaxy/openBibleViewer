@@ -35,6 +35,22 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/ui/mainwindow.h"
 #include "config.h"
+
+#include <swmgr.h>
+#include <swmodule.h>
+#include <markupfiltmgr.h>
+#include <versekey.h>
+#include <listkey.h>
+using sword::SWMgr;
+using sword::VerseKey;
+using sword::ListKey;
+using sword::SWModule;
+using sword::SW_POSITION;
+using sword::FMT_PLAIN;
+using sword::MarkupFilterMgr;
+using namespace::sword;
+
+
 bool removeDir(const QString &dirName)
 {
     bool result = true;
@@ -62,6 +78,10 @@ bool removeDir(const QString &dirName)
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+        SWMgr library(new MarkupFilterMgr(FMT_PLAIN));
+        SWModule *target;
+        myDebug() << target;
 
 #ifdef Q_OS_WIN32
     //todo: would it be better if we use QSysInfo::windowsVersion() instead?

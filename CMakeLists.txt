@@ -6,12 +6,22 @@ add_definitions ( -Wall -g)
 find_package ( Qt4 REQUIRED )
 include (FindThreads)
 include (FindZlib)
+include (FindSword)
+option( _PORTABLE_VERSION "Build a portable version" OFF )
+option( _SWORD_SUPPORT "Build with sword support" ON )
 
 if (NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE "RelWithDebInfo")
 endif (NOT CMAKE_BUILD_TYPE)
 
 message("-- Using build type: ${CMAKE_BUILD_TYPE}")
+
+
+FIND_PACKAGE(Sword) 
+
+LINK_DIRECTORIES(
+    ${SWORD_LIBRARY_DIR}
+)
 
 include_directories (
     ${CMAKE_SOURCE_DIR}
@@ -26,11 +36,12 @@ include_directories (
     ${openBibleViewer_BINARY_DIR}/src/clucene/shared
     ${openBibleViewer_SOURCE_DIR}/src/clucene/shared
     ${openBibleViewer_SOURCE_DIR}/src/clucene/core
+    ${SWORD_INCLUDE_DIR}
     )
 
 add_subdirectory ( src )
-add_subdirectory ( src/clucene/core )
-add_subdirectory ( src/clucene/shared )
+add_subdirectory ( src/clucene )
+
 
 #Build openBibleViewer
 set ( openBibleViewer_HDRS
@@ -344,6 +355,11 @@ target_link_libraries ( openBibleViewer
                         clucene-core-static 
                         clucene-shared-static
                         ${ZLIB_LIBRARY}
+                        ${CURL_LIBRARIES} # optional, empty if not found
+                        ${ICU_LIBRARIES} # optional, empty if not found
+                        ${ICU_I18N_LIBRARIES} # optional, empty if not found
+                        ${ZLIB_LIBRARIES} # optional, empty if not found
+                        ${SWORD_LIBRARY}# optional, empty if not found
 )
 
 

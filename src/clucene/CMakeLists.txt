@@ -54,7 +54,7 @@ if ( MSVC_IDE )
 endif( MSVC_IDE )
 
 option(ENABLE_COMPILE_TESTS "enable various projects that test alternative build switches" ${ENABLE_COMPILE_TESTS_VALUE})
-option( _PORTABLE_VERSION "Build a portable version" OFF )
+
 
 #check flags...
 include (TestCXXAcceptsFlag)
@@ -78,3 +78,6 @@ if ( CMAKE_COMPILER_IS_GNUCC )
     endif("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64")
 
 endif(CMAKE_COMPILER_IS_GNUCC) 
+
+add_subdirectory ( core )
+add_subdirectory ( shared )
