@@ -53,6 +53,8 @@ public:
     int moduleID() const;
     QString modulePath() const;
     QString moduleName(bool preferShortName = false) const;
+    QString uid() const;
+
     Book book() const;
 
     bool m_chapterZero;
@@ -72,6 +74,7 @@ private:
     QString m_chapterSign;
     QString m_removeHtml;
     QTextCodec *m_codec;
+    QString m_uid;
 };
 
 #endif // BIBLEQUOTE_H

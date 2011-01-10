@@ -90,10 +90,10 @@ void BibleForm::setBookmarksManager(BookmarksManager *bookmarksManager)
 }
 void BibleForm::attachApi()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QWebFrame * frame = m_view->page()->mainFrame();
     {
-        QFile file(":/data/js/jquery-1.4.2.min.js");
+        QFile file(":/data/js/tools.js");
         if(!file.open(QFile::ReadOnly | QFile::Text))
             return;
         QTextStream stream(&file);
@@ -101,7 +101,7 @@ void BibleForm::attachApi()
         file.close();
         frame->evaluateJavaScript(jquery);
     }
-    myDebug() << m_api->moduleApi();
+
     frame->addToJavaScriptWindowObject("Module", m_api->moduleApi());
     m_api->moduleApi()->setFrame(frame);
 }
@@ -399,7 +399,7 @@ void BibleForm::forwardShowTextRanges(const QString &html, const TextRanges &ran
 
 void BibleForm::showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     showText(html);
     m_lastTextRanges = range;
     m_lastUrl = url;

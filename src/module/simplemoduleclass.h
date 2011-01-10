@@ -39,7 +39,7 @@ public:
 
     virtual QString moduleTitle() const;
     virtual QString moduleShortTitle() const;
-    virtual QString modulePath() const;
+    virtual QString moduleUID() const;
 
 protected:
     Module *m_module;

@@ -81,3 +81,7 @@ Versification* BibleModule::versification() const
     myDebug() << m_versification;
     return m_versification;
 }
+QString BibleModule::uid() const
+{
+    return QString();
+}

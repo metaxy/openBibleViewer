@@ -57,6 +57,8 @@ void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
     m_verseSign = "";
     m_chapterZero = false;
 
+    m_uid = path;
+
     int lastPos = path.lastIndexOf("/");
     QString path_ = path;
     m_modulePath = path_.remove(lastPos, path.size());
@@ -447,4 +449,8 @@ QString BibleQuote::moduleName(bool preferShortName) const
 Book BibleQuote::book() const
 {
     return m_book;
+}
+QString BibleQuote::uid() const
+{
+    return m_uid;
 }

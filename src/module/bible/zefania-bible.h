@@ -65,6 +65,7 @@ public:
     QString modulePath() const;
     QString moduleName(bool preferShortName = false) const;
     Book book() const;
+    QString uid() const;
 
     void removeHardCache(const QString &path);
 private:
@@ -90,6 +91,7 @@ private:
     QString m_modulePath;
     QString m_moduleName;
     Book m_book;
+    QString m_uid;
 
 };
 

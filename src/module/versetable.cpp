@@ -30,9 +30,6 @@ VerseTable::~VerseTable()
 
 void VerseTable::setCurrentVerseTableID(const int &verseTableID)
 {
-    DEBUG_FUNC_NAME;
-    myDebug() << "currentVerseTableID = " << verseTableID;
-    myDebug() << m_modules;
     m_currentModule = verseTableID;
     setLastTextRanges(m_lastTextRanges);
 }
@@ -91,7 +88,7 @@ void VerseTable::clear()
 
 std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) const
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
 
     if(m_modules.size() == 1) {
         std::pair<QString, TextRanges> ret;
@@ -123,7 +120,6 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
 
         while(i.hasNext()) {
             i.next();
-            //myDebug() << "read = " << i.value()->moduleID();
             TextRanges r = i.value()->readRanges(ranges, true);
             r.setVerseTableID(i.key());
 

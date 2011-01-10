@@ -66,7 +66,7 @@ public:
 
     QString moduleTitle() const;
     QString moduleShortTitle() const;
-    QString modulePath() const;
+    QString moduleUID() const;
 
     QString bookName(const int &bookID, bool preferShort = false);
 
@@ -83,6 +83,7 @@ private:
     QString m_moduleTitle;
     QString m_moduleShortTitle;
     QString m_modulePath;
+    QString m_moduleUID;
 
     /**
       * Used by BibleQuote to store where the books are

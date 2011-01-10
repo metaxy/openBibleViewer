@@ -118,6 +118,9 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
         }
 
     }
+    if(m_uID.isEmpty()) {
+        m_uID = path;
+    }
 
 }
 int TheWordBible::readBook(const int &id)
@@ -302,4 +305,8 @@ bool TheWordBible::hasONT() const
 QString TheWordBible::indexPath() const
 {
     return m_settings->homePath + "index/" + m_settings->hash(m_modulePath);
+}
+QString TheWordBible::uid() const
+{
+    return m_uID;
 }

@@ -50,6 +50,7 @@ public:
 
     virtual Versification *versification() const;
     virtual Book book() const;
+    virtual QString uid() const;
 protected:
     Versification *m_versification;
     Settings *m_settings;

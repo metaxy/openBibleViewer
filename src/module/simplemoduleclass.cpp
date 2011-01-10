@@ -55,7 +55,7 @@ QString SimpleModuleClass::moduleShortTitle() const
     return QString();
 }
 
-QString SimpleModuleClass::modulePath() const
+QString SimpleModuleClass::moduleUID() const
 {
     return QString();
 }

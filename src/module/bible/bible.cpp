@@ -89,6 +89,7 @@ int Bible::loadModuleData(const int &moduleID)
     }
     myDebug() << "setting an another versification";
     m_versification = m_bibleModule->versification();
+    m_moduleUID = m_bibleModule->uid();
 
     if(m.moduleName.isEmpty())
         m_moduleTitle = m_bibleModule->moduleName(false);
@@ -502,9 +503,9 @@ int Bible::chaptersCount() const
     return m_book.size();
 }
 
-QString Bible::modulePath() const
+QString Bible::moduleUID() const
 {
-    return m_modulePath;
+    return m_moduleUID;
 }
 
 QString Bible::moduleTitle() const

@@ -45,6 +45,7 @@ void ZefaniaBible::loadBibleData(const int &id, const QString &path)
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Please activate Caching.(Hard or Soft Cache)"));
         return;
     }
+    m_uid = path;
     if(m_settings->getModuleSettings(m_moduleID).zefbible_hardCache == true) {
         if(checkForCacheFiles(path)) {
             loadCached(id, path);//load the hard cache files
@@ -778,4 +779,8 @@ QString ZefaniaBible::indexPath() const
 {
     //DEBUG_FUNC_NAME
     return m_settings->homePath + "index/" + m_settings->hash(m_modulePath);
+}
+QString ZefaniaBible::uid() const
+{
+    return m_uid;
 }

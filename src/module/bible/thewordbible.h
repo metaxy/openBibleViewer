@@ -45,7 +45,7 @@ public:
     QString modulePath() const;
     QString moduleName(bool preferShortName = false) const;
     Book book() const;
-    QString uID() const;
+    QString uid() const;
 
 private:
     Book m_book;
