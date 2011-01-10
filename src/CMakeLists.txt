@@ -1,6 +1,8 @@
 configure_file( ${openBibleViewer_SOURCE_DIR}/src/config.h.cmake 
                 ${openBibleViewer_BINARY_DIR}/config.h )
+
 include (FindZlib)
+
 set ( openBibleViewer_HDRS
 
     api/notesapi.h
