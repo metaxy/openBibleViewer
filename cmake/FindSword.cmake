@@ -1,5 +1,5 @@
 SET (REQUIRED_SWORD_VERSION 1.6.0)
-
+SET(SWORD_NOT_FOUND FALSE)
 # This module looks for installed sword
 #
 # It will define the following values

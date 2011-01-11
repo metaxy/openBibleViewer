@@ -7,6 +7,13 @@ find_package ( Qt4 REQUIRED )
 include (FindThreads)
 include (FindZlib)
 include (FindSword)
+LINK_DIRECTORIES(
+    ${SWORD_LIBRARY_DIR}
+)
+if (NOT SWORD_NOT_FOUND)
+    ADD_DEFINITIONS(-DBUILD_WITH_SWORD)
+endif(NOT SWORD_NOT_FOUND)
+
 option( _PORTABLE_VERSION "Build a portable version" OFF )
 option( _SWORD_SUPPORT "Build with sword support" ON )
 
@@ -15,13 +22,6 @@ if (NOT CMAKE_BUILD_TYPE)
 endif (NOT CMAKE_BUILD_TYPE)
 
 message("-- Using build type: ${CMAKE_BUILD_TYPE}")
-
-
-FIND_PACKAGE(Sword) 
-
-LINK_DIRECTORIES(
-    ${SWORD_LIBRARY_DIR}
-)
 
 include_directories (
     ${CMAKE_SOURCE_DIR}
@@ -39,10 +39,7 @@ include_directories (
     ${SWORD_INCLUDE_DIR}
     )
 
-add_subdirectory ( src )
 add_subdirectory ( src/clucene )
-
-
 #Build openBibleViewer
 set ( openBibleViewer_HDRS
 
@@ -118,6 +115,8 @@ set ( openBibleViewer_HDRS
     )
 
 set ( openBibleViewer_SRCS
+    src/main.cpp
+
     src/api/bibleapi.cpp
     src/api/notesapi.cpp
     src/api/api.cpp
@@ -226,7 +225,7 @@ set ( openBibleViewer_SRCS
     src/ui/marklist.cpp
     src/ui/markcategories.cpp
     src/ui/actions.cpp
-    src/main.cpp
+    
     )
 
 set ( openBibleViewer_UIS

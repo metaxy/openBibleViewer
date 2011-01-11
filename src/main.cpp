@@ -35,7 +35,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/ui/mainwindow.h"
 #include "config.h"
-
+#ifdef BUILD_WITH_SWORD
 #include <swmgr.h>
 #include <swmodule.h>
 #include <markupfiltmgr.h>
@@ -49,7 +49,7 @@ using sword::SW_POSITION;
 using sword::FMT_PLAIN;
 using sword::MarkupFilterMgr;
 using namespace::sword;
-
+#endif
 
 bool removeDir(const QString &dirName)
 {
@@ -78,10 +78,11 @@ bool removeDir(const QString &dirName)
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
+#ifdef BUILD_WITH_SWORD
         SWMgr library(new MarkupFilterMgr(FMT_PLAIN));
         SWModule *target;
         myDebug() << target;
+#endif
 
 #ifdef Q_OS_WIN32
     //todo: would it be better if we use QSysInfo::windowsVersion() instead?
