@@ -395,7 +395,7 @@ QString ModuleManager::notePos2Link(const QString &pos)
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleMap);
     VerseUrl newUrl = urlConverter.convert();
-    const QString string = url.getParam("b0") + " " + QString::number(newUrl.ranges().first().startChapterID() + 1) + QString::number(newUrl.ranges().first().activeVerseID() + 1);
+    const QString string = url.getParam("b0") + " " + QString::number(newUrl.ranges().first().startChapterID() + 1) + ":" + QString::number(newUrl.ranges().first().startVerseID() + 1);
 
     const QString link = newUrl.toString();
     return "<a href=\"" + link + "\" >" + string + "</a>";
@@ -408,7 +408,7 @@ QString ModuleManager::notePos2Text(const QString &pos)
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleMap);
     VerseUrl newUrl = urlConverter.convert();
-    const QString string = url.getParam("b0") + " " + QString::number(newUrl.ranges().first().startChapterID() + 1) + QString::number(newUrl.ranges().first().activeVerseID() + 1);
+    const QString string = url.getParam("b0") + " " + QString::number(newUrl.ranges().first().startChapterID() + 1) + ":" + QString::number(newUrl.ranges().first().startVerseID() + 1);
     return string;
 }
 QStringList ModuleManager::getBibleTitles()

@@ -441,7 +441,7 @@ void SimpleNotes::newTextNoteWithLink(VerseSelection selection)
     urlConverter.setV11n(m_moduleManager->verseModule()->versification());
     urlConverter.convert();
     const QString link = urlConverter.url().toString();
-
+    myDebug() << "link = " << link;
     const QString newID = m_notes->generateNewID();
     m_notes->setData(newID, "");
     m_notes->setTitle(newID, tr("(unnamed)"));

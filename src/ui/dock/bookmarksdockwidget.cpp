@@ -82,7 +82,7 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
     urlConverter.setV11n(m_moduleManager->verseModule()->versification());
 
     const VerseUrl newUrl = urlConverter.convert();
-    myDebug() << "new url = " << newUrl.toString();
+    //myDebug() << "new url = " << newUrl.toString();
     bookmark->setText(1, newUrl.toString());
 
     bookmark->setData(0, Qt::UserRole, "bookmark");
@@ -209,8 +209,8 @@ void BookmarksDockWidget::bookmarksGo(QTreeWidgetItem * item)
 }
 int BookmarksDockWidget::internalOpenPos(const QString &pos)
 {
-    DEBUG_FUNC_NAME;
-    myDebug() << pos;
+    //DEBUG_FUNC_NAME;
+    //myDebug() << pos;
     VerseUrl url;
     url.fromString(pos);
 
