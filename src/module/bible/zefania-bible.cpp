@@ -784,3 +784,58 @@ QString ZefaniaBible::uid() const
 {
     return m_uid;
 }
+TextRange ZefaniaBible::rawTextRange(int bookID, int chapterID, int startVerse, int endVerse)
+{
+    TextRange ret;
+    if(m_book.bookID() != bookID) {
+        myWarning() << "book not loaded";
+        return ret;
+    }
+    if(!m_book.hasChapter(chapterID)) {
+           myWarning() << "index out of range index chapterID = " << chapterID;
+           return ret;
+    }
+    ret.setModuleID(m_moduleID);
+    ret.setBookID(bookID);
+    ret.setChapterID(chapterID);
+
+    const Chapter c = m_book.getChapter(chapterID);
+    QMap<int, Verse> data = c.data();
+    QMapIterator<int, Verse> i(data);
+    while (i.hasNext()) {
+        i.next();
+        if(i.key() <= endVerse && i.key() >= startVerse)
+            ret.addVerse(i.value());
+    }
+    return ret;
+}
+
+std::pair<int,int> ZefaniaBible::minMaxVerse(int bookID, int chapterID)
+{
+    std::pair<int, int> ret;
+    if(m_book.bookID() != bookID) {
+        myWarning() << "book not loaded";
+        return ret;
+    }
+    if(!m_book.hasChapter(chapterID)) {
+        myWarning() << "index out of range index chapterID = " << chapterID;
+        return ret;
+    }
+
+    const Chapter c = m_book.getChapter(chapterID);
+    QMap<int, Verse> data = c.data();
+    int max = 0;
+    int min = 0;
+
+    foreach(int key, data.keys()) {
+        if(key >= max) {
+            max = key;
+        } else if(key <= min) {
+            min = key;
+        }
+    }
+    ret.first = min;
+    ret.second = max;
+
+    return ret;
+}

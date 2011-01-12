@@ -62,23 +62,8 @@ void VerseModule::search(SearchQuery query, SearchResult *result)
     myWarning() << "calling VerseModule";
 }
 
-QString VerseModule::bookName(const int &bookID, bool preferShort)
+int VerseModule::bookID() const
 {
     myWarning() << "calling VerseModule";
-    return QString();
-}
-QStringList VerseModule::chapterNames()
-{
-    myWarning() << "calling VerseModule";
-    return QStringList();
-}
-int VerseModule::booksCount() const
-{
-    myWarning() << "calling VerseModule";
-    return 0;
-}
-int VerseModule::chaptersCount() const
-{
-    myWarning() << "calling VerseModule";
-    return 0;
+    return -1;
 }

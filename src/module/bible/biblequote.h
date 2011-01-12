@@ -55,17 +55,13 @@ public:
     QString moduleName(bool preferShortName = false) const;
     QString uid() const;
 
-    Book book() const;
+    TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse);
+    std::pair<int,int> minMaxVerse(int bookID, int chapterID);
 
     bool m_chapterZero;
 
-    QString m_modulePath;
-    QString m_moduleName;
-    QString m_moduleShortName;
-
     QStringList m_bookPath;
 
-    Book m_book;
 private:
     inline QString formatFromIni(QString input);
     QString indexPath() const;
@@ -75,6 +71,11 @@ private:
     QString m_removeHtml;
     QTextCodec *m_codec;
     QString m_uid;
+
+    Book m_book;
+    QString m_modulePath;
+    QString m_moduleName;
+    QString m_moduleShortName;
 };
 
 #endif // BIBLEQUOTE_H

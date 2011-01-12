@@ -77,12 +77,17 @@ void BookDockWidget::readChapter()
     }
     m_actions->get(url);
 }
-void BookDockWidget::setChapters(const QStringList &chapters)
+void BookDockWidget::setChapters(int bookID, Versification *v11n)
 {
     m_chapterModel->clear();
-    for(int i = 0; i < chapters.size(); ++i) {
+    if(v11n == NULL)
+        return;
+    //todo: implement bibleQuotes chapter zero
+    const int count = v11n->maxChapter().value(bookID,0);
+    for(int i = 1; i <= count; ++i) {
         QStandardItem *top = new QStandardItem;
-        top->setText(chapters.at(i));
+        top->setText(QString::number(i));
+
         top->setData(i, Qt::UserRole + 1);
         m_chapterModel->appendRow(top);
     }

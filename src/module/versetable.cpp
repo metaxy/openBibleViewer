@@ -103,7 +103,7 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
             else {
                 foreach(const TextRange & range, ret.second.textRanges()) {
                     //todo: use in future range.title()
-                    ret.first += "<span class='rangeTitle'> " + b->bookName(range.bookID()) + " " + QString::number(range.chapterID() + 1) + "</span>\n";
+                    ret.first += "<span class='rangeTitle'> " + b->versification()->bookName(range.bookID()) + " " + QString::number(range.chapterID() + 1) + "</span>\n";
                     ret.first += range.join("");
                 }
             }
@@ -184,7 +184,7 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
                 }
             }
             if(def.textRanges().size() != 1)
-                out += "<tr><td align='center' class='rangeTitle' colspan='" + QString::number(rMaxCol) + "'>" + defModule->bookName(textRange.bookID()) + " " + QString::number(textRange.chapterID() + 1) + "</td></tr>\n";
+                out += "<tr><td align='center' class='rangeTitle' colspan='" + QString::number(rMaxCol) + "'>" + defModule->versification()->bookName(textRange.bookID()) + " " + QString::number(textRange.chapterID() + 1) + "</td></tr>\n";
 
             QMapIterator<int, Verse> mapIt(textRange.verseMap());
             while(mapIt.hasNext()) {

@@ -35,7 +35,7 @@ public slots:
     void setCurrentChapter(const QSet<int> &chapterID);
     void clearBooks();
     void clearChapters();
-    void setChapters(const QStringList &chapters);
+    void setChapters(int bookID, Versification *v11n);
     void setBooks(Versification *v11n);
 
 public:

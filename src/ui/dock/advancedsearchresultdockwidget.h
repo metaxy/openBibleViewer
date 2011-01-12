@@ -31,12 +31,24 @@ public:
     explicit AdvancedSearchResultDockWidget(QWidget *parent = 0);
     ~AdvancedSearchResultDockWidget();
     void init();
+    /**
+      * Set the SearchResults. E.g from the SearchManager.
+      */
     void setSearchResult(SearchResult searchResult);
 public slots:
+    /**
+      * Activates the next search result.
+      */
     void nextVerse();
+    /**
+      * Activates the previous search result.
+      **/
     void previousVerse();
 private slots:
     void goToSearchResult(QModelIndex index);
+    /**
+      * Shows the SearchInfoDialog.
+      */
     void searchInfo();
 protected:
     void changeEvent(QEvent *e);

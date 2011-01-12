@@ -67,9 +67,9 @@ void Actions::setTitle(const QString &title)
     emit _setTitle(title);
 }
 
-void Actions::updateChapters(const QStringList &chapters)
+void Actions::updateChapters(int bookID, Versification *v11n)
 {
-    emit _updateChapters(chapters);
+    emit _updateChapters(bookID, v11n);
 }
 
 void Actions::updateBooks(Versification *v11n)

@@ -23,9 +23,11 @@ public:
     int moduleID() const;
     QString modulePath() const;
     QString moduleName(bool preferShortName = false) const;
-    Book book() const;
     QString uid() const;
-
+ private:
+    int m_moduleID;
+    QString m_modulePath;
+    QString indexPath() const;
 };
 
 #endif // SWORDBIBLE_H

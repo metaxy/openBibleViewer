@@ -14,13 +14,12 @@ void SwordBible::loadBibleData(const int &id, const QString &path)
 {
     //DEBUG_FUNC_NAME
     m_moduleID = id;
-    m_modulePath = path;
 
 
 }
 int SwordBible::readBook(const int &id)
 {
-    m_currentBookID = id;
+    //m_currentBookID = id;
     return 0;
 }
 
@@ -57,7 +56,7 @@ QString SwordBible::modulePath() const
 }
 QString SwordBible::moduleName(bool preferShortName) const
 {
-    if(preferShortName) {
+    /*if(preferShortName) {
         if(!m_shortModuleName.isEmpty()) {
             return m_shortModuleName;
         } else {
@@ -69,21 +68,17 @@ QString SwordBible::moduleName(bool preferShortName) const
         } else {
             return m_shortModuleName;
         }
-    }
+    }*/
 }
 
-Book SwordBible::book() const
-{
-
-}
 /**
   * Returns the path, where all indexed files are stored.
   */
 QString SwordBible::indexPath() const
 {
-    return m_settings->homePath + "index/" + m_settings->hash(m_modulePath);
+   // return m_settings->homePath + "index/" + m_settings->hash(m_modulePath);
 }
 QString SwordBible::uid() const
 {
-    return m_uID;
+  //  return m_uID;
 }

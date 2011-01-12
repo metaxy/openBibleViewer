@@ -23,8 +23,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/settings.h"
 
 #include "src/core/verse/book.h"
-
+#include "src/core/verse/textrange.h"
 #include "src/core/dbghelper.h"
+
+#include <utility>
 /**
   * This is an abstract class for bible modules, which are used in the Bible Class.
   * All this virtual methods have to be implemented in the bible module.
@@ -40,6 +42,10 @@ public:
     virtual QString readInfo(QFile &file);
     virtual int readBook(const int &id);
 
+    virtual TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse);
+    virtual std::pair<int,int> minMaxVerse(int bookID, int chapterID);
+
+
     virtual void search(const SearchQuery &query, SearchResult *res) const;
     virtual bool hasIndex() const;
     virtual void buildIndex();
@@ -49,7 +55,6 @@ public:
     virtual QString moduleName(bool preferShortName = false) const;
 
     virtual Versification *versification() const;
-    virtual Book book() const;
     virtual QString uid() const;
 protected:
     Versification *m_versification;

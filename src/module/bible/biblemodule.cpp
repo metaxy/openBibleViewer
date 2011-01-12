@@ -21,24 +21,28 @@ void BibleModule::setSettings(Settings *settings)
     //DEBUG_FUNC_NAME
     m_settings = settings;
 }
-int BibleModule::readBook(const int &id)
+Versification* BibleModule::versification() const
+{
+    return m_versification;
+}
+int BibleModule::readBook(const int &/*id*/)
 {
     myWarning() << "calling BibleModule";
     return 0;
 }
 
-void BibleModule::loadBibleData(const int &bibleID, const QString &path)
+void BibleModule::loadBibleData(const int &/*bibleID*/, const QString &/*path*/)
 {
     myWarning() << "calling BibleModule";
 }
 
-QString BibleModule::readInfo(QFile &file)
+QString BibleModule::readInfo(QFile &/*file*/)
 {
     myWarning() << "calling BibleModule";
     return "";
 }
 
-void BibleModule::search(const SearchQuery &query, SearchResult *res) const
+void BibleModule::search(const SearchQuery &/*query*/, SearchResult */*res*/) const
 {
     myWarning() << "calling BibleModule";
 }
@@ -62,26 +66,24 @@ QString BibleModule::modulePath() const
     myWarning() << "calling BibleModule";
     return "";
 }
-QString BibleModule::moduleName(bool preferShortName) const
+QString BibleModule::moduleName(bool /*preferShortName*/) const
 {
     myWarning() << "calling BibleModule";
     return "";
 }
 
-Book BibleModule::book() const
-{
-    myWarning() << "calling BibleModule";
-    Book b;
-    return b;
-}
-
-Versification* BibleModule::versification() const
-{
-    myDebug() << "return versification";
-    myDebug() << m_versification;
-    return m_versification;
-}
 QString BibleModule::uid() const
 {
     return QString();
+}
+TextRange BibleModule::rawTextRange(int /*bookID*/, int /*chapterID*/, int /*startVerse*/, int /*endVerse*/)
+{
+    myWarning() << "calling BibleModule";
+    return TextRange();
+}
+
+std::pair<int,int> BibleModule::minMaxVerse(int /*bookID*/, int /*chapterID*/)
+{
+    myWarning() << "calling BibleModule";
+    return std::pair<int, int>();
 }

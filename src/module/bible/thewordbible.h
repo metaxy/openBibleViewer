@@ -26,7 +26,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "CLucene.h"
 #include "CLucene/_clucene-config.h"
 
-class TheWordBible: public BibleModule
+class TheWordBible : public BibleModule
 {
 public:
     TheWordBible();
@@ -47,8 +47,10 @@ public:
     Book book() const;
     QString uid() const;
 
+    TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse);
+    std::pair<int,int> minMaxVerse(int bookID, int chapterID);
+
 private:
-    Book m_book;
     QString indexPath() const;
     int m_moduleID;
     QString m_modulePath;
@@ -56,8 +58,8 @@ private:
     bool hasNT() const;
     bool hasOT() const;
     bool hasONT() const;
-    QHash<int, Book> m_books;
-    int m_currentBookID;
+    QMap<int, Book> m_books;
+    int m_bookID;
     QString m_moduleName;
     QString m_shortModuleName;
     QString m_uID;

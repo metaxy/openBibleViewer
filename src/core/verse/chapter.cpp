@@ -27,7 +27,7 @@ void Chapter::addVerse(const int &verseID, const Verse &verse)
     m_verseCount++;
     m_data.insert(verseID, verse);
 }
-QHash<int, Verse> Chapter::getData() const
+QMap<int, Verse> Chapter::data() const
 {
     return m_data;
 }

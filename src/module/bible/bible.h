@@ -59,19 +59,12 @@ public:
     void search(SearchQuery query, SearchResult *result);
 
     int bookID() const;
-    int chapterID() const;
-    int verseID() const;
-    int booksCount() const;
-    int chaptersCount() const;
 
     QString moduleTitle() const;
     QString moduleShortTitle() const;
     QString moduleUID() const;
 
-    QString bookName(const int &bookID, bool preferShort = false);
-
     QStringList bookPath();
-    QStringList chapterNames();
     SearchQuery lastSearchQuery() const;
     bool loaded() const;
 
@@ -89,18 +82,11 @@ private:
       * Used by BibleQuote to store where the books are
       */
     QStringList m_bookPath;
-    /**
-      * Because BibleQuote supports an Chapter 0.
-      */
-    QStringList m_chapterNames;
 
     BibleDisplaySettings *m_bibleDisplaySettings;
 
     BibleModule *m_bibleModule;
 
-
-
-    Book m_book;
 
     QString toUniformHtml(QString string);
     QList<int> bookIDs() const;

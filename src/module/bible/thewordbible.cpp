@@ -125,7 +125,7 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
 }
 int TheWordBible::readBook(const int &id)
 {
-    m_currentBookID = id;
+    m_bookID = id;
     return 0;
 }
 
@@ -218,7 +218,7 @@ void TheWordBible::buildIndex()
     //index
     Document doc;
     bool canceled = false;
-    QHashIterator<int, Book> bookIt(m_books);
+    QMapIterator<int, Book> bookIt(m_books);
     for(int c = 0; bookIt.hasNext(); c++) {
         if(progress.wasCanceled()) {
             canceled = true;
@@ -226,10 +226,10 @@ void TheWordBible::buildIndex()
         }
         progress.setValue(c);
         bookIt.next();
-        QHashIterator<int, Chapter> chapterIt(bookIt.value().m_chapters);
+        QMapIterator<int, Chapter> chapterIt(bookIt.value().data());
         while(chapterIt.hasNext()) {
             chapterIt.next();
-            QHashIterator<int, Verse> verseIt(chapterIt.value().getData());
+            QMapIterator<int, Verse> verseIt(chapterIt.value().data());
             while(verseIt.hasNext()) {
                 verseIt.next();
                 doc.clear();
@@ -280,10 +280,6 @@ QString TheWordBible::moduleName(bool preferShortName) const
     }
 }
 
-Book TheWordBible::book() const
-{
-    return m_books.value(m_currentBookID);
-}
 bool TheWordBible::hasNT() const
 {
     QFileInfo f(m_modulePath + ".nt");
@@ -309,4 +305,63 @@ QString TheWordBible::indexPath() const
 QString TheWordBible::uid() const
 {
     return m_uID;
+}
+TextRange TheWordBible::rawTextRange(int bookID, int chapterID, int startVerse, int endVerse)
+{
+    TextRange ret;
+    Book book = m_books.value(bookID);
+
+    if(book.bookID() != bookID) {
+        myWarning() << "book not loaded";
+        return ret;
+    }
+    if(!book.hasChapter(chapterID)) {
+           myWarning() << "index out of range index chapterID = " << chapterID;
+           return ret;
+    }
+    ret.setModuleID(m_moduleID);
+    ret.setBookID(bookID);
+    ret.setChapterID(chapterID);
+
+    const Chapter c = book.getChapter(chapterID);
+    QMap<int, Verse> data = c.data();
+    QMapIterator<int, Verse> i(data);
+    while (i.hasNext()) {
+        i.next();
+        if(i.key() <= endVerse && i.key() >= startVerse)
+            ret.addVerse(i.value());
+    }
+    return ret;
+}
+
+std::pair<int,int> TheWordBible::minMaxVerse(int bookID, int chapterID)
+{
+    std::pair<int, int> ret;
+    Book book = m_books.value(bookID);
+
+    if(book.bookID() != bookID) {
+        myWarning() << "book not loaded";
+        return ret;
+    }
+    if(!book.hasChapter(chapterID)) {
+        myWarning() << "index out of range index chapterID = " << chapterID;
+        return ret;
+    }
+
+    const Chapter c = book.getChapter(chapterID);
+    QMap<int, Verse> data = c.data();
+    int max = 0;
+    int min = 0;
+
+    foreach(int key, data.keys()) {
+        if(key >= max) {
+            max = key;
+        } else if(key <= min) {
+            min = key;
+        }
+    }
+    ret.first = min;
+    ret.second = max;
+
+    return ret;
 }

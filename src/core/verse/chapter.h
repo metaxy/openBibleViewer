@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-#include <QtCore/QHash>
+#include <QtCore/QMap>
 #include "src/core/verse/verse.h"
 /**
  Chapter represents a bible chapter
@@ -27,12 +27,12 @@ public:
     Chapter();
     Chapter(const int &chapterID);
     void addVerse(const int &verseID, const Verse &verse);
-    QHash<int, Verse> getData() const;
+    QMap<int, Verse> data() const;
     int verseCount() const;
     void setChapterID(const int &chapterID);
     int chapterID() const;
 private:
-    QHash<int, Verse> m_data;
+    QMap<int, Verse> m_data;
     QStringList m_verseNumber;
     int m_verseCount;
     int m_chapterID;

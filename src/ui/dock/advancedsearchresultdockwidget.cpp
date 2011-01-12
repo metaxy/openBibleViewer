@@ -62,7 +62,7 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
         const int book = hit.value(SearchHit::BookID).toInt();
         if(m_bookItems.contains(book))
             continue;
-        QStandardItem *bookItem = new QStandardItem(m_moduleManager->verseModule()->bookName(book));
+        QStandardItem *bookItem = new QStandardItem(m_moduleManager->verseModule()->versification()->bookName(book));
         bookItem->setData("book", Qt::UserRole + 2);
         parentItem->appendRow(bookItem);
         m_bookItems.insert(book, bookItem);
@@ -71,7 +71,7 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
     for(int i = 0; i < hits.size(); ++i) {
         SearchHit hit = hits.at(i);
         if(hit.type() == SearchHit::BibleHit) {
-            QStandardItem *hitItem = new QStandardItem(m_moduleManager->verseModule()->bookName(hit.value(SearchHit::BookID).toInt()) + " " +
+            QStandardItem *hitItem = new QStandardItem(m_moduleManager->verseModule()->versification()->bookName(hit.value(SearchHit::BookID).toInt()) + " " +
                     QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + ":" +
                     QString::number(hit.value(SearchHit::VerseID).toInt() + 1));
             hitItem->setData(i, Qt::UserRole + 1);
@@ -131,7 +131,7 @@ void AdvancedSearchResultDockWidget::searchInfo()
     for(int i = 0; i < list.size(); ++i) {
         SearchHit hit = list.at(i);
         if(hit.type() == SearchHit::BibleHit) {
-            const QString bookn = m_moduleManager->verseModule()->bookName(hit.value(SearchHit::BookID).toInt()); //todo: maybe the bible isn't loaded and you need another bookNames
+            const QString bookn = m_moduleManager->verseModule()->versification()->bookName(hit.value(SearchHit::BookID).toInt()); //todo: maybe the bible isn't loaded and you need another bookNames
             //or we call it a feature
             textList << hit.value(SearchHit::VerseText).toString() + "\n - <i>" + bookn
                      + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1)

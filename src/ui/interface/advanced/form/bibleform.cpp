@@ -293,21 +293,20 @@ void BibleForm::activated()
         m_moduleManager->m_verseTable = table;
         return;
     }
-    myDebug() << "before " << m_moduleManager->m_verseTable;
+
     m_moduleManager->m_verseTable = m_verseTable;
-    myDebug() << "after " << m_moduleManager->m_verseTable;
 
     m_actions->setTitle(m_moduleManager->verseModule()->moduleTitle());
     m_actions->setCurrentModule(m_moduleManager->verseModule()->moduleID());
 
-    m_actions->updateChapters(m_moduleManager->verseModule()->chapterNames());
-    myDebug() << "moduleID = " << m_moduleManager->verseModule()->moduleID();
-    myDebug() << "versification = " << m_moduleManager->verseModule()->versification();
+    m_actions->updateChapters(m_moduleManager->verseModule()->bookID(), m_moduleManager->verseModule()->versification());
     m_actions->updateBooks(m_moduleManager->verseModule()->versification());
+
     if(m_lastTextRanges.verseCount() != 0) {
         m_actions->setCurrentChapter(m_lastTextRanges.chapterIDs());
         m_actions->setCurrentBook(m_lastTextRanges.bookIDs());
     }
+
     m_moduleManager->verseTable()->setLastTextRanges(&m_lastTextRanges);
     m_moduleManager->verseTable()->setLastUrl(&m_lastUrl);
 }
@@ -711,7 +710,7 @@ void BibleForm::copyWholeVerse(void)
 
         const QString curChapter = QString::number(selection.chapterID + 1);
 
-        const QString newText = m_moduleManager->verseModule()->bookName(selection.bookID) + " " + curChapter + sverse + "\n" + stext;
+        const QString newText = m_moduleManager->verseModule()->versification()->bookName(selection.bookID) + " " + curChapter + sverse + "\n" + stext;
         QClipboard *clipboard = QApplication::clipboard();
         clipboard->setText(newText);
     }

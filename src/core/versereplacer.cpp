@@ -60,7 +60,7 @@ void VerseReplacer::exec(QMap<int, Verse> *map)
             }
             vers.append(m_appends.value(i.key()));
             vers.prepend(m_prepends.value(i.key()));
-            map->insert(i.key(), vers);
+            i.setValue(vers);
         }
     }
 }

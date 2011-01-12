@@ -44,10 +44,10 @@ public:
       */
     virtual void search(SearchQuery query, SearchResult *result);
     SearchQuery lastSearchQuery() const;
-    virtual QString bookName(const int &bookID, bool preferShort = false);
-    virtual QStringList chapterNames();
-    virtual int booksCount() const;
-    virtual int chaptersCount() const;
+    /**
+      * The only function that do not belong here
+      */
+    virtual int bookID() const;
 protected:
     SearchQuery m_lastSearchQuery;
     Versification *m_versification;
