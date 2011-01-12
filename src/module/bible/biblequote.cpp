@@ -454,12 +454,12 @@ TextRange BibleQuote::rawTextRange(int bookID, int chapterID, int startVerse, in
 {
     TextRange ret;
     if(m_book.bookID() != bookID) {
-        myWarning() << "book not loaded";
-        return ret;
+        readBook(bookID);
+        myDebug() << "book not loaded";
     }
     if(!m_book.hasChapter(chapterID)) {
-           myWarning() << "index out of range index chapterID = " << chapterID;
-           return ret;
+        myWarning() << "index out of range index chapterID = " << chapterID;
+        return ret;
     }
     ret.setModuleID(m_moduleID);
     ret.setBookID(bookID);
@@ -480,8 +480,8 @@ std::pair<int,int> BibleQuote::minMaxVerse(int bookID, int chapterID)
 {
     std::pair<int, int> ret;
     if(m_book.bookID() != bookID) {
-        myWarning() << "book not loaded";
-        return ret;
+        readBook(bookID);
+        myDebug() << "book not loaded";
     }
     if(!m_book.hasChapter(chapterID)) {
         myWarning() << "index out of range index chapterID = " << chapterID;

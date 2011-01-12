@@ -93,7 +93,7 @@ public slots:
     void zoomIn();
     void zoomOut();
 
-    void setChapters(const QStringList &chapters);
+    void setChapters(int bookID, Versification *v11n);
     void setBooks(Versification *v11n);
 
     void clearBooks();
@@ -102,7 +102,7 @@ public slots:
     void setCurrentBook(const QSet<int> &bookID);
     void setCurrentChapter(const QSet<int> &chapterID);
 
-    void forwardSetChapters(const QStringList &chapters);
+    void forwardSetChapters(int bookID, Versification *v11n);
     void forwardSetBooks(Versification *v11n);
     void forwardClearBooks();
     void forwardClearChapters();

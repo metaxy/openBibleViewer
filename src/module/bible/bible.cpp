@@ -149,7 +149,7 @@ QString Bible::toUniformHtml(QString string)
 TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 {
     DEBUG_FUNC_NAME
-    myDebug() << m_loaded;
+    myDebug() << "loaded = " << m_loaded;
 
     TextRange ret;
     ret.setModuleID(range.moduleID());
@@ -186,6 +186,8 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                     bookID = id;
                 }
             }
+            if(bookID == -1)
+                bookID = 0;
         }
         myDebug() << "current book " << bookID;
     }
@@ -194,6 +196,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         myWarning() << "index out of range index bookID = " << bookID;
         return ret;
     }
+    m_bookID = bookID;
 
 
     const ModuleSettings moduleSettings = m_settings->getModuleSettings(m_moduleID);
@@ -213,8 +216,10 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         }
         myDebug() << "current chapter = " << chapterID;
     }
-
+    myDebug() << "bookID = " << bookID << " chapterID " << chapterID;
     std::pair<int,int> minMax = m_bibleModule->minMaxVerse(bookID, chapterID);
+    myDebug() << "min = " << minMax.first << " max = " << minMax.second;
+
     int startVerse = 0;
     int endVerse = 0;
     if(range.startVerse() == RangeEnum::VerseByID) {
@@ -232,9 +237,12 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     } else if(range.endVerse() == RangeEnum::LastVerse) {
         endVerse = minMax.second;
     }
+    myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
 
     TextRange rawRange = m_bibleModule->rawTextRange(bookID, chapterID, startVerse, endVerse);
-
+    ret.setBookID(bookID);
+    ret.setChapterID(chapterID);
+    ret.setModuleID(m_moduleID);
     QMap<int, Verse> verseMap = rawRange.verseMap();
 
     bool currentVerse = false;
@@ -267,7 +275,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 
         if(range.selectedVerse().contains(it.key())) {
             if(!currentVerse) {
-                currentVerse = true;//todo: cuurently the first selected entry is the current entry
+                currentVerse = true;//todo: currently the first selected entry is the current entry
                 //change this to provide maybe more future features
                 verse.prepend("<span id = \"currentEntry\" class = \"selectedEntry\"> ");
             } else {
@@ -364,7 +372,6 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     // now add id
     //it have to be done as last
     QMapIterator<int, Verse> i(verseMap);
-
     if(moduleType() == Module::BibleQuoteModule) {
         const QString pre = "<span verseID='";
         const QString pre2 = "' chapterID='" + QString::number(chapterID) +
@@ -395,7 +402,6 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             ret.addVerse(verse);
         }
     }
-
     return ret;
 
 }
@@ -472,5 +478,5 @@ QStringList Bible::bookPath()
 
 QList<int> Bible::bookIDs() const
 {
-    return m_versification->maxChapter().keys();
+    return m_versification->bookNames().keys();
 }

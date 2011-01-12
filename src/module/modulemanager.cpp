@@ -324,7 +324,6 @@ int ModuleManager::loadAllModules()
 }
 void ModuleManager::initVerseModule(VerseModule *b)
 {
-    DEBUG_FUNC_NAME
     if(b != 0) {
         b->setSettings(m_settings);
         b->setNotes(m_notes);
@@ -338,7 +337,6 @@ void ModuleManager::initVerseModule(VerseModule *b)
   */
 bool ModuleManager::bibleLoaded()
 {
-    DEBUG_FUNC_NAME
     if(m_verseTable && verseModule() && m_moduleMap->m_map.contains(verseModule()->moduleID()) && verseModule()->moduleID() >= 0)
         return true;
     return false;
@@ -349,7 +347,6 @@ bool ModuleManager::bibleLoaded()
   */
 bool ModuleManager::hasBible()
 {
-    DEBUG_FUNC_NAME
     if(m_verseTable && verseModule())
         return true;
     return false;
@@ -464,20 +461,16 @@ VerseModule * ModuleManager::newVerseModule(const int &moduleID, QPoint p)
         myWarning() << "invalid moduleID = " << moduleID;
         return NULL;
     }
-    myDebug() << "point = " << p;
-    const int id = verseTable()->m_points.key(p, -1);
-    myDebug() << "id = " << id;
 
+    const int id = verseTable()->m_points.key(p, -1);
     VerseModule *m;
     if(id != -1) {
         m = verseTable()->verseModule(id);
         initVerseModule(m);
     } else {
         //todo: support for other VerseModules
-        myDebug() << "creating a new verseModule";
 
         if(getModule(moduleID)->moduleClass() == Module::BibleModuleClass) {
-            myDebug() << "its a bible";
             m = new Bible();
             initVerseModule(m);
         }
@@ -492,7 +485,6 @@ VerseModule * ModuleManager::newVerseModule(const int &moduleID, QPoint p)
          myDebug() << "loading the module data";
          ((Bible*)m)->loadModuleData(moduleID);
      }*/
-
 
     verseTable()->addModule(m, p);
     return m;

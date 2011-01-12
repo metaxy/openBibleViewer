@@ -225,7 +225,6 @@ QList<VerseUrlRange> TextRanges::toBibleUrlRanges(int verseTableID) const
 {
     QList<VerseUrlRange> ret;
     foreach(const TextRange & r, m_ranges) {
-        myDebug() << "verseTableID = " << verseTableID << "r.*" << r.verseTableID();
         if(r.verseTableID() == verseTableID) {
             VerseUrlRange range;
             range.setModule(r.moduleID());
@@ -248,7 +247,6 @@ QList<VerseUrlRange> TextRanges::toBibleUrlRanges(int verseTableID) const
 }
 void TextRanges::setVerseTableID(int verseTableID)
 {
-    DEBUG_FUNC_NAME;
     QList<TextRange> ret;
     foreach(TextRange r, m_ranges) {
         r.setVerseTableID(verseTableID);

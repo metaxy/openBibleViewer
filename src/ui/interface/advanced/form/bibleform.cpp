@@ -55,7 +55,7 @@ void BibleForm::init()
     attachApi();
     connect(m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
 
-    connect(m_actions, SIGNAL(_updateChapters(QStringList)), this, SLOT(forwardSetChapters(QStringList)));
+    connect(m_actions, SIGNAL(_updateChapters(int, Versification *)), this, SLOT(forwardSetChapters(int, Versification *)));
     connect(m_actions, SIGNAL(_updateBooks(Versification *)), this, SLOT(forwardSetBooks(Versification *)));
 
     connect(m_actions, SIGNAL(_clearBooks()), this, SLOT(forwardClearBooks()));
@@ -64,7 +64,6 @@ void BibleForm::init()
     connect(m_actions, SIGNAL(_setCurrentBook(QSet<int>)), this, SLOT(forwardSetCurrentBook(QSet<int>)));
     connect(m_actions, SIGNAL(_setCurrentChapter(QSet<int>)), this, SLOT(forwardSetCurrentChapter(QSet<int>)));
     connect(m_actions, SIGNAL(_historySetUrl(QString)), this, SLOT(forwardHistorySetUrl(QString)));
-    //connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(forwardShowText(QString)));
     connect(m_actions, SIGNAL(_showTextRanges(QString, TextRanges, VerseUrl)), this, SLOT(forwardShowTextRanges(QString, TextRanges, VerseUrl)));
 
 
@@ -180,11 +179,11 @@ void BibleForm::zoomOut()
     m_view->setZoomFactor(m_view->zoomFactor() - 0.1);
 }
 
-void BibleForm::setChapters(const QStringList &chapters)
+void BibleForm::setChapters(int bookID, Versification *v11n)
 {
     //DEBUG_FUNC_NAME
     //myDebug() << " windowID = " << m_id;
-    bool same = true;
+   /* bool same = true;
     if(m_ui->comboBox_chapters->count() == chapters.count()) {
         for(int i = 0; i < chapters.count(); i++) {
             if(m_ui->comboBox_chapters->itemText(i) != chapters.at(i)) {
@@ -197,7 +196,17 @@ void BibleForm::setChapters(const QStringList &chapters)
     if(!same) {
         m_ui->comboBox_chapters->clear();
         m_ui->comboBox_chapters->insertItems(0, chapters);
+    }*/
+    if(v11n == NULL)
+        return;
+    //todo: implement bibleQuotes chapter zero
+    const int count = v11n->maxChapter().value(bookID, 0);
+    QStringList chapters;
+    for(int i = 1; i <= count; ++i) {
+        chapters << QString::number(i);
     }
+    m_ui->comboBox_chapters->clear();
+    m_ui->comboBox_chapters->insertItems(0, chapters);
 }
 
 void BibleForm::clearChapters()
@@ -478,11 +487,11 @@ void BibleForm::selectAll()
 {
     m_view->page()->triggerAction(QWebPage::SelectAll);
 }
-void BibleForm::forwardSetChapters(const QStringList &chapters)
+void BibleForm::forwardSetChapters(int bookID, Versification *v11n)
 {
     if(!active())
         return;
-    setChapters(chapters);
+    setChapters(bookID, v11n);
 }
 
 void BibleForm::forwardSetBooks(Versification *v11n)

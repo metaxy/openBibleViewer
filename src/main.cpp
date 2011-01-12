@@ -79,9 +79,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 #ifdef BUILD_WITH_SWORD
-        SWMgr library(new MarkupFilterMgr(FMT_PLAIN));
-        SWModule *target;
-        myDebug() << target;
+
 #endif
 
 #ifdef Q_OS_WIN32
