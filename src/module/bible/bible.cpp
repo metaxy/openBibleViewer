@@ -149,7 +149,7 @@ QString Bible::toUniformHtml(QString string)
 TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 {
     DEBUG_FUNC_NAME
-    myDebug() << "loaded = " << m_loaded;
+    //myDebug() << "loaded = " << m_loaded;
 
     TextRange ret;
     ret.setModuleID(range.moduleID());
@@ -189,7 +189,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             if(bookID == -1)
                 bookID = 0;
         }
-        myDebug() << "current book " << bookID;
+        //myDebug() << "current book " << bookID;
     }
 
     if(bookID < 0) {
@@ -197,7 +197,6 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         return ret;
     }
     m_bookID = bookID;
-
 
     const ModuleSettings moduleSettings = m_settings->getModuleSettings(m_moduleID);
 
@@ -214,11 +213,11 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         } else {
            chapterID = 0;
         }
-        myDebug() << "current chapter = " << chapterID;
+        //myDebug() << "current chapter = " << chapterID;
     }
-    myDebug() << "bookID = " << bookID << " chapterID " << chapterID;
+    //myDebug() << "bookID = " << bookID << " chapterID " << chapterID;
     std::pair<int,int> minMax = m_bibleModule->minMaxVerse(bookID, chapterID);
-    myDebug() << "min = " << minMax.first << " max = " << minMax.second;
+    //myDebug() << "min = " << minMax.first << " max = " << minMax.second;
 
     int startVerse = 0;
     int endVerse = 0;
@@ -237,7 +236,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     } else if(range.endVerse() == RangeEnum::LastVerse) {
         endVerse = minMax.second;
     }
-    myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
+    //myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
 
     TextRange rawRange = m_bibleModule->rawTextRange(bookID, chapterID, startVerse, endVerse);
     ret.setBookID(bookID);

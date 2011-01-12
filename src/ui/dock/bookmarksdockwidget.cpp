@@ -64,19 +64,25 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
                       QString::number(selection.chapterID + 1) +
                       "," +
                       QString::number(selection.startVerse + 1));
-    VerseUrl url;
+
     VerseUrlRange range;
     range.setModule(selection.moduleID);
     range.setBook(selection.bookID);
     range.setChapter(selection.chapterID);
+    range.setWholeChapter();
+    //todo: use in future the last textrange
+    //save this
+    //so a bookmark will open the ranges
     range.setActiveVerse(selection.startVerse);
+    VerseUrl url(range);
 
     UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.setV11n(m_moduleManager->verseModule()->versification());
-    VerseUrl newUrl = urlConverter.convert();
 
+    const VerseUrl newUrl = urlConverter.convert();
+    myDebug() << "new url = " << newUrl.toString();
     bookmark->setText(1, newUrl.toString());
 
     bookmark->setData(0, Qt::UserRole, "bookmark");
@@ -182,8 +188,10 @@ void BookmarksDockWidget::editBookmark()
 void BookmarksDockWidget::bookmarksGo()
 {
     const QString pos = ui->treeWidget_bookmarks->currentItem()->text(1);
-    if(!pos.isEmpty() && internalOpenPos(pos) != 0)
+    if(pos.isEmpty())
         QMessageBox::critical(0, tr("Error"), tr("This Bookmark is invalid."));
+    else
+        internalOpenPos(pos);
 }
 void BookmarksDockWidget::updateBookmark(QString pos)
 {
@@ -192,14 +200,17 @@ void BookmarksDockWidget::updateBookmark(QString pos)
 void BookmarksDockWidget::bookmarksGo(QTreeWidgetItem * item)
 {
     if(m_settings->onClickBookmarkGo == true) {
-        QString pos = item->text(1);
-        if(!pos.isEmpty() && internalOpenPos(pos) != 0)
+        const QString pos = item->text(1);
+        if(pos.isEmpty())
             QMessageBox::critical(0, tr("Error"), tr("This Bookmark is invalid."));
+        else
+            internalOpenPos(pos);
     }
 }
 int BookmarksDockWidget::internalOpenPos(const QString &pos)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME;
+    myDebug() << pos;
     VerseUrl url;
     url.fromString(pos);
 
