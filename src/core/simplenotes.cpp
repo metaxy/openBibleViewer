@@ -293,10 +293,11 @@ void SimpleNotes::aktNote()
 
     if(m_noteID == "")
         return;
+
     m_notes->setTitle(m_noteID, m_lineEdit_title->text());
     const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, m_noteID, -1);
     if(list.size() != 1) {
-        myWarning() << "invalid noteID = " << m_noteID;
+        myWarning() << "invalid noteID = " << m_noteID << " size = " << list.size();
         return;
     }
     const QModelIndex index = list.at(0);

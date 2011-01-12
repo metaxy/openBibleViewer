@@ -273,5 +273,5 @@ bool VerseUrl::contains(const int &moduleID, const int &bookID, const int &chapt
 }
 bool VerseUrl::isValid() const
 {
-    return m_isValid;
+    return m_isValid && !m_ranges.isEmpty();
 }

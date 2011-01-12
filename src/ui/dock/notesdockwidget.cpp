@@ -74,10 +74,12 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.setV11n(m_moduleManager->verseModule()->versification());
     VerseUrl newUrl = urlConverter.convert();
-    VerseUrlRange r = newUrl.ranges().first();
+    if(newUrl.isValid()) {
+        VerseUrlRange r = newUrl.ranges().first();
 
-    if(m_moduleManager->verseModule()->moduleID() == r.bibleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.startChapterID())) {
-        m_actions->reloadChapter();
+        if(m_moduleManager->verseModule()->moduleID() == r.bibleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.startChapterID())) {
+            m_actions->reloadChapter();
+        }
     }
 
 }
@@ -94,11 +96,12 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.setV11n(m_moduleManager->verseModule()->versification());
     VerseUrl newUrl = urlConverter.convert();
-    VerseUrlRange r = newUrl.ranges().first();
+    if(newUrl.isValid()) {
+        VerseUrlRange r = newUrl.ranges().first();
 
-
-    if(m_moduleManager->verseModule()->moduleID() == r.bibleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.startChapterID())) {
-        m_actions->reloadChapter();
+        if(m_moduleManager->verseModule()->moduleID() == r.bibleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.startChapterID())) {
+            m_actions->reloadChapter();
+        }
     }
 }
 
