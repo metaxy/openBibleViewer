@@ -266,6 +266,9 @@ bool VerseUrl::contains(const int &moduleID, const int &bookID, const int &chapt
 bool VerseUrl::contains(const int &moduleID, const int &bookID, const int &chapterID) const
 {
     foreach(const VerseUrlRange & range, m_ranges) {
+        myDebug() << "" << range.bibleID() << " vs " << moduleID;
+        myDebug() << "" << range.bookID() << " vs " << bookID;
+        myDebug() << "cointains chapter = " << range.containsChapter(chapterID);
         if(range.bibleID() == moduleID && range.bookID() == bookID && range.containsChapter(chapterID))
             return true;
     }

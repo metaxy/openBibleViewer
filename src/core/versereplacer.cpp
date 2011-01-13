@@ -37,7 +37,6 @@ void VerseReplacer::setAppend(const int &verseID, const QString &append)
     m_appends[verseID] = m_appends[verseID] + append;
 }
 
-
 void VerseReplacer::exec(QMap<int, Verse> *map)
 {
     QMutableMapIterator<int, Verse> i(*map);
@@ -60,6 +59,7 @@ void VerseReplacer::exec(QMap<int, Verse> *map)
             }
             vers.append(m_appends.value(i.key()));
             vers.prepend(m_prepends.value(i.key()));
+            //map->insert(vers.verseID(),vers);
             i.setValue(vers);
         }
     }

@@ -496,6 +496,7 @@ void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style)
     urlConverter.setV11n(m_moduleManager->verseModule()->versification());
     urlConverter.convert();
     const QString link = urlConverter.url().toString();
+    myDebug() << link;
 
     //reloadNotes();
     const QString newID = m_notes->generateNewID();

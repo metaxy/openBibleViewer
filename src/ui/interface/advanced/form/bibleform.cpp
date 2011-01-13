@@ -181,8 +181,6 @@ void BibleForm::zoomOut()
 
 void BibleForm::setChapters(int bookID, Versification *v11n)
 {
-    //DEBUG_FUNC_NAME
-    //myDebug() << " windowID = " << m_id;
     if(v11n == NULL)
         return;
     //todo: implement bibleQuotes chapter zero
@@ -193,7 +191,7 @@ void BibleForm::setChapters(int bookID, Versification *v11n)
     }
     bool same = true;
     if(m_ui->comboBox_chapters->count() == chapters.count()) {
-        for(int i = 0; i < chapters.count(); i++) {
+        for(int i = 0; i < chapters.count(); ++i) {
             if(m_ui->comboBox_chapters->itemText(i) != chapters.at(i)) {
                 same = false;
                 break;
@@ -244,7 +242,7 @@ void BibleForm::setBooks(Versification *v11n)
                 same = false;
                 break;
             }
-            count++;
+            ++count;
         }
     } else {
         same = false;

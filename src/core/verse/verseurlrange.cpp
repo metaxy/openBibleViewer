@@ -188,12 +188,27 @@ VerseUrlRange::VerseLoadParams VerseUrlRange::activeVerse() const
 {
     return m_activeVerseParam;
 }
+//todo: if url is invalid it returns always true
 bool VerseUrlRange::containsChapter(const int &chapterID) const
 {
-    return (chapterID >= m_startChapterID && chapterID <= m_endChapterID);
+    bool ok = true;
+    if(m_startChapterParam == LoadChapterByID) {
+         ok = ok && chapterID >= m_startChapterID;
+    }
+    if(m_endChapterParam == LoadChapterByID) {
+        ok = ok && chapterID <= m_endChapterID;
+    }
+    return ok;
 }
 
 bool VerseUrlRange::containsVerse(const int &verseID) const
 {
-    return (verseID >= m_startVerseID && verseID <= m_endVerseID);
+    bool ok = true;
+    if(m_startVerseParam == LoadVerseByID && m_startVerseID != -1) {
+         ok = ok && verseID >= m_startVerseID;
+    }
+    if(m_endVerseParam == LoadVerseByID && m_endVerseID != -1) {
+        ok = ok && verseID <= m_endVerseID;
+    }
+    return ok;
 }

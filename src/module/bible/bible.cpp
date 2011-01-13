@@ -305,13 +305,13 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     }
 
     if(m_notes != 0 && m_bibleDisplaySettings->showMarks() == true) {
-        //myDebug() << "insert notes";
+        myDebug() << "insert notes";
         VerseReplacer replacer;
         for(int n = 0; n <  m_notes->getIDList().size(); ++n) {
             const QString noteID = m_notes->getIDList().at(n);
             if(m_notes->getType(noteID) == "mark") {
                 const QString link = m_notes->getRef(noteID, "link");
-                //myDebug() << "link = " << link;
+                myDebug() << "link = " << link;
                 VerseUrl url;
                 url.fromString(link);
                 UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
@@ -322,7 +322,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                 const QString pre = "<span class=\"mark\" style=\"" + m_notes->getRef(noteID, "style") + "\">";
                 const QString ap = "</span>";
                 if(newUrl.contains(m_moduleID, bookID, chapterID)) {
-                    //myDebug() << "insert note id = " << noteID << " link " << link;
+                    myDebug() << "insert note id = " << noteID << " link " << link;
                     if(m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
                         VerseSelection::SelectionPosInTextType type = VerseSelection::typeFromString(m_notes->getRef(noteID, "selection_pos_type"));
                         if(type == VerseSelection::ShortestString) {
