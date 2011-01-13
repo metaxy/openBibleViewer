@@ -199,7 +199,7 @@ void BibleManager::nextChapter()
         VerseUrlRange range;
         range.setModule(VerseUrlRange::LoadCurrentModule);
         range.setBook(VerseUrlRange::LoadCurrentBook);
-        range.setChapter(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() - 1);
+        range.setChapter(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() + 1);
         range.setWholeChapter();
         bibleUrl.addRange(range);
         m_actions->get(bibleUrl);
