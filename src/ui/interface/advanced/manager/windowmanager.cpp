@@ -17,16 +17,19 @@ WindowManager::WindowManager(QObject *parent) :
     QObject(parent)
 {
     m_nameCounter = 0;
-    m_currentWindowID = new int;
+    m_currentWindowID = new int(-1);
 }
+
 void WindowManager::setMdiArea(QMdiArea *area)
 {
     m_area = area;
 }
+
 void WindowManager::setApi(Api *api)
 {
     m_api = api;
 }
+
 void WindowManager::setBibleManager(BibleManager *bibleManager)
 {
     m_bibleManager = bibleManager;
@@ -36,13 +39,16 @@ void WindowManager::setNotesManager(NotesManager *notesManager)
 {
     m_notesManager = notesManager;
 }
+
 void WindowManager::setBookmarksManager(BookmarksManager *bookmarksManager)
 {
     m_bookmarksManager = bookmarksManager;
 }
+
 void WindowManager::init()
 {
     connect(m_area, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
+
     connect(m_actions, SIGNAL(_setTabbedView()), this, SLOT(setTabbedView()));
     connect(m_actions, SIGNAL(_setSubWindowView()), this, SLOT(setSubWindowView()));
     connect(m_actions, SIGNAL(_setTitle(QString)), this, SLOT(setTitle(QString)));
@@ -50,6 +56,7 @@ void WindowManager::init()
     connect(m_actions, SIGNAL(_reloadChapter(bool)), this, SLOT(reloadChapter(bool)));
     connect(m_actions, SIGNAL(_newSubWindowIfEmpty()), this, SLOT(newSubWindowIfEmpty()));
 }
+
 void WindowManager::newSubWindowIfEmpty()
 {
     if(usableWindowList().isEmpty())
@@ -164,7 +171,7 @@ QMdiSubWindow * WindowManager::activeSubWindow()
         m_area->setActiveSubWindow(usableWindowList().at(m_lastActiveWindow));
         if(QMdiSubWindow *activeSubWindow = m_area->activeSubWindow())
             return activeSubWindow;
-    } else if(usableWindowList().count() > 0) {
+    } else if(usableWindowList().size() > 0) {
         m_area->setActiveSubWindow(usableWindowList().at(0));
         if(QMdiSubWindow *activeSubWindow = m_area->activeSubWindow())
             return activeSubWindow;
@@ -181,14 +188,14 @@ BibleForm * WindowManager::activeForm()
 
 void WindowManager::tileVertical()
 {
-    if(!m_enableReload || !usableWindowList().count()) {
+    QList<QMdiSubWindow*> windows = usableWindowList();
+    if(!m_enableReload || windows.isEmpty()) {
         return;
     }
-    QList<QMdiSubWindow*> windows = usableWindowList();
     setEnableReload(false);
     QMdiSubWindow* active = m_area->activeSubWindow();
 
-    const int widthForEach = m_area->width() / windows.count();
+    const int widthForEach = m_area->width() / windows.size();
     unsigned int x = 0;
     foreach(QMdiSubWindow * window, windows) {
         window->showNormal();
@@ -207,14 +214,15 @@ void WindowManager::tileVertical()
 
 void WindowManager::tileHorizontal()
 {
-    if(!m_enableReload || !usableWindowList().count()) {
+    QList<QMdiSubWindow*> windows = usableWindowList();
+    if(!m_enableReload || windows.isEmpty()) {
         return;
     }
-    QList<QMdiSubWindow*> windows = usableWindowList();
+
     setEnableReload(false);
     QMdiSubWindow* active = m_area->activeSubWindow();
 
-    const int heightForEach = m_area->height() / windows.count();
+    const int heightForEach = m_area->height() / windows.size();
     unsigned int y = 0;
     foreach(QMdiSubWindow * window, windows) {
         window->showNormal();
@@ -232,17 +240,17 @@ void WindowManager::tileHorizontal()
 
 void WindowManager::cascade()
 {
-    if(!m_enableReload || usableWindowList().isEmpty()) {
+    QList<QMdiSubWindow*> windows = usableWindowList();
+    if(!m_enableReload || windows.isEmpty()) {
         return;
     }
 
-    QList<QMdiSubWindow*> windows = usableWindowList();
     setEnableReload(false);
     if(m_area->activeSubWindow() && m_area->activeSubWindow()->isMaximized()) {
         if(m_area->activeSubWindow()->size() != m_area->size()) {
             m_area->activeSubWindow()->resize(m_area->size());
         }
-    } else if(windows.count() == 1) {
+    } else if(windows.size() == 1) {
         windows.at(0)->showMaximized();
     } else {
 
@@ -250,8 +258,8 @@ void WindowManager::cascade()
 
         const unsigned int offsetX = 40;
         const unsigned int offsetY = 40;
-        const unsigned int windowWidth =  m_area->width() - (windows.count() - 1) * offsetX;
-        const unsigned int windowHeight = m_area->height() - (windows.count() - 1) * offsetY;
+        const unsigned int windowWidth =  m_area->width() - (windows.size() - 1) * offsetX;
+        const unsigned int windowHeight = m_area->height() - (windows.size() - 1) * offsetY;
         unsigned int x = 0;
         unsigned int y = 0;
 
@@ -289,14 +297,6 @@ QList<QMdiSubWindow*> WindowManager::usableWindowList()
     return  ret;
 }
 
-/*int WindowManager::currentWindowName()
-{
-    if(m_area->activeSubWindow() != NULL) {
-        return m_area->activeSubWindow()->objectName().toInt();
-    }
-    return -1;
-}*/
-
 void WindowManager::setTitle(const QString &title)
 {
     activeSubWindow()->setWindowTitle(title);
@@ -309,7 +309,7 @@ void WindowManager::closeSubWindow()
 
 int WindowManager::closingWindow()
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     if(!m_enableReload)
         return 1;
     if(m_area->subWindowList().isEmpty()) {
@@ -328,7 +328,7 @@ int WindowManager::closingWindow()
 
 int WindowManager::reloadWindow(QMdiSubWindow * window)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     if(!m_enableReload || window == NULL) {
         myDebug() << "reload is not enabled or window == NULL";
         return 1;
@@ -399,7 +399,7 @@ void WindowManager::save()
     data.setSettings(m_settings);
     int current = 0;
     QMdiSubWindow *currentSubWindow = activeSubWindow();
-    for(int i = 0, count = i < m_area->subWindowList().count(); i < count; i++) {
+    for(int i = 0, count = i < m_area->subWindowList().size(); i < count; i++) {
         QMdiSubWindow *a = m_area->subWindowList().at(i);
         data.setWindowID(i);
         if(currentSubWindow == a)
@@ -503,6 +503,7 @@ void AdvancedInterface::installResizeFilter()
 void WindowManager::reloadChapter(bool full)
 {
     DEBUG_FUNC_NAME;
+
     const QWebView *v = activeForm()->m_view;
     const QPoint p = v->page()->mainFrame()->scrollPosition();
     if(full) {
@@ -511,6 +512,5 @@ void WindowManager::reloadChapter(bool full)
         m_actions->reshowCurrentRange();
     }
     v->page()->mainFrame()->setScrollPosition(p);
-
 }
 
