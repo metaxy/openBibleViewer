@@ -68,7 +68,7 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
     bool readingVerse = true;
     for(int lineCount = 0; !in.atEnd(); lineCount++) {
         QString line = in.readLine();
-        if(lineCount >= linesToSkip || line == "") {
+        if(lineCount >= linesToSkip || line.isEmpty()) {
             readingVerse = false;
         }
         if(readingVerse) {
@@ -142,7 +142,7 @@ QString TheWordBible::readInfo(QFile &file)
                 return list.last();
             }
         }
-        if(line == "" || lineCount >= linesToSkip)
+        if(line.isEmpty() || lineCount >= linesToSkip)
             skipping = false;
 
     }

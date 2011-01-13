@@ -646,7 +646,7 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
             actionCopyWholeVerse->setText(tr("Copy Verse"));
             actionCopyWholeVerse->setEnabled(false);
         } else {
-            actionCopyWholeVerse->setText(tr("Copy Verse %1").arg(addText));
+            actionCopyWholeVerse->setText(tr("Copy Verse %1", "e.g Copy Verse 1-2 or Copy Verse 2").arg(addText));
             actionCopyWholeVerse->setEnabled(true);
 
             connect(actionCopyWholeVerse, SIGNAL(triggered()), this , SLOT(copyWholeVerse()));
@@ -921,7 +921,7 @@ VerseSelection BibleForm::verseSelection()
     }
     myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
     //todo: 0.6
-    /* if(s.canBeUsedForMarks() == false) {
+     if(s.canBeUsedForMarks() == false) {
          //now the ultimative alogrithm
          f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection();adVerseSelection.getSelection();");
          const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
@@ -931,7 +931,7 @@ VerseSelection BibleForm::verseSelection()
 
          QString back = selectedText;
          QString longestString;
-         for(int i = selectedText.size()-1; i > 0; i--) {
+         for(int i = selectedText.size()-1; i > 0; --i) {
              const int pos = startVerseText2.indexOf(back);
              if(pos != -1) {
                  longestString = back;
@@ -952,11 +952,12 @@ VerseSelection BibleForm::verseSelection()
          s.type = VerseSelection::RepeatOfLongestString;
          s.repeat = count;
          s.longestString = longestString;
-         //s.setCanBeUsedForMarks(true);
+         if(!s.longestString.isEmpty())
+            s.setCanBeUsedForMarks(true);
          //todo: end
-         //myDebug() << longestString << " count = " << count;
+         myDebug() << "longest = " << longestString << " count = " << count;
 
-     }*/
+     }
     return s;
 }
 BibleForm::~BibleForm()

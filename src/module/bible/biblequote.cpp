@@ -69,7 +69,7 @@ void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
     QFile file;
     file.setFileName(path);
     QString encoding;
-    if(m_settings->getModuleSettings(m_moduleID).encoding == "Default" || m_settings->getModuleSettings(m_moduleID).encoding == "") {
+    if(m_settings->getModuleSettings(m_moduleID).encoding == "Default" || m_settings->getModuleSettings(m_moduleID).encoding.isEmpty()) {
         encoding = m_settings->encoding;
     } else {
         encoding = m_settings->getModuleSettings(m_moduleID).encoding;
@@ -152,7 +152,7 @@ QString BibleQuote::readInfo(QFile &file)
 
     if(m_codec == NULL) {
         QString encoding;
-        if(m_settings->getModuleSettings(m_moduleID).encoding == "Default" || m_settings->getModuleSettings(m_moduleID).encoding == "") {
+        if(m_settings->getModuleSettings(m_moduleID).encoding == "Default" || m_settings->getModuleSettings(m_moduleID).encoding.isEmpty()) {
             encoding = m_settings->encoding;
         } else {
             encoding = m_settings->getModuleSettings(m_moduleID).encoding;
@@ -174,10 +174,10 @@ QString BibleQuote::readInfo(QFile &file)
         }
         if(line.contains("BibleName", Qt::CaseInsensitive)) {
             m_moduleName = formatFromIni(line.remove(QRegExp("BibleName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
-            if(m_moduleName == "") {
+            if(m_moduleName.isEmpty()) {
                 useShortName = true;
             }
-            if(useShortName && m_moduleShortName != "") {
+            if(useShortName && !m_moduleShortName.isEmpty()) {
                 break;
             } else if(!useShortName) {
                 break;
@@ -309,7 +309,7 @@ void BibleQuote::buildIndex()
 
     if(m_codec == NULL) {
         QString encoding;
-        if(m_settings->getModuleSettings(m_moduleID).encoding == "Default" || m_settings->getModuleSettings(m_moduleID).encoding == "") {
+        if(m_settings->getModuleSettings(m_moduleID).encoding == "Default" || m_settings->getModuleSettings(m_moduleID).encoding.isEmpty()) {
             encoding = m_settings->encoding;
         } else {
             encoding = m_settings->getModuleSettings(m_moduleID).encoding;

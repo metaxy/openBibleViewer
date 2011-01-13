@@ -56,7 +56,7 @@ function verseGetSelection () {
 	}
 }
 
-/*
+
 function AdVerseSelection() {
     this.getSelection = adVerseGetSelection;
     this.startVerse = -1;
@@ -91,4 +91,4 @@ function adVerseGetSelection () {
             x.parentNode.removeChild(x);
         }
     }
-}*/
+}

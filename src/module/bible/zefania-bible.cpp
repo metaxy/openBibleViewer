@@ -337,7 +337,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     QByteArray first = file.readLine();
     QString firstString(first);
     QString codecString;
-    if(moduleSettings.encoding == "Default" || moduleSettings.encoding == "") {
+    if(moduleSettings.encoding == "Default" || moduleSettings.encoding.isEmpty()) {
         QRegExp rxlen("encoding=\"(.*)\"");//todo: (.*) should be without whitespaces ,too
         int pos = rxlen.indexIn(firstString);
 
@@ -394,7 +394,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     progress.setValue(10);
     KoXmlElement root = doc.documentElement();
     m_moduleName = root.attribute("biblename", "");
-    if(m_moduleName == "") {
+    if(m_moduleName.isEmpty()) {
         m_moduleName = moduleSettings.moduleName;
     }
 
@@ -406,7 +406,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
         if(progressCounter < 76)
             progress.setValue(progressCounter);
         KoXmlElement e = n.toElement();
-        if(e.attribute("bname", "") != "" || e.attribute("bnumber", "") != "") {
+        if(!e.attribute("bname", "").isEmpty() || !e.attribute("bnumber", "").isEmpty()) {
             //it is the caching mechanisme
             int start = 0, end = 0;
             QString bookID = QString::number(e.attribute("bnumber").toInt() - 1); //i count from zero

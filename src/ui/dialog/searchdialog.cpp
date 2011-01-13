@@ -61,7 +61,7 @@ void SearchDialog::setText(const QString &text)
 }
 void SearchDialog::search(void)
 {
-    if(m_ui->lineEdit_query->text() != "") {
+    if(!m_ui->lineEdit_query->text().isEmpty()) {
         SearchQuery query;
         query.searchText = m_ui->lineEdit_query->text();
         query.searchInNotes = m_ui->checkBox_searchInNotes->isChecked();

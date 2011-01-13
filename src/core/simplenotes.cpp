@@ -52,7 +52,7 @@ void SimpleNotes::create(const QString &id, QStandardItem *parentItem)
         if(id == "-1") {
             parentItem = m_itemModel->invisibleRootItem();
         }
-        if((id == "-1" && m_notes->getRef(i, "parent") ==  "") || m_notes->getRef(i, "parent") == id) {
+        if((id == "-1" && m_notes->getRef(i, "parent").isEmpty() ) || m_notes->getRef(i, "parent") == id) {
             if(m_notes->getType(i) == "text") {
                 QStandardItem *noteItem = new QStandardItem;
                 noteItem->setText(m_notes->getTitle(i));
@@ -291,7 +291,7 @@ void SimpleNotes::aktNote()
 {
     //DEBUG_FUNC_NAME
 
-    if(m_noteID == "")
+    if(m_noteID.isEmpty())
         return;
 
     m_notes->setTitle(m_noteID, m_lineEdit_title->text());
