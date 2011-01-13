@@ -127,7 +127,7 @@ Ranges BibleManager::bibleUrlRangeToRanges(VerseUrlRange range)
 }
 void BibleManager::pharseUrl(const VerseUrl &url)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     myDebug() << "url = " << url.toString();
     m_actions->newSubWindowIfEmpty();
     Ranges ranges;
@@ -157,35 +157,21 @@ void BibleManager::pharseUrl(const QString &url)
         showRanges(ranges, bibleUrl);
     } else if(url.startsWith(bq)) {
         //its a biblequote internal link, but i dont have the specifications!!!
-        /* QStringList internal = url.split(" ");
+         QStringList internal = url.split(" ");
          const QString bibleID = internal.at(1);//todo: use it
-         //myDebug() << "bibleID = " << bibleID;
+         myDebug() << "bibleID = " << bibleID;
+
          int bookID = internal.at(2).toInt() - 1;
          int chapterID = internal.at(3).toInt() - 1;
          int verseID = internal.at(4).toInt();
-         if(bibleID != m_moduleManager->bible()->bibleID())
-         {
-             loadModuleDataByID(bibleID);
-             readBookByID(bookID);
-             setCurrentBook(bookID);
-             showChapter(chapterID),verseID);
-             setCurrentChapter(chapterID);
-             //load bible
-         }
-         else if(bookID != m_moduleManager->bible()->bookID()) {
-             readBookByID(bookID);
-             setCurrentBook(bookID);
-             showChapter(chapterID, verseID);
-             setCurrentChapter(chapterID);
-             //load book
-         } else if(chapterID != m_moduleManager->bible()->chapterID()) {
-             showChapter(chapterID, verseID);
-             setCurrentChapter(chapterID);
-             //load chapter
-         } else {
-             showChapter(chapterID, verseID);
-             setCurrentChapter(chapterID);
-         }*/
+         VerseUrlRange range;
+         range.setModule(VerseUrlRange::LoadCurrentModule);
+         range.setBook(bookID);
+         range.setChapter(chapterID);
+         range.setWholeChapter();
+         range.setActiveVerse(verseID);
+         VerseUrl url(range);
+         m_actions->get(url);
     }
 }
 void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)

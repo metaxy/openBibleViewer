@@ -443,12 +443,15 @@ void WindowManager::save()
     data.write();
     m_settings->session.setData("viewMode", m_area->viewMode());
     m_settings->session.setData("windowID", current);
+    //no more reloading
+    disable();
 }
 void WindowManager::restore()
 {
     WindowSessionData data;
     data.setSettings(m_settings);
     data.read();
+    const int viewMode = m_settings->session.getData("viewMode").toInt();
     for(int i = 0; i < data.size(); ++i) {
         newSubWindow(true);
         data.setWindowID(i);
@@ -469,12 +472,14 @@ void WindowManager::restore()
                 myDebug() << urlConverter.url().toString();
             }
         }
-        activeSubWindow()->setGeometry(data.geo());
+        if(viewMode == 0)
+            activeSubWindow()->setGeometry(data.geo());
+
         QWebView *v = activeForm()->m_view;
         v->page()->mainFrame()->setScrollPosition(data.scrollPosition());
         v->setZoomFactor(data.zoom());
     }
-    const int viewMode = m_settings->session.getData("viewMode").toInt();
+
     if(viewMode == 0)
         m_actions->setSubWindowView();
     else
