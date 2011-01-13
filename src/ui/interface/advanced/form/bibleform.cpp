@@ -183,20 +183,6 @@ void BibleForm::setChapters(int bookID, Versification *v11n)
 {
     //DEBUG_FUNC_NAME
     //myDebug() << " windowID = " << m_id;
-   /* bool same = true;
-    if(m_ui->comboBox_chapters->count() == chapters.count()) {
-        for(int i = 0; i < chapters.count(); i++) {
-            if(m_ui->comboBox_chapters->itemText(i) != chapters.at(i)) {
-                same = false;
-            }
-        }
-    } else {
-        same = false;
-    }
-    if(!same) {
-        m_ui->comboBox_chapters->clear();
-        m_ui->comboBox_chapters->insertItems(0, chapters);
-    }*/
     if(v11n == NULL)
         return;
     //todo: implement bibleQuotes chapter zero
@@ -205,8 +191,22 @@ void BibleForm::setChapters(int bookID, Versification *v11n)
     for(int i = 1; i <= count; ++i) {
         chapters << QString::number(i);
     }
-    m_ui->comboBox_chapters->clear();
-    m_ui->comboBox_chapters->insertItems(0, chapters);
+    bool same = true;
+    if(m_ui->comboBox_chapters->count() == chapters.count()) {
+        for(int i = 0; i < chapters.count(); i++) {
+            if(m_ui->comboBox_chapters->itemText(i) != chapters.at(i)) {
+                same = false;
+                break;
+            }
+        }
+    } else {
+        same = false;
+    }
+    if(!same) {
+        m_ui->comboBox_chapters->clear();
+        m_ui->comboBox_chapters->insertItems(0, chapters);
+    }
+
 }
 
 void BibleForm::clearChapters()
