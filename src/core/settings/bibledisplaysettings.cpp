@@ -47,3 +47,11 @@ void BibleDisplaySettings::setShowNotes(bool showNotes)
         m_loadNotes = true;
     m_showNotes = showNotes;
 }
+void BibleDisplaySettings::setShowBottomToolBar(bool showToolBar)
+{
+    m_showBottomToolBar = showToolBar;
+}
+bool BibleDisplaySettings::showBottomToolBar()
+{
+    return m_showBottomToolBar;
+}

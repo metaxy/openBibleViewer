@@ -15,4 +15,65 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 ModuleSettings::ModuleSettings()
 {
+    v11n = NULL;
+}
+ModuleSettings::~ModuleSettings()
+{
+    if(v11n != NULL) {
+        delete v11n;
+        v11n = NULL;
+    }
+}
+
+void ModuleSettings::loadVersification(const QString &path)
+{
+    QSettings settings(path+".ini",QSettings::IniFormat);
+    const QStringList books = settings.childGroups();
+    if(books.isEmpty())
+        return;
+    QMap<int, BookV11N> map;
+    foreach(const QString &book, books) {
+        const int bookID = book.toInt();
+        settings.beginGroup(book);
+        const QString name = settings.value("name").toString();
+        const QStringList shortNames = settings.value("shortNames").toStringList();
+        const int maxChapter = settings.value("maxChapter");
+        const QStringList maxVerse = settings.value("maxVerse");
+        QList<int> iMaxVerse;
+        foreach(QString v, maxVerse) {
+            iMaxVerse.append(v.toInt());
+        }
+        BookV11N v;
+        v.bookID = bookID;
+        v.maxChapter = maxChapter;
+        v.maxVerse = iMaxVerse;
+        v.name = name;
+        v.shortNames = shortNames;
+        map.insert(bookID, v);
+        settings.endGroup();
+    }
+
+    v11n = new Versification_Cache(map);
+}
+void ModuleSettings::saveVersification(const QString &path)
+{
+    QSettings settings(path+".ini", QSettings::IniFormat);
+    if(v11n == NULL)
+        return;
+    const QMap<int, BookV11N> map = v11n->data();
+    QMapIterator<int, BookV11N> it(map);
+    while(it.hasNext()) {
+        it.next();
+        settings.beginGroup(QString::number(it.key()));
+        BookV11N book = it.value();
+        settings.setValue("name",book.name);
+        settings.setValue("shortNames", book.shortNames);
+        settings.setValue("maxChapter", book.maxChapter);
+        QStringList maxVerse;
+        foreach(int v, book.maxVerse) {
+            maxVerse << QString::number(v);
+        }
+        settings.setValue("maxVerse", maxVerse);
+        settings.endGroup();
+    }
 }

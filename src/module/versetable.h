@@ -56,7 +56,7 @@ public:
     VerseUrl *lastVerseUrl();
 
 private:
-    QString title(VerseModule *module, const QString &active, const int &bibleListID) const;
+    inline QString title(VerseModule *module, const QString &active, const int &bibleListID) const;
     int countInCol(const int &col) const;
     int m_currentModule;
     TextRanges *m_lastTextRanges;

@@ -18,7 +18,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QCryptographicHash>
 Settings::Settings()
 {
-    m_moduleID = QMap<int, int>();
     homePath = "";
     defaultVersification = 0;
 }
@@ -29,46 +28,18 @@ Settings::~Settings()
         delete defaultVersification;*/
 }
 
-void Settings::setModuleIDinMap(const int &moduleID, const int &pos)
-{
-    m_moduleID[moduleID] = pos;
-}
+
 ModuleSettings Settings::getModuleSettings(const int &moduleID) const
 {
-    int id = m_moduleID.value(moduleID);
-    if(m_moduleSettings.size() < id || m_moduleSettings.size() == 0) {
-        myDebug() << "no Settings available";
-        return ModuleSettings();
+    if(m_moduleSettings.contains(moduleID)) {
+        return m_moduleSettings.value(moduleID);
     } else {
-        return m_moduleSettings.at(id);
+        return ModuleSettings();
     }
 }
-void Settings::replaceModuleSettings(const int &bibleID, ModuleSettings m)
+void Settings::insertModuleSettings(const int &moduleID, ModuleSettings m)
 {
-    int id = m_moduleID[bibleID];
-    m_moduleSettings.replace(id, m);
-}
-void Settings::setBookCount(QString path, QMap<int, int>count)
-{
-    ModuleCache c = m_moduleCache[path];
-    c.bookCount = count;
-    m_moduleCache[path] = c;
-}
-void Settings::setBookNames(QString path, QHash<int, QString> names)
-{
-    ModuleCache c = m_moduleCache[path];
-    c.bookNames = names;
-    m_moduleCache[path] = c;
-}
-void Settings::setTitle(QString path, QString title)
-{
-    ModuleCache c = m_moduleCache[path];
-    c.title = title;
-    m_moduleCache[path] = c;
-}
-ModuleCache Settings::getModuleCache(const QString &path) const
-{
-    return m_moduleCache.value(path);
+    m_moduleSettings.insert(moduleID, m);
 }
 /**
   Replace homePath and settingsPath to make it more portable.
@@ -111,4 +82,16 @@ QString Settings::hash(const QString &path) const
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(savableUrl(path).toLocal8Bit());
     return QString(hash.result().toHex());
+}
+void Settings::loadVersification(int moduleID)
+{
+    ModuleSettings m = getModuleSettings(moduleID);
+    m.loadVersification(homePath + "v11n/"+hash(m.modulePath));
+    insertModuleSettings(moduleID, m);
+}
+void Settings::saveVersification(int moduleID)
+{
+    ModuleSettings m = getModuleSettings(moduleID);
+    m.loadVersification(homePath + "v11n/"+hash(m.modulePath));
+    insertModuleSettings(moduleID, m);
 }

@@ -34,8 +34,8 @@ public:
     bool fromString(QString url);
     QList<VerseUrlRange> ranges() const;
     void clearRanges();
-    bool contains(const int &moduleID, const int &bookID, const int &chapterID, const int &verseID) const;
-    bool contains(const int &moduleID, const int &bookID, const int &chapterID) const;
+    bool contains(int moduleID, int bookID, int chapterID, int verseID) const;
+    bool contains(int moduleID, int bookID, int chapterID) const;
     bool isValid() const;
 private:
     QHash<QString, QString> m_params;

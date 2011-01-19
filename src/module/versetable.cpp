@@ -97,7 +97,6 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
         if(b) {
             ret.second = b->readRanges(ranges);
             ret.second.setVerseTableID(0);
-            //todo: not just simple join but add titles
             if(ret.second.textRanges().size() == 1)
                 ret.first = ret.second.join("");
             else {

@@ -255,7 +255,7 @@ void VerseUrl::unsetParam(const QString &name)
 {
     m_params.remove(name);
 }
-bool VerseUrl::contains(const int &moduleID, const int &bookID, const int &chapterID, const int &verseID) const
+bool VerseUrl::contains(int moduleID, int bookID, int chapterID, int verseID) const
 {
     foreach(const VerseUrlRange & range, m_ranges) {
         if(range.bibleID() == moduleID && range.bookID() == bookID && range.containsChapter(chapterID) && range.containsVerse(verseID))
@@ -263,12 +263,9 @@ bool VerseUrl::contains(const int &moduleID, const int &bookID, const int &chapt
     }
     return false;
 }
-bool VerseUrl::contains(const int &moduleID, const int &bookID, const int &chapterID) const
+bool VerseUrl::contains(int moduleID, int bookID, int chapterID) const
 {
     foreach(const VerseUrlRange & range, m_ranges) {
-        myDebug() << "" << range.bibleID() << " vs " << moduleID;
-        myDebug() << "" << range.bookID() << " vs " << bookID;
-        myDebug() << "cointains chapter = " << range.containsChapter(chapterID);
         if(range.bibleID() == moduleID && range.bookID() == bookID && range.containsChapter(chapterID))
             return true;
     }

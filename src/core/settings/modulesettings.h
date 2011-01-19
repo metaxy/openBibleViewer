@@ -17,30 +17,43 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QMap>
 #include <QtCore/QVariant>
 #include <QtCore/QStringList>
-/*!
- ModuleSettings represents a settings class for modules
-
- @author Paul Walger <metaxy@walger.name>
-*/
+#include <QtCore/QSettings>
+#include "src/core/verse/versification.h"
+#include "src/core/verse/versification/versification_cache.h"
+/**
+ * ModuleSettings represents a settings class for modules.
+ */
 class ModuleSettings
 {
 public:
     ModuleSettings();
+    ~ModuleSettings();
     QString modulePath;
     QString moduleName;
     QString moduleShortName;
+    //todo: Use somthing like Module::ModuleType
     QString moduleType;
     QString encoding;
-    bool isDir;
+
     int zefbible_textFormatting;//0 = Neue Zeile nach Vers, 1 = Unformatierter Textblock
     bool zefbible_hardCache;
     bool zefbible_softCache;
     bool zefbible_showStrong;
     bool zefbible_showStudyNote;
     bool biblequote_removeHtml;
-    unsigned int uModuleCount;
+
     QString styleSheet;
 
+    /**
+      * It can be a path to a versification file
+      * or a name of a versification e.g kjv
+      */
+    QString versification;
+    bool hasVersfication;
+    Versification *v11n;
+
+    void loadVersification(const QString &path);
+    void saveVersification(const QString &path);
 
 
 };

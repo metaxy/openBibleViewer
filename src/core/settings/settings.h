@@ -17,46 +17,48 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/session.h"
 #include "src/core/settings/modulecache.h"
 #include "src/core/verse/versification.h"
-#include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QMap>
 
-
-/*!
- Settings represents the gobal settings
-*/
+/**
+ * Settings represents the global settings.
+ */
 class Settings
 {
 public:
     Settings();
     ~Settings();
+    enum LayoutEnum {
+        None = 0,
+        Tile = 1,
+        VerticalTile = 2,
+        HorizontalTile = 3,
+        Cascade = 4
+    };
+
     QString encoding;
-    QList<ModuleSettings> m_moduleSettings;
-    QMap<int, int> m_moduleID;
+    QHash<int, ModuleSettings> m_moduleSettings;
+
     qreal zoomstep;
     QString version;
     QString build;
     bool removeHtml;
     QString language;
     //todo: use enum
-    int autoLayout;// 0 = NONE, 1 = vertical tile ,2 = horizontal tile, 3 = cascade
+    LayoutEnum autoLayout;// 0 = NONE, 1 = vertical tile ,2 = horizontal tile, 3 = cascade
     bool onClickBookmarkGo;
+
     int textFormatting;//0 = Neue Zeile nach Vers, 1 = Unformatierter Textblock
     bool zefaniaBible_hardCache;
     bool zefaniaBible_softCache;
     QString homePath;
     Versification *defaultVersification;
 
+    ModuleSettings getModuleSettings(int moduleID) const;
+    void insertModuleSettings(int moduleID, ModuleSettings m);
 
-    ModuleSettings getModuleSettings(const int& moduleID) const;
-    void replaceModuleSettings(const int &bibleID, ModuleSettings m);
-
-    void setTitle(QString path, QString title);
-    void setBookCount(QString path, QMap<int, int> count);
-    void setBookNames(QString path, QHash<int, QString> names);
-    ModuleCache getModuleCache(const QString& path) const;
-    void setModuleIDinMap(const int &moduleID, const int &pos);
-    QMap<QString, ModuleCache> m_moduleCache;
+    void loadVersification(int moduleID);
+    void saveVersification(int moduleID);
 
     Session session;
     QString sessionID;

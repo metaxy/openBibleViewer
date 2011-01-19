@@ -21,18 +21,18 @@ public:
     Dictionary();
     /**
      * Loads the module with the given id.
-     * @returns 0 If loads fine
-     * @returns 1 If there was an error
+     * @returns 0 If everything went fine.
+     * @returns 1 If there was an error.
      */
     int loadModuleData(const int &id);
     /**
-     * Search for the entry and returns them fully formated
-     * @return Fullyformated entry
-     * @returns QString() if not found
+     * Search for the entry and returns them fully formated.
+     * @return Fullyformated entry.
+     * @returns QString() if not found.
      */
     QString getEntry(const QString &key) const;
     /**
-     * @return All keys
+     * @return All keys.
      * @returns QStringList() if failed.
      */
     QStringList getAllKeys() const;

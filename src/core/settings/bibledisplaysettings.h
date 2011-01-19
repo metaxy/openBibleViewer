@@ -38,11 +38,14 @@ public:
      */
     bool showNotes();
 
+    void setShowBottomToolBar(bool showToolBar);
+    bool showBottomToolBar();
+
 private:
     bool m_loadNotes;
     bool m_showMarks;
     bool m_showNotes;
-    bool m_showToolBarBottom;
+    bool m_showBottomToolBar;
 
 };
 
