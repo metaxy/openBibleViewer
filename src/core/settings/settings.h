@@ -57,8 +57,6 @@ public:
     ModuleSettings getModuleSettings(int moduleID) const;
     void insertModuleSettings(int moduleID, ModuleSettings m);
 
-    void loadVersification(int moduleID);
-    void saveVersification(int moduleID);
 
     Session session;
     QString sessionID;

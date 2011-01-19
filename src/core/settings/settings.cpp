@@ -83,15 +83,3 @@ QString Settings::hash(const QString &path) const
     hash.addData(savableUrl(path).toLocal8Bit());
     return QString(hash.result().toHex());
 }
-void Settings::loadVersification(int moduleID)
-{
-    ModuleSettings m = getModuleSettings(moduleID);
-    m.loadVersification(homePath + "v11n/"+hash(m.modulePath));
-    insertModuleSettings(moduleID, m);
-}
-void Settings::saveVersification(int moduleID)
-{
-    ModuleSettings m = getModuleSettings(moduleID);
-    m.loadVersification(homePath + "v11n/"+hash(m.modulePath));
-    insertModuleSettings(moduleID, m);
-}

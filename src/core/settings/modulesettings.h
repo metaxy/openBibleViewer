@@ -21,8 +21,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/versification.h"
 #include "src/core/verse/versification/versification_cache.h"
 /**
- * ModuleSettings represents a settings class for modules.
- */
+  * ModuleSettings represents a settings class for modules.
+  */
 class ModuleSettings
 {
 public:
@@ -51,9 +51,11 @@ public:
     QString versification;
     bool hasVersfication;
     Versification *v11n;
-
-    void loadVersification(const QString &path);
-    void saveVersification(const QString &path);
+    /**
+      * If the is no settingsfile or it is empty v11n remains the same
+      */
+    void loadVersification();
+    void saveVersification();
 
 
 };
