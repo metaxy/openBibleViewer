@@ -51,11 +51,11 @@ int Module::moduleID() const
 {
     return m_id;
 }
-CORE::ModuleClass Module::moduleClass() const
+OBVCore::ModuleClass Module::moduleClass() const
 {
     return m_moduleClass;
 }
-CORE::ModuleType Module::moduleType() const
+OBVCore::ModuleType Module::moduleType() const
 {
     return m_moduleType;
 }
@@ -75,12 +75,12 @@ void Module::setModuleID(const int moduleID)
     m_id = moduleID;
 }
 
-void Module::setModuleClass(const CORE::ModuleClass &c)
+void Module::setModuleClass(const OBVCore::ModuleClass &c)
 {
     m_moduleClass = c;
 }
 
-void Module::setModuleType(const CORE::ModuleType &t)
+void Module::setModuleType(const OBVCore::ModuleType &t)
 {
     m_moduleType = t;
 }

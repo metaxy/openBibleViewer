@@ -71,8 +71,8 @@ int ModuleManager::loadAllModules()
     //The invisible root Module
     Module *root = new Module();
     root->setModuleID(-1);
-    root->setModuleClass(CORE::FolderClass);
-    root->setModuleType(CORE::NoneType);
+    root->setModuleClass(OBVCore::FolderClass);
+    root->setModuleType(OBVCore::NoneType);
 
     QStandardItem *parentItem = m_moduleModel->invisibleRootItem();
 
@@ -105,18 +105,18 @@ void ModuleManager::loadModule(Module *parentModule, QStandardItem *parentItem, 
     m_moduleMap->m_map.insert(settings->moduleID, module);
 
     QStandardItem *item;
-    if(settings->moduleType == CORE::BibleQuoteModule || settings->moduleType == CORE::ZefaniaBibleModule || settings->moduleType == CORE::TheWordBibleModule) {
-        module->setModuleClass(CORE::BibleModuleClass);
+    if(settings->moduleType == OBVCore::BibleQuoteModule || settings->moduleType == OBVCore::ZefaniaBibleModule || settings->moduleType == OBVCore::TheWordBibleModule) {
+        module->setModuleClass(OBVCore::BibleModuleClass);
         item = new QStandardItem;
         item->setText(settings->moduleName);
         item->setData(QString::number(module->moduleID()));
-        item->setToolTip(CORE::ModuleTypeName(settings->moduleType) + " - " + module->path() + " (" + QString::number(module->moduleID()) + ")");
+        item->setToolTip(OBVCore::ModuleTypeName(settings->moduleType) + " - " + module->path() + " (" + QString::number(module->moduleID()) + ")");
 
         //todo: icons
         //item->setIcon(bibleQuoteIcon);
         parentItem->appendRow(item);
-    } else if(settings->moduleType == CORE::ZefaniaLexModule || settings->moduleType == CORE::BibleQuoteDictModule) {
-        module->setModuleClass(CORE::DictionaryModuleClass);
+    } else if(settings->moduleType == OBVCore::ZefaniaLexModule || settings->moduleType == OBVCore::BibleQuoteDictModule) {
+        module->setModuleClass(OBVCore::DictionaryModuleClass);
     }
 
     //recursive
@@ -218,7 +218,7 @@ QStringList ModuleManager::getBibleTitles()
     QMapIterator<int, Module *> i(m_moduleMap->m_map);
     while(i.hasNext()) {
         i.next();
-        if(i.value()->moduleClass() == CORE::BibleModuleClass)
+        if(i.value()->moduleClass() == OBVCore::BibleModuleClass)
             titles.append(i.value()->title());
     }
     return titles;
@@ -229,7 +229,7 @@ QStringList ModuleManager::getBiblePaths()
     QMapIterator<int, Module *> i(m_moduleMap->m_map);
     while(i.hasNext()) {
         i.next();
-        if(i.value()->moduleClass() == CORE::BibleModuleClass)
+        if(i.value()->moduleClass() == OBVCore::BibleModuleClass)
             paths.append(i.value()->path());
     }
     return paths;
@@ -240,7 +240,7 @@ QList<int> ModuleManager::getBibleIDs()
     QMapIterator<int, Module *> i(m_moduleMap->m_map);
     while(i.hasNext()) {
         i.next();
-        if(i.value()->moduleClass() == CORE::BibleModuleClass)
+        if(i.value()->moduleClass() == OBVCore::BibleModuleClass)
             ids.append(i.value()->moduleID());
     }
     return ids;
@@ -249,7 +249,7 @@ void ModuleManager::checkCache(const int &moduleID)
 {
     //todo: load versification
     /*Module *m = m_moduleMap->m_map.value(moduleID);
-    if(m->moduleClass() == CORE::BibleModuleClass && !m_settings->m_moduleCache.keys().contains(m->path())) {
+    if(m->moduleClass() == OBVCore::BibleModuleClass && !m_settings->m_moduleCache.keys().contains(m->path())) {
         Bible *b = new Bible();
         initVerseModule(b);
         b->setModuleType(m->moduleType());
@@ -272,18 +272,18 @@ VerseModule * ModuleManager::newVerseModule(const int &moduleID, QPoint p)
     } else {
         //todo: support for other VerseModules
 
-        if(getModule(moduleID)->moduleClass() == CORE::BibleModuleClass) {
+        if(getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
             m = new Bible();
             initVerseModule(m);
         }
     }
     //todo: check if this is possible b->moduleID() != moduleID
 
-    CORE::ModuleType type = getModule(moduleID)->moduleType();
+    OBVCore::ModuleType type = getModule(moduleID)->moduleType();
     m->setModuleType(type);
     m->setModuleID(moduleID);
     //todo: load module data?
-    /* if(getModule(moduleID)->moduleClass() == CORE::BibleModuleClass) {
+    /* if(getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
          myDebug() << "loading the module data";
          ((Bible*)m)->loadModuleData(moduleID);
      }*/
@@ -291,11 +291,11 @@ VerseModule * ModuleManager::newVerseModule(const int &moduleID, QPoint p)
     verseTable()->addModule(m, p);
     return m;
 }
-CORE::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
+OBVCore::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
 {
     //myDebug() << fileName;
     if(fileName.endsWith("bibleqt.ini", Qt::CaseInsensitive)) {
-        return CORE::BibleQuoteModule;
+        return OBVCore::BibleQuoteModule;
     } else if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
         QFile data(fileName);
         if(data.open(QFile::ReadOnly)) {
@@ -307,17 +307,17 @@ CORE::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
             if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i cannot allow this
                     fileData.contains("x-cult", Qt::CaseInsensitive) ||
                     fileData.contains("x-mormon", Qt::CaseInsensitive))) {
-                return CORE::ZefaniaBibleModule;
+                return OBVCore::ZefaniaBibleModule;
             } else if(fileData.contains("<dictionary", Qt::CaseInsensitive)) {
-                return CORE::ZefaniaLexModule;
+                return OBVCore::ZefaniaLexModule;
             }
 
         }
     } else if(fileName.endsWith(".idx", Qt::CaseInsensitive)) {
-        return CORE::BibleQuoteDictModule;
+        return OBVCore::BibleQuoteDictModule;
     } else if(fileName.endsWith(".nt", Qt::CaseInsensitive) || fileName.endsWith(".ot", Qt::CaseInsensitive) || fileName.endsWith(".ont", Qt::CaseInsensitive)) {
         myDebug() << "the word module";
-        return CORE::TheWordBibleModule;
+        return OBVCore::TheWordBibleModule;
     }
-    return CORE::NoneType;
+    return OBVCore::NoneType;
 }

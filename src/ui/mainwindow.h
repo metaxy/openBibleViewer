@@ -42,7 +42,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/core/notes.h"
 #include "src/core/dbghelper.h"
-#include "src/core/core.h"
+#include "src/core/obvcore.h"
 #include "config.h"
 #include "src/core/version.h"
 namespace Ui

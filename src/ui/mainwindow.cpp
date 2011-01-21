@@ -225,7 +225,7 @@ void MainWindow::loadDefaultSettings()
     m_settings->removeHtml = true;
     m_settings->version = VERSION;
     m_settings->build = BUILD;
-    m_settings->autoLayout = 1;
+    m_settings->autoLayout = Settings::Tile;
     m_settings->onClickBookmarkGo = true;
     m_settings->textFormatting = 0;
     m_settings->homePath = m_homeDataPath;
@@ -247,14 +247,12 @@ void MainWindow::loadSettings()
         m_settingsFile->beginGroup("moduleCache");
         m_settingsFile->remove("");
         m_settingsFile->endGroup();
-        //myDebug() << "remove ModuleCache";
-
     }
 
     m_settings->encoding = m_settingsFile->value("general/encoding", m_settings->encoding).toString();
     m_settings->zoomstep = m_settingsFile->value("general/zoomstep", m_settings->zoomstep).toInt();
     m_settings->language = m_settingsFile->value("general/language", QLocale::system().name()).toString();
-    m_settings->autoLayout = m_settingsFile->value("window/layout", m_settings->autoLayout).toInt();
+    m_settings->autoLayout = (Settings::LayoutEnum) m_settingsFile->value("window/layout", m_settings->autoLayout).toInt();
     m_settings->onClickBookmarkGo = m_settingsFile->value("window/onClickBookmarkGo", m_settings->onClickBookmarkGo).toBool();
 
     m_settings->textFormatting = m_settingsFile->value("bible/textFormatting", m_settings->textFormatting).toInt();
@@ -263,21 +261,34 @@ void MainWindow::loadSettings()
     for(int i = 0; i < size; ++i) {
         m_settingsFile->setArrayIndex(i);
         ModuleSettings m;
+        m.moduleID = m_settingsFile->value("id").toInt();
         m.moduleName = m_settingsFile->value("name").toString();
+        m.moduleShortName = m_settingsFile->value("shortName").toString();
+
         m.modulePath = m_settings->recoverUrl(m_settingsFile->value("path").toString());
-        m.moduleType = m_settingsFile->value("type").toString();
-        m.biblequote_removeHtml = m_settingsFile->value("removeHtml", true).toInt();
-        m.zefbible_textFormatting = m_settingsFile->value("textFormatting").toInt();
+        m.moduleType = (OBVCore::ModuleType) m_settingsFile->value("type").toInt();
+
+        m.encoding = m_settingsFile->value("encoding").toString();
+
+        m.zefbible_textFormatting = (ModuleSettings::ZefBible_TextFormating) m_settingsFile->value("textFormatting").toInt();
         m.zefbible_hardCache = m_settingsFile->value("hardCache", true).toBool();
         m.zefbible_softCache = m_settingsFile->value("softCache", true).toBool();
         m.zefbible_showStrong = m_settingsFile->value("showStrong", true).toBool();
         m.zefbible_showStudyNote = m_settingsFile->value("showStudyNote", true).toBool();
-        m.isDir = m_settingsFile->value("isDir").toBool();
-        m.encoding = m_settingsFile->value("encoding").toString();
+
+        m.biblequote_removeHtml = m_settingsFile->value("removeHtml", true).toInt();
+
         m.styleSheet = m_settings->recoverUrl(m_settingsFile->value("styleSheet", ":/data/css/default.css").toString());
-        m_settings->m_moduleSettings.append(m);
+
+        m.versificationFile = m_settings->recoverUrl(m_settingsFile->value("versificationFile").toString());
+        m.versificationName = m_settingsFile->value("versificationName").toString();
+        m.useParentsSettings = m_settingsFile->value("useParentsSettings").toBool();
+
+        m.parentID = m_settingsFile->value("parentID").toInt();
+        m_settings->m_moduleSettings.insert(m.moduleID, m);
     }
     m_settingsFile->endArray();
+    //todo: generate the tree
     m_settings->sessionID = m_settingsFile->value("general/lastSession", "0").toString();
 
     size = m_settingsFile->beginReadArray("sessions");
@@ -297,30 +308,9 @@ void MainWindow::loadSettings()
     }
     m_settingsFile->endArray();
 
-    size = m_moduleCacheFile->beginReadArray("modulecache");
-
-    for(int i = 0; i < size; ++i) {
-        m_moduleCacheFile->setArrayIndex(i);
-        ModuleCache c;
-        c.setBookCount(m_moduleCacheFile->value("bookCount").toMap());
-        const QStringList names = m_moduleCacheFile->value("bookNames").toStringList();
-        const QStringList ids = m_moduleCacheFile->value("bookIDs").toStringList();
-        QHash<int, QString> bookNames;
-        for(int n = 0; n < ids.size(); ++n) {
-            bookNames.insert(ids.at(n).toInt(), names.at(n));
-        }
-        c.bookNames = bookNames;
-        c.title = m_moduleCacheFile->value("title").toString();
-        m_settings->m_moduleCache.insert(m_settings->recoverUrl(m_moduleCacheFile->value("path").toString()), c);
-
-    }
-    m_moduleCacheFile->endArray();
-
 }
 void MainWindow::writeSettings()
 {
-    //DEBUG_FUNC_NAME
-
     m_settingsFile->setValue("general/version", m_settings->version);
     m_settingsFile->setValue("general/encoding", m_settings->encoding);
     m_settingsFile->setValue("general/zoomstep", m_settings->zoomstep);
@@ -331,21 +321,31 @@ void MainWindow::writeSettings()
     m_settingsFile->setValue("bible/textFormatting", m_settings->textFormatting);
 
     m_settingsFile->beginWriteArray("module");
-    for(int i = 0; i < m_settings->m_moduleSettings.size(); ++i) {
+    QHashIterator<int, ModuleSettings> it(m_settings->m_moduleSettings);
+    for(int i = 0; it.hasNext(); ++i) {
+        it.next();
         m_settingsFile->setArrayIndex(i);
-        ModuleSettings m = m_settings->m_moduleSettings.at(i);
+        ModuleSettings m = it.value();
+
+        m_settingsFile->setValue("id", m.moduleID);
         m_settingsFile->setValue("name", m.moduleName);
+        m_settingsFile->setValue("shortName", m.moduleShortName);
         m_settingsFile->setValue("path", m_settings->savableUrl(m.modulePath));
         m_settingsFile->setValue("type", m.moduleType);
+
         m_settingsFile->setValue("textFormatting", m.zefbible_textFormatting);
         m_settingsFile->setValue("removeHtml", m.biblequote_removeHtml);
         m_settingsFile->setValue("hardCache", m.zefbible_hardCache);
         m_settingsFile->setValue("softCache", m.zefbible_softCache);
         m_settingsFile->setValue("showStrong", m.zefbible_showStrong);
         m_settingsFile->setValue("showStudyNote", m.zefbible_showStudyNote);
-        m_settingsFile->setValue("isDir", m.isDir);
         m_settingsFile->setValue("encoding", m.encoding);
         m_settingsFile->setValue("styleSheet", m_settings->savableUrl(m.styleSheet));
+        m_settingsFile->setValue("versificationFile", m_settings->savableUrl(m.versificationFile));
+        m_settingsFile->setValue("versificationName", m.versificationName);
+        m_settingsFile->setValue("useParentsSettings", m.useParentsSettings);
+        m_settingsFile->setValue("parentID", m.parentID);
+
     }
     m_settingsFile->endArray();
 
@@ -360,31 +360,6 @@ void MainWindow::writeSettings()
     }
     m_settingsFile->endArray();
 
-
-    m_moduleCacheFile->beginWriteArray("modulecache");
-    QMapIterator<QString, ModuleCache> i(m_settings->m_moduleCache);
-    int k = 0;
-    while(i.hasNext()) {
-        i.next();
-        k++;
-        m_moduleCacheFile->setArrayIndex(k);
-        ModuleCache c = i.value();
-        QString url = m_settings->savableUrl(i.key());
-        m_moduleCacheFile->setValue("title", c.title);
-        QHashIterator<int, QString> i(c.bookNames);
-        QStringList bookNames;
-        QStringList bookIDs;
-        while(i.hasNext()) {
-            i.next();
-            bookNames << i.value();
-            bookIDs << QString::number(i.key());
-        }
-        m_moduleCacheFile->setValue("bookNames", bookNames);
-        m_moduleCacheFile->setValue("bookIDs", bookIDs);
-        m_moduleCacheFile->setValue("bookCount", c.toStringMap());
-        m_moduleCacheFile->setValue("path", url);
-    }
-    m_moduleCacheFile->endArray();
 }
 void MainWindow::saveSettings(Settings newSettings, bool modifedModuleSettings)
 {

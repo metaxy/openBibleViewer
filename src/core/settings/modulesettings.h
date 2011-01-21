@@ -21,7 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/versification.h"
 #include "src/core/verse/versification/versification_kjv.h"
 #include "src/core/verse/versification/versification_cache.h"
-#include "src/core/core.h"
+#include "src/core/obvcore.h"
 /**
   * ModuleSettings represents a settings class for modules.
   */
@@ -43,7 +43,7 @@ public:
     QString modulePath;
     QString moduleName;
     QString moduleShortName;
-    CORE::ModuleType moduleType;
+    OBVCore::ModuleType moduleType;
 
     QString encoding;
     bool useParentsSettings;
@@ -67,7 +67,8 @@ public:
       * It can be a path to a versification file
       * or a name of a versification e.g kjv
       */
-    QString versification;
+    QString versificationFile;
+    QString versificationName;
     bool hasVersfication;
     Versification *v11n;
     /**
@@ -75,6 +76,8 @@ public:
       */
     void loadVersification();
     void saveVersification();
+
+    int parentID;
 
 private:
 

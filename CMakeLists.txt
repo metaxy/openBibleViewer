@@ -72,7 +72,7 @@ set ( openBibleViewer_HDRS
     src/core/KoXmlWriter.h
     src/core/KoXmlNS.h
     src/core/KoXmlReaderForward.h
-    src/core/core.h
+    src/core/obvcore.h
     
 
     src/core/search/searchprovider.h

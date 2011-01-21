@@ -32,10 +32,10 @@ ModuleSettings::~ModuleSettings()
 
 void ModuleSettings::loadVersification()
 {
-    if(versification == "kjv") {
+    if(versificationName == "kjv") {
         v11n = new Versification_KJV();
     } else {
-        QSettings settings(versification,QSettings::IniFormat);
+        QSettings settings(versificationFile,QSettings::IniFormat);
         const QStringList books = settings.childGroups();
         if(books.isEmpty())
             return;
@@ -66,8 +66,8 @@ void ModuleSettings::loadVersification()
 }
 void ModuleSettings::saveVersification()
 {
-    if(versification != "kjv") {
-        QSettings settings(versification, QSettings::IniFormat);
+    if(versificationName != "kjv") {
+        QSettings settings(versificationFile, QSettings::IniFormat);
         if(v11n == NULL)
             return;
         const QMap<int, BookV11N> map = v11n->data();

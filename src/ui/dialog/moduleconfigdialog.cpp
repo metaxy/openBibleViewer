@@ -24,7 +24,7 @@ ModuleConfigDialog::ModuleConfigDialog(QWidget *parent) :
     connect(m_ui->pushButton_cancel, SIGNAL(clicked()), this, SLOT(close()));
     connect(m_ui->toolButton_file, SIGNAL(clicked()), this, SLOT(fileSelect()));
     connect(m_ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this, SLOT(moduleTypeChanged(int)));
-    m_ui->comboBox_type->insertItems(0, CORE::ModuleTypeNames());
+    m_ui->comboBox_type->insertItems(0, OBVCore::ModuleTypeNames());
 }
 
 ModuleConfigDialog::~ModuleConfigDialog()
@@ -37,7 +37,7 @@ void ModuleConfigDialog::setModule(ModuleSettings config)
     m_moduleSettings = config;
     m_ui->lineEdit_name->setText(config.moduleName);
     m_ui->lineEdit_path->setText(config.modulePath);
-    m_ui->comboBox_type->setCurrentIndex(config.moduleType.toInt());
+    m_ui->comboBox_type->setCurrentIndex(config.moduleType);
     m_ui->comboBox_textFromatting->setCurrentIndex(config.zefbible_textFormatting);
     if(config.biblequote_removeHtml == true)
         m_ui->checkBox_removeHtml->setChecked(true);
@@ -85,9 +85,9 @@ void ModuleConfigDialog::bsave()
 {
     //DEBUG_FUNC_NAME
 
-    if(m_moduleSettings.moduleType.toInt() == CORE::ZefaniaBibleModule &&
+    if(m_moduleSettings.moduleType == OBVCore::ZefaniaBibleModule &&
             (m_moduleSettings.encoding != m_encodings.at(m_ui->comboBox_encoding->currentIndex()) ||
-             m_moduleSettings.moduleType != QString::number(m_ui->comboBox_type->currentIndex()) ||
+             (int)m_moduleSettings.moduleType != m_ui->comboBox_type->currentIndex() ||
              m_moduleSettings.modulePath != m_ui->lineEdit_path->text())) {
         //myDebug() << "clear hard in zefania cache";
         ZefaniaBible zef;
@@ -98,8 +98,8 @@ void ModuleConfigDialog::bsave()
     }
     m_moduleSettings.moduleName = m_ui->lineEdit_name->text();
     m_moduleSettings.modulePath = m_ui->lineEdit_path->text();
-    m_moduleSettings.moduleType = QString::number(m_ui->comboBox_type->currentIndex());
-    m_moduleSettings.zefbible_textFormatting = m_ui->comboBox_textFromatting->currentIndex();
+    m_moduleSettings.moduleType = (OBVCore::ModuleType) m_ui->comboBox_type->currentIndex();
+    m_moduleSettings.zefbible_textFormatting = (ModuleSettings::ZefBible_TextFormating) m_ui->comboBox_textFromatting->currentIndex();
     m_moduleSettings.biblequote_removeHtml = m_ui->checkBox_removeHtml->isChecked();
     m_moduleSettings.zefbible_hardCache =  m_ui->checkBox_hardCache->isChecked();
     m_moduleSettings.zefbible_softCache =  m_ui->checkBox_softCache->isChecked();
@@ -116,10 +116,10 @@ void ModuleConfigDialog::moduleTypeChanged(int id)
     m_ui->groupBox_zefBible->setVisible(false);
     id = m_ui->comboBox_type->currentIndex();
     switch(id) {
-    case CORE::BibleQuoteModule:
+    case OBVCore::BibleQuoteModule:
         m_ui->groupBox_bq->setVisible(true);
         break;
-    case CORE::ZefaniaBibleModule:
+    case OBVCore::ZefaniaBibleModule:
         m_ui->groupBox_zefBible->setVisible(true);
         break;
 
@@ -127,7 +127,7 @@ void ModuleConfigDialog::moduleTypeChanged(int id)
 }
 void  ModuleConfigDialog::fileSelect()
 {
-    if(m_moduleSettings.isDir) {
+    /*if(m_moduleSettings.isDir) {
         QFileDialog dialog(this);
         dialog.setFileMode(QFileDialog::Directory);
         dialog.setOption(QFileDialog::ShowDirsOnly, true);
@@ -137,12 +137,12 @@ void  ModuleConfigDialog::fileSelect()
                 m_ui->lineEdit_path->setText(fileName.first());
             }
         }
-    } else {
+    } else {*/
         const QString fileName = QFileDialog::getOpenFileName(this, tr("Open Bible"), m_moduleSettings.modulePath, tr("Bibles (*.ini *.xml *.*)"));
         if(!fileName.isEmpty()) {
             m_ui->lineEdit_path->setText(fileName);
         }
-    }
+   /* }*/
     return;
 }
 void ModuleConfigDialog::changeEvent(QEvent *e)

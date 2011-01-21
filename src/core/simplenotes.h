@@ -30,7 +30,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/recursivproxymodel.h"
 #include "src/core/urlconverter2.h"
 #include "src/ui/dialog/biblepassagedialog.h"
-#include "src/core/core.h"
+#include "src/core/obvcore.h"
 #include "src/core/dbghelper.h"
 
 #include <QtGui/QSortFilterProxyModel>

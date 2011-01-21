@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include "src/ui/dialog/searchdialog.h"
 #include "src/core/settings/bibledisplaysettings.h"
-#include "src/core/core.h"
+#include "src/core/obvcore.h"
 #include "src/core/search/search.h"
 #include "src/core/faststart.h"
 #include <QtGui/QDesktopServices>
@@ -139,7 +139,7 @@ void SimpleInterface::loadModuleDataByID(int id)
     //myDebug() << "id = " << id;
     if(id < 0 || !m_moduleManager->contains(id))
         return;
-    CORE::ModuleType type = m_moduleManager->getModule(id)->moduleType();
+    OBVCore::ModuleType type = m_moduleManager->getModule(id)->moduleType();
     m_moduleManager->verseModule()->setModuleType(type);
 
     m_moduleManager->verseModule()->loadModuleData(id);
@@ -235,7 +235,7 @@ void SimpleInterface::pharseUrl(QString url)
          bool ok;
          int c = url.toInt(&ok, 10);
          myDebug() << "c = " << c;
-         if(ok && c < m_moduleManager->verseModule()->chaptersCount() && m_moduleManager->verseModule()->moduletype() == CORE::BibleQuoteModule && m_moduleManager->verseModule()->chapterID() != c) {
+         if(ok && c < m_moduleManager->verseModule()->chaptersCount() && m_moduleManager->verseModule()->moduletype() == OBVCore::BibleQuoteModule && m_moduleManager->verseModule()->chapterID() != c) {
              //myDebug() << "bq chapter link";
              showChapter(c, 0);
              setCurrentChapter(c);*/
@@ -246,7 +246,7 @@ void SimpleInterface::pharseUrl(QString url)
          ui->textBrowser->scrollToAnchor(url);
      }
         } else {
-     if(m_moduleManager->verseModule()->moduletype() == CORE::BibleQuoteModule && m_moduleManager->verseModule()->bookPath().contains(url)) {
+     if(m_moduleManager->verseModule()->moduletype() == OBVCore::BibleQuoteModule && m_moduleManager->verseModule()->bookPath().contains(url)) {
          emit get("bible://current/" + m_moduleManager->verseModule()->bookPath().lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
      } else {
          myWarning() << "invalid URL";

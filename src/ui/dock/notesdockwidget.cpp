@@ -19,7 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMenu>
 #include <QtGui/QColorDialog>
 #include <QtGui/QMessageBox>
-#include "src/core/core.h"
+#include "src/core/obvcore.h"
 NotesDockWidget::NotesDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::NotesDockWidget)

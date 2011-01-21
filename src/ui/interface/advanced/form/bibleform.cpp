@@ -366,7 +366,7 @@ void BibleForm::showText(const QString &text)
         //because the user zoomed in.
     }
 
-    if(m_moduleManager->verseModule()->moduleType() == CORE::BibleQuoteModule) {
+    if(m_moduleManager->verseModule()->moduleType() == OBVCore::BibleQuoteModule) {
         //todo: uncomment
         /* QWebElementCollection collection = frame->documentElement().findAll("img");
          const QStringList searchPaths = m_moduleManager->verseModule()->getSearchPaths();
@@ -699,7 +699,7 @@ void BibleForm::copyWholeVerse(void)
         }
 
         int add = 0;
-        if(m_moduleManager->verseModule()->moduleType() == CORE::BibleQuoteModule)
+        if(m_moduleManager->verseModule()->moduleType() == OBVCore::BibleQuoteModule)
             add = 1; //because of the title
         myDebug() << "startVerse = " << selection.startVerse << " endVerse = " << selection.endVerse;
         Range r;

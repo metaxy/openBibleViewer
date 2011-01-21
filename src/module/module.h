@@ -18,7 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/dictionary/biblequote-dict.h"
 #include "src/module/dictionary/zefania-lex.h"
 #include "src/module/bible/biblemodule.h"
-#include "src/core/core.h"
+#include "src/core/obvcore.h"
 class Module
 {
 public:
@@ -28,14 +28,14 @@ public:
     QString path() const;
     QString title() const;
     int moduleID() const;
-    CORE::ModuleClass moduleClass() const;
-    CORE::ModuleType moduleType() const;
+    OBVCore::ModuleClass moduleClass() const;
+    OBVCore::ModuleType moduleType() const;
 
     void setPath(const QString &path);
     void setTitle(const QString &title);
     void setModuleID(const int moduleID);
-    void setModuleClass(const CORE::ModuleClass &c);
-    void setModuleType(const CORE::ModuleType &t);
+    void setModuleClass(const OBVCore::ModuleClass &c);
+    void setModuleType(const OBVCore::ModuleType &t);
 
     BibleModule *m_bibleModule;
     ZefaniaLex *m_zefaniaLex;
@@ -54,8 +54,8 @@ private:
     QString m_path;
     QString m_title;
     int m_id;
-    CORE::ModuleClass m_moduleClass;
-    CORE::ModuleType m_moduleType;
+    OBVCore::ModuleClass m_moduleClass;
+    OBVCore::ModuleType m_moduleType;
 };
 
 #endif // MODULE_H

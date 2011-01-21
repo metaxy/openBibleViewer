@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/settings.h"
 #include "src/module/modulemap.h"
 #include "src/module/module.h"
-#include "src/core/core.h"
+#include "src/core/obvcore.h"
 /**
   * It is an abstract class for classes like bible or dictionary, which are meta modules.
   * They contains other similiar modules to provide an simple access to them.
@@ -30,8 +30,8 @@ public:
     virtual ~SimpleModuleClass();
     virtual void setSettings(Settings *settings);
     virtual void setNotes(Notes *n);
-    void setModuleType(const CORE::ModuleType &type);
-    CORE::ModuleType moduleType() const;
+    void setModuleType(const OBVCore::ModuleType &type);
+    OBVCore::ModuleType moduleType() const;
 
     void setModuleMap(ModuleMap *map);
     int moduleID() const;
@@ -49,7 +49,7 @@ protected:
     ModuleMap *m_map;
 
     int m_moduleID;
-    CORE::ModuleType m_moduleType;
+    OBVCore::ModuleType m_moduleType;
 private:
 
 };

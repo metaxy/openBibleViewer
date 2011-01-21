@@ -122,7 +122,7 @@ void SettingsDialog::generateModuleTree()
         QTreeWidgetItem *ibible = new QTreeWidgetItem(m_ui->treeWidget_module);
         ibible->setText(0, it.value().moduleName);
         ibible->setText(1, it.value().modulePath);
-        const QString moduleType = CORE::ModuleTypeName(it.value().moduleType);
+        const QString moduleType = OBVCore::ModuleTypeName(it.value().moduleType);
         ibible->setText(2, moduleType);
         items << ibible;
     }
@@ -181,7 +181,7 @@ void SettingsDialog::addModuleDir(void)
                         dictname = "(" + QString::number(i) + ")";
                     }
                     m.moduleName = dictname;
-                    m.moduleType = QString::number(CORE::NoneType);
+                    m.moduleType = QString::number(OBVCore::NoneType);
                     //m.isDir = true;
                 } else {
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
@@ -288,7 +288,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
             }
             const QString f = fileName.at(i);
             QString moduleName;
-            CORE::ModuleType moduleType = CORE::NoneType;
+            OBVCore::ModuleType moduleType = OBVCore::NoneType;
             QString moduleTypeName = "";
             BibleQuote bq;
             ZefaniaBible zef;
@@ -308,7 +308,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                 }
                 moduleType = ModuleManager::recognizeModuleType(f);
 
-                if(moduleType == CORE::NoneType) {
+                if(moduleType == OBVCore::NoneType) {
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
                     myWarning() << "cannot determine module type";
                     progress.close();
@@ -317,39 +317,39 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                 }
 
                 switch(moduleType) {
-                case CORE::BibleQuoteModule:
+                case OBVCore::BibleQuoteModule:
                     if(names.size() == 0 || i >= names.size()) {
                         moduleName = bq.readInfo(f);
                     }
                     moduleTypeName = QObject::tr("Bible Quote");
                     break;
-                case CORE::ZefaniaBibleModule:
+                case OBVCore::ZefaniaBibleModule:
                     if(names.size() == 0 || i >= names.size()) {
                         moduleName = zef.readInfo(f);
                     }
                     moduleTypeName = QObject::tr("Zefania XML");
                     break;
-                case CORE::ZefaniaLexModule:
+                case OBVCore::ZefaniaLexModule:
                     if(names.size() == 0 || i >= names.size()) {
                         moduleName = zefLex.buildIndexFromFile(f);
                     }
                     moduleTypeName = QObject::tr("Zefania XML Dictionary");
                     break;
-                case CORE::BibleQuoteDictModule:
+                case OBVCore::BibleQuoteDictModule:
                     if(names.size() == 0 || i >= names.size()) {
                         moduleName = bibleQuoteDict.readInfo(f);
                         bibleQuoteDict.buildIndex();
                     }
                     moduleTypeName = QObject::tr("Bible Quote Dictionary");
                     break;
-                case CORE::TheWordBibleModule:
+                case OBVCore::TheWordBibleModule:
                     if(names.size() == 0 || i >= names.size()) {
                         moduleName = theWordBible.readInfo(f);
                     }
                     moduleTypeName = QObject::tr("The Word Bible");
                     myDebug() << "the word bible module " << moduleTypeName;
                     break;
-                case CORE::NoneType:
+                case OBVCore::NoneType:
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
                     progress.close();
                     generateModuleTree();

@@ -17,7 +17,7 @@ Dictionary::Dictionary()
 {
     m_zefaniaLex = 0;
     m_bibleQuoteDict = 0;
-    m_moduleType = CORE::NoneType;
+    m_moduleType = OBVCore::NoneType;
     m_moduleID = -1;
 }
 int Dictionary::loadModuleData(const int &moduleID)
@@ -32,7 +32,7 @@ int Dictionary::loadModuleData(const int &moduleID)
     const QString path = m_module->path();
 
     switch(m_moduleType) {
-    case CORE::ZefaniaLexModule: {
+    case OBVCore::ZefaniaLexModule: {
         if(m_module->m_zefaniaLex) {
             m_zefaniaLex = m_module->m_zefaniaLex;
         } else {
@@ -43,7 +43,7 @@ int Dictionary::loadModuleData(const int &moduleID)
         m_zefaniaLex->setID(m_moduleID, path);
         break;
     }
-    case CORE::BibleQuoteDictModule: {
+    case OBVCore::BibleQuoteDictModule: {
         if(m_module->m_bibleQuoteDict) {
             m_bibleQuoteDict = m_module->m_bibleQuoteDict;
         } else {
@@ -62,11 +62,11 @@ int Dictionary::loadModuleData(const int &moduleID)
 QString Dictionary::getEntry(const QString &string) const
 {
     switch(m_moduleType) {
-    case CORE::ZefaniaLexModule: {
+    case OBVCore::ZefaniaLexModule: {
         return m_zefaniaLex->getEntry(string);
         break;
     }
-    case CORE::BibleQuoteDictModule: {
+    case OBVCore::BibleQuoteDictModule: {
         return m_bibleQuoteDict->getEntry(string);
         break;
     }
@@ -79,10 +79,10 @@ QStringList Dictionary::getAllKeys() const
 {
     //DEBUG_FUNC_NAME
     switch(m_moduleType) {
-    case CORE::ZefaniaLexModule: {
+    case OBVCore::ZefaniaLexModule: {
         return m_zefaniaLex->getAllKeys();
     }
-    case CORE::BibleQuoteDictModule: {
+    case OBVCore::BibleQuoteDictModule: {
         return m_bibleQuoteDict->getAllKeys();
     }
     default:

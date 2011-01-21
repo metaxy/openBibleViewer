@@ -77,7 +77,7 @@ public:
     void checkCache(const int &moduleID);
     VerseModule * newVerseModule(const int &moduleID, QPoint p);
     BibleDisplaySettings *m_bibleDisplaySettings;
-    static CORE::ModuleType recognizeModuleType(const QString &fileName);
+    static OBVCore::ModuleType recognizeModuleType(const QString &fileName);
 
 private:
     static QStringList scan(const QString &path, const int &level);
