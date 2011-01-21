@@ -62,7 +62,7 @@ set ( openBibleViewer_HDRS
     src/core/verse/versification/bookv11n.h
 
 
-    src/core/core.h
+
     src/core/basicclass.h
     src/core/dbghelper.h
     src/core/faststart.h
@@ -72,7 +72,7 @@ set ( openBibleViewer_HDRS
     src/core/KoXmlWriter.h
     src/core/KoXmlNS.h
     src/core/KoXmlReaderForward.h
-   
+    src/core/core.h
     
 
     src/core/search/searchprovider.h

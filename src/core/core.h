@@ -13,4 +13,22 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef CORE_H
 #define CORE_H
+namespace CORE {
+enum ModuleClass {
+    NoneClass = 0,
+    BibleModuleClass = 1,
+    DictionaryModuleClass = 2,
+    FolderClass = 3
+};
+
+enum ModuleType {
+    NoneType = 0,
+    BibleQuoteModule = 1,
+    ZefaniaBibleModule = 2,
+    ZefaniaLexModule = 3,
+    BibleQuoteDictModule = 4,
+    TheWordBibleModule = 5
+};
+
+}
 #endif //CORE_H

@@ -37,7 +37,6 @@ protected:
     virtual void changeEvent(QEvent *e);
 public slots:
     void save();
-
     void indexChanged(int index);
 signals:
     void updated(QString pos);

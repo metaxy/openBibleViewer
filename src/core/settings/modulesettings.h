@@ -19,23 +19,41 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 #include <QtCore/QSettings>
 #include "src/core/verse/versification.h"
+#include "src/core/verse/versification/versification_kjv.h"
 #include "src/core/verse/versification/versification_cache.h"
+#include "src/core/core.h"
 /**
   * ModuleSettings represents a settings class for modules.
   */
 class ModuleSettings
 {
 public:
-    ModuleSettings();
+    ModuleSettings(ModuleSettings *parent);
     ~ModuleSettings();
+
+    void setParent(ModuleSettings *parent);
+    ModuleSettings *parent() const;
+
+    QList<ModuleSettings *> children();
+    void appendChild(ModuleSettings* child);
+
+
+    int moduleID;
     QString modulePath;
     QString moduleName;
     QString moduleShortName;
-    //todo: Use somthing like Module::ModuleType
-    QString moduleType;
-    QString encoding;
+    CORE::ModuleType moduleType;
 
-    int zefbible_textFormatting;//0 = Neue Zeile nach Vers, 1 = Unformatierter Textblock
+    QString encoding;
+    bool useParentsSettings;
+
+    enum ZefBible_TextFormating {
+        NewLine = 0,//Neue Zeile nach Vers
+        Block = 1//Unformatierter Textblock
+    };
+
+    ZefBible_TextFormating zefbible_textFormatting;
+
     bool zefbible_hardCache;
     bool zefbible_softCache;
     bool zefbible_showStrong;
@@ -57,7 +75,10 @@ public:
     void loadVersification();
     void saveVersification();
 
+private:
 
+    ModuleSettings *m_parent;
+    QList<ModuleSettings *> m_children;
 };
 
 #endif // MODULESETTINGS_H

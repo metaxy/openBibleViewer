@@ -116,16 +116,13 @@ void SettingsDialog::generateModuleTree()
 {
     m_ui->treeWidget_module->clear();
     QList<QTreeWidgetItem *> items;
-    for(int i = 0; i < m_set.m_moduleSettings.size(); i++) {
+    QHashIterator<int, ModuleSettings> it(m_set.m_moduleSettings);
+    while(it.hasNext()) {
+        it.next();
         QTreeWidgetItem *ibible = new QTreeWidgetItem(m_ui->treeWidget_module);
-        ibible->setText(0, m_set.m_moduleSettings.at(i).moduleName);
-        ibible->setText(1, m_set.m_moduleSettings.at(i).modulePath);
-        QString moduleType;
-        if(m_set.m_moduleSettings.at(i).isDir) {
-            moduleType = QObject::tr("Folder");
-        } else {
-            moduleType = Module::moduleTypeNames().at(m_set.m_moduleSettings.at(i).moduleType.toInt());
-        }
+        ibible->setText(0, it.value().moduleName);
+        ibible->setText(1, it.value().modulePath);
+        const QString moduleType = CORE::ModuleTypeNames().at(it.value().moduleType.toInt());
         ibible->setText(2, moduleType);
         items << ibible;
     }
@@ -144,9 +141,11 @@ void SettingsDialog::addModuleFile(void)
     }
     return;
 }
+//todo: read all modules
+//and add them sepreatly
 void SettingsDialog::addModuleDir(void)
 {
-    m_modifedModuleSettings = true;
+   /* m_modifedModuleSettings = true;
     QFileDialog dialog(this);
 
     dialog.setFileMode(QFileDialog::Directory);
@@ -183,7 +182,7 @@ void SettingsDialog::addModuleDir(void)
                     }
                     m.moduleName = dictname;
                     m.moduleType = QString::number(Module::NoneType);
-                    m.isDir = true;
+                    //m.isDir = true;
                 } else {
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
                     return;
@@ -205,14 +204,14 @@ void SettingsDialog::addModuleDir(void)
                 ibible->setText(1, m.modulePath);
                 ibible->setText(2, moduleType);
                 items << ibible;
-                m_set.m_moduleSettings << m;
+                m_set.insertModuleSettings(m);
+                //m_set.m_moduleSettings << m;
             }
             progress.close();
             m_ui->treeWidget_module->insertTopLevelItems(0, items);
         }
 
-    }
-    return;
+    }*/
 }
 void SettingsDialog::removeModule()
 {
@@ -222,7 +221,7 @@ void SettingsDialog::removeModule()
     QTreeWidgetItem * token = m_ui->treeWidget_module->currentItem();
     delete token;
     //remove from settings
-    m_set.m_moduleSettings.removeAt(row);
+   // m_set.m_moduleSettings.removeAt(row);
     return;
 }
 void SettingsDialog::editModule()
@@ -232,7 +231,7 @@ void SettingsDialog::editModule()
     int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
     if(row >= 0) {
         ModuleConfigDialog *mDialog = new ModuleConfigDialog(this);
-        mDialog->setModule(m_set.m_moduleSettings.at(row));
+       // mDialog->setModule(m_set.m_moduleSettings.at(row));
         connect(mDialog, SIGNAL(save(ModuleSettings)), this, SLOT(saveModule(ModuleSettings)));
         connect(mDialog, SIGNAL(save(ModuleSettings)), mDialog, SLOT(close()));
         mDialog->show();
@@ -242,16 +241,16 @@ void SettingsDialog::editModule()
 }
 void SettingsDialog::saveModule(ModuleSettings c)
 {
-    int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
-    m_set.m_moduleSettings.replace(row, c);
-    generateModuleTree();
+    //int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
+   // m_set.m_moduleSettings.replace(row, c);
+   // generateModuleTree();
 }
 void SettingsDialog::save(void)
 {
     //Informationen aus dem Dialog auslesen
     m_set.encoding = m_encodings.at(m_ui->comboBox_encoding->currentIndex());
     m_set.language = m_langCode.at(m_ui->comboBox_language->currentIndex());
-    m_set.autoLayout = m_ui->comboBox_autoLayout->currentIndex();
+    m_set.autoLayout = (Settings::LayoutEnum) m_ui->comboBox_autoLayout->currentIndex();
     int currentInterface = m_ui->comboBox_interface->currentIndex();
     if(currentInterface == 0) {
         m_set.session.setData("interface", "simple");
@@ -289,7 +288,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
             }
             const QString f = fileName.at(i);
             QString moduleName;
-            Module::ModuleType moduleType = Module::NoneType;
+            CORE::ModuleType moduleType = Module::NoneType;
             QString moduleTypeName = "";
             BibleQuote bq;
             ZefaniaBible zef;
@@ -364,7 +363,6 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                     m.moduleName = moduleName;
                 }
                 m.moduleType = QString::number(moduleType);
-                m.isDir = false;
 
             } else {
                 QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot open the file."));
@@ -381,7 +379,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
             m.zefbible_showStrong = true;
             m.zefbible_showStudyNote = true;
             m.encoding = "Default";//no translating
-            m_set.m_moduleSettings << m;
+           // m_set.m_moduleSettings << m;
         }
         generateModuleTree();
         progress.close();

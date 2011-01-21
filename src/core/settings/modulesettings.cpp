@@ -40,8 +40,8 @@ void ModuleSettings::loadVersification()
             settings.beginGroup(book);
             const QString name = settings.value("name").toString();
             const QStringList shortNames = settings.value("shortNames").toStringList();
-            const int maxChapter = settings.value("maxChapter");
-            const QStringList maxVerse = settings.value("maxVerse");
+            const int maxChapter = settings.value("maxChapter").toInt();
+            const QStringList maxVerse = settings.value("maxVerse").toStringList();
             QList<int> iMaxVerse;
             foreach(QString v, maxVerse) {
                 iMaxVerse.append(v.toInt());

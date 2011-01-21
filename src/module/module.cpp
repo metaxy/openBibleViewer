@@ -23,7 +23,7 @@ Module::Module(Module *parent)
 Module::~Module()
 {
 }
-QStringList Module::moduleTypeNames()
+QStringList CORE::ModuleTypeNames()
 {
     QStringList l;
     l << QObject::tr("Unkown") << QObject::tr("BibleQuote") << QObject::tr("Zefania XML Bible")
@@ -57,11 +57,11 @@ int Module::moduleID() const
 {
     return m_id;
 }
-Module::ModuleClass Module::moduleClass() const
+CORE::ModuleClass Module::moduleClass() const
 {
     return m_moduleClass;
 }
-Module::ModuleType Module::moduleType() const
+CORE::ModuleType CORE::ModuleType() const
 {
     return m_moduleType;
 }
@@ -86,7 +86,7 @@ void Module::setModuleClass(const Module::ModuleClass &c)
     m_moduleClass = c;
 }
 
-void Module::setModuleType(const Module::ModuleType &t)
+void Module::setModuleType(const CORE::ModuleType &t)
 {
     m_moduleType = t;
 }

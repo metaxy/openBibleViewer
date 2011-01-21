@@ -96,7 +96,7 @@ int Bible::loadModuleData(const int &moduleID)
         m_moduleTitle = m.moduleName;
     m_moduleShortTitle = m_bibleModule->moduleName(true);
 
-    m_settings->setTitle(m_module->path(), m_moduleTitle);
+    //m_settings->setTitle(m_module->path(), m_moduleTitle);
     //todo: port to set cache
     m_loaded = true;
     return 0;

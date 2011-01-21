@@ -18,31 +18,18 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/dictionary/biblequote-dict.h"
 #include "src/module/dictionary/zefania-lex.h"
 #include "src/module/bible/biblemodule.h"
+#include "src/core/core.h"
 class Module
 {
 public:
     Module(Module *parent = 0);
     virtual ~Module();
-    enum ModuleClass {
-        NoneClass = 0,
-        FolderClass = 3,
-        BibleModuleClass = 1,
-        DictionaryModuleClass = 2
-    };
-    enum ModuleType {
-        NoneType = 0,
-        BibleQuoteModule = 1,
-        ZefaniaBibleModule = 2,
-        ZefaniaLexModule = 3,
-        BibleQuoteDictModule = 4,
-        TheWordBibleModule = 5
-    };
 
     QString path() const;
     QString title() const;
     int moduleID() const;
-    ModuleClass moduleClass() const;
-    ModuleType moduleType() const;
+    CORE::ModuleClass moduleClass() const;
+    CORE::ModuleType moduleType() const;
 
     void setPath(const QString &path);
     void setTitle(const QString &title);
@@ -67,8 +54,8 @@ private:
     QString m_path;
     QString m_title;
     int m_id;
-    ModuleClass m_moduleClass;
-    ModuleType m_moduleType;
+    CORE::ModuleClass m_moduleClass;
+    CORE::ModuleType m_moduleType;
 };
 
 #endif // MODULE_H

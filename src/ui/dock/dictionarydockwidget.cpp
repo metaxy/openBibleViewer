@@ -102,7 +102,7 @@ void DictionaryDockWidget::loadModule(int id)
         ui->comboBox_strongModule->setCurrentIndex(id);//select item in combobox
         const int moduleID = dictModuleID.at(id);//convert id to module id
         Module *m = m_moduleManager->getModule(moduleID);
-        Module::ModuleType type = m->moduleType();
+        CORE::ModuleType type = m->moduleType();
         m_moduleManager->dictionary()->setModuleType(type);
         m_moduleManager->dictionary()->loadModuleData(moduleID);
 

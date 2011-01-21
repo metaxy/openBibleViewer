@@ -139,7 +139,7 @@ void SimpleInterface::loadModuleDataByID(int id)
     //myDebug() << "id = " << id;
     if(id < 0 || !m_moduleManager->contains(id))
         return;
-    Module::ModuleType type = m_moduleManager->getModule(id)->moduleType();
+    CORE::ModuleType type = m_moduleManager->getModule(id)->moduleType();
     m_moduleManager->verseModule()->setModuleType(type);
 
     m_moduleManager->verseModule()->loadModuleData(id);

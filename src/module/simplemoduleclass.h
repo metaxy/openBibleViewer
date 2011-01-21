@@ -29,8 +29,8 @@ public:
     virtual ~SimpleModuleClass();
     virtual void setSettings(Settings *settings);
     virtual void setNotes(Notes *n);
-    void setModuleType(const Module::ModuleType &type);
-    Module::ModuleType moduleType() const;
+    void setModuleType(const CORE::ModuleType &type);
+    CORE::ModuleType moduleType() const;
 
     void setModuleMap(ModuleMap *map);
     int moduleID() const;
@@ -48,7 +48,7 @@ protected:
     ModuleMap *m_map;
 
     int m_moduleID;
-    Module::ModuleType m_moduleType;
+    CORE::ModuleType m_moduleType;
 private:
 
 };

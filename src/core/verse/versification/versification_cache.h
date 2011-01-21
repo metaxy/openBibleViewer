@@ -2,7 +2,7 @@
 #define VERSIFICATION_CACHE_H
 #include <QtCore/QString>
 #include "src/core/verse/versification.h"
-class Versification_Cache : Versification
+class Versification_Cache : public Versification
 {
         Q_OBJECT
 public:

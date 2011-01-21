@@ -24,7 +24,7 @@ ModuleConfigDialog::ModuleConfigDialog(QWidget *parent) :
     connect(m_ui->pushButton_cancel, SIGNAL(clicked()), this, SLOT(close()));
     connect(m_ui->toolButton_file, SIGNAL(clicked()), this, SLOT(fileSelect()));
     connect(m_ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this, SLOT(moduleTypeChanged(int)));
-    m_ui->comboBox_type->insertItems(0, Module::moduleTypeNames());
+    m_ui->comboBox_type->insertItems(0, CORE::ModuleTypeNames());
 }
 
 ModuleConfigDialog::~ModuleConfigDialog()

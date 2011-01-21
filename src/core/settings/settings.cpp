@@ -29,7 +29,7 @@ Settings::~Settings()
 }
 
 
-ModuleSettings Settings::getModuleSettings(const int &moduleID) const
+ModuleSettings Settings::getModuleSettings(int moduleID) const
 {
     if(m_moduleSettings.contains(moduleID)) {
         return m_moduleSettings.value(moduleID);
@@ -37,7 +37,7 @@ ModuleSettings Settings::getModuleSettings(const int &moduleID) const
         return ModuleSettings();
     }
 }
-void Settings::insertModuleSettings(const int &moduleID, ModuleSettings m)
+void Settings::insertModuleSettings(int moduleID, ModuleSettings m)
 {
     m_moduleSettings.insert(moduleID, m);
 }

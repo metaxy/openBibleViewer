@@ -33,7 +33,7 @@ void SimpleModuleClass::setModuleMap(ModuleMap *map)
     m_map = map;
 }
 
-void SimpleModuleClass::setModuleType(const Module::ModuleType &type)
+void SimpleModuleClass::setModuleType(const CORE::ModuleType &type)
 {
     m_moduleType = type;
 }
@@ -59,7 +59,7 @@ QString SimpleModuleClass::moduleUID() const
 {
     return QString();
 }
-Module::ModuleType SimpleModuleClass::moduleType() const
+CORE::ModuleType SimpleModuleClass::moduleType() const
 {
     return m_moduleType;
 }
