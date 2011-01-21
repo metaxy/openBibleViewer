@@ -68,17 +68,6 @@ int ModuleManager::loadAllModules()
     DEBUG_FUNC_NAME;
     m_moduleModel->clear();
 
-    //init FastStart
-    FastStart fastStart;
-    fastStart.setSettings(m_settings);
-    fastStart.load();
-
-    //The Progress Dialog
-    QProgressDialog progress(QObject::tr("Loading Module"), QObject::tr("Cancel"), 0, m_settings->m_moduleSettings.size());
-    progress.setWindowModality(Qt::WindowModal);
-
-    //todo: remove
-    int moduleID = 1;//Counter for the Module ID
     //The invisible root Module
     Module *root = new Module();
     root->setModuleID(-1);
@@ -95,13 +84,12 @@ int ModuleManager::loadAllModules()
 
     QIcon bibleZefaniaIcon =  QIcon::fromTheme("text-xml", QIcon(":/icons/16x16/text-xml.png"));
 
+
     ModuleSettings rootModuleSettings = m_settings->getModuleSettings(-1);//it the invisble root item
+
     foreach(ModuleSettings *s, rootModuleSettings.children()) {
         loadModule(root, parentItem, s);
     }
-
-    if(fastStart.changed())
-        fastStart.save();
     return 0;
 }
 
@@ -120,13 +108,13 @@ void ModuleManager::loadModule(Module *parentModule, QStandardItem *parentItem, 
     if(settings->moduleType == CORE::BibleQuoteModule || settings->moduleType == CORE::ZefaniaBibleModule || settings->moduleType == CORE::TheWordBibleModule) {
         module->setModuleClass(CORE::BibleModuleClass);
         item = new QStandardItem;
-        bibleItem->setText(it.value().moduleName);
-        bibleItem->setData(QString::number(moduleID));
-        bibleItem->setToolTip(CORE::ModuleTypeName(settings->moduleType) + " - " + module->path() + " (" + QString::number(module->moduleID()) + ")");
+        item->setText(settings->moduleName);
+        item->setData(QString::number(module->moduleID()));
+        item->setToolTip(CORE::ModuleTypeName(settings->moduleType) + " - " + module->path() + " (" + QString::number(module->moduleID()) + ")");
 
         //todo: icons
-        //bibleItem->setIcon(bibleQuoteIcon);
-        parentItem->appendRow(bibleItem);
+        //item->setIcon(bibleQuoteIcon);
+        parentItem->appendRow(item);
     } else if(settings->moduleType == CORE::ZefaniaLexModule || settings->moduleType == CORE::BibleQuoteDictModule) {
         module->setModuleClass(CORE::DictionaryModuleClass);
     }
@@ -148,7 +136,7 @@ void ModuleManager::initVerseModule(VerseModule *b)
 }
 
 /**
-  Returns true, if a bible is loaded.
+  * Returns true, if a bible is loaded.
   */
 bool ModuleManager::bibleLoaded()
 {
@@ -157,9 +145,7 @@ bool ModuleManager::bibleLoaded()
     return false;
 }
 
-/**
-  Returns true, if a bible has a bible;
-  */
+
 bool ModuleManager::hasBible()
 {
     if(m_verseTable && verseModule())
@@ -167,7 +153,7 @@ bool ModuleManager::hasBible()
     return false;
 }
 /**
-  Returns true, if a strong module is loaded.
+  * Returns true, if a strong module is loaded.
   */
 bool ModuleManager::strongLoaded()
 {

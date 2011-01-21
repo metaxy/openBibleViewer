@@ -33,7 +33,7 @@ public:
 
     void setPath(const QString &path);
     void setTitle(const QString &title);
-    void setModuleID(const int &moduleID);
+    void setModuleID(const int moduleID);
     void setModuleClass(const CORE::ModuleClass &c);
     void setModuleType(const CORE::ModuleType &t);
 

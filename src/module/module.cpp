@@ -55,7 +55,7 @@ CORE::ModuleClass Module::moduleClass() const
 {
     return m_moduleClass;
 }
-CORE::ModuleType CORE::ModuleType() const
+CORE::ModuleType Module::moduleType() const
 {
     return m_moduleType;
 }
@@ -70,12 +70,12 @@ void Module::setTitle(const QString &title)
     m_title = title;
 }
 
-void Module::setModuleID(const int &moduleID)
+void Module::setModuleID(const int moduleID)
 {
     m_id = moduleID;
 }
 
-void Module::setModuleClass(const Core::ModuleClass &c)
+void Module::setModuleClass(const CORE::ModuleClass &c)
 {
     m_moduleClass = c;
 }

@@ -32,8 +32,6 @@ BiblePassageDialog::~BiblePassageDialog()
 }
 void BiblePassageDialog::setCurrent(const int &bible, const QString &path, const int &book, const int &chapter, const int &verse)
 {
-    Q_UNUSED(bible);
-    //DEBUG_FUNC_NAME
     m_ui->comboBox_bibles->insertItems(0, m_moduleManager->getBibleTitles());
     m_bookID = book;
     m_chapterID = chapter + 1;
@@ -42,7 +40,8 @@ void BiblePassageDialog::setCurrent(const int &bible, const QString &path, const
 
     const int newIndex = m_moduleManager->getBiblePaths().lastIndexOf(path);
     m_ui->comboBox_bibles->setCurrentIndex(newIndex);//todo: if lastindexof == -1 show a warning
-    m_ui->comboBox_books->setCurrentIndex(m_settings->getModuleCache(m_path).bookNames.keys().indexOf(book));
+
+    m_ui->comboBox_books->setCurrentIndex(m_settings->getModuleSettings(bible).v11n->bookNames().keys().indexOf(book));
     m_ui->spinBox_chapter->setValue(chapter);
     m_ui->spinBox_verse->setValue(verse);
 }
@@ -51,7 +50,7 @@ void BiblePassageDialog::indexChanged(int index)
     if(index >= 0) {
         m_path = m_moduleManager->getBiblePaths().at(index);
         m_ui->comboBox_books->clear();
-        m_ui->comboBox_books->insertItems(0, m_settings->getModuleCache(m_path).bookNames.values());
+        m_ui->comboBox_books->insertItems(0, m_settings->getModuleSettings(index).v11n->bookNames().values());
         //todo: set max using bookCount
         m_ui->comboBox_books->setCurrentIndex(0);
         m_ui->spinBox_chapter->setValue(1);
@@ -66,14 +65,14 @@ void BiblePassageDialog::indexChanged(int index)
 
 void BiblePassageDialog::save()
 {
-    const QString link = m_path
-                         + ";" + QString::number(m_settings->getModuleCache(m_path).bookNames.keys().at(m_ui->comboBox_books->currentIndex()))
+    /*const QString link = m_path
+                         + ";" + QString::number(m_settings->getModuleSettings(bible).v11n->bookNames().keys().at(m_ui->comboBox_books->currentIndex()))
                          + ";" + QString::number(m_ui->spinBox_chapter->value() - 1)
                          + ";" + QString::number(m_ui->spinBox_verse->value() - 1)
-                         + ";" + m_settings->getModuleCache(m_path).bookNames.values().at(m_ui->comboBox_books->currentIndex());
+                         + ";" + m_settings->getModuleSettings(bible).v11n->bookNames().values().at(m_ui->comboBox_books->currentIndex());*/
 
 
-    emit updated(link);
+   /* emit updated(link);*/
     close();
 }
 void BiblePassageDialog::changeEvent(QEvent *e)

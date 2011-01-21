@@ -122,7 +122,7 @@ void SettingsDialog::generateModuleTree()
         QTreeWidgetItem *ibible = new QTreeWidgetItem(m_ui->treeWidget_module);
         ibible->setText(0, it.value().moduleName);
         ibible->setText(1, it.value().modulePath);
-        const QString moduleType = CORE::ModuleTypeNames().at(it.value().moduleType.toInt());
+        const QString moduleType = CORE::ModuleTypeName(it.value().moduleType);
         ibible->setText(2, moduleType);
         items << ibible;
     }
@@ -362,7 +362,8 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                 } else {//else use the biblename from the filename
                     m.moduleName = moduleName;
                 }
-                m.moduleType = QString::number(moduleType);
+                //todo: moduleType
+                //m.moduleType = QString::number(moduleType);
 
             } else {
                 QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot open the file."));
@@ -375,7 +376,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
             m.biblequote_removeHtml = m_set.removeHtml;
             m.zefbible_hardCache = m_set.zefaniaBible_hardCache;
             m.zefbible_softCache = m_set.zefaniaBible_softCache;
-            m.zefbible_textFormatting = m_set.textFormatting;
+            //m.zefbible_textFormatting = m_set.textFormatting;
             m.zefbible_showStrong = true;
             m.zefbible_showStudyNote = true;
             m.encoding = "Default";//no translating

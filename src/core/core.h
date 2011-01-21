@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 
 namespace CORE {
+
 enum ModuleClass {
     NoneClass = 0,
     BibleModuleClass = 1,
@@ -31,6 +32,7 @@ enum ModuleType {
     BibleQuoteDictModule = 4,
     TheWordBibleModule = 5
 };
+
 QStringList ModuleTypeNames()
 {
     QStringList l;
@@ -57,4 +59,5 @@ QString ModuleTypeName(ModuleType type)
     return "";
 }
 
+}
 #endif //CORE_H
