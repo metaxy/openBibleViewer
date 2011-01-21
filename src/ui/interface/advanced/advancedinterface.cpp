@@ -158,7 +158,7 @@ void AdvancedInterface::pharseUrl(QString url)
         /*url = url.remove(0, anchor.size());
         bool ok;
         int c = url.toInt(&ok, 10);
-        if(ok && c < m_moduleManager->bible()->chaptersCount() && m_moduleManager->bible()->bibleType() == Module::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c) {
+        if(ok && c < m_moduleManager->bible()->chaptersCount() && m_moduleManager->bible()->bibleType() == CORE::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c) {
             showChapter(c, 0);
             setCurrentChapter(c);
         } else {
@@ -180,7 +180,7 @@ void AdvancedInterface::pharseUrl(QString url)
     } else {
         //todo: unterstand links like about:blank#a04
         //todo: uncomment
-        /*if(m_moduleManager->verseModule()->moduleType() == Module::BibleQuoteModule) {
+        /*if(m_moduleManager->verseModule()->moduleType() == CORE::BibleQuoteModule) {
             myDebug() << m_moduleManager->verseModule()->modulePath();
             bool isInBookPath = false;
             int b = 0;

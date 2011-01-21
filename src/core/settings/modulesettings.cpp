@@ -17,6 +17,11 @@ ModuleSettings::ModuleSettings()
 {
     v11n = NULL;
 }
+ModuleSettings::ModuleSettings(ModuleSettings *parent)
+{
+    v11n = NULL;
+    m_parent = parent;
+}
 ModuleSettings::~ModuleSettings()
 {
     if(v11n != NULL) {

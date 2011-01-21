@@ -43,16 +43,20 @@ public:
     ModuleManager();
     ~ModuleManager();
     int loadAllModules();
+    void loadModule(Module *moduleParent, QStandardItem *parent, ModuleSettings *setttings);
     void setSettings(Settings *settings);
     void setNotes(Notes *notes);
     void setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings);
+
     bool bibleLoaded();
     bool hasBible();
     bool strongLoaded();
+
     VerseModule* verseModule();
     void initVerseModule(VerseModule *m = 0);
     VerseTable* verseTable();
     Dictionary* dictionary();
+
     QString notePos2Link(const QString &pos);
     QString notePos2Text(const QString &pos);
 

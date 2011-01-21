@@ -17,6 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/settings.h"
 #include "src/module/modulemap.h"
 #include "src/module/module.h"
+#include "src/core/core.h"
 /**
   * It is an abstract class for classes like bible or dictionary, which are meta modules.
   * They contains other similiar modules to provide an simple access to them.

@@ -235,7 +235,7 @@ void SimpleInterface::pharseUrl(QString url)
          bool ok;
          int c = url.toInt(&ok, 10);
          myDebug() << "c = " << c;
-         if(ok && c < m_moduleManager->verseModule()->chaptersCount() && m_moduleManager->verseModule()->moduletype() == Module::BibleQuoteModule && m_moduleManager->verseModule()->chapterID() != c) {
+         if(ok && c < m_moduleManager->verseModule()->chaptersCount() && m_moduleManager->verseModule()->moduletype() == CORE::BibleQuoteModule && m_moduleManager->verseModule()->chapterID() != c) {
              //myDebug() << "bq chapter link";
              showChapter(c, 0);
              setCurrentChapter(c);*/
@@ -246,7 +246,7 @@ void SimpleInterface::pharseUrl(QString url)
          ui->textBrowser->scrollToAnchor(url);
      }
         } else {
-     if(m_moduleManager->verseModule()->moduletype() == Module::BibleQuoteModule && m_moduleManager->verseModule()->bookPath().contains(url)) {
+     if(m_moduleManager->verseModule()->moduletype() == CORE::BibleQuoteModule && m_moduleManager->verseModule()->bookPath().contains(url)) {
          emit get("bible://current/" + m_moduleManager->verseModule()->bookPath().lastIndexOf(url));//search in bible bookPath for this string, if it exixsts it is a book link
      } else {
          myWarning() << "invalid URL";

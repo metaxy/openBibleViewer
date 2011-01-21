@@ -23,13 +23,7 @@ Module::Module(Module *parent)
 Module::~Module()
 {
 }
-QStringList CORE::ModuleTypeNames()
-{
-    QStringList l;
-    l << QObject::tr("Unkown") << QObject::tr("BibleQuote") << QObject::tr("Zefania XML Bible")
-      << QObject::tr("Zefania Lex Module") << QObject::tr("BibleQuote Dictionary") << QObject::tr("The Word Bible");
-    return l;
-}
+
 
 void Module::setSettings(Settings *settings)
 {
@@ -81,7 +75,7 @@ void Module::setModuleID(const int &moduleID)
     m_id = moduleID;
 }
 
-void Module::setModuleClass(const Module::ModuleClass &c)
+void Module::setModuleClass(const Core::ModuleClass &c)
 {
     m_moduleClass = c;
 }

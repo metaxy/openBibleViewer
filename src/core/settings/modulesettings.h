@@ -28,6 +28,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class ModuleSettings
 {
 public:
+    ModuleSettings();
     ModuleSettings(ModuleSettings *parent);
     ~ModuleSettings();
 

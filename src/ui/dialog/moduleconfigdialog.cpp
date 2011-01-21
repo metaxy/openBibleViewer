@@ -85,7 +85,7 @@ void ModuleConfigDialog::bsave()
 {
     //DEBUG_FUNC_NAME
 
-    if(m_moduleSettings.moduleType.toInt() == Module::ZefaniaBibleModule &&
+    if(m_moduleSettings.moduleType.toInt() == CORE::ZefaniaBibleModule &&
             (m_moduleSettings.encoding != m_encodings.at(m_ui->comboBox_encoding->currentIndex()) ||
              m_moduleSettings.moduleType != QString::number(m_ui->comboBox_type->currentIndex()) ||
              m_moduleSettings.modulePath != m_ui->lineEdit_path->text())) {
@@ -116,10 +116,10 @@ void ModuleConfigDialog::moduleTypeChanged(int id)
     m_ui->groupBox_zefBible->setVisible(false);
     id = m_ui->comboBox_type->currentIndex();
     switch(id) {
-    case Module::BibleQuoteModule:
+    case CORE::BibleQuoteModule:
         m_ui->groupBox_bq->setVisible(true);
         break;
-    case Module::ZefaniaBibleModule:
+    case CORE::ZefaniaBibleModule:
         m_ui->groupBox_zefBible->setVisible(true);
         break;
 

@@ -34,8 +34,8 @@ public:
     void setPath(const QString &path);
     void setTitle(const QString &title);
     void setModuleID(const int &moduleID);
-    void setModuleClass(const ModuleClass &c);
-    void setModuleType(const ModuleType &t);
+    void setModuleClass(const CORE::ModuleClass &c);
+    void setModuleType(const CORE::ModuleType &t);
 
     BibleModule *m_bibleModule;
     ZefaniaLex *m_zefaniaLex;
