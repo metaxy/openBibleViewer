@@ -84,3 +84,29 @@ void Module::setModuleType(const OBVCore::ModuleType &t)
 {
     m_moduleType = t;
 }
+QStringList Module::moduleTypeNames()
+{
+    QStringList l;
+    l << QT_TRANSLATE_NOOP("Core", "None") << QT_TRANSLATE_NOOP("Core", "BibleQuote") << QT_TRANSLATE_NOOP("Core", "Zefania XML Bible")
+      << QT_TRANSLATE_NOOP("Core", "Zefania Lex Module") << QT_TRANSLATE_NOOP("Core", "BibleQuote Dictionary") << QT_TRANSLATE_NOOP("Core", "The Word Bible");
+    return l;
+}
+
+QString Module::moduleTypeName(OBVCore::ModuleType type)
+{
+    if(type == OBVCore::NoneType) {
+        return QT_TRANSLATE_NOOP("Core", "None");
+    } else if(type == OBVCore::BibleQuoteModule) {
+        return QT_TRANSLATE_NOOP("Core", "BibleQuote");
+    } else if(type == OBVCore::ZefaniaBibleModule) {
+        return QT_TRANSLATE_NOOP("Core", "Zefania XML Bible");
+    }else if(type == OBVCore::ZefaniaLexModule) {
+        return QT_TRANSLATE_NOOP("Core", "Zefania Lex Module");
+    }else if(type == OBVCore::BibleQuoteDictModule) {
+        return QT_TRANSLATE_NOOP("Core", "BibleQuote Dictionary");
+    }else if(type == OBVCore::TheWordBibleModule) {
+        return QT_TRANSLATE_NOOP("Core", "The Word Bible");
+    }
+    return "";
+}
+

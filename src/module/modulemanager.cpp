@@ -110,7 +110,7 @@ void ModuleManager::loadModule(Module *parentModule, QStandardItem *parentItem, 
         item = new QStandardItem;
         item->setText(settings->moduleName);
         item->setData(QString::number(module->moduleID()));
-        item->setToolTip(OBVCore::ModuleTypeName(settings->moduleType) + " - " + module->path() + " (" + QString::number(module->moduleID()) + ")");
+        item->setToolTip(Module::moduleTypeName(settings->moduleType) + " - " + module->path() + " (" + QString::number(module->moduleID()) + ")");
 
         //todo: icons
         //item->setIcon(bibleQuoteIcon);

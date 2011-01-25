@@ -46,6 +46,7 @@ public:
     void append(Module *child);
     Module *parent() const;
     static QStringList moduleTypeNames();
+    static QString moduleTypeName(OBVCore::ModuleType type);
 private:
     Module* m_parent;
     QList<Module *> m_children;

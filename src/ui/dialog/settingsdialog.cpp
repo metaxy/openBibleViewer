@@ -122,7 +122,8 @@ void SettingsDialog::generateModuleTree()
         QTreeWidgetItem *ibible = new QTreeWidgetItem(m_ui->treeWidget_module);
         ibible->setText(0, it.value().moduleName);
         ibible->setText(1, it.value().modulePath);
-        const QString moduleType = OBVCore::ModuleTypeName(it.value().moduleType);
+        //todo: obv core
+        const QString moduleType = Module::moduleTypeName(it.value().moduleType);
         ibible->setText(2, moduleType);
         items << ibible;
     }

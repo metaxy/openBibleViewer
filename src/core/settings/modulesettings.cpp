@@ -88,3 +88,22 @@ void ModuleSettings::saveVersification()
         }
     }
 }
+void ModuleSettings::setParent(ModuleSettings *parent)
+{
+    m_parent = parent;
+}
+
+ModuleSettings *ModuleSettings::parent() const
+{
+    return m_parent;
+}
+
+QList<ModuleSettings *> ModuleSettings::children()
+{
+    return m_children;
+}
+
+void ModuleSettings::appendChild(ModuleSettings* child)
+{
+    m_children.append(child);
+}
