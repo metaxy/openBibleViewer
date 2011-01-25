@@ -921,43 +921,43 @@ VerseSelection BibleForm::verseSelection()
     }
     myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
     //todo: 0.6
-     if(s.canBeUsedForMarks() == false) {
-         //now the ultimative alogrithm
-         f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection();adVerseSelection.getSelection();");
-         const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
+    if(s.canBeUsedForMarks() == false) {
+        //now the ultimative alogrithm
+        f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection();adVerseSelection.getSelection();");
+        const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
 
-         const QString uniqueString = "!-_OPENBIBLEVIEWER_INSERT_-!";
-         int posOfInsert = startVerseText2.lastIndexOf(uniqueString);
+        const QString uniqueString = "!-_OPENBIBLEVIEWER_INSERT_-!";
+        int posOfInsert = startVerseText2.lastIndexOf(uniqueString);
 
-         QString back = selectedText;
-         QString longestString;
-         for(int i = selectedText.size()-1; i > 0; --i) {
-             const int pos = startVerseText2.indexOf(back);
-             if(pos != -1) {
-                 longestString = back;
-                 break;
-             }
-             back.remove(i,selectedText.size());
-         }
+        QString back = selectedText;
+        QString longestString;
+        for(int i = selectedText.size() - 1; i > 0; --i) {
+            const int pos = startVerseText2.indexOf(back);
+            if(pos != -1) {
+                longestString = back;
+                break;
+            }
+            back.remove(i, selectedText.size());
+        }
 
-         int count = 0;
-         int currentPos = 0;
-         while(true) {
-             currentPos = startVerseText2.indexOf(longestString,currentPos+1);
-             if(currentPos > posOfInsert || currentPos == -1) {
-                 break;
-             }
-             count++;
-         }
-         s.type = VerseSelection::RepeatOfLongestString;
-         s.repeat = count;
-         s.longestString = longestString;
-         if(!s.longestString.isEmpty())
+        int count = 0;
+        int currentPos = 0;
+        while(true) {
+            currentPos = startVerseText2.indexOf(longestString, currentPos + 1);
+            if(currentPos > posOfInsert || currentPos == -1) {
+                break;
+            }
+            count++;
+        }
+        s.type = VerseSelection::RepeatOfLongestString;
+        s.repeat = count;
+        s.longestString = longestString;
+        if(!s.longestString.isEmpty())
             s.setCanBeUsedForMarks(true);
-         //todo: end
-         myDebug() << "longest = " << longestString << " count = " << count;
+        //todo: end
+        myDebug() << "longest = " << longestString << " count = " << count;
 
-     }
+    }
     return s;
 }
 BibleForm::~BibleForm()

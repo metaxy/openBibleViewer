@@ -138,11 +138,11 @@ void  ModuleConfigDialog::fileSelect()
             }
         }
     } else {*/
-        const QString fileName = QFileDialog::getOpenFileName(this, tr("Open Bible"), m_moduleSettings.modulePath, tr("Bibles (*.ini *.xml *.*)"));
-        if(!fileName.isEmpty()) {
-            m_ui->lineEdit_path->setText(fileName);
-        }
-   /* }*/
+    const QString fileName = QFileDialog::getOpenFileName(this, tr("Open Bible"), m_moduleSettings.modulePath, tr("Bibles (*.ini *.xml *.*)"));
+    if(!fileName.isEmpty()) {
+        m_ui->lineEdit_path->setText(fileName);
+    }
+    /* }*/
     return;
 }
 void ModuleConfigDialog::changeEvent(QEvent *e)

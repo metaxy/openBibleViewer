@@ -87,7 +87,7 @@ int ModuleManager::loadAllModules()
 
     ModuleSettings rootModuleSettings = m_settings->getModuleSettings(-1);//it the invisble root item
 
-    foreach(ModuleSettings *s, rootModuleSettings.children()) {
+    foreach(ModuleSettings * s, rootModuleSettings.children()) {
         loadModule(root, parentItem, s);
     }
     return 0;
@@ -120,7 +120,7 @@ void ModuleManager::loadModule(Module *parentModule, QStandardItem *parentItem, 
     }
 
     //recursive
-    foreach(ModuleSettings *s, settings->children()) {
+    foreach(ModuleSettings * s, settings->children()) {
         loadModule(module, item, s);
     }
 

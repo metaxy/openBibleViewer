@@ -100,11 +100,11 @@ QString Module::moduleTypeName(OBVCore::ModuleType type)
         return QT_TRANSLATE_NOOP("Core", "BibleQuote");
     } else if(type == OBVCore::ZefaniaBibleModule) {
         return QT_TRANSLATE_NOOP("Core", "Zefania XML Bible");
-    }else if(type == OBVCore::ZefaniaLexModule) {
+    } else if(type == OBVCore::ZefaniaLexModule) {
         return QT_TRANSLATE_NOOP("Core", "Zefania Lex Module");
-    }else if(type == OBVCore::BibleQuoteDictModule) {
+    } else if(type == OBVCore::BibleQuoteDictModule) {
         return QT_TRANSLATE_NOOP("Core", "BibleQuote Dictionary");
-    }else if(type == OBVCore::TheWordBibleModule) {
+    } else if(type == OBVCore::TheWordBibleModule) {
         return QT_TRANSLATE_NOOP("Core", "The Word Bible");
     }
     return "";

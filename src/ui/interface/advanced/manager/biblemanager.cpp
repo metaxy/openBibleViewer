@@ -157,21 +157,21 @@ void BibleManager::pharseUrl(const QString &url)
         showRanges(ranges, bibleUrl);
     } else if(url.startsWith(bq)) {
         //its a biblequote internal link, but i dont have the specifications!!!
-         QStringList internal = url.split(" ");
-         const QString bibleID = internal.at(1);//todo: use it
-         myDebug() << "bibleID = " << bibleID;
+        QStringList internal = url.split(" ");
+        const QString bibleID = internal.at(1);//todo: use it
+        myDebug() << "bibleID = " << bibleID;
 
-         int bookID = internal.at(2).toInt() - 1;
-         int chapterID = internal.at(3).toInt() - 1;
-         int verseID = internal.at(4).toInt();
-         VerseUrlRange range;
-         range.setModule(VerseUrlRange::LoadCurrentModule);
-         range.setBook(bookID);
-         range.setChapter(chapterID);
-         range.setWholeChapter();
-         range.setActiveVerse(verseID);
-         VerseUrl url(range);
-         m_actions->get(url);
+        int bookID = internal.at(2).toInt() - 1;
+        int chapterID = internal.at(3).toInt() - 1;
+        int verseID = internal.at(4).toInt();
+        VerseUrlRange range;
+        range.setModule(VerseUrlRange::LoadCurrentModule);
+        range.setBook(bookID);
+        range.setChapter(chapterID);
+        range.setWholeChapter();
+        range.setActiveVerse(verseID);
+        VerseUrl url(range);
+        m_actions->get(url);
     }
 }
 void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
@@ -182,7 +182,7 @@ void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
     std::pair<QString, TextRanges> r = m_moduleManager->verseTable()->readRanges(ranges);
     m_actions->showTextRanges(r.first, r.second, url);
 
-    m_actions->updateChapters(m_moduleManager->verseModule()->bookID(),m_moduleManager->verseModule()->versification());
+    m_actions->updateChapters(m_moduleManager->verseModule()->bookID(), m_moduleManager->verseModule()->versification());
     m_actions->updateBooks(m_moduleManager->verseModule()->versification());
     m_actions->setCurrentBook(r.second.bookIDs());
     m_actions->setCurrentChapter(r.second.chapterIDs());

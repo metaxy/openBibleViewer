@@ -468,7 +468,7 @@ TextRange BibleQuote::rawTextRange(int bookID, int chapterID, int startVerse, in
     const Chapter c = m_book.getChapter(chapterID);
     QMap<int, Verse> data = c.data();
     QMapIterator<int, Verse> i(data);
-    while (i.hasNext()) {
+    while(i.hasNext()) {
         i.next();
         if(i.key() <= endVerse && i.key() >= startVerse)
             ret.addVerse(i.value());
@@ -476,7 +476,7 @@ TextRange BibleQuote::rawTextRange(int bookID, int chapterID, int startVerse, in
     return ret;
 }
 
-std::pair<int,int> BibleQuote::minMaxVerse(int bookID, int chapterID)
+std::pair<int, int> BibleQuote::minMaxVerse(int bookID, int chapterID)
 {
     std::pair<int, int> ret;
     if(m_book.bookID() != bookID) {

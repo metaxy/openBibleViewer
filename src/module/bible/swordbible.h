@@ -24,7 +24,7 @@ public:
     QString modulePath() const;
     QString moduleName(bool preferShortName = false) const;
     QString uid() const;
- private:
+private:
     int m_moduleID;
     QString m_modulePath;
     QString indexPath() const;

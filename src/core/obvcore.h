@@ -14,49 +14,50 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef OBVCORE_H
 #define OBVCORE_H
 #include <QtCore/QStringList>
-namespace OBVCore {
+namespace OBVCore
+{
 
-    enum ModuleClass {
-        NoneClass = 0,
-        BibleModuleClass = 1,
-        DictionaryModuleClass = 2,
-        FolderClass = 3
-    };
+enum ModuleClass {
+    NoneClass = 0,
+    BibleModuleClass = 1,
+    DictionaryModuleClass = 2,
+    FolderClass = 3
+};
 
-    enum ModuleType {
-        NoneType = 0,
-        BibleQuoteModule = 1,
-        ZefaniaBibleModule = 2,
-        ZefaniaLexModule = 3,
-        BibleQuoteDictModule = 4,
-        TheWordBibleModule = 5
-    };
+enum ModuleType {
+    NoneType = 0,
+    BibleQuoteModule = 1,
+    ZefaniaBibleModule = 2,
+    ZefaniaLexModule = 3,
+    BibleQuoteDictModule = 4,
+    TheWordBibleModule = 5
+};
 
-  /*  QStringList ModuleTypeNames()
-    {
-        QStringList l;
-      * l << QT_TRANSLATE_NOOP("Core", "None") << QT_TRANSLATE_NOOP("Core", "BibleQuote") << QT_TRANSLATE_NOOP("Core", "Zefania XML Bible")
-          << QT_TRANSLATE_NOOP("Core", "Zefania Lex Module") << QT_TRANSLATE_NOOP("Core", "BibleQuote Dictionary") << QT_TRANSLATE_NOOP("Core", "The Word Bible");
-        return l;
-    }
+/*  QStringList ModuleTypeNames()
+  {
+      QStringList l;
+    * l << QT_TRANSLATE_NOOP("Core", "None") << QT_TRANSLATE_NOOP("Core", "BibleQuote") << QT_TRANSLATE_NOOP("Core", "Zefania XML Bible")
+        << QT_TRANSLATE_NOOP("Core", "Zefania Lex Module") << QT_TRANSLATE_NOOP("Core", "BibleQuote Dictionary") << QT_TRANSLATE_NOOP("Core", "The Word Bible");
+      return l;
+  }
 
-    QString ModuleTypeName(ModuleType type)
-    {
-        if(type == NoneType) {
-            return QObject::tr("None");
-        } else if(type == BibleQuoteModule) {
-            return QObject::tr("BibleQuote");
-        } else if(type == ZefaniaBibleModule) {
-            return QObject::tr("Zefania XML Bible");
-        }else if(type == ZefaniaLexModule) {
-            return QObject::tr("Zefania Lex Module");
-        }else if(type == BibleQuoteDictModule) {
-            return QObject::tr("BibleQuote Dictionary");
-        }else if(type == TheWordBibleModule) {
-            return QObject::tr("The Word Bible");
-        }
-        return "";
-    }*/
+  QString ModuleTypeName(ModuleType type)
+  {
+      if(type == NoneType) {
+          return QObject::tr("None");
+      } else if(type == BibleQuoteModule) {
+          return QObject::tr("BibleQuote");
+      } else if(type == ZefaniaBibleModule) {
+          return QObject::tr("Zefania XML Bible");
+      }else if(type == ZefaniaLexModule) {
+          return QObject::tr("Zefania Lex Module");
+      }else if(type == BibleQuoteDictModule) {
+          return QObject::tr("BibleQuote Dictionary");
+      }else if(type == TheWordBibleModule) {
+          return QObject::tr("The Word Bible");
+      }
+      return "";
+  }*/
 
 }
 #endif //OBVCORE_H

@@ -82,7 +82,7 @@ TextRange BibleModule::rawTextRange(int /*bookID*/, int /*chapterID*/, int /*sta
     return TextRange();
 }
 
-std::pair<int,int> BibleModule::minMaxVerse(int /*bookID*/, int /*chapterID*/)
+std::pair<int, int> BibleModule::minMaxVerse(int /*bookID*/, int /*chapterID*/)
 {
     myWarning() << "calling BibleModule";
     return std::pair<int, int>();

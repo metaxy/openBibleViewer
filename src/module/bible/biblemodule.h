@@ -43,7 +43,7 @@ public:
     virtual int readBook(const int &id);
 
     virtual TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse);
-    virtual std::pair<int,int> minMaxVerse(int bookID, int chapterID);
+    virtual std::pair<int, int> minMaxVerse(int bookID, int chapterID);
 
 
     virtual void search(const SearchQuery &query, SearchResult *res) const;

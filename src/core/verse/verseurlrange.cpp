@@ -193,7 +193,7 @@ bool VerseUrlRange::containsChapter(const int &chapterID) const
 {
     bool ok = true;
     if(m_startChapterParam == LoadChapterByID) {
-         ok = ok && chapterID >= m_startChapterID;
+        ok = ok && chapterID >= m_startChapterID;
     }
     if(m_endChapterParam == LoadChapterByID) {
         ok = ok && chapterID <= m_endChapterID;
@@ -205,7 +205,7 @@ bool VerseUrlRange::containsVerse(const int &verseID) const
 {
     bool ok = true;
     if(m_startVerseParam == LoadVerseByID && m_startVerseID != -1) {
-         ok = ok && verseID >= m_startVerseID;
+        ok = ok && verseID >= m_startVerseID;
     }
     if(m_endVerseParam == LoadVerseByID && m_endVerseID != -1) {
         ok = ok && verseID <= m_endVerseID;

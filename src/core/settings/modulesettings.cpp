@@ -35,12 +35,12 @@ void ModuleSettings::loadVersification()
     if(versificationName == "kjv") {
         v11n = new Versification_KJV();
     } else {
-        QSettings settings(versificationFile,QSettings::IniFormat);
+        QSettings settings(versificationFile, QSettings::IniFormat);
         const QStringList books = settings.childGroups();
         if(books.isEmpty())
             return;
         QMap<int, BookV11N> map;
-        foreach(const QString &book, books) {
+        foreach(const QString & book, books) {
             const int bookID = book.toInt();
             settings.beginGroup(book);
             const QString name = settings.value("name").toString();
@@ -76,7 +76,7 @@ void ModuleSettings::saveVersification()
             it.next();
             settings.beginGroup(QString::number(it.key()));
             BookV11N book = it.value();
-            settings.setValue("name",book.name);
+            settings.setValue("name", book.name);
             settings.setValue("shortNames", book.shortNames);
             settings.setValue("maxChapter", book.maxChapter);
             QStringList maxVerse;

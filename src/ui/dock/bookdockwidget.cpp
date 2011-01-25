@@ -84,7 +84,7 @@ void BookDockWidget::setChapters(int bookID, Versification *v11n)
         return;
     m_chapterModel->clear();
     //todo: implement bibleQuotes chapter zero
-    const int count = v11n->maxChapter().value(bookID,0);
+    const int count = v11n->maxChapter().value(bookID, 0);
     myDebug() << "count = " << count;
     for(int i = 1; i <= count; ++i) {
         QStandardItem *top = new QStandardItem;

@@ -72,7 +72,7 @@ void BiblePassageDialog::save()
                          + ";" + m_settings->getModuleSettings(bible).v11n->bookNames().values().at(m_ui->comboBox_books->currentIndex());*/
 
 
-   /* emit updated(link);*/
+    /* emit updated(link);*/
     close();
 }
 void BiblePassageDialog::changeEvent(QEvent *e)

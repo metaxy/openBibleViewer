@@ -52,7 +52,7 @@ void SimpleNotes::create(const QString &id, QStandardItem *parentItem)
         if(id == "-1") {
             parentItem = m_itemModel->invisibleRootItem();
         }
-        if((id == "-1" && m_notes->getRef(i, "parent").isEmpty() ) || m_notes->getRef(i, "parent") == id) {
+        if((id == "-1" && m_notes->getRef(i, "parent").isEmpty()) || m_notes->getRef(i, "parent") == id) {
             if(m_notes->getType(i) == "text") {
                 QStandardItem *noteItem = new QStandardItem;
                 noteItem->setText(m_notes->getTitle(i));
@@ -167,15 +167,15 @@ void SimpleNotes::editNoteLink()
     urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
     urlConverter.convert();
     if(urlConverter.url().isValid()) {
-    BiblePassageDialog *passageDialog = new BiblePassageDialog();
+        BiblePassageDialog *passageDialog = new BiblePassageDialog();
         connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateNote(QString)));
         passageDialog->setSettings(m_settings);
         passageDialog->setModuleManager(m_moduleManager);
         passageDialog->setCurrent(urlConverter.url().ranges().first().bibleID(),
-                               urlConverter.url().ranges().first().bibleUID(),
-                               urlConverter.url().ranges().first().bookID(),
-                               urlConverter.url().ranges().first().startChapterID() + 1,
-                               urlConverter.url().ranges().first().startVerseID() + 1);
+                                  urlConverter.url().ranges().first().bibleUID(),
+                                  urlConverter.url().ranges().first().bookID(),
+                                  urlConverter.url().ranges().first().startChapterID() + 1,
+                                  urlConverter.url().ranges().first().startVerseID() + 1);
         passageDialog->exec();
     }
 

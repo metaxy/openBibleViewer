@@ -74,8 +74,8 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
         if(readingVerse) {
             QRegExp strong("<W(G|H)(\\d+)(x|s)?>");
             QRegExp newLine("<CL>");
-            line.replace(strong,"<span class=\"gramlink\"><a href=\"gram://\\1\\2\">\\1\\2</a></span>");
-            line.replace(newLine,"<br />");
+            line.replace(strong, "<span class=\"gramlink\"><a href=\"gram://\\1\\2\">\\1\\2</a></span>");
+            line.replace(newLine, "<br />");
             Verse v(verse, line);
             currentChapter->addVerse(verse, v);
             if(verse + 1 < m_versification->maxVerse(flags).value(book).at(chapter)) {
@@ -327,7 +327,7 @@ TextRange TheWordBible::rawTextRange(int bookID, int chapterID, int startVerse, 
     const Chapter c = book.getChapter(chapterID);
     QMap<int, Verse> data = c.data();
     QMapIterator<int, Verse> i(data);
-    while (i.hasNext()) {
+    while(i.hasNext()) {
         i.next();
         if(i.key() <= endVerse && i.key() >= startVerse)
             ret.addVerse(i.value());
@@ -335,7 +335,7 @@ TextRange TheWordBible::rawTextRange(int bookID, int chapterID, int startVerse, 
     return ret;
 }
 
-std::pair<int,int> TheWordBible::minMaxVerse(int bookID, int chapterID)
+std::pair<int, int> TheWordBible::minMaxVerse(int bookID, int chapterID)
 {
     std::pair<int, int> ret;
     Book book = m_books.value(bookID);

@@ -76,9 +76,9 @@ QString SwordBible::moduleName(bool preferShortName) const
   */
 QString SwordBible::indexPath() const
 {
-   // return m_settings->homePath + "index/" + m_settings->hash(m_modulePath);
+    // return m_settings->homePath + "index/" + m_settings->hash(m_modulePath);
 }
 QString SwordBible::uid() const
 {
-  //  return m_uID;
+    //  return m_uID;
 }
