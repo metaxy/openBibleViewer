@@ -347,6 +347,27 @@ void MainWindow::writeSettings()
         m_settingsFile->setValue("parentID", m.parentID);
 
     }
+    ModuleSettings root;
+    root.moduleID = -1;
+    root.parentID = -2;
+    QMutableHashIterator<int, ModuleSettings> it2(m_settings->m_moduleSettings);
+    while(it2.hasNext())  {
+        it2.next();
+        ModuleSettings child = it2.value();
+        const int parentID = child.parentID;
+        if(parentID == -1) {
+            root.appendChild(&child);
+            child.setParent(&root);
+        } else if(m_settings->m_moduleSettings.contains(parentID)) {
+            ModuleSettings r = m_settings->m_moduleSettings.value(parentID);
+            r.appendChild(&child);
+            child.setParent(&r);
+            it2.setValue(child);
+            m_settings->m_moduleSettings.insert(parentID, r);
+        }
+    }
+
+    m_settings->m_moduleSettings.insert(-1, root);
     m_settingsFile->endArray();
 
     m_settingsFile->beginWriteArray("sessions");

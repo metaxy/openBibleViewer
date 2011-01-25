@@ -90,6 +90,7 @@ int ModuleManager::loadAllModules()
     foreach(ModuleSettings * s, rootModuleSettings.children()) {
         loadModule(root, parentItem, s);
     }
+
     return 0;
 }
 
