@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 ModuleManager::ModuleManager()
 {
-    m_moduleModel = new QStandardItemModel;
+
     m_moduleMap = new ModuleMap();
     m_dictionary = NULL;
 }
@@ -23,7 +23,7 @@ ModuleManager::~ModuleManager()
 {
     DEBUG_FUNC_NAME
     delete m_moduleMap;
-    delete m_moduleModel;
+
     if(m_dictionary != NULL)
         delete m_dictionary;
 }
@@ -66,7 +66,6 @@ QStringList ModuleManager::scan(const QString &path, const int &level = 0)
 int ModuleManager::loadAllModules()
 {
     DEBUG_FUNC_NAME;
-    m_moduleModel->clear();
 
     //The invisible root Module
     Module *root = new Module();
@@ -74,27 +73,21 @@ int ModuleManager::loadAllModules()
     root->setModuleClass(OBVCore::FolderClass);
     root->setModuleType(OBVCore::NoneType);
 
-    QStandardItem *parentItem = m_moduleModel->invisibleRootItem();
-
-    QIcon bibleQuoteIcon = QIcon::fromTheme("text-x-generic", QIcon(":/icons/16x16/text-x-generic.png"));
-    QStyle *style = QApplication::style();
-    QIcon folderIcon;
-    folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
-    folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
-
-    QIcon bibleZefaniaIcon =  QIcon::fromTheme("text-xml", QIcon(":/icons/16x16/text-xml.png"));
-
-
     ModuleSettings rootModuleSettings = m_settings->getModuleSettings(-1);//it the invisble root item
 
     foreach(ModuleSettings * s, rootModuleSettings.children()) {
-        loadModule(root, parentItem, s);
+        loadModule(root, s);
     }
+
+    ModuleModel model;
+    model.setSettings(m_settings);
+    model.generate();
+    m_moduleModel = model.itemModel();
 
     return 0;
 }
 
-void ModuleManager::loadModule(Module *parentModule, QStandardItem *parentItem, ModuleSettings *settings)
+void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
 {
     Module *module = new Module(parentModule);
     module->setPath(settings->modulePath);
@@ -105,24 +98,15 @@ void ModuleManager::loadModule(Module *parentModule, QStandardItem *parentItem, 
     parentModule->append(module);
     m_moduleMap->m_map.insert(settings->moduleID, module);
 
-    QStandardItem *item;
     if(settings->moduleType == OBVCore::BibleQuoteModule || settings->moduleType == OBVCore::ZefaniaBibleModule || settings->moduleType == OBVCore::TheWordBibleModule) {
         module->setModuleClass(OBVCore::BibleModuleClass);
-        item = new QStandardItem;
-        item->setText(settings->moduleName);
-        item->setData(QString::number(module->moduleID()));
-        item->setToolTip(Module::moduleTypeName(settings->moduleType) + " - " + module->path() + " (" + QString::number(module->moduleID()) + ")");
-
-        //todo: icons
-        //item->setIcon(bibleQuoteIcon);
-        parentItem->appendRow(item);
     } else if(settings->moduleType == OBVCore::ZefaniaLexModule || settings->moduleType == OBVCore::BibleQuoteDictModule) {
         module->setModuleClass(OBVCore::DictionaryModuleClass);
     }
 
     //recursive
     foreach(ModuleSettings * s, settings->children()) {
-        loadModule(module, item, s);
+        loadModule(module, s);
     }
 
 }

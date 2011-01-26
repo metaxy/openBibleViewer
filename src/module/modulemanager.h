@@ -21,7 +21,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QStandardItemModel>
 #include <QtGui/QProgressDialog>
 #include <QtGui/QApplication>
-#include <QtGui/QStandardItem>
 
 #include "src/core/settings/settings.h"
 
@@ -36,6 +35,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/urlconverter.h"
 #include "src/core/faststart.h"
 
+#include "src/ui/modulemodel.h"
+
 class ModuleManager
 {
 
@@ -43,7 +44,7 @@ public:
     ModuleManager();
     ~ModuleManager();
     int loadAllModules();
-    void loadModule(Module *moduleParent, QStandardItem *parent, ModuleSettings *setttings);
+
     void setSettings(Settings *settings);
     void setNotes(Notes *notes);
     void setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings);
@@ -64,6 +65,7 @@ public:
     bool contains(const int &moduleID);
 
     QStandardItemModel *m_moduleModel;
+
     Settings *m_settings;
     Notes *m_notes;
     ModuleMap *m_moduleMap;
@@ -81,6 +83,7 @@ public:
 
 private:
     static QStringList scan(const QString &path, const int &level);
+    void loadModule(Module *moduleParent, ModuleSettings *setttings);
 };
 
 #endif // MODULEMANAGER_H

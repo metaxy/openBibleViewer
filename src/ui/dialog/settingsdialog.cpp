@@ -114,20 +114,11 @@ int SettingsDialog::setSettings(Settings settings)
 }
 void SettingsDialog::generateModuleTree()
 {
-    m_ui->treeWidget_module->clear();
-    QList<QTreeWidgetItem *> items;
-    QHashIterator<int, ModuleSettings> it(m_set.m_moduleSettings);
-    while(it.hasNext()) {
-        it.next();
-        QTreeWidgetItem *ibible = new QTreeWidgetItem(m_ui->treeWidget_module);
-        ibible->setText(0, it.value().moduleName);
-        ibible->setText(1, it.value().modulePath);
-        //todo: obv core
-        const QString moduleType = Module::moduleTypeName(it.value().moduleType);
-        ibible->setText(2, moduleType);
-        items << ibible;
-    }
-    m_ui->treeWidget_module->insertTopLevelItems(0, items);
+    DEBUG_FUNC_NAME
+    ModuleModel model;
+    model.setSettings(&m_set);
+    model.generate();
+    m_ui->treeView->setModel(model.itemModel());
 }
 
 void SettingsDialog::addModuleFile(void)
@@ -216,11 +207,11 @@ void SettingsDialog::addModuleDir(void)
 }
 void SettingsDialog::removeModule()
 {
-    m_modifedModuleSettings = true;
+  /*  m_modifedModuleSettings = true;
     int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
     //remove from listWidget
     QTreeWidgetItem * token = m_ui->treeWidget_module->currentItem();
-    delete token;
+    delete token;*/
     //remove from settings
     // m_set.m_moduleSettings.removeAt(row);
     return;
@@ -229,7 +220,7 @@ void SettingsDialog::editModule()
 {
     //DEBUG_FUNC_NAME
     m_modifedModuleSettings = true;
-    int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
+   /* int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
     if(row >= 0) {
         ModuleConfigDialog *mDialog = new ModuleConfigDialog(this);
         // mDialog->setModule(m_set.m_moduleSettings.at(row));
@@ -237,7 +228,7 @@ void SettingsDialog::editModule()
         connect(mDialog, SIGNAL(save(ModuleSettings)), mDialog, SLOT(close()));
         mDialog->show();
         mDialog->exec();
-    }
+    }*/
 
 }
 void SettingsDialog::saveModule(ModuleSettings c)
@@ -364,7 +355,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                     m.moduleName = moduleName;
                 }
                 //todo: moduleType
-                //m.moduleType = QString::number(moduleType);
+                m.moduleType = moduleType;
 
             } else {
                 QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot open the file."));
@@ -381,6 +372,13 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
             m.zefbible_showStrong = true;
             m.zefbible_showStudyNote = true;
             m.encoding = "Default";//no translating
+            m.parentID = -1;
+
+            ModuleSettings parent = m_set.getModuleSettings(m.parentID);
+            parent.appendChild(&m);
+            m.setParent(&parent);
+            m_set.m_moduleSettings.insert(m.parentID, parent);
+            m_set.m_moduleSettings.insert(m.moduleID, m);
             // m_set.m_moduleSettings << m;
         }
         generateModuleTree();

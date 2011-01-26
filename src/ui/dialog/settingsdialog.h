@@ -34,6 +34,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/bible/bible.h"
 #include "src/module/module.h"
 
+#include "src/ui/modulemodel.h"
+
 #include "moduleconfigdialog.h"
 #include "moduledownloaddialog.h"
 #include "config.h"
@@ -42,10 +44,9 @@ namespace Ui
 {
 class SettingsDialog;
 }
-/*!
- SettingsDialog represents a dialog to modife the settings
-
-*/
+/**
+  * SettingsDialog represents a dialog to modify the settings.
+  */
 class SettingsDialog : public QDialog
 {
     Q_OBJECT

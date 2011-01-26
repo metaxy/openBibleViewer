@@ -113,6 +113,7 @@ set ( openBibleViewer_HDRS
     src/module/bible/swordbible.h
 
     src/ui/interface/advanced/windowsessiondata.h
+    src/ui/modelmodel.h
     )
 
 set ( openBibleViewer_SRCS
@@ -228,6 +229,7 @@ set ( openBibleViewer_SRCS
     src/ui/marklist.cpp
     src/ui/markcategories.cpp
     src/ui/actions.cpp
+    src/ui/modulemodel.cpp
     
     )
 
