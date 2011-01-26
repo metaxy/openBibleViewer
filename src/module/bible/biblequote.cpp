@@ -69,10 +69,10 @@ void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
     QFile file;
     file.setFileName(path);
     QString encoding;
-    if(m_settings->getModuleSettings(m_moduleID).encoding == "Default" || m_settings->getModuleSettings(m_moduleID).encoding.isEmpty()) {
+    if(m_settings->getModuleSettings(m_moduleID)->encoding == "Default" || m_settings->getModuleSettings(m_moduleID)->encoding.isEmpty()) {
         encoding = m_settings->encoding;
     } else {
-        encoding = m_settings->getModuleSettings(m_moduleID).encoding;
+        encoding = m_settings->getModuleSettings(m_moduleID)->encoding;
     }
     m_codec = QTextCodec::codecForName(encoding.toStdString().c_str());
     QTextDecoder *decoder = m_codec->makeDecoder();
@@ -145,6 +145,7 @@ void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
   */
 QString BibleQuote::readInfo(QFile &file)
 {
+    //todo: do not use every time getModuleSettings
     bool useShortName = false;
     m_moduleName.clear();
     m_moduleShortName.clear();
@@ -152,10 +153,10 @@ QString BibleQuote::readInfo(QFile &file)
 
     if(m_codec == NULL) {
         QString encoding;
-        if(m_settings->getModuleSettings(m_moduleID).encoding == "Default" || m_settings->getModuleSettings(m_moduleID).encoding.isEmpty()) {
+        if(m_settings->getModuleSettings(m_moduleID)->encoding == "Default" || m_settings->getModuleSettings(m_moduleID)->encoding.isEmpty()) {
             encoding = m_settings->encoding;
         } else {
-            encoding = m_settings->getModuleSettings(m_moduleID).encoding;
+            encoding = m_settings->getModuleSettings(m_moduleID)->encoding;
         }
         m_codec = QTextCodec::codecForName(encoding.toStdString().c_str());
     }
@@ -228,7 +229,7 @@ int BibleQuote::readBook(const int &id)
             QString line = decoder->toUnicode(byteline);
 
             //filterout
-            if(m_settings->getModuleSettings(m_moduleID).biblequote_removeHtml == true && removeHtml2.size() > 0) {
+            if(m_settings->getModuleSettings(m_moduleID)->biblequote_removeHtml == true && removeHtml2.size() > 0) {
                 foreach(const QString & r, removeHtml2) {
                     line = line.remove(r, Qt::CaseInsensitive);
                 }
@@ -309,10 +310,10 @@ void BibleQuote::buildIndex()
 
     if(m_codec == NULL) {
         QString encoding;
-        if(m_settings->getModuleSettings(m_moduleID).encoding == "Default" || m_settings->getModuleSettings(m_moduleID).encoding.isEmpty()) {
+        if(m_settings->getModuleSettings(m_moduleID)->encoding == "Default" || m_settings->getModuleSettings(m_moduleID)->encoding.isEmpty()) {
             encoding = m_settings->encoding;
         } else {
-            encoding = m_settings->getModuleSettings(m_moduleID).encoding;
+            encoding = m_settings->getModuleSettings(m_moduleID)->encoding;
         }
         m_codec = QTextCodec::codecForName(encoding.toStdString().c_str());
     }

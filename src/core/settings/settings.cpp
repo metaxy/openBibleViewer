@@ -29,17 +29,13 @@ Settings::~Settings()
 }
 
 
-ModuleSettings Settings::getModuleSettings(int moduleID) const
+ModuleSettings * Settings::getModuleSettings(int moduleID) const
 {
     if(m_moduleSettings.contains(moduleID)) {
         return m_moduleSettings.value(moduleID);
     } else {
-        return ModuleSettings();
+        return NULL;
     }
-}
-void Settings::insertModuleSettings(int moduleID, ModuleSettings m)
-{
-    m_moduleSettings.insert(moduleID, m);
 }
 /**
   Replace homePath and settingsPath to make it more portable.

@@ -287,7 +287,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
             ZefaniaLex zefLex;
             BibleQuoteDict bibleQuoteDict;
             TheWordBible theWordBible;
-            ModuleSettings m;
+            ModuleSettings *m = new ModuleSettings();
             zefLex.setSettings(&m_set);
 
             QFileInfo fileInfo(f);
@@ -347,15 +347,15 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                     generateModuleTree();
                     return;
                 }
-                m.modulePath = f;
+                m->modulePath = f;
 
                 if(names.size() > 0 && i < names.size()) {  //if a name is given in the stringlist use it
-                    m.moduleName = names.at(i);
+                    m->moduleName = names.at(i);
                 } else {//else use the biblename from the filename
-                    m.moduleName = moduleName;
+                    m->moduleName = moduleName;
                 }
                 //todo: moduleType
-                m.moduleType = moduleType;
+                m->moduleType = moduleType;
 
             } else {
                 QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot open the file."));
@@ -365,21 +365,18 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
             }
 
             // standard config
-            m.biblequote_removeHtml = m_set.removeHtml;
-            m.zefbible_hardCache = m_set.zefaniaBible_hardCache;
-            m.zefbible_softCache = m_set.zefaniaBible_softCache;
-            //m.zefbible_textFormatting = m_set.textFormatting;
-            m.zefbible_showStrong = true;
-            m.zefbible_showStudyNote = true;
-            m.encoding = "Default";//no translating
-            m.parentID = -1;
+            m->biblequote_removeHtml = m_set.removeHtml;
+            m->zefbible_hardCache = m_set.zefaniaBible_hardCache;
+            m->zefbible_softCache = m_set.zefaniaBible_softCache;
+            //m->zefbible_textFormatting = m_set.textFormatting;
+            m->zefbible_showStrong = true;
+            m->zefbible_showStudyNote = true;
+            m->encoding = "Default";//no translating
+            m->parentID = -1;
 
-            ModuleSettings parent = m_set.getModuleSettings(m.parentID);
-            parent.appendChild(&m);
-            m.setParent(&parent);
-            m_set.m_moduleSettings.insert(m.parentID, parent);
-            m_set.m_moduleSettings.insert(m.moduleID, m);
-            // m_set.m_moduleSettings << m;
+            m_set.getModuleSettings(m->parentID)->appendChild(m);
+
+            m_set.m_moduleSettings.insert(m->moduleID, m);
         }
         generateModuleTree();
         progress.close();

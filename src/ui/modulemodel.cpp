@@ -32,10 +32,11 @@ void ModuleModel::generate()
     QIcon bibleZefaniaIcon =  QIcon::fromTheme("text-xml", QIcon(":/icons/16x16/text-xml.png"));
 
 
-    ModuleSettings rootModuleSettings = m_settings->getModuleSettings(-1);//it the invisble root item
-
-    foreach(ModuleSettings * s, rootModuleSettings.children()) {
-        loadModule(parentItem, s);
+    ModuleSettings *rootModuleSettings = m_settings->getModuleSettings(-1);//it the invisble root item
+    if(rootModuleSettings != NULL) {
+        foreach(ModuleSettings * s, rootModuleSettings->children()) {
+            loadModule(parentItem, s);
+        }
     }
 }
 

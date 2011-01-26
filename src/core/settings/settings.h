@@ -37,15 +37,14 @@ public:
     };
 
     QString encoding;
-    QHash<int, ModuleSettings> m_moduleSettings;
+    QHash<int, ModuleSettings *> m_moduleSettings;
 
     qreal zoomstep;
     QString version;
     QString build;
     bool removeHtml;
     QString language;
-    //todo: use enum
-    LayoutEnum autoLayout;// 0 = NONE, 1 = vertical tile ,2 = horizontal tile, 3 = cascade
+    LayoutEnum autoLayout;
     bool onClickBookmarkGo;
 
     int textFormatting;//0 = Neue Zeile nach Vers, 1 = Unformatierter Textblock
@@ -54,9 +53,7 @@ public:
     QString homePath;
     Versification *defaultVersification;
 
-    ModuleSettings getModuleSettings(int moduleID) const;
-    void insertModuleSettings(int moduleID, ModuleSettings m);
-
+    ModuleSettings * getModuleSettings(int moduleID) const;
 
     Session session;
     QString sessionID;

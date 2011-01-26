@@ -260,35 +260,54 @@ void MainWindow::loadSettings()
     int size = m_settingsFile->beginReadArray("module");
     for(int i = 0; i < size; ++i) {
         m_settingsFile->setArrayIndex(i);
-        ModuleSettings m;
-        m.moduleID = m_settingsFile->value("id").toInt();
-        m.moduleName = m_settingsFile->value("name").toString();
-        m.moduleShortName = m_settingsFile->value("shortName").toString();
+        ModuleSettings *m = new ModuleSettings();
+        m->moduleID = m_settingsFile->value("id").toInt();
+        m->moduleName = m_settingsFile->value("name").toString();
+        m->moduleShortName = m_settingsFile->value("shortName").toString();
 
-        m.modulePath = m_settings->recoverUrl(m_settingsFile->value("path").toString());
-        m.moduleType = (OBVCore::ModuleType) m_settingsFile->value("type").toInt();
+        m->modulePath = m_settings->recoverUrl(m_settingsFile->value("path").toString());
+        m->moduleType = (OBVCore::ModuleType) m_settingsFile->value("type").toInt();
 
-        m.encoding = m_settingsFile->value("encoding").toString();
+        m->encoding = m_settingsFile->value("encoding").toString();
 
-        m.zefbible_textFormatting = (ModuleSettings::ZefBible_TextFormating) m_settingsFile->value("textFormatting").toInt();
-        m.zefbible_hardCache = m_settingsFile->value("hardCache", true).toBool();
-        m.zefbible_softCache = m_settingsFile->value("softCache", true).toBool();
-        m.zefbible_showStrong = m_settingsFile->value("showStrong", true).toBool();
-        m.zefbible_showStudyNote = m_settingsFile->value("showStudyNote", true).toBool();
+        m->zefbible_textFormatting = (ModuleSettings::ZefBible_TextFormating) m_settingsFile->value("textFormatting").toInt();
+        m->zefbible_hardCache = m_settingsFile->value("hardCache", true).toBool();
+        m->zefbible_softCache = m_settingsFile->value("softCache", true).toBool();
+        m->zefbible_showStrong = m_settingsFile->value("showStrong", true).toBool();
+        m->zefbible_showStudyNote = m_settingsFile->value("showStudyNote", true).toBool();
 
-        m.biblequote_removeHtml = m_settingsFile->value("removeHtml", true).toInt();
+        m->biblequote_removeHtml = m_settingsFile->value("removeHtml", true).toInt();
 
-        m.styleSheet = m_settings->recoverUrl(m_settingsFile->value("styleSheet", ":/data/css/default.css").toString());
+        m->styleSheet = m_settings->recoverUrl(m_settingsFile->value("styleSheet", ":/data/css/default.css").toString());
 
-        m.versificationFile = m_settings->recoverUrl(m_settingsFile->value("versificationFile").toString());
-        m.versificationName = m_settingsFile->value("versificationName").toString();
-        m.useParentsSettings = m_settingsFile->value("useParentsSettings").toBool();
+        m->versificationFile = m_settings->recoverUrl(m_settingsFile->value("versificationFile").toString());
+        m->versificationName = m_settingsFile->value("versificationName").toString();
+        m->useParentsSettings = m_settingsFile->value("useParentsSettings").toBool();
 
-        m.parentID = m_settingsFile->value("parentID").toInt();
-        m_settings->m_moduleSettings.insert(m.moduleID, m);
+        m->parentID = m_settingsFile->value("parentID").toInt();
+        m_settings->m_moduleSettings.insert(m->moduleID, m);
     }
+    ModuleSettings *root = new ModuleSettings();
+    root->moduleID = -1;
+    root->parentID = -2;
+    QHashIterator<int, ModuleSettings*> it2(m_settings->m_moduleSettings);
+    while(it2.hasNext())  {
+        it2.next();
+        ModuleSettings *child = it2.value();
+        const int parentID = child->parentID;
+        if(parentID == -1) {
+            root->appendChild(child);
+            child->setParent(root);
+        } else if(m_settings->m_moduleSettings.contains(parentID)) {
+            ModuleSettings *r = m_settings->m_moduleSettings.value(parentID);
+            r->appendChild(child);
+            child->setParent(r);
+        }
+    }
+
+    m_settings->m_moduleSettings.insert(-1, root);
+
     m_settingsFile->endArray();
-    //todo: generate the tree
     m_settings->sessionID = m_settingsFile->value("general/lastSession", "0").toString();
 
     size = m_settingsFile->beginReadArray("sessions");
@@ -321,53 +340,33 @@ void MainWindow::writeSettings()
     m_settingsFile->setValue("bible/textFormatting", m_settings->textFormatting);
 
     m_settingsFile->beginWriteArray("module");
-    QHashIterator<int, ModuleSettings> it(m_settings->m_moduleSettings);
+    QHashIterator<int, ModuleSettings *> it(m_settings->m_moduleSettings);
     for(int i = 0; it.hasNext(); ++i) {
         it.next();
         m_settingsFile->setArrayIndex(i);
-        ModuleSettings m = it.value();
+        ModuleSettings *m = it.value();
 
-        m_settingsFile->setValue("id", m.moduleID);
-        m_settingsFile->setValue("name", m.moduleName);
-        m_settingsFile->setValue("shortName", m.moduleShortName);
-        m_settingsFile->setValue("path", m_settings->savableUrl(m.modulePath));
-        m_settingsFile->setValue("type", m.moduleType);
+        m_settingsFile->setValue("id", m->moduleID);
+        m_settingsFile->setValue("name", m->moduleName);
+        m_settingsFile->setValue("shortName", m->moduleShortName);
+        m_settingsFile->setValue("path", m_settings->savableUrl(m->modulePath));
+        m_settingsFile->setValue("type", m->moduleType);
 
-        m_settingsFile->setValue("textFormatting", m.zefbible_textFormatting);
-        m_settingsFile->setValue("removeHtml", m.biblequote_removeHtml);
-        m_settingsFile->setValue("hardCache", m.zefbible_hardCache);
-        m_settingsFile->setValue("softCache", m.zefbible_softCache);
-        m_settingsFile->setValue("showStrong", m.zefbible_showStrong);
-        m_settingsFile->setValue("showStudyNote", m.zefbible_showStudyNote);
-        m_settingsFile->setValue("encoding", m.encoding);
-        m_settingsFile->setValue("styleSheet", m_settings->savableUrl(m.styleSheet));
-        m_settingsFile->setValue("versificationFile", m_settings->savableUrl(m.versificationFile));
-        m_settingsFile->setValue("versificationName", m.versificationName);
-        m_settingsFile->setValue("useParentsSettings", m.useParentsSettings);
-        m_settingsFile->setValue("parentID", m.parentID);
+        m_settingsFile->setValue("textFormatting", m->zefbible_textFormatting);
+        m_settingsFile->setValue("removeHtml", m->biblequote_removeHtml);
+        m_settingsFile->setValue("hardCache", m->zefbible_hardCache);
+        m_settingsFile->setValue("softCache", m->zefbible_softCache);
+        m_settingsFile->setValue("showStrong", m->zefbible_showStrong);
+        m_settingsFile->setValue("showStudyNote", m->zefbible_showStudyNote);
+        m_settingsFile->setValue("encoding", m->encoding);
+        m_settingsFile->setValue("styleSheet", m_settings->savableUrl(m->styleSheet));
+        m_settingsFile->setValue("versificationFile", m_settings->savableUrl(m->versificationFile));
+        m_settingsFile->setValue("versificationName", m->versificationName);
+        m_settingsFile->setValue("useParentsSettings", m->useParentsSettings);
+        m_settingsFile->setValue("parentID", m->parentID);
 
     }
-    ModuleSettings root;
-    root.moduleID = -1;
-    root.parentID = -2;
-    QMutableHashIterator<int, ModuleSettings> it2(m_settings->m_moduleSettings);
-    while(it2.hasNext())  {
-        it2.next();
-        ModuleSettings child = it2.value();
-        const int parentID = child.parentID;
-        if(parentID == -1) {
-            root.appendChild(&child);
-            child.setParent(&root);
-        } else if(m_settings->m_moduleSettings.contains(parentID)) {
-            ModuleSettings r = m_settings->m_moduleSettings.value(parentID);
-            r.appendChild(&child);
-            child.setParent(&r);
-            it2.setValue(child);
-            m_settings->m_moduleSettings.insert(parentID, r);
-        }
-    }
 
-    m_settings->m_moduleSettings.insert(-1, root);
     m_settingsFile->endArray();
 
     m_settingsFile->beginWriteArray("sessions");
@@ -424,7 +423,7 @@ void MainWindow::loadLanguage(QString language)
 {
     QStringList avLang;
     //QTranslator myappTranslator;
-    QTranslator qtTranslator;
+    //QTranslator qtTranslator;
     QString av(_AV_LANG);
     avLang << av.split(";");
     if(avLang.lastIndexOf(language) == -1) {
@@ -438,10 +437,10 @@ void MainWindow::loadLanguage(QString language)
     if(!loaded) {
         loaded = myappTranslator->load(language);
         if(!loaded)
-            QMessageBox::warning(this, tr("Installing language failed."), tr("Please choose an another language."));
+            QMessageBox::warning(this, tr("Installing language failed."), tr("Please choose another language."));
     }
 
-    qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    qtTranslator->load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 
     ui->retranslateUi(this);
 }

@@ -73,22 +73,27 @@ int ModuleManager::loadAllModules()
     root->setModuleClass(OBVCore::FolderClass);
     root->setModuleType(OBVCore::NoneType);
 
-    ModuleSettings rootModuleSettings = m_settings->getModuleSettings(-1);//it the invisble root item
+    ModuleSettings *rootModuleSettings = m_settings->getModuleSettings(-1);//it the invisble root item
+    if(rootModuleSettings != NULL) {
+        foreach(ModuleSettings * s, rootModuleSettings->children()) {
+            loadModule(root, s);
+        }
 
-    foreach(ModuleSettings * s, rootModuleSettings.children()) {
-        loadModule(root, s);
+        ModuleModel model;
+        model.setSettings(m_settings);
+        model.generate();
+        m_moduleModel = model.itemModel();
+    } else {
+        m_moduleModel = new QStandardItemModel;
     }
-
-    ModuleModel model;
-    model.setSettings(m_settings);
-    model.generate();
-    m_moduleModel = model.itemModel();
 
     return 0;
 }
 
 void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
 {
+    if(settings == NULL)
+        return;
     Module *module = new Module(parentModule);
     module->setPath(settings->modulePath);
 

@@ -54,7 +54,7 @@ int Bible::loadModuleData(const int &moduleID)
         return 2;
     }
     m_moduleID = moduleID;
-    ModuleSettings m = m_settings->getModuleSettings(m_moduleID);
+    ModuleSettings *m = m_settings->getModuleSettings(m_moduleID);
 
     m_bookPath.clear();
     m_modulePath.clear();
@@ -90,10 +90,10 @@ int Bible::loadModuleData(const int &moduleID)
     m_versification = m_bibleModule->versification();
     m_moduleUID = m_bibleModule->uid();
 
-    if(m.moduleName.isEmpty())
+    if(m->moduleName.isEmpty())
         m_moduleTitle = m_bibleModule->moduleName(false);
     else
-        m_moduleTitle = m.moduleName;
+        m_moduleTitle = m->moduleName;
     m_moduleShortTitle = m_bibleModule->moduleName(true);
 
     //m_settings->setTitle(m_module->path(), m_moduleTitle);
@@ -198,7 +198,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     }
     m_bookID = bookID;
 
-    const ModuleSettings moduleSettings = m_settings->getModuleSettings(m_moduleID);
+    const ModuleSettings *moduleSettings = m_settings->getModuleSettings(m_moduleID);
 
     int chapterID = -1;
     if(range.chapter() == RangeEnum::ChapterByID) {
@@ -290,7 +290,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             QString prepend;
             QString append;
             prepend = "<span class=\"verseNumber\">" + QString::number(verse.verseID() + 1) + "</span> ";
-            if(moduleSettings.zefbible_textFormatting == 0) {
+            if(moduleSettings->zefbible_textFormatting == ModuleSettings::NewLine) {
                 append = "<br />";
             } else {
                 append = "\n";//not visible line break

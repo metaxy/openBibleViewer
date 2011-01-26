@@ -336,7 +336,7 @@ void BibleForm::showText(const QString &text)
     {
         QString cssFile;
         if(m_moduleManager->bibleLoaded())
-            cssFile = m_settings->getModuleSettings(m_moduleManager->verseModule()->moduleID()).styleSheet;
+            cssFile = m_settings->getModuleSettings(m_moduleManager->verseModule()->moduleID())->styleSheet;
         if(cssFile.isEmpty())
             cssFile = ":/data/css/default.css";
 
