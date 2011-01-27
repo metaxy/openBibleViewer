@@ -281,7 +281,6 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
             const QString f = fileName.at(i);
             QString moduleName;
             OBVCore::ModuleType moduleType = OBVCore::NoneType;
-            QString moduleTypeName = "";
             BibleQuote bq;
             ZefaniaBible zef;
             ZefaniaLex zefLex;
@@ -313,33 +312,27 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                     if(names.size() == 0 || i >= names.size()) {
                         moduleName = bq.readInfo(f);
                     }
-                    moduleTypeName = QObject::tr("Bible Quote");
                     break;
                 case OBVCore::ZefaniaBibleModule:
                     if(names.size() == 0 || i >= names.size()) {
                         moduleName = zef.readInfo(f);
                     }
-                    moduleTypeName = QObject::tr("Zefania XML");
                     break;
                 case OBVCore::ZefaniaLexModule:
                     if(names.size() == 0 || i >= names.size()) {
                         moduleName = zefLex.buildIndexFromFile(f);
                     }
-                    moduleTypeName = QObject::tr("Zefania XML Dictionary");
                     break;
                 case OBVCore::BibleQuoteDictModule:
                     if(names.size() == 0 || i >= names.size()) {
                         moduleName = bibleQuoteDict.readInfo(f);
                         bibleQuoteDict.buildIndex();
                     }
-                    moduleTypeName = QObject::tr("Bible Quote Dictionary");
                     break;
                 case OBVCore::TheWordBibleModule:
                     if(names.size() == 0 || i >= names.size()) {
                         moduleName = theWordBible.readInfo(f);
                     }
-                    moduleTypeName = QObject::tr("The Word Bible");
-                    myDebug() << "the word bible module " << moduleTypeName;
                     break;
                 case OBVCore::NoneType:
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));

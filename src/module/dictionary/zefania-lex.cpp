@@ -130,7 +130,6 @@ bool ZefaniaLex::hasIndex()
     if(!d.exists(m_settings->homePath + "index")) {
         return false;
     }
-
     const QString index = indexPath();
     return IndexReader::indexExists(index.toStdString().c_str());
 }

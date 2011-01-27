@@ -455,27 +455,37 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
             break;
         }
     }
+   ModuleSettings *mset = m_settings->getModuleSettings(m_moduleID);
     if(!hasAny) {
+        mset->versificationFile = "";
+        mset->versificationName = "kjv";
+        mset->loadVersification();
         //whole bible
         /* if(m_bookFullName.size() == 66) {
              m_bookFullName = m_settings->defaultVersification->bookNames(Versification::ReturnNT | Versification::ReturnOT);
          } else if(m_bookFullName.size() == 27) {
              m_bookFullName = m_settings->defaultVersification->bookNames(Versification::ReturnNT);
          } */
+    } else {
+        QMap<int, BookV11N> data;
+        for(int i = 0; i < fullName.size(); i++) {
+            BookV11N book;
+            book.name = fullName.at(i);
+            book.shortNames = QStringList(shortName.at(i));
+            book.bookID = bookIDs.at(i).toInt();
+            data.insert(book.bookID, book);
+        }
+        mset->v11n = new Versification_Cache(data);
+
+        mset->versificationFile = m_settings->v11nFile(m_modulePath);
+        mset->versificationName = "";
+
+        mset->saveVersification();
     }
+    m_versification = mset->v11n;
+
     progress.hide();
     file.close();
-    if(moduleSettings->zefbible_hardCache == true) {
-        //hard cache: write data
-        //write the booknames in a cache file
-        QFile file(fileName + "data");
-        if(!file.open(QIODevice::WriteOnly)) {
-            return;
-        }
-        QDataStream out(&file);
-        out << m_moduleName << fullName << shortName << bookIDs;
-        file.close();
-    }
 }
 
 /**
@@ -486,21 +496,13 @@ void ZefaniaBible::loadCached(const int &id, const QString &path)
     if(m_moduleID != id) {
         clearSoftCache();
     }
-
-    const QString fileName = m_settings->homePath + "cache/" + m_settings->hash(path) + "/";
-    QFile file(fileName + "data");
-    if(!file.open(QIODevice::ReadOnly)) {
+    m_settings->getModuleSettings(m_moduleID)->loadVersification();
+    m_versification = m_settings->getModuleSettings(m_moduleID)->v11n;
+    if(!m_versification) {
+        loadNoCached(id, path);
         return;
     }
-    QDataStream in(&file);
-    QString bibleName;
-    QStringList fullName;
-    QStringList shortName;
-    QStringList bookIDs;
-    in >> bibleName >> fullName >> shortName >> bookIDs;
-    m_moduleName = bibleName;
-    m_versification = new Versification_Zefania(fullName, shortName, bookIDs);
-    //myDebug() << m_bookShortName;
+
     m_moduleID = id;
     m_modulePath = path;
     if(m_moduleName == "") {

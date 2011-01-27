@@ -79,3 +79,7 @@ QString Settings::hash(const QString &path) const
     hash.addData(savableUrl(path).toLocal8Bit());
     return QString(hash.result().toHex());
 }
+QString Settings::v11nFile(const QString &path) const
+{
+    return homePath + "v11n/" + hash(path) + "/v11n.ini";
+}

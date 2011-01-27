@@ -22,6 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/versification/versification_kjv.h"
 #include "src/core/verse/versification/versification_cache.h"
 #include "src/core/obvcore.h"
+#include "src/core/dbghelper.h"
 /**
   * ModuleSettings represents a settings class for modules.
   */

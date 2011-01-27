@@ -64,6 +64,8 @@ public:
     QString recoverUrl(QString url) const;
 
     QString hash(const QString& path) const;
+
+    QString v11nFile(const QString &path) const;
 private:
 
 };

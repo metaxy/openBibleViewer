@@ -32,6 +32,8 @@ ModuleSettings::~ModuleSettings()
 
 void ModuleSettings::loadVersification()
 {
+    DEBUG_FUNC_NAME;
+
     if(versificationName == "kjv") {
         v11n = new Versification_KJV();
     } else {
@@ -66,7 +68,10 @@ void ModuleSettings::loadVersification()
 }
 void ModuleSettings::saveVersification()
 {
-    if(versificationName != "kjv") {
+    DEBUG_FUNC_NAME;
+
+    if(versificationFile != "") {
+        myDebug() << versificationFile;
         QSettings settings(versificationFile, QSettings::IniFormat);
         if(v11n == NULL)
             return;
