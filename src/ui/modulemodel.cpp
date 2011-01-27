@@ -23,13 +23,12 @@ void ModuleModel::generate()
     DEBUG_FUNC_NAME
     QStandardItem *parentItem = m_moduleModel->invisibleRootItem();
 
-    QIcon bibleQuoteIcon = QIcon::fromTheme("text-x-generic", QIcon(":/icons/16x16/text-x-generic.png"));
+    m_bibleQuoteIcon = QIcon::fromTheme("text-x-generic", QIcon(":/icons/16x16/text-x-generic.png"));
     QStyle *style = QApplication::style();
-    QIcon folderIcon;
-    folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
-    folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
+    m_folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
+    m_folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
 
-    QIcon bibleZefaniaIcon =  QIcon::fromTheme("text-xml", QIcon(":/icons/16x16/text-xml.png"));
+    m_bibleZefaniaIcon =  QIcon::fromTheme("text-xml", QIcon(":/icons/16x16/text-xml.png"));
 
 
     ModuleSettings *rootModuleSettings = m_settings->getModuleSettings(-1);//it the invisble root item
@@ -55,8 +54,18 @@ void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings
 
         //todo: icons
         //item->setIcon(bibleQuoteIcon);
+        if(settings->moduleType == OBVCore::BibleQuoteModule || settings->moduleType == OBVCore::TheWordBibleModule) {
+            item->setIcon(m_bibleQuoteIcon);
+        } else if(settings->moduleType == OBVCore::ZefaniaBibleModule) {
+            item->setIcon(m_bibleZefaniaIcon);
+        }
         parentItem->appendRow(item);
     } else if(settings->moduleType == OBVCore::ZefaniaLexModule || settings->moduleType == OBVCore::BibleQuoteDictModule) {
+    } else if(settings->moduleType == OBVCore::FolderModule) {
+        item = new QStandardItem;
+        item->setText(settings->moduleName);
+        item->setData(QString::number(settings->moduleID));
+        item->setIcon(m_folderIcon);
     }
 
     //recursive

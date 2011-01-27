@@ -19,6 +19,10 @@ private:
     QStandardItemModel *m_moduleModel;
     Settings *m_settings;
     void loadModule(QStandardItem *parentItem, ModuleSettings *settings);
+
+    QIcon m_bibleQuoteIcon;
+    QIcon m_folderIcon;
+    QIcon m_bibleZefaniaIcon;
 };
 
 #endif // MODULEMODEL_H
