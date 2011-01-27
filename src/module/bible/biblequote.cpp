@@ -138,7 +138,14 @@ void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
 
         }
     }
-    m_versification = new Versification_BibleQuote(bookFullName, bookShortName, bookCount);
+    ModuleSettings *mset = m_settings->getModuleSettings(m_moduleID);
+    mset->loadVersification();
+    if(mset->v11n == NULL) {
+        mset->v11n = new Versification_BibleQuote(bookFullName, bookShortName, bookCount);
+        mset->versificationName = "";
+        mset->versificationFile = m_settings->v11nFile(path);
+    }
+    m_versification = mset->v11n;
 }
 /**
   Reads the ini-file and returns the bible name. If the file is invalid is returns an empty QString.
