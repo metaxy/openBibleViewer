@@ -59,7 +59,7 @@ public slots:
     void reset();
     void saveModule(ModuleSettings);
     void downloadModule();
-    void addModules(QStringList files, QStringList names);
+    void addModules(QStringList files, QStringList names, int parentID = -1);
 signals:
     int settingsChanged(Settings settings, bool modifedModuleSettings);
 public:
@@ -80,6 +80,10 @@ private:
     QStringList m_langCode;
     Ui::SettingsDialog *m_ui;
     bool m_modifedModuleSettings;
+
+    static QStringList scan(const QString &path, const int &level);
+
+    int quiteAddModule(const QString &path, int parentID = -1);
 };
 
 #endif // SETTINGSDIALOG_H

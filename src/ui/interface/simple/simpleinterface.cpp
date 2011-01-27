@@ -18,7 +18,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/bibledisplaysettings.h"
 #include "src/core/obvcore.h"
 #include "src/core/search/search.h"
-#include "src/core/faststart.h"
 #include <QtGui/QDesktopServices>
 #include <QtGui/QMessageBox>
 #include <QtGui/QKeyEvent>

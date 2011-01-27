@@ -31,7 +31,7 @@ void ModuleModel::generate()
     m_bibleZefaniaIcon =  QIcon::fromTheme("text-xml", QIcon(":/icons/16x16/text-xml.png"));
 
 
-    ModuleSettings *rootModuleSettings = m_settings->getModuleSettings(-1);//it the invisble root item
+    ModuleSettings *rootModuleSettings = m_settings->getModuleSettings(-1);//it's the invisble root item
     if(rootModuleSettings != NULL) {
         foreach(ModuleSettings * s, rootModuleSettings->children()) {
             loadModule(parentItem, s);
@@ -66,6 +66,7 @@ void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings
         item->setText(settings->moduleName);
         item->setData(QString::number(settings->moduleID));
         item->setIcon(m_folderIcon);
+        parentItem->appendRow(item);
     }
 
     //recursive

@@ -41,24 +41,7 @@ void ModuleManager::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySe
 {
     m_bibleDisplaySettings = bibleDisplaySettings;
 }
-QStringList ModuleManager::scan(const QString &path, const int &level = 0)
-{
-    //todo: make faster using name filter
-    QStringList ret;
-    QDir dir(path);
-    const QFileInfoList list = dir.entryInfoList();
-    foreach(const QFileInfo & info, list) {
-        if(info.fileName() != ".." && info.fileName() != ".") {
-            if(info.isDir()) {
-                if(level <= 2)//i think this is ok
-                    ret.append(scan(info.absoluteFilePath(), level + 1));
-            } else {
-                ret.append(info.absoluteFilePath());
-            }
-        }
-    }
-    return ret;
-}
+
 
 /**
   Load all Modules, and generate a QStandardItemModel.

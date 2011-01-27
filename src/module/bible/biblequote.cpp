@@ -160,10 +160,14 @@ QString BibleQuote::readInfo(QFile &file)
 
     if(m_codec == NULL) {
         QString encoding;
-        if(m_settings->getModuleSettings(m_moduleID)->encoding == "Default" || m_settings->getModuleSettings(m_moduleID)->encoding.isEmpty()) {
+        if(m_settings->getModuleSettings(m_moduleID) == NULL) {
             encoding = m_settings->encoding;
         } else {
-            encoding = m_settings->getModuleSettings(m_moduleID)->encoding;
+            if(m_settings->getModuleSettings(m_moduleID)->encoding == "Default" || m_settings->getModuleSettings(m_moduleID)->encoding.isEmpty()) {
+                encoding = m_settings->encoding;
+            } else {
+                encoding = m_settings->getModuleSettings(m_moduleID)->encoding;
+            }
         }
         m_codec = QTextCodec::codecForName(encoding.toStdString().c_str());
     }

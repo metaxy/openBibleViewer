@@ -66,6 +66,8 @@ public:
     QString hash(const QString& path) const;
 
     QString v11nFile(const QString &path) const;
+
+    int newModuleID() const;
 private:
 
 };

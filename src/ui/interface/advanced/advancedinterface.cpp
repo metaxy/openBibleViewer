@@ -266,9 +266,7 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
     }
     if(reloadBibles == true) {
         QApplication::setOverrideCursor(Qt::WaitCursor);
-        FastStart fastStart;
-        fastStart.setSettings(m_settings);
-        fastStart.remove();
+
         //myDebug() << "reload Module";
         m_moduleManager->loadAllModules();
         m_bibleManager->moduleDockWidget()->init();

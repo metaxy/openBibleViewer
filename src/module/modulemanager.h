@@ -33,8 +33,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/notes.h"
 #include "src/core/dbghelper.h"
 #include "src/core/urlconverter.h"
-#include "src/core/faststart.h"
-
 #include "src/ui/modulemodel.h"
 
 class ModuleManager
@@ -82,7 +80,7 @@ public:
     static OBVCore::ModuleType recognizeModuleType(const QString &fileName);
 
 private:
-    static QStringList scan(const QString &path, const int &level);
+
     void loadModule(Module *moduleParent, ModuleSettings *setttings);
 };
 

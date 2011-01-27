@@ -39,6 +39,24 @@ void SettingsDialog::reset()
     m_set = m_backupSet;
     setSettings(m_set);
 }
+QStringList SettingsDialog::scan(const QString &path, const int &level = 0)
+{
+    //todo: make faster using name filter
+    QStringList ret;
+    QDir dir(path);
+    const QFileInfoList list = dir.entryInfoList();
+    foreach(const QFileInfo & info, list) {
+        if(info.fileName() != ".." && info.fileName() != ".") {
+            if(info.isDir()) {
+                //if(level <= 2)//i think this is ok
+                ret.append(scan(info.absoluteFilePath(), level + 1));
+            } else {
+                ret.append(info.absoluteFilePath());
+            }
+        }
+    }
+    return ret;
+}
 int SettingsDialog::setSettings(Settings settings)
 {
     m_set = settings;
@@ -137,7 +155,7 @@ void SettingsDialog::addModuleFile(void)
 //and add them sepreatly
 void SettingsDialog::addModuleDir(void)
 {
-    /* m_modifedModuleSettings = true;
+     m_modifedModuleSettings = true;
      QFileDialog dialog(this);
 
      dialog.setFileMode(QFileDialog::Directory);
@@ -145,7 +163,7 @@ void SettingsDialog::addModuleDir(void)
 
      if(dialog.exec()) {
          const QStringList fileName = dialog.selectedFiles();
-         QList<QTreeWidgetItem *> items;
+
          if(fileName.size() > 0) {
              QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size());
              progress.setWindowModality(Qt::WindowModal);
@@ -154,17 +172,15 @@ void SettingsDialog::addModuleDir(void)
                  if(progress.wasCanceled())
                      return;
                  const QString f = fileName.at(i);
-                 QString bibleName;
-                 QString moduleType;
-                 ModuleSettings m;
+                 ModuleSettings *m = new ModuleSettings();
+                 m->moduleID = m_set.newModuleID();
                  QFileInfo fileInfo(f);
                  if(fileInfo.isDir()) {
-                     moduleType = QObject::tr("Folder");
                      QString f = fileName.at(i);
                      if(f.endsWith("/")) {
                          f.remove(f.size() - 1, 10);
                      }
-                     m.modulePath = f;
+                     m->modulePath = f;
                      QStringList ldictname = (f + "/").split("/");
                      QString dictname;
                      if(ldictname.size() > 0) {
@@ -172,63 +188,65 @@ void SettingsDialog::addModuleDir(void)
                      } else {
                          dictname = "(" + QString::number(i) + ")";
                      }
-                     m.moduleName = dictname;
-                     m.moduleType = QString::number(OBVCore::NoneType);
+                     m->moduleName = dictname;
+                     m->moduleType = OBVCore::FolderModule;
                      //m.isDir = true;
                  } else {
-                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
+                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("It is not a folder."));
                      return;
                  }
 
-
-                 //myDebug() << "new Module file" << f << " moduleName" << bibleName << " moduleType" << moduleType;
                  // standard config
-                 m.biblequote_removeHtml = m_set.removeHtml;
-                 m.zefbible_hardCache = m_set.zefaniaBible_hardCache;
-                 m.zefbible_textFormatting = m_set.textFormatting;
-                 m.zefbible_showStrong = true;
-                 m.zefbible_showStudyNote = true;
-                 m.encoding = "Default";// don't translate
-
-
-                 QTreeWidgetItem * ibible = new QTreeWidgetItem(m_ui->treeWidget_module);
-                 ibible->setText(0, m.moduleName);
-                 ibible->setText(1, m.modulePath);
-                 ibible->setText(2, moduleType);
-                 items << ibible;
-                 m_set.insertModuleSettings(m);
-                 //m_set.m_moduleSettings << m;
+                 m->biblequote_removeHtml = m_set.removeHtml;
+                 m->zefbible_hardCache = m_set.zefaniaBible_hardCache;
+                 m->zefbible_softCache = m_set.zefaniaBible_softCache;
+                 //m->zefbible_textFormatting = m_set.textFormatting;
+                 m->zefbible_showStrong = true;
+                 m->zefbible_showStudyNote = true;
+                 m->encoding = "Default";//no translating
+                 m->parentID = -1;
+                 m_set.m_moduleSettings.insert(m->moduleID, m);
+                 const QStringList scanned = scan(f);
+                 foreach(const QString &file, scanned) {
+                     if(file.endsWith(".jpg"))
+                         continue;
+                     if(ModuleManager::recognizeModuleType(file) != OBVCore::NoneType) {
+                        quiteAddModule(file, m->moduleID);
+                     }
+                 }
              }
              progress.close();
-             m_ui->treeWidget_module->insertTopLevelItems(0, items);
+             generateModuleTree();
          }
 
-     }*/
+     }
 }
 void SettingsDialog::removeModule()
 {
-  /*  m_modifedModuleSettings = true;
-    int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
-    //remove from listWidget
-    QTreeWidgetItem * token = m_ui->treeWidget_module->currentItem();
-    delete token;*/
-    //remove from settings
-    // m_set.m_moduleSettings.removeAt(row);
-    return;
+    if(m_ui->treeView->selectionModel()->selectedIndexes().isEmpty())
+        return;
+    m_modifedModuleSettings = true;
+    QModelIndex index;
+    int row = m_ui->treeView->selectionModel()->selectedIndexes().first().data(Qt::UserRole + 1).toInt();
+    m_set.m_moduleSettings.remove(row);
+    generateModuleTree();
 }
 void SettingsDialog::editModule()
 {
     //DEBUG_FUNC_NAME
     m_modifedModuleSettings = true;
-   /* int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
+    if(m_ui->treeView->selectionModel()->selectedIndexes().isEmpty())
+        return;
+    int row = m_ui->treeView->selectionModel()->selectedIndexes().first().data(Qt::UserRole + 1).toInt();
     if(row >= 0) {
         ModuleConfigDialog *mDialog = new ModuleConfigDialog(this);
-        // mDialog->setModule(m_set.m_moduleSettings.at(row));
+
+        //mDialog->setModule(m_set.m_moduleSettings.at(row));
         connect(mDialog, SIGNAL(save(ModuleSettings)), this, SLOT(saveModule(ModuleSettings)));
         connect(mDialog, SIGNAL(save(ModuleSettings)), mDialog, SLOT(close()));
         mDialog->show();
         mDialog->exec();
-    }*/
+    }
 
 }
 void SettingsDialog::saveModule(ModuleSettings c)
@@ -263,7 +281,7 @@ void SettingsDialog::downloadModule()
     mDialog->show();
     mDialog->exec();
 }
-void SettingsDialog::addModules(QStringList fileName, QStringList names)
+void SettingsDialog::addModules(QStringList fileName, QStringList names, int parentID)
 {
     DEBUG_FUNC_NAME
     if(!fileName.isEmpty()) {
@@ -279,101 +297,98 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names)
                 return;
             }
             const QString f = fileName.at(i);
-            QString moduleName;
-            OBVCore::ModuleType moduleType = OBVCore::NoneType;
-            BibleQuote bq;
-            ZefaniaBible zef;
-            ZefaniaLex zefLex;
-            BibleQuoteDict bibleQuoteDict;
-            TheWordBible theWordBible;
-            ModuleSettings *m = new ModuleSettings();
-            zefLex.setSettings(&m_set);
+            quiteAddModule(f, parentID);
 
-            QFileInfo fileInfo(f);
-            if(fileInfo.isFile()) {
-                if(f.endsWith(".zip")) {
-                    //todo: unzip first
-                    QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot open zipped files."));
-                    return;
-
-                }
-                moduleType = ModuleManager::recognizeModuleType(f);
-
-                if(moduleType == OBVCore::NoneType) {
-                    QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
-                    myWarning() << "cannot determine module type";
-                    progress.close();
-                    generateModuleTree();
-                    return;
-                }
-
-                switch(moduleType) {
-                case OBVCore::BibleQuoteModule:
-                    if(names.size() == 0 || i >= names.size()) {
-                        moduleName = bq.readInfo(f);
-                    }
-                    break;
-                case OBVCore::ZefaniaBibleModule:
-                    if(names.size() == 0 || i >= names.size()) {
-                        moduleName = zef.readInfo(f);
-                    }
-                    break;
-                case OBVCore::ZefaniaLexModule:
-                    if(names.size() == 0 || i >= names.size()) {
-                        moduleName = zefLex.buildIndexFromFile(f);
-                    }
-                    break;
-                case OBVCore::BibleQuoteDictModule:
-                    if(names.size() == 0 || i >= names.size()) {
-                        moduleName = bibleQuoteDict.readInfo(f);
-                        bibleQuoteDict.buildIndex();
-                    }
-                    break;
-                case OBVCore::TheWordBibleModule:
-                    if(names.size() == 0 || i >= names.size()) {
-                        moduleName = theWordBible.readInfo(f);
-                    }
-                    break;
-                case OBVCore::NoneType:
-                    QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
-                    progress.close();
-                    generateModuleTree();
-                    return;
-                }
-                m->modulePath = f;
-
-                if(names.size() > 0 && i < names.size()) {  //if a name is given in the stringlist use it
-                    m->moduleName = names.at(i);
-                } else {//else use the biblename from the filename
-                    m->moduleName = moduleName;
-                }
-                //todo: moduleType
-                m->moduleType = moduleType;
-
-            } else {
-                QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot open the file."));
-                progress.close();
-                generateModuleTree();
-                return;
-            }
-
-            // standard config
-            m->biblequote_removeHtml = m_set.removeHtml;
-            m->zefbible_hardCache = m_set.zefaniaBible_hardCache;
-            m->zefbible_softCache = m_set.zefaniaBible_softCache;
-            //m->zefbible_textFormatting = m_set.textFormatting;
-            m->zefbible_showStrong = true;
-            m->zefbible_showStudyNote = true;
-            m->encoding = "Default";//no translating
-            m->parentID = -1;
-
-            m_set.getModuleSettings(m->parentID)->appendChild(m);
-
-            m_set.m_moduleSettings.insert(m->moduleID, m);
         }
         generateModuleTree();
         progress.close();
     }
+}
+int SettingsDialog::quiteAddModule(const QString &f, int parentID)
+{
+    QString moduleName;
+    OBVCore::ModuleType moduleType = OBVCore::NoneType;
+    BibleQuote bq;
+    bq.setSettings(&m_set);
+    ZefaniaBible zef;
+    zef.setSettings(&m_set);
+    ZefaniaLex zefLex;
+    zefLex.setSettings(&m_set);
+    BibleQuoteDict bibleQuoteDict;
+    bibleQuoteDict.setSettings(&m_set);
+    TheWordBible theWordBible;
+    theWordBible.setSettings(&m_set);
+    ModuleSettings *m = new ModuleSettings();
+    m->moduleID = m_set.newModuleID();
+
+    QFileInfo fileInfo(f);
+    if(fileInfo.isFile()) {
+
+        if(f.endsWith(".zip")) {
+            //todo: unzip first
+            //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot open zipped files."));
+            return 3;
+
+        }
+        moduleType = ModuleManager::recognizeModuleType(f);
+
+        if(moduleType == OBVCore::NoneType) {
+            //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
+            myWarning() << "cannot determine module type";
+            return 4;
+        }
+        myDebug() << f;
+        switch(moduleType) {
+        case OBVCore::BibleQuoteModule:
+                moduleName = bq.readInfo(f);
+            break;
+        case OBVCore::ZefaniaBibleModule:
+                moduleName = zef.readInfo(f);
+            break;
+        case OBVCore::ZefaniaLexModule:
+                moduleName = zefLex.buildIndexFromFile(f);
+            break;
+        case OBVCore::BibleQuoteDictModule:
+                moduleName = bibleQuoteDict.readInfo(f);
+                bibleQuoteDict.buildIndex();
+            break;
+        case OBVCore::TheWordBibleModule:
+                moduleName = theWordBible.readInfo(f);
+            break;
+        case OBVCore::NoneType:
+            //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
+            return 1;
+        }
+        m->modulePath = f;
+
+     /*   if(names.size() > 0 && i < names.size()) {  //if a name is given in the stringlist use it
+            m->moduleName = names.at(i);
+        } else {//else use the biblename from the filename*/
+            m->moduleName = moduleName;
+     /*   }*/
+
+        m->moduleType = moduleType;
+
+    } else {
+        //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot open the file."));
+
+        return 1;
+    }
+
+    // standard config
+    m->biblequote_removeHtml = m_set.removeHtml;
+    m->zefbible_hardCache = m_set.zefaniaBible_hardCache;
+    m->zefbible_softCache = m_set.zefaniaBible_softCache;
+    //m->zefbible_textFormatting = m_set.textFormatting;
+    m->zefbible_showStrong = true;
+    m->zefbible_showStudyNote = true;
+    m->encoding = "Default";//no translating
+    m->parentID = parentID;
+
+    m_set.getModuleSettings(m->parentID)->appendChild(m);
+
+    m_set.m_moduleSettings.insert(m->moduleID, m);
+    return 0;
 }
 
 void SettingsDialog::setCurrentTab(int tabID)
