@@ -272,14 +272,25 @@ void SettingsDialog::save(void)
     } else if(currentInterface == 1) {
         m_set.session.setData("interface", "advanced");
     }
+    QMap<int,int> struc;
+    foreach(ModuleSettings *set, m_set.m_moduleSettings) {
+         struc.insert(set->moduleID, set->parentID);
+    }
     foreach(ModuleSettings *set, m_set.m_moduleSettings) {
          set->clearChildren();
     }
 
     QModelIndex rootIndex = m_ui->treeView->rootIndex();
     saveModule(rootIndex, m_set.getModuleSettings(-1));
-    m_modifedModuleSettings = true;
 
+    QMap<int,int> struc2;
+    foreach(ModuleSettings *set, m_set.m_moduleSettings) {
+         struc2.insert(set->moduleID, set->parentID);
+    }
+    if(struc != struc2) {
+        m_modifedModuleSettings = true;
+        myDebug() << "another struct";
+    }
     emit settingsChanged(m_set, m_modifedModuleSettings); //Speichern
     close();
 }
@@ -293,6 +304,7 @@ void SettingsDialog::saveModule(QModelIndex parentIndex, ModuleSettings *parentS
         ModuleSettings *settings = m_set.getModuleSettings(moduleID);
         parentSettings->appendChild(settings);
         settings->setParent(parentSettings);
+        settings->parentID = parentSettings->moduleID;
 
         if(m_ui->treeView->model()->hasChildren(index))
             saveModule(index, settings);
