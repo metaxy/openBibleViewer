@@ -112,3 +112,7 @@ void ModuleSettings::appendChild(ModuleSettings* child)
 {
     m_children.append(child);
 }
+void ModuleSettings::removeChild(ModuleSettings *child)
+{
+    m_children.removeOne(child);
+}

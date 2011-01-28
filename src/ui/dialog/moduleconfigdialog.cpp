@@ -31,35 +31,35 @@ ModuleConfigDialog::~ModuleConfigDialog()
 {
     delete m_ui;
 }
-void ModuleConfigDialog::setModule(ModuleSettings config)
+void ModuleConfigDialog::setModule(ModuleSettings *config)
 {
     //DEBUG_FUNC_NAME
     m_moduleSettings = config;
-    m_ui->lineEdit_name->setText(config.moduleName);
-    m_ui->lineEdit_path->setText(config.modulePath);
-    m_ui->comboBox_type->setCurrentIndex(config.moduleType);
-    m_ui->comboBox_textFromatting->setCurrentIndex(config.zefbible_textFormatting);
-    if(config.biblequote_removeHtml == true)
+    m_ui->lineEdit_name->setText(config->moduleName);
+    m_ui->lineEdit_path->setText(config->modulePath);
+    m_ui->comboBox_type->setCurrentIndex(config->moduleType);
+    m_ui->comboBox_textFromatting->setCurrentIndex(config->zefbible_textFormatting);
+    if(config->biblequote_removeHtml == true)
         m_ui->checkBox_removeHtml->setChecked(true);
     else
         m_ui->checkBox_removeHtml->setChecked(false);
 
-    if(config.zefbible_hardCache == true)
+    if(config->zefbible_hardCache == true)
         m_ui->checkBox_hardCache->setChecked(true);
     else
         m_ui->checkBox_hardCache->setChecked(false);
 
-    if(config.zefbible_softCache == true)
+    if(config->zefbible_softCache == true)
         m_ui->checkBox_softCache->setChecked(true);
     else
         m_ui->checkBox_softCache->setChecked(false);
 
-    if(config.zefbible_showStrong == true)
+    if(config->zefbible_showStrong == true)
         m_ui->checkBox_showStrong->setChecked(true);
     else
         m_ui->checkBox_showStrong->setChecked(false);
 
-    if(config.zefbible_showStudyNote == true)
+    if(config->zefbible_showStudyNote == true)
         m_ui->checkBox_showStudyNote->setChecked(true);
     else
         m_ui->checkBox_showStudyNote->setChecked(false);
@@ -73,40 +73,40 @@ void ModuleConfigDialog::setModule(ModuleSettings config)
                 << "Windows-1253" << "Windows-1254" << "Windows-1255" << "Windows-1256" << "Windows-1257" << "Windows-1258" << "WINSAMI2";
     m_ui->comboBox_encoding->clear();
     m_ui->comboBox_encoding->insertItems(0, m_encodings);
-    if(m_encodings.lastIndexOf(config.encoding) != -1) {
-        m_ui->comboBox_encoding->setCurrentIndex(m_encodings.lastIndexOf(config.encoding));
+    if(m_encodings.lastIndexOf(config->encoding) != -1) {
+        m_ui->comboBox_encoding->setCurrentIndex(m_encodings.lastIndexOf(config->encoding));
     } else {
         m_ui->comboBox_encoding->setCurrentIndex(0);
     }
 
-    m_ui->lineEdit_styleSheet->setText(config.styleSheet);
+    m_ui->lineEdit_styleSheet->setText(config->styleSheet);
 }
 void ModuleConfigDialog::bsave()
 {
     //DEBUG_FUNC_NAME
 
-    if(m_moduleSettings.moduleType == OBVCore::ZefaniaBibleModule &&
-            (m_moduleSettings.encoding != m_encodings.at(m_ui->comboBox_encoding->currentIndex()) ||
-             (int)m_moduleSettings.moduleType != m_ui->comboBox_type->currentIndex() ||
-             m_moduleSettings.modulePath != m_ui->lineEdit_path->text())) {
+    if(m_moduleSettings->moduleType == OBVCore::ZefaniaBibleModule &&
+            (m_moduleSettings->encoding != m_encodings.at(m_ui->comboBox_encoding->currentIndex()) ||
+             (int)m_moduleSettings->moduleType != m_ui->comboBox_type->currentIndex() ||
+             m_moduleSettings->modulePath != m_ui->lineEdit_path->text())) {
         //myDebug() << "clear hard in zefania cache";
         ZefaniaBible zef;
         zef.removeHardCache(m_ui->lineEdit_path->text());
-        if(m_moduleSettings.modulePath != m_ui->lineEdit_path->text()) {
-            zef.removeHardCache(m_moduleSettings.modulePath);
+        if(m_moduleSettings->modulePath != m_ui->lineEdit_path->text()) {
+            zef.removeHardCache(m_moduleSettings->modulePath);
         }
     }
-    m_moduleSettings.moduleName = m_ui->lineEdit_name->text();
-    m_moduleSettings.modulePath = m_ui->lineEdit_path->text();
-    m_moduleSettings.moduleType = (OBVCore::ModuleType) m_ui->comboBox_type->currentIndex();
-    m_moduleSettings.zefbible_textFormatting = (ModuleSettings::ZefBible_TextFormating) m_ui->comboBox_textFromatting->currentIndex();
-    m_moduleSettings.biblequote_removeHtml = m_ui->checkBox_removeHtml->isChecked();
-    m_moduleSettings.zefbible_hardCache =  m_ui->checkBox_hardCache->isChecked();
-    m_moduleSettings.zefbible_softCache =  m_ui->checkBox_softCache->isChecked();
-    m_moduleSettings.zefbible_showStrong =  m_ui->checkBox_showStrong->isChecked();
-    m_moduleSettings.zefbible_showStudyNote =  m_ui->checkBox_showStudyNote->isChecked();
-    m_moduleSettings.encoding = m_encodings.at(m_ui->comboBox_encoding->currentIndex());
-    m_moduleSettings.styleSheet = m_ui->lineEdit_styleSheet->text();
+    m_moduleSettings->moduleName = m_ui->lineEdit_name->text();
+    m_moduleSettings->modulePath = m_ui->lineEdit_path->text();
+    m_moduleSettings->moduleType = (OBVCore::ModuleType) m_ui->comboBox_type->currentIndex();
+    m_moduleSettings->zefbible_textFormatting = (ModuleSettings::ZefBible_TextFormating) m_ui->comboBox_textFromatting->currentIndex();
+    m_moduleSettings->biblequote_removeHtml = m_ui->checkBox_removeHtml->isChecked();
+    m_moduleSettings->zefbible_hardCache =  m_ui->checkBox_hardCache->isChecked();
+    m_moduleSettings->zefbible_softCache =  m_ui->checkBox_softCache->isChecked();
+    m_moduleSettings->zefbible_showStrong =  m_ui->checkBox_showStrong->isChecked();
+    m_moduleSettings->zefbible_showStudyNote =  m_ui->checkBox_showStudyNote->isChecked();
+    m_moduleSettings->encoding = m_encodings.at(m_ui->comboBox_encoding->currentIndex());
+    m_moduleSettings->styleSheet = m_ui->lineEdit_styleSheet->text();
     //todo:if path type or encoding changed clear cache
     emit save(m_moduleSettings);
 }
@@ -127,7 +127,7 @@ void ModuleConfigDialog::moduleTypeChanged(int id)
 }
 void  ModuleConfigDialog::fileSelect()
 {
-    /*if(m_moduleSettings.isDir) {
+    /*if(m_moduleSettings->isDir) {
         QFileDialog dialog(this);
         dialog.setFileMode(QFileDialog::Directory);
         dialog.setOption(QFileDialog::ShowDirsOnly, true);
@@ -138,7 +138,7 @@ void  ModuleConfigDialog::fileSelect()
             }
         }
     } else {*/
-    const QString fileName = QFileDialog::getOpenFileName(this, tr("Open Bible"), m_moduleSettings.modulePath, tr("Bibles (*.ini *.xml *.*)"));
+    const QString fileName = QFileDialog::getOpenFileName(this, tr("Open Bible"), m_moduleSettings->modulePath, tr("Bibles (*.ini *.xml *.*)"));
     if(!fileName.isEmpty()) {
         m_ui->lineEdit_path->setText(fileName);
     }

@@ -38,6 +38,7 @@ public:
 
     QList<ModuleSettings *> children();
     void appendChild(ModuleSettings* child);
+    void removeChild(ModuleSettings* child);
 
 
     int moduleID;

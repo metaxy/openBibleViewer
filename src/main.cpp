@@ -26,6 +26,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QDir>
 #include <stdlib.h>
 #include "src/core/dbghelper.h"
+
 #ifdef Q_OS_WIN32
 #include <windows.h>
 #include <stdio.h>
@@ -35,8 +36,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/ui/mainwindow.h"
 #include "config.h"
+
 #ifdef BUILD_WITH_SWORD
-#include <swmgr.h>
+/*#include <swmgr.h>
 #include <swmodule.h>
 #include <markupfiltmgr.h>
 #include <versekey.h>
@@ -48,7 +50,7 @@ using sword::SWModule;
 using sword::SW_POSITION;
 using sword::FMT_PLAIN;
 using sword::MarkupFilterMgr;
-using namespace::sword;
+using namespace::sword;*/
 #endif
 
 bool removeDir(const QString &dirName)

@@ -223,13 +223,22 @@ void SettingsDialog::addModuleDir(void)
 }
 void SettingsDialog::removeModule()
 {
+    DEBUG_FUNC_NAME;
     if(m_ui->treeView->selectionModel()->selectedIndexes().isEmpty())
         return;
     m_modifedModuleSettings = true;
-    QModelIndex index;
-    int row = m_ui->treeView->selectionModel()->selectedIndexes().first().data(Qt::UserRole + 1).toInt();
-    m_set.m_moduleSettings.remove(row);
-    generateModuleTree();
+    bool ok;
+    const int moduleID = m_ui->treeView->selectionModel()->selectedIndexes().first().data(Qt::UserRole + 1).toInt(&ok);
+    if(ok) {
+        myDebug() << "moduleID  = " << moduleID;
+        ModuleSettings *child = m_set.getModuleSettings(moduleID);
+        m_set.getModuleSettings(child->parentID)->removeChild(child);
+
+        m_set.m_moduleSettings.remove(moduleID);
+
+        QModelIndex index = m_ui->treeView->selectionModel()->selectedIndexes().first();
+        m_ui->treeView->model()->removeRow(index.row(),index.parent());
+    }
 }
 void SettingsDialog::editModule()
 {
@@ -237,24 +246,20 @@ void SettingsDialog::editModule()
     m_modifedModuleSettings = true;
     if(m_ui->treeView->selectionModel()->selectedIndexes().isEmpty())
         return;
-    int row = m_ui->treeView->selectionModel()->selectedIndexes().first().data(Qt::UserRole + 1).toInt();
-    if(row >= 0) {
+    bool ok;
+    const int moduleID = m_ui->treeView->selectionModel()->selectedIndexes().first().data(Qt::UserRole + 1).toInt(&ok);
+    myDebug() << "moduleID = " << moduleID;
+    if(moduleID >= 0 && ok) {
         ModuleConfigDialog *mDialog = new ModuleConfigDialog(this);
 
-        //mDialog->setModule(m_set.m_moduleSettings.at(row));
-        connect(mDialog, SIGNAL(save(ModuleSettings)), this, SLOT(saveModule(ModuleSettings)));
+        mDialog->setModule(m_set.getModuleSettings(moduleID));
         connect(mDialog, SIGNAL(save(ModuleSettings)), mDialog, SLOT(close()));
         mDialog->show();
         mDialog->exec();
     }
 
 }
-void SettingsDialog::saveModule(ModuleSettings c)
-{
-    //int row = m_ui->treeWidget_module->indexOfTopLevelItem(m_ui->treeWidget_module->currentItem());
-    // m_set.m_moduleSettings.replace(row, c);
-    // generateModuleTree();
-}
+
 void SettingsDialog::save(void)
 {
     //Informationen aus dem Dialog auslesen

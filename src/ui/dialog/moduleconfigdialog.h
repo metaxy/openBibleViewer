@@ -37,7 +37,7 @@ signals:
 public:
     explicit ModuleConfigDialog(QWidget *parent = 0);
     virtual ~ModuleConfigDialog();
-    void setModule(ModuleSettings config);
+    void setModule(ModuleSettings *config);
 protected:
     virtual void changeEvent(QEvent *e);
 
@@ -47,7 +47,7 @@ private slots:
     void fileSelect();
 private:
     Ui::ModuleConfigDialog *m_ui;
-    ModuleSettings m_moduleSettings;
+    ModuleSettings *m_moduleSettings;
     QStringList m_encodings;
 };
 

@@ -57,7 +57,6 @@ public slots:
     void removeModule();
     void editModule();
     void reset();
-    void saveModule(ModuleSettings);
     void downloadModule();
     void addModules(QStringList files, QStringList names, int parentID = -1);
 signals:
