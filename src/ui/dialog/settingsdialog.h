@@ -82,7 +82,7 @@ private:
 
     static QStringList scan(const QString &path, const int &level);
 
-    int quiteAddModule(const QString &path, int parentID = -1);
+    int quiteAddModule(const QString &path, int parentID = -1, const QString &name = "");
 };
 
 #endif // SETTINGSDIALOG_H

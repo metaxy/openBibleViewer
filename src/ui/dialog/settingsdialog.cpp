@@ -227,16 +227,16 @@ void SettingsDialog::removeModule()
     if(m_ui->treeView->selectionModel()->selectedIndexes().isEmpty())
         return;
     m_modifedModuleSettings = true;
-    bool ok;
-    const int moduleID = m_ui->treeView->selectionModel()->selectedIndexes().first().data(Qt::UserRole + 1).toInt(&ok);
-    if(ok) {
-        myDebug() << "moduleID  = " << moduleID;
-        ModuleSettings *child = m_set.getModuleSettings(moduleID);
-        m_set.getModuleSettings(child->parentID)->removeChild(child);
 
-        m_set.m_moduleSettings.remove(moduleID);
-
-        QModelIndex index = m_ui->treeView->selectionModel()->selectedIndexes().first();
+    foreach(QModelIndex index, m_ui->treeView->selectionModel()->selectedIndexes()) {
+        bool ok;
+        const int moduleID = index.data(Qt::UserRole + 1).toInt(&ok);
+        if(ok) {
+            myDebug() << "moduleID  = " << moduleID;
+            ModuleSettings *child = m_set.getModuleSettings(moduleID);
+            m_set.getModuleSettings(child->parentID)->removeChild(child);
+            m_set.m_moduleSettings.remove(moduleID);
+        }
         m_ui->treeView->model()->removeRow(index.row(),index.parent());
     }
 }
@@ -272,7 +272,8 @@ void SettingsDialog::save(void)
     } else if(currentInterface == 1) {
         m_set.session.setData("interface", "advanced");
     }
-    //Alles andere, wie z.b die Module sind schon gespeichert
+    //todo: model to modulesettings
+
     emit settingsChanged(m_set, m_modifedModuleSettings); //Speichern
     close();
 }
@@ -302,14 +303,17 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names, int par
                 return;
             }
             const QString f = fileName.at(i);
-            quiteAddModule(f, parentID);
+            if(i < names.size())
+                quiteAddModule(f, parentID, names.at(i));
+            else
+                quiteAddModule(f, parentID);
 
         }
         generateModuleTree();
         progress.close();
     }
 }
-int SettingsDialog::quiteAddModule(const QString &f, int parentID)
+int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString &name)
 {
     QString moduleName;
     OBVCore::ModuleType moduleType = OBVCore::NoneType;
@@ -343,40 +347,36 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID)
             return 4;
         }
         myDebug() << f;
-        switch(moduleType) {
-        case OBVCore::BibleQuoteModule:
-                moduleName = bq.readInfo(f);
-            break;
-        case OBVCore::ZefaniaBibleModule:
-                moduleName = zef.readInfo(f);
-            break;
-        case OBVCore::ZefaniaLexModule:
-                moduleName = zefLex.buildIndexFromFile(f);
-            break;
-        case OBVCore::BibleQuoteDictModule:
-                moduleName = bibleQuoteDict.readInfo(f);
-                bibleQuoteDict.buildIndex();
-            break;
-        case OBVCore::TheWordBibleModule:
-                moduleName = theWordBible.readInfo(f);
-            break;
-        case OBVCore::NoneType:
-            //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
-            return 1;
+        if(name.isEmpty()) {
+            switch(moduleType) {
+            case OBVCore::BibleQuoteModule:
+                    m->moduleName = bq.readInfo(f);
+                break;
+            case OBVCore::ZefaniaBibleModule:
+                    m->moduleName = zef.readInfo(f);
+                break;
+            case OBVCore::ZefaniaLexModule:
+                    m->moduleName = zefLex.buildIndexFromFile(f);
+                break;
+            case OBVCore::BibleQuoteDictModule:
+                    m->moduleName = bibleQuoteDict.readInfo(f);
+                    bibleQuoteDict.buildIndex();
+                break;
+            case OBVCore::TheWordBibleModule:
+                    m->moduleName = theWordBible.readInfo(f);
+                break;
+            case OBVCore::NoneType:
+                //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
+                return 1;
+            }
+        } else {
+            m->moduleName = name;
         }
         m->modulePath = f;
-
-     /*   if(names.size() > 0 && i < names.size()) {  //if a name is given in the stringlist use it
-            m->moduleName = names.at(i);
-        } else {//else use the biblename from the filename*/
-            m->moduleName = moduleName;
-     /*   }*/
-
         m->moduleType = moduleType;
 
     } else {
         //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot open the file."));
-
         return 1;
     }
 
