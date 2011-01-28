@@ -18,9 +18,7 @@ RecursivProxyModel::RecursivProxyModel(QObject *parent) :
     QSortFilterProxyModel(parent)
 {
 }
-/**
-  Filter rows, but show alway folders.
-  */
+
 bool RecursivProxyModel::filterAcceptsRow(int sourceRow,
         const QModelIndex &sourceParent) const
 {
@@ -28,7 +26,7 @@ bool RecursivProxyModel::filterAcceptsRow(int sourceRow,
         return true;
 
     QModelIndex current(sourceModel()->index(sourceRow, filterKeyColumn(), sourceParent));
-
+    //don't hide if it has at least on valid(not filtered) child
     if(sourceModel()->hasChildren(current)) {
         bool atLeastOneValidChild = false;
         int i = 0;
@@ -45,9 +43,7 @@ bool RecursivProxyModel::filterAcceptsRow(int sourceRow,
     return sourceModel()->data(current).toString().contains(filterRegExp());
 }
 
-/**
-  Reimplemented match ( without the Qt::MatchFlags and hits ) to search recursiv.
-  */
+
 QModelIndexList RecursivProxyModel::match(const QModelIndex &start, int role,
         const QVariant &value, int hits,
         Qt::MatchFlags flags) const

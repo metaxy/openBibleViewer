@@ -21,9 +21,15 @@ class RecursivProxyModel : public QSortFilterProxyModel
     Q_OBJECT
 public:
     explicit RecursivProxyModel(QObject *parent = 0);
+    /**
+      * Reimplemented match ( without the Qt::MatchFlags and hits ) to search recursive.
+      */
     QModelIndexList match(const QModelIndex &start, int role, const QVariant &value, int hits = -1, Qt::MatchFlags flags = Qt::MatchExactly) const;
 signals:
 protected:
+    /**
+      * Filter rows, but don't hide items if they have children who aren't hidden.
+      */
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
 
 

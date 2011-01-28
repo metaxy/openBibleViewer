@@ -19,6 +19,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), m_ui(new Ui::
 {
     m_ui->setupUi(this);
     m_modifedModuleSettings = false;
+
     connect(m_ui->pushButton_downloadModule, SIGNAL(clicked()), this, SLOT(downloadModule()));
     connect(m_ui->pushButton_addFile, SIGNAL(clicked()), this, SLOT(addModuleFile()));
     connect(m_ui->pushButton_addDir, SIGNAL(clicked()), this, SLOT(addModuleDir()));
@@ -41,7 +42,6 @@ void SettingsDialog::reset()
 }
 QStringList SettingsDialog::scan(const QString &path, const int &level = 0)
 {
-    //todo: make faster using name filter
     QStringList ret;
     QDir dir(path);
     const QFileInfoList list = dir.entryInfoList();
@@ -124,7 +124,6 @@ int SettingsDialog::setSettings(Settings settings)
     } else if(i == "simple") {
         currentInterface = 0;
     }
-    //myDebug() << " currentInterface = " << currentInterface;
     m_ui->comboBox_interface->setCurrentIndex(currentInterface);
 
     return 0;
@@ -151,8 +150,6 @@ void SettingsDialog::addModuleFile(void)
     }
     return;
 }
-//todo: read all modules
-//and add them sepreatly
 void SettingsDialog::addModuleDir(void)
 {
      m_modifedModuleSettings = true;
@@ -208,9 +205,7 @@ void SettingsDialog::addModuleDir(void)
                  m_set.m_moduleSettings.insert(m->moduleID, m);
                  const QStringList scanned = scan(f);
                  foreach(const QString &file, scanned) {
-                     if(file.endsWith(".jpg"))
-                         continue;
-                     if(ModuleManager::recognizeModuleType(file) != OBVCore::NoneType) {
+                     if(ModuleManager::recognizeModuleType(file) != OBVCore::NoneType) {//that is faster than check in quitAddModule
                         quiteAddModule(file, m->moduleID);
                      }
                  }
@@ -223,7 +218,7 @@ void SettingsDialog::addModuleDir(void)
 }
 void SettingsDialog::removeModule()
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     if(m_ui->treeView->selectionModel()->selectedIndexes().isEmpty())
         return;
     m_modifedModuleSettings = true;
@@ -232,7 +227,7 @@ void SettingsDialog::removeModule()
         bool ok;
         const int moduleID = index.data(Qt::UserRole + 1).toInt(&ok);
         if(ok) {
-            myDebug() << "moduleID  = " << moduleID;
+            //myDebug() << "moduleID  = " << moduleID;
             ModuleSettings *child = m_set.getModuleSettings(moduleID);
             m_set.getModuleSettings(child->parentID)->removeChild(child);
             m_set.m_moduleSettings.remove(moduleID);
@@ -251,7 +246,6 @@ void SettingsDialog::editModule()
     myDebug() << "moduleID = " << moduleID;
     if(moduleID >= 0 && ok) {
         ModuleConfigDialog *mDialog = new ModuleConfigDialog(this);
-
         mDialog->setModule(m_set.getModuleSettings(moduleID));
         connect(mDialog, SIGNAL(save(ModuleSettings)), mDialog, SLOT(close()));
         mDialog->show();
@@ -289,7 +283,6 @@ void SettingsDialog::save(void)
     }
     if(struc != struc2) {
         m_modifedModuleSettings = true;
-        myDebug() << "another struct";
     }
     emit settingsChanged(m_set, m_modifedModuleSettings); //Speichern
     close();
@@ -380,7 +373,6 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
             myWarning() << "cannot determine module type";
             return 4;
         }
-        myDebug() << f;
         if(name.isEmpty()) {
             switch(moduleType) {
             case OBVCore::BibleQuoteModule:

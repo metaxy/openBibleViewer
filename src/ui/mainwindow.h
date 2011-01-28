@@ -67,7 +67,6 @@ public:
     ~MainWindow();
     void init(const QString &homeDataPath, QSettings * settingsFile);
     QSettings *m_settingsFile;
-    QSettings *m_moduleCacheFile;
     QString VERSION, BUILD;
     QString m_homeDataPath;
     void setSettings(Settings settings);

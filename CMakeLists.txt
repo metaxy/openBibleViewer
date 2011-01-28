@@ -6,10 +6,10 @@ add_definitions ( -Wall -g)
 find_package ( Qt4 REQUIRED )
 include (FindThreads)
 include (FindZlib)
-include (FindSword)
-LINK_DIRECTORIES(
-    ${SWORD_LIBRARY_DIR}
-)
+#include (FindSword)
+#LINK_DIRECTORIES(
+  #  ${SWORD_LIBRARY_DIR}
+#)
 if (NOT SWORD_NOT_FOUND)
     ADD_DEFINITIONS(-DBUILD_WITH_SWORD)
 endif(NOT SWORD_NOT_FOUND)
@@ -36,7 +36,7 @@ include_directories (
     ${openBibleViewer_BINARY_DIR}/src/clucene/shared
     ${openBibleViewer_SOURCE_DIR}/src/clucene/shared
     ${openBibleViewer_SOURCE_DIR}/src/clucene/core
-    ${SWORD_INCLUDE_DIR}
+    #${SWORD_INCLUDE_DIR}
     )
 
 add_subdirectory ( src/clucene )
@@ -358,11 +358,11 @@ target_link_libraries ( openBibleViewer
                         clucene-core-static 
                         clucene-shared-static
                         ${ZLIB_LIBRARY}
-                        ${CURL_LIBRARIES} # optional, empty if not found
-                        ${ICU_LIBRARIES} # optional, empty if not found
-                        ${ICU_I18N_LIBRARIES} # optional, empty if not found
-                        ${ZLIB_LIBRARIES} # optional, empty if not found
-                        ${SWORD_LIBRARY}# optional, empty if not found
+                       # ${CURL_LIBRARIES} # optional, empty if not found
+                      #  ${ICU_LIBRARIES} # optional, empty if not found
+                      #  ${ICU_I18N_LIBRARIES} # optional, empty if not found
+                      ##  ${ZLIB_LIBRARIES} # optional, empty if not found
+                       # ${SWORD_LIBRARY}# optional, empty if not found
 )
 
 

@@ -24,6 +24,8 @@ AdvancedInterface::AdvancedInterface(QWidget *parent) :
 
 AdvancedInterface::~AdvancedInterface()
 {
+    DEBUG_FUNC_NAME;
+
     if(m_bibleDisplaySettings != NULL) {
         delete m_bibleDisplaySettings;
         m_bibleDisplaySettings = 0;

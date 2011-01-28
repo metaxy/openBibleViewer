@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     delete ui;
     ui = 0;
     delete m_moduleManager;
@@ -35,8 +35,6 @@ MainWindow::~MainWindow()
     m_notes = 0;
     delete m_settingsFile;
     m_settingsFile = 0;
-    delete m_moduleCacheFile;
-    m_moduleCacheFile = 0;
     /*delete m_menuBar;
     m_menuBar = 0;*/
     delete m_interface;
@@ -48,7 +46,6 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
     BUILD =  "2010-11-8";
     m_homeDataPath = homeDataPath;
     m_settingsFile = settingsFile;
-    m_moduleCacheFile = new QSettings(homeDataPath + "moduleCache.ini", QSettings::IniFormat);
 
     m_moduleManager = new ModuleManager();
     m_settings = new Settings();
