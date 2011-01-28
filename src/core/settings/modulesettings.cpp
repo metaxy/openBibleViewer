@@ -116,3 +116,7 @@ void ModuleSettings::removeChild(ModuleSettings *child)
 {
     m_children.removeOne(child);
 }
+void ModuleSettings::clearChildren()
+{
+    m_children.clear();
+}
