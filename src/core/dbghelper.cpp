@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "dbghelper.h"
-//#define NO_COLOR
+#define NO_COLOR
 #define DBGHELPER_USES_PRINTF
 #ifdef DBGHELPER_USES_PRINTF
 #include <stdio.h>
@@ -41,7 +41,6 @@ static void DbgHelper_output(int color, int indent,
 
 DbgHelper::DbgHelper(const QString &t)
 {
-    //qDebug() << "DbgHelper::DebgHelper";
     txt = t;
 #ifdef NO_COLOR
     myColor = -1;

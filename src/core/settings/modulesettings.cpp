@@ -33,12 +33,13 @@ ModuleSettings::~ModuleSettings()
 void ModuleSettings::loadVersification()
 {
     DEBUG_FUNC_NAME;
-
+    myDebug() << "versifiction name = " << versificationName << " versification file" << versificationFile;
     if(versificationName == "kjv") {
         v11n = new Versification_KJV();
     } else {
         QSettings settings(versificationFile, QSettings::IniFormat);
         const QStringList books = settings.childGroups();
+        myDebug() << books;
         if(books.isEmpty())
             return;
         QMap<int, BookV11N> map;

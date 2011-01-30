@@ -50,6 +50,10 @@ void InsertLinkDialog::init()
     ui->treeView->setSortingEnabled(true);
     ui->treeView->setModel(m_proxyModel);
     ui->treeView->setSelectionModel(m_selectionModel);
+
+    BiblePassageFrame *frame = new BiblePassageFrame(this);
+    setAll(frame);
+    ui->page->layout()->addWidget(frame);
 }
 
 void InsertLinkDialog::setCurrent(const int &bible, const QString &path, const int &book, const int &chapter, const int &verse)

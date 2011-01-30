@@ -22,11 +22,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef DBGHELPER_H
 #define DBGHELPER_H
 #include <QtCore/QString>
-/*!
- DbgHelper is a debug helper, it show the debug ouput more clearly
-
- @author Paul Walger <metaxy@walger.name>
-*/
+/**
+ * DbgHelper is a debug helper, it shows the debug ouzput more clearly
+ */
 
 class DbgHelper
 {

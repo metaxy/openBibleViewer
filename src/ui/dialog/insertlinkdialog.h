@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/basicclass.h"
 #include <QtGui/QTreeView>
 #include <QtGui/QSortFilterProxyModel>
+#include "src/ui/biblepassageframe.h"
 
 namespace Ui
 {

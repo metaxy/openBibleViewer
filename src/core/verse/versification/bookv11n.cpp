@@ -15,4 +15,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 BookV11N::BookV11N()
 {
+    bookID = -1;
+    maxChapter = -1;
 }
