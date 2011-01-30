@@ -35,7 +35,7 @@ ZefaniaBible::~ZefaniaBible()
 }
 void ZefaniaBible::loadBibleData(const int &id, const QString &path)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     m_moduleName = "";
     m_moduleID = id;
     /*if(m_versification != NULL)
@@ -46,6 +46,7 @@ void ZefaniaBible::loadBibleData(const int &id, const QString &path)
         return;
     }
     m_uid = path;
+    myDebug() << m_settings->getModuleSettings(m_moduleID)->zefbible_hardCache;
     if(m_settings->getModuleSettings(m_moduleID)->zefbible_hardCache == true) {
         if(checkForCacheFiles(path)) {
             loadCached(id, path);//load the hard cache files
@@ -291,8 +292,8 @@ void ZefaniaBible::clearSoftCache()
 bool ZefaniaBible::checkForCacheFiles(const QString &path) const
 {
     const QString fileName = m_settings->homePath + "cache/" + m_settings->hash(path) + "/";
-    QFile file(fileName + "data");
-    if(file.exists())
+    QDir dir(fileName);
+    if(dir.exists())
         return true;
     return false;
 }
@@ -303,7 +304,7 @@ bool ZefaniaBible::checkForCacheFiles(const QString &path) const
   */
 void ZefaniaBible::loadNoCached(const int &id, const QString &path)
 {
-    // DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     QProgressDialog progress(QObject::tr("Loading Bible"), QObject::tr("Cancel"), 0, 76);
     progress.setWindowModality(Qt::WindowModal);
     if(m_moduleID != id) {
@@ -489,15 +490,17 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
 }
 
 /**
-  load only booknames and not every book and his data
+  * Load only booknames and not every book and his data
   */
 void ZefaniaBible::loadCached(const int &id, const QString &path)
 {
+    DEBUG_FUNC_NAME;
     if(m_moduleID != id) {
         clearSoftCache();
     }
     m_settings->getModuleSettings(m_moduleID)->loadVersification();
     m_versification = m_settings->getModuleSettings(m_moduleID)->v11n;
+    myDebug() << m_versification;
     if(!m_versification) {
         loadNoCached(id, path);
         return;
