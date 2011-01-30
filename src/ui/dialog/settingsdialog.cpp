@@ -143,10 +143,12 @@ void SettingsDialog::addModuleFile(void)
     m_modifedModuleSettings = true;
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::ExistingFiles);
+    dialog.setDirectory(m_set.session.getData("addModuleFile_Dir", QFSFileEngine::homePath()).toString());
 
     if(dialog.exec()) {
         const QStringList fileName = dialog.selectedFiles();
         addModules(fileName, QStringList());
+        m_set.session.setData("addModuleFile_Dir", dialog.directory().absolutePath());
     }
     return;
 }
@@ -157,9 +159,11 @@ void SettingsDialog::addModuleDir(void)
 
      dialog.setFileMode(QFileDialog::Directory);
      dialog.setOption(QFileDialog::ShowDirsOnly, true);
+     dialog.setDirectory(m_set.session.getData("addModuleDir_Dir", QFSFileEngine::homePath()).toString());
 
      if(dialog.exec()) {
          const QStringList fileName = dialog.selectedFiles();
+         m_set.session.setData("addModuleDir_Dir", dialog.directory().absolutePath());
 
          if(fileName.size() > 0) {
              QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size());
