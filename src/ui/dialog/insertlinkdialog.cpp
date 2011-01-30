@@ -61,8 +61,9 @@ void InsertLinkDialog::setCurrent(const int &bible, const QString &path, const i
     m_chapterID = chapter + 1;
     m_verseID = verse + 1;
     m_path = path;
+    m_moduleID = bible;
 
-    int newIndex = m_moduleManager->getBiblePaths().lastIndexOf(path);
+    int newIndex = m_moduleManager->getBibleIDs().lastIndexOf(bible);
     ui->comboBox_bibles->setCurrentIndex(newIndex);//todo: if lastindexof == -1 show a warning
     ui->comboBox_books->setCurrentIndex(book);
     ui->spinBox_chapter->setValue(chapter);

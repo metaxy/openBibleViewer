@@ -228,6 +228,7 @@ set ( openBibleViewer_SRCS
     src/ui/markcategories.cpp
     src/ui/actions.cpp
     src/ui/modulemodel.cpp
+    src/ui/biblepassageframe.cpp
     
     )
 
@@ -261,6 +262,7 @@ set ( openBibleViewer_UIS
     src/ui/noteseditor.ui
     src/ui/marklist.ui
     src/ui/markcategories.ui
+    src/ui/biblepassageframe.ui
 
     )
 
@@ -335,6 +337,7 @@ set ( openBibleViewer_MOCS
     src/ui/interface/advanced/manager/notesmanager.h
     src/ui/interface/advanced/manager/searchmanager.h
     src/ui/actions.h
+    src/ui/biblepassageframe.h
     )
 
 

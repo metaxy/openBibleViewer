@@ -44,7 +44,11 @@ protected:
 private:
     Ui::InsertLinkDialog *ui;
     QStringList m_bibles;
-    int m_bibleID, m_bookID, m_chapterID, m_verseID;
+    int m_moduleID;
+    int m_bookID;
+    int m_chapterID;
+    int m_verseID;
+
     QString m_path;
 
     QStandardItemModel *m_itemModel;
