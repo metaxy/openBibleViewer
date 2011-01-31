@@ -78,28 +78,16 @@ QString VerseUrl::toString() const
         ret += ",";
 
         //Chapter
-        if(range.startChapter() == VerseUrlRange::LoadChapterByID) {
-            ret += QString::number(range.startChapterID());
-        } else if(range.startChapter() == VerseUrlRange::LoadCurrentChapter) {
+        if(range.chapter() == VerseUrlRange::LoadChapterByID) {
+            ret += QString::number(range.chapterID());
+        } else if(range.chapter() == VerseUrlRange::LoadCurrentChapter) {
             ret += "current";
-        } else if(range.startChapter() == VerseUrlRange::LoadFirstChapter) {
+        } else if(range.chapter() == VerseUrlRange::LoadFirstChapter) {
             ret += "first";
-        } else if(range.startChapter() == VerseUrlRange::LoadLastChapter) {
+        } else if(range.chapter() == VerseUrlRange::LoadLastChapter) {
             ret += "last";
         }
-        if((range.startChapter() != range.endChapter() && range.endChapter() != VerseUrlRange::LoadChapterNotSet) ||
-                (range.startChapter() == range.endChapter() && range.startChapter() == VerseUrlRange::LoadChapterByID && range.startChapterID() != range.endChapterID() && range.endChapterID() != -1)) {
-            ret += "-";
-            if(range.endChapter() == VerseUrlRange::LoadChapterByID) {
-                ret += QString::number(range.endChapterID());
-            } else if(range.endChapter() == VerseUrlRange::LoadCurrentChapter) {
-                ret += "current";
-            } else if(range.endChapter() == VerseUrlRange::LoadFirstChapter) {
-                ret += "first";
-            } else if(range.endChapter() == VerseUrlRange::LoadLastChapter) {
-                ret += "last";
-            }
-        }
+
         ret += ",";
         //Verse
         if(range.startVerse() == VerseUrlRange::LoadVerseByID) {
@@ -176,28 +164,15 @@ bool VerseUrl::fromString(QString url)
                 }
 
             } else if(i == 2) {
-                if(p.contains("-")) {
-                    QStringList tmp = p.split("-");
-                    p = tmp.first();
-                    p2 = tmp.last();
-                }
+
                 if(p == "current") {
-                    range.setStartChapter(VerseUrlRange::LoadCurrentChapter);
+                    range.setChapter(VerseUrlRange::LoadCurrentChapter);
                 } else if(p == "first") {
-                    range.setStartChapter(VerseUrlRange::LoadFirstChapter);
+                    range.setChapter(VerseUrlRange::LoadFirstChapter);
                 } else if(p == "last") {
-                    range.setStartChapter(VerseUrlRange::LoadLastChapter);
+                    range.setChapter(VerseUrlRange::LoadLastChapter);
                 } else {
-                    range.setStartChapter(p.toInt());
-                }
-                if(p2 == "current") {
-                    range.setEndChapter(VerseUrlRange::LoadCurrentChapter);
-                } else if(p2 == "first") {
-                    range.setEndChapter(VerseUrlRange::LoadFirstChapter);
-                } else if(p2 == "last") {
-                    range.setEndChapter(VerseUrlRange::LoadLastChapter);
-                } else if(!p2.isEmpty()) {
-                    range.setEndChapter(p2.toInt());
+                    range.setChapter(p.toInt());
                 }
             } else if(i == 3) {
                 if(p.contains("-")) {

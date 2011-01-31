@@ -285,10 +285,6 @@ void ZefaniaBible::clearSoftCache()
     m_softCacheData.clear();
 }
 
-/**
-  Checks if there are cache files for a given module. If not it returns false.
-  \param path The path of the module.
- */
 bool ZefaniaBible::checkForCacheFiles(const QString &path) const
 {
     const QString fileName = m_settings->homePath + "cache/" + m_settings->hash(path) + "/";
@@ -297,11 +293,6 @@ bool ZefaniaBible::checkForCacheFiles(const QString &path) const
         return true;
     return false;
 }
-/**
-  Reads the entire xml file and if caching is enabled, generate cache file
-  \param id The ID of the module(bible).
-  \param path. Path to the module file.
-  */
 void ZefaniaBible::loadNoCached(const int &id, const QString &path)
 {
     DEBUG_FUNC_NAME
@@ -489,9 +480,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
     file.close();
 }
 
-/**
-  * Load only booknames and not every book and his data
-  */
+
 void ZefaniaBible::loadCached(const int &id, const QString &path)
 {
     DEBUG_FUNC_NAME;
@@ -526,10 +515,7 @@ QString ZefaniaBible::readInfo(QFile &file)
     file.close();
     return m_moduleName;
 }
-/**
-  Read the module file and returns the bible name
-  \param fileName The fileName of the module.
- */
+
 QString ZefaniaBible::readInfo(const QString &fileName)
 {
     QFile file(fileName);

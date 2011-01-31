@@ -43,9 +43,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "CLucene.h"
 #include "CLucene/_clucene-config.h"
-/*!
- ZefaniaBible represents a zefaniaxml(bible) module.
-*/
+/**
+ * ZefaniaBible represents a zefaniaxml(bible) module.
+ */
 class ZefaniaBible : public BibleModule
 {
 
@@ -54,7 +54,12 @@ public:
     ~ZefaniaBible();
     int readBook(const int &id);
     void loadBibleData(const int &id, const QString &path);
+
     QString readInfo(QFile &file);
+    /**
+      Read the module file and returns the bible name
+      \param fileName The fileName of the module.
+     */
     QString readInfo(const QString &fileName);
 
     void search(const SearchQuery &query, SearchResult *res) const;
@@ -72,8 +77,21 @@ public:
     void removeHardCache(const QString &path);
 private:
     QDomElement* format(QDomElement* e);
+
+    /**
+      * Checks if there are cache files for a given module. If not it returns false.
+      * \param path The path of the module.
+     */
     bool checkForCacheFiles(const QString &path) const;
+    /**
+      * Reads the entire xml file and if caching is enabled, generates cache file.
+      * \param id The ID of the module(bible).
+      * \param path. Path to the module file.
+      */
     void loadNoCached(const int &id, const QString &path);
+    /**
+      * Load only booknames and not every book and his data
+      */
     void loadCached(const int &id, const QString &path);
     Book fromHardToSoft(const int &id, const QDomNode *ncache);
 

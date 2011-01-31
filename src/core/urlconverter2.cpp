@@ -87,7 +87,7 @@ int UrlConverter2::chapterID() const
 {
     if(m_newUrl.ranges().isEmpty())
         return -1;
-    return m_newUrl.ranges().first().startChapterID();
+    return m_newUrl.ranges().first().chapterID();
 }
 
 int UrlConverter2::verseID() const

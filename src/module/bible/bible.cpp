@@ -26,10 +26,7 @@ Bible::~Bible()
     //Bible do not delete anything!
 }
 
-void Bible::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings)
-{
-    m_bibleDisplaySettings = bibleDisplaySettings;
-}
+
 
 bool Bible::loaded() const
 {
@@ -449,12 +446,6 @@ QStringList Bible::getSearchPaths() const
     }
     return QStringList();
 }
-
-int Bible::bookID() const
-{
-    return m_bookID;
-}
-
 
 QString Bible::moduleUID() const
 {

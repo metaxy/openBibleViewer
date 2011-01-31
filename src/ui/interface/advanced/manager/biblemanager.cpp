@@ -80,14 +80,14 @@ Ranges BibleManager::bibleUrlRangeToRanges(VerseUrlRange range)
         r.setBook(range.bookID());
     }
 
-    if(range.startChapter() == VerseUrlRange::LoadFirstChapter) {
+    if(range.chapter() == VerseUrlRange::LoadFirstChapter) {
         r.setChapter(RangeEnum::FirstChapter);
-    } else if(range.startChapter() == VerseUrlRange::LoadLastChapter) {
+    } else if(range.chapter() == VerseUrlRange::LoadLastChapter) {
         r.setChapter(RangeEnum::LastChapter);
-    } else if(range.startChapter() == VerseUrlRange::LoadCurrentChapter) {
+    } else if(range.chapter() == VerseUrlRange::LoadCurrentChapter) {
         r.setChapter(RangeEnum::CurrentChapter);
     } else {
-        r.setChapter(range.startChapterID());
+        r.setChapter(range.chapterID());
     }
 
     if(range.startVerse() == VerseUrlRange::LoadFirstVerse) {
@@ -182,7 +182,7 @@ void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
     std::pair<QString, TextRanges> r = m_moduleManager->verseTable()->readRanges(ranges);
     m_actions->showTextRanges(r.first, r.second, url);
 
-    m_actions->updateChapters(m_moduleManager->verseModule()->bookID(), m_moduleManager->verseModule()->versification());
+    m_actions->updateChapters(m_moduleManager->verseModule()->lastTextRanges()->minBookID(), m_moduleManager->verseModule()->versification());
     m_actions->updateBooks(m_moduleManager->verseModule()->versification());
     m_actions->setCurrentBook(r.second.bookIDs());
     m_actions->setCurrentChapter(r.second.chapterIDs());

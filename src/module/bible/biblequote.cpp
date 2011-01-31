@@ -28,6 +28,10 @@ BibleQuote::BibleQuote()
 }
 BibleQuote::~BibleQuote()
 {
+    if(m_versification != NULL) {
+        delete m_versification;
+        m_versification = NULL;
+    }
 
 }
 void BibleQuote::setSettings(Settings *set)
@@ -36,8 +40,7 @@ void BibleQuote::setSettings(Settings *set)
 }
 QString BibleQuote::formatFromIni(QString input)
 {
-    input.replace(QString("\n"), QString(""));
-    return input;
+    return input.trimmed();
 }
 void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
 {

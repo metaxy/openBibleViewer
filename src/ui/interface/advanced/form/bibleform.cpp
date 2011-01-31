@@ -306,7 +306,7 @@ void BibleForm::activated()
     m_actions->setTitle(m_moduleManager->verseModule()->moduleTitle());
     m_actions->setCurrentModule(m_moduleManager->verseModule()->moduleID());
 
-    m_actions->updateChapters(m_moduleManager->verseModule()->bookID(), m_moduleManager->verseModule()->versification());
+    m_actions->updateChapters(m_moduleManager->verseModule()->lastTextRanges()->minBookID(), m_moduleManager->verseModule()->versification());
     m_actions->updateBooks(m_moduleManager->verseModule()->versification());
 
     if(m_lastTextRanges.verseCount() != 0) {

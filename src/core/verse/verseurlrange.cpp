@@ -19,13 +19,11 @@ VerseUrlRange::VerseUrlRange()
     m_moduleUID = "";
     m_bookID = -1;
 
-    m_startChapterID = -1;
-    m_endChapterID = -1;
+    m_chapterID = -1;
     m_startVerseID = -1;
     m_endVerseID = -1;
     m_bookParam = LoadBookNotSet;
-    m_startChapterParam = LoadChapterNotSet;
-    m_endChapterParam = LoadChapterNotSet;
+    m_chapterParam = LoadChapterNotSet;
     m_startVerseParam = LoadVerseNotSet;
     m_endVerseParam = LoadVerseNotSet;
     m_activeVerseID = -1;
@@ -33,7 +31,7 @@ VerseUrlRange::VerseUrlRange()
 
 
 }
-void VerseUrlRange::setModule(const int &bibleID)
+void VerseUrlRange::setModule(const int bibleID)
 {
     m_moduleID = bibleID;
     m_moduleParam = VerseUrlRange::LoadBibleByID;
@@ -62,7 +60,7 @@ QString VerseUrlRange::bibleUID() const
 }
 //Books
 
-void VerseUrlRange::setBook(const int &bookID)
+void VerseUrlRange::setBook(const int bookID)
 {
     m_bookID = bookID;
     m_bookParam = VerseUrlRange::LoadBookByID;
@@ -82,57 +80,28 @@ VerseUrlRange::BookLoadParams VerseUrlRange::book() const
 }
 
 //Chapter
-void VerseUrlRange::setChapter(const int &chapterID)
+
+void VerseUrlRange::setChapter(const int chapterID)
 {
-    setStartChapter(chapterID);
-    setEndChapter(chapterID);
+    m_chapterID = chapterID;
+    m_chapterParam = VerseUrlRange::LoadChapterByID;
 }
 
 void VerseUrlRange::setChapter(const ChapterLoadParams &param)
 {
-    setStartChapter(param);
-    setEndChapter(param);
+    m_chapterParam = param;
+}
+int VerseUrlRange::chapterID() const
+{
+    return m_chapterID;
+}
+VerseUrlRange::ChapterLoadParams VerseUrlRange::chapter() const
+{
+    return m_chapterParam;
 }
 
-void VerseUrlRange::setStartChapter(const int &chapterID)
-{
-    m_startChapterID = chapterID;
-    m_startChapterParam = VerseUrlRange::LoadChapterByID;
-}
-
-void VerseUrlRange::setStartChapter(const ChapterLoadParams &param)
-{
-    m_startChapterParam = param;
-}
-int VerseUrlRange::startChapterID() const
-{
-    return m_startChapterID;
-}
-VerseUrlRange::ChapterLoadParams VerseUrlRange::startChapter() const
-{
-    return m_startChapterParam;
-}
-
-void VerseUrlRange::setEndChapter(const int &chapterID)
-{
-    m_endChapterID = chapterID;
-    m_endChapterParam = VerseUrlRange::LoadChapterByID;
-}
-
-void VerseUrlRange::setEndChapter(const ChapterLoadParams &param)
-{
-    m_endChapterParam = param;
-}
-int VerseUrlRange::endChapterID() const
-{
-    return m_endChapterID;
-}
-VerseUrlRange::ChapterLoadParams VerseUrlRange::endChapter() const
-{
-    return m_endChapterParam;
-}
 //Verse
-void VerseUrlRange::setStartVerse(const int &verseID)
+void VerseUrlRange::setStartVerse(const int verseID)
 {
     m_startVerseID = verseID;
     m_startVerseParam = VerseUrlRange::LoadVerseByID;
@@ -151,7 +120,7 @@ VerseUrlRange::VerseLoadParams VerseUrlRange::startVerse() const
     return m_startVerseParam;
 }
 
-void VerseUrlRange::setEndVerse(const int &verseID)
+void VerseUrlRange::setEndVerse(const int verseID)
 {
     m_endVerseID = verseID;
     m_endVerseParam = VerseUrlRange::LoadVerseByID;
@@ -175,7 +144,7 @@ void VerseUrlRange::setWholeChapter()
     setEndVerse(VerseUrlRange::LoadLastVerse);
 }
 //active Verse
-void VerseUrlRange::setActiveVerse(const int &verseID)
+void VerseUrlRange::setActiveVerse(const int verseID)
 {
     m_activeVerseID = verseID;
     m_activeVerseParam = VerseUrlRange::LoadVerseByID;
@@ -189,19 +158,16 @@ VerseUrlRange::VerseLoadParams VerseUrlRange::activeVerse() const
     return m_activeVerseParam;
 }
 //todo: if url is invalid it returns always true
-bool VerseUrlRange::containsChapter(const int &chapterID) const
+bool VerseUrlRange::containsChapter(const int chapterID) const
 {
     bool ok = true;
-    if(m_startChapterParam == LoadChapterByID) {
-        ok = ok && chapterID >= m_startChapterID;
-    }
-    if(m_endChapterParam == LoadChapterByID) {
-        ok = ok && chapterID <= m_endChapterID;
+    if(m_chapterParam == LoadChapterByID) {
+        ok = ok && chapterID == m_chapterID;
     }
     return ok;
 }
 
-bool VerseUrlRange::containsVerse(const int &verseID) const
+bool VerseUrlRange::containsVerse(const int verseID) const
 {
     bool ok = true;
     if(m_startVerseParam == LoadVerseByID && m_startVerseID != -1) {

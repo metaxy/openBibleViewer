@@ -23,10 +23,6 @@ VerseModule::~VerseModule()
 {
 
 }
-void VerseModule::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings)
-{
-    myWarning() << "calling VerseModule";
-}
 
 void VerseModule::setLastTextRanges(TextRanges *textRanges)
 {
@@ -61,9 +57,7 @@ void VerseModule::search(SearchQuery query, SearchResult *result)
 {
     myWarning() << "calling VerseModule";
 }
-
-int VerseModule::bookID() const
+void VerseModule::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings)
 {
-    myWarning() << "calling VerseModule";
-    return -1;
+    m_bibleDisplaySettings = bibleDisplaySettings;
 }

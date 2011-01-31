@@ -58,8 +58,6 @@ public:
 
     void search(SearchQuery query, SearchResult *result);
 
-    int bookID() const;
-
     QString moduleTitle() const;
     QString moduleShortTitle() const;
     QString moduleUID() const;
@@ -83,10 +81,7 @@ private:
       */
     QStringList m_bookPath;
 
-    BibleDisplaySettings *m_bibleDisplaySettings;
-
     BibleModule *m_bibleModule;
-
 
     QString toUniformHtml(QString string);
     QList<int> bookIDs() const;

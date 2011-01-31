@@ -30,28 +30,31 @@ class VerseModule : public SimpleModuleClass
 public:
     VerseModule();
     virtual ~VerseModule();
-    virtual void setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings);
+    void setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings);
     virtual TextRanges readRanges(const Ranges &ranges, bool ignoreModuleID = false);
     virtual TextRange readRange(const Range &range, bool ignoreModuleID = false);
 
     void setLastTextRanges(TextRanges *textRanges);
+    /**
+      * Returns the last computed TextRanges.
+      */
     TextRanges *lastTextRanges() const;
-
+    /**
+      * Returns the Versification of the Module.
+      * Every VerseModule must have a versification.
+      */
     Versification *versification() const;
 
     /**
-      * Search in the current bible. Saves the results int the second argument (*result).
+      * Searchs in the current VerseModule. Saves the results in the second argument (*result).
       */
     virtual void search(SearchQuery query, SearchResult *result);
     SearchQuery lastSearchQuery() const;
-    /**
-      * The only function that do not belong here
-      */
-    virtual int bookID() const;
 protected:
     SearchQuery m_lastSearchQuery;
     Versification *m_versification;
     TextRanges *m_lastTextRanges;
+    BibleDisplaySettings *m_bibleDisplaySettings;
 };
 
 #endif // VERSEMODULE_H

@@ -29,7 +29,6 @@ class InsertLinkDialog : public QDialog, public BasicClass
 {
     Q_OBJECT
 private slots:
-    void indexChanged(int index);
     void save();
 signals:
     void newLink(QString link);
@@ -37,7 +36,7 @@ public:
     explicit InsertLinkDialog(QWidget *parent = 0);
     ~InsertLinkDialog();
     void init();
-    void setCurrent(const int &bible, const QString &path, const int &book, const int &chapter, const int &verse);
+    void setCurrent(const QList<VerseUrlRange> &ranges);
 
 protected:
     void changeEvent(QEvent *e);
@@ -56,6 +55,8 @@ private:
     QTreeView *m_treeView;
     QSortFilterProxyModel *m_proxyModel;
     QItemSelectionModel *m_selectionModel;
+
+    BiblePassageFrame *m_frame;
 };
 
 #endif // INSERTLINKDIALOG_H

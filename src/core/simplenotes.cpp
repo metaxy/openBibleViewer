@@ -174,7 +174,7 @@ void SimpleNotes::editNoteLink()
         passageDialog->setCurrent(urlConverter.url().ranges().first().bibleID(),
                                   urlConverter.url().ranges().first().bibleUID(),
                                   urlConverter.url().ranges().first().bookID(),
-                                  urlConverter.url().ranges().first().startChapterID() + 1,
+                                  urlConverter.url().ranges().first().chapterID() + 1,
                                   urlConverter.url().ranges().first().startVerseID() + 1);
         passageDialog->exec();
     }

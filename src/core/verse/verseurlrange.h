@@ -49,7 +49,7 @@ public:
     /**
      * Sets the bibleID
      */
-    void setModule(const int &moduleID);
+    void setModule(const int moduleID);
     /**
      * Set how to load the bible
      */
@@ -67,28 +67,22 @@ public:
     ModuleLoadParams bible() const;
     QString bibleUID() const;
 
-    void setBook(const int &bookID);
+    void setBook(const int bookID);
     void setBook(const BookLoadParams &param);
 
     int bookID() const;
     BookLoadParams book() const;
 
-    void setChapter(const int &chapterID);
+    void setChapter(const int chapterID);
     void setChapter(const ChapterLoadParams &param);
 
-    void setStartChapter(const int &chapterID);
-    void setStartChapter(const ChapterLoadParams &param);
-    void setEndChapter(const int &chapterID);
-    void setEndChapter(const ChapterLoadParams &param);
 
-    int startChapterID() const;
-    ChapterLoadParams startChapter() const;
-    int endChapterID() const;
-    ChapterLoadParams endChapter() const;
+    int chapterID() const;
+    ChapterLoadParams chapter() const;
 
-    void setStartVerse(const int &verseID);
+    void setStartVerse(const int verseID);
     void setStartVerse(const VerseLoadParams &param);
-    void setEndVerse(const int &verseID);
+    void setEndVerse(const int verseID);
     void setEndVerse(const VerseLoadParams &param);
 
     int startVerseID() const;
@@ -96,14 +90,14 @@ public:
     int endVerseID() const;
     VerseLoadParams endVerse() const;
 
-    void setActiveVerse(const int &verseID);
+    void setActiveVerse(const int verseID);
     int activeVerseID() const;
     VerseLoadParams activeVerse() const;
 
     void setWholeChapter();
 
-    bool containsChapter(const int &chapterID) const;
-    bool containsVerse(const int &verseID) const;
+    bool containsChapter(const int chapterID) const;
+    bool containsVerse(const int verseID) const;
 
 private:
     int m_moduleID;
@@ -114,11 +108,9 @@ private:
     BookLoadParams m_bookParam;
 
 
-    int m_startChapterID;
-    int m_endChapterID;
-    ChapterLoadParams m_startChapterParam;
-    ChapterLoadParams m_endChapterParam;
+    int m_chapterID;
 
+    ChapterLoadParams m_chapterParam;
     int m_startVerseID;
     int m_endVerseID;
     VerseLoadParams m_startVerseParam;

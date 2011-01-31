@@ -181,7 +181,7 @@ void BookmarksDockWidget::editBookmark()
     BiblePassageDialog *passageDialog = new  BiblePassageDialog(this);
     connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateBookmark(QString)));
     setAll(passageDialog);
-    passageDialog->setCurrent(r.bibleID(), url.ranges().first().bibleUID(), r.bookID() + 1, r.startChapterID() + 1, r.activeVerseID() + 1);
+    passageDialog->setCurrent(r.bibleID(), url.ranges().first().bibleUID(), r.bookID() + 1, r.chapterID() + 1, r.activeVerseID() + 1);
     passageDialog->show();
     passageDialog->exec();
 }
