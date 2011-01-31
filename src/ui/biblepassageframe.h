@@ -23,7 +23,7 @@ public:
     ~BiblePassageFrame();
     void init();
     VerseUrl toVerseUrl();
-    void setVerseUrl(VerseUrl url);
+    void setVerseUrl(const VerseUrl &url);
     void setVerseUrlRanges(const QList<VerseUrlRange> &ranges);
 
 private:

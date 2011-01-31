@@ -65,21 +65,22 @@ void InsertLinkDialog::setCurrent(const QList<VerseUrlRange> &ranges)
 
 void InsertLinkDialog::save()
 {
+    DEBUG_FUNC_NAME;
     if(ui->toolBox->currentIndex() == 0) {
-        /*const QString link = m_path
-                             + ";" + QString::number(ui->comboBox_books->currentIndex())
-                             + ";" + QString::number(ui->spinBox_chapter->value() - 1)
-                             + ";" + QString::number(ui->spinBox_verse->value() - 1)
-                             + ";" + m_settings->getModuleCache(m_path).bookNames.values().at(ui->comboBox_books->currentIndex());
-        //todo: new modulecache and new link
-        emit newLink("persistent://" + link);*/
+        VerseUrl url = m_frame->toVerseUrl();
+        UrlConverter converter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
+        converter.setSettings(m_settings);
+        converter.setModuleMap(m_moduleManager->m_moduleMap);
+        VerseUrl p = converter.convert();
+        myDebug() << p.toString();
+        emit newLink(p.toString());
     } else if(ui->toolBox->currentIndex() == 1) {
         const QModelIndexList list = m_selectionModel->selectedRows(0);
         if(!list.isEmpty()) {
             const QString id = list.at(0).data(Qt::UserRole + 1).toString();
             emit newLink("note://" + id);
         }
-        ///get note id
+        //get note id
     } else if(ui->toolBox->currentIndex() == 2) {
         emit newLink(ui->lineEdit->text());
     }
