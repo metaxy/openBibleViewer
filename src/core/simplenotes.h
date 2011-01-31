@@ -55,7 +55,7 @@ public:
     void init();
 
 signals:
-    void reloadChapter();
+    void contentChanged();
 public slots:
     /**
      * Creates a new text note, and insert an item in the ViewWidget

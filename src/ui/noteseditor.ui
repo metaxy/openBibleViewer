@@ -121,6 +121,8 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <addaction name="actionNewFile"/>
+    <addaction name="separator"/>
     <addaction name="actionFileSave"/>
     <addaction name="actionFileSaveAs"/>
     <addaction name="separator"/>
@@ -204,6 +206,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionNewFile"/>
    <addaction name="actionFileSave"/>
    <addaction name="separator"/>
    <addaction name="actionEditUndo"/>
@@ -256,6 +259,18 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionNewFile">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/22x22/document-new.png</normaloff>:/icons/22x22/document-new.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;New</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
   </action>
   <action name="actionFileSaveAs">

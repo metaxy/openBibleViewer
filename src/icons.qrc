@@ -99,5 +99,6 @@
         <file>icons/22x22/zoom-out.png</file>
         <file>icons/22x22/document-save.png</file>
         <file>icons/16x16/view-form-table.png</file>
+        <file>icons/22x22/document-new.png</file>
     </qresource>
 </RCC>

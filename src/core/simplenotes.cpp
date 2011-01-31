@@ -138,6 +138,7 @@ void SimpleNotes::showNote(const QString &noteID, bool selectNote)
     setTitle(m_notes->getTitle(m_noteID));
     setData(m_notes->getData(m_noteID));
     setRef(m_noteRef);
+    emit contentChanged();
 }
 void SimpleNotes::setTitle(QString title)
 {

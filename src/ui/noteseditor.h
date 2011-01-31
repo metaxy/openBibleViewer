@@ -89,6 +89,7 @@ private slots:
     void zoomIn();
     void adjustActions();
     void adjustSource();
+    void adjustHtml();
     void changeTab(int);
     void changeZoom(int);
     void createLink(QString link);

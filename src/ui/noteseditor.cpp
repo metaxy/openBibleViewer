@@ -38,7 +38,6 @@ NotesEditor::NotesEditor(QWidget *parent)
     , ui_dialog(0)
     , m_insertHtmlDialog(0)
 {
-    DEBUG_FUNC_NAME
     ui->setupUi(this);
     ui->tabWidget->setTabText(0, tr("Normal View"));
     ui->tabWidget->setTabText(1, tr("HTML Source"));
@@ -64,6 +63,7 @@ NotesEditor::NotesEditor(QWidget *parent)
     ui->standardToolBar->insertWidget(ui->actionZoomIn, m_zoomSlider);
 
     connect(ui->actionFileSave, SIGNAL(triggered()), SLOT(fileSave()));
+    connect(ui->actionNewFile, SIGNAL(triggered()), m_simpleNotes, SLOT(newTextNote()));
     connect(ui->actionFileSaveAs, SIGNAL(triggered()), SLOT(fileSaveAs()));
     connect(ui->actionExit, SIGNAL(triggered()), SLOT(close()));
     connect(ui->actionInsertImage, SIGNAL(triggered()), SLOT(insertImage()));
@@ -113,6 +113,7 @@ NotesEditor::NotesEditor(QWidget *parent)
     connect(ui->webView->page(), SIGNAL(selectionChanged()), SLOT(adjustActions()));
 
     connect(ui->webView->page(), SIGNAL(contentsChanged()), SLOT(adjustSource()));
+    connect(m_simpleNotes, SIGNAL(contentChanged()), SLOT(adjustSource()));
     ui->webView->setFocus();
 
     fileNew();
@@ -133,6 +134,7 @@ void NotesEditor::init()
     m_simpleNotes->init();
     ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
     connect(ui->webView->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
+    //connect(ui->plainTextEdit, SIGNAL(textChanged()), this, SLOT(adjustHtml()));
 }
 
 NotesEditor::~NotesEditor()
@@ -143,9 +145,37 @@ NotesEditor::~NotesEditor()
     delete ui;
     delete ui_dialog;
 }
+void NotesEditor::adjustSource()
+{
+    DEBUG_FUNC_NAME
+    myDebug() << "current index = " << ui->tabWidget->currentIndex();
+    m_sourceDirty = true;
+
+    if(ui->tabWidget->currentIndex() == 1)
+        changeTab(1);
+}
+void NotesEditor::adjustHtml()
+{
+    DEBUG_FUNC_NAME;
+    ui->webView->setHtml(ui->plainTextEdit->toPlainText());
+}
+
+void NotesEditor::changeTab(int index)
+{
+    DEBUG_FUNC_NAME;
+    myDebug() << "dirty = " << m_sourceDirty << " index = " << index;
+    if(m_sourceDirty && (index == 1)) {
+        QString content = ui->webView->page()->mainFrame()->toHtml();
+        ui->plainTextEdit->setPlainText(content);
+        m_sourceDirty = false;
+    } else if(index == 0) {
+        adjustHtml();
+    }
+}
 
 void NotesEditor::fileNew()
 {
+    ui->tabWidget->setCurrentIndex(0);
     ui->webView->setHtml("<p></p>");
     ui->webView->setFocus();
     ui->webView->page()->setContentEditable(true);
@@ -165,12 +195,17 @@ void NotesEditor::fileNew()
 }
 bool NotesEditor::fileSave()
 {
+    if(ui->tabWidget->currentIndex() == 1)
+        adjustHtml();
     m_simpleNotes->saveNote();
     return true;
 }
 
 bool NotesEditor::fileSaveAs()
 {
+    if(ui->tabWidget->currentIndex() == 1)
+        adjustHtml();
+
     QFileDialog dialog(this);
 
     dialog.setAcceptMode(QFileDialog::AcceptSave);
@@ -271,7 +306,9 @@ void NotesEditor::createLink(QString link)
 }
 void NotesEditor::pharseUrl(QUrl url)
 {
+    DEBUG_FUNC_NAME;
     QString link = url.toString();
+    myDebug() << link;
     const QString note = "note://";
     if(link.startsWith(note)) {
         link = link.remove(0, note.size());
@@ -512,22 +549,6 @@ void NotesEditor::adjustActions()
     ui->actionFormatBulletedList->setChecked(queryCommandState("insertUnorderedList"));
 }
 
-void NotesEditor::adjustSource()
-{
-    m_sourceDirty = true;
-
-    if(ui->tabWidget->currentIndex() == 1)
-        changeTab(1);
-}
-
-void NotesEditor::changeTab(int index)
-{
-    if(m_sourceDirty && (index == 1)) {
-        QString content = ui->webView->page()->mainFrame()->toHtml();
-        ui->plainTextEdit->setPlainText(content);
-        m_sourceDirty = false;
-    }
-}
 
 
 void NotesEditor::changeZoom(int percent)
