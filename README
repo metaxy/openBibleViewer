@@ -8,7 +8,7 @@ General introduction:
 --------------------
 openBibleViewer is a Bible study application based on Qt 4.6 or later.
 
-If you found a bug, please report it on http://openbv.uucyc.name/bug/.
+If you found a bug, please report it on <https://github.com/metaxy/openBibleViewer/issues>.
 
 Read the file INSTALL how to install and compile this version of openBibleViewer. There's also a SPEC file
 to create RPMs, it's called openBibleViewer.spec.
@@ -19,7 +19,7 @@ See file INSTALL for detailed installation instructions.
 
 Documentation:
 --------------
-You can find information about openBibleViewer, the installation and its usage on the website: http://openbv.uucyc.name/
+You can find information about openBibleViewer, the installation and its usage on the website: <http://openbv.uucyc.name/>
 
 
 Paul Walger

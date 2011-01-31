@@ -248,10 +248,10 @@ void SimpleNotes::copyNote(void)
 void SimpleNotes::iterate(QStandardItem *item = 0)
 {
     //DEBUG_FUNC_NAME
-    const QString parent = item->data().toString();
+    const QString parentID = item->data().toString();
     for(int i = 0; i < item->rowCount(); ++i) {
         QStandardItem *m = item->child(i);
-        m_notes->setRef(m->data().toString(), "parent", parent);
+        m_notes->setRef(m->data().toString(), "parent", parentID);
         if(m->hasChildren())
             iterate(m);
     }
@@ -262,6 +262,8 @@ void SimpleNotes::saveNote(void)
     //DEBUG_FUNC_NAME
     aktNote();
     fastSave();
+
+    //save structure
     disconnect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
     iterate(m_itemModel->invisibleRootItem());
     connect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
@@ -368,6 +370,7 @@ void SimpleNotes::newTextNote(void)
 void SimpleNotes::newFolder()
 {
     //DEBUG_FUNC_NAME
+    //todo: it is not syncing folders
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
     QStandardItem *parentItem = 0;
     if(sender()->objectName() == "actionNewFolder")

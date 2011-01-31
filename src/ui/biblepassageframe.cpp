@@ -1,3 +1,16 @@
+/***************************************************************************
+openBibleViewer - Bible Study Tool
+Copyright (C) 2009-2011 Paul Walger
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the Free
+Software Foundation; either version 3 of the License, or (at your option)
+any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with
+this program; if not, see <http://www.gnu.org/licenses/>.
+*****************************************************************************/
 #include "biblepassageframe.h"
 #include "ui_biblepassageframe.h"
 
@@ -19,7 +32,13 @@ void BiblePassageFrame::init()
     ModuleModel m;
     m.setSettings(m_settings);
     m.generate();
-    ui->treeView->setModel(m.itemModel());
+    m_model = m.itemModel();
+    m_proxyModel = new RecursivProxyModel(this);
+    m_proxyModel->setSourceModel(m_model);
+    m_proxyModel->setHeaderData(0, Qt::Horizontal, tr("Module"));
+    m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+
+    ui->treeView->setModel(m_proxyModel);
 }
 
 void BiblePassageFrame::addVerse(const int bookID, const int chapterID, const int verseID)
@@ -124,10 +143,18 @@ void BiblePassageFrame::setVerseUrl(const VerseUrl &url)
 }
 void BiblePassageFrame::setVerseUrlRanges(const QList<VerseUrlRange> &ranges)
 {
-    if(ranges.size() != 0) {
-        Versification *v = m_settings->getModuleSettings(ranges.first().bibleID())->v11n;
+    if(!ranges.isEmpty()) {
+        m_moduleID = ranges.first().bibleID();
+        Versification *v = m_settings->getModuleSettings(m_moduleID)->v11n;
         if(v != NULL) {
             m_bookNames = v->bookNames().values();//todo:
+        }
+        QModelIndexList list = m_proxyModel->match(m_model->invisibleRootItem()->index(),Qt::UserRole+1, QString::number(m_moduleID), 1 ,Qt::MatchExactly);
+        myDebug() << "list.size() = " << list.size();
+        if(!list.isEmpty()) {
+            myDebug() << list.first().data(Qt::UserRole+1);
+            ui->treeView->selectionModel()->clear();
+            ui->treeView->selectionModel()->select(list.first(), QItemSelectionModel::Select);
         }
     }
     foreach(const VerseUrlRange &r, ranges) {

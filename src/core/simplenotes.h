@@ -132,6 +132,10 @@ private:
     QIcon folderIcon;
     QStringList m_idC;
     QPoint m_point;
+
+    /**
+      * Save the tree structure of all notes
+      */
     void iterate(QStandardItem *item);
 
 
