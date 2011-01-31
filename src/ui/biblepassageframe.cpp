@@ -149,7 +149,11 @@ void BiblePassageFrame::setVerseUrlRanges(const QList<VerseUrlRange> &ranges)
         if(v != NULL) {
             m_bookNames = v->bookNames().values();//todo:
         }
-        QModelIndexList list = m_proxyModel->match(m_model->invisibleRootItem()->index(),Qt::UserRole+1, QString::number(m_moduleID), 1 ,Qt::MatchExactly);
+        QModelIndexList list = m_proxyModel->match(m_model->invisibleRootItem()->index(),
+                                                   Qt::UserRole+1,
+                                                   QString::number(m_moduleID),
+                                                   1 ,
+                                                   Qt::MatchExactly);
         myDebug() << "list.size() = " << list.size();
         if(!list.isEmpty()) {
             myDebug() << list.first().data(Qt::UserRole+1);
