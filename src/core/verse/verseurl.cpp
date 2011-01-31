@@ -54,7 +54,7 @@ QString VerseUrl::toString() const
         if(!ret.isEmpty())
             ret += "|";//seperator
         else
-            ret += "verse://";
+            ret += "verse:/";
 
         if(range.bible() == VerseUrlRange::LoadBibleByID) {
             ret += QString::number(range.bibleID());
@@ -132,11 +132,11 @@ bool VerseUrl::fromString(QString url)
     m_ranges.clear();
 
     //bible://bibleID,bookID,chapterID,verseID,otherStuf=otherValue
-    if(!url.startsWith("verse://")) {
+    if(!url.startsWith("verse:/")) {
         m_isValid = false;
         return false;
     }
-    url.remove(0, 8); // remove verse://
+    url.remove(0, 7); // remove verse://
     QStringList urls = url.split("|");
     foreach(const QString nUrl, urls) {
         VerseUrlRange range;

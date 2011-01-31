@@ -131,7 +131,7 @@ void AdvancedInterface::pharseUrl(QString url)
     //setEnableReload(false);
     myDebug() << "url = " << url;
 
-    const QString bible = "verse://";
+    const QString bible = "verse:/";
     const QString strong = "strong://";
     const QString gram = "gram://";
     const QString http = "http://";

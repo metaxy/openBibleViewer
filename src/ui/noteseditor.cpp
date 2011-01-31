@@ -296,7 +296,7 @@ void NotesEditor::createLink()
 }
 void NotesEditor::createLink(QString link)
 {
-    if(link.startsWith("verse://") || link.startsWith("note://")) {
+    if(link.startsWith("verse:") || link.startsWith("note:")) {
         execCommand("createLink", link);
     } else {
         QUrl url = guessUrlFromString(link);
