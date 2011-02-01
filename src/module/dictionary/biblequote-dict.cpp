@@ -196,7 +196,13 @@ QString BibleQuoteDict::getEntry(const QString &key)
         Document* doc = &h->doc(i);
         if(!ret.isEmpty())
             ret.append("<hr /> ");
+
+
+#ifdef _USE_WSTRING
         ret.append(QString::fromWCharArray(doc->get(_T("content"))));
+#else
+         ret.append(QString::fromUtf16((const ushort*)doc->get(_T("content"))));
+#endif
     }
     return ret.isEmpty() ? QObject::tr("Nothing found for %1").arg(key) : ret;
 }
@@ -210,7 +216,11 @@ QStringList BibleQuoteDict::getAllKeys()
     QStringList ret;
     for(size_t i = 0; i < reader->numDocs(); i++) {
         Document* doc = reader->document(i);
+#ifdef _USE_WSTRING
         ret.append(QString::fromWCharArray(doc->get(_T("key"))));
+#else
+         ret.append(QString::fromUtf16((const ushort*)doc->get(_T("key"))));
+#endif
     }
     return ret;
 }

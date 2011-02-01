@@ -753,7 +753,11 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
     //myDebug() << "query string = " << q->toString();
     for(size_t i = 0; i < h->length(); i++) {
         Document* doc = &h->doc(i);
+#ifdef _USE_WSTRING
         const QString stelle = QString::fromWCharArray(doc->get(_T("key")));
+#else
+         const QString stelle = QString::fromUtf16((const ushort*)doc->get(_T("key")));
+#endif
         //myDebug() << "found stelle = " << stelle;
         const QStringList l = stelle.split(";");
         //hacky filter
@@ -764,7 +768,12 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
             hit.setValue(SearchHit::BookID, l.at(0).toInt());
             hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
             hit.setValue(SearchHit::VerseID, l.at(2).toInt());
-            hit.setValue(SearchHit::VerseText, QString::fromWCharArray(doc->get(_T("content"))));
+#ifdef _USE_WSTRING
+             hit.setValue(SearchHit::VerseText, QString::fromWCharArray(doc->get(_T("key"))));
+#else
+             hit.setValue(SearchHit::VerseText, QString::fromUtf16((const ushort*)doc->get(_T("key"))));
+#endif
+
             hit.setValue(SearchHit::Score, (double) h->score(i));
 
             res->addHit(hit);
