@@ -109,7 +109,7 @@ set ( openBibleViewer_HDRS
     src/module/dictionary/biblequote-dict.h
     src/module/bible/biblemodule.h
     src/module/bible/thewordbible.h
-    src/module/bible/swordbible.h
+    #src/module/bible/swordbible.h
 
     src/ui/interface/advanced/windowsessiondata.h
     src/ui/modelmodel.h
@@ -183,7 +183,7 @@ set ( openBibleViewer_SRCS
     src/module/dictionary/biblequote-dict.cpp
     src/module/bible/biblemodule.cpp
     src/module/bible/thewordbible.cpp
-    src/module/bible/swordbible.cpp
+    #src/module/bible/swordbible.cpp
     
     src/ui/dialog/searchdialog.cpp
     src/ui/dialog/settingsdialog.cpp
