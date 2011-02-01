@@ -99,30 +99,30 @@ void SimpleInterface::createMenu()
 
 QHash<DockWidget*, Qt::DockWidgetArea> SimpleInterface::docks()
 {
-    /*QHash<DockWidget *, Qt::DockWidgetArea> ret;
-    ret.insert(m_searchResultDockWidget, Qt::RightDockWidgetArea);
+    QHash<DockWidget *, Qt::DockWidgetArea> ret;
+    /*ret.insert(m_searchResultDockWidget, Qt::RightDockWidgetArea);
     ret.insert(m_bookDockWidget, Qt::LeftDockWidgetArea);
-    ret.insert(m_moduleDockWidget, Qt::LeftDockWidgetArea);
-    return ret;*/
+    ret.insert(m_moduleDockWidget, Qt::LeftDockWidgetArea);*/
+    return ret;
 
 }
 bool SimpleInterface::hasMenuBar()
 {
-    //return false;
+    return false;
 }
 QMenuBar* SimpleInterface::menuBar()
 {
-    //return 0;
+    return 0;
 }
 bool SimpleInterface::hasToolBar()
 {
-    //return true;
+    return true;
 }
 QList<QToolBar *> SimpleInterface::toolBars()
 {
-    /* QList<QToolBar *> list;
-     list.append(m_bar);
-     return list;*/
+     QList<QToolBar *> list;
+    // list.append(m_bar);
+     return list;
 }
 void SimpleInterface::zoomIn()
 {
@@ -371,6 +371,7 @@ bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
         return QWidget::eventFilter(obj, event);
     }
     return QWidget::eventFilter(obj, event);*/
+    return true;
 }
 
 SimpleInterface::~SimpleInterface()
