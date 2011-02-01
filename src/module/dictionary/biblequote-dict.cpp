@@ -13,6 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "biblequote-dict.h"
 
+#include "CLucene.h"
+#include "CLucene/_clucene-config.h"
 
 using namespace lucene::analysis;
 using namespace lucene::index;

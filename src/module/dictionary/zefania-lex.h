@@ -29,8 +29,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include "src/core/verse/verseurl.h"
 
-#include "CLucene.h"
-#include "CLucene/_clucene-config.h"
+
 /**
  * ZefaniaLex represents a zefaniaXML(lex) module
  */

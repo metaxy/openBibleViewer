@@ -23,8 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/versification/versification_kjv.h"
 #include "src/core/dbghelper.h"
 
-#include "CLucene.h"
-#include "CLucene/_clucene-config.h"
+
 
 class TheWordBible : public BibleModule
 {

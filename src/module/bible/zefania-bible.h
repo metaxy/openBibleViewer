@@ -41,8 +41,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/module/bible/biblemodule.h"
 
-#include "CLucene.h"
-#include "CLucene/_clucene-config.h"
+
 /**
  * ZefaniaBible represents a zefaniaxml(bible) module.
  */

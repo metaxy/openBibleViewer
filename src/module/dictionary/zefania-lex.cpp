@@ -17,7 +17,8 @@ using namespace lucene::index;
 using namespace lucene::queryParser;
 using namespace lucene::document;
 using namespace lucene::search;
-
+#include "CLucene.h"
+#include "CLucene/_clucene-config.h"
 ZefaniaLex::ZefaniaLex()
 {
 }

@@ -23,8 +23,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/settings.h"
 #include "src/core/dbghelper.h"
 
-#include "CLucene.h"
-#include "CLucene/_clucene-config.h"
 class BibleQuoteDict
 {
 public:

@@ -27,8 +27,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/bible/biblemodule.h"
 #include "src/core/dbghelper.h"
 #include "src/core/verse/versification/versification_biblequote.h"
-#include "CLucene.h"
-#include "CLucene/_clucene-config.h"
+
 
 /**
  * BibleQuote represents a biblequote module
