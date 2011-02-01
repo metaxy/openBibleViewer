@@ -10,13 +10,13 @@ include (FindZlib)
 #LINK_DIRECTORIES(
   #  ${SWORD_LIBRARY_DIR}
 #)
-if (NOT SWORD_NOT_FOUND)
-    ADD_DEFINITIONS(-DBUILD_WITH_SWORD)
-endif(NOT SWORD_NOT_FOUND)
+#if (NOT SWORD_NOT_FOUND)
+   # ADD_DEFINITIONS(-DBUILD_WITH_SWORD)
+#endif(NOT SWORD_NOT_FOUND)
 
 option( _PORTABLE_VERSION "Build a portable version" OFF )
 option( _SWORD_SUPPORT "Build with sword support" ON )
-
+option( _USE_WSTRING "Use toStdWString and fromWCharArray" ON )
 if (NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE "RelWithDebInfo")
 endif (NOT CMAKE_BUILD_TYPE)
@@ -31,7 +31,6 @@ include_directories (
     ${QT_QTXML_INCLUDE_DIR} 
     ${QT_QTNETWORK_INCLUDE_DIR} 
     ${QT_QTWEBKIT_INCLUDE_DIR} 
-    ${CLucene_INCLUDEDIR} 
     ${openBibleViewer_BINARY_DIR}/src
     ${openBibleViewer_BINARY_DIR}/src/clucene/shared
     ${openBibleViewer_SOURCE_DIR}/src/clucene/shared

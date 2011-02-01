@@ -6,5 +6,6 @@
 #define _AV_LANG_NAME "English;German;Russian;Czech;Turkish;Slovak" 
 #define _AV_LANG_NAME_NATIVE "English;Deutsch;Русский;Česky;Türkmençe;Slovenčina" 
 #cmakedefine _SWORD_SUPPORT
+#cmakedefine _USE_WSTRING
 #endif
 

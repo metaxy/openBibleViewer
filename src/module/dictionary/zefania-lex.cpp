@@ -94,7 +94,11 @@ QString ZefaniaLex::getEntry(const QString &key)
     standard::StandardAnalyzer analyzer(stop_words);
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     IndexSearcher s(reader);
+#ifdef _USE_WSTRING
     Query* q = QueryParser::parse(queryText.toStdWString().c_str(), _T("content"), &analyzer);
+#else
+    Query* q = QueryParser::parse((wchar_t*)queryText.toUcs4().data(), _T("content"), &analyzer);
+#endif
     Hits* h = s.search(q);
     QString ret = "";
     for(size_t i = 0; i < h->length(); i++) {
@@ -257,8 +261,13 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
             }
             content += "<br />" + desc;
             indexdoc.clear();
-            indexdoc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-            indexdoc.add(*new Field(_T("content"), content.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+#ifdef _USE_WSTRING
+                indexdoc.add(*_CLNEW Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                indexdoc.add(*_CLNEW Field(_T("content"), content.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+#else
+                indexdoc.add(*_CLNEW Field(_T("key"), (wchar_t*)key.toUcs4().data(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                indexdoc.add(*_CLNEW Field(_T("content"), (wchar_t*)content.toUcs4().data(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+#endif
             writer->addDocument(&indexdoc);
 
         }

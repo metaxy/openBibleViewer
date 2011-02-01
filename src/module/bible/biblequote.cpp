@@ -405,8 +405,14 @@ void BibleQuote::buildIndex()
                 doc.clear();
                 const QString t = verses.at(verseit);
                 const QString key = QString::number(id) + ";" + QString::number(chapterit - 1) + ";" + QString::number(verseit - 1);
+#ifdef _USE_WSTRING
                 doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
                 doc.add(*new Field(_T("content"), t.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+#else
+                doc.add(*new Field(_T("key"), (wchar_t*)key.toUcs4().data(), Field::STORE_YES |  Field::INDEX_NO));
+                doc.add(*new Field(_T("content"), (wchar_t*)t.toUcs4().data(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+#endif
+
 
                 writer->addDocument(&doc);
             }
@@ -426,10 +432,14 @@ void BibleQuote::search(const SearchQuery &query, SearchResult *res) const
     const QString index = indexPath();
     const TCHAR* stop_words[] = { NULL };
     standard::StandardAnalyzer analyzer(stop_words);
-    myDebug() << index.toStdString().c_str() << QString::fromWCharArray(query.searchText.toStdWString().c_str());
+
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     IndexSearcher s(reader);
+#ifdef _USE_WSTRING
     Query* q = QueryParser::parse(query.searchText.toStdWString().c_str(), _T("content"), &analyzer);
+#else
+    Query* q = QueryParser::parse((wchar_t*)query.searchText.toUcs4().data(), _T("content"), &analyzer);
+#endif
     Hits* h = s.search(q);
     for(size_t i = 0; i < h->length(); i++) {
         Document* doc = &h->doc(i);
