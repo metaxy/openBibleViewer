@@ -90,7 +90,7 @@ void BookDockWidget::setChapters(int bookID, Versification *v11n)
         QStandardItem *top = new QStandardItem;
         top->setText(QString::number(i));
 
-        top->setData(i, Qt::UserRole + 1);
+        top->setData(i - 1, Qt::UserRole + 1);
         m_chapterModel->appendRow(top);
     }
 }
