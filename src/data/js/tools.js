@@ -29,7 +29,7 @@ function verseGetSelection () {
                     break;
                 if(e.getAttribute("verseID") != null) {
                     this.startVerse = e.getAttribute("verseID");
-		    this.startCHapterID = e.getAttribute("chapterID");
+		    this.startChapterID = e.getAttribute("chapterID");
                     break;
                 } else {
                     it = e;
@@ -67,7 +67,7 @@ function adVerseGetSelection () {
     if(window.getSelection().type == 'Range') {
         var a = window.getSelection().getRangeAt(0);
         if(a != null) {
-            var node = document.createElement('div');
+            var node = document.createElement('span');
             node.appendChild(document.createTextNode("!-_OPENBIBLEVIEWER_INSERT_-!"));
             node.id = 'OBV_INSERT';
             this.selectedText = window.getSelection().toString();
