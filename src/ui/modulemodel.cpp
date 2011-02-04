@@ -3,7 +3,7 @@
 ModuleModel::ModuleModel()
 {
     m_moduleModel = new QStandardItemModel;
-    m_moduleModel->setHeaderData(0, Qt::Horizontal, tr("Module"));
+    //m_moduleModel->setHeaderData(0, Qt::Horizontal, QObject::tr("Module"));
 }
 ModuleModel::~ModuleModel()
 {

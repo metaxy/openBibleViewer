@@ -37,7 +37,7 @@ void AdvancedSearchResultDockWidget::init()
     m_proxyModel = new QSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_itemModel);
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    m_proxyModel->->setHeaderData(0, Qt::Horizontal, tr("Result"));
+    m_proxyModel->setHeaderData(0, Qt::Horizontal, tr("Result"));
     m_selectionModel = new QItemSelectionModel(m_proxyModel);
 
     //ui->treeView->setSortingEnabled(true);
