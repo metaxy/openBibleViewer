@@ -410,8 +410,8 @@ void BibleQuote::buildIndex()
                 doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
                 doc.add(*new Field(_T("content"), t.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 #else
-                doc.add(*new Field(_T("key"), (wchar_t*)key.toUcs4().data(), Field::STORE_YES |  Field::INDEX_NO));
-                doc.add(*new Field(_T("content"), (wchar_t*)t.toUcs4().data(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                doc.add(*new Field(_T("key"), reinterpret_cast<const wchar_t *>(key.utf16()), Field::STORE_YES |  Field::INDEX_NO));
+                doc.add(*new Field(_T("content"),reinterpret_cast<const wchar_t *>(t.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 #endif
 
 
@@ -439,7 +439,7 @@ void BibleQuote::search(const SearchQuery &query, SearchResult *res) const
 #ifdef _USE_WSTRING
     Query* q = QueryParser::parse(query.searchText.toStdWString().c_str(), _T("content"), &analyzer);
 #else
-    Query* q = QueryParser::parse((wchar_t*)query.searchText.toUcs4().data(), _T("content"), &analyzer);
+    Query* q = QueryParser::parse(reinterpret_cast<const wchar_t *>(query.searchText.utf16()), _T("content"), &analyzer);
 #endif
     Hits* h = s.search(q);
     for(size_t i = 0; i < h->length(); i++) {

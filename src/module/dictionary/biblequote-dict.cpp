@@ -147,6 +147,8 @@ int BibleQuoteDict::buildIndex()
         id = configIn.readLine();
         num = configIn.readLine().toLong();
         const QString data = htmlIn.read(num - n - 1);
+        if(key.isEmpty() && data.isEmpty())
+            continue;
 
         indexdoc.clear();
 
@@ -154,8 +156,8 @@ int BibleQuoteDict::buildIndex()
                 indexdoc.add(*_CLNEW Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
                 indexdoc.add(*_CLNEW Field(_T("content"), data.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 #else
-                indexdoc.add(*_CLNEW Field(_T("key"), (wchar_t*)key.toUcs4().data(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-                indexdoc.add(*_CLNEW Field(_T("content"), (wchar_t*)data.toUcs4().data(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                indexdoc.add(*_CLNEW Field(_T("key"), reinterpret_cast<const wchar_t *>(key.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                indexdoc.add(*_CLNEW Field(_T("content"), reinterpret_cast<const wchar_t *>(data.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 #endif
         writer->addDocument(&indexdoc);
 
@@ -188,7 +190,7 @@ QString BibleQuoteDict::getEntry(const QString &key)
 #ifdef _USE_WSTRING
     Query* q = QueryParser::parse(queryText.toStdWString().c_str(), _T("content"), &analyzer);
 #else
-    Query* q = QueryParser::parse((wchar_t*)queryText.toUcs4().data(), _T("content"), &analyzer);
+    Query* q = QueryParser::parse(reinterpret_cast<const wchar_t *>(queryText.utf16()), _T("content"), &analyzer);
 #endif
     Hits* h = s.search(q);
     QString ret = "";
