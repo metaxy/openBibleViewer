@@ -17,6 +17,7 @@ include (FindZlib)
 option( _PORTABLE_VERSION "Build a portable version" OFF )
 option( _SWORD_SUPPORT "Build with sword support" ON )
 option( _USE_WSTRING "Use toStdWString and fromWCharArray" ON )
+
 if (NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE "RelWithDebInfo")
 endif (NOT CMAKE_BUILD_TYPE)

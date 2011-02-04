@@ -12,6 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "zefania-bible.h"
+#include "config.h"
 #include "CLucene.h"
 #include "CLucene/_clucene-config.h"
 using namespace lucene::analysis;
@@ -706,7 +707,8 @@ void ZefaniaBible::buildIndex()
                     const QString t = e2.text();
                     const QString verse = QString::number(e2.attribute("vnumber", QString::number(verseCount)).toInt() - 1);
 
-                    QString key = book + ";" + chapter + ";" + verse;
+                    const QString key = book + ";" + chapter + ";" + verse;
+                    myDebug() << key;
 #ifdef _USE_WSTRING
                 doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
                 doc.add(*new Field(_T("content"), t.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
@@ -754,13 +756,17 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
     for(size_t i = 0; i < h->length(); i++) {
         Document* doc = &h->doc(i);
 #ifdef _USE_WSTRING
+        myDebug() << "using wstring";
         const QString stelle = QString::fromWCharArray(doc->get(_T("key")));
 #else
-         const QString stelle = QString::fromUtf16((const ushort*)doc->get(_T("key")));
+        myDebug() << "using uft16";
+        const QString stelle = QString::fromUtf16((const ushort*)doc->get(_T("key")));
 #endif
-        //myDebug() << "found stelle = " << stelle;
+        myDebug() << "found stelle = " << stelle;
         const QStringList l = stelle.split(";");
         //hacky filter
+        if(l.size() < 2)
+            continue;
         if(query.range == SearchQuery::Whole || (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) || (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
             SearchHit hit;
             hit.setType(SearchHit::BibleHit);
