@@ -40,7 +40,7 @@ public:
     void appendChild(ModuleSettings* child);
     void removeChild(ModuleSettings* child);
     void clearChildren();
-
+    QString name(bool preferShort = false);
 
     int moduleID;
     QString modulePath;

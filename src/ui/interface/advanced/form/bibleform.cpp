@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "bibleform.h"
 #include "ui_bibleform.h"
-
+#include "src/core/verse/reftext.h"
 BibleForm::BibleForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::BibleForm)
 {
     //DEBUG_FUNC_NAME
@@ -692,34 +692,50 @@ void BibleForm::copyWholeVerse(void)
     VerseSelection selection = verseSelection();
     if(selection.startVerse != -1) {
         QString sverse;
-        if(selection.startVerse == selection.endVerse) {
-            sverse = "," + QString::number(selection.startVerse + 1);
-        } else {
-            sverse = "," + QString::number(selection.startVerse + 1) + "-" + QString::number(selection.endVerse + 1);
-        }
+
 
         int add = 0;
         if(m_moduleManager->verseModule()->moduleType() == OBVCore::BibleQuoteModule)
             add = 1; //because of the title
-        myDebug() << "startVerse = " << selection.startVerse << " endVerse = " << selection.endVerse;
-        Range r;
-        r.setBook(selection.bookID);
-        r.setChapter(selection.startChapterID);
-        r.setModule(selection.moduleID);
-        r.setStartVerse(selection.startVerse);
-        r.setEndVerse(selection.endVerse);
-        QString stext = m_moduleManager->verseModule()->readRange(r).join(" ");
-        myDebug() << stext;
+        Ranges ranges;
+        if(selection.startChapterID == selection.endChapterID) {
+            Range r;
+            r.setModule(selection.moduleID);
+            r.setBook(selection.bookID);
+            r.setChapter(selection.startChapterID);
+            r.setStartVerse(selection.startVerse);
+            r.setEndVerse(selection.endVerse);
+            ranges.addRange(r);
+        } else {
+            for(int i = selection.startChapterID; i <= selection.endChapterID; i++) {
+                Range r;
+                r.setModule(selection.moduleID);
+                r.setBook(selection.bookID);
+                r.setChapter(i);
+                if(i == selection.startChapterID)
+                    r.setStartVerse(selection.startVerse);
+                else
+                    r.setStartVerse(0);
+
+                if(i == selection.endChapterID)
+                    r.setEndVerse(selection.endVerse);
+                else
+                    r.setEndVerse(m_settings->getModuleSettings(selection.moduleID)->v11n->maxVerse().value(selection.bookID).at(selection.startChapterID));
+
+                ranges.addRange(r);
+            }
+        }
+        QString stext = m_moduleManager->verseModule()->readRanges(ranges).join(" ");
 
         QTextDocument doc2;
         doc2.setHtml(stext);
         stext = doc2.toPlainText();
-
-        const QString curChapter = QString::number(selection.startChapterID + 1);
-
-        const QString newText = m_moduleManager->verseModule()->versification()->bookName(selection.bookID) + " " + curChapter + sverse + "\n" + stext;
+        RefText refText;
+        setAll(&refText);
+        //todo: new line on windows
+        const QString text = refText.toString(ranges) + "\n" + stext;
         QClipboard *clipboard = QApplication::clipboard();
-        clipboard->setText(newText);
+        clipboard->setText(text);
     }
 }
 

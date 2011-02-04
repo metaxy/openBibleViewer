@@ -61,6 +61,7 @@ set ( openBibleViewer_HDRS
     src/core/verse/versification.h
     src/core/verse/versification/versification_kjv.h
     src/core/verse/versification/bookv11n.h
+    src/core/verse/reftext.h
 
 
 
@@ -139,6 +140,7 @@ set ( openBibleViewer_SRCS
     src/core/verse/versification/versification_biblequote.cpp
     src/core/verse/versification/versification_cache.cpp
     src/core/verse/versification/bookv11n.cpp
+    src/core/verse/reftext.cpp
 
     src/core/KoXmlReader.cpp
     src/core/KoXmlWriter.cpp

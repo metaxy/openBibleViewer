@@ -121,3 +121,19 @@ void ModuleSettings::clearChildren()
 {
     m_children.clear();
 }
+ QString ModuleSettings::name(bool preferShortName)
+ {
+     if(preferShortName) {
+         if(!moduleShortName.isEmpty()) {
+             return moduleShortName;
+         } else {
+             return moduleName;
+         }
+     } else {
+         if(!moduleName.isEmpty()) {
+             return moduleName;
+         } else {
+             return moduleShortName;
+         }
+     }
+ }
