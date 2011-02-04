@@ -190,7 +190,7 @@ void NotesDockWidget::removeMark(VerseSelection selection)
             urlConverter.setV11n(m_moduleManager->verseModule()->versification());
             VerseUrl newUrl = urlConverter.convert();
 
-            if(newUrl.contains(selection.moduleID, selection.bookID, selection.chapterID)) {
+            if(newUrl.contains(selection.moduleID, selection.bookID, selection.startChapterID)) {
                 int start = selection.startVerse;
                 int end;
                 if(selection.endVerse != -1) {

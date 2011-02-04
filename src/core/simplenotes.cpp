@@ -438,7 +438,7 @@ void SimpleNotes::newTextNoteWithLink(VerseSelection selection)
     VerseUrlRange range;
     range.setModule(selection.moduleID);
     range.setBook(selection.bookID);
-    range.setChapter(selection.chapterID);
+    range.setChapter(selection.startChapterID);
     range.setStartVerse(selection.startVerse);
     VerseUrl url(range);
     UrlConverter2 urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
@@ -492,7 +492,7 @@ void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style)
     VerseUrlRange range;
     range.setModule(selection.moduleID);
     range.setBook(selection.bookID);
-    range.setChapter(selection.chapterID);
+    range.setChapter(selection.startChapterID);
     range.setStartVerse(selection.startVerse);
     VerseUrl url(range);
     UrlConverter2 urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);

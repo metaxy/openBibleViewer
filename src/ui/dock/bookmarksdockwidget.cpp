@@ -61,14 +61,14 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
     bookmark->setText(0,
                       m_moduleManager->verseModule()->versification()->bookName(selection.bookID) +
                       " " +
-                      QString::number(selection.chapterID + 1) +
+                      QString::number(selection.startChapterID + 1) +
                       "," +
                       QString::number(selection.startVerse + 1));
 
     VerseUrlRange range;
     range.setModule(selection.moduleID);
     range.setBook(selection.bookID);
-    range.setChapter(selection.chapterID);
+    range.setChapter(selection.startChapterID);
     range.setWholeChapter();
     //todo: use in future the last textrange
     //save this

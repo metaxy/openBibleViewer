@@ -704,7 +704,7 @@ void BibleForm::copyWholeVerse(void)
         myDebug() << "startVerse = " << selection.startVerse << " endVerse = " << selection.endVerse;
         Range r;
         r.setBook(selection.bookID);
-        r.setChapter(selection.chapterID);
+        r.setChapter(selection.startChapterID);
         r.setModule(selection.moduleID);
         r.setStartVerse(selection.startVerse);
         r.setEndVerse(selection.endVerse);
@@ -715,7 +715,7 @@ void BibleForm::copyWholeVerse(void)
         doc2.setHtml(stext);
         stext = doc2.toPlainText();
 
-        const QString curChapter = QString::number(selection.chapterID + 1);
+        const QString curChapter = QString::number(selection.startChapterID + 1);
 
         const QString newText = m_moduleManager->verseModule()->versification()->bookName(selection.bookID) + " " + curChapter + sverse + "\n" + stext;
         QClipboard *clipboard = QApplication::clipboard();
@@ -827,17 +827,18 @@ VerseSelection BibleForm::verseSelection()
     myDebug() << "running verselection";
 
     f->evaluateJavaScript("var vS = new VerseSelection(); vS.getSelection();");
-    s.startVerse = f->evaluateJavaScript("vS.startVerse;").toInt();
-    s.endVerse = f->evaluateJavaScript("vS.endVerse;").toInt();
     s.moduleID = f->evaluateJavaScript("vS.moduleID;").toInt();
     s.bookID  = f->evaluateJavaScript("vS.bookID;").toInt();
-    s.chapterID = f->evaluateJavaScript("vS.chapterID;").toInt();
+    s.startChapterID = f->evaluateJavaScript("vS.startChapterID;").toInt();
+    s.endChapterID = f->evaluateJavaScript("vS.endChapterID;").toInt();
+    s.startVerse = f->evaluateJavaScript("vS.startVerse;").toInt();
+    s.endVerse = f->evaluateJavaScript("vS.endVerse;").toInt();
     myDebug() << "start verse = " << s.startVerse << " end verse = " << s.endVerse;
 
-    const QString startVerseText = m_lastTextRanges.getVerse(s.bookID, s.chapterID, s.startVerse).data();
+    const QString startVerseText = m_lastTextRanges.getVerse(s.bookID, s.startChapterID, s.startVerse).data();
     QString endVerseText;
-    if(s.startVerse != s.endVerse)
-        endVerseText = m_lastTextRanges.getVerse(s.bookID, s.chapterID, s.endVerse).data();
+    if(s.startVerse != s.endVerse || s.startChapterID != s.endChapterID)
+        endVerseText = m_lastTextRanges.getVerse(s.bookID, s.endChapterID, s.endVerse).data();
     else
         endVerseText = startVerseText;
 

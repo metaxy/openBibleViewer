@@ -22,7 +22,8 @@ VerseSelection::VerseSelection()
     shortestStringInEndVerse = "";
     repeat = 0;
     moduleID = -1;
-    chapterID = -1;
+    startChapterID = -1;
+    endChapterID = -1;
     bookID = -1;
     repeat = -1;
     longestString = "";

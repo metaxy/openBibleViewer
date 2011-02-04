@@ -6,6 +6,8 @@ function VerseSelection() {
     this.moduleID = -1;
     this.bookID = -1;
     this.chapterID = -1;
+    this.startChapterID = -1;
+    this.endChapterID = -1;
 
 }
 function verseGetSelection () {
@@ -27,6 +29,7 @@ function verseGetSelection () {
                     break;
                 if(e.getAttribute("verseID") != null) {
                     this.startVerse = e.getAttribute("verseID");
+		    this.startCHapterID = e.getAttribute("chapterID");
                     break;
                 } else {
                     it = e;
@@ -43,8 +46,7 @@ function verseGetSelection () {
                     this.endVerse = e.getAttribute("verseID");
                     this.moduleID = e.getAttribute("moduleID");
                     this.bookID = e.getAttribute("bookID");
-                    this.chapterID = e.getAttribute("chapterID");
-
+		    this.endChapterID = e.getAttribute("chapterID");
                     break;
                 } else {
                     it = e;

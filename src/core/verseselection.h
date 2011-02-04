@@ -31,7 +31,8 @@ public:
 
     int moduleID;
     int bookID;
-    int chapterID;
+    int startChapterID;
+    int endChapterID;
 
     QString selectedText;
     QString shortestStringInStartVerse;
