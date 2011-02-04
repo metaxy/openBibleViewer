@@ -87,7 +87,7 @@ int Settings::newModuleID() const
 {
     int max = 0;
     QHash<int, ModuleSettings *>::const_iterator i;
-    for (i = m_moduleSettings.constBegin(); i != m_moduleSettings.constEnd(); ++i) {
+    for(i = m_moduleSettings.constBegin(); i != m_moduleSettings.constEnd(); ++i) {
         if(i.key() > max) {
             max = i.key();
         }

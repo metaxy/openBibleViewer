@@ -130,7 +130,7 @@ QStringList ZefaniaLex::getAllKeys()
 #ifdef _USE_WSTRING
         ret.append(QString::fromWCharArray(doc->get(_T("key"))));
 #else
-         ret.append(QString::fromUtf16((const ushort*)doc->get(_T("key"))));
+        ret.append(QString::fromUtf16((const ushort*)doc->get(_T("key"))));
 #endif
     }
     return ret;
@@ -271,11 +271,11 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
             content += "<br />" + desc;
             indexdoc.clear();
 #ifdef _USE_WSTRING
-                indexdoc.add(*_CLNEW Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-                indexdoc.add(*_CLNEW Field(_T("content"), content.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+            indexdoc.add(*_CLNEW Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+            indexdoc.add(*_CLNEW Field(_T("content"), content.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 #else
-                indexdoc.add(*_CLNEW Field(_T("key"), reinterpret_cast<const wchar_t *>(key.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-                indexdoc.add(*_CLNEW Field(_T("content"), reinterpret_cast<const wchar_t *>(content.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+            indexdoc.add(*_CLNEW Field(_T("key"), reinterpret_cast<const wchar_t *>(key.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+            indexdoc.add(*_CLNEW Field(_T("content"), reinterpret_cast<const wchar_t *>(content.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 #endif
             writer->addDocument(&indexdoc);
 

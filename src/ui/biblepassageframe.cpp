@@ -44,17 +44,17 @@ void BiblePassageFrame::init()
 void BiblePassageFrame::addVerse(const int bookID, const int chapterID, const int verseID)
 {
     QComboBox *books = new QComboBox(this);
-    books->setObjectName("books_"+QString::number(m_count));
+    books->setObjectName("books_" + QString::number(m_count));
     QSpinBox *chapter = new QSpinBox(this);
-    chapter->setObjectName("chapter_"+QString::number(m_count));
+    chapter->setObjectName("chapter_" + QString::number(m_count));
     QSpinBox *verse = new QSpinBox(this);
-    verse->setObjectName("verse_"+QString::number(m_count));
+    verse->setObjectName("verse_" + QString::number(m_count));
     books->insertItems(0, m_bookNames);
     books->setCurrentIndex(bookID);
-    chapter->setValue(chapterID+1);
-    verse->setValue(verseID+1);
+    chapter->setValue(chapterID + 1);
+    verse->setValue(verseID + 1);
     QHBoxLayout *layout = new QHBoxLayout(this);
-    layout->setObjectName("layout_"+QString::number(m_count));
+    layout->setObjectName("layout_" + QString::number(m_count));
     layout->addWidget(books);
     layout->addWidget(chapter);
     layout->addWidget(verse);
@@ -65,22 +65,22 @@ void BiblePassageFrame::addVerse(const int bookID, const int chapterID, const in
 void BiblePassageFrame::addMVerse(const int bookID, const int chapterID, const int startVerseID, const int endVerseID)
 {
     QComboBox *books = new QComboBox(this);
-    books->setObjectName("books_"+QString::number(m_count));
+    books->setObjectName("books_" + QString::number(m_count));
     QSpinBox *chapter = new QSpinBox(this);
-    chapter->setObjectName("chapter_"+QString::number(m_count));
+    chapter->setObjectName("chapter_" + QString::number(m_count));
     QSpinBox *startVerse = new QSpinBox(this);
-    startVerse->setObjectName("startVerse_"+QString::number(m_count));
+    startVerse->setObjectName("startVerse_" + QString::number(m_count));
     QSpinBox *endVerse = new QSpinBox(this);
-    endVerse->setObjectName("endVerse_"+QString::number(m_count));
+    endVerse->setObjectName("endVerse_" + QString::number(m_count));
 
     books->insertItems(0, m_bookNames);
     books->setCurrentIndex(bookID);
-    chapter->setValue(chapterID+1);
-    startVerse->setValue(startVerseID+1);
-    endVerse->setValue(endVerseID+1);
+    chapter->setValue(chapterID + 1);
+    startVerse->setValue(startVerseID + 1);
+    endVerse->setValue(endVerseID + 1);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
-    layout->setObjectName("layout_"+QString::number(m_count));
+    layout->setObjectName("layout_" + QString::number(m_count));
     layout->addWidget(books);
     layout->addWidget(chapter);
     layout->addWidget(startVerse);
@@ -94,7 +94,7 @@ VerseUrl BiblePassageFrame::toVerseUrl()
     DEBUG_FUNC_NAME
     VerseUrl url;
     QMap<int, int> books, chapter, verse, endVerse;
-    foreach(QObject *o, this->children()) {
+    foreach(QObject * o, this->children()) {
         myDebug() << o->objectName();
 
         int id = -1;
@@ -108,17 +108,17 @@ VerseUrl BiblePassageFrame::toVerseUrl()
             books[id] = ((QComboBox*)o)->currentIndex();
 
         } else if(o->objectName().startsWith("chapter")) {
-            chapter[id] = ((QSpinBox*)o)->value()-1;
+            chapter[id] = ((QSpinBox*)o)->value() - 1;
         } else if(o->objectName().startsWith("verse")) {
-            verse[id] = ((QSpinBox*)o)->value()-1;
+            verse[id] = ((QSpinBox*)o)->value() - 1;
         } else if(o->objectName().startsWith("startVerse")) {
-            verse[id] = ((QSpinBox*)o)->value()-1;
+            verse[id] = ((QSpinBox*)o)->value() - 1;
         } else if(o->objectName().startsWith("endVerse")) {
-            endVerse[id] = ((QSpinBox*)o)->value()-1;
+            endVerse[id] = ((QSpinBox*)o)->value() - 1;
         }
 
     }
-    QMapIterator<int,int> it(books);
+    QMapIterator<int, int> it(books);
     while(it.hasNext()) {
         it.next();
         if(it.key() > -1) {
@@ -150,23 +150,23 @@ void BiblePassageFrame::setVerseUrlRanges(const QList<VerseUrlRange> &ranges)
             m_bookNames = v->bookNames().values();//todo:
         }
         QModelIndexList list = m_proxyModel->match(m_model->invisibleRootItem()->index(),
-                                                   Qt::UserRole+1,
-                                                   QString::number(m_moduleID),
-                                                   1 ,
-                                                   Qt::MatchExactly);
+                               Qt::UserRole + 1,
+                               QString::number(m_moduleID),
+                               1 ,
+                               Qt::MatchExactly);
         myDebug() << "list.size() = " << list.size();
         if(!list.isEmpty()) {
-            myDebug() << list.first().data(Qt::UserRole+1);
+            myDebug() << list.first().data(Qt::UserRole + 1);
             ui->treeView->selectionModel()->clear();
             ui->treeView->selectionModel()->select(list.first(), QItemSelectionModel::Select);
         }
     }
-    foreach(const VerseUrlRange &r, ranges) {
+    foreach(const VerseUrlRange & r, ranges) {
         m_moduleID = r.bibleID();
         if(r.startVerseID() != r.endVerseID()) {
-            addMVerse(r.bookID(), r.chapterID(),r.startVerseID(),r.endVerseID());
+            addMVerse(r.bookID(), r.chapterID(), r.startVerseID(), r.endVerseID());
         } else {
-            addVerse(r.bookID(), r.chapterID(),r.startVerseID());
+            addVerse(r.bookID(), r.chapterID(), r.startVerseID());
         }
     }
 

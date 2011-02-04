@@ -154,71 +154,71 @@ void SettingsDialog::addModuleFile(void)
 }
 void SettingsDialog::addModuleDir(void)
 {
-     m_modifedModuleSettings = true;
-     QFileDialog dialog(this);
+    m_modifedModuleSettings = true;
+    QFileDialog dialog(this);
 
-     dialog.setFileMode(QFileDialog::Directory);
-     dialog.setOption(QFileDialog::ShowDirsOnly, true);
-     dialog.setDirectory(m_set.session.getData("addModuleDir_Dir", QFSFileEngine::homePath()).toString());
+    dialog.setFileMode(QFileDialog::Directory);
+    dialog.setOption(QFileDialog::ShowDirsOnly, true);
+    dialog.setDirectory(m_set.session.getData("addModuleDir_Dir", QFSFileEngine::homePath()).toString());
 
-     if(dialog.exec()) {
-         const QStringList fileName = dialog.selectedFiles();
-         m_set.session.setData("addModuleDir_Dir", dialog.directory().absolutePath());
+    if(dialog.exec()) {
+        const QStringList fileName = dialog.selectedFiles();
+        m_set.session.setData("addModuleDir_Dir", dialog.directory().absolutePath());
 
-         if(fileName.size() > 0) {
-             QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size());
-             progress.setWindowModality(Qt::WindowModal);
-             for(int i = 0; i < fileName.size(); i++) {
-                 progress.setValue(i);
-                 if(progress.wasCanceled())
-                     return;
-                 const QString f = fileName.at(i);
-                 ModuleSettings *m = new ModuleSettings();
-                 m->moduleID = m_set.newModuleID();
-                 QFileInfo fileInfo(f);
-                 if(fileInfo.isDir()) {
-                     QString f = fileName.at(i);
-                     if(f.endsWith("/")) {
-                         f.remove(f.size() - 1, 10);
-                     }
-                     m->modulePath = f;
-                     QStringList ldictname = (f + "/").split("/");
-                     QString dictname;
-                     if(ldictname.size() > 0) {
-                         dictname = ldictname[ldictname.size()-2];
-                     } else {
-                         dictname = "(" + QString::number(i) + ")";
-                     }
-                     m->moduleName = dictname;
-                     m->moduleType = OBVCore::FolderModule;
-                     //m.isDir = true;
-                 } else {
-                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("It is not a folder."));
-                     return;
-                 }
+        if(fileName.size() > 0) {
+            QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size());
+            progress.setWindowModality(Qt::WindowModal);
+            for(int i = 0; i < fileName.size(); i++) {
+                progress.setValue(i);
+                if(progress.wasCanceled())
+                    return;
+                const QString f = fileName.at(i);
+                ModuleSettings *m = new ModuleSettings();
+                m->moduleID = m_set.newModuleID();
+                QFileInfo fileInfo(f);
+                if(fileInfo.isDir()) {
+                    QString f = fileName.at(i);
+                    if(f.endsWith("/")) {
+                        f.remove(f.size() - 1, 10);
+                    }
+                    m->modulePath = f;
+                    QStringList ldictname = (f + "/").split("/");
+                    QString dictname;
+                    if(ldictname.size() > 0) {
+                        dictname = ldictname[ldictname.size()-2];
+                    } else {
+                        dictname = "(" + QString::number(i) + ")";
+                    }
+                    m->moduleName = dictname;
+                    m->moduleType = OBVCore::FolderModule;
+                    //m.isDir = true;
+                } else {
+                    QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("It is not a folder."));
+                    return;
+                }
 
-                 // standard config
-                 m->biblequote_removeHtml = m_set.removeHtml;
-                 m->zefbible_hardCache = m_set.zefaniaBible_hardCache;
-                 m->zefbible_softCache = m_set.zefaniaBible_softCache;
-                 //m->zefbible_textFormatting = m_set.textFormatting;
-                 m->zefbible_showStrong = true;
-                 m->zefbible_showStudyNote = true;
-                 m->encoding = "Default";//no translating
-                 m->parentID = -1;
-                 m_set.m_moduleSettings.insert(m->moduleID, m);
-                 const QStringList scanned = scan(f);
-                 foreach(const QString &file, scanned) {
-                     if(ModuleManager::recognizeModuleType(file) != OBVCore::NoneType) {//that is faster than check in quitAddModule
+                // standard config
+                m->biblequote_removeHtml = m_set.removeHtml;
+                m->zefbible_hardCache = m_set.zefaniaBible_hardCache;
+                m->zefbible_softCache = m_set.zefaniaBible_softCache;
+                //m->zefbible_textFormatting = m_set.textFormatting;
+                m->zefbible_showStrong = true;
+                m->zefbible_showStudyNote = true;
+                m->encoding = "Default";//no translating
+                m->parentID = -1;
+                m_set.m_moduleSettings.insert(m->moduleID, m);
+                const QStringList scanned = scan(f);
+                foreach(const QString & file, scanned) {
+                    if(ModuleManager::recognizeModuleType(file) != OBVCore::NoneType) {//that is faster than check in quitAddModule
                         quiteAddModule(file, m->moduleID);
-                     }
-                 }
-             }
-             progress.close();
-             generateModuleTree();
-         }
+                    }
+                }
+            }
+            progress.close();
+            generateModuleTree();
+        }
 
-     }
+    }
 }
 void SettingsDialog::removeModule()
 {
@@ -236,7 +236,7 @@ void SettingsDialog::removeModule()
             m_set.getModuleSettings(child->parentID)->removeChild(child);
             m_set.m_moduleSettings.remove(moduleID);
         }
-        m_ui->treeView->model()->removeRow(index.row(),index.parent());
+        m_ui->treeView->model()->removeRow(index.row(), index.parent());
     }
 }
 void SettingsDialog::editModule()
@@ -270,20 +270,20 @@ void SettingsDialog::save(void)
     } else if(currentInterface == 1) {
         m_set.session.setData("interface", "advanced");
     }
-    QMap<int,int> struc;
-    foreach(ModuleSettings *set, m_set.m_moduleSettings) {
-         struc.insert(set->moduleID, set->parentID);
+    QMap<int, int> struc;
+    foreach(ModuleSettings * set, m_set.m_moduleSettings) {
+        struc.insert(set->moduleID, set->parentID);
     }
-    foreach(ModuleSettings *set, m_set.m_moduleSettings) {
-         set->clearChildren();
+    foreach(ModuleSettings * set, m_set.m_moduleSettings) {
+        set->clearChildren();
     }
 
     QModelIndex rootIndex = m_ui->treeView->rootIndex();
     saveModule(rootIndex, m_set.getModuleSettings(-1));
 
-    QMap<int,int> struc2;
-    foreach(ModuleSettings *set, m_set.m_moduleSettings) {
-         struc2.insert(set->moduleID, set->parentID);
+    QMap<int, int> struc2;
+    foreach(ModuleSettings * set, m_set.m_moduleSettings) {
+        struc2.insert(set->moduleID, set->parentID);
     }
     if(struc != struc2) {
         m_modifedModuleSettings = true;
@@ -380,20 +380,20 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
         if(name.isEmpty()) {
             switch(moduleType) {
             case OBVCore::BibleQuoteModule:
-                    m->moduleName = bq.readInfo(f);
+                m->moduleName = bq.readInfo(f);
                 break;
             case OBVCore::ZefaniaBibleModule:
-                    m->moduleName = zef.readInfo(f);
+                m->moduleName = zef.readInfo(f);
                 break;
             case OBVCore::ZefaniaLexModule:
-                    m->moduleName = zefLex.buildIndexFromFile(f);
+                m->moduleName = zefLex.buildIndexFromFile(f);
                 break;
             case OBVCore::BibleQuoteDictModule:
-                    m->moduleName = bibleQuoteDict.readInfo(f);
-                    bibleQuoteDict.buildIndex();
+                m->moduleName = bibleQuoteDict.readInfo(f);
+                bibleQuoteDict.buildIndex();
                 break;
             case OBVCore::TheWordBibleModule:
-                    m->moduleName = theWordBible.readInfo(f);
+                m->moduleName = theWordBible.readInfo(f);
                 break;
             case OBVCore::NoneType:
                 //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));

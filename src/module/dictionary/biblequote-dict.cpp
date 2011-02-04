@@ -153,11 +153,11 @@ int BibleQuoteDict::buildIndex()
         indexdoc.clear();
 
 #ifdef _USE_WSTRING
-                indexdoc.add(*_CLNEW Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-                indexdoc.add(*_CLNEW Field(_T("content"), data.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+        indexdoc.add(*_CLNEW Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+        indexdoc.add(*_CLNEW Field(_T("content"), data.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 #else
-                indexdoc.add(*_CLNEW Field(_T("key"), reinterpret_cast<const wchar_t *>(key.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-                indexdoc.add(*_CLNEW Field(_T("content"), reinterpret_cast<const wchar_t *>(data.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+        indexdoc.add(*_CLNEW Field(_T("key"), reinterpret_cast<const wchar_t *>(key.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+        indexdoc.add(*_CLNEW Field(_T("content"), reinterpret_cast<const wchar_t *>(data.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 #endif
         writer->addDocument(&indexdoc);
 
@@ -203,7 +203,7 @@ QString BibleQuoteDict::getEntry(const QString &key)
 #ifdef _USE_WSTRING
         ret.append(QString::fromWCharArray(doc->get(_T("content"))));
 #else
-         ret.append(QString::fromUtf16((const ushort*)doc->get(_T("content"))));
+        ret.append(QString::fromUtf16((const ushort*)doc->get(_T("content"))));
 #endif
     }
     return ret.isEmpty() ? QObject::tr("Nothing found for %1").arg(key) : ret;
@@ -221,7 +221,7 @@ QStringList BibleQuoteDict::getAllKeys()
 #ifdef _USE_WSTRING
         ret.append(QString::fromWCharArray(doc->get(_T("key"))));
 #else
-         ret.append(QString::fromUtf16((const ushort*)doc->get(_T("key"))));
+        ret.append(QString::fromUtf16((const ushort*)doc->get(_T("key"))));
 #endif
     }
     return ret;

@@ -47,9 +47,9 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
     m_homeDataPath = homeDataPath;
     m_settingsFile = settingsFile;
     QDir d(m_homeDataPath);
-    d.mkpath(m_homeDataPath+"index");
-    d.mkpath(m_homeDataPath+"cache");
-    d.mkpath(m_homeDataPath+"v11n");
+    d.mkpath(m_homeDataPath + "index");
+    d.mkpath(m_homeDataPath + "cache");
+    d.mkpath(m_homeDataPath + "v11n");
 
     m_moduleManager = new ModuleManager();
     m_settings = new Settings();

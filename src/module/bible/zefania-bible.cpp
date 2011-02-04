@@ -449,7 +449,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
             break;
         }
     }
-   ModuleSettings *mset = m_settings->getModuleSettings(m_moduleID);
+    ModuleSettings *mset = m_settings->getModuleSettings(m_moduleID);
     if(!hasAny) {
         mset->versificationFile = "";
         mset->versificationName = "kjv";
@@ -710,11 +710,11 @@ void ZefaniaBible::buildIndex()
                     const QString key = book + ";" + chapter + ";" + verse;
                     myDebug() << key;
 #ifdef _USE_WSTRING
-                doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
-                doc.add(*new Field(_T("content"), t.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                    doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
+                    doc.add(*new Field(_T("content"), t.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 #else
-                doc.add(*new Field(_T("key"), reinterpret_cast<const wchar_t *>(key.utf16()), Field::STORE_YES |  Field::INDEX_NO));
-                doc.add(*new Field(_T("content"), reinterpret_cast<const wchar_t *>(t.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                    doc.add(*new Field(_T("key"), reinterpret_cast<const wchar_t *>(key.utf16()), Field::STORE_YES |  Field::INDEX_NO));
+                    doc.add(*new Field(_T("content"), reinterpret_cast<const wchar_t *>(t.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 #endif
 
                     writer->addDocument(&doc);
@@ -775,9 +775,9 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
             hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
             hit.setValue(SearchHit::VerseID, l.at(2).toInt());
 #ifdef _USE_WSTRING
-             hit.setValue(SearchHit::VerseText, QString::fromWCharArray(doc->get(_T("key"))));
+            hit.setValue(SearchHit::VerseText, QString::fromWCharArray(doc->get(_T("key"))));
 #else
-             hit.setValue(SearchHit::VerseText, QString::fromUtf16((const ushort*)doc->get(_T("key"))));
+            hit.setValue(SearchHit::VerseText, QString::fromUtf16((const ushort*)doc->get(_T("key"))));
 #endif
 
             hit.setValue(SearchHit::Score, (double) h->score(i));

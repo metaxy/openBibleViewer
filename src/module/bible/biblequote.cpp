@@ -411,7 +411,7 @@ void BibleQuote::buildIndex()
                 doc.add(*new Field(_T("content"), t.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 #else
                 doc.add(*new Field(_T("key"), reinterpret_cast<const wchar_t *>(key.utf16()), Field::STORE_YES |  Field::INDEX_NO));
-                doc.add(*new Field(_T("content"),reinterpret_cast<const wchar_t *>(t.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                doc.add(*new Field(_T("content"), reinterpret_cast<const wchar_t *>(t.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 #endif
 
 
@@ -447,7 +447,7 @@ void BibleQuote::search(const SearchQuery &query, SearchResult *res) const
 #ifdef _USE_WSTRING
         const QString stelle = QString::fromWCharArray(doc->get(_T("key")));
 #else
-         const QString stelle = QString::fromUtf16((const ushort*)doc->get(_T("key")));
+        const QString stelle = QString::fromUtf16((const ushort*)doc->get(_T("key")));
 #endif
         // h->score(i)
         QStringList l = stelle.split(";");
@@ -459,9 +459,9 @@ void BibleQuote::search(const SearchQuery &query, SearchResult *res) const
             hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
             hit.setValue(SearchHit::VerseID, l.at(2).toInt());
 #ifdef _USE_WSTRING
-             hit.setValue(SearchHit::VerseText, QString::fromWCharArray(doc->get(_T("key"))));
+            hit.setValue(SearchHit::VerseText, QString::fromWCharArray(doc->get(_T("key"))));
 #else
-             hit.setValue(SearchHit::VerseText, QString::fromUtf16((const ushort*)doc->get(_T("key"))));
+            hit.setValue(SearchHit::VerseText, QString::fromUtf16((const ushort*)doc->get(_T("key"))));
 #endif
             res->addHit(hit);
         }

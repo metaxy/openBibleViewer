@@ -120,9 +120,9 @@ bool SimpleInterface::hasToolBar()
 }
 QList<QToolBar *> SimpleInterface::toolBars()
 {
-     QList<QToolBar *> list;
+    QList<QToolBar *> list;
     // list.append(m_bar);
-     return list;
+    return list;
 }
 void SimpleInterface::zoomIn()
 {
