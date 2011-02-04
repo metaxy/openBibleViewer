@@ -104,7 +104,7 @@ ModuleSettings *ModuleSettings::parent() const
     return m_parent;
 }
 
-QList<ModuleSettings *> ModuleSettings::children()
+QList<ModuleSettings *> ModuleSettings::children() const
 {
     return m_children;
 }
@@ -121,7 +121,7 @@ void ModuleSettings::clearChildren()
 {
     m_children.clear();
 }
-QString ModuleSettings::name(bool preferShortName)
+QString ModuleSettings::name(bool preferShortName) const
 {
     if(preferShortName) {
         if(!moduleShortName.isEmpty()) {
@@ -136,4 +136,13 @@ QString ModuleSettings::name(bool preferShortName)
             return moduleShortName;
         }
     }
+}
+ModuleDisplaySettings *ModuleSettings::displaySettings() const
+{
+    return m_displaySettings;
+}
+
+void ModuleSettings::setDisplaySettings(ModuleDisplaySettings *settings)
+{
+    m_displaySettings = settings;
 }

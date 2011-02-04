@@ -45,7 +45,7 @@ public:
 
     void setSettings(Settings *settings);
     void setNotes(Notes *notes);
-    void setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings);
+    void setmoduledisplaysettings(ModuleDisplaySettings *moduledisplaysettings);
 
     bool bibleLoaded();
     bool hasBible();
@@ -76,7 +76,7 @@ public:
     QList<int> getBibleIDs();
     void checkCache(const int &moduleID);
     VerseModule * newVerseModule(const int &moduleID, QPoint p);
-    BibleDisplaySettings *m_bibleDisplaySettings;
+    ModuleDisplaySettings *m_moduledisplaysettings;
     static OBVCore::ModuleType recognizeModuleType(const QString &fileName);
 
 private:

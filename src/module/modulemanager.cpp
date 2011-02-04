@@ -37,9 +37,9 @@ void ModuleManager::setNotes(Notes *notes)
 {
     m_notes = notes;
 }
-void ModuleManager::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings)
+void ModuleManager::setmoduledisplaysettings(ModuleDisplaySettings *moduledisplaysettings)
 {
-    m_bibleDisplaySettings = bibleDisplaySettings;
+    m_moduledisplaysettings = moduledisplaysettings;
 }
 
 
@@ -104,7 +104,7 @@ void ModuleManager::initVerseModule(VerseModule *b)
         b->setSettings(m_settings);
         b->setNotes(m_notes);
         b->setModuleMap(m_moduleMap);
-        b->setBibleDisplaySettings(m_bibleDisplaySettings);
+        b->setmoduledisplaysettings(m_moduledisplaysettings);
     }
 }
 

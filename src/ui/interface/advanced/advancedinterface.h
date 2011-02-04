@@ -113,7 +113,7 @@ signals:
 private:
     Ui::AdvancedInterface *ui;
 
-    BibleDisplaySettings *m_bibleDisplaySettings;
+    ModuleDisplaySettings *m_moduledisplaysettings;
     Api *m_api;
     //Menu
     QAction *m_actionTabbedView;

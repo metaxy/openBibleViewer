@@ -57,7 +57,7 @@ void VerseModule::search(SearchQuery query, SearchResult *result)
 {
     myWarning() << "calling VerseModule";
 }
-void VerseModule::setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings)
+void VerseModule::setmoduledisplaysettings(ModuleDisplaySettings *moduledisplaysettings)
 {
-    m_bibleDisplaySettings = bibleDisplaySettings;
+    m_moduledisplaysettings = moduledisplaysettings;
 }

@@ -26,9 +26,9 @@ AdvancedInterface::~AdvancedInterface()
 {
     DEBUG_FUNC_NAME;
 
-    if(m_bibleDisplaySettings != NULL) {
-        delete m_bibleDisplaySettings;
-        m_bibleDisplaySettings = 0;
+    if(m_moduledisplaysettings != NULL) {
+        delete m_moduledisplaysettings;
+        m_moduledisplaysettings = 0;
     }
 
     if(ui != NULL) {
@@ -40,14 +40,14 @@ AdvancedInterface::~AdvancedInterface()
 void AdvancedInterface::init()
 {
     DEBUG_FUNC_NAME
-    m_bibleDisplaySettings = new BibleDisplaySettings();
-    m_bibleDisplaySettings->setShowMarks(true);
-    m_bibleDisplaySettings->setShowNotes(true);
-    m_bibleDisplaySettings->setLoadNotes(true);
+    m_moduledisplaysettings = new ModuleDisplaySettings();
+    m_moduledisplaysettings->setShowMarks(true);
+    m_moduledisplaysettings->setShowNotes(true);
+    m_moduledisplaysettings->setLoadNotes(true);
 
     connect(m_actions, SIGNAL(_get(QString)), this, SLOT(pharseUrl(QString)));
 
-    m_moduleManager->setBibleDisplaySettings(m_bibleDisplaySettings);
+    m_moduleManager->setmoduledisplaysettings(m_moduledisplaysettings);
 
     m_api = new Api();
     setAll(m_api);

@@ -23,6 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/versification/versification_cache.h"
 #include "src/core/obvcore.h"
 #include "src/core/dbghelper.h"
+#include "src/core/settings/moduledisplaysettings.h"
 /**
   * ModuleSettings represents a settings class for modules.
   */
@@ -36,11 +37,14 @@ public:
     void setParent(ModuleSettings *parent);
     ModuleSettings *parent() const;
 
-    QList<ModuleSettings *> children();
+    ModuleDisplaySettings *displaySettings() const;
+    void setDisplaySettings(ModuleDisplaySettings *settings);
+
+    QList<ModuleSettings *> children() const;
     void appendChild(ModuleSettings* child);
     void removeChild(ModuleSettings* child);
     void clearChildren();
-    QString name(bool preferShort = false);
+    QString name(bool preferShort = false) const;
 
     int moduleID;
     QString modulePath;
@@ -60,8 +64,6 @@ public:
 
     bool zefbible_hardCache;
     bool zefbible_softCache;
-    bool zefbible_showStrong;
-    bool zefbible_showStudyNote;
     bool biblequote_removeHtml;
 
     QString styleSheet;
@@ -82,8 +84,9 @@ public:
 
     int parentID;
 
-private:
 
+private:
+    ModuleDisplaySettings *m_displaySettings;
     ModuleSettings *m_parent;
     QList<ModuleSettings *> m_children;
 };

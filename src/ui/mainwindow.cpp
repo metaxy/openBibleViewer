@@ -42,7 +42,7 @@ MainWindow::~MainWindow()
 }
 void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 {
-    VERSION = "0.6.a1";
+    VERSION = "0.6.a2";
     BUILD =  "2010-11-8";
     m_homeDataPath = homeDataPath;
     m_settingsFile = settingsFile;

@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_simpleinterface.h"
 #include "src/core/dbghelper.h"
 #include "src/ui/dialog/searchdialog.h"
-#include "src/core/settings/bibledisplaysettings.h"
+#include "src/core/settings/moduledisplaysettings.h"
 #include "src/core/obvcore.h"
 #include "src/core/search/search.h"
 #include <QtGui/QDesktopServices>
@@ -34,11 +34,11 @@ SimpleInterface::SimpleInterface(QWidget *parent) :
 }
 void SimpleInterface::init()
 {
-    /* BibleDisplaySettings *bibleDisplaySettings = new BibleDisplaySettings();
-     bibleDisplaySettings->setLoadNotes(false);
-     bibleDisplaySettings->setShowMarks(false);
-     bibleDisplaySettings->setShowNotes(false);
-     m_moduleManager->setBibleDisplaySettings(bibleDisplaySettings);
+    /* moduledisplaysettings *moduledisplaysettings = new moduledisplaysettings();
+     moduledisplaysettings->setLoadNotes(false);
+     moduledisplaysettings->setShowMarks(false);
+     moduledisplaysettings->setShowNotes(false);
+     m_moduleManager->setmoduledisplaysettings(moduledisplaysettings);
 
      m_moduleManager->m_verseTable = new VerseTable();
      Bible *b = new Bible();
@@ -376,8 +376,8 @@ bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
 
 SimpleInterface::~SimpleInterface()
 {
-    /*delete m_moduleManager->m_bibleDisplaySettings;
-    m_moduleManager->m_bibleDisplaySettings = 0;
+    /*delete m_moduleManager->m_moduledisplaysettings;
+    m_moduleManager->m_moduledisplaysettings = 0;
     delete ui;*/
 }
 void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings, bool modifedModuleSettings)

@@ -20,7 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/textranges.h"
 #include "src/core/verse/versification.h"
 #include "src/module/simplemoduleclass.h"
-#include "src/core/settings/bibledisplaysettings.h"
+#include "src/core/settings/moduledisplaysettings.h"
 /**
   * VerseModule is an abstract class for modules classes like Bible or StudyNotes which are based on a versification.
   * That means it has books, chapters and verse.
@@ -30,7 +30,7 @@ class VerseModule : public SimpleModuleClass
 public:
     VerseModule();
     virtual ~VerseModule();
-    void setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings);
+    void setmoduledisplaysettings(ModuleDisplaySettings *moduledisplaysettings);
     virtual TextRanges readRanges(const Ranges &ranges, bool ignoreModuleID = false);
     virtual TextRange readRange(const Range &range, bool ignoreModuleID = false);
 
@@ -54,7 +54,7 @@ protected:
     SearchQuery m_lastSearchQuery;
     Versification *m_versification;
     TextRanges *m_lastTextRanges;
-    BibleDisplaySettings *m_bibleDisplaySettings;
+    ModuleDisplaySettings *m_moduledisplaysettings;
 };
 
 #endif // VERSEMODULE_H

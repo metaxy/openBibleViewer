@@ -24,7 +24,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/versemodule.h"
 
 #include "src/core/settings/modulesettings.h"
-#include "src/core/settings/bibledisplaysettings.h"
+#include "src/core/settings/moduledisplaysettings.h"
 
 #include "src/core/dbghelper.h"
 #include "src/core/urlconverter.h"
@@ -40,7 +40,7 @@ public:
 
     Bible();
     ~Bible();
-    void setBibleDisplaySettings(BibleDisplaySettings *bibleDisplaySettings);
+    void setmoduledisplaysettings(ModuleDisplaySettings *moduledisplaysettings);
     virtual TextRanges readRanges(const Ranges &ranges, bool ignoreModuleID = false);
     virtual TextRange readRange(const Range &range, bool ignoreModuleID = false);
 
