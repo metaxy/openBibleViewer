@@ -25,11 +25,11 @@ int SwordBible::readBook(const int &id)
 
 QString SwordBible::readInfo(QFile &file)
 {
-
+    return "";
 }
 QString SwordBible::readInfo(const QString &fileName)
 {
-
+    return "";
 }
 
 void SwordBible::search(const SearchQuery &query, SearchResult *res) const
@@ -56,6 +56,7 @@ QString SwordBible::modulePath() const
 }
 QString SwordBible::moduleName(bool preferShortName) const
 {
+    return "";
     /*if(preferShortName) {
         if(!m_shortModuleName.isEmpty()) {
             return m_shortModuleName;
@@ -76,9 +77,11 @@ QString SwordBible::moduleName(bool preferShortName) const
   */
 QString SwordBible::indexPath() const
 {
+    return "";
     // return m_settings->homePath + "index/" + m_settings->hash(m_modulePath);
 }
 QString SwordBible::uid() const
 {
+    return "";
     //  return m_uID;
 }
