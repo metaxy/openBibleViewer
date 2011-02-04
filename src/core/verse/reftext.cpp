@@ -27,12 +27,12 @@ QString RefText::toString(const VerseUrl &url)
     foreach(const VerseUrlRange & range, url.ranges()) {
         if(!ret.isEmpty())
             ret += sep_next;
-        ret += toString(range.bibleID(), range.bookID(), range.chapterID(), range.startVerseID(), range.endVerseID());
+        ret += toString(range.moduleID(), range.bookID(), range.chapterID(), range.startVerseID(), range.endVerseID());
     }
     if(!url.ranges().isEmpty()) {
         const VerseUrlRange r = url.ranges().first();
         //todo: wir haben nicht immer einen short name
-        ret += " (" + m_settings->getModuleSettings(r.bibleID())->name(true) + ")";
+        ret += " (" + m_settings->getModuleSettings(r.moduleID())->name(true) + ")";
     }
     return ret;
 }

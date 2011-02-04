@@ -19,7 +19,7 @@ class VerseUrlRange
 public:
     VerseUrlRange();
     enum ModuleLoadParams {
-        LoadBibleByID,
+        LoadModuleByID,
         LoadCurrentModule,
         LoadModuleNotSet,
         LoadModuleByUID
@@ -57,15 +57,15 @@ public:
     void setModule(const QString &uid);
 
     /**
-     * If set bible() == LoadBibleByID then it is the id of bible
+     * If set module() == LoadModuleByID then it is the id of module
      * Else is not definied
      */
-    int bibleID() const;
+    int moduleID() const;
     /**
      * Returns how to load the bible
      */
-    ModuleLoadParams bible() const;
-    QString bibleUID() const;
+    ModuleLoadParams module() const;
+    QString moduleUID() const;
 
     void setBook(const int bookID);
     void setBook(const BookLoadParams &param);

@@ -172,8 +172,8 @@ void SimpleNotes::editNoteLink()
         connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateNote(QString)));
         passageDialog->setSettings(m_settings);
         passageDialog->setModuleManager(m_moduleManager);
-        passageDialog->setCurrent(urlConverter.url().ranges().first().bibleID(),
-                                  urlConverter.url().ranges().first().bibleUID(),
+        passageDialog->setCurrent(urlConverter.url().ranges().first().moduleID(),
+                                  urlConverter.url().ranges().first().moduleUID(),
                                   urlConverter.url().ranges().first().bookID(),
                                   urlConverter.url().ranges().first().chapterID() + 1,
                                   urlConverter.url().ranges().first().startVerseID() + 1);

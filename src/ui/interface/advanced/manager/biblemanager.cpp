@@ -63,9 +63,9 @@ Ranges BibleManager::bibleUrlRangeToRanges(VerseUrlRange range)
     Ranges ranges;
     Range r;
     //todo: currently we do not support real ranges but its ok
-    if(range.bible() == VerseUrlRange::LoadBibleByID) {
-        r.setModule(range.bibleID());
-    } else if(range.bible() == VerseUrlRange::LoadCurrentModule) {
+    if(range.module() == VerseUrlRange::LoadModuleByID) {
+        r.setModule(range.moduleID());
+    } else if(range.module() == VerseUrlRange::LoadCurrentModule) {
         if(m_moduleManager->bibleLoaded())
             r.setModule(m_moduleManager->verseModule()->moduleID());
     }

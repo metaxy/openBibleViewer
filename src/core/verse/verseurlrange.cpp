@@ -34,7 +34,7 @@ VerseUrlRange::VerseUrlRange()
 void VerseUrlRange::setModule(const int bibleID)
 {
     m_moduleID = bibleID;
-    m_moduleParam = VerseUrlRange::LoadBibleByID;
+    m_moduleParam = VerseUrlRange::LoadModuleByID;
 }
 
 void VerseUrlRange::setModule(const ModuleLoadParams &param)
@@ -46,15 +46,15 @@ void VerseUrlRange::setModule(const QString &bibleUID)
     m_moduleUID = bibleUID;
     m_moduleParam = VerseUrlRange::LoadModuleByUID;
 }
-int VerseUrlRange::bibleID() const
+int VerseUrlRange::moduleID() const
 {
     return m_moduleID;
 }
-VerseUrlRange::ModuleLoadParams VerseUrlRange::bible() const
+VerseUrlRange::ModuleLoadParams VerseUrlRange::module() const
 {
     return m_moduleParam;
 }
-QString VerseUrlRange::bibleUID() const
+QString VerseUrlRange::moduleUID() const
 {
     return m_moduleUID;
 }

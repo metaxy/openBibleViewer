@@ -77,7 +77,7 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
     if(newUrl.isValid()) {
         VerseUrlRange r = newUrl.ranges().first();
 
-        if(m_moduleManager->verseModule()->moduleID() == r.bibleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
+        if(m_moduleManager->verseModule()->moduleID() == r.moduleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
             m_actions->reloadChapter();
         }
     }
@@ -99,7 +99,7 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     if(newUrl.isValid()) {
         VerseUrlRange r = newUrl.ranges().first();
 
-        if(m_moduleManager->verseModule()->moduleID() == r.bibleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
+        if(m_moduleManager->verseModule()->moduleID() == r.moduleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
             m_actions->reloadChapter();
         }
     }

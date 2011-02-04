@@ -73,7 +73,7 @@ int UrlConverter2::moduleID() const
 {
     if(m_newUrl.ranges().isEmpty())
         return -1;
-    return m_newUrl.ranges().first().bibleID();
+    return m_newUrl.ranges().first().moduleID();
 }
 
 int UrlConverter2::bookID() const

@@ -47,9 +47,9 @@ VerseUrl UrlConverter::convert()
         //myDebug() << m_bibleUrl.toString();
         url.clearRanges();
         foreach(VerseUrlRange range, m_bibleUrl.ranges()) {
-            if(range.bible() == VerseUrlRange::LoadModuleByUID) {
+            if(range.module() == VerseUrlRange::LoadModuleByUID) {
                 foreach(Module * module, m_moduleMap->m_map) {
-                    if(m_settings->savableUrl(module->path()) == range.bibleUID())  {
+                    if(m_settings->savableUrl(module->path()) == range.moduleUID())  {
                         range.setModule(module->moduleID());
                         break;
                     }
@@ -68,8 +68,8 @@ VerseUrl UrlConverter::convert()
         QList<int> bookIDs;
 
         foreach(VerseUrlRange range, m_bibleUrl.ranges()) {
-            if(range.bible() == VerseUrlRange::LoadBibleByID && m_moduleMap->m_map.contains(range.bibleID())) {
-                range.setModule(m_settings->savableUrl(m_moduleMap->m_map.value(range.bibleID())->path()));
+            if(range.module() == VerseUrlRange::LoadModuleByID && m_moduleMap->m_map.contains(range.moduleID())) {
+                range.setModule(m_settings->savableUrl(m_moduleMap->m_map.value(range.moduleID())->path()));
             }
             url.addRange(range);
             bookIDs.append(range.bookID());
