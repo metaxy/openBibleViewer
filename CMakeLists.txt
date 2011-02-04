@@ -4,20 +4,31 @@ cmake_minimum_required( VERSION 2.6 )
 set ( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
 add_definitions ( -Wall -g)
 find_package ( Qt4 REQUIRED )
-include (FindThreads)
-include (FindZlib)
-#include (FindSword)
-#LINK_DIRECTORIES(
-  #  ${SWORD_LIBRARY_DIR}
-#)
-#if (NOT SWORD_NOT_FOUND)
-   # ADD_DEFINITIONS(-DBUILD_WITH_SWORD)
-#endif(NOT SWORD_NOT_FOUND)
 
 option( _PORTABLE_VERSION "Build a portable version" OFF )
-option( _SWORD_SUPPORT "Build with sword support" ON )
-#not using to STdWString triggers a bad bug on linux
+option( _SWORD_SUPPORT "Build with sword support" OFF )
+#not using "to STdWString" triggers a bad bug on linux
 option( _USE_WSTRING "Use toStdWString and fromWCharArray" ON)
+option( _BUILD_CLUCENE "Build own CLucene" ON )
+
+if(_SWORD_SUPPORT)
+    include (FindSword)
+    if (NOT SWORD_NOT_FOUND)
+        ADD_DEFINITIONS(-DBUILD_WITH_SWORD)
+    endif(NOT SWORD_NOT_FOUND)
+endif(_SWORD_SUPPORT)
+
+if(_BUILD_CLUCENE)
+    message("find threads and zlib")
+    include (FindThreads)
+    include (FindZlib)
+else(_BUILD_CLUCENE)
+#link against dynamic clucene >= 0.9.23
+    message("find shared libs of clucene")
+    SET(CLUCENE_SHARED_LIB "")
+    SET(CLUCENE_CORE_LIB "")
+endif(_BUILD_CLUCENE)
+
 
 if (NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE "RelWithDebInfo")
@@ -34,13 +45,23 @@ include_directories (
     ${QT_QTNETWORK_INCLUDE_DIR} 
     ${QT_QTWEBKIT_INCLUDE_DIR} 
     ${openBibleViewer_BINARY_DIR}/src
-    ${openBibleViewer_BINARY_DIR}/src/clucene/shared
-    ${openBibleViewer_SOURCE_DIR}/src/clucene/shared
-    ${openBibleViewer_SOURCE_DIR}/src/clucene/core
-    #${SWORD_INCLUDE_DIR}
     )
+if(_BUILD_CLUCENE)
+    message("add sub dir of clucene")
+    include_directories (
+        ${openBibleViewer_BINARY_DIR}/src/clucene/shared
+        ${openBibleViewer_SOURCE_DIR}/src/clucene/shared
+        ${openBibleViewer_SOURCE_DIR}/src/clucene/core
+    )
+    add_subdirectory ( src/clucene )
+endif(_BUILD_CLUCENE)
 
-add_subdirectory ( src/clucene )
+if(_SWORD_SUPPORT)
+    include_directories (
+        ${SWORD_INCLUDE_DIR}
+    )
+endif(_SWORD_SUPPORT)
+
 #Build openBibleViewer
 set ( openBibleViewer_HDRS
 
@@ -354,6 +375,17 @@ QT4_WRAP_UI(UIS ${openBibleViewer_UIS})
 
 
 add_executable ( openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS}  )
+if(_BUILD_CLUCENE)
+    set(CL_LIBS clucene-core-static clucene-shared-static ${ZLIB_LIBRARY})
+else (_BUILD_CLUCENE)
+    set(CL_LIBS ${CLUCENE_SHARED_LIB} ${CLUCENE_CORE_LIB})
+endif(_BUILD_CLUCENE)
+if(_SWORD_SUPPORT)
+    set(SW_LIBS ${CURL_LIBRARIES} ${ICU_LIBRARIES} ${ICU_I18N_LIBRARIES} ${ZLIB_LIBRARIES} ${SWORD_LIBRARY})
+else(_SWORD_SUPPORT)
+    set(SW_LIBS "")
+endif(_SWORD_SUPPORT)
+
 
 target_link_libraries ( openBibleViewer 
                         ${QT_QTCORE_LIBRARY} 
@@ -361,14 +393,8 @@ target_link_libraries ( openBibleViewer
                         ${QT_QTXML_LIBRARY} 
                         ${QT_QTNETWORK_LIBRARY} 
                         ${QT_QTWEBKIT_LIBRARY} 
-                        clucene-core-static 
-                        clucene-shared-static
-                        ${ZLIB_LIBRARY}
-                       # ${CURL_LIBRARIES} # optional, empty if not found
-                      #  ${ICU_LIBRARIES} # optional, empty if not found
-                      #  ${ICU_I18N_LIBRARIES} # optional, empty if not found
-                      ##  ${ZLIB_LIBRARIES} # optional, empty if not found
-                       # ${SWORD_LIBRARY}# optional, empty if not found
+                        ${CL_LIBS}
+                        ${SW_LIBS}
 )
 
 
