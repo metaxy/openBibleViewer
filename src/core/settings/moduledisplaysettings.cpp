@@ -64,3 +64,21 @@ bool ModuleDisplaySettings::showStrong()
 {
     return m_showStrong;
 }
+void ModuleDisplaySettings::setShowStudyNotes(bool showStudyNotes)
+{
+    m_showStudyNotes = showStudyNotes;
+}
+
+bool ModuleDisplaySettings::showStudyNotes()
+{
+    return m_showStudyNotes;
+}
+void ModuleDisplaySettings::setShowRefLinks(bool showRefLinks)
+{
+    m_showRefLinks = showRefLinks;
+}
+
+bool ModuleDisplaySettings::showRefLinks()
+{
+    return m_showRefLinks;
+}

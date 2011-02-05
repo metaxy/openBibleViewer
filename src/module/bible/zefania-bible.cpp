@@ -177,14 +177,14 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
             QDomNode node = n;
 
             QDomText t = node.firstChild().toText();
-            if(moduleSettings->zefbible_showStudyNote == true && element.attribute("type", "") == "x-studynote") {
+            if(moduleSettings->displaySettings()->showStudyNotes() == true && element.attribute("type", "") == "x-studynote") {
                 t.setData("<span class =\"studynote\">" + t.data() + "</span>");
             } else {
                 t.setData("");
             }
             node.replaceChild(t, node.firstChild());
             e->replaceChild(node, n);
-        } else if(moduleSettings->zefbible_showStrong == true && (n.nodeName().toLower() == "gram" || n.nodeName().toLower() == "gr") && element.attribute("str", "") != "") {
+        } else if(moduleSettings->displaySettings()->showStrong() == true && (n.nodeName().toLower() == "gram" || n.nodeName().toLower() == "gr") && element.attribute("str", "") != "") {
             QDomNode node = n;
             QDomText t = n.firstChild().toText();
             QString add;
@@ -197,7 +197,7 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
             t.setData(t.data() + "<span class=\"gramlink\"><a href=\"gram://" + add + element.attribute("str", "") + "\">" + add + element.attribute("str", "") + "</a></span>");
             node.replaceChild(t, node.firstChild());
             e->replaceChild(node, n);
-        } else if(n.nodeName().toLower() == "reflink") {
+        } else if(moduleSettings->displaySettings()->showRefLinks() && n.nodeName().toLower() == "reflink") {
             QDomNode node = n;
             QDomText t = n.firstChild().toText();
 

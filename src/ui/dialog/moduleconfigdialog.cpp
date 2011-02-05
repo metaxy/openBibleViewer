@@ -54,15 +54,6 @@ void ModuleConfigDialog::setModule(ModuleSettings *config)
     else
         m_ui->checkBox_softCache->setChecked(false);
 
-    if(config->zefbible_showStrong == true)
-        m_ui->checkBox_showStrong->setChecked(true);
-    else
-        m_ui->checkBox_showStrong->setChecked(false);
-
-    if(config->zefbible_showStudyNote == true)
-        m_ui->checkBox_showStudyNote->setChecked(true);
-    else
-        m_ui->checkBox_showStudyNote->setChecked(false);
     m_encodings << "Default" << "Apple Roman" << "Big5" << "Big5-HKSCS" << "EUC-JP" << "EUC-KR" << "GB18030-0" << "IBM 850"
                 << "IBM 866" << "IBM 874" << "ISO 2022-JP" << "ISO 8859-1" << "ISO 8859-2" << "ISO 8859-3" << "ISO 8859-4"
                 << "ISO 8859-5" << "ISO 8859-6" << "ISO 8859-7" << "ISO 8859-8" << "ISO 8859-9" << "ISO 8859-10"
@@ -103,8 +94,6 @@ void ModuleConfigDialog::bsave()
     m_moduleSettings->biblequote_removeHtml = m_ui->checkBox_removeHtml->isChecked();
     m_moduleSettings->zefbible_hardCache =  m_ui->checkBox_hardCache->isChecked();
     m_moduleSettings->zefbible_softCache =  m_ui->checkBox_softCache->isChecked();
-    m_moduleSettings->zefbible_showStrong =  m_ui->checkBox_showStrong->isChecked();
-    m_moduleSettings->zefbible_showStudyNote =  m_ui->checkBox_showStudyNote->isChecked();
     m_moduleSettings->encoding = m_encodings.at(m_ui->comboBox_encoding->currentIndex());
     m_moduleSettings->styleSheet = m_ui->lineEdit_styleSheet->text();
     //todo:if path type or encoding changed clear cache

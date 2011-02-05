@@ -12,12 +12,19 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "reftext.h"
+//Heb{sep_book_chapter} 1:2
 const QString sep_book_chaper = " ";
-const QString sep_chapter_verse = " ";
+//Heb 1{sep_chapter_verse}2
+const QString sep_chapter_verse = ":";
+//Heb 1:2{sep_two_verse}3
 const QString sep_two_verse = ".";
+//Heb 1:2{sep_verse_range}19
 const QString sep_verse_range = "-";
+//Heb 1:2-19{sep_next}Joh 1:12
 const QString sep_next = " ";
-const QString sep_prev = "";
+//Heb 1:2-19 {sep_same_book}2:18
+const QString sep_same_book = "";
+
 RefText::RefText()
 {
     m_showModuleName = true;
@@ -39,7 +46,6 @@ QString RefText::toString(const VerseUrl &url)
     }
     if(!url.ranges().isEmpty()) {
         const VerseUrlRange r = url.ranges().first();
-        //todo: wir haben nicht immer einen short name
         ret += " (" + m_settings->getModuleSettings(r.moduleID())->name(true) + ")";
     }
     return ret;
@@ -56,7 +62,6 @@ QString RefText::toString(const Ranges &ranges)
     }
     if(!ranges.getList().isEmpty()) {
         const Range r = ranges.getList().first();
-        //todo: wir haben nicht immer einen short name
         ret += " (" + m_settings->getModuleSettings(r.moduleID())->name(true) + ")";
     }
     return ret;
@@ -72,7 +77,7 @@ QString RefText::toString(int moduleID, int bookID, int chapterID, int startVers
         ret += m_settings->getModuleSettings(moduleID)->v11n->bookName(bookID, true) + sep_book_chaper +
            QString::number(chapterID + 1);
     } else {
-        ret += String::number(chapterID + 1);
+        ret += sep_same_book + QString::number(chapterID + 1);
     }
     if(startVerseID == endVerseID) {
         ret += sep_chapter_verse + QString::number(startVerseID + 1);

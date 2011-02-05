@@ -44,6 +44,12 @@ public:
     void setShowStrong(bool showStrong);
     bool showStrong();
 
+    void setShowStudyNotes(bool showStudyNotes);
+    bool showStudyNotes();
+
+    void setShowRefLinks(bool showRefLinks);
+    bool showRefLinks();
+
 private:
     bool m_loadNotes;
     bool m_showMarks;
@@ -51,6 +57,7 @@ private:
     bool m_showStudyNotes;
     bool m_showBottomToolBar;
     bool m_showStrong;
+    bool m_showRefLinks;
 
 };
 

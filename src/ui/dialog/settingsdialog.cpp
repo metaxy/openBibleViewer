@@ -202,8 +202,6 @@ void SettingsDialog::addModuleDir(void)
                 m->zefbible_hardCache = m_set.zefaniaBible_hardCache;
                 m->zefbible_softCache = m_set.zefaniaBible_softCache;
                 //m->zefbible_textFormatting = m_set.textFormatting;
-                m->zefbible_showStrong = true;
-                m->zefbible_showStudyNote = true;
                 m->encoding = "Default";//no translating
                 m->parentID = -1;
                 m_set.m_moduleSettings.insert(m->moduleID, m);
@@ -415,8 +413,6 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
     m->zefbible_hardCache = m_set.zefaniaBible_hardCache;
     m->zefbible_softCache = m_set.zefaniaBible_softCache;
     //m->zefbible_textFormatting = m_set.textFormatting;
-    m->zefbible_showStrong = true;
-    m->zefbible_showStudyNote = true;
     m->encoding = "Default";//no translating
     m->parentID = parentID;
 
