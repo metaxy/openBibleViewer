@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "modulemanager.h"
-
+#include "src/core/verse/reftext.h"
 ModuleManager::ModuleManager()
 {
 
@@ -21,7 +21,7 @@ ModuleManager::ModuleManager()
 }
 ModuleManager::~ModuleManager()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     delete m_moduleMap;
 
     if(m_dictionary != NULL)
@@ -44,7 +44,7 @@ void ModuleManager::setmoduledisplaysettings(ModuleDisplaySettings *moduledispla
 
 
 /**
-  Load all Modules, and generate a QStandardItemModel.
+  * Load all Modules, and generate a QStandardItemModel.
   */
 int ModuleManager::loadAllModules()
 {
@@ -158,7 +158,7 @@ Dictionary* ModuleManager::dictionary()
 }
 
 /**
-  Converts a persistent url to a link.
+  * Converts a persistent url to a link.
   */
 QString ModuleManager::notePos2Link(const QString &pos)
 {
@@ -169,10 +169,10 @@ QString ModuleManager::notePos2Link(const QString &pos)
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleMap);
     VerseUrl newUrl = urlConverter.convert();
-    const QString string = url.getParam("b0") + " " + QString::number(newUrl.ranges().first().chapterID() + 1) + ":" + QString::number(newUrl.ranges().first().startVerseID() + 1);
-
+    RefText refText;
+    refText.setSettings(m_settings);
     const QString link = newUrl.toString();
-    return "<a href=\"" + link + "\" >" + string + "</a>";
+    return "<a href=\"" + link + "\">" + refText.toString(newUrl) + "</a>";
 }
 QString ModuleManager::notePos2Text(const QString &pos)
 {
@@ -182,7 +182,10 @@ QString ModuleManager::notePos2Text(const QString &pos)
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleMap);
     VerseUrl newUrl = urlConverter.convert();
-    const QString string = url.getParam("b0") + " " + QString::number(newUrl.ranges().first().chapterID() + 1) + ":" + QString::number(newUrl.ranges().first().startVerseID() + 1);
+    RefText refText;
+    refText.setSettings(m_settings);
+
+    const QString string = refText.toString(newUrl);
     return string;
 }
 QStringList ModuleManager::getBibleTitles()
@@ -244,7 +247,6 @@ VerseModule * ModuleManager::newVerseModule(const int &moduleID, QPoint p)
         initVerseModule(m);
     } else {
         //todo: support for other VerseModules
-
         if(getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
             m = new Bible();
             initVerseModule(m);

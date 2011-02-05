@@ -24,7 +24,6 @@ Module::~Module()
 {
 }
 
-
 void Module::setSettings(Settings *settings)
 {
     m_settings = settings;

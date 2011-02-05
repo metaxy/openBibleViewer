@@ -19,6 +19,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/dictionary/zefania-lex.h"
 #include "src/module/bible/biblemodule.h"
 #include "src/core/obvcore.h"
+/**
+  * Module is represents a module. Every avaible module has such a class.
+  * But m_bibleModule, m_zefaniaLex can be NULL. They are loaded only if needed.
+  * That means every module with a moduleID is represented by a instance of Module.
+  * But all the visible modules in the windows or tabs links only to one of that instances.
+  */
 class Module
 {
 public:

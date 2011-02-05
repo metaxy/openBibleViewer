@@ -21,6 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 /**
   * It is an abstract class for classes like bible or dictionary, which are meta modules.
   * They contains other similiar modules to provide an simple access to them.
+  * These are not the real modules, they only link to the real modules.
   */
 
 class SimpleModuleClass
@@ -36,7 +37,6 @@ public:
     void setModuleMap(ModuleMap *map);
     int moduleID() const;
     void setModuleID(const int &moduleID);
-
 
     virtual QString moduleTitle() const;
     virtual QString moduleShortTitle() const;
