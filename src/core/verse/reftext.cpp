@@ -17,17 +17,25 @@ const QString sep_chapter_verse = " ";
 const QString sep_two_verse = ".";
 const QString sep_verse_range = "-";
 const QString sep_next = " ";
+const QString sep_prev = "";
 RefText::RefText()
 {
     m_showModuleName = true;
 }
+void RefText::setSettings(Settings *settings)
+{
+    m_settings = settings;
+}
+
 QString RefText::toString(const VerseUrl &url)
 {
     QString ret = "";
+    int prevBook = -2;
     foreach(const VerseUrlRange & range, url.ranges()) {
         if(!ret.isEmpty())
             ret += sep_next;
-        ret += toString(range.moduleID(), range.bookID(), range.chapterID(), range.startVerseID(), range.endVerseID());
+        ret += toString(range.moduleID(), range.bookID(), range.chapterID(), range.startVerseID(), range.endVerseID(), prevBook);
+        prevBook = range.bookID();
     }
     if(!url.ranges().isEmpty()) {
         const VerseUrlRange r = url.ranges().first();
@@ -39,10 +47,12 @@ QString RefText::toString(const VerseUrl &url)
 QString RefText::toString(const Ranges &ranges)
 {
     QString ret = "";
+    int prevBook = -2;
     foreach(const Range & range, ranges.getList()) {
         if(!ret.isEmpty())
             ret += sep_next;
-        ret += toString(range.moduleID(), range.bookID(), range.chapterID(), range.startVerseID(), range.endVerseID());
+        ret += toString(range.moduleID(), range.bookID(), range.chapterID(), range.startVerseID(), range.endVerseID(), prevBook);
+        prevBook = range.bookID();
     }
     if(!ranges.getList().isEmpty()) {
         const Range r = ranges.getList().first();
@@ -55,11 +65,15 @@ void RefText::setShowModuleName(bool show)
 {
     m_showModuleName = show;
 }
-QString RefText::toString(int moduleID, int bookID, int chapterID, int startVerseID, int endVerseID)
+QString RefText::toString(int moduleID, int bookID, int chapterID, int startVerseID, int endVerseID, int prevBook)
 {
     QString ret;
-    ret += m_settings->getModuleSettings(moduleID)->v11n->bookName(bookID) + sep_book_chaper +
+    if(bookID != prevBook) {
+        ret += m_settings->getModuleSettings(moduleID)->v11n->bookName(bookID, true) + sep_book_chaper +
            QString::number(chapterID + 1);
+    } else {
+        ret += String::number(chapterID + 1);
+    }
     if(startVerseID == endVerseID) {
         ret += sep_chapter_verse + QString::number(startVerseID + 1);
     } else if(startVerseID + 1 == endVerseID) {

@@ -731,7 +731,7 @@ void BibleForm::copyWholeVerse(void)
         doc2.setHtml(stext);
         stext = doc2.toPlainText();
         RefText refText;
-        setAll(&refText);
+        refText.setSettings(m_settings);
         //todo: new line on windows
         const QString text = refText.toString(ranges) + "\n" + stext;
         QClipboard *clipboard = QApplication::clipboard();

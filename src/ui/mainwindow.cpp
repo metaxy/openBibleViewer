@@ -274,8 +274,6 @@ void MainWindow::loadSettings()
         m->zefbible_textFormatting = (ModuleSettings::ZefBible_TextFormating) m_settingsFile->value("textFormatting").toInt();
         m->zefbible_hardCache = m_settingsFile->value("hardCache", true).toBool();
         m->zefbible_softCache = m_settingsFile->value("softCache", true).toBool();
-        m->zefbible_showStrong = m_settingsFile->value("showStrong", true).toBool();
-        m->zefbible_showStudyNote = m_settingsFile->value("showStudyNote", true).toBool();
 
         m->biblequote_removeHtml = m_settingsFile->value("removeHtml", true).toInt();
 
@@ -357,8 +355,6 @@ void MainWindow::writeSettings()
         m_settingsFile->setValue("removeHtml", m->biblequote_removeHtml);
         m_settingsFile->setValue("hardCache", m->zefbible_hardCache);
         m_settingsFile->setValue("softCache", m->zefbible_softCache);
-        m_settingsFile->setValue("showStrong", m->zefbible_showStrong);
-        m_settingsFile->setValue("showStudyNote", m->zefbible_showStudyNote);
         m_settingsFile->setValue("encoding", m->encoding);
         m_settingsFile->setValue("styleSheet", m_settings->savableUrl(m->styleSheet));
         m_settingsFile->setValue("versificationFile", m_settings->savableUrl(m->versificationFile));

@@ -12,6 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "zefania-bible.h"
+#include "src/core/verse/reftext.h"
 #include "config.h"
 #include "CLucene.h"
 #include "CLucene/_clucene-config.h"
@@ -215,13 +216,9 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
             range.setActiveVerse(verseID);
             VerseUrl burl(range);
 
-            QString name;
-            if(bookID < m_settings->defaultVersification->bookNames(Versification::ReturnAll).size()) {
-                name = m_settings->defaultVersification->bookNames(Versification::ReturnAll).value(bookID) + " " + list.at(1) + "," + list.at(2);
-            } else {
-                name = list.at(0) + " " + list.at(1) + "," + list.at(2);
-            }
-            t.setData("<span class=\"crossreference\"><a class=\"reflink\" href=\"" + burl.toString() + "\">" + name + "</a></span>");
+            RefText refText;
+            refText.setSettings(m_settings);
+            t.setData("<span class=\"crossreference\"><a class=\"reflink\" href=\"" + burl.toString() + "\">" + refText.toString(burl) + "</a></span>");
             node.replaceChild(t, node.firstChild());
             e->replaceChild(node, n);
         }

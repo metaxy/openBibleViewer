@@ -12,6 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "zefania-lex.h"
+#include "src/core/verse/reftext.h"
 #include "config.h"
 #include "CLucene.h"
 #include "CLucene/_clucene-config.h"
@@ -176,6 +177,9 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
     QDir dir("/");
     dir.mkpath(index);
 
+    RefText refText;
+    refText.setSettings(m_settings);
+
     IndexWriter* writer = NULL;
     const TCHAR* stop_words[] = { NULL };
     standard::StandardAnalyzer an(stop_words);
@@ -243,16 +247,7 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                                 burl.addRange(range);
                                 const QString url = burl.toString();
 
-
-                                QString name;
-                                if(bookID < m_settings->defaultVersification->bookNames(Versification::ReturnAll).size()) {
-                                    name = m_settings->defaultVersification->bookNames(Versification::ReturnAll).value(bookID);
-                                } else {
-                                    name = list.at(0);
-                                }
-                                name += " " + list.at(1) + "," + list.at(2);
-
-                                desc += " <a href=\"" + url + "\">" + name + "</a> ";
+                                desc += " <a href=\"" + url + "\">" + refText.toString(burl) + "</a> ";
                             }
                         }
                         descNode = descNode.nextSibling();

@@ -13,20 +13,20 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef REFTEXT_H
 #define REFTEXT_H
-#include "src/core/basicclass.h"
+#include "src/core/settings/settings.h"
 #include "src/core/verse/verseurl.h"
-class RefText : public BasicClass
+class RefText
 {
 public:
     RefText();
+    void setSettings(Settings *settings);
     void setShowModuleName(bool show);
     QString toString(const VerseUrl &url);
-
-
     QString toString(const Ranges &ranges);
 private:
     bool m_showModuleName;
-    QString toString(int moduleID, int bookID, int chapterID, int startVerseID, int endVerseID);
+    QString toString(int moduleID, int bookID, int chapterID, int startVerseID, int endVerseID, int prevBook);
+    Settings *m_settings;
 };
 
 #endif // REFTEXT_H

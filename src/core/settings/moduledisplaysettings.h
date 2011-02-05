@@ -48,6 +48,7 @@ private:
     bool m_loadNotes;
     bool m_showMarks;
     bool m_showNotes;
+    bool m_showStudyNotes;
     bool m_showBottomToolBar;
     bool m_showStrong;
 
