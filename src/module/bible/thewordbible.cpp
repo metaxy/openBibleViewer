@@ -68,6 +68,7 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
     currentChapter->setChapterID(chapter);
     const int linesToSkip = 31102;//see spec
     bool readingVerse = true;
+    ModuleDisplaySettings *displaySettings = m_settings->getModuleSettings(m_moduleID)->displaySettings();
     for(int lineCount = 0; !in.atEnd(); lineCount++) {
         QString line = in.readLine();
         if(lineCount >= linesToSkip || line.isEmpty()) {
@@ -76,7 +77,11 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
         if(readingVerse) {
             QRegExp strong("<W(G|H)(\\d+)(x|s)?>");
             QRegExp newLine("<CL>");
-            line.replace(strong, "<span class=\"gramlink\"><a href=\"gram://\\1\\2\">\\1\\2</a></span>");
+            if(displaySettings->showStrong())
+                line.replace(strong, "<span class=\"gramlink\"><a href=\"gram://\\1\\2\">\\1\\2</a></span>");
+            else
+                line.replace(strong, "");
+
             line.replace(newLine, "<br />");
             Verse v(verse, line);
             currentChapter->addVerse(verse, v);
