@@ -263,6 +263,8 @@ void MainWindow::loadSettings()
         m_settingsFile->setArrayIndex(i);
         ModuleSettings *m = new ModuleSettings();
         m->moduleID = m_settingsFile->value("id").toInt();
+        if(m->moduleID == -1)
+            continue;
         m->moduleName = m_settingsFile->value("name").toString();
         m->moduleShortName = m_settingsFile->value("shortName").toString();
 
@@ -279,32 +281,76 @@ void MainWindow::loadSettings()
 
         m->styleSheet = m_settings->recoverUrl(m_settingsFile->value("styleSheet", ":/data/css/default.css").toString());
 
-        m->versificationFile = m_settings->recoverUrl(m_settingsFile->value("versificationFile").toString());
-        m->versificationName = m_settingsFile->value("versificationName").toString();
-        m->useParentsSettings = m_settingsFile->value("useParentsSettings").toBool();
+        m->versificationFile = m_settings->recoverUrl(m_settingsFile->value("versificationFile", "").toString());
+        m->versificationName = m_settingsFile->value("versificationName", "").toString();
+        m->useParentSettings = m_settingsFile->value("useParentSettings", false).toBool();
 
         m->parentID = m_settingsFile->value("parentID").toInt();
+        ModuleDisplaySettings *displaySettings = new ModuleDisplaySettings();
+        displaySettings->setShowStudyNotes(m_settingsFile->value("showStudyNotes", true).toBool());
+        displaySettings->setShowStrong(m_settingsFile->value("showStrong", true).toBool());
+        displaySettings->setShowRefLinks(m_settingsFile->value("showRefLinks", false).toBool());
+        displaySettings->setShowNotes(m_settingsFile->value("showNotes", true).toBool());
+        displaySettings->setShowMarks(m_settingsFile->value("showMarks", true).toBool());
+        displaySettings->setShowBottomToolBar(m_settingsFile->value("showBottomToolBar", true).toBool());
+        m->setDisplaySettings(displaySettings);
+
         m_settings->m_moduleSettings.insert(m->moduleID, m);
     }
     ModuleSettings *root = new ModuleSettings();
     root->moduleID = -1;
     root->parentID = -2;
-    QHashIterator<int, ModuleSettings*> it2(m_settings->m_moduleSettings);
-    while(it2.hasNext())  {
-        it2.next();
-        ModuleSettings *child = it2.value();
-        const int parentID = child->parentID;
-        if(parentID == -1) {
-            root->appendChild(child);
-            child->setParent(root);
-        } else if(m_settings->m_moduleSettings.contains(parentID)) {
-            ModuleSettings *r = m_settings->m_moduleSettings.value(parentID);
-            r->appendChild(child);
-            child->setParent(r);
+    //set parents
+    {
+        QHashIterator<int, ModuleSettings*> it2(m_settings->m_moduleSettings);
+        while(it2.hasNext())  {
+            it2.next();
+            ModuleSettings *child = it2.value();
+            const int parentID = child->parentID;
+            if(parentID == -1) {
+                root->appendChild(child);
+                child->setParent(root);
+            } else if(m_settings->m_moduleSettings.contains(parentID)) {
+                ModuleSettings *r = m_settings->m_moduleSettings.value(parentID);
+                r->appendChild(child);
+                child->setParent(r);
+            }
+        }
+        ModuleDisplaySettings *displaySettings = new ModuleDisplaySettings();
+        displaySettings->setShowStudyNotes(true);
+        displaySettings->setShowStrong(true);
+        displaySettings->setShowRefLinks(false);
+        displaySettings->setShowNotes(true);
+        displaySettings->setShowMarks(true);
+        displaySettings->setShowBottomToolBar(true);
+        root->setDisplaySettings(displaySettings);
+
+        m_settings->m_moduleSettings.insert(-1, root);
+    }
+
+    //use parent settings display
+    {
+        QHashIterator<int, ModuleSettings*> it2(m_settings->m_moduleSettings);
+        while(it2.hasNext())  {
+            it2.next();
+            ModuleSettings *child = it2.value();
+
+            if(child->useParentSettings) {
+                const int parentID = child->parentID;
+               /* if(parentID == -1) {
+                    //child->removeDisplaySettings();
+                    //set default
+                } else */if(m_settings->m_moduleSettings.contains(parentID)) {
+                    //todo: !!check no one is using parent settings
+                    //child->removeDisplaySettings();
+                    //ModuleSettings *r = m_settings->m_moduleSettings.value(parentID);
+                    //child->setDisplaySettings(r->displaySettings());
+                }
+            }
         }
     }
 
-    m_settings->m_moduleSettings.insert(-1, root);
+
 
     m_settingsFile->endArray();
     m_settings->sessionID = m_settingsFile->value("general/lastSession", "0").toString();
@@ -344,7 +390,8 @@ void MainWindow::writeSettings()
         it.next();
         m_settingsFile->setArrayIndex(i);
         ModuleSettings *m = it.value();
-
+        if(m->moduleID == -1)
+            continue;
         m_settingsFile->setValue("id", m->moduleID);
         m_settingsFile->setValue("name", m->moduleName);
         m_settingsFile->setValue("shortName", m->moduleShortName);
@@ -359,8 +406,26 @@ void MainWindow::writeSettings()
         m_settingsFile->setValue("styleSheet", m_settings->savableUrl(m->styleSheet));
         m_settingsFile->setValue("versificationFile", m_settings->savableUrl(m->versificationFile));
         m_settingsFile->setValue("versificationName", m->versificationName);
-        m_settingsFile->setValue("useParentsSettings", m->useParentsSettings);
+        m_settingsFile->setValue("useParentSettings", m->useParentSettings);
         m_settingsFile->setValue("parentID", m->parentID);
+        if(!m->useParentSettings) {
+            ModuleDisplaySettings *displaySettings = m->displaySettings();
+            if(displaySettings != NULL) {
+                m_settingsFile->setValue("showStudyNotes", displaySettings->showStudyNotes());
+                m_settingsFile->setValue("showStrong", displaySettings->showStrong());
+                m_settingsFile->setValue("showRefLinks", displaySettings->showRefLinks());
+                m_settingsFile->setValue("showNotes", displaySettings->showNotes());
+                m_settingsFile->setValue("showMarks", displaySettings->showMarks());
+                m_settingsFile->setValue("showBottomToolBar", displaySettings->showBottomToolBar());
+            }
+        } else {
+            m_settingsFile->remove("showStudyNotes");
+            m_settingsFile->remove("showStrong");
+            m_settingsFile->remove("showRefLinks");
+            m_settingsFile->remove("showNotes");
+            m_settingsFile->remove("showMarks");
+            m_settingsFile->remove("showBottomToolBar");
+        }
 
     }
 

@@ -45,6 +45,7 @@ private slots:
     void bsave();
     void moduleTypeChanged(int id);
     void fileSelect();
+    void useParentsSettingsChanged(int newState);
 private:
     Ui::ModuleConfigDialog *m_ui;
     ModuleSettings *m_moduleSettings;

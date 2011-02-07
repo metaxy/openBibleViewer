@@ -39,6 +39,7 @@ public:
 
     ModuleDisplaySettings *displaySettings() const;
     void setDisplaySettings(ModuleDisplaySettings *settings);
+    void removeDisplaySettings();
 
     QList<ModuleSettings *> children() const;
     void appendChild(ModuleSettings* child);
@@ -53,7 +54,7 @@ public:
     OBVCore::ModuleType moduleType;
 
     QString encoding;
-    bool useParentsSettings;
+    bool useParentSettings;
 
     enum ZefBible_TextFormating {
         NewLine = 0,//Neue Zeile nach Vers

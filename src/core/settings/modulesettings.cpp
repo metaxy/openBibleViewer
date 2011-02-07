@@ -16,11 +16,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 ModuleSettings::ModuleSettings()
 {
     v11n = NULL;
+    m_displaySettings = NULL;
+
 }
 ModuleSettings::ModuleSettings(ModuleSettings *parent)
 {
     v11n = NULL;
     m_parent = parent;
+    m_displaySettings = NULL;
 }
 ModuleSettings::~ModuleSettings()
 {
@@ -145,4 +148,12 @@ ModuleDisplaySettings *ModuleSettings::displaySettings() const
 void ModuleSettings::setDisplaySettings(ModuleDisplaySettings *settings)
 {
     m_displaySettings = settings;
+}
+void ModuleSettings::removeDisplaySettings()
+{
+    if(m_displaySettings != NULL) {
+        delete m_displaySettings;
+        m_displaySettings = NULL;
+    }
+
 }

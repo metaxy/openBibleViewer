@@ -61,7 +61,6 @@ int ModuleManager::loadAllModules()
         foreach(ModuleSettings * s, rootModuleSettings->children()) {
             loadModule(root, s);
         }
-
         ModuleModel model;
         model.setSettings(m_settings);
         model.generate();

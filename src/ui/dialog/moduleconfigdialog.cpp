@@ -24,6 +24,7 @@ ModuleConfigDialog::ModuleConfigDialog(QWidget *parent) :
     connect(m_ui->pushButton_cancel, SIGNAL(clicked()), this, SLOT(close()));
     connect(m_ui->toolButton_file, SIGNAL(clicked()), this, SLOT(fileSelect()));
     connect(m_ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this, SLOT(moduleTypeChanged(int)));
+    connect(m_ui->checkBox_useParentSettings, SIGNAL(stateChanged(int)), this, SLOT(useParentsSettingsChanged(int)));
     m_ui->comboBox_type->insertItems(0, Module::moduleTypeNames());
 }
 
@@ -70,6 +71,19 @@ void ModuleConfigDialog::setModule(ModuleSettings *config)
     } else {
         m_ui->comboBox_encoding->setCurrentIndex(0);
     }
+    if(config->useParentSettings) {
+        m_ui->checkBox_useParentSettings->setCheckState(Qt::Checked);
+    } else {
+        m_ui->checkBox_useParentSettings->setCheckState(Qt::Unchecked);
+    }
+    useParentsSettingsChanged(m_ui->checkBox_useParentSettings->checkState());
+
+    m_ui->checkBox_showBottomToolbar->setChecked(config->displaySettings()->showBottomToolBar());
+    m_ui->checkBox_showMarks->setChecked(config->displaySettings()->showMarks());
+    m_ui->checkBox_showNotes->setChecked(config->displaySettings()->showNotes());
+    m_ui->checkBox_showRefLinks->setChecked(config->displaySettings()->showRefLinks());
+    m_ui->checkBox_showStrong->setChecked(config->displaySettings()->showStrong());
+    m_ui->checkBox_showStudyNotes->setChecked(config->displaySettings()->showStudyNotes());
 
     m_ui->lineEdit_styleSheet->setText(config->styleSheet);
 }
@@ -93,10 +107,21 @@ void ModuleConfigDialog::bsave()
     m_moduleSettings->moduleType = (OBVCore::ModuleType) m_ui->comboBox_type->currentIndex();
     m_moduleSettings->zefbible_textFormatting = (ModuleSettings::ZefBible_TextFormating) m_ui->comboBox_textFromatting->currentIndex();
     m_moduleSettings->biblequote_removeHtml = m_ui->checkBox_removeHtml->isChecked();
-    m_moduleSettings->zefbible_hardCache =  m_ui->checkBox_hardCache->isChecked();
-    m_moduleSettings->zefbible_softCache =  m_ui->checkBox_softCache->isChecked();
+    m_moduleSettings->zefbible_hardCache = m_ui->checkBox_hardCache->isChecked();
+    m_moduleSettings->zefbible_softCache = m_ui->checkBox_softCache->isChecked();
     m_moduleSettings->encoding = m_encodings.at(m_ui->comboBox_encoding->currentIndex());
     m_moduleSettings->styleSheet = m_ui->lineEdit_styleSheet->text();
+
+    m_moduleSettings->useParentSettings = m_ui->checkBox_useParentSettings->isChecked();
+    if(!m_moduleSettings->useParentSettings) {
+        m_moduleSettings->displaySettings()->setShowBottomToolBar(m_ui->checkBox_showBottomToolbar->isChecked());
+        m_moduleSettings->displaySettings()->setShowMarks(m_ui->checkBox_showMarks->isChecked());
+        m_moduleSettings->displaySettings()->setShowNotes(m_ui->checkBox_showNotes->isChecked());
+        m_moduleSettings->displaySettings()->setShowRefLinks(m_ui->checkBox_showRefLinks->isChecked());
+        m_moduleSettings->displaySettings()->setShowStrong(m_ui->checkBox_showStrong->isChecked());
+        m_moduleSettings->displaySettings()->setShowStudyNotes(m_ui->checkBox_showStudyNotes->isChecked());
+    }
+
     //todo:if path type or encoding changed clear cache
     emit save(m_moduleSettings);
 }
@@ -115,7 +140,7 @@ void ModuleConfigDialog::moduleTypeChanged(int id)
 
     }
 }
-void  ModuleConfigDialog::fileSelect()
+void ModuleConfigDialog::fileSelect()
 {
     /*if(m_moduleSettings->isDir) {
         QFileDialog dialog(this);
@@ -135,6 +160,15 @@ void  ModuleConfigDialog::fileSelect()
     /* }*/
     return;
 }
+void ModuleConfigDialog::useParentsSettingsChanged(int newState)
+{
+    if(newState == Qt::Unchecked) {
+        m_ui->frame_display->setDisabled(false);
+    } else {
+        m_ui->frame_display->setDisabled(true);
+    }
+}
+
 void ModuleConfigDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
