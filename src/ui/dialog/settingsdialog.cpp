@@ -266,7 +266,7 @@ void SettingsDialog::editModule()
 
 void SettingsDialog::save(void)
 {
-    //Informationen aus dem Dialog auslesen
+    //save settings
     m_set.encoding = m_encodings.at(m_ui->comboBox_encoding->currentIndex());
     m_set.language = m_langCode.at(m_ui->comboBox_language->currentIndex());
     m_set.autoLayout = (Settings::LayoutEnum) m_ui->comboBox_autoLayout->currentIndex();

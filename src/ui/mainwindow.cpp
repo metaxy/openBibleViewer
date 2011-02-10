@@ -46,6 +46,7 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
     BUILD =  "2010-11-8";
     m_homeDataPath = homeDataPath;
     m_settingsFile = settingsFile;
+    //create some important folders
     QDir d(m_homeDataPath);
     d.mkpath(m_homeDataPath + "index");
     d.mkpath(m_homeDataPath + "cache");
