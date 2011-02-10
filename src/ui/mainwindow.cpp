@@ -337,20 +337,15 @@ void MainWindow::loadSettings()
 
             if(child->useParentSettings) {
                 const int parentID = child->parentID;
-               /* if(parentID == -1) {
-                    //child->removeDisplaySettings();
-                    //set default
-                } else */if(m_settings->m_moduleSettings.contains(parentID)) {
-                    //todo: !!check no one is using parent settings
-                    //child->removeDisplaySettings();
-                    //ModuleSettings *r = m_settings->m_moduleSettings.value(parentID);
-                    //child->setDisplaySettings(r->displaySettings());
+                if(m_settings->m_moduleSettings.contains(parentID)) {
+                    child->removeDisplaySettings();
+                    ModuleSettings *r = m_settings->m_moduleSettings.value(parentID);
+                    makeSureItHasLoaded(r);
+                    child->setDisplaySettings(r->displaySettings());
                 }
             }
         }
     }
-
-
 
     m_settingsFile->endArray();
     m_settings->sessionID = m_settingsFile->value("general/lastSession", "0").toString();
@@ -373,6 +368,17 @@ void MainWindow::loadSettings()
     m_settingsFile->endArray();
 
 }
+void MainWindow::makeSureItHasLoaded(ModuleSettings *settings)
+{
+    if(settings->useParentSettings) {
+        const int parentID = settings->parentID;
+        settings->removeDisplaySettings();
+        ModuleSettings *r = m_settings->m_moduleSettings.value(parentID);
+        makeSureItHasLoaded(settings);
+        settings->setDisplaySettings(r->displaySettings());
+    }
+}
+
 void MainWindow::writeSettings()
 {
     m_settingsFile->setValue("general/version", m_settings->version);
