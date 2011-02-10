@@ -35,8 +35,8 @@ ModuleSettings::~ModuleSettings()
 
 void ModuleSettings::loadVersification()
 {
-    DEBUG_FUNC_NAME;
-    myDebug() << "versifiction name = " << versificationName << " versification file" << versificationFile;
+    //DEBUG_FUNC_NAME;
+    //myDebug() << "versifiction name = " << versificationName << " versification file" << versificationFile;
     if(versificationName == "kjv") {
         v11n = new Versification_KJV();
         v11n->setFlags(Versification::ReturnAll);
@@ -49,7 +49,7 @@ void ModuleSettings::loadVersification()
     } else {
         QSettings settings(versificationFile, QSettings::IniFormat);
         const QStringList books = settings.childGroups();
-        myDebug() << books;
+        //myDebug() << books;
         if(books.isEmpty())
             return;
         QMap<int, BookV11N> map;
@@ -73,16 +73,14 @@ void ModuleSettings::loadVersification()
             map.insert(bookID, v);
             settings.endGroup();
         }
-
         v11n = new Versification_Cache(map);
     }
 }
 void ModuleSettings::saveVersification()
 {
-    DEBUG_FUNC_NAME;
-
+    //DEBUG_FUNC_NAME;
     if(versificationFile != "") {
-        myDebug() << versificationFile;
+        //myDebug() << versificationFile;
         QSettings settings(versificationFile, QSettings::IniFormat);
         if(v11n == NULL)
             return;

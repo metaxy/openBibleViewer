@@ -54,7 +54,7 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
         m_settings->getModuleSettings(id)->versificationName = "kjv-ot";
         flags = Versification::ReturnOT;
     } else if(path.endsWith(".ont")) {
-         m_settings->getModuleSettings(id)->versificationName = "kjv";
+        m_settings->getModuleSettings(id)->versificationName = "kjv";
         flags = Versification::ReturnAll;
     }
 
