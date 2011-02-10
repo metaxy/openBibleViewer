@@ -126,6 +126,14 @@ int SettingsDialog::setSettings(Settings settings)
     }
     m_ui->comboBox_interface->setCurrentIndex(currentInterface);
 
+    ModuleSettings *config = settings.getModuleSettings(-1);
+    m_ui->checkBox_showBottomToolbar->setChecked(config->displaySettings()->showBottomToolBar());
+    m_ui->checkBox_showMarks->setChecked(config->displaySettings()->showMarks());
+    m_ui->checkBox_showNotes->setChecked(config->displaySettings()->showNotes());
+    m_ui->checkBox_showRefLinks->setChecked(config->displaySettings()->showRefLinks());
+    m_ui->checkBox_showStrong->setChecked(config->displaySettings()->showStrong());
+    m_ui->checkBox_showStudyNotes->setChecked(config->displaySettings()->showStudyNotes());
+
     return 0;
 
 }
@@ -268,6 +276,14 @@ void SettingsDialog::save(void)
     } else if(currentInterface == 1) {
         m_set.session.setData("interface", "advanced");
     }
+    ModuleSettings *config = m_set.getModuleSettings(-1);
+    config->displaySettings()->setShowBottomToolBar(m_ui->checkBox_showBottomToolbar->isChecked());
+    config->displaySettings()->setShowMarks(m_ui->checkBox_showMarks->isChecked());
+    config->displaySettings()->setShowNotes(m_ui->checkBox_showNotes->isChecked());
+    config->displaySettings()->setShowRefLinks(m_ui->checkBox_showRefLinks->isChecked());
+    config->displaySettings()->setShowStrong(m_ui->checkBox_showStrong->isChecked());
+    config->displaySettings()->setShowStudyNotes(m_ui->checkBox_showStudyNotes->isChecked());
+
     QMap<int, int> struc;
     foreach(ModuleSettings * set, m_set.m_moduleSettings) {
         struc.insert(set->moduleID, set->parentID);
