@@ -35,6 +35,7 @@ void SimpleModuleClass::setModuleMap(ModuleMap *map)
 
 void SimpleModuleClass::setModuleType(const OBVCore::ModuleType &type)
 {
+
     m_moduleType = type;
 }
 int SimpleModuleClass::moduleID() const
@@ -43,6 +44,7 @@ int SimpleModuleClass::moduleID() const
 }
 void SimpleModuleClass::setModuleID(const int &moduleID)
 {
+    myDebug() << "new moduleID = " << moduleID;
     m_moduleID = moduleID;
 }
 QString SimpleModuleClass::moduleTitle() const

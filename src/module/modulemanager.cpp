@@ -241,21 +241,22 @@ VerseModule * ModuleManager::newVerseModule(const int &moduleID, QPoint p)
 
     const int id = verseTable()->m_points.key(p, -1);
     VerseModule *m;
-    if(id != -1) {
+    /*if(id != -1) {
         m = verseTable()->verseModule(id);
         initVerseModule(m);
-    } else {
+    } else {*/
         //todo: support for other VerseModules
         if(getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
             m = new Bible();
             initVerseModule(m);
         }
-    }
+    /*}*/
     //todo: check if this is possible b->moduleID() != moduleID
 
     OBVCore::ModuleType type = getModule(moduleID)->moduleType();
     m->setModuleType(type);
     m->setModuleID(moduleID);
+    myDebug() << moduleID;
     //todo: load module data?
     /* if(getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
          myDebug() << "loading the module data";
@@ -263,6 +264,7 @@ VerseModule * ModuleManager::newVerseModule(const int &moduleID, QPoint p)
      }*/
 
     verseTable()->addModule(m, p);
+
     return m;
 }
 OBVCore::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)

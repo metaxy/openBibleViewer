@@ -44,7 +44,7 @@ public:
     virtual TextRanges readRanges(const Ranges &ranges, bool ignoreModuleID = false);
     virtual TextRange readRange(const Range &range, bool ignoreModuleID = false);
 
-    int loadModuleData(const int &bibleID);
+    int loadModuleData(const int bibleID);
     /**
       * Load only the book without pharsing.
       */

@@ -33,9 +33,10 @@ bool Bible::loaded() const
     return m_loaded;
 }
 
-int Bible::loadModuleData(const int &moduleID)
+int Bible::loadModuleData(const int moduleID)
 {
-    DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME;
+    myDebug() << "moduleID = " << moduleID;
     //m_versification = 0;
     m_module = m_map->m_map.value(moduleID, 0);
 
@@ -148,8 +149,14 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 
     TextRange ret;
     ret.setModuleID(range.moduleID());
-    if((range.moduleID() != m_moduleID && !ignoreModuleID) || !m_loaded) {
-        loadModuleData(range.moduleID());
+    if(ignoreModuleID) {
+        if(!m_loaded) {
+            loadModuleData(m_moduleID);
+        }
+    } else {
+        if(range.moduleID() != m_moduleID || !m_loaded) {
+            loadModuleData(range.moduleID());
+        }
     }
 
     int bookID = -1;

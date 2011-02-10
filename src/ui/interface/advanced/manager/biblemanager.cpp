@@ -182,6 +182,7 @@ void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
     if(m_moduleManager->verseTable()->verseModule()->moduleID() != ranges.getList().first().moduleID()) {
         myDebug() << "init new module";
         const int moduleID = ranges.getList().first().moduleID();
+        myDebug() << "module ID";
         const QPoint p = m_moduleManager->verseTable()->m_points.value(m_moduleManager->verseTable()->currentVerseTableID());
         VerseModule *m;
         if(m_moduleManager->getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {

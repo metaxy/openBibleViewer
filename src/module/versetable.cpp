@@ -45,11 +45,9 @@ void VerseTable::addModule(VerseModule* m, const QPoint &p)
     DEBUG_FUNC_NAME;
     //if it contains already a module with point p
     //then delete the old and insert the new
-    myDebug() << "points before = " << m_points;
-    myDebug() << "m = " << m << " p = " << p;
+    myDebug() << "p = " << p << " m = " << m;
     if(m_points.values().contains(p)) {
         const int id = m_points.key(p, -1);
-        myDebug() << "key = " << id;
         if(m_modules.contains(id) && m_modules.value(id) != NULL) {
             delete m_modules.value(id);
             m_modules.remove(id);
@@ -63,7 +61,7 @@ void VerseTable::addModule(VerseModule* m, const QPoint &p)
         m_points.insert(id, p);
         m_modules.insert(id, m);
     }
-    myDebug() << m_points;
+    myDebug() << "points = " << m_points << " modules = " << m_modules;
     setLastTextRanges(m_lastTextRanges);
 }
 
@@ -98,6 +96,7 @@ void VerseTable::clear()
 std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) const
 {
     //DEBUG_FUNC_NAME
+    myDebug() << "points = " << m_points << " modules = " << m_modules;
     if(m_modules.size() == 1) {
         std::pair<QString, TextRanges> ret;
         VerseModule *b = m_modules.value(m_currentModule, NULL);

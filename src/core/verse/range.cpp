@@ -19,6 +19,7 @@ Range::Range()
     m_chapterID = -1;
     m_startVerseID = -1;
     m_endVerseID = -1;
+    m_moduleID = -1;
 }
 
 void Range::setBook(const int &bookID)
