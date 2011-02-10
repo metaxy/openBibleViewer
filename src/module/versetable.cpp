@@ -30,6 +30,7 @@ VerseTable::~VerseTable()
 
 void VerseTable::setCurrentVerseTableID(const int &verseTableID)
 {
+    myDebug() << "before currentModule = " << m_currentModule << " new verseTable = " << verseTableID;
     m_currentModule = verseTableID;
     setLastTextRanges(m_lastTextRanges);
 }
@@ -44,23 +45,31 @@ void VerseTable::addModule(VerseModule* m, const QPoint &p)
     DEBUG_FUNC_NAME;
     //if it contains already a module with point p
     //then delete the old and insert the new
+    myDebug() << "points before = " << m_points;
+    myDebug() << "m = " << m << " p = " << p;
     if(m_points.values().contains(p)) {
         const int id = m_points.key(p, -1);
+        myDebug() << "key = " << id;
         if(m_modules.contains(id) && m_modules.value(id) != NULL) {
             delete m_modules.value(id);
             m_modules.remove(id);
             m_points.remove(id);
         }
+        m_points.insert(m_currentModule, p);
+        m_modules.insert(m_currentModule, m);
+    } else {
+        const int id = m_points.size();
+        m_currentModule = id;
+        m_points.insert(id, p);
+        m_modules.insert(id, m);
     }
-    const int id = m_points.size();
-    m_currentModule = id;
-    m_points.insert(id, p);
-    m_modules.insert(id, m);
+    myDebug() << m_points;
     setLastTextRanges(m_lastTextRanges);
 }
 
 VerseModule * VerseTable::verseModule(const int &id) const
 {
+    //myDebug() << "return verse module = " << id;
     if(id == -1) {
         if(m_modules.contains(m_currentModule)) {
             return m_modules.value(m_currentModule);
@@ -89,10 +98,9 @@ void VerseTable::clear()
 std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) const
 {
     //DEBUG_FUNC_NAME
-
     if(m_modules.size() == 1) {
         std::pair<QString, TextRanges> ret;
-        VerseModule *b = m_modules.value(m_currentModule, 0);
+        VerseModule *b = m_modules.value(m_currentModule, NULL);
         myDebug() << b;
         if(b) {
             ret.second = b->readRanges(ranges);

@@ -179,6 +179,20 @@ void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
     if(!m_moduleManager->hasBible()) {
         m_moduleManager->newVerseModule(ranges.getList().first().moduleID(), QPoint(0, 0));
     }
+    if(m_moduleManager->verseTable()->verseModule()->moduleID() != ranges.getList().first().moduleID()) {
+        myDebug() << "init new module";
+        const int moduleID = ranges.getList().first().moduleID();
+        const QPoint p = m_moduleManager->verseTable()->m_points.value(m_moduleManager->verseTable()->currentVerseTableID());
+        VerseModule *m;
+        if(m_moduleManager->getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
+            m = new Bible();
+            m_moduleManager->initVerseModule(m);
+        }
+        OBVCore::ModuleType type = m_moduleManager->getModule(moduleID)->moduleType();
+        m->setModuleType(type);
+        m->setModuleID(moduleID);
+        m_moduleManager->verseTable()->addModule(m, p);
+    }
     std::pair<QString, TextRanges> r = m_moduleManager->verseTable()->readRanges(ranges);
     m_actions->showTextRanges(r.first, r.second, url);
 

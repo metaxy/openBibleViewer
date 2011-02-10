@@ -83,7 +83,7 @@ int Bible::loadModuleData(const int &moduleID)
         m_bibleModule->setSettings(m_settings);
         m_bibleModule->loadBibleData(m_moduleID, m_module->path());
     }
-    myDebug() << "setting an another versification";
+    //myDebug() << "setting an another versification";
     m_versification = m_bibleModule->versification();
     m_moduleUID = m_bibleModule->uid();
 
@@ -93,8 +93,6 @@ int Bible::loadModuleData(const int &moduleID)
         m_moduleTitle = m->moduleName;
     m_moduleShortTitle = m_bibleModule->moduleName(true);
 
-    //m_settings->setTitle(m_module->path(), m_moduleTitle);
-    //todo: port to set cache
     m_loaded = true;
     return 0;
 }
@@ -212,9 +210,9 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         }
         //myDebug() << "current chapter = " << chapterID;
     }
-    myDebug() << "bookID = " << bookID << " chapterID " << chapterID;
+    //myDebug() << "bookID = " << bookID << " chapterID " << chapterID;
     std::pair<int, int> minMax = m_bibleModule->minMaxVerse(bookID, chapterID);
-    myDebug() << "min = " << minMax.first << " max = " << minMax.second;
+    //myDebug() << "min = " << minMax.first << " max = " << minMax.second;
 
     int startVerse = 0;
     int endVerse = 0;
@@ -236,7 +234,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     if(endVerse == -1)
         endVerse = startVerse;
 
-    myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
+    //myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
 
     TextRange rawRange = m_bibleModule->rawTextRange(bookID, chapterID, startVerse, endVerse);
     ret.setBookID(bookID);
@@ -302,13 +300,13 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     }
 
     if(m_notes != 0 && m_moduledisplaysettings->showMarks() == true) {
-        myDebug() << "insert notes";
+        //myDebug() << "insert notes";
         VerseReplacer replacer;
         for(int n = 0; n <  m_notes->getIDList().size(); ++n) {
             const QString noteID = m_notes->getIDList().at(n);
             if(m_notes->getType(noteID) == "mark") {
                 const QString link = m_notes->getRef(noteID, "link");
-                myDebug() << "link = " << link;
+                //myDebug() << "link = " << link;
                 VerseUrl url;
                 url.fromString(link);
                 UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
@@ -319,7 +317,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                 const QString pre = "<span class=\"mark\" style=\"" + m_notes->getRef(noteID, "style") + "\">";
                 const QString ap = "</span>";
                 if(newUrl.contains(m_moduleID, bookID, chapterID)) {
-                    myDebug() << "insert note id = " << noteID << " link " << link;
+                    //myDebug() << "insert note id = " << noteID << " link " << link;
                     if(m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
                         VerseSelection::SelectionPosInTextType type = VerseSelection::typeFromString(m_notes->getRef(noteID, "selection_pos_type"));
                         if(type == VerseSelection::ShortestString) {

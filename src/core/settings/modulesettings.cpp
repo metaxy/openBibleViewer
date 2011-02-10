@@ -19,12 +19,14 @@ ModuleSettings::ModuleSettings()
     m_displaySettings = NULL;
 
 }
+
 ModuleSettings::ModuleSettings(ModuleSettings *parent)
 {
     v11n = NULL;
     m_parent = parent;
     m_displaySettings = NULL;
 }
+
 ModuleSettings::~ModuleSettings()
 {
     if(v11n != NULL) {
@@ -50,8 +52,8 @@ void ModuleSettings::loadVersification()
         QSettings settings(versificationFile, QSettings::IniFormat);
         const QStringList books = settings.childGroups();
         //myDebug() << books;
-        if(books.isEmpty())
-            return;
+        //if(books.isEmpty())
+           // return;
         QMap<int, BookV11N> map;
         foreach(const QString & book, books) {
             const int bookID = book.toInt();
@@ -76,6 +78,7 @@ void ModuleSettings::loadVersification()
         v11n = new Versification_Cache(map);
     }
 }
+
 void ModuleSettings::saveVersification()
 {
     //DEBUG_FUNC_NAME;
@@ -102,6 +105,7 @@ void ModuleSettings::saveVersification()
         }
     }
 }
+
 Versification *ModuleSettings::getV11n()
 {
     if(!v11n) {
@@ -130,14 +134,17 @@ void ModuleSettings::appendChild(ModuleSettings* child)
 {
     m_children.append(child);
 }
+
 void ModuleSettings::removeChild(ModuleSettings *child)
 {
     m_children.removeOne(child);
 }
+
 void ModuleSettings::clearChildren()
 {
     m_children.clear();
 }
+
 QString ModuleSettings::name(bool preferShortName) const
 {
     if(preferShortName) {
@@ -154,6 +161,7 @@ QString ModuleSettings::name(bool preferShortName) const
         }
     }
 }
+
 ModuleDisplaySettings *ModuleSettings::displaySettings() const
 {
     return m_displaySettings;
@@ -163,6 +171,7 @@ void ModuleSettings::setDisplaySettings(ModuleDisplaySettings *settings)
 {
     m_displaySettings = settings;
 }
+
 void ModuleSettings::removeDisplaySettings()
 {
     if(m_displaySettings != NULL) {
