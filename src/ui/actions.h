@@ -54,11 +54,6 @@ signals:
     void _setTabbedView();
     void _setSubWindowView();
 
-    /**
-      I will remove it soon.
-      */
-    void _newBookmark();
-
     void _historySetUrl(const QString &url);
     void _showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
 
