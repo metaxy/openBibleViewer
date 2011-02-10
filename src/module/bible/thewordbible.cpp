@@ -48,10 +48,13 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
     QFile file(dataFilePath);
     Versification::VersificationFilterFlags flags;
     if(path.endsWith(".nt")) {
+        m_settings->getModuleSettings(id)->versificationName = "kjv-nt";
         flags = Versification::ReturnNT;
     } else if(path.endsWith(".ot")) {
+        m_settings->getModuleSettings(id)->versificationName = "kjv-ot";
         flags = Versification::ReturnOT;
     } else if(path.endsWith(".ont")) {
+         m_settings->getModuleSettings(id)->versificationName = "kjv";
         flags = Versification::ReturnAll;
     }
 
@@ -128,6 +131,7 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
     if(m_uID.isEmpty()) {
         m_uID = path;
     }
+
 
 }
 int TheWordBible::readBook(const int &id)

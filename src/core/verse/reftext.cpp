@@ -74,7 +74,7 @@ QString RefText::toString(int moduleID, int bookID, int chapterID, int startVers
 {
     QString ret;
     if(bookID != prevBook) {
-        ret += m_settings->getModuleSettings(moduleID)->v11n->bookName(bookID, true) + sep_book_chaper +
+        ret += m_settings->getModuleSettings(moduleID)->getV11n()->bookName(bookID, true) + sep_book_chaper +
            QString::number(chapterID + 1);
     } else {
         ret += sep_same_book + QString::number(chapterID + 1);

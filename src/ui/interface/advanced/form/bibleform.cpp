@@ -691,9 +691,6 @@ void BibleForm::copyWholeVerse(void)
     //DEBUG_FUNC_NAME
     VerseSelection selection = verseSelection();
     if(selection.startVerse != -1) {
-        QString sverse;
-
-
         int add = 0;
         if(m_moduleManager->verseModule()->moduleType() == OBVCore::BibleQuoteModule)
             add = 1; //because of the title
@@ -720,7 +717,7 @@ void BibleForm::copyWholeVerse(void)
                 if(i == selection.endChapterID)
                     r.setEndVerse(selection.endVerse);
                 else
-                    r.setEndVerse(m_settings->getModuleSettings(selection.moduleID)->v11n->maxVerse().value(selection.bookID).at(selection.startChapterID));
+                    r.setEndVerse(m_settings->getModuleSettings(selection.moduleID)->getV11n()->maxVerse().value(selection.bookID).at(selection.startChapterID));
 
                 ranges.addRange(r);
             }

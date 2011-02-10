@@ -83,6 +83,8 @@ public:
     void loadVersification();
     void saveVersification();
 
+    Versification *getV11n();
+
     int parentID;
 
 

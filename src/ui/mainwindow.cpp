@@ -231,7 +231,6 @@ void MainWindow::loadDefaultSettings()
     m_settings->onClickBookmarkGo = true;
     m_settings->textFormatting = 0;
     m_settings->homePath = m_homeDataPath;
-    //myDebug() << m_settings->homePath;
     m_settings->zefaniaBible_hardCache = true;
     m_settings->zefaniaBible_softCache = true;
 

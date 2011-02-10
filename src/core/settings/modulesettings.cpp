@@ -39,6 +39,13 @@ void ModuleSettings::loadVersification()
     myDebug() << "versifiction name = " << versificationName << " versification file" << versificationFile;
     if(versificationName == "kjv") {
         v11n = new Versification_KJV();
+        v11n->setFlags(Versification::ReturnAll);
+    } else if(versificationName == "kjv-ot") {
+        v11n = new Versification_KJV();
+        v11n->setFlags(Versification::ReturnOT);
+    } else if(versificationName == "kjv-nt") {
+        v11n = new Versification_KJV();
+        v11n->setFlags(Versification::ReturnNT);
     } else {
         QSettings settings(versificationFile, QSettings::IniFormat);
         const QStringList books = settings.childGroups();
@@ -97,6 +104,15 @@ void ModuleSettings::saveVersification()
         }
     }
 }
+Versification *ModuleSettings::getV11n()
+{
+    if(!v11n) {
+        loadVersification();
+    }
+    return v11n;
+
+}
+
 void ModuleSettings::setParent(ModuleSettings *parent)
 {
     m_parent = parent;
