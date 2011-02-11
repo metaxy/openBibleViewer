@@ -22,10 +22,9 @@ namespace Ui
 {
 class BookmarksDockWidget;
 }
-/*!
- BookmarksDockWidget represents a dock widget, where you can view and edit your bookmarks.
-
-*/
+/**
+ * BookmarksDockWidget represents a dock widget, where you can view and edit your bookmarks.
+ */
 class BookmarksDockWidget : public DockWidget
 {
     Q_OBJECT
@@ -33,7 +32,7 @@ public slots:
     void newBookmark(VerseSelection selection);
     void saveBookmarks();
 private slots:
-    void bookmarksContextMenu(void);
+    void bookmarksContextMenu();
     void newBookmarksFolder();
     void removeBookmark();
     void editBookmark();

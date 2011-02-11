@@ -95,8 +95,7 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
 }
 void BookmarksDockWidget::saveBookmarks(void)
 {
-    QString fileName = m_bookmarksFileName;
-    QFile file(fileName);
+    QFile file(m_bookmarksFileName);
     if(!file.open(QFile::WriteOnly | QFile::Text))
         return;
     XbelWriter writer(ui->treeWidget_bookmarks);
@@ -124,7 +123,7 @@ void BookmarksDockWidget::newBookmarksFolder(void)
     saveBookmarks();
 }
 
-void BookmarksDockWidget::bookmarksContextMenu(void)
+void BookmarksDockWidget::bookmarksContextMenu()
 {
     QMenu *contextMenu = new QMenu(this);
     contextMenu->setObjectName("contextMenu");
@@ -220,7 +219,6 @@ int BookmarksDockWidget::internalOpenPos(const QString &pos)
     m_actions->get(newUrl);
     return 0;
 }
-
 
 void BookmarksDockWidget::changeEvent(QEvent *e)
 {
