@@ -51,9 +51,10 @@ void ModuleSettings::loadVersification()
     } else {
         QSettings settings(versificationFile, QSettings::IniFormat);
         const QStringList books = settings.childGroups();
-        //myDebug() << books;
-        //if(books.isEmpty())
-           // return;
+        //if we could not load anything v11n has to be NULL,
+        //because eg. BibleQuote will than load the versification from the module files
+        if(books.isEmpty())
+            return;
         QMap<int, BookV11N> map;
         foreach(const QString & book, books) {
             const int bookID = book.toInt();
