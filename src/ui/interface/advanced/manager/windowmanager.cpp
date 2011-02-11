@@ -55,6 +55,11 @@ void WindowManager::init()
     connect(m_actions, SIGNAL(_reloadActive()), this, SLOT(reloadActive()));
     connect(m_actions, SIGNAL(_reloadChapter(bool)), this, SLOT(reloadChapter(bool)));
     connect(m_actions, SIGNAL(_newSubWindowIfEmpty()), this, SLOT(newSubWindowIfEmpty()));
+
+    //only install if we have autolayout enabled
+    if(m_settings->autoLayout > 0) {
+        installResizeFilter();
+    }
 }
 
 void WindowManager::newSubWindowIfEmpty()
@@ -502,13 +507,13 @@ void WindowManager::restore()
 /*
  * Todo: Use it
  */
-/*
-void AdvancedInterface::installResizeFilter()
+
+void WindowManager::installResizeFilter()
 {
-    m_mdiAreaFilter = new MdiAreaFilter(ui->mdiArea);
+    m_mdiAreaFilter = new MdiAreaFilter(m_area);
     connect(m_mdiAreaFilter, SIGNAL(resized()), this, SLOT(mdiAreaResized()));
-    ui->mdiArea->installEventFilter(m_mdiAreaFilter);
-}*/
+    m_area->installEventFilter(m_mdiAreaFilter);
+}
 void WindowManager::reloadChapter(bool full)
 {
     DEBUG_FUNC_NAME;

@@ -21,7 +21,7 @@ bool MdiAreaFilter::eventFilter(QObject *obj, QEvent *event)
     if(event->type() == QEvent::Resize) {
         //QResizeEvent *resizeEvent = static_cast<QResizeEvent *>(event);
         emit resized();
-        return true;
+        return QObject::eventFilter(obj, event);
     }
     return QObject::eventFilter(obj, event);
 }

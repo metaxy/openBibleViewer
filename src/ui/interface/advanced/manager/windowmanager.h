@@ -88,6 +88,8 @@ private:
     BookmarksManager *m_bookmarksManager;
     int *m_currentWindowID;
 
+    void installResizeFilter();
+
 };
 
 #endif // WINDOWMANAGER_H
