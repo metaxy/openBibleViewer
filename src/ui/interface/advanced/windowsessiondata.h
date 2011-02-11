@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QString>
 #include <QtCore/QRect>
 #include <QtCore/QVariant>
+#include <QtGui/QWidget>
 #include "src/core/settings/settings.h"
 #include "src/core/dbghelper.h"
 class WindowSessionData
@@ -25,39 +26,50 @@ public:
 
     void clear();
     void setSettings(Settings *settings);
-    void setWindowID(const int &windowID);
+    void setWindowID(const int windowID);
 
     void setUrl(const QStringList &url);
-    void setUrl(const QStringList &url, const int &windowID);
+    void setUrl(const QStringList &url, const int windowID);
     void setBiblePoint(const QList<QPoint> &url);
-    void setBiblePoint(const QList<QPoint> &url, const int &windowID);
+    void setBiblePoint(const QList<QPoint> &url, const int windowID);
 
     void setScrollPosition(const QPoint &point);
-    void setScrollPosition(const QPoint &point, const int &windowID);
+    void setScrollPosition(const QPoint &point, const int windowID);
 
     void setZoom(qreal zoom);
-    void setZoom(qreal zoom, const int &windowID);
+    void setZoom(qreal zoom, const int windowID);
 
     void setGeo(const QRect &rect);
-    void setGeo(const QRect &rect, const int &windowID);
+    void setGeo(const QRect &rect, const int windowID);
+
+    void setWindowState(const Qt::WindowStates &state);
+    void setWindowState(const Qt::WindowStates &state, const int windowID);
+
+    void setMaximized(bool max);
+    void setMaximized(bool max, const int windowID);
 
     void read();
     void write();
 
-    QStringList url(const int &windowID);
+    QStringList url(const int windowID);
     QStringList url();
-    QList<QPoint> biblePoint(const int &windowID);
+    QList<QPoint> biblePoint(const int windowID);
     QList<QPoint> biblePoint();
 
-    QPoint scrollPosition(const int &windowID);
+    QPoint scrollPosition(const int windowID);
     QPoint scrollPosition();
 
-    qreal zoom(const int &windowID);
+    qreal zoom(const int windowID);
     qreal zoom();
 
-    QRect geo(const int &windowID);
+    QRect geo(const int windowID);
     QRect geo();
 
+    Qt::WindowStates windowState();
+    Qt::WindowStates windowState(const int windowID);
+
+    bool maximized();
+    bool maximized(const int windowID);
     int size();
 
 private:
@@ -66,13 +78,15 @@ private:
     QMap<int, QVariant> m_zoom;
     QMap<int, QVariant> m_geo;
     QMap<int, QVariant> m_biblePoints;
+    QMap<int, QVariant> m_windowStates;
+    QMap<int, QVariant> m_max;
 
     Settings *m_settings;
     int m_windowID;
 
-    QMap<int, QVariant> getProp(const int &i) const;
-    QString getPropName(const int &i) const;
-    QMap<int, QVariant>* propToPointer(const int &i);
+    QMap<int, QVariant> getProp(const int i) const;
+    QString getPropName(const int i) const;
+    QMap<int, QVariant>* propToPointer(const int i);
     int propSize() const;
 };
 

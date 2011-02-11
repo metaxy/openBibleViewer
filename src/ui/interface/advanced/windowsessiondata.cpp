@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 WindowSessionData::WindowSessionData()
 {
 }
-QMap<int, QVariant> WindowSessionData::getProp(const int &i) const
+QMap<int, QVariant> WindowSessionData::getProp(const int i) const
 {
     if(i == 0)
         return m_geo;
@@ -27,10 +27,14 @@ QMap<int, QVariant> WindowSessionData::getProp(const int &i) const
         return m_zoom;
     else if(i == 4)
         return m_biblePoints;
+    else if(i == 5)
+        return m_windowStates;
+    else if(i == 6)
+        return m_max;
     else
         return QMap<int, QVariant>();
 }
-QString WindowSessionData::getPropName(const int &i) const
+QString WindowSessionData::getPropName(const int i) const
 {
     if(i == 0)
         return "windowGeo";
@@ -42,10 +46,14 @@ QString WindowSessionData::getPropName(const int &i) const
         return "zoom";
     else if(i == 4)
         return "biblePoint";
+    else if(i == 5)
+        return "windowStates";
+    else if(i == 6)
+        return "maximized";
     else
         return "";
 }
-QMap<int, QVariant>* WindowSessionData::propToPointer(const int &i)
+QMap<int, QVariant>* WindowSessionData::propToPointer(const int i)
 {
     if(i == 0)
         return &m_geo;
@@ -57,12 +65,16 @@ QMap<int, QVariant>* WindowSessionData::propToPointer(const int &i)
         return &m_zoom;
     else if(i == 4)
         return &m_biblePoints;
+    else if(i == 5)
+        return &m_windowStates;
+    else if(i == 6)
+        return &m_max;
     else
         return 0;
 }
 int WindowSessionData::propSize() const
 {
-    return 5;
+    return 7;
 }
 void WindowSessionData::clear()
 {
@@ -70,6 +82,8 @@ void WindowSessionData::clear()
     m_scrollPosition.clear();
     m_geo.clear();
     m_zoom.clear();
+    m_windowStates.clear();
+    m_max.clear();
 }
 
 void WindowSessionData::read()
@@ -103,7 +117,7 @@ void WindowSessionData::setSettings(Settings *settings)
     m_settings = settings;
 }
 
-void WindowSessionData::setWindowID(const int &windowID)
+void WindowSessionData::setWindowID(const int windowID)
 {
     m_windowID = windowID;
 }
@@ -113,7 +127,7 @@ void WindowSessionData::setUrl(const QStringList &url)
     setUrl(url, m_windowID);
 }
 
-void WindowSessionData::setUrl(const QStringList &url, const int &windowID)
+void WindowSessionData::setUrl(const QStringList &url, const int windowID)
 {
     m_url.insert(windowID, url);
 }
@@ -122,7 +136,7 @@ void WindowSessionData::setBiblePoint(const QList<QPoint> &p)
     setBiblePoint(p, m_windowID);
 }
 
-void WindowSessionData::setBiblePoint(const QList<QPoint> &p, const int &windowID)
+void WindowSessionData::setBiblePoint(const QList<QPoint> &p, const int windowID)
 {
     QStringList save;
     foreach(const QPoint & point, p) {
@@ -136,7 +150,7 @@ void WindowSessionData::setScrollPosition(const QPoint &point)
     setScrollPosition(point, m_windowID);
 }
 
-void WindowSessionData::setScrollPosition(const QPoint &point, const int &windowID)
+void WindowSessionData::setScrollPosition(const QPoint &point, const int windowID)
 {
     m_scrollPosition.insert(windowID, point);
 }
@@ -146,7 +160,7 @@ void WindowSessionData::setZoom(qreal zoom)
     setZoom(zoom, m_windowID);
 }
 
-void WindowSessionData::setZoom(qreal zoom, const int &windowID)
+void WindowSessionData::setZoom(qreal zoom, const int windowID)
 {
     m_zoom.insert(windowID, zoom);
 }
@@ -156,13 +170,29 @@ void WindowSessionData::setGeo(const QRect &rect)
     setGeo(rect, m_windowID);
 }
 
-void WindowSessionData::setGeo(const QRect &rect, const int &windowID)
+void WindowSessionData::setGeo(const QRect &rect, const int windowID)
 {
     m_geo.insert(windowID, rect);
 }
+void WindowSessionData::setWindowState(const Qt::WindowStates &state, const int windowID)
+{
+    m_windowStates.insert(windowID, (int) state);
+}
+void WindowSessionData::setWindowState(const Qt::WindowStates &state)
+{
+    setWindowState(state, m_windowID);
+}
 
+void WindowSessionData::setMaximized(bool max, const int windowID)
+{
+    m_max.insert(windowID, max);
+}
+void WindowSessionData::setMaximized(bool max)
+{
+    setMaximized(max, m_windowID);
+}
 
-QStringList WindowSessionData::url(const int &windowID)
+QStringList WindowSessionData::url(const int windowID)
 {
     return m_url.value(windowID).toStringList();
 }
@@ -171,7 +201,7 @@ QStringList WindowSessionData::url()
 {
     return url(m_windowID);
 }
-QList<QPoint> WindowSessionData::biblePoint(const int &windowID)
+QList<QPoint> WindowSessionData::biblePoint(const int windowID)
 {
     const QStringList l = m_biblePoints.value(windowID).toStringList();
     QList<QPoint> ret;
@@ -186,7 +216,7 @@ QList<QPoint> WindowSessionData::biblePoint()
 {
     return biblePoint(m_windowID);
 }
-QPoint WindowSessionData::scrollPosition(const int &windowID)
+QPoint WindowSessionData::scrollPosition(const int windowID)
 {
     return m_scrollPosition.value(windowID).toPoint();
 }
@@ -196,7 +226,7 @@ QPoint WindowSessionData::scrollPosition()
     return scrollPosition(m_windowID);
 }
 
-qreal WindowSessionData::zoom(const int &windowID)
+qreal WindowSessionData::zoom(const int windowID)
 {
     return m_zoom.value(windowID).toReal();
 }
@@ -206,7 +236,7 @@ qreal WindowSessionData::zoom()
     return zoom(m_windowID);
 }
 
-QRect WindowSessionData::geo(const int &windowID)
+QRect WindowSessionData::geo(const int windowID)
 {
     return m_geo.value(windowID).toRect();
 }
@@ -215,6 +245,25 @@ QRect WindowSessionData::geo()
 {
     return geo(m_windowID);
 }
+
+Qt::WindowStates WindowSessionData::windowState(const int windowID)
+{
+    return (Qt::WindowStates) m_windowStates.value(windowID).toInt();
+}
+Qt::WindowStates WindowSessionData::windowState()
+{
+    return windowState(m_windowID);
+}
+
+bool WindowSessionData::maximized(const int windowID)
+{
+    return m_max.value(windowID).toBool();
+}
+bool WindowSessionData::maximized()
+{
+    return maximized(m_windowID);
+}
+
 int WindowSessionData::size()
 {
     return m_url.size();

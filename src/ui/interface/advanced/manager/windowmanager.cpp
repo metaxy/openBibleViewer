@@ -63,7 +63,7 @@ void WindowManager::newSubWindowIfEmpty()
         newSubWindow();
 }
 
-void WindowManager::newSubWindow(bool doAutoLayout)
+void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax)
 {
     setEnableReload(false);
 
@@ -93,7 +93,6 @@ void WindowManager::newSubWindow(bool doAutoLayout)
     widget->setLayout(layout);
     QMdiSubWindow *subWindow = m_area->addSubWindow(widget);
     subWindow->setWindowIcon(QIcon(":/icons/16x16/main.png"));
-    subWindow->setWindowOpacity(1.0);
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
     subWindow->show();
     m_area->setActiveSubWindow(subWindow);
@@ -101,7 +100,10 @@ void WindowManager::newSubWindow(bool doAutoLayout)
 
 
     if(m_area->viewMode() == QMdiArea::SubWindowView) {
-        if(windowsCount == 0  && doAutoLayout) {
+        if(forceMax) {
+            myDebug() << "show maximized";
+            subWindow->showMaximized();
+        } else if(windowsCount == 0  && doAutoLayout) {
             subWindow->showMaximized();
         } else if(windowsCount == 1 && doAutoLayout) {
             firstSubWindow->resize(600, 600);
@@ -133,7 +135,7 @@ void WindowManager::newSubWindow(bool doAutoLayout)
     connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closingWindow()));
 
     setEnableReload(true);
-    if(doAutoLayout && m_area->viewMode() == QMdiArea::SubWindowView) {
+    if(doAutoLayout && m_area->viewMode() == QMdiArea::SubWindowView && windowsCount > 1) {
         autoLayout();
     }
     m_actions->clearBooks();
@@ -438,7 +440,10 @@ void WindowManager::save()
         data.setScrollPosition(form->m_view->page()->mainFrame()->scrollPosition());
         data.setZoom(form->m_view->zoomFactor());
         data.setGeo(a->geometry());
-        //todo: save Qt::WindowMaximized
+        data.setMaximized(a->isMaximized());
+        myDebug() << "max = " << a->isMaximized();
+        //myDebug() << a->windowState();
+        //data.setWindowState(a->windowState());
     }
     data.write();
     m_settings->session.setData("viewMode", m_area->viewMode());
@@ -453,7 +458,8 @@ void WindowManager::restore()
     data.read();
     const int viewMode = m_settings->session.getData("viewMode").toInt();
     for(int i = 0; i < data.size(); ++i) {
-        newSubWindow(true);
+        myDebug() << "max = " << data.maximized();
+        newSubWindow(true, data.maximized());
         data.setWindowID(i);
         //load bible
         m_moduleManager->verseTable()->clear();
@@ -472,8 +478,15 @@ void WindowManager::restore()
                 myDebug() << urlConverter.url().toString();
             }
         }
-        if(viewMode == 0)
+        if(viewMode == 0 && !data.maximized()) {
+            myDebug() << "setting geo";
             activeSubWindow()->setGeometry(data.geo());
+        }
+
+        myDebug() << "window state = " << data.windowState();
+        //activeSubWindow()->setWindowState(data.windowState());
+        //if(data.maximized())
+            //activeSubWindow()->showMaximized();
 
         QWebView *v = activeForm()->m_view;
         v->page()->mainFrame()->setScrollPosition(data.scrollPosition());

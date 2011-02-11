@@ -48,7 +48,7 @@ public slots:
     void tileHorizontal();
     void tile();
 
-    void newSubWindow(bool doAutoLayout = true);
+    void newSubWindow(bool doAutoLayout = true, bool forceMax = false);
     void closeSubWindow();
     int closingWindow();
     int reloadWindow(QMdiSubWindow * window);
