@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>419</width>
-    <height>148</height>
+    <width>463</width>
+    <height>264</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,24 +18,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QComboBox" name="comboBox_bibles"/>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QComboBox" name="comboBox_books"/>
-     </item>
-     <item>
-      <widget class="QSpinBox" name="spinBox_chapter"/>
-     </item>
-     <item>
-      <widget class="QSpinBox" name="spinBox_verse"/>
-     </item>
-    </layout>
+    <layout class="QVBoxLayout" name="verticalLayout_2"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

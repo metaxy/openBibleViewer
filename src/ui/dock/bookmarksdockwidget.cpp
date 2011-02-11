@@ -175,14 +175,12 @@ void BookmarksDockWidget::editBookmark()
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     urlConverter.setV11n(m_moduleManager->verseModule()->versification());
     VerseUrl newUrl = urlConverter.convert();
-    VerseUrlRange r = newUrl.ranges().first();
-
 
     BiblePassageDialog *passageDialog = new  BiblePassageDialog(this);
-    connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateBookmark(QString)));
+    connect(passageDialog, SIGNAL(updated(VerseUrl)), this, SLOT(updateBookmarkLink(VerseUrl)));
     setAll(passageDialog);
-    passageDialog->setCurrent(r.moduleID(), url.ranges().first().moduleUID(), r.bookID() + 1, r.chapterID() + 1, r.activeVerseID() + 1);
-    passageDialog->show();
+    passageDialog->init();
+    passageDialog->frame()->setVerseUrl(newUrl);
     passageDialog->exec();
 }
 void BookmarksDockWidget::bookmarksGo()
@@ -193,9 +191,9 @@ void BookmarksDockWidget::bookmarksGo()
     else
         internalOpenPos(pos);
 }
-void BookmarksDockWidget::updateBookmark(QString pos)
+void BookmarksDockWidget::updateBookmarkLink(VerseUrl url)
 {
-    ui->treeWidget_bookmarks->currentItem()->setText(1, pos);
+    ui->treeWidget_bookmarks->currentItem()->setText(1, url.toString());
 }
 void BookmarksDockWidget::bookmarksGo(QTreeWidgetItem * item)
 {

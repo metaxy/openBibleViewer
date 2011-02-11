@@ -23,56 +23,27 @@ BiblePassageDialog::BiblePassageDialog(QWidget *parent) :
     m_ui->setupUi(this);
     connect(m_ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
     connect(m_ui->buttonBox, SIGNAL(rejected()), this, SLOT(close()));
-    connect(m_ui->comboBox_bibles, SIGNAL(currentIndexChanged(int)), this, SLOT(indexChanged(int)));
+    m_frame = new BiblePassageFrame(this);
+    m_ui->verticalLayout_2->addWidget(m_frame);
 }
-
 BiblePassageDialog::~BiblePassageDialog()
 {
     delete m_ui;
 }
-void BiblePassageDialog::setCurrent(const int &bible, const QString &path, const int &book, const int &chapter, const int &verse)
+void BiblePassageDialog::init()
 {
-    m_ui->comboBox_bibles->insertItems(0, m_moduleManager->getBibleTitles());
-    m_bookID = book;
-    m_chapterID = chapter + 1;
-    m_verseID = verse + 1;
-    m_path = path;
-
-    const int newIndex = m_moduleManager->getBiblePaths().lastIndexOf(path);
-    m_ui->comboBox_bibles->setCurrentIndex(newIndex);//todo: if lastindexof == -1 show a warning
-
-    m_ui->comboBox_books->setCurrentIndex(m_settings->getModuleSettings(bible)->getV11n()->bookNames().keys().indexOf(book));
-    m_ui->spinBox_chapter->setValue(chapter);
-    m_ui->spinBox_verse->setValue(verse);
+    setAll(m_frame);
+    m_frame->init();
 }
-void BiblePassageDialog::indexChanged(int index)
+
+BiblePassageFrame *BiblePassageDialog::frame()
 {
-    if(index >= 0) {
-        m_path = m_moduleManager->getBiblePaths().at(index);
-        m_ui->comboBox_books->clear();
-        m_ui->comboBox_books->insertItems(0, m_settings->getModuleSettings(index)->getV11n()->bookNames().values());
-        //todo: set max using bookCount
-        m_ui->comboBox_books->setCurrentIndex(0);
-        m_ui->spinBox_chapter->setValue(1);
-        m_ui->spinBox_verse->setValue(1);
-    } else {
-        m_ui->comboBox_books->clear();
-        m_ui->comboBox_books->setCurrentIndex(0);
-        m_ui->spinBox_chapter->setValue(1);
-        m_ui->spinBox_verse->setValue(1);
-    }
+    return m_frame;
 }
 
 void BiblePassageDialog::save()
 {
-    /*const QString link = m_path
-                         + ";" + QString::number(m_settings->getModuleSettings(bible).v11n->bookNames().keys().at(m_ui->comboBox_books->currentIndex()))
-                         + ";" + QString::number(m_ui->spinBox_chapter->value() - 1)
-                         + ";" + QString::number(m_ui->spinBox_verse->value() - 1)
-                         + ";" + m_settings->getModuleSettings(bible).v11n->bookNames().values().at(m_ui->comboBox_books->currentIndex());*/
-
-
-    /* emit updated(link);*/
+    emit updated(m_frame->toVerseUrl());
     close();
 }
 void BiblePassageDialog::changeEvent(QEvent *e)

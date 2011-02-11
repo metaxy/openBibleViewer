@@ -169,21 +169,18 @@ void SimpleNotes::editNoteLink()
     urlConverter.convert();
     if(urlConverter.url().isValid()) {
         BiblePassageDialog *passageDialog = new BiblePassageDialog();
-        connect(passageDialog, SIGNAL(updated(QString)), this, SLOT(updateNote(QString)));
+        connect(passageDialog, SIGNAL(updated(VerseUrl)), this, SLOT(updateNoteLink(VerseUrl)));
         passageDialog->setSettings(m_settings);
         passageDialog->setModuleManager(m_moduleManager);
-        passageDialog->setCurrent(urlConverter.url().ranges().first().moduleID(),
-                                  urlConverter.url().ranges().first().moduleUID(),
-                                  urlConverter.url().ranges().first().bookID(),
-                                  urlConverter.url().ranges().first().chapterID() + 1,
-                                  urlConverter.url().ranges().first().startVerseID() + 1);
+        passageDialog->init();
+        passageDialog->frame()->setVerseUrl(urlConverter.url());
         passageDialog->exec();
     }
 
 }
-void SimpleNotes::updateNote(const QString &link)
+void SimpleNotes::updateNoteLink(const VerseUrl &link)
 {
-    m_noteRef["link"] = link;
+    m_noteRef["link"] = link.toString();
     m_notes->setRef(m_noteID, m_noteRef);
     setRef(m_noteRef);
     return;

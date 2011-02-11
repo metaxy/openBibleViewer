@@ -130,8 +130,7 @@ void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
 
                     } else if(line.contains("ShortName", Qt::CaseInsensitive)) {
                         const QString s = formatFromIni(line.remove(QRegExp("ShortName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
-                        QStringList l = s.split(" ");
-                        bookShortName.append(l);
+                        bookShortName.append(s.split(" "));
 
                     }
                 } else if(line.contains("PathName", Qt::CaseInsensitive)) {

@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define BIBLEPASSAGEDIALOG_H
 #include "src/core/settings/settings.h"
 #include "src/core/basicclass.h"
+#include "src/ui/biblepassageframe.h"
 #include <QtGui/QDialog>
 
 namespace Ui
@@ -31,20 +32,18 @@ class BiblePassageDialog : public QDialog, public BasicClass
 public:
     explicit BiblePassageDialog(QWidget *parent = 0);
     virtual ~BiblePassageDialog();
-    void setCurrent(const int &bible, const QString &path, const int &book, const int &chapter, const int &verse);
+    void init();
+    BiblePassageFrame *frame();
 
 protected:
     virtual void changeEvent(QEvent *e);
 public slots:
     void save();
-    void indexChanged(int index);
 signals:
-    void updated(QString pos);
+    void updated(VerseUrl url);
 private:
     Ui::BiblePassageDialog *m_ui;
-    QStringList m_bibles;
-    int m_bibleID, m_bookID, m_chapterID, m_verseID;
-    QString m_path;
+    BiblePassageFrame *m_frame;
 };
 
 #endif // BIBLEPASSAGEDIALOG_H

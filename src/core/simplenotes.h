@@ -100,7 +100,7 @@ private slots:
       * Shows an BiblePassageDialog where you can edit the note link.
       */
     void editNoteLink();
-    void updateNote(const QString &pos);
+    void updateNoteLink(const VerseUrl &url);
     /**
       * Adds a new Folder with the default title (unnamed)
       */

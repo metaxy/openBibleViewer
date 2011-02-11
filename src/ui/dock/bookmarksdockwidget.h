@@ -40,7 +40,7 @@ private slots:
 
     void bookmarksGo();
     void bookmarksGo(QTreeWidgetItem * item);
-    void updateBookmark(QString pos);
+    void updateBookmarkLink(VerseUrl url);
 public:
     BookmarksDockWidget(QWidget *parent = 0);
     ~BookmarksDockWidget();

@@ -139,6 +139,7 @@ VerseUrl BiblePassageFrame::toVerseUrl()
 }
 void BiblePassageFrame::setVerseUrl(const VerseUrl &url)
 {
+    myDebug() << url.toString();
     setVerseUrlRanges(url.ranges());
 }
 void BiblePassageFrame::setVerseUrlRanges(const QList<VerseUrlRange> &ranges)
