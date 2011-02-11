@@ -135,7 +135,7 @@ void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax)
     connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closingWindow()));
 
     setEnableReload(true);
-    if(doAutoLayout && m_area->viewMode() == QMdiArea::SubWindowView && windowsCount > 1) {
+    if(doAutoLayout && m_area->viewMode() == QMdiArea::SubWindowView && windowsCount > 0) {
         autoLayout();
     }
     m_actions->clearBooks();
@@ -401,7 +401,7 @@ void WindowManager::save()
     data.setSettings(m_settings);
     int current = 0;
     QMdiSubWindow *currentSubWindow = activeSubWindow();
-    for(int i = 0, count = i < m_area->subWindowList().size(); i < count; i++) {
+    for(int i = 0, count = m_area->subWindowList().size(); i < count; i++) {
         QMdiSubWindow *a = m_area->subWindowList().at(i);
         data.setWindowID(i);
         if(currentSubWindow == a)
@@ -461,7 +461,7 @@ void WindowManager::restore()
         m_actions->setSubWindowView();
     else
         m_actions->setTabbedView();
-
+    myDebug() << "size = " << data.size();
     for(int i = 0; i < data.size(); ++i) {
         data.setWindowID(i);
         myDebug() << "max = " << data.maximized();
