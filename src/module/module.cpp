@@ -71,7 +71,7 @@ void Module::setTitle(const QString &title)
 
 void Module::setModuleID(const int moduleID)
 {
-    myDebug() << "new id = " << moduleID;
+    //myDebug() << "new id = " << moduleID;
     m_id = moduleID;
 }
 

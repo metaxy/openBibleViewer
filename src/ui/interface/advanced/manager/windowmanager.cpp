@@ -99,11 +99,11 @@ void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax)
     bibleForm->activated();
 
 
-    if(m_area->viewMode() == QMdiArea::SubWindowView) {
-        if(forceMax) {
-            myDebug() << "show maximized";
-            subWindow->showMaximized();
-        } else if(windowsCount == 0  && doAutoLayout) {
+    if(forceMax) {
+        myDebug() << "show maximized";
+        subWindow->showMaximized();
+    } else if(m_area->viewMode() == QMdiArea::SubWindowView) {
+        if(windowsCount == 0  && doAutoLayout) {
             subWindow->showMaximized();
         } else if(windowsCount == 1 && doAutoLayout) {
             firstSubWindow->resize(600, 600);
@@ -443,7 +443,7 @@ void WindowManager::save()
         data.setMaximized(a->isMaximized());
         myDebug() << "max = " << a->isMaximized();
         //myDebug() << a->windowState();
-        //data.setWindowState(a->windowState());
+        data.setWindowState(a->windowState());
     }
     data.write();
     m_settings->session.setData("viewMode", m_area->viewMode());
@@ -457,10 +457,16 @@ void WindowManager::restore()
     data.setSettings(m_settings);
     data.read();
     const int viewMode = m_settings->session.getData("viewMode").toInt();
+    if(viewMode == 0)
+        m_actions->setSubWindowView();
+    else
+        m_actions->setTabbedView();
+
     for(int i = 0; i < data.size(); ++i) {
+        data.setWindowID(i);
         myDebug() << "max = " << data.maximized();
         newSubWindow(true, data.maximized());
-        data.setWindowID(i);
+
         //load bible
         m_moduleManager->verseTable()->clear();
         const QList<QString> urls = data.url();
@@ -482,21 +488,11 @@ void WindowManager::restore()
             myDebug() << "setting geo";
             activeSubWindow()->setGeometry(data.geo());
         }
-
-        myDebug() << "window state = " << data.windowState();
-        //activeSubWindow()->setWindowState(data.windowState());
-        //if(data.maximized())
-            //activeSubWindow()->showMaximized();
-
+        activeSubWindow()->setWindowState(data.windowState());
         QWebView *v = activeForm()->m_view;
         v->page()->mainFrame()->setScrollPosition(data.scrollPosition());
         v->setZoomFactor(data.zoom());
     }
-
-    if(viewMode == 0)
-        m_actions->setSubWindowView();
-    else
-        m_actions->setTabbedView();
 
     const int id = m_settings->session.getData("windowID", -1).toInt();
     if(id < m_area->subWindowList().size() && id > 0) {
