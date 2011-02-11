@@ -23,7 +23,6 @@ VerseUrl GoTo::getUrl(const QString& text)
     if(text.size() < 1)
         return VerseUrl();
 
-    //todo: enable
     QStringList reg;
     QRegExp foundRegExp;
     reg << "(.*)" << "(.*)(\\s+)(\\d+)"  << "(.*)(\\s+)(\\d+),(\\d+)" << "(.*)(\\s+)(\\d+):(\\d+)";

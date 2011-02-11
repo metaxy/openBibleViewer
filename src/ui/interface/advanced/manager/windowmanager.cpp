@@ -461,10 +461,10 @@ void WindowManager::restore()
         m_actions->setSubWindowView();
     else
         m_actions->setTabbedView();
-    myDebug() << "size = " << data.size();
+    //myDebug() << "size = " << data.size();
     for(int i = 0; i < data.size(); ++i) {
         data.setWindowID(i);
-        myDebug() << "max = " << data.maximized();
+        //myDebug() << "max = " << data.maximized();
         newSubWindow(true, data.maximized());
 
         //load bible
@@ -474,7 +474,7 @@ void WindowManager::restore()
         for(int j = 0; j < urls.size() && j < points.size(); j++) {
             const QString url = urls.at(j);
             const QPoint point = points.at(j);
-            myDebug() << "url = " << url << " point = " << point;
+            //myDebug() << "url = " << url << " point = " << point;
             UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
             urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
             urlConverter.convert();
@@ -485,7 +485,7 @@ void WindowManager::restore()
             }
         }
         if(viewMode == 0 && !data.maximized()) {
-            myDebug() << "setting geo";
+            //myDebug() << "setting geo";
             activeSubWindow()->setGeometry(data.geo());
         }
         activeSubWindow()->setWindowState(data.windowState());

@@ -161,7 +161,6 @@ Dictionary* ModuleManager::dictionary()
   */
 QString ModuleManager::notePos2Link(const QString &pos)
 {
-    //todo: use ranges
     VerseUrl url;
     url.fromString(pos);
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
@@ -222,7 +221,6 @@ QList<int> ModuleManager::getBibleIDs()
 }
 void ModuleManager::checkCache(const int &moduleID)
 {
-    //todo: load versification
     /*Module *m = m_moduleMap->m_map.value(moduleID);
     if(m->moduleClass() == OBVCore::BibleModuleClass && !m_settings->m_moduleCache.keys().contains(m->path())) {
         Bible *b = new Bible();

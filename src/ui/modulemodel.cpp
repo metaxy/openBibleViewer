@@ -53,8 +53,6 @@ void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings
         item->setData(QString::number(settings->moduleID));
         item->setToolTip(Module::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
 
-        //todo: icons
-        //item->setIcon(bibleQuoteIcon);
         if(settings->moduleType == OBVCore::BibleQuoteModule || settings->moduleType == OBVCore::TheWordBibleModule) {
             item->setIcon(m_bibleQuoteIcon);
         } else if(settings->moduleType == OBVCore::ZefaniaBibleModule) {

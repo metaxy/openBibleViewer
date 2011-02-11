@@ -66,8 +66,6 @@ bool BibleQuoteDict::hasIndex()
         return false;
     }
     const QString index = indexPath();
-
-    //todo: check versions
     return IndexReader::indexExists(index.toStdString().c_str());
 }
 int BibleQuoteDict::buildIndex()

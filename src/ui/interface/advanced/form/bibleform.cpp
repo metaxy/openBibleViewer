@@ -368,8 +368,8 @@ void BibleForm::showText(const QString &text)
 
     if(m_moduleManager->verseModule()->moduleType() == OBVCore::BibleQuoteModule) {
         //todo: uncomment
-        /* QWebElementCollection collection = frame->documentElement().findAll("img");
-         const QStringList searchPaths = m_moduleManager->verseModule()->getSearchPaths();
+        QWebElementCollection collection = frame->documentElement().findAll("img");
+         const QStringList searchPaths = ((Bible*) m_moduleManager->verseModule())->getSearchPaths();
 
          foreach(QWebElement paraElement, collection) {
              QString url = paraElement.attribute("src");
@@ -392,7 +392,7 @@ void BibleForm::showText(const QString &text)
                      }
                  }
              }
-         }*/
+         }
     }
 
 }

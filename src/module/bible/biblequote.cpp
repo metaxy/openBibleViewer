@@ -74,10 +74,11 @@ void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
     QFile file;
     file.setFileName(path);
     QString encoding;
-    if(m_settings->getModuleSettings(m_moduleID)->encoding == "Default" || m_settings->getModuleSettings(m_moduleID)->encoding.isEmpty()) {
+    ModuleSettings *settings = m_settings->getModuleSettings(m_moduleID);
+    if(settings->encoding == "Default" || settings->encoding.isEmpty()) {
         encoding = m_settings->encoding;
     } else {
-        encoding = m_settings->getModuleSettings(m_moduleID)->encoding;
+        encoding = settings->encoding;
     }
     m_codec = QTextCodec::codecForName(encoding.toStdString().c_str());
     QTextDecoder *decoder = m_codec->makeDecoder();
@@ -143,14 +144,13 @@ void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
 
         }
     }
-    ModuleSettings *mset = m_settings->getModuleSettings(m_moduleID);
-    mset->loadVersification();
-    if(mset->v11n == NULL) {
-        mset->v11n = new Versification_BibleQuote(bookFullName, bookShortName, bookCount);
-        mset->versificationName = "";
-        mset->versificationFile = m_settings->v11nFile(path);
+    settings->loadVersification();
+    if(settings->v11n == NULL) {
+       settings->v11n = new Versification_BibleQuote(bookFullName, bookShortName, bookCount);
+       settings->versificationName = "";
+       settings->versificationFile = m_settings->v11nFile(path);
     }
-    m_versification = mset->v11n;
+    m_versification = settings->v11n;
 }
 /**
   Reads the ini-file and returns the bible name. If the file is invalid is returns an empty QString.
@@ -162,16 +162,17 @@ QString BibleQuote::readInfo(QFile &file)
     m_moduleName.clear();
     m_moduleShortName.clear();
     int countlines = 0;
+    ModuleSettings *settings = m_settings->getModuleSettings(m_moduleID);
 
     if(m_codec == NULL) {
         QString encoding;
-        if(m_settings->getModuleSettings(m_moduleID) == NULL) {
+        if(settings == NULL) {
             encoding = m_settings->encoding;
         } else {
-            if(m_settings->getModuleSettings(m_moduleID)->encoding == "Default" || m_settings->getModuleSettings(m_moduleID)->encoding.isEmpty()) {
+            if(settings->encoding == "Default" || settings->encoding.isEmpty()) {
                 encoding = m_settings->encoding;
             } else {
-                encoding = m_settings->getModuleSettings(m_moduleID)->encoding;
+                encoding = settings->encoding;
             }
         }
         m_codec = QTextCodec::codecForName(encoding.toStdString().c_str());
