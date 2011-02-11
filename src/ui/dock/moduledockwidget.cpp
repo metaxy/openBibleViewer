@@ -65,7 +65,7 @@ void ModuleDockWidget::loadModuleData(QModelIndex index)
     }
 }
 /**
-  If a module is loaded not through the ModuleDock, select the module.
+  * If a module is loaded not through the ModuleDock, select the module.
   */
 void ModuleDockWidget::loadedModule(int id)
 {

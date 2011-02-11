@@ -33,7 +33,7 @@ AdvancedSearchResultDockWidget::~AdvancedSearchResultDockWidget()
 void AdvancedSearchResultDockWidget::init()
 {
     m_itemModel = new QStandardItemModel(this);
-
+    m_itemModel->setHeaderData(0, Qt::Horizontal, tr("Result"));
     m_proxyModel = new QSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_itemModel);
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);

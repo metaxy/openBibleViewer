@@ -144,6 +144,7 @@ void SettingsDialog::generateModuleTree()
     model.setSettings(&m_set);
     model.generate();
     m_ui->treeView->setModel(model.itemModel());
+    m_ui->treeView->model()->setHeaderData(0, Qt::Horizontal, tr("Module"));
 }
 
 void SettingsDialog::addModuleFile(void)
