@@ -15,9 +15,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 Module::Module(Module *parent)
 {
-    m_bibleModule = 0;
-    m_zefaniaLex = 0;
-    m_bibleQuoteDict = 0;
+    m_bibleModule = NULL;
+    m_zefaniaLex = NULL;
+    m_bibleQuoteDict = NULL;
     m_parent = parent;
 
     m_moduleClass = OBVCore::NoneClass;
@@ -25,6 +25,18 @@ Module::Module(Module *parent)
 }
 Module::~Module()
 {
+    if(m_bibleModule != NULL) {
+        delete m_bibleModule;
+        m_bibleModule = NULL;
+    }
+    if(m_zefaniaLex != NULL) {
+        delete m_zefaniaLex;
+        m_zefaniaLex = NULL;
+    }
+    if(m_bibleQuoteDict != NULL) {
+        delete m_bibleQuoteDict;
+        m_bibleQuoteDict = NULL;
+    }
 }
 
 void Module::setSettings(Settings *settings)

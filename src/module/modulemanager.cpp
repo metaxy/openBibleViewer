@@ -17,16 +17,25 @@ ModuleManager::ModuleManager()
 {
     m_moduleMap = new ModuleMap();
     m_dictionary = NULL;
+    m_rootModule = NULL;
 }
 ModuleManager::~ModuleManager()
 {
     //DEBUG_FUNC_NAME
     delete m_moduleMap;
 
-    if(m_dictionary != NULL)
+    if(m_dictionary != NULL) {
         delete m_dictionary;
-    if(m_moduleModel != NULL)
+        m_dictionary = NULL;
+    }
+    if(m_moduleModel != NULL) {
         delete m_moduleModel;
+        m_moduleModel = NULL;
+    }
+    if(m_rootModule != NULL) {
+        delete m_rootModule;
+        m_rootModule = NULL;
+    }
 }
 
 void ModuleManager::setSettings(Settings *settings)
@@ -52,15 +61,15 @@ int ModuleManager::loadAllModules()
     DEBUG_FUNC_NAME;
 
     //The invisible root Module
-    Module *root = new Module();
-    root->setModuleID(-1);
-    root->setModuleClass(OBVCore::FolderClass);
-    root->setModuleType(OBVCore::NoneType);
+    m_rootModule = new Module();
+    m_rootModule->setModuleID(-1);
+    m_rootModule->setModuleClass(OBVCore::FolderClass);
+    m_rootModule->setModuleType(OBVCore::NoneType);
 
     ModuleSettings *rootModuleSettings = m_settings->getModuleSettings(-1);//it the invisble root item
     if(rootModuleSettings != NULL) {
         foreach(ModuleSettings * s, rootModuleSettings->children()) {
-            loadModule(root, s);
+            loadModule(m_rootModule, s);
         }
         ModuleModel model(0);
         model.setSettings(m_settings);

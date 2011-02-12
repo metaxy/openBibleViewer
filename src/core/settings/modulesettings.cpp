@@ -40,6 +40,10 @@ ModuleSettings::~ModuleSettings()
         delete v11n;
         v11n = NULL;
     }
+    if(m_displaySettings != NULL) {
+        delete m_displaySettings;
+        m_displaySettings = NULL;
+    }
 }
 
 void ModuleSettings::loadVersification()

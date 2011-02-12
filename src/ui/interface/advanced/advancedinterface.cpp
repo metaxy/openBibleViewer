@@ -52,6 +52,7 @@ void AdvancedInterface::init()
     m_api = new Api(this);
     setAll(m_api);
     m_api->init();
+
     m_bibleManager = new BibleManager(this);
     setAll(m_bibleManager);
     m_bibleManager->setWidget(this->parentWidget());

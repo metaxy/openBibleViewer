@@ -82,6 +82,8 @@ public:
 private:
 
     void loadModule(Module *moduleParent, ModuleSettings *setttings);
+
+    Module *m_rootModule;
 };
 
 #endif // MODULEMANAGER_H
