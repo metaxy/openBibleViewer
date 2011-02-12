@@ -8,7 +8,7 @@
 class ModuleModel
 {
 public:
-    ModuleModel();
+    ModuleModel(QObject *parent);
     ~ModuleModel();
 
     void clear();

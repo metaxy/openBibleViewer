@@ -27,6 +27,7 @@ public slots:
 
 public:
     explicit ModuleApi(QObject *parent = 0);
+    virtual ~ModuleApi();
     void setFrame(QWebFrame *frame);
 private:
     QWebFrame *m_frame;

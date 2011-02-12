@@ -19,7 +19,7 @@ Api::Api(QObject *parent) :
 }
 void Api::init()
 {
-    m_moduleApi = new ModuleApi();
+    m_moduleApi = new ModuleApi(this);
     setAll(m_moduleApi);
 
     m_notesApi = new NotesApi(this);

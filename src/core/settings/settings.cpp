@@ -19,12 +19,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 Settings::Settings()
 {
     homePath = "";
-    defaultVersification = 0;
+    defaultVersification = NULL;
 }
 Settings::~Settings()
 {
     //todo: memory leak
-    /*if(defaultVersification != 0)
+    /*if(defaultVersification != NULL)
         delete defaultVersification;*/
 }
 

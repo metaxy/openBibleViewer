@@ -16,10 +16,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QString>
 #include <QtCore/QVariant>
 #include <QtCore/QMap>
-/*!
- SearchHit represents a hit in a search.
-
-*/
+/**
+ * SearchHit represents a hit of a search.
+ */
 class SearchHit
 {
 public:

@@ -18,6 +18,13 @@ ModuleSettings::ModuleSettings()
     v11n = NULL;
     m_displaySettings = NULL;
 
+    useParentSettings = true;
+    zefbible_textFormatting = NewLine;
+    zefbible_hardCache = true;
+    zefbible_softCache = true;
+    biblequote_removeHtml = false;
+    styleSheet = "";
+
 }
 
 ModuleSettings::ModuleSettings(ModuleSettings *parent)

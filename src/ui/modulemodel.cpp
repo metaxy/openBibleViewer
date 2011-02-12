@@ -1,8 +1,8 @@
 #include "modulemodel.h"
 
-ModuleModel::ModuleModel()
+ModuleModel::ModuleModel(QObject *parent)
 {
-    m_moduleModel = new QStandardItemModel;
+    m_moduleModel = new QStandardItemModel(parent);
     //m_moduleModel->setHeaderData(0, Qt::Horizontal, QObject::tr("Module"));
 }
 ModuleModel::~ModuleModel()

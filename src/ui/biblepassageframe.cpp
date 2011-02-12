@@ -29,7 +29,7 @@ BiblePassageFrame::~BiblePassageFrame()
 }
 void BiblePassageFrame::init()
 {
-    ModuleModel m;
+    ModuleModel m(this);
     m.setSettings(m_settings);
     m.generate();
     m_model = m.itemModel();

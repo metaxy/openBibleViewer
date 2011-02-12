@@ -25,21 +25,37 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     DEBUG_FUNC_NAME
-    delete ui;
-    ui = 0;
+    if(m_settings->defaultVersification != NULL) {
+        delete m_settings->defaultVersification;
+        m_settings->defaultVersification = NULL;
+    }
+    QHashIterator<int, ModuleSettings*> it(m_settings->m_moduleSettings);
+    while(it.hasNext()) {
+        it.next();
+        if(it.value() != NULL)
+            delete it.value();
+    }
+    m_settings->m_moduleSettings.clear();
+
     delete m_moduleManager;
     m_moduleManager = 0;
-    delete m_settings;
-    m_settings = 0;
     delete m_notes;
     m_notes = 0;
+    delete m_settings;
+    m_settings = 0;
+
     delete m_settingsFile;
     m_settingsFile = 0;
-    /*delete m_menuBar;
-    m_menuBar = 0;*/
+
+    delete m_session;
+    m_session = NULL;
+    delete ui;
+    ui = 0;
     delete m_interface;
     m_interface = 0;
 }
+
+
 void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 {
     VERSION = "0.6.a2";
@@ -334,7 +350,6 @@ void MainWindow::loadSettings()
         while(it2.hasNext())  {
             it2.next();
             ModuleSettings *child = it2.value();
-
             if(child->useParentSettings) {
                 const int parentID = child->parentID;
                 if(m_settings->m_moduleSettings.contains(parentID)) {

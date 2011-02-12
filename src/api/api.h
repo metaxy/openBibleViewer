@@ -26,9 +26,6 @@ public:
     void init();
     NotesApi* notesApi() const;
     ModuleApi* moduleApi() const;
-signals:
-
-public slots:
 private:
     NotesApi *m_notesApi;
     ModuleApi *m_moduleApi;

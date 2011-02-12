@@ -18,6 +18,7 @@ class ModuleMap
 {
 public:
     ModuleMap();
+    ~ModuleMap();
     QMap<int, Module*> m_map;
 };
 

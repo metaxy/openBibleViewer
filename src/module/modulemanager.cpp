@@ -15,7 +15,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/reftext.h"
 ModuleManager::ModuleManager()
 {
-
     m_moduleMap = new ModuleMap();
     m_dictionary = NULL;
 }
@@ -26,6 +25,8 @@ ModuleManager::~ModuleManager()
 
     if(m_dictionary != NULL)
         delete m_dictionary;
+    if(m_moduleModel != NULL)
+        delete m_moduleModel;
 }
 
 void ModuleManager::setSettings(Settings *settings)
@@ -61,7 +62,7 @@ int ModuleManager::loadAllModules()
         foreach(ModuleSettings * s, rootModuleSettings->children()) {
             loadModule(root, s);
         }
-        ModuleModel model;
+        ModuleModel model(0);
         model.setSettings(m_settings);
         model.generate();
         m_moduleModel = model.itemModel();

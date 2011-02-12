@@ -14,11 +14,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef SEARCHQUERY_H
 #define SEARCHQUERY_H
 #include <QtCore/QString>
-/*!
- SearchQuery represent a search query
-
- @author Paul Walger <metaxy@walger.name>
-*/
+/**
+ * SearchQuery represents a search query. It consists mainly of a range and a query string.
+ */
 class SearchQuery
 {
 public:

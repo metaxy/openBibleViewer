@@ -18,11 +18,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QList>
 #include <QtCore/QString>
 #include <QtGui/QListWidget>
-/*!
- Searchresult represents the results for a search
-
- @author Paul Walger <metaxy@walger.name>
-*/
+/**
+ * SearchResult represents the results for a search. It contains all the all the hits (SearchHit) and the query (SearchQuery)
+ */
 class SearchResult
 {
 public:

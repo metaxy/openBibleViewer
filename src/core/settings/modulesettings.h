@@ -78,7 +78,7 @@ public:
     bool hasVersfication;
     Versification *v11n;
     /**
-      * If the is no settingsfile or it is empty v11n remains the same
+      * If the is no settingsfile or it is empty, v11n remains the same(mostly NULL)
       */
     void loadVersification();
     void saveVersification();

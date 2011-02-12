@@ -49,7 +49,7 @@ void AdvancedInterface::init()
 
     m_moduleManager->setmoduledisplaysettings(m_moduledisplaysettings);
 
-    m_api = new Api();
+    m_api = new Api(this);
     setAll(m_api);
     m_api->init();
     m_bibleManager = new BibleManager(this);

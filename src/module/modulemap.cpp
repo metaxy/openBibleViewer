@@ -16,3 +16,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 ModuleMap::ModuleMap()
 {
 }
+ModuleMap::~ModuleMap()
+{
+    foreach(Module *m, m_map) {
+        if(m != NULL)
+            delete m;
+    }
+}

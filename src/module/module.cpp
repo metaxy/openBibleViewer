@@ -19,6 +19,9 @@ Module::Module(Module *parent)
     m_zefaniaLex = 0;
     m_bibleQuoteDict = 0;
     m_parent = parent;
+
+    m_moduleClass = OBVCore::NoneClass;
+    m_moduleType = OBVCore::NoneType;
 }
 Module::~Module()
 {

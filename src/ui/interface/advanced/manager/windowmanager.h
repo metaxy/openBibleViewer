@@ -33,6 +33,7 @@ class WindowManager : public QObject , public BasicClass
     Q_OBJECT
 public:
     explicit WindowManager(QObject *parent = 0);
+    ~WindowManager();
     void setMdiArea(QMdiArea *area);
     void setApi(Api *api);
     void setBibleManager(BibleManager *bibleManager);

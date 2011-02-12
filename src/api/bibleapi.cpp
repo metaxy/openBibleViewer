@@ -18,6 +18,11 @@ ModuleApi::ModuleApi(QObject *parent) :
     QObject(parent)
 {
 }
+ModuleApi::~ModuleApi()
+{
+
+}
+
 void ModuleApi::activateModule(const int &verseTableID)
 {
     DEBUG_FUNC_NAME;

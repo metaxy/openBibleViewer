@@ -140,7 +140,7 @@ int SettingsDialog::setSettings(Settings settings)
 void SettingsDialog::generateModuleTree()
 {
     DEBUG_FUNC_NAME
-    ModuleModel model;
+    ModuleModel model(this);
     model.setSettings(&m_set);
     model.generate();
     m_ui->treeView->setModel(model.itemModel());

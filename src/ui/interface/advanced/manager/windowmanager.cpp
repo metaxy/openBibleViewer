@@ -19,6 +19,11 @@ WindowManager::WindowManager(QObject *parent) :
     m_nameCounter = 0;
     m_currentWindowID = new int(-1);
 }
+WindowManager::~WindowManager()
+{
+    delete m_currentWindowID;
+    m_currentWindowID = NULL;
+}
 
 void WindowManager::setMdiArea(QMdiArea *area)
 {
