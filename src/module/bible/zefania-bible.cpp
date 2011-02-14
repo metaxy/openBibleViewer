@@ -836,19 +836,9 @@ std::pair<int, int> ZefaniaBible::minMaxVerse(int bookID, int chapterID)
     }
 
     const Chapter c = m_book.getChapter(chapterID);
-    QMap<int, Verse> data = c.data();
-    int max = 0;
-    int min = 0;
-
-    foreach(int key, data.keys()) {
-        if(key >= max) {
-            max = key;
-        } else if(key <= min) {
-            min = key;
-        }
-    }
-    ret.first = min;
-    ret.second = max;
+    //because c.data() is a map and it is sorted by key
+    ret.first = c.data().keys().first();
+    ret.second = c.data().keys().last();
 
     return ret;
 }
