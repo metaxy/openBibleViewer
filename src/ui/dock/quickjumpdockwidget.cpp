@@ -24,6 +24,8 @@ QuickJumpDockWidget::QuickJumpDockWidget(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->pushButton_goTo, SIGNAL(clicked()), this, SLOT(goToPos()));
     connect(ui->lineEdit_goTo, SIGNAL(returnPressed()), this, SLOT(goToPos()));
+
+    m_completer = NULL;
 }
 
 QuickJumpDockWidget::~QuickJumpDockWidget()
@@ -32,14 +34,21 @@ QuickJumpDockWidget::~QuickJumpDockWidget()
 }
 void QuickJumpDockWidget::init()
 {
+    DEBUG_FUNC_NAME;
+    connect(m_actions, SIGNAL(_updateBooks(Versification*)), this, SLOT(setBooks(Versification*)));
 }
-void QuickJumpDockWidget::setBooks(QStringList list)
+void QuickJumpDockWidget::setBooks(Versification *v11n)
 {
-    m_books = list;
+    DEBUG_FUNC_NAME;
+    m_books = v11n->bookNames().values();
 
     QStringList l;
     l << m_books;
     l << m_hist;
+    /*if(m_completer != NULL) {
+        delete m_completer;
+        m_completer = NULL;
+    }*/
     m_completer = new QCompleter(l, this);
     m_completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->lineEdit_goTo->setCompleter(m_completer);
@@ -47,12 +56,17 @@ void QuickJumpDockWidget::setBooks(QStringList list)
 
 void QuickJumpDockWidget::goToPos()
 {
+    DEBUG_FUNC_NAME;
     const QString text = ui->lineEdit_goTo->text();
     m_hist << text;
 
     QStringList l;
     l << m_books;
     l << m_hist;
+    /*if(m_completer != NULL) {
+        delete m_completer;
+        m_completer = NULL;
+    }*/
     m_completer = new QCompleter(l, this);
     m_completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->lineEdit_goTo->setCompleter(m_completer);

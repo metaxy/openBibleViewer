@@ -27,7 +27,7 @@ ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
     m_moduleID = -1;
 }
 /**
-  Init the ModuleDockWidget. Init proxyModel and selectionModel.
+  * Init the ModuleDockWidget. Init proxyModel and selectionModel.
   */
 void ModuleDockWidget::init()
 {
@@ -47,7 +47,7 @@ void ModuleDockWidget::init()
     connect(m_actions, SIGNAL(_setCurrentModule(int)), this, SLOT(loadedModule(int)));
 }
 /**
-  Emits get to load the selected module.
+  * Emits get to load the selected module.
   */
 void ModuleDockWidget::loadModuleData(QModelIndex index)
 {
@@ -99,8 +99,6 @@ void ModuleDockWidget::filter(QString string)
 ModuleDockWidget::~ModuleDockWidget()
 {
     delete ui;
-//  delete m_proxyModel;
-//  delete m_selectionModel;
 }
 
 void ModuleDockWidget::changeEvent(QEvent *e)

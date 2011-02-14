@@ -14,7 +14,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "notesapi.h"
 
-NotesApi::NotesApi(QObject* parent)
+NotesApi::NotesApi(QObject* parent) :
+    QObject(parent)
 {
 
 }

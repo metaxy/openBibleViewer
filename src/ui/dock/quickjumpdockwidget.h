@@ -21,20 +21,20 @@ namespace Ui
 {
 class QuickJumpDockWidget;
 }
-/*!
- ModuleDockWidget represents a dock widget from which you can jump fast to certain positions in the module
-
-*/
+/**
+  * QuickJumpDockWidget represents a dock widget from which you can jump fast to certain positions in the current module.
+  */
 class QuickJumpDockWidget : public DockWidget
 {
     Q_OBJECT
 private slots:
     void goToPos();
+    void setBooks(Versification *v11n);
 public:
     QuickJumpDockWidget(QWidget *parent = 0);
     ~QuickJumpDockWidget();
     void init();
-    void setBooks(QStringList list);
+
 
 protected:
     void changeEvent(QEvent *e);

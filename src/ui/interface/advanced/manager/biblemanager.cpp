@@ -53,7 +53,7 @@ QHash<DockWidget*, Qt::DockWidgetArea> BibleManager::docks()
     QHash<DockWidget *, Qt::DockWidgetArea> ret;
     ret.insert(m_bookDockWidget, Qt::LeftDockWidgetArea);
     ret.insert(m_moduleDockWidget, Qt::LeftDockWidgetArea);
-    ret.insert(m_quickJumpDockWidget, Qt::RightDockWidgetArea);
+    ret.insert(m_quickJumpDockWidget, Qt::LeftDockWidgetArea);
     return ret;
 
 }

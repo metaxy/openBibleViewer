@@ -37,7 +37,9 @@ VerseUrl GoTo::getUrl(const QString& text)
         }
     }
 
+
     VerseUrlRange range;
+    range.setModule(m_currentBibleID);
     if(found == 0) {  //example: Hiob
         const int bookID = bookNameToBookID(foundRegExp.cap(1));
         range.setBook(bookID);
@@ -55,6 +57,7 @@ VerseUrl GoTo::getUrl(const QString& text)
         const int verseID = foundRegExp.cap(4).toInt() - 1;
         range.setBook(bookID);
         range.setChapter(chapterID);
+        range.setWholeChapter();
         range.setActiveVerse(verseID);
     }
     VerseUrl url(range);
