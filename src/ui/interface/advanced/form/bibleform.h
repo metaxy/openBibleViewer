@@ -60,7 +60,7 @@ class BibleForm : public QWidget, public BasicClass
 public:
     explicit BibleForm(QWidget *parent = 0);
     virtual ~BibleForm();
-    void setID(const int &id);
+    void setID(const int id);
     int id();
     void init();
     void setApi(Api *api);

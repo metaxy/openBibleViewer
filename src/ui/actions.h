@@ -27,7 +27,7 @@ public:
     explicit Actions(QObject *parent = 0);
 
 signals:
-    void _showChapter(const int &moduleID, const int &bookID, const int &chapterID);
+    void _showChapter(const int moduleID, const int bookID, const int chapterID);
     void _previousChapter();
     void _nextChapter();
     /**
@@ -49,7 +49,7 @@ signals:
     void _updateBooks(Versification *v11n);
     void _clearBooks();
 
-    void _setCurrentModule(const int &moduleID);
+    void _setCurrentModule(const int moduleID);
 
     void _setTabbedView();
     void _setSubWindowView();
@@ -68,7 +68,7 @@ public slots:
     /**
       * Show a chapter in current SubWindow.
       */
-    void showChapter(const int &moduleID, const int &bookID, const int &chapterID);
+    void showChapter(const int moduleID, const int bookID, const int chapterID);
     void previousChapter();
     void nextChapter();
 
@@ -95,7 +95,7 @@ public slots:
     void updateBooks(Versification *v11n);
     void clearBooks();
 
-    void setCurrentModule(const int &moduleID);
+    void setCurrentModule(const int moduleID);
 
     void setTabbedView();
     void setSubWindowView();

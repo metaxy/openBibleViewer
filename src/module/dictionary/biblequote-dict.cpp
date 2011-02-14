@@ -30,7 +30,7 @@ void BibleQuoteDict::setSettings(Settings *set)
 {
     m_settings = set;
 }
-void BibleQuoteDict::setID(const int &id, const QString &path)
+void BibleQuoteDict::setID(const int id, const QString &path)
 {
     m_moduleID = id;
     m_modulePath = path;

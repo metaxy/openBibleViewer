@@ -61,8 +61,8 @@ public:
     QString notePos2Link(const QString &pos);
     QString notePos2Text(const QString &pos);
 
-    Module * getModule(const int &moduleID);
-    bool contains(const int &moduleID);
+    Module * getModule(const int moduleID);
+    bool contains(const int moduleID);
 
     QStandardItemModel *m_moduleModel;
 
@@ -76,8 +76,8 @@ public:
     QStringList getBibleTitles();
     QStringList getBiblePaths();
     QList<int> getBibleIDs();
-    void checkCache(const int &moduleID);
-    VerseModule * newVerseModule(const int &moduleID, QPoint p);
+    void checkCache(const int moduleID);
+    VerseModule * newVerseModule(const int moduleID, QPoint p);
     ModuleDisplaySettings *m_moduledisplaysettings;
     static OBVCore::ModuleType recognizeModuleType(const QString &fileName);
 

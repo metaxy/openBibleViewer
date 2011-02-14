@@ -80,7 +80,7 @@ private:
     Ui::SettingsDialog *m_ui;
     bool m_modifedModuleSettings;
 
-    static QStringList scan(const QString &path, const int &level);
+    static QStringList scan(const QString &path, const int level);
 
     int quiteAddModule(const QString &path, int parentID = -1, const QString &name = "");
 

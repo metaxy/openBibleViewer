@@ -65,12 +65,12 @@ private:
     void setTitle(const QString &title);
     void setChapters(const QStringList &chapters);
     void setBooks(const QHash<int, QString> &books);
-    void setCurrentBook(const int &bookID);
-    void setCurrentChapter(const int &chapterID);
-    void readBook(const int &id);
+    void setCurrentBook(const int bookID);
+    void setCurrentChapter(const int chapterID);
+    void readBook(const int id);
     void readBookByID(int id);
 
-    void readChapter(const int &id);
+    void readChapter(const int id);
     void showChapter(int chapterID, int verseID);
     void nextChapter();
     void previousChapter();

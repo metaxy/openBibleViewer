@@ -63,7 +63,7 @@ void MarkList::init()
     ui->tableView->setModel(m_proxyModel);
     ui->tableView->setSelectionModel(m_selectionModel);
 }
-void MarkList::addMark(const int &row, const QString &id)
+void MarkList::addMark(const int row, const QString &id)
 {
     UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, m_notes->getRef(id, "link"));
     urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);

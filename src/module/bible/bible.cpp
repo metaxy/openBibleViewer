@@ -98,7 +98,7 @@ int Bible::loadModuleData(const int moduleID)
     return 0;
 }
 
-int Bible::readBook(const int &id)
+int Bible::readBook(const int id)
 {
     DEBUG_FUNC_NAME
     m_bookID = id;

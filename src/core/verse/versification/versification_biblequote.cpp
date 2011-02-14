@@ -28,7 +28,7 @@ Versification_BibleQuote::Versification_BibleQuote(const QStringList &fullNames,
     }
     setFlags(Versification::ReturnAll);
 }
-bool Versification_BibleQuote::filter(const int &bookID, VersificationFilterFlags flags) const
+bool Versification_BibleQuote::filter(const int bookID, VersificationFilterFlags flags) const
 {
     return true;
 }

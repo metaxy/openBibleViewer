@@ -24,7 +24,7 @@ Versification_Zefania::Versification_Zefania(const QStringList &fullNames, const
     }
     setFlags(Versification::ReturnAll);
 }
-bool Versification_Zefania::filter(const int &bookID, VersificationFilterFlags flags) const
+bool Versification_Zefania::filter(const int bookID, VersificationFilterFlags flags) const
 {
     if(flags.testFlag(Versification::ReturnAll) || (flags.testFlag(Versification::ReturnOT) && flags.testFlag(Versification::ReturnNT)))
         return true;
@@ -34,7 +34,7 @@ bool Versification_Zefania::filter(const int &bookID, VersificationFilterFlags f
         return (bookID >= 39);
     }
 }
-void Versification_Zefania::setMaxChapter(const int &bookID, const int &maxChapter)
+void Versification_Zefania::setMaxChapter(const int bookID, const int maxChapter)
 {
     BookV11N book = m_books.value(bookID);
     book.maxChapter = maxChapter;

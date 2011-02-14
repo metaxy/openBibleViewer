@@ -21,9 +21,9 @@ class VerseReplacer
 {
 public:
     VerseReplacer();
-    void setInsert(const int &verseID, const int &pos, const QString &insert);
-    void setPrepend(const int &verseID, const QString &prepend);
-    void setAppend(const int &verseID, const QString &append);
+    void setInsert(const int verseID, const int pos, const QString &insert);
+    void setPrepend(const int verseID, const QString &prepend);
+    void setAppend(const int verseID, const QString &append);
 
     void exec(QMap<int, Verse> *list);
 private:

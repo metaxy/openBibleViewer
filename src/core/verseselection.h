@@ -45,7 +45,7 @@ public:
     void setCanBeUsedForMarks(bool newValue);
 
     QString typeToString();
-    static QString typeToString(const int &t);
+    static QString typeToString(const int t);
 
     static VerseSelection::SelectionPosInTextType typeFromString(const QString &t);
 private:

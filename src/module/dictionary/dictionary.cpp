@@ -20,7 +20,7 @@ Dictionary::Dictionary()
     m_moduleType = OBVCore::NoneType;
     m_moduleID = -1;
 }
-int Dictionary::loadModuleData(const int &moduleID)
+int Dictionary::loadModuleData(const int moduleID)
 {
     DEBUG_FUNC_NAME
     m_module = m_map->m_map.value(moduleID);

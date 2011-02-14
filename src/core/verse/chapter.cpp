@@ -17,12 +17,12 @@ Chapter::Chapter()
     m_chapterID = -1;
     m_verseCount = 0;
 }
-Chapter::Chapter(const int &chapterID)
+Chapter::Chapter(const int chapterID)
 {
     m_chapterID = chapterID;
     m_verseCount = 0;
 }
-void Chapter::addVerse(const int &verseID, const Verse &verse)
+void Chapter::addVerse(const int verseID, const Verse &verse)
 {
     m_verseCount++;
     m_data.insert(verseID, verse);
@@ -35,7 +35,7 @@ int Chapter::verseCount() const
 {
     return m_verseCount;
 }
-void Chapter::setChapterID(const int &chapterID)
+void Chapter::setChapterID(const int chapterID)
 {
     m_chapterID = chapterID;
 }

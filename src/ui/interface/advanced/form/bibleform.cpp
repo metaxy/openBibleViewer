@@ -39,7 +39,7 @@ BibleForm::BibleForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::BibleForm)
     m_api = NULL;
     setButtons();
 }
-void BibleForm::setID(const int &id)
+void BibleForm::setID(const int id)
 {
     m_id = id;
 }

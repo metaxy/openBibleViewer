@@ -48,7 +48,7 @@ public:
     /**
       * Load only the book without pharsing.
       */
-    int readBook(const int &id);
+    int readBook(const int id);
 
     /**
       * Used only by BibleQuote modules.

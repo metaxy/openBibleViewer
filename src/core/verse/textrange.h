@@ -29,12 +29,12 @@ public:
     QMap<int, Verse> verseMap() const;
     QString title() const;
 
-    Verse getVerse(const int &verseID) const;
-    bool hasVerse(const int &verseID) const;
+    Verse getVerse(const int verseID) const;
+    bool hasVerse(const int verseID) const;
 
-    void setBookID(const int &bookID);
-    void setChapterID(const int &chapterID);
-    void setModuleID(const int &id);
+    void setBookID(const int bookID);
+    void setChapterID(const int chapterID);
+    void setModuleID(const int id);
     void setVerseTableID(int verseTableID);
 
     int bookID() const;

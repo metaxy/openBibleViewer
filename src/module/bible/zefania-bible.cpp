@@ -36,7 +36,7 @@ ZefaniaBible::~ZefaniaBible()
     DEBUG_FUNC_NAME
     //delete m_versification;
 }
-void ZefaniaBible::loadBibleData(const int &id, const QString &path)
+void ZefaniaBible::loadBibleData(const int id, const QString &path)
 {
     DEBUG_FUNC_NAME
     m_moduleName = "";
@@ -90,7 +90,7 @@ QDomNode ZefaniaBible::readBookFromHardCache(QString path, int bookID)
     return root.firstChild();
 
 }
-int ZefaniaBible::readBook(const int &id)
+int ZefaniaBible::readBook(const int id)
 {
     QDomNode ncache;
     //book is not in soft cache
@@ -140,7 +140,7 @@ int ZefaniaBible::readBook(const int &id)
   \param bookID The bookID.
   \param ncache The node to convert.
   */
-Book ZefaniaBible::fromHardToSoft(const int &bookID, const QDomNode *ncache)
+Book ZefaniaBible::fromHardToSoft(const int bookID, const QDomNode *ncache)
 {
     Book book;
     book.setID(bookID);
@@ -246,7 +246,7 @@ QHash<int, Book> ZefaniaBible::softCache() const
   Returns the soft cache for a book
   \param bookID The ID of the book.
   */
-Book ZefaniaBible::softCache(const int &bookID) const
+Book ZefaniaBible::softCache(const int bookID) const
 {
     if(m_settings->getModuleSettings(m_moduleID)->zefbible_softCache == true) {
         return m_softCacheData.value(bookID);
@@ -270,7 +270,7 @@ void ZefaniaBible::setSoftCache(const QHash<int, Book > &cache)
   \param bookID The ID of the book.
   \param chapterList New cache.
   */
-void ZefaniaBible::setSoftCache(const int &bookID, const Book &book)
+void ZefaniaBible::setSoftCache(const int bookID, const Book &book)
 {
     if(m_settings->getModuleSettings(m_moduleID)->zefbible_softCache == true) {
         m_softCacheData.insert(bookID, book);
@@ -292,7 +292,7 @@ bool ZefaniaBible::checkForCacheFiles(const QString &path) const
         return true;
     return false;
 }
-void ZefaniaBible::loadNoCached(const int &id, const QString &path)
+void ZefaniaBible::loadNoCached(const int id, const QString &path)
 {
     DEBUG_FUNC_NAME
     QProgressDialog progress(QObject::tr("Loading Bible"), QObject::tr("Cancel"), 0, 76);
@@ -480,7 +480,7 @@ void ZefaniaBible::loadNoCached(const int &id, const QString &path)
 }
 
 
-void ZefaniaBible::loadCached(const int &id, const QString &path)
+void ZefaniaBible::loadCached(const int id, const QString &path)
 {
     DEBUG_FUNC_NAME;
     if(m_moduleID != id) {

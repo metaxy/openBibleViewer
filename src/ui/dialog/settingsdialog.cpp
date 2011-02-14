@@ -40,7 +40,7 @@ void SettingsDialog::reset()
     m_set = m_backupSet;
     setSettings(m_set);
 }
-QStringList SettingsDialog::scan(const QString &path, const int &level = 0)
+QStringList SettingsDialog::scan(const QString &path, const int level = 0)
 {
     QStringList ret;
     QDir dir(path);

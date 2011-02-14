@@ -46,12 +46,12 @@ public:
     QHash<int, QList<int> > maxVerse() const;
     int bookCount() const;
 
-    QString bookName(const int &bookID, bool preferShort = false) const;
+    QString bookName(const int bookID, bool preferShort = false) const;
     QMap<int, BookV11N> data() const;
 
 protected:
     QMap<int, BookV11N> m_books;
-    virtual bool filter(const int &bookID, VersificationFilterFlags filter) const;
+    virtual bool filter(const int bookID, VersificationFilterFlags filter) const;
     VersificationFilterFlags m_filter;
 
 };

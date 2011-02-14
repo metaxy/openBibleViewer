@@ -44,7 +44,7 @@ QString BibleQuote::formatFromIni(QString input)
 {
     return input.trimmed();
 }
-void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
+void BibleQuote::loadBibleData(const int bibleID, const QString &path)
 {
     /*if(m_versification != NULL)
         delete m_versification;
@@ -224,7 +224,7 @@ QString BibleQuote::readInfo(const QString &fileName)
         return "";
     return readInfo(file);
 }
-int BibleQuote::readBook(const int &id)
+int BibleQuote::readBook(const int id)
 {
     m_book.clear();
     m_book.setID(id);

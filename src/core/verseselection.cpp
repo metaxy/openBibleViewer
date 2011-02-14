@@ -46,7 +46,7 @@ QString VerseSelection::typeToString()
     }
     return QString();
 }
-QString VerseSelection::typeToString(const int &t)
+QString VerseSelection::typeToString(const int t)
 {
     if(t == VerseSelection::RepeatOfLongestString) {
         return "RepeatOfLongestString";

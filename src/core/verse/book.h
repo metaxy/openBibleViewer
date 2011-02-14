@@ -21,10 +21,10 @@ public:
     Book();
     int size() const;
     void clear();
-    void addChapter(const int &chapterID, const Chapter &c);
-    bool hasChapter(const int &chapterID) const;
-    Chapter getChapter(const int &chapterID);
-    void setID(const int &id);
+    void addChapter(const int chapterID, const Chapter &c);
+    bool hasChapter(const int chapterID) const;
+    Chapter getChapter(const int chapterID);
+    void setID(const int id);
     int bookID() const;
     QMap<int, Chapter> data() const;
 private:

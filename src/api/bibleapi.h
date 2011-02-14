@@ -23,7 +23,7 @@ class ModuleApi : public QObject, public BasicClass
 {
     Q_OBJECT
 public slots:
-    void activateModule(const int &verseTableID);
+    void activateModule(const int verseTableID);
 
 public:
     explicit ModuleApi(QObject *parent = 0);

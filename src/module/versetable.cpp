@@ -28,7 +28,7 @@ VerseTable::~VerseTable()
     }
 }
 
-void VerseTable::setCurrentVerseTableID(const int &verseTableID)
+void VerseTable::setCurrentVerseTableID(const int verseTableID)
 {
     myDebug() << "before currentModule = " << m_currentModule << " new verseTable = " << verseTableID;
     m_currentModule = verseTableID;
@@ -65,7 +65,7 @@ void VerseTable::addModule(VerseModule* m, const QPoint &p)
     setLastTextRanges(m_lastTextRanges);
 }
 
-VerseModule * VerseTable::verseModule(const int &id) const
+VerseModule * VerseTable::verseModule(const int id) const
 {
     //myDebug() << "return verse module = " << id;
     if(id == -1) {
@@ -228,7 +228,7 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
         return ret;
     }
 }
-int VerseTable::countInCol(const int &col) const
+int VerseTable::countInCol(const int col) const
 {
     QList<QPoint> list = m_points.values();
     int count = 0;
@@ -239,7 +239,7 @@ int VerseTable::countInCol(const int &col) const
     return count;
 }
 
-QString VerseTable::title(VerseModule *module, const QString &active, const int &verseTableID) const
+QString VerseTable::title(VerseModule *module, const QString &active, const int verseTableID) const
 {
     return "<td class='verseTableTitle" + active + "' titleOf='" +
            QString::number(module->moduleID()) + "' verseTableID='" +

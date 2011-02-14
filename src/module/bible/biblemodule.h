@@ -38,9 +38,9 @@ public:
     virtual ~BibleModule() {}
     virtual void setSettings(Settings *settings);
 
-    virtual void loadBibleData(const int &moduleID, const QString &path);
+    virtual void loadBibleData(const int moduleID, const QString &path);
     virtual QString readInfo(QFile &file);
-    virtual int readBook(const int &id);
+    virtual int readBook(const int id);
 
     virtual TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse);
     virtual std::pair<int, int> minMaxVerse(int bookID, int chapterID);

@@ -10,14 +10,14 @@ void SwordBible::setSettings(Settings *set)
 /**
   * Loads the Data.
   */
-void SwordBible::loadBibleData(const int &id, const QString &path)
+void SwordBible::loadBibleData(const int id, const QString &path)
 {
     //DEBUG_FUNC_NAME
     m_moduleID = id;
 
 
 }
-int SwordBible::readBook(const int &id)
+int SwordBible::readBook(const int id)
 {
     //m_currentBookID = id;
     return 0;

@@ -23,7 +23,7 @@ ModuleApi::~ModuleApi()
 
 }
 
-void ModuleApi::activateModule(const int &verseTableID)
+void ModuleApi::activateModule(const int verseTableID)
 {
     DEBUG_FUNC_NAME;
     myDebug() << verseTableID;

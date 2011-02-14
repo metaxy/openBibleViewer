@@ -43,8 +43,8 @@ public:
     ~BookDockWidget();
     void init();
 
-    void setCurrentBook(const int &bookID);
-    void setCurrentChapter(const int &chapterID);
+    void setCurrentBook(const int bookID);
+    void setCurrentChapter(const int chapterID);
 
 protected:
     void changeEvent(QEvent *e);

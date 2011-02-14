@@ -281,16 +281,16 @@ void SimpleInterface::setBooks(const QHash<int, QString> &books)
     //m_bookDockWidget->setBooks(books);
 }
 
-void SimpleInterface::setCurrentBook(const int &bookID)
+void SimpleInterface::setCurrentBook(const int bookID)
 {
     // m_bookDockWidget->setCurrentBook(bookID);
 }
 
-void SimpleInterface::setCurrentChapter(const int &chapterID)
+void SimpleInterface::setCurrentChapter(const int chapterID)
 {
     // m_bookDockWidget->setCurrentChapter(chapterID);
 }
-void SimpleInterface::readBook(const int &id)
+void SimpleInterface::readBook(const int id)
 {
     //myDebug() << "id = " << id;
     emit get("bible://current/" + QString::number(id) + ",0,0");
@@ -317,7 +317,7 @@ void SimpleInterface::readBookByID(int id)
      ui->textBrowser->setSearchPaths(m_moduleManager->verseModule()->getSearchPaths());*/
 
 }
-void SimpleInterface::readChapter(const int &id)
+void SimpleInterface::readChapter(const int id)
 {
     //DEBUG_FUNC_NAME
     //  emit get("bible://current/" + QString::number(m_moduleManager->verseModule()->bookID()) + "," + QString::number(id) + ",0");

@@ -25,11 +25,11 @@ class Chapter
 {
 public:
     Chapter();
-    Chapter(const int &chapterID);
-    void addVerse(const int &verseID, const Verse &verse);
+    Chapter(const int chapterID);
+    void addVerse(const int verseID, const Verse &verse);
     QMap<int, Verse> data() const;
     int verseCount() const;
-    void setChapterID(const int &chapterID);
+    void setChapterID(const int chapterID);
     int chapterID() const;
 private:
     QMap<int, Verse> m_data;

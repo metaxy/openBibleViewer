@@ -54,12 +54,12 @@ void UrlConverter2::convert()
     m_newUrl = m_urlConverter.convert();
 }
 
-bool UrlConverter2::contains(const int &moduleID, const int &bookID, const int &chapterID, const int &verseID) const
+bool UrlConverter2::contains(const int moduleID, const int bookID, const int chapterID, const int verseID) const
 {
     return m_newUrl.contains(moduleID, bookID, chapterID, verseID);
 }
 
-bool UrlConverter2::contains(const int &moduleID, const int &bookID, const int &chapterID) const
+bool UrlConverter2::contains(const int moduleID, const int bookID, const int chapterID) const
 {
     return m_newUrl.contains(moduleID, bookID, chapterID);
 }

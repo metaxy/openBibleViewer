@@ -91,6 +91,7 @@ set ( openBibleViewer_HDRS
     src/core/verse/verse.h
     src/core/verse/versification.h
     src/core/verse/versification/versification_kjv.h
+    src/core/verse/versification/versification_biblequote.h
     src/core/verse/versification/bookv11n.h
     src/core/verse/reftext.h
 
@@ -325,7 +326,6 @@ set ( openBibleViewer_MOCS
     src/core/moduledownloader.h
     src/core/verse/versification/versification_kjv.h
     src/core/verse/versification/versification_zefania.h
-    src/core/verse/versification/versification_biblequote.h
     src/core/verse/versification/versification_cache.h
     src/core/verse/versification.h
 

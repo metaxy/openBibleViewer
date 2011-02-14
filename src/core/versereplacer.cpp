@@ -20,19 +20,19 @@ VerseReplacer::VerseReplacer()
 {
 }
 
-void VerseReplacer::setInsert(const int &verseID, const int &pos, const QString &insert)
+void VerseReplacer::setInsert(const int verseID, const int pos, const QString &insert)
 {
     QMap<int, QString> m = m_inserts[verseID];
     m[pos] += insert;
     m_inserts[verseID] = m;
 }
 
-void VerseReplacer::setPrepend(const int &verseID, const QString &prepend)
+void VerseReplacer::setPrepend(const int verseID, const QString &prepend)
 {
     m_prepends[verseID] = prepend + m_prepends[verseID];
 }
 
-void VerseReplacer::setAppend(const int &verseID, const QString &append)
+void VerseReplacer::setAppend(const int verseID, const QString &append)
 {
     m_appends[verseID] = m_appends[verseID] + append;
 }

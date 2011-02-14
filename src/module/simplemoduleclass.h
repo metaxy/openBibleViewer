@@ -36,7 +36,7 @@ public:
 
     void setModuleMap(ModuleMap *map);
     int moduleID() const;
-    void setModuleID(const int &moduleID);
+    void setModuleID(const int moduleID);
 
     virtual QString moduleTitle() const;
     virtual QString moduleShortTitle() const;

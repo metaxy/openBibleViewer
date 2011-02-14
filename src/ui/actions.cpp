@@ -17,7 +17,7 @@ Actions::Actions(QObject *parent) :
     QObject(parent)
 {
 }
-void Actions::showChapter(const int &moduleID, const int &bookID, const int &chapterID)
+void Actions::showChapter(const int moduleID, const int bookID, const int chapterID)
 {
     emit _showChapter(moduleID, bookID, chapterID);
 }
@@ -85,7 +85,7 @@ void Actions::clearChapters()
     emit _clearChapters();
 }
 
-void Actions::setCurrentModule(const int &moduleID)
+void Actions::setCurrentModule(const int moduleID)
 {
     emit _setCurrentModule(moduleID);
 }

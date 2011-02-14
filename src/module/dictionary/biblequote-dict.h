@@ -35,7 +35,7 @@ public:
     int buildIndex();
     bool hasIndex();
     QString getEntry(const QString &id);
-    void setID(const int &id, const QString &path);
+    void setID(const int id, const QString &path);
     QStringList getAllKeys();
 private:
     Settings *m_settings;

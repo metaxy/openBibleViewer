@@ -25,8 +25,8 @@ public:
     void setUrl(VerseUrl url);
     void convert();
 
-    bool contains(const int &moduleID, const int &bookID, const int &chapterID, const int &verseID) const;
-    bool contains(const int &moduleID, const int &bookID, const int &chapterID) const;
+    bool contains(const int moduleID, const int bookID, const int chapterID, const int verseID) const;
+    bool contains(const int moduleID, const int bookID, const int chapterID) const;
 
     QString bookName() const;
     int moduleID() const;

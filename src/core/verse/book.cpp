@@ -26,19 +26,19 @@ void Book::clear()
     m_id = -1;
     m_chapters.clear();
 }
-void Book::addChapter(const int &chapterID, const Chapter &c)
+void Book::addChapter(const int chapterID, const Chapter &c)
 {
     m_chapters.insert(chapterID, c);
 }
-bool Book::hasChapter(const int &chapterID) const
+bool Book::hasChapter(const int chapterID) const
 {
     return m_chapters.contains(chapterID);
 }
-Chapter Book::getChapter(const int &chapterID)
+Chapter Book::getChapter(const int chapterID)
 {
     return m_chapters.value(chapterID);
 }
-void Book::setID(const int &id)
+void Book::setID(const int id)
 {
     m_id = id;
 }

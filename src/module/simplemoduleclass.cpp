@@ -47,7 +47,7 @@ int SimpleModuleClass::moduleID() const
     return m_moduleID;
 }
 
-void SimpleModuleClass::setModuleID(const int &moduleID)
+void SimpleModuleClass::setModuleID(const int moduleID)
 {
     //myDebug() << "new moduleID = " << moduleID;
     m_moduleID = moduleID;

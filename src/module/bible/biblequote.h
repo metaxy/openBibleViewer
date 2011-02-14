@@ -41,8 +41,8 @@ public:
     BibleQuote();
     ~BibleQuote();
     void setSettings(Settings *settings);
-    int readBook(const int &id);
-    void loadBibleData(const int &moduleID, const QString &path);
+    int readBook(const int id);
+    void loadBibleData(const int moduleID, const QString &path);
     QString readInfo(QFile &file);
     QString readInfo(const QString &fileName);
     void search(const SearchQuery &query, SearchResult *res) const;

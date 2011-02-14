@@ -18,7 +18,7 @@ class Verse
 {
 public:
     Verse();
-    Verse(const int &verseID, const QString &text);
+    Verse(const int verseID, const QString &text);
     int verseID() const;
     QString data() const;
 

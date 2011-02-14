@@ -18,7 +18,7 @@ Verse::Verse()
     m_text = "";
 }
 
-Verse::Verse(const int &verseID, const QString &text)
+Verse::Verse(const int verseID, const QString &text)
 {
     m_verseID = verseID;
     m_text = text;

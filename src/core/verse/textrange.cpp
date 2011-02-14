@@ -60,19 +60,19 @@ QString TextRange::title() const
 {
     return m_title;
 }
-Verse TextRange::getVerse(const int &verseID) const
+Verse TextRange::getVerse(const int verseID) const
 {
     return m_verse.value(verseID);
 }
-bool TextRange::hasVerse(const int &verseID) const
+bool TextRange::hasVerse(const int verseID) const
 {
     return m_verse.contains(verseID);
 }
-void TextRange::setBookID(const int &bookID)
+void TextRange::setBookID(const int bookID)
 {
     m_bookID = bookID;
 }
-void TextRange::setChapterID(const int &chapterID)
+void TextRange::setChapterID(const int chapterID)
 {
     m_chapterID = chapterID;
 }
@@ -88,7 +88,7 @@ int TextRange::moduleID() const
 {
     return m_moduleID;
 }
-void TextRange::setModuleID(const int &id)
+void TextRange::setModuleID(const int id)
 {
     m_moduleID = id;
 }

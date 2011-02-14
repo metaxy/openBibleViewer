@@ -38,7 +38,7 @@ QList<TextRange> TextRanges::textRanges() const
     return m_ranges;
 }
 
-Verse TextRanges::getVerse(const int &bookID, const int &chapterID, const int &verseID)
+Verse TextRanges::getVerse(const int bookID, const int chapterID, const int verseID)
 {
     foreach(TextRange range, m_ranges) {
         if(range.bookID() == bookID && range.chapterID() == chapterID && range.hasVerse(verseID))
@@ -99,7 +99,7 @@ QSet<int> TextRanges::chapterIDs() const
 {
     return chapterIDs(minBookID());
 }
-int TextRanges::minChapterID(const int &bookID) const
+int TextRanges::minChapterID(const int bookID) const
 {
     int ret = -1;
     foreach(const TextRange & r, m_ranges) {
@@ -108,7 +108,7 @@ int TextRanges::minChapterID(const int &bookID) const
     }
     return ret;
 }
-int TextRanges::maxChapterID(const int &bookID) const
+int TextRanges::maxChapterID(const int bookID) const
 {
     int ret = -1;
     foreach(const TextRange & r, m_ranges) {
@@ -117,7 +117,7 @@ int TextRanges::maxChapterID(const int &bookID) const
     }
     return ret;
 }
-QSet<int> TextRanges::chapterIDs(const int &bookID) const
+QSet<int> TextRanges::chapterIDs(const int bookID) const
 {
     QSet<int> ret;
     foreach(const TextRange & range, m_ranges) {
@@ -142,7 +142,7 @@ QSet<int>TextRanges::verseIDs() const
     const int bookID = minBookID();
     return verseIDs(bookID, minChapterID(bookID));
 }
-int TextRanges::minVerseID(const int &bookID, const int &chapterID) const
+int TextRanges::minVerseID(const int bookID, const int chapterID) const
 {
     int ret = -1;
     foreach(const TextRange & r, m_ranges) {
@@ -159,7 +159,7 @@ int TextRanges::minVerseID(const int &bookID, const int &chapterID) const
     }
     return ret;
 }
-int TextRanges::maxVerseID(const int &bookID, const int &chapterID) const
+int TextRanges::maxVerseID(const int bookID, const int chapterID) const
 {
     int ret = -1;
     foreach(const TextRange & r, m_ranges) {
@@ -176,7 +176,7 @@ int TextRanges::maxVerseID(const int &bookID, const int &chapterID) const
     }
     return ret;
 }
-QSet<int> TextRanges::verseIDs(const int &bookID, const int &chapterID) const
+QSet<int> TextRanges::verseIDs(const int bookID, const int chapterID) const
 {
     QSet<int> ret;
     foreach(const TextRange & range, m_ranges) {
@@ -191,7 +191,7 @@ QSet<int> TextRanges::verseIDs(const int &bookID, const int &chapterID) const
     return ret;
 }
 
-bool TextRanges::contains(const int &bookID, const int &chapterID) const
+bool TextRanges::contains(const int bookID, const int chapterID) const
 {
     foreach(const TextRange & r, m_ranges) {
         if(r.bookID() == bookID && r.chapterID() == chapterID)

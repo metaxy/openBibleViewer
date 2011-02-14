@@ -83,7 +83,7 @@ int Versification::bookCount(VersificationFilterFlags flags) const
 {
     return bookNames(flags).size();
 }
-bool Versification::filter(const int &bookID, VersificationFilterFlags flags) const
+bool Versification::filter(const int bookID, VersificationFilterFlags flags) const
 {
     if(flags.testFlag(Versification::ReturnAll) || (flags.testFlag(Versification::ReturnOT) && flags.testFlag(Versification::ReturnNT)))
         return true;
@@ -118,7 +118,7 @@ int Versification::bookCount() const
 {
     return bookCount(m_filter);
 }
-QString Versification::bookName(const int &bookID, bool preferShort) const
+QString Versification::bookName(const int bookID, bool preferShort) const
 {
     const QStringList shortNames = m_books.value(bookID).shortNames;
     if(!shortNames.isEmpty()) {

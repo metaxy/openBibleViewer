@@ -39,7 +39,7 @@ void TheWordBible::setSettings(Settings *set)
 /**
   * Loads the Data.
   */
-void TheWordBible::loadBibleData(const int &id, const QString &path)
+void TheWordBible::loadBibleData(const int id, const QString &path)
 {
     //DEBUG_FUNC_NAME
     m_moduleID = id;
@@ -134,7 +134,7 @@ void TheWordBible::loadBibleData(const int &id, const QString &path)
 
 
 }
-int TheWordBible::readBook(const int &id)
+int TheWordBible::readBook(const int id)
 {
     m_bookID = id;
     return 0;

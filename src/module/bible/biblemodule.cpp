@@ -25,13 +25,13 @@ Versification* BibleModule::versification() const
 {
     return m_versification;
 }
-int BibleModule::readBook(const int &/*id*/)
+int BibleModule::readBook(const int /*id*/)
 {
     myWarning() << "calling BibleModule";
     return 0;
 }
 
-void BibleModule::loadBibleData(const int &/*bibleID*/, const QString &/*path*/)
+void BibleModule::loadBibleData(const int /*bibleID*/, const QString &/*path*/)
 {
     myWarning() << "calling BibleModule";
 }

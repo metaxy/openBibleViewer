@@ -21,23 +21,23 @@ class Range
 public:
     Range();
 
-    void setModule(const int &moduleID);
+    void setModule(const int moduleID);
 
-    void setBook(const int &bookID);
+    void setBook(const int bookID);
     void setBook(RangeEnum::BookRange book);
 
 
-    void setChapter(const int &chapterID);
+    void setChapter(const int chapterID);
     void setChapter(RangeEnum::ChapterRange chapter);
 
-    void setStartVerse(const int &verseID);
+    void setStartVerse(const int verseID);
     void setStartVerse(RangeEnum::VerseRange verse);
 
-    void setEndVerse(const int &verseID);
+    void setEndVerse(const int verseID);
     void setEndVerse(RangeEnum::VerseRange verse);
 
     void setSelectedVerse(const QList<int> &verseIDs);
-    void setSelectedVerse(const int &verseID);
+    void setSelectedVerse(const int verseID);
 
     //void setSelectedVerse(RangeEnum::VerseRange verse);
     int moduleID() const;

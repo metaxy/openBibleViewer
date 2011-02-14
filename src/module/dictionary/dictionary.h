@@ -28,7 +28,7 @@ public:
      * @returns 0 If everything went fine.
      * @returns 1 If there was an error.
      */
-    int loadModuleData(const int &id);
+    int loadModuleData(const int id);
     /**
      * Search for the entry and returns them fully formated.
      * @return Fullyformated entry.

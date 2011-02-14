@@ -144,7 +144,7 @@ bool ModuleManager::strongLoaded()
         return true;
     return false;
 }
-bool ModuleManager::contains(const int &moduleID)
+bool ModuleManager::contains(const int moduleID)
 {
     return m_moduleMap->m_map.contains(moduleID);
 }
@@ -157,7 +157,7 @@ VerseTable * ModuleManager::verseTable()
 {
     return m_verseTable;
 }
-Module * ModuleManager::getModule(const int &moduleID)
+Module * ModuleManager::getModule(const int moduleID)
 {
     return m_moduleMap->m_map.value(moduleID);
 }
@@ -229,7 +229,7 @@ QList<int> ModuleManager::getBibleIDs()
     }
     return ids;
 }
-void ModuleManager::checkCache(const int &moduleID)
+void ModuleManager::checkCache(const int moduleID)
 {
     /*Module *m = m_moduleMap->m_map.value(moduleID);
     if(m->moduleClass() == OBVCore::BibleModuleClass && !m_settings->m_moduleCache.keys().contains(m->path())) {
@@ -239,7 +239,7 @@ void ModuleManager::checkCache(const int &moduleID)
         b->loadModuleData(moduleID);//set cache
     }*/
 }
-VerseModule * ModuleManager::newVerseModule(const int &moduleID, QPoint p)
+VerseModule * ModuleManager::newVerseModule(const int moduleID, QPoint p)
 {
     DEBUG_FUNC_NAME
     if(!contains(moduleID)) {

@@ -24,7 +24,7 @@ public:
     virtual ~SearchProviders();
 
     void loadProviders();
-    QList<SearchProvider *> getProviders(const int &count);
+    QList<SearchProvider *> getProviders(const int count);
     //void setUsed
 };
 

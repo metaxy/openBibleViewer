@@ -31,8 +31,8 @@ public:
     TheWordBible();
     ~TheWordBible();
     void setSettings(Settings *settings);
-    void loadBibleData(const int &id, const QString &path);
-    int readBook(const int &id);
+    void loadBibleData(const int id, const QString &path);
+    int readBook(const int id);
 
     QString readInfo(QFile &file);
     QString readInfo(const QString &fileName);

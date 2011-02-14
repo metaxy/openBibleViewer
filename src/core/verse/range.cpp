@@ -22,7 +22,7 @@ Range::Range()
     m_moduleID = -1;
 }
 
-void Range::setBook(const int &bookID)
+void Range::setBook(const int bookID)
 {
     m_bookID = bookID;
     m_book = RangeEnum::BookByID;
@@ -33,7 +33,7 @@ void Range::setBook(RangeEnum::BookRange book)
     m_book = book;
 }
 
-void Range::setChapter(const int &chapterID)
+void Range::setChapter(const int chapterID)
 {
     m_chapterID = chapterID;
     m_chapter = RangeEnum::ChapterByID;
@@ -45,7 +45,7 @@ void Range::setChapter(RangeEnum::ChapterRange chapter)
 }
 
 
-void Range::setStartVerse(const int &verseID)
+void Range::setStartVerse(const int verseID)
 {
     m_startVerse = RangeEnum::VerseByID;
     m_startVerseID = verseID;
@@ -56,7 +56,7 @@ void Range::setStartVerse(RangeEnum::VerseRange verse)
     m_startVerse = verse;
 }
 
-void Range::setEndVerse(const int &verseID)
+void Range::setEndVerse(const int verseID)
 {
     m_endVerse = RangeEnum::VerseByID;
     m_endVerseID = verseID;
@@ -107,7 +107,7 @@ RangeEnum::VerseRange Range::endVerse() const
 {
     return m_endVerse;
 }
-void Range::setSelectedVerse(const int &verseID)
+void Range::setSelectedVerse(const int verseID)
 {
     m_selectedVerse.append(verseID);
 }
@@ -120,7 +120,7 @@ QList<int> Range::selectedVerse() const
 {
     return m_selectedVerse;
 }
-void Range::setModule(const int &moduleID)
+void Range::setModule(const int moduleID)
 {
     m_moduleID = moduleID;
 }
