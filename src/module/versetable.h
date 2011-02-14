@@ -19,7 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QPoint>
 #include <utility>
 /**
-  * VerseTable represents a list of VerseModules to display them in one window. It is a some kind of parallel view.
+  * VerseTable represents a list of VerseModules to display them in one window. It is a some kind of a parallel view.
   */
 class VerseTable
 {

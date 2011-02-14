@@ -31,7 +31,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 
 /**
- * ZefaniaLex represents a zefaniaXML(lex) module
+ * ZefaniaLex represents a zefaniaXML(lex) module. The file suffix is *.xml.
  */
 class ZefaniaLex
 {
