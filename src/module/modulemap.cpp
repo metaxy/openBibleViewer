@@ -18,7 +18,7 @@ ModuleMap::ModuleMap()
 }
 ModuleMap::~ModuleMap()
 {
-    foreach(Module *m, m_map) {
+    foreach(Module * m, m_map) {
         if(m != NULL)
             delete m;
     }

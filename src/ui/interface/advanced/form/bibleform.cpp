@@ -369,30 +369,30 @@ void BibleForm::showText(const QString &text)
     if(m_moduleManager->verseModule()->moduleType() == OBVCore::BibleQuoteModule) {
         //todo: uncomment
         QWebElementCollection collection = frame->documentElement().findAll("img");
-         const QStringList searchPaths = ((Bible*) m_moduleManager->verseModule())->getSearchPaths();
+        const QStringList searchPaths = ((Bible*) m_moduleManager->verseModule())->getSearchPaths();
 
-         foreach(QWebElement paraElement, collection) {
-             QString url = paraElement.attribute("src");
-             if(url.startsWith(":/") || url.startsWith("http") || url.startsWith("qrc:/"))
-                 continue;
-             foreach(const QString & pre, searchPaths) {
-                 QFileInfo i(pre + url);
-                 if(i.exists()) {
-                     paraElement.setAttribute("src", "file://" + pre + url);
-                     break;
-                 } else {
-                     QDir d(pre);
-                     QStringList list = d.entryList();
-                     foreach(const QString & f, list) {
-                         QFileInfo info2(f);
-                         if(info2.baseName().compare(i.baseName(), Qt::CaseInsensitive) == 0) {
-                             paraElement.setAttribute("src", "file://" + pre + f);
-                             break;
-                         }
-                     }
-                 }
-             }
-         }
+        foreach(QWebElement paraElement, collection) {
+            QString url = paraElement.attribute("src");
+            if(url.startsWith(":/") || url.startsWith("http") || url.startsWith("qrc:/"))
+                continue;
+            foreach(const QString & pre, searchPaths) {
+                QFileInfo i(pre + url);
+                if(i.exists()) {
+                    paraElement.setAttribute("src", "file://" + pre + url);
+                    break;
+                } else {
+                    QDir d(pre);
+                    QStringList list = d.entryList();
+                    foreach(const QString & f, list) {
+                        QFileInfo info2(f);
+                        if(info2.baseName().compare(i.baseName(), Qt::CaseInsensitive) == 0) {
+                            paraElement.setAttribute("src", "file://" + pre + f);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }

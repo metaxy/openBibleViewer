@@ -145,10 +145,10 @@ void BibleQuote::loadBibleData(const int &bibleID, const QString &path)
     }
     settings->loadVersification();
     if(settings->v11n == NULL) {
-       myDebug() << "load new versification";
-       settings->v11n = new Versification_BibleQuote(bookFullName, bookShortName, bookCount);
-       settings->versificationName = "";
-       settings->versificationFile = m_settings->v11nFile(path);
+        myDebug() << "load new versification";
+        settings->v11n = new Versification_BibleQuote(bookFullName, bookShortName, bookCount);
+        settings->versificationName = "";
+        settings->versificationFile = m_settings->v11nFile(path);
     }
     m_versification = settings->v11n;
 }

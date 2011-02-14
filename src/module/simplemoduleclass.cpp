@@ -17,17 +17,21 @@ SimpleModuleClass::SimpleModuleClass()
 {
     m_moduleID = -1;
 }
+
 SimpleModuleClass::~SimpleModuleClass()
 {
 }
+
 void SimpleModuleClass::setSettings(Settings *settings)
 {
     m_settings = settings;
 }
+
 void SimpleModuleClass::setNotes(Notes *notes)
 {
     m_notes = notes;
 }
+
 void SimpleModuleClass::setModuleMap(ModuleMap *map)
 {
     m_map = map;
@@ -35,18 +39,20 @@ void SimpleModuleClass::setModuleMap(ModuleMap *map)
 
 void SimpleModuleClass::setModuleType(const OBVCore::ModuleType &type)
 {
-
     m_moduleType = type;
 }
+
 int SimpleModuleClass::moduleID() const
 {
     return m_moduleID;
 }
+
 void SimpleModuleClass::setModuleID(const int &moduleID)
 {
-    myDebug() << "new moduleID = " << moduleID;
+    //myDebug() << "new moduleID = " << moduleID;
     m_moduleID = moduleID;
 }
+
 QString SimpleModuleClass::moduleTitle() const
 {
     return QString();
@@ -61,6 +67,7 @@ QString SimpleModuleClass::moduleUID() const
 {
     return QString();
 }
+
 OBVCore::ModuleType SimpleModuleClass::moduleType() const
 {
     return m_moduleType;

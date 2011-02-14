@@ -38,10 +38,10 @@ int Bible::loadModuleData(const int moduleID)
     DEBUG_FUNC_NAME;
     myDebug() << "moduleID = " << moduleID;
     //m_versification = 0;
-    m_module = m_map->m_map.value(moduleID, 0);
+    m_module = m_map->m_map.value(moduleID, NULL);
 
     //not valid module
-    if(moduleID < 0 || !m_module) {
+    if(moduleID < 0 || m_module == NULL) {
         myWarning() << "invalid bibleID = " << moduleID;
         return 1;
     }

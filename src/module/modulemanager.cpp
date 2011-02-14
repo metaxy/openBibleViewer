@@ -253,11 +253,11 @@ VerseModule * ModuleManager::newVerseModule(const int &moduleID, QPoint p)
         m = verseTable()->verseModule(id);
         initVerseModule(m);
     } else {*/
-        //todo: support for other VerseModules
-        if(getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
-            m = new Bible();
-            initVerseModule(m);
-        }
+    //todo: support for other VerseModules
+    if(getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
+        m = new Bible();
+        initVerseModule(m);
+    }
     /*}*/
     //todo: check if this is possible b->moduleID() != moduleID
 
