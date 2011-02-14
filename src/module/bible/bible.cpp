@@ -208,7 +208,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     } else if(range.chapter() == RangeEnum::FirstChapter) {
         chapterID = 0;
     } else if(range.chapter() == RangeEnum::LastChapter) {
-        chapterID = m_versification->maxChapter().value(bookID);
+        chapterID = m_versification->maxChapter().value(bookID) - 1;
     } else if(range.chapter() == RangeEnum::CurrentChapter) {
         if(m_lastTextRanges != 0  && !m_lastTextRanges->isEmpty() && !m_lastTextRanges->chapterIDs().isEmpty()) {
             chapterID = *m_lastTextRanges->chapterIDs().begin();
