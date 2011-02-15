@@ -42,14 +42,14 @@ QString History::backward()
 /*!
     Check if a next url is available.
   */
-bool History::forwardAvailable()
+bool History::forwardAvailable() const
 {
     return !forwardItems.isEmpty();
 }
 /*!
     Check if a previous url is available.
   */
-bool History::backwardAvailable()
+bool History::backwardAvailable() const
 {
     return backwardItems.size() >= 2;
 }

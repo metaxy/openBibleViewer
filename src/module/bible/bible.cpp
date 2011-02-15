@@ -475,7 +475,7 @@ QString Bible::moduleShortTitle() const
     return m_moduleShortTitle;
 }
 
-QStringList Bible::bookPath()
+QStringList Bible::bookPath() const
 {
     return m_bookPath;
 }

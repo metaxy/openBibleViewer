@@ -57,7 +57,7 @@ public:
     QString moduleShortTitle() const;
     QString moduleUID() const;
 
-    QStringList bookPath();
+    QStringList bookPath() const;
     SearchQuery lastSearchQuery() const;
     bool loaded() const;
 
