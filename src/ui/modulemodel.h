@@ -18,6 +18,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QApplication>
 #include "src/module/module.h"
 #include "src/core/settings/settings.h"
+/**
+ * ModuleModel represents a class, which generate a tree model of all modules.
+ */
 class ModuleModel
 {
 public:
@@ -27,6 +30,7 @@ public:
     void clear();
     void setSettings(Settings *settings);
     void generate();
+
     QStandardItemModel* itemModel() const;
 private:
     QStandardItemModel *m_moduleModel;

@@ -16,11 +16,19 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 ModuleModel::ModuleModel(QObject *parent)
 {
     m_moduleModel = new QStandardItemModel(parent);
+    m_settings = NULL;
     //m_moduleModel->setHeaderData(0, Qt::Horizontal, QObject::tr("Module"));
+    QStyle *style = QApplication::style();
+    m_folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
+    m_folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
+
+    m_bibleQuoteIcon = QIcon::fromTheme("text-x-generic", QIcon(":/icons/16x16/text-x-generic.png"));
+    m_bibleZefaniaIcon = QIcon::fromTheme("text-xml", QIcon(":/icons/16x16/text-xml.png"));
+
+
 }
 ModuleModel::~ModuleModel()
 {
-    //delete m_moduleModel;
 }
 void ModuleModel::clear()
 {
@@ -36,14 +44,6 @@ void ModuleModel::generate()
 {
     DEBUG_FUNC_NAME
     QStandardItem *parentItem = m_moduleModel->invisibleRootItem();
-
-    m_bibleQuoteIcon = QIcon::fromTheme("text-x-generic", QIcon(":/icons/16x16/text-x-generic.png"));
-    QStyle *style = QApplication::style();
-    m_folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
-    m_folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
-
-    m_bibleZefaniaIcon =  QIcon::fromTheme("text-xml", QIcon(":/icons/16x16/text-xml.png"));
-
 
     ModuleSettings *rootModuleSettings = m_settings->getModuleSettings(-1);//it's the invisble root item
     if(rootModuleSettings != NULL) {

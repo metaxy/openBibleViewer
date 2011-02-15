@@ -20,24 +20,19 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QProgressDialog>
 #include <QtGui/QMessageBox>
 #include <QtGui/QFileDialog>
-#include <QtGui/QDialog>
 
 #include "src/core/settings/settings.h"
 #include "src/core/settings/modulesettings.h"
 #include "src/core/dbghelper.h"
 
 #include "src/module/modulemanager.h"
-#include "src/module/bible/zefania-bible.h"
-#include "src/module/dictionary/zefania-lex.h"
-#include "src/module/bible/biblequote.h"
-#include "src/module/bible/thewordbible.h"
 #include "src/module/bible/bible.h"
 #include "src/module/module.h"
 
 #include "src/ui/modulemodel.h"
 
-#include "moduleconfigdialog.h"
-#include "moduledownloaddialog.h"
+#include "src/ui/dialog/moduleconfigdialog.h"
+#include "src/ui/dialog/moduledownloaddialog.h"
 #include "config.h"
 
 namespace Ui
@@ -50,7 +45,16 @@ class SettingsDialog;
 class SettingsDialog : public QDialog
 {
     Q_OBJECT
-public slots:
+public:
+    explicit SettingsDialog(QWidget *parent = 0);
+    virtual ~SettingsDialog();
+    int setSettings(Settings settings);
+    void setCurrentTab(int tabID);
+protected:
+    virtual void changeEvent(QEvent *e);
+signals:
+    int settingsChanged(Settings settings, bool modifedModuleSettings);
+private slots:
     void save();
     void addModuleFile();
     void addModuleDir();
@@ -59,31 +63,18 @@ public slots:
     void reset();
     void downloadModule();
     void addModules(QStringList files, QStringList names, int parentID = -1);
-signals:
-    int settingsChanged(Settings settings, bool modifedModuleSettings);
-public:
-    explicit SettingsDialog(QWidget *parent = 0);
-    virtual ~SettingsDialog();
-    int setSettings(Settings settings);
-    void setCurrentTab(int tabID);
-
-protected:
-    virtual void changeEvent(QEvent *e);
-
 private:
     Settings m_set;
     Settings m_backupSet;
 
-    void generateModuleTree();
     QStringList m_encodings;
     QStringList m_langCode;
     Ui::SettingsDialog *m_ui;
     bool m_modifedModuleSettings;
 
+    void generateModuleTree();
     static QStringList scan(const QString &path, const int level);
-
     int quiteAddModule(const QString &path, int parentID = -1, const QString &name = "");
-
     void saveModule(QModelIndex parentIndex, ModuleSettings *parentSettings);
 };
 

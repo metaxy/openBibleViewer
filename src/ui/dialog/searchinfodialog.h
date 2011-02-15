@@ -23,26 +23,27 @@ namespace Ui
 class SearchInfoDialog;
 }
 /**
-  * SearchInfoDialog represents a dialog to show additional information for the search, like statistics.
-  */
+ * SearchInfoDialog represents a dialog to show additional information for the search, like statistics.
+ */
 class SearchInfoDialog : public QDialog
 {
     Q_OBJECT
-private slots:
-    void tabChanged(int index);
+
 public:
     explicit SearchInfoDialog(QWidget *parent = 0);
-    void setInfo(SearchResult, Versification *v11n, QString searchText, QStringList textList);
     virtual ~SearchInfoDialog();
-    double mRound(double Zahl, int Stellen);
-    int d2i(double d);
+    void setInfo(SearchResult, Versification *v11n, QString searchText, QStringList textList);
+
 protected:
     virtual void changeEvent(QEvent *e);
-
+private slots:
+    void tabChanged(int index);
 private:
     Ui::SearchInfoDialog *m_ui;
     bool m_textShown;
     QStringList m_textList;
+    double mRound(double Zahl, int Stellen);
+    int d2i(double d);
 
 };
 
