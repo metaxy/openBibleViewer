@@ -45,15 +45,10 @@ public:
     virtual TextRange readRange(const Range &range, bool ignoreModuleID = false);
 
     int loadModuleData(const int bibleID);
-    /**
-      * Load only the book without pharsing.
-      */
+
     int readBook(const int id);
 
-    /**
-      * Used only by BibleQuote modules.
-      * @returns A list of paths, where images can be found.
-      */
+
     QStringList getSearchPaths() const;
 
     void search(SearchQuery query, SearchResult *result);

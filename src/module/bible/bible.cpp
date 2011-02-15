@@ -97,7 +97,9 @@ int Bible::loadModuleData(const int moduleID)
     m_loaded = true;
     return 0;
 }
-
+/**
+ * Load only the book without pharsing.
+ */
 int Bible::readBook(const int id)
 {
     DEBUG_FUNC_NAME
@@ -431,6 +433,10 @@ void Bible::search(SearchQuery query, SearchResult *result)
     m_lastSearchQuery = query;
     //myDebug() << "hits.size() = " << result->hits().size();
 }
+/**
+ * Used only by BibleQuote modules.
+ * @returns A list of paths, where images can be found.
+ */
 QStringList Bible::getSearchPaths() const
 {
     if(moduleType() == OBVCore::BibleQuoteModule) {

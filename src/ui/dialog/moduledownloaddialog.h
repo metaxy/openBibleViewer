@@ -27,10 +27,11 @@ namespace Ui
 {
 class ModuleDownloadDialog;
 }
-/*!
- ModuleDownloadDialog represents a dialog to download new modules
-
-*/
+/**
+ * ModuleDownloadDialog represents a dialog to download new modules.
+ * Currently only zefania modules.
+ * See also src/data/modules.xml
+ */
 class ModuleDownloadDialog : public QDialog
 {
     Q_OBJECT

@@ -75,12 +75,13 @@ void InsertLinkDialog::save()
         myDebug() << p.toString();
         emit newLink(p.toString());
     } else if(ui->toolBox->currentIndex() == 1) {
+        //get note id
         const QModelIndexList list = m_selectionModel->selectedRows(0);
         if(!list.isEmpty()) {
             const QString id = list.at(0).data(Qt::UserRole + 1).toString();
             emit newLink("note://" + id);
         }
-        //get note id
+
     } else if(ui->toolBox->currentIndex() == 2) {
         emit newLink(ui->lineEdit->text());
     }

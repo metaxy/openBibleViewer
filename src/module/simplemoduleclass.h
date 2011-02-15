@@ -19,10 +19,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/module.h"
 #include "src/core/obvcore.h"
 /**
-  * It is an abstract class for classes like bible or dictionary, which are meta modules.
-  * They contains other similiar modules to provide an simple access to them.
-  * These are not the real modules, they only link to the real modules.
-  */
+ * It is an abstract class for classes like bible or dictionary, which are meta modules.
+ * They contains other similiar modules to provide an simple access to them.
+ * These are not the real modules, they only link to the real modules.
+ */
 
 class SimpleModuleClass
 {

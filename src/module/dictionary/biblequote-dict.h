@@ -23,8 +23,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/settings.h"
 #include "src/core/dbghelper.h"
 /**
-  * BibleQuoteDict is a dictionary module for BibelQuote Dictionaries. The file suffix is *.idx.
-  */
+ * BibleQuoteDict is a dictionary module for BibelQuote Dictionaries. The file suffix is *.idx.
+ */
 class BibleQuoteDict
 {
 public:

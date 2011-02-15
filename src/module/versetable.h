@@ -19,22 +19,22 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QPoint>
 #include <utility>
 /**
-  * VerseTable represents a list of VerseModules to display them in one window. It is a some kind of a parallel view.
-  */
+ * VerseTable represents a list of VerseModules to display them in one window. It is a some kind of a parallel view.
+ */
 class VerseTable
 {
 public:
     VerseTable();
     /**
-      * Deletes all bibles of the BibleList
-      */
+     * Deletes all bibles of the BibleList
+     */
     ~VerseTable();
 
     void clear();
     /**
-      * Returns the bible at id.
-      * \param id The bibleList internal id, not the moduleID. If id == -1 then current bible;
-      */
+     * Returns the bible at id.
+     * \param id The bibleList internal id, not the moduleID. If id == -1 then current bible;
+     */
     VerseModule * verseModule(const int id = -1) const;
     void addModule(VerseModule* b, const QPoint &p);
     void setCurrentVerseTableID(const int verseTableID);
@@ -43,8 +43,8 @@ public:
     std::pair<QString, TextRanges> readRanges(const Ranges &ranges) const;
 
     /**
-      * Retruns true if a top bar is shown.
-      */
+     * Retruns true if a top bar is shown.
+     */
     bool hasTopBar() const;
 
     QHash<int, VerseModule *> m_modules;

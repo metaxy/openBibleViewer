@@ -35,8 +35,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/urlconverter.h"
 #include "src/ui/modulemodel.h"
 /**
-  * ModuleManager is universal module manager for all kind of module types. It loads them and creates Module.
-  */
+ * ModuleManager is universal module manager for all kind of module types. It loads them and creates Module.
+ */
 class ModuleManager
 {
 

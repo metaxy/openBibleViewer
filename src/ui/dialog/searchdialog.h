@@ -20,10 +20,9 @@ namespace Ui
 {
 class SearchDialog;
 }
-/*!
- SearchDialog represents a dialog to search for strings in the module
-
-*/
+/**
+ * SearchDialog represents a dialog to search for strings in the current module.
+ */
 class SearchDialog : public QDialog
 {
     Q_OBJECT

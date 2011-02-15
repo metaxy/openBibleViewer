@@ -26,7 +26,7 @@ namespace Ui
 class ModuleConfigDialog;
 }
 /**
- * ModuleConfigDialog represents a dialog to change module settings
+ * ModuleConfigDialog represents a dialog to change module settings.
  */
 class ModuleConfigDialog : public QDialog
 {

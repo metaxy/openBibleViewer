@@ -134,7 +134,7 @@ private:
     QPoint m_point;
 
     /**
-      * Save the tree structure of all notes
+      * Save the tree structure of all notes.
       */
     void iterate(QStandardItem *item);
 

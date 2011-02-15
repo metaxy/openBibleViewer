@@ -19,8 +19,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QMap>
 #include "src/core/verse/verse.h"
 /**
- Chapter represents a bible chapter
-*/
+  * Chapter represents a verse chapter.
+ */
 class Chapter
 {
 public:

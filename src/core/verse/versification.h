@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QFlags>
 #include <QtCore/QMap>
 #include "src/core/verse/versification/bookv11n.h"
-class Versification: public QObject
+class Versification : public QObject
 {
     Q_OBJECT
 public:

@@ -24,6 +24,10 @@ namespace Ui
 {
 class InsertLinkDialog;
 }
+/**
+ * InsertLinkDialog represents a dialog where one can create a link to a note, module or something else.
+ * It is used in NotesEditor.
+ */
 
 class InsertLinkDialog : public QDialog, public BasicClass
 {
@@ -43,13 +47,6 @@ protected:
 
 private:
     Ui::InsertLinkDialog *ui;
-    QStringList m_bibles;
-    int m_moduleID;
-    int m_bookID;
-    int m_chapterID;
-    int m_verseID;
-
-    QString m_path;
 
     QStandardItemModel *m_itemModel;
     QTreeView *m_treeView;

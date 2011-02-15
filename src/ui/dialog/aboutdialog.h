@@ -21,11 +21,9 @@ namespace Ui
 {
 class AboutDialog;
 }
-/*!
- AboutDialog represents a dialog with informationg about the software version number etc.
-
- @author Paul Walger <metaxy@walger.name>
-*/
+/**
+ * AboutDialog represents a dialog with information about the software version number etc.
+ */
 class AboutDialog : public QDialog
 {
     Q_OBJECT

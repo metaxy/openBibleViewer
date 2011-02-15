@@ -22,9 +22,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/simplemoduleclass.h"
 #include "src/core/settings/moduledisplaysettings.h"
 /**
-  * VerseModule is an abstract class for modules classes like Bible or StudyNotes which are based on a versification.
-  * That means it has books, chapters and verse.
-  */
+ * VerseModule is an abstract class for modules classes like Bible or StudyNotes which are based on a versification.
+ * That means it has books, chapters and verse.
+ */
 class VerseModule : public SimpleModuleClass
 {
 public:
@@ -36,18 +36,18 @@ public:
 
     void setLastTextRanges(TextRanges *textRanges);
     /**
-      * Returns the last computed TextRanges.
-      */
+     * Returns the last computed TextRanges.
+     */
     TextRanges *lastTextRanges() const;
     /**
-      * Returns the Versification of the Module.
-      * Every VerseModule must have a versification.
-      */
+     * Returns the Versification of the module.
+     * Every VerseModule must have a versification.
+     */
     Versification *versification() const;
 
     /**
-      * Searchs in the current VerseModule. Saves the results in the second argument (*result).
-      */
+     * Searchs in the current VerseModule. Saves the results in the second argument (*result).
+     */
     virtual void search(SearchQuery query, SearchResult *result);
     SearchQuery lastSearchQuery() const;
 protected:

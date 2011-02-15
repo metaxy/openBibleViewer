@@ -45,8 +45,8 @@ namespace Ui
 class SettingsDialog;
 }
 /**
-  * SettingsDialog represents a dialog to modify the settings.
-  */
+ * SettingsDialog represents a dialog to modify the settings.
+ */
 class SettingsDialog : public QDialog
 {
     Q_OBJECT

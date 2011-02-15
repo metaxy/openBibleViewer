@@ -22,10 +22,9 @@ namespace Ui
 {
 class BiblePassageDialog;
 }
-/*!
- BiblePassageDialog represents a dialog select or change a bible passage
-
-*/
+/**
+ * BiblePassageDialog represents a dialog to select or change a bible passage using BiblePassageFrame.
+ */
 class BiblePassageDialog : public QDialog, public BasicClass
 {
     Q_OBJECT
