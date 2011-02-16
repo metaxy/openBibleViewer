@@ -42,6 +42,8 @@ void TheWordBible::setSettings(Settings *set)
 void TheWordBible::loadBibleData(const int id, const QString &path)
 {
     //DEBUG_FUNC_NAME
+    if(!m_books.isEmpty())
+        m_books.clear();
     m_moduleID = id;
     m_modulePath = path;
     QString dataFilePath = path;
@@ -65,10 +67,10 @@ void TheWordBible::loadBibleData(const int id, const QString &path)
     int book = 0;
     int chapter = 0;
     int verse = 0;
-    Book *currentBook = new Book();
-    currentBook->setID(book);
-    Chapter *currentChapter = new Chapter();
-    currentChapter->setChapterID(chapter);
+    Book currentBook = Book();
+    currentBook.setID(book);
+    Chapter currentChapter = Chapter();
+    currentChapter.setChapterID(chapter);
     const int linesToSkip = 31102;//see spec
     bool readingVerse = true;
     ModuleDisplaySettings *displaySettings = m_settings->getModuleSettings(m_moduleID)->displaySettings();
@@ -87,30 +89,30 @@ void TheWordBible::loadBibleData(const int id, const QString &path)
 
             line.replace(newLine, "<br />");
             Verse v(verse, line);
-            currentChapter->addVerse(verse, v);
+            currentChapter.addVerse(verse, v);
             if(verse + 1 < m_versification->maxVerse(flags).value(book).at(chapter)) {
                 verse++;
             } else {
                 if(chapter + 1 < m_versification->maxChapter(flags).value(book)) {
-                    currentBook->addChapter(chapter, *currentChapter);
+                    currentBook.addChapter(chapter, currentChapter);
                     chapter++;
                     verse = 0;
 
-                    currentChapter = new Chapter();
-                    currentChapter->setChapterID(chapter);
+                    currentChapter = Chapter();
+                    currentChapter.setChapterID(chapter);
                 } else {
-                    currentBook->addChapter(chapter, *currentChapter);
-                    m_books.insert(book, *currentBook);
+                    currentBook.addChapter(chapter, currentChapter);
+                    m_books.insert(book, currentBook);
 
                     book++;
                     chapter = 0;
                     verse = 0;
 
-                    currentBook = new Book();
-                    currentBook->setID(book);
+                    currentBook = Book();
+                    currentBook.setID(book);
 
-                    currentChapter = new Chapter();
-                    currentChapter->setChapterID(chapter);
+                    currentChapter = Chapter();
+                    currentChapter.setChapterID(chapter);
                 }
             }
         } else {
