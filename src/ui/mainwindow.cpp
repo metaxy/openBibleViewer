@@ -58,8 +58,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 {
-    VERSION = "0.6.b1";
-    BUILD =  "2011-02-15";//jear-month-day
+    VERSION = "0.5.80";
+    BUILD =  "2011-02-17";//jear-month-day
     m_homeDataPath = homeDataPath;
     m_settingsFile = settingsFile;
     //create some important folders

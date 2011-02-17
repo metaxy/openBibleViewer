@@ -1,10 +1,12 @@
 project( openBibleViewer )
 cmake_minimum_required( VERSION 2.6 )
-option(_RELEASE 0)
+option(_RELEASE OFF)
 set ( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
 INCLUDE(InstallRequiredSystemLibraries)
+
 IF(WIN32)
-  add_definitions( "/nologo /w " )
+  #nmake definitions for less output
+  add_definitions( "/nologo /w" )
   #set path to zlib dll
   SET(ZLIB_DLL "")
 endif(WIN32)
@@ -455,8 +457,8 @@ SET(CPACK_PACKAGE_VENDOR "Paul Walger")
 SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
 SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 SET(CPACK_PACKAGE_VERSION_MAJOR "0")
-SET(CPACK_PACKAGE_VERSION_MINOR "6")
-SET(CPACK_PACKAGE_VERSION_PATCH "0")
+SET(CPACK_PACKAGE_VERSION_MINOR "5")
+SET(CPACK_PACKAGE_VERSION_PATCH "80")
 SET(CPACK_PACKAGE_INSTALL_DIRECTORY "CMake ${CMake_VERSION_MAJOR}.${CMake_VERSION_MINOR}")
 #nsis
 IF(WIN32 AND NOT UNIX)
