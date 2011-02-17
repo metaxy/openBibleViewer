@@ -51,7 +51,7 @@ void SwordBible::search(const SearchQuery &query, SearchResult *res) const
 }
 bool SwordBible::hasIndex() const
 {
-
+    return false;
 }
 void SwordBible::buildIndex()
 {

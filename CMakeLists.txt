@@ -1,8 +1,19 @@
 project( openBibleViewer )
 cmake_minimum_required( VERSION 2.6 )
-
+option(_RELEASE 0)
 set ( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
-add_definitions ( -Wall -g)
+INCLUDE(InstallRequiredSystemLibraries)
+IF(WIN32)
+  add_definitions( "/nologo /w " )
+  #set path to zlib dll
+  SET(ZLIB_DLL "")
+endif(WIN32)
+if(UNIX)
+  IF(NOT _RELEASE)
+    add_definitions ( -Wall -g)
+  ENDIF(NOT _RELEASE)
+ENDIF(UNIX)
+
 find_package ( Qt4 REQUIRED )
 include(FindPkgConfig)
 pkg_check_modules(CLUCENE1 libclucene-core)
@@ -11,6 +22,7 @@ option( _PORTABLE_VERSION "Build a portable version" OFF )
 option( _SWORD_SUPPORT "Build with sword support" OFF )
 #not using "to STdWString" triggers a bad bug on linux
 option( _USE_WSTRING "Use toStdWString and fromWCharArray" ON)
+
 find_package(CLucene1)
 if(CLUCENE1_FOUND)
     set(_BUILD_CLUCENE 0)
@@ -35,13 +47,18 @@ else(_BUILD_CLUCENE)
     message("find shared libs of clucene")
     pkg_check_modules(CLUCENE1 libclucene-core)
     include_directories(${CLUCENE1_INCLUDE_DIRS})
-    SET(CLUCENE_SHARED_LIB "")
-    SET(CLUCENE_CORE_LIB "")
+    # todo: change to your clucene dir
+    SET(CLUCENE_DIR "")
+    include_directories (
+		${CLUCENE_DIR}\\build\\src\\shared
+		${CLUCENE_DIR}\\src\\shared
+		${CLUCENE_DIR}\\src\\core
+	)
 endif(_BUILD_CLUCENE)
 
 
 if (NOT CMAKE_BUILD_TYPE)
-   set(CMAKE_BUILD_TYPE "RelWithDebInfo")
+   set(CMAKE_BUILD_TYPE "Release")
 endif (NOT CMAKE_BUILD_TYPE)
 
 message("-- Using build type: ${CMAKE_BUILD_TYPE}")
@@ -416,7 +433,19 @@ IF(UNIX AND NOT WIN32)
         DESTINATION "share/pixmaps/" )
 
     install ( FILES "${openBibleViewer_SOURCE_DIR}/openBibleViewer.desktop"
-        DESTINATION "share/applications/" ) 
+        DESTINATION "share/applications/" )
+ELSE(WIN32 AND NOT UNIX)
+ install (FILES
+        "${QT_LIBRARY_DIR}/../bin/QtCore${QT_VERSION_MAJOR}.dll"
+        "${QT_LIBRARY_DIR}/../bin/QtXml${QT_VERSION_MAJOR}.dll"
+        "${QT_LIBRARY_DIR}/../bin/QtWebKit${QT_VERSION_MAJOR}.dll"
+        "${QT_LIBRARY_DIR}/../bin/QtGui${QT_VERSION_MAJOR}.dll"
+        "${QT_LIBRARY_DIR}/../bin/QtNetwork${QT_VERSION_MAJOR}.dll"
+		"${CLUCENE_DIR}\\\\build\\\\bin\\\\clucene-sharedd.dll" 
+		"${CLUCENE_DIR}\\\\build\\\\bin\\\\clucene-cored.dll"
+		"${ZLIB_DLL}"
+        DESTINATION bin
+    )
 ENDIF(UNIX AND NOT WIN32)
 
 INCLUDE(InstallRequiredSystemLibraries)
@@ -429,6 +458,7 @@ SET(CPACK_PACKAGE_VERSION_MAJOR "0")
 SET(CPACK_PACKAGE_VERSION_MINOR "6")
 SET(CPACK_PACKAGE_VERSION_PATCH "0")
 SET(CPACK_PACKAGE_INSTALL_DIRECTORY "CMake ${CMake_VERSION_MAJOR}.${CMake_VERSION_MINOR}")
+#nsis
 IF(WIN32 AND NOT UNIX)
   # There is a bug in NSI that does not handle full unix paths properly. Make
   # sure there is at least one set of four (4) backlasshes.
@@ -438,9 +468,7 @@ IF(WIN32 AND NOT UNIX)
   SET(CPACK_NSIS_HELP_LINK "http:\\\\\\\\openbv.uucyc.name")
   SET(CPACK_NSIS_URL_INFO_ABOUT "http:\\\\\\\\openbv.uucyc.name")
   SET(CPACK_NSIS_MODIFY_PATH ON)
-ELSE(WIN32 AND NOT UNIX)
-  SET(CPACK_STRIP_FILES "bin/openBibleViewer")
-  SET(CPACK_SOURCE_STRIP_FILES "")
 ENDIF(WIN32 AND NOT UNIX)
+
 SET(CPACK_PACKAGE_EXECUTABLES "openBibleViewer" "openBibleViewer")
 INCLUDE(CPack)
