@@ -1,6 +1,8 @@
 html {
     background-color:#ffffff;
     color:#000000;
+    padding: 0;
+    margin: 0;
 }
 
 .verseTableTitle a:link, a:visited, a:active{
@@ -21,16 +23,22 @@ html {
     width:100%;
 }
 .verseTable {
-    padding-top:2.5em;
+    padding-top:2em;
     table-layout:fixed;
     width:100%;
 }
 #topTable {
+    margin-top:-8px;
     table-layout:fixed;
     position:fixed;
     width:100%;
-    background:rgba(255,255,255,0.8);
+    background-image: -webkit-gradient(linear,left bottom,left top, 
+				       color-stop(0.24, rgba(255,255,255,0.85)),
+				       color-stop(0.88, rgba(209,209,209,0.85))
+    );
     border-bottom: 1px solid rgba(68,69,68,0.6);
+    
+    text-shadow: 0px 2px 5px #DFDFDF;
 }
 #topTable td{
     text-align:center; 
