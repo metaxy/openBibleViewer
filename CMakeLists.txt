@@ -1,7 +1,7 @@
-set(CMAKE_USER_MAKE_RULES_OVERRIDE
-   ${CMAKE_CURRENT_SOURCE_DIR}/cmake/c_flag_overrides.cmake)
-set(CMAKE_USER_MAKE_RULES_OVERRIDE_CXX
-   ${CMAKE_CURRENT_SOURCE_DIR}/cmake/cxx_flag_overrides.cmake)
+#set(CMAKE_USER_MAKE_RULES_OVERRIDE
+   #${CMAKE_CURRENT_SOURCE_DIR}/cmake/c_flag_overrides.cmake)
+#set(CMAKE_USER_MAKE_RULES_OVERRIDE_CXX
+  # ${CMAKE_CURRENT_SOURCE_DIR}/cmake/cxx_flag_overrides.cmake)
 
 project( openBibleViewer )
 cmake_minimum_required( VERSION 2.6 )
@@ -40,7 +40,9 @@ if(CLUCENE1_FOUND)
 else(CLUCENE1_FOUND)
     set(_BUILD_CLUCENE 1)
 endif(CLUCENE1_FOUND)
-
+if(MSVC)
+  set(_BUILD_CLUCENE 0)
+endif()
 
 if(_SWORD_SUPPORT)
     include (FindSword)
@@ -411,12 +413,16 @@ QT4_WRAP_CPP ( MOCS ${openBibleViewer_MOCS} )
 QT4_ADD_RESOURCES(RSCS ${openBibleViewer_RSCS})
 QT4_WRAP_UI(UIS ${openBibleViewer_UIS})
 
+if (MSVC)
+  add_executable(openBibleViewer WIN32 ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS})
+else ()
+  add_executable(openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS})
+endif ()
 
-add_executable ( openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS}  )
 if(_BUILD_CLUCENE)
     set(CL_LIBS clucene-core-static clucene-shared-static ${ZLIB_LIBRARY})
 else(_BUILD_CLUCENE)
-    set(CL_LIBS  "${CLUCENE_DIR}\\build\\bin\\clucene-sharedd.lib" "${CLUCENE_DIR}\\build\\bin\\clucene-cored.lib")
+    set(CL_LIBS  "${CLUCENE_DIR}\\build\\bin\\clucene-shared.lib" "${CLUCENE_DIR}\\build\\bin\\clucene-core.lib")
 endif(_BUILD_CLUCENE)
 if(_SWORD_SUPPORT)
     set(SW_LIBS ${CURL_LIBRARIES} ${ICU_LIBRARIES} ${ICU_I18N_LIBRARIES} ${ZLIB_LIBRARIES} ${SWORD_LIBRARY})
@@ -453,8 +459,8 @@ ELSE(WIN32 AND NOT UNIX)
         "${QT_LIBRARY_DIR}/../bin/QtGui${QT_VERSION_MAJOR}.dll"
         "${QT_LIBRARY_DIR}/../bin/QtNetwork${QT_VERSION_MAJOR}.dll"
 	"${QT_LIBRARY_DIR}/../bin/phonon${QT_VERSION_MAJOR}.dll"
-		"${CLUCENE_DIR}\\\\build\\\\bin\\\\clucene-sharedd.dll" 
-		"${CLUCENE_DIR}\\\\build\\\\bin\\\\clucene-cored.dll"
+		"${CLUCENE_DIR}\\\\build\\\\bin\\\\clucene-shared.dll" 
+		"${CLUCENE_DIR}\\\\build\\\\bin\\\\clucene-core.dll"
 		"${ZLIB_DLL}"
         DESTINATION bin
     )
@@ -479,7 +485,7 @@ IF(WIN32 AND NOT UNIX)
   SET(CPACK_NSIS_DISPLAY_NAME "openBibleViewer")
   SET(CPACK_NSIS_HELP_LINK "http:\\\\\\\\openbv.uucyc.name")
   SET(CPACK_NSIS_URL_INFO_ABOUT "http:\\\\\\\\openbv.uucyc.name")
-  SET(CPACK_NSIS_MODIFY_PATH ON)
+  SET(CPACK_NSIS_MODIFY_PATH OFF)
 ENDIF(WIN32 AND NOT UNIX)
 
 SET(CPACK_PACKAGE_EXECUTABLES "openBibleViewer" "openBibleViewer")
