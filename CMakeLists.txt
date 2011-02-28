@@ -12,7 +12,7 @@ IF(MSVC)
   #nmake definitions for less output
   add_definitions( "/nologo /w" )
   #set path to zlib dll
-  SET(ZLIB_DLL "")
+  SET(ZLIB_DLL "C:\\\\zlib-1.2.3-lib\\\\zlib1.dll")
 endif()
 
 if(UNIX)
@@ -61,7 +61,7 @@ else(_BUILD_CLUCENE)
     pkg_check_modules(CLUCENE1 libclucene-core)
     include_directories(${CLUCENE1_INCLUDE_DIRS})
     # todo: change to your clucene dir
-    SET(CLUCENE_DIR "")
+    SET(CLUCENE_DIR "C:\\\\Users\\\\mo\\\\coding\\\\clucene-HEAD-314b755\\\\")
     include_directories (
 		${CLUCENE_DIR}\\build\\src\\shared
 		${CLUCENE_DIR}\\src\\shared

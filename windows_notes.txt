@@ -1,0 +1,8 @@
+change 
+	SET(ZLIB_DLL)
+	SET(CLUCENE_DIR)
+to needed paths
+
+
+cmake -G "NMake Makefiles" ..
+nmake
