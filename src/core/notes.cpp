@@ -30,7 +30,7 @@ Notes::Notes()
 void Notes::init(const QString &fileName)
 {
     m_fileName = fileName;
-    m_version = "0.3";
+    m_version = "0.4";
     m_isLoaded = false;
     m_oldVersion = "";
 }
@@ -81,6 +81,8 @@ int Notes::loadNotes()
             return 2;
         } else if(oldVersion == "0.2" && oldVersion != m_version) {
             m_oldVersion = "0.2";
+        } else if(oldVersion == "0.3" && oldVersion != m_version) {
+            m_oldVersion = "0.3";
         }
     }
     file.close();
@@ -301,7 +303,13 @@ int Notes::readNotes()
                         }
                         QDomElement e3 = n3.toElement();
                         QString tag = e3.tagName();
-                        QString val = e3.attribute("id", "");
+                        QString val;
+                        if(m_oldVersion == "0.3" || m_oldVersion == "0.2") {
+                            val = e3.attribute("id", "");
+                        } else {
+                            val = e3.text();
+                        }
+
                         if(m_oldVersion == "0.2" && tag == "color") {
                             tag = "style";
                             val = "background-color:" + val + ";";
@@ -353,7 +361,8 @@ int Notes::saveNotes()
         while(i.hasNext()) {
             i.next();
             QDomElement e = sdoc.createElement(i.key());
-            e.setAttribute("id", i.value());
+            QDomText t = doc.createTextNode(i.value());
+            e.appendChild(t);
             ref.appendChild(e);
         }
         tag.appendChild(ref);
