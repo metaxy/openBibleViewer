@@ -393,7 +393,6 @@ void Notes::search(SearchQuery query, SearchResult *res) const
     while(i2.hasNext()) {
         i2.next();
         if(!f.contains(i2.key())) {
-
             if(i2.value().contains(query.searchText)) {
                 SearchHit hit;
                 hit.setType(SearchHit::NoteHit);

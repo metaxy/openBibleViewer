@@ -331,6 +331,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                         VerseSelection::SelectionPosInTextType type = VerseSelection::typeFromString(m_notes->getRef(noteID, "selection_pos_type"));
                         if(type == VerseSelection::ShortestString) {
                             const int verseID = m_notes->getRef(noteID, "start").toInt();
+                            //if we show not the whole range
                             if(endVerse != -1) {
                                 //todo: do something
                             }
@@ -340,7 +341,19 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                             replacer.setInsert(verseID, endPos, ap);
                             replacer.setInsert(verseID, startPos, pre);
                         } else if(type == VerseSelection::RepeatOfLongestString) {
-
+                            myDebug() << "repeat of longest string noteID = " << noteID;
+                            const int verseID = m_notes->getRef(noteID, "start").toInt();
+                            Verse verse = verseMap.value(verseID);
+                            const int repeat = m_notes->getRef(noteID, "repeat").toInt() + 1;
+                            const QString longestString = m_notes->getRef(noteID, "longest_string");
+                            int startPos = 0;
+                            for(int i = 0; i < repeat; i++) {
+                                startPos = verse.data().indexOf(longestString, startPos + 1);
+                            }
+                            if(startPos != -1) {
+                                replacer.setInsert(verseID, startPos + longestString.size(), ap);
+                                replacer.setInsert(verseID, startPos, pre);
+                            }
                         }
 
                     } else {

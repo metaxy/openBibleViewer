@@ -167,6 +167,8 @@ private:
     VerseUrl m_lastUrl;
 
     QWebInspector *m_inspector;
+
+    VerseSelection lastSelection;
 };
 
 #endif // BIBLEFORM_H

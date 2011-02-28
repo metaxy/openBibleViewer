@@ -636,6 +636,7 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
 
     QAction *actionCopyWholeVerse = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Verse"), contextMenu.data());
     VerseSelection selection = verseSelection();
+    lastSelection = selection;
     if(selection.startVerse != -1) {
         QString addText;
         if(selection.startVerse != selection.endVerse)
@@ -676,20 +677,20 @@ void BibleForm::newNoteWithLink()
     if(!m_moduleManager->bibleLoaded()) {
         return;
     }
-    m_notesManager->newNoteWithLink(verseSelection());
+    m_notesManager->newNoteWithLink(lastSelection);
 }
 void BibleForm::newBookmark()
 {
     if(!m_moduleManager->bibleLoaded()) {
         return;
     }
-    m_bookmarksManager->newBookmark(verseSelection());
+    m_bookmarksManager->newBookmark(lastSelection);
 }
 
 void BibleForm::copyWholeVerse(void)
 {
     //DEBUG_FUNC_NAME
-    VerseSelection selection = verseSelection();
+    VerseSelection selection = lastSelection;
     if(selection.startVerse != -1) {
         int add = 0;
         if(m_moduleManager->verseModule()->moduleType() == OBVCore::BibleQuoteModule)
@@ -772,7 +773,7 @@ void BibleForm::newColorMark()
         color = QColor(255, 255, 0);
     }
 
-    VerseSelection selection = verseSelection();
+    VerseSelection selection = lastSelection;
     m_notesManager->newCustomColorMark(selection, color);
 }
 
@@ -781,7 +782,7 @@ void BibleForm::newCustomColorMark()
     if(!m_moduleManager->bibleLoaded()) {
         return;
     }
-    VerseSelection selection = verseSelection();
+    VerseSelection selection = lastSelection;
     const QColor color = QColorDialog::getColor(QColor(255, 255, 0), this);
     if(color.isValid()) {
         m_notesManager->newCustomColorMark(selection, color);
@@ -794,7 +795,7 @@ void BibleForm::newBoldMark()
     if(!m_moduleManager->bibleLoaded()) {
         return;
     }
-    VerseSelection selection = verseSelection();
+    VerseSelection selection = lastSelection;
     m_notesManager->newBoldMark(selection);
 
 }
@@ -805,7 +806,7 @@ void BibleForm::newItalicMark()
         return;
     }
 
-    VerseSelection selection = verseSelection();
+    VerseSelection selection = lastSelection;
     m_notesManager->newItalicMark(selection);
 
 }
@@ -816,7 +817,7 @@ void BibleForm::newUnderlineMark()
         return;
     }
 
-    VerseSelection selection = verseSelection();
+    VerseSelection selection = lastSelection;
     m_notesManager->newUnderlineMark(selection);
 }
 
@@ -826,7 +827,7 @@ void BibleForm::removeMark()
     if(!m_moduleManager->bibleLoaded()) {
         return;
     }
-    VerseSelection selection = verseSelection();
+    VerseSelection selection = lastSelection;
     //myDebug() << "selection = " << selection.moduleID << selection.bookID << selection.chapterID << selection.startVerse;
     m_notesManager->removeMark(selection);
 }
@@ -935,7 +936,8 @@ VerseSelection BibleForm::verseSelection()
     }
     myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
     //todo: 0.6
-    if(s.canBeUsedForMarks() == false) {
+    //do not this stuff with BibleQuote because some modules have wired html stuff.
+    if(s.canBeUsedForMarks() == false && m_moduleManager->verseModule()->moduleType() != OBVCore::BibleQuoteModule) {
         //now the ultimative alogrithm
         f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection();adVerseSelection.getSelection();");
         const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();

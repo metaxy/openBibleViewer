@@ -476,10 +476,9 @@ void SimpleNotes::newTextNoteWithLink(VerseSelection selection)
 void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style)
 {
     //myDebug() << selection.shortestStringInEndVerse << selection.shortestStringInStartVerse;
-    if(selection.shortestStringInEndVerse == "" || selection.shortestStringInStartVerse == "") {
+    if(!selection.canBeUsedForMarks()) {
         myWarning() << "cannot create mark";
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot create mark."));
-        //todo: use full verse mark
         return;
     }
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
@@ -512,8 +511,9 @@ void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style)
     ref["selection_pos_type"] = selection.typeToString();
 
     if(selection.type == VerseSelection::RepeatOfLongestString) {
+        myDebug() << "using repeat of longest string";
         ref["repeat"] = QString::number(selection.repeat);
-        ref["longeststring"] = selection.longestString;
+        ref["longest_string"] = selection.longestString;
     } else if(selection.type == VerseSelection::ShortestString) {
         ref["startString"] = selection.shortestStringInStartVerse;
         ref["endString"] = selection.shortestStringInEndVerse;
