@@ -1,8 +1,8 @@
-* 0.6 beta 1
-- Show more than one chaper at once
+* 0.6 beta 1 (0.5.80)
+- Show more than one chaper at once.
 - !Important! New BibleUrls. Old configuration, notes and bookmarks do not work anymore.
   It had to be done, because of bad design of the old urls. 
   If you have a lot of bookmarks or notes, ask me to write an converter for you.
 - Support for TheWord Bibles.
-- Export to OpenDocuement
-- Print Preview
+- Export to OpenDocuement(.odf).
+- Print Preview.

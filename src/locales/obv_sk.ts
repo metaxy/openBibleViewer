@@ -1,379 +1,366 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.0" language="sk_SK">
-    <extra-po-header-po_revision_date>2010-10-28 12:53+0000</extra-po-header-po_revision_date>
-    <extra-po-header-x_launchpad_export_date>2010-11-06 12:39+0000</extra-po-header-x_launchpad_export_date>
-    <extra-po-headers>Project-Id-Version,Report-Msgid-Bugs-To,POT-Creation-Date,PO-Revision-Date,Last-Translator,Language-Team,MIME-Version,Content-Type,Content-Transfer-Encoding,X-Launchpad-Export-Date,X-Generator,X-Qt-Contexts,X-Language</extra-po-headers>
-    <extra-po-header-x_generator>Launchpad (build Unknown)</extra-po-header-x_generator>
-    <extra-po-header-report_msgid_bugs_to></extra-po-header-report_msgid_bugs_to>
-    <extra-po-header-language_team>LANGUAGE &lt;LL@li.org&gt;</extra-po-header-language_team>
-    <extra-po-header-project_id_version>PACKAGE VERSION</extra-po-header-project_id_version>
-    <extra-po-header-pot_creation_date>2010-09-13 17:06+0000</extra-po-header-pot_creation_date>
-    <extra-po-header-last_translator>Ivan Y &lt;Unknown&gt;</extra-po-header-last_translator>
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="ui/dialog/aboutdialog.ui" line="14"/>
+        <location filename="../ui/dialog/aboutdialog.ui" line="14"/>
         <source>About</source>
         <translation>O programe</translation>
     </message>
     <message>
-        <location filename="ui/dialog/aboutdialog.ui" line="56"/>
         <source>Close</source>
-        <translation>Zatvoriť</translation>
+        <translation type="obsolete">Zatvoriť</translation>
     </message>
 </context>
 <context>
     <name>AdvancedInterface</name>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="958"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="971"/>
         <source>Error</source>
-        <translation>Chyba</translation>
+        <translation type="obsolete">Chyba</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="958"/>
         <source>This book is not available.</source>
-        <translation>Tato kniha nieje dostupná.</translation>
+        <translation type="obsolete">Tato kniha nieje dostupná.</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="971"/>
         <source>Cannot read the book.</source>
-        <translation>Kniha sa nedá prečítať.</translation>
+        <translation type="obsolete">Kniha sa nedá prečítať.</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1111"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1590"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="352"/>
         <source>Copy</source>
         <translation>Kopírovať</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1178"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1187"/>
         <source>Copy Verse</source>
-        <translation>Kopírovať verš</translation>
+        <translation type="obsolete">Kopírovať verš</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1190"/>
         <source>Copy Verse %1</source>
-        <translation>Kopírovať verš %1</translation>
+        <translation type="obsolete">Kopírovať verš %1</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1114"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1595"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="357"/>
         <source>Select All</source>
         <translation>Vybrať všetko</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="600"/>
         <source>No such bible found.</source>
-        <translation>Žiadna Biblia nebola nájdená.</translation>
+        <translation type="obsolete">Žiadna Biblia nebola nájdená.</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="830"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="218"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="220"/>
         <source>openBibleViewer</source>
         <translation>openBibleViewer</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1118"/>
         <source>Mark this</source>
-        <translation>Označiť toto</translation>
+        <translation type="obsolete">Označiť toto</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1121"/>
         <source>Yellow</source>
-        <translation>Žltá</translation>
+        <translation type="obsolete">Žltá</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1126"/>
         <source>Green</source>
-        <translation>Zelená</translation>
+        <translation type="obsolete">Zelená</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1131"/>
         <source>Blue</source>
-        <translation>Modrá</translation>
+        <translation type="obsolete">Modrá</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1136"/>
         <source>Orange</source>
-        <translation>Oranžová</translation>
+        <translation type="obsolete">Oranžová</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1141"/>
         <source>Violet</source>
-        <translation>Fialová</translation>
+        <translation type="obsolete">Fialová</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1146"/>
         <source>Custom Color</source>
-        <translation>Vlastná farba</translation>
+        <translation type="obsolete">Vlastná farba</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1151"/>
         <source>Bold</source>
-        <translation>Hrubé</translation>
+        <translation type="obsolete">Hrubé</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1155"/>
         <source>Italic</source>
-        <translation>Kurzíva</translation>
+        <translation type="obsolete">Kurzíva</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1159"/>
         <source>Underline</source>
-        <translation>Podčiarknuté</translation>
+        <translation type="obsolete">Podčiarknuté</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1164"/>
         <source>Remove Mark</source>
-        <translation>Odstrániť značku</translation>
+        <translation type="obsolete">Odstrániť značku</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1167"/>
         <source>Add Bookmark</source>
-        <translation>Pridať záložku</translation>
+        <translation type="obsolete">Pridať záložku</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1170"/>
         <source>Add Note</source>
-        <translation>Pridať poznámku</translation>
+        <translation type="obsolete">Pridať poznámku</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1199"/>
         <source>Debugger</source>
-        <translation>Debugger</translation>
+        <translation type="obsolete">Debugger</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1552"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="308"/>
         <source>File</source>
         <translation>Súbor</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1555"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="311"/>
         <source>New SubWindow</source>
         <translation>Nové podokno</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1560"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="316"/>
         <source>Close SubWindow</source>
         <translation>Zavrieť podokno</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1565"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="321"/>
         <source>Save As</source>
         <translation>Uložiť ako</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1570"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1906"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="326"/>
         <source>Print</source>
         <translation>Tlačiť</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1587"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="349"/>
         <source>Edit</source>
         <translation>Upraviť</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1600"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1804"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="362"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="573"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="747"/>
         <source>Search</source>
         <translation>Hľadať</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1605"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="367"/>
         <source>Find Next</source>
         <translation>Nájsť ďalšie</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1610"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="372"/>
         <source>Find Previous</source>
         <translation>Nájsť predchádzajúce</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1625"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="529"/>
         <source>Configuration</source>
         <translation>Nastavenie</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1641"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="399"/>
         <source>View</source>
         <translation>Zobraziť</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1644"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1820"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="402"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="590"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="751"/>
         <source>Zoom In</source>
         <translation>Priblížiť</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1649"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1822"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="407"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="593"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="752"/>
         <source>Zoom Out</source>
         <translation>Oddialiť</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1654"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="412"/>
         <source>Tabbed View</source>
         <translation>Pohľad s kartami</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1659"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="417"/>
         <source>Sub Window View</source>
         <translation>Pohľad s podoknami</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1668"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="426"/>
         <source>Tile</source>
         <translation>Dlaždice</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1672"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="430"/>
         <source>Tile Vertical</source>
         <translation>Usporiadať zvislo</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1676"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="434"/>
         <source>Tile Horizontal</source>
         <translation>Usporiadať vodorovne</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1664"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="422"/>
         <source>Cascade</source>
         <translation>Kaskádovito</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1575"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="331"/>
+        <source>Print Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="336"/>
         <source>Quit</source>
         <translation>Ukončiť</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1615"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="377"/>
         <source>Next Chapter</source>
         <translation>Nasledujúca kapitola</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1620"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="382"/>
         <source>Previous Chapter</source>
         <translation>Predchádzajúca kapitola</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1693"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1728"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1812"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="451"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="487"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="582"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="749"/>
         <source>Notes</source>
         <translation>Poznámky</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1696"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="454"/>
         <source>Notes Editor</source>
         <translation>Editor poznámok</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1700"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="458"/>
         <source>Mark List</source>
         <translation>Zoznam značiek</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1704"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="462"/>
         <source>Mark Categories</source>
         <translation>Skupiny značiek</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1713"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="471"/>
         <source>Docks</source>
         <translation>Doky</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1722"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="481"/>
         <source>Books</source>
         <translation>Knihy</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1746"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="505"/>
         <source>Quick Jump</source>
         <translation>Rýchly skok</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1752"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="511"/>
         <source>Search Results</source>
         <translation>Výsledky hľadania</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1767"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="526"/>
+        <source>Settings</source>
+        <translation type="unfinished">Nastavenia</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="537"/>
         <source>Help</source>
         <translation>Nápoveda</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1770"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="539"/>
         <source>About</source>
         <translation>O programe</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1774"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="543"/>
         <source>Online Help</source>
         <translation>Online pomocník</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1740"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1807"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="698"/>
+        <source>openBibleViewer &lt;br /&gt; version: %1 build: %2&lt;br /&gt; &lt;a href=&apos;http://openbv.uucyc.name/&apos;&gt; Official Website&lt;/a&gt; &lt;br /&gt;&lt;a href=&apos;https://github.com/metaxy/openBibleViewer/issues&apos;&gt;Bug report&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="499"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="576"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="748"/>
         <source>Bookmarks</source>
         <translation>Záložky</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1817"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="587"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="750"/>
         <source>New Window</source>
         <translation>Nové okno</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1716"/>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1825"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="474"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="596"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="753"/>
         <source>Module</source>
         <translation>Modul</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1734"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="493"/>
         <source>Dictionay</source>
         <translation>Slovník</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1803"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="571"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="746"/>
         <source>Main Tool Bar</source>
         <translation>Hlavná lišta nástrojov</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1843"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="614"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="754"/>
         <source>Search Bar</source>
         <translation>Panel hľadania</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1898"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="671"/>
         <source>http://openbv.uucyc.name/faq.html</source>
         <translation>http://openbv.uucyc.name/faq.html</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1921"/>
         <source>Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)</source>
-        <translation>Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)</translation>
+        <translation type="obsolete">Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1921"/>
         <source>Save output</source>
-        <translation>Uložiť výstup</translation>
+        <translation type="obsolete">Uložiť výstup</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1955"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="696"/>
         <source>About openBibleViewer</source>
         <translation>O programe openBibleViewer</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.cpp" line="1957"/>
         <source>openBibleViewer &lt;br&gt; version: %1 build: %2&lt;br&gt; &lt;a href=&quot;http://openbv.uucyc.name/&quot;&gt; Official Website&lt;/a&gt; | &lt;a href=&quot;http://openbv.uucyc.name/bug/&quot;&gt;Bug report&lt;/a&gt;</source>
-        <translation>openBibleViewer &lt;br&gt; verzia: %1 zostavenie: %2 &lt;br&gt; &lt;a href=&quot;http://openbv.uucyc.name/&quot;&gt; Oficiálna webstránka&lt;/a&gt; | &lt;a href=&quot;http://openbv.uucyc.name/bug/&quot;&gt;Hlásenie chýb&lt;/a&gt;</translation>
+        <translation type="obsolete">openBibleViewer &lt;br&gt; verzia: %1 zostavenie: %2 &lt;br&gt; &lt;a href=&quot;http://openbv.uucyc.name/&quot;&gt; Oficiálna webstránka&lt;/a&gt; | &lt;a href=&quot;http://openbv.uucyc.name/bug/&quot;&gt;Hlásenie chýb&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/advancedinterface.ui" line="20"/>
+        <location filename="../ui/interface/advanced/advancedinterface.ui" line="20"/>
         <source>WindowForm</source>
         <translation>WindowForm</translation>
     </message>
@@ -381,40 +368,156 @@
 <context>
     <name>AdvancedSearchResultDockWidget</name>
     <message>
-        <location filename="ui/dock/advancedsearchresultdockwidget.ui" line="14"/>
+        <location filename="../ui/dock/advancedsearchresultdockwidget.ui" line="14"/>
         <source>Search Results</source>
         <translation>Výsledky hľadania</translation>
     </message>
     <message>
-        <location filename="ui/dock/advancedsearchresultdockwidget.ui" line="39"/>
+        <location filename="../ui/dock/advancedsearchresultdockwidget.ui" line="43"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="ui/dock/advancedsearchresultdockwidget.cpp" line="39"/>
+        <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="36"/>
+        <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="40"/>
+        <source>Result</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="55"/>
         <source>Search: %1</source>
         <translation>Hľadať: %1</translation>
     </message>
     <message>
-        <location filename="ui/dock/advancedsearchresultdockwidget.cpp" line="67"/>
+        <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="83"/>
         <source>Notes</source>
         <translation>Poznámky</translation>
     </message>
     <message>
-        <location filename="ui/dock/advancedsearchresultdockwidget.cpp" line="104"/>
+        <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="124"/>
         <source>Error</source>
         <translation>Chyba</translation>
     </message>
     <message>
-        <location filename="ui/dock/advancedsearchresultdockwidget.cpp" line="104"/>
+        <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="124"/>
         <source>No search information available.</source>
         <translation>Nie sú dostupné žiadne informácie o hľadaní.</translation>
     </message>
 </context>
 <context>
+    <name>BibleForm</name>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="424"/>
+        <source>Print</source>
+        <translation type="unfinished">Tlačiť</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="441"/>
+        <source>Save output</source>
+        <translation type="unfinished">Uložiť výstup</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="441"/>
+        <source>Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Plain (*.txt)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="555"/>
+        <source>Copy</source>
+        <translation type="unfinished">Kopírovať</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="558"/>
+        <source>Select All</source>
+        <translation type="unfinished">Vybrať všetko</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="562"/>
+        <source>Mark this</source>
+        <translation type="unfinished">Označiť toto</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="565"/>
+        <source>Yellow</source>
+        <translation type="unfinished">Žltá</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="570"/>
+        <source>Green</source>
+        <translation type="unfinished">Zelená</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="575"/>
+        <source>Blue</source>
+        <translation type="unfinished">Modrá</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="580"/>
+        <source>Orange</source>
+        <translation type="unfinished">Oranžová</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="585"/>
+        <source>Violet</source>
+        <translation type="unfinished">Fialová</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="590"/>
+        <source>Custom Color</source>
+        <translation type="unfinished">Vlastná farba</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="595"/>
+        <source>Bold</source>
+        <translation type="unfinished">Hrubé</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="599"/>
+        <source>Italic</source>
+        <translation type="unfinished">Kurzíva</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="603"/>
+        <source>Underline</source>
+        <translation type="unfinished">Podčiarknuté</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="608"/>
+        <source>Remove Mark</source>
+        <translation type="unfinished">Odstrániť značku</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="611"/>
+        <source>Add Bookmark</source>
+        <translation type="unfinished">Pridať záložku</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="614"/>
+        <source>Add Note</source>
+        <translation type="unfinished">Pridať poznámku</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="637"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="646"/>
+        <source>Copy Verse</source>
+        <translation type="unfinished">Kopírovať verš</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="649"/>
+        <source>Copy Verse %1</source>
+        <comment>e.g Copy Verse 1-2 or Copy Verse 2</comment>
+        <translation type="unfinished">Kopírovať verš %1</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="658"/>
+        <source>Debugger</source>
+        <translation type="unfinished">Debugger</translation>
+    </message>
+</context>
+<context>
     <name>BibleListItemDelegate</name>
     <message>
-        <location filename="ui/interface/advanced/biblelistitemdelegate.cpp" line="25"/>
+        <location filename="../ui/interface/advanced/biblelistitemdelegate.cpp" line="22"/>
         <source>None</source>
         <translation>Žiadne</translation>
     </message>
@@ -422,15 +525,15 @@
 <context>
     <name>BibleListWidget</name>
     <message>
-        <location filename="ui/interface/advanced/biblelistwidget.ui" line="14"/>
+        <location filename="../ui/interface/advanced/biblelistwidget.ui" line="14"/>
         <source>Bible List</source>
         <translation>Zoznam Biblií</translation>
     </message>
     <message>
-        <location filename="ui/interface/advanced/biblelistwidget.ui" line="22"/>
-        <location filename="ui/interface/advanced/biblelistwidget.ui" line="46"/>
-        <location filename="ui/interface/advanced/biblelistwidget.ui" line="61"/>
-        <location filename="ui/interface/advanced/biblelistwidget.ui" line="85"/>
+        <location filename="../ui/interface/advanced/biblelistwidget.ui" line="22"/>
+        <location filename="../ui/interface/advanced/biblelistwidget.ui" line="46"/>
+        <location filename="../ui/interface/advanced/biblelistwidget.ui" line="61"/>
+        <location filename="../ui/interface/advanced/biblelistwidget.ui" line="85"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -438,25 +541,41 @@
 <context>
     <name>BiblePassageDialog</name>
     <message>
-        <location filename="ui/dialog/biblepassagedialog.ui" line="17"/>
+        <location filename="../ui/dialog/biblepassagedialog.ui" line="17"/>
         <source>Bible Passage</source>
         <translation>Pasáž zo svätého písma</translation>
     </message>
     <message>
-        <location filename="ui/dialog/biblepassagedialog.ui" line="58"/>
         <source>Save</source>
-        <translation>Uložiť</translation>
+        <translation type="obsolete">Uložiť</translation>
     </message>
     <message>
-        <location filename="ui/dialog/biblepassagedialog.ui" line="69"/>
         <source>Cancel</source>
-        <translation>Zrušiť</translation>
+        <translation type="obsolete">Zrušiť</translation>
+    </message>
+</context>
+<context>
+    <name>BiblePassageFrame</name>
+    <message>
+        <location filename="../ui/biblepassageframe.ui" line="14"/>
+        <source>Frame</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/biblepassageframe.ui" line="31"/>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/biblepassageframe.cpp" line="38"/>
+        <source>Module</source>
+        <translation type="unfinished">Modul</translation>
     </message>
 </context>
 <context>
     <name>BookDockWidget</name>
     <message>
-        <location filename="ui/dock/bookdockwidget.ui" line="23"/>
+        <location filename="../ui/dock/bookdockwidget.ui" line="23"/>
         <source>Book Select</source>
         <translation>Výber knihy</translation>
     </message>
@@ -464,57 +583,96 @@
 <context>
     <name>BookmarksDockWidget</name>
     <message>
-        <location filename="ui/dock/bookmarksdockwidget.ui" line="14"/>
+        <location filename="../ui/dock/bookmarksdockwidget.ui" line="14"/>
         <source>Bookmarks</source>
         <translation>Záložky</translation>
     </message>
     <message>
-        <location filename="ui/dock/bookmarksdockwidget.ui" line="54"/>
+        <location filename="../ui/dock/bookmarksdockwidget.ui" line="54"/>
         <source>Title</source>
         <translation>Názov</translation>
     </message>
     <message>
-        <location filename="ui/dock/bookmarksdockwidget.cpp" line="105"/>
+        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="115"/>
         <source>new folder</source>
         <translation>nový priečinok</translation>
     </message>
     <message>
-        <location filename="ui/dock/bookmarksdockwidget.cpp" line="121"/>
+        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="131"/>
         <source>Go To</source>
         <translation>Prejsť na</translation>
     </message>
     <message>
-        <location filename="ui/dock/bookmarksdockwidget.cpp" line="125"/>
+        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="135"/>
         <source>New Folder</source>
         <translation>Nový priečinok</translation>
     </message>
     <message>
-        <location filename="ui/dock/bookmarksdockwidget.cpp" line="129"/>
+        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="139"/>
         <source>Edit</source>
         <translation>Upraviť</translation>
     </message>
     <message>
-        <location filename="ui/dock/bookmarksdockwidget.cpp" line="133"/>
+        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="143"/>
         <source>Remove</source>
         <translation>Odstrániť</translation>
     </message>
     <message>
-        <location filename="ui/dock/bookmarksdockwidget.cpp" line="176"/>
-        <location filename="ui/dock/bookmarksdockwidget.cpp" line="187"/>
+        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="189"/>
+        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="202"/>
         <source>Error</source>
         <translation>Chyba</translation>
     </message>
     <message>
-        <location filename="ui/dock/bookmarksdockwidget.cpp" line="176"/>
-        <location filename="ui/dock/bookmarksdockwidget.cpp" line="187"/>
+        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="189"/>
+        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="202"/>
         <source>This Bookmark is invalid.</source>
         <translation>Táto záložka je neplatná.</translation>
     </message>
 </context>
 <context>
+    <name>Core</name>
+    <message>
+        <location filename="../module/module.cpp" line="105"/>
+        <location filename="../module/module.cpp" line="113"/>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../module/module.cpp" line="105"/>
+        <location filename="../module/module.cpp" line="115"/>
+        <source>BibleQuote</source>
+        <translation type="unfinished">BibleQuote</translation>
+    </message>
+    <message>
+        <location filename="../module/module.cpp" line="105"/>
+        <location filename="../module/module.cpp" line="117"/>
+        <source>Zefania XML Bible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../module/module.cpp" line="106"/>
+        <location filename="../module/module.cpp" line="119"/>
+        <source>Zefania Lex Module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../module/module.cpp" line="106"/>
+        <location filename="../module/module.cpp" line="121"/>
+        <source>BibleQuote Dictionary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../module/module.cpp" line="106"/>
+        <location filename="../module/module.cpp" line="123"/>
+        <source>The Word Bible</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DictionaryDockWidget</name>
     <message>
-        <location filename="ui/dock/dictionarydockwidget.ui" line="14"/>
+        <location filename="../ui/dock/dictionarydockwidget.ui" line="14"/>
         <source>Dictionary</source>
         <translation>Slovník</translation>
     </message>
@@ -522,12 +680,12 @@
 <context>
     <name>InsertHtmlDialog</name>
     <message>
-        <location filename="ui/dialog/inserthtmldialog.ui" line="14"/>
+        <location filename="../ui/dialog/inserthtmldialog.ui" line="14"/>
         <source>Insert HTML</source>
         <translation>Vložiť HTML</translation>
     </message>
     <message>
-        <location filename="ui/dialog/inserthtmldialog.ui" line="20"/>
+        <location filename="../ui/dialog/inserthtmldialog.ui" line="20"/>
         <source>HTML Code:</source>
         <translation>HTML Kód:</translation>
     </message>
@@ -535,28 +693,28 @@
 <context>
     <name>InsertLinkDialog</name>
     <message>
-        <location filename="ui/dialog/insertlinkdialog.ui" line="14"/>
+        <location filename="../ui/dialog/insertlinkdialog.ui" line="14"/>
         <source>Insert Link</source>
         <translation>Vložiť odkaz</translation>
     </message>
     <message>
-        <location filename="ui/dialog/insertlinkdialog.ui" line="32"/>
+        <location filename="../ui/dialog/insertlinkdialog.ui" line="32"/>
         <source>Bible</source>
         <translation>Sväté písmo</translation>
     </message>
     <message>
-        <location filename="ui/dialog/insertlinkdialog.ui" line="67"/>
+        <location filename="../ui/dialog/insertlinkdialog.ui" line="46"/>
         <source>Note</source>
         <translation>Poznámka</translation>
     </message>
     <message>
-        <location filename="ui/dialog/insertlinkdialog.ui" line="85"/>
+        <location filename="../ui/dialog/insertlinkdialog.ui" line="64"/>
         <source>Custom</source>
         <translation>Vlastné</translation>
     </message>
     <message>
-        <location filename="ui/dialog/insertlinkdialog.cpp" line="34"/>
-        <location filename="ui/dialog/insertlinkdialog.cpp" line="103"/>
+        <location filename="../ui/dialog/insertlinkdialog.cpp" line="46"/>
+        <location filename="../ui/dialog/insertlinkdialog.cpp" line="96"/>
         <source>Note Title</source>
         <translation>Názov poznámky</translation>
     </message>
@@ -564,677 +722,550 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="ui/mainwindow.cpp" line="267"/>
         <source>Genesis</source>
-        <translation>Genezis</translation>
+        <translation type="obsolete">Genezis</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="268"/>
         <source>Exodus</source>
-        <translation>Exodus</translation>
+        <translation type="obsolete">Exodus</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="269"/>
         <source>Leviticus</source>
-        <translation>Levitikus</translation>
+        <translation type="obsolete">Levitikus</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="270"/>
         <source>Numbers</source>
-        <translation>Numeri</translation>
+        <translation type="obsolete">Numeri</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="271"/>
         <source>Deuteronomy</source>
-        <translation>Deuteronómium</translation>
+        <translation type="obsolete">Deuteronómium</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="272"/>
         <source>Joshua</source>
-        <translation>Jozue</translation>
+        <translation type="obsolete">Jozue</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="273"/>
         <source>Judges</source>
-        <translation>Sudcov</translation>
+        <translation type="obsolete">Sudcov</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="274"/>
         <source>Ruth</source>
-        <translation>Rút</translation>
+        <translation type="obsolete">Rút</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="275"/>
         <source>1 Samuel</source>
-        <translation>1. Samuelova</translation>
+        <translation type="obsolete">1. Samuelova</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="276"/>
         <source>2 Samuel</source>
-        <translation>2. Samuelova</translation>
+        <translation type="obsolete">2. Samuelova</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="277"/>
         <source>1 Kings</source>
-        <translation>1. Kráľov</translation>
+        <translation type="obsolete">1. Kráľov</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="278"/>
         <source>2 Kings</source>
-        <translation>2. Kráľov</translation>
+        <translation type="obsolete">2. Kráľov</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="279"/>
         <source>1 Chronicles</source>
-        <translation>1. Kroník</translation>
+        <translation type="obsolete">1. Kroník</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="280"/>
         <source>2 Chronicles</source>
-        <translation>2. Kroník</translation>
+        <translation type="obsolete">2. Kroník</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="281"/>
         <source>Ezrav</source>
-        <translation>Ezdráš</translation>
+        <translation type="obsolete">Ezdráš</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="282"/>
         <source>Nehemiah</source>
-        <translation>Nehemiáš</translation>
+        <translation type="obsolete">Nehemiáš</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="283"/>
         <source>Esther</source>
-        <translation>Ester</translation>
+        <translation type="obsolete">Ester</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="284"/>
         <source>Job</source>
-        <translation>Jób</translation>
+        <translation type="obsolete">Jób</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="285"/>
         <source>Psalm</source>
-        <translation>Žalmy</translation>
+        <translation type="obsolete">Žalmy</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="286"/>
         <source>Proverbs</source>
-        <translation>Príslovia</translation>
+        <translation type="obsolete">Príslovia</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="287"/>
         <source>Ecclesiastes</source>
-        <translation>Kazateľ</translation>
+        <translation type="obsolete">Kazateľ</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="288"/>
         <source>Song of Solomon</source>
-        <translation>Pieseň piesní</translation>
+        <translation type="obsolete">Pieseň piesní</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="289"/>
         <source>Isaiah</source>
-        <translation>Izaiáš</translation>
+        <translation type="obsolete">Izaiáš</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="290"/>
         <source>Jeremiah</source>
-        <translation>Jeremiáš</translation>
+        <translation type="obsolete">Jeremiáš</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="291"/>
         <source>Lamentations</source>
-        <translation>Náreky</translation>
+        <translation type="obsolete">Náreky</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="292"/>
         <source>Ezekiel</source>
-        <translation>Ezechiel</translation>
+        <translation type="obsolete">Ezechiel</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="293"/>
         <source>Daniel</source>
-        <translation>Daniel</translation>
+        <translation type="obsolete">Daniel</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="294"/>
         <source>Hosea</source>
-        <translation>Ozeáš</translation>
+        <translation type="obsolete">Ozeáš</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="295"/>
         <source>Joel</source>
-        <translation>Joel</translation>
+        <translation type="obsolete">Joel</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="296"/>
         <source>Amos</source>
-        <translation>Amos</translation>
+        <translation type="obsolete">Amos</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="297"/>
         <source>Obadiah</source>
-        <translation>Abdijáš</translation>
+        <translation type="obsolete">Abdijáš</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="298"/>
         <source>Jonah</source>
-        <translation>Jonáš</translation>
+        <translation type="obsolete">Jonáš</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="299"/>
         <source>Micah</source>
-        <translation>Micheáš</translation>
+        <translation type="obsolete">Micheáš</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="300"/>
         <source>Nahum</source>
-        <translation>Nahum</translation>
+        <translation type="obsolete">Nahum</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="301"/>
         <source>Habakkuk</source>
-        <translation>Habakuk</translation>
+        <translation type="obsolete">Habakuk</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="302"/>
         <source>Zephaniah</source>
-        <translation>Sofoniáš</translation>
+        <translation type="obsolete">Sofoniáš</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="303"/>
         <source>Haggai</source>
-        <translation>Aggeus</translation>
+        <translation type="obsolete">Aggeus</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="304"/>
         <source>Zechariah</source>
-        <translation>Zachariáš</translation>
+        <translation type="obsolete">Zachariáš</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="305"/>
         <source>Malachi</source>
-        <translation>Malachiáš</translation>
+        <translation type="obsolete">Malachiáš</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="306"/>
         <source>Matthew</source>
-        <translation>Matúš</translation>
+        <translation type="obsolete">Matúš</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="307"/>
         <source>Mark</source>
-        <translation>Marek</translation>
+        <translation type="obsolete">Marek</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="308"/>
         <source>Luke</source>
-        <translation>Lukáš</translation>
+        <translation type="obsolete">Lukáš</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="309"/>
         <source>John</source>
-        <translation>Ján</translation>
+        <translation type="obsolete">Ján</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="310"/>
         <source>Acts</source>
-        <translation>Skutky apoštolov</translation>
+        <translation type="obsolete">Skutky apoštolov</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="311"/>
         <source>Romans</source>
-        <translation>Rimanom</translation>
+        <translation type="obsolete">Rimanom</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="312"/>
         <source>1 Corinthians</source>
-        <translation>1. Korinťanom</translation>
+        <translation type="obsolete">1. Korinťanom</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="313"/>
         <source>2 Corinthians</source>
-        <translation>2. Korinťanom</translation>
+        <translation type="obsolete">2. Korinťanom</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="314"/>
         <source>Galatians</source>
-        <translation>Galaťanom</translation>
+        <translation type="obsolete">Galaťanom</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="315"/>
         <source>Ephesians</source>
-        <translation>Efezanom</translation>
+        <translation type="obsolete">Efezanom</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="316"/>
         <source>Philippians</source>
-        <translation>Filipanom</translation>
+        <translation type="obsolete">Filipanom</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="317"/>
         <source>Colossians</source>
-        <translation>Kolosanom</translation>
+        <translation type="obsolete">Kolosanom</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="318"/>
         <source>1 Thessalonians</source>
-        <translation>1. Solúnčanom</translation>
+        <translation type="obsolete">1. Solúnčanom</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="319"/>
         <source>2 Thessalonians</source>
-        <translation>2. Solúnčanom</translation>
+        <translation type="obsolete">2. Solúnčanom</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="320"/>
         <source>1 Timothy</source>
-        <translation>1. Timotejovi</translation>
+        <translation type="obsolete">1. Timotejovi</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="321"/>
         <source>2 Timothy</source>
-        <translation>2. Timotejovi</translation>
+        <translation type="obsolete">2. Timotejovi</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="322"/>
         <source>Titus</source>
-        <translation>Títovi</translation>
+        <translation type="obsolete">Títovi</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="323"/>
         <source>Philemon</source>
-        <translation>Filemonovi</translation>
+        <translation type="obsolete">Filemonovi</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="324"/>
         <source>Hebrews</source>
-        <translation>Hebrejom</translation>
+        <translation type="obsolete">Hebrejom</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="325"/>
         <source>James</source>
-        <translation>Jakubov</translation>
+        <translation type="obsolete">Jakubov</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="326"/>
         <source>1 Peter</source>
-        <translation>1. Petrov</translation>
+        <translation type="obsolete">1. Petrov</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="327"/>
         <source>2 Peter</source>
-        <translation>2. Petrov</translation>
+        <translation type="obsolete">2. Petrov</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="328"/>
         <source>1 John</source>
-        <translation>1. Jánov</translation>
+        <translation type="obsolete">1. Jánov</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="329"/>
         <source>2 John</source>
-        <translation>2. Jánov</translation>
+        <translation type="obsolete">2. Jánov</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="330"/>
         <source>3 John</source>
-        <translation>3. Jánov</translation>
+        <translation type="obsolete">3. Jánov</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="331"/>
         <source>Jude</source>
-        <translation>Júdov</translation>
+        <translation type="obsolete">Júdov</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="332"/>
         <source>Revelation</source>
-        <translation>Zjavienie apoštola Jána</translation>
+        <translation type="obsolete">Zjavienie apoštola Jána</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="335"/>
         <source>Gen, Ge, Gn</source>
-        <translation>Gn</translation>
+        <translation type="obsolete">Gn</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="336"/>
         <source>Exodus Lev, Le, Lv</source>
-        <translation>Ex, Lv</translation>
+        <translation type="obsolete">Ex, Lv</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="337"/>
         <source>Num, Nu, Nm, Nb</source>
-        <translation>Nm</translation>
+        <translation type="obsolete">Nm</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="338"/>
         <source>Deut, Dt</source>
-        <translation>Dt</translation>
+        <translation type="obsolete">Dt</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="339"/>
         <source>Josh, Jos, Jsh</source>
-        <translation>Joz</translation>
+        <translation type="obsolete">Joz</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="340"/>
         <source>Judg, Jdg, Jg, Jdgs</source>
-        <translation>Sdc</translation>
+        <translation type="obsolete">Sdc</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="341"/>
         <source>Rth, Ru</source>
-        <translation>Rút</translation>
+        <translation type="obsolete">Rút</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="342"/>
         <source>1 Sam, 1 Sa, 1Samuel, 1S, I Sa, 1 Sm, 1Sa, I Sam, 1Sam</source>
-        <translation>1 Sam</translation>
+        <translation type="obsolete">1 Sam</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="343"/>
         <source>2 Sam, 2 Sa, 2S, II Sa, 2 Sm, 2Sa, II Sam, 2Sam</source>
-        <translation>2 Sam</translation>
+        <translation type="obsolete">2 Sam</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="344"/>
         <source>1 Kgs, 1 Ki, 1K, I Kgs, 1Kgs, I Ki, 1Ki, I Kings, 1Kings, 1st Kgs, 1st Kings, 1Kin</source>
-        <translation>1 Kr</translation>
+        <translation type="obsolete">1 Kr</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="345"/>
         <source>2 Kgs, 2 Ki, 2K, II Kgs, 2Kgs, II Ki, 2Ki, II Kings, 2Kings, 2nd Kgs, 2nd Kings, 2Kin</source>
-        <translation>2 Kr</translation>
+        <translation type="obsolete">2 Kr</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="346"/>
         <source>1 Chron, 1 Ch, I Ch, 1Ch, 1 Chr, I Chr, 1Chr, I Chron, 1Chron</source>
-        <translation>1 Krn</translation>
+        <translation type="obsolete">1 Krn</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="347"/>
         <source>2 Chron, 2 Ch, II Ch, 2Ch, II Chr, 2Chr, II Chron, 2Chron</source>
-        <translation>2 Krn</translation>
+        <translation type="obsolete">2 Krn</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="348"/>
         <source>Ezra, Ezr</source>
-        <translation>Ezd</translation>
+        <translation type="obsolete">Ezd</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="349"/>
         <source>Neh, Ne</source>
-        <translation>Ned</translation>
+        <translation type="obsolete">Ned</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="350"/>
         <source>Esth, Es</source>
-        <translation>Est</translation>
+        <translation type="obsolete">Est</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="351"/>
         <source>Job, Job, Jb</source>
-        <translation>Jób</translation>
+        <translation type="obsolete">Jób</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="352"/>
         <source>Pslm, Ps, Psalms, Psa, Psm, Pss</source>
-        <translation>Ž</translation>
+        <translation type="obsolete">Ž</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="353"/>
         <source>Prov, Pr, Prv</source>
-        <translation>Príz</translation>
+        <translation type="obsolete">Príz</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="354"/>
         <source>Eccles, Ec, Qoh, Qoheleth</source>
-        <translation>Kaz</translation>
+        <translation type="obsolete">Kaz</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="355"/>
         <source>Song, So, SOS</source>
-        <translation>Pies</translation>
+        <translation type="obsolete">Pies</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="356"/>
         <source>Isa, Is</source>
-        <translation>Iz</translation>
+        <translation type="obsolete">Iz</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="357"/>
         <source>Jer, Je, Jr</source>
-        <translation>Jer</translation>
+        <translation type="obsolete">Jer</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="358"/>
         <source>Lam, La</source>
-        <translation>Nár</translation>
+        <translation type="obsolete">Nár</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="359"/>
         <source>Ezek, Eze, Ezk</source>
-        <translation>Ez</translation>
+        <translation type="obsolete">Ez</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="360"/>
         <source>Dan, Da, Dn</source>
-        <translation>Dan</translation>
+        <translation type="obsolete">Dan</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="361"/>
         <source>Hos, Ho</source>
-        <translation>Oz</translation>
+        <translation type="obsolete">Oz</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="362"/>
         <source>Joel, Joe, Jl</source>
-        <translation>Joel</translation>
+        <translation type="obsolete">Joel</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="363"/>
         <source>Amos, Am</source>
-        <translation>Am</translation>
+        <translation type="obsolete">Am</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="364"/>
         <source>Obad, Ob</source>
-        <translation>Abd</translation>
+        <translation type="obsolete">Abd</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="365"/>
         <source>Jnh, Jon</source>
-        <translation>Jon</translation>
+        <translation type="obsolete">Jon</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="366"/>
         <source>Micah, Mic</source>
-        <translation>Mich</translation>
+        <translation type="obsolete">Mich</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="367"/>
         <source>Nah, Na</source>
-        <translation>Nah</translation>
+        <translation type="obsolete">Nah</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="368"/>
         <source>Hab, Hab</source>
-        <translation>Hab</translation>
+        <translation type="obsolete">Hab</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="369"/>
         <source>Zeph, Zep, Zp</source>
-        <translation>Sof</translation>
+        <translation type="obsolete">Sof</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="370"/>
         <source>Haggai, Hag, Hg</source>
-        <translation>Ag</translation>
+        <translation type="obsolete">Ag</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="371"/>
         <source>Zech, Zec, Zc</source>
-        <translation>Zac</translation>
+        <translation type="obsolete">Zac</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="372"/>
         <source>Mal, Mal, Ml</source>
-        <translation>Mal</translation>
+        <translation type="obsolete">Mal</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="373"/>
         <source>Matt, Mt</source>
-        <translation>Mt</translation>
+        <translation type="obsolete">Mt</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="374"/>
         <source>Mrk, Mk, Mr</source>
-        <translation>Mk</translation>
+        <translation type="obsolete">Mk</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="375"/>
         <source>Luk, Lk</source>
-        <translation>Lk</translation>
+        <translation type="obsolete">Lk</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="376"/>
         <source>John, Jn, Jhn</source>
-        <translation>Jn</translation>
+        <translation type="obsolete">Jn</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="377"/>
         <source>Acts, Ac</source>
-        <translation>Sk</translation>
+        <translation type="obsolete">Sk</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="378"/>
         <source>Rom, Ro, Rm</source>
-        <translation>Rim</translation>
+        <translation type="obsolete">Rim</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="379"/>
         <source>1 Cor, 1 Co, I Co, 1Co, I Cor, 1Cor</source>
-        <translation>1 Kor</translation>
+        <translation type="obsolete">1 Kor</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="380"/>
         <source>2 Cor, 2 Co, II Co, 2Co, II Cor, 2Cor</source>
-        <translation>2 Kor</translation>
+        <translation type="obsolete">2 Kor</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="381"/>
         <source>Gal, Ga</source>
-        <translation>Gal</translation>
+        <translation type="obsolete">Gal</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="382"/>
         <source>Ephes, Eph</source>
-        <translation>Ef</translation>
+        <translation type="obsolete">Ef</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="383"/>
         <source>Phil, Php</source>
-        <translation>Flp</translation>
+        <translation type="obsolete">Flp</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="384"/>
         <source>Col, Col</source>
-        <translation>Kol</translation>
+        <translation type="obsolete">Kol</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="385"/>
         <source>1 Thess, 1 Th, I Th, 1Th, I Thes, 1Thes, I Thess, 1Thess</source>
-        <translation>1 Sol</translation>
+        <translation type="obsolete">1 Sol</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="386"/>
         <source>2 Thess, 2 Th, II Th, 2Th, II Thes, 2Thes, II Thess, 2Thess</source>
-        <translation>2 Sol</translation>
+        <translation type="obsolete">2 Sol</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="387"/>
         <source>1 Tim, 1 Ti, I Ti, 1Ti, I Tim, 1Tim</source>
-        <translation>1 Tim</translation>
+        <translation type="obsolete">1 Tim</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="388"/>
         <source>2 Tim, 2 Ti, II Ti, 2Ti, II Tim, 2Tim</source>
-        <translation>2 Tim</translation>
+        <translation type="obsolete">2 Tim</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="389"/>
         <source>Titus, Tit</source>
-        <translation>Tít</translation>
+        <translation type="obsolete">Tít</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="390"/>
         <source>Philem, Phm</source>
-        <translation>Flm</translation>
+        <translation type="obsolete">Flm</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="391"/>
         <source>Hebrews, Heb</source>
-        <translation>Hebr</translation>
+        <translation type="obsolete">Hebr</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="392"/>
         <source>James, Jas, Jm</source>
-        <translation>Jak</translation>
+        <translation type="obsolete">Jak</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="393"/>
         <source>1 Pet, 1 Pe, I Pe, 1Pe, I Pet, 1Pet, I Pt, 1 Pt, 1Pt</source>
-        <translation>1 Pt</translation>
+        <translation type="obsolete">1 Pt</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="394"/>
         <source>2 Pet, 2 Pe, II Pe, 2Pe, II Pet, 2Pet, II Pt, 2 Pt, 2Pt</source>
-        <translation>2 Pt</translation>
+        <translation type="obsolete">2 Pt</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="395"/>
         <source>1 John, 1 Jn, I Jn, 1Jn, I Jo, 1Jo, I Joh, 1Joh, I Jhn, 1 Jhn, 1Jhn, I John, 1John</source>
-        <translation>1 Jn</translation>
+        <translation type="obsolete">1 Jn</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="396"/>
         <source>2 John, 2 Jn, II Jn, 2Jn, II Jo, 2Jo, II Joh, 2Joh, II Jhn, 2 Jhn, 2Jhn, II John, 2John</source>
-        <translation>2 Jn</translation>
+        <translation type="obsolete">2 Jn</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="397"/>
         <source>3 John, 3 Jn, III Jn, 3Jn, III Jo, 3Jo, III Joh, 3Joh, III Jhn, 3 Jhn, 3Jhn, III John, 3John</source>
-        <translation>3 Jn</translation>
+        <translation type="obsolete">3 Jn</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="398"/>
         <source>Jude, Jud</source>
-        <translation>Júd</translation>
+        <translation type="obsolete">Júd</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="399"/>
         <source>Rev, Re, The Revelation</source>
-        <translation>Zjv, Apk</translation>
+        <translation type="obsolete">Zjv, Apk</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="598"/>
         <source>Please choose an another language.</source>
-        <translation>Prosím vyberte iný jazyk</translation>
+        <translation type="obsolete">Prosím vyberte iný jazyk</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="598"/>
+        <location filename="../ui/mainwindow.cpp" line="523"/>
         <source>Installing language failed.</source>
         <translation>Inštalácia jazyka zlyhala</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.cpp" line="565"/>
+        <location filename="../ui/mainwindow.cpp" line="523"/>
+        <source>Please choose another language.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/mainwindow.cpp" line="487"/>
         <source>Configuration</source>
         <translation>Nastavenie</translation>
     </message>
     <message>
-        <location filename="ui/mainwindow.ui" line="14"/>
+        <location filename="../ui/mainwindow.ui" line="14"/>
         <source>openBibleViewer</source>
         <translation>openBibleViewer</translation>
     </message>
@@ -1242,32 +1273,31 @@
 <context>
     <name>MarkCategories</name>
     <message>
-        <location filename="ui/markcategories.ui" line="13"/>
         <source>Dialog</source>
-        <translation>Dialóg</translation>
+        <translation type="obsolete">Dialóg</translation>
     </message>
 </context>
 <context>
     <name>MarkList</name>
     <message>
-        <location filename="ui/marklist.ui" line="14"/>
+        <location filename="../ui/marklist.ui" line="14"/>
         <source>Mark List</source>
         <translation>Zoznam značiek</translation>
     </message>
     <message>
-        <location filename="ui/marklist.cpp" line="54"/>
-        <location filename="ui/marklist.cpp" line="165"/>
+        <location filename="../ui/marklist.cpp" line="58"/>
+        <location filename="../ui/marklist.cpp" line="161"/>
         <source>Mark Position</source>
         <translation>Poloha značiek</translation>
     </message>
     <message>
-        <location filename="ui/marklist.cpp" line="55"/>
-        <location filename="ui/marklist.cpp" line="166"/>
+        <location filename="../ui/marklist.cpp" line="59"/>
+        <location filename="../ui/marklist.cpp" line="162"/>
         <source>Module</source>
         <translation>Modul</translation>
     </message>
     <message>
-        <location filename="ui/marklist.cpp" line="110"/>
+        <location filename="../ui/marklist.cpp" line="106"/>
         <source>Delete</source>
         <translation>Vymazať</translation>
     </message>
@@ -1275,135 +1305,168 @@
 <context>
     <name>ModuleConfigDialog</name>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="14"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="14"/>
         <source>Module Config</source>
         <translation>Nastavene modulu</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="22"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="22"/>
         <source>Path</source>
         <translation>Cesta</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="50"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="50"/>
         <source>Name</source>
         <translation>Názov</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="60"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="60"/>
         <source>Type</source>
         <translation>Typ</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="68"/>
         <source>unkown</source>
-        <translation>neznáme</translation>
+        <translation type="obsolete">neznáme</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="73"/>
         <source>BibleQuote</source>
-        <translation>BibleQuote</translation>
+        <translation type="obsolete">BibleQuote</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="78"/>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="149"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="138"/>
         <source>Zefania Bible</source>
         <translation>Biblia Zefania</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="83"/>
         <source>Zefania Xml Strong</source>
-        <translation>Zefania Xml Strong</translation>
+        <translation type="obsolete">Zefania Xml Strong</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="91"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="70"/>
         <source>Encoding</source>
         <translation>Kódovanie</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="101"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="80"/>
         <source>StyleSheet</source>
         <translation>StyleSheet</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="113"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="96"/>
+        <source>Module</source>
+        <translation type="unfinished">Modul</translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="102"/>
         <source>Bible Quote</source>
         <translation>Bible Quote</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="124"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="113"/>
         <source>Remove Html</source>
         <translation>Odstrániť Html</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="131"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="120"/>
         <source>remove</source>
         <translation>odstrániť</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="160"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="149"/>
         <source>Text Fromatting</source>
         <translation>Formátovanie textu</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="174"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="163"/>
         <source>New line after verse</source>
         <translation>Nový riadok po verši</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="179"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="168"/>
         <source>Not formated text pad</source>
         <translation>Neformátovaný blok textu</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="187"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="176"/>
         <source>Hard Cache</source>
         <translation>Pevná vyrovnávacia pamäť</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="194"/>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="208"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="183"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="197"/>
         <source>enabled</source>
         <translation>povolené</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="201"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="190"/>
         <source>RAM Cache</source>
         <translation>Vyrovnávacia pamäť RAM</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="215"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="210"/>
+        <source>Display</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="216"/>
+        <source>Use Parent Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="235"/>
+        <source>Show Marks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="242"/>
+        <source>Show Notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="249"/>
+        <source>Show Tool Bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="256"/>
+        <source>Show Strong Number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Show Strong</source>
-        <translation>Zobraziť hrubé</translation>
+        <translation type="obsolete">Zobraziť hrubé</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="222"/>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="236"/>
         <source>show</source>
-        <translation>ukázať</translation>
+        <translation type="obsolete">ukázať</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="229"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="263"/>
         <source>Show Study Notes</source>
         <translation>Zobraziť študijné poznámky</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="269"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="270"/>
+        <source>Show RefLinks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="305"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.ui" line="289"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="325"/>
         <source>Cancel</source>
         <translation>Zrušiť</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.cpp" line="146"/>
+        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="156"/>
         <source>Open Bible</source>
         <translation>Open Bible</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduleconfigdialog.cpp" line="146"/>
+        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="156"/>
         <source>Bibles (*.ini *.xml *.*)</source>
         <translation>Biblie (*.ini *.xml *.*)</translation>
     </message>
@@ -1411,8 +1474,8 @@
 <context>
     <name>ModuleDockWidget</name>
     <message>
-        <location filename="ui/dock/moduledockwidget.ui" line="35"/>
-        <location filename="ui/dock/moduledockwidget.cpp" line="36"/>
+        <location filename="../ui/dock/moduledockwidget.ui" line="35"/>
+        <location filename="../ui/dock/moduledockwidget.cpp" line="36"/>
         <source>Module</source>
         <translation>Modul</translation>
     </message>
@@ -1420,27 +1483,27 @@
 <context>
     <name>ModuleDownloadDialog</name>
     <message>
-        <location filename="ui/dialog/moduledownloaddialog.ui" line="14"/>
+        <location filename="../ui/dialog/moduledownloaddialog.ui" line="14"/>
         <source>Download Module</source>
         <translation>Stiahnuť modul</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduledownloaddialog.ui" line="58"/>
+        <location filename="../ui/dialog/moduledownloaddialog.ui" line="58"/>
         <source>Download</source>
         <translation>Stiahnuť</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduledownloaddialog.ui" line="75"/>
+        <location filename="../ui/dialog/moduledownloaddialog.ui" line="75"/>
         <source>Cancel</source>
         <translation>Zrušiť</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduledownloaddialog.cpp" line="79"/>
+        <location filename="../ui/dialog/moduledownloaddialog.cpp" line="79"/>
         <source>Bibles</source>
         <translation>Biblie</translation>
     </message>
     <message>
-        <location filename="ui/dialog/moduledownloaddialog.cpp" line="81"/>
+        <location filename="../ui/dialog/moduledownloaddialog.cpp" line="81"/>
         <source>Dictionarys</source>
         <translation>Slovníky</translation>
     </message>
@@ -1448,31 +1511,31 @@
 <context>
     <name>ModuleDownloader</name>
     <message>
-        <location filename="core/moduledownloader.cpp" line="94"/>
-        <location filename="core/moduledownloader.cpp" line="136"/>
-        <location filename="core/moduledownloader.cpp" line="162"/>
+        <location filename="../core/moduledownloader.cpp" line="94"/>
+        <location filename="../core/moduledownloader.cpp" line="136"/>
+        <location filename="../core/moduledownloader.cpp" line="162"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
     <message>
-        <location filename="core/moduledownloader.cpp" line="94"/>
+        <location filename="../core/moduledownloader.cpp" line="94"/>
         <source>Unable to save the file %1: %2.</source>
         <translation>Nieje dovolené uložiť súbor %1: %2.</translation>
     </message>
     <message>
-        <location filename="core/moduledownloader.cpp" line="102"/>
+        <location filename="../core/moduledownloader.cpp" line="102"/>
         <source>Downloading</source>
         <translation>Sťahuje sa</translation>
     </message>
     <message>
-        <location filename="core/moduledownloader.cpp" line="103"/>
-        <location filename="core/moduledownloader.cpp" line="175"/>
+        <location filename="../core/moduledownloader.cpp" line="103"/>
+        <location filename="../core/moduledownloader.cpp" line="175"/>
         <source>Downloading %1 / %2. %3 MB</source>
         <translation>Sťahuje sa %1 z %2. %3 MB</translation>
     </message>
     <message>
-        <location filename="core/moduledownloader.cpp" line="136"/>
-        <location filename="core/moduledownloader.cpp" line="163"/>
+        <location filename="../core/moduledownloader.cpp" line="136"/>
+        <location filename="../core/moduledownloader.cpp" line="163"/>
         <source>Download failed: %1.</source>
         <translation>Sťahovanie zlyhalo: %1</translation>
     </message>
@@ -1480,415 +1543,421 @@
 <context>
     <name>NotesDockWidget</name>
     <message>
-        <location filename="ui/dock/notesdockwidget.ui" line="14"/>
+        <location filename="../ui/dock/notesdockwidget.ui" line="14"/>
         <source>Notes</source>
         <translation>Poznámky</translation>
     </message>
     <message>
-        <location filename="ui/dock/notesdockwidget.ui" line="48"/>
         <source>Note</source>
-        <translation>Poznámka</translation>
+        <translation type="obsolete">Poznámka</translation>
     </message>
     <message>
-        <location filename="ui/dock/notesdockwidget.ui" line="253"/>
+        <location filename="../ui/dock/notesdockwidget.ui" line="256"/>
         <source>Save</source>
         <translation>Uložiť</translation>
     </message>
     <message>
-        <location filename="ui/dock/notesdockwidget.ui" line="260"/>
+        <location filename="../ui/dock/notesdockwidget.ui" line="263"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="ui/dock/notesdockwidget.cpp" line="185"/>
         <source>(unnamed)</source>
-        <translation>(nepomenované)</translation>
+        <translation type="obsolete">(nepomenované)</translation>
     </message>
 </context>
 <context>
     <name>NotesEditor</name>
     <message>
-        <location filename="ui/noteseditor.ui" line="14"/>
+        <location filename="../ui/noteseditor.ui" line="14"/>
         <source>Notes Editor</source>
         <translation>Editor poznámok</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="61"/>
         <source>Tab 1</source>
-        <translation>Karta 1</translation>
+        <translation type="obsolete">Karta 1</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="71"/>
         <source>Tab 2</source>
-        <translation>Karta 2</translation>
+        <translation type="obsolete">Karta 2</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="122"/>
+        <location filename="../ui/noteseditor.ui" line="122"/>
         <source>&amp;File</source>
         <translation>&amp;Súbor</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="131"/>
+        <location filename="../ui/noteseditor.ui" line="133"/>
         <source>F&amp;ormat</source>
         <translation>F&amp;ormát</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="135"/>
+        <location filename="../ui/noteseditor.ui" line="137"/>
         <source>St&amp;yle</source>
         <translation>Štý&amp;l</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="149"/>
+        <location filename="../ui/noteseditor.ui" line="151"/>
         <source>&amp;Align</source>
         <translation>Z&amp;arovnať</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="178"/>
+        <location filename="../ui/noteseditor.ui" line="180"/>
         <source>&amp;Edit</source>
         <translation>&amp;Upraviť</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="199"/>
+        <location filename="../ui/noteseditor.ui" line="201"/>
         <source>Standard</source>
         <translation>Štandardné</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="221"/>
+        <location filename="../ui/noteseditor.ui" line="224"/>
         <source>Formatting</source>
         <translation>Formátovanie</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="255"/>
+        <location filename="../ui/noteseditor.ui" line="258"/>
         <source>&amp;Save</source>
         <translation>&amp;Uložiť</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="258"/>
+        <location filename="../ui/noteseditor.ui" line="261"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="263"/>
+        <location filename="../ui/noteseditor.ui" line="270"/>
+        <source>&amp;New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/noteseditor.ui" line="273"/>
+        <source>Ctrl+N</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/noteseditor.ui" line="278"/>
         <source>Save &amp;As...</source>
         <translation>Uložiť &amp;ako...</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="272"/>
+        <location filename="../ui/noteseditor.ui" line="287"/>
         <source>&amp;Undo</source>
         <translation>&amp;Späť</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="275"/>
+        <location filename="../ui/noteseditor.ui" line="290"/>
         <source>Ctrl+Z</source>
         <translation>Ctrl+Z</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="284"/>
+        <location filename="../ui/noteseditor.ui" line="299"/>
         <source>&amp;Redo</source>
         <translation>&amp;Opakovať</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="287"/>
+        <location filename="../ui/noteseditor.ui" line="302"/>
         <source>Ctrl+Y</source>
         <translation>Ctrl+Y</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="296"/>
+        <location filename="../ui/noteseditor.ui" line="311"/>
         <source>Cu&amp;t</source>
         <translation>Vys&amp;trihnúť</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="299"/>
+        <location filename="../ui/noteseditor.ui" line="314"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="308"/>
+        <location filename="../ui/noteseditor.ui" line="323"/>
         <source>&amp;Copy</source>
         <translation>&amp;Kopírovať</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="311"/>
+        <location filename="../ui/noteseditor.ui" line="326"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="320"/>
+        <location filename="../ui/noteseditor.ui" line="335"/>
         <source>&amp;Paste</source>
         <translation>&amp;Vložiť</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="323"/>
+        <location filename="../ui/noteseditor.ui" line="338"/>
         <source>Ctrl+V</source>
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="332"/>
+        <location filename="../ui/noteseditor.ui" line="347"/>
         <source>Select A&amp;ll</source>
         <translation>Vybr&amp;ať všetko</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="335"/>
+        <location filename="../ui/noteseditor.ui" line="350"/>
         <source>Ctrl+A</source>
         <translation>Ctrl+A</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="347"/>
+        <location filename="../ui/noteseditor.ui" line="362"/>
         <source>&amp;Bold</source>
         <translation>&amp;Hrubé</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="350"/>
+        <location filename="../ui/noteseditor.ui" line="365"/>
         <source>Ctrl+B</source>
         <translation>Ctrl+B</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="362"/>
+        <location filename="../ui/noteseditor.ui" line="377"/>
         <source>&amp;Italic</source>
         <translation>&amp;Kurzíva</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="365"/>
+        <location filename="../ui/noteseditor.ui" line="380"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="377"/>
+        <location filename="../ui/noteseditor.ui" line="392"/>
         <source>&amp;Underline</source>
         <translation>&amp;Podčiarknuté</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="380"/>
+        <location filename="../ui/noteseditor.ui" line="395"/>
         <source>Ctrl+U</source>
         <translation>Ctrl+U</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="392"/>
+        <location filename="../ui/noteseditor.ui" line="407"/>
         <source>&amp;Strikethrough</source>
         <translation>&amp;Prečiarknutie</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="401"/>
+        <location filename="../ui/noteseditor.ui" line="416"/>
         <source>Align &amp;Left</source>
         <translation>Zarovnať &amp;vľavo</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="410"/>
+        <location filename="../ui/noteseditor.ui" line="425"/>
         <source>Align &amp;Center</source>
         <translation>Zarovnať na &amp;stred</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="419"/>
+        <location filename="../ui/noteseditor.ui" line="434"/>
         <source>Align &amp;Right</source>
         <translation>Zarovnať vp&amp;ravo</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="428"/>
+        <location filename="../ui/noteseditor.ui" line="443"/>
         <source>Align &amp;Justify</source>
         <translation>Zarovnať do &amp;bloku</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="437"/>
+        <location filename="../ui/noteseditor.ui" line="452"/>
         <source>I&amp;ncrease Indent</source>
         <translation>Z&amp;väčšiť odsadenie</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="446"/>
+        <location filename="../ui/noteseditor.ui" line="461"/>
         <source>&amp;Decrease Indent</source>
         <translation>Z&amp;menšiť odsadenie</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="458"/>
+        <location filename="../ui/noteseditor.ui" line="473"/>
         <source>Bulle&amp;ted List</source>
         <translation>O&amp;drážkový zoznam</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="470"/>
+        <location filename="../ui/noteseditor.ui" line="485"/>
         <source>&amp;Numbered List</source>
         <translation>Číslova&amp;ný zoznam</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="479"/>
+        <location filename="../ui/noteseditor.ui" line="494"/>
         <source>Insert &amp;Image...</source>
         <translation>Vlož&amp;iť obrázok...</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="488"/>
+        <location filename="../ui/noteseditor.ui" line="503"/>
         <source>Create Link...</source>
         <translation>Vytvoriť odkaz...</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="497"/>
+        <location filename="../ui/noteseditor.ui" line="512"/>
         <source>Zoom Out</source>
         <translation>Oddialiť</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="506"/>
+        <location filename="../ui/noteseditor.ui" line="521"/>
         <source>Zoom In</source>
         <translation>Priblížiť</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="511"/>
+        <location filename="../ui/noteseditor.ui" line="526"/>
         <source>E&amp;xit</source>
         <translation>&amp;Ukončiť</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="514"/>
+        <location filename="../ui/noteseditor.ui" line="529"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="519"/>
+        <location filename="../ui/noteseditor.ui" line="534"/>
         <source>&amp;Paragraph</source>
         <translation>&amp;Odsek</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="524"/>
+        <location filename="../ui/noteseditor.ui" line="539"/>
         <source>Heading &amp;1</source>
         <translation>Nadpis &amp;1</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="529"/>
+        <location filename="../ui/noteseditor.ui" line="544"/>
         <source>Heading &amp;2</source>
         <translation>Nadpis &amp;2</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="534"/>
+        <location filename="../ui/noteseditor.ui" line="549"/>
         <source>Heading &amp;3</source>
         <translation>Nadpis &amp;3</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="539"/>
+        <location filename="../ui/noteseditor.ui" line="554"/>
         <source>Heading &amp;4</source>
         <translation>Nadpis &amp;4</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="544"/>
+        <location filename="../ui/noteseditor.ui" line="559"/>
         <source>Heading &amp;5</source>
         <translation>Nadpis &amp;5</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="549"/>
+        <location filename="../ui/noteseditor.ui" line="564"/>
         <source>Heading &amp;6</source>
         <translation>Nadpis &amp;6</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="554"/>
+        <location filename="../ui/noteseditor.ui" line="569"/>
         <source>Pre&amp;formatted</source>
         <translation>Pred&amp;formátované</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="559"/>
+        <location filename="../ui/noteseditor.ui" line="574"/>
         <source>&amp;Address</source>
         <translation>&amp;Adresa</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="564"/>
+        <location filename="../ui/noteseditor.ui" line="579"/>
         <source>&amp;Font Name...</source>
         <translation>Názov &amp;písma...</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="569"/>
+        <location filename="../ui/noteseditor.ui" line="584"/>
         <source>Text &amp;Color...</source>
         <translation>Farba &amp;textu...</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="574"/>
+        <location filename="../ui/noteseditor.ui" line="589"/>
         <source>Bac&amp;kground Color...</source>
         <translation>Farba poza&amp;dia...</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="579"/>
+        <location filename="../ui/noteseditor.ui" line="594"/>
         <source>Font Si&amp;ze...</source>
         <translation>Veľko&amp;sť písma...</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="588"/>
+        <location filename="../ui/noteseditor.ui" line="603"/>
         <source>Insert HTML...</source>
         <translation>Vložiť HTML...</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="591"/>
+        <location filename="../ui/noteseditor.ui" line="606"/>
         <source>Insert HTML</source>
         <translation>Vložiť HTML</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.ui" line="99"/>
+        <location filename="../ui/noteseditor.ui" line="99"/>
         <source>Edit</source>
         <translation>Upraviť</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="183"/>
+        <location filename="../ui/noteseditor.cpp" line="213"/>
         <source>Save as...</source>
         <translation>Uložiť ako...</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="47"/>
+        <location filename="../ui/noteseditor.cpp" line="42"/>
         <source>Normal View</source>
         <translation>Normálne zobrazenie</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="48"/>
+        <location filename="../ui/noteseditor.cpp" line="43"/>
         <source>HTML Source</source>
         <translation>HTML zdrojový kód</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="184"/>
+        <location filename="../ui/noteseditor.cpp" line="214"/>
         <source>HTML-Files (*.html *.htm);;Text-Files (*.txt);;All Files (*)</source>
         <translation>HTML súbory (*.html *.htm);;Textové súbory (*.txt);;Všetky súbory (*)</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="204"/>
+        <location filename="../ui/noteseditor.cpp" line="234"/>
         <source>Common Graphics (*.png *.jpg *.jpeg *.gif);;</source>
         <translation>Bežné obrázkové súbory (*.png *.jpg *.jpeg *.gif);;</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="205"/>
+        <location filename="../ui/noteseditor.cpp" line="235"/>
         <source>Portable Network Graphics (PNG) (*.png);;</source>
         <translation>Portable Network Graphics (PNG) (*.png);;</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="206"/>
+        <location filename="../ui/noteseditor.cpp" line="236"/>
         <source>JPEG (*.jpg *.jpeg);;</source>
         <translation>JPEG (*.jpg *.jpeg);;</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="207"/>
+        <location filename="../ui/noteseditor.cpp" line="237"/>
         <source>Graphics Interchange Format (*.gif);;</source>
         <translation>Graphics Interchange Format (*.gif);;</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="208"/>
+        <location filename="../ui/noteseditor.cpp" line="238"/>
         <source>All Files (*)</source>
         <translation>Všetky súbory (*)</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="210"/>
+        <location filename="../ui/noteseditor.cpp" line="240"/>
         <source>Open image...</source>
         <translation>Otvoriť obrázok</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="461"/>
+        <location filename="../ui/noteseditor.cpp" line="493"/>
         <source>Font</source>
         <translation>Písmo</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="461"/>
+        <location filename="../ui/noteseditor.cpp" line="493"/>
         <source>Select font:</source>
         <translation>Vybrať písmo:</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="480"/>
+        <location filename="../ui/noteseditor.cpp" line="512"/>
         <source>Font Size</source>
         <translation>Veľkosť písma</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="480"/>
+        <location filename="../ui/noteseditor.cpp" line="512"/>
         <source>Select font size:</source>
         <translation>Vybrať veľkosť písma:</translation>
     </message>
     <message>
-        <location filename="ui/noteseditor.cpp" line="545"/>
+        <location filename="../ui/noteseditor.cpp" line="561"/>
         <source> Zoom: %1% </source>
         <translation> Priblíženie: %1% </translation>
     </message>
@@ -1896,176 +1965,181 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="module/biblequote-dict.cpp" line="124"/>
-        <location filename="module/biblequote.cpp" line="323"/>
-        <location filename="module/modulemanager.cpp" line="77"/>
-        <location filename="module/zefania-bible.cpp" line="293"/>
-        <location filename="module/zefania-bible.cpp" line="612"/>
-        <location filename="ui/dialog/settingsdialog.cpp" line="178"/>
-        <location filename="ui/dialog/settingsdialog.cpp" line="298"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="178"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="340"/>
+        <location filename="../module/bible/biblequote.cpp" line="357"/>
+        <location filename="../module/bible/thewordbible.cpp" line="224"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="298"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="662"/>
+        <location filename="../module/dictionary/biblequote-dict.cpp" line="115"/>
         <source>Cancel</source>
         <translation>Zrušiť</translation>
     </message>
     <message>
-        <location filename="module/biblequote-dict.cpp" line="124"/>
-        <location filename="module/zefania-bible.cpp" line="612"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="205"/>
+        <source>It is not a folder.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../module/bible/thewordbible.cpp" line="224"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="662"/>
+        <location filename="../module/dictionary/biblequote-dict.cpp" line="115"/>
         <source>Build index</source>
         <translation>Zostaviť index</translation>
     </message>
     <message>
-        <location filename="core/xbelreader.cpp" line="37"/>
+        <location filename="../core/xbelreader.cpp" line="37"/>
         <source>The file is not an XBEL version 1.0 file.</source>
         <translation>Súbor nieje XBEL verzia 1.0 súboru.</translation>
     </message>
     <message>
-        <location filename="core/xbelreader.cpp" line="146"/>
+        <location filename="../core/xbelreader.cpp" line="144"/>
         <source>Unknown title</source>
         <translation>Neznámy názov</translation>
     </message>
     <message>
-        <location filename="core/notes.cpp" line="324"/>
+        <location filename="../core/notes.cpp" line="318"/>
         <source>(unnamed)</source>
         <translation>(nepomenované)</translation>
     </message>
     <message>
-        <location filename="module/zefania-bible.cpp" line="57"/>
-        <location filename="module/zefania-bible.cpp" line="91"/>
-        <location filename="module/zefania-bible.cpp" line="316"/>
-        <location filename="module/zefania-bible.cpp" line="377"/>
-        <location filename="module/zefania-lex.cpp" line="80"/>
-        <location filename="ui/dialog/settingsdialog.cpp" line="209"/>
-        <location filename="ui/dialog/settingsdialog.cpp" line="325"/>
-        <location filename="ui/dialog/settingsdialog.cpp" line="332"/>
-        <location filename="ui/dialog/settingsdialog.cpp" line="357"/>
-        <location filename="ui/dialog/settingsdialog.cpp" line="394"/>
-        <location filename="ui/dialog/settingsdialog.cpp" line="410"/>
-        <location filename="ui/dock/notesdockwidget.cpp" line="167"/>
+        <location filename="../core/simplenotes.cpp" line="481"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="205"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="48"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="79"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="85"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="319"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="379"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="52"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="71"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="156"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="165"/>
         <source>Error</source>
         <translation>Chyba</translation>
     </message>
     <message>
-        <location filename="module/zefania-bible.cpp" line="91"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="85"/>
         <source>The file is not valid.</source>
         <translation>Súbor je neplatný.</translation>
     </message>
     <message>
-        <location filename="module/zefania-bible.cpp" line="293"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="298"/>
         <source>Loading Bible</source>
         <translation>Načítava sa Biblia</translation>
     </message>
     <message>
-        <location filename="module/zefania-bible.cpp" line="316"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="319"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="156"/>
         <source>Can not read the file</source>
         <translation>Súbor sa nedá prečítať</translation>
     </message>
     <message>
-        <location filename="module/zefania-bible.cpp" line="377"/>
-        <source>The file is not valid. Errorstring: %1 in Line %2 at Position %2</source>
-        <translation>Súbor nieje platný. Chybný reťazec: %1 v riadku %2 na pozícii %2</translation>
+        <location filename="../module/bible/zefania-bible.cpp" line="379"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="165"/>
+        <source>The file is not valid. Errorstring: %1 in Line %2 at Position %3</source>
+        <translation type="unfinished">Súbor nieje platný. Chybný reťazec: %1 v riadku %3 na pozícii %3 {1 ?} {2 ?}</translation>
     </message>
     <message>
-        <location filename="module/zefania-lex.cpp" line="80"/>
-        <location filename="ui/dialog/settingsdialog.cpp" line="209"/>
+        <source>The file is not valid. Errorstring: %1 in Line %2 at Position %2</source>
+        <translation type="obsolete">Súbor nieje platný. Chybný reťazec: %1 v riadku %2 na pozícii %2</translation>
+    </message>
+    <message>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="52"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="71"/>
         <source>The file is not valid</source>
         <translation>Súbor nieje platný</translation>
     </message>
     <message>
-        <location filename="module/zefania-bible.cpp" line="57"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="48"/>
         <source>Please activate Caching.(Hard or Soft Cache)</source>
         <translation>Prosím aktivujte cachovanie (pevnú alebo mäkkú vyr. pamäť)</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="132"/>
-        <location filename="ui/dialog/settingsdialog.cpp" line="190"/>
         <source>Folder</source>
-        <translation>Priečinok</translation>
+        <translation type="obsolete">Priečinok</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="136"/>
-        <location filename="ui/dialog/settingsdialog.cpp" line="373"/>
         <source>Bible Quote</source>
-        <translation>Bible Quote</translation>
+        <translation type="obsolete">Bible Quote</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="139"/>
-        <location filename="ui/dialog/settingsdialog.cpp" line="379"/>
         <source>Zefania XML</source>
-        <translation>Zefania XML</translation>
+        <translation type="obsolete">Zefania XML</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="142"/>
         <source>Zefania XML Strong</source>
-        <translation>Zefania XML Strong</translation>
+        <translation type="obsolete">Zefania XML Strong</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="178"/>
-        <location filename="ui/dialog/settingsdialog.cpp" line="298"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="178"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="340"/>
         <source>Adding Modules</source>
         <translation>Pridávajú sa moduly</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="325"/>
         <source>Cannot open zipped files.</source>
-        <translation>Nedajú sa otvoriť zazipované súbory</translation>
+        <translation type="obsolete">Nedajú sa otvoriť zazipované súbory</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="332"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="79"/>
         <source>Cannot read the file.</source>
         <translation>Súbor sa nedá prečítať.</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="357"/>
-        <location filename="ui/dialog/settingsdialog.cpp" line="394"/>
         <source>Cannot determine the module type.</source>
-        <translation>Nedá sa určiť typ modulu</translation>
+        <translation type="obsolete">Nedá sa určiť typ modulu</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="385"/>
         <source>Zefania XML Dictionary</source>
-        <translation>Slovník XML Zefania</translation>
+        <translation type="obsolete">Slovník XML Zefania</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="392"/>
         <source>Bible Quote Dictionary</source>
-        <translation>Slovník Bible Quote</translation>
+        <translation type="obsolete">Slovník Bible Quote</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="410"/>
         <source>Cannot open the file.</source>
-        <translation>Nieje možné otvoriť súbor.</translation>
+        <translation type="obsolete">Nieje možné otvoriť súbor.</translation>
     </message>
     <message>
-        <location filename="module/modulemanager.cpp" line="77"/>
         <source>Loading Module</source>
-        <translation>Načítava sa modul</translation>
+        <translation type="obsolete">Načítava sa modul</translation>
     </message>
     <message>
-        <location filename="module/modulemanager.cpp" line="150"/>
-        <location filename="module/modulemanager.cpp" line="231"/>
         <source>BibleQuote Module</source>
-        <translation>Modul BibleQuote</translation>
+        <translation type="obsolete">Modul BibleQuote</translation>
     </message>
     <message>
-        <location filename="module/modulemanager.cpp" line="177"/>
-        <location filename="module/modulemanager.cpp" line="255"/>
         <source>Zefania XML Module</source>
-        <translation>Zefania XML Modul</translation>
+        <translation type="obsolete">Zefania XML Modul</translation>
     </message>
     <message>
-        <location filename="ui/dock/notesdockwidget.cpp" line="167"/>
+        <location filename="../core/simplenotes.cpp" line="481"/>
         <source>Cannot create mark.</source>
         <translation>Nedá sa vytvoriť značka</translation>
     </message>
     <message>
-        <location filename="module/biblequote.cpp" line="323"/>
+        <location filename="../module/bible/biblequote.cpp" line="357"/>
         <source>Indexing</source>
         <translation>Indexovanie</translation>
+    </message>
+    <message>
+        <location filename="../module/dictionary/biblequote-dict.cpp" line="177"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="90"/>
+        <source>Cannot build index.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../module/dictionary/biblequote-dict.cpp" line="207"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="116"/>
+        <source>Nothing found for %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QuickJumpDockWidget</name>
     <message>
-        <location filename="ui/dock/quickjumpdockwidget.ui" line="14"/>
+        <location filename="../ui/dock/quickjumpdockwidget.ui" line="14"/>
         <source>Quick Jump</source>
         <translation>Rýchly skok</translation>
     </message>
@@ -2073,38 +2147,38 @@
 <context>
     <name>SearchDialog</name>
     <message>
-        <location filename="ui/dialog/searchdialog.ui" line="14"/>
-        <location filename="ui/dialog/searchdialog.ui" line="43"/>
+        <location filename="../ui/dialog/searchdialog.ui" line="14"/>
+        <location filename="../ui/dialog/searchdialog.ui" line="43"/>
         <source>Search</source>
         <translation>Hľadať</translation>
     </message>
     <message>
-        <location filename="ui/dialog/searchdialog.ui" line="68"/>
+        <location filename="../ui/dialog/searchdialog.ui" line="68"/>
         <source>Range</source>
         <translation>Rozsah</translation>
     </message>
     <message>
-        <location filename="ui/dialog/searchdialog.ui" line="74"/>
+        <location filename="../ui/dialog/searchdialog.ui" line="74"/>
         <source>All</source>
         <translation>Všetko</translation>
     </message>
     <message>
-        <location filename="ui/dialog/searchdialog.ui" line="87"/>
+        <location filename="../ui/dialog/searchdialog.ui" line="87"/>
         <source>OT</source>
         <translation>SZ</translation>
     </message>
     <message>
-        <location filename="ui/dialog/searchdialog.ui" line="97"/>
+        <location filename="../ui/dialog/searchdialog.ui" line="97"/>
         <source>NT</source>
         <translation>NZ</translation>
     </message>
     <message>
-        <location filename="ui/dialog/searchdialog.ui" line="121"/>
+        <location filename="../ui/dialog/searchdialog.ui" line="121"/>
         <source>Options</source>
         <translation>Možnosti</translation>
     </message>
     <message>
-        <location filename="ui/dialog/searchdialog.ui" line="130"/>
+        <location filename="../ui/dialog/searchdialog.ui" line="130"/>
         <source>Search In Notes</source>
         <translation>Hľadať v poznámkach</translation>
     </message>
@@ -2112,37 +2186,37 @@
 <context>
     <name>SearchInfoDialog</name>
     <message>
-        <location filename="ui/dialog/searchinfodialog.ui" line="14"/>
+        <location filename="../ui/dialog/searchinfodialog.ui" line="14"/>
         <source>Search Info</source>
         <translation>Informáce k hľadaniu</translation>
     </message>
     <message>
-        <location filename="ui/dialog/searchinfodialog.ui" line="34"/>
+        <location filename="../ui/dialog/searchinfodialog.ui" line="34"/>
         <source>General</source>
         <translation>Všeobecné</translation>
     </message>
     <message>
-        <location filename="ui/dialog/searchinfodialog.ui" line="55"/>
+        <location filename="../ui/dialog/searchinfodialog.ui" line="55"/>
         <source>List</source>
         <translation>Zoznam</translation>
     </message>
     <message>
-        <location filename="ui/dialog/searchinfodialog.ui" line="65"/>
+        <location filename="../ui/dialog/searchinfodialog.ui" line="65"/>
         <source>Statistic</source>
         <translation>Štatistiky</translation>
     </message>
     <message>
-        <location filename="ui/dialog/searchinfodialog.ui" line="99"/>
+        <location filename="../ui/dialog/searchinfodialog.ui" line="99"/>
         <source>Close</source>
         <translation>Zatvoriť</translation>
     </message>
     <message>
-        <location filename="ui/dialog/searchinfodialog.cpp" line="37"/>
+        <location filename="../ui/dialog/searchinfodialog.cpp" line="37"/>
         <source>Search string : &apos;%1&apos;</source>
         <translation>Hľadať reťazec: &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="ui/dialog/searchinfodialog.cpp" line="38"/>
+        <location filename="../ui/dialog/searchinfodialog.cpp" line="38"/>
         <source>Found verses : %1</source>
         <translation>Nájdené verše: %1</translation>
     </message>
@@ -2150,37 +2224,37 @@
 <context>
     <name>SearchResultDockWidget</name>
     <message>
-        <location filename="ui/dock/searchresultdockwidget.ui" line="14"/>
+        <location filename="../ui/dock/searchresultdockwidget.ui" line="14"/>
         <source>Search Result</source>
         <translation>Výsledky hľadania</translation>
     </message>
     <message>
-        <location filename="ui/dock/searchresultdockwidget.ui" line="46"/>
+        <location filename="../ui/dock/searchresultdockwidget.ui" line="46"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="ui/dock/searchresultdockwidget.cpp" line="40"/>
+        <location filename="../ui/dock/searchresultdockwidget.cpp" line="40"/>
         <source>Search: %1</source>
         <translation>Hľadať: %1</translation>
     </message>
     <message>
-        <location filename="ui/dock/searchresultdockwidget.cpp" line="74"/>
+        <location filename="../ui/dock/searchresultdockwidget.cpp" line="77"/>
         <source>Error</source>
         <translation>Chyba</translation>
     </message>
     <message>
-        <location filename="ui/dock/searchresultdockwidget.cpp" line="74"/>
+        <location filename="../ui/dock/searchresultdockwidget.cpp" line="77"/>
         <source>No search information available.</source>
         <translation>Nie sú dostupné žiadne informácie o hľadaní.</translation>
     </message>
     <message>
-        <location filename="ui/dock/searchresultdockwidget.cpp" line="111"/>
+        <location filename="../ui/dock/searchresultdockwidget.cpp" line="112"/>
         <source>No more Results.</source>
         <translation>Žiadne ďalšie výsledky.</translation>
     </message>
     <message>
-        <location filename="ui/dock/searchresultdockwidget.cpp" line="111"/>
+        <location filename="../ui/dock/searchresultdockwidget.cpp" line="112"/>
         <source>Show the first result again?</source>
         <translation>Ukázať znovu prvý výsledok?</translation>
     </message>
@@ -2188,147 +2262,176 @@
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="ui/dialog/settingsdialog.ui" line="14"/>
+        <location filename="../ui/dialog/settingsdialog.ui" line="14"/>
         <source>Settings</source>
         <translation>Nastavenia</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.ui" line="30"/>
+        <location filename="../ui/dialog/settingsdialog.ui" line="30"/>
         <source>General</source>
         <translation>Všeobecné</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.ui" line="38"/>
+        <location filename="../ui/dialog/settingsdialog.ui" line="38"/>
         <source>Language</source>
         <translation>Jazyk</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.ui" line="48"/>
+        <location filename="../ui/dialog/settingsdialog.ui" line="48"/>
         <source>Encoding</source>
         <translation>Kódovanie</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.ui" line="58"/>
+        <location filename="../ui/dialog/settingsdialog.ui" line="58"/>
         <source>Auto Layout</source>
         <translation>Automatické rozvrhnutie</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.ui" line="68"/>
+        <location filename="../ui/dialog/settingsdialog.ui" line="68"/>
         <source>Interface</source>
         <translation>Rozhranie</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.ui" line="81"/>
+        <location filename="../ui/dialog/settingsdialog.ui" line="81"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="147"/>
         <source>Module</source>
         <translation>Modul</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.ui" line="91"/>
+        <location filename="../ui/dialog/settingsdialog.ui" line="91"/>
         <source>Add File</source>
         <translation>Pridať súbor</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.ui" line="102"/>
+        <location filename="../ui/dialog/settingsdialog.ui" line="102"/>
         <source>Add Dir</source>
         <translation>Prid Prieč</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.ui" line="113"/>
+        <location filename="../ui/dialog/settingsdialog.ui" line="113"/>
         <source>Download</source>
         <translation>Stiahnuť</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.ui" line="148"/>
         <source>Name</source>
-        <translation>Názov</translation>
+        <translation type="obsolete">Názov</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.ui" line="153"/>
         <source>Path</source>
-        <translation>Cesta</translation>
+        <translation type="obsolete">Cesta</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.ui" line="158"/>
         <source>Typ</source>
-        <translation>Typ</translation>
+        <translation type="obsolete">Typ</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.ui" line="168"/>
+        <location filename="../ui/dialog/settingsdialog.ui" line="156"/>
         <source>Edit</source>
         <translation>Upraviť</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.ui" line="179"/>
+        <location filename="../ui/dialog/settingsdialog.ui" line="167"/>
         <source>Remove</source>
         <translation>Odstrániť</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.ui" line="228"/>
+        <location filename="../ui/dialog/settingsdialog.ui" line="198"/>
+        <source>Display</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/settingsdialog.ui" line="207"/>
+        <source>Show Marks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/settingsdialog.ui" line="214"/>
+        <source>Show Notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/settingsdialog.ui" line="221"/>
+        <source>Show Tool Bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/settingsdialog.ui" line="228"/>
+        <source>Show Strong Number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/settingsdialog.ui" line="235"/>
+        <source>Show Study Notes</source>
+        <translation type="unfinished">Zobraziť študijné poznámky</translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/settingsdialog.ui" line="242"/>
+        <source>Show RefLinks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/settingsdialog.ui" line="271"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.ui" line="245"/>
+        <location filename="../ui/dialog/settingsdialog.ui" line="288"/>
         <source>Reset</source>
         <translation>Obnoviť pôvodné</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.ui" line="252"/>
+        <location filename="../ui/dialog/settingsdialog.ui" line="295"/>
         <source>Cancel</source>
         <translation>Zrušiť</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="78"/>
         <source>English</source>
-        <translation>Anglický</translation>
+        <translation type="obsolete">Anglický</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="78"/>
         <source>German</source>
-        <translation>Nemecký</translation>
+        <translation type="obsolete">Nemecký</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="78"/>
         <source>Russian</source>
-        <translation>Ruský</translation>
+        <translation type="obsolete">Ruský</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="78"/>
         <source>Czech</source>
-        <translation>Český</translation>
+        <translation type="obsolete">Český</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="100"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="111"/>
         <source>None</source>
         <translation>Žiadny</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="100"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="111"/>
         <source>Vertical tile</source>
         <translation>Usporiadať zvislo</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="100"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="111"/>
         <source>Horizontal tile</source>
         <translation>Usporiadať vodorovne</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="100"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="111"/>
         <source>Cascade</source>
         <translation>Kaskádovito</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="100"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="111"/>
         <source>Tile</source>
         <translation>Dlaždica</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="106"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="117"/>
         <source>Simple</source>
         <translation>Jednoduché</translation>
     </message>
     <message>
-        <location filename="ui/dialog/settingsdialog.cpp" line="106"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="117"/>
         <source>Advanced</source>
         <translation>Rozšírené</translation>
     </message>
@@ -2336,93 +2439,83 @@
 <context>
     <name>SimpleInterface</name>
     <message>
-        <location filename="ui/interface/simple/simpleinterface.ui" line="14"/>
+        <location filename="../ui/interface/simple/simpleinterface.ui" line="14"/>
         <source>Form</source>
         <translation>Formulár</translation>
     </message>
     <message>
-        <location filename="ui/interface/simple/simpleinterface.cpp" line="96"/>
         <source>Search</source>
-        <translation>Hľadať</translation>
+        <translation type="obsolete">Hľadať</translation>
     </message>
     <message>
-        <location filename="ui/interface/simple/simpleinterface.cpp" line="98"/>
         <source>Zoom In</source>
-        <translation>Priblížiť</translation>
+        <translation type="obsolete">Priblížiť</translation>
     </message>
     <message>
-        <location filename="ui/interface/simple/simpleinterface.cpp" line="100"/>
         <source>Zoom Out</source>
-        <translation>Oddialiť</translation>
+        <translation type="obsolete">Oddialiť</translation>
     </message>
     <message>
-        <location filename="ui/interface/simple/simpleinterface.cpp" line="102"/>
         <source>Module</source>
-        <translation>Modul</translation>
+        <translation type="obsolete">Modul</translation>
     </message>
     <message>
-        <location filename="ui/interface/simple/simpleinterface.cpp" line="255"/>
         <source>openBibleViewer</source>
-        <translation>openBibleViewer</translation>
+        <translation type="obsolete">openBibleViewer</translation>
     </message>
     <message>
-        <location filename="ui/interface/simple/simpleinterface.cpp" line="286"/>
-        <location filename="ui/interface/simple/simpleinterface.cpp" line="291"/>
-        <location filename="ui/interface/simple/simpleinterface.cpp" line="296"/>
         <source>Error</source>
-        <translation>Chyba</translation>
+        <translation type="obsolete">Chyba</translation>
     </message>
     <message>
-        <location filename="ui/interface/simple/simpleinterface.cpp" line="286"/>
-        <location filename="ui/interface/simple/simpleinterface.cpp" line="291"/>
         <source>This book is not available.</source>
-        <translation>Tato kniha nieje dostupná.</translation>
+        <translation type="obsolete">Tato kniha nieje dostupná.</translation>
     </message>
     <message>
-        <location filename="ui/interface/simple/simpleinterface.cpp" line="296"/>
         <source>Cannot read the book.</source>
-        <translation>Kniha sa nedá prečítať.</translation>
+        <translation type="obsolete">Kniha sa nedá prečítať.</translation>
     </message>
 </context>
 <context>
     <name>SimpleNotes</name>
     <message>
-        <location filename="core/simplenotes.cpp" line="124"/>
+        <location filename="../core/simplenotes.cpp" line="116"/>
         <source>Note Title</source>
         <translation>Názov poznámky</translation>
     </message>
     <message>
-        <location filename="core/simplenotes.cpp" line="346"/>
-        <location filename="core/simplenotes.cpp" line="368"/>
-        <location filename="core/simplenotes.cpp" line="454"/>
-        <location filename="core/simplenotes.cpp" line="476"/>
+        <location filename="../core/simplenotes.cpp" line="341"/>
+        <location filename="../core/simplenotes.cpp" line="363"/>
+        <location filename="../core/simplenotes.cpp" line="449"/>
+        <location filename="../core/simplenotes.cpp" line="470"/>
+        <location filename="../core/simplenotes.cpp" line="505"/>
         <source>(unnamed)</source>
         <translation>(nepomenované)</translation>
     </message>
     <message>
-        <location filename="core/simplenotes.cpp" line="389"/>
-        <location filename="core/simplenotes.cpp" line="409"/>
-        <location filename="core/simplenotes.cpp" line="417"/>
+        <location filename="../core/simplenotes.cpp" line="384"/>
+        <location filename="../core/simplenotes.cpp" line="402"/>
+        <location filename="../core/simplenotes.cpp" line="410"/>
         <source>Folder</source>
         <translation>Priečinok</translation>
     </message>
     <message>
-        <location filename="core/simplenotes.cpp" line="490"/>
+        <location filename="../core/simplenotes.cpp" line="536"/>
         <source>Copy</source>
         <translation>Kopírovať</translation>
     </message>
     <message>
-        <location filename="core/simplenotes.cpp" line="494"/>
+        <location filename="../core/simplenotes.cpp" line="540"/>
         <source>New</source>
         <translation>Nový</translation>
     </message>
     <message>
-        <location filename="core/simplenotes.cpp" line="498"/>
+        <location filename="../core/simplenotes.cpp" line="544"/>
         <source>New Folder</source>
         <translation>Nový priečinok</translation>
     </message>
     <message>
-        <location filename="core/simplenotes.cpp" line="502"/>
+        <location filename="../core/simplenotes.cpp" line="548"/>
         <source>Delete</source>
         <translation>Vymazať</translation>
     </message>
@@ -2430,9 +2523,672 @@
 <context>
     <name>StudyInterface</name>
     <message>
-        <location filename="ui/interface/study/studyinterface.ui" line="16"/>
+        <location filename="../ui/interface/study/studyinterface.ui" line="16"/>
         <source>Form</source>
         <translation>Formulár</translation>
+    </message>
+</context>
+<context>
+    <name>Versification_KJV</name>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="20"/>
+        <source>Genesis</source>
+        <translation type="unfinished">Genezis</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="21"/>
+        <source>Gen, Ge, Gn</source>
+        <translation type="unfinished">Gn</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="29"/>
+        <source>Exodus</source>
+        <translation type="unfinished">Exodus</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="30"/>
+        <source>Ex, Exo, Exd</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="39"/>
+        <source>Leviticus</source>
+        <translation type="unfinished">Levitikus</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="40"/>
+        <source>Lev, Le, Lv</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="49"/>
+        <source>Numbers</source>
+        <translation type="unfinished">Numeri</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="50"/>
+        <source>Num, Nu, Nm, Nb</source>
+        <translation type="unfinished">Nm</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="59"/>
+        <source>Deuteronomy</source>
+        <translation type="unfinished">Deuteronómium</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="60"/>
+        <source>Deut, Dt</source>
+        <translation type="unfinished">Dt</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="69"/>
+        <source>Joshua</source>
+        <translation type="unfinished">Jozue</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="70"/>
+        <source>Josh, Jos, Jsh</source>
+        <translation type="unfinished">Joz</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="79"/>
+        <source>Judges</source>
+        <translation type="unfinished">Sudcov</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="80"/>
+        <source>Judg, Jdg, Jg, Jdgs</source>
+        <translation type="unfinished">Sdc</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="89"/>
+        <source>Ruth</source>
+        <translation type="unfinished">Rút</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="90"/>
+        <source>Rth, Ru</source>
+        <translation type="unfinished">Rút</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="99"/>
+        <source>1 Samuel</source>
+        <translation type="unfinished">1. Samuelova</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="100"/>
+        <source>1 Sam, 1 Sa, 1Samuel, 1S, I Sa, 1 Sm, 1Sa, I Sam, 1Sam</source>
+        <translation type="unfinished">1 Sam</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="109"/>
+        <source>2 Samuel</source>
+        <translation type="unfinished">2. Samuelova</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="110"/>
+        <source>2 Sam, 2 Sa, 2S, II Sa, 2 Sm, 2Sa, II Sam, 2Sam</source>
+        <translation type="unfinished">2 Sam</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="119"/>
+        <source>1 Kings</source>
+        <translation type="unfinished">1. Kráľov</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="120"/>
+        <source>1 Kgs, 1 Ki, 1K, I Kgs, 1Kgs, I Ki, 1Ki, I Kings, 1Kings, 1st Kgs, 1st Kings, 1Kin</source>
+        <translation type="unfinished">1 Kr</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="129"/>
+        <source>2 Kings</source>
+        <translation type="unfinished">2. Kráľov</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="130"/>
+        <source>2 Kgs, 2 Ki, 2K, II Kgs, 2Kgs, II Ki, 2Ki, II Kings, 2Kings, 2nd Kgs, 2nd Kings, 2Kin</source>
+        <translation type="unfinished">2 Kr</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="139"/>
+        <source>1 Chronicles</source>
+        <translation type="unfinished">1. Kroník</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="140"/>
+        <source>1 Chron, 1 Ch, I Ch, 1Ch, 1 Chr, I Chr, 1Chr, I Chron, 1Chron</source>
+        <translation type="unfinished">1 Krn</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="149"/>
+        <source>2 Chronicles</source>
+        <translation type="unfinished">2. Kroník</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="150"/>
+        <source>2 Chron, 2 Ch, II Ch, 2Ch, II Chr, 2Chr, II Chron, 2Chron</source>
+        <translation type="unfinished">2 Krn</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="159"/>
+        <source>Ezra</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="160"/>
+        <source>Ezra, Ezr</source>
+        <translation type="unfinished">Ezd</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="169"/>
+        <source>Nehemiah</source>
+        <translation type="unfinished">Nehemiáš</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="170"/>
+        <source>Neh, Ne</source>
+        <translation type="unfinished">Ned</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="179"/>
+        <source>Esther</source>
+        <translation type="unfinished">Ester</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="180"/>
+        <source>Esth, Es</source>
+        <translation type="unfinished">Est</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="189"/>
+        <source>Job</source>
+        <translation type="unfinished">Jób</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="190"/>
+        <source>Job, Job, Jb</source>
+        <translation type="unfinished">Jób</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="199"/>
+        <source>Psalm</source>
+        <translation type="unfinished">Žalmy</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="200"/>
+        <source>Pslm, Ps, Psalms, Psa, Psm, Pss</source>
+        <translation type="unfinished">Ž</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="209"/>
+        <source>Proverbs</source>
+        <translation type="unfinished">Príslovia</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="210"/>
+        <source>Prov, Pr, Prv</source>
+        <translation type="unfinished">Príz</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="219"/>
+        <source>Ecclesiastes</source>
+        <translation type="unfinished">Kazateľ</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="220"/>
+        <source>Eccles, Ec, Qoh, Qoheleth</source>
+        <translation type="unfinished">Kaz</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="229"/>
+        <source>Song of Solomon</source>
+        <translation type="unfinished">Pieseň piesní</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="230"/>
+        <source>Song, So, SOS</source>
+        <translation type="unfinished">Pies</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="239"/>
+        <source>Isaiah</source>
+        <translation type="unfinished">Izaiáš</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="240"/>
+        <source>Isa, Is</source>
+        <translation type="unfinished">Iz</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="249"/>
+        <source>Jeremiah</source>
+        <translation type="unfinished">Jeremiáš</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="250"/>
+        <source>Jer, Je, Jr</source>
+        <translation type="unfinished">Jer</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="259"/>
+        <source>Lamentations</source>
+        <translation type="unfinished">Náreky</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="260"/>
+        <source>Lam, La</source>
+        <translation type="unfinished">Nár</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="269"/>
+        <source>Ezekiel</source>
+        <translation type="unfinished">Ezechiel</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="270"/>
+        <source>Ezek, Eze, Ezk</source>
+        <translation type="unfinished">Ez</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="279"/>
+        <source>Daniel</source>
+        <translation type="unfinished">Daniel</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="280"/>
+        <source>Dan, Da, Dn</source>
+        <translation type="unfinished">Dan</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="289"/>
+        <source>Hosea</source>
+        <translation type="unfinished">Ozeáš</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="290"/>
+        <source>Hos, Ho</source>
+        <translation type="unfinished">Oz</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="299"/>
+        <source>Joel</source>
+        <translation type="unfinished">Joel</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="300"/>
+        <source>Joel, Joe, Jl</source>
+        <translation type="unfinished">Joel</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="309"/>
+        <source>Amos</source>
+        <translation type="unfinished">Amos</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="310"/>
+        <source>Amos, Am</source>
+        <translation type="unfinished">Am</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="319"/>
+        <source>Obadiah</source>
+        <translation type="unfinished">Abdijáš</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="320"/>
+        <source>Obad, Ob</source>
+        <translation type="unfinished">Abd</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="329"/>
+        <source>Jonah</source>
+        <translation type="unfinished">Jonáš</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="330"/>
+        <source>Jnh, Jon</source>
+        <translation type="unfinished">Jon</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="339"/>
+        <source>Micah</source>
+        <translation type="unfinished">Micheáš</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="340"/>
+        <source>Micah, Mic</source>
+        <translation type="unfinished">Mich</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="349"/>
+        <source>Nahum</source>
+        <translation type="unfinished">Nahum</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="350"/>
+        <source>Nah, Na</source>
+        <translation type="unfinished">Nah</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="359"/>
+        <source>Habakkuk</source>
+        <translation type="unfinished">Habakuk</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="360"/>
+        <source>Hab, Hab</source>
+        <translation type="unfinished">Hab</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="369"/>
+        <source>Zephaniah</source>
+        <translation type="unfinished">Sofoniáš</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="370"/>
+        <source>Zeph, Zep, Zp</source>
+        <translation type="unfinished">Sof</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="379"/>
+        <source>Haggai</source>
+        <translation type="unfinished">Aggeus</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="380"/>
+        <source>Haggai, Hag, Hg</source>
+        <translation type="unfinished">Ag</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="389"/>
+        <source>Zechariah</source>
+        <translation type="unfinished">Zachariáš</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="390"/>
+        <source>Zech, Zec, Zc</source>
+        <translation type="unfinished">Zac</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="399"/>
+        <source>Malachi</source>
+        <translation type="unfinished">Malachiáš</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="400"/>
+        <source>Mal, Mal, Ml</source>
+        <translation type="unfinished">Mal</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="409"/>
+        <source>Matthew</source>
+        <translation type="unfinished">Matúš</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="410"/>
+        <source>Matt, Mt</source>
+        <translation type="unfinished">Mt</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="419"/>
+        <source>Mark</source>
+        <translation type="unfinished">Marek</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="420"/>
+        <source>Mrk, Mk, Mr</source>
+        <translation type="unfinished">Mk</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="429"/>
+        <source>Luke</source>
+        <translation type="unfinished">Lukáš</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="430"/>
+        <source>Luk, Lk</source>
+        <translation type="unfinished">Lk</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="439"/>
+        <source>John</source>
+        <translation type="unfinished">Ján</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="440"/>
+        <source>John, Jn, Jhn</source>
+        <translation type="unfinished">Jn</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="449"/>
+        <source>Acts</source>
+        <translation type="unfinished">Skutky apoštolov</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="450"/>
+        <source>Acts, Ac</source>
+        <translation type="unfinished">Sk</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="460"/>
+        <source>Romans</source>
+        <translation type="unfinished">Rimanom</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="461"/>
+        <source>Rom, Ro, Rm</source>
+        <translation type="unfinished">Rim</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="470"/>
+        <source>1 Corinthians</source>
+        <translation type="unfinished">1. Korinťanom</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="471"/>
+        <source>1 Cor, 1 Co, I Co, 1Co, I Cor, 1Cor</source>
+        <translation type="unfinished">1 Kor</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="480"/>
+        <source>2 Corinthians</source>
+        <translation type="unfinished">2. Korinťanom</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="481"/>
+        <source>2 Cor, 2 Co, II Co, 2Co, II Cor, 2Cor</source>
+        <translation type="unfinished">2 Kor</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="490"/>
+        <source>Galatians</source>
+        <translation type="unfinished">Galaťanom</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="491"/>
+        <source>Gal, Ga</source>
+        <translation type="unfinished">Gal</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="500"/>
+        <source>Ephesians</source>
+        <translation type="unfinished">Efezanom</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="501"/>
+        <source>Ephes, Eph</source>
+        <translation type="unfinished">Ef</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="510"/>
+        <source>Philippians</source>
+        <translation type="unfinished">Filipanom</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="511"/>
+        <source>Phil, Php</source>
+        <translation type="unfinished">Flp</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="520"/>
+        <source>Colossians</source>
+        <translation type="unfinished">Kolosanom</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="521"/>
+        <source>Col, Col</source>
+        <translation type="unfinished">Kol</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="530"/>
+        <source>1 Thessalonians</source>
+        <translation type="unfinished">1. Solúnčanom</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="531"/>
+        <source>1 Thess, 1 Th, I Th, 1Th, I Thes, 1Thes, I Thess, 1Thess</source>
+        <translation type="unfinished">1 Sol</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="540"/>
+        <source>2 Thessalonians</source>
+        <translation type="unfinished">2. Solúnčanom</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="541"/>
+        <source>2 Thess, 2 Th, II Th, 2Th, II Thes, 2Thes, II Thess, 2Thess</source>
+        <translation type="unfinished">2 Sol</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="550"/>
+        <source>1 Timothy</source>
+        <translation type="unfinished">1. Timotejovi</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="551"/>
+        <source>1 Tim, 1 Ti, I Ti, 1Ti, I Tim, 1Tim</source>
+        <translation type="unfinished">1 Tim</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="560"/>
+        <source>2 Timothy</source>
+        <translation type="unfinished">2. Timotejovi</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="561"/>
+        <source>2 Tim, 2 Ti, II Ti, 2Ti, II Tim, 2Tim</source>
+        <translation type="unfinished">2 Tim</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="570"/>
+        <source>Titus</source>
+        <translation type="unfinished">Títovi</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="571"/>
+        <source>Titus, Tit</source>
+        <translation type="unfinished">Tít</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="580"/>
+        <source>Philemon</source>
+        <translation type="unfinished">Filemonovi</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="581"/>
+        <source>Philem, Phm</source>
+        <translation type="unfinished">Flm</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="590"/>
+        <source>Hebrews</source>
+        <translation type="unfinished">Hebrejom</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="591"/>
+        <source>Hebrews, Heb</source>
+        <translation type="unfinished">Hebr</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="600"/>
+        <source>James</source>
+        <translation type="unfinished">Jakubov</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="601"/>
+        <source>James, Jas, Jm</source>
+        <translation type="unfinished">Jak</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="610"/>
+        <source>1 Peter</source>
+        <translation type="unfinished">1. Petrov</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="611"/>
+        <source>1 Pet, 1 Pe, I Pe, 1Pe, I Pet, 1Pet, I Pt, 1 Pt, 1Pt</source>
+        <translation type="unfinished">1 Pt</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="620"/>
+        <source>2 Peter</source>
+        <translation type="unfinished">2. Petrov</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="621"/>
+        <source>2 Pet, 2 Pe, II Pe, 2Pe, II Pet, 2Pet, II Pt, 2 Pt, 2Pt</source>
+        <translation type="unfinished">2 Pt</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="630"/>
+        <source>1 John</source>
+        <translation type="unfinished">1. Jánov</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="631"/>
+        <source>1 John, 1 Jn, I Jn, 1Jn, I Jo, 1Jo, I Joh, 1Joh, I Jhn, 1 Jhn, 1Jhn, I John, 1John</source>
+        <translation type="unfinished">1 Jn</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="640"/>
+        <source>2 John</source>
+        <translation type="unfinished">2. Jánov</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="641"/>
+        <source>2 John, 2 Jn, II Jn, 2Jn, II Jo, 2Jo, II Joh, 2Joh, II Jhn, 2 Jhn, 2Jhn, II John, 2John</source>
+        <translation type="unfinished">2 Jn</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="650"/>
+        <source>3 John</source>
+        <translation type="unfinished">3. Jánov</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="651"/>
+        <source>3 John, 3 Jn, III Jn, 3Jn, III Jo, 3Jo, III Joh, 3Joh, III Jhn, 3 Jhn, 3Jhn, III John, 3John</source>
+        <translation type="unfinished">3 Jn</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="660"/>
+        <source>Jude</source>
+        <translation type="unfinished">Júdov</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="661"/>
+        <source>Jude, Jud</source>
+        <translation type="unfinished">Júd</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="670"/>
+        <source>Revelation</source>
+        <translation type="unfinished">Zjavienie apoštola Jána</translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="671"/>
+        <source>Rev, Re</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
