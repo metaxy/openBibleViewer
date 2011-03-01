@@ -344,7 +344,7 @@ int Notes::saveNotes()
     while(i.hasNext()) {
         i.next();
         const QString id = i.key();
-        if(id == "")
+        if(id.isEmpty())
             continue;
         QDomElement tag = sdoc.createElement("note");
         tag.setAttribute("title", notesTitle.value(id));

@@ -24,6 +24,9 @@
        <property name="selectionBehavior">
         <enum>QAbstractItemView::SelectItems</enum>
        </property>
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
        <column>
         <property name="text">
          <string notr="true">1</string>
@@ -58,7 +61,7 @@
           <string>Download</string>
          </property>
          <property name="icon">
-          <iconset resource="../icons.qrc">
+          <iconset resource="../../icons.qrc">
            <normaloff>:/icons/16x16/dialog-ok.png</normaloff>:/icons/16x16/dialog-ok.png</iconset>
          </property>
         </widget>
@@ -75,7 +78,7 @@
           <string>Cancel</string>
          </property>
          <property name="icon">
-          <iconset resource="../icons.qrc">
+          <iconset resource="../../icons.qrc">
            <normaloff>:/icons/16x16/dialog-cancel.png</normaloff>:/icons/16x16/dialog-cancel.png</iconset>
          </property>
         </widget>
@@ -87,7 +90,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../icons.qrc"/>
+  <include location="../../icons.qrc"/>
  </resources>
  <connections/>
 </ui>
