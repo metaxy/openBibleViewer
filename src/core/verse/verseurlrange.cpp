@@ -171,10 +171,13 @@ bool VerseUrlRange::containsVerse(const int verseID) const
 {
     bool ok = true;
     if(m_startVerseParam == LoadVerseByID && m_startVerseID != -1) {
-        ok = ok && verseID >= m_startVerseID;
+        if(m_endVerseParam == LoadVerseByID && m_endVerseID != -1)
+            ok = ok && verseID >= m_startVerseID;
+        else
+            ok= ok && verseID == m_startVerseID;
     }
     if(m_endVerseParam == LoadVerseByID && m_endVerseID != -1) {
-        ok = ok && verseID <= m_endVerseID;
+         ok= ok && verseID == m_endVerseID;
     }
     return ok;
 }
