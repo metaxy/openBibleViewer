@@ -141,9 +141,9 @@ int main(int argc, char *argv[])
     }
 
     QString lang = settings->value("general/language", QLocale::system().name()).toString();
-    QString av(_AV_LANG);
-    QStringList avLang = av.split(";");
-    myDebug() << avLang;
+    const QString av(_AV_LANG);
+    const QStringList avLang = av.split(";");
+    //myDebug() << avLang;
     if(avLang.lastIndexOf(lang) == -1) {
         lang = lang.remove(lang.lastIndexOf("_"), lang.size());
         if(avLang.lastIndexOf(lang) == -1) {
@@ -156,9 +156,9 @@ int main(int argc, char *argv[])
     a.installTranslator(&qtTranslator);
 
     QTranslator myappTranslator;
-    myDebug() << lang;
+    //myDebug() << lang;
     bool loaded = myappTranslator.load(":/data/obv_" + lang);
-    myDebug() << loaded;
+    //myDebug() << loaded;
     if(!loaded)
         myappTranslator.load(lang);
 

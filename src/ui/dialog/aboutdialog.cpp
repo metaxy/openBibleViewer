@@ -13,13 +13,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
-
+#include <QtGui/QDesktopServices>
+#include <QtCore/QUrl>
 AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent),
     m_ui(new Ui::AboutDialog)
 {
     m_ui->setupUi(this);
     connect(m_ui->buttonBox, SIGNAL(accepted()), this, SLOT(close()));
+    connect(m_ui->label, SIGNAL(linkActivated(QString)), this, SLOT(openLink(QString)));
 }
 
 AboutDialog::~AboutDialog()
@@ -29,6 +31,10 @@ AboutDialog::~AboutDialog()
 void AboutDialog::setText(const QString &text)
 {
     m_ui->label->setText(text);
+}
+void AboutDialog::openLink(const QString &link)
+{
+     QDesktopServices::openUrl(QUrl(link, QUrl::StrictMode));
 }
 
 void AboutDialog::changeEvent(QEvent *e)

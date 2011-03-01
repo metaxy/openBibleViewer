@@ -35,7 +35,8 @@ public:
 
 protected:
     virtual void changeEvent(QEvent *e);
-
+private slots:
+    void openLink(const QString &link);
 private:
     Ui::AboutDialog *m_ui;
 };

@@ -872,6 +872,7 @@ VerseSelection BibleForm::verseSelection()
         }
         if(s.shortestStringInStartVerse.isEmpty() && s.startVerse != s.endVerse) {
             //find the last long string if the selection is over more than one verse long
+            //todo: it isn't alway unique
             QString lastLongest = selectedText;
             int lastPos = -2;
             for(int i = selectedText.size() - 1; i > 0; i--) {
@@ -935,7 +936,6 @@ VerseSelection BibleForm::verseSelection()
         }
     }
     myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
-    //todo: 0.6
     //do not this stuff with BibleQuote because some modules have wired html stuff.
     if(s.canBeUsedForMarks() == false && m_moduleManager->verseModule()->moduleType() != OBVCore::BibleQuoteModule) {
         //now the ultimative alogrithm
