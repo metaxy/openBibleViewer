@@ -414,7 +414,7 @@ QT4_ADD_RESOURCES(RSCS ${openBibleViewer_RSCS})
 QT4_WRAP_UI(UIS ${openBibleViewer_UIS})
 
 if (MSVC)
-  add_executable(openBibleViewer WIN32 ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS})
+  add_executable(openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS})
 else ()
   add_executable(openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS})
 endif ()

@@ -386,11 +386,13 @@ void MainWindow::loadSettings()
 void MainWindow::makeSureItHasLoaded(ModuleSettings *settings)
 {
     if(settings->useParentSettings) {
-        const int parentID = settings->parentID;
-        settings->removeDisplaySettings();
-        ModuleSettings *r = m_settings->m_moduleSettings.value(parentID);
-        makeSureItHasLoaded(settings);
-        settings->setDisplaySettings(r->displaySettings());
+		const int parentID = settings->parentID;
+		if(m_settings->m_moduleSettings.contains(parentID)) {
+			settings->removeDisplaySettings();
+			ModuleSettings *r = m_settings->m_moduleSettings.value(parentID);
+			makeSureItHasLoaded(settings);
+			settings->setDisplaySettings(r->displaySettings());
+		}
     }
 }
 
