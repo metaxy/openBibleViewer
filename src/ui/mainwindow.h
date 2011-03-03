@@ -99,7 +99,7 @@ private:
     void restoreSession();
     int m_reloadLang;
 
-    void makeSureItHasLoaded(ModuleSettings *settings);
+
 
 };
 

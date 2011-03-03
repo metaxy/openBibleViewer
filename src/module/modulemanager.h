@@ -84,7 +84,7 @@ public:
 private:
 
     void loadModule(Module *moduleParent, ModuleSettings *setttings);
-
+    void makeSureItHasLoaded(ModuleSettings *settings);
     Module *m_rootModule;
 };
 

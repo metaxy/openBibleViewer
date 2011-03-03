@@ -313,54 +313,6 @@ void MainWindow::loadSettings()
 
         m_settings->m_moduleSettings.insert(m->moduleID, m);
     }
-    ModuleSettings *root = new ModuleSettings();
-    root->moduleID = -1;
-    root->parentID = -2;
-    //set parents
-    {
-        QHashIterator<int, ModuleSettings*> it2(m_settings->m_moduleSettings);
-        while(it2.hasNext())  {
-            it2.next();
-            ModuleSettings *child = it2.value();
-            const int parentID = child->parentID;
-            if(parentID == -1) {
-                root->appendChild(child);
-                child->setParent(root);
-            } else if(m_settings->m_moduleSettings.contains(parentID)) {
-                ModuleSettings *r = m_settings->m_moduleSettings.value(parentID);
-                r->appendChild(child);
-                child->setParent(r);
-            }
-        }
-        ModuleDisplaySettings *displaySettings = new ModuleDisplaySettings();
-        displaySettings->setShowStudyNotes(true);
-        displaySettings->setShowStrong(true);
-        displaySettings->setShowRefLinks(false);
-        displaySettings->setShowNotes(true);
-        displaySettings->setShowMarks(true);
-        displaySettings->setShowBottomToolBar(true);
-        root->setDisplaySettings(displaySettings);
-
-        m_settings->m_moduleSettings.insert(-1, root);
-    }
-
-    //use parent settings display
-    {
-        QHashIterator<int, ModuleSettings*> it2(m_settings->m_moduleSettings);
-        while(it2.hasNext())  {
-            it2.next();
-            ModuleSettings *child = it2.value();
-            if(child->useParentSettings) {
-                const int parentID = child->parentID;
-                if(m_settings->m_moduleSettings.contains(parentID)) {
-                    child->removeDisplaySettings();
-                    ModuleSettings *r = m_settings->m_moduleSettings.value(parentID);
-                    makeSureItHasLoaded(r);
-                    child->setDisplaySettings(r->displaySettings());
-                }
-            }
-        }
-    }
 
     m_settingsFile->endArray();
     m_settings->sessionID = m_settingsFile->value("general/lastSession", "0").toString();
@@ -383,18 +335,7 @@ void MainWindow::loadSettings()
     m_settingsFile->endArray();
 
 }
-void MainWindow::makeSureItHasLoaded(ModuleSettings *settings)
-{
-    if(settings->useParentSettings) {
-		const int parentID = settings->parentID;
-		if(m_settings->m_moduleSettings.contains(parentID)) {
-			settings->removeDisplaySettings();
-			ModuleSettings *r = m_settings->m_moduleSettings.value(parentID);
-			makeSureItHasLoaded(settings);
-			settings->setDisplaySettings(r->displaySettings());
-		}
-    }
-}
+
 
 void MainWindow::writeSettings()
 {
