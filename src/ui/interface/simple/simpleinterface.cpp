@@ -54,7 +54,7 @@ void SimpleInterface::init()
 }
 void SimpleInterface::createDocks()
 {
-    /*m_moduleDockWidget = new ModuleDockWidget(this->parentWidget());
+    m_moduleDockWidget = new ModuleDockWidget(this->parentWidget());
     setAll(m_moduleDockWidget);
     m_moduleDockWidget->init();
     connect(m_moduleDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
@@ -66,12 +66,12 @@ void SimpleInterface::createDocks()
     m_searchResultDockWidget = new SearchResultDockWidget(this->parentWidget());
     setAll(m_searchResultDockWidget);
     m_searchResultDockWidget->hide();
-    connect(m_searchResultDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));*/
+    connect(m_searchResultDockWidget, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 }
 
 void SimpleInterface::createToolBars()
 {
-    /* m_bar = new QToolBar(this->parentWidget());
+     m_bar = new QToolBar(this->parentWidget());
      m_bar->setObjectName("mainToolBar");
      m_bar->setIconSize(QSize(32, 32));
      m_bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
@@ -89,7 +89,7 @@ void SimpleInterface::createToolBars()
      m_bar->addAction(m_actionZoomIn);
      m_bar->addAction(m_actionZoomOut);
      m_bar->addSeparator();
-     m_bar->addAction(m_actionModule);*/
+     m_bar->addAction(m_actionModule);
 }
 
 void SimpleInterface::createMenu()
@@ -100,9 +100,9 @@ void SimpleInterface::createMenu()
 QHash<DockWidget*, Qt::DockWidgetArea> SimpleInterface::docks()
 {
     QHash<DockWidget *, Qt::DockWidgetArea> ret;
-    /*ret.insert(m_searchResultDockWidget, Qt::RightDockWidgetArea);
+    ret.insert(m_searchResultDockWidget, Qt::RightDockWidgetArea);
     ret.insert(m_bookDockWidget, Qt::LeftDockWidgetArea);
-    ret.insert(m_moduleDockWidget, Qt::LeftDockWidgetArea);*/
+    ret.insert(m_moduleDockWidget, Qt::LeftDockWidgetArea);
     return ret;
 
 }
@@ -121,16 +121,16 @@ bool SimpleInterface::hasToolBar()
 QList<QToolBar *> SimpleInterface::toolBars()
 {
     QList<QToolBar *> list;
-    // list.append(m_bar);
+    list.append(m_bar);
     return list;
 }
 void SimpleInterface::zoomIn()
 {
-    //ui->textBrowser->zoomIn();
+    ui->textBrowser->zoomIn();
 }
 void SimpleInterface::zoomOut()
 {
-    //ui->textBrowser->zoomOut();
+    ui->textBrowser->zoomOut();
 }
 void SimpleInterface::loadModuleDataByID(int id)
 {
@@ -255,24 +255,24 @@ void SimpleInterface::pharseUrl(QString url)
 }
 void SimpleInterface::showText(const QString &text)
 {
-    /*  QString cssFile = m_settings->getModuleSettings(m_moduleManager->verseModule()->moduleID()).styleSheet;
+      QString cssFile = m_settings->getModuleSettings(m_moduleManager->verseModule()->moduleID())->styleSheet;
       if(cssFile.isEmpty())
           cssFile = ":/data/css/default.css";
 
       ui->textBrowser->setHtml(text);
       ui->textBrowser->loadResource(QTextDocument::StyleSheetResource, QUrl(cssFile));
 
-      if(m_moduleManager->verseModule()->verseID() > 1)
-          ui->textBrowser->scrollToAnchor("currentVerse");*/
+      if(m_moduleManager->verseModule()->lastTextRanges()->minVerseID() > 1)
+          ui->textBrowser->scrollToAnchor("currentVerse");
 }
 void SimpleInterface::setTitle(const QString &title)
 {
-    //this->parentWidget()->setWindowTitle(title + " - " + tr("openBibleViewer"));
+    this->parentWidget()->setWindowTitle(title + " - " + tr("openBibleViewer"));
 }
 
 void SimpleInterface::setChapters(const QStringList &chapters)
 {
-    // m_bookDockWidget->setChapters(chapters);
+    //m_bookDockWidget->setChapters(chapters);
 }
 
 void SimpleInterface::setBooks(const QHash<int, QString> &books)
@@ -351,7 +351,7 @@ void SimpleInterface::previousChapter()
 }
 bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
 {
-    /*if(obj == ui->textBrowser) {
+    if(obj == ui->textBrowser) {
         if(event->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
             if(keyEvent->key() == Qt::Key_Left || keyEvent->key() == Qt::Key_PageUp) {
@@ -370,8 +370,7 @@ bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
     } else {
         return QWidget::eventFilter(obj, event);
     }
-    return QWidget::eventFilter(obj, event);*/
-    return true;
+    return QWidget::eventFilter(obj, event);
 }
 
 SimpleInterface::~SimpleInterface()
@@ -428,15 +427,15 @@ void SimpleInterface::showSearchDialog()
 }
 void SimpleInterface::search(SearchQuery query)
 {
-    /*m_searchResultDockWidget->show();
+    m_searchResultDockWidget->show();
     Search s;
     setAll(&s);
     SearchResult *res = s.search(query);
-    m_searchResultDockWidget->setSearchResult(*res);*/
+    m_searchResultDockWidget->setSearchResult(*res);
 }
 void SimpleInterface::changeEvent(QEvent *e)
 {
-    /*QWidget::changeEvent(e);
+    QWidget::changeEvent(e);
     switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
@@ -447,5 +446,5 @@ void SimpleInterface::changeEvent(QEvent *e)
         break;
     default:
         break;
-    }*/
+    }
 }
