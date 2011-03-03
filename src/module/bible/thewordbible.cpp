@@ -73,7 +73,7 @@ void TheWordBible::loadBibleData(const int id, const QString &path)
     currentChapter.setChapterID(chapter);
     const int linesToSkip = 31102;//see spec
     bool readingVerse = true;
-    ModuleDisplaySettings *displaySettings = m_settings->getModuleSettings(m_moduleID)->displaySettings();
+    ModuleDisplaySettings *displaySettings = m_settings->getModuleSettings(m_moduleID)->displaySettings().data();
     for(int lineCount = 0; !in.atEnd(); lineCount++) {
         QString line = in.readLine();
         if(lineCount >= linesToSkip || line.isEmpty()) {

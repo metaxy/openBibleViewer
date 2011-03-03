@@ -20,6 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 #include <QtCore/QMap>
 
+
 /**
  * Settings represents the global settings.
  */
@@ -37,7 +38,7 @@ public:
     };
 
     QString encoding;
-    QHash<int, ModuleSettings *> m_moduleSettings;
+    QHash<int, ModuleSettings*> m_moduleSettings;
 
     qreal zoomstep;
     QString version;

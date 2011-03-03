@@ -79,7 +79,7 @@ int ModuleManager::loadAllModules()
                 child->setParent(r);
             }
         }
-        ModuleDisplaySettings *displaySettings = new ModuleDisplaySettings();
+        QSharedPointer<ModuleDisplaySettings> displaySettings = QSharedPointer<ModuleDisplaySettings>(new ModuleDisplaySettings());
         displaySettings->setShowStudyNotes(true);
         displaySettings->setShowStrong(true);
         displaySettings->setShowRefLinks(false);

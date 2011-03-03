@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QVariant>
 #include <QtCore/QStringList>
 #include <QtCore/QSettings>
+#include <QtCore/QSharedPointer>
 #include "src/core/verse/versification.h"
 #include "src/core/verse/versification/versification_kjv.h"
 #include "src/core/verse/versification/versification_cache.h"
@@ -37,8 +38,8 @@ public:
     void setParent(ModuleSettings *parent);
     ModuleSettings *parent() const;
 
-    ModuleDisplaySettings *displaySettings() const;
-    void setDisplaySettings(ModuleDisplaySettings *settings);
+    QSharedPointer<ModuleDisplaySettings> displaySettings() const;
+    void setDisplaySettings(QSharedPointer<ModuleDisplaySettings> settings);
     void removeDisplaySettings();
 
     QList<ModuleSettings *> children() const;
@@ -89,7 +90,7 @@ public:
 
 
 private:
-    ModuleDisplaySettings *m_displaySettings;
+    QSharedPointer<ModuleDisplaySettings> m_displaySettings;
     ModuleSettings *m_parent;
     QList<ModuleSettings *> m_children;
 };
