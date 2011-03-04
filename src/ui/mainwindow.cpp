@@ -116,37 +116,15 @@ void MainWindow::deleteInterface()
         delete m_menuBar;
         //todo: remove the docks
     }
-    /*
-        if(typeid(*m_interface) == typeid(SimpleInterface)) {
-            //myDebug() << "delete simpleInterface";
+    QHash<DockWidget*, Qt::DockWidgetArea> docks = m_interface->docks();
+    QHashIterator<DockWidget*, Qt::DockWidgetArea> it(docks);
+    while(it.hasNext()) {
+        it.next();
+        if(it.key() != NULL) {
+            removeDockWidget(it.key());
+        }
+    }
 
-            if(m_interface->m_moduleDockWidget) {
-                removeDockWidget(m_interface->m_moduleDockWidget);
-            }
-            if(m_interface->m_bookDockWidget) {
-                removeDockWidget(m_interface->m_bookDockWidget);
-            }
-            if(m_interface->m_searchResultDockWidget)
-                removeDockWidget(m_interface->m_searchResultDockWidget);
-
-        } else if(typeid(*m_interface) == typeid(AdvancedInterface)) {
-            //myDebug() << "delete advacedinterface";
-            if(m_interface->m_moduleDockWidget)
-                removeDockWidget(m_interface->m_moduleDockWidget);
-            if(m_interface->m_bookDockWidget)
-                removeDockWidget(m_interface->m_bookDockWidget);
-            if(m_interface->m_advancedSearchResultDockWidget)
-                removeDockWidget(m_interface->m_advancedSearchResultDockWidget);
-
-            if(m_interface->m_notesDockWidget)
-                removeDockWidget(m_interface->m_notesDockWidget);
-            if(m_interface->m_bookmarksDockWidget)
-                removeDockWidget(m_interface->m_bookmarksDockWidget);
-            if(m_interface->m_dictionaryDockWidget)
-                removeDockWidget(m_interface->m_dictionaryDockWidget);
-            if(m_interface->m_quickJumpDockWidget)
-                removeDockWidget(m_interface->m_quickJumpDockWidget);
-        }*/
     //todo: why not?
     /*if(m_interface != 0) {
         delete m_interface;
