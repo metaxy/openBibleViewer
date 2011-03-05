@@ -34,7 +34,7 @@ void AboutDialog::setText(const QString &text)
 }
 void AboutDialog::openLink(const QString &link)
 {
-     QDesktopServices::openUrl(QUrl(link, QUrl::StrictMode));
+    QDesktopServices::openUrl(QUrl(link, QUrl::StrictMode));
 }
 
 void AboutDialog::changeEvent(QEvent *e)

@@ -190,7 +190,7 @@ void BibleForm::setChapters(int bookID, Versification *v11n)
         add = -1;
     }
     for(int i = 1; i <= count; ++i) {
-        chapters << QString::number(i +add);
+        chapters << QString::number(i + add);
     }
     bool same = true;
     if(m_ui->comboBox_chapters->count() == chapters.count()) {

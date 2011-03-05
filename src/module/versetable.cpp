@@ -15,8 +15,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 VerseTable::VerseTable()
 {
     m_currentModule = 0;
-	m_lastTextRanges = NULL;
-	m_lastUrl = NULL;
+    m_lastTextRanges = NULL;
+    m_lastUrl = NULL;
 }
 VerseTable::~VerseTable()
 {

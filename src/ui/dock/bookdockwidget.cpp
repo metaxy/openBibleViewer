@@ -82,7 +82,7 @@ void BookDockWidget::setChapters(int bookID, Versification *v11n)
     if(v11n == NULL)
         return;
     m_chapterModel->clear();
-     const int count = v11n->maxChapter().value(bookID, 0);
+    const int count = v11n->maxChapter().value(bookID, 0);
     int add = 0;
     if(v11n->extendedData.hasChapterZero()) {
         add = -1;

@@ -71,25 +71,25 @@ void SimpleInterface::createDocks()
 
 void SimpleInterface::createToolBars()
 {
-     m_bar = new QToolBar(this->parentWidget());
-     m_bar->setObjectName("mainToolBar");
-     m_bar->setIconSize(QSize(32, 32));
-     m_bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    m_bar = new QToolBar(this->parentWidget());
+    m_bar->setObjectName("mainToolBar");
+    m_bar->setIconSize(QSize(32, 32));
+    m_bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
-     m_actionSearch = new QAction(QIcon::fromTheme("edit-find", QIcon(":/icons/32x32/edit-find.png")), tr("Search"), m_bar);
-     connect(m_actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
-     m_actionZoomIn = new QAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/32x32/zoom-in.png")), tr("Zoom In"), m_bar);
-     connect(m_actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
-     m_actionZoomOut = new QAction(QIcon::fromTheme("zoom-out", QIcon(":/icons/32x32/zoom-out.png")), tr("Zoom Out"), m_bar);
-     connect(m_actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
-     m_actionModule = new QAction(QIcon(":/icons/32x32/module.png"), tr("Module"), m_bar);
-     connect(m_actionModule, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_Module()));
-     m_bar->addAction(m_actionSearch);
-     m_bar->addSeparator();
-     m_bar->addAction(m_actionZoomIn);
-     m_bar->addAction(m_actionZoomOut);
-     m_bar->addSeparator();
-     m_bar->addAction(m_actionModule);
+    m_actionSearch = new QAction(QIcon::fromTheme("edit-find", QIcon(":/icons/32x32/edit-find.png")), tr("Search"), m_bar);
+    connect(m_actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
+    m_actionZoomIn = new QAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/32x32/zoom-in.png")), tr("Zoom In"), m_bar);
+    connect(m_actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
+    m_actionZoomOut = new QAction(QIcon::fromTheme("zoom-out", QIcon(":/icons/32x32/zoom-out.png")), tr("Zoom Out"), m_bar);
+    connect(m_actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
+    m_actionModule = new QAction(QIcon(":/icons/32x32/module.png"), tr("Module"), m_bar);
+    connect(m_actionModule, SIGNAL(triggered()), this->parent(), SLOT(showSettingsDialog_Module()));
+    m_bar->addAction(m_actionSearch);
+    m_bar->addSeparator();
+    m_bar->addAction(m_actionZoomIn);
+    m_bar->addAction(m_actionZoomOut);
+    m_bar->addSeparator();
+    m_bar->addAction(m_actionModule);
 }
 
 void SimpleInterface::createMenu()
@@ -255,15 +255,15 @@ void SimpleInterface::pharseUrl(QString url)
 }
 void SimpleInterface::showText(const QString &text)
 {
-      QString cssFile = m_settings->getModuleSettings(m_moduleManager->verseModule()->moduleID())->styleSheet;
-      if(cssFile.isEmpty())
-          cssFile = ":/data/css/default.css";
+    QString cssFile = m_settings->getModuleSettings(m_moduleManager->verseModule()->moduleID())->styleSheet;
+    if(cssFile.isEmpty())
+        cssFile = ":/data/css/default.css";
 
-      ui->textBrowser->setHtml(text);
-      ui->textBrowser->loadResource(QTextDocument::StyleSheetResource, QUrl(cssFile));
+    ui->textBrowser->setHtml(text);
+    ui->textBrowser->loadResource(QTextDocument::StyleSheetResource, QUrl(cssFile));
 
-      if(m_moduleManager->verseModule()->lastTextRanges()->minVerseID() > 1)
-          ui->textBrowser->scrollToAnchor("currentVerse");
+    if(m_moduleManager->verseModule()->lastTextRanges()->minVerseID() > 1)
+        ui->textBrowser->scrollToAnchor("currentVerse");
 }
 void SimpleInterface::setTitle(const QString &title)
 {
@@ -449,12 +449,12 @@ void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings
 }
 void SimpleInterface::showSearchDialog()
 {
-     SearchDialog *sDialog = new SearchDialog(this);
-     connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
-     if(ui->textBrowser->textCursor().hasSelection() == true) //something is selected
-         sDialog->setText(ui->textBrowser->textCursor().selectedText());
-     sDialog->show();
-     sDialog->exec();
+    SearchDialog *sDialog = new SearchDialog(this);
+    connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
+    if(ui->textBrowser->textCursor().hasSelection() == true) //something is selected
+        sDialog->setText(ui->textBrowser->textCursor().selectedText());
+    sDialog->show();
+    sDialog->exec();
 }
 void SimpleInterface::search(SearchQuery query)
 {
