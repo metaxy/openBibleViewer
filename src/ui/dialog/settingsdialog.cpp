@@ -139,7 +139,7 @@ int SettingsDialog::setSettings(Settings settings)
 }
 void SettingsDialog::generateModuleTree()
 {
-    DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME;
     ModuleModel model(this);
     model.setSettings(&m_set);
     model.generate();
@@ -363,16 +363,7 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
 {
     QString moduleName;
     OBVCore::ModuleType moduleType = OBVCore::NoneType;
-    BibleQuote bq;
-    bq.setSettings(&m_set);
-    ZefaniaBible zef;
-    zef.setSettings(&m_set);
-    ZefaniaLex zefLex;
-    zefLex.setSettings(&m_set);
-    BibleQuoteDict bibleQuoteDict;
-    bibleQuoteDict.setSettings(&m_set);
-    TheWordBible theWordBible;
-    theWordBible.setSettings(&m_set);
+
     ModuleSettings *m = new ModuleSettings();
     m->moduleID = m_set.newModuleID();
 
@@ -393,26 +384,27 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
             return 4;
         }
         if(name.isEmpty()) {
-            switch(moduleType) {
-            case OBVCore::BibleQuoteModule:
+            if(moduleType == OBVCore::BibleQuoteModule) {
+                BibleQuote bq;
+                bq.setSettings(&m_set);
                 m->moduleName = bq.readInfo(f);
-                break;
-            case OBVCore::ZefaniaBibleModule:
+            } else if(moduleType == OBVCore::ZefaniaBibleModule) {
+                ZefaniaBible zef;
+                zef.setSettings(&m_set);
                 m->moduleName = zef.readInfo(f);
-                break;
-            case OBVCore::ZefaniaLexModule:
+            } else if(moduleType ==  OBVCore::ZefaniaLexModule) {
+                ZefaniaLex zefLex;
+                zefLex.setSettings(&m_set);
                 m->moduleName = zefLex.buildIndexFromFile(f);
-                break;
-            case OBVCore::BibleQuoteDictModule:
+            } else if(moduleType == OBVCore::BibleQuoteDictModule) {
+                BibleQuoteDict bibleQuoteDict;
+                bibleQuoteDict.setSettings(&m_set);
                 m->moduleName = bibleQuoteDict.readInfo(f);
                 bibleQuoteDict.buildIndex();
-                break;
-            case OBVCore::TheWordBibleModule:
+            } else if(moduleType == OBVCore::TheWordBibleModule) {
+                TheWordBible theWordBible;
+                theWordBible.setSettings(&m_set);
                 m->moduleName = theWordBible.readInfo(f);
-                break;
-            case OBVCore::NoneType:
-                //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
-                return 1;
             }
         } else {
             m->moduleName = name;
@@ -430,12 +422,12 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
     m->zefbible_hardCache = m_set.zefaniaBible_hardCache;
     m->zefbible_softCache = m_set.zefaniaBible_softCache;
     //m->zefbible_textFormatting = m_set.textFormatting;
-    m->encoding = "Default";//no translating
+    m->encoding = "Default";
     m->parentID = parentID;
 
     m_set.getModuleSettings(m->parentID)->appendChild(m);
-
     m_set.m_moduleSettings.insert(m->moduleID, m);
+
     return 0;
 }
 
