@@ -14,8 +14,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "biblemodule.h"
 BibleModule::BibleModule()
 {
-    m_versification = 0;
+    m_versification = NULL;
 }
+BibleModule::~BibleModule()
+{
+    if(m_versification != NULL) {
+        delete m_versification;
+        m_versification = NULL;
+    }
+}
+
 void BibleModule::setSettings(Settings *settings)
 {
     //DEBUG_FUNC_NAME

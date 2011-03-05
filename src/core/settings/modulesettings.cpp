@@ -35,10 +35,11 @@ ModuleSettings::ModuleSettings(ModuleSettings *parent)
 
 ModuleSettings::~ModuleSettings()
 {
-    if(v11n != NULL) {
+    //todo: maybe use qsharedpointer
+    /*if(v11n != NULL) {
         delete v11n;
         v11n = NULL;
-    }
+    }*/
     if(m_displaySettings) {
         m_displaySettings.clear();
     }

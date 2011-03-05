@@ -35,7 +35,7 @@ class BibleModule
 {
 public:
     BibleModule();
-    virtual ~BibleModule() {}
+    virtual ~BibleModule();
     virtual void setSettings(Settings *settings);
 
     virtual void loadBibleData(const int moduleID, const QString &path);

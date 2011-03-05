@@ -28,14 +28,7 @@ BibleQuote::BibleQuote()
     m_codec = NULL;
     m_versification = NULL;
 }
-BibleQuote::~BibleQuote()
-{
-    if(m_versification != NULL) {
-        delete m_versification;
-        m_versification = NULL;
-    }
 
-}
 void BibleQuote::setSettings(Settings *set)
 {
     m_settings = set;
@@ -228,6 +221,8 @@ int BibleQuote::readBook(const int id)
 {
     m_book.clear();
     m_book.setID(id);
+    if(id >= m_bookPath.size())
+        return 1;
     const QString path = m_modulePath + "/" + m_bookPath.at(id);
     QFile file;
     file.setFileName(path);

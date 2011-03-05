@@ -31,11 +31,7 @@ ZefaniaBible::ZefaniaBible()
     m_moduleName = "";
     m_versification = NULL;
 }
-ZefaniaBible::~ZefaniaBible()
-{
-    DEBUG_FUNC_NAME
-    //delete m_versification;
-}
+
 void ZefaniaBible::loadBibleData(const int id, const QString &path)
 {
     DEBUG_FUNC_NAME

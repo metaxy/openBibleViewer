@@ -39,7 +39,6 @@ class BibleQuote : public BibleModule
 
 public:
     BibleQuote();
-    ~BibleQuote();
     void setSettings(Settings *settings);
     int readBook(const int id);
     void loadBibleData(const int moduleID, const QString &path);

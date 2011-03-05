@@ -25,12 +25,6 @@ TheWordBible::TheWordBible()
 {
     m_versification = new Versification_KJV();
 }
-TheWordBible::~TheWordBible()
-{
-    DEBUG_FUNC_NAME;
-    delete m_versification;
-    m_versification = 0;
-}
 
 void TheWordBible::setSettings(Settings *set)
 {
