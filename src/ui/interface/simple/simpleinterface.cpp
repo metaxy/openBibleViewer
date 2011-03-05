@@ -332,22 +332,53 @@ void SimpleInterface::showChapter(int chapterID, int verseID)
 }
 void SimpleInterface::nextChapter()
 {
-    /* //DEBUG_FUNC_NAME
-     if(m_moduleManager->verseModule()->chapterID() < m_moduleManager->verseModule()->chaptersCount() - 1) {
-         readChapter(m_moduleManager->verseModule()->chapterID() + 1);
-     } else if(m_moduleManager->verseModule()->bookID() < m_moduleManager->verseModule()->booksCount() - 1) {
-         readBook(m_moduleManager->verseModule()->bookID() + 1);
-     }*/
+    if(!m_moduleManager->bibleLoaded())
+        return;
+    if(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() <
+            m_moduleManager->verseModule()->versification()->maxChapter().value(m_moduleManager->verseModule()->lastTextRanges()->minBookID()) - 1) {
+        VerseUrl bibleUrl;
+        VerseUrlRange range;
+        range.setModule(VerseUrlRange::LoadCurrentModule);
+        range.setBook(VerseUrlRange::LoadCurrentBook);
+        range.setChapter(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() + 1);
+        range.setWholeChapter();
+        bibleUrl.addRange(range);
+        m_actions->get(bibleUrl);
+    } else if(m_moduleManager->verseModule()->lastTextRanges()->minBookID() < m_moduleManager->verseModule()->versification()->bookCount() - 1) {
+        VerseUrl bibleUrl;
+        VerseUrlRange range;
+        range.setModule(VerseUrlRange::LoadCurrentModule);
+        range.setBook(m_moduleManager->verseModule()->lastTextRanges()->minBookID() + 1);
+        range.setChapter(VerseUrlRange::LoadFirstChapter);
+        range.setWholeChapter();
+        bibleUrl.addRange(range);
+        m_actions->get(bibleUrl);
+    }
 }
 void SimpleInterface::previousChapter()
 {
-    //DEBUG_FUNC_NAME
-    /* if(m_moduleManager->verseModule()->chapterID() > 0) {
-         readChapter(m_moduleManager->verseModule()->chapterID() - 1);
-     } else if(m_moduleManager->verseModule()->bookID() > 0) {
-         readBook(m_moduleManager->verseModule()->bookID() - 1);
-         readChapter(m_moduleManager->verseModule()->chaptersCount() - 1);
-     }*/
+    //see also BibleManager
+    if(!m_moduleManager->bibleLoaded())
+        return;
+    if(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() > 0) {
+        VerseUrl bibleUrl;
+        VerseUrlRange range;
+        range.setModule(VerseUrlRange::LoadCurrentModule);
+        range.setBook(VerseUrlRange::LoadCurrentBook);
+        range.setChapter(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() - 1);
+        range.setWholeChapter();
+        bibleUrl.addRange(range);
+        m_actions->get(bibleUrl);
+    } else if(m_moduleManager->verseModule()->lastTextRanges()->minBookID() > 0) {
+        VerseUrl bibleUrl;
+        VerseUrlRange range;
+        range.setModule(VerseUrlRange::LoadCurrentModule);
+        range.setBook(m_moduleManager->verseModule()->lastTextRanges()->minBookID() - 1);
+        range.setChapter(VerseUrlRange::LoadLastChapter);
+        range.setWholeChapter();
+        bibleUrl.addRange(range);
+        m_actions->get(bibleUrl);
+    }
 }
 bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
 {
@@ -418,12 +449,12 @@ void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings
 }
 void SimpleInterface::showSearchDialog()
 {
-    /* SearchDialog *sDialog = new SearchDialog(this);
+     SearchDialog *sDialog = new SearchDialog(this);
      connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
      if(ui->textBrowser->textCursor().hasSelection() == true) //something is selected
          sDialog->setText(ui->textBrowser->textCursor().selectedText());
      sDialog->show();
-     sDialog->exec();*/
+     sDialog->exec();
 }
 void SimpleInterface::search(SearchQuery query)
 {

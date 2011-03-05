@@ -23,7 +23,6 @@ BookDockWidget::BookDockWidget(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->listView_books, SIGNAL(activated(QModelIndex)), this, SLOT(readBook(QModelIndex)));
 
-
     m_bookModel = new QStandardItemModel(this);
     m_chapterModel = new QStandardItemModel(this);
 
@@ -83,12 +82,15 @@ void BookDockWidget::setChapters(int bookID, Versification *v11n)
     if(v11n == NULL)
         return;
     m_chapterModel->clear();
-    //todo: implement bibleQuotes chapter zero
-    const int count = v11n->maxChapter().value(bookID, 0);
-    //myDebug() << "count = " << count;
+     const int count = v11n->maxChapter().value(bookID, 0);
+    int add = 0;
+    if(v11n->extendedData.hasChapterZero()) {
+        add = -1;
+    }
+
     for(int i = 1; i <= count; ++i) {
         QStandardItem *top = new QStandardItem;
-        top->setText(QString::number(i));
+        top->setText(QString::number(i + add));
 
         top->setData(i - 1, Qt::UserRole + 1);
         m_chapterModel->appendRow(top);

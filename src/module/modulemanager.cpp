@@ -134,13 +134,13 @@ int ModuleManager::loadAllModules()
 void ModuleManager::makeSureItHasLoaded(ModuleSettings *settings)
 {
     if(settings->useParentSettings) {
-                const int parentID = settings->parentID;
-                if(m_settings->m_moduleSettings.contains(parentID)) {
-                        settings->removeDisplaySettings();
-                        ModuleSettings *r = m_settings->m_moduleSettings.value(parentID);
-                        makeSureItHasLoaded(settings);
-                        settings->setDisplaySettings(r->displaySettings());
-                }
+        const int parentID = settings->parentID;
+        if(m_settings->m_moduleSettings.contains(parentID)) {
+            settings->removeDisplaySettings();
+            ModuleSettings *r = m_settings->m_moduleSettings.value(parentID);
+            makeSureItHasLoaded(r);
+            settings->setDisplaySettings(r->displaySettings());
+        }
     }
 }
 void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)

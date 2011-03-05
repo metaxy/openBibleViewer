@@ -120,6 +120,7 @@ set ( openBibleViewer_HDRS
     src/core/verse/textranges.h
     src/core/verse/verse.h
     src/core/verse/versification.h
+    src/core/verse/versificationextendeddata.h
     src/core/verse/versification/versification_kjv.h
     src/core/verse/versification/versification_biblequote.h
     src/core/verse/versification/bookv11n.h
@@ -197,6 +198,7 @@ set ( openBibleViewer_SRCS
     src/core/verse/textranges.cpp
     src/core/verse/verse.cpp
     src/core/verse/versification.cpp
+    src/core/verse/versificationextendeddata.cpp
     src/core/verse/versification/versification_kjv.cpp
     src/core/verse/versification/versification_zefania.cpp
     src/core/verse/versification/versification_biblequote.cpp

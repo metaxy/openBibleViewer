@@ -32,7 +32,6 @@ MainWindow::~MainWindow()
     QHashIterator<int, ModuleSettings*> it(m_settings->m_moduleSettings);
     while(it.hasNext()) {
         it.next();
-        myDebug() << "key = " << it.key();
         if(it.value() != NULL)
             delete it.value();
     }
@@ -369,7 +368,6 @@ void MainWindow::writeSettings()
             m_settingsFile->remove("showMarks");
             m_settingsFile->remove("showBottomToolBar");
         }
-
     }
 
     m_settingsFile->endArray();

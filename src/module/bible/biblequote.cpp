@@ -150,6 +150,7 @@ void BibleQuote::loadBibleData(const int bibleID, const QString &path)
         settings->versificationName = "";
         settings->versificationFile = m_settings->v11nFile(path);
     }
+    settings->v11n->extendedData.setHasChapterZeor(m_chapterZero);
     m_versification = settings->v11n;
 }
 /**
@@ -157,7 +158,6 @@ void BibleQuote::loadBibleData(const int bibleID, const QString &path)
   */
 QString BibleQuote::readInfo(QFile &file)
 {
-    //todo: do not use every time getModuleSettings
     bool useShortName = false;
     m_moduleName.clear();
     m_moduleShortName.clear();
