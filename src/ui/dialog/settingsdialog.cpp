@@ -63,7 +63,7 @@ int SettingsDialog::setSettings(Settings settings)
     m_backupSet = settings;
     m_encodings.clear();
     m_langCode.clear();
-    //Allgemeine
+    //General
     ////Encoding
     m_encodings << "Apple Roman" << "Big5" << "Big5-HKSCS" << "EUC-JP" << "EUC-KR" << "GB18030-0" << "IBM 850"
                 << "IBM 866" << "IBM 874" << "ISO 2022-JP" << "ISO 8859-1" << "ISO 8859-2" << "ISO 8859-3" << "ISO 8859-4"
@@ -95,8 +95,8 @@ int SettingsDialog::setSettings(Settings settings)
     code = m_langCode.lastIndexOf(m_set.language);
     if(code == -1) {
         QString lang = m_set.language;
-        const QString onlyLang = lang.remove(lang.lastIndexOf("_"), lang.size());
-        code = m_langCode.lastIndexOf(onlyLang);
+        lang.remove(lang.lastIndexOf("_"), lang.size());
+        code = m_langCode.lastIndexOf(lang);
     }
     //myDebug() << "code = " << code;
     if(code != -1) {
@@ -177,6 +177,7 @@ void SettingsDialog::addModuleDir(void)
         if(fileName.size() > 0) {
             QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size());
             progress.setWindowModality(Qt::WindowModal);
+            progress.show();
             for(int i = 0; i < fileName.size(); i++) {
                 progress.setValue(i);
                 if(progress.wasCanceled())
@@ -349,10 +350,11 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names, int par
                 return;
             }
             const QString f = fileName.at(i);
-            if(i < names.size())
+            if(i < names.size()) {
                 quiteAddModule(f, parentID, names.at(i));
-            else
+            } else {
                 quiteAddModule(f, parentID);
+            }
 
         }
         generateModuleTree();
@@ -392,7 +394,7 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
                 ZefaniaBible zef;
                 zef.setSettings(&m_set);
                 m->moduleName = zef.readInfo(f);
-            } else if(moduleType ==  OBVCore::ZefaniaLexModule) {
+            } else if(moduleType == OBVCore::ZefaniaLexModule) {
                 ZefaniaLex zefLex;
                 zefLex.setSettings(&m_set);
                 m->moduleName = zefLex.buildIndexFromFile(f);

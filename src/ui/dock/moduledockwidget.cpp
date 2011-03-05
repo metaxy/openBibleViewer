@@ -51,12 +51,12 @@ void ModuleDockWidget::init()
   */
 void ModuleDockWidget::loadModuleData(QModelIndex index)
 {
-    const QString data = index.data(Qt::UserRole + 1).toString();
-    if(data.toInt() >= 0 && m_dontLoad == false) {
-        m_moduleID = data.toInt();
+    const int moduleID = index.data(Qt::UserRole + 1).toString().toInt();
+    if(moduleID >= 0 && m_settings->getModuleSettings(moduleID)->moduleType != OBVCore::FolderModule && m_dontLoad == false) {
+        m_moduleID = moduleID;
         VerseUrl url;
         VerseUrlRange range;
-        range.setModule(m_moduleID);
+        range.setModule(moduleID);
         range.setBook(VerseUrlRange::LoadFirstBook);
         range.setChapter(VerseUrlRange::LoadFirstChapter);
         range.setWholeChapter();
