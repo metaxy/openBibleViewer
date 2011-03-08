@@ -131,12 +131,12 @@ bool VerseUrl::fromString(QString url)
 {
     m_ranges.clear();
 
-    //bible://bibleID,bookID,chapterID,verseID,otherStuf=otherValue
+    //verse:/moduleID,bookID,chapterID,verseID-verseID,otherStuf=otherValue
     if(!url.startsWith("verse:/")) {
         m_isValid = false;
         return false;
     }
-    url.remove(0, 7); // remove verse://
+    url.remove(0, 7); // remove verse:/
     QStringList urls = url.split("|");
     foreach(const QString nUrl, urls) {
         VerseUrlRange range;

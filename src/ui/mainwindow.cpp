@@ -482,17 +482,6 @@ void MainWindow::changeEvent(QEvent *e)
                 m_menuBar = m_interface->menuBar();
                 setMenuBar(m_menuBar);
             }
-            /*if(m_interface->hasToolBar()) {
-                foreach(QToolBar * bar, m_toolBarList) {
-                    myDebug() << bar;
-                    removeToolBar(bar);
-                    myDebug() << "ok";
-                }
-                foreach(QToolBar * bar, m_interface->toolBars()) {
-                    addToolBar(bar);
-                }
-            }*/
-            //todo: ugly but it fix the flickering when opening a file dialog
             m_reloadLang = false;
         }
         break;

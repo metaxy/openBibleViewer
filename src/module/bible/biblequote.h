@@ -56,8 +56,6 @@ public:
     TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse);
     std::pair<int, int> minMaxVerse(int bookID, int chapterID);
 
-
-
     QStringList m_bookPath;
 
 private:

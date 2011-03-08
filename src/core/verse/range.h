@@ -26,7 +26,6 @@ public:
     void setBook(const int bookID);
     void setBook(RangeEnum::BookRange book);
 
-
     void setChapter(const int chapterID);
     void setChapter(RangeEnum::ChapterRange chapter);
 

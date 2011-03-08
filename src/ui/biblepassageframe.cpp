@@ -41,7 +41,7 @@ void BiblePassageFrame::init()
     ui->treeView->setModel(m_proxyModel);
 }
 
-void BiblePassageFrame::addVerse(const int bookID, const int chapterID, const int verseID)
+void BiblePassageFrame::addBox_BCV(const int bookID, const int chapterID, const int verseID)
 {
     QComboBox *books = new QComboBox(this);
     books->setObjectName("books_" + QString::number(m_count));
@@ -62,7 +62,7 @@ void BiblePassageFrame::addVerse(const int bookID, const int chapterID, const in
     m_count++;
 
 }
-void BiblePassageFrame::addMVerse(const int bookID, const int chapterID, const int startVerseID, const int endVerseID)
+void BiblePassageFrame::addBox_BCVV(const int bookID, const int chapterID, const int startVerseID, const int endVerseID)
 {
     QComboBox *books = new QComboBox(this);
     books->setObjectName("books_" + QString::number(m_count));
@@ -76,6 +76,7 @@ void BiblePassageFrame::addMVerse(const int bookID, const int chapterID, const i
     books->insertItems(0, m_bookNames);
     books->setCurrentIndex(bookID);
     chapter->setValue(chapterID + 1);
+
     startVerse->setValue(startVerseID + 1);
     endVerse->setValue(endVerseID + 1);
 
@@ -87,8 +88,12 @@ void BiblePassageFrame::addMVerse(const int bookID, const int chapterID, const i
     layout->addWidget(endVerse);
     ui->verticalLayout->addLayout(layout);
     m_count++;
+}
+void BiblePassageFrame::addBox_BC(const int bookID, const int chapterID)
+{
 
 }
+
 VerseUrl BiblePassageFrame::toVerseUrl()
 {
     DEBUG_FUNC_NAME
