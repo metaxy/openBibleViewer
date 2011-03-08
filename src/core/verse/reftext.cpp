@@ -46,7 +46,9 @@ QString RefText::toString(const VerseUrl &url)
     }
     if(!url.ranges().isEmpty()) {
         const VerseUrlRange r = url.ranges().first();
-        ret += " (" + m_settings->getModuleSettings(r.moduleID())->name(true) + ")";
+        if(r.module() == VerseUrlRange::LoadModuleByID)
+            ret += " (" + m_settings->getModuleSettings(r.moduleID())->name(true) + ")";
+        //todo: load by uid
     }
     return ret;
 }
@@ -62,7 +64,8 @@ QString RefText::toString(const Ranges &ranges)
     }
     if(!ranges.getList().isEmpty()) {
         const Range r = ranges.getList().first();
-        ret += " (" + m_settings->getModuleSettings(r.moduleID())->name(true) + ")";
+        if(r.moduleID() != -1)
+            ret += " (" + m_settings->getModuleSettings(r.moduleID())->name(true) + ")";
     }
     return ret;
 }
@@ -74,7 +77,13 @@ QString RefText::toString(int moduleID, int bookID, int chapterID, int startVers
 {
     QString ret;
     if(bookID != prevBook) {
-        ret += m_settings->getModuleSettings(moduleID)->getV11n()->bookName(bookID, true) + sep_book_chaper +
+        Versification *v11n;
+        if(moduleID == -1) {
+            v11n = m_settings->defaultVersification;
+        } else {
+            v11n = m_settings->getModuleSettings(moduleID)->getV11n();
+        }
+        ret += v11n->bookName(bookID, true) + sep_book_chaper +
                QString::number(chapterID + 1);
     } else {
         ret += sep_same_book + QString::number(chapterID + 1);

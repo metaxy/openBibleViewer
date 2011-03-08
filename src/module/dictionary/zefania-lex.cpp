@@ -228,7 +228,7 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                         if(descNode.nodeType() == 2) {
                             desc += descNode.toText().data();
                         } else if(descNode.nodeType() == 1) {
-                            KoXmlElement descElement  = descNode.toElement();
+                            KoXmlElement descElement = descNode.toElement();
                             if(descElement.tagName().compare("reflink", Qt::CaseInsensitive) == 0) {
                                 const QString mscope = descElement.attribute("mscope", ";;;");
                                 const QStringList list = mscope.split(";");
@@ -247,9 +247,24 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                                 burl.addRange(range);
                                 const QString url = burl.toString();
 
-                                desc += " <a href=\"" + url + "\">" + refText.toString(burl) + "</a> ";
+                                VerseUrlRange range2;
+                                range2.setModule(VerseUrlRange::LoadCurrentModule);
+                                range2.setBook(bookID);
+                                range2.setChapter(chapterID);
+                                range2.setStartVerse(verseID);
+                                range2.setEndVerse(verseID);
+                                VerseUrl rUrl(range2);
+
+                                desc += " <a href=\"" + url + "\">" + refText.toString(rUrl) + "</a> ";
+                            } else if(descElement.tagName().compare("see", Qt::CaseInsensitive) == 0) {
+                                const QString target = descElement.attribute("target", "");
+                                //todo: currently we assume target = x-self
+                                StrongUrl url;
+                                url.fromText(descElement.text());
+                                desc += " <a href=\""+url.toString()+"\">" + descElement.text() + "</a> ";
                             }
                         }
+
                         descNode = descNode.nextSibling();
                     }
                     desc += "<hr />";
