@@ -48,7 +48,11 @@ td.rowTitle {
     width:5em;
 }
 .selectedEntry {
-    font-weight:bold;
+    border: 1px solid #17AAFF;
+    padding-left:2px;
+    padding-top:2px;
+    padding-bottom:2px;
+    background-color: #D9ECFF;
 }
 
 .gramlink {

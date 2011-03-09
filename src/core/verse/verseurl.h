@@ -37,6 +37,8 @@ public:
     bool contains(int moduleID, int bookID, int chapterID, int verseID) const;
     bool contains(int moduleID, int bookID, int chapterID) const;
     bool isValid() const;
+
+    void setOpenToTransformation(bool open);
 private:
     QHash<QString, QString> m_params;
     QList<VerseUrlRange> m_ranges;

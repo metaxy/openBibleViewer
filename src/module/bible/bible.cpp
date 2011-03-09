@@ -278,18 +278,6 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             }
         }
 
-
-        if(range.selectedVerse().contains(it.key())) {
-            if(!currentVerse) {
-                currentVerse = true;//todo: currently the first selected entry is the current entry
-                //change this to provide maybe more future features
-                verse.prepend("<span id = \"currentEntry\" class = \"selectedEntry\"> ");
-            } else {
-                verse.prepend("<span class = \"selectedEntry\">");
-            }
-            verse.append("</span>");
-        }
-
         if(moduleType() == OBVCore::TheWordBibleModule || moduleType() == OBVCore::ZefaniaBibleModule) {
             QString prepend;
             QString append;
@@ -304,6 +292,19 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             verse.append(append);
         } else if(moduleType() == OBVCore::BibleQuoteModule) {
         }
+
+        if(range.selectedVerse().contains(it.key())) {
+            if(!currentVerse) {
+                currentVerse = true;//todo: currently the first selected entry is the current entry
+                //change this to provide maybe more future features
+                verse.prepend("<div id = \"currentEntry\" class = \"selectedEntry\"> ");
+            } else {
+                verse.prepend("div class = \"selectedEntry\">");
+            }
+            verse.append("</div>");
+        }
+
+
         //replace
         it.setValue(verse);
     }

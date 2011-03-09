@@ -250,3 +250,12 @@ bool VerseUrl::isValid() const
 {
     return m_isValid && !m_ranges.isEmpty();
 }
+void VerseUrl::setOpenToTransformation(bool open)
+{
+    QMutableListIterator<VerseUrlRange> i(m_ranges);
+    while (i.hasNext()) {
+        VerseUrlRange r = i.next();
+        r.setOpenToTransformation(open);
+        i.setValue(r);
+    }
+}

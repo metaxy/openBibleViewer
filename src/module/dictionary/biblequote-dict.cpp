@@ -145,7 +145,7 @@ int BibleQuoteDict::buildIndex()
         id = configIn.readLine();
         num = configIn.readLine().toLong();
         const QString data = htmlIn.read(num - n - 1);
-        if(key.isEmpty() && data.isEmpty())
+        if(key.isEmpty() || data.isEmpty())
             continue;
 
         indexdoc.clear();

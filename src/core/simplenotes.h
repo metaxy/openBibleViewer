@@ -107,6 +107,8 @@ private slots:
     void newFolder();
     void updateTitle();
 
+    void open(const QString &link);
+
 private:
     QLineEdit *m_lineEdit_title;
     QTextBrowser *m_textEdit_note;
@@ -127,9 +129,9 @@ private:
     void setRef(QMap<QString, QString> ref);
     void aktNote();
     void select(const QString &noteID);
-    bool loadTextBrowser;
+    bool m_loadTextBrowser;
     void create(const QString &id, QStandardItem *parentItem);
-    QIcon folderIcon;
+    QIcon m_folderIcon;
     QStringList m_idC;
     QPoint m_point;
 

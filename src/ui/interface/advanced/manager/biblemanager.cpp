@@ -90,25 +90,32 @@ Ranges BibleManager::bibleUrlRangeToRanges(VerseUrlRange range)
         r.setChapter(range.chapterID());
     }
 
-    if(range.startVerse() == VerseUrlRange::LoadFirstVerse) {
+    if(range.openToTransformation()) {
         r.setStartVerse(RangeEnum::FirstVerse);
-    } /*else if(range.startVerse() == BibleUrlRange::LoadCurrentVerse) {
-        r.setStartVerse(m_moduleManager->bible()->verseID());
-    } */else if(range.startVerse() == VerseUrlRange::LoadLastVerse) {
-        r.setStartVerse(RangeEnum::LastVerse);
+        r.setEndVerse(RangeEnum::LastVerse);
+        r.setSelectedVerse(range.startVerseID());
     } else {
-        r.setStartVerse(range.startVerseID());
+        if(range.startVerse() == VerseUrlRange::LoadFirstVerse) {
+            r.setStartVerse(RangeEnum::FirstVerse);
+        } /*else if(range.startVerse() == BibleUrlRange::LoadCurrentVerse) {
+            r.setStartVerse(m_moduleManager->bible()->verseID());
+        } */else if(range.startVerse() == VerseUrlRange::LoadLastVerse) {
+            r.setStartVerse(RangeEnum::LastVerse);
+        } else {
+            r.setStartVerse(range.startVerseID());
+        }
+
+        if(range.endVerse() == VerseUrlRange::LoadFirstVerse) {
+            r.setEndVerse(RangeEnum::FirstVerse);
+        } /*else if(range.endVerse() == BibleUrlRange::LoadCurrentVerse) {
+            r.setEndVerse(m_moduleManager->bible()->verseID());
+        } */else if(range.endVerse() == VerseUrlRange::LoadLastVerse) {
+            r.setEndVerse(RangeEnum::LastVerse);
+        } else {
+            r.setEndVerse(range.endVerseID());
+        }
     }
 
-    if(range.endVerse() == VerseUrlRange::LoadFirstVerse) {
-        r.setEndVerse(RangeEnum::FirstVerse);
-    } /*else if(range.endVerse() == BibleUrlRange::LoadCurrentVerse) {
-        r.setEndVerse(m_moduleManager->bible()->verseID());
-    } */else if(range.endVerse() == VerseUrlRange::LoadLastVerse) {
-        r.setEndVerse(RangeEnum::LastVerse);
-    } else {
-        r.setEndVerse(range.endVerseID());
-    }
     /* if(range.activeVerse() == BibleUrlRange::LoadFirstVerse) {
          //r.setEndVerse(RangeEnum::FirstVerse);
      } else if(range.activeVerse() == BibleUrlRange::LoadCurrentVerse) {

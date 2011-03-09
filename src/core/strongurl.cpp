@@ -47,7 +47,7 @@ bool StrongUrl::fromString(QString strong)
     //exp:
     //strong:/G1
     //strong:/H10
-    //strong:/H10,20
+    //strong:/H10 20
     m_numbers.clear();
     if(!strong.startsWith(scheme_strong))
         return false;

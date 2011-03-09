@@ -28,6 +28,7 @@ VerseUrlRange::VerseUrlRange()
     m_endVerseParam = LoadVerseNotSet;
     m_activeVerseID = -1;
     m_activeVerseParam = LoadVerseNotSet;
+    m_openToTranformation = false;
 }
 
 void VerseUrlRange::setModule(const int bibleID)
@@ -197,4 +198,12 @@ bool VerseUrlRange::containsVerse(const int verseID) const
         ok = ok && verseID <= m_endVerseID;
     }
     return ok;
+}
+bool VerseUrlRange::openToTransformation()
+{
+    return m_openToTranformation;
+}
+void VerseUrlRange::setOpenToTransformation(bool open)
+{
+    m_openToTranformation = open;
 }

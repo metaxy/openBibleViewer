@@ -99,6 +99,9 @@ public:
     bool containsChapter(const int chapterID) const;
     bool containsVerse(const int verseID) const;
 
+    bool openToTransformation();
+    void setOpenToTransformation(bool open);
+
 private:
     int m_moduleID;
     ModuleLoadParams m_moduleParam;
@@ -118,6 +121,8 @@ private:
 
     int m_activeVerseID;
     VerseLoadParams m_activeVerseParam;
+
+    bool m_openToTranformation;
 
 };
 

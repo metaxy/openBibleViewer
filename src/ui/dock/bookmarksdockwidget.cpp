@@ -69,11 +69,8 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
     range.setModule(selection.moduleID);
     range.setBook(selection.bookID);
     range.setChapter(selection.startChapterID);
-    range.setWholeChapter();
-    //todo: use in future the last textrange
-    //save this
-    //so a bookmark will open the ranges
-    range.setActiveVerse(selection.startVerse);
+    range.setStartVerse(selection.startVerse);
+    range.setEndVerse(selection.endVerse);
     VerseUrl url(range);
 
     UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
@@ -215,6 +212,7 @@ int BookmarksDockWidget::internalOpenPos(const QString &pos)
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
     VerseUrl newUrl = urlConverter.convert();
+    newUrl.setOpenToTransformation(true);
 
     m_actions->get(newUrl);
     return 0;

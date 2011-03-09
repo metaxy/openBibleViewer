@@ -21,12 +21,12 @@ SimpleNotes::SimpleNotes()
 void SimpleNotes::setDataWidget(QTextBrowser *data)
 {
     m_textEdit_note = data;
-    loadTextBrowser = true;
+    m_loadTextBrowser = true;
 }
 void SimpleNotes::setFrameWidget(QWebFrame *frame)
 {
     m_frame = frame;
-    loadTextBrowser = false;
+    m_loadTextBrowser = false;
 }
 void SimpleNotes::setTitleWidget(QLineEdit *title)
 {
@@ -61,7 +61,7 @@ void SimpleNotes::create(const QString &id, QStandardItem *parentItem)
                 create(i, noteItem);
             } else if(m_notes->getType(i) == "folder") {
                 QStandardItem *folderItem = new QStandardItem;
-                folderItem->setIcon(folderIcon);
+                folderItem->setIcon(m_folderIcon);
                 folderItem->setText(m_notes->getTitle(i));
                 folderItem->setData(i);
                 parentItem->appendRow(folderItem);
@@ -77,14 +77,14 @@ void SimpleNotes::init()
     m_itemModel = new QStandardItemModel(m_treeView);
     connect(m_treeView, SIGNAL(activated(QModelIndex)), this, SLOT(showNote(QModelIndex)));
     connect(m_treeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(notesContextMenu(QPoint)));
-    if(loadTextBrowser) {
+    if(m_loadTextBrowser) {
         connect(m_textEdit_note, SIGNAL(undoAvailable(bool)), this, SLOT(fastSave()));
         connect(m_textEdit_note, SIGNAL(redoAvailable(bool)), this, SLOT(fastSave()));
     }
 
 
     connect(m_pushButton_link, SIGNAL(clicked()), this, SLOT(editNoteLink()));
-    connect(m_label_link, SIGNAL(linkActivated(QString)), m_actions, SLOT(get(QString)));
+    connect(m_label_link, SIGNAL(linkActivated(QString)), this, SLOT(open(QString)));
 
     if(!m_notes->isLoaded()) {
         m_notes->init(m_settings->homePath + "notes.xml");
@@ -104,8 +104,8 @@ void SimpleNotes::init()
 
     QStyle *style = QApplication::style();
 
-    folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
-    folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
+    m_folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
+    m_folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
     m_idC = m_notes->getIDList();
     create("-1", 0);
 
@@ -146,7 +146,7 @@ void SimpleNotes::setTitle(QString title)
 }
 void SimpleNotes::setData(QString data)
 {
-    if(loadTextBrowser)
+    if(m_loadTextBrowser)
         m_textEdit_note->setHtml(data);
     else
         m_frame->setHtml(data);
@@ -274,7 +274,7 @@ void SimpleNotes::fastSave(void)
     disconnect(m_notes, SIGNAL(dataChanged(QString, QString)), this, SLOT(changeData(QString, QString)));
     disconnect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
 
-    if(loadTextBrowser)
+    if(m_loadTextBrowser)
         m_notes->setData(m_noteID, m_textEdit_note->toHtml());
     else
         m_notes->setData(m_noteID, m_frame->toHtml());
@@ -608,4 +608,17 @@ void SimpleNotes::removeNote(const QString &id)
     }
     const QModelIndex index = list.at(0);
     m_itemModel->removeRow(index.row(), index.parent());
+}
+void SimpleNotes::open(const QString &link)
+{
+    VerseUrl url;
+    url.fromString(link);
+
+    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
+    urlConverter.setSettings(m_settings);
+    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+    VerseUrl newUrl = urlConverter.convert();
+    newUrl.setOpenToTransformation(true);
+
+    m_actions->get(newUrl);
 }
