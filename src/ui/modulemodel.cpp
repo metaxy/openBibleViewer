@@ -73,6 +73,13 @@ void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings
         }
         parentItem->appendRow(item);
     } else if(settings->moduleType == OBVCore::ZefaniaLexModule || settings->moduleType == OBVCore::BibleQuoteDictModule) {
+        if(m_showALl) {
+                item = new QStandardItem;
+                item->setText(settings->moduleName);
+                item->setData(QString::number(settings->moduleID));
+                item->setIcon(m_bibleZefaniaIcon);
+                parentItem->appendRow(item);
+        }
     } else if(settings->moduleType == OBVCore::FolderModule) {
         item = new QStandardItem;
         item->setText(settings->moduleName);
@@ -86,4 +93,8 @@ void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings
         loadModule(item, s);
     }
 
+}
+void ModuleModel::setShowAll(bool showAll)
+{
+    m_showALl = showAll;
 }

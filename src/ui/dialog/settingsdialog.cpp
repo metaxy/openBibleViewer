@@ -142,6 +142,7 @@ void SettingsDialog::generateModuleTree()
     DEBUG_FUNC_NAME;
     ModuleModel model(this);
     model.setSettings(&m_set);
+    model.setShowAll(true);
     model.generate();
     m_ui->treeView->setModel(model.itemModel());
     m_ui->treeView->model()->setHeaderData(0, Qt::Horizontal, tr("Module"));
@@ -336,7 +337,7 @@ void SettingsDialog::downloadModule()
 }
 void SettingsDialog::addModules(QStringList fileName, QStringList names, int parentID)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if(!fileName.isEmpty()) {
         QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size() + 2);
         progress.setWindowModality(Qt::WindowModal);

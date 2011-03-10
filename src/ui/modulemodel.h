@@ -32,6 +32,7 @@ public:
     void generate();
 
     QStandardItemModel* itemModel() const;
+    void setShowAll(bool showAll);
 private:
     QStandardItemModel *m_moduleModel;
     Settings *m_settings;
@@ -40,6 +41,7 @@ private:
     QIcon m_bibleQuoteIcon;
     QIcon m_folderIcon;
     QIcon m_bibleZefaniaIcon;
+    bool m_showALl;
 };
 
 #endif // MODULEMODEL_H
