@@ -34,6 +34,7 @@ public:
     void createDocks();
     QHash<DockWidget *, Qt::DockWidgetArea> docks();
     AdvancedSearchResultDockWidget *advancedSearchResultDockWidget();
+    void init();
 signals:
 
 public slots:
@@ -43,11 +44,12 @@ public slots:
     void showSearchDialog();
     void nextVerse();
     void previousVerse();
-    void searchInText(SearchQuery query);
+    void searchInText();
 private:
     QWidget *m_p;
     WindowManager *m_windowManager;
     AdvancedSearchResultDockWidget *m_advancedSearchResultDockWidget;
+    void searchInText(SearchResult *res);
 };
 
 #endif // SEARCHMANAGER_H

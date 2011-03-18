@@ -131,3 +131,13 @@ void Actions::newSubWindowIfEmpty()
 {
     emit _newSubWindowIfEmpty();
 }
+void Actions::searchInText(SearchResult *result)
+{
+    DEBUG_FUNC_NAME;
+    emit _searchInText(result);
+}
+void Actions::searchInText()
+{
+    DEBUG_FUNC_NAME;
+    emit _searchInText();
+}

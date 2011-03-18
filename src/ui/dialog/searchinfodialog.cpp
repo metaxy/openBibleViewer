@@ -31,13 +31,13 @@ SearchInfoDialog::~SearchInfoDialog()
 {
     delete m_ui;
 }
-void SearchInfoDialog::setInfo(SearchResult result, Versification *v11n, QString searchText, QStringList textList)
+void SearchInfoDialog::setInfo(SearchResult *result, Versification *v11n, QString searchText, QStringList textList)
 {
-    int size = result.hits().size();
+    int size = result->hits().size();
     m_ui->label_searchText->setText(tr("Search string : '%1'").arg(searchText));
     m_ui->label_foundItems->setText(tr("Found verses : %1").arg(QString::number(size)));
     QMap<int, int> booksMap;
-    QList<SearchHit> hitList = result.hits(SearchHit::BibleHit);
+    QList<SearchHit> hitList = result->hits(SearchHit::BibleHit);
     foreach(const SearchHit & hit, hitList) {
         booksMap[hit.value(SearchHit::BookID).toInt()]++;
     }

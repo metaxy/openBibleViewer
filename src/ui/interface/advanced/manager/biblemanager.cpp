@@ -142,6 +142,9 @@ void BibleManager::pharseUrl(const VerseUrl &url)
         ranges.addRanges(bibleUrlRangeToRanges(range));
     }
     showRanges(ranges, url);
+    if(url.hasParam("searchInCurrentText")) {
+        m_actions->searchInText();
+    }
 }
 
 void BibleManager::pharseUrl(const QString &url)
@@ -162,6 +165,9 @@ void BibleManager::pharseUrl(const QString &url)
             ranges.addRanges(bibleUrlRangeToRanges(range));
         }
         showRanges(ranges, bibleUrl);
+        if(bibleUrl.hasParam("searchInCurrentText")) {
+            m_actions->searchInText();
+        }
     } else if(url.startsWith(bq)) {
         //its a biblequote internal link, but i dont have the specifications!!!
         QStringList internal = url.split(" ");

@@ -34,7 +34,9 @@ public:
     /**
       * Set the SearchResults. E.g from the SearchManager.
       */
-    void setSearchResult(SearchResult searchResult);
+    void setSearchResult(SearchResult *searchResult);
+
+    SearchResult *currentResult();
 public slots:
     /**
       * Activates the next search result.
@@ -55,7 +57,7 @@ protected:
 
 private:
     Ui::AdvancedSearchResultDockWidget *ui;
-    SearchResult m_searchResult;
+    SearchResult *m_searchResult;
     QSortFilterProxyModel *m_proxyModel;
     QItemSelectionModel *m_selectionModel;
     QStandardItemModel *m_itemModel;

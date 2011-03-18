@@ -20,7 +20,6 @@ BiblePassageFrame::BiblePassageFrame(QWidget *parent) :
 {
     ui->setupUi(this);
     m_count = 0;
-    connect(ui->pushButton_add, SIGNAL(clicked()), this, SLOT(addVerse()));
 }
 
 BiblePassageFrame::~BiblePassageFrame()
@@ -113,6 +112,18 @@ void BiblePassageFrame::addBox_BC(const int bookID, const int chapterID)
     ui->verticalLayout->addLayout(layout);
     m_count++;
 }
+void BiblePassageFrame::changeTypeTo_BC()
+{
+}
+void BiblePassageFrame::changeTypeTo_BCV()
+{
+
+}
+void BiblePassageFrame::changeTypeTo_BCVV()
+{
+
+}
+
 QToolButton *BiblePassageFrame::newButton(const int id)
 {
     QToolButton *button = new QToolButton(this);
@@ -120,10 +131,30 @@ QToolButton *BiblePassageFrame::newButton(const int id)
     button->setPopupMode(QToolButton::InstantPopup);
 
     QMenu *menu = new QMenu(this);
-    QAction *actionDelete = new QAction(QIcon::fromTheme("help-about", QIcon(":/icons/16x16/help-about.png")), tr("Delete"), menu);
+    QAction *actionDelete = new QAction(tr("Delete"), menu);
     actionDelete->setObjectName("delete_"+QString::number(id));
     connect(actionDelete, SIGNAL(triggered()), this, SLOT(deleteBox()));
     menu->addAction(actionDelete);
+
+    QMenu *type = new QMenu(this);
+    type->setTitle(tr("Type"));
+    QAction *actionVerse = new QAction(tr("One Verse"), this);
+    actionVerse->setObjectName("actionVerse_"+QString::number(id));
+    connect(actionVerse, SIGNAL(triggered()), this, SLOT(changeTypeTo_BCV()));
+
+    QAction *actionVerseRange = new QAction(tr("Verse Range"), this);
+    actionVerseRange->setObjectName("actionVerseRange_"+QString::number(id));
+    connect(actionVerseRange, SIGNAL(triggered()), this, SLOT(changeTypeTo_BCVV()));
+
+    QAction *actionChapter = new QAction(tr("Chapter"), this);
+    actionChapter->setObjectName("actionChapter_"+QString::number(id));
+    connect(actionChapter, SIGNAL(triggered()), this, SLOT(changeTypeTo_BC()));
+
+    type->addAction(actionVerse);
+    type->addAction(actionVerseRange);
+    type->addAction(actionChapter);
+
+    menu->addMenu(type);
 
     button->setMenu(menu);
     return button;

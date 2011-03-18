@@ -78,6 +78,7 @@ void AdvancedInterface::init()
 
     m_searchManager = new SearchManager(this);
     setAll(m_searchManager);
+    m_searchManager->init();
     m_searchManager->setWindowManager(m_windowManager);
     m_searchManager->setWidget(this->parentWidget());
 

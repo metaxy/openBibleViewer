@@ -17,6 +17,11 @@ SearchManager::SearchManager(QObject *parent) :
     QObject(parent)
 {
 }
+void SearchManager::init()
+{
+    connect(m_actions, SIGNAL(_searchInText()), this, SLOT(searchInText()));
+}
+
 void SearchManager::createDocks()
 {
     m_advancedSearchResultDockWidget = new AdvancedSearchResultDockWidget(m_p);
@@ -67,25 +72,23 @@ void SearchManager::search()
 
 void SearchManager::search(SearchQuery query)
 {
-    DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME;
     m_advancedSearchResultDockWidget->show();
     Search s;
     setAll(&s);
     SearchResult *res = s.search(query);
-    m_advancedSearchResultDockWidget->setSearchResult(*res);
+    m_advancedSearchResultDockWidget->setSearchResult(res);
 }
 
-void SearchManager::searchInText(SearchQuery query)
+void SearchManager::searchInText(SearchResult *res)
+{
+    DEBUG_FUNC_NAME;
+    m_actions->searchInText(res);
+}
+void SearchManager::searchInText()
 {
     DEBUG_FUNC_NAME
-    //todo: refractor
-    /*if(query.queryType == SearchQuery::Simple) {
-        QString s = query.searchText;
-        //todo: hacky
-        s.remove('*');
-        s.remove('?');
-        getView()->findText(s, QWebPage::HighlightAllOccurrences);
-    }*/
+    m_actions->searchInText(m_advancedSearchResultDockWidget->currentResult());
 }
 
 void SearchManager::nextVerse()

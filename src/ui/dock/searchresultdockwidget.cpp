@@ -33,13 +33,13 @@ SearchResultDockWidget::~SearchResultDockWidget()
 {
     delete ui;
 }
-void SearchResultDockWidget::setSearchResult(SearchResult searchResult)
+void SearchResultDockWidget::setSearchResult(SearchResult *searchResult)
 {
     m_searchResult = searchResult;
 
-    ui->label_search->setText(tr("Search: %1").arg(searchResult.searchQuery.searchText));
+    ui->label_search->setText(tr("Search: %1").arg(searchResult->searchQuery.searchText));
     QStringList outlist;
-    const QList<SearchHit> hits = searchResult.hits(SearchHit::BibleHit);
+    const QList<SearchHit> hits = searchResult->hits(SearchHit::BibleHit);
     foreach(const SearchHit & hit, hits) {
         const QString bookn = m_moduleManager->verseModule()->versification()->bookName(hit.value(SearchHit::BookID).toInt());
         outlist << bookn + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + " , " +
@@ -54,8 +54,8 @@ void SearchResultDockWidget::goToSearchResult(QListWidgetItem * item)
 
     int id = ui->listWidget_search->row(item);
 
-    if(id < m_searchResult.hits().size() && id >= 0) {
-        SearchHit hit = m_searchResult.hits().at(id);
+    if(id < m_searchResult->hits().size() && id >= 0) {
+        SearchHit hit = m_searchResult->hits().at(id);
         if(!m_moduleManager->contains(hit.value(SearchHit::BibleID).toInt()))
             return;
 
@@ -78,8 +78,8 @@ void SearchResultDockWidget::searchInfo()
         return;
     }
 
-    SearchResult result = m_searchResult;
-    const QList<SearchHit> list = result.hits(SearchHit::BibleHit);
+    SearchResult *result = m_searchResult;
+    const QList<SearchHit> list = result->hits(SearchHit::BibleHit);
 
     QStringList textList;
     foreach(const SearchHit & hit, list) {
@@ -94,7 +94,7 @@ void SearchResultDockWidget::searchInfo()
     SearchInfoDialog sDialog;
     sDialog.show();
 
-    sDialog.setInfo(result, m_moduleManager->verseModule()->versification(), m_searchResult.searchQuery.searchText, textList);
+    sDialog.setInfo(result, m_moduleManager->verseModule()->versification(), m_searchResult->searchQuery.searchText, textList);
     sDialog.exec();
 
 }

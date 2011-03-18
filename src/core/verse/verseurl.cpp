@@ -32,6 +32,7 @@ void VerseUrl::setParam(const QString &name, const QString &value)
 
 bool VerseUrl::hasParam(const QString &name) const
 {
+    myDebug() << m_params;
     return m_params.contains(name);
 }
 QString VerseUrl::getParam(const QString &name) const

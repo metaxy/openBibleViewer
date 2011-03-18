@@ -46,16 +46,16 @@ void AdvancedSearchResultDockWidget::init()
     connect(ui->treeView, SIGNAL(activated(QModelIndex)), this, SLOT(goToSearchResult(QModelIndex)));
 
 }
-void AdvancedSearchResultDockWidget::setSearchResult(SearchResult searchResult)
+void AdvancedSearchResultDockWidget::setSearchResult(SearchResult *searchResult)
 {
     DEBUG_FUNC_NAME
 
     m_itemModel->clear();
     m_searchResult = searchResult;
-    ui->label_searchInfo->setText(tr("Search: %1").arg(searchResult.searchQuery.searchText));
+    ui->label_searchInfo->setText(tr("Search: %1").arg(searchResult->searchQuery.searchText));
     QStandardItem *parentItem = m_itemModel->invisibleRootItem();
 
-    QList<SearchHit> hits = m_searchResult.hits();
+    QList<SearchHit> hits = m_searchResult->hits();
     QMap<int, QStandardItem *> m_bookItems;
     foreach(const SearchHit & hit, hits) {
         if(hit.type() != SearchHit::BibleHit)
@@ -97,8 +97,8 @@ void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
 {
     DEBUG_FUNC_NAME
     const int id = index.data(Qt::UserRole + 1).toInt();
-    if(id < m_searchResult.hits().size() && id >= 0) {
-        SearchHit hit = m_searchResult.hits().at(id);
+    if(id < m_searchResult->hits().size() && id >= 0) {
+        SearchHit hit = m_searchResult->hits().at(id);
         if(hit.type() == SearchHit::BibleHit) {
             if(!m_moduleManager->contains(hit.value(SearchHit::BibleID).toInt()))
                 return;
@@ -125,8 +125,8 @@ void AdvancedSearchResultDockWidget::searchInfo()
         return;
     }
 
-    SearchResult result = m_searchResult;
-    QList<SearchHit> list = result.hits(SearchHit::BibleHit);
+    SearchResult *result = m_searchResult;
+    QList<SearchHit> list = result->hits(SearchHit::BibleHit);
 
     QStringList textList;
     for(int i = 0; i < list.size(); ++i) {
@@ -143,7 +143,7 @@ void AdvancedSearchResultDockWidget::searchInfo()
     SearchInfoDialog sDialog;
     sDialog.show();
 
-    sDialog.setInfo(result, m_moduleManager->verseModule()->versification(), m_searchResult.searchQuery.searchText, textList);
+    sDialog.setInfo(result, m_moduleManager->verseModule()->versification(), m_searchResult->searchQuery.searchText, textList);
     sDialog.exec();
 }
 
@@ -253,6 +253,11 @@ void AdvancedSearchResultDockWidget::previousVerse()
         myWarning() << "no search Results available";
     }
 }
+SearchResult *AdvancedSearchResultDockWidget::currentResult()
+{
+    return m_searchResult;
+}
+
 void AdvancedSearchResultDockWidget::changeEvent(QEvent *e)
 {
     QDockWidget::changeEvent(e);

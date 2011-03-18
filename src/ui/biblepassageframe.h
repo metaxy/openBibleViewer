@@ -37,6 +37,11 @@ private slots:
     void addBox_BC(const int bookID = 0, const int chapterID = 0);
     void deleteBox();
 
+    void changeTypeTo_BCV();
+    void changeTypeTo_BCVV();
+    void changeTypeTo_BC();
+
+
 public:
     explicit BiblePassageFrame(QWidget *parent = 0);
     ~BiblePassageFrame();

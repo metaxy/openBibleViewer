@@ -110,6 +110,7 @@ public slots:
     void forwardSetCurrentChapter(const QSet<int> &chapterID);
     void forwardShowText(const QString &text);
     void forwardHistorySetUrl(const QString &url);
+    void forwardSearchInText(SearchResult *result);
 
 
     void activated();
@@ -140,7 +141,7 @@ public slots:
     void newBookmark();
     void forwardShowTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
     void showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
-
+    void searchInText(SearchResult *res);
 protected:
     virtual void changeEvent(QEvent *e);
 private:

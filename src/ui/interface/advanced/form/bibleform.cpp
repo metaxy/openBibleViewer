@@ -65,7 +65,7 @@ void BibleForm::init()
     connect(m_actions, SIGNAL(_setCurrentChapter(QSet<int>)), this, SLOT(forwardSetCurrentChapter(QSet<int>)));
     connect(m_actions, SIGNAL(_historySetUrl(QString)), this, SLOT(forwardHistorySetUrl(QString)));
     connect(m_actions, SIGNAL(_showTextRanges(QString, TextRanges, VerseUrl)), this, SLOT(forwardShowTextRanges(QString, TextRanges, VerseUrl)));
-
+    connect(m_actions, SIGNAL(_searchInText(SearchResult*)), this, SLOT(forwardSearchInText(SearchResult*)));
 
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     createDefaultMenu();
@@ -542,6 +542,13 @@ void BibleForm::forwardHistorySetUrl(const QString &url)
         return;
     historySetUrl(url);
 }
+void BibleForm::forwardSearchInText(SearchResult *res)
+{
+    if(!active())
+        return;
+    searchInText(res);
+}
+
 bool BibleForm::active()
 {
     if(*currentWindowID == m_id)
@@ -551,6 +558,17 @@ bool BibleForm::active()
 int BibleForm::id()
 {
     return m_id;
+}
+void BibleForm::searchInText(SearchResult *res)
+{
+    DEBUG_FUNC_NAME
+    if(res->searchQuery.queryType == SearchQuery::Simple) {
+        QString s = res->searchQuery.searchText;
+        //todo: hacky
+        s.remove('*');
+        s.remove('?');
+        m_view->findText(s, QWebPage::HighlightAllOccurrences);
+    }
 }
 
 void BibleForm::createDefaultMenu()

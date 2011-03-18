@@ -32,7 +32,7 @@ class SearchInfoDialog : public QDialog
 public:
     explicit SearchInfoDialog(QWidget *parent = 0);
     virtual ~SearchInfoDialog();
-    void setInfo(SearchResult, Versification *v11n, QString searchText, QStringList textList);
+    void setInfo(SearchResult *res, Versification *v11n, QString searchText, QStringList textList);
 
 protected:
     virtual void changeEvent(QEvent *e);

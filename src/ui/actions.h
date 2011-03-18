@@ -20,6 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/verseurl.h"
 #include "src/core/verse/textranges.h"
 #include "src/core/verse/versification.h"
+#include "src/core/search/searchresult.h"
 class Actions : public QObject
 {
     Q_OBJECT
@@ -63,6 +64,9 @@ signals:
     void _reloadBible();
     void _reshowCurrentRange();
     void _newSubWindowIfEmpty();
+
+    void _searchInText(SearchResult *result);
+    void _searchInText();
 
 public slots:
     /**
@@ -111,6 +115,9 @@ public slots:
 
     void reloadBible();
     void reshowCurrentRange();
+
+    void searchInText(SearchResult *result);
+    void searchInText();
 
 
 

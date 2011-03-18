@@ -39,14 +39,14 @@ private slots:
 public:
     SearchResultDockWidget(QWidget *parent = 0);
     ~SearchResultDockWidget();
-    void setSearchResult(SearchResult searchResult);
+    void setSearchResult(SearchResult *searchResult);
 
 
 protected:
     void changeEvent(QEvent *e);
 private:
     Ui::SearchResultDockWidget *ui;
-    SearchResult m_searchResult;
+    SearchResult *m_searchResult;
 };
 
 #endif // SEARCHRESULTDOCKWIDGET_H

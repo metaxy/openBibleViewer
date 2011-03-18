@@ -462,7 +462,7 @@ void SimpleInterface::search(SearchQuery query)
     Search s;
     setAll(&s);
     SearchResult *res = s.search(query);
-    m_searchResultDockWidget->setSearchResult(*res);
+    m_searchResultDockWidget->setSearchResult(res);
 }
 void SimpleInterface::changeEvent(QEvent *e)
 {

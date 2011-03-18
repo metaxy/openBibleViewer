@@ -677,17 +677,19 @@ void ZefaniaBible::buildIndex()
     //index
     Document doc;
     bool canceled = false;
-    for(int bookCounter = 0; bookCounter < m_versification->bookCount(); ++bookCounter) {
+    QHashIterator<int, QString> it(m_versification->bookNames());
+    while(it.hasNext()) {
+        it.next();
         if(progress.wasCanceled()) {
             canceled = true;
             break;
         }
-        progress.setValue(bookCounter);
+        progress.setValue(it.key());
         QDomNode ncache;
-        ncache = readBookFromHardCache(m_modulePath, bookCounter);
+        ncache = readBookFromHardCache(m_modulePath, it.key());
         QDomNode n = ncache.firstChild();
         int chapterCounter;
-        const QString book = QString::number(bookCounter);
+        const QString book = QString::number(it.key());
         for(chapterCounter = 0; !n.isNull(); ++chapterCounter) {
             QDomNode n2 = n.firstChild();
             int verseCount = 0;
@@ -701,10 +703,11 @@ void ZefaniaBible::buildIndex()
                     const QString verse = QString::number(e2.attribute("vnumber", QString::number(verseCount)).toInt() - 1);
 
                     const QString key = book + ";" + chapter + ";" + verse;
-                    myDebug() << key;
+                    myDebug() << key << t;
 #ifdef _USE_WSTRING
                     doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
                     doc.add(*new Field(_T("content"), t.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                    //doc.add(*new Field(_T("content"), (wchar_t*)t.toLocal8Bit().constData(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 #else
                     doc.add(*new Field(_T("key"), reinterpret_cast<const wchar_t *>(key.utf16()), Field::STORE_YES |  Field::INDEX_NO));
                     doc.add(*new Field(_T("content"), reinterpret_cast<const wchar_t *>(t.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
@@ -749,13 +752,13 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
     for(size_t i = 0; i < h->length(); i++) {
         Document* doc = &h->doc(i);
 #ifdef _USE_WSTRING
-        myDebug() << "using wstring";
+        //myDebug() << "using wstring";
         const QString stelle = QString::fromWCharArray(doc->get(_T("key")));
 #else
-        myDebug() << "using uft16";
+        //myDebug() << "using uft16";
         const QString stelle = QString::fromUtf16((const ushort*)doc->get(_T("key")));
 #endif
-        myDebug() << "found stelle = " << stelle;
+       //myDebug() << "found stelle = " << stelle;
         const QStringList l = stelle.split(";");
         //hacky filter
         if(l.size() < 2)
