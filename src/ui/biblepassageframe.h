@@ -59,6 +59,8 @@ private:
     QStandardItemModel *m_model;
     QHash<int, QHBoxLayout*> m_boxes;
     QToolButton *newButton(const int id);
+
+    void deleteBox(const int boxID);
 };
 
 #endif // BIBLEPASSAGEFRAME_H

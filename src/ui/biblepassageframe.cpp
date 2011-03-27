@@ -179,34 +179,35 @@ void BiblePassageFrame::deleteBox()
     QString s = sender()->objectName();
     if(s.startsWith("actionDelete_")) {
         const int id = s.remove("actionDelete_").toInt();
-        myDebug() << "id = " << id;
-        QObject *button = NULL;
-        foreach(QObject *o, this->children()) {
-            if(o) {
-                QString name = o->objectName();
-                myDebug() << "Name = " << name;
-                QString bname = name;
-                int pos = name.lastIndexOf("_");
-                bool ok;
-                int nid = name.remove(0,pos+1).toInt(&ok);
-                if(ok && nid == id && !bname.startsWith("action") && !bname.startsWith("menu")) {
-                    if(bname.startsWith("button")) {
-                        button = o;
-                    } else {
-                        myDebug() << "deleted = " << bname;
-                        //myDebug() << "nid = " << nid << "name = " << name;
-                        delete o;
-                    }
+        deleteBox(id);
+
+    }
+}
+void BiblePassageFrame::deleteBox(const int boxID)
+{
+    QObject *button = NULL;
+    foreach(QObject *o, this->children()) {
+        if(o) {
+            QString name = o->objectName();
+            myDebug() << "Name = " << name;
+            QString bname = name;
+            int pos = name.lastIndexOf("_");
+            bool ok;
+            int id = name.remove(0,pos+1).toInt(&ok);
+            if(ok && boxID == id && !bname.startsWith("action") && !bname.startsWith("menu")) {
+                if(bname.startsWith("button")) {
+                    button = o;
+                } else {
+                    myDebug() << "deleted = " << bname;
+                    //myDebug() << "nid = " << nid << "name = " << name;
+                    delete o;
                 }
             }
-
         }
-        if(button != NULL) {
 
-            delete button;
-        }
-       // ui->verticalLayout->removeItem(m_boxes.value(id));
-       // delete m_boxes.value(id);
+    }
+    if(button != NULL) {
+        delete button;
     }
 }
 
