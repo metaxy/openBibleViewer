@@ -42,6 +42,8 @@ void BiblePassageFrame::init()
 
 void BiblePassageFrame::addBox_BCV(const int bookID, const int chapterID, const int verseID)
 {
+    QHBoxLayout *layout = new QHBoxLayout(this);
+
     QComboBox *books = new QComboBox(this);
     books->setObjectName("books_" + QString::number(m_count));
     QSpinBox *chapter = new QSpinBox(this);
@@ -54,18 +56,21 @@ void BiblePassageFrame::addBox_BCV(const int bookID, const int chapterID, const 
     books->setCurrentIndex(bookID);
     chapter->setValue(chapterID + 1);
     verse->setValue(verseID + 1);
-    QHBoxLayout *layout = new QHBoxLayout(this);
+
     layout->setObjectName("layout_" + QString::number(m_count));
     layout->addWidget(books);
     layout->addWidget(chapter);
     layout->addWidget(verse);
     layout->addWidget(button);
     ui->verticalLayout->addLayout(layout);
+    m_boxes.insert(m_count, layout);
     m_count++;
 
 }
 void BiblePassageFrame::addBox_BCVV(const int bookID, const int chapterID, const int startVerseID, const int endVerseID)
 {
+    QHBoxLayout *layout = new QHBoxLayout(this);
+
     QComboBox *books = new QComboBox(this);
     books->setObjectName("books_" + QString::number(m_count));
     QSpinBox *chapter = new QSpinBox(this);
@@ -83,7 +88,7 @@ void BiblePassageFrame::addBox_BCVV(const int bookID, const int chapterID, const
     startVerse->setValue(startVerseID + 1);
     endVerse->setValue(endVerseID + 1);
 
-    QHBoxLayout *layout = new QHBoxLayout(this);
+
     layout->setObjectName("layout_" + QString::number(m_count));
     layout->addWidget(books);
     layout->addWidget(chapter);
@@ -91,10 +96,14 @@ void BiblePassageFrame::addBox_BCVV(const int bookID, const int chapterID, const
     layout->addWidget(endVerse);
     layout->addWidget(button);
     ui->verticalLayout->addLayout(layout);
+    m_boxes.insert(m_count, layout);
+
     m_count++;
 }
 void BiblePassageFrame::addBox_BC(const int bookID, const int chapterID)
 {
+    QHBoxLayout *layout = new QHBoxLayout(this);
+
     QComboBox *books = new QComboBox(this);
     books->setObjectName("books_" + QString::number(m_count));
     QSpinBox *chapter = new QSpinBox(this);
@@ -104,12 +113,12 @@ void BiblePassageFrame::addBox_BC(const int bookID, const int chapterID)
     books->setCurrentIndex(bookID);
     chapter->setValue(chapterID + 1);
     QToolButton *button = newButton(m_count);
-    QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setObjectName("layout_" + QString::number(m_count));
     layout->addWidget(books);
     layout->addWidget(chapter);
     layout->addWidget(button);
     ui->verticalLayout->addLayout(layout);
+    m_boxes.insert(m_count, layout);
     m_count++;
 }
 void BiblePassageFrame::changeTypeTo_BC()
@@ -131,8 +140,8 @@ QToolButton *BiblePassageFrame::newButton(const int id)
     button->setPopupMode(QToolButton::InstantPopup);
 
     QMenu *menu = new QMenu(this);
-    QAction *actionDelete = new QAction(tr("Delete"), menu);
-    actionDelete->setObjectName("delete_"+QString::number(id));
+    QAction *actionDelete = new QAction(tr("Delete"), this);
+    actionDelete->setObjectName("actionDelete_"+QString::number(id));
     connect(actionDelete, SIGNAL(triggered()), this, SLOT(deleteBox()));
     menu->addAction(actionDelete);
 
@@ -161,7 +170,38 @@ QToolButton *BiblePassageFrame::newButton(const int id)
 }
 void BiblePassageFrame::deleteBox()
 {
-    //todo:sender
+    QString s = sender()->objectName();
+    if(s.startsWith("actionDelete_")) {
+        const int id = s.remove("actionDelete_").toInt();
+        myDebug() << "id = " << id;
+        //
+        myDebug() << m_boxes.value(id)->objectName();
+        QObject *button = NULL;
+        foreach(QObject *o, this->children()) {
+            if(o) {
+                myDebug() << o->objectName();
+                QString name = o->objectName();
+                QString bname = name;
+                int pos = name.lastIndexOf("_");
+                bool ok;
+                int nid = name.remove(0,pos+1).toInt(&ok);
+                myDebug() << "nid = " << nid << "name = " << name;
+                if(ok && nid == id && !bname.startsWith("action")) {
+                    if(bname.startsWith("button")) {
+                        button = o;
+                    } else {
+                        delete o;
+                    }
+                }
+            }
+
+        }
+        if(button != NULL) {
+            //delete button;
+        }
+       // ui->verticalLayout->removeItem(m_boxes.value(id));
+       // delete m_boxes.value(id);
+    }
 }
 
 VerseUrl BiblePassageFrame::toVerseUrl()

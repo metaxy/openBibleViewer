@@ -57,7 +57,7 @@ private:
     QStringList m_bookNames;
     RecursivProxyModel *m_proxyModel;
     QStandardItemModel *m_model;
-
+    QHash<int, QHBoxLayout*> m_boxes;
     QToolButton *newButton(const int id);
 };
 
