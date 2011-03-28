@@ -758,7 +758,7 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
         //myDebug() << "using uft16";
         const QString stelle = QString::fromUtf16((const ushort*)doc->get(_T("key")));
 #endif
-       //myDebug() << "found stelle = " << stelle;
+        //myDebug() << "found stelle = " << stelle;
         const QStringList l = stelle.split(";");
         //hacky filter
         if(l.size() < 2)

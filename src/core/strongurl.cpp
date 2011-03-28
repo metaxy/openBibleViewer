@@ -30,10 +30,10 @@ bool StrongUrl::fromText(QString text)
     } else {
         return false;
     }
-    text.remove(0,1);
+    text.remove(0, 1);
     if(text.contains(" ")) {
         const QStringList parts = text.split(" ");
-        foreach(const QString &part, parts) {
+        foreach(const QString & part, parts) {
             m_numbers.append(part.toInt());
         }
     } else {
@@ -60,10 +60,10 @@ bool StrongUrl::fromString(QString strong)
     } else {
         return false;
     }
-    strong.remove(0,1);
+    strong.remove(0, 1);
     if(strong.contains(" ")) {
         const QStringList parts = strong.split(" ");
-        foreach(const QString &part, parts) {
+        foreach(const QString & part, parts) {
             m_numbers.append(part.toInt());
         }
     } else {
@@ -82,7 +82,7 @@ QString StrongUrl::toString()
         ret += "H";
     }
     bool beginn = true;
-    foreach(const int &i, m_numbers) {
+    foreach(const int & i, m_numbers) {
         if(!beginn) {
             ret += " ";
         } else {

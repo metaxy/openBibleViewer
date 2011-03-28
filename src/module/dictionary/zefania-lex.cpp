@@ -261,7 +261,7 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                                 //todo: currently we assume target = x-self
                                 StrongUrl url;
                                 url.fromText(descElement.text());
-                                desc += " <a href=\""+url.toString()+"\">" + descElement.text() + "</a> ";
+                                desc += " <a href=\"" + url.toString() + "\">" + descElement.text() + "</a> ";
                             }
                         }
 

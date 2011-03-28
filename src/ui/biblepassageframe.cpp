@@ -90,8 +90,6 @@ void BiblePassageFrame::addBox_BCVV(const int bookID, const int chapterID, const
     startVerse->setValue(startVerseID + 1);
     endVerse->setValue(endVerseID + 1);
 
-
-
     layout->addWidget(books);
     layout->addWidget(chapter);
     layout->addWidget(startVerse);
@@ -140,29 +138,29 @@ void BiblePassageFrame::changeTypeTo_BCVV()
 QToolButton *BiblePassageFrame::newButton(const int id)
 {
     QToolButton *button = new QToolButton(this);
-    button->setObjectName("button_"+QString::number(id));
+    button->setObjectName("button_" + QString::number(id));
     button->setPopupMode(QToolButton::InstantPopup);
 
     QMenu *menu = new QMenu(button);
-    menu->setObjectName("menu_"+QString::number(id));
+    menu->setObjectName("menu_" + QString::number(id));
     QAction *actionDelete = new QAction(tr("Delete"), this);
-    actionDelete->setObjectName("actionDelete_"+QString::number(id));
+    actionDelete->setObjectName("actionDelete_" + QString::number(id));
     connect(actionDelete, SIGNAL(triggered()), this, SLOT(deleteBox()));
     menu->addAction(actionDelete);
 
     QMenu *type = new QMenu(this);
-    type->setObjectName("menuType_"+QString::number(id));
+    type->setObjectName("menuType_" + QString::number(id));
     type->setTitle(tr("Type"));
     QAction *actionVerse = new QAction(tr("One Verse"), this);
-    actionVerse->setObjectName("actionVerse_"+QString::number(id));
+    actionVerse->setObjectName("actionVerse_" + QString::number(id));
     connect(actionVerse, SIGNAL(triggered()), this, SLOT(changeTypeTo_BCV()));
 
     QAction *actionVerseRange = new QAction(tr("Verse Range"), this);
-    actionVerseRange->setObjectName("actionVerseRange_"+QString::number(id));
+    actionVerseRange->setObjectName("actionVerseRange_" + QString::number(id));
     connect(actionVerseRange, SIGNAL(triggered()), this, SLOT(changeTypeTo_BCVV()));
 
     QAction *actionChapter = new QAction(tr("Chapter"), this);
-    actionChapter->setObjectName("actionChapter_"+QString::number(id));
+    actionChapter->setObjectName("actionChapter_" + QString::number(id));
     connect(actionChapter, SIGNAL(triggered()), this, SLOT(changeTypeTo_BC()));
 
     type->addAction(actionVerse);
@@ -180,20 +178,19 @@ void BiblePassageFrame::deleteBox()
     if(s.startsWith("actionDelete_")) {
         const int id = s.remove("actionDelete_").toInt();
         deleteBox(id);
-
     }
 }
 void BiblePassageFrame::deleteBox(const int boxID)
 {
     QObject *button = NULL;
-    foreach(QObject *o, this->children()) {
+    foreach(QObject * o, this->children()) {
         if(o) {
             QString name = o->objectName();
             myDebug() << "Name = " << name;
             QString bname = name;
             int pos = name.lastIndexOf("_");
             bool ok;
-            int id = name.remove(0,pos+1).toInt(&ok);
+            int id = name.remove(0, pos + 1).toInt(&ok);
             if(ok && boxID == id && !bname.startsWith("action") && !bname.startsWith("menu")) {
                 if(bname.startsWith("button")) {
                     button = o;
