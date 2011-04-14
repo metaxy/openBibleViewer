@@ -579,7 +579,6 @@ void AdvancedInterface::createToolBars()
     connect(m_bookmarksManager->bookmarksDockWidget(), SIGNAL(visibilityChanged(bool)), m_mainBarActionBookmarks, SLOT(setChecked(bool)));
     connect(m_mainBarActionBookmarks, SIGNAL(triggered(bool)), m_bookmarksManager->bookmarksDockWidget(), SLOT(setVisible(bool)));
 
-
     m_mainBarActionNotes = new QAction(QIcon::fromTheme("view-pim-notes", QIcon(":/icons/16x16/view-pim-notes.png")), tr("Notes"), m_mainBar);
     m_mainBarActionNotes->setCheckable(true);
     connect(m_notesManager->notesDockWidget(), SIGNAL(visibilityChanged(bool)), m_mainBarActionNotes, SLOT(setChecked(bool)));
@@ -619,6 +618,7 @@ void AdvancedInterface::createToolBars()
 
     connect(edit, SIGNAL(returnPressed()), m_searchManager, SLOT(search()));
     m_searchBar->addWidget(edit);
+    toolBarSetText();
 }
 
 QList<QToolBar *> AdvancedInterface::toolBars()
@@ -736,6 +736,24 @@ void AdvancedInterface::setSubWindowView()
     m_actionTabbedView->setChecked(false);
     m_actionSubWindowView->setChecked(true);
 }
+void AdvancedInterface::toolBarSetText()
+{
+    m_mainBar->setWindowTitle(tr("Main Tool Bar"));
+    m_mainBarActionSearch->setText(tr("Search"));
+    m_mainBarActionSearch->setToolTip(tr("Search in current module."));
+    m_mainBarActionBookmarks->setText(tr("Bookmarks"));
+    m_mainBarActionBookmarks->setToolTip(tr("Show/Hide the bookmarks dock."));
+    m_mainBarActionNotes->setText(tr("Notes"));
+    m_mainBarActionNotes->setToolTip(tr("Show/Hide the notes dock."));
+    m_mainBarActionNewWindow->setText(tr("New Window"));
+    m_mainBarActionZoomIn->setText(tr("Zoom In"));
+    m_mainBarActionZoomIn->setToolTip(tr("Zoom In"));
+    m_mainBarActionZoomOut->setText(tr("Zoom Out"));
+    m_mainBarActionZoomOut->setToolTip(tr("Zoom Out"));
+    m_mainBarActionModule->setText(tr("Module"));
+    m_mainBarActionModule->setToolTip(tr("Add and edit the modules"));
+    m_searchBar->setWindowTitle(tr("Search Bar"));
+}
 
 void AdvancedInterface::changeEvent(QEvent *e)
 {
@@ -743,17 +761,7 @@ void AdvancedInterface::changeEvent(QEvent *e)
     switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
-        //retranslate menu bar
-        m_mainBar->setWindowTitle(tr("Main Tool Bar"));
-        m_mainBarActionSearch->setText(tr("Search"));
-        m_mainBarActionBookmarks->setText(tr("Bookmarks"));
-        m_mainBarActionNotes->setText(tr("Notes"));
-        m_mainBarActionNewWindow->setText(tr("New Window"));
-        m_mainBarActionZoomIn->setText(tr("Zoom In"));
-        m_mainBarActionZoomOut->setText(tr("Zoom Out"));
-        m_mainBarActionModule->setText(tr("Module"));
-        m_searchBar->setWindowTitle(tr("Search Bar"));
-
+        toolBarSetText();
         break;
     default:
         break;

@@ -131,6 +131,8 @@ private:
     QAction *m_mainBarActionZoomOut;
     QAction *m_mainBarActionModule;
 
+    void toolBarSetText();
+
 
     DictionaryDockWidget * m_dictionaryDockWidget;
 

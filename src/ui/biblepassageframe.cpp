@@ -209,7 +209,7 @@ void BiblePassageFrame::deleteBox(const int boxID)
     foreach(QObject * o, this->children()) {
         if(o) {
             QString name = o->objectName();
-            myDebug() << "Name = " << name;
+            //myDebug() << "Name = " << name;
             QString bname = name;
             int pos = name.lastIndexOf("_");
             bool ok;
@@ -218,7 +218,7 @@ void BiblePassageFrame::deleteBox(const int boxID)
                 if(bname.startsWith("button")) {
                     button = o;
                 } else {
-                    myDebug() << "deleted = " << bname;
+                    //myDebug() << "deleted = " << bname;
                     //myDebug() << "nid = " << nid << "name = " << name;
                     delete o;
                 }
@@ -237,7 +237,7 @@ VerseUrl BiblePassageFrame::toVerseUrl()
     VerseUrl url;
     QMap<int, int> books, chapter, verse, endVerse;
     foreach(QObject * o, this->children()) {
-        myDebug() << o->objectName();
+        //myDebug() << o->objectName();
 
         int id = -1;
         if(o->objectName().contains("_")) {
@@ -264,7 +264,7 @@ VerseUrl BiblePassageFrame::toVerseUrl()
     while(it.hasNext()) {
         it.next();
         if(it.key() > -1) {
-            myDebug() << "key = " << it.key();
+            //myDebug() << "key = " << it.key();
             VerseUrlRange r;
             r.setModule(m_moduleID);
             r.setBook(it.value());
@@ -276,12 +276,12 @@ VerseUrl BiblePassageFrame::toVerseUrl()
             url.addRange(r);
         }
     }
-    myDebug() << url.toString();
+    //myDebug() << url.toString();
     return url;
 }
 void BiblePassageFrame::setVerseUrl(const VerseUrl &url)
 {
-    myDebug() << url.toString();
+    //myDebug() << url.toString();
     setVerseUrlRanges(url.ranges());
 }
 void BiblePassageFrame::setVerseUrlRanges(const QList<VerseUrlRange> &ranges)
@@ -297,9 +297,9 @@ void BiblePassageFrame::setVerseUrlRanges(const QList<VerseUrlRange> &ranges)
                                QString::number(m_moduleID),
                                1 ,
                                Qt::MatchExactly);
-        myDebug() << "list.size() = " << list.size();
+        //myDebug() << "list.size() = " << list.size();
         if(!list.isEmpty()) {
-            myDebug() << list.first().data(Qt::UserRole + 1);
+            //myDebug() << list.first().data(Qt::UserRole + 1);
             ui->treeView->selectionModel()->clear();
             ui->treeView->selectionModel()->select(list.first(), QItemSelectionModel::Select);
         }
