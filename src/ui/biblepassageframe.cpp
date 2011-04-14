@@ -189,7 +189,7 @@ QToolButton *BiblePassageFrame::newButton(const int id)
     newRange->addAction(actionNewVerseRange);
     newRange->addAction(actionNewChapter);
 
-    menu->addMenu(type);
+    //menu->addMenu(type);
     menu->addMenu(newRange);
 
     button->setMenu(menu);

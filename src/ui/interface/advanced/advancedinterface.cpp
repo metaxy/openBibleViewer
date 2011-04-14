@@ -117,7 +117,6 @@ QHash<DockWidget*, Qt::DockWidgetArea> AdvancedInterface::docks()
     ret.unite(m_bookmarksManager->docks());
     ret.insert(m_dictionaryDockWidget, Qt::BottomDockWidgetArea);
     return ret;
-
 }
 
 void AdvancedInterface::pharseUrl(QUrl url)
@@ -434,8 +433,6 @@ QMenuBar* AdvancedInterface::menuBar()
     //Tile Horizontal
     QAction *actionTileHorizontal = new QAction(QIcon(":/icons/svg/tile_horiz.svg"), tr("Tile Horizontal"), menuView);
     connect(actionTileHorizontal, SIGNAL(triggered()), m_windowManager, SLOT(tileHorizontal()));
-
-
 
     menuView->addAction(actionZoomIn);
     menuView->addAction(actionZoomOut);
