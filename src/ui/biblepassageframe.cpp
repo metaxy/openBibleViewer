@@ -137,37 +137,60 @@ void BiblePassageFrame::changeTypeTo_BCVV()
 
 QToolButton *BiblePassageFrame::newButton(const int id)
 {
+    const QString sid = QString::number(id);
     QToolButton *button = new QToolButton(this);
-    button->setObjectName("button_" + QString::number(id));
+    button->setObjectName("button_" + sid);
     button->setPopupMode(QToolButton::InstantPopup);
+    button->setIcon(QIcon::fromTheme("configure", QIcon(":/icons/16x16/configure.png")));
 
     QMenu *menu = new QMenu(button);
-    menu->setObjectName("menu_" + QString::number(id));
+    menu->setObjectName("menu_" + sid);
     QAction *actionDelete = new QAction(tr("Delete"), this);
-    actionDelete->setObjectName("actionDelete_" + QString::number(id));
+    actionDelete->setObjectName("actionDelete_" + sid);
     connect(actionDelete, SIGNAL(triggered()), this, SLOT(deleteBox()));
     menu->addAction(actionDelete);
 
     QMenu *type = new QMenu(this);
-    type->setObjectName("menuType_" + QString::number(id));
+    type->setObjectName("menuType_" + sid);
     type->setTitle(tr("Type"));
     QAction *actionVerse = new QAction(tr("One Verse"), this);
-    actionVerse->setObjectName("actionVerse_" + QString::number(id));
+    actionVerse->setObjectName("actionVerse_" + sid);
     connect(actionVerse, SIGNAL(triggered()), this, SLOT(changeTypeTo_BCV()));
 
     QAction *actionVerseRange = new QAction(tr("Verse Range"), this);
-    actionVerseRange->setObjectName("actionVerseRange_" + QString::number(id));
+    actionVerseRange->setObjectName("actionVerseRange_" + sid);
     connect(actionVerseRange, SIGNAL(triggered()), this, SLOT(changeTypeTo_BCVV()));
 
     QAction *actionChapter = new QAction(tr("Chapter"), this);
-    actionChapter->setObjectName("actionChapter_" + QString::number(id));
+    actionChapter->setObjectName("actionChapter_" + sid);
     connect(actionChapter, SIGNAL(triggered()), this, SLOT(changeTypeTo_BC()));
 
     type->addAction(actionVerse);
     type->addAction(actionVerseRange);
     type->addAction(actionChapter);
 
+    QMenu *newRange = new QMenu(this);
+    newRange->setObjectName("menuNewRange" + sid);
+    newRange->setTitle(tr("New"));
+
+    QAction *actionNewVerse = new QAction(tr("One Verse"), this);
+    actionNewVerse->setObjectName("actionNewVerse_" + sid);
+    connect(actionNewVerse, SIGNAL(triggered()), this, SLOT(addBox_BCV()));
+
+    QAction *actionNewVerseRange = new QAction(tr("Verse Range"), this);
+    actionNewVerseRange->setObjectName("actionNewVerseRange_" + sid);
+    connect(actionNewVerseRange, SIGNAL(triggered()), this, SLOT(addBox_BCVV()));
+
+    QAction *actionNewChapter = new QAction(tr("Chapter"), this);
+    actionNewChapter->setObjectName("actionNewChapter_" + sid);
+    connect(actionNewChapter, SIGNAL(triggered()), this, SLOT(addBox_BC()));
+
+    newRange->addAction(actionNewVerse);
+    newRange->addAction(actionNewVerseRange);
+    newRange->addAction(actionNewChapter);
+
     menu->addMenu(type);
+    menu->addMenu(newRange);
 
     button->setMenu(menu);
     return button;
