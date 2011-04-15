@@ -51,7 +51,7 @@ class ZefaniaBible : public BibleModule
 public:
     ZefaniaBible();
     int readBook(const int id);
-    void loadBibleData(const int id, const QString &path);
+    int loadBibleData(const int id, const QString &path);
 
     QString readInfo(QFile &file);
     /**
@@ -86,11 +86,11 @@ private:
       * \param id The ID of the module(bible).
       * \param path. Path to the module file.
       */
-    void loadNoCached(const int id, const QString &path);
+    int loadNoCached(const int id, const QString &path);
     /**
       * Load only booknames and not every book and his data
       */
-    void loadCached(const int id, const QString &path);
+    int loadCached(const int id, const QString &path);
     Book fromHardToSoft(const int id, const QDomNode *ncache);
 
     QHash<int, Book> m_softCacheData;

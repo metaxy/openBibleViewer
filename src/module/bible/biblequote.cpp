@@ -37,7 +37,7 @@ QString BibleQuote::formatFromIni(QString input)
 {
     return input.trimmed();
 }
-void BibleQuote::loadBibleData(const int bibleID, const QString &path)
+int BibleQuote::loadBibleData(const int bibleID, const QString &path)
 {
     /*if(m_versification != NULL)
         delete m_versification;
@@ -145,6 +145,7 @@ void BibleQuote::loadBibleData(const int bibleID, const QString &path)
     }
     settings->v11n->extendedData.setHasChapterZeor(m_chapterZero);
     m_versification = settings->v11n;
+    return 0;
 }
 /**
   Reads the ini-file and returns the bible name. If the file is invalid is returns an empty QString.

@@ -56,7 +56,7 @@ int Bible::loadModuleData(const int moduleID)
 
     m_bookPath.clear();
     m_modulePath.clear();
-
+    int loaded = 1;
     if(moduleType() == OBVCore::BibleQuoteModule) {
         if(m_module->m_bibleModule) {
             m_bibleModule = m_module->m_bibleModule;
@@ -66,7 +66,7 @@ int Bible::loadModuleData(const int moduleID)
         }
 
         m_bibleModule->setSettings(m_settings);
-        m_bibleModule->loadBibleData(m_moduleID, m_module->path());
+        loaded = m_bibleModule->loadBibleData(m_moduleID, m_module->path());
 
         m_bookPath = ((BibleQuote *)m_bibleModule)->m_bookPath;
         m_modulePath = m_bibleModule->modulePath();
@@ -82,9 +82,14 @@ int Bible::loadModuleData(const int moduleID)
             m_module->m_bibleModule = m_bibleModule;
         }
         m_bibleModule->setSettings(m_settings);
-        m_bibleModule->loadBibleData(m_moduleID, m_module->path());
+        loaded = m_bibleModule->loadBibleData(m_moduleID, m_module->path());
     }
-    //myDebug() << "setting an another versification";
+    if(loaded != 0) {
+        m_loaded = false;
+        myWarning() << "Could not load module.";
+        return 1;
+    }
+
     m_versification = m_bibleModule->versification();
     m_moduleUID = m_bibleModule->uid();
 
@@ -92,6 +97,7 @@ int Bible::loadModuleData(const int moduleID)
         m_moduleTitle = m_bibleModule->moduleName(false);
     else
         m_moduleTitle = m->moduleName;
+
     m_moduleShortTitle = m_bibleModule->moduleName(true);
 
     m_loaded = true;
@@ -117,12 +123,10 @@ int Bible::readBook(const int id)
 
     } else if(moduleType() == OBVCore::ZefaniaBibleModule || moduleType() == OBVCore::TheWordBibleModule) {
         m_bibleModule->readBook(id);
-
     }
 
     return 0;
 }
-
 
 QString Bible::toUniformHtml(QString string)
 {
@@ -144,6 +148,7 @@ QString Bible::toUniformHtml(QString string)
 
     return raw;
 }
+
 TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 {
     DEBUG_FUNC_NAME
@@ -159,6 +164,10 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         if(range.moduleID() != m_moduleID || !m_loaded) {
             loadModuleData(range.moduleID());
         }
+    }
+    if(!m_loaded) {
+        ret.setFailed(true);
+        return ret;
     }
 
     int bookID = -1;
@@ -198,6 +207,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 
     if(bookID < 0) {
         myWarning() << "index out of range index bookID = " << bookID;
+        ret.setFailed(true);
         return ret;
     }
     m_bookID = bookID;
@@ -364,6 +374,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                         if(endVerse != -1) {
                             //todo: do something
                         }
+
                         if(startVersID > 0 && endVersID > 0 /*&& startVersID < versList.size() && endVersID < versList.size()*/) {
                             Verse startVerse = verseMap.value(startVersID);
                             Verse endVerse = verseMap.value(endVersID);
@@ -425,6 +436,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     return ret;
 
 }
+
 TextRanges Bible::readRanges(const Ranges &ranges, bool ignoreModuleID)
 {
     TextRanges textRanges;
@@ -434,17 +446,18 @@ TextRanges Bible::readRanges(const Ranges &ranges, bool ignoreModuleID)
     return textRanges;
 }
 
-
 void Bible::search(SearchQuery query, SearchResult *result)
 {
     DEBUG_FUNC_NAME
     if(!m_loaded)
         return;
+
     m_lastSearchQuery = query;
+
     if(!m_bibleModule->hasIndex())
         m_bibleModule->buildIndex();
+
     m_bibleModule->search(query, result);
-    m_lastSearchQuery = query;
     //myDebug() << "hits.size() = " << result->hits().size();
 }
 /**

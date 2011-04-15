@@ -254,3 +254,12 @@ void TextRanges::setVerseTableID(int verseTableID)
     }
     m_ranges = ret;
 }
+bool TextRanges::failed() const
+{
+    bool failed = false;
+    foreach(const TextRange & r, m_ranges) {
+        failed = failed || r.failed();
+        myDebug() << " f= " << r.failed();
+    }
+    return failed;
+}

@@ -56,6 +56,8 @@ public:
     QList<VerseUrlRange> toBibleUrlRanges(int verseTableID) const;
 
     void setVerseTableID(int verseTableID);
+
+    bool failed() const;
 private:
     QList<TextRange> m_ranges;
 };

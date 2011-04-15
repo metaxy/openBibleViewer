@@ -39,7 +39,7 @@ int BibleModule::readBook(const int /*id*/)
     return 0;
 }
 
-void BibleModule::loadBibleData(const int /*bibleID*/, const QString &/*path*/)
+int BibleModule::loadBibleData(const int /*bibleID*/, const QString &/*path*/)
 {
     myWarning() << "calling BibleModule";
 }

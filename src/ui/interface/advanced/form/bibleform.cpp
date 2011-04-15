@@ -312,7 +312,7 @@ void BibleForm::activated()
     m_actions->updateChapters(m_moduleManager->verseModule()->lastTextRanges()->minBookID(), m_moduleManager->verseModule()->versification());
     m_actions->updateBooks(m_moduleManager->verseModule()->versification());
 
-    if(m_lastTextRanges.verseCount() != 0) {
+    if(m_lastTextRanges.verseCount() != 0 && !m_lastTextRanges.failed()) {
         m_actions->setCurrentChapter(m_lastTextRanges.chapterIDs());
         m_actions->setCurrentBook(m_lastTextRanges.bookIDs());
     }

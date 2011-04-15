@@ -33,7 +33,7 @@ void TheWordBible::setSettings(Settings *set)
 /**
   * Loads the Data.
   */
-void TheWordBible::loadBibleData(const int id, const QString &path)
+int TheWordBible::loadBibleData(const int id, const QString &path)
 {
     //DEBUG_FUNC_NAME
     if(!m_books.isEmpty())
@@ -55,7 +55,7 @@ void TheWordBible::loadBibleData(const int id, const QString &path)
     }
 
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return;
+        return 1;
 
     QTextStream in(&file);
     int book = 0;
@@ -127,7 +127,7 @@ void TheWordBible::loadBibleData(const int id, const QString &path)
     if(m_uID.isEmpty()) {
         m_uID = path;
     }
-
+    return 0;
 
 }
 int TheWordBible::readBook(const int id)

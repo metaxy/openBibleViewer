@@ -23,11 +23,11 @@ void SwordBible::setSettings(Settings *set)
 /**
   * Loads the Data.
   */
-void SwordBible::loadBibleData(const int id, const QString &path)
+int SwordBible::loadBibleData(const int id, const QString &path)
 {
     //DEBUG_FUNC_NAME
     m_moduleID = id;
-
+    return 0;
 
 }
 int SwordBible::readBook(const int id)

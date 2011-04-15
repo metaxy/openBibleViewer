@@ -30,7 +30,7 @@ class TheWordBible : public BibleModule
 public:
     TheWordBible();
     void setSettings(Settings *settings);
-    void loadBibleData(const int id, const QString &path);
+    int loadBibleData(const int id, const QString &path);
     int readBook(const int id);
 
     QString readInfo(QFile &file);

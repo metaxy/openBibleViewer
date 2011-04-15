@@ -69,12 +69,14 @@ void Actions::setTitle(const QString &title)
 
 void Actions::updateChapters(int bookID, Versification *v11n)
 {
-    emit _updateChapters(bookID, v11n);
+    if(v11n != NULL)
+        emit _updateChapters(bookID, v11n);
 }
 
 void Actions::updateBooks(Versification *v11n)
 {
-    emit _updateBooks(v11n);
+    if(v11n != NULL)
+        emit _updateBooks(v11n);
 }
 void Actions::clearBooks()
 {

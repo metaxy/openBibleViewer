@@ -19,6 +19,7 @@ TextRange::TextRange()
     m_bookID = -1;
     m_chapterID = -1;
     m_moduleID = -1;
+    m_failed = false;
 }
 QString TextRange::join(const QString &seperator) const
 {
@@ -99,4 +100,12 @@ int TextRange::verseTableID() const
 void TextRange::setVerseTableID(int verseTableID)
 {
     m_verseTableID = verseTableID;
+}
+void TextRange::setFailed(bool failed)
+{
+    m_failed = failed;
+}
+bool TextRange::failed() const
+{
+    return m_failed;
 }

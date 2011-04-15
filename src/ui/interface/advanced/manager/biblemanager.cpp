@@ -189,6 +189,7 @@ void BibleManager::pharseUrl(const QString &url)
 }
 void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
 {
+    DEBUG_FUNC_NAME
     if(!m_moduleManager->hasBible()) {
         m_moduleManager->newVerseModule(ranges.getList().first().moduleID(), QPoint(0, 0));
     }
@@ -208,13 +209,17 @@ void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
         m_moduleManager->verseTable()->addModule(m, p);
     }
     std::pair<QString, TextRanges> r = m_moduleManager->verseTable()->readRanges(ranges);
-    m_actions->showTextRanges(r.first, r.second, url);
-
-    m_actions->updateChapters(m_moduleManager->verseModule()->lastTextRanges()->minBookID(), m_moduleManager->verseModule()->versification());
-    m_actions->updateBooks(m_moduleManager->verseModule()->versification());
-    m_actions->setCurrentBook(r.second.bookIDs());
-    m_actions->setCurrentChapter(r.second.chapterIDs());
-    m_actions->setTitle(m_moduleManager->verseModule()->moduleTitle());
+    myDebug() << "r failed = " << r.second.failed();
+    if(!r.second.failed()) {
+        m_actions->showTextRanges(r.first, r.second, url);
+        m_actions->updateChapters(m_moduleManager->verseModule()->lastTextRanges()->minBookID(), m_moduleManager->verseModule()->versification());
+        m_actions->updateBooks(m_moduleManager->verseModule()->versification());
+        m_actions->setCurrentBook(r.second.bookIDs());
+        m_actions->setCurrentChapter(r.second.chapterIDs());
+        m_actions->setTitle(m_moduleManager->verseModule()->moduleTitle());
+    } else {
+        m_actions->showTextRanges(r.first, r.second, url);
+    }
 }
 
 void BibleManager::nextChapter()

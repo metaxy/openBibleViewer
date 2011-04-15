@@ -41,6 +41,11 @@ public:
     int chapterID() const;
     int moduleID() const;
     int verseTableID() const;
+
+    bool failed() const;
+    void setFailed(bool failed);
+
+
 private:
     QMap<int, Verse> m_verse;
     QString m_title;
@@ -49,6 +54,7 @@ private:
     int m_chapterID;
     int m_moduleID;
     int m_verseTableID;
+    bool m_failed;
 };
 
 #endif // TEXTRANGE_H

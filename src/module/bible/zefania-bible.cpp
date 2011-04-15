@@ -32,7 +32,7 @@ ZefaniaBible::ZefaniaBible()
     m_versification = NULL;
 }
 
-void ZefaniaBible::loadBibleData(const int id, const QString &path)
+int ZefaniaBible::loadBibleData(const int id, const QString &path)
 {
     DEBUG_FUNC_NAME
     m_moduleName = "";
@@ -42,20 +42,21 @@ void ZefaniaBible::loadBibleData(const int id, const QString &path)
     m_versification = NULL;*/
     if(m_settings->getModuleSettings(m_moduleID)->zefbible_hardCache == false && m_settings->getModuleSettings(m_moduleID)->zefbible_softCache == false) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Please activate Caching.(Hard or Soft Cache)"));
-        return;
+        return 1;
     }
     m_uid = path;
     myDebug() << m_settings->getModuleSettings(m_moduleID)->zefbible_hardCache;
     if(m_settings->getModuleSettings(m_moduleID)->zefbible_hardCache == true) {
         if(checkForCacheFiles(path)) {
-            loadCached(id, path);//load the hard cache files
+            return loadCached(id, path);//load the hard cache files
         } else {
-            loadNoCached(id, path);//read the entire xml file
+            return loadNoCached(id, path);//read the entire xml file
         }
 
     } else {
-        loadNoCached(id, path);//read the entire xml file
+        return loadNoCached(id, path);//read the entire xml file
     }
+    return 0;
 }
 void ZefaniaBible::removeHardCache(const QString &path)
 {
@@ -288,7 +289,7 @@ bool ZefaniaBible::checkForCacheFiles(const QString &path) const
         return true;
     return false;
 }
-void ZefaniaBible::loadNoCached(const int id, const QString &path)
+int ZefaniaBible::loadNoCached(const int id, const QString &path)
 {
     DEBUG_FUNC_NAME
     QProgressDialog progress(QObject::tr("Loading Bible"), QObject::tr("Cancel"), 0, 76);
@@ -314,7 +315,7 @@ void ZefaniaBible::loadNoCached(const int id, const QString &path)
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not read the file"));
         myWarning() << "can't read the file";
-        return;
+        return 1;
     }
     progress.setValue(3);
     KoXmlDocument doc;
@@ -374,7 +375,7 @@ void ZefaniaBible::loadNoCached(const int id, const QString &path)
     if(!doc.setContent(data, &error, &l, &c)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid. Errorstring: %1 in Line %2 at Position %3").arg(error).arg(l).arg(c));
         myWarning() << "the file isn't valid";
-        return;
+        return 1;
     }
     data.clear();
 
@@ -422,7 +423,7 @@ void ZefaniaBible::loadNoCached(const int id, const QString &path)
             data += "</cache>";
             QFile file(fileName + "/" + bookID + ".xml");
             if(!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                return;
+                return 1;
             }
             QTextStream out(&file);
             out << data;
@@ -473,10 +474,11 @@ void ZefaniaBible::loadNoCached(const int id, const QString &path)
 
     progress.hide();
     file.close();
+    return 0;
 }
 
 
-void ZefaniaBible::loadCached(const int id, const QString &path)
+int ZefaniaBible::loadCached(const int id, const QString &path)
 {
     DEBUG_FUNC_NAME;
     if(m_moduleID != id) {
@@ -486,8 +488,7 @@ void ZefaniaBible::loadCached(const int id, const QString &path)
     m_versification = m_settings->getModuleSettings(m_moduleID)->v11n;
     myDebug() << m_versification;
     if(!m_versification) {
-        loadNoCached(id, path);
-        return;
+        return loadNoCached(id, path);
     }
 
     m_moduleID = id;
@@ -495,6 +496,7 @@ void ZefaniaBible::loadCached(const int id, const QString &path)
     if(m_moduleName == "") {
         m_moduleName = m_settings->getModuleSettings(m_moduleID)->moduleName;
     }
+    return 0;
 }
 
 QString ZefaniaBible::readInfo(QFile &file)

@@ -24,7 +24,7 @@ class SwordBible : public BibleModule
 public:
     SwordBible();
     void setSettings(Settings *settings);
-    void loadBibleData(const int id, const QString &uid);
+    int loadBibleData(const int id, const QString &uid);
     int readBook(const int id);
 
     QString readInfo(QFile &file);

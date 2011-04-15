@@ -38,7 +38,7 @@ public:
     virtual ~BibleModule();
     virtual void setSettings(Settings *settings);
 
-    virtual void loadBibleData(const int moduleID, const QString &path);
+    virtual int loadBibleData(const int moduleID, const QString &path);
     virtual QString readInfo(QFile &file);
     virtual int readBook(const int id);
 
