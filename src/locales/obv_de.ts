@@ -217,7 +217,7 @@
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="331"/>
         <source>Print Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Druckvorschau</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="336"/>
@@ -280,7 +280,7 @@
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="524"/>
         <source>Settings</source>
-        <translation type="unfinished">Einstellungen</translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="535"/>
@@ -300,27 +300,27 @@
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="696"/>
         <source>openBibleViewer &lt;br /&gt; version: %1 build: %2&lt;br /&gt; &lt;a href=&apos;http://openbv.uucyc.name/&apos;&gt; Official Website&lt;/a&gt; &lt;br /&gt;&lt;a href=&apos;https://github.com/metaxy/openBibleViewer/issues&apos;&gt;Bug report&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>openBibleViewer &lt;br /&gt; version: %1 build: %2&lt;br /&gt; &lt;a href=&apos;http://openbv.uucyc.name/&apos;&gt; Webseite&lt;/a&gt; &lt;br /&gt;&lt;a href=&apos;https://github.com/metaxy/openBibleViewer/issues&apos;&gt;Fehler melden&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="740"/>
         <source>Search in current module.</source>
-        <translation type="unfinished"></translation>
+        <translation>Suchen im aktuellen Modul.</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="742"/>
         <source>Show/Hide the bookmarks dock.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Lesezeichen-Dock anzeigen/verbergen.</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="744"/>
         <source>Show/Hide the notes dock.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Notizen-Dock anzeigen/verbergen.</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="751"/>
         <source>Add and edit the modules</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen und bearbeiten von Modulen</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="497"/>
@@ -403,7 +403,7 @@
         <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="36"/>
         <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="40"/>
         <source>Result</source>
-        <translation type="unfinished"></translation>
+        <translation>Ergebniss</translation>
     </message>
     <message>
         <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="55"/>
@@ -431,109 +431,109 @@
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="427"/>
         <source>Print</source>
-        <translation type="unfinished">Drucken</translation>
+        <translation>Drucken</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="444"/>
         <source>Save output</source>
-        <translation type="unfinished">Ausgabe speichern</translation>
+        <translation>Ausgabe speichern</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="444"/>
         <source>Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Plain (*.txt)</source>
-        <translation type="unfinished"></translation>
+        <translation>Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Text (*.txt)</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="576"/>
         <source>Copy</source>
-        <translation type="unfinished">Kopieren</translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="579"/>
         <source>Select All</source>
-        <translation type="unfinished">Alles auswählen</translation>
+        <translation>Alles auswählen</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="583"/>
         <source>Mark this</source>
-        <translation type="unfinished">Markiere</translation>
+        <translation>Markiere</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="586"/>
         <source>Yellow</source>
-        <translation type="unfinished">Gelb</translation>
+        <translation>Gelb</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="591"/>
         <source>Green</source>
-        <translation type="unfinished">Grün</translation>
+        <translation>Grün</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="596"/>
         <source>Blue</source>
-        <translation type="unfinished">Blau</translation>
+        <translation>Blau</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="601"/>
         <source>Orange</source>
-        <translation type="unfinished">Orange</translation>
+        <translation>Orange</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="606"/>
         <source>Violet</source>
-        <translation type="unfinished">Violett</translation>
+        <translation>Violett</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="611"/>
         <source>Custom Color</source>
-        <translation type="unfinished">Eigne Farbe</translation>
+        <translation>Eigene Farbe</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="616"/>
         <source>Bold</source>
-        <translation type="unfinished">Fett</translation>
+        <translation>Fett</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="620"/>
         <source>Italic</source>
-        <translation type="unfinished">Kursiv</translation>
+        <translation>Kursiv</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="624"/>
         <source>Underline</source>
-        <translation type="unfinished">Unterstrichen</translation>
+        <translation>Unterstrichen</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="629"/>
         <source>Remove Mark</source>
-        <translation type="unfinished">Entferne Markierung</translation>
+        <translation>Entferne Markierung</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="632"/>
         <source>Add Bookmark</source>
-        <translation type="unfinished">Lesezeichen hinzufügen</translation>
+        <translation>Lesezeichen hinzufügen</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="635"/>
         <source>Add Note</source>
-        <translation type="unfinished">Notiz hinzufügen</translation>
+        <translation>Notiz hinzufügen</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="658"/>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="668"/>
         <source>Copy Verse</source>
-        <translation type="unfinished">Kopiere Verse</translation>
+        <translation>Kopiere Verse</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="671"/>
         <source>Copy Verse %1</source>
         <comment>e.g Copy Verse 1-2 or Copy Verse 2</comment>
-        <translation type="unfinished">Kopiere Vers %1</translation>
+        <translation>Kopiere Vers %1</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="680"/>
         <source>Debugger</source>
-        <translation type="unfinished">Debugger</translation>
+        <translation>Debugger</translation>
     </message>
 </context>
 <context>
@@ -581,50 +581,50 @@
     <message>
         <location filename="../ui/biblepassageframe.ui" line="14"/>
         <source>Frame</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/biblepassageframe.ui" line="31"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen</translation>
     </message>
     <message>
         <location filename="../ui/biblepassageframe.cpp" line="37"/>
         <source>Module</source>
-        <translation type="unfinished">Module</translation>
+        <translation>Module</translation>
     </message>
     <message>
         <location filename="../ui/biblepassageframe.cpp" line="148"/>
         <source>Delete</source>
-        <translation type="unfinished">Entfernen</translation>
+        <translation>Entfernen</translation>
     </message>
     <message>
         <location filename="../ui/biblepassageframe.cpp" line="155"/>
         <source>Type</source>
-        <translation type="unfinished">Typ</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <location filename="../ui/biblepassageframe.cpp" line="156"/>
         <location filename="../ui/biblepassageframe.cpp" line="176"/>
         <source>One Verse</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein Vers</translation>
     </message>
     <message>
         <location filename="../ui/biblepassageframe.cpp" line="160"/>
         <location filename="../ui/biblepassageframe.cpp" line="180"/>
         <source>Verse Range</source>
-        <translation type="unfinished"></translation>
+        <translation>Versberreich</translation>
     </message>
     <message>
         <location filename="../ui/biblepassageframe.cpp" line="164"/>
         <location filename="../ui/biblepassageframe.cpp" line="184"/>
         <source>Chapter</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapitel</translation>
     </message>
     <message>
         <location filename="../ui/biblepassageframe.cpp" line="174"/>
         <source>New</source>
-        <translation type="unfinished">Neue</translation>
+        <translation>Neu</translation>
     </message>
 </context>
 <context>
@@ -691,37 +691,37 @@
         <location filename="../module/module.cpp" line="105"/>
         <location filename="../module/module.cpp" line="113"/>
         <source>None</source>
-        <translation type="unfinished">Keine</translation>
+        <translation>Keine</translation>
     </message>
     <message>
         <location filename="../module/module.cpp" line="105"/>
         <location filename="../module/module.cpp" line="115"/>
         <source>BibleQuote</source>
-        <translation type="unfinished">Bible Quote</translation>
+        <translation>Bible Quote</translation>
     </message>
     <message>
         <location filename="../module/module.cpp" line="105"/>
         <location filename="../module/module.cpp" line="117"/>
         <source>Zefania XML Bible</source>
-        <translation type="unfinished"></translation>
+        <translation>Zefania XML Bibel</translation>
     </message>
     <message>
         <location filename="../module/module.cpp" line="106"/>
         <location filename="../module/module.cpp" line="119"/>
         <source>Zefania Lex Module</source>
-        <translation type="unfinished"></translation>
+        <translation>Zefania Lex Module</translation>
     </message>
     <message>
         <location filename="../module/module.cpp" line="106"/>
         <location filename="../module/module.cpp" line="121"/>
         <source>BibleQuote Dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>BibleQuote Wörterbuch</translation>
     </message>
     <message>
         <location filename="../module/module.cpp" line="106"/>
         <location filename="../module/module.cpp" line="123"/>
         <source>The Word Bible</source>
-        <translation type="unfinished"></translation>
+        <translation>TheWord Bibel</translation>
     </message>
 </context>
 <context>
@@ -1316,7 +1316,7 @@
     <message>
         <location filename="../ui/mainwindow.cpp" line="443"/>
         <source>Please choose another language.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte wählen sie eine andere Sprache.</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="407"/>
@@ -1406,7 +1406,7 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="96"/>
         <source>Module</source>
-        <translation type="unfinished">Module</translation>
+        <translation>Module</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="102"/>
@@ -1457,32 +1457,32 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="210"/>
         <source>Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Ansicht</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="216"/>
         <source>Use Parent Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutze übergeorndete Einstellungen</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="235"/>
         <source>Show Marks</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Markierungen</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="242"/>
         <source>Show Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Notizen</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="249"/>
         <source>Show Tool Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Toolbar</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="256"/>
         <source>Show Strong Number</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Strong Nummern</translation>
     </message>
     <message>
         <source>Show Strong</source>
@@ -1500,7 +1500,7 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="270"/>
         <source>Show RefLinks</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Verkünpfungen</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="305"/>
@@ -1673,12 +1673,12 @@
     <message>
         <location filename="../ui/noteseditor.ui" line="270"/>
         <source>&amp;New</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Neue</translation>
     </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="273"/>
         <source>Ctrl+N</source>
-        <translation type="unfinished"></translation>
+        <translation>Strg+N</translation>
     </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="278"/>
@@ -2022,14 +2022,14 @@
     <message>
         <location filename="../ui/dialog/settingsdialog.cpp" line="207"/>
         <source>It is not a folder.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es ist kein Ordner.</translation>
     </message>
     <message>
         <location filename="../module/bible/thewordbible.cpp" line="218"/>
         <location filename="../module/bible/zefania-bible.cpp" line="658"/>
         <location filename="../module/dictionary/biblequote-dict.cpp" line="115"/>
         <source>Build index</source>
-        <translation type="unfinished">Indizieren</translation>
+        <translation>Indizieren</translation>
     </message>
     <message>
         <source>Loading Module</source>
@@ -2072,35 +2072,35 @@
     <message>
         <location filename="../module/bible/zefania-bible.cpp" line="81"/>
         <source>The file is not valid.</source>
-        <translation type="unfinished">Die Datei ist nicht konform.</translation>
+        <translation>Die Datei ist nicht konform.</translation>
     </message>
     <message>
         <location filename="../module/bible/zefania-bible.cpp" line="294"/>
         <source>Loading Bible</source>
-        <translation type="unfinished">Bibel wird geladen</translation>
+        <translation>Bibel wird geladen</translation>
     </message>
     <message>
         <location filename="../module/bible/zefania-bible.cpp" line="315"/>
         <location filename="../module/dictionary/zefania-lex.cpp" line="156"/>
         <source>Can not read the file</source>
-        <translation type="unfinished">Kann die Datei nicht lesen</translation>
+        <translation>Kann die Datei nicht lesen</translation>
     </message>
     <message>
         <location filename="../module/bible/zefania-bible.cpp" line="375"/>
         <location filename="../module/dictionary/zefania-lex.cpp" line="165"/>
         <source>The file is not valid. Errorstring: %1 in Line %2 at Position %3</source>
-        <translation type="unfinished">DIe Datei ist nicht konform: Fehler: %1 in Zeile %2 an der Stelle %3</translation>
+        <translation>DIe Datei ist nicht konform: Fehler: %1 in Zeile %2 an der Stelle %3</translation>
     </message>
     <message>
         <location filename="../module/dictionary/zefania-lex.cpp" line="52"/>
         <location filename="../module/dictionary/zefania-lex.cpp" line="71"/>
         <source>The file is not valid</source>
-        <translation type="unfinished">Die Datei ist nicht konform</translation>
+        <translation>Die Datei ist nicht konform</translation>
     </message>
     <message>
         <location filename="../module/bible/zefania-bible.cpp" line="44"/>
         <source>Please activate Caching.(Hard or Soft Cache)</source>
-        <translation type="unfinished">Bitte aktivieren sie Caching</translation>
+        <translation>Bitte aktivieren sie Caching</translation>
     </message>
     <message>
         <source>Folder</source>
@@ -2131,7 +2131,7 @@
     <message>
         <location filename="../module/bible/zefania-bible.cpp" line="75"/>
         <source>Cannot read the file.</source>
-        <translation type="unfinished">Kann die Datei nicht lesen.</translation>
+        <translation>Kann die Datei nicht lesen.</translation>
     </message>
     <message>
         <source>Cannot determine the module type.</source>
@@ -2157,19 +2157,19 @@
     <message>
         <location filename="../module/bible/biblequote.cpp" line="352"/>
         <source>Indexing</source>
-        <translation type="unfinished">Indizieren</translation>
+        <translation>Indizieren</translation>
     </message>
     <message>
         <location filename="../module/dictionary/biblequote-dict.cpp" line="177"/>
         <location filename="../module/dictionary/zefania-lex.cpp" line="90"/>
         <source>Cannot build index.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann den Index nicht erstellen.</translation>
     </message>
     <message>
         <location filename="../module/dictionary/biblequote-dict.cpp" line="207"/>
         <location filename="../module/dictionary/zefania-lex.cpp" line="116"/>
         <source>Nothing found for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nicht gefunden für %1</translation>
     </message>
 </context>
 <context>
@@ -2373,37 +2373,37 @@
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="201"/>
         <source>Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Ansicht</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="210"/>
         <source>Show Marks</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Markierungen</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="217"/>
         <source>Show Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Notizen</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="224"/>
         <source>Show Tool Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Toolbar</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="231"/>
         <source>Show Strong Number</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Strong Nummern</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="238"/>
         <source>Show Study Notes</source>
-        <translation type="unfinished">Zeige Notizen</translation>
+        <translation>Zeige Notizen</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="245"/>
         <source>Show RefLinks</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Verkünpfungen</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="274"/>
@@ -2483,30 +2483,30 @@
         <location filename="../ui/interface/simple/simpleinterface.cpp" line="79"/>
         <location filename="../ui/interface/simple/simpleinterface.cpp" line="473"/>
         <source>Search</source>
-        <translation type="unfinished">Suchen</translation>
+        <translation>Suchen</translation>
     </message>
     <message>
         <location filename="../ui/interface/simple/simpleinterface.cpp" line="81"/>
         <location filename="../ui/interface/simple/simpleinterface.cpp" line="474"/>
         <source>Zoom In</source>
-        <translation type="unfinished">Vergrößern</translation>
+        <translation>Vergrößern</translation>
     </message>
     <message>
         <location filename="../ui/interface/simple/simpleinterface.cpp" line="83"/>
         <location filename="../ui/interface/simple/simpleinterface.cpp" line="475"/>
         <source>Zoom Out</source>
-        <translation type="unfinished">Verkleinern</translation>
+        <translation>Verkleinern</translation>
     </message>
     <message>
         <location filename="../ui/interface/simple/simpleinterface.cpp" line="85"/>
         <location filename="../ui/interface/simple/simpleinterface.cpp" line="476"/>
         <source>Module</source>
-        <translation type="unfinished">Module</translation>
+        <translation>Module</translation>
     </message>
     <message>
         <location filename="../ui/interface/simple/simpleinterface.cpp" line="270"/>
         <source>openBibleViewer</source>
-        <translation type="unfinished">openBibleViewer</translation>
+        <translation>openBibleViewer</translation>
     </message>
     <message>
         <source>Error</source>
@@ -2578,662 +2578,662 @@
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="20"/>
         <source>Genesis</source>
-        <translation type="unfinished">1.Mose</translation>
+        <translation>1.Mose</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="21"/>
         <source>Gen, Ge, Gn</source>
-        <translation type="unfinished">Gen, 1.Mos, 1Mos</translation>
+        <translation>Gen, 1.Mos, 1Mos</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="29"/>
         <source>Exodus</source>
-        <translation type="unfinished">2.Mose</translation>
+        <translation>2.Mose</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="30"/>
         <source>Ex, Exo, Exd</source>
-        <translation type="unfinished">Ex, 2.Mos, 2Mos</translation>
+        <translation>Ex, 2.Mos, 2Mos</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="39"/>
         <source>Leviticus</source>
-        <translation type="unfinished">3.Mose</translation>
+        <translation>3.Mose</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="40"/>
         <source>Lev, Le, Lv</source>
-        <translation type="unfinished">Lev, 3.Mos, 3Mos</translation>
+        <translation>Lev, 3.Mos, 3Mos</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="49"/>
         <source>Numbers</source>
-        <translation type="unfinished">4.Mose</translation>
+        <translation>4.Mose</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="50"/>
         <source>Num, Nu, Nm, Nb</source>
-        <translation type="unfinished">Num, 4.Mos, 4Mos</translation>
+        <translation>Num, 4.Mos, 4Mos</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="59"/>
         <source>Deuteronomy</source>
-        <translation type="unfinished">5.Mose</translation>
+        <translation>5.Mose</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="60"/>
         <source>Deut, Dt</source>
-        <translation type="unfinished">Deut, Dtn, 5.Mos, 5Mos</translation>
+        <translation>Deut, Dtn, 5.Mos, 5Mos</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="69"/>
         <source>Joshua</source>
-        <translation type="unfinished">Josua</translation>
+        <translation>Josua</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="70"/>
         <source>Josh, Jos, Jsh</source>
-        <translation type="unfinished">Jos</translation>
+        <translation>Jos</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="79"/>
         <source>Judges</source>
-        <translation type="unfinished">Richter</translation>
+        <translation>Richter</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="80"/>
         <source>Judg, Jdg, Jg, Jdgs</source>
-        <translation type="unfinished">Ri</translation>
+        <translation>Ri</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="89"/>
         <source>Ruth</source>
-        <translation type="unfinished">Rut</translation>
+        <translation>Rut</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="90"/>
         <source>Rth, Ru</source>
-        <translation type="unfinished">Rut</translation>
+        <translation>Rut</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="99"/>
         <source>1 Samuel</source>
-        <translation type="unfinished">1.Samuel</translation>
+        <translation>1.Samuel</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="100"/>
         <source>1 Sam, 1 Sa, 1Samuel, 1S, I Sa, 1 Sm, 1Sa, I Sam, 1Sam</source>
-        <translation type="unfinished">1.Sam, 1.Sa, 1Sam, 1Sa</translation>
+        <translation>1.Sam, 1.Sa, 1Sam, 1Sa</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="109"/>
         <source>2 Samuel</source>
-        <translation type="unfinished">2.Samuel</translation>
+        <translation>2.Samuel</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="110"/>
         <source>2 Sam, 2 Sa, 2S, II Sa, 2 Sm, 2Sa, II Sam, 2Sam</source>
-        <translation type="unfinished">2.Sam, 2.Sa, 2Sam, 2Sa</translation>
+        <translation>2.Sam, 2.Sa, 2Sam, 2Sa</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="119"/>
         <source>1 Kings</source>
-        <translation type="unfinished">1.Könige</translation>
+        <translation>1.Könige</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="120"/>
         <source>1 Kgs, 1 Ki, 1K, I Kgs, 1Kgs, I Ki, 1Ki, I Kings, 1Kings, 1st Kgs, 1st Kings, 1Kin</source>
-        <translation type="unfinished">1.Kön, 1Kön</translation>
+        <translation>1.Kön, 1Kön</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="129"/>
         <source>2 Kings</source>
-        <translation type="unfinished">2.Könige</translation>
+        <translation>2.Könige</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="130"/>
         <source>2 Kgs, 2 Ki, 2K, II Kgs, 2Kgs, II Ki, 2Ki, II Kings, 2Kings, 2nd Kgs, 2nd Kings, 2Kin</source>
-        <translation type="unfinished">2.Kön, 2Kön</translation>
+        <translation>2.Kön, 2Kön</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="139"/>
         <source>1 Chronicles</source>
-        <translation type="unfinished">1.Chronik</translation>
+        <translation>1.Chronik</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="140"/>
         <source>1 Chron, 1 Ch, I Ch, 1Ch, 1 Chr, I Chr, 1Chr, I Chron, 1Chron</source>
-        <translation type="unfinished">1.Chr, 1Chr</translation>
+        <translation>1.Chr, 1Chr</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="149"/>
         <source>2 Chronicles</source>
-        <translation type="unfinished">2.Chronik</translation>
+        <translation>2.Chronik</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="150"/>
         <source>2 Chron, 2 Ch, II Ch, 2Ch, II Chr, 2Chr, II Chron, 2Chron</source>
-        <translation type="unfinished">2.Chr, 2Chr</translation>
+        <translation>2.Chr, 2Chr</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="159"/>
         <source>Ezra</source>
-        <translation type="unfinished"></translation>
+        <translation>Esra</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="160"/>
         <source>Ezra, Ezr</source>
-        <translation type="unfinished">Esr, Esra</translation>
+        <translation>Esr, Esra</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="169"/>
         <source>Nehemiah</source>
-        <translation type="unfinished">Nehemia</translation>
+        <translation>Nehemia</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="170"/>
         <source>Neh, Ne</source>
-        <translation type="unfinished">Neh</translation>
+        <translation>Neh</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="179"/>
         <source>Esther</source>
-        <translation type="unfinished">Ester</translation>
+        <translation>Ester</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="180"/>
         <source>Esth, Es</source>
-        <translation type="unfinished">Est</translation>
+        <translation>Est</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="189"/>
         <source>Job</source>
-        <translation type="unfinished">Hiob</translation>
+        <translation>Hiob</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="190"/>
         <source>Job, Job, Jb</source>
-        <translation type="unfinished">Hi, Ijob</translation>
+        <translation>Hi, Ijob</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="199"/>
         <source>Psalm</source>
-        <translation type="unfinished">Psalm</translation>
+        <translation>Psalm</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="200"/>
         <source>Pslm, Ps, Psalms, Psa, Psm, Pss</source>
-        <translation type="unfinished">Ps</translation>
+        <translation>Ps</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="209"/>
         <source>Proverbs</source>
-        <translation type="unfinished">Sprüche</translation>
+        <translation>Sprüche</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="210"/>
         <source>Prov, Pr, Prv</source>
-        <translation type="unfinished">Spr</translation>
+        <translation>Spr</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="219"/>
         <source>Ecclesiastes</source>
-        <translation type="unfinished">Prediger</translation>
+        <translation>Prediger</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="220"/>
         <source>Eccles, Ec, Qoh, Qoheleth</source>
-        <translation type="unfinished">Pred, Koh</translation>
+        <translation>Pred, Koh</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="229"/>
         <source>Song of Solomon</source>
-        <translation type="unfinished">Hohelied</translation>
+        <translation>Hohelied</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="230"/>
         <source>Song, So, SOS</source>
-        <translation type="unfinished">Hld, Hl</translation>
+        <translation>Hld, Hl</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="239"/>
         <source>Isaiah</source>
-        <translation type="unfinished">Jesaja</translation>
+        <translation>Jesaja</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="240"/>
         <source>Isa, Is</source>
-        <translation type="unfinished">Jes</translation>
+        <translation>Jes</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="249"/>
         <source>Jeremiah</source>
-        <translation type="unfinished">Jeremia</translation>
+        <translation>Jeremia</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="250"/>
         <source>Jer, Je, Jr</source>
-        <translation type="unfinished">Jer</translation>
+        <translation>Jer</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="259"/>
         <source>Lamentations</source>
-        <translation type="unfinished">Klagelieder</translation>
+        <translation>Klagelieder</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="260"/>
         <source>Lam, La</source>
-        <translation type="unfinished">Kla, Klgl</translation>
+        <translation>Kla, Klgl</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="269"/>
         <source>Ezekiel</source>
-        <translation type="unfinished">Hesekiel</translation>
+        <translation>Hesekiel</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="270"/>
         <source>Ezek, Eze, Ezk</source>
-        <translation type="unfinished">Hes, Ez</translation>
+        <translation>Hes, Ez</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="279"/>
         <source>Daniel</source>
-        <translation type="unfinished">Daniel</translation>
+        <translation>Daniel</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="280"/>
         <source>Dan, Da, Dn</source>
-        <translation type="unfinished">Dan</translation>
+        <translation>Dan</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="289"/>
         <source>Hosea</source>
-        <translation type="unfinished">Hosea</translation>
+        <translation>Hosea</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="290"/>
         <source>Hos, Ho</source>
-        <translation type="unfinished">Hos</translation>
+        <translation>Hos</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="299"/>
         <source>Joel</source>
-        <translation type="unfinished">Joel</translation>
+        <translation>Joel</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="300"/>
         <source>Joel, Joe, Jl</source>
-        <translation type="unfinished">Joe</translation>
+        <translation>Joe</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="309"/>
         <source>Amos</source>
-        <translation type="unfinished">Amos</translation>
+        <translation>Amos</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="310"/>
         <source>Amos, Am</source>
-        <translation type="unfinished">Am</translation>
+        <translation>Am</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="319"/>
         <source>Obadiah</source>
-        <translation type="unfinished">Obadja</translation>
+        <translation>Obadja</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="320"/>
         <source>Obad, Ob</source>
-        <translation type="unfinished">Obd, Ob</translation>
+        <translation>Obd, Ob</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="329"/>
         <source>Jonah</source>
-        <translation type="unfinished">Jona</translation>
+        <translation>Jona</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="330"/>
         <source>Jnh, Jon</source>
-        <translation type="unfinished">Jon</translation>
+        <translation>Jon</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="339"/>
         <source>Micah</source>
-        <translation type="unfinished">Micha</translation>
+        <translation>Micha</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="340"/>
         <source>Micah, Mic</source>
-        <translation type="unfinished">Mi</translation>
+        <translation>Mi</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="349"/>
         <source>Nahum</source>
-        <translation type="unfinished">Nahum</translation>
+        <translation>Nahum</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="350"/>
         <source>Nah, Na</source>
-        <translation type="unfinished">Nah</translation>
+        <translation>Nah</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="359"/>
         <source>Habakkuk</source>
-        <translation type="unfinished">Habakuk</translation>
+        <translation>Habakuk</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="360"/>
         <source>Hab, Hab</source>
-        <translation type="unfinished">Hab</translation>
+        <translation>Hab</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="369"/>
         <source>Zephaniah</source>
-        <translation type="unfinished">Zefanja</translation>
+        <translation>Zefanja</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="370"/>
         <source>Zeph, Zep, Zp</source>
-        <translation type="unfinished">Zef</translation>
+        <translation>Zef</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="379"/>
         <source>Haggai</source>
-        <translation type="unfinished">Haggai</translation>
+        <translation>Haggai</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="380"/>
         <source>Haggai, Hag, Hg</source>
-        <translation type="unfinished">Hag</translation>
+        <translation>Hag</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="389"/>
         <source>Zechariah</source>
-        <translation type="unfinished">Sacharja</translation>
+        <translation>Sacharja</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="390"/>
         <source>Zech, Zec, Zc</source>
-        <translation type="unfinished">Sach</translation>
+        <translation>Sach</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="399"/>
         <source>Malachi</source>
-        <translation type="unfinished">Maleachi</translation>
+        <translation>Maleachi</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="400"/>
         <source>Mal, Mal, Ml</source>
-        <translation type="unfinished">Mal</translation>
+        <translation>Mal</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="409"/>
         <source>Matthew</source>
-        <translation type="unfinished">Matthäus</translation>
+        <translation>Matthäus</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="410"/>
         <source>Matt, Mt</source>
-        <translation type="unfinished">Mt</translation>
+        <translation>Mt</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="419"/>
         <source>Mark</source>
-        <translation type="unfinished">Markus</translation>
+        <translation>Markus</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="420"/>
         <source>Mrk, Mk, Mr</source>
-        <translation type="unfinished">Mk</translation>
+        <translation>Mk</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="429"/>
         <source>Luke</source>
-        <translation type="unfinished">Lukas</translation>
+        <translation>Lukas</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="430"/>
         <source>Luk, Lk</source>
-        <translation type="unfinished">Lk</translation>
+        <translation>Lk</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="439"/>
         <source>John</source>
-        <translation type="unfinished">Johannes</translation>
+        <translation>Johannes</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="440"/>
         <source>John, Jn, Jhn</source>
-        <translation type="unfinished">Joh</translation>
+        <translation>Joh</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="449"/>
         <source>Acts</source>
-        <translation type="unfinished">Apostelgeschichte</translation>
+        <translation>Apostelgeschichte</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="450"/>
         <source>Acts, Ac</source>
-        <translation type="unfinished">Apg</translation>
+        <translation>Apg</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="460"/>
         <source>Romans</source>
-        <translation type="unfinished">Römer</translation>
+        <translation>Römer</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="461"/>
         <source>Rom, Ro, Rm</source>
-        <translation type="unfinished">Röm</translation>
+        <translation>Röm</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="470"/>
         <source>1 Corinthians</source>
-        <translation type="unfinished">1.Korinther</translation>
+        <translation>1.Korinther</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="471"/>
         <source>1 Cor, 1 Co, I Co, 1Co, I Cor, 1Cor</source>
-        <translation type="unfinished">1.Kor, 1Kor</translation>
+        <translation>1.Kor, 1Kor</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="480"/>
         <source>2 Corinthians</source>
-        <translation type="unfinished">2.Korinther</translation>
+        <translation>2.Korinther</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="481"/>
         <source>2 Cor, 2 Co, II Co, 2Co, II Cor, 2Cor</source>
-        <translation type="unfinished">2.Kor, 2Kor</translation>
+        <translation>2.Kor, 2Kor</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="490"/>
         <source>Galatians</source>
-        <translation type="unfinished">Galater</translation>
+        <translation>Galater</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="491"/>
         <source>Gal, Ga</source>
-        <translation type="unfinished">Gal</translation>
+        <translation>Gal</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="500"/>
         <source>Ephesians</source>
-        <translation type="unfinished">Epheser</translation>
+        <translation>Epheser</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="501"/>
         <source>Ephes, Eph</source>
-        <translation type="unfinished">Eph</translation>
+        <translation>Eph</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="510"/>
         <source>Philippians</source>
-        <translation type="unfinished">Philipper</translation>
+        <translation>Philipper</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="511"/>
         <source>Phil, Php</source>
-        <translation type="unfinished">Phil</translation>
+        <translation>Phil</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="520"/>
         <source>Colossians</source>
-        <translation type="unfinished">Kolosser</translation>
+        <translation>Kolosser</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="521"/>
         <source>Col, Col</source>
-        <translation type="unfinished">Kol</translation>
+        <translation>Kol</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="530"/>
         <source>1 Thessalonians</source>
-        <translation type="unfinished">1.Thessalonicher</translation>
+        <translation>1.Thessalonicher</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="531"/>
         <source>1 Thess, 1 Th, I Th, 1Th, I Thes, 1Thes, I Thess, 1Thess</source>
-        <translation type="unfinished">1.Thes, 1Thes, 1.Thess,1Thess</translation>
+        <translation>1.Thes, 1Thes, 1.Thess,1Thess</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="540"/>
         <source>2 Thessalonians</source>
-        <translation type="unfinished">2.Thessalonicher</translation>
+        <translation>2.Thessalonicher</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="541"/>
         <source>2 Thess, 2 Th, II Th, 2Th, II Thes, 2Thes, II Thess, 2Thess</source>
-        <translation type="unfinished">2.Thes, 2Thes, 2.Thess,2Thess</translation>
+        <translation>2.Thes, 2Thes, 2.Thess,2Thess</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="550"/>
         <source>1 Timothy</source>
-        <translation type="unfinished">1.Timotheus</translation>
+        <translation>1.Timotheus</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="551"/>
         <source>1 Tim, 1 Ti, I Ti, 1Ti, I Tim, 1Tim</source>
-        <translation type="unfinished">1.Tim, 1Tim</translation>
+        <translation>1.Tim, 1Tim</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="560"/>
         <source>2 Timothy</source>
-        <translation type="unfinished">2.Timotheus</translation>
+        <translation>2.Timotheus</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="561"/>
         <source>2 Tim, 2 Ti, II Ti, 2Ti, II Tim, 2Tim</source>
-        <translation type="unfinished">2.Tim, 2Tim</translation>
+        <translation>2.Tim, 2Tim</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="570"/>
         <source>Titus</source>
-        <translation type="unfinished">Titus</translation>
+        <translation>Titus</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="571"/>
         <source>Titus, Tit</source>
-        <translation type="unfinished">Tit</translation>
+        <translation>Tit</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="580"/>
         <source>Philemon</source>
-        <translation type="unfinished">Philemon</translation>
+        <translation>Philemon</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="581"/>
         <source>Philem, Phm</source>
-        <translation type="unfinished">Phim, Phlm</translation>
+        <translation>Phim, Phlm</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="590"/>
         <source>Hebrews</source>
-        <translation type="unfinished">Hebräer</translation>
+        <translation>Hebräer</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="591"/>
         <source>Hebrews, Heb</source>
-        <translation type="unfinished">Hebr</translation>
+        <translation>Hebr</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="600"/>
         <source>James</source>
-        <translation type="unfinished">Jakobus</translation>
+        <translation>Jakobus</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="601"/>
         <source>James, Jas, Jm</source>
-        <translation type="unfinished">Jak</translation>
+        <translation>Jak</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="610"/>
         <source>1 Peter</source>
-        <translation type="unfinished">1.Petrus</translation>
+        <translation>1.Petrus</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="611"/>
         <source>1 Pet, 1 Pe, I Pe, 1Pe, I Pet, 1Pet, I Pt, 1 Pt, 1Pt</source>
-        <translation type="unfinished">1.Petr, 1Petr</translation>
+        <translation>1.Petr, 1Petr</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="620"/>
         <source>2 Peter</source>
-        <translation type="unfinished">2.Petrus</translation>
+        <translation>2.Petrus</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="621"/>
         <source>2 Pet, 2 Pe, II Pe, 2Pe, II Pet, 2Pet, II Pt, 2 Pt, 2Pt</source>
-        <translation type="unfinished">2.Petr, 2Petr</translation>
+        <translation>2.Petr, 2Petr</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="630"/>
         <source>1 John</source>
-        <translation type="unfinished">1.Johannes</translation>
+        <translation>1.Johannes</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="631"/>
         <source>1 John, 1 Jn, I Jn, 1Jn, I Jo, 1Jo, I Joh, 1Joh, I Jhn, 1 Jhn, 1Jhn, I John, 1John</source>
-        <translation type="unfinished">1.Joh, 1Joh</translation>
+        <translation>1.Joh, 1Joh</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="640"/>
         <source>2 John</source>
-        <translation type="unfinished">2.Johannes</translation>
+        <translation>2.Johannes</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="641"/>
         <source>2 John, 2 Jn, II Jn, 2Jn, II Jo, 2Jo, II Joh, 2Joh, II Jhn, 2 Jhn, 2Jhn, II John, 2John</source>
-        <translation type="unfinished">2.Joh, 2Joh</translation>
+        <translation>2.Joh, 2Joh</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="650"/>
         <source>3 John</source>
-        <translation type="unfinished">3.Johannes</translation>
+        <translation>3.Johannes</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="651"/>
         <source>3 John, 3 Jn, III Jn, 3Jn, III Jo, 3Jo, III Joh, 3Joh, III Jhn, 3 Jhn, 3Jhn, III John, 3John</source>
-        <translation type="unfinished">3.Joh, 3Joh</translation>
+        <translation>3.Joh, 3Joh</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="660"/>
         <source>Jude</source>
-        <translation type="unfinished">Judas</translation>
+        <translation>Judas</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="661"/>
         <source>Jude, Jud</source>
-        <translation type="unfinished">Jud</translation>
+        <translation>Jud</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="670"/>
         <source>Revelation</source>
-        <translation type="unfinished">Offenbarung</translation>
+        <translation>Offenbarung</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="671"/>
         <source>Rev, Re</source>
-        <translation type="unfinished"></translation>
+        <translation>Offb</translation>
     </message>
 </context>
 </TS>
