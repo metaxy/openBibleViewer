@@ -528,7 +528,7 @@ void WindowManager::reloadChapter(bool full)
     if(full) {
         m_actions->reloadBible();
     } else {
-        m_actions->reshowCurrentRange();
+        m_actions->reShowCurrentRange();
     }
     v->page()->mainFrame()->setScrollPosition(p);
 }

@@ -27,7 +27,7 @@ void BibleManager::init()
     connect(m_actions, SIGNAL(_previousChapter()), this, SLOT(previousChapter()));
     connect(m_actions, SIGNAL(_nextChapter()), this, SLOT(nextChapter()));
     connect(m_actions, SIGNAL(_loadBibleList(bool)), this, SLOT(loadBibleList(bool)));
-    connect(m_actions, SIGNAL(_reshowCurrentRange()), this, SLOT(reshowCurrentRange()));
+    connect(m_actions, SIGNAL(_reShowCurrentRange()), this, SLOT(reShowCurrentRange()));
     connect(m_actions, SIGNAL(_reloadBible()), this, SLOT(reloadBible()));
 }
 void BibleManager::createDocks()
@@ -194,9 +194,9 @@ void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
         m_moduleManager->newVerseModule(ranges.getList().first().moduleID(), QPoint(0, 0));
     }
     if(m_moduleManager->verseTable()->verseModule()->moduleID() != ranges.getList().first().moduleID()) {
-        myDebug() << "init new module";
+        //myDebug() << "init new module";
         const int moduleID = ranges.getList().first().moduleID();
-        myDebug() << "module ID";
+        //myDebug() << "module ID";
         const QPoint p = m_moduleManager->verseTable()->m_points.value(m_moduleManager->verseTable()->currentVerseTableID());
         VerseModule *m;
         if(m_moduleManager->getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
@@ -209,7 +209,7 @@ void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
         m_moduleManager->verseTable()->addModule(m, p);
     }
     std::pair<QString, TextRanges> r = m_moduleManager->verseTable()->readRanges(ranges);
-    myDebug() << "r failed = " << r.second.failed();
+    //myDebug() << "r failed = " << r.second.failed();
     if(!r.second.failed()) {
         m_actions->showTextRanges(r.first, r.second, url);
         m_actions->updateChapters(m_moduleManager->verseModule()->lastTextRanges()->minBookID(), m_moduleManager->verseModule()->versification());
@@ -219,6 +219,8 @@ void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
         m_actions->setTitle(m_moduleManager->verseModule()->moduleTitle());
     } else {
         m_actions->showTextRanges(r.first, r.second, url);
+        m_actions->clearBooks();
+        m_actions->clearChapters();
     }
 }
 
@@ -297,7 +299,7 @@ void BibleManager::loadBibleList(bool hadBible)
         m_actions->get(url);
     }
 }
-void BibleManager::reshowCurrentRange()
+void BibleManager::reShowCurrentRange()
 {
     DEBUG_FUNC_NAME
     if(!m_moduleManager->bibleLoaded())

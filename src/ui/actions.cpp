@@ -125,9 +125,9 @@ void Actions::reloadBible()
     emit _reloadBible();
 }
 
-void Actions::reshowCurrentRange()
+void Actions::reShowCurrentRange()
 {
-    emit _reshowCurrentRange();
+    emit _reShowCurrentRange();
 }
 void Actions::newSubWindowIfEmpty()
 {
@@ -141,7 +141,4 @@ void Actions::searchInText()
 {
     emit _searchInText();
 }
-void Actions::forceReloadOfCurrentChapter(bool full)
-{
-    emit _forceReloadOfCurrentChapter(full);
-}
+

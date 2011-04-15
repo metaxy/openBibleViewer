@@ -369,7 +369,6 @@ void BibleForm::showText(const QString &text)
     }
 
     if(m_moduleManager->verseModule()->moduleType() == OBVCore::BibleQuoteModule) {
-        //todo: uncomment
         QWebElementCollection collection = frame->documentElement().findAll("img");
         const QStringList searchPaths = ((Bible*) m_moduleManager->verseModule())->getSearchPaths();
 
@@ -398,6 +397,8 @@ void BibleForm::showText(const QString &text)
     }
 
 }
+
+
 void BibleForm::forwardShowTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url)
 {
     if(!active())
@@ -996,6 +997,7 @@ VerseSelection BibleForm::verseSelection()
     }
     return s;
 }
+
 BibleForm::~BibleForm()
 {
     delete m_ui;

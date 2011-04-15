@@ -34,7 +34,7 @@ public:
     DictionaryDockWidget(QWidget *parent = 0);
     ~DictionaryDockWidget();
     void init();
-    void showStrong(QString id);
+    void showEntry(QString id);
 protected:
     void changeEvent(QEvent *e);
 private:

@@ -48,8 +48,8 @@ public:
 
     int readBook(const int id);
 
-
     QStringList getSearchPaths() const;
+    BibleModule *module();
 
     void search(SearchQuery query, SearchResult *result);
 

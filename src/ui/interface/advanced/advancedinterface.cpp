@@ -144,30 +144,36 @@ void AdvancedInterface::pharseUrl(QString url)
     if(url.startsWith(bible)) {
         m_bibleManager->pharseUrl(url);
     } else if(url.startsWith(strong)) {
-        url = url.remove(0, strong.size());
-        m_dictionaryDockWidget->showStrong(url);
         //strong://strongID
+        url = url.remove(0, strong.size());
+        m_dictionaryDockWidget->showEntry(url);
     } else if(url.startsWith(gram)) {
-        url = url.remove(0, gram.size());
-        m_dictionaryDockWidget->showStrong(url);
         //gram://strongID
+        url = url.remove(0, gram.size());
+        m_dictionaryDockWidget->showEntry(url);
     } else if(url.startsWith(http)) {
-        QDesktopServices::openUrl(url);
         //its a web link
+        QDesktopServices::openUrl(url);
     } else if(url.startsWith(bq)) {
         m_bibleManager->pharseUrl(url);
     } else if(url.startsWith(anchor)) {
         //todo:
-        /*url = url.remove(0, anchor.size());
+        url = url.remove(0, anchor.size());
         bool ok;
         int c = url.toInt(&ok, 10);
-        if(ok && c < m_moduleManager->bible()->chaptersCount() && m_moduleManager->bible()->bibleType() == OBVCore::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c) {
-            showChapter(c, 0);
-            setCurrentChapter(c);
+        if(ok /*&& c < m_moduleManager->bible()->chaptersCount() && m_moduleManager->bible()->bibleType() == OBVCore::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c*/) {
+            VerseUrlRange r;
+            r.setModule(VerseUrlRange::LoadCurrentModule);
+            r.setBook(VerseUrlRange::LoadCurrentBook);
+            r.setChapter(c);
+            r.setWholeChapter();
+            VerseUrl url(r);
+            m_actions->get(url);
+
         } else {
             if(m_windowManager->activeForm())
                 m_windowManager->activeForm()->scrollToAnchor(url);
-        }*/
+        }
 
     } else if(url.startsWith(note)) {
         url = url.remove(0, note.size());
@@ -182,12 +188,10 @@ void AdvancedInterface::pharseUrl(QString url)
         pharseUrl(i);*/
     } else {
         //todo: unterstand links like about:blank#a04
-        //todo: uncomment
-        /*if(m_moduleManager->verseModule()->moduleType() == OBVCore::BibleQuoteModule) {
-            myDebug() << m_moduleManager->verseModule()->modulePath();
+        if(m_moduleManager->verseModule()->moduleType() == OBVCore::BibleQuoteModule) {
             bool isInBookPath = false;
             int b = 0;
-            const QStringList books = m_moduleManager->verseModule()->bookPath();
+            const QStringList books = ((BibleQuote*)(((Bible*)m_moduleManager->verseModule())->module()))->m_bookPath;
             myDebug() << books;
             int i = 0;
             foreach(const QString & book, books) {
@@ -200,13 +204,18 @@ void AdvancedInterface::pharseUrl(QString url)
                 i++;
             }
             if(isInBookPath) {
-                myDebug() << "getting";
-                m_actions->get("bible://current/" + QString::number(b));
+                VerseUrlRange r;
+                r.setModule(VerseUrlRange::LoadCurrentModule);
+                r.setBook(b);
+                r.setChapter(VerseUrlRange::LoadFirstChapter);
+                r.setWholeChapter();
+                VerseUrl url(r);
+                m_actions->get(url);
             }
         } else {
             if(m_windowManager->activeForm())
                 m_windowManager->activeForm()->evaluateJavaScript(url);
-        }*/
+        }
     }
     //setEnableReload(true);
     return;
@@ -278,8 +287,7 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
         //m_moduleManager->bible()->clearSoftCache();
         //if(m_moduleManager->bibleLoaded())
 
-        //reloadChapter(true);
-        m_actions->forceReloadOfCurrentChapter(true);
+        m_actions->reloadChapter(true);
         QApplication::restoreOverrideCursor();
     }
 

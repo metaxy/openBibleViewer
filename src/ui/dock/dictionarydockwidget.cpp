@@ -67,9 +67,9 @@ void DictionaryDockWidget::search()
 {
     const QString s = ui->lineEdit_strong->text();
     if(!s.isEmpty())
-        showStrong(s);
+        showEntry(s);
 }
-void DictionaryDockWidget::showStrong(QString strongID)
+void DictionaryDockWidget::showEntry(QString strongID)
 {
     if(isHidden()) {
         show();

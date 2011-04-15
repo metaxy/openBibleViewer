@@ -511,3 +511,7 @@ QList<int> Bible::bookIDs() const
 {
     return m_versification->bookNames().keys();
 }
+BibleModule * Bible::module()
+{
+    return m_bibleModule;
+}

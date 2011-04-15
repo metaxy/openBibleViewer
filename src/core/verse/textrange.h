@@ -45,7 +45,6 @@ public:
     bool failed() const;
     void setFailed(bool failed);
 
-
 private:
     QMap<int, Verse> m_verse;
     QString m_title;

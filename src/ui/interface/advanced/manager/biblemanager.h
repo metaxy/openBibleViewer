@@ -51,7 +51,7 @@ public slots:
     void previousChapter();
     void loadBibleList(bool hadBible);
 
-    void reshowCurrentRange();
+    void reShowCurrentRange();
     void reloadBible();
 private:
     void showRanges(const Ranges &ranges, const VerseUrl &url);

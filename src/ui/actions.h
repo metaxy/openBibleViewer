@@ -62,12 +62,11 @@ signals:
     void _reloadChapter(bool full);
 
     void _reloadBible();
-    void _reshowCurrentRange();
+    void _reShowCurrentRange();
     void _newSubWindowIfEmpty();
 
     void _searchInText(SearchResult *result);
     void _searchInText();
-    void _forceReloadOfCurrentChapter(bool full);
 
 public slots:
     /**
@@ -115,12 +114,10 @@ public slots:
     void loadBibleList(bool hadBible);
 
     void reloadBible();
-    void reshowCurrentRange();
+    void reShowCurrentRange();
 
     void searchInText(SearchResult *result);
     void searchInText();
-
-    void forceReloadOfCurrentChapter(bool full);
 
 
 };
