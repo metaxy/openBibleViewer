@@ -135,11 +135,13 @@ void Actions::newSubWindowIfEmpty()
 }
 void Actions::searchInText(SearchResult *result)
 {
-    DEBUG_FUNC_NAME;
     emit _searchInText(result);
 }
 void Actions::searchInText()
 {
-    DEBUG_FUNC_NAME;
     emit _searchInText();
+}
+void Actions::forceReloadOfCurrentChapter(bool full)
+{
+    emit _forceReloadOfCurrentChapter(full);
 }

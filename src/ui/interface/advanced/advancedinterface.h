@@ -61,11 +61,8 @@ public slots:
     void settingsChanged(Settings oldSettings, Settings newSettings, bool modifedModuleSettings);
     void restoreSession();
 private slots:
-
-
     void pharseUrl(QUrl url);
     void pharseUrl(QString url);
-
 
     void saveFile();
     void printFile();
@@ -75,10 +72,6 @@ private slots:
     void copy();
     void selectAll();
 
-
-    void showBookmarksDock();
-    void showNotesDock();
-
     int showAboutDialog();
     void showMarkCategories();
     void showMarkList();
@@ -87,7 +80,6 @@ private slots:
     void setTabbedView();
     void setSubWindowView();
     void setTitle(const QString &title);
-
 
 public:
     AdvancedInterface(QWidget *parent = 0);
@@ -102,8 +94,6 @@ public:
     void createDocks();
     void createToolBars();
     void createMenu();
-
-
 
 protected:
     void changeEvent(QEvent *e);
@@ -132,7 +122,6 @@ private:
     QAction *m_mainBarActionModule;
 
     void toolBarSetText();
-
 
     DictionaryDockWidget * m_dictionaryDockWidget;
 

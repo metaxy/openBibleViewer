@@ -279,11 +279,11 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
         //if(m_moduleManager->bibleLoaded())
 
         //reloadChapter(true);
+        m_actions->forceReloadOfCurrentChapter(true);
         QApplication::restoreOverrideCursor();
     }
 
 }
-
 
 void AdvancedInterface::copy()
 {
@@ -609,6 +609,7 @@ void AdvancedInterface::createToolBars()
     m_searchBar->setObjectName("searchToolBar");
     m_searchBar->setIconSize(QSize(16, 16));
     m_searchBar->setWindowTitle(tr("Search Bar"));
+    m_searchBar->setMaximumWidth(250);
 
     QLineEdit *edit = new QLineEdit(m_searchBar);
     edit->setObjectName("lineEdit");
@@ -626,43 +627,6 @@ QList<QToolBar *> AdvancedInterface::toolBars()
     return list;
 }
 
-
-void AdvancedInterface::showBookmarksDock()
-{
-    /*if(m_bookmarksDockWidget->isVisible()) {
-        m_bookmarksDockWidget->hide();
-    } else {
-        m_bookmarksDockWidget->show();
-    }*/
-}
-
-void AdvancedInterface::showNotesDock()
-{
-    /*if(m_notesDockWidget->isVisible()) {
-        m_notesDockWidget->hide();
-    } else {
-        m_notesDockWidget->show();
-    }*/
-}
-
-/*void AdvancedInterface::newBookmark()
-{
-    if(!m_moduleManager->bibleLoaded() && !m_windowManager->activeMdiChild())
-        return;
-    if(m_bookmarksDockWidget->isHidden())
-        m_bookmarksDockWidget->show();
-    m_bookmarksDockWidget->newBookmark(verseSelection());
-}*//*
-
-void AdvancedInterface::newNoteWithLink()
-{
-    if(!m_moduleManager->bibleLoaded() && !m_windowManager->activeMdiChild())
-        return;
-    if(m_notesDockWidget->isHidden())
-        m_notesDockWidget->show();
-    m_notesDockWidget->newNoteWithLink(verseSelection());
-}
-*/
 void AdvancedInterface::onlineHelp()
 {
     //open the online faq

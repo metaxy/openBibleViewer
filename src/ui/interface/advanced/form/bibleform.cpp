@@ -292,7 +292,6 @@ void BibleForm::activated()
         m_moduleManager->initVerseModule(b);
         m_moduleManager->verseTable()->addModule(b, QPoint(0, 0));
         m_verseTable = m_moduleManager->m_verseTable;
-
         return;
     }
     if(m_verseTable->verseModule()->moduleID() < 0) {

@@ -67,6 +67,7 @@ signals:
 
     void _searchInText(SearchResult *result);
     void _searchInText();
+    void _forceReloadOfCurrentChapter(bool full);
 
 public slots:
     /**
@@ -119,6 +120,7 @@ public slots:
     void searchInText(SearchResult *result);
     void searchInText();
 
+    void forceReloadOfCurrentChapter(bool full);
 
 
 };
