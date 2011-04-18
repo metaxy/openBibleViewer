@@ -119,7 +119,7 @@ void TermInfosReader::close()
         //destroy their elements
 #ifdef _DEBUG
         for(int32_t i = 0; i < indexTermsLength; ++i) {
-            indexTerms[i].__cl_refcount--;
+            //indexTerms[i].__cl_refcount--;
         }
 #endif
         //Delete the arrays
