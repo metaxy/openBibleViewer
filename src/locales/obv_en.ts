@@ -12,276 +12,276 @@
 <context>
     <name>AdvancedInterface</name>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="218"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="220"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="227"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="229"/>
         <source>openBibleViewer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="308"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="316"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="311"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="319"/>
         <source>New SubWindow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="316"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="324"/>
         <source>Close SubWindow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="321"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="329"/>
         <source>Save As</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="326"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="334"/>
         <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="331"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="339"/>
         <source>Print Preview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="336"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="344"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="349"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="357"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="352"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="360"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="357"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="365"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="362"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="571"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="739"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="370"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="579"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="711"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="367"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="375"/>
         <source>Find Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="372"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="380"/>
         <source>Find Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="377"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="385"/>
         <source>Next Chapter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="382"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="390"/>
         <source>Previous Chapter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="399"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="407"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="402"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="587"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="746"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="747"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="410"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="595"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="718"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="719"/>
         <source>Zoom In</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="407"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="590"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="748"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="749"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="415"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="598"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="720"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="721"/>
         <source>Zoom Out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="412"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="420"/>
         <source>Tabbed View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="417"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="425"/>
         <source>Sub Window View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="422"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="430"/>
         <source>Cascade</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="426"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="434"/>
         <source>Tile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="430"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="438"/>
         <source>Tile Vertical</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="434"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="442"/>
         <source>Tile Horizontal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="449"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="485"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="579"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="743"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="457"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="493"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="587"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="715"/>
         <source>Notes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="452"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="460"/>
         <source>Notes Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="456"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="464"/>
         <source>Mark List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="460"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="468"/>
         <source>Mark Categories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="469"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="477"/>
         <source>Docks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="472"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="593"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="750"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="480"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="601"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="722"/>
         <source>Module</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="479"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="487"/>
         <source>Books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="491"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="499"/>
         <source>Dictionay</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="497"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="574"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="741"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="505"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="582"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="713"/>
         <source>Bookmarks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="503"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="511"/>
         <source>Quick Jump</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="509"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="517"/>
         <source>Search Results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="524"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="532"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="527"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="535"/>
         <source>Configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="535"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="543"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="537"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="545"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="541"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="549"/>
         <source>Online Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="569"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="738"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="577"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="710"/>
         <source>Main Tool Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="584"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="745"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="592"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="717"/>
         <source>New Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="611"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="752"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="619"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="724"/>
         <source>Search Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="669"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="641"/>
         <source>http://openbv.uucyc.name/faq.html</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="694"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="666"/>
         <source>About openBibleViewer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="696"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="668"/>
         <source>openBibleViewer &lt;br /&gt; version: %1 build: %2&lt;br /&gt; &lt;a href=&apos;http://openbv.uucyc.name/&apos;&gt; Official Website&lt;/a&gt; &lt;br /&gt;&lt;a href=&apos;https://github.com/metaxy/openBibleViewer/issues&apos;&gt;Bug report&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="740"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="712"/>
         <source>Search in current module.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="742"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="714"/>
         <source>Show/Hide the bookmarks dock.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="744"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="716"/>
         <source>Show/Hide the notes dock.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="751"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="723"/>
         <source>Add and edit the modules</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1363,10 +1363,10 @@
         <location filename="../core/simplenotes.cpp" line="481"/>
         <location filename="../ui/dialog/settingsdialog.cpp" line="207"/>
         <location filename="../module/bible/zefania-bible.cpp" line="44"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="75"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="81"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="315"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="375"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="76"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="82"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="316"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="376"/>
         <location filename="../module/dictionary/zefania-lex.cpp" line="52"/>
         <location filename="../module/dictionary/zefania-lex.cpp" line="71"/>
         <location filename="../module/dictionary/zefania-lex.cpp" line="156"/>
@@ -1388,10 +1388,10 @@
     <message>
         <location filename="../ui/dialog/settingsdialog.cpp" line="179"/>
         <location filename="../ui/dialog/settingsdialog.cpp" line="342"/>
-        <location filename="../module/bible/biblequote.cpp" line="352"/>
+        <location filename="../module/bible/biblequote.cpp" line="353"/>
         <location filename="../module/bible/thewordbible.cpp" line="218"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="294"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="658"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="295"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="660"/>
         <location filename="../module/dictionary/biblequote-dict.cpp" line="115"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
@@ -1402,13 +1402,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../module/bible/biblequote.cpp" line="352"/>
+        <location filename="../module/bible/biblequote.cpp" line="353"/>
         <source>Indexing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../module/bible/thewordbible.cpp" line="218"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="658"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="660"/>
         <location filename="../module/dictionary/biblequote-dict.cpp" line="115"/>
         <source>Build index</source>
         <translation type="unfinished"></translation>
@@ -1419,28 +1419,28 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../module/bible/zefania-bible.cpp" line="75"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="76"/>
         <source>Cannot read the file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../module/bible/zefania-bible.cpp" line="81"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="82"/>
         <source>The file is not valid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../module/bible/zefania-bible.cpp" line="294"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="295"/>
         <source>Loading Bible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../module/bible/zefania-bible.cpp" line="315"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="316"/>
         <location filename="../module/dictionary/zefania-lex.cpp" line="156"/>
         <source>Can not read the file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../module/bible/zefania-bible.cpp" line="375"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="376"/>
         <location filename="../module/dictionary/zefania-lex.cpp" line="165"/>
         <source>The file is not valid. Errorstring: %1 in Line %2 at Position %3</source>
         <translation type="unfinished"></translation>

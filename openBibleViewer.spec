@@ -12,7 +12,7 @@ Name: %{name}
 License: GPLv3
 URL: http://openbv.uucyc.name
 Version: 0.5.82
-Release: 128
+Release: 5
 Group: Amusements/Teaching/Other
 Source: %{name}-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-build

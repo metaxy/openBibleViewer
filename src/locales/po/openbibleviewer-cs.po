@@ -1,0 +1,2408 @@
+# Pavel Fric, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-04-14 19:22+0000\n"
+"PO-Revision-Date: 2011-04-15 17:36+0000\n"
+"Last-Translator: fri <pavelfric@seznam.cz>\n"
+"Language-Team: Czech <kde-i18n-doc@kde.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-04-18 10:24+0000\n"
+"X-Generator: Launchpad (build 12821)\n"
+"X-Qt-Contexts: true\n"
+"X-Language: cs_CZ\n"
+"X-Source-Language: C\n"
+
+#: ../ui/dialog/aboutdialog.ui:14
+msgctxt "AboutDialog|"
+msgid "About"
+msgstr "O programu"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:218
+#: ../ui/interface/advanced/advancedinterface.cpp:220
+msgctxt "AdvancedInterface|"
+msgid "openBibleViewer"
+msgstr "openBibleViewer"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:308
+msgctxt "AdvancedInterface|"
+msgid "File"
+msgstr "Soubor"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:311
+msgctxt "AdvancedInterface|"
+msgid "New SubWindow"
+msgstr "Nové podokno"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:316
+msgctxt "AdvancedInterface|"
+msgid "Close SubWindow"
+msgstr "Zavřít podokno"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:321
+msgctxt "AdvancedInterface|"
+msgid "Save As"
+msgstr "Uložit jako"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:326
+msgctxt "AdvancedInterface|"
+msgid "Print"
+msgstr "Tisk"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:331
+msgctxt "AdvancedInterface|"
+msgid "Print Preview"
+msgstr "Náhled tisku"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:336
+msgctxt "AdvancedInterface|"
+msgid "Quit"
+msgstr "Ukončit"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:349
+msgctxt "AdvancedInterface|"
+msgid "Edit"
+msgstr "Úpravy"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:352
+msgctxt "AdvancedInterface|"
+msgid "Copy"
+msgstr "Kopírovat"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:357
+msgctxt "AdvancedInterface|"
+msgid "Select All"
+msgstr "Vybrat vše"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:362
+#: ../ui/interface/advanced/advancedinterface.cpp:571
+#: ../ui/interface/advanced/advancedinterface.cpp:739
+msgctxt "AdvancedInterface|"
+msgid "Search"
+msgstr "Hledat"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:367
+msgctxt "AdvancedInterface|"
+msgid "Find Next"
+msgstr "Najít další"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:372
+msgctxt "AdvancedInterface|"
+msgid "Find Previous"
+msgstr "Najít předchozí"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:377
+msgctxt "AdvancedInterface|"
+msgid "Next Chapter"
+msgstr "Další kapitola"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:382
+msgctxt "AdvancedInterface|"
+msgid "Previous Chapter"
+msgstr "Předchozí kapitola"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:399
+msgctxt "AdvancedInterface|"
+msgid "View"
+msgstr "Pohled"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:402
+#: ../ui/interface/advanced/advancedinterface.cpp:587
+#: ../ui/interface/advanced/advancedinterface.cpp:746
+#: ../ui/interface/advanced/advancedinterface.cpp:747
+msgctxt "AdvancedInterface|"
+msgid "Zoom In"
+msgstr "Přiblížit"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:407
+#: ../ui/interface/advanced/advancedinterface.cpp:590
+#: ../ui/interface/advanced/advancedinterface.cpp:748
+#: ../ui/interface/advanced/advancedinterface.cpp:749
+msgctxt "AdvancedInterface|"
+msgid "Zoom Out"
+msgstr "Oddálit"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:412
+msgctxt "AdvancedInterface|"
+msgid "Tabbed View"
+msgstr "Pohled s kartami"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:417
+msgctxt "AdvancedInterface|"
+msgid "Sub Window View"
+msgstr "Pohled s podokny"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:422
+msgctxt "AdvancedInterface|"
+msgid "Cascade"
+msgstr "Překrývat"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:426
+msgctxt "AdvancedInterface|"
+msgid "Tile"
+msgstr "Klást jedno vedle druhého"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:430
+msgctxt "AdvancedInterface|"
+msgid "Tile Vertical"
+msgstr "Uspořádat svisle"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:434
+msgctxt "AdvancedInterface|"
+msgid "Tile Horizontal"
+msgstr "Uspořádat vodorovně"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:449
+#: ../ui/interface/advanced/advancedinterface.cpp:485
+#: ../ui/interface/advanced/advancedinterface.cpp:579
+#: ../ui/interface/advanced/advancedinterface.cpp:743
+msgctxt "AdvancedInterface|"
+msgid "Notes"
+msgstr "Poznámky"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:452
+msgctxt "AdvancedInterface|"
+msgid "Notes Editor"
+msgstr "Upravit poznámky"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:456
+msgctxt "AdvancedInterface|"
+msgid "Mark List"
+msgstr "Seznam značek"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:460
+msgctxt "AdvancedInterface|"
+msgid "Mark Categories"
+msgstr "Skupiny značek"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:469
+msgctxt "AdvancedInterface|"
+msgid "Docks"
+msgstr "Panely"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:472
+#: ../ui/interface/advanced/advancedinterface.cpp:593
+#: ../ui/interface/advanced/advancedinterface.cpp:750
+msgctxt "AdvancedInterface|"
+msgid "Module"
+msgstr "Modul"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:479
+msgctxt "AdvancedInterface|"
+msgid "Books"
+msgstr "Knihy"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:491
+msgctxt "AdvancedInterface|"
+msgid "Dictionay"
+msgstr "Slovník"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:497
+#: ../ui/interface/advanced/advancedinterface.cpp:574
+#: ../ui/interface/advanced/advancedinterface.cpp:741
+msgctxt "AdvancedInterface|"
+msgid "Bookmarks"
+msgstr "Záložky"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:503
+msgctxt "AdvancedInterface|"
+msgid "Quick Jump"
+msgstr "Rychlý skok"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:509
+msgctxt "AdvancedInterface|"
+msgid "Search Results"
+msgstr "Výsledky hledání"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:524
+msgctxt "AdvancedInterface|"
+msgid "Settings"
+msgstr "Nastavení"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:527
+msgctxt "AdvancedInterface|"
+msgid "Configuration"
+msgstr "Nastavení"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:535
+msgctxt "AdvancedInterface|"
+msgid "Help"
+msgstr "Nápověda"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:537
+msgctxt "AdvancedInterface|"
+msgid "About"
+msgstr "O programu"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:541
+msgctxt "AdvancedInterface|"
+msgid "Online Help"
+msgstr "Nápověda na internetu"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:569
+#: ../ui/interface/advanced/advancedinterface.cpp:738
+msgctxt "AdvancedInterface|"
+msgid "Main Tool Bar"
+msgstr "Hlavní nástrojový pruh"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:584
+#: ../ui/interface/advanced/advancedinterface.cpp:745
+msgctxt "AdvancedInterface|"
+msgid "New Window"
+msgstr "Nové okno"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:611
+#: ../ui/interface/advanced/advancedinterface.cpp:752
+msgctxt "AdvancedInterface|"
+msgid "Search Bar"
+msgstr "Pruh pro hledání"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:669
+msgctxt "AdvancedInterface|"
+msgid "http://openbv.uucyc.name/faq.html"
+msgstr "http://openbv.uucyc.name/faq.html"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:694
+msgctxt "AdvancedInterface|"
+msgid "About openBibleViewer"
+msgstr "O programu openBibleViewer"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:696
+#, qt-format
+msgctxt "AdvancedInterface|"
+msgid ""
+"openBibleViewer <br /> version: %1 build: %2<br /> <a "
+"href='http://openbv.uucyc.name/'> Official Website</a> <br /><a "
+"href='https://github.com/metaxy/openBibleViewer/issues'>Bug report</a>"
+msgstr ""
+"openBibleViewer <br /> verze: %1 sestavení: %2<br /> <a "
+"href='http://openbv.uucyc.name/'> Stránky</a> <br /><a "
+"href='https://github.com/metaxy/openBibleViewer/issues'>Hlášení chyb</a>"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:740
+msgctxt "AdvancedInterface|"
+msgid "Search in current module."
+msgstr "Hledat v nynějším modulu"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:742
+msgctxt "AdvancedInterface|"
+msgid "Show/Hide the bookmarks dock."
+msgstr "Ukázat/Skrýt panel se záložkami"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:744
+msgctxt "AdvancedInterface|"
+msgid "Show/Hide the notes dock."
+msgstr "Ukázat/Skrýt panel s poznámkami"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:751
+msgctxt "AdvancedInterface|"
+msgid "Add and edit the modules"
+msgstr "Přidat a upravit moduly"
+
+#: ../ui/interface/advanced/advancedinterface.ui:20
+msgctxt "AdvancedInterface|"
+msgid "WindowForm"
+msgstr "Podoba okna"
+
+#: ../ui/dock/advancedsearchresultdockwidget.cpp:36
+#: ../ui/dock/advancedsearchresultdockwidget.cpp:40
+msgctxt "AdvancedSearchResultDockWidget|"
+msgid "Result"
+msgstr "Výsledek"
+
+#: ../ui/dock/advancedsearchresultdockwidget.cpp:55
+#, qt-format
+msgctxt "AdvancedSearchResultDockWidget|"
+msgid "Search: %1"
+msgstr "Hledání: %1"
+
+#: ../ui/dock/advancedsearchresultdockwidget.cpp:83
+msgctxt "AdvancedSearchResultDockWidget|"
+msgid "Notes"
+msgstr "Poznámky"
+
+#: ../ui/dock/advancedsearchresultdockwidget.cpp:124
+msgctxt "AdvancedSearchResultDockWidget|"
+msgid "Error"
+msgstr "Chyba"
+
+#: ../ui/dock/advancedsearchresultdockwidget.cpp:124
+msgctxt "AdvancedSearchResultDockWidget|"
+msgid "No search information available."
+msgstr "Nejsou dostupné žádné informace o hledání."
+
+#: ../ui/dock/advancedsearchresultdockwidget.ui:14
+msgctxt "AdvancedSearchResultDockWidget|"
+msgid "Search Results"
+msgstr "Výsledky hledání"
+
+#: ../ui/dock/advancedsearchresultdockwidget.ui:46
+msgctxt "AdvancedSearchResultDockWidget|"
+msgid "Info"
+msgstr "Informace"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:427
+msgctxt "BibleForm|"
+msgid "Print"
+msgstr "Tisk"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:444
+msgctxt "BibleForm|"
+msgid "Save output"
+msgstr "Uložit výstup"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:444
+msgctxt "BibleForm|"
+msgid ""
+"Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Plain (*.txt)"
+msgstr ""
+"Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Prostý text (*.txt)"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:576
+msgctxt "BibleForm|"
+msgid "Copy"
+msgstr "Kopírovat"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:579
+msgctxt "BibleForm|"
+msgid "Select All"
+msgstr "Vybrat vše"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:583
+msgctxt "BibleForm|"
+msgid "Mark this"
+msgstr "Označit"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:586
+msgctxt "BibleForm|"
+msgid "Yellow"
+msgstr "Žlutá"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:591
+msgctxt "BibleForm|"
+msgid "Green"
+msgstr "Zelená"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:596
+msgctxt "BibleForm|"
+msgid "Blue"
+msgstr "Modrá"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:601
+msgctxt "BibleForm|"
+msgid "Orange"
+msgstr "Oranžová"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:606
+msgctxt "BibleForm|"
+msgid "Violet"
+msgstr "Fialová"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:611
+msgctxt "BibleForm|"
+msgid "Custom Color"
+msgstr "Vlastní barva"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:616
+msgctxt "BibleForm|"
+msgid "Bold"
+msgstr "Tučné"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:620
+msgctxt "BibleForm|"
+msgid "Italic"
+msgstr "Kurzíva"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:624
+msgctxt "BibleForm|"
+msgid "Underline"
+msgstr "Podtržení"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:629
+msgctxt "BibleForm|"
+msgid "Remove Mark"
+msgstr "Odstranit značku"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:632
+msgctxt "BibleForm|"
+msgid "Add Bookmark"
+msgstr "Přidat záložku"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:635
+msgctxt "BibleForm|"
+msgid "Add Note"
+msgstr "Přidat poznámku"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:658
+#: ../ui/interface/advanced/form/bibleform.cpp:668
+msgctxt "BibleForm|"
+msgid "Copy Verse"
+msgstr "Kopírovat verše"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:671
+#, qt-format
+msgctxt "BibleForm|e.g Copy Verse 1-2 or Copy Verse 2"
+msgid "Copy Verse %1"
+msgstr "Kopírovat verše %1"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:680
+msgctxt "BibleForm|"
+msgid "Debugger"
+msgstr "Ladič"
+
+#: ../ui/interface/advanced/biblelistitemdelegate.cpp:22
+msgctxt "BibleListItemDelegate|"
+msgid "None"
+msgstr "Žádný"
+
+#: ../ui/interface/advanced/biblelistwidget.ui:14
+msgctxt "BibleListWidget|"
+msgid "Bible List"
+msgstr "Seznam s Biblemi"
+
+#: ../ui/interface/advanced/biblelistwidget.ui:22
+#: ../ui/interface/advanced/biblelistwidget.ui:46
+#: ../ui/interface/advanced/biblelistwidget.ui:61
+#: ../ui/interface/advanced/biblelistwidget.ui:85
+msgctxt "BibleListWidget|"
+msgid "..."
+msgstr "..."
+
+#: ../ui/dialog/biblepassagedialog.ui:17
+msgctxt "BiblePassageDialog|"
+msgid "Bible Passage"
+msgstr "Část Bible"
+
+#: ../ui/biblepassageframe.cpp:37
+msgctxt "BiblePassageFrame|"
+msgid "Module"
+msgstr "Modul"
+
+#: ../ui/biblepassageframe.cpp:148
+msgctxt "BiblePassageFrame|"
+msgid "Delete"
+msgstr "Smazat"
+
+#: ../ui/biblepassageframe.cpp:155
+msgctxt "BiblePassageFrame|"
+msgid "Type"
+msgstr "Typ"
+
+#: ../ui/biblepassageframe.cpp:156 ../ui/biblepassageframe.cpp:176
+msgctxt "BiblePassageFrame|"
+msgid "One Verse"
+msgstr "Jeden verš"
+
+#: ../ui/biblepassageframe.cpp:160 ../ui/biblepassageframe.cpp:180
+msgctxt "BiblePassageFrame|"
+msgid "Verse Range"
+msgstr "Rozsah verše"
+
+#: ../ui/biblepassageframe.cpp:164 ../ui/biblepassageframe.cpp:184
+msgctxt "BiblePassageFrame|"
+msgid "Chapter"
+msgstr "Kapitola"
+
+#: ../ui/biblepassageframe.cpp:174
+msgctxt "BiblePassageFrame|"
+msgid "New"
+msgstr "Nový"
+
+#: ../ui/biblepassageframe.ui:14
+msgctxt "BiblePassageFrame|"
+msgid "Frame"
+msgstr "Rámeček"
+
+#: ../ui/biblepassageframe.ui:31
+msgctxt "BiblePassageFrame|"
+msgid "Add"
+msgstr "Přidat"
+
+#: ../ui/dock/bookdockwidget.ui:23
+msgctxt "BookDockWidget|"
+msgid "Book Select"
+msgstr "Výběr knihy"
+
+#: ../ui/dock/bookmarksdockwidget.cpp:112
+msgctxt "BookmarksDockWidget|"
+msgid "new folder"
+msgstr "Nová složka"
+
+#: ../ui/dock/bookmarksdockwidget.cpp:128
+msgctxt "BookmarksDockWidget|"
+msgid "Go To"
+msgstr "Jít na"
+
+#: ../ui/dock/bookmarksdockwidget.cpp:132
+msgctxt "BookmarksDockWidget|"
+msgid "New Folder"
+msgstr "Nová složka"
+
+#: ../ui/dock/bookmarksdockwidget.cpp:136
+msgctxt "BookmarksDockWidget|"
+msgid "Edit"
+msgstr "Upravit"
+
+#: ../ui/dock/bookmarksdockwidget.cpp:140
+msgctxt "BookmarksDockWidget|"
+msgid "Remove"
+msgstr "Odstranit"
+
+#: ../ui/dock/bookmarksdockwidget.cpp:186 ../ui/dock/bookmarksdockwidget.cpp:199
+msgctxt "BookmarksDockWidget|"
+msgid "Error"
+msgstr "Chyba"
+
+#: ../ui/dock/bookmarksdockwidget.cpp:186 ../ui/dock/bookmarksdockwidget.cpp:199
+msgctxt "BookmarksDockWidget|"
+msgid "This Bookmark is invalid."
+msgstr "Tato záložka je neplatná."
+
+#: ../ui/dock/bookmarksdockwidget.ui:14
+msgctxt "BookmarksDockWidget|"
+msgid "Bookmarks"
+msgstr "Záložky"
+
+#: ../ui/dock/bookmarksdockwidget.ui:54
+msgctxt "BookmarksDockWidget|"
+msgid "Title"
+msgstr "Název"
+
+#: ../module/module.cpp:105 ../module/module.cpp:113
+msgctxt "Core|"
+msgid "None"
+msgstr "Žádný"
+
+#: ../module/module.cpp:105 ../module/module.cpp:115
+msgctxt "Core|"
+msgid "BibleQuote"
+msgstr "Bible Quote"
+
+#: ../module/module.cpp:105 ../module/module.cpp:117
+msgctxt "Core|"
+msgid "Zefania XML Bible"
+msgstr "Zefania XML Bible"
+
+#: ../module/module.cpp:106 ../module/module.cpp:119
+msgctxt "Core|"
+msgid "Zefania Lex Module"
+msgstr "Modul Zefania Lex"
+
+#: ../module/module.cpp:106 ../module/module.cpp:121
+msgctxt "Core|"
+msgid "BibleQuote Dictionary"
+msgstr "Slovník BibleQuote"
+
+#: ../module/module.cpp:106 ../module/module.cpp:123
+msgctxt "Core|"
+msgid "The Word Bible"
+msgstr "Bible Word"
+
+#: ../ui/dock/dictionarydockwidget.ui:14
+msgctxt "DictionaryDockWidget|"
+msgid "Dictionary"
+msgstr "Slovník"
+
+#: ../ui/dialog/inserthtmldialog.ui:14
+msgctxt "InsertHtmlDialog|"
+msgid "Insert HTML"
+msgstr "Vložit HTML"
+
+#: ../ui/dialog/inserthtmldialog.ui:20
+msgctxt "InsertHtmlDialog|"
+msgid "HTML Code:"
+msgstr "Kód HTML:"
+
+#: ../ui/dialog/insertlinkdialog.cpp:46 ../ui/dialog/insertlinkdialog.cpp:96
+msgctxt "InsertLinkDialog|"
+msgid "Note Title"
+msgstr "Název poznámky"
+
+#: ../ui/dialog/insertlinkdialog.ui:14
+msgctxt "InsertLinkDialog|"
+msgid "Insert Link"
+msgstr "Vložit odkaz"
+
+#: ../ui/dialog/insertlinkdialog.ui:32
+msgctxt "InsertLinkDialog|"
+msgid "Bible"
+msgstr "Bible"
+
+#: ../ui/dialog/insertlinkdialog.ui:46
+msgctxt "InsertLinkDialog|"
+msgid "Note"
+msgstr "Poznámka"
+
+#: ../ui/dialog/insertlinkdialog.ui:64
+msgctxt "InsertLinkDialog|"
+msgid "Custom"
+msgstr "Vlastní"
+
+#: ../ui/mainwindow.cpp:407
+msgctxt "MainWindow|"
+msgid "Configuration"
+msgstr "Nastavení"
+
+#: ../ui/mainwindow.cpp:443
+msgctxt "MainWindow|"
+msgid "Installing language failed."
+msgstr "Jazyk se nepodařilo nainstalovat."
+
+#: ../ui/mainwindow.cpp:443
+msgctxt "MainWindow|"
+msgid "Please choose another language."
+msgstr "Vyberte, prosím, jiný jazyk."
+
+#: ../ui/mainwindow.ui:14
+msgctxt "MainWindow|"
+msgid "openBibleViewer"
+msgstr "openBibleViewer"
+
+#: ../ui/marklist.cpp:58 ../ui/marklist.cpp:161
+msgctxt "MarkList|"
+msgid "Mark Position"
+msgstr "Poloha značek"
+
+#: ../ui/marklist.cpp:59 ../ui/marklist.cpp:162
+msgctxt "MarkList|"
+msgid "Module"
+msgstr "Modul"
+
+#: ../ui/marklist.cpp:106
+msgctxt "MarkList|"
+msgid "Delete"
+msgstr "Smazat"
+
+#: ../ui/marklist.ui:14
+msgctxt "MarkList|"
+msgid "Mark List"
+msgstr "Seznam značek"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:156
+msgctxt "ModuleConfigDialog|"
+msgid "Open Bible"
+msgstr "Otevřít Bibli"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:156
+msgctxt "ModuleConfigDialog|"
+msgid "Bibles (*.ini *.xml *.*)"
+msgstr "Bible (*.ini *.xml *.*)"
+
+#: ../ui/dialog/moduleconfigdialog.ui:14
+msgctxt "ModuleConfigDialog|"
+msgid "Module Config"
+msgstr "Nastavení modulu"
+
+#: ../ui/dialog/moduleconfigdialog.ui:22
+msgctxt "ModuleConfigDialog|"
+msgid "Path"
+msgstr "Cesta"
+
+#: ../ui/dialog/moduleconfigdialog.ui:50
+msgctxt "ModuleConfigDialog|"
+msgid "Name"
+msgstr "Název"
+
+#: ../ui/dialog/moduleconfigdialog.ui:60
+msgctxt "ModuleConfigDialog|"
+msgid "Type"
+msgstr "Typ"
+
+#: ../ui/dialog/moduleconfigdialog.ui:70
+msgctxt "ModuleConfigDialog|"
+msgid "Encoding"
+msgstr "Kódování znaků"
+
+#: ../ui/dialog/moduleconfigdialog.ui:80
+msgctxt "ModuleConfigDialog|"
+msgid "StyleSheet"
+msgstr "Stylový list"
+
+#: ../ui/dialog/moduleconfigdialog.ui:96
+msgctxt "ModuleConfigDialog|"
+msgid "Module"
+msgstr "Modul"
+
+#: ../ui/dialog/moduleconfigdialog.ui:102
+msgctxt "ModuleConfigDialog|"
+msgid "Bible Quote"
+msgstr "Bible Quote"
+
+#: ../ui/dialog/moduleconfigdialog.ui:113
+msgctxt "ModuleConfigDialog|"
+msgid "Remove Html"
+msgstr "Odstranit Html"
+
+#: ../ui/dialog/moduleconfigdialog.ui:120
+msgctxt "ModuleConfigDialog|"
+msgid "remove"
+msgstr "Odstranit"
+
+#: ../ui/dialog/moduleconfigdialog.ui:138
+msgctxt "ModuleConfigDialog|"
+msgid "Zefania Bible"
+msgstr "Bible Zefania"
+
+#: ../ui/dialog/moduleconfigdialog.ui:149
+msgctxt "ModuleConfigDialog|"
+msgid "Text Fromatting"
+msgstr "Formátování textu"
+
+#: ../ui/dialog/moduleconfigdialog.ui:163
+msgctxt "ModuleConfigDialog|"
+msgid "New line after verse"
+msgstr "Nový řádek po verši"
+
+#: ../ui/dialog/moduleconfigdialog.ui:168
+msgctxt "ModuleConfigDialog|"
+msgid "Not formated text pad"
+msgstr "Neformátovaný blok textu"
+
+#: ../ui/dialog/moduleconfigdialog.ui:176
+msgctxt "ModuleConfigDialog|"
+msgid "Hard Cache"
+msgstr "Pevná vyrovnávací paměť"
+
+#: ../ui/dialog/moduleconfigdialog.ui:183 ../ui/dialog/moduleconfigdialog.ui:197
+msgctxt "ModuleConfigDialog|"
+msgid "enabled"
+msgstr "Povoleno"
+
+#: ../ui/dialog/moduleconfigdialog.ui:190
+msgctxt "ModuleConfigDialog|"
+msgid "RAM Cache"
+msgstr "Vyrovnávací paměť RAM"
+
+#: ../ui/dialog/moduleconfigdialog.ui:210
+msgctxt "ModuleConfigDialog|"
+msgid "Display"
+msgstr "Zobrazit"
+
+#: ../ui/dialog/moduleconfigdialog.ui:216
+msgctxt "ModuleConfigDialog|"
+msgid "Use Parent Settings"
+msgstr "Použít ústřední nastavení"
+
+#: ../ui/dialog/moduleconfigdialog.ui:235
+msgctxt "ModuleConfigDialog|"
+msgid "Show Marks"
+msgstr "Ukázat značky"
+
+#: ../ui/dialog/moduleconfigdialog.ui:242
+msgctxt "ModuleConfigDialog|"
+msgid "Show Notes"
+msgstr "Ukázat poznámky"
+
+#: ../ui/dialog/moduleconfigdialog.ui:249
+msgctxt "ModuleConfigDialog|"
+msgid "Show Tool Bar"
+msgstr "Ukázat nástrojový pruh"
+
+#: ../ui/dialog/moduleconfigdialog.ui:256
+msgctxt "ModuleConfigDialog|"
+msgid "Show Strong Number"
+msgstr "Ukázat číslo Strong"
+
+#: ../ui/dialog/moduleconfigdialog.ui:263
+msgctxt "ModuleConfigDialog|"
+msgid "Show Study Notes"
+msgstr "Ukázat studijní poznámky"
+
+#: ../ui/dialog/moduleconfigdialog.ui:270
+msgctxt "ModuleConfigDialog|"
+msgid "Show RefLinks"
+msgstr "Ukázat odkazy"
+
+#: ../ui/dialog/moduleconfigdialog.ui:305
+msgctxt "ModuleConfigDialog|"
+msgid "OK"
+msgstr "OK"
+
+#: ../ui/dialog/moduleconfigdialog.ui:325
+msgctxt "ModuleConfigDialog|"
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: ../ui/dock/moduledockwidget.ui:35 ../ui/dock/moduledockwidget.cpp:36
+msgctxt "ModuleDockWidget|"
+msgid "Module"
+msgstr "Modul"
+
+#: ../ui/dialog/moduledownloaddialog.cpp:79
+msgctxt "ModuleDownloadDialog|"
+msgid "Bibles"
+msgstr "Bible"
+
+#: ../ui/dialog/moduledownloaddialog.cpp:81
+msgctxt "ModuleDownloadDialog|"
+msgid "Dictionarys"
+msgstr "Slovníky"
+
+#: ../ui/dialog/moduledownloaddialog.ui:14
+msgctxt "ModuleDownloadDialog|"
+msgid "Download Module"
+msgstr "Stáhnout modul"
+
+#: ../ui/dialog/moduledownloaddialog.ui:61
+msgctxt "ModuleDownloadDialog|"
+msgid "Download"
+msgstr "Stáhnout"
+
+#: ../ui/dialog/moduledownloaddialog.ui:78
+msgctxt "ModuleDownloadDialog|"
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: ../core/moduledownloader.cpp:94 ../core/moduledownloader.cpp:136
+#: ../core/moduledownloader.cpp:162
+msgctxt "ModuleDownloader|"
+msgid "HTTP"
+msgstr "HTTP"
+
+#: ../core/moduledownloader.cpp:94
+#, qt-format
+msgctxt "ModuleDownloader|"
+msgid "Unable to save the file %1: %2."
+msgstr "Soubor %1 nelze uložit: %2."
+
+#: ../core/moduledownloader.cpp:102
+msgctxt "ModuleDownloader|"
+msgid "Downloading"
+msgstr "Stahuje se"
+
+#: ../core/moduledownloader.cpp:103 ../core/moduledownloader.cpp:175
+#, qt-format
+msgctxt "ModuleDownloader|"
+msgid "Downloading %1 / %2. %3 MB"
+msgstr "Stahuje se %1 z %2. %3 MB"
+
+#: ../core/moduledownloader.cpp:136 ../core/moduledownloader.cpp:163
+#, qt-format
+msgctxt "ModuleDownloader|"
+msgid "Download failed: %1."
+msgstr "Stažení se nezdařilo: %1."
+
+#: ../ui/dock/notesdockwidget.ui:14
+msgctxt "NotesDockWidget|"
+msgid "Notes"
+msgstr "Poznámky"
+
+#: ../ui/dock/notesdockwidget.ui:256
+msgctxt "NotesDockWidget|"
+msgid "Save"
+msgstr "Uložit"
+
+#: ../ui/dock/notesdockwidget.ui:263
+msgctxt "NotesDockWidget|"
+msgid "Ctrl+S"
+msgstr "Ctrl+S"
+
+#: ../ui/noteseditor.cpp:42
+msgctxt "NotesEditor|"
+msgid "Normal View"
+msgstr "Obvyklý pohled"
+
+#: ../ui/noteseditor.cpp:43
+msgctxt "NotesEditor|"
+msgid "HTML Source"
+msgstr "Zdroj HTML"
+
+#: ../ui/noteseditor.cpp:213
+msgctxt "NotesEditor|"
+msgid "Save as..."
+msgstr "Uložit jako..."
+
+#: ../ui/noteseditor.cpp:214
+msgctxt "NotesEditor|"
+msgid "HTML-Files (*.html *.htm);;Text-Files (*.txt);;All Files (*)"
+msgstr ""
+"Soubory HTML (*.html *.htm);;Textové soubory (*.txt);;Všechny soubory (*)"
+
+#: ../ui/noteseditor.cpp:234
+msgctxt "NotesEditor|"
+msgid "Common Graphics (*.png *.jpg *.jpeg *.gif);;"
+msgstr "Běžné obrázkové soubory (*.png *.jpg *.jpeg *.gif);;"
+
+#: ../ui/noteseditor.cpp:235
+msgctxt "NotesEditor|"
+msgid "Portable Network Graphics (PNG) (*.png);;"
+msgstr "Portable Network Graphics (PNG) (*.png);;"
+
+#: ../ui/noteseditor.cpp:236
+msgctxt "NotesEditor|"
+msgid "JPEG (*.jpg *.jpeg);;"
+msgstr "JPEG (*.jpg *.jpeg);;"
+
+#: ../ui/noteseditor.cpp:237
+msgctxt "NotesEditor|"
+msgid "Graphics Interchange Format (*.gif);;"
+msgstr "Graphics Interchange Format (*.gif);;"
+
+#: ../ui/noteseditor.cpp:238
+msgctxt "NotesEditor|"
+msgid "All Files (*)"
+msgstr "Všechny soubory (*)"
+
+#: ../ui/noteseditor.cpp:240
+msgctxt "NotesEditor|"
+msgid "Open image..."
+msgstr "Otevřít obrázek..."
+
+#: ../ui/noteseditor.cpp:493
+msgctxt "NotesEditor|"
+msgid "Font"
+msgstr "Písmo"
+
+#: ../ui/noteseditor.cpp:493
+msgctxt "NotesEditor|"
+msgid "Select font:"
+msgstr "Vybrat písmo:"
+
+#: ../ui/noteseditor.cpp:512
+msgctxt "NotesEditor|"
+msgid "Font Size"
+msgstr "Velikost písma"
+
+#: ../ui/noteseditor.cpp:512
+msgctxt "NotesEditor|"
+msgid "Select font size:"
+msgstr "Vybrat velikost písma:"
+
+#: ../ui/noteseditor.cpp:561
+#, qt-format
+msgctxt "NotesEditor|"
+msgid " Zoom: %1% "
+msgstr " Zvětšení: %1% "
+
+#: ../ui/noteseditor.ui:14
+msgctxt "NotesEditor|"
+msgid "Notes Editor"
+msgstr "Editor poznámek"
+
+#: ../ui/noteseditor.ui:99
+msgctxt "NotesEditor|"
+msgid "Edit"
+msgstr "Upravit"
+
+#: ../ui/noteseditor.ui:122
+msgctxt "NotesEditor|"
+msgid "&File"
+msgstr "&Soubor"
+
+#: ../ui/noteseditor.ui:133
+msgctxt "NotesEditor|"
+msgid "F&ormat"
+msgstr "For&mát"
+
+#: ../ui/noteseditor.ui:137
+msgctxt "NotesEditor|"
+msgid "St&yle"
+msgstr "St&yl"
+
+#: ../ui/noteseditor.ui:151
+msgctxt "NotesEditor|"
+msgid "&Align"
+msgstr "&Zarovnat"
+
+#: ../ui/noteseditor.ui:180
+msgctxt "NotesEditor|"
+msgid "&Edit"
+msgstr "&Úpravy"
+
+#: ../ui/noteseditor.ui:201
+msgctxt "NotesEditor|"
+msgid "Standard"
+msgstr "Standard"
+
+#: ../ui/noteseditor.ui:224
+msgctxt "NotesEditor|"
+msgid "Formatting"
+msgstr "Formátuje se"
+
+#: ../ui/noteseditor.ui:258
+msgctxt "NotesEditor|"
+msgid "&Save"
+msgstr "&Uložit"
+
+#: ../ui/noteseditor.ui:261
+msgctxt "NotesEditor|"
+msgid "Ctrl+S"
+msgstr "Ctrl+S"
+
+#: ../ui/noteseditor.ui:270
+msgctxt "NotesEditor|"
+msgid "&New"
+msgstr "&Nový"
+
+#: ../ui/noteseditor.ui:273
+msgctxt "NotesEditor|"
+msgid "Ctrl+N"
+msgstr "Ctrl+N"
+
+#: ../ui/noteseditor.ui:278
+msgctxt "NotesEditor|"
+msgid "Save &As..."
+msgstr "Uložit &jako..."
+
+#: ../ui/noteseditor.ui:287
+msgctxt "NotesEditor|"
+msgid "&Undo"
+msgstr "&Zpět"
+
+#: ../ui/noteseditor.ui:290
+msgctxt "NotesEditor|"
+msgid "Ctrl+Z"
+msgstr "Ctrl+Z"
+
+#: ../ui/noteseditor.ui:299
+msgctxt "NotesEditor|"
+msgid "&Redo"
+msgstr "&Znovu"
+
+#: ../ui/noteseditor.ui:302
+msgctxt "NotesEditor|"
+msgid "Ctrl+Y"
+msgstr "Ctrl+Y"
+
+#: ../ui/noteseditor.ui:311
+msgctxt "NotesEditor|"
+msgid "Cu&t"
+msgstr "Vyjmou&t"
+
+#: ../ui/noteseditor.ui:314
+msgctxt "NotesEditor|"
+msgid "Ctrl+X"
+msgstr "Ctrl+X"
+
+#: ../ui/noteseditor.ui:323
+msgctxt "NotesEditor|"
+msgid "&Copy"
+msgstr "&Kopírovat"
+
+#: ../ui/noteseditor.ui:326
+msgctxt "NotesEditor|"
+msgid "Ctrl+C"
+msgstr "Ctrl+C"
+
+#: ../ui/noteseditor.ui:335
+msgctxt "NotesEditor|"
+msgid "&Paste"
+msgstr "&Vložit"
+
+#: ../ui/noteseditor.ui:338
+msgctxt "NotesEditor|"
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
+
+#: ../ui/noteseditor.ui:347
+msgctxt "NotesEditor|"
+msgid "Select A&ll"
+msgstr "Vybrat &vše"
+
+#: ../ui/noteseditor.ui:350
+msgctxt "NotesEditor|"
+msgid "Ctrl+A"
+msgstr "Ctrl+A"
+
+#: ../ui/noteseditor.ui:362
+msgctxt "NotesEditor|"
+msgid "&Bold"
+msgstr "&Tučné"
+
+#: ../ui/noteseditor.ui:365
+msgctxt "NotesEditor|"
+msgid "Ctrl+B"
+msgstr "Ctrl+B"
+
+#: ../ui/noteseditor.ui:377
+msgctxt "NotesEditor|"
+msgid "&Italic"
+msgstr "&Kurzíva"
+
+#: ../ui/noteseditor.ui:380
+msgctxt "NotesEditor|"
+msgid "Ctrl+I"
+msgstr "Ctrl+I"
+
+#: ../ui/noteseditor.ui:392
+msgctxt "NotesEditor|"
+msgid "&Underline"
+msgstr "&Podtržení"
+
+#: ../ui/noteseditor.ui:395
+msgctxt "NotesEditor|"
+msgid "Ctrl+U"
+msgstr "Ctrl+U"
+
+#: ../ui/noteseditor.ui:407
+msgctxt "NotesEditor|"
+msgid "&Strikethrough"
+msgstr "&Přeškrtnutí"
+
+#: ../ui/noteseditor.ui:416
+msgctxt "NotesEditor|"
+msgid "Align &Left"
+msgstr "Zarovnat v&levo"
+
+#: ../ui/noteseditor.ui:425
+msgctxt "NotesEditor|"
+msgid "Align &Center"
+msgstr "Zarovnat na &střed"
+
+#: ../ui/noteseditor.ui:434
+msgctxt "NotesEditor|"
+msgid "Align &Right"
+msgstr "Zarovnat v&pravo"
+
+#: ../ui/noteseditor.ui:443
+msgctxt "NotesEditor|"
+msgid "Align &Justify"
+msgstr "&Zarovnat do bloku"
+
+#: ../ui/noteseditor.ui:452
+msgctxt "NotesEditor|"
+msgid "I&ncrease Indent"
+msgstr "Zvě&tšit odsazení"
+
+#: ../ui/noteseditor.ui:461
+msgctxt "NotesEditor|"
+msgid "&Decrease Indent"
+msgstr "Zme&nšit odsazení"
+
+#: ../ui/noteseditor.ui:473
+msgctxt "NotesEditor|"
+msgid "Bulle&ted List"
+msgstr "&Seznam s odrážkami"
+
+#: ../ui/noteseditor.ui:485
+msgctxt "NotesEditor|"
+msgid "&Numbered List"
+msgstr "Číslov&aný seznam"
+
+#: ../ui/noteseditor.ui:494
+msgctxt "NotesEditor|"
+msgid "Insert &Image..."
+msgstr "Vložit &obrázek..."
+
+#: ../ui/noteseditor.ui:503
+msgctxt "NotesEditor|"
+msgid "Create Link..."
+msgstr "Vytvořit odkaz..."
+
+#: ../ui/noteseditor.ui:512
+msgctxt "NotesEditor|"
+msgid "Zoom Out"
+msgstr "Oddálit"
+
+#: ../ui/noteseditor.ui:521
+msgctxt "NotesEditor|"
+msgid "Zoom In"
+msgstr "Přiblížit"
+
+#: ../ui/noteseditor.ui:526
+msgctxt "NotesEditor|"
+msgid "E&xit"
+msgstr "&Ukončit"
+
+#: ../ui/noteseditor.ui:529
+msgctxt "NotesEditor|"
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
+
+#: ../ui/noteseditor.ui:534
+msgctxt "NotesEditor|"
+msgid "&Paragraph"
+msgstr "O&dstavec"
+
+#: ../ui/noteseditor.ui:539
+msgctxt "NotesEditor|"
+msgid "Heading &1"
+msgstr "Nadpis &1"
+
+#: ../ui/noteseditor.ui:544
+msgctxt "NotesEditor|"
+msgid "Heading &2"
+msgstr "Nadpis &2"
+
+#: ../ui/noteseditor.ui:549
+msgctxt "NotesEditor|"
+msgid "Heading &3"
+msgstr "Nadpis &3"
+
+#: ../ui/noteseditor.ui:554
+msgctxt "NotesEditor|"
+msgid "Heading &4"
+msgstr "Nadpis &4"
+
+#: ../ui/noteseditor.ui:559
+msgctxt "NotesEditor|"
+msgid "Heading &5"
+msgstr "Nadpis &5"
+
+#: ../ui/noteseditor.ui:564
+msgctxt "NotesEditor|"
+msgid "Heading &6"
+msgstr "Nadpis &6"
+
+#: ../ui/noteseditor.ui:569
+msgctxt "NotesEditor|"
+msgid "Pre&formatted"
+msgstr "Před&formátovaný"
+
+#: ../ui/noteseditor.ui:574
+msgctxt "NotesEditor|"
+msgid "&Address"
+msgstr "&Adresa"
+
+#: ../ui/noteseditor.ui:579
+msgctxt "NotesEditor|"
+msgid "&Font Name..."
+msgstr "Název &písma..."
+
+#: ../ui/noteseditor.ui:584
+msgctxt "NotesEditor|"
+msgid "Text &Color..."
+msgstr "&Barva textu..."
+
+#: ../ui/noteseditor.ui:589
+msgctxt "NotesEditor|"
+msgid "Bac&kground Color..."
+msgstr "Barva poza&dí..."
+
+#: ../ui/noteseditor.ui:594
+msgctxt "NotesEditor|"
+msgid "Font Si&ze..."
+msgstr "Vel&ikost písma..."
+
+#: ../ui/noteseditor.ui:603
+msgctxt "NotesEditor|"
+msgid "Insert HTML..."
+msgstr "Vložit HTML..."
+
+#: ../ui/noteseditor.ui:606
+msgctxt "NotesEditor|"
+msgid "Insert HTML"
+msgstr "Vložit HTML"
+
+#: ../core/xbelreader.cpp:37
+msgctxt "QObject|"
+msgid "The file is not an XBEL version 1.0 file."
+msgstr "Soubor není souborem XBEL verze 1.0."
+
+#: ../core/xbelreader.cpp:144
+msgctxt "QObject|"
+msgid "Unknown title"
+msgstr "Neznámý název"
+
+#: ../core/notes.cpp:326
+msgctxt "QObject|"
+msgid "(unnamed)"
+msgstr "(nepojmenováno)"
+
+#: ../core/simplenotes.cpp:481 ../ui/dialog/settingsdialog.cpp:207
+#: ../module/bible/zefania-bible.cpp:44 ../module/bible/zefania-bible.cpp:75
+#: ../module/bible/zefania-bible.cpp:81 ../module/bible/zefania-bible.cpp:315
+#: ../module/bible/zefania-bible.cpp:375
+#: ../module/dictionary/zefania-lex.cpp:52
+#: ../module/dictionary/zefania-lex.cpp:71
+#: ../module/dictionary/zefania-lex.cpp:156
+#: ../module/dictionary/zefania-lex.cpp:165
+msgctxt "QObject|"
+msgid "Error"
+msgstr "Chyba"
+
+#: ../core/simplenotes.cpp:481
+msgctxt "QObject|"
+msgid "Cannot create mark."
+msgstr "Značku nelze vytvořit."
+
+#: ../ui/dialog/settingsdialog.cpp:179 ../ui/dialog/settingsdialog.cpp:342
+msgctxt "QObject|"
+msgid "Adding Modules"
+msgstr "Přidávají se moduly"
+
+#: ../ui/dialog/settingsdialog.cpp:179 ../ui/dialog/settingsdialog.cpp:342
+#: ../module/bible/biblequote.cpp:352 ../module/bible/thewordbible.cpp:218
+#: ../module/bible/zefania-bible.cpp:294 ../module/bible/zefania-bible.cpp:658
+#: ../module/dictionary/biblequote-dict.cpp:115
+msgctxt "QObject|"
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: ../ui/dialog/settingsdialog.cpp:207
+msgctxt "QObject|"
+msgid "It is not a folder."
+msgstr "Toto není složka."
+
+#: ../module/bible/biblequote.cpp:352
+msgctxt "QObject|"
+msgid "Indexing"
+msgstr "Rejstříkuje se"
+
+#: ../module/bible/thewordbible.cpp:218 ../module/bible/zefania-bible.cpp:658
+#: ../module/dictionary/biblequote-dict.cpp:115
+msgctxt "QObject|"
+msgid "Build index"
+msgstr "Sestavit rejstřík"
+
+#: ../module/bible/zefania-bible.cpp:44
+msgctxt "QObject|"
+msgid "Please activate Caching.(Hard or Soft Cache)"
+msgstr ""
+"Zapněte, prosím, ukládání do vyrovnávací paměti. (pevná nebo měkká "
+"vyrovnávací paměť)"
+
+#: ../module/bible/zefania-bible.cpp:75
+msgctxt "QObject|"
+msgid "Cannot read the file."
+msgstr "Soubor nelze přečíst."
+
+#: ../module/bible/zefania-bible.cpp:81
+msgctxt "QObject|"
+msgid "The file is not valid."
+msgstr "Soubor není platný."
+
+#: ../module/bible/zefania-bible.cpp:294
+msgctxt "QObject|"
+msgid "Loading Bible"
+msgstr "Nahrává se Bible"
+
+#: ../module/bible/zefania-bible.cpp:315
+#: ../module/dictionary/zefania-lex.cpp:156
+msgctxt "QObject|"
+msgid "Can not read the file"
+msgstr "Soubor nelze přečíst"
+
+#: ../module/bible/zefania-bible.cpp:375
+#: ../module/dictionary/zefania-lex.cpp:165
+#, qt-format
+msgctxt "QObject|"
+msgid "The file is not valid. Errorstring: %1 in Line %2 at Position %3"
+msgstr "Tento soubor není platný. Chybový řetězec: %1 na řádku %2 v místě %3"
+
+#: ../module/dictionary/biblequote-dict.cpp:177
+#: ../module/dictionary/zefania-lex.cpp:90
+msgctxt "QObject|"
+msgid "Cannot build index."
+msgstr "Nelze sestavit rejstřík."
+
+#: ../module/dictionary/biblequote-dict.cpp:207
+#: ../module/dictionary/zefania-lex.cpp:116
+#, qt-format
+msgctxt "QObject|"
+msgid "Nothing found for %1"
+msgstr "Pro %1 nebylo nalezeno nic"
+
+#: ../module/dictionary/zefania-lex.cpp:52
+#: ../module/dictionary/zefania-lex.cpp:71
+msgctxt "QObject|"
+msgid "The file is not valid"
+msgstr "Soubor není platný"
+
+#: ../ui/dock/quickjumpdockwidget.ui:14
+msgctxt "QuickJumpDockWidget|"
+msgid "Quick Jump"
+msgstr "Přejít na"
+
+#: ../ui/dialog/searchdialog.ui:14 ../ui/dialog/searchdialog.ui:43
+msgctxt "SearchDialog|"
+msgid "Search"
+msgstr "Hledat"
+
+#: ../ui/dialog/searchdialog.ui:68
+msgctxt "SearchDialog|"
+msgid "Range"
+msgstr "Rozsah"
+
+#: ../ui/dialog/searchdialog.ui:74
+msgctxt "SearchDialog|"
+msgid "All"
+msgstr "Vše"
+
+#: ../ui/dialog/searchdialog.ui:87
+msgctxt "SearchDialog|"
+msgid "OT"
+msgstr "Starý zákon"
+
+#: ../ui/dialog/searchdialog.ui:97
+msgctxt "SearchDialog|"
+msgid "NT"
+msgstr "Nový zákon"
+
+#: ../ui/dialog/searchdialog.ui:121
+msgctxt "SearchDialog|"
+msgid "Options"
+msgstr "Volby"
+
+#: ../ui/dialog/searchdialog.ui:130
+msgctxt "SearchDialog|"
+msgid "Search In Notes"
+msgstr "Hledat v poznámkách"
+
+#: ../ui/dialog/searchinfodialog.cpp:37
+#, qt-format
+msgctxt "SearchInfoDialog|"
+msgid "Search string : '%1'"
+msgstr "Hledaný text: %1"
+
+#: ../ui/dialog/searchinfodialog.cpp:38
+#, qt-format
+msgctxt "SearchInfoDialog|"
+msgid "Found verses : %1"
+msgstr "Nalezené verše: %1"
+
+#: ../ui/dialog/searchinfodialog.ui:14
+msgctxt "SearchInfoDialog|"
+msgid "Search Info"
+msgstr "Informace k hledání"
+
+#: ../ui/dialog/searchinfodialog.ui:34
+msgctxt "SearchInfoDialog|"
+msgid "General"
+msgstr "Obecné"
+
+#: ../ui/dialog/searchinfodialog.ui:55
+msgctxt "SearchInfoDialog|"
+msgid "List"
+msgstr "Seznam"
+
+#: ../ui/dialog/searchinfodialog.ui:65
+msgctxt "SearchInfoDialog|"
+msgid "Statistic"
+msgstr "Statistika"
+
+#: ../ui/dialog/searchinfodialog.ui:99
+msgctxt "SearchInfoDialog|"
+msgid "Close"
+msgstr "Zavřít"
+
+#: ../ui/dock/searchresultdockwidget.cpp:40
+#, qt-format
+msgctxt "SearchResultDockWidget|"
+msgid "Search: %1"
+msgstr "Hledání: %1"
+
+#: ../ui/dock/searchresultdockwidget.cpp:77
+msgctxt "SearchResultDockWidget|"
+msgid "Error"
+msgstr "Chyba"
+
+#: ../ui/dock/searchresultdockwidget.cpp:77
+msgctxt "SearchResultDockWidget|"
+msgid "No search information available."
+msgstr "K hledání nejsou dostupné žádné údaje."
+
+#: ../ui/dock/searchresultdockwidget.cpp:112
+msgctxt "SearchResultDockWidget|"
+msgid "No more Results."
+msgstr "Žádná další místa."
+
+#: ../ui/dock/searchresultdockwidget.cpp:112
+msgctxt "SearchResultDockWidget|"
+msgid "Show the first result again?"
+msgstr "Ukázat znovu první výsledek hledání?"
+
+#: ../ui/dock/searchresultdockwidget.ui:14
+msgctxt "SearchResultDockWidget|"
+msgid "Search Result"
+msgstr "Výsledky hledání"
+
+#: ../ui/dock/searchresultdockwidget.ui:46
+msgctxt "SearchResultDockWidget|"
+msgid "Info"
+msgstr "Informace"
+
+#: ../ui/dialog/settingsdialog.ui:14
+msgctxt "SettingsDialog|"
+msgid "Settings"
+msgstr "Nastavení"
+
+#: ../ui/dialog/settingsdialog.ui:30
+msgctxt "SettingsDialog|"
+msgid "General"
+msgstr "Obecné"
+
+#: ../ui/dialog/settingsdialog.ui:38
+msgctxt "SettingsDialog|"
+msgid "Language"
+msgstr "Jazyk"
+
+#: ../ui/dialog/settingsdialog.ui:48
+msgctxt "SettingsDialog|"
+msgid "Encoding"
+msgstr "Kódování znaků"
+
+#: ../ui/dialog/settingsdialog.ui:58
+msgctxt "SettingsDialog|"
+msgid "Auto Layout"
+msgstr "Automatické rozvržení"
+
+#: ../ui/dialog/settingsdialog.ui:68
+msgctxt "SettingsDialog|"
+msgid "Interface"
+msgstr "Rozhraní"
+
+#: ../ui/dialog/settingsdialog.ui:81 ../ui/dialog/settingsdialog.cpp:148
+msgctxt "SettingsDialog|"
+msgid "Module"
+msgstr "Moduly"
+
+#: ../ui/dialog/settingsdialog.ui:91
+msgctxt "SettingsDialog|"
+msgid "Add File"
+msgstr "Přidat soubor"
+
+#: ../ui/dialog/settingsdialog.ui:102
+msgctxt "SettingsDialog|"
+msgid "Add Dir"
+msgstr "Přidat adresář"
+
+#: ../ui/dialog/settingsdialog.ui:113
+msgctxt "SettingsDialog|"
+msgid "Download"
+msgstr "Stáhnout"
+
+#: ../ui/dialog/settingsdialog.ui:159
+msgctxt "SettingsDialog|"
+msgid "Edit"
+msgstr "Upravit"
+
+#: ../ui/dialog/settingsdialog.ui:170
+msgctxt "SettingsDialog|"
+msgid "Remove"
+msgstr "Odstranit"
+
+#: ../ui/dialog/settingsdialog.ui:201
+msgctxt "SettingsDialog|"
+msgid "Display"
+msgstr "Zobrazit"
+
+#: ../ui/dialog/settingsdialog.ui:210
+msgctxt "SettingsDialog|"
+msgid "Show Marks"
+msgstr "Ukázat značky"
+
+#: ../ui/dialog/settingsdialog.ui:217
+msgctxt "SettingsDialog|"
+msgid "Show Notes"
+msgstr "Ukázat poznámky"
+
+#: ../ui/dialog/settingsdialog.ui:224
+msgctxt "SettingsDialog|"
+msgid "Show Tool Bar"
+msgstr "Ukázat nástrojový pruh"
+
+#: ../ui/dialog/settingsdialog.ui:231
+msgctxt "SettingsDialog|"
+msgid "Show Strong Number"
+msgstr "Ukázat číslo Strong"
+
+#: ../ui/dialog/settingsdialog.ui:238
+msgctxt "SettingsDialog|"
+msgid "Show Study Notes"
+msgstr "Ukázat studijní poznámky"
+
+#: ../ui/dialog/settingsdialog.ui:245
+msgctxt "SettingsDialog|"
+msgid "Show RefLinks"
+msgstr "Ukázat odkazy"
+
+#: ../ui/dialog/settingsdialog.ui:274
+msgctxt "SettingsDialog|"
+msgid "OK"
+msgstr "OK"
+
+#: ../ui/dialog/settingsdialog.ui:291
+msgctxt "SettingsDialog|"
+msgid "Reset"
+msgstr "Nastavit znovu"
+
+#: ../ui/dialog/settingsdialog.ui:298
+msgctxt "SettingsDialog|"
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: ../ui/dialog/settingsdialog.cpp:111
+msgctxt "SettingsDialog|"
+msgid "None"
+msgstr "Žádný"
+
+#: ../ui/dialog/settingsdialog.cpp:111
+msgctxt "SettingsDialog|"
+msgid "Tile"
+msgstr "Klást jedno vedle druhého"
+
+#: ../ui/dialog/settingsdialog.cpp:111
+msgctxt "SettingsDialog|"
+msgid "Vertical tile"
+msgstr "Uspořádat svisle"
+
+#: ../ui/dialog/settingsdialog.cpp:111
+msgctxt "SettingsDialog|"
+msgid "Horizontal tile"
+msgstr "Uspořádat vodorovně"
+
+#: ../ui/dialog/settingsdialog.cpp:111
+msgctxt "SettingsDialog|"
+msgid "Cascade"
+msgstr "Překrývat"
+
+#: ../ui/dialog/settingsdialog.cpp:117
+msgctxt "SettingsDialog|"
+msgid "Simple"
+msgstr "Jednoduché"
+
+#: ../ui/dialog/settingsdialog.cpp:117
+msgctxt "SettingsDialog|"
+msgid "Advanced"
+msgstr "Pokročilé"
+
+#: ../ui/interface/simple/simpleinterface.ui:14
+msgctxt "SimpleInterface|"
+msgid "Form"
+msgstr "Formulář"
+
+#: ../ui/interface/simple/simpleinterface.cpp:79
+#: ../ui/interface/simple/simpleinterface.cpp:473
+msgctxt "SimpleInterface|"
+msgid "Search"
+msgstr "Hledat"
+
+#: ../ui/interface/simple/simpleinterface.cpp:81
+#: ../ui/interface/simple/simpleinterface.cpp:474
+msgctxt "SimpleInterface|"
+msgid "Zoom In"
+msgstr "Přiblížit"
+
+#: ../ui/interface/simple/simpleinterface.cpp:83
+#: ../ui/interface/simple/simpleinterface.cpp:475
+msgctxt "SimpleInterface|"
+msgid "Zoom Out"
+msgstr "Oddálit"
+
+#: ../ui/interface/simple/simpleinterface.cpp:85
+#: ../ui/interface/simple/simpleinterface.cpp:476
+msgctxt "SimpleInterface|"
+msgid "Module"
+msgstr "Moduly"
+
+#: ../ui/interface/simple/simpleinterface.cpp:270
+msgctxt "SimpleInterface|"
+msgid "openBibleViewer"
+msgstr "openBibleViewer"
+
+#: ../core/simplenotes.cpp:116
+msgctxt "SimpleNotes|"
+msgid "Note Title"
+msgstr "Název poznámky"
+
+#: ../core/simplenotes.cpp:341 ../core/simplenotes.cpp:363
+#: ../core/simplenotes.cpp:449 ../core/simplenotes.cpp:470
+#: ../core/simplenotes.cpp:504
+msgctxt "SimpleNotes|"
+msgid "(unnamed)"
+msgstr "(nepojmenována)"
+
+#: ../core/simplenotes.cpp:384 ../core/simplenotes.cpp:402
+#: ../core/simplenotes.cpp:410
+msgctxt "SimpleNotes|"
+msgid "Folder"
+msgstr "Složka"
+
+#: ../core/simplenotes.cpp:536
+msgctxt "SimpleNotes|"
+msgid "Copy"
+msgstr "Kopírovat"
+
+#: ../core/simplenotes.cpp:540
+msgctxt "SimpleNotes|"
+msgid "New"
+msgstr "Nová"
+
+#: ../core/simplenotes.cpp:544
+msgctxt "SimpleNotes|"
+msgid "New Folder"
+msgstr "Nová složka"
+
+#: ../core/simplenotes.cpp:548
+msgctxt "SimpleNotes|"
+msgid "Delete"
+msgstr "Smazat"
+
+#: ../ui/interface/study/studyinterface.ui:16
+msgctxt "StudyInterface|"
+msgid "Form"
+msgstr "Formulář"
+
+#: ../core/verse/versification/versification_kjv.cpp:20
+msgctxt "Versification_KJV|"
+msgid "Genesis"
+msgstr "První Mojžíšova (Genesis)"
+
+#: ../core/verse/versification/versification_kjv.cpp:21
+msgctxt "Versification_KJV|"
+msgid "Gen, Ge, Gn"
+msgstr "Gen, Ge, Gn"
+
+#: ../core/verse/versification/versification_kjv.cpp:29
+msgctxt "Versification_KJV|"
+msgid "Exodus"
+msgstr "Druhá Mojžíšova (Exodus)"
+
+#: ../core/verse/versification/versification_kjv.cpp:30
+msgctxt "Versification_KJV|"
+msgid "Ex, Exo, Exd"
+msgstr "Ex, Exo, Exd"
+
+#: ../core/verse/versification/versification_kjv.cpp:39
+msgctxt "Versification_KJV|"
+msgid "Leviticus"
+msgstr "Třetí Mojžíšova (Leviticus)"
+
+#: ../core/verse/versification/versification_kjv.cpp:40
+msgctxt "Versification_KJV|"
+msgid "Lev, Le, Lv"
+msgstr "Lev, Le, Lv"
+
+#: ../core/verse/versification/versification_kjv.cpp:49
+msgctxt "Versification_KJV|"
+msgid "Numbers"
+msgstr "Čtvrtá Mojžíšova (Numeri)"
+
+#: ../core/verse/versification/versification_kjv.cpp:50
+msgctxt "Versification_KJV|"
+msgid "Num, Nu, Nm, Nb"
+msgstr "Num, Nu, Nm"
+
+#: ../core/verse/versification/versification_kjv.cpp:59
+msgctxt "Versification_KJV|"
+msgid "Deuteronomy"
+msgstr "Pátá Mojžíšova (Deuteronomium)"
+
+#: ../core/verse/versification/versification_kjv.cpp:60
+msgctxt "Versification_KJV|"
+msgid "Deut, Dt"
+msgstr "Deut, Dt"
+
+#: ../core/verse/versification/versification_kjv.cpp:69
+msgctxt "Versification_KJV|"
+msgid "Joshua"
+msgstr "Jozue"
+
+#: ../core/verse/versification/versification_kjv.cpp:70
+msgctxt "Versification_KJV|"
+msgid "Josh, Jos, Jsh"
+msgstr "Joz, Jo, J"
+
+#: ../core/verse/versification/versification_kjv.cpp:79
+msgctxt "Versification_KJV|"
+msgid "Judges"
+msgstr "Soudců"
+
+#: ../core/verse/versification/versification_kjv.cpp:80
+msgctxt "Versification_KJV|"
+msgid "Judg, Jdg, Jg, Jdgs"
+msgstr "Soudc, Soud, Sou, So"
+
+#: ../core/verse/versification/versification_kjv.cpp:89
+msgctxt "Versification_KJV|"
+msgid "Ruth"
+msgstr "Rút"
+
+#: ../core/verse/versification/versification_kjv.cpp:90
+msgctxt "Versification_KJV|"
+msgid "Rth, Ru"
+msgstr "Rt, Ru"
+
+#: ../core/verse/versification/versification_kjv.cpp:99
+msgctxt "Versification_KJV|"
+msgid "1 Samuel"
+msgstr "První Samuelova"
+
+#: ../core/verse/versification/versification_kjv.cpp:100
+msgctxt "Versification_KJV|"
+msgid "1 Sam, 1 Sa, 1Samuel, 1S, I Sa, 1 Sm, 1Sa, I Sam, 1Sam"
+msgstr "1 Sam, 1 Sa, 1 Samuel, 1 S, I Sam, I Sa, 1 Sm, I S, I Samuel"
+
+#: ../core/verse/versification/versification_kjv.cpp:109
+msgctxt "Versification_KJV|"
+msgid "2 Samuel"
+msgstr "Druhá Samuelova"
+
+#: ../core/verse/versification/versification_kjv.cpp:110
+msgctxt "Versification_KJV|"
+msgid "2 Sam, 2 Sa, 2S, II Sa, 2 Sm, 2Sa, II Sam, 2Sam"
+msgstr "2 Sam, 2 Sa, 2 S, 2 Samuel, II Sam, II Sa, II S, II Samuel"
+
+#: ../core/verse/versification/versification_kjv.cpp:119
+msgctxt "Versification_KJV|"
+msgid "1 Kings"
+msgstr "První Královská"
+
+#: ../core/verse/versification/versification_kjv.cpp:120
+msgctxt "Versification_KJV|"
+msgid ""
+"1 Kgs, 1 Ki, 1K, I Kgs, 1Kgs, I Ki, 1Ki, I Kings, 1Kings, 1st Kgs, 1st "
+"Kings, 1Kin"
+msgstr "1 Král, 1 Kr, 1 K, I Král, I Kr, I K"
+
+#: ../core/verse/versification/versification_kjv.cpp:129
+msgctxt "Versification_KJV|"
+msgid "2 Kings"
+msgstr "Druhá Královská"
+
+#: ../core/verse/versification/versification_kjv.cpp:130
+msgctxt "Versification_KJV|"
+msgid ""
+"2 Kgs, 2 Ki, 2K, II Kgs, 2Kgs, II Ki, 2Ki, II Kings, 2Kings, 2nd Kgs, 2nd "
+"Kings, 2Kin"
+msgstr "2 Král, 2 Kr, 2 K, I Král, I Kr, I K"
+
+#: ../core/verse/versification/versification_kjv.cpp:139
+msgctxt "Versification_KJV|"
+msgid "1 Chronicles"
+msgstr "První Paralipomenon"
+
+#: ../core/verse/versification/versification_kjv.cpp:140
+msgctxt "Versification_KJV|"
+msgid "1 Chron, 1 Ch, I Ch, 1Ch, 1 Chr, I Chr, 1Chr, I Chron, 1Chron"
+msgstr "1 Paral, 1 Par, I Pa, 1 Pa, I Par, I Paral"
+
+#: ../core/verse/versification/versification_kjv.cpp:149
+msgctxt "Versification_KJV|"
+msgid "2 Chronicles"
+msgstr "Druhá Paralipomenon"
+
+#: ../core/verse/versification/versification_kjv.cpp:150
+msgctxt "Versification_KJV|"
+msgid "2 Chron, 2 Ch, II Ch, 2Ch, II Chr, 2Chr, II Chron, 2Chron"
+msgstr "2 Paral, 2 Par, II Pa, 2 Pa, II Par, II Paral"
+
+#: ../core/verse/versification/versification_kjv.cpp:159
+msgctxt "Versification_KJV|"
+msgid "Ezra"
+msgstr "Ezdráš"
+
+#: ../core/verse/versification/versification_kjv.cpp:160
+msgctxt "Versification_KJV|"
+msgid "Ezra, Ezr"
+msgstr "Ezra, Ezr"
+
+#: ../core/verse/versification/versification_kjv.cpp:169
+msgctxt "Versification_KJV|"
+msgid "Nehemiah"
+msgstr "Nehemjáš"
+
+#: ../core/verse/versification/versification_kjv.cpp:170
+msgctxt "Versification_KJV|"
+msgid "Neh, Ne"
+msgstr "Neh, Ne"
+
+#: ../core/verse/versification/versification_kjv.cpp:179
+msgctxt "Versification_KJV|"
+msgid "Esther"
+msgstr "Ester"
+
+#: ../core/verse/versification/versification_kjv.cpp:180
+msgctxt "Versification_KJV|"
+msgid "Esth, Es"
+msgstr "Est, Es"
+
+#: ../core/verse/versification/versification_kjv.cpp:189
+msgctxt "Versification_KJV|"
+msgid "Job"
+msgstr "Jób"
+
+#: ../core/verse/versification/versification_kjv.cpp:190
+msgctxt "Versification_KJV|"
+msgid "Job, Job, Jb"
+msgstr "Job, Jb"
+
+#: ../core/verse/versification/versification_kjv.cpp:199
+msgctxt "Versification_KJV|"
+msgid "Psalm"
+msgstr "Žalmy"
+
+#: ../core/verse/versification/versification_kjv.cpp:200
+msgctxt "Versification_KJV|"
+msgid "Pslm, Ps, Psalms, Psa, Psm, Pss"
+msgstr "Žalm, Žal, Ža"
+
+#: ../core/verse/versification/versification_kjv.cpp:209
+msgctxt "Versification_KJV|"
+msgid "Proverbs"
+msgstr "Přísloví"
+
+#: ../core/verse/versification/versification_kjv.cpp:210
+msgctxt "Versification_KJV|"
+msgid "Prov, Pr, Prv"
+msgstr "Přísl, Přís, Pří, Př"
+
+#: ../core/verse/versification/versification_kjv.cpp:219
+msgctxt "Versification_KJV|"
+msgid "Ecclesiastes"
+msgstr "Kazatel"
+
+#: ../core/verse/versification/versification_kjv.cpp:220
+msgctxt "Versification_KJV|"
+msgid "Eccles, Ec, Qoh, Qoheleth"
+msgstr "Kaz, Ka"
+
+#: ../core/verse/versification/versification_kjv.cpp:229
+msgctxt "Versification_KJV|"
+msgid "Song of Solomon"
+msgstr "Píseň písní"
+
+#: ../core/verse/versification/versification_kjv.cpp:230
+msgctxt "Versification_KJV|"
+msgid "Song, So, SOS"
+msgstr "Pís, Pí"
+
+#: ../core/verse/versification/versification_kjv.cpp:239
+msgctxt "Versification_KJV|"
+msgid "Isaiah"
+msgstr "Izajáš"
+
+#: ../core/verse/versification/versification_kjv.cpp:240
+msgctxt "Versification_KJV|"
+msgid "Isa, Is"
+msgstr "Iza, Iz"
+
+#: ../core/verse/versification/versification_kjv.cpp:249
+msgctxt "Versification_KJV|"
+msgid "Jeremiah"
+msgstr "Jeremjáš"
+
+#: ../core/verse/versification/versification_kjv.cpp:250
+msgctxt "Versification_KJV|"
+msgid "Jer, Je, Jr"
+msgstr "Jer, Je, Jr"
+
+#: ../core/verse/versification/versification_kjv.cpp:259
+msgctxt "Versification_KJV|"
+msgid "Lamentations"
+msgstr "Pláč"
+
+#: ../core/verse/versification/versification_kjv.cpp:260
+msgctxt "Versification_KJV|"
+msgid "Lam, La"
+msgstr "Pláč, Plá, Pl"
+
+#: ../core/verse/versification/versification_kjv.cpp:269
+msgctxt "Versification_KJV|"
+msgid "Ezekiel"
+msgstr "Ezechiel"
+
+#: ../core/verse/versification/versification_kjv.cpp:270
+msgctxt "Versification_KJV|"
+msgid "Ezek, Eze, Ezk"
+msgstr "Ezech, Eze, Ezch"
+
+#: ../core/verse/versification/versification_kjv.cpp:279
+msgctxt "Versification_KJV|"
+msgid "Daniel"
+msgstr "Daniel"
+
+#: ../core/verse/versification/versification_kjv.cpp:280
+msgctxt "Versification_KJV|"
+msgid "Dan, Da, Dn"
+msgstr "Dan, Da, Dn"
+
+#: ../core/verse/versification/versification_kjv.cpp:289
+msgctxt "Versification_KJV|"
+msgid "Hosea"
+msgstr "Ozeáš"
+
+#: ../core/verse/versification/versification_kjv.cpp:290
+msgctxt "Versification_KJV|"
+msgid "Hos, Ho"
+msgstr "Oze, Oz"
+
+#: ../core/verse/versification/versification_kjv.cpp:299
+msgctxt "Versification_KJV|"
+msgid "Joel"
+msgstr "Jóel"
+
+#: ../core/verse/versification/versification_kjv.cpp:300
+msgctxt "Versification_KJV|"
+msgid "Joel, Joe, Jl"
+msgstr "Jóel, Jóe, Jl"
+
+#: ../core/verse/versification/versification_kjv.cpp:309
+msgctxt "Versification_KJV|"
+msgid "Amos"
+msgstr "Ámos"
+
+#: ../core/verse/versification/versification_kjv.cpp:310
+msgctxt "Versification_KJV|"
+msgid "Amos, Am"
+msgstr "Ámos, Ám"
+
+#: ../core/verse/versification/versification_kjv.cpp:319
+msgctxt "Versification_KJV|"
+msgid "Obadiah"
+msgstr "Abdijáš"
+
+#: ../core/verse/versification/versification_kjv.cpp:320
+msgctxt "Versification_KJV|"
+msgid "Obad, Ob"
+msgstr "Abdi, Abd, Ab"
+
+#: ../core/verse/versification/versification_kjv.cpp:329
+msgctxt "Versification_KJV|"
+msgid "Jonah"
+msgstr "Jonáš"
+
+#: ../core/verse/versification/versification_kjv.cpp:330
+msgctxt "Versification_KJV|"
+msgid "Jnh, Jon"
+msgstr "Jnš, Jon"
+
+#: ../core/verse/versification/versification_kjv.cpp:339
+msgctxt "Versification_KJV|"
+msgid "Micah"
+msgstr "Micheáš"
+
+#: ../core/verse/versification/versification_kjv.cpp:340
+msgctxt "Versification_KJV|"
+msgid "Micah, Mic"
+msgstr "Mich, Mi"
+
+#: ../core/verse/versification/versification_kjv.cpp:349
+msgctxt "Versification_KJV|"
+msgid "Nahum"
+msgstr "Nahum"
+
+#: ../core/verse/versification/versification_kjv.cpp:350
+msgctxt "Versification_KJV|"
+msgid "Nah, Na"
+msgstr "Nah, Na"
+
+#: ../core/verse/versification/versification_kjv.cpp:359
+msgctxt "Versification_KJV|"
+msgid "Habakkuk"
+msgstr "Abakuk"
+
+#: ../core/verse/versification/versification_kjv.cpp:360
+msgctxt "Versification_KJV|"
+msgid "Hab, Hab"
+msgstr "Aba"
+
+#: ../core/verse/versification/versification_kjv.cpp:369
+msgctxt "Versification_KJV|"
+msgid "Zephaniah"
+msgstr "Sofonjáš"
+
+#: ../core/verse/versification/versification_kjv.cpp:370
+msgctxt "Versification_KJV|"
+msgid "Zeph, Zep, Zp"
+msgstr "Sofon, Sof, Sf"
+
+#: ../core/verse/versification/versification_kjv.cpp:379
+msgctxt "Versification_KJV|"
+msgid "Haggai"
+msgstr "Ageus"
+
+#: ../core/verse/versification/versification_kjv.cpp:380
+msgctxt "Versification_KJV|"
+msgid "Haggai, Hag, Hg"
+msgstr "Age"
+
+#: ../core/verse/versification/versification_kjv.cpp:389
+msgctxt "Versification_KJV|"
+msgid "Zechariah"
+msgstr "Zacharjáš"
+
+#: ../core/verse/versification/versification_kjv.cpp:390
+msgctxt "Versification_KJV|"
+msgid "Zech, Zec, Zc"
+msgstr "Zach, Zch"
+
+#: ../core/verse/versification/versification_kjv.cpp:399
+msgctxt "Versification_KJV|"
+msgid "Malachi"
+msgstr "Malachiáš"
+
+#: ../core/verse/versification/versification_kjv.cpp:400
+msgctxt "Versification_KJV|"
+msgid "Mal, Mal, Ml"
+msgstr "Mal, Ml"
+
+#: ../core/verse/versification/versification_kjv.cpp:409
+msgctxt "Versification_KJV|"
+msgid "Matthew"
+msgstr "Matouš"
+
+#: ../core/verse/versification/versification_kjv.cpp:410
+msgctxt "Versification_KJV|"
+msgid "Matt, Mt"
+msgstr "Mat, Mt"
+
+#: ../core/verse/versification/versification_kjv.cpp:419
+msgctxt "Versification_KJV|"
+msgid "Mark"
+msgstr "Marek"
+
+#: ../core/verse/versification/versification_kjv.cpp:420
+msgctxt "Versification_KJV|"
+msgid "Mrk, Mk, Mr"
+msgstr "Mrk, Mk, Mr"
+
+#: ../core/verse/versification/versification_kjv.cpp:429
+msgctxt "Versification_KJV|"
+msgid "Luke"
+msgstr "Lukáš"
+
+#: ../core/verse/versification/versification_kjv.cpp:430
+msgctxt "Versification_KJV|"
+msgid "Luk, Lk"
+msgstr "Luk, Lk"
+
+#: ../core/verse/versification/versification_kjv.cpp:439
+msgctxt "Versification_KJV|"
+msgid "John"
+msgstr "Jan"
+
+#: ../core/verse/versification/versification_kjv.cpp:440
+msgctxt "Versification_KJV|"
+msgid "John, Jn, Jhn"
+msgstr "Jan, Jn"
+
+#: ../core/verse/versification/versification_kjv.cpp:449
+msgctxt "Versification_KJV|"
+msgid "Acts"
+msgstr "Skutky apoštolské"
+
+#: ../core/verse/versification/versification_kjv.cpp:450
+msgctxt "Versification_KJV|"
+msgid "Acts, Ac"
+msgstr "Skutky, Sk"
+
+#: ../core/verse/versification/versification_kjv.cpp:460
+msgctxt "Versification_KJV|"
+msgid "Romans"
+msgstr "Římanům"
+
+#: ../core/verse/versification/versification_kjv.cpp:461
+msgctxt "Versification_KJV|"
+msgid "Rom, Ro, Rm"
+msgstr "Řím"
+
+#: ../core/verse/versification/versification_kjv.cpp:470
+msgctxt "Versification_KJV|"
+msgid "1 Corinthians"
+msgstr "První list Korintským"
+
+#: ../core/verse/versification/versification_kjv.cpp:471
+msgctxt "Versification_KJV|"
+msgid "1 Cor, 1 Co, I Co, 1Co, I Cor, 1Cor"
+msgstr "1 Kor, 1 Ko, I Ko, I Kor"
+
+#: ../core/verse/versification/versification_kjv.cpp:480
+msgctxt "Versification_KJV|"
+msgid "2 Corinthians"
+msgstr "Druhý list Korintským"
+
+#: ../core/verse/versification/versification_kjv.cpp:481
+msgctxt "Versification_KJV|"
+msgid "2 Cor, 2 Co, II Co, 2Co, II Cor, 2Cor"
+msgstr "2 Kor, 2 Ko, II Ko, II Kor"
+
+#: ../core/verse/versification/versification_kjv.cpp:490
+msgctxt "Versification_KJV|"
+msgid "Galatians"
+msgstr "Galatským"
+
+#: ../core/verse/versification/versification_kjv.cpp:491
+msgctxt "Versification_KJV|"
+msgid "Gal, Ga"
+msgstr "Gal, Ga"
+
+#: ../core/verse/versification/versification_kjv.cpp:500
+msgctxt "Versification_KJV|"
+msgid "Ephesians"
+msgstr "Efezským"
+
+#: ../core/verse/versification/versification_kjv.cpp:501
+msgctxt "Versification_KJV|"
+msgid "Ephes, Eph"
+msgstr "Efez, Ef"
+
+#: ../core/verse/versification/versification_kjv.cpp:510
+msgctxt "Versification_KJV|"
+msgid "Philippians"
+msgstr "Filipským"
+
+#: ../core/verse/versification/versification_kjv.cpp:511
+msgctxt "Versification_KJV|"
+msgid "Phil, Php"
+msgstr "Fil, Filip"
+
+#: ../core/verse/versification/versification_kjv.cpp:520
+msgctxt "Versification_KJV|"
+msgid "Colossians"
+msgstr "Koloským"
+
+#: ../core/verse/versification/versification_kjv.cpp:521
+msgctxt "Versification_KJV|"
+msgid "Col, Col"
+msgstr "Kol"
+
+#: ../core/verse/versification/versification_kjv.cpp:530
+msgctxt "Versification_KJV|"
+msgid "1 Thessalonians"
+msgstr "První list Tesalonickým"
+
+#: ../core/verse/versification/versification_kjv.cpp:531
+msgctxt "Versification_KJV|"
+msgid "1 Thess, 1 Th, I Th, 1Th, I Thes, 1Thes, I Thess, 1Thess"
+msgstr "1 Tes, 1 Te, I Te, I Tes"
+
+#: ../core/verse/versification/versification_kjv.cpp:540
+msgctxt "Versification_KJV|"
+msgid "2 Thessalonians"
+msgstr "Druhý list Tesalonickým"
+
+#: ../core/verse/versification/versification_kjv.cpp:541
+msgctxt "Versification_KJV|"
+msgid "2 Thess, 2 Th, II Th, 2Th, II Thes, 2Thes, II Thess, 2Thess"
+msgstr "2 Tes, 2 Te, II Te, II Tes"
+
+#: ../core/verse/versification/versification_kjv.cpp:550
+msgctxt "Versification_KJV|"
+msgid "1 Timothy"
+msgstr "První list Timoteovi"
+
+#: ../core/verse/versification/versification_kjv.cpp:551
+msgctxt "Versification_KJV|"
+msgid "1 Tim, 1 Ti, I Ti, 1Ti, I Tim, 1Tim"
+msgstr "1 Tim, 1 Ti, I Ti, I Tim"
+
+#: ../core/verse/versification/versification_kjv.cpp:560
+msgctxt "Versification_KJV|"
+msgid "2 Timothy"
+msgstr "Druhý list Timoteovi"
+
+#: ../core/verse/versification/versification_kjv.cpp:561
+msgctxt "Versification_KJV|"
+msgid "2 Tim, 2 Ti, II Ti, 2Ti, II Tim, 2Tim"
+msgstr "2 Tim, 2 Ti, II Ti, II Tim"
+
+#: ../core/verse/versification/versification_kjv.cpp:570
+msgctxt "Versification_KJV|"
+msgid "Titus"
+msgstr "Titovi"
+
+#: ../core/verse/versification/versification_kjv.cpp:571
+msgctxt "Versification_KJV|"
+msgid "Titus, Tit"
+msgstr "Tit"
+
+#: ../core/verse/versification/versification_kjv.cpp:580
+msgctxt "Versification_KJV|"
+msgid "Philemon"
+msgstr "Filemonovi"
+
+#: ../core/verse/versification/versification_kjv.cpp:581
+msgctxt "Versification_KJV|"
+msgid "Philem, Phm"
+msgstr "Filem, File"
+
+#: ../core/verse/versification/versification_kjv.cpp:590
+msgctxt "Versification_KJV|"
+msgid "Hebrews"
+msgstr "Židům"
+
+#: ../core/verse/versification/versification_kjv.cpp:591
+msgctxt "Versification_KJV|"
+msgid "Hebrews, Heb"
+msgstr "Židům, Žid"
+
+#: ../core/verse/versification/versification_kjv.cpp:600
+msgctxt "Versification_KJV|"
+msgid "James"
+msgstr "List Jakubův"
+
+#: ../core/verse/versification/versification_kjv.cpp:601
+msgctxt "Versification_KJV|"
+msgid "James, Jas, Jm"
+msgstr "Jakub, Jak"
+
+#: ../core/verse/versification/versification_kjv.cpp:610
+msgctxt "Versification_KJV|"
+msgid "1 Peter"
+msgstr "První list Petrův"
+
+#: ../core/verse/versification/versification_kjv.cpp:611
+msgctxt "Versification_KJV|"
+msgid "1 Pet, 1 Pe, I Pe, 1Pe, I Pet, 1Pet, I Pt, 1 Pt, 1Pt"
+msgstr "1 Pet, 1 Pe, I Pe, I Pet, I Pt, 1 Pt"
+
+#: ../core/verse/versification/versification_kjv.cpp:620
+msgctxt "Versification_KJV|"
+msgid "2 Peter"
+msgstr "Druhý list Petrův"
+
+#: ../core/verse/versification/versification_kjv.cpp:621
+msgctxt "Versification_KJV|"
+msgid "2 Pet, 2 Pe, II Pe, 2Pe, II Pet, 2Pet, II Pt, 2 Pt, 2Pt"
+msgstr "2 Pet, 2 Pe, II Pe, II Pet, II Pt, 2 Pt"
+
+#: ../core/verse/versification/versification_kjv.cpp:630
+msgctxt "Versification_KJV|"
+msgid "1 John"
+msgstr "První list Janův"
+
+#: ../core/verse/versification/versification_kjv.cpp:631
+msgctxt "Versification_KJV|"
+msgid ""
+"1 John, 1 Jn, I Jn, 1Jn, I Jo, 1Jo, I Joh, 1Joh, I Jhn, 1 Jhn, 1Jhn, I John, "
+"1John"
+msgstr "1 Jan, 1 Ja, 1 Jn, I Jn, I Ja, I Jan"
+
+#: ../core/verse/versification/versification_kjv.cpp:640
+msgctxt "Versification_KJV|"
+msgid "2 John"
+msgstr "Druhý list Janův"
+
+#: ../core/verse/versification/versification_kjv.cpp:641
+msgctxt "Versification_KJV|"
+msgid ""
+"2 John, 2 Jn, II Jn, 2Jn, II Jo, 2Jo, II Joh, 2Joh, II Jhn, 2 Jhn, 2Jhn, II "
+"John, 2John"
+msgstr "2 Jan, 2 Ja, 2 Jn, II Jn, II Ja, II Jan"
+
+#: ../core/verse/versification/versification_kjv.cpp:650
+msgctxt "Versification_KJV|"
+msgid "3 John"
+msgstr "Třetí list Janův"
+
+#: ../core/verse/versification/versification_kjv.cpp:651
+msgctxt "Versification_KJV|"
+msgid ""
+"3 John, 3 Jn, III Jn, 3Jn, III Jo, 3Jo, III Joh, 3Joh, III Jhn, 3 Jhn, 3Jhn, "
+"III John, 3John"
+msgstr "3 Jan, 3 Ja, 3 Jn, III Jn, III Ja, III Jan"
+
+#: ../core/verse/versification/versification_kjv.cpp:660
+msgctxt "Versification_KJV|"
+msgid "Jude"
+msgstr "List Judův"
+
+#: ../core/verse/versification/versification_kjv.cpp:661
+msgctxt "Versification_KJV|"
+msgid "Jude, Jud"
+msgstr "Jud"
+
+#: ../core/verse/versification/versification_kjv.cpp:670
+msgctxt "Versification_KJV|"
+msgid "Revelation"
+msgstr "Zjevení Janovo"
+
+#: ../core/verse/versification/versification_kjv.cpp:671
+msgctxt "Versification_KJV|"
+msgid "Rev, Re"
+msgstr "ZJ"

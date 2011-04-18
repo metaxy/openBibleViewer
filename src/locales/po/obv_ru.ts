@@ -1,611 +1,367 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
-<context>
-    <name></name>
-    <message>
-        <source>About</source>
-        <comment>AboutDialog|</comment>
-        <translation type="obsolete">Hakkında</translation>
-    </message>
-    <message>
-        <source>File</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Dosya</translation>
-    </message>
-    <message>
-        <source>Save As</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Farklı Kaydet</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Yazdır</translation>
-    </message>
-    <message>
-        <source>Quit</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Çıkış</translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Düzenle</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Kopyala</translation>
-    </message>
-    <message>
-        <source>Select All</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Tümünü Seç</translation>
-    </message>
-    <message>
-        <source>Search</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Arama</translation>
-    </message>
-    <message>
-        <source>Find Next</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Sonrakini Bul</translation>
-    </message>
-    <message>
-        <source>Find Previous</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Öncekini Bul</translation>
-    </message>
-    <message>
-        <source>Next Chapter</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Sonraki Bölüm</translation>
-    </message>
-    <message>
-        <source>Previous Chapter</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Önceki Bölüm</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Görünüm</translation>
-    </message>
-    <message>
-        <source>Zoom In</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Yakınlaştır</translation>
-    </message>
-    <message>
-        <source>Zoom Out</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Uzaklaştır</translation>
-    </message>
-    <message>
-        <source>Notes</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Notlar</translation>
-    </message>
-    <message>
-        <source>Books</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Kitaplar</translation>
-    </message>
-    <message>
-        <source>Bookmarks</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Yer İmleri</translation>
-    </message>
-    <message>
-        <source>Search Results</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Arama Sonuçları</translation>
-    </message>
-    <message>
-        <source>Configuration</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Yapılandırma</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Yardım</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Hakkında</translation>
-    </message>
-    <message>
-        <source>Online Help</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Çevrim İçi Yardım</translation>
-    </message>
-    <message>
-        <source>New Window</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Yeni Pencere</translation>
-    </message>
-    <message>
-        <source>Search Bar</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Arama Çubuğu</translation>
-    </message>
-    <message>
-        <source>Notes</source>
-        <comment>AdvancedSearchResultDockWidget|</comment>
-        <translation type="obsolete">Notlar</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <comment>AdvancedSearchResultDockWidget|</comment>
-        <translation type="obsolete">Hata</translation>
-    </message>
-    <message>
-        <source>Search Results</source>
-        <comment>AdvancedSearchResultDockWidget|</comment>
-        <translation type="obsolete">Arama Sonuçları</translation>
-    </message>
-    <message>
-        <source>Info</source>
-        <comment>AdvancedSearchResultDockWidget|</comment>
-        <translation type="obsolete">Bilgi</translation>
-    </message>
-    <message>
-        <source>None</source>
-        <comment>BibleListItemDelegate|</comment>
-        <translation type="obsolete">Hiçbiri</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <comment>BibleListWidget|</comment>
-        <translation type="obsolete">...</translation>
-    </message>
-    <message>
-        <source>Go To</source>
-        <comment>BookmarksDockWidget|</comment>
-        <translation type="obsolete">Git</translation>
-    </message>
-    <message>
-        <source>New Folder</source>
-        <comment>BookmarksDockWidget|</comment>
-        <translation type="obsolete">Yeni Klasör</translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <comment>BookmarksDockWidget|</comment>
-        <translation type="obsolete">Düzenle</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <comment>BookmarksDockWidget|</comment>
-        <translation type="obsolete">Kaldır</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <comment>BookmarksDockWidget|</comment>
-        <translation type="obsolete">Hata</translation>
-    </message>
-    <message>
-        <source>Bookmarks</source>
-        <comment>BookmarksDockWidget|</comment>
-        <translation type="obsolete">Yer İmleri</translation>
-    </message>
-    <message>
-        <source>Title</source>
-        <comment>BookmarksDockWidget|</comment>
-        <translation type="obsolete">Başlık</translation>
-    </message>
-    <message>
-        <source>Dictionary</source>
-        <comment>DictionaryDockWidget|</comment>
-        <translation type="obsolete">Sözlük</translation>
-    </message>
-    <message>
-        <source>Note</source>
-        <comment>InsertLinkDialog|</comment>
-        <translation type="obsolete">Not</translation>
-    </message>
-    <message>
-        <source>Custom</source>
-        <comment>InsertLinkDialog|</comment>
-        <translation type="obsolete">Özel</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Hata</translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <comment>AboutDialog|</comment>
-        <translation type="obsolete">Kapat</translation>
-    </message>
-    <message>
-        <source>Violet</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Mor</translation>
-    </message>
-    <message>
-        <source>Italic</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">İtalik</translation>
-    </message>
-    <message>
-        <source>Green</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Yeşil:</translation>
-    </message>
-    <message>
-        <source>Debugger</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Hata Ayıklayıcı</translation>
-    </message>
-    <message>
-        <source>Add Note</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Not Ekle</translation>
-    </message>
-    <message>
-        <source>Add Bookmark</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Yer İmi Ekle</translation>
-    </message>
-    <message>
-        <source>Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)</source>
-        <comment>AdvancedInterface|</comment>
-        <translation type="obsolete">Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <comment>BiblePassageDialog|</comment>
-        <translation type="obsolete">Kaydet</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <comment>BiblePassageDialog|</comment>
-        <translation type="obsolete">İptal</translation>
-    </message>
-    <message>
-        <source>1 Samuel</source>
-        <comment>MainWindow|</comment>
-        <translation type="obsolete">1. Samuel</translation>
-    </message>
-    <message>
-        <source>Numbers</source>
-        <comment>MainWindow|</comment>
-        <translation type="obsolete">Sayılar</translation>
-    </message>
-    <message>
-        <source>Genesis</source>
-        <comment>MainWindow|</comment>
-        <translation type="obsolete">Yaratılış</translation>
-    </message>
-    <message>
-        <source>2 Samuel</source>
-        <comment>MainWindow|</comment>
-        <translation type="obsolete">2. Samuel</translation>
-    </message>
-    <message>
-        <source>2 Kings</source>
-        <comment>MainWindow|</comment>
-        <translation type="obsolete">2. Krallar</translation>
-    </message>
-    <message>
-        <source>1 Kings</source>
-        <comment>MainWindow|</comment>
-        <translation type="obsolete">1. Krallar</translation>
-    </message>
-    <message>
-        <source>Zechariah</source>
-        <comment>MainWindow|</comment>
-        <translation type="obsolete">Zekeriya</translation>
-    </message>
-</context>
+<TS version="2.0" language="ru_RU">
+    <extra-po-header-po_revision_date>2010-10-28 12:53+0000</extra-po-header-po_revision_date>
+    <extra-po-header-x_launchpad_export_date>2011-04-18 10:24+0000</extra-po-header-x_launchpad_export_date>
+    <extra-po-headers>Project-Id-Version,Report-Msgid-Bugs-To,POT-Creation-Date,PO-Revision-Date,Last-Translator,Language-Team,MIME-Version,Content-Type,Content-Transfer-Encoding,X-Launchpad-Export-Date,X-Generator,X-Qt-Contexts,X-Language</extra-po-headers>
+    <extra-po-header-x_generator>Launchpad (build 12821)</extra-po-header-x_generator>
+    <extra-po-header-report_msgid_bugs_to></extra-po-header-report_msgid_bugs_to>
+    <extra-po-header-language_team>LANGUAGE &lt;LL@li.org&gt;</extra-po-header-language_team>
+    <extra-po-header-project_id_version>PACKAGE VERSION</extra-po-header-project_id_version>
+    <extra-po-header-pot_creation_date>2011-04-14 19:22+0000</extra-po-header-pot_creation_date>
+    <extra-po-header-last_translator>Ivan Y &lt;Unknown&gt;</extra-po-header-last_translator>
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../ui/dialog/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished">Hakkında</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="obsolete">Закрыть</translation>
     </message>
 </context>
 <context>
     <name>AdvancedInterface</name>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="218"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="220"/>
+        <source>openBibleViewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="308"/>
+        <source>File</source>
+        <translation>Файл</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="311"/>
+        <source>New SubWindow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="316"/>
+        <source>Close SubWindow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="321"/>
+        <source>Save As</source>
+        <translation>Сохранить как</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="326"/>
+        <source>Print</source>
+        <translation>Печать</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="331"/>
+        <source>Print Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="336"/>
+        <source>Quit</source>
+        <translation>Выход</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="349"/>
+        <source>Edit</source>
+        <translation>Редактировать</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="352"/>
+        <source>Copy</source>
+        <translation>Копировать</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="357"/>
+        <source>Select All</source>
+        <translation>Выбрать Все</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="362"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="571"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="739"/>
+        <source>Search</source>
+        <translation>Найти</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="367"/>
+        <source>Find Next</source>
+        <translation>Найти Далее</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="372"/>
+        <source>Find Previous</source>
+        <translation>Найти Предыдущее</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="377"/>
+        <source>Next Chapter</source>
+        <translation>Следующая Глава</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="382"/>
+        <source>Previous Chapter</source>
+        <translation>Предыдущая Глава</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="399"/>
+        <source>View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="402"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="587"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="746"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="747"/>
+        <source>Zoom In</source>
+        <translation>Приблизить</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="407"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="590"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="748"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="749"/>
+        <source>Zoom Out</source>
+        <translation>Отдалить</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="412"/>
+        <source>Tabbed View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="417"/>
+        <source>Sub Window View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="422"/>
+        <source>Cascade</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="426"/>
+        <source>Tile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="430"/>
+        <source>Tile Vertical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="434"/>
+        <source>Tile Horizontal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="449"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="485"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="579"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="743"/>
+        <source>Notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="452"/>
+        <source>Notes Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="456"/>
+        <source>Mark List</source>
+        <translation>Список Отметок</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="460"/>
+        <source>Mark Categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="469"/>
+        <source>Docks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="472"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="593"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="750"/>
+        <source>Module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="479"/>
+        <source>Books</source>
+        <translation>Книги</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="491"/>
+        <source>Dictionay</source>
+        <translation>Словарь</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="497"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="574"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="741"/>
+        <source>Bookmarks</source>
+        <translation>Закладки</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="503"/>
+        <source>Quick Jump</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="509"/>
+        <source>Search Results</source>
+        <translation>Результаты Поиска</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="524"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="527"/>
+        <source>Configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="535"/>
+        <source>Help</source>
+        <translation>Помощь</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="537"/>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="541"/>
+        <source>Online Help</source>
+        <translation>Помощь в Интернете</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="569"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="738"/>
+        <source>Main Tool Bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="584"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="745"/>
+        <source>New Window</source>
+        <translation>Новое Окно</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="611"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="752"/>
+        <source>Search Bar</source>
+        <translation>Панель Поиска</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="669"/>
+        <source>http://openbv.uucyc.name/faq.html</source>
+        <translation>http://openbv.uucyc.name/faq.html</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="694"/>
+        <source>About openBibleViewer</source>
+        <translation>О openBibleViewer</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="696"/>
+        <source>openBibleViewer &lt;br /&gt; version: %1 build: %2&lt;br /&gt; &lt;a href=&apos;http://openbv.uucyc.name/&apos;&gt; Official Website&lt;/a&gt; &lt;br /&gt;&lt;a href=&apos;https://github.com/metaxy/openBibleViewer/issues&apos;&gt;Bug report&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="740"/>
+        <source>Search in current module.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="742"/>
+        <source>Show/Hide the bookmarks dock.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="744"/>
+        <source>Show/Hide the notes dock.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="751"/>
+        <source>Add and edit the modules</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.ui" line="20"/>
         <source>WindowForm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="227"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="229"/>
-        <source>openBibleViewer</source>
-        <translation type="unfinished"></translation>
+        <source>Cannot read the book.</source>
+        <translation type="obsolete">Невозможно прочитать книгу.</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="316"/>
-        <source>File</source>
-        <translation type="unfinished">Dosya</translation>
+        <source>This book is not available.</source>
+        <translation type="obsolete">Эта книна недоступна.</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="319"/>
-        <source>New SubWindow</source>
-        <translation type="unfinished"></translation>
+        <source>Error</source>
+        <translation type="obsolete">Ошибка</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="324"/>
-        <source>Close SubWindow</source>
-        <translation type="unfinished"></translation>
+        <source>Orange</source>
+        <translation type="obsolete">Оранжевый</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="329"/>
-        <source>Save As</source>
-        <translation type="unfinished">Farklı Kaydet</translation>
+        <source>Blue</source>
+        <translation type="obsolete">Синий</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="334"/>
-        <source>Print</source>
-        <translation type="unfinished">Yazdır</translation>
+        <source>Violet</source>
+        <translation type="obsolete">Фиолетовый</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="339"/>
-        <source>Print Preview</source>
-        <translation type="unfinished"></translation>
+        <source>Italic</source>
+        <translation type="obsolete">Italic</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="344"/>
-        <source>Quit</source>
-        <translation type="unfinished">Çıkış</translation>
+        <source>Bold</source>
+        <translation type="obsolete">Bold</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="357"/>
-        <source>Edit</source>
-        <translation type="unfinished">Düzenle</translation>
+        <source>Mark this</source>
+        <translation type="obsolete">Отметить это</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="360"/>
-        <source>Copy</source>
-        <translation type="unfinished">Kopyala</translation>
+        <source>Yellow</source>
+        <translation type="obsolete">Желтый</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="365"/>
-        <source>Select All</source>
-        <translation type="unfinished">Tümünü Seç</translation>
+        <source>Green</source>
+        <translation type="obsolete">Зеленый</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="370"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="579"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="711"/>
-        <source>Search</source>
-        <translation type="unfinished">Arama</translation>
+        <source>Remove Mark</source>
+        <translation type="obsolete">Удалить Отметку</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="375"/>
-        <source>Find Next</source>
-        <translation type="unfinished">Sonrakini Bul</translation>
+        <source>Add Bookmark</source>
+        <translation type="obsolete">Добавить Закладку</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="380"/>
-        <source>Find Previous</source>
-        <translation type="unfinished">Öncekini Bul</translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="385"/>
-        <source>Next Chapter</source>
-        <translation type="unfinished">Sonraki Bölüm</translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="390"/>
-        <source>Previous Chapter</source>
-        <translation type="unfinished">Önceki Bölüm</translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="407"/>
-        <source>View</source>
-        <translation type="unfinished">Görünüm</translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="410"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="595"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="718"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="719"/>
-        <source>Zoom In</source>
-        <translation type="unfinished">Yakınlaştır</translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="415"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="598"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="720"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="721"/>
-        <source>Zoom Out</source>
-        <translation type="unfinished">Uzaklaştır</translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="420"/>
-        <source>Tabbed View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="425"/>
-        <source>Sub Window View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="430"/>
-        <source>Cascade</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="434"/>
-        <source>Tile</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="438"/>
-        <source>Tile Vertical</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="442"/>
-        <source>Tile Horizontal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="457"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="493"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="587"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="715"/>
-        <source>Notes</source>
-        <translation type="unfinished">Notlar</translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="460"/>
-        <source>Notes Editor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="464"/>
-        <source>Mark List</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="468"/>
-        <source>Mark Categories</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="477"/>
-        <source>Docks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="480"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="601"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="722"/>
-        <source>Module</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="487"/>
-        <source>Books</source>
-        <translation type="unfinished">Kitaplar</translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="499"/>
-        <source>Dictionay</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="505"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="582"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="713"/>
-        <source>Bookmarks</source>
-        <translation type="unfinished">Yer İmleri</translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="511"/>
-        <source>Quick Jump</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="517"/>
-        <source>Search Results</source>
-        <translation type="unfinished">Arama Sonuçları</translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="532"/>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="535"/>
-        <source>Configuration</source>
-        <translation type="unfinished">Yapılandırma</translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="543"/>
-        <source>Help</source>
-        <translation type="unfinished">Yardım</translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="545"/>
-        <source>About</source>
-        <translation type="unfinished">Hakkında</translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="549"/>
-        <source>Online Help</source>
-        <translation type="unfinished">Çevrim İçi Yardım</translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="577"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="710"/>
-        <source>Main Tool Bar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="592"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="717"/>
-        <source>New Window</source>
-        <translation type="unfinished">Yeni Pencere</translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="619"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="724"/>
-        <source>Search Bar</source>
-        <translation type="unfinished">Arama Çubuğu</translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="641"/>
-        <source>http://openbv.uucyc.name/faq.html</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="666"/>
-        <source>About openBibleViewer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="668"/>
-        <source>openBibleViewer &lt;br /&gt; version: %1 build: %2&lt;br /&gt; &lt;a href=&apos;http://openbv.uucyc.name/&apos;&gt; Official Website&lt;/a&gt; &lt;br /&gt;&lt;a href=&apos;https://github.com/metaxy/openBibleViewer/issues&apos;&gt;Bug report&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="712"/>
-        <source>Search in current module.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="714"/>
-        <source>Show/Hide the bookmarks dock.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="716"/>
-        <source>Show/Hide the notes dock.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="723"/>
-        <source>Add and edit the modules</source>
-        <translation type="unfinished"></translation>
+        <source>Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)</source>
+        <translation type="obsolete">Html (*.html *.htm);;PDF (*.pdf);;Plain (*.txt)</translation>
     </message>
 </context>
 <context>
     <name>AdvancedSearchResultDockWidget</name>
-    <message>
-        <location filename="../ui/dock/advancedsearchresultdockwidget.ui" line="14"/>
-        <source>Search Results</source>
-        <translation type="unfinished">Arama Sonuçları</translation>
-    </message>
-    <message>
-        <location filename="../ui/dock/advancedsearchresultdockwidget.ui" line="46"/>
-        <source>Info</source>
-        <translation type="unfinished">Bilgi</translation>
-    </message>
     <message>
         <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="36"/>
         <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="40"/>
@@ -615,21 +371,31 @@
     <message>
         <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="55"/>
         <source>Search: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Поиск: %1</translation>
     </message>
     <message>
         <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="83"/>
         <source>Notes</source>
-        <translation type="unfinished">Notlar</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="124"/>
         <source>Error</source>
-        <translation type="unfinished">Hata</translation>
+        <translation>Ошибка</translation>
     </message>
     <message>
         <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="124"/>
         <source>No search information available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dock/advancedsearchresultdockwidget.ui" line="14"/>
+        <source>Search Results</source>
+        <translation>Результаты Поиска</translation>
+    </message>
+    <message>
+        <location filename="../ui/dock/advancedsearchresultdockwidget.ui" line="46"/>
+        <source>Info</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -638,7 +404,7 @@
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="427"/>
         <source>Print</source>
-        <translation type="unfinished">Yazdır</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="444"/>
@@ -653,12 +419,12 @@
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="576"/>
         <source>Copy</source>
-        <translation type="unfinished">Kopyala</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="579"/>
         <source>Select All</source>
-        <translation type="unfinished">Tümünü Seç</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="583"/>
@@ -673,7 +439,7 @@
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="591"/>
         <source>Green</source>
-        <translation type="unfinished">Yeşil:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="596"/>
@@ -688,7 +454,7 @@
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="606"/>
         <source>Violet</source>
-        <translation type="unfinished">Mor</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="611"/>
@@ -703,7 +469,7 @@
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="620"/>
         <source>Italic</source>
-        <translation type="unfinished">İtalik</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="624"/>
@@ -718,12 +484,12 @@
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="632"/>
         <source>Add Bookmark</source>
-        <translation type="unfinished">Yer İmi Ekle</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="635"/>
         <source>Add Note</source>
-        <translation type="unfinished">Not Ekle</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="658"/>
@@ -740,7 +506,7 @@
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="680"/>
         <source>Debugger</source>
-        <translation type="unfinished">Hata Ayıklayıcı</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -748,7 +514,7 @@
     <message>
         <location filename="../ui/interface/advanced/biblelistitemdelegate.cpp" line="22"/>
         <source>None</source>
-        <translation type="unfinished">Hiçbiri</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -764,7 +530,7 @@
         <location filename="../ui/interface/advanced/biblelistwidget.ui" line="61"/>
         <location filename="../ui/interface/advanced/biblelistwidget.ui" line="85"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
 </context>
 <context>
@@ -774,19 +540,17 @@
         <source>Bible Passage</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Save</source>
+        <translation type="obsolete">Сохранить</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">Отменить</translation>
+    </message>
 </context>
 <context>
     <name>BiblePassageFrame</name>
-    <message>
-        <location filename="../ui/biblepassageframe.ui" line="14"/>
-        <source>Frame</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/biblepassageframe.ui" line="31"/>
-        <source>Add</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="../ui/biblepassageframe.cpp" line="37"/>
         <source>Module</source>
@@ -825,6 +589,16 @@
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../ui/biblepassageframe.ui" line="14"/>
+        <source>Frame</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/biblepassageframe.ui" line="31"/>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>BookDockWidget</name>
@@ -837,50 +611,50 @@
 <context>
     <name>BookmarksDockWidget</name>
     <message>
-        <location filename="../ui/dock/bookmarksdockwidget.ui" line="14"/>
-        <source>Bookmarks</source>
-        <translation type="unfinished">Yer İmleri</translation>
-    </message>
-    <message>
-        <location filename="../ui/dock/bookmarksdockwidget.ui" line="54"/>
-        <source>Title</source>
-        <translation type="unfinished">Başlık</translation>
-    </message>
-    <message>
         <location filename="../ui/dock/bookmarksdockwidget.cpp" line="112"/>
         <source>new folder</source>
-        <translation type="unfinished"></translation>
+        <translation>новая папка</translation>
     </message>
     <message>
         <location filename="../ui/dock/bookmarksdockwidget.cpp" line="128"/>
         <source>Go To</source>
-        <translation type="unfinished">Git</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/dock/bookmarksdockwidget.cpp" line="132"/>
         <source>New Folder</source>
-        <translation type="unfinished">Yeni Klasör</translation>
+        <translation>Новая Папка</translation>
     </message>
     <message>
         <location filename="../ui/dock/bookmarksdockwidget.cpp" line="136"/>
         <source>Edit</source>
-        <translation type="unfinished">Düzenle</translation>
+        <translation>Редактировать</translation>
     </message>
     <message>
         <location filename="../ui/dock/bookmarksdockwidget.cpp" line="140"/>
         <source>Remove</source>
-        <translation type="unfinished">Kaldır</translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../ui/dock/bookmarksdockwidget.cpp" line="186"/>
         <location filename="../ui/dock/bookmarksdockwidget.cpp" line="199"/>
         <source>Error</source>
-        <translation type="unfinished">Hata</translation>
+        <translation>Ошибка</translation>
     </message>
     <message>
         <location filename="../ui/dock/bookmarksdockwidget.cpp" line="186"/>
         <location filename="../ui/dock/bookmarksdockwidget.cpp" line="199"/>
         <source>This Bookmark is invalid.</source>
+        <translation>Эта Закладка неверна.</translation>
+    </message>
+    <message>
+        <location filename="../ui/dock/bookmarksdockwidget.ui" line="14"/>
+        <source>Bookmarks</source>
+        <translation>Закладки</translation>
+    </message>
+    <message>
+        <location filename="../ui/dock/bookmarksdockwidget.ui" line="54"/>
+        <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -890,7 +664,7 @@
         <location filename="../module/module.cpp" line="105"/>
         <location filename="../module/module.cpp" line="113"/>
         <source>None</source>
-        <translation type="unfinished">Hiçbiri</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../module/module.cpp" line="105"/>
@@ -928,7 +702,7 @@
     <message>
         <location filename="../ui/dock/dictionarydockwidget.ui" line="14"/>
         <source>Dictionary</source>
-        <translation type="unfinished">Sözlük</translation>
+        <translation>Словарь</translation>
     </message>
 </context>
 <context>
@@ -947,9 +721,15 @@
 <context>
     <name>InsertLinkDialog</name>
     <message>
+        <location filename="../ui/dialog/insertlinkdialog.cpp" line="46"/>
+        <location filename="../ui/dialog/insertlinkdialog.cpp" line="96"/>
+        <source>Note Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../ui/dialog/insertlinkdialog.ui" line="14"/>
         <source>Insert Link</source>
-        <translation type="unfinished"></translation>
+        <translation>Вставить Ссылку</translation>
     </message>
     <message>
         <location filename="../ui/dialog/insertlinkdialog.ui" line="32"/>
@@ -959,31 +739,20 @@
     <message>
         <location filename="../ui/dialog/insertlinkdialog.ui" line="46"/>
         <source>Note</source>
-        <translation type="unfinished">Not</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/dialog/insertlinkdialog.ui" line="64"/>
         <source>Custom</source>
-        <translation type="unfinished">Özel</translation>
-    </message>
-    <message>
-        <location filename="../ui/dialog/insertlinkdialog.cpp" line="46"/>
-        <location filename="../ui/dialog/insertlinkdialog.cpp" line="96"/>
-        <source>Note Title</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ui/mainwindow.ui" line="14"/>
-        <source>openBibleViewer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../ui/mainwindow.cpp" line="407"/>
         <source>Configuration</source>
-        <translation type="unfinished">Yapılandırma</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="443"/>
@@ -995,14 +764,14 @@
         <source>Please choose another language.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../ui/mainwindow.ui" line="14"/>
+        <source>openBibleViewer</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MarkList</name>
-    <message>
-        <location filename="../ui/marklist.ui" line="14"/>
-        <source>Mark List</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="../ui/marklist.cpp" line="58"/>
         <location filename="../ui/marklist.cpp" line="161"/>
@@ -1013,40 +782,55 @@
         <location filename="../ui/marklist.cpp" line="59"/>
         <location filename="../ui/marklist.cpp" line="162"/>
         <source>Module</source>
-        <translation type="unfinished"></translation>
+        <translation>Модуль</translation>
     </message>
     <message>
         <location filename="../ui/marklist.cpp" line="106"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить</translation>
+    </message>
+    <message>
+        <location filename="../ui/marklist.ui" line="14"/>
+        <source>Mark List</source>
+        <translation>Список Отметок</translation>
     </message>
 </context>
 <context>
     <name>ModuleConfigDialog</name>
     <message>
+        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="156"/>
+        <source>Open Bible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="156"/>
+        <source>Bibles (*.ini *.xml *.*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="14"/>
         <source>Module Config</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройка Модуля</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="22"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Путь</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="50"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="60"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="70"/>
         <source>Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Кодировка</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="80"/>
@@ -1071,7 +855,7 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="120"/>
         <source>remove</source>
-        <translation type="unfinished"></translation>
+        <translation>удалить</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="138"/>
@@ -1081,7 +865,7 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="149"/>
         <source>Text Fromatting</source>
-        <translation type="unfinished"></translation>
+        <translation>Форматирование Текста</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="163"/>
@@ -1102,7 +886,7 @@
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="183"/>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="197"/>
         <source>enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>включен</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="190"/>
@@ -1152,22 +936,16 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="305"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="325"/>
         <source>Cancel</source>
-        <translation type="unfinished">İptal</translation>
+        <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="156"/>
-        <source>Open Bible</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="156"/>
-        <source>Bibles (*.ini *.xml *.*)</source>
-        <translation type="unfinished"></translation>
+        <source>show</source>
+        <translation type="obsolete">показать</translation>
     </message>
 </context>
 <context>
@@ -1176,26 +954,11 @@
         <location filename="../ui/dock/moduledockwidget.ui" line="35"/>
         <location filename="../ui/dock/moduledockwidget.cpp" line="36"/>
         <source>Module</source>
-        <translation type="unfinished"></translation>
+        <translation>Модуль</translation>
     </message>
 </context>
 <context>
     <name>ModuleDownloadDialog</name>
-    <message>
-        <location filename="../ui/dialog/moduledownloaddialog.ui" line="14"/>
-        <source>Download Module</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/dialog/moduledownloaddialog.ui" line="61"/>
-        <source>Download</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/dialog/moduledownloaddialog.ui" line="78"/>
-        <source>Cancel</source>
-        <translation type="unfinished">İptal</translation>
-    </message>
     <message>
         <location filename="../ui/dialog/moduledownloaddialog.cpp" line="79"/>
         <source>Bibles</source>
@@ -1206,6 +969,21 @@
         <source>Dictionarys</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../ui/dialog/moduledownloaddialog.ui" line="14"/>
+        <source>Download Module</source>
+        <translation>Скачать Модуль</translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/moduledownloaddialog.ui" line="61"/>
+        <source>Download</source>
+        <translation>Скачать</translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/moduledownloaddialog.ui" line="78"/>
+        <source>Cancel</source>
+        <translation>Отменить</translation>
+    </message>
 </context>
 <context>
     <name>ModuleDownloader</name>
@@ -1214,29 +992,29 @@
         <location filename="../core/moduledownloader.cpp" line="136"/>
         <location filename="../core/moduledownloader.cpp" line="162"/>
         <source>HTTP</source>
-        <translation type="unfinished"></translation>
+        <translation>HTTP</translation>
     </message>
     <message>
         <location filename="../core/moduledownloader.cpp" line="94"/>
         <source>Unable to save the file %1: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно сохранить файл %1: %2.</translation>
     </message>
     <message>
         <location filename="../core/moduledownloader.cpp" line="102"/>
         <source>Downloading</source>
-        <translation type="unfinished"></translation>
+        <translation>Скачивание</translation>
     </message>
     <message>
         <location filename="../core/moduledownloader.cpp" line="103"/>
         <location filename="../core/moduledownloader.cpp" line="175"/>
         <source>Downloading %1 / %2. %3 MB</source>
-        <translation type="unfinished"></translation>
+        <translation>Скачивание %1 / %2. %3 МБ</translation>
     </message>
     <message>
         <location filename="../core/moduledownloader.cpp" line="136"/>
         <location filename="../core/moduledownloader.cpp" line="163"/>
         <source>Download failed: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка загрузки: %1.</translation>
     </message>
 </context>
 <context>
@@ -1244,21 +1022,100 @@
     <message>
         <location filename="../ui/dock/notesdockwidget.ui" line="14"/>
         <source>Notes</source>
-        <translation type="unfinished">Notlar</translation>
+        <translation>Заметки</translation>
     </message>
     <message>
         <location filename="../ui/dock/notesdockwidget.ui" line="256"/>
         <source>Save</source>
-        <translation type="unfinished">Kaydet</translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <location filename="../ui/dock/notesdockwidget.ui" line="263"/>
         <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+S</translation>
+    </message>
+    <message>
+        <source>Note</source>
+        <translation type="obsolete">Заметка</translation>
     </message>
 </context>
 <context>
     <name>NotesEditor</name>
+    <message>
+        <location filename="../ui/noteseditor.cpp" line="42"/>
+        <source>Normal View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/noteseditor.cpp" line="43"/>
+        <source>HTML Source</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/noteseditor.cpp" line="213"/>
+        <source>Save as...</source>
+        <translation>Сохранить как...</translation>
+    </message>
+    <message>
+        <location filename="../ui/noteseditor.cpp" line="214"/>
+        <source>HTML-Files (*.html *.htm);;Text-Files (*.txt);;All Files (*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/noteseditor.cpp" line="234"/>
+        <source>Common Graphics (*.png *.jpg *.jpeg *.gif);;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/noteseditor.cpp" line="235"/>
+        <source>Portable Network Graphics (PNG) (*.png);;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/noteseditor.cpp" line="236"/>
+        <source>JPEG (*.jpg *.jpeg);;</source>
+        <translation>JPEG (*.jpg *.jpeg);;</translation>
+    </message>
+    <message>
+        <location filename="../ui/noteseditor.cpp" line="237"/>
+        <source>Graphics Interchange Format (*.gif);;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/noteseditor.cpp" line="238"/>
+        <source>All Files (*)</source>
+        <translation>Все Файлы (*)</translation>
+    </message>
+    <message>
+        <location filename="../ui/noteseditor.cpp" line="240"/>
+        <source>Open image...</source>
+        <translation>Открыть изображение...</translation>
+    </message>
+    <message>
+        <location filename="../ui/noteseditor.cpp" line="493"/>
+        <source>Font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/noteseditor.cpp" line="493"/>
+        <source>Select font:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/noteseditor.cpp" line="512"/>
+        <source>Font Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/noteseditor.cpp" line="512"/>
+        <source>Select font size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/noteseditor.cpp" line="561"/>
+        <source> Zoom: %1% </source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="14"/>
         <source>Notes Editor</source>
@@ -1267,7 +1124,7 @@
     <message>
         <location filename="../ui/noteseditor.ui" line="99"/>
         <source>Edit</source>
-        <translation type="unfinished">Düzenle</translation>
+        <translation>Редактировать</translation>
     </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="122"/>
@@ -1312,7 +1169,7 @@
     <message>
         <location filename="../ui/noteseditor.ui" line="261"/>
         <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+S</translation>
     </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="270"/>
@@ -1337,7 +1194,7 @@
     <message>
         <location filename="../ui/noteseditor.ui" line="290"/>
         <source>Ctrl+Z</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Z</translation>
     </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="299"/>
@@ -1347,7 +1204,7 @@
     <message>
         <location filename="../ui/noteseditor.ui" line="302"/>
         <source>Ctrl+Y</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Y</translation>
     </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="311"/>
@@ -1357,7 +1214,7 @@
     <message>
         <location filename="../ui/noteseditor.ui" line="314"/>
         <source>Ctrl+X</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+X</translation>
     </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="323"/>
@@ -1367,7 +1224,7 @@
     <message>
         <location filename="../ui/noteseditor.ui" line="326"/>
         <source>Ctrl+C</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+C</translation>
     </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="335"/>
@@ -1377,7 +1234,7 @@
     <message>
         <location filename="../ui/noteseditor.ui" line="338"/>
         <source>Ctrl+V</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+V</translation>
     </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="347"/>
@@ -1387,7 +1244,7 @@
     <message>
         <location filename="../ui/noteseditor.ui" line="350"/>
         <source>Ctrl+A</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+A</translation>
     </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="362"/>
@@ -1397,7 +1254,7 @@
     <message>
         <location filename="../ui/noteseditor.ui" line="365"/>
         <source>Ctrl+B</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+B</translation>
     </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="377"/>
@@ -1407,7 +1264,7 @@
     <message>
         <location filename="../ui/noteseditor.ui" line="380"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="392"/>
@@ -1417,7 +1274,7 @@
     <message>
         <location filename="../ui/noteseditor.ui" line="395"/>
         <source>Ctrl+U</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+U</translation>
     </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="407"/>
@@ -1472,17 +1329,17 @@
     <message>
         <location filename="../ui/noteseditor.ui" line="503"/>
         <source>Create Link...</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать ссылку...</translation>
     </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="512"/>
         <source>Zoom Out</source>
-        <translation type="unfinished">Uzaklaştır</translation>
+        <translation>Отдалить</translation>
     </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="521"/>
         <source>Zoom In</source>
-        <translation type="unfinished">Yakınlaştır</translation>
+        <translation>Приблизить</translation>
     </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="526"/>
@@ -1492,7 +1349,7 @@
     <message>
         <location filename="../ui/noteseditor.ui" line="529"/>
         <source>Ctrl+Q</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Q</translation>
     </message>
     <message>
         <location filename="../ui/noteseditor.ui" line="534"/>
@@ -1569,109 +1426,9 @@
         <source>Insert HTML</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../ui/noteseditor.cpp" line="42"/>
-        <source>Normal View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/noteseditor.cpp" line="43"/>
-        <source>HTML Source</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/noteseditor.cpp" line="213"/>
-        <source>Save as...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/noteseditor.cpp" line="214"/>
-        <source>HTML-Files (*.html *.htm);;Text-Files (*.txt);;All Files (*)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/noteseditor.cpp" line="234"/>
-        <source>Common Graphics (*.png *.jpg *.jpeg *.gif);;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/noteseditor.cpp" line="235"/>
-        <source>Portable Network Graphics (PNG) (*.png);;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/noteseditor.cpp" line="236"/>
-        <source>JPEG (*.jpg *.jpeg);;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/noteseditor.cpp" line="237"/>
-        <source>Graphics Interchange Format (*.gif);;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/noteseditor.cpp" line="238"/>
-        <source>All Files (*)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/noteseditor.cpp" line="240"/>
-        <source>Open image...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/noteseditor.cpp" line="493"/>
-        <source>Font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/noteseditor.cpp" line="493"/>
-        <source>Select font:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/noteseditor.cpp" line="512"/>
-        <source>Font Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/noteseditor.cpp" line="512"/>
-        <source>Select font size:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/noteseditor.cpp" line="561"/>
-        <source> Zoom: %1% </source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>QObject</name>
-    <message>
-        <location filename="../core/notes.cpp" line="326"/>
-        <source>(unnamed)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/simplenotes.cpp" line="481"/>
-        <location filename="../ui/dialog/settingsdialog.cpp" line="207"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="44"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="76"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="82"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="316"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="376"/>
-        <location filename="../module/dictionary/zefania-lex.cpp" line="52"/>
-        <location filename="../module/dictionary/zefania-lex.cpp" line="71"/>
-        <location filename="../module/dictionary/zefania-lex.cpp" line="156"/>
-        <location filename="../module/dictionary/zefania-lex.cpp" line="165"/>
-        <source>Error</source>
-        <translation type="unfinished">Hata</translation>
-    </message>
-    <message>
-        <location filename="../core/simplenotes.cpp" line="481"/>
-        <source>Cannot create mark.</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="../core/xbelreader.cpp" line="37"/>
         <source>The file is not an XBEL version 1.0 file.</source>
@@ -1683,6 +1440,31 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../core/notes.cpp" line="326"/>
+        <source>(unnamed)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/simplenotes.cpp" line="481"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="207"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="44"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="75"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="81"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="315"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="375"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="52"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="71"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="156"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="165"/>
+        <source>Error</source>
+        <translation>Ошибка</translation>
+    </message>
+    <message>
+        <location filename="../core/simplenotes.cpp" line="481"/>
+        <source>Cannot create mark.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../ui/dialog/settingsdialog.cpp" line="179"/>
         <location filename="../ui/dialog/settingsdialog.cpp" line="342"/>
         <source>Adding Modules</source>
@@ -1691,13 +1473,13 @@
     <message>
         <location filename="../ui/dialog/settingsdialog.cpp" line="179"/>
         <location filename="../ui/dialog/settingsdialog.cpp" line="342"/>
-        <location filename="../module/bible/biblequote.cpp" line="353"/>
+        <location filename="../module/bible/biblequote.cpp" line="352"/>
         <location filename="../module/bible/thewordbible.cpp" line="218"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="295"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="660"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="294"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="658"/>
         <location filename="../module/dictionary/biblequote-dict.cpp" line="115"/>
         <source>Cancel</source>
-        <translation type="unfinished">İptal</translation>
+        <translation>Отменить</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.cpp" line="207"/>
@@ -1705,13 +1487,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../module/bible/biblequote.cpp" line="353"/>
+        <location filename="../module/bible/biblequote.cpp" line="352"/>
         <source>Indexing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../module/bible/thewordbible.cpp" line="218"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="660"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="658"/>
         <location filename="../module/dictionary/biblequote-dict.cpp" line="115"/>
         <source>Build index</source>
         <translation type="unfinished"></translation>
@@ -1722,28 +1504,28 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../module/bible/zefania-bible.cpp" line="76"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="75"/>
         <source>Cannot read the file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно прочитать файл.</translation>
     </message>
     <message>
-        <location filename="../module/bible/zefania-bible.cpp" line="82"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="81"/>
         <source>The file is not valid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../module/bible/zefania-bible.cpp" line="295"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="294"/>
         <source>Loading Bible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../module/bible/zefania-bible.cpp" line="316"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="315"/>
         <location filename="../module/dictionary/zefania-lex.cpp" line="156"/>
         <source>Can not read the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно прочитать файл</translation>
     </message>
     <message>
-        <location filename="../module/bible/zefania-bible.cpp" line="376"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="375"/>
         <location filename="../module/dictionary/zefania-lex.cpp" line="165"/>
         <source>The file is not valid. Errorstring: %1 in Line %2 at Position %3</source>
         <translation type="unfinished"></translation>
@@ -1766,6 +1548,22 @@
         <source>The file is not valid</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Folder</source>
+        <translation type="obsolete">Папка</translation>
+    </message>
+    <message>
+        <source>Cannot open zipped files.</source>
+        <translation type="obsolete">Невозможно открыть сжатые файлы.</translation>
+    </message>
+    <message>
+        <source>Cannot open the file.</source>
+        <translation type="obsolete">Невозможно открыть файл.</translation>
+    </message>
+    <message>
+        <source>Loading Module</source>
+        <translation type="obsolete">Загрузка Модуля</translation>
+    </message>
 </context>
 <context>
     <name>QuickJumpDockWidget</name>
@@ -1781,7 +1579,7 @@
         <location filename="../ui/dialog/searchdialog.ui" line="14"/>
         <location filename="../ui/dialog/searchdialog.ui" line="43"/>
         <source>Search</source>
-        <translation type="unfinished">Arama</translation>
+        <translation>Поиск</translation>
     </message>
     <message>
         <location filename="../ui/dialog/searchdialog.ui" line="68"/>
@@ -1806,7 +1604,7 @@
     <message>
         <location filename="../ui/dialog/searchdialog.ui" line="121"/>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location filename="../ui/dialog/searchdialog.ui" line="130"/>
@@ -1816,6 +1614,16 @@
 </context>
 <context>
     <name>SearchInfoDialog</name>
+    <message>
+        <location filename="../ui/dialog/searchinfodialog.cpp" line="37"/>
+        <source>Search string : &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/searchinfodialog.cpp" line="38"/>
+        <source>Found verses : %1</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="../ui/dialog/searchinfodialog.ui" line="14"/>
         <source>Search Info</source>
@@ -1839,40 +1647,20 @@
     <message>
         <location filename="../ui/dialog/searchinfodialog.ui" line="99"/>
         <source>Close</source>
-        <translation type="unfinished">Kapat</translation>
-    </message>
-    <message>
-        <location filename="../ui/dialog/searchinfodialog.cpp" line="37"/>
-        <source>Search string : &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/dialog/searchinfodialog.cpp" line="38"/>
-        <source>Found verses : %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрыть</translation>
     </message>
 </context>
 <context>
     <name>SearchResultDockWidget</name>
     <message>
-        <location filename="../ui/dock/searchresultdockwidget.ui" line="14"/>
-        <source>Search Result</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/dock/searchresultdockwidget.ui" line="46"/>
-        <source>Info</source>
-        <translation type="unfinished">Bilgi</translation>
-    </message>
-    <message>
         <location filename="../ui/dock/searchresultdockwidget.cpp" line="40"/>
         <source>Search: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Поиск: %1</translation>
     </message>
     <message>
         <location filename="../ui/dock/searchresultdockwidget.cpp" line="77"/>
         <source>Error</source>
-        <translation type="unfinished">Hata</translation>
+        <translation>Ошибка</translation>
     </message>
     <message>
         <location filename="../ui/dock/searchresultdockwidget.cpp" line="77"/>
@@ -1889,28 +1677,38 @@
         <source>Show the first result again?</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../ui/dock/searchresultdockwidget.ui" line="14"/>
+        <source>Search Result</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dock/searchresultdockwidget.ui" line="46"/>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="14"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="30"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Общие</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="38"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Язык</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="48"/>
         <source>Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Кодировка</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="58"/>
@@ -1920,38 +1718,38 @@
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="68"/>
         <source>Interface</source>
-        <translation type="unfinished"></translation>
+        <translation>Интерфейс</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="81"/>
         <location filename="../ui/dialog/settingsdialog.cpp" line="148"/>
         <source>Module</source>
-        <translation type="unfinished"></translation>
+        <translation>Модуль</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="91"/>
         <source>Add File</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить Файл</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="102"/>
         <source>Add Dir</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить Папку</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="113"/>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Скачать</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="159"/>
         <source>Edit</source>
-        <translation type="unfinished">Düzenle</translation>
+        <translation>Редактировать</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="170"/>
         <source>Remove</source>
-        <translation type="unfinished">Kaldır</translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="201"/>
@@ -1991,7 +1789,7 @@
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="274"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="291"/>
@@ -2001,12 +1799,12 @@
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="298"/>
         <source>Cancel</source>
-        <translation type="unfinished">İptal</translation>
+        <translation>Отменить</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.cpp" line="111"/>
         <source>None</source>
-        <translation type="unfinished">Hiçbiri</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.cpp" line="111"/>
@@ -2038,6 +1836,30 @@
         <source>Advanced</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Name</source>
+        <translation type="obsolete">Имя</translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="obsolete">Путь</translation>
+    </message>
+    <message>
+        <source>German</source>
+        <translation type="obsolete">Немецкий</translation>
+    </message>
+    <message>
+        <source>Russian</source>
+        <translation type="obsolete">Русский</translation>
+    </message>
+    <message>
+        <source>Czech</source>
+        <translation type="obsolete">Чешский</translation>
+    </message>
+    <message>
+        <source>English</source>
+        <translation type="obsolete">Английский</translation>
+    </message>
 </context>
 <context>
     <name>SimpleInterface</name>
@@ -2050,30 +1872,42 @@
         <location filename="../ui/interface/simple/simpleinterface.cpp" line="79"/>
         <location filename="../ui/interface/simple/simpleinterface.cpp" line="473"/>
         <source>Search</source>
-        <translation type="unfinished">Arama</translation>
+        <translation>Поиск</translation>
     </message>
     <message>
         <location filename="../ui/interface/simple/simpleinterface.cpp" line="81"/>
         <location filename="../ui/interface/simple/simpleinterface.cpp" line="474"/>
         <source>Zoom In</source>
-        <translation type="unfinished">Yakınlaştır</translation>
+        <translation>Приблизить</translation>
     </message>
     <message>
         <location filename="../ui/interface/simple/simpleinterface.cpp" line="83"/>
         <location filename="../ui/interface/simple/simpleinterface.cpp" line="475"/>
         <source>Zoom Out</source>
-        <translation type="unfinished">Uzaklaştır</translation>
+        <translation>Отдалить</translation>
     </message>
     <message>
         <location filename="../ui/interface/simple/simpleinterface.cpp" line="85"/>
         <location filename="../ui/interface/simple/simpleinterface.cpp" line="476"/>
         <source>Module</source>
-        <translation type="unfinished"></translation>
+        <translation>Модуль</translation>
     </message>
     <message>
         <location filename="../ui/interface/simple/simpleinterface.cpp" line="270"/>
         <source>openBibleViewer</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot read the book.</source>
+        <translation type="obsolete">Невозможно прочитать книгу.</translation>
+    </message>
+    <message>
+        <source>This book is not available.</source>
+        <translation type="obsolete">Эта книга не доступна.</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="obsolete">Ошибка</translation>
     </message>
 </context>
 <context>
@@ -2097,27 +1931,27 @@
         <location filename="../core/simplenotes.cpp" line="402"/>
         <location filename="../core/simplenotes.cpp" line="410"/>
         <source>Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Папка</translation>
     </message>
     <message>
         <location filename="../core/simplenotes.cpp" line="536"/>
         <source>Copy</source>
-        <translation type="unfinished">Kopyala</translation>
+        <translation>Копировать</translation>
     </message>
     <message>
         <location filename="../core/simplenotes.cpp" line="540"/>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation>Новая</translation>
     </message>
     <message>
         <location filename="../core/simplenotes.cpp" line="544"/>
         <source>New Folder</source>
-        <translation type="unfinished">Yeni Klasör</translation>
+        <translation>Новая Папка</translation>
     </message>
     <message>
         <location filename="../core/simplenotes.cpp" line="548"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить</translation>
     </message>
 </context>
 <context>
@@ -2133,7 +1967,7 @@
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="20"/>
         <source>Genesis</source>
-        <translation type="unfinished">Yaratılış</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="21"/>
@@ -2163,7 +1997,7 @@
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="49"/>
         <source>Numbers</source>
-        <translation type="unfinished">Sayılar</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="50"/>
@@ -2213,7 +2047,7 @@
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="99"/>
         <source>1 Samuel</source>
-        <translation type="unfinished">1. Samuel</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="100"/>
@@ -2223,7 +2057,7 @@
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="109"/>
         <source>2 Samuel</source>
-        <translation type="unfinished">2. Samuel</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="110"/>
@@ -2233,7 +2067,7 @@
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="119"/>
         <source>1 Kings</source>
-        <translation type="unfinished">1. Krallar</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="120"/>
@@ -2243,7 +2077,7 @@
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="129"/>
         <source>2 Kings</source>
-        <translation type="unfinished">2. Krallar</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="130"/>
@@ -2503,7 +2337,7 @@
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="389"/>
         <source>Zechariah</source>
-        <translation type="unfinished">Zekeriya</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="390"/>
