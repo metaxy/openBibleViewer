@@ -18,7 +18,7 @@ Source: %{name}-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
 
 %if 0%{?fedora_version}
-BuildRequires: qt-devel >= 4.6 gcc-c++ clucene-core-devel zlib
+BuildRequires: qt-devel >= 4.6 gcc-c++ clucene-core-devel zlib qt-webkit-devel >= 4.6
 %endif
 
 %if 0%{?mandriva_version}
