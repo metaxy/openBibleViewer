@@ -75,6 +75,8 @@ if (NOT CMAKE_BUILD_TYPE)
 endif (NOT CMAKE_BUILD_TYPE)
 
 message("-- Using build type: ${CMAKE_BUILD_TYPE}")
+INCLUDE(${QT_USE_FILE})
+ADD_DEFINITIONS(${QT_DEFINITIONS})
 
 include_directories (
     ${CMAKE_SOURCE_DIR}
@@ -435,7 +437,8 @@ else(_SWORD_SUPPORT)
 endif(_SWORD_SUPPORT)
 
 
-target_link_libraries ( openBibleViewer 
+target_link_libraries ( openBibleViewer
+			${QT_LIBRARIES}
                         ${QT_QTCORE_LIBRARY} 
                         ${QT_QTGUI_LIBRARY} 
                         ${QT_QTXML_LIBRARY} 
