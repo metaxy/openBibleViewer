@@ -472,8 +472,8 @@ void BibleForm::saveFile()
         out << m_view->page()->mainFrame()->toPlainText();
         file.close();
     }
-
 }
+
 QString BibleForm::selectedText()
 {
     return m_view->selectedText();
@@ -878,9 +878,9 @@ VerseSelection BibleForm::verseSelection()
         endVerseText = startVerseText;
 
     const QString selectedText = f->evaluateJavaScript("vS.selectedText;").toString();
-    myDebug() << "slected text = " << selectedText;
-    myDebug() << "startVerseText = " << startVerseText;
-    myDebug() << "endVerseText = " << endVerseText;
+    //myDebug() << "selected text = " << selectedText;
+    //myDebug() << "startVerseText = " << startVerseText;
+    //myDebug() << "endVerseText = " << endVerseText;
     {
         QString sText;
         for(int i = 0; i < selectedText.size() - 1; i++) {
@@ -964,7 +964,7 @@ VerseSelection BibleForm::verseSelection()
         const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
 
         const QString uniqueString = "!-_OPENBIBLEVIEWER_INSERT_-!";
-        int posOfInsert = startVerseText2.lastIndexOf(uniqueString);
+        const int posOfInsert = startVerseText2.lastIndexOf(uniqueString);
 
         QString back = selectedText;
         QString longestString;

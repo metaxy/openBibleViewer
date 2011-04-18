@@ -1,0 +1,12 @@
+Source: openbibleviewer
+Section: kde
+Priority: optional
+Maintainer: Paul Walger <metaxy@walger.name>
+Homepage: http://openbv.uucyc.name
+Build-Depends: cdbs (>= 0.4.51), debhelper (>= 7), libqt4-dev, libclucene-dev, cmake
+ 
+Package: openbibleviewer
+Section: kde
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: A bible study tool. 

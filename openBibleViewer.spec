@@ -11,7 +11,7 @@ Summary: Bible study tool
 Name: %{name}
 License: GPLv3
 URL: http://openbv.uucyc.name
-Version: 0.5.4
+Version: 0.5.82
 Release: 128
 Group: Amusements/Teaching/Other
 Source: %{name}-%{version}.tar.bz2
@@ -37,7 +37,7 @@ This program allows one to work with the bible and study it.
 %setup -q
 
 %build
-cmake -DCMAKE_INSTALL_PREFIX="%{_prefix}"
+cmake -DCMAKE_INSTALL_PREFIX="%{_prefix}" -DCMAKE_BUILD_TYPE='Release'
 make
 %install
 
