@@ -37,21 +37,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/mainwindow.h"
 #include "config.h"
 
-#ifdef BUILD_WITH_SWORD
-/*#include <swmgr.h>
-#include <swmodule.h>
-#include <markupfiltmgr.h>
-#include <versekey.h>
-#include <listkey.h>
-using sword::SWMgr;
-using sword::VerseKey;
-using sword::ListKey;
-using sword::SWModule;
-using sword::SW_POSITION;
-using sword::FMT_PLAIN;
-using sword::MarkupFilterMgr;
-using namespace::sword;*/
-#endif
+
 
 bool removeDir(const QString &dirName)
 {
