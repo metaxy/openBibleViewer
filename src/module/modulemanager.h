@@ -47,7 +47,7 @@ public:
 
     void setSettings(Settings *settings);
     void setNotes(Notes *notes);
-    void setmoduledisplaysettings(ModuleDisplaySettings *moduledisplaysettings);
+    void setModuleDisplaySettings(ModuleDisplaySettings *moduledisplaysettings);
 
     bool bibleLoaded();
     bool hasBible();

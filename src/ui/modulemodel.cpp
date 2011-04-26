@@ -60,13 +60,13 @@ QStandardItemModel* ModuleModel::itemModel() const
 void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings)
 {
     QStandardItem *item;
-    if(settings->moduleType == OBVCore::BibleQuoteModule || settings->moduleType == OBVCore::ZefaniaBibleModule || settings->moduleType == OBVCore::TheWordBibleModule) {
+    if(settings->moduleType == OBVCore::BibleQuoteModule || settings->moduleType == OBVCore::ZefaniaBibleModule || settings->moduleType == OBVCore::TheWordBibleModule || settings->moduleType == OBVCore::SwordBibleModule) {
         item = new QStandardItem;
         item->setText(settings->moduleName);
         item->setData(QString::number(settings->moduleID));
         item->setToolTip(Module::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
 
-        if(settings->moduleType == OBVCore::BibleQuoteModule || settings->moduleType == OBVCore::TheWordBibleModule) {
+        if(settings->moduleType == OBVCore::BibleQuoteModule || settings->moduleType == OBVCore::TheWordBibleModule || settings->moduleType == OBVCore::SwordBibleModule) {
             item->setIcon(m_bibleQuoteIcon);
         } else if(settings->moduleType == OBVCore::ZefaniaBibleModule) {
             item->setIcon(m_bibleZefaniaIcon);

@@ -31,7 +31,8 @@ enum ModuleType {
     ZefaniaLexModule = 3,
     BibleQuoteDictModule = 4,
     TheWordBibleModule = 5,
-    FolderModule = 6
+    FolderModule = 6,
+    SwordBibleModule = 7
 };
 
 /*  QStringList ModuleTypeNames()

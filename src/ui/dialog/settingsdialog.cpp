@@ -15,6 +15,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_settingsdialog.h"
 
 
+#ifdef BUILD_WITH_SWORD
+#include <stdio.h>
+#include <iostream>
+#include <stdlib.h>
+#include <swmgr.h>
+#include <swmodule.h>
+#include <markupfiltmgr.h>
+
+using namespace::sword;
+#endif
 SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), m_ui(new Ui::SettingsDialog)
 {
     m_ui->setupUi(this);
@@ -28,6 +38,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), m_ui(new Ui::
     connect(m_ui->pushButton_cancel, SIGNAL(clicked()), this, SLOT(close()));
     connect(m_ui->pushButton_reset, SIGNAL(clicked()), this, SLOT(reset()));
     connect(m_ui->pushButton_moduleEdit, SIGNAL(clicked()), this, SLOT(editModule()));
+    connect(m_ui->pushButton_addSword, SIGNAL(clicked()), this, SLOT(importSwordModules()));
 }
 
 SettingsDialog::~SettingsDialog()
@@ -432,6 +443,38 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
     m_set.m_moduleSettings.insert(m->moduleID, m);
 
     return 0;
+}
+void SettingsDialog::importSwordModules()
+{
+    DEBUG_FUNC_NAME;
+#ifdef BUILD_WITH_SWORD
+    SWMgr library(new MarkupFilterMgr(FMT_PLAIN));
+    ModMap::iterator it;
+                    for (it = library.Modules.begin(); it != library.Modules.end(); it++) {
+                        const QString name = QString::fromLocal8Bit((*it).second->Name());
+                        const QString desc = QString::fromLocal8Bit((*it).second->Description());
+
+                        myDebug() << name << desc;
+
+                        ModuleSettings *m = new ModuleSettings();
+                        m->moduleID = m_set.newModuleID();
+                        m->moduleName = desc;
+                        m->modulePath = name;
+                        m->moduleType = OBVCore::SwordBibleModule;
+
+                        m->biblequote_removeHtml = m_set.removeHtml;
+                        m->zefbible_hardCache = m_set.zefaniaBible_hardCache;
+                        m->zefbible_softCache = m_set.zefaniaBible_softCache;
+
+                        m->encoding = "Default";
+                        m->parentID = -1;
+
+                        m_set.getModuleSettings(m->parentID)->appendChild(m);
+                        m_set.m_moduleSettings.insert(m->moduleID, m);
+                    }
+                    generateModuleTree();
+
+#endif
 }
 
 void SettingsDialog::setCurrentTab(int tabID)

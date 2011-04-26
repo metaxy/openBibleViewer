@@ -16,19 +16,29 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include "src/module/bible/biblemodule.h"
 
-#include "CLucene.h"
-#include "CLucene/_clucene-config.h"
+#ifdef BUILD_WITH_SWORD
+#include <stdio.h>
+#include <iostream>
+#include <stdlib.h>
+#include <swmgr.h>
+#include <swmodule.h>
+#include <markupfiltmgr.h>
+#include <versekey.h>
+using namespace::sword;
 
+#endif
 class SwordBible : public BibleModule
 {
 public:
     SwordBible();
+    int loadBibleData(const int moduleID, const QString &path);
     void setSettings(Settings *settings);
-    int loadBibleData(const int id, const QString &uid);
+    QString readInfo(QFile &file);
     int readBook(const int id);
 
-    QString readInfo(QFile &file);
-    QString readInfo(const QString &fileName);
+    TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse);
+    std::pair<int, int> minMaxVerse(int bookID, int chapterID);
+
     void search(const SearchQuery &query, SearchResult *res) const;
     bool hasIndex() const;
     void buildIndex();
@@ -36,11 +46,19 @@ public:
     int moduleID() const;
     QString modulePath() const;
     QString moduleName(bool preferShortName = false) const;
+
+    Versification *versification() const;
     QString uid() const;
 private:
     int m_moduleID;
     QString m_modulePath;
     QString indexPath() const;
+
+    Versification *m_v11n;
+#ifdef BUILD_WITH_SWORD
+    SWModule *m_target;
+    SWMgr *m_library;
+#endif
 };
 
 #endif // SWORDBIBLE_H

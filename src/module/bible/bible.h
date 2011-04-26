@@ -21,6 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/bible/biblequote.h"
 #include "src/module/bible/zefania-bible.h"
 #include "src/module/bible/thewordbible.h"
+#include "src/module/bible/swordbible.h"
 #include "src/module/versemodule.h"
 
 #include "src/core/settings/modulesettings.h"

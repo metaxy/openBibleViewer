@@ -26,7 +26,7 @@ include(FindPkgConfig)
 pkg_check_modules(CLUCENE1 libclucene-core)
 
 option( _PORTABLE_VERSION "Build a portable version" OFF )
-option( _SWORD_SUPPORT "Build with sword support" OFF )
+option( _SWORD_SUPPORT "Build with sword support" ON )
 #not using "to STdWString" triggers a bad bug on linux
 if(MSVC)
   option( _USE_WSTRING "Use toStdWString and fromWCharArray" OFF)
@@ -45,8 +45,10 @@ if(MSVC)
 endif()
 
 if(_SWORD_SUPPORT)
+    message("search sword")
     include (FindSword)
     if (NOT SWORD_NOT_FOUND)
+        message("found sword")
         ADD_DEFINITIONS(-DBUILD_WITH_SWORD)
     endif(NOT SWORD_NOT_FOUND)
 endif(_SWORD_SUPPORT)
@@ -56,7 +58,7 @@ if(_BUILD_CLUCENE)
     include (FindThreads)
     include (FindZlib)
 else(_BUILD_CLUCENE)
-#link against dynamic clucene >= 0.9.23
+    #link against dynamic clucene >= 0.9.23
     message("find shared libs of clucene")
     pkg_check_modules(CLUCENE1 libclucene-core)
     include_directories(${CLUCENE1_INCLUDE_DIRS})

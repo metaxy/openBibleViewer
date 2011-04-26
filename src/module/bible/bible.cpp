@@ -70,7 +70,7 @@ int Bible::loadModuleData(const int moduleID)
 
         m_bookPath = ((BibleQuote *)m_bibleModule)->m_bookPath;
         m_modulePath = m_bibleModule->modulePath();
-    } else if(moduleType() == OBVCore::ZefaniaBibleModule || moduleType() == OBVCore::TheWordBibleModule) {
+    } else if(moduleType() == OBVCore::ZefaniaBibleModule || moduleType() == OBVCore::TheWordBibleModule || moduleType() == OBVCore::SwordBibleModule) {
         if(m_module->m_bibleModule) {
             m_bibleModule = m_module->m_bibleModule;
         } else {
@@ -78,11 +78,15 @@ int Bible::loadModuleData(const int moduleID)
                 m_bibleModule = new ZefaniaBible();
             } else if(moduleType() == OBVCore::TheWordBibleModule) {
                 m_bibleModule = new TheWordBible();
+            } else if(moduleType() == OBVCore::SwordBibleModule) {
+                m_bibleModule = new SwordBible();
             }
             m_module->m_bibleModule = m_bibleModule;
+
         }
         m_bibleModule->setSettings(m_settings);
         loaded = m_bibleModule->loadBibleData(m_moduleID, m_module->path());
+        myDebug() << "loaded = " << loaded;
     }
     if(loaded != 0) {
         m_loaded = false;
@@ -110,22 +114,7 @@ int Bible::readBook(const int id)
 {
     DEBUG_FUNC_NAME
     m_bookID = id;
-
-    if(moduleType() == OBVCore::BibleQuoteModule) {
-        if(id < m_bookPath.size()) {
-            int r = m_bibleModule->readBook(id);
-            if(r != 0)
-                return r;
-        } else {
-            myWarning() << "index out of range bookPath.size() = " << m_bookPath.size() << " , id = " << id;
-            return 1;
-        }
-
-    } else if(moduleType() == OBVCore::ZefaniaBibleModule || moduleType() == OBVCore::TheWordBibleModule) {
-        m_bibleModule->readBook(id);
-    }
-
-    return 0;
+    return m_bibleModule->readBook(id);
 }
 
 QString Bible::toUniformHtml(QString string)
@@ -229,9 +218,9 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         }
         //myDebug() << "current chapter = " << chapterID;
     }
-    //myDebug() << "bookID = " << bookID << " chapterID " << chapterID;
+    myDebug() << "bookID = " << bookID << " chapterID " << chapterID;
     std::pair<int, int> minMax = m_bibleModule->minMaxVerse(bookID, chapterID);
-    //myDebug() << "min = " << minMax.first << " max = " << minMax.second;
+    myDebug() << "min = " << minMax.first << " max = " << minMax.second;
 
     int startVerse = 0;
     int endVerse = 0;
@@ -253,7 +242,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     if(endVerse == -1)
         endVerse = startVerse;
 
-    //myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
+    myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
 
     TextRange rawRange = m_bibleModule->rawTextRange(bookID, chapterID, startVerse, endVerse);
     ret.setBookID(bookID);
@@ -288,7 +277,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             }
         }
 
-        if(moduleType() == OBVCore::TheWordBibleModule || moduleType() == OBVCore::ZefaniaBibleModule) {
+        if(moduleType() == OBVCore::TheWordBibleModule || moduleType() == OBVCore::ZefaniaBibleModule || moduleType() == OBVCore::SwordBibleModule) {
             QString prepend;
             QString append;
             prepend = "<span class=\"verseNumber\">" + QString::number(verse.verseID() + 1) + "</span> ";
@@ -419,7 +408,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             ret.addVerse(verse);
         }
 
-    } else if(moduleType() == OBVCore::ZefaniaBibleModule || moduleType() == OBVCore::TheWordBibleModule) {
+    } else if(moduleType() == OBVCore::ZefaniaBibleModule || moduleType() == OBVCore::TheWordBibleModule || moduleType() == OBVCore::SwordBibleModule) {
         const QString pre = "<span verseID='";
         const QString pre2 =  "' chapterID='" + QString::number(chapterID) +
                               "' bookID='" + QString::number(bookID) +

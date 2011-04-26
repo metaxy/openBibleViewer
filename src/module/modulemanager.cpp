@@ -13,6 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "modulemanager.h"
 #include "src/core/verse/reftext.h"
+
 ModuleManager::ModuleManager()
 {
     m_moduleMap = new ModuleMap();
@@ -47,7 +48,7 @@ void ModuleManager::setNotes(Notes *notes)
 {
     m_notes = notes;
 }
-void ModuleManager::setmoduledisplaysettings(ModuleDisplaySettings *moduledisplaysettings)
+void ModuleManager::setModuleDisplaySettings(ModuleDisplaySettings *moduledisplaysettings)
 {
     m_moduledisplaysettings = moduledisplaysettings;
 }
@@ -60,9 +61,11 @@ int ModuleManager::loadAllModules()
 {
     DEBUG_FUNC_NAME;
     //update module settings and display settings
+
     ModuleSettings *root = new ModuleSettings();
     root->moduleID = -1;
     root->parentID = -2;
+
     //set parents
     {
         QHashIterator<int, ModuleSettings*> it2(m_settings->m_moduleSettings);
@@ -156,7 +159,10 @@ void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
     parentModule->append(module);
     m_moduleMap->m_map.insert(settings->moduleID, module);
 
-    if(settings->moduleType == OBVCore::BibleQuoteModule || settings->moduleType == OBVCore::ZefaniaBibleModule || settings->moduleType == OBVCore::TheWordBibleModule) {
+    if(settings->moduleType == OBVCore::BibleQuoteModule
+            || settings->moduleType == OBVCore::ZefaniaBibleModule
+            || settings->moduleType == OBVCore::TheWordBibleModule
+            || settings->moduleType == OBVCore::SwordBibleModule) {
         module->setModuleClass(OBVCore::BibleModuleClass);
     } else if(settings->moduleType == OBVCore::ZefaniaLexModule || settings->moduleType == OBVCore::BibleQuoteDictModule) {
         module->setModuleClass(OBVCore::DictionaryModuleClass);

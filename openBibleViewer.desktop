@@ -5,6 +5,7 @@ Exec=openBibleViewer %u
 GenericName=Bible Study Tool
 GenericName[en]=Bible Study Tool
 GenericName[de]=Bibelstudium
+GenericName[tr]=İncil Uygulaması
 Terminal=false
 Type=Application
 Icon=openBibleViewer

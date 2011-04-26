@@ -47,7 +47,7 @@ void AdvancedInterface::init()
 
     connect(m_actions, SIGNAL(_get(QString)), this, SLOT(pharseUrl(QString)));
 
-    m_moduleManager->setmoduledisplaysettings(m_moduledisplaysettings);
+    m_moduleManager->setModuleDisplaySettings(m_moduledisplaysettings);
 
     m_api = new Api(this);
     setAll(m_api);

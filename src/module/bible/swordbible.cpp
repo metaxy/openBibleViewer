@@ -12,9 +12,11 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "swordbible.h"
-
+//Linking against Sword crashes openBibleViewer on close
 SwordBible::SwordBible()
 {
+    m_v11n = NULL;
+
 }
 void SwordBible::setSettings(Settings *set)
 {
@@ -25,9 +27,23 @@ void SwordBible::setSettings(Settings *set)
   */
 int SwordBible::loadBibleData(const int id, const QString &path)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     m_moduleID = id;
+    m_modulePath = path;
+    m_v11n = new Versification_KJV();
+
+#ifdef BUILD_WITH_SWORD
+    m_library = new SWMgr(new MarkupFilterMgr(FMT_PLAIN));
+
+    m_target = m_library->getModule(path.toStdString().c_str());
+    if (!m_target) {
+        myWarning() << "could not load " << path;
+        return 1;
+    }
+    myDebug() << "return zero";
     return 0;
+#endif
+    return 1;
 
 }
 int SwordBible::readBook(const int id)
@@ -40,10 +56,7 @@ QString SwordBible::readInfo(QFile &file)
 {
     return "";
 }
-QString SwordBible::readInfo(const QString &fileName)
-{
-    return "";
-}
+
 
 void SwordBible::search(const SearchQuery &query, SearchResult *res) const
 {
@@ -97,4 +110,38 @@ QString SwordBible::uid() const
 {
     return "";
     //  return m_uID;
+}
+TextRange SwordBible::rawTextRange(int bookID, int chapterID, int startVerse, int endVerse)
+{
+    DEBUG_FUNC_NAME
+    TextRange ret;
+#ifdef BUILD_WITH_SWORD
+    VerseKey mykey;
+    QString b = m_v11n->bookName(bookID,true) + " " + QString::number(chapterID+1)+":"+QString::number(startVerse+1);
+    mykey = b.toStdString().c_str();
+
+    int v=startVerse;
+    for (; v < endVerse; mykey++) {
+        m_target->setKey(mykey);
+        Verse verse(v,QString::fromLocal8Bit(m_target->RenderText()));
+        ret.addVerse(verse);
+        v++;
+    }
+#endif
+    ret.setBookID(bookID);
+    ret.setChapterID(chapterID);
+    ret.setModuleID(m_moduleID);
+    return ret;
+}
+
+std::pair<int, int> SwordBible::minMaxVerse(int bookID, int chapterID)
+{
+    std::pair<int, int> ret;
+    ret.first = 0;
+    ret.second = m_v11n->maxVerse().value(bookID).at(chapterID);
+    return ret;
+}
+Versification *SwordBible::versification() const
+{
+    return m_v11n;
 }
