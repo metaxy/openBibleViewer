@@ -38,7 +38,13 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), m_ui(new Ui::
     connect(m_ui->pushButton_cancel, SIGNAL(clicked()), this, SLOT(close()));
     connect(m_ui->pushButton_reset, SIGNAL(clicked()), this, SLOT(reset()));
     connect(m_ui->pushButton_moduleEdit, SIGNAL(clicked()), this, SLOT(editModule()));
-    connect(m_ui->pushButton_addSword, SIGNAL(clicked()), this, SLOT(importSwordModules()));
+
+#ifdef BUILD_WITH_SWORD
+    QPushButton *button = new QPushButton(this);
+    button->setText(tr("Import Sword Modules"));
+    m_ui->horizontalLayout_2->addWidget(button);
+    connect(button, SIGNAL(clicked()), this, SLOT(importSwordModules()));
+#endif
 }
 
 SettingsDialog::~SettingsDialog()

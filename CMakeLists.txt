@@ -16,17 +16,17 @@ IF(MSVC)
 endif()
 
 if(UNIX)
-  IF(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
+  if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
     add_definitions ( -Wall -g)
-  ENDIF()
-ENDIF(UNIX)
+  endif()
+endif(UNIX)
 
 find_package ( Qt4 REQUIRED )
 include(FindPkgConfig)
 pkg_check_modules(CLUCENE1 libclucene-core)
 
 option( _PORTABLE_VERSION "Build a portable version" OFF )
-option( _SWORD_SUPPORT "Build with sword support" ON )
+option( _SWORD_SUPPORT "Build with sword support" OFF )
 #not using "to STdWString" triggers a bad bug on linux
 if(MSVC)
   option( _USE_WSTRING "Use toStdWString and fromWCharArray" OFF)
@@ -59,7 +59,6 @@ if(_BUILD_CLUCENE)
 else(_BUILD_CLUCENE)
     #link against dynamic clucene >= 0.9.23
     message("find shared libs of clucene")
-    pkg_check_modules(CLUCENE1 libclucene-core)
     include_directories(${CLUCENE1_INCLUDE_DIRS})
     # todo: change to your clucene dir
     SET(CLUCENE_DIR "C:\\\\Users\\\\mo\\\\coding\\\\clucene-HEAD-314b755\\\\")

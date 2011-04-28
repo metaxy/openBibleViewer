@@ -103,13 +103,11 @@ QString SwordBible::moduleName(bool preferShortName) const
   */
 QString SwordBible::indexPath() const
 {
-    return "";
-    // return m_settings->homePath + "index/" + m_settings->hash(m_modulePath);
+    return m_settings->homePath + "index/" + m_settings->hash(m_modulePath);
 }
 QString SwordBible::uid() const
 {
-    return "";
-    //  return m_uID;
+    return m_modulePath;
 }
 TextRange SwordBible::rawTextRange(int bookID, int chapterID, int startVerse, int endVerse)
 {

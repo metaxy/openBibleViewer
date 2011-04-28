@@ -119,13 +119,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_addSword">
-             <property name="text">
-              <string>Import Sword Modules</string>
-             </property>
-            </widget>
-           </item>
-           <item>
             <spacer name="horizontalSpacer_2">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
