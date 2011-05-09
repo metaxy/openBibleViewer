@@ -195,10 +195,10 @@ void BookmarksDockWidget::bookmarksGo(QTreeWidgetItem * item)
 {
     if(m_settings->onClickBookmarkGo == true) {
         const QString pos = item->text(1);
-        if(pos.isEmpty())
-            QMessageBox::critical(0, tr("Error"), tr("This Bookmark is invalid."));
-        else
+                   /* QMessageBox::critical(0, tr("Error"), tr("This Bookmark is invalid."));*/
+        if(!pos.isEmpty()) {
             internalOpenPos(pos);
+        }
     }
 }
 int BookmarksDockWidget::internalOpenPos(const QString &pos)

@@ -31,14 +31,17 @@
         <property name="contextMenuPolicy">
          <enum>Qt::CustomContextMenu</enum>
         </property>
-        <property name="autoFillBackground">
-         <bool>false</bool>
-        </property>
         <property name="dragEnabled">
          <bool>true</bool>
         </property>
         <property name="dragDropMode">
          <enum>QAbstractItemView::InternalMove</enum>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::ExtendedSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectItems</enum>
         </property>
         <property name="animated">
          <bool>true</bool>
