@@ -456,9 +456,9 @@ void BibleQuote::search(const SearchQuery &query, SearchResult *res) const
             hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
             hit.setValue(SearchHit::VerseID, l.at(2).toInt());
 #ifdef _USE_WSTRING
-            hit.setValue(SearchHit::VerseText, QString::fromWCharArray(doc->get(_T("key"))));
+            hit.setValue(SearchHit::VerseText, QString::fromWCharArray(doc->get(_T("content"))));
 #else
-            hit.setValue(SearchHit::VerseText, QString::fromUtf16((const ushort*)doc->get(_T("key"))));
+            hit.setValue(SearchHit::VerseText, QString::fromUtf16((const ushort*)doc->get(_T("content"))));
 #endif
             res->addHit(hit);
         }

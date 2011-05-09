@@ -101,8 +101,6 @@ void SearchInfoDialog::setInfo(SearchResult *result, Versification *v11n, QStrin
 }
 void SearchInfoDialog::tabChanged(int index)
 {
-    //DEBUG_FUNC_NAME
-    //myDebug() << "index = " << index;
     if(index == 1 && m_textShown == false) {  //tab_2
         m_ui->textBrowser_list->setHtml(m_textList.join("<br /><hr>"));
         m_textShown = true;

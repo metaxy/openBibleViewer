@@ -133,10 +133,10 @@ void AdvancedSearchResultDockWidget::searchInfo()
         SearchHit hit = list.at(i);
         if(hit.type() == SearchHit::BibleHit) {
             const QString bookn = m_moduleManager->verseModule()->versification()->bookName(hit.value(SearchHit::BookID).toInt()); //todo: maybe the bible isn't loaded and you need another bookNames
-            //or we call it a feature
+            //or we just call it a feature
             textList << hit.value(SearchHit::VerseText).toString() + "\n - <i>" + bookn
                      + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1)
-                     + " , " + QString::number(hit.value(SearchHit::VerseID).toInt() + 1) + "</i>";
+                     + ":" + QString::number(hit.value(SearchHit::VerseID).toInt() + 1) + "</i>";
         }
     }
 

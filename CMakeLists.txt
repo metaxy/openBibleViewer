@@ -410,8 +410,6 @@ set ( openBibleViewer_MOCS
     src/ui/biblepassageframe.h
     )
 
-
-
 configure_file( ${openBibleViewer_SOURCE_DIR}/src/config.h.cmake 
                 ${openBibleViewer_BINARY_DIR}/config.h )
 
@@ -452,13 +450,13 @@ target_link_libraries ( openBibleViewer
 install ( TARGETS openBibleViewer
          RUNTIME DESTINATION bin )
 
-IF(UNIX AND NOT WIN32)
+if(UNIX AND NOT WIN32)
     install ( FILES "${openBibleViewer_SOURCE_DIR}/src/icons/124x124/openBibleViewer.png"
         DESTINATION "share/pixmaps/" )
 
     install ( FILES "${openBibleViewer_SOURCE_DIR}/openBibleViewer.desktop"
         DESTINATION "share/applications/" )
-ELSE(WIN32 AND NOT UNIX)
+else(WIN32 AND NOT UNIX)
  install (FILES
         "${QT_LIBRARY_DIR}/../bin/QtCore${QT_VERSION_MAJOR}.dll"
         "${QT_LIBRARY_DIR}/../bin/QtXml${QT_VERSION_MAJOR}.dll"
@@ -466,34 +464,34 @@ ELSE(WIN32 AND NOT UNIX)
         "${QT_LIBRARY_DIR}/../bin/QtGui${QT_VERSION_MAJOR}.dll"
         "${QT_LIBRARY_DIR}/../bin/QtNetwork${QT_VERSION_MAJOR}.dll"
 	"${QT_LIBRARY_DIR}/../bin/phonon${QT_VERSION_MAJOR}.dll"
-		"${CLUCENE_DIR}\\\\build\\\\bin\\\\clucene-shared.dll" 
-		"${CLUCENE_DIR}\\\\build\\\\bin\\\\clucene-core.dll"
-		"${ZLIB_DLL}"
+	"${CLUCENE_DIR}\\\\build\\\\bin\\\\clucene-shared.dll" 
+	"${CLUCENE_DIR}\\\\build\\\\bin\\\\clucene-core.dll"
+	"${ZLIB_DLL}"
         DESTINATION bin
     )
-ENDIF(UNIX AND NOT WIN32)
+endif(UNIX AND NOT WIN32)
 
-INCLUDE(InstallRequiredSystemLibraries)
+include(InstallRequiredSystemLibraries)
 
-SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "openBibleViewer Project")
-SET(CPACK_PACKAGE_VENDOR "Paul Walger")
-SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
-SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
-SET(CPACK_PACKAGE_VERSION_MAJOR "0")
-SET(CPACK_PACKAGE_VERSION_MINOR "5")
-SET(CPACK_PACKAGE_VERSION_PATCH "82")
-SET(CPACK_PACKAGE_INSTALL_DIRECTORY "openBibleViewer ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "openBibleViewer Project")
+set(CPACK_PACKAGE_VENDOR "Paul Walger")
+set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+set(CPACK_PACKAGE_VERSION_MAJOR "0")
+set(CPACK_PACKAGE_VERSION_MINOR "5")
+set(CPACK_PACKAGE_VERSION_PATCH "82")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "openBibleViewer ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
 #nsis
-IF(WIN32 AND NOT UNIX)
+if(WIN32 AND NOT UNIX)
   # There is a bug in NSI that does not handle full unix paths properly. Make
   # sure there is at least one set of four (4) backlasshes.
   # SET(CPACK_PACKAGE_ICON "${CMake_SOURCE_DIR}/Utilities/Release\\\\InstallIcon.bmp")
-  SET(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\openBibleViewer.exe")
-  SET(CPACK_NSIS_DISPLAY_NAME "openBibleViewer")
-  SET(CPACK_NSIS_HELP_LINK "http:\\\\\\\\openbv.uucyc.name")
-  SET(CPACK_NSIS_URL_INFO_ABOUT "http:\\\\\\\\openbv.uucyc.name")
-  SET(CPACK_NSIS_MODIFY_PATH OFF)
-ENDIF(WIN32 AND NOT UNIX)
+  set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\openBibleViewer.exe")
+  set(CPACK_NSIS_DISPLAY_NAME "openBibleViewer")
+  set(CPACK_NSIS_HELP_LINK "http:\\\\\\\\openbv.uucyc.name")
+  set(CPACK_NSIS_URL_INFO_ABOUT "http:\\\\\\\\openbv.uucyc.name")
+  set(CPACK_NSIS_MODIFY_PATH OFF)
+endif(WIN32 AND NOT UNIX)
 
-SET(CPACK_PACKAGE_EXECUTABLES "openBibleViewer" "openBibleViewer")
-INCLUDE(CPack)
+set(CPACK_PACKAGE_EXECUTABLES "openBibleViewer" "openBibleViewer")
+include(CPack)
