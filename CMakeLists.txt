@@ -128,8 +128,6 @@ set ( openBibleViewer_HDRS
     src/core/verse/versification/bookv11n.h
     src/core/verse/reftext.h
 
-
-
     src/core/basicclass.h
     src/core/dbghelper.h
     src/core/goto.h
@@ -141,7 +139,6 @@ set ( openBibleViewer_HDRS
     src/core/obvcore.h
     src/core/strongurl.h
     
-
     src/core/search/searchprovider.h
     src/core/search/searchproviders.h
     src/core/search/search.h
@@ -212,7 +209,9 @@ set ( openBibleViewer_SRCS
     src/core/KoXmlReader.cpp
     src/core/KoXmlWriter.cpp
     src/core/KoXmlNS.cpp
-    src/core/notes.cpp
+    src/core/notes/notes.cpp
+    src/core/notes/xmlnotes.cpp
+    src/core/notes/textnotes.cpp
     src/core/dbghelper.cpp
     src/core/verseselection.cpp
     src/core/simplenotes.cpp
@@ -357,7 +356,10 @@ set ( openBibleViewer_MOCS
     src/api/notesapi.h
     src/api/api.h
 
-    src/core/notes.h
+    src/core/notes/notes.h
+    src/core/notes/xmlnotes.h
+    src/core/notes/textnotes.h
+
     src/core/simplenotes.h
     src/core/moduledownloader.h
     src/core/verse/versification/versification_kjv.h

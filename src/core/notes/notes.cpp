@@ -11,25 +11,3 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef BASICCLASS_H
-#define BASICCLASS_H
-#include "src/core/notes/notes.h"
-#include "src/module/modulemanager.h"
-#include "src/core/settings/settings.h"
-#include "src/ui/actions.h"
-class BasicClass
-{
-public:
-    BasicClass();
-    ModuleManager *m_moduleManager;
-    Settings *m_settings;
-    Notes *m_notes;
-    Actions *m_actions;
-    void setModuleManager(ModuleManager *manager);
-    void setSettings(Settings *settings);
-    void setNotes(Notes *notes);
-    void setActions(Actions *actions);
-    void setAll(BasicClass *c);
-};
-
-#endif // BASICCLASS_H

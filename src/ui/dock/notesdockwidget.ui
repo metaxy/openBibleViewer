@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>209</width>
-    <height>390</height>
+    <width>219</width>
+    <height>360</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>191</width>
+    <height>196</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Notes</string>
@@ -43,6 +49,12 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>191</width>
+         <height>196</height>
+        </size>
        </property>
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>

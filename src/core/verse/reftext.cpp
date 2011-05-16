@@ -77,14 +77,22 @@ QString RefText::toString(int moduleID, int bookID, int chapterID, int startVers
 {
     QString ret;
     if(bookID != prevBook) {
-        Versification *v11n;
+        Versification *v11n = NULL;
         if(moduleID == -1) {
             v11n = m_settings->defaultVersification;
         } else {
             v11n = m_settings->getModuleSettings(moduleID)->getV11n();
         }
-        ret += v11n->bookName(bookID, true) + sep_book_chaper +
-               QString::number(chapterID + 1);
+        if(v11n == NULL)
+            v11n = m_settings->defaultVersification;
+
+        if(v11n != NULL) {
+            ret += v11n->bookName(bookID, true) + sep_book_chaper +
+                   QString::number(chapterID + 1);
+        } else {
+            ret += QString::number(bookID) + sep_book_chaper +
+                               QString::number(chapterID + 1);
+        }
     } else {
         ret += sep_same_book + QString::number(chapterID + 1);
     }

@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QDockWidget>
 #include "src/module/modulemanager.h"
 #include "src/core/settings/settings.h"
-#include "src/core/notes.h"
+#include "src/core/notes/notes.h"
 #include "src/core/basicclass.h"
 /**
  * DockWidget represents a class for obv dock widgets

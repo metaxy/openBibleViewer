@@ -7,8 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>207</width>
-    <height>82</height>
+    <height>61</height>
    </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>524287</width>
+    <height>90</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Quick Jump</string>

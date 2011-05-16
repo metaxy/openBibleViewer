@@ -40,7 +40,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/interface/study/studyinterface.h"
 #include "src/ui/dialog/settingsdialog.h"
 
-#include "src/core/notes.h"
+
+#include "src/core/notes/xmlnotes.h"
 #include "src/core/dbghelper.h"
 #include "src/core/obvcore.h"
 #include "config.h"
