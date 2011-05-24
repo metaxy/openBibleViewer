@@ -20,7 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 /**
   Conctruct a ModuleDownloader. Need a parent widget. And a list with links e.g http://example.com/a.xml
-and the names for it e.g names['http://example.com/a.xml'] = "A book".
+and the names for it e.g names['http://example.com/a.xml'] = "A Book".
   */
 ModuleDownloader::ModuleDownloader(QWidget *parent, QStringList urls, QMap<QString, QString> names)
 {

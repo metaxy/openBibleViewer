@@ -41,7 +41,7 @@ private:
     QIcon m_bibleQuoteIcon;
     QIcon m_folderIcon;
     QIcon m_bibleZefaniaIcon;
-    bool m_showALl;
+    bool m_showAll;
 };
 
 #endif // MODULEMODEL_H

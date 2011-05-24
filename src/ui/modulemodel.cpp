@@ -17,6 +17,7 @@ ModuleModel::ModuleModel(QObject *parent)
 {
     m_moduleModel = new QStandardItemModel(parent);
     m_settings = NULL;
+    m_showAll = false;
     //m_moduleModel->setHeaderData(0, Qt::Horizontal, QObject::tr("Module"));
     QStyle *style = QApplication::style();
     m_folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
@@ -73,7 +74,7 @@ void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings
         }
         parentItem->appendRow(item);
     } else if(settings->moduleType == OBVCore::ZefaniaLexModule || settings->moduleType == OBVCore::BibleQuoteDictModule) {
-        if(m_showALl) {
+        if(m_showAll) {
             item = new QStandardItem;
             item->setText(settings->moduleName);
             item->setData(QString::number(settings->moduleID));
@@ -96,5 +97,5 @@ void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings
 }
 void ModuleModel::setShowAll(bool showAll)
 {
-    m_showALl = showAll;
+    m_showAll = showAll;
 }
