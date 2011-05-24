@@ -24,10 +24,9 @@ namespace Ui
 {
 class NotesDockWidget;
 }
-/*!
- NotesDockWidget represents a dock widget to view and edit your notes
-
-*/
+/**
+  NotesDockWidget represents a dock widget to view and edit your notes.
+ */
 class NotesDockWidget : public DockWidget
 {
     Q_OBJECT
@@ -62,7 +61,6 @@ signals:
 private:
     Ui::NotesDockWidget *ui;
     SimpleNotes *m_simpleNotes;
-
 };
 
 #endif // NOTESDOCKWIDGET_H

@@ -190,6 +190,7 @@ void BibleManager::pharseUrl(const QString &url)
 void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
 {
     DEBUG_FUNC_NAME
+    std::pair<QString, TextRanges> r;
     if(!m_moduleManager->hasBible()) {
         m_moduleManager->newVerseModule(ranges.getList().first().moduleID(), QPoint(0, 0));
     }
@@ -202,13 +203,16 @@ void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
         if(m_moduleManager->getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
             m = new Bible();
             m_moduleManager->initVerseModule(m);
+        } else {
+            myWarning() << "trying to load an non bible module"
+            return;
         }
         OBVCore::ModuleType type = m_moduleManager->getModule(moduleID)->moduleType();
         m->setModuleType(type);
         m->setModuleID(moduleID);
         m_moduleManager->verseTable()->addModule(m, p);
     }
-    std::pair<QString, TextRanges> r = m_moduleManager->verseTable()->readRanges(ranges);
+    r = m_moduleManager->verseTable()->readRanges(ranges);
     //myDebug() << "r failed = " << r.second.failed();
     if(!r.second.failed()) {
         m_actions->showTextRanges(r.first, r.second, url);
