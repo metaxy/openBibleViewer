@@ -204,7 +204,7 @@ void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
             m = new Bible();
             m_moduleManager->initVerseModule(m);
         } else {
-            myWarning() << "trying to load an non bible module"
+            myWarning() << "trying to load an non bible module";
             return;
         }
         OBVCore::ModuleType type = m_moduleManager->getModule(moduleID)->moduleType();
