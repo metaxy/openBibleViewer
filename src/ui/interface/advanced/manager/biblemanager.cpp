@@ -1,4 +1,4 @@
-/***************************************************************************
+F/***************************************************************************
 openBibleViewer - Bible Study Tool
 Copyright (C) 2009-2011 Paul Walger
 This program is free software; you can redistribute it and/or modify it
@@ -205,6 +205,7 @@ void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
             m_moduleManager->initVerseModule(m);
         } else {
             myWarning() << "trying to load an non bible module";
+
             return;
         }
         OBVCore::ModuleType type = m_moduleManager->getModule(moduleID)->moduleType();
