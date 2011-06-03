@@ -17,32 +17,18 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 #include <QtCore/QUrl>
 #include <QtCore/QFileInfo>
+#include <QtNetwork/QNetworkReply>
 
 /**
   Conctruct a ModuleDownloader. Need a parent widget. And a list with links e.g http://example.com/a.xml
 and the names for it e.g names['http://example.com/a.xml'] = "A Book".
   */
-ModuleDownloader::ModuleDownloader(QWidget *parent, QStringList urls, QMap<QString, QString> names)
+ModuleDownloader::ModuleDownloader(QMap<QString, QString> data)
 {
-    m_names = names;
-    m_urls = urls;
-    m_parent = parent;
-    m_http = new QHttp(this);
-    m_progressDialog = new QProgressDialog(m_parent);
-    m_progressDialog->setModal(true);
-    connect(m_http, SIGNAL(requestFinished(int, bool)),
-            this, SLOT(httpRequestFinished(int, bool)));
-    connect(m_http, SIGNAL(dataReadProgress(int, int)),
-            this, SLOT(updateDataReadProgress(int, int)));
-    connect(m_http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)),
-            this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
-    connect(m_progressDialog, SIGNAL(canceled()), this, SLOT(cancelDownload()));
-    m_currentDownload = -1;
-    m_httpRequestAborted = false;
-}
-void ModuleDownloader::setSettings(Settings *settings)
-{
-    m_settings = settings;
+    m_data = data;
+    m_manager = new QNetworkAccessManager(this);
+    connect(m_manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(replyFinished(QNetworkReply*)));
+
 }
 /**
   Starts the download. If finished the signal downloaded ist emited.
@@ -52,25 +38,24 @@ void ModuleDownloader::start()
     //create folder where the modules should be downloaded
     QDir dir(m_settings->homePath);
     dir.mkdir(m_settings->homePath + "modules");
+
     //hack: remove duplicates
-    const QSet<QString> set = m_urls.toSet();
+    const QSet<QString> set = m_data.keys().toSet();
     m_urls = set.toList();
+    m_counter = 0;
 
     downloadNext();
 }
 void ModuleDownloader::downloadNext()
 {
-    if(m_httpRequestAborted)
-        return;
 
-    if(m_currentDownload + 1 == m_urls.size() && m_urls.size() != 0) {
+    if(m_counter + 1 == m_urls.size() && m_urls.size() != 0) {
         emit downloaded(m_downloadedList, m_downNames);
         return;
     }
-    if(m_currentDownload < m_urls.size() && m_urls.size() != 0) {
-        m_currentDownload++;
+    if(m_counter < m_urls.size() && m_urls.size() != 0) {
+        m_counter++;
         download(m_urls.at(m_currentDownload));
-
     }
 }
 void ModuleDownloader::download(QString url_, bool addToList)
