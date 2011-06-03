@@ -1,4 +1,4 @@
-F/***************************************************************************
+/***************************************************************************
 openBibleViewer - Bible Study Tool
 Copyright (C) 2009-2011 Paul Walger
 This program is free software; you can redistribute it and/or modify it

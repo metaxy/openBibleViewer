@@ -138,7 +138,8 @@ set ( openBibleViewer_HDRS
     src/core/KoXmlReaderForward.h
     src/core/obvcore.h
     src/core/strongurl.h
-    
+    src/core/downloadinfile.h
+
     src/core/search/searchprovider.h
     src/core/search/searchproviders.h
     src/core/search/search.h
@@ -238,6 +239,7 @@ set ( openBibleViewer_SRCS
     src/core/version.cpp
     src/core/xbelreader.cpp
     src/core/xbelwriter.cpp
+    src/core/downloadinfile.cpp
 
     src/module/bible/bible.cpp
     src/module/bible/biblequote.cpp

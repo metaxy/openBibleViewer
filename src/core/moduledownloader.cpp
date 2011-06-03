@@ -28,7 +28,6 @@ ModuleDownloader::ModuleDownloader(QMap<QString, QString> data)
     m_data = data;
     m_manager = new QNetworkAccessManager(this);
     connect(m_manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(replyFinished(QNetworkReply*)));
-
 }
 /**
   Starts the download. If finished the signal downloaded ist emited.
@@ -40,13 +39,13 @@ void ModuleDownloader::start()
     dir.mkdir(m_settings->homePath + "modules");
 
     //hack: remove duplicates
-    const QSet<QString> set = m_data.keys().toSet();
+   /* const QSet<QString> set = m_data.keys().toSet();
     m_urls = set.toList();
-    m_counter = 0;
+    m_counter = 0;*/
 
-    downloadNext();
+    //downloadNext();
 }
-void ModuleDownloader::downloadNext()
+/*void ModuleDownloader::downloadNext()
 {
 
     if(m_counter + 1 == m_urls.size() && m_urls.size() != 0) {
@@ -57,10 +56,10 @@ void ModuleDownloader::downloadNext()
         m_counter++;
         download(m_urls.at(m_currentDownload));
     }
-}
+}*/
 void ModuleDownloader::download(QString url_, bool addToList)
 {
-    DEBUG_FUNC_NAME
+   /* DEBUG_FUNC_NAME
     const QUrl url(url_);
     QFileInfo fileInfo(url.path());
     QDir d(m_settings->homePath + "modules/");
@@ -86,89 +85,7 @@ void ModuleDownloader::download(QString url_, bool addToList)
     m_httpGetId = m_http->get(url_, m_file);
     m_progressDialog->setWindowTitle(tr("Downloading"));
     m_progressDialog->setLabelText(tr("Downloading %1 / %2. %3 MB").arg(m_currentDownload + 1).arg(m_urls.size()).arg(0));
-    m_progressDialog->setModal(true);
+    m_progressDialog->setModal(true);*/
 
 }
-void ModuleDownloader::cancelDownload()
-{
-    m_httpRequestAborted = true;
-    m_http->abort();
-}
 
-void ModuleDownloader::httpRequestFinished(int requestId, bool error)
-{
-    if(requestId != m_httpGetId)
-        return;
-    if(m_httpRequestAborted) {
-        if(m_file) {
-            m_file->close();
-            m_file->remove();
-            delete m_file;
-            m_file = 0;
-        }
-        m_progressDialog->hide();
-        return;
-    }
-    if(requestId != m_httpGetId)
-        return;
-    if(m_currentDownload > m_urls.size() - 2 || m_urls.size() == 1) {
-        m_progressDialog->hide();
-    }
-    m_file->close();
-
-    if(error) {
-        m_file->remove();
-        QMessageBox::information(m_parent, tr("HTTP"), tr("Download failed: %1.").arg(m_http->errorString()));
-    } else {
-        m_file->close();
-    }
-    delete m_file;
-    m_file = 0;
-    downloadNext();
-}
-
-void ModuleDownloader::readResponseHeader(const QHttpResponseHeader &responseHeader)
-{
-    switch(responseHeader.statusCode()) {
-    case 200:                   // Ok
-
-        break;
-    case 302:                   // Found
-    case 303:                   // See Other
-    case 307:                   // Temporary Redirect
-    case 301:                   // Moved Permanently
-        //myDebug() << "moved";
-        if(responseHeader.hasKey("Location") && !responseHeader.value("Location").contains("failed")) {
-            QString location = responseHeader.value("Location");
-            download(location, false);
-        }
-        break;
-    default:
-        QMessageBox::information(m_parent, tr("HTTP"),
-                                 tr("Download failed: %1.")
-                                 .arg(responseHeader.reasonPhrase()));
-        m_httpRequestAborted = true;
-        m_progressDialog->hide();
-        m_http->abort();
-    }
-}
-
-void ModuleDownloader::updateDataReadProgress(int bytesRead, int totalBytes)
-{
-    if(m_httpRequestAborted)
-        return;
-    m_progressDialog->setLabelText(tr("Downloading %1 / %2. %3 MB").arg(m_currentDownload + 1).arg(m_urls.size()).arg(QString::number((float)bytesRead / (1024 * 1024), 'f', 2)));
-    if(totalBytes == 0) {
-        if(m_progressDialog->maximum() != 0) {
-            m_progressDialog->setMaximum(0);
-            m_progressDialog->setMinimum(0);
-            m_progressDialog->setValue(1);
-        }
-    } else {
-
-        if(m_progressDialog->maximum() != totalBytes) {
-            m_progressDialog->setMaximum(totalBytes);
-        }
-        m_progressDialog->setValue(bytesRead);
-    }
-}

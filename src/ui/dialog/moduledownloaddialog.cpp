@@ -143,10 +143,10 @@ void ModuleDownloadDialog::setSettings(Settings settings)
 void ModuleDownloadDialog::download()
 {
     DEBUG_FUNC_NAME
-    ModuleDownloader *m = new ModuleDownloader(this, m_downloadList, m_names);
+   /* ModuleDownloader *m = new ModuleDownloader(this, m_downloadList, m_names);
     connect(m, SIGNAL(downloaded(QStringList, QStringList)), this, SIGNAL(downloaded(QStringList, QStringList)));
     m->setSettings(&m_set);
-    m->start();
+    m->start();*/
 }
 
 ModuleDownloadDialog::~ModuleDownloadDialog()
