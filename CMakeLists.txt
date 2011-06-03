@@ -138,7 +138,7 @@ set ( openBibleViewer_HDRS
     src/core/KoXmlReaderForward.h
     src/core/obvcore.h
     src/core/strongurl.h
-    src/core/downloadinfile.h
+
 
     src/core/search/searchprovider.h
     src/core/search/searchproviders.h
@@ -361,6 +361,7 @@ set ( openBibleViewer_MOCS
     src/core/notes/notes.h
     src/core/notes/xmlnotes.h
     src/core/notes/textnotes.h
+    src/core/downloadinfile.h
 
     src/core/simplenotes.h
     src/core/moduledownloader.h

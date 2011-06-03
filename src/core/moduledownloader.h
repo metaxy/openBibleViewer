@@ -32,9 +32,6 @@ public:
     //QMap<Url,Title>
     ModuleDownloader(QMap<QString, QString> data);
     void start();
-
-private slots:
-    void replyFinished(QNetworkReply*);
 private:
     QMap<QString, QString> m_data;
     int m_counter;
