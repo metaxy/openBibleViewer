@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "quickjumpdockwidget.h"
 #include "ui_quickjumpdockwidget.h"
-#include "src/core/goto.h"
+#include "src/core/biblelink.h"
 #include "src/core/dbghelper.h"
 #include <QtGui/QKeyEvent>
 
@@ -71,9 +71,9 @@ void QuickJumpDockWidget::goToPos()
     m_completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->lineEdit_goTo->setCompleter(m_completer);
 
-    GoTo go(m_moduleManager->verseModule()->moduleID(), m_moduleManager->verseModule()->versification());
+    BibleLink link(m_moduleManager->verseModule()->moduleID(), m_moduleManager->verseModule()->versification());
 
-    m_actions->get(go.getUrl(text));
+    m_actions->get(link.getUrl(text));
     return;
 }
 void QuickJumpDockWidget::changeEvent(QEvent *e)

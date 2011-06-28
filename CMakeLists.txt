@@ -131,7 +131,6 @@ set ( openBibleViewer_HDRS
     src/core/basicclass.h
     src/core/biblelink.h
     src/core/dbghelper.h
-    src/core/goto.h
     src/core/history.h
     src/core/KoXmlReader.h
     src/core/KoXmlWriter.h
@@ -220,7 +219,6 @@ set ( openBibleViewer_SRCS
     src/core/basicclass.cpp
     src/core/biblelink.cpp
     src/core/moduledownloader.cpp
-    src/core/goto.cpp
     src/core/history.cpp
     src/core/strongurl.cpp
     src/core/search/search.cpp
