@@ -17,7 +17,7 @@ public:
     void setName(const QString &name);
 signals:
     void progress(qint64 bytesReceived, qint64 bytesTotal);
-    void finished(QString localUrl, QString name);
+    void finished(QString localUrl, QString name, int status);
 public slots:
     void download();
 private slots:

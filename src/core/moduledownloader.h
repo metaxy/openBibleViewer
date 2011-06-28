@@ -34,7 +34,7 @@ public:
     void start();
 private slots:
 
-    void save(QString, QString);
+    void save(QString url, QString name, int status);
 private:
     void downloadNext();
     QMap<QString, QString> m_data;

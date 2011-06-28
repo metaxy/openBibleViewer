@@ -68,7 +68,7 @@ void ModuleDownloader::downloadNext()
         m_counter++;
     }
 }
-void ModuleDownloader::save(QString url, QString name)
+void ModuleDownloader::save(QString url, QString name, int status)
 {
     m_retData[url] = name;
     downloadNext();
@@ -90,7 +90,7 @@ void ModuleDownloader::download(const QString &url_, bool addToList)
     d->setName(m_data[url_]);
 
     d->download();
-    connect(d, SIGNAL(finished(QString, QString)), this, SLOT(save(QString, QString)));
+    connect(d, SIGNAL(finished(QString, QString, int)), this, SLOT(save(QString, QString, int)));
 
    /* DEBUG_FUNC_NAME
     const QUrl url(url_);

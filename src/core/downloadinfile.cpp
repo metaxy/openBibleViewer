@@ -65,7 +65,7 @@ void DownloadInFile::finish()
         download();
         return;
     } else {
-        emit finished(m_localUrl, m_name);
+        emit finished(m_localUrl, m_name, status);
     }
 
     m_reply->deleteLater();
