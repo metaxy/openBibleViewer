@@ -28,7 +28,8 @@ private:
     QFile *m_file;
     bool m_inFile;
     QString m_path;
-    QString m_url;
+    QString m_fileName;
+    QUrl m_url;
 };
 
 #endif // DOWNLOADINFILE_H

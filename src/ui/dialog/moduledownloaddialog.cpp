@@ -125,14 +125,13 @@ void ModuleDownloadDialog::item(QTreeWidgetItem* i)
             //uncheck all children
         }
     } else if(i->data(1, 0) == "module") {
-
+        const QString url = i->data(2, 0).toString();
         if(i->checkState(0) == Qt::Checked) {
-            m_downloadList.append(i->data(2, 0).toString());
-            m_names[i->data(2, 0).toString()] = i->data(2, 1).toString();
+            const QString name = i->data(2, 1).toString();
+            m_names[url] = name;
             // add to download list
         } else if(i->checkState(0) == Qt::Unchecked) {
-            m_downloadList.removeOne(i->data(2, 0).toString());
-            m_names[i->data(2, 0).toString()] = "";
+            m_names.remove(url);
         }
     }
 }
@@ -142,11 +141,11 @@ void ModuleDownloadDialog::setSettings(Settings settings)
 }
 void ModuleDownloadDialog::download()
 {
-    DEBUG_FUNC_NAME
-   /* ModuleDownloader *m = new ModuleDownloader(this, m_downloadList, m_names);
-    connect(m, SIGNAL(downloaded(QStringList, QStringList)), this, SIGNAL(downloaded(QStringList, QStringList)));
+    DEBUG_FUNC_NAME;
+    ModuleDownloader *m = new ModuleDownloader(this, m_names);
+    connect(m, SIGNAL(downloaded(QMap<QString, QString>)), this, SIGNAL(downloaded(QMap<QString, QString>)));
     m->setSettings(&m_set);
-    m->start();*/
+    m->start();
 }
 
 ModuleDownloadDialog::~ModuleDownloadDialog()

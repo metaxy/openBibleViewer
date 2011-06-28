@@ -30,14 +30,18 @@ signals:
     void updateTitle(QString title);
 public:
     //QMap<Url,Title>
-    ModuleDownloader(QMap<QString, QString> data);
+    ModuleDownloader(QObject *parent ,QMap<QString, QString> data);
     void start();
+private slots:
+    void downloadNext();
 private:
     QMap<QString, QString> m_data;
     int m_counter;
     QNetworkAccessManager *m_manager;
-    
-    void download(QString url, bool addToList = true);
+    QStringList m_urls;
+    QStringList m_downloadedList;
+    QStringList m_downNames;
+    void download(const QString &url, bool addToList = true);
 };
 
 #endif // MODULEDOWNLOADER_H

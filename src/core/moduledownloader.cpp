@@ -18,47 +18,75 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QUrl>
 #include <QtCore/QFileInfo>
 #include <QtNetwork/QNetworkReply>
+#include "src/core/downloadinfile.h"
 
 /**
   Conctruct a ModuleDownloader. Need a parent widget. And a list with links e.g http://example.com/a.xml
 and the names for it e.g names['http://example.com/a.xml'] = "A Book".
   */
-ModuleDownloader::ModuleDownloader(QMap<QString, QString> data)
+ModuleDownloader::ModuleDownloader(QObject *parent, QMap<QString, QString> data) :
+    QObject(parent)
 {
     m_data = data;
     m_manager = new QNetworkAccessManager(this);
     connect(m_manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(replyFinished(QNetworkReply*)));
+    m_counter = 0;
 }
 /**
   Starts the download. If finished the signal downloaded ist emited.
   */
 void ModuleDownloader::start()
 {
+    DEBUG_FUNC_NAME
     //create folder where the modules should be downloaded
     QDir dir(m_settings->homePath);
     dir.mkdir(m_settings->homePath + "modules");
 
     //hack: remove duplicates
-   /* const QSet<QString> set = m_data.keys().toSet();
+    const QSet<QString> set = m_data.keys().toSet();
     m_urls = set.toList();
-    m_counter = 0;*/
+    m_counter = 0;
+    myDebug() << m_urls;
 
-    //downloadNext();
+    downloadNext();
 }
-/*void ModuleDownloader::downloadNext()
+void ModuleDownloader::downloadNext()
 {
+    DEBUG_FUNC_NAME
+    myDebug() << "m_counter = " << m_counter;
 
-    if(m_counter + 1 == m_urls.size() && m_urls.size() != 0) {
-        emit downloaded(m_downloadedList, m_downNames);
+    if(m_counter >= m_urls.size() && m_urls.size() != 0) {
+        myDebug() << "finished!!!";
+        //finished all
+        //emit downloaded(m_downloadedList, m_downNames);
         return;
     }
     if(m_counter < m_urls.size() && m_urls.size() != 0) {
+        myDebug() << "download next";
+        //download next
+        download(m_urls.at(m_counter));
         m_counter++;
-        download(m_urls.at(m_currentDownload));
     }
-}*/
-void ModuleDownloader::download(QString url_, bool addToList)
+}
+void ModuleDownloader::download(const QString &url_, bool addToList)
 {
+    DEBUG_FUNC_NAME;
+    myDebug() << url_;
+
+    const QUrl url(url_);
+    QFileInfo fileInfo(url.path());
+    DownloadInFile *d = new DownloadInFile(this, m_manager);
+    d->setUrl(url_);
+    const QString folder = m_settings->homePath + "modules/" + fileInfo.fileName() + "/";
+    d->setFileName(fileInfo.fileName());
+    d->setFolder(folder);
+    if(addToList) {
+        m_downloadedList << folder + fileInfo.fileName();
+        m_downNames << m_data[url_];
+    }
+    d->download();
+    connect(d, SIGNAL(finished()), this, SLOT(downloadNext()));
+
    /* DEBUG_FUNC_NAME
     const QUrl url(url_);
     QFileInfo fileInfo(url.path());
@@ -66,10 +94,7 @@ void ModuleDownloader::download(QString url_, bool addToList)
     QDir dir(m_settings->homePath);
     dir.mkpath(m_settings->homePath + "modules/" + fileInfo.fileName() + "/");
     const QString fileName = m_settings->homePath + "modules/" + fileInfo.fileName() + "/" + fileInfo.fileName();
-    if(addToList) {
-        m_downloadedList << fileName;
-        m_downNames << m_names[m_urls.at(m_currentDownload)];
-    }
+
     if(QFile::exists(fileName)) {
         QFile::remove(fileName);
     }
