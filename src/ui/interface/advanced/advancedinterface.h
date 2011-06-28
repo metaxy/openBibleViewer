@@ -81,6 +81,8 @@ private slots:
     void setSubWindowView();
     void setTitle(const QString &title);
 
+    void quick();
+
 public:
     AdvancedInterface(QWidget *parent = 0);
     ~AdvancedInterface();

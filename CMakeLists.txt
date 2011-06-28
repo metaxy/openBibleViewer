@@ -129,6 +129,7 @@ set ( openBibleViewer_HDRS
     src/core/verse/reftext.h
 
     src/core/basicclass.h
+    src/core/biblelink.h
     src/core/dbghelper.h
     src/core/goto.h
     src/core/history.h
@@ -217,6 +218,7 @@ set ( openBibleViewer_SRCS
     src/core/verseselection.cpp
     src/core/simplenotes.cpp
     src/core/basicclass.cpp
+    src/core/biblelink.cpp
     src/core/moduledownloader.cpp
     src/core/goto.cpp
     src/core/history.cpp

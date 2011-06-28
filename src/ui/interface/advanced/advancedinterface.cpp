@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "advancedinterface.h"
 #include "ui_advancedinterface.h"
-
+#include "src/core/biblelink.h"
 
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
     Interface(parent),
@@ -614,15 +614,15 @@ void AdvancedInterface::createToolBars()
     m_mainBar->addAction(m_mainBarActionNotes);
 
     m_searchBar = new QToolBar(this);
-    m_searchBar->setObjectName("searchToolBar");
+    m_searchBar->setObjectName("quickToolBar");
     m_searchBar->setIconSize(QSize(16, 16));
-    m_searchBar->setWindowTitle(tr("Search Bar"));
+    m_searchBar->setWindowTitle(tr("Quick Bar"));
     m_searchBar->setMaximumWidth(250);
 
     QLineEdit *edit = new QLineEdit(m_searchBar);
     edit->setObjectName("lineEdit");
 
-    connect(edit, SIGNAL(returnPressed()), m_searchManager, SLOT(search()));
+    connect(edit, SIGNAL(returnPressed()), this, SLOT(quick()));
     m_searchBar->addWidget(edit);
     toolBarSetText();
 }
@@ -633,6 +633,20 @@ QList<QToolBar *> AdvancedInterface::toolBars()
     list.append(m_mainBar);
     list.append(m_searchBar);
     return list;
+}
+void AdvancedInterface::quick()
+{
+    const QString text = ((QLineEdit *) sender())->text();
+    BibleLink link(m_moduleManager->verseModule()->moduleID(), m_moduleManager->verseModule()->versification());
+    if(link.isBibleLink(text)) {
+         m_actions->get(link.getUrl(text));
+    } else {
+        SearchQuery query;
+        query.searchText = text;
+        query.searchInNotes = true;
+        query.queryType = SearchQuery::Simple;
+        m_searchManager->search(query);
+    }
 }
 
 void AdvancedInterface::onlineHelp()
