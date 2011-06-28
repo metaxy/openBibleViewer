@@ -7,15 +7,13 @@ DownloadInFile::DownloadInFile(QObject *parent, QNetworkAccessManager *manager) 
     m_manager = manager;
     m_file = NULL;
 }
-void DownloadInFile::setUrl(const QString &url)
+void DownloadInFile::setUrl(const QUrl &url)
 {
-    QUrl u(url);
-    m_url = u;
+    m_url = url;
 }
 
 void DownloadInFile::setFileName(const QString &fileName)
 {
-    myDebug() << "fileName = " << fileName;
     m_fileName = fileName;
 }
 
@@ -23,18 +21,23 @@ void DownloadInFile::setFolder(const QString &folder)
 {
     m_path = folder;
 }
+void DownloadInFile::setName(const QString &name)
+{
+    m_name = name;
+}
+
 void DownloadInFile::download()
 {
     DEBUG_FUNC_NAME
 
     QDir dir(QDir::homePath());
     dir.mkpath(m_path);
-    const QString full = m_path + QDir::separator() + m_fileName;
-    m_file = new QFile(full);
+    m_localUrl = m_path + QDir::separator() + m_fileName;
+    m_file = new QFile(m_localUrl);
 
     if (!m_file->open(QIODevice::WriteOnly)) {
         myWarning() << "could not open file" << m_file->errorString();
-        myDebug() << "full = " << full;
+        myDebug() << "full = " << m_localUrl;
         return;
     }
     QNetworkRequest request(m_url);
@@ -62,7 +65,7 @@ void DownloadInFile::finish()
         download();
         return;
     } else {
-        emit finished();
+        emit finished(m_localUrl, m_name);
     }
 
     m_reply->deleteLater();

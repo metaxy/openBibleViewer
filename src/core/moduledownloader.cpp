@@ -56,9 +56,9 @@ void ModuleDownloader::downloadNext()
     myDebug() << "m_counter = " << m_counter;
 
     if(m_counter >= m_urls.size() && m_urls.size() != 0) {
-        myDebug() << "finished!!!";
         //finished all
-        //emit downloaded(m_downloadedList, m_downNames);
+        myDebug() << "finished!!!";
+        emit downloaded(m_retData);
         return;
     }
     if(m_counter < m_urls.size() && m_urls.size() != 0) {
@@ -68,24 +68,29 @@ void ModuleDownloader::downloadNext()
         m_counter++;
     }
 }
+void ModuleDownloader::save(QString url, QString name)
+{
+    m_retData[url] = name;
+    downloadNext();
+}
+
 void ModuleDownloader::download(const QString &url_, bool addToList)
 {
     DEBUG_FUNC_NAME;
     myDebug() << url_;
 
     const QUrl url(url_);
+
     QFileInfo fileInfo(url.path());
     DownloadInFile *d = new DownloadInFile(this, m_manager);
-    d->setUrl(url_);
+    d->setUrl(url);
     const QString folder = m_settings->homePath + "modules/" + fileInfo.fileName() + "/";
     d->setFileName(fileInfo.fileName());
     d->setFolder(folder);
-    if(addToList) {
-        m_downloadedList << folder + fileInfo.fileName();
-        m_downNames << m_data[url_];
-    }
+    d->setName(m_data[url_]);
+
     d->download();
-    connect(d, SIGNAL(finished()), this, SLOT(downloadNext()));
+    connect(d, SIGNAL(finished(QString, QString)), this, SLOT(save(QString, QString)));
 
    /* DEBUG_FUNC_NAME
     const QUrl url(url_);

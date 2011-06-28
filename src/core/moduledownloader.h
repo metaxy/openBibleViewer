@@ -33,8 +33,10 @@ public:
     ModuleDownloader(QObject *parent ,QMap<QString, QString> data);
     void start();
 private slots:
-    void downloadNext();
+
+    void save(QString, QString);
 private:
+    void downloadNext();
     QMap<QString, QString> m_data;
     int m_counter;
     QNetworkAccessManager *m_manager;
@@ -42,6 +44,7 @@ private:
     QStringList m_downloadedList;
     QStringList m_downNames;
     void download(const QString &url, bool addToList = true);
+    QMap<QString, QString> m_retData;
 };
 
 #endif // MODULEDOWNLOADER_H

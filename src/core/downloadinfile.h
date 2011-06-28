@@ -11,12 +11,13 @@ class DownloadInFile : public QObject
     Q_OBJECT
 public:
     explicit DownloadInFile(QObject *parent = 0, QNetworkAccessManager *manager=0);
-    void setUrl(const QString &url);
+    void setUrl(const QUrl &url);
     void setFileName(const QString &fileName);
     void setFolder(const QString &folder);
+    void setName(const QString &name);
 signals:
     void progress(qint64 bytesReceived, qint64 bytesTotal);
-    void finished();
+    void finished(QString localUrl, QString name);
 public slots:
     void download();
 private slots:
@@ -30,6 +31,9 @@ private:
     QString m_path;
     QString m_fileName;
     QUrl m_url;
+
+    QString m_localUrl;
+    QString m_name;
 };
 
 #endif // DOWNLOADINFILE_H
