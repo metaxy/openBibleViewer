@@ -11,7 +11,7 @@ class DownloadProgressDialog : public QDialog
 {
     Q_OBJECT
 private slots:
-    void updateProgress(qint64 total,qint64 current);
+    void updateProgress(qint64 current,qint64 total);
 public:
     explicit DownloadProgressDialog(QWidget *parent = 0);
     ~DownloadProgressDialog();

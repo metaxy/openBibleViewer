@@ -347,14 +347,18 @@ void SettingsDialog::downloadModule()
     ModuleDownloadDialog *mDialog = new ModuleDownloadDialog(this);
     mDialog->setSettings(m_set);
     mDialog->readModules();
-    connect(mDialog, SIGNAL(downloaded(QStringList, QStringList)), this, SLOT(addModules(QStringList, QStringList)));
-    connect(mDialog, SIGNAL(downloaded(QStringList, QStringList)), mDialog, SLOT(close()));
-    mDialog->show();
+    connect(mDialog, SIGNAL(downloaded(QMap<QString,QString>)), this, SLOT(addModules(QMap<QString,QString>)));
+
     mDialog->exec();
 }
+void SettingsDialog::addModules(QMap<QString,QString> data)
+{
+    addModules(data.keys(), data.values());
+}
+
 void SettingsDialog::addModules(QStringList fileName, QStringList names, int parentID)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     if(!fileName.isEmpty()) {
         QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size() + 2);
         progress.setWindowModality(Qt::WindowModal);
@@ -381,7 +385,6 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names, int par
 }
 int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString &name)
 {
-    QString moduleName;
     OBVCore::ModuleType moduleType = OBVCore::NoneType;
 
     ModuleSettings *m = new ModuleSettings();
@@ -400,7 +403,7 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
 
         if(moduleType == OBVCore::NoneType) {
             //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
-            myWarning() << "cannot determine module type";
+            myWarning() << "cannot determine module type of " << f;
             return 4;
         }
         if(name.isEmpty()) {

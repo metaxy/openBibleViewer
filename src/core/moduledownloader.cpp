@@ -73,7 +73,7 @@ void ModuleDownloader::save(QString url, QString name, int status)
     downloadNext();
 }
 
-void ModuleDownloader::download(const QString &url_, bool addToList)
+void ModuleDownloader::download(const QString &url_)
 {
     DEBUG_FUNC_NAME;
     myDebug() << url_;
@@ -83,7 +83,7 @@ void ModuleDownloader::download(const QString &url_, bool addToList)
     QFileInfo fileInfo(url.path());
     DownloadInFile *d = new DownloadInFile(this, m_manager);
     d->setUrl(url);
-    const QString folder = m_settings->homePath + "modules/" + fileInfo.fileName() + "/";
+    const QString folder = m_settings->homePath + "modules" + QDir::separator() + fileInfo.fileName()  + QDir::separator();
     d->setFileName(fileInfo.fileName());
     d->setFolder(folder);
     d->setName(m_data[url_]);
