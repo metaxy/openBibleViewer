@@ -29,7 +29,6 @@ ModuleDownloader::ModuleDownloader(QObject *parent, QMap<QString, QString> data)
 {
     m_data = data;
     m_manager = new QNetworkAccessManager(this);
-    connect(m_manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(replyFinished(QNetworkReply*)));
     m_counter = 0;
 }
 /**
@@ -91,6 +90,8 @@ void ModuleDownloader::download(const QString &url_, bool addToList)
 
     d->download();
     connect(d, SIGNAL(finished(QString, QString, int)), this, SLOT(save(QString, QString, int)));
+    connect(d, SIGNAL(progress(qint64,qint64)), this, SIGNAL(updateProgress(qint64,qint64)));
+
 
    /* DEBUG_FUNC_NAME
     const QUrl url(url_);

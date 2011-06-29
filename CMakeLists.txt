@@ -265,6 +265,7 @@ set ( openBibleViewer_SRCS
     src/ui/dialog/moduledownloaddialog.cpp
     src/ui/dialog/searchinfodialog.cpp
     src/ui/dialog/insertlinkdialog.cpp
+    src/ui/dialog/downloadprogressdialog.cpp
     
     src/ui/dock/dockwidget.cpp
     src/ui/dock/dictionarydockwidget.cpp
@@ -314,6 +315,7 @@ set ( openBibleViewer_UIS
     src/ui/dialog/moduledownloaddialog.ui
     src/ui/dialog/inserthtmldialog.ui
     src/ui/dialog/insertlinkdialog.ui
+    src/ui/dialog/downloadprogressdialog.ui
 
     src/ui/dock/dictionarydockwidget.ui
     src/ui/dock/searchresultdockwidget.ui
@@ -378,6 +380,7 @@ set ( openBibleViewer_MOCS
     src/ui/dialog/moduleconfigdialog.h
     src/ui/dialog/moduledownloaddialog.h
     src/ui/dialog/insertlinkdialog.h
+    src/ui/dialog/downloadprogressdialog.h
 
     src/ui/marklist.h
     src/ui/markcategories.h

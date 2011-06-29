@@ -39,7 +39,7 @@ void QuickJumpDockWidget::init()
 }
 void QuickJumpDockWidget::setBooks(Versification *v11n)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     m_books = v11n->bookNames().values();
 
     QStringList l;

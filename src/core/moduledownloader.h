@@ -25,7 +25,7 @@ class ModuleDownloader : public QObject, public BasicClass
     Q_OBJECT
 signals:
     void downloaded(QMap<QString, QString> data);
-    void updateProgress(int total, int current);
+    void updateProgress(qint64 total, qint64 current);
     void updateLog(QString text);
     void updateTitle(QString title);
 public:

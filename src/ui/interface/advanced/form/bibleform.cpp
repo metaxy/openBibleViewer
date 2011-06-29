@@ -277,8 +277,8 @@ void BibleForm::setCurrentBook(const QSet<int> &bookID)
 }
 void BibleForm::activated()
 {
-    DEBUG_FUNC_NAME
-    myDebug() << " windowID = " << m_id;
+    //DEBUG_FUNC_NAME
+    //myDebug() << " windowID = " << m_id;
     m_api->moduleApi()->setFrame(m_view->page()->mainFrame());
     VerseTable *table = m_verseTable;
     if(m_verseTable == NULL || m_verseTable->verseModule() == NULL) {

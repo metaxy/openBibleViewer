@@ -6,6 +6,7 @@ DownloadInFile::DownloadInFile(QObject *parent, QNetworkAccessManager *manager) 
 {
     m_manager = manager;
     m_file = NULL;
+    m_reply = NULL;
 }
 void DownloadInFile::setUrl(const QUrl &url)
 {
@@ -28,8 +29,11 @@ void DownloadInFile::setName(const QString &name)
 
 void DownloadInFile::download()
 {
-    DEBUG_FUNC_NAME
-
+    DEBUG_FUNC_NAME;
+   /* if(m_reply != NULL) {
+        delete m_reply;
+        m_reply = NULL;
+    }*/
     QDir dir(QDir::homePath());
     dir.mkpath(m_path);
     m_localUrl = m_path + QDir::separator() + m_fileName;
@@ -62,6 +66,7 @@ void DownloadInFile::finish()
     myDebug() << "status = " << status;
     if (status == 302 || status == 301) { // redirected
         m_url = m_reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl();
+        m_reply->deleteLater();
         download();
         return;
     } else {

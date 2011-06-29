@@ -78,7 +78,7 @@ void BookDockWidget::readChapter()
 }
 void BookDockWidget::setChapters(int bookID, Versification *v11n)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if(v11n == NULL)
         return;
     m_chapterModel->clear();

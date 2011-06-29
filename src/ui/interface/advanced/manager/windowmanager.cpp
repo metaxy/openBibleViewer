@@ -321,7 +321,7 @@ void WindowManager::closeSubWindow()
 
 int WindowManager::closingWindow()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if(!m_enableReload)
         return 1;
     if(m_area->subWindowList().isEmpty()) {
@@ -340,7 +340,7 @@ int WindowManager::closingWindow()
 
 int WindowManager::reloadWindow(QMdiSubWindow * window)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if(!m_enableReload || window == NULL) {
         myDebug() << "reload is not enabled or window == NULL";
         return 1;
@@ -351,7 +351,7 @@ int WindowManager::reloadWindow(QMdiSubWindow * window)
     }
     BibleForm *form =  window->widget()->findChild<BibleForm *>("mdiForm");
     *m_currentWindowID = form->id();
-    myDebug() << "window ID  = " << *m_currentWindowID;
+   //myDebug() << "window ID  = " << *m_currentWindowID;
     form->activated();
     m_area->setActiveSubWindow(window);
     return 0;

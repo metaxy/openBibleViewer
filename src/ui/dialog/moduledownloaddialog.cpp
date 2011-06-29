@@ -27,6 +27,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomElement>
 #include <QtCore/QSet>
 #include "src/core/moduledownloader.h"
+#include "src/ui/dialog/downloadprogressdialog.h"
 ModuleDownloadDialog::ModuleDownloadDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ModuleDownloadDialog)
@@ -145,7 +146,13 @@ void ModuleDownloadDialog::download()
     ModuleDownloader *m = new ModuleDownloader(this, m_names);
     connect(m, SIGNAL(downloaded(QMap<QString, QString>)), this, SIGNAL(downloaded(QMap<QString, QString>)));
     m->setSettings(&m_set);
-    m->start();
+
+    DownloadProgressDialog *dialog = new DownloadProgressDialog(this);
+    dialog->setModuleDownloader(m);
+    dialog->start();
+    close();
+    dialog->exec();
+
 }
 
 ModuleDownloadDialog::~ModuleDownloadDialog()

@@ -37,7 +37,7 @@ class ModuleDownloadDialog : public QDialog
     Q_OBJECT
 
 signals:
-    void downloaded(QStringList downloadedFiles, QStringList names);
+    void downloaded(QMap<QString, QString>s);
 
 private slots:
     void item(QTreeWidgetItem* item);
