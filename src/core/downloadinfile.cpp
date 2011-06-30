@@ -47,6 +47,9 @@ void DownloadInFile::download()
         return;
     }
     QNetworkRequest request(m_url);
+    //otherwise it will send a redirection link for browsers
+    request.setRawHeader("User-Agent","curl/7.21.2");
+    request.setRawHeader("Accept", "*/*");
     m_reply = m_manager->get(request);
 
    // connect(m_reply, SIGNAL(readyRead()), this, SLOT(read()));
@@ -62,12 +65,17 @@ void DownloadInFile::finish()
 {
     DEBUG_FUNC_NAME;
 
+    myDebug() << m_reply->url();
 
     int status = m_reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     myDebug() << "status = " << status;
     if (status == 302 || status == 301) { // redirected
+        myDebug() <<  "redirecation target attribute(url)= " << m_reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl();
         myDebug() << "redirecation target attribute= " << m_reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
-        myDebug() << "location header = " << m_reply->header(QNetworkRequest::LocationHeader).toString();
+
+        myDebug() << m_reply->rawHeader("Location");
+
+        //myDebug() << "location header = " << m_reply->header(QNetworkRequest::LocationHeader).toString();
 
         m_url = m_reply->header(QNetworkRequest::LocationHeader).toUrl();
         m_reply->deleteLater();

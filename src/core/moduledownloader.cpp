@@ -51,8 +51,8 @@ void ModuleDownloader::start()
 }
 void ModuleDownloader::downloadNext()
 {
-    DEBUG_FUNC_NAME
-    myDebug() << "m_counter = " << m_counter;
+    //DEBUG_FUNC_NAME
+    //myDebug() << "m_counter = " << m_counter;
 
     if(m_counter >= m_urls.size() && m_urls.size() != 0) {
         //finished all
@@ -61,7 +61,7 @@ void ModuleDownloader::downloadNext()
         return;
     }
     if(m_counter < m_urls.size() && m_urls.size() != 0) {
-        myDebug() << "download next";
+        //myDebug() << "download next";
         //download next
         download(m_urls.at(m_counter));
         m_counter++;
@@ -75,10 +75,10 @@ void ModuleDownloader::save(QString url, QString name, int status)
 
 void ModuleDownloader::download(const QString &url_)
 {
-    DEBUG_FUNC_NAME;
-    myDebug() << url_;
+    //DEBUG_FUNC_NAME;
+    //myDebug() << url_;
 
-    const QUrl url(url_);
+    const QUrl url = QUrl::fromEncoded(url_.toLocal8Bit());
 
     QFileInfo fileInfo(url.path());
     DownloadInFile *d = new DownloadInFile(this, m_manager);

@@ -11,6 +11,7 @@ class DownloadInFile : public QObject
     Q_OBJECT
 public:
     explicit DownloadInFile(QObject *parent = 0, QNetworkAccessManager *manager=0);
+
     void setUrl(const QUrl &url);
     void setFileName(const QString &fileName);
     void setFolder(const QString &folder);
