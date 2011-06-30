@@ -4,5 +4,5 @@ change
 to needed paths
 
 
-cmake -G "NMake Makefiles" ..
+cmake -G "NMake Makefiles" -DCMAKE_BUILD_TYPE="Release" ..
 nmake
