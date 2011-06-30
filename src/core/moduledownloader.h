@@ -28,10 +28,11 @@ signals:
     void updateProgress(qint64 current, qint64 total);
     void updateLog(QString text);
     void updateTitle(QString title);
+    void nextFile(int fileCount, int maxFiles);
 public:
     //QMap<Url,Title>
     ModuleDownloader(QObject *parent ,QMap<QString, QString> data);
-    void start();
+    int start();
 private slots:
 
     void save(QString url, QString name, int status);
@@ -45,6 +46,8 @@ private:
     QStringList m_downNames;
     void download(const QString &url);
     QMap<QString, QString> m_retData;
+
+    int m_fileCount;
 };
 
 #endif // MODULEDOWNLOADER_H

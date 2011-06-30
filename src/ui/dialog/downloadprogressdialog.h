@@ -12,6 +12,7 @@ class DownloadProgressDialog : public QDialog
     Q_OBJECT
 private slots:
     void updateProgress(qint64 current,qint64 total);
+    void updateProgress2(int current,int total);
 public:
     explicit DownloadProgressDialog(QWidget *parent = 0);
     ~DownloadProgressDialog();
@@ -21,6 +22,8 @@ public:
 private:
     Ui::DownloadProgressDialog *ui;
     ModuleDownloader *m_downloader;
+
+    int m_fileCount;
 };
 
 #endif // DOWNLOADPROGRESSDIALOG_H

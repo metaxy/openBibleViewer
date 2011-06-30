@@ -34,7 +34,7 @@ ModuleDownloader::ModuleDownloader(QObject *parent, QMap<QString, QString> data)
 /**
   Starts the download. If finished the signal downloaded ist emited.
   */
-void ModuleDownloader::start()
+int ModuleDownloader::start()
 {
     DEBUG_FUNC_NAME
     //create folder where the modules should be downloaded
@@ -48,19 +48,28 @@ void ModuleDownloader::start()
     myDebug() << m_urls;
 
     downloadNext();
+    m_fileCount = m_urls.size();
+    return m_fileCount;
 }
 void ModuleDownloader::downloadNext()
 {
     //DEBUG_FUNC_NAME
     //myDebug() << "m_counter = " << m_counter;
+    emit nextFile(m_counter, m_fileCount);
 
-    if(m_counter >= m_urls.size() && m_urls.size() != 0) {
+    if(m_fileCount == 0) {
+        myDebug() << "finished!!!";
+        emit downloaded(m_retData);
+        return;
+    }
+
+    if(m_counter >= m_fileCount && m_fileCount != 0) {
         //finished all
         myDebug() << "finished!!!";
         emit downloaded(m_retData);
         return;
     }
-    if(m_counter < m_urls.size() && m_urls.size() != 0) {
+    if(m_counter < m_fileCount && m_fileCount != 0) {
         //myDebug() << "download next";
         //download next
         download(m_urls.at(m_counter));
