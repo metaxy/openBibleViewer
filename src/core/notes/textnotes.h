@@ -72,6 +72,8 @@ public:
     void search(SearchQuery query, SearchResult *result) const;
 
 
+    void loadNote(QString id);
+
 private:
     QString m_fileName;
     QStringList notesID;

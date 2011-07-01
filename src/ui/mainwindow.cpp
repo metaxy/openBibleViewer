@@ -13,6 +13,20 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "src/module/modulemanager.h"
+
+
+#include "src/ui/interface/simple/simpleinterface.h"
+#include "src/ui/interface/advanced/advancedinterface.h"
+#include "src/ui/interface/study/studyinterface.h"
+#include "src/ui/dialog/settingsdialog.h"
+
+
+#include "src/core/notes/xmlnotes.h"
+#include "src/core/notes/textnotes.h"
+#include "src/core/dbghelper.h"
+#include "src/core/obvcore.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -70,7 +84,7 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 
     m_moduleManager = new ModuleManager();
     m_settings = new Settings();
-    m_notes = new XmlNotes();
+    m_notes = new TextNotes();
     m_session = new Session();
     m_actions = new Actions(this);
 

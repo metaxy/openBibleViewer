@@ -28,24 +28,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <typeinfo>
 
-#include "src/module/modulemanager.h"
-
+#include "config.h"
+#include "src/core/version.h"
 #include "src/core/verse/versification/versification_kjv.h"
 #include "src/core/settings/settings.h"
 #include "src/core/settings/modulecache.h"
 #include "src/core/settings/session.h"
+
 #include "src/ui/interface/interface.h"
-#include "src/ui/interface/simple/simpleinterface.h"
-#include "src/ui/interface/advanced/advancedinterface.h"
-#include "src/ui/interface/study/studyinterface.h"
-#include "src/ui/dialog/settingsdialog.h"
-
-
-#include "src/core/notes/xmlnotes.h"
-#include "src/core/dbghelper.h"
-#include "src/core/obvcore.h"
-#include "config.h"
-#include "src/core/version.h"
 namespace Ui
 {
 class MainWindow;
@@ -99,8 +89,6 @@ private:
     void loadSettings();
     void restoreSession();
     int m_reloadLang;
-
-
 
 };
 

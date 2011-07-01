@@ -87,7 +87,8 @@ void SimpleNotes::init()
     connect(m_label_link, SIGNAL(linkActivated(QString)), this, SLOT(open(QString)));
 
     if(!m_notes->isLoaded()) {
-        m_notes->init(m_settings->homePath + "notes.xml");
+        //m_notes->init(m_settings->homePath + "notes.xml");
+        m_notes->init("/home/paul/Dokumente/wiki/");
         m_notes->loadNotes();
         m_notes->readNotes();
     }
