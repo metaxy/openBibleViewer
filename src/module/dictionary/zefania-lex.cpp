@@ -258,7 +258,7 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
 
                                     desc += " <a href=\"" + url + "\">" + refText.toString(rUrl) + "</a> ";
                                 } else if(descElement.hasAttribute("target")) {
-                                    desc += descElement.toText();
+                                    desc += descElement.text();
                                 }
 
                             } else if(descElement.tagName().compare("see", Qt::CaseInsensitive) == 0) {

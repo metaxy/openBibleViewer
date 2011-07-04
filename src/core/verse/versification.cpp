@@ -59,6 +59,16 @@ QHash<int, QString> Versification::bookShortNames(VersificationFilterFlags flags
 
     return ret;
 }
+QList<int> Versification::bookIDs(VersificationFilterFlags flags) const
+{
+    QList<int> ret;
+    foreach(const BookV11N & book, m_books) {
+        if(!filter(book.bookID, flags))
+            continue;
+        ret << book.bookID;
+    }
+    return ret;
+}
 QHash<int, int> Versification::maxChapter(VersificationFilterFlags flags) const
 {
     QHash<int, int> ret;
@@ -105,6 +115,10 @@ QHash<int, QStringList> Versification::multipleBookShortNames() const
 QHash<int, QString> Versification::bookShortNames() const
 {
     return bookShortNames(m_filter);
+}
+QList<int> Versification::bookIDs() const
+{
+    return bookIDs(m_filter);
 }
 QHash<int, int> Versification::maxChapter() const
 {

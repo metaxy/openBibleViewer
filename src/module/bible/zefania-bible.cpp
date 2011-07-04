@@ -389,6 +389,9 @@ int ZefaniaBible::loadNoCached(const int id, const QString &path)
     KoXmlNode n = doc.documentElement().firstChild();
     int progressCounter = 10;
     int currentPos = 0;
+
+    int countBooks = 0;
+
     for(int c = 0; !n.isNull();) {
         progressCounter++;
         if(progressCounter < 76)
@@ -397,6 +400,7 @@ int ZefaniaBible::loadNoCached(const int id, const QString &path)
         if(!e.attribute("bname", "").isEmpty() || !e.attribute("bnumber", "").isEmpty()) {
             //it is the caching mechanisme
             int start = 0, end = 0;
+
             QString bookID = QString::number(e.attribute("bnumber").toInt() - 1); //i count from zero
             for(int i = currentPos; i < fileList.size(); ++i) {
                 QString line = fileList.at(i);
@@ -418,6 +422,7 @@ int ZefaniaBible::loadNoCached(const int id, const QString &path)
             }
             QString data = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<cache>\n";
             for(int i = start; i <= end; ++i) {
+
                 data += fileList.at(i);
             }
             data += "</cache>";
@@ -431,6 +436,7 @@ int ZefaniaBible::loadNoCached(const int id, const QString &path)
             fullName << e.attribute("bname", e.attribute("bsname", ""));
             shortName << e.attribute("bsname", "");
             bookIDs << bookID;
+            countBooks++;
             c++;
         }
         n = n.nextSibling();
@@ -446,8 +452,15 @@ int ZefaniaBible::loadNoCached(const int id, const QString &path)
     ModuleSettings *mset = m_settings->getModuleSettings(m_moduleID);
     if(!hasAny) {
         mset->versificationFile = "";
-        mset->versificationName = "kjv";
+        QString v = "kjv";
+        if(countBooks == 27) {
+            v += "-nt";
+        } else if(countBooks == 39) {
+             v += "-ot";
+        }
+        mset->versificationName = v;
         mset->loadVersification();
+
         //whole bible
         /* if(m_bookFullName.size() == 66) {
              m_bookFullName = m_settings->defaultVersification->bookNames(Versification::ReturnNT | Versification::ReturnOT);
