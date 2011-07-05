@@ -214,7 +214,7 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                 if(edetails.tagName().compare("title", Qt::CaseInsensitive) == 0) {
                     title = edetails.text();
                 } else if(edetails.tagName().compare("transliteration", Qt::CaseInsensitive) == 0) {
-                    trans =  edetails.text();
+                    trans = edetails.text();
                 } else if(edetails.tagName().compare("pronunciation", Qt::CaseInsensitive) == 0) {
                     KoXmlNode em = details.firstChild();
                     while(!em.isNull()) {
@@ -230,32 +230,37 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                         } else if(descNode.nodeType() == 1) {
                             KoXmlElement descElement = descNode.toElement();
                             if(descElement.tagName().compare("reflink", Qt::CaseInsensitive) == 0) {
-                                const QString mscope = descElement.attribute("mscope", ";;;");
-                                const QStringList list = mscope.split(";");
-                                const int bookID = list.at(0).toInt() - 1;
-                                const int chapterID = list.at(1).toInt() - 1;
-                                const int verseID = list.at(2).toInt() - 1;
+                                if(descElement.hasAttribute("mscope")) {
+                                    const QString mscope = descElement.attribute("mscope", ";;;");
+                                    const QStringList list = mscope.split(";");
+                                    const int bookID = list.at(0).toInt() - 1;
+                                    const int chapterID = list.at(1).toInt() - 1;
+                                    const int verseID = list.at(2).toInt() - 1;
 
-                                VerseUrl burl;
-                                VerseUrlRange range;
+                                    VerseUrl burl;
+                                    VerseUrlRange range;
 
-                                range.setModule(VerseUrlRange::LoadCurrentModule);
-                                range.setBook(bookID);
-                                range.setChapter(chapterID);
-                                range.setWholeChapter();
-                                range.setActiveVerse(verseID);
-                                burl.addRange(range);
-                                const QString url = burl.toString();
+                                    range.setModule(VerseUrlRange::LoadCurrentModule);
+                                    range.setBook(bookID);
+                                    range.setChapter(chapterID);
+                                    range.setWholeChapter();
+                                    range.setActiveVerse(verseID);
+                                    burl.addRange(range);
+                                    const QString url = burl.toString();
 
-                                VerseUrlRange range2;
-                                range2.setModule(VerseUrlRange::LoadCurrentModule);
-                                range2.setBook(bookID);
-                                range2.setChapter(chapterID);
-                                range2.setStartVerse(verseID);
-                                range2.setEndVerse(verseID);
-                                VerseUrl rUrl(range2);
+                                    VerseUrlRange range2;
+                                    range2.setModule(VerseUrlRange::LoadCurrentModule);
+                                    range2.setBook(bookID);
+                                    range2.setChapter(chapterID);
+                                    range2.setStartVerse(verseID);
+                                    range2.setEndVerse(verseID);
+                                    VerseUrl rUrl(range2);
 
-                                desc += " <a href=\"" + url + "\">" + refText.toString(rUrl) + "</a> ";
+                                    desc += " <a href=\"" + url + "\">" + refText.toString(rUrl) + "</a> ";
+                                } else if(descElement.hasAttribute("target")) {
+                                    desc += descElement.text();
+                                }
+
                             } else if(descElement.tagName().compare("see", Qt::CaseInsensitive) == 0) {
                                 const QString target = descElement.attribute("target", "");
                                 //todo: currently we assume target = x-self

@@ -36,6 +36,7 @@ public:
     QHash<int, QString> bookNames(VersificationFilterFlags filter) const;
     QHash<int, QStringList> multipleBookShortNames(VersificationFilterFlags filter) const;
     QHash<int, QString> bookShortNames(VersificationFilterFlags filter) const;
+    QList<int> bookIDs(VersificationFilterFlags filter) const;
     QHash<int, int> maxChapter(VersificationFilterFlags filter) const;
     QHash<int, QList<int> > maxVerse(VersificationFilterFlags filter) const;
     int bookCount(VersificationFilterFlags filter) const;
@@ -43,11 +44,16 @@ public:
     QHash<int, QString> bookNames() const;
     QHash<int, QStringList> multipleBookShortNames() const;
     QHash<int, QString> bookShortNames() const;
+    QList<int> bookIDs() const;
+
     QHash<int, int> maxChapter() const;
     QHash<int, QList<int> > maxVerse() const;
     int bookCount() const;
 
     QString bookName(const int bookID, bool preferShort = false) const;
+    /**
+      * Use it with care. It doesn't apply the filter,
+      */
     QMap<int, BookV11N> data() const;
 
     VersificationExtendedData extendedData;

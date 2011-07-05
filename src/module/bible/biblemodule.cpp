@@ -42,6 +42,7 @@ int BibleModule::readBook(const int /*id*/)
 int BibleModule::loadBibleData(const int /*bibleID*/, const QString &/*path*/)
 {
     myWarning() << "calling BibleModule";
+	return -1;
 }
 
 QString BibleModule::readInfo(QFile &/*file*/)

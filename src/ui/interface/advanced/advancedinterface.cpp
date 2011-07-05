@@ -134,6 +134,7 @@ void AdvancedInterface::pharseUrl(QString url)
 
     const QString bible = "verse:/";
     const QString strong = "strong://";
+    const QString dict = "dict:/";
     const QString gram = "gram://";
     const QString http = "http://";
     const QString bq = "go";
@@ -148,8 +149,12 @@ void AdvancedInterface::pharseUrl(QString url)
         url = url.remove(0, strong.size());
         m_dictionaryDockWidget->showEntry(url);
     } else if(url.startsWith(gram)) {
-        //gram://strongID
+        //gram://gramID
         url = url.remove(0, gram.size());
+        m_dictionaryDockWidget->showEntry(url);
+    } else if(url.startsWith(dict)) {
+        //dict:/key
+        url = url.remove(0, dict.size());
         m_dictionaryDockWidget->showEntry(url);
     } else if(url.startsWith(http)) {
         //its a web link
