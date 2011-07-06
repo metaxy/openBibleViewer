@@ -282,6 +282,9 @@ set ( openBibleViewer_SRCS
     src/ui/interface/advanced/biblelistitemdelegate.cpp
     src/ui/interface/advanced/mdiareafilter.cpp
     src/ui/interface/advanced/form/bibleform.cpp
+    src/ui/interface/advanced/form/form.cpp
+    src/ui/interface/advanced/form/webform.cpp
+
     src/ui/interface/advanced/webview.cpp
     src/ui/interface/advanced/manager/windowmanager.cpp
     src/ui/interface/advanced/manager/bookmarksmanager.cpp
@@ -329,7 +332,10 @@ set ( openBibleViewer_UIS
     src/ui/interface/simple/simpleinterface.ui
     src/ui/interface/advanced/advancedinterface.ui
     src/ui/interface/study/studyinterface.ui
+
     src/ui/interface/advanced/form/bibleform.ui
+    src/ui/interface/advanced/form/webform.ui
+
     src/ui/interface/advanced/biblelistwidget.ui
 
     src/ui/mainwindow.ui
@@ -404,6 +410,9 @@ set ( openBibleViewer_MOCS
     src/ui/interface/study/studyinterface.h
 
     src/ui/interface/advanced/form/bibleform.h
+    src/ui/interface/advanced/form/webform.h
+    src/ui/interface/advanced/form/form.h
+
     src/ui/interface/advanced/advancedinterface.h
     src/ui/interface/advanced/webview.h
     src/ui/interface/advanced/biblelistwidget.h

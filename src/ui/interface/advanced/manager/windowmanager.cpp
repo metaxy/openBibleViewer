@@ -91,6 +91,7 @@ void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax)
     bibleForm->setObjectName("mdiForm");
     bibleForm->currentWindowID = m_currentWindowID;
     setAll(bibleForm);
+
     bibleForm->setApi(m_api);
     bibleForm->setBibleManager(m_bibleManager);
     bibleForm->setNotesManager(m_notesManager);
@@ -156,6 +157,7 @@ void WindowManager::autoLayout()
 {
     if(!m_enableReload)
         return;
+
     if(usableWindowList().size() > 1) {
         if(m_settings->autoLayout == 1) {
             tile();
@@ -200,10 +202,11 @@ BibleForm * WindowManager::activeForm()
 
 void WindowManager::tileVertical()
 {
-    QList<QMdiSubWindow*> windows = usableWindowList();
+    const QList<QMdiSubWindow*> windows = usableWindowList();
     if(!m_enableReload || windows.isEmpty()) {
         return;
     }
+
     setEnableReload(false);
     QMdiSubWindow* active = m_area->activeSubWindow();
 
@@ -226,7 +229,7 @@ void WindowManager::tileVertical()
 
 void WindowManager::tileHorizontal()
 {
-    QList<QMdiSubWindow*> windows = usableWindowList();
+    const QList<QMdiSubWindow*> windows = usableWindowList();
     if(!m_enableReload || windows.isEmpty()) {
         return;
     }
@@ -499,7 +502,7 @@ void WindowManager::restore()
             activeSubWindow()->setGeometry(data.geo());
         }
         activeSubWindow()->setWindowState(data.windowState());
-        QWebView *v = activeForm()->m_view;
+        QWebView *v = ((BibleForm*)activeForm())->m_view;
         v->page()->mainFrame()->setScrollPosition(data.scrollPosition());
         v->setZoomFactor(data.zoom());
     }
@@ -523,7 +526,7 @@ void WindowManager::reloadChapter(bool full)
 {
     DEBUG_FUNC_NAME;
 
-    const QWebView *v = activeForm()->m_view;
+    const QWebView *v = ((BibleForm*)activeForm())->m_view;
     const QPoint p = v->page()->mainFrame()->scrollPosition();
     if(full) {
         m_actions->reloadBible();

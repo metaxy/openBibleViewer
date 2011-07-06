@@ -48,18 +48,21 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/interface/advanced/manager/notesmanager.h"
 #include "src/ui/interface/advanced/biblelistwidget.h"
 #include "src/ui/interface/advanced/manager/bookmarksmanager.h"
+
+#include "form.h"
 namespace Ui
 {
 class BibleForm;
 }
 
-class BibleForm : public QWidget, public BasicClass
+class BibleForm : public Form
 {
     Q_OBJECT
     Q_DISABLE_COPY(BibleForm)
 public:
     explicit BibleForm(QWidget *parent = 0);
     virtual ~BibleForm();
+
     void setID(const int id);
     int id();
     void init();

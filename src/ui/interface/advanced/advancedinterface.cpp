@@ -177,7 +177,7 @@ void AdvancedInterface::pharseUrl(QString url)
 
         } else {
             if(m_windowManager->activeForm())
-                m_windowManager->activeForm()->scrollToAnchor(url);
+                ((BibleForm *)m_windowManager->activeForm())->scrollToAnchor(url);
         }
 
     } else if(url.startsWith(note)) {
@@ -219,7 +219,7 @@ void AdvancedInterface::pharseUrl(QString url)
             }
         } else {
             if(m_windowManager->activeForm())
-                m_windowManager->activeForm()->evaluateJavaScript(url);
+                ((BibleForm*)m_windowManager->activeForm())->evaluateJavaScript(url);
         }
     }
     //setEnableReload(true);

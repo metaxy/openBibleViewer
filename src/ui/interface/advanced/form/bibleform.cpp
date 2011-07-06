@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "bibleform.h"
 #include "ui_bibleform.h"
 #include "src/core/verse/reftext.h"
-BibleForm::BibleForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::BibleForm)
+BibleForm::BibleForm(QWidget *parent) : Form(parent), m_ui(new Ui::BibleForm)
 {
     //DEBUG_FUNC_NAME
     m_id = -1;
