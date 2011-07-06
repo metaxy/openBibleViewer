@@ -17,14 +17,34 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLineEdit" name="lineEdit"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QToolButton" name="toolButton_back">
        <property name="text">
-        <string>PushButton</string>
+        <string/>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
        </property>
       </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="toolButton_forward">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="toolButton">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit"/>
      </item>
     </layout>
    </item>

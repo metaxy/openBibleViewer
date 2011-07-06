@@ -2,7 +2,7 @@
 #define WEBFORM_H
 
 #include <QWidget>
-
+#include <QtGui/QLineEdit>
 #include "form.h"
 namespace Ui {
     class WebForm;
@@ -18,8 +18,8 @@ public:
     void init();
 
 private:
-    Ui::WebForm *ui;
-
+    Ui::WebForm *m_ui;
+    QLineEdit *m_locationEdit;
 public slots:
     void copy();
     void selectAll();
@@ -32,7 +32,9 @@ public slots:
     void zoomOut();
     void activated();
 private slots:
-    void loadPage();
+    void changeLocation();
+    void adjustLocation();
+
 
 };
 
