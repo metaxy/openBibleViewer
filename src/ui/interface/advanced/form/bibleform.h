@@ -38,16 +38,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include "src/core/obvcore.h"
 #include "src/core/verse/verseurl.h"
-#include "src/core/basicclass.h"
 #include "src/core/history.h"
 #include "src/module/versetable.h"
-#include "src/api/api.h"
+
 
 #include "src/ui/interface/advanced/webview.h"
-#include "src/ui/interface/advanced/manager/biblemanager.h"
-#include "src/ui/interface/advanced/manager/notesmanager.h"
+
 #include "src/ui/interface/advanced/biblelistwidget.h"
-#include "src/ui/interface/advanced/manager/bookmarksmanager.h"
+
 
 #include "form.h"
 namespace Ui
@@ -63,13 +61,7 @@ public:
     explicit BibleForm(QWidget *parent = 0);
     virtual ~BibleForm();
 
-    void setID(const int id);
-    int id();
     void init();
-    void setApi(Api *api);
-    void setBibleManager(BibleManager *bibleManager);
-    void setNotesManager(NotesManager *notesManager);
-    void setBookmarksManager(BookmarksManager *bookmarksManager);
 
     Ui::BibleForm *m_ui;
     WebView *m_view;
@@ -77,8 +69,6 @@ public:
     VerseTable *m_verseTable;
 
     VerseSelection verseSelection();
-
-    int *currentWindowID;
 private slots:
     void showBibleListMenu();
     void readBook(int id);
@@ -148,9 +138,9 @@ public slots:
 protected:
     virtual void changeEvent(QEvent *e);
 private:
-    int m_id;
+
     History browserHistory;
-    Api *m_api;//not in out control
+
     void setButtons();
 
     QAction *m_actionCopy;
@@ -162,10 +152,8 @@ private:
     void createDefaultMenu();
     void deleteDefaultMenu();
 
-    BibleManager *m_bibleManager;
-    NotesManager *m_notesManager;
-    BookmarksManager *m_bookmarksManager;
-    bool active();
+
+
 
     TextRanges m_lastTextRanges;
     VerseUrl m_lastUrl;

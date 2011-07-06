@@ -26,6 +26,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/api/api.h"
 #include "src/ui/interface/advanced/mdiareafilter.h"
 #include "src/ui/interface/advanced/form/bibleform.h"
+#include "src/ui/interface/advanced/form/webform.h"
 #include "src/ui/interface/advanced/windowsessiondata.h"
 #include "bookmarksmanager.h"
 class WindowManager : public QObject , public BasicClass
@@ -50,6 +51,10 @@ public slots:
     void tile();
 
     void newSubWindow(bool doAutoLayout = true, bool forceMax = false);
+
+    void newBibleSubWindow(bool doAutoLayout = true, bool forceMax = false);
+    void newWebSubWindow(bool doAutoLayout = true, bool forceMax = false);
+
     void closeSubWindow();
     int closingWindow();
     int reloadWindow(QMdiSubWindow * window);

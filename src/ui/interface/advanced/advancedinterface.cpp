@@ -321,9 +321,17 @@ QMenuBar* AdvancedInterface::menuBar()
     QMenu *menuFile = new QMenu(tr("File"), bar);
 
     //New Sub Window
-    QAction *actionNewSubWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New SubWindow"), menuFile);
-    connect(actionNewSubWindow, SIGNAL(triggered()), m_windowManager, SLOT(newSubWindow()));
-    actionNewSubWindow->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_T));//using const KeySequence on KDE will be Ctrl+Shift+N
+    QMenu *menuNewSubWindow = new QMenu(tr("New Subwindow"), menuFile);
+
+    QAction *actionNewBibleSubWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New Bible Window"), menuNewSubWindow);
+    connect(actionNewBibleSubWindow, SIGNAL(triggered()), m_windowManager, SLOT(newBibleSubWindow()));
+    actionNewBibleSubWindow->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_T));//using const KeySequence on KDE will be Ctrl+Shift+N
+
+    QAction *actionNewWebSubWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New Web Window"), menuNewSubWindow);
+    connect(actionNewWebSubWindow, SIGNAL(triggered()), m_windowManager, SLOT(newWebSubWindow()));
+
+    menuNewSubWindow->addAction(actionNewBibleSubWindow);
+    menuNewSubWindow->addAction(actionNewWebSubWindow);
 
     //Close Sub Window
     QAction *actionCloseSubWindow = new QAction(QIcon::fromTheme("tab-close", QIcon(":/icons/16x16/tab-close.png")), tr("Close SubWindow"), menuFile);
@@ -350,7 +358,7 @@ QMenuBar* AdvancedInterface::menuBar()
     connect(actionClose, SIGNAL(triggered()), this->parentWidget(), SLOT(close()));
     actionClose->setShortcut(QKeySequence::Quit);
 
-    menuFile->addAction(actionNewSubWindow);
+    menuFile->addMenu(menuNewSubWindow);
     menuFile->addAction(actionCloseSubWindow);
     menuFile->addSeparator();
     menuFile->addAction(actionSaveAs);

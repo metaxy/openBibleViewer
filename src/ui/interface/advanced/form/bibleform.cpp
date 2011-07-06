@@ -39,10 +39,7 @@ BibleForm::BibleForm(QWidget *parent) : Form(parent), m_ui(new Ui::BibleForm)
     m_api = NULL;
     setButtons();
 }
-void BibleForm::setID(const int id)
-{
-    m_id = id;
-}
+
 
 void BibleForm::init()
 {
@@ -70,23 +67,7 @@ void BibleForm::init()
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     createDefaultMenu();
 }
-void BibleForm::setApi(Api *api)
-{
-    m_api = api;
-}
-void BibleForm::setBibleManager(BibleManager *bibleManager)
-{
-    m_bibleManager = bibleManager;
-}
 
-void BibleForm::setNotesManager(NotesManager *notesManager)
-{
-    m_notesManager = notesManager;
-}
-void BibleForm::setBookmarksManager(BookmarksManager *bookmarksManager)
-{
-    m_bookmarksManager = bookmarksManager;
-}
 void BibleForm::attachApi()
 {
     //DEBUG_FUNC_NAME
@@ -552,16 +533,8 @@ void BibleForm::forwardSearchInText(SearchResult *res)
     searchInText(res);
 }
 
-bool BibleForm::active()
-{
-    if(*currentWindowID == m_id)
-        return true;
-    return false;
-}
-int BibleForm::id()
-{
-    return m_id;
-}
+
+
 void BibleForm::searchInText(SearchResult *res)
 {
     DEBUG_FUNC_NAME
