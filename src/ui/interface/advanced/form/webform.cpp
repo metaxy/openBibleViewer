@@ -8,6 +8,8 @@ WebForm::WebForm(QWidget *parent) :
     m_ui->setupUi(this);
 
     connect(m_ui->lineEdit, SIGNAL(returnPressed()), SLOT(changeLocation()));
+    connect(m_ui->webView, SIGNAL(urlChanged(QUrl)), this, SLOT(adjustLocation()));
+
     m_ui->toolButton_back->setIcon(m_ui->webView->pageAction(QWebPage::Back)->icon());
     m_ui->toolButton_back->setToolTip(m_ui->webView->pageAction(QWebPage::Back)->toolTip());
     connect(m_ui->toolButton_back, SIGNAL(clicked()), m_ui->webView, SLOT(back()));
@@ -71,17 +73,17 @@ void WebForm::changeLocation()
 }
 void WebForm::adjustLocation()
 {
-
+    m_ui->lineEdit->setText(m_ui->webView->url().toString());
 }
 
 void WebForm::copy()
 {
-
+    m_ui->webView->triggerPageAction(QWebPage::Copy);
 }
 
 void WebForm::selectAll()
 {
-
+    m_ui->webView->triggerPageAction(QWebPage::SelectAll);
 }
 
 void WebForm::print()
@@ -101,20 +103,21 @@ void WebForm::saveFile()
 
 QString WebForm::selectedText()
 {
-    return "";
+    return m_ui->webView->selectedText();
 }
 
 void WebForm::zoomIn()
 {
-
+    m_ui->webView->setZoomFactor(m_ui->webView->zoomFactor() + 0.1);
 }
 
 void WebForm::zoomOut()
 {
-
+    m_ui->webView->setZoomFactor(m_ui->webView->zoomFactor() - 0.1);
 }
 
 void WebForm::activated()
 {
-
+    m_actions->clearBooks();
+    m_actions->clearChapters();
 }
