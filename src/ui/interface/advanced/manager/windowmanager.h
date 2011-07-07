@@ -41,17 +41,21 @@ public:
     void setNotesManager(NotesManager *notesManager);
     void setBookmarksManager(BookmarksManager *bookmarksManager);
     void init();
-    BibleForm *activeForm();
+    Form *activeForm();
     QMdiSubWindow *activeSubWindow();
+
+    enum FormType
+    {
+        BibleFormT,
+        WebFormT
+    };
 
 public slots:
     void cascade();
     void tileVertical();
     void tileHorizontal();
     void tile();
-
-    void newSubWindow(bool doAutoLayout = true, bool forceMax = false);
-
+    void newSubWindow(bool doAutoLayout = true, bool forceMax = false, WindowManager::FormType type = WindowManager::BibleFormT);
     void newBibleSubWindow(bool doAutoLayout = true, bool forceMax = false);
     void newWebSubWindow(bool doAutoLayout = true, bool forceMax = false);
 

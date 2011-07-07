@@ -16,7 +16,7 @@ public:
     explicit WebForm(QWidget *parent = 0);
     ~WebForm();
     void init();
-
+    static QUrl guessUrlFromString(const QString &string);
 private:
     Ui::WebForm *m_ui;
     QLineEdit *m_locationEdit;

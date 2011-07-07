@@ -70,10 +70,9 @@ void WindowManager::init()
 void WindowManager::newSubWindowIfEmpty()
 {
     if(usableWindowList().isEmpty())
-        newSubWindow();
+        newBibleSubWindow();
 }
-
-void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax)
+void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, WindowManager::FormType type)
 {
     setEnableReload(false);
 
@@ -86,20 +85,25 @@ void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax)
     QWidget *widget = new QWidget(m_area);
     QVBoxLayout *layout = new QVBoxLayout(widget);
     m_nameCounter++;
-    BibleForm *bibleForm = new BibleForm(widget);
-    bibleForm->setID(m_nameCounter);
-    bibleForm->setObjectName("mdiForm");
-    bibleForm->currentWindowID = m_currentWindowID;
-    setAll(bibleForm);
+    Form *form = NULL;
+    if(type == WindowManager::BibleFormT) {
+        form = new BibleForm(widget);
+    } else if(type == WindowManager::WebFormT){
+        form = new WebForm(widget);
+    }
+    form->setID(m_nameCounter);
+    form->setObjectName("mdiForm");
+    form->currentWindowID = m_currentWindowID;
+    setAll(form);
 
-    bibleForm->setApi(m_api);
-    bibleForm->setBibleManager(m_bibleManager);
-    bibleForm->setNotesManager(m_notesManager);
-    bibleForm->setBookmarksManager(m_bookmarksManager);
-    bibleForm->init();
+    form->setApi(m_api);
+    form->setBibleManager(m_bibleManager);
+    form->setNotesManager(m_notesManager);
+    form->setBookmarksManager(m_bookmarksManager);
+    form->init();
 
-    *m_currentWindowID = bibleForm->id();
-    layout->addWidget(bibleForm);
+    *m_currentWindowID = form->id();
+    layout->addWidget(form);
 
     widget->setLayout(layout);
     QMdiSubWindow *subWindow = m_area->addSubWindow(widget);
@@ -107,7 +111,7 @@ void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax)
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
     subWindow->show();
     m_area->setActiveSubWindow(subWindow);
-    bibleForm->activated();
+    form->activated();
 
 
     if(forceMax) {
@@ -127,24 +131,6 @@ void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax)
         }
     }
 
-    connect(bibleForm->m_view->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
-
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
-#if QT_VERSION >= 0x040700
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
-#endif
-
-    connect(bibleForm, SIGNAL(historyGo(QString)), m_actions, SLOT(get(QString)));
-    connect(bibleForm, SIGNAL(previousChapter()), m_actions, SLOT(previousChapter()));
-    connect(bibleForm, SIGNAL(nextChapter()), m_actions, SLOT(nextChapter()));
-    connect(this, SIGNAL(historySetUrl(QString)), bibleForm, SLOT(historyGetUrl(QString)));
-    connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closingWindow()));
-
     setEnableReload(true);
     if(doAutoLayout && m_area->viewMode() == QMdiArea::SubWindowView && windowsCount > 0) {
         autoLayout();
@@ -152,164 +138,17 @@ void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax)
     m_actions->clearBooks();
     m_actions->clearChapters();
 }
+
 void WindowManager::newBibleSubWindow(bool doAutoLayout, bool forceMax)
 {
-    setEnableReload(false);
-
-    const int windowsCount = usableWindowList().size();
-    QMdiSubWindow *firstSubWindow = new QMdiSubWindow();
-    if(windowsCount == 1) {
-        firstSubWindow = usableWindowList().at(0);
-    }
-
-    QWidget *widget = new QWidget(m_area);
-    QVBoxLayout *layout = new QVBoxLayout(widget);
-    m_nameCounter++;
-    BibleForm *bibleForm = new BibleForm(widget);
-    bibleForm->setID(m_nameCounter);
-    bibleForm->setObjectName("mdiForm");
-    bibleForm->currentWindowID = m_currentWindowID;
-    setAll(bibleForm);
-
-    bibleForm->setApi(m_api);
-    bibleForm->setBibleManager(m_bibleManager);
-    bibleForm->setNotesManager(m_notesManager);
-    bibleForm->setBookmarksManager(m_bookmarksManager);
-    bibleForm->init();
-
-    *m_currentWindowID = bibleForm->id();
-    layout->addWidget(bibleForm);
-
-    widget->setLayout(layout);
-    QMdiSubWindow *subWindow = m_area->addSubWindow(widget);
-    subWindow->setWindowIcon(QIcon(":/icons/16x16/main.png"));
-    subWindow->setAttribute(Qt::WA_DeleteOnClose);
-    subWindow->show();
-    m_area->setActiveSubWindow(subWindow);
-    bibleForm->activated();
-
-
-    if(forceMax) {
-        myDebug() << "show maximized";
-        subWindow->showMaximized();
-    } else if(m_area->viewMode() == QMdiArea::SubWindowView) {
-        if(windowsCount == 0  && doAutoLayout) {
-            subWindow->showMaximized();
-        } else if(windowsCount == 1 && doAutoLayout) {
-            firstSubWindow->resize(600, 600);
-            firstSubWindow->showNormal();
-            subWindow->resize(600, 600);
-            subWindow->show();
-        } else if(doAutoLayout) {
-            subWindow->resize(600, 600);
-            subWindow->show();
-        }
-    }
-
-    connect(bibleForm->m_view->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
-
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
-#if QT_VERSION >= 0x040700
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
-#endif
-
-    connect(bibleForm, SIGNAL(historyGo(QString)), m_actions, SLOT(get(QString)));
-    connect(bibleForm, SIGNAL(previousChapter()), m_actions, SLOT(previousChapter()));
-    connect(bibleForm, SIGNAL(nextChapter()), m_actions, SLOT(nextChapter()));
-    connect(this, SIGNAL(historySetUrl(QString)), bibleForm, SLOT(historyGetUrl(QString)));
-    connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closingWindow()));
-
-    setEnableReload(true);
-    if(doAutoLayout && m_area->viewMode() == QMdiArea::SubWindowView && windowsCount > 0) {
-        autoLayout();
-    }
-    m_actions->clearBooks();
-    m_actions->clearChapters();
+    newSubWindow(doAutoLayout, forceMax, WindowManager::BibleFormT);
 }
+
 void WindowManager::newWebSubWindow(bool doAutoLayout, bool forceMax)
 {
-    setEnableReload(false);
-
-    const int windowsCount = usableWindowList().size();
-    QMdiSubWindow *firstSubWindow = new QMdiSubWindow();
-    if(windowsCount == 1) {
-        firstSubWindow = usableWindowList().at(0);
-    }
-
-    QWidget *widget = new QWidget(m_area);
-    QVBoxLayout *layout = new QVBoxLayout(widget);
-    m_nameCounter++;
-    WebForm *bibleForm = new WebForm(widget);
-    bibleForm->setID(m_nameCounter);
-    bibleForm->setObjectName("mdiForm");
-    bibleForm->currentWindowID = m_currentWindowID;
-    setAll(bibleForm);
-
-    bibleForm->setApi(m_api);
-    bibleForm->setBibleManager(m_bibleManager);
-    bibleForm->setNotesManager(m_notesManager);
-    bibleForm->setBookmarksManager(m_bookmarksManager);
-    bibleForm->init();
-
-    *m_currentWindowID = bibleForm->id();
-    layout->addWidget(bibleForm);
-
-    widget->setLayout(layout);
-    QMdiSubWindow *subWindow = m_area->addSubWindow(widget);
-    subWindow->setWindowIcon(QIcon(":/icons/16x16/main.png"));
-    subWindow->setAttribute(Qt::WA_DeleteOnClose);
-    subWindow->show();
-    m_area->setActiveSubWindow(subWindow);
-    //bibleForm->activated();
-
-
-    if(forceMax) {
-        myDebug() << "show maximized";
-        subWindow->showMaximized();
-    } else if(m_area->viewMode() == QMdiArea::SubWindowView) {
-        if(windowsCount == 0  && doAutoLayout) {
-            subWindow->showMaximized();
-        } else if(windowsCount == 1 && doAutoLayout) {
-            firstSubWindow->resize(600, 600);
-            firstSubWindow->showNormal();
-            subWindow->resize(600, 600);
-            subWindow->show();
-        } else if(doAutoLayout) {
-            subWindow->resize(600, 600);
-            subWindow->show();
-        }
-    }
-/*
-    connect(bibleForm->m_view->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
-
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
-#if QT_VERSION >= 0x040700
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
-#endif
-
-    connect(bibleForm, SIGNAL(historyGo(QString)), m_actions, SLOT(get(QString)));
-    connect(bibleForm, SIGNAL(previousChapter()), m_actions, SLOT(previousChapter()));
-    connect(bibleForm, SIGNAL(nextChapter()), m_actions, SLOT(nextChapter()));
-    connect(this, SIGNAL(historySetUrl(QString)), bibleForm, SLOT(historyGetUrl(QString)));
-    connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closingWindow()));
-*/
-    setEnableReload(true);
-    if(doAutoLayout && m_area->viewMode() == QMdiArea::SubWindowView && windowsCount > 0) {
-        autoLayout();
-    }
-    m_actions->clearBooks();
-    m_actions->clearChapters();
+   newSubWindow(doAutoLayout, forceMax, WindowManager::WebFormT);
 }
+
 void WindowManager::autoLayout()
 {
     if(!m_enableReload)
@@ -349,10 +188,11 @@ QMdiSubWindow * WindowManager::activeSubWindow()
     }
     return NULL;
 }
-BibleForm * WindowManager::activeForm()
+
+Form * WindowManager::activeForm()
 {
     if(activeSubWindow()) {
-        return activeSubWindow()->widget()->findChild<BibleForm *>("mdiForm");
+        return activeSubWindow()->widget()->findChild<Form *>("mdiForm");
     }
     return NULL;
 }
@@ -517,12 +357,14 @@ int WindowManager::reloadWindow(QMdiSubWindow * window)
 
     return 0;
 }
+
 void WindowManager::mdiAreaResized()
 {
     //todo: really every do time autoLayout ?
     if(m_area->viewMode() == QMdiArea::SubWindowView)
         autoLayout();
 }
+
 void WindowManager::reloadActive()
 {
     reloadWindow(activeSubWindow());
@@ -544,6 +386,7 @@ void WindowManager::zoomOut()
     if(activeForm())
         activeForm()->zoomOut();
 }
+
 void WindowManager::disable()
 {
     m_enableReload = false;
@@ -553,10 +396,12 @@ void WindowManager::enable()
 {
     m_enableReload = true;
 }
+
 void WindowManager::setSubWindowView()
 {
     m_area->setViewMode(QMdiArea::SubWindowView);
 }
+
 void WindowManager::setTabbedView()
 {
     m_area->setViewMode(QMdiArea::TabbedView);
@@ -632,9 +477,9 @@ void WindowManager::restore()
     for(int i = 0; i < data.size(); ++i) {
         data.setWindowID(i);
         //myDebug() << "max = " << data.maximized();
-        newSubWindow(true, data.maximized());
+        newBibleSubWindow(true, data.maximized());
 
-        //load bible
+        //load verse module
         m_moduleManager->verseTable()->clear();
         const QList<QString> urls = data.url();
         const QList<QPoint> points = data.biblePoint();
@@ -666,9 +511,6 @@ void WindowManager::restore()
         m_area->setActiveSubWindow(m_area->subWindowList().at(id));
     }
 }
-/*
- * Todo: Use it
- */
 
 void WindowManager::installResizeFilter()
 {
@@ -676,17 +518,20 @@ void WindowManager::installResizeFilter()
     connect(m_mdiAreaFilter, SIGNAL(resized()), this, SLOT(mdiAreaResized()));
     m_area->installEventFilter(m_mdiAreaFilter);
 }
+
 void WindowManager::reloadChapter(bool full)
 {
     DEBUG_FUNC_NAME;
 
-    const QWebView *v = ((BibleForm*)activeForm())->m_view;
-    const QPoint p = v->page()->mainFrame()->scrollPosition();
+    const QWebView *view = ((BibleForm*)activeForm())->m_view;
+    const QPoint p = view->page()->mainFrame()->scrollPosition();
+
     if(full) {
         m_actions->reloadBible();
     } else {
         m_actions->reShowCurrentRange();
     }
-    v->page()->mainFrame()->setScrollPosition(p);
+
+    view->page()->mainFrame()->setScrollPosition(p);
 }
 

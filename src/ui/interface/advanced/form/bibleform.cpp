@@ -50,6 +50,24 @@ void BibleForm::init()
     m_moduleManager->verseTable()->addModule(b, QPoint(0, 0));
     m_verseTable = m_moduleManager->m_verseTable;
     attachApi();
+
+    connect(m_view->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
+
+    m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
+    m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
+#if QT_VERSION >= 0x040700
+    m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
+    m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled, true);
+    m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
+    m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
+    m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
+#endif
+
+    connect(this, SIGNAL(historyGo(QString)), m_actions, SLOT(get(QString)));
+    connect(this, SIGNAL(previousChapter()), m_actions, SLOT(previousChapter()));
+    connect(this, SIGNAL(nextChapter()), m_actions, SLOT(nextChapter()));
+
+
     connect(m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
 
     connect(m_actions, SIGNAL(_updateChapters(int, Versification *)), this, SLOT(forwardSetChapters(int, Versification *)));
