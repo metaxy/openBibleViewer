@@ -85,6 +85,51 @@ void BibleForm::init()
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     createDefaultMenu();
 }
+void BibleForm::restore(QMap<QString, QVariant> data)
+{
+
+}
+
+QMap<QString, QVariant> BibleForm::save()
+{
+    QMap<QString, QVariant> ret;
+    VerseTable *list = m_verseTable;
+
+    QList<QString> urls;
+    QList<QPoint> points;
+    if(list > 0) {
+        QHashIterator<int, VerseModule *> i(list->m_modules);
+        while(i.hasNext()) {
+            i.next();
+            VerseModule *b = i.value();
+            if(b != NULL && b->moduleID() >= 0) {
+                myDebug() << "key = " << i.key();
+                VerseUrl bibleUrl;
+                bibleUrl.addRanges(b->lastTextRanges()->toBibleUrlRanges(i.key()));
+
+                UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, bibleUrl);
+                urlConverter.setSettings(m_settings);
+                urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+                VerseUrl newUrl = urlConverter.convert();
+
+                const QString url = newUrl.toString();
+                const QPoint point = list->m_points.value(i.key());
+                myDebug() << "url = " << url << " at " << point;
+                urls << url;
+                points << point;
+            }
+        }
+    }
+    ret["urls"] = urls;
+    ret["biblePoints"] = points;
+    ret["scrollPosition"] = m_view->page()->mainFrame()->scrollPosition();
+    ret["zoom"] = m_view->zoomFactor();
+    ret["geo"] = m_parentSubWindow->geometry();
+    ret["maximized"] = m_parentSubWindow->isMaximized();
+    ret["windowState"] = m_parentSubWindow->windowState();
+
+    return ret;
+}
 
 void BibleForm::attachApi()
 {
@@ -324,7 +369,7 @@ void BibleForm::activated()
 
 void BibleForm::scrollToAnchor(const QString &anchor)
 {
-    //DEBUG_FUNC_NAME
+
 #if QT_VERSION >= 0x040700
     m_view->page()->mainFrame()->scrollToAnchor(anchor);
 #else
@@ -410,7 +455,6 @@ void BibleForm::forwardShowTextRanges(const QString &html, const TextRanges &ran
 
 void BibleForm::showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url)
 {
-    //DEBUG_FUNC_NAME
     showText(html);
     m_lastTextRanges = range;
     m_lastUrl = url;
@@ -425,10 +469,11 @@ void BibleForm::evaluateJavaScript(const QString &js)
 void BibleForm::print()
 {
     QPrinter printer;
-    QScopedPointer<QPrintDialog> dialog(new QPrintDialog(&printer, this));
-    dialog->setWindowTitle(tr("Print"));
-    if(dialog->exec() != QDialog::Accepted)
-        return;
+    QPrintDialog dialog(&printer, this);
+    dialog.setWindowTitle(tr("Print"));
+    if (dialog.exec() == QDialog::Accepted) {
+         m_view->page()->mainFrame()->print(&printer);
+    }
 }
 void BibleForm::printPreview()
 {

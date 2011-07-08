@@ -29,6 +29,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/interface/advanced/form/webform.h"
 #include "src/ui/interface/advanced/windowsessiondata.h"
 #include "bookmarksmanager.h"
+
 class WindowManager : public QObject , public BasicClass
 {
     Q_OBJECT
@@ -44,18 +45,14 @@ public:
     Form *activeForm();
     QMdiSubWindow *activeSubWindow();
 
-    enum FormType
-    {
-        BibleFormT,
-        WebFormT
-    };
+
 
 public slots:
     void cascade();
     void tileVertical();
     void tileHorizontal();
     void tile();
-    void newSubWindow(bool doAutoLayout = true, bool forceMax = false, WindowManager::FormType type = WindowManager::BibleFormT);
+    void newSubWindow(bool doAutoLayout = true, bool forceMax = false, OBVCore::FormType type = OBVCore::BibleFormT);
     void newBibleSubWindow(bool doAutoLayout = true, bool forceMax = false);
     void newWebSubWindow(bool doAutoLayout = true, bool forceMax = false);
 

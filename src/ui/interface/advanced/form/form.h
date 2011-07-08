@@ -8,7 +8,7 @@
 #include "src/ui/interface/advanced/manager/notesmanager.h"
 #include "src/api/api.h"
 #include "src/core/dbghelper.h"
-
+#include <QtGui/QMdiSubWindow>
 class Form : public QWidget, public BasicClass
 {
     Q_OBJECT
@@ -22,8 +22,12 @@ public:
     void setBibleManager(BibleManager *bibleManager);
     void setNotesManager(NotesManager *notesManager);
     void setBookmarksManager(BookmarksManager *bookmarksManager);
+    void setParentSubWindow(QMdiSubWindow *window);
 
     int *currentWindowID;
+
+    virtual void restore(QMap<QString, QVariant> data);
+    virtual QMap<QString, QVariant> save();
 signals:
 
 public slots:
@@ -47,6 +51,7 @@ protected:
     BibleManager *m_bibleManager;
     NotesManager *m_notesManager;
     BookmarksManager *m_bookmarksManager;
+    QMdiSubWindow *m_parentSubWindow;
 
 };
 

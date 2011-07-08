@@ -69,6 +69,8 @@ public:
     VerseTable *m_verseTable;
 
     VerseSelection verseSelection();
+    void restore(QMap<QString, QVariant> data);
+    QMap<QString, QVariant> save();
 private slots:
     void showBibleListMenu();
     void readBook(int id);

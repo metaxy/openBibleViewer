@@ -72,7 +72,7 @@ void WindowManager::newSubWindowIfEmpty()
     if(usableWindowList().isEmpty())
         newBibleSubWindow();
 }
-void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, WindowManager::FormType type)
+void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, OBVCore::FormType type)
 {
     setEnableReload(false);
 
@@ -86,9 +86,9 @@ void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, WindowManager
     QVBoxLayout *layout = new QVBoxLayout(widget);
     m_nameCounter++;
     Form *form = NULL;
-    if(type == WindowManager::BibleFormT) {
+    if(type == OBVCore::BibleFormT) {
         form = new BibleForm(widget);
-    } else if(type == WindowManager::WebFormT){
+    } else if(type == OBVCore::WebFormT){
         form = new WebForm(widget);
     }
     form->setID(m_nameCounter);
@@ -110,6 +110,7 @@ void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, WindowManager
     subWindow->setWindowIcon(QIcon(":/icons/16x16/main.png"));
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
     subWindow->show();
+    form->setParentSubWindow(subWindow);
     m_area->setActiveSubWindow(subWindow);
     form->activated();
 
@@ -418,44 +419,8 @@ void WindowManager::save()
         data.setWindowID(i);
         if(currentSubWindow == a)
             current = i;
-        BibleForm *form = a->widget()->findChild<BibleForm *>("mdiForm");
-        VerseTable *list = form->m_verseTable;
-
-        QList<QString> urls;
-        QList<QPoint> points;
-        if(list > 0) {
-            QHashIterator<int, VerseModule *> i(list->m_modules);
-            while(i.hasNext()) {
-                i.next();
-                VerseModule *b = i.value();
-                if(b != NULL && b->moduleID() >= 0) {
-                    myDebug() << "key = " << i.key();
-                    VerseUrl bibleUrl;
-                    bibleUrl.addRanges(b->lastTextRanges()->toBibleUrlRanges(i.key()));
-
-                    UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, bibleUrl);
-                    urlConverter.setSettings(m_settings);
-                    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-                    VerseUrl newUrl = urlConverter.convert();
-
-                    const QString url = newUrl.toString();
-                    const QPoint point = list->m_points.value(i.key());
-                    myDebug() << "url = " << url << " at " << point;
-                    urls << url;
-                    points << point;
-                }
-            }
-        }
-        data.setUrl(urls);
-        data.setBiblePoint(points);
-
-        data.setScrollPosition(form->m_view->page()->mainFrame()->scrollPosition());
-        data.setZoom(form->m_view->zoomFactor());
-        data.setGeo(a->geometry());
-        data.setMaximized(a->isMaximized());
-        myDebug() << "max = " << a->isMaximized();
-        //myDebug() << a->windowState();
-        data.setWindowState(a->windowState());
+        Form *form = a->widget()->findChild<Form *>("mdiForm");
+        data.setData(form->save());
     }
     data.write();
     m_settings->session.setData("viewMode", m_area->viewMode());
@@ -473,7 +438,7 @@ void WindowManager::restore()
         m_actions->setSubWindowView();
     else
         m_actions->setTabbedView();
-    //myDebug() << "size = " << data.size();
+
     for(int i = 0; i < data.size(); ++i) {
         data.setWindowID(i);
         //myDebug() << "max = " << data.maximized();

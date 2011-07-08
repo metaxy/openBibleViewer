@@ -1,6 +1,9 @@
 #include "webform.h"
 #include "ui_webform.h"
 #include <QtGui/QToolBar>
+#include <QtGui/QPrinter>
+#include <QtGui/QPrintDialog>
+#include <QtGui/QPrintPreviewDialog>
 WebForm::WebForm(QWidget *parent) :
     Form(parent),
     m_ui(new Ui::WebForm)
@@ -17,13 +20,6 @@ WebForm::WebForm(QWidget *parent) :
     m_ui->toolButton_forward->setIcon(m_ui->webView->pageAction(QWebPage::Forward)->icon());
     m_ui->toolButton_forward->setToolTip(m_ui->webView->pageAction(QWebPage::Forward)->toolTip());
     connect(m_ui->toolButton_forward, SIGNAL(clicked()), m_ui->webView, SLOT(forward()));
-
-    /*QToolBar *toolBar = new QToolBar(tr("Navigation"), this);
-    toolBar->addAction();
-    toolBar->addAction(m_ui->webView->pageAction(QWebPage::Forward));
-    toolBar->addAction(m_ui->webView->pageAction(QWebPage::Reload));
-    toolBar->addAction(m_ui->webView->pageAction(QWebPage::Stop));*/
-
 
 }
 
@@ -88,12 +84,20 @@ void WebForm::selectAll()
 
 void WebForm::print()
 {
-
+    QPrinter printer;
+    QPrintDialog dialog(&printer, this);
+    dialog.setWindowTitle(tr("Print"));
+    if (dialog.exec() == QDialog::Accepted) {
+         m_ui->webView->page()->mainFrame()->print(&printer);
+    }
 }
 
 void WebForm::printPreview()
 {
-
+    QPrinter printer;
+    QPrintPreviewDialog preview(&printer, this);
+    connect(&preview, SIGNAL(paintRequested(QPrinter *)), m_ui->webView, SLOT(print(QPrinter *)));
+    preview.exec();
 }
 
 void WebForm::saveFile()

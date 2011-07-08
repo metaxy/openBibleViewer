@@ -34,6 +34,11 @@ enum ModuleType {
     FolderModule = 6,
     SwordBibleModule = 7
 };
+enum FormType
+{
+    BibleFormT = 1,
+    WebFormT = 2
+};
 
 /*  QStringList ModuleTypeNames()
   {

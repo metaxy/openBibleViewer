@@ -35,3 +35,7 @@ bool Form::active()
         return true;
     return false;
 }
+void Form::setParentSubWindow(QMdiSubWindow *window)
+{
+    m_parentSubWindow = window;
+}
