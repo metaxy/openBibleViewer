@@ -365,8 +365,8 @@ void MainWindow::writeSettings()
         m_settingsFile->setValue("useParentSettings", m->useParentSettings);
         m_settingsFile->setValue("parentID", m->parentID);
         if(!m->useParentSettings) {
-            ModuleDisplaySettings *displaySettings = m->displaySettings().data();
             if(m->displaySettings()) {
+                ModuleDisplaySettings *displaySettings = m->displaySettings().data();
                 m_settingsFile->setValue("showStudyNotes", displaySettings->showStudyNotes());
                 m_settingsFile->setValue("showStrong", displaySettings->showStrong());
                 m_settingsFile->setValue("showRefLinks", displaySettings->showRefLinks());
