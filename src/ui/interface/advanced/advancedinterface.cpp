@@ -82,10 +82,15 @@ void AdvancedInterface::init()
     m_searchManager->setWindowManager(m_windowManager);
     m_searchManager->setWidget(this->parentWidget());
 
+    m_settings->session.file()->setValue("asd/asd/asd","ad");
+    m_settings->session.file()->setValue("asd/asd/aa","ad");
 
-
-    if(m_settings->session.getData("windowUrls").toStringList().size() == 0)
+    m_settings->session.file()->setValue("asd","ad");
+    m_settings->session.file()->beginGroup(m_settings->session.id() + "/windows/");
+    if(m_settings->session.file()->childGroups().size() == 0)
         QTimer::singleShot(10, m_windowManager, SLOT(newSubWindow()));
+    m_settings->session.file()->endGroup();
+
     connect(m_actions, SIGNAL(_setTitle(QString)), this , SLOT(setTitle(QString)));
     connect(m_actions, SIGNAL(_setTabbedView()), this, SLOT(setTabbedView()));
     connect(m_actions, SIGNAL(_setSubWindowView()), this, SLOT(setSubWindowView()));

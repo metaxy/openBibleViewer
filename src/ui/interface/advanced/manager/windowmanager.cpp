@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "windowmanager.h"
-
+#include <typeinfo>
 WindowManager::WindowManager(QObject *parent) :
     QObject(parent)
 {
@@ -434,7 +434,6 @@ void WindowManager::save()
 }
 void WindowManager::restore()
 {
-
     const int viewMode = m_settings->session.getData("viewMode").toInt();
     if(viewMode == 0)
         m_actions->setSubWindowView();
@@ -482,6 +481,8 @@ void WindowManager::installResizeFilter()
 void WindowManager::reloadChapter(bool full)
 {
     DEBUG_FUNC_NAME;
+    if(typeid(activeForm()) != typeid(BibleForm *))
+        return;
 
     const QWebView *view = ((BibleForm*)activeForm())->m_view;
     const QPoint p = view->page()->mainFrame()->scrollPosition();

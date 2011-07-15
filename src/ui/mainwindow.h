@@ -26,7 +26,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 #include <QtGui/QMainWindow>
 
-#include <typeinfo>
 
 #include "config.h"
 #include "src/core/version.h"
