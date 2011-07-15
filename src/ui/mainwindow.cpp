@@ -76,6 +76,8 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
     BUILD =  "2011-04-14";//jear-month-day
     m_homeDataPath = homeDataPath;
     m_settingsFile = settingsFile;
+    m_sessionFile = new QSettings(homeDataPath + "sessions.ini", QSettings::IniFormat);
+
     //create some important folders
     QDir d(m_homeDataPath);
     d.mkpath(m_homeDataPath + "index");
@@ -84,6 +86,7 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 
     m_moduleManager = new ModuleManager();
     m_settings = new Settings();
+    m_settings->session.setFile(m_sessionFile);
     m_notes = new TextNotes();
     m_session = new Session();
     m_actions = new Actions(this);
@@ -308,23 +311,7 @@ void MainWindow::loadSettings()
 
     m_settingsFile->endArray();
     m_settings->sessionID = m_settingsFile->value("general/lastSession", "0").toString();
-
-    size = m_settingsFile->beginReadArray("sessions");
-    for(int i = 0; i < size; ++i) {
-        m_settingsFile->setArrayIndex(i);
-        Session session;
-        if(m_settingsFile->value("id") == m_settings->sessionID) {
-            const QStringList keys = m_settingsFile->childKeys();
-            for(int j = 0; j < keys.size(); j++) {
-                session.setData(keys.at(j), m_settingsFile->value(keys.at(j)));
-            }
-            m_settings->session = session;//its the current session
-        }
-        m_settings->sessionIDs.append(m_settingsFile->value("id").toString());
-        m_settings->sessionNames.append(m_settingsFile->value("name").toString());
-
-    }
-    m_settingsFile->endArray();
+    m_settings->session.setID(m_settings->sessionID);
 
 }
 
@@ -386,16 +373,6 @@ void MainWindow::writeSettings()
 
     m_settingsFile->endArray();
 
-    m_settingsFile->beginWriteArray("sessions");
-    m_settingsFile->setArrayIndex(m_settings->sessionIDs.lastIndexOf(m_settings->sessionID));
-    {
-        QMapIterator <QString, QVariant> i = m_settings->session.getInterator();
-        while(i.hasNext()) {
-            i.next();
-            m_settingsFile->setValue(i.key(), i.value());
-        }
-    }
-    m_settingsFile->endArray();
 
 }
 void MainWindow::saveSettings(Settings newSettings, bool modifedModuleSettings)

@@ -69,8 +69,8 @@ public:
     VerseTable *m_verseTable;
 
     VerseSelection verseSelection();
-    void restore(QMap<QString, QVariant> data);
-    QMap<QString, QVariant> save();
+    void restore();
+    void save();
 private slots:
     void showBibleListMenu();
     void readBook(int id);
@@ -153,9 +153,6 @@ private:
     QAction *m_actionNote;
     void createDefaultMenu();
     void deleteDefaultMenu();
-
-
-
 
     TextRanges m_lastTextRanges;
     VerseUrl m_lastUrl;

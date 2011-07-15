@@ -17,6 +17,9 @@ public:
     ~WebForm();
     void init();
     static QUrl guessUrlFromString(const QString &string);
+
+    void restore();
+    void save();
 private:
     Ui::WebForm *m_ui;
     QLineEdit *m_locationEdit;

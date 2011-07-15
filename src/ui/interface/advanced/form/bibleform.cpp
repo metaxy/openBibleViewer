@@ -85,14 +85,13 @@ void BibleForm::init()
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     createDefaultMenu();
 }
-void BibleForm::restore(QMap<QString, QVariant> data)
+void BibleForm::restore()
 {
 
 }
 
-QMap<QString, QVariant> BibleForm::save()
+void BibleForm::save()
 {
-    QMap<QString, QVariant> ret;
     VerseTable *list = m_verseTable;
 
     QList<QString> urls;
@@ -120,15 +119,15 @@ QMap<QString, QVariant> BibleForm::save()
             }
         }
     }
-    ret["urls"] = urls;
-    ret["biblePoints"] = points;
-    ret["scrollPosition"] = m_view->page()->mainFrame()->scrollPosition();
-    ret["zoom"] = m_view->zoomFactor();
-    ret["geo"] = m_parentSubWindow->geometry();
-    ret["maximized"] = m_parentSubWindow->isMaximized();
-    ret["windowState"] = m_parentSubWindow->windowState();
+    const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
+    m_settings->session.file()->setValue(a + "urls", QVariant(urls));
+    //m_settings->session.file()->setValue(a + "biblePoints", QVariant(points));
+    m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
+    m_settings->session.file()->setValue(a + "zoom", m_view->zoomFactor());
+    m_settings->session.file()->setValue(a + "geo", m_parentSubWindow->geometry());
+    m_settings->session.file()->setValue(a + "maximized", m_parentSubWindow->isMaximized());
+    //m_settings->session.file()->setValue(a + "windowState", m_parentSubWindow->windowState());
 
-    return ret;
 }
 
 void BibleForm::attachApi()

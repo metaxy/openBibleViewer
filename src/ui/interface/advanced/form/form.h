@@ -26,8 +26,8 @@ public:
 
     int *currentWindowID;
 
-    virtual void restore(QMap<QString, QVariant> data);
-    virtual QMap<QString, QVariant> save();
+    virtual void restore() = 0;
+    virtual void save() = 0;
 signals:
 
 public slots:

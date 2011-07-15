@@ -19,8 +19,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/versification.h"
 #include <QtCore/QStringList>
 #include <QtCore/QMap>
-
-
 /**
  * Settings represents the global settings.
  */

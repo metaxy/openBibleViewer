@@ -125,3 +125,11 @@ void WebForm::activated()
     m_actions->clearBooks();
     m_actions->clearChapters();
 }
+void WebForm::save()
+{
+
+}
+void WebForm::restore()
+{
+
+}

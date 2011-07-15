@@ -142,12 +142,12 @@ void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, OBVCore::Form
 
 void WindowManager::newBibleSubWindow(bool doAutoLayout, bool forceMax)
 {
-    newSubWindow(doAutoLayout, forceMax, WindowManager::BibleFormT);
+    newSubWindow(doAutoLayout, forceMax, OBVCore::BibleFormT);
 }
 
 void WindowManager::newWebSubWindow(bool doAutoLayout, bool forceMax)
 {
-   newSubWindow(doAutoLayout, forceMax, WindowManager::WebFormT);
+   newSubWindow(doAutoLayout, forceMax, OBVCore::WebFormT);
 }
 
 void WindowManager::autoLayout()
@@ -410,19 +410,17 @@ void WindowManager::setTabbedView()
 
 void WindowManager::save()
 {
-    WindowSessionData data;
-    data.setSettings(m_settings);
+    m_settings->session.clearGroup("windows");
     int current = 0;
     QMdiSubWindow *currentSubWindow = activeSubWindow();
     for(int i = 0, count = m_area->subWindowList().size(); i < count; i++) {
         QMdiSubWindow *a = m_area->subWindowList().at(i);
-        data.setWindowID(i);
         if(currentSubWindow == a)
             current = i;
         Form *form = a->widget()->findChild<Form *>("mdiForm");
-        data.setData(form->save());
+        form->save();
     }
-    data.write();
+
     m_settings->session.setData("viewMode", m_area->viewMode());
     m_settings->session.setData("windowID", current);
     //no more reloading
@@ -430,19 +428,18 @@ void WindowManager::save()
 }
 void WindowManager::restore()
 {
-    WindowSessionData data;
-    data.setSettings(m_settings);
-    data.read();
+
     const int viewMode = m_settings->session.getData("viewMode").toInt();
     if(viewMode == 0)
         m_actions->setSubWindowView();
     else
         m_actions->setTabbedView();
 
-    for(int i = 0; i < data.size(); ++i) {
+   /* for(int i = 0; i < data.size(); ++i) {
+
         data.setWindowID(i);
         //myDebug() << "max = " << data.maximized();
-        newBibleSubWindow(true, data.maximized());
+
 
         //load verse module
         m_moduleManager->verseTable()->clear();
@@ -469,8 +466,17 @@ void WindowManager::restore()
         QWebView *v = ((BibleForm*)activeForm())->m_view;
         v->page()->mainFrame()->setScrollPosition(data.scrollPosition());
         v->setZoomFactor(data.zoom());
+    }*/
+    //m
+    /*settings.beginGroup("fridge");
+    keys = settings.childKeys();-*/
+    m_settings->session.file()->beginGroup(m_settings->session.id() + "/windows/");
+    const QStringList groups = m_settings->session.file()->childGroups();
+    m_settings->session.file()->endGroup();
+    foreach(const QString &id, groups) {
+        //todo: type
+        newBibleSubWindow(true);
     }
-
     const int id = m_settings->session.getData("windowID", -1).toInt();
     if(id < m_area->subWindowList().size() && id > 0) {
         m_area->setActiveSubWindow(m_area->subWindowList().at(id));

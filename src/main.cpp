@@ -88,14 +88,14 @@ int main(int argc, char *argv[])
 
     QSettings *settings;
     QString homeDataPath;
-
+//todo: get homepath from commandline
 #ifdef Q_WS_MAC
-    homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
+    homeDataPath = QFSFileEngine::homePath() + "/.openbible_next/";
     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
 #endif
 
 #ifdef Q_WS_X11
-    homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
+    homeDataPath = QFSFileEngine::homePath() + "/.openbible_next/";
     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
 #endif
 
@@ -105,16 +105,17 @@ int main(int argc, char *argv[])
     homeDataPath = QApplication::applicationDirPath() + "/";
     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
 #else
-    homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
+    homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible_next/";
     settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "openBible", "openBibleViewer");
 #endif
 
 #endif
 
 #if !defined(Q_WS_MAC) && !defined(Q_WS_X11)  && !defined(Q_WS_WIN) //all other os
-    homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
+    homeDataPath = QFSFileEngine::homePath() + "/.openbible_next/";
     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
 #endif
+
 
     QDir dir(homeDataPath);
     if(!dir.exists(homeDataPath)) {

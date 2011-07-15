@@ -16,28 +16,44 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 Session::Session()
 {
 }
-void Session::setData(QString key, QVariant value)
+void Session::setID(const QString &id)
 {
-    m_data.insert(key, value);
-}
-QVariant Session::getData(QString key, QVariant defaultValue = QVariant()) const
-{
-    return m_data.value(key, defaultValue);
-}
-QVariant Session::getData(QString key) const
-{
-    return m_data.value(key);
-}
-bool Session::isSet(QString key) const
-{
-    if(m_data.value(key).isNull())
-        return false;
-    return true;
+    m_id = id;
 }
 
-QMapIterator<QString, QVariant> Session::getInterator() const
+QString Session::id() const
 {
-    QMapIterator<QString, QVariant> i(m_data);
-    return i;
+    return m_id;
 }
 
+void Session::setFile(QSettings *file)
+{
+    m_sessionFile = file;
+}
+
+QSettings * Session::file()
+{
+    return m_sessionFile;
+}
+
+void Session::setData(const QString &key, const QVariant &value)
+{
+    m_sessionFile->setValue(m_id+"/" + key, value);
+}
+
+QVariant Session::getData(const QString &key, const QVariant &defaultValue)
+{
+    return m_sessionFile->value(m_id+"/" + key, defaultValue);
+}
+
+bool Session::isSet(const QString &key)
+{
+    return !m_sessionFile->value(m_id+"/" + key).isNull();
+}
+
+void Session::clearGroup(const QString &key)
+{
+    m_sessionFile->beginGroup(m_id + "/" + key);
+    m_sessionFile->remove("");
+    m_sessionFile->endGroup();
+}
