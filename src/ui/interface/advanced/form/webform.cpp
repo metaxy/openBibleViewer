@@ -129,7 +129,7 @@ void WebForm::save()
 {
 
 }
-void WebForm::restore()
+void WebForm::restore(const QString &key)
 {
 
 }

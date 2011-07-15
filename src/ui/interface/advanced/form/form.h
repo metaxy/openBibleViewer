@@ -26,7 +26,7 @@ public:
 
     int *currentWindowID;
 
-    virtual void restore() = 0;
+    virtual void restore(const QString &key) = 0;
     virtual void save() = 0;
 signals:
 

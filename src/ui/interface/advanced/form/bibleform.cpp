@@ -85,9 +85,34 @@ void BibleForm::init()
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     createDefaultMenu();
 }
-void BibleForm::restore()
+void BibleForm::restore(const QString &key)
 {
 
+    const QString a = m_settings->session.id() + "/windows/" + QString::number(key) + "/";
+
+    //load verse module
+    m_moduleManager->verseTable()->clear();
+    const QList<QString> urls = m_settings->session.file()->value(a+"urls");
+   // const QList<QPoint> points = data.biblePoint();
+    for(int j = 0; j < urls.size() /*&& j < points.size()*/; j++) {
+        const QString url = urls.at(j);
+        const QPoint point /*= points.at(j)*/;
+        //myDebug() << "url = " << url << " point = " << point;
+        UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
+        urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
+        urlConverter.convert();
+        if(urlConverter.moduleID() != -1) {
+            m_moduleManager->newVerseModule(urlConverter.moduleID(), point);
+            m_actions->get(urlConverter.url());
+            myDebug() << urlConverter.url().toString();
+        }
+    }
+    if(viewMode == 0 && !data.maximized()) {
+        m_parentSubWindow->setGeometry(m_settings->session.file()->value(a+"geo"));
+    }
+    activeSubWindow()->setWindowState(data.windowState());
+    m_view->page()->mainFrame()->setScrollPosition(data.scrollPosition());
+    m_view->setZoomFactor(data.zoom());
 }
 
 void BibleForm::save()

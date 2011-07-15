@@ -72,7 +72,7 @@ void WindowManager::newSubWindowIfEmpty()
     if(usableWindowList().isEmpty())
         newBibleSubWindow();
 }
-void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, OBVCore::FormType type)
+QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, OBVCore::FormType type)
 {
     setEnableReload(false);
 
@@ -138,16 +138,17 @@ void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, OBVCore::Form
     }
     m_actions->clearBooks();
     m_actions->clearChapters();
+    return subWindow;
 }
 
-void WindowManager::newBibleSubWindow(bool doAutoLayout, bool forceMax)
+QMdiSubWindow* WindowManager::newBibleSubWindow(bool doAutoLayout, bool forceMax)
 {
-    newSubWindow(doAutoLayout, forceMax, OBVCore::BibleFormT);
+    return newSubWindow(doAutoLayout, forceMax, OBVCore::BibleFormT);
 }
 
-void WindowManager::newWebSubWindow(bool doAutoLayout, bool forceMax)
+QMdiSubWindow* WindowManager::newWebSubWindow(bool doAutoLayout, bool forceMax)
 {
-   newSubWindow(doAutoLayout, forceMax, OBVCore::WebFormT);
+   return newSubWindow(doAutoLayout, forceMax, OBVCore::WebFormT);
 }
 
 void WindowManager::autoLayout()
@@ -467,15 +468,16 @@ void WindowManager::restore()
         v->page()->mainFrame()->setScrollPosition(data.scrollPosition());
         v->setZoomFactor(data.zoom());
     }*/
-    //m
-    /*settings.beginGroup("fridge");
-    keys = settings.childKeys();-*/
+
     m_settings->session.file()->beginGroup(m_settings->session.id() + "/windows/");
     const QStringList groups = m_settings->session.file()->childGroups();
     m_settings->session.file()->endGroup();
+
     foreach(const QString &id, groups) {
         //todo: type
-        newBibleSubWindow(true);
+        QMdiSubWindow *w = newBibleSubWindow(true);
+        Form *f = w->widget()->findChild<Form *>("mdiForm");
+        f->restore(id);
     }
     const int id = m_settings->session.getData("windowID", -1).toInt();
     if(id < m_area->subWindowList().size() && id > 0) {

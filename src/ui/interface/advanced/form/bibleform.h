@@ -69,7 +69,7 @@ public:
     VerseTable *m_verseTable;
 
     VerseSelection verseSelection();
-    void restore();
+    void restore(const QString &key);
     void save();
 private slots:
     void showBibleListMenu();

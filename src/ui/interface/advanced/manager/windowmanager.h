@@ -52,9 +52,9 @@ public slots:
     void tileVertical();
     void tileHorizontal();
     void tile();
-    void newSubWindow(bool doAutoLayout = true, bool forceMax = false, OBVCore::FormType type = OBVCore::BibleFormT);
-    void newBibleSubWindow(bool doAutoLayout = true, bool forceMax = false);
-    void newWebSubWindow(bool doAutoLayout = true, bool forceMax = false);
+    QMdiSubWindow * newSubWindow(bool doAutoLayout = true, bool forceMax = false, OBVCore::FormType type = OBVCore::BibleFormT);
+    QMdiSubWindow * newBibleSubWindow(bool doAutoLayout = true, bool forceMax = false);
+    QMdiSubWindow * newWebSubWindow(bool doAutoLayout = true, bool forceMax = false);
 
     void closeSubWindow();
     int closingWindow();

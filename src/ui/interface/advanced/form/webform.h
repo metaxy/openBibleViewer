@@ -18,7 +18,7 @@ public:
     void init();
     static QUrl guessUrlFromString(const QString &string);
 
-    void restore();
+    void restore(const QString &key);
     void save();
 private:
     Ui::WebForm *m_ui;
