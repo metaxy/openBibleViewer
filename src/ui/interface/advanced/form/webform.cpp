@@ -127,7 +127,8 @@ void WebForm::activated()
 }
 void WebForm::save()
 {
-
+    const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
+    m_settings->session.file()->setValue(a + "type", "web");
 }
 void WebForm::restore(const QString &key)
 {

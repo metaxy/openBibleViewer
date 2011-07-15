@@ -88,38 +88,40 @@ void BibleForm::init()
 void BibleForm::restore(const QString &key)
 {
 
-    const QString a = m_settings->session.id() + "/windows/" + QString::number(key) + "/";
+    const QString a = m_settings->session.id() + "/windows/" + key + "/";
+    const qreal zoom = m_settings->session.file()->value(a+"zoom").toReal();
+    const QPoint scroll = m_settings->session.file()->value(a+"scrool").toPoint();
 
     //load verse module
     m_moduleManager->verseTable()->clear();
-    const QList<QString> urls = m_settings->session.file()->value(a+"urls");
+    const QStringList urls = m_settings->session.file()->value(a+"urls").toStringList();
    // const QList<QPoint> points = data.biblePoint();
     for(int j = 0; j < urls.size() /*&& j < points.size()*/; j++) {
         const QString url = urls.at(j);
         const QPoint point /*= points.at(j)*/;
         //myDebug() << "url = " << url << " point = " << point;
+
         UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
         urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
         urlConverter.convert();
+
         if(urlConverter.moduleID() != -1) {
             m_moduleManager->newVerseModule(urlConverter.moduleID(), point);
             m_actions->get(urlConverter.url());
-            myDebug() << urlConverter.url().toString();
         }
     }
-    if(viewMode == 0 && !data.maximized()) {
-        m_parentSubWindow->setGeometry(m_settings->session.file()->value(a+"geo"));
-    }
-    activeSubWindow()->setWindowState(data.windowState());
-    m_view->page()->mainFrame()->setScrollPosition(data.scrollPosition());
-    m_view->setZoomFactor(data.zoom());
+
+
+    //m_parentSubWindow->setWindowState(data.windowState());
+    m_view->page()->mainFrame()->setScrollPosition(scroll);
+    m_view->setZoomFactor(zoom);
 }
 
 void BibleForm::save()
 {
     VerseTable *list = m_verseTable;
 
-    QList<QString> urls;
+    QStringList urls;
     QList<QPoint> points;
     if(list > 0) {
         QHashIterator<int, VerseModule *> i(list->m_modules);
@@ -145,13 +147,13 @@ void BibleForm::save()
         }
     }
     const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
-    m_settings->session.file()->setValue(a + "urls", QVariant(urls));
+    m_settings->session.file()->setValue(a + "urls", urls);
     //m_settings->session.file()->setValue(a + "biblePoints", QVariant(points));
     m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
     m_settings->session.file()->setValue(a + "zoom", m_view->zoomFactor());
-    m_settings->session.file()->setValue(a + "geo", m_parentSubWindow->geometry());
-    m_settings->session.file()->setValue(a + "maximized", m_parentSubWindow->isMaximized());
-    //m_settings->session.file()->setValue(a + "windowState", m_parentSubWindow->windowState());
+
+    m_settings->session.file()->setValue(a + "type", "bible");
+
 
 }
 

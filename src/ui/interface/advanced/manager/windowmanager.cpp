@@ -420,10 +420,15 @@ void WindowManager::save()
             current = i;
         Form *form = a->widget()->findChild<Form *>("mdiForm");
         form->save();
+        const QString s = m_settings->session.id() + "/windows/" + QString::number(form->id()) + "/";
+        m_settings->session.file()->setValue(s + "geo", a->geometry());
+        m_settings->session.file()->setValue(s + "maximized", a->isMaximized());
+        //m_settings->session.file()->setValue(a + "windowState", m_parentSubWindow->windowState());
     }
 
     m_settings->session.setData("viewMode", m_area->viewMode());
     m_settings->session.setData("windowID", current);
+
     //no more reloading
     disable();
 }
@@ -436,46 +441,28 @@ void WindowManager::restore()
     else
         m_actions->setTabbedView();
 
-   /* for(int i = 0; i < data.size(); ++i) {
-
-        data.setWindowID(i);
-        //myDebug() << "max = " << data.maximized();
-
-
-        //load verse module
-        m_moduleManager->verseTable()->clear();
-        const QList<QString> urls = data.url();
-        const QList<QPoint> points = data.biblePoint();
-        for(int j = 0; j < urls.size() && j < points.size(); j++) {
-            const QString url = urls.at(j);
-            const QPoint point = points.at(j);
-            //myDebug() << "url = " << url << " point = " << point;
-            UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
-            urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
-            urlConverter.convert();
-            if(urlConverter.moduleID() != -1) {
-                m_moduleManager->newVerseModule(urlConverter.moduleID(), point);
-                m_actions->get(urlConverter.url());
-                myDebug() << urlConverter.url().toString();
-            }
-        }
-        if(viewMode == 0 && !data.maximized()) {
-            //myDebug() << "setting geo";
-            activeSubWindow()->setGeometry(data.geo());
-        }
-        activeSubWindow()->setWindowState(data.windowState());
-        QWebView *v = ((BibleForm*)activeForm())->m_view;
-        v->page()->mainFrame()->setScrollPosition(data.scrollPosition());
-        v->setZoomFactor(data.zoom());
-    }*/
-
     m_settings->session.file()->beginGroup(m_settings->session.id() + "/windows/");
     const QStringList groups = m_settings->session.file()->childGroups();
     m_settings->session.file()->endGroup();
 
     foreach(const QString &id, groups) {
-        //todo: type
-        QMdiSubWindow *w = newBibleSubWindow(true);
+        const QString pre = m_settings->session.id() + "/windows/" + id + "/";
+        const QString type = m_settings->session.file()->value(pre + "type").toString();
+        const bool max = m_settings->session.file()->value(pre + "maximized").toBool();
+        const QRect geo = m_settings->session.file()->value(pre + "geo").toRect();
+
+        OBVCore::FormType t = OBVCore::BibleFormT;
+        if(type == "bible") {
+            t = OBVCore::BibleFormT;
+        } else if(type == "web"){
+            t = OBVCore::WebFormT;
+        }
+        QMdiSubWindow *w = newSubWindow(true, max, t);
+
+        if(viewMode == 0 && !max) {
+            w->setGeometry(geo);
+        }
+
         Form *f = w->widget()->findChild<Form *>("mdiForm");
         f->restore(id);
     }
