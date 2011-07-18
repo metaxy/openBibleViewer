@@ -477,7 +477,7 @@ void WindowManager::installResizeFilter()
     connect(m_mdiAreaFilter, SIGNAL(resized()), this, SLOT(mdiAreaResized()));
     m_area->installEventFilter(m_mdiAreaFilter);
 }
-
+//only bibleform
 void WindowManager::reloadChapter(bool full)
 {
     DEBUG_FUNC_NAME;

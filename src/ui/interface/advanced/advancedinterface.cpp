@@ -223,6 +223,7 @@ void AdvancedInterface::pharseUrl(QString url)
                 m_actions->get(url);
             }
         } else {
+            //todo: not only bibleform
             if(m_windowManager->activeForm())
                 ((BibleForm*)m_windowManager->activeForm())->evaluateJavaScript(url);
         }

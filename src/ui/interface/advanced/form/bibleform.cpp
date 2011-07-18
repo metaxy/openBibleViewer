@@ -87,20 +87,16 @@ void BibleForm::init()
 }
 void BibleForm::restore(const QString &key)
 {
-    DEBUG_FUNC_NAME
-
-    myDebug() << "key = " << key;
     const QString a = m_settings->session.id() + "/windows/" + key + "/";
     const qreal zoom = m_settings->session.file()->value(a+"zoom").toReal();
     const QPoint scroll = m_settings->session.file()->value(a+"scrool").toPoint();
 
     //load verse module
-    myDebug() << "a = " << a;
+
     m_moduleManager->verseTable()->clear();
     const QStringList urls = m_settings->session.file()->value(a+"urls").toStringList();
     const QStringList points = m_settings->session.file()->value(a+"biblePoints").toStringList();
-    myDebug() << m_settings->session.file()->value(a+"urls");
-    myDebug() << "urls " << urls << " points " << points;
+
     for(int j = 0; j < urls.size() && j < points.size(); j++) {
         const QString url = urls.at(j);
         QStringList tmp = points.at(j).split("|");
@@ -108,14 +104,13 @@ void BibleForm::restore(const QString &key)
         point.setX(tmp.first().toInt());
         point.setY(tmp.last().toInt());
 
-        myDebug() << "url = " << url << " point = " << point;
+
 
         UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
         urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
         urlConverter.convert();
 
         if(urlConverter.moduleID() != -1) {
-            myDebug() << "good id",
             m_moduleManager->newVerseModule(urlConverter.moduleID(), point);
             m_actions->get(urlConverter.url());
         }
@@ -139,7 +134,7 @@ void BibleForm::save()
             i.next();
             VerseModule *b = i.value();
             if(b != NULL && b->moduleID() >= 0) {
-                myDebug() << "key = " << i.key();
+
                 VerseUrl bibleUrl;
                 bibleUrl.addRanges(b->lastTextRanges()->toBibleUrlRanges(i.key()));
 
@@ -150,8 +145,8 @@ void BibleForm::save()
 
                 const QString url = newUrl.toString();
                 const QPoint point = list->m_points.value(i.key());
+
                 points << QString::number(point.x()) + "|" + QString::number(point.y());
-                myDebug() << "url = " << url << " at " << point;
                 urls << url;
             }
         }
@@ -163,8 +158,6 @@ void BibleForm::save()
     m_settings->session.file()->setValue(a + "zoom", m_view->zoomFactor());
 
     m_settings->session.file()->setValue(a + "type", "bible");
-
-
 }
 
 void BibleForm::attachApi()
