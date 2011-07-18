@@ -7,6 +7,7 @@ namespace Ui {
     class DictionaryForm;
 }
 
+#include "src/ui/interface/advanced/form/form.h"
 class DictionaryForm :  public Form
 {
     Q_OBJECT

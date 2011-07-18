@@ -15,8 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define MODULE_H
 #include <QtCore/QString>
 #include "src/core/settings/settings.h"
-#include "src/module/dictionary/biblequote-dict.h"
-#include "src/module/dictionary/zefania-lex.h"
+#include "src/module/dictionary/dictionarymodule.h"
 #include "src/module/bible/biblemodule.h"
 #include "src/core/obvcore.h"
 /**
@@ -44,8 +43,7 @@ public:
     void setModuleType(const OBVCore::ModuleType &t);
 
     BibleModule *m_bibleModule;
-    ZefaniaLex *m_zefaniaLex;
-    BibleQuoteDict *m_bibleQuoteDict;
+    DictionaryModule *m_dictionaryModule;
 
     void setSettings(Settings *settings);
 

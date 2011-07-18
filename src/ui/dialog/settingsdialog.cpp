@@ -13,7 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
-
+#include "src/module/dictionary/biblequote-dict.h"
+#include "src/module/dictionary/zefania-lex.h"
 
 #ifdef BUILD_WITH_SWORD
 #include <stdio.h>
@@ -418,10 +419,12 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
             } else if(moduleType == OBVCore::ZefaniaLexModule) {
                 ZefaniaLex zefLex;
                 zefLex.setSettings(&m_set);
+                zefLex.setID(0,f);
                 m->moduleName = zefLex.buildIndexFromFile(f);
             } else if(moduleType == OBVCore::BibleQuoteDictModule) {
                 BibleQuoteDict bibleQuoteDict;
                 bibleQuoteDict.setSettings(&m_set);
+                bibleQuoteDict.setID(0,f);
                 m->moduleName = bibleQuoteDict.readInfo(f);
                 bibleQuoteDict.buildIndex();
             } else if(moduleType == OBVCore::TheWordBibleModule) {

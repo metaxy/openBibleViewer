@@ -12,11 +12,11 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "dictionary.h"
-
+#include "src/module/dictionary/biblequote-dict.h"
+#include "src/module/dictionary/zefania-lex.h"
 Dictionary::Dictionary()
 {
-    m_zefaniaLex = 0;
-    m_bibleQuoteDict = 0;
+    m_dictionaryModule = 0;
     m_moduleType = OBVCore::NoneType;
     m_moduleID = -1;
 }
@@ -31,62 +31,29 @@ int Dictionary::loadModuleData(const int moduleID)
     m_moduleID = moduleID;
     const QString path = m_module->path();
 
-    switch(m_moduleType) {
-    case OBVCore::ZefaniaLexModule: {
-        if(m_module->m_zefaniaLex) {
-            m_zefaniaLex = m_module->m_zefaniaLex;
+    if(m_module->m_dictionaryModule) {
+        m_dictionaryModule = m_module->m_dictionaryModule;
+    } else {
+        //Module delete them
+        if(m_moduleType == OBVCore::ZefaniaLexModule) {
+            m_dictionaryModule = new ZefaniaLex();
+        } else if(m_moduleType == OBVCore::BibleQuoteDictModule) {
+            m_dictionaryModule = new BibleQuoteDict();
         } else {
-            m_zefaniaLex = new ZefaniaLex();
-            m_zefaniaLex->setSettings(m_settings);
-            m_module->m_zefaniaLex = m_zefaniaLex;
+            return 1;
         }
-        m_zefaniaLex->setID(m_moduleID, path);
-        break;
-    }
-    case OBVCore::BibleQuoteDictModule: {
-        if(m_module->m_bibleQuoteDict) {
-            m_bibleQuoteDict = m_module->m_bibleQuoteDict;
-        } else {
-            m_bibleQuoteDict = new BibleQuoteDict();
-            m_bibleQuoteDict->setSettings(m_settings);
-            m_module->m_bibleQuoteDict = m_bibleQuoteDict;
-        }
-        m_bibleQuoteDict->setID(m_moduleID, path);
-        break;
-    }
-    default:
-        return 1;
+
+        m_dictionaryModule->setSettings(m_settings);
+        m_module->m_dictionaryModule = m_dictionaryModule;
+        m_dictionaryModule->setID(m_moduleID, path);
     }
     return 0;
 }
 QString Dictionary::getEntry(const QString &string) const
 {
-    switch(m_moduleType) {
-    case OBVCore::ZefaniaLexModule: {
-        return m_zefaniaLex->getEntry(string);
-        break;
-    }
-    case OBVCore::BibleQuoteDictModule: {
-        return m_bibleQuoteDict->getEntry(string);
-        break;
-    }
-    default:
-        return QString();
-    }
-
+    return m_dictionaryModule->getEntry(string);
 }
 QStringList Dictionary::getAllKeys() const
 {
-    //DEBUG_FUNC_NAME
-    switch(m_moduleType) {
-    case OBVCore::ZefaniaLexModule: {
-        return m_zefaniaLex->getAllKeys();
-    }
-    case OBVCore::BibleQuoteDictModule: {
-        return m_bibleQuoteDict->getAllKeys();
-    }
-    default:
-        return QStringList();
-    }
-
+    return m_dictionaryModule->getAllKeys();
 }

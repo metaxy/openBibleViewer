@@ -12,3 +12,62 @@ DictionaryForm::~DictionaryForm()
 {
     delete ui;
 }
+void DictionaryForm::init()
+{
+
+}
+
+void DictionaryForm::restore(const QString &key)
+{
+
+}
+
+void DictionaryForm::save()
+{
+
+}
+
+void DictionaryForm::copy()
+{
+
+}
+
+void DictionaryForm::selectAll()
+{
+
+}
+
+void DictionaryForm::print()
+{
+
+}
+
+void DictionaryForm::printPreview()
+{
+
+}
+
+void DictionaryForm::saveFile()
+{
+
+}
+
+QString DictionaryForm::selectedText()
+{
+    return "";
+}
+
+void DictionaryForm::zoomIn()
+{
+
+}
+
+void DictionaryForm::zoomOut()
+{
+
+}
+
+void DictionaryForm::activated()
+{
+
+}

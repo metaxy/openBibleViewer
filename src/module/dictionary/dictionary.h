@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define DICTIONARY_H
 #include "src/module/simplemoduleclass.h"
 #include "src/core/dbghelper.h"
+#include "src/module/dictionary/dictionarymodule.h"
 /**
  * Dictionary represents a dictionary module. Like ZefaniaLex or BibleQuoteDict.
  * It generalise the access to such dictionary modules.
@@ -41,8 +42,7 @@ public:
      */
     QStringList getAllKeys() const;
 private:
-    ZefaniaLex *m_zefaniaLex;
-    BibleQuoteDict *m_bibleQuoteDict;
+    DictionaryModule *m_dictionaryModule;
 };
 
 #endif // DICTIONARY_H
