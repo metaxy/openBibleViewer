@@ -32,6 +32,7 @@ void TextNotes::init(const QString &fileName)
 bool TextNotes::isLoaded() const
 {
    /* return m_isLoaded;*/
+   return false;
 }
 
 void TextNotes::loadingNewInstance()
@@ -75,21 +76,25 @@ int TextNotes::loadNotes()
     file.close();
     m_isLoaded = true;
     return 0;*/
+	return 0;
 }
 
 QString TextNotes::getType(const QString &id) const
 {
     /*return notesType.value(id, "");*/
+	return "";
 }
 
 QString TextNotes::getTitle(const QString &id) const
 {
     /*return notesTitle.value(id, "");*/
+	return "";
 }
 
 QString TextNotes::getData(const QString &id) const
 {
     /*return notesData.value(id, "");*/
+	return "";
 }
 
 QString TextNotes::getRef(const QString &id, const QString &refID) const
@@ -100,14 +105,15 @@ QString TextNotes::getRef(const QString &id, const QString &refID) const
     } else {
         return QString();
     }*/
+	return "";
 }
 
 QMap<QString, QString> TextNotes::getRef(const QString &id) const
 {
     /*if(notesRef.contains(id))
         return notesRef.value(id);
-    else
-        return QMap<QString, QString>();*/
+    else*/
+        return QMap<QString, QString>();
 }
 /**
   Get all note IDs
@@ -115,11 +121,13 @@ QMap<QString, QString> TextNotes::getRef(const QString &id) const
 QStringList TextNotes::getIDList() const
 {
     /*return notesID;*/
+	return QStringList();
 }
 
 QStringList TextNotes::getIDList(const QString &type) const
 {
     /*return notesType.keys(type);*/
+	return QStringList();
 }
 
 
@@ -183,6 +191,7 @@ QString TextNotes::generateNewID() const
             biggest = id;
     }
     return QString::number(biggest + 1);*/
+	return "";
 }
 
 void TextNotes::insertID(const QString &id)
@@ -264,6 +273,7 @@ int TextNotes::readNotes()
         n = n.nextSibling();
     }
     return 0;*/
+	return 0;
 }
 
 int TextNotes::saveNotes()
@@ -309,6 +319,7 @@ int TextNotes::saveNotes()
     file.close();
     doc = sdoc;
     return 0;*/
+	return 0;
 }
 
 void TextNotes::search(SearchQuery query, SearchResult *res) const
