@@ -25,15 +25,7 @@ using namespace lucene::search;
 ZefaniaLex::ZefaniaLex()
 {
 }
-void ZefaniaLex::setSettings(Settings *settings)
-{
-    m_settings = settings;
-}
-void ZefaniaLex::setID(int moduleID, const QString &path)
-{
-    m_moduleID = moduleID;
-    m_modulePath = path;
-}
+
 
 /**
   Load a Zefania XML Lex file the first time. Generates an index for fast access.
@@ -136,10 +128,7 @@ QStringList ZefaniaLex::getAllKeys()
     }
     return ret;
 }
-QString ZefaniaLex::indexPath() const
-{
-    return m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
-}
+
 bool ZefaniaLex::hasIndex()
 {
     QDir d;

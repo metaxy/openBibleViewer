@@ -173,6 +173,7 @@ set ( openBibleViewer_HDRS
     src/module/versetable.h
     src/module/dictionary/dictionary.h
     src/module/dictionary/biblequote-dict.h
+    src/module/dictionary/dictionarymodule.h
     src/module/bible/biblemodule.h
     src/module/bible/thewordbible.h
     src/module/bible/swordbible.h
@@ -252,6 +253,7 @@ set ( openBibleViewer_SRCS
     src/module/versetable.cpp
     src/module/modulemap.cpp
     src/module/dictionary/dictionary.cpp
+    src/module/dictionary/dictionarymodule.cpp
     src/module/dictionary/biblequote-dict.cpp
     src/module/bible/biblemodule.cpp
     src/module/bible/thewordbible.cpp
@@ -284,6 +286,7 @@ set ( openBibleViewer_SRCS
     src/ui/interface/advanced/form/bibleform.cpp
     src/ui/interface/advanced/form/form.cpp
     src/ui/interface/advanced/form/webform.cpp
+    src/ui/interface/advanced/form/dictionaryform.cpp
 
     src/ui/interface/advanced/webview.cpp
     src/ui/interface/advanced/manager/windowmanager.cpp
@@ -335,6 +338,7 @@ set ( openBibleViewer_UIS
 
     src/ui/interface/advanced/form/bibleform.ui
     src/ui/interface/advanced/form/webform.ui
+    src/ui/interface/advanced/form/dictionaryform.ui
 
     src/ui/interface/advanced/biblelistwidget.ui
 
@@ -370,7 +374,6 @@ set ( openBibleViewer_MOCS
     src/core/notes/xmlnotes.h
     src/core/notes/textnotes.h
     src/core/downloadinfile.h
-
     src/core/simplenotes.h
     src/core/moduledownloader.h
     src/core/verse/versification/versification_kjv.h
@@ -412,6 +415,7 @@ set ( openBibleViewer_MOCS
     src/ui/interface/advanced/form/bibleform.h
     src/ui/interface/advanced/form/webform.h
     src/ui/interface/advanced/form/form.h
+    src/ui/interface/advanced/form/dictionaryform.h
 
     src/ui/interface/advanced/advancedinterface.h
     src/ui/interface/advanced/webview.h
