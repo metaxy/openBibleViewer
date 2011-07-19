@@ -213,7 +213,7 @@ void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
         m_moduleManager->verseTable()->addModule(m, p);
     }
     r = m_moduleManager->verseTable()->readRanges(ranges);
-    //myDebug() << "r failed = " << r.second.failed();
+
     if(!r.second.failed()) {
         m_actions->showTextRanges(r.first, r.second, url);
         m_actions->updateChapters(m_moduleManager->verseModule()->lastTextRanges()->minBookID(), m_moduleManager->verseModule()->versification());

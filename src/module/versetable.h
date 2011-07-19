@@ -26,7 +26,7 @@ class VerseTable
 public:
     VerseTable();
     /**
-     * Deletes all bibles of the BibleList
+     * Deletes all bibles of the VerseTable
      */
     ~VerseTable();
 

@@ -172,6 +172,7 @@ set ( openBibleViewer_HDRS
     src/module/modulemap.h
     src/module/versetable.h
     src/module/dictionary/dictionary.h
+    src/module/dictionary/webdictionary.h
     src/module/dictionary/biblequote-dict.h
     src/module/dictionary/dictionarymodule.h
     src/module/bible/biblemodule.h
@@ -253,6 +254,7 @@ set ( openBibleViewer_SRCS
     src/module/versetable.cpp
     src/module/modulemap.cpp
     src/module/dictionary/dictionary.cpp
+    src/module/dictionary/webdictionary.cpp
     src/module/dictionary/dictionarymodule.cpp
     src/module/dictionary/biblequote-dict.cpp
     src/module/bible/biblemodule.cpp
@@ -292,6 +294,7 @@ set ( openBibleViewer_SRCS
     src/ui/interface/advanced/manager/windowmanager.cpp
     src/ui/interface/advanced/manager/bookmarksmanager.cpp
     src/ui/interface/advanced/manager/biblemanager.cpp
+    src/ui/interface/advanced/manager/dictionarymanager.cpp
     src/ui/interface/advanced/manager/notesmanager.cpp
     src/ui/interface/advanced/manager/searchmanager.cpp
     src/ui/interface/advanced/advancedinterface.cpp
@@ -425,6 +428,7 @@ set ( openBibleViewer_MOCS
     src/ui/interface/advanced/manager/windowmanager.h
     src/ui/interface/advanced/manager/bookmarksmanager.h
     src/ui/interface/advanced/manager/biblemanager.h
+    src/ui/interface/advanced/manager/dictionarymanager.h
     src/ui/interface/advanced/manager/notesmanager.h
     src/ui/interface/advanced/manager/searchmanager.h
     src/ui/actions.h

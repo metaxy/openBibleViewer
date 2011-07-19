@@ -41,6 +41,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/interface/advanced/manager/notesmanager.h"
 #include "src/ui/interface/advanced/manager/searchmanager.h"
 #include "src/ui/interface/advanced/manager/bookmarksmanager.h"
+#include "src/ui/interface/advanced/manager/dictionarymanager.h"
 
 #include "mdiareafilter.h"
 
@@ -125,13 +126,12 @@ private:
 
     void toolBarSetText();
 
-    DictionaryDockWidget * m_dictionaryDockWidget;
-
     WindowManager *m_windowManager;
     BibleManager *m_bibleManager;
     NotesManager *m_notesManager;
     SearchManager *m_searchManager;
     BookmarksManager *m_bookmarksManager;
+    DictionaryManager *m_dictionaryManager;
 };
 
 #endif // ADVANCEDINTERFACE_H

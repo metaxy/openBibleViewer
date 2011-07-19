@@ -66,6 +66,10 @@ void AdvancedInterface::init()
     setAll(m_bookmarksManager);
     m_bookmarksManager->setWidget(this->parentWidget());
 
+    m_dictionaryManager = new DictionaryManager(this);
+    setAll(m_dictionaryManager);
+    m_dictionaryManager->setWidget(this->parentWidget());
+
     m_windowManager = new WindowManager(this);
     setAll(m_windowManager);
     m_windowManager->setMdiArea(ui->mdiArea);
@@ -101,11 +105,7 @@ void AdvancedInterface::createDocks()
     m_notesManager->createDocks();
     m_searchManager->createDocks();
     m_bookmarksManager->createDocks();
-
-    m_dictionaryDockWidget = new DictionaryDockWidget(this->parentWidget());
-    setAll(m_dictionaryDockWidget);
-    m_dictionaryDockWidget->init();
-    m_dictionaryDockWidget->hide();
+    m_dictionaryManager->createDocks();
 }
 void AdvancedInterface::createMenu()
 {
@@ -120,7 +120,7 @@ QHash<DockWidget*, Qt::DockWidgetArea> AdvancedInterface::docks()
     ret.unite(m_notesManager->docks());
     ret.unite(m_searchManager->docks());
     ret.unite(m_bookmarksManager->docks());
-    ret.insert(m_dictionaryDockWidget, Qt::BottomDockWidgetArea);
+    ret.unite(m_dictionaryManager->docks());
     return ret;
 }
 
@@ -150,17 +150,11 @@ void AdvancedInterface::pharseUrl(QString url)
     if(url.startsWith(bible)) {
         m_bibleManager->pharseUrl(url);
     } else if(url.startsWith(strong)) {
-        //strong://strongID
-        url = url.remove(0, strong.size());
-        m_dictionaryDockWidget->showEntry(url);
+        m_dictionaryManager->pharseUrl(url);
     } else if(url.startsWith(gram)) {
-        //gram://gramID
-        url = url.remove(0, gram.size());
-        m_dictionaryDockWidget->showEntry(url);
+         m_dictionaryManager->pharseUrl(url);
     } else if(url.startsWith(dict)) {
-        //dict:/key
-        url = url.remove(0, dict.size());
-        m_dictionaryDockWidget->showEntry(url);
+         m_dictionaryManager->pharseUrl(url);
     } else if(url.startsWith(http)) {
         //its a web link
         QDesktopServices::openUrl(url);
@@ -293,7 +287,7 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
         //myDebug() << "reload Module";
         m_moduleManager->loadAllModules();
         m_bibleManager->moduleDockWidget()->init();
-        m_dictionaryDockWidget->init();
+        m_dictionaryManager->dictionaryDockWidget()->init();
         //showText(""); //todo:
         //m_moduleManager->bible()->clearSoftCache();
         //if(m_moduleManager->bibleLoaded())
@@ -517,8 +511,8 @@ QMenuBar* AdvancedInterface::menuBar()
 
     QAction *actionStrong = new QAction(tr("Dictionay"), menuDocks);
     actionStrong->setCheckable(true);
-    connect(m_dictionaryDockWidget, SIGNAL(visibilityChanged(bool)), actionStrong, SLOT(setChecked(bool)));
-    connect(actionStrong, SIGNAL(triggered(bool)), m_dictionaryDockWidget, SLOT(setVisible(bool)));
+    connect(m_dictionaryManager->dictionaryDockWidget(), SIGNAL(visibilityChanged(bool)), actionStrong, SLOT(setChecked(bool)));
+    connect(actionStrong, SIGNAL(triggered(bool)), m_dictionaryManager->dictionaryDockWidget(), SLOT(setVisible(bool)));
     actionStrong->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_D));
 
     QAction *actionBookmarks = new QAction(QIcon::fromTheme("bookmarks-organize", QIcon(":/icons/16x16/bookmarks-organize.png")), tr("Bookmarks"), menuDocks);

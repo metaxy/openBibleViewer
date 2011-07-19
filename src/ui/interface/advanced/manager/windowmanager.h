@@ -45,8 +45,6 @@ public:
     Form *activeForm();
     QMdiSubWindow *activeSubWindow();
 
-
-
 public slots:
     void cascade();
     void tileVertical();
