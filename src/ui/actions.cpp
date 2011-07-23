@@ -147,3 +147,7 @@ void Actions::needDictionaryWindow()
 {
     emit _needDictionaryWindow();
 }
+void Actions::showDictEntry(const QString &key, int moduleID)
+{
+    emit _showDictEntry(key, moduleID);
+}

@@ -55,12 +55,12 @@ void SimpleModuleClass::setModuleID(const int moduleID)
 
 QString SimpleModuleClass::moduleTitle() const
 {
-    return QString();
+    return m_settings->getModuleSettings(m_moduleID)->moduleName;
 }
 
 QString SimpleModuleClass::moduleShortTitle() const
 {
-    return QString();
+    return m_settings->getModuleSettings(m_moduleID)->moduleShortName;
 }
 
 QString SimpleModuleClass::moduleUID() const

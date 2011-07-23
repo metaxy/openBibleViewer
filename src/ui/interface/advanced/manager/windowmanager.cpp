@@ -462,6 +462,8 @@ void WindowManager::restore()
             t = OBVCore::BibleFormT;
         } else if(type == "web"){
             t = OBVCore::WebFormT;
+        } else if(type == "dictionary"){
+            t = OBVCore::DictionaryFormT;
         }
         QMdiSubWindow *w = newSubWindow(true, max, t);
 

@@ -33,14 +33,16 @@ public slots:
     void activated();
 
     void showEntry();
-    void showEntry(const QString &key);
+    void showEntry(const QString &key, int moduleID=-1);
 private slots:
-    void showHtml(const QString &html);
+    void forwardShowHtml(const QString &html);
+    void forwardShowEntry(const QString &key, int moduleID);
 private:
     Ui::DictionaryForm *ui;
     void loadDictionary(int moduleID);
-    void testDictionary();
+    void testDictionary(int moduleID = -1);
     Dictionary *m_dictionary;
+    void showHtml(const QString &html);
 };
 
 #endif // DICTIONARYFORM_H

@@ -31,6 +31,7 @@ DictionaryDockWidget* DictionaryManager::dictionaryDockWidget()
 
 void DictionaryManager::pharseUrl(QString url)
 {
+    myDebug() << url;
     const QString strong = "strong://";
     const QString dict = "dict:/";
     const QString gram = "gram://";
@@ -48,8 +49,23 @@ void DictionaryManager::pharseUrl(QString url)
         url = url.remove(0, dict.size());
         QString tmp = url;
         QStringList l = tmp.split("/");
-        const QString moduleID = l.first();
-        const QString key = l.last();
-        m_dictionaryDock->showEntry(url);
+
+        QString moduleID = "";
+        QString key = "";
+
+        if(l.size() == 1) {
+            moduleID = tmp;
+        } else {
+            moduleID = l.first();
+            key = l.last();
+        }
+        int imoduleID;
+
+        if(moduleID == "current")
+            imoduleID = -1;
+        else
+            imoduleID = moduleID.toInt();
+
+        m_actions->showDictEntry(key, imoduleID);
     }
 }

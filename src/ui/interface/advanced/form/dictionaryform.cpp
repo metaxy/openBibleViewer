@@ -16,7 +16,8 @@ DictionaryForm::~DictionaryForm()
 }
 void DictionaryForm::init()
 {
-    connect(m_actions, SIGNAL(_showHtml(QString)), this, SLOT(showHtml(QString)));
+    connect(m_actions, SIGNAL(_showHtml(QString)), this, SLOT(forwardShowHtml(QString)));
+    connect(m_actions, SIGNAL(_showDictEntry(QString,int)), this, SLOT(forwardShowEntry(QString,int)));
 }
 
 void DictionaryForm::restore(const QString &key)
@@ -26,7 +27,8 @@ void DictionaryForm::restore(const QString &key)
 
 void DictionaryForm::save()
 {
-
+    const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
+    m_settings->session.file()->setValue(a + "type", "dictionary");
 }
 
 void DictionaryForm::copy()
@@ -77,12 +79,24 @@ void DictionaryForm::showEntry()
 {
     showEntry(ui->lineEdit_input->text());
 }
-void DictionaryForm::showEntry(const QString &key)
+void DictionaryForm::forwardShowEntry(const QString &key, int moduleID)
 {
-    testDictionary();
+    if(!active())
+        return;
+    showEntry(key, moduleID);
+}
+
+void DictionaryForm::showEntry(const QString &key, int moduleID)
+{
+    myDebug() << key;
+    testDictionary(moduleID);
 
     m_actions->needDictionaryWindow();
-    if(m_dictionary->moduleType() == OBVCore::ZefaniaLexModule || m_dictionary->moduleType() == OBVCore::BibleQuoteDictModule) {
+
+    if(key.isEmpty()) {
+        m_actions->showHtml(m_dictionary->moduleTitle());
+    }
+    else if(m_dictionary->moduleType() == OBVCore::ZefaniaLexModule || m_dictionary->moduleType() == OBVCore::BibleQuoteDictModule) {
         const QString html = m_dictionary->getEntry(key);
         m_actions->showHtml(html);
         //get text
@@ -105,7 +119,7 @@ void DictionaryForm::loadDictionary(int moduleID)
         m_settings->session.setData("lastDictModuleInWindow", m_settings->savableUrl(m->path()));
     }
 }
-void DictionaryForm::testDictionary()
+void DictionaryForm::testDictionary(int module)
 {
     if(m_dictionary == NULL) {
         m_dictionary = new Dictionary();
@@ -115,31 +129,41 @@ void DictionaryForm::testDictionary()
         m_dictionary->setSettings(m_settings);
     }
     if(!m_moduleManager->dictionaryLoaded(m_dictionary)) {
-        const QString last = m_settings->session.getData("lastDictModuleInWindow").toString();
-        int moduleID = -1;
+        if(module == -1) {
+            const QString last = m_settings->session.getData("lastDictModuleInWindow").toString();
+            int moduleID = -1;
 
-        const QString lastUrl = m_settings->recoverUrl(last);
-        QMapIterator<int, Module *> i(m_moduleManager->m_moduleMap->m_map);
-        while(i.hasNext()) {
-            i.next();
-            if(i.value()->moduleClass() == OBVCore::DictionaryModuleClass) {
-                moduleID = i.key();
-                if(i.value()->path() == lastUrl) {
-                    break;
+            const QString lastUrl = m_settings->recoverUrl(last);
+            QMapIterator<int, Module *> i(m_moduleManager->m_moduleMap->m_map);
+            while(i.hasNext()) {
+                i.next();
+                if(i.value()->moduleClass() == OBVCore::DictionaryModuleClass) {
+                    moduleID = i.key();
+                    if(i.value()->path() == lastUrl) {
+                        break;
+                    }
                 }
             }
-        }
 
-        if(moduleID == -1) {
-            myDebug() << "no Dictionaries found";
-            return;
+            if(moduleID == -1) {
+                myDebug() << "no Dictionaries found";
+                return;
+            }
+            loadDictionary(moduleID);
+        } else {
+            loadDictionary(module);
         }
-        loadDictionary(moduleID);
+    } else if(m_dictionary->moduleID() != module && module != -1) {
+        loadDictionary(module);
     }
 }
-void DictionaryForm::showHtml(const QString &html)
+void DictionaryForm::forwardShowHtml(const QString &html)
 {
     if(!active())
         return;
+    showHtml(html);
+}
+void DictionaryForm::showHtml(const QString &html)
+{
     ui->webView->setHtml(html);
 }

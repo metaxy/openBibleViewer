@@ -68,6 +68,8 @@ signals:
     void _searchInText(SearchResult *result);
     void _searchInText();
 
+    void _showDictEntry(const QString &key, int moduleID);
+
 public slots:
 
     void get(const QString &url);
@@ -105,6 +107,8 @@ public slots:
       * Using showTextRanges there is no need to call historySetUrl seperatly.
       */
     void showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
+    void showDictEntry(const QString &key, int moduleID=-1);
+
     void showHtml(const QString &html);
 
     void loadVerseTable(bool hadModule);
