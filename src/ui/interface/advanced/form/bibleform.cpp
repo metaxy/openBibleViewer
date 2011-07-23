@@ -209,7 +209,7 @@ void BibleForm::setButtons()
 
 void BibleForm::showBibleListMenu()
 {
-    BibleListWidget *w = new BibleListWidget(this);
+    VerseTableWidget *w = new VerseTableWidget(this);
     setAll(w);
     w->init();
     w->exec();

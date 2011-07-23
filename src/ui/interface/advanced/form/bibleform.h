@@ -44,7 +44,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/ui/interface/advanced/webview.h"
 
-#include "src/ui/interface/advanced/biblelistwidget.h"
+#include "src/ui/interface/advanced/versetablewidget.h"
 
 
 #include "form.h"
@@ -63,10 +63,7 @@ public:
 
     void init();
 
-
     WebView *m_view;
-
-
 
     VerseSelection verseSelection();
     void restore(const QString &key);

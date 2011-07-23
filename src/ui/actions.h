@@ -53,7 +53,7 @@ signals:
 
     void _showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
 
-    void _loadBibleList(bool hadBible);
+    void _loadVerseTable(bool hadModule);
     void _reloadChapter(bool full);
 
     void _reloadBible();
@@ -98,7 +98,7 @@ public slots:
       */
     void showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
 
-    void loadBibleList(bool hadBible);
+    void loadVerseTable(bool hadModule);
 
     void reloadBible();
     void reShowCurrentRange();

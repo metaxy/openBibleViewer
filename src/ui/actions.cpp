@@ -88,9 +88,9 @@ void Actions::showTextRanges(const QString &html, const TextRanges &range, const
 {
     emit _showTextRanges(html, range, url);
 }
-void Actions::loadBibleList(bool hadBible)
+void Actions::loadVerseTable(bool hadModule)
 {
-    emit _loadBibleList(hadBible);
+    emit _loadVerseTable(hadModule);
 }
 void Actions::reloadChapter()
 {
