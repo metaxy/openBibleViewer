@@ -51,7 +51,8 @@ public:
 
     bool bibleLoaded();
     bool hasBible();
-    bool strongLoaded();
+    bool dictionaryLoaded();
+    bool dictionaryLoaded(const Dictionary *dict);
 
     VerseModule* verseModule();
     VerseTable* verseTable();

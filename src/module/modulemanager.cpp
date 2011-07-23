@@ -205,13 +205,17 @@ bool ModuleManager::hasBible()
 /**
   * Returns true, if a strong module is loaded.
   */
-bool ModuleManager::strongLoaded()
+bool ModuleManager::dictionaryLoaded()
 {
-
-    if(m_moduleMap->m_map.contains(m_dictionary->moduleID())  &&  m_dictionary->moduleID() >= 0)
+    return dictionaryLoaded(m_dictionary);
+}
+bool ModuleManager::dictionaryLoaded(const Dictionary *dict)
+{
+    if(m_moduleMap->m_map.contains(dict->moduleID())  &&  dict->moduleID() >= 0)
         return true;
     return false;
 }
+
 bool ModuleManager::contains(const int moduleID)
 {
     return m_moduleMap->m_map.contains(moduleID);

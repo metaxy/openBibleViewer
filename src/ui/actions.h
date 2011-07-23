@@ -52,6 +52,7 @@ signals:
     void _setSubWindowView();
 
     void _showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
+    void _showHtml(const QString &html);
 
     void _loadVerseTable(bool hadModule);
     void _reloadChapter(bool full);
@@ -59,6 +60,10 @@ signals:
     void _reloadBible();
     void _reShowCurrentRange();
     void _newSubWindowIfEmpty();
+
+    void _needDictionaryWindow();
+    void _needBibleWindow();
+
 
     void _searchInText(SearchResult *result);
     void _searchInText();
@@ -93,10 +98,14 @@ public slots:
     void setSubWindowView();
     void newSubWindowIfEmpty();
 
+    void needDictionaryWindow();
+    void needBibleWindow();
+
     /**
       * Using showTextRanges there is no need to call historySetUrl seperatly.
       */
     void showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
+    void showHtml(const QString &html);
 
     void loadVerseTable(bool hadModule);
 

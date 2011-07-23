@@ -33,9 +33,13 @@ public slots:
     void activated();
 
     void showEntry();
+    void showEntry(const QString &key);
+private slots:
+    void showHtml(const QString &html);
 private:
     Ui::DictionaryForm *ui;
-
+    void loadDictionary(int moduleID);
+    void testDictionary();
     Dictionary *m_dictionary;
 };
 
