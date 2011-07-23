@@ -13,6 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "windowmanager.h"
 #include <typeinfo>
+#include "src/ui/interface/advanced/form/dictionaryform.h"
+
 WindowManager::WindowManager(QObject *parent) :
     QObject(parent)
 {
@@ -90,6 +92,8 @@ QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, OBV
         form = new BibleForm(widget);
     } else if(type == OBVCore::WebFormT){
         form = new WebForm(widget);
+    } else if(type == OBVCore::DictionaryFormT){
+        form = new DictionaryForm(widget);
     }
     form->setID(m_nameCounter);
     form->setObjectName("mdiForm");
@@ -150,7 +154,10 @@ QMdiSubWindow* WindowManager::newWebSubWindow(bool doAutoLayout, bool forceMax)
 {
    return newSubWindow(doAutoLayout, forceMax, OBVCore::WebFormT);
 }
-
+QMdiSubWindow* WindowManager::newDictionarySubWindow(bool doAutoLayout, bool forceMax)
+{
+   return newSubWindow(doAutoLayout, forceMax, OBVCore::DictionaryFormT);
+}
 void WindowManager::autoLayout()
 {
     if(!m_enableReload)

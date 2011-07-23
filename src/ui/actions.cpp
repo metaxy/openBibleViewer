@@ -17,19 +17,7 @@ Actions::Actions(QObject *parent) :
     QObject(parent)
 {
 }
-void Actions::showChapter(const int moduleID, const int bookID, const int chapterID)
-{
-    emit _showChapter(moduleID, bookID, chapterID);
-}
-void Actions::previousChapter()
-{
-    emit _previousChapter();
-}
 
-void Actions::nextChapter()
-{
-    emit _nextChapter();
-}
 
 void Actions::get(const QString &url)
 {
@@ -42,10 +30,6 @@ void Actions::get(const QUrl &url)
 void Actions::get(const VerseUrl &url)
 {
     emit _get(url);
-}
-void Actions::showNote(const QString &noteID)
-{
-    emit _showNote(noteID);
 }
 void Actions::setCurrentBook(const QSet<int> &bookID)
 {
@@ -99,10 +83,6 @@ void Actions::setTabbedView()
 void Actions::setSubWindowView()
 {
     emit _setSubWindowView();
-}
-void Actions::historySetUrl(const QString &url)
-{
-    emit _historySetUrl(url);
 }
 void Actions::showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url)
 {

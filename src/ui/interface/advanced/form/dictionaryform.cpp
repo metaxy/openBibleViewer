@@ -6,6 +6,7 @@ DictionaryForm::DictionaryForm(QWidget *parent) :
     ui(new Ui::DictionaryForm)
 {
     ui->setupUi(this);
+    connect(ui->toolButton_enter, SIGNAL(clicked()), this, SLOT(showEntry()));
 }
 
 DictionaryForm::~DictionaryForm()
@@ -68,6 +69,10 @@ void DictionaryForm::zoomOut()
 }
 
 void DictionaryForm::activated()
+{
+
+}
+void DictionaryForm::showEntry()
 {
 
 }

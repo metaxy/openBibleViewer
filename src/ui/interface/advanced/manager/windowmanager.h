@@ -53,6 +53,7 @@ public slots:
     QMdiSubWindow * newSubWindow(bool doAutoLayout = true, bool forceMax = false, OBVCore::FormType type = OBVCore::BibleFormT);
     QMdiSubWindow * newBibleSubWindow(bool doAutoLayout = true, bool forceMax = false);
     QMdiSubWindow * newWebSubWindow(bool doAutoLayout = true, bool forceMax = false);
+    QMdiSubWindow * newDictionarySubWindow(bool doAutoLayout = true, bool forceMax = false);
 
     void closeSubWindow();
     int closingWindow();

@@ -28,16 +28,12 @@ public:
     explicit Actions(QObject *parent = 0);
 
 signals:
-    void _showChapter(const int moduleID, const int bookID, const int chapterID);
-    void _previousChapter();
-    void _nextChapter();
     /**
       By default the Interface pharse all urls.
       */
     void _get(const QString &url);
     void _get(const VerseUrl &url);
 
-    void _showNote(const QString &nodeID);
 
     void _setCurrentBook(const QSet<int> &bookID);
     void _setCurrentChapter(const QSet<int> &chapterID);
@@ -55,7 +51,6 @@ signals:
     void _setTabbedView();
     void _setSubWindowView();
 
-    void _historySetUrl(const QString &url);
     void _showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
 
     void _loadBibleList(bool hadBible);
@@ -69,18 +64,11 @@ signals:
     void _searchInText();
 
 public slots:
-    /**
-      * Show a chapter in current SubWindow.
-      */
-    void showChapter(const int moduleID, const int bookID, const int chapterID);
-    void previousChapter();
-    void nextChapter();
 
     void get(const QString &url);
     void get(const QUrl &url);
     void get(const VerseUrl &url);
 
-    void showNote(const QString &noteID);
 
     void setCurrentBook(const QSet<int> &bookID);
     void setCurrentChapter(const QSet<int> &chapterID);
@@ -105,7 +93,6 @@ public slots:
     void setSubWindowView();
     void newSubWindowIfEmpty();
 
-    void historySetUrl(const QString &url);
     /**
       * Using showTextRanges there is no need to call historySetUrl seperatly.
       */

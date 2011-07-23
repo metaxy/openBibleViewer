@@ -31,8 +31,12 @@ public slots:
     void zoomIn();
     void zoomOut();
     void activated();
+
+    void showEntry();
 private:
     Ui::DictionaryForm *ui;
+
+    Dictionary *m_dictionary;
 };
 
 #endif // DICTIONARYFORM_H

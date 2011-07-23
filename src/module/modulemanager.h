@@ -54,8 +54,10 @@ public:
     bool strongLoaded();
 
     VerseModule* verseModule();
-    void initVerseModule(VerseModule *m = 0);
     VerseTable* verseTable();
+
+    void initVerseModule(VerseModule *m = 0);
+
     Dictionary* dictionary();
 
     QString notePos2Link(const QString &pos);
@@ -66,7 +68,7 @@ public:
 
     QStandardItemModel *m_moduleModel;
 
-    Settings *m_settings;
+
     Notes *m_notes;
     ModuleMap *m_moduleMap;
 
@@ -85,7 +87,9 @@ private:
 
     void loadModule(Module *moduleParent, ModuleSettings *setttings);
     void makeSureItHasLoaded(ModuleSettings *settings);
+
     Module *m_rootModule;
+    Settings *m_settings;
 };
 
 #endif // MODULEMANAGER_H

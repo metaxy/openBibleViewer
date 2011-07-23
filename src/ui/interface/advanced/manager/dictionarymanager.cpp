@@ -44,8 +44,12 @@ void DictionaryManager::pharseUrl(QString url)
         url = url.remove(0, gram.size());
         m_dictionaryDock->showEntry(url);
     } else if(url.startsWith(dict)) {
-        //dict:/key
+        //dict:/module/key
         url = url.remove(0, dict.size());
+        QString tmp = url;
+        QStringList l = tmp.split("/");
+        const QString moduleID = l.first();
+        const QString key = l.last();
         m_dictionaryDock->showEntry(url);
     }
 }

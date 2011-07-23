@@ -37,7 +37,8 @@ enum ModuleType {
 enum FormType
 {
     BibleFormT = 1,
-    WebFormT = 2
+    WebFormT = 2,
+    DictionaryFormT = 3
 };
 
 /*  QStringList ModuleTypeNames()

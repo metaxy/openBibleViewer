@@ -330,8 +330,12 @@ QMenuBar* AdvancedInterface::menuBar()
     QAction *actionNewWebSubWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New Web Window"), menuNewSubWindow);
     connect(actionNewWebSubWindow, SIGNAL(triggered()), m_windowManager, SLOT(newWebSubWindow()));
 
+    QAction *actionNewDictionarySubWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New Dictionary Window"), menuNewSubWindow);
+    connect(actionNewDictionarySubWindow, SIGNAL(triggered()), m_windowManager, SLOT(newDictionarySubWindow()));
+
     menuNewSubWindow->addAction(actionNewBibleSubWindow);
     menuNewSubWindow->addAction(actionNewWebSubWindow);
+    menuNewSubWindow->addAction(actionNewDictionarySubWindow);
 
     //Close Sub Window
     QAction *actionCloseSubWindow = new QAction(QIcon::fromTheme("tab-close", QIcon(":/icons/16x16/tab-close.png")), tr("Close SubWindow"), menuFile);

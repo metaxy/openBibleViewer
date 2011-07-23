@@ -125,6 +125,7 @@ int ModuleManager::loadAllModules()
         }
         ModuleModel model(0);
         model.setSettings(m_settings);
+        model.setShowAll(true);
         model.generate();
         m_moduleModel = model.itemModel();
     } else {

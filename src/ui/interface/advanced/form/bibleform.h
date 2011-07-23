@@ -63,14 +63,15 @@ public:
 
     void init();
 
-    Ui::BibleForm *m_ui;
+
     WebView *m_view;
-    QList<int> m_bookIDs;
-    VerseTable *m_verseTable;
+
+
 
     VerseSelection verseSelection();
     void restore(const QString &key);
     void save();
+
 private slots:
     void showBibleListMenu();
     void readBook(int id);
@@ -140,7 +141,6 @@ public slots:
 protected:
     virtual void changeEvent(QEvent *e);
 private:
-
     History browserHistory;
 
     void setButtons();
@@ -151,6 +151,7 @@ private:
     QAction *m_actionRemoveMark;
     QAction *m_actionBookmark;
     QAction *m_actionNote;
+
     void createDefaultMenu();
     void deleteDefaultMenu();
 
@@ -158,8 +159,11 @@ private:
     VerseUrl m_lastUrl;
 
     QWebInspector *m_inspector;
+    VerseTable *m_verseTable;
 
     VerseSelection lastSelection;
+    Ui::BibleForm *m_ui;
+    QList<int> m_bookIDs;
 };
 
 #endif // BIBLEFORM_H
