@@ -328,7 +328,6 @@ int WindowManager::closingWindow()
         myDebug() << "last window closed";
         m_actions->clearBooks();
         m_actions->clearChapters();
-        //m_moduleManager->m_bibleList = NULL;
         return 1;
     }
 

@@ -1005,6 +1005,7 @@ BibleForm::~BibleForm()
 {
     delete m_ui;
     delete m_verseTable;
+    m_moduleManager->m_verseTable = NULL;
 }
 
 
