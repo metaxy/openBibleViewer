@@ -89,7 +89,7 @@ void BibleForm::setBookmarksManager(BookmarksManager *bookmarksManager)
 }
 void BibleForm::attachApi()
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     QWebFrame * frame = m_view->page()->mainFrame();
     {
         QFile file(":/data/js/tools.js");

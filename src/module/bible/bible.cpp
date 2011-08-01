@@ -394,18 +394,22 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     QMapIterator<int, Verse> i(verseMap);
     if(moduleType() == OBVCore::BibleQuoteModule) {
         const QString pre = "<span verseID='";
+
         const QString pre2 = "' chapterID='" + QString::number(chapterID) +
                              "' bookID='" + QString::number(bookID) +
                              "' moduleID='" + QString::number(m_moduleID) + "'>\n";
+
         const QString ap = "</span><br />\n";
         while(i.hasNext()) {
             i.next();
             Verse verse = i.value();
-            if(i.key() > 1) {//because of the chapter
+
+            if(i.key() >= 1) {//because of the chapter
                 verse.prepend(pre + QString::number(i.key() - 1) + pre2);
                 verse.append(ap);
             }
             ret.addVerse(verse);
+            //myDebug() << verse.data();
         }
 
     } else if(moduleType() == OBVCore::ZefaniaBibleModule || moduleType() == OBVCore::TheWordBibleModule || moduleType() == OBVCore::SwordBibleModule) {
@@ -417,6 +421,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         while(i.hasNext()) {
             i.next();
             Verse verse = i.value();
+
             verse.prepend(pre + QString::number(i.key()) + pre2);
             verse.append(ap);
             ret.addVerse(verse);

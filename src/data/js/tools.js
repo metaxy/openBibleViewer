@@ -11,12 +11,12 @@ function VerseSelection() {
 
 }
 function verseGetSelection () {
-    //console.log("getting verseselection");
+    console.log("getting verseselection");
     if(window.getSelection().type == 'Range') {
-        //console.log("its a range");
+        console.log("its a range");
         var a = window.getSelection().getRangeAt(0);
         if(a != null) {
-            //console.log("and range 0 is not null");
+            console.log("and range 0 is not null");
             this.selectedText = window.getSelection().toString();
 
             var start = a.startContainer;
@@ -29,7 +29,7 @@ function verseGetSelection () {
                     break;
                 if(e.getAttribute("verseID") != null) {
                     this.startVerse = e.getAttribute("verseID");
-		    this.startChapterID = e.getAttribute("chapterID");
+                    this.startChapterID = e.getAttribute("chapterID");
                     break;
                 } else {
                     it = e;
@@ -46,7 +46,7 @@ function verseGetSelection () {
                     this.endVerse = e.getAttribute("verseID");
                     this.moduleID = e.getAttribute("moduleID");
                     this.bookID = e.getAttribute("bookID");
-		    this.endChapterID = e.getAttribute("chapterID");
+                    this.endChapterID = e.getAttribute("chapterID");
                     break;
                 } else {
                     it = e;
