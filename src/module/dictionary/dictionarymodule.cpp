@@ -14,7 +14,6 @@ void DictionaryModule::setID(int moduleID, const QString &path)
     m_modulePath = path;
 }
 
-
 QString DictionaryModule::getEntry(const QString &entry)
 {
     return "";
@@ -34,6 +33,7 @@ int DictionaryModule::buildIndex()
 {
     return -1;
 }
+
 QString DictionaryModule::indexPath() const
 {
     return m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);

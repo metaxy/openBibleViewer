@@ -89,9 +89,11 @@ void DictionaryForm::forwardShowEntry(const QString &key, int moduleID)
 void DictionaryForm::showEntry(const QString &key, int moduleID)
 {
     myDebug() << key;
-    testDictionary(moduleID);
 
     m_actions->needDictionaryWindow();
+
+    testDictionary(moduleID);
+
 
     if(key.isEmpty()) {
         m_actions->showHtml(m_dictionary->moduleTitle());
@@ -99,8 +101,6 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
     else if(m_dictionary->moduleType() == OBVCore::ZefaniaLexModule || m_dictionary->moduleType() == OBVCore::BibleQuoteDictModule) {
         const QString html = m_dictionary->getEntry(key);
         m_actions->showHtml(html);
-        //get text
-        //show html
     }
     //else
     //show url

@@ -76,6 +76,9 @@ public slots:
     void reloadChapter(bool full);
     void newSubWindowIfEmpty();
 
+    void needBibleWindow();
+    void needDictionaryWindow();
+
 
 private:
     int m_nameCounter;

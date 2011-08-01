@@ -871,12 +871,12 @@ void BibleForm::newCustomColorMark()
     if(!m_moduleManager->bibleLoaded()) {
         return;
     }
+
     VerseSelection selection = lastSelection;
     const QColor color = QColorDialog::getColor(QColor(255, 255, 0), this);
     if(color.isValid()) {
         m_notesManager->newCustomColorMark(selection, color);
     }
-
 }
 
 void BibleForm::newBoldMark()
@@ -884,9 +884,9 @@ void BibleForm::newBoldMark()
     if(!m_moduleManager->bibleLoaded()) {
         return;
     }
+
     VerseSelection selection = lastSelection;
     m_notesManager->newBoldMark(selection);
-
 }
 
 void BibleForm::newItalicMark()
@@ -897,7 +897,6 @@ void BibleForm::newItalicMark()
 
     VerseSelection selection = lastSelection;
     m_notesManager->newItalicMark(selection);
-
 }
 
 void BibleForm::newUnderlineMark()

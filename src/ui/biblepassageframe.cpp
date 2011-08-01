@@ -58,7 +58,6 @@ void BiblePassageFrame::addBox_BCV(const int bookID, const int chapterID, const 
     chapter->setValue(chapterID + 1);
     verse->setValue(verseID + 1);
 
-
     layout->addWidget(books);
     layout->addWidget(chapter);
     layout->addWidget(verse);
