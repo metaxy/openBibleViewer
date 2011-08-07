@@ -58,8 +58,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 {
-    VERSION = "0.5.80";
-    BUILD =  "2011-04-14";//jear-month-day
+    VERSION = "0.5.85";
+    BUILD =  "2011-08-07";//jear-month-day
     m_homeDataPath = homeDataPath;
     m_settingsFile = settingsFile;
     //create some important folders
@@ -386,6 +386,7 @@ void MainWindow::writeSettings()
 }
 void MainWindow::saveSettings(Settings newSettings, bool modifedModuleSettings)
 {
+    //DEBUG_FUNC_NAME
     Settings oldSettings = *m_settings;
 
     setSettings(newSettings);
@@ -401,6 +402,7 @@ void MainWindow::saveSettings(Settings newSettings, bool modifedModuleSettings)
 }
 void MainWindow::showSettingsDialog(int tabID)
 {
+    //DEBUG_FUNC_NAME
     SettingsDialog setDialog(this);
     connect(&setDialog, SIGNAL(settingsChanged(Settings, bool)), this, SLOT(saveSettings(Settings, bool)));
     setDialog.setSettings(*m_settings);

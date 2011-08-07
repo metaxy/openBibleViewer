@@ -61,6 +61,7 @@ QStandardItemModel* ModuleModel::itemModel() const
 void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings)
 {
     QStandardItem *item = NULL;
+
     if(settings->moduleType == OBVCore::BibleQuoteModule || settings->moduleType == OBVCore::ZefaniaBibleModule || settings->moduleType == OBVCore::TheWordBibleModule || settings->moduleType == OBVCore::SwordBibleModule) {
         item = new QStandardItem;
         item->setText(settings->moduleName);

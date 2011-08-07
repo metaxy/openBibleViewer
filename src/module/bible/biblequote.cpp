@@ -290,7 +290,7 @@ int BibleQuote::readBook(const int id)
         QStringList rawVerseList = chapterText.at(i + 1).split(m_verseSign);
         for(int j = 0; j < rawVerseList.size(); j++) { //split removes versesign but it is needed
             QString verseText = rawVerseList.at(j);
-            myDebug() << verseText;
+            //myDebug() << verseText;
 
             if(verseText.contains("<p>") && !verseText.contains("</p>"))
                 verseText.remove("<p>", Qt::CaseInsensitive);
