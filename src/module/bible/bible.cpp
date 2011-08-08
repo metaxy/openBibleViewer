@@ -241,6 +241,12 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     }
     if(endVerse == -1)
         endVerse = startVerse;
+    //todo: ugly
+    if(moduleType() == OBVCore::BibleQuoteModule)  {
+        endVerse++;
+        if(startVerse != 0)
+            startVerse++;
+    }
 
     myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
 
@@ -291,8 +297,11 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             verse.append(append);
         } else if(moduleType() == OBVCore::BibleQuoteModule) {
         }
-
-        if(range.selectedVerse().contains(it.key())) {
+        //todo: ugly
+        int add = 0;
+        if(moduleType() == OBVCore::BibleQuoteModule)
+            add = 1;
+        if(range.selectedVerse().contains(it.key()-add)) {
             if(!currentVerse) {
                 currentVerse = true;//todo: currently the first selected entry is the current entry
                 //change this to provide maybe more future features
