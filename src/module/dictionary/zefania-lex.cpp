@@ -96,7 +96,7 @@ QString ZefaniaLex::getEntry(const QString &key)
     standard::StandardAnalyzer analyzer(stop_words);
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     IndexSearcher s(reader);
-#ifdef _USE_WSTRING
+#ifdef OBV_USE_WSTRING
     Query* q = QueryParser::parse(queryText.toStdWString().c_str(), _T("content"), &analyzer);
 #else
     Query* q = QueryParser::parse(reinterpret_cast<const wchar_t *>(queryText.utf16()), _T("content"), &analyzer);
@@ -107,7 +107,7 @@ QString ZefaniaLex::getEntry(const QString &key)
         Document* doc = &h->doc(i);
         if(!ret.isEmpty())
             ret.append("<hr /> ");
-#ifdef _USE_WSTRING
+#ifdef OBV_USE_WSTRING
         ret.append(QString::fromWCharArray(doc->get(_T("content"))));
 #else
         ret.append(QString::fromUtf16((const ushort*)doc->get(_T("content"))));
@@ -128,7 +128,7 @@ QStringList ZefaniaLex::getAllKeys()
     QStringList ret;
     for(int i = 0; i < reader->numDocs(); i++) {
         Document* doc = reader->document(i);
-#ifdef _USE_WSTRING
+#ifdef OBV_USE_WSTRING
         ret.append(QString::fromWCharArray(doc->get(_T("key"))));
 #else
         ret.append(QString::fromUtf16((const ushort*)doc->get(_T("key"))));
@@ -285,7 +285,7 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
             }
             content += "<br />" + desc;
             indexdoc.clear();
-#ifdef _USE_WSTRING
+#ifdef OBV_USE_WSTRING
             indexdoc.add(*_CLNEW Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
             indexdoc.add(*_CLNEW Field(_T("content"), content.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 #else

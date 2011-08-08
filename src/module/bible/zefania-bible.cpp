@@ -719,7 +719,7 @@ void ZefaniaBible::buildIndex()
 
                     const QString key = book + ";" + chapter + ";" + verse;
                     myDebug() << key << t;
-#ifdef _USE_WSTRING
+#ifdef OBV_USE_WSTRING
                     doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
                     doc.add(*new Field(_T("content"), t.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
                     //doc.add(*new Field(_T("content"), (wchar_t*)t.toLocal8Bit().constData(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
@@ -757,7 +757,7 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
     standard::StandardAnalyzer analyzer(stop_words);
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     IndexSearcher s(reader);
-#ifdef _USE_WSTRING
+#ifdef OBV_USE_WSTRING
     Query* q = QueryParser::parse(query.searchText.toStdWString().c_str(), _T("content"), &analyzer);
 #else
     Query* q = QueryParser::parse(reinterpret_cast<const wchar_t *>(query.searchText.utf16()), _T("content"), &analyzer);
@@ -766,7 +766,7 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
     //myDebug() << "query string = " << q->toString();
     for(size_t i = 0; i < h->length(); i++) {
         Document* doc = &h->doc(i);
-#ifdef _USE_WSTRING
+#ifdef OBV_USE_WSTRING
         //myDebug() << "using wstring";
         const QString stelle = QString::fromWCharArray(doc->get(_T("key")));
 #else
@@ -785,7 +785,7 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
             hit.setValue(SearchHit::BookID, l.at(0).toInt());
             hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
             hit.setValue(SearchHit::VerseID, l.at(2).toInt());
-#ifdef _USE_WSTRING
+#ifdef OBV_USE_WSTRING
             hit.setValue(SearchHit::VerseText, QString::fromWCharArray(doc->get(_T("content"))));
 #else
             hit.setValue(SearchHit::VerseText, QString::fromUtf16((const ushort*)doc->get(_T("content"))));

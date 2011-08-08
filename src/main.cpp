@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
 
 #ifdef Q_WS_WIN
     //a protable version is needed only for windows
-#ifdef _PORTABLE_VERSION
+#ifdef OBV_PORTABLE_VERSION
     homeDataPath = QApplication::applicationDirPath() + "/";
     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
 #else

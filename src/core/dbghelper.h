@@ -11,19 +11,36 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
+#ifndef DBGHELPER_H
+#define DBGHELPER_H
+
 #include <QtCore/QtDebug>
+#include "config.h"
+#ifdef OBV_NO_DEBUG_OUTPUT
+
+#ifndef QT_NO_DEBUG
+#define QT_NO_DEBUG
+#endif
+
+#ifndef QT_NO_DEBUG_OUTPUT
+#define QT_NO_DEBUG_OUTPUT
+#endif
+
+#endif
+
 #define myDebug() qDebug() << Q_FUNC_INFO << " "
 #define myWarning() qWarning() << "W: "<< Q_FUNC_INFO << " "
-#ifndef QT_NO_DEBUG
-#define DEBUG_FUNC_NAME DbgHelper dbgHelper(Q_FUNC_INFO);
+
+#ifdef OBV_NO_DEBUG_OUTPUT
+#define DEBUG_FUNC_NAME
 #else
 #define DEBUG_FUNC_NAME DbgHelper dbgHelper(Q_FUNC_INFO);
 #endif
-#ifndef DBGHELPER_H
-#define DBGHELPER_H
+
+
 #include <QtCore/QString>
 /**
- * DbgHelper is a debug helper, it shows the debug ouzput more clearly
+ * DbgHelper is a debug helper, it shows the debug output more clearly
  */
 
 class DbgHelper
