@@ -78,6 +78,7 @@ public slots:
 
     void needBibleWindow();
     void needDictionaryWindow();
+    void needWebWindow();
 
 
 private:

@@ -32,6 +32,7 @@ AdvancedSearchResultDockWidget::~AdvancedSearchResultDockWidget()
 }
 void AdvancedSearchResultDockWidget::init()
 {
+    m_searchResult = NULL;
     m_itemModel = new QStandardItemModel(this);
     m_itemModel->setHeaderData(0, Qt::Horizontal, tr("Result"));
     m_proxyModel = new QSortFilterProxyModel(this);
@@ -120,12 +121,13 @@ void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
 }
 void AdvancedSearchResultDockWidget::searchInfo()
 {
-    if(!m_moduleManager->contains(m_moduleManager->verseModule()->moduleID())) {
+    SearchResult *result = m_searchResult;
+    if(!m_moduleManager->bibleLoaded() || result == NULL) {
         QMessageBox::information(0, tr("Error"), tr("No search information available."));
         return;
     }
 
-    SearchResult *result = m_searchResult;
+
     QList<SearchHit> list = result->hits(SearchHit::BibleHit);
 
     QStringList textList;

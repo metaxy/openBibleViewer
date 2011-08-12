@@ -20,6 +20,8 @@ public:
 
     void restore(const QString &key);
     void save();
+
+    Form::FormType type() const;
 private:
     Ui::WebForm *m_ui;
     QLineEdit *m_locationEdit;

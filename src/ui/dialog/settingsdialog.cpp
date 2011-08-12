@@ -320,7 +320,9 @@ void SettingsDialog::save(void)
     foreach(ModuleSettings * set, m_set.m_moduleSettings) {
         struc2.insert(set->moduleID, set->parentID);
     }
+
     if(struc != struc2) {
+        myDebug() << "modified struct";
         m_modifedModuleSettings = true;
     }
     emit settingsChanged(m_set, m_modifedModuleSettings); //Speichern

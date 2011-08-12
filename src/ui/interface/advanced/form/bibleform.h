@@ -68,7 +68,7 @@ public:
     VerseSelection verseSelection();
     void restore(const QString &key);
     void save();
-
+    Form::FormType type() const;
 private slots:
     void showBibleListMenu();
     void readBook(int id);
@@ -77,8 +77,7 @@ private slots:
 signals:
     void onClose();
     void historyGo(QString);
-    void previousChapter();
-    void nextChapter();
+
 public slots:
     void historySetUrl(QString url);
     void backward();

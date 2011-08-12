@@ -170,7 +170,7 @@ void TheWordBible::search(const SearchQuery &query, SearchResult *res) const
     standard::StandardAnalyzer analyzer(stop_words);
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     IndexSearcher s(reader);
-#ifdef _USE_WSTRING
+#ifdef OBV_USE_WSTRING
     Query* q = QueryParser::parse(query.searchText.toStdWString().c_str(), _T("content"), &analyzer);
 #else
     Query* q = QueryParser::parse(reinterpret_cast<const wchar_t *>(query.searchText.utf16()), _T("content"), &analyzer);
@@ -178,7 +178,7 @@ void TheWordBible::search(const SearchQuery &query, SearchResult *res) const
     Hits* h = s.search(q);
     for(size_t i = 0; i < h->length(); i++) {
         Document* doc = &h->doc(i);
-#ifdef _USE_WSTRING
+#ifdef OBV_USE_WSTRING
         const QString stelle = QString::fromWCharArray(doc->get(_T("key")));
 #else
         const QString stelle = QString::fromUtf16((const ushort*)doc->get(_T("key")));
@@ -191,7 +191,7 @@ void TheWordBible::search(const SearchQuery &query, SearchResult *res) const
             hit.setValue(SearchHit::BookID, l.at(0).toInt());
             hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
             hit.setValue(SearchHit::VerseID, l.at(2).toInt());
-#ifdef _USE_WSTRING
+#ifdef OBV_USE_WSTRING
             hit.setValue(SearchHit::VerseText, QString::fromWCharArray(doc->get(_T("content"))));
 #else
             hit.setValue(SearchHit::VerseText, QString::fromUtf16((const ushort*)doc->get(_T("content"))));
@@ -254,7 +254,7 @@ void TheWordBible::buildIndex()
                 doc.clear();
                 const QString key = QString::number(bookIt.value().bookID()) + ";" + QString::number(chapterIt.value().chapterID()) + ";" + QString::number(verseIt.value().verseID());
                 const QString text = verseIt.value().data();
-#ifdef _USE_WSTRING
+#ifdef OBV_USE_WSTRING
                 doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
                 doc.add(*new Field(_T("content"), text.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 #else

@@ -19,7 +19,7 @@ public:
 
     void restore(const QString &key);
     void save();
-
+    Form::FormType type() const;
 public slots:
     void copy();
     void selectAll();

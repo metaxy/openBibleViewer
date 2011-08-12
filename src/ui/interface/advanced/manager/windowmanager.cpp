@@ -158,6 +158,24 @@ QMdiSubWindow* WindowManager::newDictionarySubWindow(bool doAutoLayout, bool for
 {
    return newSubWindow(doAutoLayout, forceMax, OBVCore::DictionaryFormT);
 }
+void WindowManager::needBibleWindow()
+{
+    if(activeForm()->type() != Form::BibleForm)
+        newBibleSubWindow();
+}
+
+void WindowManager::needDictionaryWindow()
+{
+    if(activeForm()->type() != Form::DictionaryForm)
+        newDictionarySubWindow();
+}
+
+void WindowManager::needWebWindow()
+{
+    if(activeForm()->type() != Form::WebForm)
+        newWebSubWindow();
+}
+
 void WindowManager::autoLayout()
 {
     if(!m_enableReload)
@@ -337,7 +355,6 @@ int WindowManager::closingWindow()
         myDebug() << "last window closed";
         m_actions->clearBooks();
         m_actions->clearChapters();
-        //m_moduleManager->m_bibleList = NULL;
         return 1;
     }
 

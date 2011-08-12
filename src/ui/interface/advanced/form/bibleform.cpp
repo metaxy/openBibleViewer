@@ -40,6 +40,10 @@ BibleForm::BibleForm(QWidget *parent) : Form(parent), m_ui(new Ui::BibleForm)
     setButtons();
 }
 
+Form::FormType BibleForm::type() const
+{
+    return Form::BibleForm;
+}
 
 void BibleForm::init()
 {
@@ -64,8 +68,6 @@ void BibleForm::init()
 #endif
 
     connect(this, SIGNAL(historyGo(QString)), m_actions, SLOT(get(QString)));
-    connect(this, SIGNAL(previousChapter()), m_actions, SLOT(previousChapter()));
-    connect(this, SIGNAL(nextChapter()), m_actions, SLOT(nextChapter()));
 
 
     connect(m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
@@ -162,7 +164,7 @@ void BibleForm::save()
 
 void BibleForm::attachApi()
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     QWebFrame * frame = m_view->page()->mainFrame();
     {
         QFile file(":/data/js/tools.js");
@@ -1069,6 +1071,7 @@ BibleForm::~BibleForm()
 {
     delete m_ui;
     delete m_verseTable;
+    m_moduleManager->m_verseTable = NULL;
 }
 
 

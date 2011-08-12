@@ -4,9 +4,18 @@
   # ${CMAKE_CURRENT_SOURCE_DIR}/cmake/cxx_flag_overrides.cmake)
 
 project( openBibleViewer )
+
 cmake_minimum_required( VERSION 2.6 )
-set ( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
-INCLUDE(InstallRequiredSystemLibraries)
+
+set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
+
+include(InstallRequiredSystemLibraries)
+
+if(NOT CMAKE_BUILD_TYPE)
+   set(CMAKE_BUILD_TYPE "Release")
+endif(NOT CMAKE_BUILD_TYPE)
+
+message("-- Using build type: ${CMAKE_BUILD_TYPE}")
 
 IF(MSVC)
   #nmake definitions for less output
@@ -25,13 +34,29 @@ find_package ( Qt4 REQUIRED )
 include(FindPkgConfig)
 pkg_check_modules(CLUCENE1 libclucene-core)
 
-option( _PORTABLE_VERSION "Build a portable version" OFF )
-option( _SWORD_SUPPORT "Build with sword support" OFF )
-#not using "to STdWString" triggers a bad bug on linux
-if(MSVC)
-  option( _USE_WSTRING "Use toStdWString and fromWCharArray" OFF)
+option( OBV_PORTABLE_VERSION "Build a portable version" OFF )
+option( OBV_SWORD_SUPPORT "Build with sword support" OFF )
+
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    option( OBV_NO_DEBUG_OUTPUT "Do not show Debug output" ON )
 else()
-  option( _USE_WSTRING "Use toStdWString and fromWCharArray" ON)
+    option( OBV_NO_DEBUG_OUTPUT "Do not show Debug output" OFF )
+endif()
+
+SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_DEBUG QT_DEBUG)
+SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_RELEASE QT_NO_DEBUG)
+SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_RELEASE QT_NO_DEBUG_OUTPUT )
+SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_RELEASE QT_NO_WARNING_OUTPUT )
+SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_RELWITHDEBINFO QT_NO_DEBUG)
+SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_MINSIZEREL QT_NO_DEBUG)
+SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_MINSIZEREL QT_NO_DEBUG_OUTPUT )
+SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_MINSIZEREL QT_NO_WARNING_OUTPUT )
+
+#not using "to StdWString" triggers a bad bug on linux
+if(MSVC)
+  option( OBV_USE_WSTRING "Use toStdWString and fromWCharArray" OFF)
+else()
+  option( OBV_USE_WSTRING "Use toStdWString and fromWCharArray" ON)
 endif()
 
 find_package(CLucene1)
@@ -45,12 +70,12 @@ if(MSVC)
   set(_BUILD_CLUCENE 0)
 endif()
 
-if(_SWORD_SUPPORT)
+if(OBV_SWORD_SUPPORT)
     include (FindSword)
     if (NOT SWORD_NOT_FOUND)
         ADD_DEFINITIONS(-DBUILD_WITH_SWORD)
     endif(NOT SWORD_NOT_FOUND)
-endif(_SWORD_SUPPORT)
+endif(OBV_SWORD_SUPPORT)
 
 if(_BUILD_CLUCENE)
     message("find threads and zlib")
@@ -70,15 +95,10 @@ else(_BUILD_CLUCENE)
 endif(_BUILD_CLUCENE)
 
 
-if (NOT CMAKE_BUILD_TYPE)
-   set(CMAKE_BUILD_TYPE "Release")
-endif (NOT CMAKE_BUILD_TYPE)
+include(${QT_USE_FILE})
+add_definitions(${QT_DEFINITIONS})
 
-message("-- Using build type: ${CMAKE_BUILD_TYPE}")
-INCLUDE(${QT_USE_FILE})
-ADD_DEFINITIONS(${QT_DEFINITIONS})
-
-include_directories (
+include_directories(
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${QT_QTCORE_INCLUDE_DIR}
@@ -98,14 +118,14 @@ if(_BUILD_CLUCENE)
     add_subdirectory ( src/clucene )
 endif(_BUILD_CLUCENE)
 
-if(_SWORD_SUPPORT)
-    include_directories (
+if(OBV_SWORD_SUPPORT)
+    include_directories(
         ${SWORD_INCLUDE_DIR}
     )
-endif(_SWORD_SUPPORT)
+endif(OBV_SWORD_SUPPORT)
 
 #Build openBibleViewer
-set ( openBibleViewer_HDRS
+set( openBibleViewer_HDRS
 
     src/api/notesapi.h
     src/api/bibleapi.h
@@ -183,7 +203,7 @@ set ( openBibleViewer_HDRS
     src/ui/modelmodel.h
     )
 
-set ( openBibleViewer_SRCS
+set( openBibleViewer_SRCS
     src/main.cpp
 
     src/api/bibleapi.cpp
@@ -438,7 +458,7 @@ set ( openBibleViewer_MOCS
 configure_file( ${openBibleViewer_SOURCE_DIR}/src/config.h.cmake 
                 ${openBibleViewer_BINARY_DIR}/config.h )
 
-QT4_WRAP_CPP ( MOCS ${openBibleViewer_MOCS} )
+QT4_WRAP_CPP( MOCS ${openBibleViewer_MOCS} )
 QT4_ADD_RESOURCES(RSCS ${openBibleViewer_RSCS})
 QT4_WRAP_UI(UIS ${openBibleViewer_UIS})
 
@@ -453,14 +473,15 @@ if(_BUILD_CLUCENE)
 else(_BUILD_CLUCENE)
     set(CL_LIBS  "${CLUCENE_DIR}\\build\\bin\\clucene-shared.lib" "${CLUCENE_DIR}\\build\\bin\\clucene-core.lib")
 endif(_BUILD_CLUCENE)
-if(_SWORD_SUPPORT)
+
+if(OBV_SWORD_SUPPORT)
     set(SW_LIBS ${CURL_LIBRARIES} ${ICU_LIBRARIES} ${ICU_I18N_LIBRARIES} ${ZLIB_LIBRARIES} ${SWORD_LIBRARY})
-else(_SWORD_SUPPORT)
+else(OBV_SWORD_SUPPORT)
     set(SW_LIBS "")
-endif(_SWORD_SUPPORT)
+endif(OBV_SWORD_SUPPORT)
 
 
-target_link_libraries ( openBibleViewer
+target_link_libraries( openBibleViewer
 			${QT_LIBRARIES}
                         ${QT_QTCORE_LIBRARY} 
                         ${QT_QTGUI_LIBRARY} 
@@ -472,14 +493,14 @@ target_link_libraries ( openBibleViewer
 )
 
 
-install ( TARGETS openBibleViewer
+install( TARGETS openBibleViewer
          RUNTIME DESTINATION bin )
 
 if(UNIX AND NOT WIN32)
-    install ( FILES "${openBibleViewer_SOURCE_DIR}/src/icons/124x124/openBibleViewer.png"
+    install( FILES "${openBibleViewer_SOURCE_DIR}/src/icons/124x124/openBibleViewer.png"
         DESTINATION "share/pixmaps/" )
 
-    install ( FILES "${openBibleViewer_SOURCE_DIR}/openBibleViewer.desktop"
+    install( FILES "${openBibleViewer_SOURCE_DIR}/openBibleViewer.desktop"
         DESTINATION "share/applications/" )
 else(WIN32 AND NOT UNIX)
  install (FILES
@@ -504,7 +525,7 @@ set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
 set(CPACK_PACKAGE_VERSION_MINOR "5")
-set(CPACK_PACKAGE_VERSION_PATCH "83")
+set(CPACK_PACKAGE_VERSION_PATCH "90")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "openBibleViewer ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
 #nsis
 if(WIN32 AND NOT UNIX)

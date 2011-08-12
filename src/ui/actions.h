@@ -28,6 +28,10 @@ public:
     explicit Actions(QObject *parent = 0);
 
 signals:
+    void _previousChapter();
+    void _nextChapter();
+
+
     /**
       By default the Interface pharse all urls.
       */
@@ -63,6 +67,7 @@ signals:
 
     void _needDictionaryWindow();
     void _needBibleWindow();
+    void _needWebWindow();
 
 
     void _searchInText(SearchResult *result);
@@ -71,6 +76,10 @@ signals:
     void _showDictEntry(const QString &key, int moduleID);
 
 public slots:
+
+    void previousChapter();
+    void nextChapter();
+
 
     void get(const QString &url);
     void get(const QUrl &url);
@@ -102,6 +111,7 @@ public slots:
 
     void needDictionaryWindow();
     void needBibleWindow();
+    void needWebWindow();
 
     /**
       * Using showTextRanges there is no need to call historySetUrl seperatly.

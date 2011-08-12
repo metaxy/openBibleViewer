@@ -22,20 +22,40 @@ ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
     ui(new Ui::ModuleDockWidget)
 {
     ui->setupUi(this);
-    m_dontLoad = false;
+    /*m_dontLoad = false;*/
     first = false;
-    m_moduleID = -1;
+
+    m_proxyModel = NULL;
+    m_selectionModel = NULL;
 }
 /**
   * Init the ModuleDockWidget. Init proxyModel and selectionModel.
   */
 void ModuleDockWidget::init()
 {
+    ui->treeView_module->clearSelection();
+
+    if(m_proxyModel != NULL) {
+        m_proxyModel->deleteLater();
+        m_proxyModel = NULL;
+    }
+    if(m_selectionModel != NULL) {
+        m_selectionModel->deleteLater();
+        m_selectionModel = NULL;
+    }
+    m_moduleID = -1;
+
+    ModuleModel model(0);
+    model.setSettings(m_settings);
+    model.generate();
+
     m_proxyModel = new RecursivProxyModel(this);
-    m_proxyModel->setSourceModel(m_moduleManager->m_moduleModel);
+    m_proxyModel->setSourceModel(model.itemModel());
     m_proxyModel->setHeaderData(0, Qt::Horizontal, tr("Module"));
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+
     m_selectionModel = new QItemSelectionModel(m_proxyModel);
+
     connect(ui->lineEdit_filter, SIGNAL(textChanged(QString)), this, SLOT(filter(QString)));
 
     connect(ui->treeView_module, SIGNAL(clicked(QModelIndex)), this, SLOT(loadModuleData(QModelIndex)));
@@ -43,6 +63,7 @@ void ModuleDockWidget::init()
     ui->treeView_module->setSortingEnabled(true);
     ui->treeView_module->setModel(m_proxyModel);
     ui->treeView_module->setSelectionModel(m_selectionModel);
+
     m_proxyModel->sort(0);
     connect(m_actions, SIGNAL(_setCurrentModule(int)), this, SLOT(loadedModule(int)));
 }

@@ -27,6 +27,8 @@ SearchResultDockWidget::SearchResultDockWidget(QWidget *parent) :
     connect(ui->listWidget_search, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)), this, SLOT(goToSearchResult(QListWidgetItem *)));
     connect(ui->pushButton_searchInfo, SIGNAL(clicked()), this, SLOT(searchInfo()));
     ui->pushButton_searchInfo->setDisabled(true);
+    m_searchResult = NULL;
+
 }
 
 SearchResultDockWidget::~SearchResultDockWidget()
@@ -73,12 +75,12 @@ void SearchResultDockWidget::goToSearchResult(QListWidgetItem * item)
 }
 void SearchResultDockWidget::searchInfo()
 {
-    if(!m_moduleManager->contains(m_moduleManager->verseModule()->moduleID())) {
+    SearchResult *result = m_searchResult;
+    if(!m_moduleManager->bibleLoaded() || result == NULL) {
         QMessageBox::information(0, tr("Error"), tr("No search information available."));
         return;
     }
 
-    SearchResult *result = m_searchResult;
     const QList<SearchHit> list = result->hits(SearchHit::BibleHit);
 
     QStringList textList;

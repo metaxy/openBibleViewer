@@ -66,6 +66,9 @@ int ModuleManager::loadAllModules()
     root->moduleID = -1;
     root->parentID = -2;
 
+    foreach(ModuleSettings * set, m_settings->m_moduleSettings) {
+        set->clearChildren();
+    }
     //set parents
     {
         QHashIterator<int, ModuleSettings*> it2(m_settings->m_moduleSettings);

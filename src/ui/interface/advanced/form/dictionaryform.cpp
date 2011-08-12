@@ -19,7 +19,10 @@ void DictionaryForm::init()
     connect(m_actions, SIGNAL(_showHtml(QString)), this, SLOT(forwardShowHtml(QString)));
     connect(m_actions, SIGNAL(_showDictEntry(QString,int)), this, SLOT(forwardShowEntry(QString,int)));
 }
-
+Form::FormType DictionaryForm::type() const
+{
+    return Form::DictionaryForm;
+}
 void DictionaryForm::restore(const QString &key)
 {
 

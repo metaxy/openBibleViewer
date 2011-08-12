@@ -58,6 +58,10 @@ void QuickJumpDockWidget::goToPos()
 {
     DEBUG_FUNC_NAME;
     const QString text = ui->lineEdit_goTo->text();
+    if(text.isEmpty() || !m_moduleManager->bibleLoaded()) {
+        myWarning() << "no module loaded";
+        return;
+    }
     m_hist << text;
 
     QStringList l;

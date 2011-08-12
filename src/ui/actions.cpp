@@ -17,6 +17,15 @@ Actions::Actions(QObject *parent) :
     QObject(parent)
 {
 }
+void Actions::previousChapter()
+{
+    emit _previousChapter();
+}
+
+void Actions::nextChapter()
+{
+    emit _nextChapter();
+}
 
 void Actions::get(const QString &url)
 {
@@ -147,6 +156,12 @@ void Actions::needDictionaryWindow()
 {
     emit _needDictionaryWindow();
 }
+
+void Actions::needWebWindow()
+{
+    emit _needWebWindow();
+}
+
 void Actions::showDictEntry(const QString &key, int moduleID)
 {
     emit _showDictEntry(key, moduleID);

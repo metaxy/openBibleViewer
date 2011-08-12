@@ -13,6 +13,12 @@ class Form : public QWidget, public BasicClass
 {
     Q_OBJECT
 public:
+    enum FormType {
+        BibleForm,
+        DictionaryForm,
+        WebForm
+    };
+
     explicit Form(QWidget *parent = 0);
     virtual void init() = 0;
     virtual void setID(const int id);
@@ -28,6 +34,8 @@ public:
 
     virtual void restore(const QString &key) = 0;
     virtual void save() = 0;
+
+    virtual FormType type() const = 0;
 signals:
 
 public slots:

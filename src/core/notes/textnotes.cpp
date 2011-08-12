@@ -33,8 +33,8 @@ void TextNotes::init(const QString &fileName)
 
 bool TextNotes::isLoaded() const
 {
-    DEBUG_FUNC_NAME
-    return m_isLoaded;
+   /* return m_isLoaded;*/
+   return false;
 }
 
 void TextNotes::loadingNewInstance()
@@ -51,41 +51,28 @@ int TextNotes::loadNotes()
     foreach(const QString d, l) {
         notesID << d;
         notesType[d] = "text";
-        loadNote(d);
+        //loadNote(d);
     }
     m_isLoaded = true;
     return 0;
 }
-void TextNotes::loadNote(QString id)
-{
-    QFile file(m_fileName + id);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-         return;
-    notesTitle.remove(id);
-    notesData.remove(id);
-    QTextStream in(&file);
-    const QString all = in.readAll();
-    //if we found nothing else
-    notesTitle.insert(id, id);
-    notesData.insert(id, all);
-}
 
 QString TextNotes::getType(const QString &id) const
 {
-    //loadNote(id);
-    return notesType.value(id, "");
+    /*return notesType.value(id, "");*/
+	return "";
 }
 
 QString TextNotes::getTitle(const QString &id) const
 {
-    //loadNote(id);
-    return notesTitle.value(id, "");
+    /*return notesTitle.value(id, "");*/
+	return "";
 }
 
 QString TextNotes::getData(const QString &id) const
 {
-    //loadNote(id);
-    return notesData.value(id, "");
+    /*return notesData.value(id, "");*/
+	return "";
 }
 
 QString TextNotes::getRef(const QString &id, const QString &refID) const
@@ -97,6 +84,7 @@ QString TextNotes::getRef(const QString &id, const QString &refID) const
     } else {
         return QString();
     }
+	return "";
 }
 
 QMap<QString, QString> TextNotes::getRef(const QString &id) const
@@ -112,12 +100,14 @@ QMap<QString, QString> TextNotes::getRef(const QString &id) const
   */
 QStringList TextNotes::getIDList() const
 {
-    return notesID;
+    /*return notesID;*/
+	return QStringList();
 }
 
 QStringList TextNotes::getIDList(const QString &type) const
 {
-    return notesType.keys(type);
+    /*return notesType.keys(type);*/
+	return QStringList();
 }
 
 
@@ -209,8 +199,7 @@ void TextNotes::removeNote(const QString &id)
 int TextNotes::readNotes()
 {
     //read all notes in notesData
-
-
+    return 0;
 }
 
 int TextNotes::saveNotes()
@@ -256,6 +245,7 @@ int TextNotes::saveNotes()
     file.close();
     doc = sdoc;
     return 0;*/
+    return 0;
 }
 
 void TextNotes::search(SearchQuery query, SearchResult *res) const

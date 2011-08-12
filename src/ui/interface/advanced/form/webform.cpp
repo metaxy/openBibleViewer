@@ -27,6 +27,10 @@ WebForm::~WebForm()
 {
     delete m_ui;
 }
+Form::FormType WebForm::type() const
+{
+    return Form::WebForm;
+}
 // shamelessly copied from Qt Demo Browser
 QUrl WebForm::guessUrlFromString(const QString &string)
 {

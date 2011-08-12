@@ -290,7 +290,15 @@ int BibleQuote::readBook(const int id)
         QStringList rawVerseList = chapterText.at(i + 1).split(m_verseSign);
         for(int j = 0; j < rawVerseList.size(); j++) { //split removes versesign but it is needed
             QString verseText = rawVerseList.at(j);
-            Verse v(j, verseText.prepend(m_verseSign));
+            //myDebug() << verseText;
+
+            if(verseText.contains("<p>") && !verseText.contains("</p>"))
+                verseText.remove("<p>", Qt::CaseInsensitive);
+
+            if(verseText.contains("</p>") || m_verseSign != "<p>")
+                verseText.prepend(m_verseSign);
+
+            Verse v(j, verseText);
             c.addVerse(j, v);
         }
         m_book.addChapter(i, c);
@@ -403,7 +411,7 @@ void BibleQuote::buildIndex()
                 doc.clear();
                 const QString t = verses.at(verseit);
                 const QString key = QString::number(id) + ";" + QString::number(chapterit - 1) + ";" + QString::number(verseit - 1);
-#ifdef _USE_WSTRING
+#ifdef OBV_USE_WSTRING
                 doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
                 doc.add(*new Field(_T("content"), t.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 #else
@@ -433,7 +441,7 @@ void BibleQuote::search(const SearchQuery &query, SearchResult *res) const
 
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     IndexSearcher s(reader);
-#ifdef _USE_WSTRING
+#ifdef OBV_USE_WSTRING
     Query* q = QueryParser::parse(query.searchText.toStdWString().c_str(), _T("content"), &analyzer);
 #else
     Query* q = QueryParser::parse(reinterpret_cast<const wchar_t *>(query.searchText.utf16()), _T("content"), &analyzer);
@@ -441,7 +449,7 @@ void BibleQuote::search(const SearchQuery &query, SearchResult *res) const
     Hits* h = s.search(q);
     for(size_t i = 0; i < h->length(); i++) {
         Document* doc = &h->doc(i);
-#ifdef _USE_WSTRING
+#ifdef OBV_USE_WSTRING
         const QString stelle = QString::fromWCharArray(doc->get(_T("key")));
 #else
         const QString stelle = QString::fromUtf16((const ushort*)doc->get(_T("key")));
@@ -455,7 +463,7 @@ void BibleQuote::search(const SearchQuery &query, SearchResult *res) const
             hit.setValue(SearchHit::BookID, l.at(0).toInt());
             hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
             hit.setValue(SearchHit::VerseID, l.at(2).toInt());
-#ifdef _USE_WSTRING
+#ifdef OBV_USE_WSTRING
             hit.setValue(SearchHit::VerseText, QString::fromWCharArray(doc->get(_T("content"))));
 #else
             hit.setValue(SearchHit::VerseText, QString::fromUtf16((const ushort*)doc->get(_T("content"))));
