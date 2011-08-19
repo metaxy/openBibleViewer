@@ -105,36 +105,20 @@ int main(int argc, char *argv[])
     if( opt->getValue( "configPath" ) != NULL ) {
         homeDataPath = QString::fromLocal8Bit(opt->getValue( "configPath" ));
     } else {
-        #if defined(Q_WS_MAC) || defined(Q_WS_X11) || (!defined(Q_WS_MAC) && !defined(Q_WS_X11)  && !defined(Q_WS_WIN))
+        #if !defined(Q_WS_WIN)
             homeDataPath = QFSFileEngine::homePath() + "/.openbible_next/";
-        #endif
-
-        #ifdef Q_WS_WIN
+        #else
             //a protable version is needed only for windows
             #ifdef OBV_PORTABLE_VERSION
                 homeDataPath = QApplication::applicationDirPath() + "/";
             #else
                 homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible_next/";
             #endif
-
         #endif
 
     }
 
-    #if defined(Q_WS_MAC) || defined(Q_WS_X11) || (!defined(Q_WS_MAC) && !defined(Q_WS_X11)  && !defined(Q_WS_WIN))
-         settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-    #endif
-
-    #ifdef Q_WS_WIN
-        //a protable version is needed only for windows
-        #ifdef OBV_PORTABLE_VERSION
-            settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-        #else
-            settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "openBible", "openBibleViewer");
-        #endif
-
-    #endif
-
+    settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
 
     QDir dir(homeDataPath);
     if(!dir.exists(homeDataPath)) {
@@ -170,6 +154,7 @@ int main(int argc, char *argv[])
 
     a.installTranslator(&myappTranslator);
     delete opt;
+
     MainWindow w;
     w.setTranslator(&myappTranslator, &qtTranslator);
     w.init(homeDataPath, settings);
