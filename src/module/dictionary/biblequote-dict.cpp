@@ -205,7 +205,7 @@ QStringList BibleQuoteDict::getAllKeys()
     const QString index = indexPath();
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     QStringList ret;
-    for(size_t i = 0; i < reader->numDocs(); i++) {
+    for(int32_t i = 0; i < reader->numDocs(); i++) {
         Document* doc = reader->document(i);
 #ifdef OBV_USE_WSTRING
         ret.append(QString::fromWCharArray(doc->get(_T("key"))));

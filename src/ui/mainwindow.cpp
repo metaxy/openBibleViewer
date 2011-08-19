@@ -244,6 +244,7 @@ void MainWindow::loadDefaultSettings()
     m_settings->homePath = m_homeDataPath;
     m_settings->zefaniaBible_hardCache = true;
     m_settings->zefaniaBible_softCache = true;
+    m_settings->advancedSearchDock_useCurrentModule = true;
 
     m_settings->defaultVersification = new Versification_KJV();
 }

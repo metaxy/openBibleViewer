@@ -49,6 +49,9 @@ public:
     int textFormatting;//0 = Neue Zeile nach Vers, 1 = Unformatierter Textblock
     bool zefaniaBible_hardCache;
     bool zefaniaBible_softCache;
+
+    bool advancedSearchDock_useCurrentModule;
+
     QString homePath;
     Versification *defaultVersification;
 
@@ -67,6 +70,9 @@ public:
     QString v11nFile(const QString &path) const;
 
     int newModuleID() const;
+
+
+
 private:
 
 };

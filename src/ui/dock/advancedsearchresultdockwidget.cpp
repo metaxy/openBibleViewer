@@ -106,7 +106,12 @@ void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
 
             VerseUrl url;
             VerseUrlRange range;
-            range.setModule(hit.value(SearchHit::BibleID).toInt());
+            if(m_settings->advancedSearchDock_useCurrentModule == true) {
+                range.setModule(VerseUrlRange::LoadCurrentModule);
+            } else {
+                range.setModule(hit.value(SearchHit::BibleID).toInt());
+            }
+
             range.setBook(hit.value(SearchHit::BookID).toInt());
             range.setChapter(hit.value(SearchHit::ChapterID).toInt());
             range.setActiveVerse(hit.value(SearchHit::VerseID).toInt());
