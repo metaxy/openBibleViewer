@@ -126,6 +126,7 @@ endif(OBV_SWORD_SUPPORT)
 
 #Build openBibleViewer
 set( openBibleViewer_HDRS
+    src/anyoption.h
 
     src/api/notesapi.h
     src/api/bibleapi.h
@@ -205,6 +206,7 @@ set( openBibleViewer_HDRS
 
 set( openBibleViewer_SRCS
     src/main.cpp
+    src/anyoption.cpp
 
     src/api/bibleapi.cpp
     src/api/notesapi.cpp
