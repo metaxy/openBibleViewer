@@ -62,13 +62,26 @@ public:
     QStringList sessionNames;
     QStringList sessionIDs;
 
+
+    /**
+      * Replace homePath and settingsPath to make it more portable.
+      */
     QString savableUrl(QString url) const;
+    /**
+      * Recover Urls which were saved with savableUrl().
+      */
     QString recoverUrl(QString url) const;
-
+    /**
+     * Generate a hash from a string. Use it only for urls, because they are transformed by savableUrl().
+     */
     QString hash(const QString& path) const;
-
+    /**
+      * Returns the path to the versification.
+      */
     QString v11nFile(const QString &path) const;
-
+    /**
+      * It generates a new module id.
+      */
     int newModuleID() const;
 
 

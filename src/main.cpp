@@ -38,8 +38,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "config.h"
 #include "anyoption.h"
 
-
-
 bool removeDir(const QString &dirName)
 {
     bool result = true;
@@ -52,17 +50,14 @@ bool removeDir(const QString &dirName)
             } else {
                 result = QFile::remove(info.absoluteFilePath());
             }
-
             if(!result) {
                 return result;
             }
         }
         result = dir.rmdir(dirName);
     }
-
     return result;
 }
-
 
 int main(int argc, char *argv[])
 {
