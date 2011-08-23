@@ -2,6 +2,8 @@
 #define DICTIONARYMANAGER_H
 #include "src/core/basicclass.h"
 #include "src/ui/dock/dictionarydockwidget.h"
+#include "src/ui/interface/advanced/manager/windowmanager.h"
+
 #include <QObject>
 
 class DictionaryManager : public QObject, public BasicClass
@@ -15,9 +17,12 @@ public:
     DictionaryDockWidget *dictionaryDockWidget();
 
     void pharseUrl(QString url);
+
+    void setWindowManager(WindowManager *windowManager);
 private:
     QWidget *m_p;
     DictionaryDockWidget *m_dictionaryDock;
+    WindowManager *m_windowManager;
 };
 
 #endif // DICTIONARYMANAGER_H

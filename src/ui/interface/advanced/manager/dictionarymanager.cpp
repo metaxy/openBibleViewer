@@ -8,7 +8,10 @@ void DictionaryManager::setWidget(QWidget *p)
 {
     m_p = p;
 }
-
+void DictionaryManager::setWindowManager(WindowManager *windowManager)
+{
+    m_windowManager = windowManager;
+}
 void DictionaryManager::createDocks()
 {
     m_dictionaryDock = new DictionaryDockWidget(m_p);

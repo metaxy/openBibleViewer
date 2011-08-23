@@ -53,10 +53,7 @@ void AdvancedInterface::init()
     setAll(m_api);
     m_api->init();
 
-    m_bibleManager = new BibleManager(this);
-    setAll(m_bibleManager);
-    m_bibleManager->setWidget(this->parentWidget());
-    m_bibleManager->init();
+
 
     m_notesManager = new NotesManager(this);
     m_notesManager->setWidget(this->parentWidget());
@@ -66,19 +63,28 @@ void AdvancedInterface::init()
     setAll(m_bookmarksManager);
     m_bookmarksManager->setWidget(this->parentWidget());
 
-    m_dictionaryManager = new DictionaryManager(this);
-    setAll(m_dictionaryManager);
-    m_dictionaryManager->setWidget(this->parentWidget());
+
 
     m_windowManager = new WindowManager(this);
     setAll(m_windowManager);
     m_windowManager->setMdiArea(ui->mdiArea);
     m_windowManager->setApi(m_api);
-    m_windowManager->setBibleManager(m_bibleManager);
     m_windowManager->setNotesManager(m_notesManager);
     m_windowManager->setBookmarksManager(m_bookmarksManager);
 
     m_windowManager->init();
+
+    m_bibleManager = new BibleManager(this);
+    setAll(m_bibleManager);
+    m_bibleManager->setWidget(this->parentWidget());
+    m_bibleManager->setWindowManager(m_windowManager);
+    m_bibleManager->init();
+
+    m_dictionaryManager = new DictionaryManager(this);
+    setAll(m_dictionaryManager);
+    m_dictionaryManager->setWindowManager(m_windowManager);
+    m_dictionaryManager->setWidget(this->parentWidget());
+
 
     m_searchManager = new SearchManager(this);
     setAll(m_searchManager);

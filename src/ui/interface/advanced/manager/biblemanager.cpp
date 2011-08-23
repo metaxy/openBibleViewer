@@ -17,10 +17,17 @@ BibleManager::BibleManager(QObject *parent) :
     QObject(parent)
 {
 }
+
 void BibleManager::setWidget(QWidget *p)
 {
     m_p = p;
 }
+
+void BibleManager::setWindowManager(WindowManager *windowManager)
+{
+    m_windowManager = windowManager;
+}
+
 void BibleManager::init()
 {
     connect(m_actions, SIGNAL(_get(VerseUrl)), this, SLOT(pharseUrl(VerseUrl)));
@@ -30,6 +37,7 @@ void BibleManager::init()
     connect(m_actions, SIGNAL(_reShowCurrentRange()), this, SLOT(reShowCurrentRange()));
     connect(m_actions, SIGNAL(_reloadBible()), this, SLOT(reloadBible()));
 }
+
 void BibleManager::createDocks()
 {
     m_moduleDockWidget = new ModuleDockWidget(m_p);
@@ -136,7 +144,10 @@ void BibleManager::pharseUrl(const VerseUrl &url)
 {
     //DEBUG_FUNC_NAME;
     myDebug() << "url = " << url.toString();
-    m_actions->newSubWindowIfEmpty();
+
+    //open a bible window
+    m_windowManager->needBibleWindow();
+
     Ranges ranges;
     foreach(VerseUrlRange range, url.ranges()) {
         ranges.addRanges(bibleUrlRangeToRanges(range));
@@ -153,6 +164,10 @@ void BibleManager::pharseUrl(const QString &url)
     const QString bible = "verse:/";
     const QString bq = "go";
     myDebug() << "url = " << url;
+
+    //open a bible window
+    m_windowManager->needBibleWindow();
+
     if(url.startsWith(bible)) {
         m_actions->newSubWindowIfEmpty();
         VerseUrl bibleUrl;

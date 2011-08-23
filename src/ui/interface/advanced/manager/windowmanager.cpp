@@ -37,11 +37,6 @@ void WindowManager::setApi(Api *api)
     m_api = api;
 }
 
-void WindowManager::setBibleManager(BibleManager *bibleManager)
-{
-    m_bibleManager = bibleManager;
-}
-
 void WindowManager::setNotesManager(NotesManager *notesManager)
 {
     m_notesManager = notesManager;
@@ -101,7 +96,6 @@ QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, OBV
     setAll(form);
 
     form->setApi(m_api);
-    form->setBibleManager(m_bibleManager);
     form->setNotesManager(m_notesManager);
     form->setBookmarksManager(m_bookmarksManager);
     form->init();
@@ -160,20 +154,35 @@ QMdiSubWindow* WindowManager::newDictionarySubWindow(bool doAutoLayout, bool for
 }
 void WindowManager::needBibleWindow()
 {
-    if(activeForm()->type() != Form::BibleForm)
+    if(usableWindowList().isEmpty()) {
         newBibleSubWindow();
+    } else if(activeForm() != NULL) {
+        if(activeForm()->type() != Form::BibleForm) {
+            newBibleSubWindow();
+        }
+    }
 }
 
 void WindowManager::needDictionaryWindow()
 {
-    if(activeForm()->type() != Form::DictionaryForm)
+    if(usableWindowList().isEmpty()) {
         newDictionarySubWindow();
+    } else if(activeForm() != NULL) {
+        if(activeForm()->type() != Form::DictionaryForm) {
+            newDictionarySubWindow();
+        }
+    }
 }
 
 void WindowManager::needWebWindow()
 {
-    if(activeForm()->type() != Form::WebForm)
+    if(usableWindowList().isEmpty()) {
         newWebSubWindow();
+    } else if(activeForm() != NULL) {
+        if(activeForm()->type() != Form::WebForm) {
+            newWebSubWindow();
+        }
+    }
 }
 
 void WindowManager::autoLayout()

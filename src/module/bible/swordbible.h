@@ -31,6 +31,7 @@ class SwordBible : public BibleModule
 {
 public:
     SwordBible();
+
     int loadBibleData(const int moduleID, const QString &path);
     void setSettings(Settings *settings);
     QString readInfo(QFile &file);

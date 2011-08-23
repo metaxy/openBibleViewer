@@ -4,7 +4,6 @@
 #include <QWidget>
 #include "src/core/basicclass.h"
 #include "src/ui/interface/advanced/manager/bookmarksmanager.h"
-#include "src/ui/interface/advanced/manager/biblemanager.h"
 #include "src/ui/interface/advanced/manager/notesmanager.h"
 #include "src/api/api.h"
 #include "src/core/dbghelper.h"
@@ -25,7 +24,6 @@ public:
     virtual int id();
 
     void setApi(Api *api);
-    void setBibleManager(BibleManager *bibleManager);
     void setNotesManager(NotesManager *notesManager);
     void setBookmarksManager(BookmarksManager *bookmarksManager);
     void setParentSubWindow(QMdiSubWindow *window);
@@ -56,7 +54,6 @@ protected:
     bool active();
     int m_id;
     Api *m_api;//not in out control
-    BibleManager *m_bibleManager;
     NotesManager *m_notesManager;
     BookmarksManager *m_bookmarksManager;
     QMdiSubWindow *m_parentSubWindow;

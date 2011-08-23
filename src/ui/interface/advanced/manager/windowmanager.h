@@ -29,6 +29,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/interface/advanced/form/webform.h"
 #include "src/ui/interface/advanced/windowsessiondata.h"
 #include "bookmarksmanager.h"
+#include "notesmanager.h"
+#include "src/ui/interface/advanced/form/form.h"
 
 class WindowManager : public QObject , public BasicClass
 {
@@ -38,12 +40,13 @@ public:
     ~WindowManager();
     void setMdiArea(QMdiArea *area);
     void setApi(Api *api);
-    void setBibleManager(BibleManager *bibleManager);
     void setNotesManager(NotesManager *notesManager);
     void setBookmarksManager(BookmarksManager *bookmarksManager);
     void init();
     Form *activeForm();
     QMdiSubWindow *activeSubWindow();
+
+    QList<QMdiSubWindow*> usableWindowList();
 
 public slots:
     void cascade();
@@ -88,12 +91,11 @@ private:
     MdiAreaFilter *m_mdiAreaFilter;
     bool m_enableReload;
     void autoLayout();
-    QList<QMdiSubWindow*> usableWindowList();
+
     /*int currentWindowName();*/
     int m_lastActiveWindow;
     void setEnableReload(bool enable);
 
-    BibleManager *m_bibleManager;
     NotesManager *m_notesManager;
     BookmarksManager *m_bookmarksManager;
     int *m_currentWindowID;

@@ -4,14 +4,15 @@
 #include <QWidget>
 #include <QtGui/QLineEdit>
 #include "form.h"
+
 namespace Ui {
     class WebForm;
 }
 
-class WebForm :  public Form
+class WebForm : public Form
 {
     Q_OBJECT
-
+    Q_DISABLE_COPY(WebForm)
 public:
     explicit WebForm(QWidget *parent = 0);
     ~WebForm();
