@@ -46,6 +46,7 @@ void ModuleDockWidget::init()
     m_moduleID = -1;
 
     ModuleModel model(0);
+    model.setShowAll(true);
     model.setSettings(m_settings);
     model.generate();
 

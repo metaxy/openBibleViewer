@@ -1,4 +1,5 @@
 #include "dictionarymanager.h"
+#include "src/ui/interface/advanced/form/dictionaryform.h"
 
 DictionaryManager::DictionaryManager(QObject *parent) :
     QObject(parent)
@@ -49,6 +50,8 @@ void DictionaryManager::pharseUrl(QString url)
         m_dictionaryDock->showEntry(url);
     } else if(url.startsWith(dict)) {
         //dict:/module/key
+        m_windowManager->needDictionaryWindow();
+
         url = url.remove(0, dict.size());
         QString tmp = url;
         QStringList l = tmp.split("/");
@@ -64,11 +67,11 @@ void DictionaryManager::pharseUrl(QString url)
         }
         int imoduleID;
 
-        if(moduleID == "current")
+        if(moduleID == "current") {
             imoduleID = -1;
-        else
+        } else {
             imoduleID = moduleID.toInt();
-
-        m_actions->showDictEntry(key, imoduleID);
+        }
+        ((DictionaryForm*)m_windowManager->activeForm())->showEntry(key, imoduleID);
     }
 }
