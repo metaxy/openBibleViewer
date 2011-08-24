@@ -43,6 +43,8 @@ private:
     void testDictionary(int moduleID = -1);
     Dictionary *m_dictionary;
     void showHtml(const QString &html);
+
+    QString m_key;
 };
 
 #endif // DICTIONARYFORM_H

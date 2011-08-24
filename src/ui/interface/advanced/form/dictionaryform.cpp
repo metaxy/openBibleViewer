@@ -11,6 +11,7 @@ DictionaryForm::DictionaryForm(QWidget *parent) :
     connect(ui->toolButton_enter, SIGNAL(clicked()), this, SLOT(showEntry()));
     connect(ui->lineEdit_input, SIGNAL(returnPressed()), this, SLOT(showEntry()));
 
+    ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
     m_dictionary = NULL;
 }
 
@@ -22,6 +23,7 @@ void DictionaryForm::init()
 {
     connect(m_actions, SIGNAL(_showHtml(QString)), this, SLOT(forwardShowHtml(QString)));
     connect(m_actions, SIGNAL(_showDictEntry(QString,int)), this, SLOT(forwardShowEntry(QString,int)));
+    connect(ui->webView->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
 }
 Form::FormType DictionaryForm::type() const
 {
@@ -36,6 +38,7 @@ void DictionaryForm::save()
 {
     const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
     m_settings->session.file()->setValue(a + "type", "dictionary");
+    m_settings->session.file()->setValue(a + "key", m_key);
 }
 
 void DictionaryForm::copy()
@@ -98,11 +101,12 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
     myDebug() << key;
 
     testDictionary(moduleID);
-
+    m_key = "";
     if(key.isEmpty()) {
         showHtml(m_dictionary->moduleTitle());
     }
     else if(m_dictionary->moduleType() == OBVCore::ZefaniaLexModule || m_dictionary->moduleType() == OBVCore::BibleQuoteDictModule) {
+        m_key = key;
         const QString html = m_dictionary->getEntry(key);
         showHtml(html);
     }
