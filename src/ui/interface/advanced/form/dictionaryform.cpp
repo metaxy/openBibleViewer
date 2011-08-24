@@ -1,12 +1,16 @@
 #include "dictionaryform.h"
 #include "ui_dictionaryform.h"
 
+#include <QtGui/QCompleter>
+
 DictionaryForm::DictionaryForm(QWidget *parent) :
     Form(parent),
     ui(new Ui::DictionaryForm)
 {
     ui->setupUi(this);
     connect(ui->toolButton_enter, SIGNAL(clicked()), this, SLOT(showEntry()));
+    connect(ui->lineEdit_input, SIGNAL(returnPressed()), this, SLOT(showEntry()));
+
     m_dictionary = NULL;
 }
 
@@ -36,12 +40,12 @@ void DictionaryForm::save()
 
 void DictionaryForm::copy()
 {
-
+    ui->webView->page()->triggerAction(QWebPage::Copy);
 }
 
 void DictionaryForm::selectAll()
 {
-
+    ui->webView->page()->triggerAction(QWebPage::SelectAll);
 }
 
 void DictionaryForm::print()
@@ -61,17 +65,17 @@ void DictionaryForm::saveFile()
 
 QString DictionaryForm::selectedText()
 {
-    return "";
+    return ui->webView->selectedText();
 }
 
 void DictionaryForm::zoomIn()
 {
-
+    ui->webView->setZoomFactor(ui->webView->zoomFactor() + 0.1);
 }
 
 void DictionaryForm::zoomOut()
 {
-
+    ui->webView->setZoomFactor(ui->webView->zoomFactor() - 0.1);
 }
 
 void DictionaryForm::activated()
@@ -95,7 +99,6 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
 
     testDictionary(moduleID);
 
-
     if(key.isEmpty()) {
         showHtml(m_dictionary->moduleTitle());
     }
@@ -118,6 +121,11 @@ void DictionaryForm::loadDictionary(int moduleID)
 
         //todo: do this when closing
         m_settings->session.setData("lastDictModuleInWindow", m_settings->savableUrl(m->path()));
+
+        //todo: memory leak
+        QCompleter *completer = new QCompleter(m_dictionary->getAllKeys(), this);
+        completer->setCaseSensitivity(Qt::CaseInsensitive);
+        ui->lineEdit_input->setCompleter(completer);
     }
 }
 void DictionaryForm::testDictionary(int module)
