@@ -73,8 +73,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 {
-    UpdatesChecker *c= new UpdatesChecker(this);
-    c->checkForUpdates();
+
 
 
     VERSION = QString(OBV_VERSION_NUMBER);
@@ -103,6 +102,10 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
     }
     loadDefaultSettings();
     loadSettings();
+
+    UpdatesChecker * c = new UpdatesChecker(this);
+    setAll(c);
+    c->checkForUpdates();
 
     m_moduleManager->setSettings(m_settings);
     m_moduleManager->setNotes(m_notes);
@@ -253,6 +256,13 @@ void MainWindow::loadDefaultSettings()
     m_settings->zefaniaBible_softCache = true;
     m_settings->advancedSearchDock_useCurrentModule = true;
 
+    #if !defined(Q_WS_X11)
+         m_settings->checkForUpdates = true;
+    #else
+         m_settings->checkForUpdates = false;
+    #endif
+
+
     m_settings->defaultVersification = new Versification_KJV();
 }
 void MainWindow::loadSettings()
@@ -272,8 +282,11 @@ void MainWindow::loadSettings()
     m_settings->encoding = m_settingsFile->value("general/encoding", m_settings->encoding).toString();
     m_settings->zoomstep = m_settingsFile->value("general/zoomstep", m_settings->zoomstep).toInt();
     m_settings->language = m_settingsFile->value("general/language", QLocale::system().name()).toString();
+    m_settings->checkForUpdates = m_settingsFile->value("general/checkForUpdates", m_settings->checkForUpdates).toBool();
+
     m_settings->autoLayout = (Settings::LayoutEnum) m_settingsFile->value("window/layout", m_settings->autoLayout).toInt();
     m_settings->onClickBookmarkGo = m_settingsFile->value("window/onClickBookmarkGo", m_settings->onClickBookmarkGo).toBool();
+
 
     m_settings->textFormatting = m_settingsFile->value("bible/textFormatting", m_settings->textFormatting).toInt();
 
@@ -330,6 +343,7 @@ void MainWindow::writeSettings()
     m_settingsFile->setValue("general/encoding", m_settings->encoding);
     m_settingsFile->setValue("general/zoomstep", m_settings->zoomstep);
     m_settingsFile->setValue("general/language", m_settings->language);
+    m_settingsFile->setValue("general/checkForUpdates", m_settings->checkForUpdates);
     m_settingsFile->setValue("general/lastSession", m_settings->sessionID);
     m_settingsFile->setValue("window/layout", m_settings->autoLayout);
     m_settingsFile->setValue("window/onClickBookmarkGo", m_settings->onClickBookmarkGo);

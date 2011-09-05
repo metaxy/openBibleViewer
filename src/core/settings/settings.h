@@ -46,6 +46,8 @@ public:
     LayoutEnum autoLayout;
     bool onClickBookmarkGo;
 
+    bool checkForUpdates;
+
     int textFormatting;//0 = Neue Zeile nach Vers, 1 = Unformatierter Textblock
     bool zefaniaBible_hardCache;
     bool zefaniaBible_softCache;

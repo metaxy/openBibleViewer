@@ -6,7 +6,7 @@
 #include <QtNetwork/QNetworkReply>
 
 
-class UpdatesChecker : public QObject, BasicClass
+class UpdatesChecker : public QObject, public BasicClass
 {
     Q_OBJECT
 public:
