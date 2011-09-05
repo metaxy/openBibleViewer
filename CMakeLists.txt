@@ -98,6 +98,9 @@ else(_BUILD_CLUCENE)
 	)
 endif(_BUILD_CLUCENE)
 
+set(OBV_VERSION_NUMBER "0.6.40")
+set(OBV_VERSION_STATUS "unstable")
+set(OBV_BUILD_DATE "2011-08-07")
 
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})

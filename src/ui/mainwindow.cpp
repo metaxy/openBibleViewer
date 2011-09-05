@@ -27,6 +27,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include "src/core/obvcore.h"
 
+#include "config.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -72,8 +73,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 {
-    VERSION = "0.5.90";
-    BUILD =  "2011-08-07";//jear-month-day
+    VERSION = QString(OBV_VERSION_NUMBER);
+    BUILD =  QString(OBV_BUILD_DATE);//jear-month-day
     m_homeDataPath = homeDataPath;
     m_settingsFile = settingsFile;
     m_sessionFile = new QSettings(homeDataPath + "sessions.ini", QSettings::IniFormat);
