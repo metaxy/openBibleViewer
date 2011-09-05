@@ -46,14 +46,14 @@ public:
     Form *activeForm();
     QMdiSubWindow *activeSubWindow();
 
-    QList<QMdiSubWindow*> usableWindowList();
+    QList<QMdiSubWindow*> usableWindowList() const;
 
 public slots:
     void cascade();
     void tileVertical();
     void tileHorizontal();
     void tile();
-    QMdiSubWindow * newSubWindow(bool doAutoLayout = true, bool forceMax = false, OBVCore::FormType type = OBVCore::BibleFormT);
+    QMdiSubWindow * newSubWindow(bool doAutoLayout = true, bool forceMax = false, Form::FormType type = Form::BibleForm);
     QMdiSubWindow * newBibleSubWindow(bool doAutoLayout = true, bool forceMax = false);
     QMdiSubWindow * newWebSubWindow(bool doAutoLayout = true, bool forceMax = false);
     QMdiSubWindow * newDictionarySubWindow(bool doAutoLayout = true, bool forceMax = false);
@@ -82,6 +82,7 @@ public slots:
     void needBibleWindow();
     void needDictionaryWindow();
     void needWebWindow();
+    void needWindow(Form::FormType type = Form::BibleForm);
 
 
 private:
@@ -101,6 +102,8 @@ private:
     int *m_currentWindowID;
 
     void installResizeFilter();
+
+    Form* getForm(QMdiSubWindow *w);
 
 };
 

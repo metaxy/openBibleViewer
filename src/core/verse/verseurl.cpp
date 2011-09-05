@@ -26,7 +26,7 @@ VerseUrl::VerseUrl(const VerseUrlRange &range)
 
 void VerseUrl::setParam(const QString &name, const QString &value)
 {
-    //check if name or value contains / or , or =
+    //check if name or value contains "/" or "," or "="
     m_params.insert(name, value);
 }
 

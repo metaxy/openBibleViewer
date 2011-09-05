@@ -69,7 +69,7 @@ void WindowManager::newSubWindowIfEmpty()
     if(usableWindowList().isEmpty())
         newBibleSubWindow();
 }
-QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, OBVCore::FormType type)
+QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, Form::FormType type)
 {
     setEnableReload(false);
 
@@ -83,11 +83,11 @@ QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, OBV
     QVBoxLayout *layout = new QVBoxLayout(widget);
     m_nameCounter++;
     Form *form = NULL;
-    if(type == OBVCore::BibleFormT) {
+    if(type == Form::BibleForm) {
         form = new BibleForm(widget);
-    } else if(type == OBVCore::WebFormT){
+    } else if(type == Form::WebForm){
         form = new WebForm(widget);
-    } else if(type == OBVCore::DictionaryFormT){
+    } else if(type == Form::DictionaryForm){
         form = new DictionaryForm(widget);
     }
     form->setID(m_nameCounter);
@@ -141,48 +141,59 @@ QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, OBV
 
 QMdiSubWindow* WindowManager::newBibleSubWindow(bool doAutoLayout, bool forceMax)
 {
-    return newSubWindow(doAutoLayout, forceMax, OBVCore::BibleFormT);
+    return newSubWindow(doAutoLayout, forceMax, Form::BibleForm);
 }
 
 QMdiSubWindow* WindowManager::newWebSubWindow(bool doAutoLayout, bool forceMax)
 {
-   return newSubWindow(doAutoLayout, forceMax, OBVCore::WebFormT);
+   return newSubWindow(doAutoLayout, forceMax, Form::WebForm);
 }
 QMdiSubWindow* WindowManager::newDictionarySubWindow(bool doAutoLayout, bool forceMax)
 {
-   return newSubWindow(doAutoLayout, forceMax, OBVCore::DictionaryFormT);
+   return newSubWindow(doAutoLayout, forceMax, Form::DictionaryForm);
 }
-void WindowManager::needBibleWindow()
+void WindowManager::needWindow(Form::FormType type)
 {
+    DEBUG_FUNC_NAME;
+
     if(usableWindowList().isEmpty()) {
-        newBibleSubWindow();
+        newSubWindow(true, false, type);
     } else if(activeForm() != NULL) {
-        if(activeForm()->type() != Form::BibleForm) {
-            newBibleSubWindow();
+        if(activeForm()->type() != type) {
+            bool ok;
+            foreach(QMdiSubWindow *w, usableWindowList()) {
+                Form *f = getForm(w);
+                if(f->type() == type) {
+                    myDebug() << "activate window";
+                    w->activateWindow();
+                    m_area->setActiveSubWindow(w);
+                    ok = true;
+                    break;
+                }
+            }
+            if(!ok) {
+                newSubWindow(true, false, type);
+            }
         }
     }
+}
+
+void WindowManager::needBibleWindow()
+{
+    DEBUG_FUNC_NAME;
+    needWindow(Form::BibleForm);
 }
 
 void WindowManager::needDictionaryWindow()
 {
-    if(usableWindowList().isEmpty()) {
-        newDictionarySubWindow();
-    } else if(activeForm() != NULL) {
-        if(activeForm()->type() != Form::DictionaryForm) {
-            newDictionarySubWindow();
-        }
-    }
+     DEBUG_FUNC_NAME;
+     needWindow(Form::DictionaryForm);
 }
 
 void WindowManager::needWebWindow()
 {
-    if(usableWindowList().isEmpty()) {
-        newWebSubWindow();
-    } else if(activeForm() != NULL) {
-        if(activeForm()->type() != Form::WebForm) {
-            newWebSubWindow();
-        }
-    }
+    DEBUG_FUNC_NAME;
+    needWindow(Form::WebForm);
 }
 
 void WindowManager::autoLayout()
@@ -205,7 +216,7 @@ void WindowManager::autoLayout()
 
 QMdiSubWindow * WindowManager::activeSubWindow()
 {
-    QList<QMdiSubWindow*> list = usableWindowList();
+    const QList<QMdiSubWindow*> list = usableWindowList();
     if(QMdiSubWindow *activeSubWindow = m_area->activeSubWindow()) {
         for(int i = 0; i < list.size(); i++) {
             if(list.at(i) == activeSubWindow) {
@@ -227,10 +238,14 @@ QMdiSubWindow * WindowManager::activeSubWindow()
 
 Form * WindowManager::activeForm()
 {
-    if(activeSubWindow()) {
-        return activeSubWindow()->widget()->findChild<Form *>("mdiForm");
-    }
-    return NULL;
+    return getForm(activeSubWindow());
+}
+Form * WindowManager::getForm(QMdiSubWindow *w)
+{
+    if(w == NULL)
+        return NULL;
+
+    return w->widget()->findChild<Form *>("mdiForm");
 }
 
 void WindowManager::tileVertical()
@@ -334,10 +349,10 @@ void WindowManager::tile()
     m_area->tileSubWindows();
 }
 
-QList<QMdiSubWindow*> WindowManager::usableWindowList()
+QList<QMdiSubWindow*> WindowManager::usableWindowList() const
 {
     QList<QMdiSubWindow*> ret;
-    foreach(QMdiSubWindow * w, m_area->subWindowList()) {
+    foreach(QMdiSubWindow * w, m_area->subWindowList(QMdiArea::ActivationHistoryOrder)) {
         if(w->isHidden())
             continue;
         ret.append(w);
@@ -489,13 +504,13 @@ void WindowManager::restore()
         const bool max = m_settings->session.file()->value(pre + "maximized").toBool();
         const QRect geo = m_settings->session.file()->value(pre + "geo").toRect();
 
-        OBVCore::FormType t = OBVCore::BibleFormT;
+        Form::FormType t = Form::BibleForm;
         if(type == "bible") {
-            t = OBVCore::BibleFormT;
+            t = Form::BibleForm;
         } else if(type == "web"){
-            t = OBVCore::WebFormT;
+            t = Form::WebForm;
         } else if(type == "dictionary"){
-            t = OBVCore::DictionaryFormT;
+            t = Form::DictionaryForm;
         }
         QMdiSubWindow *w = newSubWindow(true, max, t);
 

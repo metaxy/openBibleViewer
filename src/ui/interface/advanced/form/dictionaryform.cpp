@@ -83,7 +83,9 @@ void DictionaryForm::zoomOut()
 
 void DictionaryForm::activated()
 {
-
+    if(m_dictionary == NULL)
+        return;
+    m_actions->setTitle(m_dictionary->moduleTitle());
 }
 void DictionaryForm::showEntry()
 {
