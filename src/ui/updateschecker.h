@@ -10,15 +10,17 @@ class UpdatesChecker : public QObject, BasicClass
 {
     Q_OBJECT
 public:
-    UpdatesChecker();
+    UpdatesChecker(QObject *parent = 0);
+    void checkForUpdates();
 
 public slots:
-    void checkForUpdates();
+
+    void replyFinished(QNetworkReply* reply);
 
 private slots:
     void updatesAvailable();
 
-    void replyFinished(QNetworkReply* reply);
+
 
 private:
     bool isImportantUpdate;

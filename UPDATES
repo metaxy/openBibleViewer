@@ -1,9 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<updates>
 <stable>
  	<version>0.5.95</version>
 </stable>
-
 <unstable>
-	<version>0.6.50></version>
-
+	<version>0.6.50</version>
 </unstable>
-
+</updates>

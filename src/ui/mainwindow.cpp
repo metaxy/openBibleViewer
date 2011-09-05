@@ -73,8 +73,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 {
-    UpdatesChecker c;
-    c.checkForUpdates();
+    UpdatesChecker *c= new UpdatesChecker(this);
+    c->checkForUpdates();
 
 
     VERSION = QString(OBV_VERSION_NUMBER);
