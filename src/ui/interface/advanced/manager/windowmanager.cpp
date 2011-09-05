@@ -355,7 +355,7 @@ QList<QMdiSubWindow*> WindowManager::usableWindowList() const
     foreach(QMdiSubWindow * w, m_area->subWindowList(QMdiArea::ActivationHistoryOrder)) {
         if(w->isHidden())
             continue;
-        ret.append(w);
+        ret.prepend(w);
     }
     return  ret;
 }
