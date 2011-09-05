@@ -337,6 +337,8 @@ set( openBibleViewer_SRCS
     src/ui/actions.cpp
     src/ui/modulemodel.cpp
     src/ui/biblepassageframe.cpp
+
+    src/ui/updateschecker.cpp
     
     )
 
@@ -459,6 +461,10 @@ set ( openBibleViewer_MOCS
     src/ui/interface/advanced/manager/searchmanager.h
     src/ui/actions.h
     src/ui/biblepassageframe.h
+
+
+    src/ui/updateschecker.h
+
     )
 
 configure_file( ${openBibleViewer_SOURCE_DIR}/src/config.h.cmake 
