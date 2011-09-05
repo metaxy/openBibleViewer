@@ -20,7 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/interface/advanced/advancedinterface.h"
 #include "src/ui/interface/study/studyinterface.h"
 #include "src/ui/dialog/settingsdialog.h"
-
+#include "src/ui/updateschecker.h"
 
 #include "src/core/notes/xmlnotes.h"
 #include "src/core/notes/textnotes.h"
@@ -73,6 +73,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 {
+    UpdatesChecker c;
+    c.checkForUpdates();
+
+
     VERSION = QString(OBV_VERSION_NUMBER);
     BUILD =  QString(OBV_BUILD_DATE);//jear-month-day
     m_homeDataPath = homeDataPath;
@@ -106,9 +110,11 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 
     loadInterface();
     restoreSession();
+
     if(firstStart) {
         QTimer::singleShot(1, this, SLOT(showSettingsDialog_Module()));
     }
+
 }
 void MainWindow::loadInterface()
 {
