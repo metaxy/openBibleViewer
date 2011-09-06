@@ -87,9 +87,6 @@ public:
     int newModuleID() const;
 
 
-
-private:
-
 };
 
 #endif // SETTINGS_H

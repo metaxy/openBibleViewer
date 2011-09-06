@@ -5,6 +5,7 @@
 #include "config.h"
 #include "src/core/dbghelper.h"
 #include "src/core/version.h"
+#include "src/ui/dialog/updatecheckerdialog.h"
 
 UpdatesChecker::UpdatesChecker(QObject *parent) :
     QObject(parent)
@@ -28,14 +29,20 @@ void UpdatesChecker::replyFinished(QNetworkReply* reply)
     QDomNode n = doc.documentElement().firstChild();
 
     const QString versionType = QString(OBV_VERSION_STATUS);
-
+    const QString os = "linux";
     while (!n.isNull()) {
         if (n.nodeName() == versionType) {
             QString version;
+            QString link;
+            QString desc;
             QDomNode n2 = n.firstChild();
             while (!n2.isNull()) {
                 if (n2.nodeName() == "version") {
                     version = n2.firstChild().toText().data();
+                } else if(n2.nodeName() == "link" && n2.toElement().attribute("os") == os) {
+                    link = n2.firstChild().toText().data();
+                } else if(n2.nodeName() == "desc") {
+                    desc = n2.firstChild().toText().data();
                 }
                 n2 = n2.nextSibling();
             }
@@ -45,14 +52,27 @@ void UpdatesChecker::replyFinished(QNetworkReply* reply)
             Version oldVersion(QString(OBV_VERSION_NUMBER));
             Version newVersion(version);
             myDebug() << "new Version = " << version;
+            if(m_settings->session.file()->value(m_settings->session.id()+ "/" + "skipVersion") == version)
+                return;
 
             if(oldVersion.maintenanceVersion() < newVersion.maintenanceVersion() ||
                oldVersion.minorVersion() < newVersion.minorVersion() ||
                oldVersion.majorVersion() < newVersion.majorVersion()) {
 
-                QMessageBox msgBox;
-                msgBox.setText("New Version avaiable " + version);
-                msgBox.exec();
+                QString text = tr("A new version of openBibleViewer is available: ") + version + " ";
+                if(!link.isEmpty()) {
+                    text += tr("You can download it at") +"<a href='"+link+"'> "+ link + "</a>.";
+                }
+                if(!desc.isEmpty()) {
+                    text += desc;
+                }
+                myDebug() << text;
+                UpdateCheckerDialog dialog(0);
+                setAll(&dialog);
+                dialog.setText(text);
+                dialog.setUrl(link);
+                dialog.setVersion(version);
+                dialog.exec();
             }
             break;
         }

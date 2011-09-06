@@ -103,7 +103,7 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
     loadDefaultSettings();
     loadSettings();
 
-    UpdatesChecker * c = new UpdatesChecker(this);
+    UpdatesChecker *c = new UpdatesChecker(this);
     setAll(c);
     c->checkForUpdates();
 

@@ -98,7 +98,7 @@ else(_BUILD_CLUCENE)
 	)
 endif(_BUILD_CLUCENE)
 
-set(OBV_VERSION_NUMBER "0.6.40")
+set(OBV_VERSION_NUMBER "0.6.50")
 set(OBV_VERSION_STATUS "unstable")
 set(OBV_BUILD_DATE "2011-08-07")
 
@@ -299,6 +299,7 @@ set( openBibleViewer_SRCS
     src/ui/dialog/searchinfodialog.cpp
     src/ui/dialog/insertlinkdialog.cpp
     src/ui/dialog/downloadprogressdialog.cpp
+    src/ui/dialog/updatecheckerdialog.cpp
     
     src/ui/dock/dockwidget.cpp
     src/ui/dock/dictionarydockwidget.cpp
@@ -356,6 +357,7 @@ set ( openBibleViewer_UIS
     src/ui/dialog/inserthtmldialog.ui
     src/ui/dialog/insertlinkdialog.ui
     src/ui/dialog/downloadprogressdialog.ui
+    src/ui/dialog/updatecheckerdialog.ui
 
     src/ui/dock/dictionarydockwidget.ui
     src/ui/dock/searchresultdockwidget.ui
@@ -424,6 +426,7 @@ set ( openBibleViewer_MOCS
     src/ui/dialog/moduledownloaddialog.h
     src/ui/dialog/insertlinkdialog.h
     src/ui/dialog/downloadprogressdialog.h
+    src/ui/dialog/updatecheckerdialog.h
 
     src/ui/marklist.h
     src/ui/markcategories.h
