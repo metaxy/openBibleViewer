@@ -147,10 +147,8 @@ int BibleQuote::loadBibleData(const int bibleID, const QString &path)
     m_versification = settings->v11n;
     return 0;
 }
-/**
-  Reads the ini-file and returns the bible name. If the file is invalid is returns an empty QString.
-  */
-QString BibleQuote::readInfo(QFile &file)
+
+MetaInfo BibleQuote::readInfo(QFile &file)
 {
     bool useShortName = false;
     m_moduleName.clear();
@@ -209,13 +207,17 @@ QString BibleQuote::readInfo(QFile &file)
     if(m_moduleName.isEmpty()) {
         myWarning() << "invalid ini File " << file.fileName();
     }
-    return m_moduleName;
+
+    MetaInfo ret;
+    ret.setName(m_moduleName);
+    ret.setShortName(m_moduleShortName);
+    return ret;
 }
-QString BibleQuote::readInfo(const QString &fileName)
+MetaInfo BibleQuote::readInfo(const QString &fileName)
 {
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly))
-        return "";
+        return MetaInfo();
     return readInfo(file);
 }
 int BibleQuote::readBook(const int id)
@@ -534,4 +536,8 @@ std::pair<int, int> BibleQuote::minMaxVerse(int bookID, int chapterID)
     ret.second = c.data().keys().last();
 
     return ret;
+}
+QStringList BibleQuote::booksPath() const
+{
+    return m_bookPath;
 }

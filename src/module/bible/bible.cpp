@@ -26,8 +26,6 @@ Bible::~Bible()
     //Bible do not delete anything!
 }
 
-
-
 bool Bible::loaded() const
 {
     return m_loaded;
@@ -51,12 +49,12 @@ int Bible::loadModuleData(const int moduleID)
         myDebug() << "invalid type " << moduleType();
         return 2;
     }
+
     m_moduleID = moduleID;
     ModuleSettings *m = m_settings->getModuleSettings(m_moduleID);
 
-    m_bookPath.clear();
-    m_modulePath.clear();
     int loaded = 1;
+
     if(moduleType() == OBVCore::BibleQuoteModule) {
         if(m_module->m_bibleModule) {
             m_bibleModule = m_module->m_bibleModule;
@@ -68,8 +66,6 @@ int Bible::loadModuleData(const int moduleID)
         m_bibleModule->setSettings(m_settings);
         loaded = m_bibleModule->loadBibleData(m_moduleID, m_module->path());
 
-        m_bookPath = ((BibleQuote *)m_bibleModule)->m_bookPath;
-        m_modulePath = m_bibleModule->modulePath();
     } else if(moduleType() == OBVCore::ZefaniaBibleModule || moduleType() == OBVCore::TheWordBibleModule || moduleType() == OBVCore::SwordBibleModule) {
         if(m_module->m_bibleModule) {
             m_bibleModule = m_module->m_bibleModule;
@@ -86,7 +82,6 @@ int Bible::loadModuleData(const int moduleID)
         }
         m_bibleModule->setSettings(m_settings);
         loaded = m_bibleModule->loadBibleData(m_moduleID, m_module->path());
-        myDebug() << "loaded = " << loaded;
     }
     if(loaded != 0) {
         m_loaded = false;
@@ -469,17 +464,21 @@ void Bible::search(SearchQuery query, SearchResult *result)
  */
 QStringList Bible::getSearchPaths() const
 {
+
     if(moduleType() == OBVCore::BibleQuoteModule) {
+        const QStringList bookPath = ((BibleQuote *)m_bibleModule)->booksPath();
+        const QString modulePath = m_bibleModule->modulePath();
+
         QStringList l;
-        l.append(QString(m_modulePath + QDir::separator()));
-        if(m_bookID < m_bookPath.size()) {
-            QString p = m_bookPath.at(m_bookID);
+        l.append(QString(modulePath + QDir::separator()));
+        if(m_bookID < bookPath.size()) {
+            QString p = bookPath.at(m_bookID);
             const int pos = p.lastIndexOf(QDir::separator());
             if(pos != -1) {
                 p = p.remove(pos, p.size());
             }
-            if(!p.startsWith(m_modulePath)) {
-                p = m_modulePath + QDir::separator() + p + QDir::separator();
+            if(!p.startsWith(modulePath)) {
+                p = modulePath + QDir::separator() + p + QDir::separator();
             }
             l.append(p);
         }
@@ -505,10 +504,6 @@ QString Bible::moduleShortTitle() const
     return m_moduleShortTitle;
 }
 
-QStringList Bible::bookPath() const
-{
-    return m_bookPath;
-}
 
 QList<int> Bible::bookIDs() const
 {

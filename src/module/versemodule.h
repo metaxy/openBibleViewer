@@ -24,6 +24,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 /**
  * VerseModule is an abstract class for modules classes like Bible or StudyNotes which are based on a versification.
  * That means it has books, chapters and verse.
+ * Meta-Module
  */
 class VerseModule : public SimpleModuleClass
 {

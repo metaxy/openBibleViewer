@@ -73,9 +73,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 {
-
-
-
     VERSION = QString(OBV_VERSION_NUMBER);
     BUILD =  QString(OBV_BUILD_DATE);//jear-month-day
     m_homeDataPath = homeDataPath;

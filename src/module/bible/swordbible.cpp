@@ -52,9 +52,9 @@ int SwordBible::readBook(const int id)
     return 0;
 }
 
-QString SwordBible::readInfo(QFile &file)
+MetaInfo SwordBible::readInfo(QFile &file)
 {
-    return "";
+    return MetaInfo();
 }
 
 

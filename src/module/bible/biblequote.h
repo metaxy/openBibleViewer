@@ -28,7 +28,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include "src/core/verse/versification/versification_biblequote.h"
 
-
 /**
  * BibleQuote represents a biblequote module
  * see http://jesuschrist.ru/software/
@@ -42,8 +41,8 @@ public:
     void setSettings(Settings *settings);
     int readBook(const int id);
     int loadBibleData(const int moduleID, const QString &path);
-    QString readInfo(QFile &file);
-    QString readInfo(const QString &fileName);
+    MetaInfo readInfo(QFile &file);
+    MetaInfo readInfo(const QString &fileName);
     void search(const SearchQuery &query, SearchResult *res) const;
     bool hasIndex() const;
     void buildIndex();
@@ -56,7 +55,8 @@ public:
     TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse);
     std::pair<int, int> minMaxVerse(int bookID, int chapterID);
 
-    QStringList m_bookPath;
+    QStringList booksPath() const;
+
 
 private:
     inline QString formatFromIni(QString input);
@@ -73,6 +73,9 @@ private:
     QString m_moduleName;
     QString m_moduleShortName;
     bool m_chapterZero;
+
+
+    QStringList m_bookPath;
 };
 
 #endif // BIBLEQUOTE_H

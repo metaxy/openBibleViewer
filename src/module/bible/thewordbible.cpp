@@ -136,7 +136,7 @@ int TheWordBible::readBook(const int id)
     return 0;
 }
 
-QString TheWordBible::readInfo(QFile &file)
+MetaInfo TheWordBible::readInfo(QFile &file)
 {
     bool skipping = true;
     QTextStream in(&file);
@@ -146,20 +146,22 @@ QString TheWordBible::readInfo(QFile &file)
         if(skipping) {
             if(line.startsWith("title")) {
                 const QStringList list = line.split("=");
-                return list.last();
+                MetaInfo info;
+                info.setName(list.last());
+                return info;
             }
         }
         if(line.isEmpty() || lineCount >= linesToSkip)
             skipping = false;
 
     }
-    return "";
+    return MetaInfo();
 }
-QString TheWordBible::readInfo(const QString &fileName)
+MetaInfo TheWordBible::readInfo(const QString &fileName)
 {
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly))
-        return "";
+        return MetaInfo();
     return readInfo(file);
 }
 

@@ -413,11 +413,11 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
             if(moduleType == OBVCore::BibleQuoteModule) {
                 BibleQuote bq;
                 bq.setSettings(&m_set);
-                m->moduleName = bq.readInfo(f);
+                m->moduleName = bq.readInfo(f).name();
             } else if(moduleType == OBVCore::ZefaniaBibleModule) {
                 ZefaniaBible zef;
                 zef.setSettings(&m_set);
-                m->moduleName = zef.readInfo(f);
+                m->moduleName = zef.readInfo(f).name();
             } else if(moduleType == OBVCore::ZefaniaLexModule) {
                 ZefaniaLex zefLex;
                 zefLex.setSettings(&m_set);
@@ -432,7 +432,7 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
             } else if(moduleType == OBVCore::TheWordBibleModule) {
                 TheWordBible theWordBible;
                 theWordBible.setSettings(&m_set);
-                m->moduleName = theWordBible.readInfo(f);
+                m->moduleName = theWordBible.readInfo(f).name();
             }
         } else {
             m->moduleName = name;

@@ -18,7 +18,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/dictionary/dictionarymodule.h"
 /**
  * Dictionary represents a dictionary module. Like ZefaniaLex or BibleQuoteDict.
- * It generalise the access to such dictionary modules.
+ * It generalize the access to such dictionary modules.
+ * Meta-Module
  */
 class Dictionary : public SimpleModuleClass
 {

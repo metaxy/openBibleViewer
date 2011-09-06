@@ -92,10 +92,6 @@ void AdvancedInterface::init()
     m_searchManager->setWindowManager(m_windowManager);
     m_searchManager->setWidget(this->parentWidget());
 
-    m_settings->session.file()->setValue("asd/asd/asd","ad");
-    m_settings->session.file()->setValue("asd/asd/aa","ad");
-
-    m_settings->session.file()->setValue("asd","ad");
     m_settings->session.file()->beginGroup(m_settings->session.id() + "/windows/");
     if(m_settings->session.file()->childGroups().size() == 0)
         QTimer::singleShot(10, m_windowManager, SLOT(newSubWindow()));
@@ -201,8 +197,8 @@ void AdvancedInterface::pharseUrl(QString url)
         if(m_moduleManager->verseModule()->moduleType() == OBVCore::BibleQuoteModule) {
             bool isInBookPath = false;
             int b = 0;
-            const QStringList books = ((BibleQuote*)(((Bible*)m_moduleManager->verseModule())->module()))->m_bookPath;
-            myDebug() << books;
+            const QStringList books = ((BibleQuote*)(((Bible*)m_moduleManager->verseModule())->module()))->booksPath();
+            //myDebug() << books;
             int i = 0;
             foreach(const QString & book, books) {
                 if(book.endsWith(url, Qt::CaseInsensitive)) {

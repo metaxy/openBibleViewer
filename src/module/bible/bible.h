@@ -34,6 +34,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 /**
  * Bible represent a bible module(eg. biblequote module or zefania xml module)
  * It reads the module, gets the raw data and formats it.
+ * Meta-Module
  */
 class Bible : public VerseModule
 {
@@ -57,8 +58,6 @@ public:
     QString moduleTitle() const;
     QString moduleShortTitle() const;
     QString moduleUID() const;
-
-    QStringList bookPath() const;
     SearchQuery lastSearchQuery() const;
     bool loaded() const;
 
@@ -69,13 +68,8 @@ private:
 
     QString m_moduleTitle;
     QString m_moduleShortTitle;
-    QString m_modulePath;
     QString m_moduleUID;
 
-    /**
-      * Used by BibleQuote to store where the books are
-      */
-    QStringList m_bookPath;
 
     BibleModule *m_bibleModule;
 

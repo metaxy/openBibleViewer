@@ -512,25 +512,28 @@ int ZefaniaBible::loadCached(const int id, const QString &path)
     return 0;
 }
 
-QString ZefaniaBible::readInfo(QFile &file)
+MetaInfo ZefaniaBible::readInfo(QFile &file)
 {
     KoXmlDocument doc;
     if(!doc.setContent(&file)) {
         file.close();
-        return "";
+        return MetaInfo();
     }
 
     KoXmlElement root = doc.documentElement();
     m_moduleName = root.attribute("biblename", "");
     file.close();
-    return m_moduleName;
+
+    MetaInfo info;
+    info.setName(m_moduleName);
+    return info;
 }
 
-QString ZefaniaBible::readInfo(const QString &fileName)
+MetaInfo ZefaniaBible::readInfo(const QString &fileName)
 {
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly))
-        return "";
+        return MetaInfo();
     return readInfo(file);
 }
 /*int ZefaniaBible::bookID() const
