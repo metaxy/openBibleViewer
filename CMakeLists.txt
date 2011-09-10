@@ -33,9 +33,10 @@ endif(UNIX)
 find_package ( Qt4 REQUIRED )
 include(FindPkgConfig)
 pkg_check_modules(CLUCENE1 libclucene-core)
+find_package(CLucene1)
 
 option( OBV_PORTABLE_VERSION "Build a portable version" OFF )
-option(  "Build with sword support" ON )
+option( OBV_SWORD_SUPPORT "Build with sword support" ON )
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     option( OBV_NO_DEBUG_OUTPUT "Do not show Debug output" ON )
@@ -59,18 +60,13 @@ else()
   option( OBV_USE_WSTRING "Use toStdWString and fromWCharArray" ON)
 endif()
 
-find_package(CLucene1)
+
 if(CLUCENE1_FOUND)
-    set(_BUILD_CLUCENE 0)
-    message("not found clucene")
+    error("not found clucene")
 else(CLUCENE1_FOUND)
-    set(_BUILD_CLUCENE 1)
     message("clucene found")
 endif(CLUCENE1_FOUND)
 
-if(MSVC)
-  set(_BUILD_CLUCENE 0)
-endif()
 
 if(OBV_SWORD_SUPPORT)
     include (FindSword)
