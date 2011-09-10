@@ -18,6 +18,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/textrange.h"
 #include "src/core/verse/verseurlrange.h"
 #include "src/core/dbghelper.h"
+
+/**
+  * TextRanges is a list of TextRange[s].
+  * With some additional functionality.
+  */
 class TextRanges
 {
 public:

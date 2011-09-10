@@ -29,6 +29,18 @@ public:
     ~StudyInterface();
     void init();
 
+    bool hasMenuBar();
+    QMenuBar* menuBar();
+
+    bool hasToolBar();
+    QList<QToolBar*> toolBars();
+
+    QHash<DockWidget *, Qt::DockWidgetArea> docks();
+
+    void createDocks();
+    void createToolBars();
+    void createMenu();
+
 protected:
     void changeEvent(QEvent *e);
 

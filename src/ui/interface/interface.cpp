@@ -15,45 +15,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 Interface::Interface(QWidget *parent) :
     QWidget(parent)
 {
-}
-bool Interface::hasMenuBar()
-{
-    return false;
-}
-QMenuBar* Interface::menuBar()
-{
-    return 0;
+
 }
 
-bool Interface::hasToolBar()
-{
-    return false;
-}
-QList<QToolBar *> Interface::toolBars()
-{
-    return QList<QToolBar *>();
-}
 void Interface::closing()
 {
-}
 
-void Interface::init()
-{
-}
-QHash<DockWidget*, Qt::DockWidgetArea> Interface::docks()
-{
-    QHash<DockWidget *, Qt::DockWidgetArea> ret;
-    return ret;
-
-}
-void Interface::createDocks()
-{
-}
-
-void Interface::createToolBars()
-{
-}
-
-void Interface::createMenu()
-{
 }

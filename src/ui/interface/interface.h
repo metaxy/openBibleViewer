@@ -37,26 +37,26 @@ public slots:
 
 public:
     Interface(QWidget *parent);
-    virtual bool hasMenuBar();
-    virtual QMenuBar* menuBar();
+    virtual bool hasMenuBar() = 0;
+    virtual QMenuBar* menuBar() = 0;
 
-    virtual bool hasToolBar();
-    virtual QList<QToolBar*> toolBars();
+    virtual bool hasToolBar() = 0;
+    virtual QList<QToolBar*> toolBars() = 0;
 
-    virtual void init();
-    virtual QHash<DockWidget *, Qt::DockWidgetArea> docks();
+    virtual void init() = 0;
+    virtual QHash<DockWidget *, Qt::DockWidgetArea> docks() = 0;
     /**
       * createDocks() is called first on construction. Should depend only on init()
       */
-    virtual void createDocks();
+    virtual void createDocks() = 0;
     /**
       * createToolsBars() is called second on construction. Should depend only on init() and createDocks()
       */
-    virtual void createToolBars();
+    virtual void createToolBars() = 0;
     /**
       * createMenu() is called as last on construction. It can depend on init(), createDocks() and createToolBars()
       */
-    virtual void createMenu();
+    virtual void createMenu() = 0;
 
 
 
