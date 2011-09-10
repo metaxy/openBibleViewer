@@ -116,7 +116,7 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
                 }
             }
         }
-
+        ret.second.setSource(ranges);
         return ret;
     } else if(m_modules.size() > 1) {
         std::pair<QString, TextRanges> ret;
@@ -224,9 +224,11 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
 
         out += "</tbody>\n</table>\n";
         ret.first = out;
+        ret.second.setSource(ranges);
         return ret;
     } else {
         std::pair<QString, TextRanges> ret;
+        ret.second.setSource(ranges);
         return ret;
     }
 }

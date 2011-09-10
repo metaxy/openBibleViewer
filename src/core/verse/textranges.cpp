@@ -262,3 +262,13 @@ bool TextRanges::failed() const
     }
     return failed;
 }
+
+void TextRanges::setSource(const Ranges &source)
+{
+    m_source = source;
+}
+
+Ranges TextRanges::source() const
+{
+    return m_source;
+}

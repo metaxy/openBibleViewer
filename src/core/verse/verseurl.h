@@ -16,7 +16,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QString>
 #include <QtCore/QHash>
 #include "verseurlrange.h"
-#include "textranges.h"
 #include "src/core/url.h"
 class VerseUrl : public Url
 {

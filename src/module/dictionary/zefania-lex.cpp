@@ -228,12 +228,10 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
 
                                     VerseUrl burl;
                                     VerseUrlRange range;
-
                                     range.setModule(VerseUrlRange::LoadCurrentModule);
                                     range.setBook(bookID);
                                     range.setChapter(chapterID);
-                                    range.setWholeChapter();
-                                    range.setActiveVerse(verseID);
+                                    range.setStartVerse(verseID);
                                     burl.addRange(range);
                                     const QString url = burl.toString();
 

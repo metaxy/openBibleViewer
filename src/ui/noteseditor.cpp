@@ -290,7 +290,7 @@ void NotesEditor::createLink()
 
     insertLinkDialog->init();
 
-    insertLinkDialog->setCurrent(m_moduleManager->verseModule()->lastTextRanges()->toBibleUrlRanges());
+    insertLinkDialog->setCurrent(m_moduleManager->verseModule()->lastTextRanges()->source().source());
     insertLinkDialog->show();
     insertLinkDialog->exec();
 }

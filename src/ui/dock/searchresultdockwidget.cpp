@@ -65,8 +65,7 @@ void SearchResultDockWidget::goToSearchResult(QListWidgetItem * item)
         range.setModule(hit.value(SearchHit::BibleID).toInt());
         range.setBook(hit.value(SearchHit::BookID).toInt());
         range.setChapter(hit.value(SearchHit::ChapterID).toInt());
-        range.setActiveVerse(hit.value(SearchHit::VerseID).toInt());
-        range.setWholeChapter();
+        range.setStartVerse(hit.value(SearchHit::VerseID).toInt());
 
         VerseUrl url(range);
         url.setParam("searchInCurrentText", "true");

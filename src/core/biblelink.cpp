@@ -73,7 +73,6 @@ VerseUrl BibleLink::getUrl(const QString& s)
         range.setChapter(chapterID);
         range.setWholeChapter();
     } else if(found == 2 || found == 3) {  //Hiob 4:9
-        myDebug() << "found one verse";
         const int bookID = bookNameToBookID(foundRegExp.cap(1),&lev);
         const int chapterID = foundRegExp.cap(3).toInt() - 1;
         const int verseID = foundRegExp.cap(4).toInt() - 1;
@@ -83,7 +82,6 @@ VerseUrl BibleLink::getUrl(const QString& s)
         range.setEndVerse(verseID);
     }
     else if(found == 4 || found == 5) {  //Hiob 4:9-10
-        myDebug() << "found range";
         const int bookID = bookNameToBookID(foundRegExp.cap(1),&lev);
         const int chapterID = foundRegExp.cap(3).toInt() - 1;
         const int startVerseID = foundRegExp.cap(4).toInt() - 1;
@@ -94,7 +92,6 @@ VerseUrl BibleLink::getUrl(const QString& s)
         range.setEndVerse(endVerseID);
     }
     VerseUrl url(range);
-    myDebug() << "url = " <<url.toString();
     return url;
 }
 int BibleLink::bookNameToBookID(const QString& name, int *nlev)

@@ -114,8 +114,8 @@ void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
 
             range.setBook(hit.value(SearchHit::BookID).toInt());
             range.setChapter(hit.value(SearchHit::ChapterID).toInt());
-            range.setActiveVerse(hit.value(SearchHit::VerseID).toInt());
-            range.setWholeChapter();
+            range.setStartVerse(hit.value(SearchHit::VerseID).toInt());
+
             url.addRange(range);
             url.setParam("searchInCurrentText", "true");
             m_actions->get(url);

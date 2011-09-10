@@ -60,7 +60,7 @@ public slots:
     void reloadBible();
 private:
     void showRanges(const Ranges &ranges, const VerseUrl &url);
-    Ranges bibleUrlRangeToRanges(VerseUrlRange r);
+    Range bibleUrlRangeToRange(VerseUrlRange r);
     QWidget *m_p;
 
     BookDockWidget *m_bookDockWidget;

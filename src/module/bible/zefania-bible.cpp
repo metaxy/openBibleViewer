@@ -209,8 +209,7 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
             range.setModule(VerseUrlRange::LoadCurrentModule);
             range.setBook(bookID);
             range.setChapter(chapterID);
-            range.setWholeChapter();
-            range.setActiveVerse(verseID);
+            range.setStartVerse(verseID);
             VerseUrl burl(range);
 
             RefText refText;

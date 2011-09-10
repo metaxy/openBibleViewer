@@ -56,10 +56,9 @@ void InsertLinkDialog::init()
     ui->page->layout()->addWidget(m_frame);
 }
 
-void InsertLinkDialog::setCurrent(const QList<VerseUrlRange> &ranges)
+void InsertLinkDialog::setCurrent(const VerseUrl &url)
 {
-    m_frame->setVerseUrlRanges(ranges);
-
+    m_frame->setVerseUrl(url);
 }
 
 

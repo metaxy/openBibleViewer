@@ -100,9 +100,9 @@ QString VerseUrl::toString() const
         } else if(range.startVerse() == VerseUrlRange::LoadLastVerse) {
             ret += "last";
         }
+        //todo: start verse should not be LoadAllVerse
         if((range.startVerse() != range.endVerse() && range.endVerse() != VerseUrlRange::LoadVerseNotSet) ||
                 (range.startVerse() == range.endVerse() && range.startVerse() == VerseUrlRange::LoadVerseByID && range.startVerseID() != range.endVerseID() && range.endVerseID() != -1)) {
-            myDebug() << "a real range";
             ret += "-";
             if(range.endVerse() == VerseUrlRange::LoadVerseByID) {
                 ret += QString::number(range.endVerseID());
@@ -188,7 +188,7 @@ bool VerseUrl::fromString(QString url)
                     range.setStartVerse(VerseUrlRange::LoadFirstVerse);
                 } else if(p == "last") {
                     range.setStartVerse(VerseUrlRange::LoadLastVerse);
-                } else {
+                }  else {
                     range.setStartVerse(p.toInt());
                 }
 

@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef RANGES_H
 #define RANGES_H
 #include "src/core/verse/range.h"
+#include "src/core/verse/verseurl.h"
 #include <QtCore/QList>
 class Ranges
 {
@@ -23,8 +24,12 @@ public:
     void addRanges(Ranges range);
     QList<Range> getList() const;
 
+    void setSource(const VerseUrl &url);
+    VerseUrl source() const;
+
 private:
     QList<Range> m_ranges;
+    VerseUrl m_source;
 };
 
 #endif // RANGES_H

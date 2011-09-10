@@ -106,8 +106,6 @@ void BibleForm::restore(const QString &key)
         point.setX(tmp.first().toInt());
         point.setY(tmp.last().toInt());
 
-
-
         UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
         urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
         urlConverter.convert();
@@ -137,8 +135,7 @@ void BibleForm::save()
             VerseModule *b = i.value();
             if(b != NULL && b->moduleID() >= 0) {
 
-                VerseUrl bibleUrl;
-                bibleUrl.addRanges(b->lastTextRanges()->toBibleUrlRanges(i.key()));
+                VerseUrl bibleUrl = b->lastTextRanges()->source().source();
 
                 UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, bibleUrl);
                 urlConverter.setSettings(m_settings);
@@ -220,6 +217,7 @@ void BibleForm::showBibleListMenu()
 void BibleForm::readChapter(int id)
 {
     VerseUrlRange r;
+    r.setOpenToTransformation(false);
     r.setModule(VerseUrlRange::LoadCurrentModule);
     r.setBook(VerseUrlRange::LoadCurrentBook);
     r.setChapter(id);
@@ -235,6 +233,7 @@ void BibleForm::readBook(int id)
     const int i = m_bookIDs.at(id);
 
     VerseUrlRange r;
+    r.setOpenToTransformation(false);
     r.setModule(VerseUrlRange::LoadCurrentModule);
     r.setBook(i);
     r.setChapter(VerseUrlRange::LoadFirstChapter);

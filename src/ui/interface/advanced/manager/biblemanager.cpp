@@ -65,10 +65,9 @@ QHash<DockWidget*, Qt::DockWidgetArea> BibleManager::docks()
     return ret;
 
 }
-Ranges BibleManager::bibleUrlRangeToRanges(VerseUrlRange range)
+Range BibleManager::bibleUrlRangeToRange(VerseUrlRange range)
 {
     //DEBUG_FUNC_NAME
-    Ranges ranges;
 
     //todo: return only a range and not rangesm because VerseUrlRange can be not more.
     Range r;
@@ -103,13 +102,19 @@ Ranges BibleManager::bibleUrlRangeToRanges(VerseUrlRange range)
     if(range.openToTransformation()) {
         r.setStartVerse(RangeEnum::FirstVerse);
         r.setEndVerse(RangeEnum::LastVerse);
-        QList<int> sel;
-        for(int i=range.startVerseID();i<=range.endVerseID();i++) {
-            sel << i;
+        if(range.startVerse() == range.endVerse() && range.startVerse() == VerseUrlRange::LoadVerseByID) {
+            QList<int> sel;
+            for(int i=range.startVerseID();i<=range.endVerseID();i++) {
+                sel << i;
+            }
+            r.setSelectedVerse(sel);
+        } else if(range.startVerse() == VerseUrlRange::LoadVerseByID) {
+            r.setSelectedVerse(range.startVerseID());
         }
-        r.setSelectedVerse(sel);
+
 
     } else {
+
         if(range.startVerse() == VerseUrlRange::LoadFirstVerse) {
             r.setStartVerse(RangeEnum::FirstVerse);
         } /*else if(range.startVerse() == BibleUrlRange::LoadCurrentVerse) {
@@ -126,18 +131,16 @@ Ranges BibleManager::bibleUrlRangeToRanges(VerseUrlRange range)
             r.setEndVerse(m_moduleManager->bible()->verseID());
         } */else if(range.endVerse() == VerseUrlRange::LoadLastVerse) {
             r.setEndVerse(RangeEnum::LastVerse);
-        } else {
-            r.setEndVerse(range.endVerseID());
-        }
 
         if(range.activeVerse() == VerseUrlRange::LoadVerseByID) {
             r.setSelectedVerse(range.activeVerseID());
         }
+        } else {
+            r.setEndVerse(range.endVerseID());
+        }
     }
 
-
-    ranges.addRange(r);
-    return ranges;
+    return r;
 }
 void BibleManager::pharseUrl(const VerseUrl &url)
 {
@@ -149,8 +152,9 @@ void BibleManager::pharseUrl(const VerseUrl &url)
 
     Ranges ranges;
     foreach(VerseUrlRange range, url.ranges()) {
-        ranges.addRanges(bibleUrlRangeToRanges(range));
+        ranges.addRange(bibleUrlRangeToRange(range));
     }
+    ranges.setSource(url);
     showRanges(ranges, url);
     if(url.hasParam("searchInCurrentText")) {
         m_actions->searchInText();
@@ -176,8 +180,9 @@ void BibleManager::pharseUrl(const QString &url)
         }
 
         foreach(VerseUrlRange range, bibleUrl.ranges()) {
-            ranges.addRanges(bibleUrlRangeToRanges(range));
+            ranges.addRange(bibleUrlRangeToRange(range));
         }
+        ranges.setSource(bibleUrl);
         showRanges(ranges, bibleUrl);
         if(bibleUrl.hasParam("searchInCurrentText")) {
             m_actions->searchInText();
@@ -195,8 +200,7 @@ void BibleManager::pharseUrl(const QString &url)
         range.setModule(VerseUrlRange::LoadCurrentModule);
         range.setBook(bookID);
         range.setChapter(chapterID);
-        range.setWholeChapter();
-        range.setActiveVerse(verseID);
+        range.setStartVerse(verseID);
         VerseUrl url(range);
         m_actions->get(url);
     }
@@ -209,9 +213,9 @@ void BibleManager::showRanges(const Ranges &ranges, const VerseUrl &url)
         m_moduleManager->newVerseModule(ranges.getList().first().moduleID(), QPoint(0, 0));
     }
     if(m_moduleManager->verseTable()->verseModule()->moduleID() != ranges.getList().first().moduleID()) {
-        //myDebug() << "init new module";
+
         const int moduleID = ranges.getList().first().moduleID();
-        //myDebug() << "module ID";
+
         const QPoint p = m_moduleManager->verseTable()->m_points.value(m_moduleManager->verseTable()->currentVerseTableID());
         VerseModule *m;
         if(m_moduleManager->getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
@@ -250,6 +254,7 @@ void BibleManager::nextChapter()
             m_moduleManager->verseModule()->versification()->maxChapter().value(m_moduleManager->verseModule()->lastTextRanges()->minBookID()) - 1) {
         VerseUrl bibleUrl;
         VerseUrlRange range;
+        range.setOpenToTransformation(false);
         range.setModule(VerseUrlRange::LoadCurrentModule);
         range.setBook(VerseUrlRange::LoadCurrentBook);
         range.setChapter(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() + 1);
@@ -259,6 +264,7 @@ void BibleManager::nextChapter()
     } else if(m_moduleManager->verseModule()->lastTextRanges()->minBookID() < m_moduleManager->verseModule()->versification()->bookCount() - 1) {
         VerseUrl bibleUrl;
         VerseUrlRange range;
+        range.setOpenToTransformation(false);
         range.setModule(VerseUrlRange::LoadCurrentModule);
         range.setBook(m_moduleManager->verseModule()->lastTextRanges()->minBookID() + 1);
         range.setChapter(VerseUrlRange::LoadFirstChapter);
@@ -275,6 +281,7 @@ void BibleManager::previousChapter()
     if(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() > 0) {
         VerseUrl bibleUrl;
         VerseUrlRange range;
+        range.setOpenToTransformation(false);
         range.setModule(VerseUrlRange::LoadCurrentModule);
         range.setBook(VerseUrlRange::LoadCurrentBook);
         range.setChapter(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() - 1);
@@ -284,6 +291,7 @@ void BibleManager::previousChapter()
     } else if(m_moduleManager->verseModule()->lastTextRanges()->minBookID() > 0) {
         VerseUrl bibleUrl;
         VerseUrlRange range;
+        range.setOpenToTransformation(false);
         range.setModule(VerseUrlRange::LoadCurrentModule);
         range.setBook(m_moduleManager->verseModule()->lastTextRanges()->minBookID() - 1);
         range.setChapter(VerseUrlRange::LoadLastChapter);
@@ -298,6 +306,7 @@ void BibleManager::loadBibleList(bool hadBible)
     if(hadBible) {
         VerseUrl url;
         VerseUrlRange range;
+        range.setOpenToTransformation(false);
         range.setModule(VerseUrlRange::LoadCurrentModule);
         range.setBook(VerseUrlRange::LoadCurrentBook);
         range.setChapter(VerseUrlRange::LoadCurrentChapter);
@@ -308,6 +317,7 @@ void BibleManager::loadBibleList(bool hadBible)
     } else {
         VerseUrl url;
         VerseUrlRange range;
+        range.setOpenToTransformation(false);
         range.setModule(VerseUrlRange::LoadCurrentModule);
         range.setBook(VerseUrlRange::LoadFirstBook);
         range.setChapter(VerseUrlRange::LoadFirstChapter);

@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/textrange.h"
 #include "src/core/verse/verseurlrange.h"
 #include "src/core/dbghelper.h"
+#include "src/core/verse/ranges.h"
 
 /**
   * TextRanges is a list of TextRange[s].
@@ -31,6 +32,10 @@ public:
     void addTextRanges(const TextRanges &ranges);
     QList<TextRange> textRanges() const;
     QString join(const QString &seperator) const;
+
+
+    void setSource(const Ranges &url);
+    Ranges source() const;
 
     Verse getVerse(const int bookID, const int chapterID, const int verseID);
     int verseCount() const;
@@ -65,6 +70,8 @@ public:
     bool failed() const;
 private:
     QList<TextRange> m_ranges;
+
+    Ranges m_source;
 };
 
 #endif // TEXTRANGES_H

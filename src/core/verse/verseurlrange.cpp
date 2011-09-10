@@ -28,7 +28,7 @@ VerseUrlRange::VerseUrlRange()
     m_endVerseParam = LoadVerseNotSet;
     m_activeVerseID = -1;
     m_activeVerseParam = LoadVerseNotSet;
-    m_openToTranformation = false;
+    m_openToTranformation = true;
 }
 
 void VerseUrlRange::setModule(const int bibleID)

@@ -61,9 +61,8 @@ VerseUrl UrlConverter::convert()
             url.unsetParam("b" + QString::number(i));
         }
     } else if(m_to == PersistentUrl) {
-        //myDebug() << "to persisent url";
-        //myDebug() << m_bibleUrl.toString();
-//todo: catch errors
+
+        //todo: catch errors
         url.clearRanges();
         QList<int> bookIDs;
 
@@ -74,11 +73,13 @@ VerseUrl UrlConverter::convert()
             url.addRange(range);
             bookIDs.append(range.bookID());
         }
+
         if(m_setBookNames) {
             for(int i = 0; i < bookIDs.size(); i++) {
                 url.setParam("b" + QString::number(i), m_v11n->bookName(bookIDs.at(i)));
             }
         }
+
     }
     return url;
 }
