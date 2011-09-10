@@ -102,6 +102,7 @@ QString VerseUrl::toString() const
         }
         if((range.startVerse() != range.endVerse() && range.endVerse() != VerseUrlRange::LoadVerseNotSet) ||
                 (range.startVerse() == range.endVerse() && range.startVerse() == VerseUrlRange::LoadVerseByID && range.startVerseID() != range.endVerseID() && range.endVerseID() != -1)) {
+            myDebug() << "a real range";
             ret += "-";
             if(range.endVerse() == VerseUrlRange::LoadVerseByID) {
                 ret += QString::number(range.endVerseID());

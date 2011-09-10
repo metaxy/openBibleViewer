@@ -76,7 +76,6 @@ public:
     void setChapter(const int chapterID);
     void setChapter(const ChapterLoadParams &param);
 
-
     int chapterID() const;
     ChapterLoadParams chapter() const;
 

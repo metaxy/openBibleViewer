@@ -33,6 +33,7 @@ bool Versification_Zefania::filter(const int bookID, VersificationFilterFlags fl
     } else if(flags.testFlag(Versification::ReturnNT)) {
         return (bookID >= 39);
     }
+    return true;
 }
 void Versification_Zefania::setMaxChapter(const int bookID, const int maxChapter)
 {

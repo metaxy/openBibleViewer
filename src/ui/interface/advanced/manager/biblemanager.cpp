@@ -69,6 +69,8 @@ Ranges BibleManager::bibleUrlRangeToRanges(VerseUrlRange range)
 {
     //DEBUG_FUNC_NAME
     Ranges ranges;
+
+    //todo: return only a range and not rangesm because VerseUrlRange can be not more.
     Range r;
     //todo: currently we do not support real ranges but its ok
     if(range.module() == VerseUrlRange::LoadModuleByID) {
@@ -101,7 +103,12 @@ Ranges BibleManager::bibleUrlRangeToRanges(VerseUrlRange range)
     if(range.openToTransformation()) {
         r.setStartVerse(RangeEnum::FirstVerse);
         r.setEndVerse(RangeEnum::LastVerse);
-        r.setSelectedVerse(range.startVerseID());
+        QList<int> sel;
+        for(int i=range.startVerseID();i<=range.endVerseID();i++) {
+            sel << i;
+        }
+        r.setSelectedVerse(sel);
+
     } else {
         if(range.startVerse() == VerseUrlRange::LoadFirstVerse) {
             r.setStartVerse(RangeEnum::FirstVerse);
@@ -122,20 +129,12 @@ Ranges BibleManager::bibleUrlRangeToRanges(VerseUrlRange range)
         } else {
             r.setEndVerse(range.endVerseID());
         }
+
+        if(range.activeVerse() == VerseUrlRange::LoadVerseByID) {
+            r.setSelectedVerse(range.activeVerseID());
+        }
     }
 
-    /* if(range.activeVerse() == BibleUrlRange::LoadFirstVerse) {
-         //r.setEndVerse(RangeEnum::FirstVerse);
-     } else if(range.activeVerse() == BibleUrlRange::LoadCurrentVerse) {
-         //r.setEndVerse(m_moduleManager->bible()->verseID());
-     } else if(range.activeVerse() == BibleUrlRange::LoadLastVerse) {
-         //r.setEndVerse(RangeEnum::LastVerse);
-     } else {
-         r.setSelectedVerse(range.activeVerseID());
-     }*/
-    if(range.activeVerse() == VerseUrlRange::LoadVerseByID) {
-        r.setSelectedVerse(range.activeVerseID());
-    }
 
     ranges.addRange(r);
     return ranges;

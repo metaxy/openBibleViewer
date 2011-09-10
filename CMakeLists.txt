@@ -62,7 +62,7 @@ endif()
 
 
 if(CLUCENE1_FOUND)
-    error("not found clucene")
+    message("not found clucene")
 else(CLUCENE1_FOUND)
     message("clucene found")
 endif(CLUCENE1_FOUND)
@@ -76,23 +76,6 @@ if(OBV_SWORD_SUPPORT)
         set(OBV_SWORD_SUPPORT FALSE)
     endif(NOT SWORD_NOT_FOUND)
 endif(OBV_SWORD_SUPPORT)
-
-if(_BUILD_CLUCENE)
-    message("find threads and zlib")
-    include (FindThreads)
-    include (FindZlib)
-else(_BUILD_CLUCENE)
-    #link against dynamic clucene >= 0.9.23
-    message("find shared libs of clucene")
-    include_directories(${CLUCENE1_INCLUDE_DIRS})
-    # todo: change to your clucene dir
-    SET(CLUCENE_DIR "C:\\\\Users\\\\mo\\\\coding\\\\clucene-HEAD-314b755\\\\")
-    include_directories (
-		${CLUCENE_DIR}\\build\\src\\shared
-		${CLUCENE_DIR}\\src\\shared
-		${CLUCENE_DIR}\\src\\core
-	)
-endif(_BUILD_CLUCENE)
 
 set(OBV_VERSION_NUMBER "0.6.50")
 set(OBV_VERSION_STATUS "unstable")
@@ -110,16 +93,8 @@ include_directories(
     ${QT_QTNETWORK_INCLUDE_DIR} 
     ${QT_QTWEBKIT_INCLUDE_DIR} 
     ${openBibleViewer_BINARY_DIR}/src
+    ${CLUCENE1_INCLUDE_DIRS}
     )
-if(_BUILD_CLUCENE)
-    message("add sub dir of clucene")
-    include_directories (
-        ${openBibleViewer_BINARY_DIR}/src/clucene/shared
-        ${openBibleViewer_SOURCE_DIR}/src/clucene/shared
-        ${openBibleViewer_SOURCE_DIR}/src/clucene/core
-    )
-    add_subdirectory ( src/clucene )
-endif(_BUILD_CLUCENE)
 
 if(OBV_SWORD_SUPPORT)
     include_directories(
@@ -484,12 +459,11 @@ else ()
   add_executable(openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS})
 endif ()
 
-if(_BUILD_CLUCENE)
-    set(CL_LIBS clucene-core-static clucene-shared-static ${ZLIB_LIBRARY})
-else(_BUILD_CLUCENE)
+if(MSVC)
+    set(CL_LIBS  "${CLUCENE_DIR}\\build\\bin\\clucene-shared.lib" "${CLUCENE_DIR}\\build\\bin\\clucene-core.lib")
+else(MSVC)
     set(CL_LIBS clucene-core)
-    #set(CL_LIBS  "${CLUCENE_DIR}\\build\\bin\\clucene-shared.lib" "${CLUCENE_DIR}\\build\\bin\\clucene-core.lib")
-endif(_BUILD_CLUCENE)
+endif(MSVC)
 
 if(OBV_SWORD_SUPPORT)
     set(SW_LIBS ${CURL_LIBRARIES} ${ICU_LIBRARIES} ${ICU_I18N_LIBRARIES} ${ZLIB_LIBRARIES} ${SWORD_LIBRARY})
@@ -541,8 +515,8 @@ set(CPACK_PACKAGE_VENDOR "Paul Walger")
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
-set(CPACK_PACKAGE_VERSION_MINOR "5")
-set(CPACK_PACKAGE_VERSION_PATCH "90")
+set(CPACK_PACKAGE_VERSION_MINOR "6")
+set(CPACK_PACKAGE_VERSION_PATCH "50")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "openBibleViewer ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
 #nsis
 if(WIN32 AND NOT UNIX)

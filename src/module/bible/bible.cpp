@@ -244,6 +244,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     }
 
     myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
+    myDebug() << "selected verse = " << range.selectedVerse();
 
     TextRange rawRange = m_bibleModule->rawTextRange(bookID, chapterID, startVerse, endVerse);
     ret.setBookID(bookID);
@@ -302,9 +303,9 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                 //change this to provide maybe more future features
                 verse.prepend("<div id = \"currentEntry\" class = \"selectedEntry\"> ");
             } else {
-                verse.prepend("div class = \"selectedEntry\">");
+                verse.prepend("<div class = \"selectedEntry\">");
             }
-            verse.append("</div>");
+             verse.append("</div>");
         }
 
 
