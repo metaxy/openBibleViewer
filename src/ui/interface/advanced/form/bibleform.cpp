@@ -1291,13 +1291,25 @@ VerseSelection BibleForm::verseSelection()
     }
     return s;
 }
+
 bool BibleForm::verseTableLoaded()
 {
     return m_moduleManager->verseTableLoaded(m_verseTable);
 }
-SearchableModule * BibleForm::searchableModule()
+
+SearchableModule * BibleForm::searchableModule() const
 {
     return (SearchableModule*) (m_verseTable->verseModule());
+}
+
+VerseTable * BibleForm::verseTable() const
+{
+    return m_verseTable;
+}
+
+VerseModule * BibleForm::verseModule() const
+{
+    return m_verseTable->verseModule();
 }
 
 BibleForm::~BibleForm()
@@ -1307,7 +1319,6 @@ BibleForm::~BibleForm()
     delete m_verseTable;
     m_verseTable = NULL;
 }
-
 
 void BibleForm::changeEvent(QEvent *e)
 {

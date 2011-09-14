@@ -76,7 +76,9 @@ public:
     void nextChapter();
     void previousChapter();
 
-    SearchableModule * searchableModule();
+    SearchableModule * searchableModule() const;
+    VerseTable *verseTable() const;
+    VerseModule *verseModule() const;
 
 private slots:
     void showBibleListMenu();

@@ -195,33 +195,36 @@ void AdvancedInterface::pharseUrl(QString url)
         pharseUrl(i);*/
     } else {
         //todo: unterstand links like about:blank#a04
-        if(m_moduleManager->verseModule()->moduleType() == OBVCore::BibleQuoteModule) {
-            bool isInBookPath = false;
-            int b = 0;
-            const QStringList books = ((BibleQuote*)(((Bible*)m_moduleManager->verseModule())->module()))->booksPath();
-            //myDebug() << books;
-            int i = 0;
-            foreach(const QString & book, books) {
-                if(book.endsWith(url, Qt::CaseInsensitive)) {
-                    b = i;
-                    isInBookPath = true;
-                    myDebug() << b;
-                    break; // todo: check if there are more similiar
+        if(m_windowManager->activeForm() && m_windowManager->activeForm()->type() == Form::BibleForm) {
+            BibleForm *f = (BibleForm*)(m_windowManager->activeForm());
+            if(f->verseModule()->moduleType() == OBVCore::BibleQuoteModule) {
+                bool isInBookPath = false;
+                int b = 0;
+                const QStringList books = ((BibleQuote*)(((Bible*)f->verseModule())->module()))->booksPath();
+                //myDebug() << books;
+                int i = 0;
+                foreach(const QString & book, books) {
+                    if(book.endsWith(url, Qt::CaseInsensitive)) {
+                        b = i;
+                        isInBookPath = true;
+                        myDebug() << b;
+                        break; // todo: check if there are more similiar
+                    }
+                    i++;
                 }
-                i++;
-            }
-            if(isInBookPath) {
-                VerseUrlRange r;
-                r.setModule(VerseUrlRange::LoadCurrentModule);
-                r.setBook(b);
-                r.setChapter(VerseUrlRange::LoadFirstChapter);
-                r.setWholeChapter();
-                VerseUrl url(r);
-                m_actions->get(url);
+                if(isInBookPath) {
+                    VerseUrlRange r;
+                    r.setModule(VerseUrlRange::LoadCurrentModule);
+                    r.setBook(b);
+                    r.setChapter(VerseUrlRange::LoadFirstChapter);
+                    r.setWholeChapter();
+                    VerseUrl url(r);
+                    m_actions->get(url);
+                }
             }
         } else {
             //todo: not only bibleform
-            if(m_windowManager->activeForm())
+            if(m_windowManager->activeForm() && m_windowManager->activeForm()->type() == Form::BibleForm)
                 ((BibleForm*)m_windowManager->activeForm())->evaluateJavaScript(url);
         }
     }
