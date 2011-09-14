@@ -498,13 +498,14 @@ int ZefaniaBible::loadCached(const int id, const QString &path)
     }
     m_settings->getModuleSettings(m_moduleID)->loadVersification();
     m_versification = m_settings->getModuleSettings(m_moduleID)->v11n;
-    myDebug() << m_versification;
+
     if(!m_versification) {
         return loadNoCached(id, path);
     }
 
     m_moduleID = id;
     m_modulePath = path;
+
     if(m_moduleName == "") {
         m_moduleName = m_settings->getModuleSettings(m_moduleID)->moduleName;
     }
@@ -783,7 +784,7 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
         if(query.range == SearchQuery::Whole || (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) || (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
             SearchHit hit;
             hit.setType(SearchHit::BibleHit);
-            hit.setValue(SearchHit::BibleID, m_moduleID);
+            hit.setValue(SearchHit::ModuleID, m_moduleID);
             hit.setValue(SearchHit::BookID, l.at(0).toInt());
             hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
             hit.setValue(SearchHit::VerseID, l.at(2).toInt());

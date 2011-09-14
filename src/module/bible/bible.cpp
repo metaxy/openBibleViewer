@@ -12,6 +12,21 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "bible.h"
+#include "src/core/settings/modulesettings.h"
+#include "src/core/settings/moduledisplaysettings.h"
+
+#include "src/core/dbghelper.h"
+#include "src/core/urlconverter.h"
+#include "src/core/versereplacer.h"
+#include "src/core/verseselection.h"
+#include "src/module/bible/biblequote.h"
+#include "src/module/bible/zefania-bible.h"
+#include "src/module/bible/thewordbible.h"
+#include "src/module/bible/swordbible.h"
+
+#include <QtCore/QDir>
+#include <QtGui/QTextDocument>
+
 //#include <valgrind/callgrind.h>
 Bible::Bible()
 {
@@ -33,9 +48,7 @@ bool Bible::loaded() const
 
 int Bible::loadModuleData(const int moduleID)
 {
-    DEBUG_FUNC_NAME;
     myDebug() << "moduleID = " << moduleID;
-    //m_versification = 0;
     m_module = m_map->m_map.value(moduleID, NULL);
 
     //not valid module
@@ -102,15 +115,7 @@ int Bible::loadModuleData(const int moduleID)
     m_loaded = true;
     return 0;
 }
-/**
- * Load only the book without pharsing.
- */
-int Bible::readBook(const int id)
-{
-    DEBUG_FUNC_NAME
-    m_bookID = id;
-    return m_bibleModule->readBook(id);
-}
+
 
 QString Bible::toUniformHtml(QString string)
 {
@@ -135,21 +140,20 @@ QString Bible::toUniformHtml(QString string)
 
 TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 {
-    DEBUG_FUNC_NAME
-    //myDebug() << "loaded = " << m_loaded;
+    //DEBUG_FUNC_NAME
 
     TextRange ret;
     ret.setModuleID(range.moduleID());
     if(ignoreModuleID) {
-        if(!m_loaded) {
+        if(!loaded()) {
             loadModuleData(m_moduleID);
         }
     } else {
-        if(range.moduleID() != m_moduleID || !m_loaded) {
+        if(range.moduleID() != m_moduleID || !loaded()) {
             loadModuleData(range.moduleID());
         }
     }
-    if(!m_loaded) {
+    if(!loaded()) {
         ret.setFailed(true);
         return ret;
     }
@@ -260,7 +264,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         Verse verse = it.value();
 
         //main formatting
-        if(m_notes != 0 && m_moduledisplaysettings->showNotes() == true) {
+        if(m_notes != 0 && m_moduleDisplaySettings->showNotes() == true) {
             for(int n = 0; n < m_notes->getIDList().size(); ++n) {
                 const QString noteID = m_notes->getIDList().at(n);
                 if(m_notes->getType(noteID) == "text") {
@@ -313,7 +317,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         it.setValue(verse);
     }
 
-    if(m_notes != 0 && m_moduledisplaysettings->showMarks() == true) {
+    if(m_notes != 0 && m_moduleDisplaySettings->showMarks() == true) {
         //myDebug() << "insert notes";
         VerseReplacer replacer;
         for(int n = 0; n <  m_notes->getIDList().size(); ++n) {
@@ -447,8 +451,7 @@ TextRanges Bible::readRanges(const Ranges &ranges, bool ignoreModuleID)
 
 void Bible::search(SearchQuery query, SearchResult *result)
 {
-    DEBUG_FUNC_NAME
-    if(!m_loaded)
+    if(!loaded())
         return;
 
     m_lastSearchQuery = query;

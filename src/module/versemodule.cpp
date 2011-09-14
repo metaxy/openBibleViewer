@@ -62,7 +62,7 @@ void VerseModule::search(SearchQuery query, SearchResult *result)
     myWarning() << "calling VerseModule";
 }
 
-void VerseModule::setModuleDisplaySettings(ModuleDisplaySettings *moduledisplaysettings)
+void VerseModule::setModuleDisplaySettings(ModuleDisplaySettings *moduleDisplaySettings)
 {
-    m_moduledisplaysettings = moduledisplaysettings;
+    m_moduleDisplaySettings = moduleDisplaySettings;
 }

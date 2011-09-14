@@ -12,6 +12,8 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "versetable.h"
+#include "src/core/dbghelper.h"
+
 VerseTable::VerseTable()
 {
     m_currentModule = 0;

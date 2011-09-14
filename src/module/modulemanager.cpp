@@ -48,9 +48,9 @@ void ModuleManager::setNotes(Notes *notes)
 {
     m_notes = notes;
 }
-void ModuleManager::setModuleDisplaySettings(ModuleDisplaySettings *moduledisplaysettings)
+void ModuleManager::setModuleDisplaySettings(ModuleDisplaySettings *moduleDisplaySettings)
 {
-    m_moduleDisplaySettings = moduledisplaysettings;
+    m_moduleDisplaySettings = moduleDisplaySettings;
 }
 
 

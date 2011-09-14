@@ -28,7 +28,7 @@ public:
         NoteHit = 1
     };
     enum SearchHitKey {
-        BibleID = 0,
+        ModuleID = 0,
         BookID = 1,
         ChapterID = 2,
         VerseID = 3,

@@ -32,7 +32,7 @@ class VerseModule : public SimpleModuleClass, public SearchableModule
 public:
     VerseModule();
     virtual ~VerseModule();
-    void setModuleDisplaySettings(ModuleDisplaySettings *moduledisplaysettings);
+    void setModuleDisplaySettings(ModuleDisplaySettings *moduleDisplaySettings);
     virtual TextRanges readRanges(const Ranges &ranges, bool ignoreModuleID = false);
     virtual TextRange readRange(const Range &range, bool ignoreModuleID = false);
 
@@ -52,7 +52,7 @@ protected:
     SearchQuery m_lastSearchQuery;
     Versification *m_versification;
     TextRanges *m_lastTextRanges;
-    ModuleDisplaySettings *m_moduledisplaysettings;
+    ModuleDisplaySettings *m_moduleDisplaySettings;
 };
 
 #endif // VERSEMODULE_H

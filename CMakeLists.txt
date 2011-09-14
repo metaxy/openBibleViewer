@@ -61,12 +61,6 @@ else()
 endif()
 
 
-if(CLUCENE1_FOUND)
-    message("not found clucene")
-else(CLUCENE1_FOUND)
-    message("clucene found")
-endif(CLUCENE1_FOUND)
-
 
 if(OBV_SWORD_SUPPORT)
     include (FindSword)

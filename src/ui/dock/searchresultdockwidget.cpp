@@ -58,11 +58,11 @@ void SearchResultDockWidget::goToSearchResult(QListWidgetItem * item)
 
     if(id < m_searchResult->hits().size() && id >= 0) {
         SearchHit hit = m_searchResult->hits().at(id);
-        if(!m_moduleManager->contains(hit.value(SearchHit::BibleID).toInt()))
+        if(!m_moduleManager->contains(hit.value(SearchHit::ModuleID).toInt()))
             return;
 
         VerseUrlRange range;
-        range.setModule(hit.value(SearchHit::BibleID).toInt());
+        range.setModule(hit.value(SearchHit::ModuleID).toInt());
         range.setBook(hit.value(SearchHit::BookID).toInt());
         range.setChapter(hit.value(SearchHit::ChapterID).toInt());
         range.setStartVerse(hit.value(SearchHit::VerseID).toInt());

@@ -58,6 +58,7 @@ public:
     Versification *defaultVersification;
 
     ModuleSettings * getModuleSettings(int moduleID) const;
+    Versification * getV11N(const int moduleID) const;
 
     Session session;
     QString sessionID;

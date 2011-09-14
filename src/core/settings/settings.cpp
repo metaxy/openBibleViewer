@@ -37,7 +37,16 @@ ModuleSettings * Settings::getModuleSettings(int moduleID) const
         return NULL;
     }
 }
-
+Versification * Settings::getV11N(const int moduleID) const
+{
+    ModuleSettings *set = getModuleSettings(moduleID);
+    if(!set)
+        return defaultVersification;
+    Versification *v11n = set->getV11n();
+    if(!v11n)
+        return defaultVersification;
+    return v11n;
+}
 QString Settings::savableUrl(QString url) const
 {
     if(url.startsWith(homePath)) {

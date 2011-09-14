@@ -64,7 +64,8 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult *searchResult)
         const int book = hit.value(SearchHit::BookID).toInt();
         if(m_bookItems.contains(book))
             continue;
-        QStandardItem *bookItem = new QStandardItem(m_moduleManager->verseModule()->versification()->bookName(book));
+        Versification *v11n = m_settings->getV11N(hit.value(SearchHit::ModuleID).toInt());
+        QStandardItem *bookItem = new QStandardItem(v11n->bookName(book));
         bookItem->setData("book", Qt::UserRole + 2);
         parentItem->appendRow(bookItem);
         m_bookItems.insert(book, bookItem);
@@ -73,7 +74,8 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult *searchResult)
     for(int i = 0; i < hits.size(); ++i) {
         SearchHit hit = hits.at(i);
         if(hit.type() == SearchHit::BibleHit) {
-            QStandardItem *hitItem = new QStandardItem(m_moduleManager->verseModule()->versification()->bookName(hit.value(SearchHit::BookID).toInt()) + " " +
+            Versification *v11n = m_settings->getV11N(hit.value(SearchHit::ModuleID).toInt());
+            QStandardItem *hitItem = new QStandardItem(v11n->bookName(hit.value(SearchHit::BookID).toInt()) + " " +
                     QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + ":" +
                     QString::number(hit.value(SearchHit::VerseID).toInt() + 1));
             hitItem->setData(i, Qt::UserRole + 1);
@@ -90,9 +92,7 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult *searchResult)
             notesItem->appendRow(hitItem);
         }
     }
-
     ui->pushButton_searchInfo->setDisabled(false);
-
 }
 void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
 {
@@ -101,7 +101,7 @@ void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
     if(id < m_searchResult->hits().size() && id >= 0) {
         SearchHit hit = m_searchResult->hits().at(id);
         if(hit.type() == SearchHit::BibleHit) {
-            if(!m_moduleManager->contains(hit.value(SearchHit::BibleID).toInt()))
+            if(!m_moduleManager->contains(hit.value(SearchHit::ModuleID).toInt()))
                 return;
 
             VerseUrl url;
@@ -109,7 +109,7 @@ void AdvancedSearchResultDockWidget::goToSearchResult(QModelIndex index)
             if(m_settings->advancedSearchDock_useCurrentModule == true) {
                 range.setModule(VerseUrlRange::LoadCurrentModule);
             } else {
-                range.setModule(hit.value(SearchHit::BibleID).toInt());
+                range.setModule(hit.value(SearchHit::ModuleID).toInt());
             }
 
             range.setBook(hit.value(SearchHit::BookID).toInt());

@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "advancedinterface.h"
 #include "ui_advancedinterface.h"
 #include "src/core/biblelink.h"
+#include "src/module/bible/biblequote.h"
 
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
     Interface(parent),
