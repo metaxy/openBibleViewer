@@ -65,13 +65,13 @@ void DownloadInFile::finish()
 {
     DEBUG_FUNC_NAME;
 
-    myDebug() << m_reply->url();
+    //myDebug() << m_reply->url();
 
     int status = m_reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-    myDebug() << "status = " << status;
+    //myDebug() << "status = " << status;
     if (status == 302 || status == 301) { // redirected
-        myDebug() <<  "redirecation target attribute(url)= " << m_reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl();
-        myDebug() << "redirecation target attribute= " << m_reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
+        //myDebug() <<  "redirecation target attribute(url)= " << m_reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl();
+        //myDebug() << "redirecation target attribute= " << m_reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
 
         myDebug() << m_reply->rawHeader("Location");
 

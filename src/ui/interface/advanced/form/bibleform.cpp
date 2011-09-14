@@ -346,9 +346,9 @@ void BibleForm::setCurrentBook(const QSet<int> &bookID)
         if(b < min || min == -1)
             min = b;
     }
-    myDebug() << "min bookID = " << min;
-    myDebug() << m_moduleManager->verseModule()->versification()->bookIDs();
-    myDebug() << "index = " << m_moduleManager->verseModule()->versification()->bookIDs().indexOf(min);
+    //myDebug() << "min bookID = " << min;
+    //myDebug() << m_moduleManager->verseModule()->versification()->bookIDs();
+    //myDebug() << "index = " << m_moduleManager->verseModule()->versification()->bookIDs().indexOf(min);
     m_ui->comboBox_books->setCurrentIndex(m_moduleManager->verseModule()->versification()->bookIDs().indexOf(min));
     connect(m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
 }
@@ -399,7 +399,6 @@ void BibleForm::activated()
 
 void BibleForm::scrollToAnchor(const QString &anchor)
 {
-
 #if QT_VERSION >= 0x040700
     m_view->page()->mainFrame()->scrollToAnchor(anchor);
 #else

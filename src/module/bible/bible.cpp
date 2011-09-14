@@ -213,9 +213,9 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         }
         //myDebug() << "current chapter = " << chapterID;
     }
-    myDebug() << "bookID = " << bookID << " chapterID " << chapterID;
+    //myDebug() << "bookID = " << bookID << " chapterID " << chapterID;
     std::pair<int, int> minMax = m_bibleModule->minMaxVerse(bookID, chapterID);
-    myDebug() << "min = " << minMax.first << " max = " << minMax.second;
+    //myDebug() << "min = " << minMax.first << " max = " << minMax.second;
 
     int startVerse = 0;
     int endVerse = 0;
@@ -243,8 +243,8 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             startVerse++;
     }
 
-    myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
-    myDebug() << "selected verse = " << range.selectedVerse();
+    //myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
+    //myDebug() << "selected verse = " << range.selectedVerse();
 
     TextRange rawRange = m_bibleModule->rawTextRange(bookID, chapterID, startVerse, endVerse);
     ret.setBookID(bookID);

@@ -58,7 +58,7 @@ public:
 
     /**
      * If set module() == LoadModuleByID then it is the id of module
-     * Else is not definied
+     * Else not definied
      */
     int moduleID() const;
     /**
@@ -103,16 +103,16 @@ public:
 
 private:
     int m_moduleID;
+
     ModuleLoadParams m_moduleParam;
     QString m_moduleUID;
 
     int m_bookID;
     BookLoadParams m_bookParam;
 
-
     int m_chapterID;
-
     ChapterLoadParams m_chapterParam;
+
     int m_startVerseID;
     int m_endVerseID;
     VerseLoadParams m_startVerseParam;
