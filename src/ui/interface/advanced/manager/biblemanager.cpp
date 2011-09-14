@@ -86,7 +86,6 @@ void BibleManager::pharseUrl(const QString &url)
     //open a bible window
     BibleForm *f = (BibleForm*)(m_windowManager->getForm(m_windowManager->needBibleWindow()));
     f->pharseUrl(url);
-
 }
 void BibleManager::nextChapter()
 {

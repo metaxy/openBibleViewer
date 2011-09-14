@@ -38,7 +38,7 @@ Bible::Bible()
 }
 Bible::~Bible()
 {
-    //Bible do not delete anything!
+    //Bible does not delete anything!
 }
 
 bool Bible::loaded() const

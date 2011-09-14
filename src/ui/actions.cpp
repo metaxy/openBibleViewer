@@ -29,19 +29,16 @@ void Actions::nextChapter()
 
 void Actions::get(const QString &url)
 {
-    DEBUG_FUNC_NAME
     emit _get(url);
 }
 
 void Actions::get(const QUrl &url)
 {
-    DEBUG_FUNC_NAME
     emit _get(url.toString());
 }
 
 void Actions::get(const VerseUrl &url)
 {
-    DEBUG_FUNC_NAME
     emit _get(url);
 }
 

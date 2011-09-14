@@ -49,7 +49,7 @@ void AdvancedSearchResultDockWidget::init()
 }
 void AdvancedSearchResultDockWidget::setSearchResult(SearchResult *searchResult)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
 
     m_itemModel->clear();
     m_searchResult = searchResult;

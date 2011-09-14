@@ -252,7 +252,7 @@ Range BibleForm::bibleUrlRangeToRange(VerseUrlRange range)
         r.setModule(range.moduleID());
     } else if(range.module() == VerseUrlRange::LoadCurrentModule) {
         if(verseTableLoaded())
-            r.setModule(m_moduleManager->verseModule()->moduleID());
+            r.setModule(m_verseTable->verseModule()->moduleID());
     }
 
     if(range.book() == VerseUrlRange::LoadFirstBook) {
@@ -453,9 +453,8 @@ void BibleForm::readChapter(int id)
     r.setBook(VerseUrlRange::LoadCurrentBook);
     r.setChapter(id);
     r.setWholeChapter();
-    VerseUrl url;
-    url.addRange(r);
 
+    VerseUrl url(r);
     m_actions->get(url);
 }
 
@@ -469,9 +468,8 @@ void BibleForm::readBook(int id)
     r.setBook(i);
     r.setChapter(VerseUrlRange::LoadFirstChapter);
     r.setWholeChapter();
-    VerseUrl url;
-    url.addRange(r);
 
+    VerseUrl url(r);
     m_actions->get(url);
 }
 void BibleForm::zoomIn()

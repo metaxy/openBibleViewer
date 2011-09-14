@@ -156,10 +156,8 @@ QMdiSubWindow* WindowManager::newDictionarySubWindow(bool doAutoLayout, bool for
 
 QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
 {
-    DEBUG_FUNC_NAME;
-
     if(usableWindowList().isEmpty()) {
-
+        return newSubWindow(true, false, type);
     } else if(activeForm() != NULL) {
         if(activeForm()->type() != type) {
             QMdiSubWindow *ww = NULL;
@@ -174,10 +172,13 @@ QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
                 }
             }
             if(ww) {
+                myDebug() << "found window";
                 return ww;
             } else {
                 return newSubWindow(true, false, type);
             }
+        } else {
+            return activeSubWindow();
         }
     }
     return newSubWindow(true, false, type);
@@ -186,21 +187,18 @@ QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
 
 QMdiSubWindow* WindowManager::needBibleWindow()
 {
-    DEBUG_FUNC_NAME;
     return needWindow(Form::BibleForm);
 }
 
 
 QMdiSubWindow* WindowManager::needDictionaryWindow()
 {
-     DEBUG_FUNC_NAME;
      return needWindow(Form::DictionaryForm);
 }
 
 
 QMdiSubWindow* WindowManager::needWebWindow()
 {
-    DEBUG_FUNC_NAME;
     return needWindow(Form::WebForm);
 }
 
