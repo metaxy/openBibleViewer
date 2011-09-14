@@ -332,7 +332,7 @@ void SimpleInterface::showChapter(int chapterID, int verseID)
 }
 void SimpleInterface::nextChapter()
 {
-    if(!m_moduleManager->bibleLoaded())
+    /*if(!m_moduleManager->bibleLoaded())
         return;
     if(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() <
             m_moduleManager->verseModule()->versification()->maxChapter().value(m_moduleManager->verseModule()->lastTextRanges()->minBookID()) - 1) {
@@ -353,12 +353,12 @@ void SimpleInterface::nextChapter()
         range.setWholeChapter();
         bibleUrl.addRange(range);
         m_actions->get(bibleUrl);
-    }
+    }*/
 }
 void SimpleInterface::previousChapter()
 {
     //see also BibleManager
-    if(!m_moduleManager->bibleLoaded())
+   /* if(!m_moduleManager->bibleLoaded())
         return;
     if(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() > 0) {
         VerseUrl bibleUrl;
@@ -378,7 +378,7 @@ void SimpleInterface::previousChapter()
         range.setWholeChapter();
         bibleUrl.addRange(range);
         m_actions->get(bibleUrl);
-    }
+    }*/
 }
 bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
 {

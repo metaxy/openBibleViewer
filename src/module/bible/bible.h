@@ -42,7 +42,7 @@ public:
 
     Bible();
     ~Bible();
-    void setmoduledisplaysettings(ModuleDisplaySettings *moduledisplaysettings);
+    void setModuleDisplaySettings(ModuleDisplaySettings *moduledisplaysettings);
     virtual TextRanges readRanges(const Ranges &ranges, bool ignoreModuleID = false);
     virtual TextRange readRange(const Range &range, bool ignoreModuleID = false);
 

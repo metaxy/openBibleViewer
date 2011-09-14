@@ -132,9 +132,10 @@ void BibleManager::loadBibleList(bool hadBible)
 void BibleManager::reShowCurrentRange()
 {
     DEBUG_FUNC_NAME
-    if(!m_moduleManager->bibleLoaded())
+            //todo: bibleform important
+ /*   if(!m_moduleManager->bibleLoaded())
         return;
-    m_actions->get(*m_moduleManager->verseTable()->lastVerseUrl());
+    m_actions->get(*m_moduleManager->verseTable()->lastVerseUrl());*/
 }
 void BibleManager::reloadBible()
 {

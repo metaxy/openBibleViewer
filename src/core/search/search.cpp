@@ -20,10 +20,22 @@ SearchResult* Search::search(SearchQuery query)
 {
     SearchResult *result = new SearchResult();
     result->searchQuery = query;
-    m_moduleManager->verseModule()->search(query, result);
+    foreach(SearchableModule *m, m_list) {
+        if(m != NULL)
+            m->search(query, result);
+    }
     if(query.searchInNotes) {
         m_notes->search(query, result);
     }
     result->sort();//todo: move maybe to the display section, to avoid double sorting if there is the possibilty to change sort settings
     return result;
+}
+void Search::addModule(SearchableModule *module)
+{
+    m_list.append(module);
+}
+
+void Search::addModule(QList<SearchableModule*> list)
+{
+    m_list.append(list);
 }

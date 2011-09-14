@@ -132,7 +132,6 @@ void AdvancedSearchResultDockWidget::searchInfo()
         return;
     }
 
-
     QList<SearchHit> list = result->hits(SearchHit::BibleHit);
 
     QStringList textList;

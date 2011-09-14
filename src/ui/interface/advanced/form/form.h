@@ -7,6 +7,7 @@
 #include "src/ui/interface/advanced/manager/notesmanager.h"
 #include "src/api/api.h"
 #include "src/core/dbghelper.h"
+#include "src/module/searchablemodule.h"
 #include <QtGui/QMdiSubWindow>
 class Form : public QWidget, public BasicClass
 {
@@ -34,6 +35,9 @@ public:
     virtual void save() = 0;
 
     virtual FormType type() const = 0;
+
+    virtual SearchableModule * searchableModule();
+
 signals:
 
 public slots:

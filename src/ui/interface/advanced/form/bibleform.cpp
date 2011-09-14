@@ -251,7 +251,7 @@ Range BibleForm::bibleUrlRangeToRange(VerseUrlRange range)
     if(range.module() == VerseUrlRange::LoadModuleByID) {
         r.setModule(range.moduleID());
     } else if(range.module() == VerseUrlRange::LoadCurrentModule) {
-        if(m_moduleManager->bibleLoaded())
+        if(verseTableLoaded())
             r.setModule(m_moduleManager->verseModule()->moduleID());
     }
 
@@ -343,7 +343,7 @@ void BibleForm::restore(const QString &key)
 
         if(urlConverter.moduleID() != -1) {
             m_moduleManager->newVerseModule(urlConverter.moduleID(), point, m_verseTable);
-            m_actions->get(urlConverter.url());
+            pharseUrl(urlConverter.url());//these urls are handeld by this Form
         }
     }
 
@@ -1297,9 +1297,15 @@ bool BibleForm::verseTableLoaded()
 {
     return m_moduleManager->verseTableLoaded(m_verseTable);
 }
+SearchableModule * BibleForm::searchableModule()
+{
+    return (SearchableModule*) (m_verseTable->verseModule());
+}
+
 BibleForm::~BibleForm()
 {
     delete m_ui;
+    m_ui = NULL;
     delete m_verseTable;
     m_verseTable = NULL;
 }

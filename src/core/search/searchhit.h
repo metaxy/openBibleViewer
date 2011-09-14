@@ -41,6 +41,9 @@ public:
     void setType(SearchHitType type);
     QVariant value(SearchHitKey v) const;
     void setValue(SearchHitKey k, QVariant value);
+
+
+
 private:
     SearchHitType m_type;
     QMap<int, QVariant> m_map;

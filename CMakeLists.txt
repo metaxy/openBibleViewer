@@ -178,6 +178,7 @@ set( openBibleViewer_HDRS
     src/module/bible/thewordbible.h
     src/module/bible/swordbible.h
     src/module/metainfo.h
+    src/module/searchablemodule.h
 
     src/ui/interface/advanced/windowsessiondata.h
     src/ui/modelmodel.h
@@ -262,6 +263,7 @@ set( openBibleViewer_SRCS
     src/module/bible/thewordbible.cpp
     src/module/bible/swordbible.cpp
     src/module/metainfo.cpp
+    src/module/searchablemodule.cpp
     
     src/ui/dialog/searchdialog.cpp
     src/ui/dialog/settingsdialog.cpp

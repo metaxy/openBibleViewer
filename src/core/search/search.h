@@ -16,11 +16,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/basicclass.h"
 #include "src/core/search/searchresult.h"
 #include "src/core/search/searchquery.h"
+#include "src/module/searchablemodule.h"
 class Search : public BasicClass
 {
 public:
     Search();
     SearchResult* search(SearchQuery query);
+    void addModule(SearchableModule *module);
+    void addModule(QList<SearchableModule*> list);
+private:
+    QList<SearchableModule *> m_list;
 };
 
 #endif // SEARCH_H

@@ -19,6 +19,7 @@ VerseModule::VerseModule()
     m_versification = 0;
     m_lastTextRanges = 0;
 }
+
 VerseModule::~VerseModule()
 {
 
@@ -28,6 +29,7 @@ void VerseModule::setLastTextRanges(TextRanges *textRanges)
 {
     m_lastTextRanges = textRanges;
 }
+
 TextRanges *VerseModule::lastTextRanges() const
 {
     return m_lastTextRanges;
@@ -37,6 +39,7 @@ Versification *VerseModule::versification() const
 {
     return m_versification;
 }
+
 TextRanges VerseModule::readRanges(const Ranges &ranges, bool ignoreModuleID)
 {
     myWarning() << "calling VerseModule";
@@ -53,11 +56,13 @@ SearchQuery VerseModule::lastSearchQuery() const
 {
     return m_lastSearchQuery;
 }
+
 void VerseModule::search(SearchQuery query, SearchResult *result)
 {
     myWarning() << "calling VerseModule";
 }
-void VerseModule::setmoduledisplaysettings(ModuleDisplaySettings *moduledisplaysettings)
+
+void VerseModule::setModuleDisplaySettings(ModuleDisplaySettings *moduledisplaysettings)
 {
     m_moduledisplaysettings = moduledisplaysettings;
 }

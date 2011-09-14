@@ -84,7 +84,7 @@ public:
     QList<int> getBibleIDs();
     void checkCache(const int moduleID);
     VerseModule * newVerseModule(const int moduleID, QPoint p, VerseTable *table);
-    ModuleDisplaySettings *m_moduledisplaysettings;
+    ModuleDisplaySettings *m_moduleDisplaySettings;
     static OBVCore::ModuleType recognizeModuleType(const QString &fileName);
 
 private:

@@ -76,6 +76,8 @@ public:
     void nextChapter();
     void previousChapter();
 
+    SearchableModule * searchableModule();
+
 private slots:
     void showBibleListMenu();
     void readBook(int id);

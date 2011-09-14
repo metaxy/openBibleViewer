@@ -50,7 +50,7 @@ void ModuleManager::setNotes(Notes *notes)
 }
 void ModuleManager::setModuleDisplaySettings(ModuleDisplaySettings *moduledisplaysettings)
 {
-    m_moduledisplaysettings = moduledisplaysettings;
+    m_moduleDisplaySettings = moduledisplaysettings;
 }
 
 
@@ -184,7 +184,7 @@ void ModuleManager::initVerseModule(VerseModule *b) const
         b->setSettings(m_settings);
         b->setNotes(m_notes);
         b->setModuleMap(m_moduleMap);
-        b->setmoduledisplaysettings(m_moduledisplaysettings);
+        b->setModuleDisplaySettings(m_moduleDisplaySettings);
     }
 }
 
