@@ -69,6 +69,13 @@ public:
     void restore(const QString &key);
     void save();
     Form::FormType type() const;
+
+    void pharseUrl(const VerseUrl &url);
+    void pharseUrl(const QString &url);
+
+    void nextChapter();
+    void previousChapter();
+
 private slots:
     void showBibleListMenu();
     void readBook(int id);
@@ -160,6 +167,11 @@ private:
     VerseSelection lastSelection;
     Ui::BibleForm *m_ui;
     QList<int> m_bookIDs;
+
+    void showRanges(const Ranges &ranges, const VerseUrl &url);
+    Range bibleUrlRangeToRange(VerseUrlRange r);
+
+    bool verseTableLoaded();
 };
 
 #endif // BIBLEFORM_H

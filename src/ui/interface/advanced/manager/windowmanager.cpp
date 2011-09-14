@@ -71,6 +71,7 @@ void WindowManager::newSubWindowIfEmpty()
 }
 QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, Form::FormType type)
 {
+    DEBUG_FUNC_NAME
     setEnableReload(false);
 
     const int windowsCount = usableWindowList().size();
@@ -152,48 +153,55 @@ QMdiSubWindow* WindowManager::newDictionarySubWindow(bool doAutoLayout, bool for
 {
    return newSubWindow(doAutoLayout, forceMax, Form::DictionaryForm);
 }
-void WindowManager::needWindow(Form::FormType type)
+
+QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
 {
     DEBUG_FUNC_NAME;
 
     if(usableWindowList().isEmpty()) {
-        newSubWindow(true, false, type);
+
     } else if(activeForm() != NULL) {
         if(activeForm()->type() != type) {
-            bool ok;
+            QMdiSubWindow *ww = NULL;
             foreach(QMdiSubWindow *w, usableWindowList()) {
                 Form *f = getForm(w);
                 if(f->type() == type) {
                     myDebug() << "activate window";
                     w->activateWindow();
                     m_area->setActiveSubWindow(w);
-                    ok = true;
+                    ww = w;
                     break;
                 }
             }
-            if(!ok) {
-                newSubWindow(true, false, type);
+            if(ww) {
+                return ww;
+            } else {
+                return newSubWindow(true, false, type);
             }
         }
     }
+    return newSubWindow(true, false, type);
 }
 
-void WindowManager::needBibleWindow()
+
+QMdiSubWindow* WindowManager::needBibleWindow()
 {
     DEBUG_FUNC_NAME;
-    needWindow(Form::BibleForm);
+    return needWindow(Form::BibleForm);
 }
 
-void WindowManager::needDictionaryWindow()
+
+QMdiSubWindow* WindowManager::needDictionaryWindow()
 {
      DEBUG_FUNC_NAME;
-     needWindow(Form::DictionaryForm);
+     return needWindow(Form::DictionaryForm);
 }
 
-void WindowManager::needWebWindow()
+
+QMdiSubWindow* WindowManager::needWebWindow()
 {
     DEBUG_FUNC_NAME;
-    needWindow(Form::WebForm);
+    return needWindow(Form::WebForm);
 }
 
 void WindowManager::autoLayout()

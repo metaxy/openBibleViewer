@@ -16,26 +16,27 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtCore/QtDebug>
 #include "config.h"
+
 #ifdef OBV_NO_DEBUG_OUTPUT
 
-#ifndef QT_NO_DEBUG
-#define QT_NO_DEBUG
-#endif
+    #ifndef QT_NO_DEBUG
+        #define QT_NO_DEBUG
+    #endif
 
-#ifndef QT_NO_DEBUG_OUTPUT
-#define QT_NO_DEBUG_OUTPUT
-#endif
+    #ifndef QT_NO_DEBUG_OUTPUT
+        #define QT_NO_DEBUG_OUTPUT
+    #endif
 
 #endif
 
 #define myDebug() qDebug() << Q_FUNC_INFO << " "
 #define myWarning() qWarning() << "W: "<< Q_FUNC_INFO << " "
 
-#ifdef OBV_NO_DEBUG_OUTPUT
+/*#ifdef OBV_NO_DEBUG_OUTPUT
 #define DEBUG_FUNC_NAME
-#else
+#else*/
 #define DEBUG_FUNC_NAME DbgHelper dbgHelper(Q_FUNC_INFO);
-#endif
+/*#endif*/
 
 
 #include <QtCore/QString>

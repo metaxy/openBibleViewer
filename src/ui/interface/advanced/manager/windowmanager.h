@@ -58,6 +58,8 @@ public slots:
     QMdiSubWindow * newWebSubWindow(bool doAutoLayout = true, bool forceMax = false);
     QMdiSubWindow * newDictionarySubWindow(bool doAutoLayout = true, bool forceMax = false);
 
+    Form* getForm(QMdiSubWindow *w);
+
     void closeSubWindow();
     int closingWindow();
     int reloadWindow(QMdiSubWindow * window);
@@ -79,10 +81,10 @@ public slots:
     void reloadChapter(bool full);
     void newSubWindowIfEmpty();
 
-    void needBibleWindow();
-    void needDictionaryWindow();
-    void needWebWindow();
-    void needWindow(Form::FormType type = Form::BibleForm);
+    QMdiSubWindow* needBibleWindow();
+    QMdiSubWindow* needDictionaryWindow();
+    QMdiSubWindow* needWebWindow();
+    QMdiSubWindow* needWindow(Form::FormType type = Form::BibleForm);
 
 
 private:
@@ -103,7 +105,6 @@ private:
 
     void installResizeFilter();
 
-    Form* getForm(QMdiSubWindow *w);
 
 };
 
