@@ -54,10 +54,13 @@ public:
     bool dictionaryLoaded();
     bool dictionaryLoaded(const Dictionary *dict);
 
+    bool metaModuleLoaded(const SimpleModuleClass *m) const;
+    bool verseTableLoaded(const VerseTable *table) const;
+
     VerseModule* verseModule();
     VerseTable* verseTable();
 
-    void initVerseModule(VerseModule *m = 0);
+    void initVerseModule(VerseModule *m = 0) const;
 
     Dictionary* dictionary();
 
@@ -80,7 +83,7 @@ public:
     QStringList getBiblePaths();
     QList<int> getBibleIDs();
     void checkCache(const int moduleID);
-    VerseModule * newVerseModule(const int moduleID, QPoint p);
+    VerseModule * newVerseModule(const int moduleID, QPoint p, VerseTable *table);
     ModuleDisplaySettings *m_moduledisplaysettings;
     static OBVCore::ModuleType recognizeModuleType(const QString &fileName);
 

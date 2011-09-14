@@ -143,7 +143,7 @@ void DictionaryForm::testDictionary(int module)
         m_dictionary->setNotes(m_notes);
         m_dictionary->setSettings(m_settings);
     }
-    if(!m_moduleManager->dictionaryLoaded(m_dictionary)) {
+    if(!m_moduleManager->metaModuleLoaded(m_dictionary)) {
         if(module == -1) {
             const QString last = m_settings->session.getData("lastDictModuleInWindow").toString();
             int moduleID = -1;

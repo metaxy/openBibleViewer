@@ -48,10 +48,12 @@ Form::FormType BibleForm::type() const
 void BibleForm::init()
 {
     //DEBUG_FUNC_NAME
-    m_moduleManager->m_verseTable = new VerseTable();
+    m_verseTable = new VerseTable();
     Bible *b = new Bible();
+
     m_moduleManager->initVerseModule(b);
-    m_moduleManager->verseTable()->addModule(b, QPoint(0, 0));
+    m_verseTable->addModule(b, QPoint(0, 0));
+
     m_verseTable = m_moduleManager->m_verseTable;
     attachApi();
 
@@ -95,7 +97,7 @@ void BibleForm::restore(const QString &key)
 
     //load verse module
 
-    m_moduleManager->verseTable()->clear();
+    m_verseTable->clear();
     const QStringList urls = m_settings->session.file()->value(a+"urls").toStringList();
     const QStringList points = m_settings->session.file()->value(a+"biblePoints").toStringList();
 
@@ -111,7 +113,7 @@ void BibleForm::restore(const QString &key)
         urlConverter.convert();
 
         if(urlConverter.moduleID() != -1) {
-            m_moduleManager->newVerseModule(urlConverter.moduleID(), point);
+            m_moduleManager->newVerseModule(urlConverter.moduleID(), point, m_verseTable);
             m_actions->get(urlConverter.url());
         }
     }
@@ -346,10 +348,7 @@ void BibleForm::setCurrentBook(const QSet<int> &bookID)
         if(b < min || min == -1)
             min = b;
     }
-    //myDebug() << "min bookID = " << min;
-    //myDebug() << m_moduleManager->verseModule()->versification()->bookIDs();
-    //myDebug() << "index = " << m_moduleManager->verseModule()->versification()->bookIDs().indexOf(min);
-    m_ui->comboBox_books->setCurrentIndex(m_moduleManager->verseModule()->versification()->bookIDs().indexOf(min));
+    m_ui->comboBox_books->setCurrentIndex(m_verseTable->verseModule()->versification()->bookIDs().indexOf(min));
     connect(m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
 }
 void BibleForm::activated()
@@ -364,37 +363,36 @@ void BibleForm::activated()
         clearBooks();
         m_actions->setTitle("");
 
-        m_moduleManager->m_verseTable = new VerseTable();
+        m_verseTable = new VerseTable();
         Bible *b = new Bible();
         m_moduleManager->initVerseModule(b);
-        m_moduleManager->verseTable()->addModule(b, QPoint(0, 0));
-        m_verseTable = m_moduleManager->m_verseTable;
+        m_verseTable->addModule(b, QPoint(0, 0));
         return;
     }
     if(m_verseTable->verseModule()->moduleID() < 0) {
-        myDebug() << "invalid moduleID";
+        myWarning() << "invalid moduleID";
+
         clearChapters();
         clearBooks();
         m_actions->setTitle("");
-        m_moduleManager->m_verseTable = table;
+        m_verseTable = table;
         return;
     }
 
-    m_moduleManager->m_verseTable = m_verseTable;
 
-    m_actions->setTitle(m_moduleManager->verseModule()->moduleTitle());
-    m_actions->setCurrentModule(m_moduleManager->verseModule()->moduleID());
+    m_actions->setTitle(m_verseTable->verseModule()->moduleTitle());
+    m_actions->setCurrentModule(m_verseTable->verseModule()->moduleID());
 
-    m_actions->updateChapters(m_moduleManager->verseModule()->lastTextRanges()->minBookID(), m_moduleManager->verseModule()->versification());
-    m_actions->updateBooks(m_moduleManager->verseModule()->versification());
+    m_actions->updateChapters(m_verseTable->verseModule()->lastTextRanges()->minBookID(), m_verseTable->verseModule()->versification());
+    m_actions->updateBooks(m_verseTable->verseModule()->versification());
 
     if(m_lastTextRanges.verseCount() != 0 && !m_lastTextRanges.failed()) {
         m_actions->setCurrentChapter(m_lastTextRanges.chapterIDs());
         m_actions->setCurrentBook(m_lastTextRanges.bookIDs());
     }
 
-    m_moduleManager->verseTable()->setLastTextRanges(&m_lastTextRanges);
-    m_moduleManager->verseTable()->setLastUrl(&m_lastUrl);
+    m_verseTable->setLastTextRanges(&m_lastTextRanges);
+    m_verseTable->setLastUrl(&m_lastUrl);
 }
 
 void BibleForm::scrollToAnchor(const QString &anchor)
@@ -413,8 +411,8 @@ void BibleForm::showText(const QString &text)
     QWebFrame * frame = m_view->page()->mainFrame();
     {
         QString cssFile;
-        if(m_moduleManager->bibleLoaded())
-            cssFile = m_settings->getModuleSettings(m_moduleManager->verseModule()->moduleID())->styleSheet;
+        if(m_moduleManager->verseTableLoaded(m_verseTable))
+            cssFile = m_settings->getModuleSettings(m_verseTable->verseModule()->moduleID())->styleSheet;
         if(cssFile.isEmpty())
             cssFile = ":/data/css/default.css";
 
@@ -438,15 +436,15 @@ void BibleForm::showText(const QString &text)
 
     if(m_lastTextRanges.verseCount() > 1) {
         scrollToAnchor("currentEntry");
-        if(m_moduleManager->verseTable()->hasTopBar())
+        if(m_verseTable->hasTopBar())
             frame->scroll(0, -40); //due to the biblelist bar on top
         //todo: it could be that the top bar has a width more than 40px
         //because the user zoomed in.
     }
 
-    if(m_moduleManager->verseModule()->moduleType() == OBVCore::BibleQuoteModule) {
+    if(m_verseTable->verseModule()->moduleType() == OBVCore::BibleQuoteModule) {
         QWebElementCollection collection = frame->documentElement().findAll("img");
-        const QStringList searchPaths = ((Bible*) m_moduleManager->verseModule())->getSearchPaths();
+        const QStringList searchPaths = ((Bible*) m_verseTable->verseModule())->getSearchPaths();
 
         foreach(QWebElement paraElement, collection) {
             QString url = paraElement.attribute("src");
@@ -487,8 +485,8 @@ void BibleForm::showTextRanges(const QString &html, const TextRanges &range, con
     showText(html);
     m_lastTextRanges = range;
     m_lastUrl = url;
-    m_moduleManager->verseTable()->setLastTextRanges(&m_lastTextRanges);
-    m_moduleManager->verseTable()->setLastUrl(&m_lastUrl);
+    m_verseTable->setLastTextRanges(&m_lastTextRanges);
+    m_verseTable->setLastUrl(&m_lastUrl);
     historySetUrl(url.toString());
 }
 void BibleForm::evaluateJavaScript(const QString &js)
@@ -763,14 +761,14 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
 }
 void BibleForm::newNoteWithLink()
 {
-    if(!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
     m_notesManager->newNoteWithLink(lastSelection);
 }
 void BibleForm::newBookmark()
 {
-    if(!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
     m_bookmarksManager->newBookmark(lastSelection);
@@ -782,7 +780,7 @@ void BibleForm::copyWholeVerse(void)
     VerseSelection selection = lastSelection;
     if(selection.startVerse != -1) {
         int add = 0;
-        if(m_moduleManager->verseModule()->moduleType() == OBVCore::BibleQuoteModule)
+        if(m_verseTable->verseModule()->moduleType() == OBVCore::BibleQuoteModule)
             add = 1; //because of the title
         Ranges ranges;
         if(selection.startChapterID == selection.endChapterID) {
@@ -812,7 +810,7 @@ void BibleForm::copyWholeVerse(void)
                 ranges.addRange(r);
             }
         }
-        QString stext = m_moduleManager->verseModule()->readRanges(ranges).join(" ");
+        QString stext = m_verseTable->verseModule()->readRanges(ranges).join(" ");
 
         QTextDocument doc2;
         doc2.setHtml(stext);
@@ -843,7 +841,7 @@ void BibleForm::debugger()
 
 void BibleForm::newColorMark()
 {
-    if(!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
     const QString colorName = sender()->objectName();
@@ -868,7 +866,7 @@ void BibleForm::newColorMark()
 
 void BibleForm::newCustomColorMark()
 {
-    if(!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
 
@@ -881,7 +879,7 @@ void BibleForm::newCustomColorMark()
 
 void BibleForm::newBoldMark()
 {
-    if(!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
 
@@ -891,7 +889,7 @@ void BibleForm::newBoldMark()
 
 void BibleForm::newItalicMark()
 {
-    if(!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
 
@@ -901,7 +899,7 @@ void BibleForm::newItalicMark()
 
 void BibleForm::newUnderlineMark()
 {
-    if(!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
 
@@ -912,7 +910,7 @@ void BibleForm::newUnderlineMark()
 void BibleForm::removeMark()
 {
     //DEBUG_FUNC_NAME;
-    if(!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
     VerseSelection selection = lastSelection;
@@ -1025,7 +1023,7 @@ VerseSelection BibleForm::verseSelection()
     }
     myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
     //do not this stuff with BibleQuote because some modules have wired html stuff.
-    if(s.canBeUsedForMarks() == false && m_moduleManager->verseModule()->moduleType() != OBVCore::BibleQuoteModule) {
+    if(s.canBeUsedForMarks() == false && m_verseTable->verseModule()->moduleType() != OBVCore::BibleQuoteModule) {
         //now the ultimative alogrithm
         f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection();adVerseSelection.getSelection();");
         const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
@@ -1069,7 +1067,7 @@ BibleForm::~BibleForm()
 {
     delete m_ui;
     delete m_verseTable;
-    m_moduleManager->m_verseTable = NULL;
+    m_verseTable = NULL;
 }
 
 

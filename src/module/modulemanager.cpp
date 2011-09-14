@@ -178,9 +178,9 @@ void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
     }
 
 }
-void ModuleManager::initVerseModule(VerseModule *b)
+void ModuleManager::initVerseModule(VerseModule *b) const
 {
-    if(b != 0) {
+    if(b != NULL) {
         b->setSettings(m_settings);
         b->setNotes(m_notes);
         b->setModuleMap(m_moduleMap);
@@ -205,20 +205,25 @@ bool ModuleManager::hasBible()
         return true;
     return false;
 }
-/**
-  * Returns true, if a strong module is loaded.
-  */
 bool ModuleManager::dictionaryLoaded()
 {
     return dictionaryLoaded(m_dictionary);
 }
+
 bool ModuleManager::dictionaryLoaded(const Dictionary *dict)
 {
-    if(m_moduleMap->m_map.contains(dict->moduleID())  &&  dict->moduleID() >= 0)
+    if(m_moduleMap->m_map.contains(dict->moduleID()) && dict->moduleID() >= 0)
         return true;
     return false;
 }
-
+bool ModuleManager::metaModuleLoaded(const SimpleModuleClass *m) const
+{
+    return (m && m_moduleMap->m_map.contains(m->moduleID()) && m->moduleID() >= 0);
+}
+bool ModuleManager::verseTableLoaded(const VerseTable *table) const
+{
+     return (table && table->verseModule() && m_moduleMap->m_map.contains(table->verseModule()->moduleID()) && table->verseModule()->moduleID() >= 0);
+}
 bool ModuleManager::contains(const int moduleID)
 {
     return m_moduleMap->m_map.contains(moduleID);
@@ -314,7 +319,7 @@ void ModuleManager::checkCache(const int moduleID)
         b->loadModuleData(moduleID);//set cache
     }*/
 }
-VerseModule * ModuleManager::newVerseModule(const int moduleID, QPoint p)
+VerseModule * ModuleManager::newVerseModule(const int moduleID, QPoint p, VerseTable *table)
 {
     DEBUG_FUNC_NAME
     if(!contains(moduleID)) {
@@ -322,7 +327,7 @@ VerseModule * ModuleManager::newVerseModule(const int moduleID, QPoint p)
         return NULL;
     }
 
-    const int id = verseTable()->m_points.key(p, -1);
+    const int id = table->m_points.key(p, -1);
     VerseModule *m = NULL;
     /*if(id != -1) {
         m = verseTable()->verseModule(id);
@@ -346,7 +351,7 @@ VerseModule * ModuleManager::newVerseModule(const int moduleID, QPoint p)
          ((Bible*)m)->loadModuleData(moduleID);
      }*/
 
-    verseTable()->addModule(m, p);
+    table->addModule(m, p);
 
     return m;
 }
