@@ -31,9 +31,9 @@ VerseUrlRange::VerseUrlRange()
     m_openToTranformation = true;
 }
 
-void VerseUrlRange::setModule(const int bibleID)
+void VerseUrlRange::setModule(const int moduleID)
 {
-    m_moduleID = bibleID;
+    m_moduleID = moduleID;
     m_moduleParam = VerseUrlRange::LoadModuleByID;
 }
 
@@ -47,6 +47,7 @@ void VerseUrlRange::setModule(const QString &bibleUID)
     m_moduleUID = bibleUID;
     m_moduleParam = VerseUrlRange::LoadModuleByUID;
 }
+
 
 int VerseUrlRange::moduleID() const
 {

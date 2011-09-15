@@ -89,15 +89,76 @@ void BibleForm::init()
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     createDefaultMenu();
 }
+VerseUrl BibleForm::applyUrl(VerseUrl url)
+{
+    if(m_url.ranges().isEmpty())
+        return url;
+    VerseUrl newUrl = url;
+    newUrl.clearRanges();
+    for(int i = 0; i < url.ranges().size(); i++) {
+        VerseUrlRange range = url.ranges().at(i);
+        int id;
+        if(m_url.ranges().size() < url.ranges().size()) {
+            id = m_url.ranges().size() - 1;
+        } else {
+            id = i;
+        }
+
+        VerseUrlRange newRange = range;
+        VerseUrlRange mRange = m_url.ranges().at(id);
+        if(range.module() == VerseUrlRange::LoadCurrentModule) {
+            newRange.setModule(m_url.ranges().at(id).module());
+            if(mRange.module() == VerseUrlRange::LoadModuleByID) {
+                newRange.setModule(mRange.moduleID());
+            }
+            if(mRange.module() == VerseUrlRange::LoadModuleByUID) {
+                newRange.setModule(mRange.moduleUID());
+            }
+        }
+        if(range.book() == VerseUrlRange::LoadCurrentBook) {
+            newRange.setBook(mRange.book());
+            if(mRange.book() == VerseUrlRange::LoadBookByID) {
+                newRange.setBook(mRange.bookID());
+            }
+        }
+        if(range.chapter() == VerseUrlRange::LoadCurrentChapter) {
+            newRange.setChapter(mRange.chapter());
+            if(mRange.chapter() == VerseUrlRange::LoadChapterByID) {
+                newRange.setChapter(mRange.chapterID());
+            }
+        }
+
+        if(range.startVerse() == VerseUrlRange::LoadCurrentVerse) {
+            newRange.setStartVerse(mRange.startVerse());
+            if(mRange.startVerse() == VerseUrlRange::LoadVerseByID) {
+                newRange.setStartVerse(mRange.startVerseID());
+            }
+        }
+
+        if(range.endVerse() == VerseUrlRange::LoadCurrentVerse) {
+            newRange.setEndVerse(mRange.endVerse());
+            if(mRange.endVerse() == VerseUrlRange::LoadVerseByID) {
+                newRange.setEndVerse(mRange.endVerseID());
+            }
+        }
+        newUrl.addRange(newRange);
+        //todo: active Verse
+    }
+    return newUrl;
+}
+
 void BibleForm::pharseUrl(const VerseUrl &url)
 {
+    VerseUrl newUrl = applyUrl(url);
+    m_url = newUrl;
+    myDebug() << "new url = " << m_url.toString();
     Ranges ranges;
-    foreach(VerseUrlRange range, url.ranges()) {
+    foreach(VerseUrlRange range, newUrl.ranges()) {
         ranges.addRange(bibleUrlRangeToRange(range));
     }
-    ranges.setSource(url);
-    showRanges(ranges, url);
-    if(url.hasParam("searchInCurrentText")) {
+    ranges.setSource(newUrl);
+    showRanges(ranges, newUrl);
+    if(newUrl.hasParam("searchInCurrentText")) {
         m_actions->searchInText();
     }
 }
@@ -114,7 +175,9 @@ void BibleForm::pharseUrl(const QString &url)
         if(!bibleUrl.fromString(url)) {
             return;
         }
-
+        bibleUrl = applyUrl(bibleUrl);
+        m_url = bibleUrl;
+        myDebug() << "new url = " << m_url.toString();
         foreach(VerseUrlRange range, bibleUrl.ranges()) {
             ranges.addRange(bibleUrlRangeToRange(range));
         }

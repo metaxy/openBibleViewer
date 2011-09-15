@@ -176,6 +176,9 @@ private:
     Range bibleUrlRangeToRange(VerseUrlRange r);
 
     bool verseTableLoaded();
+
+    VerseUrl applyUrl(VerseUrl url);
+    VerseUrl m_url;
 };
 
 #endif // BIBLEFORM_H
