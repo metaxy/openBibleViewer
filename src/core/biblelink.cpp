@@ -3,7 +3,8 @@
 const QStringList REGS = QStringList() << "(.*)"
                                        << "(.*)(\\s+)(\\d+)"
                                        << "(.*)(\\s+)(\\d+),(\\d+)" << "(.*)(\\s+)(\\d+):(\\d+)"
-                                       << "(.*)(\\s+)(\\d+),(\\d+)-(\\d+)" << "(.*)(\\s+)(\\d+):(\\d+)-(\\d+)";
+                                       << "(.*)(\\s+)(\\d+),(\\d+)-(\\d+)" << "(.*)(\\s+)(\\d+):(\\d+)-(\\d+)"
+                                       << "(.*)(\\s+)(\\d+)-(\\d+)";
 
 BibleLink::BibleLink(int moduleID, Versification *v11n)
 {
@@ -61,17 +62,20 @@ VerseUrl BibleLink::getUrl(const QString& s)
     VerseUrlRange range;
     range.setModule(m_moduleID);
     range.setOpenToTransformation(true);
+    VerseUrl url;
     if(found == 0) {  //example: Hiob
         const int bookID = bookNameToBookID(foundRegExp.cap(1),&lev);
         range.setBook(bookID);
         range.setChapter(VerseUrlRange::LoadFirstChapter);
         range.setWholeChapter();
+        url.addRange(range);
     } else if(found == 1) {  //Hiob 4
         const int bookID = bookNameToBookID(foundRegExp.cap(1),&lev);
         const int chapterID = foundRegExp.cap(3).toInt() - 1;
         range.setBook(bookID);
         range.setChapter(chapterID);
         range.setWholeChapter();
+        url.addRange(range);
     } else if(found == 2 || found == 3) {  //Hiob 4:9
         const int bookID = bookNameToBookID(foundRegExp.cap(1),&lev);
         const int chapterID = foundRegExp.cap(3).toInt() - 1;
@@ -80,6 +84,7 @@ VerseUrl BibleLink::getUrl(const QString& s)
         range.setChapter(chapterID);
         range.setStartVerse(verseID);
         range.setEndVerse(verseID);
+        url.addRange(range);
     }
     else if(found == 4 || found == 5) {  //Hiob 4:9-10
         const int bookID = bookNameToBookID(foundRegExp.cap(1),&lev);
@@ -90,8 +95,23 @@ VerseUrl BibleLink::getUrl(const QString& s)
         range.setChapter(chapterID);
         range.setStartVerse(startVerseID);
         range.setEndVerse(endVerseID);
+        url.addRange(range);
     }
-    VerseUrl url(range);
+    else if(found == 6) {  //Hiob 4-5
+        const int bookID = bookNameToBookID(foundRegExp.cap(1),&lev);
+        const int startChapterID = foundRegExp.cap(3).toInt() - 1;
+        const int endChapterID = foundRegExp.cap(4).toInt() - 1;
+        for(int i=startChapterID; i<=endChapterID;i++) {
+            VerseUrlRange range;
+            range.setModule(m_moduleID);
+            range.setOpenToTransformation(true);
+            range.setBook(bookID);
+            range.setChapter(i);
+            range.setWholeChapter();
+            url.addRange(range);
+        }
+    }
+
     return url;
 }
 int BibleLink::bookNameToBookID(const QString& name, int *nlev)
