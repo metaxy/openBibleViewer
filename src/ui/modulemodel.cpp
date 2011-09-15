@@ -82,7 +82,14 @@ void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings
             item->setIcon(m_bibleZefaniaIcon);
             parentItem->appendRow(item);
         }
-    } else if(settings->moduleType == OBVCore::FolderModule) {
+    } else if(settings->moduleType == OBVCore::WebPageModule) {
+        if(m_showAll) {
+            item = new QStandardItem;
+            item->setText(settings->moduleName);
+            item->setData(QString::number(settings->moduleID));
+            parentItem->appendRow(item);
+        }
+    }else if(settings->moduleType == OBVCore::FolderModule) {
         item = new QStandardItem;
         item->setText(settings->moduleName);
         item->setData(QString::number(settings->moduleID));

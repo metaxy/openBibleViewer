@@ -42,6 +42,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/interface/advanced/manager/searchmanager.h"
 #include "src/ui/interface/advanced/manager/bookmarksmanager.h"
 #include "src/ui/interface/advanced/manager/dictionarymanager.h"
+#include "src/ui/interface/advanced/manager/webpagemanager.h"
 
 #include "mdiareafilter.h"
 
@@ -106,7 +107,7 @@ signals:
 private:
     Ui::AdvancedInterface *ui;
 
-    ModuleDisplaySettings *m_moduledisplaysettings;
+    ModuleDisplaySettings *m_moduleDisplaySettings;
     Api *m_api;
     //Menu
     QAction *m_actionTabbedView;
@@ -132,6 +133,7 @@ private:
     SearchManager *m_searchManager;
     BookmarksManager *m_bookmarksManager;
     DictionaryManager *m_dictionaryManager;
+    WebPageManager *m_webPageManager;
 };
 
 #endif // ADVANCEDINTERFACE_H

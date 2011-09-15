@@ -27,9 +27,9 @@ AdvancedInterface::~AdvancedInterface()
 {
     DEBUG_FUNC_NAME;
 
-    if(m_moduledisplaysettings != NULL) {
-        delete m_moduledisplaysettings;
-        m_moduledisplaysettings = 0;
+    if(m_moduleDisplaySettings != NULL) {
+        delete m_moduleDisplaySettings;
+        m_moduleDisplaySettings = 0;
     }
 
     if(ui != NULL) {
@@ -41,14 +41,14 @@ AdvancedInterface::~AdvancedInterface()
 void AdvancedInterface::init()
 {
     DEBUG_FUNC_NAME
-    m_moduledisplaysettings = new ModuleDisplaySettings();
-    m_moduledisplaysettings->setShowMarks(true);
-    m_moduledisplaysettings->setShowNotes(true);
-    m_moduledisplaysettings->setLoadNotes(true);
+    m_moduleDisplaySettings = new ModuleDisplaySettings();
+    m_moduleDisplaySettings->setShowMarks(true);
+    m_moduleDisplaySettings->setShowNotes(true);
+    m_moduleDisplaySettings->setLoadNotes(true);
 
     connect(m_actions, SIGNAL(_get(QString)), this, SLOT(pharseUrl(QString)));
 
-    m_moduleManager->setModuleDisplaySettings(m_moduledisplaysettings);
+    m_moduleManager->setModuleDisplaySettings(m_moduleDisplaySettings);
 
     m_api = new Api(this);
     setAll(m_api);
@@ -89,9 +89,14 @@ void AdvancedInterface::init()
 
     m_searchManager = new SearchManager(this);
     setAll(m_searchManager);
-    m_searchManager->init();
     m_searchManager->setWindowManager(m_windowManager);
     m_searchManager->setWidget(this->parentWidget());
+    m_searchManager->init();
+
+    m_webPageManager = new WebPageManager();
+    setAll(m_webPageManager);
+    m_webPageManager->setWindowManager(m_windowManager);
+
 
     m_settings->session.file()->beginGroup(m_settings->session.id() + "/windows/");
     if(m_settings->session.file()->childGroups().size() == 0)
@@ -135,8 +140,6 @@ void AdvancedInterface::pharseUrl(QUrl url)
 void AdvancedInterface::pharseUrl(QString url)
 {
     DEBUG_FUNC_NAME
-
-    QString url_backup = url;
     //setEnableReload(false);
     myDebug() << "url = " << url;
 
@@ -149,6 +152,7 @@ void AdvancedInterface::pharseUrl(QString url)
     const QString anchor = "#";
     const QString note = "note://";
     const QString persistent = "persistent:";
+    const QString webPage = "webpage:/";
 
     if(url.startsWith(bible)) {
         m_bibleManager->pharseUrl(url);
@@ -158,6 +162,8 @@ void AdvancedInterface::pharseUrl(QString url)
          m_dictionaryManager->pharseUrl(url);
     } else if(url.startsWith(dict)) {
          m_dictionaryManager->pharseUrl(url);
+    } else if(url.startsWith(webPage)) {
+        m_webPageManager->pharseUrl(url);
     } else if(url.startsWith(http)) {
         //its a web link
         QDesktopServices::openUrl(url);

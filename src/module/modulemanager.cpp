@@ -170,6 +170,8 @@ void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
         module->setModuleClass(OBVCore::BibleModuleClass);
     } else if(settings->moduleType == OBVCore::ZefaniaLexModule || settings->moduleType == OBVCore::BibleQuoteDictModule) {
         module->setModuleClass(OBVCore::DictionaryModuleClass);
+    } else if(settings->moduleType == OBVCore::WebPageModule) {
+        module->setModuleClass(OBVCore::WebPageClass);
     }
 
     //recursive
@@ -178,13 +180,21 @@ void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
     }
 
 }
-void ModuleManager::initVerseModule(VerseModule *b) const
+void ModuleManager::initSimpleModule(SimpleModuleClass *b) const
 {
     if(b != NULL) {
         b->setSettings(m_settings);
         b->setNotes(m_notes);
         b->setModuleMap(m_moduleMap);
-        b->setModuleDisplaySettings(m_moduleDisplaySettings);
+    }
+}
+void ModuleManager::initVerseModule(VerseModule *m) const
+{
+    if(m != NULL) {
+        m->setSettings(m_settings);
+        m->setNotes(m_notes);
+        m->setModuleMap(m_moduleMap);
+        m->setModuleDisplaySettings(m_moduleDisplaySettings);
     }
 }
 
@@ -312,7 +322,7 @@ VerseModule * ModuleManager::newVerseModule(const int moduleID, QPoint p, VerseT
     //todo: support for other VerseModules
     if(getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
         m = new Bible();
-        initVerseModule(m);
+        initSimpleModule(m);
     }
     /*}*/
     //todo: check if this is possible b->moduleID() != moduleID
@@ -336,6 +346,9 @@ OBVCore::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
     //myDebug() << fileName;
     if(fileName.endsWith("bibleqt.ini", Qt::CaseInsensitive)) {
         return OBVCore::BibleQuoteModule;
+    } else if(fileName.endsWith(".webpage.xml", Qt::CaseInsensitive) ) {
+        myDebug() << "the word module";
+        return OBVCore::WebPageModule;
     } else if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
         QFile data(fileName);
         if(data.open(QFile::ReadOnly)) {

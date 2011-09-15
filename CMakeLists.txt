@@ -175,7 +175,7 @@ set( openBibleViewer_HDRS
     src/module/searchablemodule.h
     src/module/webpage.h
 
-    src/ui/interface/advanced/windowsessiondata.h
+   src/ui/interface/advanced/manager/webpagemanager.h
     src/ui/modelmodel.h
     )
 
@@ -265,7 +265,7 @@ set( openBibleViewer_SRCS
     src/ui/dialog/settingsdialog.cpp
     src/ui/dialog/aboutdialog.cpp
     src/ui/dialog/biblepassagedialog.cpp
-    src/ui/dialog/moduleconfigdialog.cpp
+    src/ui/dialog/moduleconfigdialog.cpp   src/ui/interface/advanced/manager/webpagemanager.cpp
     src/ui/dialog/moduledownloaddialog.cpp
     src/ui/dialog/searchinfodialog.cpp
     src/ui/dialog/insertlinkdialog.cpp
@@ -298,8 +298,8 @@ set( openBibleViewer_SRCS
     src/ui/interface/advanced/manager/dictionarymanager.cpp
     src/ui/interface/advanced/manager/notesmanager.cpp
     src/ui/interface/advanced/manager/searchmanager.cpp
+    src/ui/interface/advanced/manager/webpagemanager.cpp
     src/ui/interface/advanced/advancedinterface.cpp
-    src/ui/interface/advanced/windowsessiondata.cpp
     src/ui/interface/study/studyinterface.cpp
     src/ui/interface/interface.cpp
 

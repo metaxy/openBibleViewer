@@ -9,9 +9,11 @@ class WebPage : public SimpleModuleClass, public SearchableModule
 public:
     WebPage();
 
-    void loadData();
+    void loadData(const QString &name = "");
     QUrl getUrl();
     void search(SearchQuery query, SearchResult *result);
+
+    MetaInfo readInfo(const QString &name);
 private:
     QString m_name;
     QString m_shortName;

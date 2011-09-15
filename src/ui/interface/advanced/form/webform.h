@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QtGui/QLineEdit>
 #include "form.h"
-
+#include "src/module/webpage.h"
 namespace Ui {
     class WebForm;
 }
@@ -22,11 +22,17 @@ public:
     void restore(const QString &key);
     void save();
 
+    void pharseUrl(QString url);
+
     Form::FormType type() const;
+
+    void openModule(const int moduleID);
 
 private:
     Ui::WebForm *m_ui;
     QLineEdit *m_locationEdit;
+
+    WebPage *m_page;
 public slots:
     void copy();
     void selectAll();

@@ -21,6 +21,7 @@ WebForm::WebForm(QWidget *parent) :
     m_ui->toolButton_forward->setToolTip(m_ui->webView->pageAction(QWebPage::Forward)->toolTip());
     connect(m_ui->toolButton_forward, SIGNAL(clicked()), m_ui->webView, SLOT(forward()));
 
+    m_page = NULL;
 }
 
 WebForm::~WebForm()
@@ -64,6 +65,29 @@ QUrl WebForm::guessUrlFromString(const QString &string)
     // Fall back to QUrl's own tolerant parser.
     return QUrl(string, QUrl::TolerantMode);
 }
+void WebForm::pharseUrl(QString url)
+{
+    DEBUG_FUNC_NAME;
+    const QString webPage = "webpage:/";
+    url = url.remove(0, webPage.size());
+    openModule(url.toInt());
+}
+void WebForm::openModule(const int moduleID)
+{
+    DEBUG_FUNC_NAME;
+    if(m_page == NULL) {
+        m_page = new WebPage();
+        //m_moduleManager->initSimpleModule(m_page);
+        m_page->setSettings(m_settings);
+        m_page->setModuleMap(m_moduleManager->m_moduleMap);
+        m_page->setModuleID(moduleID);
+
+
+        QUrl url = m_page->getUrl();
+        m_ui->webView->load(url);
+    }
+}
+
 void WebForm::init()
 {
 }

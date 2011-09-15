@@ -27,7 +27,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/interface/advanced/mdiareafilter.h"
 #include "src/ui/interface/advanced/form/bibleform.h"
 #include "src/ui/interface/advanced/form/webform.h"
-#include "src/ui/interface/advanced/windowsessiondata.h"
 #include "bookmarksmanager.h"
 #include "notesmanager.h"
 #include "src/ui/interface/advanced/form/form.h"

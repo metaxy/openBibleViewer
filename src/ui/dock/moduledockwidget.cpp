@@ -81,6 +81,8 @@ void ModuleDockWidget::loadModuleData(QModelIndex index)
         const OBVCore::ModuleClass cl = m->moduleClass();
         if(cl == OBVCore::DictionaryModuleClass) {
             m_actions->get("dict:/"+QString::number(moduleID));
+        } else if(cl == OBVCore::WebPageClass) {
+            m_actions->get("webpage:/"+QString::number(moduleID));
         } else if(cl == OBVCore::BibleModuleClass) {
             m_moduleID = moduleID;
             VerseUrl url;
