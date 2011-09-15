@@ -114,11 +114,31 @@ VerseUrl BibleLink::getUrl(const QString& s)
 
     return url;
 }
-int BibleLink::bookNameToBookID(const QString& name, int *nlev)
+int BibleLink::bookNameToBookID(QString name, int *nlev)
 {
     int min = -1, bookID = -1;
+    name = name.toLower();
+
     QHash<int, QString> full = m_v11n->bookNames();
     QHash<int, QStringList> shortNames = m_v11n->multipleBookShortNames();
+
+    QMutableHashIterator<int, QString> it(full);
+    while (it.hasNext()) {
+        it.next();
+        it.setValue(it.value().toLower());
+    }
+
+    QMutableHashIterator<int, QStringList> it2(shortNames);
+    while (it2.hasNext()) {
+        it2.next();
+        QStringList newList;
+        foreach(QString n, it2.value()) {
+            newList << n.toLower();
+        }
+        it2.setValue(newList);
+
+    }
+
     {
         QHashIterator<int, QString> i(full);
         while(i.hasNext()) {
