@@ -108,9 +108,9 @@ void VerseTableWidget::addRow()
 void VerseTableWidget::save()
 {
     //todo: bibelform important
-   /* DEBUG_FUNC_NAME
-    bool hadBible = m_moduleManager->bibleLoaded();
-    m_moduleManager->verseTable()->clear();
+    DEBUG_FUNC_NAME
+    bool hadBible = m_moduleManager->verseTableLoaded(m_verseTable);
+    m_verseTable->clear();
     //load them
     int selectedModule = -1;//the selected bible
     int lastModule = 0;
@@ -120,24 +120,24 @@ void VerseTableWidget::save()
             int id = m_model->item(x, y)->data(Qt::UserRole + 2).toInt();
             if(id >= 0) {
                 atLeastOne = true;
-                m_moduleManager->newVerseModule(id, QPoint(x, y));
+                m_moduleManager->newVerseModule(id, QPoint(x, y), m_verseTable);
                 if(m_selectionModel->selection().contains(m_model->index(x, y)))
-                    selectedModule = m_moduleManager->verseTable()->currentVerseTableID();
-                lastModule = m_moduleManager->verseTable()->currentVerseTableID();
+                    selectedModule = m_verseTable->currentVerseTableID();
+                lastModule = m_verseTable->currentVerseTableID();
             }
         }
     }
     //myDebug() << "selectedModule = " << selectedModule << " lastModule = " << lastModule;
     if(selectedModule != -1)
-        m_moduleManager->verseTable()->setCurrentVerseTableID(selectedModule);
+        m_verseTable->setCurrentVerseTableID(selectedModule);
     else
-        m_moduleManager->verseTable()->setCurrentVerseTableID(lastModule);
+        m_verseTable->setCurrentVerseTableID(lastModule);
 
     if(atLeastOne) {
         //myDebug() << "at least one";
         m_actions->loadVerseTable(hadBible);
     }
-    close();*/
+    close();
 }
 
 VerseTableWidget::~VerseTableWidget()

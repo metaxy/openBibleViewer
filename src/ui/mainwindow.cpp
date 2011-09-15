@@ -137,7 +137,6 @@ void MainWindow::deleteInterface()
 
     if(m_interface->hasMenuBar()) {
         delete m_menuBar;
-        //todo: remove the docks
     }
     QHash<DockWidget*, Qt::DockWidgetArea> docks = m_interface->docks();
     QHashIterator<DockWidget*, Qt::DockWidgetArea> it(docks);
