@@ -26,17 +26,14 @@ void WebPage::loadModuleData(const int moduleID, const QString &name)
         return;
     }
     file.close();
-    myDebug() << "reading";
 
     QDomElement docElem = doc.documentElement();
 
     QDomNode n = docElem.firstChild();
     while(!n.isNull()) {
-        myDebug() << n.nodeName();
         if(n.nodeName() == "meta") {
             QDomNode n2 = n.firstChild();
             while(!n2.isNull()) {
-                myDebug() << n2.nodeName();
                 if(n2.nodeName() == "name") {
                     m_name = n2.firstChild().toText().data();
 
@@ -59,11 +56,12 @@ void WebPage::loadModuleData(const int moduleID, const QString &name)
         n = n.nextSibling();
     }
     m_loaded = true;
+    m_loadedModuleID = m_moduleID;
 }
 
 QUrl WebPage::getUrl()
 {
-    if(!m_loaded)
+    if(!loaded())
         loadModuleData(m_moduleID);
     return QUrl(m_url);
 }
@@ -81,4 +79,8 @@ MetaInfo WebPage::readInfo(const QString &name)
     ret.setName(m_name);
     ret.setShortName(m_shortName);
     return ret;
+}
+bool WebPage::loaded()
+{
+    return m_loaded && m_loadedModuleID == m_moduleID;
 }

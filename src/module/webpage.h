@@ -22,6 +22,9 @@ private:
     QString m_url;
 
     bool m_loaded;
+
+    bool loaded();
+    int m_loadedModuleID;
 };
 
 #endif // WEBPAGE_H
