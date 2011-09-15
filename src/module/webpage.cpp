@@ -4,15 +4,17 @@ WebPage::WebPage()
 {
     m_loaded = false;
 }
-void WebPage::loadData(const QString &name)
+void WebPage::loadModuleData(const int moduleID, const QString &name)
 {
-    m_module = m_map->m_map.value(m_moduleID, NULL);
+    m_moduleID = moduleID;
+    m_module = m_map->module(m_moduleID);
 
     QString fileName;
     if(name.isEmpty())
         fileName = m_module->path();
     else
         fileName = name;
+
     myDebug() << fileName;
     QDomDocument doc;
     QFile file(fileName);
@@ -62,7 +64,7 @@ void WebPage::loadData(const QString &name)
 QUrl WebPage::getUrl()
 {
     if(!m_loaded)
-        loadData();
+        loadModuleData(m_moduleID);
     return QUrl(m_url);
 }
 
@@ -70,9 +72,10 @@ void WebPage::search(SearchQuery query, SearchResult *result)
 {
 
 }
+
 MetaInfo WebPage::readInfo(const QString &name)
 {
-    loadData(name);
+    loadModuleData(m_moduleID, name);
     myDebug() << m_name << m_shortName;
     MetaInfo ret;
     ret.setName(m_name);

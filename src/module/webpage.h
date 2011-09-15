@@ -9,7 +9,7 @@ class WebPage : public SimpleModuleClass, public SearchableModule
 public:
     WebPage();
 
-    void loadData(const QString &name = "");
+    void loadModuleData(const int moduleID, const QString &name = "");
     QUrl getUrl();
     void search(SearchQuery query, SearchResult *result);
 

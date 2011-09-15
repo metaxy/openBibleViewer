@@ -180,14 +180,6 @@ void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
     }
 
 }
-void ModuleManager::initSimpleModule(SimpleModuleClass *b) const
-{
-    if(b != NULL) {
-        b->setSettings(m_settings);
-        b->setNotes(m_notes);
-        b->setModuleMap(m_moduleMap);
-    }
-}
 void ModuleManager::initVerseModule(VerseModule *m) const
 {
     if(m != NULL) {
@@ -197,7 +189,14 @@ void ModuleManager::initVerseModule(VerseModule *m) const
         m->setModuleDisplaySettings(m_moduleDisplaySettings);
     }
 }
-
+void ModuleManager::initSimpleModule(SimpleModuleClass *m) const
+{
+    if(m != NULL) {
+        m->setSettings(m_settings);
+        m->setNotes(m_notes);
+        m->setModuleMap(m_moduleMap);
+    }
+}
 
 bool ModuleManager::dictionaryLoaded()
 {
@@ -225,7 +224,7 @@ bool ModuleManager::contains(const int moduleID)
 
 Module * ModuleManager::getModule(const int moduleID)
 {
-    return m_moduleMap->m_map.value(moduleID);
+    return m_moduleMap->module(moduleID);
 }
 Dictionary* ModuleManager::dictionary()
 {
@@ -322,7 +321,7 @@ VerseModule * ModuleManager::newVerseModule(const int moduleID, QPoint p, VerseT
     //todo: support for other VerseModules
     if(getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
         m = new Bible();
-        initSimpleModule(m);
+        initVerseModule(m);
     }
     /*}*/
     //todo: check if this is possible b->moduleID() != moduleID
@@ -330,7 +329,6 @@ VerseModule * ModuleManager::newVerseModule(const int moduleID, QPoint p, VerseT
     OBVCore::ModuleType type = getModule(moduleID)->moduleType();
     m->setModuleType(type);
     m->setModuleID(moduleID);
-    myDebug() << moduleID;
     //todo: load module data?
     /* if(getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
          myDebug() << "loading the module data";

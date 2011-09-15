@@ -55,8 +55,8 @@ public:
     bool metaModuleLoaded(const SimpleModuleClass *m) const;
     bool verseTableLoaded(const VerseTable *table) const;
 
-    void initSimpleModule(SimpleModuleClass *m = 0) const;
-    void initVerseModule(VerseModule *m = 0) const;
+    void initSimpleModule(SimpleModuleClass *m) const;
+    void initVerseModule(VerseModule *m) const;
 
     Dictionary* dictionary();
 

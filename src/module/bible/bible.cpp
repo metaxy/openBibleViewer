@@ -49,7 +49,7 @@ bool Bible::loaded() const
 int Bible::loadModuleData(const int moduleID)
 {
     myDebug() << "moduleID = " << moduleID;
-    m_module = m_map->m_map.value(moduleID, NULL);
+    m_module = m_map->module(moduleID);
 
     //not valid module
     if(moduleID < 0 || m_module == NULL) {

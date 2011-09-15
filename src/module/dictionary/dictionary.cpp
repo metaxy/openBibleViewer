@@ -23,7 +23,7 @@ Dictionary::Dictionary()
 int Dictionary::loadModuleData(const int moduleID)
 {
     DEBUG_FUNC_NAME
-    m_module = m_map->m_map.value(moduleID);
+    m_module = m_map->module(moduleID);
     if(moduleID < 0 || m_module == NULL) {
         myWarning() << "invalid moduleID = " << moduleID;
         return 1;

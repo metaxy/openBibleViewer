@@ -69,7 +69,7 @@ VerseUrl UrlConverter::convert()
 
         foreach(VerseUrlRange range, m_bibleUrl.ranges()) {
             if(range.module() == VerseUrlRange::LoadModuleByID && m_moduleMap->m_map.contains(range.moduleID())) {
-                range.setModule(m_settings->savableUrl(m_moduleMap->m_map.value(range.moduleID())->path()));
+                range.setModule(m_settings->savableUrl(m_moduleMap->module(range.moduleID())->path()));
             }
             url.addRange(range);
             bookIDs.append(range.bookID());

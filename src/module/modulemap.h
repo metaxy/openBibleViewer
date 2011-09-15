@@ -23,6 +23,8 @@ public:
     ModuleMap();
     ~ModuleMap();
     QMap<int, Module*> m_map;
+
+    Module* module(const int id);
 };
 
 #endif // MODULEMAP_H

@@ -82,11 +82,11 @@ void WebForm::openModule(const int moduleID)
         m_page->setModuleMap(m_moduleManager->m_moduleMap);
         m_page->setModuleID(moduleID);
 
-
         QUrl url = m_page->getUrl();
         m_ui->webView->load(url);
     } else {
         m_page->setModuleID(moduleID);
+
         QUrl url = m_page->getUrl();
         m_ui->webView->load(url);
     }
