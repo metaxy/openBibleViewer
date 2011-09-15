@@ -141,7 +141,7 @@ public:
       \param res The Results.
       */
     void search(SearchQuery query, SearchResult *result) const;
-
+    Notes::NotesTextType type() const;
 
 private:
     QString m_fileName;

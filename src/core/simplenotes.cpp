@@ -147,10 +147,16 @@ void SimpleNotes::setTitle(QString title)
 }
 void SimpleNotes::setData(QString data)
 {
-    if(m_loadTextBrowser)
-        m_textEdit_note->setHtml(data);
-    else
+    if(m_loadTextBrowser) {
+        if(m_notes->type() == Notes::TextNotes) {
+            m_textEdit_note->setText(data);
+        } else if(m_notes->type() == Notes::HtmlNotes) {
+            m_textEdit_note->setHtml(data);
+        }
+    }
+    else {
         m_frame->setHtml(data);
+    }
 }
 void SimpleNotes::setRef(QMap<QString, QString> ref)
 {

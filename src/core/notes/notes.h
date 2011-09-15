@@ -34,6 +34,11 @@ signals:
     void noteAdded(QString id);
 public:
     Notes() {}
+    enum NotesTextType {
+        HtmlNotes,
+        TextNotes
+    };
+    virtual Notes::NotesTextType type() const = 0;
     /**
       Init the notes;
       \param fileName The path to the notes xml file.

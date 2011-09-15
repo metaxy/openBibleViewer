@@ -74,6 +74,8 @@ public:
 
     void loadNote(QString id);
 
+    Notes::NotesTextType type() const;
+
 private:
     QString m_fileName;
     QStringList notesID;

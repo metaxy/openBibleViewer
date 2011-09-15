@@ -47,8 +47,10 @@ class SimpleNotes : public QObject, public BasicClass
 public:
     explicit SimpleNotes();
     void setTitleWidget(QLineEdit *title);
+
     void setDataWidget(QTextBrowser *data);
     void setFrameWidget(QWebFrame *frame);
+
     void setViewWidget(QTreeView *treeView);
     void setLinkWidget(QLabel* link);
     void setLinkButtonWidget(QPushButton* button);

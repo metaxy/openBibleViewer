@@ -21,7 +21,10 @@ TextNotes::TextNotes()
     DEBUG_FUNC_NAME
     m_isLoaded = false;
 }
-
+Notes::NotesTextType TextNotes::type() const
+{
+    return Notes::TextNotes;
+}
 void TextNotes::init(const QString &fileName)
 {
     DEBUG_FUNC_NAME
@@ -33,8 +36,7 @@ void TextNotes::init(const QString &fileName)
 
 bool TextNotes::isLoaded() const
 {
-   /* return m_isLoaded;*/
-   return false;
+    return m_isLoaded;
 }
 
 void TextNotes::loadingNewInstance()
@@ -48,10 +50,15 @@ int TextNotes::loadNotes()
     DEBUG_FUNC_NAME;
     QDir d(m_fileName);
     const QStringList l = d.entryList(QDir::Files);
-    foreach(const QString d, l) {
-        notesID << d;
-        notesType[d] = "text";
-        //loadNote(d);
+    foreach(const QString fileName, l) {
+        notesID << fileName;
+        notesType[fileName] = "text";
+        notesTitle[fileName] = fileName;
+        QFile file(m_fileName+"/"+fileName);
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QTextStream in(&file);
+            notesData[fileName] = in.readAll();
+        }
     }
     m_isLoaded = true;
     return 0;
@@ -59,20 +66,17 @@ int TextNotes::loadNotes()
 
 QString TextNotes::getType(const QString &id) const
 {
-    /*return notesType.value(id, "");*/
-	return "";
+    return notesType.value(id, "");
 }
 
 QString TextNotes::getTitle(const QString &id) const
 {
-    /*return notesTitle.value(id, "");*/
-	return "";
+    return notesTitle.value(id, "");
 }
 
 QString TextNotes::getData(const QString &id) const
 {
-    /*return notesData.value(id, "");*/
-	return "";
+    return notesData.value(id, "");
 }
 
 QString TextNotes::getRef(const QString &id, const QString &refID) const
@@ -100,14 +104,12 @@ QMap<QString, QString> TextNotes::getRef(const QString &id) const
   */
 QStringList TextNotes::getIDList() const
 {
-    /*return notesID;*/
-	return QStringList();
+    return notesID;
 }
 
 QStringList TextNotes::getIDList(const QString &type) const
 {
-    /*return notesType.keys(type);*/
-	return QStringList();
+    return notesType.keys(type);
 }
 
 
