@@ -36,6 +36,7 @@ void BibleManager::init()
     connect(m_actions, SIGNAL(_loadVerseTable(bool)), this, SLOT(loadBibleList(bool)));
     connect(m_actions, SIGNAL(_reShowCurrentRange()), this, SLOT(reShowCurrentRange()));
     connect(m_actions, SIGNAL(_reloadBible()), this, SLOT(reloadBible()));
+    connect(m_actions, SIGNAL(_setCurrentVerseTableID(int)), this, SLOT(setCurrentVerseTableID(int)));
 }
 
 void BibleManager::createDocks()
@@ -156,4 +157,10 @@ ModuleDockWidget *BibleManager::moduleDockWidget()
 QuickJumpDockWidget * BibleManager::quickJumpDockWidget()
 {
     return m_quickJumpDockWidget;
+}
+void BibleManager::setCurrentVerseTableID(const int verseTableID)
+{
+    if(m_windowManager->activeForm()->type() == Form::BibleForm) {
+        ((BibleForm*)(m_windowManager->activeForm()))->verseTable()->setCurrentVerseTableID(verseTableID);
+    }
 }

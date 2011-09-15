@@ -49,16 +49,11 @@ public:
     void setNotes(Notes *notes);
     void setModuleDisplaySettings(ModuleDisplaySettings *moduledisplaysettings);
 
-    bool bibleLoaded();
-    bool hasBible();
     bool dictionaryLoaded();
     bool dictionaryLoaded(const Dictionary *dict);
 
     bool metaModuleLoaded(const SimpleModuleClass *m) const;
     bool verseTableLoaded(const VerseTable *table) const;
-
-    VerseModule* verseModule();
-    VerseTable* verseTable();
 
     void initVerseModule(VerseModule *m = 0) const;
 
@@ -76,7 +71,6 @@ public:
     Notes *m_notes;
     ModuleMap *m_moduleMap;
 
-    VerseTable *m_verseTable;
     Dictionary *m_dictionary;
 
     QStringList getBibleTitles();

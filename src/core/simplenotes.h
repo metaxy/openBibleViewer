@@ -78,11 +78,11 @@ public slots:
     /**
      * Same as newTextNote() but add also an verse link ref using the given selection
      */
-    void newTextNoteWithLink(VerseSelection selection);
+    void newTextNoteWithLink(VerseSelection selection, Versification *v11n);
     /**
      * Creates a new mark note using the given selection and style
      */
-    void newStyleMark(VerseSelection selection, const QString &style);
+    void newStyleMark(VerseSelection selection, const QString &style, Versification *v11n);
 private slots:
     /**
      * Insert the text(not html) of the current select note in the clipboard

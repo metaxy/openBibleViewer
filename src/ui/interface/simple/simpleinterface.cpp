@@ -255,7 +255,7 @@ void SimpleInterface::pharseUrl(QString url)
 }
 void SimpleInterface::showText(const QString &text)
 {
-    QString cssFile = m_settings->getModuleSettings(m_moduleManager->verseModule()->moduleID())->styleSheet;
+    /*QString cssFile = m_settings->getModuleSettings(m_moduleManager->verseModule()->moduleID())->styleSheet;
     if(cssFile.isEmpty())
         cssFile = ":/data/css/default.css";
 
@@ -263,7 +263,7 @@ void SimpleInterface::showText(const QString &text)
     ui->textBrowser->loadResource(QTextDocument::StyleSheetResource, QUrl(cssFile));
 
     if(m_moduleManager->verseModule()->lastTextRanges()->minVerseID() > 1)
-        ui->textBrowser->scrollToAnchor("currentVerse");
+        ui->textBrowser->scrollToAnchor("currentVerse");*/
 }
 void SimpleInterface::setTitle(const QString &title)
 {

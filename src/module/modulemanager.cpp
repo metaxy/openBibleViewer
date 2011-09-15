@@ -188,23 +188,7 @@ void ModuleManager::initVerseModule(VerseModule *b) const
     }
 }
 
-/**
-  * Returns true, if a bible is loaded.
-  */
-bool ModuleManager::bibleLoaded()
-{
-    if(m_verseTable && verseModule() && m_moduleMap->m_map.contains(verseModule()->moduleID()) && verseModule()->moduleID() >= 0)
-        return true;
-    return false;
-}
 
-
-bool ModuleManager::hasBible()
-{
-    if(m_verseTable && verseModule())
-        return true;
-    return false;
-}
 bool ModuleManager::dictionaryLoaded()
 {
     return dictionaryLoaded(m_dictionary);
@@ -229,14 +213,6 @@ bool ModuleManager::contains(const int moduleID)
     return m_moduleMap->m_map.contains(moduleID);
 }
 
-VerseModule * ModuleManager::verseModule()
-{
-    return verseTable()->verseModule();
-}
-VerseTable * ModuleManager::verseTable()
-{
-    return m_verseTable;
-}
 Module * ModuleManager::getModule(const int moduleID)
 {
     return m_moduleMap->m_map.value(moduleID);

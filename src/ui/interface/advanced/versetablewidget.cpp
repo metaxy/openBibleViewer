@@ -32,11 +32,16 @@ VerseTableWidget::VerseTableWidget(QWidget *parent) :
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
 
 }
+void VerseTableWidget::setVerseTable(VerseTable *table)
+{
+    m_verseTable = table;
+}
+
 void VerseTableWidget::init()
 {
     int maxRow = 0;
     int maxCol = 0;
-    foreach(const QPoint & p, m_moduleManager->verseTable()->m_points) {
+    foreach(const QPoint & p, m_verseTable->m_points) {
         maxRow = qMax(maxRow, p.x());
         maxCol = qMax(maxCol, p.y());
     }
@@ -46,8 +51,8 @@ void VerseTableWidget::init()
     ui->tableView->setSelectionModel(m_selectionModel);
     for(int i = 0; i <= maxRow; i++) {
         for(int j = 0; j <= maxCol; j++) {
-            const int id = m_moduleManager->verseTable()->m_points.key(QPoint(i, j), -1);
-            VerseModule *m = m_moduleManager->verseTable()->verseModule(id);
+            const int id = m_verseTable->m_points.key(QPoint(i, j), -1);
+            VerseModule *m = m_verseTable->verseModule(id);
 
             QStandardItem *item;
             if(id >= 0 && m) {

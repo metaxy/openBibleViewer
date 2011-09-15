@@ -166,3 +166,7 @@ void Actions::showDictEntry(const QString &key, int moduleID)
 {
     emit _showDictEntry(key, moduleID);
 }
+void Actions::setCurrentVerseTableID(const int verseTableID)
+{
+    emit _setCurrentVerseTableID(verseTableID);
+}

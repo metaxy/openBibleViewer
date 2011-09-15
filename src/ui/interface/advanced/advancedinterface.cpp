@@ -659,16 +659,22 @@ QList<QToolBar *> AdvancedInterface::toolBars()
 }
 void AdvancedInterface::quick()
 {
-    const QString text = ((QLineEdit *) sender())->text();
-    BibleLink link(m_moduleManager->verseModule()->moduleID(), m_moduleManager->verseModule()->versification());
-    if(link.isBibleLink(text)) {
-         m_actions->get(link.getUrl(text));
-    } else {
-        SearchQuery query;
-        query.searchText = text;
-        query.searchInNotes = true;
-        query.queryType = SearchQuery::Simple;
-        m_searchManager->search(query);
+    //todo: bibleform important
+    //default module or get an open bibleform
+    if(m_windowManager->activeForm() && m_windowManager->activeForm()->type() == Form::BibleForm) {
+        BibleForm *f = (BibleForm*)(m_windowManager->activeForm());
+        BibleLink link(f->verseModule()->moduleID(), f->verseModule()->versification());
+
+        const QString text = ((QLineEdit *) sender())->text();
+        if(link.isBibleLink(text)) {
+             m_actions->get(link.getUrl(text));
+        } else {
+            SearchQuery query;
+            query.searchText = text;
+            query.searchInNotes = true;
+            query.queryType = SearchQuery::Simple;
+            m_searchManager->search(query);
+        }
     }
 }
 

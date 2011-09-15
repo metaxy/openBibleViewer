@@ -58,6 +58,8 @@ public slots:
 
     void reShowCurrentRange();
     void reloadBible();
+
+    void setCurrentVerseTableID(const int verseTableID);
 private:
 
     QWidget *m_p;

@@ -36,6 +36,7 @@ public:
     explicit VerseTableWidget(QWidget *parent = 0);
     ~VerseTableWidget();
     void init();
+    void setVerseTable(VerseTable *table);
 
 protected:
     void changeEvent(QEvent *e);
@@ -51,6 +52,8 @@ private:
     Ui::VerseTableWidget *ui;
     QStandardItemModel *m_model;
     QItemSelectionModel *m_selectionModel;
+
+    VerseTable *m_verseTable;
 };
 
 #endif // VERSETABLEWIDGET_H

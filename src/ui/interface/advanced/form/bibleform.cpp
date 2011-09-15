@@ -55,8 +55,6 @@ void BibleForm::init()
 
     m_moduleManager->initVerseModule(b);
     m_verseTable->addModule(b, QPoint(0, 0));
-
-    m_verseTable = m_moduleManager->m_verseTable;
     attachApi();
 
     connect(m_view->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
@@ -441,6 +439,7 @@ void BibleForm::showBibleListMenu()
 {
     VerseTableWidget *w = new VerseTableWidget(this);
     setAll(w);
+    w->setVerseTable(m_verseTable);
     w->init();
     w->exec();
 }
@@ -993,14 +992,14 @@ void BibleForm::newNoteWithLink()
     if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
-    m_notesManager->newNoteWithLink(lastSelection);
+    m_notesManager->newNoteWithLink(lastSelection, verseModule()->versification());
 }
 void BibleForm::newBookmark()
 {
     if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
-    m_bookmarksManager->newBookmark(lastSelection);
+    m_bookmarksManager->newBookmark(lastSelection, verseModule()->versification());
 }
 
 void BibleForm::copyWholeVerse(void)
@@ -1090,7 +1089,7 @@ void BibleForm::newColorMark()
     }
 
     VerseSelection selection = lastSelection;
-    m_notesManager->newCustomColorMark(selection, color);
+    m_notesManager->newCustomColorMark(selection, color, verseModule()->versification());
 }
 
 void BibleForm::newCustomColorMark()
@@ -1102,7 +1101,7 @@ void BibleForm::newCustomColorMark()
     VerseSelection selection = lastSelection;
     const QColor color = QColorDialog::getColor(QColor(255, 255, 0), this);
     if(color.isValid()) {
-        m_notesManager->newCustomColorMark(selection, color);
+        m_notesManager->newCustomColorMark(selection, color, verseModule()->versification());
     }
 }
 
@@ -1113,7 +1112,7 @@ void BibleForm::newBoldMark()
     }
 
     VerseSelection selection = lastSelection;
-    m_notesManager->newBoldMark(selection);
+    m_notesManager->newBoldMark(selection, verseModule()->versification());
 }
 
 void BibleForm::newItalicMark()
@@ -1123,7 +1122,7 @@ void BibleForm::newItalicMark()
     }
 
     VerseSelection selection = lastSelection;
-    m_notesManager->newItalicMark(selection);
+    m_notesManager->newItalicMark(selection, verseModule()->versification());
 }
 
 void BibleForm::newUnderlineMark()
@@ -1133,7 +1132,7 @@ void BibleForm::newUnderlineMark()
     }
 
     VerseSelection selection = lastSelection;
-    m_notesManager->newUnderlineMark(selection);
+    m_notesManager->newUnderlineMark(selection, verseModule()->versification());
 }
 
 void BibleForm::removeMark()
@@ -1144,7 +1143,7 @@ void BibleForm::removeMark()
     }
     VerseSelection selection = lastSelection;
     //myDebug() << "selection = " << selection.moduleID << selection.bookID << selection.chapterID << selection.startVerse;
-    m_notesManager->removeMark(selection);
+    m_notesManager->removeMark(selection, verseModule()->versification());
 }
 
 VerseSelection BibleForm::verseSelection()

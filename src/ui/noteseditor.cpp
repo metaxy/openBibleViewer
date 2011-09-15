@@ -284,7 +284,8 @@ static QUrl guessUrlFromString(const QString &string)
 
 void NotesEditor::createLink()
 {
-    InsertLinkDialog *insertLinkDialog = new InsertLinkDialog(this);
+    //todo: bibleform important
+    /*InsertLinkDialog *insertLinkDialog = new InsertLinkDialog(this);
     connect(insertLinkDialog, SIGNAL(newLink(QString)), this, SLOT(createLink(QString)));
     setAll(insertLinkDialog);
 
@@ -292,7 +293,7 @@ void NotesEditor::createLink()
 
     insertLinkDialog->setCurrent(m_moduleManager->verseModule()->lastTextRanges()->source().source());
     insertLinkDialog->show();
-    insertLinkDialog->exec();
+    insertLinkDialog->exec();*/
 }
 void NotesEditor::createLink(QString link)
 {

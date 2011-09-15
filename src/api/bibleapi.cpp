@@ -25,9 +25,10 @@ ModuleApi::~ModuleApi()
 
 void ModuleApi::activateModule(const int verseTableID)
 {
-    DEBUG_FUNC_NAME;
-    myDebug() << verseTableID;
-    m_moduleManager->verseTable()->setCurrentVerseTableID(verseTableID);
+    //DEBUG_FUNC_NAME;
+    //myDebug() << verseTableID;
+
+    m_actions->setCurrentVerseTableID(verseTableID);
 
     QWebElementCollection collection = m_frame->documentElement().findAll("td[class~=verseTableTitle]");
     foreach(QWebElement paraElement, collection) {

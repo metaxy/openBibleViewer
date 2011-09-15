@@ -426,7 +426,7 @@ void SimpleNotes::addNote(const QString &id)
     }
 }
 
-void SimpleNotes::newTextNoteWithLink(VerseSelection selection)
+void SimpleNotes::newTextNoteWithLink(VerseSelection selection, Versification* v11n)
 {
     //DEBUG_FUNC_NAME
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
@@ -441,7 +441,7 @@ void SimpleNotes::newTextNoteWithLink(VerseSelection selection)
     VerseUrl url(range);
     UrlConverter2 urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
     urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
-    urlConverter.setV11n(m_moduleManager->verseModule()->versification());
+    urlConverter.setV11n(v11n);
     urlConverter.convert();
     const QString link = urlConverter.url().toString();
     myDebug() << "link = " << link;
@@ -474,7 +474,7 @@ void SimpleNotes::newTextNoteWithLink(VerseSelection selection)
 
     m_actions->reloadChapter();
 }
-void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style)
+void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style, Versification *v11n)
 {
     //myDebug() << selection.shortestStringInEndVerse << selection.shortestStringInStartVerse;
     if(!selection.canBeUsedForMarks()) {
@@ -494,7 +494,7 @@ void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style)
     VerseUrl url(range);
     UrlConverter2 urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
     urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
-    urlConverter.setV11n(m_moduleManager->verseModule()->versification());
+    urlConverter.setV11n(v11n);
     urlConverter.convert();
     const QString link = urlConverter.url().toString();
     myDebug() << link;

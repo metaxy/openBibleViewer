@@ -65,6 +65,7 @@ VerseUrl UrlConverter::convert()
         //todo: catch errors
         url.clearRanges();
         QList<int> bookIDs;
+        QList<int> moduleIDs;
 
         foreach(VerseUrlRange range, m_bibleUrl.ranges()) {
             if(range.module() == VerseUrlRange::LoadModuleByID && m_moduleMap->m_map.contains(range.moduleID())) {
@@ -72,11 +73,19 @@ VerseUrl UrlConverter::convert()
             }
             url.addRange(range);
             bookIDs.append(range.bookID());
+            moduleIDs.append(range.moduleID());
         }
 
         if(m_setBookNames) {
             for(int i = 0; i < bookIDs.size(); i++) {
-                url.setParam("b" + QString::number(i), m_v11n->bookName(bookIDs.at(i)));
+                Versification *v11n;
+                if(m_v11n == NULL) {
+                    v11n = m_settings->getV11N(moduleIDs.at(i));
+                } else {
+                    v11n = m_v11n;
+                }
+
+                url.setParam("b" + QString::number(i), v11n->bookName(bookIDs.at(i)));
             }
         }
 

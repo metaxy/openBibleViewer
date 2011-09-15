@@ -75,6 +75,8 @@ signals:
 
     void _showDictEntry(const QString &key, int moduleID);
 
+    void _setCurrentVerseTableID(const int verseTableID);
+
 public slots:
 
     void previousChapter();
@@ -128,6 +130,8 @@ public slots:
 
     void searchInText(SearchResult *result);
     void searchInText();
+
+    void setCurrentVerseTableID(const int verseTableID);
 
 
 };

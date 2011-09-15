@@ -32,6 +32,11 @@ QuickJumpDockWidget::~QuickJumpDockWidget()
 {
     delete ui;
 }
+void QuickJumpDockWidget::setWindowManager(WindowManager *manager)
+{
+    m_windowManager = manager;
+}
+
 void QuickJumpDockWidget::init()
 {
     DEBUG_FUNC_NAME;
@@ -56,9 +61,10 @@ void QuickJumpDockWidget::setBooks(Versification *v11n)
 
 void QuickJumpDockWidget::goToPos()
 {
+    //todo: same as in advancedinterface
     DEBUG_FUNC_NAME;
     const QString text = ui->lineEdit_goTo->text();
-    if(text.isEmpty() || !m_moduleManager->bibleLoaded()) {
+    if(text.isEmpty()) {
         myWarning() << "no module loaded";
         return;
     }
@@ -74,10 +80,13 @@ void QuickJumpDockWidget::goToPos()
     m_completer = new QCompleter(l, this);
     m_completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->lineEdit_goTo->setCompleter(m_completer);
+    if(m_windowManager->activeForm() && m_windowManager->activeForm()->type() == Form::BibleForm) {
+        BibleForm *f = (BibleForm*)(m_windowManager->activeForm());
+        BibleLink link(f->verseModule()->moduleID(), f->verseModule()->versification());
 
-    BibleLink link(m_moduleManager->verseModule()->moduleID(), m_moduleManager->verseModule()->versification());
 
-    m_actions->get(link.getUrl(text));
+        m_actions->get(link.getUrl(text));
+    }
     return;
 }
 void QuickJumpDockWidget::changeEvent(QEvent *e)

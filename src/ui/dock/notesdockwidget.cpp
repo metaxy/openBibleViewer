@@ -72,14 +72,14 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.setV11n(m_moduleManager->verseModule()->versification());
+    urlConverter.setV11n(NULL);
     VerseUrl newUrl = urlConverter.convert();
     if(newUrl.isValid()) {
         VerseUrlRange r = newUrl.ranges().first();
-
-        if(m_moduleManager->verseModule()->moduleID() == r.moduleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
+        //todo: reenable
+       /* if(m_moduleManager->verseModule()->moduleID() == r.moduleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
             m_actions->reloadChapter();
-        }
+        }*/
     }
 
 }
@@ -94,14 +94,14 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.setV11n(m_moduleManager->verseModule()->versification());
+    urlConverter.setV11n(NULL);
     VerseUrl newUrl = urlConverter.convert();
     if(newUrl.isValid()) {
         VerseUrlRange r = newUrl.ranges().first();
-
-        if(m_moduleManager->verseModule()->moduleID() == r.moduleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
+    //todo: reenable
+        /*if(m_moduleManager->verseModule()->moduleID() == r.moduleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
             m_actions->reloadChapter();
-        }
+        }*/
     }
 }
 
@@ -118,9 +118,9 @@ void NotesDockWidget::newNote(void)
 {
     m_simpleNotes->newTextNote();
 }
-void NotesDockWidget::newNoteWithLink(VerseSelection selection)
+void NotesDockWidget::newNoteWithLink(VerseSelection selection, Versification *v11n)
 {
-    m_simpleNotes->newTextNoteWithLink(selection);
+    m_simpleNotes->newTextNoteWithLink(selection, v11n);
     m_actions->reloadChapter();
 }
 void NotesDockWidget::noteSetTextBold(void)
@@ -163,16 +163,16 @@ void NotesDockWidget::noteRedo()
     ui->textBrowser->redo();
 }
 
-void NotesDockWidget::newMark(VerseSelection selection, QColor color)
+void NotesDockWidget::newMark(VerseSelection selection, QColor color, Versification *v11n)
 {
-    newStyleMark(selection, "background-color:" + color.name());
+    newStyleMark(selection, "background-color:" + color.name(), v11n);
 }
-void NotesDockWidget::newStyleMark(VerseSelection selection, QString style)
+void NotesDockWidget::newStyleMark(VerseSelection selection, QString style, Versification *v11n)
 {
-    m_simpleNotes->newStyleMark(selection, style);
+    m_simpleNotes->newStyleMark(selection, style, v11n);
 
 }
-void NotesDockWidget::removeMark(VerseSelection selection)
+void NotesDockWidget::removeMark(VerseSelection selection, Versification *v11n)
 {
     DEBUG_FUNC_NAME
     bool r = false;
@@ -187,7 +187,7 @@ void NotesDockWidget::removeMark(VerseSelection selection)
             UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
             urlConverter.setSettings(m_settings);
             urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-            urlConverter.setV11n(m_moduleManager->verseModule()->versification());
+            urlConverter.setV11n(NULL);
             VerseUrl newUrl = urlConverter.convert();
 
             if(newUrl.contains(selection.moduleID, selection.bookID, selection.startChapterID)) {
