@@ -85,6 +85,10 @@ void WebForm::openModule(const int moduleID)
 
         QUrl url = m_page->getUrl();
         m_ui->webView->load(url);
+    } else {
+        m_page->setModuleID(moduleID);
+        QUrl url = m_page->getUrl();
+        m_ui->webView->load(url);
     }
 }
 
