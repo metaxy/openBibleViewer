@@ -18,11 +18,16 @@ WebForm::WebForm(QWidget *parent) :
 
     m_ui->toolButton_back->setIcon(m_ui->webView->pageAction(QWebPage::Back)->icon());
     m_ui->toolButton_back->setToolTip(m_ui->webView->pageAction(QWebPage::Back)->toolTip());
-    connect(m_ui->toolButton_back, SIGNAL(clicked()), m_ui->webView, SLOT(back()));
 
     m_ui->toolButton_forward->setIcon(m_ui->webView->pageAction(QWebPage::Forward)->icon());
     m_ui->toolButton_forward->setToolTip(m_ui->webView->pageAction(QWebPage::Forward)->toolTip());
+
+    m_ui->toolButton_reloadStop->setIcon(m_ui->webView->pageAction(QWebPage::Reload)->icon());
+    m_ui->toolButton_reloadStop->setToolTip(m_ui->webView->pageAction(QWebPage::Reload)->toolTip());
+
     connect(m_ui->toolButton_forward, SIGNAL(clicked()), m_ui->webView, SLOT(forward()));
+    connect(m_ui->toolButton_back, SIGNAL(clicked()), m_ui->webView, SLOT(back()));
+    connect(m_ui->toolButton_reloadStop, SIGNAL(clicked()), m_ui->webView, SLOT(reload()));
 
 
     m_page = NULL;
