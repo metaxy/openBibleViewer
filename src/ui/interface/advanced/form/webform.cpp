@@ -14,6 +14,7 @@ WebForm::WebForm(QWidget *parent) :
 
     connect(m_ui->lineEdit, SIGNAL(returnPressed()), SLOT(changeLocation()));
     connect(m_ui->webView, SIGNAL(urlChanged(QUrl)), this, SLOT(adjustLocation()));
+    connect(m_ui->webView, SIGNAL(loadStarted()), this, SLOT(loadStarted()));
 
     m_ui->toolButton_back->setIcon(m_ui->webView->pageAction(QWebPage::Back)->icon());
     m_ui->toolButton_back->setToolTip(m_ui->webView->pageAction(QWebPage::Back)->toolTip());
@@ -23,17 +24,24 @@ WebForm::WebForm(QWidget *parent) :
     m_ui->toolButton_forward->setToolTip(m_ui->webView->pageAction(QWebPage::Forward)->toolTip());
     connect(m_ui->toolButton_forward, SIGNAL(clicked()), m_ui->webView, SLOT(forward()));
 
+
     m_page = NULL;
 }
 
 WebForm::~WebForm()
 {
     delete m_ui;
+    if(m_page != NULL) {
+        delete m_page;
+        m_page = NULL;
+    }
 }
+
 Form::FormType WebForm::type() const
 {
     return Form::WebForm;
 }
+
 // shamelessly copied from Qt Demo Browser
 QUrl WebForm::guessUrlFromString(const QString &string)
 {
@@ -67,6 +75,7 @@ QUrl WebForm::guessUrlFromString(const QString &string)
     // Fall back to QUrl's own tolerant parser.
     return QUrl(string, QUrl::TolerantMode);
 }
+
 void WebForm::pharseUrl(QString url)
 {
     DEBUG_FUNC_NAME;
@@ -74,6 +83,7 @@ void WebForm::pharseUrl(QString url)
     url = url.remove(0, webPage.size());
     openModule(url.toInt());
 }
+
 void WebForm::openModule(const int moduleID)
 {
     DEBUG_FUNC_NAME;
@@ -97,10 +107,12 @@ void WebForm::openModule(const int moduleID)
 void WebForm::init()
 {
 }
+
 void WebForm::changeLocation()
 {
     m_ui->webView->load(guessUrlFromString(m_ui->lineEdit->text()));
 }
+
 void WebForm::adjustLocation()
 {
     m_ui->lineEdit->setText(m_ui->webView->url().toString());
@@ -159,6 +171,7 @@ void WebForm::activated()
     m_actions->clearBooks();
     m_actions->clearChapters();
 }
+
 void WebForm::save()
 {
     const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
@@ -170,18 +183,34 @@ void WebForm::save()
     QWebHistory *hist  = m_ui->webView->history();
     historyStream << *(hist);
     m_settings->session.file()->setValue(a + "history", history.toBase64());
-
-
 }
+
 void WebForm::restore(const QString &key)
 {
     const QString a = m_settings->session.id() + "/windows/" + key + "/";
 
-    m_ui->webView->load(m_settings->session.file()->value(a+"url").toUrl());
+    QUrl url = m_settings->session.file()->value(a+"url").toUrl();
+    if(url.isValid())
+        m_ui->webView->load(url);
 
     QByteArray history = QByteArray::fromBase64(m_settings->session.file()->value(a+"history").toByteArray());
     QDataStream readingStream(&history, QIODevice::ReadOnly);
     QWebHistory *hist  = m_ui->webView->history();
     readingStream >> *(hist);
+}
+
+void WebForm::loadStarted()
+{
+    if(m_ui->webView->history()->canGoBack()) {
+        m_ui->toolButton_back->setDisabled(false);
+    } else {
+        m_ui->toolButton_back->setDisabled(true);
+    }
+
+    if(m_ui->webView->history()->canGoForward()) {
+        m_ui->toolButton_forward->setDisabled(false);
+    } else {
+        m_ui->toolButton_forward->setDisabled(true);
+    }
 
 }

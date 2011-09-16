@@ -48,6 +48,8 @@ private slots:
     void changeLocation();
     void adjustLocation();
 
+    void loadStarted();
+
 
 };
 
