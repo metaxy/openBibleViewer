@@ -31,7 +31,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/version.h"
 #include "src/core/verse/versification/versification_kjv.h"
 #include "src/core/settings/settings.h"
-#include "src/core/settings/modulecache.h"
 #include "src/core/settings/session.h"
 
 #include "src/ui/interface/interface.h"

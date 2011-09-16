@@ -6,6 +6,7 @@ class DictionaryModule
 {
 public:
     DictionaryModule();
+    virtual ~DictionaryModule();
     void setSettings(Settings *settings);
     void setID(int moduleID, const QString &path);
 

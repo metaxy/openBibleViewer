@@ -142,7 +142,6 @@ set( openBibleViewer_HDRS
     src/core/settings/settings.h
     src/core/settings/session.h
     src/core/settings/moduledisplaysettings.h
-    src/core/settings/modulecache.h
     src/core/settings/modulesettings.h
 
     src/core/urlconverter.h
@@ -228,7 +227,6 @@ set( openBibleViewer_SRCS
     src/core/search/searchhit.cpp
     src/core/settings/settings.cpp
     src/core/settings/modulesettings.cpp
-    src/core/settings/modulecache.cpp
     src/core/settings/session.cpp
     src/core/settings/moduledisplaysettings.cpp
     src/core/url.cpp

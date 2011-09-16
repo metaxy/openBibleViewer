@@ -3,6 +3,11 @@
 WebDictionary::WebDictionary()
 {
 }
+WebDictionary::~WebDictionary()
+{
+
+}
+
 void WebDictionary::loadModuleData(const int moduleID, const QString &name)
 {
     m_moduleID = moduleID;
@@ -61,12 +66,8 @@ void WebDictionary::loadModuleData(const int moduleID, const QString &name)
 }
 QString WebDictionary::getEntry(const QString &entry)
 {
-    DEBUG_FUNC_NAME;
-
     if(!loaded())
         loadModuleData(m_moduleID);
-    myDebug() << m_pharseScript;
-
 
     QScriptValue fun = myEngine.evaluate(m_pharseScript);
     QScriptValueList args;

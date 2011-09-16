@@ -15,10 +15,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_settingsdialog.h"
 #include "src/module/dictionary/biblequote-dict.h"
 #include "src/module/dictionary/zefania-lex.h"
+#include "src/module/bible/zefania-bible.h"
 #include "src/module/bible/biblequote.h"
 #include "src/module/bible/thewordbible.h"
 #include "src/module/webpage.h"
 #include "src/module/dictionary/webdictionary.h"
+#include <QFSFileEngine>
 #ifdef BUILD_WITH_SWORD
 #include <stdlib.h>
 #include <swmgr.h>

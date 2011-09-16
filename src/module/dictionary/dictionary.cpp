@@ -35,7 +35,7 @@ int Dictionary::loadModuleData(const int moduleID)
     if(m_module->m_dictionaryModule) {
         m_dictionaryModule = m_module->m_dictionaryModule;
     } else {
-        //Module delete them
+        //Module deletes them
         if(m_moduleType == OBVCore::ZefaniaLexModule) {
             m_dictionaryModule = new ZefaniaLex();
         } else if(m_moduleType == OBVCore::BibleQuoteDictModule) {

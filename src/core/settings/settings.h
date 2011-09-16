@@ -15,7 +15,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define SETTINGS_H
 #include "src/core/settings/modulesettings.h"
 #include "src/core/settings/session.h"
-#include "src/core/settings/modulecache.h"
 #include "src/core/verse/versification.h"
 #include <QtCore/QStringList>
 #include <QtCore/QMap>

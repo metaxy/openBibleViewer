@@ -10,6 +10,7 @@ class WebDictionary : public SearchableModule, public DictionaryModule
 {
 public:
     WebDictionary();
+    ~WebDictionary();
     void loadModuleData(const int moduleID, const QString &name = "");
 
     QString getEntry(const QString &entry);

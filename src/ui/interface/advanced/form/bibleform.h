@@ -148,7 +148,7 @@ public slots:
 protected:
     virtual void changeEvent(QEvent *e);
 private:
-    History browserHistory;
+    History m_browserHistory;
 
     void setButtons();
 

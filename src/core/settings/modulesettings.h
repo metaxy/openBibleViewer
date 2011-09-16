@@ -35,6 +35,19 @@ public:
     ModuleSettings(ModuleSettings *parent);
     ~ModuleSettings();
 
+    enum DefaultModule {
+        NotADefaultModule = 0,
+        DefaultBibleModule = 1,
+        DefaultStrongDictModule = 2,
+        DefaultGramDictModule = 3,
+        DefaultDictModule = 4
+    };
+
+    enum ZefBible_TextFormating {
+        NewLine = 0,//Neue Zeile nach Vers
+        Block = 1//Unformatierter Textblock
+    };
+
     void setParent(ModuleSettings *parent);
     ModuleSettings *parent() const;
 
@@ -57,11 +70,6 @@ public:
     QString encoding;
     bool useParentSettings;
 
-    enum ZefBible_TextFormating {
-        NewLine = 0,//Neue Zeile nach Vers
-        Block = 1//Unformatierter Textblock
-    };
-
     ZefBible_TextFormating zefbible_textFormatting;
 
     bool zefbible_hardCache;
@@ -69,6 +77,8 @@ public:
     bool biblequote_removeHtml;
 
     QString styleSheet;
+
+    DefaultModule defaultModule;
 
     /**
       * It can be a path to a versification file

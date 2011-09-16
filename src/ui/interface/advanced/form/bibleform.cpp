@@ -471,27 +471,27 @@ void BibleForm::attachApi()
 
 void BibleForm::historySetUrl(QString url)
 {
-    browserHistory.setCurrent(url);
+    m_browserHistory.setCurrent(url);
     setButtons();
 }
 void BibleForm::backward()
 {
-    emit historyGo(browserHistory.backward());
+    emit historyGo(m_browserHistory.backward());
     setButtons();
 }
 void BibleForm::forward()
 {
-    emit historyGo(browserHistory.forward());
+    emit historyGo(m_browserHistory.forward());
     setButtons();
 }
 void BibleForm::setButtons()
 {
-    if(browserHistory.backwardAvailable()) {
+    if(m_browserHistory.backwardAvailable()) {
         m_ui->toolButton_backward->setDisabled(false);
     } else {
         m_ui->toolButton_backward->setDisabled(true);
     }
-    if(browserHistory.forwardAvailable()) {
+    if(m_browserHistory.forwardAvailable()) {
         m_ui->toolButton_forward->setDisabled(false);
     } else {
         m_ui->toolButton_forward->setDisabled(true);

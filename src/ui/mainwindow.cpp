@@ -306,6 +306,7 @@ void MainWindow::loadSettings()
         m->zefbible_softCache = m_settingsFile->value("softCache", true).toBool();
 
         m->biblequote_removeHtml = m_settingsFile->value("removeHtml", true).toInt();
+        m->defaultModule = (ModuleSettings::DefaultModule) m_settingsFile->value("defaultModule", ModuleSettings::NotADefaultModule).toInt();
 
         m->styleSheet = m_settings->recoverUrl(m_settingsFile->value("styleSheet", ":/data/css/default.css").toString());
 
@@ -365,6 +366,7 @@ void MainWindow::writeSettings()
         m_settingsFile->setValue("softCache", m->zefbible_softCache);
         m_settingsFile->setValue("encoding", m->encoding);
         m_settingsFile->setValue("styleSheet", m_settings->savableUrl(m->styleSheet));
+        m_settingsFile->setValue("defaultModule", m->defaultModule);
         m_settingsFile->setValue("versificationFile", m_settings->savableUrl(m->versificationFile));
         m_settingsFile->setValue("versificationName", m->versificationName);
         m_settingsFile->setValue("useParentSettings", m->useParentSettings);

@@ -144,9 +144,12 @@ void AdvancedInterface::pharseUrl(QString url)
     myDebug() << "url = " << url;
 
     const QString bible = "verse:/";
+
     const QString strong = "strong://";
-    const QString dict = "dict:/";
     const QString gram = "gram://";
+
+    const QString dict = "dict:/";
+
     const QString http = "http://";
     const QString bq = "go";
     const QString anchor = "#";

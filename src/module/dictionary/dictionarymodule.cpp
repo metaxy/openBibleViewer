@@ -3,6 +3,9 @@
 DictionaryModule::DictionaryModule()
 {
 }
+DictionaryModule::~DictionaryModule()
+{
+}
 void DictionaryModule::setSettings(Settings *settings)
 {
     m_settings = settings;
