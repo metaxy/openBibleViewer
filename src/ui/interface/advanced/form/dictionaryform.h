@@ -20,6 +20,7 @@ public:
     void restore(const QString &key);
     void save();
     Form::FormType type() const;
+    Dictionary* dictionary() const;
 public slots:
     void copy();
     void selectAll();
@@ -37,6 +38,8 @@ public slots:
 private slots:
     void forwardShowHtml(const QString &html);
     void forwardShowEntry(const QString &key, int moduleID);
+
+    void get(QUrl url);
 private:
     Ui::DictionaryForm *ui;
     void loadDictionary(int moduleID);

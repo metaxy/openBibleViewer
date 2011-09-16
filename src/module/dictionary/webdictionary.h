@@ -5,6 +5,7 @@
 #include "src/core/settings/moduledisplaysettings.h"
 #include "src/module/searchablemodule.h"
 #include <QtScript/QScriptEngine>
+#include <QtCore/QUrl>
 
 class WebDictionary : public SearchableModule, public DictionaryModule
 {
@@ -20,10 +21,13 @@ public:
 
     MetaInfo readInfo(const QString &name);
 
+    QString pharseUrl(QUrl url);
+
 private:
     bool m_loaded;
 
     QString m_pharseScript;
+    QString m_pharseOutScript;
 
     QString m_name;
     QString m_shortName;

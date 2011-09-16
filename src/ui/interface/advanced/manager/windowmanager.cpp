@@ -201,6 +201,37 @@ QMdiSubWindow* WindowManager::needWebWindow()
 {
     return needWindow(Form::WebForm);
 }
+QMdiSubWindow* WindowManager::hasDictWindow(ModuleSettings::DefaultModule d)
+{
+    foreach(QMdiSubWindow *w, usableWindowList()) {
+        Form *f = getForm(w);
+        if(f->type() == Form::DictionaryForm) {
+            DictionaryForm *form = (DictionaryForm*)(f);
+            const int moduleID = form->dictionary()->moduleID();
+            if(m_settings->getModuleSettings(moduleID)->defaultModule == d) {
+                w->activateWindow();
+                m_area->setActiveSubWindow(w);
+                return w;
+            }
+        }
+    }
+    return NULL;
+}
+QMdiSubWindow* hasDictWindow(const int moduleID)
+{
+    foreach(QMdiSubWindow *w, usableWindowList()) {
+        Form *f = getForm(w);
+        if(f->type() == Form::DictionaryForm) {
+            DictionaryForm *form = (DictionaryForm*)(f);
+            if(form->dictionary()->moduleID() == moduleID) {
+                w->activateWindow();
+                m_area->setActiveSubWindow(w);
+                return w;
+            }
+        }
+    }
+    return NULL;
+}
 
 void WindowManager::autoLayout()
 {

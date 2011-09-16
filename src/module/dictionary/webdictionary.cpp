@@ -53,8 +53,10 @@ void WebDictionary::loadModuleData(const int moduleID, const QString &name)
             while(!n2.isNull()) {
                 if(n2.nodeName() == "url") {
                     m_url = n2.firstChild().toText().data();
-                } else if(n2.nodeName() == "pharse") {
+                } else if(n2.nodeName() == "pharseIn") {
                     m_pharseScript = n2.firstChild().toCDATASection().data();
+                } else if(n2.nodeName() == "pharseOut") {
+                    m_pharseOutScript = n2.firstChild().toCDATASection().data();
                 }
                 n2 = n2.nextSibling();
             }
@@ -73,8 +75,6 @@ QString WebDictionary::getEntry(const QString &entry)
     QScriptValueList args;
     args << entry;
     QScriptValue url = fun.call(QScriptValue(), args);
-
-    myDebug() << url.toString();
     return url.toString();
 }
 
@@ -100,4 +100,16 @@ MetaInfo WebDictionary::readInfo(const QString &name)
 bool WebDictionary::loaded()
 {
     return m_loaded && m_loadedModuleID == m_moduleID;
+}
+QString WebDictionary::pharseUrl(QUrl url)
+{
+   /* if(!loaded())
+        loadModuleData(m_moduleID);
+*/
+    QScriptValue fun = myEngine.evaluate(m_pharseOutScript);
+    QScriptValueList args;
+    args << url.toString();
+    QScriptValue n = fun.call(QScriptValue(), args);
+    myDebug() << n.toString();
+    return n.toString();
 }

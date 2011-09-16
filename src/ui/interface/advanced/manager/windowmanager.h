@@ -85,6 +85,10 @@ public slots:
     QMdiSubWindow* needWebWindow();
     QMdiSubWindow* needWindow(Form::FormType type = Form::BibleForm);
 
+    QMdiSubWindow* hasDictWindow(ModuleSettings::DefaultModule d);
+    QMdiSubWindow* hasDictWindow(const int moduleID);
+
+
 
 private:
     int m_nameCounter;

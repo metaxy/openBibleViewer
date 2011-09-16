@@ -2,7 +2,7 @@
 #include "ui_dictionaryform.h"
 
 #include <QtGui/QCompleter>
-
+#include "src/module/dictionary/webdictionary.h"
 DictionaryForm::DictionaryForm(QWidget *parent) :
     Form(parent),
     ui(new Ui::DictionaryForm)
@@ -23,11 +23,25 @@ void DictionaryForm::init()
 {
     connect(m_actions, SIGNAL(_showHtml(QString)), this, SLOT(forwardShowHtml(QString)));
     connect(m_actions, SIGNAL(_showDictEntry(QString, int)), this, SLOT(forwardShowEntry(QString, int)));
-    connect(ui->webView->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
+    connect(ui->webView->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(get(QUrl)));
 }
+void DictionaryForm::get(QUrl url)
+{
+    if(m_dictionary->moduleType() == OBVCore::WebDictionaryModule) {
+        WebDictionary *d = (WebDictionary*) (m_dictionary->module());
+        m_actions->get(d->pharseUrl(url));
+    } else {
+        m_actions->get(url);
+    }
+}
+
 Form::FormType DictionaryForm::type() const
 {
     return Form::DictionaryForm;
+}
+Dictionary* DictionaryForm::dictionary() const
+{
+    return m_dictionary;
 }
 void DictionaryForm::restore(const QString &key)
 {
@@ -97,12 +111,16 @@ void DictionaryForm::forwardShowEntry(const QString &key, int moduleID)
         return;
     showEntry(key, moduleID);
 }
-
+/**
+  * moduleID == -1 means current Dictionary
+  */
 void DictionaryForm::showEntry(const QString &key, int moduleID)
 {
     myDebug() << key;
 
-    testDictionary(moduleID);
+    if(moduleID != -1)
+        testDictionary(moduleID);
+
     m_key = "";
     if(key.isEmpty()) {
         showHtml(m_dictionary->moduleTitle());

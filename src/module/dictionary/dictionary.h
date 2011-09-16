@@ -42,6 +42,8 @@ public:
      * @returns QStringList() if failed.
      */
     QStringList getAllKeys() const;
+
+    DictionaryModule * module() const;
 private:
     DictionaryModule *m_dictionaryModule;
 };

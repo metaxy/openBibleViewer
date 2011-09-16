@@ -60,3 +60,7 @@ QStringList Dictionary::getAllKeys() const
 {
     return m_dictionaryModule->getAllKeys();
 }
+DictionaryModule * Dictionary::module() const
+{
+    return m_dictionaryModule;
+}

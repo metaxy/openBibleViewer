@@ -357,7 +357,7 @@ Versification_KJV::Versification_KJV()
     {
         BookV11N book;
         book.name =  tr("Habakkuk");
-        book.shortNames.append(tr("Hab, Hab").split(", "));
+        book.shortNames.append(tr("Hab").split(", "));
         book.maxChapter = 3;
         book.maxVerse  = (QList<int>() << 17 << 20 << 19);
         book.bookID = 34;
@@ -397,7 +397,7 @@ Versification_KJV::Versification_KJV()
     {
         BookV11N book;
         book.name =  tr("Malachi");
-        book.shortNames.append(tr("Mal, Mal, Ml").split(", "));
+        book.shortNames.append(tr("Mal, Ml").split(", "));
         book.maxChapter = 4;
         book.maxVerse  = (QList<int>() << 14 << 17 << 18 << 6);
         book.bookID = 38;

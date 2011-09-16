@@ -43,7 +43,23 @@ void DictionaryManager::pharseUrl(QString url)
      if(url.startsWith(strong)) {
         //strong://strongID
         url = url.remove(0, strong.size());
-        m_dictionaryDock->showEntry(url);
+        QMdiSubWindow *w = m_windowManager->hasDictWindow(ModuleSettings::DefaultStrongDictModule);
+        if(w) {
+             ((DictionaryForm*)m_windowManager->getForm(w))->showEntry(url, -1);
+        } else {
+            int moduleID = -1;
+            QHashIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
+            while (i.hasNext()) {
+                i.next();
+                if(i.value()->defaultModule == ModuleSettings::DefaultStrongDictModule)
+                    moduleID = i.key();
+            }
+            QMdiSubWindow *w = m_windowManager->needDictionaryWindow();
+
+            //look for default strong module
+            //if none look if m_windowManager->needDict has a dictionary loaded
+            //else open load in these
+        }
     } else if(url.startsWith(gram)) {
         //gram://gramID
         url = url.remove(0, gram.size());
