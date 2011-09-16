@@ -111,6 +111,10 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
         m_key = key;
         const QString html = m_dictionary->getEntry(key);
         showHtml(html);
+    } else if(m_dictionary->moduleType() == OBVCore::WebDictionaryModule) {
+        m_key = key;
+        const QString url = m_dictionary->getEntry(key);
+        ui->webView->load(QUrl(url));
     }
     //else
     //show url

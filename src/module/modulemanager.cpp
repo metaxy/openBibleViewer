@@ -168,7 +168,7 @@ void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
             || settings->moduleType == OBVCore::TheWordBibleModule
             || settings->moduleType == OBVCore::SwordBibleModule) {
         module->setModuleClass(OBVCore::BibleModuleClass);
-    } else if(settings->moduleType == OBVCore::ZefaniaLexModule || settings->moduleType == OBVCore::BibleQuoteDictModule) {
+    } else if(settings->moduleType == OBVCore::ZefaniaLexModule || settings->moduleType == OBVCore::BibleQuoteDictModule || settings->moduleType == OBVCore::WebDictionaryModule) {
         module->setModuleClass(OBVCore::DictionaryModuleClass);
     } else if(settings->moduleType == OBVCore::WebPageModule) {
         module->setModuleClass(OBVCore::WebPageClass);
@@ -344,8 +344,9 @@ OBVCore::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
     //myDebug() << fileName;
     if(fileName.endsWith("bibleqt.ini", Qt::CaseInsensitive)) {
         return OBVCore::BibleQuoteModule;
+    } else if(fileName.endsWith(".webdict.xml", Qt::CaseInsensitive) ) {
+        return OBVCore::WebDictionaryModule;
     } else if(fileName.endsWith(".webpage.xml", Qt::CaseInsensitive) ) {
-        myDebug() << "the word module";
         return OBVCore::WebPageModule;
     } else if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
         QFile data(fileName);

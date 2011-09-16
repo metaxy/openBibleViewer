@@ -101,7 +101,7 @@ QStringList Module::moduleTypeNames()
     QStringList l;
     l << QT_TRANSLATE_NOOP("Core", "None") << QT_TRANSLATE_NOOP("Core", "BibleQuote") << QT_TRANSLATE_NOOP("Core", "Zefania XML Bible")
       << QT_TRANSLATE_NOOP("Core", "Zefania Lex Module") << QT_TRANSLATE_NOOP("Core", "BibleQuote Dictionary") << QT_TRANSLATE_NOOP("Core", "The Word Bible")
-      << QT_TRANSLATE_NOOP("Core", "Sword Bible") << QT_TRANSLATE_NOOP("Core", "Web Page");
+      << QT_TRANSLATE_NOOP("Core", "Sword Bible") << QT_TRANSLATE_NOOP("Core", "Web Page") << QT_TRANSLATE_NOOP("Core", "Web Dictionary");
     return l;
 }
 
@@ -123,6 +123,8 @@ QString Module::moduleTypeName(OBVCore::ModuleType type)
         return QT_TRANSLATE_NOOP("Core", "Sword Bible");
     } else if(type == OBVCore::WebPageModule) {
         return QT_TRANSLATE_NOOP("Core", "Web Page");
+    } else if(type == OBVCore::WebDictionaryModule) {
+        return QT_TRANSLATE_NOOP("Core", "Web Dictionary");
     }
     return "";
 }

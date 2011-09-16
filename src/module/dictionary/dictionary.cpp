@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "dictionary.h"
 #include "src/module/dictionary/biblequote-dict.h"
 #include "src/module/dictionary/zefania-lex.h"
+#include "src/module/dictionary/webdictionary.h"
 Dictionary::Dictionary()
 {
     m_dictionaryModule = 0;
@@ -39,7 +40,9 @@ int Dictionary::loadModuleData(const int moduleID)
             m_dictionaryModule = new ZefaniaLex();
         } else if(m_moduleType == OBVCore::BibleQuoteDictModule) {
             m_dictionaryModule = new BibleQuoteDict();
-        } else {
+        } else if(m_moduleType == OBVCore::WebDictionaryModule) {
+            m_dictionaryModule = new WebDictionary();
+        }  else {
             return 1;
         }
 

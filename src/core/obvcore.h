@@ -34,7 +34,8 @@ enum ModuleType {
     TheWordBibleModule = 5,
     FolderModule = 6,
     SwordBibleModule = 7,
-    WebPageModule = 8
+    WebPageModule = 8,
+    WebDictionaryModule = 9
 };
 
 
