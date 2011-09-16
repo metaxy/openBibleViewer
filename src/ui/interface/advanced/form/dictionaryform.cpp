@@ -22,7 +22,7 @@ DictionaryForm::~DictionaryForm()
 void DictionaryForm::init()
 {
     connect(m_actions, SIGNAL(_showHtml(QString)), this, SLOT(forwardShowHtml(QString)));
-    connect(m_actions, SIGNAL(_showDictEntry(QString,int)), this, SLOT(forwardShowEntry(QString,int)));
+    connect(m_actions, SIGNAL(_showDictEntry(QString, int)), this, SLOT(forwardShowEntry(QString, int)));
     connect(ui->webView->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
 }
 Form::FormType DictionaryForm::type() const
@@ -138,10 +138,7 @@ void DictionaryForm::testDictionary(int module)
 {
     if(m_dictionary == NULL) {
         m_dictionary = new Dictionary();
-
-        m_dictionary->setModuleMap(m_moduleManager->m_moduleMap);
-        m_dictionary->setNotes(m_notes);
-        m_dictionary->setSettings(m_settings);
+        m_moduleManager->initSimpleModule(m_dictionary);
     }
     if(!m_moduleManager->metaModuleLoaded(m_dictionary)) {
         if(module == -1) {

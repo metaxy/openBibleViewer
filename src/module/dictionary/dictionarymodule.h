@@ -11,11 +11,9 @@ public:
 
     virtual QString getEntry(const QString &entry);
     virtual QStringList getAllKeys();
-    virtual bool hasIndex();
-    virtual int buildIndex();
 
 protected:
-    QString indexPath() const;
+
     QString m_modulePath;
     int m_moduleID;
     Settings *m_settings;

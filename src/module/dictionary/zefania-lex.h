@@ -46,15 +46,13 @@ public:
 
     QString getEntry(const QString &entry);
     QStringList getAllKeys();
-    bool hasIndex();
-    int buildIndex();
+
 
 private:
-    QStringList m_id;
-    QStringList m_title;
-    QStringList m_trans;
-    QStringList m_pron;
-    QStringList m_desc;
+    QString indexPath() const;
+
+    bool hasIndex();
+    int buildIndex();
 
     QString buildIndexFromXmlDoc(KoXmlDocument *xmldoc);
 };

@@ -216,3 +216,8 @@ QStringList BibleQuoteDict::getAllKeys()
     return ret;
 }
 
+
+QString BibleQuoteDict::indexPath() const
+{
+    return m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
+}

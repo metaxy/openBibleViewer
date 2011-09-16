@@ -33,10 +33,13 @@ public:
     QString readInfo(QFile &file);
     QString readInfo(const QString &fileName);
 
-    int buildIndex();
-    bool hasIndex();
+
     QString getEntry(const QString &id);
     QStringList getAllKeys();
+private:
+    QString indexPath() const;
+    int buildIndex();
+    bool hasIndex();
 };
 
 #endif // BIBLEQUOTEDICT_H

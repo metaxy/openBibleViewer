@@ -23,18 +23,3 @@ QStringList DictionaryModule::getAllKeys()
 {
     return QStringList();
 }
-
-bool DictionaryModule::hasIndex()
-{
-    return false;
-}
-
-int DictionaryModule::buildIndex()
-{
-    return -1;
-}
-
-QString DictionaryModule::indexPath() const
-{
-    return m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
-}
