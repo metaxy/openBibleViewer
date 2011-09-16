@@ -36,10 +36,12 @@ public:
 
     QString getEntry(const QString &id);
     QStringList getAllKeys();
-private:
-    QString indexPath() const;
+
     int buildIndex();
     bool hasIndex();
+private:
+    QString indexPath() const;
+
 };
 
 #endif // BIBLEQUOTEDICT_H

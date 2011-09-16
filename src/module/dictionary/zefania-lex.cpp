@@ -292,3 +292,8 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
     delete writer;
     return fileTitle;
 }
+
+QString ZefaniaLex::indexPath() const
+{
+    return m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
+}

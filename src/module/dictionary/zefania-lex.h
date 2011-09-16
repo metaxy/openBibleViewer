@@ -47,12 +47,12 @@ public:
     QString getEntry(const QString &entry);
     QStringList getAllKeys();
 
-
+    bool hasIndex();
+    int buildIndex();
 private:
     QString indexPath() const;
 
-    bool hasIndex();
-    int buildIndex();
+
 
     QString buildIndexFromXmlDoc(KoXmlDocument *xmldoc);
 };

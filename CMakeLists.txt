@@ -477,6 +477,7 @@ target_link_libraries( openBibleViewer
                         ${QT_QTXML_LIBRARY} 
                         ${QT_QTNETWORK_LIBRARY} 
                         ${QT_QTWEBKIT_LIBRARY} 
+                        ${QT_QTSCRIPT_LIBRARY}
                         ${CL_LIBS}
                         ${SW_LIBS}
 )

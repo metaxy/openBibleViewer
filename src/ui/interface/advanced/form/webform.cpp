@@ -4,6 +4,8 @@
 #include <QtGui/QPrinter>
 #include <QtGui/QPrintDialog>
 #include <QtGui/QPrintPreviewDialog>
+#include <QWebHistory>
+
 WebForm::WebForm(QWidget *parent) :
     Form(parent),
     m_ui(new Ui::WebForm)
@@ -161,8 +163,25 @@ void WebForm::save()
 {
     const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
     m_settings->session.file()->setValue(a + "type", "web");
+    m_settings->session.file()->setValue(a + "url", m_ui->webView->url());
+
+    QByteArray history;
+    QDataStream historyStream(&history, QIODevice::ReadWrite);
+    QWebHistory *hist  = m_ui->webView->history();
+    historyStream << *(hist);
+    m_settings->session.file()->setValue(a + "history", history.toBase64());
+
+
 }
 void WebForm::restore(const QString &key)
 {
+    const QString a = m_settings->session.id() + "/windows/" + key + "/";
+
+    m_ui->webView->load(m_settings->session.file()->value(a+"url").toUrl());
+
+    QByteArray history = QByteArray::fromBase64(m_settings->session.file()->value(a+"history").toByteArray());
+    QDataStream readingStream(&history, QIODevice::ReadOnly);
+    QWebHistory *hist  = m_ui->webView->history();
+    readingStream >> *(hist);
 
 }
