@@ -38,9 +38,13 @@ QString RefText::toString(const VerseUrl &url)
 {
     QString ret = "";
     int prevBook = -2;
-    foreach(const VerseUrlRange & range, url.ranges()) {
+    foreach(VerseUrlRange range, url.ranges()) {
         if(!ret.isEmpty())
             ret += sep_next;
+        //fix
+        if(range.endVerse() == VerseUrlRange::LoadVerseNotSet)
+            range.setEndVerse(range.startVerseID());
+
         ret += toString(range.moduleID(), range.bookID(), range.chapterID(), range.startVerseID(), range.endVerseID(), prevBook);
         prevBook = range.bookID();
     }
@@ -96,6 +100,7 @@ QString RefText::toString(int moduleID, int bookID, int chapterID, int startVers
     } else {
         ret += sep_same_book + QString::number(chapterID + 1);
     }
+    //verse
     if(startVerseID == endVerseID) {
         ret += sep_chapter_verse + QString::number(startVerseID + 1);
     } else if(startVerseID + 1 == endVerseID) {

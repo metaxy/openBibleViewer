@@ -58,6 +58,7 @@ int ZefaniaBible::loadBibleData(const int id, const QString &path)
     }
     return 0;
 }
+
 void ZefaniaBible::removeHardCache(const QString &path)
 {
     QDir d(m_settings->homePath + "cache/");
@@ -87,6 +88,7 @@ QDomNode ZefaniaBible::readBookFromHardCache(QString path, int bookID)
     return root.firstChild();
 
 }
+
 int ZefaniaBible::readBook(const int id)
 {
     QDomNode ncache;
@@ -132,6 +134,7 @@ int ZefaniaBible::readBook(const int id)
     setSoftCache(m_bookID, m_book);
     return 0;
 }
+
 /**
   Convert a node into a chapterlist.
   \param bookID The bookID.
@@ -164,6 +167,7 @@ Book ZefaniaBible::fromHardToSoft(const int bookID, const QDomNode *ncache)
     }
     return book;
 }
+
 QDomElement* ZefaniaBible::format(QDomElement *e)
 {
     ModuleSettings *moduleSettings = m_settings->getModuleSettings(m_moduleID);
@@ -241,6 +245,7 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
     return e;
 
 }
+
 /**
   Returns the soft cache for all books.
   */
@@ -251,6 +256,7 @@ QHash<int, Book> ZefaniaBible::softCache() const
     }
     return QHash<int, Book>();
 }
+
 /**
   Returns the soft cache for a book
   \param bookID The ID of the book.
@@ -262,6 +268,7 @@ Book ZefaniaBible::softCache(const int bookID) const
     }
     return Book();
 }
+
 /**
   Set the soft cache
   \param QMap<int, QList<Chapter> > cache The cache data.
@@ -274,6 +281,7 @@ void ZefaniaBible::setSoftCache(const QHash<int, Book > &cache)
     }
     return;
 }
+
 /**
   Sets the cache of a book.
   \param bookID The ID of the book.
@@ -285,6 +293,7 @@ void ZefaniaBible::setSoftCache(const int bookID, const Book &book)
         m_softCacheData.insert(bookID, book);
     }
 }
+
 /**
   Clears the soft cache.
   */
@@ -301,6 +310,7 @@ bool ZefaniaBible::checkForCacheFiles(const QString &path) const
         return true;
     return false;
 }
+
 int ZefaniaBible::loadNoCached(const int id, const QString &path)
 {
     DEBUG_FUNC_NAME
@@ -549,26 +559,32 @@ MetaInfo ZefaniaBible::readInfo(const QString &fileName)
         return MetaInfo();
     return readInfo(file);
 }
+
 /*int ZefaniaBible::bookID() const
 {
     return m_bookID;
 }*/
+
 int ZefaniaBible::moduleID() const
 {
     return m_moduleID;
 }
+
 QString ZefaniaBible::modulePath() const
 {
     return m_modulePath;
 }
+
 QString ZefaniaBible::moduleName(bool preferShortName) const
 {
     return m_moduleName;
 }
+
 Book ZefaniaBible::book() const
 {
     return m_book;
 }
+
 bool ZefaniaBible::hasIndex() const
 {
     DEBUG_FUNC_NAME
@@ -764,6 +780,7 @@ void ZefaniaBible::buildIndex()
     progress.close();
 
 }
+
 void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
 {
     DEBUG_FUNC_NAME
@@ -815,6 +832,7 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
     reader->close();
     delete reader;
 }
+
 /**
   * Returns the path, where all indexed files are stored.
   */
@@ -823,10 +841,12 @@ QString ZefaniaBible::indexPath() const
     //DEBUG_FUNC_NAME
     return m_settings->homePath + "index/" + m_settings->hash(m_modulePath);
 }
+
 QString ZefaniaBible::uid() const
 {
     return m_uid;
 }
+
 TextRange ZefaniaBible::rawTextRange(int bookID, int chapterID, int startVerse, int endVerse)
 {
     TextRange ret;

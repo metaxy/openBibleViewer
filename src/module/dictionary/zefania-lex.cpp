@@ -226,24 +226,14 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                                     const int chapterID = list.at(1).toInt() - 1;
                                     const int verseID = list.at(2).toInt() - 1;
 
-                                    VerseUrl burl;
                                     VerseUrlRange range;
                                     range.setModule(VerseUrlRange::LoadCurrentModule);
                                     range.setBook(bookID);
                                     range.setChapter(chapterID);
                                     range.setStartVerse(verseID);
-                                    burl.addRange(range);
-                                    const QString url = burl.toString();
+                                    VerseUrl url(range);
 
-                                    VerseUrlRange range2;
-                                    range2.setModule(VerseUrlRange::LoadCurrentModule);
-                                    range2.setBook(bookID);
-                                    range2.setChapter(chapterID);
-                                    range2.setStartVerse(verseID);
-                                    range2.setEndVerse(verseID);
-                                    VerseUrl rUrl(range2);
-
-                                    desc += " <a href=\"" + url + "\">" + refText.toString(rUrl) + "</a> ";
+                                    desc += " <a href=\"" + url.toString() + "\">" + refText.toString(url) + "</a> ";
                                 } else if(descElement.hasAttribute("target")) {
                                     desc += descElement.text();
                                 }

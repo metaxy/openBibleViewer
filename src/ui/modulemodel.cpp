@@ -25,8 +25,6 @@ ModuleModel::ModuleModel(QObject *parent)
 
     m_bibleQuoteIcon = QIcon::fromTheme("text-x-generic", QIcon(":/icons/16x16/text-x-generic.png"));
     m_bibleZefaniaIcon = QIcon::fromTheme("text-xml", QIcon(":/icons/16x16/text-xml.png"));
-
-
 }
 ModuleModel::~ModuleModel()
 {
