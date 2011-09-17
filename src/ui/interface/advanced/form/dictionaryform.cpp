@@ -117,7 +117,7 @@ void DictionaryForm::forwardShowEntry(const QString &key, int moduleID)
 void DictionaryForm::showEntry(const QString &key, int moduleID)
 {
     myDebug() << key;
-
+    ui->lineEdit_input->setText(key);
     if(moduleID != -1)
         testDictionary(moduleID);
 

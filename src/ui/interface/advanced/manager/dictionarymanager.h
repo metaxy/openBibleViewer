@@ -18,6 +18,8 @@ public:
 
     void pharseUrl(QString url);
 
+    void open(const QString &key, ModuleSettings::DefaultModule defaultModule);
+
     void setWindowManager(WindowManager *windowManager);
 private:
     QWidget *m_p;

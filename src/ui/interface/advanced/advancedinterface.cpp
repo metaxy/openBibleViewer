@@ -54,8 +54,6 @@ void AdvancedInterface::init()
     setAll(m_api);
     m_api->init();
 
-
-
     m_notesManager = new NotesManager(this);
     m_notesManager->setWidget(this->parentWidget());
     setAll(m_notesManager);
@@ -63,8 +61,6 @@ void AdvancedInterface::init()
     m_bookmarksManager = new BookmarksManager(this);
     setAll(m_bookmarksManager);
     m_bookmarksManager->setWidget(this->parentWidget());
-
-
 
     m_windowManager = new WindowManager(this);
     setAll(m_windowManager);
@@ -147,6 +143,7 @@ void AdvancedInterface::pharseUrl(QString url)
 
     const QString strong = "strong://";
     const QString gram = "gram://";
+    const QString rmac = "rmac://";
 
     const QString dict = "dict:/";
 
@@ -165,6 +162,8 @@ void AdvancedInterface::pharseUrl(QString url)
          m_dictionaryManager->pharseUrl(url);
     } else if(url.startsWith(dict)) {
          m_dictionaryManager->pharseUrl(url);
+    } else if(url.startsWith(rmac)) {
+        m_dictionaryManager->pharseUrl(url);
     } else if(url.startsWith(webPage)) {
         m_webPageManager->pharseUrl(url);
     } else if(url.startsWith(http)) {

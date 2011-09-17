@@ -34,7 +34,9 @@ ModuleConfigDialog::ModuleConfigDialog(QWidget *parent) :
     m_ui->comboBox_type->insertItems(0, Module::moduleTypeNames());
 
     QStringList defaultModules;
-    defaultModules << tr("Not a Default Module") << tr("Default Bible") << tr("Default Strong Dictionary") << tr("Default Frammar Dictionary") << tr("Default Dictionary");
+    defaultModules << tr("Not a Default Module") << tr("Default Bible")
+                   << tr("Default Strong Dictionary") << tr("Default Grammar Dictionary")
+                   << tr("Default Dictionary") << tr("Default RMAC Module");
     m_ui->comboBox_defaultModule->insertItems(0, defaultModules);
 
 

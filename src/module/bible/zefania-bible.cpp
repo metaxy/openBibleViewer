@@ -185,14 +185,19 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
             if(element.attribute("str", "") != "" && moduleSettings->displaySettings()->showStrong() == true) {
                 QDomNode node = n;
                 QDomText t = n.firstChild().toText();
-                QString add;
-                //todo: that isn't  nice
-                if(m_bookID < 39)
-                    add = "H";
-                else
-                    add = "G";
+                QString add = "";
+                const QString str = element.attribute("str", "");
 
-                t.setData(t.data() + "<span class=\"stronglink\"><a href=\"strong://" + add + element.attribute("str", "") + "\">" + add + element.attribute("str", "") + "</a></span>");
+                if(!str.startsWith("G", Qt::CaseInsensitive) && !str.startsWith("H", Qt::CaseInsensitive)) {
+                    //todo: that isn't  nice
+                    if(m_bookID < 39) {
+                        add = "H";
+                    } else {
+                        add = "G";
+                    }
+                }
+
+                t.setData(t.data() + "<span class=\"stronglink\"><a href=\"strong://" + add + str + "\">" + add + str + "</a></span>");
                 node.replaceChild(t, node.firstChild());
                 e->replaceChild(node, n);
             } else if(element.attribute("rmac", "") != "") {

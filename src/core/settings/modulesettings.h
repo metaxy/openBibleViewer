@@ -40,7 +40,8 @@ public:
         DefaultBibleModule = 1,
         DefaultStrongDictModule = 2,
         DefaultGramDictModule = 3,
-        DefaultDictModule = 4
+        DefaultDictModule = 4,
+        DefaultRMACDictModule = 5
     };
 
     enum ZefBible_TextFormating {
