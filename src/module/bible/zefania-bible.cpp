@@ -181,19 +181,27 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
             }
             node.replaceChild(t, node.firstChild());
             e->replaceChild(node, n);
-        } else if(moduleSettings->displaySettings()->showStrong() == true && (n.nodeName().toLower() == "gram" || n.nodeName().toLower() == "gr") && element.attribute("str", "") != "") {
-            QDomNode node = n;
-            QDomText t = n.firstChild().toText();
-            QString add;
-            //todo: that isn't  nice
-            if(m_bookID < 39)
-                add = "H";
-            else
-                add = "G";
+        } else if(n.nodeName().toLower() == "gram" || n.nodeName().toLower() == "gr") {
+            if(element.attribute("str", "") != "" && moduleSettings->displaySettings()->showStrong() == true) {
+                QDomNode node = n;
+                QDomText t = n.firstChild().toText();
+                QString add;
+                //todo: that isn't  nice
+                if(m_bookID < 39)
+                    add = "H";
+                else
+                    add = "G";
 
-            t.setData(t.data() + "<span class=\"gramlink\"><a href=\"gram://" + add + element.attribute("str", "") + "\">" + add + element.attribute("str", "") + "</a></span>");
-            node.replaceChild(t, node.firstChild());
-            e->replaceChild(node, n);
+                t.setData(t.data() + "<span class=\"stronglink\"><a href=\"strong://" + add + element.attribute("str", "") + "\">" + add + element.attribute("str", "") + "</a></span>");
+                node.replaceChild(t, node.firstChild());
+                e->replaceChild(node, n);
+            } else if(element.attribute("rmac", "") != "") {
+                QDomNode node = n;
+                QDomText t = n.firstChild().toText();
+                t.setData(t.data() + "<span class=\"rmaclink\"><a href=\"rmac://" + element.attribute("rmac", "") + "\">" + element.attribute("rmac", "") + "</a></span>");
+                node.replaceChild(t, node.firstChild());
+                e->replaceChild(node, n);
+            }
         } else if(moduleSettings->displaySettings()->showRefLinks() && n.nodeName().toLower() == "reflink") {
             QDomNode node = n;
             QDomText t = n.firstChild().toText();

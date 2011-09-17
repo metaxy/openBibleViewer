@@ -55,10 +55,24 @@ void DictionaryManager::pharseUrl(QString url)
                     moduleID = i.key();
             }
             QMdiSubWindow *w = m_windowManager->needDictionaryWindow();
+            DictionaryForm* d = ((DictionaryForm*)m_windowManager->getForm(w));
+            if(d->dictionary() != NULL) {
+                d->showEntry(url, -1);
+            } else {
+                if(moduleID == -1) {
+                    QMapIterator<int, Module*> i(m_moduleManager->m_moduleMap->m_map);
+                    while (i.hasNext()) {
+                        i.next();
+                        if(i.value()->moduleClass() == OBVCore::DictionaryModuleClass)
+                            moduleID = i.key();
+                    }
 
-            //look for default strong module
-            //if none look if m_windowManager->needDict has a dictionary loaded
-            //else open load in these
+                    if(moduleID != -1)
+                        d->showEntry(url, moduleID);
+                } else {
+                    d->showEntry(url, moduleID);
+                }
+            }
         }
     } else if(url.startsWith(gram)) {
         //gram://gramID

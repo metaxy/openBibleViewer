@@ -71,6 +71,39 @@ td.rowTitle {
     color:#0080AF;
     text-decoration:underline;
 }
+
+.stronglink {
+    font-size: 70%;
+    vertical-align: super;
+}
+.stronglink:after {
+    content: "  ";
+}
+.stronglink a{
+    color:#323232;
+    text-decoration:none;
+}
+.stronglink a:hover{
+    color:#0080AF;
+    text-decoration:underline;
+}
+
+.rmaclink {
+    font-size: 70%;
+    vertical-align: super;
+}
+.rmaclink:after {
+    content: "  ";
+}
+.rmaclink a{
+    color:#323232;
+    text-decoration:none;
+}
+.rmaclink a:hover{
+    color:#0080AF;
+    text-decoration:underline;
+}
+
 .crossreference {
     font-size: 80%;
     color: blue;
