@@ -117,6 +117,7 @@ int ModuleManager::loadAllModules()
 
     //The invisible root Module
     m_rootModule = new Module();
+    m_rootModule->setSettings(m_settings);
     m_rootModule->setModuleID(-1);
     m_rootModule->setModuleClass(OBVCore::FolderClass);
     m_rootModule->setModuleType(OBVCore::NoneType);
@@ -155,6 +156,7 @@ void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
     if(settings == NULL)
         return;
     Module *module = new Module(parentModule);
+    module->setSettings(m_settings);
     module->setPath(settings->modulePath);
 
     module->setModuleType(settings->moduleType);

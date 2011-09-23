@@ -49,7 +49,7 @@ VerseUrl UrlConverter::convert()
         foreach(VerseUrlRange range, m_bibleUrl.ranges()) {
             if(range.module() == VerseUrlRange::LoadModuleByUID) {
                 foreach(Module * module, m_moduleMap->m_map) {
-                    if(m_settings->savableUrl(module->path()) == range.moduleUID())  {
+                    if(module->moduleUID() == range.moduleUID())  {
                         range.setModule(module->moduleID());
                         break;
                     }
@@ -69,7 +69,7 @@ VerseUrl UrlConverter::convert()
 
         foreach(VerseUrlRange range, m_bibleUrl.ranges()) {
             if(range.module() == VerseUrlRange::LoadModuleByID && m_moduleMap->m_map.contains(range.moduleID())) {
-                range.setModule(m_settings->savableUrl(m_moduleMap->module(range.moduleID())->path()));
+                range.setModule(m_moduleMap->module(range.moduleID())->moduleUID());
             }
             url.addRange(range);
             bookIDs.append(range.bookID());

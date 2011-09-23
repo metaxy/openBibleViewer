@@ -33,6 +33,7 @@ public:
     QString path() const;
     QString title() const;
     int moduleID() const;
+    QString moduleUID() const;
     OBVCore::ModuleClass moduleClass() const;
     OBVCore::ModuleType moduleType() const;
 

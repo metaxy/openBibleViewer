@@ -62,6 +62,10 @@ int Module::moduleID() const
 {
     return m_id;
 }
+QString Module::moduleUID() const
+{
+    return m_settings->savableUrl(this->path());
+}
 OBVCore::ModuleClass Module::moduleClass() const
 {
     return m_moduleClass;
