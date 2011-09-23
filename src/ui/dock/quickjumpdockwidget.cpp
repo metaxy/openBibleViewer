@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "quickjumpdockwidget.h"
 #include "ui_quickjumpdockwidget.h"
-#include "src/core/biblelink.h"
+#include "src/core/link/biblelink.h"
 #include "src/core/dbghelper.h"
 #include <QtGui/QKeyEvent>
 
@@ -32,6 +32,7 @@ QuickJumpDockWidget::~QuickJumpDockWidget()
 {
     delete ui;
 }
+
 void QuickJumpDockWidget::setWindowManager(WindowManager *manager)
 {
     m_windowManager = manager;
@@ -42,6 +43,7 @@ void QuickJumpDockWidget::init()
     DEBUG_FUNC_NAME;
     connect(m_actions, SIGNAL(_updateBooks(Versification*)), this, SLOT(setBooks(Versification*)));
 }
+
 void QuickJumpDockWidget::setBooks(Versification *v11n)
 {
     //DEBUG_FUNC_NAME;

@@ -37,7 +37,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/core/dbghelper.h"
 #include "src/core/obvcore.h"
-#include "src/core/verse/verseurl.h"
+#include "src/core/link/verseurl.h"
 #include "src/core/history.h"
 #include "src/module/versetable.h"
 

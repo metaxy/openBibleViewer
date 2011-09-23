@@ -16,10 +16,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include "src/module/modulemap.h"
-#include "src/core/verse/verseurl.h"
-/*!
-  UrlConverter is an convrter for urls. Sometimes you have a url from a biblequote module and need to pharse it.
-
+#include "src/core/link/verseurl.h"
+/**
+  * UrlConverter is an converter for urls. Sometimes you have a url from a biblequote module and need to pharse it.
   */
 class UrlConverter
 {

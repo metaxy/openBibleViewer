@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "marklist.h"
 #include "ui_marklist.h"
 #include "src/core/dbghelper.h"
-#include "src/core/urlconverter2.h"
+#include "src/core/link/urlconverter2.h"
 #include "src/core/obvcore.h"
 #include <QtGui/QMenu>
 #include <QtGui/QCursor>

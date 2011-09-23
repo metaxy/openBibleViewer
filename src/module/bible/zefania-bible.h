@@ -28,7 +28,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomAttr>
 #include <QtXml/QtXml>
 
-#include "src/core/verse/verseurl.h"
+#include "src/core/link/verseurl.h"
 #include "src/core/verse/verse.h"
 #include "src/core/verse/chapter.h"
 #include "src/core/verse/versification/versification_zefania.h"

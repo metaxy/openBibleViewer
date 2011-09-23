@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QObject>
 #include <QtCore/QString>
 #include <QtCore/QUrl>
-#include "src/core/verse/verseurl.h"
+#include "src/core/link/verseurl.h"
 #include "src/core/verse/textranges.h"
 #include "src/core/verse/versification.h"
 #include "src/core/search/searchresult.h"

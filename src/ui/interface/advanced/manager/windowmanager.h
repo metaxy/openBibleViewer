@@ -21,7 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QVBoxLayout>
 
 #include "src/core/basicclass.h"
-#include "src/core/urlconverter2.h"
+#include "src/core/link/urlconverter2.h"
 #include "src/core/dbghelper.h"
 #include "src/api/api.h"
 #include "src/ui/interface/advanced/mdiareafilter.h"

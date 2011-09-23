@@ -1,6 +1,6 @@
 #ifndef STRONGURL_H
 #define STRONGURL_H
-#include "src/core/url.h"
+#include "src/core/link/url.h"
 #include <QtCore/QStringList>
 class StrongUrl : public Url
 {

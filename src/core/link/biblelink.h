@@ -3,7 +3,7 @@
 #include <QtCore/QRegExp>
 #include "src/core/verse/versification.h"
 #include "src/core/dbghelper.h"
-#include "src/core/verse/verseurl.h"
+#include "src/core/link/verseurl.h"
 
 class BibleLink
 {

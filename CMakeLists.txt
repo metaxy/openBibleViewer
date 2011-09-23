@@ -106,8 +106,7 @@ set( openBibleViewer_HDRS
 
     src/core/verse/chapter.h
     src/core/verse/book.h
-    src/core/verse/verseurl.h
-    src/core/verse/verseurlrange.h
+
     src/core/verse/range.h
     src/core/verse/ranges.h
     src/core/verse/rangeenum.h
@@ -122,7 +121,7 @@ set( openBibleViewer_HDRS
     src/core/verse/reftext.h
 
     src/core/basicclass.h
-    src/core/biblelink.h
+
     src/core/dbghelper.h
     src/core/history.h
     src/core/KoXmlReader.h
@@ -130,8 +129,14 @@ set( openBibleViewer_HDRS
     src/core/KoXmlNS.h
     src/core/KoXmlReaderForward.h
     src/core/obvcore.h
-    src/core/strongurl.h
 
+    src/core/link/strongurl.h
+    src/core/link/verseurl.h
+    src/core/link/verseurlrange.h
+    src/core/link/biblelink.h
+    src/core/link/url.h
+    src/core/link/urlconverter.h
+    src/core/link/urlconverter2.h
 
     src/core/search/searchprovider.h
     src/core/search/searchproviders.h
@@ -144,12 +149,11 @@ set( openBibleViewer_HDRS
     src/core/settings/moduledisplaysettings.h
     src/core/settings/modulesettings.h
 
-    src/core/urlconverter.h
-    src/core/urlconverter2.h
+
     src/core/versereplacer.h
     src/core/version.h
     src/core/verseselection.h
-    src/core/url.h
+
     src/core/xbelreader.h
     src/core/xbelwriter.h
 
@@ -188,8 +192,7 @@ set( openBibleViewer_SRCS
 
     src/core/verse/chapter.cpp
     src/core/verse/book.cpp
-    src/core/verse/verseurl.cpp
-    src/core/verse/verseurlrange.cpp
+
     src/core/verse/range.cpp
     src/core/verse/ranges.cpp
     src/core/verse/rangeenum.cpp
@@ -215,10 +218,8 @@ set( openBibleViewer_SRCS
     src/core/verseselection.cpp
     src/core/simplenotes.cpp
     src/core/basicclass.cpp
-    src/core/biblelink.cpp
     src/core/moduledownloader.cpp
     src/core/history.cpp
-    src/core/strongurl.cpp
     src/core/search/search.cpp
     src/core/search/searchprovider.cpp
     src/core/search/searchproviders.cpp
@@ -229,14 +230,19 @@ set( openBibleViewer_SRCS
     src/core/settings/modulesettings.cpp
     src/core/settings/session.cpp
     src/core/settings/moduledisplaysettings.cpp
-    src/core/url.cpp
-    src/core/urlconverter.cpp
-    src/core/urlconverter2.cpp
     src/core/versereplacer.cpp
     src/core/version.cpp
     src/core/xbelreader.cpp
     src/core/xbelwriter.cpp
     src/core/downloadinfile.cpp
+
+    src/core/link/strongurl.cpp
+    src/core/link/verseurl.cpp
+    src/core/link/verseurlrange.cpp
+    src/core/link/biblelink.cpp
+    src/core/link/url.cpp
+    src/core/link/urlconverter.cpp
+    src/core/link/urlconverter2.cpp
 
     src/module/bible/bible.cpp
     src/module/bible/biblequote.cpp
@@ -263,7 +269,7 @@ set( openBibleViewer_SRCS
     src/ui/dialog/settingsdialog.cpp
     src/ui/dialog/aboutdialog.cpp
     src/ui/dialog/biblepassagedialog.cpp
-    src/ui/dialog/moduleconfigdialog.cpp   src/ui/interface/advanced/manager/webpagemanager.cpp
+    src/ui/dialog/moduleconfigdialog.cpp
     src/ui/dialog/moduledownloaddialog.cpp
     src/ui/dialog/searchinfodialog.cpp
     src/ui/dialog/insertlinkdialog.cpp

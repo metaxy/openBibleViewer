@@ -22,7 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dock/moduledockwidget.h"
 
 #include "src/ui/dock/quickjumpdockwidget.h"
-#include "src/core/verse/verseurlrange.h"
+#include "src/core/link/verseurlrange.h"
 #include "src/core/dbghelper.h"
 
 #include "src/ui/interface/advanced/manager/windowmanager.h"

@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "biblepassagedialog.h"
 #include "src/core/dbghelper.h"
-#include "src/core/urlconverter.h"
+#include "src/core/link/urlconverter.h"
 #include "ui_biblepassagedialog.h"
 
 BiblePassageDialog::BiblePassageDialog(QWidget *parent) :

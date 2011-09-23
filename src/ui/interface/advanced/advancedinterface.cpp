@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "advancedinterface.h"
 #include "ui_advancedinterface.h"
-#include "src/core/biblelink.h"
+#include "src/core/link/biblelink.h"
 #include "src/module/bible/biblequote.h"
 
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
@@ -26,7 +26,6 @@ AdvancedInterface::AdvancedInterface(QWidget *parent) :
 AdvancedInterface::~AdvancedInterface()
 {
     DEBUG_FUNC_NAME;
-
     if(m_moduleDisplaySettings != NULL) {
         delete m_moduleDisplaySettings;
         m_moduleDisplaySettings = 0;

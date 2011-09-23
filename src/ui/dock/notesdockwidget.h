@@ -18,7 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 #include "dockwidget.h"
 #include "src/core/verseselection.h"
-#include "src/core/urlconverter.h"
+#include "src/core/link/urlconverter.h"
 #include "src/core/simplenotes.h"
 namespace Ui
 {

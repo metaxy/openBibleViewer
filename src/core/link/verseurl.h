@@ -15,8 +15,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define BIBLEURL_H
 #include <QtCore/QString>
 #include <QtCore/QHash>
-#include "verseurlrange.h"
-#include "src/core/url.h"
+#include "src/core/link/verseurlrange.h"
+#include "src/core/link/url.h"
 class VerseUrl : public Url
 {
 public:

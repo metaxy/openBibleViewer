@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/xbelreader.h"
 #include "src/core/xbelwriter.h"
 #include "src/core/dbghelper.h"
-#include "src/core/urlconverter.h"
+#include "src/core/link/urlconverter.h"
 #include "src/ui/dialog/biblepassagedialog.h"
 #include <QtGui/QClipboard>
 #include <QtGui/QMessageBox>
