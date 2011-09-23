@@ -51,7 +51,6 @@ QString BibleQuoteDict::readInfo(const QString &fileName)
 
 bool BibleQuoteDict::hasIndex()
 {
-    DEBUG_FUNC_NAME
     QDir d;
     if(!d.exists(m_settings->homePath + "index")) {
         return false;
@@ -215,7 +214,6 @@ QStringList BibleQuoteDict::getAllKeys()
     }
     return ret;
 }
-
 
 QString BibleQuoteDict::indexPath() const
 {

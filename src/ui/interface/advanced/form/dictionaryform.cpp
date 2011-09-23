@@ -100,6 +100,7 @@ void DictionaryForm::activated()
     if(m_dictionary == NULL)
         return;
     m_actions->setTitle(m_dictionary->moduleTitle());
+    m_actions->setCurrentModule(m_dictionary->moduleID());
 }
 void DictionaryForm::showEntry()
 {

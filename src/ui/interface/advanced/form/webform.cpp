@@ -175,6 +175,10 @@ void WebForm::activated()
 {
     m_actions->clearBooks();
     m_actions->clearChapters();
+    if(m_page != NULL) {
+        m_actions->setTitle(m_page->moduleTitle());
+        m_actions->setCurrentModule(m_page->moduleID());
+    }
 }
 
 void WebForm::save()
