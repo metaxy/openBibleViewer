@@ -11,7 +11,7 @@ Summary: Bible study tool
 Name: %{name}
 License: GPLv3
 URL: http://openbv.uucyc.name
-Version: 0.5.90
+Version: 0.6.0
 Release: 5
 Group: Amusements/Teaching/Other
 Source: %{name}-%{version}.tar.bz2
@@ -63,6 +63,8 @@ make DESTDIR=%{buildroot} install
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Fri Oct 23 2011 Paul Walger
+- update to 0.6.0
 * Mon Nov 15 2010 Paul Walger
 - update to 0.5.4
 * Mon Nov 8 2010 Paul Walger
