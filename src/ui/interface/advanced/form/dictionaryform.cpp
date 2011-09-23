@@ -169,7 +169,7 @@ void DictionaryForm::testDictionary(int module)
             int moduleID = -1;
 
             const QString lastUrl = m_settings->recoverUrl(last);
-            QMapIterator<int, Module *> i(m_moduleManager->m_moduleMap->m_map);
+            QMapIterator<int, Module *> i(m_moduleManager->m_moduleMap->data);
             while(i.hasNext()) {
                 i.next();
                 if(i.value()->moduleClass() == OBVCore::DictionaryModuleClass) {

@@ -22,7 +22,7 @@ class ModuleMap
 public:
     ModuleMap();
     ~ModuleMap();
-    QMap<int, Module*> m_map;
+    QMap<int, Module*> data;
 
     Module* module(const int id);
 };

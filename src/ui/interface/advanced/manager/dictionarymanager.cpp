@@ -58,7 +58,7 @@ void DictionaryManager::open(const QString &key, ModuleSettings::DefaultModule d
             if(moduleID != -1) {
                 d->showEntry(key, moduleID);
             } else {
-                QMapIterator<int, Module*> i(m_moduleManager->m_moduleMap->m_map);
+                QMapIterator<int, Module*> i(m_moduleManager->m_moduleMap->data);
                 while (i.hasNext()) {
                     i.next();
                     if(i.value()->moduleClass() == OBVCore::DictionaryModuleClass)

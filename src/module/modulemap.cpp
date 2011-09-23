@@ -18,12 +18,12 @@ ModuleMap::ModuleMap()
 }
 Module* ModuleMap::module(const int id)
 {
-    return m_map.value(id);
+    return data.value(id);
 }
 
 ModuleMap::~ModuleMap()
 {
-    foreach(Module * m, m_map) {
+    foreach(Module * m, data) {
         if(m != NULL)
             delete m;
     }

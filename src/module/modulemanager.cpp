@@ -25,10 +25,6 @@ ModuleManager::~ModuleManager()
     //DEBUG_FUNC_NAME
     delete m_moduleMap;
 
-    if(m_dictionary != NULL) {
-        delete m_dictionary;
-        m_dictionary = NULL;
-    }
     if(m_moduleModel != NULL) {
         delete m_moduleModel;
         m_moduleModel = NULL;
@@ -158,12 +154,13 @@ void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
     Module *module = new Module(parentModule);
     module->setSettings(m_settings);
     module->setPath(settings->modulePath);
-
     module->setModuleType(settings->moduleType);
     module->setTitle(settings->moduleName);
     module->setModuleID(settings->moduleID);
+
     parentModule->append(module);
-    m_moduleMap->m_map.insert(settings->moduleID, module);
+    //m_map deletes them
+    m_moduleMap->data.insert(settings->moduleID, module);
 
     if(settings->moduleType == OBVCore::BibleQuoteModule
             || settings->moduleType == OBVCore::ZefaniaBibleModule
@@ -200,37 +197,28 @@ void ModuleManager::initSimpleModule(SimpleModuleClass *m) const
     }
 }
 
-bool ModuleManager::dictionaryLoaded()
-{
-    return dictionaryLoaded(m_dictionary);
-}
-
 bool ModuleManager::dictionaryLoaded(const Dictionary *dict)
 {
-    if(m_moduleMap->m_map.contains(dict->moduleID()) && dict->moduleID() >= 0)
+    if(dict && m_moduleMap->data.contains(dict->moduleID()) && dict->moduleID() >= 0)
         return true;
     return false;
 }
 bool ModuleManager::metaModuleLoaded(const SimpleModuleClass *m) const
 {
-    return (m && m_moduleMap->m_map.contains(m->moduleID()) && m->moduleID() >= 0);
+    return (m && m_moduleMap->data.contains(m->moduleID()) && m->moduleID() >= 0);
 }
 bool ModuleManager::verseTableLoaded(const VerseTable *table) const
 {
-     return (table && table->verseModule() && m_moduleMap->m_map.contains(table->verseModule()->moduleID()) && table->verseModule()->moduleID() >= 0);
+     return (table && table->verseModule() && m_moduleMap->data.contains(table->verseModule()->moduleID()) && table->verseModule()->moduleID() >= 0);
 }
 bool ModuleManager::contains(const int moduleID)
 {
-    return m_moduleMap->m_map.contains(moduleID);
+    return m_moduleMap->data.contains(moduleID);
 }
 
 Module * ModuleManager::getModule(const int moduleID)
 {
     return m_moduleMap->module(moduleID);
-}
-Dictionary* ModuleManager::dictionary()
-{
-    return m_dictionary;
 }
 
 /**
@@ -266,7 +254,7 @@ QString ModuleManager::notePos2Text(const QString &pos)
 QStringList ModuleManager::getBibleTitles()
 {
     QStringList titles;
-    QMapIterator<int, Module *> i(m_moduleMap->m_map);
+    QMapIterator<int, Module *> i(m_moduleMap->data);
     while(i.hasNext()) {
         i.next();
         if(i.value()->moduleClass() == OBVCore::BibleModuleClass)
@@ -277,7 +265,7 @@ QStringList ModuleManager::getBibleTitles()
 QStringList ModuleManager::getBiblePaths()
 {
     QStringList paths;
-    QMapIterator<int, Module *> i(m_moduleMap->m_map);
+    QMapIterator<int, Module *> i(m_moduleMap->data);
     while(i.hasNext()) {
         i.next();
         if(i.value()->moduleClass() == OBVCore::BibleModuleClass)
@@ -288,7 +276,7 @@ QStringList ModuleManager::getBiblePaths()
 QList<int> ModuleManager::getBibleIDs()
 {
     QList<int> ids;
-    QMapIterator<int, Module *> i(m_moduleMap->m_map);
+    QMapIterator<int, Module *> i(m_moduleMap->data);
     while(i.hasNext()) {
         i.next();
         if(i.value()->moduleClass() == OBVCore::BibleModuleClass)

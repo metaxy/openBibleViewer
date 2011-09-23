@@ -49,16 +49,12 @@ public:
     void setNotes(Notes *notes);
     void setModuleDisplaySettings(ModuleDisplaySettings *moduledisplaysettings);
 
-    bool dictionaryLoaded();
     bool dictionaryLoaded(const Dictionary *dict);
-
     bool metaModuleLoaded(const SimpleModuleClass *m) const;
     bool verseTableLoaded(const VerseTable *table) const;
 
     void initSimpleModule(SimpleModuleClass *m) const;
     void initVerseModule(VerseModule *m) const;
-
-    Dictionary* dictionary();
 
     QString notePos2Link(const QString &pos);
     QString notePos2Text(const QString &pos);
@@ -68,11 +64,8 @@ public:
 
     QStandardItemModel *m_moduleModel;
 
-
     Notes *m_notes;
     ModuleMap *m_moduleMap;
-
-    Dictionary *m_dictionary;
 
     QStringList getBibleTitles();
     QStringList getBiblePaths();

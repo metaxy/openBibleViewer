@@ -21,29 +21,29 @@ DictionaryDockWidget::DictionaryDockWidget(QWidget *parent) :
     ui(new Ui::DictionaryDockWidget)
 {
     ui->setupUi(this);
-
+    m_dictionary = NULL;
 }
 
 DictionaryDockWidget::~DictionaryDockWidget()
 {
     delete ui;
+    if(m_dictionary != NULL) {
+        delete m_dictionary;
+        m_dictionary = NULL;
+    }
 }
 void DictionaryDockWidget::init()
 {
-    if(m_moduleManager->m_dictionary == NULL) {
-        Dictionary *dict = new Dictionary();
-
-        dict->setModuleMap(m_moduleManager->m_moduleMap);
-        dict->setNotes(m_notes);
-        dict->setSettings(m_settings);
-        m_moduleManager->m_dictionary = dict;
+    if(m_dictionary == NULL) {
+        m_dictionary = new Dictionary();
+        m_moduleManager->initSimpleModule(m_dictionary);
     }
 
     dictModuleTitle.clear();
     dictModuleID.clear();
     ui->comboBox_strongModule->clear();
 
-    QMapIterator<int, Module *> i(m_moduleManager->m_moduleMap->m_map);
+    QMapIterator<int, Module *> i(m_moduleManager->m_moduleMap->data);
     while(i.hasNext()) {
         i.next();
         Module *m = i.value();
@@ -74,15 +74,14 @@ void DictionaryDockWidget::showEntry(QString strongID)
     if(isHidden()) {
         show();
     }
-    if(!m_moduleManager->dictionaryLoaded()) {
+    if(!m_moduleManager->dictionaryLoaded(m_dictionary))) {
         const QString last = m_settings->session.getData("lastDictModule").toString();
         int moduleID = 0;
         if(!last.isEmpty()) {
-            const QString lastUrl = m_settings->recoverUrl(last);
-            QMapIterator<int, Module *> i(m_moduleManager->m_moduleMap->m_map);
+            QMapIterator<int, Module *> i(m_moduleManager->m_moduleMap->data);
             while(i.hasNext()) {
                 i.next();
-                if(i.value()->path() == lastUrl) {
+                if(i.value()->moduleUID() == last) {
                     moduleID = dictModuleID.lastIndexOf(i.key());
                     break;
                 }
@@ -93,7 +92,7 @@ void DictionaryDockWidget::showEntry(QString strongID)
         loadModule(moduleID);
     }
     ui->lineEdit_strong->setText(strongID);
-    ui->textBrowser_strong->setText(m_moduleManager->dictionary()->getEntry(strongID));
+    ui->textBrowser_strong->setText(m_dictionary->getEntry(strongID));
 }
 void DictionaryDockWidget::loadModule(int id)
 {
@@ -103,15 +102,15 @@ void DictionaryDockWidget::loadModule(int id)
         const int moduleID = dictModuleID.at(id);//convert id to module id
         Module *m = m_moduleManager->getModule(moduleID);
         OBVCore::ModuleType type = m->moduleType();
-        m_moduleManager->dictionary()->setModuleType(type);
-        m_moduleManager->dictionary()->loadModuleData(moduleID);
+        m_dictionary->setModuleType(type);
+        m_dictionary->loadModuleData(moduleID);
 
-        QCompleter *completer = new QCompleter(m_moduleManager->dictionary()->getAllKeys(), this);
+        QCompleter *completer = new QCompleter(m_dictionary->getAllKeys(), this);
         completer->setCaseSensitivity(Qt::CaseInsensitive);
         ui->lineEdit_strong->setCompleter(completer);
 
         //todo: do this when closing
-        m_settings->session.setData("lastDictModule", m_settings->savableUrl(m->path()));
+        m_settings->session.setData("lastDictModule", m->moduleUID());
     }
 }
 

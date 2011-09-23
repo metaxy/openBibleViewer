@@ -48,7 +48,7 @@ VerseUrl UrlConverter::convert()
         url.clearRanges();
         foreach(VerseUrlRange range, m_bibleUrl.ranges()) {
             if(range.module() == VerseUrlRange::LoadModuleByUID) {
-                foreach(Module * module, m_moduleMap->m_map) {
+                foreach(Module * module, m_moduleMap->data) {
                     if(module->moduleUID() == range.moduleUID())  {
                         range.setModule(module->moduleID());
                         break;
@@ -68,7 +68,7 @@ VerseUrl UrlConverter::convert()
         QList<int> moduleIDs;
 
         foreach(VerseUrlRange range, m_bibleUrl.ranges()) {
-            if(range.module() == VerseUrlRange::LoadModuleByID && m_moduleMap->m_map.contains(range.moduleID())) {
+            if(range.module() == VerseUrlRange::LoadModuleByID && m_moduleMap->data.contains(range.moduleID())) {
                 range.setModule(m_moduleMap->module(range.moduleID())->moduleUID());
             }
             url.addRange(range);
