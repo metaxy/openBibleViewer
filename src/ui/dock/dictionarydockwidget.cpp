@@ -74,7 +74,7 @@ void DictionaryDockWidget::showEntry(QString strongID)
     if(isHidden()) {
         show();
     }
-    if(!m_moduleManager->dictionaryLoaded(m_dictionary))) {
+    if(!m_moduleManager->dictionaryLoaded(m_dictionary)) {
         const QString last = m_settings->session.getData("lastDictModule").toString();
         int moduleID = 0;
         if(!last.isEmpty()) {

@@ -17,7 +17,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 ModuleManager::ModuleManager()
 {
     m_moduleMap = new ModuleMap();
-    m_dictionary = NULL;
     m_rootModule = NULL;
 }
 ModuleManager::~ModuleManager()
