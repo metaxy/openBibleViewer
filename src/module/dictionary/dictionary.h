@@ -44,6 +44,7 @@ public:
     QStringList getAllKeys() const;
 
     DictionaryModule * module() const;
+    QString moduleUID() const;
 private:
     DictionaryModule *m_dictionaryModule;
 };

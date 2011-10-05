@@ -64,3 +64,7 @@ DictionaryModule * Dictionary::module() const
 {
     return m_dictionaryModule;
 }
+QString Dictionary::moduleUID() const
+{
+    return QString();
+}

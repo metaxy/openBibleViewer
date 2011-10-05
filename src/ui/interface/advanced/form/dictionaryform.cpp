@@ -45,7 +45,25 @@ Dictionary* DictionaryForm::dictionary() const
 }
 void DictionaryForm::restore(const QString &key)
 {
+    const QString a = m_settings->session.id() + "/windows/" + key + "/";
+    const qreal zoom = m_settings->session.file()->value(a + "zoom").toReal();
+    const QPoint scroll = m_settings->session.file()->value(a + "scrool").toPoint();
 
+    const QString k = m_settings->session.file()->value(a + "key").toString();
+    const QString uid = m_settings->session.file()->value(a + "uid").toString();
+    int moduleID = -1;
+    foreach(Module*m,m_moduleManager->m_moduleMap->data) {
+        if(m->moduleUID() == uid) {
+            moduleID = m->moduleID();
+            break;
+        }
+    }
+    if(moduleID != -1) {
+        showEntry(k, moduleID);
+    }
+
+    ui->webView->page()->mainFrame()->setScrollPosition(scroll);
+    ui->webView->setZoomFactor(zoom);
 }
 
 void DictionaryForm::save()
@@ -53,6 +71,11 @@ void DictionaryForm::save()
     const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
     m_settings->session.file()->setValue(a + "type", "dictionary");
     m_settings->session.file()->setValue(a + "key", m_key);
+    m_settings->session.file()->setValue(a + "scrollPosition", ui->webView->page()->mainFrame()->scrollPosition());
+    m_settings->session.file()->setValue(a + "zoom",  ui->webView->zoomFactor());
+    if(m_dictionary != NULL) {
+        m_settings->session.file()->setValue(a + "uid", m_moduleManager->getModule(m_dictionary->moduleID())->moduleUID());
+    }
 }
 
 void DictionaryForm::copy()
