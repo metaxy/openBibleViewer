@@ -14,9 +14,9 @@ class Form : public QWidget, public BasicClass
     Q_OBJECT
 public:
     enum FormType {
-        BibleForm,
-        DictionaryForm,
-        WebForm
+        BibleForm = 0,
+        DictionaryForm = 1,
+        WebForm = 2
     };
 
     explicit Form(QWidget *parent = 0);
@@ -36,7 +36,7 @@ public:
 
     virtual FormType type() const = 0;
 
-    virtual SearchableModule * searchableModule();
+    virtual SearchableModule * searchableModule() const;
 
 signals:
 

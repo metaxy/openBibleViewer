@@ -21,8 +21,10 @@ SearchResult* Search::search(SearchQuery query)
     SearchResult *result = new SearchResult();
     result->searchQuery = query;
     foreach(SearchableModule *m, m_list) {
-        if(m != NULL)
+        myDebug() << "searchable module =" << m;
+        if(m != NULL) {
             m->search(query, result);
+        }
     }
     if(query.searchInNotes) {
         m_notes->search(query, result);
@@ -32,10 +34,12 @@ SearchResult* Search::search(SearchQuery query)
 }
 void Search::addModule(SearchableModule *module)
 {
+    DEBUG_FUNC_NAME
     m_list.append(module);
 }
 
 void Search::addModule(QList<SearchableModule*> list)
 {
+    DEBUG_FUNC_NAME
     m_list.append(list);
 }
