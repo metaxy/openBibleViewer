@@ -18,7 +18,7 @@ public:
 
     void pharseUrl(QString url);
 
-    void open(const QString &key, ModuleSettings::DefaultModule defaultModule);
+    void open(const QString &key, OBVCore::DefaultModule defaultModule);
 
     void setWindowManager(WindowManager *windowManager);
 private:

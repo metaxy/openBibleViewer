@@ -21,6 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QProgressDialog>
 
 #include "src/module/dictionary/dictionarymodule.h"
+#include "src/module/metainfo.h"
 #include "src/core/dbghelper.h"
 /**
  * BibleQuoteDict is a dictionary module for BibelQuote Dictionaries. The file suffix is *.idx.
@@ -30,9 +31,8 @@ class BibleQuoteDict : public DictionaryModule
 public:
     BibleQuoteDict();
 
-    QString readInfo(QFile &file);
-    QString readInfo(const QString &fileName);
-
+    MetaInfo readInfo(QFile &file);
+    MetaInfo readInfo(const QString &fileName);
 
     QString getEntry(const QString &id);
     QStringList getAllKeys();

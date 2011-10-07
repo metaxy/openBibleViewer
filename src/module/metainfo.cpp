@@ -16,6 +16,10 @@ QString MetaInfo::uid() const
 {
     return m_uid;
 }
+OBVCore::DefaultModule MetaInfo::defaultModule() const
+{
+    return m_defaulModule;
+}
 
 void MetaInfo::setName(const QString &name)
 {
@@ -29,4 +33,9 @@ void MetaInfo::setShortName(const QString &shortName)
 void MetaInfo::setUID(const QString &uid)
 {
     m_uid = uid;
+}
+
+void MetaInfo::setDefaultModule(const OBVCore::DefaultModule d)
+{
+    m_defaulModule = d;
 }

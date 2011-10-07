@@ -30,7 +30,7 @@ ZefaniaLex::ZefaniaLex()
 /**
   Load a Zefania XML Lex file the first time. Generates an index for fast access.
   */
-QString ZefaniaLex::buildIndexFromData(const QString &fileData, const QString &fileName)
+MetaInfo ZefaniaLex::buildIndexFromData(const QString &fileData, const QString &fileName)
 {
     DEBUG_FUNC_NAME
     m_modulePath = fileName;
@@ -45,11 +45,11 @@ QString ZefaniaLex::buildIndexFromData(const QString &fileData, const QString &f
         myWarning() << "the file isn't valid , error = " << errorMsg
                     << " line = " << eLine
                     << " column = " << eCol;
-        return QString();
+        return MetaInfo();
     }
     return buildIndexFromXmlDoc(&xmldoc);
 }
-QString ZefaniaLex::buildIndexFromFile(const QString &fileName)
+MetaInfo ZefaniaLex::buildIndexFromFile(const QString &fileName)
 {
     KoXmlDocument xmldoc;
     QString errorMsg;
@@ -57,16 +57,16 @@ QString ZefaniaLex::buildIndexFromFile(const QString &fileName)
     int eCol;
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly))
-        return QString();
+        return MetaInfo();
 
     if(!xmldoc.setContent(&file, &errorMsg, &eLine, &eCol)) {
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
         myWarning() << "the file isn't valid , error = " << errorMsg
                     << " line = " << eLine
                     << " column = " << eCol;
-        return QString();
+        return MetaInfo();
     }
-    const QString ret = buildIndexFromXmlDoc(&xmldoc);
+    const MetaInfo ret = buildIndexFromXmlDoc(&xmldoc);
     file.close();
     return ret;
 }
@@ -155,14 +155,18 @@ int ZefaniaLex::buildIndex()
         myWarning() << "the file isn't valid";
         return 1;
     }
-    return buildIndexFromXmlDoc(&xmlDoc).isEmpty() ? 2 : 0;
+    return buildIndexFromXmlDoc(&xmlDoc).name().isEmpty() ? 2 : 0;
 }
 
-QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
+MetaInfo ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
 {
+    MetaInfo info;
     Document indexdoc;
     const QString index = indexPath();
-    QString fileTitle = "";
+    QString fileTitle;
+    QString uid;
+    QString type;
+
     QDir dir("/");
     dir.mkpath(index);
 
@@ -185,6 +189,8 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
     writer->setUseCompoundFile(false);
 
     KoXmlNode item = xmldoc->documentElement().firstChild();
+    type = xmldoc->documentElement().toElement().attribute("type", "");
+
     for(int c = 0; !item.isNull();) {
         QString key = "";
         QString title = "";
@@ -193,8 +199,12 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
         QString desc = "";
         KoXmlElement e = item.toElement();
         if(e.tagName().compare("INFORMATION", Qt::CaseInsensitive) == 0) {
-            KoXmlNode titel = item.namedItem("title");
-            fileTitle = titel.toElement().text();
+            KoXmlNode title = item.namedItem("subject");
+            KoXmlNode identifer = item.namedItem("identifier");
+
+            fileTitle = title.toElement().text();
+            uid = identifer.toElement().text();
+
         } else if(e.tagName().compare("item", Qt::CaseInsensitive) == 0) {
             key = e.attribute("id");
             KoXmlNode details = item.firstChild();
@@ -280,7 +290,14 @@ QString ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
 
     writer->close();
     delete writer;
-    return fileTitle;
+    info.setName(fileTitle);
+    info.setUID(uid);
+    if(type == "x-strong") {
+        info.setDefaultModule(OBVCore::DefaultStrongDictModule);
+    } else if(type == "x-dictionary") {
+        info.setDefaultModule(OBVCore::DefaultDictModule);
+    }
+    return info;
 }
 
 QString ZefaniaLex::indexPath() const

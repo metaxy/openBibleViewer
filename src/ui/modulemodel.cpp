@@ -78,6 +78,7 @@ void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings
             item->setText(settings->moduleName);
             item->setData(QString::number(settings->moduleID));
             item->setIcon(m_bibleZefaniaIcon);
+            item->setToolTip(Module::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
             parentItem->appendRow(item);
         }
     } else if(settings->moduleType == OBVCore::WebPageModule || settings->moduleType == OBVCore::WebDictionaryModule) {
@@ -85,6 +86,7 @@ void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings
             item = new QStandardItem;
             item->setText(settings->moduleName);
             item->setData(QString::number(settings->moduleID));
+            item->setToolTip(Module::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
             parentItem->appendRow(item);
         }
     }else if(settings->moduleType == OBVCore::FolderModule) {

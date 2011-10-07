@@ -434,13 +434,13 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
             } else if(moduleType == OBVCore::ZefaniaLexModule) {
                 ZefaniaLex zefLex;
                 zefLex.setSettings(&m_set);
-                zefLex.setID(0,f);
-                m->moduleName = zefLex.buildIndexFromFile(f);
+                zefLex.setID(0, f);
+                m->moduleName = zefLex.buildIndexFromFile(f).name();
             } else if(moduleType == OBVCore::BibleQuoteDictModule) {
                 BibleQuoteDict bibleQuoteDict;
                 bibleQuoteDict.setSettings(&m_set);
-                bibleQuoteDict.setID(0,f);
-                m->moduleName = bibleQuoteDict.readInfo(f);
+                bibleQuoteDict.setID(0, f);
+                m->moduleName = bibleQuoteDict.readInfo(f).name();
                 bibleQuoteDict.buildIndex();
             } else if(moduleType == OBVCore::TheWordBibleModule) {
                 TheWordBible theWordBible;

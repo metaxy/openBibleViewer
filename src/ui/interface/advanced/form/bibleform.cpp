@@ -920,8 +920,7 @@ void BibleForm::searchInText(SearchResult *res)
 {
     DEBUG_FUNC_NAME
     if(res == NULL)
-            return;
-
+        return;
     if(res->searchQuery.queryType == SearchQuery::Simple) {
         QString s = res->searchQuery.searchText;
         //todo: hacky

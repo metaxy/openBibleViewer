@@ -38,7 +38,14 @@ enum ModuleType {
     WebDictionaryModule = 9
 };
 
-
+enum DefaultModule {
+    NotADefaultModule = 0,
+    DefaultBibleModule = 1,
+    DefaultStrongDictModule = 2,
+    DefaultGramDictModule = 3,
+    DefaultDictModule = 4,
+    DefaultRMACDictModule = 5
+};
 /*  QStringList ModuleTypeNames()
   {
       QStringList l;

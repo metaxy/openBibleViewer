@@ -36,7 +36,7 @@ DictionaryDockWidget* DictionaryManager::dictionaryDockWidget()
     return m_dictionaryDock;
 }
 
-void DictionaryManager::open(const QString &key, ModuleSettings::DefaultModule defaultModule)
+void DictionaryManager::open(const QString &key, OBVCore::DefaultModule defaultModule)
 {
     QMdiSubWindow *w = m_windowManager->hasDictWindow(defaultModule);
     if(w != NULL) {
@@ -64,7 +64,6 @@ void DictionaryManager::open(const QString &key, ModuleSettings::DefaultModule d
                     if(i.value()->moduleClass() == OBVCore::DictionaryModuleClass)
                         moduleID = i.key();
                 }
-
                 if(moduleID != -1) {
                     d->showEntry(key, moduleID);
                 }
@@ -84,15 +83,15 @@ void DictionaryManager::pharseUrl(QString url)
      if(url.startsWith(strong)) {
         //strong://strongID
         url = url.remove(0, strong.size());
-        open(url, ModuleSettings::DefaultStrongDictModule);
+        open(url, OBVCore::DefaultStrongDictModule);
     } else if(url.startsWith(gram)) {
         //gram://gramID
         url = url.remove(0, gram.size());
-        open(url, ModuleSettings::DefaultGramDictModule);
+        open(url, OBVCore::DefaultGramDictModule);
     } else if(url.startsWith(rmac)) {
          //rmac://rmacID
          url = url.remove(0, rmac.size());
-         open(url, ModuleSettings::DefaultRMACDictModule);
+         open(url, OBVCore::DefaultRMACDictModule);
      }else if(url.startsWith(dict)) {
         //dict:/module/key
         m_windowManager->needDictionaryWindow();

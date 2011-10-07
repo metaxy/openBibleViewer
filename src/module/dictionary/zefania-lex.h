@@ -31,6 +31,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/link/strongurl.h"
 
 #include "src/module/dictionary/dictionarymodule.h"
+#include "src/module/metainfo.h"
 
 /**
  * ZefaniaLex represents a zefaniaXML(lex) module. The file suffix is *.xml.
@@ -41,8 +42,8 @@ class ZefaniaLex : public DictionaryModule
 public:
     ZefaniaLex();
 
-    QString buildIndexFromData(const QString &fileData, const QString &fileName);
-    QString buildIndexFromFile(const QString &fileName);
+    MetaInfo buildIndexFromData(const QString &fileData, const QString &fileName);
+    MetaInfo buildIndexFromFile(const QString &fileName);
 
     QString getEntry(const QString &entry);
     QStringList getAllKeys();
@@ -51,10 +52,7 @@ public:
     int buildIndex();
 private:
     QString indexPath() const;
-
-
-
-    QString buildIndexFromXmlDoc(KoXmlDocument *xmldoc);
+    MetaInfo buildIndexFromXmlDoc(KoXmlDocument *xmldoc);
 };
 
 #endif // ZefaniaLex_H

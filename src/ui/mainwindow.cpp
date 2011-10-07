@@ -306,7 +306,7 @@ void MainWindow::loadSettings()
         m->zefbible_softCache = m_settingsFile->value("softCache", true).toBool();
 
         m->biblequote_removeHtml = m_settingsFile->value("removeHtml", true).toInt();
-        m->defaultModule = (ModuleSettings::DefaultModule) m_settingsFile->value("defaultModule", ModuleSettings::NotADefaultModule).toInt();
+        m->defaultModule = (OBVCore::DefaultModule) m_settingsFile->value("defaultModule", OBVCore::NotADefaultModule).toInt();
 
         m->styleSheet = m_settings->recoverUrl(m_settingsFile->value("styleSheet", ":/data/css/default.css").toString());
 

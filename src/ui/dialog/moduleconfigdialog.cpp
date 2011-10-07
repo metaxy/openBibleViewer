@@ -126,7 +126,7 @@ void ModuleConfigDialog::bsave()
     m_moduleSettings->encoding = m_encodings.at(m_ui->comboBox_encoding->currentIndex());
     m_moduleSettings->styleSheet = m_ui->lineEdit_styleSheet->text();
 
-    m_moduleSettings->defaultModule = (ModuleSettings::DefaultModule) m_ui->comboBox_defaultModule->currentIndex();
+    m_moduleSettings->defaultModule = (OBVCore::DefaultModule) m_ui->comboBox_defaultModule->currentIndex();
 
     m_moduleSettings->useParentSettings = m_ui->checkBox_useParentSettings->isChecked();
     if(!m_moduleSettings->useParentSettings) {

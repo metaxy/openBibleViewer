@@ -35,14 +35,7 @@ public:
     ModuleSettings(ModuleSettings *parent);
     ~ModuleSettings();
 
-    enum DefaultModule {
-        NotADefaultModule = 0,
-        DefaultBibleModule = 1,
-        DefaultStrongDictModule = 2,
-        DefaultGramDictModule = 3,
-        DefaultDictModule = 4,
-        DefaultRMACDictModule = 5
-    };
+
 
     enum ZefBible_TextFormating {
         NewLine = 0,//Neue Zeile nach Vers
@@ -79,7 +72,7 @@ public:
 
     QString styleSheet;
 
-    DefaultModule defaultModule;
+    OBVCore::DefaultModule defaultModule;
 
     /**
       * It can be a path to a versification file

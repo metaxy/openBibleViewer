@@ -30,7 +30,7 @@ BibleQuoteDict::BibleQuoteDict()
 /**
   Reads the ini file and returns the dictionary name.
   */
-QString BibleQuoteDict::readInfo(QFile &file)
+MetaInfo BibleQuoteDict::readInfo(QFile &file)
 {
     //todo: use module default encoding
     const QString encoding = m_settings->encoding;
@@ -39,13 +39,15 @@ QString BibleQuoteDict::readInfo(QFile &file)
     QByteArray byteline = file.readLine();
     QString line = decoder->toUnicode(byteline);
     file.close();
-    return line.simplified();
+    MetaInfo info;
+    info.setName(line.simplified());
+    return info;
 }
-QString BibleQuoteDict::readInfo(const QString &fileName)
+MetaInfo BibleQuoteDict::readInfo(const QString &fileName)
 {
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly))
-        return "";
+        return MetaInfo();
     return readInfo(file);
 }
 

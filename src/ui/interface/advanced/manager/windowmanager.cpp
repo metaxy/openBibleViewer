@@ -201,7 +201,7 @@ QMdiSubWindow* WindowManager::needWebWindow()
 {
     return needWindow(Form::WebForm);
 }
-QMdiSubWindow* WindowManager::hasDictWindow(ModuleSettings::DefaultModule d)
+QMdiSubWindow* WindowManager::hasDictWindow(OBVCore::DefaultModule d)
 {
     foreach(QMdiSubWindow *w, usableWindowList()) {
         Form *f = getForm(w);
