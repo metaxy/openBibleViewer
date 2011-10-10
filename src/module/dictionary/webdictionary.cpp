@@ -45,6 +45,8 @@ void WebDictionary::loadModuleData(const int moduleID, const QString &name)
                     m_shortName = n2.firstChild().toText().data();
                 } else if(n2.nodeName() == "desc") {
                     m_desc = n2.firstChild().toText().data();
+                }  else if(n2.nodeName() == "type") {
+                    m_type = n2.firstChild().toText().data();
                 }
                 n2 = n2.nextSibling();
             }
@@ -91,10 +93,19 @@ void WebDictionary::search(SearchQuery query, SearchResult *result)
 MetaInfo WebDictionary::readInfo(const QString &name)
 {
     loadModuleData(m_moduleID, name);
-    myDebug() << m_name << m_shortName;
     MetaInfo ret;
     ret.setName(m_name);
     ret.setShortName(m_shortName);
+
+    if(m_type == "strong-dictionary") {
+        ret.setDefaultModule(OBVCore::DefaultStrongDictModule);
+    } else if(m_type == "rmac-dictionary") {
+        ret.setDefaultModule(OBVCore::DefaultRMACDictModule);
+    } else if(m_type == "gram-dictionary") {
+        ret.setDefaultModule(OBVCore::DefaultGramDictModule);
+    } else if(m_type == "dictionary") {
+        ret.setDefaultModule(OBVCore::DefaultDictModule);
+    }
     return ret;
 }
 bool WebDictionary::loaded()

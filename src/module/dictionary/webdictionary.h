@@ -32,6 +32,7 @@ private:
     QString m_name;
     QString m_shortName;
     QString m_desc;
+    QString m_type;
 
     QString m_url;
 
