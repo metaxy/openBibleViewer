@@ -422,42 +422,54 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
             myWarning() << "cannot determine module type of " << f;
             return 4;
         }
+        MetaInfo info;
+        if(moduleType == OBVCore::BibleQuoteModule) {
+            BibleQuote bq;
+            bq.setSettings(&m_set);
+            info = bq.readInfo(f);
+        } else if(moduleType == OBVCore::ZefaniaBibleModule) {
+            ZefaniaBible zef;
+            zef.setSettings(&m_set);
+            info = zef.readInfo(f);
+        } else if(moduleType == OBVCore::ZefaniaLexModule) {
+            ZefaniaLex zefLex;
+            zefLex.setSettings(&m_set);
+            zefLex.setID(0, f);
+            info = zefLex.buildIndexFromFile(f);
+        } else if(moduleType == OBVCore::BibleQuoteDictModule) {
+            BibleQuoteDict bibleQuoteDict;
+            bibleQuoteDict.setSettings(&m_set);
+            bibleQuoteDict.setID(0, f);
+            info= bibleQuoteDict.readInfo(f);
+            bibleQuoteDict.buildIndex();
+        } else if(moduleType == OBVCore::TheWordBibleModule) {
+            TheWordBible theWordBible;
+            theWordBible.setSettings(&m_set);
+            info = theWordBible.readInfo(f);
+        } else if(moduleType == OBVCore::WebPageModule) {
+            WebPage webPage;
+            webPage.setSettings(&m_set);
+            info = webPage.readInfo(f);
+        } else if(moduleType == OBVCore::WebDictionaryModule) {
+            WebDictionary webDict;
+            webDict.setSettings(&m_set);
+            info = webDict.readInfo(f);
+        }
         if(name.isEmpty()) {
-            if(moduleType == OBVCore::BibleQuoteModule) {
-                BibleQuote bq;
-                bq.setSettings(&m_set);
-                m->moduleName = bq.readInfo(f).name();
-            } else if(moduleType == OBVCore::ZefaniaBibleModule) {
-                ZefaniaBible zef;
-                zef.setSettings(&m_set);
-                m->moduleName = zef.readInfo(f).name();
-            } else if(moduleType == OBVCore::ZefaniaLexModule) {
-                ZefaniaLex zefLex;
-                zefLex.setSettings(&m_set);
-                zefLex.setID(0, f);
-                m->moduleName = zefLex.buildIndexFromFile(f).name();
-            } else if(moduleType == OBVCore::BibleQuoteDictModule) {
-                BibleQuoteDict bibleQuoteDict;
-                bibleQuoteDict.setSettings(&m_set);
-                bibleQuoteDict.setID(0, f);
-                m->moduleName = bibleQuoteDict.readInfo(f).name();
-                bibleQuoteDict.buildIndex();
-            } else if(moduleType == OBVCore::TheWordBibleModule) {
-                TheWordBible theWordBible;
-                theWordBible.setSettings(&m_set);
-                m->moduleName = theWordBible.readInfo(f).name();
-            } else if(moduleType == OBVCore::WebPageModule) {
-                WebPage webPage;
-                webPage.setSettings(&m_set);
-                m->moduleName = webPage.readInfo(f).name();
-            } else if(moduleType == OBVCore::WebDictionaryModule) {
-                WebDictionary webDict;
-                webDict.setSettings(&m_set);
-                m->moduleName = webDict.readInfo(f).name();
-            }
+            m->moduleName = info.name();
         } else {
             m->moduleName = name;
         }
+        bool setDefault = true;
+        foreach(const ModuleSettings*s, m_set.m_moduleSettings) {
+            if(s->defaultModule == info.defaultModule()) {
+                setDefault = false;
+            }
+        }
+        if(setDefault) {
+            m->defaultModule = info.defaultModule();
+        }
+
         m->modulePath = f;
         m->moduleType = moduleType;
 

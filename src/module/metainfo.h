@@ -20,7 +20,7 @@ private:
     QString m_name;
     QString m_shortName;
     QString m_uid;
-    OBVCore::DefaultModule m_defaulModule;
+    OBVCore::DefaultModule m_defaultModule;
 };
 
 #endif // METAINFO_H

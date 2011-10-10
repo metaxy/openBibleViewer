@@ -161,6 +161,8 @@ int ZefaniaLex::buildIndex()
 MetaInfo ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
 {
     MetaInfo info;
+    int couldBe = 0;//1 = RMac
+
     Document indexdoc;
     const QString index = indexPath();
     QString fileTitle;
@@ -263,6 +265,12 @@ MetaInfo ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                 }
                 details = details.nextSibling();
             }
+            if(couldBe == 0) {
+                if(key == "A-APF" || key == "X-NSN" || key == "V-PAP-DPN") {
+                    couldBe = 1;
+
+                }
+            }
             QString content = "<h3 class='strongTitle'>" + key + " - " + title + "</h3>";
             if(!trans.isEmpty()) {
                 content += " (" + trans + ") ";
@@ -295,7 +303,11 @@ MetaInfo ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
     if(type == "x-strong") {
         info.setDefaultModule(OBVCore::DefaultStrongDictModule);
     } else if(type == "x-dictionary") {
-        info.setDefaultModule(OBVCore::DefaultDictModule);
+        if(couldBe == 1) {
+            info.setDefaultModule(OBVCore::DefaultRMACDictModule);
+        } else {
+            info.setDefaultModule(OBVCore::DefaultDictModule);
+        }
     }
     return info;
 }

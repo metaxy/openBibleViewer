@@ -138,6 +138,7 @@ int TheWordBible::readBook(const int id)
 
 MetaInfo TheWordBible::readInfo(QFile &file)
 {
+    MetaInfo info;
     bool skipping = true;
     QTextStream in(&file);
     const int linesToSkip = 31102;//see spec
