@@ -114,9 +114,9 @@ bool WebDictionary::loaded()
 }
 QString WebDictionary::pharseUrl(QUrl url)
 {
-   /* if(!loaded())
+    if(!loaded())
         loadModuleData(m_moduleID);
-*/
+
     QScriptValue fun = myEngine.evaluate(m_pharseOutScript);
     QScriptValueList args;
     args << url.toString();
