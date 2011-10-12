@@ -1,5 +1,7 @@
 cd ../../
 cp openBibleViewer/src bzr_obv -R
+cp openBibleViewer/cmake bzr_obv -R
+cp openBibleViewer/deb bzr_obv -R
 cp openBibleViewer/CMakeLists.txt bzr_obv
 cp openBibleViewer/INSTALL bzr_obv
 cp openBibleViewer/LICENSE bzr_obv
@@ -9,6 +11,7 @@ cp openBibleViewer/CHANGELOG bzr_obv
 cp openBibleViewer/doc.config bzr_obv
 cp openBibleViewer/openBibleViewer.spec bzr_obv
 cp openBibleViewer/openBibleViewer.desktop bzr_obv
+
 cd bzr_obv/src
 
 rm -rf openbibleviewer
