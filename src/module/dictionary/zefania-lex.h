@@ -24,41 +24,35 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QProgressDialog>
 #include <QtXml/QDomNode>
 
-#include "src/core/settings/settings.h"
+
 #include "src/core/KoXmlReader.h"
 #include "src/core/dbghelper.h"
-#include "src/core/verse/verseurl.h"
-#include "src/core/strongurl.h"
+#include "src/core/link/verseurl.h"
+#include "src/core/link/strongurl.h"
 
+#include "src/module/dictionary/dictionarymodule.h"
+#include "src/module/metainfo.h"
 
 /**
  * ZefaniaLex represents a zefaniaXML(lex) module. The file suffix is *.xml.
  */
-class ZefaniaLex
+class ZefaniaLex : public DictionaryModule
 {
 
 public:
     ZefaniaLex();
-    void setSettings(Settings *settings);
-    void setID(int moduleID, const QString &path);
-    QString buildIndexFromData(const QString &fileData, const QString &fileName);
-    QString buildIndexFromFile(const QString &fileName);
+
+    MetaInfo buildIndexFromData(const QString &fileData, const QString &fileName);
+    MetaInfo buildIndexFromFile(const QString &fileName);
 
     QString getEntry(const QString &entry);
     QStringList getAllKeys();
+
     bool hasIndex();
     int buildIndex();
-    QString buildIndexFromXmlDoc(KoXmlDocument *xmldoc);
 private:
-    Settings *m_settings;
-    QStringList m_id;
-    QStringList m_title;
-    QStringList m_trans;
-    QStringList m_pron;
-    QStringList m_desc;
     QString indexPath() const;
-    int m_moduleID;
-    QString m_modulePath;
+    MetaInfo buildIndexFromXmlDoc(KoXmlDocument *xmldoc);
 };
 
 #endif // ZefaniaLex_H

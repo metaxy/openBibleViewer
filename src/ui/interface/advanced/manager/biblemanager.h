@@ -22,8 +22,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dock/moduledockwidget.h"
 
 #include "src/ui/dock/quickjumpdockwidget.h"
-#include "src/core/verse/verseurlrange.h"
+#include "src/core/link/verseurlrange.h"
 #include "src/core/dbghelper.h"
+
+#include "src/ui/interface/advanced/manager/windowmanager.h"
+
 class BibleManager : public QObject, public BasicClass
 {
     Q_OBJECT
@@ -37,6 +40,8 @@ public:
     BookDockWidget *bookDockWidget();
     ModuleDockWidget *moduleDockWidget();
     QuickJumpDockWidget * quickJumpDockWidget();
+
+    void setWindowManager(WindowManager *windowManager);
 
 signals:
 
@@ -53,14 +58,17 @@ public slots:
 
     void reShowCurrentRange();
     void reloadBible();
+
+    void setCurrentVerseTableID(const int verseTableID);
 private:
-    void showRanges(const Ranges &ranges, const VerseUrl &url);
-    Ranges bibleUrlRangeToRanges(VerseUrlRange r);
+
     QWidget *m_p;
 
     BookDockWidget *m_bookDockWidget;
     ModuleDockWidget *m_moduleDockWidget;
     QuickJumpDockWidget * m_quickJumpDockWidget;
+
+    WindowManager *m_windowManager;
 };
 
 #endif // BIBLEMANAGER_H

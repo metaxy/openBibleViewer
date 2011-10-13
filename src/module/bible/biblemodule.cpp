@@ -45,10 +45,10 @@ int BibleModule::loadBibleData(const int /*bibleID*/, const QString &/*path*/)
 	return -1;
 }
 
-QString BibleModule::readInfo(QFile &/*file*/)
+MetaInfo BibleModule::readInfo(QFile &/*file*/)
 {
     myWarning() << "calling BibleModule";
-    return "";
+    return MetaInfo();
 }
 
 void BibleModule::search(const SearchQuery &/*query*/, SearchResult */*res*/) const

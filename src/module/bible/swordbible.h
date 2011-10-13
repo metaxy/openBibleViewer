@@ -31,9 +31,10 @@ class SwordBible : public BibleModule
 {
 public:
     SwordBible();
+
     int loadBibleData(const int moduleID, const QString &path);
     void setSettings(Settings *settings);
-    QString readInfo(QFile &file);
+    MetaInfo readInfo(QFile &file);
     int readBook(const int id);
 
     TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse);

@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_bookdockwidget.h"
 #include "src/core/dbghelper.h"
 #include "src/core/obvcore.h"
-#include "src/core/verse/verseurl.h"
+#include "src/core/link/verseurl.h"
 BookDockWidget::BookDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::BookDockWidget)

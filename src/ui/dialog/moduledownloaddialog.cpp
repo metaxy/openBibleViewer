@@ -75,11 +75,13 @@ void ModuleDownloadDialog::readModules()
         folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
         top->setIcon(0, folderIcon);
         QDomElement e = id.toElement();
-        QString typ = e.attribute("typ", "bible");
+        QString typ = e.attribute("type", "bible");
         if(typ == "bible") {
             top->setText(0, tr("Bibles"));
         } else if(typ == "strong") {
-            top->setText(0, tr("Dictionarys"));
+            top->setText(0, tr("Strong Dictionarys"));
+        } else if(typ == "additional") {
+            top->setText(0, tr("Additional"));
         }
         items.append(top);
 

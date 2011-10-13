@@ -36,8 +36,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/ui/mainwindow.h"
 #include "config.h"
-
-
+#include "anyoption.h"
 
 bool removeDir(const QString &dirName)
 {
@@ -51,21 +50,29 @@ bool removeDir(const QString &dirName)
             } else {
                 result = QFile::remove(info.absoluteFilePath());
             }
-
             if(!result) {
                 return result;
             }
         }
         result = dir.rmdir(dirName);
     }
-
     return result;
 }
-
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    AnyOption *opt = new AnyOption();
+    opt->addUsage( "" );
+    opt->addUsage( "Usage: " );
+    opt->addUsage( "" );
+    opt->addUsage( " -h  --help                 Prints this help " );
+    opt->addUsage( " --configPath 	        Path to config files " );
+    opt->addUsage( "" );
+    opt->setFlag(  "help", 'h' );
+    opt->setOption(  "configPath");
+    opt->processCommandArgs( argc, argv );
+
 #ifdef BUILD_WITH_SWORD
 
 #endif
@@ -89,32 +96,24 @@ int main(int argc, char *argv[])
     QSettings *settings;
     QString homeDataPath;
 
-#ifdef Q_WS_MAC
-    homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
-    settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-#endif
 
-#ifdef Q_WS_X11
-    homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
-    settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-#endif
+    if( opt->getValue( "configPath" ) != NULL ) {
+        homeDataPath = QString::fromLocal8Bit(opt->getValue( "configPath" ));
+    } else {
+        #if !defined(Q_WS_WIN)
+            homeDataPath = QFSFileEngine::homePath() + "/.openbible_next/";
+        #else
+            //a protable version is needed only for windows
+            #ifdef OBV_PORTABLE_VERSION
+                homeDataPath = QApplication::applicationDirPath() + "/";
+            #else
+                homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
+            #endif
+        #endif
 
-#ifdef Q_WS_WIN
-    //a protable version is needed only for windows
-#ifdef OBV_PORTABLE_VERSION
-    homeDataPath = QApplication::applicationDirPath() + "/";
-    settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-#else
-    homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
-    settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "openBible", "openBibleViewer");
-#endif
+    }
 
-#endif
-
-#if !defined(Q_WS_MAC) && !defined(Q_WS_X11)  && !defined(Q_WS_WIN) //all other os
-    homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-#endif
 
     QDir dir(homeDataPath);
     if(!dir.exists(homeDataPath)) {
@@ -149,6 +148,7 @@ int main(int argc, char *argv[])
         myappTranslator.load(lang);
 
     a.installTranslator(&myappTranslator);
+    delete opt;
 
     MainWindow w;
     w.setTranslator(&myappTranslator, &qtTranslator);
@@ -156,5 +156,6 @@ int main(int argc, char *argv[])
 
     w.show();
     a.exec();
+
     return 0;
 }

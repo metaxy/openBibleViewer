@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "thewordbible.h"
 #include "config.h"
 #include "CLucene.h"
-#include "CLucene/_clucene-config.h"
+#include "CLucene/clucene-config.h"
 using namespace lucene::analysis;
 using namespace lucene::index;
 using namespace lucene::queryParser;
@@ -136,8 +136,9 @@ int TheWordBible::readBook(const int id)
     return 0;
 }
 
-QString TheWordBible::readInfo(QFile &file)
+MetaInfo TheWordBible::readInfo(QFile &file)
 {
+    MetaInfo info;
     bool skipping = true;
     QTextStream in(&file);
     const int linesToSkip = 31102;//see spec
@@ -146,20 +147,22 @@ QString TheWordBible::readInfo(QFile &file)
         if(skipping) {
             if(line.startsWith("title")) {
                 const QStringList list = line.split("=");
-                return list.last();
+                MetaInfo info;
+                info.setName(list.last());
+                return info;
             }
         }
         if(line.isEmpty() || lineCount >= linesToSkip)
             skipping = false;
 
     }
-    return "";
+    return MetaInfo();
 }
-QString TheWordBible::readInfo(const QString &fileName)
+MetaInfo TheWordBible::readInfo(const QString &fileName)
 {
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly))
-        return "";
+        return MetaInfo();
     return readInfo(file);
 }
 
@@ -187,7 +190,7 @@ void TheWordBible::search(const SearchQuery &query, SearchResult *res) const
         if(query.range == SearchQuery::Whole || (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) || (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
             SearchHit hit;
             hit.setType(SearchHit::BibleHit);
-            hit.setValue(SearchHit::BibleID, m_moduleID);
+            hit.setValue(SearchHit::ModuleID, m_moduleID);
             hit.setValue(SearchHit::BookID, l.at(0).toInt());
             hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
             hit.setValue(SearchHit::VerseID, l.at(2).toInt());

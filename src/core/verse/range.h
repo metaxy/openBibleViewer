@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef RANGE_H
 #define RANGE_H
 #include "src/core/verse/rangeenum.h"
+
 #include <QtCore/QList>
 class Range
 {
@@ -37,6 +38,7 @@ public:
 
     void setSelectedVerse(const QList<int> &verseIDs);
     void setSelectedVerse(const int verseID);
+
 
     //void setSelectedVerse(RangeEnum::VerseRange verse);
     int moduleID() const;
@@ -68,6 +70,8 @@ private:
     QList<int> m_selectedVerse;
 
     int m_moduleID;
+
+
 
 };
 

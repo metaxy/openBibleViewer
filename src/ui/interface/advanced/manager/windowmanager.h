@@ -21,13 +21,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QVBoxLayout>
 
 #include "src/core/basicclass.h"
-#include "src/core/urlconverter2.h"
+#include "src/core/link/urlconverter2.h"
 #include "src/core/dbghelper.h"
 #include "src/api/api.h"
 #include "src/ui/interface/advanced/mdiareafilter.h"
 #include "src/ui/interface/advanced/form/bibleform.h"
-#include "src/ui/interface/advanced/windowsessiondata.h"
+#include "src/ui/interface/advanced/form/webform.h"
 #include "bookmarksmanager.h"
+#include "notesmanager.h"
+#include "src/ui/interface/advanced/form/form.h"
+
 class WindowManager : public QObject , public BasicClass
 {
     Q_OBJECT
@@ -36,20 +39,26 @@ public:
     ~WindowManager();
     void setMdiArea(QMdiArea *area);
     void setApi(Api *api);
-    void setBibleManager(BibleManager *bibleManager);
     void setNotesManager(NotesManager *notesManager);
     void setBookmarksManager(BookmarksManager *bookmarksManager);
     void init();
-    BibleForm *activeForm();
+    Form *activeForm();
     QMdiSubWindow *activeSubWindow();
+
+    QList<QMdiSubWindow*> usableWindowList() const;
 
 public slots:
     void cascade();
     void tileVertical();
     void tileHorizontal();
     void tile();
+    QMdiSubWindow * newSubWindow(bool doAutoLayout = true, bool forceMax = false, Form::FormType type = Form::BibleForm);
+    QMdiSubWindow * newBibleSubWindow(bool doAutoLayout = true, bool forceMax = false);
+    QMdiSubWindow * newWebSubWindow(bool doAutoLayout = true, bool forceMax = false);
+    QMdiSubWindow * newDictionarySubWindow(bool doAutoLayout = true, bool forceMax = false);
 
-    void newSubWindow(bool doAutoLayout = true, bool forceMax = false);
+    Form* getForm(QMdiSubWindow *w);
+
     void closeSubWindow();
     int closingWindow();
     int reloadWindow(QMdiSubWindow * window);
@@ -71,6 +80,15 @@ public slots:
     void reloadChapter(bool full);
     void newSubWindowIfEmpty();
 
+    QMdiSubWindow* needBibleWindow();
+    QMdiSubWindow* needDictionaryWindow();
+    QMdiSubWindow* needWebWindow();
+    QMdiSubWindow* needWindow(Form::FormType type = Form::BibleForm);
+
+    QMdiSubWindow* hasDictWindow(OBVCore::DefaultModule d);
+    QMdiSubWindow* hasDictWindow(const int moduleID);
+
+
 
 private:
     int m_nameCounter;
@@ -79,17 +97,17 @@ private:
     MdiAreaFilter *m_mdiAreaFilter;
     bool m_enableReload;
     void autoLayout();
-    QList<QMdiSubWindow*> usableWindowList();
+
     /*int currentWindowName();*/
     int m_lastActiveWindow;
     void setEnableReload(bool enable);
 
-    BibleManager *m_bibleManager;
     NotesManager *m_notesManager;
     BookmarksManager *m_bookmarksManager;
     int *m_currentWindowID;
 
     void installResizeFilter();
+
 
 };
 

@@ -13,6 +13,21 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "src/module/modulemanager.h"
+
+
+#include "src/ui/interface/simple/simpleinterface.h"
+#include "src/ui/interface/advanced/advancedinterface.h"
+#include "src/ui/interface/study/studyinterface.h"
+#include "src/ui/dialog/settingsdialog.h"
+#include "src/ui/updateschecker.h"
+
+#include "src/core/notes/xmlnotes.h"
+#include "src/core/notes/textnotes.h"
+#include "src/core/dbghelper.h"
+#include "src/core/obvcore.h"
+
+#include "config.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -58,10 +73,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 {
-    VERSION = "0.6.0";
-    BUILD =  "2011-09-23";//jear-month-day
+    VERSION = QString(OBV_VERSION_NUMBER);
+    BUILD =  QString(OBV_BUILD_DATE);//jear-month-day
     m_homeDataPath = homeDataPath;
     m_settingsFile = settingsFile;
+    m_sessionFile = new QSettings(homeDataPath + "sessions.ini", QSettings::IniFormat);
+
     //create some important folders
     QDir d(m_homeDataPath);
     d.mkpath(m_homeDataPath + "index");
@@ -70,6 +87,7 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 
     m_moduleManager = new ModuleManager();
     m_settings = new Settings();
+    m_settings->session.setFile(m_sessionFile);
     m_notes = new XmlNotes();
     m_session = new Session();
     m_actions = new Actions(this);
@@ -82,15 +100,21 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
     loadDefaultSettings();
     loadSettings();
 
+    UpdatesChecker *c = new UpdatesChecker(this);
+    setAll(c);
+    c->checkForUpdates();
+
     m_moduleManager->setSettings(m_settings);
     m_moduleManager->setNotes(m_notes);
     m_moduleManager->loadAllModules();
 
     loadInterface();
     restoreSession();
+
     if(firstStart) {
         QTimer::singleShot(1, this, SLOT(showSettingsDialog_Module()));
     }
+
 }
 void MainWindow::loadInterface()
 {
@@ -113,7 +137,6 @@ void MainWindow::deleteInterface()
 
     if(m_interface->hasMenuBar()) {
         delete m_menuBar;
-        //todo: remove the docks
     }
     QHash<DockWidget*, Qt::DockWidgetArea> docks = m_interface->docks();
     QHashIterator<DockWidget*, Qt::DockWidgetArea> it(docks);
@@ -227,6 +250,14 @@ void MainWindow::loadDefaultSettings()
     m_settings->homePath = m_homeDataPath;
     m_settings->zefaniaBible_hardCache = true;
     m_settings->zefaniaBible_softCache = true;
+    m_settings->advancedSearchDock_useCurrentModule = true;
+
+    #if !defined(Q_WS_X11)
+         m_settings->checkForUpdates = true;
+    #else
+         m_settings->checkForUpdates = false;
+    #endif
+
 
     m_settings->defaultVersification = new Versification_KJV();
 }
@@ -247,8 +278,11 @@ void MainWindow::loadSettings()
     m_settings->encoding = m_settingsFile->value("general/encoding", m_settings->encoding).toString();
     m_settings->zoomstep = m_settingsFile->value("general/zoomstep", m_settings->zoomstep).toInt();
     m_settings->language = m_settingsFile->value("general/language", QLocale::system().name()).toString();
+    m_settings->checkForUpdates = m_settingsFile->value("general/checkForUpdates", m_settings->checkForUpdates).toBool();
+
     m_settings->autoLayout = (Settings::LayoutEnum) m_settingsFile->value("window/layout", m_settings->autoLayout).toInt();
     m_settings->onClickBookmarkGo = m_settingsFile->value("window/onClickBookmarkGo", m_settings->onClickBookmarkGo).toBool();
+
 
     m_settings->textFormatting = m_settingsFile->value("bible/textFormatting", m_settings->textFormatting).toInt();
 
@@ -272,6 +306,7 @@ void MainWindow::loadSettings()
         m->zefbible_softCache = m_settingsFile->value("softCache", true).toBool();
 
         m->biblequote_removeHtml = m_settingsFile->value("removeHtml", true).toInt();
+        m->defaultModule = (OBVCore::DefaultModule) m_settingsFile->value("defaultModule", OBVCore::NotADefaultModule).toInt();
 
         m->styleSheet = m_settings->recoverUrl(m_settingsFile->value("styleSheet", ":/data/css/default.css").toString());
 
@@ -294,23 +329,7 @@ void MainWindow::loadSettings()
 
     m_settingsFile->endArray();
     m_settings->sessionID = m_settingsFile->value("general/lastSession", "0").toString();
-
-    size = m_settingsFile->beginReadArray("sessions");
-    for(int i = 0; i < size; ++i) {
-        m_settingsFile->setArrayIndex(i);
-        Session session;
-        if(m_settingsFile->value("id") == m_settings->sessionID) {
-            const QStringList keys = m_settingsFile->childKeys();
-            for(int j = 0; j < keys.size(); j++) {
-                session.setData(keys.at(j), m_settingsFile->value(keys.at(j)));
-            }
-            m_settings->session = session;//its the current session
-        }
-        m_settings->sessionIDs.append(m_settingsFile->value("id").toString());
-        m_settings->sessionNames.append(m_settingsFile->value("name").toString());
-
-    }
-    m_settingsFile->endArray();
+    m_settings->session.setID(m_settings->sessionID);
 
 }
 
@@ -321,6 +340,7 @@ void MainWindow::writeSettings()
     m_settingsFile->setValue("general/encoding", m_settings->encoding);
     m_settingsFile->setValue("general/zoomstep", m_settings->zoomstep);
     m_settingsFile->setValue("general/language", m_settings->language);
+    m_settingsFile->setValue("general/checkForUpdates", m_settings->checkForUpdates);
     m_settingsFile->setValue("general/lastSession", m_settings->sessionID);
     m_settingsFile->setValue("window/layout", m_settings->autoLayout);
     m_settingsFile->setValue("window/onClickBookmarkGo", m_settings->onClickBookmarkGo);
@@ -346,13 +366,14 @@ void MainWindow::writeSettings()
         m_settingsFile->setValue("softCache", m->zefbible_softCache);
         m_settingsFile->setValue("encoding", m->encoding);
         m_settingsFile->setValue("styleSheet", m_settings->savableUrl(m->styleSheet));
+        m_settingsFile->setValue("defaultModule", m->defaultModule);
         m_settingsFile->setValue("versificationFile", m_settings->savableUrl(m->versificationFile));
         m_settingsFile->setValue("versificationName", m->versificationName);
         m_settingsFile->setValue("useParentSettings", m->useParentSettings);
         m_settingsFile->setValue("parentID", m->parentID);
         if(!m->useParentSettings) {
-            ModuleDisplaySettings *displaySettings = m->displaySettings().data();
             if(m->displaySettings()) {
+                ModuleDisplaySettings *displaySettings = m->displaySettings().data();
                 m_settingsFile->setValue("showStudyNotes", displaySettings->showStudyNotes());
                 m_settingsFile->setValue("showStrong", displaySettings->showStrong());
                 m_settingsFile->setValue("showRefLinks", displaySettings->showRefLinks());
@@ -372,16 +393,6 @@ void MainWindow::writeSettings()
 
     m_settingsFile->endArray();
 
-    m_settingsFile->beginWriteArray("sessions");
-    m_settingsFile->setArrayIndex(m_settings->sessionIDs.lastIndexOf(m_settings->sessionID));
-    {
-        QMapIterator <QString, QVariant> i = m_settings->session.getInterator();
-        while(i.hasNext()) {
-            i.next();
-            m_settingsFile->setValue(i.key(), i.value());
-        }
-    }
-    m_settingsFile->endArray();
 
 }
 void MainWindow::saveSettings(Settings newSettings, bool modifedModuleSettings)

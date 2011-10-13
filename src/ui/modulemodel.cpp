@@ -25,8 +25,6 @@ ModuleModel::ModuleModel(QObject *parent)
 
     m_bibleQuoteIcon = QIcon::fromTheme("text-x-generic", QIcon(":/icons/16x16/text-x-generic.png"));
     m_bibleZefaniaIcon = QIcon::fromTheme("text-xml", QIcon(":/icons/16x16/text-xml.png"));
-
-
 }
 ModuleModel::~ModuleModel()
 {
@@ -80,9 +78,18 @@ void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings
             item->setText(settings->moduleName);
             item->setData(QString::number(settings->moduleID));
             item->setIcon(m_bibleZefaniaIcon);
+            item->setToolTip(Module::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
             parentItem->appendRow(item);
         }
-    } else if(settings->moduleType == OBVCore::FolderModule) {
+    } else if(settings->moduleType == OBVCore::WebPageModule || settings->moduleType == OBVCore::WebDictionaryModule) {
+        if(m_showAll) {
+            item = new QStandardItem;
+            item->setText(settings->moduleName);
+            item->setData(QString::number(settings->moduleID));
+            item->setToolTip(Module::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
+            parentItem->appendRow(item);
+        }
+    }else if(settings->moduleType == OBVCore::FolderModule) {
         item = new QStandardItem;
         item->setText(settings->moduleName);
         item->setData(QString::number(settings->moduleID));

@@ -13,11 +13,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
-
-
+#include "src/module/dictionary/biblequote-dict.h"
+#include "src/module/dictionary/zefania-lex.h"
+#include "src/module/bible/zefania-bible.h"
+#include "src/module/bible/biblequote.h"
+#include "src/module/bible/thewordbible.h"
+#include "src/module/webpage.h"
+#include "src/module/dictionary/webdictionary.h"
+#include <QFSFileEngine>
 #ifdef BUILD_WITH_SWORD
-#include <stdio.h>
-#include <iostream>
 #include <stdlib.h>
 #include <swmgr.h>
 #include <swmodule.h>
@@ -51,12 +55,14 @@ SettingsDialog::~SettingsDialog()
 {
     delete m_ui;
 }
+
 void SettingsDialog::reset()
 {
     m_modifedModuleSettings = false;
     m_set = m_backupSet;
     setSettings(m_set);
 }
+
 QStringList SettingsDialog::scan(const QString &path, const int level = 0)
 {
     QStringList ret;
@@ -74,6 +80,7 @@ QStringList SettingsDialog::scan(const QString &path, const int level = 0)
     }
     return ret;
 }
+
 int SettingsDialog::setSettings(Settings settings)
 {
     m_set = settings;
@@ -154,6 +161,7 @@ int SettingsDialog::setSettings(Settings settings)
     return 0;
 
 }
+
 void SettingsDialog::generateModuleTree()
 {
     DEBUG_FUNC_NAME;
@@ -179,6 +187,7 @@ void SettingsDialog::addModuleFile(void)
     }
     return;
 }
+
 void SettingsDialog::addModuleDir(void)
 {
     m_modifedModuleSettings = true;
@@ -246,6 +255,7 @@ void SettingsDialog::addModuleDir(void)
 
     }
 }
+
 void SettingsDialog::removeModule()
 {
     //DEBUG_FUNC_NAME;
@@ -265,6 +275,7 @@ void SettingsDialog::removeModule()
         m_ui->treeView->model()->removeRow(index.row(), index.parent());
     }
 }
+
 void SettingsDialog::editModule()
 {
     //DEBUG_FUNC_NAME
@@ -327,6 +338,7 @@ void SettingsDialog::save(void)
     emit settingsChanged(m_set, m_modifedModuleSettings); //Speichern
     close();
 }
+
 void SettingsDialog::saveModule(QModelIndex parentIndex, ModuleSettings *parentSettings)
 {
     for(int i = 0; i < m_ui->treeView->model()->rowCount(parentIndex); ++i) {
@@ -353,6 +365,7 @@ void SettingsDialog::downloadModule()
 
     mDialog->exec();
 }
+
 void SettingsDialog::addModules(QMap<QString,QString> data)
 {
     addModules(data.keys(), data.values());
@@ -385,6 +398,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names, int par
         progress.close();
     }
 }
+
 int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString &name)
 {
     OBVCore::ModuleType moduleType = OBVCore::NoneType;
@@ -408,32 +422,54 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
             myWarning() << "cannot determine module type of " << f;
             return 4;
         }
+        MetaInfo info;
+        if(moduleType == OBVCore::BibleQuoteModule) {
+            BibleQuote bq;
+            bq.setSettings(&m_set);
+            info = bq.readInfo(f);
+        } else if(moduleType == OBVCore::ZefaniaBibleModule) {
+            ZefaniaBible zef;
+            zef.setSettings(&m_set);
+            info = zef.readInfo(f);
+        } else if(moduleType == OBVCore::ZefaniaLexModule) {
+            ZefaniaLex zefLex;
+            zefLex.setSettings(&m_set);
+            zefLex.setID(0, f);
+            info = zefLex.buildIndexFromFile(f);
+        } else if(moduleType == OBVCore::BibleQuoteDictModule) {
+            BibleQuoteDict bibleQuoteDict;
+            bibleQuoteDict.setSettings(&m_set);
+            bibleQuoteDict.setID(0, f);
+            info= bibleQuoteDict.readInfo(f);
+            bibleQuoteDict.buildIndex();
+        } else if(moduleType == OBVCore::TheWordBibleModule) {
+            TheWordBible theWordBible;
+            theWordBible.setSettings(&m_set);
+            info = theWordBible.readInfo(f);
+        } else if(moduleType == OBVCore::WebPageModule) {
+            WebPage webPage;
+            webPage.setSettings(&m_set);
+            info = webPage.readInfo(f);
+        } else if(moduleType == OBVCore::WebDictionaryModule) {
+            WebDictionary webDict;
+            webDict.setSettings(&m_set);
+            info = webDict.readInfo(f);
+        }
         if(name.isEmpty()) {
-            if(moduleType == OBVCore::BibleQuoteModule) {
-                BibleQuote bq;
-                bq.setSettings(&m_set);
-                m->moduleName = bq.readInfo(f);
-            } else if(moduleType == OBVCore::ZefaniaBibleModule) {
-                ZefaniaBible zef;
-                zef.setSettings(&m_set);
-                m->moduleName = zef.readInfo(f);
-            } else if(moduleType == OBVCore::ZefaniaLexModule) {
-                ZefaniaLex zefLex;
-                zefLex.setSettings(&m_set);
-                m->moduleName = zefLex.buildIndexFromFile(f);
-            } else if(moduleType == OBVCore::BibleQuoteDictModule) {
-                BibleQuoteDict bibleQuoteDict;
-                bibleQuoteDict.setSettings(&m_set);
-                m->moduleName = bibleQuoteDict.readInfo(f);
-                bibleQuoteDict.buildIndex();
-            } else if(moduleType == OBVCore::TheWordBibleModule) {
-                TheWordBible theWordBible;
-                theWordBible.setSettings(&m_set);
-                m->moduleName = theWordBible.readInfo(f);
-            }
+            m->moduleName = info.name();
         } else {
             m->moduleName = name;
         }
+        bool setDefault = true;
+        foreach(const ModuleSettings*s, m_set.m_moduleSettings) {
+            if(s->defaultModule == info.defaultModule()) {
+                setDefault = false;
+            }
+        }
+        if(setDefault) {
+            m->defaultModule = info.defaultModule();
+        }
+
         m->modulePath = f;
         m->moduleType = moduleType;
 
@@ -455,6 +491,7 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
 
     return 0;
 }
+
 void SettingsDialog::importSwordModules()
 {
     DEBUG_FUNC_NAME;

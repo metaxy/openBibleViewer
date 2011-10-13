@@ -37,9 +37,16 @@ ModuleSettings * Settings::getModuleSettings(int moduleID) const
         return NULL;
     }
 }
-/**
-  Replace homePath and settingsPath to make it more portable.
-  */
+Versification * Settings::getV11N(const int moduleID) const
+{
+    ModuleSettings *set = getModuleSettings(moduleID);
+    if(!set)
+        return defaultVersification;
+    Versification *v11n = set->getV11n();
+    if(!v11n)
+        return defaultVersification;
+    return v11n;
+}
 QString Settings::savableUrl(QString url) const
 {
     if(url.startsWith(homePath)) {
@@ -54,9 +61,7 @@ QString Settings::savableUrl(QString url) const
     }
     return url;
 }
-/**
-  Recover Urls which were saved with savableUrl().
-  */
+
 QString Settings::recoverUrl(QString url) const
 {
     url = QUrl::fromPercentEncoding(url.toLocal8Bit());
@@ -70,19 +75,19 @@ QString Settings::recoverUrl(QString url) const
     }
     return url;
 }
-/**
- * Generate a hash from a string
- */
+
 QString Settings::hash(const QString &path) const
 {
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(savableUrl(path).toLocal8Bit());
     return QString(hash.result().toHex());
 }
+
 QString Settings::v11nFile(const QString &path) const
 {
     return homePath + "v11n/" + hash(path) + "/v11n.ini";
 }
+
 int Settings::newModuleID() const
 {
     int max = 0;

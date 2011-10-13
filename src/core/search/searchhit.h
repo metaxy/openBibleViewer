@@ -28,7 +28,7 @@ public:
         NoteHit = 1
     };
     enum SearchHitKey {
-        BibleID = 0,
+        ModuleID = 0,
         BookID = 1,
         ChapterID = 2,
         VerseID = 3,
@@ -41,6 +41,9 @@ public:
     void setType(SearchHitType type);
     QVariant value(SearchHitKey v) const;
     void setValue(SearchHitKey k, QVariant value);
+
+
+
 private:
     SearchHitType m_type;
     QMap<int, QVariant> m_map;

@@ -13,27 +13,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BIBLE_H
 #define BIBLE_H
-#include <QtCore/QObject>
-#include <QtCore/QMap>
-#include <QtCore/QDir>
-#include <QtGui/QTextDocument>
-
-#include "src/module/bible/biblequote.h"
-#include "src/module/bible/zefania-bible.h"
-#include "src/module/bible/thewordbible.h"
-#include "src/module/bible/swordbible.h"
 #include "src/module/versemodule.h"
 
-#include "src/core/settings/modulesettings.h"
-#include "src/core/settings/moduledisplaysettings.h"
-
-#include "src/core/dbghelper.h"
-#include "src/core/urlconverter.h"
-#include "src/core/versereplacer.h"
-#include "src/core/verseselection.h"
 /**
  * Bible represent a bible module(eg. biblequote module or zefania xml module)
  * It reads the module, gets the raw data and formats it.
+ * Meta-Module
  */
 class Bible : public VerseModule
 {
@@ -41,13 +26,11 @@ public:
 
     Bible();
     ~Bible();
-    void setmoduledisplaysettings(ModuleDisplaySettings *moduledisplaysettings);
     virtual TextRanges readRanges(const Ranges &ranges, bool ignoreModuleID = false);
+    /**
+      * ignoreModuleID is used in VerseTable (somekind of dirty bugfix)
+      */
     virtual TextRange readRange(const Range &range, bool ignoreModuleID = false);
-
-    int loadModuleData(const int bibleID);
-
-    int readBook(const int id);
 
     QStringList getSearchPaths() const;
     BibleModule *module();
@@ -58,29 +41,26 @@ public:
     QString moduleShortTitle() const;
     QString moduleUID() const;
 
-    QStringList bookPath() const;
     SearchQuery lastSearchQuery() const;
-    bool loaded() const;
 
 private:
-    bool m_loaded;
 
+    int loadModuleData(const int bibleID);
+    bool loaded() const;
+
+    QString toUniformHtml(QString string);
+    QList<int> bookIDs() const;
+
+    bool m_loaded;
     int m_bookID;
 
     QString m_moduleTitle;
     QString m_moduleShortTitle;
-    QString m_modulePath;
     QString m_moduleUID;
 
-    /**
-      * Used by BibleQuote to store where the books are
-      */
-    QStringList m_bookPath;
 
     BibleModule *m_bibleModule;
 
-    QString toUniformHtml(QString string);
-    QList<int> bookIDs() const;
 };
 
 #endif // BIBLE_H

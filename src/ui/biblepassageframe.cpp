@@ -58,7 +58,6 @@ void BiblePassageFrame::addBox_BCV(const int bookID, const int chapterID, const 
     chapter->setValue(chapterID + 1);
     verse->setValue(verseID + 1);
 
-
     layout->addWidget(books);
     layout->addWidget(chapter);
     layout->addWidget(verse);
@@ -281,7 +280,6 @@ VerseUrl BiblePassageFrame::toVerseUrl()
 }
 void BiblePassageFrame::setVerseUrl(const VerseUrl &url)
 {
-    //myDebug() << url.toString();
     setVerseUrlRanges(url.ranges());
 }
 void BiblePassageFrame::setVerseUrlRanges(const QList<VerseUrlRange> &ranges)
@@ -292,20 +290,21 @@ void BiblePassageFrame::setVerseUrlRanges(const QList<VerseUrlRange> &ranges)
         if(v != NULL) {
             m_bookNames = v->bookNames().values();//todo:
         }
+
         QModelIndexList list = m_proxyModel->match(m_model->invisibleRootItem()->index(),
                                Qt::UserRole + 1,
                                QString::number(m_moduleID),
                                1 ,
                                Qt::MatchExactly);
-        //myDebug() << "list.size() = " << list.size();
+
         if(!list.isEmpty()) {
-            //myDebug() << list.first().data(Qt::UserRole + 1);
             ui->treeView->selectionModel()->clear();
             ui->treeView->selectionModel()->select(list.first(), QItemSelectionModel::Select);
         }
     }
     foreach(const VerseUrlRange & r, ranges) {
         m_moduleID = r.moduleID();
+
         if(r.startVerse() == VerseUrlRange::LoadFirstVerse && r.endVerse() == VerseUrlRange::LoadLastVerse) {
             addBox_BC(r.bookID(), r.chapterID());
         } else if(r.startVerseID() != r.endVerseID()) {

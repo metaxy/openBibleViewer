@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/reftext.h"
 #include "config.h"
 #include "CLucene.h"
-#include "CLucene/_clucene-config.h"
+#include "CLucene/clucene-config.h"
 using namespace lucene::analysis;
 using namespace lucene::index;
 using namespace lucene::queryParser;
@@ -58,6 +58,7 @@ int ZefaniaBible::loadBibleData(const int id, const QString &path)
     }
     return 0;
 }
+
 void ZefaniaBible::removeHardCache(const QString &path)
 {
     QDir d(m_settings->homePath + "cache/");
@@ -87,6 +88,7 @@ QDomNode ZefaniaBible::readBookFromHardCache(QString path, int bookID)
     return root.firstChild();
 
 }
+
 int ZefaniaBible::readBook(const int id)
 {
     QDomNode ncache;
@@ -132,6 +134,7 @@ int ZefaniaBible::readBook(const int id)
     setSoftCache(m_bookID, m_book);
     return 0;
 }
+
 /**
   Convert a node into a chapterlist.
   \param bookID The bookID.
@@ -164,6 +167,7 @@ Book ZefaniaBible::fromHardToSoft(const int bookID, const QDomNode *ncache)
     }
     return book;
 }
+
 QDomElement* ZefaniaBible::format(QDomElement *e)
 {
     ModuleSettings *moduleSettings = m_settings->getModuleSettings(m_moduleID);
@@ -181,19 +185,32 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
             }
             node.replaceChild(t, node.firstChild());
             e->replaceChild(node, n);
-        } else if(moduleSettings->displaySettings()->showStrong() == true && (n.nodeName().toLower() == "gram" || n.nodeName().toLower() == "gr") && element.attribute("str", "") != "") {
-            QDomNode node = n;
-            QDomText t = n.firstChild().toText();
-            QString add;
-            //todo: that isn't  nice
-            if(m_bookID < 39)
-                add = "H";
-            else
-                add = "G";
+        } else if(n.nodeName().toLower() == "gram" || n.nodeName().toLower() == "gr") {
+            if(element.attribute("str", "") != "" && moduleSettings->displaySettings()->showStrong() == true) {
+                QDomNode node = n;
+                QDomText t = n.firstChild().toText();
+                QString add = "";
+                const QString str = element.attribute("str", "");
 
-            t.setData(t.data() + "<span class=\"gramlink\"><a href=\"gram://" + add + element.attribute("str", "") + "\">" + add + element.attribute("str", "") + "</a></span>");
-            node.replaceChild(t, node.firstChild());
-            e->replaceChild(node, n);
+                if(!str.startsWith("G", Qt::CaseInsensitive) && !str.startsWith("H", Qt::CaseInsensitive)) {
+                    //todo: that isn't  nice
+                    if(m_bookID < 39) {
+                        add = "H";
+                    } else {
+                        add = "G";
+                    }
+                }
+
+                t.setData(t.data() + "<span class=\"stronglink\"><a href=\"strong://" + add + str + "\">" + add + str + "</a></span>");
+                node.replaceChild(t, node.firstChild());
+                e->replaceChild(node, n);
+            } else if(element.attribute("rmac", "") != "") {
+                QDomNode node = n;
+                QDomText t = n.firstChild().toText();
+                t.setData(t.data() + "<span class=\"rmaclink\"><a href=\"rmac://" + element.attribute("rmac", "") + "\">" + element.attribute("rmac", "") + "</a></span>");
+                node.replaceChild(t, node.firstChild());
+                e->replaceChild(node, n);
+            }
         } else if(moduleSettings->displaySettings()->showRefLinks() && n.nodeName().toLower() == "reflink") {
             QDomNode node = n;
             QDomText t = n.firstChild().toText();
@@ -209,8 +226,7 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
             range.setModule(VerseUrlRange::LoadCurrentModule);
             range.setBook(bookID);
             range.setChapter(chapterID);
-            range.setWholeChapter();
-            range.setActiveVerse(verseID);
+            range.setStartVerse(verseID);
             VerseUrl burl(range);
 
             RefText refText;
@@ -229,6 +245,7 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
     return e;
 
 }
+
 /**
   Returns the soft cache for all books.
   */
@@ -239,6 +256,7 @@ QHash<int, Book> ZefaniaBible::softCache() const
     }
     return QHash<int, Book>();
 }
+
 /**
   Returns the soft cache for a book
   \param bookID The ID of the book.
@@ -250,6 +268,7 @@ Book ZefaniaBible::softCache(const int bookID) const
     }
     return Book();
 }
+
 /**
   Set the soft cache
   \param QMap<int, QList<Chapter> > cache The cache data.
@@ -262,6 +281,7 @@ void ZefaniaBible::setSoftCache(const QHash<int, Book > &cache)
     }
     return;
 }
+
 /**
   Sets the cache of a book.
   \param bookID The ID of the book.
@@ -273,6 +293,7 @@ void ZefaniaBible::setSoftCache(const int bookID, const Book &book)
         m_softCacheData.insert(bookID, book);
     }
 }
+
 /**
   Clears the soft cache.
   */
@@ -289,6 +310,7 @@ bool ZefaniaBible::checkForCacheFiles(const QString &path) const
         return true;
     return false;
 }
+
 int ZefaniaBible::loadNoCached(const int id, const QString &path)
 {
     DEBUG_FUNC_NAME
@@ -499,60 +521,70 @@ int ZefaniaBible::loadCached(const int id, const QString &path)
     }
     m_settings->getModuleSettings(m_moduleID)->loadVersification();
     m_versification = m_settings->getModuleSettings(m_moduleID)->v11n;
-    myDebug() << m_versification;
+
     if(!m_versification) {
         return loadNoCached(id, path);
     }
 
     m_moduleID = id;
     m_modulePath = path;
+
     if(m_moduleName == "") {
         m_moduleName = m_settings->getModuleSettings(m_moduleID)->moduleName;
     }
     return 0;
 }
 
-QString ZefaniaBible::readInfo(QFile &file)
+MetaInfo ZefaniaBible::readInfo(QFile &file)
 {
     KoXmlDocument doc;
     if(!doc.setContent(&file)) {
         file.close();
-        return "";
+        return MetaInfo();
     }
 
     KoXmlElement root = doc.documentElement();
     m_moduleName = root.attribute("biblename", "");
     file.close();
-    return m_moduleName;
+
+    MetaInfo info;
+    info.setName(m_moduleName);
+    return info;
 }
 
-QString ZefaniaBible::readInfo(const QString &fileName)
+MetaInfo ZefaniaBible::readInfo(const QString &fileName)
 {
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly))
-        return "";
+        return MetaInfo();
     return readInfo(file);
 }
+
 /*int ZefaniaBible::bookID() const
 {
     return m_bookID;
 }*/
+
 int ZefaniaBible::moduleID() const
 {
     return m_moduleID;
 }
+
 QString ZefaniaBible::modulePath() const
 {
     return m_modulePath;
 }
+
 QString ZefaniaBible::moduleName(bool preferShortName) const
 {
     return m_moduleName;
 }
+
 Book ZefaniaBible::book() const
 {
     return m_book;
 }
+
 bool ZefaniaBible::hasIndex() const
 {
     DEBUG_FUNC_NAME
@@ -748,6 +780,7 @@ void ZefaniaBible::buildIndex()
     progress.close();
 
 }
+
 void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
 {
     DEBUG_FUNC_NAME
@@ -781,7 +814,7 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
         if(query.range == SearchQuery::Whole || (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) || (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
             SearchHit hit;
             hit.setType(SearchHit::BibleHit);
-            hit.setValue(SearchHit::BibleID, m_moduleID);
+            hit.setValue(SearchHit::ModuleID, m_moduleID);
             hit.setValue(SearchHit::BookID, l.at(0).toInt());
             hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
             hit.setValue(SearchHit::VerseID, l.at(2).toInt());
@@ -799,6 +832,7 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
     reader->close();
     delete reader;
 }
+
 /**
   * Returns the path, where all indexed files are stored.
   */
@@ -807,10 +841,12 @@ QString ZefaniaBible::indexPath() const
     //DEBUG_FUNC_NAME
     return m_settings->homePath + "index/" + m_settings->hash(m_modulePath);
 }
+
 QString ZefaniaBible::uid() const
 {
     return m_uid;
 }
+
 TextRange ZefaniaBible::rawTextRange(int bookID, int chapterID, int startVerse, int endVerse)
 {
     TextRange ret;

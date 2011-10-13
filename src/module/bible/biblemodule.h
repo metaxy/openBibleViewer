@@ -25,7 +25,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/book.h"
 #include "src/core/verse/textrange.h"
 #include "src/core/dbghelper.h"
-
+#include "src/module/metainfo.h"
 #include <utility>
 /**
   * This is an abstract class for bible modules, which are used in the Bible Class.
@@ -39,7 +39,7 @@ public:
     virtual void setSettings(Settings *settings);
 
     virtual int loadBibleData(const int moduleID, const QString &path);
-    virtual QString readInfo(QFile &file);
+    virtual MetaInfo readInfo(QFile &file);
     virtual int readBook(const int id);
 
     virtual TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse);

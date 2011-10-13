@@ -37,45 +37,49 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/core/dbghelper.h"
 #include "src/core/obvcore.h"
-#include "src/core/verse/verseurl.h"
-#include "src/core/basicclass.h"
+#include "src/core/link/verseurl.h"
 #include "src/core/history.h"
 #include "src/module/versetable.h"
-#include "src/api/api.h"
+
 
 #include "src/ui/interface/advanced/webview.h"
-#include "src/ui/interface/advanced/manager/biblemanager.h"
-#include "src/ui/interface/advanced/manager/notesmanager.h"
-#include "src/ui/interface/advanced/biblelistwidget.h"
-#include "src/ui/interface/advanced/manager/bookmarksmanager.h"
+
+#include "src/ui/interface/advanced/versetablewidget.h"
+
+
+#include "form.h"
 namespace Ui
 {
 class BibleForm;
 }
 
-class BibleForm : public QWidget, public BasicClass
+class BibleForm : public Form
 {
     Q_OBJECT
     Q_DISABLE_COPY(BibleForm)
 public:
     explicit BibleForm(QWidget *parent = 0);
     virtual ~BibleForm();
-    void setID(const int id);
-    int id();
-    void init();
-    void setApi(Api *api);
-    void setBibleManager(BibleManager *bibleManager);
-    void setNotesManager(NotesManager *notesManager);
-    void setBookmarksManager(BookmarksManager *bookmarksManager);
 
-    Ui::BibleForm *m_ui;
+    void init();
+
     WebView *m_view;
-    QList<int> m_bookIDs;
-    VerseTable *m_verseTable;
 
     VerseSelection verseSelection();
+    void restore(const QString &key);
+    void save();
+    Form::FormType type() const;
 
-    int *currentWindowID;
+    void pharseUrl(const VerseUrl &url);
+    void pharseUrl(const QString &url);
+
+    void nextChapter();
+    void previousChapter();
+
+    SearchableModule * searchableModule() const;
+    VerseTable *verseTable() const;
+    VerseModule *verseModule() const;
+
 private slots:
     void showBibleListMenu();
     void readBook(int id);
@@ -84,8 +88,7 @@ private slots:
 signals:
     void onClose();
     void historyGo(QString);
-    void previousChapter();
-    void nextChapter();
+
 public slots:
     void historySetUrl(QString url);
     void backward();
@@ -145,9 +148,8 @@ public slots:
 protected:
     virtual void changeEvent(QEvent *e);
 private:
-    int m_id;
-    History browserHistory;
-    Api *m_api;//not in out control
+    History m_browserHistory;
+
     void setButtons();
 
     QAction *m_actionCopy;
@@ -156,20 +158,27 @@ private:
     QAction *m_actionRemoveMark;
     QAction *m_actionBookmark;
     QAction *m_actionNote;
+
     void createDefaultMenu();
     void deleteDefaultMenu();
-
-    BibleManager *m_bibleManager;
-    NotesManager *m_notesManager;
-    BookmarksManager *m_bookmarksManager;
-    bool active();
 
     TextRanges m_lastTextRanges;
     VerseUrl m_lastUrl;
 
     QWebInspector *m_inspector;
+    VerseTable *m_verseTable;
 
     VerseSelection lastSelection;
+    Ui::BibleForm *m_ui;
+    QList<int> m_bookIDs;
+
+    void showRanges(const Ranges &ranges, const VerseUrl &url);
+    Range bibleUrlRangeToRange(VerseUrlRange r);
+
+    bool verseTableLoaded();
+
+    VerseUrl applyUrl(VerseUrl url);
+    VerseUrl m_url;
 };
 
 #endif // BIBLEFORM_H

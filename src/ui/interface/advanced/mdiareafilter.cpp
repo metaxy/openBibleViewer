@@ -19,7 +19,6 @@ MdiAreaFilter::MdiAreaFilter(QObject *parent) :
 bool MdiAreaFilter::eventFilter(QObject *obj, QEvent *event)
 {
     if(event->type() == QEvent::Resize) {
-        //QResizeEvent *resizeEvent = static_cast<QResizeEvent *>(event);
         emit resized();
         return QObject::eventFilter(obj, event);
     }

@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "biblequote-dict.h"
 #include "config.h"
 #include "CLucene.h"
-#include "CLucene/_clucene-config.h"
+#include "CLucene/clucene-config.h"
 
 using namespace lucene::analysis;
 using namespace lucene::index;
@@ -26,20 +26,11 @@ BibleQuoteDict::BibleQuoteDict()
 {
 }
 
-void BibleQuoteDict::setSettings(Settings *set)
-{
-    m_settings = set;
-}
-void BibleQuoteDict::setID(const int id, const QString &path)
-{
-    m_moduleID = id;
-    m_modulePath = path;
-}
 
 /**
   Reads the ini file and returns the dictionary name.
   */
-QString BibleQuoteDict::readInfo(QFile &file)
+MetaInfo BibleQuoteDict::readInfo(QFile &file)
 {
     //todo: use module default encoding
     const QString encoding = m_settings->encoding;
@@ -48,19 +39,20 @@ QString BibleQuoteDict::readInfo(QFile &file)
     QByteArray byteline = file.readLine();
     QString line = decoder->toUnicode(byteline);
     file.close();
-    return line.simplified();
+    MetaInfo info;
+    info.setName(line.simplified());
+    return info;
 }
-QString BibleQuoteDict::readInfo(const QString &fileName)
+MetaInfo BibleQuoteDict::readInfo(const QString &fileName)
 {
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly))
-        return "";
+        return MetaInfo();
     return readInfo(file);
 }
 
 bool BibleQuoteDict::hasIndex()
 {
-    DEBUG_FUNC_NAME
     QDir d;
     if(!d.exists(m_settings->homePath + "index")) {
         return false;
@@ -214,7 +206,7 @@ QStringList BibleQuoteDict::getAllKeys()
     const QString index = indexPath();
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     QStringList ret;
-    for(size_t i = 0; i < reader->numDocs(); i++) {
+    for(int32_t i = 0; i < reader->numDocs(); i++) {
         Document* doc = reader->document(i);
 #ifdef OBV_USE_WSTRING
         ret.append(QString::fromWCharArray(doc->get(_T("key"))));
@@ -224,6 +216,7 @@ QStringList BibleQuoteDict::getAllKeys()
     }
     return ret;
 }
+
 QString BibleQuoteDict::indexPath() const
 {
     return m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);

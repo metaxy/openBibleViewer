@@ -33,8 +33,8 @@ public:
     int loadBibleData(const int id, const QString &path);
     int readBook(const int id);
 
-    QString readInfo(QFile &file);
-    QString readInfo(const QString &fileName);
+    MetaInfo readInfo(QFile &file);
+    MetaInfo readInfo(const QString &fileName);
     void search(const SearchQuery &query, SearchResult *res) const;
     bool hasIndex() const;
     void buildIndex();
@@ -42,7 +42,6 @@ public:
     int moduleID() const;
     QString modulePath() const;
     QString moduleName(bool preferShortName = false) const;
-    Book book() const;
     QString uid() const;
 
     TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse);

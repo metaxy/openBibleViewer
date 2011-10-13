@@ -12,6 +12,8 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "windowmanager.h"
+#include <typeinfo>
+#include "src/ui/interface/advanced/form/dictionaryform.h"
 
 WindowManager::WindowManager(QObject *parent) :
     QObject(parent)
@@ -33,11 +35,6 @@ void WindowManager::setMdiArea(QMdiArea *area)
 void WindowManager::setApi(Api *api)
 {
     m_api = api;
-}
-
-void WindowManager::setBibleManager(BibleManager *bibleManager)
-{
-    m_bibleManager = bibleManager;
 }
 
 void WindowManager::setNotesManager(NotesManager *notesManager)
@@ -70,11 +67,11 @@ void WindowManager::init()
 void WindowManager::newSubWindowIfEmpty()
 {
     if(usableWindowList().isEmpty())
-        newSubWindow();
+        newBibleSubWindow();
 }
-
-void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax)
+QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, Form::FormType type)
 {
+    DEBUG_FUNC_NAME
     setEnableReload(false);
 
     const int windowsCount = usableWindowList().size();
@@ -86,27 +83,35 @@ void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax)
     QWidget *widget = new QWidget(m_area);
     QVBoxLayout *layout = new QVBoxLayout(widget);
     m_nameCounter++;
-    BibleForm *bibleForm = new BibleForm(widget);
-    bibleForm->setID(m_nameCounter);
-    bibleForm->setObjectName("mdiForm");
-    bibleForm->currentWindowID = m_currentWindowID;
-    setAll(bibleForm);
-    bibleForm->setApi(m_api);
-    bibleForm->setBibleManager(m_bibleManager);
-    bibleForm->setNotesManager(m_notesManager);
-    bibleForm->setBookmarksManager(m_bookmarksManager);
-    bibleForm->init();
+    Form *form = NULL;
+    if(type == Form::BibleForm) {
+        form = new BibleForm(widget);
+    } else if(type == Form::WebForm){
+        form = new WebForm(widget);
+    } else if(type == Form::DictionaryForm){
+        form = new DictionaryForm(widget);
+    }
+    form->setID(m_nameCounter);
+    form->setObjectName("mdiForm");
+    form->currentWindowID = m_currentWindowID;
+    setAll(form);
 
-    *m_currentWindowID = bibleForm->id();
-    layout->addWidget(bibleForm);
+    form->setApi(m_api);
+    form->setNotesManager(m_notesManager);
+    form->setBookmarksManager(m_bookmarksManager);
+    form->init();
+
+    *m_currentWindowID = form->id();
+    layout->addWidget(form);
 
     widget->setLayout(layout);
     QMdiSubWindow *subWindow = m_area->addSubWindow(widget);
     subWindow->setWindowIcon(QIcon(":/icons/16x16/main.png"));
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
     subWindow->show();
+    form->setParentSubWindow(subWindow);
     m_area->setActiveSubWindow(subWindow);
-    bibleForm->activated();
+    form->activated();
 
 
     if(forceMax) {
@@ -126,36 +131,115 @@ void WindowManager::newSubWindow(bool doAutoLayout, bool forceMax)
         }
     }
 
-    connect(bibleForm->m_view->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
-
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
-#if QT_VERSION >= 0x040700
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
-    bibleForm->m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
-#endif
-
-    connect(bibleForm, SIGNAL(historyGo(QString)), m_actions, SLOT(get(QString)));
-    connect(bibleForm, SIGNAL(previousChapter()), m_actions, SLOT(previousChapter()));
-    connect(bibleForm, SIGNAL(nextChapter()), m_actions, SLOT(nextChapter()));
-    connect(this, SIGNAL(historySetUrl(QString)), bibleForm, SLOT(historyGetUrl(QString)));
-    connect(subWindow, SIGNAL(destroyed(QObject*)), this, SLOT(closingWindow()));
-
     setEnableReload(true);
     if(doAutoLayout && m_area->viewMode() == QMdiArea::SubWindowView && windowsCount > 0) {
         autoLayout();
     }
     m_actions->clearBooks();
     m_actions->clearChapters();
+    return subWindow;
+}
+
+QMdiSubWindow* WindowManager::newBibleSubWindow(bool doAutoLayout, bool forceMax)
+{
+    return newSubWindow(doAutoLayout, forceMax, Form::BibleForm);
+}
+
+QMdiSubWindow* WindowManager::newWebSubWindow(bool doAutoLayout, bool forceMax)
+{
+   return newSubWindow(doAutoLayout, forceMax, Form::WebForm);
+}
+QMdiSubWindow* WindowManager::newDictionarySubWindow(bool doAutoLayout, bool forceMax)
+{
+   return newSubWindow(doAutoLayout, forceMax, Form::DictionaryForm);
+}
+
+QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
+{
+    if(usableWindowList().isEmpty()) {
+        return newSubWindow(true, false, type);
+    } else if(activeForm() != NULL) {
+        if(activeForm()->type() != type) {
+            QMdiSubWindow *ww = NULL;
+            foreach(QMdiSubWindow *w, usableWindowList()) {
+                Form *f = getForm(w);
+                if(f->type() == type) {
+                    myDebug() << "activate window";
+                    w->activateWindow();
+                    m_area->setActiveSubWindow(w);
+                    ww = w;
+                    break;
+                }
+            }
+            if(ww) {
+                myDebug() << "found window";
+                return ww;
+            } else {
+                return newSubWindow(true, false, type);
+            }
+        } else {
+            return activeSubWindow();
+        }
+    }
+    return newSubWindow(true, false, type);
+}
+
+
+QMdiSubWindow* WindowManager::needBibleWindow()
+{
+    return needWindow(Form::BibleForm);
+}
+
+
+QMdiSubWindow* WindowManager::needDictionaryWindow()
+{
+     return needWindow(Form::DictionaryForm);
+}
+
+
+QMdiSubWindow* WindowManager::needWebWindow()
+{
+    return needWindow(Form::WebForm);
+}
+QMdiSubWindow* WindowManager::hasDictWindow(OBVCore::DefaultModule d)
+{
+    foreach(QMdiSubWindow *w, usableWindowList()) {
+        Form *f = getForm(w);
+        if(f->type() == Form::DictionaryForm) {
+            DictionaryForm *form = (DictionaryForm*)(f);
+            if(form->dictionary() != NULL) {
+                const int moduleID = form->dictionary()->moduleID();
+                if(m_settings->getModuleSettings(moduleID)->defaultModule == d) {
+                    w->activateWindow();
+                    m_area->setActiveSubWindow(w);
+                    return w;
+                }
+            }
+        }
+    }
+    return NULL;
+}
+QMdiSubWindow* WindowManager::hasDictWindow(const int moduleID)
+{
+    foreach(QMdiSubWindow *w, usableWindowList()) {
+        Form *f = getForm(w);
+        if(f->type() == Form::DictionaryForm) {
+            DictionaryForm *form = (DictionaryForm*)(f);
+            if(form->dictionary()->moduleID() == moduleID) {
+                w->activateWindow();
+                m_area->setActiveSubWindow(w);
+                return w;
+            }
+        }
+    }
+    return NULL;
 }
 
 void WindowManager::autoLayout()
 {
     if(!m_enableReload)
         return;
+
     if(usableWindowList().size() > 1) {
         if(m_settings->autoLayout == 1) {
             tile();
@@ -171,7 +255,7 @@ void WindowManager::autoLayout()
 
 QMdiSubWindow * WindowManager::activeSubWindow()
 {
-    QList<QMdiSubWindow*> list = usableWindowList();
+    const QList<QMdiSubWindow*> list = usableWindowList();
     if(QMdiSubWindow *activeSubWindow = m_area->activeSubWindow()) {
         for(int i = 0; i < list.size(); i++) {
             if(list.at(i) == activeSubWindow) {
@@ -190,20 +274,26 @@ QMdiSubWindow * WindowManager::activeSubWindow()
     }
     return NULL;
 }
-BibleForm * WindowManager::activeForm()
+
+Form * WindowManager::activeForm()
 {
-    if(activeSubWindow()) {
-        return activeSubWindow()->widget()->findChild<BibleForm *>("mdiForm");
-    }
-    return NULL;
+    return getForm(activeSubWindow());
+}
+Form * WindowManager::getForm(QMdiSubWindow *w)
+{
+    if(w == NULL)
+        return NULL;
+
+    return w->widget()->findChild<Form *>("mdiForm");
 }
 
 void WindowManager::tileVertical()
 {
-    QList<QMdiSubWindow*> windows = usableWindowList();
+    const QList<QMdiSubWindow*> windows = usableWindowList();
     if(!m_enableReload || windows.isEmpty()) {
         return;
     }
+
     setEnableReload(false);
     QMdiSubWindow* active = m_area->activeSubWindow();
 
@@ -226,7 +316,7 @@ void WindowManager::tileVertical()
 
 void WindowManager::tileHorizontal()
 {
-    QList<QMdiSubWindow*> windows = usableWindowList();
+    const QList<QMdiSubWindow*> windows = usableWindowList();
     if(!m_enableReload || windows.isEmpty()) {
         return;
     }
@@ -298,13 +388,13 @@ void WindowManager::tile()
     m_area->tileSubWindows();
 }
 
-QList<QMdiSubWindow*> WindowManager::usableWindowList()
+QList<QMdiSubWindow*> WindowManager::usableWindowList() const
 {
     QList<QMdiSubWindow*> ret;
-    foreach(QMdiSubWindow * w, m_area->subWindowList()) {
+    foreach(QMdiSubWindow * w, m_area->subWindowList(QMdiArea::ActivationHistoryOrder)) {
         if(w->isHidden())
             continue;
-        ret.append(w);
+        ret.prepend(w);
     }
     return  ret;
 }
@@ -339,32 +429,39 @@ int WindowManager::closingWindow()
 
 int WindowManager::reloadWindow(QMdiSubWindow * window)
 {
-    //DEBUG_FUNC_NAME
     if(!m_enableReload || window == NULL) {
         myDebug() << "reload is not enabled or window == NULL";
         return 1;
     }
+
     if(m_area->subWindowList().isEmpty()) {
         myDebug() << "sub window list is empty";
         return 1;
     }
-    BibleForm *form =  window->widget()->findChild<BibleForm *>("mdiForm");
+
+    Form *form = window->widget()->findChild<Form *>("mdiForm");
     *m_currentWindowID = form->id();
-   //myDebug() << "window ID  = " << *m_currentWindowID;
     form->activated();
     m_area->setActiveSubWindow(window);
+
     return 0;
 }
+
 void WindowManager::mdiAreaResized()
 {
-    //DEBUG_FUNC_NAME
     //todo: really every do time autoLayout ?
-    if(m_area->viewMode() == QMdiArea::SubWindowView)
-        autoLayout();
+    if(m_area->viewMode() == QMdiArea::SubWindowView) {
+        const QMdiSubWindow * w = m_area->activeSubWindow();
+        if(w != NULL && w->isMaximized()) {
+            return;
+        } else {
+            autoLayout();
+        }
+    }
 }
+
 void WindowManager::reloadActive()
 {
-    //DEBUG_FUNC_NAME
     reloadWindow(activeSubWindow());
 }
 
@@ -384,21 +481,22 @@ void WindowManager::zoomOut()
     if(activeForm())
         activeForm()->zoomOut();
 }
+
 void WindowManager::disable()
 {
-    //DEBUG_FUNC_NAME
     m_enableReload = false;
 }
 
 void WindowManager::enable()
 {
-    //DEBUG_FUNC_NAME
     m_enableReload = true;
 }
+
 void WindowManager::setSubWindowView()
 {
     m_area->setViewMode(QMdiArea::SubWindowView);
 }
+
 void WindowManager::setTabbedView()
 {
     m_area->setViewMode(QMdiArea::TabbedView);
@@ -406,111 +504,67 @@ void WindowManager::setTabbedView()
 
 void WindowManager::save()
 {
-    WindowSessionData data;
-    data.setSettings(m_settings);
+    m_settings->session.clearGroup("windows");
     int current = 0;
     QMdiSubWindow *currentSubWindow = activeSubWindow();
     for(int i = 0, count = m_area->subWindowList().size(); i < count; i++) {
         QMdiSubWindow *a = m_area->subWindowList().at(i);
-        data.setWindowID(i);
         if(currentSubWindow == a)
             current = i;
-        BibleForm *form = a->widget()->findChild<BibleForm *>("mdiForm");
-        VerseTable *list = form->m_verseTable;
-
-        QList<QString> urls;
-        QList<QPoint> points;
-        if(list > 0) {
-            QHashIterator<int, VerseModule *> i(list->m_modules);
-            while(i.hasNext()) {
-                i.next();
-                VerseModule *b = i.value();
-                if(b != NULL && b->moduleID() >= 0) {
-                    myDebug() << "key = " << i.key();
-                    VerseUrl bibleUrl;
-                    bibleUrl.addRanges(b->lastTextRanges()->toBibleUrlRanges(i.key()));
-
-                    UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, bibleUrl);
-                    urlConverter.setSettings(m_settings);
-                    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-                    VerseUrl newUrl = urlConverter.convert();
-
-                    const QString url = newUrl.toString();
-                    const QPoint point = list->m_points.value(i.key());
-                    myDebug() << "url = " << url << " at " << point;
-                    urls << url;
-                    points << point;
-                }
-            }
-        }
-        data.setUrl(urls);
-        data.setBiblePoint(points);
-
-        data.setScrollPosition(form->m_view->page()->mainFrame()->scrollPosition());
-        data.setZoom(form->m_view->zoomFactor());
-        data.setGeo(a->geometry());
-        data.setMaximized(a->isMaximized());
-        myDebug() << "max = " << a->isMaximized();
-        //myDebug() << a->windowState();
-        data.setWindowState(a->windowState());
+        Form *form = a->widget()->findChild<Form *>("mdiForm");
+        form->save();
+        const QString s = m_settings->session.id() + "/windows/" + QString::number(form->id()) + "/";
+        m_settings->session.file()->setValue(s + "geo", a->geometry());
+        m_settings->session.file()->setValue(s + "maximized", a->isMaximized());
+        //m_settings->session.file()->setValue(a + "windowState", m_parentSubWindow->windowState());
     }
-    data.write();
+
     m_settings->session.setData("viewMode", m_area->viewMode());
     m_settings->session.setData("windowID", current);
+
     //no more reloading
     disable();
 }
 void WindowManager::restore()
 {
-    WindowSessionData data;
-    data.setSettings(m_settings);
-    data.read();
     const int viewMode = m_settings->session.getData("viewMode").toInt();
     if(viewMode == 0)
         m_actions->setSubWindowView();
     else
         m_actions->setTabbedView();
-    //myDebug() << "size = " << data.size();
-    for(int i = 0; i < data.size(); ++i) {
-        data.setWindowID(i);
-        //myDebug() << "max = " << data.maximized();
-        newSubWindow(true, data.maximized());
 
-        //load bible
-        m_moduleManager->verseTable()->clear();
-        const QList<QString> urls = data.url();
-        const QList<QPoint> points = data.biblePoint();
-        for(int j = 0; j < urls.size() && j < points.size(); j++) {
-            const QString url = urls.at(j);
-            const QPoint point = points.at(j);
-            //myDebug() << "url = " << url << " point = " << point;
-            UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
-            urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
-            urlConverter.convert();
-            if(urlConverter.moduleID() != -1) {
-                m_moduleManager->newVerseModule(urlConverter.moduleID(), point);
-                m_actions->get(urlConverter.url());
-                myDebug() << urlConverter.url().toString();
-            }
+    m_settings->session.file()->beginGroup(m_settings->session.id() + "/windows/");
+    const QStringList groups = m_settings->session.file()->childGroups();
+    m_settings->session.file()->endGroup();
+
+    foreach(const QString &id, groups) {
+        const QString pre = m_settings->session.id() + "/windows/" + id + "/";
+        const QString type = m_settings->session.file()->value(pre + "type").toString();
+        const bool max = m_settings->session.file()->value(pre + "maximized").toBool();
+        const QRect geo = m_settings->session.file()->value(pre + "geo").toRect();
+
+        Form::FormType t = Form::BibleForm;
+        if(type == "bible") {
+            t = Form::BibleForm;
+        } else if(type == "web"){
+            t = Form::WebForm;
+        } else if(type == "dictionary"){
+            t = Form::DictionaryForm;
         }
-        if(viewMode == 0 && !data.maximized()) {
-            //myDebug() << "setting geo";
-            activeSubWindow()->setGeometry(data.geo());
+        QMdiSubWindow *w = newSubWindow(true, max, t);
+
+        if(viewMode == 0 && !max) {
+            w->setGeometry(geo);
         }
-        activeSubWindow()->setWindowState(data.windowState());
-        QWebView *v = activeForm()->m_view;
-        v->page()->mainFrame()->setScrollPosition(data.scrollPosition());
-        v->setZoomFactor(data.zoom());
+
+        Form *f = w->widget()->findChild<Form *>("mdiForm");
+        f->restore(id);
     }
-
     const int id = m_settings->session.getData("windowID", -1).toInt();
     if(id < m_area->subWindowList().size() && id > 0) {
         m_area->setActiveSubWindow(m_area->subWindowList().at(id));
     }
 }
-/*
- * Todo: Use it
- */
 
 void WindowManager::installResizeFilter()
 {
@@ -518,17 +572,22 @@ void WindowManager::installResizeFilter()
     connect(m_mdiAreaFilter, SIGNAL(resized()), this, SLOT(mdiAreaResized()));
     m_area->installEventFilter(m_mdiAreaFilter);
 }
+//only bibleform
 void WindowManager::reloadChapter(bool full)
 {
     DEBUG_FUNC_NAME;
+    if(typeid(activeForm()) != typeid(BibleForm *))
+        return;
 
-    const QWebView *v = activeForm()->m_view;
-    const QPoint p = v->page()->mainFrame()->scrollPosition();
+    const QWebView *view = ((BibleForm*)activeForm())->m_view;
+    const QPoint p = view->page()->mainFrame()->scrollPosition();
+
     if(full) {
         m_actions->reloadBible();
     } else {
         m_actions->reShowCurrentRange();
     }
-    v->page()->mainFrame()->setScrollPosition(p);
+
+    view->page()->mainFrame()->setScrollPosition(p);
 }
 

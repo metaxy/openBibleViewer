@@ -17,6 +17,7 @@ SearchManager::SearchManager(QObject *parent) :
     QObject(parent)
 {
 }
+
 void SearchManager::init()
 {
     connect(m_actions, SIGNAL(_searchInText()), this, SLOT(searchInText()));
@@ -32,37 +33,37 @@ void SearchManager::createDocks()
 
 QHash<DockWidget*, Qt::DockWidgetArea> SearchManager::docks()
 {
-    //DEBUG_FUNC_NAME
     QHash<DockWidget *, Qt::DockWidgetArea> ret;
     ret.insert(m_advancedSearchResultDockWidget, Qt::LeftDockWidgetArea);
     return ret;
-
 }
+
 void SearchManager::setWindowManager(WindowManager *windowManager)
 {
     m_windowManager = windowManager;
 }
+
 void SearchManager::setWidget(QWidget *p)
 {
     m_p = p;
 }
+
 void SearchManager::showSearchDialog()
 {
-    //todo: memory leak?
-    SearchDialog *sDialog = new SearchDialog(m_p);
-    connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
+    SearchDialog sDialog(m_p);
+    connect(&sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
     if(m_windowManager->activeForm()) {
         const QString text = m_windowManager->activeForm()->selectedText();
         if(!text.isEmpty()) {
-            sDialog->setText(text);
+            sDialog.setText(text);
         }
     }
-    sDialog->show();
-    sDialog->exec();
+    sDialog.exec();
 }
+
 void SearchManager::search()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     SearchQuery query;
     query.searchText = ((QLineEdit *) sender())->text();
     query.searchInNotes = true;
@@ -73,9 +74,15 @@ void SearchManager::search()
 void SearchManager::search(SearchQuery query)
 {
     DEBUG_FUNC_NAME;
+
     m_advancedSearchResultDockWidget->show();
     Search s;
     setAll(&s);
+    myDebug() << m_windowManager->activeForm()->type();
+
+    if(m_windowManager->activeForm())
+        s.addModule(m_windowManager->activeForm()->searchableModule());
+
     SearchResult *res = s.search(query);
     m_advancedSearchResultDockWidget->setSearchResult(res);
 }
@@ -85,6 +92,7 @@ void SearchManager::searchInText(SearchResult *res)
     DEBUG_FUNC_NAME;
     m_actions->searchInText(res);
 }
+
 void SearchManager::searchInText()
 {
     DEBUG_FUNC_NAME
@@ -100,6 +108,7 @@ void SearchManager::previousVerse()
 {
     m_advancedSearchResultDockWidget->previousVerse();
 }
+
 AdvancedSearchResultDockWidget *SearchManager::advancedSearchResultDockWidget()
 {
     return m_advancedSearchResultDockWidget;

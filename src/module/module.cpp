@@ -16,8 +16,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 Module::Module(Module *parent)
 {
     m_bibleModule = NULL;
-    m_zefaniaLex = NULL;
-    m_bibleQuoteDict = NULL;
+    m_dictionaryModule = NULL;
+
     m_parent = parent;
 
     m_moduleClass = OBVCore::NoneClass;
@@ -29,13 +29,9 @@ Module::~Module()
         delete m_bibleModule;
         m_bibleModule = NULL;
     }
-    if(m_zefaniaLex != NULL) {
-        delete m_zefaniaLex;
-        m_zefaniaLex = NULL;
-    }
-    if(m_bibleQuoteDict != NULL) {
-        delete m_bibleQuoteDict;
-        m_bibleQuoteDict = NULL;
+    if(m_dictionaryModule != NULL) {
+        delete m_dictionaryModule;
+        m_dictionaryModule = NULL;
     }
 }
 
@@ -43,6 +39,7 @@ void Module::setSettings(Settings *settings)
 {
     m_settings = settings;
 }
+
 Module* Module::parent() const
 {
     return m_parent;
@@ -64,6 +61,10 @@ QString Module::title() const
 int Module::moduleID() const
 {
     return m_id;
+}
+QString Module::moduleUID() const
+{
+    return m_settings->savableUrl(this->path());
 }
 OBVCore::ModuleClass Module::moduleClass() const
 {
@@ -103,7 +104,8 @@ QStringList Module::moduleTypeNames()
 {
     QStringList l;
     l << QT_TRANSLATE_NOOP("Core", "None") << QT_TRANSLATE_NOOP("Core", "BibleQuote") << QT_TRANSLATE_NOOP("Core", "Zefania XML Bible")
-      << QT_TRANSLATE_NOOP("Core", "Zefania Lex Module") << QT_TRANSLATE_NOOP("Core", "BibleQuote Dictionary") << QT_TRANSLATE_NOOP("Core", "The Word Bible");
+      << QT_TRANSLATE_NOOP("Core", "Zefania Lex Module") << QT_TRANSLATE_NOOP("Core", "BibleQuote Dictionary") << QT_TRANSLATE_NOOP("Core", "The Word Bible")
+      << QT_TRANSLATE_NOOP("Core", "Sword Bible") << QT_TRANSLATE_NOOP("Core", "Web Page") << QT_TRANSLATE_NOOP("Core", "Web Dictionary");
     return l;
 }
 
@@ -121,6 +123,12 @@ QString Module::moduleTypeName(OBVCore::ModuleType type)
         return QT_TRANSLATE_NOOP("Core", "BibleQuote Dictionary");
     } else if(type == OBVCore::TheWordBibleModule) {
         return QT_TRANSLATE_NOOP("Core", "The Word Bible");
+    } else if(type == OBVCore::SwordBibleModule) {
+        return QT_TRANSLATE_NOOP("Core", "Sword Bible");
+    } else if(type == OBVCore::WebPageModule) {
+        return QT_TRANSLATE_NOOP("Core", "Web Page");
+    } else if(type == OBVCore::WebDictionaryModule) {
+        return QT_TRANSLATE_NOOP("Core", "Web Dictionary");
     }
     return "";
 }

@@ -1,1 +1,0 @@
-PROJECT(clucene-ext)

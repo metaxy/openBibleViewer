@@ -23,7 +23,10 @@ XmlNotes::XmlNotes()
 {
     m_isLoaded = false;
 }
-
+Notes::NotesTextType XmlNotes::type() const
+{
+    return Notes::HtmlNotes;
+}
 void XmlNotes::init(const QString &fileName)
 {
     m_fileName = fileName;

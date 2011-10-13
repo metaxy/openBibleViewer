@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/xbelreader.h"
 #include "src/core/xbelwriter.h"
 #include "src/core/dbghelper.h"
-#include "src/core/urlconverter.h"
+#include "src/core/link/urlconverter.h"
 #include "src/ui/dialog/biblepassagedialog.h"
 #include <QtGui/QClipboard>
 #include <QtGui/QMessageBox>
@@ -50,7 +50,7 @@ int BookmarksDockWidget::init()
         return 1;
     return 0;
 }
-void BookmarksDockWidget::newBookmark(VerseSelection selection)
+void BookmarksDockWidget::newBookmark(VerseSelection selection, Versification * v11n)
 {
     QTreeWidgetItem *bookmark = new QTreeWidgetItem();
     bookmark->setFlags(bookmark->flags() | Qt::ItemIsEditable);
@@ -59,7 +59,7 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
     bookmarkIcon.addPixmap(style->standardPixmap(QStyle::SP_FileLinkIcon));
     bookmark->setIcon(0, bookmarkIcon);
     bookmark->setText(0,
-                      m_moduleManager->verseModule()->versification()->bookName(selection.bookID) +
+                      v11n->bookName(selection.bookID) +
                       " " +
                       QString::number(selection.startChapterID + 1) +
                       "," +
@@ -76,7 +76,7 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection)
     UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.setV11n(m_moduleManager->verseModule()->versification());
+    urlConverter.setV11n(v11n);
 
     const VerseUrl newUrl = urlConverter.convert();
     //myDebug() << "new url = " << newUrl.toString();
@@ -169,7 +169,7 @@ void BookmarksDockWidget::editBookmark()
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-    urlConverter.setV11n(m_moduleManager->verseModule()->versification());
+    urlConverter.setV11n(NULL);
     VerseUrl newUrl = urlConverter.convert();
 
     BiblePassageDialog *passageDialog = new  BiblePassageDialog(this);

@@ -28,7 +28,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verseselection.h"
 #include "src/core/basicclass.h"
 #include "src/ui/recursivproxymodel.h"
-#include "src/core/urlconverter2.h"
+#include "src/core/link/urlconverter2.h"
 #include "src/ui/dialog/biblepassagedialog.h"
 #include "src/core/obvcore.h"
 #include "src/core/dbghelper.h"
@@ -47,8 +47,10 @@ class SimpleNotes : public QObject, public BasicClass
 public:
     explicit SimpleNotes();
     void setTitleWidget(QLineEdit *title);
+
     void setDataWidget(QTextBrowser *data);
     void setFrameWidget(QWebFrame *frame);
+
     void setViewWidget(QTreeView *treeView);
     void setLinkWidget(QLabel* link);
     void setLinkButtonWidget(QPushButton* button);
@@ -78,11 +80,11 @@ public slots:
     /**
      * Same as newTextNote() but add also an verse link ref using the given selection
      */
-    void newTextNoteWithLink(VerseSelection selection);
+    void newTextNoteWithLink(VerseSelection selection, Versification *v11n);
     /**
      * Creates a new mark note using the given selection and style
      */
-    void newStyleMark(VerseSelection selection, const QString &style);
+    void newStyleMark(VerseSelection selection, const QString &style, Versification *v11n);
 private slots:
     /**
      * Insert the text(not html) of the current select note in the clipboard

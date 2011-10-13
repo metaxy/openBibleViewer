@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QObject>
 #include <QtCore/QString>
 #include <QtCore/QUrl>
-#include "src/core/verse/verseurl.h"
+#include "src/core/link/verseurl.h"
 #include "src/core/verse/textranges.h"
 #include "src/core/verse/versification.h"
 #include "src/core/search/searchresult.h"
@@ -28,16 +28,16 @@ public:
     explicit Actions(QObject *parent = 0);
 
 signals:
-    void _showChapter(const int moduleID, const int bookID, const int chapterID);
     void _previousChapter();
     void _nextChapter();
+
+
     /**
       By default the Interface pharse all urls.
       */
     void _get(const QString &url);
     void _get(const VerseUrl &url);
 
-    void _showNote(const QString &nodeID);
 
     void _setCurrentBook(const QSet<int> &bookID);
     void _setCurrentChapter(const QSet<int> &chapterID);
@@ -55,32 +55,38 @@ signals:
     void _setTabbedView();
     void _setSubWindowView();
 
-    void _historySetUrl(const QString &url);
     void _showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
+    void _showHtml(const QString &html);
 
-    void _loadBibleList(bool hadBible);
+    void _loadVerseTable(bool hadModule);
     void _reloadChapter(bool full);
 
     void _reloadBible();
     void _reShowCurrentRange();
     void _newSubWindowIfEmpty();
 
+    void _needDictionaryWindow();
+    void _needBibleWindow();
+    void _needWebWindow();
+
+
     void _searchInText(SearchResult *result);
     void _searchInText();
 
+    void _showDictEntry(const QString &key, int moduleID);
+
+    void _setCurrentVerseTableID(const int verseTableID);
+
 public slots:
-    /**
-      * Show a chapter in current SubWindow.
-      */
-    void showChapter(const int moduleID, const int bookID, const int chapterID);
+
     void previousChapter();
     void nextChapter();
+
 
     void get(const QString &url);
     void get(const QUrl &url);
     void get(const VerseUrl &url);
 
-    void showNote(const QString &noteID);
 
     void setCurrentBook(const QSet<int> &bookID);
     void setCurrentChapter(const QSet<int> &chapterID);
@@ -105,19 +111,27 @@ public slots:
     void setSubWindowView();
     void newSubWindowIfEmpty();
 
-    void historySetUrl(const QString &url);
+    void needDictionaryWindow();
+    void needBibleWindow();
+    void needWebWindow();
+
     /**
       * Using showTextRanges there is no need to call historySetUrl seperatly.
       */
     void showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
+    void showDictEntry(const QString &key, int moduleID=-1);
 
-    void loadBibleList(bool hadBible);
+    void showHtml(const QString &html);
+
+    void loadVerseTable(bool hadModule);
 
     void reloadBible();
     void reShowCurrentRange();
 
     void searchInText(SearchResult *result);
     void searchInText();
+
+    void setCurrentVerseTableID(const int verseTableID);
 
 
 };

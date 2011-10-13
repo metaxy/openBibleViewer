@@ -14,18 +14,26 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef SESSION_H
 #define SESSION_H
 #include <QtCore/QVariant>
+#include <QtCore/QSettings>
 class Session
 {
 public:
     Session();
-    void setData(QString key, QVariant value);
-    QVariant getData(QString key, QVariant defaultValue) const;
-    QVariant getData(QString key) const;
-    bool isSet(QString key) const;
-    QMapIterator<QString, QVariant> getInterator() const;
-private:
-    QMap<QString, QVariant> m_data;
+    void setID(const QString &id);
+    QString id() const;
 
+    void setFile(QSettings *file);
+    QSettings * file();
+
+    void setData(const QString &key, const QVariant &value);
+    QVariant getData(const QString &key, const QVariant &defaultValue = QVariant());
+    bool isSet(const QString &key);
+
+    void clearGroup(const QString &key);
+
+private:
+    QSettings *m_sessionFile;
+    QString m_id;
 
 };
 

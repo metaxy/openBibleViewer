@@ -39,40 +39,40 @@ QHash<DockWidget*, Qt::DockWidgetArea> NotesManager::docks()
     return ret;
 }
 
-void NotesManager::newCustomColorMark(VerseSelection selection, QColor color)
+void NotesManager::newCustomColorMark(VerseSelection selection, QColor color, Versification *v11n)
 {
     DEBUG_FUNC_NAME
-    m_notesDockWidget->newStyleMark(selection,  "background-color: " + color.name() + ";");
+    m_notesDockWidget->newStyleMark(selection,  "background-color: " + color.name() + ";", v11n);
 }
 
-void NotesManager::newBoldMark(VerseSelection selection)
+void NotesManager::newBoldMark(VerseSelection selection, Versification *v11n)
 {
-    m_notesDockWidget->newStyleMark(selection, "font-weight: bold;");
+    m_notesDockWidget->newStyleMark(selection, "font-weight: bold;", v11n);
 }
 
-void NotesManager::newItalicMark(VerseSelection selection)
+void NotesManager::newItalicMark(VerseSelection selection, Versification *v11n)
 {
-    m_notesDockWidget->newStyleMark(selection, "font-style: italic;");
+    m_notesDockWidget->newStyleMark(selection, "font-style: italic;", v11n);
 
 }
 
-void NotesManager::newUnderlineMark(VerseSelection selection)
+void NotesManager::newUnderlineMark(VerseSelection selection, Versification *v11n)
 {
-    m_notesDockWidget->newStyleMark(selection, "text-decoration:underline;");
+    m_notesDockWidget->newStyleMark(selection, "text-decoration:underline;", v11n);
 }
 
-void NotesManager::removeMark(VerseSelection selection)
+void NotesManager::removeMark(VerseSelection selection, Versification *v11n)
 {
-    m_notesDockWidget->removeMark(selection);
+    m_notesDockWidget->removeMark(selection, v11n);
 }
 
-void NotesManager::newNoteWithLink(VerseSelection selection)
+void NotesManager::newNoteWithLink(VerseSelection selection, Versification *v11n)
 {
     DEBUG_FUNC_NAME;
     if(m_notesDockWidget->isHidden()) {
         m_notesDockWidget->show();
     }
-    m_notesDockWidget->newNoteWithLink(selection);
+    m_notesDockWidget->newNoteWithLink(selection, v11n);
 }
 
 void NotesManager::openNote(const QString &noteID)

@@ -28,7 +28,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtXml/QDomAttr>
 #include <QtXml/QtXml>
 
-#include "src/core/verse/verseurl.h"
+#include "src/core/link/verseurl.h"
 #include "src/core/verse/verse.h"
 #include "src/core/verse/chapter.h"
 #include "src/core/verse/versification/versification_zefania.h"
@@ -53,12 +53,12 @@ public:
     int readBook(const int id);
     int loadBibleData(const int id, const QString &path);
 
-    QString readInfo(QFile &file);
+    MetaInfo readInfo(QFile &file);
     /**
       Read the module file and returns the bible name
       \param fileName The fileName of the module.
      */
-    QString readInfo(const QString &fileName);
+    MetaInfo readInfo(const QString &fileName);
 
     void search(const SearchQuery &query, SearchResult *res) const;
     bool hasIndex() const;

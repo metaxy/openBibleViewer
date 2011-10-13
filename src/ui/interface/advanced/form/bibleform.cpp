@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "bibleform.h"
 #include "ui_bibleform.h"
 #include "src/core/verse/reftext.h"
-BibleForm::BibleForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::BibleForm)
+BibleForm::BibleForm(QWidget *parent) : Form(parent), m_ui(new Ui::BibleForm)
 {
     //DEBUG_FUNC_NAME
     m_id = -1;
@@ -37,22 +37,41 @@ BibleForm::BibleForm(QWidget *parent) : QWidget(parent), m_ui(new Ui::BibleForm)
     connect(m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
 
     m_api = NULL;
+    m_verseTable = NULL;
     setButtons();
+
 }
-void BibleForm::setID(const int id)
+
+Form::FormType BibleForm::type() const
 {
-    m_id = id;
+    return Form::BibleForm;
 }
 
 void BibleForm::init()
 {
     //DEBUG_FUNC_NAME
-    m_moduleManager->m_verseTable = new VerseTable();
+    m_verseTable = new VerseTable();
     Bible *b = new Bible();
+
     m_moduleManager->initVerseModule(b);
-    m_moduleManager->verseTable()->addModule(b, QPoint(0, 0));
-    m_verseTable = m_moduleManager->m_verseTable;
+    m_verseTable->addModule(b, QPoint(0, 0));
     attachApi();
+
+    connect(m_view->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
+
+    m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
+    m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
+#if QT_VERSION >= 0x040700
+    m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
+    m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled, true);
+    m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
+    m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
+    m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
+#endif
+
+    connect(this, SIGNAL(historyGo(QString)), m_actions, SLOT(get(QString)));
+
+
     connect(m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
 
     connect(m_actions, SIGNAL(_updateChapters(int, Versification *)), this, SLOT(forwardSetChapters(int, Versification *)));
@@ -70,23 +89,368 @@ void BibleForm::init()
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     createDefaultMenu();
 }
-void BibleForm::setApi(Api *api)
+VerseUrl BibleForm::applyUrl(VerseUrl url)
 {
-    m_api = api;
-}
-void BibleForm::setBibleManager(BibleManager *bibleManager)
-{
-    m_bibleManager = bibleManager;
+    if(m_url.ranges().isEmpty())
+        return url;
+    VerseUrl newUrl = url;
+    newUrl.clearRanges();
+    for(int i = 0; i < url.ranges().size(); i++) {
+        VerseUrlRange range = url.ranges().at(i);
+        int id;
+        if(m_url.ranges().size() < url.ranges().size()) {
+            id = m_url.ranges().size() - 1;
+        } else {
+            id = i;
+        }
+
+        VerseUrlRange newRange = range;
+        VerseUrlRange mRange = m_url.ranges().at(id);
+        if(range.module() == VerseUrlRange::LoadCurrentModule) {
+            newRange.setModule(m_url.ranges().at(id).module());
+            if(mRange.module() == VerseUrlRange::LoadModuleByID) {
+                newRange.setModule(mRange.moduleID());
+            }
+            if(mRange.module() == VerseUrlRange::LoadModuleByUID) {
+                newRange.setModule(mRange.moduleUID());
+            }
+        }
+        if(range.book() == VerseUrlRange::LoadCurrentBook) {
+            newRange.setBook(mRange.book());
+            if(mRange.book() == VerseUrlRange::LoadBookByID) {
+                newRange.setBook(mRange.bookID());
+            }
+        }
+        if(range.chapter() == VerseUrlRange::LoadCurrentChapter) {
+            newRange.setChapter(mRange.chapter());
+            if(mRange.chapter() == VerseUrlRange::LoadChapterByID) {
+                newRange.setChapter(mRange.chapterID());
+            }
+        }
+
+        if(range.startVerse() == VerseUrlRange::LoadCurrentVerse) {
+            newRange.setStartVerse(mRange.startVerse());
+            if(mRange.startVerse() == VerseUrlRange::LoadVerseByID) {
+                newRange.setStartVerse(mRange.startVerseID());
+            }
+        }
+
+        if(range.endVerse() == VerseUrlRange::LoadCurrentVerse) {
+            newRange.setEndVerse(mRange.endVerse());
+            if(mRange.endVerse() == VerseUrlRange::LoadVerseByID) {
+                newRange.setEndVerse(mRange.endVerseID());
+            }
+        }
+        newUrl.addRange(newRange);
+        //todo: active Verse
+    }
+    return newUrl;
 }
 
-void BibleForm::setNotesManager(NotesManager *notesManager)
+void BibleForm::pharseUrl(const VerseUrl &url)
 {
-    m_notesManager = notesManager;
+    VerseUrl newUrl = applyUrl(url);
+    m_url = newUrl;
+    myDebug() << "new url = " << m_url.toString();
+    Ranges ranges;
+    foreach(VerseUrlRange range, newUrl.ranges()) {
+        ranges.addRange(bibleUrlRangeToRange(range));
+    }
+    ranges.setSource(newUrl);
+    showRanges(ranges, newUrl);
+    if(newUrl.hasParam("searchInCurrentText")) {
+        m_actions->searchInText();
+    }
 }
-void BibleForm::setBookmarksManager(BookmarksManager *bookmarksManager)
+
+void BibleForm::pharseUrl(const QString &url)
 {
-    m_bookmarksManager = bookmarksManager;
+    const QString bible = "verse:/";
+    const QString bq = "go";
+
+    if(url.startsWith(bible)) {
+
+        VerseUrl bibleUrl;
+        Ranges ranges;
+        if(!bibleUrl.fromString(url)) {
+            return;
+        }
+        bibleUrl = applyUrl(bibleUrl);
+        m_url = bibleUrl;
+        myDebug() << "new url = " << m_url.toString();
+        foreach(VerseUrlRange range, bibleUrl.ranges()) {
+            ranges.addRange(bibleUrlRangeToRange(range));
+        }
+        ranges.setSource(bibleUrl);
+        showRanges(ranges, bibleUrl);
+        if(bibleUrl.hasParam("searchInCurrentText")) {
+            m_actions->searchInText();
+        }
+    } else if(url.startsWith(bq)) {
+        //its a biblequote internal link, but i dont have the specifications!!!
+        QStringList internal = url.split(" ");
+        const QString bibleID = internal.at(1);//todo: use it
+        myDebug() << "bibleID = " << bibleID;
+
+        int bookID = internal.at(2).toInt() - 1;
+        int chapterID = internal.at(3).toInt() - 1;
+        int verseID = internal.at(4).toInt();
+        VerseUrlRange range;
+        range.setModule(VerseUrlRange::LoadCurrentModule);
+        range.setBook(bookID);
+        range.setChapter(chapterID);
+        range.setStartVerse(verseID);
+        VerseUrl url(range);
+        m_actions->get(url);
+    }
 }
+void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url)
+{
+    DEBUG_FUNC_NAME
+    std::pair<QString, TextRanges> r;
+
+    if(!verseTableLoaded()) {
+        m_moduleManager->newVerseModule(ranges.getList().first().moduleID(), QPoint(0, 0), m_verseTable);
+    }
+
+    if(m_verseTable->verseModule()->moduleID() != ranges.getList().first().moduleID()) {
+
+        const int moduleID = ranges.getList().first().moduleID();
+
+        const QPoint p = m_verseTable->m_points.value(m_verseTable->currentVerseTableID());
+        VerseModule *m;
+        if(m_moduleManager->getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
+            m = new Bible();
+            m_moduleManager->initVerseModule(m);
+        } else {
+            myWarning() << "trying to load an non bible module";
+            return;
+        }
+        OBVCore::ModuleType type = m_moduleManager->getModule(moduleID)->moduleType();
+        m->setModuleType(type);
+        m->setModuleID(moduleID);
+        m_verseTable->addModule(m, p);
+    }
+    r = m_verseTable->readRanges(ranges);
+
+    if(!r.second.failed()) {
+        showTextRanges(r.first, r.second, url);
+        m_actions->updateChapters(m_verseTable->verseModule()->lastTextRanges()->minBookID(), m_verseTable->verseModule()->versification());
+        m_actions->updateBooks(m_verseTable->verseModule()->versification());
+        m_actions->setCurrentBook(r.second.bookIDs());
+        m_actions->setCurrentChapter(r.second.chapterIDs());
+        m_actions->setTitle(m_verseTable->verseModule()->moduleTitle());
+    } else {
+        showTextRanges(r.first, r.second, url);
+        m_actions->clearBooks();
+        m_actions->clearChapters();
+    }
+}
+
+void BibleForm::nextChapter()
+{
+    if(!verseTableLoaded())
+        return;
+    if(m_verseTable->verseModule()->lastTextRanges()->minChapterID() <
+            m_verseTable->verseModule()->versification()->maxChapter().value(m_verseTable->verseModule()->lastTextRanges()->minBookID()) - 1) {
+        VerseUrl bibleUrl;
+        VerseUrlRange range;
+        range.setOpenToTransformation(false);
+        range.setModule(VerseUrlRange::LoadCurrentModule);
+        range.setBook(VerseUrlRange::LoadCurrentBook);
+        range.setChapter(m_verseTable->verseModule()->lastTextRanges()->minChapterID() + 1);
+        range.setWholeChapter();
+        bibleUrl.addRange(range);
+        m_actions->get(bibleUrl);
+    } else if(m_verseTable->verseModule()->lastTextRanges()->minBookID() < m_verseTable->verseModule()->versification()->bookCount() - 1) {
+        VerseUrl bibleUrl;
+        VerseUrlRange range;
+        range.setOpenToTransformation(false);
+        range.setModule(VerseUrlRange::LoadCurrentModule);
+        range.setBook(m_verseTable->verseModule()->lastTextRanges()->minBookID() + 1);
+        range.setChapter(VerseUrlRange::LoadFirstChapter);
+        range.setWholeChapter();
+        bibleUrl.addRange(range);
+        m_actions->get(bibleUrl);
+    }
+}
+
+void BibleForm::previousChapter()
+{
+    if(!verseTableLoaded())
+        return;
+    if(m_verseTable->verseModule()->lastTextRanges()->minChapterID() > 0) {
+        VerseUrl bibleUrl;
+        VerseUrlRange range;
+        range.setOpenToTransformation(false);
+        range.setModule(VerseUrlRange::LoadCurrentModule);
+        range.setBook(VerseUrlRange::LoadCurrentBook);
+        range.setChapter(m_verseTable->verseModule()->lastTextRanges()->minChapterID() - 1);
+        range.setWholeChapter();
+        bibleUrl.addRange(range);
+        m_actions->get(bibleUrl);
+    } else if(m_verseTable->verseModule()->lastTextRanges()->minBookID() > 0) {
+        VerseUrl bibleUrl;
+        VerseUrlRange range;
+        range.setOpenToTransformation(false);
+        range.setModule(VerseUrlRange::LoadCurrentModule);
+        range.setBook(m_verseTable->verseModule()->lastTextRanges()->minBookID() - 1);
+        range.setChapter(VerseUrlRange::LoadLastChapter);
+        range.setWholeChapter();
+        bibleUrl.addRange(range);
+        m_actions->get(bibleUrl);
+    }
+}
+
+Range BibleForm::bibleUrlRangeToRange(VerseUrlRange range)
+{
+    //DEBUG_FUNC_NAME
+
+    //todo: return only a range and not rangesm because VerseUrlRange can be not more.
+    Range r;
+    //todo: currently we do not support real ranges but its ok
+    if(range.module() == VerseUrlRange::LoadModuleByID) {
+        r.setModule(range.moduleID());
+    } else if(range.module() == VerseUrlRange::LoadCurrentModule) {
+        if(verseTableLoaded())
+            r.setModule(m_verseTable->verseModule()->moduleID());
+    }
+
+    if(range.book() == VerseUrlRange::LoadFirstBook) {
+        r.setBook(RangeEnum::FirstBook);
+    } else if(range.book() == VerseUrlRange::LoadLastBook) {
+        r.setBook(RangeEnum::LastBook);
+    } else if(range.book() == VerseUrlRange::LoadCurrentBook) {
+        r.setBook(RangeEnum::CurrentBook);
+    } else {
+        r.setBook(range.bookID());
+    }
+
+    if(range.chapter() == VerseUrlRange::LoadFirstChapter) {
+        r.setChapter(RangeEnum::FirstChapter);
+    } else if(range.chapter() == VerseUrlRange::LoadLastChapter) {
+        r.setChapter(RangeEnum::LastChapter);
+    } else if(range.chapter() == VerseUrlRange::LoadCurrentChapter) {
+        r.setChapter(RangeEnum::CurrentChapter);
+    } else {
+        r.setChapter(range.chapterID());
+    }
+
+    if(range.openToTransformation()) {
+        r.setStartVerse(RangeEnum::FirstVerse);
+        r.setEndVerse(RangeEnum::LastVerse);
+        if(range.startVerse() == range.endVerse() && range.startVerse() == VerseUrlRange::LoadVerseByID) {
+            QList<int> sel;
+            for(int i=range.startVerseID();i<=range.endVerseID();i++) {
+                sel << i;
+            }
+            r.setSelectedVerse(sel);
+        } else if(range.startVerse() == VerseUrlRange::LoadVerseByID) {
+            r.setSelectedVerse(range.startVerseID());
+        }
+
+
+    } else {
+
+        if(range.startVerse() == VerseUrlRange::LoadFirstVerse) {
+            r.setStartVerse(RangeEnum::FirstVerse);
+        } /*else if(range.startVerse() == BibleUrlRange::LoadCurrentVerse) {
+            r.setStartVerse(m_moduleManager->bible()->verseID());
+        } */else if(range.startVerse() == VerseUrlRange::LoadLastVerse) {
+            r.setStartVerse(RangeEnum::LastVerse);
+        } else {
+            r.setStartVerse(range.startVerseID());
+        }
+
+        if(range.endVerse() == VerseUrlRange::LoadFirstVerse) {
+            r.setEndVerse(RangeEnum::FirstVerse);
+        } /*else if(range.endVerse() == BibleUrlRange::LoadCurrentVerse) {
+            r.setEndVerse(m_moduleManager->bible()->verseID());
+        } */else if(range.endVerse() == VerseUrlRange::LoadLastVerse) {
+            r.setEndVerse(RangeEnum::LastVerse);
+
+        if(range.activeVerse() == VerseUrlRange::LoadVerseByID) {
+            r.setSelectedVerse(range.activeVerseID());
+        }
+        } else {
+            r.setEndVerse(range.endVerseID());
+        }
+    }
+
+    return r;
+}
+void BibleForm::restore(const QString &key)
+{
+    const QString a = m_settings->session.id() + "/windows/" + key + "/";
+    const qreal zoom = m_settings->session.file()->value(a+"zoom").toReal();
+    const QPoint scroll = m_settings->session.file()->value(a+"scrool").toPoint();
+
+    //load verse module
+
+    m_verseTable->clear();
+    const QStringList urls = m_settings->session.file()->value(a+"urls").toStringList();
+    const QStringList points = m_settings->session.file()->value(a+"biblePoints").toStringList();
+
+    for(int j = 0; j < urls.size() && j < points.size(); j++) {
+        const QString url = urls.at(j);
+        QStringList tmp = points.at(j).split("|");
+        QPoint point;
+        point.setX(tmp.first().toInt());
+        point.setY(tmp.last().toInt());
+
+        UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
+        urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
+        urlConverter.convert();
+
+        if(urlConverter.moduleID() != -1) {
+            m_moduleManager->newVerseModule(urlConverter.moduleID(), point, m_verseTable);
+            pharseUrl(urlConverter.url());//these urls are handeld by this Form
+        }
+    }
+
+
+    //m_parentSubWindow->setWindowState(data.windowState());
+    m_view->page()->mainFrame()->setScrollPosition(scroll);
+    m_view->setZoomFactor(zoom);
+}
+
+void BibleForm::save()
+{
+    VerseTable *list = m_verseTable;
+
+    QStringList urls;
+    QStringList points;
+    if(list > 0) {
+        QHashIterator<int, VerseModule *> i(list->m_modules);
+        while(i.hasNext()) {
+            i.next();
+            VerseModule *b = i.value();
+            if(b != NULL && b->moduleID() >= 0) {
+
+                VerseUrl bibleUrl = b->lastTextRanges()->source().source();
+
+                UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, bibleUrl);
+                urlConverter.setSettings(m_settings);
+                urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+                VerseUrl newUrl = urlConverter.convert();
+
+                const QString url = newUrl.toString();
+                const QPoint point = list->m_points.value(i.key());
+
+                points << QString::number(point.x()) + "|" + QString::number(point.y());
+                urls << url;
+            }
+        }
+    }
+    const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
+    m_settings->session.file()->setValue(a + "urls", urls);
+    m_settings->session.file()->setValue(a + "biblePoints", QVariant(points));
+    m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
+    m_settings->session.file()->setValue(a + "zoom", m_view->zoomFactor());
+
+    m_settings->session.file()->setValue(a + "type", "bible");
+}
+
 void BibleForm::attachApi()
 {
     DEBUG_FUNC_NAME
@@ -107,27 +471,27 @@ void BibleForm::attachApi()
 
 void BibleForm::historySetUrl(QString url)
 {
-    browserHistory.setCurrent(url);
+    m_browserHistory.setCurrent(url);
     setButtons();
 }
 void BibleForm::backward()
 {
-    emit historyGo(browserHistory.backward());
+    emit historyGo(m_browserHistory.backward());
     setButtons();
 }
 void BibleForm::forward()
 {
-    emit historyGo(browserHistory.forward());
+    emit historyGo(m_browserHistory.forward());
     setButtons();
 }
 void BibleForm::setButtons()
 {
-    if(browserHistory.backwardAvailable()) {
+    if(m_browserHistory.backwardAvailable()) {
         m_ui->toolButton_backward->setDisabled(false);
     } else {
         m_ui->toolButton_backward->setDisabled(true);
     }
-    if(browserHistory.forwardAvailable()) {
+    if(m_browserHistory.forwardAvailable()) {
         m_ui->toolButton_forward->setDisabled(false);
     } else {
         m_ui->toolButton_forward->setDisabled(true);
@@ -136,8 +500,9 @@ void BibleForm::setButtons()
 
 void BibleForm::showBibleListMenu()
 {
-    BibleListWidget *w = new BibleListWidget(this);
+    VerseTableWidget *w = new VerseTableWidget(this);
     setAll(w);
+    w->setVerseTable(m_verseTable);
     w->init();
     w->exec();
 }
@@ -145,13 +510,13 @@ void BibleForm::showBibleListMenu()
 void BibleForm::readChapter(int id)
 {
     VerseUrlRange r;
+    r.setOpenToTransformation(false);
     r.setModule(VerseUrlRange::LoadCurrentModule);
     r.setBook(VerseUrlRange::LoadCurrentBook);
     r.setChapter(id);
     r.setWholeChapter();
-    VerseUrl url;
-    url.addRange(r);
 
+    VerseUrl url(r);
     m_actions->get(url);
 }
 
@@ -160,13 +525,13 @@ void BibleForm::readBook(int id)
     const int i = m_bookIDs.at(id);
 
     VerseUrlRange r;
+    r.setOpenToTransformation(false);
     r.setModule(VerseUrlRange::LoadCurrentModule);
     r.setBook(i);
     r.setChapter(VerseUrlRange::LoadFirstChapter);
     r.setWholeChapter();
-    VerseUrl url;
-    url.addRange(r);
 
+    VerseUrl url(r);
     m_actions->get(url);
 }
 void BibleForm::zoomIn()
@@ -272,10 +637,7 @@ void BibleForm::setCurrentBook(const QSet<int> &bookID)
         if(b < min || min == -1)
             min = b;
     }
-    myDebug() << "min bookID = " << min;
-    myDebug() << m_moduleManager->verseModule()->versification()->bookIDs();
-    myDebug() << "index = " << m_moduleManager->verseModule()->versification()->bookIDs().indexOf(min);
-    m_ui->comboBox_books->setCurrentIndex(m_moduleManager->verseModule()->versification()->bookIDs().indexOf(min));
+    m_ui->comboBox_books->setCurrentIndex(m_verseTable->verseModule()->versification()->bookIDs().indexOf(min));
     connect(m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
 }
 void BibleForm::activated()
@@ -290,42 +652,42 @@ void BibleForm::activated()
         clearBooks();
         m_actions->setTitle("");
 
-        m_moduleManager->m_verseTable = new VerseTable();
+        m_verseTable = new VerseTable();
         Bible *b = new Bible();
         m_moduleManager->initVerseModule(b);
-        m_moduleManager->verseTable()->addModule(b, QPoint(0, 0));
-        m_verseTable = m_moduleManager->m_verseTable;
+        m_verseTable->addModule(b, QPoint(0, 0));
         return;
     }
     if(m_verseTable->verseModule()->moduleID() < 0) {
-        myDebug() << "invalid moduleID";
+        myWarning() << "invalid moduleID";
+
         clearChapters();
         clearBooks();
         m_actions->setTitle("");
-        m_moduleManager->m_verseTable = table;
+        m_verseTable = table;
         return;
     }
 
-    m_moduleManager->m_verseTable = m_verseTable;
 
-    m_actions->setTitle(m_moduleManager->verseModule()->moduleTitle());
-    m_actions->setCurrentModule(m_moduleManager->verseModule()->moduleID());
+    m_actions->setTitle(m_verseTable->verseModule()->moduleTitle());
+    m_actions->setCurrentModule(m_verseTable->verseModule()->moduleID());
 
-    m_actions->updateChapters(m_moduleManager->verseModule()->lastTextRanges()->minBookID(), m_moduleManager->verseModule()->versification());
-    m_actions->updateBooks(m_moduleManager->verseModule()->versification());
+    if(m_verseTable->verseModule()->lastTextRanges() != NULL) {
+        m_actions->updateChapters(m_verseTable->verseModule()->lastTextRanges()->minBookID(), m_verseTable->verseModule()->versification());
+        m_actions->updateBooks(m_verseTable->verseModule()->versification());
 
-    if(m_lastTextRanges.verseCount() != 0 && !m_lastTextRanges.failed()) {
-        m_actions->setCurrentChapter(m_lastTextRanges.chapterIDs());
-        m_actions->setCurrentBook(m_lastTextRanges.bookIDs());
+        if(m_lastTextRanges.verseCount() != 0 && !m_lastTextRanges.failed()) {
+            m_actions->setCurrentChapter(m_lastTextRanges.chapterIDs());
+            m_actions->setCurrentBook(m_lastTextRanges.bookIDs());
+        }
+
+        m_verseTable->setLastTextRanges(&m_lastTextRanges);
+        m_verseTable->setLastUrl(&m_lastUrl);
     }
-
-    m_moduleManager->verseTable()->setLastTextRanges(&m_lastTextRanges);
-    m_moduleManager->verseTable()->setLastUrl(&m_lastUrl);
 }
 
 void BibleForm::scrollToAnchor(const QString &anchor)
 {
-    //DEBUG_FUNC_NAME
 #if QT_VERSION >= 0x040700
     m_view->page()->mainFrame()->scrollToAnchor(anchor);
 #else
@@ -340,8 +702,8 @@ void BibleForm::showText(const QString &text)
     QWebFrame * frame = m_view->page()->mainFrame();
     {
         QString cssFile;
-        if(m_moduleManager->bibleLoaded())
-            cssFile = m_settings->getModuleSettings(m_moduleManager->verseModule()->moduleID())->styleSheet;
+        if(m_moduleManager->verseTableLoaded(m_verseTable))
+            cssFile = m_settings->getModuleSettings(m_verseTable->verseModule()->moduleID())->styleSheet;
         if(cssFile.isEmpty())
             cssFile = ":/data/css/default.css";
 
@@ -365,15 +727,15 @@ void BibleForm::showText(const QString &text)
 
     if(m_lastTextRanges.verseCount() > 1) {
         scrollToAnchor("currentEntry");
-        if(m_moduleManager->verseTable()->hasTopBar())
+        if(m_verseTable->hasTopBar())
             frame->scroll(0, -40); //due to the biblelist bar on top
         //todo: it could be that the top bar has a width more than 40px
         //because the user zoomed in.
     }
 
-    if(m_moduleManager->verseModule()->moduleType() == OBVCore::BibleQuoteModule) {
+    if(m_verseTable->verseModule()->moduleType() == OBVCore::BibleQuoteModule) {
         QWebElementCollection collection = frame->documentElement().findAll("img");
-        const QStringList searchPaths = ((Bible*) m_moduleManager->verseModule())->getSearchPaths();
+        const QStringList searchPaths = ((Bible*) m_verseTable->verseModule())->getSearchPaths();
 
         foreach(QWebElement paraElement, collection) {
             QString url = paraElement.attribute("src");
@@ -411,12 +773,11 @@ void BibleForm::forwardShowTextRanges(const QString &html, const TextRanges &ran
 
 void BibleForm::showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url)
 {
-    //DEBUG_FUNC_NAME
     showText(html);
     m_lastTextRanges = range;
     m_lastUrl = url;
-    m_moduleManager->verseTable()->setLastTextRanges(&m_lastTextRanges);
-    m_moduleManager->verseTable()->setLastUrl(&m_lastUrl);
+    m_verseTable->setLastTextRanges(&m_lastTextRanges);
+    m_verseTable->setLastUrl(&m_lastUrl);
     historySetUrl(url.toString());
 }
 void BibleForm::evaluateJavaScript(const QString &js)
@@ -426,10 +787,11 @@ void BibleForm::evaluateJavaScript(const QString &js)
 void BibleForm::print()
 {
     QPrinter printer;
-    QScopedPointer<QPrintDialog> dialog(new QPrintDialog(&printer, this));
-    dialog->setWindowTitle(tr("Print"));
-    if(dialog->exec() != QDialog::Accepted)
-        return;
+    QPrintDialog dialog(&printer, this);
+    dialog.setWindowTitle(tr("Print"));
+    if (dialog.exec() == QDialog::Accepted) {
+         m_view->page()->mainFrame()->print(&printer);
+    }
 }
 void BibleForm::printPreview()
 {
@@ -552,19 +914,13 @@ void BibleForm::forwardSearchInText(SearchResult *res)
     searchInText(res);
 }
 
-bool BibleForm::active()
-{
-    if(*currentWindowID == m_id)
-        return true;
-    return false;
-}
-int BibleForm::id()
-{
-    return m_id;
-}
+
+
 void BibleForm::searchInText(SearchResult *res)
 {
     DEBUG_FUNC_NAME
+    if(res == NULL)
+        return;
     if(res->searchQuery.queryType == SearchQuery::Simple) {
         QString s = res->searchQuery.searchText;
         //todo: hacky
@@ -698,17 +1054,17 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
 }
 void BibleForm::newNoteWithLink()
 {
-    if(!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
-    m_notesManager->newNoteWithLink(lastSelection);
+    m_notesManager->newNoteWithLink(lastSelection, verseModule()->versification());
 }
 void BibleForm::newBookmark()
 {
-    if(!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
-    m_bookmarksManager->newBookmark(lastSelection);
+    m_bookmarksManager->newBookmark(lastSelection, verseModule()->versification());
 }
 
 void BibleForm::copyWholeVerse(void)
@@ -717,7 +1073,7 @@ void BibleForm::copyWholeVerse(void)
     VerseSelection selection = lastSelection;
     if(selection.startVerse != -1) {
         int add = 0;
-        if(m_moduleManager->verseModule()->moduleType() == OBVCore::BibleQuoteModule)
+        if(m_verseTable->verseModule()->moduleType() == OBVCore::BibleQuoteModule)
             add = 1; //because of the title
         Ranges ranges;
         if(selection.startChapterID == selection.endChapterID) {
@@ -747,7 +1103,7 @@ void BibleForm::copyWholeVerse(void)
                 ranges.addRange(r);
             }
         }
-        QString stext = m_moduleManager->verseModule()->readRanges(ranges).join(" ");
+        QString stext = m_verseTable->verseModule()->readRanges(ranges).join(" ");
 
         QTextDocument doc2;
         doc2.setHtml(stext);
@@ -778,7 +1134,7 @@ void BibleForm::debugger()
 
 void BibleForm::newColorMark()
 {
-    if(!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
     const QString colorName = sender()->objectName();
@@ -798,62 +1154,61 @@ void BibleForm::newColorMark()
     }
 
     VerseSelection selection = lastSelection;
-    m_notesManager->newCustomColorMark(selection, color);
+    m_notesManager->newCustomColorMark(selection, color, verseModule()->versification());
 }
 
 void BibleForm::newCustomColorMark()
 {
-    if(!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
+
     VerseSelection selection = lastSelection;
     const QColor color = QColorDialog::getColor(QColor(255, 255, 0), this);
     if(color.isValid()) {
-        m_notesManager->newCustomColorMark(selection, color);
+        m_notesManager->newCustomColorMark(selection, color, verseModule()->versification());
     }
-
 }
 
 void BibleForm::newBoldMark()
 {
-    if(!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
-    VerseSelection selection = lastSelection;
-    m_notesManager->newBoldMark(selection);
 
+    VerseSelection selection = lastSelection;
+    m_notesManager->newBoldMark(selection, verseModule()->versification());
 }
 
 void BibleForm::newItalicMark()
 {
-    if(!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
 
     VerseSelection selection = lastSelection;
-    m_notesManager->newItalicMark(selection);
-
+    m_notesManager->newItalicMark(selection, verseModule()->versification());
 }
 
 void BibleForm::newUnderlineMark()
 {
-    if(!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
 
     VerseSelection selection = lastSelection;
-    m_notesManager->newUnderlineMark(selection);
+    m_notesManager->newUnderlineMark(selection, verseModule()->versification());
 }
 
 void BibleForm::removeMark()
 {
     //DEBUG_FUNC_NAME;
-    if(!m_moduleManager->bibleLoaded()) {
+    if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
     VerseSelection selection = lastSelection;
     //myDebug() << "selection = " << selection.moduleID << selection.bookID << selection.chapterID << selection.startVerse;
-    m_notesManager->removeMark(selection);
+    m_notesManager->removeMark(selection, verseModule()->versification());
 }
 
 VerseSelection BibleForm::verseSelection()
@@ -961,7 +1316,7 @@ VerseSelection BibleForm::verseSelection()
     }
     myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
     //do not this stuff with BibleQuote because some modules have wired html stuff.
-    if(s.canBeUsedForMarks() == false && m_moduleManager->verseModule()->moduleType() != OBVCore::BibleQuoteModule) {
+    if(s.canBeUsedForMarks() == false && m_verseTable->verseModule()->moduleType() != OBVCore::BibleQuoteModule) {
         //now the ultimative alogrithm
         f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection();adVerseSelection.getSelection();");
         const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
@@ -1001,13 +1356,33 @@ VerseSelection BibleForm::verseSelection()
     return s;
 }
 
+bool BibleForm::verseTableLoaded()
+{
+    return m_moduleManager->verseTableLoaded(m_verseTable);
+}
+
+SearchableModule * BibleForm::searchableModule() const
+{
+    return (SearchableModule*) (m_verseTable->verseModule());
+}
+
+VerseTable * BibleForm::verseTable() const
+{
+    return m_verseTable;
+}
+
+VerseModule * BibleForm::verseModule() const
+{
+    return m_verseTable->verseModule();
+}
+
 BibleForm::~BibleForm()
 {
     delete m_ui;
+    m_ui = NULL;
     delete m_verseTable;
-    m_moduleManager->m_verseTable = NULL;
+    m_verseTable = NULL;
 }
-
 
 void BibleForm::changeEvent(QEvent *e)
 {

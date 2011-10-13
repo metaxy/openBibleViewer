@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define REFTEXT_H
 #include "src/core/settings/settings.h"
 #include "src/core/verse/ranges.h"
-#include "src/core/verse/verseurl.h"
+#include "src/core/link/verseurl.h"
 class RefText
 {
 public:

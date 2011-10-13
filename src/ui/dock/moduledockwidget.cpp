@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include <QModelIndexList>
 #include "src/core/obvcore.h"
-#include "src/core/verse/verseurl.h"
+#include "src/core/link/verseurl.h"
 ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::ModuleDockWidget)
@@ -46,6 +46,7 @@ void ModuleDockWidget::init()
     m_moduleID = -1;
 
     ModuleModel model(0);
+    model.setShowAll(true);
     model.setSettings(m_settings);
     model.generate();
 
@@ -73,16 +74,26 @@ void ModuleDockWidget::init()
 void ModuleDockWidget::loadModuleData(QModelIndex index)
 {
     const int moduleID = index.data(Qt::UserRole + 1).toString().toInt();
-    if(moduleID >= 0 && m_settings->getModuleSettings(moduleID)->moduleType != OBVCore::FolderModule /*&& m_dontLoad == false*/) {
-        m_moduleID = moduleID;
-        VerseUrl url;
-        VerseUrlRange range;
-        range.setModule(moduleID);
-        range.setBook(VerseUrlRange::LoadFirstBook);
-        range.setChapter(VerseUrlRange::LoadFirstChapter);
-        range.setWholeChapter();
-        url.addRange(range);
-        m_actions->get(url);
+
+    if(m_dontLoad == false && moduleID >= 0) {
+        Module *m = m_moduleManager->getModule(moduleID);
+        //const OBVCore::ModuleType type = m->moduleType();
+        const OBVCore::ModuleClass cl = m->moduleClass();
+        if(cl == OBVCore::DictionaryModuleClass) {
+            m_actions->get("dict:/"+QString::number(moduleID));
+        } else if(cl == OBVCore::WebPageClass) {
+            m_actions->get("webpage:/"+QString::number(moduleID));
+        } else if(cl == OBVCore::BibleModuleClass) {
+            m_moduleID = moduleID;
+            VerseUrl url;
+            VerseUrlRange range;
+            range.setModule(moduleID);
+            range.setBook(VerseUrlRange::LoadFirstBook);
+            range.setChapter(VerseUrlRange::LoadFirstChapter);
+            range.setWholeChapter();
+            url.addRange(range);
+            m_actions->get(url);
+        }
     }
 }
 /**

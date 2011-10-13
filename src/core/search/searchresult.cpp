@@ -17,8 +17,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 bool searchResultLessThanByVerse(const SearchHit &hit1, const SearchHit &hit2)
 {
     if(hit1.type() == SearchHit::BibleHit && hit2.type() == SearchHit::BibleHit) {
-        if(hit1.value(SearchHit::BibleID) != hit2.value(SearchHit::BibleID)) {
-            return hit1.value(SearchHit::BibleID).toInt() < hit2.value(SearchHit::BibleID).toInt();
+        if(hit1.value(SearchHit::ModuleID) != hit2.value(SearchHit::ModuleID)) {
+            return hit1.value(SearchHit::ModuleID).toInt() < hit2.value(SearchHit::ModuleID).toInt();
         }
         if(hit1.value(SearchHit::BookID) != hit2.value(SearchHit::BookID)) {
             return hit1.value(SearchHit::BookID).toInt() < hit2.value(SearchHit::BookID).toInt();
@@ -71,6 +71,6 @@ QList<SearchHit> SearchResult::hits(SearchHit::SearchHitType type)
   */
 void SearchResult::sort()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     qSort(m_hits.begin(), m_hits.end(), searchResultLessThanByVerse);
 }

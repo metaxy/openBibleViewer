@@ -41,6 +41,8 @@ private:
     Ui::DictionaryDockWidget *ui;
     QStringList dictModuleTitle;
     QList<int> dictModuleID;
+
+    Dictionary *m_dictionary;
 };
 
 #endif // STRONGDOCKWIDGET_H

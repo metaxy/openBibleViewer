@@ -15,11 +15,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define MODULECONFIGDIALOG_H
 
 #include <QtGui/QDialog>
-#include <QtGui/QFileDialog>
+
 #include "src/core/settings/modulesettings.h"
-#include "src/core/dbghelper.h"
-#include "src/module/bible/zefania-bible.h"
-#include "src/module/module.h"
 
 namespace Ui
 {
@@ -40,7 +37,6 @@ public:
     void setModule(ModuleSettings *config);
 protected:
     virtual void changeEvent(QEvent *e);
-
 private slots:
     void bsave();
     void moduleTypeChanged(int id);

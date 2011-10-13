@@ -28,3 +28,13 @@ QList<Range> Ranges::getList() const
 {
     return m_ranges;
 }
+
+void  Ranges::setSource(const VerseUrl &source)
+{
+    m_source = source;
+}
+
+VerseUrl  Ranges::source() const
+{
+    return m_source;
+}

@@ -40,7 +40,7 @@ public:
     explicit InsertLinkDialog(QWidget *parent = 0);
     ~InsertLinkDialog();
     void init();
-    void setCurrent(const QList<VerseUrlRange> &ranges);
+    void setCurrent(const VerseUrl &url);
 
 protected:
     void changeEvent(QEvent *e);

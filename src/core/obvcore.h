@@ -21,7 +21,8 @@ enum ModuleClass {
     NoneClass = 0,
     BibleModuleClass = 1,
     DictionaryModuleClass = 2,
-    FolderClass = 3
+    FolderClass = 3,
+    WebPageClass = 4
 };
 
 enum ModuleType {
@@ -32,9 +33,19 @@ enum ModuleType {
     BibleQuoteDictModule = 4,
     TheWordBibleModule = 5,
     FolderModule = 6,
-    SwordBibleModule = 7
+    SwordBibleModule = 7,
+    WebPageModule = 8,
+    WebDictionaryModule = 9
 };
 
+enum DefaultModule {
+    NotADefaultModule = 0,
+    DefaultBibleModule = 1,
+    DefaultStrongDictModule = 2,
+    DefaultGramDictModule = 3,
+    DefaultDictModule = 4,
+    DefaultRMACDictModule = 5
+};
 /*  QStringList ModuleTypeNames()
   {
       QStringList l;

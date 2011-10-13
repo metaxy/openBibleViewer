@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "biblequote.h"
 #include "config.h"
 #include "CLucene.h"
-#include "CLucene/_clucene-config.h"
+#include "CLucene/clucene-config.h"
 using namespace lucene::store;
 using namespace lucene::analysis;
 using namespace lucene::index;
@@ -147,10 +147,8 @@ int BibleQuote::loadBibleData(const int bibleID, const QString &path)
     m_versification = settings->v11n;
     return 0;
 }
-/**
-  Reads the ini-file and returns the bible name. If the file is invalid is returns an empty QString.
-  */
-QString BibleQuote::readInfo(QFile &file)
+
+MetaInfo BibleQuote::readInfo(QFile &file)
 {
     bool useShortName = false;
     m_moduleName.clear();
@@ -209,13 +207,17 @@ QString BibleQuote::readInfo(QFile &file)
     if(m_moduleName.isEmpty()) {
         myWarning() << "invalid ini File " << file.fileName();
     }
-    return m_moduleName;
+
+    MetaInfo ret;
+    ret.setName(m_moduleName);
+    ret.setShortName(m_moduleShortName);
+    return ret;
 }
-QString BibleQuote::readInfo(const QString &fileName)
+MetaInfo BibleQuote::readInfo(const QString &fileName)
 {
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly))
-        return "";
+        return MetaInfo();
     return readInfo(file);
 }
 int BibleQuote::readBook(const int id)
@@ -459,7 +461,7 @@ void BibleQuote::search(const SearchQuery &query, SearchResult *res) const
         if(query.range == SearchQuery::Whole || (query.range == SearchQuery::OT && l.at(0).toInt() <= 38) || (query.range == SearchQuery::NT && l.at(0).toInt() > 38)) {
             SearchHit hit;
             hit.setType(SearchHit::BibleHit);
-            hit.setValue(SearchHit::BibleID, m_moduleID);
+            hit.setValue(SearchHit::ModuleID, m_moduleID);
             hit.setValue(SearchHit::BookID, l.at(0).toInt());
             hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
             hit.setValue(SearchHit::VerseID, l.at(2).toInt());
@@ -534,4 +536,8 @@ std::pair<int, int> BibleQuote::minMaxVerse(int bookID, int chapterID)
     ret.second = c.data().keys().last();
 
     return ret;
+}
+QStringList BibleQuote::booksPath() const
+{
+    return m_bookPath;
 }

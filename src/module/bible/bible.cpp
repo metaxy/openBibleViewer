@@ -12,6 +12,21 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "bible.h"
+#include "src/core/settings/modulesettings.h"
+#include "src/core/settings/moduledisplaysettings.h"
+
+#include "src/core/dbghelper.h"
+#include "src/core/link/urlconverter.h"
+#include "src/core/versereplacer.h"
+#include "src/core/verseselection.h"
+#include "src/module/bible/biblequote.h"
+#include "src/module/bible/zefania-bible.h"
+#include "src/module/bible/thewordbible.h"
+#include "src/module/bible/swordbible.h"
+
+#include <QtCore/QDir>
+#include <QtGui/QTextDocument>
+
 //#include <valgrind/callgrind.h>
 Bible::Bible()
 {
@@ -23,10 +38,8 @@ Bible::Bible()
 }
 Bible::~Bible()
 {
-    //Bible do not delete anything!
+    //Bible does not delete anything!
 }
-
-
 
 bool Bible::loaded() const
 {
@@ -35,10 +48,8 @@ bool Bible::loaded() const
 
 int Bible::loadModuleData(const int moduleID)
 {
-    DEBUG_FUNC_NAME;
     myDebug() << "moduleID = " << moduleID;
-    //m_versification = 0;
-    m_module = m_map->m_map.value(moduleID, NULL);
+    m_module = m_map->module(moduleID);
 
     //not valid module
     if(moduleID < 0 || m_module == NULL) {
@@ -51,12 +62,12 @@ int Bible::loadModuleData(const int moduleID)
         myDebug() << "invalid type " << moduleType();
         return 2;
     }
+
     m_moduleID = moduleID;
     ModuleSettings *m = m_settings->getModuleSettings(m_moduleID);
 
-    m_bookPath.clear();
-    m_modulePath.clear();
     int loaded = 1;
+
     if(moduleType() == OBVCore::BibleQuoteModule) {
         if(m_module->m_bibleModule) {
             m_bibleModule = m_module->m_bibleModule;
@@ -68,8 +79,6 @@ int Bible::loadModuleData(const int moduleID)
         m_bibleModule->setSettings(m_settings);
         loaded = m_bibleModule->loadBibleData(m_moduleID, m_module->path());
 
-        m_bookPath = ((BibleQuote *)m_bibleModule)->m_bookPath;
-        m_modulePath = m_bibleModule->modulePath();
     } else if(moduleType() == OBVCore::ZefaniaBibleModule || moduleType() == OBVCore::TheWordBibleModule || moduleType() == OBVCore::SwordBibleModule) {
         if(m_module->m_bibleModule) {
             m_bibleModule = m_module->m_bibleModule;
@@ -86,7 +95,6 @@ int Bible::loadModuleData(const int moduleID)
         }
         m_bibleModule->setSettings(m_settings);
         loaded = m_bibleModule->loadBibleData(m_moduleID, m_module->path());
-        myDebug() << "loaded = " << loaded;
     }
     if(loaded != 0) {
         m_loaded = false;
@@ -107,15 +115,7 @@ int Bible::loadModuleData(const int moduleID)
     m_loaded = true;
     return 0;
 }
-/**
- * Load only the book without pharsing.
- */
-int Bible::readBook(const int id)
-{
-    DEBUG_FUNC_NAME
-    m_bookID = id;
-    return m_bibleModule->readBook(id);
-}
+
 
 QString Bible::toUniformHtml(QString string)
 {
@@ -140,21 +140,20 @@ QString Bible::toUniformHtml(QString string)
 
 TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 {
-    DEBUG_FUNC_NAME
-    //myDebug() << "loaded = " << m_loaded;
+    //DEBUG_FUNC_NAME
 
     TextRange ret;
     ret.setModuleID(range.moduleID());
     if(ignoreModuleID) {
-        if(!m_loaded) {
+        if(!loaded()) {
             loadModuleData(m_moduleID);
         }
     } else {
-        if(range.moduleID() != m_moduleID || !m_loaded) {
+        if(range.moduleID() != m_moduleID || !loaded()) {
             loadModuleData(range.moduleID());
         }
     }
-    if(!m_loaded) {
+    if(!loaded()) {
         ret.setFailed(true);
         return ret;
     }
@@ -218,9 +217,9 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         }
         //myDebug() << "current chapter = " << chapterID;
     }
-    myDebug() << "bookID = " << bookID << " chapterID " << chapterID;
+    //myDebug() << "bookID = " << bookID << " chapterID " << chapterID;
     std::pair<int, int> minMax = m_bibleModule->minMaxVerse(bookID, chapterID);
-    myDebug() << "min = " << minMax.first << " max = " << minMax.second;
+    //myDebug() << "min = " << minMax.first << " max = " << minMax.second;
 
     int startVerse = 0;
     int endVerse = 0;
@@ -248,7 +247,8 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             startVerse++;
     }
 
-    myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
+    //myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
+    //myDebug() << "selected verse = " << range.selectedVerse();
 
     TextRange rawRange = m_bibleModule->rawTextRange(bookID, chapterID, startVerse, endVerse);
     ret.setBookID(bookID);
@@ -264,7 +264,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         Verse verse = it.value();
 
         //main formatting
-        if(m_notes != 0 && m_moduledisplaysettings->showNotes() == true) {
+        if(m_notes != 0 && m_moduleDisplaySettings->showNotes() == true) {
             for(int n = 0; n < m_notes->getIDList().size(); ++n) {
                 const QString noteID = m_notes->getIDList().at(n);
                 if(m_notes->getType(noteID) == "text") {
@@ -307,9 +307,9 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                 //change this to provide maybe more future features
                 verse.prepend("<div id = \"currentEntry\" class = \"selectedEntry\"> ");
             } else {
-                verse.prepend("div class = \"selectedEntry\">");
+                verse.prepend("<div class = \"selectedEntry\">");
             }
-            verse.append("</div>");
+             verse.append("</div>");
         }
 
 
@@ -317,7 +317,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         it.setValue(verse);
     }
 
-    if(m_notes != 0 && m_moduledisplaysettings->showMarks() == true) {
+    if(m_notes != 0 && m_moduleDisplaySettings->showMarks() == true) {
         //myDebug() << "insert notes";
         VerseReplacer replacer;
         for(int n = 0; n <  m_notes->getIDList().size(); ++n) {
@@ -452,7 +452,7 @@ TextRanges Bible::readRanges(const Ranges &ranges, bool ignoreModuleID)
 void Bible::search(SearchQuery query, SearchResult *result)
 {
     DEBUG_FUNC_NAME
-    if(!m_loaded)
+    if(!loaded())
         return;
 
     m_lastSearchQuery = query;
@@ -461,7 +461,7 @@ void Bible::search(SearchQuery query, SearchResult *result)
         m_bibleModule->buildIndex();
 
     m_bibleModule->search(query, result);
-    //myDebug() << "hits.size() = " << result->hits().size();
+    myDebug() << "hits.size() = " << result->hits().size();
 }
 /**
  * Used only by BibleQuote modules.
@@ -469,17 +469,21 @@ void Bible::search(SearchQuery query, SearchResult *result)
  */
 QStringList Bible::getSearchPaths() const
 {
+
     if(moduleType() == OBVCore::BibleQuoteModule) {
+        const QStringList bookPath = ((BibleQuote *)m_bibleModule)->booksPath();
+        const QString modulePath = m_bibleModule->modulePath();
+
         QStringList l;
-        l.append(QString(m_modulePath + QDir::separator()));
-        if(m_bookID < m_bookPath.size()) {
-            QString p = m_bookPath.at(m_bookID);
+        l.append(QString(modulePath + QDir::separator()));
+        if(m_bookID < bookPath.size()) {
+            QString p = bookPath.at(m_bookID);
             const int pos = p.lastIndexOf(QDir::separator());
             if(pos != -1) {
                 p = p.remove(pos, p.size());
             }
-            if(!p.startsWith(m_modulePath)) {
-                p = m_modulePath + QDir::separator() + p + QDir::separator();
+            if(!p.startsWith(modulePath)) {
+                p = modulePath + QDir::separator() + p + QDir::separator();
             }
             l.append(p);
         }
@@ -505,10 +509,6 @@ QString Bible::moduleShortTitle() const
     return m_moduleShortTitle;
 }
 
-QStringList Bible::bookPath() const
-{
-    return m_bookPath;
-}
 
 QList<int> Bible::bookIDs() const
 {

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<updates>
+<stable>
+	<version>0.5.95</version>
+	<link os="windows">http://openbv.uucyc.name/de/downloads/category/15-version-0.6.html</link>
+</stable>
+<unstable>
+	<version>0.6.51</version>
+	<link os="windows">http://google.de</link>
+	<link os="linux">http://heise.de</link>
+</unstable>
+</updates>

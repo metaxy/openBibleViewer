@@ -40,3 +40,42 @@ void StudyInterface::changeEvent(QEvent *e)
         break;
     }
 }
+bool StudyInterface::hasMenuBar()
+{
+    return false;
+}
+
+QMenuBar* StudyInterface::menuBar()
+{
+    return NULL;
+}
+
+bool StudyInterface::hasToolBar()
+{
+    return false;
+}
+
+QList<QToolBar*> StudyInterface::toolBars()
+{
+    return QList<QToolBar*>();
+}
+
+QHash<DockWidget *, Qt::DockWidgetArea> StudyInterface::docks()
+{
+    return QHash<DockWidget *, Qt::DockWidgetArea> ();
+}
+
+void StudyInterface::createDocks()
+{
+
+}
+
+void StudyInterface::createToolBars()
+{
+
+}
+
+void StudyInterface::createMenu()
+{
+
+}

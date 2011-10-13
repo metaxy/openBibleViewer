@@ -33,9 +33,10 @@ endif(UNIX)
 find_package ( Qt4 REQUIRED )
 include(FindPkgConfig)
 pkg_check_modules(CLUCENE1 libclucene-core)
+find_package(CLucene1)
 
 option( OBV_PORTABLE_VERSION "Build a portable version" OFF )
-option( OBV_SWORD_SUPPORT "Build with sword support" OFF )
+option( OBV_SWORD_SUPPORT "Build with sword support" ON )
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     option( OBV_NO_DEBUG_OUTPUT "Do not show Debug output" ON )
@@ -59,41 +60,20 @@ else()
   option( OBV_USE_WSTRING "Use toStdWString and fromWCharArray" ON)
 endif()
 
-find_package(CLucene1)
-if(CLUCENE1_FOUND)
-    set(_BUILD_CLUCENE 0)
-else(CLUCENE1_FOUND)
-    set(_BUILD_CLUCENE 1)
-endif(CLUCENE1_FOUND)
 
-if(MSVC)
-  set(_BUILD_CLUCENE 0)
-endif()
 
 if(OBV_SWORD_SUPPORT)
     include (FindSword)
     if (NOT SWORD_NOT_FOUND)
         ADD_DEFINITIONS(-DBUILD_WITH_SWORD)
+    else(NOT SWORD_NOT_FOUND)
+        set(OBV_SWORD_SUPPORT FALSE)
     endif(NOT SWORD_NOT_FOUND)
 endif(OBV_SWORD_SUPPORT)
 
-if(_BUILD_CLUCENE)
-    message("find threads and zlib")
-    include (FindThreads)
-    include (FindZlib)
-else(_BUILD_CLUCENE)
-    #link against dynamic clucene >= 0.9.23
-    message("find shared libs of clucene")
-    include_directories(${CLUCENE1_INCLUDE_DIRS})
-    # todo: change to your clucene dir
-    SET(CLUCENE_DIR "C:\\\\Users\\\\mo\\\\coding\\\\clucene-HEAD-314b755\\\\")
-    include_directories (
-		${CLUCENE_DIR}\\build\\src\\shared
-		${CLUCENE_DIR}\\src\\shared
-		${CLUCENE_DIR}\\src\\core
-	)
-endif(_BUILD_CLUCENE)
-
+set(OBV_VERSION_NUMBER "0.6.50")
+set(OBV_VERSION_STATUS "unstable")
+set(OBV_BUILD_DATE "2011-08-07")
 
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
@@ -107,16 +87,8 @@ include_directories(
     ${QT_QTNETWORK_INCLUDE_DIR} 
     ${QT_QTWEBKIT_INCLUDE_DIR} 
     ${openBibleViewer_BINARY_DIR}/src
+    ${CLUCENE1_INCLUDE_DIRS}
     )
-if(_BUILD_CLUCENE)
-    message("add sub dir of clucene")
-    include_directories (
-        ${openBibleViewer_BINARY_DIR}/src/clucene/shared
-        ${openBibleViewer_SOURCE_DIR}/src/clucene/shared
-        ${openBibleViewer_SOURCE_DIR}/src/clucene/core
-    )
-    add_subdirectory ( src/clucene )
-endif(_BUILD_CLUCENE)
 
 if(OBV_SWORD_SUPPORT)
     include_directories(
@@ -126,6 +98,7 @@ endif(OBV_SWORD_SUPPORT)
 
 #Build openBibleViewer
 set( openBibleViewer_HDRS
+    src/anyoption.h
 
     src/api/notesapi.h
     src/api/bibleapi.h
@@ -133,8 +106,7 @@ set( openBibleViewer_HDRS
 
     src/core/verse/chapter.h
     src/core/verse/book.h
-    src/core/verse/verseurl.h
-    src/core/verse/verseurlrange.h
+
     src/core/verse/range.h
     src/core/verse/ranges.h
     src/core/verse/rangeenum.h
@@ -149,7 +121,7 @@ set( openBibleViewer_HDRS
     src/core/verse/reftext.h
 
     src/core/basicclass.h
-    src/core/biblelink.h
+
     src/core/dbghelper.h
     src/core/history.h
     src/core/KoXmlReader.h
@@ -157,8 +129,14 @@ set( openBibleViewer_HDRS
     src/core/KoXmlNS.h
     src/core/KoXmlReaderForward.h
     src/core/obvcore.h
-    src/core/strongurl.h
 
+    src/core/link/strongurl.h
+    src/core/link/verseurl.h
+    src/core/link/verseurlrange.h
+    src/core/link/biblelink.h
+    src/core/link/url.h
+    src/core/link/urlconverter.h
+    src/core/link/urlconverter2.h
 
     src/core/search/searchprovider.h
     src/core/search/searchproviders.h
@@ -169,15 +147,13 @@ set( openBibleViewer_HDRS
     src/core/settings/settings.h
     src/core/settings/session.h
     src/core/settings/moduledisplaysettings.h
-    src/core/settings/modulecache.h
     src/core/settings/modulesettings.h
 
-    src/core/urlconverter.h
-    src/core/urlconverter2.h
+
     src/core/versereplacer.h
     src/core/version.h
     src/core/verseselection.h
-    src/core/url.h
+
     src/core/xbelreader.h
     src/core/xbelwriter.h
 
@@ -192,17 +168,23 @@ set( openBibleViewer_HDRS
     src/module/modulemap.h
     src/module/versetable.h
     src/module/dictionary/dictionary.h
+    src/module/dictionary/webdictionary.h
     src/module/dictionary/biblequote-dict.h
+    src/module/dictionary/dictionarymodule.h
     src/module/bible/biblemodule.h
     src/module/bible/thewordbible.h
     src/module/bible/swordbible.h
+    src/module/metainfo.h
+    src/module/searchablemodule.h
+    src/module/webpage.h
 
-    src/ui/interface/advanced/windowsessiondata.h
+   src/ui/interface/advanced/manager/webpagemanager.h
     src/ui/modelmodel.h
     )
 
 set( openBibleViewer_SRCS
     src/main.cpp
+    src/anyoption.cpp
 
     src/api/bibleapi.cpp
     src/api/notesapi.cpp
@@ -210,8 +192,7 @@ set( openBibleViewer_SRCS
 
     src/core/verse/chapter.cpp
     src/core/verse/book.cpp
-    src/core/verse/verseurl.cpp
-    src/core/verse/verseurlrange.cpp
+
     src/core/verse/range.cpp
     src/core/verse/ranges.cpp
     src/core/verse/rangeenum.cpp
@@ -237,10 +218,8 @@ set( openBibleViewer_SRCS
     src/core/verseselection.cpp
     src/core/simplenotes.cpp
     src/core/basicclass.cpp
-    src/core/biblelink.cpp
     src/core/moduledownloader.cpp
     src/core/history.cpp
-    src/core/strongurl.cpp
     src/core/search/search.cpp
     src/core/search/searchprovider.cpp
     src/core/search/searchproviders.cpp
@@ -249,17 +228,21 @@ set( openBibleViewer_SRCS
     src/core/search/searchhit.cpp
     src/core/settings/settings.cpp
     src/core/settings/modulesettings.cpp
-    src/core/settings/modulecache.cpp
     src/core/settings/session.cpp
     src/core/settings/moduledisplaysettings.cpp
-    src/core/url.cpp
-    src/core/urlconverter.cpp
-    src/core/urlconverter2.cpp
     src/core/versereplacer.cpp
     src/core/version.cpp
     src/core/xbelreader.cpp
     src/core/xbelwriter.cpp
     src/core/downloadinfile.cpp
+
+    src/core/link/strongurl.cpp
+    src/core/link/verseurl.cpp
+    src/core/link/verseurlrange.cpp
+    src/core/link/biblelink.cpp
+    src/core/link/url.cpp
+    src/core/link/urlconverter.cpp
+    src/core/link/urlconverter2.cpp
 
     src/module/bible/bible.cpp
     src/module/bible/biblequote.cpp
@@ -272,10 +255,15 @@ set( openBibleViewer_SRCS
     src/module/versetable.cpp
     src/module/modulemap.cpp
     src/module/dictionary/dictionary.cpp
+    src/module/dictionary/webdictionary.cpp
+    src/module/dictionary/dictionarymodule.cpp
     src/module/dictionary/biblequote-dict.cpp
     src/module/bible/biblemodule.cpp
     src/module/bible/thewordbible.cpp
     src/module/bible/swordbible.cpp
+    src/module/metainfo.cpp
+    src/module/searchablemodule.cpp
+    src/module/webpage.cpp
     
     src/ui/dialog/searchdialog.cpp
     src/ui/dialog/settingsdialog.cpp
@@ -286,6 +274,7 @@ set( openBibleViewer_SRCS
     src/ui/dialog/searchinfodialog.cpp
     src/ui/dialog/insertlinkdialog.cpp
     src/ui/dialog/downloadprogressdialog.cpp
+    src/ui/dialog/updatecheckerdialog.cpp
     
     src/ui/dock/dockwidget.cpp
     src/ui/dock/dictionarydockwidget.cpp
@@ -298,18 +287,23 @@ set( openBibleViewer_SRCS
     src/ui/dock/advancedsearchresultdockwidget.cpp
     
     src/ui/interface/simple/simpleinterface.cpp
-    src/ui/interface/advanced/biblelistwidget.cpp
-    src/ui/interface/advanced/biblelistitemdelegate.cpp
+    src/ui/interface/advanced/versetablewidget.cpp
+    src/ui/interface/advanced/versetableitemdelegate.cpp
     src/ui/interface/advanced/mdiareafilter.cpp
     src/ui/interface/advanced/form/bibleform.cpp
+    src/ui/interface/advanced/form/form.cpp
+    src/ui/interface/advanced/form/webform.cpp
+    src/ui/interface/advanced/form/dictionaryform.cpp
+
     src/ui/interface/advanced/webview.cpp
     src/ui/interface/advanced/manager/windowmanager.cpp
     src/ui/interface/advanced/manager/bookmarksmanager.cpp
     src/ui/interface/advanced/manager/biblemanager.cpp
+    src/ui/interface/advanced/manager/dictionarymanager.cpp
     src/ui/interface/advanced/manager/notesmanager.cpp
     src/ui/interface/advanced/manager/searchmanager.cpp
+    src/ui/interface/advanced/manager/webpagemanager.cpp
     src/ui/interface/advanced/advancedinterface.cpp
-    src/ui/interface/advanced/windowsessiondata.cpp
     src/ui/interface/study/studyinterface.cpp
     src/ui/interface/interface.cpp
 
@@ -322,6 +316,8 @@ set( openBibleViewer_SRCS
     src/ui/actions.cpp
     src/ui/modulemodel.cpp
     src/ui/biblepassageframe.cpp
+
+    src/ui/updateschecker.cpp
     
     )
 
@@ -336,6 +332,7 @@ set ( openBibleViewer_UIS
     src/ui/dialog/inserthtmldialog.ui
     src/ui/dialog/insertlinkdialog.ui
     src/ui/dialog/downloadprogressdialog.ui
+    src/ui/dialog/updatecheckerdialog.ui
 
     src/ui/dock/dictionarydockwidget.ui
     src/ui/dock/searchresultdockwidget.ui
@@ -349,8 +346,12 @@ set ( openBibleViewer_UIS
     src/ui/interface/simple/simpleinterface.ui
     src/ui/interface/advanced/advancedinterface.ui
     src/ui/interface/study/studyinterface.ui
+
     src/ui/interface/advanced/form/bibleform.ui
-    src/ui/interface/advanced/biblelistwidget.ui
+    src/ui/interface/advanced/form/webform.ui
+    src/ui/interface/advanced/form/dictionaryform.ui
+
+    src/ui/interface/advanced/versetablewidget.ui
 
     src/ui/mainwindow.ui
     src/ui/noteseditor.ui
@@ -384,7 +385,6 @@ set ( openBibleViewer_MOCS
     src/core/notes/xmlnotes.h
     src/core/notes/textnotes.h
     src/core/downloadinfile.h
-
     src/core/simplenotes.h
     src/core/moduledownloader.h
     src/core/verse/versification/versification_kjv.h
@@ -401,6 +401,7 @@ set ( openBibleViewer_MOCS
     src/ui/dialog/moduledownloaddialog.h
     src/ui/dialog/insertlinkdialog.h
     src/ui/dialog/downloadprogressdialog.h
+    src/ui/dialog/updatecheckerdialog.h
 
     src/ui/marklist.h
     src/ui/markcategories.h
@@ -424,18 +425,27 @@ set ( openBibleViewer_MOCS
     src/ui/interface/study/studyinterface.h
 
     src/ui/interface/advanced/form/bibleform.h
+    src/ui/interface/advanced/form/webform.h
+    src/ui/interface/advanced/form/form.h
+    src/ui/interface/advanced/form/dictionaryform.h
+
     src/ui/interface/advanced/advancedinterface.h
     src/ui/interface/advanced/webview.h
-    src/ui/interface/advanced/biblelistwidget.h
-    src/ui/interface/advanced/biblelistitemdelegate.h
+    src/ui/interface/advanced/versetablewidget.h
+    src/ui/interface/advanced/versetableitemdelegate.h
     src/ui/interface/advanced/mdiareafilter.h
     src/ui/interface/advanced/manager/windowmanager.h
     src/ui/interface/advanced/manager/bookmarksmanager.h
     src/ui/interface/advanced/manager/biblemanager.h
+    src/ui/interface/advanced/manager/dictionarymanager.h
     src/ui/interface/advanced/manager/notesmanager.h
     src/ui/interface/advanced/manager/searchmanager.h
     src/ui/actions.h
     src/ui/biblepassageframe.h
+
+
+    src/ui/updateschecker.h
+
     )
 
 configure_file( ${openBibleViewer_SOURCE_DIR}/src/config.h.cmake 
@@ -451,11 +461,11 @@ else ()
   add_executable(openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS})
 endif ()
 
-if(_BUILD_CLUCENE)
-    set(CL_LIBS clucene-core-static clucene-shared-static ${ZLIB_LIBRARY})
-else(_BUILD_CLUCENE)
+if(MSVC)
     set(CL_LIBS  "${CLUCENE_DIR}\\build\\bin\\clucene-shared.lib" "${CLUCENE_DIR}\\build\\bin\\clucene-core.lib")
-endif(_BUILD_CLUCENE)
+else(MSVC)
+    set(CL_LIBS clucene-core)
+endif(MSVC)
 
 if(OBV_SWORD_SUPPORT)
     set(SW_LIBS ${CURL_LIBRARIES} ${ICU_LIBRARIES} ${ICU_I18N_LIBRARIES} ${ZLIB_LIBRARIES} ${SWORD_LIBRARY})
@@ -471,6 +481,7 @@ target_link_libraries( openBibleViewer
                         ${QT_QTXML_LIBRARY} 
                         ${QT_QTNETWORK_LIBRARY} 
                         ${QT_QTWEBKIT_LIBRARY} 
+                        ${QT_QTSCRIPT_LIBRARY}
                         ${CL_LIBS}
                         ${SW_LIBS}
 )
@@ -507,8 +518,8 @@ set(CPACK_PACKAGE_VENDOR "Paul Walger")
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
-set(CPACK_PACKAGE_VERSION_MINOR "5")
-set(CPACK_PACKAGE_VERSION_PATCH "90")
+set(CPACK_PACKAGE_VERSION_MINOR "6")
+set(CPACK_PACKAGE_VERSION_PATCH "50")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "openBibleViewer ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
 #nsis
 if(WIN32 AND NOT UNIX)
