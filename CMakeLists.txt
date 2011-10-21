@@ -71,9 +71,9 @@ if(OBV_SWORD_SUPPORT)
     endif(NOT SWORD_NOT_FOUND)
 endif(OBV_SWORD_SUPPORT)
 
-set(OBV_VERSION_NUMBER "0.6.50")
+set(OBV_VERSION_NUMBER "0.6.80")
 set(OBV_VERSION_STATUS "unstable")
-set(OBV_BUILD_DATE "2011-08-07")
+set(OBV_BUILD_DATE "2011-10-21")
 
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
@@ -519,13 +519,12 @@ set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
 set(CPACK_PACKAGE_VERSION_MINOR "6")
-set(CPACK_PACKAGE_VERSION_PATCH "50")
+set(CPACK_PACKAGE_VERSION_PATCH "80")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "openBibleViewer ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
 #nsis
 if(WIN32 AND NOT UNIX)
   # There is a bug in NSI that does not handle full unix paths properly. Make
   # sure there is at least one set of four (4) backlasshes.
-  # SET(CPACK_PACKAGE_ICON "${CMake_SOURCE_DIR}/Utilities/Release\\\\InstallIcon.bmp")
   set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\openBibleViewer.exe")
   SET(CPACK_PACKAGE_ICON "${CMake_SOURCE_DIR}/src/icons/124x124/\\\\openBibleViewer.bmp")
   set(CPACK_NSIS_DISPLAY_NAME "openBibleViewer")
