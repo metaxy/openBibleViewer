@@ -527,6 +527,7 @@ if(WIN32 AND NOT UNIX)
   # sure there is at least one set of four (4) backlasshes.
   # SET(CPACK_PACKAGE_ICON "${CMake_SOURCE_DIR}/Utilities/Release\\\\InstallIcon.bmp")
   set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\openBibleViewer.exe")
+  SET(CPACK_PACKAGE_ICON "${CMake_SOURCE_DIR}/src/icons/124x124/\\\\openBibleViewer.bmp")
   set(CPACK_NSIS_DISPLAY_NAME "openBibleViewer")
   set(CPACK_NSIS_HELP_LINK "http:\\\\\\\\openbv.uucyc.name")
   set(CPACK_NSIS_URL_INFO_ABOUT "http:\\\\\\\\openbv.uucyc.name")

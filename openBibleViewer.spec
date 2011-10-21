@@ -1,5 +1,5 @@
 #
-# spec file for package openBibleViewer (Version 0.5)
+# spec file for package openBibleViewer (Version 0.7)
 #
 # Copyright 2009-2010 Paul Walger http://paul.walger.eu
 #
@@ -11,8 +11,8 @@ Summary: Bible study tool
 Name: %{name}
 License: GPLv3
 URL: http://openbv.uucyc.name
-Version: 0.6.0
-Release: 5
+Version: 0.6.80
+Release: 7
 Group: Amusements/Teaching/Other
 Source: %{name}-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
@@ -20,24 +20,24 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-build
 %if 0%{?fedora_version}
 
 %if 0%{?fedora_version} < 14
-BuildRequires: qt-devel >= 4.6 gcc-c++ clucene-core-devel zlib
+BuildRequires: qt-devel >= 4.6 gcc-c++ zlib
 %endif
 
 %if 0%{?fedora_version} >= 14
-BuildRequires: qt-devel >= 4.6 gcc-c++ clucene-core-devel zlib qt-webkit-devel >= 4.6
+BuildRequires: qt-devel >= 4.6 gcc-c++  zlib qt-webkit-devel >= 4.6
 %endif
 
 %endif
 
 %if 0%{?mandriva_version}
-BuildRequires: libqt4-devel >= 4.6 gcc-c++ clucene-devel libz
+BuildRequires: libqt4-devel >= 4.6 gcc-c++  libz
 %endif
 
 %if 0%{?suse_version}
-BuildRequires: libqt4-devel libQtWebKit-devel >= 4.6 gcc-c++ clucene-core-devel clucene-core libz
+BuildRequires: libqt4-devel libQtWebKit-devel >= 4.6 gcc-c++  libz
 %endif
 
-BuildRequires: desktop-file-utils cmake
+BuildRequires: desktop-file-utils cmake clucene1-core clucene1-devel
 
 %description
 This program allows one to work with the bible and study it.
@@ -56,7 +56,7 @@ make DESTDIR=%{buildroot} install
 
 %files
 %defattr(-,root,root,-)
-%doc README INSTALL LICENSE
+%doc README LICENSE
 %{_bindir}/%{name}
 
 %{_datadir}/applications/%{name}.desktop
