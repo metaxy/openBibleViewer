@@ -1,4 +1,8 @@
-openbibleviewer (0.6.0-1) stable; urgency=low
+openbibleviewer (0.6.80-1) unstable; urgency=low
+   
+   * 0.7 beta 
+ 
+ -- Paul Walger <metaxy@walger.name>  Sat, 22 Oct 2011 10:18:00 +0100
  
   * initial release
  

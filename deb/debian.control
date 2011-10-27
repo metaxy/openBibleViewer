@@ -3,7 +3,7 @@ Section: kde
 Priority: optional
 Maintainer: Paul Walger <metaxy@walger.name>
 Homepage: http://openbv.uucyc.name
-Build-Depends: cdbs (>= 0.4.51), debhelper (>= 7), libqt4-dev, libclucene-dev, cmake, zlib1g-dev, libqtwebkit-dev | lzma
+Build-Depends: cdbs (>= 0.4.51), debhelper (>= 7), libqt4-dev, libclucene1, cmake, libqtwebkit-dev | lzma
 
 Package: openbibleviewer
 Section: kde

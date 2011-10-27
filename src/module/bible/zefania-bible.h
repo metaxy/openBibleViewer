@@ -108,8 +108,8 @@ private:
     int m_moduleID;
     QString m_modulePath;
     QString m_moduleName;
-    Book m_book;
     QString m_uid;
+    Book m_book;
 
 };
 

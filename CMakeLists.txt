@@ -36,7 +36,7 @@ pkg_check_modules(CLUCENE1 libclucene-core)
 find_package(CLucene1)
 
 option( OBV_PORTABLE_VERSION "Build a portable version" OFF )
-option( OBV_SWORD_SUPPORT "Build with sword support" ON )
+option( OBV_SWORD_SUPPORT "Build with sword support" OFF )
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     option( OBV_NO_DEBUG_OUTPUT "Do not show Debug output" ON )
