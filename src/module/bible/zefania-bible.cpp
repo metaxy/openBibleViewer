@@ -86,13 +86,13 @@ Versification* ZefaniaBible::getVersification()
                     //all chapters
                     while (m_xml->readNextStartElement()) {
                         if(m_xml->name() == "CHAPTER") {
-                            const int chapterID = m_xml->attributes().value("cnumber").toString().toInt()-1;
+                            const int chapterID = m_xml->attributes().value("cnumber").toString().toInt();
                             b.maxChapter = chapterID;
                             //all Verse
                             int maxVerse = 0;
                             while (m_xml->readNextStartElement()) {
                                 if(m_xml->name() == "VERS") {
-                                    const int verseID = m_xml->attributes().value("vnumber").toString().toInt()-1;
+                                    const int verseID = m_xml->attributes().value("vnumber").toString().toInt();
                                     maxVerse = verseID;
                                 }
                                 m_xml->skipCurrentElement();
@@ -104,7 +104,7 @@ Versification* ZefaniaBible::getVersification()
                         }
 
                     }
-
+                    //myDebug() << b.bookID << b.name << b.maxChapter << b.maxVerse;
                     map.insert(b.bookID,b);
                 } else {
                     m_xml->skipCurrentElement();
@@ -675,6 +675,7 @@ TextRange ZefaniaBible::rawTextRange(int bookID, int chapterID, int startVerse, 
         myDebug() << "book not loaded";
     }
     if(!m_book.hasChapter(chapterID)) {
+        myDebug() << m_book.data().keys();
         myWarning() << "index out of range index chapterID = " << chapterID;
         return ret;
     }
@@ -701,13 +702,13 @@ std::pair<int, int> ZefaniaBible::minMaxVerse(int bookID, int chapterID)
         myDebug() << "book not loaded";
     }
     if(!m_book.hasChapter(chapterID)) {
+        myDebug() << m_book.data().keys();
         myWarning() << "index out of range index chapterID = " << chapterID;
         return ret;
     }
 
     const Chapter c = m_book.getChapter(chapterID);
     //because c.data() is a map and it is sorted by key
-    myDebug() << c.data().keys();
     ret.first = c.data().keys().first();
     ret.second = c.data().keys().last();
     qDebug() << ret.first << ret.second;
@@ -719,19 +720,23 @@ Book ZefaniaBible::readBook()
 {
     Book book(m_xml->attributes().value("bnumber").toString().toInt()-1);
     while (m_xml->readNextStartElement()) {
+        myDebug() << m_xml->name();
         if(m_xml->name() == "CHAPTER") {
             book.addChapter(readChapter());
         } else {
             m_xml->skipCurrentElement();
         }
     }
+    myDebug() << "end " << m_xml->name();
     return book;
 }
 
 
 Chapter ZefaniaBible::readChapter()
 {
-    Chapter chapter(m_xml->attributes().value("cnumber").toString().toInt()-1);
+    const int chapterID = m_xml->attributes().value("cnumber").toString().toInt()-1;
+    myDebug() << chapterID;
+    Chapter chapter(chapterID);
     while (m_xml->readNextStartElement()) {
         if(m_xml->name() == "VERS") {
             chapter.addVerse(readVerse());
@@ -739,16 +744,16 @@ Chapter ZefaniaBible::readChapter()
             m_xml->skipCurrentElement();
         }
     }
+    myDebug() << "end " << m_xml->name();
     return chapter;
 }
 
 Verse ZefaniaBible::readVerse()
 {
     const int verseID = m_xml->attributes().value("vnumber").toString().toInt() - 1;
-    const QString text = m_xml->readElementText();
+    const QString text = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
     Verse verse(verseID, text);
     return verse;
-
 }
 
 MetaInfo ZefaniaBible::readMetaInfo()
