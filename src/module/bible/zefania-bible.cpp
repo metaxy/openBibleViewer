@@ -63,22 +63,23 @@ int ZefaniaBible::loadBibleData(const int id, const QString &path)
 
 Versification* ZefaniaBible::getVersification()
 {
-    Versification *v11n = new Versification();
-
+    DEBUG_FUNC_NAME;
     if(m_xml != NULL) {
         delete m_xml;
         m_xml = NULL;
     }
     m_xml = new QXmlStreamReader(&m_file);
+    QMap<int, BookV11N> map;
     if (m_xml->readNextStartElement())
     {
         if (m_xml->name() == "XMLBIBLE") {
             while (m_xml->readNextStartElement()) {
+                myDebug() << "top" << m_xml->name();
                 if (m_xml->name() == "INFORMATION") {
                     MetaInfo info = readMetaInfo();
                 } else if (m_xml->name() == "BIBLEBOOK") {
                     BookV11N b;
-                    b.bookID = m_xml->attributes().value("bnumber").toString().toInt();
+                    b.bookID = m_xml->attributes().value("bnumber").toString().toInt()-1;
                     b.name = m_xml->attributes().value("bname").toString();
                     QStringList sname;
                     sname << m_xml->attributes().value("bsname").toString();
@@ -88,32 +89,41 @@ Versification* ZefaniaBible::getVersification()
                     //all chapters
                     while (m_xml->readNextStartElement()) {
                         if(m_xml->name() == "CHAPTER") {
-
+                            const int chapterID = m_xml->attributes().value("cnumber").toString().toInt()-1;
+                            b.maxChapter = chapterID;
                             //all Verse
+                            int maxVerse = 0;
                             while (m_xml->readNextStartElement()) {
                                 if(m_xml->name() == "VERS") {
-                                    //
-                                } else {
-                                    m_xml->skipCurrentElement();
+                                    const int verseID = m_xml->attributes().value("vnumber").toString().toInt()-1;
+                                    maxVerse = verseID;
                                 }
+                                m_xml->skipCurrentElement();
+
                             }
+                            b.maxVerse << maxVerse;
                         } else {
                             m_xml->skipCurrentElement();
                         }
+
                     }
 
-                }else {
+                    map.insert(b.bookID,b);
+                } else {
                     m_xml->skipCurrentElement();
                 }
+
             }
         }
         else {
             qDebug() << "not a file";
             m_xml->raiseError(QObject::tr("The file is not an XBEL version 1.0 file."));
+            return 0;
         }
     }
     delete m_xml;
     m_xml = NULL;
+    Versification_Cache *v11n = new Versification_Cache(map);
     return v11n;
 }
 
@@ -708,14 +718,11 @@ std::pair<int, int> ZefaniaBible::minMaxVerse(int bookID, int chapterID)
 
 Book ZefaniaBible::readBook()
 {
-    DEBUG_FUNC_NAME;
     Book book(m_xml->attributes().value("bnumber").toString().toInt()-1);
-    myDebug() << "bookID = " << book.bookID();
     while (m_xml->readNextStartElement()) {
         if(m_xml->name() == "CHAPTER") {
             book.addChapter(readChapter());
         } else {
-            myDebug() << "skipping " << m_xml->name();
             m_xml->skipCurrentElement();
         }
     }
@@ -725,14 +732,11 @@ Book ZefaniaBible::readBook()
 
 Chapter ZefaniaBible::readChapter()
 {
-    DEBUG_FUNC_NAME;
     Chapter chapter(m_xml->attributes().value("cnumber").toString().toInt()-1);
-    myDebug() << chapter.chapterID();
     while (m_xml->readNextStartElement()) {
         if(m_xml->name() == "VERS") {
             chapter.addVerse(readVerse());
         } else {
-            myDebug() << "skipping " << m_xml->name();
             m_xml->skipCurrentElement();
         }
     }
@@ -741,10 +745,7 @@ Chapter ZefaniaBible::readChapter()
 
 Verse ZefaniaBible::readVerse()
 {
-    DEBUG_FUNC_NAME;
     const QString text = m_xml->readElementText();
-    myDebug() <<  m_xml->attributes().value("vnumber") << text;
-
     Verse verse(m_xml->attributes().value("vnumber").toString().toInt()-1,text);
     return verse;
 
