@@ -110,11 +110,11 @@ void ModuleConfigDialog::bsave()
              (int)m_moduleSettings->moduleType != m_ui->comboBox_type->currentIndex() ||
              m_moduleSettings->modulePath != m_ui->lineEdit_path->text())) {
 
-        ZefaniaBible zef;
+        /*ZefaniaBible zef;
         zef.removeHardCache(m_ui->lineEdit_path->text());
         if(m_moduleSettings->modulePath != m_ui->lineEdit_path->text()) {
             zef.removeHardCache(m_moduleSettings->modulePath);
-        }
+        }*/
     }
     m_moduleSettings->moduleName = m_ui->lineEdit_name->text();
     m_moduleSettings->modulePath = m_ui->lineEdit_path->text();

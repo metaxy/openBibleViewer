@@ -287,8 +287,7 @@ int BibleQuote::readBook(const int id)
 
     //todo: its slow
     for(int i = 0; i < chapterText.size() - 1; i++) {
-        Chapter c;
-        c.setChapterID(i);
+        Chapter c(i);
         QStringList rawVerseList = chapterText.at(i + 1).split(m_verseSign);
         for(int j = 0; j < rawVerseList.size(); j++) { //split removes versesign but it is needed
             QString verseText = rawVerseList.at(j);
@@ -301,9 +300,9 @@ int BibleQuote::readBook(const int id)
                 verseText.prepend(m_verseSign);
 
             Verse v(j, verseText);
-            c.addVerse(j, v);
+            c.addVerse(v);
         }
-        m_book.addChapter(i, c);
+        m_book.addChapter(c);
     }
     file.close();
     return 0;

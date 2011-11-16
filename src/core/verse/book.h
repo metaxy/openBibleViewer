@@ -19,9 +19,11 @@ class Book
 {
 public:
     Book();
+    Book(const int bookID);
     int size() const;
     void clear();
-    void addChapter(const int chapterID, const Chapter &c);
+    void addChapter(const Chapter &c);
+
     bool hasChapter(const int chapterID) const;
     Chapter getChapter(const int chapterID);
     void setID(const int id);

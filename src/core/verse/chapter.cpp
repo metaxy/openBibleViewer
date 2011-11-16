@@ -22,10 +22,10 @@ Chapter::Chapter(const int chapterID)
     m_chapterID = chapterID;
     m_verseCount = 0;
 }
-void Chapter::addVerse(const int verseID, const Verse &verse)
+void Chapter::addVerse(const Verse &verse)
 {
     m_verseCount++;
-    m_data.insert(verseID, verse);
+    m_data.insert(verse.verseID(), verse);
 }
 QMap<int, Verse> Chapter::data() const
 {

@@ -71,37 +71,8 @@ public:
     QString uid() const;
     TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse);
     std::pair<int, int> minMaxVerse(int bookID, int chapterID);
-
-    void removeHardCache(const QString &path);
 private:
     QDomElement* format(QDomElement* e);
-
-    /**
-      * Checks if there are cache files for a given module. If not it returns false.
-      * \param path The path of the module.
-     */
-    bool checkForCacheFiles(const QString &path) const;
-    /**
-      * Reads the entire xml file and if caching is enabled, generates cache file.
-      * \param id The ID of the module(bible).
-      * \param path. Path to the module file.
-      */
-    int loadNoCached(const int id, const QString &path);
-    /**
-      * Load only booknames and not every book and his data
-      */
-    int loadCached(const int id, const QString &path);
-    Book fromHardToSoft(const int id, const QDomNode *ncache);
-
-    QHash<int, Book> m_softCacheData;
-
-    void clearSoftCache();
-    void setSoftCache(const QHash<int, Book >&softCache);
-    void setSoftCache(const int bookID, const Book &b);
-    QHash<int, Book> softCache() const;
-    Book softCache(const int bookID) const;
-    QDomNode readBookFromHardCache(QString path, int bookID);
-
     QString indexPath() const;
 
     int m_bookID;
@@ -110,6 +81,16 @@ private:
     QString m_moduleName;
     QString m_uid;
     Book m_book;
+    QFile m_file;
+
+    QXmlStreamReader *m_xml;
+
+    Book readBook();
+    Chapter readChapter();
+    Verse readVerse();
+    MetaInfo readMetaInfo();
+
+    Versification* getVersification();
 
 };
 

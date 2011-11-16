@@ -17,6 +17,10 @@ Book::Book()
 {
     m_id = -1;
 }
+Book::Book(const int bookID)
+{
+    m_id = bookID;
+}
 int Book::size() const
 {
     return m_chapters.size();
@@ -26,9 +30,9 @@ void Book::clear()
     m_id = -1;
     m_chapters.clear();
 }
-void Book::addChapter(const int chapterID, const Chapter &c)
+void Book::addChapter(const Chapter &c)
 {
-    m_chapters.insert(chapterID, c);
+    m_chapters.insert(c.chapterID(), c);
 }
 bool Book::hasChapter(const int chapterID) const
 {
