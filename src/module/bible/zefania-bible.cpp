@@ -38,22 +38,26 @@ int ZefaniaBible::loadBibleData(const int id, const QString &path)
 {
     DEBUG_FUNC_NAME
     m_moduleName = "";
-    m_moduleID = id;
 
-    if(m_settings->getModuleSettings(m_moduleID)->zefbible_hardCache == false && m_settings->getModuleSettings(m_moduleID)->zefbible_softCache == false) {
-        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Please activate Caching.(Hard or Soft Cache)"));
-        return 1;
-    }
-    
-    m_uid = path;
-    
     m_file.setFileName(path);
     if (!m_file.open(QFile::ReadOnly | QFile::Text))
         return 1;
 
-    // load versification
-        //from cache
-        //from file
+    m_settings->getModuleSettings(m_moduleID)->loadVersification();
+    m_versification = m_settings->getModuleSettings(m_moduleID)->v11n;
+
+    if(!m_versification) {
+        m_versification = getVersification();
+    }
+
+    m_moduleID = id;
+    m_modulePath = path;
+    m_uid = path;
+
+    if(m_moduleName == "") {
+        m_moduleName = m_settings->getModuleSettings(m_moduleID)->moduleName;
+    }
+    myDebug() << m_versification->bookNames().values();
     return 0;
 }
 
@@ -80,6 +84,24 @@ Versification* ZefaniaBible::getVersification()
                     sname << m_xml->attributes().value("bsname").toString();
                     b.shortNames = sname;
                     myDebug() << "bookID " << b.bookID;
+
+                    //all chapters
+                    while (m_xml->readNextStartElement()) {
+                        if(m_xml->name() == "CHAPTER") {
+
+                            //all Verse
+                            while (m_xml->readNextStartElement()) {
+                                if(m_xml->name() == "VERS") {
+                                    //
+                                } else {
+                                    m_xml->skipCurrentElement();
+                                }
+                            }
+                        } else {
+                            m_xml->skipCurrentElement();
+                        }
+                    }
+
                 }else {
                     m_xml->skipCurrentElement();
                 }
@@ -102,25 +124,34 @@ int ZefaniaBible::readBook(const int id)
         delete m_xml;
         m_xml = NULL;
     }
-    m_xml = new QXmlStreamReader(&m_file);
+    QFile file(m_modulePath);
+    if (!file.open(QFile::ReadOnly | QFile::Text))
+        return 1;
+    myDebug() << "reading with id " << id;
+    m_xml = new QXmlStreamReader(&file);
     if (m_xml->readNextStartElement())
     {
+        myDebug() << m_xml->name();
         if (m_xml->name() == "XMLBIBLE") {
             while (m_xml->readNextStartElement()) {
-                if (m_xml->name() == "INFORMATION") {
-                    MetaInfo info = readMetaInfo();
-                } else if (m_xml->name() == "BIBLEBOOK") {
-                    if(m_xml->attributes().value("bnumber").toString().toInt() == id) {
+                myDebug() << 2 << m_xml->name();
+                if (m_xml->name() == "BIBLEBOOK") {
+                    myDebug() << m_xml->name() << " number " << m_xml->attributes().value("bnumber");
+                    if(m_xml->attributes().value("bnumber").toString().toInt() == id+1) {
                         m_book = readBook();
+                        delete m_xml;
+                        m_xml = NULL;
                         return 0;
+                    } else {
+                        m_xml->skipCurrentElement();
                     }
-                }else {
+                } else {
                     m_xml->skipCurrentElement();
                 }
             }
         }
         else {
-            qDebug() << "not a file";
+            myDebug() << "not a file";
             m_xml->raiseError(QObject::tr("The file is not an XBEL version 1.0 file."));
         }
     }
@@ -206,9 +237,6 @@ QDomElement* ZefaniaBible::format(QDomElement *e)
     return e;
 */
 }
-
-
-
 /*int ZefaniaBible::loadNoCached(const int id, const QString &path)
 {
     DEBUG_FUNC_NAME
@@ -429,7 +457,7 @@ int ZefaniaBible::loadCached(const int id, const QString &path)
 */
 MetaInfo ZefaniaBible::readInfo(QFile &file)
 {
-    /*KoXmlDocument doc;
+    KoXmlDocument doc;
     if(!doc.setContent(&file)) {
         file.close();
         return MetaInfo();
@@ -441,17 +469,16 @@ MetaInfo ZefaniaBible::readInfo(QFile &file)
 
     MetaInfo info;
     info.setName(m_moduleName);
-    return info;*/
+    return info;
 }
 
 MetaInfo ZefaniaBible::readInfo(const QString &fileName)
 {
-   /* QFile file(fileName);
+    QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly))
         return MetaInfo();
-    return readInfo(file);*/
+    return readInfo(file);
 }
-
 
 int ZefaniaBible::moduleID() const
 {
@@ -565,7 +592,6 @@ void ZefaniaBible::buildIndex()
     writer->close();
     delete writer;
     progress.close();*/
-
 }
 
 void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
@@ -682,40 +708,51 @@ std::pair<int, int> ZefaniaBible::minMaxVerse(int bookID, int chapterID)
 
 Book ZefaniaBible::readBook()
 {
-    Book book(m_xml->attributes().value("bnumber").toString().toInt());
+    DEBUG_FUNC_NAME;
+    Book book(m_xml->attributes().value("bnumber").toString().toInt()-1);
+    myDebug() << "bookID = " << book.bookID();
     while (m_xml->readNextStartElement()) {
         if(m_xml->name() == "CHAPTER") {
             book.addChapter(readChapter());
         } else {
+            myDebug() << "skipping " << m_xml->name();
             m_xml->skipCurrentElement();
         }
     }
+    return book;
 }
+
 
 Chapter ZefaniaBible::readChapter()
 {
-    Chapter chapter(m_xml->attributes().value("cnumber").toString().toInt());
+    DEBUG_FUNC_NAME;
+    Chapter chapter(m_xml->attributes().value("cnumber").toString().toInt()-1);
+    myDebug() << chapter.chapterID();
     while (m_xml->readNextStartElement()) {
         if(m_xml->name() == "VERS") {
             chapter.addVerse(readVerse());
         } else {
+            myDebug() << "skipping " << m_xml->name();
             m_xml->skipCurrentElement();
         }
     }
+    return chapter;
 }
 
 Verse ZefaniaBible::readVerse()
 {
-    Verse verse(m_xml->attributes().value("vnumber").toString().toInt(),
-                m_xml->text().toString()
-                );
-    m_xml->skipCurrentElement();
+    DEBUG_FUNC_NAME;
+    const QString text = m_xml->readElementText();
+    myDebug() <<  m_xml->attributes().value("vnumber") << text;
+
+    Verse verse(m_xml->attributes().value("vnumber").toString().toInt()-1,text);
     return verse;
 
 }
 
 MetaInfo ZefaniaBible::readMetaInfo()
 {
-
+    m_xml->skipCurrentElement();
+    return MetaInfo();
 }
 
