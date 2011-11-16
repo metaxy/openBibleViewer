@@ -73,8 +73,13 @@ Versification* ZefaniaBible::getVersification()
                 if (m_xml->name() == "INFORMATION") {
                     MetaInfo info = readMetaInfo();
                 } else if (m_xml->name() == "BIBLEBOOK") {
-                    int bookID = m_xml->attributes().value("bnumber").toString().toInt();
-                    myDebug() << "bookID " << bookID;
+                    BookV11N b;
+                    b.bookID = m_xml->attributes().value("bnumber").toString().toInt();
+                    b.name = m_xml->attributes().value("bname").toString();
+                    QStringList sname;
+                    sname << m_xml->attributes().value("bsname").toString();
+                    b.shortNames = sname;
+                    myDebug() << "bookID " << b.bookID;
                 }else {
                     m_xml->skipCurrentElement();
                 }
@@ -93,49 +98,34 @@ Versification* ZefaniaBible::getVersification()
 int ZefaniaBible::readBook(const int id)
 {
     DEBUG_FUNC_NAME;
-
-    /*QDomNode ncache;
-    //book is not in soft cache
-    if(m_settings->getModuleSettings(m_moduleID)->zefbible_hardCache == true &&
-            (!m_softCacheData.contains(id) || m_settings->getModuleSettings(m_moduleID)->zefbible_softCache == false)) {
-        ncache = readBookFromHardCache(m_modulePath, id);
-    } else {
-        m_book = softCache(id);
-        ((Versification_Zefania*)m_versification)->setMaxChapter(id, m_book.size());
-        return 0;
+    if(m_xml != NULL) {
+        delete m_xml;
+        m_xml = NULL;
     }
-    //reading loaded data
-    m_book.clear();
-    m_bookID = id;
-    m_book.setID(m_bookID);
-
-    QDomNode n = ncache.firstChild();
-    QString outtext;
-    int chapterCounter;
-    for(chapterCounter = 0; !n.isNull(); ++chapterCounter) {
-        Chapter c(chapterCounter);
-        outtext = "";
-        QDomNode n2 = n.firstChild();
-        int verseCount = 0;
-        while(!n2.isNull()) {  //alle verse
-            QDomElement e2 = n2.toElement();
-            format(&e2);
-            if(e2.tagName().toLower() == "vers") { // read only verse
-                const int verseID = e2.attribute("vnumber", QString::number(verseCount + 1)).toInt() - 1;
-                Verse verse(verseID, e2.text());
-                c.addVerse(verseID, verse);
-                verseCount++;
-            } //todo: all other data
-            n2 = n2.nextSibling();
+    m_xml = new QXmlStreamReader(&m_file);
+    if (m_xml->readNextStartElement())
+    {
+        if (m_xml->name() == "XMLBIBLE") {
+            while (m_xml->readNextStartElement()) {
+                if (m_xml->name() == "INFORMATION") {
+                    MetaInfo info = readMetaInfo();
+                } else if (m_xml->name() == "BIBLEBOOK") {
+                    if(m_xml->attributes().value("bnumber").toString().toInt() == id) {
+                        m_book = readBook();
+                        return 0;
+                    }
+                }else {
+                    m_xml->skipCurrentElement();
+                }
+            }
         }
-        m_book.addChapter(chapterCounter, c);
-
-        n = n.nextSibling();
+        else {
+            qDebug() << "not a file";
+            m_xml->raiseError(QObject::tr("The file is not an XBEL version 1.0 file."));
+        }
     }
-
-    ((Versification_Zefania*)m_versification)->setMaxChapter(id, m_book.size());
-    setSoftCache(m_bookID, m_book);
-    return 0;*/
+    delete m_xml;
+    m_xml = NULL;
 }
 
 

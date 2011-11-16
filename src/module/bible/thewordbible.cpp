@@ -77,36 +77,34 @@ int TheWordBible::loadBibleData(const int id, const QString &path)
             QRegExp strong("<W(G|H)(\\d+)(x|s)?>");
             QRegExp newLine("<CL>");
             if(displaySettings->showStrong())
-                line.replace(strong, "<span class=\"gramlink\"><a href=\"gram://\\1\\2\">\\1\\2</a></span>");
+                line.replace(strong, "<span class=\"stronglink\"><a href=\"strong://\\1\\2\">\\1\\2</a></span>");
             else
                 line.replace(strong, "");
 
             line.replace(newLine, "<br />");
             Verse v(verse, line);
-            currentChapter.addVerse(verse, v);
+            currentChapter.addVerse(v);
             if(verse + 1 < m_versification->maxVerse(flags).value(book).at(chapter)) {
                 verse++;
             } else {
                 if(chapter + 1 < m_versification->maxChapter(flags).value(book)) {
-                    currentBook.addChapter(chapter, currentChapter);
+                    currentBook.addChapter(currentChapter);
                     chapter++;
                     verse = 0;
 
                     currentChapter = Chapter();
                     currentChapter.setChapterID(chapter);
                 } else {
-                    currentBook.addChapter(chapter, currentChapter);
-                    m_books.insert(book, currentBook);
+                    currentBook.addChapter(currentChapter);
+                    m_books.insert(currentBook.bookID(), currentBook);
 
                     book++;
                     chapter = 0;
                     verse = 0;
 
-                    currentBook = Book();
-                    currentBook.setID(book);
+                    currentBook = Book(book);
 
-                    currentChapter = Chapter();
-                    currentChapter.setChapterID(chapter);
+                    currentChapter = Chapter(chapter);
                 }
             }
         } else {
