@@ -57,7 +57,6 @@ int ZefaniaBible::loadBibleData(const int id, const QString &path)
     if(m_moduleName == "") {
         m_moduleName = m_settings->getModuleSettings(m_moduleID)->moduleName;
     }
-    myDebug() << m_versification->bookNames().values();
     return 0;
 }
 
@@ -74,7 +73,6 @@ Versification* ZefaniaBible::getVersification()
     {
         if (m_xml->name() == "XMLBIBLE") {
             while (m_xml->readNextStartElement()) {
-                myDebug() << "top" << m_xml->name();
                 if (m_xml->name() == "INFORMATION") {
                     MetaInfo info = readMetaInfo();
                 } else if (m_xml->name() == "BIBLEBOOK") {
@@ -84,7 +82,6 @@ Versification* ZefaniaBible::getVersification()
                     QStringList sname;
                     sname << m_xml->attributes().value("bsname").toString();
                     b.shortNames = sname;
-                    myDebug() << "bookID " << b.bookID;
 
                     //all chapters
                     while (m_xml->readNextStartElement()) {
@@ -710,8 +707,10 @@ std::pair<int, int> ZefaniaBible::minMaxVerse(int bookID, int chapterID)
 
     const Chapter c = m_book.getChapter(chapterID);
     //because c.data() is a map and it is sorted by key
+    myDebug() << c.data().keys();
     ret.first = c.data().keys().first();
     ret.second = c.data().keys().last();
+    qDebug() << ret.first << ret.second;
 
     return ret;
 }
@@ -745,8 +744,9 @@ Chapter ZefaniaBible::readChapter()
 
 Verse ZefaniaBible::readVerse()
 {
+    const int verseID = m_xml->attributes().value("vnumber").toString().toInt() - 1;
     const QString text = m_xml->readElementText();
-    Verse verse(m_xml->attributes().value("vnumber").toString().toInt()-1,text);
+    Verse verse(verseID, text);
     return verse;
 
 }
