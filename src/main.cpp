@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
     }
 
     settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-
+    myDebug() << homeDataPath;
     QDir dir(homeDataPath);
     if(!dir.exists(homeDataPath)) {
         dir.mkpath(homeDataPath);

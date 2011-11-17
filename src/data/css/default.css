@@ -8,10 +8,10 @@ html {
 }
 
 .verseTableTitle a:link, a:visited, a:active{
-    color:#000000;
+    color: #000000;
 }
 .verseTableTitle a:hover {
-    color:#0080AF;
+    color: #0080AF;
     text-shadow: 1px 1px 0px #fff;
 }
 .verseTable td[class~=active] a:link, a:visited, a:active, #topTable td[class~=active] a:link, a:visited, a:active{
@@ -66,7 +66,7 @@ td.rowTitle {
     content: "  ";
 }
 .gramlink a{
-    color:#323232;
+    color: #323232;
     text-decoration:none;
 }
 .gramlink a:hover{
@@ -82,11 +82,11 @@ td.rowTitle {
     content: "  ";
 }
 .stronglink a{
-    color:#323232;
+    color: #323232;
     text-decoration:none;
 }
 .stronglink a:hover{
-    color:#0080AF;
+    color: #0080AF;
     text-decoration:underline;
 }
 
@@ -98,11 +98,11 @@ td.rowTitle {
     content: "  ";
 }
 .rmaclink a{
-    color:#323232;
+    color: #323232;
     text-decoration:none;
 }
 .rmaclink a:hover{
-    color:#0080AF;
+    color: #0080AF;
     text-decoration:underline;
 }
 
@@ -131,10 +131,10 @@ td.rowTitle {
 }
 .studynote {
     font-size: small;
-    color:#420F00;
+    color: #420F00;
 }
 .verseNumber {
-    color:#014B88;
+    color: #014B88;
     font-size: smaller;
     vertical-align: super;
 }
