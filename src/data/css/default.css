@@ -148,3 +148,13 @@ td.rowTitle {
 td .rangeTitle {
     text-align: center;
 }
+.pageBreak {
+    page-break-after: always;
+}
+
+.sup {
+    
+}
+.sub {
+    
+}

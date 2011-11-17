@@ -90,6 +90,14 @@ private:
     Verse readVerse();
     MetaInfo readMetaInfo();
 
+    QString pharseStyle();
+    QString pharseNote();
+    QString pharseBr();
+    QString pharseGram();
+    QString pharseSup();
+    QString pharseXRef();
+
+    bool cmp(const QStringRef &r, const QString &s);
     Versification* getVersification();
 
 };
