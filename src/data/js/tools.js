@@ -12,7 +12,8 @@ function VerseSelection() {
 }
 function verseGetSelection () {
     console.log("getting verseselection");
-    if(window.getSelection().type == 'Range') {
+    console.log(window.getSelection().type);
+    /*if(window.getSelection().type == 'Range') {*/
         console.log("its a range");
         var a = window.getSelection().getRangeAt(0);
         if(a != null) {
@@ -55,7 +56,7 @@ function verseGetSelection () {
 
         }
 
-	}
+	/*}*/
 }
 
 

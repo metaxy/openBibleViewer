@@ -1236,9 +1236,9 @@ VerseSelection BibleForm::verseSelection()
         endVerseText = startVerseText;
 
     const QString selectedText = f->evaluateJavaScript("vS.selectedText;").toString();
-    //myDebug() << "selected text = " << selectedText;
-    //myDebug() << "startVerseText = " << startVerseText;
-    //myDebug() << "endVerseText = " << endVerseText;
+    myDebug() << "selected text = " << selectedText;
+    myDebug() << "startVerseText = " << startVerseText;
+    myDebug() << "endVerseText = " << endVerseText;
     {
         QString sText;
         for(int i = 0; i < selectedText.size() - 1; i++) {
