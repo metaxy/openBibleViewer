@@ -656,14 +656,14 @@ QString ZefaniaBible::pharseBr()
 
 QString ZefaniaBible::pharseGram()
 {
-   /* QString ret;
-    const QString pre("<span class =\"studynote\">");
-    const QString post("</span>");
+    QString ret;
+    const QString strong = m_xml->attributes().value("str").toString();
+    const QString rmac = m_xml->attributes().value("rmac").toString();
     while(true)
     {
         m_xml->readNext();
 
-        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), "NOTE")))
+        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr"))
             break;
 
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
@@ -674,19 +674,15 @@ QString ZefaniaBible::pharseGram()
             ret += pharseBr();
         } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr"){
             ret += pharseGram();
-        } else if(cmp(m_xml->name(), "XREF")){
-            ret += pharseXRef();
         } else if(cmp(m_xml->name(), "SUP")){
             ret += pharseSup();
         } else {
             ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
         }
     }
-    return pre + ret + post;*/
-/*
-    if(element.attribute("str", "") != "" && moduleSettings->displaySettings()->showStrong() == true) {
-
-        if(!str.startsWith("G", Qt::CaseInsensitive) && !str.startsWith("H", Qt::CaseInsensitive)) {
+    if(!strong.isEmpty()) {
+        QString add;
+        if(!strong.startsWith("G", Qt::CaseInsensitive) && !strong.startsWith("H", Qt::CaseInsensitive)) {
             //todo: that isn't  nice
             if(m_bookID < 39) {
                 add = "H";
@@ -694,15 +690,12 @@ QString ZefaniaBible::pharseGram()
                 add = "G";
             }
         }
-
-        t.setData(t.data() + "<span class=\"stronglink\"><a href=\"strong://" + add + str + "\">" + add + str + "</a></span>");
-
-    } else if(element.attribute("rmac", "") != "") {
-        t.setData(t.data() + "<span class=\"rmaclink\"><a href=\"rmac://" + element.attribute("rmac", "") + "\">" + element.attribute("rmac", "") + "</a></span>");
-
-    }*/
-    m_xml->skipCurrentElement();
-    return "";
+        ret +=  "<span class=\"stronglink\"><a  href=\"strong://" + add + strong + "\">" + add + strong + "</a></span>";
+    }
+    if(!rmac.isEmpty()) {
+        ret +=  "<span class=\"rmaclink\"><a href=\"rmac://" + rmac + "\">" + rmac + "</a></span>";
+    }
+    return ret;
 }
 
 QString ZefaniaBible::pharseSup()
