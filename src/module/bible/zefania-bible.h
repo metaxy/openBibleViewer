@@ -96,6 +96,7 @@ private:
     QString pharseGram();
     QString pharseSup();
     QString pharseXRef();
+    QString pharseDiv();
 
     bool cmp(const QStringRef &r, const QString &s);
     Versification* getVersification();
