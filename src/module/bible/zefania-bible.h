@@ -81,7 +81,6 @@ private:
     QString m_moduleName;
     QString m_uid;
     Book m_book;
-    QFile m_file;
 
     QXmlStreamReader *m_xml;
 
@@ -99,8 +98,9 @@ private:
     QString pharseDiv();
 
     bool cmp(const QStringRef &r, const QString &s);
-    Versification* getVersification();
+    void getVersification();
 
+    ModuleSettings *m_set;
 };
 
 #endif // ZEFANIABIBLE_H

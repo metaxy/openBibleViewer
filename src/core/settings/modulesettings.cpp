@@ -62,7 +62,7 @@ void ModuleSettings::loadVersification()
         QSettings settings(versificationFile, QSettings::IniFormat);
         const QStringList books = settings.childGroups();
         //if we could not load anything v11n has to be NULL,
-        //because eg. BibleQuote will than load the versification from the module files
+        //because eg. BibleQuote or ZefaniaBible will than load the versification from the module files
         if(books.isEmpty())
             return;
         QMap<int, BookV11N> map;
@@ -92,9 +92,7 @@ void ModuleSettings::loadVersification()
 
 void ModuleSettings::saveVersification()
 {
-    //DEBUG_FUNC_NAME;
     if(versificationFile != "") {
-        //myDebug() << versificationFile;
         QSettings settings(versificationFile, QSettings::IniFormat);
         if(v11n == NULL)
             return;

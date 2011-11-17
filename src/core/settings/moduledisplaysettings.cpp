@@ -82,3 +82,53 @@ bool ModuleDisplaySettings::showRefLinks()
 {
     return m_showRefLinks;
 }
+
+void ModuleDisplaySettings::setShowRMac(bool b)
+{
+    m_showRMac = b;
+}
+
+bool ModuleDisplaySettings::showRMac()
+{
+    return m_showRMac;
+}
+
+void ModuleDisplaySettings::setShowCaptions(bool b)
+{
+    m_showCaptions = b;
+}
+
+bool ModuleDisplaySettings::showCaptions()
+{
+    return m_showCaptions;
+}
+
+void ModuleDisplaySettings::setShowProlog(bool b)
+{
+    m_showProlog = b;
+}
+
+bool ModuleDisplaySettings::showProlog()
+{
+    return m_showProlog;
+}
+
+void ModuleDisplaySettings::setShowMedia(bool b)
+{
+    m_showMedia = b;
+}
+
+bool ModuleDisplaySettings::showMedia()
+{
+    return m_showMedia;
+}
+
+void ModuleDisplaySettings::setShowGram(bool b)
+{
+    m_showGram = b;
+}
+
+bool ModuleDisplaySettings::showGrams()
+{
+    return m_showGram;
+}

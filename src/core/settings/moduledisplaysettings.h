@@ -50,6 +50,21 @@ public:
     void setShowRefLinks(bool showRefLinks);
     bool showRefLinks();
 
+    void setShowRMac(bool b);
+    bool showRMac();
+
+    void setShowCaptions(bool b);
+    bool showCaptions();
+
+    void setShowProlog(bool b);
+    bool showProlog();
+
+    void setShowMedia(bool b);
+    bool showMedia();
+
+    void setShowGram(bool b);
+    bool showGrams();
+
 private:
     bool m_loadNotes;
     bool m_showMarks;
@@ -58,6 +73,13 @@ private:
     bool m_showBottomToolBar;
     bool m_showStrong;
     bool m_showRefLinks;
+
+    bool m_showRMac;
+    bool m_showCaptions;
+    bool m_showProlog;
+    bool m_showMedia;
+    bool m_showGram;
+
 
 };
 

@@ -39,50 +39,44 @@ int ZefaniaBible::loadBibleData(const int id, const QString &path)
     DEBUG_FUNC_NAME;
     m_moduleName = "";
     m_modulePath = path;
+    m_set = m_settings->getModuleSettings(m_moduleID);
 
-    m_file.setFileName(path);
-    if (!m_file.open(QFile::ReadOnly | QFile::Text))
-        return 1;
-
-    ModuleSettings *mset = m_settings->getModuleSettings(m_moduleID);
-    mset->loadVersification();
-    m_versification = m_settings->getModuleSettings(m_moduleID)->v11n;
-
-    if(!m_versification) {
-        myDebug() << "Reloading Versification";
-        m_versification = getVersification();
-        mset->versificationFile = m_settings->v11nFile(m_modulePath);
-        mset->versificationName = "";
-        mset->saveVersification();
-    }
+    getVersification();
+    m_versification = m_set->v11n;
 
     m_moduleID = id;
     m_modulePath = path;
     m_uid = path;
 
     if(m_moduleName == "") {
-        m_moduleName = m_settings->getModuleSettings(m_moduleID)->moduleName;
+        m_moduleName = m_set->moduleName;
     }
     return 0;
 }
 
-Versification* ZefaniaBible::getVersification()
+void ZefaniaBible::getVersification()
 {
-    DEBUG_FUNC_NAME;
+    m_set->loadVersification();
+
+    if(m_set->v11n != NULL) {
+        return;
+    }
+
     if(m_xml != NULL) {
         delete m_xml;
         m_xml = NULL;
     }
-    m_xml = new QXmlStreamReader(&m_file);
+    QFile file(m_modulePath);
+    if (!file.open(QFile::ReadOnly | QFile::Text))
+        return;
+    m_xml = new QXmlStreamReader(&file);
     QMap<int, BookV11N> map;
 
     if (m_xml->readNextStartElement())
     {
         if (cmp(m_xml->name(), "XMLBIBLE")) {
             while (m_xml->readNextStartElement()) {
-                if (cmp(m_xml->name(), "INFORMATION")) {
-                    MetaInfo info = readMetaInfo();
-                } else if (cmp(m_xml->name(), "BIBLEBOOK")) {
+                if (cmp(m_xml->name(), "BIBLEBOOK")) {
                     BookV11N b;
                     b.bookID = m_xml->attributes().value("bnumber").toString().toInt()-1;
                     b.name = m_xml->attributes().value("bname").toString();
@@ -117,21 +111,44 @@ Versification* ZefaniaBible::getVersification()
 
             }
         }
-        else {
-            myDebug() << "not a file";
-            m_xml->raiseError(QObject::tr("The file is not an XBEL version 1.0 file."));
-            return 0;
-        }
     }
     delete m_xml;
     m_xml = NULL;
-    Versification_Cache *v11n = new Versification_Cache(map);
-    return v11n;
+    file.close();
+    bool hasAny = false;
+    foreach(BookV11N b, map) {
+        if(b.name.isEmpty()) {
+            hasAny = true;
+        }
+    }
+
+    if(!hasAny) {
+        QString v = "kjv";
+        if(map.size() == 27) {
+            v += "-nt";
+        } else if(map.size() == 39) {
+             v += "-ot";
+        }
+        myDebug() << v;
+        m_set->versificationFile = "";
+        m_set->versificationName = v;
+        m_set->loadVersification();
+
+    } else {
+        m_set->v11n = new Versification_Cache(map);
+
+        m_set->versificationFile = m_settings->v11nFile(m_modulePath);
+        m_set->versificationName = "";
+
+        m_set->saveVersification();
+    }
+
 }
 
 int ZefaniaBible::readBook(const int id)
 {
     DEBUG_FUNC_NAME;
+    myDebug() << id;
     if(m_xml != NULL) {
         delete m_xml;
         m_xml = NULL;
@@ -145,6 +162,7 @@ int ZefaniaBible::readBook(const int id)
         if (cmp(m_xml->name(), "XMLBIBLE")) {
             while (m_xml->readNextStartElement()) {
                 if (cmp(m_xml->name(), "BIBLEBOOK")) {
+                    myDebug() << m_xml->attributes().value("bnumber").toString().toInt();
                     if(m_xml->attributes().value("bnumber").toString().toInt() == id+1) {
                         m_book = readBook();
                         delete m_xml;
@@ -163,6 +181,7 @@ int ZefaniaBible::readBook(const int id)
             m_xml->raiseError(QObject::tr("The file is not an XBEL version 1.0 file."));
         }
     }
+    file.close();
     delete m_xml;
     m_xml = NULL;
 }
@@ -275,6 +294,16 @@ bool ZefaniaBible::hasIndex() const
 void ZefaniaBible::buildIndex()
 {
     DEBUG_FUNC_NAME
+
+    if(m_xml != NULL) {
+        delete m_xml;
+        m_xml = NULL;
+    }
+    QFile file(m_modulePath);
+    if (!file.open(QFile::ReadOnly | QFile::Text))
+        return; // no deletes
+    m_xml = new QXmlStreamReader(&file);
+
     QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, m_versification->bookCount());
     const QString index = indexPath();
     QDir dir("/");
@@ -298,11 +327,6 @@ void ZefaniaBible::buildIndex()
     Document doc;
     bool canceled = false;
 
-    if(m_xml != NULL) {
-        delete m_xml;
-        m_xml = NULL;
-    }
-    m_xml = new QXmlStreamReader(&m_file);
 
     if (m_xml->readNextStartElement())
     {
@@ -363,6 +387,7 @@ void ZefaniaBible::buildIndex()
     writer->close();
     delete writer;
     progress.close();
+    file.close();
     delete m_xml;
     m_xml = NULL;
 }
@@ -519,7 +544,7 @@ Verse ZefaniaBible::readVerse()
 
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             out += m_xml->text();
-        } else if(cmp(m_xml->name(), "STYLE")){
+        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st"){
             out += pharseStyle();
         } else if(cmp(m_xml->name(), "NOTE")){
             out += pharseNote();
@@ -544,19 +569,18 @@ QString ZefaniaBible::pharseStyle()
 {
     QString ret;
     QString css = m_xml->attributes().value("css").toString();
-    const QString pre("<span style=\"");
-    const QString pre2("\">");
+    const QString pre("<span style=\""+css+"\">");
     const QString post("</span>");
     while(true)
     {
         m_xml->readNext();
 
-        if(m_xml->tokenType() == QXmlStreamReader::EndElement && cmp(m_xml->name(), "STYLE"))
+        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), "STYLE" )  || m_xml->name() == "st"))
             break;
 
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             ret += m_xml->text().toString();
-        } else if(cmp(m_xml->name(), "STYLE")){
+        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st"){
             ret += pharseStyle();
         } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr"){
             ret += pharseGram();
@@ -566,13 +590,13 @@ QString ZefaniaBible::pharseStyle()
             ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
         }
     }
-    return pre + css + pre2 + ret + post;
+    return pre + ret + post;
 }
 QString ZefaniaBible::pharseNote()
 {
-    /*if(moduleSettings->displaySettings()->showStudyNotes() != true) {
+    if(!m_set->displaySettings()->showStudyNotes()) {
         return "";
-    } */
+    }
     QString ret;
     const QString pre("<span class =\"studynote\">");
     const QString post("</span>");
@@ -585,7 +609,7 @@ QString ZefaniaBible::pharseNote()
 
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             ret += m_xml->text().toString();
-        } else if(cmp(m_xml->name(), "STYLE")){
+        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st"){
             ret += pharseStyle();
         } else if(cmp(m_xml->name(), "BR")){
             ret += pharseBr();
@@ -614,6 +638,9 @@ QString ZefaniaBible::pharseBr()
 
 QString ZefaniaBible::pharseGram()
 {
+    if(!m_set->displaySettings()->showStrong() && !m_set->displaySettings()->showRMac()) {
+        return "";
+    }
     QString ret;
     const QString strong = m_xml->attributes().value("str").toString();
     const QString rmac = m_xml->attributes().value("rmac").toString();
@@ -626,7 +653,7 @@ QString ZefaniaBible::pharseGram()
 
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             ret += m_xml->text().toString();
-        } else if(cmp(m_xml->name(), "STYLE")){
+        } else if(cmp(m_xml->name(), "STYLE")  || m_xml->name() == "st"){
             ret += pharseStyle();
         } else if(cmp(m_xml->name(), "BR")){
             ret += pharseBr();
@@ -638,7 +665,7 @@ QString ZefaniaBible::pharseGram()
             ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
         }
     }
-    if(!strong.isEmpty()) {
+    if(!strong.isEmpty() && m_set->displaySettings()->showStrong()) {
         QString add;
         if(!strong.startsWith("G", Qt::CaseInsensitive) && !strong.startsWith("H", Qt::CaseInsensitive)) {
             //todo: that isn't  nice
@@ -650,7 +677,7 @@ QString ZefaniaBible::pharseGram()
         }
         ret +=  "<span class=\"stronglink\"><a  href=\"strong://" + add + strong + "\">" + add + strong + "</a></span>";
     }
-    if(!rmac.isEmpty()) {
+    if(!rmac.isEmpty() && m_set->displaySettings()->showRMac()) {
         ret +=  "<span class=\"rmaclink\"><a href=\"rmac://" + rmac + "\">" + rmac + "</a></span>";
     }
     return ret;
@@ -679,7 +706,7 @@ QString ZefaniaBible::pharseSup()
 
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             ret += m_xml->text().toString();
-        } else if(cmp(m_xml->name(), "STYLE")){
+        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st"){
             ret += pharseStyle();
         } else if(cmp(m_xml->name(), "GRAM")){
             ret += pharseGram();
@@ -692,6 +719,9 @@ QString ZefaniaBible::pharseSup()
 
 QString ZefaniaBible::pharseXRef()
 {
+    if(!m_set->displaySettings()->showRefLinks()) {
+        return "";
+    }
     const QStringRef vref = m_xml->attributes().value("vref");
     const QStringRef aix = m_xml->attributes().value("aix");
     const QStringRef title = m_xml->attributes().value("tile");
