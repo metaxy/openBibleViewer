@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
         homeDataPath = QString::fromLocal8Bit(opt->getValue( "configPath" ));
     } else {
         #if !defined(Q_WS_WIN)
-            homeDataPath = QFSFileEngine::homePath() + "/.openbible_next/";
+            homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
         #else
             //a protable version is needed only for windows
             #ifdef OBV_PORTABLE_VERSION
