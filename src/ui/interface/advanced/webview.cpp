@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 WebView::WebView(QWidget *parent) :
     QWebView(parent)
 {
+    this->setRenderHints(QPainter::HighQualityAntialiasing | QPainter::TextAntialiasing);
 }
 void WebView::contextMenuEvent(QContextMenuEvent * ev)
 {

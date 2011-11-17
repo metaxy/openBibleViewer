@@ -752,10 +752,16 @@ QString ZefaniaBible::pharseXRef()
         range.setChapter(chapterID);
         range.setStartVerse(verseID);
         VerseUrl burl(range);
+        QString text;
+        if(!fscope.isEmpty()) {
+            text = fscope;
+        } else  {
+            RefText refText;
+            refText.setSettings(m_settings);
+            text = refText.toString(burl);
+        }
 
-        RefText refText;
-        refText.setSettings(m_settings);
-        return "<span class=\"crossreference\"><a class=\"reflink\" href=\"" + burl.toString() + "\">" + refText.toString(burl) + "</a></span>";
+        return "<span class=\"crossreference\"><a class=\"reflink\" href=\"" + burl.toString() + "\">" + text + "</a></span>";
     }
     return "";
 }
