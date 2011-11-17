@@ -59,10 +59,8 @@ signals:
     void _showHtml(const QString &html);
 
     void _loadVerseTable(bool hadModule);
-    void _reloadChapter(bool full);
+    void _reloadCurrentRange(bool full);
 
-    void _reloadBible();
-    void _reShowCurrentRange();
     void _newSubWindowIfEmpty();
 
     void _needDictionaryWindow();
@@ -92,11 +90,6 @@ public slots:
     void setCurrentChapter(const QSet<int> &chapterID);
 
     void reloadActive();
-    /**
-      * Same as reloadChapter(false)
-      */
-    void reloadChapter();
-    void reloadChapter(bool full);
 
     void setTitle(const QString &title);
 
@@ -125,8 +118,8 @@ public slots:
 
     void loadVerseTable(bool hadModule);
 
-    void reloadBible();
-    void reShowCurrentRange();
+    void reloadCurrentRange();
+    void reloadCurrentRange(bool full);
 
     void searchInText(SearchResult *result);
     void searchInText();

@@ -55,7 +55,6 @@ void WindowManager::init()
     connect(m_actions, SIGNAL(_setSubWindowView()), this, SLOT(setSubWindowView()));
     connect(m_actions, SIGNAL(_setTitle(QString)), this, SLOT(setTitle(QString)));
     connect(m_actions, SIGNAL(_reloadActive()), this, SLOT(reloadActive()));
-    connect(m_actions, SIGNAL(_reloadChapter(bool)), this, SLOT(reloadChapter(bool)));
     connect(m_actions, SIGNAL(_newSubWindowIfEmpty()), this, SLOT(newSubWindowIfEmpty()));
 
     //only install if we have autolayout enabled
@@ -571,23 +570,5 @@ void WindowManager::installResizeFilter()
     m_mdiAreaFilter = new MdiAreaFilter(m_area);
     connect(m_mdiAreaFilter, SIGNAL(resized()), this, SLOT(mdiAreaResized()));
     m_area->installEventFilter(m_mdiAreaFilter);
-}
-//only bibleform
-void WindowManager::reloadChapter(bool full)
-{
-    DEBUG_FUNC_NAME;
-    if(typeid(activeForm()) != typeid(BibleForm *))
-        return;
-
-    const QWebView *view = ((BibleForm*)activeForm())->m_view;
-    const QPoint p = view->page()->mainFrame()->scrollPosition();
-
-    if(full) {
-        m_actions->reloadBible();
-    } else {
-        m_actions->reShowCurrentRange();
-    }
-
-    view->page()->mainFrame()->setScrollPosition(p);
 }
 

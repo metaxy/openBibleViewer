@@ -145,6 +145,8 @@ public slots:
     void forwardShowTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
     void showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
     void searchInText(SearchResult *res);
+
+    void reload(bool full);
 protected:
     virtual void changeEvent(QEvent *e);
 private:

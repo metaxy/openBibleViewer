@@ -77,7 +77,6 @@ public slots:
     void restore();
     void setTitle(const QString &title);
 
-    void reloadChapter(bool full);
     void newSubWindowIfEmpty();
 
     QMdiSubWindow* needBibleWindow();

@@ -56,8 +56,7 @@ public slots:
     void previousChapter();
     void loadBibleList(bool hadBible);
 
-    void reShowCurrentRange();
-    void reloadBible();
+    void reloadCurrentRange(bool full);
 
     void setCurrentVerseTableID(const int verseTableID);
 private:

@@ -305,7 +305,7 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
         //m_moduleManager->bible()->clearSoftCache();
         //if(m_moduleManager->bibleLoaded())
 
-        m_actions->reloadChapter(true);
+        m_actions->reloadCurrentRange(true);
         QApplication::restoreOverrideCursor();
     }
 

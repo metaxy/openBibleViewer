@@ -34,7 +34,7 @@ void BibleManager::init()
     connect(m_actions, SIGNAL(_previousChapter()), this, SLOT(previousChapter()));
     connect(m_actions, SIGNAL(_nextChapter()), this, SLOT(nextChapter()));
     connect(m_actions, SIGNAL(_loadVerseTable(bool)), this, SLOT(loadBibleList(bool)));
-    connect(m_actions, SIGNAL(_reShowCurrentRange()), this, SLOT(reShowCurrentRange()));
+    connect(m_actions, SIGNAL(_reloadCurrentRange(bool)), this, SLOT(reloadCurrentRange(bool)));
     connect(m_actions, SIGNAL(_reloadBible()), this, SLOT(reloadBible()));
     connect(m_actions, SIGNAL(_setCurrentVerseTableID(int)), this, SLOT(setCurrentVerseTableID(int)));
 }
@@ -129,21 +129,13 @@ void BibleManager::loadBibleList(bool hadBible)
         m_actions->get(url);
     }
 }
-void BibleManager::reShowCurrentRange()
+void BibleManager::reloadCurrentRange(bool full)
 {
-    DEBUG_FUNC_NAME
-            //todo: bibleform important
- /*   if(!m_moduleManager->bibleLoaded())
-        return;
-    m_actions->get(*m_moduleManager->verseTable()->lastVerseUrl());*/
-}
-void BibleManager::reloadBible()
-{
-    DEBUG_FUNC_NAME
-    //todo: make it
-    myWarning() << "implement it";
-}
+    if(m_windowManager->activeForm()->type() == Form::BibleForm) {
+        ((BibleForm*)(m_windowManager->activeForm()))->reload(full);
+    }
 
+}
 BookDockWidget *BibleManager::bookDockWidget()
 {
     return m_bookDockWidget;

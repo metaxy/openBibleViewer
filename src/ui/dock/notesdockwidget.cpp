@@ -77,8 +77,8 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
     if(newUrl.isValid()) {
         VerseUrlRange r = newUrl.ranges().first();
         //todo: reenable
-       /* if(m_moduleManager->verseModule()->moduleID() == r.moduleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
-            m_actions->reloadChapter();
+        /*if(m_moduleManager->verseModule()->moduleID() == r.moduleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
+            m_actions->reloadCurrentRange();
         }*/
     }
 
@@ -121,7 +121,7 @@ void NotesDockWidget::newNote(void)
 void NotesDockWidget::newNoteWithLink(VerseSelection selection, Versification *v11n)
 {
     m_simpleNotes->newTextNoteWithLink(selection, v11n);
-    m_actions->reloadChapter();
+    m_actions->reloadCurrentRange();
 }
 void NotesDockWidget::noteSetTextBold(void)
 {
@@ -169,6 +169,7 @@ void NotesDockWidget::newMark(VerseSelection selection, QColor color, Versificat
 }
 void NotesDockWidget::newStyleMark(VerseSelection selection, QString style, Versification *v11n)
 {
+    DEBUG_FUNC_NAME
     m_simpleNotes->newStyleMark(selection, style, v11n);
 
 }
@@ -208,7 +209,7 @@ void NotesDockWidget::removeMark(VerseSelection selection, Versification *v11n)
         }
     }
     if(r)
-        m_actions->reloadChapter();
+        m_actions->reloadCurrentRange();
 }
 void NotesDockWidget::changeEvent(QEvent *e)
 {

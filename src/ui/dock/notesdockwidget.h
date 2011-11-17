@@ -56,8 +56,6 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
-signals:
-    void reloadChapter();
 private:
     Ui::NotesDockWidget *ui;
     SimpleNotes *m_simpleNotes;

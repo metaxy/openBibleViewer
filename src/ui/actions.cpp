@@ -114,23 +114,13 @@ void Actions::loadVerseTable(bool hadModule)
     emit _loadVerseTable(hadModule);
 }
 
-void Actions::reloadChapter()
+void Actions::reloadCurrentRange()
 {
-    reloadChapter(false);
+    reloadCurrentRange(false);
 }
-void Actions::reloadChapter(bool full)
+void Actions::reloadCurrentRange(bool full)
 {
-    emit _reloadChapter(full);
-}
-
-void Actions::reloadBible()
-{
-    emit _reloadBible();
-}
-
-void Actions::reShowCurrentRange()
-{
-    emit _reShowCurrentRange();
+    emit _reloadCurrentRange(full);
 }
 
 void Actions::newSubWindowIfEmpty()

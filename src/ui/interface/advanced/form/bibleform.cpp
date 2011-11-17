@@ -1207,7 +1207,6 @@ void BibleForm::removeMark()
         return;
     }
     VerseSelection selection = lastSelection;
-    //myDebug() << "selection = " << selection.moduleID << selection.bookID << selection.chapterID << selection.startVerse;
     m_notesManager->removeMark(selection, verseModule()->versification());
 }
 
@@ -1374,6 +1373,16 @@ VerseTable * BibleForm::verseTable() const
 VerseModule * BibleForm::verseModule() const
 {
     return m_verseTable->verseModule();
+}
+void BibleForm::reload(bool full)
+{
+    const QPoint p = m_view->page()->mainFrame()->scrollPosition();
+    if(!full) {
+        pharseUrl(m_url);
+    } else {
+        //todo: force reload bible
+    }
+     m_view->page()->mainFrame()->setScrollPosition(p);
 }
 
 BibleForm::~BibleForm()
