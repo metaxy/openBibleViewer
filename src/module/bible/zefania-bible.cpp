@@ -734,14 +734,51 @@ QString ZefaniaBible::pharseSup()
 
 QString ZefaniaBible::pharseXRef()
 {
+    const QStringRef vref = m_xml->attributes().value("vref");
+    const QStringRef aix = m_xml->attributes().value("aix");
+    const QStringRef title = m_xml->attributes().value("tile");
+    const QStringRef fscope = m_xml->attributes().value("fscope");
+    const QStringRef mscope = m_xml->attributes().value("mscope");
     m_xml->skipCurrentElement();
+
+    if(!mscope.isEmpty()) {
+        const QStringList list = mscope.toString().split(";");
+        const int bookID = list.at(0).toInt() - 1;
+        const int chapterID = list.at(1).toInt() - 1;
+        const int verseID = list.at(2).toInt() - 1;
+        VerseUrlRange range;
+        range.setModule(VerseUrlRange::LoadCurrentModule);
+        range.setBook(bookID);
+        range.setChapter(chapterID);
+        range.setStartVerse(verseID);
+        VerseUrl burl(range);
+
+        RefText refText;
+        refText.setSettings(m_settings);
+        return "<span class=\"crossreference\"><a class=\"reflink\" href=\"" + burl.toString() + "\">" + refText.toString(burl) + "</a></span>";
+    }
     return "";
 }
 
 QString ZefaniaBible::pharseDiv()
 {
-    m_xml->skipCurrentElement();
-    return "";
+    QString ret;
+    while(true)
+    {
+        m_xml->readNext();
+
+        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), "DIV")))
+            break;
+
+        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
+            ret += m_xml->text().toString();
+        } else if(cmp(m_xml->name(), "NOTE")){
+            ret += pharseNote();
+        } else {
+            ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        }
+    }
+    return ret;
 }
 
 MetaInfo ZefaniaBible::readMetaInfo()

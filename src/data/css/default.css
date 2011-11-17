@@ -155,7 +155,10 @@ td .rangeTitle {
 }
 
 .sup {
-    
+    font-size: 90%;
+    vertical-align: super;
 }
 .sub {
+    font-size: 90%;
+    vertical-align: bottom;
 }
