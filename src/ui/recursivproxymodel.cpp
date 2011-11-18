@@ -22,6 +22,7 @@ RecursivProxyModel::RecursivProxyModel(QObject *parent) :
 bool RecursivProxyModel::filterAcceptsRow(int sourceRow,
         const QModelIndex &sourceParent) const
 {
+    DEBUG_FUNC_NAME;
     if(filterRegExp().isEmpty())
         return true;
 
@@ -48,6 +49,7 @@ QModelIndexList RecursivProxyModel::match(const QModelIndex &start, int role,
         const QVariant &value, int hits,
         Qt::MatchFlags flags) const
 {
+    DEBUG_FUNC_NAME
     QModelIndexList list;
     for(int i = 0; i < sourceModel()->rowCount(start); ++i) {
         const QModelIndex index = sourceModel()->index(i, 0, start);

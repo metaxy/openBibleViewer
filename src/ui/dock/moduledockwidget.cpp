@@ -21,6 +21,7 @@ ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::ModuleDockWidget)
 {
+    DEBUG_FUNC_NAME;
     ui->setupUi(this);
     /*m_dontLoad = false;*/
     first = false;
@@ -33,6 +34,7 @@ ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
   */
 void ModuleDockWidget::init()
 {
+    DEBUG_FUNC_NAME;
     ui->treeView_module->clearSelection();
 
     if(m_proxyModel != NULL) {
@@ -60,6 +62,9 @@ void ModuleDockWidget::init()
     connect(ui->lineEdit_filter, SIGNAL(textChanged(QString)), this, SLOT(filter(QString)));
 
     connect(ui->treeView_module, SIGNAL(clicked(QModelIndex)), this, SLOT(loadModuleData(QModelIndex)));
+    connect(ui->treeView_module, SIGNAL(activated(QModelIndex)), this, SLOT(test()));
+    connect(ui->treeView_module, SIGNAL(clicked(QModelIndex)), this, SLOT(test2()));
+    connect(ui->treeView_module, SIGNAL(viewportEntered()), this, SLOT(test3()));
 
     ui->treeView_module->setSortingEnabled(true);
     ui->treeView_module->setModel(m_proxyModel);
@@ -73,9 +78,11 @@ void ModuleDockWidget::init()
   */
 void ModuleDockWidget::loadModuleData(QModelIndex index)
 {
+    DEBUG_FUNC_NAME;
     const int moduleID = index.data(Qt::UserRole + 1).toString().toInt();
-
+    myDebug() << m_dontLoad << moduleID;
     if(m_dontLoad == false && moduleID >= 0) {
+
         Module *m = m_moduleManager->getModule(moduleID);
         //const OBVCore::ModuleType type = m->moduleType();
         const OBVCore::ModuleClass cl = m->moduleClass();
@@ -84,6 +91,7 @@ void ModuleDockWidget::loadModuleData(QModelIndex index)
         } else if(cl == OBVCore::WebPageClass) {
             m_actions->get("webpage:/"+QString::number(moduleID));
         } else if(cl == OBVCore::BibleModuleClass) {
+            myDebug() << "bible";
             m_moduleID = moduleID;
             VerseUrl url;
             VerseUrlRange range;
@@ -101,15 +109,15 @@ void ModuleDockWidget::loadModuleData(QModelIndex index)
   */
 void ModuleDockWidget::loadedModule(int id)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     if(m_moduleID == id)
         return;
-
+    myDebug() << "id = " << id;
     m_moduleID = id;
     const QModelIndexList list = m_proxyModel->match(m_moduleManager->m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, QString::number(id));
 
     if(list.size() == 1) {
-        //myDebug() << id << list;
+        myDebug() << id << list;
         m_selectionModel->clearSelection();
         m_selectionModel->setCurrentIndex(m_proxyModel->mapFromSource(list.at(0)), QItemSelectionModel::Select);
     }
@@ -118,6 +126,7 @@ void ModuleDockWidget::loadedModule(int id)
 }
 void ModuleDockWidget::filter(QString string)
 {
+    DEBUG_FUNC_NAME;
     if(first == false && !string.isEmpty()) {
         first = true;
         const QModelIndexList list = m_proxyModel->match(m_moduleManager->m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, "-1");
@@ -130,11 +139,25 @@ void ModuleDockWidget::filter(QString string)
 
 ModuleDockWidget::~ModuleDockWidget()
 {
+    DEBUG_FUNC_NAME;
     delete ui;
 }
 
+void ModuleDockWidget::test()
+{
+    DEBUG_FUNC_NAME;
+}
+void ModuleDockWidget::test2()
+{
+    DEBUG_FUNC_NAME;
+}
+void ModuleDockWidget::test3()
+{
+    DEBUG_FUNC_NAME;
+}
 void ModuleDockWidget::changeEvent(QEvent *e)
 {
+    DEBUG_FUNC_NAME;
     QDockWidget::changeEvent(e);
     switch(e->type()) {
     case QEvent::LanguageChange:
