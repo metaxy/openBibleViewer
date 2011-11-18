@@ -99,8 +99,10 @@ private:
 
     bool cmp(const QStringRef &r, const QString &s);
     void getVersification();
-
     ModuleSettings *m_set;
+
+    QString getPath();
+    void cache(const Book &b);
 };
 
 #endif // ZEFANIABIBLE_H

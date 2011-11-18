@@ -34,7 +34,7 @@ BuildRequires: libqt4-devel >= 4.6 gcc-c++  libz
 %endif
 
 %if 0%{?suse_version}
-BuildRequires: libqt4-devel libQtWebKit-devel >= 4.6 gcc-c++  libz
+BuildRequires: libqt4-devel >= 4.7 libQtWebKit-devel >= 4.7 gcc-c++  libz
 %endif
 
 BuildRequires: desktop-file-utils cmake clucene1-core clucene1-devel

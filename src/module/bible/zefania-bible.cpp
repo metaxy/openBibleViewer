@@ -669,10 +669,20 @@ QString ZefaniaBible::pharseGram()
         QString add;
         if(!strong.startsWith("G", Qt::CaseInsensitive) && !strong.startsWith("H", Qt::CaseInsensitive)) {
             //todo: that isn't  nice
-            if(m_bookID < 39) {
-                add = "H";
-            } else {
+            if(m_versification->bookCount() == 66) {
+                if(m_bookID < 39) {
+                    add = "H";
+                } else {
+                    add = "G";
+                }
+            } else if(m_set->versificationName.endsWith("-nt")) {
                 add = "G";
+            } else if(m_set->versificationName.endsWith("-ot")) {
+                add = "H";
+            } else if(m_versification->bookCount() == 27) {
+                add = "G";
+            } else if(m_versification->bookCount() == 39) {
+                add = "H";
             }
         }
         ret +=  "<span class=\"stronglink\"><a  href=\"strong://" + add + strong + "\">" + add + strong + "</a></span>";

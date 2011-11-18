@@ -63,7 +63,8 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     AnyOption *opt = new AnyOption();
-    opt->addUsage( "" );
+    const QString s = "openBibleViewer " + QString(OBV_VERSION_NUMBER);
+    opt->addUsage(s.toStdString().c_str());
     opt->addUsage( "Usage: " );
     opt->addUsage( "" );
     opt->addUsage( " -h  --help                 Prints this help " );
@@ -72,10 +73,10 @@ int main(int argc, char *argv[])
     opt->setFlag(  "help", 'h' );
     opt->setOption(  "configPath");
     opt->processCommandArgs( argc, argv );
-
-#ifdef BUILD_WITH_SWORD
-
-#endif
+    if( opt->getValue( "help" ) != NULL ) {
+        opt->printUsage();
+        return 0;
+    }
 
 #ifdef Q_OS_WIN32
     //todo: would it be better if we use QSysInfo::windowsVersion() instead?
