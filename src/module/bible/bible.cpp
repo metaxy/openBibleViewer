@@ -65,6 +65,7 @@ int Bible::loadModuleData(const int moduleID)
 
     m_moduleID = moduleID;
     ModuleSettings *m = m_settings->getModuleSettings(m_moduleID);
+    myDebug() << m << m_moduleID;
 
     int loaded = 1;
 

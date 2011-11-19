@@ -48,7 +48,7 @@ ModuleSettings::~ModuleSettings()
 void ModuleSettings::loadVersification()
 {
     //DEBUG_FUNC_NAME;
-    //myDebug() << "versifiction name = " << versificationName << " versification file" << versificationFile;
+    myDebug() << "versifiction name = " << versificationName << " versification file" << versificationFile;
     if(versificationName == "kjv") {
         v11n = new Versification_KJV();
         v11n->setFlags(Versification::ReturnAll);

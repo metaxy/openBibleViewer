@@ -103,6 +103,8 @@ private:
 
     QString getPath();
     void cache(const Book &b);
+    void generateCache(QList<std::pair<qint64,qint64> > list);
+
 };
 
 #endif // ZEFANIABIBLE_H
