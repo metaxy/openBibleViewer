@@ -163,6 +163,7 @@ int ZefaniaBible::readBook(const int id)
             while (m_xml->readNextStartElement()) {
                 if (cmp(m_xml->name(), "BIBLEBOOK")) {
                     myDebug() << m_xml->attributes().value("bnumber").toString().toInt();
+                    myDebug() << file.pos();
                     if(m_xml->attributes().value("bnumber").toString().toInt() == id+1) {
                         m_book = readBook();
                         delete m_xml;
@@ -177,8 +178,7 @@ int ZefaniaBible::readBook(const int id)
             }
         }
         else {
-            myDebug() << "not a file";
-            m_xml->raiseError(QObject::tr("The file is not an XBEL version 1.0 file."));
+            myWarning() << "not a file";
         }
     }
     file.close();
@@ -186,53 +186,6 @@ int ZefaniaBible::readBook(const int id)
     m_xml = NULL;
     return 0;
 }
-
-
-/*int ZefaniaBible::loadNoCached(const int id, const QString &path)
-{
-
-    bool hasAny = false;
-    for(int i = 0; i < fullName.size(); i++) {
-        if(fullName.at(i) != "") {
-            hasAny = true;
-            break;
-        }
-    }
-    ModuleSettings *mset = m_settings->getModuleSettings(m_moduleID);
-    if(!hasAny) {
-        mset->versificationFile = "";
-        QString v = "kjv";
-        if(countBooks == 27) {
-            v += "-nt";
-        } else if(countBooks == 39) {
-             v += "-ot";
-        }
-        mset->versificationName = v;
-        mset->loadVersification();
-
-    } else {
-        QMap<int, BookV11N> data;
-        for(int i = 0; i < fullName.size(); i++) {
-            BookV11N book;
-            book.name = fullName.at(i);
-            book.shortNames = QStringList(shortName.at(i));
-            book.bookID = bookIDs.at(i).toInt();
-            data.insert(book.bookID, book);
-        }
-        mset->v11n = new Versification_Cache(data);
-
-        mset->versificationFile = m_settings->v11nFile(m_modulePath);
-        mset->versificationName = "";
-
-        mset->saveVersification();
-    }
-    m_versification = mset->v11n;
-
-    progress.hide();
-    file.close();
-    return 0;
-}
-*/
 
 MetaInfo ZefaniaBible::readInfo(QFile &file)
 {
@@ -788,7 +741,38 @@ QString ZefaniaBible::pharseDiv()
 
 MetaInfo ZefaniaBible::readMetaInfo()
 {
-    m_xml->skipCurrentElement();
+    MetaInfo ret;
+    while(m_xml->readNextStartElement()) {
+        if(m_xml->name() == "publisher") {
+            ret.publisher = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        } else if(m_xml->name() == "contributors") {
+            ret.contributors = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        } else if(m_xml->name() == "date") {
+            ret.date = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        } else if(m_xml->name() == "type") {
+            ret.type = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        } else if(m_xml->name() == "format") {
+            ret.format = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        } else if(m_xml->name() == "identifier") {
+            ret.identifier = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        } else if(m_xml->name() == "source") {
+            ret.source = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        } else if(m_xml->name() == "language") {
+            ret.language= m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        } else if(m_xml->name() == "coverage") {
+            ret.coverage = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        } else if(m_xml->name() == "rights") {
+            ret.rights = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        } else if(m_xml->name() == "subject") {
+            ret.subject = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        } else if(m_xml->name() == "description") {
+            ret.description = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        } else if(m_xml->name() == "creator") {
+            ret.creator = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        } else {
+            m_xml->skipCurrentElement();
+        }
+    }
     return MetaInfo();
 }
 

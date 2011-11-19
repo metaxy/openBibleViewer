@@ -16,6 +16,20 @@ public:
     void setUID(const QString &uid);
     void setDefaultModule(const OBVCore::DefaultModule d);
 
+    QString publisher;
+    QString contributors;
+    QString date;
+    QString type;
+    QString format;
+    QString identifier;
+    QString source;
+    QString language;
+    QString coverage;
+    QString rights;
+    QString subject;
+    QString description;
+    QString creator;
+
 private:
     QString m_name;
     QString m_shortName;
