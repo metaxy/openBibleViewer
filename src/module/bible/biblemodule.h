@@ -56,6 +56,7 @@ public:
 
     virtual Versification *versification() const;
     virtual QString uid() const;
+    virtual void clear();
 protected:
     Versification *m_versification;
     Settings *m_settings;

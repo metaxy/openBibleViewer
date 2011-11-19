@@ -96,3 +96,8 @@ std::pair<int, int> BibleModule::minMaxVerse(int /*bookID*/, int /*chapterID*/)
     myWarning() << "calling BibleModule";
     return std::pair<int, int>();
 }
+
+void BibleModule::clear()
+{
+    myWarning() << "calling BibleModule";
+}

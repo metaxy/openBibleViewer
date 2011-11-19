@@ -262,8 +262,6 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     QMutableMapIterator<int, Verse> it(verseMap);
     while(it.hasNext()) {
         it.next();
-        Verse verse = it.value();
-
         //main formatting
         if(m_notes != 0 && m_moduleDisplaySettings->showNotes() == true) {
             for(int n = 0; n < m_notes->getIDList().size(); ++n) {
@@ -278,7 +276,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                     VerseUrl newUrl = urlConverter.convert();
                     if(newUrl.contains(m_moduleID, bookID, chapterID, it.key())) {
                         //myDebug() << "append note icon";
-                        verse.append("<a href='note://" + noteID + "'><img src='qrc:/icons/16x16/view-pim-notes.png' class='noteIcon' title='" + m_notes->getTitle(noteID) + "' /></a>");
+                        it.value().append("<a href='note://" + noteID + "'><img src='qrc:/icons/16x16/view-pim-notes.png' class='noteIcon' title='" + m_notes->getTitle(noteID) + "' /></a>");
                     }
                 }
             }
@@ -287,15 +285,15 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         if(moduleType() == OBVCore::TheWordBibleModule || moduleType() == OBVCore::ZefaniaBibleModule || moduleType() == OBVCore::SwordBibleModule) {
             QString prepend;
             QString append;
-            prepend = "<span class=\"verseNumber\">" + QString::number(verse.verseID() + 1) + "</span> ";
+            prepend = "<span class=\"verseNumber\">" + QString::number(it.value().verseID() + 1) + "</span> ";
             if(moduleSettings->zefbible_textFormatting == ModuleSettings::NewLine) {
                 append = "<br />";
             } else {
                 append = "\n";//not visible line break
             }
 
-            verse.prepend(prepend);
-            verse.append(append);
+            it.value().prepend(prepend);
+            it.value().append(append);
         } else if(moduleType() == OBVCore::BibleQuoteModule) {
         }
         //todo: ugly
@@ -306,16 +304,12 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             if(!currentVerse) {
                 currentVerse = true;//todo: currently the first selected entry is the current entry
                 //change this to provide maybe more future features
-                verse.prepend("<div id = \"currentEntry\" class = \"selectedEntry\"> ");
+                it.value().prepend("<div id = \"currentEntry\" class = \"selectedEntry\"> ");
             } else {
-                verse.prepend("<div class = \"selectedEntry\">");
+                it.value().prepend("<div class = \"selectedEntry\">");
             }
-             verse.append("</div>");
+             it.value().append("</div>");
         }
-
-
-        //replace
-        it.setValue(verse);
     }
 
     if(m_notes != 0 && m_moduleDisplaySettings->showMarks() == true) {

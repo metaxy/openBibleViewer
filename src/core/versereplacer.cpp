@@ -51,16 +51,14 @@ void VerseReplacer::exec(QMap<int, Verse> *map)
                 posStack.push(it.key());
                 stringStack.push(it.value());
             }
-            Verse vers = i.value();
             while(!posStack.isEmpty()) {
                 int pos = posStack.pop();
                 QString in = stringStack.pop();
-                vers.insert(pos, in);
+                i.value().insert(pos, in);
             }
-            vers.append(m_appends.value(i.key()));
-            vers.prepend(m_prepends.value(i.key()));
-            //map->insert(vers.verseID(),vers);
-            i.setValue(vers);
+            i.value().append(m_appends.value(i.key()));
+            i.value().prepend(m_prepends.value(i.key()));
+
         }
     }
 }

@@ -74,6 +74,8 @@ public:
 
     void removeHardCache(const QString &path);
     bool hasHardCache(const QString &path);
+
+    void clear();
 private:
     QDomElement* format(QDomElement* e);
     QString indexPath() const;

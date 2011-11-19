@@ -125,7 +125,7 @@ int BibleLink::bookNameToBookID(QString name, int *nlev)
     QMutableHashIterator<int, QString> it(full);
     while (it.hasNext()) {
         it.next();
-        it.setValue(it.value().toLower());
+        it.value().toLower();
     }
 
     QMutableHashIterator<int, QStringList> it2(shortNames);
@@ -136,7 +136,6 @@ int BibleLink::bookNameToBookID(QString name, int *nlev)
             newList << n.toLower();
         }
         it2.setValue(newList);
-
     }
 
     {
