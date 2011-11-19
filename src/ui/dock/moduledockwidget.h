@@ -35,9 +35,6 @@ private slots:
     void loadModuleData(QModelIndex index);
     void filter(QString string);
     void loadedModule(int id);
-    void test();
-     void test2();
-      void test3();
 public:
     ModuleDockWidget(QWidget *parent = 0);
     ~ModuleDockWidget();

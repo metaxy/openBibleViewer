@@ -119,7 +119,7 @@ int BibleQuoteDict::buildIndex()
     }
     writer = new IndexWriter(index.toStdString().c_str() , &an, true);
 
-    writer->setMaxFieldLength(0x7FFFFFFFL);
+    //writer->setMaxFieldLength(0x7FFFFFFFL);
     writer->setUseCompoundFile(false);
 
     //index
@@ -157,7 +157,7 @@ int BibleQuoteDict::buildIndex()
     writer->optimize();
 
     writer->close();
-    delete writer;
+    _CLLDELETE(writer);
     return 0;
 }
 
@@ -207,11 +207,12 @@ QStringList BibleQuoteDict::getAllKeys()
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     QStringList ret;
     for(int32_t i = 0; i < reader->numDocs(); i++) {
-        Document* doc = reader->document(i);
+        Document doc;
+        reader->document(i, doc);
 #ifdef OBV_USE_WSTRING
-        ret.append(QString::fromWCharArray(doc->get(_T("key"))));
+        ret.append(QString::fromWCharArray(doc.get(_T("key"))));
 #else
-        ret.append(QString::fromUtf16((const ushort*)doc->get(_T("key"))));
+        ret.append(QString::fromUtf16((const ushort*)doc.get(_T("key"))));
 #endif
     }
     return ret;

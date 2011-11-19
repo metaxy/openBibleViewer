@@ -119,11 +119,12 @@ QStringList ZefaniaLex::getAllKeys()
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     QStringList ret;
     for(int i = 0; i < reader->numDocs(); i++) {
-        Document* doc = reader->document(i);
+        Document doc;
+        reader->document(i, doc);
 #ifdef OBV_USE_WSTRING
-        ret.append(QString::fromWCharArray(doc->get(_T("key"))));
+        ret.append(QString::fromWCharArray(doc.get(_T("key"))));
 #else
-        ret.append(QString::fromUtf16((const ushort*)doc->get(_T("key"))));
+        ret.append(QString::fromUtf16((const ushort*)doc.get(_T("key"))));
 #endif
     }
     return ret;
