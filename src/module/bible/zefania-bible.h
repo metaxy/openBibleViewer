@@ -71,6 +71,9 @@ public:
     QString uid() const;
     TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse);
     std::pair<int, int> minMaxVerse(int bookID, int chapterID);
+
+    void removeHardCache(const QString &path);
+    bool hasHardCache(const QString &path);
 private:
     QDomElement* format(QDomElement* e);
     QString indexPath() const;

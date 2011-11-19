@@ -45,8 +45,14 @@ int ZefaniaBible::loadBibleData(const int id, const QString &path)
         return 1;
     }
 
+    m_set->loadVersification();
 
-    getVersification();
+    if(m_set->v11n == NULL || !hasHardCache(m_modulePath)) {
+        removeHardCache(m_modulePath);
+        getVersification();
+    }
+    m_versification = m_set->v11n;
+
 
 
     m_moduleID = id;
@@ -59,14 +65,26 @@ int ZefaniaBible::loadBibleData(const int id, const QString &path)
     return 0;
 }
 
+void ZefaniaBible::removeHardCache(const QString &path)
+{
+    QDir d(m_settings->homePath + "cache/");
+    d.rmdir(m_settings->homePath + "cache/" + m_settings->hash(path));
+}
+bool ZefaniaBible::hasHardCache(const QString &path)
+{
+    const QString pre = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath) + "/";
+
+    foreach(int bookID, m_set->v11n->bookIDs()) {
+        QFileInfo inf(pre + QString::number(bookID) + ".xml");
+        if(!inf.exists() || !inf.isReadable()) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void ZefaniaBible::getVersification()
 {
-    m_set->loadVersification();
-
-    if(m_set->v11n != NULL) {
-        return;
-    }
-
     if(m_xml != NULL) {
         delete m_xml;
         m_xml = NULL;
@@ -151,8 +169,6 @@ void ZefaniaBible::getVersification()
 
         m_set->saveVersification();
     }
-    m_versification = m_set->v11n;
-
     generateCache(lines);
     //make cache
 
@@ -161,6 +177,10 @@ void ZefaniaBible::generateCache(QList<std::pair<qint64, qint64> > list)
 {
     DEBUG_FUNC_NAME;
     const QString pre = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath) + "/";
+    QDir d(pre);
+    if(!d.exists())
+        d.mkpath(pre);
+
     QFile file(m_modulePath);
     if (!file.open(QFile::ReadOnly | QFile::Text))
         return;
@@ -169,6 +189,7 @@ void ZefaniaBible::generateCache(QList<std::pair<qint64, qint64> > list)
         std::pair<qint64,qint64> p = list.at(i);
         int bookID = m_set->v11n->bookIDs().at(i);
         QFile file2(pre + QString::number(bookID)+".xml");
+        myDebug() << file2.fileName();
         if (!file2.open(QIODevice::WriteOnly | QIODevice::Text))
             return;
         //skip the first part
@@ -204,7 +225,7 @@ int ZefaniaBible::readBook(const int id)
     } else {
         path = m_modulePath;
     }
-
+    myDebug() << path;
     QFile file(path);
     if (!file.open(QFile::ReadOnly | QFile::Text))
         return 1;
@@ -214,7 +235,7 @@ int ZefaniaBible::readBook(const int id)
         if (cmp(m_xml->name(), "XMLBIBLE")) {
             while (m_xml->readNextStartElement()) {
                 if (cmp(m_xml->name(), "BIBLEBOOK")) {
-                    if(m_xml->attributes().value("bnumber").toString().toInt() == id+1) {
+                    if(m_xml->attributes().value("bnumber").toString().toInt() == id+1) {//we cou
                         m_book = readBook();
                         delete m_xml;
                         m_xml = NULL;
@@ -464,8 +485,8 @@ TextRange ZefaniaBible::rawTextRange(int bookID, int chapterID, int startVerse, 
 {
     TextRange ret;
     if(m_book.bookID() != bookID) {
-        readBook(bookID);
         myDebug() << "book not loaded";
+        readBook(bookID);
     }
     if(!m_book.hasChapter(chapterID)) {
         myDebug() << m_book.data().keys();
