@@ -261,19 +261,32 @@ int ZefaniaBible::readBook(const int id)
 
 MetaInfo ZefaniaBible::readInfo(QFile &file)
 {
-    KoXmlDocument doc;
-    if(!doc.setContent(&file)) {
-        file.close();
-        return MetaInfo();
+    MetaInfo ret;
+    if(m_xml != NULL) {
+        delete m_xml;
+        m_xml = NULL;
     }
-
-    KoXmlElement root = doc.documentElement();
-    m_moduleName = root.attribute("biblename", "");
+    m_xml = new QXmlStreamReader(&file);
+    if (m_xml->readNextStartElement())
+    {
+        if (cmp(m_xml->name(), "XMLBIBLE")) {
+            while (m_xml->readNextStartElement()) {
+                if (cmp(m_xml->name(), "INFORMATION")) {
+                    ret = readMetaInfo();
+                    break;
+                } else {
+                    m_xml->skipCurrentElement();
+                }
+            }
+        }
+        else {
+            myWarning() << "not a file";
+        }
+    }
     file.close();
-
-    MetaInfo info;
-    info.setName(m_moduleName);
-    return info;
+    delete m_xml;
+    m_xml = NULL;
+    return ret;
 }
 
 MetaInfo ZefaniaBible::readInfo(const QString &fileName)
@@ -814,7 +827,7 @@ QString ZefaniaBible::pharseDiv()
 MetaInfo ZefaniaBible::readMetaInfo()
 {
     MetaInfo ret;
-    /*while(m_xml->readNextStartElement()) {
+    while(m_xml->readNextStartElement()) {
         if(m_xml->name() == "publisher") {
             ret.publisher = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
         } else if(m_xml->name() == "contributors") {
@@ -841,11 +854,12 @@ MetaInfo ZefaniaBible::readMetaInfo()
             ret.description = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
         } else if(m_xml->name() == "creator") {
             ret.creator = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        } else if(m_xml->name() == "title") {
+            ret.setName(m_xml->readElementText(QXmlStreamReader::IncludeChildElements));
         } else {
             m_xml->skipCurrentElement();
         }
-    }*/
-    m_xml->skipCurrentElement();
+    }
     return ret;
 }
 
