@@ -11,7 +11,7 @@ Summary: Bible study tool
 Name: %{name}
 License: GPLv3
 URL: http://openbv.uucyc.name
-Version: 0.6.86
+Version: 0.6.87
 Release: 7
 Group: Amusements/Teaching/Other
 Source: %{name}-%{version}.tar.bz2
@@ -34,7 +34,7 @@ BuildRequires: libqt4-devel >= 4.6 gcc-c++  libz
 %endif
 
 %if 0%{?suse_version}
-BuildRequires: libqt4-devel >= 4.7 libQtWebKit-devel >= 4.7 gcc-c++  libz
+BuildRequires: libqt4-devel >= 4.6 libQtWebKit-devel >= 4.6 gcc-c++  libz
 %endif
 
 BuildRequires: desktop-file-utils cmake clucene1-core clucene1-devel
