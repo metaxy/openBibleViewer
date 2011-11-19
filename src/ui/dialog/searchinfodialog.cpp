@@ -92,8 +92,10 @@ void SearchInfoDialog::setInfo(SearchResult *result, Versification *v11n, QStrin
         p.drawText((3 / 2)*padding, x + height - 4, v11n->bookName(i.key()) + " - " + QString::number(i.value()) + "(" + QString::number(prozent) + "%)");
         x += (5 / 4) * height;
     }
-    QGraphicsPixmapItem *item = new QGraphicsPixmapItem(pm);
-    item = scene->addPixmap(pm);
+    /*QGraphicsPixmapItem *item = new QGraphicsPixmapItem(pm);
+    item = scene->addPixmap(pm);*/
+    scene->addPixmap(pm);
+    //todo: does this work?
     m_ui->graphicsView->show();
     m_textList = textList;
 

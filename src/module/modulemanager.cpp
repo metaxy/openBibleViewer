@@ -301,7 +301,7 @@ VerseModule * ModuleManager::newVerseModule(const int moduleID, QPoint p, VerseT
         return NULL;
     }
 
-    const int id = table->m_points.key(p, -1);
+    //const int id = table->m_points.key(p, -1);
     VerseModule *m = NULL;
     /*if(id != -1) {
         m = verseTable()->verseModule(id);

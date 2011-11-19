@@ -184,6 +184,7 @@ int ZefaniaBible::readBook(const int id)
     file.close();
     delete m_xml;
     m_xml = NULL;
+    return 0;
 }
 
 

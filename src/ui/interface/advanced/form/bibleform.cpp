@@ -1072,9 +1072,10 @@ void BibleForm::copyWholeVerse(void)
     //DEBUG_FUNC_NAME
     VerseSelection selection = lastSelection;
     if(selection.startVerse != -1) {
-        int add = 0;
+        //todo: should we use add?
+        /*int add = 0;
         if(m_verseTable->verseModule()->moduleType() == OBVCore::BibleQuoteModule)
-            add = 1; //because of the title
+            add = 1; //because of the title*/
         Ranges ranges;
         if(selection.startChapterID == selection.endChapterID) {
             Range r;
