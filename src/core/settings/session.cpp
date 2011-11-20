@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 Session::Session()
 {
 }
+
 void Session::setID(const QString &id)
 {
     m_id = id;
@@ -38,17 +39,17 @@ QSettings * Session::file()
 
 void Session::setData(const QString &key, const QVariant &value)
 {
-    m_sessionFile->setValue(m_id+"/" + key, value);
+    m_sessionFile->setValue(m_id + "/" + key, value);
 }
 
 QVariant Session::getData(const QString &key, const QVariant &defaultValue)
 {
-    return m_sessionFile->value(m_id+"/" + key, defaultValue);
+    return m_sessionFile->value(m_id + "/" + key, defaultValue);
 }
 
 bool Session::isSet(const QString &key)
 {
-    return !m_sessionFile->value(m_id+"/" + key).isNull();
+    return !m_sessionFile->value(m_id + "/" + key).isNull();
 }
 
 void Session::clearGroup(const QString &key)

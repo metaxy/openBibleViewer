@@ -1,20 +1,19 @@
-Installation instructions for openBibleViewer 0.5.4:
+Installation instructions for openBibleViewer 0.7:
 ---------------------------
-
 
 openBibleViewer requires:
 
-- Qt-devel => 4.6
-  or libqt-devel => 4.6
+- Qt-devel >= 4.6
+  or libqt-devel >= 4.6
 - cmake
-- libz
+- clucene >= 2.3.3.4
 
 
 Compile openBibleViewer:
 ---------------------------
 
-tar -xjf openBibleViewer-0.5.4.tar.bz2
-cd ~/openBibleViewer-0.5.4
+tar -xjf openBibleViewer-0.7.tar.bz2
+cd ~/openBibleViewer-0.7
 mkdir build
 cd build
 cmake -DCMAKE_INSTALL_PREFIX='/usr' ..

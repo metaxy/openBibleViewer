@@ -52,8 +52,8 @@ void VerseReplacer::exec(QMap<int, Verse> *map)
                 stringStack.push(it.value());
             }
             while(!posStack.isEmpty()) {
-                int pos = posStack.pop();
-                QString in = stringStack.pop();
+                const int pos = posStack.pop();
+                const QString in = stringStack.pop();
                 i.value().insert(pos, in);
             }
             i.value().append(m_appends.value(i.key()));
