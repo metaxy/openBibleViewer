@@ -61,7 +61,6 @@ void InsertLinkDialog::setCurrent(const VerseUrl &url)
     m_frame->setVerseUrl(url);
 }
 
-
 void InsertLinkDialog::save()
 {
     DEBUG_FUNC_NAME;

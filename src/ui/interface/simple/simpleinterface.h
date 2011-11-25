@@ -21,6 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dock/moduledockwidget.h"
 #include "src/ui/dock/bookdockwidget.h"
 #include "src/ui/dock/searchresultdockwidget.h"
+#include "src/ui/webview.h"
 namespace Ui
 {
 class SimpleInterface;
@@ -62,7 +63,7 @@ protected:
     bool eventFilter(QObject *obj, QEvent *ev);
 private:
     Ui::SimpleInterface *ui;
-    QWebView *m_view;
+    WebView *m_view;
     void setTitle(const QString &title);
 
     void nextChapter();

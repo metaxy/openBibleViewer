@@ -75,6 +75,7 @@ void SimpleNotes::create(const QString &id, QStandardItem *parentItem)
 void SimpleNotes::init()
 {
     m_itemModel = new QStandardItemModel(m_treeView);
+    m_itemModel->setHeaderData(0, Qt::Horizontal, tr("Note Title"));
     connect(m_treeView, SIGNAL(activated(QModelIndex)), this, SLOT(showNote(QModelIndex)));
     connect(m_treeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(notesContextMenu(QPoint)));
     if(m_loadTextBrowser) {

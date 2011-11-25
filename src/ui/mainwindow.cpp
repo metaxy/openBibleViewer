@@ -148,11 +148,6 @@ void MainWindow::deleteInterface()
         }
     }
 
-    //todo: why not?
-    /*if(m_interface != 0) {
-        delete m_interface;
-        m_interface = 0;
-    }*/
     delete this->centralWidget();
 }
 void MainWindow::reloadInterface()

@@ -28,7 +28,7 @@ SimpleInterface::SimpleInterface(QWidget *parent) :
 {
 
     ui->setupUi(this);
-    m_view = new QWebView(this);
+    m_view = new WebView(this);
     m_view->load(QUrl("http://qt.nokia.com/"));
     m_view->show();
     ui->verticalLayout->addWidget(m_view);
@@ -76,6 +76,8 @@ void SimpleInterface::createToolBars()
 
     m_actionSearch = new QAction(QIcon::fromTheme("edit-find", QIcon(":/icons/32x32/edit-find.png")), tr("Search"), m_bar);
     connect(m_actionSearch, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
+    m_actionSearch->setShortcut(QKeySequence::Find);
+
     m_actionZoomIn = new QAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/32x32/zoom-in.png")), tr("Zoom In"), m_bar);
     connect(m_actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
 
@@ -196,11 +198,6 @@ void SimpleInterface::showRanges(const Ranges &ranges, const VerseUrl &url)
 {
     DEBUG_FUNC_NAME
 
-
-   /* if(!verseTableLoaded()) {
-       m_module = m_moduleManager->newVerseModule(ranges.getList().first().moduleID());
-    }*/
-
     TextRanges t = m_module->readRanges(ranges);
     m_module->setLastTextRanges(&t);
 
@@ -236,12 +233,8 @@ void SimpleInterface::showText(const QString &text)
     m_view->setHtml(text);
     m_view->settings()->setUserStyleSheetUrl(QUrl::fromLocalFile(cssFile));
 
-    //todo: scroll to
-    //ui->textBrowser->setHtml(text);
-   // ui->textBrowser->loadResource(QTextDocument::StyleSheetResource, QUrl::fromLocalFile(cssFile));
-
-    //if(m_module->lastTextRanges()->minVerseID() > 1)
-     //   ui->textBrowser->scrollToAnchor("currentVerse");
+    if(m_module->lastTextRanges()->minVerseID() > 1)
+        m_view->scrollToAnchor("currentVerse");
 }
 void SimpleInterface::setTitle(const QString &title)
 {
@@ -251,57 +244,57 @@ void SimpleInterface::setTitle(const QString &title)
 
 void SimpleInterface::nextChapter()
 {
-    /*if(!m_moduleManager->bibleLoaded())
+    if(!m_moduleManager->metaModuleLoaded(m_module))
         return;
-    if(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() <
-            m_moduleManager->verseModule()->versification()->maxChapter().value(m_moduleManager->verseModule()->lastTextRanges()->minBookID()) - 1) {
+    if(m_module->lastTextRanges()->minChapterID() <
+            m_module->versification()->maxChapter().value(m_module->lastTextRanges()->minBookID()) - 1) {
         VerseUrl bibleUrl;
         VerseUrlRange range;
         range.setModule(VerseUrlRange::LoadCurrentModule);
         range.setBook(VerseUrlRange::LoadCurrentBook);
-        range.setChapter(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() + 1);
+        range.setChapter(m_module->lastTextRanges()->minChapterID() + 1);
         range.setWholeChapter();
         bibleUrl.addRange(range);
         m_actions->get(bibleUrl);
-    } else if(m_moduleManager->verseModule()->lastTextRanges()->minBookID() < m_moduleManager->verseModule()->versification()->bookCount() - 1) {
+    } else if(m_module->lastTextRanges()->minBookID() < m_module->versification()->bookCount() - 1) {
         VerseUrl bibleUrl;
         VerseUrlRange range;
         range.setModule(VerseUrlRange::LoadCurrentModule);
-        range.setBook(m_moduleManager->verseModule()->lastTextRanges()->minBookID() + 1);
+        range.setBook(m_module->lastTextRanges()->minBookID() + 1);
         range.setChapter(VerseUrlRange::LoadFirstChapter);
         range.setWholeChapter();
         bibleUrl.addRange(range);
         m_actions->get(bibleUrl);
-    }*/
+    }
 }
 void SimpleInterface::previousChapter()
 {
     //see also BibleManager
-   /* if(!m_moduleManager->bibleLoaded())
+    if(!m_moduleManager->metaModuleLoaded(m_module))
         return;
-    if(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() > 0) {
+    if(m_module->lastTextRanges()->minChapterID() > 0) {
         VerseUrl bibleUrl;
         VerseUrlRange range;
         range.setModule(VerseUrlRange::LoadCurrentModule);
         range.setBook(VerseUrlRange::LoadCurrentBook);
-        range.setChapter(m_moduleManager->verseModule()->lastTextRanges()->minChapterID() - 1);
+        range.setChapter(m_module->lastTextRanges()->minChapterID() - 1);
         range.setWholeChapter();
         bibleUrl.addRange(range);
         m_actions->get(bibleUrl);
-    } else if(m_moduleManager->verseModule()->lastTextRanges()->minBookID() > 0) {
+    } else if(m_module->lastTextRanges()->minBookID() > 0) {
         VerseUrl bibleUrl;
         VerseUrlRange range;
         range.setModule(VerseUrlRange::LoadCurrentModule);
-        range.setBook(m_moduleManager->verseModule()->lastTextRanges()->minBookID() - 1);
+        range.setBook(m_module->lastTextRanges()->minBookID() - 1);
         range.setChapter(VerseUrlRange::LoadLastChapter);
         range.setWholeChapter();
         bibleUrl.addRange(range);
         m_actions->get(bibleUrl);
-    }*/
+    }
 }
 bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
 {
-   /* if(obj == ui->textBrowser) {
+    if(obj == m_view) {
         if(event->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
             if(keyEvent->key() == Qt::Key_Left || keyEvent->key() == Qt::Key_PageUp) {
@@ -320,14 +313,16 @@ bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
     } else {
         return QWidget::eventFilter(obj, event);
     }
-    return QWidget::eventFilter(obj, event);*/
+    return QWidget::eventFilter(obj, event);
 }
 
 SimpleInterface::~SimpleInterface()
 {
-    /*delete m_moduleManager->m_moduledisplaysettings;
-    m_moduleManager->m_moduledisplaysettings = 0;
-    delete ui;*/
+    delete ui;
+    if(m_module != NULL) {
+        delete m_module;
+        m_module = NULL;
+    }
 }
 void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings, bool modifedModuleSettings)
 {

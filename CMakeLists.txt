@@ -295,7 +295,7 @@ set( openBibleViewer_SRCS
     src/ui/interface/advanced/form/webform.cpp
     src/ui/interface/advanced/form/dictionaryform.cpp
 
-    src/ui/interface/advanced/webview.cpp
+    src/ui/webview.cpp
     src/ui/interface/advanced/manager/windowmanager.cpp
     src/ui/interface/advanced/manager/bookmarksmanager.cpp
     src/ui/interface/advanced/manager/biblemanager.cpp
@@ -430,7 +430,7 @@ set ( openBibleViewer_MOCS
     src/ui/interface/advanced/form/dictionaryform.h
 
     src/ui/interface/advanced/advancedinterface.h
-    src/ui/interface/advanced/webview.h
+    src/ui/webview.h
     src/ui/interface/advanced/versetablewidget.h
     src/ui/interface/advanced/versetableitemdelegate.h
     src/ui/interface/advanced/mdiareafilter.h

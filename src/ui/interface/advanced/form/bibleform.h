@@ -42,7 +42,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/versetable.h"
 
 
-#include "src/ui/interface/advanced/webview.h"
+#include "src/ui/webview.h"
 
 #include "src/ui/interface/advanced/versetablewidget.h"
 
@@ -87,7 +87,6 @@ private slots:
     void attachApi();
 signals:
     void onClose();
-    void historyGo(QString);
 
 public slots:
     void historySetUrl(QString url);
@@ -114,10 +113,7 @@ public slots:
     void forwardShowText(const QString &text);
     void forwardSearchInText(SearchResult *result);
 
-
     void activated();
-
-    void scrollToAnchor(const QString &anchor);
 
     void showText(const QString &text);
 

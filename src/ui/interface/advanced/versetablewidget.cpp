@@ -107,7 +107,6 @@ void VerseTableWidget::addRow()
 }
 void VerseTableWidget::save()
 {
-    //todo: bibelform important
     DEBUG_FUNC_NAME
     bool hadBible = m_moduleManager->verseTableLoaded(m_verseTable);
     m_verseTable->clear();
@@ -134,7 +133,6 @@ void VerseTableWidget::save()
         m_verseTable->setCurrentVerseTableID(lastModule);
 
     if(atLeastOne) {
-        //myDebug() << "at least one";
         m_actions->loadVerseTable(hadBible);
     }
     close();

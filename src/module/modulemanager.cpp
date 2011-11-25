@@ -32,6 +32,10 @@ ModuleManager::~ModuleManager()
         delete m_rootModule;
         m_rootModule = NULL;
     }
+    if(m_moduleDisplaySettings != NULL) {
+        delete m_moduleDisplaySettings;
+        m_moduleDisplaySettings = NULL;
+    }
 }
 
 void ModuleManager::setSettings(Settings *settings)

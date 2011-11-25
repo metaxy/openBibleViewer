@@ -65,9 +65,6 @@ void BibleForm::init()
     m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
 #endif
 
-    connect(this, SIGNAL(historyGo(QString)), m_actions, SLOT(get(QString)));
-
-
     connect(m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
 
     connect(m_actions, SIGNAL(_updateChapters(int, Versification *)), this, SLOT(forwardSetChapters(int, Versification *)));
@@ -335,12 +332,12 @@ void BibleForm::historySetUrl(QString url)
 }
 void BibleForm::backward()
 {
-    emit historyGo(m_browserHistory.backward());
+    m_actions->get(m_browserHistory.backward());
     setButtons();
 }
 void BibleForm::forward()
 {
-    emit historyGo(m_browserHistory.forward());
+    m_actions->get(m_browserHistory.forward());
     setButtons();
 }
 void BibleForm::setButtons()
@@ -545,15 +542,6 @@ void BibleForm::activated()
     }
 }
 
-void BibleForm::scrollToAnchor(const QString &anchor)
-{
-#if QT_VERSION >= 0x040700
-    m_view->page()->mainFrame()->scrollToAnchor(anchor);
-#else
-    m_view->page()->mainFrame()->evaluateJavaScript("window.location.href = '" + anchor + "';");
-#endif
-
-}
 void BibleForm::showText(const QString &text)
 {
     //DEBUG_FUNC_NAME
@@ -582,7 +570,7 @@ void BibleForm::showText(const QString &text)
 
 
     if(m_lastTextRanges.verseCount() > 1) {
-        scrollToAnchor("currentEntry");
+        m_view->scrollToAnchor("currentEntry");
         if(m_verseTable->hasTopBar())
             frame->scroll(0, -40); //due to the biblelist bar on top
         //todo: it could be that the top bar has a width more than 40px
