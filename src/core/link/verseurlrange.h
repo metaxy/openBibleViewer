@@ -14,6 +14,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef BIBLEURLRANGE_H
 #define BIBLEURLRANGE_H
 #include <QtCore/QString>
+#include "src/core/verse/range.h"
+
 class VerseUrlRange
 {
 public:
@@ -98,8 +100,10 @@ public:
     bool containsChapter(const int chapterID) const;
     bool containsVerse(const int verseID) const;
 
-    bool openToTransformation();
+    bool openToTransformation() const;
     void setOpenToTransformation(bool open);
+
+    Range toRange() const;
 
 private:
     int m_moduleID;

@@ -174,7 +174,6 @@ private:
     QList<int> m_bookIDs;
 
     void showRanges(const Ranges &ranges, const VerseUrl &url);
-    Range bibleUrlRangeToRange(VerseUrlRange r);
 
     bool verseTableLoaded();
     VerseUrl m_url;

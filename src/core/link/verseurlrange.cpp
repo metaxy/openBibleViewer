@@ -200,11 +200,75 @@ bool VerseUrlRange::containsVerse(const int verseID) const
     }
     return ok;
 }
-bool VerseUrlRange::openToTransformation()
+bool VerseUrlRange::openToTransformation() const
 {
     return m_openToTranformation;
 }
 void VerseUrlRange::setOpenToTransformation(bool open)
 {
     m_openToTranformation = open;
+}
+Range VerseUrlRange::toRange() const
+{
+    Range r;
+
+    if(this->module() == VerseUrlRange::LoadModuleByID) {
+        r.setModule(this->moduleID());
+    }
+    if(this->book() == VerseUrlRange::LoadFirstBook) {
+        r.setBook(RangeEnum::FirstBook);
+    } else if(this->book() == VerseUrlRange::LoadLastBook) {
+        r.setBook(RangeEnum::LastBook);
+    } else if(this->book() == VerseUrlRange::LoadCurrentBook) {
+        r.setBook(RangeEnum::CurrentBook);
+    } else {
+        r.setBook(this->bookID());
+    }
+
+    if(this->chapter() == VerseUrlRange::LoadFirstChapter) {
+        r.setChapter(RangeEnum::FirstChapter);
+    } else if(this->chapter() == VerseUrlRange::LoadLastChapter) {
+        r.setChapter(RangeEnum::LastChapter);
+    } else if(this->chapter() == VerseUrlRange::LoadCurrentChapter) {
+        r.setChapter(RangeEnum::CurrentChapter);
+    } else {
+        r.setChapter(this->chapterID());
+    }
+
+    if(this->openToTransformation()) {
+        r.setStartVerse(RangeEnum::FirstVerse);
+        r.setEndVerse(RangeEnum::LastVerse);
+        if(this->startVerse() == this->endVerse() && this->startVerse() == VerseUrlRange::LoadVerseByID) {
+            QList<int> sel;
+            for(int i=this->startVerseID();i<=this->endVerseID();i++) {
+                sel << i;
+            }
+            r.setSelectedVerse(sel);
+        } else if(this->startVerse() == VerseUrlRange::LoadVerseByID) {
+            r.setSelectedVerse(this->startVerseID());
+        }
+    } else {
+
+        if(this->startVerse() == VerseUrlRange::LoadFirstVerse) {
+            r.setStartVerse(RangeEnum::FirstVerse);
+        } else if(this->startVerse() == VerseUrlRange::LoadLastVerse) {
+            r.setStartVerse(RangeEnum::LastVerse);
+        } else {
+            r.setStartVerse(this->startVerseID());
+        }
+
+        if(this->endVerse() == VerseUrlRange::LoadFirstVerse) {
+            r.setEndVerse(RangeEnum::FirstVerse);
+        } else if(this->endVerse() == VerseUrlRange::LoadLastVerse) {
+            r.setEndVerse(RangeEnum::LastVerse);
+        }
+
+        if(this->activeVerse() == VerseUrlRange::LoadVerseByID) {
+            r.setSelectedVerse(this->activeVerseID());
+        } else {
+            r.setEndVerse(this->endVerseID());
+        }
+    }
+
+    return r;
 }

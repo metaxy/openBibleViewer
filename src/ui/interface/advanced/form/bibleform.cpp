@@ -91,7 +91,7 @@ void BibleForm::pharseUrl(const VerseUrl &url)
 
     Ranges ranges;
     foreach(VerseUrlRange range, m_url.ranges()) {
-        ranges.addRange(bibleUrlRangeToRange(range));
+        ranges.addRange(range.toRange());
     }
     ranges.setSource(m_url);
     showRanges(ranges, m_url);
@@ -115,7 +115,7 @@ void BibleForm::pharseUrl(const QString &string)
         m_url = m_url.applyUrl(url);
 
         foreach(VerseUrlRange range, m_url.ranges()) {
-            ranges.addRange(bibleUrlRangeToRange(range));
+            ranges.addRange(range.toRange());
         }
         ranges.setSource(m_url);
         showRanges(ranges, m_url);
@@ -238,77 +238,6 @@ void BibleForm::previousChapter()
     }
 }
 
-Range BibleForm::bibleUrlRangeToRange(VerseUrlRange range)
-{
-    //DEBUG_FUNC_NAME
-    Range r;
-    //todo: currently we do not support real ranges but its ok
-    if(range.module() == VerseUrlRange::LoadModuleByID) {
-        r.setModule(range.moduleID());
-    } /*else if(range.module() == VerseUrlRange::LoadCurrentModule) {
-        if(verseTableLoaded())
-            r.setModule(m_verseTable->verseModule()->moduleID());
-    }*/
-
-    if(range.book() == VerseUrlRange::LoadFirstBook) {
-        r.setBook(RangeEnum::FirstBook);
-    } else if(range.book() == VerseUrlRange::LoadLastBook) {
-        r.setBook(RangeEnum::LastBook);
-    } else if(range.book() == VerseUrlRange::LoadCurrentBook) {
-        r.setBook(RangeEnum::CurrentBook);
-    } else {
-        r.setBook(range.bookID());
-    }
-
-    if(range.chapter() == VerseUrlRange::LoadFirstChapter) {
-        r.setChapter(RangeEnum::FirstChapter);
-    } else if(range.chapter() == VerseUrlRange::LoadLastChapter) {
-        r.setChapter(RangeEnum::LastChapter);
-    } else if(range.chapter() == VerseUrlRange::LoadCurrentChapter) {
-        r.setChapter(RangeEnum::CurrentChapter);
-    } else {
-        r.setChapter(range.chapterID());
-    }
-
-    if(range.openToTransformation()) {
-        r.setStartVerse(RangeEnum::FirstVerse);
-        r.setEndVerse(RangeEnum::LastVerse);
-        if(range.startVerse() == range.endVerse() && range.startVerse() == VerseUrlRange::LoadVerseByID) {
-            QList<int> sel;
-            for(int i=range.startVerseID();i<=range.endVerseID();i++) {
-                sel << i;
-            }
-            r.setSelectedVerse(sel);
-        } else if(range.startVerse() == VerseUrlRange::LoadVerseByID) {
-            r.setSelectedVerse(range.startVerseID());
-        }
-
-
-    } else {
-
-        if(range.startVerse() == VerseUrlRange::LoadFirstVerse) {
-            r.setStartVerse(RangeEnum::FirstVerse);
-        } else if(range.startVerse() == VerseUrlRange::LoadLastVerse) {
-            r.setStartVerse(RangeEnum::LastVerse);
-        } else {
-            r.setStartVerse(range.startVerseID());
-        }
-
-        if(range.endVerse() == VerseUrlRange::LoadFirstVerse) {
-            r.setEndVerse(RangeEnum::FirstVerse);
-        } else if(range.endVerse() == VerseUrlRange::LoadLastVerse) {
-            r.setEndVerse(RangeEnum::LastVerse);
-
-        if(range.activeVerse() == VerseUrlRange::LoadVerseByID) {
-            r.setSelectedVerse(range.activeVerseID());
-        }
-        } else {
-            r.setEndVerse(range.endVerseID());
-        }
-    }
-
-    return r;
-}
 void BibleForm::restore(const QString &key)
 {
     const QString a = m_settings->session.id() + "/windows/" + key + "/";
