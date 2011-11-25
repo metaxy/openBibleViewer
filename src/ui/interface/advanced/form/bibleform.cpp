@@ -50,11 +50,7 @@ Form::FormType BibleForm::type() const
 void BibleForm::init()
 {
     //DEBUG_FUNC_NAME
-    m_verseTable = new VerseTable();
-    Bible *b = new Bible();
-
-    m_moduleManager->initVerseModule(b);
-    m_verseTable->addModule(b, QPoint(0, 0));
+    m_verseTable = m_moduleManager->newVerseTable();
     attachApi();
 
     connect(m_view->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
@@ -82,113 +78,53 @@ void BibleForm::init()
 
     connect(m_actions, SIGNAL(_setCurrentBook(QSet<int>)), this, SLOT(forwardSetCurrentBook(QSet<int>)));
     connect(m_actions, SIGNAL(_setCurrentChapter(QSet<int>)), this, SLOT(forwardSetCurrentChapter(QSet<int>)));
-    connect(m_actions, SIGNAL(_historySetUrl(QString)), this, SLOT(forwardHistorySetUrl(QString)));
     connect(m_actions, SIGNAL(_showTextRanges(QString, TextRanges, VerseUrl)), this, SLOT(forwardShowTextRanges(QString, TextRanges, VerseUrl)));
     connect(m_actions, SIGNAL(_searchInText(SearchResult*)), this, SLOT(forwardSearchInText(SearchResult*)));
 
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     createDefaultMenu();
 }
-VerseUrl BibleForm::applyUrl(VerseUrl url)
-{
-    if(m_url.ranges().isEmpty())
-        return url;
-    VerseUrl newUrl = url;
-    newUrl.clearRanges();
-    for(int i = 0; i < url.ranges().size(); i++) {
-        VerseUrlRange range = url.ranges().at(i);
-        int id;
-        if(m_url.ranges().size() < url.ranges().size()) {
-            id = m_url.ranges().size() - 1;
-        } else {
-            id = i;
-        }
-
-        VerseUrlRange newRange = range;
-        VerseUrlRange mRange = m_url.ranges().at(id);
-        if(range.module() == VerseUrlRange::LoadCurrentModule) {
-            newRange.setModule(m_url.ranges().at(id).module());
-            if(mRange.module() == VerseUrlRange::LoadModuleByID) {
-                newRange.setModule(mRange.moduleID());
-            }
-            if(mRange.module() == VerseUrlRange::LoadModuleByUID) {
-                newRange.setModule(mRange.moduleUID());
-            }
-        }
-        if(range.book() == VerseUrlRange::LoadCurrentBook) {
-            newRange.setBook(mRange.book());
-            if(mRange.book() == VerseUrlRange::LoadBookByID) {
-                newRange.setBook(mRange.bookID());
-            }
-        }
-        if(range.chapter() == VerseUrlRange::LoadCurrentChapter) {
-            newRange.setChapter(mRange.chapter());
-            if(mRange.chapter() == VerseUrlRange::LoadChapterByID) {
-                newRange.setChapter(mRange.chapterID());
-            }
-        }
-
-        if(range.startVerse() == VerseUrlRange::LoadCurrentVerse) {
-            newRange.setStartVerse(mRange.startVerse());
-            if(mRange.startVerse() == VerseUrlRange::LoadVerseByID) {
-                newRange.setStartVerse(mRange.startVerseID());
-            }
-        }
-
-        if(range.endVerse() == VerseUrlRange::LoadCurrentVerse) {
-            newRange.setEndVerse(mRange.endVerse());
-            if(mRange.endVerse() == VerseUrlRange::LoadVerseByID) {
-                newRange.setEndVerse(mRange.endVerseID());
-            }
-        }
-        newUrl.addRange(newRange);
-        //todo: active Verse
-    }
-    return newUrl;
-}
 
 void BibleForm::pharseUrl(const VerseUrl &url)
 {
-    VerseUrl newUrl = applyUrl(url);
-    m_url = newUrl;
-    myDebug() << "new url = " << m_url.toString();
+    m_url = m_url.applyUrl(url);
+
     Ranges ranges;
-    foreach(VerseUrlRange range, newUrl.ranges()) {
+    foreach(VerseUrlRange range, m_url.ranges()) {
         ranges.addRange(bibleUrlRangeToRange(range));
     }
-    ranges.setSource(newUrl);
-    showRanges(ranges, newUrl);
-    if(newUrl.hasParam("searchInCurrentText")) {
+    ranges.setSource(m_url);
+    showRanges(ranges, m_url);
+    if(m_url.hasParam("searchInCurrentText")) {
         m_actions->searchInText();
     }
 }
 
-void BibleForm::pharseUrl(const QString &url)
+void BibleForm::pharseUrl(const QString &string)
 {
     const QString bible = "verse:/";
     const QString bq = "go";
 
-    if(url.startsWith(bible)) {
+    if(string.startsWith(bible)) {
 
-        VerseUrl bibleUrl;
+        VerseUrl url;
         Ranges ranges;
-        if(!bibleUrl.fromString(url)) {
+        if(!url.fromString(string)) {
             return;
         }
-        bibleUrl = applyUrl(bibleUrl);
-        m_url = bibleUrl;
-        myDebug() << "new url = " << m_url.toString();
-        foreach(VerseUrlRange range, bibleUrl.ranges()) {
+        m_url = m_url.applyUrl(url);
+
+        foreach(VerseUrlRange range, m_url.ranges()) {
             ranges.addRange(bibleUrlRangeToRange(range));
         }
-        ranges.setSource(bibleUrl);
-        showRanges(ranges, bibleUrl);
-        if(bibleUrl.hasParam("searchInCurrentText")) {
+        ranges.setSource(m_url);
+        showRanges(ranges, m_url);
+        if(m_url.hasParam("searchInCurrentText")) {
             m_actions->searchInText();
         }
-    } else if(url.startsWith(bq)) {
+    } else if(string.startsWith(bq)) {
         //its a biblequote internal link, but i dont have the specifications!!!
-        QStringList internal = url.split(" ");
+        QStringList internal = string.split(" ");
         const QString bibleID = internal.at(1);//todo: use it
         myDebug() << "bibleID = " << bibleID;
 
@@ -305,16 +241,14 @@ void BibleForm::previousChapter()
 Range BibleForm::bibleUrlRangeToRange(VerseUrlRange range)
 {
     //DEBUG_FUNC_NAME
-
-    //todo: return only a range and not rangesm because VerseUrlRange can be not more.
     Range r;
     //todo: currently we do not support real ranges but its ok
     if(range.module() == VerseUrlRange::LoadModuleByID) {
         r.setModule(range.moduleID());
-    } else if(range.module() == VerseUrlRange::LoadCurrentModule) {
+    } /*else if(range.module() == VerseUrlRange::LoadCurrentModule) {
         if(verseTableLoaded())
             r.setModule(m_verseTable->verseModule()->moduleID());
-    }
+    }*/
 
     if(range.book() == VerseUrlRange::LoadFirstBook) {
         r.setBook(RangeEnum::FirstBook);
@@ -354,9 +288,7 @@ Range BibleForm::bibleUrlRangeToRange(VerseUrlRange range)
 
         if(range.startVerse() == VerseUrlRange::LoadFirstVerse) {
             r.setStartVerse(RangeEnum::FirstVerse);
-        } /*else if(range.startVerse() == BibleUrlRange::LoadCurrentVerse) {
-            r.setStartVerse(m_moduleManager->bible()->verseID());
-        } */else if(range.startVerse() == VerseUrlRange::LoadLastVerse) {
+        } else if(range.startVerse() == VerseUrlRange::LoadLastVerse) {
             r.setStartVerse(RangeEnum::LastVerse);
         } else {
             r.setStartVerse(range.startVerseID());
@@ -364,9 +296,7 @@ Range BibleForm::bibleUrlRangeToRange(VerseUrlRange range)
 
         if(range.endVerse() == VerseUrlRange::LoadFirstVerse) {
             r.setEndVerse(RangeEnum::FirstVerse);
-        } /*else if(range.endVerse() == BibleUrlRange::LoadCurrentVerse) {
-            r.setEndVerse(m_moduleManager->bible()->verseID());
-        } */else if(range.endVerse() == VerseUrlRange::LoadLastVerse) {
+        } else if(range.endVerse() == VerseUrlRange::LoadLastVerse) {
             r.setEndVerse(RangeEnum::LastVerse);
 
         if(range.activeVerse() == VerseUrlRange::LoadVerseByID) {
@@ -901,12 +831,7 @@ void BibleForm::forwardShowText(const QString &text)
         return;
     showText(text);
 }
-void BibleForm::forwardHistorySetUrl(const QString &url)
-{
-    if(!active())
-        return;
-    historySetUrl(url);
-}
+
 void BibleForm::forwardSearchInText(SearchResult *res)
 {
     if(!active())

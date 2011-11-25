@@ -83,6 +83,14 @@ private:
     QAction *m_actionZoomIn;
     QAction *m_actionZoomOut;
     QAction *m_actionModule;
+
+    Bible *m_bible;
+
+    TextRanges m_lastTextRanges;
+    VerseUrl m_lastUrl;
+
+    void showRanges(const Ranges &ranges, const VerseUrl &url);
+    Range bibleUrlRangeToRange(VerseUrlRange r);
 };
 
 #endif // SIMPLEINTERFACE_H

@@ -75,6 +75,11 @@ public:
     ModuleDisplaySettings *m_moduleDisplaySettings;
     static OBVCore::ModuleType recognizeModuleType(const QString &fileName);
 
+    /**
+      * Returns a new VerseTable with a Bible.Bible
+      */
+    VerseTable * newVerseTable();
+
 private:
 
     void loadModule(Module *moduleParent, ModuleSettings *setttings);

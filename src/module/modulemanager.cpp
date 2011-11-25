@@ -362,3 +362,14 @@ OBVCore::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
     }
     return OBVCore::NoneType;
 }
+
+VerseTable * ModuleManager::newVerseTable()
+{
+    VerseTable *verseTable = new VerseTable();
+    Bible *b = new Bible();
+
+    initVerseModule(b);
+    verseTable->addModule(b, QPoint(0, 0));
+
+    return verseTable;
+}

@@ -259,3 +259,62 @@ void VerseUrl::setOpenToTransformation(bool open)
         i.next().setOpenToTransformation(open);
     }
 }
+
+VerseUrl VerseUrl::applyUrl(const VerseUrl &url)
+{
+    if(this->ranges().isEmpty())
+        return url;
+
+    VerseUrl newUrl = url;
+    newUrl.clearRanges();
+    for(int i = 0; i < url.ranges().size(); i++) {
+        VerseUrlRange range = url.ranges().at(i);
+        int id;
+        if(this->ranges().size() < url.ranges().size()) {
+            id = this->ranges().size() - 1;
+        } else {
+            id = i;
+        }
+
+        VerseUrlRange newRange = range;
+        VerseUrlRange mRange = this->ranges().at(id);
+        if(range.module() == VerseUrlRange::LoadCurrentModule) {
+            newRange.setModule(this->ranges().at(id).module());
+            if(mRange.module() == VerseUrlRange::LoadModuleByID) {
+                newRange.setModule(mRange.moduleID());
+            }
+            if(mRange.module() == VerseUrlRange::LoadModuleByUID) {
+                newRange.setModule(mRange.moduleUID());
+            }
+        }
+        if(range.book() == VerseUrlRange::LoadCurrentBook) {
+            newRange.setBook(mRange.book());
+            if(mRange.book() == VerseUrlRange::LoadBookByID) {
+                newRange.setBook(mRange.bookID());
+            }
+        }
+        if(range.chapter() == VerseUrlRange::LoadCurrentChapter) {
+            newRange.setChapter(mRange.chapter());
+            if(mRange.chapter() == VerseUrlRange::LoadChapterByID) {
+                newRange.setChapter(mRange.chapterID());
+            }
+        }
+
+        if(range.startVerse() == VerseUrlRange::LoadCurrentVerse) {
+            newRange.setStartVerse(mRange.startVerse());
+            if(mRange.startVerse() == VerseUrlRange::LoadVerseByID) {
+                newRange.setStartVerse(mRange.startVerseID());
+            }
+        }
+
+        if(range.endVerse() == VerseUrlRange::LoadCurrentVerse) {
+            newRange.setEndVerse(mRange.endVerse());
+            if(mRange.endVerse() == VerseUrlRange::LoadVerseByID) {
+                newRange.setEndVerse(mRange.endVerseID());
+            }
+        }
+        newUrl.addRange(newRange);
+        //todo: active Verse
+    }
+    return newUrl;
+}

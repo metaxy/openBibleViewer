@@ -34,22 +34,16 @@ SimpleInterface::SimpleInterface(QWidget *parent) :
 }
 void SimpleInterface::init()
 {
-    /* moduledisplaysettings *moduledisplaysettings = new moduledisplaysettings();
-     moduledisplaysettings->setLoadNotes(false);
-     moduledisplaysettings->setShowMarks(false);
-     moduledisplaysettings->setShowNotes(false);
-     m_moduleManager->setmoduledisplaysettings(moduledisplaysettings);
+     ModuleDisplaySettings *moduleDisplaySettings = new ModuleDisplaySettings();
+     moduleDisplaySettings->setLoadNotes(false);
+     moduleDisplaySettings->setShowMarks(false);
+     moduleDisplaySettings->setShowNotes(false);
+     m_moduleManager->setModuleDisplaySettings(moduleDisplaySettings);
 
-     m_moduleManager->m_verseTable = new VerseTable();
-     Bible *b = new Bible();
-     m_moduleManager->initVerseModule(b);
-     m_moduleManager->verseTable()->addModule(b, QPoint(0, 0));
+     m_bible = new Bible();
+     m_moduleManager->initVerseModule(m_bible);
 
-     m_moduleManager->verseModule()->setSettings(m_settings);
-
-
-    // connect(m_bibleDisplay, SIGNAL(newHtml(QString)), this, SLOT(showText(QString)));
-     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));*/
+     connect(this, SIGNAL(get(QString)), this, SLOT(pharseUrl(QString)));
 
 }
 void SimpleInterface::createDocks()

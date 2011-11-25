@@ -112,7 +112,6 @@ public slots:
     void forwardSetCurrentBook(const QSet<int> &bookID);
     void forwardSetCurrentChapter(const QSet<int> &chapterID);
     void forwardShowText(const QString &text);
-    void forwardHistorySetUrl(const QString &url);
     void forwardSearchInText(SearchResult *result);
 
 
@@ -169,17 +168,15 @@ private:
 
     QWebInspector *m_inspector;
     VerseTable *m_verseTable;
+    Ui::BibleForm *m_ui;
 
     VerseSelection lastSelection;
-    Ui::BibleForm *m_ui;
     QList<int> m_bookIDs;
 
     void showRanges(const Ranges &ranges, const VerseUrl &url);
     Range bibleUrlRangeToRange(VerseUrlRange r);
 
     bool verseTableLoaded();
-
-    VerseUrl applyUrl(VerseUrl url);
     VerseUrl m_url;
 };
 
