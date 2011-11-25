@@ -20,6 +20,7 @@ BookDockWidget::BookDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::BookDockWidget)
 {
+    DEBUG_FUNC_NAME
     ui->setupUi(this);
     connect(ui->listView_books, SIGNAL(activated(QModelIndex)), this, SLOT(readBook(QModelIndex)));
 
@@ -78,7 +79,7 @@ void BookDockWidget::readChapter()
 }
 void BookDockWidget::setChapters(int bookID, Versification *v11n)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     if(v11n == NULL)
         return;
     m_chapterModel->clear();
@@ -98,6 +99,8 @@ void BookDockWidget::setChapters(int bookID, Versification *v11n)
 }
 void BookDockWidget::setBooks(Versification *v11n)
 {
+    DEBUG_FUNC_NAME
+
     m_bookModel->clear();
     if(v11n == NULL)
         return;
@@ -123,6 +126,8 @@ void BookDockWidget::clearChapters()
 
 void BookDockWidget::setCurrentBook(const int bookID)
 {
+    DEBUG_FUNC_NAME;
+    myDebug() << "bookID = " << bookID;
     const QModelIndexList list = m_bookModel->match(m_bookModel->index(0, 0), Qt::UserRole + 1, bookID, 1, Qt::MatchExactly);
     if(list.size() == 1) {
         m_bookSelection->clearSelection();

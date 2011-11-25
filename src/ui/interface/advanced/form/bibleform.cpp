@@ -565,10 +565,7 @@ void BibleForm::showText(const QString &text)
             cssFile = m_settings->getModuleSettings(m_verseTable->verseModule()->moduleID())->styleSheet;
         if(cssFile.isEmpty())
             cssFile = ":/data/css/default.css";
-
-        QFile file(cssFile);
-        if(file.open(QFile::ReadOnly))
-            m_view->settings()->setUserStyleSheetUrl(QUrl("data:text/css;charset=utf-8;base64," + file.readAll().toBase64()));
+        m_view->settings()->setUserStyleSheetUrl(QUrl::fromLocalFile(cssFile));
     }
     //todo: often it isn't real html but some fragments and sometimes it's a whole html page
     //eg biblequote

@@ -41,6 +41,8 @@ public:
     void createToolBars();
     void createMenu();
 
+    QString name() const;
+
 protected:
     void changeEvent(QEvent *e);
 

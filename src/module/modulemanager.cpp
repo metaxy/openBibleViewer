@@ -328,6 +328,23 @@ VerseModule * ModuleManager::newVerseModule(const int moduleID, QPoint p, VerseT
 
     return m;
 }
+VerseModule * ModuleManager::newVerseModule(const int moduleID)
+{
+    if(!contains(moduleID)) {
+        myWarning() << "invalid moduleID = " << moduleID;
+        return NULL;
+    }
+    VerseModule *m = NULL;
+    if(getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
+        m = new Bible();
+        initVerseModule(m);
+    }
+    OBVCore::ModuleType type = getModule(moduleID)->moduleType();
+    m->setModuleType(type);
+    m->setModuleID(moduleID);
+    return m;
+}
+
 OBVCore::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
 {
     //myDebug() << fileName;

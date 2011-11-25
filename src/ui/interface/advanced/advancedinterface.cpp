@@ -786,3 +786,7 @@ void AdvancedInterface::changeEvent(QEvent *e)
         break;
     }
 }
+QString AdvancedInterface::name() const
+{
+    return "advanced";
+}

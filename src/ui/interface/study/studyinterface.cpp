@@ -79,3 +79,7 @@ void StudyInterface::createMenu()
 {
 
 }
+QString StudyInterface::name() const
+{
+    return "study";
+}

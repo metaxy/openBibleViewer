@@ -59,6 +59,9 @@ public:
     ModuleSettings * getModuleSettings(int moduleID) const;
     Versification * getV11N(const int moduleID) const;
 
+    /**
+      * Atention: Session data is alway up to date.
+      */
     Session session;
     QString sessionID;
     QStringList sessionNames;

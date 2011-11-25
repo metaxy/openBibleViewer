@@ -58,6 +58,8 @@ public:
       */
     virtual void createMenu() = 0;
 
+    virtual QString name() const = 0;
+
 
 
 

@@ -99,11 +99,11 @@ public:
     void createToolBars();
     void createMenu();
 
+    QString name() const;
+
 protected:
     void changeEvent(QEvent *e);
-signals:
-    void historySetUrl(QString url);
-    void reloadInterface();
+
 private:
     Ui::AdvancedInterface *ui;
 

@@ -118,7 +118,7 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 }
 void MainWindow::loadInterface()
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     const QString interface = m_settings->session.getData("interface", QString("advanced")).toString();
     if(interface == "advanced") {
         loadAdvancedInterface();
@@ -128,7 +128,7 @@ void MainWindow::loadInterface()
 }
 void MainWindow::deleteInterface()
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     if(m_interface->hasToolBar()) {
         foreach(QToolBar * bar, m_toolBarList) {
             removeToolBar(bar);
@@ -156,7 +156,7 @@ void MainWindow::deleteInterface()
 }
 void MainWindow::reloadInterface()
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     deleteInterface();
     loadInterface();
 }
@@ -397,7 +397,6 @@ void MainWindow::writeSettings()
 }
 void MainWindow::saveSettings(Settings newSettings, bool modifedModuleSettings)
 {
-    //DEBUG_FUNC_NAME
     Settings oldSettings = *m_settings;
 
     setSettings(newSettings);
@@ -406,14 +405,14 @@ void MainWindow::saveSettings(Settings newSettings, bool modifedModuleSettings)
     if(oldSettings.language != newSettings.language /* || m_settings->theme != set->theme*/) {
         loadLanguage(newSettings.language);
     }
-    if(oldSettings.session.getData("interface", "advanced") != newSettings.session.getData("interface", "advanced")) {
+    myDebug() << oldSettings.session.getData("interface") << newSettings.session.getData("interface");
+    if(m_interface->name() != newSettings.session.getData("interface")) {
         reloadInterface();
     }
     emit settingsChanged(oldSettings, newSettings, modifedModuleSettings);
 }
 void MainWindow::showSettingsDialog(int tabID)
 {
-    //DEBUG_FUNC_NAME
     SettingsDialog setDialog(this);
     connect(&setDialog, SIGNAL(settingsChanged(Settings, bool)), this, SLOT(saveSettings(Settings, bool)));
     setDialog.setSettings(*m_settings);
