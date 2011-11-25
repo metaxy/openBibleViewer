@@ -53,10 +53,6 @@ void DownloadInFile::download()
     connect(m_reply, SIGNAL(finished()), this, SLOT(finish()));
 
 }
-void DownloadInFile::read()
-{
-
-}
 void DownloadInFile::finish()
 {
     int status = m_reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();

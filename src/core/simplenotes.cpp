@@ -190,7 +190,6 @@ void SimpleNotes::updateNoteLink(const VerseUrl &link)
     m_noteRef["link"] = link.toString();
     m_notes->setRef(m_noteID, m_noteRef);
     setRef(m_noteRef);
-    return;
 }
 void SimpleNotes::changeData(const QString &id, const QString &data)
 {
@@ -297,7 +296,6 @@ void SimpleNotes::fastSave(void)
 void SimpleNotes::aktNote()
 {
     //DEBUG_FUNC_NAME
-
     if(m_noteID.isEmpty())
         return;
 
@@ -331,9 +329,8 @@ void SimpleNotes::newTextNote(void)
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
 
     QStandardItem *parentItem = 0;
-    //myDebug() << sender()->objectName();
+
     if(sender()->objectName() == "actionNew") {
-        //myDebug() << m_point <<  m_treeView->indexAt(m_point).data();
         parentItem = m_itemModel->itemFromIndex(m_proxyModel->mapToSource(m_treeView->indexAt(m_point)));
     }
     if(parentItem == 0)
@@ -482,7 +479,6 @@ void SimpleNotes::newTextNoteWithLink(VerseSelection selection, Versification* v
 }
 void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style, Versification *v11n)
 {
-    //myDebug() << selection.shortestStringInEndVerse << selection.shortestStringInStartVerse;
     if(!selection.canBeUsedForMarks()) {
         myWarning() << "cannot create mark";
         QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot create mark."));
@@ -503,7 +499,6 @@ void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style, V
     urlConverter.setV11n(v11n);
     urlConverter.convert();
     const QString link = urlConverter.url().toString();
-    myDebug() << link;
 
     //reloadNotes();
     const QString newID = m_notes->generateNewID();

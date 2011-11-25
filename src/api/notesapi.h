@@ -25,10 +25,13 @@ class NotesApi : public QObject, public BasicClass
 public:
     explicit NotesApi(QObject* parent = 0);
     virtual ~NotesApi();
+    void setNotes(Notes *notes);
+    void init();
 public slots:
     QString addTextNote(const QString &title, const QString &text);
-    bool removeNote(const QString &noteID);
-
+    void removeNote(const QString &noteID);
+private:
+    Notes *m_notes;
 };
 
 #endif // NOTESAPI_H

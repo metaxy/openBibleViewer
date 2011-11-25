@@ -22,7 +22,6 @@ signals:
 public slots:
     void download();
 private slots:
-    void read();
     void finish();
 private:
     QNetworkAccessManager *m_manager;

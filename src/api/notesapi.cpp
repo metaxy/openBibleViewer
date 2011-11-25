@@ -13,11 +13,21 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 
 #include "notesapi.h"
-
+#include <QtCore/QDateTime>
 NotesApi::NotesApi(QObject* parent) :
     QObject(parent)
 {
 
+}
+
+void NotesApi::init()
+{
+    m_notes->loadingNewInstance();
+}
+
+void NotesApi::setNotes(Notes *notes)
+{
+    m_notes = notes;
 }
 
 NotesApi::~NotesApi()
@@ -27,10 +37,24 @@ NotesApi::~NotesApi()
 
 QString NotesApi::addTextNote(const QString &title, const QString &text)
 {
-    return QString();
+    const QString newID = m_notes->generateNewID();
+    m_notes->setData(newID, text);
+    m_notes->setTitle(newID, title);
+    m_notes->setType(newID, "text");
+
+    QMap<QString, QString> noteRef;
+    const QDateTime t = QDateTime::currentDateTime();
+    noteRef["created"] = t.toString(Qt::ISODate);
+
+    m_notes->setRef(newID, noteRef);
+    m_notes->insertID(newID);
+    return newID;
+
 }
 
-bool NotesApi::removeNote(const QString &noteID)
+void NotesApi::removeNote(const QString &noteID)
 {
-    return false;
+    m_notes->removeNote(noteID);
 }
+
+

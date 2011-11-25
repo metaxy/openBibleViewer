@@ -32,7 +32,7 @@ QString History::forward()
   */
 QString History::backward()
 {
-    if(backwardItems.size() >= 2) {
+    if(backwardItems.size() > 1) {
         goF = true;
         forwardItems.append(backwardItems.takeLast());
         return backwardItems.takeLast();
@@ -51,7 +51,7 @@ bool History::forwardAvailable() const
   */
 bool History::backwardAvailable() const
 {
-    return backwardItems.size() >= 2;
+    return backwardItems.size() > 1;
 }
 /*!
     Add a new url to the history.
