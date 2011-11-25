@@ -62,6 +62,7 @@ protected:
     bool eventFilter(QObject *obj, QEvent *ev);
 private:
     Ui::SimpleInterface *ui;
+    QWebView *m_view;
     void setTitle(const QString &title);
 
     void nextChapter();

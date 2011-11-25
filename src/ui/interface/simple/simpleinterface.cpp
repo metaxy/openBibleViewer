@@ -21,15 +21,21 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QDesktopServices>
 #include <QtGui/QMessageBox>
 #include <QtGui/QKeyEvent>
-
+#include <QtWebKit/QWebView>
 SimpleInterface::SimpleInterface(QWidget *parent) :
     Interface(parent),
     ui(new Ui::SimpleInterface)
 {
 
     ui->setupUi(this);
-    ui->textBrowser->installEventFilter(this);
-    connect(ui->textBrowser, SIGNAL(anchorClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
+    m_view = new QWebView(this);
+    m_view->load(QUrl("http://qt.nokia.com/"));
+    m_view->show();
+    ui->verticalLayout->addWidget(m_view);
+    //ui->frame->layout()->addWidget(m_view);
+    //ui->horizontalLayout->addWidget(m_view);
+    /*ui->textBrowser->installEventFilter(this);
+    connect(ui->textBrowser, SIGNAL(anchorClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));*/
 }
 void SimpleInterface::init()
 {
@@ -121,11 +127,13 @@ QList<QToolBar *> SimpleInterface::toolBars()
 }
 void SimpleInterface::zoomIn()
 {
-    ui->textBrowser->zoomIn();
+    m_view->setZoomFactor(m_view->zoomFactor() + 0.1);
+    //ui->textBrowser->zoomIn();
 }
 void SimpleInterface::zoomOut()
 {
-    ui->textBrowser->zoomOut();
+    m_view->setZoomFactor(m_view->zoomFactor() - 0.1);
+    //ui->textBrowser->zoomOut();
 }
 void SimpleInterface::pharseUrl(QUrl url)
 {
@@ -225,12 +233,15 @@ void SimpleInterface::showText(const QString &text)
     QString cssFile = m_settings->getModuleSettings(m_module->moduleID())->styleSheet;
     if(cssFile.isEmpty())
         cssFile = ":/data/css/default.css";
+    m_view->setHtml(text);
+    m_view->settings()->setUserStyleSheetUrl(QUrl::fromLocalFile(cssFile));
 
-    ui->textBrowser->setHtml(text);
-    ui->textBrowser->loadResource(QTextDocument::StyleSheetResource, QUrl::fromLocalFile(cssFile));
+    //todo: scroll to
+    //ui->textBrowser->setHtml(text);
+   // ui->textBrowser->loadResource(QTextDocument::StyleSheetResource, QUrl::fromLocalFile(cssFile));
 
-    if(m_module->lastTextRanges()->minVerseID() > 1)
-        ui->textBrowser->scrollToAnchor("currentVerse");
+    //if(m_module->lastTextRanges()->minVerseID() > 1)
+     //   ui->textBrowser->scrollToAnchor("currentVerse");
 }
 void SimpleInterface::setTitle(const QString &title)
 {
@@ -290,7 +301,7 @@ void SimpleInterface::previousChapter()
 }
 bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
 {
-    if(obj == ui->textBrowser) {
+   /* if(obj == ui->textBrowser) {
         if(event->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
             if(keyEvent->key() == Qt::Key_Left || keyEvent->key() == Qt::Key_PageUp) {
@@ -309,7 +320,7 @@ bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
     } else {
         return QWidget::eventFilter(obj, event);
     }
-    return QWidget::eventFilter(obj, event);
+    return QWidget::eventFilter(obj, event);*/
 }
 
 SimpleInterface::~SimpleInterface()
@@ -359,8 +370,8 @@ void SimpleInterface::showSearchDialog()
 {
     SearchDialog *sDialog = new SearchDialog(this);
     connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
-    if(ui->textBrowser->textCursor().hasSelection() == true) //something is selected
-        sDialog->setText(ui->textBrowser->textCursor().selectedText());
+  /*  if(ui->textBrowser->textCursor().hasSelection() == true) //something is selected
+        sDialog->setText(ui->textBrowser->textCursor().selectedText());*/
     sDialog->show();
     sDialog->exec();
 }
