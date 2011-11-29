@@ -23,6 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QTreeWidgetItem>
 #include <QtGui/QMenu>
 #include <QtCore/QMimeData>
+#include <QtCore/QPointer>
 #include "src/core/obvcore.h"
 BookmarksDockWidget::BookmarksDockWidget(QWidget *parent) :
     DockWidget(parent),
@@ -147,6 +148,7 @@ void BookmarksDockWidget::bookmarksContextMenu()
     contextMenu->addAction(actionRemove);
 
     contextMenu->exec(QCursor::pos());
+    delete contextMenu;
 }
 void BookmarksDockWidget::removeBookmark()
 {
@@ -172,12 +174,13 @@ void BookmarksDockWidget::editBookmark()
     urlConverter.setV11n(NULL);
     VerseUrl newUrl = urlConverter.convert();
 
-    BiblePassageDialog *passageDialog = new  BiblePassageDialog(this);
+    QPointer<BiblePassageDialog> passageDialog = new  BiblePassageDialog(this);
     connect(passageDialog, SIGNAL(updated(VerseUrl)), this, SLOT(updateBookmarkLink(VerseUrl)));
     setAll(passageDialog);
     passageDialog->init();
     passageDialog->frame()->setVerseUrl(newUrl);
     passageDialog->exec();
+    delete passageDialog;
 }
 void BookmarksDockWidget::bookmarksGo()
 {

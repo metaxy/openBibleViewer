@@ -73,7 +73,11 @@ public:
     void checkCache(const int moduleID);
     VerseModule * newVerseModule(const int moduleID, QPoint p, VerseTable *table);
     VerseModule * newVerseModule(const int moduleID);
-    ModuleDisplaySettings *m_moduleDisplaySettings;
+
+
+    void newDisplaySettings();
+    ModuleDisplaySettings * moduleDisplaySetings();
+
     static OBVCore::ModuleType recognizeModuleType(const QString &fileName);
 
     /**
@@ -88,6 +92,7 @@ private:
 
     Module *m_rootModule;
     Settings *m_settings;
+    ModuleDisplaySettings *m_moduleDisplaySettings;
 };
 
 #endif // MODULEMANAGER_H

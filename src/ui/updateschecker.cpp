@@ -2,6 +2,7 @@
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtGui/QMessageBox>
 #include <QtXml/QDomDocument>
+#include <QtCore/QPointer>
 #include "config.h"
 #include "src/core/dbghelper.h"
 #include "src/core/version.h"
@@ -36,11 +37,12 @@ void UpdatesChecker::replyFinished(QNetworkReply* reply)
 #elif defined(Q_WS_MAC)
     const QString os = "macos";
 #endif
-
+    QString link;
+    QString text;
+    QString version;
     while (!n.isNull()) {
         if (n.nodeName() == versionType) {
-            QString version;
-            QString link;
+
             QString desc;
             QDomNode n2 = n.firstChild();
             while (!n2.isNull()) {
@@ -66,7 +68,7 @@ void UpdatesChecker::replyFinished(QNetworkReply* reply)
                oldVersion.minorVersion() < newVersion.minorVersion() ||
                oldVersion.majorVersion() < newVersion.majorVersion()) {
 
-                QString text = tr("A new version of openBibleViewer is available: ") + version + " ";
+                text = tr("A new version of openBibleViewer is available: ") + version + " ";
                 if(!link.isEmpty()) {
                     text += tr("You can download it at") +"<a href='"+link+"'> "+ link + "</a>.";
                 }
@@ -74,17 +76,20 @@ void UpdatesChecker::replyFinished(QNetworkReply* reply)
                     text += desc;
                 }
                 myDebug() << text;
-                UpdateCheckerDialog dialog(0);
-                setAll(&dialog);
-                dialog.setText(text);
-                dialog.setUrl(link);
-                dialog.setVersion(version);
-                dialog.exec();
+
             }
             break;
         }
         n = n.nextSibling();
     }
+
+    QPointer<UpdateCheckerDialog> dlg = new UpdateCheckerDialog(NULL);
+    setAll(dlg);
+    dlg->setText(text);
+    dlg->setUrl(link);
+    dlg->setVersion(version);
+    dlg->exec();
+    delete dlg;
 
 }
 void UpdatesChecker::updatesAvailable()

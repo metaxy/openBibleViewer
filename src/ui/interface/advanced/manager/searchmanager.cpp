@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "searchmanager.h"
-
+#include <QtCore/QPointer>
 SearchManager::SearchManager(QObject *parent) :
     QObject(parent)
 {
@@ -50,15 +50,16 @@ void SearchManager::setWidget(QWidget *p)
 
 void SearchManager::showSearchDialog()
 {
-    SearchDialog sDialog(m_p);
-    connect(&sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
+    QPointer<SearchDialog> sDialog = new SearchDialog(m_p);
+    connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
     if(m_windowManager->activeForm()) {
         const QString text = m_windowManager->activeForm()->selectedText();
         if(!text.isEmpty()) {
-            sDialog.setText(text);
+            sDialog->setText(text);
         }
     }
-    sDialog.exec();
+    sDialog->exec();
+    delete sDialog;
 }
 
 void SearchManager::search()

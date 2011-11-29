@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/moduledisplaysettings.h"
 #include "src/core/obvcore.h"
 #include "src/core/search/search.h"
+#include <QtCore/QPointer>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QMessageBox>
 #include <QtGui/QKeyEvent>
@@ -26,30 +27,26 @@ SimpleInterface::SimpleInterface(QWidget *parent) :
     Interface(parent),
     ui(new Ui::SimpleInterface)
 {
-
     ui->setupUi(this);
     m_view = new WebView(this);
-    m_view->load(QUrl("http://qt.nokia.com/"));
+    m_view->load(QUrl("about:blank"));
     m_view->show();
     ui->verticalLayout->addWidget(m_view);
-    //ui->frame->layout()->addWidget(m_view);
-    //ui->horizontalLayout->addWidget(m_view);
-    /*ui->textBrowser->installEventFilter(this);
-    connect(ui->textBrowser, SIGNAL(anchorClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));*/
 }
 void SimpleInterface::init()
 {
-     ModuleDisplaySettings *moduleDisplaySettings = new ModuleDisplaySettings();
-     moduleDisplaySettings->setLoadNotes(false);
-     moduleDisplaySettings->setShowMarks(false);
-     moduleDisplaySettings->setShowNotes(false);
-     m_moduleManager->setModuleDisplaySettings(moduleDisplaySettings);
+    m_moduleManager->newDisplaySettings();
+    m_moduleManager->moduleDisplaySetings()->setLoadNotes(false);
+    m_moduleManager->moduleDisplaySetings()->setShowMarks(false);
+    m_moduleManager->moduleDisplaySetings()->setShowNotes(false);
 
-     m_module = new Bible();
-     m_moduleManager->initVerseModule(m_module);
+    m_module = new Bible();
+    m_moduleManager->initVerseModule(m_module);
 
-     connect(m_actions, SIGNAL(_get(VerseUrl)), this, SLOT(pharseUrl(VerseUrl)));
-     connect(m_actions, SIGNAL(_get(QString)), this, SLOT(pharseUrl(QString)));
+    connect(m_actions, SIGNAL(_get(VerseUrl)), this, SLOT(pharseUrl(VerseUrl)));
+    connect(m_actions, SIGNAL(_get(QString)), this, SLOT(pharseUrl(QString)));
+    connect(m_view, SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
+
 
 }
 void SimpleInterface::createDocks()
@@ -363,12 +360,12 @@ void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings
 }
 void SimpleInterface::showSearchDialog()
 {
-    SearchDialog *sDialog = new SearchDialog(this);
+    QPointer<SearchDialog> sDialog = new SearchDialog(this);
     connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
   /*  if(ui->textBrowser->textCursor().hasSelection() == true) //something is selected
         sDialog->setText(ui->textBrowser->textCursor().selectedText());*/
-    sDialog->show();
     sDialog->exec();
+    delete sDialog;
 }
 void SimpleInterface::search(SearchQuery query)
 {

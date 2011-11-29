@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "bibleform.h"
 #include "ui_bibleform.h"
 #include "src/core/verse/reftext.h"
+#include <QtCore/QPointer>
 BibleForm::BibleForm(QWidget *parent) : Form(parent), m_ui(new Ui::BibleForm)
 {
     //DEBUG_FUNC_NAME
@@ -41,7 +42,13 @@ BibleForm::BibleForm(QWidget *parent) : Form(parent), m_ui(new Ui::BibleForm)
     setButtons();
 
 }
-
+BibleForm::~BibleForm()
+{
+    delete m_ui;
+    m_ui = NULL;
+    delete m_verseTable;
+    m_verseTable = NULL;
+}
 Form::FormType BibleForm::type() const
 {
     return Form::BibleForm;
@@ -356,11 +363,12 @@ void BibleForm::setButtons()
 
 void BibleForm::showBibleListMenu()
 {
-    VerseTableWidget *w = new VerseTableWidget(this);
+    QPointer<VerseTableWidget> w = new VerseTableWidget(this);
     setAll(w);
     w->setVerseTable(m_verseTable);
     w->init();
     w->exec();
+    delete w;
 }
 
 void BibleForm::readChapter(int id)
@@ -501,26 +509,21 @@ void BibleForm::activated()
     //DEBUG_FUNC_NAME
     //myDebug() << " windowID = " << m_id;
     m_api->moduleApi()->setFrame(m_view->page()->mainFrame());
-    VerseTable *table = m_verseTable;
-    if(m_verseTable == NULL || m_verseTable->verseModule() == NULL) {
-        myDebug() << "no biblelist or no bible";
+    if(m_verseTable == NULL) {
         clearChapters();
         clearBooks();
         m_actions->setTitle("");
-
-        m_verseTable = new VerseTable();
-        Bible *b = new Bible();
-        m_moduleManager->initVerseModule(b);
-        m_verseTable->addModule(b, QPoint(0, 0));
+        m_verseTable = m_moduleManager->newVerseTable();
         return;
+    } else if(m_verseTable->verseModule() == NULL) {
+        m_moduleManager->newVerseModule(-1, QPoint(0,0), m_verseTable);
     }
+
     if(m_verseTable->verseModule()->moduleID() < 0) {
         myWarning() << "invalid moduleID";
-
         clearChapters();
         clearBooks();
         m_actions->setTitle("");
-        m_verseTable = table;
         return;
     }
 
@@ -631,26 +634,26 @@ void BibleForm::evaluateJavaScript(const QString &js)
 void BibleForm::print()
 {
     QPrinter printer;
-    QPrintDialog dialog(&printer, this);
-    dialog.setWindowTitle(tr("Print"));
-    if (dialog.exec() == QDialog::Accepted) {
+    QPointer<QPrintDialog> dialog = new QPrintDialog(&printer, this);
+    dialog->setWindowTitle(tr("Print"));
+    if (dialog->exec() == QDialog::Accepted) {
          m_view->page()->mainFrame()->print(&printer);
     }
+    delete dialog;
 }
 void BibleForm::printPreview()
 {
     QPrinter printer;
-    QPrintPreviewDialog preview(&printer, this);
-    connect(&preview, SIGNAL(paintRequested(QPrinter *)), m_view, SLOT(print(QPrinter *)));
-    preview.exec();
+    QPointer<QPrintPreviewDialog> preview = new QPrintPreviewDialog(&printer, this);
+    connect(preview, SIGNAL(paintRequested(QPrinter *)), m_view, SLOT(print(QPrinter *)));
+    preview->exec();
+    delete preview;
 }
 
 void BibleForm::saveFile()
 {
-    QFileDialog dialog(this);
-    dialog.setAcceptMode(QFileDialog::AcceptSave);
     const QString lastPlace = m_settings->session.getData("lastSaveFilePlace").toString();
-    const QString fileName = dialog.getSaveFileName(this, tr("Save output"), lastPlace, tr("Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Plain (*.txt)"));
+    const QString fileName = QFileDialog::getSaveFileName(this, tr("Save output"), lastPlace, tr("Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Plain (*.txt)"));
     QFileInfo fi(fileName);
     m_settings->session.setData("lastSaveFilePlace", fi.path());
     if(fi.suffix().compare("html", Qt::CaseInsensitive) == 0 ||
@@ -889,7 +892,6 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
     contextMenu->addAction(m_actionNote);
     contextMenu->addAction(dbg);
     contextMenu->exec(ev->globalPos());
-
 }
 void BibleForm::newNoteWithLink()
 {
@@ -1223,14 +1225,6 @@ void BibleForm::reload(bool full)
         //todo: force reload bible
     }
      m_view->page()->mainFrame()->setScrollPosition(p);
-}
-
-BibleForm::~BibleForm()
-{
-    delete m_ui;
-    m_ui = NULL;
-    delete m_verseTable;
-    m_verseTable = NULL;
 }
 
 void BibleForm::changeEvent(QEvent *e)

@@ -47,11 +47,14 @@ void ModuleManager::setNotes(Notes *notes)
 {
     m_notes = notes;
 }
-void ModuleManager::setModuleDisplaySettings(ModuleDisplaySettings *moduleDisplaySettings)
+void ModuleManager::newDisplaySettings()
 {
-    m_moduleDisplaySettings = moduleDisplaySettings;
+    m_moduleDisplaySettings = new ModuleDisplaySettings();
 }
-
+ModuleDisplaySettings * ModuleManager::moduleDisplaySetings()
+{
+    return m_moduleDisplaySettings;
+}
 
 /**
   * Load all Modules, and generate a QStandardItemModel.

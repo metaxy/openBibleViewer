@@ -22,7 +22,7 @@ ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
     ui(new Ui::ModuleDockWidget)
 {
     ui->setupUi(this);
-    /*m_dontLoad = false;*/
+    m_dontLoad = false;
     first = false;
 
     m_proxyModel = NULL;
@@ -45,7 +45,7 @@ void ModuleDockWidget::init()
     }
     m_moduleID = -1;
 
-    ModuleModel model(0);
+    ModuleModel model(this);
     model.setShowAll(true);
     model.setSettings(m_settings);
     model.generate();

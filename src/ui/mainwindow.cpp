@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "src/module/modulemanager.h"
-
+#include <QtCore/QPointer>
 
 #include "src/ui/interface/simple/simpleinterface.h"
 #include "src/ui/interface/advanced/advancedinterface.h"
@@ -409,13 +409,13 @@ void MainWindow::saveSettings(Settings newSettings, bool modifedModuleSettings)
 }
 void MainWindow::showSettingsDialog(int tabID)
 {
-    SettingsDialog setDialog(this);
-    connect(&setDialog, SIGNAL(settingsChanged(Settings, bool)), this, SLOT(saveSettings(Settings, bool)));
-    setDialog.setSettings(*m_settings);
-    setDialog.setWindowTitle(tr("Configuration"));
-    setDialog.setCurrentTab(tabID);
-    setDialog.show();
-    setDialog.exec();
+    QPointer<SettingsDialog> dlg = new SettingsDialog(this);
+    connect(dlg, SIGNAL(settingsChanged(Settings, bool)), this, SLOT(saveSettings(Settings, bool)));
+    dlg->setSettings(*m_settings);
+    dlg->setWindowTitle(tr("Configuration"));
+    dlg->setCurrentTab(tabID);
+    dlg->exec();
+    delete dlg;
 }
 void MainWindow::showSettingsDialog_Module()
 {

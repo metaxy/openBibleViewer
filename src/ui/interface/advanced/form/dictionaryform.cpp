@@ -2,6 +2,7 @@
 #include "ui_dictionaryform.h"
 
 #include <QtGui/QCompleter>
+#include <QtCore/QScopedPointer>
 #include "src/module/dictionary/webdictionary.h"
 DictionaryForm::DictionaryForm(QWidget *parent) :
     Form(parent),
@@ -146,6 +147,7 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
         testDictionary(moduleID);
 
     m_key = "";
+
     if(key.isEmpty()) {
         showHtml(m_dictionary->moduleTitle());
     }
@@ -158,6 +160,7 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
         const QString url = m_dictionary->getEntry(key);
         ui->webView->load(QUrl(url));
     }
+    m_actions->setTitle(m_dictionary->moduleTitle());
     //else
     //show url
 }
@@ -174,10 +177,15 @@ void DictionaryForm::loadDictionary(int moduleID)
         //todo: do this when closing
         m_settings->session.setData("lastDictModuleInWindow", m_settings->savableUrl(m->path()));
 
-        //todo: memory leak
+
         QCompleter *completer = new QCompleter(m_dictionary->getAllKeys(), this);
         completer->setCaseSensitivity(Qt::CaseInsensitive);
+        if(ui->lineEdit_input->completer()) {
+            delete ui->lineEdit_input->completer();
+        }
         ui->lineEdit_input->setCompleter(completer);
+
+        m_actions->setTitle(m_dictionary->moduleTitle());
     }
 }
 void DictionaryForm::testDictionary(int module)

@@ -100,6 +100,7 @@ void MarkList::load(QModelIndex index)
 
 void MarkList::showContextMenu(QPoint point)
 {
+    m_currentPoint = point;
     QMenu *contextMenu = new QMenu(this);
     QAction *actionDelete = new QAction(QIcon::fromTheme("edit-delete",
                                         QIcon(":/icons/16x16/edit-delete.png")),
@@ -108,7 +109,7 @@ void MarkList::showContextMenu(QPoint point)
     connect(actionDelete, SIGNAL(triggered()), this, SLOT(deleteMarks()));
     contextMenu->addAction(actionDelete);
     contextMenu->exec(QCursor::pos());
-    m_currentPoint = point;
+    delete contextMenu;
 }
 void MarkList::addNote(const QString &id)
 {

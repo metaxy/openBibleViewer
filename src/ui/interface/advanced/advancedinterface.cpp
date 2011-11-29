@@ -26,11 +26,6 @@ AdvancedInterface::AdvancedInterface(QWidget *parent) :
 AdvancedInterface::~AdvancedInterface()
 {
     DEBUG_FUNC_NAME;
-    if(m_moduleDisplaySettings != NULL) {
-        delete m_moduleDisplaySettings;
-        m_moduleDisplaySettings = 0;
-    }
-
     if(ui != NULL) {
         delete ui;
         ui = 0;
@@ -40,14 +35,13 @@ AdvancedInterface::~AdvancedInterface()
 void AdvancedInterface::init()
 {
     DEBUG_FUNC_NAME
-    m_moduleDisplaySettings = new ModuleDisplaySettings();
-    m_moduleDisplaySettings->setShowMarks(true);
-    m_moduleDisplaySettings->setShowNotes(true);
-    m_moduleDisplaySettings->setLoadNotes(true);
+    m_moduleManager->newDisplaySettings();
+    m_moduleManager->moduleDisplaySetings()->setShowMarks(true);
+    m_moduleManager->moduleDisplaySetings()->setShowNotes(true);
+    m_moduleManager->moduleDisplaySetings()->setLoadNotes(true);
 
     connect(m_actions, SIGNAL(_get(QString)), this, SLOT(pharseUrl(QString)));
 
-    m_moduleManager->setModuleDisplaySettings(m_moduleDisplaySettings);
 
     m_api = new Api(this);
     setAll(m_api);
@@ -712,14 +706,14 @@ void AdvancedInterface::saveFile(void)
 
 int AdvancedInterface::showAboutDialog(void)
 {
-    AboutDialog aDialog;
-    aDialog.setWindowTitle(tr("About openBibleViewer"));
-    aDialog.show();
-    aDialog.setText(tr("openBibleViewer <br /> version: %1 build: %2<br /> "
+    QPointer<AboutDialog> aDialog = new AboutDialog(this);
+    aDialog->setWindowTitle(tr("About openBibleViewer"));
+    aDialog->setText(tr("openBibleViewer <br /> version: %1 build: %2<br /> "
                        "<a href='http://openbv.uucyc.name/'> Official Website</a> <br />"
                        "<a href='https://github.com/metaxy/openBibleViewer/issues'>Bug report</a>")
                     .arg(m_settings->version).arg(m_settings->build));
-    return aDialog.exec();
+    aDialog->exec();
+    delete aDialog;
 }
 
 void AdvancedInterface::showMarkCategories()
@@ -730,10 +724,11 @@ void AdvancedInterface::showMarkCategories()
 void AdvancedInterface::showMarkList()
 {
     //todo: scoped pointer ?
-    MarkList *markList = new MarkList(this);
+    QPointer<MarkList> markList = new MarkList(this);
     setAll(markList);
     markList->init();
     markList->exec();
+    delete markList;
 }
 
 void AdvancedInterface::showNotesEditor()

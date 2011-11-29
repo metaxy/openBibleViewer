@@ -23,6 +23,7 @@ class Api : public QObject, public BasicClass
     Q_OBJECT
 public:
     explicit Api(QObject *parent = 0);
+    ~Api();
     void init();
     NotesApi* notesApi() const;
     ModuleApi* moduleApi() const;

@@ -4,7 +4,8 @@
 #include <QtGui/QPrinter>
 #include <QtGui/QPrintDialog>
 #include <QtGui/QPrintPreviewDialog>
-#include <QWebHistory>
+#include <QtWebKit/QWebHistory>
+#include <QtCore/QPointer>
 
 WebForm::WebForm(QWidget *parent) :
     Form(parent),
@@ -136,19 +137,21 @@ void WebForm::selectAll()
 void WebForm::print()
 {
     QPrinter printer;
-    QPrintDialog dialog(&printer, this);
-    dialog.setWindowTitle(tr("Print"));
-    if (dialog.exec() == QDialog::Accepted) {
+    QPointer<QPrintDialog> dialog = new QPrintDialog(&printer, this);
+    dialog->setWindowTitle(tr("Print"));
+    if (dialog->exec() == QDialog::Accepted) {
          m_ui->webView->page()->mainFrame()->print(&printer);
     }
+    delete dialog;
 }
 
 void WebForm::printPreview()
 {
     QPrinter printer;
-    QPrintPreviewDialog preview(&printer, this);
-    connect(&preview, SIGNAL(paintRequested(QPrinter *)), m_ui->webView, SLOT(print(QPrinter *)));
-    preview.exec();
+    QPointer<QPrintPreviewDialog> preview = new QPrintPreviewDialog(&printer, this);
+    connect(preview, SIGNAL(paintRequested(QPrinter *)), m_ui->webView, SLOT(print(QPrinter *)));
+    preview->exec();
+    delete preview;
 }
 
 void WebForm::saveFile()

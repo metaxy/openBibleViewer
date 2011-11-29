@@ -24,12 +24,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
   Conctruct a ModuleDownloader. Need a parent widget. And a list with links e.g http://example.com/a.xml
 and the names for it e.g names['http://example.com/a.xml'] = "A Book".
   */
-ModuleDownloader::ModuleDownloader(QObject *parent, QMap<QString, QString> data) :
-    QObject(parent)
+ModuleDownloader::ModuleDownloader(QObject *parent, const QMap<QString, QString> &data) :
+    QObject(parent),
+    m_data(data),
+    m_counter(0)
 {
-    m_data = data;
     m_manager = new QNetworkAccessManager(this);
-    m_counter = 0;
 }
 /**
   Starts the download. If finished the signal downloaded ist emited.
@@ -70,7 +70,6 @@ void ModuleDownloader::downloadNext()
         return;
     }
     if(m_counter < m_fileCount && m_fileCount != 0) {
-        //myDebug() << "download next";
         //download next
         download(m_urls.at(m_counter));
         m_counter++;
@@ -101,31 +100,6 @@ void ModuleDownloader::download(const QString &url_)
     connect(d, SIGNAL(finished(QString, QString, int)), this, SLOT(save(QString, QString, int)));
     connect(d, SIGNAL(progress(qint64,qint64)), this, SIGNAL(updateProgress(qint64,qint64)));
 
-
-   /* DEBUG_FUNC_NAME
-    const QUrl url(url_);
-    QFileInfo fileInfo(url.path());
-    QDir d(m_settings->homePath + "modules/");
-    QDir dir(m_settings->homePath);
-    dir.mkpath(m_settings->homePath + "modules/" + fileInfo.fileName() + "/");
-    const QString fileName = m_settings->homePath + "modules/" + fileInfo.fileName() + "/" + fileInfo.fileName();
-
-    if(QFile::exists(fileName)) {
-        QFile::remove(fileName);
-    }
-    m_file = new QFile(fileName);
-    if(!m_file->open(QIODevice::WriteOnly)) {
-        QMessageBox::information(m_parent, tr("HTTP"), tr("Unable to save the file %1: %2.").arg(fileName).arg(m_file->errorString()));
-        delete m_file;
-        m_file = 0;
-        return;
-    }
-    m_httpRequestAborted = false;
-    m_http->setHost(url.host(), QHttp::ConnectionModeHttp, url.port() == -1 ? 0 : url.port());
-    m_httpGetId = m_http->get(url_, m_file);
-    m_progressDialog->setWindowTitle(tr("Downloading"));
-    m_progressDialog->setLabelText(tr("Downloading %1 / %2. %3 MB").arg(m_currentDownload + 1).arg(m_urls.size()).arg(0));
-    m_progressDialog->setModal(true);*/
 
 }
 

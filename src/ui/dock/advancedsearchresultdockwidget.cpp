@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_advancedsearchresultdockwidget.h"
 #include <QtGui/QSortFilterProxyModel>
 #include <QtGui/QMessageBox>
+#include <QtCore/QPointer>
 #include "src/core/link/verseurl.h"
 #include "src/ui/dialog/searchinfodialog.h"
 #include "src/core/dbghelper.h"
@@ -148,10 +149,10 @@ void AdvancedSearchResultDockWidget::searchInfo()
         }
     }
 
-    SearchInfoDialog sDialog;
-    sDialog.show();
-    sDialog.setInfo(result, v11n_t, m_searchResult->searchQuery.searchText, textList);
-    sDialog.exec();
+    QPointer<SearchInfoDialog> sDialog = new SearchInfoDialog(this);
+    sDialog->setInfo(result, v11n_t, m_searchResult->searchQuery.searchText, textList);
+    sDialog->exec();
+    delete sDialog;
 }
 
 void AdvancedSearchResultDockWidget::nextVerse()

@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "simplenotes.h"
-
+#include <QtCore/QPointer>
 
 SimpleNotes::SimpleNotes()
 {
@@ -175,13 +175,14 @@ void SimpleNotes::editNoteLink()
     urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
     urlConverter.convert();
     if(urlConverter.url().isValid()) {
-        BiblePassageDialog *passageDialog = new BiblePassageDialog();
+        QPointer<BiblePassageDialog> passageDialog = new BiblePassageDialog();
         connect(passageDialog, SIGNAL(updated(VerseUrl)), this, SLOT(updateNoteLink(VerseUrl)));
         passageDialog->setSettings(m_settings);
         passageDialog->setModuleManager(m_moduleManager);
         passageDialog->init();
         passageDialog->frame()->setVerseUrl(urlConverter.url());
         passageDialog->exec();
+        delete passageDialog;
     }
 
 }
@@ -531,7 +532,7 @@ void SimpleNotes::notesContextMenu(QPoint point)
 {
     //DEBUG_FUNC_NAME
     m_point = point;
-    QMenu *contextMenu = new QMenu(m_treeView);
+    QPointer<QMenu> contextMenu = new QMenu(m_treeView);
     m_currentPoint = point;
     contextMenu->setObjectName("contextMenu");
 
@@ -558,6 +559,7 @@ void SimpleNotes::notesContextMenu(QPoint point)
     contextMenu->addAction(actionCopy);
 
     contextMenu->exec(QCursor::pos());
+    delete contextMenu;
 }
 void SimpleNotes::removeNote()
 {

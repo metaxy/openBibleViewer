@@ -20,7 +20,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/bible/thewordbible.h"
 #include "src/module/webpage.h"
 #include "src/module/dictionary/webdictionary.h"
-#include <QFSFileEngine>
+#include <QtCore/QFSFileEngine>
+#include <QtCore/QPointer>
+
 #ifdef BUILD_WITH_SWORD
 #include <stdlib.h>
 #include <swmgr.h>
@@ -176,30 +178,30 @@ void SettingsDialog::generateModuleTree()
 void SettingsDialog::addModuleFile(void)
 {
     m_modifedModuleSettings = true;
-    QFileDialog dialog(this);
-    dialog.setFileMode(QFileDialog::ExistingFiles);
-    dialog.setDirectory(m_set.session.getData("addModuleFile_Dir", QFSFileEngine::homePath()).toString());
+    QPointer<QFileDialog> dialog = new QFileDialog(this);
+    dialog->setFileMode(QFileDialog::ExistingFiles);
+    dialog->setDirectory(m_set.session.getData("addModuleFile_Dir", QFSFileEngine::homePath()).toString());
 
-    if(dialog.exec()) {
-        const QStringList fileName = dialog.selectedFiles();
+    if(dialog->exec()) {
+        const QStringList fileName = dialog->selectedFiles();
         addModules(fileName, QStringList());
-        m_set.session.setData("addModuleFile_Dir", dialog.directory().absolutePath());
+        m_set.session.setData("addModuleFile_Dir", dialog->directory().absolutePath());
     }
-    return;
+    delete dialog;
 }
 
 void SettingsDialog::addModuleDir(void)
 {
     m_modifedModuleSettings = true;
-    QFileDialog dialog(this);
+    QPointer<QFileDialog> dialog = new QFileDialog(this);
 
-    dialog.setFileMode(QFileDialog::Directory);
-    dialog.setOption(QFileDialog::ShowDirsOnly, true);
-    dialog.setDirectory(m_set.session.getData("addModuleDir_Dir", QFSFileEngine::homePath()).toString());
+    dialog->setFileMode(QFileDialog::Directory);
+    dialog->setOption(QFileDialog::ShowDirsOnly, true);
+    dialog->setDirectory(m_set.session.getData("addModuleDir_Dir", QFSFileEngine::homePath()).toString());
 
-    if(dialog.exec()) {
-        const QStringList fileName = dialog.selectedFiles();
-        m_set.session.setData("addModuleDir_Dir", dialog.directory().absolutePath());
+    if(dialog->exec()) {
+        const QStringList fileName = dialog->selectedFiles();
+        m_set.session.setData("addModuleDir_Dir", dialog->directory().absolutePath());
 
         if(fileName.size() > 0) {
             QProgressDialog progress(QObject::tr("Adding Modules"), QObject::tr("Cancel"), 0, fileName.size());
@@ -207,8 +209,10 @@ void SettingsDialog::addModuleDir(void)
             progress.show();
             for(int i = 0; i < fileName.size(); i++) {
                 progress.setValue(i);
-                if(progress.wasCanceled())
+                if(progress.wasCanceled()) {
+                    delete dialog;
                     return;
+                }
                 const QString f = fileName.at(i);
                 ModuleSettings *m = new ModuleSettings();
                 m->moduleID = m_set.newModuleID();
@@ -231,6 +235,7 @@ void SettingsDialog::addModuleDir(void)
                     //m.isDir = true;
                 } else {
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("It is not a folder."));
+                    delete dialog;
                     return;
                 }
 
@@ -254,6 +259,7 @@ void SettingsDialog::addModuleDir(void)
         }
 
     }
+    delete dialog;
 }
 
 void SettingsDialog::removeModule()
@@ -286,11 +292,11 @@ void SettingsDialog::editModule()
     const int moduleID = m_ui->treeView->selectionModel()->selectedIndexes().first().data(Qt::UserRole + 1).toInt(&ok);
     myDebug() << "moduleID = " << moduleID;
     if(moduleID >= 0 && ok) {
-        ModuleConfigDialog *mDialog = new ModuleConfigDialog(this);
+        QPointer<ModuleConfigDialog> mDialog = new ModuleConfigDialog(this);
         mDialog->setModule(m_set.getModuleSettings(moduleID));
         connect(mDialog, SIGNAL(save(ModuleSettings)), mDialog, SLOT(close()));
-        mDialog->show();
         mDialog->exec();
+        delete mDialog;
     }
 
 }
@@ -358,12 +364,13 @@ void SettingsDialog::saveModule(QModelIndex parentIndex, ModuleSettings *parentS
 
 void SettingsDialog::downloadModule()
 {
-    ModuleDownloadDialog *mDialog = new ModuleDownloadDialog(this);
+    QPointer<ModuleDownloadDialog> mDialog = new ModuleDownloadDialog(this);
     mDialog->setSettings(m_set);
     mDialog->readModules();
     connect(mDialog, SIGNAL(downloaded(QMap<QString,QString>)), this, SLOT(addModules(QMap<QString,QString>)));
 
     mDialog->exec();
+    delete mDialog;
 }
 
 void SettingsDialog::addModules(QMap<QString,QString> data)

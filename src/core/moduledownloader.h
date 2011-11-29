@@ -31,7 +31,7 @@ signals:
     void nextFile(int fileCount, int maxFiles);
 public:
     //QMap<Url,Title>
-    ModuleDownloader(QObject *parent ,QMap<QString, QString> data);
+    ModuleDownloader(QObject *parent , const QMap<QString, QString> &data);
     int start();
 private slots:
 

@@ -50,6 +50,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/noteseditor.h"
 #include "src/ui/marklist.h"
 
+#include <QtCore/QPointer>
 namespace Ui
 {
 class AdvancedInterface;
@@ -107,7 +108,6 @@ protected:
 private:
     Ui::AdvancedInterface *ui;
 
-    ModuleDisplaySettings *m_moduleDisplaySettings;
     Api *m_api;
     //Menu
     QAction *m_actionTabbedView;

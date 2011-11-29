@@ -11,8 +11,9 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#include <QtGui/QMessageBox>
 #include "searchresultdockwidget.h"
+#include <QtGui/QMessageBox>
+#include <QtCore/QPointer>
 #include "ui_searchresultdockwidget.h"
 #include "src/core/search/searchhit.h"
 #include "src/ui/dialog/searchinfodialog.h"
@@ -95,11 +96,11 @@ void SearchResultDockWidget::searchInfo()
         }
     }
 
-    SearchInfoDialog sDialog;
-    sDialog.show();
+    QPointer<SearchInfoDialog> sDialog = new SearchInfoDialog(this);
 
-    sDialog.setInfo(result, v11n_t, m_searchResult->searchQuery.searchText, textList);
-    sDialog.exec();
+    sDialog->setInfo(result, v11n_t, m_searchResult->searchQuery.searchText, textList);
+    sDialog->exec();
+    delete sDialog;
 
 }
 void SearchResultDockWidget::nextVerse()

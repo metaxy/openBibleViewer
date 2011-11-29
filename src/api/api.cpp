@@ -16,6 +16,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 Api::Api(QObject *parent) :
     QObject(parent)
 {
+    m_moduleApi = NULL;
+    m_notesApi = NULL;
 }
 void Api::init()
 {
@@ -25,6 +27,18 @@ void Api::init()
     m_notesApi = new NotesApi(this);
     setAll(m_notesApi);
 }
+Api::~Api()
+{
+    if(m_moduleApi != NULL) {
+        delete m_moduleApi;
+        m_moduleApi = NULL;
+    }
+    if(m_notesApi != NULL) {
+        delete m_moduleApi;
+        m_moduleApi = NULL;
+    }
+}
+
 ModuleApi* Api::moduleApi() const
 {
     return m_moduleApi;
