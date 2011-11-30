@@ -25,7 +25,7 @@ void WebDictionary::loadModuleData(const int moduleID, const QString &name)
 {
     m_moduleID = moduleID;
     /*m_module = m_map->module(m_moduleID);
-*/
+    */
     QString fileName;
     if(name.isEmpty())
         fileName = m_modulePath;
@@ -35,10 +35,10 @@ void WebDictionary::loadModuleData(const int moduleID, const QString &name)
     myDebug() << fileName;
     QDomDocument doc;
     QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly))
+    if(!file.open(QIODevice::ReadOnly))
         return;
 
-    if (!doc.setContent(&file)) {
+    if(!doc.setContent(&file)) {
         file.close();
         return;
     }

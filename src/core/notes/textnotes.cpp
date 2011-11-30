@@ -11,7 +11,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
- /***************************************************************************
+/***************************************************************************
 openBibleViewer - Bible Study Tool
 Copyright (C) 2009-2011 Paul Walger
 This program is free software; you can redistribute it and/or modify it
@@ -67,8 +67,8 @@ int TextNotes::loadNotes()
         notesID << fileName;
         notesType[fileName] = "text";
         notesTitle[fileName] = fileName;
-        QFile file(m_fileName+"/"+fileName);
-        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QFile file(m_fileName + "/" + fileName);
+        if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QTextStream in(&file);
             notesData[fileName] = in.readAll();
         }
@@ -101,7 +101,7 @@ QString TextNotes::getRef(const QString &id, const QString &refID) const
     } else {
         return QString();
     }
-	return "";
+    return "";
 }
 
 QMap<QString, QString> TextNotes::getRef(const QString &id) const
@@ -220,77 +220,77 @@ int TextNotes::readNotes()
 int TextNotes::saveNotes()
 {
     //DEBUG_FUNC_NAME
-   /* QDomDocument sdoc;
-    QDomElement root = sdoc.createElement("notes");
-    root.setAttribute("version", m_version);
-    sdoc.appendChild(root);
-    QMapIterator<QString, QString> i(notesType);
-    while(i.hasNext()) {
-        i.next();
-        const QString id = i.key();
-        if(id.isEmpty())
-            continue;
-        QDomElement tag = sdoc.createElement("note");
-        tag.setAttribute("title", notesTitle.value(id));
-        tag.setAttribute("type", notesType.value(id));
-        tag.setAttribute("id", id);
-        root.appendChild(tag);
-        QDomElement data = sdoc.createElement("data");
-        QDomCDATASection text = sdoc.createCDATASection(notesData.value(id));
-        data.appendChild(text);
-        tag.appendChild(data);
-        QDomElement ref = sdoc.createElement("ref");
-        QMap<QString, QString> map = notesRef.value(id);
-        QMapIterator<QString, QString> i(map);
-        while(i.hasNext()) {
-            i.next();
-            QDomElement e = sdoc.createElement(i.key());
-            QDomText t = doc.createTextNode(i.value());
-            e.appendChild(t);
-            ref.appendChild(e);
-        }
-        tag.appendChild(ref);
-    }
-    QFile file(m_fileName);
-    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        return 1;
-    const int IndentSize = 4;
-    QTextStream out(&file);
-    sdoc.save(out, IndentSize);
-    file.close();
-    doc = sdoc;
-    return 0;*/
+    /* QDomDocument sdoc;
+     QDomElement root = sdoc.createElement("notes");
+     root.setAttribute("version", m_version);
+     sdoc.appendChild(root);
+     QMapIterator<QString, QString> i(notesType);
+     while(i.hasNext()) {
+         i.next();
+         const QString id = i.key();
+         if(id.isEmpty())
+             continue;
+         QDomElement tag = sdoc.createElement("note");
+         tag.setAttribute("title", notesTitle.value(id));
+         tag.setAttribute("type", notesType.value(id));
+         tag.setAttribute("id", id);
+         root.appendChild(tag);
+         QDomElement data = sdoc.createElement("data");
+         QDomCDATASection text = sdoc.createCDATASection(notesData.value(id));
+         data.appendChild(text);
+         tag.appendChild(data);
+         QDomElement ref = sdoc.createElement("ref");
+         QMap<QString, QString> map = notesRef.value(id);
+         QMapIterator<QString, QString> i(map);
+         while(i.hasNext()) {
+             i.next();
+             QDomElement e = sdoc.createElement(i.key());
+             QDomText t = doc.createTextNode(i.value());
+             e.appendChild(t);
+             ref.appendChild(e);
+         }
+         tag.appendChild(ref);
+     }
+     QFile file(m_fileName);
+     if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+         return 1;
+     const int IndentSize = 4;
+     QTextStream out(&file);
+     sdoc.save(out, IndentSize);
+     file.close();
+     doc = sdoc;
+     return 0;*/
     return 0;
 }
 
 void TextNotes::search(SearchQuery query, SearchResult *res) const
 {
-  /*  DEBUG_FUNC_NAME
-    QStringList f;
-    QMapIterator<QString, QString> i(notesTitle);
-    while(i.hasNext()) {
-        i.next();
-        if(i.value().contains(query.searchText)) {
-            //add hit
-            SearchHit hit;
-            hit.setType(SearchHit::NoteHit);
-            hit.setValue(SearchHit::NoteID, i.key());
-            res->addHit(hit);
-            f << i.key();
-        }
-    }
-    QMapIterator<QString, QString > i2(notesData);
-    while(i2.hasNext()) {
-        i2.next();
-        if(!f.contains(i2.key())) {
-            if(i2.value().contains(query.searchText)) {
-                SearchHit hit;
-                hit.setType(SearchHit::NoteHit);
-                hit.setValue(SearchHit::NoteID, i2.key());
-                res->addHit(hit);
-            }
-        }
+    /*  DEBUG_FUNC_NAME
+      QStringList f;
+      QMapIterator<QString, QString> i(notesTitle);
+      while(i.hasNext()) {
+          i.next();
+          if(i.value().contains(query.searchText)) {
+              //add hit
+              SearchHit hit;
+              hit.setType(SearchHit::NoteHit);
+              hit.setValue(SearchHit::NoteID, i.key());
+              res->addHit(hit);
+              f << i.key();
+          }
+      }
+      QMapIterator<QString, QString > i2(notesData);
+      while(i2.hasNext()) {
+          i2.next();
+          if(!f.contains(i2.key())) {
+              if(i2.value().contains(query.searchText)) {
+                  SearchHit hit;
+                  hit.setType(SearchHit::NoteHit);
+                  hit.setValue(SearchHit::NoteID, i2.key());
+                  res->addHit(hit);
+              }
+          }
 
-    }*/
+      }*/
 }
 

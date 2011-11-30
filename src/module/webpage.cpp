@@ -31,10 +31,10 @@ void WebPage::loadModuleData(const int moduleID, const QString &name)
     myDebug() << fileName;
     QDomDocument doc;
     QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly))
+    if(!file.open(QIODevice::ReadOnly))
         return;
 
-    if (!doc.setContent(&file)) {
+    if(!doc.setContent(&file)) {
         file.close();
         return;
     }

@@ -248,11 +248,11 @@ void MainWindow::loadDefaultSettings()
     m_settings->zefaniaBible_softCache = true;
     m_settings->advancedSearchDock_useCurrentModule = true;
 
-    #if !defined(Q_WS_X11)
-         m_settings->checkForUpdates = true;
-    #else
-         m_settings->checkForUpdates = false;
-    #endif
+#if !defined(Q_WS_X11)
+    m_settings->checkForUpdates = true;
+#else
+    m_settings->checkForUpdates = false;
+#endif
 
 
     m_settings->defaultVersification = new Versification_KJV();

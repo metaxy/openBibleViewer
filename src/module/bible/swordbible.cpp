@@ -36,7 +36,7 @@ int SwordBible::loadBibleData(const int id, const QString &path)
     m_library = new SWMgr(new MarkupFilterMgr(FMT_PLAIN));
 
     m_target = m_library->getModule(path.toStdString().c_str());
-    if (!m_target) {
+    if(!m_target) {
         myWarning() << "could not load " << path;
         return 1;
     }
@@ -115,13 +115,13 @@ TextRange SwordBible::rawTextRange(int bookID, int chapterID, int startVerse, in
     TextRange ret;
 #ifdef BUILD_WITH_SWORD
     VerseKey mykey;
-    QString b = m_v11n->bookName(bookID,true) + " " + QString::number(chapterID+1)+":"+QString::number(startVerse+1);
+    QString b = m_v11n->bookName(bookID, true) + " " + QString::number(chapterID + 1) + ":" + QString::number(startVerse + 1);
     mykey = b.toStdString().c_str();
 
-    int v=startVerse;
-    for (; v < endVerse; mykey++) {
+    int v = startVerse;
+    for(; v < endVerse; mykey++) {
         m_target->setKey(mykey);
-        Verse verse(v,QString::fromLocal8Bit(m_target->RenderText()));
+        Verse verse(v, QString::fromLocal8Bit(m_target->RenderText()));
         ret.addVerse(verse);
         v++;
     }

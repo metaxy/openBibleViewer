@@ -362,8 +362,8 @@ void SimpleInterface::showSearchDialog()
 {
     QPointer<SearchDialog> sDialog = new SearchDialog(this);
     connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
-  /*  if(ui->textBrowser->textCursor().hasSelection() == true) //something is selected
-        sDialog->setText(ui->textBrowser->textCursor().selectedText());*/
+    /*  if(ui->textBrowser->textCursor().hasSelection() == true) //something is selected
+          sDialog->setText(ui->textBrowser->textCursor().selectedText());*/
     sDialog->exec();
     delete sDialog;
 }

@@ -95,7 +95,7 @@ QString RefText::toString(int moduleID, int bookID, int chapterID, int startVers
                    QString::number(chapterID + 1);
         } else {
             ret += QString::number(bookID) + sep_book_chaper +
-                               QString::number(chapterID + 1);
+                   QString::number(chapterID + 1);
         }
     } else {
         ret += sep_same_book + QString::number(chapterID + 1);

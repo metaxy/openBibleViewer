@@ -18,8 +18,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QLineEdit>
 #include "form.h"
 #include "src/module/webpage.h"
-namespace Ui {
-    class WebForm;
+namespace Ui
+{
+class WebForm;
 }
 
 class WebForm : public Form

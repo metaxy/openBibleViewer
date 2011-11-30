@@ -16,8 +16,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QWidget>
 
-namespace Ui {
-    class DictionaryForm;
+namespace Ui
+{
+class DictionaryForm;
 }
 
 #include "src/ui/interface/advanced/form/form.h"
@@ -47,7 +48,7 @@ public slots:
     void activated();
 
     void showEntry();
-    void showEntry(const QString &key, int moduleID=-1);
+    void showEntry(const QString &key, int moduleID = -1);
 private slots:
     void forwardShowHtml(const QString &html);
     void forwardShowEntry(const QString &key, int moduleID);

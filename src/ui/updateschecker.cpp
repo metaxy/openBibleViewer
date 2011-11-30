@@ -32,7 +32,7 @@ void UpdatesChecker::checkForUpdates()
     }
     myDebug() << "checking for Updates";
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-    connect(manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(replyFinished(QNetworkReply*)));
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
 
     manager->get(QNetworkRequest(QUrl("http://openbv.uucyc.name/UPDATES")));
 }
@@ -53,13 +53,13 @@ void UpdatesChecker::replyFinished(QNetworkReply* reply)
     QString link;
     QString text;
     QString version;
-    while (!n.isNull()) {
-        if (n.nodeName() == versionType) {
+    while(!n.isNull()) {
+        if(n.nodeName() == versionType) {
 
             QString desc;
             QDomNode n2 = n.firstChild();
-            while (!n2.isNull()) {
-                if (n2.nodeName() == "version") {
+            while(!n2.isNull()) {
+                if(n2.nodeName() == "version") {
                     version = n2.firstChild().toText().data();
                 } else if(n2.nodeName() == "link" && n2.toElement().attribute("os") == os) {
                     link = n2.firstChild().toText().data();
@@ -74,16 +74,16 @@ void UpdatesChecker::replyFinished(QNetworkReply* reply)
             Version oldVersion(QString(OBV_VERSION_NUMBER));
             Version newVersion(version);
             myDebug() << "new Version = " << version;
-            if(m_settings->session.file()->value(m_settings->session.id()+ "/" + "skipVersion") == version)
+            if(m_settings->session.file()->value(m_settings->session.id() + "/" + "skipVersion") == version)
                 return;
 
             if(oldVersion.maintenanceVersion() < newVersion.maintenanceVersion() ||
-               oldVersion.minorVersion() < newVersion.minorVersion() ||
-               oldVersion.majorVersion() < newVersion.majorVersion()) {
+                    oldVersion.minorVersion() < newVersion.minorVersion() ||
+                    oldVersion.majorVersion() < newVersion.majorVersion()) {
 
                 text = tr("A new version of openBibleViewer is available: ") + version + " ";
                 if(!link.isEmpty()) {
-                    text += tr("You can download it at") +"<a href='"+link+"'> "+ link + "</a>.";
+                    text += tr("You can download it at") + "<a href='" + link + "'> " + link + "</a>.";
                 }
                 if(!desc.isEmpty()) {
                     text += desc;

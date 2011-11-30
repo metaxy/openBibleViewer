@@ -65,15 +65,15 @@ int main(int argc, char *argv[])
     AnyOption *opt = new AnyOption();
     const QString s = "openBibleViewer " + QString(OBV_VERSION_NUMBER);
     opt->addUsage(s.toStdString().c_str());
-    opt->addUsage( "Usage: " );
-    opt->addUsage( "" );
-    opt->addUsage( " -h  --help                 Prints this help " );
-    opt->addUsage( " --configPath 	        Path to config files " );
-    opt->addUsage( "" );
-    opt->setFlag(  "help", 'h' );
-    opt->setOption(  "configPath");
-    opt->processCommandArgs( argc, argv );
-    if( opt->getValue( "help" ) != NULL ) {
+    opt->addUsage("Usage: ");
+    opt->addUsage("");
+    opt->addUsage(" -h  --help                 Prints this help ");
+    opt->addUsage(" --configPath 	        Path to config files ");
+    opt->addUsage("");
+    opt->setFlag("help", 'h');
+    opt->setOption("configPath");
+    opt->processCommandArgs(argc, argv);
+    if(opt->getValue("help") != NULL) {
         opt->printUsage();
         return 0;
     }
@@ -98,19 +98,19 @@ int main(int argc, char *argv[])
     QString homeDataPath;
 
 
-    if( opt->getValue( "configPath" ) != NULL ) {
-        homeDataPath = QString::fromLocal8Bit(opt->getValue( "configPath" ));
+    if(opt->getValue("configPath") != NULL) {
+        homeDataPath = QString::fromLocal8Bit(opt->getValue("configPath"));
     } else {
-        #if !defined(Q_WS_WIN)
-            homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
-        #else
-            //a protable version is needed only for windows
-            #ifdef OBV_PORTABLE_VERSION
-                homeDataPath = QApplication::applicationDirPath() + "/";
-            #else
-                homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
-            #endif
-        #endif
+#if !defined(Q_WS_WIN)
+        homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
+#else
+        //a protable version is needed only for windows
+#ifdef OBV_PORTABLE_VERSION
+        homeDataPath = QApplication::applicationDirPath() + "/";
+#else
+        homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
+#endif
+#endif
 
     }
 

@@ -152,8 +152,8 @@ void WebForm::print()
     QPrinter printer;
     QPointer<QPrintDialog> dialog = new QPrintDialog(&printer, this);
     dialog->setWindowTitle(tr("Print"));
-    if (dialog->exec() == QDialog::Accepted) {
-         m_ui->webView->page()->mainFrame()->print(&printer);
+    if(dialog->exec() == QDialog::Accepted) {
+        m_ui->webView->page()->mainFrame()->print(&printer);
     }
     delete dialog;
 }
@@ -214,11 +214,11 @@ void WebForm::restore(const QString &key)
 {
     const QString a = m_settings->session.id() + "/windows/" + key + "/";
 
-    QUrl url = m_settings->session.file()->value(a+"url").toUrl();
+    QUrl url = m_settings->session.file()->value(a + "url").toUrl();
     if(url.isValid())
         m_ui->webView->load(url);
 
-    QByteArray history = QByteArray::fromBase64(m_settings->session.file()->value(a+"history").toByteArray());
+    QByteArray history = QByteArray::fromBase64(m_settings->session.file()->value(a + "history").toByteArray());
     QDataStream readingStream(&history, QIODevice::ReadOnly);
     QWebHistory *hist  = m_ui->webView->history();
     readingStream >> *(hist);

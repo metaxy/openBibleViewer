@@ -152,9 +152,9 @@ void AdvancedInterface::pharseUrl(QString url)
     } else if(url.startsWith(strong)) {
         m_dictionaryManager->pharseUrl(url);
     } else if(url.startsWith(gram)) {
-         m_dictionaryManager->pharseUrl(url);
+        m_dictionaryManager->pharseUrl(url);
     } else if(url.startsWith(dict)) {
-         m_dictionaryManager->pharseUrl(url);
+        m_dictionaryManager->pharseUrl(url);
     } else if(url.startsWith(rmac)) {
         m_dictionaryManager->pharseUrl(url);
     } else if(url.startsWith(webPage)) {
@@ -668,7 +668,7 @@ void AdvancedInterface::quick()
 
         const QString text = ((QLineEdit *) sender())->text();
         if(link.isBibleLink(text)) {
-             m_actions->get(link.getUrl(text));
+            m_actions->get(link.getUrl(text));
         } else {
             SearchQuery query;
             query.searchText = text;
@@ -709,9 +709,9 @@ int AdvancedInterface::showAboutDialog(void)
     QPointer<AboutDialog> aDialog = new AboutDialog(this);
     aDialog->setWindowTitle(tr("About openBibleViewer"));
     aDialog->setText(tr("openBibleViewer <br /> version: %1 build: %2<br /> "
-                       "<a href='http://openbv.uucyc.name/'> Official Website</a> <br />"
-                       "<a href='https://github.com/metaxy/openBibleViewer/issues'>Bug report</a>")
-                    .arg(m_settings->version).arg(m_settings->build));
+                        "<a href='http://openbv.uucyc.name/'> Official Website</a> <br />"
+                        "<a href='https://github.com/metaxy/openBibleViewer/issues'>Bug report</a>")
+                     .arg(m_settings->version).arg(m_settings->build));
     aDialog->exec();
     delete aDialog;
 }

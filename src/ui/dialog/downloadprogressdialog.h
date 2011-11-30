@@ -16,16 +16,17 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QDialog>
 #include "src/core/moduledownloader.h"
-namespace Ui {
-    class DownloadProgressDialog;
+namespace Ui
+{
+class DownloadProgressDialog;
 }
 
 class DownloadProgressDialog : public QDialog
 {
     Q_OBJECT
 private slots:
-    void updateProgress(qint64 current,qint64 total);
-    void updateProgress2(int current,int total);
+    void updateProgress(qint64 current, qint64 total);
+    void updateProgress2(int current, int total);
 public:
     explicit DownloadProgressDialog(QWidget *parent = 0);
     ~DownloadProgressDialog();

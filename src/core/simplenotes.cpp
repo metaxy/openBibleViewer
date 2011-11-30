@@ -153,8 +153,7 @@ void SimpleNotes::setData(QString data)
         } else if(m_notes->type() == Notes::HtmlNotes) {
             m_textEdit_note->setHtml(data);
         }
-    }
-    else {
+    } else {
         m_frame->setHtml(data);
     }
 }

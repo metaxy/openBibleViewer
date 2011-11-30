@@ -42,7 +42,7 @@ void DictionaryForm::init()
 void DictionaryForm::get(QUrl url)
 {
     if(m_dictionary->moduleType() == OBVCore::WebDictionaryModule) {
-        WebDictionary *d = (WebDictionary*) (m_dictionary->module());
+        WebDictionary *d = (WebDictionary*)(m_dictionary->module());
         m_actions->get(d->pharseUrl(url));
     } else {
         m_actions->get(url);
@@ -66,7 +66,7 @@ void DictionaryForm::restore(const QString &key)
     const QString k = m_settings->session.file()->value(a + "key").toString();
     const QString uid = m_settings->session.file()->value(a + "uid").toString();
     int moduleID = -1;
-    foreach(Module*m,m_moduleManager->m_moduleMap->data) {
+    foreach(Module * m, m_moduleManager->m_moduleMap->data) {
         if(m->moduleUID() == uid) {
             moduleID = m->moduleID();
             break;
@@ -163,8 +163,7 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
 
     if(key.isEmpty()) {
         showHtml(m_dictionary->moduleTitle());
-    }
-    else if(m_dictionary->moduleType() == OBVCore::ZefaniaLexModule || m_dictionary->moduleType() == OBVCore::BibleQuoteDictModule) {
+    } else if(m_dictionary->moduleType() == OBVCore::ZefaniaLexModule || m_dictionary->moduleType() == OBVCore::BibleQuoteDictModule) {
         m_key = key;
         const QString html = m_dictionary->getEntry(key);
         showHtml(html);

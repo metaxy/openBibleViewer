@@ -19,13 +19,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #ifdef OBV_NO_DEBUG_OUTPUT
 
-    #ifndef QT_NO_DEBUG
-        #define QT_NO_DEBUG
-    #endif
+#ifndef QT_NO_DEBUG
+#define QT_NO_DEBUG
+#endif
 
-    #ifndef QT_NO_DEBUG_OUTPUT
-        #define QT_NO_DEBUG_OUTPUT
-    #endif
+#ifndef QT_NO_DEBUG_OUTPUT
+#define QT_NO_DEBUG_OUTPUT
+#endif
 
 #endif
 

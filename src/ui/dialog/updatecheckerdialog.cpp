@@ -45,7 +45,7 @@ void UpdateCheckerDialog::setVersion(const QString &version)
 
 void UpdateCheckerDialog::skip()
 {
-    m_settings->session.file()->setValue(m_settings->session.id()+ "/" + "skipVersion", m_version);
+    m_settings->session.file()->setValue(m_settings->session.id() + "/" + "skipVersion", m_version);
     close();
 }
 

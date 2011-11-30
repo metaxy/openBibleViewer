@@ -215,7 +215,7 @@ bool ModuleManager::metaModuleLoaded(const SimpleModuleClass *m) const
 }
 bool ModuleManager::verseTableLoaded(const VerseTable *table) const
 {
-     return (table && table->verseModule() && m_moduleMap->data.contains(table->verseModule()->moduleID()) && table->verseModule()->moduleID() >= 0);
+    return (table && table->verseModule() && m_moduleMap->data.contains(table->verseModule()->moduleID()) && table->verseModule()->moduleID() >= 0);
 }
 bool ModuleManager::contains(const int moduleID)
 {
@@ -357,9 +357,9 @@ OBVCore::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
     //myDebug() << fileName;
     if(fileName.endsWith("bibleqt.ini", Qt::CaseInsensitive)) {
         return OBVCore::BibleQuoteModule;
-    } else if(fileName.endsWith(".webdict.xml", Qt::CaseInsensitive) ) {
+    } else if(fileName.endsWith(".webdict.xml", Qt::CaseInsensitive)) {
         return OBVCore::WebDictionaryModule;
-    } else if(fileName.endsWith(".webpage.xml", Qt::CaseInsensitive) ) {
+    } else if(fileName.endsWith(".webpage.xml", Qt::CaseInsensitive)) {
         return OBVCore::WebPageModule;
     } else if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
         QFile data(fileName);

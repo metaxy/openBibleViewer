@@ -85,9 +85,9 @@ QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, For
     Form *form = NULL;
     if(type == Form::BibleForm) {
         form = new BibleForm(widget);
-    } else if(type == Form::WebForm){
+    } else if(type == Form::WebForm) {
         form = new WebForm(widget);
-    } else if(type == Form::DictionaryForm){
+    } else if(type == Form::DictionaryForm) {
         form = new DictionaryForm(widget);
     }
     form->setID(m_nameCounter);
@@ -146,11 +146,11 @@ QMdiSubWindow* WindowManager::newBibleSubWindow(bool doAutoLayout, bool forceMax
 
 QMdiSubWindow* WindowManager::newWebSubWindow(bool doAutoLayout, bool forceMax)
 {
-   return newSubWindow(doAutoLayout, forceMax, Form::WebForm);
+    return newSubWindow(doAutoLayout, forceMax, Form::WebForm);
 }
 QMdiSubWindow* WindowManager::newDictionarySubWindow(bool doAutoLayout, bool forceMax)
 {
-   return newSubWindow(doAutoLayout, forceMax, Form::DictionaryForm);
+    return newSubWindow(doAutoLayout, forceMax, Form::DictionaryForm);
 }
 
 QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
@@ -160,7 +160,7 @@ QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
     } else if(activeForm() != NULL) {
         if(activeForm()->type() != type) {
             QMdiSubWindow *ww = NULL;
-            foreach(QMdiSubWindow *w, usableWindowList()) {
+            foreach(QMdiSubWindow * w, usableWindowList()) {
                 Form *f = getForm(w);
                 if(f->type() == type) {
                     myDebug() << "activate window";
@@ -192,7 +192,7 @@ QMdiSubWindow* WindowManager::needBibleWindow()
 
 QMdiSubWindow* WindowManager::needDictionaryWindow()
 {
-     return needWindow(Form::DictionaryForm);
+    return needWindow(Form::DictionaryForm);
 }
 
 
@@ -202,7 +202,7 @@ QMdiSubWindow* WindowManager::needWebWindow()
 }
 QMdiSubWindow* WindowManager::hasDictWindow(OBVCore::DefaultModule d)
 {
-    foreach(QMdiSubWindow *w, usableWindowList()) {
+    foreach(QMdiSubWindow * w, usableWindowList()) {
         Form *f = getForm(w);
         if(f->type() == Form::DictionaryForm) {
             DictionaryForm *form = (DictionaryForm*)(f);
@@ -220,7 +220,7 @@ QMdiSubWindow* WindowManager::hasDictWindow(OBVCore::DefaultModule d)
 }
 QMdiSubWindow* WindowManager::hasDictWindow(const int moduleID)
 {
-    foreach(QMdiSubWindow *w, usableWindowList()) {
+    foreach(QMdiSubWindow * w, usableWindowList()) {
         Form *f = getForm(w);
         if(f->type() == Form::DictionaryForm) {
             DictionaryForm *form = (DictionaryForm*)(f);
@@ -536,7 +536,7 @@ void WindowManager::restore()
     const QStringList groups = m_settings->session.file()->childGroups();
     m_settings->session.file()->endGroup();
 
-    foreach(const QString &id, groups) {
+    foreach(const QString & id, groups) {
         const QString pre = m_settings->session.id() + "/windows/" + id + "/";
         const QString type = m_settings->session.file()->value(pre + "type").toString();
         const bool max = m_settings->session.file()->value(pre + "maximized").toBool();
@@ -545,9 +545,9 @@ void WindowManager::restore()
         Form::FormType t = Form::BibleForm;
         if(type == "bible") {
             t = Form::BibleForm;
-        } else if(type == "web"){
+        } else if(type == "web") {
             t = Form::WebForm;
-        } else if(type == "dictionary"){
+        } else if(type == "dictionary") {
             t = Form::DictionaryForm;
         }
         QMdiSubWindow *w = newSubWindow(true, max, t);

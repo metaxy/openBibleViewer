@@ -28,17 +28,17 @@ DownloadProgressDialog::~DownloadProgressDialog()
 
 void DownloadProgressDialog::setModuleDownloader(ModuleDownloader *downloader)
 {
-   m_downloader = downloader;
-   connect(m_downloader, SIGNAL(downloaded(QMap<QString,QString>)), this, SLOT(close()));
-   connect(m_downloader, SIGNAL(nextFile(int,int)), this, SLOT(updateProgress2(int,int)));
+    m_downloader = downloader;
+    connect(m_downloader, SIGNAL(downloaded(QMap<QString, QString>)), this, SLOT(close()));
+    connect(m_downloader, SIGNAL(nextFile(int, int)), this, SLOT(updateProgress2(int, int)));
 }
 
 void DownloadProgressDialog::start()
 {
-    connect(m_downloader, SIGNAL(updateProgress(qint64,qint64)), this, SLOT(updateProgress(qint64,qint64)));
+    connect(m_downloader, SIGNAL(updateProgress(qint64, qint64)), this, SLOT(updateProgress(qint64, qint64)));
 
     m_fileCount = m_downloader->start();
-    ui->progressBar_2->setMaximum(m_fileCount*100);
+    ui->progressBar_2->setMaximum(m_fileCount * 100);
 
 }
 
@@ -51,8 +51,8 @@ void DownloadProgressDialog::updateProgress(qint64 current, qint64 total)
     //myDebug() << current << total;
 }
 
-void DownloadProgressDialog::updateProgress2(int current,int total)
+void DownloadProgressDialog::updateProgress2(int current, int total)
 {
     //m_current = current;
-    ui->progressBar_2->setValue(current*100);
+    ui->progressBar_2->setValue(current * 100);
 }

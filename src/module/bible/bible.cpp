@@ -300,7 +300,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         int add = 0;
         if(moduleType() == OBVCore::BibleQuoteModule)
             add = 1;
-        if(range.selectedVerse().contains(it.key()-add)) {
+        if(range.selectedVerse().contains(it.key() - add)) {
             if(!currentVerse) {
                 currentVerse = true;//todo: currently the first selected entry is the current entry
                 //change this to provide maybe more future features
@@ -308,7 +308,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             } else {
                 it.value().prepend("<div class = \"selectedEntry\">");
             }
-             it.value().append("</div>");
+            it.value().append("</div>");
         }
     }
 

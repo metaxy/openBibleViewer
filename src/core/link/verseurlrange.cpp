@@ -240,7 +240,7 @@ Range VerseUrlRange::toRange() const
         r.setEndVerse(RangeEnum::LastVerse);
         if(this->startVerse() == this->endVerse() && this->startVerse() == VerseUrlRange::LoadVerseByID) {
             QList<int> sel;
-            for(int i=this->startVerseID();i<=this->endVerseID();i++) {
+            for(int i = this->startVerseID(); i <= this->endVerseID(); i++) {
                 sel << i;
             }
             r.setSelectedVerse(sel);

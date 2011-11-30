@@ -30,11 +30,11 @@ QWidget * VerseTableItemDelegate::createEditor(QWidget *parent,
         const QModelIndex & index) const
 {
     Q_UNUSED(option);
-  /*  QGroupBox * w = new QGroupBox(parent);
-    QHBoxLayout *layout = new QHBoxLayout(w);
+    /*  QGroupBox * w = new QGroupBox(parent);
+      QHBoxLayout *layout = new QHBoxLayout(w);
 
-    QListView *list = new QListView(list);
-    layout->addWidget(list);*/
+      QListView *list = new QListView(list);
+      layout->addWidget(list);*/
 
     QComboBox *combo = new QComboBox(parent);
     combo->insertItems(0, m_names);

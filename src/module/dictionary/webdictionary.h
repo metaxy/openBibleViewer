@@ -52,7 +52,7 @@ private:
     bool loaded();
     int m_loadedModuleID;
 
-   QScriptEngine myEngine;
+    QScriptEngine myEngine;
 };
 
 #endif // WEBDICTIONARY_H

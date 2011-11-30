@@ -245,14 +245,14 @@ void BibleForm::previousChapter()
 void BibleForm::restore(const QString &key)
 {
     const QString a = m_settings->session.id() + "/windows/" + key + "/";
-    const qreal zoom = m_settings->session.file()->value(a+"zoom").toReal();
-    const QPoint scroll = m_settings->session.file()->value(a+"scrool").toPoint();
+    const qreal zoom = m_settings->session.file()->value(a + "zoom").toReal();
+    const QPoint scroll = m_settings->session.file()->value(a + "scrool").toPoint();
 
     //load verse module
 
     m_verseTable->clear();
-    const QStringList urls = m_settings->session.file()->value(a+"urls").toStringList();
-    const QStringList points = m_settings->session.file()->value(a+"biblePoints").toStringList();
+    const QStringList urls = m_settings->session.file()->value(a + "urls").toStringList();
+    const QStringList points = m_settings->session.file()->value(a + "biblePoints").toStringList();
 
     for(int j = 0; j < urls.size() && j < points.size(); j++) {
         const QString url = urls.at(j);
@@ -516,7 +516,7 @@ void BibleForm::activated()
         m_verseTable = m_moduleManager->newVerseTable();
         return;
     } else if(m_verseTable->verseModule() == NULL) {
-        m_moduleManager->newVerseModule(-1, QPoint(0,0), m_verseTable);
+        m_moduleManager->newVerseModule(-1, QPoint(0, 0), m_verseTable);
     }
 
     if(m_verseTable->verseModule()->moduleID() < 0) {
@@ -636,8 +636,8 @@ void BibleForm::print()
     QPrinter printer;
     QPointer<QPrintDialog> dialog = new QPrintDialog(&printer, this);
     dialog->setWindowTitle(tr("Print"));
-    if (dialog->exec() == QDialog::Accepted) {
-         m_view->page()->mainFrame()->print(&printer);
+    if(dialog->exec() == QDialog::Accepted) {
+        m_view->page()->mainFrame()->print(&printer);
     }
     delete dialog;
 }
@@ -1204,7 +1204,7 @@ bool BibleForm::verseTableLoaded()
 
 SearchableModule * BibleForm::searchableModule() const
 {
-    return (SearchableModule*) (m_verseTable->verseModule());
+    return (SearchableModule*)(m_verseTable->verseModule());
 }
 
 VerseTable * BibleForm::verseTable() const
@@ -1224,7 +1224,7 @@ void BibleForm::reload(bool full)
     } else {
         //todo: force reload bible
     }
-     m_view->page()->mainFrame()->setScrollPosition(p);
+    m_view->page()->mainFrame()->setScrollPosition(p);
 }
 
 void BibleForm::changeEvent(QEvent *e)

@@ -98,7 +98,7 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     VerseUrl newUrl = urlConverter.convert();
     if(newUrl.isValid()) {
         VerseUrlRange r = newUrl.ranges().first();
-    //todo: reenable
+        //todo: reenable
         /*if(m_moduleManager->verseModule()->moduleID() == r.moduleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
             m_actions->reloadChapter();
         }*/

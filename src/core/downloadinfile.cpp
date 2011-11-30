@@ -50,7 +50,7 @@ void DownloadInFile::download()
     m_localUrl = m_path + m_fileName;
     m_file = new QFile(m_localUrl);
 
-    if (!m_file->open(QIODevice::WriteOnly)) {
+    if(!m_file->open(QIODevice::WriteOnly)) {
         myWarning() << "could not open file" << m_file->errorString();
         return;
     }
@@ -58,18 +58,18 @@ void DownloadInFile::download()
     QNetworkRequest request(m_url);
 
     //otherwise it will send a redirection link for browsers
-    request.setRawHeader("User-Agent","curl/7.21.2");
+    request.setRawHeader("User-Agent", "curl/7.21.2");
     request.setRawHeader("Accept", "*/*");
     m_reply = m_manager->get(request);
 
-    connect(m_reply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(progress(qint64,qint64)));
+    connect(m_reply, SIGNAL(downloadProgress(qint64, qint64)), this, SIGNAL(progress(qint64, qint64)));
     connect(m_reply, SIGNAL(finished()), this, SLOT(finish()));
 
 }
 void DownloadInFile::finish()
 {
     int status = m_reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-    if (status == 302 || status == 301) { // redirected
+    if(status == 302 || status == 301) {  // redirected
         m_url = m_reply->header(QNetworkRequest::LocationHeader).toUrl();
         m_reply->deleteLater();
         m_file->close();

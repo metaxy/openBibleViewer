@@ -98,7 +98,7 @@ void ModuleDownloader::download(const QString &url_)
 
     d->download();
     connect(d, SIGNAL(finished(QString, QString, int)), this, SLOT(save(QString, QString, int)));
-    connect(d, SIGNAL(progress(qint64,qint64)), this, SIGNAL(updateProgress(qint64,qint64)));
+    connect(d, SIGNAL(progress(qint64, qint64)), this, SIGNAL(updateProgress(qint64, qint64)));
 
 
 }

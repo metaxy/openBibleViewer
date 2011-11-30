@@ -25,7 +25,7 @@ public:
     bool isBibleLink(const QString &s);
     VerseUrl getUrl(const QString& text);
 private:
-    int bookNameToBookID(QString name,int *nlev);
+    int bookNameToBookID(QString name, int *nlev);
     int levenshteinDistance(const QString& s, const QString& t);
     int m_moduleID;
     QStringList m_bookFullName;

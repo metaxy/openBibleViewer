@@ -20,7 +20,7 @@ SearchResult* Search::search(SearchQuery query)
 {
     SearchResult *result = new SearchResult();
     result->searchQuery = query;
-    foreach(SearchableModule *m, m_list) {
+    foreach(SearchableModule * m, m_list) {
         myDebug() << "searchable module =" << m;
         if(m != NULL) {
             m->search(query, result);

@@ -53,11 +53,11 @@ void DictionaryManager::open(const QString &key, OBVCore::DefaultModule defaultM
 {
     QMdiSubWindow *w = m_windowManager->hasDictWindow(defaultModule);
     if(w != NULL) {
-         ((DictionaryForm*)m_windowManager->getForm(w))->showEntry(key, -1);
+        ((DictionaryForm*)m_windowManager->getForm(w))->showEntry(key, -1);
     } else {
         int moduleID = -1;
         QHashIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
-        while (i.hasNext()) {
+        while(i.hasNext()) {
             i.next();
             if(i.value()->defaultModule == defaultModule)
                 moduleID = i.key();
@@ -72,7 +72,7 @@ void DictionaryManager::open(const QString &key, OBVCore::DefaultModule defaultM
                 d->showEntry(key, moduleID);
             } else {
                 QMapIterator<int, Module*> i(m_moduleManager->m_moduleMap->data);
-                while (i.hasNext()) {
+                while(i.hasNext()) {
                     i.next();
                     if(i.value()->moduleClass() == OBVCore::DictionaryModuleClass)
                         moduleID = i.key();
@@ -93,7 +93,7 @@ void DictionaryManager::pharseUrl(QString url)
     const QString gram = "gram://";
     const QString rmac = "rmac://";
 
-     if(url.startsWith(strong)) {
+    if(url.startsWith(strong)) {
         //strong://strongID
         url = url.remove(0, strong.size());
         open(url, OBVCore::DefaultStrongDictModule);
@@ -102,10 +102,10 @@ void DictionaryManager::pharseUrl(QString url)
         url = url.remove(0, gram.size());
         open(url, OBVCore::DefaultGramDictModule);
     } else if(url.startsWith(rmac)) {
-         //rmac://rmacID
-         url = url.remove(0, rmac.size());
-         open(url, OBVCore::DefaultRMACDictModule);
-     }else if(url.startsWith(dict)) {
+        //rmac://rmacID
+        url = url.remove(0, rmac.size());
+        open(url, OBVCore::DefaultRMACDictModule);
+    } else if(url.startsWith(dict)) {
         //dict:/module/key
         m_windowManager->needDictionaryWindow();
 

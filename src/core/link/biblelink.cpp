@@ -14,10 +14,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "biblelink.h"
 #include <QtCore/QRegExp>
 const QStringList REGS = QStringList() << "(.*)"
-                                       << "(.*)(\\s+)(\\d+)"
-                                       << "(.*)(\\s+)(\\d+),(\\d+)" << "(.*)(\\s+)(\\d+):(\\d+)"
-                                       << "(.*)(\\s+)(\\d+),(\\d+)-(\\d+)" << "(.*)(\\s+)(\\d+):(\\d+)-(\\d+)"
-                                       << "(.*)(\\s+)(\\d+)-(\\d+)";
+                         << "(.*)(\\s+)(\\d+)"
+                         << "(.*)(\\s+)(\\d+),(\\d+)" << "(.*)(\\s+)(\\d+):(\\d+)"
+                         << "(.*)(\\s+)(\\d+),(\\d+)-(\\d+)" << "(.*)(\\s+)(\\d+):(\\d+)-(\\d+)"
+                         << "(.*)(\\s+)(\\d+)-(\\d+)";
 
 BibleLink::BibleLink(int moduleID, Versification *v11n)
 {
@@ -43,7 +43,7 @@ bool BibleLink::isBibleLink(const QString &s)
 
     if(found == 0) {
         int lev = 0;
-        bookNameToBookID(foundRegExp.cap(1),&lev);
+        bookNameToBookID(foundRegExp.cap(1), &lev);
         myDebug() << "lev = " << lev;
         if(lev < 2)
             return true;
@@ -77,20 +77,20 @@ VerseUrl BibleLink::getUrl(const QString& s)
     range.setOpenToTransformation(true);
     VerseUrl url;
     if(found == 0) {  //example: Hiob
-        const int bookID = bookNameToBookID(foundRegExp.cap(1),&lev);
+        const int bookID = bookNameToBookID(foundRegExp.cap(1), &lev);
         range.setBook(bookID);
         range.setChapter(VerseUrlRange::LoadFirstChapter);
         range.setWholeChapter();
         url.addRange(range);
     } else if(found == 1) {  //Hiob 4
-        const int bookID = bookNameToBookID(foundRegExp.cap(1),&lev);
+        const int bookID = bookNameToBookID(foundRegExp.cap(1), &lev);
         const int chapterID = foundRegExp.cap(3).toInt() - 1;
         range.setBook(bookID);
         range.setChapter(chapterID);
         range.setWholeChapter();
         url.addRange(range);
     } else if(found == 2 || found == 3) {  //Hiob 4:9
-        const int bookID = bookNameToBookID(foundRegExp.cap(1),&lev);
+        const int bookID = bookNameToBookID(foundRegExp.cap(1), &lev);
         const int chapterID = foundRegExp.cap(3).toInt() - 1;
         const int verseID = foundRegExp.cap(4).toInt() - 1;
         range.setBook(bookID);
@@ -98,9 +98,8 @@ VerseUrl BibleLink::getUrl(const QString& s)
         range.setStartVerse(verseID);
         range.setEndVerse(verseID);
         url.addRange(range);
-    }
-    else if(found == 4 || found == 5) {  //Hiob 4:9-10
-        const int bookID = bookNameToBookID(foundRegExp.cap(1),&lev);
+    } else if(found == 4 || found == 5) { //Hiob 4:9-10
+        const int bookID = bookNameToBookID(foundRegExp.cap(1), &lev);
         const int chapterID = foundRegExp.cap(3).toInt() - 1;
         const int startVerseID = foundRegExp.cap(4).toInt() - 1;
         const int endVerseID = foundRegExp.cap(5).toInt() - 1;
@@ -109,12 +108,11 @@ VerseUrl BibleLink::getUrl(const QString& s)
         range.setStartVerse(startVerseID);
         range.setEndVerse(endVerseID);
         url.addRange(range);
-    }
-    else if(found == 6) {  //Hiob 4-5
-        const int bookID = bookNameToBookID(foundRegExp.cap(1),&lev);
+    } else if(found == 6) { //Hiob 4-5
+        const int bookID = bookNameToBookID(foundRegExp.cap(1), &lev);
         const int startChapterID = foundRegExp.cap(3).toInt() - 1;
         const int endChapterID = foundRegExp.cap(4).toInt() - 1;
-        for(int i=startChapterID; i<=endChapterID;i++) {
+        for(int i = startChapterID; i <= endChapterID; i++) {
             VerseUrlRange range;
             range.setModule(m_moduleID);
             range.setOpenToTransformation(true);
@@ -136,13 +134,13 @@ int BibleLink::bookNameToBookID(QString name, int *nlev)
     QHash<int, QStringList> shortNames = m_v11n->multipleBookShortNames();
 
     QMutableHashIterator<int, QString> it(full);
-    while (it.hasNext()) {
+    while(it.hasNext()) {
         it.next();
         it.value().toLower();
     }
 
     QMutableHashIterator<int, QStringList> it2(shortNames);
-    while (it2.hasNext()) {
+    while(it2.hasNext()) {
         it2.next();
         QStringList newList;
         foreach(QString n, it2.value()) {

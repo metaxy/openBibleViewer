@@ -90,32 +90,31 @@ void ZefaniaBible::getVersification()
         m_xml = NULL;
     }
     QFile file(m_modulePath);
-    if (!file.open(QFile::ReadOnly | QFile::Text))
+    if(!file.open(QFile::ReadOnly | QFile::Text))
         return;
     m_xml = new QXmlStreamReader(&file);
     QMap<int, BookV11N> map;
-    QList< std::pair<qint64,qint64> > lines;
-    if (m_xml->readNextStartElement())
-    {
-        if (cmp(m_xml->name(), "XMLBIBLE")) {
-            while (m_xml->readNextStartElement()) {
-                if (cmp(m_xml->name(), "BIBLEBOOK")) {
-                    std::pair<qint64,qint64> p;
+    QList< std::pair<qint64, qint64> > lines;
+    if(m_xml->readNextStartElement()) {
+        if(cmp(m_xml->name(), "XMLBIBLE")) {
+            while(m_xml->readNextStartElement()) {
+                if(cmp(m_xml->name(), "BIBLEBOOK")) {
+                    std::pair<qint64, qint64> p;
                     p.first = m_xml->lineNumber();
                     BookV11N b;
-                    b.bookID = m_xml->attributes().value("bnumber").toString().toInt()-1;
+                    b.bookID = m_xml->attributes().value("bnumber").toString().toInt() - 1;
                     b.name = m_xml->attributes().value("bname").toString();
                     QStringList sname;
                     sname << m_xml->attributes().value("bsname").toString();
                     b.shortNames = sname;
                     //all chapters
-                    while (m_xml->readNextStartElement()) {
+                    while(m_xml->readNextStartElement()) {
                         if(cmp(m_xml->name(), "CHAPTER")) {
                             const int chapterID = m_xml->attributes().value("cnumber").toString().toInt();
                             b.maxChapter = chapterID;
                             //all Verse
                             int maxVerse = 0;
-                            while (m_xml->readNextStartElement()) {
+                            while(m_xml->readNextStartElement()) {
                                 if(cmp(m_xml->name(), "VERS")) {
                                     const int verseID = m_xml->attributes().value("vnumber").toString().toInt();
                                     maxVerse = verseID;
@@ -129,7 +128,7 @@ void ZefaniaBible::getVersification()
                         }
 
                     }
-                    map.insert(b.bookID,b);
+                    map.insert(b.bookID, b);
                     p.second = m_xml->lineNumber();
                     lines.append(p);
                 } else {
@@ -154,7 +153,7 @@ void ZefaniaBible::getVersification()
         if(map.size() == 27) {
             v += "-nt";
         } else if(map.size() == 39) {
-             v += "-ot";
+            v += "-ot";
         }
         myDebug() << v;
         m_set->versificationFile = "";
@@ -182,26 +181,26 @@ void ZefaniaBible::generateCache(QList<std::pair<qint64, qint64> > list)
         d.mkpath(pre);
 
     QFile file(m_modulePath);
-    if (!file.open(QFile::ReadOnly | QFile::Text))
+    if(!file.open(QFile::ReadOnly | QFile::Text))
         return;
 
     for(int i = 0; i < list.size(); ++i) {
-        std::pair<qint64,qint64> p = list.at(i);
+        std::pair<qint64, qint64> p = list.at(i);
         int bookID = m_set->v11n->bookIDs().at(i);
-        QFile file2(pre + QString::number(bookID)+".xml");
+        QFile file2(pre + QString::number(bookID) + ".xml");
         myDebug() << file2.fileName();
-        if (!file2.open(QIODevice::WriteOnly | QIODevice::Text))
+        if(!file2.open(QIODevice::WriteOnly | QIODevice::Text))
             return;
         //skip the first part
         if(i == 0) {
-            for(int y = 0; y < p.first-1; y++) {
+            for(int y = 0; y < p.first - 1; y++) {
                 file.readLine();
             }
         }
         file2.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><XMLBIBLE>");
 
         for(int y = p.first; y <= p.second; y++) {
-                file2.write(file.readLine());
+            file2.write(file.readLine());
         }
         file2.write("</XMLBIBLE>");
         file2.close();
@@ -227,15 +226,14 @@ int ZefaniaBible::readBook(const int id)
     }
     myDebug() << path;
     QFile file(path);
-    if (!file.open(QFile::ReadOnly | QFile::Text))
+    if(!file.open(QFile::ReadOnly | QFile::Text))
         return 1;
     m_xml = new QXmlStreamReader(&file);
-    if (m_xml->readNextStartElement())
-    {
-        if (cmp(m_xml->name(), "XMLBIBLE")) {
-            while (m_xml->readNextStartElement()) {
-                if (cmp(m_xml->name(), "BIBLEBOOK")) {
-                    if(m_xml->attributes().value("bnumber").toString().toInt() == id+1) {//we cou
+    if(m_xml->readNextStartElement()) {
+        if(cmp(m_xml->name(), "XMLBIBLE")) {
+            while(m_xml->readNextStartElement()) {
+                if(cmp(m_xml->name(), "BIBLEBOOK")) {
+                    if(m_xml->attributes().value("bnumber").toString().toInt() == id + 1) { //we cou
                         m_book = readBook();
                         delete m_xml;
                         m_xml = NULL;
@@ -247,8 +245,7 @@ int ZefaniaBible::readBook(const int id)
                     m_xml->skipCurrentElement();
                 }
             }
-        }
-        else {
+        } else {
             myWarning() << "not a file";
         }
     }
@@ -267,19 +264,17 @@ MetaInfo ZefaniaBible::readInfo(QFile &file)
         m_xml = NULL;
     }
     m_xml = new QXmlStreamReader(&file);
-    if (m_xml->readNextStartElement())
-    {
-        if (cmp(m_xml->name(), "XMLBIBLE")) {
-            while (m_xml->readNextStartElement()) {
-                if (cmp(m_xml->name(), "INFORMATION")) {
+    if(m_xml->readNextStartElement()) {
+        if(cmp(m_xml->name(), "XMLBIBLE")) {
+            while(m_xml->readNextStartElement()) {
+                if(cmp(m_xml->name(), "INFORMATION")) {
                     ret = readMetaInfo();
                     break;
                 } else {
                     m_xml->skipCurrentElement();
                 }
             }
-        }
-        else {
+        } else {
             myWarning() << "not a file";
         }
     }
@@ -304,7 +299,7 @@ int ZefaniaBible::moduleID() const
 
 QString ZefaniaBible::modulePath() const
 {
-   return m_modulePath;
+    return m_modulePath;
 }
 
 QString ZefaniaBible::moduleName(bool preferShortName) const
@@ -339,7 +334,7 @@ void ZefaniaBible::buildIndex()
         m_xml = NULL;
     }
     QFile file(m_modulePath);
-    if (!file.open(QFile::ReadOnly | QFile::Text))
+    if(!file.open(QFile::ReadOnly | QFile::Text))
         return; // no deletes
     m_xml = new QXmlStreamReader(&file);
 
@@ -367,19 +362,18 @@ void ZefaniaBible::buildIndex()
     bool canceled = false;
 
 
-    if (m_xml->readNextStartElement())
-    {
-        if (cmp(m_xml->name(), "XMLBIBLE")) {
-            while (m_xml->readNextStartElement()) {
-                if (cmp(m_xml->name(), "BIBLEBOOK")) {
+    if(m_xml->readNextStartElement()) {
+        if(cmp(m_xml->name(), "XMLBIBLE")) {
+            while(m_xml->readNextStartElement()) {
+                if(cmp(m_xml->name(), "BIBLEBOOK")) {
 
                     const int bookID = m_xml->attributes().value("bnumber").toString().toInt() - 1;
                     progress.setValue(bookID);
                     //all chapters
-                    while (m_xml->readNextStartElement()) {
+                    while(m_xml->readNextStartElement()) {
                         if(cmp(m_xml->name(), "CHAPTER")) {
                             const int chapterID = m_xml->attributes().value("cnumber").toString().toInt() - 1;
-                            while (m_xml->readNextStartElement()) {
+                            while(m_xml->readNextStartElement()) {
                                 if(cmp(m_xml->name(), "VERS")) {
                                     const int verseID = m_xml->attributes().value("vnumber").toString().toInt() - 1;
                                     const QString t = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
@@ -387,13 +381,13 @@ void ZefaniaBible::buildIndex()
                                     doc.clear();
                                     const QString key = QString::number(bookID) + ";" + QString::number(chapterID) + ";" + QString::number(verseID);
 
-                                    #ifdef OBV_USE_WSTRING
+#ifdef OBV_USE_WSTRING
                                     doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
                                     doc.add(*new Field(_T("content"), t.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-                                    #else
+#else
                                     doc.add(*new Field(_T("key"), reinterpret_cast<const wchar_t *>(key.utf16()), Field::STORE_YES |  Field::INDEX_NO));
                                     doc.add(*new Field(_T("content"), reinterpret_cast<const wchar_t *>(t.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-                                    #endif
+#endif
 
                                     writer->addDocument(&doc);
                                 } else {
@@ -411,8 +405,7 @@ void ZefaniaBible::buildIndex()
                 }
 
             }
-        }
-        else {
+        } else {
             myDebug() << "not a file";
         }
     }
@@ -544,8 +537,8 @@ std::pair<int, int> ZefaniaBible::minMaxVerse(int bookID, int chapterID)
 
 Book ZefaniaBible::readBook()
 {
-    Book book(m_xml->attributes().value("bnumber").toString().toInt()-1);
-    while (m_xml->readNextStartElement()) {
+    Book book(m_xml->attributes().value("bnumber").toString().toInt() - 1);
+    while(m_xml->readNextStartElement()) {
         if(cmp(m_xml->name(), "CHAPTER")) {
             book.addChapter(readChapter());
         } else {
@@ -558,9 +551,9 @@ Book ZefaniaBible::readBook()
 
 Chapter ZefaniaBible::readChapter()
 {
-    const int chapterID = m_xml->attributes().value("cnumber").toString().toInt()-1;
+    const int chapterID = m_xml->attributes().value("cnumber").toString().toInt() - 1;
     Chapter chapter(chapterID);
-    while (m_xml->readNextStartElement()) {
+    while(m_xml->readNextStartElement()) {
         if(cmp(m_xml->name(), "VERS")) {
             chapter.addVerse(readVerse());
         } else {
@@ -574,8 +567,7 @@ Verse ZefaniaBible::readVerse()
 {
     const int verseID = m_xml->attributes().value("vnumber").toString().toInt() - 1;
     QString out;
-    while(true)
-    {
+    while(true) {
         m_xml->readNext();
 
         if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), "VERS")))
@@ -583,19 +575,19 @@ Verse ZefaniaBible::readVerse()
 
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             out += m_xml->text();
-        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st"){
+        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st") {
             out += pharseStyle();
-        } else if(cmp(m_xml->name(), "NOTE")){
+        } else if(cmp(m_xml->name(), "NOTE")) {
             out += pharseNote();
-        } else if(cmp(m_xml->name(), "BR")){
+        } else if(cmp(m_xml->name(), "BR")) {
             out += pharseBr();
-        } else if(cmp(m_xml->name(), "DIV")){
+        } else if(cmp(m_xml->name(), "DIV")) {
             out += pharseDiv();
-        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr"){
+        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr") {
             out += pharseGram();
-        } else if(cmp(m_xml->name(), "SUP")){
+        } else if(cmp(m_xml->name(), "SUP")) {
             out += pharseSup();
-        } else if(cmp(m_xml->name(), "XREF")){
+        } else if(cmp(m_xml->name(), "XREF")) {
             out += pharseXRef();
         } else {
             out += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
@@ -608,22 +600,21 @@ QString ZefaniaBible::pharseStyle()
 {
     QString ret;
     QString css = m_xml->attributes().value("css").toString();
-    const QString pre("<span style=\""+css+"\">");
+    const QString pre("<span style=\"" + css + "\">");
     const QString post("</span>");
-    while(true)
-    {
+    while(true) {
         m_xml->readNext();
 
-        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), "STYLE" )  || m_xml->name() == "st"))
+        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), "STYLE")  || m_xml->name() == "st"))
             break;
 
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             ret += m_xml->text().toString();
-        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st"){
+        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st") {
             ret += pharseStyle();
-        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr"){
+        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr") {
             ret += pharseGram();
-        } else if(cmp(m_xml->name(), "SUP")){
+        } else if(cmp(m_xml->name(), "SUP")) {
             ret += pharseSup();
         } else {
             ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
@@ -639,8 +630,7 @@ QString ZefaniaBible::pharseNote()
     QString ret;
     const QString pre("<span class =\"studynote\">");
     const QString post("</span>");
-    while(true)
-    {
+    while(true) {
         m_xml->readNext();
 
         if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), "NOTE")))
@@ -648,15 +638,15 @@ QString ZefaniaBible::pharseNote()
 
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             ret += m_xml->text().toString();
-        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st"){
+        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st") {
             ret += pharseStyle();
-        } else if(cmp(m_xml->name(), "BR")){
+        } else if(cmp(m_xml->name(), "BR")) {
             ret += pharseBr();
-        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr"){
+        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr") {
             ret += pharseGram();
-        } else if(cmp(m_xml->name(), "XREF")){
+        } else if(cmp(m_xml->name(), "XREF")) {
             ret += pharseXRef();
-        } else if(cmp(m_xml->name(), "SUP")){
+        } else if(cmp(m_xml->name(), "SUP")) {
             ret += pharseSup();
         } else {
             ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
@@ -683,8 +673,7 @@ QString ZefaniaBible::pharseGram()
     QString ret;
     const QString strong = m_xml->attributes().value("str").toString();
     const QString rmac = m_xml->attributes().value("rmac").toString();
-    while(true)
-    {
+    while(true) {
         m_xml->readNext();
 
         if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr"))
@@ -692,13 +681,13 @@ QString ZefaniaBible::pharseGram()
 
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             ret += m_xml->text().toString();
-        } else if(cmp(m_xml->name(), "STYLE")  || m_xml->name() == "st"){
+        } else if(cmp(m_xml->name(), "STYLE")  || m_xml->name() == "st") {
             ret += pharseStyle();
-        } else if(cmp(m_xml->name(), "BR")){
+        } else if(cmp(m_xml->name(), "BR")) {
             ret += pharseBr();
-        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr"){
+        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr") {
             ret += pharseGram();
-        } else if(cmp(m_xml->name(), "SUP")){
+        } else if(cmp(m_xml->name(), "SUP")) {
             ret += pharseSup();
         } else {
             ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
@@ -746,8 +735,7 @@ QString ZefaniaBible::pharseSup()
         post = "";
     }
 
-    while(true)
-    {
+    while(true) {
         m_xml->readNext();
 
         if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), "SUP")))
@@ -755,9 +743,9 @@ QString ZefaniaBible::pharseSup()
 
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             ret += m_xml->text().toString();
-        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st"){
+        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st") {
             ret += pharseStyle();
-        } else if(cmp(m_xml->name(), "GRAM")){
+        } else if(cmp(m_xml->name(), "GRAM")) {
             ret += pharseGram();
         } else {
             ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
@@ -806,8 +794,7 @@ QString ZefaniaBible::pharseXRef()
 QString ZefaniaBible::pharseDiv()
 {
     QString ret;
-    while(true)
-    {
+    while(true) {
         m_xml->readNext();
 
         if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), "DIV")))
@@ -815,7 +802,7 @@ QString ZefaniaBible::pharseDiv()
 
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             ret += m_xml->text().toString();
-        } else if(cmp(m_xml->name(), "NOTE")){
+        } else if(cmp(m_xml->name(), "NOTE")) {
             ret += pharseNote();
         } else {
             ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
@@ -843,7 +830,7 @@ MetaInfo ZefaniaBible::readMetaInfo()
         } else if(m_xml->name() == "source") {
             ret.source = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
         } else if(m_xml->name() == "language") {
-            ret.language= m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+            ret.language = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
         } else if(m_xml->name() == "coverage") {
             ret.coverage = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
         } else if(m_xml->name() == "rights") {

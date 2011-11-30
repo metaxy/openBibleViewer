@@ -112,7 +112,7 @@ public slots:
       * Using showTextRanges there is no need to call historySetUrl seperatly.
       */
     void showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
-    void showDictEntry(const QString &key, int moduleID=-1);
+    void showDictEntry(const QString &key, int moduleID = -1);
 
     void showHtml(const QString &html);
 
