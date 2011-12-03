@@ -15,7 +15,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 ModuleSettings::ModuleSettings()
 {
-    v11n = NULL;
     m_parent = NULL;
 
     useParentSettings = true;
@@ -29,7 +28,6 @@ ModuleSettings::ModuleSettings()
 
 ModuleSettings::ModuleSettings(ModuleSettings *parent)
 {
-    v11n = NULL;
     m_parent = parent;
 }
 
@@ -45,26 +43,27 @@ ModuleSettings::~ModuleSettings()
     }
 }
 
-void ModuleSettings::loadVersification()
+QSharedPointer<Versification> ModuleSettings::loadVersification()
 {
-    //DEBUG_FUNC_NAME;
+    DEBUG_FUNC_NAME;
+    QSharedPointer<Versification> ret;
     myDebug() << "versifiction name = " << versificationName << " versification file" << versificationFile;
     if(versificationName == "kjv") {
-        v11n = new Versification_KJV();
-        v11n->setFlags(Versification::ReturnAll);
+        ret = QSharedPointer<Versification>(new Versification_KJV());
+        ret->setFlags(Versification::ReturnAll);
     } else if(versificationName == "kjv-ot") {
-        v11n = new Versification_KJV();
-        v11n->setFlags(Versification::ReturnOT);
+        ret = QSharedPointer<Versification>(new Versification_KJV());
+        ret->setFlags(Versification::ReturnOT);
     } else if(versificationName == "kjv-nt") {
-        v11n = new Versification_KJV();
-        v11n->setFlags(Versification::ReturnNT);
+        ret = QSharedPointer<Versification>(new Versification_KJV());
+        ret->setFlags(Versification::ReturnNT);
     } else {
         QSettings settings(versificationFile, QSettings::IniFormat);
         const QStringList books = settings.childGroups();
         //if we could not load anything v11n has to be NULL,
         //because eg. BibleQuote or ZefaniaBible will than load the versification from the module files
         if(books.isEmpty())
-            return;
+            return ret;
         QMap<int, BookV11N> map;
         foreach(const QString & book, books) {
             const int bookID = book.toInt();
@@ -86,17 +85,20 @@ void ModuleSettings::loadVersification()
             map.insert(bookID, v);
             settings.endGroup();
         }
-        v11n = new Versification_Cache(map);
+        ret = QSharedPointer<Versification>(new Versification_Cache(map));
     }
+    v11n = ret.toWeakRef();
+    return ret;
 }
 
 void ModuleSettings::saveVersification()
 {
+    DEBUG_FUNC_NAME;
     if(versificationFile != "") {
         QSettings settings(versificationFile, QSettings::IniFormat);
-        if(v11n == NULL)
+        if(v11n.isNull())
             return;
-        const QMap<int, BookV11N> map = v11n->data();
+        const QMap<int, BookV11N> map = v11n.data()->data();
         QMapIterator<int, BookV11N> it(map);
         while(it.hasNext()) {
             it.next();
@@ -117,11 +119,21 @@ void ModuleSettings::saveVersification()
 
 Versification *ModuleSettings::getV11n()
 {
-    if(!v11n) {
-        loadVersification();
+    DEBUG_FUNC_NAME
+    if(v11n.isNull()) {
+        myDebug() << "loading new";
+        return loadVersification().data();
     }
-    return v11n;
+    return v11n.data();
 
+}
+bool ModuleSettings::noV11N()
+{
+    return v11n.isNull();
+}
+QSharedPointer<Versification> ModuleSettings::getV11nPointer()
+{
+    return QSharedPointer<Versification>(v11n);
 }
 
 void ModuleSettings::setParent(ModuleSettings *parent)

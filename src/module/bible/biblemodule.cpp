@@ -14,14 +14,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "biblemodule.h"
 BibleModule::BibleModule()
 {
-    m_versification = NULL;
 }
 BibleModule::~BibleModule()
 {
-    if(m_versification != NULL) {
+    DEBUG_FUNC_NAME;
+    /*if(m_versification != NULL) {
         delete m_versification;
         m_versification = NULL;
-    }
+    }*/
+    m_versification.clear();
 }
 
 void BibleModule::setSettings(Settings *settings)
@@ -30,7 +31,7 @@ void BibleModule::setSettings(Settings *settings)
 }
 Versification* BibleModule::versification() const
 {
-    return m_versification;
+    return m_versification.data();
 }
 int BibleModule::readBook(const int /*id*/)
 {

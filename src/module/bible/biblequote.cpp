@@ -26,7 +26,6 @@ BibleQuote::BibleQuote()
 {
     m_moduleID = -1;
     m_codec = NULL;
-    m_versification = NULL;
 }
 BibleQuote::~BibleQuote()
 {
@@ -131,15 +130,16 @@ int BibleQuote::loadBibleData(const int bibleID, const QString &path)
 
         }
     }
-    settings->loadVersification();
-    if(settings->v11n == NULL) {
+    m_versification = settings->loadVersification();
+    if(settings->noV11N()) {
         myDebug() << "load new versification";
-        settings->v11n = new Versification_BibleQuote(bookFullName, bookShortName, bookCount);
+        m_versification = QSharedPointer<Versification>(new Versification_BibleQuote(bookFullName, bookShortName, bookCount));
+        settings->v11n = m_versification.toWeakRef();
         settings->versificationName = "";
         settings->versificationFile = m_settings->v11nFile(path);
+
     }
-    settings->v11n->extendedData.setHasChapterZeor(m_chapterZero);
-    m_versification = settings->v11n;
+    settings->getV11n()->extendedData.setHasChapterZeor(m_chapterZero);
     return 0;
 }
 

@@ -66,7 +66,7 @@ void MarkList::init()
 void MarkList::addMark(const int row, const QString &id)
 {
     UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, m_notes->getRef(id, "link"));
-    urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
+    urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap.data());
     urlConverter.convert();
 
     const QString string = urlConverter.bookName() + " " + QString::number(urlConverter.chapterID() + 1) + "," +
@@ -92,7 +92,7 @@ void MarkList::load(QModelIndex index)
     const int row = index.row();
     index = m_itemModel->index(row, 0);
     UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, m_notes->getRef(index.data(Qt::UserRole + 1).toString(), "link"));
-    urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
+    urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap.data());
     urlConverter.convert();
     m_actions->get(urlConverter.url());
 }

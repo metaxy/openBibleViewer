@@ -17,6 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QList>
 #include <QtCore/QDir>
 #include <QtCore/QObject>
+#include <QtCore/QSharedPointer>
 
 #include <QtGui/QStandardItemModel>
 #include <QtGui/QProgressDialog>
@@ -65,7 +66,7 @@ public:
     QStandardItemModel *m_moduleModel;
 
     Notes *m_notes;
-    ModuleMap *m_moduleMap;
+    QSharedPointer<ModuleMap> m_moduleMap;
 
     QStringList getBibleTitles();
     QStringList getBiblePaths();

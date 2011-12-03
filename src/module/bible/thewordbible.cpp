@@ -23,7 +23,7 @@ using namespace lucene::search;
 extern bool removeDir(const QString &dirName);
 TheWordBible::TheWordBible()
 {
-    m_versification = new Versification_KJV();
+
 }
 TheWordBible::~TheWordBible()
 {
@@ -57,7 +57,8 @@ int TheWordBible::loadBibleData(const int id, const QString &path)
         m_settings->getModuleSettings(id)->versificationName = "kjv";
         flags = Versification::ReturnAll;
     }
-
+    m_versification = QSharedPointer<Versification>(new Versification_KJV());
+    m_versification->setFlags(flags);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return 1;
 

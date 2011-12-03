@@ -32,14 +32,22 @@ Bible::Bible()
 {
     m_bookID = 0;
     m_loaded = false;
-    m_bibleModule = 0;
     m_lastTextRanges = 0;
     m_versification = 0;
 }
 Bible::~Bible()
 {
-    //may we could delete 
-    //Bible does not delete anything!
+    DEBUG_FUNC_NAME
+    //it dosen't work
+    //i dunno why
+   /* if(m_map != NULL) {
+        Module *m = m_map->module(m_moduleID);
+        if(m != NULL && m->m_bibleModule != NULL) {
+            myDebug() << "deleting bibleModule";
+            delete m->m_bibleModule;
+            m->m_bibleModule = NULL;
+        }
+    }*/
 }
 
 bool Bible::loaded() const
@@ -63,8 +71,8 @@ int Bible::loadModuleData(const int moduleID)
         myDebug() << "invalid type " << moduleType();
         return 2;
     }
-
     m_moduleID = moduleID;
+
     ModuleSettings *m = m_settings->getModuleSettings(m_moduleID);
 
     if(m_module->m_bibleModule == NULL) {
@@ -77,6 +85,10 @@ int Bible::loadModuleData(const int moduleID)
         } else if(moduleType() == OBVCore::BibleQuoteModule) {
             m_module->m_bibleModule = new BibleQuote();
         }
+    }
+    if(bibleModule() == NULL) {
+        myWarning() << "invalid module";
+        return 1;
     }
     bibleModule()->setSettings(m_settings);
     int loaded = bibleModule()->loadBibleData(m_moduleID, m_module->path());
@@ -256,7 +268,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                     url.fromString(link);
                     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
                     urlConverter.setSettings(m_settings);
-                    urlConverter.setModuleMap(m_map);
+                    urlConverter.setModuleMap(m_map.data());
                     VerseUrl newUrl = urlConverter.convert();
                     if(newUrl.contains(m_moduleID, bookID, chapterID, it.key())) {
                         //myDebug() << "append note icon";
@@ -308,7 +320,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                 url.fromString(link);
                 UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
                 urlConverter.setSettings(m_settings);
-                urlConverter.setModuleMap(m_map);
+                urlConverter.setModuleMap(m_map.data());
                 VerseUrl newUrl = urlConverter.convert();
 
                 const QString pre = "<span class=\"mark\" style=\"" + m_notes->getRef(noteID, "style") + "\">";

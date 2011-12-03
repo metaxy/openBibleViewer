@@ -76,7 +76,7 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection, Versification * 
 
     UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
     urlConverter.setSettings(m_settings);
-    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+    urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
     urlConverter.setV11n(v11n);
 
     const VerseUrl newUrl = urlConverter.convert();
@@ -170,7 +170,7 @@ void BookmarksDockWidget::editBookmark()
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
-    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+    urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
     urlConverter.setV11n(NULL);
     VerseUrl newUrl = urlConverter.convert();
 
@@ -213,7 +213,7 @@ int BookmarksDockWidget::internalOpenPos(const QString &pos)
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
-    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+    urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
     VerseUrl newUrl = urlConverter.convert();
     newUrl.setOpenToTransformation(true);
 

@@ -21,6 +21,19 @@ Dictionary::Dictionary()
     m_moduleType = OBVCore::NoneType;
     m_moduleID = -1;
 }
+Dictionary::~Dictionary()
+{
+    DEBUG_FUNC_NAME
+   /* if(m_map != NULL) {
+        Module *m = m_map->module(m_moduleID);
+        if(m != NULL && m->m_dictionaryModule != NULL) {
+            myDebug() << "deleting bibleModule";
+            delete m->m_dictionaryModule;
+            m->m_dictionaryModule = NULL;
+        }
+    }*/
+}
+
 int Dictionary::loadModuleData(const int moduleID)
 {
     DEBUG_FUNC_NAME

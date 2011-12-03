@@ -32,7 +32,7 @@ void SimpleModuleClass::setNotes(Notes *notes)
     m_notes = notes;
 }
 
-void SimpleModuleClass::setModuleMap(ModuleMap *map)
+void SimpleModuleClass::setModuleMap(QSharedPointer<ModuleMap> map)
 {
     m_map = map;
 }
@@ -72,3 +72,4 @@ OBVCore::ModuleType SimpleModuleClass::moduleType() const
 {
     return m_moduleType;
 }
+

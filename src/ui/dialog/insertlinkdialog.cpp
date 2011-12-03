@@ -68,7 +68,7 @@ void InsertLinkDialog::save()
         VerseUrl url = m_frame->toVerseUrl();
         UrlConverter converter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
         converter.setSettings(m_settings);
-        converter.setModuleMap(m_moduleManager->m_moduleMap);
+        converter.setModuleMap(m_moduleManager->m_moduleMap.data());
         VerseUrl p = converter.convert();
         myDebug() << p.toString();
         emit newLink(p.toString());

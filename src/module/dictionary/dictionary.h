@@ -25,6 +25,7 @@ class Dictionary : public SimpleModuleClass
 {
 public:
     Dictionary();
+    ~Dictionary();
     /**
      * Loads the module with the given id.
      * @returns 0 If everything went fine.

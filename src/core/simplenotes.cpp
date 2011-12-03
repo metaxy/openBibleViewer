@@ -171,7 +171,7 @@ void SimpleNotes::editNoteLink()
 {
     const QString link = m_noteRef.value("link");
     UrlConverter2 urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, link);
-    urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
+    urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap.data());
     urlConverter.convert();
     if(urlConverter.url().isValid()) {
         QPointer<BiblePassageDialog> passageDialog = new BiblePassageDialog();
@@ -443,7 +443,7 @@ void SimpleNotes::newTextNoteWithLink(VerseSelection selection, Versification* v
     range.setStartVerse(selection.startVerse);
     VerseUrl url(range);
     UrlConverter2 urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
-    urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
+    urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap.data());
     urlConverter.setV11n(v11n);
     urlConverter.convert();
     const QString link = urlConverter.url().toString();
@@ -495,7 +495,7 @@ void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style, V
     range.setStartVerse(selection.startVerse);
     VerseUrl url(range);
     UrlConverter2 urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
-    urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
+    urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap.data());
     urlConverter.setV11n(v11n);
     urlConverter.convert();
     const QString link = urlConverter.url().toString();
@@ -619,7 +619,7 @@ void SimpleNotes::open(const QString &link)
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
-    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+    urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
     VerseUrl newUrl = urlConverter.convert();
     newUrl.setOpenToTransformation(true);
 

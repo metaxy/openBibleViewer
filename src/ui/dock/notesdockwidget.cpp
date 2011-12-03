@@ -71,7 +71,7 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
-    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+    urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
     urlConverter.setV11n(NULL);
     VerseUrl newUrl = urlConverter.convert();
     if(newUrl.isValid()) {
@@ -93,7 +93,7 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
-    urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+    urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
     urlConverter.setV11n(NULL);
     VerseUrl newUrl = urlConverter.convert();
     if(newUrl.isValid()) {
@@ -187,7 +187,7 @@ void NotesDockWidget::removeMark(VerseSelection selection, Versification *v11n)
 
             UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
             urlConverter.setSettings(m_settings);
-            urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+            urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
             urlConverter.setV11n(NULL);
             VerseUrl newUrl = urlConverter.convert();
 

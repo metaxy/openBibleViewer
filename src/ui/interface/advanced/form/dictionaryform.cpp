@@ -32,6 +32,10 @@ DictionaryForm::DictionaryForm(QWidget *parent) :
 DictionaryForm::~DictionaryForm()
 {
     delete ui;
+    if(m_dictionary != NULL) {
+        delete m_dictionary;
+        m_dictionary = NULL;
+    }
 }
 void DictionaryForm::init()
 {

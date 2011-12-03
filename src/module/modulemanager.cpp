@@ -16,14 +16,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 ModuleManager::ModuleManager()
 {
-    m_moduleMap = new ModuleMap();
+    m_moduleMap = QSharedPointer<ModuleMap>(new ModuleMap());
     m_rootModule = NULL;
 }
 ModuleManager::~ModuleManager()
 {
     //DEBUG_FUNC_NAME
-    delete m_moduleMap;
-    m_moduleMap = NULL;
+    m_moduleMap.clear();
 
     if(m_moduleModel != NULL) {
         delete m_moduleModel;
@@ -237,7 +236,7 @@ QString ModuleManager::notePos2Link(const QString &pos)
     url.fromString(pos);
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
-    urlConverter.setModuleMap(m_moduleMap);
+    urlConverter.setModuleMap(m_moduleMap.data());
     VerseUrl newUrl = urlConverter.convert();
     RefText refText;
     refText.setSettings(m_settings);
@@ -250,7 +249,7 @@ QString ModuleManager::notePos2Text(const QString &pos)
     url.fromString(pos);
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
-    urlConverter.setModuleMap(m_moduleMap);
+    urlConverter.setModuleMap(m_moduleMap.data());
     VerseUrl newUrl = urlConverter.convert();
     RefText refText;
     refText.setSettings(m_settings);

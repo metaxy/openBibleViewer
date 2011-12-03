@@ -262,7 +262,7 @@ void BibleForm::restore(const QString &key)
         point.setY(tmp.last().toInt());
 
         UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
-        urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap);
+        urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap.data());
         urlConverter.convert();
 
         if(urlConverter.moduleID() != -1) {
@@ -294,7 +294,7 @@ void BibleForm::save()
 
                 UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, bibleUrl);
                 urlConverter.setSettings(m_settings);
-                urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
+                urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
                 VerseUrl newUrl = urlConverter.convert();
 
                 const QString url = newUrl.toString();
@@ -316,7 +316,7 @@ void BibleForm::save()
 
 void BibleForm::attachApi()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QWebFrame * frame = m_view->page()->mainFrame();
     {
         QFile file(":/data/js/tools.js");

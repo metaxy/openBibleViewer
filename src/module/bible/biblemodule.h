@@ -57,7 +57,7 @@ public:
     virtual QString uid() const;
     virtual void clear();
 protected:
-    Versification *m_versification;
+    QSharedPointer<Versification> m_versification;
     Settings *m_settings;
 };
 

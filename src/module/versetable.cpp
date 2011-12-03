@@ -34,7 +34,7 @@ VerseTable::~VerseTable()
 
 void VerseTable::setCurrentVerseTableID(const int verseTableID)
 {
-    myDebug() << "before currentModule = " << m_currentModule << " new verseTable = " << verseTableID;
+    //myDebug() << "before currentModule = " << m_currentModule << " new verseTable = " << verseTableID;
     m_currentModule = verseTableID;
     setLastTextRanges(m_lastTextRanges);
 }
@@ -46,10 +46,10 @@ int VerseTable::currentVerseTableID() const
 
 void VerseTable::addModule(VerseModule* m, const QPoint &p)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     //if it contains already a module with point p
     //then delete the old and insert the new
-    myDebug() << "p = " << p << " m = " << m;
+    //myDebug() << "p = " << p << " m = " << m;
     if(m_points.values().contains(p)) {
         const int id = m_points.key(p, -1);
         if(m_modules.contains(id) && m_modules.value(id) != NULL) {
@@ -85,7 +85,7 @@ VerseModule * VerseTable::verseModule(const int id) const
 }
 void VerseTable::clear()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_points.clear();
     foreach(VerseModule * b, m_modules) {
         if(b) {
@@ -100,11 +100,11 @@ void VerseTable::clear()
 std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) const
 {
     //DEBUG_FUNC_NAME
-    myDebug() << "points = " << m_points << " modules = " << m_modules;
+    //myDebug() << "points = " << m_points << " modules = " << m_modules;
     if(m_modules.size() == 1) {
         std::pair<QString, TextRanges> ret;
         VerseModule *b = m_modules.value(m_currentModule, NULL);
-        myDebug() << b;
+        //myDebug() << b;
         if(b) {
             ret.second = b->readRanges(ranges);
             ret.second.setVerseTableID(0);

@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/modulemap.h"
 #include "src/module/module.h"
 #include "src/core/obvcore.h"
+#include <QtCore/QSharedPointer>
 /**
  * It is an abstract class for classes like Bible or Dictionary, which are meta modules.
  * They contains other similiar modules to provide an simple access to them.
@@ -34,7 +35,7 @@ public:
     void setModuleType(const OBVCore::ModuleType &type);
     OBVCore::ModuleType moduleType() const;
 
-    void setModuleMap(ModuleMap *map);
+    void setModuleMap(QSharedPointer<ModuleMap> map);
     int moduleID() const;
     void setModuleID(const int moduleID);
 
@@ -46,7 +47,7 @@ protected:
     Module *m_module;
     Settings *m_settings;
     Notes *m_notes;
-    ModuleMap *m_map;
+    QSharedPointer<ModuleMap> m_map;
 
     int m_moduleID;
     OBVCore::ModuleType m_moduleType;
