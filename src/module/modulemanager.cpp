@@ -23,6 +23,7 @@ ModuleManager::~ModuleManager()
 {
     //DEBUG_FUNC_NAME
     delete m_moduleMap;
+    m_moduleMap = NULL;
 
     if(m_moduleModel != NULL) {
         delete m_moduleModel;

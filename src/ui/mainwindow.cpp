@@ -41,10 +41,6 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     DEBUG_FUNC_NAME
-    if(m_settings->defaultVersification != NULL) {
-        delete m_settings->defaultVersification;
-        m_settings->defaultVersification = NULL;
-    }
     QHashIterator<int, ModuleSettings*> it(m_settings->m_moduleSettings);
     while(it.hasNext()) {
         it.next();
@@ -54,21 +50,22 @@ MainWindow::~MainWindow()
     m_settings->m_moduleSettings.clear();
 
     delete m_notes;
-    m_notes = 0;
+    m_notes = NULL;
+
     delete m_settings;
-    m_settings = 0;
+    m_settings = NULL;
 
     delete m_settingsFile;
-    m_settingsFile = 0;
+    m_settingsFile = NULL;
+
+    delete m_sessionFile;
+    m_sessionFile = NULL;
 
     delete m_session;
     m_session = NULL;
 
     delete ui;
     ui = NULL;
-
-    delete m_interface;
-    m_interface = NULL;
 
     delete m_moduleManager;
     m_moduleManager = NULL;

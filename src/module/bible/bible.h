@@ -44,7 +44,6 @@ public:
     SearchQuery lastSearchQuery() const;
 
 private:
-
     int loadModuleData(const int bibleID);
     bool loaded() const;
 
@@ -57,9 +56,6 @@ private:
     QString m_moduleTitle;
     QString m_moduleShortTitle;
     QString m_moduleUID;
-
-
-    BibleModule *m_bibleModule;
 
 };
 

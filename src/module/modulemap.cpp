@@ -24,7 +24,9 @@ Module* ModuleMap::module(const int id)
 ModuleMap::~ModuleMap()
 {
     foreach(Module * m, data) {
-        if(m != NULL)
+        if(m != NULL) {
             delete m;
+        }
     }
+    data.clear();
 }
