@@ -33,6 +33,13 @@ ZefaniaBible::ZefaniaBible()
     m_versification = NULL;
     m_xml = NULL;
 }
+ZefaniaBible::~ZefaniaBible()
+{
+    if(m_xml != NULL) {
+        delete m_xml;
+        m_xml = NULL;
+    }
+}
 
 int ZefaniaBible::loadBibleData(const int id, const QString &path)
 {
@@ -142,7 +149,7 @@ void ZefaniaBible::getVersification()
     m_xml = NULL;
     file.close();
     bool hasAny = false;
-    foreach(BookV11N b, map) {
+    foreach(const BookV11N &b, map) {
         if(!b.name.isEmpty()) {
             hasAny = true;
         }

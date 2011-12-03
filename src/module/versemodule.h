@@ -33,8 +33,8 @@ public:
     VerseModule();
     virtual ~VerseModule();
     void setModuleDisplaySettings(ModuleDisplaySettings *moduleDisplaySettings);
-    virtual TextRanges readRanges(const Ranges &ranges, bool ignoreModuleID = false);
-    virtual TextRange readRange(const Range &range, bool ignoreModuleID = false);
+    virtual TextRanges readRanges(const Ranges &ranges, bool ignoreModuleID = false) = 0;
+    virtual TextRange readRange(const Range &range, bool ignoreModuleID = false) = 0;
 
     void setLastTextRanges(TextRanges *textRanges);
     /**
@@ -47,7 +47,7 @@ public:
      */
     Versification *versification() const;
     SearchQuery lastSearchQuery() const;
-    virtual void search(SearchQuery query, SearchResult *result);
+    virtual void search(SearchQuery query, SearchResult *result) = 0;
 protected:
     SearchQuery m_lastSearchQuery;
     Versification *m_versification;

@@ -40,26 +40,9 @@ Versification *VerseModule::versification() const
     return m_versification;
 }
 
-TextRanges VerseModule::readRanges(const Ranges &ranges, bool ignoreModuleID)
-{
-    myWarning() << "calling VerseModule";
-    return TextRanges();
-}
-
-TextRange VerseModule::readRange(const Range &range, bool ignoreModuleID)
-{
-    myWarning() << "calling VerseModule";
-    return TextRange();
-}
-
 SearchQuery VerseModule::lastSearchQuery() const
 {
     return m_lastSearchQuery;
-}
-
-void VerseModule::search(SearchQuery query, SearchResult *result)
-{
-    myWarning() << "calling VerseModule";
 }
 
 void VerseModule::setModuleDisplaySettings(ModuleDisplaySettings *moduleDisplaySettings)

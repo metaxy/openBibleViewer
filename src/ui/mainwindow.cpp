@@ -53,8 +53,6 @@ MainWindow::~MainWindow()
     }
     m_settings->m_moduleSettings.clear();
 
-    delete m_moduleManager;
-    m_moduleManager = 0;
     delete m_notes;
     m_notes = 0;
     delete m_settings;
@@ -65,10 +63,15 @@ MainWindow::~MainWindow()
 
     delete m_session;
     m_session = NULL;
+
     delete ui;
-    ui = 0;
+    ui = NULL;
+
     delete m_interface;
-    m_interface = 0;
+    m_interface = NULL;
+
+    delete m_moduleManager;
+    m_moduleManager = NULL;
 }
 
 

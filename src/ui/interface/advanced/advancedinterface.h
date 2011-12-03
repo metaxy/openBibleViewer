@@ -75,7 +75,7 @@ private slots:
     void copy();
     void selectAll();
 
-    int showAboutDialog();
+    void showAboutDialog();
     void showMarkCategories();
     void showMarkList();
     void showNotesEditor();

@@ -24,8 +24,6 @@ WebDictionary::~WebDictionary()
 void WebDictionary::loadModuleData(const int moduleID, const QString &name)
 {
     m_moduleID = moduleID;
-    /*m_module = m_map->module(m_moduleID);
-    */
     QString fileName;
     if(name.isEmpty())
         fileName = m_modulePath;

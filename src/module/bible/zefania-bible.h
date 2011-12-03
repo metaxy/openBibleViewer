@@ -50,6 +50,7 @@ class ZefaniaBible : public BibleModule
 
 public:
     ZefaniaBible();
+    ~ZefaniaBible();
     int readBook(const int id);
     int loadBibleData(const int id, const QString &path);
 

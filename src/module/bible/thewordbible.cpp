@@ -25,6 +25,10 @@ TheWordBible::TheWordBible()
 {
     m_versification = new Versification_KJV();
 }
+TheWordBible::~TheWordBible()
+{
+
+}
 
 void TheWordBible::setSettings(Settings *set)
 {

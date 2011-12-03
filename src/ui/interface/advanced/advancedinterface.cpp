@@ -201,7 +201,7 @@ void AdvancedInterface::pharseUrl(QString url)
             if(f->verseModule()->moduleType() == OBVCore::BibleQuoteModule) {
                 bool isInBookPath = false;
                 int b = 0;
-                const QStringList books = ((BibleQuote*)(((Bible*)f->verseModule())->module()))->booksPath();
+                const QStringList books = ((BibleQuote*)(((Bible*)f->verseModule())->bibleModule()))->booksPath();
                 //myDebug() << books;
                 int i = 0;
                 foreach(const QString & book, books) {
@@ -704,7 +704,7 @@ void AdvancedInterface::saveFile(void)
     }
 }
 
-int AdvancedInterface::showAboutDialog(void)
+void AdvancedInterface::showAboutDialog(void)
 {
     QPointer<AboutDialog> aDialog = new AboutDialog(this);
     aDialog->setWindowTitle(tr("About openBibleViewer"));

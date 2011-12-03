@@ -28,21 +28,16 @@ BibleQuote::BibleQuote()
     m_codec = NULL;
     m_versification = NULL;
 }
-
-void BibleQuote::setSettings(Settings *set)
+BibleQuote::~BibleQuote()
 {
-    m_settings = set;
 }
+
 QString BibleQuote::formatFromIni(QString input)
 {
     return input.trimmed();
 }
 int BibleQuote::loadBibleData(const int bibleID, const QString &path)
 {
-    /*if(m_versification != NULL)
-        delete m_versification;
-    m_versification = NULL;*/
-
     QStringList bookFullName;
     QList<QStringList> bookShortName;
     QMap<int, int> bookCount;

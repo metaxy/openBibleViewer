@@ -38,7 +38,7 @@ class BibleQuote : public BibleModule
 
 public:
     BibleQuote();
-    void setSettings(Settings *settings);
+    ~BibleQuote();
     int readBook(const int id);
     int loadBibleData(const int moduleID, const QString &path);
     MetaInfo readInfo(QFile &file);
@@ -56,7 +56,6 @@ public:
     std::pair<int, int> minMaxVerse(int bookID, int chapterID);
 
     QStringList booksPath() const;
-
 
 private:
     inline QString formatFromIni(QString input);

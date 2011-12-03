@@ -29,6 +29,7 @@ class TheWordBible : public BibleModule
 {
 public:
     TheWordBible();
+    ~TheWordBible();
     void setSettings(Settings *settings);
     int loadBibleData(const int id, const QString &path);
     int readBook(const int id);

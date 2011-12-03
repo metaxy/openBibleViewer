@@ -26,7 +26,6 @@ BibleModule::~BibleModule()
 
 void BibleModule::setSettings(Settings *settings)
 {
-    //DEBUG_FUNC_NAME
     m_settings = settings;
 }
 Versification* BibleModule::versification() const
