@@ -130,6 +130,7 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
 
         while(i.hasNext()) {
             i.next();
+            myDebug() << i.value()->moduleID();
             TextRanges r = i.value()->readRanges(ranges, true);
             r.setVerseTableID(i.key());
 

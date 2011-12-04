@@ -40,7 +40,7 @@ void QuickJumpDockWidget::setWindowManager(WindowManager *manager)
 
 void QuickJumpDockWidget::init()
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     connect(m_actions, SIGNAL(_updateBooks(Versification*)), this, SLOT(setBooks(Versification*)));
 }
 
@@ -52,10 +52,9 @@ void QuickJumpDockWidget::setBooks(Versification *v11n)
     QStringList l;
     l << m_books;
     l << m_hist;
-    /*if(m_completer != NULL) {
-        delete m_completer;
-        m_completer = NULL;
-    }*/
+    if(ui->lineEdit_goTo->completer() != NULL) {
+        delete ui->lineEdit_goTo->completer();
+    }
     m_completer = new QCompleter(l, this);
     m_completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->lineEdit_goTo->setCompleter(m_completer);

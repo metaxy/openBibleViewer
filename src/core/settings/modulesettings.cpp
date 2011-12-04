@@ -45,9 +45,9 @@ ModuleSettings::~ModuleSettings()
 
 QSharedPointer<Versification> ModuleSettings::loadVersification()
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     QSharedPointer<Versification> ret;
-    myDebug() << "versifiction name = " << versificationName << " versification file" << versificationFile;
+    //myDebug() << "versifiction name = " << versificationName << " versification file" << versificationFile;
     if(versificationName == "kjv") {
         ret = QSharedPointer<Versification>(new Versification_KJV());
         ret->setFlags(Versification::ReturnAll);
@@ -93,7 +93,7 @@ QSharedPointer<Versification> ModuleSettings::loadVersification()
 
 void ModuleSettings::saveVersification()
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     if(versificationFile != "") {
         QSettings settings(versificationFile, QSettings::IniFormat);
         if(v11n.isNull())
@@ -119,9 +119,9 @@ void ModuleSettings::saveVersification()
 
 Versification *ModuleSettings::getV11n()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if(v11n.isNull()) {
-        myDebug() << "loading new";
+        //myDebug() << "loading new";
         return loadVersification().data();
     }
     return v11n.data();

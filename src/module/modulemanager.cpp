@@ -302,37 +302,14 @@ void ModuleManager::checkCache(const int moduleID)
 }
 VerseModule * ModuleManager::newVerseModule(const int moduleID, QPoint p, VerseTable *table)
 {
-    DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME;
+    myDebug() << moduleID << p;
     if(!contains(moduleID)) {
         myWarning() << "invalid moduleID = " << moduleID;
         return NULL;
     }
-
-    //const int id = table->m_points.key(p, -1);
-    VerseModule *m = NULL;
-    /*if(id != -1) {
-        m = verseTable()->verseModule(id);
-        initVerseModule(m);
-    } else {*/
-    //todo: support for other VerseModules
-    if(getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
-        m = new Bible();
-        initVerseModule(m);
-    }
-    /*}*/
-    //todo: check if this is possible b->moduleID() != moduleID
-
-    OBVCore::ModuleType type = getModule(moduleID)->moduleType();
-    m->setModuleType(type);
-    m->setModuleID(moduleID);
-    //todo: load module data?
-    /* if(getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
-         myDebug() << "loading the module data";
-         ((Bible*)m)->loadModuleData(moduleID);
-     }*/
-
+    VerseModule *m = newVerseModule(moduleID);
     table->addModule(m, p);
-
     return m;
 }
 VerseModule * ModuleManager::newVerseModule(const int moduleID)

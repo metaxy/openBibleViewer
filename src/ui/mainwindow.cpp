@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QHashIterator<int, ModuleSettings*> it(m_settings->m_moduleSettings);
     while(it.hasNext()) {
         it.next();
@@ -119,7 +119,7 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile)
 }
 void MainWindow::loadInterface()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     const QString interface = m_settings->session.getData("interface", QString("advanced")).toString();
     if(interface == "advanced") {
         loadAdvancedInterface();
@@ -129,7 +129,7 @@ void MainWindow::loadInterface()
 }
 void MainWindow::deleteInterface()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if(m_interface->hasToolBar()) {
         foreach(QToolBar * bar, m_toolBarList) {
             removeToolBar(bar);
@@ -152,7 +152,7 @@ void MainWindow::deleteInterface()
 }
 void MainWindow::reloadInterface()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     deleteInterface();
     loadInterface();
 }

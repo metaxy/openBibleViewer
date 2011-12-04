@@ -149,14 +149,18 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url)
 {
     DEBUG_FUNC_NAME
     std::pair<QString, TextRanges> r;
+    m_verseTable->currentVerseTableID();
+    int i = 0;
+    if(verseTableLoaded()) {
+        i = qBound(0,m_verseTable->currentVerseTableID(),ranges.getList().size()-1);
+    }
+    const int moduleID = ranges.getList().first().moduleID();
 
     if(!verseTableLoaded()) {
-        m_moduleManager->newVerseModule(ranges.getList().first().moduleID(), QPoint(0, 0), m_verseTable);
+        m_moduleManager->newVerseModule(moduleID, QPoint(0, 0), m_verseTable);
     }
 
     if(m_verseTable->verseModule()->moduleID() != ranges.getList().first().moduleID()) {
-
-        const int moduleID = ranges.getList().first().moduleID();
 
         const QPoint p = m_verseTable->m_points.value(m_verseTable->currentVerseTableID());
         VerseModule *m;

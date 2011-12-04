@@ -44,7 +44,7 @@ ZefaniaBible::~ZefaniaBible()
 
 int ZefaniaBible::loadBibleData(const int id, const QString &path)
 {
-    DEBUG_FUNC_NAME;
+   // DEBUG_FUNC_NAME;
     m_moduleID = id;
     m_moduleName = "";
     m_modulePath = path;

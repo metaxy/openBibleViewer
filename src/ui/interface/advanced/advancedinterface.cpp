@@ -25,7 +25,7 @@ AdvancedInterface::AdvancedInterface(QWidget *parent) :
 
 AdvancedInterface::~AdvancedInterface()
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     if(ui != NULL) {
         delete ui;
         ui = 0;
@@ -34,7 +34,7 @@ AdvancedInterface::~AdvancedInterface()
 
 void AdvancedInterface::init()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_moduleManager->newDisplaySettings();
     m_moduleManager->moduleDisplaySetings()->setShowMarks(true);
     m_moduleManager->moduleDisplaySetings()->setShowNotes(true);
@@ -111,7 +111,7 @@ void AdvancedInterface::createMenu()
 
 QHash<DockWidget*, Qt::DockWidgetArea> AdvancedInterface::docks()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QHash<DockWidget *, Qt::DockWidgetArea> ret;
     ret.unite(m_bibleManager->docks());
     ret.unite(m_notesManager->docks());
@@ -123,12 +123,12 @@ QHash<DockWidget*, Qt::DockWidgetArea> AdvancedInterface::docks()
 
 void AdvancedInterface::pharseUrl(QUrl url)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     pharseUrl(url.toString());
 }
 void AdvancedInterface::pharseUrl(QString url)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     //setEnableReload(false);
     myDebug() << "url = " << url;
 
@@ -256,7 +256,7 @@ void AdvancedInterface::restoreSession()
 
 void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettings, bool modifedModuleSettings)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     //reload books
     bool reloadBibles = false;
     if(oldSettings.encoding != newSettings.encoding) {
@@ -593,7 +593,7 @@ bool AdvancedInterface::hasToolBar()
 }
 void AdvancedInterface::createToolBars()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_mainBar = new QToolBar(this);
     m_mainBar->setObjectName("mainToolBar");
     m_mainBar->setIconSize(QSize(16, 16));
