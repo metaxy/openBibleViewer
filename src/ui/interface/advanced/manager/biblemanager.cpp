@@ -69,7 +69,7 @@ QHash<DockWidget*, Qt::DockWidgetArea> BibleManager::docks()
 
 void BibleManager::pharseUrl(const VerseUrl &url)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     //open a bible window
     BibleForm *f = (BibleForm*)(m_windowManager->getForm(m_windowManager->needBibleWindow()));
     f->pharseUrl(url);
@@ -77,7 +77,7 @@ void BibleManager::pharseUrl(const VerseUrl &url)
 
 void BibleManager::pharseUrl(const QString &url)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     //open a bible window
     BibleForm *f = (BibleForm*)(m_windowManager->getForm(m_windowManager->needBibleWindow()));
     f->pharseUrl(url);

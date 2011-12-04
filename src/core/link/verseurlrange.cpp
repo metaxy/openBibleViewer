@@ -261,10 +261,9 @@ Range VerseUrlRange::toRange() const
             r.setEndVerse(RangeEnum::FirstVerse);
         } else if(this->endVerse() == VerseUrlRange::LoadLastVerse) {
             r.setEndVerse(RangeEnum::LastVerse);
-        }
-
-        if(this->activeVerse() == VerseUrlRange::LoadVerseByID) {
-            r.setSelectedVerse(this->activeVerseID());
+            if(this->activeVerse() == VerseUrlRange::LoadVerseByID) {
+                r.setSelectedVerse(this->activeVerseID());
+            }
         } else {
             r.setEndVerse(this->endVerseID());
         }

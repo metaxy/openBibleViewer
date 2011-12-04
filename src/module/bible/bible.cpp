@@ -220,6 +220,8 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 
     int startVerse = 0;
     int endVerse = 0;
+    //myDebug() << range.startVerse() << range.endVerse();
+
     if(range.startVerse() == RangeEnum::VerseByID) {
         startVerse = range.startVerseID();
     } else if(range.startVerse() == RangeEnum::FirstVerse) {
@@ -237,6 +239,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     }
     if(endVerse == -1)
         endVerse = startVerse;
+
     //todo: ugly
     if(moduleType() == OBVCore::BibleQuoteModule)  {
         endVerse++;

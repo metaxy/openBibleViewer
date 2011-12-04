@@ -91,8 +91,8 @@ void BibleForm::init()
 
 void BibleForm::pharseUrl(const VerseUrl &url)
 {
+    myDebug() << url.toString();
     m_url = m_url.applyUrl(url);
-
     Ranges ranges;
     foreach(VerseUrlRange range, m_url.ranges()) {
         ranges.addRange(range.toRange());
@@ -106,6 +106,7 @@ void BibleForm::pharseUrl(const VerseUrl &url)
 
 void BibleForm::pharseUrl(const QString &string)
 {
+    myDebug() << string;
     const QString bible = "verse:/";
     const QString bq = "go";
 
