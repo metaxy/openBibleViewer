@@ -84,6 +84,7 @@ void BibleForm::init()
     connect(m_actions, SIGNAL(_setCurrentChapter(QSet<int>)), this, SLOT(forwardSetCurrentChapter(QSet<int>)));
     connect(m_actions, SIGNAL(_showTextRanges(QString, TextRanges, VerseUrl)), this, SLOT(forwardShowTextRanges(QString, TextRanges, VerseUrl)));
     connect(m_actions, SIGNAL(_searchInText(SearchResult*)), this, SLOT(forwardSearchInText(SearchResult*)));
+    connect(m_actions, SIGNAL(_reloadIf(VerseUrl)), this, SLOT(reloadIf(VerseUrl)));
 
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     createDefaultMenu();
@@ -93,6 +94,7 @@ void BibleForm::pharseUrl(const VerseUrl &url)
 {
     myDebug() << url.toString();
     m_url = m_url.applyUrl(url);
+    myDebug() << "applied" << m_url.toString();
     Ranges ranges;
     foreach(VerseUrlRange range, m_url.ranges()) {
         ranges.addRange(range.toRange());
@@ -117,8 +119,9 @@ void BibleForm::pharseUrl(const QString &string)
         if(!url.fromString(string)) {
             return;
         }
+        myDebug() << "url = " << url.toString();
         m_url = m_url.applyUrl(url);
-
+        myDebug() << "applied" << m_url.toString();
         foreach(VerseUrlRange range, m_url.ranges()) {
             ranges.addRange(range.toRange());
         }
@@ -150,10 +153,6 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url)
     DEBUG_FUNC_NAME
     std::pair<QString, TextRanges> r;
     m_verseTable->currentVerseTableID();
-    int i = 0;
-    if(verseTableLoaded()) {
-        i = qBound(0,m_verseTable->currentVerseTableID(),ranges.getList().size()-1);
-    }
     const int moduleID = ranges.getList().first().moduleID();
 
     if(!verseTableLoaded()) {
@@ -292,8 +291,9 @@ void BibleForm::save()
             i.next();
             VerseModule *b = i.value();
             if(b != NULL && b->moduleID() >= 0) {
-
+                myDebug() << b->moduleID() << b->moduleTitle();
                 VerseUrl bibleUrl = b->lastTextRanges()->source().source();
+                myDebug() << bibleUrl.toString();
 
                 UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, bibleUrl);
                 urlConverter.setSettings(m_settings);
@@ -302,6 +302,7 @@ void BibleForm::save()
 
                 const QString url = newUrl.toString();
                 const QPoint point = list->m_points.value(i.key());
+                myDebug() << url;
 
                 points << QString::number(point.x()) + "|" + QString::number(point.y());
                 urls << url;
@@ -544,7 +545,7 @@ void BibleForm::activated()
         }
 
         m_verseTable->setLastTextRanges(&m_lastTextRanges);
-        m_verseTable->setLastUrl(&m_lastUrl);
+        m_verseTable->setLastUrl(m_lastUrl);
     }
 }
 
@@ -627,7 +628,7 @@ void BibleForm::showTextRanges(const QString &html, const TextRanges &range, con
     m_lastTextRanges = range;
     m_lastUrl = url;
     m_verseTable->setLastTextRanges(&m_lastTextRanges);
-    m_verseTable->setLastUrl(&m_lastUrl);
+    m_verseTable->setLastUrl(m_lastUrl);
     historySetUrl(url.toString());
 }
 void BibleForm::evaluateJavaScript(const QString &js)
@@ -1222,12 +1223,18 @@ VerseModule * BibleForm::verseModule() const
 void BibleForm::reload(bool full)
 {
     const QPoint p = m_view->page()->mainFrame()->scrollPosition();
-    if(!full) {
-        pharseUrl(m_url);
-    } else {
-        //todo: force reload bible
+    if(full) {
+        m_verseTable->clearData();
     }
+    pharseUrl(m_url);
     m_view->page()->mainFrame()->setScrollPosition(p);
+}
+void BibleForm::reloadIf(const VerseUrl &url)
+{
+    VerseUrlRange r = url.ranges().first();
+    if(m_verseTable->verseModule()->moduleID() == r.moduleID() && m_verseTable->verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
+        reload(false);
+    }
 }
 
 void BibleForm::changeEvent(QEvent *e)

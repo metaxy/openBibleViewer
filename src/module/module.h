@@ -43,7 +43,8 @@ public:
     void setModuleClass(const OBVCore::ModuleClass &c);
     void setModuleType(const OBVCore::ModuleType &t);
 
-    BibleModule *m_bibleModule;
+    QWeakPointer<BibleModule> m_bibleModule;
+    QSharedPointer<BibleModule> newBibleModule(const OBVCore::ModuleType type);
     DictionaryModule *m_dictionaryModule;
 
     void setSettings(Settings *settings);

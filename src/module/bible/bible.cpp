@@ -27,7 +27,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QDir>
 #include <QtGui/QTextDocument>
 
-//#include <valgrind/callgrind.h>
 Bible::Bible()
 {
     m_bookID = 0;
@@ -38,16 +37,7 @@ Bible::~Bible()
 {
     DEBUG_FUNC_NAME
     m_versification.clear();
-    //it dosen't work
-    //i dunno why
-   /* if(m_map != NULL) {
-        Module *m = m_map->module(m_moduleID);
-        if(m != NULL && m->m_bibleModule != NULL) {
-            myDebug() << "deleting bibleModule";
-            delete m->m_bibleModule;
-            m->m_bibleModule = NULL;
-        }
-    }*/
+    m_bibleModule.clear();
 }
 
 bool Bible::loaded() const
@@ -75,23 +65,17 @@ int Bible::loadModuleData(const int moduleID)
 
     ModuleSettings *m = m_settings->getModuleSettings(m_moduleID);
 
-    if(m_module->m_bibleModule == NULL) {
-        if(moduleType() == OBVCore::ZefaniaBibleModule) {
-            m_module->m_bibleModule = new ZefaniaBible();
-        } else if(moduleType() == OBVCore::TheWordBibleModule) {
-            m_module->m_bibleModule = new TheWordBible();
-        } else if(moduleType() == OBVCore::SwordBibleModule) {
-            m_module->m_bibleModule = new SwordBible();
-        } else if(moduleType() == OBVCore::BibleQuoteModule) {
-            m_module->m_bibleModule = new BibleQuote();
-        }
+    if(m_module->m_bibleModule.isNull()) {
+        m_bibleModule = m_module->newBibleModule(moduleType());
+    } else {
+        m_bibleModule = m_module->m_bibleModule;
     }
-    if(bibleModule() == NULL) {
+    if(m_bibleModule == NULL) {
         myWarning() << "invalid module";
         return 1;
     }
-    bibleModule()->setSettings(m_settings);
-    int loaded = bibleModule()->loadBibleData(m_moduleID, m_module->path());
+    m_bibleModule->setSettings(m_settings);
+    int loaded = m_bibleModule->loadBibleData(m_moduleID, m_module->path());
 
     if(loaded != 0) {
         m_loaded = false;
@@ -99,15 +83,15 @@ int Bible::loadModuleData(const int moduleID)
         return 1;
     }
 
-    m_versification = bibleModule()->versification();
-    m_moduleUID = bibleModule()->uid();
+    m_versification = m_bibleModule->versification();
+    m_moduleUID = m_bibleModule->uid();
 
     if(m->moduleName.isEmpty())
-        m_moduleTitle = bibleModule()->moduleName(false);
+        m_moduleTitle = m_bibleModule->moduleName(false);
     else
         m_moduleTitle = m->moduleName;
 
-    m_moduleShortTitle = bibleModule()->moduleName(true);
+    m_moduleShortTitle = m_bibleModule->moduleName(true);
 
     m_loaded = true;
     return 0;
@@ -215,7 +199,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         //myDebug() << "current chapter = " << chapterID;
     }
     //myDebug() << "bookID = " << bookID << " chapterID " << chapterID;
-    std::pair<int, int> minMax = bibleModule()->minMaxVerse(bookID, chapterID);
+    std::pair<int, int> minMax = m_bibleModule->minMaxVerse(bookID, chapterID);
     //myDebug() << "min = " << minMax.first << " max = " << minMax.second;
 
     int startVerse = 0;
@@ -250,7 +234,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     //myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
     //myDebug() << "selected verse = " << range.selectedVerse();
 
-    TextRange rawRange = bibleModule()->rawTextRange(bookID, chapterID, startVerse, endVerse);
+    TextRange rawRange = m_bibleModule->rawTextRange(bookID, chapterID, startVerse, endVerse);
     ret.setBookID(bookID);
     ret.setChapterID(chapterID);
     ret.setModuleID(m_moduleID);
@@ -451,10 +435,10 @@ void Bible::search(SearchQuery query, SearchResult *result)
 
     m_lastSearchQuery = query;
 
-    if(!bibleModule()->hasIndex())
-        bibleModule()->buildIndex();
+    if(!m_bibleModule->hasIndex())
+        m_bibleModule->buildIndex();
 
-    bibleModule()->search(query, result);
+    m_bibleModule->search(query, result);
     myDebug() << "hits.size() = " << result->hits().size();
 }
 /**
@@ -463,10 +447,9 @@ void Bible::search(SearchQuery query, SearchResult *result)
  */
 QStringList Bible::getSearchPaths() const
 {
-
     if(moduleType() == OBVCore::BibleQuoteModule) {
-        const QStringList bookPath = ((BibleQuote *)bibleModule())->booksPath();
-        const QString modulePath = bibleModule()->modulePath();
+        const QStringList bookPath = ((BibleQuote *)m_bibleModule.data())->booksPath();
+        const QString modulePath = m_bibleModule->modulePath();
 
         QStringList l;
         l.append(QString(modulePath + QDir::separator()));
@@ -510,5 +493,9 @@ QList<int> Bible::bookIDs() const
 }
 BibleModule * Bible::bibleModule() const
 {
-    return m_module->m_bibleModule;
+    return m_bibleModule.data();
+}
+void Bible::clearData()
+{
+    m_bibleModule->clearData();
 }

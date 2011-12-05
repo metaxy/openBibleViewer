@@ -446,7 +446,8 @@ void SimpleNotes::newTextNoteWithLink(VerseSelection selection, QSharedPointer<V
     urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap.data());
     urlConverter.setV11n(v11n);
     urlConverter.convert();
-    const QString link = urlConverter.url().toString();
+    const VerseUrl url1 = urlConverter.url();
+    const QString link = url1.toString();
     myDebug() << "link = " << link;
     const QString newID = m_notes->generateNewID();
     m_notes->setData(newID, "");
@@ -475,7 +476,7 @@ void SimpleNotes::newTextNoteWithLink(VerseSelection selection, QSharedPointer<V
     setData("");
     setRef(m_noteRef);
 
-    m_actions->reloadCurrentRange();
+    m_actions->reloadIf(url1);
 }
 void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style, QSharedPointer<Versification> v11n)
 {
@@ -525,7 +526,7 @@ void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style, Q
     m_notes->setRef(newID, ref);
     m_notes->insertID(newID);
     connect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
-    m_actions->reloadCurrentRange();
+    m_actions->reloadIf(urlConverter.url());
 }
 void SimpleNotes::notesContextMenu(QPoint point)
 {

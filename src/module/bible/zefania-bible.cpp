@@ -40,6 +40,7 @@ ZefaniaBible::~ZefaniaBible()
         delete m_xml;
         m_xml = NULL;
     }
+    m_versification.clear();
 }
 
 int ZefaniaBible::loadBibleData(const int id, const QString &path)
@@ -310,11 +311,6 @@ QString ZefaniaBible::modulePath() const
 QString ZefaniaBible::moduleName(bool preferShortName) const
 {
     return m_moduleName;
-}
-
-Book ZefaniaBible::book() const
-{
-    return m_book;
 }
 
 bool ZefaniaBible::hasIndex() const
@@ -861,6 +857,10 @@ bool ZefaniaBible::cmp(const QStringRef &r, const QString &s)
 }
 
 void ZefaniaBible::clear()
+{
+    clearData();
+}
+void ZefaniaBible::clearData()
 {
     m_book.clear();
     if(m_xml != NULL) {

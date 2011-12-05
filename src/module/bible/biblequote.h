@@ -57,6 +57,8 @@ public:
 
     QStringList booksPath() const;
 
+    void clearData();
+
 private:
     inline QString formatFromIni(QString input);
     QString indexPath() const;

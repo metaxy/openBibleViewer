@@ -18,10 +18,6 @@ BibleModule::BibleModule()
 BibleModule::~BibleModule()
 {
     DEBUG_FUNC_NAME;
-    /*if(m_versification != NULL) {
-        delete m_versification;
-        m_versification = NULL;
-    }*/
     m_versification.clear();
 }
 
@@ -32,11 +28,6 @@ void BibleModule::setSettings(Settings *settings)
 QSharedPointer<Versification> BibleModule::versification() const
 {
     return m_versification;
-}
-int BibleModule::readBook(const int /*id*/)
-{
-    myWarning() << "calling BibleModule";
-    return 0;
 }
 
 int BibleModule::loadBibleData(const int /*bibleID*/, const QString &/*path*/)
@@ -98,6 +89,10 @@ std::pair<int, int> BibleModule::minMaxVerse(int /*bookID*/, int /*chapterID*/)
 }
 
 void BibleModule::clear()
+{
+    myWarning() << "calling BibleModule";
+}
+void BibleModule::clearData()
 {
     myWarning() << "calling BibleModule";
 }

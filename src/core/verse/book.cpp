@@ -50,7 +50,7 @@ int Book::bookID() const
 {
     return m_id;
 }
-QMap<int, Chapter> Book::data() const
+QHash<int, Chapter> Book::data() const
 {
     return m_chapters;
 }

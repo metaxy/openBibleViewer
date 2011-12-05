@@ -112,6 +112,7 @@ public slots:
     void forwardSetCurrentChapter(const QSet<int> &chapterID);
     void forwardShowText(const QString &text);
     void forwardSearchInText(SearchResult *result);
+    void reloadIf(const VerseUrl &url);
 
     void activated();
 

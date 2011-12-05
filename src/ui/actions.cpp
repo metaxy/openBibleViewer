@@ -160,3 +160,7 @@ void Actions::setCurrentVerseTableID(const int verseTableID)
 {
     emit _setCurrentVerseTableID(verseTableID);
 }
+void Actions::reloadIf(const VerseUrl &url)
+{
+    emit _reloadIf(url);
+}

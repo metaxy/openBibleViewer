@@ -33,6 +33,9 @@ public:
     virtual TextRange readRange(const Range &range, bool ignoreModuleID = false);
 
     QStringList getSearchPaths() const;
+    /**
+      * Unsafe. Could be deleted.
+      */
     BibleModule *bibleModule() const;
 
     void search(SearchQuery query, SearchResult *result);
@@ -42,6 +45,8 @@ public:
     QString moduleUID() const;
 
     SearchQuery lastSearchQuery() const;
+
+    void clearData();
 
 private:
     int loadModuleData(const int bibleID);
@@ -56,6 +61,7 @@ private:
     QString m_moduleTitle;
     QString m_moduleShortTitle;
     QString m_moduleUID;
+    QSharedPointer<BibleModule> m_bibleModule;
 
 };
 

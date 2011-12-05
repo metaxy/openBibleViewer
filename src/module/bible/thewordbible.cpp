@@ -27,7 +27,7 @@ TheWordBible::TheWordBible()
 }
 TheWordBible::~TheWordBible()
 {
-
+    m_books.clear();
 }
 
 void TheWordBible::setSettings(Settings *set)
@@ -39,7 +39,6 @@ void TheWordBible::setSettings(Settings *set)
   */
 int TheWordBible::loadBibleData(const int id, const QString &path)
 {
-    //DEBUG_FUNC_NAME
     if(!m_books.isEmpty())
         m_books.clear();
     m_moduleID = id;
@@ -251,7 +250,7 @@ void TheWordBible::buildIndex()
         }
         progress.setValue(c);
         bookIt.next();
-        QMapIterator<int, Chapter> chapterIt(bookIt.value().data());
+        QHashIterator<int, Chapter> chapterIt(bookIt.value().data());
         while(chapterIt.hasNext()) {
             chapterIt.next();
             QMapIterator<int, Verse> verseIt(chapterIt.value().data());
@@ -385,4 +384,9 @@ std::pair<int, int> TheWordBible::minMaxVerse(int bookID, int chapterID)
     ret.second = c.data().keys().last();
 
     return ret;
+}
+
+void TheWordBible::clearData()
+{
+    m_books.clear();
 }

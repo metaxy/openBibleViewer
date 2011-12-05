@@ -28,11 +28,11 @@ class TextRanges
 {
 public:
     TextRanges();
+    TextRanges(const TextRanges &r);
     void addTextRange(const TextRange &range);
     void addTextRanges(const TextRanges &ranges);
     QList<TextRange> textRanges() const;
     QString join(const QString &seperator) const;
-
 
     void setSource(const Ranges &url);
     Ranges source() const;

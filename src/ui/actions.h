@@ -60,6 +60,7 @@ signals:
 
     void _loadVerseTable(bool hadModule);
     void _reloadCurrentRange(bool full);
+    void _reloadIf(const VerseUrl &url);
 
     void _newSubWindowIfEmpty();
 
@@ -125,6 +126,8 @@ public slots:
     void searchInText();
 
     void setCurrentVerseTableID(const int verseTableID);
+
+    void reloadIf(const VerseUrl &url);
 
 
 };

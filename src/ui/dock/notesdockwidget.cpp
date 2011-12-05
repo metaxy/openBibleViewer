@@ -74,11 +74,7 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
     VerseUrl newUrl = urlConverter.convert();
     if(newUrl.isValid()) {
-        VerseUrlRange r = newUrl.ranges().first();
-        //todo: reenable
-        /*if(m_moduleManager->verseModule()->moduleID() == r.moduleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
-            m_actions->reloadCurrentRange();
-        }*/
+        m_actions->reloadIf(newUrl);
     }
 
 }
@@ -95,11 +91,7 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
     VerseUrl newUrl = urlConverter.convert();
     if(newUrl.isValid()) {
-        VerseUrlRange r = newUrl.ranges().first();
-        //todo: reenable
-        /*if(m_moduleManager->verseModule()->moduleID() == r.moduleID() && m_moduleManager->verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
-            m_actions->reloadChapter();
-        }*/
+        m_actions->reloadIf(newUrl);
     }
 }
 
@@ -119,7 +111,6 @@ void NotesDockWidget::newNote(void)
 void NotesDockWidget::newNoteWithLink(VerseSelection selection, QSharedPointer<Versification> v11n)
 {
     m_simpleNotes->newTextNoteWithLink(selection, v11n);
-    m_actions->reloadCurrentRange();
 }
 void NotesDockWidget::noteSetTextBold(void)
 {
@@ -200,13 +191,12 @@ void NotesDockWidget::removeMark(VerseSelection selection, QSharedPointer<Versif
                     myDebug() << "remove = " << m_notes->getRef(noteID, "start");
                     //todo: work with positions in text
                     m_notes->removeNote(noteID);
-                    r = true;
+                    m_actions->reloadIf(newUrl);
                 }
             }
         }
     }
-    if(r)
-        m_actions->reloadCurrentRange();
+
 }
 void NotesDockWidget::changeEvent(QEvent *e)
 {

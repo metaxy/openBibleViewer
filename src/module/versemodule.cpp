@@ -26,6 +26,9 @@ VerseModule::~VerseModule()
 
 void VerseModule::setLastTextRanges(TextRanges *textRanges)
 {
+    DEBUG_FUNC_NAME;
+    myDebug() << m_moduleID;
+    myDebug() << textRanges->source().source().toString();
     m_lastTextRanges = textRanges;
 }
 

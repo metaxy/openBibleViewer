@@ -33,7 +33,6 @@ public:
     int chapterID() const;
 private:
     QMap<int, Verse> m_data;
-    QStringList m_verseNumber;
     int m_verseCount;
     int m_chapterID;
 

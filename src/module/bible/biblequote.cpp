@@ -283,7 +283,7 @@ int BibleQuote::readBook(const int id)
     //todo: its slow
     for(int i = 0; i < chapterText.size() - 1; i++) {
         Chapter c(i);
-        QStringList rawVerseList = chapterText.at(i + 1).split(m_verseSign);
+        const QStringList rawVerseList = chapterText.at(i + 1).split(m_verseSign);
         for(int j = 0; j < rawVerseList.size(); j++) { //split removes versesign but it is needed
             QString verseText = rawVerseList.at(j);
             //myDebug() << verseText;
@@ -294,7 +294,7 @@ int BibleQuote::readBook(const int id)
             if(verseText.contains("</p>") || m_verseSign != "<p>")
                 verseText.prepend(m_verseSign);
 
-            Verse v(j, verseText);
+            const Verse v(j, verseText);
             c.addVerse(v);
         }
         m_book.addChapter(c);
@@ -502,7 +502,7 @@ TextRange BibleQuote::rawTextRange(int bookID, int chapterID, int startVerse, in
     ret.setChapterID(chapterID);
 
     const Chapter c = m_book.getChapter(chapterID);
-    QMap<int, Verse> data = c.data();
+    const QMap<int, Verse> data = c.data();
     QMapIterator<int, Verse> i(data);
     while(i.hasNext()) {
         i.next();
@@ -517,7 +517,6 @@ std::pair<int, int> BibleQuote::minMaxVerse(int bookID, int chapterID)
     std::pair<int, int> ret;
     if(m_book.bookID() != bookID) {
         readBook(bookID);
-        myDebug() << "book not loaded";
     }
     if(!m_book.hasChapter(chapterID)) {
         myWarning() << "index out of range index chapterID = " << chapterID;
@@ -534,4 +533,8 @@ std::pair<int, int> BibleQuote::minMaxVerse(int bookID, int chapterID)
 QStringList BibleQuote::booksPath() const
 {
     return m_bookPath;
+}
+void BibleQuote::clearData()
+{
+    m_book.clear();
 }

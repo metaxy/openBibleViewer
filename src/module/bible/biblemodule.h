@@ -40,7 +40,6 @@ public:
 
     virtual int loadBibleData(const int moduleID, const QString &path);
     virtual MetaInfo readInfo(QFile &file);
-    virtual int readBook(const int id);
 
     virtual TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse);
     virtual std::pair<int, int> minMaxVerse(int bookID, int chapterID);
@@ -56,6 +55,7 @@ public:
     virtual QSharedPointer<Versification> versification() const;
     virtual QString uid() const;
     virtual void clear();
+    virtual void clearData();
 protected:
     QSharedPointer<Versification> m_versification;
     Settings *m_settings;

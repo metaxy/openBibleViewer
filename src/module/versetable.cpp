@@ -18,7 +18,6 @@ VerseTable::VerseTable()
 {
     m_currentModule = 0;
     m_lastTextRanges = NULL;
-    m_lastUrl = NULL;
 }
 VerseTable::~VerseTable()
 {
@@ -264,20 +263,32 @@ bool VerseTable::hasTopBar() const
 }
 void VerseTable::setLastTextRanges(TextRanges *textRanges)
 {
+    DEBUG_FUNC_NAME;
+    if(textRanges == NULL)
+        return;
+    myDebug() << textRanges->source().source().toString();
     m_lastTextRanges = textRanges;
     foreach(VerseModule * b, m_modules) {
+        //todo: verseUrl
         b->setLastTextRanges(textRanges);
     }
 }
+void VerseTable::clearData()
+{
+    foreach(VerseModule *m, m_modules) {
+        m->clearData();
+    }
+}
+
 TextRanges *VerseTable::lastTextRanges()
 {
     return m_lastTextRanges;
 }
-void VerseTable::setLastUrl(VerseUrl *verseUrl)
+void VerseTable::setLastUrl(const VerseUrl &verseUrl)
 {
     m_lastUrl = verseUrl;
 }
-VerseUrl *VerseTable::lastVerseUrl()
+VerseUrl VerseTable::lastVerseUrl()
 {
     return m_lastUrl;
 }

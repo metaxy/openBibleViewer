@@ -40,8 +40,7 @@ void QuickJumpDockWidget::setWindowManager(WindowManager *manager)
 
 void QuickJumpDockWidget::init()
 {
-    //DEBUG_FUNC_NAME;
-    connect(m_actions, SIGNAL(_updateBooks(Versification*)), this, SLOT(setBooks(Versification*)));
+    connect(m_actions, SIGNAL(_updateBooks(QSharedPointer<Versification>)), this, SLOT(setBooks(QSharedPointer<Versification>)));
 }
 
 void QuickJumpDockWidget::setBooks(QSharedPointer<Versification> v11n)
@@ -84,7 +83,6 @@ void QuickJumpDockWidget::goToPos()
     if(m_windowManager->activeForm() && m_windowManager->activeForm()->type() == Form::BibleForm) {
         BibleForm *f = (BibleForm*)(m_windowManager->activeForm());
         BibleLink link(f->verseModule()->moduleID(), f->verseModule()->versification());
-
 
         m_actions->get(link.getUrl(text));
     }

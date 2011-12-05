@@ -12,10 +12,12 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "src/module/module.h"
-
+#include "src/module/bible/biblequote.h"
+#include "src/module/bible/zefania-bible.h"
+#include "src/module/bible/thewordbible.h"
+#include "src/module/bible/swordbible.h"
 Module::Module(Module *parent)
 {
-    m_bibleModule = NULL;
     m_dictionaryModule = NULL;
 
     m_parent = parent;
@@ -25,10 +27,7 @@ Module::Module(Module *parent)
 }
 Module::~Module()
 {
-    if(m_bibleModule != NULL) {
-        delete m_bibleModule;
-        m_bibleModule = NULL;
-    }
+    m_bibleModule.clear();
     if(m_dictionaryModule != NULL) {
         delete m_dictionaryModule;
         m_dictionaryModule = NULL;
@@ -133,3 +132,18 @@ QString Module::moduleTypeName(OBVCore::ModuleType type)
     return "";
 }
 
+QSharedPointer<BibleModule> Module::newBibleModule(const OBVCore::ModuleType type)
+{
+    QSharedPointer<BibleModule> ret;
+    if(type == OBVCore::ZefaniaBibleModule) {
+        ret = QSharedPointer<BibleModule>(new ZefaniaBible());
+    } else if(type == OBVCore::TheWordBibleModule) {
+        ret = QSharedPointer<BibleModule>(new TheWordBible());
+    } else if(type == OBVCore::SwordBibleModule) {
+        ret = QSharedPointer<BibleModule>(new SwordBible());
+    } else if(type == OBVCore::BibleQuoteModule) {
+        ret = QSharedPointer<BibleModule>(new BibleQuote());
+    }
+    m_bibleModule = ret.toWeakRef();
+    return ret;
+}

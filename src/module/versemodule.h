@@ -48,6 +48,7 @@ public:
     QSharedPointer<Versification> versification() const;
     SearchQuery lastSearchQuery() const;
     virtual void search(SearchQuery query, SearchResult *result) = 0;
+    virtual void clearData() = 0;
 protected:
     SearchQuery m_lastSearchQuery;
     QSharedPointer<Versification> m_versification;
