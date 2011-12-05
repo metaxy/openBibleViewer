@@ -201,13 +201,14 @@ void TextNotes::insertID(const QString &id)
 void TextNotes::removeNote(const QString &id)
 {
     //DEBUG_FUNC_NAME
-    //todo: remove file
     QMap<QString, QString>  ref = notesRef.value(id);
     notesType.remove(id);
     notesTitle.remove(id);
     notesData.remove(id);
     notesRef.remove(id);
     notesID.removeOne(id);
+    QFile f(id);
+    f.remove();
     emit noteRemoved(id, ref);
 }
 

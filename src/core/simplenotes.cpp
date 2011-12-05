@@ -371,7 +371,6 @@ void SimpleNotes::newTextNote(void)
 void SimpleNotes::newFolder()
 {
     //DEBUG_FUNC_NAME
-    //todo: it is not syncing folders
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
     QStandardItem *parentItem = 0;
     if(sender()->objectName() == "actionNewFolder")
@@ -419,12 +418,28 @@ void SimpleNotes::newFolder()
 void SimpleNotes::addNote(const QString &id)
 {
     //DEBUG_FUNC_NAME
-    if(m_noteID != id && m_notes->getType(id) == "text") {
+    //todo: the hirachary is not working
+    if(m_noteID == id)
+        return;
+    if(m_notes->getType(id) == "text") {
         //todo: if there is already this note(but something like that should never happen)
         QStandardItem *parentItem = m_itemModel->invisibleRootItem();
+
         QStandardItem *newItem = new QStandardItem;
         newItem->setText(m_notes->getTitle(id));
         newItem->setData(id);
+        parentItem->appendRow(newItem);
+    } else if(m_notes->getType(id) == "folder") {
+        QStandardItem *parentItem = m_itemModel->invisibleRootItem();
+        QStandardItem *newItem = new QStandardItem;
+        QStyle *style = QApplication::style();
+        QIcon folderIcon;
+        folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
+        folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
+        newItem->setIcon(folderIcon);
+        newItem->setText(m_notes->getTitle(id));
+        newItem->setData(id);
+
         parentItem->appendRow(newItem);
     }
 }
