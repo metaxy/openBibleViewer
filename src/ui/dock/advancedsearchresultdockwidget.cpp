@@ -65,7 +65,7 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult *searchResult)
         const int book = hit.value(SearchHit::BookID).toInt();
         if(m_bookItems.contains(book))
             continue;
-        Versification *v11n = m_settings->getV11N(hit.value(SearchHit::ModuleID).toInt());
+        QSharedPointer<Versification> v11n = m_settings->getV11N(hit.value(SearchHit::ModuleID).toInt());
         QStandardItem *bookItem = new QStandardItem(v11n->bookName(book));
         bookItem->setData("book", Qt::UserRole + 2);
         parentItem->appendRow(bookItem);
@@ -75,7 +75,7 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult *searchResult)
     for(int i = 0; i < hits.size(); ++i) {
         SearchHit hit = hits.at(i);
         if(hit.type() == SearchHit::BibleHit) {
-            Versification *v11n = m_settings->getV11N(hit.value(SearchHit::ModuleID).toInt());
+            QSharedPointer<Versification> v11n = m_settings->getV11N(hit.value(SearchHit::ModuleID).toInt());
             QStandardItem *hitItem = new QStandardItem(v11n->bookName(hit.value(SearchHit::BookID).toInt()) + " " +
                     QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + ":" +
                     QString::number(hit.value(SearchHit::VerseID).toInt() + 1));
@@ -134,12 +134,12 @@ void AdvancedSearchResultDockWidget::searchInfo()
     }
 
     QList<SearchHit> list = result->hits(SearchHit::BibleHit);
-    Versification *v11n_t = NULL;
+    QSharedPointer<Versification>  v11n_t;
     QStringList textList;
     for(int i = 0; i < list.size(); ++i) {
         SearchHit hit = list.at(i);
         if(hit.type() == SearchHit::BibleHit) {
-            Versification *v11n = m_settings->getV11N(hit.value(SearchHit::ModuleID).toInt());
+            QSharedPointer<Versification> v11n = m_settings->getV11N(hit.value(SearchHit::ModuleID).toInt());
             v11n_t = v11n;
             const QString bookn = v11n->bookName(hit.value(SearchHit::BookID).toInt()); //todo: maybe the bible isn't loaded and you need another bookNames
             //or we just call it a feature

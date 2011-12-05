@@ -37,7 +37,7 @@ QHash<DockWidget*, Qt::DockWidgetArea> BookmarksManager::docks()
     ret.insert(m_bookmarksDockWidget,  Qt::RightDockWidgetArea);
     return ret;
 }
-void BookmarksManager::newBookmark(VerseSelection selection, Versification * v11n)
+void BookmarksManager::newBookmark(VerseSelection selection, QSharedPointer<Versification> v11n)
 {
     if(m_bookmarksDockWidget->isHidden()) {
         m_bookmarksDockWidget->show();

@@ -15,7 +15,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 //Linking against Sword crashes openBibleViewer on close
 SwordBible::SwordBible()
 {
-    m_v11n = NULL;
 
 }
 void SwordBible::setSettings(Settings *set)
@@ -30,7 +29,7 @@ int SwordBible::loadBibleData(const int id, const QString &path)
     DEBUG_FUNC_NAME
     m_moduleID = id;
     m_modulePath = path;
-    m_v11n = new Versification_KJV();
+    m_v11n = QSharedPointer<Versification>(new Versification_KJV());
 
 #ifdef BUILD_WITH_SWORD
     m_library = new SWMgr(new MarkupFilterMgr(FMT_PLAIN));
@@ -139,7 +138,7 @@ std::pair<int, int> SwordBible::minMaxVerse(int bookID, int chapterID)
     ret.second = m_v11n->maxVerse().value(bookID).at(chapterID);
     return ret;
 }
-Versification *SwordBible::versification() const
+QSharedPointer<Versification> SwordBible::versification() const
 {
     return m_v11n;
 }

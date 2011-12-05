@@ -255,7 +255,7 @@ void MainWindow::loadDefaultSettings()
 #endif
 
 
-    m_settings->defaultVersification = new Versification_KJV();
+    m_settings->defaultVersification = QSharedPointer<Versification> (new Versification_KJV());
 }
 void MainWindow::loadSettings()
 {

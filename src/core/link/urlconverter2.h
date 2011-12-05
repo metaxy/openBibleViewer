@@ -21,7 +21,7 @@ public:
     UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType to, QString url);
     void setFromTo(UrlConverter::UrlType from, UrlConverter::UrlType to);
     void setSM(Settings *settings, ModuleMap *map);
-    void setV11n(Versification *versification);
+    void setV11n(QSharedPointer<Versification> versification);
     void setUrl(VerseUrl url);
     void convert();
 

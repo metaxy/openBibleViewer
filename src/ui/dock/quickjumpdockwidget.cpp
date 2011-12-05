@@ -44,7 +44,7 @@ void QuickJumpDockWidget::init()
     connect(m_actions, SIGNAL(_updateBooks(Versification*)), this, SLOT(setBooks(Versification*)));
 }
 
-void QuickJumpDockWidget::setBooks(Versification *v11n)
+void QuickJumpDockWidget::setBooks(QSharedPointer<Versification> v11n)
 {
     //DEBUG_FUNC_NAME;
     m_books = v11n->bookNames().values();

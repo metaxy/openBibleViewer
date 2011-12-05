@@ -54,10 +54,10 @@ public:
     bool advancedSearchDock_useCurrentModule;
 
     QString homePath;
-    Versification *defaultVersification;
+    QSharedPointer<Versification> defaultVersification;
 
     ModuleSettings * getModuleSettings(int moduleID) const;
-    Versification * getV11N(const int moduleID) const;
+    QSharedPointer<Versification>  getV11N(const int moduleID) const;
 
     /**
       * Atention: Session data is alway up to date.

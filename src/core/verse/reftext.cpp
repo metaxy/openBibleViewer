@@ -81,7 +81,7 @@ QString RefText::toString(int moduleID, int bookID, int chapterID, int startVers
 {
     QString ret;
     if(bookID != prevBook) {
-        Versification *v11n = NULL;
+        QSharedPointer<Versification> v11n;
         if(moduleID == -1) {
             v11n = m_settings->defaultVersification;
         } else {

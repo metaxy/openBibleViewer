@@ -286,7 +286,7 @@ void BiblePassageFrame::setVerseUrlRanges(const QList<VerseUrlRange> &ranges)
 {
     if(!ranges.isEmpty()) {
         m_moduleID = ranges.first().moduleID();
-        Versification *v = m_settings->getModuleSettings(m_moduleID)->getV11n();
+        QSharedPointer<Versification> v = m_settings->getModuleSettings(m_moduleID)->getV11n();
         if(v != NULL) {
             m_bookNames = v->bookNames().values();//todo:
         }

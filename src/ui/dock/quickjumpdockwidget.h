@@ -30,7 +30,7 @@ class QuickJumpDockWidget : public DockWidget
     Q_OBJECT
 private slots:
     void goToPos();
-    void setBooks(Versification *v11n);
+    void setBooks(QSharedPointer<Versification> v11n);
 public:
     QuickJumpDockWidget(QWidget *parent = 0);
     ~QuickJumpDockWidget();

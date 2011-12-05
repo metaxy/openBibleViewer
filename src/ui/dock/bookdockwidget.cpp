@@ -45,8 +45,8 @@ void BookDockWidget::init()
     connect(m_actions, SIGNAL(_clearBooks()), this, SLOT(clearBooks()));
     connect(m_actions, SIGNAL(_clearChapters()), this, SLOT(clearChapters()));
 
-    connect(m_actions, SIGNAL(_updateBooks(Versification *)), this, SLOT(setBooks(Versification *)));
-    connect(m_actions, SIGNAL(_updateChapters(int, Versification *)), this, SLOT(setChapters(int, Versification *)));
+    connect(m_actions, SIGNAL(_updateBooks(QSharedPointer<Versification>)), this, SLOT(setBooks(QSharedPointer<Versification>)));
+    connect(m_actions, SIGNAL(_updateChapters(int, QSharedPointer<Versification>)), this, SLOT(setChapters(int, QSharedPointer<Versification>)));
 }
 BookDockWidget::~BookDockWidget()
 {
@@ -77,7 +77,7 @@ void BookDockWidget::readChapter()
     }
     m_actions->get(url);
 }
-void BookDockWidget::setChapters(int bookID, Versification *v11n)
+void BookDockWidget::setChapters(int bookID, QSharedPointer<Versification> v11n)
 {
     //DEBUG_FUNC_NAME
     if(v11n == NULL)
@@ -97,7 +97,7 @@ void BookDockWidget::setChapters(int bookID, Versification *v11n)
         m_chapterModel->appendRow(top);
     }
 }
-void BookDockWidget::setBooks(Versification *v11n)
+void BookDockWidget::setBooks(QSharedPointer<Versification>  v11n)
 {
     //DEBUG_FUNC_NAME
 

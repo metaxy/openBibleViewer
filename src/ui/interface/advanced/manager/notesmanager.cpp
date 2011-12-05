@@ -39,34 +39,34 @@ QHash<DockWidget*, Qt::DockWidgetArea> NotesManager::docks()
     return ret;
 }
 
-void NotesManager::newCustomColorMark(VerseSelection selection, QColor color, Versification *v11n)
+void NotesManager::newCustomColorMark(VerseSelection selection, QColor color, QSharedPointer<Versification> v11n)
 {
     DEBUG_FUNC_NAME
     m_notesDockWidget->newStyleMark(selection,  "background-color: " + color.name() + ";", v11n);
 }
 
-void NotesManager::newBoldMark(VerseSelection selection, Versification *v11n)
+void NotesManager::newBoldMark(VerseSelection selection, QSharedPointer<Versification> v11n)
 {
     m_notesDockWidget->newStyleMark(selection, "font-weight: bold;", v11n);
 }
 
-void NotesManager::newItalicMark(VerseSelection selection, Versification *v11n)
+void NotesManager::newItalicMark(VerseSelection selection, QSharedPointer<Versification> v11n)
 {
     m_notesDockWidget->newStyleMark(selection, "font-style: italic;", v11n);
 
 }
 
-void NotesManager::newUnderlineMark(VerseSelection selection, Versification *v11n)
+void NotesManager::newUnderlineMark(VerseSelection selection, QSharedPointer<Versification> v11n)
 {
     m_notesDockWidget->newStyleMark(selection, "text-decoration:underline;", v11n);
 }
 
-void NotesManager::removeMark(VerseSelection selection, Versification *v11n)
+void NotesManager::removeMark(VerseSelection selection, QSharedPointer<Versification> v11n)
 {
     m_notesDockWidget->removeMark(selection, v11n);
 }
 
-void NotesManager::newNoteWithLink(VerseSelection selection, Versification *v11n)
+void NotesManager::newNoteWithLink(VerseSelection selection, QSharedPointer<Versification> v11n)
 {
     DEBUG_FUNC_NAME;
     if(m_notesDockWidget->isHidden()) {

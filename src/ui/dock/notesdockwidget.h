@@ -42,12 +42,12 @@ private slots:
     void removeNote(QString id , QMap<QString, QString> ref);
 public slots:
     void newNote();
-    void newNoteWithLink(VerseSelection selection, Versification *v11n);
+    void newNoteWithLink(VerseSelection selection, QSharedPointer<Versification> v11n);
 
-    void newMark(VerseSelection selection, QColor color, Versification *v11n);
-    void newStyleMark(VerseSelection, QString style, Versification *v11n);
+    void newMark(VerseSelection selection, QColor color, QSharedPointer<Versification> v11n);
+    void newStyleMark(VerseSelection, QString style, QSharedPointer<Versification> v11n);
     void showNote(const QString &noteID);
-    void removeMark(VerseSelection selection, Versification *v11n);
+    void removeMark(VerseSelection selection, QSharedPointer<Versification> v11n);
     void saveNote();
 public:
     NotesDockWidget(QWidget *parent = 0);

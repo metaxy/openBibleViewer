@@ -38,7 +38,7 @@ public:
     VerseUrl convert();
     void setModuleMap(ModuleMap *moduleMap);
     void setSettings(Settings *settings);
-    void setV11n(Versification *v11n);
+    void setV11n(QSharedPointer<Versification> v11n);
 private:
     UrlType m_from;
     UrlType m_to;
@@ -46,7 +46,7 @@ private:
     Settings *m_settings;
     VerseUrl m_bibleUrl;
     bool m_setBookNames;
-    Versification *m_v11n;
+    QSharedPointer<Versification> m_v11n;
 };
 
 #endif // URLCONVERTER_H

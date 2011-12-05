@@ -95,8 +95,8 @@ public slots:
     void zoomIn();
     void zoomOut();
 
-    void setChapters(int bookID, Versification *v11n);
-    void setBooks(Versification *v11n);
+    void setChapters(int bookID, QSharedPointer<Versification> v11n);
+    void setBooks(QSharedPointer<Versification> v11n);
 
     void clearBooks();
     void clearChapters();
@@ -104,8 +104,8 @@ public slots:
     void setCurrentBook(const QSet<int> &bookID);
     void setCurrentChapter(const QSet<int> &chapterID);
 
-    void forwardSetChapters(int bookID, Versification *v11n);
-    void forwardSetBooks(Versification *v11n);
+    void forwardSetChapters(int bookID, QSharedPointer<Versification> v11n);
+    void forwardSetBooks(QSharedPointer<Versification> v11n);
     void forwardClearBooks();
     void forwardClearChapters();
     void forwardSetCurrentBook(const QSet<int> &bookID);

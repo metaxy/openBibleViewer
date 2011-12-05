@@ -35,13 +35,13 @@ signals:
 
 public slots:
 
-    void newCustomColorMark(VerseSelection selection, QColor color, Versification *v11n);
-    void newBoldMark(VerseSelection selection, Versification *v11n);
-    void newItalicMark(VerseSelection selection, Versification *v11n);
-    void newUnderlineMark(VerseSelection selection, Versification *v11n);
+    void newCustomColorMark(VerseSelection selection, QColor color, QSharedPointer<Versification> v11n);
+    void newBoldMark(VerseSelection selection, QSharedPointer<Versification> v11n);
+    void newItalicMark(VerseSelection selection, QSharedPointer<Versification> v11n);
+    void newUnderlineMark(VerseSelection selection, QSharedPointer<Versification> v11n);
 
-    void removeMark(VerseSelection selection, Versification *v11n);
-    void newNoteWithLink(VerseSelection selection, Versification *v11n);
+    void removeMark(VerseSelection selection, QSharedPointer<Versification> v11n);
+    void newNoteWithLink(VerseSelection selection, QSharedPointer<Versification> v11n);
 
     void save();
 private:

@@ -31,7 +31,7 @@ SearchInfoDialog::~SearchInfoDialog()
 {
     delete m_ui;
 }
-void SearchInfoDialog::setInfo(SearchResult *result, Versification *v11n, QString searchText, QStringList textList)
+void SearchInfoDialog::setInfo(SearchResult *result, QSharedPointer<Versification> v11n, QString searchText, QStringList textList)
 {
     int size = result->hits().size();
     m_ui->label_searchText->setText(tr("Search string : '%1'").arg(searchText));

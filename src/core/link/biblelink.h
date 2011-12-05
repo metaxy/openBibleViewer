@@ -17,11 +17,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/versification.h"
 #include "src/core/dbghelper.h"
 #include "src/core/link/verseurl.h"
-
+#include <QtCore/QSharedPointer>
 class BibleLink
 {
 public:
-    BibleLink(int moduleID, Versification *v11n);
+    BibleLink(int moduleID, QSharedPointer<Versification> v11n);
     bool isBibleLink(const QString &s);
     VerseUrl getUrl(const QString& text);
 private:
@@ -30,7 +30,7 @@ private:
     int m_moduleID;
     QStringList m_bookFullName;
     QList<QStringList> m_bookShortName;
-    Versification *m_v11n;
+    QSharedPointer<Versification> m_v11n;
 };
 
 #endif // BIBLELINK_H

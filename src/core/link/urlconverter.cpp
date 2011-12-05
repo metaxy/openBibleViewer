@@ -33,7 +33,7 @@ void UrlConverter::setSettings(Settings *settings)
 {
     m_settings = settings;
 }
-void UrlConverter::setV11n(Versification *v11n)
+void UrlConverter::setV11n(QSharedPointer<Versification> v11n)
 {
     m_v11n = v11n;
     m_setBookNames = true;
@@ -78,7 +78,7 @@ VerseUrl UrlConverter::convert()
 
         if(m_setBookNames) {
             for(int i = 0; i < bookIDs.size(); i++) {
-                Versification *v11n;
+                QSharedPointer<Versification> v11n;
                 if(m_v11n == NULL) {
                     v11n = m_settings->getV11N(moduleIDs.at(i));
                 } else {

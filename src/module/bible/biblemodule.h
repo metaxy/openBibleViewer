@@ -53,7 +53,7 @@ public:
     virtual QString modulePath() const;
     virtual QString moduleName(bool preferShortName = false) const;
 
-    virtual Versification *versification() const;
+    virtual QSharedPointer<Versification> versification() const;
     virtual QString uid() const;
     virtual void clear();
 protected:

@@ -74,8 +74,8 @@ void BibleForm::init()
 
     connect(m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
 
-    connect(m_actions, SIGNAL(_updateChapters(int, Versification *)), this, SLOT(forwardSetChapters(int, Versification *)));
-    connect(m_actions, SIGNAL(_updateBooks(Versification *)), this, SLOT(forwardSetBooks(Versification *)));
+    connect(m_actions, SIGNAL(_updateChapters(int, QSharedPointer<Versification> )), this, SLOT(forwardSetChapters(int, QSharedPointer<Versification> )));
+    connect(m_actions, SIGNAL(_updateBooks(QSharedPointer<Versification> )), this, SLOT(forwardSetBooks(QSharedPointer<Versification> )));
 
     connect(m_actions, SIGNAL(_clearBooks()), this, SLOT(forwardClearBooks()));
     connect(m_actions, SIGNAL(_clearChapters()), this, SLOT(forwardClearChapters()));
@@ -411,7 +411,7 @@ void BibleForm::zoomOut()
     m_view->setZoomFactor(m_view->zoomFactor() - 0.1);
 }
 
-void BibleForm::setChapters(int bookID, Versification *v11n)
+void BibleForm::setChapters(int bookID, QSharedPointer<Versification> v11n)
 {
     if(v11n == NULL)
         return;
@@ -463,7 +463,7 @@ void BibleForm::setCurrentChapter(const QSet<int> &chapterID)
     connect(m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
 }
 
-void BibleForm::setBooks(Versification *v11n)
+void BibleForm::setBooks(QSharedPointer<Versification> v11n)
 {
     //DEBUG_FUNC_NAME
     bool same = true;
@@ -703,14 +703,14 @@ void BibleForm::selectAll()
 {
     m_view->page()->triggerAction(QWebPage::SelectAll);
 }
-void BibleForm::forwardSetChapters(int bookID, Versification *v11n)
+void BibleForm::forwardSetChapters(int bookID, QSharedPointer<Versification> v11n)
 {
     if(!active())
         return;
     setChapters(bookID, v11n);
 }
 
-void BibleForm::forwardSetBooks(Versification *v11n)
+void BibleForm::forwardSetBooks(QSharedPointer<Versification> v11n)
 {
     if(!active())
         return;

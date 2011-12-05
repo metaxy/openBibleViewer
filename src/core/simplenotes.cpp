@@ -429,7 +429,7 @@ void SimpleNotes::addNote(const QString &id)
     }
 }
 
-void SimpleNotes::newTextNoteWithLink(VerseSelection selection, Versification* v11n)
+void SimpleNotes::newTextNoteWithLink(VerseSelection selection, QSharedPointer<Versification> v11n)
 {
     //DEBUG_FUNC_NAME
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
@@ -477,7 +477,7 @@ void SimpleNotes::newTextNoteWithLink(VerseSelection selection, Versification* v
 
     m_actions->reloadCurrentRange();
 }
-void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style, Versification *v11n)
+void SimpleNotes::newStyleMark(VerseSelection selection, const QString &style, QSharedPointer<Versification> v11n)
 {
     if(!selection.canBeUsedForMarks()) {
         myWarning() << "cannot create mark";

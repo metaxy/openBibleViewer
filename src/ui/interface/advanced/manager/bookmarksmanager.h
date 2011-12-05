@@ -26,7 +26,7 @@ public:
     QHash<DockWidget *, Qt::DockWidgetArea> docks();
     BookmarksDockWidget *bookmarksDockWidget();
 
-    void newBookmark(VerseSelection selection, Versification * v11n);
+    void newBookmark(VerseSelection selection, QSharedPointer<Versification> v11n);
     void save();
 private:
     QWidget *m_p;

@@ -44,7 +44,7 @@ void SearchResultDockWidget::setSearchResult(SearchResult *searchResult)
     QStringList outlist;
     const QList<SearchHit> hits = searchResult->hits(SearchHit::BibleHit);
     foreach(const SearchHit & hit, hits) {
-        Versification *v11n = m_settings->getV11N(hit.value(SearchHit::ModuleID).toInt());
+        QSharedPointer<Versification> v11n = m_settings->getV11N(hit.value(SearchHit::ModuleID).toInt());
         const QString bookn = v11n->bookName(hit.value(SearchHit::BookID).toInt());
         outlist << bookn + " " + QString::number(hit.value(SearchHit::ChapterID).toInt() + 1) + " , " +
                 QString::number(hit.value(SearchHit::VerseID).toInt() + 1);
@@ -83,11 +83,11 @@ void SearchResultDockWidget::searchInfo()
     }
 
     const QList<SearchHit> list = result->hits(SearchHit::BibleHit);
-    Versification *v11n_t;
+    QSharedPointer<Versification> v11n_t;
     QStringList textList;
     foreach(const SearchHit & hit, list) {
         if(hit.type() == SearchHit::BibleHit) {
-            Versification *v11n = m_settings->getV11N(hit.value(SearchHit::ModuleID).toInt());
+            QSharedPointer<Versification> v11n = m_settings->getV11N(hit.value(SearchHit::ModuleID).toInt());
             v11n_t = v11n;
             const QString bookn = v11n->bookName(hit.value(SearchHit::BookID).toInt());
             textList << hit.value(SearchHit::VerseText).toString() + "\n - <i>" + bookn

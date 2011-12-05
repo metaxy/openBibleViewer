@@ -33,11 +33,11 @@ Bible::Bible()
     m_bookID = 0;
     m_loaded = false;
     m_lastTextRanges = 0;
-    m_versification = 0;
 }
 Bible::~Bible()
 {
     DEBUG_FUNC_NAME
+    m_versification.clear();
     //it dosen't work
     //i dunno why
    /* if(m_map != NULL) {

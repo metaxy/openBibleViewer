@@ -38,6 +38,8 @@ ModuleSettings::~ModuleSettings()
         delete v11n;
         v11n = NULL;
     }*/
+    v11n.clear();
+
     if(m_displaySettings) {
         m_displaySettings.clear();
     }
@@ -45,7 +47,7 @@ ModuleSettings::~ModuleSettings()
 
 QSharedPointer<Versification> ModuleSettings::loadVersification()
 {
-    //DEBUG_FUNC_NAME;
+    DEBUG_FUNC_NAME;
     QSharedPointer<Versification> ret;
     //myDebug() << "versifiction name = " << versificationName << " versification file" << versificationFile;
     if(versificationName == "kjv") {
@@ -117,25 +119,22 @@ void ModuleSettings::saveVersification()
     }
 }
 
-Versification *ModuleSettings::getV11n()
+QSharedPointer<Versification> ModuleSettings::getV11n()
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     if(v11n.isNull()) {
-        //myDebug() << "loading new";
-        return loadVersification().data();
+        myDebug() << "loading new";
+        return loadVersification();
     }
-    return v11n.data();
+    myDebug() << v11n;
+    return v11n.toStrongRef();
 
 }
 bool ModuleSettings::noV11N()
 {
+    DEBUG_FUNC_NAME
     return v11n.isNull();
 }
-QSharedPointer<Versification> ModuleSettings::getV11nPointer()
-{
-    return QSharedPointer<Versification>(v11n);
-}
-
 void ModuleSettings::setParent(ModuleSettings *parent)
 {
     m_parent = parent;

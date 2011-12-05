@@ -51,7 +51,7 @@ int BookmarksDockWidget::init()
         return 1;
     return 0;
 }
-void BookmarksDockWidget::newBookmark(VerseSelection selection, Versification * v11n)
+void BookmarksDockWidget::newBookmark(VerseSelection selection, QSharedPointer<Versification> v11n)
 {
     QTreeWidgetItem *bookmark = new QTreeWidgetItem();
     bookmark->setFlags(bookmark->flags() | Qt::ItemIsEditable);
@@ -171,7 +171,6 @@ void BookmarksDockWidget::editBookmark()
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
-    urlConverter.setV11n(NULL);
     VerseUrl newUrl = urlConverter.convert();
 
     QPointer<BiblePassageDialog> passageDialog = new  BiblePassageDialog(this);

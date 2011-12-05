@@ -29,9 +29,9 @@ void BibleModule::setSettings(Settings *settings)
 {
     m_settings = settings;
 }
-Versification* BibleModule::versification() const
+QSharedPointer<Versification> BibleModule::versification() const
 {
-    return m_versification.data();
+    return m_versification;
 }
 int BibleModule::readBook(const int /*id*/)
 {

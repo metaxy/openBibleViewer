@@ -89,8 +89,7 @@ public:
     QSharedPointer<Versification> loadVersification();
     void saveVersification();
 
-    Versification *getV11n();
-    QSharedPointer<Versification> getV11nPointer();
+    QSharedPointer<Versification> getV11n();
 
     bool noV11N();
 

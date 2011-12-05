@@ -72,7 +72,6 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
-    urlConverter.setV11n(NULL);
     VerseUrl newUrl = urlConverter.convert();
     if(newUrl.isValid()) {
         VerseUrlRange r = newUrl.ranges().first();
@@ -94,7 +93,6 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
-    urlConverter.setV11n(NULL);
     VerseUrl newUrl = urlConverter.convert();
     if(newUrl.isValid()) {
         VerseUrlRange r = newUrl.ranges().first();
@@ -118,7 +116,7 @@ void NotesDockWidget::newNote(void)
 {
     m_simpleNotes->newTextNote();
 }
-void NotesDockWidget::newNoteWithLink(VerseSelection selection, Versification *v11n)
+void NotesDockWidget::newNoteWithLink(VerseSelection selection, QSharedPointer<Versification> v11n)
 {
     m_simpleNotes->newTextNoteWithLink(selection, v11n);
     m_actions->reloadCurrentRange();
@@ -163,17 +161,17 @@ void NotesDockWidget::noteRedo()
     ui->textBrowser->redo();
 }
 
-void NotesDockWidget::newMark(VerseSelection selection, QColor color, Versification *v11n)
+void NotesDockWidget::newMark(VerseSelection selection, QColor color, QSharedPointer<Versification> v11n)
 {
     newStyleMark(selection, "background-color:" + color.name(), v11n);
 }
-void NotesDockWidget::newStyleMark(VerseSelection selection, QString style, Versification *v11n)
+void NotesDockWidget::newStyleMark(VerseSelection selection, QString style, QSharedPointer<Versification> v11n)
 {
     DEBUG_FUNC_NAME
     m_simpleNotes->newStyleMark(selection, style, v11n);
 
 }
-void NotesDockWidget::removeMark(VerseSelection selection, Versification *v11n)
+void NotesDockWidget::removeMark(VerseSelection selection, QSharedPointer<Versification> v11n)
 {
     DEBUG_FUNC_NAME
     bool r = false;
@@ -188,7 +186,6 @@ void NotesDockWidget::removeMark(VerseSelection selection, Versification *v11n)
             UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
             urlConverter.setSettings(m_settings);
             urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
-            urlConverter.setV11n(NULL);
             VerseUrl newUrl = urlConverter.convert();
 
             if(newUrl.contains(selection.moduleID, selection.bookID, selection.startChapterID)) {

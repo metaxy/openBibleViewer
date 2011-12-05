@@ -19,7 +19,7 @@ const QStringList REGS = QStringList() << "(.*)"
                          << "(.*)(\\s+)(\\d+),(\\d+)-(\\d+)" << "(.*)(\\s+)(\\d+):(\\d+)-(\\d+)"
                          << "(.*)(\\s+)(\\d+)-(\\d+)";
 
-BibleLink::BibleLink(int moduleID, Versification *v11n)
+BibleLink::BibleLink(int moduleID, QSharedPointer<Versification> v11n)
 {
     m_moduleID = moduleID;
     m_v11n = v11n;

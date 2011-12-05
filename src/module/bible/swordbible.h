@@ -48,14 +48,14 @@ public:
     QString modulePath() const;
     QString moduleName(bool preferShortName = false) const;
 
-    Versification *versification() const;
+    QSharedPointer<Versification> versification() const;
     QString uid() const;
 private:
     int m_moduleID;
     QString m_modulePath;
     QString indexPath() const;
 
-    Versification *m_v11n;
+    QSharedPointer<Versification> m_v11n;
 #ifdef BUILD_WITH_SWORD
     SWModule *m_target;
     SWMgr *m_library;

@@ -29,7 +29,7 @@ class BookmarksDockWidget : public DockWidget
 {
     Q_OBJECT
 public slots:
-    void newBookmark(VerseSelection selection, Versification * v11n);
+    void newBookmark(VerseSelection selection, QSharedPointer<Versification> v11n);
     void saveBookmarks();
 private slots:
     void bookmarksContextMenu();

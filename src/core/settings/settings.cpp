@@ -19,10 +19,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 Settings::Settings()
 {
     homePath = "";
-    defaultVersification = NULL;
 }
 Settings::~Settings()
 {
+    defaultVersification.clear();
     //todo: memory leak
     /*if(defaultVersification != NULL)
         delete defaultVersification;*/
@@ -38,12 +38,12 @@ ModuleSettings * Settings::getModuleSettings(int moduleID) const
         return NULL;
     }
 }
-Versification * Settings::getV11N(const int moduleID) const
+QSharedPointer<Versification> Settings::getV11N(const int moduleID) const
 {
     ModuleSettings *set = getModuleSettings(moduleID);
     if(!set)
         return defaultVersification;
-    Versification *v11n = set->getV11n();
+    QSharedPointer<Versification> v11n = set->getV11n();
     if(!v11n)
         return defaultVersification;
     return v11n;

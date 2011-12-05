@@ -16,8 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 VerseModule::VerseModule()
 {
-    m_versification = 0;
-    m_lastTextRanges = 0;
+    m_lastTextRanges = NULL;
 }
 
 VerseModule::~VerseModule()
@@ -35,7 +34,7 @@ TextRanges *VerseModule::lastTextRanges() const
     return m_lastTextRanges;
 }
 
-Versification *VerseModule::versification() const
+QSharedPointer<Versification> VerseModule::versification() const
 {
     return m_versification;
 }

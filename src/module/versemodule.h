@@ -45,12 +45,12 @@ public:
      * Returns the Versification of the module.
      * Every VerseModule must have a versification.
      */
-    Versification *versification() const;
+    QSharedPointer<Versification> versification() const;
     SearchQuery lastSearchQuery() const;
     virtual void search(SearchQuery query, SearchResult *result) = 0;
 protected:
     SearchQuery m_lastSearchQuery;
-    Versification *m_versification;
+    QSharedPointer<Versification> m_versification;
     TextRanges *m_lastTextRanges;
     ModuleDisplaySettings *m_moduleDisplaySettings;
 };
