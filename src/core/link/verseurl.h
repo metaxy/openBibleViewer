@@ -40,6 +40,8 @@ public:
     void setOpenToTransformation(bool open);
 
     VerseUrl applyUrl(const VerseUrl &url);
+
+    void setModuleID(const int moduleID);
 private:
     QHash<QString, QString> m_params;
     QList<VerseUrlRange> m_ranges;

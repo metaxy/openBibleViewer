@@ -318,3 +318,10 @@ VerseUrl VerseUrl::applyUrl(const VerseUrl &url)
     }
     return newUrl;
 }
+void VerseUrl::setModuleID(const int moduleID)
+{
+    QMutableListIterator<VerseUrlRange> i(m_ranges);
+    while(i.hasNext()) {
+        i.next().setModule(moduleID);
+    }
+}

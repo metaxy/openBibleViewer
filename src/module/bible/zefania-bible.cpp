@@ -221,6 +221,7 @@ int ZefaniaBible::readBook(const int id)
         delete m_xml;
         m_xml = NULL;
     }
+    m_bookID = id;
     QString path;
     const QString cacheFile = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath) + "/" + QString::number(id) + ".xml";
     QFileInfo info(cacheFile);
@@ -538,7 +539,8 @@ std::pair<int, int> ZefaniaBible::minMaxVerse(int bookID, int chapterID)
 
 Book ZefaniaBible::readBook()
 {
-    Book book(m_xml->attributes().value("bnumber").toString().toInt() - 1);
+    m_bookID = m_xml->attributes().value("bnumber").toString().toInt() - 1;
+    Book book(m_bookID);
     while(m_xml->readNextStartElement()) {
         if(cmp(m_xml->name(), "CHAPTER")) {
             book.addChapter(readChapter());
@@ -698,7 +700,10 @@ QString ZefaniaBible::pharseGram()
         QString add;
         if(!strong.startsWith("G", Qt::CaseInsensitive) && !strong.startsWith("H", Qt::CaseInsensitive)) {
             //todo: that isn't  nice
+            myDebug() << m_versification->bookCount();
+            myDebug() << m_set->versificationName;
             if(m_versification->bookCount() == 66) {
+
                 if(m_bookID < 39) {
                     add = "H";
                 } else {

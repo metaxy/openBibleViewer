@@ -293,6 +293,7 @@ void BibleForm::save()
             if(b != NULL && b->moduleID() >= 0) {
                 myDebug() << b->moduleID() << b->moduleTitle();
                 VerseUrl bibleUrl = b->lastTextRanges()->source().source();
+                bibleUrl.setModuleID(b->moduleID());
                 myDebug() << bibleUrl.toString();
 
                 UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, bibleUrl);

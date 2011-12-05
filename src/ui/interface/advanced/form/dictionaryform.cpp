@@ -16,6 +16,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtGui/QCompleter>
 #include <QtCore/QScopedPointer>
+#include <QtGui/QFileDialog>
+#include <QtGui/QPrinter>
+#include <QtGui/QPrintDialog>
+#include <QtCore/QPointer>
+#include <QtGui/QPrintPreviewDialog>
+#include <QtGui/QTextDocumentWriter>
 #include "src/module/dictionary/webdictionary.h"
 DictionaryForm::DictionaryForm(QWidget *parent) :
     Form(parent),
@@ -108,17 +114,58 @@ void DictionaryForm::selectAll()
 
 void DictionaryForm::print()
 {
-
+    QPrinter printer;
+    QPointer<QPrintDialog> dialog = new QPrintDialog(&printer, this);
+    dialog->setWindowTitle(tr("Print"));
+    if(dialog->exec() == QDialog::Accepted) {
+        ui->webView->page()->mainFrame()->print(&printer);
+    }
+    delete dialog;
 }
 
 void DictionaryForm::printPreview()
 {
-
+    QPrinter printer;
+    QPointer<QPrintPreviewDialog> preview = new QPrintPreviewDialog(&printer, this);
+    connect(preview, SIGNAL(paintRequested(QPrinter *)), ui->webView, SLOT(print(QPrinter *)));
+    preview->exec();
+    delete preview;
 }
 
 void DictionaryForm::saveFile()
 {
-
+    const QString lastPlace = m_settings->session.getData("lastSaveFilePlace").toString();
+    const QString fileName = QFileDialog::getSaveFileName(this, tr("Save output"), lastPlace, tr("Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Plain (*.txt)"));
+    QFileInfo fi(fileName);
+    m_settings->session.setData("lastSaveFilePlace", fi.path());
+    if(fi.suffix().compare("html", Qt::CaseInsensitive) == 0 ||
+            fi.suffix().compare("htm", Qt::CaseInsensitive) == 0) {
+        QFile file(fileName);
+        if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+            return;
+        QTextStream out(&file);
+        out << ui->webView->page()->mainFrame()->toHtml();
+        file.close();
+    } else if(fi.suffix().compare("pdf", Qt::CaseInsensitive) == 0) {
+        QPrinter printer;
+        printer.setOutputFormat(QPrinter::PdfFormat);
+        printer.setOutputFileName(fileName);
+        ui->webView->print(&printer);
+    } else if(fi.suffix().compare("odt", Qt::CaseInsensitive) == 0) {
+        QTextDocumentWriter writer;
+        writer.setFormat("odf");
+        writer.setFileName(fileName);
+        QTextDocument doc;
+        doc.setHtml(ui->webView->page()->mainFrame()->toHtml());
+        writer.write(&doc);
+    } else {
+        QFile file(fileName);
+        if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+            return;
+        QTextStream out(&file);
+        out << ui->webView->page()->mainFrame()->toPlainText();
+        file.close();
+    }
 }
 
 QString DictionaryForm::selectedText()
