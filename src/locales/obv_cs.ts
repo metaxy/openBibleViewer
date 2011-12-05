@@ -12,276 +12,299 @@
 <context>
     <name>AdvancedInterface</name>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="227"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="229"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="239"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="241"/>
         <source>openBibleViewer</source>
         <translation>openBibleViewer</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="316"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="328"/>
         <source>File</source>
         <translation>Soubor</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="319"/>
         <source>New SubWindow</source>
-        <translation>Nové podokno</translation>
+        <translation type="obsolete">Nové podokno</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="324"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="348"/>
         <source>Close SubWindow</source>
         <translation>Zavřít podokno</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="329"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="353"/>
         <source>Save As</source>
         <translation>Uložit jako</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="334"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="358"/>
         <source>Print</source>
         <translation>Tisk</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="339"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="363"/>
         <source>Print Preview</source>
         <translation>Náhled tisku</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="344"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="368"/>
         <source>Quit</source>
         <translation>Ukončit</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="357"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="381"/>
         <source>Edit</source>
         <translation>Úpravy</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="360"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="384"/>
         <source>Copy</source>
         <translation>Kopírovat</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="365"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="389"/>
         <source>Select All</source>
         <translation>Vybrat vše</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="370"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="579"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="711"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="394"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="603"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="756"/>
         <source>Search</source>
         <translation>Hledat</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="375"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="399"/>
         <source>Find Next</source>
         <translation>Najít další</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="380"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="404"/>
         <source>Find Previous</source>
         <translation>Najít předchozí</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="385"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="409"/>
         <source>Next Chapter</source>
         <translation>Další kapitola</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="390"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="414"/>
         <source>Previous Chapter</source>
         <translation>Předchozí kapitola</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="407"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="431"/>
         <source>View</source>
         <translation>Pohled</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="410"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="595"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="718"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="719"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="434"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="619"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="763"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="764"/>
         <source>Zoom In</source>
         <translation>Přiblížit</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="415"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="598"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="720"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="721"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="439"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="622"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="765"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="766"/>
         <source>Zoom Out</source>
         <translation>Oddálit</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="420"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="444"/>
         <source>Tabbed View</source>
         <translation>Pohled s kartami</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="425"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="449"/>
         <source>Sub Window View</source>
         <translation>Pohled s podokny</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="430"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="454"/>
         <source>Cascade</source>
         <translation>Překrývat</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="434"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="458"/>
         <source>Tile</source>
         <translation>Klást jedno vedle druhého</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="438"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="462"/>
         <source>Tile Vertical</source>
         <translation>Uspořádat svisle</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="442"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="466"/>
         <source>Tile Horizontal</source>
         <translation>Uspořádat vodorovně</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="457"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="493"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="587"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="715"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="481"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="517"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="611"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="760"/>
         <source>Notes</source>
         <translation>Poznámky</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="460"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="484"/>
         <source>Notes Editor</source>
         <translation>Upravit poznámky</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="464"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="488"/>
         <source>Mark List</source>
         <translation>Seznam značek</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="468"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="492"/>
         <source>Mark Categories</source>
         <translation>Skupiny značek</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="477"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="501"/>
         <source>Docks</source>
         <translation>Panely</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="480"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="601"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="722"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="504"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="625"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="767"/>
         <source>Module</source>
         <translation>Modul</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="487"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="511"/>
         <source>Books</source>
         <translation>Knihy</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="499"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="523"/>
         <source>Dictionay</source>
         <translation>Slovník</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="505"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="582"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="713"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="529"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="606"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="758"/>
         <source>Bookmarks</source>
         <translation>Záložky</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="511"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="535"/>
         <source>Quick Jump</source>
         <translation>Rychlý skok</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="517"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="541"/>
         <source>Search Results</source>
         <translation>Výsledky hledání</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="532"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="556"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="535"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="559"/>
         <source>Configuration</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="543"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="567"/>
         <source>Help</source>
         <translation>Nápověda</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="545"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="569"/>
         <source>About</source>
         <translation>O programu</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="549"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="573"/>
         <source>Online Help</source>
         <translation>Nápověda na internetu</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="577"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="710"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="601"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="755"/>
         <source>Main Tool Bar</source>
         <translation>Hlavní nástrojový pruh</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="592"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="717"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="616"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="762"/>
         <source>New Window</source>
         <translation>Nové okno</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="619"/>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="724"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="643"/>
+        <source>Quick Bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="769"/>
         <source>Search Bar</source>
         <translation>Pruh pro hledání</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="641"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="685"/>
         <source>http://openbv.uucyc.name/faq.html</source>
         <translation>http://openbv.uucyc.name/faq.html</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="666"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="331"/>
+        <source>New Subwindow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="333"/>
+        <source>New Bible Window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="337"/>
+        <source>New Web Window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="340"/>
+        <source>New Dictionary Window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="710"/>
         <source>About openBibleViewer</source>
         <translation>O programu openBibleViewer</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="668"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="711"/>
         <source>openBibleViewer &lt;br /&gt; version: %1 build: %2&lt;br /&gt; &lt;a href=&apos;http://openbv.uucyc.name/&apos;&gt; Official Website&lt;/a&gt; &lt;br /&gt;&lt;a href=&apos;https://github.com/metaxy/openBibleViewer/issues&apos;&gt;Bug report&lt;/a&gt;</source>
         <translation>openBibleViewer &lt;br /&gt; verze: %1 sestavení: %2&lt;br /&gt; &lt;a href=&apos;http://openbv.uucyc.name/&apos;&gt; Stránky&lt;/a&gt; &lt;br /&gt;&lt;a href=&apos;https://github.com/metaxy/openBibleViewer/issues&apos;&gt;Hlášení chyb&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="712"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="757"/>
         <source>Search in current module.</source>
         <translation>Hledat v nynějším modulu</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="714"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="759"/>
         <source>Show/Hide the bookmarks dock.</source>
         <translation>Ukázat/Skrýt panel se záložkami</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="716"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="761"/>
         <source>Show/Hide the notes dock.</source>
         <translation>Ukázat/Skrýt panel s poznámkami</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="723"/>
+        <location filename="../ui/interface/advanced/advancedinterface.cpp" line="768"/>
         <source>Add and edit the modules</source>
         <translation>Přidat a upravit moduly</translation>
     </message>
@@ -294,28 +317,28 @@
 <context>
     <name>AdvancedSearchResultDockWidget</name>
     <message>
-        <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="36"/>
-        <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="40"/>
+        <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="38"/>
+        <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="42"/>
         <source>Result</source>
         <translation>Výsledek</translation>
     </message>
     <message>
-        <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="55"/>
+        <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="57"/>
         <source>Search: %1</source>
         <translation>Hledání: %1</translation>
     </message>
     <message>
-        <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="83"/>
+        <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="87"/>
         <source>Notes</source>
         <translation>Poznámky</translation>
     </message>
     <message>
-        <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="124"/>
+        <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="132"/>
         <source>Error</source>
         <translation>Chyba</translation>
     </message>
     <message>
-        <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="124"/>
+        <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="132"/>
         <source>No search information available.</source>
         <translation>Nejsou dostupné žádné informace o hledání.</translation>
     </message>
@@ -333,109 +356,109 @@
 <context>
     <name>BibleForm</name>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="427"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="643"/>
         <source>Print</source>
         <translation>Tisk</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="444"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="661"/>
         <source>Save output</source>
         <translation>Uložit výstup</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="444"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="661"/>
         <source>Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Plain (*.txt)</source>
         <translation>Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Prostý text (*.txt)</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="576"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="782"/>
         <source>Copy</source>
         <translation>Kopírovat</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="579"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="785"/>
         <source>Select All</source>
         <translation>Vybrat vše</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="583"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="789"/>
         <source>Mark this</source>
         <translation>Označit</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="586"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="792"/>
         <source>Yellow</source>
         <translation>Žlutá</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="591"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="797"/>
         <source>Green</source>
         <translation>Zelená</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="596"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="802"/>
         <source>Blue</source>
         <translation>Modrá</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="601"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="807"/>
         <source>Orange</source>
         <translation>Oranžová</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="606"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="812"/>
         <source>Violet</source>
         <translation>Fialová</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="611"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="817"/>
         <source>Custom Color</source>
         <translation>Vlastní barva</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="616"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="822"/>
         <source>Bold</source>
         <translation>Tučné</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="620"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="826"/>
         <source>Italic</source>
         <translation>Kurzíva</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="624"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="830"/>
         <source>Underline</source>
         <translation>Podtržení</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="629"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="835"/>
         <source>Remove Mark</source>
         <translation>Odstranit značku</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="632"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="838"/>
         <source>Add Bookmark</source>
         <translation>Přidat záložku</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="635"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="841"/>
         <source>Add Note</source>
         <translation>Přidat poznámku</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="658"/>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="668"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="864"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="874"/>
         <source>Copy Verse</source>
         <translation>Kopírovat verše</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="671"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="877"/>
         <source>Copy Verse %1</source>
         <comment>e.g Copy Verse 1-2 or Copy Verse 2</comment>
         <translation>Kopírovat verše %1</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="680"/>
+        <location filename="../ui/interface/advanced/form/bibleform.cpp" line="886"/>
         <source>Debugger</source>
         <translation>Ladič</translation>
     </message>
@@ -443,25 +466,19 @@
 <context>
     <name>BibleListItemDelegate</name>
     <message>
-        <location filename="../ui/interface/advanced/biblelistitemdelegate.cpp" line="22"/>
         <source>None</source>
-        <translation>Žádný</translation>
+        <translation type="obsolete">Žádný</translation>
     </message>
 </context>
 <context>
     <name>BibleListWidget</name>
     <message>
-        <location filename="../ui/interface/advanced/biblelistwidget.ui" line="14"/>
         <source>Bible List</source>
-        <translation>Seznam s Biblemi</translation>
+        <translation type="obsolete">Seznam s Biblemi</translation>
     </message>
     <message>
-        <location filename="../ui/interface/advanced/biblelistwidget.ui" line="22"/>
-        <location filename="../ui/interface/advanced/biblelistwidget.ui" line="46"/>
-        <location filename="../ui/interface/advanced/biblelistwidget.ui" line="61"/>
-        <location filename="../ui/interface/advanced/biblelistwidget.ui" line="85"/>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="obsolete">...</translation>
     </message>
 </context>
 <context>
@@ -480,35 +497,35 @@
         <translation>Modul</translation>
     </message>
     <message>
-        <location filename="../ui/biblepassageframe.cpp" line="148"/>
+        <location filename="../ui/biblepassageframe.cpp" line="147"/>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
     <message>
-        <location filename="../ui/biblepassageframe.cpp" line="155"/>
+        <location filename="../ui/biblepassageframe.cpp" line="154"/>
         <source>Type</source>
         <translation>Typ</translation>
     </message>
     <message>
-        <location filename="../ui/biblepassageframe.cpp" line="156"/>
-        <location filename="../ui/biblepassageframe.cpp" line="176"/>
+        <location filename="../ui/biblepassageframe.cpp" line="155"/>
+        <location filename="../ui/biblepassageframe.cpp" line="175"/>
         <source>One Verse</source>
         <translation>Jeden verš</translation>
     </message>
     <message>
-        <location filename="../ui/biblepassageframe.cpp" line="160"/>
-        <location filename="../ui/biblepassageframe.cpp" line="180"/>
+        <location filename="../ui/biblepassageframe.cpp" line="159"/>
+        <location filename="../ui/biblepassageframe.cpp" line="179"/>
         <source>Verse Range</source>
         <translation>Rozsah verše</translation>
     </message>
     <message>
-        <location filename="../ui/biblepassageframe.cpp" line="164"/>
-        <location filename="../ui/biblepassageframe.cpp" line="184"/>
+        <location filename="../ui/biblepassageframe.cpp" line="163"/>
+        <location filename="../ui/biblepassageframe.cpp" line="183"/>
         <source>Chapter</source>
         <translation>Kapitola</translation>
     </message>
     <message>
-        <location filename="../ui/biblepassageframe.cpp" line="174"/>
+        <location filename="../ui/biblepassageframe.cpp" line="173"/>
         <source>New</source>
         <translation>Nový</translation>
     </message>
@@ -534,39 +551,37 @@
 <context>
     <name>BookmarksDockWidget</name>
     <message>
-        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="112"/>
+        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="113"/>
         <source>new folder</source>
         <translation>Nová složka</translation>
     </message>
     <message>
-        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="128"/>
+        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="129"/>
         <source>Go To</source>
         <translation>Jít na</translation>
     </message>
     <message>
-        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="132"/>
+        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="133"/>
         <source>New Folder</source>
         <translation>Nová složka</translation>
     </message>
     <message>
-        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="136"/>
+        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="137"/>
         <source>Edit</source>
         <translation>Upravit</translation>
     </message>
     <message>
-        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="140"/>
+        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="141"/>
         <source>Remove</source>
         <translation>Odstranit</translation>
     </message>
     <message>
-        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="186"/>
-        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="199"/>
+        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="188"/>
         <source>Error</source>
         <translation>Chyba</translation>
     </message>
     <message>
-        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="186"/>
-        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="199"/>
+        <location filename="../ui/dock/bookmarksdockwidget.cpp" line="188"/>
         <source>This Bookmark is invalid.</source>
         <translation>Tato záložka je neplatná.</translation>
     </message>
@@ -576,7 +591,7 @@
         <translation>Záložky</translation>
     </message>
     <message>
-        <location filename="../ui/dock/bookmarksdockwidget.ui" line="54"/>
+        <location filename="../ui/dock/bookmarksdockwidget.ui" line="57"/>
         <source>Title</source>
         <translation>Název</translation>
     </message>
@@ -585,39 +600,57 @@
     <name>Core</name>
     <message>
         <location filename="../module/module.cpp" line="105"/>
-        <location filename="../module/module.cpp" line="113"/>
+        <location filename="../module/module.cpp" line="114"/>
         <source>None</source>
         <translation>Žádný</translation>
     </message>
     <message>
         <location filename="../module/module.cpp" line="105"/>
-        <location filename="../module/module.cpp" line="115"/>
+        <location filename="../module/module.cpp" line="116"/>
         <source>BibleQuote</source>
         <translation>Bible Quote</translation>
     </message>
     <message>
         <location filename="../module/module.cpp" line="105"/>
-        <location filename="../module/module.cpp" line="117"/>
+        <location filename="../module/module.cpp" line="118"/>
         <source>Zefania XML Bible</source>
         <translation>Zefania XML Bible</translation>
     </message>
     <message>
         <location filename="../module/module.cpp" line="106"/>
-        <location filename="../module/module.cpp" line="119"/>
+        <location filename="../module/module.cpp" line="120"/>
         <source>Zefania Lex Module</source>
         <translation>Modul Zefania Lex</translation>
     </message>
     <message>
         <location filename="../module/module.cpp" line="106"/>
-        <location filename="../module/module.cpp" line="121"/>
+        <location filename="../module/module.cpp" line="122"/>
         <source>BibleQuote Dictionary</source>
         <translation>Slovník BibleQuote</translation>
     </message>
     <message>
         <location filename="../module/module.cpp" line="106"/>
-        <location filename="../module/module.cpp" line="123"/>
+        <location filename="../module/module.cpp" line="124"/>
         <source>The Word Bible</source>
         <translation>Bible Word</translation>
+    </message>
+    <message>
+        <location filename="../module/module.cpp" line="107"/>
+        <location filename="../module/module.cpp" line="126"/>
+        <source>Sword Bible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../module/module.cpp" line="107"/>
+        <location filename="../module/module.cpp" line="128"/>
+        <source>Web Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../module/module.cpp" line="107"/>
+        <location filename="../module/module.cpp" line="130"/>
+        <source>Web Dictionary</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -626,6 +659,57 @@
         <location filename="../ui/dock/dictionarydockwidget.ui" line="14"/>
         <source>Dictionary</source>
         <translation>Slovník</translation>
+    </message>
+</context>
+<context>
+    <name>DictionaryForm</name>
+    <message>
+        <location filename="../ui/interface/advanced/form/dictionaryform.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished">Formulář</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/dictionaryform.ui" line="25"/>
+        <source>...</source>
+        <translation type="unfinished">...</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/dictionaryform.ui" line="42"/>
+        <source>about:blank</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="119"/>
+        <source>Print</source>
+        <translation type="unfinished">Tisk</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="138"/>
+        <source>Save output</source>
+        <translation type="unfinished">Uložit výstup</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="138"/>
+        <source>Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Plain (*.txt)</source>
+        <translation type="unfinished">Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Prostý text (*.txt)</translation>
+    </message>
+</context>
+<context>
+    <name>DownloadProgressDialog</name>
+    <message>
+        <location filename="../ui/dialog/downloadprogressdialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/downloadprogressdialog.ui" line="44"/>
+        <source>Current File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/downloadprogressdialog.ui" line="51"/>
+        <source>Overall Progress</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -645,7 +729,7 @@
     <name>InsertLinkDialog</name>
     <message>
         <location filename="../ui/dialog/insertlinkdialog.cpp" line="46"/>
-        <location filename="../ui/dialog/insertlinkdialog.cpp" line="96"/>
+        <location filename="../ui/dialog/insertlinkdialog.cpp" line="94"/>
         <source>Note Title</source>
         <translation>Název poznámky</translation>
     </message>
@@ -673,17 +757,17 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ui/mainwindow.cpp" line="407"/>
+        <location filename="../ui/mainwindow.cpp" line="415"/>
         <source>Configuration</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.cpp" line="443"/>
+        <location filename="../ui/mainwindow.cpp" line="451"/>
         <source>Installing language failed.</source>
         <translation>Jazyk se nepodařilo nainstalovat.</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.cpp" line="443"/>
+        <location filename="../ui/mainwindow.cpp" line="451"/>
         <source>Please choose another language.</source>
         <translation>Vyberte, prosím, jiný jazyk.</translation>
     </message>
@@ -697,18 +781,18 @@
     <name>MarkList</name>
     <message>
         <location filename="../ui/marklist.cpp" line="58"/>
-        <location filename="../ui/marklist.cpp" line="161"/>
+        <location filename="../ui/marklist.cpp" line="162"/>
         <source>Mark Position</source>
         <translation>Poloha značek</translation>
     </message>
     <message>
         <location filename="../ui/marklist.cpp" line="59"/>
-        <location filename="../ui/marklist.cpp" line="162"/>
+        <location filename="../ui/marklist.cpp" line="163"/>
         <source>Module</source>
         <translation>Modul</translation>
     </message>
     <message>
-        <location filename="../ui/marklist.cpp" line="106"/>
+        <location filename="../ui/marklist.cpp" line="107"/>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
@@ -721,14 +805,48 @@
 <context>
     <name>ModuleConfigDialog</name>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="156"/>
+        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="37"/>
+        <source>Not a Default Module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="37"/>
+        <source>Default Bible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="38"/>
+        <source>Default Strong Dictionary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="38"/>
+        <source>Default Grammar Dictionary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="39"/>
+        <source>Default Dictionary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="39"/>
+        <source>Default RMAC Module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="161"/>
         <source>Open Bible</source>
         <translation>Otevřít Bibli</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="156"/>
+        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="161"/>
+        <source>Modules (*.ini *.xml *.*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Bibles (*.ini *.xml *.*)</source>
-        <translation>Bible (*.ini *.xml *.*)</translation>
+        <translation type="obsolete">Bible (*.ini *.xml *.*)</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="14"/>
@@ -761,108 +879,113 @@
         <translation>Stylový list</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="96"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="90"/>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="106"/>
         <source>Module</source>
         <translation>Modul</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="102"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="112"/>
         <source>Bible Quote</source>
         <translation>Bible Quote</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="113"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="123"/>
         <source>Remove Html</source>
         <translation>Odstranit Html</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="120"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="130"/>
         <source>remove</source>
         <translation>Odstranit</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="138"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="148"/>
         <source>Zefania Bible</source>
         <translation>Bible Zefania</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="149"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="159"/>
         <source>Text Fromatting</source>
         <translation>Formátování textu</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="163"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="173"/>
         <source>New line after verse</source>
         <translation>Nový řádek po verši</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="168"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="178"/>
         <source>Not formated text pad</source>
         <translation>Neformátovaný blok textu</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="176"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="186"/>
         <source>Hard Cache</source>
         <translation>Pevná vyrovnávací paměť</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="183"/>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="197"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="193"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="207"/>
         <source>enabled</source>
         <translation>Povoleno</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="190"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="200"/>
         <source>RAM Cache</source>
         <translation>Vyrovnávací paměť RAM</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="210"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="220"/>
         <source>Display</source>
         <translation>Zobrazit</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="216"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="226"/>
         <source>Use Parent Settings</source>
         <translation>Použít ústřední nastavení</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="235"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="245"/>
         <source>Show Marks</source>
         <translation>Ukázat značky</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="242"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="252"/>
         <source>Show Notes</source>
         <translation>Ukázat poznámky</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="249"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="259"/>
         <source>Show Tool Bar</source>
         <translation>Ukázat nástrojový pruh</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="256"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="266"/>
         <source>Show Strong Number</source>
         <translation>Ukázat číslo Strong</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="263"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="273"/>
         <source>Show Study Notes</source>
         <translation>Ukázat studijní poznámky</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="270"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="280"/>
         <source>Show RefLinks</source>
         <translation>Ukázat odkazy</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="305"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="315"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.ui" line="325"/>
+        <location filename="../ui/dialog/moduleconfigdialog.ui" line="335"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
@@ -871,7 +994,7 @@
     <name>ModuleDockWidget</name>
     <message>
         <location filename="../ui/dock/moduledockwidget.ui" line="35"/>
-        <location filename="../ui/dock/moduledockwidget.cpp" line="36"/>
+        <location filename="../ui/dock/moduledockwidget.cpp" line="55"/>
         <source>Module</source>
         <translation>Modul</translation>
     </message>
@@ -879,14 +1002,23 @@
 <context>
     <name>ModuleDownloadDialog</name>
     <message>
-        <location filename="../ui/dialog/moduledownloaddialog.cpp" line="79"/>
+        <location filename="../ui/dialog/moduledownloaddialog.cpp" line="81"/>
         <source>Bibles</source>
         <translation>Bible</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduledownloaddialog.cpp" line="81"/>
+        <location filename="../ui/dialog/moduledownloaddialog.cpp" line="83"/>
+        <source>Strong Dictionarys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/moduledownloaddialog.cpp" line="85"/>
+        <source>Additional</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Dictionarys</source>
-        <translation>Slovníky</translation>
+        <translation type="obsolete">Slovníky</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduledownloaddialog.ui" line="14"/>
@@ -907,49 +1039,40 @@
 <context>
     <name>ModuleDownloader</name>
     <message>
-        <location filename="../core/moduledownloader.cpp" line="94"/>
-        <location filename="../core/moduledownloader.cpp" line="136"/>
-        <location filename="../core/moduledownloader.cpp" line="162"/>
         <source>HTTP</source>
-        <translation>HTTP</translation>
+        <translation type="obsolete">HTTP</translation>
     </message>
     <message>
-        <location filename="../core/moduledownloader.cpp" line="94"/>
         <source>Unable to save the file %1: %2.</source>
-        <translation>Soubor %1 nelze uložit: %2.</translation>
+        <translation type="obsolete">Soubor %1 nelze uložit: %2.</translation>
     </message>
     <message>
-        <location filename="../core/moduledownloader.cpp" line="102"/>
         <source>Downloading</source>
-        <translation>Stahuje se</translation>
+        <translation type="obsolete">Stahuje se</translation>
     </message>
     <message>
-        <location filename="../core/moduledownloader.cpp" line="103"/>
-        <location filename="../core/moduledownloader.cpp" line="175"/>
         <source>Downloading %1 / %2. %3 MB</source>
-        <translation>Stahuje se %1 z %2. %3 MB</translation>
+        <translation type="obsolete">Stahuje se %1 z %2. %3 MB</translation>
     </message>
     <message>
-        <location filename="../core/moduledownloader.cpp" line="136"/>
-        <location filename="../core/moduledownloader.cpp" line="163"/>
         <source>Download failed: %1.</source>
-        <translation>Stažení se nezdařilo: %1.</translation>
+        <translation type="obsolete">Stažení se nezdařilo: %1.</translation>
     </message>
 </context>
 <context>
     <name>NotesDockWidget</name>
     <message>
-        <location filename="../ui/dock/notesdockwidget.ui" line="14"/>
+        <location filename="../ui/dock/notesdockwidget.ui" line="20"/>
         <source>Notes</source>
         <translation>Poznámky</translation>
     </message>
     <message>
-        <location filename="../ui/dock/notesdockwidget.ui" line="256"/>
+        <location filename="../ui/dock/notesdockwidget.ui" line="268"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
     <message>
-        <location filename="../ui/dock/notesdockwidget.ui" line="263"/>
+        <location filename="../ui/dock/notesdockwidget.ui" line="275"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
@@ -1355,111 +1478,99 @@
         <translation>Neznámý název</translation>
     </message>
     <message>
-        <location filename="../core/notes.cpp" line="326"/>
+        <location filename="../core/notes/xmlnotes.cpp" line="267"/>
         <source>(unnamed)</source>
         <translation>(nepojmenováno)</translation>
     </message>
     <message>
-        <location filename="../core/simplenotes.cpp" line="481"/>
-        <location filename="../ui/dialog/settingsdialog.cpp" line="207"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="44"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="76"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="82"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="316"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="376"/>
-        <location filename="../module/dictionary/zefania-lex.cpp" line="52"/>
-        <location filename="../module/dictionary/zefania-lex.cpp" line="71"/>
-        <location filename="../module/dictionary/zefania-lex.cpp" line="156"/>
-        <location filename="../module/dictionary/zefania-lex.cpp" line="165"/>
+        <location filename="../core/simplenotes.cpp" line="500"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="237"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="44"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="63"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="146"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="155"/>
         <source>Error</source>
         <translation>Chyba</translation>
     </message>
     <message>
-        <location filename="../core/simplenotes.cpp" line="481"/>
+        <location filename="../core/simplenotes.cpp" line="500"/>
         <source>Cannot create mark.</source>
         <translation>Značku nelze vytvořit.</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/settingsdialog.cpp" line="179"/>
-        <location filename="../ui/dialog/settingsdialog.cpp" line="342"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="207"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="385"/>
         <source>Adding Modules</source>
         <translation>Přidávají se moduly</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/settingsdialog.cpp" line="179"/>
-        <location filename="../ui/dialog/settingsdialog.cpp" line="342"/>
-        <location filename="../module/bible/biblequote.cpp" line="353"/>
-        <location filename="../module/bible/thewordbible.cpp" line="218"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="295"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="660"/>
-        <location filename="../module/dictionary/biblequote-dict.cpp" line="115"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="207"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="385"/>
+        <location filename="../module/bible/biblequote.cpp" line="357"/>
+        <location filename="../module/bible/thewordbible.cpp" line="223"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="343"/>
+        <location filename="../module/dictionary/biblequote-dict.cpp" line="107"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/settingsdialog.cpp" line="207"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="237"/>
         <source>It is not a folder.</source>
         <translation>Toto není složka.</translation>
     </message>
     <message>
-        <location filename="../module/bible/biblequote.cpp" line="353"/>
+        <location filename="../module/bible/biblequote.cpp" line="357"/>
         <source>Indexing</source>
         <translation>Rejstříkuje se</translation>
     </message>
     <message>
-        <location filename="../module/bible/thewordbible.cpp" line="218"/>
-        <location filename="../module/bible/zefania-bible.cpp" line="660"/>
-        <location filename="../module/dictionary/biblequote-dict.cpp" line="115"/>
+        <location filename="../module/bible/thewordbible.cpp" line="223"/>
+        <location filename="../module/bible/zefania-bible.cpp" line="343"/>
+        <location filename="../module/dictionary/biblequote-dict.cpp" line="107"/>
         <source>Build index</source>
         <translation>Sestavit rejstřík</translation>
     </message>
     <message>
-        <location filename="../module/bible/zefania-bible.cpp" line="44"/>
         <source>Please activate Caching.(Hard or Soft Cache)</source>
-        <translation>Zapněte, prosím, ukládání do vyrovnávací paměti. (pevná nebo měkká vyrovnávací paměť)</translation>
+        <translation type="obsolete">Zapněte, prosím, ukládání do vyrovnávací paměti. (pevná nebo měkká vyrovnávací paměť)</translation>
     </message>
     <message>
-        <location filename="../module/bible/zefania-bible.cpp" line="76"/>
         <source>Cannot read the file.</source>
-        <translation>Soubor nelze přečíst.</translation>
+        <translation type="obsolete">Soubor nelze přečíst.</translation>
     </message>
     <message>
-        <location filename="../module/bible/zefania-bible.cpp" line="82"/>
         <source>The file is not valid.</source>
-        <translation>Soubor není platný.</translation>
+        <translation type="obsolete">Soubor není platný.</translation>
     </message>
     <message>
-        <location filename="../module/bible/zefania-bible.cpp" line="295"/>
         <source>Loading Bible</source>
-        <translation>Nahrává se Bible</translation>
+        <translation type="obsolete">Nahrává se Bible</translation>
     </message>
     <message>
-        <location filename="../module/bible/zefania-bible.cpp" line="316"/>
-        <location filename="../module/dictionary/zefania-lex.cpp" line="156"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="146"/>
         <source>Can not read the file</source>
         <translation>Soubor nelze přečíst</translation>
     </message>
     <message>
-        <location filename="../module/bible/zefania-bible.cpp" line="376"/>
-        <location filename="../module/dictionary/zefania-lex.cpp" line="165"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="155"/>
         <source>The file is not valid. Errorstring: %1 in Line %2 at Position %3</source>
         <translation>Tento soubor není platný. Chybový řetězec: %1 na řádku %2 v místě %3</translation>
     </message>
     <message>
-        <location filename="../module/dictionary/biblequote-dict.cpp" line="177"/>
-        <location filename="../module/dictionary/zefania-lex.cpp" line="90"/>
+        <location filename="../module/dictionary/biblequote-dict.cpp" line="169"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="82"/>
         <source>Cannot build index.</source>
         <translation>Nelze sestavit rejstřík.</translation>
     </message>
     <message>
-        <location filename="../module/dictionary/biblequote-dict.cpp" line="207"/>
-        <location filename="../module/dictionary/zefania-lex.cpp" line="116"/>
+        <location filename="../module/dictionary/biblequote-dict.cpp" line="199"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="108"/>
         <source>Nothing found for %1</source>
         <translation>Pro %1 nebylo nalezeno nic</translation>
     </message>
     <message>
-        <location filename="../module/dictionary/zefania-lex.cpp" line="52"/>
-        <location filename="../module/dictionary/zefania-lex.cpp" line="71"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="44"/>
+        <location filename="../module/dictionary/zefania-lex.cpp" line="63"/>
         <source>The file is not valid</source>
         <translation>Soubor není platný</translation>
     </message>
@@ -1467,7 +1578,7 @@
 <context>
     <name>QuickJumpDockWidget</name>
     <message>
-        <location filename="../ui/dock/quickjumpdockwidget.ui" line="14"/>
+        <location filename="../ui/dock/quickjumpdockwidget.ui" line="20"/>
         <source>Quick Jump</source>
         <translation>Přejít na</translation>
     </message>
@@ -1552,27 +1663,27 @@
 <context>
     <name>SearchResultDockWidget</name>
     <message>
-        <location filename="../ui/dock/searchresultdockwidget.cpp" line="40"/>
+        <location filename="../ui/dock/searchresultdockwidget.cpp" line="43"/>
         <source>Search: %1</source>
         <translation>Hledání: %1</translation>
     </message>
     <message>
-        <location filename="../ui/dock/searchresultdockwidget.cpp" line="77"/>
+        <location filename="../ui/dock/searchresultdockwidget.cpp" line="81"/>
         <source>Error</source>
         <translation>Chyba</translation>
     </message>
     <message>
-        <location filename="../ui/dock/searchresultdockwidget.cpp" line="77"/>
+        <location filename="../ui/dock/searchresultdockwidget.cpp" line="81"/>
         <source>No search information available.</source>
         <translation>K hledání nejsou dostupné žádné údaje.</translation>
     </message>
     <message>
-        <location filename="../ui/dock/searchresultdockwidget.cpp" line="112"/>
+        <location filename="../ui/dock/searchresultdockwidget.cpp" line="117"/>
         <source>No more Results.</source>
         <translation>Žádná další místa.</translation>
     </message>
     <message>
-        <location filename="../ui/dock/searchresultdockwidget.cpp" line="112"/>
+        <location filename="../ui/dock/searchresultdockwidget.cpp" line="117"/>
         <source>Show the first result again?</source>
         <translation>Ukázat znovu první výsledek hledání?</translation>
     </message>
@@ -1621,7 +1732,7 @@
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="81"/>
-        <location filename="../ui/dialog/settingsdialog.cpp" line="148"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="175"/>
         <source>Module</source>
         <translation>Moduly</translation>
     </message>
@@ -1701,37 +1812,42 @@
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/settingsdialog.cpp" line="111"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="50"/>
+        <source>Import Sword Modules</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="137"/>
         <source>None</source>
         <translation>Žádný</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/settingsdialog.cpp" line="111"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="137"/>
         <source>Tile</source>
         <translation>Klást jedno vedle druhého</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/settingsdialog.cpp" line="111"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="137"/>
         <source>Vertical tile</source>
         <translation>Uspořádat svisle</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/settingsdialog.cpp" line="111"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="137"/>
         <source>Horizontal tile</source>
         <translation>Uspořádat vodorovně</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/settingsdialog.cpp" line="111"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="137"/>
         <source>Cascade</source>
         <translation>Překrývat</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/settingsdialog.cpp" line="117"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="143"/>
         <source>Simple</source>
         <translation>Jednoduché</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/settingsdialog.cpp" line="117"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="143"/>
         <source>Advanced</source>
         <translation>Pokročilé</translation>
     </message>
@@ -1744,31 +1860,31 @@
         <translation>Formulář</translation>
     </message>
     <message>
-        <location filename="../ui/interface/simple/simpleinterface.cpp" line="79"/>
-        <location filename="../ui/interface/simple/simpleinterface.cpp" line="473"/>
+        <location filename="../ui/interface/simple/simpleinterface.cpp" line="74"/>
+        <location filename="../ui/interface/simple/simpleinterface.cpp" line="384"/>
         <source>Search</source>
         <translation>Hledat</translation>
     </message>
     <message>
-        <location filename="../ui/interface/simple/simpleinterface.cpp" line="81"/>
-        <location filename="../ui/interface/simple/simpleinterface.cpp" line="474"/>
+        <location filename="../ui/interface/simple/simpleinterface.cpp" line="78"/>
+        <location filename="../ui/interface/simple/simpleinterface.cpp" line="385"/>
         <source>Zoom In</source>
         <translation>Přiblížit</translation>
     </message>
     <message>
-        <location filename="../ui/interface/simple/simpleinterface.cpp" line="83"/>
-        <location filename="../ui/interface/simple/simpleinterface.cpp" line="475"/>
+        <location filename="../ui/interface/simple/simpleinterface.cpp" line="81"/>
+        <location filename="../ui/interface/simple/simpleinterface.cpp" line="386"/>
         <source>Zoom Out</source>
         <translation>Oddálit</translation>
     </message>
     <message>
-        <location filename="../ui/interface/simple/simpleinterface.cpp" line="85"/>
-        <location filename="../ui/interface/simple/simpleinterface.cpp" line="476"/>
+        <location filename="../ui/interface/simple/simpleinterface.cpp" line="84"/>
+        <location filename="../ui/interface/simple/simpleinterface.cpp" line="387"/>
         <source>Module</source>
         <translation>Moduly</translation>
     </message>
     <message>
-        <location filename="../ui/interface/simple/simpleinterface.cpp" line="270"/>
+        <location filename="../ui/interface/simple/simpleinterface.cpp" line="238"/>
         <source>openBibleViewer</source>
         <translation>openBibleViewer</translation>
     </message>
@@ -1776,43 +1892,44 @@
 <context>
     <name>SimpleNotes</name>
     <message>
-        <location filename="../core/simplenotes.cpp" line="116"/>
+        <location filename="../core/simplenotes.cpp" line="78"/>
+        <location filename="../core/simplenotes.cpp" line="117"/>
         <source>Note Title</source>
         <translation>Název poznámky</translation>
     </message>
     <message>
-        <location filename="../core/simplenotes.cpp" line="341"/>
-        <location filename="../core/simplenotes.cpp" line="363"/>
-        <location filename="../core/simplenotes.cpp" line="449"/>
-        <location filename="../core/simplenotes.cpp" line="470"/>
-        <location filename="../core/simplenotes.cpp" line="504"/>
+        <location filename="../core/simplenotes.cpp" line="345"/>
+        <location filename="../core/simplenotes.cpp" line="367"/>
+        <location filename="../core/simplenotes.cpp" line="469"/>
+        <location filename="../core/simplenotes.cpp" line="490"/>
+        <location filename="../core/simplenotes.cpp" line="522"/>
         <source>(unnamed)</source>
         <translation>(nepojmenována)</translation>
     </message>
     <message>
-        <location filename="../core/simplenotes.cpp" line="384"/>
-        <location filename="../core/simplenotes.cpp" line="402"/>
-        <location filename="../core/simplenotes.cpp" line="410"/>
+        <location filename="../core/simplenotes.cpp" line="387"/>
+        <location filename="../core/simplenotes.cpp" line="405"/>
+        <location filename="../core/simplenotes.cpp" line="413"/>
         <source>Folder</source>
         <translation>Složka</translation>
     </message>
     <message>
-        <location filename="../core/simplenotes.cpp" line="536"/>
+        <location filename="../core/simplenotes.cpp" line="554"/>
         <source>Copy</source>
         <translation>Kopírovat</translation>
     </message>
     <message>
-        <location filename="../core/simplenotes.cpp" line="540"/>
+        <location filename="../core/simplenotes.cpp" line="558"/>
         <source>New</source>
         <translation>Nová</translation>
     </message>
     <message>
-        <location filename="../core/simplenotes.cpp" line="544"/>
+        <location filename="../core/simplenotes.cpp" line="562"/>
         <source>New Folder</source>
         <translation>Nová složka</translation>
     </message>
     <message>
-        <location filename="../core/simplenotes.cpp" line="548"/>
+        <location filename="../core/simplenotes.cpp" line="566"/>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
@@ -1823,6 +1940,66 @@
         <location filename="../ui/interface/study/studyinterface.ui" line="16"/>
         <source>Form</source>
         <translation>Formulář</translation>
+    </message>
+</context>
+<context>
+    <name>UpdateCheckerDialog</name>
+    <message>
+        <location filename="../ui/dialog/updatecheckerdialog.ui" line="14"/>
+        <source>Updates available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/updatecheckerdialog.ui" line="42"/>
+        <source>Skip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/updatecheckerdialog.ui" line="49"/>
+        <source>Download</source>
+        <translation type="unfinished">Stáhnout</translation>
+    </message>
+    <message>
+        <location filename="../ui/dialog/updatecheckerdialog.ui" line="56"/>
+        <source>Remind Later</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UpdatesChecker</name>
+    <message>
+        <location filename="../ui/updateschecker.cpp" line="84"/>
+        <source>A new version of openBibleViewer is available: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/updateschecker.cpp" line="86"/>
+        <source>You can download it at</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>VerseTableItemDelegate</name>
+    <message>
+        <location filename="../ui/interface/advanced/versetableitemdelegate.cpp" line="24"/>
+        <source>None</source>
+        <translation type="unfinished">Žádný</translation>
+    </message>
+</context>
+<context>
+    <name>VerseTableWidget</name>
+    <message>
+        <location filename="../ui/interface/advanced/versetablewidget.ui" line="14"/>
+        <source>Bible List</source>
+        <translation type="unfinished">Seznam s Biblemi</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/versetablewidget.ui" line="22"/>
+        <location filename="../ui/interface/advanced/versetablewidget.ui" line="46"/>
+        <location filename="../ui/interface/advanced/versetablewidget.ui" line="61"/>
+        <location filename="../ui/interface/advanced/versetablewidget.ui" line="85"/>
+        <source>...</source>
+        <translation type="unfinished">...</translation>
     </message>
 </context>
 <context>
@@ -2174,8 +2351,17 @@
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="360"/>
+        <source>Hab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/verse/versification/versification_kjv.cpp" line="400"/>
+        <source>Mal, Ml</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Hab, Hab</source>
-        <translation>Aba</translation>
+        <translation type="obsolete">Aba</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="369"/>
@@ -2213,9 +2399,8 @@
         <translation>Malachiáš</translation>
     </message>
     <message>
-        <location filename="../core/verse/versification/versification_kjv.cpp" line="400"/>
         <source>Mal, Mal, Ml</source>
-        <translation>Mal, Ml</translation>
+        <translation type="obsolete">Mal, Ml</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="409"/>
@@ -2486,6 +2671,24 @@
         <location filename="../core/verse/versification/versification_kjv.cpp" line="671"/>
         <source>Rev, Re</source>
         <translation>ZJ</translation>
+    </message>
+</context>
+<context>
+    <name>WebForm</name>
+    <message>
+        <location filename="../ui/interface/advanced/form/webform.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished">Formulář</translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/webform.ui" line="58"/>
+        <source>about:blank</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/interface/advanced/form/webform.cpp" line="154"/>
+        <source>Print</source>
+        <translation type="unfinished">Tisk</translation>
     </message>
 </context>
 </TS>

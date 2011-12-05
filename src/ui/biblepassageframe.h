@@ -41,6 +41,8 @@ private slots:
     void changeTypeTo_BCVV();
     void changeTypeTo_BC();
 
+    void add();
+    void replace();
 
 public:
     explicit BiblePassageFrame(QWidget *parent = 0);
@@ -61,6 +63,9 @@ private:
     QToolButton *newButton(const int id);
 
     void deleteBox(const int boxID);
+
+    void getModuleID();
+    void clear();
 };
 
 #endif // BIBLEPASSAGEFRAME_H

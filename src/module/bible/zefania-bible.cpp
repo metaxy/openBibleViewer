@@ -232,6 +232,8 @@ int ZefaniaBible::readBook(const int id)
         path = m_modulePath;
     }
     //myDebug() << path;
+
+    genStrongsPrefix();
     QFile file(path);
     if(!file.open(QFile::ReadOnly | QFile::Text))
         return 1;
@@ -261,7 +263,29 @@ int ZefaniaBible::readBook(const int id)
     m_xml = NULL;
     return 0;
 }
-
+void ZefaniaBible::genStrongsPrefix()
+{
+    //todo: that isn't  nice
+    foreach(int bookID, m_versification->bookIDs()) {
+        QString add;
+        if(m_versification->bookCount() == 66) {
+            if(bookID < 39) {
+                add = "H";
+            } else {
+                add = "G";
+            }
+        } else if(m_set->versificationName.endsWith("-nt")) {
+            add = "G";
+        } else if(m_set->versificationName.endsWith("-ot")) {
+            add = "H";
+        } else if(m_versification->bookCount() == 27) {
+            add = "G";
+        } else if(m_versification->bookCount() == 39) {
+            add = "H";
+        }
+        m_strongsPrefix[bookID] = add;
+    }
+}
 
 MetaInfo ZefaniaBible::readInfo(QFile &file)
 {
@@ -699,25 +723,7 @@ QString ZefaniaBible::pharseGram()
     if(!strong.isEmpty() && m_set->displaySettings()->showStrong()) {
         QString add;
         if(!strong.startsWith("G", Qt::CaseInsensitive) && !strong.startsWith("H", Qt::CaseInsensitive)) {
-            //todo: that isn't  nice
-            myDebug() << m_versification->bookCount();
-            myDebug() << m_set->versificationName;
-            if(m_versification->bookCount() == 66) {
-
-                if(m_bookID < 39) {
-                    add = "H";
-                } else {
-                    add = "G";
-                }
-            } else if(m_set->versificationName.endsWith("-nt")) {
-                add = "G";
-            } else if(m_set->versificationName.endsWith("-ot")) {
-                add = "H";
-            } else if(m_versification->bookCount() == 27) {
-                add = "G";
-            } else if(m_versification->bookCount() == 39) {
-                add = "H";
-            }
+            add = m_strongsPrefix[m_bookID];
         }
         ret +=  "<span class=\"stronglink\"><a  href=\"strong://" + add + strong + "\">" + add + strong + "</a></span>";
     }

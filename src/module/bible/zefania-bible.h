@@ -111,7 +111,8 @@ private:
     QString getPath();
     void cache(const Book &b);
     void generateCache(QList<std::pair<qint64, qint64> > list);
-
+    QMap<int,QString> m_strongsPrefix;
+    void genStrongsPrefix();
 };
 
 #endif // ZEFANIABIBLE_H

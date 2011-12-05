@@ -48,7 +48,7 @@ QString RefText::toString(const VerseUrl &url)
         ret += toString(range.moduleID(), range.bookID(), range.chapterID(), range.startVerseID(), range.endVerseID(), prevBook);
         prevBook = range.bookID();
     }
-    if(!url.ranges().isEmpty()) {
+    if(!url.ranges().isEmpty() && m_showModuleName) {
         const VerseUrlRange r = url.ranges().first();
         if(r.module() == VerseUrlRange::LoadModuleByID)
             ret += " (" + m_settings->getModuleSettings(r.moduleID())->name(true) + ")";
@@ -66,7 +66,7 @@ QString RefText::toString(const Ranges &ranges)
         ret += toString(range.moduleID(), range.bookID(), range.chapterID(), range.startVerseID(), range.endVerseID(), prevBook);
         prevBook = range.bookID();
     }
-    if(!ranges.getList().isEmpty()) {
+    if(!ranges.getList().isEmpty() && m_showModuleName) {
         const Range r = ranges.getList().first();
         if(r.moduleID() != -1)
             ret += " (" + m_settings->getModuleSettings(r.moduleID())->name(true) + ")";

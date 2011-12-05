@@ -13,13 +13,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "biblepassageframe.h"
 #include "ui_biblepassageframe.h"
-
+#include "src/core/link/biblelink.h"
 BiblePassageFrame::BiblePassageFrame(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::BiblePassageFrame)
 {
     ui->setupUi(this);
     m_count = 0;
+    connect(ui->pushButton_add, SIGNAL(clicked()), this, SLOT(add()));
+   connect(ui->pushButton_replace, SIGNAL(clicked()), this, SLOT(replace()));
 }
 
 BiblePassageFrame::~BiblePassageFrame()
@@ -275,7 +277,6 @@ VerseUrl BiblePassageFrame::toVerseUrl()
             url.addRange(r);
         }
     }
-    //myDebug() << url.toString();
     return url;
 }
 void BiblePassageFrame::setVerseUrl(const VerseUrl &url)
@@ -284,24 +285,26 @@ void BiblePassageFrame::setVerseUrl(const VerseUrl &url)
 }
 void BiblePassageFrame::setVerseUrlRanges(const QList<VerseUrlRange> &ranges)
 {
-    if(!ranges.isEmpty()) {
-        m_moduleID = ranges.first().moduleID();
-        QSharedPointer<Versification> v = m_settings->getModuleSettings(m_moduleID)->getV11n();
-        if(v != NULL) {
-            m_bookNames = v->bookNames().values();//todo:
-        }
-
-        QModelIndexList list = m_proxyModel->match(m_model->invisibleRootItem()->index(),
-                               Qt::UserRole + 1,
-                               QString::number(m_moduleID),
-                               1 ,
-                               Qt::MatchExactly);
-
-        if(!list.isEmpty()) {
-            ui->treeView->selectionModel()->clear();
-            ui->treeView->selectionModel()->select(list.first(), QItemSelectionModel::Select);
-        }
+    if(ranges.isEmpty()) {
+        return;
     }
+    m_moduleID = ranges.first().moduleID();
+    QSharedPointer<Versification> v = m_settings->getModuleSettings(m_moduleID)->getV11n();
+    if(v != NULL) {
+        m_bookNames = v->bookNames().values();//todo:
+    }
+
+    QModelIndexList list = m_proxyModel->match(m_model->invisibleRootItem()->index(),
+                           Qt::UserRole + 1,
+                           QString::number(m_moduleID),
+                           1 ,
+                           Qt::MatchExactly);
+
+    if(!list.isEmpty()) {
+        ui->treeView->selectionModel()->clear();
+        ui->treeView->selectionModel()->select(list.first(), QItemSelectionModel::Select);
+    }
+
     foreach(const VerseUrlRange & r, ranges) {
         m_moduleID = r.moduleID();
 
@@ -314,4 +317,37 @@ void BiblePassageFrame::setVerseUrlRanges(const QList<VerseUrlRange> &ranges)
         }
     }
 
+}
+void BiblePassageFrame::add()
+{
+    getModuleID();
+    if(m_moduleID == -1) {
+        return;
+    }
+    const QString text = ui->lineEdit->text();
+    BibleLink link(m_moduleID, m_settings->getModuleSettings(m_moduleID)->getV11n());
+
+    if(link.isBibleLink(text)) {
+        setVerseUrl(link.getUrl(text));
+    } else {
+
+    }
+}
+void BiblePassageFrame::getModuleID()
+{
+    QModelIndexList list =ui->treeView->selectionModel()->selectedIndexes();
+    if(!list.isEmpty()) {
+        m_moduleID = list.first().data(Qt::UserRole + 1).toInt();
+    }
+}
+void BiblePassageFrame::replace()
+{
+    clear();
+    add();
+}
+void BiblePassageFrame::clear()
+{
+    for(int i = 0; i <= m_count;i++) {
+        deleteBox(i);
+    }
 }

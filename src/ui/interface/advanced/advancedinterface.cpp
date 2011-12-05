@@ -644,6 +644,7 @@ void AdvancedInterface::createToolBars()
     m_searchBar->setMaximumWidth(250);
 
     QLineEdit *edit = new QLineEdit(m_searchBar);
+    edit->setPlaceholderText(tr("Search"));
     edit->setObjectName("lineEdit");
 
     connect(edit, SIGNAL(returnPressed()), this, SLOT(quick()));
@@ -727,8 +728,8 @@ void AdvancedInterface::showMarkList()
     QPointer<MarkList> markList = new MarkList(this);
     setAll(markList);
     markList->init();
-    markList->exec();
-    delete markList;
+    markList->show();
+
 }
 
 void AdvancedInterface::showNotesEditor()

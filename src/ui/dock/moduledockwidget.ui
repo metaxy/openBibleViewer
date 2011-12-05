@@ -37,7 +37,11 @@
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QLineEdit" name="lineEdit_filter"/>
+     <widget class="QLineEdit" name="lineEdit_filter">
+      <property name="placeholderText">
+       <string>Filter</string>
+      </property>
+     </widget>
     </item>
     <item>
      <widget class="QTreeView" name="treeView_module">

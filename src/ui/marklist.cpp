@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_marklist.h"
 #include "src/core/dbghelper.h"
 #include "src/core/link/urlconverter2.h"
+#include "src/core/verse/reftext.h"
 #include "src/core/obvcore.h"
 #include <QtGui/QMenu>
 #include <QtGui/QCursor>
@@ -69,8 +70,11 @@ void MarkList::addMark(const int row, const QString &id)
     urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap.data());
     urlConverter.convert();
 
-    const QString string = urlConverter.bookName() + " " + QString::number(urlConverter.chapterID() + 1) + "," +
-                           QString::number(urlConverter.verseID() + 1);
+    RefText ref;
+    ref.setSettings(m_settings);
+    ref.setShowModuleName(false);
+
+    const QString string = ref.toString(urlConverter.url());
 
     QStandardItem *stelle = new QStandardItem(string);
     stelle->setData(id);
