@@ -77,7 +77,7 @@ void NotesManager::newNoteWithLink(VerseSelection selection, QSharedPointer<Vers
 
 void NotesManager::openNote(const QString &noteID)
 {
-    if(!m_notesDockWidget->isHidden()) {
+    if(m_notesDockWidget->isHidden()) {
         m_notesDockWidget->show();
     }
     m_notesDockWidget->showNote(noteID);

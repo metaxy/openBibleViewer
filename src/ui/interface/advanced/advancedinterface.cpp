@@ -724,7 +724,6 @@ void AdvancedInterface::showMarkCategories()
 
 void AdvancedInterface::showMarkList()
 {
-    //todo: scoped pointer ?
     QPointer<MarkList> markList = new MarkList(this);
     setAll(markList);
     markList->init();
