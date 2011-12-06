@@ -127,7 +127,7 @@ private:
     bool m_loadTextBrowser;
 
 
-    QStringList m_idC;
+
     QPoint m_point;
 
     NotesItemView *m_view;

@@ -53,8 +53,6 @@ void SimpleNotes::init()
         connect(m_textEdit_note, SIGNAL(undoAvailable(bool)), this, SLOT(fastSave()));
         connect(m_textEdit_note, SIGNAL(redoAvailable(bool)), this, SLOT(fastSave()));
     }
-
-
     connect(m_pushButton_link, SIGNAL(clicked()), this, SLOT(editNoteLink()));
     connect(m_label_link, SIGNAL(linkActivated(QString)), this, SLOT(open(QString)));
 
@@ -72,8 +70,7 @@ void SimpleNotes::init()
     connect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
     connect(m_notes, SIGNAL(noteRemoved(QString, QMap<QString, QString>)), this, SLOT(removeNote(QString)));
 
-    m_idC = m_notes->getIDList();
-    create("-1", 0);
+    m_view->init();
     m_noteID = "";
 
 
@@ -160,24 +157,17 @@ void SimpleNotes::changeTitle(const QString &id, const QString &title)
     if(m_noteID == id) {
         setTitle(title);
     }
-    const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, id);
-    if(list.size() != 1) {
-        myWarning() << "invalid noteID = " << id;
-        return;
-    }
-    m_itemModel->setData(list.at(0), title, Qt::DisplayRole);
+    m_view->setTitle(id, title);
+
 }
 void SimpleNotes::updateTitle()
 {
-    //DEBUG_FUNC_NAME
     disconnect(m_notes, SIGNAL(titleChanged(QString, QString)), this, SLOT(changeTitle(QString, QString)));
-    m_notes->setTitle(m_noteID, m_lineEdit_title->text());
-    const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, m_noteID, -1);
-    if(list.size() != 1) {
-        myWarning() << "invalid noteID = " << m_noteID;
-        return;
-    }
-    m_itemModel->setData(list.at(0), m_lineEdit_title->text(), Qt::DisplayRole);
+
+    const QString title = m_lineEdit_title->text();
+    m_notes->setTitle(m_noteID, title);
+    m_view->setTitle(m_noteID, title);
+
     connect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
 }
 
@@ -190,12 +180,13 @@ void SimpleNotes::changeRef(const QString &id, const QMap<QString, QString> &ref
 
 void SimpleNotes::copyNote(void)
 {
-    const QModelIndexList list = m_selectionModel->selectedRows(0);
+
     QClipboard *clipboard = QApplication::clipboard();
     QString text;
+    foreach(const QString &id, m_view->selectedNotes())
     for(int i = 0; i < list.size(); i++) {
         QTextDocument doc;
-        doc.setHtml(m_notes->getData(list.at(i).data(Qt::UserRole + 1).toString()));
+        doc.setHtml(m_notes->getData(id));
         if(i != 0)
             text += "\n";
         text += doc.toPlainText();
@@ -215,7 +206,7 @@ void SimpleNotes::saveNote(void)
 
     //save structure
     disconnect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
-    iterate(m_itemModel->invisibleRootItem());
+    m_view->save();
     connect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
 
     m_notes->saveNotes();
@@ -364,20 +355,14 @@ void SimpleNotes::newFolder()
 
 void SimpleNotes::addNote(const QString &id)
 {
-    //DEBUG_FUNC_NAME
     //todo: the hirachary is not working
     if(m_noteID == id)
         return;
+    //todo: if there is already this note(but something like that should never happen)
     if(m_notes->getType(id) == "text") {
-        //todo: if there is already this note(but something like that should never happen)
-        QStandardItem *parentItem = m_itemModel->invisibleRootItem();
-
-        QStandardItem *newItem = new QStandardItem;
-        newItem->setText(m_notes->getTitle(id));
-        newItem->setData(id);
-        parentItem->appendRow(newItem);
+        m_view->addNote(id, m_notes->getTitle(id), m_notes->getRef(id).value("parent"));
     } else if(m_notes->getType(id) == "folder") {
-
+        m_view->addFolder(id, m_notes->getTitle(id), m_notes->getRef(id).value("parent"));
     }
 }
 

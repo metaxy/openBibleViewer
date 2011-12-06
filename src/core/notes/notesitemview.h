@@ -19,9 +19,10 @@ public slots:
     QStandardItem * addFolder(const QString &id, const QString &title, const QStandardItem *parent);
     void removeNote(const QPoint p);
     void removeNote(const QString &noteID);
+    void init();
 
     void setTitle(const QString &noteID, const QString &title);
-    QList<int> selectedNotes();
+    QStringList selectedNotes() const;
     void create(const QString &id, QStandardItem *parentItem);
 
     /**
@@ -30,6 +31,8 @@ public slots:
     void iterate(QStandardItem *item);
 
     QStandardItem *find(const QString &noteID);
+
+    void save();
 
 
 signals:
@@ -41,6 +44,7 @@ private:
     QItemSelectionModel *m_selectionModel;
     QIcon m_folderIcon;
     Notes *m_notes;
+    QStringList m_idC;
 };
 
 #endif // NOTESITEMVIEW_H

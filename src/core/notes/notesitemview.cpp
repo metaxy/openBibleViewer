@@ -24,8 +24,14 @@ NotesItemView::NotesItemView(Notes *notes, QTreeView *treeView) : m_notes(notes)
     m_folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
     m_folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
 
-
 }
+void NotesItemView::init()
+{
+    m_idC = m_notes->getIDList();
+    create("-1", 0);
+    m_idC.clear();
+}
+
 void NotesItemView::iterate(QStandardItem *item = 0)
 {
     //DEBUG_FUNC_NAME
@@ -109,4 +115,27 @@ void NotesItemView::removeNote(const QString &noteID)
 QStandardItem* NotesItemView::find(const QString &noteID)
 {
     return NULL;
+}
+void NotesItemView::setTitle(const QString &noteID, const QString &title)
+{
+    const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, noteID, -1, Qt::MatchExactly);
+    if(list.size() != 1) {
+        myWarning() << "invalid noteID = " << id;
+        return;
+    }
+    m_itemModel->setData(list.first(), title, Qt::DisplayRole);
+}
+
+QStringList NotesItemView::selectedNotes() const
+{
+    QStringList ret;
+    const QModelIndexList list = m_selectionModel->selectedRows(0);
+    foreach(const QModelIndex &index, list) {
+        ret.append(index.data(Qt::UserRole + 1).toString());
+    }
+    return ret;
+}
+void NotesItemView::save()
+{
+    iterate(m_itemModel->invisibleRootItem());
 }
