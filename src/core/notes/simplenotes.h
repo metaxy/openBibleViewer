@@ -27,17 +27,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verseselection.h"
 #include "src/core/basicclass.h"
 #include "src/core/notes/notesitemview.h"
-#include "src/core/link/urlconverter2.h"
-#include "src/ui/dialog/biblepassagedialog.h"
-#include "src/core/obvcore.h"
-#include "src/core/dbghelper.h"
 
-#include <QtCore/QDateTime>
-#include <QtGui/QClipboard>
-#include <QtGui/QMenu>
-#include <QtGui/QColorDialog>
-#include <QtGui/QMessageBox>
-#include <QtGui/QApplication>
+#include "src/core/obvcore.h"
+
+
+
 class SimpleNotes : public QObject, public BasicClass
 {
     Q_OBJECT
@@ -87,15 +81,12 @@ private slots:
     /**
      * Insert the text(not html) of the current select note in the clipboard
      */
-    void copyNote();
+    void copyNote(const QStringList &ids);
     void changeData(const QString &id, const QString &data);
     void changeTitle(const QString &id, const QString &title);
     void changeRef(const QString &id, const QMap<QString, QString> &ref);
     void addNote(const QString &id);
     void removeNote(const QString &id);
-    void showNote(const QModelIndex &index);
-    void notesContextMenu(QPoint point);
-    void removeNote();
     /**
       * Shows an BiblePassageDialog where you can edit the note link.
       */
@@ -109,13 +100,19 @@ private slots:
 
     void open(const QString &link);
 
+    void removeNotesFromData(const QStringList &ids);
+
+    void innerAddNewTextNote(const QString &parent);
+    void innerAddNewFolderNote(const QString &parent);
+    void innerRemoveNotes();
+
 private:
     QLineEdit *m_lineEdit_title;
     QTextBrowser *m_textEdit_note;
     QWebFrame *m_frame;
     QLabel *m_label_link;
     QPushButton *m_pushButton_link;
-    QPoint m_currentPoint;
+
 
     QString m_noteID;
     QMap<QString, QString> m_noteRef;
@@ -128,11 +125,10 @@ private:
 
 
 
-    QPoint m_point;
 
     NotesItemView *m_view;
 
-
+    void createNew(const QString &noteID, const QString &title, const QString &type, const QString &parentID);
 };
 
 #endif // SIMPLENOTES_H

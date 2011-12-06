@@ -1,6 +1,10 @@
 #include "notesitemview.h"
-
-NotesItemView::NotesItemView(Notes *notes, QTreeView *treeView) : m_notes(notes), m_treeView(treeView)
+#include <QtCore/QPointer>
+#include "src/core/dbghelper.h"
+#include <QtGui/QMenu>
+#include <QtGui/QAction>
+#include <QtGui/QApplication>
+NotesItemView::NotesItemView(Notes *notes, QTreeView *treeView) :  m_treeView(treeView), m_notes(notes)
 {
     m_itemModel = new QStandardItemModel(m_treeView);
     m_itemModel->setHeaderData(0, Qt::Horizontal, tr("Note Title"));
@@ -64,6 +68,7 @@ void NotesItemView::create(const QString &id, QStandardItem *parentItem)
 }
 QStandardItem * NotesItemView::addFolder(const QString &id, const QString &title, const QString &parentID)
 {
+    DEBUG_FUNC_NAME
     QStandardItem *parentItem;
     if(parentID.isEmpty()) {
         parentItem = m_itemModel->invisibleRootItem();
@@ -72,7 +77,7 @@ QStandardItem * NotesItemView::addFolder(const QString &id, const QString &title
     }
     return addFolder(id,title,parentItem);
 }
-QStandardItem * NotesItemView::addFolder(const QString &id, const QString &title, const QStandardItem* parentItem)
+QStandardItem * NotesItemView::addFolder(const QString &id, const QString &title, QStandardItem *parentItem)
 {
     QStandardItem *newItem = new QStandardItem;
     newItem->setIcon(m_folderIcon);
@@ -84,6 +89,7 @@ QStandardItem * NotesItemView::addFolder(const QString &id, const QString &title
 }
 QStandardItem * NotesItemView::addNote(const QString &id, const QString &title, const QString &parentID)
 {
+    DEBUG_FUNC_NAME
     QStandardItem *parentItem;
     if(parentID.isEmpty()) {
         parentItem = m_itemModel->invisibleRootItem();
@@ -92,8 +98,9 @@ QStandardItem * NotesItemView::addNote(const QString &id, const QString &title, 
     }
     return addNote(id,title,parentItem);
 }
-QStandardItem * NotesItemView::addNote(const QString &id, const QString &title, const QStandardItem* parentItem)
+QStandardItem * NotesItemView::addNote(const QString &id, const QString &title, QStandardItem *parentItem)
 {
+    DEBUG_FUNC_NAME
     QStandardItem *newItem = new QStandardItem;
     newItem->setText(title);
     newItem->setData(id);
@@ -106,7 +113,7 @@ void NotesItemView::removeNote(const QString &noteID)
 {
     const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, noteID, -1, Qt::MatchExactly);
     if(list.size() != 1) {
-        myWarning() << "invalid noteID = " << m_noteID;
+        myWarning() << "invalid noteID = " << noteID;
         return;
     }
     const QModelIndex index = list.first();
@@ -114,13 +121,22 @@ void NotesItemView::removeNote(const QString &noteID)
 }
 QStandardItem* NotesItemView::find(const QString &noteID)
 {
-    return NULL;
+    DEBUG_FUNC_NAME
+    const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, noteID, -1, Qt::MatchExactly);
+    if(list.size() != 1) {
+        myWarning() << "invalid noteID = " << noteID;
+        return NULL;
+    }
+    myDebug() << m_itemModel->itemFromIndex(list.first());
+  //  m_itemModel->itemFromIndex(m_proxyModel->mapToSource(m_treeView->indexAt(m_point)));
+
+    return m_itemModel->itemFromIndex(list.first());
 }
 void NotesItemView::setTitle(const QString &noteID, const QString &title)
 {
     const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, noteID, -1, Qt::MatchExactly);
     if(list.size() != 1) {
-        myWarning() << "invalid noteID = " << id;
+        myWarning() << "invalid noteID = " << noteID;
         return;
     }
     m_itemModel->setData(list.first(), title, Qt::DisplayRole);
@@ -138,4 +154,128 @@ QStringList NotesItemView::selectedNotes() const
 void NotesItemView::save()
 {
     iterate(m_itemModel->invisibleRootItem());
+}
+void NotesItemView::select(const QString &noteID)
+{
+    const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, noteID,-1, Qt::MatchExactly);
+    if(list.size() != 1) {
+        return;
+    }
+    const QModelIndex index = m_proxyModel->mapFromSource(list.first());
+    m_selectionModel->clearSelection();
+    m_selectionModel->setCurrentIndex(index, QItemSelectionModel::Select);
+}
+void NotesItemView::notesContextMenu(QPoint point)
+{
+    //DEBUG_FUNC_NAME
+    m_point = point;
+    QPointer<QMenu> contextMenu = new QMenu(m_treeView);
+    m_currentPoint = point;
+    contextMenu->setObjectName("contextMenu");
+
+    QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), contextMenu);
+    actionCopy->setObjectName("actionCopy");
+    connect(actionCopy, SIGNAL(triggered()), this, SLOT(copyNote()));
+
+    QAction *actionNew = new QAction(QIcon::fromTheme("document-new", QIcon(":/icons/16x16/document-new.png")), tr("New"), contextMenu);
+    actionNew->setObjectName("actionNew");
+    connect(actionNew, SIGNAL(triggered()), this, SLOT(addNewTextNote()));
+
+    QAction *actionNewFolder = new QAction(QIcon::fromTheme("document-new", QIcon(":/icons/16x16/document-new.png")), tr("New Folder"), contextMenu);
+    actionNewFolder->setObjectName("actionNewFolder");
+    connect(actionNewFolder, SIGNAL(triggered()), this, SLOT(addNewFolderNote()));
+
+    QAction *actionDelete = new QAction(QIcon::fromTheme("edit-delete", QIcon(":/icons/16x16/edit-delete.png")), tr("Delete"), contextMenu);
+    actionDelete->setObjectName("actionDelete");
+    connect(actionDelete, SIGNAL(triggered()), this, SIGNAL(innerRemoveNotes()));
+
+    contextMenu->addAction(actionNew);
+    contextMenu->addAction(actionDelete);
+    contextMenu->addSeparator();
+    contextMenu->addAction(actionNewFolder);
+    contextMenu->addAction(actionCopy);
+
+    contextMenu->exec(QCursor::pos());
+    delete contextMenu;
+}
+void NotesItemView::copyNote()
+{
+    emit copyNotes(this->selectedNotes());
+}
+QString NotesItemView::newTextNote(const QString &id, const QString title, bool fromSender)
+{
+    m_selectionModel->clearSelection();
+    QStandardItem *parentItem = NULL;
+
+    if(fromSender)
+        parentItem = m_itemModel->itemFromIndex(m_proxyModel->mapToSource(m_treeView->indexAt(m_point)));
+
+    if(parentItem == NULL)
+        parentItem = m_itemModel->invisibleRootItem();
+
+    addNote(id, title, parentItem);
+
+    select(id);
+
+    return parentItem->data().toString();
+}
+
+QString NotesItemView::newFolderNote(const QString &id, const QString title, bool fromSender)
+{
+    m_selectionModel->clearSelection();
+    QStandardItem *parentItem = NULL;
+
+    if(parentItem == NULL)
+        parentItem = m_itemModel->invisibleRootItem();
+
+    addFolder(id, title, parentItem);
+
+    select(id);
+    return parentItem->data().toString();
+}
+
+QStringList NotesItemView::removeSelectedNotesFromView()
+{
+    QModelIndexList list = m_selectionModel->selectedRows();
+    QStringList removedIDs;
+    if(list.isEmpty()) {
+        const QModelIndex index = m_proxyModel->mapToSource(m_treeView->indexAt(m_currentPoint));
+        if(index.isValid()) {
+            const QString id = index.data(Qt::UserRole + 1).toString();
+            removedIDs << id;
+            m_itemModel->removeRow(index.row(), index.parent());
+        }
+
+    } else {
+        while(list.size() != 0) {
+            const QModelIndex index = m_proxyModel->mapToSource(list.at(0));
+            const QString id = index.data(Qt::UserRole + 1).toString();
+            removedIDs << id;
+            m_itemModel->removeRow(index.row(), index.parent());
+            list = m_selectionModel->selectedRows(0);
+        }
+    }
+    return removedIDs;
+}
+
+void NotesItemView::showNote(const QModelIndex &index)
+{
+    emit showNote(index.data(Qt::UserRole + 1).toString());
+}
+
+void NotesItemView::addNewFolderNote()
+{
+    QString parentID;
+    if(sender()->objectName() == "actionNew")
+        parentID = m_treeView->indexAt(m_point).data(Qt::UserRole + 1).toString();
+    emit innerAddNewFolderNote(parentID);
+}
+
+void NotesItemView::addNewTextNote()
+{
+    QString parentID;
+    if(sender()->objectName() == "actionNew")
+        parentID = m_treeView->indexAt(m_point).data(Qt::UserRole + 1).toString();
+
+    emit innerAddNewTextNote(parentID);
 }

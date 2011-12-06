@@ -14,10 +14,9 @@ public:
     NotesItemView(Notes *notes, QTreeView *treeView);
 public slots:
     QStandardItem * addNote(const QString &id, const QString &title, const QString &parentID);
-    StandardItem * addNote(const QString &id, const QString &title, const QStandardItem *parentItem);
+    QStandardItem * addNote(const QString &id, const QString &title, QStandardItem *parentItem);
     QStandardItem * addFolder(const QString &id, const QString &title, const QString &parentID);
-    QStandardItem * addFolder(const QString &id, const QString &title, const QStandardItem *parent);
-    void removeNote(const QPoint p);
+    QStandardItem * addFolder(const QString &id, const QString &title, QStandardItem *parent);
     void removeNote(const QString &noteID);
     void init();
 
@@ -34,17 +33,43 @@ public slots:
 
     void save();
 
+    void select(const QString &noteID);
+
+    void copyNote();
+    QStringList removeSelectedNotesFromView();
+
+    QString newTextNote(const QString &id, const QString title, bool fromSender);
+    QString newFolderNote(const QString &id, const QString title, bool fromSender);
+
+    void showNote(const QModelIndex &index);
+
+    void notesContextMenu(QPoint point);
+    void addNewTextNote();
+    void addNewFolderNote();
 
 signals:
-    void showNote(const in noteID);
+    void showNote(const QString &noteID);
+    void copyNotes(QStringList ids);
+
+    void removedNotes(const QStringList &ids);
+
+    /**
+      * Only to be used by SimpleNotes
+      */
+    void innerAddNewTextNote(const QString &parentID);
+    void innerAddNewFolderNote(const QString &parentID);
+    void innerRemoveNotes();
 private:
-    QTreeView m_treeView;
+    QTreeView *m_treeView;
     QStandardItemModel *m_itemModel;
     RecursivProxyModel *m_proxyModel;
     QItemSelectionModel *m_selectionModel;
     QIcon m_folderIcon;
     Notes *m_notes;
     QStringList m_idC;
+    QPoint m_currentPoint;
+
+    QPoint m_point;
 };
 
 #endif // NOTESITEMVIEW_H
