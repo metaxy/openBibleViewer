@@ -214,9 +214,11 @@ set( openBibleViewer_SRCS
     src/core/notes/notes.cpp
     src/core/notes/xmlnotes.cpp
     src/core/notes/textnotes.cpp
+    src/core/notes/simplenotes.cpp
+    src/core/notes/notesitemview.cpp
     src/core/dbghelper.cpp
     src/core/verseselection.cpp
-    src/core/simplenotes.cpp
+
     src/core/basicclass.cpp
     src/core/moduledownloader.cpp
     src/core/history.cpp
@@ -384,8 +386,10 @@ set ( openBibleViewer_MOCS
     src/core/notes/notes.h
     src/core/notes/xmlnotes.h
     src/core/notes/textnotes.h
+    src/core/notes/simplenotes.h
+    src/core/notes/notesitemview.h
     src/core/downloadinfile.h
-    src/core/simplenotes.h
+
     src/core/moduledownloader.h
     src/core/verse/versification/versification_kjv.h
     src/core/verse/versification/versification_zefania.h

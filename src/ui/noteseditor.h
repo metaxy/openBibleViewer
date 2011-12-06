@@ -22,7 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/notes/notes.h"
 #include "src/module/modulemanager.h"
 #include "src/core/verseselection.h"
-#include "src/core/simplenotes.h"
+#include "src/core/notes/simplenotes.h"
 
 namespace Ui
 {

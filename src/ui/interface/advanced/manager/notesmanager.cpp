@@ -33,7 +33,6 @@ void NotesManager::createDocks()
 
 QHash<DockWidget*, Qt::DockWidgetArea> NotesManager::docks()
 {
-    //DEBUG_FUNC_NAME
     QHash<DockWidget *, Qt::DockWidgetArea> ret;
     ret.insert(m_notesDockWidget, Qt::RightDockWidgetArea);
     return ret;
@@ -41,7 +40,6 @@ QHash<DockWidget*, Qt::DockWidgetArea> NotesManager::docks()
 
 void NotesManager::newCustomColorMark(VerseSelection selection, QColor color, QSharedPointer<Versification> v11n)
 {
-    DEBUG_FUNC_NAME
     m_notesDockWidget->newStyleMark(selection,  "background-color: " + color.name() + ";", v11n);
 }
 
