@@ -47,11 +47,14 @@ public slots:
     void addNewTextNote();
     void addNewFolderNote();
 
+    void aktNote(const QString &noteID, const QString &title);
+    void pasteNote();
+
 signals:
     void showNote(const QString &noteID);
-    void copyNotes(QStringList ids);
+    void copyNotes(const QStringList &ids);
+    void pasteNote(const QString &parentID);
 
-    void removedNotes(const QStringList &ids);
 
     /**
       * Only to be used by SimpleNotes
@@ -70,6 +73,8 @@ private:
     QPoint m_currentPoint;
 
     QPoint m_point;
+
+    QModelIndex getIndex(const QString &noteID);
 };
 
 #endif // NOTESITEMVIEW_H

@@ -31,6 +31,7 @@ NotesItemView::NotesItemView(Notes *notes, QTreeView *treeView) :  m_treeView(tr
 }
 void NotesItemView::init()
 {
+    DEBUG_FUNC_NAME
     m_idC = m_notes->getIDList();
     create("-1", 0);
     m_idC.clear();
@@ -49,7 +50,7 @@ void NotesItemView::iterate(QStandardItem *item = 0)
 }
 void NotesItemView::create(const QString &id, QStandardItem *parentItem)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     foreach(const QString & i, m_idC) {
         if(id == "-1") {
             parentItem = m_itemModel->invisibleRootItem();
@@ -79,10 +80,12 @@ QStandardItem * NotesItemView::addFolder(const QString &id, const QString &title
 }
 QStandardItem * NotesItemView::addFolder(const QString &id, const QString &title, QStandardItem *parentItem)
 {
+    DEBUG_FUNC_NAME
+    myDebug() << id;
     QStandardItem *newItem = new QStandardItem;
     newItem->setIcon(m_folderIcon);
     newItem->setText(title);
-    newItem->setData(id);
+    newItem->setData(id, Qt::UserRole + 1);
 
     parentItem->appendRow(newItem);
     return newItem;
@@ -101,9 +104,10 @@ QStandardItem * NotesItemView::addNote(const QString &id, const QString &title, 
 QStandardItem * NotesItemView::addNote(const QString &id, const QString &title, QStandardItem *parentItem)
 {
     DEBUG_FUNC_NAME
+
     QStandardItem *newItem = new QStandardItem;
     newItem->setText(title);
-    newItem->setData(id);
+    newItem->setData(id, Qt::UserRole + 1);
 
     parentItem->appendRow(newItem);
     return newItem;
@@ -121,7 +125,7 @@ void NotesItemView::removeNote(const QString &noteID)
 }
 QStandardItem* NotesItemView::find(const QString &noteID)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, noteID, -1, Qt::MatchExactly);
     if(list.size() != 1) {
         myWarning() << "invalid noteID = " << noteID;
@@ -173,11 +177,15 @@ void NotesItemView::notesContextMenu(QPoint point)
     m_currentPoint = point;
     contextMenu->setObjectName("contextMenu");
 
-    QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), contextMenu);
+    QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Text"), contextMenu);
     actionCopy->setObjectName("actionCopy");
     connect(actionCopy, SIGNAL(triggered()), this, SLOT(copyNote()));
 
-    QAction *actionNew = new QAction(QIcon::fromTheme("document-new", QIcon(":/icons/16x16/document-new.png")), tr("New"), contextMenu);
+    QAction *actionPaste = new QAction(QIcon::fromTheme("edit-paste", QIcon(":/icons/16x16/edit-paste.png")), tr("Paste Text"), contextMenu);
+    actionPaste->setObjectName("actionPaste");
+    connect(actionPaste, SIGNAL(triggered()), this, SLOT(pasteNote()));
+
+    QAction *actionNew = new QAction(QIcon::fromTheme("document-new", QIcon(":/icons/16x16/document-new.png")), tr("New Note"), contextMenu);
     actionNew->setObjectName("actionNew");
     connect(actionNew, SIGNAL(triggered()), this, SLOT(addNewTextNote()));
 
@@ -190,10 +198,12 @@ void NotesItemView::notesContextMenu(QPoint point)
     connect(actionDelete, SIGNAL(triggered()), this, SIGNAL(innerRemoveNotes()));
 
     contextMenu->addAction(actionNew);
-    contextMenu->addAction(actionDelete);
-    contextMenu->addSeparator();
     contextMenu->addAction(actionNewFolder);
+
+    contextMenu->addSeparator();
+    contextMenu->addAction(actionPaste);
     contextMenu->addAction(actionCopy);
+    contextMenu->addAction(actionDelete);
 
     contextMenu->exec(QCursor::pos());
     delete contextMenu;
@@ -202,6 +212,14 @@ void NotesItemView::copyNote()
 {
     emit copyNotes(this->selectedNotes());
 }
+void NotesItemView::pasteNote()
+{
+    QString parentID;
+    if(sender()->objectName() == "actionPaste")
+        parentID = m_treeView->indexAt(m_point).data(Qt::UserRole + 1).toString();
+    emit pasteNote(parentID);
+}
+
 QString NotesItemView::newTextNote(const QString &id, const QString title, bool fromSender)
 {
     m_selectionModel->clearSelection();
@@ -266,8 +284,9 @@ void NotesItemView::showNote(const QModelIndex &index)
 void NotesItemView::addNewFolderNote()
 {
     QString parentID;
-    if(sender()->objectName() == "actionNew")
+    if(sender()->objectName() == "actionNewFolder")
         parentID = m_treeView->indexAt(m_point).data(Qt::UserRole + 1).toString();
+
     emit innerAddNewFolderNote(parentID);
 }
 
@@ -278,4 +297,20 @@ void NotesItemView::addNewTextNote()
         parentID = m_treeView->indexAt(m_point).data(Qt::UserRole + 1).toString();
 
     emit innerAddNewTextNote(parentID);
+}
+void NotesItemView::aktNote(const QString &noteID, const QString &title)
+{
+    const QModelIndex index = getIndex(noteID);
+    if(index.data(Qt::DisplayRole) != title) {
+        m_itemModel->setData(index, title, Qt::DisplayRole);
+    }
+}
+QModelIndex NotesItemView::getIndex(const QString &noteID)
+{
+    const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, noteID, -1, Qt::MatchExactly);
+    if(list.size() != 1) {
+        myWarning() << "invalid noteID = " << noteID << " size = " << list.size();
+        return QModelIndex();
+    }
+    return list.first();
 }

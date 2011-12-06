@@ -83,6 +83,7 @@ void SimpleNotes::init()
     connect(m_view, SIGNAL(innerAddNewFolderNote(QString)), this , SLOT(innerAddNewFolderNote(QString)));
     connect(m_view, SIGNAL(innerRemoveNotes()), this, SLOT(innerRemoveNotes()));
     connect(m_view, SIGNAL(showNote(QString)), this, SLOT(showNote(QString)));
+    connect(m_view, SIGNAL(pasteNote(QString)), this, SLOT(pasteNote(QString)));
     m_noteID = "";
 
 
@@ -202,7 +203,24 @@ void SimpleNotes::copyNote(const QStringList &ids)
         clipboard->setText(text);
     }
 }
+void SimpleNotes::pasteNote(const QString &parentID)
+{
+     QClipboard *clipboard = QApplication::clipboard();
 
+     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
+
+     aktNote();
+     fastSave();
+
+     const QString title = tr("(unnamed)");
+     const QString type = "text";
+     const QString newID = m_notes->generateNewID();
+     m_notes->setData(newID, clipboard->text());
+     createNew(newID, title, type, parentID);
+     m_view->addNote(newID, title, parentID);
+
+     connect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
+}
 
 void SimpleNotes::saveNote(void)
 {
@@ -242,18 +260,9 @@ void SimpleNotes::aktNote()
     //DEBUG_FUNC_NAME
     if(m_noteID.isEmpty())
         return;
-
-    m_notes->setTitle(m_noteID, m_lineEdit_title->text());
-   /* const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, m_noteID, -1);
-    if(list.size() != 1) {
-        myWarning() << "invalid noteID = " << m_noteID << " size = " << list.size();
-        return;
-    }
-    const QModelIndex index = list.at(0);
-
-    if(index.data(Qt::DisplayRole) != m_notes->getTitle(m_noteID)) {
-        m_itemModel->setData(index, m_notes->getTitle(m_noteID), Qt::DisplayRole);
-    }*/
+    const QString title = m_lineEdit_title->text();
+    m_notes->setTitle(m_noteID, title);
+    m_view->aktNote(m_noteID, title);
 }
 void SimpleNotes::select(const QString &noteID)
 {
@@ -262,7 +271,7 @@ void SimpleNotes::select(const QString &noteID)
 }
 void SimpleNotes::innerAddNewTextNote(const QString &parent)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     aktNote();
     fastSave();
     const QString title = tr("(unnamed)");
@@ -275,7 +284,7 @@ void SimpleNotes::innerAddNewTextNote(const QString &parent)
 
 void SimpleNotes::newTextNote()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
 
     aktNote();
@@ -293,7 +302,8 @@ void SimpleNotes::newTextNote()
 }
 void SimpleNotes::innerAddNewFolderNote(const QString &parent)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
+    myDebug() << parent;
     aktNote();
     fastSave();
     const QString title = tr("(unnamed)");
@@ -305,8 +315,7 @@ void SimpleNotes::innerAddNewFolderNote(const QString &parent)
 }
 void SimpleNotes::createNew(const QString &noteID, const QString &title, const QString &type, const QString &parentID)
 {
-    DEBUG_FUNC_NAME
-    m_notes->setData(noteID, "");
+    //DEBUG_FUNC_NAME
     m_notes->setTitle(noteID, title);
     m_notes->setType(noteID, type);
 
@@ -320,14 +329,14 @@ void SimpleNotes::createNew(const QString &noteID, const QString &title, const Q
     m_notes->insertID(noteID);
     //maybe show Note?
     setTitle(title);
-    setData("");
+    setData(m_notes->getData(noteID));
     setRef(m_noteRef);
 
 }
 
 void SimpleNotes::newFolder()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     disconnect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
 
     aktNote();
@@ -344,7 +353,7 @@ void SimpleNotes::newFolder()
 
 void SimpleNotes::addNote(const QString &id)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     //todo: the hirachary is not working
     if(m_noteID == id)
         return;
@@ -474,7 +483,7 @@ void SimpleNotes::innerRemoveNotes()
 
 void SimpleNotes::removeNote(const QString &id)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     disconnect(m_notes, SIGNAL(noteRemoved(QString,QMap<QString, QString>)), this, SLOT(removeNote(QString)));
     if(id == m_noteID) {
         setTitle("");

@@ -106,6 +106,8 @@ private slots:
     void innerAddNewFolderNote(const QString &parent);
     void innerRemoveNotes();
 
+    void pasteNote(const QString &parentID);
+
 private:
     QLineEdit *m_lineEdit_title;
     QTextBrowser *m_textEdit_note;
