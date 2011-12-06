@@ -26,7 +26,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/notes/notes.h"
 #include "src/core/verseselection.h"
 #include "src/core/basicclass.h"
-
+#include "src/core/notes/notesitemview.h"
 #include "src/core/link/urlconverter2.h"
 #include "src/ui/dialog/biblepassagedialog.h"
 #include "src/core/obvcore.h"
@@ -125,15 +125,12 @@ private:
     void aktNote();
     void select(const QString &noteID);
     bool m_loadTextBrowser;
-    void create(const QString &id, QStandardItem *parentItem);
+
 
     QStringList m_idC;
     QPoint m_point;
 
-    /**
-      * Save the tree structure of all notes.
-      */
-    void iterate(QStandardItem *item);
+    NotesItemView *m_view;
 
 
 };

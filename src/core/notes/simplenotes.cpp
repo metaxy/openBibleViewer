@@ -35,7 +35,7 @@ void SimpleNotes::setTitleWidget(QLineEdit *title)
 }
 void SimpleNotes::setViewWidget(QTreeView *treeView)
 {
-    m_treeView = treeView;
+    m_view = NotesItemView(m_notes, treeView);
 }
 void SimpleNotes::setLinkWidget(QLabel *link)
 {
@@ -45,32 +45,7 @@ void SimpleNotes::setLinkButtonWidget(QPushButton *button)
 {
     m_pushButton_link = button;
 }
-void SimpleNotes::create(const QString &id, QStandardItem *parentItem)
-{
-    //DEBUG_FUNC_NAME
-    foreach(const QString & i, m_idC) {
-        if(id == "-1") {
-            parentItem = m_itemModel->invisibleRootItem();
-        }
-        if((id == "-1" && m_notes->getRef(i, "parent").isEmpty()) || m_notes->getRef(i, "parent") == id) {
-            if(m_notes->getType(i) == "text") {
-                QStandardItem *noteItem = new QStandardItem;
-                noteItem->setText(m_notes->getTitle(i));
-                noteItem->setData(i);
-                parentItem->appendRow(noteItem);
-                create(i, noteItem);
-            } else if(m_notes->getType(i) == "folder") {
-                QStandardItem *folderItem = new QStandardItem;
-                folderItem->setIcon(m_folderIcon);
-                folderItem->setText(m_notes->getTitle(i));
-                folderItem->setData(i);
-                parentItem->appendRow(folderItem);
-                create(i, folderItem);
-            }
-        }
 
-    }
-}
 
 void SimpleNotes::init()
 {
@@ -230,17 +205,7 @@ void SimpleNotes::copyNote(void)
     }
 
 }
-void SimpleNotes::iterate(QStandardItem *item = 0)
-{
-    //DEBUG_FUNC_NAME
-    const QString parentID = item->data().toString();
-    for(int i = 0; i < item->rowCount(); ++i) {
-        QStandardItem *m = item->child(i);
-        m_notes->setRef(m->data().toString(), "parent", parentID);
-        if(m->hasChildren())
-            iterate(m);
-    }
-}
+
 
 void SimpleNotes::saveNote(void)
 {
@@ -412,17 +377,7 @@ void SimpleNotes::addNote(const QString &id)
         newItem->setData(id);
         parentItem->appendRow(newItem);
     } else if(m_notes->getType(id) == "folder") {
-        QStandardItem *parentItem = m_itemModel->invisibleRootItem();
-        QStandardItem *newItem = new QStandardItem;
-        QStyle *style = QApplication::style();
-        QIcon folderIcon;
-        folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
-        folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
-        newItem->setIcon(folderIcon);
-        newItem->setText(m_notes->getTitle(id));
-        newItem->setData(id);
 
-        parentItem->appendRow(newItem);
     }
 }
 
@@ -597,18 +552,15 @@ void SimpleNotes::removeNote()
 void SimpleNotes::removeNote(const QString &id)
 {
     //DEBUG_FUNC_NAME
+    disconnect(m_notes, SIGNAL(noteRemoved(QString)), this, SLOT(removeNote(QString)));
     if(id == m_noteID) {
         setTitle("");
         setData("");
         setRef(QMap<QString, QString>());
     }
-    const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, id);
-    if(list.size() != 1) {
-        myWarning() << "invalid noteID = " << m_noteID;
-        return;
-    }
-    const QModelIndex index = list.at(0);
-    m_itemModel->removeRow(index.row(), index.parent());
+    m_view->removeNote(id);
+    m_notes->removeNote(id);
+    connect(m_notes, SIGNAL(noteRemoved(QString)), this, SLOT(removeNote(QString)));
 }
 void SimpleNotes::open(const QString &link)
 {
