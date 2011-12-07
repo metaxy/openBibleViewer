@@ -167,10 +167,12 @@ int SettingsDialog::setSettings(Settings settings)
 void SettingsDialog::generateModuleTree()
 {
     DEBUG_FUNC_NAME;
+
     ModuleModel model(this);
     model.setSettings(&m_set);
     model.setShowAll(true);
     model.generate();
+
     m_ui->treeView->setModel(model.itemModel());
     m_ui->treeView->model()->setHeaderData(0, Qt::Horizontal, tr("Module"));
 }
@@ -232,7 +234,6 @@ void SettingsDialog::addModuleDir(void)
                     }
                     m->moduleName = dictname;
                     m->moduleType = OBVCore::FolderModule;
-                    //m.isDir = true;
                 } else {
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("It is not a folder."));
                     delete dialog;
@@ -247,6 +248,8 @@ void SettingsDialog::addModuleDir(void)
                 m->encoding = "Default";//no translating
                 m->parentID = -1;
                 m_set.m_moduleSettings.insert(m->moduleID, m);
+                m_set.getModuleSettings(-1)->appendChild(m);
+
                 const QStringList scanned = scan(f);
                 foreach(const QString & file, scanned) {
                     if(ModuleManager::recognizeModuleType(file) != OBVCore::NoneType) {//that is faster than check in quitAddModule
@@ -254,8 +257,9 @@ void SettingsDialog::addModuleDir(void)
                     }
                 }
             }
-            progress.close();
             generateModuleTree();
+            progress.close();
+
         }
 
     }
@@ -448,7 +452,7 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
             bibleQuoteDict.setSettings(&m_set);
             bibleQuoteDict.setID(0, f);
             info = bibleQuoteDict.readInfo(f);
-            bibleQuoteDict.buildIndex();
+            //bibleQuoteDict.buildIndex();
         } else if(moduleType == OBVCore::TheWordBibleModule) {
             TheWordBible theWordBible;
             theWordBible.setSettings(&m_set);

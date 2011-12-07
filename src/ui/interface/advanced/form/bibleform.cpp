@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_bibleform.h"
 #include "src/core/verse/reftext.h"
 #include <QtCore/QPointer>
+#include "src/core/link/urlconverter2.h"
 BibleForm::BibleForm(QWidget *parent) : Form(parent), m_ui(new Ui::BibleForm)
 {
     //DEBUG_FUNC_NAME
@@ -159,7 +160,7 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url)
         m_moduleManager->newVerseModule(moduleID, QPoint(0, 0), m_verseTable);
     }
 
-    if(m_verseTable->verseModule()->moduleID() != ranges.getList().first().moduleID()) {
+    /*if(m_verseTable->verseModule()->moduleID() != ranges.getList().first().moduleID()) {
 
         const QPoint p = m_verseTable->m_points.value(m_verseTable->currentVerseTableID());
         VerseModule *m;
@@ -174,7 +175,7 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url)
         m->setModuleType(type);
         m->setModuleID(moduleID);
         m_verseTable->addModule(m, p);
-    }
+    }*/
     r = m_verseTable->readRanges(ranges);
 
     if(!r.second.failed()) {

@@ -89,7 +89,7 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
-    VerseUrl newUrl = urlConverter.convert();
+    const VerseUrl newUrl = urlConverter.convert();
     if(newUrl.isValid()) {
         m_actions->reloadIf(newUrl);
     }
