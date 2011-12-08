@@ -41,7 +41,6 @@ void ModuleModel::setSettings(Settings *settings)
 
 void ModuleModel::generate()
 {
-    //DEBUG_FUNC_NAME
     QStandardItem *parentItem = m_moduleModel->invisibleRootItem();
 
     ModuleSettings *rootModuleSettings = m_settings->getModuleSettings(-1);//it's the invisble root item

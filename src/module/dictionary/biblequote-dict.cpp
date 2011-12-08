@@ -33,6 +33,7 @@ BibleQuoteDict::BibleQuoteDict()
 MetaInfo BibleQuoteDict::readInfo(QFile &file)
 {
     //todo: use module default encoding
+    //m_settings->getModuleSettings(m_moduleID)->encoding;
     const QString encoding = m_settings->encoding;
     QTextCodec *codec = QTextCodec::codecForName(encoding.toStdString().c_str());
     QTextDecoder *decoder = codec->makeDecoder();

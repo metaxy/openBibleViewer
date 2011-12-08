@@ -265,7 +265,6 @@ int ZefaniaBible::readBook(const int id)
 }
 void ZefaniaBible::genStrongsPrefix()
 {
-    //todo: that isn't  nice
     foreach(int bookID, m_versification->bookIDs()) {
         QString add;
         if(m_versification->bookCount() == 66) {

@@ -27,6 +27,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/moduledisplaysettings.h"
 /**
   * ModuleSettings represents a settings class for modules.
+  * Creating ModuleSetting is verry tricky. You have to set the parents on your own, also not not forget to append it the parent.
   */
 class ModuleSettings
 {
@@ -34,8 +35,6 @@ public:
     ModuleSettings();
     ModuleSettings(ModuleSettings *parent);
     ~ModuleSettings();
-
-
 
     enum ZefBible_TextFormating {
         NewLine = 0,//Neue Zeile nach Vers

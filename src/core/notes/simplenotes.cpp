@@ -353,8 +353,6 @@ void SimpleNotes::newFolder()
 
 void SimpleNotes::addNote(const QString &id)
 {
-    //DEBUG_FUNC_NAME
-    //todo: the hirachary is not working
     if(m_noteID == id)
         return;
     //todo: if there is already this note(but something like that should never happen)

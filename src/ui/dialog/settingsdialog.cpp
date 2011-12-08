@@ -248,7 +248,7 @@ void SettingsDialog::addModuleDir(void)
                 m->encoding = "Default";//no translating
                 m->parentID = -1;
                 m_set.m_moduleSettings.insert(m->moduleID, m);
-                m_set.getModuleSettings(-1)->appendChild(m);
+                m_set.getModuleSettings(m->parentID)->appendChild(m);
 
                 const QStringList scanned = scan(f);
                 foreach(const QString & file, scanned) {

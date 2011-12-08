@@ -159,7 +159,7 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url)
     if(!verseTableLoaded()) {
         m_moduleManager->newVerseModule(moduleID, QPoint(0, 0), m_verseTable);
     }
-
+    //todo: its very important to fix this bug
     /*if(m_verseTable->verseModule()->moduleID() != ranges.getList().first().moduleID()) {
 
         const QPoint p = m_verseTable->m_points.value(m_verseTable->currentVerseTableID());

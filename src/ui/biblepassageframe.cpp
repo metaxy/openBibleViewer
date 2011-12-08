@@ -21,7 +21,8 @@ BiblePassageFrame::BiblePassageFrame(QWidget *parent) :
     ui->setupUi(this);
     m_count = 0;
     connect(ui->pushButton_add, SIGNAL(clicked()), this, SLOT(add()));
-   connect(ui->pushButton_replace, SIGNAL(clicked()), this, SLOT(replace()));
+    connect(ui->pushButton_replace, SIGNAL(clicked()), this, SLOT(replace()));
+    connect(ui->treeView, SIGNAL(activated(QModelIndex)), this ,SLOT(reload(QModelIndex)));
 }
 
 BiblePassageFrame::~BiblePassageFrame()
@@ -55,8 +56,12 @@ void BiblePassageFrame::addBox_BCV(const int bookID, const int chapterID, const 
     verse->setObjectName("verse_" + QString::number(m_count));
     QToolButton *button = newButton(m_count);
 
-    books->insertItems(0, m_bookNames);
-    books->setCurrentIndex(bookID);
+    QSharedPointer<Versification> v = m_settings->getModuleSettings(m_moduleID)->getV11n();
+    if(v != NULL) {
+        books->insertItems(0, v->bookNames().values());
+        books->setCurrentIndex(v->bookIDs().indexOf(bookID));
+    }
+
     chapter->setValue(chapterID + 1);
     verse->setValue(verseID + 1);
 
@@ -84,8 +89,11 @@ void BiblePassageFrame::addBox_BCVV(const int bookID, const int chapterID, const
     endVerse->setObjectName("endVerse_" + QString::number(m_count));
     QToolButton *button = newButton(m_count);
 
-    books->insertItems(0, m_bookNames);
-    books->setCurrentIndex(bookID);
+    QSharedPointer<Versification> v = m_settings->getModuleSettings(m_moduleID)->getV11n();
+    if(v != NULL) {
+        books->insertItems(0, v->bookNames().values());
+        books->setCurrentIndex(v->bookIDs().indexOf(bookID));
+    }
     chapter->setValue(chapterID + 1);
 
     startVerse->setValue(startVerseID + 1);
@@ -111,8 +119,13 @@ void BiblePassageFrame::addBox_BC(const int bookID, const int chapterID)
     QSpinBox *chapter = new QSpinBox(this);
     chapter->setObjectName("chapter_" + QString::number(m_count));
 
-    books->insertItems(0, m_bookNames);
-    books->setCurrentIndex(bookID);
+    QSharedPointer<Versification> v = m_settings->getModuleSettings(m_moduleID)->getV11n();
+    if(v != NULL) {
+        books->insertItems(0, v->bookNames().values());
+        books->setCurrentIndex(v->bookIDs().indexOf(bookID));
+    }
+
+
     chapter->setValue(chapterID + 1);
     QToolButton *button = newButton(m_count);
 
@@ -248,7 +261,10 @@ VerseUrl BiblePassageFrame::toVerseUrl()
             continue;
         }
         if(o->objectName().startsWith("books")) {
-            books[id] = ((QComboBox*)o)->currentIndex();
+            QSharedPointer<Versification> v = m_settings->getModuleSettings(m_moduleID)->getV11n();
+            if(v != NULL) {
+                books[id] = v->bookIDs().at(((QComboBox*)o)->currentIndex());
+            }
 
         } else if(o->objectName().startsWith("chapter")) {
             chapter[id] = ((QSpinBox*)o)->value() - 1;
@@ -265,7 +281,6 @@ VerseUrl BiblePassageFrame::toVerseUrl()
     while(it.hasNext()) {
         it.next();
         if(it.key() > -1) {
-            //myDebug() << "key = " << it.key();
             VerseUrlRange r;
             r.setModule(m_moduleID);
             r.setBook(it.value());
@@ -289,15 +304,12 @@ void BiblePassageFrame::setVerseUrlRanges(const QList<VerseUrlRange> &ranges)
         return;
     }
     m_moduleID = ranges.first().moduleID();
-    QSharedPointer<Versification> v = m_settings->getModuleSettings(m_moduleID)->getV11n();
-    if(v != NULL) {
-        m_bookNames = v->bookNames().values();//todo:
-    }
+
 
     QModelIndexList list = m_proxyModel->match(m_model->invisibleRootItem()->index(),
                            Qt::UserRole + 1,
                            QString::number(m_moduleID),
-                           1 ,
+                           1,
                            Qt::MatchExactly);
 
     if(!list.isEmpty()) {
@@ -340,6 +352,22 @@ void BiblePassageFrame::getModuleID()
         m_moduleID = list.first().data(Qt::UserRole + 1).toInt();
     }
 }
+void BiblePassageFrame::reload(const QModelIndex &index)
+{
+    m_moduleID = index.data(Qt::UserRole + 1).toInt();
+    QSharedPointer<Versification> v = m_settings->getModuleSettings(m_moduleID)->getV11n();
+    foreach(QObject * o, this->children()) {
+        if(o->objectName().startsWith("books")) {
+            QComboBox *box = (QComboBox*)o;
+            int index = box->currentIndex();
+            box->clear();
+            box->insertItems(0, v->bookNames().values());
+            box->setCurrentIndex(index);
+        }
+    }
+    //todo: reload
+}
+
 void BiblePassageFrame::replace()
 {
     clear();

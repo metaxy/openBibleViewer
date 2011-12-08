@@ -44,6 +44,7 @@ private slots:
     void add();
     void replace();
 
+    void reload(const QModelIndex &index);
 public:
     explicit BiblePassageFrame(QWidget *parent = 0);
     ~BiblePassageFrame();
