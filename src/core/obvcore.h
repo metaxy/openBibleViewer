@@ -54,9 +54,29 @@ enum ContentType {
     BibleNTContent = 3,
     StrongsContent = 4,
     RMacContent = 5,
-    WordDictionaryContent = 6
+    WordDictionaryContent = 6,
+    GramContent = 7
 };
 
+OBVCore::DefaultModule toDefaultModule(const OBVCore::ContentType t)
+{
+    switch (t) {
+        case BibleContent:
+        case BibleOTContent:
+        case BibleNTContent:
+            return DefaultBibleModule;
+        case StrongsContent:
+            return DefaultStrongDictModule;
+        case RMacContent:
+            return DefaultRMACDictModule;
+        case WordDictionaryContent:
+            return DefaultDictModule;
+        case GramContent:
+            return DefaultGramDictModule;
+        default:
+            return NotADefaultModule;//todo: could this cause some bugs?
+    }
+}
 /*  QStringList ModuleTypeNames()
   {
       QStringList l;

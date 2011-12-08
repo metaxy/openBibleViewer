@@ -49,41 +49,49 @@ DictionaryDockWidget* DictionaryManager::dictionaryDockWidget()
     return m_dictionaryDock;
 }
 
-void DictionaryManager::open(const QString &key, OBVCore::DefaultModule defaultModule)
+void DictionaryManager::open(const QString &key, OBVCore::ContentType contentType)
 {
+    OBVCore::DefaultModule defaultModule = OBVCore::toDefaultModule(contentType);
     QMdiSubWindow *w = m_windowManager->hasDictWindow(defaultModule);
-
+    //alreay open window
     if(w != NULL) {
+        m_windowManager->activate(w);
         ((DictionaryForm*)m_windowManager->getForm(w))->showEntry(key, -1);
-    } else {
-        int moduleID = -1;
-        QHashIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
-        while(i.hasNext()) {
-            i.next();
-            if(i.value()->defaultModule == defaultModule)
-                moduleID = i.key();
-        }
+    }
+    //look for default module
+    int moduleID = -1;
+    QHashIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
+    while(i.hasNext()) {
+        i.next();
+        if(i.value()->defaultModule == defaultModule)
+            moduleID = i.key();
+    }
+    //we need a dictionary window where to open it
+    w = m_windowManager->needDictionaryWindow();
+    DictionaryForm* d = ((DictionaryForm*)m_windowManager->getForm(w));
 
-        QMdiSubWindow *w = m_windowManager->needDictionaryWindow();
-        DictionaryForm* d = ((DictionaryForm*)m_windowManager->getForm(w));
-        if(d->dictionary() != NULL) {
-            d->showEntry(key, -1);
+    //ok first thing we try is
+    //if there is already a module loaded check the content type
+    if(d->dictionary() != NULL) {
+        ModuleSettings *m = m_settings->getModuleSettings(d->dictionary()->moduleID());
+
+        d->showEntry(key, -1);
+    } else {
+        if(moduleID != -1) {
+            d->showEntry(key, moduleID);
         } else {
+            QMapIterator<int, Module*> i(m_moduleManager->m_moduleMap->data);
+            while(i.hasNext()) {
+                i.next();
+                if(i.value()->moduleClass() == OBVCore::DictionaryModuleClass)
+                    moduleID = i.key();
+            }
             if(moduleID != -1) {
                 d->showEntry(key, moduleID);
-            } else {
-                QMapIterator<int, Module*> i(m_moduleManager->m_moduleMap->data);
-                while(i.hasNext()) {
-                    i.next();
-                    if(i.value()->moduleClass() == OBVCore::DictionaryModuleClass)
-                        moduleID = i.key();
-                }
-                if(moduleID != -1) {
-                    d->showEntry(key, moduleID);
-                }
             }
         }
     }
+
 }
 
 void DictionaryManager::pharseUrl(QString url)
@@ -97,15 +105,15 @@ void DictionaryManager::pharseUrl(QString url)
     if(url.startsWith(strong)) {
         //strong://strongID
         url = url.remove(0, strong.size());
-        open(url, OBVCore::DefaultStrongDictModule);
+        open(url, OBVCore::StrongsContent);
     } else if(url.startsWith(gram)) {
         //gram://gramID
         url = url.remove(0, gram.size());
-        open(url, OBVCore::DefaultGramDictModule);
+        open(url, OBVCore::GramContent);
     } else if(url.startsWith(rmac)) {
         //rmac://rmacID
         url = url.remove(0, rmac.size());
-        open(url, OBVCore::DefaultRMACDictModule);
+        open(url, OBVCore::RMacContent);
     } else if(url.startsWith(dict)) {
         //dict:/module/key
         m_windowManager->needDictionaryWindow();

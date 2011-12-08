@@ -208,8 +208,6 @@ QMdiSubWindow* WindowManager::hasDictWindow(OBVCore::DefaultModule d)
             if(form->dictionary() != NULL) {
                 const int moduleID = form->dictionary()->moduleID();
                 if(m_settings->getModuleSettings(moduleID)->defaultModule == d) {
-                    w->activateWindow();
-                    m_area->setActiveSubWindow(w);
                     return w;
                 }
             }
@@ -224,13 +222,16 @@ QMdiSubWindow* WindowManager::hasDictWindow(const int moduleID)
         if(f->type() == Form::DictionaryForm) {
             DictionaryForm *form = (DictionaryForm*)(f);
             if(form->dictionary()->moduleID() == moduleID) {
-                w->activateWindow();
-                m_area->setActiveSubWindow(w);
                 return w;
             }
         }
     }
     return NULL;
+}
+void WindowManager::activate(QMdiSubWindow *w)
+{
+    w->activateWindow();
+    m_area->setActiveSubWindow(w);
 }
 
 void WindowManager::autoLayout()
@@ -277,7 +278,7 @@ Form * WindowManager::activeForm()
 {
     return getForm(activeSubWindow());
 }
-Form * WindowManager::getForm(QMdiSubWindow *w)
+Form * WindowManager::getForm(QMdiSubWindow *w) const
 {
     if(w == NULL)
         return NULL;

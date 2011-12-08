@@ -57,7 +57,7 @@ public slots:
     QMdiSubWindow * newWebSubWindow(bool doAutoLayout = true, bool forceMax = false);
     QMdiSubWindow * newDictionarySubWindow(bool doAutoLayout = true, bool forceMax = false);
 
-    Form* getForm(QMdiSubWindow *w);
+    Form* getForm(QMdiSubWindow *w) const;
 
     void closeSubWindow();
     int closingWindow();
@@ -86,6 +86,8 @@ public slots:
 
     QMdiSubWindow* hasDictWindow(OBVCore::DefaultModule d);
     QMdiSubWindow* hasDictWindow(const int moduleID);
+
+    void activate(QMdiSubWindow *w);
 
 
 
