@@ -52,6 +52,7 @@ DictionaryDockWidget* DictionaryManager::dictionaryDockWidget()
 void DictionaryManager::open(const QString &key, OBVCore::DefaultModule defaultModule)
 {
     QMdiSubWindow *w = m_windowManager->hasDictWindow(defaultModule);
+
     if(w != NULL) {
         ((DictionaryForm*)m_windowManager->getForm(w))->showEntry(key, -1);
     } else {

@@ -12,26 +12,16 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "dictionary.h"
-#include "src/module/dictionary/biblequote-dict.h"
-#include "src/module/dictionary/zefania-lex.h"
-#include "src/module/dictionary/webdictionary.h"
+
 Dictionary::Dictionary()
 {
-    m_dictionaryModule = 0;
     m_moduleType = OBVCore::NoneType;
     m_moduleID = -1;
 }
 Dictionary::~Dictionary()
 {
     DEBUG_FUNC_NAME
-   /* if(m_map != NULL) {
-        Module *m = m_map->module(m_moduleID);
-        if(m != NULL && m->m_dictionaryModule != NULL) {
-            myDebug() << "deleting bibleModule";
-            delete m->m_dictionaryModule;
-            m->m_dictionaryModule = NULL;
-        }
-    }*/
+    m_dictionaryModule.clear();
 }
 
 int Dictionary::loadModuleData(const int moduleID)
@@ -48,19 +38,9 @@ int Dictionary::loadModuleData(const int moduleID)
     if(m_module->m_dictionaryModule) {
         m_dictionaryModule = m_module->m_dictionaryModule;
     } else {
-        //Module deletes them
-        if(m_moduleType == OBVCore::ZefaniaLexModule) {
-            m_dictionaryModule = new ZefaniaLex();
-        } else if(m_moduleType == OBVCore::BibleQuoteDictModule) {
-            m_dictionaryModule = new BibleQuoteDict();
-        } else if(m_moduleType == OBVCore::WebDictionaryModule) {
-            m_dictionaryModule = new WebDictionary();
-        }  else {
-            return 1;
-        }
+        m_dictionaryModule = m_module->newDictionaryModule(m_module->moduleType());
 
         m_dictionaryModule->setSettings(m_settings);
-        m_module->m_dictionaryModule = m_dictionaryModule;
         m_dictionaryModule->setID(m_moduleID, path);
     }
     return 0;
@@ -75,7 +55,7 @@ QStringList Dictionary::getAllKeys() const
 }
 DictionaryModule * Dictionary::module() const
 {
-    return m_dictionaryModule;
+    return m_dictionaryModule.data();
 }
 QString Dictionary::moduleUID() const
 {

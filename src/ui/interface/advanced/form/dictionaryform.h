@@ -53,7 +53,7 @@ private slots:
     void forwardShowHtml(const QString &html);
     void forwardShowEntry(const QString &key, int moduleID);
 
-    void get(QUrl url);
+    void get(const QUrl &url);
 private:
     Ui::DictionaryForm *ui;
     void loadDictionary(int moduleID);

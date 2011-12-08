@@ -23,9 +23,6 @@ Settings::Settings()
 Settings::~Settings()
 {
     defaultVersification.clear();
-    //todo: memory leak
-    /*if(defaultVersification != NULL)
-        delete defaultVersification;*/
 }
 
 

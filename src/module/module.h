@@ -44,12 +44,14 @@ public:
     void setModuleType(const OBVCore::ModuleType &t);
 
     QWeakPointer<BibleModule> m_bibleModule;
+    QWeakPointer<DictionaryModule> m_dictionaryModule;
+
     QSharedPointer<BibleModule> newBibleModule(const OBVCore::ModuleType type);
-    DictionaryModule *m_dictionaryModule;
+    QSharedPointer<DictionaryModule> newDictionaryModule(const OBVCore::ModuleType type);
 
     void setSettings(Settings *settings);
 
-    void append(Module *child);
+
     Module *parent() const;
     static QStringList moduleTypeNames();
     static QString moduleTypeName(OBVCore::ModuleType type);
@@ -63,6 +65,7 @@ private:
     int m_id;
     OBVCore::ModuleClass m_moduleClass;
     OBVCore::ModuleType m_moduleType;
+    void append(Module *child);
 };
 
 #endif // MODULE_H

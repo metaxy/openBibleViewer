@@ -86,11 +86,37 @@ void WebPage::search(SearchQuery query, SearchResult *result)
 
 MetaInfo WebPage::readInfo(const QString &name)
 {
-    loadModuleData(m_moduleID, name);
-    myDebug() << m_name << m_shortName;
+    QDomDocument doc;
     MetaInfo ret;
-    ret.setName(m_name);
-    ret.setShortName(m_shortName);
+    QFile file(name);
+    if(!file.open(QIODevice::ReadOnly))
+        return ret;
+
+    if(!doc.setContent(&file)) {
+        file.close();
+        return ret;
+    }
+    file.close();
+
+    const QDomElement docElem = doc.documentElement();
+
+    QDomNode n = docElem.firstChild();
+    while(!n.isNull()) {
+        if(n.nodeName() == "meta") {
+            QDomNode n2 = n.firstChild();
+            while(!n2.isNull()) {
+                if(n2.nodeName() == "name") {
+                    ret.setName(n2.firstChild().toText().data());
+                } else if(n2.nodeName() == "shortName") {
+                    ret.setShortName(n2.firstChild().toText().data());
+                } else if(n2.nodeName() == "desc") {
+                    ret.description = n2.firstChild().toText().data();
+                }
+                n2 = n2.nextSibling();
+            }
+        }
+        n = n.nextSibling();
+    }
     return ret;
 }
 bool WebPage::loaded()

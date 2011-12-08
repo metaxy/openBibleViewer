@@ -47,7 +47,7 @@ public:
     DictionaryModule * module() const;
     QString moduleUID() const;
 private:
-    DictionaryModule *m_dictionaryModule;
+    QSharedPointer<DictionaryModule> m_dictionaryModule;
 };
 
 #endif // DICTIONARY_H

@@ -49,7 +49,7 @@ void DictionaryForm::init()
     connect(m_actions, SIGNAL(_showDictEntry(QString, int)), this, SLOT(forwardShowEntry(QString, int)));
     connect(ui->webView->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(get(QUrl)));
 }
-void DictionaryForm::get(QUrl url)
+void DictionaryForm::get(const QUrl &url)
 {
     if(m_dictionary->moduleType() == OBVCore::WebDictionaryModule) {
         WebDictionary *d = (WebDictionary*)(m_dictionary->module());

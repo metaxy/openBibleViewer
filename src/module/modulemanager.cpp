@@ -164,7 +164,6 @@ void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
     module->setTitle(settings->moduleName);
     module->setModuleID(settings->moduleID);
 
-    parentModule->append(module);
     //m_map deletes them
     m_moduleMap->data.insert(settings->moduleID, module);
 

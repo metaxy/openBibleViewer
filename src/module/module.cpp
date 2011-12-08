@@ -16,22 +16,22 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/bible/zefania-bible.h"
 #include "src/module/bible/thewordbible.h"
 #include "src/module/bible/swordbible.h"
-Module::Module(Module *parent)
+#include "src/module/dictionary/biblequote-dict.h"
+#include "src/module/dictionary/zefania-lex.h"
+#include "src/module/dictionary/webdictionary.h"
+Module::Module(Module *parent) : m_parent(parent)
 {
-    m_dictionaryModule = NULL;
-
-    m_parent = parent;
-
     m_moduleClass = OBVCore::NoneClass;
     m_moduleType = OBVCore::NoneType;
+
+    if(m_parent != NULL) {
+        m_parent->append(this);
+    }
 }
 Module::~Module()
 {
     m_bibleModule.clear();
-    if(m_dictionaryModule != NULL) {
-        delete m_dictionaryModule;
-        m_dictionaryModule = NULL;
-    }
+    m_dictionaryModule.clear();
 }
 
 void Module::setSettings(Settings *settings)
@@ -145,5 +145,18 @@ QSharedPointer<BibleModule> Module::newBibleModule(const OBVCore::ModuleType typ
         ret = QSharedPointer<BibleModule>(new BibleQuote());
     }
     m_bibleModule = ret.toWeakRef();
+    return ret;
+}
+QSharedPointer<DictionaryModule> Module::newDictionaryModule(const OBVCore::ModuleType type)
+{
+    QSharedPointer<DictionaryModule> ret;
+    if(type == OBVCore::ZefaniaLexModule) {
+        ret = QSharedPointer<DictionaryModule>(new ZefaniaLex());
+    } else if(type == OBVCore::BibleQuoteDictModule) {
+        ret = QSharedPointer<DictionaryModule>(new BibleQuoteDict());
+    } else if(type == OBVCore::WebDictionaryModule) {
+        ret = QSharedPointer<DictionaryModule>(new WebDictionary());
+    }
+    m_dictionaryModule = ret.toWeakRef();
     return ret;
 }
