@@ -239,6 +239,7 @@ QString ModuleManager::notePos2Link(const QString &pos)
     VerseUrl newUrl = urlConverter.convert();
     RefText refText;
     refText.setSettings(m_settings);
+    refText.setShowModuleName(true);
     const QString link = newUrl.toString();
     return "<a href=\"" + link + "\">" + refText.toString(newUrl) + "</a>";
 }
@@ -252,6 +253,7 @@ QString ModuleManager::notePos2Text(const QString &pos)
     VerseUrl newUrl = urlConverter.convert();
     RefText refText;
     refText.setSettings(m_settings);
+    refText.setShowModuleName(true);
 
     const QString string = refText.toString(newUrl);
     return string;

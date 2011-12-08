@@ -959,6 +959,7 @@ void BibleForm::copyWholeVerse(void)
         stext = doc2.toPlainText();
         RefText refText;
         refText.setSettings(m_settings);
+        refText.setShowModuleName(true);
         //todo: new line on windows
         const QString text = refText.toString(ranges) + "\n" + stext;
         QClipboard *clipboard = QApplication::clipboard();

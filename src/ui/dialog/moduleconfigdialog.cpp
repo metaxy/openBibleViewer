@@ -62,6 +62,7 @@ void ModuleConfigDialog::setModule(ModuleSettings *config)
     m_moduleSettings = config;
     m_ui->lineEdit_name->setText(config->moduleName);
     m_ui->lineEdit_path->setText(config->modulePath);
+    m_ui->lineEdit_shortName->setText(config->moduleShortName);
     m_ui->comboBox_type->setCurrentIndex(config->moduleType);
     m_ui->comboBox_textFromatting->setCurrentIndex(config->zefbible_textFormatting);
     if(config->biblequote_removeHtml == true)
@@ -110,14 +111,15 @@ void ModuleConfigDialog::bsave()
              (int)m_moduleSettings->moduleType != m_ui->comboBox_type->currentIndex() ||
              m_moduleSettings->modulePath != m_ui->lineEdit_path->text())) {
 
-        /*ZefaniaBible zef;
+        ZefaniaBible zef;
         zef.removeHardCache(m_ui->lineEdit_path->text());
         if(m_moduleSettings->modulePath != m_ui->lineEdit_path->text()) {
             zef.removeHardCache(m_moduleSettings->modulePath);
-        }*/
+        }
     }
     m_moduleSettings->moduleName = m_ui->lineEdit_name->text();
     m_moduleSettings->modulePath = m_ui->lineEdit_path->text();
+    m_moduleSettings->moduleShortName = m_ui->lineEdit_shortName->text();
     m_moduleSettings->moduleType = (OBVCore::ModuleType) m_ui->comboBox_type->currentIndex();
     m_moduleSettings->zefbible_textFormatting = (ModuleSettings::ZefBible_TextFormating) m_ui->comboBox_textFromatting->currentIndex();
     m_moduleSettings->biblequote_removeHtml = m_ui->checkBox_removeHtml->isChecked();
@@ -137,8 +139,6 @@ void ModuleConfigDialog::bsave()
         m_moduleSettings->displaySettings()->setShowStrong(m_ui->checkBox_showStrong->isChecked());
         m_moduleSettings->displaySettings()->setShowStudyNotes(m_ui->checkBox_showStudyNotes->isChecked());
     }
-
-    //todo:if path type or encoding changed clear cache
     emit save(m_moduleSettings);
 }
 void ModuleConfigDialog::moduleTypeChanged(int id)

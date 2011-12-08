@@ -48,7 +48,7 @@ void DictionaryDockWidget::init()
         i.next();
         Module *m = i.value();
         if(m->moduleClass() == OBVCore::DictionaryModuleClass) {
-            dictModuleTitle << m->title();
+            dictModuleTitle << m_settings->getModuleSettings(m->moduleID())->name(true);
             dictModuleID << m->moduleID();
         }
     }

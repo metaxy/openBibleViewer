@@ -471,6 +471,8 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
         } else {
             m->moduleName = name;
         }
+        m->moduleShortName = info.shortName();
+
         bool setDefault = true;
         foreach(const ModuleSettings * s, m_set.m_moduleSettings) {
             if(s->defaultModule == info.defaultModule()) {
@@ -493,7 +495,6 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
     m->biblequote_removeHtml = m_set.removeHtml;
     m->zefbible_hardCache = m_set.zefaniaBible_hardCache;
     m->zefbible_softCache = m_set.zefaniaBible_softCache;
-    //m->zefbible_textFormatting = m_set.textFormatting;
     m->encoding = "Default";
     m->parentID = parentID;
 

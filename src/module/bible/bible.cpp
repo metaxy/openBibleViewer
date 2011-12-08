@@ -497,5 +497,6 @@ BibleModule * Bible::bibleModule() const
 }
 void Bible::clearData()
 {
-    m_bibleModule->clearData();
+    if(m_loaded)
+        m_bibleModule->clearData();
 }
