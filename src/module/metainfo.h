@@ -23,11 +23,13 @@ public:
     QString shortName() const;
     QString uid() const;
     OBVCore::DefaultModule defaultModule() const;
+    OBVCore::ContentType content() const;
 
     void setName(const QString &name);
     void setShortName(const QString &shortName);
     void setUID(const QString &uid);
     void setDefaultModule(const OBVCore::DefaultModule d);
+    void setContent(const OBVCore::ContentType t);
 
     QString publisher;
     QString contributors;
@@ -48,6 +50,7 @@ private:
     QString m_shortName;
     QString m_uid;
     OBVCore::DefaultModule m_defaultModule;
+    OBVCore::ContentType m_content;
 };
 
 #endif // METAINFO_H

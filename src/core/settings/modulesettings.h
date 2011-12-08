@@ -72,6 +72,7 @@ public:
     QString styleSheet;
 
     OBVCore::DefaultModule defaultModule;
+    OBVCore::ContentType contentType;
 
     /**
       * It can be a path to a versification file

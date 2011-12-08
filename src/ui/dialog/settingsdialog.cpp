@@ -473,7 +473,9 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
         }
         m->moduleShortName = info.shortName();
 
+
         bool setDefault = true;
+        //if there is already a default module, don't overwrite
         foreach(const ModuleSettings * s, m_set.m_moduleSettings) {
             if(s->defaultModule == info.defaultModule()) {
                 setDefault = false;
@@ -482,6 +484,7 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
         if(setDefault) {
             m->defaultModule = info.defaultModule();
         }
+        m->contentType = info.content();
 
         m->modulePath = f;
         m->moduleType = moduleType;

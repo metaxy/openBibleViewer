@@ -39,6 +39,13 @@ ModuleConfigDialog::ModuleConfigDialog(QWidget *parent) :
                    << tr("Default Dictionary") << tr("Default RMAC Module");
     m_ui->comboBox_defaultModule->insertItems(0, defaultModules);
 
+    QStringList contentTypes;
+    contentTypes << tr("Unkown") << tr("Bible")
+                   << tr("Bible OT") << tr("Bible NT")
+                   << tr("Strongs") << tr("RMAC")
+                   << tr("Word Dictionary");
+    m_ui->comboBox_contentType->insertItems(0, contentTypes);
+
 
     m_encodings << "Default" << "Apple Roman" << "Big5" << "Big5-HKSCS" << "EUC-JP" << "EUC-KR" << "GB18030-0" << "IBM 850"
                 << "IBM 866" << "IBM 874" << "ISO 2022-JP" << "ISO 8859-1" << "ISO 8859-2" << "ISO 8859-3" << "ISO 8859-4"
@@ -102,6 +109,7 @@ void ModuleConfigDialog::setModule(ModuleSettings *config)
 
     m_ui->lineEdit_styleSheet->setText(config->styleSheet);
     m_ui->comboBox_defaultModule->setCurrentIndex((int) config->defaultModule);
+    m_ui->comboBox_contentType->setCurrentIndex((int)config->contentType);
 }
 void ModuleConfigDialog::bsave()
 {
@@ -129,6 +137,7 @@ void ModuleConfigDialog::bsave()
     m_moduleSettings->styleSheet = m_ui->lineEdit_styleSheet->text();
 
     m_moduleSettings->defaultModule = (OBVCore::DefaultModule) m_ui->comboBox_defaultModule->currentIndex();
+    m_moduleSettings->contentType = (OBVCore::ContentType) m_ui->comboBox_contentType->currentIndex();
 
     m_moduleSettings->useParentSettings = m_ui->checkBox_useParentSettings->isChecked();
     if(!m_moduleSettings->useParentSettings) {

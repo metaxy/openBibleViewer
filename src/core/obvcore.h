@@ -46,6 +46,17 @@ enum DefaultModule {
     DefaultDictModule = 4,
     DefaultRMACDictModule = 5
 };
+
+enum ContentType {
+    UnkownContent = 0,
+    BibleContent =  1,
+    BibleOTContent = 2,
+    BibleNTContent = 3,
+    StrongsContent = 4,
+    RMacContent = 5,
+    WordDictionaryContent = 6
+};
+
 /*  QStringList ModuleTypeNames()
   {
       QStringList l;

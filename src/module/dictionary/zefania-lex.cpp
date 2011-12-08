@@ -260,9 +260,8 @@ MetaInfo ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                 details = details.nextSibling();
             }
             if(couldBe == 0) {
-                if(key == "A-APF" || key == "X-NSN" || key == "V-PAP-DPN") {
+                if(key.toUpper() == "A-APF" || key.toUpper() == "X-NSN" || key.toUpper() == "V-PAP-DPN") {
                     couldBe = 1;
-
                 }
             }
             QString content = "<h3 class='strongTitle'>" + key + " - " + title + "</h3>";
@@ -296,9 +295,11 @@ MetaInfo ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
     info.setUID(uid);
     if(type == "x-strong") {
         info.setDefaultModule(OBVCore::DefaultStrongDictModule);
+        info.setContent(OBVCore::StrongsContent);
     } else if(type == "x-dictionary") {
         if(couldBe == 1) {
             info.setDefaultModule(OBVCore::DefaultRMACDictModule);
+            info.setContent(OBVCore::RMacContent);
         } else {
             info.setDefaultModule(OBVCore::DefaultDictModule);
         }

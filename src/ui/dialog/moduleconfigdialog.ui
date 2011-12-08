@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>472</width>
-    <height>442</height>
+    <height>478</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,9 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QFormLayout" name="formLayout">
+     <property name="fieldGrowthPolicy">
+      <enum>QFormLayout::ExpandingFieldsGrow</enum>
+     </property>
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
@@ -54,6 +57,26 @@
      <item row="1" column="1">
       <widget class="QLineEdit" name="lineEdit_name"/>
      </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Short Name</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="lineEdit_shortName"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>StyleSheet</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="lineEdit_styleSheet"/>
+     </item>
      <item row="6" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
@@ -74,16 +97,6 @@
      <item row="7" column="1">
       <widget class="QComboBox" name="comboBox_encoding"/>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_10">
-       <property name="text">
-        <string>StyleSheet</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="lineEdit_styleSheet"/>
-     </item>
      <item row="8" column="0">
       <widget class="QLabel" name="label_8">
        <property name="text">
@@ -94,15 +107,15 @@
      <item row="8" column="1">
       <widget class="QComboBox" name="comboBox_defaultModule"/>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_9">
+     <item row="9" column="1">
+      <widget class="QComboBox" name="comboBox_contentType"/>
+     </item>
+     <item row="9" column="0">
+      <widget class="QLabel" name="label_12">
        <property name="text">
-        <string>Short Name</string>
+        <string>Content</string>
        </property>
       </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="lineEdit_shortName"/>
      </item>
     </layout>
    </item>
