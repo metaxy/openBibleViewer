@@ -27,7 +27,7 @@ const QString sep_same_book = "";
 
 RefText::RefText()
 {
-    m_showModuleName = true;
+    m_showModuleName = false;
 }
 void RefText::setSettings(Settings *settings)
 {

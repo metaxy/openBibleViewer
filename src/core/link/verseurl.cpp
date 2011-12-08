@@ -220,6 +220,29 @@ bool VerseUrl::fromString(QString url)
     }
     return true;
 }
+bool VerseUrl::fromMscope(const QString &url)
+{
+    const QStringList list = url.split(";");
+    if(list.size() < 2)
+        return false;
+    const int bookID = list.at(0).toInt() - 1;
+    const int chapterID = list.at(1).toInt() - 1;
+
+    VerseUrlRange range;
+    range.setModule(VerseUrlRange::LoadCurrentModule);
+    range.setBook(bookID);
+    range.setChapter(chapterID);
+
+    if(list.size() == 3) {
+        range.setStartVerse(list.at(2).toInt() - 1);
+    } else {
+        range.setWholeChapter();
+    }
+    clearRanges();
+    m_ranges.append(range);
+    return true;
+}
+
 QList<VerseUrlRange> VerseUrl::ranges() const
 {
     return m_ranges;

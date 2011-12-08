@@ -523,6 +523,7 @@ void BibleForm::activated()
         return;
     } else if(m_verseTable->verseModule() == NULL) {
         m_moduleManager->newVerseModule(-1, QPoint(0, 0), m_verseTable);
+        return;
     }
 
     if(m_verseTable->verseModule()->moduleID() < 0) {

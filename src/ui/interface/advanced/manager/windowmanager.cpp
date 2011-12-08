@@ -107,11 +107,6 @@ QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, For
     QMdiSubWindow *subWindow = m_area->addSubWindow(widget);
     subWindow->setWindowIcon(QIcon(":/icons/16x16/main.png"));
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
-    subWindow->show();
-    form->setParentSubWindow(subWindow);
-    m_area->setActiveSubWindow(subWindow);
-    form->activated();
-
 
     if(forceMax) {
         myDebug() << "show maximized";
@@ -129,6 +124,10 @@ QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, For
             subWindow->show();
         }
     }
+
+    form->setParentSubWindow(subWindow);
+    m_area->setActiveSubWindow(subWindow);
+    form->activated();
 
     setEnableReload(true);
     if(doAutoLayout && m_area->viewMode() == QMdiArea::SubWindowView && windowsCount > 0) {
@@ -448,6 +447,7 @@ int WindowManager::reloadWindow(QMdiSubWindow * window)
 
 void WindowManager::mdiAreaResized()
 {
+    DEBUG_FUNC_NAME
     //todo: really every do time autoLayout ?
     if(m_area->viewMode() == QMdiArea::SubWindowView) {
         const QMdiSubWindow * w = m_area->activeSubWindow();

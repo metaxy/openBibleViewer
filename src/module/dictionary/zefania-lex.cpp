@@ -234,17 +234,9 @@ MetaInfo ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                             if(descElement.tagName().compare("reflink", Qt::CaseInsensitive) == 0) {
                                 if(descElement.hasAttribute("mscope")) {
                                     const QString mscope = descElement.attribute("mscope", ";;;");
-                                    const QStringList list = mscope.split(";");
-                                    const int bookID = list.at(0).toInt() - 1;
-                                    const int chapterID = list.at(1).toInt() - 1;
-                                    const int verseID = list.at(2).toInt() - 1;
 
-                                    VerseUrlRange range;
-                                    range.setModule(VerseUrlRange::LoadCurrentModule);
-                                    range.setBook(bookID);
-                                    range.setChapter(chapterID);
-                                    range.setStartVerse(verseID);
-                                    VerseUrl url(range);
+                                    VerseUrl url;
+                                    url.fromMscope(mscope);
 
                                     desc += " <a href=\"" + url.toString() + "\">" + refText.toString(url) + "</a> ";
                                 } else if(descElement.hasAttribute("target")) {
@@ -255,8 +247,9 @@ MetaInfo ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                                 const QString target = descElement.attribute("target", "");
                                 //todo: currently we assume target = x-self
                                 StrongUrl url;
-                                url.fromText(descElement.text());
-                                desc += " <a href=\"" + url.toString() + "\">" + descElement.text() + "</a> ";
+                                bool ok = url.fromText(descElement.text());
+                                if(ok)
+                                    desc += " <a href=\"" + url.toString() + "\">" + descElement.text() + "</a> ";
                             }
                         }
 

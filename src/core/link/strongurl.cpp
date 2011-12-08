@@ -34,6 +34,8 @@ void StrongUrl::setPrefix(StrongPrefix prefix)
 //todo: move out to an extra class
 bool StrongUrl::fromText(QString text)
 {
+    if(text.isEmpty())
+        return false;
     m_numbers.clear();
     text.trimmed();
     if(text.at(0).toLower() == 'g') {

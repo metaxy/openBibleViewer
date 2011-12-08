@@ -778,16 +778,9 @@ QString ZefaniaBible::pharseXRef()
     m_xml->skipCurrentElement();
 
     if(!mscope.isEmpty()) {
-        const QStringList list = mscope.toString().split(";");
-        const int bookID = list.at(0).toInt() - 1;
-        const int chapterID = list.at(1).toInt() - 1;
-        const int verseID = list.at(2).toInt() - 1;
-        VerseUrlRange range;
-        range.setModule(VerseUrlRange::LoadCurrentModule);
-        range.setBook(bookID);
-        range.setChapter(chapterID);
-        range.setStartVerse(verseID);
-        VerseUrl burl(range);
+        VerseUrl burl;
+        burl.fromMscope(mscope.toString());
+
         QString text;
         if(!fscope.isEmpty()) {
             text = fscope.toString();

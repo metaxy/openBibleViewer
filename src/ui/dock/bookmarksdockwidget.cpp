@@ -25,6 +25,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QMimeData>
 #include <QtCore/QPointer>
 #include "src/core/obvcore.h"
+#include "src/core/verse/reftext.h"
 BookmarksDockWidget::BookmarksDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::BookmarksDockWidget)
@@ -59,6 +60,7 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection, QSharedPointer<V
     QStyle *style = ui->treeWidget_bookmarks->style();
     bookmarkIcon.addPixmap(style->standardPixmap(QStyle::SP_FileLinkIcon));
     bookmark->setIcon(0, bookmarkIcon);
+
     bookmark->setText(0,
                       v11n->bookName(selection.bookID) +
                       " " +
@@ -80,7 +82,6 @@ void BookmarksDockWidget::newBookmark(VerseSelection selection, QSharedPointer<V
     urlConverter.setV11n(v11n);
 
     const VerseUrl newUrl = urlConverter.convert();
-    //myDebug() << "new url = " << newUrl.toString();
     bookmark->setText(1, newUrl.toString());
 
     bookmark->setData(0, Qt::UserRole, "bookmark");
@@ -97,9 +98,8 @@ void BookmarksDockWidget::saveBookmarks(void)
     if(!file.open(QFile::WriteOnly | QFile::Text))
         return;
     XbelWriter writer(ui->treeWidget_bookmarks);
-    if(writer.writeFile(&file)) {
-        //statusBar()->showMessage(tr("Bookmarks saved"), 5000);
-    }
+    writer.writeFile(&file);
+    file.close();
 }
 void BookmarksDockWidget::newBookmarksFolder(void)
 {
@@ -173,7 +173,7 @@ void BookmarksDockWidget::editBookmark()
     urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
     VerseUrl newUrl = urlConverter.convert();
 
-    QPointer<BiblePassageDialog> passageDialog = new  BiblePassageDialog(this);
+    QPointer<BiblePassageDialog> passageDialog = new BiblePassageDialog(this);
     connect(passageDialog, SIGNAL(updated(VerseUrl)), this, SLOT(updateBookmarkLink(VerseUrl)));
     setAll(passageDialog);
     passageDialog->init();

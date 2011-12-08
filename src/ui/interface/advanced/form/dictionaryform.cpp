@@ -235,7 +235,11 @@ void DictionaryForm::loadDictionary(int moduleID)
         Module *m = m_moduleManager->getModule(moduleID);
         OBVCore::ModuleType type = m->moduleType();
         m_dictionary->setModuleType(type);
-        m_dictionary->loadModuleData(moduleID);
+        int ret = m_dictionary->loadModuleData(moduleID);
+        if(ret == 1) {
+            showHtml("Could not load module " + QString::number(moduleID));
+            return;
+        }
 
         //todo: do this when closing
         m_settings->session.setData("lastDictModuleInWindow", m_settings->savableUrl(m->path()));
