@@ -365,6 +365,25 @@ OBVCore::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
     return OBVCore::NoneType;
 }
 
+OBVCore::DefaultModule ModuleManager::toDefaultModule(const OBVCore::ContentType t)
+{
+    switch (t) {
+        case OBVCore::BibleContent:
+        case OBVCore::BibleOTContent:
+        case OBVCore::BibleNTContent:
+            return OBVCore::DefaultBibleModule;
+        case OBVCore::StrongsContent:
+            return OBVCore::DefaultStrongDictModule;
+        case OBVCore::RMacContent:
+            return OBVCore::DefaultRMACDictModule;
+        case OBVCore::WordDictionaryContent:
+            return OBVCore::DefaultDictModule;
+        case OBVCore::GramContent:
+            return OBVCore::DefaultGramDictModule;
+        default:
+            return OBVCore::NotADefaultModule;//todo: could this cause some bugs?
+    }
+}
 VerseTable * ModuleManager::newVerseTable()
 {
     VerseTable *verseTable = new VerseTable();

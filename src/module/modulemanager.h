@@ -80,9 +80,10 @@ public:
     ModuleDisplaySettings * moduleDisplaySetings();
 
     static OBVCore::ModuleType recognizeModuleType(const QString &fileName);
+    static OBVCore::DefaultModule toDefaultModule(const OBVCore::ContentType t);
 
     /**
-      * Returns a new VerseTable with a Bible.Bible
+      * Returns a new VerseTable with a Bible.
       */
     VerseTable * newVerseTable();
 

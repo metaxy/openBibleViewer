@@ -1230,7 +1230,8 @@ void BibleForm::reload(bool full)
     if(full) {
         m_verseTable->clearData();
     }
-    pharseUrl(m_url);
+    if(!m_url.ranges().isEmpty())
+        pharseUrl(m_url);
     m_view->page()->mainFrame()->setScrollPosition(p);
 }
 void BibleForm::reloadIf(const VerseUrl &url)

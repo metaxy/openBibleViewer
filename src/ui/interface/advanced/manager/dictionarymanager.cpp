@@ -51,46 +51,66 @@ DictionaryDockWidget* DictionaryManager::dictionaryDockWidget()
 
 void DictionaryManager::open(const QString &key, OBVCore::ContentType contentType)
 {
-    OBVCore::DefaultModule defaultModule = OBVCore::toDefaultModule(contentType);
-    QMdiSubWindow *w = m_windowManager->hasDictWindow(defaultModule);
-    //alreay open window
-    if(w != NULL) {
-        m_windowManager->activate(w);
-        ((DictionaryForm*)m_windowManager->getForm(w))->showEntry(key, -1);
-    }
-    //look for default module
-    int moduleID = -1;
+    OBVCore::DefaultModule defaultModule = ModuleManager::toDefaultModule(contentType);
+
+    //get default module id for this
+    int defaultModuleID = -1;
+    int contentModuleID = -1;
+    int justDictModuleID = -1;
     QHashIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
     while(i.hasNext()) {
         i.next();
         if(i.value()->defaultModule == defaultModule)
-            moduleID = i.key();
-    }
-    //we need a dictionary window where to open it
-    w = m_windowManager->needDictionaryWindow();
-    DictionaryForm* d = ((DictionaryForm*)m_windowManager->getForm(w));
-
-    //ok first thing we try is
-    //if there is already a module loaded check the content type
-    if(d->dictionary() != NULL) {
-        ModuleSettings *m = m_settings->getModuleSettings(d->dictionary()->moduleID());
-
-        d->showEntry(key, -1);
-    } else {
-        if(moduleID != -1) {
-            d->showEntry(key, moduleID);
-        } else {
-            QMapIterator<int, Module*> i(m_moduleManager->m_moduleMap->data);
-            while(i.hasNext()) {
-                i.next();
-                if(i.value()->moduleClass() == OBVCore::DictionaryModuleClass)
-                    moduleID = i.key();
-            }
-            if(moduleID != -1) {
-                d->showEntry(key, moduleID);
-            }
+            defaultModuleID = i.key();
+        if(i.value()->contentType == contentType) {
+            contentModuleID = i.key();
         }
     }
+    QMapIterator<int, Module*> i2(m_moduleManager->m_moduleMap->data);
+    while(i2.hasNext()) {
+        i2.next();
+        if(i2.value()->moduleClass() == OBVCore::DictionaryModuleClass)
+            justDictModuleID = i2.key();
+    }
+
+
+    QMdiSubWindow *w = m_windowManager->hasDictWindow(defaultModule);
+    DictionaryForm *f = NULL;
+    if(w != NULL) {
+       //we can use this form
+       f = (DictionaryForm*) m_windowManager->getForm(w);
+       m_windowManager->activate(w);
+    } else {
+        //we need a dictionary window where to open it
+        w = m_windowManager->needDictionaryWindow();
+        f = ((DictionaryForm*)m_windowManager->getForm(w));
+    }
+    if(f == NULL)
+        return;
+    if(f->dictionary()) {
+        if(m_settings->getModuleSettings(f->dictionary()->moduleID())->contentType == contentType) {
+            f->showEntry(key, -1);
+            return;
+        }
+    }
+    //else load default module for this content type
+
+    if(defaultModuleID != -1) {
+        f->showEntry(key, defaultModuleID);
+        return;
+    }
+
+    if(contentModuleID != -1) {
+        f->showEntry(key, contentModuleID);
+        return;
+    }
+
+    if(justDictModuleID != -1) {
+        f->showEntry(key, justDictModuleID);
+        return;
+    }
+    //there is nothing we can do now
+
 
 }
 
