@@ -162,3 +162,14 @@ td .rangeTitle {
     font-size: 90%;
     vertical-align: bottom;
 }
+
+.underline {
+    text-decoration:underline;
+}
+.otquote {
+    font-style:italic;
+}
+
+.wordsofjesus {
+    color: red;
+}

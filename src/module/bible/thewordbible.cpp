@@ -86,6 +86,22 @@ int TheWordBible::loadBibleData(const int id, const QString &path)
                 line.replace(strong, "");
 
             line.replace(newLine, "<br />");
+            line.replace("<CM>", "<br /><br /> ");
+            line.replace("<CI>", "<br /><br /> ");
+
+            //footnotes
+            line.replace("<RF>", "<span class=\"studynote\">");
+            line.replace("<Rf>","</span>");
+
+            line.replace("<FU>", "<span class=\"underline\">");
+            line.replace("<Fu>","</span>");
+
+            line.replace("<FO>", "<span class=\"otquote\">");
+            line.replace("<Fo>","</span>");
+
+            line.replace("<FR>", "<span class=\"wordsofjesus\">");
+            line.replace("<Fr>","</span>");
+
             Verse v(verse, line);
             currentChapter.addVerse(v);
             if(verse + 1 < m_versification->maxVerse(flags).value(book).at(chapter)) {
