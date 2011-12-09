@@ -61,7 +61,7 @@ void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings
 
     if(settings->moduleType == OBVCore::BibleQuoteModule || settings->moduleType == OBVCore::ZefaniaBibleModule || settings->moduleType == OBVCore::TheWordBibleModule || settings->moduleType == OBVCore::SwordBibleModule) {
         item = new QStandardItem;
-        item->setText(settings->moduleName);
+        item->setText(settings->name(false));
         item->setData(QString::number(settings->moduleID));
         item->setToolTip(Module::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
 
@@ -74,7 +74,7 @@ void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings
     } else if(settings->moduleType == OBVCore::ZefaniaLexModule || settings->moduleType == OBVCore::BibleQuoteDictModule) {
         if(m_showAll) {
             item = new QStandardItem;
-            item->setText(settings->moduleName);
+            item->setText(settings->name(false));
             item->setData(QString::number(settings->moduleID));
             item->setIcon(m_bibleZefaniaIcon);
             item->setToolTip(Module::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
@@ -83,14 +83,14 @@ void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings
     } else if(settings->moduleType == OBVCore::WebPageModule || settings->moduleType == OBVCore::WebDictionaryModule) {
         if(m_showAll) {
             item = new QStandardItem;
-            item->setText(settings->moduleName);
+            item->setText(settings->name(false));
             item->setData(QString::number(settings->moduleID));
             item->setToolTip(Module::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
             parentItem->appendRow(item);
         }
     } else if(settings->moduleType == OBVCore::FolderModule) {
         item = new QStandardItem;
-        item->setText(settings->moduleName);
+        item->setText(settings->name(false));
         item->setData(QString::number(settings->moduleID));
         item->setIcon(m_folderIcon);
         parentItem->appendRow(item);

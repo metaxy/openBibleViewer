@@ -146,19 +146,26 @@ MetaInfo TheWordBible::readInfo(QFile &file)
     const int linesToSkip = 31102;//see spec
     for(int lineCount = 0; !in.atEnd(); lineCount++) {
         const QString line = in.readLine();
-        if(skipping) {
+        if(!skipping) {
             if(line.startsWith("title")) {
                 const QStringList list = line.split("=");
-                MetaInfo info;
                 info.setName(list.last());
-                return info;
+            } else if(line.startsWith("short.title")) {
+                const QStringList list = line.split("=");
+                info.setShortName(list.last());
+            } else if(line.startsWith("description")) {
+                const QStringList list = line.split("=");
+                info.description = list.last();
+            } else if(line.startsWith("lang")) {
+                const QStringList list = line.split("=");
+                info.language = list.last();
             }
         }
         if(line.isEmpty() || lineCount >= linesToSkip)
             skipping = false;
 
     }
-    return MetaInfo();
+    return info;
 }
 MetaInfo TheWordBible::readInfo(const QString &fileName)
 {
