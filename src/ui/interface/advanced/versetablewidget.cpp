@@ -39,6 +39,7 @@ void VerseTableWidget::setVerseTable(VerseTable *table)
 
 void VerseTableWidget::init()
 {
+    DEBUG_FUNC_NAME;
     int maxRow = 0;
     int maxCol = 0;
     foreach(const QPoint & p, m_verseTable->m_points) {
@@ -57,7 +58,7 @@ void VerseTableWidget::init()
             QStandardItem *item;
             if(id >= 0 && m) {
                 //myDebug() << " title = " << b->bibleTitle() << " id = " << m_moduleManager->getBibleIDs().indexOf(b->moduleID()) << " moduleID " << b->moduleID();
-                item = new QStandardItem(m->moduleTitle());
+                item = new QStandardItem(m->moduleShortTitle());
                 item->setData(QVariant(m->moduleID()), Qt::UserRole + 2);
                 item->setData(QVariant(m_moduleManager->getBibleIDs().indexOf(m->moduleID()) + 1), Qt::UserRole + 3); //todo: check if indexOF return -1
 

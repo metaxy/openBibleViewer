@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef STRONGURL_H
 #define STRONGURL_H
 #include "src/core/link/url.h"
-#include <QtCore/QStringList>
+#include <QtCore/QList>
 class StrongUrl : public Url
 {
 public:
@@ -23,14 +23,15 @@ public:
         H,
         G
     };
-
     void addStrongNumber(const int number);
     void setStrongNumbers(const QList<int> &numbers);
     void setPrefix(StrongPrefix prefix);
     bool fromText(QString text);
     bool fromString(QString strong);
     QString toString();
+    QString toText();
 
+    QString toKey();
     QList<int> numbers() const;
     StrongPrefix prefix() const;
 private:
@@ -38,5 +39,4 @@ private:
     QList<int> m_numbers;
 
 };
-
 #endif // STRONGURL_H

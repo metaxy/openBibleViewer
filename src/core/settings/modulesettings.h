@@ -55,6 +55,7 @@ public:
     QString name(bool preferShort = false) const;
 
     int moduleID;
+    QString moduleUID;
     QString modulePath;
     QString moduleName;
     QString moduleShortName;

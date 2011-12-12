@@ -82,7 +82,7 @@ td.rowTitle {
     content: "  ";
 }
 .stronglink a{
-    color: #323232;
+    color: #002B70;
     text-decoration:none;
 }
 .stronglink a:hover{
@@ -98,7 +98,7 @@ td.rowTitle {
     content: "  ";
 }
 .rmaclink a{
-    color: #323232;
+    color: #700000;
     text-decoration:none;
 }
 .rmaclink a:hover{

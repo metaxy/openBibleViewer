@@ -47,7 +47,16 @@ int Dictionary::loadModuleData(const int moduleID)
 }
 QString Dictionary::getEntry(const QString &string) const
 {
-    return m_dictionaryModule->getEntry(string);
+    if(string.contains(" ")) {
+        QString ret;
+        const QStringList parts = string.split(" ");
+        foreach(const QString &key, parts) {
+            ret += m_dictionaryModule->getEntry(key) +"<br />";
+        }
+        return ret;
+    } else {
+        return m_dictionaryModule->getEntry(string);
+    }
 }
 QStringList Dictionary::getAllKeys() const
 {

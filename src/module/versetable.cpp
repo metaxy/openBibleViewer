@@ -263,10 +263,10 @@ bool VerseTable::hasTopBar() const
 }
 void VerseTable::setLastTextRanges(TextRanges *textRanges)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     if(textRanges == NULL)
         return;
-    myDebug() << textRanges->source().source().toString();
+    //myDebug() << textRanges->source().source().toString();
     m_lastTextRanges = textRanges;
     foreach(VerseModule * b, m_modules) {
         //todo: verseUrl

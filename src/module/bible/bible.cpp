@@ -474,19 +474,6 @@ QString Bible::moduleUID() const
     return m_moduleUID;
 }
 
-QString Bible::moduleTitle() const
-{
-    return m_moduleTitle;
-}
-
-QString Bible::moduleShortTitle() const
-{
-    if(m_moduleShortTitle.isEmpty())
-        return moduleTitle();
-    return m_moduleShortTitle;
-}
-
-
 QList<int> Bible::bookIDs() const
 {
     return m_versification->bookNames().keys();

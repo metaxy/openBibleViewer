@@ -12,7 +12,8 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "strongurl.h"
-const QString scheme_strong = "strong:/";
+#include <QtCore/QStringList>
+#include "src/core/obvcore.h"
 StrongUrl::StrongUrl()
 {
 }
@@ -51,6 +52,11 @@ bool StrongUrl::fromText(QString text)
         foreach(const QString & part, parts) {
             m_numbers.append(part.toInt());
         }
+    } else if(text.contains(",")) {
+        const QStringList parts = text.split(",");
+        foreach(const QString & part, parts) {
+            m_numbers.append(part.toInt());
+        }
     } else {
         m_numbers.append(text.toInt());
     }
@@ -62,11 +68,11 @@ bool StrongUrl::fromString(QString strong)
     //exp:
     //strong:/G1
     //strong:/H10
-    //strong:/H10 20
+    //strong:/H10,20
     m_numbers.clear();
-    if(!strong.startsWith(scheme_strong))
+    if(!strong.startsWith(OBVCore::strongScheme))
         return false;
-    strong.remove(0, scheme_strong.size());
+    strong.remove(0, OBVCore::strongScheme.size());
     strong.trimmed();
     if(strong.at(0).toLower() == 'g') {
         m_prefix = StrongUrl::G;
@@ -81,7 +87,12 @@ bool StrongUrl::fromString(QString strong)
         foreach(const QString & part, parts) {
             m_numbers.append(part.toInt());
         }
-    } else {
+    } else if(strong.contains(",")) {
+        const QStringList parts = strong.split(",");
+        foreach(const QString & part, parts) {
+            m_numbers.append(part.toInt());
+        }
+    }else {
         m_numbers.append(strong.toInt());
     }
     return true;
@@ -90,7 +101,26 @@ bool StrongUrl::fromString(QString strong)
 QString StrongUrl::toString()
 {
     QString ret;
-    ret = scheme_strong;
+    ret = OBVCore::strongScheme;
+    if(m_prefix == StrongUrl::G) {
+        ret += "G";
+    } else {
+        ret += "H";
+    }
+    bool beginn = true;
+    foreach(const int & i, m_numbers) {
+        if(!beginn) {
+            ret += ",";
+        } else {
+            beginn = false;
+        }
+        ret += QString::number(i);
+    }
+    return ret;
+}
+QString StrongUrl::toText()
+{
+    QString ret;
     if(m_prefix == StrongUrl::G) {
         ret += "G";
     } else {
@@ -104,6 +134,26 @@ QString StrongUrl::toString()
             beginn = false;
         }
         ret += QString::number(i);
+    }
+    return ret;
+}
+QString StrongUrl::toKey()
+{
+    QString ret;
+    QString pre;
+    if(m_prefix == StrongUrl::G) {
+        pre += "G";
+    } else {
+        pre += "H";
+    }
+    bool beginn = true;
+    foreach(const int & i, m_numbers) {
+        if(!beginn) {
+            ret += " ";
+        } else {
+            beginn = false;
+        }
+        ret += pre + QString::number(i);
     }
     return ret;
 }

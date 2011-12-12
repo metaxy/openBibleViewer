@@ -18,18 +18,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QSettings>
 #include <QtCore/QTranslator>
 #include <QtCore/QLibraryInfo>
-#include <QtCore/QMapIterator>
-#include <QtCore/QTimer>
 #include <QtCore/QDir>
 
 #include <QtGui/QToolBar>
 #include <QtGui/QMessageBox>
 #include <QtGui/QMainWindow>
 
-
 #include "config.h"
 #include "src/core/version.h"
-#include "src/core/verse/versification/versification_kjv.h"
+
 #include "src/core/settings/settings.h"
 #include "src/core/settings/session.h"
 

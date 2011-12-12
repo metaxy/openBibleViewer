@@ -34,7 +34,7 @@ public:
 
     MetaInfo readInfo(const QString &name);
 
-    QString pharseUrl(QUrl url);
+    QString pharseUrl(const QUrl &url);
 
 private:
     bool m_loaded;

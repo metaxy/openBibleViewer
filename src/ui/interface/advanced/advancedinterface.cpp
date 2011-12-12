@@ -70,10 +70,9 @@ void AdvancedInterface::init()
     m_bibleManager->setWindowManager(m_windowManager);
     m_bibleManager->init();
 
-    m_dictionaryManager = new DictionaryManager(this);
+    m_dictionaryManager = new DictionaryManager(this, this->parentWidget());
     setAll(m_dictionaryManager);
     m_dictionaryManager->setWindowManager(m_windowManager);
-    m_dictionaryManager->setWidget(this->parentWidget());
 
 
     m_searchManager = new SearchManager(this);
@@ -149,7 +148,7 @@ void AdvancedInterface::pharseUrl(QString url)
 
     if(url.startsWith(bible)) {
         m_bibleManager->pharseUrl(url);
-    } else if(url.startsWith(strong)) {
+    } else if(url.startsWith(OBVCore::strongScheme)) {
         m_dictionaryManager->pharseUrl(url);
     } else if(url.startsWith(gram)) {
         m_dictionaryManager->pharseUrl(url);

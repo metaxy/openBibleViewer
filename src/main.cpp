@@ -142,9 +142,8 @@ int main(int argc, char *argv[])
     a.installTranslator(&qtTranslator);
 
     QTranslator myappTranslator;
-    //myDebug() << lang;
     bool loaded = myappTranslator.load(":/data/obv_" + lang);
-    //myDebug() << loaded;
+
     if(!loaded)
         myappTranslator.load(lang);
 

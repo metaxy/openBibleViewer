@@ -23,7 +23,7 @@ class DictionaryManager : public QObject, public BasicClass
 {
     Q_OBJECT
 public:
-    DictionaryManager(QObject *parent = 0);
+    DictionaryManager(QObject *parent, QWidget *p);
     void setWidget(QWidget *p);
     void createDocks();
     QHash<DockWidget *, Qt::DockWidgetArea> docks();

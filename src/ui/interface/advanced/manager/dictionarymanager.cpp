@@ -13,15 +13,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "dictionarymanager.h"
 #include "src/ui/interface/advanced/form/dictionaryform.h"
-
-DictionaryManager::DictionaryManager(QObject *parent) :
-    QObject(parent)
+#include "src/core/link/strongurl.h"
+DictionaryManager::DictionaryManager(QObject *parent, QWidget *p) :
+    QObject(parent), m_p(p)
 {
-}
-
-void DictionaryManager::setWidget(QWidget *p)
-{
-    m_p = p;
 }
 
 void DictionaryManager::setWindowManager(WindowManager *windowManager)
@@ -88,7 +83,8 @@ void DictionaryManager::open(const QString &key, OBVCore::ContentType contentTyp
     if(f == NULL)
         return;
     if(f->dictionary()) {
-        if(m_settings->getModuleSettings(f->dictionary()->moduleID())->contentType == contentType) {
+        OBVCore::ContentType type = m_settings->getModuleSettings(f->dictionary()->moduleID())->contentType;
+        if(type == contentType || type == OBVCore::UnkownContent) {
             f->showEntry(key, -1);
             return;
         }
@@ -110,27 +106,24 @@ void DictionaryManager::open(const QString &key, OBVCore::ContentType contentTyp
         return;
     }
     //there is nothing we can do now
-
-
 }
 
 void DictionaryManager::pharseUrl(QString url)
 {
     myDebug() << url;
-    const QString strong = "strong://";
     const QString dict = "dict:/";
     const QString gram = "gram://";
     const QString rmac = "rmac://";
 
-    if(url.startsWith(strong)) {
-        //strong://strongID
-        url = url.remove(0, strong.size());
-        open(url, OBVCore::StrongsContent);
-    } else if(url.startsWith(gram)) {
+    if(url.startsWith(OBVCore::strongScheme)) {
+        StrongUrl strong;
+        strong.fromString(url);
+        open(strong.toKey(), OBVCore::StrongsContent);
+    } else if(url.startsWith(OBVCore::gramScheme)) {
         //gram://gramID
-        url = url.remove(0, gram.size());
+        url = url.remove(0, OBVCore::gramScheme.size());
         open(url, OBVCore::GramContent);
-    } else if(url.startsWith(rmac)) {
+    } else if(url.startsWith(OBVCore::rmacScheme)) {
         //rmac://rmacID
         url = url.remove(0, rmac.size());
         open(url, OBVCore::RMacContent);

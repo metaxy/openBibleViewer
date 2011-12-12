@@ -26,7 +26,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/notes/textnotes.h"
 #include "src/core/dbghelper.h"
 #include "src/core/obvcore.h"
-
+#include "src/core/verse/versification/versification_kjv.h"
 #include "config.h"
 
 MainWindow::MainWindow(QWidget *parent) :

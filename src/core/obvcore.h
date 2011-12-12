@@ -53,10 +53,18 @@ enum ContentType {
     BibleOTContent = 2,
     BibleNTContent = 3,
     StrongsContent = 4,
-    RMacContent = 5,
-    WordDictionaryContent = 6,
-    GramContent = 7
+    StrongsGreekContent = 5,
+    StrongsHebrewContent = 6,
+    RMacContent = 7,
+    WordDictionaryContent = 8,
+    DictionaryContent = 9,
+    GramContent = 10
+
 };
+
+static QString strongScheme = "strong:/";
+static QString gramScheme = "gram:/";
+static QString rmacScheme = "rmac:/";
 
 /*  QStringList ModuleTypeNames()
   {

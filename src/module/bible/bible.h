@@ -40,8 +40,6 @@ public:
 
     void search(SearchQuery query, SearchResult *result);
 
-    QString moduleTitle() const;
-    QString moduleShortTitle() const;
     QString moduleUID() const;
 
     SearchQuery lastSearchQuery() const;

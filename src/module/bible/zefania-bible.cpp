@@ -13,6 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "zefania-bible.h"
 #include "src/core/verse/reftext.h"
+#include "src/core/link/strongurl.h"
 #include "config.h"
 #include "CLucene.h"
 #include "CLucene/clucene-config.h"
@@ -724,7 +725,10 @@ QString ZefaniaBible::pharseGram()
         if(!strong.startsWith("G", Qt::CaseInsensitive) && !strong.startsWith("H", Qt::CaseInsensitive)) {
             add = m_strongsPrefix[m_bookID];
         }
-        ret +=  "<span class=\"stronglink\"><a  href=\"strong://" + add + strong + "\">" + add + strong + "</a></span>";
+        StrongUrl url;
+        url.fromText(add+strong);
+
+        ret +=  "<span class=\"stronglink\"><a  href=\""+url.toString()+"\">" + add+strong + "</a></span>";
     }
     if(!rmac.isEmpty() && m_set->displaySettings()->showRMac()) {
         ret +=  "<span class=\"rmaclink\"><a href=\"rmac://" + rmac + "\">" + rmac + "</a></span>";

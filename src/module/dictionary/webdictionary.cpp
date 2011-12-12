@@ -110,12 +110,16 @@ MetaInfo WebDictionary::readInfo(const QString &name)
 
     if(m_type == "strong-dictionary") {
         ret.setDefaultModule(OBVCore::DefaultStrongDictModule);
+        ret.setContent(OBVCore::StrongsContent);
     } else if(m_type == "rmac-dictionary") {
         ret.setDefaultModule(OBVCore::DefaultRMACDictModule);
+        ret.setContent(OBVCore::RMacContent);
     } else if(m_type == "gram-dictionary") {
         ret.setDefaultModule(OBVCore::DefaultGramDictModule);
+        ret.setContent(OBVCore::GramContent);
     } else if(m_type == "dictionary") {
         ret.setDefaultModule(OBVCore::DefaultDictModule);
+        ret.setContent(OBVCore::DictionaryContent);
     }
     return ret;
 }
@@ -123,7 +127,7 @@ bool WebDictionary::loaded()
 {
     return m_loaded && m_loadedModuleID == m_moduleID;
 }
-QString WebDictionary::pharseUrl(QUrl url)
+QString WebDictionary::pharseUrl(const QUrl &url)
 {
     if(!loaded())
         loadModuleData(m_moduleID);

@@ -55,17 +55,18 @@ void SimpleModuleClass::setModuleID(const int moduleID)
 
 QString SimpleModuleClass::moduleTitle() const
 {
-    return m_settings->getModuleSettings(m_moduleID)->moduleName;
+    return m_settings->getModuleSettings(m_moduleID)->name(false);
 }
 
 QString SimpleModuleClass::moduleShortTitle() const
 {
-    return m_settings->getModuleSettings(m_moduleID)->moduleShortName;
+    DEBUG_FUNC_NAME
+    return m_settings->getModuleSettings(m_moduleID)->name(true);
 }
 
 QString SimpleModuleClass::moduleUID() const
 {
-    return QString();
+    return m_settings->getModuleSettings(m_moduleID)->moduleUID;
 }
 
 OBVCore::ModuleType SimpleModuleClass::moduleType() const

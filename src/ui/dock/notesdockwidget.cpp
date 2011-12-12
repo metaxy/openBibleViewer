@@ -165,7 +165,6 @@ void NotesDockWidget::newStyleMark(VerseSelection selection, QString style, QSha
 void NotesDockWidget::removeMark(VerseSelection selection, QSharedPointer<Versification> v11n)
 {
     DEBUG_FUNC_NAME
-    bool r = false;
     const QStringList id = m_notes->getIDList();
     for(int i = 0; i < id.size(); i++) {
         if(m_notes->getType(id.at(i)) == "mark") {
