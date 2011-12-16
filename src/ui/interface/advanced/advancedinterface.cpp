@@ -660,13 +660,13 @@ QList<QToolBar *> AdvancedInterface::toolBars()
 }
 void AdvancedInterface::quick()
 {
-    //todo: bibleform important
-    //default module or get an open bibleform
+    const QString text = ((QLineEdit *) sender())->text();
+
     if(m_windowManager->activeForm() && m_windowManager->activeForm()->type() == Form::BibleForm) {
         BibleForm *f = (BibleForm*)(m_windowManager->activeForm());
         BibleLink link(f->verseModule()->moduleID(), f->verseModule()->versification());
 
-        const QString text = ((QLineEdit *) sender())->text();
+
         if(link.isBibleLink(text)) {
             m_actions->get(link.getUrl(text));
         } else {
@@ -675,6 +675,28 @@ void AdvancedInterface::quick()
             query.searchInNotes = true;
             query.queryType = SearchQuery::Simple;
             m_searchManager->search(query);
+        }
+    } else {
+        m_windowManager->newBibleSubWindow();
+        int defaultModuleID = -1;
+        QMapIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
+        while(i.hasNext()) {
+            i.next();
+            if(i.value()->defaultModule == OBVCore::DefaultBibleModule)
+                defaultModuleID = i.key();
+
+        }
+        if(defaultModuleID == -1) {
+            QMapIterator<int, Module*> i2(m_moduleManager->m_moduleMap->data);
+            while(i2.hasNext()) {
+                i2.next();
+                if(i2.value()->moduleClass() == OBVCore::BibleModuleClass)
+                    defaultModuleID = i2.key();
+            }
+        }
+        BibleLink link(defaultModuleID, m_settings->getV11N(defaultModuleID));
+        if(link.isBibleLink(text)) {
+            m_actions->get(link.getUrl(text));
         }
     }
 }

@@ -74,7 +74,7 @@ void VerseTableWidget::init()
                 //myDebug() << " title = " << b->bibleTitle() << " id = " << m_moduleManager->getBibleIDs().indexOf(b->moduleID()) << " moduleID " << b->moduleID();
                 item = new QStandardItem(m->moduleShortTitle());
                 item->setData(QVariant(m->moduleID()), Qt::UserRole + 2);
-                item->setData(QVariant(ids.indexOf(m->moduleID())), Qt::UserRole + 3); //todo: check if indexOF return -1
+                item->setData(QVariant(ids.indexOf(m->moduleID())), Qt::UserRole + 3);
 
             } else {
                 item = new QStandardItem("");

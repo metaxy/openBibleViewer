@@ -355,7 +355,6 @@ void SimpleNotes::addNote(const QString &id)
 {
     if(m_noteID == id)
         return;
-    //todo: if there is already this note(but something like that should never happen)
     if(m_notes->getType(id) == "text") {
         m_view->addNote(id, m_notes->getTitle(id), m_notes->getRef(id).value("parent"));
     } else if(m_notes->getType(id) == "folder") {

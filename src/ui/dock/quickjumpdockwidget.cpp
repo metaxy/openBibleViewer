@@ -61,7 +61,6 @@ void QuickJumpDockWidget::setBooks(QSharedPointer<Versification> v11n)
 
 void QuickJumpDockWidget::goToPos()
 {
-    //todo: same as in advancedinterface
     DEBUG_FUNC_NAME;
     const QString text = ui->lineEdit_goTo->text();
     if(text.isEmpty()) {
@@ -73,10 +72,10 @@ void QuickJumpDockWidget::goToPos()
     QStringList l;
     l << m_books;
     l << m_hist;
-    /*if(m_completer != NULL) {
-        delete m_completer;
+    if(ui->lineEdit_goTo->completer()!= NULL) {
+        delete ui->lineEdit_goTo->completer();
         m_completer = NULL;
-    }*/
+    }
     m_completer = new QCompleter(l, this);
     m_completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->lineEdit_goTo->setCompleter(m_completer);
@@ -85,6 +84,30 @@ void QuickJumpDockWidget::goToPos()
         BibleLink link(f->verseModule()->moduleID(), f->verseModule()->versification());
 
         m_actions->get(link.getUrl(text));
+    } else {
+
+        m_windowManager->newBibleSubWindow();
+        int defaultModuleID = -1;
+        QMapIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
+        while(i.hasNext()) {
+            i.next();
+            if(i.value()->defaultModule == OBVCore::DefaultBibleModule)
+                defaultModuleID = i.key();
+
+        }
+        if(defaultModuleID == -1) {
+            QMapIterator<int, Module*> i2(m_moduleManager->m_moduleMap->data);
+            while(i2.hasNext()) {
+                i2.next();
+                if(i2.value()->moduleClass() == OBVCore::BibleModuleClass)
+                    defaultModuleID = i2.key();
+            }
+        }
+        BibleLink link(defaultModuleID, m_settings->getV11N(defaultModuleID));
+        if(link.isBibleLink(text)) {
+            m_actions->get(link.getUrl(text));
+        }
+
     }
     return;
 }

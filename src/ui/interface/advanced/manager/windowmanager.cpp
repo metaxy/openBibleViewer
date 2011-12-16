@@ -449,7 +449,6 @@ int WindowManager::reloadWindow(QMdiSubWindow * window)
 void WindowManager::mdiAreaResized()
 {
     DEBUG_FUNC_NAME
-    //todo: really every do time autoLayout ?
     if(m_area->viewMode() == QMdiArea::SubWindowView) {
         const QMdiSubWindow * w = m_area->activeSubWindow();
         if(w != NULL && w->isMaximized()) {

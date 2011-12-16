@@ -104,6 +104,7 @@ private:
     Ui::InsertHtmlDialog *ui_dialog;
     QDialog *m_insertHtmlDialog;
     SimpleNotes *m_simpleNotes;
+
 };
 
 #endif // HTML_EDITOR_H

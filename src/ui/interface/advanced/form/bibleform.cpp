@@ -935,10 +935,6 @@ void BibleForm::copyWholeVerse(void)
     //DEBUG_FUNC_NAME
     VerseSelection selection = lastSelection;
     if(selection.startVerse != -1) {
-        //todo: should we use add?
-        /*int add = 0;
-        if(m_verseTable->verseModule()->moduleType() == OBVCore::BibleQuoteModule)
-            add = 1; //because of the title*/
         Ranges ranges;
         if(selection.startChapterID == selection.endChapterID) {
             Range r;
@@ -986,11 +982,6 @@ void BibleForm::debugger()
 {
     //DEBUG_FUNC_NAME
     m_view->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
-    /*if(m_inspector == 0) {
-        m_inspector = new QWebInspector;
-        m_inspector->setPage(m_view->page());
-    }
-    m_inspector->showNormal();*/
     QWebInspector *i = new QWebInspector;
     i->setPage(m_view->page());
     i->showNormal();

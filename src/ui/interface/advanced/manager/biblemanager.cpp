@@ -51,6 +51,7 @@ void BibleManager::createDocks()
     m_bookDockWidget->hide();
 
     m_quickJumpDockWidget = new QuickJumpDockWidget(m_p);
+    m_quickJumpDockWidget->setWindowManager(m_windowManager);
     setAll(m_quickJumpDockWidget);
     m_quickJumpDockWidget->init();
     m_quickJumpDockWidget->hide();
