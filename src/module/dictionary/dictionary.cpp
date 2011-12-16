@@ -27,6 +27,7 @@ Dictionary::~Dictionary()
 int Dictionary::loadModuleData(const int moduleID)
 {
     DEBUG_FUNC_NAME
+    myDebug() << moduleID;
     m_module = m_map->module(moduleID);
     if(moduleID < 0 || m_module == NULL) {
         myWarning() << "invalid moduleID = " << moduleID;
@@ -39,7 +40,8 @@ int Dictionary::loadModuleData(const int moduleID)
         m_dictionaryModule = m_module->m_dictionaryModule;
     } else {
         m_dictionaryModule = m_module->newDictionaryModule(m_module->moduleType());
-
+        if(m_dictionaryModule.isNull())
+            return 1;
         m_dictionaryModule->setSettings(m_settings);
         m_dictionaryModule->setID(m_moduleID, path);
     }

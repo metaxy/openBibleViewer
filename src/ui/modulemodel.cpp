@@ -94,6 +94,10 @@ void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings
         item->setData(QString::number(settings->moduleID));
         item->setIcon(m_folderIcon);
         parentItem->appendRow(item);
+    } else {
+        item = new QStandardItem;
+        item->setText(settings->name(false));
+        parentItem->appendRow(item);
     }
 
     //recursive

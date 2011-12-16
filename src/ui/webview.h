@@ -24,13 +24,20 @@ class WebView : public QWebView
     Q_OBJECT
 public:
     explicit WebView(QWidget *parent = 0);
-    void contextMenuEvent(QContextMenuEvent * ev);
 
     void scrollToAnchor(const QString &anchor);
+protected:
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void contextMenuEvent(QContextMenuEvent * ev);
 signals:
     void contextMenuRequested(QContextMenuEvent * ev);
-public slots:
-
+    void linkMiddleOrCtrlClicked(const QUrl &url);
+    void linkShiftClicked(const QUrl &url);
+private:
+    bool mouseReleased(const QPoint &pos);
+    Qt::KeyboardModifiers m_keyboardModifiers;
+    Qt::MouseButtons m_pressedButtons;
 };
 
 #endif // WEBVIEW_H

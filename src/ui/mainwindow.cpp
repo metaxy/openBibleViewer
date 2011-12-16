@@ -287,8 +287,10 @@ void MainWindow::loadSettings()
         m_settingsFile->setArrayIndex(i);
         ModuleSettings *m = new ModuleSettings();
         m->moduleID = m_settingsFile->value("id").toInt();
-        if(m->moduleID == -1)
+
+        if(m->moduleID == -1 || m_settingsFile->value("type").toInt() == -1)
             continue;
+
         m->moduleName = m_settingsFile->value("name").toString();
         m->moduleShortName = m_settingsFile->value("shortName").toString();
 
@@ -333,6 +335,7 @@ void MainWindow::loadSettings()
 
 void MainWindow::writeSettings()
 {
+    m_settingsFile->clear();
     m_settingsFile->setValue("general/version", m_settings->version);
     m_settingsFile->setValue("general/encoding", m_settings->encoding);
     m_settingsFile->setValue("general/zoomstep", m_settings->zoomstep);
@@ -349,6 +352,7 @@ void MainWindow::writeSettings()
         it.next();
         m_settingsFile->setArrayIndex(i);
         ModuleSettings *m = it.value();
+
         if(m->moduleID == -1)
             continue;
         m_settingsFile->setValue("id", m->moduleID);

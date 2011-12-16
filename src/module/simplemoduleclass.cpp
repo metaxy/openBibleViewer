@@ -49,7 +49,6 @@ int SimpleModuleClass::moduleID() const
 
 void SimpleModuleClass::setModuleID(const int moduleID)
 {
-    //myDebug() << "new moduleID = " << moduleID;
     m_moduleID = moduleID;
 }
 
@@ -60,7 +59,6 @@ QString SimpleModuleClass::moduleTitle() const
 
 QString SimpleModuleClass::moduleShortTitle() const
 {
-    //DEBUG_FUNC_NAME
     return m_settings->getModuleSettings(m_moduleID)->name(true);
 }
 

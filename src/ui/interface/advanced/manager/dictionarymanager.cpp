@@ -68,7 +68,7 @@ void DictionaryManager::open(const QString &key, OBVCore::ContentType contentTyp
             justDictModuleID = i2.key();
     }
 
-
+    myDebug() << defaultModuleID << contentModuleID << justDictModuleID;
     QMdiSubWindow *w = m_windowManager->hasDictWindow(defaultModule);
     DictionaryForm *f = NULL;
     if(w != NULL) {

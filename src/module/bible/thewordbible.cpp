@@ -178,6 +178,7 @@ int TheWordBible::loadCached(const int bookID)
         }
 
     }
+    return 0;
 }
 
 bool TheWordBible::hasHardCache(const QString &path)

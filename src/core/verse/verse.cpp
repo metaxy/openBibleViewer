@@ -16,7 +16,7 @@ Verse::Verse() : m_verseID(-1), m_text()
 {
 }
 
-Verse::Verse(const int verseID, const QString &text) : m_text(text), m_verseID(verseID)
+Verse::Verse(const int verseID, const QString &text) : m_verseID(verseID), m_text(text)
 {
 }
 int Verse::verseID() const

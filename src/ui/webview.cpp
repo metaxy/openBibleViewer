@@ -32,3 +32,40 @@ void WebView::scrollToAnchor(const QString &anchor)
 #endif
 
 }
+
+void WebView::mouseReleaseEvent(QMouseEvent *event)
+{
+   if (mouseReleased(event->pos())) {
+        event->accept();
+        return;
+    }
+    QWebView::mouseReleaseEvent(event);
+}
+bool WebView::mouseReleased(const QPoint &pos)
+{
+    const QWebHitTestResult hitTest = page()->mainFrame()->hitTestContent(pos);
+    const QUrl url = hitTest.linkUrl();
+
+
+    if (!url.isEmpty()) {
+        if ((m_pressedButtons & Qt::MidButton) ||
+            ((m_pressedButtons & Qt::LeftButton) && (m_keyboardModifiers & Qt::ControlModifier))) {
+            emit linkMiddleOrCtrlClicked(url);
+            return true;
+        }
+
+        if ((m_pressedButtons & Qt::LeftButton) && (m_keyboardModifiers & Qt::ShiftModifier)) {
+            emit linkShiftClicked(url);
+            return true;
+
+        }
+    }
+
+    return false;
+}
+void WebView::mousePressEvent(QMouseEvent *event)
+{
+     m_pressedButtons = event->buttons();
+     m_keyboardModifiers = event->modifiers();
+     QWebView::mousePressEvent(event);
+}
