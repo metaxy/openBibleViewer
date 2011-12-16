@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     //DEBUG_FUNC_NAME
-    QHashIterator<int, ModuleSettings*> it(m_settings->m_moduleSettings);
+    QMapIterator<int, ModuleSettings*> it(m_settings->m_moduleSettings);
     while(it.hasNext()) {
         it.next();
         if(it.value() != NULL)
@@ -344,7 +344,7 @@ void MainWindow::writeSettings()
     m_settingsFile->setValue("bible/textFormatting", m_settings->textFormatting);
 
     m_settingsFile->beginWriteArray("module");
-    QHashIterator<int, ModuleSettings *> it(m_settings->m_moduleSettings);
+    QMapIterator<int, ModuleSettings *> it(m_settings->m_moduleSettings);
     for(int i = 0; it.hasNext(); ++i) {
         it.next();
         m_settingsFile->setArrayIndex(i);

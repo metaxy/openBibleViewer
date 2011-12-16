@@ -81,7 +81,7 @@ int TheWordBible::loadBibleData(const int id, const QString &path)
             QRegExp strong("<W(G|H)(\\d+)(x|s)?>");
             QRegExp newLine("<CL>");
             if(displaySettings->showStrong())
-                line.replace(strong, "<span class=\"stronglink\"><a href=\"strong://\\1\\2\">\\1\\2</a></span>");
+                line.replace(strong, "<span class=\"stronglink\"><a href=\"strong:/\\1\\2\">\\1\\2</a></span>");
             else
                 line.replace(strong, "");
 

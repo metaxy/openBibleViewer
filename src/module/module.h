@@ -31,14 +31,12 @@ public:
     virtual ~Module();
 
     QString path() const;
-    QString title() const;
     int moduleID() const;
     QString moduleUID() const;
     OBVCore::ModuleClass moduleClass() const;
     OBVCore::ModuleType moduleType() const;
 
     void setPath(const QString &path);
-    void setTitle(const QString &title);
     void setModuleID(const int moduleID);
     void setModuleClass(const OBVCore::ModuleClass &c);
     void setModuleType(const OBVCore::ModuleType &t);
@@ -61,7 +59,6 @@ private:
     Settings *m_settings;
 
     QString m_path;
-    QString m_title;
     int m_id;
     OBVCore::ModuleClass m_moduleClass;
     OBVCore::ModuleType m_moduleType;

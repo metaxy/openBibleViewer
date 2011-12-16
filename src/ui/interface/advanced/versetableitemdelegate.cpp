@@ -21,8 +21,20 @@ VerseTableItemDelegate::VerseTableItemDelegate(QObject *parent)
 }
 void VerseTableItemDelegate::init()
 {
-    m_names << tr("None") << m_moduleManager->getBibleTitles();
-    m_id << -1 << m_moduleManager->getBibleIDs();
+    m_names << tr("None");
+    m_id << -1;
+
+    QMapIterator<int, ModuleSettings *> i(m_settings->m_moduleSettings);
+    while(i.hasNext()) {
+        i.next();
+        if(!m_moduleManager->contains(i.value()->moduleID))
+            continue;
+        if(m_moduleManager->getModule(i.value()->moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
+            m_names.append(i.value()->name(true));
+            m_id.append(i.value()->moduleID);
+        }
+    }
+    myDebug() << m_id << m_names;
 }
 
 QWidget * VerseTableItemDelegate::createEditor(QWidget *parent,
@@ -30,16 +42,14 @@ QWidget * VerseTableItemDelegate::createEditor(QWidget *parent,
         const QModelIndex & index) const
 {
     Q_UNUSED(option);
-    /*  QGroupBox * w = new QGroupBox(parent);
-      QHBoxLayout *layout = new QHBoxLayout(w);
 
-      QListView *list = new QListView(list);
-      layout->addWidget(list);*/
 
     QComboBox *combo = new QComboBox(parent);
     combo->insertItems(0, m_names);
+    myDebug() << index.data(Qt::UserRole + 2).toInt()  << index.data(Qt::UserRole + 3).toInt();
+
     if(index.data(Qt::UserRole + 3).toInt() > 0) {
-        combo->setCurrentIndex(index.data(Qt::UserRole + 3).toInt());
+            combo->setCurrentIndex(index.data(Qt::UserRole + 3).toInt());
     } else {
         combo->setCurrentIndex(0);
     }
@@ -49,7 +59,7 @@ QWidget * VerseTableItemDelegate::createEditor(QWidget *parent,
 
 void VerseTableItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     QComboBox *combo = qobject_cast<QComboBox *>(editor);
     if(!combo) {
         QItemDelegate::setEditorData(editor, index);
@@ -60,17 +70,19 @@ void VerseTableItemDelegate::setEditorData(QWidget *editor, const QModelIndex &i
 }
 void VerseTableItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     QComboBox *combo = qobject_cast<QComboBox *>(editor);
     if(!combo) {
         QItemDelegate::setModelData(editor, model, index);
         return;
     }
     model->setData(index, combo->currentIndex(), Qt::UserRole + 3);
+
     if(combo->currentIndex() > 0)
         model->setData(index, combo->currentText());
     else
         model->setData(index, "");
+    myDebug() << combo->currentIndex();
 
     if(combo->currentIndex() > 0)
         model->setData(index, m_id.at(combo->currentIndex()), Qt::UserRole + 2);

@@ -52,7 +52,7 @@ void DictionaryManager::open(const QString &key, OBVCore::ContentType contentTyp
     int defaultModuleID = -1;
     int contentModuleID = -1;
     int justDictModuleID = -1;
-    QHashIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
+    QMapIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
     while(i.hasNext()) {
         i.next();
         if(i.value()->defaultModule == defaultModule)

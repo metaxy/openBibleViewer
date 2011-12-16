@@ -510,6 +510,21 @@ void BibleForm::setCurrentBook(const QSet<int> &bookID)
     m_ui->comboBox_books->setCurrentIndex(m_verseTable->verseModule()->versification()->bookIDs().indexOf(min));
     connect(m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
 }
+void BibleForm::forwardClear()
+{
+    if(!active())
+        return;
+    clear();
+}
+void BibleForm::clear()
+{
+    clearChapters();
+    clearBooks();
+    m_view->setHtml("");
+    m_actions->setTitle("");
+    m_verseTable->clear();
+}
+
 void BibleForm::activated()
 {
     //DEBUG_FUNC_NAME

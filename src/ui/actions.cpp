@@ -83,6 +83,10 @@ void Actions::clearChapters()
 {
     emit _clearChapters();
 }
+void Actions::clear()
+{
+    emit _clear();
+}
 
 void Actions::setCurrentModule(const int moduleID)
 {

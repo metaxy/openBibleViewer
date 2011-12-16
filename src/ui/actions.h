@@ -46,9 +46,13 @@ signals:
 
     void _setTitle(const QString &title);
     void _updateChapters(int bookID, QSharedPointer<Versification> v11n);
-    void _clearChapters();
     void _updateBooks(QSharedPointer<Versification> v11n);
+
+    void _clearChapters();
     void _clearBooks();
+    void _clear();
+
+
 
     void _setCurrentModule(const int moduleID);
 
@@ -95,9 +99,11 @@ public slots:
     void setTitle(const QString &title);
 
     void updateChapters(int bookID, QSharedPointer<Versification>v11n);
-    void clearChapters();
     void updateBooks(QSharedPointer<Versification>v11n);
+
     void clearBooks();
+    void clearChapters();
+    void clear();
 
     void setCurrentModule(const int moduleID);
 

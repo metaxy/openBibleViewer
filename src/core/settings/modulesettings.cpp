@@ -162,7 +162,7 @@ void ModuleSettings::clearChildren()
 
 QString ModuleSettings::name(bool preferShortName) const
 {
-    myDebug() << moduleShortName << moduleName;
+    //myDebug() << moduleShortName << moduleName;
     if(preferShortName) {
         if(!moduleShortName.isEmpty()) {
             return moduleShortName;

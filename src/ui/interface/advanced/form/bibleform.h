@@ -100,6 +100,7 @@ public slots:
 
     void clearBooks();
     void clearChapters();
+    void clear();
 
     void setCurrentBook(const QSet<int> &bookID);
     void setCurrentChapter(const QSet<int> &chapterID);
@@ -112,6 +113,7 @@ public slots:
     void forwardSetCurrentChapter(const QSet<int> &chapterID);
     void forwardShowText(const QString &text);
     void forwardSearchInText(SearchResult *result);
+    void forwardClear();
     void reloadIf(const VerseUrl &url);
 
     void activated();

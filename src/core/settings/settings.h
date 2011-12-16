@@ -35,7 +35,7 @@ public:
     };
 
     QString encoding;
-    QHash<int, ModuleSettings*> m_moduleSettings;
+    QMap<int, ModuleSettings*> m_moduleSettings;
 
     qreal zoomstep;
     QString version;

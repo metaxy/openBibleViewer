@@ -50,6 +50,20 @@ void VerseTableWidget::init()
     m_selectionModel = new QItemSelectionModel(m_model);
     ui->tableView->setModel(m_model);
     ui->tableView->setSelectionModel(m_selectionModel);
+
+    QList<int> ids;
+    ids << -1;
+
+    QMapIterator<int, ModuleSettings *> i(m_settings->m_moduleSettings);
+    while(i.hasNext()) {
+        i.next();
+        if(!m_moduleManager->contains(i.value()->moduleID))
+            continue;
+        if(m_moduleManager->getModule(i.value()->moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
+            ids.append(i.value()->moduleID);
+        }
+    }
+
     for(int i = 0; i <= maxRow; i++) {
         for(int j = 0; j <= maxCol; j++) {
             const int id = m_verseTable->m_points.key(QPoint(i, j), -1);
@@ -60,13 +74,11 @@ void VerseTableWidget::init()
                 //myDebug() << " title = " << b->bibleTitle() << " id = " << m_moduleManager->getBibleIDs().indexOf(b->moduleID()) << " moduleID " << b->moduleID();
                 item = new QStandardItem(m->moduleShortTitle());
                 item->setData(QVariant(m->moduleID()), Qt::UserRole + 2);
-                item->setData(QVariant(m_moduleManager->getBibleIDs().indexOf(m->moduleID()) + 1), Qt::UserRole + 3); //todo: check if indexOF return -1
+                item->setData(QVariant(ids.indexOf(m->moduleID())), Qt::UserRole + 3); //todo: check if indexOF return -1
 
             } else {
                 item = new QStandardItem("");
-                item->setData(QVariant(0), Qt::UserRole + 2);
-                item->setData(QVariant(0), Qt::UserRole + 3);
-
+                item->setData(QVariant(-1), Qt::UserRole + 2);
             }
 
             m_model->setItem(i, j, item);
@@ -87,6 +99,7 @@ void VerseTableWidget::addCol()
     QList<QStandardItem *> list;
     for(int i = 0; i < m_model->rowCount(); i++) {
         QStandardItem *item = new QStandardItem("");
+        item->setData(QVariant(-1), Qt::UserRole + 2);
         list.append(item);
     }
     m_model->appendColumn(list);
@@ -102,6 +115,7 @@ void VerseTableWidget::addRow()
     QList<QStandardItem *> list;
     for(int i = 0; i < m_model->columnCount(); i++) {
         QStandardItem *item = new QStandardItem("");
+        item->setData(QVariant(-1), Qt::UserRole + 2);
         list.append(item);
     }
     m_model->appendRow(list);
@@ -120,6 +134,7 @@ void VerseTableWidget::save()
             int id = m_model->item(x, y)->data(Qt::UserRole + 2).toInt();
             if(id >= 0) {
                 atLeastOne = true;
+                myDebug() << id << x << y;
                 m_moduleManager->newVerseModule(id, QPoint(x, y), m_verseTable);
                 if(m_selectionModel->selection().contains(m_model->index(x, y)))
                     selectedModule = m_verseTable->currentVerseTableID();
@@ -127,14 +142,17 @@ void VerseTableWidget::save()
             }
         }
     }
-    //myDebug() << "selectedModule = " << selectedModule << " lastModule = " << lastModule;
-    if(selectedModule != -1)
+    if(selectedModule != -1) {
         m_verseTable->setCurrentVerseTableID(selectedModule);
-    else
+    } else {
         m_verseTable->setCurrentVerseTableID(lastModule);
+    }
 
     if(atLeastOne) {
+        myDebug() "having at least one";
         m_actions->loadVerseTable(hadBible);
+    } else {
+        m_actions->clear();
     }
     close();
 }

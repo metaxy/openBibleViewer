@@ -148,7 +148,7 @@ int BibleLink::bookNameToBookID(QString name, int *nlev)
         }
         it2.setValue(newList);
     }
-
+    //exactly book full name
     {
         QHashIterator<int, QString> i(full);
         while(i.hasNext()) {
@@ -160,6 +160,7 @@ int BibleLink::bookNameToBookID(QString name, int *nlev)
             }
         }
     }
+    //exactly book short name
     if(bookID == -1) {
         QHashIterator<int, QStringList> i(shortNames);
         while(i.hasNext() && bookID != -1) {
@@ -173,6 +174,7 @@ int BibleLink::bookNameToBookID(QString name, int *nlev)
             }
         }
     }
+    //starts with full name
     if(bookID == -1) {
         QHashIterator<int, QString> i(full);
         while(i.hasNext()) {
@@ -184,6 +186,7 @@ int BibleLink::bookNameToBookID(QString name, int *nlev)
             }
         }
     }
+    //starts with short name
     if(bookID == -1) {
         QHashIterator<int, QStringList> i(shortNames);
         while(i.hasNext() && bookID != -1) {
@@ -197,6 +200,7 @@ int BibleLink::bookNameToBookID(QString name, int *nlev)
             }
         }
     }
+    //leventstein
     if(bookID == -1) {
         {
             QHashIterator<int, QString> i(full);

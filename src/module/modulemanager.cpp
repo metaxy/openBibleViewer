@@ -73,7 +73,7 @@ int ModuleManager::loadAllModules()
     }
     //set parents
     {
-        QHashIterator<int, ModuleSettings*> it2(m_settings->m_moduleSettings);
+        QMapIterator<int, ModuleSettings*> it2(m_settings->m_moduleSettings);
         while(it2.hasNext())  {
             it2.next();
             ModuleSettings *child = it2.value();
@@ -100,7 +100,7 @@ int ModuleManager::loadAllModules()
     }
     //use parent settings display
     {
-        QHashIterator<int, ModuleSettings*> it2(m_settings->m_moduleSettings);
+        QMapIterator<int, ModuleSettings*> it2(m_settings->m_moduleSettings);
         while(it2.hasNext())  {
             it2.next();
             ModuleSettings *child = it2.value();
@@ -161,7 +161,7 @@ void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
     module->setSettings(m_settings);
     module->setPath(settings->modulePath);
     module->setModuleType(settings->moduleType);
-    module->setTitle(settings->moduleName);
+
     module->setModuleID(settings->moduleID);
 
     //m_map deletes them
@@ -258,17 +258,7 @@ QString ModuleManager::notePos2Text(const QString &pos)
     const QString string = refText.toString(newUrl);
     return string;
 }
-QStringList ModuleManager::getBibleTitles()
-{
-    QStringList titles;
-    QMapIterator<int, Module *> i(m_moduleMap->data);
-    while(i.hasNext()) {
-        i.next();
-        if(i.value()->moduleClass() == OBVCore::BibleModuleClass)
-            titles.append(i.value()->title());
-    }
-    return titles;
-}
+
 QStringList ModuleManager::getBiblePaths()
 {
     QStringList paths;
