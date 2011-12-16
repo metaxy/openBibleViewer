@@ -53,6 +53,7 @@ void QuickJumpDockWidget::setBooks(QSharedPointer<Versification> v11n)
     l << m_hist;
     if(ui->lineEdit_goTo->completer() != NULL) {
         delete ui->lineEdit_goTo->completer();
+        m_completer = NULL;
     }
     m_completer = new QCompleter(l, this);
     m_completer->setCaseSensitivity(Qt::CaseInsensitive);

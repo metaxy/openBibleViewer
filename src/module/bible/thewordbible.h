@@ -32,6 +32,8 @@ public:
     ~TheWordBible();
     void setSettings(Settings *settings);
     int loadBibleData(const int id, const QString &path);
+
+
     int readBook(const int id);
 
     MetaInfo readInfo(QFile &file);
@@ -57,10 +59,14 @@ private:
     bool hasOT() const;
     bool hasONT() const;
     QMap<int, Book> m_books;
+    Book m_book;
     int m_bookID;
     QString m_moduleName;
     QString m_shortModuleName;
     QString m_uID;
+
+    int loadCached(const int bookID);
+    bool hasHardCache(const QString &path);
 
 
 };

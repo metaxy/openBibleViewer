@@ -39,12 +39,13 @@ void TheWordBible::setSettings(Settings *set)
   */
 int TheWordBible::loadBibleData(const int id, const QString &path)
 {
+
     if(!m_books.isEmpty())
         m_books.clear();
     m_moduleID = id;
     m_modulePath = path;
-    QString dataFilePath = path;
-    QFile file(dataFilePath);
+
+    const QString pre = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath) + "/";
     Versification::VersificationFilterFlags flags;
     if(path.endsWith(".nt")) {
         m_settings->getModuleSettings(id)->versificationName = "kjv-nt";
@@ -58,10 +59,19 @@ int TheWordBible::loadBibleData(const int id, const QString &path)
     }
     m_versification = QSharedPointer<Versification>(new Versification_KJV());
     m_versification->setFlags(flags);
+
+    if(hasHardCache(m_modulePath))
+        return 0;
+
+    QDir d(pre);
+    if(!d.exists())
+        d.mkpath(pre);
+
+    QString dataFilePath = path;
+    QFile file(dataFilePath);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return 1;
 
-    QTextStream in(&file);
     int book = 0;
     int chapter = 0;
     int verse = 0;
@@ -70,87 +80,123 @@ int TheWordBible::loadBibleData(const int id, const QString &path)
     Chapter currentChapter = Chapter();
     currentChapter.setChapterID(chapter);
     const int linesToSkip = 31102;//see spec
-    bool readingVerse = true;
-    ModuleDisplaySettings *displaySettings = m_settings->getModuleSettings(m_moduleID)->displaySettings().data();
-    for(int lineCount = 0; !in.atEnd(); lineCount++) {
-        QString line = in.readLine();
-        if(lineCount >= linesToSkip || line.isEmpty()) {
-            readingVerse = false;
+
+
+    QFile *write = NULL;
+    for(int lineCount = 0; !file.atEnd(); lineCount++) {
+        if(lineCount >= linesToSkip) {
+            break;
         }
-        if(readingVerse) {
-            QRegExp strong("<W(G|H)(\\d+)(x|s)?>");
-            QRegExp newLine("<CL>");
-            if(displaySettings->showStrong())
-                line.replace(strong, "<span class=\"stronglink\"><a href=\"strong:/\\1\\2\">\\1\\2</a></span>");
-            else
-                line.replace(strong, "");
+        if(write == NULL) {
+            write = new QFile(pre + QString::number(book) +".twb");
+            write->open(QIODevice::WriteOnly | QIODevice::Text);
+            myDebug() << write->fileName();
+        }
 
-            line.replace(newLine, "<br />");
-            line.replace("<CM>", "<br /><br /> ");
-            line.replace("<CI>", "<br /><br /> ");
-
-            //footnotes
-            line.replace("<RF>", "<span class=\"studynote\">");
-            line.replace("<Rf>","</span>");
-
-            line.replace("<FU>", "<span class=\"underline\">");
-            line.replace("<Fu>","</span>");
-
-            line.replace("<FO>", "<span class=\"otquote\">");
-            line.replace("<Fo>","</span>");
-
-            line.replace("<FR>", "<span class=\"wordsofjesus\">");
-            line.replace("<Fr>","</span>");
-
-            Verse v(verse, line);
-            currentChapter.addVerse(v);
-            if(verse + 1 < m_versification->maxVerse(flags).value(book).at(chapter)) {
-                verse++;
-            } else {
-                if(chapter + 1 < m_versification->maxChapter(flags).value(book)) {
-                    currentBook.addChapter(currentChapter);
-                    chapter++;
-                    verse = 0;
-
-                    currentChapter = Chapter();
-                    currentChapter.setChapterID(chapter);
-                } else {
-                    currentBook.addChapter(currentChapter);
-                    m_books.insert(currentBook.bookID(), currentBook);
-
-                    book++;
-                    chapter = 0;
-                    verse = 0;
-
-                    currentBook = Book(book);
-
-                    currentChapter = Chapter(chapter);
-                }
-            }
+        write->write(file.readLine());
+        if(verse + 1 < m_versification->maxVerse().value(book).at(chapter)) {
+            verse++;
         } else {
-            //info
-            if(line.startsWith("title")) {
-                const QStringList list = line.split("=");
-                m_moduleName = list.last();
-            } else if(line.startsWith("short.title")) {
-                const QStringList list = line.split("=");
-                m_shortModuleName = list.last();
-            } else if(line.startsWith("id")) {
-                const QStringList list = line.split("=");
-                m_uID = list.last();
+            if(chapter + 1 < m_versification->maxChapter().value(book)) {
+                chapter++;
+                verse = 0;
+            } else {
+                write->close();
+                delete write;
+                write = NULL;
+
+                book++;
+                chapter = 0;
+                verse = 0;
             }
         }
 
+
     }
-    if(m_uID.isEmpty()) {
-        m_uID = path;
-    }
+
     return 0;
 
 }
+int TheWordBible::loadCached(const int bookID)
+{
+    DEBUG_FUNC_NAME
+    ModuleDisplaySettings *displaySettings = m_settings->getModuleSettings(m_moduleID)->displaySettings().data();
+
+    const QString fileName = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath) + "/" + QString::number(bookID) + ".twb";
+    QFile file(fileName);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        myDebug() << "file not found " << file.fileName();
+        return 1;
+    }
+    QTextStream in(&file);
+    int book = bookID;
+    int chapter = 0;
+    int verse = 0;
+    m_book.clear();
+    m_book.setID(book);
+    Chapter currentChapter = Chapter();
+    currentChapter.setChapterID(chapter);
+
+    for(int lineCount = 0; !in.atEnd(); lineCount++) {
+        QString line = in.readLine();
+        QRegExp strong("<W(G|H)(\\d+)(x|s)?>");
+        QRegExp newLine("<CL>");
+        if(displaySettings->showStrong())
+            line.replace(strong, "<span class=\"stronglink\"><a href=\"strong:/\\1\\2\">\\1\\2</a></span>");
+        else
+            line.replace(strong, "");
+
+        line.replace(newLine, "<br />");
+        line.replace("<CM>", "<br />");
+        line.replace("<CI>", "<br />");
+
+        //footnotes
+        line.replace("<RF>", "<span class=\"studynote\">");
+        line.replace("<Rf>","</span>");
+
+        line.replace("<FU>", "<span class=\"underline\">");
+        line.replace("<Fu>","</span>");
+
+        line.replace("<FO>", "<span class=\"otquote\">");
+        line.replace("<Fo>","</span>");
+
+        line.replace("<FR>", "<span class=\"wordsofjesus\">");
+        line.replace("<Fr>","</span>");
+
+        Verse v(verse, line);
+        currentChapter.addVerse(v);
+        if(verse + 1 < m_versification->maxVerse().value(book).at(chapter)) {
+            verse++;
+        } else {
+            m_book.addChapter(currentChapter);
+            chapter++;
+            verse = 0;
+
+            currentChapter = Chapter();
+            currentChapter.setChapterID(chapter);
+
+        }
+
+    }
+}
+
+bool TheWordBible::hasHardCache(const QString &path)
+{
+    const QString pre = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath) + "/";
+    ModuleSettings *set = m_settings->getModuleSettings(m_moduleID);
+    foreach(int bookID, set->getV11n()->bookIDs()) {
+        QFileInfo inf(pre + QString::number(bookID) + ".twb");
+        if(!inf.exists() || !inf.isReadable()) {
+            return false;
+        }
+    }
+    return true;
+}
+
 int TheWordBible::readBook(const int id)
 {
     m_bookID = id;
+    loadCached(m_bookID);
     return 0;
 }
 
@@ -181,6 +227,18 @@ MetaInfo TheWordBible::readInfo(QFile &file)
             skipping = false;
 
     }
+
+    /*
+            if(line.startsWith("title")) {
+                const QStringList list = line.split("=");
+                m_moduleName = list.last();
+            } else if(line.startsWith("short.title")) {
+                const QStringList list = line.split("=");
+                m_shortModuleName = list.last();
+            } else if(line.startsWith("id")) {
+                const QStringList list = line.split("=");
+                m_uID = list.last();
+            }*/
     return info;
 }
 MetaInfo TheWordBible::readInfo(const QString &fileName)
@@ -361,14 +419,11 @@ QString TheWordBible::uid() const
 TextRange TheWordBible::rawTextRange(int bookID, int chapterID, int startVerse, int endVerse)
 {
     TextRange ret;
-    Book book = m_books.value(bookID);
-
-    if(book.bookID() != bookID) {
-        readBook(bookID);
+    if(m_book.bookID() != bookID) {
         myDebug() << "book not loaded";
-
+        readBook(bookID);
     }
-    if(!book.hasChapter(chapterID)) {
+    if(!m_book.hasChapter(chapterID)) {
         myWarning() << "index out of range index chapterID = " << chapterID;
         return ret;
     }
@@ -376,7 +431,7 @@ TextRange TheWordBible::rawTextRange(int bookID, int chapterID, int startVerse, 
     ret.setBookID(bookID);
     ret.setChapterID(chapterID);
 
-    const Chapter c = book.getChapter(chapterID);
+    const Chapter c = m_book.getChapter(chapterID);
     QMap<int, Verse> data = c.data();
     QMapIterator<int, Verse> i(data);
     while(i.hasNext()) {
@@ -390,18 +445,17 @@ TextRange TheWordBible::rawTextRange(int bookID, int chapterID, int startVerse, 
 std::pair<int, int> TheWordBible::minMaxVerse(int bookID, int chapterID)
 {
     std::pair<int, int> ret;
-    Book book = m_books.value(bookID);
 
-    if(book.bookID() != bookID) {
+    if(m_book.bookID() != bookID) {
         readBook(bookID);
         myDebug() << "book not loaded";
     }
-    if(!book.hasChapter(chapterID)) {
+    if(!m_book.hasChapter(chapterID)) {
         myWarning() << "index out of range index chapterID = " << chapterID;
         return ret;
     }
 
-    const Chapter c = book.getChapter(chapterID);
+    const Chapter c = m_book.getChapter(chapterID);
     //because c.data() is a map and it is sorted by key
     ret.first = c.data().keys().first();
     ret.second = c.data().keys().last();
