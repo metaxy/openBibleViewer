@@ -30,7 +30,7 @@ void BibleManager::setWindowManager(WindowManager *windowManager)
 
 void BibleManager::init()
 {
-    connect(m_actions, SIGNAL(_get(VerseUrl)), this, SLOT(pharseUrl(VerseUrl)));
+    connect(m_actions, SIGNAL(_get(VerseUrl,Actions::OpenLinkModifiers)), this, SLOT(pharseUrl(VerseUrl,Actions::OpenLinkModifiers)));
     connect(m_actions, SIGNAL(_previousChapter()), this, SLOT(previousChapter()));
     connect(m_actions, SIGNAL(_nextChapter()), this, SLOT(nextChapter()));
     connect(m_actions, SIGNAL(_loadVerseTable(bool)), this, SLOT(loadBibleList(bool)));
@@ -68,19 +68,39 @@ QHash<DockWidget*, Qt::DockWidgetArea> BibleManager::docks()
 
 }
 
-void BibleManager::pharseUrl(const VerseUrl &url)
+void BibleManager::pharseUrl(VerseUrl url, const Actions::OpenLinkModifiers mod)
 {
-    //DEBUG_FUNC_NAME;
-    //open a bible window
-    BibleForm *f = (BibleForm*)(m_windowManager->getForm(m_windowManager->needBibleWindow()));
+    DEBUG_FUNC_NAME
+    QMdiSubWindow *window;
+    if(mod == Actions::OpenInNewWindow) {
+        window = m_windowManager->newBibleSubWindow();
+    } else {
+        window = m_windowManager->needBibleWindow();
+    }
+    BibleForm *f = (BibleForm*)(m_windowManager->getForm(window));
+    myDebug() << f->verseTableLoaded();
+    if(!f->verseTableLoaded()) {
+        f->newModule();
+    }
     f->pharseUrl(url);
 }
 
-void BibleManager::pharseUrl(const QString &url)
+void BibleManager::pharseUrl(QString url, const Actions::OpenLinkModifiers mod)
 {
-    //DEBUG_FUNC_NAME;
+    DEBUG_FUNC_NAME
+    QMdiSubWindow *window;
+    if(mod == Actions::OpenInNewWindow) {
+        window = m_windowManager->newBibleSubWindow();
+    } else {
+        window = m_windowManager->needBibleWindow();
+    }
+
     //open a bible window
-    BibleForm *f = (BibleForm*)(m_windowManager->getForm(m_windowManager->needBibleWindow()));
+    BibleForm *f = (BibleForm*)(m_windowManager->getForm(window));
+    myDebug() << f->verseTableLoaded();
+    if(!f->verseTableLoaded()) {
+        f->newModule();
+    }
     f->pharseUrl(url);
 }
 void BibleManager::nextChapter()

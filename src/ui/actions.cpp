@@ -26,20 +26,39 @@ void Actions::nextChapter()
 {
     emit _nextChapter();
 }
+void Actions::get(const QString &url, const Actions::OpenLinkModifiers mod)
+{
+    emit _get(url, mod);
+}
+
+void Actions::get(const QUrl &url, const Actions::OpenLinkModifiers mod)
+{
+    emit _get(url.toString(), mod);
+}
+
+void Actions::get(const VerseUrl &url, const Actions::OpenLinkModifiers mod)
+{
+    emit _get(url, mod);
+}
 
 void Actions::get(const QString &url)
 {
-    emit _get(url);
+    get(url, Actions::NoModifer);
 }
 
 void Actions::get(const QUrl &url)
 {
-    emit _get(url.toString());
+    get(url, Actions::NoModifer);
 }
 
 void Actions::get(const VerseUrl &url)
 {
-    emit _get(url);
+    get(url, Actions::NoModifer);
+}
+
+void Actions::newGet(const QUrl &url)
+{
+    get(url, Actions::OpenInNewWindow);
 }
 
 void Actions::setCurrentBook(const QSet<int> &bookID)

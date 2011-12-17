@@ -293,12 +293,11 @@ void ModuleManager::checkCache(const int moduleID)
 }
 VerseModule * ModuleManager::newVerseModule(const int moduleID, QPoint p, VerseTable *table)
 {
-    DEBUG_FUNC_NAME;
-    myDebug() << moduleID << p;
     if(!contains(moduleID)) {
         myWarning() << "invalid moduleID = " << moduleID;
         return NULL;
     }
+
     VerseModule *m = newVerseModule(moduleID);
     table->addModule(m, p);
     return m;

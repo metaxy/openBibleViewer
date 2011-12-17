@@ -49,8 +49,8 @@ signals:
     void updateBooks();
 
 public slots:
-    void pharseUrl(const QString &url);
-    void pharseUrl(const VerseUrl &url);
+    void pharseUrl(QString url, const Actions::OpenLinkModifiers mod);
+    void pharseUrl(VerseUrl url, const Actions::OpenLinkModifiers mod);
 
     void nextChapter();
     void previousChapter();

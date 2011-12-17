@@ -62,6 +62,7 @@ void BibleForm::init()
     attachApi();
 
     connect(m_view->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
+    connect(m_view, SIGNAL(linkMiddleOrCtrlClicked(QUrl)), m_actions, SLOT(newGet(QUrl)));
 
     m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
     m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
@@ -90,12 +91,48 @@ void BibleForm::init()
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     createDefaultMenu();
 }
+void BibleForm::newModule(const int moduleID)
+{
+    myDebug() << moduleID;
+    m_moduleManager->newVerseModule(moduleID, QPoint(0, 0), m_verseTable);
+    m_verseTable->verseModule()->setModuleID(moduleID);
+
+}
+int BibleForm::newModule()
+{
+    DEBUG_FUNC_NAME
+    int defaultModuleID = -1;
+    QMapIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
+    while(i.hasNext()) {
+        i.next();
+        if(i.value()->defaultModule == OBVCore::DefaultBibleModule)
+            defaultModuleID = i.key();
+
+    }
+    if(defaultModuleID == -1) {
+        QMapIterator<int, Module*> i2(m_moduleManager->m_moduleMap->data);
+        while(i2.hasNext()) {
+            i2.next();
+            if(i2.value()->moduleClass() == OBVCore::BibleModuleClass)
+                defaultModuleID = i2.key();
+        }
+    }
+    newModule(defaultModuleID);
+    return defaultModuleID;
+}
 
 void BibleForm::pharseUrl(const VerseUrl &url)
 {
     myDebug() << url.toString();
-    m_url = m_url.applyUrl(url);
-    myDebug() << "applied" << m_url.toString();
+    if(m_url.isValid()) {
+        m_url = m_url.applyUrl(url);
+    } else {
+        m_url = url;
+        if(verseTableLoaded() && !m_url.hasModuleID()) {
+            m_url.setModuleID(m_verseTable->verseModule()->moduleID());
+        }
+    }
+
     Ranges ranges;
     foreach(VerseUrlRange range, m_url.ranges()) {
         ranges.addRange(range.toRange());
@@ -120,9 +157,16 @@ void BibleForm::pharseUrl(const QString &string)
         if(!url.fromString(string)) {
             return;
         }
-        myDebug() << "url = " << url.toString();
-        m_url = m_url.applyUrl(url);
-        myDebug() << "applied" << m_url.toString();
+
+        if(m_url.isValid()) {
+            m_url = m_url.applyUrl(url);
+        } else {
+            m_url = url;
+            if(verseTableLoaded() && !m_url.hasModuleID()) {
+                m_url.setModuleID(m_verseTable->verseModule()->moduleID());
+            }
+        }
+
         foreach(VerseUrlRange range, m_url.ranges()) {
             ranges.addRange(range.toRange());
         }
@@ -180,7 +224,7 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url)
 
     if(!r.second.failed()) {
         showTextRanges(r.first, r.second, url);
-        m_actions->updateChapters(m_verseTable->verseModule()->lastTextRanges()->minBookID(), m_verseTable->verseModule()->versification());
+        m_actions->updateChapters(r.second.minBookID(), m_verseTable->verseModule()->versification());
         m_actions->updateBooks(m_verseTable->verseModule()->versification());
         m_actions->setCurrentBook(r.second.bookIDs());
         m_actions->setCurrentChapter(r.second.chapterIDs());

@@ -348,3 +348,13 @@ void VerseUrl::setModuleID(const int moduleID)
         i.next().setModule(moduleID);
     }
 }
+bool VerseUrl::hasModuleID() const
+{
+    QListIterator<VerseUrlRange> i(m_ranges);
+    while(i.hasNext()) {
+        VerseUrlRange r = i.next();
+        if(r.module() == VerseUrlRange::LoadModuleByID || r.module() == VerseUrlRange::LoadModuleByID)
+            return true;
+    }
+    return false;
+}

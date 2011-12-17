@@ -70,7 +70,6 @@ void WindowManager::newSubWindowIfEmpty()
 }
 QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, Form::FormType type)
 {
-    DEBUG_FUNC_NAME
     setEnableReload(false);
 
     const int windowsCount = usableWindowList().size();
@@ -109,7 +108,6 @@ QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, For
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
 
     if(forceMax) {
-        myDebug() << "show maximized";
         subWindow->showMaximized();
     } else if(m_area->viewMode() == QMdiArea::SubWindowView) {
         if(windowsCount == 0  && doAutoLayout) {
@@ -158,20 +156,18 @@ QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
         return newSubWindow(true, false, type);
     } else if(activeForm() != NULL) {
         if(activeForm()->type() != type) {
-            QMdiSubWindow *ww = NULL;
+            QMdiSubWindow *window = NULL;
             foreach(QMdiSubWindow * w, usableWindowList()) {
                 Form *f = getForm(w);
                 if(f->type() == type) {
-                    myDebug() << "activate window";
                     w->activateWindow();
                     m_area->setActiveSubWindow(w);
-                    ww = w;
+                    window = w;
                     break;
                 }
             }
-            if(ww) {
-                myDebug() << "found window";
-                return ww;
+            if(window) {
+                return window;
             } else {
                 return newSubWindow(true, false, type);
             }
@@ -182,23 +178,21 @@ QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
     return newSubWindow(true, false, type);
 }
 
-
 QMdiSubWindow* WindowManager::needBibleWindow()
 {
     return needWindow(Form::BibleForm);
 }
-
 
 QMdiSubWindow* WindowManager::needDictionaryWindow()
 {
     return needWindow(Form::DictionaryForm);
 }
 
-
 QMdiSubWindow* WindowManager::needWebWindow()
 {
     return needWindow(Form::WebForm);
 }
+
 QMdiSubWindow* WindowManager::hasDictWindow(OBVCore::DefaultModule d)
 {
     foreach(QMdiSubWindow * w, usableWindowList()) {
@@ -215,6 +209,7 @@ QMdiSubWindow* WindowManager::hasDictWindow(OBVCore::DefaultModule d)
     }
     return NULL;
 }
+
 QMdiSubWindow* WindowManager::hasDictWindow(const int moduleID)
 {
     foreach(QMdiSubWindow * w, usableWindowList()) {
@@ -228,6 +223,7 @@ QMdiSubWindow* WindowManager::hasDictWindow(const int moduleID)
     }
     return NULL;
 }
+
 void WindowManager::activate(QMdiSubWindow *w)
 {
     w->activateWindow();
@@ -278,6 +274,7 @@ Form * WindowManager::activeForm()
 {
     return getForm(activeSubWindow());
 }
+
 Form * WindowManager::getForm(QMdiSubWindow *w) const
 {
     if(w == NULL)
@@ -410,7 +407,6 @@ void WindowManager::closeSubWindow()
 
 int WindowManager::closingWindow()
 {
-    //DEBUG_FUNC_NAME
     if(!m_enableReload)
         return 1;
     if(m_area->subWindowList().isEmpty()) {
@@ -448,7 +444,6 @@ int WindowManager::reloadWindow(QMdiSubWindow * window)
 
 void WindowManager::mdiAreaResized()
 {
-    DEBUG_FUNC_NAME
     if(m_area->viewMode() == QMdiArea::SubWindowView) {
         const QMdiSubWindow * w = m_area->activeSubWindow();
         if(w != NULL && w->isMaximized()) {

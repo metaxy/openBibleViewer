@@ -44,7 +44,7 @@ DictionaryDockWidget* DictionaryManager::dictionaryDockWidget()
     return m_dictionaryDock;
 }
 
-void DictionaryManager::open(const QString &key, OBVCore::ContentType contentType)
+void DictionaryManager::open(const QString &key, OBVCore::ContentType contentType, const Actions::OpenLinkModifiers mod)
 {
     OBVCore::DefaultModule defaultModule = ModuleManager::toDefaultModule(contentType);
 
@@ -71,14 +71,20 @@ void DictionaryManager::open(const QString &key, OBVCore::ContentType contentTyp
     myDebug() << defaultModuleID << contentModuleID << justDictModuleID;
     QMdiSubWindow *w = m_windowManager->hasDictWindow(defaultModule);
     DictionaryForm *f = NULL;
-    if(w != NULL) {
-       //we can use this form
-       f = (DictionaryForm*) m_windowManager->getForm(w);
-       m_windowManager->activate(w);
+    if(mod == Actions::OpenInNewWindow) {
+        w = m_windowManager->newDictionarySubWindow();
+        f = (DictionaryForm*) m_windowManager->getForm(w);
+        m_windowManager->activate(w);
     } else {
-        //we need a dictionary window where to open it
-        w = m_windowManager->needDictionaryWindow();
-        f = ((DictionaryForm*)m_windowManager->getForm(w));
+        if(w != NULL) {
+           //we can use this form
+           f = (DictionaryForm*) m_windowManager->getForm(w);
+           m_windowManager->activate(w);
+        } else {
+            //we need a dictionary window where to open it
+            w = m_windowManager->needDictionaryWindow();
+            f = ((DictionaryForm*)m_windowManager->getForm(w));
+        }
     }
     if(f == NULL)
         return;
@@ -108,28 +114,30 @@ void DictionaryManager::open(const QString &key, OBVCore::ContentType contentTyp
     //there is nothing we can do now
 }
 
-void DictionaryManager::pharseUrl(QString url)
+void DictionaryManager::pharseUrl(QString url, const Actions::OpenLinkModifiers mod)
 {
     myDebug() << url;
     const QString dict = "dict:/";
-    const QString gram = "gram://";
-    const QString rmac = "rmac://";
-
     if(url.startsWith(OBVCore::strongScheme)) {
         StrongUrl strong;
         strong.fromString(url);
-        open(strong.toKey(), OBVCore::StrongsContent);
+        open(strong.toKey(), OBVCore::StrongsContent, mod);
     } else if(url.startsWith(OBVCore::gramScheme)) {
         //gram://gramID
         url = url.remove(0, OBVCore::gramScheme.size());
-        open(url, OBVCore::GramContent);
+        open(url, OBVCore::GramContent, mod);
     } else if(url.startsWith(OBVCore::rmacScheme)) {
         //rmac://rmacID
-        url = url.remove(0, rmac.size());
-        open(url, OBVCore::RMacContent);
+        url = url.remove(0, OBVCore::rmacScheme.size());
+        open(url, OBVCore::RMacContent, mod);
     } else if(url.startsWith(dict)) {
         //dict:/module/key
-        m_windowManager->needDictionaryWindow();
+        QMdiSubWindow *window = NULL;
+        if(mod == Actions::OpenInNewWindow) {
+            window = m_windowManager->newDictionarySubWindow();
+        } else {
+            window = m_windowManager->needDictionaryWindow();
+        }
 
         url = url.remove(0, dict.size());
         const QStringList l = url.split("/");
@@ -150,6 +158,6 @@ void DictionaryManager::pharseUrl(QString url)
         } else {
             imoduleID = moduleID.toInt();
         }
-        ((DictionaryForm*)m_windowManager->activeForm())->showEntry(key, imoduleID);
+        ((DictionaryForm*)m_windowManager->getForm(window))->showEntry(key, imoduleID);
     }
 }

@@ -40,7 +40,7 @@ void AdvancedInterface::init()
     m_moduleManager->moduleDisplaySetings()->setShowNotes(true);
     m_moduleManager->moduleDisplaySetings()->setLoadNotes(true);
 
-    connect(m_actions, SIGNAL(_get(QString)), this, SLOT(pharseUrl(QString)));
+    connect(m_actions, SIGNAL(_get(QString,Actions::OpenLinkModifiers)), this, SLOT(pharseUrl(QString,Actions::OpenLinkModifiers)));
 
 
     m_api = new Api(this);
@@ -120,12 +120,7 @@ QHash<DockWidget*, Qt::DockWidgetArea> AdvancedInterface::docks()
     return ret;
 }
 
-void AdvancedInterface::pharseUrl(QUrl url)
-{
-    //DEBUG_FUNC_NAME
-    pharseUrl(url.toString());
-}
-void AdvancedInterface::pharseUrl(QString url)
+void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers mod)
 {
     //DEBUG_FUNC_NAME
     //setEnableReload(false);
@@ -133,36 +128,31 @@ void AdvancedInterface::pharseUrl(QString url)
 
     const QString bible = "verse:/";
 
-    const QString strong = "strong://";
-    const QString gram = "gram://";
-    const QString rmac = "rmac://";
-
     const QString dict = "dict:/";
 
     const QString http = "http://";
     const QString bq = "go";
     const QString anchor = "#";
     const QString note = "note://";
-    const QString persistent = "persistent:";
     const QString webPage = "webpage:/";
 
     if(url.startsWith(bible)) {
-        m_bibleManager->pharseUrl(url);
+        m_bibleManager->pharseUrl(url, mod);
     } else if(url.startsWith(OBVCore::strongScheme)) {
-        m_dictionaryManager->pharseUrl(url);
-    } else if(url.startsWith(gram)) {
-        m_dictionaryManager->pharseUrl(url);
+        m_dictionaryManager->pharseUrl(url, mod);
+    } else if(url.startsWith(OBVCore::rmacScheme)) {
+        m_dictionaryManager->pharseUrl(url, mod);
     } else if(url.startsWith(dict)) {
-        m_dictionaryManager->pharseUrl(url);
-    } else if(url.startsWith(rmac)) {
-        m_dictionaryManager->pharseUrl(url);
+        m_dictionaryManager->pharseUrl(url, mod);
+    } else if(url.startsWith(OBVCore::rmacScheme)) {
+        m_dictionaryManager->pharseUrl(url, mod);
     } else if(url.startsWith(webPage)) {
         m_webPageManager->pharseUrl(url);
     } else if(url.startsWith(http)) {
         //its a web link
         QDesktopServices::openUrl(url);
     } else if(url.startsWith(bq)) {
-        m_bibleManager->pharseUrl(url);
+        m_bibleManager->pharseUrl(url, mod);
     } else if(url.startsWith(anchor)) {
         //todo:
         url = url.remove(0, anchor.size());
@@ -185,14 +175,6 @@ void AdvancedInterface::pharseUrl(QString url)
     } else if(url.startsWith(note)) {
         url = url.remove(0, note.size());
         m_notesManager->openNote(url);
-    } else if(url.startsWith(persistent)) {
-        url = url.remove(0, persistent.size());
-        /*UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
-        urlConverter.setSettings(m_settings);
-        urlConverter.setModuleMap(m_moduleManager->m_moduleMap);
-        urlConverter.pharse();
-        const QString i = urlConverter.convert();//it now a normal interface url
-        pharseUrl(i);*/
     } else {
         //todo: unterstand links like about:blank#a04
         if(m_windowManager->activeForm() && m_windowManager->activeForm()->type() == Form::BibleForm) {

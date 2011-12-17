@@ -64,8 +64,7 @@ public slots:
     void settingsChanged(Settings oldSettings, Settings newSettings, bool modifedModuleSettings);
     void restoreSession();
 private slots:
-    void pharseUrl(QUrl url);
-    void pharseUrl(QString url);
+    void pharseUrl(QString url, const Actions::OpenLinkModifiers mod);
 
     void saveFile();
     void printFile();

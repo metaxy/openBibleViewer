@@ -31,7 +31,7 @@ NotesItemView::NotesItemView(Notes *notes, QTreeView *treeView) :  m_treeView(tr
 }
 void NotesItemView::init()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     m_idC = m_notes->getIDList();
     create("-1", 0);
     m_idC.clear();
@@ -50,7 +50,7 @@ void NotesItemView::iterate(QStandardItem *item = 0)
 }
 void NotesItemView::create(const QString &id, QStandardItem *parentItem)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     foreach(const QString & i, m_idC) {
         if(id == "-1") {
             parentItem = m_itemModel->invisibleRootItem();
@@ -69,7 +69,6 @@ void NotesItemView::create(const QString &id, QStandardItem *parentItem)
 }
 QStandardItem * NotesItemView::addFolder(const QString &id, const QString &title, const QString &parentID)
 {
-    DEBUG_FUNC_NAME
     QStandardItem *parentItem;
     if(parentID.isEmpty()) {
         parentItem = m_itemModel->invisibleRootItem();
@@ -80,8 +79,6 @@ QStandardItem * NotesItemView::addFolder(const QString &id, const QString &title
 }
 QStandardItem * NotesItemView::addFolder(const QString &id, const QString &title, QStandardItem *parentItem)
 {
-    DEBUG_FUNC_NAME
-    myDebug() << id;
     QStandardItem *newItem = new QStandardItem;
     newItem->setIcon(m_folderIcon);
     newItem->setText(title);
@@ -92,7 +89,6 @@ QStandardItem * NotesItemView::addFolder(const QString &id, const QString &title
 }
 QStandardItem * NotesItemView::addNote(const QString &id, const QString &title, const QString &parentID)
 {
-    DEBUG_FUNC_NAME
     QStandardItem *parentItem;
     if(parentID.isEmpty()) {
         parentItem = m_itemModel->invisibleRootItem();
@@ -103,8 +99,6 @@ QStandardItem * NotesItemView::addNote(const QString &id, const QString &title, 
 }
 QStandardItem * NotesItemView::addNote(const QString &id, const QString &title, QStandardItem *parentItem)
 {
-    DEBUG_FUNC_NAME
-
     QStandardItem *newItem = new QStandardItem;
     newItem->setText(title);
     newItem->setData(id, Qt::UserRole + 1);
@@ -125,7 +119,6 @@ void NotesItemView::removeNote(const QString &noteID)
 }
 QStandardItem* NotesItemView::find(const QString &noteID)
 {
-    //DEBUG_FUNC_NAME
     const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, noteID, -1, Qt::MatchExactly);
     if(list.size() != 1) {
         myWarning() << "invalid noteID = " << noteID;
@@ -171,7 +164,6 @@ void NotesItemView::select(const QString &noteID)
 }
 void NotesItemView::notesContextMenu(QPoint point)
 {
-    //DEBUG_FUNC_NAME
     m_point = point;
     QPointer<QMenu> contextMenu = new QMenu(m_treeView);
     m_currentPoint = point;

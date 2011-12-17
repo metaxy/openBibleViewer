@@ -29,9 +29,9 @@ public:
     QHash<DockWidget *, Qt::DockWidgetArea> docks();
     DictionaryDockWidget *dictionaryDockWidget();
 
-    void pharseUrl(QString url);
+    void pharseUrl(QString url, const Actions::OpenLinkModifiers mod);
 
-    void open(const QString &key, OBVCore::ContentType contentType);
+    void open(const QString &key, OBVCore::ContentType contentType, const Actions::OpenLinkModifiers mod);
 
     void setWindowManager(WindowManager *windowManager);
 private:

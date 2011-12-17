@@ -31,8 +31,14 @@ DictionaryForm::DictionaryForm(QWidget *parent) :
     connect(ui->toolButton_enter, SIGNAL(clicked()), this, SLOT(showEntry()));
     connect(ui->lineEdit_input, SIGNAL(returnPressed()), this, SLOT(showEntry()));
 
-    ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
     m_dictionary = NULL;
+
+    m_view = new WebView(this);
+    m_view->setObjectName("webView");
+    m_view->setUrl(QUrl("about:blank"));
+    ui->verticalLayout->addWidget(m_view);
+    m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+
 }
 
 DictionaryForm::~DictionaryForm()
@@ -47,10 +53,12 @@ void DictionaryForm::init()
 {
     connect(m_actions, SIGNAL(_showHtml(QString)), this, SLOT(forwardShowHtml(QString)));
     connect(m_actions, SIGNAL(_showDictEntry(QString, int)), this, SLOT(forwardShowEntry(QString, int)));
-    connect(ui->webView->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(get(QUrl)));
+    connect(m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(get(QUrl)));
+    connect(m_view, SIGNAL(linkMiddleOrCtrlClicked(QUrl)), SLOT(newGet(QUrl)));
 }
 void DictionaryForm::get(const QUrl &url)
 {
+    DEBUG_FUNC_NAME
     if(m_dictionary->moduleType() == OBVCore::WebDictionaryModule) {
         WebDictionary *d = (WebDictionary*)(m_dictionary->module());
         m_actions->get(d->pharseUrl(url));
@@ -58,7 +66,16 @@ void DictionaryForm::get(const QUrl &url)
         m_actions->get(url);
     }
 }
-
+void DictionaryForm::newGet(const QUrl &url)
+{
+    DEBUG_FUNC_NAME
+    if(m_dictionary->moduleType() == OBVCore::WebDictionaryModule) {
+        WebDictionary *d = (WebDictionary*)(m_dictionary->module());
+        m_actions->get(d->pharseUrl(url), Actions::OpenInNewWindow);
+    } else {
+        m_actions->get(url, Actions::OpenInNewWindow);
+    }
+}
 Form::FormType DictionaryForm::type() const
 {
     return Form::DictionaryForm;
@@ -86,8 +103,8 @@ void DictionaryForm::restore(const QString &key)
         showEntry(k, moduleID);
     }
 
-    ui->webView->page()->mainFrame()->setScrollPosition(scroll);
-    ui->webView->setZoomFactor(zoom);
+    m_view->page()->mainFrame()->setScrollPosition(scroll);
+    m_view->setZoomFactor(zoom);
 }
 
 void DictionaryForm::save()
@@ -95,8 +112,8 @@ void DictionaryForm::save()
     const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
     m_settings->session.file()->setValue(a + "type", "dictionary");
     m_settings->session.file()->setValue(a + "key", m_key);
-    m_settings->session.file()->setValue(a + "scrollPosition", ui->webView->page()->mainFrame()->scrollPosition());
-    m_settings->session.file()->setValue(a + "zoom",  ui->webView->zoomFactor());
+    m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
+    m_settings->session.file()->setValue(a + "zoom",  m_view->zoomFactor());
     if(m_dictionary != NULL) {
         m_settings->session.file()->setValue(a + "uid", m_moduleManager->getModule(m_dictionary->moduleID())->moduleUID());
     }
@@ -104,12 +121,12 @@ void DictionaryForm::save()
 
 void DictionaryForm::copy()
 {
-    ui->webView->page()->triggerAction(QWebPage::Copy);
+    m_view->page()->triggerAction(QWebPage::Copy);
 }
 
 void DictionaryForm::selectAll()
 {
-    ui->webView->page()->triggerAction(QWebPage::SelectAll);
+    m_view->page()->triggerAction(QWebPage::SelectAll);
 }
 
 void DictionaryForm::print()
@@ -118,7 +135,7 @@ void DictionaryForm::print()
     QPointer<QPrintDialog> dialog = new QPrintDialog(&printer, this);
     dialog->setWindowTitle(tr("Print"));
     if(dialog->exec() == QDialog::Accepted) {
-        ui->webView->page()->mainFrame()->print(&printer);
+        m_view->page()->mainFrame()->print(&printer);
     }
     delete dialog;
 }
@@ -127,7 +144,7 @@ void DictionaryForm::printPreview()
 {
     QPrinter printer;
     QPointer<QPrintPreviewDialog> preview = new QPrintPreviewDialog(&printer, this);
-    connect(preview, SIGNAL(paintRequested(QPrinter *)), ui->webView, SLOT(print(QPrinter *)));
+    connect(preview, SIGNAL(paintRequested(QPrinter *)), m_view, SLOT(print(QPrinter *)));
     preview->exec();
     delete preview;
 }
@@ -144,43 +161,43 @@ void DictionaryForm::saveFile()
         if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
             return;
         QTextStream out(&file);
-        out << ui->webView->page()->mainFrame()->toHtml();
+        out << m_view->page()->mainFrame()->toHtml();
         file.close();
     } else if(fi.suffix().compare("pdf", Qt::CaseInsensitive) == 0) {
         QPrinter printer;
         printer.setOutputFormat(QPrinter::PdfFormat);
         printer.setOutputFileName(fileName);
-        ui->webView->print(&printer);
+        m_view->print(&printer);
     } else if(fi.suffix().compare("odt", Qt::CaseInsensitive) == 0) {
         QTextDocumentWriter writer;
         writer.setFormat("odf");
         writer.setFileName(fileName);
         QTextDocument doc;
-        doc.setHtml(ui->webView->page()->mainFrame()->toHtml());
+        doc.setHtml(m_view->page()->mainFrame()->toHtml());
         writer.write(&doc);
     } else {
         QFile file(fileName);
         if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
             return;
         QTextStream out(&file);
-        out << ui->webView->page()->mainFrame()->toPlainText();
+        out << m_view->page()->mainFrame()->toPlainText();
         file.close();
     }
 }
 
 QString DictionaryForm::selectedText()
 {
-    return ui->webView->selectedText();
+    return m_view->selectedText();
 }
 
 void DictionaryForm::zoomIn()
 {
-    ui->webView->setZoomFactor(ui->webView->zoomFactor() + 0.1);
+    m_view->setZoomFactor(m_view->zoomFactor() + 0.1);
 }
 
 void DictionaryForm::zoomOut()
 {
-    ui->webView->setZoomFactor(ui->webView->zoomFactor() - 0.1);
+    m_view->setZoomFactor(m_view->zoomFactor() - 0.1);
 }
 
 void DictionaryForm::activated()
@@ -221,7 +238,7 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
     } else if(m_dictionary->moduleType() == OBVCore::WebDictionaryModule) {
         m_key = key;
         const QString url = m_dictionary->getEntry(key);
-        ui->webView->load(QUrl(url));
+        m_view->load(QUrl(url));
     }
     m_actions->setTitle(m_dictionary->moduleTitle());
     //else
@@ -298,5 +315,5 @@ void DictionaryForm::forwardShowHtml(const QString &html)
 }
 void DictionaryForm::showHtml(const QString &html)
 {
-    ui->webView->setHtml(html);
+    m_view->setHtml(html);
 }

@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define DICTIONARYFORM_H
 
 #include <QWidget>
-
+#include "src/ui/webview.h"
 namespace Ui
 {
 class DictionaryForm;
@@ -54,6 +54,7 @@ private slots:
     void forwardShowEntry(const QString &key, int moduleID);
 
     void get(const QUrl &url);
+    void newGet(const QUrl &url);
 private:
     Ui::DictionaryForm *ui;
     void loadDictionary(int moduleID);
@@ -62,6 +63,8 @@ private:
     void showHtml(const QString &html);
 
     QString m_key;
+
+    WebView *m_view;
 };
 
 #endif // DICTIONARYFORM_H

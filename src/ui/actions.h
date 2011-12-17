@@ -26,6 +26,11 @@ class Actions : public QObject
     Q_OBJECT
 public:
     explicit Actions(QObject *parent = 0);
+    enum OpenLinkModifiers {
+        NoModifer,
+        OpenInNewWindow,
+        ForceOpenInThisWindow
+    };
 
 signals:
     void _previousChapter();
@@ -35,8 +40,8 @@ signals:
     /**
       By default the Interface pharse all urls.
       */
-    void _get(const QString &url);
-    void _get(const VerseUrl &url);
+    void _get(const QString &url, const Actions::OpenLinkModifiers mod);
+    void _get(const VerseUrl &url, const Actions::OpenLinkModifiers mod);
 
 
     void _setCurrentBook(const QSet<int> &bookID);
@@ -90,6 +95,12 @@ public slots:
     void get(const QUrl &url);
     void get(const VerseUrl &url);
 
+
+    void get(const QString &url, const Actions::OpenLinkModifiers mod);
+    void get(const QUrl &url, const Actions::OpenLinkModifiers mod);
+    void get(const VerseUrl &url, const Actions ::OpenLinkModifiers mod);
+
+    void newGet(const QUrl &url);
 
     void setCurrentBook(const QSet<int> &bookID);
     void setCurrentChapter(const QSet<int> &chapterID);

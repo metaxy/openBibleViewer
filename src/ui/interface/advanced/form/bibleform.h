@@ -80,6 +80,9 @@ public:
     VerseTable *verseTable() const;
     VerseModule *verseModule() const;
 
+    void newModule(const int moduleID);
+    int newModule();
+    bool verseTableLoaded();
 private slots:
     void showBibleListMenu();
     void readBook(int id);
@@ -174,7 +177,7 @@ private:
 
     void showRanges(const Ranges &ranges, const VerseUrl &url);
 
-    bool verseTableLoaded();
+
     VerseUrl m_url;
 };
 
