@@ -87,6 +87,7 @@ void BibleForm::init()
     connect(m_actions, SIGNAL(_showTextRanges(QString, TextRanges, VerseUrl)), this, SLOT(forwardShowTextRanges(QString, TextRanges, VerseUrl)));
     connect(m_actions, SIGNAL(_searchInText(SearchResult*)), this, SLOT(forwardSearchInText(SearchResult*)));
     connect(m_actions, SIGNAL(_reloadIf(VerseUrl)), this, SLOT(reloadIf(VerseUrl)));
+    connect(m_actions, SIGNAL(_moduleChanged(int)), this, SLOT(moduleChanged(int)));
 
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     createDefaultMenu();
@@ -1273,6 +1274,12 @@ VerseTable * BibleForm::verseTable() const
 VerseModule * BibleForm::verseModule() const
 {
     return m_verseTable->verseModule();
+}
+void BibleForm::moduleChanged(const int moduleID)
+{
+    if(m_verseTable->contains(moduleID)) {
+        reload(true);
+    }
 }
 void BibleForm::reload(bool full)
 {

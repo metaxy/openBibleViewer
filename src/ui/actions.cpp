@@ -179,11 +179,18 @@ void Actions::showDictEntry(const QString &key, int moduleID)
 {
     emit _showDictEntry(key, moduleID);
 }
+
 void Actions::setCurrentVerseTableID(const int verseTableID)
 {
     emit _setCurrentVerseTableID(verseTableID);
 }
+
 void Actions::reloadIf(const VerseUrl &url)
 {
     emit _reloadIf(url);
+}
+
+void Actions::moduleChanged(const int moduleID)
+{
+    emit _moduleChanged(moduleID);
 }

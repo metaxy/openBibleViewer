@@ -32,9 +32,16 @@ class ModuleDockWidget : public DockWidget
 {
     Q_OBJECT
 private slots:
-    void loadModuleData(QModelIndex index);
+    void loadModuleData(QModelIndex index, Actions::OpenLinkModifiers mod = Actions::NoModifer);
     void filter(QString string);
-    void loadedModule(int id);
+    void loadedModule(const int id);
+    void contextMenu(QPoint point);
+
+    void open();
+    void openInNewTab();
+    void configure();
+
+    void moduleChanged(const int moduleID);
 public:
     ModuleDockWidget(QWidget *parent = 0);
     ~ModuleDockWidget();
@@ -42,6 +49,7 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
+
 private:
     Ui::ModuleDockWidget *ui;
     bool m_dontLoad;
@@ -49,7 +57,7 @@ private:
     RecursivProxyModel *m_proxyModel;
     QItemSelectionModel *m_selectionModel;
     bool first;
-
+    QPoint m_point;
 };
 
 #endif // MODULEDOCKWIDGET_H

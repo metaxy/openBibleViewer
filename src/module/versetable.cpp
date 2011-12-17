@@ -279,6 +279,14 @@ void VerseTable::clearData()
         m->clearData();
     }
 }
+bool VerseTable::contains(const int moduleID)
+{
+    foreach(VerseModule *m, m_modules) {
+        if(m->moduleID() == moduleID)
+            return true;
+    }
+    return false;
+}
 
 TextRanges *VerseTable::lastTextRanges()
 {

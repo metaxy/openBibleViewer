@@ -144,6 +144,8 @@ void BibleManager::loadBibleList(bool hadBible)
         m_actions->get(url);
     }
 }
+
+
 void BibleManager::reloadCurrentRange(bool full)
 {
     if(m_windowManager->activeForm()->type() == Form::BibleForm) {

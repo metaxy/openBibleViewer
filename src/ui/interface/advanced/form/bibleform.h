@@ -148,6 +148,8 @@ public slots:
     void searchInText(SearchResult *res);
 
     void reload(bool full);
+private slots:
+    void moduleChanged(const int moduleID);
 protected:
     virtual void changeEvent(QEvent *e);
 private:

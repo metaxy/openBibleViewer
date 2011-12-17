@@ -56,6 +56,8 @@ public:
     VerseUrl lastVerseUrl();
 
     void clearData();
+
+    bool contains(const int moduleID);
 private:
     inline QString title(VerseModule *module, const QString &active, const int bibleListID) const;
     int countInCol(const int col) const;

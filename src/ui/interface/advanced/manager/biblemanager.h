@@ -59,6 +59,7 @@ public slots:
     void reloadCurrentRange(bool full);
 
     void setCurrentVerseTableID(const int verseTableID);
+
 private:
 
     QWidget *m_p;

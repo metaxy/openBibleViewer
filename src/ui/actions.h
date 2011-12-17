@@ -85,6 +85,8 @@ signals:
 
     void _setCurrentVerseTableID(const int verseTableID);
 
+    void _moduleChanged(const int moduleID);
+
 public slots:
 
     void previousChapter();
@@ -146,7 +148,7 @@ public slots:
 
     void reloadIf(const VerseUrl &url);
 
-
+    void moduleChanged(const int moduleID);
 };
 
 #endif // ACTIONS_H
