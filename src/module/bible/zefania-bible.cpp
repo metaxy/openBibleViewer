@@ -731,7 +731,7 @@ QString ZefaniaBible::pharseGram()
         ret +=  "<span class=\"stronglink\"><a  href=\""+url.toString()+"\">" + add+strong + "</a></span>";
     }
     if(!rmac.isEmpty() && m_set->displaySettings()->showRMac()) {
-        ret +=  "<span class=\"rmaclink\"><a href=\"rmac://" + rmac + "\">" + rmac + "</a></span>";
+        ret +=  "<span class=\"rmaclink\"><a href=\""+OBVCore::rmacScheme + rmac + "\">" + rmac + "</a></span>";
     }
     return ret;
 }

@@ -88,12 +88,18 @@ int ModuleManager::loadAllModules()
             }
         }
         QSharedPointer<ModuleDisplaySettings> displaySettings = QSharedPointer<ModuleDisplaySettings>(new ModuleDisplaySettings());
+
+        //todo: what is that?
         displaySettings->setShowStudyNotes(true);
         displaySettings->setShowStrong(true);
         displaySettings->setShowRefLinks(false);
         displaySettings->setShowNotes(true);
         displaySettings->setShowMarks(true);
         displaySettings->setShowBottomToolBar(true);
+        displaySettings->setShowRMac(true);
+        displaySettings->setShowCaptions(false);
+        displaySettings->setShowProlog(false);
+
         root->setDisplaySettings(displaySettings);
 
         m_settings->m_moduleSettings.insert(-1, root);

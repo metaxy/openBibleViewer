@@ -159,6 +159,9 @@ int SettingsDialog::setSettings(Settings settings)
     m_ui->checkBox_showRefLinks->setChecked(config->displaySettings()->showRefLinks());
     m_ui->checkBox_showStrong->setChecked(config->displaySettings()->showStrong());
     m_ui->checkBox_showStudyNotes->setChecked(config->displaySettings()->showStudyNotes());
+    m_ui->checkBox_showRMac->setChecked(config->displaySettings()->showRMac());
+    m_ui->checkBox_showCaptions->setChecked(config->displaySettings()->showCaptions());
+    m_ui->checkBox_showProlog->setChecked(config->displaySettings()->showProlog());
 
     return 0;
 
@@ -324,6 +327,9 @@ void SettingsDialog::save(void)
     config->displaySettings()->setShowRefLinks(m_ui->checkBox_showRefLinks->isChecked());
     config->displaySettings()->setShowStrong(m_ui->checkBox_showStrong->isChecked());
     config->displaySettings()->setShowStudyNotes(m_ui->checkBox_showStudyNotes->isChecked());
+    config->displaySettings()->setShowRMac(m_ui->checkBox_showRMac->isChecked());
+    config->displaySettings()->setShowCaptions(m_ui->checkBox_showCaptions->isChecked());
+    config->displaySettings()->setShowProlog(m_ui->checkBox_showProlog->isChecked());
 
     QMap<int, int> struc;
     foreach(ModuleSettings * set, m_set.m_moduleSettings) {

@@ -321,6 +321,9 @@ void MainWindow::loadSettings()
         displaySettings->setShowNotes(m_settingsFile->value("showNotes", true).toBool());
         displaySettings->setShowMarks(m_settingsFile->value("showMarks", true).toBool());
         displaySettings->setShowBottomToolBar(m_settingsFile->value("showBottomToolBar", true).toBool());
+        displaySettings->setShowRMac(m_settingsFile->value("showRMac", true).toBool());
+        displaySettings->setShowCaptions(m_settingsFile->value("showCaptions", false).toBool());
+        displaySettings->setShowProlog(m_settingsFile->value("showProlog", false).toBool());
         m->setDisplaySettings(displaySettings);
 
         m_settings->m_moduleSettings.insert(m->moduleID, m);
@@ -383,6 +386,9 @@ void MainWindow::writeSettings()
                 m_settingsFile->setValue("showNotes", displaySettings->showNotes());
                 m_settingsFile->setValue("showMarks", displaySettings->showMarks());
                 m_settingsFile->setValue("showBottomToolBar", displaySettings->showBottomToolBar());
+                m_settingsFile->setValue("showRMac", displaySettings->showRMac());
+                m_settingsFile->setValue("showCaptions", displaySettings->showCaptions());
+                m_settingsFile->setValue("showProlog", displaySettings->showProlog());
             }
         } else {
             m_settingsFile->remove("showStudyNotes");
@@ -391,6 +397,9 @@ void MainWindow::writeSettings()
             m_settingsFile->remove("showNotes");
             m_settingsFile->remove("showMarks");
             m_settingsFile->remove("showBottomToolBar");
+            m_settingsFile->remove("showRMac");
+            m_settingsFile->remove("showCaptions");
+            m_settingsFile->remove("showProlog");
         }
     }
 

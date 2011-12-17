@@ -23,7 +23,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -232,6 +232,27 @@
            <widget class="QCheckBox" name="checkBox_showStrong">
             <property name="text">
              <string>Show Strong Number</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_showRMac">
+            <property name="text">
+             <string>Show RMac</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_showCaptions">
+            <property name="text">
+             <string>Show Captions</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_showProlog">
+            <property name="text">
+             <string>Show Prolog</string>
             </property>
            </widget>
           </item>
