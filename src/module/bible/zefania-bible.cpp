@@ -297,9 +297,13 @@ MetaInfo ZefaniaBible::readInfo(QFile &file)
     m_xml = new QXmlStreamReader(&file);
     if(m_xml->readNextStartElement()) {
         if(cmp(m_xml->name(), "XMLBIBLE")) {
+            if(m_xml->attributes().value("type") == "x-bible") {
+                ret.setContent(OBVCore::BibleContent);
+                ret.setDefaultModule(OBVCore::DefaultBibleModule);
+            }
             while(m_xml->readNextStartElement()) {
                 if(cmp(m_xml->name(), "INFORMATION")) {
-                    ret = readMetaInfo();
+                    ret = readMetaInfo(ret);
                     break;
                 } else {
                     m_xml->skipCurrentElement();
@@ -819,9 +823,8 @@ QString ZefaniaBible::pharseDiv()
     return ret;
 }
 
-MetaInfo ZefaniaBible::readMetaInfo()
+MetaInfo ZefaniaBible::readMetaInfo(MetaInfo ret)
 {
-    MetaInfo ret;
     while(m_xml->readNextStartElement()) {
         if(m_xml->name() == "publisher") {
             ret.publisher = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);

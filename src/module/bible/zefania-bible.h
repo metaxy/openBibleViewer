@@ -94,7 +94,7 @@ private:
     Book readBook();
     Chapter readChapter();
     Verse readVerse();
-    MetaInfo readMetaInfo();
+    MetaInfo readMetaInfo(MetaInfo ret);
 
     QString pharseStyle();
     QString pharseNote();

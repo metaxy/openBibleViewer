@@ -228,6 +228,16 @@ MetaInfo TheWordBible::readInfo(QFile &file)
             skipping = false;
 
     }
+    if(file.fileName().endsWith(".ot")) {
+        ret.setContent(OBVCore::BibleOTContent);
+        ret.setDefaultModule(OBVCore::DefaultBibleModule);
+    } else if(file.fileName().endsWith(".nt")) {
+        ret.setContent(OBVCore::BibleNTContent);
+        ret.setDefaultModule(OBVCore::DefaultBibleModule);
+    } else {
+        ret.setContent(OBVCore::BibleContent);
+        ret.setDefaultModule(OBVCore::DefaultBibleModule);
+    }
 
     /*
             if(line.startsWith("title")) {
