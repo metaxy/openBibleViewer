@@ -57,7 +57,7 @@ void DictionaryManager::open(const QString &key, OBVCore::ContentType contentTyp
         i.next();
         if(i.value()->defaultModule == defaultModule)
             defaultModuleID = i.key();
-        if(i.value()->contentType == contentType) {
+        if(ModuleManager::alsoOk(i.value()->contentType, contentType)) {
             contentModuleID = i.key();
         }
     }
@@ -121,7 +121,11 @@ void DictionaryManager::pharseUrl(QString url, const Actions::OpenLinkModifiers 
     if(url.startsWith(OBVCore::strongScheme)) {
         StrongUrl strong;
         strong.fromString(url);
-        open(strong.toKey(), OBVCore::StrongsContent, mod);
+        if(strong.prefix() == StrongUrl::G) {
+            open(strong.toKey(), OBVCore::StrongsGreekContent, mod);
+        } else if(strong.prefix() == StrongUrl::H){
+            open(strong.toKey(), OBVCore::StrongsHebrewContent, mod);
+        }
     } else if(url.startsWith(OBVCore::gramScheme)) {
         //gram://gramID
         url = url.remove(0, OBVCore::gramScheme.size());

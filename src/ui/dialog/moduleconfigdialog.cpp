@@ -42,8 +42,11 @@ ModuleConfigDialog::ModuleConfigDialog(QWidget *parent) :
     QStringList contentTypes;
     contentTypes << tr("Unkown") << tr("Bible")
                    << tr("Bible OT") << tr("Bible NT")
-                   << tr("Strongs") << tr("RMAC")
-                   << tr("Word Dictionary");
+                   << tr("Strongs") << tr("Strongs Greek") << tr("Strongs Hebrew")
+                   << tr("RMAC")
+                   << tr("Word Dictionary")
+                   << tr("Dictionary")
+                   << tr("Gram Dictionary");
     m_ui->comboBox_contentType->insertItems(0, contentTypes);
 
 
@@ -67,6 +70,7 @@ ModuleConfigDialog::~ModuleConfigDialog()
 void ModuleConfigDialog::setModule(ModuleSettings *config)
 {
     m_moduleSettings = config;
+
     m_ui->lineEdit_name->setText(config->moduleName);
     m_ui->lineEdit_path->setText(config->modulePath);
     m_ui->lineEdit_shortName->setText(config->moduleShortName);

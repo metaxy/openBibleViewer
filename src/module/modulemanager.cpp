@@ -63,7 +63,7 @@ int ModuleManager::loadAllModules()
 {
     DEBUG_FUNC_NAME;
     //update module settings and display settings
-
+    m_moduleMap.clear();
     ModuleSettings *root = new ModuleSettings();
     root->moduleID = -1;
     root->parentID = -2;
@@ -379,6 +379,31 @@ OBVCore::DefaultModule ModuleManager::toDefaultModule(const OBVCore::ContentType
             return OBVCore::NotADefaultModule;//todo: could this cause some bugs?
     }
 }
+bool ModuleManager::alsoOk(const OBVCore::ContentType t1, const OBVCore::ContentType t2)
+{
+    if(t1 == t2)
+        return true;
+
+    if(t1 == OBVCore::BibleOTContent) {
+        if(t2 == OBVCore::BibleContent)
+            return true;
+    }
+    if(t1 == OBVCore::BibleNTContent) {
+        if(t2 == OBVCore::BibleContent)
+            return true;
+    }
+
+    if(t1 == OBVCore::StrongsGreekContent) {
+        if(t2 == OBVCore::StrongsContent)
+            return true;
+    }
+    if(t1 == OBVCore::StrongsHebrewContent) {
+        if(t2 == OBVCore::StrongsContent)
+            return true;
+    }
+
+}
+
 VerseTable * ModuleManager::newVerseTable()
 {
     VerseTable *verseTable = new VerseTable();

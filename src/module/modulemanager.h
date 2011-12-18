@@ -81,6 +81,8 @@ public:
 
     static OBVCore::ModuleType recognizeModuleType(const QString &fileName);
     static OBVCore::DefaultModule toDefaultModule(const OBVCore::ContentType t);
+    static bool alsoOk(const OBVCore::ContentType t1, const OBVCore::ContentType t2);
+
 
     /**
       * Returns a new VerseTable with a Bible.
