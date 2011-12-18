@@ -122,8 +122,16 @@ QString Bible::toUniformHtml(const QString &string)
 TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 {
     //DEBUG_FUNC_NAME
-
     TextRange ret;
+    if(!m_settings->getModuleSettings(m_moduleID)) {//check if module exists
+        m_moduleID = -1;
+        m_loaded = false;
+        m_versification.clear();
+        m_bibleModule.clear();
+        ret.setFailed(true);
+        return ret;
+    }
+
     ret.setModuleID(range.moduleID());
     if(ignoreModuleID) {
         if(!loaded()) {

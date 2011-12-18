@@ -63,7 +63,7 @@ int ModuleManager::loadAllModules()
 {
     DEBUG_FUNC_NAME;
     //update module settings and display settings
-    m_moduleMap.clear();
+    m_moduleMap->data.clear();
     ModuleSettings *root = new ModuleSettings();
     root->moduleID = -1;
     root->parentID = -2;
