@@ -65,7 +65,7 @@ private:
     QString m_shortModuleName;
     QString m_uID;
 
-    int loadCached(const int bookID);
+    Book loadCached(const int bookID);
     bool hasHardCache(const QString &path);
 
 

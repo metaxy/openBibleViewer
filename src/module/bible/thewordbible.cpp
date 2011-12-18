@@ -39,9 +39,8 @@ void TheWordBible::setSettings(Settings *set)
   */
 int TheWordBible::loadBibleData(const int id, const QString &path)
 {
+    m_book.clear();
 
-    if(!m_books.isEmpty())
-        m_books.clear();
     m_moduleID = id;
     m_modulePath = path;
 
@@ -81,7 +80,6 @@ int TheWordBible::loadBibleData(const int id, const QString &path)
     currentChapter.setChapterID(chapter);
     const int linesToSkip = 31102;//see spec
 
-
     QFile *write = NULL;
     for(int lineCount = 0; !file.atEnd(); lineCount++) {
         if(lineCount >= linesToSkip) {
@@ -104,36 +102,33 @@ int TheWordBible::loadBibleData(const int id, const QString &path)
                 write->close();
                 delete write;
                 write = NULL;
-
                 book++;
                 chapter = 0;
                 verse = 0;
             }
         }
-
-
     }
 
     return 0;
 
 }
-int TheWordBible::loadCached(const int bookID)
+Book TheWordBible::loadCached(const int bookID)
 {
     DEBUG_FUNC_NAME
     ModuleDisplaySettings *displaySettings = m_settings->getModuleSettings(m_moduleID)->displaySettings().data();
-
+    Book b;
     const QString fileName = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath) + "/" + QString::number(bookID) + ".twb";
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         myDebug() << "file not found " << file.fileName();
-        return 1;
+        return b;
     }
     QTextStream in(&file);
     int book = bookID;
     int chapter = 0;
     int verse = 0;
-    m_book.clear();
-    m_book.setID(book);
+
+    b.setID(book);
     Chapter currentChapter = Chapter();
     currentChapter.setChapterID(chapter);
 
@@ -168,7 +163,7 @@ int TheWordBible::loadCached(const int bookID)
         if(verse + 1 < m_versification->maxVerse().value(book).at(chapter)) {
             verse++;
         } else {
-            m_book.addChapter(currentChapter);
+            b.addChapter(currentChapter);
             chapter++;
             verse = 0;
 
@@ -178,7 +173,7 @@ int TheWordBible::loadCached(const int bookID)
         }
 
     }
-    return 0;
+    return b;
 }
 
 bool TheWordBible::hasHardCache(const QString &path)
@@ -197,7 +192,7 @@ bool TheWordBible::hasHardCache(const QString &path)
 int TheWordBible::readBook(const int id)
 {
     m_bookID = id;
-    loadCached(m_bookID);
+    m_book = loadCached(m_bookID);
     return 0;
 }
 
@@ -229,16 +224,13 @@ MetaInfo TheWordBible::readInfo(QFile &file)
 
     }
     if(file.fileName().endsWith(".ot")) {
-        ret.setContent(OBVCore::BibleOTContent);
-        ret.setDefaultModule(OBVCore::DefaultBibleModule);
+        info.setContent(OBVCore::BibleOTContent);
     } else if(file.fileName().endsWith(".nt")) {
-        ret.setContent(OBVCore::BibleNTContent);
-        ret.setDefaultModule(OBVCore::DefaultBibleModule);
+        info.setContent(OBVCore::BibleNTContent);
     } else {
-        ret.setContent(OBVCore::BibleContent);
-        ret.setDefaultModule(OBVCore::DefaultBibleModule);
+        info.setContent(OBVCore::BibleContent);
     }
-
+    info.setDefaultModule(OBVCore::DefaultBibleModule);
     /*
             if(line.startsWith("title")) {
                 const QStringList list = line.split("=");
@@ -312,7 +304,7 @@ bool TheWordBible::hasIndex() const
 }
 void TheWordBible::buildIndex()
 {
-    QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, m_books.size());
+    QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, m_versification->bookIDs().size());
     const QString index = indexPath();
     QDir dir("/");
     dir.mkpath(index);
@@ -334,22 +326,23 @@ void TheWordBible::buildIndex()
     //index
     Document doc;
     bool canceled = false;
-    QMapIterator<int, Book> bookIt(m_books);
-    for(int c = 0; bookIt.hasNext(); c++) {
+    int c = 0;
+    foreach(const int bookID, m_versification->bookIDs()) {
+        c++;
         if(progress.wasCanceled()) {
             canceled = true;
             break;
         }
         progress.setValue(c);
-        bookIt.next();
-        QHashIterator<int, Chapter> chapterIt(bookIt.value().data());
+        Book book = loadCached(bookID);
+        QHashIterator<int, Chapter> chapterIt(book.data());
         while(chapterIt.hasNext()) {
             chapterIt.next();
             QMapIterator<int, Verse> verseIt(chapterIt.value().data());
             while(verseIt.hasNext()) {
                 verseIt.next();
                 doc.clear();
-                const QString key = QString::number(bookIt.value().bookID()) + ";" + QString::number(chapterIt.value().chapterID()) + ";" + QString::number(verseIt.value().verseID());
+                const QString key = QString::number(book.bookID()) + ";" + QString::number(chapterIt.value().chapterID()) + ";" + QString::number(verseIt.value().verseID());
                 const QString text = verseIt.value().data();
 #ifdef OBV_USE_WSTRING
                 doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
