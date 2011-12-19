@@ -368,6 +368,8 @@ OBVCore::DefaultModule ModuleManager::toDefaultModule(const OBVCore::ContentType
         case OBVCore::BibleNTContent:
             return OBVCore::DefaultBibleModule;
         case OBVCore::StrongsContent:
+        case OBVCore::StrongsGreekContent:
+        case OBVCore::StrongsHebrewContent:
             return OBVCore::DefaultStrongDictModule;
         case OBVCore::RMacContent:
             return OBVCore::DefaultRMACDictModule;
@@ -379,28 +381,32 @@ OBVCore::DefaultModule ModuleManager::toDefaultModule(const OBVCore::ContentType
             return OBVCore::NotADefaultModule;//todo: could this cause some bugs?
     }
 }
+/**
+ * The t2 is the content we want.
+ */
 bool ModuleManager::alsoOk(const OBVCore::ContentType t1, const OBVCore::ContentType t2)
 {
     if(t1 == t2)
         return true;
 
-    if(t1 == OBVCore::BibleOTContent) {
-        if(t2 == OBVCore::BibleContent)
+    if(t2 == OBVCore::BibleOTContent) {
+        if(t1 == OBVCore::BibleContent)
             return true;
     }
-    if(t1 == OBVCore::BibleNTContent) {
-        if(t2 == OBVCore::BibleContent)
+    if(t2 == OBVCore::BibleNTContent) {
+        if(t1 == OBVCore::BibleContent)
             return true;
     }
 
-    if(t1 == OBVCore::StrongsGreekContent) {
-        if(t2 == OBVCore::StrongsContent)
+    if(t2 == OBVCore::StrongsGreekContent) {
+        if(t1 == OBVCore::StrongsContent)
             return true;
     }
-    if(t1 == OBVCore::StrongsHebrewContent) {
-        if(t2 == OBVCore::StrongsContent)
+    if(t2 == OBVCore::StrongsHebrewContent) {
+        if(t1 == OBVCore::StrongsContent)
             return true;
     }
+    return false;
 
 }
 

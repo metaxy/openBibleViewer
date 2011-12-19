@@ -47,7 +47,7 @@ DictionaryDockWidget* DictionaryManager::dictionaryDockWidget()
 void DictionaryManager::open(const QString &key, OBVCore::ContentType contentType, const Actions::OpenLinkModifiers mod)
 {
     OBVCore::DefaultModule defaultModule = ModuleManager::toDefaultModule(contentType);
-
+    myDebug() << "content = " << contentType << " so the defaultModule is" << defaultModule;
     //get default module id for this
     int defaultModuleID = -1;
     int contentModuleID = -1;
@@ -69,6 +69,7 @@ void DictionaryManager::open(const QString &key, OBVCore::ContentType contentTyp
     }
 
     myDebug() << defaultModuleID << contentModuleID << justDictModuleID;
+
     QMdiSubWindow *w = m_windowManager->hasDictWindow(defaultModule);
     DictionaryForm *f = NULL;
     if(mod == Actions::OpenInNewWindow) {
@@ -89,8 +90,10 @@ void DictionaryManager::open(const QString &key, OBVCore::ContentType contentTyp
     if(f == NULL)
         return;
     if(f->dictionary()) {
+        myDebug() << "has already a dictionary";
         OBVCore::ContentType type = m_settings->getModuleSettings(f->dictionary()->moduleID())->contentType;
-        if(type == contentType || type == OBVCore::UnkownContent) {
+        myDebug() << type << " mine is " << contentType;
+        if(ModuleManager::alsoOk(type,contentType) || type == OBVCore::UnkownContent) {
             f->showEntry(key, -1);
             return;
         }
