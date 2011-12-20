@@ -275,8 +275,11 @@ void SettingsDialog::removeModule()
     if(m_ui->treeView->selectionModel()->selectedIndexes().isEmpty())
         return;
     m_modifedModuleSettings = true;
-
-    foreach(QModelIndex index, m_ui->treeView->selectionModel()->selectedIndexes()) {
+    QModelIndexList l = m_ui->treeView->selectionModel()->selectedIndexes();
+    QListIterator<QModelIndex> i(l);
+    i.toBack();
+    while (i.hasPrevious()) {
+        QModelIndex index = i.previous();
         bool ok;
         const int moduleID = index.data(Qt::UserRole + 1).toInt(&ok);
         if(ok) {
