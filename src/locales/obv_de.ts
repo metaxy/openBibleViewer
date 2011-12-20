@@ -217,23 +217,23 @@
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="312"/>
         <source>New Subwindow</source>
-        <translation type="unfinished">Neues Unterfenster
+        <translation>Neues Unterfenster
 </translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="314"/>
         <source>New Bible Window</source>
-        <translation type="unfinished">Neues Biblefenster</translation>
+        <translation>Neues Biblefenster</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="318"/>
         <source>New Web Window</source>
-        <translation type="unfinished">Neues Webfenster</translation>
+        <translation>Neues Webfenster</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="321"/>
         <source>New Dictionary Window</source>
-        <translation type="unfinished">Neues Wörterbuchfenster</translation>
+        <translation>Neues Wörterbuchfenster</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="344"/>
@@ -321,7 +321,7 @@
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="624"/>
         <source>Quick Bar</source>
-        <translation type="unfinished">Schnelleingabe</translation>
+        <translation>Schnelleingabe</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="715"/>
@@ -605,12 +605,12 @@
     <message>
         <location filename="../ui/biblepassageframe.ui" line="42"/>
         <source>Bible Passage</source>
-        <translation type="unfinished">Bibelstelle</translation>
+        <translation>Bibelstelle</translation>
     </message>
     <message>
         <location filename="../ui/biblepassageframe.ui" line="56"/>
         <source>Replace</source>
-        <translation type="unfinished">Ersetzen</translation>
+        <translation>Ersetzen</translation>
     </message>
     <message>
         <location filename="../ui/biblepassageframe.ui" line="63"/>
@@ -754,19 +754,19 @@
         <location filename="../module/module.cpp" line="98"/>
         <location filename="../module/module.cpp" line="117"/>
         <source>Sword Bible</source>
-        <translation type="unfinished">Sword Bibel</translation>
+        <translation>Sword Bibel</translation>
     </message>
     <message>
         <location filename="../module/module.cpp" line="98"/>
         <location filename="../module/module.cpp" line="119"/>
         <source>Web Page</source>
-        <translation type="unfinished">Webseite</translation>
+        <translation>Webseite</translation>
     </message>
     <message>
         <location filename="../module/module.cpp" line="98"/>
         <location filename="../module/module.cpp" line="121"/>
         <source>Web Dictionary</source>
-        <translation type="unfinished">Webwörterbuch</translation>
+        <translation>Webwörterbuch</translation>
     </message>
 </context>
 <context>
@@ -782,27 +782,27 @@
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.ui" line="25"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="136"/>
         <source>Print</source>
-        <translation type="unfinished">Drucken</translation>
+        <translation>Drucken</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="155"/>
         <source>Save output</source>
-        <translation type="unfinished">Ausgabe speichern</translation>
+        <translation>Ausgabe speichern</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="155"/>
         <source>Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Plain (*.txt)</source>
-        <translation type="unfinished">Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Text (*.txt)</translation>
+        <translation>Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Text (*.txt)</translation>
     </message>
 </context>
 <context>
@@ -810,17 +810,17 @@
     <message>
         <location filename="../ui/dialog/downloadprogressdialog.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Dialog</translation>
     </message>
     <message>
         <location filename="../ui/dialog/downloadprogressdialog.ui" line="44"/>
         <source>Current File</source>
-        <translation type="unfinished"></translation>
+        <translation>Derzeitige Datei</translation>
     </message>
     <message>
         <location filename="../ui/dialog/downloadprogressdialog.ui" line="51"/>
         <source>Overall Progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Fortschritt insgesammt</translation>
     </message>
 </context>
 <context>
@@ -1497,17 +1497,17 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="63"/>
         <source>Short Name</source>
-        <translation type="unfinished">Kürzel</translation>
+        <translation>Kürzel</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="103"/>
         <source>Default</source>
-        <translation type="unfinished">Standard</translation>
+        <translation>Standard</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="113"/>
         <source>Content</source>
-        <translation type="unfinished">Inhalt</translation>
+        <translation>Inhalt</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="129"/>
@@ -1573,7 +1573,7 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="268"/>
         <source>Show Prolog</source>
-        <translation type="unfinished">Zeige Prolog</translation>
+        <translation>Zeige Prolog</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="282"/>
@@ -1583,12 +1583,12 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="296"/>
         <source>Show RMac</source>
-        <translation type="unfinished">Zeige RMAC</translation>
+        <translation>Zeige RMAC</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="310"/>
         <source>Show Captions</source>
-        <translation type="unfinished">Zeige Überschriften</translation>
+        <translation>Zeige Überschriften</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="324"/>
@@ -1636,87 +1636,87 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="37"/>
         <source>Not a Default Module</source>
-        <translation type="unfinished">Kein Standardmodul</translation>
+        <translation>Kein Standardmodul</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="37"/>
         <source>Default Bible</source>
-        <translation type="unfinished">Standard Bibel</translation>
+        <translation>Standard Bibel</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="38"/>
         <source>Default Strong Dictionary</source>
-        <translation type="unfinished">Standard Strongs Lexikon</translation>
+        <translation>Standard Strong Lexikon</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="38"/>
         <source>Default Grammar Dictionary</source>
-        <translation type="unfinished">Standard Grammatik Lexikon</translation>
+        <translation>Standard Grammatik Lexikon</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="39"/>
         <source>Default Dictionary</source>
-        <translation type="unfinished">Standard Wörterbuch</translation>
+        <translation>Standard Wörterbuch</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="39"/>
         <source>Default RMAC Module</source>
-        <translation type="unfinished">Standard RMAC Lexikon</translation>
+        <translation>Standard RMAC Lexikon</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="43"/>
         <source>Unkown</source>
-        <translation type="unfinished">Unbekannt</translation>
+        <translation>Unbekannt</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="43"/>
         <source>Bible</source>
-        <translation type="unfinished">Bibel</translation>
+        <translation>Bibel</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="44"/>
         <source>Bible OT</source>
-        <translation type="unfinished">Bibel AT</translation>
+        <translation>Bibel AT</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="44"/>
         <source>Bible NT</source>
-        <translation type="unfinished">Bibel NT</translation>
+        <translation>Bibel NT</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="45"/>
         <source>Strongs</source>
-        <translation type="unfinished">Strongs</translation>
+        <translation>Strongs</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="45"/>
         <source>Strongs Greek</source>
-        <translation type="unfinished">Strongs Griechisch</translation>
+        <translation>Strongs Griechisch</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="45"/>
         <source>Strongs Hebrew</source>
-        <translation type="unfinished">Strongs Hebräisch</translation>
+        <translation>Strongs Hebräisch</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="46"/>
         <source>RMAC</source>
-        <translation type="unfinished">RMax</translation>
+        <translation>RMAC</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="47"/>
         <source>Word Dictionary</source>
-        <translation type="unfinished">Wörterbuch</translation>
+        <translation>Wörterbuch</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="48"/>
         <source>Dictionary</source>
-        <translation type="unfinished">Wörterbuch</translation>
+        <translation>Allgemeines Wörterbuch</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="49"/>
         <source>Gram Dictionary</source>
-        <translation type="unfinished">Grammatik Lexikon</translation>
+        <translation>Grammatik Lexikon</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="181"/>
@@ -1726,7 +1726,7 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="181"/>
         <source>Modules (*.ini *.xml *.*)</source>
-        <translation type="unfinished">Module (*.ini *.xml *.*)</translation>
+        <translation>Module (*.ini *.xml *.*)</translation>
     </message>
     <message>
         <source>Bibles (*.ini *.xml *.*)</source>
@@ -1744,22 +1744,22 @@
     <message>
         <location filename="../ui/dock/moduledockwidget.ui" line="42"/>
         <source>Filter</source>
-        <translation type="unfinished">Filtern</translation>
+        <translation>Filtern</translation>
     </message>
     <message>
         <location filename="../ui/dock/moduledockwidget.cpp" line="143"/>
         <source>Open module</source>
-        <translation type="unfinished">Öffne Modul</translation>
+        <translation>Öffne Modul</translation>
     </message>
     <message>
         <location filename="../ui/dock/moduledockwidget.cpp" line="147"/>
         <source>Open module in new tab</source>
-        <translation type="unfinished">Öffne Module in neuem Fenster</translation>
+        <translation>Öffne Module in neuem Fenster</translation>
     </message>
     <message>
         <location filename="../ui/dock/moduledockwidget.cpp" line="151"/>
         <source>Configure</source>
-        <translation type="unfinished">Einstellungen</translation>
+        <translation>Einstellungen</translation>
     </message>
 </context>
 <context>
@@ -1787,12 +1787,12 @@
     <message>
         <location filename="../ui/dialog/moduledownloaddialog.cpp" line="83"/>
         <source>Strong Dictionarys</source>
-        <translation type="unfinished">Strong Lexikon</translation>
+        <translation>Strong Lexikon</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduledownloaddialog.cpp" line="85"/>
         <source>Additional</source>
-        <translation type="unfinished">Zusätzliches</translation>
+        <translation>Zusätzliches</translation>
     </message>
     <message>
         <source>Dictionarys</source>
@@ -2706,7 +2706,7 @@
     <message>
         <location filename="../ui/dialog/settingsdialog.cpp" line="50"/>
         <source>Import Sword Modules</source>
-        <translation type="unfinished">Importiere SWORD Module</translation>
+        <translation>Importiere SWORD Module</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.cpp" line="137"/>
@@ -2845,22 +2845,22 @@
     <message>
         <location filename="../ui/dialog/updatecheckerdialog.ui" line="14"/>
         <source>Updates available</source>
-        <translation type="unfinished">Neuerungen verfügbar</translation>
+        <translation>Neuerungen verfügbar</translation>
     </message>
     <message>
         <location filename="../ui/dialog/updatecheckerdialog.ui" line="42"/>
         <source>Skip</source>
-        <translation type="unfinished">Überspringen</translation>
+        <translation>Überspringen</translation>
     </message>
     <message>
         <location filename="../ui/dialog/updatecheckerdialog.ui" line="49"/>
         <source>Download</source>
-        <translation type="unfinished">Herunterladen</translation>
+        <translation>Herunterladen</translation>
     </message>
     <message>
         <location filename="../ui/dialog/updatecheckerdialog.ui" line="56"/>
         <source>Remind Later</source>
-        <translation type="unfinished">Später erinnern</translation>
+        <translation>Später erinnern</translation>
     </message>
 </context>
 <context>
@@ -2868,12 +2868,12 @@
     <message>
         <location filename="../ui/updateschecker.cpp" line="84"/>
         <source>A new version of openBibleViewer is available: </source>
-        <translation type="unfinished">Eine neue Version von openBibleViewer ist verfügbar:</translation>
+        <translation>Eine neue Version von openBibleViewer ist verfügbar:</translation>
     </message>
     <message>
         <location filename="../ui/updateschecker.cpp" line="86"/>
         <source>You can download it at</source>
-        <translation type="unfinished">Sie kann hier heruntergeladen werden</translation>
+        <translation>Sie kann hier heruntergeladen werden</translation>
     </message>
 </context>
 <context>
@@ -2881,7 +2881,7 @@
     <message>
         <location filename="../ui/interface/advanced/versetableitemdelegate.cpp" line="24"/>
         <source>None</source>
-        <translation type="unfinished">Keine</translation>
+        <translation>Keine</translation>
     </message>
 </context>
 <context>
@@ -2889,7 +2889,7 @@
     <message>
         <location filename="../ui/interface/advanced/versetablewidget.ui" line="14"/>
         <source>Bible List</source>
-        <translation type="unfinished">Bibelliste</translation>
+        <translation>Bibelliste</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/versetablewidget.ui" line="22"/>
@@ -2897,7 +2897,7 @@
         <location filename="../ui/interface/advanced/versetablewidget.ui" line="61"/>
         <location filename="../ui/interface/advanced/versetablewidget.ui" line="85"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
 </context>
 <context>
@@ -3250,12 +3250,12 @@
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="360"/>
         <source>Hab</source>
-        <translation type="unfinished">Hab</translation>
+        <translation>Hab</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="400"/>
         <source>Mal, Ml</source>
-        <translation type="unfinished">Mal, Ml</translation>
+        <translation>Mal, Ml</translation>
     </message>
     <message>
         <source>Hab, Hab</source>
@@ -3576,17 +3576,17 @@
     <message>
         <location filename="../ui/interface/advanced/form/webform.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/webform.ui" line="58"/>
         <source>about:blank</source>
-        <translation type="unfinished">about:blank</translation>
+        <translation>about:blank</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/webform.cpp" line="154"/>
         <source>Print</source>
-        <translation type="unfinished">Drucken</translation>
+        <translation>Drucken</translation>
     </message>
 </context>
 </TS>
