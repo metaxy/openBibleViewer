@@ -397,12 +397,14 @@ QList<QMdiSubWindow*> WindowManager::usableWindowList() const
 
 void WindowManager::setTitle(const QString &title)
 {
-    activeSubWindow()->setWindowTitle(title);
+	if(activeSubWindow())
+		activeSubWindow()->setWindowTitle(title);
 }
 
 void WindowManager::closeSubWindow()
 {
-    activeSubWindow()->close();
+	if(activeSubWindow())
+		activeSubWindow()->close();
 }
 
 int WindowManager::closingWindow()

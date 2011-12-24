@@ -8,7 +8,7 @@ project( openBibleViewer )
 cmake_minimum_required( VERSION 2.6 )
 
 set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
-
+set( MCLUCENE_DIR "C:\\\\Users\\\\mo\\\\coding\\\\clucene-HEAD-314b755" )
 include(InstallRequiredSystemLibraries)
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -88,6 +88,9 @@ include_directories(
     ${QT_QTWEBKIT_INCLUDE_DIR} 
     ${openBibleViewer_BINARY_DIR}/src
     ${CLUCENE1_INCLUDE_DIRS}
+	${MCLUCENE_DIR}\\build\\src\\shared
+	${MCLUCENE_DIR}\\src\\core
+	${MCLUCENE_DIR}\\src\\shared
     )
 
 if(OBV_SWORD_SUPPORT)
@@ -466,7 +469,7 @@ else ()
 endif ()
 
 if(MSVC)
-    set(CL_LIBS  "${CLUCENE_DIR}\\build\\bin\\clucene-shared.lib" "${CLUCENE_DIR}\\build\\bin\\clucene-core.lib")
+    set(CL_LIBS  "${MCLUCENE_DIR}\\build\\bin\\clucene-shared.lib" "${MCLUCENE_DIR}\\build\\bin\\clucene-core.lib")
 else(MSVC)
     set(CL_LIBS clucene-core)
 endif(MSVC)
@@ -508,8 +511,8 @@ else(WIN32 AND NOT UNIX)
         "${QT_LIBRARY_DIR}/../bin/QtGui${QT_VERSION_MAJOR}.dll"
         "${QT_LIBRARY_DIR}/../bin/QtNetwork${QT_VERSION_MAJOR}.dll"
 	"${QT_LIBRARY_DIR}/../bin/phonon${QT_VERSION_MAJOR}.dll"
-	"${CLUCENE_DIR}\\\\build\\\\bin\\\\clucene-shared.dll" 
-	"${CLUCENE_DIR}\\\\build\\\\bin\\\\clucene-core.dll"
+	"${MCLUCENE_DIR}\\\\build\\\\bin\\\\clucene-shared.dll" 
+	"${MCLUCENE_DIR}\\\\build\\\\bin\\\\clucene-core.dll"
 	"${ZLIB_DLL}"
         DESTINATION bin
     )
@@ -530,7 +533,7 @@ if(WIN32 AND NOT UNIX)
   # There is a bug in NSI that does not handle full unix paths properly. Make
   # sure there is at least one set of four (4) backlasshes.
   set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\openBibleViewer.exe")
-  SET(CPACK_PACKAGE_ICON "${CMake_SOURCE_DIR}/src/icons/124x124/\\\\openBibleViewer.bmp")
+  SET(CPACK_PACKAGE_ICON "C:\\\\Users\\\\mo\\\\coding\\\\openBibleViewer\\\\src\\\\icons\\\\124x124\\\\openBibleViewer.bmp")
   set(CPACK_NSIS_DISPLAY_NAME "openBibleViewer")
   set(CPACK_NSIS_HELP_LINK "http:\\\\\\\\openbv.uucyc.name")
   set(CPACK_NSIS_URL_INFO_ABOUT "http:\\\\\\\\openbv.uucyc.name")

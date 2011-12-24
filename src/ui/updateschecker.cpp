@@ -49,6 +49,8 @@ void UpdatesChecker::replyFinished(QNetworkReply* reply)
     const QString os = "windows";
 #elif defined(Q_WS_MAC)
     const QString os = "macos";
+#else
+	const QString os = "windows";
 #endif
     QString link;
     QString text;
@@ -89,6 +91,13 @@ void UpdatesChecker::replyFinished(QNetworkReply* reply)
                     text += desc;
                 }
                 myDebug() << text;
+				QPointer<UpdateCheckerDialog> dlg = new UpdateCheckerDialog(NULL);
+				setAll(dlg);
+				dlg->setText(text);
+				dlg->setUrl(link);
+				dlg->setVersion(version);
+				dlg->exec();
+				delete dlg;
 
             }
             break;
@@ -96,13 +105,7 @@ void UpdatesChecker::replyFinished(QNetworkReply* reply)
         n = n.nextSibling();
     }
 
-    QPointer<UpdateCheckerDialog> dlg = new UpdateCheckerDialog(NULL);
-    setAll(dlg);
-    dlg->setText(text);
-    dlg->setUrl(link);
-    dlg->setVersion(version);
-    dlg->exec();
-    delete dlg;
+   
 
 }
 void UpdatesChecker::updatesAvailable()

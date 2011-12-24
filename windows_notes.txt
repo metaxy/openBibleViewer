@@ -3,6 +3,8 @@ change
 	SET(CLUCENE_DIR)
 to needed paths
 
+cd C:\\Users\\mo\\coding\\openBibleViewer
 
 cmake -G "NMake Makefiles" -DCMAKE_BUILD_TYPE="Release" ..
 nmake
+namek package
