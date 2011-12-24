@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "dbghelper.h"
 #define NO_COLOR
 #define DBGHELPER_USES_PRINTF
+
 #ifdef DBGHELPER_USES_PRINTF
 #include <stdio.h>
 #else
@@ -32,10 +33,12 @@ static void DbgHelper_output(int color, int indent,
         text.prepend("\x1b[3" + QString::number(1 + color) + "m");
         text.append("\x1b[39m");
     }
-#ifndef DBGHELPER_USES_PRINTF
-    qDebug() << text;
-#else
-    fprintf(stderr, "%s\n", qPrintable(text));
+#ifndef QT_NO_DEBUG_OUTPUT
+	#ifndef DBGHELPER_USES_PRINTF
+		qDebug() << text;
+	#else
+		fprintf(stderr, "%s\n", qPrintable(text));
+	#endif
 #endif
 }
 

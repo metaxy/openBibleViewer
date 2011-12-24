@@ -463,7 +463,9 @@ QT4_ADD_RESOURCES(RSCS ${openBibleViewer_RSCS})
 QT4_WRAP_UI(UIS ${openBibleViewer_UIS})
 
 if (MSVC)
-  add_executable(openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS})
+  add_executable(openBibleViewer WIN32 ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS})
+  
+set_source_files_properties(src/main.cpp PROPERTIES COMPILE_DEFINITIONS main=main)
 else ()
   add_executable(openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS})
 endif ()
@@ -510,6 +512,7 @@ else(WIN32 AND NOT UNIX)
         "${QT_LIBRARY_DIR}/../bin/QtWebKit${QT_VERSION_MAJOR}.dll"
         "${QT_LIBRARY_DIR}/../bin/QtGui${QT_VERSION_MAJOR}.dll"
         "${QT_LIBRARY_DIR}/../bin/QtNetwork${QT_VERSION_MAJOR}.dll"
+		"${QT_LIBRARY_DIR}/../bin/QtScript${QT_VERSION_MAJOR}.dll"
 	"${QT_LIBRARY_DIR}/../bin/phonon${QT_VERSION_MAJOR}.dll"
 	"${MCLUCENE_DIR}\\\\build\\\\bin\\\\clucene-shared.dll" 
 	"${MCLUCENE_DIR}\\\\build\\\\bin\\\\clucene-core.dll"
