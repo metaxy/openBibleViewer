@@ -5,8 +5,8 @@
 	<link os="windows">http://openbv.uucyc.name/de/downloads/category/15-version-0.6.html</link>
 </stable>
 <unstable>
-	<version>0.6.87</version>
-	<link os="windows">http://google.de</link>
-	<link os="linux">http://heise.de</link>
+	<version>0.6.90</version>
+	<link os="windows">http://openbv.uucyc.name/downloads/openBibleViewer-0.6.90-win32.exe</link>
+	<link os="linux">http://openbv.uucyc.name/downloads-all</link>
 </unstable>
 </updates>
