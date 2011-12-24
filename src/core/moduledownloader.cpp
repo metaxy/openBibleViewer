@@ -27,7 +27,8 @@ and the names for it e.g names['http://example.com/a.xml'] = "A Book".
 ModuleDownloader::ModuleDownloader(QObject *parent, const QMap<QString, QString> &data) :
     QObject(parent),
     m_data(data),
-    m_counter(0)
+    m_counter(0),
+	m_fileCount(0)
 {
     m_manager = new QNetworkAccessManager(this);
 }
@@ -45,46 +46,49 @@ int ModuleDownloader::start()
     const QSet<QString> set = m_data.keys().toSet();
     m_urls = set.toList();
     m_counter = 0;
-    myDebug() << m_urls;
-
-    downloadNext();
+    myDebug() << m_urls << m_urls.size();
     m_fileCount = m_urls.size();
+    downloadNext();
     return m_fileCount;
 }
 void ModuleDownloader::downloadNext()
 {
-    //DEBUG_FUNC_NAME
-    //myDebug() << "m_counter = " << m_counter;
-    emit nextFile(m_counter, m_fileCount);
-
+    DEBUG_FUNC_NAME
+    myDebug() << "m_counter = " << m_counter;
+	myDebug() << "m_file_count" << m_fileCount;
+    emit nextFile(m_counter, m_fileCount);//show progress
+	
+	if(m_counter < m_fileCount && m_fileCount != 0) {
+        //download next
+        download(m_urls.at(m_counter));//real download
+        m_counter++;
+    }
+	
     if(m_fileCount == 0) {
         myDebug() << "finished!!!";
-        emit downloaded(m_retData);
+        emit downloaded(m_retData);//finish
         return;
     }
 
     if(m_counter >= m_fileCount && m_fileCount != 0) {
         //finished all
         myDebug() << "finished!!!";
-        emit downloaded(m_retData);
+        emit downloaded(m_retData);//finish
         return;
     }
-    if(m_counter < m_fileCount && m_fileCount != 0) {
-        //download next
-        download(m_urls.at(m_counter));
-        m_counter++;
-    }
+    
 }
 void ModuleDownloader::save(QString url, QString name, int status)
 {
+	myDebug() << "url = " << url  << "name = " << name;
     m_retData[url] = name;
     downloadNext();
 }
 
 void ModuleDownloader::download(const QString &url_)
 {
-    //DEBUG_FUNC_NAME;
-    //myDebug() << url_;
+    DEBUG_FUNC_NAME;
+    myDebug() << url_;
 
     const QUrl url = QUrl::fromEncoded(url_.toLocal8Bit());
 
