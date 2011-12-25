@@ -253,6 +253,10 @@ void SettingsDialog::addModuleDir(void)
                 m_set.m_moduleSettings.insert(m->moduleID, m);
                 m_set.getModuleSettings(m->parentID)->appendChild(m);
 
+                ModuleSettings *parent = m_set.getModuleSettings(m->parentID);
+                m->setParent(parent);
+                m->setDisplaySettings(parent->displaySettings());
+
                 const QStringList scanned = scan(f);
                 foreach(const QString & file, scanned) {
                     if(ModuleManager::recognizeModuleType(file) != OBVCore::NoneType) {//that is faster than check in quitAddModule

@@ -104,15 +104,24 @@ void ModuleConfigDialog::setModule(ModuleSettings *config)
     }
     useParentsSettingsChanged(m_ui->checkBox_useParentSettings->checkState());
 
-    m_ui->checkBox_showBottomToolbar->setChecked(config->displaySettings()->showBottomToolBar());
-    m_ui->checkBox_showMarks->setChecked(config->displaySettings()->showMarks());
-    m_ui->checkBox_showNotes->setChecked(config->displaySettings()->showNotes());
-    m_ui->checkBox_showRefLinks->setChecked(config->displaySettings()->showRefLinks());
-    m_ui->checkBox_showStrong->setChecked(config->displaySettings()->showStrong());
-    m_ui->checkBox_showStudyNotes->setChecked(config->displaySettings()->showStudyNotes());
-    m_ui->checkBox_showRMac->setChecked(config->displaySettings()->showRMac());
-    m_ui->checkBox_showCaptions->setChecked(config->displaySettings()->showCaptions());
-    m_ui->checkBox_showProlog->setChecked(config->displaySettings()->showProlog());
+    ModuleDisplaySettings *dis = NULL;
+    if(!config->displaySettings().isNull()) {
+        dis = config->displaySettings().data();
+
+    } else if(config->parent()) {
+        dis = config->parent()->displaySettings().data();
+    }
+    if(dis != NULL) {
+        m_ui->checkBox_showBottomToolbar->setChecked(dis->showBottomToolBar());
+        m_ui->checkBox_showMarks->setChecked(dis->showMarks());
+        m_ui->checkBox_showNotes->setChecked(dis->showNotes());
+        m_ui->checkBox_showRefLinks->setChecked(dis->showRefLinks());
+        m_ui->checkBox_showStrong->setChecked(dis->showStrong());
+        m_ui->checkBox_showStudyNotes->setChecked(dis->showStudyNotes());
+        m_ui->checkBox_showRMac->setChecked(dis->showRMac());
+        m_ui->checkBox_showCaptions->setChecked(dis->showCaptions());
+        m_ui->checkBox_showProlog->setChecked(dis->showProlog());
+    }
 
     m_ui->lineEdit_styleSheet->setText(config->styleSheet);
     m_ui->comboBox_defaultModule->setCurrentIndex((int) config->defaultModule);
