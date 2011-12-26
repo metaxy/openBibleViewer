@@ -53,7 +53,6 @@ void SimpleNotes::setLinkButtonWidget(QPushButton *button)
     m_pushButton_link = button;
 }
 
-
 void SimpleNotes::init()
 {
     if(m_loadTextBrowser) {

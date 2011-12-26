@@ -45,9 +45,12 @@ int ModuleDownloader::start()
     //hack: remove duplicates
     const QSet<QString> set = m_data.keys().toSet();
     m_urls = set.toList();
+
+    //init stuff
     m_counter = 0;
-    myDebug() << m_urls << m_urls.size();
     m_fileCount = m_urls.size();
+
+    //now we can download
     downloadNext();
     return m_fileCount;
 }
@@ -56,26 +59,25 @@ void ModuleDownloader::downloadNext()
     DEBUG_FUNC_NAME
     myDebug() << "m_counter = " << m_counter;
 	myDebug() << "m_file_count" << m_fileCount;
+
     emit nextFile(m_counter, m_fileCount);//show progress
-	
-	if(m_counter < m_fileCount && m_fileCount != 0) {
-        //download next
-        download(m_urls.at(m_counter));//real download
-        m_counter++;
-    }
-	
+
     if(m_fileCount == 0) {
-        myDebug() << "finished!!!";
+        //oh uhm: nothing to download
         emit downloaded(m_retData);//finish
         return;
     }
 
-    if(m_counter >= m_fileCount && m_fileCount != 0) {
+    if(m_counter < m_fileCount) {
+        //download next
+        download(m_urls.at(m_counter));//real download
+        m_counter++;
+    } else {
         //finished all
         myDebug() << "finished!!!";
         emit downloaded(m_retData);//finish
-        return;
     }
+	
     
 }
 void ModuleDownloader::save(QString url, QString name, int status)
@@ -103,7 +105,5 @@ void ModuleDownloader::download(const QString &url_)
     d->download();
     connect(d, SIGNAL(finished(QString, QString, int)), this, SLOT(save(QString, QString, int)));
     connect(d, SIGNAL(progress(qint64, qint64)), this, SIGNAL(updateProgress(qint64, qint64)));
-
-
 }
 

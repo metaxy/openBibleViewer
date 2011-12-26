@@ -48,11 +48,9 @@ void DownloadProgressDialog::updateProgress(qint64 current, qint64 total)
         ui->progressBar->setMaximum(total);
 
     ui->progressBar->setValue(current);
-    //myDebug() << current << total;
 }
 
 void DownloadProgressDialog::updateProgress2(int current, int total)
 {
-    //m_current = current;
     ui->progressBar_2->setValue(current * 100);
 }

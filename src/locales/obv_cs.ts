@@ -704,7 +704,7 @@
     <name>DownloadProgressDialog</name>
     <message>
         <location filename="../ui/dialog/downloadprogressdialog.ui" line="14"/>
-        <source>Dialog</source>
+        <source>Downloading module</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -896,12 +896,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="181"/>
+        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="190"/>
         <source>Open Bible</source>
         <translation>Otevřít Bibli</translation>
     </message>
     <message>
-        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="181"/>
+        <location filename="../ui/dialog/moduleconfigdialog.cpp" line="190"/>
         <source>Modules (*.ini *.xml *.*)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1580,27 +1580,27 @@
         <translation type="unfinished">Název poznámky</translation>
     </message>
     <message>
-        <location filename="../core/notes/notesitemview.cpp" line="172"/>
+        <location filename="../core/notes/notesitemview.cpp" line="174"/>
         <source>Copy Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/notes/notesitemview.cpp" line="176"/>
+        <location filename="../core/notes/notesitemview.cpp" line="178"/>
         <source>Paste Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/notes/notesitemview.cpp" line="180"/>
+        <location filename="../core/notes/notesitemview.cpp" line="182"/>
         <source>New Note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/notes/notesitemview.cpp" line="184"/>
+        <location filename="../core/notes/notesitemview.cpp" line="186"/>
         <source>New Folder</source>
         <translation type="unfinished">Nová složka</translation>
     </message>
     <message>
-        <location filename="../core/notes/notesitemview.cpp" line="188"/>
+        <location filename="../core/notes/notesitemview.cpp" line="190"/>
         <source>Delete</source>
         <translation type="unfinished">Smazat</translation>
     </message>
@@ -1623,7 +1623,7 @@
         <translation>(nepojmenováno)</translation>
     </message>
     <message>
-        <location filename="../core/notes/simplenotes.cpp" line="414"/>
+        <location filename="../core/notes/simplenotes.cpp" line="413"/>
         <location filename="../ui/dialog/settingsdialog.cpp" line="241"/>
         <location filename="../module/dictionary/zefania-lex.cpp" line="44"/>
         <location filename="../module/dictionary/zefania-lex.cpp" line="63"/>
@@ -1633,19 +1633,19 @@
         <translation>Chyba</translation>
     </message>
     <message>
-        <location filename="../core/notes/simplenotes.cpp" line="414"/>
+        <location filename="../core/notes/simplenotes.cpp" line="413"/>
         <source>Cannot create mark.</source>
         <translation>Značku nelze vytvořit.</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.cpp" line="212"/>
-        <location filename="../ui/dialog/settingsdialog.cpp" line="398"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="402"/>
         <source>Adding Modules</source>
         <translation>Přidávají se moduly</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.cpp" line="212"/>
-        <location filename="../ui/dialog/settingsdialog.cpp" line="398"/>
+        <location filename="../ui/dialog/settingsdialog.cpp" line="402"/>
         <location filename="../module/bible/biblequote.cpp" line="357"/>
         <location filename="../module/bible/thewordbible.cpp" line="307"/>
         <location filename="../module/bible/zefania-bible.cpp" line="371"/>
@@ -2051,14 +2051,14 @@
         <translation type="obsolete">Název poznámky</translation>
     </message>
     <message>
-        <location filename="../core/notes/simplenotes.cpp" line="215"/>
-        <location filename="../core/notes/simplenotes.cpp" line="277"/>
-        <location filename="../core/notes/simplenotes.cpp" line="293"/>
-        <location filename="../core/notes/simplenotes.cpp" line="309"/>
-        <location filename="../core/notes/simplenotes.cpp" line="345"/>
-        <location filename="../core/notes/simplenotes.cpp" line="387"/>
-        <location filename="../core/notes/simplenotes.cpp" line="404"/>
-        <location filename="../core/notes/simplenotes.cpp" line="436"/>
+        <location filename="../core/notes/simplenotes.cpp" line="214"/>
+        <location filename="../core/notes/simplenotes.cpp" line="276"/>
+        <location filename="../core/notes/simplenotes.cpp" line="292"/>
+        <location filename="../core/notes/simplenotes.cpp" line="308"/>
+        <location filename="../core/notes/simplenotes.cpp" line="344"/>
+        <location filename="../core/notes/simplenotes.cpp" line="386"/>
+        <location filename="../core/notes/simplenotes.cpp" line="403"/>
+        <location filename="../core/notes/simplenotes.cpp" line="435"/>
         <source>(unnamed)</source>
         <translation>(nepojmenována)</translation>
     </message>
@@ -2117,12 +2117,12 @@
 <context>
     <name>UpdatesChecker</name>
     <message>
-        <location filename="../ui/updateschecker.cpp" line="84"/>
+        <location filename="../ui/updateschecker.cpp" line="86"/>
         <source>A new version of openBibleViewer is available: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/updateschecker.cpp" line="86"/>
+        <location filename="../ui/updateschecker.cpp" line="88"/>
         <source>You can download it at</source>
         <translation type="unfinished"></translation>
     </message>

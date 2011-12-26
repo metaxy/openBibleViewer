@@ -148,6 +148,8 @@ void BibleManager::loadBibleList(bool hadBible)
 
 void BibleManager::reloadCurrentRange(bool full)
 {
+    if(!m_windowManager->activeForm())
+        return;
     if(m_windowManager->activeForm()->type() == Form::BibleForm) {
         ((BibleForm*)(m_windowManager->activeForm()))->reload(full);
     }

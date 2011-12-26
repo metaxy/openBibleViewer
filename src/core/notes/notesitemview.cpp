@@ -40,6 +40,8 @@ void NotesItemView::init()
 void NotesItemView::iterate(QStandardItem *item = 0)
 {
     //DEBUG_FUNC_NAME
+    if(item == NULL)
+        return;
     const QString parentID = item->data().toString();
     for(int i = 0; i < item->rowCount(); ++i) {
         QStandardItem *m = item->child(i);

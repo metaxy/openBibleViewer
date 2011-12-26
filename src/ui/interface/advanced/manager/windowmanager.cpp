@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "windowmanager.h"
 #include <typeinfo>
-#include "src/ui/interface/advanced/form/dictionaryform.h"
+
 
 WindowManager::WindowManager(QObject *parent) :
     QObject(parent)
@@ -178,6 +178,37 @@ QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
     return newSubWindow(true, false, type);
 }
 
+QMdiSubWindow* WindowManager::needWindow(Form::FormType type, OBVCore::ContentType cType)
+{
+    if(usableWindowList().isEmpty()) {
+        return newSubWindow(true, false, type);
+    } else if(activeForm() != NULL) {
+        if(activeForm()->type() != type) {
+            QMdiSubWindow *window = NULL;
+            foreach(QMdiSubWindow * w, usableWindowList()) {
+                Form *f = getForm(w);
+                if(f->type() == type) {
+                    OBVCore::ContentType mContentType = contentType(f);
+                    if(ModuleManager::alsoOk(mContentType, cType) || mContentType == OBVCore::UnkownContent) {
+                        w->activateWindow();
+                        m_area->setActiveSubWindow(w);
+                        window = w;
+                        break;
+                    }
+                }
+            }
+            if(window) {
+                return window;
+            } else {
+                return newSubWindow(true, false, type);
+            }
+        } else {
+            return activeSubWindow();
+        }
+    }
+    return newSubWindow(true, false, type);
+}
+
 QMdiSubWindow* WindowManager::needBibleWindow()
 {
     return needWindow(Form::BibleForm);
@@ -186,6 +217,10 @@ QMdiSubWindow* WindowManager::needBibleWindow()
 QMdiSubWindow* WindowManager::needDictionaryWindow()
 {
     return needWindow(Form::DictionaryForm);
+}
+QMdiSubWindow* WindowManager::needDictionaryWindow(OBVCore::ContentType contentType)
+{
+    return needWindow(Form::DictionaryForm, contentType);
 }
 
 QMdiSubWindow* WindowManager::needWebWindow()
@@ -569,3 +604,52 @@ void WindowManager::installResizeFilter()
     m_area->installEventFilter(m_mdiAreaFilter);
 }
 
+OBVCore::ContentType WindowManager::contentType(QMdiSubWindow* window)
+{
+    if(window == NULL)
+        return OBVCore::UnkownContent;
+
+    Form *f = getForm(window);
+
+    if(f == NULL)
+        return OBVCore::UnkownContent;
+
+    return contentType(f);
+}
+
+OBVCore::ContentType WindowManager::contentType(Form *form)
+{
+    if(form->type() == Form::DictionaryForm) {
+        DictionaryForm *f = (DictionaryForm*) form;
+        return contentType(f);
+    } else if(form->type() == Form::BibleForm) {
+        BibleForm *f = (BibleForm*) form;
+        return contentType(f);
+    }
+    return OBVCore::UnkownContent;
+}
+
+OBVCore::ContentType WindowManager::contentType(DictionaryForm *form)
+{
+    if(form->dictionary()) {
+        ModuleSettings *s = m_settings->getModuleSettings(form->dictionary()->moduleID());
+        if(s != NULL)
+            return s->contentType;
+    }
+    return OBVCore::UnkownContent;
+}
+
+OBVCore::ContentType WindowManager::contentType(WebForm *form)
+{
+
+}
+
+OBVCore::ContentType WindowManager::contentType(BibleForm *form)
+{
+    if(form) {
+        ModuleSettings *s = m_settings->getModuleSettings(form->verseModule()->moduleID());
+        if(s != NULL)
+            return s->contentType;
+    }
+    return OBVCore::UnkownContent;
+}

@@ -69,29 +69,42 @@ void DictionaryManager::open(const QString &key, OBVCore::ContentType contentTyp
     }
 
     myDebug() << defaultModuleID << contentModuleID << justDictModuleID;
-
-    QMdiSubWindow *w = m_windowManager->hasDictWindow(defaultModule);
     DictionaryForm *f = NULL;
+    QMdiSubWindow *w = m_windowManager->hasDictWindow(defaultModule);
+
+
     if(mod == Actions::OpenInNewWindow) {
+        //we will open a new window anyway
         w = m_windowManager->newDictionarySubWindow();
         f = (DictionaryForm*) m_windowManager->getForm(w);
         m_windowManager->activate(w);
     } else {
-        if(w != NULL) {
-           //we can use this form
+        if(w) {
            f = (DictionaryForm*) m_windowManager->getForm(w);
-           m_windowManager->activate(w);
+           OBVCore::ContentType type = m_windowManager->contentType(f);
+
+           if(ModuleManager::alsoOk(type,contentType) || type == OBVCore::UnkownContent) {
+                //we can use this form
+                m_windowManager->activate(w);
+           } else {
+                //we will find a better one
+                w = m_windowManager->needDictionaryWindow(contentType);
+                f = ((DictionaryForm*)m_windowManager->getForm(w));
+           }
+
         } else {
-            //we need a dictionary window where to open it
+            //we need a new dictionary window, because there are no dictionary windows
             w = m_windowManager->needDictionaryWindow();
             f = ((DictionaryForm*)m_windowManager->getForm(w));
         }
     }
+    //something gone wrong
     if(f == NULL)
         return;
+    //we could reuse thios module
     if(f->dictionary()) {
         myDebug() << "has already a dictionary";
-        OBVCore::ContentType type = m_settings->getModuleSettings(f->dictionary()->moduleID())->contentType;
+        OBVCore::ContentType type = m_windowManager->contentType(f);
         myDebug() << type << " mine is " << contentType;
         if(ModuleManager::alsoOk(type,contentType) || type == OBVCore::UnkownContent) {
             f->showEntry(key, -1);

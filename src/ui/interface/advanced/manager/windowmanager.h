@@ -30,6 +30,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "bookmarksmanager.h"
 #include "notesmanager.h"
 #include "src/ui/interface/advanced/form/form.h"
+#include "src/ui/interface/advanced/form/dictionaryform.h"
 
 class WindowManager : public QObject , public BasicClass
 {
@@ -81,14 +82,21 @@ public slots:
 
     QMdiSubWindow* needBibleWindow();
     QMdiSubWindow* needDictionaryWindow();
+    QMdiSubWindow* needDictionaryWindow(OBVCore::ContentType contentType);
     QMdiSubWindow* needWebWindow();
     QMdiSubWindow* needWindow(Form::FormType type = Form::BibleForm);
+    QMdiSubWindow* needWindow(Form::FormType type, OBVCore::ContentType contentType);
 
     QMdiSubWindow* hasDictWindow(OBVCore::DefaultModule d);
     QMdiSubWindow* hasDictWindow(const int moduleID);
 
     void activate(QMdiSubWindow *w);
 
+    OBVCore::ContentType contentType(QMdiSubWindow* window);
+    OBVCore::ContentType contentType(Form *form);
+    OBVCore::ContentType contentType(DictionaryForm *form);
+    OBVCore::ContentType contentType(WebForm *form);
+    OBVCore::ContentType contentType(BibleForm *form);
 
 
 private:
@@ -99,7 +107,6 @@ private:
     bool m_enableReload;
     void autoLayout();
 
-    /*int currentWindowName();*/
     int m_lastActiveWindow;
     void setEnableReload(bool enable);
 

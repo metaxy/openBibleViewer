@@ -151,6 +151,7 @@ void ModuleDownloadDialog::download()
     m->setSettings(&m_set);
 
     QPointer<DownloadProgressDialog> dialog = new DownloadProgressDialog(this);
+
     dialog->setModuleDownloader(m);
     dialog->start();
     close();
