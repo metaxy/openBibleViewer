@@ -56,9 +56,6 @@ int ModuleDownloader::start()
 }
 void ModuleDownloader::downloadNext()
 {
-    DEBUG_FUNC_NAME
-    myDebug() << "m_counter = " << m_counter;
-	myDebug() << "m_file_count" << m_fileCount;
 
     emit nextFile(m_counter, m_fileCount);//show progress
 
@@ -82,7 +79,6 @@ void ModuleDownloader::downloadNext()
 }
 void ModuleDownloader::save(QString url, QString name, int status)
 {
-	myDebug() << "url = " << url  << "name = " << name;
     m_retData[url] = name;
     downloadNext();
 }

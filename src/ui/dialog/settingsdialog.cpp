@@ -22,7 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/dictionary/webdictionary.h"
 #include <QtCore/QFSFileEngine>
 #include <QtCore/QPointer>
-
+#include "src/core/qzipreader_p.h"
 #ifdef BUILD_WITH_SWORD
 #include <stdlib.h>
 #include <swmgr.h>
@@ -425,22 +425,42 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names, int par
 
 int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString &name)
 {
+    DEBUG_FUNC_NAME
+    QFileInfo fileInfo(f);
+    if(fileInfo.suffix() == "zip") {
+        myDebug() << "is a zip file";
+
+        QZipReader reader(f);
+        myDebug() << reader.count() << reader.status();
+        foreach(QZipReader::FileInfo ii, reader.fileInfoList()) {
+            myDebug() << ii.filePath;
+        }
+
+        reader.extractAll(fileInfo.absoluteDir().path());
+        myDebug() << reader.count() << reader.status();
+        reader.close();
+        QStringList l;
+        foreach(QFileInfo info, fileInfo.absoluteDir().entryInfoList()) {
+            if(info.suffix() == "zip" || info.fileName() == "." || info.fileName() == "..")
+                continue;
+            l << info.filePath();
+        }
+        foreach(const QString &p, l) {
+            quiteAddModule(p, parentID, name);
+        }
+
+        return 0;
+    }
     OBVCore::ModuleType moduleType = OBVCore::NoneType;
 
     ModuleSettings *m = new ModuleSettings();
     m->moduleID = m_set.newModuleID();
 
-    QFileInfo fileInfo(f);
+    myDebug() << "is file == " << fileInfo.isFile();
+
     if(fileInfo.isFile()) {
-
-        if(f.endsWith(".zip")) {
-            //todo: unzip first
-            //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot open zipped files."));
-            return 3;
-
-        }
         moduleType = ModuleManager::recognizeModuleType(f);
-
+        myDebug() << "moduelType = " << moduleType;
         if(moduleType == OBVCore::NoneType) {
             //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
             myWarning() << "cannot determine module type of " << f;
@@ -513,6 +533,7 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
     m->zefbible_softCache = m_set.zefaniaBible_softCache;
     m->encoding = "Default";
     m->parentID = parentID;
+
 
     m_set.getModuleSettings(m->parentID)->appendChild(m);
     m_set.m_moduleSettings.insert(m->moduleID, m);

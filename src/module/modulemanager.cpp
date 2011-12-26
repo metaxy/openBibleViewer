@@ -339,7 +339,7 @@ OBVCore::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
         if(data.open(QFile::ReadOnly)) {
             QString fileData = "";
             QTextStream in(&data);
-            for(int i = 0; i < 10; i++)
+            for(int i = 0; i < 100; i++)
                 fileData += in.readLine();
             //myDebug() << "fileData = " << fileData;
             if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i cannot allow this
@@ -350,6 +350,8 @@ OBVCore::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
                 return OBVCore::ZefaniaLexModule;
             }
 
+        } else {
+            myWarning() << "could not open file " << fileName;
         }
     } else if(fileName.endsWith(".idx", Qt::CaseInsensitive)) {
         return OBVCore::BibleQuoteDictModule;

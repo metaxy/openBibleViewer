@@ -15,7 +15,7 @@ if(NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE "Release")
 endif(NOT CMAKE_BUILD_TYPE)
 
-message("-- Using build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "Using build type: ${CMAKE_BUILD_TYPE}")
 
 IF(MSVC)
   #nmake definitions for less output
@@ -31,9 +31,9 @@ if(UNIX)
 endif(UNIX)
 
 find_package ( Qt4 REQUIRED )
-include(FindPkgConfig)
-pkg_check_modules(CLUCENE1 libclucene-core)
 find_package(CLucene1)
+
+pkg_check_modules(ZLIB REQUIRED zlib)
 
 option( OBV_PORTABLE_VERSION "Build a portable version" OFF )
 option( OBV_SWORD_SUPPORT "Build with sword support" OFF )
@@ -152,6 +152,8 @@ set( openBibleViewer_HDRS
     src/core/settings/moduledisplaysettings.h
     src/core/settings/modulesettings.h
 
+    src/core/qzipreader_p.h
+    src/core/qzipwriter_p.h
 
     src/core/versereplacer.h
     src/core/version.h
@@ -240,6 +242,9 @@ set( openBibleViewer_SRCS
     src/core/xbelreader.cpp
     src/core/xbelwriter.cpp
     src/core/downloadinfile.cpp
+    
+    src/core/qzip.cpp
+
 
     src/core/link/strongurl.cpp
     src/core/link/verseurl.cpp
@@ -477,14 +482,13 @@ else(MSVC)
 endif(MSVC)
 
 if(OBV_SWORD_SUPPORT)
-    set(SW_LIBS ${CURL_LIBRARIES} ${ICU_LIBRARIES} ${ICU_I18N_LIBRARIES} ${ZLIB_LIBRARIES} ${SWORD_LIBRARY})
+    set(SW_LIBS ${CURL_LIBRARIES} ${ICU_LIBRARIES} ${ICU_I18N_LIBRARIES} ${SWORD_LIBRARY})
 else(OBV_SWORD_SUPPORT)
     set(SW_LIBS "")
 endif(OBV_SWORD_SUPPORT)
 
-
 target_link_libraries( openBibleViewer
-			${QT_LIBRARIES}
+                        ${QT_LIBRARIES}
                         ${QT_QTCORE_LIBRARY} 
                         ${QT_QTGUI_LIBRARY} 
                         ${QT_QTXML_LIBRARY} 
@@ -493,6 +497,7 @@ target_link_libraries( openBibleViewer
                         ${QT_QTSCRIPT_LIBRARY}
                         ${CL_LIBS}
                         ${SW_LIBS}
+                        ${ZLIB_LIBRARIES}
 )
 
 
@@ -530,7 +535,7 @@ set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
 set(CPACK_PACKAGE_VERSION_MINOR "6")
 set(CPACK_PACKAGE_VERSION_PATCH "91")
-set(CPACK_PACKAGE_INSTALL_DIRECTORY "openBibleViewer ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "openBibleViewer 0.7")
 #nsis
 if(WIN32 AND NOT UNIX)
   # There is a bug in NSI that does not handle full unix paths properly. Make

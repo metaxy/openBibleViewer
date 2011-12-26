@@ -1,11 +1,16 @@
  
-FIND_PATH(ZLIB_INCLUDE_DIR zlib.h.h /usr/include /usr/local/include)
+FIND_PATH(ZLIB_INCLUDE_DIR zlib.h /usr/include /usr/local/include)
 
-FIND_LIBRARY(ZLIB_LIBRARY NAMES libz PATH /usr/lib /usr/local/lib /lib) 
+FIND_LIBRARY(ZLIB_LIBRARY
+   NAMES libz z zlib
+   PATHS /lib /usr/lib /usr/local/lib 
+)
+
 
 IF (ZLIB_INCLUDE_DIR AND ZLIB_LIBRARY)
    SET(ZLIB_FOUND TRUE)
 ENDIF (ZLIB_INCLUDE_DIR AND ZLIB_LIBRARY)
+
 
 
 IF (ZLIB_FOUND)
@@ -17,3 +22,5 @@ ELSE (ZLIB_FOUND)
       MESSAGE(FATAL_ERROR "Could not find Zlib")
    ENDIF (Zlib_FIND_REQUIRED)
 ENDIF (ZLIB_FOUND)
+
+MESSAGE(STATUS "Path: ${ZLIB_LIBRARY}")

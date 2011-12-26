@@ -56,7 +56,7 @@
 		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Byzantine/Majority%20Text%20%282000%29/sf_bzy2000_str.xml" lang="GRC" size = "8.1 MB">Byzantine/Majority Text (2000)</ITEM>
 		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Byzantine/Majority%20Text%20%282000%29/sf_bzy2000_rev_1.xml" lang="GRC" size = "1.8 MB">Byzantine/Majority Text (2000)</ITEM>
 		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Byzantine/Majority%20Text%20%282000%29/sf_bzy2000.xml" lang="GRC" size = "1.8 MB">Byzantine/Majority Text (2000)</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Tischendorf%20Greek%20NT/sf_Tischendorf_Greek_NT_str_rev1.xml" lang="GRC" size = "8.0 MB">Tischendorf Greek NT</ITEM>
+		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Tischendorf%20Greek%20NT/sf_Tischendorf_Greek_NT_str_rev1.xml" lang="GRC" size = "8.0 MB">Tischendorf Greek NT with Strong</ITEM>
 		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Tischendorf%20Greek%20NT/sf_Tischendorf_Greek_NT_rev2.xml" lang="GRC" size = "1.8 MB">Tischendorf Greek NT</ITEM>
 		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Septuaginta%20LXX/nlxx.xml" lang="GRC" size = "7.4 MB">Septuaginta LXX</ITEM>
 		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Modern%20Greek/modern_greek.xml" lang="GRC" size = "8.6 MB">Modern Greek</ITEM>
@@ -68,8 +68,8 @@
 		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRE/Tischendorf%20Greek%20NT/sf_Tischendorf_Greek_NT_rev1.xml" lang="GRE" size = "1.8 MB">Tischendorf Greek NT</ITEM>
 		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Zuercher%20Bibel%201931/sf_zuercher_1931.xml" lang="GER" size = "5.6 MB">Zuercher Bibel 1931</ITEM>
 		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Textbibel/sf_textbibel_1906_nt_at.xml" lang="GER" size = "5.5 MB">Textbibel</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Textbibel/sf_textbibel_1906_at.xml" lang="GER" size = "4.3 MB">Textbibel</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Volxbibel%203.0/volxbibel.xml" lang="GER" size = "1.8 MB">Volxbibel 3.0</ITEM>
+		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Textbibel/sf_textbibel_1906_at.xml" lang="GER" size = "4.3 MB">Textbibel AT</ITEM>
+
 		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Schlachter%20Bibel%201951%20with%20Strong/Schlachter1951_Strong_rev1.xml" lang="GER" size = "11.3 MB">Schlachter Bibel 1951 with Strong</ITEM>
 		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Tafelbibel/sf_tafelbibel_rev2.xml" lang="GER" size = "5.0 MB">Tafelbibel</ITEM>
 		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Schlachter%201951/Schlachter1951_rev3a.xml" lang="GER" size = "5.3 MB">Schlachter 1951</ITEM>
@@ -183,15 +183,21 @@
 		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Die%20Elberfelderbibel%20von%201871%20-%20Lexicon/Elberfelder1871-lex.xml" lang="GER" size = "5.7 MB">Die Elberfelderbibel von 1871 - Lexicon</ITEM>
 		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Revised%201833%20Webster%20Version%20-%20Lexicon/RWebster-lex_rev1.xml" lang="ENG" size = "14.9 MB">Revised 1833 Webster Version - Lexicon</ITEM>
 		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/King%20James%20Version%20-%20Lexicon/kjv-lex.xml" lang="ENG" size = "15.6 MB">King James Version - Lexicon</ITEM>
-
+        <ITEM link="http://openbv.uucyc.name/downloads/modules/newtestamentgreek.webdict.xml" lang="ENG" size = "0.1 MB">New Testament Greek - StudyLight.org</ITEM>
+        <ITEM link="http://openbv.uucyc.name/downloads/modules/blueletterbiblelex.webdict.xml" lang="ENG" size = "0.1 MB">Lexicon - BlueLetterBible.org</ITEM>
+        <ITEM link="http://openbv.uucyc.name/downloads/modules/studybiblelex.webdict.xml" lang="ENG" size = "0.1 MB">Strong Lexicon - studybible.info</ITEM>
 	</ID>
     <ID type="additional">
         <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Torreys%20Topical%20Textbook/EN_en_Torreys-Topical-Textbook.xml" lang="ENG" size = "3.2 MB">Torreys Topical Textbook</ITEM>
         <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Thompson%20Chain%20Topics/sf_tcr_0_eng_full.xml" lang="ENG" size = "2.0 MB">Thompson Chain Topics</ITEM>
-        <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Robinsons%20Morphological%20Analysis%20Codes/sf_smith_0_eng.xml" lang="ENG" size = "3.6 MB">Robinsons Morphological Analysis Codes</ITEM>
+        <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Robinsons%20Morphological%20Analysis%20Codes/sf_smith_0_eng.xml" lang="ENG" size = "3.6 MB">Robinsons Morphological Analysis Codes (Smith)</ITEM>
         <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Robinsons%20Morphological%20Analysis%20Codes/sf_robinson_0_eng.xml" lang="ENG" size = "298.0 KB">Robinsons Morphological Analysis Codes</ITEM>
         <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Easton%20Dictionary/sf_easton_0_eng.xml" lang="ENG" size = "3.2 MB">Easton Dictionary</ITEM>
         <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Naves%20Topical%20Bible/EN_en_Nave.xml" lang="ENG" size = "5.2 MB">Naves Topical Bible</ITEM>
         <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Carl%20Heinrich%20Riegers%20Kommentar/DE_de_rieger.xml" lang="GER" size = "2.3 MB">Carl Heinrich Riegers Kommentar</ITEM>
+        
+        <ITEM link="http://openbv.uucyc.name/downloads/modules/biblediagramscom.webpage.xml" lang="ENG" size = "0.1 MB">Bible Diagrams</ITEM>
+        
+
     </ID>
 </MODULES>
