@@ -432,7 +432,7 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
         QZipReader reader(f);
         QString path;
 
-        if(fileInfo.absoluteDir().entryList().size() > 1) {
+        if(fileInfo.absoluteDir().entryList(QDir::Files | QDir::NoDotAndDotDot).size() > 1) {
             //mkpath
             QDir d(fileInfo.absoluteDir());
             d.mkdir(fileInfo.baseName());
