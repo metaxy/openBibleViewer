@@ -35,7 +35,7 @@ void BibleManager::init()
     connect(m_actions, SIGNAL(_nextChapter()), this, SLOT(nextChapter()));
     connect(m_actions, SIGNAL(_loadVerseTable(bool)), this, SLOT(loadBibleList(bool)));
     connect(m_actions, SIGNAL(_reloadCurrentRange(bool)), this, SLOT(reloadCurrentRange(bool)));
-    connect(m_actions, SIGNAL(_reloadBible()), this, SLOT(reloadBible()));
+    //connect(m_actions, SIGNAL(_reloadBible()), this, SLOT(reloadBible()));
     connect(m_actions, SIGNAL(_setCurrentVerseTableID(int)), this, SLOT(setCurrentVerseTableID(int)));
 }
 
