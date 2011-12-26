@@ -428,22 +428,29 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
     DEBUG_FUNC_NAME
     QFileInfo fileInfo(f);
     if(fileInfo.suffix() == "zip") {
-        myDebug() << "is a zip file";
 
         QZipReader reader(f);
-        myDebug() << reader.count() << reader.status();
-        foreach(QZipReader::FileInfo ii, reader.fileInfoList()) {
-            myDebug() << ii.filePath;
+        QString path;
+
+        if(fileInfo.absoluteDir().entryList().size() > 1) {
+            //mkpath
+            QDir d(fileInfo.absoluteDir());
+            d.mkdir(fileInfo.baseName());
+            path = fileInfo.absoluteDir().path() + "/" + fileInfo.baseName();
+        } else {
+            path = fileInfo.absoluteDir().path();
         }
 
-        reader.extractAll(fileInfo.absoluteDir().path());
-        myDebug() << reader.count() << reader.status();
+        reader.extractAll(path);
         reader.close();
+
+
         QStringList l;
-        foreach(QFileInfo info, fileInfo.absoluteDir().entryInfoList()) {
-            if(info.suffix() == "zip" || info.fileName() == "." || info.fileName() == "..")
+        QDir pathDir(path);
+        foreach(QFileInfo info, pathDir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot)) {
+            if(info.suffix() == "zip")
                 continue;
-            l << info.filePath();
+            l << info.absoluteFilePath();
         }
         foreach(const QString &p, l) {
             quiteAddModule(p, parentID, name);
@@ -456,11 +463,8 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
     ModuleSettings *m = new ModuleSettings();
     m->moduleID = m_set.newModuleID();
 
-    myDebug() << "is file == " << fileInfo.isFile();
-
     if(fileInfo.isFile()) {
         moduleType = ModuleManager::recognizeModuleType(f);
-        myDebug() << "moduelType = " << moduleType;
         if(moduleType == OBVCore::NoneType) {
             //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
             myWarning() << "cannot determine module type of " << f;
