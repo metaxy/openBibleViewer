@@ -353,24 +353,24 @@ int WINAPI WinMain(HINSTANCE v1, HINSTANCE v2, LPSTR v3, int v4)
 		w.setPalette(pal);
 		w.ensurePolished(); // workaround Oxygen filling the background
 		w.setAttribute(Qt::WA_StyledBackground, false);*/
-        if(win7) {
-            QFile file(":/data/style/win7_transparent.css");
-            if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                QTextStream in(&file);
-                a.setStyleSheet(in.readAll());
-            }
 
-            QFile file2("stylesheet.css");
-            if(file2.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                QTextStream in2(&file2);
-                a.setStyleSheet(in2.readAll());
-            }
+		
+	if (QtWin::isCompositionEnabled()) {
+		QFile file(":/data/style/win7_transparent.css");
+		if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+			QTextStream in(&file);
+			a.setStyleSheet(in.readAll());
+		}
 
-            if (QtWin::isCompositionEnabled()) {
-                QtWin::extendFrameIntoClientArea(&w);
-                w.setContentsMargins(0, 0, 0, 0);
-            }
-        }
+		QFile file2("stylesheet.css");
+		if(file2.open(QIODevice::ReadOnly | QIODevice::Text)) {
+			QTextStream in2(&file2);
+			a.setStyleSheet(in2.readAll());
+		}
+		QtWin::extendFrameIntoClientArea(&w);
+		w.setContentsMargins(0, 0, 0, 0);
+	}
+
 
     w.setTranslator(&myappTranslator, &qtTranslator);
     w.init(homeDataPath, settings);

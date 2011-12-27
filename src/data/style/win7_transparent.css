@@ -1,31 +1,33 @@
+QMenuBar {
+	background:transparent;
+}
 
- QMenuBar {
-    background:transparent;
- }
+QMenuBar::item {
+	spacing: 3px; 
+	padding: 1px 4px;
+	border-radius: 8px;
+	background: qradialgradient(cx:0.5, cy:0.5, radius: 1.2, fx:0.5, fy:0.5, stop:0 rgb(255,255,255, 60%), stop:0.7 transparent);
+}
 
- QMenuBar::item {
-     spacing: 3px; 
-     padding: 1px 4px;
-          background: qradialgradient(cx:0.5, cy:0.5, radius: 1, fx:0.5, fy:0.5, stop:0 rgb(255,255,255), stop:0.5 transparent);
+QMenuBar::item:selected { 
+	border-radius: 8px;
+	background: qradialgradient(cx:0.5, cy:0.5, radius: 1.2, fx:0.5, fy:0.5, stop:0 rgb(0,156,255, 60%), stop:0.7 transparent);
+}
 
-     border-radius: 4px;
-     text-shadow: white 0px 7px;
- }
-
- QMenuBar::item:selected { 
-     background: #a8a8a8;
-     text-shadow: white 0px 7px;
-     background: qradialgradient(cx:0.5, cy:0.5, radius: 1, fx:0.5, fy:0.5, stop:0 palette(highlight), stop:0.5 transparent);
-
- }
-
- QMenuBar::item:pressed {
-     background: #888888;
-     text-shadow: white 0px 7px;
- } 
+QMenuBar::item:pressed {
+	border-radius: 8px;
+	background: rgb(88,88,88, 70%);
+} 
  
- QToolBar {
-    background:transparent;
-    border: none;
- }
+QToolBar {
+	background:transparent;
+	border: none;
+}
  
+QDockWidget::title {
+	background-color: rgb(255,255,255, 40%);
+	text-align: left;
+	padding-left: 5px;
+	border: 1px solid rgba(255,255,255, 60%);
+	border-radius: 2px;
+}
