@@ -1,0 +1,31 @@
+
+ QMenuBar {
+    background:transparent;
+ }
+
+ QMenuBar::item {
+     spacing: 3px; 
+     padding: 1px 4px;
+          background: qradialgradient(cx:0.5, cy:0.5, radius: 1, fx:0.5, fy:0.5, stop:0 rgb(255,255,255), stop:0.5 transparent);
+
+     border-radius: 4px;
+     text-shadow: white 0px 7px;
+ }
+
+ QMenuBar::item:selected { 
+     background: #a8a8a8;
+     text-shadow: white 0px 7px;
+     background: qradialgradient(cx:0.5, cy:0.5, radius: 1, fx:0.5, fy:0.5, stop:0 palette(highlight), stop:0.5 transparent);
+
+ }
+
+ QMenuBar::item:pressed {
+     background: #888888;
+     text-shadow: white 0px 7px;
+ } 
+ 
+ QToolBar {
+    background:transparent;
+    border: none;
+ }
+ 
