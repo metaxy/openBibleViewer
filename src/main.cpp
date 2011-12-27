@@ -360,10 +360,10 @@ int WINAPI WinMain(HINSTANCE v1, HINSTANCE v2, LPSTR v3, int v4)
                 a.setStyleSheet(in.readAll());
             }
 
-            QFile file("stylesheet.css");
-            if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                QTextStream in(&file);
-                a.setStyleSheet(in.readAll());
+            QFile file2("stylesheet.css");
+            if(file2.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                QTextStream in2(&file2);
+                a.setStyleSheet(in2.readAll());
             }
 
             if (QtWin::isCompositionEnabled()) {
