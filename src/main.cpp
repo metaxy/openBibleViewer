@@ -26,7 +26,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QDir>
 #include <stdlib.h>
 #include "src/core/dbghelper.h"
-
+#include "src/ui/qtwin.h"
 #ifdef Q_OS_WIN32
 #include <windows.h>
 #include <stdio.h>
@@ -39,6 +39,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "config.h"
 #include "anyoption.h"
 
+//#undef USE_BLUR
+#define USE_BLUR
 bool removeDir(const QString &dirName)
 {
     bool result = true;
@@ -152,6 +154,24 @@ int main(int argc, char *argv[])
     delete opt;
 
     MainWindow w;
+	#ifdef USE_BLUR
+		#ifdef Q_WS_X11
+		w.setAttribute(Qt::WA_TranslucentBackground);
+		w.setAttribute(Qt::WA_NoSystemBackground, false);
+		QPalette pal = w.palette();
+		QColor bg = pal.window().color();
+		bg.setAlpha(180);
+		pal.setColor(QPalette::Window, bg);
+		w.setPalette(pal);
+		w.ensurePolished(); // workaround Oxygen filling the background
+		w.setAttribute(Qt::WA_StyledBackground, false);
+		#endif
+		if (QtWin::isCompositionEnabled()) {
+			QtWin::extendFrameIntoClientArea(&w);
+			w.setContentsMargins(0, 0, 0, 0);
+		}
+	#endif
+	
     w.setTranslator(&myappTranslator, &qtTranslator);
     w.init(homeDataPath, settings);
 
@@ -252,6 +272,11 @@ int WINAPI WinMain(HINSTANCE v1, HINSTANCE v2, LPSTR v3, int v4)
 	PCHAR *argv;
 	argv = CommandLineToArgvA(v3, &argc);
 	QApplication a(argc,argv);
+	QFile file("stylesheet.css");
+	if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		QTextStream in(&file);
+		a.setStyleSheet(in.readAll());
+	}
     AnyOption *opt = new AnyOption();
     const QString s = "openBibleViewer " + QString(OBV_VERSION_NUMBER);
     opt->addUsage(s.toStdString().c_str());
@@ -341,6 +366,21 @@ int WINAPI WinMain(HINSTANCE v1, HINSTANCE v2, LPSTR v3, int v4)
     delete opt;
 
     MainWindow w;
+	#ifdef USE_BLUR
+		/*w.setAttribute(Qt::WA_TranslucentBackground);
+		w.setAttribute(Qt::WA_NoSystemBackground, false);
+		QPalette pal = w.palette();
+		QColor bg = pal.window().color();
+		bg.setAlpha(180);
+		pal.setColor(QPalette::Window, bg);
+		w.setPalette(pal);
+		w.ensurePolished(); // workaround Oxygen filling the background
+		w.setAttribute(Qt::WA_StyledBackground, false);*/
+		if (QtWin::isCompositionEnabled()) {
+			QtWin::extendFrameIntoClientArea(&w);
+			w.setContentsMargins(0, 0, 0, 0);
+		}
+	#endif
     w.setTranslator(&myappTranslator, &qtTranslator);
     w.init(homeDataPath, settings);
 

@@ -306,7 +306,6 @@ bool AdvancedInterface::hasMenuBar()
 QMenuBar* AdvancedInterface::menuBar()
 {
     QMenuBar *bar = new QMenuBar(this);
-    bar->setNativeMenuBar();
     QMenu *menuFile = new QMenu(tr("File"), bar);
 
     //New Sub Window
@@ -579,7 +578,7 @@ void AdvancedInterface::createToolBars()
     m_mainBar = new QToolBar(this);
     m_mainBar->setObjectName("mainToolBar");
     m_mainBar->setIconSize(QSize(16, 16));
-#if Q_OS_WIN
+#ifdef Q_OS_WIN
     m_mainBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 #else
     m_mainBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);

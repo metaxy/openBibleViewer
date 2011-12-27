@@ -641,7 +641,7 @@ OBVCore::ContentType WindowManager::contentType(DictionaryForm *form)
 
 OBVCore::ContentType WindowManager::contentType(WebForm *form)
 {
-
+	return OBVCore::UnkownContent;
 }
 
 OBVCore::ContentType WindowManager::contentType(BibleForm *form)

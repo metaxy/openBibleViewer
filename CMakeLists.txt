@@ -185,8 +185,9 @@ set( openBibleViewer_HDRS
     src/module/searchablemodule.h
     src/module/webpage.h
 
-   src/ui/interface/advanced/manager/webpagemanager.h
+	src/ui/interface/advanced/manager/webpagemanager.h
     src/ui/modelmodel.h
+	src/ui/qtwin.h
     )
 
 set( openBibleViewer_SRCS
@@ -328,6 +329,7 @@ set( openBibleViewer_SRCS
     src/ui/actions.cpp
     src/ui/modulemodel.cpp
     src/ui/biblepassageframe.cpp
+	src/ui/qtwin.cpp
 
     src/ui/updateschecker.cpp
     
