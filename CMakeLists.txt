@@ -334,6 +334,10 @@ set( openBibleViewer_SRCS
     src/ui/updateschecker.cpp
     
     )
+if(WIN32)
+    set(openBibleViewer_SRCS ${openBibleViewer_SRCS} icon.rc)
+endif(WIN32)
+ 
 
 set ( openBibleViewer_UIS
     src/ui/dialog/searchdialog.ui
@@ -521,12 +525,12 @@ else(WIN32 AND NOT UNIX)
         "${QT_LIBRARY_DIR}/../bin/QtWebKit${QT_VERSION_MAJOR}.dll"
         "${QT_LIBRARY_DIR}/../bin/QtGui${QT_VERSION_MAJOR}.dll"
         "${QT_LIBRARY_DIR}/../bin/QtNetwork${QT_VERSION_MAJOR}.dll"
-		"${QT_LIBRARY_DIR}/../bin/QtScript${QT_VERSION_MAJOR}.dll"
-	"${QT_LIBRARY_DIR}/../bin/phonon${QT_VERSION_MAJOR}.dll"
-	"${MCLUCENE_DIR}\\\\build\\\\bin\\\\clucene-shared.dll" 
-	"${MCLUCENE_DIR}\\\\build\\\\bin\\\\clucene-core.dll"
-	"${ZLIB_DLL}"
-        DESTINATION bin
+        "${QT_LIBRARY_DIR}/../bin/QtScript${QT_VERSION_MAJOR}.dll"
+        "${QT_LIBRARY_DIR}/../bin/phonon${QT_VERSION_MAJOR}.dll"
+        "${MCLUCENE_DIR}\\\\build\\\\bin\\\\clucene-shared.dll" 
+        "${MCLUCENE_DIR}\\\\build\\\\bin\\\\clucene-core.dll"
+        "${ZLIB_DLL}"
+        DESTINATION ./
     )
 endif(UNIX AND NOT WIN32)
 
@@ -544,7 +548,7 @@ set(CPACK_PACKAGE_INSTALL_DIRECTORY "openBibleViewer 0.7")
 if(WIN32 AND NOT UNIX)
   # There is a bug in NSI that does not handle full unix paths properly. Make
   # sure there is at least one set of four (4) backlasshes.
-  set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\openBibleViewer.exe")
+  set(CPACK_NSIS_INSTALLED_ICON_NAME "openBibleViewer.exe")
   SET(CPACK_PACKAGE_ICON "C:\\\\Users\\\\mo\\\\coding\\\\openBibleViewer\\\\src\\\\icons\\\\124x124\\\\openBibleViewer.bmp")
   set(CPACK_NSIS_DISPLAY_NAME "openBibleViewer")
   set(CPACK_NSIS_HELP_LINK "http:\\\\\\\\openbv.uucyc.name")
