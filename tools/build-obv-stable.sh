@@ -9,4 +9,6 @@ git archive --prefix=openBibleViewer-$VERSION/ HEAD | bzip2 >$TAR
 cp -u $TAR $BUILDPATH
 cp -u $REPPATH/openBibleViewer.spec $BUILDPATH -f
 rm $TAR -f
-
+cd $BUILDPATH
+osc ar
+osc commit -m"update"
