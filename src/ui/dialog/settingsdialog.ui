@@ -23,7 +23,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -149,9 +149,9 @@
              <property name="selectionBehavior">
               <enum>QAbstractItemView::SelectItems</enum>
              </property>
-             <attribute name="headerVisible">
-              <bool>false</bool>
-             </attribute>
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item>
