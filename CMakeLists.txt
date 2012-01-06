@@ -19,7 +19,7 @@ message(STATUS "Using build type: ${CMAKE_BUILD_TYPE}")
 
 IF(MSVC)
   #nmake definitions for less output
-  add_definitions( "/nologo /w" )
+  #add_definitions( "/nologo /w" )
   #set path to zlib dll
   SET(ZLIB_DLL "C:\\\\zlib-1.2.3-lib\\\\zlib1.dll")
 endif()
@@ -508,17 +508,18 @@ target_link_libraries( openBibleViewer
                         ${ZLIB_LIBRARIES}
 )
 
-
 install( TARGETS openBibleViewer
          RUNTIME DESTINATION bin )
-
+		 
 if(UNIX AND NOT WIN32)
+
     install( FILES "${openBibleViewer_SOURCE_DIR}/src/icons/124x124/openBibleViewer.png"
         DESTINATION "share/pixmaps/" )
 
     install( FILES "${openBibleViewer_SOURCE_DIR}/openBibleViewer.desktop"
         DESTINATION "share/applications/" )
 else(WIN32 AND NOT UNIX)
+
  install (FILES
         "${QT_LIBRARY_DIR}/../bin/QtCore${QT_VERSION_MAJOR}.dll"
         "${QT_LIBRARY_DIR}/../bin/QtXml${QT_VERSION_MAJOR}.dll"
@@ -530,11 +531,12 @@ else(WIN32 AND NOT UNIX)
         "${MCLUCENE_DIR}\\\\build\\\\bin\\\\clucene-shared.dll" 
         "${MCLUCENE_DIR}\\\\build\\\\bin\\\\clucene-core.dll"
         "${ZLIB_DLL}"
-        DESTINATION ./
+        DESTINATION bin
     )
 endif(UNIX AND NOT WIN32)
 
 include(InstallRequiredSystemLibraries)
+include(CPack)
 
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "openBibleViewer Project")
 set(CPACK_PACKAGE_VENDOR "Paul Walger")
@@ -548,8 +550,8 @@ set(CPACK_PACKAGE_INSTALL_DIRECTORY "openBibleViewer 0.7")
 if(WIN32 AND NOT UNIX)
   # There is a bug in NSI that does not handle full unix paths properly. Make
   # sure there is at least one set of four (4) backlasshes.
-  set(CPACK_NSIS_INSTALLED_ICON_NAME "openBibleViewer.exe")
-  SET(CPACK_PACKAGE_ICON "C:\\\\Users\\\\mo\\\\coding\\\\openBibleViewer\\\\src\\\\icons\\\\124x124\\\\openBibleViewer.bmp")
+  set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\openBibleViewer.exe")
+  SET(CPACK_PACKAGE_ICON "C:\\\\Users\\\\mo\\\\coding\\\\openBibleViewer\\\\src\\\\icons\\\\124x124\\\\openBibleViewer.png")
   set(CPACK_NSIS_DISPLAY_NAME "openBibleViewer")
   set(CPACK_NSIS_HELP_LINK "http:\\\\\\\\openbv.uucyc.name")
   set(CPACK_NSIS_URL_INFO_ABOUT "http:\\\\\\\\openbv.uucyc.name")
@@ -557,4 +559,4 @@ if(WIN32 AND NOT UNIX)
 endif(WIN32 AND NOT UNIX)
 
 set(CPACK_PACKAGE_EXECUTABLES "openBibleViewer" "openBibleViewer")
-include(CPack)
+
