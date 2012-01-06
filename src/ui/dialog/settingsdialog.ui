@@ -23,7 +23,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -238,7 +238,7 @@
           <item>
            <widget class="QCheckBox" name="checkBox_showRMac">
             <property name="text">
-             <string>Show RMac</string>
+             <string>Show RMAC</string>
             </property>
            </widget>
           </item>
