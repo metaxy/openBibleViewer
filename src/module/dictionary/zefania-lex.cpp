@@ -77,57 +77,67 @@ MetaInfo ZefaniaLex::buildIndexFromFile(const QString &fileName)
   */
 QString ZefaniaLex::getEntry(const QString &key)
 {
-    if(!hasIndex()) {
-        if(buildIndex() != 0) {
-            return QObject::tr("Cannot build index.");
+    try {
+        if(!hasIndex()) {
+            if(buildIndex() != 0) {
+                return QObject::tr("Cannot build index.");
+            }
         }
+        const QString index = indexPath();
+        const QString queryText = "key:" + key;
+        const TCHAR* stop_words[] = { NULL };
+        standard::StandardAnalyzer analyzer(stop_words);
+        IndexReader* reader = IndexReader::open(index.toStdString().c_str());
+        IndexSearcher s(reader);
+    #ifdef OBV_USE_WSTRING
+        Query* q = QueryParser::parse(queryText.toStdWString().c_str(), _T("content"), &analyzer);
+    #else
+        Query* q = QueryParser::parse(reinterpret_cast<const wchar_t *>(queryText.utf16()), _T("content"), &analyzer);
+    #endif
+        Hits* h = s.search(q);
+        QString ret = "";
+        for(size_t i = 0; i < h->length(); i++) {
+            Document* doc = &h->doc(i);
+            if(!ret.isEmpty())
+                ret.append("<hr /> ");
+    #ifdef OBV_USE_WSTRING
+            ret.append(QString::fromWCharArray(doc->get(_T("content"))));
+    #else
+            ret.append(QString::fromUtf16((const ushort*)doc->get(_T("content"))));
+    #endif
+        }
+        return ret.isEmpty() ? QObject::tr("Nothing found for %1").arg(key) : ret;
+    } catch(...) {
+        return QString();
     }
-    const QString index = indexPath();
-    const QString queryText = "key:" + key;
-    const TCHAR* stop_words[] = { NULL };
-    standard::StandardAnalyzer analyzer(stop_words);
-    IndexReader* reader = IndexReader::open(index.toStdString().c_str());
-    IndexSearcher s(reader);
-#ifdef OBV_USE_WSTRING
-    Query* q = QueryParser::parse(queryText.toStdWString().c_str(), _T("content"), &analyzer);
-#else
-    Query* q = QueryParser::parse(reinterpret_cast<const wchar_t *>(queryText.utf16()), _T("content"), &analyzer);
-#endif
-    Hits* h = s.search(q);
-    QString ret = "";
-    for(size_t i = 0; i < h->length(); i++) {
-        Document* doc = &h->doc(i);
-        if(!ret.isEmpty())
-            ret.append("<hr /> ");
-#ifdef OBV_USE_WSTRING
-        ret.append(QString::fromWCharArray(doc->get(_T("content"))));
-#else
-        ret.append(QString::fromUtf16((const ushort*)doc->get(_T("content"))));
-#endif
-    }
-    return ret.isEmpty() ? QObject::tr("Nothing found for %1").arg(key) : ret;
 }
 
 QStringList ZefaniaLex::getAllKeys()
 {
-    if(!hasIndex()) {
-        if(buildIndex() != 0) {
-            return QStringList();
+    try {
+        if(!hasIndex()) {
+            if(buildIndex() != 0) {
+                return QStringList();
+            }
         }
+        const QString index = indexPath();
+        IndexReader* reader = IndexReader::open(index.toStdString().c_str());
+        QStringList ret;
+        for(int i = 0; i < reader->numDocs(); i++) {
+            Document doc;
+            reader->document(i, doc);
+    #ifdef OBV_USE_WSTRING
+            ret.append(QString::fromWCharArray(doc.get(_T("key"))));
+    #else
+            ret.append(QString::fromUtf16((const ushort*)doc.get(_T("key"))));
+    #endif
+        }
+        return ret;
     }
-    const QString index = indexPath();
-    IndexReader* reader = IndexReader::open(index.toStdString().c_str());
-    QStringList ret;
-    for(int i = 0; i < reader->numDocs(); i++) {
-        Document doc;
-        reader->document(i, doc);
-#ifdef OBV_USE_WSTRING
-        ret.append(QString::fromWCharArray(doc.get(_T("key"))));
-#else
-        ret.append(QString::fromUtf16((const ushort*)doc.get(_T("key"))));
-#endif
+    catch(...)
+    {
+        return QStringList();
     }
-    return ret;
 }
 
 bool ZefaniaLex::hasIndex()
@@ -161,6 +171,8 @@ int ZefaniaLex::buildIndex()
 
 MetaInfo ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
 {
+    try {
+
     MetaInfo info;
     int couldBe = 0;//1 = RMac
 
@@ -305,8 +317,11 @@ MetaInfo ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
         }
     }
     return info;
+    }
+    catch(...) {
+        return MetaInfo();
+    }
 }
-
 QString ZefaniaLex::indexPath() const
 {
     return m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);

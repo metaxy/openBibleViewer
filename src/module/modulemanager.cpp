@@ -177,12 +177,19 @@ void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
             || settings->moduleType == OBVCore::ZefaniaBibleModule
             || settings->moduleType == OBVCore::TheWordBibleModule
             || settings->moduleType == OBVCore::SwordBibleModule) {
+
         module->setModuleClass(OBVCore::BibleModuleClass);
+
     } else if(settings->moduleType == OBVCore::ZefaniaLexModule || settings->moduleType == OBVCore::BibleQuoteDictModule || settings->moduleType == OBVCore::WebDictionaryModule) {
+
         module->setModuleClass(OBVCore::DictionaryModuleClass);
+
     } else if(settings->moduleType == OBVCore::WebPageModule) {
+
         module->setModuleClass(OBVCore::WebPageClass);
+
     }
+    myDebug() << module->moduleID() << module->moduleType() << module->moduleClass();
 
     //recursive
     foreach(ModuleSettings * s, settings->children()) {
@@ -318,6 +325,9 @@ VerseModule * ModuleManager::newVerseModule(const int moduleID)
     if(getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
         m = new Bible();
         initVerseModule(m);
+    } else {
+        myWarning() << "not a verse module " << getModule(moduleID)->moduleClass();
+        return NULL;
     }
     OBVCore::ModuleType type = getModule(moduleID)->moduleType();
     m->setModuleType(type);

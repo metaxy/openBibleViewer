@@ -668,18 +668,25 @@ void AdvancedInterface::quick()
         QMapIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
         while(i.hasNext()) {
             i.next();
-            if(i.value()->defaultModule == OBVCore::DefaultBibleModule)
+            if(i.value()->defaultModule == OBVCore::DefaultBibleModule) {
                 defaultModuleID = i.key();
+                break;
+            }
 
         }
+        myDebug() << "default" << defaultModuleID;
         if(defaultModuleID == -1) {
             QMapIterator<int, Module*> i2(m_moduleManager->m_moduleMap->data);
-            while(i2.hasNext()) {
+            while(i2.hasNext() && defaultModuleID == -1) {
                 i2.next();
-                if(i2.value()->moduleClass() == OBVCore::BibleModuleClass)
+                if(i2.value()->moduleClass() == OBVCore::BibleModuleClass) {
                     defaultModuleID = i2.key();
+                    break;
+                }
             }
         }
+        myDebug() << "some" << defaultModuleID;
+
         BibleLink link(defaultModuleID, m_settings->getV11N(defaultModuleID));
         if(link.isBibleLink(text)) {
             m_actions->get(link.getUrl(text));

@@ -71,6 +71,7 @@ QHash<DockWidget*, Qt::DockWidgetArea> BibleManager::docks()
 void BibleManager::pharseUrl(VerseUrl url, const Actions::OpenLinkModifiers mod)
 {
     DEBUG_FUNC_NAME
+    myDebug() << url.toString();
     QMdiSubWindow *window;
     if(mod == Actions::OpenInNewWindow) {
         window = m_windowManager->newBibleSubWindow();
@@ -80,9 +81,16 @@ void BibleManager::pharseUrl(VerseUrl url, const Actions::OpenLinkModifiers mod)
     BibleForm *f = (BibleForm*)(m_windowManager->getForm(window));
     myDebug() << f->verseTableLoaded();
     if(!f->verseTableLoaded()) {
-        f->newModule();
+        if(url.ranges().first().module() == VerseUrlRange::LoadModuleByID) {
+            f->newModule(url.ranges().first().moduleID());
+        } else {
+            f->newModule();
+        }
     }
-    f->pharseUrl(url);
+    if(f->verseTableLoaded()) {
+        f->pharseUrl(url);
+    }
+
 }
 
 void BibleManager::pharseUrl(QString url, const Actions::OpenLinkModifiers mod)

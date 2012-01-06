@@ -149,9 +149,9 @@
              <property name="selectionBehavior">
               <enum>QAbstractItemView::SelectItems</enum>
              </property>
-             <attribute name="headerVisible">
-              <bool>false</bool>
-             </attribute>
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item>
@@ -238,7 +238,7 @@
           <item>
            <widget class="QCheckBox" name="checkBox_showRMac">
             <property name="text">
-             <string>Show RMac</string>
+             <string>Show RMAC</string>
             </property>
            </widget>
           </item>
