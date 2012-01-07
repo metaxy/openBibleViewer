@@ -75,7 +75,7 @@ endif(OBV_SWORD_SUPPORT)
 
 set(OBV_VERSION_NUMBER "0.7.0")
 set(OBV_VERSION_STATUS "stable")
-set(OBV_BUILD_DATE "2011-12-31")
+set(OBV_BUILD_DATE "2012-01-06")
 
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
@@ -536,7 +536,7 @@ else(WIN32 AND NOT UNIX)
 endif(UNIX AND NOT WIN32)
 
 include(InstallRequiredSystemLibraries)
-include(CPack)
+
 
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "openBibleViewer Project")
 set(CPACK_PACKAGE_VENDOR "Paul Walger")
@@ -545,6 +545,7 @@ set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
 set(CPACK_PACKAGE_VERSION_MINOR "7")
 set(CPACK_PACKAGE_VERSION_PATCH "0")
+
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "openBibleViewer 0.7")
 #nsis
 if(WIN32 AND NOT UNIX)
@@ -559,4 +560,4 @@ if(WIN32 AND NOT UNIX)
 endif(WIN32 AND NOT UNIX)
 
 set(CPACK_PACKAGE_EXECUTABLES "openBibleViewer" "openBibleViewer")
-
+include(CPack)

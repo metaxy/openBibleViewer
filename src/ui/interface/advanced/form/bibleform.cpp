@@ -1284,6 +1284,9 @@ VerseModule * BibleForm::verseModule() const
 }
 void BibleForm::moduleChanged(const int moduleID)
 {
+	if(!m_verseTable)
+		return;
+
     if(m_verseTable->contains(moduleID)) {
         reload(true);
     }
@@ -1300,7 +1303,11 @@ void BibleForm::reload(bool full)
 }
 void BibleForm::reloadIf(const VerseUrl &url)
 {
-    VerseUrlRange r = url.ranges().first();
+	if(!m_verseTable || !m_verseTable->verseModule() || !m_verseTable->verseModule()->lastTextRanges()) {
+		return;
+	}
+
+	VerseUrlRange r = url.ranges().first();
     if(m_verseTable->verseModule()->moduleID() == r.moduleID() && m_verseTable->verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
         reload(false);
     }
