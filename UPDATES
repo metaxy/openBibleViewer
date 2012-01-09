@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <updates>
 <stable>
-	<version>0.6.0</version>
-	<link os="windows">http://openbv.uucyc.name/de/downloads/category/15-version-0.6.html</link>
+	  <version>0.7.0</version>
+	  <link os="windows">http://openbv.uucyc.name/downloads/openBibleViewer-0.7.0-win32.exe</link>
+	  <link os="linux">http://openbv.uucyc.name/downloads-all</link>
+
 </stable>
 <unstable>
-	<version>0.6.92</version>
-	<link os="windows">http://openbv.uucyc.name/downloads/openBibleViewer-0.6.92-win32.exe</link>
+	<version>0.7.0</version>
+	<link os="windows">http://openbv.uucyc.name/downloads/openBibleViewer-0.7.0-win32.exe</link>
 	<link os="linux">http://openbv.uucyc.name/downloads-all</link>
 </unstable>
 </updates>
