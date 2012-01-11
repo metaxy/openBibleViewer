@@ -95,9 +95,10 @@ void ModuleDockWidget::loadModuleData(QModelIndex index, Actions::OpenLinkModifi
             VerseUrl url;
             VerseUrlRange range;
             range.setModule(moduleID);
-            range.setBook(VerseUrlRange::LoadFirstBook);
-            range.setChapter(VerseUrlRange::LoadFirstChapter);
-            range.setWholeChapter();
+            range.setBook(VerseUrlRange::LoadCurrentBook);
+            range.setChapter(VerseUrlRange::LoadCurrentChapter);
+            range.setStartVerse(VerseUrlRange::LoadCurrentVerse);
+            range.setOpenToTransformation(true);
             url.addRange(range);
             m_actions->get(url, mod);
         }

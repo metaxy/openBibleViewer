@@ -88,6 +88,25 @@ int SettingsDialog::setSettings(Settings settings)
 {
     m_set = settings;
     m_backupSet = settings;
+
+    m_model = new ModuleModel(this);
+    m_model->setSettings(&m_set);
+    m_model->setShowAll(true);
+
+
+    m_proxyModel = new RecursivProxyModel(this);
+    m_proxyModel->setSourceModel(m_model->itemModel());
+    m_proxyModel->setHeaderData(0, Qt::Horizontal, tr("Module"));
+    m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+
+    m_selectionModel = new QItemSelectionModel(m_proxyModel);
+
+    m_ui->treeView->setSortingEnabled(true);
+    m_ui->treeView->setModel(m_proxyModel);
+    m_ui->treeView->setSelectionModel(m_selectionModel);
+
+    m_proxyModel->sort(0);
+
     m_encodings.clear();
     m_langCode.clear();
     //General
@@ -146,11 +165,13 @@ int SettingsDialog::setSettings(Settings settings)
     m_ui->comboBox_interface->insertItems(0, interface);
     int currentInterface = 0;
     const QString i = m_set.session.getData("interface", "advanced").toString();
+
     if(i == "advanced") {
         currentInterface = 1;
     } else if(i == "simple") {
         currentInterface = 0;
     }
+
     m_ui->comboBox_interface->setCurrentIndex(currentInterface);
 
     ModuleSettings *config = settings.getModuleSettings(-1);
@@ -165,20 +186,21 @@ int SettingsDialog::setSettings(Settings settings)
     m_ui->checkBox_showProlog->setChecked(config->displaySettings()->showProlog());
 
     return 0;
-
 }
 
 void SettingsDialog::generateModuleTree()
 {
     DEBUG_FUNC_NAME;
-
-    ModuleModel model(this);
-    model.setSettings(&m_set);
-    model.setShowAll(true);
-    model.generate();
-
-    m_ui->treeView->setModel(model.itemModel());
-    m_ui->treeView->model()->setHeaderData(0, Qt::Horizontal, tr("Module"));
+    m_model->clear();
+    m_model->generate();
+}
+QModelIndex SettingsDialog::findItem(const int moduleID)
+{
+    const QModelIndexList list = m_proxyModel->match(m_model->itemModel()->invisibleRootItem()->index(), Qt::UserRole + 1, QString::number(moduleID));
+    myDebug()<< moduleID << list.size();
+    if(list.isEmpty())
+        return QModelIndex();
+    return list.first();
 }
 
 void SettingsDialog::addModuleFile(void)
@@ -201,14 +223,21 @@ void SettingsDialog::addVirtualFolder()
     m->moduleID = m_set.newModuleID();
     m->moduleName = tr("New Folder");
     m->moduleType = OBVCore::FolderModule;
-    m_set.m_moduleSettings.insert(m->moduleID, m);
-    m_set.getModuleSettings(m->parentID)->appendChild(m);
 
-    ModuleSettings *parent = m_set.getModuleSettings(m->parentID);
-    m->setParent(parent);
-    m->setDisplaySettings(parent->displaySettings());
+    m->encoding = "Default";
+    m->parentID = -1;
+
+    m_set.getModuleSettings(m->parentID)->appendChild(m);
+    m_set.m_moduleSettings.insert(m->moduleID, m);
 
     generateModuleTree();
+
+    QModelIndex index = findItem(m->moduleID);
+    if(index.isValid()) {
+        m_selectionModel->clearSelection();
+        m_selectionModel->setCurrentIndex(m_proxyModel->mapFromSource(index), QItemSelectionModel::Select);
+    }
+
 }
 
 void SettingsDialog::addModuleDir(void)
@@ -314,21 +343,29 @@ void SettingsDialog::removeModule()
 
 void SettingsDialog::editModule()
 {
-    //DEBUG_FUNC_NAME
-    m_modifedModuleSettings = true;
+
     if(m_ui->treeView->selectionModel()->selectedIndexes().isEmpty())
         return;
     bool ok;
     const int moduleID = m_ui->treeView->selectionModel()->selectedIndexes().first().data(Qt::UserRole + 1).toInt(&ok);
-    myDebug() << "moduleID = " << moduleID;
     if(moduleID >= 0 && ok) {
         QPointer<ModuleConfigDialog> mDialog = new ModuleConfigDialog(this);
         mDialog->setModule(m_set.getModuleSettings(moduleID));
-        connect(mDialog, SIGNAL(save(ModuleSettings)), mDialog, SLOT(close()));
+        connect(mDialog, SIGNAL(save(int)), this, SLOT(update(int)));
         mDialog->exec();
         delete mDialog;
     }
 
+}
+void SettingsDialog::update(int moduleID)
+{
+    DEBUG_FUNC_NAME
+    m_modifedModuleSettings = true;
+    myDebug() << moduleID;
+    QModelIndex index = findItem(moduleID);
+    if(index.isValid()) {
+        m_proxyModel->setData(m_proxyModel->mapFromSource(index), m_set.getModuleSettings(moduleID)->moduleName);
+    }
 }
 
 void SettingsDialog::save(void)

@@ -33,6 +33,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/ui/dialog/moduleconfigdialog.h"
 #include "src/ui/dialog/moduledownloaddialog.h"
+#include "src/ui/recursivproxymodel.h"
 #include "config.h"
 
 namespace Ui
@@ -68,6 +69,8 @@ private slots:
     void importSwordModules();
 
     void addVirtualFolder();
+    void update(int moduleID);
+
 private:
     Settings m_set;
     Settings m_backupSet;
@@ -81,6 +84,14 @@ private:
     static QStringList scan(const QString &path, const int level);
     int quiteAddModule(const QString &path, int parentID = -1, const QString &name = "");
     void saveModule(QModelIndex parentIndex, ModuleSettings *parentSettings);
+
+
+    QModelIndex findItem(const int moduleID);
+
+    ModuleModel *m_model;
+
+    RecursivProxyModel *m_proxyModel;
+    QItemSelectionModel *m_selectionModel;
 };
 
 #endif // SETTINGSDIALOG_H

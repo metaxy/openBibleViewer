@@ -31,7 +31,8 @@ ModuleModel::~ModuleModel()
 }
 void ModuleModel::clear()
 {
-    m_moduleModel->clear();
+    if(m_moduleModel != NULL)
+        m_moduleModel->clear();
 }
 
 void ModuleModel::setSettings(Settings *settings)
@@ -46,7 +47,7 @@ void ModuleModel::generate()
     ModuleSettings *rootModuleSettings = m_settings->getModuleSettings(-1);//it's the invisble root item
     if(rootModuleSettings != NULL) {
         foreach(ModuleSettings * s, rootModuleSettings->children()) {
-            loadModule(parentItem, s);
+            createModuleItem(parentItem, s);
         }
     }
 }
@@ -55,7 +56,7 @@ QStandardItemModel* ModuleModel::itemModel() const
 {
     return m_moduleModel;
 }
-void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings)
+void ModuleModel::createModuleItem(QStandardItem *parentItem, ModuleSettings *settings)
 {
     QStandardItem *item = NULL;
 
@@ -102,7 +103,7 @@ void ModuleModel::loadModule(QStandardItem *parentItem, ModuleSettings *settings
 
     //recursive
     foreach(ModuleSettings * s, settings->children()) {
-        loadModule(item, s);
+        createModuleItem(item, s);
     }
 
 }

@@ -30,7 +30,7 @@ class ModuleConfigDialog : public QDialog
     Q_OBJECT
     Q_DISABLE_COPY(ModuleConfigDialog)
 signals:
-    void save(ModuleSettings config);
+    void save(int moduleID);
 public:
     explicit ModuleConfigDialog(QWidget *parent = 0);
     virtual ~ModuleConfigDialog();

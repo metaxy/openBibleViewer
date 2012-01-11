@@ -36,7 +36,7 @@ public:
 private:
     QStandardItemModel *m_moduleModel;
     Settings *m_settings;
-    void loadModule(QStandardItem *parentItem, ModuleSettings *settings);
+    void createModuleItem(QStandardItem *parentItem, ModuleSettings *settings);
 
     QIcon m_bibleQuoteIcon;
     QIcon m_folderIcon;

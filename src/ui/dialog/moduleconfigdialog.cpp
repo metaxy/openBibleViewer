@@ -34,6 +34,8 @@ ModuleConfigDialog::ModuleConfigDialog(QWidget *parent) :
     m_ui->comboBox_type->insertItems(0, Module::moduleTypeNames());
 
     QStringList defaultModules;
+
+
     defaultModules << tr("Not a Default Module") << tr("Default Bible")
                    << tr("Default Strong Dictionary") << tr("Default Grammar Dictionary")
                    << tr("Default Dictionary") << tr("Default RMAC Module");
@@ -168,7 +170,8 @@ void ModuleConfigDialog::bsave()
         m_moduleSettings->displaySettings()->setShowProlog(m_ui->checkBox_showProlog->isChecked());
 
     }
-    emit save(m_moduleSettings);
+    emit save(m_moduleSettings->moduleID);
+    close();
 }
 void ModuleConfigDialog::moduleTypeChanged(int id)
 {
