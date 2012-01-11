@@ -23,7 +23,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -104,6 +104,13 @@
              <property name="icon">
               <iconset resource="../../icons.qrc">
                <normaloff>:/icons/16x16/list-add.png</normaloff>:/icons/16x16/list-add.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_addVFolder">
+             <property name="text">
+              <string>Add Virtual Folder</string>
              </property>
             </widget>
            </item>

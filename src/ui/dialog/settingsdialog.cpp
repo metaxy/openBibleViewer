@@ -37,6 +37,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), m_ui(new Ui::
     m_modifedModuleSettings = false;
 
     connect(m_ui->pushButton_downloadModule, SIGNAL(clicked()), this, SLOT(downloadModule()));
+    connect(m_ui->pushButton_addVFolder, SIGNAL(clicked()), this, SLOT(addVirtualFolder()));
     connect(m_ui->pushButton_addFile, SIGNAL(clicked()), this, SLOT(addModuleFile()));
     connect(m_ui->pushButton_addDir, SIGNAL(clicked()), this, SLOT(addModuleDir()));
     connect(m_ui->pushButton_remove_module, SIGNAL(clicked()), this, SLOT(removeModule()));
@@ -193,6 +194,21 @@ void SettingsDialog::addModuleFile(void)
         m_set.session.setData("addModuleFile_Dir", dialog->directory().absolutePath());
     }
     delete dialog;
+}
+void SettingsDialog::addVirtualFolder()
+{
+    ModuleSettings *m = new ModuleSettings();
+    m->moduleID = m_set.newModuleID();
+    m->moduleName = tr("New Folder");
+    m->moduleType = OBVCore::FolderModule;
+    m_set.m_moduleSettings.insert(m->moduleID, m);
+    m_set.getModuleSettings(m->parentID)->appendChild(m);
+
+    ModuleSettings *parent = m_set.getModuleSettings(m->parentID);
+    m->setParent(parent);
+    m->setDisplaySettings(parent->displaySettings());
+
+    generateModuleTree();
 }
 
 void SettingsDialog::addModuleDir(void)

@@ -66,6 +66,8 @@ private slots:
     void addModules(QMap<QString, QString> data);
 
     void importSwordModules();
+
+    void addVirtualFolder();
 private:
     Settings m_set;
     Settings m_backupSet;

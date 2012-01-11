@@ -189,7 +189,6 @@ void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
         module->setModuleClass(OBVCore::WebPageClass);
 
     }
-    myDebug() << module->moduleID() << module->moduleType() << module->moduleClass();
 
     //recursive
     foreach(ModuleSettings * s, settings->children()) {
