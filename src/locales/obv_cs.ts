@@ -247,7 +247,7 @@
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="624"/>
         <source>Quick Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Rychlý pruh</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="772"/>
@@ -262,22 +262,22 @@
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="312"/>
         <source>New Subwindow</source>
-        <translation type="unfinished"></translation>
+        <translation>Nové podokno</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="314"/>
         <source>New Bible Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Nové okno pro Bibli</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="318"/>
         <source>New Web Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Nové okno pro internet</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="321"/>
         <source>New Dictionary Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Nové okno pro slovník</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="714"/>
@@ -538,12 +538,12 @@
     <message>
         <location filename="../ui/biblepassageframe.ui" line="42"/>
         <source>Bible Passage</source>
-        <translation type="unfinished">Část Bible</translation>
+        <translation>Část Bible</translation>
     </message>
     <message>
         <location filename="../ui/biblepassageframe.ui" line="56"/>
         <source>Replace</source>
-        <translation type="unfinished"></translation>
+        <translation>Nahradit</translation>
     </message>
     <message>
         <location filename="../ui/biblepassageframe.ui" line="63"/>
@@ -649,19 +649,19 @@
         <location filename="../module/module.cpp" line="98"/>
         <location filename="../module/module.cpp" line="117"/>
         <source>Sword Bible</source>
-        <translation type="unfinished"></translation>
+        <translation>Bible Sword</translation>
     </message>
     <message>
         <location filename="../module/module.cpp" line="98"/>
         <location filename="../module/module.cpp" line="119"/>
         <source>Web Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Internetová stránka</translation>
     </message>
     <message>
         <location filename="../module/module.cpp" line="98"/>
         <location filename="../module/module.cpp" line="121"/>
         <source>Web Dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>Internetový slovník</translation>
     </message>
 </context>
 <context>
@@ -677,27 +677,27 @@
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Formulář</translation>
+        <translation>Formulář</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.ui" line="25"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="136"/>
         <source>Print</source>
-        <translation type="unfinished">Tisk</translation>
+        <translation>Tisk</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="155"/>
         <source>Save output</source>
-        <translation type="unfinished">Uložit výstup</translation>
+        <translation>Uložit výstup</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="155"/>
         <source>Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Plain (*.txt)</source>
-        <translation type="unfinished">Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Prostý text (*.txt)</translation>
+        <translation>Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Prostý text (*.txt)</translation>
     </message>
 </context>
 <context>
@@ -705,17 +705,17 @@
     <message>
         <location filename="../ui/dialog/downloadprogressdialog.ui" line="14"/>
         <source>Downloading module</source>
-        <translation type="unfinished"></translation>
+        <translation>Stahování modulu</translation>
     </message>
     <message>
         <location filename="../ui/dialog/downloadprogressdialog.ui" line="44"/>
         <source>Current File</source>
-        <translation type="unfinished"></translation>
+        <translation>Nynější soubor</translation>
     </message>
     <message>
         <location filename="../ui/dialog/downloadprogressdialog.ui" line="51"/>
         <source>Overall Progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Celkový postup</translation>
     </message>
 </context>
 <context>
@@ -813,87 +813,87 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="37"/>
         <source>Not a Default Module</source>
-        <translation type="unfinished"></translation>
+        <translation>Ne výchozí modul</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="37"/>
         <source>Default Bible</source>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí Bible</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="38"/>
         <source>Default Strong Dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí slovník Strong</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="38"/>
         <source>Default Grammar Dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí pravopisný slovník</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="39"/>
         <source>Default Dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí slovník</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="39"/>
         <source>Default RMAC Module</source>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí modul RMAC</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="43"/>
         <source>Unkown</source>
-        <translation type="unfinished"></translation>
+        <translation>Neznámý</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="43"/>
         <source>Bible</source>
-        <translation type="unfinished">Bible</translation>
+        <translation>Bible</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="44"/>
         <source>Bible OT</source>
-        <translation type="unfinished"></translation>
+        <translation>Bible SZ</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="44"/>
         <source>Bible NT</source>
-        <translation type="unfinished"></translation>
+        <translation>Bible NZ</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="45"/>
         <source>Strongs</source>
-        <translation type="unfinished"></translation>
+        <translation>Slovníky Strong</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="45"/>
         <source>Strongs Greek</source>
-        <translation type="unfinished"></translation>
+        <translation>Strong řečtina</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="45"/>
         <source>Strongs Hebrew</source>
-        <translation type="unfinished"></translation>
+        <translation>Strong hebrejština</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="46"/>
         <source>RMAC</source>
-        <translation type="unfinished"></translation>
+        <translation>RMAC</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="47"/>
         <source>Word Dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>Slovník se slovy</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="48"/>
         <source>Dictionary</source>
-        <translation type="unfinished">Slovník</translation>
+        <translation>Slovník</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="49"/>
         <source>Gram Dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>Slovník s mluvnicí</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="190"/>
@@ -903,7 +903,7 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="190"/>
         <source>Modules (*.ini *.xml *.*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Moduly (*.ini *.xml *.*)</translation>
     </message>
     <message>
         <source>Bibles (*.ini *.xml *.*)</source>
@@ -937,22 +937,22 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="73"/>
         <source>StyleSheet</source>
-        <translation>Stylový list</translation>
+        <translation>Styl</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="63"/>
         <source>Short Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Krátký název</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="103"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="113"/>
         <source>Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Obsah</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="129"/>
@@ -1023,7 +1023,7 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="268"/>
         <source>Show Prolog</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat předmluvu</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="282"/>
@@ -1033,12 +1033,12 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="296"/>
         <source>Show RMac</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat RMac</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="310"/>
         <source>Show Captions</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat popisky</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="324"/>
@@ -1087,22 +1087,22 @@
     <message>
         <location filename="../ui/dock/moduledockwidget.ui" line="42"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtr</translation>
     </message>
     <message>
         <location filename="../ui/dock/moduledockwidget.cpp" line="143"/>
         <source>Open module</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít modul</translation>
     </message>
     <message>
         <location filename="../ui/dock/moduledockwidget.cpp" line="147"/>
         <source>Open module in new tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít modul v nové kartě</translation>
     </message>
     <message>
         <location filename="../ui/dock/moduledockwidget.cpp" line="151"/>
         <source>Configure</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavit</translation>
     </message>
 </context>
 <context>
@@ -1115,12 +1115,12 @@
     <message>
         <location filename="../ui/dialog/moduledownloaddialog.cpp" line="83"/>
         <source>Strong Dictionarys</source>
-        <translation type="unfinished"></translation>
+        <translation>Slovníky Strong</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduledownloaddialog.cpp" line="85"/>
         <source>Additional</source>
-        <translation type="unfinished"></translation>
+        <translation>Další</translation>
     </message>
     <message>
         <source>Dictionarys</source>
@@ -1577,32 +1577,32 @@
         <location filename="../core/notes/notesitemview.cpp" line="10"/>
         <location filename="../core/notes/notesitemview.cpp" line="16"/>
         <source>Note Title</source>
-        <translation type="unfinished">Název poznámky</translation>
+        <translation>Název poznámky</translation>
     </message>
     <message>
         <location filename="../core/notes/notesitemview.cpp" line="174"/>
         <source>Copy Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopírovat text</translation>
     </message>
     <message>
         <location filename="../core/notes/notesitemview.cpp" line="178"/>
         <source>Paste Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložit text</translation>
     </message>
     <message>
         <location filename="../core/notes/notesitemview.cpp" line="182"/>
         <source>New Note</source>
-        <translation type="unfinished"></translation>
+        <translation>Nová poznámka</translation>
     </message>
     <message>
         <location filename="../core/notes/notesitemview.cpp" line="186"/>
         <source>New Folder</source>
-        <translation type="unfinished">Nová složka</translation>
+        <translation>Nová složka</translation>
     </message>
     <message>
         <location filename="../core/notes/notesitemview.cpp" line="190"/>
         <source>Delete</source>
-        <translation type="unfinished">Smazat</translation>
+        <translation>Smazat</translation>
     </message>
 </context>
 <context>
@@ -1929,17 +1929,17 @@
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="241"/>
         <source>Show RMac</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat RMac</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="248"/>
         <source>Show Captions</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat popisky</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="255"/>
         <source>Show Prolog</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat předmluvu</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="262"/>
@@ -1969,7 +1969,7 @@
     <message>
         <location filename="../ui/dialog/settingsdialog.cpp" line="50"/>
         <source>Import Sword Modules</source>
-        <translation type="unfinished"></translation>
+        <translation>Zavést moduly Sword</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.cpp" line="137"/>
@@ -2096,22 +2096,22 @@
     <message>
         <location filename="../ui/dialog/updatecheckerdialog.ui" line="14"/>
         <source>Updates available</source>
-        <translation type="unfinished"></translation>
+        <translation>Je dostupná aktualizace</translation>
     </message>
     <message>
         <location filename="../ui/dialog/updatecheckerdialog.ui" line="42"/>
         <source>Skip</source>
-        <translation type="unfinished"></translation>
+        <translation>Přeskočit</translation>
     </message>
     <message>
         <location filename="../ui/dialog/updatecheckerdialog.ui" line="49"/>
         <source>Download</source>
-        <translation type="unfinished">Stáhnout</translation>
+        <translation>Stáhnout</translation>
     </message>
     <message>
         <location filename="../ui/dialog/updatecheckerdialog.ui" line="56"/>
         <source>Remind Later</source>
-        <translation type="unfinished"></translation>
+        <translation>Připomenout později</translation>
     </message>
 </context>
 <context>
@@ -2119,12 +2119,12 @@
     <message>
         <location filename="../ui/updateschecker.cpp" line="86"/>
         <source>A new version of openBibleViewer is available: </source>
-        <translation type="unfinished"></translation>
+        <translation>Je dostupná nová verze openBibleViewe: </translation>
     </message>
     <message>
         <location filename="../ui/updateschecker.cpp" line="88"/>
         <source>You can download it at</source>
-        <translation type="unfinished"></translation>
+        <translation>Můžete ji stáhnout na</translation>
     </message>
 </context>
 <context>
@@ -2132,7 +2132,7 @@
     <message>
         <location filename="../ui/interface/advanced/versetableitemdelegate.cpp" line="24"/>
         <source>None</source>
-        <translation type="unfinished">Žádný</translation>
+        <translation>Žádný</translation>
     </message>
 </context>
 <context>
@@ -2140,7 +2140,7 @@
     <message>
         <location filename="../ui/interface/advanced/versetablewidget.ui" line="14"/>
         <source>Bible List</source>
-        <translation type="unfinished">Seznam s Biblemi</translation>
+        <translation>Seznam s Biblemi</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/versetablewidget.ui" line="22"/>
@@ -2148,7 +2148,7 @@
         <location filename="../ui/interface/advanced/versetablewidget.ui" line="61"/>
         <location filename="../ui/interface/advanced/versetablewidget.ui" line="85"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
 </context>
 <context>
@@ -2501,12 +2501,12 @@
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="360"/>
         <source>Hab</source>
-        <translation type="unfinished"></translation>
+        <translation>Aba</translation>
     </message>
     <message>
         <location filename="../core/verse/versification/versification_kjv.cpp" line="400"/>
         <source>Mal, Ml</source>
-        <translation type="unfinished"></translation>
+        <translation>Mal, Ml</translation>
     </message>
     <message>
         <source>Hab, Hab</source>
@@ -2827,17 +2827,17 @@
     <message>
         <location filename="../ui/interface/advanced/form/webform.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Formulář</translation>
+        <translation>Formulář</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/webform.ui" line="58"/>
         <source>about:blank</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/webform.cpp" line="154"/>
         <source>Print</source>
-        <translation type="unfinished">Tisk</translation>
+        <translation>Tisk</translation>
     </message>
 </context>
 </TS>

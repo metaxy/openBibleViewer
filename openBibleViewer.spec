@@ -11,7 +11,7 @@ Summary: Bible study tool
 Name: %{name}
 License: GPLv3
 URL: http://openbv.uucyc.name
-Version: 0.7.0
+Version: 0.7.1
 Release: 7
 Group: Amusements/Teaching/Other
 Source: %{name}-%{version}.tar.bz2
