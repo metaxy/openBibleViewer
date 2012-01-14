@@ -5,7 +5,7 @@
 const QString ModuleTools::strongScheme = "strong:/";
 const QString ModuleTools::gramScheme = "gram:/";
 const QString ModuleTools::rmacScheme = "rmac:/";
-
+const QString ModuleTools::dictScheme = "dict:/";
 ModuleTools::ModuleTools()
 {
 }

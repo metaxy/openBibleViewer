@@ -50,7 +50,7 @@ public slots:
     void activated();
 
     void showEntry();
-    void showEntry(const QString &key, int moduleID = -1);
+    void showEntry(const QString &key, int moduleID);
 
     void historySetUrl(const QString &url);
     void backward();

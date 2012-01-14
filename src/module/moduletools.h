@@ -64,6 +64,7 @@ public:
     static const QString strongScheme;
     static const QString gramScheme;
     static const QString rmacScheme;
+    static const QString dictScheme;
 
 
     static ModuleTools::ModuleType recognizeModuleType(const QString &fileName);

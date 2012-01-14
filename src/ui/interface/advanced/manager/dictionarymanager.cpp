@@ -44,7 +44,7 @@ DictionaryDockWidget* DictionaryManager::dictionaryDockWidget()
     return m_dictionaryDock;
 }
 
-void DictionaryManager::open(const QString &key, ModuleTools::ContentType contentType, const Actions::OpenLinkModifiers mod, const QString &url)
+void DictionaryManager::open(const QString &key, ModuleTools::ContentType contentType, const Actions::OpenLinkModifiers mod)
 {
     ModuleTools::DefaultModule defaultModule = ModuleTools::toDefaultModule(contentType);
     myDebug() << "content = " << contentType << " so the defaultModule is" << defaultModule;
@@ -107,7 +107,6 @@ void DictionaryManager::open(const QString &key, ModuleTools::ContentType conten
         ModuleTools::ContentType type = m_windowManager->contentType(f);
         myDebug() << type << " mine is " << contentType;
         if(ModuleTools::alsoOk(type,contentType) || type == ModuleTools::UnkownContent) {
-            f->historySetUrl(url);
             f->showEntry(key, -1);
             return;
         }
@@ -115,19 +114,16 @@ void DictionaryManager::open(const QString &key, ModuleTools::ContentType conten
     //else load default module for this content type
 
     if(defaultModuleID != -1) {
-        f->historySetUrl(url);
         f->showEntry(key, defaultModuleID);
         return;
     }
 
     if(contentModuleID != -1) {
-        f->historySetUrl(url);
         f->showEntry(key, contentModuleID);
         return;
     }
 
     if(justDictModuleID != -1) {
-        f->historySetUrl(url);
         f->showEntry(key, justDictModuleID);
         return;
     }
@@ -137,29 +133,27 @@ void DictionaryManager::open(const QString &key, ModuleTools::ContentType conten
 void DictionaryManager::pharseUrl(QString url, const Actions::OpenLinkModifiers mod)
 {
     myDebug() << url;
-    const QString backupUrl = url;
-    const QString dict = "dict:/";
     if(url.startsWith(ModuleTools::strongScheme)) {
         StrongUrl strong;
         strong.fromString(url);
         if(strong.prefix() == StrongUrl::G) {
-            open(strong.toKey(), ModuleTools::StrongsGreekContent, mod, backupUrl);
+            open(strong.toKey(), ModuleTools::StrongsGreekContent, mod);
         } else if(strong.prefix() == StrongUrl::H){
-            open(strong.toKey(), ModuleTools::StrongsHebrewContent, mod, backupUrl);
+            open(strong.toKey(), ModuleTools::StrongsHebrewContent, mod);
         }
     } else if(url.startsWith(ModuleTools::gramScheme)) {
         //gram://gramID
 
         url = url.remove(0, ModuleTools::gramScheme.size());
-        open(url, ModuleTools::GramContent, mod, backupUrl);
+        open(url, ModuleTools::GramContent, mod);
 
     } else if(url.startsWith(ModuleTools::rmacScheme)) {
         //rmac://rmacID
 
         url = url.remove(0, ModuleTools::rmacScheme.size());
-        open(url, ModuleTools::RMacContent, mod, backupUrl);
+        open(url, ModuleTools::RMacContent, mod);
 
-    } else if(url.startsWith(dict)) {
+    } else if(url.startsWith(ModuleTools::dictScheme)) {
         //dict:/module/key
         QMdiSubWindow *window = NULL;
         if(mod == Actions::OpenInNewWindow) {
@@ -168,7 +162,7 @@ void DictionaryManager::pharseUrl(QString url, const Actions::OpenLinkModifiers 
             window = m_windowManager->needDictionaryWindow();
         }
 
-        url = url.remove(0, dict.size());
+        url = url.remove(0, ModuleTools::dictScheme.size());
         const QStringList l = url.split("/");
 
         QString moduleID = "";
@@ -188,7 +182,6 @@ void DictionaryManager::pharseUrl(QString url, const Actions::OpenLinkModifiers 
             imoduleID = moduleID.toInt();
         }
         DictionaryForm *f = ((DictionaryForm*)m_windowManager->getForm(window));
-        f->historySetUrl(url);
         f->showEntry(key, imoduleID);
     }
 }

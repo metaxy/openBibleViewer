@@ -213,9 +213,7 @@ void DictionaryForm::activated()
 void DictionaryForm::showEntry()
 {
     const QString key = ui->lineEdit_input->text();
-    historySetUrl("dict:/"+QString::number(m_dictionary->moduleID())+"/"+key);
-
-    showEntry(key);
+    showEntry(key,-1);
 }
 void DictionaryForm::forwardShowEntry(const QString &key, int moduleID)
 {
@@ -229,6 +227,13 @@ void DictionaryForm::forwardShowEntry(const QString &key, int moduleID)
 void DictionaryForm::showEntry(const QString &key, int moduleID)
 {
     myDebug() << key;
+
+    if(moduleID == -1) {
+        historySetUrl(ModuleTools::dictScheme+QString::number(m_dictionary->moduleID())+"/"+key);
+    } else {
+        historySetUrl(ModuleTools::dictScheme+QString::number(moduleID)+"/"+key);
+    }
+
     ui->lineEdit_input->setText(key);
 
     if(moduleID != -1)
@@ -248,8 +253,7 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
         m_view->load(QUrl(url));
     }
     m_actions->setTitle(m_dictionary->moduleTitle());
-    //else
-    //show url
+
 }
 void DictionaryForm::loadDictionary(int moduleID)
 {
