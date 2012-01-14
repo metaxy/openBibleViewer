@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "windowmanager.h"
 #include <typeinfo>
 
+#include "src/ui/interface/advanced/subwindowfilter.h"
 
 WindowManager::WindowManager(QObject *parent) :
     QObject(parent)
@@ -73,7 +74,7 @@ QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, For
     setEnableReload(false);
 
     const int windowsCount = usableWindowList().size();
-    QMdiSubWindow *firstSubWindow = new QMdiSubWindow();
+    QMdiSubWindow *firstSubWindow = NULL;
     if(windowsCount == 1) {
         firstSubWindow = usableWindowList().at(0);
     }
@@ -106,6 +107,10 @@ QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, For
     QMdiSubWindow *subWindow = m_area->addSubWindow(widget);
     subWindow->setWindowIcon(QIcon(":/icons/16x16/main.png"));
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
+    SubWindowFilter *filter = new SubWindowFilter(subWindow);
+    connect(filter, SIGNAL(close()), this, SLOT(closingWindow()));
+
+    subWindow->installEventFilter(filter);
 
     if(forceMax) {
         subWindow->showMaximized();
@@ -113,8 +118,10 @@ QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, For
         if(windowsCount == 0  && doAutoLayout) {
             subWindow->showMaximized();
         } else if(windowsCount == 1 && doAutoLayout) {
-            firstSubWindow->resize(600, 600);
-            firstSubWindow->showNormal();
+            if(firstSubWindow != NULL) {
+                firstSubWindow->resize(600, 600);
+                firstSubWindow->showNormal();
+            }
             subWindow->resize(600, 600);
             subWindow->show();
         } else if(doAutoLayout) {
@@ -267,10 +274,13 @@ void WindowManager::activate(QMdiSubWindow *w)
 
 void WindowManager::autoLayout()
 {
+    DEBUG_FUNC_NAME
     if(!m_enableReload)
         return;
 
-    if(usableWindowList().size() > 1) {
+    QList<QMdiSubWindow*> list = usableWindowList();
+
+    if(list.size() > 1) {
         if(m_settings->autoLayout == 1) {
             tile();
         } else if(m_settings->autoLayout == 2) {
@@ -280,6 +290,9 @@ void WindowManager::autoLayout()
         } else if(m_settings->autoLayout == 4) {
             cascade();
         }
+    } else if(list.size() == 1) {
+        QMdiSubWindow * w = list.first();
+        w->showMaximized();
     }
 }
 
@@ -444,18 +457,26 @@ void WindowManager::closeSubWindow()
 
 int WindowManager::closingWindow()
 {
-    if(!m_enableReload)
-        return 1;
+    myDebug() << "signal recieved - close";
+
     if(m_area->subWindowList().isEmpty()) {
         myDebug() << "last window closed";
         m_actions->clearBooks();
         m_actions->clearChapters();
         return 1;
     }
+  /*  myDebug() << "reload window";
+    reloadWindow(m_area->currentSubWindow());*/
 
-    reloadWindow(m_area->currentSubWindow());
-    if(m_area->viewMode() == QMdiArea::SubWindowView)
-        autoLayout();
+    myDebug() << "auto";
+
+    bool backup = m_enableReload;
+    setEnableReload(true);
+    if(m_area->viewMode() == QMdiArea::SubWindowView) {
+        QTimer::singleShot(10, this, SLOT(autoLayout()));
+    }
+    setEnableReload(backup);
+
     return 0;
 }
 

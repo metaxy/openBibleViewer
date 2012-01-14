@@ -187,9 +187,9 @@ set( openBibleViewer_HDRS
     src/module/searchablemodule.h
     src/module/webpage.h
 
-	src/ui/interface/advanced/manager/webpagemanager.h
+    src/ui/interface/advanced/manager/webpagemanager.h
     src/ui/modelmodel.h
-	src/ui/qtwin.h
+    src/ui/qtwin.h
     )
 
 set( openBibleViewer_SRCS
@@ -308,6 +308,7 @@ set( openBibleViewer_SRCS
     src/ui/interface/advanced/versetablewidget.cpp
     src/ui/interface/advanced/versetableitemdelegate.cpp
     src/ui/interface/advanced/mdiareafilter.cpp
+    src/ui/interface/advanced/subwindowfilter.cpp
     src/ui/interface/advanced/form/bibleform.cpp
     src/ui/interface/advanced/form/form.cpp
     src/ui/interface/advanced/form/webform.cpp
@@ -455,6 +456,7 @@ set ( openBibleViewer_MOCS
     src/ui/interface/advanced/form/dictionaryform.h
 
     src/ui/interface/advanced/advancedinterface.h
+    src/ui/interface/advanced/subwindowfilter.h
     src/ui/webview.h
     src/ui/interface/advanced/versetablewidget.h
     src/ui/interface/advanced/versetableitemdelegate.h

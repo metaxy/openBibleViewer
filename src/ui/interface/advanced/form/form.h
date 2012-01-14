@@ -75,6 +75,9 @@ protected:
     BookmarksManager *m_bookmarksManager;
     QMdiSubWindow *m_parentSubWindow;
 
+
+
+
 };
 
 #endif // FORM_H

@@ -79,6 +79,7 @@ public slots:
     void setTitle(const QString &title);
 
     void newSubWindowIfEmpty();
+    void autoLayout();
 
     QMdiSubWindow* needBibleWindow();
     QMdiSubWindow* needDictionaryWindow();
@@ -104,8 +105,9 @@ private:
     QMdiArea *m_area;//not in our control
     Api *m_api;//not in out control
     MdiAreaFilter *m_mdiAreaFilter;
+
     bool m_enableReload;
-    void autoLayout();
+
 
     int m_lastActiveWindow;
     void setEnableReload(bool enable);

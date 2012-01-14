@@ -192,6 +192,7 @@ void SettingsDialog::generateModuleTree()
     DEBUG_FUNC_NAME;
     m_model->clear();
     m_model->generate();
+    m_proxyModel->setHeaderData(0, Qt::Horizontal, tr("Module"));
 }
 QModelIndex SettingsDialog::findItem(const int moduleID)
 {

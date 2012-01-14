@@ -54,7 +54,6 @@ void Form::setParentSubWindow(QMdiSubWindow *window)
 {
     m_parentSubWindow = window;
 }
-
 SearchableModule * Form::searchableModule() const
 {
     myWarning() << "calling Form::searchableModule";
