@@ -178,6 +178,7 @@ set( openBibleViewer_HDRS
     src/module/dictionary/webdictionary.h
     src/module/dictionary/biblequote-dict.h
     src/module/dictionary/dictionarymodule.h
+    src/module/dictionary/swordlexicon.h
     src/module/bible/biblemodule.h
     src/module/bible/thewordbible.h
     src/module/bible/swordbible.h
@@ -260,13 +261,15 @@ set( openBibleViewer_SRCS
     src/module/bible/bible.cpp
     src/module/bible/biblequote.cpp
     src/module/bible/zefania-bible.cpp
-    src/module/dictionary/zefania-lex.cpp
+
     src/module/modulemanager.cpp
     src/module/module.cpp
     src/module/versemodule.cpp
     src/module/simplemoduleclass.cpp
     src/module/versetable.cpp
     src/module/modulemap.cpp
+    src/module/dictionary/zefania-lex.cpp
+    src/module/dictionary/swordlexicon.cpp
     src/module/dictionary/dictionary.cpp
     src/module/dictionary/webdictionary.cpp
     src/module/dictionary/dictionarymodule.cpp
