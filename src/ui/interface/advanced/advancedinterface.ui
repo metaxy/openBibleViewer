@@ -25,6 +25,15 @@
    </property>
    <item>
     <widget class="QMdiArea" name="mdiArea">
+     <property name="background">
+      <brush brushstyle="NoBrush">
+       <color alpha="0">
+        <red>121</red>
+        <green>116</green>
+        <blue>114</blue>
+       </color>
+      </brush>
+     </property>
      <property name="activationOrder">
       <enum>QMdiArea::ActivationHistoryOrder</enum>
      </property>

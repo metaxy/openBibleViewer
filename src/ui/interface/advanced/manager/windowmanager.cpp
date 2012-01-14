@@ -107,6 +107,7 @@ QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, For
     QMdiSubWindow *subWindow = m_area->addSubWindow(widget);
     subWindow->setWindowIcon(QIcon(":/icons/16x16/main.png"));
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
+
     SubWindowFilter *filter = new SubWindowFilter(subWindow);
     connect(filter, SIGNAL(close()), this, SLOT(closingWindow()));
 
@@ -470,12 +471,9 @@ int WindowManager::closingWindow()
 
     myDebug() << "auto";
 
-    bool backup = m_enableReload;
-    setEnableReload(true);
     if(m_area->viewMode() == QMdiArea::SubWindowView) {
         QTimer::singleShot(10, this, SLOT(autoLayout()));
     }
-    setEnableReload(backup);
 
     return 0;
 }
