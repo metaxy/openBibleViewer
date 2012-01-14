@@ -127,8 +127,8 @@ int ModuleManager::loadAllModules()
     m_rootModule = new Module();
     m_rootModule->setSettings(m_settings);
     m_rootModule->setModuleID(-1);
-    m_rootModule->setModuleClass(OBVCore::FolderClass);
-    m_rootModule->setModuleType(OBVCore::NoneType);
+    m_rootModule->setModuleClass(ModuleTools::FolderClass);
+    m_rootModule->setModuleType(ModuleTools::NoneType);
 
     ModuleSettings *rootModuleSettings = m_settings->getModuleSettings(-1);//it the invisble root item
     if(rootModuleSettings != NULL) {
@@ -137,7 +137,6 @@ int ModuleManager::loadAllModules()
         }
         ModuleModel model(0);
         model.setSettings(m_settings);
-        model.setShowAll(true);
         model.generate();
         m_moduleModel = model.itemModel();
     } else {
@@ -173,20 +172,20 @@ void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
     //m_map deletes them
     m_moduleMap->data.insert(settings->moduleID, module);
 
-    if(settings->moduleType == OBVCore::BibleQuoteModule
-            || settings->moduleType == OBVCore::ZefaniaBibleModule
-            || settings->moduleType == OBVCore::TheWordBibleModule
-            || settings->moduleType == OBVCore::SwordBibleModule) {
+    if(settings->moduleType == ModuleTools::BibleQuoteModule
+            || settings->moduleType == ModuleTools::ZefaniaBibleModule
+            || settings->moduleType == ModuleTools::TheWordBibleModule
+            || settings->moduleType == ModuleTools::SwordBibleModule) {
 
-        module->setModuleClass(OBVCore::BibleModuleClass);
+        module->setModuleClass(ModuleTools::BibleModuleClass);
 
-    } else if(settings->moduleType == OBVCore::ZefaniaLexModule || settings->moduleType == OBVCore::BibleQuoteDictModule || settings->moduleType == OBVCore::WebDictionaryModule) {
+    } else if(settings->moduleType == ModuleTools::ZefaniaLexModule || settings->moduleType == ModuleTools::BibleQuoteDictModule || settings->moduleType == ModuleTools::WebDictionaryModule) {
 
-        module->setModuleClass(OBVCore::DictionaryModuleClass);
+        module->setModuleClass(ModuleTools::DictionaryModuleClass);
 
-    } else if(settings->moduleType == OBVCore::WebPageModule) {
+    } else if(settings->moduleType == ModuleTools::WebPageModule) {
 
-        module->setModuleClass(OBVCore::WebPageClass);
+        module->setModuleClass(ModuleTools::WebPageClass);
 
     }
 
@@ -277,7 +276,7 @@ QStringList ModuleManager::getBiblePaths()
     QMapIterator<int, Module *> i(m_moduleMap->data);
     while(i.hasNext()) {
         i.next();
-        if(i.value()->moduleClass() == OBVCore::BibleModuleClass)
+        if(i.value()->moduleClass() == ModuleTools::BibleModuleClass)
             paths.append(i.value()->path());
     }
     return paths;
@@ -288,7 +287,7 @@ QList<int> ModuleManager::getBibleIDs()
     QMapIterator<int, Module *> i(m_moduleMap->data);
     while(i.hasNext()) {
         i.next();
-        if(i.value()->moduleClass() == OBVCore::BibleModuleClass)
+        if(i.value()->moduleClass() == ModuleTools::BibleModuleClass)
             ids.append(i.value()->moduleID());
     }
     return ids;
@@ -296,7 +295,7 @@ QList<int> ModuleManager::getBibleIDs()
 void ModuleManager::checkCache(const int moduleID)
 {
     /*Module *m = m_moduleMap->m_map.value(moduleID);
-    if(m->moduleClass() == OBVCore::BibleModuleClass && !m_settings->m_moduleCache.keys().contains(m->path())) {
+    if(m->moduleClass() == ModuleTools::BibleModuleClass && !m_settings->m_moduleCache.keys().contains(m->path())) {
         Bible *b = new Bible();
         initVerseModule(b);
         b->setModuleType(m->moduleType());
@@ -321,28 +320,28 @@ VerseModule * ModuleManager::newVerseModule(const int moduleID)
         return NULL;
     }
     VerseModule *m = NULL;
-    if(getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
+    if(getModule(moduleID)->moduleClass() == ModuleTools::BibleModuleClass) {
         m = new Bible();
         initVerseModule(m);
     } else {
         myWarning() << "not a verse module " << getModule(moduleID)->moduleClass();
         return NULL;
     }
-    OBVCore::ModuleType type = getModule(moduleID)->moduleType();
+    ModuleTools::ModuleType type = getModule(moduleID)->moduleType();
     m->setModuleType(type);
     m->setModuleID(moduleID);
     return m;
 }
 
-OBVCore::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
+ModuleTools::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
 {
     //myDebug() << fileName;
     if(fileName.endsWith("bibleqt.ini", Qt::CaseInsensitive)) {
-        return OBVCore::BibleQuoteModule;
+        return ModuleTools::BibleQuoteModule;
     } else if(fileName.endsWith(".webdict.xml", Qt::CaseInsensitive)) {
-        return OBVCore::WebDictionaryModule;
+        return ModuleTools::WebDictionaryModule;
     } else if(fileName.endsWith(".webpage.xml", Qt::CaseInsensitive)) {
-        return OBVCore::WebPageModule;
+        return ModuleTools::WebPageModule;
     } else if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
         QFile data(fileName);
         if(data.open(QFile::ReadOnly)) {
@@ -354,67 +353,67 @@ OBVCore::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
             if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i cannot allow this
                     fileData.contains("x-cult", Qt::CaseInsensitive) ||
                     fileData.contains("x-mormon", Qt::CaseInsensitive))) {
-                return OBVCore::ZefaniaBibleModule;
+                return ModuleTools::ZefaniaBibleModule;
             } else if(fileData.contains("<dictionary", Qt::CaseInsensitive)) {
-                return OBVCore::ZefaniaLexModule;
+                return ModuleTools::ZefaniaLexModule;
             }
 
         } else {
             myWarning() << "could not open file " << fileName;
         }
     } else if(fileName.endsWith(".idx", Qt::CaseInsensitive)) {
-        return OBVCore::BibleQuoteDictModule;
+        return ModuleTools::BibleQuoteDictModule;
     } else if(fileName.endsWith(".nt", Qt::CaseInsensitive) || fileName.endsWith(".ot", Qt::CaseInsensitive) || fileName.endsWith(".ont", Qt::CaseInsensitive)) {
         myDebug() << "the word module";
-        return OBVCore::TheWordBibleModule;
+        return ModuleTools::TheWordBibleModule;
     }
-    return OBVCore::NoneType;
+    return ModuleTools::NoneType;
 }
 
-OBVCore::DefaultModule ModuleManager::toDefaultModule(const OBVCore::ContentType t)
+ModuleTools::DefaultModule ModuleManager::toDefaultModule(const ModuleTools::ContentType t)
 {
     switch (t) {
-        case OBVCore::BibleContent:
-        case OBVCore::BibleOTContent:
-        case OBVCore::BibleNTContent:
-            return OBVCore::DefaultBibleModule;
-        case OBVCore::StrongsContent:
-        case OBVCore::StrongsGreekContent:
-        case OBVCore::StrongsHebrewContent:
-            return OBVCore::DefaultStrongDictModule;
-        case OBVCore::RMacContent:
-            return OBVCore::DefaultRMACDictModule;
-        case OBVCore::WordDictionaryContent:
-            return OBVCore::DefaultDictModule;
-        case OBVCore::GramContent:
-            return OBVCore::DefaultGramDictModule;
+        case ModuleTools::BibleContent:
+        case ModuleTools::BibleOTContent:
+        case ModuleTools::BibleNTContent:
+            return ModuleTools::DefaultBibleModule;
+        case ModuleTools::StrongsContent:
+        case ModuleTools::StrongsGreekContent:
+        case ModuleTools::StrongsHebrewContent:
+            return ModuleTools::DefaultStrongDictModule;
+        case ModuleTools::RMacContent:
+            return ModuleTools::DefaultRMACDictModule;
+        case ModuleTools::WordDictionaryContent:
+            return ModuleTools::DefaultDictModule;
+        case ModuleTools::GramContent:
+            return ModuleTools::DefaultGramDictModule;
         default:
-            return OBVCore::NotADefaultModule;//todo: could this cause some bugs?
+            return ModuleTools::NotADefaultModule;//todo: could this cause some bugs?
     }
 }
 /**
  * The t2 is the content we want.
  */
-bool ModuleManager::alsoOk(const OBVCore::ContentType t1, const OBVCore::ContentType t2)
+bool ModuleManager::alsoOk(const ModuleTools::ContentType t1, const ModuleTools::ContentType t2)
 {
     if(t1 == t2)
         return true;
 
-    if(t2 == OBVCore::BibleOTContent) {
-        if(t1 == OBVCore::BibleContent)
+    if(t2 == ModuleTools::BibleOTContent) {
+        if(t1 == ModuleTools::BibleContent)
             return true;
     }
-    if(t2 == OBVCore::BibleNTContent) {
-        if(t1 == OBVCore::BibleContent)
+    if(t2 == ModuleTools::BibleNTContent) {
+        if(t1 == ModuleTools::BibleContent)
             return true;
     }
 
-    if(t2 == OBVCore::StrongsGreekContent) {
-        if(t1 == OBVCore::StrongsContent)
+    if(t2 == ModuleTools::StrongsGreekContent) {
+        if(t1 == ModuleTools::StrongsContent)
             return true;
     }
-    if(t2 == OBVCore::StrongsHebrewContent) {
-        if(t1 == OBVCore::StrongsContent)
+    if(t2 == ModuleTools::StrongsHebrewContent) {
+        if(t1 == ModuleTools::StrongsContent)
             return true;
     }
     return false;

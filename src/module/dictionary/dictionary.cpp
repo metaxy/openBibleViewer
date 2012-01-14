@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 Dictionary::Dictionary()
 {
-    m_moduleType = OBVCore::NoneType;
+    m_moduleType = ModuleTools::NoneType;
     m_moduleID = -1;
 }
 Dictionary::~Dictionary()

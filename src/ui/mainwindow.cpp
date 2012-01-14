@@ -25,7 +25,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/notes/xmlnotes.h"
 #include "src/core/notes/textnotes.h"
 #include "src/core/dbghelper.h"
-#include "src/core/obvcore.h"
+#include "src/module/moduletools.h"
 #include "src/core/verse/versification/versification_kjv.h"
 #include "config.h"
 
@@ -295,7 +295,7 @@ void MainWindow::loadSettings()
         m->moduleShortName = m_settingsFile->value("shortName").toString();
 
         m->modulePath = m_settings->recoverUrl(m_settingsFile->value("path").toString());
-        m->moduleType = (OBVCore::ModuleType) m_settingsFile->value("type").toInt();
+        m->moduleType = (ModuleTools::ModuleType) m_settingsFile->value("type").toInt();
 
         m->encoding = m_settingsFile->value("encoding").toString();
 
@@ -304,8 +304,8 @@ void MainWindow::loadSettings()
         m->zefbible_softCache = m_settingsFile->value("softCache", true).toBool();
 
         m->biblequote_removeHtml = m_settingsFile->value("removeHtml", true).toInt();
-        m->defaultModule = (OBVCore::DefaultModule) m_settingsFile->value("defaultModule", OBVCore::NotADefaultModule).toInt();
-        m->contentType = (OBVCore::ContentType) m_settingsFile->value("contentType", OBVCore::UnkownContent).toInt();
+        m->defaultModule = (ModuleTools::DefaultModule) m_settingsFile->value("defaultModule", ModuleTools::NotADefaultModule).toInt();
+        m->contentType = (ModuleTools::ContentType) m_settingsFile->value("contentType", ModuleTools::UnkownContent).toInt();
 
         m->styleSheet = m_settings->recoverUrl(m_settingsFile->value("styleSheet", ":/data/css/default.css").toString());
 

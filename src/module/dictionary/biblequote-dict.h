@@ -42,6 +42,8 @@ public:
 private:
     QString indexPath() const;
 
+    QStringList m_entryList;
+
 };
 
 #endif // BIBLEQUOTEDICT_H

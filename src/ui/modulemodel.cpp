@@ -17,14 +17,16 @@ ModuleModel::ModuleModel(QObject *parent)
 {
     m_moduleModel = new QStandardItemModel(parent);
     m_settings = NULL;
-    m_showAll = false;
     //m_moduleModel->setHeaderData(0, Qt::Horizontal, QObject::tr("Module"));
     QStyle *style = QApplication::style();
+
     m_folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
     m_folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
 
-    m_bibleQuoteIcon = QIcon::fromTheme("text-x-generic", QIcon(":/icons/16x16/text-x-generic.png"));
-    m_bibleZefaniaIcon = QIcon::fromTheme("text-xml", QIcon(":/icons/16x16/text-xml.png"));
+    m_bibleIcon = QIcon::fromTheme("page-2sides", QIcon(":/icons/16x16/page-2sides.png"));
+    m_dictionayIcon = QIcon::fromTheme("text-x-texinfo", QIcon(":/icons/16x16/text-x-texinfo.png"));
+    m_bookIcon = QIcon::fromTheme("text-x-generic", QIcon(":/icons/16x16/text-x-generic.png"));
+    //m_webIcon = QIcon::fromTheme("text-xml", QIcon(":/icons/16x16/text-html.png"));
 }
 ModuleModel::~ModuleModel()
 {
@@ -33,6 +35,17 @@ void ModuleModel::clear()
 {
     if(m_moduleModel != NULL)
         m_moduleModel->clear();
+    m_catFilter.clear();
+}
+void ModuleModel::addCategoryFilter(const ModuleTools::ModuleCategory cat)
+{
+    m_catFilter.clear();
+    m_catFilter.append(cat);
+}
+
+void ModuleModel::addCategoryFilter(const QList<ModuleTools::ModuleCategory> cats)
+{
+    m_catFilter = cats;
 }
 
 void ModuleModel::setSettings(Settings *settings)
@@ -59,46 +72,30 @@ QStandardItemModel* ModuleModel::itemModel() const
 void ModuleModel::createModuleItem(QStandardItem *parentItem, ModuleSettings *settings)
 {
     QStandardItem *item = NULL;
-
-    if(settings->moduleType == OBVCore::BibleQuoteModule || settings->moduleType == OBVCore::ZefaniaBibleModule || settings->moduleType == OBVCore::TheWordBibleModule || settings->moduleType == OBVCore::SwordBibleModule) {
+    bool show = true;
+    ModuleTools::ModuleCategory cat = ModuleTools::getCategory(settings->moduleType);
+    if(!m_catFilter.isEmpty()) {
+        show = false;
+        if(m_catFilter.contains(cat)) {
+            show = true;
+        }
+    }
+    if(show == true) {
         item = new QStandardItem;
         item->setText(settings->name(false));
         item->setData(QString::number(settings->moduleID));
-        item->setToolTip(Module::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
+        item->setToolTip(ModuleTools::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
 
-        if(settings->moduleType == OBVCore::BibleQuoteModule || settings->moduleType == OBVCore::TheWordBibleModule || settings->moduleType == OBVCore::SwordBibleModule) {
-            item->setIcon(m_bibleQuoteIcon);
-        } else if(settings->moduleType == OBVCore::ZefaniaBibleModule) {
-            item->setIcon(m_bibleZefaniaIcon);
+        if(cat == ModuleTools::BibleCategory) {
+            item->setIcon(m_bibleIcon);
+        } else if(cat == ModuleTools::DictionaryCategory) {
+            item->setIcon(m_dictionayIcon);
+        } else if(cat == ModuleTools::BookCategory) {
+            item->setIcon(m_bookIcon);
+        } else if(cat == ModuleTools::FolderCategory) {
+            item->setIcon(m_folderIcon);
         }
-        parentItem->appendRow(item);
-    } else if(settings->moduleType == OBVCore::ZefaniaLexModule || settings->moduleType == OBVCore::BibleQuoteDictModule) {
-        if(m_showAll) {
-            item = new QStandardItem;
-            item->setText(settings->name(false));
-            item->setData(QString::number(settings->moduleID));
-            item->setIcon(m_bibleZefaniaIcon);
-            item->setToolTip(Module::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
-            parentItem->appendRow(item);
-        }
-    } else if(settings->moduleType == OBVCore::WebPageModule || settings->moduleType == OBVCore::WebDictionaryModule) {
-        if(m_showAll) {
-            item = new QStandardItem;
-            item->setText(settings->name(false));
-            item->setData(QString::number(settings->moduleID));
-            item->setToolTip(Module::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
-            parentItem->appendRow(item);
-        }
-    } else if(settings->moduleType == OBVCore::FolderModule) {
-        item = new QStandardItem;
-        item->setText(settings->name(false));
-        item->setData(QString::number(settings->moduleID));
-        item->setIcon(m_folderIcon);
-        parentItem->appendRow(item);
-    } else {
-        item = new QStandardItem;
-        item->setText(settings->name(false));
-        parentItem->appendRow(item);
+       parentItem->appendRow(item);
     }
 
     //recursive
@@ -107,7 +104,4 @@ void ModuleModel::createModuleItem(QStandardItem *parentItem, ModuleSettings *se
     }
 
 }
-void ModuleModel::setShowAll(bool showAll)
-{
-    m_showAll = showAll;
-}
+

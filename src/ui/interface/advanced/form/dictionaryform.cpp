@@ -62,7 +62,7 @@ void DictionaryForm::init()
 void DictionaryForm::get(const QUrl &url)
 {
     DEBUG_FUNC_NAME
-    if(m_dictionary->moduleType() == OBVCore::WebDictionaryModule) {
+    if(m_dictionary->moduleType() == ModuleTools::WebDictionaryModule) {
         WebDictionary *d = (WebDictionary*)(m_dictionary->module());
         m_actions->get(d->pharseUrl(url));
     } else {
@@ -72,7 +72,7 @@ void DictionaryForm::get(const QUrl &url)
 void DictionaryForm::newGet(const QUrl &url)
 {
     DEBUG_FUNC_NAME
-    if(m_dictionary->moduleType() == OBVCore::WebDictionaryModule) {
+    if(m_dictionary->moduleType() == ModuleTools::WebDictionaryModule) {
         WebDictionary *d = (WebDictionary*)(m_dictionary->module());
         m_actions->get(d->pharseUrl(url), Actions::OpenInNewWindow);
     } else {
@@ -238,11 +238,11 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
 
     if(key.isEmpty()) {
         showHtml(m_dictionary->moduleTitle());
-    } else if(m_dictionary->moduleType() == OBVCore::ZefaniaLexModule || m_dictionary->moduleType() == OBVCore::BibleQuoteDictModule) {
+    } else if(m_dictionary->moduleType() == ModuleTools::ZefaniaLexModule || m_dictionary->moduleType() == ModuleTools::BibleQuoteDictModule) {
         m_key = key;
         const QString html = m_dictionary->getEntry(key);
         showHtml(html);
-    } else if(m_dictionary->moduleType() == OBVCore::WebDictionaryModule) {
+    } else if(m_dictionary->moduleType() == ModuleTools::WebDictionaryModule) {
         m_key = key;
         const QString url = m_dictionary->getEntry(key);
         m_view->load(QUrl(url));
@@ -257,7 +257,7 @@ void DictionaryForm::loadDictionary(int moduleID)
     if(moduleID >= 0) {
         myDebug() << "moduleID = " << moduleID;
         Module *m = m_moduleManager->getModule(moduleID);
-        OBVCore::ModuleType type = m->moduleType();
+        ModuleTools::ModuleType type = m->moduleType();
         m_dictionary->setModuleType(type);
         int ret = m_dictionary->loadModuleData(moduleID);
         if(ret == 1) {
@@ -300,7 +300,7 @@ int DictionaryForm::newDictionary(const int module)
             QMapIterator<int, Module *> i(m_moduleManager->m_moduleMap->data);
             while(i.hasNext()) {
                 i.next();
-                if(i.value()->moduleClass() == OBVCore::DictionaryModuleClass) {
+                if(i.value()->moduleClass() == ModuleTools::DictionaryModuleClass) {
                     moduleID = i.key();
                     if(i.value()->path() == lastUrl) {
                         break;

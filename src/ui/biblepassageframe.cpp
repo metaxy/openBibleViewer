@@ -33,7 +33,9 @@ void BiblePassageFrame::init()
 {
     ModuleModel m(this);
     m.setSettings(m_settings);
+    m.addCategoryFilter(ModuleTools::BibleCategory);
     m.generate();
+
     m_model = m.itemModel();
     m_proxyModel = new RecursivProxyModel(this);
     m_proxyModel->setSourceModel(m_model);

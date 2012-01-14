@@ -178,7 +178,7 @@ QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
     return newSubWindow(true, false, type);
 }
 
-QMdiSubWindow* WindowManager::needWindow(Form::FormType type, OBVCore::ContentType cType)
+QMdiSubWindow* WindowManager::needWindow(Form::FormType type, ModuleTools::ContentType cType)
 {
     if(usableWindowList().isEmpty()) {
         return newSubWindow(true, false, type);
@@ -188,8 +188,8 @@ QMdiSubWindow* WindowManager::needWindow(Form::FormType type, OBVCore::ContentTy
             foreach(QMdiSubWindow * w, usableWindowList()) {
                 Form *f = getForm(w);
                 if(f->type() == type) {
-                    OBVCore::ContentType mContentType = contentType(f);
-                    if(ModuleManager::alsoOk(mContentType, cType) || mContentType == OBVCore::UnkownContent) {
+                    ModuleTools::ContentType mContentType = contentType(f);
+                    if(ModuleTools::alsoOk(mContentType, cType) || mContentType == ModuleTools::UnkownContent) {
                         w->activateWindow();
                         m_area->setActiveSubWindow(w);
                         window = w;
@@ -218,7 +218,7 @@ QMdiSubWindow* WindowManager::needDictionaryWindow()
 {
     return needWindow(Form::DictionaryForm);
 }
-QMdiSubWindow* WindowManager::needDictionaryWindow(OBVCore::ContentType contentType)
+QMdiSubWindow* WindowManager::needDictionaryWindow(ModuleTools::ContentType contentType)
 {
     return needWindow(Form::DictionaryForm, contentType);
 }
@@ -228,7 +228,7 @@ QMdiSubWindow* WindowManager::needWebWindow()
     return needWindow(Form::WebForm);
 }
 
-QMdiSubWindow* WindowManager::hasDictWindow(OBVCore::DefaultModule d)
+QMdiSubWindow* WindowManager::hasDictWindow(ModuleTools::DefaultModule d)
 {
     foreach(QMdiSubWindow * w, usableWindowList()) {
         Form *f = getForm(w);
@@ -604,20 +604,20 @@ void WindowManager::installResizeFilter()
     m_area->installEventFilter(m_mdiAreaFilter);
 }
 
-OBVCore::ContentType WindowManager::contentType(QMdiSubWindow* window)
+ModuleTools::ContentType WindowManager::contentType(QMdiSubWindow* window)
 {
     if(window == NULL)
-        return OBVCore::UnkownContent;
+        return ModuleTools::UnkownContent;
 
     Form *f = getForm(window);
 
     if(f == NULL)
-        return OBVCore::UnkownContent;
+        return ModuleTools::UnkownContent;
 
     return contentType(f);
 }
 
-OBVCore::ContentType WindowManager::contentType(Form *form)
+ModuleTools::ContentType WindowManager::contentType(Form *form)
 {
     if(form->type() == Form::DictionaryForm) {
         DictionaryForm *f = (DictionaryForm*) form;
@@ -626,30 +626,30 @@ OBVCore::ContentType WindowManager::contentType(Form *form)
         BibleForm *f = (BibleForm*) form;
         return contentType(f);
     }
-    return OBVCore::UnkownContent;
+    return ModuleTools::UnkownContent;
 }
 
-OBVCore::ContentType WindowManager::contentType(DictionaryForm *form)
+ModuleTools::ContentType WindowManager::contentType(DictionaryForm *form)
 {
     if(form->dictionary()) {
         ModuleSettings *s = m_settings->getModuleSettings(form->dictionary()->moduleID());
         if(s != NULL)
             return s->contentType;
     }
-    return OBVCore::UnkownContent;
+    return ModuleTools::UnkownContent;
 }
 
-OBVCore::ContentType WindowManager::contentType(WebForm *form)
+ModuleTools::ContentType WindowManager::contentType(WebForm *form)
 {
-	return OBVCore::UnkownContent;
+	return ModuleTools::UnkownContent;
 }
 
-OBVCore::ContentType WindowManager::contentType(BibleForm *form)
+ModuleTools::ContentType WindowManager::contentType(BibleForm *form)
 {
     if(form) {
         ModuleSettings *s = m_settings->getModuleSettings(form->verseModule()->moduleID());
         if(s != NULL)
             return s->contentType;
     }
-    return OBVCore::UnkownContent;
+    return ModuleTools::UnkownContent;
 }

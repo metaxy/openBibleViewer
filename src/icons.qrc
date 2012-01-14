@@ -100,6 +100,9 @@
         <file>icons/22x22/document-save.png</file>
         <file>icons/16x16/view-form-table.png</file>
         <file>icons/22x22/document-new.png</file>
-		<file>icons/lineedit.png</file>
+        <file>icons/lineedit.png</file>
+        <file>icons/16x16/text-x-texinfo.png</file>
+        <file>icons/16x16/text-html.png</file>
+        <file>icons/16x16/page-2sides.png</file>
     </qresource>
 </RCC>

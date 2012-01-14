@@ -2,7 +2,7 @@
 #define SWORDLEXICON_H
 #include "src/module/searchablemodule.h"
 #include "src/module/dictionary/dictionarymodule.h"
-
+#include "src/module/metainfo.h"
 class SwordLexicon : public SearchableModule, public DictionaryModule
 {
 public:

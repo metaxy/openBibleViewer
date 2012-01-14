@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/settings.h"
 #include "src/module/modulemap.h"
 #include "src/module/module.h"
-#include "src/core/obvcore.h"
+#include "src/module/moduletools.h"
 #include <QtCore/QSharedPointer>
 /**
  * It is an abstract class for classes like Bible or Dictionary, which are meta modules.
@@ -32,8 +32,8 @@ public:
     virtual ~SimpleModuleClass();
     virtual void setSettings(Settings *settings);
     virtual void setNotes(Notes *n);
-    void setModuleType(const OBVCore::ModuleType &type);
-    OBVCore::ModuleType moduleType() const;
+    void setModuleType(const ModuleTools::ModuleType &type);
+    ModuleTools::ModuleType moduleType() const;
 
     void setModuleMap(QSharedPointer<ModuleMap> map);
     int moduleID() const;
@@ -49,7 +49,7 @@ protected:
     QSharedPointer<ModuleMap> m_map;
 
     int m_moduleID;
-    OBVCore::ModuleType m_moduleType;
+    ModuleTools::ModuleType m_moduleType;
 private:
 
 };

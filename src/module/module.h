@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/settings.h"
 #include "src/module/dictionary/dictionarymodule.h"
 #include "src/module/bible/biblemodule.h"
-#include "src/core/obvcore.h"
+#include "src/module/moduletools.h"
 /**
  * Module is represents a module. Every avaible module has an instance of this class.
  * But m_bibleModule, m_dictionaryModule can be NULL. They are loaded only if needed.
@@ -33,26 +33,26 @@ public:
     QString path() const;
     int moduleID() const;
     QString moduleUID() const;
-    OBVCore::ModuleClass moduleClass() const;
-    OBVCore::ModuleType moduleType() const;
+    ModuleTools::ModuleClass moduleClass() const;
+    ModuleTools::ModuleType moduleType() const;
 
     void setPath(const QString &path);
     void setModuleID(const int moduleID);
-    void setModuleClass(const OBVCore::ModuleClass &c);
-    void setModuleType(const OBVCore::ModuleType &t);
+    void setModuleClass(const ModuleTools::ModuleClass &c);
+    void setModuleType(const ModuleTools::ModuleType &t);
 
     QWeakPointer<BibleModule> m_bibleModule;
     QWeakPointer<DictionaryModule> m_dictionaryModule;
 
-    QSharedPointer<BibleModule> newBibleModule(const OBVCore::ModuleType type);
-    QSharedPointer<DictionaryModule> newDictionaryModule(const OBVCore::ModuleType type);
+    QSharedPointer<BibleModule> newBibleModule(const ModuleTools::ModuleType type);
+    QSharedPointer<DictionaryModule> newDictionaryModule(const ModuleTools::ModuleType type);
 
     void setSettings(Settings *settings);
 
 
     Module *parent() const;
-    static QStringList moduleTypeNames();
-    static QString moduleTypeName(OBVCore::ModuleType type);
+
+    static QString moduleTypeName(ModuleTools::ModuleType type);
 private:
     Module* m_parent;
     QList<Module *> m_children;
@@ -60,8 +60,8 @@ private:
 
     QString m_path;
     int m_id;
-    OBVCore::ModuleClass m_moduleClass;
-    OBVCore::ModuleType m_moduleType;
+    ModuleTools::ModuleClass m_moduleClass;
+    ModuleTools::ModuleType m_moduleType;
     void append(Module *child);
 };
 

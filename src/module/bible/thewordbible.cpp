@@ -137,7 +137,7 @@ Book TheWordBible::loadCached(const int bookID)
         QRegExp strong("<W(G|H)(\\d+)(x|s)?>");
         QRegExp newLine("<CL>");
         if(displaySettings->showStrong())
-            line.replace(strong, "<span class=\"stronglink\"><a href=\""+OBVCore::strongScheme+"\\1\\2\">\\1\\2</a></span>");
+            line.replace(strong, "<span class=\"stronglink\"><a href=\""+ModuleTools::strongScheme+"\\1\\2\">\\1\\2</a></span>");
         else
             line.replace(strong, "");
 
@@ -224,13 +224,13 @@ MetaInfo TheWordBible::readInfo(QFile &file)
 
     }
     if(file.fileName().endsWith(".ot")) {
-        info.setContent(OBVCore::BibleOTContent);
+        info.setContent(ModuleTools::BibleOTContent);
     } else if(file.fileName().endsWith(".nt")) {
-        info.setContent(OBVCore::BibleNTContent);
+        info.setContent(ModuleTools::BibleNTContent);
     } else {
-        info.setContent(OBVCore::BibleContent);
+        info.setContent(ModuleTools::BibleContent);
     }
-    info.setDefaultModule(OBVCore::DefaultBibleModule);
+    info.setDefaultModule(ModuleTools::DefaultBibleModule);
     /*
             if(line.startsWith("title")) {
                 const QStringList list = line.split("=");

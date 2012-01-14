@@ -92,7 +92,7 @@ void QuickJumpDockWidget::goToPos()
         QMapIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
         while(i.hasNext()) {
             i.next();
-            if(i.value()->defaultModule == OBVCore::DefaultBibleModule)
+            if(i.value()->defaultModule == ModuleTools::DefaultBibleModule)
                 defaultModuleID = i.key();
 
         }
@@ -100,7 +100,7 @@ void QuickJumpDockWidget::goToPos()
             QMapIterator<int, Module*> i2(m_moduleManager->m_moduleMap->data);
             while(i2.hasNext()) {
                 i2.next();
-                if(i2.value()->moduleClass() == OBVCore::BibleModuleClass)
+                if(i2.value()->moduleClass() == ModuleTools::BibleModuleClass)
                     defaultModuleID = i2.key();
             }
         }

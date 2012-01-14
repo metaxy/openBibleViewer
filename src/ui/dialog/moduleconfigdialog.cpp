@@ -31,7 +31,7 @@ ModuleConfigDialog::ModuleConfigDialog(QWidget *parent) :
     connect(m_ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this, SLOT(moduleTypeChanged(int)));
     connect(m_ui->checkBox_useParentSettings, SIGNAL(stateChanged(int)), this, SLOT(useParentsSettingsChanged(int)));
 
-    m_ui->comboBox_type->insertItems(0, Module::moduleTypeNames());
+    m_ui->comboBox_type->insertItems(0, ModuleTools::moduleTypeNames());
 
     QStringList defaultModules;
 
@@ -132,7 +132,7 @@ void ModuleConfigDialog::setModule(ModuleSettings *config)
 void ModuleConfigDialog::bsave()
 {
     //remove hard cache of zefania Bible Modules
-    if(m_moduleSettings->moduleType == OBVCore::ZefaniaBibleModule &&
+    if(m_moduleSettings->moduleType == ModuleTools::ZefaniaBibleModule &&
             (m_moduleSettings->encoding != m_encodings.at(m_ui->comboBox_encoding->currentIndex()) ||
              (int)m_moduleSettings->moduleType != m_ui->comboBox_type->currentIndex() ||
              m_moduleSettings->modulePath != m_ui->lineEdit_path->text())) {
@@ -146,7 +146,7 @@ void ModuleConfigDialog::bsave()
     m_moduleSettings->moduleName = m_ui->lineEdit_name->text();
     m_moduleSettings->modulePath = m_ui->lineEdit_path->text();
     m_moduleSettings->moduleShortName = m_ui->lineEdit_shortName->text();
-    m_moduleSettings->moduleType = (OBVCore::ModuleType) m_ui->comboBox_type->currentIndex();
+    m_moduleSettings->moduleType = (ModuleTools::ModuleType) m_ui->comboBox_type->currentIndex();
     m_moduleSettings->zefbible_textFormatting = (ModuleSettings::ZefBible_TextFormating) m_ui->comboBox_textFromatting->currentIndex();
     m_moduleSettings->biblequote_removeHtml = m_ui->checkBox_removeHtml->isChecked();
     m_moduleSettings->zefbible_hardCache = m_ui->checkBox_hardCache->isChecked();
@@ -154,8 +154,8 @@ void ModuleConfigDialog::bsave()
     m_moduleSettings->encoding = m_encodings.at(m_ui->comboBox_encoding->currentIndex());
     m_moduleSettings->styleSheet = m_ui->lineEdit_styleSheet->text();
 
-    m_moduleSettings->defaultModule = (OBVCore::DefaultModule) m_ui->comboBox_defaultModule->currentIndex();
-    m_moduleSettings->contentType = (OBVCore::ContentType) m_ui->comboBox_contentType->currentIndex();
+    m_moduleSettings->defaultModule = (ModuleTools::DefaultModule) m_ui->comboBox_defaultModule->currentIndex();
+    m_moduleSettings->contentType = (ModuleTools::ContentType) m_ui->comboBox_contentType->currentIndex();
 
     m_moduleSettings->useParentSettings = m_ui->checkBox_useParentSettings->isChecked();
     if(!m_moduleSettings->useParentSettings) {
@@ -179,10 +179,10 @@ void ModuleConfigDialog::moduleTypeChanged(int id)
     m_ui->groupBox_zefBible->setVisible(false);
     id = m_ui->comboBox_type->currentIndex();
     switch(id) {
-    case OBVCore::BibleQuoteModule:
+    case ModuleTools::BibleQuoteModule:
         m_ui->groupBox_bq->setVisible(true);
         break;
-    case OBVCore::ZefaniaBibleModule:
+    case ModuleTools::ZefaniaBibleModule:
         m_ui->groupBox_zefBible->setVisible(true);
         break;
 

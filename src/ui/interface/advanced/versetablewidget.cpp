@@ -59,7 +59,7 @@ void VerseTableWidget::init()
         i.next();
         if(!m_moduleManager->contains(i.value()->moduleID))
             continue;
-        if(m_moduleManager->getModule(i.value()->moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
+        if(m_moduleManager->getModule(i.value()->moduleID)->moduleClass() == ModuleTools::BibleModuleClass) {
             ids.append(i.value()->moduleID);
         }
     }

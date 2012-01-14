@@ -15,8 +15,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 MetaInfo::MetaInfo() : m_name(), m_shortName()
 {
-    m_defaultModule = OBVCore::NotADefaultModule;
-    m_content = OBVCore::UnkownContent;
+    m_defaultModule = ModuleTools::NotADefaultModule;
+    m_content = ModuleTools::UnkownContent;
     m_name = "";
     m_shortName = "";
     m_uid = "";
@@ -34,7 +34,7 @@ QString MetaInfo::uid() const
 {
     return m_uid;
 }
-OBVCore::DefaultModule MetaInfo::defaultModule() const
+ModuleTools::DefaultModule MetaInfo::defaultModule() const
 {
     return m_defaultModule;
 }
@@ -53,15 +53,15 @@ void MetaInfo::setUID(const QString &uid)
     m_uid = uid;
 }
 
-void MetaInfo::setDefaultModule(const OBVCore::DefaultModule d)
+void MetaInfo::setDefaultModule(const ModuleTools::DefaultModule d)
 {
     m_defaultModule = d;
 }
-void MetaInfo::setContent(const OBVCore::ContentType t)
+void MetaInfo::setContent(const ModuleTools::ContentType t)
 {
     m_content = t;
 }
-OBVCore::ContentType MetaInfo::content() const
+ModuleTools::ContentType MetaInfo::content() const
 {
     return m_content;
 }

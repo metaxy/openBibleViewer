@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "strongurl.h"
 #include <QtCore/QStringList>
-#include "src/core/obvcore.h"
+#include "src/module/moduletools.h"
 StrongUrl::StrongUrl()
 {
 }
@@ -70,9 +70,9 @@ bool StrongUrl::fromString(QString strong)
     //strong:/H10
     //strong:/H10,20
     m_numbers.clear();
-    if(!strong.startsWith(OBVCore::strongScheme))
+    if(!strong.startsWith(ModuleTools::strongScheme))
         return false;
-    strong.remove(0, OBVCore::strongScheme.size());
+    strong.remove(0, ModuleTools::strongScheme.size());
     strong.trimmed();
     if(strong.at(0).toLower() == 'g') {
         m_prefix = StrongUrl::G;
@@ -101,7 +101,7 @@ bool StrongUrl::fromString(QString strong)
 QString StrongUrl::toString()
 {
     QString ret;
-    ret = OBVCore::strongScheme;
+    ret = ModuleTools::strongScheme;
     if(m_prefix == StrongUrl::G) {
         ret += "G";
     } else {

@@ -57,7 +57,7 @@ int Bible::loadModuleData(const int moduleID)
     }
 
     m_moduleType = m_module->moduleType();
-    if(moduleType() == OBVCore::NoneType || m_module->moduleClass() != OBVCore::BibleModuleClass) {
+    if(moduleType() == ModuleTools::NoneType || m_module->moduleClass() != ModuleTools::BibleModuleClass) {
         myDebug() << "invalid type " << moduleType();
         return 2;
     }
@@ -233,7 +233,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         endVerse = startVerse;
 
     //todo: ugly
-    if(moduleType() == OBVCore::BibleQuoteModule)  {
+    if(moduleType() == ModuleTools::BibleQuoteModule)  {
         endVerse++;
         if(startVerse != 0)
             startVerse++;
@@ -273,7 +273,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             }
         }
 
-        if(moduleType() == OBVCore::TheWordBibleModule || moduleType() == OBVCore::ZefaniaBibleModule || moduleType() == OBVCore::SwordBibleModule) {
+        if(moduleType() == ModuleTools::TheWordBibleModule || moduleType() == ModuleTools::ZefaniaBibleModule || moduleType() == ModuleTools::SwordBibleModule) {
             QString prepend;
             QString append;
             prepend = "<span class=\"verseNumber\">" + QString::number(it.value().verseID() + 1) + "</span> ";
@@ -285,11 +285,11 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 
             it.value().prepend(prepend);
             it.value().append(append);
-        } else if(moduleType() == OBVCore::BibleQuoteModule) {
+        } else if(moduleType() == ModuleTools::BibleQuoteModule) {
         }
         //todo: ugly
         int add = 0;
-        if(moduleType() == OBVCore::BibleQuoteModule)
+        if(moduleType() == ModuleTools::BibleQuoteModule)
             add = 1;
         if(range.selectedVerse().contains(it.key() - add)) {
             if(!currentVerse) {
@@ -387,7 +387,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     // now add id
     //it have to be done as last
     QMapIterator<int, Verse> i(verseMap);
-    if(moduleType() == OBVCore::BibleQuoteModule) {
+    if(moduleType() == ModuleTools::BibleQuoteModule) {
         const QString pre = "<span verseID='";
 
         const QString pre2 = "' chapterID='" + QString::number(chapterID) +
@@ -407,7 +407,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             //myDebug() << verse.data();
         }
 
-    } else if(moduleType() == OBVCore::ZefaniaBibleModule || moduleType() == OBVCore::TheWordBibleModule || moduleType() == OBVCore::SwordBibleModule) {
+    } else if(moduleType() == ModuleTools::ZefaniaBibleModule || moduleType() == ModuleTools::TheWordBibleModule || moduleType() == ModuleTools::SwordBibleModule) {
         const QString pre = "<span verseID='";
         const QString pre2 =  "' chapterID='" + QString::number(chapterID) +
                               "' bookID='" + QString::number(bookID) +
@@ -455,7 +455,7 @@ void Bible::search(SearchQuery query, SearchResult *result)
  */
 QStringList Bible::getSearchPaths() const
 {
-    if(moduleType() == OBVCore::BibleQuoteModule) {
+    if(moduleType() == ModuleTools::BibleQuoteModule) {
         const QStringList bookPath = ((BibleQuote *)m_bibleModule.data())->booksPath();
         const QString modulePath = m_bibleModule->modulePath();
 

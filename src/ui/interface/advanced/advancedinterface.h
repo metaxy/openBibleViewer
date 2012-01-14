@@ -30,7 +30,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/api/api.h"
 
-#include "src/core/obvcore.h"
+#include "src/module/moduletools.h"
 #include "src/core/dbghelper.h"
 
 #include "src/ui/interface/interface.h"

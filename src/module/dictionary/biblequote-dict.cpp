@@ -202,6 +202,9 @@ QString BibleQuoteDict::getEntry(const QString &key)
 QStringList BibleQuoteDict::getAllKeys()
 {
     DEBUG_FUNC_NAME
+    if(!m_entryList.isEmpty()) {
+        return m_entryList;
+    }
     if(!hasIndex())
         buildIndex();
     const QString index = indexPath();
@@ -216,6 +219,7 @@ QStringList BibleQuoteDict::getAllKeys()
         ret.append(QString::fromUtf16((const ushort*)doc.get(_T("key"))));
 #endif
     }
+    m_entryList = ret;
     return ret;
 }
 

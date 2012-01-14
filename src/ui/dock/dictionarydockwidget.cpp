@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "dictionarydockwidget.h"
 #include "ui_dictionarydockwidget.h"
 #include "src/core/dbghelper.h"
-#include "src/core/obvcore.h"
+#include "src/module/moduletools.h"
 #include <QtGui/QCompleter>
 DictionaryDockWidget::DictionaryDockWidget(QWidget *parent) :
     DockWidget(parent),
@@ -47,7 +47,7 @@ void DictionaryDockWidget::init()
     while(i.hasNext()) {
         i.next();
         Module *m = i.value();
-        if(m->moduleClass() == OBVCore::DictionaryModuleClass) {
+        if(m->moduleClass() == ModuleTools::DictionaryModuleClass) {
             dictModuleTitle << m_settings->getModuleSettings(m->moduleID())->name(true);
             dictModuleID << m->moduleID();
         }
@@ -101,7 +101,7 @@ void DictionaryDockWidget::loadModule(int id)
         ui->comboBox_strongModule->setCurrentIndex(id);//select item in combobox
         const int moduleID = dictModuleID.at(id);//convert id to module id
         Module *m = m_moduleManager->getModule(moduleID);
-        OBVCore::ModuleType type = m->moduleType();
+        ModuleTools::ModuleType type = m->moduleType();
         m_dictionary->setModuleType(type);
         m_dictionary->loadModuleData(moduleID);
 

@@ -37,7 +37,7 @@ void SimpleModuleClass::setModuleMap(QSharedPointer<ModuleMap> map)
     m_map = map;
 }
 
-void SimpleModuleClass::setModuleType(const OBVCore::ModuleType &type)
+void SimpleModuleClass::setModuleType(const ModuleTools::ModuleType &type)
 {
     m_moduleType = type;
 }
@@ -67,7 +67,7 @@ QString SimpleModuleClass::moduleUID() const
     return m_settings->getModuleSettings(m_moduleID)->moduleUID;
 }
 
-OBVCore::ModuleType SimpleModuleClass::moduleType() const
+ModuleTools::ModuleType SimpleModuleClass::moduleType() const
 {
     return m_moduleType;
 }

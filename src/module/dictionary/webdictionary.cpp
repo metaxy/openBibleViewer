@@ -109,17 +109,17 @@ MetaInfo WebDictionary::readInfo(const QString &name)
     ret.setShortName(m_shortName);
 
     if(m_type == "strong-dictionary") {
-        ret.setDefaultModule(OBVCore::DefaultStrongDictModule);
-        ret.setContent(OBVCore::StrongsContent);
+        ret.setDefaultModule(ModuleTools::DefaultStrongDictModule);
+        ret.setContent(ModuleTools::StrongsContent);
     } else if(m_type == "rmac-dictionary") {
-        ret.setDefaultModule(OBVCore::DefaultRMACDictModule);
-        ret.setContent(OBVCore::RMacContent);
+        ret.setDefaultModule(ModuleTools::DefaultRMACDictModule);
+        ret.setContent(ModuleTools::RMacContent);
     } else if(m_type == "gram-dictionary") {
-        ret.setDefaultModule(OBVCore::DefaultGramDictModule);
-        ret.setContent(OBVCore::GramContent);
+        ret.setDefaultModule(ModuleTools::DefaultGramDictModule);
+        ret.setContent(ModuleTools::GramContent);
     } else if(m_type == "dictionary") {
-        ret.setDefaultModule(OBVCore::DefaultDictModule);
-        ret.setContent(OBVCore::DictionaryContent);
+        ret.setDefaultModule(ModuleTools::DefaultDictModule);
+        ret.setContent(ModuleTools::DictionaryContent);
     }
     return ret;
 }

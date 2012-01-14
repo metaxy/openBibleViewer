@@ -33,15 +33,19 @@ public:
 
     QStandardItemModel* itemModel() const;
     void setShowAll(bool showAll);
+
+    void addCategoryFilter(const ModuleTools::ModuleCategory cat);
+    void addCategoryFilter(const QList<ModuleTools::ModuleCategory> cats);
 private:
     QStandardItemModel *m_moduleModel;
     Settings *m_settings;
     void createModuleItem(QStandardItem *parentItem, ModuleSettings *settings);
 
-    QIcon m_bibleQuoteIcon;
+    QIcon m_bibleIcon;
+    QIcon m_dictionayIcon;
     QIcon m_folderIcon;
-    QIcon m_bibleZefaniaIcon;
-    bool m_showAll;
+    QIcon m_bookIcon;
+    QList<ModuleTools::ModuleCategory> m_catFilter;
 };
 
 #endif // MODULEMODEL_H

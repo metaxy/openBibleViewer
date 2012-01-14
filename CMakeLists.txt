@@ -164,6 +164,7 @@ set( openBibleViewer_HDRS
     src/core/xbelreader.h
     src/core/xbelwriter.h
 
+    src/module/moduletools.h
     src/module/bible/biblequote.h
     src/module/bible/zefania-bible.h
     src/module/bible/bible.h
@@ -263,6 +264,7 @@ set( openBibleViewer_SRCS
     src/module/bible/zefania-bible.cpp
 
     src/module/modulemanager.cpp
+    src/module/moduletools.cpp
     src/module/module.cpp
     src/module/versemodule.cpp
     src/module/simplemoduleclass.cpp

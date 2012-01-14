@@ -138,13 +138,13 @@ void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers 
 
     if(url.startsWith(bible)) {
         m_bibleManager->pharseUrl(url, mod);
-    } else if(url.startsWith(OBVCore::strongScheme)) {
+    } else if(url.startsWith(ModuleTools::strongScheme)) {
         m_dictionaryManager->pharseUrl(url, mod);
-    } else if(url.startsWith(OBVCore::rmacScheme)) {
+    } else if(url.startsWith(ModuleTools::rmacScheme)) {
         m_dictionaryManager->pharseUrl(url, mod);
     } else if(url.startsWith(dict)) {
         m_dictionaryManager->pharseUrl(url, mod);
-    } else if(url.startsWith(OBVCore::rmacScheme)) {
+    } else if(url.startsWith(ModuleTools::rmacScheme)) {
         m_dictionaryManager->pharseUrl(url, mod);
     } else if(url.startsWith(webPage)) {
         m_webPageManager->pharseUrl(url);
@@ -158,7 +158,7 @@ void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers 
         url = url.remove(0, anchor.size());
         bool ok;
         int c = url.toInt(&ok, 10);
-        if(ok /*&& c < m_moduleManager->bible()->chaptersCount() && m_moduleManager->bible()->bibleType() == OBVCore::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c*/) {
+        if(ok /*&& c < m_moduleManager->bible()->chaptersCount() && m_moduleManager->bible()->bibleType() == ModuleTools::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c*/) {
             VerseUrlRange r;
             r.setModule(VerseUrlRange::LoadCurrentModule);
             r.setBook(VerseUrlRange::LoadCurrentBook);
@@ -179,7 +179,7 @@ void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers 
         //todo: unterstand links like about:blank#a04
         if(m_windowManager->activeForm() && m_windowManager->activeForm()->type() == Form::BibleForm) {
             BibleForm *f = (BibleForm*)(m_windowManager->activeForm());
-            if(f->verseModule()->moduleType() == OBVCore::BibleQuoteModule) {
+            if(f->verseModule()->moduleType() == ModuleTools::BibleQuoteModule) {
                 bool isInBookPath = false;
                 int b = 0;
                 const QStringList books = ((BibleQuote*)(((Bible*)f->verseModule())->bibleModule()))->booksPath();
@@ -668,7 +668,7 @@ void AdvancedInterface::quick()
         QMapIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
         while(i.hasNext()) {
             i.next();
-            if(i.value()->defaultModule == OBVCore::DefaultBibleModule) {
+            if(i.value()->defaultModule == ModuleTools::DefaultBibleModule) {
                 defaultModuleID = i.key();
                 break;
             }
@@ -679,7 +679,7 @@ void AdvancedInterface::quick()
             QMapIterator<int, Module*> i2(m_moduleManager->m_moduleMap->data);
             while(i2.hasNext() && defaultModuleID == -1) {
                 i2.next();
-                if(i2.value()->moduleClass() == OBVCore::BibleModuleClass) {
+                if(i2.value()->moduleClass() == ModuleTools::BibleModuleClass) {
                     defaultModuleID = i2.key();
                     break;
                 }

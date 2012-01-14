@@ -91,7 +91,6 @@ int SettingsDialog::setSettings(Settings settings)
 
     m_model = new ModuleModel(this);
     m_model->setSettings(&m_set);
-    m_model->setShowAll(true);
 
 
     m_proxyModel = new RecursivProxyModel(this);
@@ -222,7 +221,7 @@ void SettingsDialog::addVirtualFolder()
     ModuleSettings *m = new ModuleSettings();
     m->moduleID = m_set.newModuleID();
     m->moduleName = tr("New Folder");
-    m->moduleType = OBVCore::FolderModule;
+    m->moduleType = ModuleTools::FolderModule;
 
     m->encoding = "Default";
     m->parentID = -1;
@@ -281,7 +280,7 @@ void SettingsDialog::addModuleDir(void)
                         dictname = "(" + QString::number(i) + ")";
                     }
                     m->moduleName = dictname;
-                    m->moduleType = OBVCore::FolderModule;
+                    m->moduleType = ModuleTools::FolderModule;
                 } else {
                     QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("It is not a folder."));
                     delete dialog;
@@ -304,7 +303,7 @@ void SettingsDialog::addModuleDir(void)
 
                 const QStringList scanned = scan(f);
                 foreach(const QString & file, scanned) {
-                    if(ModuleManager::recognizeModuleType(file) != OBVCore::NoneType) {//that is faster than check in quitAddModule
+                    if(ModuleTools::recognizeModuleType(file) != ModuleTools::NoneType) {//that is faster than check in quitAddModule
                         quiteAddModule(file, m->moduleID);
                     }
                 }
@@ -511,47 +510,47 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
 
         return 0;
     }
-    OBVCore::ModuleType moduleType = OBVCore::NoneType;
+    ModuleTools::ModuleType moduleType = ModuleTools::NoneType;
 
     ModuleSettings *m = new ModuleSettings();
     m->moduleID = m_set.newModuleID();
 
     if(fileInfo.isFile()) {
-        moduleType = ModuleManager::recognizeModuleType(f);
-        if(moduleType == OBVCore::NoneType) {
+        moduleType = ModuleTools::recognizeModuleType(f);
+        if(moduleType == ModuleTools::NoneType) {
             //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot determine the module type."));
             myWarning() << "cannot determine module type of " << f;
             return 4;
         }
         MetaInfo info;
-        if(moduleType == OBVCore::BibleQuoteModule) {
+        if(moduleType == ModuleTools::BibleQuoteModule) {
             BibleQuote bq;
             bq.setSettings(&m_set);
             info = bq.readInfo(f);
-        } else if(moduleType == OBVCore::ZefaniaBibleModule) {
+        } else if(moduleType == ModuleTools::ZefaniaBibleModule) {
             ZefaniaBible zef;
             zef.setSettings(&m_set);
             info = zef.readInfo(f);
-        } else if(moduleType == OBVCore::ZefaniaLexModule) {
+        } else if(moduleType == ModuleTools::ZefaniaLexModule) {
             ZefaniaLex zefLex;
             zefLex.setSettings(&m_set);
             zefLex.setID(0, f);
             info = zefLex.buildIndexFromFile(f);
-        } else if(moduleType == OBVCore::BibleQuoteDictModule) {
+        } else if(moduleType == ModuleTools::BibleQuoteDictModule) {
             BibleQuoteDict bibleQuoteDict;
             bibleQuoteDict.setSettings(&m_set);
             bibleQuoteDict.setID(0, f);
             info = bibleQuoteDict.readInfo(f);
             //bibleQuoteDict.buildIndex();
-        } else if(moduleType == OBVCore::TheWordBibleModule) {
+        } else if(moduleType == ModuleTools::TheWordBibleModule) {
             TheWordBible theWordBible;
             theWordBible.setSettings(&m_set);
             info = theWordBible.readInfo(f);
-        } else if(moduleType == OBVCore::WebPageModule) {
+        } else if(moduleType == ModuleTools::WebPageModule) {
             WebPage webPage;
             webPage.setSettings(&m_set);
             info = webPage.readInfo(f);
-        } else if(moduleType == OBVCore::WebDictionaryModule) {
+        } else if(moduleType == ModuleTools::WebDictionaryModule) {
             WebDictionary webDict;
             webDict.setSettings(&m_set);
             info = webDict.readInfo(f);
@@ -616,7 +615,7 @@ void SettingsDialog::importSwordModules()
             m->moduleID = m_set.newModuleID();
             m->moduleName = desc;
             m->modulePath = name;
-            m->moduleType = OBVCore::SwordBibleModule;
+            m->moduleType = ModuleTools::SwordBibleModule;
 
             m->biblequote_removeHtml = m_set.removeHtml;
             m->zefbible_hardCache = m_set.zefaniaBible_hardCache;

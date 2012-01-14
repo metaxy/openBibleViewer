@@ -298,8 +298,8 @@ MetaInfo ZefaniaBible::readInfo(QFile &file)
     if(m_xml->readNextStartElement()) {
         if(cmp(m_xml->name(), "XMLBIBLE")) {
             if(m_xml->attributes().value("type") == "x-bible") {
-                ret.setContent(OBVCore::BibleContent);
-                ret.setDefaultModule(OBVCore::DefaultBibleModule);
+                ret.setContent(ModuleTools::BibleContent);
+                ret.setDefaultModule(ModuleTools::DefaultBibleModule);
             }
             while(m_xml->readNextStartElement()) {
                 if(cmp(m_xml->name(), "INFORMATION")) {
@@ -735,7 +735,7 @@ QString ZefaniaBible::pharseGram()
         ret +=  "<span class=\"stronglink\"><a  href=\""+url.toString()+"\">" + add+strong + "</a></span>";
     }
     if(!rmac.isEmpty() && m_set->displaySettings()->showRMac()) {
-        ret +=  "<span class=\"rmaclink\"><a href=\""+OBVCore::rmacScheme + rmac + "\">" + rmac + "</a></span>";
+        ret +=  "<span class=\"rmaclink\"><a href=\""+ModuleTools::rmacScheme + rmac + "\">" + rmac + "</a></span>";
     }
     return ret;
 }

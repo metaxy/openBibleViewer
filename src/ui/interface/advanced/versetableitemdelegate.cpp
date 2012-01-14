@@ -29,7 +29,7 @@ void VerseTableItemDelegate::init()
         i.next();
         if(!m_moduleManager->contains(i.value()->moduleID))
             continue;
-        if(m_moduleManager->getModule(i.value()->moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
+        if(m_moduleManager->getModule(i.value()->moduleID)->moduleClass() == ModuleTools::BibleModuleClass) {
             m_names.append(i.value()->name(true));
             m_id.append(i.value()->moduleID);
         }

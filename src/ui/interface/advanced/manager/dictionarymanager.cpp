@@ -44,9 +44,9 @@ DictionaryDockWidget* DictionaryManager::dictionaryDockWidget()
     return m_dictionaryDock;
 }
 
-void DictionaryManager::open(const QString &key, OBVCore::ContentType contentType, const Actions::OpenLinkModifiers mod, const QString &url)
+void DictionaryManager::open(const QString &key, ModuleTools::ContentType contentType, const Actions::OpenLinkModifiers mod, const QString &url)
 {
-    OBVCore::DefaultModule defaultModule = ModuleManager::toDefaultModule(contentType);
+    ModuleTools::DefaultModule defaultModule = ModuleTools::toDefaultModule(contentType);
     myDebug() << "content = " << contentType << " so the defaultModule is" << defaultModule;
     //get default module id for this
     int defaultModuleID = -1;
@@ -57,14 +57,14 @@ void DictionaryManager::open(const QString &key, OBVCore::ContentType contentTyp
         i.next();
         if(i.value()->defaultModule == defaultModule)
             defaultModuleID = i.key();
-        if(ModuleManager::alsoOk(i.value()->contentType, contentType)) {
+        if(ModuleTools::alsoOk(i.value()->contentType, contentType)) {
             contentModuleID = i.key();
         }
     }
     QMapIterator<int, Module*> i2(m_moduleManager->m_moduleMap->data);
     while(i2.hasNext()) {
         i2.next();
-        if(i2.value()->moduleClass() == OBVCore::DictionaryModuleClass)
+        if(i2.value()->moduleClass() == ModuleTools::DictionaryModuleClass)
             justDictModuleID = i2.key();
     }
 
@@ -81,9 +81,9 @@ void DictionaryManager::open(const QString &key, OBVCore::ContentType contentTyp
     } else {
         if(w) {
            f = (DictionaryForm*) m_windowManager->getForm(w);
-           OBVCore::ContentType type = m_windowManager->contentType(f);
+           ModuleTools::ContentType type = m_windowManager->contentType(f);
 
-           if(ModuleManager::alsoOk(type,contentType) || type == OBVCore::UnkownContent) {
+           if(ModuleTools::alsoOk(type,contentType) || type == ModuleTools::UnkownContent) {
                 //we can use this form
                 m_windowManager->activate(w);
            } else {
@@ -104,9 +104,9 @@ void DictionaryManager::open(const QString &key, OBVCore::ContentType contentTyp
     //we could reuse thios module
     if(f->dictionary()) {
         myDebug() << "has already a dictionary";
-        OBVCore::ContentType type = m_windowManager->contentType(f);
+        ModuleTools::ContentType type = m_windowManager->contentType(f);
         myDebug() << type << " mine is " << contentType;
-        if(ModuleManager::alsoOk(type,contentType) || type == OBVCore::UnkownContent) {
+        if(ModuleTools::alsoOk(type,contentType) || type == ModuleTools::UnkownContent) {
             f->historySetUrl(url);
             f->showEntry(key, -1);
             return;
@@ -139,25 +139,25 @@ void DictionaryManager::pharseUrl(QString url, const Actions::OpenLinkModifiers 
     myDebug() << url;
     const QString backupUrl = url;
     const QString dict = "dict:/";
-    if(url.startsWith(OBVCore::strongScheme)) {
+    if(url.startsWith(ModuleTools::strongScheme)) {
         StrongUrl strong;
         strong.fromString(url);
         if(strong.prefix() == StrongUrl::G) {
-            open(strong.toKey(), OBVCore::StrongsGreekContent, mod, backupUrl);
+            open(strong.toKey(), ModuleTools::StrongsGreekContent, mod, backupUrl);
         } else if(strong.prefix() == StrongUrl::H){
-            open(strong.toKey(), OBVCore::StrongsHebrewContent, mod, backupUrl);
+            open(strong.toKey(), ModuleTools::StrongsHebrewContent, mod, backupUrl);
         }
-    } else if(url.startsWith(OBVCore::gramScheme)) {
+    } else if(url.startsWith(ModuleTools::gramScheme)) {
         //gram://gramID
 
-        url = url.remove(0, OBVCore::gramScheme.size());
-        open(url, OBVCore::GramContent, mod, backupUrl);
+        url = url.remove(0, ModuleTools::gramScheme.size());
+        open(url, ModuleTools::GramContent, mod, backupUrl);
 
-    } else if(url.startsWith(OBVCore::rmacScheme)) {
+    } else if(url.startsWith(ModuleTools::rmacScheme)) {
         //rmac://rmacID
 
-        url = url.remove(0, OBVCore::rmacScheme.size());
-        open(url, OBVCore::RMacContent, mod, backupUrl);
+        url = url.remove(0, ModuleTools::rmacScheme.size());
+        open(url, ModuleTools::RMacContent, mod, backupUrl);
 
     } else if(url.startsWith(dict)) {
         //dict:/module/key

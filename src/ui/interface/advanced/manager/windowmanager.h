@@ -82,21 +82,21 @@ public slots:
 
     QMdiSubWindow* needBibleWindow();
     QMdiSubWindow* needDictionaryWindow();
-    QMdiSubWindow* needDictionaryWindow(OBVCore::ContentType contentType);
+    QMdiSubWindow* needDictionaryWindow(ModuleTools::ContentType contentType);
     QMdiSubWindow* needWebWindow();
     QMdiSubWindow* needWindow(Form::FormType type = Form::BibleForm);
-    QMdiSubWindow* needWindow(Form::FormType type, OBVCore::ContentType contentType);
+    QMdiSubWindow* needWindow(Form::FormType type, ModuleTools::ContentType contentType);
 
-    QMdiSubWindow* hasDictWindow(OBVCore::DefaultModule d);
+    QMdiSubWindow* hasDictWindow(ModuleTools::DefaultModule d);
     QMdiSubWindow* hasDictWindow(const int moduleID);
 
     void activate(QMdiSubWindow *w);
 
-    OBVCore::ContentType contentType(QMdiSubWindow* window);
-    OBVCore::ContentType contentType(Form *form);
-    OBVCore::ContentType contentType(DictionaryForm *form);
-    OBVCore::ContentType contentType(WebForm *form);
-    OBVCore::ContentType contentType(BibleForm *form);
+    ModuleTools::ContentType contentType(QMdiSubWindow* window);
+    ModuleTools::ContentType contentType(Form *form);
+    ModuleTools::ContentType contentType(DictionaryForm *form);
+    ModuleTools::ContentType contentType(WebForm *form);
+    ModuleTools::ContentType contentType(BibleForm *form);
 
 
 private:

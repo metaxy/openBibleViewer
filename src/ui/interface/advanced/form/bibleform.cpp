@@ -107,7 +107,7 @@ int BibleForm::newModule()
     QMapIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
     while(i.hasNext()) {
         i.next();
-        if(i.value()->defaultModule == OBVCore::DefaultBibleModule) {
+        if(i.value()->defaultModule == ModuleTools::DefaultBibleModule) {
             defaultModuleID = i.key();
             break;
         }
@@ -118,7 +118,7 @@ int BibleForm::newModule()
         QMapIterator<int, Module*> i2(m_moduleManager->m_moduleMap->data);
         while(i2.hasNext() && defaultModuleID == -1) {
             i2.next();
-            if(i2.value()->moduleClass() == OBVCore::BibleModuleClass) {
+            if(i2.value()->moduleClass() == ModuleTools::BibleModuleClass) {
                 defaultModuleID = i2.key();
                 break;
             }
@@ -216,14 +216,14 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url)
 
         const QPoint p = m_verseTable->m_points.value(m_verseTable->currentVerseTableID());
         VerseModule *m;
-        if(m_moduleManager->getModule(moduleID)->moduleClass() == OBVCore::BibleModuleClass) {
+        if(m_moduleManager->getModule(moduleID)->moduleClass() == ModuleTools::BibleModuleClass) {
             m = new Bible();
             m_moduleManager->initVerseModule(m);
         } else {
             myWarning() << "trying to load an non bible module";
             return;
         }
-        OBVCore::ModuleType type = m_moduleManager->getModule(moduleID)->moduleType();
+        ModuleTools::ModuleType type = m_moduleManager->getModule(moduleID)->moduleType();
         m->setModuleType(type);
         m->setModuleID(moduleID);
         m_verseTable->addModule(m, p);
@@ -654,7 +654,7 @@ void BibleForm::showText(const QString &text)
         //because the user zoomed in.
     }
 
-    if(m_verseTable->verseModule()->moduleType() == OBVCore::BibleQuoteModule) {
+    if(m_verseTable->verseModule()->moduleType() == ModuleTools::BibleQuoteModule) {
         QWebElementCollection collection = frame->documentElement().findAll("img");
         const QStringList searchPaths = ((Bible*) m_verseTable->verseModule())->getSearchPaths();
 
@@ -1223,7 +1223,7 @@ VerseSelection BibleForm::verseSelection()
     }
     myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
     //do not this stuff with BibleQuote because some modules have wired html stuff.
-    if(s.canBeUsedForMarks() == false && m_verseTable->verseModule()->moduleType() != OBVCore::BibleQuoteModule) {
+    if(s.canBeUsedForMarks() == false && m_verseTable->verseModule()->moduleType() != ModuleTools::BibleQuoteModule) {
         //now the ultimative alogrithm
         f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection();adVerseSelection.getSelection();");
         const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();

@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef METAINFO_H
 #define METAINFO_H
 #include <QtCore/QString>
-#include "src/core/obvcore.h"
+#include "src/module/moduletools.h"
 class MetaInfo
 {
 public:
@@ -22,14 +22,14 @@ public:
     QString name() const;
     QString shortName() const;
     QString uid() const;
-    OBVCore::DefaultModule defaultModule() const;
-    OBVCore::ContentType content() const;
+    ModuleTools::DefaultModule defaultModule() const;
+    ModuleTools::ContentType content() const;
 
     void setName(const QString &name);
     void setShortName(const QString &shortName);
     void setUID(const QString &uid);
-    void setDefaultModule(const OBVCore::DefaultModule d);
-    void setContent(const OBVCore::ContentType t);
+    void setDefaultModule(const ModuleTools::DefaultModule d);
+    void setContent(const ModuleTools::ContentType t);
 
     QString publisher;
     QString contributors;
@@ -49,8 +49,8 @@ private:
     QString m_name;
     QString m_shortName;
     QString m_uid;
-    OBVCore::DefaultModule m_defaultModule;
-    OBVCore::ContentType m_content;
+    ModuleTools::DefaultModule m_defaultModule;
+    ModuleTools::ContentType m_content;
 };
 
 #endif // METAINFO_H

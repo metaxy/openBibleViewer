@@ -53,6 +53,7 @@ public:
 private:
     QString indexPath() const;
     MetaInfo buildIndexFromXmlDoc(KoXmlDocument *xmldoc);
+    QStringList m_entryList;
 };
 
 #endif // ZefaniaLex_H

@@ -114,6 +114,9 @@ QString ZefaniaLex::getEntry(const QString &key)
 
 QStringList ZefaniaLex::getAllKeys()
 {
+    if(!m_entryList.isEmpty()) {
+        return m_entryList;
+    }
     try {
         if(!hasIndex()) {
             if(buildIndex() != 0) {
@@ -132,6 +135,7 @@ QStringList ZefaniaLex::getAllKeys()
             ret.append(QString::fromUtf16((const ushort*)doc.get(_T("key"))));
     #endif
         }
+        m_entryList = ret;
         return ret;
     }
     catch(...)
@@ -306,14 +310,14 @@ MetaInfo ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
     info.setName(fileTitle);
     info.setUID(uid);
     if(type == "x-strong") {
-        info.setDefaultModule(OBVCore::DefaultStrongDictModule);
-        info.setContent(OBVCore::StrongsContent);
+        info.setDefaultModule(ModuleTools::DefaultStrongDictModule);
+        info.setContent(ModuleTools::StrongsContent);
     } else if(type == "x-dictionary") {
         if(couldBe == 1) {
-            info.setDefaultModule(OBVCore::DefaultRMACDictModule);
-            info.setContent(OBVCore::RMacContent);
+            info.setDefaultModule(ModuleTools::DefaultRMACDictModule);
+            info.setContent(ModuleTools::RMacContent);
         } else {
-            info.setDefaultModule(OBVCore::DefaultDictModule);
+            info.setDefaultModule(ModuleTools::DefaultDictModule);
         }
     }
     return info;

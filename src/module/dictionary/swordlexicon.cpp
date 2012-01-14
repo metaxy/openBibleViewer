@@ -116,7 +116,7 @@ QStringList SwordLexicon::getAllKeys()
         }
     }
 
-    return m_entryList;*/op
+    return m_entryList;*/
 }
 
 void SwordLexicon::search(SearchQuery query, SearchResult *result)

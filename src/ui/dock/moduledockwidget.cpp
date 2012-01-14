@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "moduledockwidget.h"
 #include "ui_moduledockwidget.h"
 #include "src/core/dbghelper.h"
-#include "src/core/obvcore.h"
+#include "src/module/moduletools.h"
 #include "src/core/link/verseurl.h"
 #include "src/ui/dialog/moduleconfigdialog.h"
 #include <QtCore/QModelIndexList>
@@ -50,7 +50,6 @@ void ModuleDockWidget::init()
     m_moduleID = -1;
 
     ModuleModel model(this);
-    model.setShowAll(true);
     model.setSettings(m_settings);
     model.generate();
 
@@ -83,13 +82,13 @@ void ModuleDockWidget::loadModuleData(QModelIndex index, Actions::OpenLinkModifi
     if(m_dontLoad == false && moduleID >= 0) {
 
         Module *m = m_moduleManager->getModule(moduleID);
-        //const OBVCore::ModuleType type = m->moduleType();
-        const OBVCore::ModuleClass cl = m->moduleClass();
-        if(cl == OBVCore::DictionaryModuleClass) {
+        //const ModuleTools::ModuleType type = m->moduleType();
+        const ModuleTools::ModuleClass cl = m->moduleClass();
+        if(cl == ModuleTools::DictionaryModuleClass) {
             m_actions->get("dict:/" + QString::number(moduleID), mod);
-        } else if(cl == OBVCore::WebPageClass) {
+        } else if(cl == ModuleTools::WebPageClass) {
             m_actions->get("webpage:/" + QString::number(moduleID), mod);
-        } else if(cl == OBVCore::BibleModuleClass) {
+        } else if(cl == ModuleTools::BibleModuleClass) {
             myDebug() << "bible";
             m_moduleID = moduleID;
             VerseUrl url;
