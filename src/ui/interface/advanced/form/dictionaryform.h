@@ -16,6 +16,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QWidget>
 #include "src/ui/webview.h"
+#include "src/core/history.h"
+
 namespace Ui
 {
 class DictionaryForm;
@@ -49,6 +51,10 @@ public slots:
 
     void showEntry();
     void showEntry(const QString &key, int moduleID = -1);
+
+    void historySetUrl(const QString &url);
+    void backward();
+    void forward();
 private slots:
     void forwardShowHtml(const QString &html);
     void forwardShowEntry(const QString &key, int moduleID);
@@ -58,13 +64,18 @@ private slots:
 private:
     Ui::DictionaryForm *ui;
     void loadDictionary(int moduleID);
-    void testDictionary(int moduleID = -1);
+    void testDictionary(const int module = -1);
+
+    int newDictionary(const int module = -1);
     Dictionary *m_dictionary;
     void showHtml(const QString &html);
 
     QString m_key;
 
     WebView *m_view;
+    History m_browserHistory;
+    void setButtons();
+
 };
 
 #endif // DICTIONARYFORM_H

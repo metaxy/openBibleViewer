@@ -30,6 +30,8 @@ DictionaryForm::DictionaryForm(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->toolButton_enter, SIGNAL(clicked()), this, SLOT(showEntry()));
     connect(ui->lineEdit_input, SIGNAL(returnPressed()), this, SLOT(showEntry()));
+    connect(ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
+    connect(ui->toolButton_back, SIGNAL(clicked()), this, SLOT(backward()));
 
     m_dictionary = NULL;
 
@@ -38,6 +40,7 @@ DictionaryForm::DictionaryForm(QWidget *parent) :
     m_view->setUrl(QUrl("about:blank"));
     ui->verticalLayout->addWidget(m_view);
     m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+    setButtons();
 
 }
 
@@ -209,7 +212,10 @@ void DictionaryForm::activated()
 }
 void DictionaryForm::showEntry()
 {
-    showEntry(ui->lineEdit_input->text());
+    const QString key = ui->lineEdit_input->text();
+    historySetUrl("dict:/"+QString::number(m_dictionary->moduleID())+"/"+key);
+
+    showEntry(key);
 }
 void DictionaryForm::forwardShowEntry(const QString &key, int moduleID)
 {
@@ -224,6 +230,7 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
 {
     myDebug() << key;
     ui->lineEdit_input->setText(key);
+
     if(moduleID != -1)
         testDictionary(moduleID);
 
@@ -272,12 +279,18 @@ void DictionaryForm::loadDictionary(int moduleID)
         m_actions->setTitle(m_dictionary->moduleTitle());
     }
 }
-void DictionaryForm::testDictionary(int module)
+void DictionaryForm::testDictionary(const int module)
 {
     if(m_dictionary == NULL) {
         m_dictionary = new Dictionary();
         m_moduleManager->initSimpleModule(m_dictionary);
     }
+    int newModuleID = newDictionary(module);
+    if(newModuleID != -1)
+        loadDictionary(newModuleID);
+}
+int DictionaryForm::newDictionary(const int module)
+{
     if(!m_moduleManager->metaModuleLoaded(m_dictionary)) {
         if(module == -1) {
             const QString last = m_settings->session.getData("lastDictModuleInWindow").toString();
@@ -297,16 +310,48 @@ void DictionaryForm::testDictionary(int module)
 
             if(moduleID == -1) {
                 myDebug() << "no Dictionaries found";
-                return;
+                return -1;
             }
-            loadDictionary(moduleID);
+            return moduleID;
         } else {
-            loadDictionary(module);
+            return module;
         }
     } else if(m_dictionary->moduleID() != module && module != -1) {
-        loadDictionary(module);
+        return module;
+    }
+    return -1;
+}
+
+void DictionaryForm::historySetUrl(const QString &url)
+{
+    myDebug() << url;
+    m_browserHistory.setCurrent(url);
+    setButtons();
+}
+void DictionaryForm::backward()
+{
+    m_actions->get(m_browserHistory.backward());
+    setButtons();
+}
+void DictionaryForm::forward()
+{
+    m_actions->get(m_browserHistory.forward());
+    setButtons();
+}
+void DictionaryForm::setButtons()
+{
+    if(m_browserHistory.backwardAvailable()) {
+        ui->toolButton_back->setDisabled(false);
+    } else {
+        ui->toolButton_back->setDisabled(true);
+    }
+    if(m_browserHistory.forwardAvailable()) {
+        ui->toolButton_forward->setDisabled(false);
+    } else {
+        ui->toolButton_forward->setDisabled(true);
     }
 }
+
 void DictionaryForm::forwardShowHtml(const QString &html)
 {
     if(!active())
