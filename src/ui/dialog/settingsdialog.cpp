@@ -627,6 +627,23 @@ void SettingsDialog::importSwordModules()
 
             m_set.getModuleSettings(m->parentID)->appendChild(m);
             m_set.m_moduleSettings.insert(m->moduleID, m);
+        } else if(type == "Lexicons / Dictionaries") {
+            ModuleSettings *m = new ModuleSettings();
+            m->moduleID = m_set.newModuleID();
+            m->moduleName = desc;
+            m->modulePath = name;
+            m->moduleType = ModuleTools::SwordLexiconModule;
+
+            m->biblequote_removeHtml = m_set.removeHtml;
+            m->zefbible_hardCache = m_set.zefaniaBible_hardCache;
+            m->zefbible_softCache = m_set.zefaniaBible_softCache;
+
+            m->encoding = "Default";
+            m->parentID = -1;
+
+            m_set.getModuleSettings(m->parentID)->appendChild(m);
+            m_set.m_moduleSettings.insert(m->moduleID, m);
+
         }
     }
     generateModuleTree();

@@ -116,7 +116,7 @@ QSharedPointer<DictionaryModule> Module::newDictionaryModule(const ModuleTools::
         ret = QSharedPointer<DictionaryModule>(new BibleQuoteDict());
     } else if(type == ModuleTools::WebDictionaryModule) {
         ret = QSharedPointer<DictionaryModule>(new WebDictionary());
-    } else if(type == ModuleTools::SwordLexicon) {
+    } else if(type == ModuleTools::SwordLexiconModule) {
         ret = QSharedPointer<DictionaryModule>(new SwordLexicon());
     }
     m_dictionaryModule = ret.toWeakRef();

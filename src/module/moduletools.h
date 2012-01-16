@@ -25,7 +25,7 @@ public:
         SwordBibleModule = 7,
         WebPageModule = 8,
         WebDictionaryModule = 9,
-        SwordLexicon = 10
+        SwordLexiconModule = 10
     };
 
     enum DefaultModule {
@@ -75,6 +75,8 @@ public:
 
     static QStringList moduleTypeNames();
     static QString moduleTypeName(ModuleTools::ModuleType type);
+
+    static ModuleTools::ModuleClass typeToClass(ModuleTools::ModuleType type);
 };
 
 #endif // MODULETOOLS_H

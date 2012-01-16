@@ -172,23 +172,7 @@ void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
     //m_map deletes them
     m_moduleMap->data.insert(settings->moduleID, module);
 
-    if(settings->moduleType == ModuleTools::BibleQuoteModule
-            || settings->moduleType == ModuleTools::ZefaniaBibleModule
-            || settings->moduleType == ModuleTools::TheWordBibleModule
-            || settings->moduleType == ModuleTools::SwordBibleModule) {
-
-        module->setModuleClass(ModuleTools::BibleModuleClass);
-
-    } else if(settings->moduleType == ModuleTools::ZefaniaLexModule || settings->moduleType == ModuleTools::BibleQuoteDictModule || settings->moduleType == ModuleTools::WebDictionaryModule) {
-
-        module->setModuleClass(ModuleTools::DictionaryModuleClass);
-
-    } else if(settings->moduleType == ModuleTools::WebPageModule) {
-
-        module->setModuleClass(ModuleTools::WebPageClass);
-
-    }
-
+    module->setModuleClass(ModuleTools::typeToClass(settings->moduleType));
     //recursive
     foreach(ModuleSettings * s, settings->children()) {
         loadModule(module, s);

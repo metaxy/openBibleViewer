@@ -243,14 +243,14 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
 
     if(key.isEmpty()) {
         showHtml(m_dictionary->moduleTitle());
-    } else if(m_dictionary->moduleType() == ModuleTools::ZefaniaLexModule || m_dictionary->moduleType() == ModuleTools::BibleQuoteDictModule) {
-        m_key = key;
-        const QString html = m_dictionary->getEntry(key);
-        showHtml(html);
     } else if(m_dictionary->moduleType() == ModuleTools::WebDictionaryModule) {
         m_key = key;
         const QString url = m_dictionary->getEntry(key);
         m_view->load(QUrl(url));
+    } else if(ModuleTools::typeToClass(m_dictionary->moduleType()) == ModuleTools::DictionaryModuleClass) {
+        m_key = key;
+        const QString html = m_dictionary->getEntry(key);
+        showHtml(html);
     }
     m_actions->setTitle(m_dictionary->moduleTitle());
 

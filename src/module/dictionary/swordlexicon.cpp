@@ -2,18 +2,69 @@
 
 SwordLexicon::SwordLexicon()
 {
+    m_loaded = false;
+    m_library = NULL;
+    m_target = NULL;
 }
 SwordLexicon::~SwordLexicon()
 {
+    if(m_target != NULL) {
+        delete m_target;
+        m_target = NULL;
+    }
+    if( m_library != NULL) {
+            delete m_library;
+            m_library = NULL;
+    }
 }
 QString SwordLexicon::getEntry(const QString &entry)
 {
 
+#ifdef BUILD_WITH_SWORD
+    VerseKey mykey = entry.toStdString().c_str();
+    m_target->setKey(mykey);
+    return QString::fromLocal8Bit(m_target->RenderText());
+#else
+    return QString();
+#endif
+
+
+}
+int SwordLexicon::load(const QString &id)
+{
+#ifdef BUILD_WITH_SWORD
+
+    if ( id == QString("ZhEnglish")) {
+        myWarning() << "Module ZhEnglish is buggy and will not be loaded.";
+        return 1;
+    }
+    if ( id == QString("EReo_en")) {
+        myWarning() << "Module EReo_en is buggy and will not be loaded.";
+        return 1;
+    }
+
+    m_library = new SWMgr(new MarkupFilterMgr(FMT_PLAIN));
+
+    m_target = m_library->getModule(id.toStdString().c_str());
+
+
+    if(!m_target) {
+        myWarning() << "could not load " << id;
+        return 1;
+    }
+    m_loaded = true;
+    myDebug() << "return zero";
+#endif
+    return 0;
 }
 
 QStringList SwordLexicon::getAllKeys()
 {
-    /*namespace DU = util::directory;
+    #ifdef BUILD_WITH_SWORD
+    if(!m_loaded) {
+        load(m_modulePath);
+    }
+   /* namespace DU = util::directory;
 
     if (!module()) {
         return 0;
@@ -24,14 +75,6 @@ QStringList SwordLexicon::getAllKeys()
     m_entryList = new QStringList();
 
     //Check for buggy modules! They will not be loaded any more.
-    if ( name() == QString("ZhEnglish")) {
-        qWarning() << "Module ZhEnglish is buggy and will not be loaded.";
-        return m_entryList;
-    }
-    if ( name() == QString("EReo_en")) {
-        qWarning() << "Module EReo_en is buggy and will not be loaded.";
-        return m_entryList;
-    }
 
     QString dir(DU::getUserCacheDir().absolutePath());
     QFile f1( QString(dir).append("/").append(name()));
@@ -66,42 +109,40 @@ QStringList SwordLexicon::getAllKeys()
 
     // Ok, no cache or invalid.
 
-    qDebug() << "Read all entries of lexicon" << name();
+    qDebug() << "Read all entries of lexicon" << name();*/
+    m_entryList.clear();
 
-    sword::SWModule* my_module = module();
-    my_module->setSkipConsecutiveLinks(true);
-    (*my_module) = sword::TOP;
-    snap(); //snap to top entry
+    m_target->setSkipConsecutiveLinks(true);
+    (*m_target) = sword::TOP;
 
     do {
-        if ( isUnicode() ) {
-            m_entryList->append(QString::fromUtf8(my_module->KeyText()));
-        }
+       // if ( isUnicode() ) {
+            m_entryList.append(QString::fromUtf8(m_target->KeyText()));
+      /*  }
         else {
             //for latin1 modules use fromLatin1 because of speed
             QTextCodec* codec = QTextCodec::codecForName("Windows-1252");
             m_entryList->append(codec->toUnicode(my_module->KeyText()));
-        }
+        }*/
 
-        (*my_module)++;
+        (*m_target)++;
     }
-    while ( !my_module->Error() );
+    while ( !m_target->Error() );
 
-    (*my_module) = sword::TOP; //back to the first entry
+    (*m_target) = sword::TOP; //back to the first entry
 
-    my_module->setSkipConsecutiveLinks(false);
+    m_target->setSkipConsecutiveLinks(false);
 
-    if (m_entryList->count()) {
-        m_entryList->first().simplified();
+    if (m_entryList.count()) {
+        m_entryList.first().simplified();
 
-        if (m_entryList->first().trimmed().isEmpty()) {
-            m_entryList->erase( m_entryList->begin() );
+        if (m_entryList.first().trimmed().isEmpty()) {
+            m_entryList.erase( m_entryList.begin() );
         }
     }
 
-    qDebug() << "Writing cache file for lexicon module" << name();
 
-    if (m_entryList->count()) {
+   /* if (m_entryList->count()) {
         //create cache
         QString dir(DU::getUserCacheDir().absolutePath());
         QFile f2( QString(dir).append("/").append(name()) );
@@ -114,9 +155,12 @@ QStringList SwordLexicon::getAllKeys()
             << *m_entryList;
             f2.close();
         }
-    }
+    }*/
 
-    return m_entryList;*/
+    return m_entryList;
+#else
+    return QStringList();
+#endif
 }
 
 void SwordLexicon::search(SearchQuery query, SearchResult *result)
@@ -126,5 +170,5 @@ void SwordLexicon::search(SearchQuery query, SearchResult *result)
 
 MetaInfo SwordLexicon::readInfo(const QString &name)
 {
-
+    return MetaInfo();
 }

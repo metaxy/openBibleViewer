@@ -125,7 +125,7 @@ QString ModuleTools::moduleTypeName(ModuleTools::ModuleType type)
         return QT_TRANSLATE_NOOP("Core", "Web Dictionary");
     } else if(type == ModuleTools::FolderModule) {
         return QT_TRANSLATE_NOOP("Core", "Folder");
-    } else if(type == ModuleTools::SwordLexicon) {
+    } else if(type == ModuleTools::SwordLexiconModule) {
         return QT_TRANSLATE_NOOP("Core", "Sword Lexicon");
     }
     return "";
@@ -138,20 +138,42 @@ ModuleTools::ModuleCategory ModuleTools::getCategory(ModuleTools::ModuleType typ
         case ModuleTools::TheWordBibleModule:
         case ModuleTools::SwordBibleModule:
             return ModuleTools::BibleCategory;
-            break;
+
         case ModuleTools::ZefaniaLexModule:
         case ModuleTools::BibleQuoteDictModule:
         case ModuleTools::WebDictionaryModule:
-    case ModuleTools::SwordLexicon:
+        case ModuleTools::SwordLexiconModule:
             return ModuleTools::DictionaryCategory;
-            break;
+
         case ModuleTools::FolderModule:
             return ModuleTools::FolderCategory;
-            break;
+
         case ModuleTools::WebPageModule:
             return ModuleTools::BookCategory;
-            break;
+        default:
+            return ModuleTools::UnkownCategory;
     }
+}
+ModuleTools::ModuleClass ModuleTools::typeToClass(ModuleTools::ModuleType type)
+{
+    switch(type)
+    {
+        case ModuleTools::BibleQuoteModule:
+        case ModuleTools::ZefaniaBibleModule:
+        case ModuleTools::TheWordBibleModule:
+        case ModuleTools::SwordBibleModule:
+            return ModuleTools::BibleModuleClass;
 
+        case ModuleTools::ZefaniaLexModule:
+        case ModuleTools::BibleQuoteDictModule:
+        case ModuleTools::WebDictionaryModule:
+        case ModuleTools::SwordLexiconModule:
+            return ModuleTools::DictionaryModuleClass;
 
+        case ModuleTools::WebPageModule:
+            return ModuleTools::WebPageClass;
+        default:
+            return ModuleTools::NoneClass;
+    }
+    return ModuleTools::NoneClass;
 }

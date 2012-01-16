@@ -109,6 +109,8 @@ set( openBibleViewer_HDRS
     src/api/bibleapi.h
     src/api/api.h
 
+    src/core/swordmanager.h
+
     src/core/verse/chapter.h
     src/core/verse/book.h
 
@@ -199,6 +201,8 @@ set( openBibleViewer_SRCS
     src/api/bibleapi.cpp
     src/api/notesapi.cpp
     src/api/api.cpp
+
+    src/core/swordmanager.cpp
 
     src/core/verse/chapter.cpp
     src/core/verse/book.cpp
