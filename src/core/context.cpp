@@ -13,8 +13,6 @@ Context::Context(QObject *parent) : QObject(parent)
 }
 Context::~Context()
 {
-    //todo: it's never called
-    DEBUG_FUNC_NAME;
     QMapIterator<int, ModuleSettings*> it(m_settings->m_moduleSettings);
     while(it.hasNext()) {
         it.next();

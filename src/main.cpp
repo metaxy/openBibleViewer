@@ -151,14 +151,16 @@ int main(int argc, char *argv[])
     a.installTranslator(&myappTranslator);
     delete opt;
 
-    Context context(&a);
-    context.setHomePath(homeDataPath);
-    context.setSettings(settings);
-    context.setTranslator(&myappTranslator, &qtTranslator);
-    context.init();
-    context.showWindow();
+    Context *context = new Context(&a);
+    context->setHomePath(homeDataPath);
+    context->setSettings(settings);
+    context->setTranslator(&myappTranslator, &qtTranslator);
+    context->init();
+    context->showWindow();
 
     a.exec();
+
+    delete context;
 
     return 0;
 }
