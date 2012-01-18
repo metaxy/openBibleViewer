@@ -1,3 +1,4 @@
+#ifdef BUILD_WITH_SWORD
 #include "swordmanager.h"
 #include <encfiltmgr.h>
 
@@ -14,5 +15,10 @@ SwordManager::~SwordManager()
 
 void SwordManager::init()
 {
-    m_library = sword::SWMgr(0, 0, false, new sword::EncodingFilterMgr( sword::ENC_UTF8 ), true);
+    m_library = new sword::SWMgr(0, 0, false, new sword::EncodingFilterMgr( sword::ENC_UTF8 ), true);
 }
+sword::SWMgr * SwordManager::getManager() const
+{
+    return m_library;
+}
+#endif

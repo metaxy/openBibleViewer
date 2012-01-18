@@ -25,11 +25,6 @@ void NotesApi::init()
     m_notes->loadingNewInstance();
 }
 
-void NotesApi::setNotes(Notes *notes)
-{
-    m_notes = notes;
-}
-
 NotesApi::~NotesApi()
 {
 

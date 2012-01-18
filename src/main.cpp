@@ -36,6 +36,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #include "src/ui/mainwindow.h"
+#include "src/core/context.h"
 #include "config.h"
 #include "anyoption.h"
 bool removeDir(const QString &dirName)
@@ -150,12 +151,13 @@ int main(int argc, char *argv[])
     a.installTranslator(&myappTranslator);
     delete opt;
 
-    MainWindow w;
-	
-    w.setTranslator(&myappTranslator, &qtTranslator);
-    w.init(homeDataPath, settings);
+    Context context(&a);
+    context.setHomePath(homeDataPath);
+    context.setSettings(settings);
+    context.setTranslator(&myappTranslator, &qtTranslator);
+    context.init();
+    context.showWindow();
 
-    w.show();
     a.exec();
 
     return 0;

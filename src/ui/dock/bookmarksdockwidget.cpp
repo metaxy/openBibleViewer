@@ -37,7 +37,7 @@ BookmarksDockWidget::~BookmarksDockWidget()
 {
     delete ui;
 }
-int BookmarksDockWidget::init()
+void BookmarksDockWidget::init()
 {
     m_bookmarksFileName = m_settings->homePath + "bookmarks.xml";
     ui->treeWidget_bookmarks->clear();
@@ -46,11 +46,10 @@ int BookmarksDockWidget::init()
 
     QFile file(m_bookmarksFileName);
     if(!file.open(QFile::ReadOnly | QFile::Text))
-        return 1;
+        return;
     XbelReader reader(ui->treeWidget_bookmarks);
     if(!reader.read(&file))
-        return 1;
-    return 0;
+        return;
 }
 void BookmarksDockWidget::newBookmark(VerseSelection selection, QSharedPointer<Versification> v11n)
 {

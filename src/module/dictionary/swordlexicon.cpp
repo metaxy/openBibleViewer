@@ -3,11 +3,14 @@
 SwordLexicon::SwordLexicon()
 {
     m_loaded = false;
+#ifdef BUILD_WITH_SWORD
     m_library = NULL;
     m_target = NULL;
+#endif
 }
 SwordLexicon::~SwordLexicon()
 {
+    #ifdef BUILD_WITH_SWORD
     if(m_target != NULL) {
         delete m_target;
         m_target = NULL;
@@ -16,6 +19,7 @@ SwordLexicon::~SwordLexicon()
             delete m_library;
             m_library = NULL;
     }
+#endif
 }
 QString SwordLexicon::getEntry(const QString &entry)
 {

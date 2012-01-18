@@ -16,6 +16,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 BasicClass::BasicClass()
 {
 }
+BasicClass::BasicClass(BasicClass *parent)
+{
+    setModuleManager(parent->m_moduleManager);
+    setSettings(parent->m_settings);
+    setNotes(parent->m_notes);
+    setActions(parent->m_actions);
+}
+
 void BasicClass::setModuleManager(ModuleManager *manager)
 {
     m_moduleManager = manager;

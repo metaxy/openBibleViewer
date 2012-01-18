@@ -203,7 +203,7 @@ set( openBibleViewer_SRCS
     src/api/api.cpp
 
     src/core/swordmanager.cpp
-
+    src/core/context.cpp
     src/core/verse/chapter.cpp
     src/core/verse/book.cpp
 
@@ -408,7 +408,7 @@ set ( openBibleViewer_MOCS
     src/api/bibleapi.h
     src/api/notesapi.h
     src/api/api.h
-
+    src/core/context.h
     src/core/notes/notes.h
     src/core/notes/xmlnotes.h
     src/core/notes/textnotes.h

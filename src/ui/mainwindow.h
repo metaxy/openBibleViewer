@@ -16,9 +16,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 
 #include <QtCore/QSettings>
-#include <QtCore/QTranslator>
+
 #include <QtCore/QLibraryInfo>
 #include <QtCore/QDir>
+#include <QtCore/QTranslator>
 
 #include <QtGui/QToolBar>
 #include <QtGui/QMessageBox>
@@ -31,6 +32,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/session.h"
 
 #include "src/ui/interface/interface.h"
+
+#include "src/core/context.h"
 namespace Ui
 {
 class MainWindow;
@@ -49,11 +52,11 @@ public slots:
     void saveSettings(Settings set, bool modifedModuleSettings);
     void reloadInterface();
 public:
-    MainWindow(QWidget *parent = 0);
+    MainWindow(Context *parent);
     ~MainWindow();
-    void init(const QString &homeDataPath, QSettings * settingsFile);
+    void init(const QString &homeDataPath, QSettings * settingsFile, bool firstStart);
     QSettings *m_settingsFile;
-    QSettings *m_sessionFile;
+
     QString VERSION, BUILD;
     QString m_homeDataPath;
     void setSettings(Settings settings);
@@ -85,6 +88,8 @@ private:
     void loadSettings();
     void restoreSession();
     int m_reloadLang;
+
+    Context *m_context;
 
 };
 

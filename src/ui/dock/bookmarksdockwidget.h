@@ -43,7 +43,7 @@ private slots:
 public:
     BookmarksDockWidget(QWidget *parent = 0);
     ~BookmarksDockWidget();
-    int init();
+    void init();
 
 protected:
     void changeEvent(QEvent *e);

@@ -21,15 +21,18 @@ class BasicClass
 {
 public:
     BasicClass();
-    ModuleManager *m_moduleManager;
-    Settings *m_settings;
-    Notes *m_notes;
-    Actions *m_actions;
+    BasicClass(BasicClass *parent);
+
     void setModuleManager(ModuleManager *manager);
     void setSettings(Settings *settings);
     void setNotes(Notes *notes);
     void setActions(Actions *actions);
     void setAll(BasicClass *c);
+protected:
+    ModuleManager *m_moduleManager;
+    Settings *m_settings;
+    Notes *m_notes;
+    Actions *m_actions;
 };
 
 #endif // BASICCLASS_H

@@ -138,8 +138,7 @@ void SimpleNotes::editNoteLink()
     if(urlConverter.url().isValid()) {
         QPointer<BiblePassageDialog> passageDialog = new BiblePassageDialog();
         connect(passageDialog, SIGNAL(updated(VerseUrl)), this, SLOT(updateNoteLink(VerseUrl)));
-        passageDialog->setSettings(m_settings);
-        passageDialog->setModuleManager(m_moduleManager);
+        setAll(passageDialog);
         passageDialog->init();
         passageDialog->frame()->setVerseUrl(urlConverter.url());
         passageDialog->exec();
