@@ -80,7 +80,6 @@ private:
     void loadInterface();
     void deleteInterface();
 
-    Session *m_session;
     void loadSimpleInterface();
     void loadAdvancedInterface();
     void loadStudyInterface();

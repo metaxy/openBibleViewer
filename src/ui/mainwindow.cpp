@@ -39,15 +39,9 @@ MainWindow::MainWindow(Context *parent) :
 
 MainWindow::~MainWindow()
 {
-    //DEBUG_FUNC_NAME
-
-    delete m_session;
-    m_session = NULL;
-
-
+    DEBUG_FUNC_NAME;
     delete ui;
     ui = NULL;
-
 }
 
 
@@ -59,9 +53,6 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile, bool
     m_homeDataPath = homeDataPath;
     m_settingsFile = settingsFile;
 
-
-    m_session = new Session();
-
     loadInterface();
     restoreSession();
 
@@ -72,8 +63,8 @@ void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile, bool
 }
 void MainWindow::loadInterface()
 {
-    //DEBUG_FUNC_NAME
     const QString interface = m_settings->session.getData("interface", QString("advanced")).toString();
+
     if(interface == "advanced") {
         loadAdvancedInterface();
     } else if(interface == "simple") {
@@ -196,7 +187,7 @@ void MainWindow::saveSettings(Settings newSettings, bool modifedModuleSettings)
     if(oldSettings.language != newSettings.language /* || m_settings->theme != set->theme*/) {
         loadLanguage(newSettings.language);
     }
-    myDebug() << oldSettings.session.getData("interface") << newSettings.session.getData("interface");
+
     if(m_interface->name() != newSettings.session.getData("interface")) {
         reloadInterface();
     }
@@ -274,8 +265,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 }
 void MainWindow::changeEvent(QEvent *e)
 {
-    //DEBUG_FUNC_NAME
-    //QMainWindow::changeEvent(e);
     switch(e->type()) {
     case QEvent::LanguageChange:
         //myDebug() << "retranslate";
@@ -291,4 +280,5 @@ void MainWindow::changeEvent(QEvent *e)
     default:
         break;
     }
+    QMainWindow::changeEvent(e);
 }
