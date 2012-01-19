@@ -185,7 +185,12 @@ QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
     }
     return newSubWindow(true, false, type);
 }
-
+/**
+  * No Windows => Create Window
+  * If Active Window has the need type => ok
+  * If there is a window with the need FormType and ContentType => ok
+  * else create Window
+  */
 QMdiSubWindow* WindowManager::needWindow(Form::FormType type, ModuleTools::ContentType cType)
 {
     if(usableWindowList().isEmpty()) {

@@ -647,9 +647,10 @@ QList<QToolBar *> AdvancedInterface::toolBars()
 void AdvancedInterface::quick()
 {
     const QString text = ((QLineEdit *) sender())->text();
+    QMdiSubWindow* window = m_windowManager->needWindow(Form::BibleForm);
+    BibleForm * f = (BibleForm*) m_windowManager->getForm(window);
 
-    if(m_windowManager->activeForm() && m_windowManager->activeForm()->type() == Form::BibleForm) {
-        BibleForm *f = (BibleForm*)(m_windowManager->activeForm());
+    if(f->verseTableLoaded()) {
         BibleLink link(f->verseModule()->moduleID(), f->verseModule()->versification());
 
 
@@ -663,7 +664,7 @@ void AdvancedInterface::quick()
             m_searchManager->search(query);
         }
     } else {
-        m_windowManager->newBibleSubWindow();
+
         int defaultModuleID = -1;
         QMapIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
         while(i.hasNext()) {
