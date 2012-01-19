@@ -1,10 +1,14 @@
 #ifdef BUILD_WITH_SWORD
 #include "swordmanager.h"
 #include <encfiltmgr.h>
+#include <markupfiltmgr.h>
+#include <swmgr.h>
+#include <swmodule.h>
+using namespace::sword;
 
 SwordManager::SwordManager()
 {
-    m_library = NULL;
+    m_library = new SWMgr(new MarkupFilterMgr(FMT_PLAIN));
 }
 SwordManager::~SwordManager()
 {
@@ -13,12 +17,9 @@ SwordManager::~SwordManager()
     }
 }
 
-void SwordManager::init()
-{
-    m_library = new sword::SWMgr(0, 0, false, new sword::EncodingFilterMgr( sword::ENC_UTF8 ), true);
-}
 sword::SWMgr * SwordManager::getManager() const
 {
+
     return m_library;
 }
 #endif

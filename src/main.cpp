@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
     opt->addUsage(s.toStdString().c_str());
     opt->addUsage("Usage: ");
     opt->addUsage("");
-    opt->addUsage(" -h  --help                 Prints this help ");
+    opt->addUsage(" -h  --help              Prints this help ");
     opt->addUsage(" --configPath 	        Path to config files ");
     opt->addUsage("");
     opt->setFlag("help", 'h');

@@ -1,4 +1,5 @@
 #include "swordlexicon.h"
+#include "src/core/swordmanager.h"
 
 SwordLexicon::SwordLexicon()
 {
@@ -14,10 +15,6 @@ SwordLexicon::~SwordLexicon()
     if(m_target != NULL) {
         delete m_target;
         m_target = NULL;
-    }
-    if( m_library != NULL) {
-            delete m_library;
-            m_library = NULL;
     }
 #endif
 }
@@ -47,7 +44,7 @@ int SwordLexicon::load(const QString &id)
         return 1;
     }
 
-    m_library = new SWMgr(new MarkupFilterMgr(FMT_PLAIN));
+    m_library = SwordManager::instance()->getManager();
 
     m_target = m_library->getModule(id.toStdString().c_str());
 

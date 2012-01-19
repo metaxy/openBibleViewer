@@ -173,6 +173,8 @@ int SettingsDialog::setSettings(Settings settings)
 
     m_ui->comboBox_interface->setCurrentIndex(currentInterface);
 
+   m_ui->checkBox_checkForUpdates->setChecked(m_set.checkForUpdates);
+
     ModuleSettings *config = settings.getModuleSettings(-1);
     m_ui->checkBox_showBottomToolbar->setChecked(config->displaySettings()->showBottomToolBar());
     m_ui->checkBox_showMarks->setChecked(config->displaySettings()->showMarks());
@@ -374,6 +376,9 @@ void SettingsDialog::save(void)
     m_set.encoding = m_encodings.at(m_ui->comboBox_encoding->currentIndex());
     m_set.language = m_langCode.at(m_ui->comboBox_language->currentIndex());
     m_set.autoLayout = (Settings::LayoutEnum) m_ui->comboBox_autoLayout->currentIndex();
+
+    m_set.checkForUpdates = m_ui->checkBox_checkForUpdates->isChecked();
+
     int currentInterface = m_ui->comboBox_interface->currentIndex();
     if(currentInterface == 0) {
         m_set.session.setData("interface", "simple");

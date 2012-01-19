@@ -32,6 +32,7 @@ public:
     virtual ~SimpleModuleClass();
     virtual void setSettings(Settings *settings);
     virtual void setNotes(Notes *n);
+
     void setModuleType(const ModuleTools::ModuleType &type);
     ModuleTools::ModuleType moduleType() const;
 

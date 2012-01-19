@@ -33,9 +33,9 @@ endif(UNIX)
 find_package ( Qt4 REQUIRED )
 find_package(CLucene1)
 
-if(UNIX)
-    pkg_check_modules(ZLIB REQUIRED zlib)
-endif(UNIX)
+
+pkg_check_modules(ZLIB REQUIRED zlib)
+
 
 option( OBV_PORTABLE_VERSION "Build a portable version" OFF )
 option( OBV_SWORD_SUPPORT "Build with sword support" OFF )
