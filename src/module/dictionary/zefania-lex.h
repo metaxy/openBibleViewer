@@ -45,11 +45,13 @@ public:
     MetaInfo buildIndexFromData(const QString &fileData, const QString &fileName);
     MetaInfo buildIndexFromFile(const QString &fileName);
 
-    QString getEntry(const QString &entry);
+    Response *getEntry(const QString &entry);
     QStringList getAllKeys();
 
     bool hasIndex();
     int buildIndex();
+
+    Response::ResponseType responseType() const;
 private:
     QString indexPath() const;
     MetaInfo buildIndexFromXmlDoc(KoXmlDocument *xmldoc);

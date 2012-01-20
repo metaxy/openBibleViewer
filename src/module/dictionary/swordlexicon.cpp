@@ -1,6 +1,6 @@
 #include "swordlexicon.h"
 #include "src/core/swordmanager.h"
-
+#include "src/module/response/stringresponse.h"
 SwordLexicon::SwordLexicon()
 {
     m_loaded = false;
@@ -18,15 +18,15 @@ SwordLexicon::~SwordLexicon()
     }
 #endif
 }
-QString SwordLexicon::getEntry(const QString &entry)
+Response* SwordLexicon::getEntry(const QString &entry)
 {
 
 #ifdef BUILD_WITH_SWORD
     VerseKey mykey = entry.toStdString().c_str();
     m_target->setKey(mykey);
-    return QString::fromLocal8Bit(m_target->RenderText());
+    return new StringReponse(QString::fromLocal8Bit(m_target->RenderText()));
 #else
-    return QString();
+    return new StringResponse(QString());
 #endif
 
 
@@ -172,4 +172,8 @@ void SwordLexicon::search(SearchQuery query, SearchResult *result)
 MetaInfo SwordLexicon::readInfo(const QString &name)
 {
     return MetaInfo();
+}
+Response::ResponseType SwordLexicon::responseType() const
+{
+    return Response::StringReponse;
 }

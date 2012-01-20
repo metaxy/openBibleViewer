@@ -189,6 +189,11 @@ set( openBibleViewer_HDRS
     src/module/searchablemodule.h
     src/module/webpage.h
 
+    src/module/response/response.h
+    src/module/response/urlresponse.h
+    src/module/response/stringresponse.h
+    src/module/response/textrangesresponse.h
+
     src/ui/interface/advanced/manager/webpagemanager.h
     src/ui/modelmodel.h
     src/ui/qtwin.h
@@ -286,6 +291,10 @@ set( openBibleViewer_SRCS
     src/module/metainfo.cpp
     src/module/searchablemodule.cpp
     src/module/webpage.cpp
+    src/module/response/response.cpp
+    src/module/response/urlresponse.cpp
+    src/module/response/stringresponse.cpp
+    src/module/response/textrangesresponse.cpp
     
     src/ui/dialog/searchdialog.cpp
     src/ui/dialog/settingsdialog.cpp

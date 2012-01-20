@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "dictionarymodule.h"
-
+#include "src/module/response/stringresponse.h"
 DictionaryModule::DictionaryModule()
 {
 }
@@ -29,13 +29,14 @@ void DictionaryModule::setID(int moduleID, const QString &path)
     m_moduleID = moduleID;
     m_modulePath = path;
 }
-
-QString DictionaryModule::getEntry(const QString &entry)
+/*
+Response DictionaryModule::getEntry(const QString &entry)
 {
-    return "";
+    return StringResponse("");
 }
 
 QStringList DictionaryModule::getAllKeys()
 {
     return QStringList();
 }
+*/

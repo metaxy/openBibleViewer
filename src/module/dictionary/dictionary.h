@@ -37,7 +37,7 @@ public:
      * @return Fullyformated entry.
      * @returns QString() if not found.
      */
-    QString getEntry(const QString &key) const;
+    Response* getEntry(const QString &key) const;
     /**
      * @return All keys.
      * @returns QStringList() if failed.

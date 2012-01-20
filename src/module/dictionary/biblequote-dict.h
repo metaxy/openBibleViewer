@@ -34,11 +34,12 @@ public:
     MetaInfo readInfo(QFile &file);
     MetaInfo readInfo(const QString &fileName);
 
-    QString getEntry(const QString &id);
+    Response *getEntry(const QString &id);
     QStringList getAllKeys();
 
     int buildIndex();
     bool hasIndex();
+    Response::ResponseType responseType() const;
 private:
     QString indexPath() const;
 

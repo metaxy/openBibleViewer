@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_dictionarydockwidget.h"
 #include "src/core/dbghelper.h"
 #include "src/module/moduletools.h"
+#include "src/module/response/stringresponse.h"
 #include <QtGui/QCompleter>
 DictionaryDockWidget::DictionaryDockWidget(QWidget *parent) :
     DockWidget(parent),
@@ -92,7 +93,12 @@ void DictionaryDockWidget::showEntry(QString strongID)
         loadModule(moduleID);
     }
     ui->lineEdit_strong->setText(strongID);
-    ui->textBrowser_strong->setText(m_dictionary->getEntry(strongID));
+    Response *r = m_dictionary->getEntry(strongID);
+    if(r->type() == Response::StringReponse) {
+        StringResponse *st = (StringResponse*) r;
+        ui->textBrowser_strong->setText(st->data());
+    }
+    delete r;
 }
 void DictionaryDockWidget::loadModule(int id)
 {

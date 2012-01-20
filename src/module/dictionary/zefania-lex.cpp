@@ -16,6 +16,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "config.h"
 #include "CLucene.h"
 #include "CLucene/clucene-config.h"
+#include "src/module/response/stringresponse.h"
+
 using namespace lucene::analysis;
 using namespace lucene::index;
 using namespace lucene::queryParser;
@@ -75,12 +77,12 @@ MetaInfo ZefaniaLex::buildIndexFromFile(const QString &fileName)
   Returns a Entry.
   \id The key of the entry.
   */
-QString ZefaniaLex::getEntry(const QString &key)
+Response * ZefaniaLex::getEntry(const QString &key)
 {
     try {
         if(!hasIndex()) {
             if(buildIndex() != 0) {
-                return QObject::tr("Cannot build index.");
+                return new StringResponse(QObject::tr("Cannot build index."));
             }
         }
         const QString index = indexPath();
@@ -106,9 +108,9 @@ QString ZefaniaLex::getEntry(const QString &key)
             ret.append(QString::fromUtf16((const ushort*)doc->get(_T("content"))));
     #endif
         }
-        return ret.isEmpty() ? QObject::tr("Nothing found for %1").arg(key) : ret;
+        return ret.isEmpty() ? new StringResponse(QObject::tr("Nothing found for %1").arg(key)) : new StringResponse(ret);
     } catch(...) {
-        return QString();
+        return new StringResponse(QString());
     }
 }
 
@@ -329,4 +331,8 @@ MetaInfo ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
 QString ZefaniaLex::indexPath() const
 {
     return m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
+}
+Response::ResponseType ZefaniaLex::responseType() const
+{
+    return Response::StringReponse;
 }

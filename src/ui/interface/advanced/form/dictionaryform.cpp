@@ -23,6 +23,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QPrintPreviewDialog>
 #include <QtGui/QTextDocumentWriter>
 #include "src/module/dictionary/webdictionary.h"
+#include "src/module/response/urlresponse.h"
+#include "src/module/response/stringresponse.h"
 DictionaryForm::DictionaryForm(QWidget *parent) :
     Form(parent),
     ui(new Ui::DictionaryForm)
@@ -243,15 +245,22 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
 
     if(key.isEmpty()) {
         showHtml(m_dictionary->moduleTitle());
-    } else if(m_dictionary->moduleType() == ModuleTools::WebDictionaryModule) {
+    } else {
         m_key = key;
-        const QString url = m_dictionary->getEntry(key);
-        m_view->load(QUrl(url));
-    } else if(ModuleTools::typeToClass(m_dictionary->moduleType()) == ModuleTools::DictionaryModuleClass) {
-        m_key = key;
-        const QString html = m_dictionary->getEntry(key);
-        showHtml(html);
+        Response *r = m_dictionary->getEntry(key);
+
+        if(r->type() == Response::StringReponse) {
+            StringResponse *st = (StringResponse*) r;
+            showHtml(st->data());
+        } else if(r->type() == Response::UrlReponse) {
+            UrlResponse *ut = (UrlResponse*) r;
+            m_view->load(QUrl(ut->url()));
+        } else {
+            showHtml(tr("Unkown Responsetype"));
+        }
+        delete r;
     }
+
     m_actions->setTitle(m_dictionary->moduleTitle());
 
 }

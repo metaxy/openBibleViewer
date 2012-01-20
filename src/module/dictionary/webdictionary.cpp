@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "webdictionary.h"
-
+#include "src/module/response/urlresponse.h"
 WebDictionary::WebDictionary()
 {
 }
@@ -79,7 +79,7 @@ void WebDictionary::loadModuleData(const int moduleID, const QString &name)
     m_loaded = true;
     m_loadedModuleID = m_moduleID;
 }
-QString WebDictionary::getEntry(const QString &entry)
+Response* WebDictionary::getEntry(const QString &entry)
 {
     if(!loaded())
         loadModuleData(m_moduleID);
@@ -88,7 +88,7 @@ QString WebDictionary::getEntry(const QString &entry)
     QScriptValueList args;
     args << entry;
     QScriptValue url = fun.call(QScriptValue(), args);
-    return url.toString();
+    return new UrlResponse(url.toString());
 }
 
 QStringList WebDictionary::getAllKeys()
@@ -138,4 +138,8 @@ QString WebDictionary::pharseUrl(const QUrl &url)
     QScriptValue n = fun.call(QScriptValue(), args);
     myDebug() << n.toString();
     return n.toString();
+}
+Response::ResponseType WebDictionary::responseType() const
+{
+    return Response::UrlReponse;
 }

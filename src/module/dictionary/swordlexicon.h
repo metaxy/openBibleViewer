@@ -22,13 +22,13 @@ public:
     SwordLexicon();
     ~SwordLexicon();
 
-    QString getEntry(const QString &entry);
+    Response *getEntry(const QString &entry);
     QStringList getAllKeys();
 
     void search(SearchQuery query, SearchResult *result);
 
     MetaInfo readInfo(const QString &name);
-
+    Response::ResponseType responseType() const;
 
 private:
     bool m_loaded;

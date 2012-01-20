@@ -27,7 +27,7 @@ public:
     ~WebDictionary();
     void loadModuleData(const int moduleID, const QString &name = "");
 
-    QString getEntry(const QString &entry);
+    Response *getEntry(const QString &entry);
     QStringList getAllKeys();
 
     void search(SearchQuery query, SearchResult *result);
@@ -35,7 +35,7 @@ public:
     MetaInfo readInfo(const QString &name);
 
     QString pharseUrl(const QUrl &url);
-
+    Response::ResponseType responseType() const;
 private:
     bool m_loaded;
 

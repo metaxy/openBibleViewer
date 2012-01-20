@@ -142,6 +142,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             loadModuleData(range.moduleID());
         }
     }
+
     if(!loaded()) {
         ret.setError(TextRange::FatalError);
         return ret;
@@ -167,7 +168,6 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         if(bookID == -1)
             bookID = 0;
     } else if(range.book() == RangeEnum::CurrentBook) {
-
         if(m_lastTextRanges != 0 && !m_lastTextRanges->isEmpty() && !m_lastTextRanges->bookIDs().isEmpty()) {
             bookID = *m_lastTextRanges->bookIDs().begin();
         } else {
@@ -232,7 +232,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     if(endVerse == -1)
         endVerse = startVerse;
 
-    //todo: ugly
+    //todo: hack for biblequote
     if(moduleType() == ModuleTools::BibleQuoteModule)  {
         endVerse++;
         if(startVerse != 0)
@@ -254,6 +254,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 
     bool currentVerse = false;
 
+    //formatting
     QMutableMapIterator<int, Verse> it(verseMap);
     while(it.hasNext()) {
         it.next();
@@ -277,7 +278,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             }
         }
 
-        if(moduleType() == ModuleTools::TheWordBibleModule || moduleType() == ModuleTools::ZefaniaBibleModule || moduleType() == ModuleTools::SwordBibleModule) {
+        if(moduleType() != ModuleTools::BibleQuoteModule) {
             QString prepend;
             QString append;
             prepend = "<span class=\"verseNumber\">" + QString::number(it.value().verseID() + 1) + "</span> ";
@@ -289,12 +290,12 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 
             it.value().prepend(prepend);
             it.value().append(append);
-        } else if(moduleType() == ModuleTools::BibleQuoteModule) {
         }
         //todo: ugly
         int add = 0;
         if(moduleType() == ModuleTools::BibleQuoteModule)
             add = 1;
+
         if(range.selectedVerse().contains(it.key() - add)) {
             if(!currentVerse) {
                 currentVerse = true;//todo: currently the first selected entry is the current entry
@@ -307,6 +308,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         }
     }
 
+    //show marks
     if(m_notes != 0 && m_moduleDisplaySettings->showMarks() == true) {
         //myDebug() << "insert notes";
         VerseReplacer replacer;
@@ -388,7 +390,9 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         }
         replacer.exec(&verseMap);
     }
-    // now add id
+
+
+    //now add id
     //it have to be done as last
     QMapIterator<int, Verse> i(verseMap);
     if(moduleType() == ModuleTools::BibleQuoteModule) {
@@ -411,7 +415,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
             //myDebug() << verse.data();
         }
 
-    } else if(moduleType() == ModuleTools::ZefaniaBibleModule || moduleType() == ModuleTools::TheWordBibleModule || moduleType() == ModuleTools::SwordBibleModule) {
+    } else {
         const QString pre = "<span verseID='";
         const QString pre2 =  "' chapterID='" + QString::number(chapterID) +
                               "' bookID='" + QString::number(bookID) +
