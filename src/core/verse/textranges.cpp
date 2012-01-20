@@ -260,15 +260,16 @@ void TextRanges::setVerseTableID(int verseTableID)
     }
     m_ranges = ret;
 }
-bool TextRanges::failed() const
+TextRange::TextRangeError TextRanges::error() const
 {
-    bool failed = false;
+    TextRange::TextRangeError er = TextRange::NoError;
     foreach(const TextRange & r, m_ranges) {
-        failed = failed || r.failed();
+        if(r.error() != TextRange::NoError) {
+            er = r.error();
+        }
     }
-    return failed;
+    return er;
 }
-
 void TextRanges::setSource(const Ranges &source)
 {
     DEBUG_FUNC_NAME;

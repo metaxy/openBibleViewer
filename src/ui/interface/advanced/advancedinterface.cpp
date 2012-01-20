@@ -675,7 +675,6 @@ void AdvancedInterface::quick()
             }
 
         }
-        myDebug() << "default" << defaultModuleID;
         if(defaultModuleID == -1) {
             QMapIterator<int, Module*> i2(m_moduleManager->m_moduleMap->data);
             while(i2.hasNext() && defaultModuleID == -1) {
@@ -686,7 +685,6 @@ void AdvancedInterface::quick()
                 }
             }
         }
-        myDebug() << "some" << defaultModuleID;
 
         BibleLink link(defaultModuleID, m_settings->getV11N(defaultModuleID));
         if(link.isBibleLink(text)) {

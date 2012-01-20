@@ -27,6 +27,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class TextRanges
 {
 public:
+
+
+
     TextRanges();
     TextRanges(const TextRanges &r);
     void addTextRange(const TextRange &range);
@@ -67,7 +70,7 @@ public:
 
     void setVerseTableID(int verseTableID);
 
-    bool failed() const;
+    TextRange::TextRangeError error() const;
 private:
     QList<TextRange> m_ranges;
 

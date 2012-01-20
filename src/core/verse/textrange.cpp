@@ -19,7 +19,7 @@ TextRange::TextRange()
     m_bookID = -1;
     m_chapterID = -1;
     m_moduleID = -1;
-    m_failed = false;
+    m_error = TextRange::NoError;
 }
 QString TextRange::join(const QString &seperator) const
 {
@@ -101,11 +101,12 @@ void TextRange::setVerseTableID(int verseTableID)
 {
     m_verseTableID = verseTableID;
 }
-void TextRange::setFailed(bool failed)
+void TextRange::setError(const TextRange::TextRangeError error)
 {
-    m_failed = failed;
+    m_error = error;
 }
-bool TextRange::failed() const
+
+TextRange::TextRangeError TextRange::error() const
 {
-    return m_failed;
+    return m_error;
 }

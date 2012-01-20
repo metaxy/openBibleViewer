@@ -230,17 +230,19 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url)
     }*/
     r = m_verseTable->readRanges(ranges);
 
-    if(!r.second.failed()) {
+    if(!r.second.error()) {
         showTextRanges(r.first, r.second, url);
         m_actions->updateChapters(r.second.minBookID(), m_verseTable->verseModule()->versification());
         m_actions->updateBooks(m_verseTable->verseModule()->versification());
         m_actions->setCurrentBook(r.second.bookIDs());
         m_actions->setCurrentChapter(r.second.chapterIDs());
         m_actions->setTitle(m_verseTable->verseModule()->moduleTitle());
-    } else {
+    } else if(r.second.error() == TextRange::FatalError){
         showTextRanges(r.first, r.second, url);
         m_actions->clearBooks();
         m_actions->clearChapters();
+    } else if(r.second.error() == TextRange::NotFoundError) {
+        showTextRanges(r.first, r.second, url);
     }
 }
 
@@ -609,7 +611,7 @@ void BibleForm::activated()
         m_actions->updateChapters(m_verseTable->verseModule()->lastTextRanges()->minBookID(), m_verseTable->verseModule()->versification());
         m_actions->updateBooks(m_verseTable->verseModule()->versification());
 
-        if(m_lastTextRanges.verseCount() != 0 && !m_lastTextRanges.failed()) {
+        if(m_lastTextRanges.verseCount() != 0 && !m_lastTextRanges.error()) {
             m_actions->setCurrentChapter(m_lastTextRanges.chapterIDs());
             m_actions->setCurrentBook(m_lastTextRanges.bookIDs());
         }

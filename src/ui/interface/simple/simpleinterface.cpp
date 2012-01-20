@@ -198,7 +198,7 @@ void SimpleInterface::showRanges(const Ranges &ranges, const VerseUrl &url)
     TextRanges t = m_module->readRanges(ranges);
     m_module->setLastTextRanges(&t);
 
-    if(!t.failed()) {
+    if(!t.error()) {
         showTextRanges(t.join(""), t, url);
         m_actions->updateChapters(t.minBookID(), m_module->versification());
         m_actions->updateBooks(m_module->versification());

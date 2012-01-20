@@ -20,6 +20,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class TextRange
 {
 public:
+    enum TextRangeError {
+        NoError = 0,
+        FatalError = 1,
+        NotFoundError = 2
+    };
+
     TextRange();
     QString join(const QString &seperator) const;
     void addVerse(const Verse &verse);
@@ -42,8 +48,9 @@ public:
     int moduleID() const;
     int verseTableID() const;
 
-    bool failed() const;
-    void setFailed(bool failed);
+
+    void setError(const TextRange::TextRangeError error);
+    TextRange::TextRangeError error() const;
 
 private:
     QMap<int, Verse> m_verse;
@@ -53,7 +60,7 @@ private:
     int m_chapterID;
     int m_moduleID;
     int m_verseTableID;
-    bool m_failed;
+    TextRange::TextRangeError m_error;
 };
 
 #endif // TEXTRANGE_H

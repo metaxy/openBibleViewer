@@ -128,7 +128,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         m_loaded = false;
         m_versification.clear();
         m_bibleModule.clear();
-        ret.setFailed(true);
+        ret.setError(TextRange::FatalError);
         return ret;
     }
 
@@ -143,7 +143,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         }
     }
     if(!loaded()) {
-        ret.setFailed(true);
+        ret.setError(TextRange::FatalError);
         return ret;
     }
 
@@ -184,7 +184,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 
     if(bookID < 0) {
         myWarning() << "index out of range index bookID = " << bookID;
-        ret.setFailed(true);
+        ret.setError(TextRange::NotFoundError);
         return ret;
     }
     m_bookID = bookID;
