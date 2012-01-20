@@ -527,6 +527,7 @@ TextRange ZefaniaBible::rawTextRange(int bookID, int chapterID, int startVerse, 
     if(!m_book.hasChapter(chapterID)) {
         myDebug() << m_book.data().keys();
         myWarning() << "index out of range index chapterID = " << chapterID;
+        ret.setError(TextRange::NotFoundError);
         return ret;
     }
     ret.setModuleID(m_moduleID);

@@ -131,9 +131,11 @@ int BibleForm::newModule()
 
 void BibleForm::pharseUrl(const VerseUrl &url)
 {
-    myDebug() << url.toString();
+    bool showStart = false;
+
     if(m_url.isValid()) {
         m_url = m_url.applyUrl(url);
+        showStart = true;
     } else {
         m_url = url;
         if(verseTableLoaded() && !m_url.hasModuleID()) {
@@ -146,7 +148,7 @@ void BibleForm::pharseUrl(const VerseUrl &url)
         ranges.addRange(range.toRange());
     }
     ranges.setSource(m_url);
-    showRanges(ranges, m_url);
+    showRanges(ranges, m_url, showStart);
     if(m_url.hasParam("searchInCurrentText")) {
         m_actions->searchInText();
     }
@@ -201,9 +203,11 @@ void BibleForm::pharseUrl(const QString &string)
         m_actions->get(url);
     }
 }
-void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url)
+void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showStart)
 {
-    DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME;
+    myDebug() << "showStart = " << showStart;
+
     std::pair<QString, TextRanges> r;
     m_verseTable->currentVerseTableID();
     const int moduleID = ranges.getList().first().moduleID();
@@ -211,6 +215,8 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url)
     if(!verseTableLoaded()) {
         m_moduleManager->newVerseModule(moduleID, QPoint(0, 0), m_verseTable);
     }
+
+
     //todo: its very important to fix this bug
     /*if(m_verseTable->verseModule()->moduleID() != ranges.getList().first().moduleID()) {
 
@@ -241,8 +247,24 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url)
         showTextRanges(r.first, r.second, url);
         m_actions->clearBooks();
         m_actions->clearChapters();
+        m_actions->setTitle(m_verseTable->verseModule()->moduleTitle());
     } else if(r.second.error() == TextRange::NotFoundError) {
-        showTextRanges(r.first, r.second, url);
+        if(showStart) {
+            VerseUrlRange range;
+            range.setModule(m_verseTable->verseModule()->moduleID());
+            range.setBook(VerseUrlRange::LoadFirstBook);
+            range.setChapter(VerseUrlRange::LoadFirstChapter);
+            range.setWholeChapter();
+            VerseUrl url(range);
+            pharseUrl(url);
+        } else {
+            showTextRanges(r.first, r.second, url);
+            m_actions->updateChapters(0, m_verseTable->verseModule()->versification());
+            m_actions->updateBooks(m_verseTable->verseModule()->versification());
+            m_actions->setCurrentBook(r.second.bookIDs());
+            m_actions->setCurrentChapter(r.second.chapterIDs());
+            m_actions->setTitle(m_verseTable->verseModule()->moduleTitle());
+        }
     }
 }
 

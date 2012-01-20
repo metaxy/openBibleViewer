@@ -177,7 +177,7 @@ private:
     VerseSelection lastSelection;
     QList<int> m_bookIDs;
 
-    void showRanges(const Ranges &ranges, const VerseUrl &url);
+    void showRanges(const Ranges &ranges, const VerseUrl &url, bool showStart = false);
 
 
     VerseUrl m_url;

@@ -246,6 +246,10 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     ret.setBookID(bookID);
     ret.setChapterID(chapterID);
     ret.setModuleID(m_moduleID);
+
+    if(rawRange.error() != TextRange::NoError) {
+        return rawRange;
+    }
     QMap<int, Verse> verseMap = rawRange.verseMap();
 
     bool currentVerse = false;
