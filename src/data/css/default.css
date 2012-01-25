@@ -6,7 +6,10 @@ html {
     font-family: sans-serif;
     font-size:14px;
 }
-
+.verseModule {
+   /* -webkit-column-count: 2;
+    -webkit-column-gap: 20px;*/
+}
 .verseTableTitle a:link, a:visited, a:active{
     color: #000000;
 }

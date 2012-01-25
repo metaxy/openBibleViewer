@@ -720,7 +720,16 @@ void BibleForm::forwardShowTextRanges(const QString &html, const TextRanges &ran
 
 void BibleForm::showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url)
 {
-    showText(html);
+    if(!html.contains("<html")) {
+       QString f = html;
+       f.prepend("<div class='verseModule'>");
+       f.append("</div>");
+       showText(f);
+
+    } else {
+         showText(html);
+    }
+
     m_lastTextRanges = range;
     m_lastUrl = url;
     m_verseTable->setLastTextRanges(&m_lastTextRanges);

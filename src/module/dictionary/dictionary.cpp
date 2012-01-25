@@ -58,6 +58,7 @@ Response* Dictionary::getEntry(const QString &string) const
             r->prepend("<div class='dictEntry'>");
             r->append("</div>");
             ret += r->data();
+            delete r;
         }
         return new StringResponse(ret);
 
