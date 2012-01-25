@@ -16,3 +16,12 @@ QString StringResponse::data() const
 {
     return m_data;
 }
+void StringResponse::append(const QString &t)
+{
+    m_data.append(t);
+}
+
+void StringResponse::prepend(const QString &t)
+{
+    m_data.prepend(t);
+}

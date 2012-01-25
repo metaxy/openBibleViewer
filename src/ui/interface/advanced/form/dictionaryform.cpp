@@ -251,7 +251,13 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
 
         if(r->type() == Response::StringReponse) {
             StringResponse *st = (StringResponse*) r;
-            showHtml(st->data());
+            QString data = st->data();
+            if(!data.contains("<html>")) {
+                data.prepend("<html><head><script type='text/javascript' src='qrc:/data/js/tools.js'></script></head><body><div class='dictionary'>");
+                //data.append("</div></body></html>");
+            }
+            showHtml(data);
+
         } else if(r->type() == Response::UrlReponse) {
             UrlResponse *ut = (UrlResponse*) r;
             m_view->load(QUrl(ut->url()));
@@ -371,7 +377,23 @@ void DictionaryForm::forwardShowHtml(const QString &html)
         return;
     showHtml(html);
 }
-void DictionaryForm::showHtml(const QString &html)
+void DictionaryForm::showHtml(QString html)
 {
+    {
+        QString cssFile;
+        if(m_dictionary)
+            cssFile = m_settings->getModuleSettings(m_dictionary->moduleID())->styleSheet;
+        if(cssFile.isEmpty())
+            cssFile = ":/data/css/default.css";
+        m_view->settings()->setUserStyleSheetUrl(QUrl::fromLocalFile(cssFile));
+    }
+    myDebug() << html;
+
+
     m_view->setHtml(html);
+}
+
+QString DictionaryForm::key() const
+{
+    return m_key;
 }

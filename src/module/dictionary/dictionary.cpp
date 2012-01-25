@@ -12,7 +12,8 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "dictionary.h"
-
+#include "src/module/response/stringresponse.h"
+#include "src/module/response/urlresponse.h"
 Dictionary::Dictionary()
 {
     m_moduleType = ModuleTools::NoneType;
@@ -49,16 +50,28 @@ int Dictionary::loadModuleData(const int moduleID)
 }
 Response* Dictionary::getEntry(const QString &string) const
 {
-   /* if(string.contains(" ")) {
+    if(string.contains(" ") && m_dictionaryModule->responseType() == Response::StringReponse) {
         QString ret;
         const QStringList parts = string.split(" ");
         foreach(const QString &key, parts) {
-            ret += m_dictionaryModule->getEntry(key) +"<br />";
+            StringResponse *r = (StringResponse*) m_dictionaryModule->getEntry(key);
+            r->prepend("<div class='dictEntry'>");
+            r->append("</div>");
+            ret += r->data();
         }
-        return ret;
-    } else {*/
-        return m_dictionaryModule->getEntry(string);
-   /* }*/
+        return new StringResponse(ret);
+
+    } else {
+        Response *res = m_dictionaryModule->getEntry(string);
+        if(res->type() == Response::StringReponse) {
+            StringResponse *r = (StringResponse*) res;
+            r->prepend("<div class='dictEntry'>");
+            r->append("</div>");
+            return r;
+        } else {
+            return res;
+        }
+    }
 }
 QStringList Dictionary::getAllKeys() const
 {

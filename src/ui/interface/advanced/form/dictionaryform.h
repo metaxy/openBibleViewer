@@ -37,6 +37,7 @@ public:
     void save();
     Form::FormType type() const;
     Dictionary* dictionary() const;
+    QString key() const;
 public slots:
     void copy();
     void selectAll();
@@ -68,7 +69,7 @@ private:
 
     int newDictionary(const int module = -1);
     Dictionary *m_dictionary;
-    void showHtml(const QString &html);
+    void showHtml(QString html);
 
     QString m_key;
 

@@ -396,7 +396,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     //now add id
     //it have to be done as last
     QMapIterator<int, Verse> i(verseMap);
-    const QString pre = "<span class='entry' verseID='";
+    const QString pre = "<span class='verseEntry' verseID='";
 
     const QString pre2 = "' chapterID='" + QString::number(chapterID) +
                          "' bookID='" + QString::number(bookID) +
@@ -427,7 +427,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 
 
     } else {
-        const QString pre = "<span class='entry' verseID='";
+        const QString pre = "<span class='verseEntry' verseID='";
         const QString pre2 =  "' chapterID='" + QString::number(chapterID) +
                               "' bookID='" + QString::number(bookID) +
                               "' moduleID='" + QString::number(m_moduleID) + "'>\n";

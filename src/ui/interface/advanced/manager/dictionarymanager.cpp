@@ -167,9 +167,15 @@ void DictionaryManager::pharseUrl(QString url, const Actions::OpenLinkModifiers 
 
         QString moduleID = "";
         QString key = "";
-
+        DictionaryForm *f = ((DictionaryForm*)m_windowManager->getForm(window));
         if(l.size() == 1) {
             moduleID = url;
+
+            //get key
+
+            if(!f->key().isEmpty()) {
+                key = f->key();
+            }
         } else {
             moduleID = l.first();
             key = l.last();
@@ -181,7 +187,7 @@ void DictionaryManager::pharseUrl(QString url, const Actions::OpenLinkModifiers 
         } else {
             imoduleID = moduleID.toInt();
         }
-        DictionaryForm *f = ((DictionaryForm*)m_windowManager->getForm(window));
+
         f->showEntry(key, imoduleID);
     }
 }

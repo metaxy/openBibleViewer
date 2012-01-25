@@ -11,6 +11,8 @@ public:
     Response::ResponseType type() const;
 
     virtual QString data() const;
+    void append(const QString &t);
+    void prepend(const QString &t);
 private:
     QString m_data;
 };

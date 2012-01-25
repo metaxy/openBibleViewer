@@ -49,7 +49,7 @@ html {
 td.rowTitle {
     width:5em;
 }
-.selectedEntry {
+.verseEntry .selectedEntry {
     border-left: 2px solid #17AAFF;
     padding-left:2px;
     padding-top:2px;
@@ -58,87 +58,87 @@ td.rowTitle {
     font-weight:bold;
 }
 
-.gramlink {
+.verseEntry .gramlink {
     font-size: 70%;
     vertical-align: super;
 }
-.gramlink:after {
+.verseEntry .gramlink:after {
     content: "  ";
 }
-.gramlink a{
+.verseEntry .gramlink a{
     color: #323232;
     text-decoration:none;
 }
-.gramlink a:hover{
+.verseEntry .gramlink a:hover{
     color:#0080AF;
     text-decoration:underline;
 }
 
-.stronglink {
+.verseEntry .stronglink {
     font-size: 70%;
     vertical-align: super;
 }
-.stronglink:after {
+.verseEntry .stronglink:after {
     content: "  ";
 }
-.stronglink a{
+.verseEntry .stronglink a{
     color: #002B70;
     text-decoration:none;
 }
-.stronglink a:hover{
+.verseEntry .stronglink a:hover{
     color: #0080AF;
     text-decoration:underline;
 }
 
-.rmaclink {
+.verseEntry .rmaclink {
     font-size: 70%;
     vertical-align: super;
 }
-.rmaclink:after {
+.verseEntry .rmaclink:after {
     content: "  ";
 }
-.rmaclink a{
+.verseEntry .rmaclink a{
     color: #700000;
     text-decoration:none;
 }
-.rmaclink a:hover{
+.verseEntry .rmaclink a:hover{
     color: #0080AF;
     text-decoration:underline;
 }
 
-.crossreference {
+.verseEntry .crossreference {
     font-size: 80%;
     color: blue;
 }
-.crossreference:before {
+.verseEntry .crossreference:before {
     content: " [";
 }
-.crossreference:after {
+.verseEntry .crossreference:after {
     content: "] ";
 }
-.crossreference a{
+.verseEntry .crossreference a{
     color: blue;
 }
-.crossreference a:hover{
+.verseEntry .crossreference a:hover{
     color: green;
 }
 
-.studynote:before {
+.verseEntry .studynote:before {
     content: "(";
 }
-.studynote:after {
+.verseEntry .studynote:after {
     content: ")";
 }
-.studynote {
+.verseEntry .studynote {
     font-size: small;
     color: #420F00;
 }
-.verseNumber {
+.verseEntry .verseNumber {
     color: #014B88;
     font-size: smaller;
     vertical-align: super;
 }
-.verseNumber:after {
+.verseEntry .verseNumber:after {
     content: " ";
 }
 .rangeTitle {
@@ -178,9 +178,71 @@ td .rangeTitle {
 /* Dictionary */
 
 .dictionary {
-    
+    background-color:#ffffff;
+    color:#000000;
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+    font-size:15px;
 }
 
-.dictionary .entry {
+.dictionary .dictEntry {
+    border-radius: 5px;
+    border: solid 1px #989898;
     
+    padding-left: 10px;
+    padding-right: 10px;
+    
+    padding-top: 4px;
+    padding-bottom: 4px;
+    
+    margin-bottom: 5px;
+}
+
+.dictionary .crossreference {
+    color: #002B70;
+    text-decoration:none;
+}
+
+.dictionary .crossreference a:hover{
+    color: #0080AF;
+    text-decoration:underline;
+}
+
+.dictionary h3.title {
+    color: #151515;
+}
+
+.dictionary .transliteration:before {
+     content: " (";
+}
+
+.dictionary .transliteration:after {
+     content: ") ";
+}
+
+.dictionary .pronunciation:before {
+     content: " [";
+}
+
+.dictionary .pronunciation:after {
+     content: "] ";
+}
+.dictionary .hr {
+    display:block;
+}
+
+.dictionary .description {
+}
+
+.dictionary a{
+    color: #002B70;
+    text-decoration:none;
+}
+.dictionary a:hover{
+    color: #0080AF;
+    text-decoration:underline;
+}
+.dictionary a:visited{
+    color: #0080AF;
 }

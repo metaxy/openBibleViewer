@@ -256,7 +256,7 @@ MetaInfo ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                                     VerseUrl url;
                                     url.fromMscope(mscope);
 
-                                    desc += " <a href=\"" + url.toString() + "\">" + refText.toString(url) + "</a> ";
+                                    desc += " <a class='crossreference' href=\"" + url.toString() + "\">" + refText.toString(url) + "</a> ";
                                 } else if(descElement.hasAttribute("target")) {
                                     desc += descElement.text();
                                 }
@@ -267,13 +267,13 @@ MetaInfo ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                                 StrongUrl url;
                                 bool ok = url.fromText(descElement.text());
                                 if(ok)
-                                    desc += " <a href=\"" + url.toString() + "\">" + descElement.text() + "</a> ";
+                                    desc += " <a class='crossreference' href=\"" + url.toString() + "\">" + descElement.text() + "</a> ";
                             }
                         }
 
                         descNode = descNode.nextSibling();
                     }
-                    desc += "<hr />";
+                    desc += "<span class=\"hr\" />";
                 }
                 details = details.nextSibling();
             }
@@ -282,14 +282,14 @@ MetaInfo ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
                     couldBe = 1;
                 }
             }
-            QString content = "<h3 class='strongTitle'>" + key + " - " + title + "</h3>";
+            QString content = "<h3 class='title'>" + key + " - " + title + "</h3>";
             if(!trans.isEmpty()) {
-                content += " (" + trans + ") ";
+                content += "<span class='transliteration'>" + trans + "</span>";
             }
             if(!pron.isEmpty()) {
-                content += " [" + pron + "] ";
+                content += "<span class='pronunciation'>" + pron + "</span>";
             }
-            content += "<br />" + desc;
+            content += "<span class='description'>" + desc + "</span>";
             indexdoc.clear();
 #ifdef OBV_USE_WSTRING
             indexdoc.add(*_CLNEW Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
