@@ -131,7 +131,7 @@ int BibleQuote::loadBibleData(const int bibleID, const QString &path)
         }
     }
     m_versification = settings->loadVersification();
-    if(settings->noV11N()) {
+    if(settings->noV11n()) {
         myDebug() << "load new versification";
         m_versification = QSharedPointer<Versification>(new Versification_BibleQuote(bookFullName, bookShortName, bookCount));
         settings->v11n = m_versification.toWeakRef();

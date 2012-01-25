@@ -160,6 +160,7 @@ void Context::loadSettings()
         m->modulePath = m_settings->recoverUrl(m_settingsFile->value("path").toString());
         m->moduleType = (ModuleTools::ModuleType) m_settingsFile->value("type").toInt();
 
+        m->moduleLanguage = m_settingsFile->value("language").toString();
         m->encoding = m_settingsFile->value("encoding").toString();
 
         m->zefbible_textFormatting = (ModuleSettings::ZefBible_TextFormating) m_settingsFile->value("textFormatting").toInt();
@@ -227,6 +228,7 @@ void Context::writeSettings()
         m_settingsFile->setValue("shortName", m->moduleShortName);
         m_settingsFile->setValue("path", m_settings->savableUrl(m->modulePath));
         m_settingsFile->setValue("type", m->moduleType);
+        m_settingsFile->setValue("language", m->moduleLanguage);
 
         m_settingsFile->setValue("textFormatting", m->zefbible_textFormatting);
         m_settingsFile->setValue("removeHtml", m->biblequote_removeHtml);

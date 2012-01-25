@@ -1,6 +1,6 @@
 #ifndef RESPONSE_H
 #define RESPONSE_H
-
+#include <QtCore/qnamespace.h>
 class Response
 {
 public:
@@ -14,6 +14,13 @@ public:
     Response();
     virtual bool isValid() const;
     virtual Response::ResponseType type() const;
+
+   /* void setLayoutDirection(const Qt::LayoutDirection layout);
+
+    Qt::LayoutDirection layoutDirection() const;
+protected:
+    Qt::LayoutDirection m_layout;*/
+
 };
 
 #endif // RESPONSE_H

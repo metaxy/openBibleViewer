@@ -22,6 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/simplemoduleclass.h"
 #include "src/core/settings/moduledisplaysettings.h"
 #include "src/module/searchablemodule.h"
+#include "src/module/response/response.h"
 /**
  * VerseModule is an abstract class for modules classes like Bible or StudyNotes which are based on a versification.
  * That means it has books, chapters and verse.
@@ -33,8 +34,8 @@ public:
     VerseModule();
     virtual ~VerseModule();
     void setModuleDisplaySettings(ModuleDisplaySettings *moduleDisplaySettings);
-    virtual TextRanges readRanges(const Ranges &ranges, bool ignoreModuleID = false) = 0;
-    virtual TextRange readRange(const Range &range, bool ignoreModuleID = false) = 0;
+    virtual Response* readRanges(const Ranges &ranges, bool ignoreModuleID = false) = 0;
+
 
     void setLastTextRanges(TextRanges *textRanges);
     /**
@@ -50,6 +51,7 @@ public:
     virtual void search(SearchQuery query, SearchResult *result) = 0;
     virtual void clearData() = 0;
 protected:
+    virtual TextRange readRange(const Range &range, bool ignoreModuleID = false) = 0;
     SearchQuery m_lastSearchQuery;
     QSharedPointer<Versification> m_versification;
     TextRanges *m_lastTextRanges;

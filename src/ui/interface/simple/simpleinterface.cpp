@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/moduledisplaysettings.h"
 #include "src/module/moduletools.h"
 #include "src/core/search/search.h"
+#include "src/module/response/textrangesresponse.h"
 #include <QtCore/QPointer>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QMessageBox>
@@ -194,8 +195,10 @@ void SimpleInterface::pharseUrl(const QString &string)
 void SimpleInterface::showRanges(const Ranges &ranges, const VerseUrl &url)
 {
     DEBUG_FUNC_NAME
+    TextRangesResponse *res = (TextRangesResponse*) m_module->readRanges(ranges);
 
-    TextRanges t = m_module->readRanges(ranges);
+    TextRanges t = res->ranges();
+    delete res;
     m_module->setLastTextRanges(&t);
 
     if(!t.error()) {

@@ -26,11 +26,10 @@ public:
 
     Bible();
     ~Bible();
-    virtual TextRanges readRanges(const Ranges &ranges, bool ignoreModuleID = false);
     /**
       * ignoreModuleID is used in VerseTable
       */
-    virtual TextRange readRange(const Range &range, bool ignoreModuleID = false);
+    virtual Response* readRanges(const Ranges &ranges, bool ignoreModuleID = false);
 
     QStringList getSearchPaths() const;
     /**
@@ -47,6 +46,9 @@ public:
     void clearData();
 
 private:
+
+    virtual TextRange readRange(const Range &range, bool ignoreModuleID = false);
+
     int loadModuleData(const int bibleID);
     bool loaded() const;
 

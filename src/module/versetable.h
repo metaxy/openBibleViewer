@@ -33,7 +33,7 @@ public:
     void clear();
     /**
      * Returns the bible at id.
-     * \param id The bibleList internal id, not the moduleID. If id == -1 then current bible;
+     * \param id The bibleList internal id, not the moduleID. If id == -1 then current bible.
      */
     VerseModule * verseModule(const int id = -1) const;
     void addModule(VerseModule* b, const QPoint &p);

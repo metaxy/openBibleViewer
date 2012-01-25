@@ -35,8 +35,8 @@ html {
     position:fixed;
     width:100%;
     background-image: -webkit-gradient(linear,left bottom,left top, 
-				       color-stop(0.24, rgba(255,255,255,0.85)),
-				       color-stop(0.88, rgba(209,209,209,0.85))
+                    color-stop(0.24, rgba(255,255,255,0.85)),
+                    color-stop(0.88, rgba(209,209,209,0.85))
     );
     border-bottom: 1px solid rgba(68,69,68,0.6);
     
@@ -172,4 +172,15 @@ td .rangeTitle {
 
 .wordsofjesus {
     color: red;
+}
+
+/***************************************************************************/
+/* Dictionary */
+
+.dictionary {
+    
+}
+
+.dictionary .entry {
+    
 }

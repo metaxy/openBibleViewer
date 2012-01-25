@@ -77,6 +77,8 @@ public:
     static QString moduleTypeName(ModuleTools::ModuleType type);
 
     static ModuleTools::ModuleClass typeToClass(ModuleTools::ModuleType type);
+
+    static Qt::LayoutDirection languageToDirection(const QString &lang);
 };
 
 #endif // MODULETOOLS_H

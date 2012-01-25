@@ -61,6 +61,8 @@ public:
     QString moduleShortName;
     ModuleTools::ModuleType moduleType;
 
+    QString moduleLanguage;//ISO 639-2
+
     QString encoding;
     bool useParentSettings;
 
@@ -92,7 +94,7 @@ public:
 
     QSharedPointer<Versification> getV11n();
 
-    bool noV11N();
+    bool noV11n();
 
     int parentID;
 

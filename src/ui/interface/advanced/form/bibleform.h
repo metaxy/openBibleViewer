@@ -78,7 +78,7 @@ public:
 
     SearchableModule * searchableModule() const;
     VerseTable *verseTable() const;
-    VerseModule *verseModule() const;
+    virtual VerseModule *verseModule() const;
 
     void newModule(const int moduleID);
     int newModule();

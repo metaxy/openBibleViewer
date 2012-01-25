@@ -27,6 +27,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QDir>
 #include <QtGui/QTextDocument>
 
+#include "src/module/response/textrangesresponse.h"
 Bible::Bible()
 {
     m_bookID = 0;
@@ -395,12 +396,14 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     //now add id
     //it have to be done as last
     QMapIterator<int, Verse> i(verseMap);
-    if(moduleType() == ModuleTools::BibleQuoteModule) {
-        const QString pre = "<span verseID='";
+    const QString pre = "<span class='entry' verseID='";
 
-        const QString pre2 = "' chapterID='" + QString::number(chapterID) +
-                             "' bookID='" + QString::number(bookID) +
-                             "' moduleID='" + QString::number(m_moduleID) + "'>\n";
+    const QString pre2 = "' chapterID='" + QString::number(chapterID) +
+                         "' bookID='" + QString::number(bookID) +
+                         "' moduleID='" + QString::number(m_moduleID) + "'>\n";
+
+
+    if(moduleType() == ModuleTools::BibleQuoteModule) {
 
         const QString ap = "</span><br />\n";
         while(i.hasNext()) {
@@ -411,12 +414,20 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                 verse.prepend(pre + QString::number(i.key() - 1) + pre2);
                 verse.append(ap);
             }
+            if(verse.layoutDirection() == Qt::RightToLeft) {
+                verse.prepend("<span dir= \"rtl\">");
+                verse.append("</span>");
+            }
             ret.addVerse(verse);
             //myDebug() << verse.data();
+
+
         }
 
+
+
     } else {
-        const QString pre = "<span verseID='";
+        const QString pre = "<span class='entry' verseID='";
         const QString pre2 =  "' chapterID='" + QString::number(chapterID) +
                               "' bookID='" + QString::number(bookID) +
                               "' moduleID='" + QString::number(m_moduleID) + "'>\n";
@@ -427,6 +438,11 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 
             verse.prepend(pre + QString::number(i.key()) + pre2);
             verse.append(ap);
+
+            if(verse.layoutDirection() == Qt::RightToLeft) {
+                verse.prepend("<span dir= \"rtl\">");
+                verse.append("</span>");
+            }
             ret.addVerse(verse);
         }
     }
@@ -434,13 +450,13 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 
 }
 
-TextRanges Bible::readRanges(const Ranges &ranges, bool ignoreModuleID)
+Response* Bible::readRanges(const Ranges &ranges, bool ignoreModuleID)
 {
     TextRanges textRanges;
     foreach(const Range & r, ranges.getList()) {
         textRanges.addTextRange(readRange(r, ignoreModuleID));
     }
-    return textRanges;
+    return new TextRangesResponse(textRanges);
 }
 
 void Bible::search(SearchQuery query, SearchResult *result)

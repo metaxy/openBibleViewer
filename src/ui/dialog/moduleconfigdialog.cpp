@@ -126,6 +126,7 @@ void ModuleConfigDialog::setModule(ModuleSettings *config)
     }
 
     m_ui->lineEdit_styleSheet->setText(config->styleSheet);
+    m_ui->lineEdit_language->setText(config->moduleLanguage);
     m_ui->comboBox_defaultModule->setCurrentIndex((int) config->defaultModule);
     m_ui->comboBox_contentType->setCurrentIndex((int)config->contentType);
 }
@@ -153,6 +154,7 @@ void ModuleConfigDialog::bsave()
     m_moduleSettings->zefbible_softCache = m_ui->checkBox_softCache->isChecked();
     m_moduleSettings->encoding = m_encodings.at(m_ui->comboBox_encoding->currentIndex());
     m_moduleSettings->styleSheet = m_ui->lineEdit_styleSheet->text();
+    m_moduleSettings->moduleLanguage = m_ui->lineEdit_language->text();
 
     m_moduleSettings->defaultModule = (ModuleTools::DefaultModule) m_ui->comboBox_defaultModule->currentIndex();
     m_moduleSettings->contentType = (ModuleTools::ContentType) m_ui->comboBox_contentType->currentIndex();

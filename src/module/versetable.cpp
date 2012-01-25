@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "versetable.h"
 #include "src/core/dbghelper.h"
-
+#include "src/module/response/textrangesresponse.h"
 VerseTable::VerseTable()
 {
     m_currentModule = 0;
@@ -105,7 +105,9 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
         VerseModule *b = m_modules.value(m_currentModule, NULL);
         //myDebug() << b;
         if(b) {
-            ret.second = b->readRanges(ranges);
+            TextRangesResponse *res = (TextRangesResponse*)b->readRanges(ranges);
+            ret.second = res->ranges();
+            delete res;
             ret.second.setVerseTableID(0);
             if(ret.second.textRanges().size() == 1)
                 ret.first = ret.second.join("");
@@ -130,7 +132,9 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
         while(i.hasNext()) {
             i.next();
             myDebug() << i.value()->moduleID();
-            TextRanges r = i.value()->readRanges(ranges, true);
+            TextRangesResponse *res = (TextRangesResponse*) i.value()->readRanges(ranges, true);
+            TextRanges r = res->ranges();
+            delete res;
             r.setVerseTableID(i.key());
 
             data.insert(i.key(), r);

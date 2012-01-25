@@ -113,6 +113,8 @@ private:
     void generateCache(QList<std::pair<qint64, qint64> > list);
     QMap<int,QString> m_strongsPrefix;
     void genStrongsPrefix();
+
+    bool m_rightToLeft;
 };
 
 #endif // ZEFANIABIBLE_H

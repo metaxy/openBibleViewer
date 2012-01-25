@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/reftext.h"
 #include <QtCore/QPointer>
 #include "src/core/link/urlconverter2.h"
+#include "src/module/response/textrangesresponse.h"
 BibleForm::BibleForm(QWidget *parent) : Form(parent), m_ui(new Ui::BibleForm)
 {
     //DEBUG_FUNC_NAME
@@ -73,6 +74,7 @@ void BibleForm::init()
     m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
     m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
 #endif
+    m_view->setLayoutDirection(Qt::LayoutDirectionAuto);
 
     connect(m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
 
@@ -96,8 +98,8 @@ void BibleForm::newModule(const int moduleID)
 {
     myDebug() << moduleID;
     m_moduleManager->newVerseModule(moduleID, QPoint(0, 0), m_verseTable);
-    if(m_verseTable->verseModule())
-        m_verseTable->verseModule()->setModuleID(moduleID);
+    if(verseModule())
+        verseModule()->setModuleID(moduleID);
 
 }
 int BibleForm::newModule()
@@ -139,7 +141,7 @@ void BibleForm::pharseUrl(const VerseUrl &url)
     } else {
         m_url = url;
         if(verseTableLoaded() && !m_url.hasModuleID()) {
-            m_url.setModuleID(m_verseTable->verseModule()->moduleID());
+            m_url.setModuleID(verseModule()->moduleID());
         }
     }
 
@@ -173,7 +175,7 @@ void BibleForm::pharseUrl(const QString &string)
         } else {
             m_url = url;
             if(verseTableLoaded() && !m_url.hasModuleID()) {
-                m_url.setModuleID(m_verseTable->verseModule()->moduleID());
+                m_url.setModuleID(verseModule()->moduleID());
             }
         }
 
@@ -218,7 +220,7 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
 
 
     //todo: its very important to fix this bug
-    /*if(m_verseTable->verseModule()->moduleID() != ranges.getList().first().moduleID()) {
+    /*if(verseModule()->moduleID() != ranges.getList().first().moduleID()) {
 
         const QPoint p = m_verseTable->m_points.value(m_verseTable->currentVerseTableID());
         VerseModule *m;
@@ -238,20 +240,20 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
 
     if(!r.second.error()) {
         showTextRanges(r.first, r.second, url);
-        m_actions->updateChapters(r.second.minBookID(), m_verseTable->verseModule()->versification());
-        m_actions->updateBooks(m_verseTable->verseModule()->versification());
+        m_actions->updateChapters(r.second.minBookID(), verseModule()->versification());
+        m_actions->updateBooks(verseModule()->versification());
         m_actions->setCurrentBook(r.second.bookIDs());
         m_actions->setCurrentChapter(r.second.chapterIDs());
-        m_actions->setTitle(m_verseTable->verseModule()->moduleTitle());
+        m_actions->setTitle(verseModule()->moduleTitle());
     } else if(r.second.error() == TextRange::FatalError){
         showTextRanges(r.first, r.second, url);
         m_actions->clearBooks();
         m_actions->clearChapters();
-        m_actions->setTitle(m_verseTable->verseModule()->moduleTitle());
+        m_actions->setTitle(verseModule()->moduleTitle());
     } else if(r.second.error() == TextRange::NotFoundError) {
         if(showStart) {
             VerseUrlRange range;
-            range.setModule(m_verseTable->verseModule()->moduleID());
+            range.setModule(verseModule()->moduleID());
             range.setBook(VerseUrlRange::LoadFirstBook);
             range.setChapter(VerseUrlRange::LoadFirstChapter);
             range.setWholeChapter();
@@ -259,11 +261,11 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
             pharseUrl(url);
         } else {
             showTextRanges(r.first, r.second, url);
-            m_actions->updateChapters(0, m_verseTable->verseModule()->versification());
-            m_actions->updateBooks(m_verseTable->verseModule()->versification());
+            m_actions->updateChapters(0, verseModule()->versification());
+            m_actions->updateBooks(verseModule()->versification());
             m_actions->setCurrentBook(r.second.bookIDs());
             m_actions->setCurrentChapter(r.second.chapterIDs());
-            m_actions->setTitle(m_verseTable->verseModule()->moduleTitle());
+            m_actions->setTitle(verseModule()->moduleTitle());
         }
     }
 }
@@ -272,23 +274,23 @@ void BibleForm::nextChapter()
 {
     if(!verseTableLoaded())
         return;
-    if(m_verseTable->verseModule()->lastTextRanges()->minChapterID() <
-            m_verseTable->verseModule()->versification()->maxChapter().value(m_verseTable->verseModule()->lastTextRanges()->minBookID()) - 1) {
+    if(verseModule()->lastTextRanges()->minChapterID() <
+            verseModule()->versification()->maxChapter().value(verseModule()->lastTextRanges()->minBookID()) - 1) {
         VerseUrl bibleUrl;
         VerseUrlRange range;
         range.setOpenToTransformation(false);
         range.setModule(VerseUrlRange::LoadCurrentModule);
         range.setBook(VerseUrlRange::LoadCurrentBook);
-        range.setChapter(m_verseTable->verseModule()->lastTextRanges()->minChapterID() + 1);
+        range.setChapter(verseModule()->lastTextRanges()->minChapterID() + 1);
         range.setWholeChapter();
         bibleUrl.addRange(range);
         m_actions->get(bibleUrl);
-    } else if(m_verseTable->verseModule()->lastTextRanges()->minBookID() < m_verseTable->verseModule()->versification()->bookCount() - 1) {
+    } else if(verseModule()->lastTextRanges()->minBookID() < verseModule()->versification()->bookCount() - 1) {
         VerseUrl bibleUrl;
         VerseUrlRange range;
         range.setOpenToTransformation(false);
         range.setModule(VerseUrlRange::LoadCurrentModule);
-        range.setBook(m_verseTable->verseModule()->lastTextRanges()->minBookID() + 1);
+        range.setBook(verseModule()->lastTextRanges()->minBookID() + 1);
         range.setChapter(VerseUrlRange::LoadFirstChapter);
         range.setWholeChapter();
         bibleUrl.addRange(range);
@@ -300,22 +302,22 @@ void BibleForm::previousChapter()
 {
     if(!verseTableLoaded())
         return;
-    if(m_verseTable->verseModule()->lastTextRanges()->minChapterID() > 0) {
+    if(verseModule()->lastTextRanges()->minChapterID() > 0) {
         VerseUrl bibleUrl;
         VerseUrlRange range;
         range.setOpenToTransformation(false);
         range.setModule(VerseUrlRange::LoadCurrentModule);
         range.setBook(VerseUrlRange::LoadCurrentBook);
-        range.setChapter(m_verseTable->verseModule()->lastTextRanges()->minChapterID() - 1);
+        range.setChapter(verseModule()->lastTextRanges()->minChapterID() - 1);
         range.setWholeChapter();
         bibleUrl.addRange(range);
         m_actions->get(bibleUrl);
-    } else if(m_verseTable->verseModule()->lastTextRanges()->minBookID() > 0) {
+    } else if(verseModule()->lastTextRanges()->minBookID() > 0) {
         VerseUrl bibleUrl;
         VerseUrlRange range;
         range.setOpenToTransformation(false);
         range.setModule(VerseUrlRange::LoadCurrentModule);
-        range.setBook(m_verseTable->verseModule()->lastTextRanges()->minBookID() - 1);
+        range.setBook(verseModule()->lastTextRanges()->minBookID() - 1);
         range.setChapter(VerseUrlRange::LoadLastChapter);
         range.setWholeChapter();
         bibleUrl.addRange(range);
@@ -583,7 +585,7 @@ void BibleForm::setCurrentBook(const QSet<int> &bookID)
         if(b < min || min == -1)
             min = b;
     }
-    m_ui->comboBox_books->setCurrentIndex(m_verseTable->verseModule()->versification()->bookIDs().indexOf(min));
+    m_ui->comboBox_books->setCurrentIndex(verseModule()->versification()->bookIDs().indexOf(min));
     connect(m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
 }
 void BibleForm::forwardClear()
@@ -612,12 +614,12 @@ void BibleForm::activated()
         m_actions->setTitle("");
         m_verseTable = m_moduleManager->newVerseTable();
         return;
-    } else if(m_verseTable->verseModule() == NULL) {
+    } else if(verseModule() == NULL) {
         m_moduleManager->newVerseModule(-1, QPoint(0, 0), m_verseTable);
         return;
     }
 
-    if(m_verseTable->verseModule()->moduleID() < 0) {
+    if(verseModule()->moduleID() < 0) {
         myWarning() << "invalid moduleID";
         clearChapters();
         clearBooks();
@@ -626,12 +628,12 @@ void BibleForm::activated()
     }
 
 
-    m_actions->setTitle(m_verseTable->verseModule()->moduleTitle());
-    m_actions->setCurrentModule(m_verseTable->verseModule()->moduleID());
+    m_actions->setTitle(verseModule()->moduleTitle());
+    m_actions->setCurrentModule(verseModule()->moduleID());
 
-    if(m_verseTable->verseModule()->lastTextRanges() != NULL) {
-        m_actions->updateChapters(m_verseTable->verseModule()->lastTextRanges()->minBookID(), m_verseTable->verseModule()->versification());
-        m_actions->updateBooks(m_verseTable->verseModule()->versification());
+    if(verseModule()->lastTextRanges() != NULL) {
+        m_actions->updateChapters(verseModule()->lastTextRanges()->minBookID(), verseModule()->versification());
+        m_actions->updateBooks(verseModule()->versification());
 
         if(m_lastTextRanges.verseCount() != 0 && !m_lastTextRanges.error()) {
             m_actions->setCurrentChapter(m_lastTextRanges.chapterIDs());
@@ -651,7 +653,7 @@ void BibleForm::showText(const QString &text)
     {
         QString cssFile;
         if(m_moduleManager->verseTableLoaded(m_verseTable))
-            cssFile = m_settings->getModuleSettings(m_verseTable->verseModule()->moduleID())->styleSheet;
+            cssFile = m_settings->getModuleSettings(verseModule()->moduleID())->styleSheet;
         if(cssFile.isEmpty())
             cssFile = ":/data/css/default.css";
         m_view->settings()->setUserStyleSheetUrl(QUrl::fromLocalFile(cssFile));
@@ -678,9 +680,9 @@ void BibleForm::showText(const QString &text)
         //because the user zoomed in.
     }
 
-    if(m_verseTable->verseModule()->moduleType() == ModuleTools::BibleQuoteModule) {
+    if(verseModule()->moduleType() == ModuleTools::BibleQuoteModule) {
         QWebElementCollection collection = frame->documentElement().findAll("img");
-        const QStringList searchPaths = ((Bible*) m_verseTable->verseModule())->getSearchPaths();
+        const QStringList searchPaths = ((Bible*) verseModule())->getSearchPaths();
 
         foreach(QWebElement paraElement, collection) {
             QString url = paraElement.attribute("src");
@@ -1039,7 +1041,9 @@ void BibleForm::copyWholeVerse(void)
                 ranges.addRange(r);
             }
         }
-        QString stext = m_verseTable->verseModule()->readRanges(ranges).join(" ");
+        TextRangesResponse *res = (TextRangesResponse*) verseModule()->readRanges(ranges);
+        QString stext = res->ranges().join(" ");
+        delete res;
 
         QTextDocument doc2;
         doc2.setHtml(stext);
@@ -1247,7 +1251,7 @@ VerseSelection BibleForm::verseSelection()
     }
     myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
     //do not this stuff with BibleQuote because some modules have wired html stuff.
-    if(s.canBeUsedForMarks() == false && m_verseTable->verseModule()->moduleType() != ModuleTools::BibleQuoteModule) {
+    if(s.canBeUsedForMarks() == false && verseModule()->moduleType() != ModuleTools::BibleQuoteModule) {
         //now the ultimative alogrithm
         f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection();adVerseSelection.getSelection();");
         const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
@@ -1294,7 +1298,7 @@ bool BibleForm::verseTableLoaded()
 
 SearchableModule * BibleForm::searchableModule() const
 {
-    return (SearchableModule*)(m_verseTable->verseModule());
+    return (SearchableModule*)(verseModule());
 }
 
 VerseTable * BibleForm::verseTable() const
@@ -1327,12 +1331,12 @@ void BibleForm::reload(bool full)
 }
 void BibleForm::reloadIf(const VerseUrl &url)
 {
-	if(!m_verseTable || !m_verseTable->verseModule() || !m_verseTable->verseModule()->lastTextRanges()) {
+    if(!m_verseTable || !verseModule() || !verseModule()->lastTextRanges()) {
 		return;
 	}
 
 	VerseUrlRange r = url.ranges().first();
-    if(m_verseTable->verseModule()->moduleID() == r.moduleID() && m_verseTable->verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
+    if(verseModule()->moduleID() == r.moduleID() && verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
         reload(false);
     }
 }

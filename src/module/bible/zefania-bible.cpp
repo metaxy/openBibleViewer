@@ -32,6 +32,7 @@ ZefaniaBible::ZefaniaBible()
     m_modulePath = "";
     m_moduleName = "";
     m_xml = NULL;
+    m_rightToLeft = false;
 }
 ZefaniaBible::~ZefaniaBible()
 {
@@ -57,10 +58,11 @@ int ZefaniaBible::loadBibleData(const int id, const QString &path)
 
     m_versification = m_set->loadVersification();
 
-    if(m_set->noV11N() || !hasHardCache(m_modulePath)) {
+    if(m_set->noV11n() || !hasHardCache(m_modulePath)) {
         removeHardCache(m_modulePath);
         getVersification();
     }
+    m_rightToLeft = (ModuleTools::languageToDirection(m_set->moduleLanguage) == Qt::RightToLeft);
 
     m_moduleID = id;
     m_modulePath = path;
@@ -599,6 +601,8 @@ Verse ZefaniaBible::readVerse()
 {
     const int verseID = m_xml->attributes().value("vnumber").toString().toInt() - 1;
     QString out;
+    /*if(m_rightToLeft)
+        out += "<div dir= \"rtl\">";*/
     while(true) {
         m_xml->readNext();
 
@@ -625,7 +629,12 @@ Verse ZefaniaBible::readVerse()
             out += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
         }
     }
+   /* if(m_rightToLeft)
+         out += "</div>";*/
+
     Verse verse(verseID, out);
+    if(m_rightToLeft)
+        verse.setLayoutDirection(Qt::RightToLeft);
     return verse;
 }
 QString ZefaniaBible::pharseStyle()

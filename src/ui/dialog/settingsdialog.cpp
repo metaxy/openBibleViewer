@@ -583,6 +583,8 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
 
         m->modulePath = f;
         m->moduleType = moduleType;
+        m->moduleLanguage = info.language;
+
 
     } else {
         //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot open the file."));

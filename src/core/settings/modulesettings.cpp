@@ -125,7 +125,7 @@ QSharedPointer<Versification> ModuleSettings::getV11n()
     return v11n.toStrongRef();
 
 }
-bool ModuleSettings::noV11N()
+bool ModuleSettings::noV11n()
 {
     DEBUG_FUNC_NAME
     return v11n.isNull();

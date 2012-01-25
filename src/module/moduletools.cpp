@@ -177,3 +177,10 @@ ModuleTools::ModuleClass ModuleTools::typeToClass(ModuleTools::ModuleType type)
     }
     return ModuleTools::NoneClass;
 }
+Qt::LayoutDirection ModuleTools::languageToDirection(const QString &lang)
+{
+    if(lang.toLower() == "heb") {
+        return Qt::RightToLeft;
+    }
+    return Qt::LeftToRight;
+}

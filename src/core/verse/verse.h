@@ -25,9 +25,14 @@ public:
     void append(const QString &str);
     void prepend(const QString &str);
     void insert(const int position, const QString & str);
+
+    void setLayoutDirection(const Qt::LayoutDirection layout);
+
+    Qt::LayoutDirection layoutDirection() const;
 private:
     int m_verseID;
     QString m_text;
+    Qt::LayoutDirection m_layout;
 };
 
 #endif // VERSE_H

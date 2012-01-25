@@ -14,10 +14,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "verse.h"
 Verse::Verse() : m_verseID(-1), m_text()
 {
+    m_layout = Qt::LayoutDirectionAuto;
 }
 
 Verse::Verse(const int verseID, const QString &text) : m_verseID(verseID), m_text(text)
 {
+    m_layout = Qt::LayoutDirectionAuto;
 }
 int Verse::verseID() const
 {
@@ -40,4 +42,13 @@ void Verse::prepend(const QString &str)
 void Verse::insert(const int position, const QString & str)
 {
     m_text.insert(position, str);
+}
+void Verse::setLayoutDirection(const Qt::LayoutDirection layout)
+{
+    m_layout = layout;
+}
+
+Qt::LayoutDirection Verse::layoutDirection() const
+{
+    return m_layout;
 }
