@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module id="lex-studybible.info" type="webdict">
+    <meta>
+        <name>Strong Lexicon - studybible.info</name>
+        <shortName>StudyBible Lex</shortName>
+        <desc>http://studybible.info</desc>
+        <type>strong-dictionary</type>
+    </meta>
+    <data>
+        <site>
+            <url>http://studybible.info/strongs</url>
+            <pharseIn><![CDATA[
+                (function(a) { 
+                    return "http://studybible.info/strongs/"+a; 
+                 })
+                ]]>
+            </pharseIn>
+            <pharseOut>
+                <![CDATA[
+                    (function(a) { 
+                        a = a.toLowerCase();
+                        var str = "http://studybible.info/strongs/"
+                        if(a.indexOf(str) == 0) {
+                            var n = a.substr(str.length);
+                            return "strong:/" + n;
+                        } else {
+                            return a;
+                        }
+                    })
+                 ]]>
+            </pharseOut>
+
+        </site>
+    </data>
+</module>

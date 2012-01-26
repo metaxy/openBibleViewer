@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module id="biblediagrams.com" type="webpage">
+	<meta>
+		<name>Bible Diagrams</name>
+		<shortName>BibDia</shortName>
+		<desc>This website is devoted to the display of information about the Bible using diagrams and charts</desc>	
+	</meta>
+	<data>
+		<site>
+			<url>http://www.biblediagrams.com/diagrams/index.htm</url>
+		</site>
+	</data>
+</module>

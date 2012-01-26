@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module id="newtestamentgreek-studylight.org" type="webdict">
+    <meta>
+        <name>New Testament Greek - StudyLight.org</name>
+        <shortName>NTGreek Strong Lex</shortName>
+        <desc>Powerd by LightSpeed Technology.</desc>
+        <type>strong-dictionary</type>
+    </meta>
+    <data>
+        <site>
+            <url>http://www.studylight.org/isb/</url>
+            <pharseIn><![CDATA[
+                (function(a) { 
+                    if(a[0] == 'G' || a[0] == 'g')
+                        a = a.substr(1);
+                    return "http://www.studylight.org/isb/view.cgi?number="+a+"&tool=grk"; 
+                 })
+                ]]>
+            </pharseIn>
+            <pharseOut>
+                <![CDATA[
+                    (function(a) { 
+                        var str = "http://www.studylight.org/isb/view.cgi?number="
+                        if(a.indexOf(str) == 0)
+                            return "strong:/G" + a.substr(str.length);
+                        else
+                            return a;
+                    })
+                 ]]>
+            </pharseOut>
+
+        </site>
+    </data>
+</module>

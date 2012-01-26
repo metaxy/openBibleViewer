@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module id="lex-blueletterbible.org" type="webdict">
+    <meta>
+        <name>Lexicon - BlueLetterBible.org</name>
+        <shortName>BLB Strong Lexicon</shortName>
+        <desc>http://www.blueletterbible.org/mission.cfm</desc>
+        <type>strong-dictionary</type>
+    </meta>
+    <data>
+        <site>
+            <url>http://www.blueletterbible.org/lang/lexicon/showAbbrevs.cfm</url>
+            <pharseIn><![CDATA[
+                (function(a) { 
+                    return "http://www.blueletterbible.org/lang/lexicon/lexicon.cfm?strongs="+a; 
+                 })
+                ]]>
+            </pharseIn>
+            <pharseOut>
+                <![CDATA[
+                    (function(a) { 
+                        a = a.toLowerCase();
+                        var str = "http://www.blueletterbible.org/lang/lexicon/lexicon.cfm?strongs="
+                        if(a.indexOf(str) == 0) {
+                            var n = a.substr(str.length);
+                            if(n.indexOf("&") != -1)
+                                n = n.substr(0, n.indexOf("&"));
+                            return "strong:/" + n;
+                        } else {
+                            return a;
+                        }
+                    })
+                 ]]>
+            </pharseOut>
+
+        </site>
+    </data>
+</module>
