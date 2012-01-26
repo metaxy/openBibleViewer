@@ -189,7 +189,7 @@ void Context::loadSettings()
         displaySettings->setShowNotes(m_settingsFile->value("showNotes", true).toBool());
         displaySettings->setShowMarks(m_settingsFile->value("showMarks", true).toBool());
         displaySettings->setShowBottomToolBar(m_settingsFile->value("showBottomToolBar", true).toBool());
-        displaySettings->setShowRMac(m_settingsFile->value("showRMac", true).toBool());
+        displaySettings->setShowRMAC(m_settingsFile->value("showRMAC", true).toBool());
         displaySettings->setShowCaptions(m_settingsFile->value("showCaptions", false).toBool());
         displaySettings->setShowProlog(m_settingsFile->value("showProlog", false).toBool());
         m->setDisplaySettings(displaySettings);
@@ -258,7 +258,7 @@ void Context::writeSettings()
                 m_settingsFile->setValue("showNotes", displaySettings->showNotes());
                 m_settingsFile->setValue("showMarks", displaySettings->showMarks());
                 m_settingsFile->setValue("showBottomToolBar", displaySettings->showBottomToolBar());
-                m_settingsFile->setValue("showRMac", displaySettings->showRMac());
+                m_settingsFile->setValue("showRMAC", displaySettings->showRMAC());
                 m_settingsFile->setValue("showCaptions", displaySettings->showCaptions());
                 m_settingsFile->setValue("showProlog", displaySettings->showProlog());
             }

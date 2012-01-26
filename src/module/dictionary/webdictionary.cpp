@@ -113,7 +113,7 @@ MetaInfo WebDictionary::readInfo(const QString &name)
         ret.setContent(ModuleTools::StrongsContent);
     } else if(m_type == "rmac-dictionary") {
         ret.setDefaultModule(ModuleTools::DefaultRMACDictModule);
-        ret.setContent(ModuleTools::RMacContent);
+        ret.setContent(ModuleTools::RMACContent);
     } else if(m_type == "gram-dictionary") {
         ret.setDefaultModule(ModuleTools::DefaultGramDictModule);
         ret.setContent(ModuleTools::GramContent);

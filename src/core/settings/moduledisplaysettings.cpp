@@ -83,14 +83,14 @@ bool ModuleDisplaySettings::showRefLinks()
     return m_showRefLinks;
 }
 
-void ModuleDisplaySettings::setShowRMac(bool b)
+void ModuleDisplaySettings::setShowRMAC(bool b)
 {
-    m_showRMac = b;
+    m_showRMAC = b;
 }
 
-bool ModuleDisplaySettings::showRMac()
+bool ModuleDisplaySettings::showRMAC()
 {
-    return m_showRMac;
+    return m_showRMAC;
 }
 
 void ModuleDisplaySettings::setShowCaptions(bool b)

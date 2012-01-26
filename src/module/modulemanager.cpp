@@ -96,7 +96,7 @@ int ModuleManager::loadAllModules()
         displaySettings->setShowNotes(true);
         displaySettings->setShowMarks(true);
         displaySettings->setShowBottomToolBar(true);
-        displaySettings->setShowRMac(true);
+        displaySettings->setShowRMAC(true);
         displaySettings->setShowCaptions(false);
         displaySettings->setShowProlog(false);
 
@@ -365,7 +365,7 @@ ModuleTools::DefaultModule ModuleManager::toDefaultModule(const ModuleTools::Con
         case ModuleTools::StrongsGreekContent:
         case ModuleTools::StrongsHebrewContent:
             return ModuleTools::DefaultStrongDictModule;
-        case ModuleTools::RMacContent:
+        case ModuleTools::RMACContent:
             return ModuleTools::DefaultRMACDictModule;
         case ModuleTools::WordDictionaryContent:
             return ModuleTools::DefaultDictModule;

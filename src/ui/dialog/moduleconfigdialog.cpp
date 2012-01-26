@@ -120,7 +120,7 @@ void ModuleConfigDialog::setModule(ModuleSettings *config)
         m_ui->checkBox_showRefLinks->setChecked(dis->showRefLinks());
         m_ui->checkBox_showStrong->setChecked(dis->showStrong());
         m_ui->checkBox_showStudyNotes->setChecked(dis->showStudyNotes());
-        m_ui->checkBox_showRMac->setChecked(dis->showRMac());
+        m_ui->checkBox_showRMac->setChecked(dis->showRMAC());
         m_ui->checkBox_showCaptions->setChecked(dis->showCaptions());
         m_ui->checkBox_showProlog->setChecked(dis->showProlog());
     }
@@ -167,7 +167,7 @@ void ModuleConfigDialog::bsave()
         m_moduleSettings->displaySettings()->setShowRefLinks(m_ui->checkBox_showRefLinks->isChecked());
         m_moduleSettings->displaySettings()->setShowStrong(m_ui->checkBox_showStrong->isChecked());
         m_moduleSettings->displaySettings()->setShowStudyNotes(m_ui->checkBox_showStudyNotes->isChecked());
-        m_moduleSettings->displaySettings()->setShowRMac(m_ui->checkBox_showRMac->isChecked());
+        m_moduleSettings->displaySettings()->setShowRMAC(m_ui->checkBox_showRMac->isChecked());
         m_moduleSettings->displaySettings()->setShowCaptions(m_ui->checkBox_showCaptions->isChecked());
         m_moduleSettings->displaySettings()->setShowProlog(m_ui->checkBox_showProlog->isChecked());
 

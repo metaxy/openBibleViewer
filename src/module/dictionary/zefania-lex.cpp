@@ -317,7 +317,7 @@ MetaInfo ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
     } else if(type == "x-dictionary") {
         if(couldBe == 1) {
             info.setDefaultModule(ModuleTools::DefaultRMACDictModule);
-            info.setContent(ModuleTools::RMacContent);
+            info.setContent(ModuleTools::RMACContent);
         } else {
             info.setDefaultModule(ModuleTools::DefaultDictModule);
         }

@@ -708,7 +708,7 @@ QString ZefaniaBible::pharseBr()
 
 QString ZefaniaBible::pharseGram()
 {
-    if(!m_set->displaySettings()->showStrong() && !m_set->displaySettings()->showRMac()) {
+    if(!m_set->displaySettings()->showStrong() && !m_set->displaySettings()->showRMAC()) {
         return "";
     }
     QString ret;
@@ -744,7 +744,7 @@ QString ZefaniaBible::pharseGram()
 
         ret +=  "<span class=\"stronglink\"><a  href=\""+url.toString()+"\">" + add+strong + "</a></span>";
     }
-    if(!rmac.isEmpty() && m_set->displaySettings()->showRMac()) {
+    if(!rmac.isEmpty() && m_set->displaySettings()->showRMAC()) {
         ret +=  "<span class=\"rmaclink\"><a href=\""+ModuleTools::rmacScheme + rmac + "\">" + rmac + "</a></span>";
     }
     return ret;

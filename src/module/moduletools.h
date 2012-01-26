@@ -45,7 +45,7 @@ public:
         StrongsContent = 4,
         StrongsHebrewContent = 5,
         StrongsGreekContent = 6,
-        RMacContent = 7,
+        RMACContent = 7,
         WordDictionaryContent = 8,
         DictionaryContent = 9,
         GramContent = 10

@@ -151,7 +151,7 @@ void DictionaryManager::pharseUrl(QString url, const Actions::OpenLinkModifiers 
         //rmac://rmacID
 
         url = url.remove(0, ModuleTools::rmacScheme.size());
-        open(url, ModuleTools::RMacContent, mod);
+        open(url, ModuleTools::RMACContent, mod);
 
     } else if(url.startsWith(ModuleTools::dictScheme)) {
         //dict:/module/key

@@ -50,8 +50,8 @@ public:
     void setShowRefLinks(bool showRefLinks);
     bool showRefLinks();
 
-    void setShowRMac(bool b);
-    bool showRMac();
+    void setShowRMAC(bool b);
+    bool showRMAC();
 
     void setShowCaptions(bool b);
     bool showCaptions();
@@ -74,7 +74,7 @@ private:
     bool m_showStrong;
     bool m_showRefLinks;
 
-    bool m_showRMac;
+    bool m_showRMAC;
     bool m_showCaptions;
     bool m_showProlog;
     bool m_showMedia;

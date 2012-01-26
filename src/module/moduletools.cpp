@@ -60,7 +60,7 @@ ModuleTools::DefaultModule ModuleTools::toDefaultModule(const ModuleTools::Conte
         case ModuleTools::StrongsGreekContent:
         case ModuleTools::StrongsHebrewContent:
             return ModuleTools::DefaultStrongDictModule;
-        case ModuleTools::RMacContent:
+        case ModuleTools::RMACContent:
             return ModuleTools::DefaultRMACDictModule;
         case ModuleTools::WordDictionaryContent:
             return ModuleTools::DefaultDictModule;
@@ -192,7 +192,7 @@ ModuleTools::ContentType ModuleTools::contentTypeFromUrl(const QString &url)
     if(url.startsWith(ModuleTools::strongScheme)) {
         return ModuleTools::StrongsContent;
     } else if(url.startsWith(ModuleTools::rmacScheme)) {
-        return ModuleTools::RMacContent;
+        return ModuleTools::RMACContent;
     } else if(url.startsWith(ModuleTools::verseScheme)) {
         return ModuleTools::BibleContent;
     }
