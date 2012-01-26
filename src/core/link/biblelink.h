@@ -24,6 +24,7 @@ public:
     BibleLink(int moduleID, QSharedPointer<Versification> v11n);
     bool isBibleLink(const QString &s);
     VerseUrl getUrl(const QString& text);
+    static bool fastIsBibleLink(const QString &s);
 private:
     int bookNameToBookID(QString name, int *nlev);
     int levenshteinDistance(const QString& s, const QString& t);

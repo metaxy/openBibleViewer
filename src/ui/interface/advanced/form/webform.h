@@ -37,6 +37,7 @@ public:
     void save();
 
     void pharseUrl(QString url);
+    void pharseWebUrl(const QString &webUrl);
 
     Form::FormType type() const;
 

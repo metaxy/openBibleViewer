@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_advancedinterface.h"
 #include "src/core/link/biblelink.h"
 #include "src/module/bible/biblequote.h"
-
+#include "src/core/link/strongurl.h"
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
     Interface(parent),
     ui(new Ui::AdvancedInterface)
@@ -126,13 +126,10 @@ void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers 
     //setEnableReload(false);
     myDebug() << "url = " << url;
 
-    const QString dict = "dict:/";
-
     const QString http = "http://";
     const QString bq = "go";
     const QString anchor = "#";
     const QString note = "note://";
-    const QString webPage = "webpage:/";
 
     if(url.startsWith(ModuleTools::verseScheme)) {
         m_bibleManager->pharseUrl(url, mod);
@@ -140,15 +137,15 @@ void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers 
         m_dictionaryManager->pharseUrl(url, mod);
     } else if(url.startsWith(ModuleTools::rmacScheme)) {
         m_dictionaryManager->pharseUrl(url, mod);
-    } else if(url.startsWith(dict)) {
+    } else if(url.startsWith(ModuleTools::dictScheme)) {
         m_dictionaryManager->pharseUrl(url, mod);
     } else if(url.startsWith(ModuleTools::rmacScheme)) {
         m_dictionaryManager->pharseUrl(url, mod);
-    } else if(url.startsWith(webPage)) {
+    } else if(url.startsWith(ModuleTools::webPageScheme)) {
         m_webPageManager->pharseUrl(url);
     } else if(url.startsWith(http)) {
-        //its a web link
-        QDesktopServices::openUrl(url);
+        m_webPageManager->pharseWebUrl(url);
+        //QDesktopServices::openUrl(url);
     } else if(url.startsWith(bq)) {
         m_bibleManager->pharseUrl(url, mod);
     } else if(url.startsWith(anchor)) {
@@ -166,8 +163,12 @@ void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers 
             m_actions->get(url);
 
         } else {
-            if(m_windowManager->activeForm())
-                ((BibleForm *)m_windowManager->activeForm())->m_view->scrollToAnchor(url);
+            if(m_windowManager->activeForm()) {
+                BibleForm * f= (BibleForm *)m_windowManager->activeForm();
+                if(f) {
+                    f->m_view->scrollToAnchor(url);
+                }
+            }
         }
 
     } else if(url.startsWith(note)) {
@@ -250,22 +251,6 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
     }
     if(modifedModuleSettings == true) {
         reloadBibles = true;
-        /*
-        for(int i = 0; i < newSettings.m_moduleSettings.size(); ++i) {
-            if(oldSettings.m_moduleSettings.size() < i || oldSettings.m_moduleSettings.empty()) {
-                myDebug() << "not enough " << i;
-                reloadBibles = true;
-                break;
-            } else {
-                ModuleSettings m1, m2;
-                m1 = newSettings.m_moduleSettings.at(i);
-                m2 = oldSettings.m_moduleSettings.at(i);
-                if(memcmp(&m1, &m2, sizeof(ModuleSettings)) != 0) {
-                    myDebug() << "m1 not equal m2";
-                    reloadBibles = true;
-                    break;
-                }
-            }*/
     }
     if(reloadBibles == true) {
         QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -274,11 +259,8 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
         m_moduleManager->loadAllModules();
         m_bibleManager->moduleDockWidget()->init();
         m_dictionaryManager->dictionaryDockWidget()->init();
-        //showText(""); //todo:
-        //m_moduleManager->bible()->clearSoftCache();
-        //if(m_moduleManager->bibleLoaded())
-
         m_actions->reloadCurrentRange(true);
+
         QApplication::restoreOverrideCursor();
     }
 
@@ -645,49 +627,58 @@ QList<QToolBar *> AdvancedInterface::toolBars()
 void AdvancedInterface::quick()
 {
     const QString text = ((QLineEdit *) sender())->text();
-    QMdiSubWindow* window = m_windowManager->needWindow(Form::BibleForm);
-    BibleForm * f = (BibleForm*) m_windowManager->getForm(window);
+    StrongUrl url;
+    if(url.fromText(text)) {
+        m_actions->get(url.toString());
+    } else if(m_windowManager->activeForm()->type() == Form::BibleForm || BibleLink::fastIsBibleLink(text)){
+        QMdiSubWindow* window = m_windowManager->needWindow(Form::BibleForm);
+        BibleForm * f = (BibleForm*) m_windowManager->getForm(window);
 
-    if(f->verseTableLoaded()) {
-        BibleLink link(f->verseModule()->moduleID(), f->verseModule()->versification());
-
-
-        if(link.isBibleLink(text)) {
-            m_actions->get(link.getUrl(text));
-        } else {
-            SearchQuery query;
-            query.searchText = text;
-            query.searchInNotes = true;
-            query.queryType = SearchQuery::Simple;
-            m_searchManager->search(query);
-        }
-    } else {
-
-        int defaultModuleID = -1;
-        QMapIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
-        while(i.hasNext()) {
-            i.next();
-            if(i.value()->defaultModule == ModuleTools::DefaultBibleModule) {
-                defaultModuleID = i.key();
-                break;
+        if(f->verseTableLoaded()) {
+            BibleLink link(f->verseModule()->moduleID(), f->verseModule()->versification());
+            if(link.isBibleLink(text)) {
+                m_actions->get(link.getUrl(text));
+            }  else {
+                SearchQuery query;
+                query.searchText = text;
+                query.searchInNotes = true;
+                query.queryType = SearchQuery::Simple;
+                m_searchManager->search(query);
             }
+        } else {
 
-        }
-        if(defaultModuleID == -1) {
-            QMapIterator<int, Module*> i2(m_moduleManager->m_moduleMap->data);
-            while(i2.hasNext() && defaultModuleID == -1) {
-                i2.next();
-                if(i2.value()->moduleClass() == ModuleTools::BibleModuleClass) {
-                    defaultModuleID = i2.key();
+            int defaultModuleID = -1;
+            QMapIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
+            while(i.hasNext()) {
+                i.next();
+                if(i.value()->defaultModule == ModuleTools::DefaultBibleModule) {
+                    defaultModuleID = i.key();
                     break;
                 }
+
+            }
+            if(defaultModuleID == -1) {
+                QMapIterator<int, Module*> i2(m_moduleManager->m_moduleMap->data);
+                while(i2.hasNext() && defaultModuleID == -1) {
+                    i2.next();
+                    if(i2.value()->moduleClass() == ModuleTools::BibleModuleClass) {
+                        defaultModuleID = i2.key();
+                        break;
+                    }
+                }
+            }
+
+            BibleLink link(defaultModuleID, m_settings->getV11N(defaultModuleID));
+            if(link.isBibleLink(text)) {
+                m_actions->get(link.getUrl(text));
             }
         }
-
-        BibleLink link(defaultModuleID, m_settings->getV11N(defaultModuleID));
-        if(link.isBibleLink(text)) {
-            m_actions->get(link.getUrl(text));
-        }
+    } else {
+        SearchQuery query;
+        query.searchText = text;
+        query.searchInNotes = true;
+        query.queryType = SearchQuery::Simple;
+        m_searchManager->search(query);
     }
 }
 

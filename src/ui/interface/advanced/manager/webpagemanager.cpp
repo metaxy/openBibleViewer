@@ -25,3 +25,8 @@ void WebPageManager::pharseUrl(const QString &url)
     WebForm *f = (WebForm*)(m_windowManager->getForm(m_windowManager->needWebWindow()));
     f->pharseUrl(url);
 }
+void WebPageManager::pharseWebUrl(const QString &url)
+{
+    WebForm *f = (WebForm*)(m_windowManager->getForm(m_windowManager->needWebWindow()));
+    f->pharseWebUrl(url);
+}

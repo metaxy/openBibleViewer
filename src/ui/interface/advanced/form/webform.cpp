@@ -102,7 +102,10 @@ void WebForm::pharseUrl(QString url)
     url = url.remove(0, webPage.size());
     openModule(url.toInt());
 }
-
+void WebForm::pharseWebUrl(const QString &url)
+{
+    m_ui->webView->load(QUrl(url));
+}
 void WebForm::openModule(const int moduleID)
 {
     DEBUG_FUNC_NAME;

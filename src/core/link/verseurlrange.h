@@ -59,8 +59,8 @@ public:
     void setModule(const QString &uid);
 
     /**
-     * If set module() == LoadModuleByID then it is the id of module
-     * Else not definied
+     * If set module() == LoadModuleByID then it is the ID of module
+     * Else -1
      */
     int moduleID() const;
     /**
@@ -100,6 +100,9 @@ public:
     bool containsChapter(const int chapterID) const;
     bool containsVerse(const int verseID) const;
 
+    /**
+      * If the urlRange is only some verse, than the frontend will show the whole chapter, if openToTransformation is set
+      */
     bool openToTransformation() const;
     void setOpenToTransformation(bool open);
 

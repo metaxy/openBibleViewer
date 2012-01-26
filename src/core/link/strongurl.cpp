@@ -47,20 +47,25 @@ bool StrongUrl::fromText(QString text)
         return false;
     }
     text.remove(0, 1);
+    bool ok;
+    bool ok2 = true;
     if(text.contains(" ")) {
         const QStringList parts = text.split(" ");
         foreach(const QString & part, parts) {
-            m_numbers.append(part.toInt());
+            m_numbers.append(part.toInt(&ok));
+            ok2 = ok && ok2;
         }
     } else if(text.contains(",")) {
         const QStringList parts = text.split(",");
         foreach(const QString & part, parts) {
-            m_numbers.append(part.toInt());
+            m_numbers.append(part.toInt(&ok));
+            ok2 = ok && ok2;
         }
     } else {
-        m_numbers.append(text.toInt());
+        m_numbers.append(text.toInt(&ok));
+        ok2 = ok && ok2;
     }
-    return true;
+    return ok2;
 }
 
 bool StrongUrl::fromString(QString strong)

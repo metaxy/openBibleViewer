@@ -269,7 +269,7 @@ void Context::writeSettings()
             m_settingsFile->remove("showNotes");
             m_settingsFile->remove("showMarks");
             m_settingsFile->remove("showBottomToolBar");
-            m_settingsFile->remove("showRMac");
+            m_settingsFile->remove("showRMAC");
             m_settingsFile->remove("showCaptions");
             m_settingsFile->remove("showProlog");
         }

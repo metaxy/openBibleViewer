@@ -24,6 +24,25 @@ BibleLink::BibleLink(int moduleID, QSharedPointer<Versification> v11n)
     m_moduleID = moduleID;
     m_v11n = v11n;
 }
+bool BibleLink::fastIsBibleLink(const QString &s)
+{
+    QStringList reg = REGS;
+    int found = -1;
+    QRegExp foundRegExp;
+    for(int i = reg.size() - 1; i >= 0; --i) {
+        QRegExp r(reg.at(i));
+        int pos = r.indexIn(s);
+        if(pos > -1) {
+            found = i;
+            foundRegExp = r;
+            break;
+        }
+    }
+    if(found > 0)
+        return true;
+    return false;
+}
+
 bool BibleLink::isBibleLink(const QString &s)
 {
     QStringList reg = REGS;
