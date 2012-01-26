@@ -126,8 +126,6 @@ void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers 
     //setEnableReload(false);
     myDebug() << "url = " << url;
 
-    const QString bible = "verse:/";
-
     const QString dict = "dict:/";
 
     const QString http = "http://";
@@ -136,7 +134,7 @@ void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers 
     const QString note = "note://";
     const QString webPage = "webpage:/";
 
-    if(url.startsWith(bible)) {
+    if(url.startsWith(ModuleTools::verseScheme)) {
         m_bibleManager->pharseUrl(url, mod);
     } else if(url.startsWith(ModuleTools::strongScheme)) {
         m_dictionaryManager->pharseUrl(url, mod);

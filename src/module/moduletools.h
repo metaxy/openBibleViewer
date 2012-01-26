@@ -65,7 +65,8 @@ public:
     static const QString gramScheme;
     static const QString rmacScheme;
     static const QString dictScheme;
-
+    static const QString verseScheme;
+    static const QString webPageScheme;
 
     static ModuleTools::ModuleType recognizeModuleType(const QString &fileName);
     static ModuleTools::DefaultModule toDefaultModule(const ModuleTools::ContentType t);
@@ -79,6 +80,10 @@ public:
     static ModuleTools::ModuleClass typeToClass(ModuleTools::ModuleType type);
 
     static Qt::LayoutDirection languageToDirection(const QString &lang);
+
+    static ModuleTools::ContentType contentTypeFromUrl(const QString &url);
+    static ModuleTools::ModuleClass moduleClassFromUrl(const QString &url);
+
 };
 
 #endif // MODULETOOLS_H

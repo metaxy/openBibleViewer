@@ -13,6 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "verseurl.h"
 #include "src/core/dbghelper.h"
+#include "src/module/moduletools.h"
 #include <QtCore/QHashIterator>
 #include <QtCore/QStringList>
 VerseUrl::VerseUrl()
@@ -55,7 +56,7 @@ QString VerseUrl::toString() const
         if(!ret.isEmpty())
             ret += "|";//seperator
         else
-            ret += "verse:/";
+            ret += ModuleTools::verseScheme;
 
         if(range.module() == VerseUrlRange::LoadModuleByID) {
             ret += QString::number(range.moduleID());
@@ -134,11 +135,11 @@ bool VerseUrl::fromString(QString url)
     m_ranges.clear();
 
     //verse:/moduleID,bookID,chapterID,verseID-verseID,otherStuf=otherValue
-    if(!url.startsWith("verse:/")) {
+    if(!url.startsWith(ModuleTools::verseScheme)) {
         m_isValid = false;
         return false;
     }
-    url.remove(0, 7); // remove verse:/
+    url.remove(0, ModuleTools::verseScheme.size()); // remove verse:/
     QStringList urls = url.split("|");
     foreach(const QString nUrl, urls) {
         VerseUrlRange range;

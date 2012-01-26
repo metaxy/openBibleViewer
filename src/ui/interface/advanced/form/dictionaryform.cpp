@@ -296,6 +296,7 @@ void DictionaryForm::loadDictionary(int moduleID)
         ui->lineEdit_input->setCompleter(completer);
 
         m_actions->setTitle(m_dictionary->moduleTitle());
+        m_actions->setCurrentModule(m_dictionary->moduleID());
     }
 }
 void DictionaryForm::testDictionary(const int module)

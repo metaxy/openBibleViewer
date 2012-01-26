@@ -178,6 +178,10 @@ void Context::loadSettings()
         m->useParentSettings = m_settingsFile->value("useParentSettings", false).toBool();
 
         m->parentID = m_settingsFile->value("parentID").toInt();
+
+        m->stats_usageCount = m_settingsFile->value("stats/usageCount", 0).toInt();
+        m->stats_timesOpend = m_settingsFile->value("stats/timesOpend", 0).toInt();
+
         QSharedPointer<ModuleDisplaySettings> displaySettings = QSharedPointer<ModuleDisplaySettings>(new ModuleDisplaySettings());
         displaySettings->setShowStudyNotes(m_settingsFile->value("showStudyNotes", true).toBool());
         displaySettings->setShowStrong(m_settingsFile->value("showStrong", true).toBool());
@@ -243,6 +247,8 @@ void Context::writeSettings()
         m_settingsFile->setValue("versificationName", m->versificationName);
         m_settingsFile->setValue("useParentSettings", m->useParentSettings);
         m_settingsFile->setValue("parentID", m->parentID);
+        m_settingsFile->setValue("stats/usageCount", m->stats_usageCount);
+        m_settingsFile->setValue("stats/timesOpend", m->stats_timesOpend);
         if(!m->useParentSettings) {
             if(m->displaySettings()) {
                 ModuleDisplaySettings *displaySettings = m->displaySettings().data();

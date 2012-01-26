@@ -98,6 +98,9 @@ public:
 
     int parentID;
 
+    int stats_usageCount;
+    int stats_timesOpend;
+
 
 private:
     QSharedPointer<ModuleDisplaySettings> m_displaySettings;

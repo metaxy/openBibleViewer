@@ -150,6 +150,13 @@ public slots:
     void reload(bool full);
 private slots:
     void moduleChanged(const int moduleID);
+
+    void openInNewTab();
+    void openHere();
+    void copyLinkText();
+    void copyLinkUrl();
+    void openIn();
+    void openInNew();
 protected:
     virtual void changeEvent(QEvent *e);
 private:
@@ -163,6 +170,8 @@ private:
     QAction *m_actionRemoveMark;
     QAction *m_actionBookmark;
     QAction *m_actionNote;
+    QUrl m_contextMenuUrl;
+    QString m_contextMenuText;
 
     void createDefaultMenu();
     void deleteDefaultMenu();

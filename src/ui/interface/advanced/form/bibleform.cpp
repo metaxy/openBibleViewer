@@ -159,10 +159,9 @@ void BibleForm::pharseUrl(const VerseUrl &url)
 void BibleForm::pharseUrl(const QString &string)
 {
     myDebug() << string;
-    const QString bible = "verse:/";
     const QString bq = "go";
 
-    if(string.startsWith(bible)) {
+    if(string.startsWith(ModuleTools::verseScheme)) {
 
         VerseUrl url;
         Ranges ranges;
@@ -965,42 +964,151 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
     //DEBUG_FUNC_NAME
     QScopedPointer<QMenu> contextMenu(new QMenu(this));
 
-    QAction *actionCopyWholeVerse = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Verse"), contextMenu.data());
-    VerseSelection selection = verseSelection();
-    lastSelection = selection;
-    if(selection.startVerse != -1) {
-        QString addText;
-        if(selection.startVerse != selection.endVerse)
-            addText = " " + QString::number(selection.startVerse + 1) + " - " + QString::number(selection.endVerse + 1);
-        else
-            addText = " " + QString::number(selection.startVerse + 1);
-        if(selection.startVerse < 0 || selection.endVerse < 0) {
-            actionCopyWholeVerse->setText(tr("Copy Verse"));
-            actionCopyWholeVerse->setEnabled(false);
+    const QWebHitTestResult hitTest = m_view->page()->mainFrame()->hitTestContent(ev->pos());
+    const QUrl url = hitTest.linkUrl();
+    if(url.isEmpty()) {
+        QAction *actionCopyWholeVerse = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Verse"), contextMenu.data());
+        VerseSelection selection = verseSelection();
+        lastSelection = selection;
+        if(selection.startVerse != -1) {
+            QString addText;
+            if(selection.startVerse != selection.endVerse)
+                addText = " " + QString::number(selection.startVerse + 1) + " - " + QString::number(selection.endVerse + 1);
+            else
+                addText = " " + QString::number(selection.startVerse + 1);
+            if(selection.startVerse < 0 || selection.endVerse < 0) {
+                actionCopyWholeVerse->setText(tr("Copy Verse"));
+                actionCopyWholeVerse->setEnabled(false);
+            } else {
+                actionCopyWholeVerse->setText(tr("Copy Verse %1", "e.g Copy Verse 1-2 or Copy Verse 2").arg(addText));
+                actionCopyWholeVerse->setEnabled(true);
+
+                connect(actionCopyWholeVerse, SIGNAL(triggered()), this , SLOT(copyWholeVerse()));
+            }
         } else {
-            actionCopyWholeVerse->setText(tr("Copy Verse %1", "e.g Copy Verse 1-2 or Copy Verse 2").arg(addText));
-            actionCopyWholeVerse->setEnabled(true);
-
-            connect(actionCopyWholeVerse, SIGNAL(triggered()), this , SLOT(copyWholeVerse()));
+            actionCopyWholeVerse->setEnabled(false);
         }
+
+        QAction *dbg = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"), contextMenu.data());
+        connect(dbg, SIGNAL(triggered()), this, SLOT(debugger()));
+
+        contextMenu->addAction(m_actionCopy);
+        contextMenu->addAction(actionCopyWholeVerse);
+        contextMenu->addAction(m_actionSelect);
+        contextMenu->addSeparator();
+        contextMenu->addMenu(m_menuMark);
+        contextMenu->addAction(m_actionRemoveMark);
+        contextMenu->addSeparator();
+        contextMenu->addAction(m_actionBookmark);
+        contextMenu->addAction(m_actionNote);
+        contextMenu->addAction(dbg);
+        contextMenu->exec(ev->globalPos());
     } else {
-        actionCopyWholeVerse->setEnabled(false);
+        myDebug() << "another menu";
+        m_contextMenuUrl = url;
+        m_contextMenuText = hitTest.linkText();
+
+        QAction *openInNewTab = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/edit-copy.png")), tr("Open in new tab"), contextMenu.data());
+        connect(openInNewTab, SIGNAL(triggered()), this, SLOT(openInNewTab()));
+
+        QAction *openHere = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Open here"), contextMenu.data());
+        connect(openHere, SIGNAL(triggered()), this, SLOT(openHere()));
+
+        QAction *copyText = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Text"), contextMenu.data());
+        connect(copyText, SIGNAL(triggered()), this, SLOT(copyLinkText()));
+
+        QAction *copyLink = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Link"), contextMenu.data());
+        connect(copyLink, SIGNAL(triggered()), this, SLOT(copyLinkUrl()));
+
+        QMenu *openIn = new QMenu(this);
+        openIn->setTitle(tr("Open in"));
+
+        QMenu *openInNew = new QMenu(this);
+        openInNew->setTitle(tr("Open in new"));
+
+        QList<int> usedModules;
+        bool showOpenIn = false;
+
+        ModuleTools::ContentType type = ModuleTools::contentTypeFromUrl(url.toString());
+        ModuleTools::ModuleClass cl = ModuleTools::moduleClassFromUrl(url.toString());
+
+        if(type != ModuleTools::UnkownContent) {
+            //most 4 used with the right content type
+            int counter = 0;
+            foreach(ModuleSettings* m, m_settings->m_moduleSettings) {
+                if(counter > 5)
+                    break;
+                if(ModuleTools::alsoOk(m->contentType, type)
+                        && m->contentType != ModuleTools::UnkownContent
+                        && !usedModules.contains(m->moduleID)) {
+
+                    showOpenIn = true;
+                    usedModules.append(m->moduleID);
+                    counter++;
+
+                    QAction *n = new QAction(m->name(true), openIn);
+                    n->setData(m->moduleID);
+                    connect(n, SIGNAL(triggered()), this, SLOT(openIn()));
+                    openIn->addAction(n);
+
+                    QAction *n2 = new QAction(m->name(true), openInNew);
+                    n2->setData(m->moduleID);
+                    connect(n2, SIGNAL(triggered()), this, SLOT(openInNew()));
+                    openInNew->addAction(n2);
+                }
+            }
+            counter = 0;
+            bool addSep = true;
+            foreach(ModuleSettings* m, m_settings->m_moduleSettings) {
+                if(counter > 3)
+                    break;
+                if(ModuleTools::typeToClass(m->moduleType) == cl
+                        && !usedModules.contains(m->moduleID)) {
+
+                    showOpenIn = true;
+                    usedModules.append(m->moduleID);
+                    counter++;
+                    if(addSep) {
+                        openIn->addSeparator();
+                        openInNew->addSeparator();
+                        addSep = false;
+                    }
+
+                    QAction *n = new QAction(m->name(true), openIn);
+                    n->setData(m->moduleID);
+                    connect(n, SIGNAL(triggered()), this, SLOT(openIn()));
+                    openIn->addAction(n);
+
+                    QAction *n2 = new QAction(m->name(true), openInNew);
+                    n2->setData(m->moduleID);
+                    connect(n2, SIGNAL(triggered()), this, SLOT(openInNew()));
+                    openInNew->addAction(n2);
+                }
+            }
+        }
+        //open in new tab
+        //if possible, open here
+        //copy text
+        //copy link
+        //open in
+
+          //most 3 used with the right module class
+          //more
+        //
+        contextMenu->addAction(openHere);
+        contextMenu->addAction(openInNewTab);
+        if(showOpenIn) {
+            contextMenu->addMenu(openIn);
+            contextMenu->addMenu(openInNew);
+        }
+        contextMenu->addSeparator();
+        contextMenu->addAction(m_actionCopy);
+        contextMenu->addAction(m_actionSelect);
+        contextMenu->addAction(copyText);
+        contextMenu->addAction(copyLink);
+
+        contextMenu->exec(ev->globalPos());
     }
-
-    QAction *dbg = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"), contextMenu.data());
-    connect(dbg, SIGNAL(triggered()), this, SLOT(debugger()));
-
-    contextMenu->addAction(m_actionCopy);
-    contextMenu->addAction(actionCopyWholeVerse);
-    contextMenu->addAction(m_actionSelect);
-    contextMenu->addSeparator();
-    contextMenu->addMenu(m_menuMark);
-    contextMenu->addAction(m_actionRemoveMark);
-    contextMenu->addSeparator();
-    contextMenu->addAction(m_actionBookmark);
-    contextMenu->addAction(m_actionNote);
-    contextMenu->addAction(dbg);
-    contextMenu->exec(ev->globalPos());
 }
 void BibleForm::newNoteWithLink()
 {
@@ -1349,7 +1457,61 @@ void BibleForm::reloadIf(const VerseUrl &url)
         reload(false);
     }
 }
+void BibleForm::openInNewTab()
+{
+    m_actions->get(m_contextMenuUrl.toString(), Actions::OpenInNewWindow);
+}
 
+void BibleForm::openHere()
+{
+    m_actions->get(m_contextMenuUrl.toString(), Actions::NoModifer);
+}
+
+void BibleForm::copyLinkText()
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(m_contextMenuText);
+}
+
+void BibleForm::copyLinkUrl()
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(m_contextMenuUrl.toString());
+}
+void BibleForm::openIn()
+{
+    QAction *s = (QAction*) sender();
+    if(s != NULL) {
+        int moduleID = s->data().toInt();
+        QString url = m_contextMenuUrl.toString();
+        if(url.startsWith(ModuleTools::strongScheme)) {
+            url = url.remove(0, ModuleTools::strongScheme.size());
+            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url);
+        } else if(url.startsWith(ModuleTools::rmacScheme)) {
+            url = url.remove(0, ModuleTools::rmacScheme.size());
+            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url);
+        } else {
+            m_actions->get(url);
+        }
+    }
+}
+void BibleForm::openInNew()
+{
+    QAction *s = (QAction*) sender();
+    if(s != NULL) {
+        int moduleID = s->data().toInt();
+        QString url = m_contextMenuUrl.toString();
+        if(url.startsWith(ModuleTools::strongScheme)) {
+            url = url.remove(0, ModuleTools::strongScheme.size());
+            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, Actions::OpenInNewWindow);
+        } else if(url.startsWith(ModuleTools::rmacScheme)) {
+            url = url.remove(0, ModuleTools::rmacScheme.size());
+            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, Actions::OpenInNewWindow);
+        } else {
+            m_actions->get(url);
+        }
+    }
+}
 void BibleForm::changeEvent(QEvent *e)
 {
     switch(e->type()) {

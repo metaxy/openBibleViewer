@@ -153,10 +153,9 @@ void SimpleInterface::pharseUrl(const VerseUrl &url)
 
 void SimpleInterface::pharseUrl(const QString &string)
 {
-    const QString bible = "verse:/";
     const QString bq = "go";
 
-    if(string.startsWith(bible)) {
+    if(string.startsWith(ModuleTools::verseScheme)) {
 
         VerseUrl url;
         Ranges ranges;

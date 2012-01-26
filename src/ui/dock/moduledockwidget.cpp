@@ -86,20 +86,23 @@ void ModuleDockWidget::loadModuleData(QModelIndex index, Actions::OpenLinkModifi
         const ModuleTools::ModuleClass cl = m->moduleClass();
         if(cl == ModuleTools::DictionaryModuleClass) {
             m_actions->get("dict:/" + QString::number(moduleID), mod);
+            m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
         } else if(cl == ModuleTools::WebPageClass) {
             m_actions->get("webpage:/" + QString::number(moduleID), mod);
+            m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
         } else if(cl == ModuleTools::BibleModuleClass) {
             myDebug() << "bible";
             m_moduleID = moduleID;
-            VerseUrl url;
             VerseUrlRange range;
             range.setModule(moduleID);
             range.setBook(VerseUrlRange::LoadCurrentBook);
             range.setChapter(VerseUrlRange::LoadCurrentChapter);
             range.setStartVerse(VerseUrlRange::LoadCurrentVerse);
             range.setOpenToTransformation(true);
-            url.addRange(range);
+
+            VerseUrl url(range);
             m_actions->get(url, mod);
+            m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
         }
     }
 }
@@ -108,10 +111,12 @@ void ModuleDockWidget::loadModuleData(QModelIndex index, Actions::OpenLinkModifi
   */
 void ModuleDockWidget::loadedModule(const int id)
 {
+    DEBUG_FUNC_NAME
     if(id == -1) {
         m_selectionModel->clearSelection();
         return;
     }
+
     if(m_moduleID == id)
         return;
 

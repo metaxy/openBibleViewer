@@ -80,9 +80,9 @@ void ModuleModel::createModuleItem(QStandardItem *parentItem, ModuleSettings *se
             show = true;
         }
     }
+
     if(show == true) {
-        item = new QStandardItem;
-        item->setText(settings->name(false));
+        item = new QStandardItem(settings->name(false));
         item->setData(QString::number(settings->moduleID));
         item->setToolTip(ModuleTools::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
 

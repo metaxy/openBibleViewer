@@ -6,6 +6,9 @@ const QString ModuleTools::strongScheme = "strong:/";
 const QString ModuleTools::gramScheme = "gram:/";
 const QString ModuleTools::rmacScheme = "rmac:/";
 const QString ModuleTools::dictScheme = "dict:/";
+const QString ModuleTools::verseScheme = "verse:/";
+const QString ModuleTools::webPageScheme = "verse:/";
+
 ModuleTools::ModuleTools()
 {
 }
@@ -183,4 +186,26 @@ Qt::LayoutDirection ModuleTools::languageToDirection(const QString &lang)
         return Qt::RightToLeft;
     }
     return Qt::LeftToRight;
+}
+ModuleTools::ContentType ModuleTools::contentTypeFromUrl(const QString &url)
+{
+    if(url.startsWith(ModuleTools::strongScheme)) {
+        return ModuleTools::StrongsContent;
+    } else if(url.startsWith(ModuleTools::rmacScheme)) {
+        return ModuleTools::RMacContent;
+    } else if(url.startsWith(ModuleTools::verseScheme)) {
+        return ModuleTools::BibleContent;
+    }
+    return ModuleTools::UnkownContent;
+}
+ModuleTools::ModuleClass ModuleTools::moduleClassFromUrl(const QString &url)
+{
+    if(url.startsWith(ModuleTools::strongScheme)) {
+        return ModuleTools::DictionaryModuleClass;
+    } else if(url.startsWith(ModuleTools::rmacScheme)) {
+        return ModuleTools::DictionaryModuleClass;
+    } else if(url.startsWith(ModuleTools::verseScheme)) {
+        return ModuleTools::BibleModuleClass;
+    }
+    return ModuleTools::NoneClass;
 }
