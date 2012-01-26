@@ -959,6 +959,12 @@ void BibleForm::deleteDefaultMenu()
     delete m_actionNote;
     m_actionNote = 0;
 }
+bool sortModuleByPop(const ModuleSettings* s1, const ModuleSettings* s2)
+{
+    myDebug() << s1->stats_timesOpend << s2->stats_timesOpend;
+
+    return s1->stats_timesOpend > s2->stats_timesOpend;
+}
 void BibleForm::showContextMenu(QContextMenuEvent* ev)
 {
     //DEBUG_FUNC_NAME
@@ -1031,11 +1037,17 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
 
         ModuleTools::ContentType type = ModuleTools::contentTypeFromUrl(url.toString());
         ModuleTools::ModuleClass cl = ModuleTools::moduleClassFromUrl(url.toString());
+        QList<ModuleSettings*> list = m_settings->m_moduleSettings.values();
+
+        qSort(list.begin(), list.end(), sortModuleByPop);
+
+        bool addSep = true;
+        int counter = 0;
 
         if(type != ModuleTools::UnkownContent) {
             //most 4 used with the right content type
-            int counter = 0;
-            foreach(ModuleSettings* m, m_settings->m_moduleSettings) {
+
+            foreach(ModuleSettings* m, list) {
                 if(counter > 5)
                     break;
                 if(ModuleTools::alsoOk(m->contentType, type)
@@ -1057,35 +1069,38 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
                     openInNew->addAction(n2);
                 }
             }
-            counter = 0;
-            bool addSep = true;
-            foreach(ModuleSettings* m, m_settings->m_moduleSettings) {
-                if(counter > 3)
-                    break;
-                if(ModuleTools::typeToClass(m->moduleType) == cl
-                        && !usedModules.contains(m->moduleID)) {
+        } else {
+            addSep = false;
+        }
 
-                    showOpenIn = true;
-                    usedModules.append(m->moduleID);
-                    counter++;
-                    if(addSep) {
-                        openIn->addSeparator();
-                        openInNew->addSeparator();
-                        addSep = false;
-                    }
+        counter = 0;
+        foreach(ModuleSettings* m, list) {
+            if(counter > 3)
+                break;
+            if(ModuleTools::typeToClass(m->moduleType) == cl
+                    && !usedModules.contains(m->moduleID)) {
 
-                    QAction *n = new QAction(m->name(true), openIn);
-                    n->setData(m->moduleID);
-                    connect(n, SIGNAL(triggered()), this, SLOT(openIn()));
-                    openIn->addAction(n);
-
-                    QAction *n2 = new QAction(m->name(true), openInNew);
-                    n2->setData(m->moduleID);
-                    connect(n2, SIGNAL(triggered()), this, SLOT(openInNew()));
-                    openInNew->addAction(n2);
+                showOpenIn = true;
+                usedModules.append(m->moduleID);
+                counter++;
+                if(addSep) {
+                    openIn->addSeparator();
+                    openInNew->addSeparator();
+                    addSep = false;
                 }
+
+                QAction *n = new QAction(m->name(true), openIn);
+                n->setData(m->moduleID);
+                connect(n, SIGNAL(triggered()), this, SLOT(openIn()));
+                openIn->addAction(n);
+
+                QAction *n2 = new QAction(m->name(true), openInNew);
+                n2->setData(m->moduleID);
+                connect(n2, SIGNAL(triggered()), this, SLOT(openInNew()));
+                openInNew->addAction(n2);
             }
         }
+
         //open in new tab
         //if possible, open here
         //copy text
@@ -1510,6 +1525,7 @@ void BibleForm::openInNew()
         } else {
             m_actions->get(url);
         }
+        m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
     }
 }
 void BibleForm::changeEvent(QEvent *e)
