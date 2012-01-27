@@ -118,11 +118,6 @@ void Actions::setSubWindowView()
     emit _setSubWindowView();
 }
 
-void Actions::showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url)
-{
-    emit _showTextRanges(html, range, url);
-}
-
 
 void Actions::loadVerseTable(bool hadModule)
 {

@@ -86,7 +86,6 @@ void BibleForm::init()
 
     connect(m_actions, SIGNAL(_setCurrentBook(QSet<int>)), this, SLOT(forwardSetCurrentBook(QSet<int>)));
     connect(m_actions, SIGNAL(_setCurrentChapter(QSet<int>)), this, SLOT(forwardSetCurrentChapter(QSet<int>)));
-    connect(m_actions, SIGNAL(_showTextRanges(QString, TextRanges, VerseUrl)), this, SLOT(forwardShowTextRanges(QString, TextRanges, VerseUrl)));
     connect(m_actions, SIGNAL(_searchInText(SearchResult*)), this, SLOT(forwardSearchInText(SearchResult*)));
     connect(m_actions, SIGNAL(_reloadIf(VerseUrl)), this, SLOT(reloadIf(VerseUrl)));
     connect(m_actions, SIGNAL(_moduleChanged(int)), this, SLOT(moduleChanged(int)));

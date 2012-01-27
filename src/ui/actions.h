@@ -63,17 +63,11 @@ signals:
     void _setTabbedView();
     void _setSubWindowView();
 
-    void _showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
-
     void _loadVerseTable(bool hadModule);
     void _reloadCurrentRange(bool full);
     void _reloadIf(const VerseUrl &url);
 
-    void _newSubWindowIfEmpty();
 
-    void _needDictionaryWindow();
-    void _needBibleWindow();
-    void _needWebWindow();
 
 
     void _searchInText(SearchResult *result);
@@ -117,10 +111,6 @@ public slots:
     void setTabbedView();
     void setSubWindowView();
 
-    /**
-      * Using showTextRanges there is no need to call historySetUrl seperatly.
-      */
-    void showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
 
     void loadVerseTable(bool hadModule);
 
