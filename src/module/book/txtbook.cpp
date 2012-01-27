@@ -28,15 +28,15 @@ void TxtBook::buildIndex()
 
 int TxtBook::moduleID() const
 {
-    return -2;
+    return m_moduleID;
 }
 QString TxtBook::modulePath() const
 {
-    return "";
+    return m_path;
 }
 QString TxtBook::moduleName(bool preferShortName) const
 {
-    return "";
+    return m_settings->getModuleSettings(m_moduleID)->moduleName;
 }
 int TxtBook::loadModuleData(const int moduleID, const QString &path)
 {
