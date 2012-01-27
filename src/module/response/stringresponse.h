@@ -8,12 +8,12 @@ public:
     StringResponse(const QString &data);
 
     bool isValid() const;
-    Response::ResponseType type() const;
+    virtual Response::ResponseType type() const;
 
-    virtual QString data() const;
+    QString data() const;
     void append(const QString &t);
     void prepend(const QString &t);
-private:
+protected:
     QString m_data;
 };
 

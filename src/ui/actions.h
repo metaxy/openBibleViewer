@@ -58,14 +58,12 @@ signals:
     void _clear();
 
 
-
     void _setCurrentModule(const int moduleID);
 
     void _setTabbedView();
     void _setSubWindowView();
 
     void _showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
-    void _showHtml(const QString &html);
 
     void _loadVerseTable(bool hadModule);
     void _reloadCurrentRange(bool full);
@@ -80,8 +78,6 @@ signals:
 
     void _searchInText(SearchResult *result);
     void _searchInText();
-
-    void _showDictEntry(const QString &key, int moduleID);
 
     void _setCurrentVerseTableID(const int verseTableID);
 
@@ -102,8 +98,6 @@ public slots:
     void get(const QUrl &url, const Actions::OpenLinkModifiers mod);
     void get(const VerseUrl &url, const Actions ::OpenLinkModifiers mod);
 
-    void newGet(const QUrl &url);
-
     void setCurrentBook(const QSet<int> &bookID);
     void setCurrentChapter(const QSet<int> &chapterID);
 
@@ -122,19 +116,11 @@ public slots:
 
     void setTabbedView();
     void setSubWindowView();
-    void newSubWindowIfEmpty();
-
-    void needDictionaryWindow();
-    void needBibleWindow();
-    void needWebWindow();
 
     /**
       * Using showTextRanges there is no need to call historySetUrl seperatly.
       */
     void showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
-    void showDictEntry(const QString &key, int moduleID = -1);
-
-    void showHtml(const QString &html);
 
     void loadVerseTable(bool hadModule);
 

@@ -196,6 +196,7 @@ set( openBibleViewer_HDRS
     src/module/response/urlresponse.h
     src/module/response/stringresponse.h
     src/module/response/textrangesresponse.h
+    src/module/response/htmlresponse.h
 
     src/ui/interface/advanced/manager/webpagemanager.h
     src/ui/modelmodel.h
@@ -298,6 +299,8 @@ set( openBibleViewer_SRCS
     src/module/response/urlresponse.cpp
     src/module/response/stringresponse.cpp
     src/module/response/textrangesresponse.cpp
+    src/module/response/htmlresponse.cpp
+
     src/module/book/book.cpp
     src/module/book/bookmodule.cpp
     src/module/book/txtbook.cpp

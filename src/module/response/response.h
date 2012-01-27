@@ -8,7 +8,8 @@ public:
         UnkownResponse = 0,
         TextRangesResponse = 1,
         UrlReponse = 2,
-        StringReponse = 3
+        StringReponse = 3,
+        HtmlResponse
     };
 
     Response();

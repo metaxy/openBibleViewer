@@ -560,6 +560,10 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
             WebDictionary webDict;
             webDict.setSettings(&m_set);
             info = webDict.readInfo(f);
+        } else if(moduleType == ModuleTools::TxtBookModule) {
+            info = MetaInfo();
+            info.setName(fileInfo.baseName());
+            info.setContent(ModuleTools::BookContent);
         }
         if(name.isEmpty()) {
             m->moduleName = info.name();

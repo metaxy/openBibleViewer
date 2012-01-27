@@ -611,7 +611,7 @@ void WindowManager::restore()
         } else if(type == "dictionary") {
             t = Form::DictionaryForm;
         } else if(type == "book") {
-            t = Form::DictionaryForm;
+            t = Form::BookForm;
         }
         QMdiSubWindow *w = newSubWindow(true, max, t);
 

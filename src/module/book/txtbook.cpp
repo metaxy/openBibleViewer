@@ -51,5 +51,13 @@ QString TxtBook::readAll()
         return "";
 
     QTextStream in(&file);
-    return in.readAll();
+
+    QString out = "<html><head></head><body><div class='book'>";
+    int line = 0;
+    while (!in.atEnd()) {
+        out += "<span line='"+QString::number(line) +"' class='line'>" + in.readLine() + "</span><br >";
+        line++;
+    }
+    out += "</div></body></html>";
+    return out;
 }

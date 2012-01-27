@@ -1,5 +1,5 @@
 #include "book.h"
-#include "src/module/response/stringresponse.h"
+#include "src/module/response/htmlresponse.h"
 Book::Book()
 {
 }
@@ -19,7 +19,8 @@ void Book::search(SearchQuery query, SearchResult *result)
 
 void Book::clearData()
 {
-
+    m_loaded = false;
+    m_bookModule.clear();
 }
 
 Response* Book::getAll()
@@ -29,13 +30,14 @@ Response* Book::getAll()
     }
 
     if(m_loaded)
-        return new StringResponse(m_bookModule->readAll());
+        return new HtmlResponse(m_bookModule->readAll());
     else
-        return new StringResponse("");
+        return NULL;
 }
 
 int Book::loadModuleData(int moduleID)
 {
+    m_loaded = false;
     m_module = m_map->module(moduleID);
 
     //not valid module

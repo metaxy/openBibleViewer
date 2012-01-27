@@ -56,10 +56,6 @@ void Actions::get(const VerseUrl &url)
     get(url, Actions::NoModifer);
 }
 
-void Actions::newGet(const QUrl &url)
-{
-    get(url, Actions::OpenInNewWindow);
-}
 
 void Actions::setCurrentBook(const QSet<int> &bookID)
 {
@@ -127,10 +123,6 @@ void Actions::showTextRanges(const QString &html, const TextRanges &range, const
     emit _showTextRanges(html, range, url);
 }
 
-void Actions::showHtml(const QString &html)
-{
-    emit _showHtml(html);
-}
 
 void Actions::loadVerseTable(bool hadModule)
 {
@@ -146,10 +138,6 @@ void Actions::reloadCurrentRange(bool full)
     emit _reloadCurrentRange(full);
 }
 
-void Actions::newSubWindowIfEmpty()
-{
-    emit _newSubWindowIfEmpty();
-}
 void Actions::searchInText(SearchResult *result)
 {
     emit _searchInText(result);
@@ -158,26 +146,6 @@ void Actions::searchInText(SearchResult *result)
 void Actions::searchInText()
 {
     emit _searchInText();
-}
-
-void Actions::needBibleWindow()
-{
-    emit _needBibleWindow();
-}
-
-void Actions::needDictionaryWindow()
-{
-    emit _needDictionaryWindow();
-}
-
-void Actions::needWebWindow()
-{
-    emit _needWebWindow();
-}
-
-void Actions::showDictEntry(const QString &key, int moduleID)
-{
-    emit _showDictEntry(key, moduleID);
 }
 
 void Actions::setCurrentVerseTableID(const int verseTableID)

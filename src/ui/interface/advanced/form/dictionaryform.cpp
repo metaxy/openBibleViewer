@@ -43,6 +43,7 @@ DictionaryForm::DictionaryForm(QWidget *parent) :
     m_view->setObjectName("webView");
     m_view->setUrl(QUrl("about:blank"));
     ui->verticalLayout->addWidget(m_view);
+    ui->verticalLayout->setMargin(0);
     m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
     setButtons();
 
@@ -58,8 +59,6 @@ DictionaryForm::~DictionaryForm()
 }
 void DictionaryForm::init()
 {
-    connect(m_actions, SIGNAL(_showHtml(QString)), this, SLOT(forwardShowHtml(QString)));
-    connect(m_actions, SIGNAL(_showDictEntry(QString, int)), this, SLOT(forwardShowEntry(QString, int)));
     connect(m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(get(QUrl)));
     connect(m_view, SIGNAL(linkMiddleOrCtrlClicked(QUrl)), SLOT(newGet(QUrl)));
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
