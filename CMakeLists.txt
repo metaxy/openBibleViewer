@@ -112,7 +112,7 @@ set( openBibleViewer_HDRS
     src/core/swordmanager.h
 
     src/core/verse/chapter.h
-    src/core/verse/book.h
+    src/core/verse/versebook.h
 
     src/core/verse/range.h
     src/core/verse/ranges.h
@@ -188,6 +188,9 @@ set( openBibleViewer_HDRS
     src/module/metainfo.h
     src/module/searchablemodule.h
     src/module/webpage.h
+    src/module/book/book.h
+    src/module/book/bookmodule.h
+    src/module/book/txtbook.h
 
     src/module/response/response.h
     src/module/response/urlresponse.h
@@ -210,7 +213,7 @@ set( openBibleViewer_SRCS
     src/core/swordmanager.cpp
     src/core/context.cpp
     src/core/verse/chapter.cpp
-    src/core/verse/book.cpp
+    src/core/verse/versebook.cpp
 
     src/core/verse/range.cpp
     src/core/verse/ranges.cpp
@@ -295,7 +298,10 @@ set( openBibleViewer_SRCS
     src/module/response/urlresponse.cpp
     src/module/response/stringresponse.cpp
     src/module/response/textrangesresponse.cpp
-    
+    src/module/book/book.cpp
+    src/module/book/bookmodule.cpp
+    src/module/book/txtbook.cpp
+
     src/ui/dialog/searchdialog.cpp
     src/ui/dialog/settingsdialog.cpp
     src/ui/dialog/aboutdialog.cpp
@@ -326,6 +332,7 @@ set( openBibleViewer_SRCS
     src/ui/interface/advanced/form/form.cpp
     src/ui/interface/advanced/form/webform.cpp
     src/ui/interface/advanced/form/dictionaryform.cpp
+    src/ui/interface/advanced/form/bookform.cpp
 
     src/ui/webview.cpp
     src/ui/interface/advanced/manager/windowmanager.cpp
@@ -385,6 +392,7 @@ set ( openBibleViewer_UIS
     src/ui/interface/study/studyinterface.ui
 
     src/ui/interface/advanced/form/bibleform.ui
+    src/ui/interface/advanced/form/bookform.ui
     src/ui/interface/advanced/form/webform.ui
     src/ui/interface/advanced/form/dictionaryform.ui
 
@@ -467,6 +475,7 @@ set ( openBibleViewer_MOCS
     src/ui/interface/advanced/form/webform.h
     src/ui/interface/advanced/form/form.h
     src/ui/interface/advanced/form/dictionaryform.h
+    src/ui/interface/advanced/form/bookform.h
 
     src/ui/interface/advanced/advancedinterface.h
     src/ui/interface/advanced/subwindowfilter.h

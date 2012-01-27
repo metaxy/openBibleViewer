@@ -8,7 +8,7 @@ const QString ModuleTools::rmacScheme = "rmac:/";
 const QString ModuleTools::dictScheme = "dict:/";
 const QString ModuleTools::verseScheme = "verse:/";
 const QString ModuleTools::webPageScheme = "webpage:/";
-
+const QString ModuleTools::bookScheme = "book:/";
 ModuleTools::ModuleTools()
 {
 }
@@ -45,6 +45,8 @@ ModuleTools::ModuleType ModuleTools::recognizeModuleType(const QString &fileName
         return ModuleTools::BibleQuoteDictModule;
     } else if(fileName.endsWith(".nt", Qt::CaseInsensitive) || fileName.endsWith(".ot", Qt::CaseInsensitive) || fileName.endsWith(".ont", Qt::CaseInsensitive)) {
         return ModuleTools::TheWordBibleModule;
+    } else if(fileName.endsWith(".txt", Qt::CaseInsensitive)) {
+        return ModuleTools::TxtBookModule;
     }
     return ModuleTools::NoneType;
 }
@@ -102,7 +104,7 @@ QStringList ModuleTools::moduleTypeNames()
       << QT_TRANSLATE_NOOP("Core", "Zefania Lex Module") << QT_TRANSLATE_NOOP("Core", "BibleQuote Dictionary") << QT_TRANSLATE_NOOP("Core", "The Word Bible")
       << QT_TRANSLATE_NOOP("Core", "Folder")
      << QT_TRANSLATE_NOOP("Core", "Sword Bible") << QT_TRANSLATE_NOOP("Core", "Web Page") << QT_TRANSLATE_NOOP("Core", "Web Dictionary")
-     << QT_TRANSLATE_NOOP("Core", "Sword Lexicon");
+     << QT_TRANSLATE_NOOP("Core", "Sword Lexicon") << QT_TRANSLATE_NOOP("Core", "Txt Book");
     return l;
 }
 
@@ -130,6 +132,8 @@ QString ModuleTools::moduleTypeName(ModuleTools::ModuleType type)
         return QT_TRANSLATE_NOOP("Core", "Folder");
     } else if(type == ModuleTools::SwordLexiconModule) {
         return QT_TRANSLATE_NOOP("Core", "Sword Lexicon");
+    }  else if(type == ModuleTools::TxtBookModule) {
+        return QT_TRANSLATE_NOOP("Core", "Txt Book");
     }
     return "";
 }
@@ -153,6 +157,9 @@ ModuleTools::ModuleCategory ModuleTools::getCategory(ModuleTools::ModuleType typ
 
         case ModuleTools::WebPageModule:
             return ModuleTools::BookCategory;
+
+        case ModuleTools::TxtBookModule:
+            return ModuleTools::BookCategory;
         default:
             return ModuleTools::UnkownCategory;
     }
@@ -175,6 +182,8 @@ ModuleTools::ModuleClass ModuleTools::typeToClass(ModuleTools::ModuleType type)
 
         case ModuleTools::WebPageModule:
             return ModuleTools::WebPageClass;
+        case ModuleTools::TxtBookModule:
+            return ModuleTools::BookClass;
         default:
             return ModuleTools::NoneClass;
     }

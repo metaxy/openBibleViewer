@@ -69,7 +69,7 @@ private:
     QTextCodec *m_codec;
     QString m_uid;
 
-    Book m_book;
+    VerseBook m_book;
     QString m_modulePath;
     QString m_moduleName;
     QString m_moduleShortName;

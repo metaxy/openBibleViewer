@@ -963,6 +963,13 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
 {
     //DEBUG_FUNC_NAME
     QScopedPointer<QMenu> contextMenu(new QMenu(this));
+    QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), this);
+    connect(actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
+    if(m_view->hasSelection()) {
+        actionCopy->setEnabled(true);
+    } else {
+        actionCopy->setEnabled(false);
+    }
 
     const QWebHitTestResult hitTest = m_view->page()->mainFrame()->hitTestContent(ev->pos());
     const QUrl url = hitTest.linkUrl();
@@ -992,7 +999,7 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
         QAction *dbg = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"), contextMenu.data());
         connect(dbg, SIGNAL(triggered()), this, SLOT(debugger()));
 
-        contextMenu->addAction(m_actionCopy);
+        contextMenu->addAction(actionCopy);
         contextMenu->addAction(actionCopyWholeVerse);
         contextMenu->addAction(m_actionSelect);
         contextMenu->addSeparator();
@@ -1008,16 +1015,16 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
         m_contextMenuUrl = url;
         m_contextMenuText = hitTest.linkText();
 
-        QAction *openInNewTab = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/edit-copy.png")), tr("Open in new tab"), contextMenu.data());
+        QAction *openInNewTab = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("Open in new tab"), contextMenu.data());
         connect(openInNewTab, SIGNAL(triggered()), this, SLOT(openInNewTab()));
 
-        QAction *openHere = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Open here"), contextMenu.data());
+        QAction *openHere = new QAction(QIcon::fromTheme("tab-new-background", QIcon(":/icons/16x16/tab-new-background.png")), tr("Open here"), contextMenu.data());
         connect(openHere, SIGNAL(triggered()), this, SLOT(openHere()));
 
-        QAction *copyText = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Text"), contextMenu.data());
+        QAction *copyText = new QAction(tr("Copy Text"), contextMenu.data());
         connect(copyText, SIGNAL(triggered()), this, SLOT(copyLinkText()));
 
-        QAction *copyLink = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Link"), contextMenu.data());
+        QAction *copyLink = new QAction(tr("Copy Link"), contextMenu.data());
         connect(copyLink, SIGNAL(triggered()), this, SLOT(copyLinkUrl()));
 
         QMenu *openIn = new QMenu(this);
@@ -1094,27 +1101,20 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
                 openInNew->addAction(n2);
             }
         }
+        contextMenu->addAction(actionCopy);
+        contextMenu->addAction(m_actionSelect);
+        contextMenu->addAction(copyText);
+        contextMenu->addAction(copyLink);
 
-        //open in new tab
-        //if possible, open here
-        //copy text
-        //copy link
-        //open in
-
-          //most 3 used with the right module class
-          //more
-        //
+        contextMenu->addSeparator();
         contextMenu->addAction(openHere);
         contextMenu->addAction(openInNewTab);
         if(showOpenIn) {
             contextMenu->addMenu(openIn);
             contextMenu->addMenu(openInNew);
         }
-        contextMenu->addSeparator();
-        contextMenu->addAction(m_actionCopy);
-        contextMenu->addAction(m_actionSelect);
-        contextMenu->addAction(copyText);
-        contextMenu->addAction(copyLink);
+
+
 
         contextMenu->exec(ev->globalPos());
     }

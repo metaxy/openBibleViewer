@@ -87,11 +87,11 @@ private:
     QString m_modulePath;
     QString m_moduleName;
     QString m_uid;
-    Book m_book;
+    VerseBook m_book;
 
     QXmlStreamReader *m_xml;
 
-    Book readBook();
+    VerseBook readBook();
     Chapter readChapter();
     Verse readVerse();
     MetaInfo readMetaInfo(MetaInfo ret);
@@ -109,7 +109,7 @@ private:
     ModuleSettings *m_set;
 
     QString getPath();
-    void cache(const Book &b);
+    void cache(const VerseBook &b);
     void generateCache(QList<std::pair<qint64, qint64> > list);
     QMap<int,QString> m_strongsPrefix;
     void genStrongsPrefix();

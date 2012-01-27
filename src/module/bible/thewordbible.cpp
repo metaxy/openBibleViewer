@@ -74,7 +74,7 @@ int TheWordBible::loadBibleData(const int id, const QString &path)
     int book = 0;
     int chapter = 0;
     int verse = 0;
-    Book currentBook = Book();
+    VerseBook currentBook = VerseBook();
     currentBook.setID(book);
     Chapter currentChapter = Chapter();
     currentChapter.setChapterID(chapter);
@@ -112,11 +112,11 @@ int TheWordBible::loadBibleData(const int id, const QString &path)
     return 0;
 
 }
-Book TheWordBible::loadCached(const int bookID)
+VerseBook TheWordBible::loadCached(const int bookID)
 {
     DEBUG_FUNC_NAME
     ModuleDisplaySettings *displaySettings = m_settings->getModuleSettings(m_moduleID)->displaySettings().data();
-    Book b;
+    VerseBook b;
     const QString fileName = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath) + "/" + QString::number(bookID) + ".twb";
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -334,7 +334,7 @@ void TheWordBible::buildIndex()
             break;
         }
         progress.setValue(c);
-        Book book = loadCached(bookID);
+        VerseBook book = loadCached(bookID);
         QHashIterator<int, Chapter> chapterIt(book.data());
         while(chapterIt.hasNext()) {
             chapterIt.next();

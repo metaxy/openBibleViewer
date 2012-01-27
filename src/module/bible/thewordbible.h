@@ -58,14 +58,14 @@ private:
     bool hasNT() const;
     bool hasOT() const;
     bool hasONT() const;
-    QMap<int, Book> m_books;
-    Book m_book;
+    QMap<int, VerseBook> m_books;
+    VerseBook m_book;
     int m_bookID;
     QString m_moduleName;
     QString m_shortModuleName;
     QString m_uID;
 
-    Book loadCached(const int bookID);
+    VerseBook loadCached(const int bookID);
     bool hasHardCache(const QString &path);
 
 

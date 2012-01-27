@@ -11,7 +11,8 @@ public:
         BibleModuleClass = 1,
         DictionaryModuleClass = 2,
         FolderClass = 3,
-        WebPageClass = 4
+        WebPageClass = 4,
+        BookClass
     };
 
     enum ModuleType {
@@ -25,7 +26,8 @@ public:
         SwordBibleModule = 7,
         WebPageModule = 8,
         WebDictionaryModule = 9,
-        SwordLexiconModule = 10
+        SwordLexiconModule = 10,
+        TxtBookModule = 11
     };
 
     enum DefaultModule {
@@ -48,7 +50,8 @@ public:
         RMACContent = 7,
         WordDictionaryContent = 8,
         DictionaryContent = 9,
-        GramContent = 10
+        GramContent = 10,
+        BookContent = 11
 
     };
 
@@ -67,6 +70,7 @@ public:
     static const QString dictScheme;
     static const QString verseScheme;
     static const QString webPageScheme;
+    static const QString bookScheme;
 
     static ModuleTools::ModuleType recognizeModuleType(const QString &fileName);
     static ModuleTools::DefaultModule toDefaultModule(const ModuleTools::ContentType t);

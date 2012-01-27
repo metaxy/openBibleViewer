@@ -206,7 +206,6 @@ void Context::loadSettings()
 
 void Context::writeSettings()
 {
-    DEBUG_FUNC_NAME;
     m_settingsFile->clear();
     m_settingsFile->setValue("general/version", m_settings->version);
     m_settingsFile->setValue("general/encoding", m_settings->encoding);
@@ -217,7 +216,6 @@ void Context::writeSettings()
     m_settingsFile->setValue("window/layout", m_settings->autoLayout);
     m_settingsFile->setValue("window/onClickBookmarkGo", m_settings->onClickBookmarkGo);
     m_settingsFile->setValue("bible/textFormatting", m_settings->textFormatting);
-
     m_settingsFile->beginWriteArray("module");
     QMapIterator<int, ModuleSettings *> it(m_settings->m_moduleSettings);
     for(int i = 0; it.hasNext(); ++i) {

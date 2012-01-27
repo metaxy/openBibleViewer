@@ -11,8 +11,8 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef BIBLELIST_H
-#define BIBLELIST_H
+#ifndef VERSETABLE_H
+#define VERSETABLE_H
 #include "src/module/versemodule.h"
 #include "src/core/link/verseurl.h"
 
@@ -67,4 +67,4 @@ private:
 
 };
 
-#endif // BIBLELIST_H
+#endif // VERSETABLE_H

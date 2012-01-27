@@ -395,7 +395,7 @@ void DictionaryForm::forwardShowHtml(const QString &html)
 }
 void DictionaryForm::showHtml(QString html)
 {
-    {
+    if(m_dictionary->moduleType() != ModuleTools::WebDictionaryModule) {
         QString cssFile;
         if(m_dictionary)
             cssFile = m_settings->getModuleSettings(m_dictionary->moduleID())->styleSheet;
@@ -403,9 +403,6 @@ void DictionaryForm::showHtml(QString html)
             cssFile = ":/data/css/default.css";
         m_view->settings()->setUserStyleSheetUrl(QUrl::fromLocalFile(cssFile));
     }
-    myDebug() << html;
-
-
     m_view->setHtml(html);
 }
 
@@ -417,16 +414,11 @@ QString DictionaryForm::key() const
 
 void DictionaryForm::createDefaultMenu()
 {
-    m_actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), this);
-    connect(m_actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
-
     m_actionSelect = new QAction(QIcon::fromTheme("edit-select-all", QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"), this);
     connect(m_actionSelect, SIGNAL(triggered()), this , SLOT(selectAll()));
 }
 void DictionaryForm::deleteDefaultMenu()
 {
-    delete m_actionCopy;
-    m_actionCopy = 0;
     delete m_actionSelect;
     m_actionSelect = 0;
 }
@@ -436,34 +428,49 @@ void DictionaryForm::showContextMenu(QContextMenuEvent* ev)
     //DEBUG_FUNC_NAME
     QScopedPointer<QMenu> contextMenu(new QMenu(this));
 
+    QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), this);
+    connect(actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
+
+    if(m_view->hasSelection()) {
+        actionCopy->setEnabled(true);
+    } else {
+        actionCopy->setEnabled(false);
+    }
+
     const QWebHitTestResult hitTest = m_view->page()->mainFrame()->hitTestContent(ev->pos());
-    const QUrl url = hitTest.linkUrl();
+    QUrl url = hitTest.linkUrl();
     if(url.isEmpty()) {
 
 
         QAction *dbg = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"), contextMenu.data());
         connect(dbg, SIGNAL(triggered()), this, SLOT(debugger()));
 
-        contextMenu->addAction(m_actionCopy);
+        contextMenu->addAction(actionCopy);
         contextMenu->addAction(m_actionSelect);
         contextMenu->addSeparator();
         contextMenu->addAction(dbg);
         contextMenu->exec(ev->globalPos());
     } else {
         myDebug() << "another menu";
+
+        if(m_dictionary->moduleType() == ModuleTools::WebDictionaryModule) {
+            WebDictionary *d = (WebDictionary*)(m_dictionary->module());
+            url = QUrl(d->pharseUrl(url));
+        }
+
         m_contextMenuUrl = url;
         m_contextMenuText = hitTest.linkText();
 
-        QAction *openInNewTab = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/edit-copy.png")), tr("Open in new tab"), contextMenu.data());
+        QAction *openInNewTab = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("Open in new tab"), contextMenu.data());
         connect(openInNewTab, SIGNAL(triggered()), this, SLOT(openInNewTab()));
 
-        QAction *openHere = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Open here"), contextMenu.data());
+        QAction *openHere = new QAction(QIcon::fromTheme("tab-new-background", QIcon(":/icons/16x16/tab-new-background.png")), tr("Open here"), contextMenu.data());
         connect(openHere, SIGNAL(triggered()), this, SLOT(openHere()));
 
-        QAction *copyText = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Text"), contextMenu.data());
+        QAction *copyText = new QAction(tr("Copy Text"), contextMenu.data());
         connect(copyText, SIGNAL(triggered()), this, SLOT(copyLinkText()));
 
-        QAction *copyLink = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Link"), contextMenu.data());
+        QAction *copyLink = new QAction(tr("Copy Link"), contextMenu.data());
         connect(copyLink, SIGNAL(triggered()), this, SLOT(copyLinkUrl()));
 
         QMenu *openIn = new QMenu(this);
@@ -540,17 +547,18 @@ void DictionaryForm::showContextMenu(QContextMenuEvent* ev)
                 openInNew->addAction(n2);
             }
         }
+        contextMenu->addAction(actionCopy);
+        contextMenu->addAction(m_actionSelect);
+        contextMenu->addAction(copyText);
+        contextMenu->addAction(copyLink);
+
+        contextMenu->addSeparator();
         contextMenu->addAction(openHere);
         contextMenu->addAction(openInNewTab);
         if(showOpenIn) {
             contextMenu->addMenu(openIn);
             contextMenu->addMenu(openInNew);
         }
-        contextMenu->addSeparator();
-        contextMenu->addAction(m_actionCopy);
-        contextMenu->addAction(m_actionSelect);
-        contextMenu->addAction(copyText);
-        contextMenu->addAction(copyLink);
 
         contextMenu->exec(ev->globalPos());
     }

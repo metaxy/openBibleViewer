@@ -568,10 +568,10 @@ std::pair<int, int> ZefaniaBible::minMaxVerse(int bookID, int chapterID)
     return ret;
 }
 
-Book ZefaniaBible::readBook()
+VerseBook ZefaniaBible::readBook()
 {
     m_bookID = m_xml->attributes().value("bnumber").toString().toInt() - 1;
-    Book book(m_bookID);
+    VerseBook book(m_bookID);
     while(m_xml->readNextStartElement()) {
         if(cmp(m_xml->name(), "CHAPTER")) {
             book.addChapter(readChapter());

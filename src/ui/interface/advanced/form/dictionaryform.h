@@ -90,7 +90,6 @@ private:
 
     void createDefaultMenu();
     void deleteDefaultMenu();
-    QAction *m_actionCopy;
     QAction *m_actionSelect;
     QUrl m_contextMenuUrl;
     QString m_contextMenuText;

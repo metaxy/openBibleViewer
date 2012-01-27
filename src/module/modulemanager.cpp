@@ -319,7 +319,6 @@ VerseModule * ModuleManager::newVerseModule(const int moduleID)
 
 ModuleTools::ModuleType ModuleManager::recognizeModuleType(const QString &fileName)
 {
-    //myDebug() << fileName;
     if(fileName.endsWith("bibleqt.ini", Qt::CaseInsensitive)) {
         return ModuleTools::BibleQuoteModule;
     } else if(fileName.endsWith(".webdict.xml", Qt::CaseInsensitive)) {
@@ -348,7 +347,6 @@ ModuleTools::ModuleType ModuleManager::recognizeModuleType(const QString &fileNa
     } else if(fileName.endsWith(".idx", Qt::CaseInsensitive)) {
         return ModuleTools::BibleQuoteDictModule;
     } else if(fileName.endsWith(".nt", Qt::CaseInsensitive) || fileName.endsWith(".ot", Qt::CaseInsensitive) || fileName.endsWith(".ont", Qt::CaseInsensitive)) {
-        myDebug() << "the word module";
         return ModuleTools::TheWordBibleModule;
     }
     return ModuleTools::NoneType;
@@ -416,7 +414,5 @@ VerseTable * ModuleManager::newVerseTable()
 }
 bool ModuleManager::sortModuleByPop(const ModuleSettings* s1, const ModuleSettings* s2)
 {
-    myDebug() << s1->stats_timesOpend << s2->stats_timesOpend;
-
     return s1->stats_timesOpend > s2->stats_timesOpend;
 }
