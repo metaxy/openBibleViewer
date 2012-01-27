@@ -90,6 +90,9 @@ void ModuleDockWidget::loadModuleData(QModelIndex index, Actions::OpenLinkModifi
         } else if(cl == ModuleTools::WebPageClass) {
             m_actions->get("webpage:/" + QString::number(moduleID), mod);
             m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
+        } else if(cl == ModuleTools::BookClass) {
+            m_actions->get("book:/" + QString::number(moduleID), mod);
+            m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
         } else if(cl == ModuleTools::BibleModuleClass) {
             myDebug() << "bible";
             m_moduleID = moduleID;

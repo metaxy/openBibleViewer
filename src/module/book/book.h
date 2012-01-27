@@ -18,6 +18,15 @@ public:
 
 protected:
     ModuleDisplaySettings *m_moduleDisplaySettings;
+
+
+    int loadModuleData(int moduleID);
+    bool m_loaded;
+
+    QString m_moduleTitle;
+    QString m_moduleShortTitle;
+    QString m_moduleUID;
+    QSharedPointer<BookModule> m_bookModule;
 };
 
 #endif // BOOK_H

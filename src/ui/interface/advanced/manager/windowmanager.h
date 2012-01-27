@@ -25,13 +25,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include "src/api/api.h"
 #include "src/ui/interface/advanced/mdiareafilter.h"
-#include "src/ui/interface/advanced/form/bibleform.h"
-#include "src/ui/interface/advanced/form/webform.h"
+
 #include "bookmarksmanager.h"
 #include "notesmanager.h"
 #include "src/ui/interface/advanced/form/form.h"
 #include "src/ui/interface/advanced/form/dictionaryform.h"
-
+#include "src/ui/interface/advanced/form/bibleform.h"
+#include "src/ui/interface/advanced/form/webform.h"
+#include "src/ui/interface/advanced/form/bookform.h"
 class WindowManager : public QObject , public BasicClass
 {
     Q_OBJECT
@@ -57,6 +58,7 @@ public slots:
     QMdiSubWindow * newBibleSubWindow(bool doAutoLayout = true, bool forceMax = false);
     QMdiSubWindow * newWebSubWindow(bool doAutoLayout = true, bool forceMax = false);
     QMdiSubWindow * newDictionarySubWindow(bool doAutoLayout = true, bool forceMax = false);
+    QMdiSubWindow * newBookSubWindow(bool doAutoLayout = true, bool forceMax = false);
 
     Form* getForm(QMdiSubWindow *w) const;
 

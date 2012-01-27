@@ -146,7 +146,14 @@ void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers 
     } else if(url.startsWith(http)) {
         m_webPageManager->pharseWebUrl(url);
         //QDesktopServices::openUrl(url);
-    } else if(url.startsWith(bq)) {
+    } else if(url.startsWith(ModuleTools::bookScheme)) {
+        const int moduleID = url.remove(0, ModuleTools::bookScheme.size()).toInt();
+        BookForm *f = (BookForm*) m_windowManager->getForm(m_windowManager->needWindow(Form::BookForm));
+        if(f) {
+            f->loadModule(moduleID);
+            f->show();
+        }
+    }else if(url.startsWith(bq)) {
         m_bibleManager->pharseUrl(url, mod);
     } else if(url.startsWith(anchor)) {
         //todo:
@@ -301,9 +308,14 @@ QMenuBar* AdvancedInterface::menuBar()
     QAction *actionNewDictionarySubWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New Dictionary Window"), menuNewSubWindow);
     connect(actionNewDictionarySubWindow, SIGNAL(triggered()), m_windowManager, SLOT(newDictionarySubWindow()));
 
+    QAction *actionNewBookSubWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New Book Window"), menuNewSubWindow);
+    connect(actionNewBookSubWindow, SIGNAL(triggered()), m_windowManager, SLOT(newBookSubWindow()));
+
+
     menuNewSubWindow->addAction(actionNewBibleSubWindow);
     menuNewSubWindow->addAction(actionNewWebSubWindow);
     menuNewSubWindow->addAction(actionNewDictionarySubWindow);
+    menuNewSubWindow->addAction(actionNewBookSubWindow);
 
     //Close Sub Window
     QAction *actionCloseSubWindow = new QAction(QIcon::fromTheme("tab-close", QIcon(":/icons/16x16/tab-close.png")), tr("Close SubWindow"), menuFile);

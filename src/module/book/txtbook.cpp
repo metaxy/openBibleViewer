@@ -38,3 +38,18 @@ QString TxtBook::moduleName(bool preferShortName) const
 {
     return "";
 }
+int TxtBook::loadModuleData(const int moduleID, const QString &path)
+{
+    m_path = path;
+    m_moduleID = moduleID;
+    return 0;
+}
+QString TxtBook::readAll()
+{
+    QFile file(m_path);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return "";
+
+    QTextStream in(&file);
+    return in.readAll();
+}

@@ -11,8 +11,8 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef BOOK_H
-#define BOOK_H
+#ifndef VERSEBOOK_H
+#define VERSEBOOK_H
 #include <QtCore/QHash>
 #include "src/core/verse/chapter.h"
 class VerseBook
@@ -34,4 +34,4 @@ private:
     QHash<int, Chapter> m_chapters;
 };
 
-#endif // BOOK_H
+#endif // VERSEBOOK_H

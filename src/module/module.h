@@ -17,6 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/settings.h"
 #include "src/module/dictionary/dictionarymodule.h"
 #include "src/module/bible/biblemodule.h"
+#include "src/module/book/bookmodule.h"
 #include "src/module/moduletools.h"
 /**
  * Module is represents a module. Every avaible module has an instance of this class.
@@ -43,9 +44,11 @@ public:
 
     QWeakPointer<BibleModule> m_bibleModule;
     QWeakPointer<DictionaryModule> m_dictionaryModule;
+    QWeakPointer<BookModule> m_bookModule;
 
     QSharedPointer<BibleModule> newBibleModule(const ModuleTools::ModuleType type);
     QSharedPointer<DictionaryModule> newDictionaryModule(const ModuleTools::ModuleType type);
+    QSharedPointer<BookModule> newBookModule(const ModuleTools::ModuleType type);
 
     void setSettings(Settings *settings);
 

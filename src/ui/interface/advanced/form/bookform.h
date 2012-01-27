@@ -1,40 +1,36 @@
 #ifndef BOOKFORM_H
 #define BOOKFORM_H
-#include "form.h"
+#include "webviewform.h"
 #include <QWidget>
-
+#include "src/module/book/book.h"
 namespace Ui {
 class BookForm;
 }
 
-class BookForm : public Form
+class BookForm : public WebViewForm
 {
     Q_OBJECT
     
 public:
     explicit BookForm(QWidget *parent = 0);
     ~BookForm();
-    
+    void addView(WebView *view);
     void init();
     void restore(const QString &key);
     void save();
 
     Form::FormType type() const;
+
+
+    void loadModule(const int moduleID);
+
+    void show();
 public slots:
-
-    void copy();
-    void selectAll();
-    void print();
-    void printPreview();
-    void saveFile();
-    QString selectedText();
-
-    void zoomIn();
-    void zoomOut();
-
     void activated();
 private:
     Ui::BookForm *ui;
+
+    Book *m_book;
 };
 
 #endif // BOOKFORM_H

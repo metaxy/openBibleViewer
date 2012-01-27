@@ -23,8 +23,15 @@ public:
     virtual int moduleID() const = 0;
     virtual QString modulePath() const = 0;
     virtual QString moduleName(bool preferShortName = false) const = 0;
+
+    virtual int loadModuleData(const int moduleID, const QString &path) = 0;
+
+    virtual QString readAll() = 0;
 protected:
-       Settings *m_settings;
+    Settings *m_settings;
+
+    QString m_path;
+    int m_moduleID;
 };
 
 #endif // BOOKMODULE_H

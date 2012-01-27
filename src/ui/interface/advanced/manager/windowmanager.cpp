@@ -89,6 +89,8 @@ QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, For
         form = new WebForm(widget);
     } else if(type == Form::DictionaryForm) {
         form = new DictionaryForm(widget);
+    } else if(type == Form::BookForm) {
+        form = new BookForm(widget);
     }
     form->setID(m_nameCounter);
     form->setObjectName("mdiForm");
@@ -157,7 +159,10 @@ QMdiSubWindow* WindowManager::newDictionarySubWindow(bool doAutoLayout, bool for
 {
     return newSubWindow(doAutoLayout, forceMax, Form::DictionaryForm);
 }
-
+QMdiSubWindow* WindowManager::newBookSubWindow(bool doAutoLayout, bool forceMax)
+{
+    return newSubWindow(doAutoLayout, forceMax, Form::BookForm);
+}
 QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
 {
     if(usableWindowList().isEmpty()) {
@@ -604,6 +609,8 @@ void WindowManager::restore()
         } else if(type == "web") {
             t = Form::WebForm;
         } else if(type == "dictionary") {
+            t = Form::DictionaryForm;
+        } else if(type == "book") {
             t = Form::DictionaryForm;
         }
         QMdiSubWindow *w = newSubWindow(true, max, t);

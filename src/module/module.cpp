@@ -20,6 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/dictionary/zefania-lex.h"
 #include "src/module/dictionary/webdictionary.h"
 #include "src/module/dictionary/swordlexicon.h"
+#include "src/module/book/txtbook.h"
 Module::Module(Module *parent) : m_parent(parent)
 {
     m_moduleClass = ModuleTools::NoneClass;
@@ -120,5 +121,14 @@ QSharedPointer<DictionaryModule> Module::newDictionaryModule(const ModuleTools::
         ret = QSharedPointer<DictionaryModule>(new SwordLexicon());
     }
     m_dictionaryModule = ret.toWeakRef();
+    return ret;
+}
+QSharedPointer<BookModule> Module::newBookModule(const ModuleTools::ModuleType type)
+{
+    QSharedPointer<BookModule> ret;
+    if(type == ModuleTools::TxtBookModule) {
+        ret = QSharedPointer<TxtBook>(new TxtBook());
+    }
+    m_bookModule = ret.toWeakRef();
     return ret;
 }

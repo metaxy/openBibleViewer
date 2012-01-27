@@ -15,6 +15,10 @@ public:
     int moduleID() const;
     QString modulePath() const;
     QString moduleName(bool preferShortName = false) const;
+
+    int loadModuleData(const int moduleID, const QString &path);
+
+    QString readAll();
 };
 
 #endif // TXTBOOK_H
