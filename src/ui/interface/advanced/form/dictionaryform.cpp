@@ -25,6 +25,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/dictionary/webdictionary.h"
 #include "src/module/response/urlresponse.h"
 #include "src/module/response/stringresponse.h"
+#include <QtGui/QClipboard>
+
 DictionaryForm::DictionaryForm(QWidget *parent) :
     Form(parent),
     ui(new Ui::DictionaryForm)
@@ -60,6 +62,19 @@ void DictionaryForm::init()
     connect(m_actions, SIGNAL(_showDictEntry(QString, int)), this, SLOT(forwardShowEntry(QString, int)));
     connect(m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(get(QUrl)));
     connect(m_view, SIGNAL(linkMiddleOrCtrlClicked(QUrl)), SLOT(newGet(QUrl)));
+    connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
+
+
+    m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
+    m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
+#if QT_VERSION >= 0x040700
+    m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
+    m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled, true);
+    m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
+    m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
+    m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
+#endif
+    createDefaultMenu();
 }
 void DictionaryForm::get(const QUrl &url)
 {
@@ -397,4 +412,225 @@ void DictionaryForm::showHtml(QString html)
 QString DictionaryForm::key() const
 {
     return m_key;
+}
+
+
+void DictionaryForm::createDefaultMenu()
+{
+    m_actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), this);
+    connect(m_actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
+
+    m_actionSelect = new QAction(QIcon::fromTheme("edit-select-all", QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"), this);
+    connect(m_actionSelect, SIGNAL(triggered()), this , SLOT(selectAll()));
+}
+void DictionaryForm::deleteDefaultMenu()
+{
+    delete m_actionCopy;
+    m_actionCopy = 0;
+    delete m_actionSelect;
+    m_actionSelect = 0;
+}
+
+void DictionaryForm::showContextMenu(QContextMenuEvent* ev)
+{
+    //DEBUG_FUNC_NAME
+    QScopedPointer<QMenu> contextMenu(new QMenu(this));
+
+    const QWebHitTestResult hitTest = m_view->page()->mainFrame()->hitTestContent(ev->pos());
+    const QUrl url = hitTest.linkUrl();
+    if(url.isEmpty()) {
+
+
+        QAction *dbg = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"), contextMenu.data());
+        connect(dbg, SIGNAL(triggered()), this, SLOT(debugger()));
+
+        contextMenu->addAction(m_actionCopy);
+        contextMenu->addAction(m_actionSelect);
+        contextMenu->addSeparator();
+        contextMenu->addAction(dbg);
+        contextMenu->exec(ev->globalPos());
+    } else {
+        myDebug() << "another menu";
+        m_contextMenuUrl = url;
+        m_contextMenuText = hitTest.linkText();
+
+        QAction *openInNewTab = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/edit-copy.png")), tr("Open in new tab"), contextMenu.data());
+        connect(openInNewTab, SIGNAL(triggered()), this, SLOT(openInNewTab()));
+
+        QAction *openHere = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Open here"), contextMenu.data());
+        connect(openHere, SIGNAL(triggered()), this, SLOT(openHere()));
+
+        QAction *copyText = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Text"), contextMenu.data());
+        connect(copyText, SIGNAL(triggered()), this, SLOT(copyLinkText()));
+
+        QAction *copyLink = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Link"), contextMenu.data());
+        connect(copyLink, SIGNAL(triggered()), this, SLOT(copyLinkUrl()));
+
+        QMenu *openIn = new QMenu(this);
+        openIn->setTitle(tr("Open in"));
+
+        QMenu *openInNew = new QMenu(this);
+        openInNew->setTitle(tr("Open in new"));
+
+        QList<int> usedModules;
+        bool showOpenIn = false;
+
+        ModuleTools::ContentType type = ModuleTools::contentTypeFromUrl(url.toString());
+        ModuleTools::ModuleClass cl = ModuleTools::moduleClassFromUrl(url.toString());
+        QList<ModuleSettings*> list = m_settings->m_moduleSettings.values();
+
+        qSort(list.begin(), list.end(), ModuleManager::sortModuleByPop);
+
+        bool addSep = true;
+        int counter = 0;
+
+        if(type != ModuleTools::UnkownContent) {
+            //most 4 used with the right content type
+
+            foreach(ModuleSettings* m, list) {
+                if(counter > 5)
+                    break;
+                if(ModuleTools::alsoOk(m->contentType, type)
+                        && m->contentType != ModuleTools::UnkownContent
+                        && !usedModules.contains(m->moduleID)) {
+
+                    showOpenIn = true;
+                    usedModules.append(m->moduleID);
+                    counter++;
+
+                    QAction *n = new QAction(m->name(true), openIn);
+                    n->setData(m->moduleID);
+                    connect(n, SIGNAL(triggered()), this, SLOT(openIn()));
+                    openIn->addAction(n);
+
+                    QAction *n2 = new QAction(m->name(true), openInNew);
+                    n2->setData(m->moduleID);
+                    connect(n2, SIGNAL(triggered()), this, SLOT(openInNew()));
+                    openInNew->addAction(n2);
+                }
+            }
+        } else {
+            addSep = false;
+        }
+
+        counter = 0;
+        foreach(ModuleSettings* m, list) {
+            if(counter > 3)
+                break;
+            if(ModuleTools::typeToClass(m->moduleType) == cl
+                    && !usedModules.contains(m->moduleID)) {
+
+                showOpenIn = true;
+                usedModules.append(m->moduleID);
+                counter++;
+                if(addSep) {
+                    openIn->addSeparator();
+                    openInNew->addSeparator();
+                    addSep = false;
+                }
+
+                QAction *n = new QAction(m->name(true), openIn);
+                n->setData(m->moduleID);
+                connect(n, SIGNAL(triggered()), this, SLOT(openIn()));
+                openIn->addAction(n);
+
+                QAction *n2 = new QAction(m->name(true), openInNew);
+                n2->setData(m->moduleID);
+                connect(n2, SIGNAL(triggered()), this, SLOT(openInNew()));
+                openInNew->addAction(n2);
+            }
+        }
+        contextMenu->addAction(openHere);
+        contextMenu->addAction(openInNewTab);
+        if(showOpenIn) {
+            contextMenu->addMenu(openIn);
+            contextMenu->addMenu(openInNew);
+        }
+        contextMenu->addSeparator();
+        contextMenu->addAction(m_actionCopy);
+        contextMenu->addAction(m_actionSelect);
+        contextMenu->addAction(copyText);
+        contextMenu->addAction(copyLink);
+
+        contextMenu->exec(ev->globalPos());
+    }
+}
+void DictionaryForm::openInNewTab()
+{
+    m_actions->get(m_contextMenuUrl.toString(), Actions::OpenInNewWindow);
+}
+
+void DictionaryForm::openHere()
+{
+    m_actions->get(m_contextMenuUrl.toString(), Actions::NoModifer);
+}
+
+void DictionaryForm::copyLinkText()
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(m_contextMenuText);
+}
+
+void DictionaryForm::copyLinkUrl()
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(m_contextMenuUrl.toString());
+}
+void DictionaryForm::openIn()
+{
+    QAction *s = (QAction*) sender();
+    if(s != NULL) {
+        int moduleID = s->data().toInt();
+        QString url = m_contextMenuUrl.toString();
+        if(url.startsWith(ModuleTools::strongScheme)) {
+            url = url.remove(0, ModuleTools::strongScheme.size());
+            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url);
+        } else if(url.startsWith(ModuleTools::rmacScheme)) {
+            url = url.remove(0, ModuleTools::rmacScheme.size());
+            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url);
+        } else if(url.startsWith(ModuleTools::verseScheme)) {
+            VerseUrl vurl;
+            vurl.fromString(url);
+            vurl.setModuleID(moduleID);
+            m_actions->get(vurl);
+        } else {
+            m_actions->get(url);
+        }
+        m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
+    }
+}
+void DictionaryForm::openInNew()
+{
+    QAction *s = (QAction*) sender();
+    if(s != NULL) {
+        int moduleID = s->data().toInt();
+        QString url = m_contextMenuUrl.toString();
+        if(url.startsWith(ModuleTools::strongScheme)) {
+            url = url.remove(0, ModuleTools::strongScheme.size());
+            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, Actions::OpenInNewWindow);
+        } else if(url.startsWith(ModuleTools::rmacScheme)) {
+            url = url.remove(0, ModuleTools::rmacScheme.size());
+            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, Actions::OpenInNewWindow);
+        } else if(url.startsWith(ModuleTools::verseScheme)) {
+            VerseUrl vurl;
+            vurl.fromString(url);
+            vurl.setModuleID(moduleID);
+            m_actions->get(vurl, Actions::OpenInNewWindow);
+        } else {
+            m_actions->get(url);
+        }
+        m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
+    }
+}
+void DictionaryForm::changeEvent(QEvent *e)
+{
+    switch(e->type()) {
+    case QEvent::LanguageChange:
+        deleteDefaultMenu();
+        createDefaultMenu();
+        ui->retranslateUi(this);
+        break;
+    default:
+        break;
+    }
 }

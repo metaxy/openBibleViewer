@@ -959,12 +959,6 @@ void BibleForm::deleteDefaultMenu()
     delete m_actionNote;
     m_actionNote = 0;
 }
-bool sortModuleByPop(const ModuleSettings* s1, const ModuleSettings* s2)
-{
-    myDebug() << s1->stats_timesOpend << s2->stats_timesOpend;
-
-    return s1->stats_timesOpend > s2->stats_timesOpend;
-}
 void BibleForm::showContextMenu(QContextMenuEvent* ev)
 {
     //DEBUG_FUNC_NAME
@@ -1039,7 +1033,7 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
         ModuleTools::ModuleClass cl = ModuleTools::moduleClassFromUrl(url.toString());
         QList<ModuleSettings*> list = m_settings->m_moduleSettings.values();
 
-        qSort(list.begin(), list.end(), sortModuleByPop);
+        qSort(list.begin(), list.end(), ModuleManager::sortModuleByPop);
 
         bool addSep = true;
         int counter = 0;
@@ -1505,9 +1499,15 @@ void BibleForm::openIn()
         } else if(url.startsWith(ModuleTools::rmacScheme)) {
             url = url.remove(0, ModuleTools::rmacScheme.size());
             m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url);
+        } else if(url.startsWith(ModuleTools::verseScheme)) {
+            VerseUrl vurl;
+            vurl.fromString(url);
+            vurl.setModuleID(moduleID);
+            m_actions->get(vurl);
         } else {
             m_actions->get(url);
         }
+        m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
     }
 }
 void BibleForm::openInNew()
@@ -1522,6 +1522,11 @@ void BibleForm::openInNew()
         } else if(url.startsWith(ModuleTools::rmacScheme)) {
             url = url.remove(0, ModuleTools::rmacScheme.size());
             m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, Actions::OpenInNewWindow);
+        } else if(url.startsWith(ModuleTools::verseScheme)) {
+            VerseUrl vurl;
+            vurl.fromString(url);
+            vurl.setModuleID(moduleID);
+            m_actions->get(vurl, Actions::OpenInNewWindow);
         } else {
             m_actions->get(url);
         }

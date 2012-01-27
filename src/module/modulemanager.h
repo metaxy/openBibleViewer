@@ -89,6 +89,8 @@ public:
       */
     VerseTable * newVerseTable();
 
+    static bool sortModuleByPop(const ModuleSettings* s1, const ModuleSettings* s2);
+
 private:
 
     void loadModule(Module *moduleParent, ModuleSettings *setttings);

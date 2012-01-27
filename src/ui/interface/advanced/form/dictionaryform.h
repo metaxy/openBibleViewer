@@ -62,6 +62,17 @@ private slots:
 
     void get(const QUrl &url);
     void newGet(const QUrl &url);
+
+    void showContextMenu(QContextMenuEvent* ev);
+
+    void openInNewTab();
+    void openHere();
+    void copyLinkText();
+    void copyLinkUrl();
+    void openIn();
+    void openInNew();
+protected:
+    void changeEvent(QEvent *e);
 private:
     Ui::DictionaryForm *ui;
     void loadDictionary(int moduleID);
@@ -76,6 +87,13 @@ private:
     WebView *m_view;
     History m_browserHistory;
     void setButtons();
+
+    void createDefaultMenu();
+    void deleteDefaultMenu();
+    QAction *m_actionCopy;
+    QAction *m_actionSelect;
+    QUrl m_contextMenuUrl;
+    QString m_contextMenuText;
 
 };
 
