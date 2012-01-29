@@ -192,6 +192,8 @@ void Context::loadSettings()
         displaySettings->setShowRMAC(m_settingsFile->value("showRMAC", true).toBool());
         displaySettings->setShowCaptions(m_settingsFile->value("showCaptions", false).toBool());
         displaySettings->setShowProlog(m_settingsFile->value("showProlog", false).toBool());
+        displaySettings->setShowStrongInline(m_settingsFile->value("showStrongInline", false).toBool());
+
         m->setDisplaySettings(displaySettings);
 
         m_settings->m_moduleSettings.insert(m->moduleID, m);
@@ -259,6 +261,7 @@ void Context::writeSettings()
                 m_settingsFile->setValue("showRMAC", displaySettings->showRMAC());
                 m_settingsFile->setValue("showCaptions", displaySettings->showCaptions());
                 m_settingsFile->setValue("showProlog", displaySettings->showProlog());
+                m_settingsFile->setValue("showStrongInline", displaySettings->showStrongInline());
             }
         } else {
             m_settingsFile->remove("showStudyNotes");
@@ -270,6 +273,7 @@ void Context::writeSettings()
             m_settingsFile->remove("showRMAC");
             m_settingsFile->remove("showCaptions");
             m_settingsFile->remove("showProlog");
+            m_settingsFile->remove("showStrongsInline");
         }
     }
 

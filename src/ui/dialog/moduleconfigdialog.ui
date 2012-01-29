@@ -156,7 +156,7 @@
    <item row="1" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -317,13 +317,6 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="0">
-           <widget class="QCheckBox" name="checkBox_showStudyNotes">
-            <property name="text">
-             <string>Show Study Notes</string>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="0">
            <widget class="QCheckBox" name="checkBox_showNotes">
             <property name="text">
@@ -331,31 +324,45 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QCheckBox" name="checkBox_showRefLinks">
+          <item row="4" column="1">
+           <widget class="QCheckBox" name="checkBox_showProlog">
             <property name="text">
-             <string>Show RefLinks</string>
+             <string>Show Prolog</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="QCheckBox" name="checkBox_showRMac">
-            <property name="text">
-             <string>Show RMac</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
+          <item row="3" column="1">
            <widget class="QCheckBox" name="checkBox_showCaptions">
             <property name="text">
              <string>Show Captions</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
-           <widget class="QCheckBox" name="checkBox_showProlog">
+          <item row="2" column="1">
+           <widget class="QCheckBox" name="checkBox_showRMac">
             <property name="text">
-             <string>Show Prolog</string>
+             <string>Show RMac</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="checkBox_showRefLinks">
+            <property name="text">
+             <string>Show RefLinks</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="checkBox_showStudyNotes">
+            <property name="text">
+             <string>Show Study Notes</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QCheckBox" name="checkBox_showStrongsInline">
+            <property name="text">
+             <string>Show Strongs Inline</string>
             </property>
            </widget>
           </item>

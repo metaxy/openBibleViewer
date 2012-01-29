@@ -22,48 +22,54 @@ public:
     /**
      * Load notes when loading the module
      */
-    bool loadNotes();
+    bool loadNotes() const;
 
     void setShowMarks(bool showMarks);
     /**
      * Show the marks from notes.
      * If this is true, loadNotes is also set true.
      */
-    bool showMarks();
+    bool showMarks() const;
 
     void setShowNotes(bool showNotes);
     /**
      * Show a link to a note connected to the verse.
      * If this is true, loadNotes is also set true.
      */
-    bool showNotes();
+    bool showNotes() const;
 
     void setShowBottomToolBar(bool showToolBar);
-    bool showBottomToolBar();
+    bool showBottomToolBar() const;
 
     void setShowStrong(bool showStrong);
-    bool showStrong();
+    bool showStrong() const;
 
     void setShowStudyNotes(bool showStudyNotes);
-    bool showStudyNotes();
+    bool showStudyNotes() const;
 
     void setShowRefLinks(bool showRefLinks);
-    bool showRefLinks();
+    bool showRefLinks() const;
 
     void setShowRMAC(bool b);
-    bool showRMAC();
+    bool showRMAC() const;
 
     void setShowCaptions(bool b);
-    bool showCaptions();
+    bool showCaptions() const;
 
     void setShowProlog(bool b);
-    bool showProlog();
+    bool showProlog() const;
 
     void setShowMedia(bool b);
-    bool showMedia();
+    bool showMedia() const;
 
     void setShowGram(bool b);
-    bool showGrams();
+    bool showGrams() const;
+
+
+    void setShowStrongInline(bool b);
+    bool showStrongInline() const;
+
+
 
 private:
     bool m_loadNotes;
@@ -79,6 +85,9 @@ private:
     bool m_showProlog;
     bool m_showMedia;
     bool m_showGram;
+
+    bool m_showStrongInline;
+
 
 
 };

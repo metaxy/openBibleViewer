@@ -30,6 +30,7 @@ ModuleConfigDialog::ModuleConfigDialog(QWidget *parent) :
     connect(m_ui->toolButton_file, SIGNAL(clicked()), this, SLOT(fileSelect()));
     connect(m_ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this, SLOT(moduleTypeChanged(int)));
     connect(m_ui->checkBox_useParentSettings, SIGNAL(stateChanged(int)), this, SLOT(useParentsSettingsChanged(int)));
+    connect(m_ui->checkBox_showStrong, SIGNAL(clicked(bool)), m_ui->checkBox_showStrongsInline, SLOT(setEnabled(bool)));
 
     m_ui->comboBox_type->insertItems(0, ModuleTools::moduleTypeNames());
 
@@ -123,6 +124,8 @@ void ModuleConfigDialog::setModule(ModuleSettings *config)
         m_ui->checkBox_showRMac->setChecked(dis->showRMAC());
         m_ui->checkBox_showCaptions->setChecked(dis->showCaptions());
         m_ui->checkBox_showProlog->setChecked(dis->showProlog());
+        m_ui->checkBox_showStrongsInline->setChecked(dis->showStrongInline());
+        m_ui->checkBox_showStrongsInline->setEnabled(dis->showStrong());
     }
 
     m_ui->lineEdit_styleSheet->setText(config->styleSheet);
@@ -170,6 +173,7 @@ void ModuleConfigDialog::bsave()
         m_moduleSettings->displaySettings()->setShowRMAC(m_ui->checkBox_showRMac->isChecked());
         m_moduleSettings->displaySettings()->setShowCaptions(m_ui->checkBox_showCaptions->isChecked());
         m_moduleSettings->displaySettings()->setShowProlog(m_ui->checkBox_showProlog->isChecked());
+        m_moduleSettings->displaySettings()->setShowStrongInline(m_ui->checkBox_showStrongsInline->isChecked());
 
     }
     emit save(m_moduleSettings->moduleID);

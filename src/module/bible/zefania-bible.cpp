@@ -742,10 +742,17 @@ QString ZefaniaBible::pharseGram()
         StrongUrl url;
         url.fromText(add+strong);
 
-        ret +=  "<span class=\"stronglink\"><a  href=\""+url.toString()+"\">" + add+strong + "</a></span>";
+        if(m_set->displaySettings()->showStrongInline()) {
+            ret.prepend("<a class=\"inlinestronglink\" href=\""+url.toString()+"\" alt=\""+ add+strong +"\">");
+            ret.append("</a>");
+        } else {
+            ret += "<a class=\"stronglink\" href=\""+url.toString()+"\" alt=\""+ add+strong +"\">"
+                    + add+strong
+                    + "</a>";
+        }
     }
     if(!rmac.isEmpty() && m_set->displaySettings()->showRMAC()) {
-        ret +=  "<span class=\"rmaclink\"><a href=\""+ModuleTools::rmacScheme + rmac + "\">" + rmac + "</a></span>";
+        ret +=  "<a class=\"rmaclink\" href=\""+ModuleTools::rmacScheme + rmac + "\">" + rmac + "</a>";
     }
     return ret;
 }

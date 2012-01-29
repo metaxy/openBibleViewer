@@ -61,50 +61,55 @@ td.rowTitle {
     font-weight:bold;
 }
 
-.verseEntry .gramlink {
+.verseEntry a.gramlink {
     font-size: 70%;
     vertical-align: super;
 }
-.verseEntry .gramlink:after {
+.verseEntry a.gramlink:after {
     content: "  ";
 }
-.verseEntry .gramlink a{
+.verseEntry a.gramlink{
     color: #323232;
     text-decoration:none;
 }
-.verseEntry .gramlink a:hover{
+.verseEntry a.gramlink:hover{
     color:#0080AF;
     text-decoration:underline;
 }
 
-.verseEntry .stronglink {
+.verseEntry a.stronglink {
     font-size: 70%;
     vertical-align: super;
-}
-.verseEntry .stronglink:after {
-    content: "  ";
-}
-.verseEntry .stronglink a{
     color: #002B70;
     text-decoration:none;
+    margin-right:0.5em;
 }
-.verseEntry .stronglink a:hover{
+
+.verseEntry a.stronglink:hover{
     color: #0080AF;
     text-decoration:underline;
 }
 
-.verseEntry .rmaclink {
-    font-size: 70%;
-    vertical-align: super;
-}
-.verseEntry .rmaclink:after {
-    content: "  ";
-}
-.verseEntry .rmaclink a{
-    color: #700000;
+.verseEntry a.inlinestronglink {
+    color: #000000;
+    font-family: sans-serif;
+    font-size:14px;
     text-decoration:none;
 }
-.verseEntry .rmaclink a:hover{
+.verseEntry a.inlinestronglink:hover{
+    color: #0080AF;
+    text-decoration:underline;
+}
+
+.verseEntry a.rmaclink {
+    font-size: 70%;
+    vertical-align: super;
+    margin-right:0.5em;
+    color: #700000;
+    text-decoration:none;
+    
+}
+.verseEntry a.rmaclink:hover {
     color: #0080AF;
     text-decoration:underline;
 }

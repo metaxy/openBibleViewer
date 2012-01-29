@@ -46,6 +46,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), m_ui(new Ui::
     connect(m_ui->pushButton_reset, SIGNAL(clicked()), this, SLOT(reset()));
     connect(m_ui->pushButton_moduleEdit, SIGNAL(clicked()), this, SLOT(editModule()));
 
+    connect(m_ui->checkBox_showStrong, SIGNAL(clicked(bool)), m_ui->checkBox_showStrongInline, SLOT(setEnabled(bool)));
+
 #ifdef BUILD_WITH_SWORD
     QPushButton *button = new QPushButton(this);
     button->setText(tr("Import Sword Modules"));
@@ -185,6 +187,8 @@ int SettingsDialog::setSettings(Settings settings)
     m_ui->checkBox_showRMac->setChecked(config->displaySettings()->showRMAC());
     m_ui->checkBox_showCaptions->setChecked(config->displaySettings()->showCaptions());
     m_ui->checkBox_showProlog->setChecked(config->displaySettings()->showProlog());
+    m_ui->checkBox_showStrongInline->setChecked(config->displaySettings()->showStrongInline());
+    m_ui->checkBox_showStrongInline->setEnabled(config->displaySettings()->showStrong());
 
     return 0;
 }
@@ -395,6 +399,8 @@ void SettingsDialog::save(void)
     config->displaySettings()->setShowRMAC(m_ui->checkBox_showRMac->isChecked());
     config->displaySettings()->setShowCaptions(m_ui->checkBox_showCaptions->isChecked());
     config->displaySettings()->setShowProlog(m_ui->checkBox_showProlog->isChecked());
+    config->displaySettings()->setShowStrongInline(m_ui->checkBox_showStrongInline->isChecked());
+
 
     QMap<int, int> struc;
     foreach(ModuleSettings * set, m_set.m_moduleSettings) {
