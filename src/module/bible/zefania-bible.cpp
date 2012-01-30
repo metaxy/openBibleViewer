@@ -743,10 +743,10 @@ QString ZefaniaBible::pharseGram()
         url.fromText(add+strong);
 
         if(m_set->displaySettings()->showStrongInline()) {
-            ret.prepend("<a class=\"inlinestronglink\" href=\""+url.toString()+"\" alt=\""+ add+strong +"\">");
+            ret.prepend("<a class=\"inlinestronglink\" href=\""+url.toString()+"\" title=\""+ add+strong +"\">");
             ret.append("</a>");
         } else {
-            ret += "<a class=\"stronglink\" href=\""+url.toString()+"\" alt=\""+ add+strong +"\">"
+            ret += "<a class=\"stronglink\" href=\""+url.toString()+"\" title=\""+ add+strong +"\">"
                     + add+strong
                     + "</a>";
         }
