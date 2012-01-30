@@ -111,6 +111,9 @@ void DictionaryForm::restore(const QString &key)
 
     const QString k = m_settings->session.file()->value(a + "key").toString();
     const QString uid = m_settings->session.file()->value(a + "uid").toString();
+
+
+
     int moduleID = -1;
     foreach(Module * m, m_moduleManager->m_moduleMap->data) {
         if(m->moduleUID() == uid) {
@@ -120,6 +123,15 @@ void DictionaryForm::restore(const QString &key)
     }
     if(moduleID != -1) {
         showEntry(k, moduleID);
+    }
+
+    const QVariant v = m_settings->session.file()->value(a + "hist1");
+    const QVariant v2 = m_settings->session.file()->value(a + "hist2");
+    if(!v.toStringList().isEmpty() || !v2.toStringList().isEmpty()) {
+        m_browserHistory.setData1(v);
+        m_browserHistory.setData2(v2);
+        m_browserHistory.setData3(m_settings->session.file()->value(a + "hist3"));
+        setButtons();
     }
 
     m_view->page()->mainFrame()->setScrollPosition(scroll);
@@ -133,6 +145,11 @@ void DictionaryForm::save()
     m_settings->session.file()->setValue(a + "key", m_key);
     m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
     m_settings->session.file()->setValue(a + "zoom",  m_view->zoomFactor());
+    m_settings->session.file()->setValue(a + "hist1", m_browserHistory.data1());
+    m_settings->session.file()->setValue(a + "hist2", m_browserHistory.data2());
+    m_settings->session.file()->setValue(a + "hist3", m_browserHistory.data3());
+
+
     if(m_dictionary != NULL) {
         m_settings->session.file()->setValue(a + "uid", m_moduleManager->getModule(m_dictionary->moduleID())->moduleUID());
     }

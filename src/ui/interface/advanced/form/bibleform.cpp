@@ -337,10 +337,6 @@ void BibleForm::restore(const QString &key)
     myDebug() << m_settings->session.file()->value(a + "hist1").toStringList()
                  << m_settings->session.file()->value(a + "hist2").toStringList();
 
-    m_browserHistory.setData1(m_settings->session.file()->value(a + "hist1"));
-    m_browserHistory.setData2(m_settings->session.file()->value(a + "hist2"));
-    m_browserHistory.setData3(m_settings->session.file()->value(a + "hist3"));
-    m_browserHistory.lock();
     for(int j = 0; j < urls.size() && j < points.size(); j++) {
         const QString url = urls.at(j);
         QStringList tmp = points.at(j).split("|");
@@ -357,7 +353,16 @@ void BibleForm::restore(const QString &key)
             pharseUrl(urlConverter.url());//these urls are handeld by this Form
         }
     }
-    m_browserHistory.unlock();
+    const QVariant v = m_settings->session.file()->value(a + "hist1");
+    const QVariant v2 = m_settings->session.file()->value(a + "hist2");
+    if(!v.toStringList().isEmpty() || !v2.toStringList().isEmpty()) {
+        m_browserHistory.setData1(v);
+        m_browserHistory.setData2(v2);
+        m_browserHistory.setData3(m_settings->session.file()->value(a + "hist3"));
+        setButtons();
+    }
+
+
     m_view->page()->mainFrame()->setScrollPosition(scroll);
     m_view->setZoomFactor(zoom);
 
@@ -405,7 +410,7 @@ void BibleForm::save()
     m_settings->session.file()->setValue(a + "hist1", m_browserHistory.data1());
     m_settings->session.file()->setValue(a + "hist2", m_browserHistory.data2());
     m_settings->session.file()->setValue(a + "hist3", m_browserHistory.data3());
-    setButtons();
+
     m_settings->session.file()->setValue(a + "type", "bible");
 }
 
