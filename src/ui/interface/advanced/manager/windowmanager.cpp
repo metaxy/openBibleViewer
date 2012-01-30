@@ -56,7 +56,6 @@ void WindowManager::init()
     connect(m_actions, SIGNAL(_setSubWindowView()), this, SLOT(setSubWindowView()));
     connect(m_actions, SIGNAL(_setTitle(QString)), this, SLOT(setTitle(QString)));
     connect(m_actions, SIGNAL(_reloadActive()), this, SLOT(reloadActive()));
-    connect(m_actions, SIGNAL(_newSubWindowIfEmpty()), this, SLOT(newSubWindowIfEmpty()));
 
     //only install if we have autolayout enabled
     if(m_settings->autoLayout > 0) {

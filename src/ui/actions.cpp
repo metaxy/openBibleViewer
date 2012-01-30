@@ -55,6 +55,11 @@ void Actions::get(const VerseUrl &url)
 {
     get(url, Actions::NoModifer);
 }
+void Actions::newGet(const QUrl &url)
+{
+    get(url, Actions::OpenInNewWindow);
+}
+
 
 
 void Actions::setCurrentBook(const QSet<int> &bookID)

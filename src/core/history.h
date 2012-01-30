@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define HISTORY_H
 #include <QtCore/QString>
 #include <QtCore/QStringList>
+#include <QtCore/QVariant>
 /**
  * History represents a url history.
  */
@@ -28,10 +29,24 @@ public:
     bool forwardAvailable() const;
     bool backwardAvailable() const;
     void setCurrent(const QString &current);
+
+
+    QVariant data1() const;
+    QVariant data2() const;
+    QVariant data3() const;
+
+    void setData1(const QVariant &d);
+    void setData2(const QVariant &d);
+    void setData3(const QVariant &d);
+
+    void lock();
+    void unlock();
+
 private:
-    QStringList forwardItems;
-    QStringList backwardItems;
-    bool goF;
+    QStringList m_forwardItems;
+    QStringList m_backwardItems;
+    bool m_goF;
+    bool m_lock;
 };
 
 #endif // HISTORY_H

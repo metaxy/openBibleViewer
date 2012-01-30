@@ -12,18 +12,21 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "src/core/history.h"
+#include "src/core/dbghelper.h"
 History::History()
 {
-    goF = false;
+    m_goF = false;
+    m_lock = false;
 }
 /*!
     Return the next url in the history.
   */
 QString History::forward()
 {
-    if(!forwardItems.isEmpty()) {
-        goF = true;
-        return forwardItems.takeLast();
+    if(m_lock) return "";
+    if(!m_forwardItems.isEmpty()) {
+        m_goF = true;
+        return m_forwardItems.takeLast();
     } else
         return QString();
 }
@@ -32,10 +35,11 @@ QString History::forward()
   */
 QString History::backward()
 {
-    if(backwardItems.size() > 1) {
-        goF = true;
-        forwardItems.append(backwardItems.takeLast());
-        return backwardItems.takeLast();
+    if(m_lock) return "";
+    if(m_backwardItems.size() > 1) {
+        m_goF = true;
+        m_forwardItems.append(m_backwardItems.takeLast());
+        return m_backwardItems.takeLast();
     } else
         return QString();
 }
@@ -44,14 +48,14 @@ QString History::backward()
   */
 bool History::forwardAvailable() const
 {
-    return !forwardItems.isEmpty();
+    return !m_forwardItems.isEmpty();
 }
 /*!
     Check if a previous url is available.
   */
 bool History::backwardAvailable() const
 {
-    return backwardItems.size() > 1;
+    return m_backwardItems.size() > 1;
 }
 /*!
     Add a new url to the history.
@@ -59,10 +63,47 @@ bool History::backwardAvailable() const
   */
 void History::setCurrent(const QString &url)
 {
-    if(goF == true) {
-        goF = false;
+    if(m_lock) return;
+    if(m_goF == true) {
+        m_goF = false;
     } else {
-        forwardItems.clear();
+        m_forwardItems.clear();
     }
-    backwardItems.append(url);
+    m_backwardItems.append(url);
+}
+
+void History::setData1(const QVariant &d)
+{
+    m_forwardItems = d.toStringList();
+
+}
+void History::setData2(const QVariant &d)
+{
+    m_backwardItems = d.toStringList();
+
+}
+void History::setData3(const QVariant &d)
+{
+    m_goF = d.toBool();
+
+}
+QVariant History::data1() const
+{
+    return QVariant(m_forwardItems);
+}
+QVariant History::data2() const
+{
+    return QVariant(m_backwardItems);
+}
+QVariant History::data3() const
+{
+    return QVariant(m_goF);
+}
+void History::lock()
+{
+    m_lock = true;
+}
+void History::unlock()
+{
+    m_lock = false;
 }

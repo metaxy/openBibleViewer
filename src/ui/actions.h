@@ -92,6 +92,8 @@ public slots:
     void get(const QUrl &url, const Actions::OpenLinkModifiers mod);
     void get(const VerseUrl &url, const Actions ::OpenLinkModifiers mod);
 
+    void newGet(const QUrl &url);
+
     void setCurrentBook(const QSet<int> &bookID);
     void setCurrentChapter(const QSet<int> &chapterID);
 
