@@ -50,10 +50,10 @@ public:
     QHash<int, VerseModule *> m_modules;
     QMap<int, QPoint> m_points;
 
-    void setLastTextRanges(TextRanges *textRanges);
+   /* void setLastTextRanges(TextRanges *textRanges);
     void setLastUrl(const VerseUrl &url);
     TextRanges *lastTextRanges();
-    VerseUrl lastVerseUrl();
+    VerseUrl lastVerseUrl();*/
 
     void clearData();
 
@@ -62,8 +62,8 @@ private:
     inline QString title(VerseModule *module, const QString &active, const int bibleListID) const;
     int countInCol(const int col) const;
     int m_currentModule;
-    TextRanges *m_lastTextRanges;
-    VerseUrl m_lastUrl;
+  /*  TextRanges *m_lastTextRanges;
+    VerseUrl m_lastUrl;*/
 
 };
 

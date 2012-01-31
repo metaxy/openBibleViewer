@@ -17,13 +17,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 VerseTable::VerseTable()
 {
     m_currentModule = 0;
-    m_lastTextRanges = NULL;
+    //m_lastTextRanges = NULL;
 }
 VerseTable::~VerseTable()
 {
     DEBUG_FUNC_NAME
     foreach(VerseModule * m, m_modules) {
-        myDebug() << m;
         if(m) {
             delete m;
             m = NULL;
@@ -35,7 +34,7 @@ void VerseTable::setCurrentVerseTableID(const int verseTableID)
 {
     //myDebug() << "before currentModule = " << m_currentModule << " new verseTable = " << verseTableID;
     m_currentModule = verseTableID;
-    setLastTextRanges(m_lastTextRanges);
+    //setLastTextRanges(m_lastTextRanges);
 }
 
 int VerseTable::currentVerseTableID() const
@@ -65,7 +64,7 @@ void VerseTable::addModule(VerseModule* m, const QPoint &p)
         m_modules.insert(id, m);
     }
     myDebug() << "points = " << m_points << " modules = " << m_modules;
-    setLastTextRanges(m_lastTextRanges);
+    //setLastTextRanges(m_lastTextRanges);
 }
 
 VerseModule * VerseTable::verseModule(const int id) const
@@ -265,18 +264,7 @@ bool VerseTable::hasTopBar() const
     }
     return maxCol >= 1;
 }
-void VerseTable::setLastTextRanges(TextRanges *textRanges)
-{
-    //DEBUG_FUNC_NAME;
-    if(textRanges == NULL)
-        return;
-    //myDebug() << textRanges->source().source().toString();
-    m_lastTextRanges = textRanges;
-    foreach(VerseModule * b, m_modules) {
-        //todo: verseUrl
-        b->setLastTextRanges(textRanges);
-    }
-}
+
 void VerseTable::clearData()
 {
     foreach(VerseModule *m, m_modules) {
@@ -291,7 +279,18 @@ bool VerseTable::contains(const int moduleID)
     }
     return false;
 }
-
+/*void VerseTable::setLastTextRanges(TextRanges *textRanges)
+{
+    //DEBUG_FUNC_NAME;
+    if(textRanges == NULL)
+        return;
+    //myDebug() << textRanges->source().source().toString();
+    m_lastTextRanges = textRanges;
+    foreach(VerseModule * b, m_modules) {
+        //todo: verseUrl
+        b->setLastTextRanges(textRanges);
+    }
+}
 TextRanges *VerseTable::lastTextRanges()
 {
     return m_lastTextRanges;
@@ -303,4 +302,4 @@ void VerseTable::setLastUrl(const VerseUrl &verseUrl)
 VerseUrl VerseTable::lastVerseUrl()
 {
     return m_lastUrl;
-}
+}*/
