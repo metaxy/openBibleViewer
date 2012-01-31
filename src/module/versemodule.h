@@ -35,8 +35,6 @@ public:
     virtual ~VerseModule();
     void setModuleDisplaySettings(ModuleDisplaySettings *moduleDisplaySettings);
     virtual Response* readRanges(const Ranges &ranges, bool ignoreModuleID = false) = 0;
-
-
     void setLastTextRanges(TextRanges *textRanges);
     /**
      * Returns the last computed TextRanges.
@@ -47,12 +45,10 @@ public:
      * Every VerseModule must have a versification.
      */
     QSharedPointer<Versification> versification() const;
-    SearchQuery lastSearchQuery() const;
     virtual void search(SearchQuery query, SearchResult *result) = 0;
     virtual void clearData() = 0;
 protected:
     virtual TextRange readRange(const Range &range, bool ignoreModuleID = false) = 0;
-    SearchQuery m_lastSearchQuery;
     QSharedPointer<Versification> m_versification;
     TextRanges *m_lastTextRanges;
     ModuleDisplaySettings *m_moduleDisplaySettings;

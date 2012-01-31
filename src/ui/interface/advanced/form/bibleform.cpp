@@ -164,7 +164,7 @@ void BibleForm::pharseUrl(const QString &string)
 
         VerseUrl url;
         Ranges ranges;
-        if(!url.fromString(string)) {
+        if(!url.fromUrl(string)) {
             return;
         }
 
@@ -382,10 +382,8 @@ void BibleForm::save()
             i.next();
             VerseModule *b = i.value();
             if(b != NULL && b->moduleID() >= 0) {
-                myDebug() << b->moduleID() << b->moduleTitle();
                 VerseUrl bibleUrl = b->lastTextRanges()->source().source();
                 bibleUrl.setModuleID(b->moduleID());
-                myDebug() << bibleUrl.toString();
 
                 UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, bibleUrl);
                 urlConverter.setSettings(m_settings);
@@ -394,7 +392,6 @@ void BibleForm::save()
 
                 const QString url = newUrl.toString();
                 const QPoint point = list->m_points.value(i.key());
-                myDebug() << url;
 
                 points << QString::number(point.x()) + "|" + QString::number(point.y());
                 urls << url;
@@ -656,8 +653,8 @@ void BibleForm::activated()
             m_actions->setCurrentBook(m_lastTextRanges.bookIDs());
         }
 
-     /*   m_verseTable->setLastTextRanges(&m_lastTextRanges);
-        m_verseTable->setLastUrl(m_lastUrl);*/
+        m_verseTable->setLastTextRanges(&m_lastTextRanges);
+        m_verseTable->setLastUrl(m_lastUrl);
     }
 }
 
@@ -1518,7 +1515,7 @@ void BibleForm::openIn()
             m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url);
         } else if(url.startsWith(ModuleTools::verseScheme)) {
             VerseUrl vurl;
-            vurl.fromString(url);
+            vurl.fromUrl(url);
             vurl.setModuleID(moduleID);
             m_actions->get(vurl);
         } else {
@@ -1541,7 +1538,7 @@ void BibleForm::openInNew()
             m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, Actions::OpenInNewWindow);
         } else if(url.startsWith(ModuleTools::verseScheme)) {
             VerseUrl vurl;
-            vurl.fromString(url);
+            vurl.fromUrl(url);
             vurl.setModuleID(moduleID);
             m_actions->get(vurl, Actions::OpenInNewWindow);
         } else {

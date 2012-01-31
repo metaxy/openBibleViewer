@@ -227,7 +227,7 @@ Module * ModuleManager::getModule(const int moduleID)
 QString ModuleManager::notePos2Link(const QString &pos)
 {
     VerseUrl url;
-    url.fromString(pos);
+    url.fromUrl(pos);
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleMap.data());
@@ -241,7 +241,7 @@ QString ModuleManager::notePos2Link(const QString &pos)
 QString ModuleManager::notePos2Text(const QString &pos)
 {
     VerseUrl url;
-    url.fromString(pos);
+    url.fromUrl(pos);
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleMap.data());

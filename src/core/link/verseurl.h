@@ -22,6 +22,7 @@ class VerseUrl : public Url
 public:
     VerseUrl();
     VerseUrl(const VerseUrlRange &range);
+
     void addRange(const VerseUrlRange &range);
     void addRanges(const QList<VerseUrlRange> &ranges);
     void setParam(const QString &name, const QString &value);
@@ -30,7 +31,7 @@ public:
     void unsetParam(const QString &name);
 
     QString toString() const;
-    bool fromString(QString url);
+    bool fromUrl(QString url);
     bool fromMscope(const QString &url);
     QList<VerseUrlRange> ranges() const;
     void clearRanges();

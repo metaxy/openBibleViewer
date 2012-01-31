@@ -492,7 +492,7 @@ void SimpleNotes::removeNote(const QString &id)
 void SimpleNotes::open(const QString &link)
 {
     VerseUrl url;
-    url.fromString(link);
+    url.fromUrl(link);
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);

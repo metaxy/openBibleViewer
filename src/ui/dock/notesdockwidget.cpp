@@ -67,7 +67,7 @@ void NotesDockWidget::changeRef(QString id, QMap<QString, QString> ref)
     const QString link = ref.value("link");
 
     VerseUrl url;
-    url.fromString(link);
+    url.fromUrl(link);
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
@@ -84,7 +84,7 @@ void NotesDockWidget::removeNote(QString id, QMap<QString, QString>ref)
     const QString link = ref.value("link");
 
     VerseUrl url;
-    url.fromString(link);
+    url.fromUrl(link);
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
@@ -171,7 +171,7 @@ void NotesDockWidget::removeMark(VerseSelection selection, QSharedPointer<Versif
             const QString noteID = id.at(i);
             const QString link = m_notes->getRef(noteID, "link");
             VerseUrl url;
-            url.fromString(link);
+            url.fromUrl(link);
 
             UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
             urlConverter.setSettings(m_settings);

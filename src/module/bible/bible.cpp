@@ -266,7 +266,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                 if(m_notes->getType(noteID) == "text") {
                     const QString link = m_notes->getRef(noteID, "link");
                     VerseUrl url;
-                    url.fromString(link);
+                    url.fromUrl(link);
                     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
                     urlConverter.setSettings(m_settings);
                     urlConverter.setModuleMap(m_map.data());
@@ -319,7 +319,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                 const QString link = m_notes->getRef(noteID, "link");
                 //myDebug() << "link = " << link;
                 VerseUrl url;
-                url.fromString(link);
+                url.fromUrl(link);
                 UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
                 urlConverter.setSettings(m_settings);
                 urlConverter.setModuleMap(m_map.data());
@@ -465,13 +465,10 @@ void Bible::search(SearchQuery query, SearchResult *result)
     if(!loaded())
         return;
 
-    m_lastSearchQuery = query;
-
     if(!m_bibleModule->hasIndex())
         m_bibleModule->buildIndex();
 
     m_bibleModule->search(query, result);
-    myDebug() << "hits.size() = " << result->hits().size();
 }
 /**
  * Used only by BibleQuote modules.

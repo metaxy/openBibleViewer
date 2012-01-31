@@ -41,8 +41,6 @@ public:
 
     QString moduleUID() const;
 
-    SearchQuery lastSearchQuery() const;
-
     void clearData();
 
 private:

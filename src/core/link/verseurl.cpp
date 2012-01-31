@@ -130,7 +130,7 @@ QString VerseUrl::toString() const
 
     return ret;
 }
-bool VerseUrl::fromString(QString url)
+bool VerseUrl::fromUrl(QString url)
 {
     m_ranges.clear();
 

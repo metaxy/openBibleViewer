@@ -26,9 +26,6 @@ VerseModule::~VerseModule()
 
 void VerseModule::setLastTextRanges(TextRanges *textRanges)
 {
-    //DEBUG_FUNC_NAME;
-    //myDebug() << m_moduleID;
-    //myDebug() << textRanges->source().source().toString();
     m_lastTextRanges = textRanges;
 }
 
@@ -40,11 +37,6 @@ TextRanges *VerseModule::lastTextRanges() const
 QSharedPointer<Versification> VerseModule::versification() const
 {
     return m_versification;
-}
-
-SearchQuery VerseModule::lastSearchQuery() const
-{
-    return m_lastSearchQuery;
 }
 
 void VerseModule::setModuleDisplaySettings(ModuleDisplaySettings *moduleDisplaySettings)

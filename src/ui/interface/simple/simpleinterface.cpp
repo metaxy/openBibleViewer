@@ -159,7 +159,7 @@ void SimpleInterface::pharseUrl(const QString &string)
 
         VerseUrl url;
         Ranges ranges;
-        if(!url.fromString(string)) {
+        if(!url.fromUrl(string)) {
             return;
         }
         m_url = m_url.applyUrl(url);
