@@ -54,8 +54,8 @@ public:
 
     TextRanges *lastTextRanges();
 
-    void setLastUrl(const VerseUrl &url);
-    VerseUrl lastVerseUrl();
+    /*void setLastUrl(const VerseUrl &url);
+    VerseUrl lastVerseUrl();*/
 
     void clearData();
 
@@ -65,7 +65,7 @@ private:
     int countInCol(const int col) const;
     int m_currentModule;
     TextRanges *m_lastTextRanges;
-    VerseUrl m_lastUrl;
+   /* VerseUrl m_lastUrl;*/
 
 };
 

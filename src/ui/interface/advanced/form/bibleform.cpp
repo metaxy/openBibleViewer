@@ -654,7 +654,7 @@ void BibleForm::activated()
         }
 
         m_verseTable->setLastTextRanges(&m_lastTextRanges);
-        m_verseTable->setLastUrl(m_lastUrl);
+        //m_verseTable->setLastUrl(m_lastUrl);
     }
 }
 
@@ -745,8 +745,8 @@ void BibleForm::showTextRanges(const QString &html, const TextRanges &range, con
 
     m_lastTextRanges = range;
     m_lastUrl = url;
-   /* m_verseTable->setLastTextRanges(&m_lastTextRanges);
-    m_verseTable->setLastUrl(m_lastUrl);*/
+    m_verseTable->setLastTextRanges(&m_lastTextRanges);
+    //m_verseTable->setLastUrl(m_lastUrl);
     historySetUrl(url.toString());
 }
 void BibleForm::evaluateJavaScript(const QString &js)

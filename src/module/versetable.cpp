@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 VerseTable::VerseTable()
 {
     m_currentModule = 0;
-    //m_lastTextRanges = NULL;
+    m_lastTextRanges = NULL;
 }
 VerseTable::~VerseTable()
 {
@@ -292,7 +292,7 @@ TextRanges *VerseTable::lastTextRanges()
 {
     return m_lastTextRanges;
 }
-void VerseTable::setLastUrl(const VerseUrl &verseUrl)
+/*void VerseTable::setLastUrl(const VerseUrl &verseUrl)
 {
     m_lastUrl = verseUrl;
 }
@@ -300,3 +300,4 @@ VerseUrl VerseTable::lastVerseUrl()
 {
     return m_lastUrl;
 }
+*/
