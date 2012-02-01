@@ -43,7 +43,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 
 #include "src/ui/webview.h"
-
+#include "src/ui/interface/advanced/form/webviewform.h"
 #include "src/ui/interface/advanced/versetablewidget.h"
 
 
@@ -53,7 +53,7 @@ namespace Ui
 class BibleForm;
 }
 
-class BibleForm : public Form
+class BibleForm : public WebViewForm
 {
     Q_OBJECT
     Q_DISABLE_COPY(BibleForm)
@@ -62,8 +62,6 @@ public:
     virtual ~BibleForm();
 
     void init();
-
-    WebView *m_view;
 
     VerseSelection verseSelection();
     void restore(const QString &key);
@@ -95,8 +93,6 @@ public slots:
     void historySetUrl(QString url);
     void backward();
     void forward();
-    void zoomIn();
-    void zoomOut();
 
     void setChapters(int bookID, QSharedPointer<Versification> v11n);
     void setBooks(QSharedPointer<Versification> v11n);
@@ -124,13 +120,6 @@ public slots:
     void showText(const QString &text);
 
     void evaluateJavaScript(const QString &js);
-    void print();
-    void printPreview();
-    void saveFile();
-    QString selectedText();
-
-    void copy();
-    void selectAll();
 
     void showContextMenu(QContextMenuEvent* ev);
     void copyWholeVerse();

@@ -23,8 +23,8 @@ namespace Ui
 class DictionaryForm;
 }
 
-#include "src/ui/interface/advanced/form/form.h"
-class DictionaryForm :  public Form
+#include "src/ui/interface/advanced/form/webviewform.h"
+class DictionaryForm :  public WebViewForm
 {
     Q_OBJECT
 
@@ -39,30 +39,15 @@ public:
     Dictionary* dictionary() const;
     QString key() const;
 public slots:
-    void copy();
-    void selectAll();
-    void print();
-    void printPreview();
-    void saveFile();
-    QString selectedText();
-
-    void zoomIn();
-    void zoomOut();
     void activated();
-
     void showEntry();
     void showEntry(const QString &key, int moduleID);
 
-    void historySetUrl(const QString &url);
-    void backward();
-    void forward();
 private slots:
-    void forwardShowHtml(const QString &html);
-    void forwardShowEntry(const QString &key, int moduleID);
-
     void get(const QUrl &url);
     void newGet(const QUrl &url);
-
+    void backward();
+    void forward();
     void showContextMenu(QContextMenuEvent* ev);
 
     void openInNewTab();
@@ -75,6 +60,7 @@ protected:
     void changeEvent(QEvent *e);
 private:
     Ui::DictionaryForm *ui;
+    void historySetUrl(const QString &url);
     void loadDictionary(int moduleID);
     void testDictionary(const int module = -1);
 
@@ -83,8 +69,6 @@ private:
     void showHtml(QString html);
 
     QString m_key;
-
-    WebView *m_view;
     History m_browserHistory;
     void setButtons();
 

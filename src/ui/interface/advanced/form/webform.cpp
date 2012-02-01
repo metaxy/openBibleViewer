@@ -21,28 +21,27 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QPointer>
 
 WebForm::WebForm(QWidget *parent) :
-    Form(parent),
+    WebViewForm(parent),
     m_ui(new Ui::WebForm)
 {
     m_ui->setupUi(this);
-
+    m_ui->verticalLayout->addWidget(m_view);
     connect(m_ui->lineEdit, SIGNAL(returnPressed()), SLOT(changeLocation()));
-    connect(m_ui->webView, SIGNAL(urlChanged(QUrl)), this, SLOT(adjustLocation()));
-    connect(m_ui->webView, SIGNAL(loadStarted()), this, SLOT(loadStarted()));
+    connect(m_view, SIGNAL(urlChanged(QUrl)), this, SLOT(adjustLocation()));
+    connect(m_view, SIGNAL(loadStarted()), this, SLOT(loadStarted()));
 
-    m_ui->toolButton_back->setIcon(m_ui->webView->pageAction(QWebPage::Back)->icon());
-    m_ui->toolButton_back->setToolTip(m_ui->webView->pageAction(QWebPage::Back)->toolTip());
+    m_ui->toolButton_back->setIcon(m_view->pageAction(QWebPage::Back)->icon());
+    m_ui->toolButton_back->setToolTip(m_view->pageAction(QWebPage::Back)->toolTip());
 
-    m_ui->toolButton_forward->setIcon(m_ui->webView->pageAction(QWebPage::Forward)->icon());
-    m_ui->toolButton_forward->setToolTip(m_ui->webView->pageAction(QWebPage::Forward)->toolTip());
+    m_ui->toolButton_forward->setIcon(m_view->pageAction(QWebPage::Forward)->icon());
+    m_ui->toolButton_forward->setToolTip(m_view->pageAction(QWebPage::Forward)->toolTip());
 
-    m_ui->toolButton_reloadStop->setIcon(m_ui->webView->pageAction(QWebPage::Reload)->icon());
-    m_ui->toolButton_reloadStop->setToolTip(m_ui->webView->pageAction(QWebPage::Reload)->toolTip());
+    m_ui->toolButton_reloadStop->setIcon(m_view->pageAction(QWebPage::Reload)->icon());
+    m_ui->toolButton_reloadStop->setToolTip(m_view->pageAction(QWebPage::Reload)->toolTip());
 
-    connect(m_ui->toolButton_forward, SIGNAL(clicked()), m_ui->webView, SLOT(forward()));
-    connect(m_ui->toolButton_back, SIGNAL(clicked()), m_ui->webView, SLOT(back()));
-    connect(m_ui->toolButton_reloadStop, SIGNAL(clicked()), m_ui->webView, SLOT(reload()));
-
+    connect(m_ui->toolButton_forward, SIGNAL(clicked()), m_view, SLOT(forward()));
+    connect(m_ui->toolButton_back, SIGNAL(clicked()), m_view, SLOT(back()));
+    connect(m_ui->toolButton_reloadStop, SIGNAL(clicked()), m_view, SLOT(reload()));
 
     m_page = NULL;
 }
@@ -97,14 +96,12 @@ QUrl WebForm::guessUrlFromString(const QString &string)
 
 void WebForm::pharseUrl(QString url)
 {
-    DEBUG_FUNC_NAME;
-    const QString webPage = "webpage:/";
-    url = url.remove(0, webPage.size());
+    url = url.remove(0, ModuleTools::webPageScheme.size());
     openModule(url.toInt());
 }
 void WebForm::pharseWebUrl(const QString &url)
 {
-    m_ui->webView->load(QUrl(url));
+    m_view->load(QUrl(url));
 }
 void WebForm::openModule(const int moduleID)
 {
@@ -117,12 +114,12 @@ void WebForm::openModule(const int moduleID)
         m_page->setModuleID(moduleID);
 
         QUrl url = m_page->getUrl();
-        m_ui->webView->load(url);
+        m_view->load(url);
     } else {
         m_page->setModuleID(moduleID);
 
         QUrl url = m_page->getUrl();
-        m_ui->webView->load(url);
+        m_view->load(url);
     }
 }
 
@@ -132,63 +129,14 @@ void WebForm::init()
 
 void WebForm::changeLocation()
 {
-    m_ui->webView->load(guessUrlFromString(m_ui->lineEdit->text()));
+    m_view->load(guessUrlFromString(m_ui->lineEdit->text()));
 }
 
 void WebForm::adjustLocation()
 {
-    m_ui->lineEdit->setText(m_ui->webView->url().toString());
+    m_ui->lineEdit->setText(m_view->url().toString());
 }
 
-void WebForm::copy()
-{
-    m_ui->webView->triggerPageAction(QWebPage::Copy);
-}
-
-void WebForm::selectAll()
-{
-    m_ui->webView->triggerPageAction(QWebPage::SelectAll);
-}
-
-void WebForm::print()
-{
-    QPrinter printer;
-    QPointer<QPrintDialog> dialog = new QPrintDialog(&printer, this);
-    dialog->setWindowTitle(tr("Print"));
-    if(dialog->exec() == QDialog::Accepted) {
-        m_ui->webView->page()->mainFrame()->print(&printer);
-    }
-    delete dialog;
-}
-
-void WebForm::printPreview()
-{
-    QPrinter printer;
-    QPointer<QPrintPreviewDialog> preview = new QPrintPreviewDialog(&printer, this);
-    connect(preview, SIGNAL(paintRequested(QPrinter *)), m_ui->webView, SLOT(print(QPrinter *)));
-    preview->exec();
-    delete preview;
-}
-
-void WebForm::saveFile()
-{
-
-}
-
-QString WebForm::selectedText()
-{
-    return m_ui->webView->selectedText();
-}
-
-void WebForm::zoomIn()
-{
-    m_ui->webView->setZoomFactor(m_ui->webView->zoomFactor() + 0.1);
-}
-
-void WebForm::zoomOut()
-{
-    m_ui->webView->setZoomFactor(m_ui->webView->zoomFactor() - 0.1);
-}
 
 void WebForm::activated()
 {
@@ -204,11 +152,11 @@ void WebForm::save()
 {
     const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
     m_settings->session.file()->setValue(a + "type", "web");
-    m_settings->session.file()->setValue(a + "url", m_ui->webView->url());
+    m_settings->session.file()->setValue(a + "url", m_view->url());
 
     QByteArray history;
     QDataStream historyStream(&history, QIODevice::ReadWrite);
-    QWebHistory *hist  = m_ui->webView->history();
+    QWebHistory *hist  = m_view->history();
     historyStream << *(hist);
     m_settings->session.file()->setValue(a + "history", history.toBase64());
 }
@@ -219,23 +167,23 @@ void WebForm::restore(const QString &key)
 
     QUrl url = m_settings->session.file()->value(a + "url").toUrl();
     if(url.isValid())
-        m_ui->webView->load(url);
+        m_view->load(url);
 
     QByteArray history = QByteArray::fromBase64(m_settings->session.file()->value(a + "history").toByteArray());
     QDataStream readingStream(&history, QIODevice::ReadOnly);
-    QWebHistory *hist  = m_ui->webView->history();
+    QWebHistory *hist  = m_view->history();
     readingStream >> *(hist);
 }
 
 void WebForm::loadStarted()
 {
-    if(m_ui->webView->history()->canGoBack()) {
+    if(m_view->history()->canGoBack()) {
         m_ui->toolButton_back->setDisabled(false);
     } else {
         m_ui->toolButton_back->setDisabled(true);
     }
 
-    if(m_ui->webView->history()->canGoForward()) {
+    if(m_view->history()->canGoForward()) {
         m_ui->toolButton_forward->setDisabled(false);
     } else {
         m_ui->toolButton_forward->setDisabled(true);

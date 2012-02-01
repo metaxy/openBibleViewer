@@ -16,14 +16,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QWidget>
 #include <QtGui/QLineEdit>
-#include "form.h"
+#include "webviewform.h"
 #include "src/module/webpage.h"
 namespace Ui
 {
 class WebForm;
 }
 
-class WebForm : public Form
+class WebForm : public WebViewForm
 {
     Q_OBJECT
     Q_DISABLE_COPY(WebForm)
@@ -49,15 +49,6 @@ private:
 
     WebPage *m_page;
 public slots:
-    void copy();
-    void selectAll();
-    void print();
-    void printPreview();
-    void saveFile();
-    QString selectedText();
-
-    void zoomIn();
-    void zoomOut();
     void activated();
 private slots:
     void changeLocation();

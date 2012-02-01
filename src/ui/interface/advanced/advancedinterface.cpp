@@ -424,20 +424,38 @@ QMenuBar* AdvancedInterface::menuBar()
     connect(m_actionSubWindowView, SIGNAL(triggered()), m_actions, SLOT(setSubWindowView()));
 
     //Cascade
-    QAction *actionCascade = new QAction(QIcon(":/icons/svg/cascade.svg"), tr("Cascade"), menuView);
-    connect(actionCascade, SIGNAL(triggered()), m_windowManager, SLOT(cascade()));
+    m_actionCascade = new QAction(QIcon(":/icons/svg/cascade.svg"), tr("Cascade"), menuView);
+    m_actionCascade->setCheckable(true);
+    m_actionCascade->setChecked(m_settings->autoLayout == Settings::Cascade);
+    m_actionCascade->setObjectName("actionCascade");
+    connect(m_actionCascade, SIGNAL(triggered(bool)), m_windowManager, SLOT(cascade(bool)));
+    connect(m_actionCascade, SIGNAL(triggered(bool)), this, SLOT(uncheck(bool)));
+
 
     //Tile
-    QAction *actionTile = new QAction(QIcon(":/icons/svg/tile.svg"), tr("Tile"), menuView);
-    connect(actionTile, SIGNAL(triggered()), m_windowManager, SLOT(tile()));
+    m_actionTile = new QAction(QIcon(":/icons/svg/tile.svg"), tr("Tile"), menuView);
+    m_actionTile->setCheckable(true);
+    m_actionTile->setChecked(m_settings->autoLayout == Settings::Tile);
+    m_actionTile->setObjectName("actionTile");
+    connect(m_actionTile, SIGNAL(triggered(bool)), m_windowManager, SLOT(tile(bool)));
+    connect(m_actionTile, SIGNAL(triggered(bool)), this, SLOT(uncheck(bool)));
 
     //Tile Vertical
-    QAction *actionTileVertical = new QAction(QIcon(":/icons/svg/tile_vert.svg"), tr("Tile Vertical"), menuView);
-    connect(actionTileVertical, SIGNAL(triggered()), m_windowManager, SLOT(tileVertical()));
+    m_actionTileVertical = new QAction(QIcon(":/icons/svg/tile_vert.svg"), tr("Tile Vertical"), menuView);
+    m_actionTileVertical->setCheckable(true);
+    m_actionTileVertical->setChecked(m_settings->autoLayout == Settings::VerticalTile);
+    m_actionTileVertical->setObjectName("actionTileVertical");
+    connect(m_actionTileVertical, SIGNAL(triggered(bool)), m_windowManager, SLOT(tileVertical(bool)));
+    connect(m_actionTileVertical, SIGNAL(triggered(bool)), this, SLOT(uncheck(bool)));
 
     //Tile Horizontal
-    QAction *actionTileHorizontal = new QAction(QIcon(":/icons/svg/tile_horiz.svg"), tr("Tile Horizontal"), menuView);
-    connect(actionTileHorizontal, SIGNAL(triggered()), m_windowManager, SLOT(tileHorizontal()));
+    m_actionTileHorizontal = new QAction(QIcon(":/icons/svg/tile_horiz.svg"), tr("Tile Horizontal"), menuView);
+    m_actionTileHorizontal->setCheckable(true);
+    m_actionTileHorizontal->setChecked(m_settings->autoLayout == Settings::HorizontalTile);
+    m_actionTileHorizontal->setObjectName("actionTileHorizontal");
+    connect(m_actionTileHorizontal, SIGNAL(triggered(bool)), m_windowManager, SLOT(tileHorizontal(bool)));
+    connect(m_actionTileHorizontal, SIGNAL(triggered(bool)), this, SLOT(uncheck(bool)));
+
 
     menuView->addAction(actionZoomIn);
     menuView->addAction(actionZoomOut);
@@ -445,10 +463,10 @@ QMenuBar* AdvancedInterface::menuBar()
     menuView->addAction(m_actionTabbedView);
     menuView->addAction(m_actionSubWindowView);
     menuView->addSeparator();
-    menuView->addAction(actionCascade);
-    menuView->addAction(actionTile);
-    menuView->addAction(actionTileVertical);
-    menuView->addAction(actionTileHorizontal);
+    menuView->addAction(m_actionCascade);
+    menuView->addAction(m_actionTile);
+    menuView->addAction(m_actionTileVertical);
+    menuView->addAction(m_actionTileHorizontal);
 
 
     QMenu *menuNotes = new QMenu(tr("Notes"), bar);
@@ -621,7 +639,7 @@ void AdvancedInterface::createToolBars()
     m_searchBar->setMaximumWidth(250);
 
     QLineEdit *edit = new QLineEdit(m_searchBar);
-    edit->setPlaceholderText(tr("Search"));
+    edit->setPlaceholderText(tr("Command"));
     edit->setObjectName("lineEdit");
 
     connect(edit, SIGNAL(returnPressed()), this, SLOT(quick()));
@@ -636,9 +654,37 @@ QList<QToolBar *> AdvancedInterface::toolBars()
     list.append(m_searchBar);
     return list;
 }
+void AdvancedInterface::quickSearch(const QString &text)
+{
+    SearchQuery query;
+    query.searchText = text;
+    query.searchInNotes = true;
+    query.queryType = SearchQuery::Simple;
+    m_searchManager->search(query);
+}
+
 void AdvancedInterface::quick()
 {
-    const QString text = ((QLineEdit *) sender())->text();
+    QString text = ((QLineEdit *) sender())->text();
+    if(text.startsWith("search ", Qt::CaseInsensitive)) {
+        int whitePos = text.indexOf(" ");
+        text.remove(0, whitePos);
+        quickSearch(text);
+        return;
+    } else if(text.startsWith("search:", Qt::CaseInsensitive)) {
+        int whitePos = text.indexOf(":");
+        text.remove(0, whitePos);
+        quickSearch(text);
+        return;
+    } if(text.startsWith("open ", Qt::CaseInsensitive)) {
+        int whitePos = text.indexOf(" ");
+        text.remove(0, whitePos);
+    } else if(text.startsWith("open:", Qt::CaseInsensitive)) {
+        int whitePos = text.indexOf(":");
+        text.remove(0, whitePos);
+    }
+
+
     StrongUrl url;
     if(url.fromText(text)) {
         m_actions->get(url.toString());
@@ -651,11 +697,7 @@ void AdvancedInterface::quick()
             if(link.isBibleLink(text)) {
                 m_actions->get(link.getUrl(text));
             }  else {
-                SearchQuery query;
-                query.searchText = text;
-                query.searchInNotes = true;
-                query.queryType = SearchQuery::Simple;
-                m_searchManager->search(query);
+                quickSearch(text);
             }
         } else {
 
@@ -686,11 +728,7 @@ void AdvancedInterface::quick()
             }
         }
     } else {
-        SearchQuery query;
-        query.searchText = text;
-        query.searchInNotes = true;
-        query.queryType = SearchQuery::Simple;
-        m_searchManager->search(query);
+        quickSearch(text);
     }
 }
 
@@ -781,6 +819,19 @@ void AdvancedInterface::toolBarSetText()
     m_mainBarActionModule->setText(tr("Module"));
     m_mainBarActionModule->setToolTip(tr("Add and edit the modules"));
     m_searchBar->setWindowTitle(tr("Search Bar"));
+}
+void AdvancedInterface::uncheck(bool b)
+{
+    if(b) {
+        if(sender()->objectName() != "actionCascade")
+            m_actionCascade->setChecked(false);
+        if(sender()->objectName() != "actionTile")
+            m_actionTile->setChecked(false);
+        if(sender()->objectName() != "actionTileVertical")
+            m_actionTileVertical->setChecked(false);
+        if(sender()->objectName() != "actionTileHorizontal")
+            m_actionTileHorizontal->setChecked(false);
+    }
 }
 
 void AdvancedInterface::changeEvent(QEvent *e)

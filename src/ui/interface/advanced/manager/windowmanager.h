@@ -54,6 +54,10 @@ public slots:
     void tileVertical();
     void tileHorizontal();
     void tile();
+    void cascade(bool checked);
+    void tileVertical(bool checked);
+    void tileHorizontal(bool checked);
+    void tile(bool checked);
     QMdiSubWindow * newSubWindow(bool doAutoLayout = true, bool forceMax = false, Form::FormType type = Form::BibleForm);
     QMdiSubWindow * newBibleSubWindow(bool doAutoLayout = true, bool forceMax = false);
     QMdiSubWindow * newWebSubWindow(bool doAutoLayout = true, bool forceMax = false);

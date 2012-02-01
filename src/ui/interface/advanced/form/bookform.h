@@ -14,7 +14,6 @@ class BookForm : public WebViewForm
 public:
     explicit BookForm(QWidget *parent = 0);
     ~BookForm();
-    void addView(WebView *view);
     void init();
     void restore(const QString &key);
     void save();

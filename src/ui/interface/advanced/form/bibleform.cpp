@@ -17,15 +17,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QPointer>
 #include "src/core/link/urlconverter2.h"
 #include "src/module/response/textrangesresponse.h"
-BibleForm::BibleForm(QWidget *parent) : Form(parent), m_ui(new Ui::BibleForm)
+BibleForm::BibleForm(QWidget *parent) : WebViewForm(parent), m_ui(new Ui::BibleForm)
 {
     //DEBUG_FUNC_NAME
     m_id = -1;
     m_ui->setupUi(this);
-
-    m_view = new WebView(this);
-    m_view->setObjectName("webView");
-    m_view->setUrl(QUrl("about:blank"));
     m_ui->verticalLayout->addWidget(m_view);
 
     m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
@@ -476,7 +472,6 @@ void BibleForm::readChapter(int id)
     r.setBook(VerseUrlRange::LoadCurrentBook);
     r.setChapter(id);
     r.setWholeChapter();
-
     VerseUrl url(r);
     m_actions->get(url);
 }
@@ -494,15 +489,6 @@ void BibleForm::readBook(int id)
 
     VerseUrl url(r);
     m_actions->get(url);
-}
-void BibleForm::zoomIn()
-{
-    m_view->setZoomFactor(m_view->zoomFactor() + 0.1);
-}
-
-void BibleForm::zoomOut()
-{
-    m_view->setZoomFactor(m_view->zoomFactor() - 0.1);
 }
 
 void BibleForm::setChapters(int bookID, QSharedPointer<Versification> v11n)
@@ -538,21 +524,16 @@ void BibleForm::setChapters(int bookID, QSharedPointer<Versification> v11n)
 
 void BibleForm::clearChapters()
 {
-    //DEBUG_FUNC_NAME
     m_ui->comboBox_chapters->clear();
 }
 void BibleForm::setCurrentChapter(const QSet<int> &chapterID)
 {
-    //DEBUG_FUNC_NAME
-    //myDebug() << " windowID = " << m_id;
-    //myDebug() << chapterID;
     disconnect(m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
     int min = -1;
     foreach(int c, chapterID) {
         if(c < min || min == -1)
             min = c;
     }
-    //myDebug() << "min = " << min;
     m_ui->comboBox_chapters->setCurrentIndex(min);
     connect(m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
 }
@@ -585,12 +566,10 @@ void BibleForm::setBooks(QSharedPointer<Versification> v11n)
 }
 void BibleForm::clearBooks()
 {
-    //DEBUG_FUNC_NAME
     m_ui->comboBox_books->clear();
 }
 void BibleForm::setCurrentBook(const QSet<int> &bookID)
 {
-    //DEBUG_FUNC_NAME
     //todo: is there a better way then disconnect and connect?
     disconnect(m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
     int min = -1;
@@ -746,81 +725,11 @@ void BibleForm::showTextRanges(const QString &html, const TextRanges &range, con
     m_lastTextRanges = range;
     m_lastUrl = url;
     m_verseTable->setLastTextRanges(&m_lastTextRanges);
-    //m_verseTable->setLastUrl(m_lastUrl);
     historySetUrl(url.toString());
 }
 void BibleForm::evaluateJavaScript(const QString &js)
 {
     m_view->page()->mainFrame()->evaluateJavaScript(js);
-}
-void BibleForm::print()
-{
-    QPrinter printer;
-    QPointer<QPrintDialog> dialog = new QPrintDialog(&printer, this);
-    dialog->setWindowTitle(tr("Print"));
-    if(dialog->exec() == QDialog::Accepted) {
-        m_view->page()->mainFrame()->print(&printer);
-    }
-    delete dialog;
-}
-void BibleForm::printPreview()
-{
-    QPrinter printer;
-    QPointer<QPrintPreviewDialog> preview = new QPrintPreviewDialog(&printer, this);
-    connect(preview, SIGNAL(paintRequested(QPrinter *)), m_view, SLOT(print(QPrinter *)));
-    preview->exec();
-    delete preview;
-}
-
-void BibleForm::saveFile()
-{
-    const QString lastPlace = m_settings->session.getData("lastSaveFilePlace").toString();
-    const QString fileName = QFileDialog::getSaveFileName(this, tr("Save output"), lastPlace, tr("Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Plain (*.txt)"));
-    QFileInfo fi(fileName);
-    m_settings->session.setData("lastSaveFilePlace", fi.path());
-    if(fi.suffix().compare("html", Qt::CaseInsensitive) == 0 ||
-            fi.suffix().compare("htm", Qt::CaseInsensitive) == 0) {
-        QFile file(fileName);
-        if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-            return;
-        QTextStream out(&file);
-        out << m_view->page()->mainFrame()->toHtml();
-        file.close();
-    } else if(fi.suffix().compare("pdf", Qt::CaseInsensitive) == 0) {
-        QPrinter printer;
-        printer.setOutputFormat(QPrinter::PdfFormat);
-        printer.setOutputFileName(fileName);
-        m_view->print(&printer);
-    } else if(fi.suffix().compare("odt", Qt::CaseInsensitive) == 0) {
-        QTextDocumentWriter writer;
-        writer.setFormat("odf");
-        writer.setFileName(fileName);
-        QTextDocument doc;
-        doc.setHtml(m_view->page()->mainFrame()->toHtml());
-        writer.write(&doc);
-    } else {
-        QFile file(fileName);
-        if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-            return;
-        QTextStream out(&file);
-        out << m_view->page()->mainFrame()->toPlainText();
-        file.close();
-    }
-}
-
-QString BibleForm::selectedText()
-{
-    return m_view->selectedText();
-}
-
-void BibleForm::copy()
-{
-    m_view->page()->triggerAction(QWebPage::Copy);
-}
-
-void BibleForm::selectAll()
-{
-    m_view->page()->triggerAction(QWebPage::SelectAll);
 }
 void BibleForm::forwardSetChapters(int bookID, QSharedPointer<Versification> v11n)
 {
@@ -877,8 +786,6 @@ void BibleForm::forwardSearchInText(SearchResult *res)
         return;
     searchInText(res);
 }
-
-
 
 void BibleForm::searchInText(SearchResult *res)
 {
@@ -1292,7 +1199,6 @@ VerseSelection BibleForm::verseSelection()
     VerseSelection s;
     if(!f)
         return s;
-    myDebug() << "running verselection";
 
     f->evaluateJavaScript("var vS = new VerseSelection(); vS.getSelection();");
     s.moduleID = f->evaluateJavaScript("vS.moduleID;").toInt();

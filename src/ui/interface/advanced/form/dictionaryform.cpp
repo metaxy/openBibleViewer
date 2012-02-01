@@ -28,7 +28,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QClipboard>
 
 DictionaryForm::DictionaryForm(QWidget *parent) :
-    Form(parent),
+    WebViewForm(parent),
     ui(new Ui::DictionaryForm)
 {
     ui->setupUi(this);
@@ -39,12 +39,9 @@ DictionaryForm::DictionaryForm(QWidget *parent) :
 
     m_dictionary = NULL;
 
-    m_view = new WebView(this);
-    m_view->setObjectName("webView");
-    m_view->setUrl(QUrl("about:blank"));
     ui->verticalLayout->addWidget(m_view);
     ui->verticalLayout->setMargin(0);
-    m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+
     setButtons();
 
 }
@@ -59,6 +56,7 @@ DictionaryForm::~DictionaryForm()
 }
 void DictionaryForm::init()
 {
+    m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
     connect(m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(get(QUrl)));
     connect(m_view, SIGNAL(linkMiddleOrCtrlClicked(QUrl)), SLOT(newGet(QUrl)));
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
@@ -155,86 +153,6 @@ void DictionaryForm::save()
     }
 }
 
-void DictionaryForm::copy()
-{
-    m_view->page()->triggerAction(QWebPage::Copy);
-}
-
-void DictionaryForm::selectAll()
-{
-    m_view->page()->triggerAction(QWebPage::SelectAll);
-}
-
-void DictionaryForm::print()
-{
-    QPrinter printer;
-    QPointer<QPrintDialog> dialog = new QPrintDialog(&printer, this);
-    dialog->setWindowTitle(tr("Print"));
-    if(dialog->exec() == QDialog::Accepted) {
-        m_view->page()->mainFrame()->print(&printer);
-    }
-    delete dialog;
-}
-
-void DictionaryForm::printPreview()
-{
-    QPrinter printer;
-    QPointer<QPrintPreviewDialog> preview = new QPrintPreviewDialog(&printer, this);
-    connect(preview, SIGNAL(paintRequested(QPrinter *)), m_view, SLOT(print(QPrinter *)));
-    preview->exec();
-    delete preview;
-}
-
-void DictionaryForm::saveFile()
-{
-    const QString lastPlace = m_settings->session.getData("lastSaveFilePlace").toString();
-    const QString fileName = QFileDialog::getSaveFileName(this, tr("Save output"), lastPlace, tr("Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Plain (*.txt)"));
-    QFileInfo fi(fileName);
-    m_settings->session.setData("lastSaveFilePlace", fi.path());
-    if(fi.suffix().compare("html", Qt::CaseInsensitive) == 0 ||
-            fi.suffix().compare("htm", Qt::CaseInsensitive) == 0) {
-        QFile file(fileName);
-        if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-            return;
-        QTextStream out(&file);
-        out << m_view->page()->mainFrame()->toHtml();
-        file.close();
-    } else if(fi.suffix().compare("pdf", Qt::CaseInsensitive) == 0) {
-        QPrinter printer;
-        printer.setOutputFormat(QPrinter::PdfFormat);
-        printer.setOutputFileName(fileName);
-        m_view->print(&printer);
-    } else if(fi.suffix().compare("odt", Qt::CaseInsensitive) == 0) {
-        QTextDocumentWriter writer;
-        writer.setFormat("odf");
-        writer.setFileName(fileName);
-        QTextDocument doc;
-        doc.setHtml(m_view->page()->mainFrame()->toHtml());
-        writer.write(&doc);
-    } else {
-        QFile file(fileName);
-        if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-            return;
-        QTextStream out(&file);
-        out << m_view->page()->mainFrame()->toPlainText();
-        file.close();
-    }
-}
-
-QString DictionaryForm::selectedText()
-{
-    return m_view->selectedText();
-}
-
-void DictionaryForm::zoomIn()
-{
-    m_view->setZoomFactor(m_view->zoomFactor() + 0.1);
-}
-
-void DictionaryForm::zoomOut()
-{
-    m_view->setZoomFactor(m_view->zoomFactor() - 0.1);
-}
 
 void DictionaryForm::activated()
 {
@@ -247,12 +165,6 @@ void DictionaryForm::showEntry()
 {
     const QString key = ui->lineEdit_input->text();
     showEntry(key,-1);
-}
-void DictionaryForm::forwardShowEntry(const QString &key, int moduleID)
-{
-    if(!active())
-        return;
-    showEntry(key, moduleID);
 }
 /**
   * moduleID == -1 means current Dictionary
@@ -403,12 +315,6 @@ void DictionaryForm::setButtons()
     }
 }
 
-void DictionaryForm::forwardShowHtml(const QString &html)
-{
-    if(!active())
-        return;
-    showHtml(html);
-}
 void DictionaryForm::showHtml(QString html)
 {
     if(m_dictionary->moduleType() != ModuleTools::WebDictionaryModule) {

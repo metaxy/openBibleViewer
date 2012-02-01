@@ -6,8 +6,6 @@ BookForm::BookForm(QWidget *parent) :
     ui(new Ui::BookForm)
 {
     ui->setupUi(this);
-   // QFramframe->e *frame = new QFrame(this);
-
     ui->verticalLayout->addWidget(m_view);
     m_book = NULL;
 }

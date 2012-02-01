@@ -29,7 +29,7 @@ public:
     /**
       * ignoreModuleID is used in VerseTable
       */
-    virtual Response* readRanges(const Ranges &ranges, bool ignoreModuleID = false);
+    Response* readRanges(const Ranges &ranges, bool ignoreModuleID = false);
 
     QStringList getSearchPaths() const;
     /**
@@ -45,7 +45,7 @@ public:
 
 private:
 
-    virtual TextRange readRange(const Range &range, bool ignoreModuleID = false);
+    TextRange readRange(const Range &range, bool ignoreModuleID = false);
 
     int loadModuleData(const int bibleID);
     bool loaded() const;

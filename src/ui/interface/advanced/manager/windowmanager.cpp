@@ -441,6 +441,38 @@ void WindowManager::tile()
     }
     m_area->tileSubWindows();
 }
+void WindowManager::cascade(bool checked)
+{
+    if(checked) {
+        m_settings->autoLayout = Settings::Cascade;
+        cascade();
+    }
+}
+
+void WindowManager::tileVertical(bool checked)
+{
+    if(checked) {
+        m_settings->autoLayout = Settings::VerticalTile;
+        tileVertical();
+    }
+}
+
+void WindowManager::tileHorizontal(bool checked)
+{
+    if(checked) {
+        m_settings->autoLayout = Settings::HorizontalTile;
+        tileHorizontal();
+    }
+}
+
+void WindowManager::tile(bool checked)
+{
+    if(checked) {
+        m_settings->autoLayout = Settings::Tile;
+        tile();
+    }
+}
+
 
 QList<QMdiSubWindow*> WindowManager::usableWindowList() const
 {

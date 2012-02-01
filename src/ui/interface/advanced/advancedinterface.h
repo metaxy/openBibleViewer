@@ -84,6 +84,7 @@ private slots:
     void setTitle(const QString &title);
 
     void quick();
+    void uncheck(bool b);
 
 public:
     AdvancedInterface(QWidget *parent = 0);
@@ -124,6 +125,11 @@ private:
     QAction *m_mainBarActionZoomOut;
     QAction *m_mainBarActionModule;
 
+    QAction *m_actionCascade;
+    QAction *m_actionTile;
+    QAction *m_actionTileVertical;
+    QAction *m_actionTileHorizontal;
+
     void toolBarSetText();
 
     WindowManager *m_windowManager;
@@ -133,6 +139,10 @@ private:
     BookmarksManager *m_bookmarksManager;
     DictionaryManager *m_dictionaryManager;
     WebPageManager *m_webPageManager;
+
+    void quickSearch(const QString &text);
+
+
 };
 
 #endif // ADVANCEDINTERFACE_H
