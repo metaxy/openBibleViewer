@@ -174,6 +174,7 @@ set( openBibleViewer_HDRS
     src/module/modulemanager.h
     src/module/module.h
     src/module/versemodule.h
+    src/module/textrangesversemodule.h
     src/module/dictionary/zefania-lex.h
     src/module/modulemap.h
     src/module/versetable.h
@@ -280,6 +281,7 @@ set( openBibleViewer_SRCS
     src/module/moduletools.cpp
     src/module/module.cpp
     src/module/versemodule.cpp
+    src/module/textrangesversemodule.cpp
     src/module/simplemoduleclass.cpp
     src/module/versetable.cpp
     src/module/modulemap.cpp

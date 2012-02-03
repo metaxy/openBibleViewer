@@ -22,6 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dock/bookdockwidget.h"
 #include "src/ui/dock/searchresultdockwidget.h"
 #include "src/ui/webview.h"
+#include "src/module/textrangesversemodule.h"
 namespace Ui
 {
 class SimpleInterface;
@@ -78,7 +79,7 @@ private:
     QAction *m_actionZoomOut;
     QAction *m_actionModule;
 
-    VerseModule *m_module;
+    TextRangesVerseModule *m_module;
 
     TextRanges m_lastTextRanges;
     VerseUrl m_lastUrl;

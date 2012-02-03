@@ -13,7 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef VERSETABLE_H
 #define VERSETABLE_H
-#include "src/module/versemodule.h"
+#include "src/module/textrangesversemodule.h"
+#include "src/core/verse/textranges.h"
 #include "src/core/link/verseurl.h"
 
 #include <QtCore/QPoint>
@@ -35,8 +36,8 @@ public:
      * Returns the bible at id.
      * \param id The bibleList internal id, not the moduleID. If id == -1 then current bible.
      */
-    VerseModule * verseModule(const int id = -1) const;
-    void addModule(VerseModule* b, const QPoint &p);
+    TextRangesVerseModule * verseModule(const int id = -1) const;
+    void addModule(TextRangesVerseModule* b, const QPoint &p);
     void setCurrentVerseTableID(const int verseTableID);
     int currentVerseTableID() const;
 
@@ -47,7 +48,7 @@ public:
      */
     bool hasTopBar() const;
 
-    QHash<int, VerseModule *> m_modules;
+    QHash<int, TextRangesVerseModule *> m_modules;
     QMap<int, QPoint> m_points;
 
     void setLastTextRanges(TextRanges *textRanges);
@@ -61,7 +62,7 @@ public:
 
     bool contains(const int moduleID);
 private:
-    inline QString title(VerseModule *module, const QString &active, const int bibleListID) const;
+    inline QString title(TextRangesVerseModule *module, const QString &active, const int bibleListID) const;
     int countInCol(const int col) const;
     int m_currentModule;
     TextRanges *m_lastTextRanges;

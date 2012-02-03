@@ -32,7 +32,7 @@ Bible::Bible()
 {
     m_bookID = 0;
     m_loaded = false;
-    m_lastTextRanges = 0;
+    m_lastTextRanges = NULL;
 }
 Bible::~Bible()
 {

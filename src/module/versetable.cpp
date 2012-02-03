@@ -42,7 +42,7 @@ int VerseTable::currentVerseTableID() const
     return m_currentModule;
 }
 
-void VerseTable::addModule(VerseModule* m, const QPoint &p)
+void VerseTable::addModule(TextRangesVerseModule* m, const QPoint &p)
 {
     //if it contains already a module with point p
     //then delete the old and insert the new
@@ -65,7 +65,7 @@ void VerseTable::addModule(VerseModule* m, const QPoint &p)
     setLastTextRanges(m_lastTextRanges);
 }
 
-VerseModule * VerseTable::verseModule(const int id) const
+TextRangesVerseModule * VerseTable::verseModule(const int id) const
 {
     if(id == -1) {
         if(m_modules.contains(m_currentModule)) {
@@ -98,7 +98,7 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
     //myDebug() << "points = " << m_points << " modules = " << m_modules;
     if(m_modules.size() == 1) {
         std::pair<QString, TextRanges> ret;
-        VerseModule *b = m_modules.value(m_currentModule, NULL);
+        TextRangesVerseModule *b = m_modules.value(m_currentModule, NULL);
         if(b) {
             TextRangesResponse *res = (TextRangesResponse*)b->readRanges(ranges);
             ret.second = res->ranges();
@@ -119,9 +119,9 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
     } else if(m_modules.size() > 1) {
         std::pair<QString, TextRanges> ret;
         QHash<int, TextRanges> data;
-        QHashIterator<int, VerseModule *> i(m_modules);
+        QHashIterator<int, TextRangesVerseModule *> i(m_modules);
         TextRanges def;
-        VerseModule *defModule = 0;
+        TextRangesVerseModule *defModule = 0;
         TextRanges tret;
 
         while(i.hasNext()) {
@@ -156,7 +156,7 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
                 }
                 bool countInColEq = (countInCol(i) == 1);
                 if(id != -1 && countInColEq) {
-                    VerseModule *m = m_modules.value(id);
+                    TextRangesVerseModule *m = m_modules.value(id);
                     QString active = "";
                     if(id == m_currentModule)
                         active = " active";
@@ -165,7 +165,7 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
                     for(int j = 0; j <= maxRow; j++) {
                         id = m_points.key(QPoint(j, i), -1);
                         if(id != -1) {
-                            VerseModule *m = m_modules.value(id);
+                            TextRangesVerseModule *m = m_modules.value(id);
                             QString active = "";
                             if(id == m_currentModule)
                                 active = " active";
@@ -207,7 +207,7 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
                             continue;
                         }
                         const TextRange r = data.value(id).textRanges().at(countTextRange);
-                        VerseModule *m = m_modules.value(id);
+                        TextRangesVerseModule *m = m_modules.value(id);
                         if(countInCol(j) > 1) {
                             QString active = " rowTitle";
                             if(id == m_currentModule)
@@ -244,7 +244,7 @@ int VerseTable::countInCol(const int col) const
     return count;
 }
 
-QString VerseTable::title(VerseModule *module, const QString &active, const int verseTableID) const
+QString VerseTable::title(TextRangesVerseModule *module, const QString &active, const int verseTableID) const
 {
     return "<td class='verseTableTitle" + active + "' titleOf='" +
            QString::number(module->moduleID()) + "' verseTableID='" +
@@ -263,13 +263,13 @@ bool VerseTable::hasTopBar() const
 
 void VerseTable::clearData()
 {
-    foreach(VerseModule *m, m_modules) {
+    foreach(TextRangesVerseModule *m, m_modules) {
         m->clearData();
     }
 }
 bool VerseTable::contains(const int moduleID)
 {
-    foreach(VerseModule *m, m_modules) {
+    foreach(TextRangesVerseModule *m, m_modules) {
         if(m->moduleID() == moduleID)
             return true;
     }
@@ -280,7 +280,7 @@ void VerseTable::setLastTextRanges(TextRanges *textRanges)
     if(textRanges == NULL)
         return;
     m_lastTextRanges = textRanges;
-    foreach(VerseModule * b, m_modules) {
+    foreach(TextRangesVerseModule * b, m_modules) {
         b->setLastTextRanges(textRanges);
     }
 }

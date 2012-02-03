@@ -135,7 +135,7 @@ void VerseTableWidget::save()
             if(id >= 0) {
                 atLeastOne = true;
                 myDebug() << id << x << y;
-                m_moduleManager->newVerseModule(id, QPoint(x, y), m_verseTable);
+                m_moduleManager->newTextRangesVerseModule(id, QPoint(x, y), m_verseTable);
                 if(m_selectionModel->selection().contains(m_model->index(x, y)))
                     selectedModule = m_verseTable->currentVerseTableID();
                 lastModule = m_verseTable->currentVerseTableID();

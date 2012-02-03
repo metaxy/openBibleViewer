@@ -13,14 +13,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BIBLE_H
 #define BIBLE_H
-#include "src/module/versemodule.h"
-
+#include "src/module/textrangesversemodule.h"
 /**
  * Bible represent a bible module(eg. biblequote module or zefania xml module)
  * It reads the module, gets the raw data and formats it.
  * Meta-Module
  */
-class Bible : public VerseModule
+class Bible : public TextRangesVerseModule
 {
 public:
 

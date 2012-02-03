@@ -72,8 +72,8 @@ public:
     QStringList getBiblePaths();
     QList<int> getBibleIDs();
     void checkCache(const int moduleID);
-    VerseModule * newVerseModule(const int moduleID, QPoint p, VerseTable *table);
-    VerseModule * newVerseModule(const int moduleID);
+    TextRangesVerseModule * newTextRangesVerseModule(const int moduleID, QPoint p, VerseTable *table);
+    TextRangesVerseModule * newTextRangesVerseModule(const int moduleID);
 
 
     void newDisplaySettings();

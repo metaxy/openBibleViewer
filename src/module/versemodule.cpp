@@ -11,27 +11,15 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#include "versetable.h"
 #include "versemodule.h"
 
 VerseModule::VerseModule()
 {
-    m_lastTextRanges = NULL;
 }
 
 VerseModule::~VerseModule()
 {
 
-}
-
-void VerseModule::setLastTextRanges(TextRanges *textRanges)
-{
-    m_lastTextRanges = textRanges;
-}
-
-TextRanges *VerseModule::lastTextRanges() const
-{
-    return m_lastTextRanges;
 }
 
 QSharedPointer<Versification> VerseModule::versification() const

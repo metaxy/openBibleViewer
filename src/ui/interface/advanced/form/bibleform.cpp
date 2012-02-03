@@ -92,7 +92,7 @@ void BibleForm::init()
 void BibleForm::newModule(const int moduleID)
 {
     myDebug() << moduleID;
-    m_moduleManager->newVerseModule(moduleID, QPoint(0, 0), m_verseTable);
+    m_moduleManager->newTextRangesVerseModule(moduleID, QPoint(0, 0), m_verseTable);
     if(verseModule())
         verseModule()->setModuleID(moduleID);
 
@@ -209,7 +209,7 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
     const int moduleID = ranges.getList().first().moduleID();
 
     if(!verseTableLoaded()) {
-        m_moduleManager->newVerseModule(moduleID, QPoint(0, 0), m_verseTable);
+        m_moduleManager->newTextRangesVerseModule(moduleID, QPoint(0, 0), m_verseTable);
     }
 
 
@@ -345,7 +345,7 @@ void BibleForm::restore(const QString &key)
         urlConverter.convert();
 
         if(urlConverter.moduleID() != -1) {
-            m_moduleManager->newVerseModule(urlConverter.moduleID(), point, m_verseTable);
+            m_moduleManager->newTextRangesVerseModule(urlConverter.moduleID(), point, m_verseTable);
             pharseUrl(urlConverter.url());//these urls are handeld by this Form
         }
     }
@@ -373,10 +373,10 @@ void BibleForm::save()
     QStringList urls;
     QStringList points;
     if(list > 0) {
-        QHashIterator<int, VerseModule *> i(list->m_modules);
+        QHashIterator<int, TextRangesVerseModule *> i(list->m_modules);
         while(i.hasNext()) {
             i.next();
-            VerseModule *b = i.value();
+            TextRangesVerseModule *b = i.value();
             if(b != NULL && b->moduleID() >= 0) {
                 VerseUrl bibleUrl = b->lastTextRanges()->source().source();
                 bibleUrl.setModuleID(b->moduleID());
@@ -607,7 +607,7 @@ void BibleForm::activated()
         m_verseTable = m_moduleManager->newVerseTable();
         return;
     } else if(verseModule() == NULL) {
-        m_moduleManager->newVerseModule(-1, QPoint(0, 0), m_verseTable);
+        m_moduleManager->newTextRangesVerseModule(-1, QPoint(0, 0), m_verseTable);
         return;
     }
 
@@ -1352,7 +1352,7 @@ VerseTable * BibleForm::verseTable() const
     return m_verseTable;
 }
 
-VerseModule * BibleForm::verseModule() const
+TextRangesVerseModule *BibleForm::verseModule() const
 {
     return m_verseTable->verseModule();
 }

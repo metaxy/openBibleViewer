@@ -286,24 +286,24 @@ void ModuleManager::checkCache(const int moduleID)
         b->loadModuleData(moduleID);//set cache
     }*/
 }
-VerseModule * ModuleManager::newVerseModule(const int moduleID, QPoint p, VerseTable *table)
+TextRangesVerseModule * ModuleManager::newTextRangesVerseModule(const int moduleID, QPoint p, VerseTable *table)
 {
     if(!contains(moduleID)) {
         myWarning() << "invalid moduleID = " << moduleID;
         return NULL;
     }
 
-    VerseModule *m = newVerseModule(moduleID);
+    TextRangesVerseModule *m = newTextRangesVerseModule(moduleID);
     table->addModule(m, p);
     return m;
 }
-VerseModule * ModuleManager::newVerseModule(const int moduleID)
+TextRangesVerseModule * ModuleManager::newTextRangesVerseModule(const int moduleID)
 {
     if(!contains(moduleID)) {
         myWarning() << "invalid moduleID = " << moduleID;
         return NULL;
     }
-    VerseModule *m = NULL;
+    TextRangesVerseModule *m = NULL;
     if(getModule(moduleID)->moduleClass() == ModuleTools::BibleModuleClass) {
         m = new Bible();
         initVerseModule(m);
@@ -330,7 +330,7 @@ ModuleTools::ModuleType ModuleManager::recognizeModuleType(const QString &fileNa
         if(data.open(QFile::ReadOnly)) {
             QString fileData = "";
             QTextStream in(&data);
-            for(int i = 0; i < 100; i++)
+            for(int i = 0; i < 200; i++)
                 fileData += in.readLine();
             //myDebug() << "fileData = " << fileData;
             if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i cannot allow this
@@ -401,7 +401,9 @@ bool ModuleManager::alsoOk(const ModuleTools::ContentType t1, const ModuleTools:
     return false;
 
 }
-
+/**
+  * Add also a bible at (0,0)
+  */
 VerseTable * ModuleManager::newVerseTable()
 {
     VerseTable *verseTable = new VerseTable();

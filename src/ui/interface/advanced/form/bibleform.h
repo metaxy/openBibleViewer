@@ -52,7 +52,9 @@ namespace Ui
 {
 class BibleForm;
 }
-
+/**
+  * BibelForm contains a VerseTable.
+  */
 class BibleForm : public WebViewForm
 {
     Q_OBJECT
@@ -76,7 +78,7 @@ public:
 
     SearchableModule * searchableModule() const;
     VerseTable *verseTable() const;
-    virtual VerseModule *verseModule() const;
+    virtual TextRangesVerseModule *verseModule() const;
 
     void newModule(const int moduleID);
     int newModule();

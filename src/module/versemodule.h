@@ -11,7 +11,6 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#include "versetable.h"
 #ifndef VERSEMODULE_H
 #define VERSEMODULE_H
 #include "src/core/verse/ranges.h"
@@ -35,11 +34,6 @@ public:
     virtual ~VerseModule();
     void setModuleDisplaySettings(ModuleDisplaySettings *moduleDisplaySettings);
     virtual Response* readRanges(const Ranges &ranges, bool ignoreModuleID = false) = 0;
-    void setLastTextRanges(TextRanges *textRanges);
-    /**
-     * Returns the last computed TextRanges.
-     */
-    TextRanges *lastTextRanges() const;
     /**
      * Returns the Versification of the module.
      * Every VerseModule must have a versification.
@@ -48,9 +42,7 @@ public:
     virtual void search(SearchQuery query, SearchResult *result) = 0;
     virtual void clearData() = 0;
 protected:
-    virtual TextRange readRange(const Range &range, bool ignoreModuleID = false) = 0;
     QSharedPointer<Versification> m_versification;
-    TextRanges *m_lastTextRanges;
     ModuleDisplaySettings *m_moduleDisplaySettings;
 };
 
