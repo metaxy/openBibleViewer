@@ -43,14 +43,12 @@ public:
     void clearData();
 
 private:
-
     TextRange readRange(const Range &range, bool ignoreModuleID = false);
 
     int loadModuleData(const int bibleID);
     bool loaded() const;
 
     QString toUniformHtml(const QString &string);
-    QList<int> bookIDs() const;
 
     bool m_loaded;
     int m_bookID;
@@ -59,7 +57,8 @@ private:
     QString m_moduleShortTitle;
     QString m_moduleUID;
     QSharedPointer<BibleModule> m_bibleModule;
-
+    int currentBook();
+    int currentChapter();
+    std::pair<int, int> minMaxVerse(const int bookID, const int chapterID);
 };
-
 #endif // BIBLE_H

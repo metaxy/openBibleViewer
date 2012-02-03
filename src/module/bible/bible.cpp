@@ -503,10 +503,6 @@ QString Bible::moduleUID() const
     return m_moduleUID;
 }
 
-QList<int> Bible::bookIDs() const
-{
-    return m_versification->bookNames().keys();
-}
 BibleModule * Bible::bibleModule() const
 {
     return m_bibleModule.data();
@@ -515,4 +511,22 @@ void Bible::clearData()
 {
     if(m_loaded)
         m_bibleModule->clearData();
+}
+int Bible::currentBook()
+{
+    if(m_lastTextRanges != 0 && !m_lastTextRanges->isEmpty() && !m_lastTextRanges->bookIDs().isEmpty()) {
+            return *m_lastTextRanges->bookIDs().begin();
+    }
+    return -1;
+}
+int Bible::currentChapter()
+{
+    if(m_lastTextRanges != 0  && !m_lastTextRanges->isEmpty() && !m_lastTextRanges->chapterIDs().isEmpty()) {
+            return *m_lastTextRanges->chapterIDs().begin();
+    }
+    return -1;
+}
+std::pair<int, int> Bible::minMaxVerse(const int bookID, const int chapterID)
+{
+     return m_bibleModule->minMaxVerse(bookID, chapterID);
 }

@@ -22,6 +22,17 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/moduledisplaysettings.h"
 #include "src/module/searchablemodule.h"
 #include "src/module/response/response.h"
+#include <utility>
+
+struct CompiledRange {
+    int moduleID;
+    int bookID;
+    int chapterID;
+    int startVerse;
+    int endVerse;
+
+    int error;
+};
 /**
  * VerseModule is an abstract class for modules classes like Bible or StudyNotes which are based on a versification.
  * That means it has books, chapters and verse.
@@ -44,6 +55,12 @@ public:
 protected:
     QSharedPointer<Versification> m_versification;
     ModuleDisplaySettings *m_moduleDisplaySettings;
+
+    QList<int> bookIDs() const;
+    virtual int currentBook() = 0;
+    virtual int currentChapter() = 0;
+    virtual std::pair<int, int> minMaxVerse(const int bookID, const int chapterID) = 0;
+    CompiledRange toCompiledRange(const Range &range);
 };
 
 #endif // VERSEMODULE_H
