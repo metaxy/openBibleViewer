@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module id="jamieson-fausset-brown.biblestudytools.com" type="webcommentary">
+    <meta>
+        <name>Commentary Critical and Explanatory on the Whole Bible</name>
+        <shortName>Commentary Critical and Explanatory</shortName>
+        <desc>This one volume commentary was prepared by Robert Jamieson, A. R. Fausset and David Brown and published in 1871.</desc>
+        <versification>kjv</versification>
+    </meta>
+    <data>
+        <site>
+            <url>http://www.biblestudytools.com/commentaries/jamieson-fausset-brown/</url>
+            <pharseInBook><![CDATA[
+                (function(bookID, bookName) { 
+                    return "http://www.biblestudytools.com/commentaries/jamieson-fausset-brown/"+bookName+"/"+bookName+"-introduction.html;
+                 })
+                ]]>
+            </pharseIn>
+            <pharseInChapter><![CDATA[
+                (function(bookID, bookName, chapter) { 
+                    return "http://www.biblestudytools.com/commentaries/jamieson-fausset-brown/"+bookName +"/"+bookName+"-"+chapter+".html";
+                 })
+                ]]>
+            </pharseIn>
+            <pharseInVerse><![CDATA[
+                (function(bookID, bookName, chapter, verse) { 
+                    return "http://www.biblestudytools.com/commentaries/jamieson-fausset-brown/"+bookName +"/"+bookName+"-"+chapter+".html";
+                 })
+                ]]>
+            </pharseIn>
+            <pharseOut>
+                <![CDATA[
+                    (function(a) { 
+                        var str = "http://www.studylight.org/isb/view.cgi?number="
+                        if(a.indexOf(str) === 0) {
+                            a = a.substr(str.length);
+                            if(a.indexOf("0") === 0) {
+                                return "strong:/H" + a;
+                            } else {
+                                return "strong:/G" + a;
+                            }
+                            
+                        } else {
+                            return a;
+                        }
+                    })
+                 ]]>
+            </pharseOut>
+            <books> 
+                <book id="1">
+
+        </site>
+    </data>
+</module>

@@ -22,6 +22,8 @@ ModuleTools::ModuleType ModuleTools::recognizeModuleType(const QString &fileName
         return ModuleTools::WebDictionaryModule;
     } else if(fileName.endsWith(".webpage.xml", Qt::CaseInsensitive)) {
         return ModuleTools::WebPageModule;
+    } else if(fileName.endsWith(".webcom.xml", Qt::CaseInsensitive)) {
+        return ModuleTools::WebCommentaryModule;
     } else if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
         QFile data(fileName);
         if(data.open(QFile::ReadOnly)) {
@@ -104,7 +106,7 @@ QStringList ModuleTools::moduleTypeNames()
       << QT_TRANSLATE_NOOP("Core", "Zefania Lex Module") << QT_TRANSLATE_NOOP("Core", "BibleQuote Dictionary") << QT_TRANSLATE_NOOP("Core", "The Word Bible")
       << QT_TRANSLATE_NOOP("Core", "Folder")
      << QT_TRANSLATE_NOOP("Core", "Sword Bible") << QT_TRANSLATE_NOOP("Core", "Web Page") << QT_TRANSLATE_NOOP("Core", "Web Dictionary")
-     << QT_TRANSLATE_NOOP("Core", "Sword Lexicon") << QT_TRANSLATE_NOOP("Core", "Txt Book");
+     << QT_TRANSLATE_NOOP("Core", "Sword Lexicon") << QT_TRANSLATE_NOOP("Core", "Txt Book") << QT_TRANSLATE_NOOP("Core", "Web Commentary");
     return l;
 }
 
@@ -134,6 +136,8 @@ QString ModuleTools::moduleTypeName(ModuleTools::ModuleType type)
         return QT_TRANSLATE_NOOP("Core", "Sword Lexicon");
     }  else if(type == ModuleTools::TxtBookModule) {
         return QT_TRANSLATE_NOOP("Core", "Txt Book");
+    } else if(type == ModuleTools::WebCommentaryModule) {
+        return QT_TRANSLATE_NOOP("Core", "Web Commentary");
     }
     return "";
 }
@@ -160,6 +164,9 @@ ModuleTools::ModuleCategory ModuleTools::getCategory(ModuleTools::ModuleType typ
 
         case ModuleTools::TxtBookModule:
             return ModuleTools::BookCategory;
+
+        case ModuleTools::WebCommentaryModule:
+            return ModuleTools::CommentaryCategory;
         default:
             return ModuleTools::UnkownCategory;
     }
@@ -182,8 +189,13 @@ ModuleTools::ModuleClass ModuleTools::typeToClass(ModuleTools::ModuleType type)
 
         case ModuleTools::WebPageModule:
             return ModuleTools::WebPageClass;
+
         case ModuleTools::TxtBookModule:
             return ModuleTools::BookClass;
+
+        case ModuleTools::WebCommentaryModule:
+            return ModuleTools::CommentaryClass;
+
         default:
             return ModuleTools::NoneClass;
     }

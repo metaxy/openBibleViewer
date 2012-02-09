@@ -1,24 +1,152 @@
-#include "webcommentary.h"
+    #include "webcommentary.h"
 
-Webcommentary::Webcommentary()
+#include "src/module/response/urlresponse.h"
+
+WebCommentary::WebCommentary()
 {
 }
-Response* Webcommentary::readRanges(const Ranges &ranges, bool ignoreModuleID = false)
+Response* WebCommentary::readRanges(const Ranges &ranges, bool ignoreModuleID)
 {
-    return NULL;
+    CompiledRange range = this->toCompiledRange(ranges.getList().first());
+
+    if(!loaded())
+        loadModuleData(m_moduleID);
+
+    QScriptValue fun = myEngine.evaluate(m_pharseVerseScript);
+    QScriptValueList args;
+    args << range.bookID << m_books.value(range.bookID).key << range.chapterID << range.startVerse << range.endVerse;
+    QScriptValue url = fun.call(QScriptValue(), args);
+    return new UrlResponse(url.toString());
 }
-int Webcommentary::currentBook()
+int WebCommentary::currentBook()
 {
     return 0;
 }
-int Webcommentary::currentChapter()
+int WebCommentary::currentChapter()
 {
     return 0;
 }
-std::pair<int, int> Webcommentary::minMaxVerse(const int bookID, const int chapterID)
+std::pair<int, int> WebCommentary::minMaxVerse(const int bookID, const int chapterID)
 {
     std::pair<int, int> ret;
-    ret.frist = 0;
+    ret.first = 0;
     ret.second = 0;
     return ret;
+}
+
+void WebCommentary::loadModuleData(const int moduleID, const QString &name)
+{
+    m_moduleID = moduleID;
+    QString fileName;
+
+    if(name.isEmpty())
+        fileName = m_modulePath;
+    else
+        fileName = name;
+
+    myDebug() << fileName;
+    QDomDocument doc;
+    QFile file(fileName);
+    if(!file.open(QIODevice::ReadOnly))
+        return;
+
+    if(!doc.setContent(&file)) {
+        file.close();
+        return;
+    }
+    file.close();
+
+    QDomElement docElem = doc.documentElement();
+
+    QDomNode n = docElem.firstChild();
+    while(!n.isNull()) {
+        if(n.nodeName() == "meta") {
+            QDomNode n2 = n.firstChild();
+            while(!n2.isNull()) {
+                if(n2.nodeName() == "name") {
+                    m_name = n2.firstChild().toText().data();
+
+                } else if(n2.nodeName() == "shortName") {
+                    m_shortName = n2.firstChild().toText().data();
+                } else if(n2.nodeName() == "desc") {
+                    m_desc = n2.firstChild().toText().data();
+                }  else if(n2.nodeName() == "type") {
+                    m_type = n2.firstChild().toText().data();
+                } else if(n2.nodeName() == "versification") {
+                    m_v11nName = n2.firstChild().toText().data();
+                }
+                n2 = n2.nextSibling();
+            }
+        } else if(n.nodeName() == "data") {
+            QDomNode n2 = n.firstChild().firstChild();
+            while(!n2.isNull()) {
+                if(n2.nodeName() == "url") {
+                    m_url = n2.firstChild().toText().data();
+                } else if(n2.nodeName() == "pharseInBook") {
+                    m_pharseBookScript = n2.firstChild().toCDATASection().data();
+                } else if(n2.nodeName() == "pharseInChapter") {
+                    m_pharseBookScript = n2.firstChild().toCDATASection().data();
+                } else if(n2.nodeName() == "pharseInVerse") {
+                    m_pharseBookScript = n2.firstChild().toCDATASection().data();
+                } else if(n2.nodeName() == "pharseOut") {
+                    m_pharseOutScript = n2.firstChild().toCDATASection().data();
+                } else if(n2.nodeName() == "books") {
+                    QDomNode n3 = n2.firstChild();
+                    int i = 0;
+                    while(!n3.isNull()) {
+                         if(n3.nodeName() == "book") {
+                             const int bookID = n3.toElement().attribute("bookID", QString::number(i)).toInt();
+                             struct WebCommentaryBooksData d = {bookID, n3.firstChild().toText().data()};
+                             m_books.insert(bookID, d);
+                             i++;
+                         }
+                    }
+                }
+                n2 = n2.nextSibling();
+            }
+        }
+        n = n.nextSibling();
+    }
+    if(!m_v11nName.isEmpty()) {
+        ModuleSettings *settings = m_settings->getModuleSettings(m_moduleID);
+        settings->versificationFile = "";
+        settings->versificationName = m_v11nName;
+        m_versification = settings->loadVersification();
+    }
+    m_loaded = true;
+    m_loadedModuleID = m_moduleID;
+
+}
+
+void WebCommentary::search(SearchQuery query, SearchResult *result)
+{
+
+}
+
+MetaInfo WebCommentary::readInfo(const QString &name)
+{
+    loadModuleData(m_moduleID, name);
+    MetaInfo ret;
+    ret.setName(m_name);
+    ret.setShortName(m_shortName);
+    return ret;
+}
+bool WebCommentary::loaded()
+{
+    return m_loaded && m_loadedModuleID == m_moduleID;
+}
+QString WebCommentary::pharseUrl(const QUrl &url)
+{
+    if(!loaded())
+        loadModuleData(m_moduleID);
+
+    QScriptValue fun = myEngine.evaluate(m_pharseOutScript);
+    QScriptValueList args;
+    args << url.toString();
+    QScriptValue n = fun.call(QScriptValue(), args);
+    return n.toString();
+}
+void WebCommentary::clearData()
+{
+
 }

@@ -79,11 +79,6 @@ public:
     void newDisplaySettings();
     ModuleDisplaySettings * moduleDisplaySetings();
 
-    static ModuleTools::ModuleType recognizeModuleType(const QString &fileName);
-    static ModuleTools::DefaultModule toDefaultModule(const ModuleTools::ContentType t);
-    static bool alsoOk(const ModuleTools::ContentType t1, const ModuleTools::ContentType t2);
-
-
     /**
       * Returns a new VerseTable with a Bible.
       */

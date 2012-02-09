@@ -84,15 +84,15 @@ include_directories(
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${QT_QTCORE_INCLUDE_DIR}
-    ${QT_QTGUI_INCLUDE_DIR} 
-    ${QT_QTXML_INCLUDE_DIR} 
-    ${QT_QTNETWORK_INCLUDE_DIR} 
-    ${QT_QTWEBKIT_INCLUDE_DIR} 
+    ${QT_QTGUI_INCLUDE_DIR}
+    ${QT_QTXML_INCLUDE_DIR}
+    ${QT_QTNETWORK_INCLUDE_DIR}
+    ${QT_QTWEBKIT_INCLUDE_DIR}
     ${openBibleViewer_BINARY_DIR}/src
     ${CLUCENE1_INCLUDE_DIRS}
-	${MCLUCENE_DIR}\\build\\src\\shared
-	${MCLUCENE_DIR}\\src\\core
-	${MCLUCENE_DIR}\\src\\shared
+    ${MCLUCENE_DIR}\\build\\src\\shared
+    ${MCLUCENE_DIR}\\src\\core
+    ${MCLUCENE_DIR}\\src\\shared
     )
 
 if(OBV_SWORD_SUPPORT)
@@ -198,6 +198,7 @@ set( openBibleViewer_HDRS
     src/module/response/stringresponse.h
     src/module/response/textrangesresponse.h
     src/module/response/htmlresponse.h
+    src/module/commentary/webcommentary.h
 
     src/ui/interface/advanced/manager/webpagemanager.h
     src/ui/modelmodel.h
@@ -306,6 +307,7 @@ set( openBibleViewer_SRCS
     src/module/book/book.cpp
     src/module/book/bookmodule.cpp
     src/module/book/txtbook.cpp
+    src/module/commentary/webcommentary.cpp
 
     src/ui/dialog/searchdialog.cpp
     src/ui/dialog/settingsdialog.cpp

@@ -12,7 +12,8 @@ public:
         DictionaryModuleClass = 2,
         FolderClass = 3,
         WebPageClass = 4,
-        BookClass
+        BookClass = 5,
+        CommentaryClass = 6
     };
 
     enum ModuleType {
@@ -27,7 +28,8 @@ public:
         WebPageModule = 8,
         WebDictionaryModule = 9,
         SwordLexiconModule = 10,
-        TxtBookModule = 11
+        TxtBookModule = 11,
+        WebCommentaryModule = 12
     };
 
     enum DefaultModule {
@@ -36,7 +38,8 @@ public:
         DefaultStrongDictModule = 2,
         DefaultGramDictModule = 3,
         DefaultDictModule = 4,
-        DefaultRMACDictModule = 5
+        DefaultRMACDictModule = 5,
+        DefaultCommentary = 6
     };
 
     enum ContentType {
@@ -51,7 +54,8 @@ public:
         WordDictionaryContent = 8,
         DictionaryContent = 9,
         GramContent = 10,
-        BookContent = 11
+        BookContent = 11,
+        CommentaryContent = 12
 
     };
 

@@ -94,6 +94,8 @@ void ModuleModel::createModuleItem(QStandardItem *parentItem, ModuleSettings *se
             item->setIcon(m_bookIcon);
         } else if(cat == ModuleTools::FolderCategory) {
             item->setIcon(m_folderIcon);
+        } else if(cat == ModuleTools::CommentaryCategory) {
+            item->setIcon(m_bookIcon);
         }
        parentItem->appendRow(item);
     }

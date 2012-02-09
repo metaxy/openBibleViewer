@@ -20,6 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/bible/thewordbible.h"
 #include "src/module/webpage.h"
 #include "src/module/dictionary/webdictionary.h"
+#include "src/module/commentary/webcommentary.h"
 #include <QtCore/QFSFileEngine>
 #include <QtCore/QPointer>
 #include "src/core/qzipreader_p.h"
@@ -566,7 +567,11 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
             WebDictionary webDict;
             webDict.setSettings(&m_set);
             info = webDict.readInfo(f);
-        } else if(moduleType == ModuleTools::TxtBookModule) {
+        } else if(moduleType == ModuleTools::WebCommentaryModule) {
+            WebCommentary webComm;
+            webComm.setSettings(&m_set);
+            info = webComm.readInfo(f);
+        }else if(moduleType == ModuleTools::TxtBookModule) {
             info = MetaInfo();
             info.setName(fileInfo.baseName());
             info.setContent(ModuleTools::BookContent);
