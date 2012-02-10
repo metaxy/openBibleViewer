@@ -128,29 +128,7 @@ void BibleManager::previousChapter()
 void BibleManager::loadBibleList(bool hadBible)
 {
     DEBUG_FUNC_NAME
-    if(hadBible) {
-        VerseUrl url;
-        VerseUrlRange range;
-        range.setOpenToTransformation(false);
-        range.setModule(VerseUrlRange::LoadCurrentModule);
-        range.setBook(VerseUrlRange::LoadCurrentBook);
-        range.setChapter(VerseUrlRange::LoadCurrentChapter);
-        range.setWholeChapter();
-        url.setParam("force", "true");
-        url.addRange(range);
-        m_actions->get(url);
-    } else {
-        VerseUrl url;
-        VerseUrlRange range;
-        range.setOpenToTransformation(false);
-        range.setModule(VerseUrlRange::LoadCurrentModule);
-        range.setBook(VerseUrlRange::LoadFirstBook);
-        range.setChapter(VerseUrlRange::LoadFirstChapter);
-        range.setWholeChapter();
-        url.setParam("force", "true");
-        url.addRange(range);
-        m_actions->get(url);
-    }
+
 }
 
 

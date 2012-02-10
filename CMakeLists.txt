@@ -106,7 +106,7 @@ set( openBibleViewer_HDRS
     src/anyoption.h
 
     src/api/notesapi.h
-    src/api/bibleapi.h
+    src/api/moduleapi.h
     src/api/api.h
 
     src/core/swordmanager.h
@@ -209,7 +209,7 @@ set( openBibleViewer_SRCS
     src/main.cpp
     src/anyoption.cpp
 
-    src/api/bibleapi.cpp
+    src/api/moduleapi.cpp
     src/api/notesapi.cpp
     src/api/api.cpp
 
@@ -430,7 +430,7 @@ set ( openBibleViewer_RSCS
 #QT4_ADD_TRANSLATION(TRS ${openBibleViewer_TRS})
 
 set ( openBibleViewer_MOCS
-    src/api/bibleapi.h
+    src/api/moduleapi.h
     src/api/notesapi.h
     src/api/api.h
     src/core/context.h

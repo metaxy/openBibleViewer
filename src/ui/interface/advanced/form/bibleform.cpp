@@ -457,6 +457,7 @@ void BibleForm::setButtons()
 void BibleForm::showBibleListMenu()
 {
     QPointer<VerseTableWidget> w = new VerseTableWidget(this);
+    connect(w, SIGNAL(clear()), this, SLOT(clear()));
     setAll(w);
     w->setVerseTable(m_verseTable);
     w->init();

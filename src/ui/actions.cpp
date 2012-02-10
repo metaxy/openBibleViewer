@@ -124,11 +124,6 @@ void Actions::setSubWindowView()
 }
 
 
-void Actions::loadVerseTable(bool hadModule)
-{
-    emit _loadVerseTable(hadModule);
-}
-
 void Actions::reloadCurrentRange()
 {
     reloadCurrentRange(false);

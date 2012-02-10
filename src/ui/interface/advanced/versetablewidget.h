@@ -48,6 +48,9 @@ private slots:
     void addRow();
 
     void save();
+signals:
+    void loadVerseTable(bool hasBible);
+    void clear();
 private:
     Ui::VerseTableWidget *ui;
     QStandardItemModel *m_model;

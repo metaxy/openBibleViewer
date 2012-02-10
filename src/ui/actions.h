@@ -63,11 +63,8 @@ signals:
     void _setTabbedView();
     void _setSubWindowView();
 
-    void _loadVerseTable(bool hadModule);
     void _reloadCurrentRange(bool full);
     void _reloadIf(const VerseUrl &url);
-
-
 
 
     void _searchInText(SearchResult *result);
@@ -114,7 +111,6 @@ public slots:
     void setSubWindowView();
 
 
-    void loadVerseTable(bool hadModule);
 
     void reloadCurrentRange();
     void reloadCurrentRange(bool full);

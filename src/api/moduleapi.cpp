@@ -11,25 +11,35 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef API_H
-#define API_H
-
-#include <QObject>
-#include "src/core/basicclass.h"
 #include "moduleapi.h"
-#include "notesapi.h"
-class Api : public QObject, public BasicClass
+#include "src/core/dbghelper.h"
+#include <QWebElementCollection>
+ModuleApi::ModuleApi(QObject *parent) :
+    QObject(parent)
 {
-    Q_OBJECT
-public:
-    explicit Api(QObject *parent = 0);
-    ~Api();
-    void init();
-    NotesApi* notesApi() const;
-    ModuleApi* moduleApi() const;
-private:
-    NotesApi *m_notesApi;
-    ModuleApi *m_moduleApi;
-};
+}
+ModuleApi::~ModuleApi()
+{
 
-#endif // API_H
+}
+
+void ModuleApi::activateModule(const int verseTableID)
+{
+    //DEBUG_FUNC_NAME;
+    //myDebug() << verseTableID;
+
+    m_actions->setCurrentVerseTableID(verseTableID);
+
+    QWebElementCollection collection = m_frame->documentElement().findAll("td[class~=verseTableTitle]");
+    foreach(QWebElement paraElement, collection) {
+        paraElement.removeClass("active");
+        if(paraElement.attribute("verseTableID") == QString::number(verseTableID)) {
+            paraElement.addClass("active");
+        }
+    }
+    m_actions->reloadActive();
+}
+void ModuleApi::setFrame(QWebFrame *frame)
+{
+    m_frame = frame;
+}

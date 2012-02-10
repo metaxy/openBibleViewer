@@ -149,10 +149,31 @@ void VerseTableWidget::save()
     }
 
     if(atLeastOne) {
-        myDebug() "having at least one";
-        m_actions->loadVerseTable(hadBible);
+        if(hadBible) {
+            VerseUrl url;
+            VerseUrlRange range;
+            range.setOpenToTransformation(false);
+            range.setModule(VerseUrlRange::LoadCurrentModule);
+            range.setBook(VerseUrlRange::LoadCurrentBook);
+            range.setChapter(VerseUrlRange::LoadCurrentChapter);
+            range.setWholeChapter();
+            url.setParam("force", "true");
+            url.addRange(range);
+            m_actions->get(url);
+        } else {
+            VerseUrl url;
+            VerseUrlRange range;
+            range.setOpenToTransformation(false);
+            range.setModule(VerseUrlRange::LoadCurrentModule);
+            range.setBook(VerseUrlRange::LoadFirstBook);
+            range.setChapter(VerseUrlRange::LoadFirstChapter);
+            range.setWholeChapter();
+            url.setParam("force", "true");
+            url.addRange(range);
+            m_actions->get(url);
+        }
     } else {
-        m_actions->clear();
+        emit clear();
     }
     close();
 }

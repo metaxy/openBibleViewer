@@ -11,25 +11,27 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef API_H
-#define API_H
-
-#include <QObject>
+#ifndef BIBLEAPI_H
+#define BIBLEAPI_H
 #include "src/core/basicclass.h"
-#include "moduleapi.h"
-#include "notesapi.h"
-class Api : public QObject, public BasicClass
+#include <QObject>
+#include <QtWebKit/QWebFrame>
+/**
+  ModuleAPI is a API to access to the bible and modulemanager
+  */
+class ModuleApi : public QObject, public BasicClass
 {
     Q_OBJECT
+public slots:
+    void activateModule(const int verseTableID);
+signals:
+    void setCurrentVerseTableID(const int verseTableID);
 public:
-    explicit Api(QObject *parent = 0);
-    ~Api();
-    void init();
-    NotesApi* notesApi() const;
-    ModuleApi* moduleApi() const;
+    explicit ModuleApi(QObject *parent = 0);
+    virtual ~ModuleApi();
+    void setFrame(QWebFrame *frame);
 private:
-    NotesApi *m_notesApi;
-    ModuleApi *m_moduleApi;
+    QWebFrame *m_frame;
 };
 
-#endif // API_H
+#endif // BIBLEAPI_H

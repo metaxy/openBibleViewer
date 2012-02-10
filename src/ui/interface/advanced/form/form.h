@@ -30,7 +30,8 @@ public:
         BibleForm = 0,
         DictionaryForm = 1,
         WebForm = 2,
-        BookForm = 3
+        BookForm = 3,
+        CommentaryForm = 4
     };
 
     explicit Form(QWidget *parent = 0);
