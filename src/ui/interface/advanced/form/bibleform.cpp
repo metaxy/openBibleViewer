@@ -157,30 +157,11 @@ void BibleForm::pharseUrl(const QString &string)
     const QString bq = "go";
 
     if(string.startsWith(ModuleTools::verseScheme)) {
-
         VerseUrl url;
-        Ranges ranges;
         if(!url.fromUrl(string)) {
             return;
         }
-
-        if(m_url.isValid()) {
-            m_url = m_url.applyUrl(url);
-        } else {
-            m_url = url;
-            if(verseTableLoaded() && !m_url.hasModuleID()) {
-                m_url.setModuleID(verseModule()->moduleID());
-            }
-        }
-
-        foreach(VerseUrlRange range, m_url.ranges()) {
-            ranges.addRange(range.toRange());
-        }
-        ranges.setSource(m_url);
-        showRanges(ranges, m_url);
-        if(m_url.hasParam("searchInCurrentText")) {
-            m_actions->searchInText();
-        }
+        pharseUrl(url);
     } else if(string.startsWith(bq)) {
         //its a biblequote internal link, but i dont have the specifications!!!
         QStringList internal = string.split(" ");
@@ -196,7 +177,7 @@ void BibleForm::pharseUrl(const QString &string)
         range.setChapter(chapterID);
         range.setStartVerse(verseID);
         VerseUrl url(range);
-        m_actions->get(url);
+        pharseUrl(url);
     }
 }
 void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showStart)

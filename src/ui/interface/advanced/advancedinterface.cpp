@@ -64,7 +64,7 @@ void AdvancedInterface::init()
 
     m_windowManager->init();
 
-    m_bibleManager = new BibleManager(this);
+    m_bibleManager = new VerseModuleManager(this);
     setAll(m_bibleManager);
     m_bibleManager->setWidget(this->parentWidget());
     m_bibleManager->setWindowManager(m_windowManager);

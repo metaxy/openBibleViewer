@@ -21,13 +21,19 @@ public:
     void restore(const QString &key);
     void save();
 
-    void pharseUrl(QString url);
+    void pharseUrl(QString string);
+    void pharseUrl(VerseUrl url);
 
     Form::FormType type() const;
-
+    void activated();
+private:
+    bool loaded();
+private slots:
+    void changeLocation();
 private:
     Ui::CommentaryForm *ui;
     WebCommentary *m_com;
+    VerseUrl m_url;
 };
 
 #endif // COMMENTARYFORM_H

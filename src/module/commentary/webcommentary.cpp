@@ -1,5 +1,4 @@
-    #include "webcommentary.h"
-
+#include "webcommentary.h"
 #include "src/module/response/urlresponse.h"
 
 WebCommentary::WebCommentary()
@@ -7,6 +6,7 @@ WebCommentary::WebCommentary()
 }
 Response* WebCommentary::readRanges(const Ranges &ranges, bool ignoreModuleID)
 {
+    DEBUG_FUNC_NAME
     CompiledRange range = this->toCompiledRange(ranges.getList().first());
 
     if(!loaded())
@@ -36,26 +36,35 @@ std::pair<int, int> WebCommentary::minMaxVerse(const int bookID, const int chapt
 
 void WebCommentary::loadModuleData(const int moduleID, const QString &name)
 {
+    DEBUG_FUNC_NAME
+    ModuleSettings *settings = m_settings->getModuleSettings(m_moduleID);
+
+    if(!settings)
+        return;
+
     m_moduleID = moduleID;
     QString fileName;
 
     if(name.isEmpty())
-        fileName = m_modulePath;
+        fileName = settings->modulePath;
     else
         fileName = name;
+    m_modulePath = fileName;
 
-    myDebug() << fileName;
     QDomDocument doc;
     QFile file(fileName);
-    if(!file.open(QIODevice::ReadOnly))
+    if(!file.open(QIODevice::ReadOnly)) {
+        myWarning() << "failed to read" << fileName;
         return;
-
-    if(!doc.setContent(&file)) {
+    }
+    QString error;
+    int line, col;
+    if(!doc.setContent(&file, &error, &line, &col)) {
+        myDebug() << "fail to pharse content of" << fileName << error << line << col;
         file.close();
         return;
     }
     file.close();
-
     QDomElement docElem = doc.documentElement();
 
     QDomNode n = docElem.firstChild();
@@ -84,10 +93,11 @@ void WebCommentary::loadModuleData(const int moduleID, const QString &name)
                     m_url = n2.firstChild().toText().data();
                 } else if(n2.nodeName() == "pharseInBook") {
                     m_pharseBookScript = n2.firstChild().toCDATASection().data();
+                    myDebug() << "book" << m_pharseBookScript;
                 } else if(n2.nodeName() == "pharseInChapter") {
-                    m_pharseBookScript = n2.firstChild().toCDATASection().data();
+                    m_pharseChapterScript = n2.firstChild().toCDATASection().data();
                 } else if(n2.nodeName() == "pharseInVerse") {
-                    m_pharseBookScript = n2.firstChild().toCDATASection().data();
+                    m_pharseVerseScript = n2.firstChild().toCDATASection().data();
                 } else if(n2.nodeName() == "pharseOut") {
                     m_pharseOutScript = n2.firstChild().toCDATASection().data();
                 } else if(n2.nodeName() == "books") {
@@ -95,11 +105,12 @@ void WebCommentary::loadModuleData(const int moduleID, const QString &name)
                     int i = 0;
                     while(!n3.isNull()) {
                          if(n3.nodeName() == "book") {
-                             const int bookID = n3.toElement().attribute("bookID", QString::number(i)).toInt();
+                             const int bookID = n3.toElement().attribute("id", QString::number(i)).toInt();
                              struct WebCommentaryBooksData d = {bookID, n3.firstChild().toText().data()};
                              m_books.insert(bookID, d);
                              i++;
                          }
+                         n3 = n3.nextSibling();
                     }
                 }
                 n2 = n2.nextSibling();
@@ -107,8 +118,9 @@ void WebCommentary::loadModuleData(const int moduleID, const QString &name)
         }
         n = n.nextSibling();
     }
+
     if(!m_v11nName.isEmpty()) {
-        ModuleSettings *settings = m_settings->getModuleSettings(m_moduleID);
+
         settings->versificationFile = "";
         settings->versificationName = m_v11nName;
         m_versification = settings->loadVersification();
@@ -137,6 +149,7 @@ bool WebCommentary::loaded()
 }
 QString WebCommentary::pharseUrl(const QUrl &url)
 {
+    DEBUG_FUNC_NAME
     if(!loaded())
         loadModuleData(m_moduleID);
 

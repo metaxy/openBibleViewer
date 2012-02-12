@@ -341,6 +341,7 @@ set( openBibleViewer_SRCS
     src/ui/interface/advanced/form/dictionaryform.cpp
     src/ui/interface/advanced/form/bookform.cpp
     src/ui/interface/advanced/form/webviewform.cpp
+    src/ui/interface/advanced/form/commentaryform.cpp
 
     src/ui/webview.cpp
     src/ui/interface/advanced/manager/windowmanager.cpp
@@ -400,6 +401,7 @@ set ( openBibleViewer_UIS
     src/ui/interface/study/studyinterface.ui
 
     src/ui/interface/advanced/form/bibleform.ui
+    src/ui/interface/advanced/form/commentaryform.ui
     src/ui/interface/advanced/form/bookform.ui
     src/ui/interface/advanced/form/webform.ui
     src/ui/interface/advanced/form/dictionaryform.ui
@@ -485,6 +487,7 @@ set ( openBibleViewer_MOCS
     src/ui/interface/advanced/form/dictionaryform.h
     src/ui/interface/advanced/form/bookform.h
     src/ui/interface/advanced/form/webviewform.h
+    src/ui/interface/advanced/form/commentaryform.h
 
     src/ui/interface/advanced/advancedinterface.h
     src/ui/interface/advanced/subwindowfilter.h

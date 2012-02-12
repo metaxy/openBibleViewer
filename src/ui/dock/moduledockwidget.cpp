@@ -80,7 +80,7 @@ void ModuleDockWidget::loadModuleData(QModelIndex index, Actions::OpenLinkModifi
 {
     const int moduleID = index.data(Qt::UserRole + 1).toInt();
     if(m_dontLoad == false && moduleID >= 0) {
-
+        m_moduleID = moduleID;
         Module *m = m_moduleManager->getModule(moduleID);
         //const ModuleTools::ModuleType type = m->moduleType();
         const ModuleTools::ModuleClass cl = m->moduleClass();
@@ -94,11 +94,20 @@ void ModuleDockWidget::loadModuleData(QModelIndex index, Actions::OpenLinkModifi
             m_actions->get("book:/" + QString::number(moduleID), mod);
             m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
         } else if(cl == ModuleTools::CommentaryClass) {
-            m_actions->get("commentary:/" + QString::number(moduleID), mod);
+            VerseUrlRange range;
+            range.setModule(moduleID);
+            range.setBook(VerseUrlRange::LoadCurrentBook);
+            range.setChapter(VerseUrlRange::LoadCurrentChapter);
+            range.setStartVerse(VerseUrlRange::LoadCurrentVerse);
+            range.setOpenToTransformation(true);
+
+            VerseUrl url(range);
+            m_actions->get(url, mod);
             m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
+
         }  else if(cl == ModuleTools::BibleModuleClass) {
             myDebug() << "bible";
-            m_moduleID = moduleID;
+
             VerseUrlRange range;
             range.setModule(moduleID);
             range.setBook(VerseUrlRange::LoadCurrentBook);

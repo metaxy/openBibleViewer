@@ -133,7 +133,7 @@ private:
     void toolBarSetText();
 
     WindowManager *m_windowManager;
-    BibleManager *m_bibleManager;
+    VerseModuleManager *m_bibleManager;
     NotesManager *m_notesManager;
     SearchManager *m_searchManager;
     BookmarksManager *m_bookmarksManager;

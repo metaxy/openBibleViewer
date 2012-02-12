@@ -90,6 +90,8 @@ QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, For
         form = new DictionaryForm(widget);
     } else if(type == Form::BookForm) {
         form = new BookForm(widget);
+    } else if(type == Form::CommentaryForm) {
+        form = new CommentaryForm(widget);
     }
     form->setID(m_nameCounter);
     form->setObjectName("mdiForm");
@@ -472,8 +474,6 @@ void WindowManager::tile(bool checked)
         tile();
     }
 }
-
-
 QList<QMdiSubWindow*> WindowManager::usableWindowList() const
 {
     QList<QMdiSubWindow*> ret;

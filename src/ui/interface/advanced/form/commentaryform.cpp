@@ -1,6 +1,8 @@
 #include "commentaryform.h"
 #include "ui_commentaryform.h"
-
+#include "src/module/response/urlresponse.h"
+#include "src/core/verse/reftext.h"
+#include "src/core/link/biblelink.h"
 CommentaryForm::CommentaryForm(QWidget *parent) :
     WebViewForm(parent),
     ui(new Ui::CommentaryForm)
@@ -8,6 +10,7 @@ CommentaryForm::CommentaryForm(QWidget *parent) :
     ui->setupUi(this);
     ui->verticalLayout->addWidget(m_view);
     m_com = NULL;
+    connect(ui->lineEdit, SIGNAL(returnPressed()), this, SLOT(changeLocation()));
 }
 
 CommentaryForm::~CommentaryForm()
@@ -22,11 +25,59 @@ Form::FormType CommentaryForm::type() const
 {
     return Form::CommentaryForm;
 }
-void CommentaryForm::pharseUrl(QString url)
+void CommentaryForm::pharseUrl(QString string)
 {
-    url = url.remove(0, ModuleTools::webPageScheme.size());
-    openModule(url.toInt());
+    VerseUrl url;
+    if(!url.fromUrl(string)) {
+        return;
+    }
+    pharseUrl(url);
 }
+void CommentaryForm::pharseUrl(VerseUrl url)
+{
+    if(m_com == NULL) {
+        m_com = new WebCommentary();
+        m_moduleManager->initSimpleModule(m_com);
+    }
+    if(m_com == NULL) {
+        myDebug() << "its null";
+        return;
+    }
+    bool showStart = false;
+
+    if(m_url.isValid()) {
+        m_url = m_url.applyUrl(url);
+        showStart = true;
+    } else {
+        m_url = url;
+       /* if(loaded() && !m_url.hasModuleID()) {
+            m_url.setModuleID(verseModule()->moduleID());
+        }*/
+    }
+    Ranges ranges;
+    foreach(VerseUrlRange range, m_url.ranges()) {
+        ranges.addRange(range.toRange());
+    }
+    ranges.setSource(m_url);
+    m_com->setModuleID(ranges.getList().first().moduleID());
+    Response *res = m_com->readRanges(ranges);
+    myDebug() << res;
+    if(res != NULL && res->isValid() && res->type() == Response::UrlReponse) {
+        UrlResponse *u = (UrlResponse*) res;
+        myDebug() << u->url();
+        m_view->load(QUrl(u->url()));
+    }
+
+    RefText ref;
+    ref.setSettings(m_settings);
+    ui->lineEdit->setText(ref.toString(ranges));
+}
+void CommentaryForm::changeLocation()
+{
+    BibleLink link(m_com->moduleID(), m_com->versification());
+    pharseUrl(link.getUrl(ui->lineEdit->text()));
+}
+
 void CommentaryForm::init()
 {
 }

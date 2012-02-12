@@ -27,11 +27,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/ui/interface/advanced/manager/windowmanager.h"
 
-class BibleManager : public QObject, public BasicClass
+class VerseModuleManager : public QObject, public BasicClass
 {
     Q_OBJECT
 public:
-    explicit BibleManager(QObject *parent = 0);
+    explicit VerseModuleManager(QObject *parent = 0);
     void init();
     void setWidget(QWidget *p);
     void createDocks();
@@ -54,7 +54,6 @@ public slots:
 
     void nextChapter();
     void previousChapter();
-    void loadBibleList(bool hadBible);
 
     void reloadCurrentRange(bool full);
 

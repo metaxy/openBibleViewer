@@ -12,34 +12,33 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "biblemanager.h"
-
-BibleManager::BibleManager(QObject *parent) :
+#include "src/ui/interface/advanced/form/commentaryform.h"
+VerseModuleManager::VerseModuleManager(QObject *parent) :
     QObject(parent)
 {
 }
 
-void BibleManager::setWidget(QWidget *p)
+void VerseModuleManager::setWidget(QWidget *p)
 {
     m_p = p;
 }
 
-void BibleManager::setWindowManager(WindowManager *windowManager)
+void VerseModuleManager::setWindowManager(WindowManager *windowManager)
 {
     m_windowManager = windowManager;
 }
 
-void BibleManager::init()
+void VerseModuleManager::init()
 {
     connect(m_actions, SIGNAL(_get(VerseUrl,Actions::OpenLinkModifiers)), this, SLOT(pharseUrl(VerseUrl,Actions::OpenLinkModifiers)));
     connect(m_actions, SIGNAL(_previousChapter()), this, SLOT(previousChapter()));
     connect(m_actions, SIGNAL(_nextChapter()), this, SLOT(nextChapter()));
-    connect(m_actions, SIGNAL(_loadVerseTable(bool)), this, SLOT(loadBibleList(bool)));
     connect(m_actions, SIGNAL(_reloadCurrentRange(bool)), this, SLOT(reloadCurrentRange(bool)));
     //connect(m_actions, SIGNAL(_reloadBible()), this, SLOT(reloadBible()));
     connect(m_actions, SIGNAL(_setCurrentVerseTableID(int)), this, SLOT(setCurrentVerseTableID(int)));
 }
 
-void BibleManager::createDocks()
+void VerseModuleManager::createDocks()
 {
     m_moduleDockWidget = new ModuleDockWidget(m_p);
     setAll(m_moduleDockWidget);
@@ -57,7 +56,7 @@ void BibleManager::createDocks()
     m_quickJumpDockWidget->hide();
 }
 
-QHash<DockWidget*, Qt::DockWidgetArea> BibleManager::docks()
+QHash<DockWidget*, Qt::DockWidgetArea> VerseModuleManager::docks()
 {
     //DEBUG_FUNC_NAME
     QHash<DockWidget *, Qt::DockWidgetArea> ret;
@@ -68,11 +67,25 @@ QHash<DockWidget*, Qt::DockWidgetArea> BibleManager::docks()
 
 }
 
-void BibleManager::pharseUrl(VerseUrl url, const Actions::OpenLinkModifiers mod)
+void VerseModuleManager::pharseUrl(VerseUrl url, const Actions::OpenLinkModifiers mod)
 {
     DEBUG_FUNC_NAME
     myDebug() << url.toString();
     QMdiSubWindow *window;
+
+    const int moduleID = url.ranges().first().moduleID();
+    if(m_moduleManager->getModule(moduleID)->moduleClass() == ModuleTools::CommentaryClass) {
+        if(mod == Actions::OpenInNewWindow) {
+            window = m_windowManager->newSubWindow(true,false, Form::CommentaryForm);
+        } else {
+            window = m_windowManager->needWindow(Form::CommentaryForm);
+        }
+        CommentaryForm *form = (CommentaryForm*)(m_windowManager->getForm(window));
+        form->pharseUrl(url);
+        //do stuff
+        return;
+    }
+
     if(mod == Actions::OpenInNewWindow) {
         window = m_windowManager->newBibleSubWindow();
     } else {
@@ -93,16 +106,34 @@ void BibleManager::pharseUrl(VerseUrl url, const Actions::OpenLinkModifiers mod)
 
 }
 
-void BibleManager::pharseUrl(QString url, const Actions::OpenLinkModifiers mod)
+void VerseModuleManager::pharseUrl(QString url, const Actions::OpenLinkModifiers mod)
 {
     DEBUG_FUNC_NAME
     QMdiSubWindow *window;
+
+    if(url.startsWith(ModuleTools::verseScheme)) {
+        VerseUrl u;
+        u.fromUrl(url);
+        const int moduleID = u.ranges().first().moduleID();
+        if(m_moduleManager->getModule(moduleID)->moduleClass() == ModuleTools::CommentaryClass) {
+            if(mod == Actions::OpenInNewWindow) {
+                window = m_windowManager->newSubWindow(true,false, Form::CommentaryForm);
+            } else {
+                window = m_windowManager->needWindow(Form::CommentaryForm);
+            }
+            CommentaryForm *form = (CommentaryForm*)(m_windowManager->getForm(window));
+            form->pharseUrl(url);
+            //do stuff
+            return;
+        }
+    }
+    //otherwise its a bible
+
     if(mod == Actions::OpenInNewWindow) {
         window = m_windowManager->newBibleSubWindow();
     } else {
         window = m_windowManager->needBibleWindow();
     }
-
     //open a bible window
     BibleForm *f = (BibleForm*)(m_windowManager->getForm(window));
     myDebug() << f->verseTableLoaded();
@@ -111,28 +142,22 @@ void BibleManager::pharseUrl(QString url, const Actions::OpenLinkModifiers mod)
     }
     f->pharseUrl(url);
 }
-void BibleManager::nextChapter()
+void VerseModuleManager::nextChapter()
 {
     if(m_windowManager->activeForm()->type() == Form::BibleForm) {
         ((BibleForm*)(m_windowManager->activeForm()))->nextChapter();
     }
 }
 
-void BibleManager::previousChapter()
+void VerseModuleManager::previousChapter()
 {
     if(m_windowManager->activeForm()->type() == Form::BibleForm) {
         ((BibleForm*)(m_windowManager->activeForm()))->previousChapter();
     }
 }
 
-void BibleManager::loadBibleList(bool hadBible)
-{
-    DEBUG_FUNC_NAME
 
-}
-
-
-void BibleManager::reloadCurrentRange(bool full)
+void VerseModuleManager::reloadCurrentRange(bool full)
 {
     if(!m_windowManager->activeForm())
         return;
@@ -141,21 +166,21 @@ void BibleManager::reloadCurrentRange(bool full)
     }
 
 }
-BookDockWidget *BibleManager::bookDockWidget()
+BookDockWidget *VerseModuleManager::bookDockWidget()
 {
     return m_bookDockWidget;
 }
 
-ModuleDockWidget *BibleManager::moduleDockWidget()
+ModuleDockWidget *VerseModuleManager::moduleDockWidget()
 {
     return m_moduleDockWidget;
 }
 
-QuickJumpDockWidget * BibleManager::quickJumpDockWidget()
+QuickJumpDockWidget * VerseModuleManager::quickJumpDockWidget()
 {
     return m_quickJumpDockWidget;
 }
-void BibleManager::setCurrentVerseTableID(const int verseTableID)
+void VerseModuleManager::setCurrentVerseTableID(const int verseTableID)
 {
     if(m_windowManager->activeForm()->type() == Form::BibleForm) {
         ((BibleForm*)(m_windowManager->activeForm()))->verseTable()->setCurrentVerseTableID(verseTableID);

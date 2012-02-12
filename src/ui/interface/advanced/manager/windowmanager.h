@@ -33,6 +33,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/interface/advanced/form/bibleform.h"
 #include "src/ui/interface/advanced/form/webform.h"
 #include "src/ui/interface/advanced/form/bookform.h"
+#include "src/ui/interface/advanced/form/commentaryform.h"
 class WindowManager : public QObject , public BasicClass
 {
     Q_OBJECT
@@ -58,6 +59,7 @@ public slots:
     void tileVertical(bool checked);
     void tileHorizontal(bool checked);
     void tile(bool checked);
+
     QMdiSubWindow * newSubWindow(bool doAutoLayout = true, bool forceMax = false, Form::FormType type = Form::BibleForm);
     QMdiSubWindow * newBibleSubWindow(bool doAutoLayout = true, bool forceMax = false);
     QMdiSubWindow * newWebSubWindow(bool doAutoLayout = true, bool forceMax = false);
