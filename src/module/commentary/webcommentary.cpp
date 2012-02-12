@@ -93,7 +93,6 @@ void WebCommentary::loadModuleData(const int moduleID, const QString &name)
                     m_url = n2.firstChild().toText().data();
                 } else if(n2.nodeName() == "pharseInBook") {
                     m_pharseBookScript = n2.firstChild().toCDATASection().data();
-                    myDebug() << "book" << m_pharseBookScript;
                 } else if(n2.nodeName() == "pharseInChapter") {
                     m_pharseChapterScript = n2.firstChild().toCDATASection().data();
                 } else if(n2.nodeName() == "pharseInVerse") {
@@ -120,7 +119,6 @@ void WebCommentary::loadModuleData(const int moduleID, const QString &name)
     }
 
     if(!m_v11nName.isEmpty()) {
-
         settings->versificationFile = "";
         settings->versificationName = m_v11nName;
         m_versification = settings->loadVersification();

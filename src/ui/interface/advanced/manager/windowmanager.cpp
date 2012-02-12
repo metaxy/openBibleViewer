@@ -73,10 +73,6 @@ QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, For
     setEnableReload(false);
 
     const int windowsCount = usableWindowList().size();
-    QMdiSubWindow *firstSubWindow = NULL;
-    if(windowsCount == 1) {
-        firstSubWindow = usableWindowList().at(0);
-    }
 
     QWidget *widget = new QWidget(m_area);
     QVBoxLayout *layout = new QVBoxLayout(widget);
@@ -118,20 +114,8 @@ QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, For
 
     if(forceMax) {
         subWindow->showMaximized();
-    } else if(m_area->viewMode() == QMdiArea::SubWindowView) {
-        if(windowsCount == 0  && doAutoLayout) {
-            subWindow->showMaximized();
-        } else if(windowsCount == 1 && doAutoLayout) {
-            if(firstSubWindow != NULL) {
-                firstSubWindow->resize(600, 600);
-                firstSubWindow->showNormal();
-            }
-            subWindow->resize(600, 600);
-            subWindow->show();
-        } else if(doAutoLayout) {
-            subWindow->resize(600, 600);
-            subWindow->show();
-        }
+    } else {
+        subWindow->show();
     }
 
     form->setParentSubWindow(subWindow);
@@ -643,6 +627,8 @@ void WindowManager::restore()
             t = Form::DictionaryForm;
         } else if(type == "book") {
             t = Form::BookForm;
+        } else if(type == "commentary") {
+            t = Form::CommentaryForm;
         }
         QMdiSubWindow *w = newSubWindow(true, max, t);
 

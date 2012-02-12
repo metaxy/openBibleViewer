@@ -93,9 +93,9 @@ void CommentaryForm::activated()
 
 void CommentaryForm::save()
 {
-   /* const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
-    m_settings->session.file()->setValue(a + "type", "web");
-    m_settings->session.file()->setValue(a + "url", m_view->url());
+    const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
+    m_settings->session.file()->setValue(a + "type", "commentary");
+   /* m_settings->session.file()->setValue(a + "url", m_view->url());
 
     QByteArray history;
     QDataStream historyStream(&history, QIODevice::ReadWrite);
@@ -106,13 +106,13 @@ void CommentaryForm::save()
 
 void CommentaryForm::restore(const QString &key)
 {
-    /*const QString a = m_settings->session.id() + "/windows/" + key + "/";
+    const QString a = m_settings->session.id() + "/windows/" + key + "/";
 
-    QUrl url = m_settings->session.file()->value(a + "url").toUrl();
+   /* QUrl url = m_settings->session.file()->value(a + "url").toUrl();
     if(url.isValid())
         m_view->load(url);
 
-    QByteArray history = QByteArray::fromBase64(m_settings->session.file()->value(a + "history").toByteArray());
+   QByteArray history = QByteArray::fromBase64(m_settings->session.file()->value(a + "history").toByteArray());
     QDataStream readingStream(&history, QIODevice::ReadOnly);
     QWebHistory *hist  = m_view->history();
     readingStream >> *(hist);*/

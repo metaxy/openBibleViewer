@@ -72,8 +72,9 @@ void VerseModuleManager::pharseUrl(VerseUrl url, const Actions::OpenLinkModifier
     DEBUG_FUNC_NAME
     myDebug() << url.toString();
     QMdiSubWindow *window;
-
     const int moduleID = url.ranges().first().moduleID();
+    Form::FormType type;
+
     if(m_moduleManager->getModule(moduleID)->moduleClass() == ModuleTools::CommentaryClass) {
         if(mod == Actions::OpenInNewWindow) {
             window = m_windowManager->newSubWindow(true,false, Form::CommentaryForm);

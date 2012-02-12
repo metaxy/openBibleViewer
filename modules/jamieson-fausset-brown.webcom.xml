@@ -10,7 +10,14 @@
         <site>
             <url>http://www.biblestudytools.com/commentaries/jamieson-fausset-brown/</url>
             <pharseInBook><![CDATA[
-                (function(bookID, bookName) { 
+                (function(bookID, bookName) {
+                    if(bookID == 18) {
+                        if(chapter < 75)
+                            bookName = "psalms-1-75";
+                        else 
+                            bookName = "psalms-76-150";
+                    }
+                    
                     if(bookID == 63)
                         return "http://www.biblestudytools.com/commentaries/jamieson-fausset-brown/"+bookName+"/"+bookName+"-1.html";
                     else 
