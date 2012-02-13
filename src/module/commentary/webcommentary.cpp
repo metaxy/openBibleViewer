@@ -23,11 +23,10 @@ Response* WebCommentary::readRanges(const Ranges &ranges, bool ignoreModuleID)
             /*
     CompiledRange range = this->toCompiledRange(ranges.getList().first());*/
 
-
     if(!loaded())
         loadModuleData(m_moduleID);
-    Range range = ranges.getList().first();
 
+    Range range = ranges.getList().first();
     QScriptValue fun = myEngine.evaluate(m_pharseVerseScript);
     QScriptValueList args;
     args << range.bookID << m_books.value(range.bookID).key << range.chapterID << range.startVerse << range.endVerse;
