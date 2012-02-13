@@ -60,11 +60,7 @@ public slots:
     void tileHorizontal(bool checked);
     void tile(bool checked);
 
-    QMdiSubWindow * newSubWindow(bool doAutoLayout = true, bool forceMax = false, Form::FormType type = Form::BibleForm);
-    QMdiSubWindow * newBibleSubWindow(bool doAutoLayout = true, bool forceMax = false);
-    QMdiSubWindow * newWebSubWindow(bool doAutoLayout = true, bool forceMax = false);
-    QMdiSubWindow * newDictionarySubWindow(bool doAutoLayout = true, bool forceMax = false);
-    QMdiSubWindow * newBookSubWindow(bool doAutoLayout = true, bool forceMax = false);
+    QMdiSubWindow * newSubWindow(Form::FormType type = Form::BibleForm, bool forceMax = false);
 
     Form* getForm(QMdiSubWindow *w) const;
 
@@ -86,14 +82,9 @@ public slots:
     void restore();
     void setTitle(const QString &title);
 
-    void newSubWindowIfEmpty();
     void autoLayout();
 
-    QMdiSubWindow* needBibleWindow();
-    QMdiSubWindow* needDictionaryWindow();
-    QMdiSubWindow* needDictionaryWindow(ModuleTools::ContentType contentType);
-    QMdiSubWindow* needWebWindow();
-    QMdiSubWindow* needWindow(Form::FormType type = Form::BibleForm);
+    QMdiSubWindow* needWindow(Form::FormType type);
     QMdiSubWindow* needWindow(Form::FormType type, ModuleTools::ContentType contentType);
 
     QMdiSubWindow* hasDictWindow(ModuleTools::DefaultModule d);

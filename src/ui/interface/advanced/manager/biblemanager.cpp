@@ -77,7 +77,7 @@ void VerseModuleManager::pharseUrl(VerseUrl url, const Actions::OpenLinkModifier
 
     if(m_moduleManager->getModule(moduleID)->moduleClass() == ModuleTools::CommentaryClass) {
         if(mod == Actions::OpenInNewWindow) {
-            window = m_windowManager->newSubWindow(true,false, Form::CommentaryForm);
+            window = m_windowManager->newSubWindow(Form::CommentaryForm);
         } else {
             window = m_windowManager->needWindow(Form::CommentaryForm);
         }
@@ -88,28 +88,26 @@ void VerseModuleManager::pharseUrl(VerseUrl url, const Actions::OpenLinkModifier
     }
 
     if(mod == Actions::OpenInNewWindow) {
-        window = m_windowManager->newBibleSubWindow();
+        window = m_windowManager->newSubWindow(Form::BibleForm);
     } else {
-        window = m_windowManager->needBibleWindow();
+        window = m_windowManager->needWindow(Form::BibleForm);
     }
     BibleForm *f = (BibleForm*)(m_windowManager->getForm(window));
-
-
-
+    pharseUrl(f, url);
 }
 
 void VerseModuleManager::pharseUrl(QString url, const Actions::OpenLinkModifiers mod)
 {
     DEBUG_FUNC_NAME
     QMdiSubWindow *window;
-
+    VerseUrl u;
+    u.fromUrl(url);
     if(url.startsWith(ModuleTools::verseScheme)) {
-        VerseUrl u;
-        u.fromUrl(url);
+
         const int moduleID = u.ranges().first().moduleID();
         if(m_moduleManager->getModule(moduleID)->moduleClass() == ModuleTools::CommentaryClass) {
             if(mod == Actions::OpenInNewWindow) {
-                window = m_windowManager->newSubWindow(true,false, Form::CommentaryForm);
+                window = m_windowManager->newSubWindow(Form::CommentaryForm);
             } else {
                 window = m_windowManager->needWindow(Form::CommentaryForm);
             }
@@ -122,17 +120,13 @@ void VerseModuleManager::pharseUrl(QString url, const Actions::OpenLinkModifiers
     //otherwise its a bible
 
     if(mod == Actions::OpenInNewWindow) {
-        window = m_windowManager->newBibleSubWindow();
+        window = m_windowManager->newSubWindow(Form::BibleForm);
     } else {
-        window = m_windowManager->needBibleWindow();
+        window = m_windowManager->needWindow(Form::BibleForm);
     }
     //open a bible window
     BibleForm *f = (BibleForm*)(m_windowManager->getForm(window));
-    myDebug() << f->verseTableLoaded();
-    if(!f->verseTableLoaded()) {
-        f->newModule();
-    }
-    f->pharseUrl(url);
+    pharseUrl(f, u);
 }
 void VerseModuleManager::pharseUrl(BibleForm *f, const VerseUrl &url)
 {

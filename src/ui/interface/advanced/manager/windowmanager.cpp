@@ -63,12 +63,7 @@ void WindowManager::init()
     }
 }
 
-void WindowManager::newSubWindowIfEmpty()
-{
-    if(usableWindowList().isEmpty())
-        newBibleSubWindow();
-}
-QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, Form::FormType type)
+QMdiSubWindow* WindowManager::newSubWindow(Form::FormType type, bool forceMax)
 {
     setEnableReload(false);
 
@@ -123,7 +118,7 @@ QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, For
     form->activated();
 
     setEnableReload(true);
-    if(doAutoLayout && m_area->viewMode() == QMdiArea::SubWindowView && windowsCount > 0) {
+    if(m_area->viewMode() == QMdiArea::SubWindowView && windowsCount > 0) {
         autoLayout();
     }
     m_actions->clearBooks();
@@ -131,27 +126,10 @@ QMdiSubWindow* WindowManager::newSubWindow(bool doAutoLayout, bool forceMax, For
     return subWindow;
 }
 
-QMdiSubWindow* WindowManager::newBibleSubWindow(bool doAutoLayout, bool forceMax)
-{
-    return newSubWindow(doAutoLayout, forceMax, Form::BibleForm);
-}
-
-QMdiSubWindow* WindowManager::newWebSubWindow(bool doAutoLayout, bool forceMax)
-{
-    return newSubWindow(doAutoLayout, forceMax, Form::WebForm);
-}
-QMdiSubWindow* WindowManager::newDictionarySubWindow(bool doAutoLayout, bool forceMax)
-{
-    return newSubWindow(doAutoLayout, forceMax, Form::DictionaryForm);
-}
-QMdiSubWindow* WindowManager::newBookSubWindow(bool doAutoLayout, bool forceMax)
-{
-    return newSubWindow(doAutoLayout, forceMax, Form::BookForm);
-}
 QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
 {
     if(usableWindowList().isEmpty()) {
-        return newSubWindow(true, false, type);
+        return newSubWindow(type);
     } else if(activeForm() != NULL) {
         if(activeForm()->type() != type) {
             QMdiSubWindow *window = NULL;
@@ -167,13 +145,13 @@ QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
             if(window) {
                 return window;
             } else {
-                return newSubWindow(true, false, type);
+                return newSubWindow(type);
             }
         } else {
             return activeSubWindow();
         }
     }
-    return newSubWindow(true, false, type);
+    return newSubWindow(type);
 }
 /**
   * No Windows => Create Window
@@ -184,7 +162,7 @@ QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
 QMdiSubWindow* WindowManager::needWindow(Form::FormType type, ModuleTools::ContentType cType)
 {
     if(usableWindowList().isEmpty()) {
-        return newSubWindow(true, false, type);
+        return newSubWindow(type);
     } else if(activeForm() != NULL) {
         if(activeForm()->type() != type) {
             QMdiSubWindow *window = NULL;
@@ -203,33 +181,15 @@ QMdiSubWindow* WindowManager::needWindow(Form::FormType type, ModuleTools::Conte
             if(window) {
                 return window;
             } else {
-                return newSubWindow(true, false, type);
+                return newSubWindow(type);
             }
         } else {
             return activeSubWindow();
         }
     }
-    return newSubWindow(true, false, type);
+    return newSubWindow(type);
 }
 
-QMdiSubWindow* WindowManager::needBibleWindow()
-{
-    return needWindow(Form::BibleForm);
-}
-
-QMdiSubWindow* WindowManager::needDictionaryWindow()
-{
-    return needWindow(Form::DictionaryForm);
-}
-QMdiSubWindow* WindowManager::needDictionaryWindow(ModuleTools::ContentType contentType)
-{
-    return needWindow(Form::DictionaryForm, contentType);
-}
-
-QMdiSubWindow* WindowManager::needWebWindow()
-{
-    return needWindow(Form::WebForm);
-}
 
 QMdiSubWindow* WindowManager::hasDictWindow(ModuleTools::DefaultModule d)
 {
@@ -630,7 +590,7 @@ void WindowManager::restore()
         } else if(type == "commentary") {
             t = Form::CommentaryForm;
         }
-        QMdiSubWindow *w = newSubWindow(true, max, t);
+        QMdiSubWindow *w = newSubWindow(t, max);
 
         if(viewMode == 0 && !max) {
             w->setGeometry(geo);

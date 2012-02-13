@@ -22,11 +22,11 @@ void WebPageManager::setWindowManager(WindowManager *windowManager)
 }
 void WebPageManager::pharseUrl(const QString &url)
 {
-    WebForm *f = (WebForm*)(m_windowManager->getForm(m_windowManager->needWebWindow()));
+    WebForm *f = (WebForm*)(m_windowManager->getForm(m_windowManager->needWindow(Form::WebForm)));
     f->pharseUrl(url);
 }
 void WebPageManager::pharseWebUrl(const QString &url)
 {
-    WebForm *f = (WebForm*)(m_windowManager->getForm(m_windowManager->needWebWindow()));
+    WebForm *f = (WebForm*)(m_windowManager->getForm(m_windowManager->needWindow(Form::WebForm)));
     f->pharseWebUrl(url);
 }

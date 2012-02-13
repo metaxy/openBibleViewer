@@ -87,7 +87,7 @@ void QuickJumpDockWidget::goToPos()
         m_actions->get(link.getUrl(text));
     } else {
 
-        m_windowManager->newBibleSubWindow();
+        m_windowManager->newSubWindow(Form::BibleForm);
         int defaultModuleID = -1;
         QMapIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
         while(i.hasNext()) {

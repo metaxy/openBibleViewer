@@ -47,7 +47,6 @@ DictionaryDockWidget* DictionaryManager::dictionaryDockWidget()
 void DictionaryManager::open(const QString &key, ModuleTools::ContentType contentType, const Actions::OpenLinkModifiers mod)
 {
     ModuleTools::DefaultModule defaultModule = ModuleTools::toDefaultModule(contentType);
-    myDebug() << "content = " << contentType << " so the defaultModule is" << defaultModule;
     //get default module id for this
     int defaultModuleID = -1;
     int contentModuleID = -1;
@@ -68,16 +67,14 @@ void DictionaryManager::open(const QString &key, ModuleTools::ContentType conten
             justDictModuleID = i2.key();
     }
 
-    myDebug() << defaultModuleID << contentModuleID << justDictModuleID;
     DictionaryForm *f = NULL;
     QMdiSubWindow *w = m_windowManager->hasDictWindow(defaultModule);
 
 
     if(mod == Actions::OpenInNewWindow) {
         //we will open a new window anyway
-        w = m_windowManager->newDictionarySubWindow();
+        w = m_windowManager->newSubWindow(Form::DictionaryForm);
         f = (DictionaryForm*) m_windowManager->getForm(w);
-        m_windowManager->activate(w);
     } else {
         if(w) {
            f = (DictionaryForm*) m_windowManager->getForm(w);
@@ -88,20 +85,20 @@ void DictionaryManager::open(const QString &key, ModuleTools::ContentType conten
                 m_windowManager->activate(w);
            } else {
                 //we will find a better one
-                w = m_windowManager->needDictionaryWindow(contentType);
+                w = m_windowManager->needWindow(Form::DictionaryForm,contentType);
                 f = ((DictionaryForm*)m_windowManager->getForm(w));
            }
 
         } else {
             //we need a new dictionary window, because there are no dictionary windows
-            w = m_windowManager->needDictionaryWindow();
+            w = m_windowManager->needWindow(Form::DictionaryForm);
             f = ((DictionaryForm*)m_windowManager->getForm(w));
         }
     }
     //something gone wrong
     if(f == NULL)
         return;
-    //we could reuse thios module
+    //we could reuse this module
     if(f->dictionary()) {
         myDebug() << "has already a dictionary";
         ModuleTools::ContentType type = m_windowManager->contentType(f);
@@ -157,9 +154,9 @@ void DictionaryManager::pharseUrl(QString url, const Actions::OpenLinkModifiers 
         //dict:/module/key
         QMdiSubWindow *window = NULL;
         if(mod == Actions::OpenInNewWindow) {
-            window = m_windowManager->newDictionarySubWindow();
+            window = m_windowManager->newSubWindow(Form::DictionaryForm);
         } else {
-            window = m_windowManager->needDictionaryWindow();
+            window = m_windowManager->needWindow(Form::DictionaryForm);
         }
 
         url = url.remove(0, ModuleTools::dictScheme.size());
