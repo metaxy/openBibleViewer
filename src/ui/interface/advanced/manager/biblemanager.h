@@ -43,6 +43,8 @@ public:
 
     void setWindowManager(WindowManager *windowManager);
 
+
+
 signals:
 
     void updateChapters();
@@ -60,7 +62,8 @@ public slots:
     void setCurrentVerseTableID(const int verseTableID);
 
 private:
-
+    void pharseUrl(BibleForm *f, const VerseUrl &url);
+    void pharseUrl(CommentaryForm *form, const VerseUrl &url);
     QWidget *m_p;
 
     BookDockWidget *m_bookDockWidget;

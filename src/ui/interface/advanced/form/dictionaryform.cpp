@@ -36,6 +36,8 @@ DictionaryForm::DictionaryForm(QWidget *parent) :
     connect(ui->lineEdit_input, SIGNAL(returnPressed()), this, SLOT(showEntry()));
     connect(ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
     connect(ui->toolButton_back, SIGNAL(clicked()), this, SLOT(backward()));
+    ui->toolButton_back->setShortcut(QKeySequence::Back);
+    ui->toolButton_forward->setShortcut(QKeySequence::Forward);
 
     m_dictionary = NULL;
 

@@ -74,7 +74,6 @@ void WebCommentary::loadModuleData(const int moduleID, const QString &name)
             while(!n2.isNull()) {
                 if(n2.nodeName() == "name") {
                     m_name = n2.firstChild().toText().data();
-
                 } else if(n2.nodeName() == "shortName") {
                     m_shortName = n2.firstChild().toText().data();
                 } else if(n2.nodeName() == "desc") {

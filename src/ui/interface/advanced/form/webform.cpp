@@ -43,6 +43,9 @@ WebForm::WebForm(QWidget *parent) :
     connect(m_ui->toolButton_back, SIGNAL(clicked()), m_view, SLOT(back()));
     connect(m_ui->toolButton_reloadStop, SIGNAL(clicked()), m_view, SLOT(reload()));
 
+    m_ui->toolButton_back->setShortcut(QKeySequence::Back);
+    m_ui->toolButton_forward->setShortcut(QKeySequence::Forward);
+
     m_page = NULL;
 }
 

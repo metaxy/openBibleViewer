@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "webviewform.h"
+#include "src/core/history.h"
 #include "src/module/commentary/webcommentary.h"
 namespace Ui {
 class CommentaryForm;
@@ -26,14 +27,21 @@ public:
 
     Form::FormType type() const;
     void activated();
+
+    void showRanges(Ranges ranges, const VerseUrl &source);
 private:
     bool loaded();
 private slots:
     void changeLocation();
+    void backward();
+    void forward();
 private:
     Ui::CommentaryForm *ui;
     WebCommentary *m_com;
     VerseUrl m_url;
+    History m_browserHistory;
+    void setButtons();
+    void historySetUrl(QString url);
 };
 
 #endif // COMMENTARYFORM_H

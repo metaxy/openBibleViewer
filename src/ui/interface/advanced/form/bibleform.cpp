@@ -311,8 +311,6 @@ void BibleForm::restore(const QString &key)
     m_verseTable->clear();
     const QStringList urls = m_settings->session.file()->value(a + "urls").toStringList();
     const QStringList points = m_settings->session.file()->value(a + "biblePoints").toStringList();
-    myDebug() << m_settings->session.file()->value(a + "hist1").toStringList()
-                 << m_settings->session.file()->value(a + "hist2").toStringList();
 
     for(int j = 0; j < urls.size() && j < points.size(); j++) {
         const QString url = urls.at(j);

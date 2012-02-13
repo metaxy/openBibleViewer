@@ -18,6 +18,7 @@ public:
     MetaInfo readInfo(const QString &name);
     void search(SearchQuery query, SearchResult *result);
     void clearData();
+    bool loaded();
 private:
     void loadModuleData(const int moduleID, const QString &fileName = "");
     int currentBook();
@@ -25,7 +26,7 @@ private:
     std::pair<int, int> minMaxVerse(const int bookID, const int chapterID);
 
     bool m_loaded;
-    bool loaded();
+
 
     QString m_pharseBookScript;
     QString m_pharseChapterScript;

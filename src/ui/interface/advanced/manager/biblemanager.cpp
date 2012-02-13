@@ -70,7 +70,7 @@ QHash<DockWidget*, Qt::DockWidgetArea> VerseModuleManager::docks()
 void VerseModuleManager::pharseUrl(VerseUrl url, const Actions::OpenLinkModifiers mod)
 {
     DEBUG_FUNC_NAME
-    myDebug() << url.toString();
+
     QMdiSubWindow *window;
     const int moduleID = url.ranges().first().moduleID();
     Form::FormType type;
@@ -93,17 +93,8 @@ void VerseModuleManager::pharseUrl(VerseUrl url, const Actions::OpenLinkModifier
         window = m_windowManager->needBibleWindow();
     }
     BibleForm *f = (BibleForm*)(m_windowManager->getForm(window));
-    myDebug() << f->verseTableLoaded();
-    if(!f->verseTableLoaded()) {
-        if(url.ranges().first().module() == VerseUrlRange::LoadModuleByID) {
-            f->newModule(url.ranges().first().moduleID());
-        } else {
-            f->newModule();
-        }
-    }
-    if(f->verseTableLoaded()) {
-        f->pharseUrl(url);
-    }
+
+
 
 }
 
@@ -123,7 +114,7 @@ void VerseModuleManager::pharseUrl(QString url, const Actions::OpenLinkModifiers
                 window = m_windowManager->needWindow(Form::CommentaryForm);
             }
             CommentaryForm *form = (CommentaryForm*)(m_windowManager->getForm(window));
-            form->pharseUrl(url);
+
             //do stuff
             return;
         }
@@ -143,6 +134,25 @@ void VerseModuleManager::pharseUrl(QString url, const Actions::OpenLinkModifiers
     }
     f->pharseUrl(url);
 }
+void VerseModuleManager::pharseUrl(BibleForm *f, const VerseUrl &url)
+{
+    if(!f->verseTableLoaded()) {
+        if(url.ranges().first().module() == VerseUrlRange::LoadModuleByID) {
+            f->newModule(url.ranges().first().moduleID());
+        } else {
+            f->newModule();
+        }
+    }
+    if(f->verseTableLoaded()) {
+        f->pharseUrl(url);
+    }
+}
+
+void VerseModuleManager::pharseUrl(CommentaryForm *form, const VerseUrl &url)
+{
+     form->pharseUrl(url);
+}
+
 void VerseModuleManager::nextChapter()
 {
     if(m_windowManager->activeForm()->type() == Form::BibleForm) {
