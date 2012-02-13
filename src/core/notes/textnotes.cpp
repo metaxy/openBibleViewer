@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 /***************************************************************************
 openBibleViewer - Bible Study Tool
-Copyright (C) 2009-2011 Paul Walger
+Copyright (C) 2009-2012 Paul Walger <metaxy@walger.name>
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
 Software Foundation; either version 3 of the License, or (at your option)
