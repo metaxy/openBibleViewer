@@ -1,6 +1,6 @@
 /***************************************************************************
 openBibleViewer - Bible Study Tool
-Copyright (C) 2009-2011 Paul Walger <metaxy@walger.name>
+Copyright (C) 2009-2012 Paul Walger <metaxy@walger.name>
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
 Software Foundation; either version 3 of the License, or (at your option)
@@ -20,10 +20,13 @@ WebCommentary::WebCommentary()
 Response* WebCommentary::readRanges(const Ranges &ranges, bool ignoreModuleID)
 {
     DEBUG_FUNC_NAME
-    CompiledRange range = this->toCompiledRange(ranges.getList().first());
+            /*
+    CompiledRange range = this->toCompiledRange(ranges.getList().first());*/
+
 
     if(!loaded())
         loadModuleData(m_moduleID);
+    Range range = ranges.getList().first();
 
     QScriptValue fun = myEngine.evaluate(m_pharseVerseScript);
     QScriptValueList args;
@@ -43,7 +46,7 @@ std::pair<int, int> WebCommentary::minMaxVerse(const int bookID, const int chapt
 {
     std::pair<int, int> ret;
     ret.first = 0;
-    ret.second = 0;
+    ret.second = m_versification->maxVerse().value(bookID).at(chapterID);
     return ret;
 }
 

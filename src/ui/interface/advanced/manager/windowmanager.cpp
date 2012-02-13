@@ -123,6 +123,29 @@ QMdiSubWindow* WindowManager::newSubWindow(Form::FormType type, bool forceMax)
     }
     return subWindow;
 }
+void WindowManager::newBibleSubWindow()
+{
+    newSubWindow(Form::BibleForm);
+}
+
+void WindowManager::newWebSubWindow()
+{
+    newSubWindow(Form::WebForm);
+}
+
+void WindowManager::newDictionarySubWindow()
+{
+    newSubWindow(Form::DictionaryForm);
+}
+
+void WindowManager::newBookSubWindow()
+{
+    newSubWindow(Form::BookForm);
+}
+void WindowManager::newCommentarySubWindow()
+{
+    newSubWindow(Form::CommentaryForm);
+}
 
 QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
 {

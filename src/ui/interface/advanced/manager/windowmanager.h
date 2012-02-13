@@ -34,6 +34,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/interface/advanced/form/webform.h"
 #include "src/ui/interface/advanced/form/bookform.h"
 #include "src/ui/interface/advanced/form/commentaryform.h"
+/**
+  * WindowManager controlls all subwindows or tabs. It opens them and provides access to the forms.
+  * Also it manages the tiling.
+  */
 class WindowManager : public QObject , public BasicClass
 {
     Q_OBJECT
@@ -45,12 +49,40 @@ public:
     void setNotesManager(NotesManager *notesManager);
     void setBookmarksManager(BookmarksManager *bookmarksManager);
     void init();
+    void save();
+    void restore();
+
     Form *activeForm();
+    Form* getForm(QMdiSubWindow *w) const;
+
     QMdiSubWindow *activeSubWindow();
+    void activate(QMdiSubWindow *w);
+    QMdiSubWindow * newSubWindow(Form::FormType type = Form::BibleForm, bool forceMax = false);
+
+    QMdiSubWindow* needWindow(Form::FormType type);
+    QMdiSubWindow* needWindow(Form::FormType type, ModuleTools::ContentType contentType);
+    QMdiSubWindow* hasDictWindow(ModuleTools::DefaultModule d);
+    QMdiSubWindow* hasDictWindow(const int moduleID);
 
     QList<QMdiSubWindow*> usableWindowList() const;
 
+    ModuleTools::ContentType contentType(QMdiSubWindow* window);
+    ModuleTools::ContentType contentType(Form *form);
+    ModuleTools::ContentType contentType(DictionaryForm *form);
+    ModuleTools::ContentType contentType(WebForm *form);
+    ModuleTools::ContentType contentType(BibleForm *form);
+
 public slots:
+
+    void newBibleSubWindow();
+    void newWebSubWindow();
+    void newDictionarySubWindow();
+    void newBookSubWindow();
+    void newCommentarySubWindow();
+
+private slots:
+    int closingWindow();
+
     void cascade();
     void tileVertical();
     void tileHorizontal();
@@ -60,63 +92,40 @@ public slots:
     void tileHorizontal(bool checked);
     void tile(bool checked);
 
-    QMdiSubWindow * newSubWindow(Form::FormType type = Form::BibleForm, bool forceMax = false);
+    void setTitle(const QString &title);
 
-    Form* getForm(QMdiSubWindow *w) const;
-
-    void closeSubWindow();
-    int closingWindow();
+    void setTabbedView();
+    void setSubWindowView();
     int reloadWindow(QMdiSubWindow * window);
     void mdiAreaResized();
+
+
+
+
     void zoomIn();
     void zoomOut();
     void reloadActive();
 
-    void disable();
-    void enable();
-
-    void setTabbedView();
-    void setSubWindowView();
-
-    void save();
-    void restore();
-    void setTitle(const QString &title);
-
+private:
+    void closeSubWindow();
     void autoLayout();
 
-    QMdiSubWindow* needWindow(Form::FormType type);
-    QMdiSubWindow* needWindow(Form::FormType type, ModuleTools::ContentType contentType);
-
-    QMdiSubWindow* hasDictWindow(ModuleTools::DefaultModule d);
-    QMdiSubWindow* hasDictWindow(const int moduleID);
-
-    void activate(QMdiSubWindow *w);
-
-    ModuleTools::ContentType contentType(QMdiSubWindow* window);
-    ModuleTools::ContentType contentType(Form *form);
-    ModuleTools::ContentType contentType(DictionaryForm *form);
-    ModuleTools::ContentType contentType(WebForm *form);
-    ModuleTools::ContentType contentType(BibleForm *form);
-
-
-private:
-    int m_nameCounter;
-    QMdiArea *m_area;//not in our control
-    Api *m_api;//not in out control
-    MdiAreaFilter *m_mdiAreaFilter;
-
-    bool m_enableReload;
-
-
-    int m_lastActiveWindow;
+    void disable();
+    void enable();
+    void installResizeFilter();
     void setEnableReload(bool enable);
 
-    NotesManager *m_notesManager;
-    BookmarksManager *m_bookmarksManager;
+    int m_nameCounter;
+    bool m_enableReload;
+    int m_lastActiveWindow;
     int *m_currentWindowID;
 
-    void installResizeFilter();
+    QMdiArea *m_area;//not in our control
+    Api *m_api;//not in out control
 
+    MdiAreaFilter *m_mdiAreaFilter;
+    NotesManager *m_notesManager;
+    BookmarksManager *m_bookmarksManager;
 
 };
 
