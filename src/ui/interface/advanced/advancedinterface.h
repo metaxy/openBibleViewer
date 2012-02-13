@@ -37,7 +37,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dock/dictionarydockwidget.h"
 
 #include "src/ui/interface/advanced/manager/windowmanager.h"
-#include "src/ui/interface/advanced/manager/biblemanager.h"
+#include "src/ui/interface/advanced/manager/versemodulemanager.h"
 #include "src/ui/interface/advanced/manager/notesmanager.h"
 #include "src/ui/interface/advanced/manager/searchmanager.h"
 #include "src/ui/interface/advanced/manager/bookmarksmanager.h"

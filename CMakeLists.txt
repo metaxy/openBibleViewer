@@ -346,7 +346,7 @@ set( openBibleViewer_SRCS
     src/ui/webview.cpp
     src/ui/interface/advanced/manager/windowmanager.cpp
     src/ui/interface/advanced/manager/bookmarksmanager.cpp
-    src/ui/interface/advanced/manager/biblemanager.cpp
+    src/ui/interface/advanced/manager/versemodulemanager.cpp
     src/ui/interface/advanced/manager/dictionarymanager.cpp
     src/ui/interface/advanced/manager/notesmanager.cpp
     src/ui/interface/advanced/manager/searchmanager.cpp
@@ -497,7 +497,7 @@ set ( openBibleViewer_MOCS
     src/ui/interface/advanced/mdiareafilter.h
     src/ui/interface/advanced/manager/windowmanager.h
     src/ui/interface/advanced/manager/bookmarksmanager.h
-    src/ui/interface/advanced/manager/biblemanager.h
+    src/ui/interface/advanced/manager/versemodulemanager.h
     src/ui/interface/advanced/manager/dictionarymanager.h
     src/ui/interface/advanced/manager/notesmanager.h
     src/ui/interface/advanced/manager/searchmanager.h
