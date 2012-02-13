@@ -43,8 +43,6 @@ public:
 
     void setWindowManager(WindowManager *windowManager);
 
-
-
 signals:
 
     void updateChapters();
