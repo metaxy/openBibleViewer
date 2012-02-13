@@ -522,7 +522,7 @@ void DictionaryForm::openIn()
             m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url);
         } else if(url.startsWith(ModuleTools::verseScheme)) {
             VerseUrl vurl;
-            vurl.fromUrl(url);
+            vurl.fromStringUrl(url);
             vurl.setModuleID(moduleID);
             m_actions->get(vurl);
         } else {
@@ -545,7 +545,7 @@ void DictionaryForm::openInNew()
             m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, Actions::OpenInNewWindow);
         } else if(url.startsWith(ModuleTools::verseScheme)) {
             VerseUrl vurl;
-            vurl.fromUrl(url);
+            vurl.fromStringUrl(url);
             vurl.setModuleID(moduleID);
             m_actions->get(vurl, Actions::OpenInNewWindow);
         } else {

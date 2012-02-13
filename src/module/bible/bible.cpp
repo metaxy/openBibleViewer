@@ -266,7 +266,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                 if(m_notes->getType(noteID) == "text") {
                     const QString link = m_notes->getRef(noteID, "link");
                     VerseUrl url;
-                    url.fromUrl(link);
+                    url.fromStringUrl(link);
                     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
                     urlConverter.setSettings(m_settings);
                     urlConverter.setModuleMap(m_map.data());
@@ -319,7 +319,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                 const QString link = m_notes->getRef(noteID, "link");
                 //myDebug() << "link = " << link;
                 VerseUrl url;
-                url.fromUrl(link);
+                url.fromStringUrl(link);
                 UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
                 urlConverter.setSettings(m_settings);
                 urlConverter.setModuleMap(m_map.data());

@@ -121,8 +121,6 @@ QMdiSubWindow* WindowManager::newSubWindow(Form::FormType type, bool forceMax)
     if(m_area->viewMode() == QMdiArea::SubWindowView && windowsCount > 0) {
         autoLayout();
     }
-    m_actions->clearBooks();
-    m_actions->clearChapters();
     return subWindow;
 }
 

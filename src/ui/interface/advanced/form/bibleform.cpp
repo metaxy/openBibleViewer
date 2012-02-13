@@ -158,7 +158,7 @@ void BibleForm::pharseUrl(const QString &string)
 
     if(string.startsWith(ModuleTools::verseScheme)) {
         VerseUrl url;
-        if(!url.fromUrl(string)) {
+        if(!url.fromStringUrl(string)) {
             return;
         }
         pharseUrl(url);
@@ -1401,7 +1401,7 @@ void BibleForm::openIn()
             m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url);
         } else if(url.startsWith(ModuleTools::verseScheme)) {
             VerseUrl vurl;
-            vurl.fromUrl(url);
+            vurl.fromStringUrl(url);
             vurl.setModuleID(moduleID);
             m_actions->get(vurl);
         } else {
@@ -1424,7 +1424,7 @@ void BibleForm::openInNew()
             m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, Actions::OpenInNewWindow);
         } else if(url.startsWith(ModuleTools::verseScheme)) {
             VerseUrl vurl;
-            vurl.fromUrl(url);
+            vurl.fromStringUrl(url);
             vurl.setModuleID(moduleID);
             m_actions->get(vurl, Actions::OpenInNewWindow);
         } else {

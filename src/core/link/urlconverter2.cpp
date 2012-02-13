@@ -24,7 +24,7 @@ UrlConverter2::UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType t
     m_urlConverter.setFrom(from);
     m_urlConverter.setTo(to);
     VerseUrl u;
-    u.fromUrl(url);
+    u.fromStringUrl(url);
     m_urlConverter.setUrl(u);
 }
 void UrlConverter2::setFromTo(UrlConverter::UrlType from, UrlConverter::UrlType to)

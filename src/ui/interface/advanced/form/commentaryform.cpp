@@ -40,7 +40,7 @@ Form::FormType CommentaryForm::type() const
 void CommentaryForm::pharseUrl(QString string)
 {
     VerseUrl url;
-    if(!url.fromUrl(string)) {
+    if(!url.fromStringUrl(string)) {
         myWarning() << "pharsing url failed:" << string;
         return;
     }

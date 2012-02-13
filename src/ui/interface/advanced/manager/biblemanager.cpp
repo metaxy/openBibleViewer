@@ -69,64 +69,42 @@ QHash<DockWidget*, Qt::DockWidgetArea> VerseModuleManager::docks()
 
 void VerseModuleManager::pharseUrl(VerseUrl url, const Actions::OpenLinkModifiers mod)
 {
-    DEBUG_FUNC_NAME
+    Form::FormType type = Form::BibleForm;
+    //todo: it may be a problem if the url says that the module="current"
+    if(!url.ranges().isEmpty()) {
+        const int moduleID = url.ranges().first().moduleID();
+        if(m_moduleManager->getModule(moduleID)->moduleClass() == ModuleTools::CommentaryClass) {
+            type = Form::CommentaryForm;
+        }
+    }
 
     QMdiSubWindow *window;
-    const int moduleID = url.ranges().first().moduleID();
-    Form::FormType type;
-
-    if(m_moduleManager->getModule(moduleID)->moduleClass() == ModuleTools::CommentaryClass) {
-        if(mod == Actions::OpenInNewWindow) {
-            window = m_windowManager->newSubWindow(Form::CommentaryForm);
-        } else {
-            window = m_windowManager->needWindow(Form::CommentaryForm);
-        }
-        CommentaryForm *form = (CommentaryForm*)(m_windowManager->getForm(window));
-        form->pharseUrl(url);
-        //do stuff
-        return;
-    }
 
     if(mod == Actions::OpenInNewWindow) {
-        window = m_windowManager->newSubWindow(Form::BibleForm);
+        window = m_windowManager->newSubWindow(type);
     } else {
-        window = m_windowManager->needWindow(Form::BibleForm);
+        window = m_windowManager->needWindow(type);
     }
-    BibleForm *f = (BibleForm*)(m_windowManager->getForm(window));
-    pharseUrl(f, url);
+
+    if(type == Form::BibleForm) {
+        BibleForm *f = (BibleForm*)(m_windowManager->getForm(window));
+        pharseUrl(f, url);
+    } else {
+        CommentaryForm *form = (CommentaryForm*)(m_windowManager->getForm(window));
+        pharseUrl(form, url);
+    }
+
+
 }
 
 void VerseModuleManager::pharseUrl(QString url, const Actions::OpenLinkModifiers mod)
 {
-    DEBUG_FUNC_NAME
-    QMdiSubWindow *window;
-    VerseUrl u;
-    u.fromUrl(url);
     if(url.startsWith(ModuleTools::verseScheme)) {
-
-        const int moduleID = u.ranges().first().moduleID();
-        if(m_moduleManager->getModule(moduleID)->moduleClass() == ModuleTools::CommentaryClass) {
-            if(mod == Actions::OpenInNewWindow) {
-                window = m_windowManager->newSubWindow(Form::CommentaryForm);
-            } else {
-                window = m_windowManager->needWindow(Form::CommentaryForm);
-            }
-            CommentaryForm *form = (CommentaryForm*)(m_windowManager->getForm(window));
-
-            //do stuff
-            return;
-        }
-    }
-    //otherwise its a bible
-
-    if(mod == Actions::OpenInNewWindow) {
-        window = m_windowManager->newSubWindow(Form::BibleForm);
+        VerseUrl verseUrl(url);
+        pharseUrl(verseUrl, mod);
     } else {
-        window = m_windowManager->needWindow(Form::BibleForm);
+        myWarning() << "unkown type of url" << url;
     }
-    //open a bible window
-    BibleForm *f = (BibleForm*)(m_windowManager->getForm(window));
-    pharseUrl(f, u);
 }
 void VerseModuleManager::pharseUrl(BibleForm *f, const VerseUrl &url)
 {
@@ -139,6 +117,8 @@ void VerseModuleManager::pharseUrl(BibleForm *f, const VerseUrl &url)
     }
     if(f->verseTableLoaded()) {
         f->pharseUrl(url);
+    } else {
+        myDebug() << "verseTable not loaded";
     }
 }
 

@@ -165,7 +165,7 @@ void BookmarksDockWidget::editBookmark()
 
     const QString pos = ui->treeWidget_bookmarks->currentItem()->text(1);
     VerseUrl url;
-    url.fromUrl(pos);
+    url.fromStringUrl(pos);
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);
@@ -207,7 +207,7 @@ int BookmarksDockWidget::internalOpenPos(const QString &pos)
     //DEBUG_FUNC_NAME;
     //myDebug() << pos;
     VerseUrl url;
-    url.fromUrl(pos);
+    url.fromStringUrl(pos);
 
     UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
     urlConverter.setSettings(m_settings);

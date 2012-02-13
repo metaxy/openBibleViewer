@@ -23,6 +23,11 @@ VerseUrl::VerseUrl()
 VerseUrl::VerseUrl(const VerseUrlRange &range)
 {
     addRange(range);
+    m_isValid = true;
+}
+VerseUrl::VerseUrl(const QString &url)
+{
+    fromStringUrl(url);
 }
 
 void VerseUrl::setParam(const QString &name, const QString &value)
@@ -130,7 +135,7 @@ QString VerseUrl::toString() const
 
     return ret;
 }
-bool VerseUrl::fromUrl(QString url)
+bool VerseUrl::fromStringUrl(QString url)
 {
     m_ranges.clear();
 
