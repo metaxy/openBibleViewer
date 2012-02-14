@@ -19,7 +19,6 @@ class RangeEnum
 public:
     RangeEnum();
 
-
     enum BookRange {
         BookByID,
         FirstBook,

@@ -19,15 +19,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 WebCommentary::WebCommentary()
 {
 }
-Response* WebCommentary::readRanges(const Ranges &ranges, bool ignoreModuleID)
-{
-  /*  DEBUG_FUNC_NAME
-
-    CompiledRange range = this->toCompiledRange(ranges.getList().first());
-
-    if(!loaded())
-        loadModuleData(m_moduleID);*/
-}
 int WebCommentary::currentBook()
 {
     return 0;
@@ -44,25 +35,26 @@ std::pair<int, int> WebCommentary::minMaxVerse(const int bookID, const int chapt
     return ret;
 }
 
-void WebCommentary::loadModuleData(const int moduleID, const QString &name)
+int WebCommentary::loadModuleData(const int moduleID, const QString &fileName)
 {
     DEBUG_FUNC_NAME
 
     m_moduleID = moduleID;
-    m_modulePath = name;
+    m_modulePath = fileName;
 
+    ModuleSettings *settings = m_settings->getModuleSettings(m_moduleID);
     QDomDocument doc;
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly)) {
         myWarning() << "failed to read" << fileName;
-        return;
+        return 1;
     }
     QString error;
     int line, col;
     if(!doc.setContent(&file, &error, &line, &col)) {
         myDebug() << "fail to pharse content of" << fileName << error << line << col;
         file.close();
-        return;
+        return 1;
     }
     file.close();
     QDomElement docElem = doc.documentElement();
@@ -124,6 +116,7 @@ void WebCommentary::loadModuleData(const int moduleID, const QString &name)
     }
     m_loaded = true;
     m_loadedModuleID = m_moduleID;
+    return 0;
 
 }
 
@@ -148,7 +141,7 @@ QString WebCommentary::pharseUrl(const QUrl &url)
 {
     DEBUG_FUNC_NAME
     if(!loaded())
-        loadModuleData(m_moduleID);
+        loadModuleData(m_moduleID, m_modulePath);
 
     QScriptValue fun = myEngine.evaluate(m_pharseOutScript);
     QScriptValueList args;

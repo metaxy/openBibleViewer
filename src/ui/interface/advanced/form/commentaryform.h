@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QWidget>
 #include "webviewform.h"
 #include "src/core/history.h"
-#include "src/module/commentary/webcommentary.h"
+#include "src/module/commentary/commentary.h"
 namespace Ui {
 class CommentaryForm;
 }
@@ -50,7 +50,7 @@ private slots:
     void forward();
 private:
     Ui::CommentaryForm *ui;
-    WebCommentary *m_com;
+    Commentary *m_com;
     VerseUrl m_url;
     History m_browserHistory;
     void setButtons();

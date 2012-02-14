@@ -21,6 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/dictionary/webdictionary.h"
 #include "src/module/dictionary/swordlexicon.h"
 #include "src/module/book/txtbook.h"
+#include "src/module/commentary/webcommentary.h"
 Module::Module(Module *parent) : m_parent(parent)
 {
     m_moduleClass = ModuleTools::NoneClass;
@@ -34,6 +35,8 @@ Module::~Module()
 {
     m_bibleModule.clear();
     m_dictionaryModule.clear();
+    m_bookModule.clear();
+    m_commentaryModule.clear();
 }
 
 void Module::setSettings(Settings *settings)
@@ -130,5 +133,14 @@ QSharedPointer<BookModule> Module::newBookModule(const ModuleTools::ModuleType t
         ret = QSharedPointer<TxtBook>(new TxtBook());
     }
     m_bookModule = ret.toWeakRef();
+    return ret;
+}
+QSharedPointer<CommentaryModule> Module::newCommentaryModule(const ModuleTools::ModuleType type)
+{
+    QSharedPointer<CommentaryModule> ret;
+    if(type == ModuleTools::WebCommentaryModule) {
+        ret = QSharedPointer<WebCommentary>(new WebCommentary());
+    }
+    m_commentaryModule = ret.toWeakRef();
     return ret;
 }

@@ -35,7 +35,7 @@ CommentaryForm::CommentaryForm(QWidget *parent) :
 
 void CommentaryForm::init()
 {
-    m_com = new WebCommentary();
+    m_com = new Commentary();
     m_moduleManager->initSimpleModule(m_com);
 }
 CommentaryForm::~CommentaryForm()

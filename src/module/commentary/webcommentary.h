@@ -40,7 +40,7 @@ public:
     void clearData();
     bool loaded();
 private:
-    void loadModuleData(const int moduleID, const QString &fileName);
+    int loadModuleData(const int moduleID, const QString &fileName);
     int currentBook();
     int currentChapter();
     std::pair<int, int> minMaxVerse(const int bookID, const int chapterID);

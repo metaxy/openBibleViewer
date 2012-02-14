@@ -15,7 +15,11 @@ private:
     int currentChapter();
     std::pair<int, int> minMaxVerse(const int bookID, const int chapterID);
 
-    CommentaryModule *m_module;
+    QSharedPointer<CommentaryModule> m_commentaryModule;
+
+    int loadModuleData(const int moduleID);
+
+    bool m_loaded;
 };
 
 #endif // COMMENTARY_H
