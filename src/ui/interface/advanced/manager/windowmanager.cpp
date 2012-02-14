@@ -251,7 +251,6 @@ void WindowManager::activate(QMdiSubWindow *w)
 
 void WindowManager::autoLayout()
 {
-    DEBUG_FUNC_NAME
     if(!m_enableReload)
         return;
 
@@ -464,8 +463,6 @@ void WindowManager::closeSubWindow()
 
 int WindowManager::closingWindow()
 {
-    myDebug() << "signal recieved - close";
-
     if(m_area->subWindowList().isEmpty()) {
         myDebug() << "last window closed";
         m_actions->clearBooks();
@@ -474,8 +471,6 @@ int WindowManager::closingWindow()
     }
   /*  myDebug() << "reload window";
     reloadWindow(m_area->currentSubWindow());*/
-
-    myDebug() << "auto";
 
     if(m_area->viewMode() == QMdiArea::SubWindowView) {
         QTimer::singleShot(10, this, SLOT(autoLayout()));
@@ -487,12 +482,12 @@ int WindowManager::closingWindow()
 int WindowManager::reloadWindow(QMdiSubWindow * window)
 {
     if(!m_enableReload || window == NULL) {
-        myDebug() << "reload is not enabled or window == NULL";
+        //my() << "reload is not enabled or window == NULL";
         return 1;
     }
 
     if(m_area->subWindowList().isEmpty()) {
-        myDebug() << "sub window list is empty";
+        //myDebug() << "sub window list is empty";
         return 1;
     }
 

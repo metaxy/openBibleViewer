@@ -42,7 +42,7 @@ ModuleSettings::~ModuleSettings()
 
 QSharedPointer<Versification> ModuleSettings::loadVersification()
 {
-    DEBUG_FUNC_NAME;
+   // DEBUG_FUNC_NAME;
     QSharedPointer<Versification> ret;
     //myDebug() << "versifiction name = " << versificationName << " versification file" << versificationFile;
     if(versificationName == "kjv") {
@@ -116,18 +116,18 @@ void ModuleSettings::saveVersification()
 
 QSharedPointer<Versification> ModuleSettings::getV11n()
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     if(v11n.isNull()) {
-        myDebug() << "loading new";
+        //myDebug() << "loading new";
         return loadVersification();
     }
-    myDebug() << v11n;
+   // myDebug() << v11n;
     return v11n.toStrongRef();
 
 }
 bool ModuleSettings::noV11n()
 {
-    DEBUG_FUNC_NAME
+   // DEBUG_FUNC_NAME
     return v11n.isNull();
 }
 void ModuleSettings::setParent(ModuleSettings *parent)

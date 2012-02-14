@@ -31,8 +31,6 @@ QList<Range> Ranges::getList() const
 
 void  Ranges::setSource(const VerseUrl &source)
 {
-    DEBUG_FUNC_NAME;
-    myDebug() << source.toString();
     m_source = source;
 }
 

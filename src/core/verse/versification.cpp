@@ -19,7 +19,6 @@ Versification::Versification()
 }
 Versification::~Versification()
 {
-    DEBUG_FUNC_NAME
 }
 
 

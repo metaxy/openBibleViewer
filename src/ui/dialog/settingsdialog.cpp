@@ -21,6 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/webpage.h"
 #include "src/module/dictionary/webdictionary.h"
 #include "src/module/commentary/webcommentary.h"
+#include "src/module/commentary/thewordcommentary.h"
 #include <QtCore/QFSFileEngine>
 #include <QtCore/QPointer>
 #include "src/core/qzipreader_p.h"
@@ -572,7 +573,12 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
             webComm->setSettings(&m_set);
             info = webComm->readInfo(f);
             delete webComm;
-        }else if(moduleType == ModuleTools::TxtBookModule) {
+        } else if(moduleType == ModuleTools::TheWordCommentaryModule) {
+            TheWordCommentary *c = new TheWordCommentary();
+            c->setSettings(&m_set);
+            info = c->readInfo(f);
+            delete c;
+        } else if(moduleType == ModuleTools::TxtBookModule) {
             info = MetaInfo();
             info.setName(fileInfo.baseName());
             info.setContent(ModuleTools::BookContent);

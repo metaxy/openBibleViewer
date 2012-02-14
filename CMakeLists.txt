@@ -100,7 +100,7 @@ if(OBV_SWORD_SUPPORT)
         ${SWORD_INCLUDE_DIR}
     )
 endif(OBV_SWORD_SUPPORT)
-
+add_subdirectory( src/extern )
 #Build openBibleViewer
 set( openBibleViewer_HDRS
     src/anyoption.h
@@ -206,6 +206,7 @@ set( openBibleViewer_HDRS
     src/ui/interface/advanced/manager/webpagemanager.h
     src/ui/modelmodel.h
     src/ui/qtwin.h
+
     )
 
 set( openBibleViewer_SRCS
@@ -373,6 +374,7 @@ set( openBibleViewer_SRCS
 	src/ui/qtwin.cpp
 
     src/ui/updateschecker.cpp
+
     
     )
 if(WIN32)
@@ -419,6 +421,8 @@ set ( openBibleViewer_UIS
     src/ui/marklist.ui
     src/ui/markcategories.ui
     src/ui/biblepassageframe.ui
+
+
 
     )
 
@@ -550,9 +554,11 @@ target_link_libraries( openBibleViewer
                         ${QT_QTNETWORK_LIBRARY} 
                         ${QT_QTWEBKIT_LIBRARY} 
                         ${QT_QTSCRIPT_LIBRARY}
+                        ${QT_QTSQL_LIBRARY}
                         ${CL_LIBS}
                         ${SW_LIBS}
                         ${ZLIB_LIBRARIES}
+                        RtfReader
 )
 
 install( TARGETS openBibleViewer
@@ -575,6 +581,7 @@ else(WIN32 AND NOT UNIX)
         "${QT_LIBRARY_DIR}/../bin/QtNetwork${QT_VERSION_MAJOR}.dll"
         "${QT_LIBRARY_DIR}/../bin/QtScript${QT_VERSION_MAJOR}.dll"
         "${QT_LIBRARY_DIR}/../bin/phonon${QT_VERSION_MAJOR}.dll"
+        "${QT_LIBRARY_DIR}/../bin/QtSql${QT_VERSION_MAJOR}.dll"
         "${MCLUCENE_DIR}\\\\build\\\\bin\\\\clucene-shared.dll" 
         "${MCLUCENE_DIR}\\\\build\\\\bin\\\\clucene-core.dll"
         "${ZLIB_DLL}"

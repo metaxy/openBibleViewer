@@ -1,6 +1,8 @@
 #ifndef THEWORDCOMMENTARY_H
 #define THEWORDCOMMENTARY_H
 #include "src/module/commentary/commentarymodule.h"
+#include <QtSql/QSqlDatabase>
+#include "src/module/metainfo.h"
 class TheWordCommentary : public CommentaryModule
 {
 public:
@@ -17,6 +19,14 @@ public:
     int currentBook();
     int currentChapter();
     std::pair<int, int> minMaxVerse(const int bookID, const int chapterID);
+
+    MetaInfo readInfo(const QString &name);
+
+
+private:
+    QSqlDatabase m_db;
+
+    bool m_loaded;
 };
 
 #endif // THEWORDCOMMENTARY_H

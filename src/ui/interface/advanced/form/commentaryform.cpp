@@ -14,6 +14,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "commentaryform.h"
 #include "ui_commentaryform.h"
 #include "src/module/response/urlresponse.h"
+#include "src/module/response/stringresponse.h"
+#include "src/module/response/stringresponse.h"
 #include "src/core/verse/reftext.h"
 #include "src/core/link/biblelink.h"
 #include "src/core/link/urlconverter2.h"
@@ -94,9 +96,17 @@ void CommentaryForm::showRanges(Ranges ranges, const VerseUrl &source)
     m_com->setModuleID(ranges.getList().first().moduleID());
     Response *res = m_com->readRanges(ranges);
 
-    if(res != NULL && res->isValid() && res->type() == Response::UrlReponse) {
-        UrlResponse *u = (UrlResponse*) res;
-        m_view->load(QUrl(u->url()));
+    if(res != NULL && res->isValid()) {
+        if(res->type() == Response::UrlReponse) {
+            UrlResponse *u = (UrlResponse*) res;
+            m_view->load(QUrl(u->url()));
+        } else if(res->type() == Response::StringReponse) {
+            StringResponse *u = (StringResponse*) res;
+            m_view->setHtml(u->data());
+        } else if(res->type() == Response::HtmlResponse) {
+            StringResponse *u = (StringResponse*) res;
+            m_view->setHtml(u->data());
+        }
     }
 
     RefText ref;
