@@ -13,25 +13,20 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "webcommentary.h"
 #include "src/module/response/urlresponse.h"
+#include <QtCore/QFile>
+#include <QDomDocument>
 
 WebCommentary::WebCommentary()
 {
 }
 Response* WebCommentary::readRanges(const Ranges &ranges, bool ignoreModuleID)
 {
-    DEBUG_FUNC_NAME
-            /*
-    CompiledRange range = this->toCompiledRange(ranges.getList().first());*/
+  /*  DEBUG_FUNC_NAME
+
+    CompiledRange range = this->toCompiledRange(ranges.getList().first());
 
     if(!loaded())
-        loadModuleData(m_moduleID);
-
-    Range range = ranges.getList().first();
-    QScriptValue fun = myEngine.evaluate(m_pharseVerseScript);
-    QScriptValueList args;
-    args << range.bookID << m_books.value(range.bookID).key << range.chapterID << range.startVerse << range.endVerse;
-    QScriptValue url = fun.call(QScriptValue(), args);
-    return new UrlResponse(url.toString());
+        loadModuleData(m_moduleID);*/
 }
 int WebCommentary::currentBook()
 {
@@ -52,19 +47,9 @@ std::pair<int, int> WebCommentary::minMaxVerse(const int bookID, const int chapt
 void WebCommentary::loadModuleData(const int moduleID, const QString &name)
 {
     DEBUG_FUNC_NAME
-    ModuleSettings *settings = m_settings->getModuleSettings(m_moduleID);
-
-    if(!settings)
-        return;
 
     m_moduleID = moduleID;
-    QString fileName;
-
-    if(name.isEmpty())
-        fileName = settings->modulePath;
-    else
-        fileName = name;
-    m_modulePath = fileName;
+    m_modulePath = name;
 
     QDomDocument doc;
     QFile file(fileName);
@@ -174,4 +159,22 @@ QString WebCommentary::pharseUrl(const QUrl &url)
 void WebCommentary::clearData()
 {
 
+}
+Response * WebCommentary::readVerseRange(const int bookID,const int chapterID, const int startVerseID, const int endVerseID)
+{
+    QScriptValue fun = myEngine.evaluate(m_pharseVerseScript);
+    QScriptValueList args;
+    args << bookID << m_books.value(bookID).key << chapterID << startVerseID << endVerseID;
+    QScriptValue url = fun.call(QScriptValue(), args);
+    return new UrlResponse(url.toString());
+}
+
+Response * WebCommentary::readChapter(const int bookID, const int chapterID)
+{
+    return NULL;
+}
+
+Response * WebCommentary::readBook(const int bookID)
+{
+    return NULL;
 }

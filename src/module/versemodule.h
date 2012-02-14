@@ -15,8 +15,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define VERSEMODULE_H
 #include "src/core/verse/ranges.h"
 #include "src/core/verse/range.h"
-#include "src/core/verse/textrange.h"
-#include "src/core/verse/textranges.h"
 #include "src/core/verse/versification.h"
 #include "src/module/simplemoduleclass.h"
 #include "src/core/settings/moduledisplaysettings.h"

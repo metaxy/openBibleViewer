@@ -199,6 +199,8 @@ set( openBibleViewer_HDRS
     src/module/response/textrangesresponse.h
     src/module/response/htmlresponse.h
     src/module/commentary/webcommentary.h
+    src/module/commentary/commentary.h
+    src/module/commentary/commentarymodule.h
 
     src/ui/interface/advanced/manager/webpagemanager.h
     src/ui/modelmodel.h
@@ -308,6 +310,8 @@ set( openBibleViewer_SRCS
     src/module/book/bookmodule.cpp
     src/module/book/txtbook.cpp
     src/module/commentary/webcommentary.cpp
+    src/module/commentary/commentary.cpp
+    src/module/commentary/commentarymodule.cpp
 
     src/ui/dialog/searchdialog.cpp
     src/ui/dialog/settingsdialog.cpp

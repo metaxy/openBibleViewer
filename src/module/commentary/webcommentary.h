@@ -13,7 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef WEBCOMMENTARY_H
 #define WEBCOMMENTARY_H
-#include "src/module/versemodule.h"
+#include "src/module/commentary/commentarymodule.h"
+#include "src/core/verse/versification.h"
+#include "src/module/metainfo.h"
 #include <QtScript/QScriptEngine>
 #include <QtCore/QUrl>
 struct WebCommentaryBooksData
@@ -22,18 +24,23 @@ struct WebCommentaryBooksData
     QString key;
 };
 
-class WebCommentary : public VerseModule
+class WebCommentary : public CommentaryModule
 {
 public:
     WebCommentary();
-    Response* readRanges(const Ranges &ranges, bool ignoreModuleID = false);
+
+    Response * readVerseRange(const int bookID,const int chapterID, const int startVerseID, const int endVerseID);
+    Response * readChapter(const int bookID, const int chapterID);
+    Response * readBook(const int bookID);
+
+
     QString pharseUrl(const QUrl &url);
     MetaInfo readInfo(const QString &name);
     void search(SearchQuery query, SearchResult *result);
     void clearData();
     bool loaded();
 private:
-    void loadModuleData(const int moduleID, const QString &fileName = "");
+    void loadModuleData(const int moduleID, const QString &fileName);
     int currentBook();
     int currentChapter();
     std::pair<int, int> minMaxVerse(const int bookID, const int chapterID);
@@ -56,6 +63,7 @@ private:
 
 
     int m_loadedModuleID;
+    int m_moduleID;
 
     QScriptEngine myEngine;
     QString m_modulePath;

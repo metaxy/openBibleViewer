@@ -57,14 +57,12 @@ public:
 
     QMdiSubWindow *activeSubWindow();
     void activate(QMdiSubWindow *w);
-    QMdiSubWindow * newSubWindow(Form::FormType type = Form::BibleForm, bool forceMax = false);
+
 
     QMdiSubWindow* needWindow(Form::FormType type);
     QMdiSubWindow* needWindow(Form::FormType type, ModuleTools::ContentType contentType);
     QMdiSubWindow* hasDictWindow(ModuleTools::DefaultModule d);
     QMdiSubWindow* hasDictWindow(const int moduleID);
-
-    QList<QMdiSubWindow*> usableWindowList() const;
 
     ModuleTools::ContentType contentType(QMdiSubWindow* window);
     ModuleTools::ContentType contentType(Form *form);
@@ -79,6 +77,8 @@ public slots:
     void newDictionarySubWindow();
     void newBookSubWindow();
     void newCommentarySubWindow();
+    QMdiSubWindow * newSubWindow(Form::FormType type = Form::BibleForm, bool forceMax = false);
+
 
 private slots:
     int closingWindow();
@@ -105,10 +105,12 @@ private slots:
     void zoomIn();
     void zoomOut();
     void reloadActive();
+    void autoLayout();
+    void closeSubWindow();
 
 private:
-    void closeSubWindow();
-    void autoLayout();
+
+    QList<QMdiSubWindow*> usableWindowList() const;
 
     void disable();
     void enable();
