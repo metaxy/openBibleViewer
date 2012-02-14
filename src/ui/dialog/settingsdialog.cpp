@@ -568,9 +568,10 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
             webDict.setSettings(&m_set);
             info = webDict.readInfo(f);
         } else if(moduleType == ModuleTools::WebCommentaryModule) {
-            WebCommentary webComm;
-            webComm.setSettings(&m_set);
-            info = webComm.readInfo(f);
+            WebCommentary *webComm = new WebCommentary();
+            webComm->setSettings(&m_set);
+            info = webComm->readInfo(f);
+            delete webComm;
         }else if(moduleType == ModuleTools::TxtBookModule) {
             info = MetaInfo();
             info.setName(fileInfo.baseName());

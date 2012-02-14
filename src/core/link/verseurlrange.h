@@ -31,21 +31,24 @@ public:
         LoadCurrentBook,
         LoadFirstBook,
         LoadLastBook,
-        LoadBookNotSet
+        LoadBookNotSet,
+        LoadNoBook
     };
     enum ChapterLoadParams {
         LoadChapterByID,
         LoadCurrentChapter,
         LoadFirstChapter,
         LoadLastChapter,
-        LoadChapterNotSet
+        LoadChapterNotSet,
+        LoadNoChapter
     };
     enum VerseLoadParams {
         LoadVerseByID,
         LoadCurrentVerse,
         LoadFirstVerse,
         LoadLastVerse,
-        LoadVerseNotSet
+        LoadVerseNotSet,
+        LoadNoVerse
     };
 
     /**

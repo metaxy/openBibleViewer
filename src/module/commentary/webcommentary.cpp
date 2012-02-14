@@ -127,10 +127,38 @@ void WebCommentary::search(SearchQuery query, SearchResult *result)
 
 MetaInfo WebCommentary::readInfo(const QString &name)
 {
-    loadModuleData(m_moduleID, name);
     MetaInfo ret;
-    ret.setName(m_name);
-    ret.setShortName(m_shortName);
+    QDomDocument doc;
+    QFile file(name);
+    if(!file.open(QIODevice::ReadOnly)) {
+        myWarning() << "failed to read" << name;
+        return ret;
+    }
+    QString error;
+    int line, col;
+    if(!doc.setContent(&file, &error, &line, &col)) {
+        myDebug() << "fail to pharse content of" << name << error << line << col;
+        file.close();
+        return ret;
+    }
+    file.close();
+    QDomElement docElem = doc.documentElement();
+
+    QDomNode n = docElem.firstChild();
+    while(!n.isNull()) {
+        if(n.nodeName() == "meta") {
+            QDomNode n2 = n.firstChild();
+            while(!n2.isNull()) {
+                if(n2.nodeName() == "name") {
+                    ret.setName(n2.firstChild().toText().data());
+                } else if(n2.nodeName() == "shortName") {
+                    ret.setShortName(n2.firstChild().toText().data());
+                }
+                n2 = n2.nextSibling();
+            }
+        }
+        n = n.nextSibling();
+    }
     return ret;
 }
 bool WebCommentary::loaded()
@@ -164,10 +192,18 @@ Response * WebCommentary::readVerseRange(const int bookID,const int chapterID, c
 
 Response * WebCommentary::readChapter(const int bookID, const int chapterID)
 {
-    return NULL;
+    QScriptValue fun = myEngine.evaluate(m_pharseChapterScript);
+    QScriptValueList args;
+    args << bookID << m_books.value(bookID).key << chapterID;
+    QScriptValue url = fun.call(QScriptValue(), args);
+    return new UrlResponse(url.toString());
 }
 
 Response * WebCommentary::readBook(const int bookID)
 {
-    return NULL;
+    QScriptValue fun = myEngine.evaluate(m_pharseBookScript);
+    QScriptValueList args;
+    args << bookID << m_books.value(bookID).key;
+    QScriptValue url = fun.call(QScriptValue(), args);
+    return new UrlResponse(url.toString());
 }

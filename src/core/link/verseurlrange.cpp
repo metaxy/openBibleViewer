@@ -221,7 +221,9 @@ Range VerseUrlRange::toRange() const
         r.setBook(RangeEnum::LastBook);
     } else if(this->book() == VerseUrlRange::LoadCurrentBook) {
         r.setBook(RangeEnum::CurrentBook);
-    } else {
+    } else if(this->book() == VerseUrlRange::LoadNoBook) {
+        r.setBook(RangeEnum::NoneBook);
+    }  else {
         r.setBook(this->bookID());
     }
 
@@ -231,6 +233,8 @@ Range VerseUrlRange::toRange() const
         r.setChapter(RangeEnum::LastChapter);
     } else if(this->chapter() == VerseUrlRange::LoadCurrentChapter) {
         r.setChapter(RangeEnum::CurrentChapter);
+    } else if(this->chapter() == VerseUrlRange::LoadNoChapter) {
+        r.setChapter(RangeEnum::NoneChapter);
     } else {
         r.setChapter(this->chapterID());
     }
@@ -253,6 +257,8 @@ Range VerseUrlRange::toRange() const
             r.setStartVerse(RangeEnum::FirstVerse);
         } else if(this->startVerse() == VerseUrlRange::LoadLastVerse) {
             r.setStartVerse(RangeEnum::LastVerse);
+        } else if(this->startVerse() == VerseUrlRange::LoadNoVerse) {
+            r.setStartVerse(RangeEnum::NoneVerse);
         } else {
             r.setStartVerse(this->startVerseID());
         }
@@ -264,6 +270,8 @@ Range VerseUrlRange::toRange() const
             if(this->activeVerse() == VerseUrlRange::LoadVerseByID) {
                 r.setSelectedVerse(this->activeVerseID());
             }
+        } else if(this->endVerse() == VerseUrlRange::LoadNoVerse) {
+            r.setEndVerse(RangeEnum::NoneVerse);
         } else {
             r.setEndVerse(this->endVerseID());
         }

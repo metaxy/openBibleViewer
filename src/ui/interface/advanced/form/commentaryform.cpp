@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/response/urlresponse.h"
 #include "src/core/verse/reftext.h"
 #include "src/core/link/biblelink.h"
+#include "src/core/link/urlconverter2.h"
 CommentaryForm::CommentaryForm(QWidget *parent) :
     WebViewForm(parent),
     ui(new Ui::CommentaryForm)
@@ -115,10 +116,10 @@ void CommentaryForm::activated()
 {
     m_actions->clearBooks();
     m_actions->clearChapters();
-    /*if(m_page != NULL) {
-        m_actions->setTitle(m_page->moduleTitle());
-        m_actions->setCurrentModule(m_page->moduleID());
-    }*/
+    if(m_com != NULL) {
+        m_actions->setTitle(m_com->moduleTitle());
+        m_actions->setCurrentModule(m_com->moduleID());
+    }
 }
 bool CommentaryForm::loaded()
 {
@@ -129,13 +130,16 @@ void CommentaryForm::save()
 {
     const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
     m_settings->session.file()->setValue(a + "type", "commentary");
-   /* m_settings->session.file()->setValue(a + "url", m_view->url());
 
-    QByteArray history;
-    QDataStream historyStream(&history, QIODevice::ReadWrite);
-    QWebHistory *hist  = m_view->history();
-    historyStream << *(hist);
-    m_settings->session.file()->setValue(a + "history", history.toBase64());*/
+    VerseUrl url = m_url;
+    url.setModuleID(m_com->moduleID());
+
+    UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
+    urlConverter.setSettings(m_settings);
+    urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
+    VerseUrl newUrl = urlConverter.convert();
+    m_settings->session.file()->setValue(a + "url", newUrl.toString());
+
 
     m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
     m_settings->session.file()->setValue(a + "zoom", m_view->zoomFactor());
@@ -160,6 +164,14 @@ void CommentaryForm::restore(const QString &key)
         m_browserHistory.setData3(m_settings->session.file()->value(a + "hist3"));
         setButtons();
     }
+    const QString url = m_settings->session.file()->value(a + "url").toString();
+    UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
+    urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap.data());
+    urlConverter.convert();
+
+    if(urlConverter.moduleID() != -1) {
+        pharseUrl(urlConverter.url());//these urls are handeld by this Form
+    }
 
 
     m_view->page()->mainFrame()->setScrollPosition(scroll);
@@ -169,10 +181,7 @@ void CommentaryForm::restore(const QString &key)
     if(url.isValid())
         m_view->load(url);
 
-   QByteArray history = QByteArray::fromBase64(m_settings->session.file()->value(a + "history").toByteArray());
-    QDataStream readingStream(&history, QIODevice::ReadOnly);
-    QWebHistory *hist  = m_view->history();
-    readingStream >> *(hist);*/
+*/
 }
 void CommentaryForm::historySetUrl(QString url)
 {

@@ -20,18 +20,21 @@ public:
     RangeEnum();
 
     enum BookRange {
+        NoneBook,
         BookByID,
         FirstBook,
         LastBook,
         CurrentBook
     };
     enum ChapterRange {
+        NoneChapter,
         ChapterByID,
         FirstChapter,
         LastChapter,
         CurrentChapter
     };
     enum VerseRange {
+        NoneVerse,
         VerseByID,
         FirstVerse,
         LastVerse,

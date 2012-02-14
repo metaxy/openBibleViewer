@@ -42,7 +42,8 @@ public:
         WebDictionaryModule = 9,
         SwordLexiconModule = 10,
         TxtBookModule = 11,
-        WebCommentaryModule = 12
+        WebCommentaryModule = 12,
+        TheWordCommentaryModule = 13
     };
 
     enum DefaultModule {

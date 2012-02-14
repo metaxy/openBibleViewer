@@ -80,6 +80,8 @@ QString VerseUrl::toString() const
             ret += "first";
         } else if(range.book() == VerseUrlRange::LoadLastBook) {
             ret += "last";
+        } else if(range.book() == VerseUrlRange::LoadNoBook) {
+            ret += "none";
         }
 
         ret += ",";
@@ -93,6 +95,8 @@ QString VerseUrl::toString() const
             ret += "first";
         } else if(range.chapter() == VerseUrlRange::LoadLastChapter) {
             ret += "last";
+        } else if(range.chapter() == VerseUrlRange::LoadNoChapter) {
+            ret += "none";
         }
 
         ret += ",";
@@ -105,6 +109,8 @@ QString VerseUrl::toString() const
             ret += "first";
         } else if(range.startVerse() == VerseUrlRange::LoadLastVerse) {
             ret += "last";
+        } else if(range.startVerse() == VerseUrlRange::LoadNoVerse) {
+            ret += "none";
         }
         //todo: start verse should not be LoadAllVerse
         if((range.startVerse() != range.endVerse() && range.endVerse() != VerseUrlRange::LoadVerseNotSet) ||
@@ -118,6 +124,8 @@ QString VerseUrl::toString() const
                 ret += "first";
             } else if(range.endVerse() == VerseUrlRange::LoadLastVerse) {
                 ret += "last";
+            } else if(range.endVerse() == VerseUrlRange::LoadNoVerse) {
+                ret += "none";
             }
         }
         if(range.activeVerse() == VerseUrlRange::LoadVerseByID) {
@@ -167,6 +175,8 @@ bool VerseUrl::fromStringUrl(QString url)
                     range.setBook(VerseUrlRange::LoadFirstBook);
                 } else if(p == "last") {
                     range.setBook(VerseUrlRange::LoadLastBook);
+                } else if(p == "none") {
+                    range.setBook(VerseUrlRange::LoadNoBook);
                 } else {
                     range.setBook(p.toInt());
                 }
@@ -179,7 +189,11 @@ bool VerseUrl::fromStringUrl(QString url)
                     range.setChapter(VerseUrlRange::LoadFirstChapter);
                 } else if(p == "last") {
                     range.setChapter(VerseUrlRange::LoadLastChapter);
-                } else {
+                } else if(p == "last") {
+                    range.setChapter(VerseUrlRange::LoadLastChapter);
+                } else if(p == "none") {
+                    range.setChapter(VerseUrlRange::LoadNoChapter);
+                }else {
                     range.setChapter(p.toInt());
                 }
             } else if(i == 3) {
@@ -194,6 +208,8 @@ bool VerseUrl::fromStringUrl(QString url)
                     range.setStartVerse(VerseUrlRange::LoadFirstVerse);
                 } else if(p == "last") {
                     range.setStartVerse(VerseUrlRange::LoadLastVerse);
+                } else if(p == "last") {
+                    range.setStartVerse(VerseUrlRange::LoadNoVerse);
                 }  else {
                     range.setStartVerse(p.toInt());
                 }
@@ -204,6 +220,8 @@ bool VerseUrl::fromStringUrl(QString url)
                     range.setEndVerse(VerseUrlRange::LoadFirstVerse);
                 } else if(p2 == "last") {
                     range.setEndVerse(VerseUrlRange::LoadLastVerse);
+                } else if(p2 == "last") {
+                    range.setEndVerse(VerseUrlRange::LoadNoVerse);
                 } else if(!p2.isEmpty()) {
                     range.setEndVerse(p2.toInt());
                 }

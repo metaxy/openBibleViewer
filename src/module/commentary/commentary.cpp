@@ -53,6 +53,7 @@ int Commentary::loadModuleData(const int moduleID)
     m_module = m_map->module(moduleID);
     m_moduleID = moduleID;
     m_moduleType = m_module->moduleType();
+
     ModuleSettings *m = m_settings->getModuleSettings(m_moduleID);
 
 

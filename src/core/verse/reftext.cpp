@@ -22,7 +22,7 @@ const QString sep_two_verse = ".";
 const QString sep_verse_range = "-";
 //Heb 1:2-19{sep_next}Joh 1:12
 const QString sep_next = " ";
-//Heb 1:2-19 {sep_same_book}2:18
+//Heb 1:2-19 {sep_same_book}3:18
 const QString sep_same_book = "";
 
 RefText::RefText()
@@ -44,7 +44,7 @@ QString RefText::toString(const VerseUrl &url)
         //fix
         if(range.endVerse() == VerseUrlRange::LoadVerseNotSet)
             range.setEndVerse(range.startVerseID());
-
+        myDebug() << range.startVerseID() << range.endVerseID();
         ret += toString(range.moduleID(), range.bookID(), range.chapterID(), range.startVerseID(), range.endVerseID(), prevBook);
         prevBook = range.bookID();
     }
@@ -63,6 +63,7 @@ QString RefText::toString(const Ranges &ranges)
     foreach(const Range & range, ranges.getList()) {
         if(!ret.isEmpty())
             ret += sep_next;
+        myDebug() << range.startVerseID() << range.endVerseID();
         ret += toString(range.moduleID(), range.bookID(), range.chapterID(), range.startVerseID(), range.endVerseID(), prevBook);
         prevBook = range.bookID();
     }
@@ -82,11 +83,13 @@ QString RefText::toString(int moduleID, int bookID, int chapterID, int startVers
     QString ret;
     if(bookID != prevBook) {
         QSharedPointer<Versification> v11n;
+        myDebug() << moduleID;
         if(moduleID == -1) {
             v11n = m_settings->defaultVersification;
         } else {
             v11n = m_settings->getModuleSettings(moduleID)->getV11n();
         }
+        myDebug() << v11n;
         if(v11n == NULL)
             v11n = m_settings->defaultVersification;
 

@@ -22,6 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/dictionary/swordlexicon.h"
 #include "src/module/book/txtbook.h"
 #include "src/module/commentary/webcommentary.h"
+#include "src/module/commentary/thewordcommentary.h"
 Module::Module(Module *parent) : m_parent(parent)
 {
     m_moduleClass = ModuleTools::NoneClass;
@@ -107,6 +108,8 @@ QSharedPointer<BibleModule> Module::newBibleModule(const ModuleTools::ModuleType
         ret = QSharedPointer<BibleModule>(new SwordBible());
     } else if(type == ModuleTools::BibleQuoteModule) {
         ret = QSharedPointer<BibleModule>(new BibleQuote());
+    } else {
+        myWarning() << "invalid type";
     }
     m_bibleModule = ret.toWeakRef();
     return ret;
@@ -122,6 +125,8 @@ QSharedPointer<DictionaryModule> Module::newDictionaryModule(const ModuleTools::
         ret = QSharedPointer<DictionaryModule>(new WebDictionary());
     } else if(type == ModuleTools::SwordLexiconModule) {
         ret = QSharedPointer<DictionaryModule>(new SwordLexicon());
+    } else {
+        myWarning() << "invalid type";
     }
     m_dictionaryModule = ret.toWeakRef();
     return ret;
@@ -131,6 +136,8 @@ QSharedPointer<BookModule> Module::newBookModule(const ModuleTools::ModuleType t
     QSharedPointer<BookModule> ret;
     if(type == ModuleTools::TxtBookModule) {
         ret = QSharedPointer<TxtBook>(new TxtBook());
+    } else {
+        myWarning() << "invalid type";
     }
     m_bookModule = ret.toWeakRef();
     return ret;
@@ -140,6 +147,10 @@ QSharedPointer<CommentaryModule> Module::newCommentaryModule(const ModuleTools::
     QSharedPointer<CommentaryModule> ret;
     if(type == ModuleTools::WebCommentaryModule) {
         ret = QSharedPointer<WebCommentary>(new WebCommentary());
+    } else if(type == ModuleTools::TheWordCommentaryModule) {
+        ret = QSharedPointer<TheWordCommentary>(new TheWordCommentary());
+    } else {
+        myWarning() << "invalid type";
     }
     m_commentaryModule = ret.toWeakRef();
     return ret;

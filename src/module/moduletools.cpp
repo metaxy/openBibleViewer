@@ -37,6 +37,8 @@ ModuleTools::ModuleType ModuleTools::recognizeModuleType(const QString &fileName
         return ModuleTools::WebPageModule;
     } else if(fileName.endsWith(".webcom.xml", Qt::CaseInsensitive)) {
         return ModuleTools::WebCommentaryModule;
+    } else if(fileName.endsWith(".cmt.twm", Qt::CaseInsensitive)) {
+        return ModuleTools::TheWordCommentaryModule;
     } else if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
         QFile data(fileName);
         if(data.open(QFile::ReadOnly)) {
@@ -119,7 +121,8 @@ QStringList ModuleTools::moduleTypeNames()
       << QT_TRANSLATE_NOOP("Core", "Zefania Lex Module") << QT_TRANSLATE_NOOP("Core", "BibleQuote Dictionary") << QT_TRANSLATE_NOOP("Core", "The Word Bible")
       << QT_TRANSLATE_NOOP("Core", "Folder")
      << QT_TRANSLATE_NOOP("Core", "Sword Bible") << QT_TRANSLATE_NOOP("Core", "Web Page") << QT_TRANSLATE_NOOP("Core", "Web Dictionary")
-     << QT_TRANSLATE_NOOP("Core", "Sword Lexicon") << QT_TRANSLATE_NOOP("Core", "Txt Book") << QT_TRANSLATE_NOOP("Core", "Web Commentary");
+     << QT_TRANSLATE_NOOP("Core", "Sword Lexicon") << QT_TRANSLATE_NOOP("Core", "Txt Book")
+     << QT_TRANSLATE_NOOP("Core", "Web Commentary") << QT_TRANSLATE_NOOP("Core", "The Word Commentary");
     return l;
 }
 
@@ -151,6 +154,8 @@ QString ModuleTools::moduleTypeName(ModuleTools::ModuleType type)
         return QT_TRANSLATE_NOOP("Core", "Txt Book");
     } else if(type == ModuleTools::WebCommentaryModule) {
         return QT_TRANSLATE_NOOP("Core", "Web Commentary");
+    } else if(type == ModuleTools::TheWordCommentaryModule) {
+        return QT_TRANSLATE_NOOP("Core", "The Word Commentary");
     }
     return "";
 }
@@ -179,6 +184,7 @@ ModuleTools::ModuleCategory ModuleTools::getCategory(ModuleTools::ModuleType typ
             return ModuleTools::BookCategory;
 
         case ModuleTools::WebCommentaryModule:
+        case ModuleTools::TheWordCommentaryModule:
             return ModuleTools::CommentaryCategory;
         default:
             return ModuleTools::UnkownCategory;
@@ -207,6 +213,7 @@ ModuleTools::ModuleClass ModuleTools::typeToClass(ModuleTools::ModuleType type)
             return ModuleTools::BookClass;
 
         case ModuleTools::WebCommentaryModule:
+        case ModuleTools::TheWordCommentaryModule:
             return ModuleTools::CommentaryClass;
 
         default:
