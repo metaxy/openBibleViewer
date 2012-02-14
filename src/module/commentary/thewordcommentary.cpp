@@ -5,36 +5,44 @@
 #include "src/extern/rtf-qt/rtfreader.h"
 #include "src/extern/rtf-qt/TextDocumentRtfOutput.h"
 #include <QtCore/QTemporaryFile>
+#include <QTextCursor>
 TheWordCommentary::TheWordCommentary()
 {
 }
 
 Response * TheWordCommentary::readVerseRange(const int bookID,const int chapterID, const int startVerseID, const int endVerseID)
 {
-    QSqlQuery query("select topic_id from bible_refs where bi = "+ QString::number(bookID)+" and ci = " + QString::number(chapterID), m_db);
-    QString ret = "";
+    QTextDocument *rtfDocument = new QTextDocument( NULL );
+    QSqlQuery query("select topic_id from bible_refs where bi = "+ QString::number(bookID+1)+" and ci = " + QString::number(chapterID+1), m_db);
+
     while (query.next()) {
         QSqlQuery query2("select data from content where topic_id =" + query.value(0).toString(), m_db);
         while(query2.next()) {
-            ret += query2.value(0).toString();
+            QTemporaryFile file;
+            if (file.open()) {
+                QTextStream out(&file);
+                out << toValidRTF(query2.value(0).toString());
+                file.close();
+                RtfReader::Reader *reader = new RtfReader::Reader( NULL );
+                bool result = reader->open(file.fileName());
+                RtfReader::TextDocumentRtfOutput *output = new RtfReader::TextDocumentRtfOutput( rtfDocument );
+                reader->parseTo( output );
+            }
         }
     }
-    myDebug() << ret;
-    QTemporaryFile file;
-    if (file.open()) {
-        QTextStream out(&file);
-        out << ret;
-        file.close();
-        RtfReader::Reader *reader = new RtfReader::Reader( NULL );
-        bool result = reader->open(file.fileName());
 
-        QTextDocument *rtfDocument = new QTextDocument( NULL );
-        RtfReader::TextDocumentRtfOutput *output = new RtfReader::TextDocumentRtfOutput( rtfDocument );
-        reader->parseTo( output );
-        return new StringResponse(rtfDocument->toHtml());
+    return new StringResponse(rtfDocument->toHtml());
 
+
+}
+QString TheWordCommentary::toValidRTF(QString data)
+{
+    if(!data.startsWith("{\\rtf")) {
+        data.prepend("{\\rtf1");
+        data.append("}");
     }
-   return NULL;
+    myDebug() << data;
+    return data;
 }
 
 Response * TheWordCommentary::readChapter(const int bookID, const int chapterID)

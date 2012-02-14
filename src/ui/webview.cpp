@@ -13,6 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "webview.h"
 #include <QtWebKit/QWebFrame>
+#include "src/core/dbghelper.h"
+#include <QWebElement>
 WebView::WebView(QWidget *parent) :
     QWebView(parent)
 {
@@ -44,17 +46,19 @@ void WebView::mouseReleaseEvent(QMouseEvent *event)
 bool WebView::mouseReleased(const QPoint &pos)
 {
     const QWebHitTestResult hitTest = page()->mainFrame()->hitTestContent(pos);
-    const QUrl url = hitTest.linkUrl();
+    const QString url = hitTest.element().attribute("href");
 
 
     if (!url.isEmpty()) {
         if ((m_pressedButtons & Qt::MidButton) ||
             ((m_pressedButtons & Qt::LeftButton) && (m_keyboardModifiers & Qt::ControlModifier))) {
+            myDebug() << url;
             emit linkMiddleOrCtrlClicked(url);
             return true;
         }
 
         if ((m_pressedButtons & Qt::LeftButton) && (m_keyboardModifiers & Qt::ShiftModifier)) {
+            myDebug() << url;
             emit linkShiftClicked(url);
             return true;
 

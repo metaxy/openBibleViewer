@@ -21,60 +21,60 @@
 
 namespace RtfReader
 {
-    PictDestination::PictDestination( Reader *reader, AbstractRtfOutput *output, const QString &name ) :
-      Destination( reader, output, name )
-    {
+PictDestination::PictDestination(Reader *reader, AbstractRtfOutput *output, const QString &name) :
+    Destination(reader, output, name)
+{
+}
+
+PictDestination::~PictDestination()
+{
+}
+
+void PictDestination::handleControlWord(const QString &controlWord, bool hasValue, const int value)
+{
+    if(! hasValue) {
+        qDebug() << "expected control word to have valid value, but it does not";
     }
 
-    PictDestination::~PictDestination()
-    {
+    if(controlWord == "jpegblip") {
+        // handle this later
+    } else if(controlWord == "wmetafile") {
+        qDebug() << "todo: get WMF data";
+    } else if(controlWord == "picw") {
+        qDebug() << "pict width: " << value;
+        m_imageFormat.setWidth(value);
+    } else if(controlWord == "pich") {
+        qDebug() << "pict height: " << value;
+        m_imageFormat.setHeight(value);
+    } else if(controlWord == "picscalex") {
+        qDebug() << "X scale: " << value;
+    } else if(controlWord == "picscaley") {
+        qDebug() << "Y scale: " << value;
+    } else if(controlWord == "piccropl") {
+        qDebug() << "Left crop:" << value;
+    } else if(controlWord == "piccropr") {
+        qDebug() << "Right crop:" << value;
+    } else if(controlWord == "piccropt") {
+        qDebug() << "Top crop:" << value;
+    } else if(controlWord == "piccropb") {
+        qDebug() << "Bottom crop:" << value;
+    } else if(controlWord == "pichgoal") {
+        qDebug() << "Goal Height:" << value;
+    } else if(controlWord == "picwgoal") {
+        qDebug() << "Goal Width:" << value;
+    } else {
+        qDebug() << "unexpected control word in pict:" << controlWord;
     }
+}
 
-    void PictDestination::handleControlWord( const QString &controlWord, bool hasValue, const int value )
-    {
-	if (! hasValue) {
-	    qDebug() << "expected control word to have valid value, but it does not";
-	}
+void PictDestination::handlePlainText(const QString &plainText)
+{
+    m_pictHexData += plainText.toAscii();
+}
 
-	if ( controlWord == "jpegblip" ) {
-	    // handle this later
-	} else if ( controlWord == "wmetafile" ) {
-	    qDebug() << "todo: get WMF data";
-	} else if ( controlWord == "picw" ) {
-	    qDebug() << "pict width: " << value;
-	    m_imageFormat.setWidth( value );
-	} else if ( controlWord == "pich" ) {
-	    qDebug() << "pict height: " << value;
-	    m_imageFormat.setHeight( value );
-	} else if ( controlWord == "picscalex" ) {
-	    qDebug() << "X scale: " << value;
-	} else if ( controlWord == "picscaley" ) {
-	    qDebug() << "Y scale: " << value;
-	} else if ( controlWord == "piccropl" ) {
-	    qDebug() << "Left crop:" << value;
-	} else if ( controlWord == "piccropr" ) {
-	    qDebug() << "Right crop:" << value;
-	} else if ( controlWord == "piccropt" ) {
-	    qDebug() << "Top crop:" << value;
-	} else if ( controlWord == "piccropb" ) {
-	    qDebug() << "Bottom crop:" << value;
-	} else if ( controlWord == "pichgoal" ) {
-	    qDebug() << "Goal Height:" << value;
-	} else if ( controlWord == "picwgoal" ) {
-	    qDebug() << "Goal Width:" << value;
-	} else {
-	    qDebug() << "unexpected control word in pict:" << controlWord;
-	}
-    }
-
-    void PictDestination::handlePlainText( const QString &plainText )
-    {
-	m_pictHexData += plainText.toAscii();
-    }
-
-    void PictDestination::aboutToEndDestination()
-    {
-	QImage image = QImage::fromData( QByteArray::fromHex( m_pictHexData ) );
-	m_output->createImage(image, m_imageFormat);
-    }
+void PictDestination::aboutToEndDestination()
+{
+    QImage image = QImage::fromData(QByteArray::fromHex(m_pictHexData));
+    m_output->createImage(image, m_imageFormat);
+}
 }

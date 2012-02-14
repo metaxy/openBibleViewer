@@ -20,14 +20,14 @@
 
 namespace RtfReader
 {
-    class RtfGroupState
-    {
-    public:
-	RtfGroupState() : didChangeDestination( false ),endOfFile( false )
-	{}
-	bool didChangeDestination;
-	bool endOfFile;
-    };
+class RtfGroupState
+{
+public:
+    RtfGroupState() : didChangeDestination(false), endOfFile(false)
+    {}
+    bool didChangeDestination;
+    bool endOfFile;
+};
 }
 
 #endif

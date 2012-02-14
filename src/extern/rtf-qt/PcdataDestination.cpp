@@ -21,22 +21,22 @@
 
 namespace RtfReader
 {
-    PcdataDestination::PcdataDestination( Reader *reader, AbstractRtfOutput *output, const QString &name ) :
-      Destination( reader, output, name )
-    {
-    }
+PcdataDestination::PcdataDestination(Reader *reader, AbstractRtfOutput *output, const QString &name) :
+    Destination(reader, output, name)
+{
+}
 
-    PcdataDestination::~PcdataDestination()
-    {
-    }
+PcdataDestination::~PcdataDestination()
+{
+}
 
-    void PcdataDestination::handleControlWord( const QString &controlWord, bool, const int )
-    {
-	qDebug() << "unexpected control word in" << m_name << ": " << controlWord;
-    }
+void PcdataDestination::handleControlWord(const QString &controlWord, bool, const int)
+{
+    qDebug() << "unexpected control word in" << m_name << ": " << controlWord;
+}
 
-    void PcdataDestination::handlePlainText( const QString &plainText )
-    {
-	m_pcdata = plainText;
-    }
+void PcdataDestination::handlePlainText(const QString &plainText)
+{
+    m_pcdata = plainText;
+}
 }

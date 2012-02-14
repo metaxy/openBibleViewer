@@ -131,6 +131,8 @@ void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers 
     const QString anchor = "#";
     const QString note = "note://";
 
+    QString backup = url;
+
     if(url.startsWith(ModuleTools::verseScheme)) {
         m_bibleManager->pharseUrl(url, mod);
     } else if(url.startsWith(ModuleTools::strongScheme)) {
@@ -181,7 +183,12 @@ void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers 
     } else if(url.startsWith(note)) {
         url = url.remove(0, note.size());
         m_notesManager->openNote(url);
-    } else {
+    } else if(url.startsWith(ModuleTools::theWordScheme)) {
+        url = url.remove(0, ModuleTools::theWordScheme.size());
+        if(url.startsWith("bible")) {
+            m_bibleManager->pharseUrl(backup, mod);
+        }
+    }else {
         //todo: unterstand links like about:blank#a04
         if(m_windowManager->activeForm() && m_windowManager->activeForm()->type() == Form::BibleForm) {
             BibleForm *f = (BibleForm*)(m_windowManager->activeForm());

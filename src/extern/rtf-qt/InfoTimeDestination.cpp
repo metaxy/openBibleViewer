@@ -21,43 +21,43 @@
 
 namespace RtfReader
 {
-    InfoTimeDestination::InfoTimeDestination( Reader *reader, AbstractRtfOutput *output, const QString &name ) :
-      Destination( reader, output, name )
-    {
-    }
+InfoTimeDestination::InfoTimeDestination(Reader *reader, AbstractRtfOutput *output, const QString &name) :
+    Destination(reader, output, name)
+{
+}
 
-    InfoTimeDestination::~InfoTimeDestination()
-    {
-    }
+InfoTimeDestination::~InfoTimeDestination()
+{
+}
 
-    void InfoTimeDestination::handleControlWord( const QString &controlWord, bool hasValue, const int value )
-    {
-	if (! hasValue) {
-	    qDebug() << "expected control word to have valid value, but it does not";
-	}
-	if ( controlWord == "yr" ) {
-	    m_year = value;
-	} else if ( controlWord == "mo" ) {
-	    m_month = value;
-	} else if ( controlWord == "dy" ) {
-	    m_day = value;
-	} else if ( controlWord == "hr" ) {
-	    m_hour = value;
-	} else if ( controlWord == "min" ) {
-	    m_minute = value;
-	} else {
-	    qDebug() << "unexpected control word in" << m_name << ": " << controlWord;
-	}
+void InfoTimeDestination::handleControlWord(const QString &controlWord, bool hasValue, const int value)
+{
+    if(! hasValue) {
+        qDebug() << "expected control word to have valid value, but it does not";
     }
+    if(controlWord == "yr") {
+        m_year = value;
+    } else if(controlWord == "mo") {
+        m_month = value;
+    } else if(controlWord == "dy") {
+        m_day = value;
+    } else if(controlWord == "hr") {
+        m_hour = value;
+    } else if(controlWord == "min") {
+        m_minute = value;
+    } else {
+        qDebug() << "unexpected control word in" << m_name << ": " << controlWord;
+    }
+}
 
-    void InfoTimeDestination::handlePlainText( const QString &plainText )
-    {
-	qDebug() << "unexpected text in InfoTimeDestination:" << plainText;
-    }
+void InfoTimeDestination::handlePlainText(const QString &plainText)
+{
+    qDebug() << "unexpected text in InfoTimeDestination:" << plainText;
+}
 
-    QDateTime InfoTimeDestination::dateTime() const
-    {
-	return QDateTime( QDate( m_year, m_month, m_day ),
-			  QTime( m_hour, m_minute, 0 ) );
-    }
+QDateTime InfoTimeDestination::dateTime() const
+{
+    return QDateTime(QDate(m_year, m_month, m_day),
+                     QTime(m_hour, m_minute, 0));
+}
 }

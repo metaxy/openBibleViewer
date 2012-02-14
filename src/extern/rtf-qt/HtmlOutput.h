@@ -15,8 +15,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef RTFREADER_TEXTDOCUMENTRTFOUTPUT_H
-#define RTFREADER_TEXTDOCUMENTRTFOUTPUT_H
+#ifndef RTFREADER_HTMLOUTPUT_H
+#define RTFREADER_HTMLOUTPUT_H
 
 #include "AbstractRtfOutput.h"
 
@@ -32,12 +32,12 @@ namespace RtfReader
 {
 class Reader;
 
-class TextDocumentRtfOutput: public AbstractRtfOutput
+class HtmlOutput: public AbstractRtfOutput
 {
 public:
-    TextDocumentRtfOutput(QTextDocument *document);
+    HtmlOutput(QTextDocument *document);
 
-    virtual ~TextDocumentRtfOutput();
+    virtual ~HtmlOutput();
 
     virtual void startGroup();
 

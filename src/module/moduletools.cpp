@@ -22,6 +22,7 @@ const QString ModuleTools::dictScheme = "dict:/";
 const QString ModuleTools::verseScheme = "verse:/";
 const QString ModuleTools::webPageScheme = "webpage:/";
 const QString ModuleTools::bookScheme = "book:/";
+const QString ModuleTools::theWordScheme = "tw://";
 ModuleTools::ModuleTools()
 {
 }

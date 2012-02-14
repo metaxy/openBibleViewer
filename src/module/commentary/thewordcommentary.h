@@ -22,6 +22,8 @@ public:
 
     MetaInfo readInfo(const QString &name);
 
+    QString toValidRTF(QString data);
+
 
 private:
     QSqlDatabase m_db;

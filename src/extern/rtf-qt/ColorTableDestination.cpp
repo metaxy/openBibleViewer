@@ -21,43 +21,43 @@
 
 namespace RtfReader
 {
-    ColorTableDestination::ColorTableDestination( Reader *reader, AbstractRtfOutput *output, const QString &name ) :
-      Destination( reader, output, name )
-    {
-	m_currentColor = Qt::black; // this is our default color
-    }
+ColorTableDestination::ColorTableDestination(Reader *reader, AbstractRtfOutput *output, const QString &name) :
+    Destination(reader, output, name)
+{
+    m_currentColor = Qt::black; // this is our default color
+}
 
-    ColorTableDestination::~ColorTableDestination()
-    {}
+ColorTableDestination::~ColorTableDestination()
+{}
 
-    void ColorTableDestination::handleControlWord( const QString &controlWord, bool hasValue, const int value )
-    {
-	if (! hasValue) {
-	    qDebug() << "expected control word to have valid value, but it does not";
-	}
-	if ( controlWord == "red" ) {
-	    m_currentColor.setRed( value );
-	} else if (controlWord == "green" ) {
-	    m_currentColor.setGreen( value );
-	} else if (controlWord == "blue" ) {
-	    m_currentColor.setBlue( value );
-	} else {
-	    qDebug() << "unexpected control word in colortbl:" << controlWord;
-	}
+void ColorTableDestination::handleControlWord(const QString &controlWord, bool hasValue, const int value)
+{
+    if(! hasValue) {
+        qDebug() << "expected control word to have valid value, but it does not";
     }
+    if(controlWord == "red") {
+        m_currentColor.setRed(value);
+    } else if(controlWord == "green") {
+        m_currentColor.setGreen(value);
+    } else if(controlWord == "blue") {
+        m_currentColor.setBlue(value);
+    } else {
+        qDebug() << "unexpected control word in colortbl:" << controlWord;
+    }
+}
 
-    void ColorTableDestination::handlePlainText( const QString &plainText )
-    {
-	if ( plainText == ";" ) {
-	    m_output->appendToColourTable( m_currentColor );
-	    resetCurrentColor();
-	} else {
-	    qDebug() << "unexpected text in ColorTableDestination:" << plainText;
-	}
+void ColorTableDestination::handlePlainText(const QString &plainText)
+{
+    if(plainText == ";") {
+        m_output->appendToColourTable(m_currentColor);
+        resetCurrentColor();
+    } else {
+        qDebug() << "unexpected text in ColorTableDestination:" << plainText;
     }
+}
 
-    void ColorTableDestination::resetCurrentColor()
-    {
-	m_currentColor = Qt::black;
-    }
+void ColorTableDestination::resetCurrentColor()
+{
+    m_currentColor = Qt::black;
+}
 }

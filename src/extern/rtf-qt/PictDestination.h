@@ -25,26 +25,26 @@
 
 namespace RtfReader
 {
-    class Reader;
+class Reader;
 
-    class PictDestination: public Destination
-    {
-      public:
-	PictDestination( Reader *reader, AbstractRtfOutput *output, const QString &name );
+class PictDestination: public Destination
+{
+public:
+    PictDestination(Reader *reader, AbstractRtfOutput *output, const QString &name);
 
-	virtual ~PictDestination();
+    virtual ~PictDestination();
 
-	virtual void handleControlWord( const QString &controlWord, bool hasValue, const int value );
-	virtual void handlePlainText( const QString &plainText );
-	virtual void aboutToEndDestination();
+    virtual void handleControlWord(const QString &controlWord, bool hasValue, const int value);
+    virtual void handlePlainText(const QString &plainText);
+    virtual void aboutToEndDestination();
 
-      private:
-	// The hexadecimal version of the data for the image that is currently being built
-	QByteArray m_pictHexData;
-	
-	// The format information for the current image
-	QTextImageFormat m_imageFormat;
-      };
+private:
+    // The hexadecimal version of the data for the image that is currently being built
+    QByteArray m_pictHexData;
+
+    // The format information for the current image
+    QTextImageFormat m_imageFormat;
+};
 }
 
 #endif

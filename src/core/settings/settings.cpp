@@ -98,3 +98,20 @@ int Settings::newModuleID() const
     return max + 1;
 
 }
+int Settings::getDefaultModule(ModuleTools::ContentType c)
+{
+    ModuleTools::DefaultModule d = ModuleTools::toDefaultModule(c);
+
+    QMap<int, ModuleSettings *>::const_iterator i;
+    for(i = m_moduleSettings.constBegin(); i != m_moduleSettings.constEnd(); ++i) {
+        if(i.value()->defaultModule == d) {
+            return i.key();
+        }
+    }
+    for(i = m_moduleSettings.constBegin(); i != m_moduleSettings.constEnd(); ++i) {
+        if(i.value()->contentType == c) {
+            return i.key();
+        }
+    }
+    return 0;
+}

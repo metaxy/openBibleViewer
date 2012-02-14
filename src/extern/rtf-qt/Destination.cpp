@@ -21,33 +21,33 @@
 
 namespace RtfReader
 {
-    Destination::Destination( Reader *reader, AbstractRtfOutput *output, const QString &name ) :
-     m_name( name ), m_reader(reader), m_output( output )
-    {
-    }
+Destination::Destination(Reader *reader, AbstractRtfOutput *output, const QString &name) :
+    m_name(name), m_reader(reader), m_output(output)
+{
+}
 
-    Destination::~Destination()
-    {}
+Destination::~Destination()
+{}
 
-    bool Destination::hasName( const QString &name )
-    {
-	return m_name == name;
-    }
+bool Destination::hasName(const QString &name)
+{
+    return m_name == name;
+}
 
-    QString Destination::name() const
-    {
-	return m_name;
-    }
+QString Destination::name() const
+{
+    return m_name;
+}
 
-    void Destination::handleControlWord( const QString &, bool, const int )
-    {
-    };
+void Destination::handleControlWord(const QString &, bool, const int)
+{
+};
 
-    void Destination::handlePlainText( const QString &plainText )
-    {
-	qDebug() << "plain text:" << plainText << "in" << m_name;
-    };
+void Destination::handlePlainText(const QString &plainText)
+{
+    qDebug() << "plain text:" << plainText << "in" << m_name;
+};
 
-    void Destination::aboutToEndDestination()
-    {};
+void Destination::aboutToEndDestination()
+{};
 }

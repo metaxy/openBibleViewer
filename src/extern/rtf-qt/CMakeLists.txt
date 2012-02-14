@@ -44,7 +44,8 @@ set(RtfReader_LIB_SOURCES
 	Token.cpp
 	Tokenizer.cpp
 	UserPropsDestination.cpp
-	FieldResultDestination.cpp
+    FieldDestination.cpp
+    HtmlOutput.cpp
 )
 
 qt4_automoc(${RtfReader_LIB_SOURCES})

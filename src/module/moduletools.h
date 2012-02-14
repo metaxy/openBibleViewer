@@ -89,6 +89,8 @@ public:
     static const QString verseScheme;
     static const QString webPageScheme;
     static const QString bookScheme;
+    static const QString theWordScheme;
+
 
     static ModuleTools::ModuleType recognizeModuleType(const QString &fileName);
     static ModuleTools::DefaultModule toDefaultModule(const ModuleTools::ContentType t);

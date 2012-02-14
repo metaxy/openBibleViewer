@@ -23,20 +23,21 @@
 
 namespace RtfReader
 {
-    enum TokenType { OpenGroup, CloseGroup, Control, Plain, Binary };
+enum TokenType { OpenGroup, CloseGroup, Control, Plain, Binary };
 
-    /**
-      RTF token
-      */
-    class Token {
-      public: /* TODO: convert to getters / setters */
-	void dump() const;
-	TokenType type;
-	QString name;
-	bool hasParameter;
-	QString parameter;
-	QByteArray binaryData;
-    };
+/**
+  RTF token
+  */
+class Token
+{
+public: /* TODO: convert to getters / setters */
+    void dump() const;
+    TokenType type;
+    QString name;
+    bool hasParameter;
+    QString parameter;
+    QByteArray binaryData;
+};
 }
 
 #endif

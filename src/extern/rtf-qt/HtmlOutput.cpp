@@ -15,33 +15,31 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "TextDocumentRtfOutput.h"
+#include "HtmlOutput.h"
 
 #include <QtGui/QTextCursor>
 #include <QtGui/QTextDocument>
 #include <QtCore/QDebug>
 #include <QtCore/QUrl>
 #include <QtCore/QUuid>
-#include <QtGui/QTextDocumentFragment>
 
 namespace RtfReader
 {
-TextDocumentRtfOutput::TextDocumentRtfOutput(QTextDocument *document) : AbstractRtfOutput(),
+HtmlOutput::HtmlOutput(QTextDocument *document) : AbstractRtfOutput(),
     m_document(document), m_haveSetFont(false)
 {
     m_cursor = new QTextCursor(m_document);
-    m_cursor->movePosition(QTextCursor::End);
     QTextCharFormat defaultCharFormat;
     defaultCharFormat.setFontPointSize(12);   // default of 24 "half-points"
     m_textCharFormatStack.push(defaultCharFormat);
 }
 
-TextDocumentRtfOutput::~TextDocumentRtfOutput()
+HtmlOutput::~HtmlOutput()
 {
     delete m_cursor;
 }
 
-void TextDocumentRtfOutput::startGroup()
+void HtmlOutput::startGroup()
 {
     if(! m_haveSetFont) {
         // TODO: think harder about how to deal with default font cases.
@@ -51,79 +49,79 @@ void TextDocumentRtfOutput::startGroup()
     m_textCharFormatStack.push(charFormat);
 }
 
-void TextDocumentRtfOutput::endGroup()
+void HtmlOutput::endGroup()
 {
     m_textCharFormatStack.pop();
     m_cursor->setCharFormat(m_textCharFormatStack.top());
 }
 
-void TextDocumentRtfOutput::appendText(const QString &text)
+void HtmlOutput::appendText(const QString &text)
 {
     m_cursor->insertText(text);
 }
 
-void TextDocumentRtfOutput::insertPar()
+void HtmlOutput::insertPar()
 {
     m_cursor->insertBlock();
 }
 
-void TextDocumentRtfOutput::insertTab()
+void HtmlOutput::insertTab()
 {
     m_cursor->insertText("\t");
 }
 
-void TextDocumentRtfOutput::insertLeftQuote()
+void HtmlOutput::insertLeftQuote()
 {
     m_cursor->insertText(QChar(0x2018));
 }
 
-void TextDocumentRtfOutput::insertRightQuote()
+void HtmlOutput::insertRightQuote()
 {
     m_cursor->insertText(QChar(0x2019));
 }
 
-void TextDocumentRtfOutput::insertLeftDoubleQuote()
+void HtmlOutput::insertLeftDoubleQuote()
 {
     m_cursor->insertText(QChar(0x201c));
 }
 
-void TextDocumentRtfOutput::insertRightDoubleQuote()
+void HtmlOutput::insertRightDoubleQuote()
 {
     m_cursor->insertText(QChar(0x201d));
 }
 
-void TextDocumentRtfOutput::insertEnDash()
+void HtmlOutput::insertEnDash()
 {
     m_cursor->insertText(QChar(0x2013));
 }
 
-void TextDocumentRtfOutput::insertEmDash()
+void HtmlOutput::insertEmDash()
 {
     m_cursor->insertText(QChar(0x2014));
 }
 
-void TextDocumentRtfOutput::insertEmSpace()
+void HtmlOutput::insertEmSpace()
 {
     m_cursor->insertText(QChar(0x2003));
 }
 
-void TextDocumentRtfOutput::insertEnSpace()
+void HtmlOutput::insertEnSpace()
 {
     m_cursor->insertText(QChar(0x2002));
 }
 
-void TextDocumentRtfOutput::insertBullet()
+void HtmlOutput::insertBullet()
 {
     m_cursor->insertText(QChar(0x2022));
 }
 
-void TextDocumentRtfOutput::setFontItalic(const int value)
+void HtmlOutput::setFontItalic(const int value)
 {
     m_textCharFormatStack.top().setFontItalic(value != 0);
     m_cursor->setCharFormat(m_textCharFormatStack.top());
 }
 
-void TextDocumentRtfOutput::setFontBold(const int value)
+void HtmlOutput::setFontBold(const int value)
 {
     int weight = QFont::Normal;
     if(value != 0) {
@@ -133,19 +131,19 @@ void TextDocumentRtfOutput::setFontBold(const int value)
     m_cursor->setCharFormat(m_textCharFormatStack.top());
 }
 
-void TextDocumentRtfOutput::setFontUnderline(const int value)
+void HtmlOutput::setFontUnderline(const int value)
 {
     m_textCharFormatStack.top().setFontUnderline(value != 0);
     m_cursor->setCharFormat(m_textCharFormatStack.top());
 }
 
-void TextDocumentRtfOutput::setFontPointSize(const int pointSize)
+void HtmlOutput::setFontPointSize(const int pointSize)
 {
     m_textCharFormatStack.top().setFontPointSize(pointSize);
     m_cursor->setCharFormat(m_textCharFormatStack.top());
 }
 
-void TextDocumentRtfOutput::setForegroundColour(const int colourIndex)
+void HtmlOutput::setForegroundColour(const int colourIndex)
 {
     QColor colour = m_colourTable.value(colourIndex);
     if(colour.isValid()) {
@@ -156,7 +154,7 @@ void TextDocumentRtfOutput::setForegroundColour(const int colourIndex)
     }
 }
 
-void TextDocumentRtfOutput::setHighlightColour(const int colourIndex)
+void HtmlOutput::setHighlightColour(const int colourIndex)
 {
     QColor colour = m_colourTable.value(colourIndex);
     if(colour.isValid()) {
@@ -167,7 +165,7 @@ void TextDocumentRtfOutput::setHighlightColour(const int colourIndex)
     }
 }
 
-void TextDocumentRtfOutput::setParagraphPatternBackgroundColour(const int colourIndex)
+void HtmlOutput::setParagraphPatternBackgroundColour(const int colourIndex)
 {
     QColor colour = m_colourTable.value(colourIndex);
     if(colour.isValid()) {
@@ -178,7 +176,7 @@ void TextDocumentRtfOutput::setParagraphPatternBackgroundColour(const int colour
     }
 }
 
-void TextDocumentRtfOutput::setFont(const int fontIndex)
+void HtmlOutput::setFont(const int fontIndex)
 {
     if(! m_fontTable.contains(fontIndex)) {
         qDebug() << "attempted to select fontIndex" << fontIndex << "not in the font table";
@@ -191,29 +189,29 @@ void TextDocumentRtfOutput::setFont(const int fontIndex)
     m_haveSetFont = true;
 }
 
-void TextDocumentRtfOutput::setDefaultFont(const int fontIndex)
+void HtmlOutput::setDefaultFont(const int fontIndex)
 {
     m_defaultFontIndex = fontIndex;
 }
 
-void TextDocumentRtfOutput::appendToColourTable(const QColor &colour)
+void HtmlOutput::appendToColourTable(const QColor &colour)
 {
     m_colourTable.append(colour);
 }
 
-void TextDocumentRtfOutput::insertFontTableEntry(FontTableEntry fontTableEntry, quint32 fontTableIndex)
+void HtmlOutput::insertFontTableEntry(FontTableEntry fontTableEntry, quint32 fontTableIndex)
 {
     // qDebug() << "inserting font entry:" << fontTableIndex << "with name:" << fontTableEntry.fontName();
     m_fontTable.insert(fontTableIndex, fontTableEntry);
 }
 
-void TextDocumentRtfOutput::insertStyleSheetTableEntry(quint32 stylesheetTableIndex, StyleSheetTableEntry stylesheetTableEntry)
+void HtmlOutput::insertStyleSheetTableEntry(quint32 stylesheetTableIndex, StyleSheetTableEntry stylesheetTableEntry)
 {
     qDebug() << "inserting stylesheet entry:" << stylesheetTableIndex << "with name:" << stylesheetTableEntry.styleName();
     m_stylesheetTable.insert(stylesheetTableIndex, stylesheetTableEntry);
 }
 
-void TextDocumentRtfOutput::resetParagraphFormat()
+void HtmlOutput::resetParagraphFormat()
 {
     m_paragraphFormat.setAlignment(Qt::AlignLeft);
     m_paragraphFormat.setTextIndent(0);
@@ -222,7 +220,7 @@ void TextDocumentRtfOutput::resetParagraphFormat()
     m_cursor->setBlockFormat(m_paragraphFormat);
 }
 
-void TextDocumentRtfOutput::resetCharacterProperties()
+void HtmlOutput::resetCharacterProperties()
 {
     m_textCharFormatStack.top().setFontPointSize(12);   // default of 24 "half-points"
     m_textCharFormatStack.top().setFontWeight(QFont::Normal);
@@ -231,85 +229,85 @@ void TextDocumentRtfOutput::resetCharacterProperties()
     m_cursor->setCharFormat(m_textCharFormatStack.top());
 }
 
-void TextDocumentRtfOutput::setParagraphAlignmentLeft()
+void HtmlOutput::setParagraphAlignmentLeft()
 {
     m_paragraphFormat.setAlignment(Qt::AlignLeft);
     m_cursor->setBlockFormat(m_paragraphFormat);
 }
 
-void TextDocumentRtfOutput::setParagraphAlignmentCentred()
+void HtmlOutput::setParagraphAlignmentCentred()
 {
     m_paragraphFormat.setAlignment(Qt::AlignHCenter);
     m_cursor->setBlockFormat(m_paragraphFormat);
 }
 
-void TextDocumentRtfOutput::setParagraphAlignmentJustified()
+void HtmlOutput::setParagraphAlignmentJustified()
 {
     m_paragraphFormat.setAlignment(Qt::AlignJustify);
     m_cursor->setBlockFormat(m_paragraphFormat);
 }
 
-void TextDocumentRtfOutput::setParagraphAlignmentRight()
+void HtmlOutput::setParagraphAlignmentRight()
 {
     m_paragraphFormat.setAlignment(Qt::AlignRight);
     m_cursor->setBlockFormat(m_paragraphFormat);
 }
 
-void TextDocumentRtfOutput::setLeftIndent(const int twips)
+void HtmlOutput::setLeftIndent(const int twips)
 {
     m_paragraphFormat.setLeftMargin(pixelsFromTwips(twips));
     m_cursor->setBlockFormat(m_paragraphFormat);
 }
 
-void TextDocumentRtfOutput::setRightIndent(const int twips)
+void HtmlOutput::setRightIndent(const int twips)
 {
     m_paragraphFormat.setRightMargin(pixelsFromTwips(twips));
     m_cursor->setBlockFormat(m_paragraphFormat);
 }
 
-void TextDocumentRtfOutput::setSpaceBefore(const int twips)
+void HtmlOutput::setSpaceBefore(const int twips)
 {
     m_paragraphFormat.setTopMargin(pixelsFromTwips(twips));
     m_cursor->setBlockFormat(m_paragraphFormat);
 }
 
-void TextDocumentRtfOutput::setSpaceAfter(const int twips)
+void HtmlOutput::setSpaceAfter(const int twips)
 {
     m_paragraphFormat.setBottomMargin(pixelsFromTwips(twips));
     m_cursor->setBlockFormat(m_paragraphFormat);
 }
 
-void TextDocumentRtfOutput::setFirstLineIndent(const int twips)
+void HtmlOutput::setFirstLineIndent(const int twips)
 {
     m_paragraphFormat.setTextIndent(pixelsFromTwips(twips));
     m_cursor->setBlockFormat(m_paragraphFormat);
 }
 
-void TextDocumentRtfOutput::setFontSuperscript()
+void HtmlOutput::setFontSuperscript()
 {
     m_textCharFormatStack.top().setVerticalAlignment(QTextCharFormat::AlignSuperScript);
     m_cursor->setCharFormat(m_textCharFormatStack.top());
 }
 
-void TextDocumentRtfOutput::setFontSubscript()
+void HtmlOutput::setFontSubscript()
 {
     m_textCharFormatStack.top().setVerticalAlignment(QTextCharFormat::AlignSubScript);
     m_cursor->setCharFormat(m_textCharFormatStack.top());
 }
 
-void TextDocumentRtfOutput::setTextDirectionLeftToRight()
+void HtmlOutput::setTextDirectionLeftToRight()
 {
     m_textCharFormatStack.top().setLayoutDirection(Qt::LeftToRight);
     m_cursor->setCharFormat(m_textCharFormatStack.top());
 }
 
-void TextDocumentRtfOutput::setTextDirectionRightToLeft()
+void HtmlOutput::setTextDirectionRightToLeft()
 {
     m_textCharFormatStack.top().setLayoutDirection(Qt::RightToLeft);
     m_cursor->setCharFormat(m_textCharFormatStack.top());
 }
 
-void TextDocumentRtfOutput::createImage(const QImage &image, const QTextImageFormat &format)
+void HtmlOutput::createImage(const QImage &image, const QTextImageFormat &format)
 {
 #if 0
     QString imageUuid = QString("rtfparser://") + QUuid::createUuid().toString();
@@ -321,24 +319,24 @@ void TextDocumentRtfOutput::createImage(const QImage &image, const QTextImageFor
 #endif
 }
 
-void TextDocumentRtfOutput::setPageHeight(const int pageHeight)
+void HtmlOutput::setPageHeight(const int pageHeight)
 {
     qDebug() << "setPageHeight: " << pageHeight << " (" << pageHeight / 1440.0 << ")";
 }
 
-void TextDocumentRtfOutput::setPageWidth(const int pageWidth)
+void HtmlOutput::setPageWidth(const int pageWidth)
 {
     qDebug() << "setPageWidth: " << pageWidth << " (" << pageWidth / 1440.0 << ")";
 }
 
-qreal TextDocumentRtfOutput::pixelsFromTwips(const int twips)
+qreal HtmlOutput::pixelsFromTwips(const int twips)
 {
     qreal inches = twips / 1440.0;
     qreal pixels = inches * 96.0;
     return pixels;
 }
-void TextDocumentRtfOutput::appendLink(const QString &href, const QString &text)
+void HtmlOutput::appendLink(const QString &href, const QString &text)
 {
-    m_cursor->insertHtml("<a href="+href+">"+text+"</a>");
+    m_cursor->insertHtml("<a href="+href+">"+text +"</a>");
 }
 }

@@ -15,38 +15,37 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Token.h"
+#ifndef RTFREADER_FIELDDESTINATION_H
+#define RTFREADER_FIELDDESTINATION_H
 
-#include <QtCore/QDebug>
+#include <QtCore/QString>
+#include <QtGui/QColor>
+
+#include "Destination.h"
 
 namespace RtfReader
 {
-void Token::dump() const
+class Reader;
+
+class FieldDestination: public Destination
 {
-    switch(type) {
-    case OpenGroup:
-        qDebug() << "token type: OpenGroup";
-        break;
-    case CloseGroup:
-        qDebug() << "token type: CloseGroup";
-        break;
-    case Control:
-        qDebug() << "token type: Control";
-        break;
-    case Plain:
-        qDebug() << "token type: Plain";
-        break;
-    case Binary:
-        qDebug() << "token type: Binary";
-        break;
-    default:
-        qDebug() << "unexpected token type: " << type;
-    }
-    if(type > CloseGroup) {
-        qDebug() << "name: " << name;
-        if(hasParameter) {
-            qDebug() << "parameter: " << parameter;
-        }
-    }
+public:
+    FieldDestination(Reader *reader, AbstractRtfOutput *output, const QString &name);
+
+    virtual ~FieldDestination();
+
+    virtual void handleControlWord(const QString &controlWord, bool hasValue, const int value);
+    virtual void handlePlainText(const QString &plainText);
+    virtual void aboutToEndDestination();
+private:
+
+    bool m_fldinst;
+    bool m_fldrslt;
+
+    QString m_url;
+    QString m_text;
+
+};
 }
-}
+
+#endif

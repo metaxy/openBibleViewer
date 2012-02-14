@@ -25,19 +25,19 @@
 
 namespace RtfReader
 {
-    class Reader;
+class Reader;
 
-    class IgnoredDestination: public Destination
-    {
-      public:
-	IgnoredDestination( Reader *reader, AbstractRtfOutput *output, const QString &name );
+class IgnoredDestination: public Destination
+{
+public:
+    IgnoredDestination(Reader *reader, AbstractRtfOutput *output, const QString &name);
 
-	virtual ~IgnoredDestination();
+    virtual ~IgnoredDestination();
 
-	virtual void handleControlWord( const QString &controlWord, bool hasValue, const int value );
-	virtual void handlePlainText( const QString &plainText );
-	virtual void aboutToEndDestination();
-      };
+    virtual void handleControlWord(const QString &controlWord, bool hasValue, const int value);
+    virtual void handlePlainText(const QString &plainText);
+    virtual void aboutToEndDestination();
+};
 }
 
 #endif

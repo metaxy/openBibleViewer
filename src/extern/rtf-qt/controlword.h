@@ -28,16 +28,16 @@
 namespace RtfReader
 {
 
-  /**
-     Representation of an RTF Control Word
-  */
-  class ControlWord
-  {
-  public:
+/**
+   Representation of an RTF Control Word
+*/
+class ControlWord
+{
+public:
     /**
        Constructor
     */
-    explicit ControlWord( const QString &name );
+    explicit ControlWord(const QString &name);
 
     /**
        Test whether this control word is a supported destination
@@ -47,16 +47,16 @@ namespace RtfReader
     /**
        Test whether a control word name is a destination (even if we don't support it)
     */
-    static bool isDestination( const QString &controlword );
+    static bool isDestination(const QString &controlword);
 
     /**
        Test whether this control word is one we recognise
     */
     bool isKnown() const;
 
-  private:
+private:
     QString m_name;
-  };
+};
 
 }
 

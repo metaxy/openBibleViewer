@@ -21,20 +21,20 @@
 
 namespace RtfReader
 {
-    GeneratorPcdataDestination::GeneratorPcdataDestination( Reader *reader, AbstractRtfOutput *output, const QString &name ) :
-      PcdataDestination( reader, output, name )
-    {
-    }
+GeneratorPcdataDestination::GeneratorPcdataDestination(Reader *reader, AbstractRtfOutput *output, const QString &name) :
+    PcdataDestination(reader, output, name)
+{
+}
 
-    GeneratorPcdataDestination::~GeneratorPcdataDestination()
-    {
-    }
+GeneratorPcdataDestination::~GeneratorPcdataDestination()
+{
+}
 
-    void GeneratorPcdataDestination::aboutToEndDestination()
-    {
-	if ( m_pcdata.endsWith( ";" ) ) {
-	    // trim off the trailing semicolon
-	    m_output->setGeneratorInformation( m_pcdata.left( m_pcdata.length() - 1 ) );
-	}
+void GeneratorPcdataDestination::aboutToEndDestination()
+{
+    if(m_pcdata.endsWith(";")) {
+        // trim off the trailing semicolon
+        m_output->setGeneratorInformation(m_pcdata.left(m_pcdata.length() - 1));
     }
+}
 }

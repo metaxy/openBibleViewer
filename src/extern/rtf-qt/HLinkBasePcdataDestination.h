@@ -25,17 +25,17 @@
 
 namespace RtfReader
 {
-    class Reader;
+class Reader;
 
-    class HLinkBasePcdataDestination: public PcdataDestination
-    {
-      public:
-	HLinkBasePcdataDestination( Reader *reader, AbstractRtfOutput *output, const QString &name );
+class HLinkBasePcdataDestination: public PcdataDestination
+{
+public:
+    HLinkBasePcdataDestination(Reader *reader, AbstractRtfOutput *output, const QString &name);
 
-	virtual ~HLinkBasePcdataDestination();
+    virtual ~HLinkBasePcdataDestination();
 
-	virtual void aboutToEndDestination();
-      };
+    virtual void aboutToEndDestination();
+};
 }
 
 #endif

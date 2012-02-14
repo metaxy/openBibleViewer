@@ -25,29 +25,29 @@
 
 namespace RtfReader
 {
-    class Reader;
+class Reader;
 
-    class InfoTimeDestination: public Destination
-    {
-      public:
-	InfoTimeDestination( Reader *reader, AbstractRtfOutput *output, const QString &name );
+class InfoTimeDestination: public Destination
+{
+public:
+    InfoTimeDestination(Reader *reader, AbstractRtfOutput *output, const QString &name);
 
-	virtual ~InfoTimeDestination();
+    virtual ~InfoTimeDestination();
 
-	virtual void handleControlWord( const QString &controlWord, bool hasValue, const int value );
-	virtual void handlePlainText( const QString &plainText );
-	virtual void aboutToEndDestination() = 0;
+    virtual void handleControlWord(const QString &controlWord, bool hasValue, const int value);
+    virtual void handlePlainText(const QString &plainText);
+    virtual void aboutToEndDestination() = 0;
 
-      protected:
-	QDateTime dateTime() const;
+protected:
+    QDateTime dateTime() const;
 
-      private:
-	int m_year;
-	int m_month;
-	int m_day;
-	int m_hour;
-	int m_minute;
-      };
+private:
+    int m_year;
+    int m_month;
+    int m_day;
+    int m_hour;
+    int m_minute;
+};
 }
 
 #endif

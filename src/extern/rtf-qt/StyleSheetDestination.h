@@ -26,23 +26,23 @@
 
 namespace RtfReader
 {
-    class Reader;
+class Reader;
 
-    class StyleSheetDestination: public Destination
-    {
-      public:
-	StyleSheetDestination( Reader *reader, AbstractRtfOutput *output, const QString &name );
+class StyleSheetDestination: public Destination
+{
+public:
+    StyleSheetDestination(Reader *reader, AbstractRtfOutput *output, const QString &name);
 
-	virtual ~StyleSheetDestination();
+    virtual ~StyleSheetDestination();
 
-	virtual void handleControlWord( const QString &controlWord, bool hasValue, const int value );
-	virtual void handlePlainText( const QString &plainText );
-	virtual void aboutToEndDestination();
+    virtual void handleControlWord(const QString &controlWord, bool hasValue, const int value);
+    virtual void handlePlainText(const QString &plainText);
+    virtual void aboutToEndDestination();
 
-      protected:
-	quint32 		m_currentStyleHandleNumber;
-	StyleSheetTableEntry	m_style;
-      };
+protected:
+    quint32         m_currentStyleHandleNumber;
+    StyleSheetTableEntry    m_style;
+};
 }
 
 #endif

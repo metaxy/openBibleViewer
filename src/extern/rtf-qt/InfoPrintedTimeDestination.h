@@ -25,17 +25,17 @@
 
 namespace RtfReader
 {
-    class Reader;
+class Reader;
 
-    class InfoPrintedTimeDestination: public InfoTimeDestination
-    {
-      public:
-	InfoPrintedTimeDestination( Reader *reader, AbstractRtfOutput *output, const QString &name );
+class InfoPrintedTimeDestination: public InfoTimeDestination
+{
+public:
+    InfoPrintedTimeDestination(Reader *reader, AbstractRtfOutput *output, const QString &name);
 
-	virtual ~InfoPrintedTimeDestination();
+    virtual ~InfoPrintedTimeDestination();
 
-	virtual void aboutToEndDestination();
-      };
+    virtual void aboutToEndDestination();
+};
 }
 
 #endif

@@ -25,17 +25,17 @@
 
 namespace RtfReader
 {
-    class Reader;
+class Reader;
 
-    class CompanyPcdataDestination: public PcdataDestination
-    {
-      public:
-	CompanyPcdataDestination( Reader *reader, AbstractRtfOutput *output, const QString &name );
+class CompanyPcdataDestination: public PcdataDestination
+{
+public:
+    CompanyPcdataDestination(Reader *reader, AbstractRtfOutput *output, const QString &name);
 
-	virtual ~CompanyPcdataDestination();
+    virtual ~CompanyPcdataDestination();
 
-	virtual void aboutToEndDestination();
-      };
+    virtual void aboutToEndDestination();
+};
 }
 
 #endif

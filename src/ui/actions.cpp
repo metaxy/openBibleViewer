@@ -33,7 +33,7 @@ void Actions::get(const QString &url, const Actions::OpenLinkModifiers mod)
 
 void Actions::get(const QUrl &url, const Actions::OpenLinkModifiers mod)
 {
-    emit _get(url.toString(), mod);
+    emit _get(QString::fromLocal8Bit(url.toEncoded()), mod);
 }
 
 void Actions::get(const VerseUrl &url, const Actions::OpenLinkModifiers mod)

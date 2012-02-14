@@ -21,24 +21,24 @@
 
 namespace RtfReader
 {
-    IgnoredDestination::IgnoredDestination( Reader *reader, AbstractRtfOutput *output, const QString &name ) :
-      Destination( reader, output, name )
-    {
-    }
+IgnoredDestination::IgnoredDestination(Reader *reader, AbstractRtfOutput *output, const QString &name) :
+    Destination(reader, output, name)
+{
+}
 
-    IgnoredDestination::~IgnoredDestination()
-    {
-    }
+IgnoredDestination::~IgnoredDestination()
+{
+}
 
-    void IgnoredDestination::handleControlWord( const QString &, bool, const int )
-    {
-    }
+void IgnoredDestination::handleControlWord(const QString &, bool, const int)
+{
+}
 
-    void IgnoredDestination::handlePlainText( const QString & )
-    {
-    }
+void IgnoredDestination::handlePlainText(const QString &)
+{
+}
 
-    void IgnoredDestination::aboutToEndDestination()
-    {
-    }
+void IgnoredDestination::aboutToEndDestination()
+{
+}
 }

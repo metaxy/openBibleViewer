@@ -89,6 +89,8 @@ public:
       */
     int newModuleID() const;
 
+    int getDefaultModule(ModuleTools::ContentType c);
+
 
 };
 

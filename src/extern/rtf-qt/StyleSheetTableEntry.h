@@ -20,65 +20,78 @@
 
 namespace RtfReader
 {
-    enum TextAlignment {
-	LeftAligned,
-	CentreAligned,
-	RightAligned,
-	Justified,
-	Distributed };
-	
-    class StyleSheetTableEntry
-    {
-      public:
-	StyleSheetTableEntry() : m_textAlignment( LeftAligned ),
-	  m_leftIndent( 0 ), m_rightIndent( 0 ),
-	  m_layoutDirection( Qt::LeftToRight )
-	{}
+enum TextAlignment {
+    LeftAligned,
+    CentreAligned,
+    RightAligned,
+    Justified,
+    Distributed
+};
 
-	enum TextAlignment textAlignment() const
-	{ return m_textAlignment; }
+class StyleSheetTableEntry
+{
+public:
+    StyleSheetTableEntry() : m_textAlignment(LeftAligned),
+        m_leftIndent(0), m_rightIndent(0),
+        m_layoutDirection(Qt::LeftToRight)
+    {}
 
-	void setTextAlignment( enum TextAlignment textAlignment )
-	{ m_textAlignment = textAlignment; }
+    enum TextAlignment textAlignment() const {
+        return m_textAlignment;
+    }
 
-	int leftIndent() const
-	{ return m_leftIndent; }
+    void setTextAlignment(enum TextAlignment textAlignment) {
+        m_textAlignment = textAlignment;
+    }
 
-	void setLeftIndent( const int leftIndent )
-	{ m_leftIndent = leftIndent; }
+    int leftIndent() const {
+        return m_leftIndent;
+    }
 
-	int rightIndent() const
-	{ return m_rightIndent; }
+    void setLeftIndent(const int leftIndent) {
+        m_leftIndent = leftIndent;
+    }
 
-	void setRightIndent( const int rightIndent )
-	{ m_rightIndent = rightIndent; }
+    int rightIndent() const {
+        return m_rightIndent;
+    }
 
-	int topMargin() const
-	{ return m_topMargin; }
+    void setRightIndent(const int rightIndent) {
+        m_rightIndent = rightIndent;
+    }
 
-	void setTopMargin( const int topMargin )
-	{ m_topMargin = topMargin; }
+    int topMargin() const {
+        return m_topMargin;
+    }
 
-	Qt::LayoutDirection layoutDirection() const
-	{ return m_layoutDirection; }
+    void setTopMargin(const int topMargin) {
+        m_topMargin = topMargin;
+    }
 
-	void setLayoutDirection( const Qt::LayoutDirection layoutDirection )
-	{ m_layoutDirection = layoutDirection; }
+    Qt::LayoutDirection layoutDirection() const {
+        return m_layoutDirection;
+    }
 
-	QString styleName() const
-	{ return m_styleName; }
+    void setLayoutDirection(const Qt::LayoutDirection layoutDirection) {
+        m_layoutDirection = layoutDirection;
+    }
 
-	void setStyleName( const QString &styleName )
-	{ m_styleName = styleName; }
+    QString styleName() const {
+        return m_styleName;
+    }
 
-      protected:
-	QString			m_styleName;
-	enum TextAlignment 	m_textAlignment;
-	int 			m_leftIndent;
-	int			m_rightIndent;
-	Qt::LayoutDirection	m_layoutDirection;
-	int                     m_topMargin;
-    };
+    void setStyleName(const QString &styleName) {
+        m_styleName = styleName;
+    }
+
+protected:
+    QString         m_styleName;
+    enum TextAlignment  m_textAlignment;
+    int             m_leftIndent;
+    int         m_rightIndent;
+    Qt::LayoutDirection m_layoutDirection;
+    int                     m_topMargin;
+};
 }
 
 #endif

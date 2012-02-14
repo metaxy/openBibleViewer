@@ -1,6 +1,6 @@
 /*
     Copyright (C)  2008, 2010  Brad Hards <bradh@frogmouth.net>
- 
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 2 of the License, or
@@ -26,38 +26,39 @@
 
 namespace RtfReader
 {
-    class Reader;
+class Reader;
 
-    /**
-       A representation of a destination
-    */
-    class Destination {
-    public:
-        // TODO: remove reader
-	Destination( Reader *reader, AbstractRtfOutput *output, const QString &name );
+/**
+   A representation of a destination
+*/
+class Destination
+{
+public:
+    // TODO: remove reader
+    Destination(Reader *reader, AbstractRtfOutput *output, const QString &name);
 
-	virtual ~Destination();
+    virtual ~Destination();
 
-	bool hasName( const QString &name );
+    bool hasName(const QString &name);
 
-	QString name() const;
+    QString name() const;
 
-	virtual void handleControlWord( const QString &controlWord, bool hasValue, const int value );
+    virtual void handleControlWord(const QString &controlWord, bool hasValue, const int value);
 
-	virtual void handlePlainText( const QString &plainText );
+    virtual void handlePlainText(const QString &plainText);
 
-	virtual void aboutToEndDestination();
-	
-	// TODO: this doesn't belong here - remove it.
-	QTextCharFormat m_textCharFormat;
+    virtual void aboutToEndDestination();
 
-    protected:
-	QString m_name;
-	Reader *m_reader;
-	AbstractRtfOutput *m_output;
-    };
+    // TODO: this doesn't belong here - remove it.
+    QTextCharFormat m_textCharFormat;
 
-    QDebug operator<<(QDebug dbg, const Destination &dest);
+protected:
+    QString m_name;
+    Reader *m_reader;
+    AbstractRtfOutput *m_output;
+};
+
+QDebug operator<<(QDebug dbg, const Destination &dest);
 }
 
 #endif

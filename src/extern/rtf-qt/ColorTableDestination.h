@@ -25,24 +25,24 @@
 
 namespace RtfReader
 {
-    class Reader;
+class Reader;
 
-    class ColorTableDestination: public Destination
-    {
-      public:
-	ColorTableDestination( Reader *reader, AbstractRtfOutput *output, const QString &name );
+class ColorTableDestination: public Destination
+{
+public:
+    ColorTableDestination(Reader *reader, AbstractRtfOutput *output, const QString &name);
 
-	virtual ~ColorTableDestination();
+    virtual ~ColorTableDestination();
 
-	virtual void handleControlWord( const QString &controlWord, bool hasValue, const int value );
-	virtual void handlePlainText( const QString &plainText );
+    virtual void handleControlWord(const QString &controlWord, bool hasValue, const int value);
+    virtual void handlePlainText(const QString &plainText);
 
-      private:
-	void resetCurrentColor();
+private:
+    void resetCurrentColor();
 
-	// The colour that is currently being built
-	QColor m_currentColor;
-      };
+    // The colour that is currently being built
+    QColor m_currentColor;
+};
 }
 
 #endif
