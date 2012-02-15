@@ -428,3 +428,10 @@ bool VerseUrl::hasModuleID() const
     }
     return false;
 }
+void VerseUrl::removeNo()
+{
+    QMutableListIterator<VerseUrlRange> i(m_ranges);
+    while(i.hasNext()) {
+        i.next().removeNo();
+    }
+}

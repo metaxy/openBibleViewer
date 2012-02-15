@@ -339,6 +339,13 @@ qreal TextDocumentRtfOutput::pixelsFromTwips(const int twips)
 }
 void TextDocumentRtfOutput::appendLink(const QString &href, const QString &text)
 {
-    m_cursor->insertHtml("<a href="+href+">"+text+"</a>");
+    QString href2 = href;
+    href2.remove(0,1).chop(1);
+
+    QTextCharFormat format;
+    format.setAnchorHref(href2);
+    format.setAnchorName(text);
+    format.setAnchor(true);
+    m_cursor->insertText(text, format);
 }
 }

@@ -279,3 +279,18 @@ Range VerseUrlRange::toRange() const
 
     return r;
 }
+void VerseUrlRange::removeNo()
+{
+    if(m_bookParam == VerseUrlRange::LoadNoBook) {
+        m_bookParam = VerseUrlRange::LoadFirstBook;
+    }
+    if(m_chapterParam == VerseUrlRange::LoadNoChapter) {
+        m_chapterParam = VerseUrlRange::LoadFirstChapter;
+    }
+    if(m_startVerseParam == VerseUrlRange::LoadNoVerse) {
+        m_startVerseParam = VerseUrlRange::LoadFirstVerse;
+    }
+    if(m_endVerseParam == VerseUrlRange::LoadNoVerse) {
+        m_endVerseParam = VerseUrlRange::LoadLastVerse;
+    }
+}

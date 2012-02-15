@@ -12,9 +12,68 @@ TheWordCommentary::TheWordCommentary()
 
 Response * TheWordCommentary::readVerseRange(const int bookID,const int chapterID, const int startVerseID, const int endVerseID)
 {
+    m_book = bookID;
+    m_chapter = chapterID;
+    bool hasSomeThing = false;
+    QTextDocument *rtfDocument = new QTextDocument( NULL );
+    QSqlQuery query("select topic_id,bi,ci,fvi,tvi from bible_refs where bi = "+ QString::number(bookID+1)+
+                    " and ci = " + QString::number(chapterID+1) +
+                    " and fvi >=" + QString::number(startVerseID+1)+
+                    " and tvi <=" + QString::number(endVerseID+1) +
+                    " ORDER BY fvi DESC", m_db);
+    myDebug() << query.lastError().text();
+    while (query.next()) {
+        const int bi = query.value(1).toInt();
+        const int ci = query.value(2).toInt();
+        const int fvi = query.value(3).toInt();
+        const int tvi = query.value(4).toInt();
+        myDebug() << bi << ci << fvi << tvi;
+        QSqlQuery query2("select data from content where topic_id =" + query.value(0).toString(), m_db);
+
+        while(query2.next()) {
+            QTemporaryFile file;
+            if (file.open()) {
+                QTextStream out(&file);
+                out << toValidRTF(query2.value(0).toString());
+                file.close();
+                RtfReader::Reader *reader = new RtfReader::Reader( NULL );
+                bool result = reader->open(file.fileName());
+                if(result) {
+                    RefText ref;
+                    ref.setSettings(m_settings);
+                    RtfReader::TheWordRtfOutput *output = new RtfReader::TheWordRtfOutput( rtfDocument, ref.toString(-1, bi-1, ci-1, fvi-1, tvi-1,-1) );
+                    output->setSettings(m_settings);
+                    reader->parseTo( output );
+                    hasSomeThing = true;
+                }
+                delete reader;
+            }
+        }
+    }
+    StringResponse *res = new StringResponse(rtfDocument->toHtml());
+    delete rtfDocument;
+    if(!hasSomeThing) {
+        return readChapter(bookID, chapterID);
+    } else {
+        return res;
+    }
+}
+QString TheWordCommentary::toValidRTF(QString data)
+{
+    if(!data.startsWith("{\\rtf")) {
+        data.prepend("{\\rtf1");
+        data.append("}");
+    }
+    return data;
+}
+
+Response * TheWordCommentary::readChapter(const int bookID, const int chapterID)
+{
+    DEBUG_FUNC_NAME
+    m_book = bookID;
+    m_chapter = chapterID;
     QTextDocument *rtfDocument = new QTextDocument( NULL );
     QSqlQuery query("select topic_id,bi,ci,fvi,tvi from bible_refs where bi = "+ QString::number(bookID+1)+" and ci = " + QString::number(chapterID+1) +" ORDER BY fvi DESC", m_db);
-    //
 
     while (query.next()) {
         const int bi = query.value(1).toInt();
@@ -28,7 +87,6 @@ Response * TheWordCommentary::readVerseRange(const int bookID,const int chapterI
             QTemporaryFile file;
             if (file.open()) {
                 QTextStream out(&file);
-                myDebug() << toValidRTF(query2.value(0).toString());
                 out << toValidRTF(query2.value(0).toString());
                 file.close();
                 RtfReader::Reader *reader = new RtfReader::Reader( NULL );
@@ -36,7 +94,7 @@ Response * TheWordCommentary::readVerseRange(const int bookID,const int chapterI
                 if(result) {
                     RefText ref;
                     ref.setSettings(m_settings);
-                    RtfReader::TheWordRtfOutput *output = new RtfReader::TheWordRtfOutput( rtfDocument, ref.toString(-1, bi, ci, fvi, tvi,-1) );
+                    RtfReader::TheWordRtfOutput *output = new RtfReader::TheWordRtfOutput( rtfDocument, ref.toString(-1, bi-1, ci-1, fvi-1, tvi-1,-1) );
                     output->setSettings(m_settings);
                     reader->parseTo( output );
                 }
@@ -45,29 +103,47 @@ Response * TheWordCommentary::readVerseRange(const int bookID,const int chapterI
         }
     }
     StringResponse *res = new StringResponse(rtfDocument->toHtml());
-    myDebug() << rtfDocument->toHtml();
     delete rtfDocument;
     return res;
-
-
-}
-QString TheWordCommentary::toValidRTF(QString data)
-{
-    if(!data.startsWith("{\\rtf")) {
-        data.prepend("{\\rtf1");
-        data.append("}");
-    }
-    return data;
-}
-
-Response * TheWordCommentary::readChapter(const int bookID, const int chapterID)
-{
-    return NULL;
 }
 
 Response * TheWordCommentary::readBook(const int bookID)
 {
-    return NULL;
+    m_book = bookID;
+    m_chapter = 0;
+    QTextDocument *rtfDocument = new QTextDocument( NULL );
+    QSqlQuery query("select topic_id,bi,ci,fvi,tvi from bible_refs where bi = "+ QString::number(bookID+1)+" ORDER BY ci,fvi DESC", m_db);
+
+    while (query.next()) {
+        const int bi = query.value(1).toInt();
+        const int ci = query.value(2).toInt();
+        const int fvi = query.value(3).toInt();
+        const int tvi = query.value(4).toInt();
+
+        QSqlQuery query2("select data from content where topic_id =" + query.value(0).toString(), m_db);
+
+        while(query2.next()) {
+            QTemporaryFile file;
+            if (file.open()) {
+                QTextStream out(&file);
+                out << toValidRTF(query2.value(0).toString());
+                file.close();
+                RtfReader::Reader *reader = new RtfReader::Reader( NULL );
+                bool result = reader->open(file.fileName());
+                if(result) {
+                    RefText ref;
+                    ref.setSettings(m_settings);
+                    RtfReader::TheWordRtfOutput *output = new RtfReader::TheWordRtfOutput( rtfDocument, ref.toString(-1, bi-1, ci-1, fvi-1, tvi-1,-1) );
+                    output->setSettings(m_settings);
+                    reader->parseTo( output );
+                }
+                delete reader;
+            }
+        }
+    }
+    StringResponse *res = new StringResponse(rtfDocument->toHtml());
+    delete rtfDocument;
+    return res;
 }
 
 int TheWordCommentary::loadModuleData(const int moduleID, const QString &fileName)
@@ -117,12 +193,12 @@ void TheWordCommentary::search(SearchQuery query, SearchResult *result)
 
 int TheWordCommentary::currentBook()
 {
-    return 0;
+    return m_book;
 }
 
 int TheWordCommentary::currentChapter()
 {
-    return 0;
+    return m_chapter;
 }
 
 std::pair<int, int> TheWordCommentary::minMaxVerse(const int bookID, const int chapterID)

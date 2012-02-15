@@ -37,7 +37,7 @@ CompiledRange VerseModule::toCompiledRange(const Range &range)
     int bookID = -1;
     if(range.book() == RangeEnum::BookByID) {
         bookID = range.bookID();
-    } else if(range.book() == RangeEnum::FirstBook) {
+    } else if(range.book() == RangeEnum::FirstBook || range.book() == RangeEnum::NoneBook) {
         foreach(int id, bookIDs()) {
             if(id < bookID || bookID == -1) {
                 bookID = id;
@@ -76,7 +76,7 @@ CompiledRange VerseModule::toCompiledRange(const Range &range)
     int chapterID = -1;
     if(range.chapter() == RangeEnum::ChapterByID) {
         chapterID = range.chapterID();
-    } else if(range.chapter() == RangeEnum::FirstChapter) {
+    } else if(range.chapter() == RangeEnum::FirstChapter || range.chapter() == RangeEnum::NoneChapter) {
         chapterID = 0;
     } else if(range.chapter() == RangeEnum::LastChapter) {
         chapterID = m_versification->maxChapter().value(bookID) - 1;
@@ -91,9 +91,12 @@ CompiledRange VerseModule::toCompiledRange(const Range &range)
     int startVerse = 0;
     int endVerse = 0;
 
+    myDebug() << range.startVerseID() << range.startVerse();
+    myDebug() << range.endVerse() << range.endVerseID();
+
     if(range.startVerse() == RangeEnum::VerseByID) {
         startVerse = range.startVerseID();
-    } else if(range.startVerse() == RangeEnum::FirstVerse) {
+    } else if(range.startVerse() == RangeEnum::FirstVerse || range.startVerse() == RangeEnum::NoneVerse) {
         startVerse = minMax.first;
     } else if(range.startVerse() == RangeEnum::LastVerse) {
         startVerse = minMax.second;
@@ -101,7 +104,7 @@ CompiledRange VerseModule::toCompiledRange(const Range &range)
 
     if(range.endVerse() == RangeEnum::VerseByID) {
         endVerse = range.endVerseID();
-    } else if(range.endVerse() == RangeEnum::FirstVerse) {
+    } else if(range.endVerse() == RangeEnum::FirstVerse || range.startVerse() == RangeEnum::NoneVerse) {
         endVerse = minMax.first;
     } else if(range.endVerse() == RangeEnum::LastVerse) {
         endVerse = minMax.second;

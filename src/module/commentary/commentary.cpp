@@ -12,11 +12,18 @@ Response* Commentary::readRanges(const Ranges &ranges, bool ignoreModuleID)
     }
     if(!loaded()) {
         myWarning() << "failed reading because module not laoded";
-                       ;
         return NULL;
     }
     CompiledRange range = this->toCompiledRange(r);
-    return m_commentaryModule->readVerseRange(range.bookID, range.chapterID, range.startVerse, range.endVerse);
+    if(r.endVerse() == RangeEnum::NoneVerse || r.startVerse() == RangeEnum::NoneVerse) {
+        return m_commentaryModule->readChapter(range.bookID, range.chapterID);
+    } else if(r.chapter() == RangeEnum::NoneChapter) {
+        return m_commentaryModule->readBook(range.bookID);
+    } else {
+        return m_commentaryModule->readVerseRange(range.bookID, range.chapterID, range.startVerse, range.endVerse);
+    }
+
+
 }
 
 void Commentary::search(SearchQuery query, SearchResult *result)
@@ -54,7 +61,7 @@ int Commentary::loadModuleData(const int moduleID)
     m_moduleID = moduleID;
     m_moduleType = m_module->moduleType();
 
-    ModuleSettings *m = m_settings->getModuleSettings(m_moduleID);
+    //ModuleSettings *m = m_settings->getModuleSettings(m_moduleID);
 
 
     if(m_module->m_commentaryModule.isNull()) {
@@ -76,5 +83,5 @@ int Commentary::loadModuleData(const int moduleID)
         return 1;
     }
     m_loaded = true;
-
+    return 0;
 }

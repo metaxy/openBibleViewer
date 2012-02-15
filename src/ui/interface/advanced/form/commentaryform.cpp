@@ -70,15 +70,16 @@ void CommentaryForm::pharseUrl(QString string)
 }
 void CommentaryForm::pharseUrl(VerseUrl url)
 {
+    myDebug() << url.toString();
     if(m_com == NULL) {
         myWarning() << "m_com is null";
         return;
     }
-    bool showStart = false;
+    //bool showStart = false;
 
     if(m_url.isValid()) {
         m_url = m_url.applyUrl(url);
-        showStart = true;
+        //showStart = true;
     } else {
         m_url = url;
         if(loaded() && !m_url.hasModuleID()) {
@@ -125,7 +126,9 @@ void CommentaryForm::showRanges(Ranges ranges, const VerseUrl &source)
 void CommentaryForm::changeLocation()
 {
     BibleLink link(m_com->moduleID(), m_com->versification());
-    pharseUrl(link.getUrl(ui->lineEdit->text()));
+    VerseUrl url = link.getUrl(ui->lineEdit->text());
+    url.setOpenToTransformation(false);
+    pharseUrl(url);
 }
 
 void CommentaryForm::activated()
@@ -196,8 +199,7 @@ void CommentaryForm::restore(const QString &key)
    /* QUrl url = m_settings->session.file()->value(a + "url").toUrl();
     if(url.isValid())
         m_view->load(url);
-
-*/
+    */
 }
 void CommentaryForm::historySetUrl(QString url)
 {

@@ -139,6 +139,7 @@ void BibleForm::pharseUrl(const VerseUrl &url)
             m_url.setModuleID(verseModule()->moduleID());
         }
     }
+    m_url.removeNo();
 
     Ranges ranges;
     foreach(VerseUrlRange range, m_url.ranges()) {

@@ -62,7 +62,7 @@ void Tokenizer::pullControlSymbol(Token *token)
     } else if(token->name == "*") {
         // don't need anything else here
     } else {
-        qDebug() << "unhandled control symbol in Tokenizer:" << token->name;
+        //qDebug() << "unhandled control symbol in Tokenizer:" << token->name;
     }
 }
 

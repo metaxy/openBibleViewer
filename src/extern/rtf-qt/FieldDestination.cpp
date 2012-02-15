@@ -50,7 +50,6 @@ void FieldDestination::handleControlWord(const QString &controlWord, bool hasVal
 
 void FieldDestination::handlePlainText(const QString &plainText)
 {
-    qDebug() << plainText << m_fldinst << m_fldrslt;
     if(m_fldinst && !m_fldrslt) {
        m_url = plainText;
        const QString hyperlink = "HYPERLINK ";
@@ -61,7 +60,7 @@ void FieldDestination::handlePlainText(const QString &plainText)
        return;
     } else if(m_fldinst && m_fldrslt) {
         m_text = plainText;
-         m_output->appendLink(m_url, m_text);
+        m_output->appendLink(m_url, m_text);
         return;
     }
 

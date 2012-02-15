@@ -28,6 +28,9 @@ public:
 private:
     QSqlDatabase m_db;
 
+    int m_book;
+    int m_chapter;
+
     bool m_loaded;
 };
 

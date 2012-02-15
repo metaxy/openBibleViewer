@@ -111,6 +111,8 @@ public:
 
     Range toRange() const;
 
+    void removeNo();
+
 private:
     int m_moduleID;
 

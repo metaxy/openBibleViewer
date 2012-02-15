@@ -98,7 +98,7 @@ VerseUrl BibleLink::getUrl(const QString& s)
     if(found == 0) {  //example: Hiob
         const int bookID = bookNameToBookID(foundRegExp.cap(1), &lev);
         range.setBook(bookID);
-        range.setChapter(VerseUrlRange::LoadFirstChapter);
+        range.setChapter(VerseUrlRange::LoadNoChapter);
         range.setWholeChapter();
         url.addRange(range);
     } else if(found == 1) {  //Hiob 4
@@ -106,7 +106,8 @@ VerseUrl BibleLink::getUrl(const QString& s)
         const int chapterID = foundRegExp.cap(3).toInt() - 1;
         range.setBook(bookID);
         range.setChapter(chapterID);
-        range.setWholeChapter();
+        range.setStartVerse(VerseUrlRange::LoadNoVerse);
+        range.setEndVerse(VerseUrlRange::LoadNoVerse);
         url.addRange(range);
     } else if(found == 2 || found == 3) {  //Hiob 4:9
         const int bookID = bookNameToBookID(foundRegExp.cap(1), &lev);

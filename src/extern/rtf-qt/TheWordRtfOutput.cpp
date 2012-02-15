@@ -350,32 +350,24 @@ qreal TheWordRtfOutput::pixelsFromTwips(const int twips)
 }
 void TheWordRtfOutput::appendLink(const QString &href, const QString &text)
 {
-    qDebug() << href << text;
-    if(text == "[vref]") {
-        QString t = text;
-        QString href2 = href;
-        href2.remove(0,1).chop(1);
+    QString t = text;
+    QString href2 = href;
+    href2.remove(0,1).chop(1);
+
+    if(t == "[vref]") {
         VerseUrl url;
         url.fromTheWord(href2);
         url.setModuleID(m_settings->getDefaultModule(ModuleTools::BibleContent));
         RefText ref;
         ref.setSettings(m_settings);
         t = ref.toString(url);
-
-        QTextCharFormat t2;
-        t2.setAnchorHref(href2);
-        t2.setAnchorName(t);
-        t2.setAnchor(true);
-        m_cursor->insertText(t, t2);
-    } else {
-        QTextCharFormat t;
-        QString href2 = href;
-        href2.remove(0,1).chop(1);
-        t.setAnchorHref(href2);
-        t.setAnchorName(text);
-        t.setAnchor(true);
-        m_cursor->insertText(text, t);
     }
+
+    QTextCharFormat format;
+    format.setAnchorHref(href2);
+    format.setAnchorName(t);
+    format.setAnchor(true);
+    m_cursor->insertText(t, format);
 
 
 }
