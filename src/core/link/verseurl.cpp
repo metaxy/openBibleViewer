@@ -266,6 +266,37 @@ bool VerseUrl::fromMscope(const QString &url)
     m_ranges.append(range);
     return true;
 }
+bool VerseUrl::fromTheWord(QString url)
+{
+    url.remove(0, ModuleTools::theWordScheme.size());
+    const QString anyBible = "bible.*";
+    const QString id = "?id=";
+    if(url.startsWith(anyBible)) {
+        url.remove(0, anyBible.size());
+        url.remove(0, id.size());
+        QStringList ids = url.split(".");
+        if(ids.size() == 4) {
+            VerseUrlRange range;
+            range.setBook(ids.at(0).toInt() - 1);
+            range.setChapter(ids.at(1).toInt() - 1);
+            range.setStartVerse(ids.at(2).toInt() - 1);
+            range.setEndVerse(ids.at(3).toInt() - 1);
+            range.setOpenToTransformation(true);
+            m_ranges.append(range);
+            return true;
+        } else if(ids.size() == 3) {
+            VerseUrlRange range;
+            range.setBook(ids.at(0).toInt() - 1);
+            range.setChapter(ids.at(1).toInt() - 1);
+            range.setActiveVerse(ids.at(2).toInt() - 1);
+            range.setOpenToTransformation(true);
+            m_ranges.append(range);
+            return true;
+        }
+
+    }
+    return false;
+}
 
 QList<VerseUrlRange> VerseUrl::ranges() const
 {

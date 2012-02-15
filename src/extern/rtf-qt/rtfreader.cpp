@@ -288,9 +288,9 @@ void Reader::parseDocument()
             if(! controlWord.isKnown()) {
                 qDebug() << "*** Unrecognised control word (not in spec 1.9.1): " << token.name;
             }
-            /*   qDebug() << m_debugIndent << "got controlWord: " << token.name;
-               qDebug() << m_debugIndent << "isDestination:" << controlWord.isDestination();
-               qDebug() << m_debugIndent << "isIgnorable:" << m_nextSymbolIsIgnorable;*/
+               qDebug() << m_debugIndent << "got controlWord: " << token.name;
+               qDebug() << m_debugIndent << "is supported Destination:" << controlWord.isSupportedDestination();
+               qDebug() << m_debugIndent << "isIgnorable:" << m_nextSymbolIsIgnorable << "might be Destionation" << m_nextSymbolMightBeDestination;
 
             if(m_nextSymbolMightBeDestination && controlWord.isSupportedDestination()) {
                 qDebug() << "change destionation " << token.name;
@@ -309,7 +309,7 @@ void Reader::parseDocument()
                 m_nextSymbolMightBeDestination = false;
                 if(token.name == "*") {
                     m_nextSymbolMightBeDestination = true;
-                    //m_nextSymbolIsIgnorable = true;
+                   // m_nextSymbolIsIgnorable = true;
                 }
                 m_destinationStack.top()->handleControlWord(token.name, token.hasParameter, token.parameter.toInt());
             }

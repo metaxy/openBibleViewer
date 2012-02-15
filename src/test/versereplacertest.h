@@ -11,3 +11,20 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
+#ifndef VERSEREPLACER_TEST_H
+#define VERSEREPLACER_TEST_H
+
+#include <QObject>
+#include <QtCore/QMap>
+#include "src/core/verse/verse.h"
+class VerseReplacerTests : public QObject
+{
+    Q_OBJECT
+    QMap<int, Verse> simpleMap();
+private slots:
+    void testAppend();
+    void testPrepend();
+    void testInsert();
+};
+
+#endif

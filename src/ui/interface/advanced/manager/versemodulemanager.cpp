@@ -103,37 +103,15 @@ void VerseModuleManager::pharseUrl(QString url, const Actions::OpenLinkModifiers
         VerseUrl verseUrl(url);
         pharseUrl(verseUrl, mod);
     } else if(url.startsWith(ModuleTools::theWordScheme)) {
-        url.remove(0, ModuleTools::theWordScheme.size());
-        const QString anyBible = "bible.*";
-        const QString id = "?id=";
-        if(url.startsWith(anyBible)) {
-            url.remove(0, anyBible.size());
-            url.remove(0, id.size());
-            QStringList ids = url.split(".");
-            if(ids.size() == 4) {
-                VerseUrlRange range;
-                range.setModule(m_settings->getDefaultModule(ModuleTools::BibleContent));
-                range.setBook(ids.at(0).toInt() - 1);
-                range.setChapter(ids.at(1).toInt() - 1);
-                range.setStartVerse(ids.at(2).toInt() - 1);
-                range.setEndVerse(ids.at(3).toInt() - 1);
-                range.setOpenToTransformation(true);
-                VerseUrl u(range);
-                m_actions->get(u, mod);
-            } else if(ids.size() == 3) {
-                VerseUrlRange range;
-                range.setModule(m_settings->getDefaultModule(ModuleTools::BibleContent));
-                range.setBook(ids.at(0).toInt() - 1);
-                range.setChapter(ids.at(1).toInt() - 1);
-                range.setActiveVerse(ids.at(2).toInt() - 1);
-                range.setOpenToTransformation(true);
-                VerseUrl u(range);
-                m_actions->get(u, mod);
-            }
+        VerseUrl verseUrl;
 
+
+        if(verseUrl.fromTheWord(url)) {
+            verseUrl.setModuleID(m_settings->getDefaultModule(ModuleTools::BibleContent));
+            pharseUrl(verseUrl, mod);
+        } else {
+            myWarning() << "could not pharse url" << url;
         }
-
-        myWarning() << "unkown type of url" << url;
     }
 }
 void VerseModuleManager::pharseUrl(BibleForm *f, const VerseUrl &url)

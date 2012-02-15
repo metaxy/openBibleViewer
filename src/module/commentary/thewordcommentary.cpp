@@ -3,7 +3,7 @@
 #include <QtSql/QSqlError>
 #include "src/module/response/stringresponse.h"
 #include "src/extern/rtf-qt/rtfreader.h"
-#include "src/extern/rtf-qt/TextDocumentRtfOutput.h"
+#include "src/extern/rtf-qt/TheWordRtfOutput.h"
 #include <QtCore/QTemporaryFile>
 #include <QTextCursor>
 TheWordCommentary::TheWordCommentary()
@@ -25,7 +25,8 @@ Response * TheWordCommentary::readVerseRange(const int bookID,const int chapterI
                 file.close();
                 RtfReader::Reader *reader = new RtfReader::Reader( NULL );
                 bool result = reader->open(file.fileName());
-                RtfReader::TextDocumentRtfOutput *output = new RtfReader::TextDocumentRtfOutput( rtfDocument );
+                RtfReader::TheWordRtfOutput *output = new RtfReader::TheWordRtfOutput( rtfDocument );
+                output->setSettings(m_settings);
                 reader->parseTo( output );
             }
         }

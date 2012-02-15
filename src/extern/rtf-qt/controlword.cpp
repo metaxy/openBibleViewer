@@ -1893,6 +1893,8 @@ bool ControlWord::isSupportedDestination() const
             (m_name == "userprops") ||
             (m_name == "mmathPr") ||
             (m_name == "field") ||
+          /*  (m_name == "fldinst") ||
+            (m_name == "fldrslt") ||*/
             (m_name == "author")) {
         return true;
     }
