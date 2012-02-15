@@ -361,9 +361,20 @@ void TheWordRtfOutput::appendLink(const QString &href, const QString &text)
         RefText ref;
         ref.setSettings(m_settings);
         t = ref.toString(url);
-        m_cursor->insertHtml("<span><a href="+href+">"+t+"</a></span>");
+
+        QTextCharFormat t2;
+        t2.setAnchorHref(href2);
+        t2.setAnchorName(t);
+        t2.setAnchor(true);
+        m_cursor->insertText(t, t2);
     } else {
-        m_cursor->insertHtml("<span><a href="+href+">"+text+"</a></span>");
+        QTextCharFormat t;
+        QString href2 = href;
+        href2.remove(0,1).chop(1);
+        t.setAnchorHref(href2);
+        t.setAnchorName(text);
+        t.setAnchor(true);
+        m_cursor->insertText(text, t);
     }
 
 
