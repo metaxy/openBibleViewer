@@ -13,12 +13,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "book.h"
 #include "src/module/response/htmlresponse.h"
-Book::Book()
+Book::Book() : m_loaded(false)
 {
 }
 Book::~Book()
 {
-
 }
 
 void Book::setModuleDisplaySettings(ModuleDisplaySettings *moduleDisplaySettings)
@@ -79,7 +78,6 @@ int Book::loadModuleData(int moduleID)
     int loaded = m_bookModule->loadModuleData(m_moduleID, m_module->path());
 
     if(loaded != 0) {
-        m_loaded = false;
         return 1;
     }
 

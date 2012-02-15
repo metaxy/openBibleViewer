@@ -23,6 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/book/txtbook.h"
 #include "src/module/commentary/webcommentary.h"
 #include "src/module/commentary/thewordcommentary.h"
+#include "src/module/book/rtfbook.h"
 Module::Module(Module *parent) : m_parent(parent)
 {
     m_moduleClass = ModuleTools::NoneClass;
@@ -136,6 +137,8 @@ QSharedPointer<BookModule> Module::newBookModule(const ModuleTools::ModuleType t
     QSharedPointer<BookModule> ret;
     if(type == ModuleTools::TxtBookModule) {
         ret = QSharedPointer<TxtBook>(new TxtBook());
+    } else if(type == ModuleTools::RTFBookModule) {
+        ret = QSharedPointer<RTFBook>(new RTFBook());
     } else {
         myWarning() << "invalid type";
     }

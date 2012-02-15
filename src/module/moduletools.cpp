@@ -65,6 +65,8 @@ ModuleTools::ModuleType ModuleTools::recognizeModuleType(const QString &fileName
         return ModuleTools::TheWordBibleModule;
     } else if(fileName.endsWith(".txt", Qt::CaseInsensitive)) {
         return ModuleTools::TxtBookModule;
+    } else if(fileName.endsWith(".rtf", Qt::CaseInsensitive)) {
+        return ModuleTools::RTFBookModule;
     }
     return ModuleTools::NoneType;
 }
@@ -122,8 +124,8 @@ QStringList ModuleTools::moduleTypeNames()
       << QT_TRANSLATE_NOOP("Core", "Zefania Lex Module") << QT_TRANSLATE_NOOP("Core", "BibleQuote Dictionary") << QT_TRANSLATE_NOOP("Core", "The Word Bible")
       << QT_TRANSLATE_NOOP("Core", "Folder")
      << QT_TRANSLATE_NOOP("Core", "Sword Bible") << QT_TRANSLATE_NOOP("Core", "Web Page") << QT_TRANSLATE_NOOP("Core", "Web Dictionary")
-     << QT_TRANSLATE_NOOP("Core", "Sword Lexicon") << QT_TRANSLATE_NOOP("Core", "Txt Book")
-     << QT_TRANSLATE_NOOP("Core", "Web Commentary") << QT_TRANSLATE_NOOP("Core", "The Word Commentary");
+     << QT_TRANSLATE_NOOP("Core", "Sword Lexicon") << QT_TRANSLATE_NOOP("Core", "*.txt Book")
+     << QT_TRANSLATE_NOOP("Core", "Web Commentary") << QT_TRANSLATE_NOOP("Core", "The Word Commentary") << QT_TRANSLATE_NOOP("Core", "*.rtf Book");
     return l;
 }
 
@@ -157,6 +159,8 @@ QString ModuleTools::moduleTypeName(ModuleTools::ModuleType type)
         return QT_TRANSLATE_NOOP("Core", "Web Commentary");
     } else if(type == ModuleTools::TheWordCommentaryModule) {
         return QT_TRANSLATE_NOOP("Core", "The Word Commentary");
+    } else if(type == ModuleTools::RTFBookModule) {
+        return QT_TRANSLATE_NOOP("Core", "*.rtf Book");
     }
     return "";
 }
@@ -182,6 +186,7 @@ ModuleTools::ModuleCategory ModuleTools::getCategory(ModuleTools::ModuleType typ
             return ModuleTools::BookCategory;
 
         case ModuleTools::TxtBookModule:
+        case ModuleTools::RTFBookModule:
             return ModuleTools::BookCategory;
 
         case ModuleTools::WebCommentaryModule:
@@ -211,6 +216,7 @@ ModuleTools::ModuleClass ModuleTools::typeToClass(ModuleTools::ModuleType type)
             return ModuleTools::WebPageClass;
 
         case ModuleTools::TxtBookModule:
+        case ModuleTools::RTFBookModule:
             return ModuleTools::BookClass;
 
         case ModuleTools::WebCommentaryModule:

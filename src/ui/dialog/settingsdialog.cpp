@@ -582,6 +582,10 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
             info = MetaInfo();
             info.setName(fileInfo.baseName());
             info.setContent(ModuleTools::BookContent);
+        } else if(moduleType == ModuleTools::RTFBookModule) {
+            info = MetaInfo();
+            info.setName(fileInfo.baseName());
+            info.setContent(ModuleTools::BookContent);
         }
         if(name.isEmpty()) {
             m->moduleName = info.name();

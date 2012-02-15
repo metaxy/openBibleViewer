@@ -143,6 +143,7 @@ set( openBibleViewer_SRCS
     src/module/response/textrangesresponse.cpp
     src/module/response/htmlresponse.cpp
 
+    src/module/book/rtfbook.cpp
     src/module/book/book.cpp
     src/module/book/bookmodule.cpp
     src/module/book/txtbook.cpp

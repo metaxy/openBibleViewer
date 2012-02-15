@@ -5,7 +5,6 @@
 #include "src/extern/rtf-qt/rtfreader.h"
 #include "src/extern/rtf-qt/TheWordRtfOutput.h"
 #include <QtCore/QTemporaryFile>
-#include <QTextCursor>
 TheWordCommentary::TheWordCommentary()
 {
 }
@@ -25,14 +24,18 @@ Response * TheWordCommentary::readVerseRange(const int bookID,const int chapterI
                 file.close();
                 RtfReader::Reader *reader = new RtfReader::Reader( NULL );
                 bool result = reader->open(file.fileName());
-                RtfReader::TheWordRtfOutput *output = new RtfReader::TheWordRtfOutput( rtfDocument );
-                output->setSettings(m_settings);
-                reader->parseTo( output );
+                if(result) {
+                    RtfReader::TheWordRtfOutput *output = new RtfReader::TheWordRtfOutput( rtfDocument );
+                    output->setSettings(m_settings);
+                    reader->parseTo( output );
+                }
+                delete reader;
             }
         }
     }
-
-    return new StringResponse(rtfDocument->toHtml());
+    StringResponse *res = new StringResponse(rtfDocument->toHtml());
+    delete rtfDocument;
+    return res;
 
 
 }
@@ -42,7 +45,6 @@ QString TheWordCommentary::toValidRTF(QString data)
         data.prepend("{\\rtf1");
         data.append("}");
     }
-    myDebug() << data;
     return data;
 }
 

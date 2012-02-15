@@ -95,7 +95,36 @@ void VerseReplacerTests::testPrepend()
 }
 void VerseReplacerTests::testInsert()
 {
-
+    {
+        QMap<int, Verse> map = simpleMap();
+        VerseReplacer r1;
+        r1.setInsert(0, 1, "(Insert1)");
+        r1.setInsert(1, 1, "");
+        r1.exec(&map);
+        QVERIFY(map.value(0).data() == "T(Insert1)est Verse #0");
+        QVERIFY(map.value(1).data() == "Test Verse #1");
+        QVERIFY(map.value(3).data() == "Test Verse #3");
+    }
+    {
+        QMap<int, Verse> map = simpleMap();
+        VerseReplacer r1;
+        r1.setInsert(0, 1, "(Insert1)");
+        r1.setInsert(0, 2, "(Insert2)");
+        r1.exec(&map);
+        QVERIFY(map.value(0).data() == "T(Insert1)(Insert2)est Verse #0");
+        QVERIFY(map.value(1).data() == "Test Verse #1");
+        QVERIFY(map.value(3).data() == "Test Verse #3");
+    }
+    {
+        QMap<int, Verse> map = simpleMap();
+        VerseReplacer r1;
+        r1.setInsert(1, 1, "(Insert1)");
+        r1.setInsert(1, 1, "");
+        r1.exec(&map);
+        QVERIFY(map.value(0).data() == "Test Verse #0");
+        QVERIFY(map.value(1).data() == "T(Insert1)est Verse #1");
+        QVERIFY(map.value(3).data() == "Test Verse #3");
+    };
 }
 
 QMap<int, Verse> VerseReplacerTests::simpleMap()
