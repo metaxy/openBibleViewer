@@ -44,6 +44,7 @@ void CommentaryForm::init()
 
     connect(m_view->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
     connect(m_view, SIGNAL(linkMiddleOrCtrlClicked(QUrl)), m_actions, SLOT(newGet(QUrl)));
+    connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
 
 }
 CommentaryForm::~CommentaryForm()
@@ -225,4 +226,140 @@ void CommentaryForm::setButtons()
     } else {
         ui->toolButton_forward->setDisabled(true);
     }
+}
+void CommentaryForm::showContextMenu(QContextMenuEvent* ev)
+{
+    //DEBUG_FUNC_NAME
+    QScopedPointer<QMenu> contextMenu(new QMenu(this));
+   /* QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), this);
+    connect(actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
+    if(m_view->hasSelection()) {
+        actionCopy->setEnabled(true);
+    } else {
+        actionCopy->setEnabled(false);
+    }
+
+    const QWebHitTestResult hitTest = m_view->page()->mainFrame()->hitTestContent(ev->pos());
+    const QUrl url = hitTest.linkUrl();
+    if(url.isEmpty()) {*/
+
+
+        QAction *dbg = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"), contextMenu.data());
+        connect(dbg, SIGNAL(triggered()), this, SLOT(debugger()));
+
+       // contextMenu->addAction(m_actionSelect);
+        contextMenu->addAction(dbg);
+        contextMenu->exec(ev->globalPos());
+
+      /*
+
+    } else {
+        myDebug() << "another menu";
+        m_contextMenuUrl = url;
+        m_contextMenuText = hitTest.linkText();
+
+        QAction *openInNewTab = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("Open in new tab"), contextMenu.data());
+        connect(openInNewTab, SIGNAL(triggered()), this, SLOT(openInNewTab()));
+
+        QAction *openHere = new QAction(QIcon::fromTheme("tab-new-background", QIcon(":/icons/16x16/tab-new-background.png")), tr("Open here"), contextMenu.data());
+        connect(openHere, SIGNAL(triggered()), this, SLOT(openHere()));
+
+        QAction *copyText = new QAction(tr("Copy Text"), contextMenu.data());
+        connect(copyText, SIGNAL(triggered()), this, SLOT(copyLinkText()));
+
+        QAction *copyLink = new QAction(tr("Copy Link"), contextMenu.data());
+        connect(copyLink, SIGNAL(triggered()), this, SLOT(copyLinkUrl()));
+
+        QMenu *openIn = new QMenu(this);
+        openIn->setTitle(tr("Open in"));
+
+        QMenu *openInNew = new QMenu(this);
+        openInNew->setTitle(tr("Open in new"));
+
+        QList<int> usedModules;
+        bool showOpenIn = false;
+
+        ModuleTools::ContentType type = ModuleTools::contentTypeFromUrl(url.toString());
+        ModuleTools::ModuleClass cl = ModuleTools::moduleClassFromUrl(url.toString());
+        QList<ModuleSettings*> list = m_settings->m_moduleSettings.values();
+
+        qSort(list.begin(), list.end(), ModuleManager::sortModuleByPop);
+
+        bool addSep = true;
+        int counter = 0;
+
+        if(type != ModuleTools::UnkownContent) {
+            //most 4 used with the right content type
+
+            foreach(ModuleSettings* m, list) {
+                if(counter > 5)
+                    break;
+                if(ModuleTools::alsoOk(m->contentType, type)
+                        && m->contentType != ModuleTools::UnkownContent
+                        && !usedModules.contains(m->moduleID)) {
+
+                    showOpenIn = true;
+                    usedModules.append(m->moduleID);
+                    counter++;
+
+                    QAction *n = new QAction(m->name(true), openIn);
+                    n->setData(m->moduleID);
+                    connect(n, SIGNAL(triggered()), this, SLOT(openIn()));
+                    openIn->addAction(n);
+
+                    QAction *n2 = new QAction(m->name(true), openInNew);
+                    n2->setData(m->moduleID);
+                    connect(n2, SIGNAL(triggered()), this, SLOT(openInNew()));
+                    openInNew->addAction(n2);
+                }
+            }
+        } else {
+            addSep = false;
+        }
+
+        counter = 0;
+        foreach(ModuleSettings* m, list) {
+            if(counter > 3)
+                break;
+            if(ModuleTools::typeToClass(m->moduleType) == cl
+                    && !usedModules.contains(m->moduleID)) {
+
+                showOpenIn = true;
+                usedModules.append(m->moduleID);
+                counter++;
+                if(addSep) {
+                    openIn->addSeparator();
+                    openInNew->addSeparator();
+                    addSep = false;
+                }
+
+                QAction *n = new QAction(m->name(true), openIn);
+                n->setData(m->moduleID);
+                connect(n, SIGNAL(triggered()), this, SLOT(openIn()));
+                openIn->addAction(n);
+
+                QAction *n2 = new QAction(m->name(true), openInNew);
+                n2->setData(m->moduleID);
+                connect(n2, SIGNAL(triggered()), this, SLOT(openInNew()));
+                openInNew->addAction(n2);
+            }
+        }
+        contextMenu->addAction(actionCopy);
+        contextMenu->addAction(m_actionSelect);
+        contextMenu->addAction(copyText);
+        contextMenu->addAction(copyLink);
+
+        contextMenu->addSeparator();
+        contextMenu->addAction(openHere);
+        contextMenu->addAction(openInNewTab);
+        if(showOpenIn) {
+            contextMenu->addMenu(openIn);
+            contextMenu->addMenu(openInNew);
+        }
+
+
+ contextMenu->exec(ev->globalPos());
+
+    }*/
+
 }

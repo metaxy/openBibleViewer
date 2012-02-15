@@ -191,5 +191,4 @@ void WebForm::loadStarted()
     } else {
         m_ui->toolButton_forward->setDisabled(true);
     }
-
 }

@@ -48,6 +48,8 @@ private slots:
     void changeLocation();
     void backward();
     void forward();
+    void showContextMenu(QContextMenuEvent* ev);
+
 private:
     Ui::CommentaryForm *ui;
     Commentary *m_com;

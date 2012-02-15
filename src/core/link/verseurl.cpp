@@ -274,21 +274,36 @@ bool VerseUrl::fromTheWord(QString url)
     if(url.startsWith(anyBible)) {
         url.remove(0, anyBible.size());
         url.remove(0, id.size());
-        QStringList ids = url.split(".");
-        if(ids.size() == 4) {
+        if(url.contains("-")) {
+            const QStringList list = url.split("-");
+            QString s = list.first();
+            QString e = list.last();
+            const QStringList ss = s.split(".");
+            const QStringList es = e.split(".");
+            if(ss.size() != es.size()) {
+                return false;
+            }
+            VerseUrlRange range;
+            range.setBook(ss.at(0).toInt() - 1);
+            range.setChapter(ss.at(1).toInt() - 1);
+            range.setStartVerse(ss.at(2).toInt() - 1);
+            if(es.size() == 4) {
+                range.setEndVerse(es.at(3).toInt() - 1);
+            }
+            range.setOpenToTransformation(true);
+            m_ranges.append(range);
+
+        } else {
+            QStringList ids = url.split(".");
+            if(ids.size() < 3)
+                return false;
             VerseUrlRange range;
             range.setBook(ids.at(0).toInt() - 1);
             range.setChapter(ids.at(1).toInt() - 1);
             range.setStartVerse(ids.at(2).toInt() - 1);
-            range.setEndVerse(ids.at(3).toInt() - 1);
-            range.setOpenToTransformation(true);
-            m_ranges.append(range);
-            return true;
-        } else if(ids.size() == 3) {
-            VerseUrlRange range;
-            range.setBook(ids.at(0).toInt() - 1);
-            range.setChapter(ids.at(1).toInt() - 1);
-            range.setActiveVerse(ids.at(2).toInt() - 1);
+            if(ids.size() == 4) {
+                range.setEndVerse(ids.at(3).toInt() - 1);
+            }
             range.setOpenToTransformation(true);
             m_ranges.append(range);
             return true;

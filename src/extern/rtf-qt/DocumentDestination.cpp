@@ -126,9 +126,9 @@ void DocumentDestination::handleControlWord(const QString &controlWord, bool has
         // handled elsewhere
     } else {
         if(ControlWord::isDestination(controlWord)) {
-            qDebug() << "unhandled *Destination* control word in DocumentDestination:" << controlWord;
+            //qDebug() << "unhandled *Destination* control word in DocumentDestination:" << controlWord;
         } else {
-            qDebug() << "unhandled control word in DocumentDestination:" << controlWord;
+            //qDebug() << "unhandled control word in DocumentDestination:" << controlWord;
         }
     }
 }

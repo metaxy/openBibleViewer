@@ -53,9 +53,9 @@ void StyleSheetDestination::handleControlWord(const QString &controlWord, bool h
         qDebug() << "space before default (0)";
     } else {
         if(ControlWord::isDestination(controlWord)) {
-            qDebug() << "unhandled **Destination** control word in StyleSheetDestination:" << controlWord;
+           // qDebug() << "unhandled **Destination** control word in StyleSheetDestination:" << controlWord;
         } else {
-            qDebug() << "unhandled control word in StyleSheetDestination:" << controlWord;
+            //qDebug() << "unhandled control word in StyleSheetDestination:" << controlWord;
         }
     }
 }

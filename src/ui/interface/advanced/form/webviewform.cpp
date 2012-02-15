@@ -20,6 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QPrintDialog>
 #include <QFileDialog>
 #include <QTextDocumentWriter>
+#include <QtWebKit/QWebInspector>
 WebViewForm::WebViewForm(QWidget *parent) :
     Form(parent)
 {
@@ -106,4 +107,12 @@ void WebViewForm::zoomIn()
 void WebViewForm::zoomOut()
 {
     m_view->setZoomFactor(m_view->zoomFactor() - 0.1);
+}
+
+void WebViewForm::debugger()
+{
+    m_view->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
+    QWebInspector *i = new QWebInspector;
+    i->setPage(m_view->page());
+    i->showNormal();
 }

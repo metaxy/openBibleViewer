@@ -38,32 +38,36 @@ void FieldDestination::handleControlWord(const QString &controlWord, bool hasVal
     } else if(controlWord == "*") {
         // handled elsewhere
     } else {
+        m_fldrslt = false;
+        m_fldrslt = false;
         if(ControlWord::isDestination(controlWord)) {
-            qDebug() << "unhandled *Destination* control word in DocumentDestination:" << controlWord;
+            qDebug() << "unhandled *Destination* control word in FieldDestinationn:" << controlWord;
         } else {
-            qDebug() << "unhandled control word in DocumentDestination:" << controlWord;
+            qDebug() << "unhandled control word in FieldDestination:" << controlWord;
         }
     }
 }
 
 void FieldDestination::handlePlainText(const QString &plainText)
 {
+    qDebug() << plainText << m_fldinst << m_fldrslt;
     if(m_fldinst && !m_fldrslt) {
        m_url = plainText;
        const QString hyperlink = "HYPERLINK ";
        if(m_url.startsWith(hyperlink)) {
            m_url.remove(0, hyperlink.size());
        }
+
        return;
     } else if(m_fldinst && m_fldrslt) {
         m_text = plainText;
+         m_output->appendLink(m_url, m_text);
         return;
     }
-    m_output->appendText(plainText);
+
 }
 void FieldDestination::aboutToEndDestination()
 {
-    qDebug() << m_url;
-    m_output->appendLink(m_url, m_text);
+
 }
 }

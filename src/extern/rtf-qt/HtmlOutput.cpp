@@ -179,11 +179,11 @@ void HtmlOutput::setParagraphPatternBackgroundColour(const int colourIndex)
 void HtmlOutput::setFont(const int fontIndex)
 {
     if(! m_fontTable.contains(fontIndex)) {
-        qDebug() << "attempted to select fontIndex" << fontIndex << "not in the font table";
+        //qDebug() << "attempted to select fontIndex" << fontIndex << "not in the font table";
         return;
     }
     FontTableEntry fontEntry = m_fontTable.value(fontIndex);
-    qDebug() << "selecting font:" << fontEntry.fontName();
+    //qDebug() << "selecting font:" << fontEntry.fontName();
     m_textCharFormatStack.top().setFontFamily(fontEntry.fontName());
     m_cursor->setCharFormat(m_textCharFormatStack.top());
     m_haveSetFont = true;
@@ -207,7 +207,7 @@ void HtmlOutput::insertFontTableEntry(FontTableEntry fontTableEntry, quint32 fon
 
 void HtmlOutput::insertStyleSheetTableEntry(quint32 stylesheetTableIndex, StyleSheetTableEntry stylesheetTableEntry)
 {
-    qDebug() << "inserting stylesheet entry:" << stylesheetTableIndex << "with name:" << stylesheetTableEntry.styleName();
+    //qDebug() << "inserting stylesheet entry:" << stylesheetTableIndex << "with name:" << stylesheetTableEntry.styleName();
     m_stylesheetTable.insert(stylesheetTableIndex, stylesheetTableEntry);
 }
 

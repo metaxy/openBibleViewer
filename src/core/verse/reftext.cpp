@@ -36,6 +36,7 @@ void RefText::setSettings(Settings *settings)
 
 QString RefText::toString(const VerseUrl &url)
 {
+    myDebug() << url.toString();
     QString ret = "";
     int prevBook = -2;
     foreach(VerseUrlRange range, url.ranges()) {

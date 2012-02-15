@@ -24,9 +24,9 @@ public:
     void setShowModuleName(bool show);
     QString toString(const VerseUrl &url);
     QString toString(const Ranges &ranges);
+    QString toString(int moduleID, int bookID, int chapterID, int startVerseID, int endVerseID, int prevBook);
 private:
     bool m_showModuleName;
-    QString toString(int moduleID, int bookID, int chapterID, int startVerseID, int endVerseID, int prevBook);
     Settings *m_settings;
 };
 

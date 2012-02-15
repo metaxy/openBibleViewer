@@ -198,7 +198,7 @@ Destination* Reader::makeDestination(const QString &destinationName)
     } else if(destinationName == "ignorable") {
         return new IgnoredDestination(this, m_output, destinationName);
     }
-    qDebug() << "creating plain old Destination for" << destinationName;
+    //qDebug() << "creating plain old Destination for" << destinationName;
     return new Destination(this, m_output, destinationName);
 }
 
@@ -218,7 +218,7 @@ void Reader::changeDestination(const QString &destinationName)
     for(int i = 0; i < m_destinationStack.size(); ++i) {
         destStackElementNames << m_destinationStack.at(i)->name();
     }
-    qDebug() << m_debugIndent << "destinationStack after changeDestination (" << destStackElementNames << ")";
+    //qDebug() << m_debugIndent << "destinationStack after changeDestination (" << destStackElementNames << ")";
 }
 
 void Reader::parseDocument()
@@ -288,12 +288,12 @@ void Reader::parseDocument()
             if(! controlWord.isKnown()) {
                 qDebug() << "*** Unrecognised control word (not in spec 1.9.1): " << token.name;
             }
-               qDebug() << m_debugIndent << "got controlWord: " << token.name;
-               qDebug() << m_debugIndent << "is supported Destination:" << controlWord.isSupportedDestination();
-               qDebug() << m_debugIndent << "isIgnorable:" << m_nextSymbolIsIgnorable << "might be Destionation" << m_nextSymbolMightBeDestination;
+               //qDebug() << m_debugIndent << "got controlWord: " << token.name;
+              // qDebug() << m_debugIndent << "is supported Destination:" << controlWord.isSupportedDestination();
+               //qDebug() << m_debugIndent << "isIgnorable:" << m_nextSymbolIsIgnorable << "might be Destionation" << m_nextSymbolMightBeDestination;
 
             if(m_nextSymbolMightBeDestination && controlWord.isSupportedDestination()) {
-                qDebug() << "change destionation " << token.name;
+                //qDebug() << "change destionation " << token.name;
 
                 m_nextSymbolMightBeDestination = false;
                 m_nextSymbolIsIgnorable = false;
@@ -303,7 +303,7 @@ void Reader::parseDocument()
                 // This is a control word we don't understand
                 m_nextSymbolMightBeDestination = false;
                 m_nextSymbolIsIgnorable = false;
-                qDebug() << "ignorable destination word:" << token.name;
+                //qDebug() << "ignorable destination word:" << token.name;
                 changeDestination("ignorable");
             } else {
                 m_nextSymbolMightBeDestination = false;

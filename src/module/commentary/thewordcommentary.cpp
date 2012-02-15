@@ -4,6 +4,7 @@
 #include "src/module/response/stringresponse.h"
 #include "src/extern/rtf-qt/rtfreader.h"
 #include "src/extern/rtf-qt/TheWordRtfOutput.h"
+#include "src/core/verse/reftext.h"
 #include <QtCore/QTemporaryFile>
 TheWordCommentary::TheWordCommentary()
 {
@@ -12,20 +13,30 @@ TheWordCommentary::TheWordCommentary()
 Response * TheWordCommentary::readVerseRange(const int bookID,const int chapterID, const int startVerseID, const int endVerseID)
 {
     QTextDocument *rtfDocument = new QTextDocument( NULL );
-    QSqlQuery query("select topic_id from bible_refs where bi = "+ QString::number(bookID+1)+" and ci = " + QString::number(chapterID+1), m_db);
+    QSqlQuery query("select topic_id,bi,ci,fvi,tvi from bible_refs where bi = "+ QString::number(bookID+1)+" and ci = " + QString::number(chapterID+1) +" ORDER BY fvi DESC", m_db);
+    //
 
     while (query.next()) {
+        const int bi = query.value(1).toInt();
+        const int ci = query.value(2).toInt();
+        const int fvi = query.value(3).toInt();
+        const int tvi = query.value(4).toInt();
+
         QSqlQuery query2("select data from content where topic_id =" + query.value(0).toString(), m_db);
+
         while(query2.next()) {
             QTemporaryFile file;
             if (file.open()) {
                 QTextStream out(&file);
+                myDebug() << toValidRTF(query2.value(0).toString());
                 out << toValidRTF(query2.value(0).toString());
                 file.close();
                 RtfReader::Reader *reader = new RtfReader::Reader( NULL );
                 bool result = reader->open(file.fileName());
                 if(result) {
-                    RtfReader::TheWordRtfOutput *output = new RtfReader::TheWordRtfOutput( rtfDocument );
+                    RefText ref;
+                    ref.setSettings(m_settings);
+                    RtfReader::TheWordRtfOutput *output = new RtfReader::TheWordRtfOutput( rtfDocument, ref.toString(-1, bi, ci, fvi, tvi,-1) );
                     output->setSettings(m_settings);
                     reader->parseTo( output );
                 }
@@ -34,6 +45,7 @@ Response * TheWordCommentary::readVerseRange(const int bookID,const int chapterI
         }
     }
     StringResponse *res = new StringResponse(rtfDocument->toHtml());
+    myDebug() << rtfDocument->toHtml();
     delete rtfDocument;
     return res;
 

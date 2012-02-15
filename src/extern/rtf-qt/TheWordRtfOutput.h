@@ -37,7 +37,7 @@ class Reader;
 class TheWordRtfOutput: public AbstractRtfOutput
 {
 public:
-    TheWordRtfOutput(QTextDocument *document);
+    TheWordRtfOutput(QTextDocument *document, const QString &title);
 
     virtual ~TheWordRtfOutput();
 

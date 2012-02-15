@@ -152,7 +152,7 @@ void TextDocumentRtfOutput::setForegroundColour(const int colourIndex)
         m_textCharFormatStack.top().setForeground(colour);
         m_cursor->setCharFormat(m_textCharFormatStack.top());
     } else {
-        qDebug() << "invalid colour at index:" << colourIndex;
+        //qDebug() << "invalid colour at index:" << colourIndex;
     }
 }
 
@@ -163,7 +163,7 @@ void TextDocumentRtfOutput::setHighlightColour(const int colourIndex)
         m_textCharFormatStack.top().setBackground(colour);
         m_cursor->setCharFormat(m_textCharFormatStack.top());
     } else {
-        qDebug() << "invalid colour at index:" << colourIndex;
+       // qDebug() << "invalid colour at index:" << colourIndex;
     }
 }
 
@@ -174,18 +174,18 @@ void TextDocumentRtfOutput::setParagraphPatternBackgroundColour(const int colour
         m_paragraphFormat.setBackground(colour);
         m_cursor->setBlockFormat(m_paragraphFormat);
     } else {
-        qDebug() << "invalid colour at index:" << colourIndex;
+        //qDebug() << "invalid colour at index:" << colourIndex;
     }
 }
 
 void TextDocumentRtfOutput::setFont(const int fontIndex)
 {
     if(! m_fontTable.contains(fontIndex)) {
-        qDebug() << "attempted to select fontIndex" << fontIndex << "not in the font table";
+        //qDebug() << "attempted to select fontIndex" << fontIndex << "not in the font table";
         return;
     }
     FontTableEntry fontEntry = m_fontTable.value(fontIndex);
-    qDebug() << "selecting font:" << fontEntry.fontName();
+    //qDebug() << "selecting font:" << fontEntry.fontName();
     m_textCharFormatStack.top().setFontFamily(fontEntry.fontName());
     m_cursor->setCharFormat(m_textCharFormatStack.top());
     m_haveSetFont = true;

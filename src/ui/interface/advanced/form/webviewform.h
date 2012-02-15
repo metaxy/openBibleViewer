@@ -34,6 +34,7 @@ public slots:
 
     virtual void zoomIn();
     virtual void zoomOut();
+    virtual void debugger();
 
 protected:
 

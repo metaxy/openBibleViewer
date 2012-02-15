@@ -27,11 +27,19 @@
 #include "src/core/verse/reftext.h"
 namespace RtfReader
 {
-TheWordRtfOutput::TheWordRtfOutput(QTextDocument *document) : AbstractRtfOutput(),
+TheWordRtfOutput::TheWordRtfOutput(QTextDocument *document, const QString &title) : AbstractRtfOutput(),
     m_document(document), m_haveSetFont(false)
 {
     m_cursor = new QTextCursor(m_document);
-    m_cursor->movePosition(QTextCursor::End);
+    //m_cursor->insertHtml("<hr />");
+    //m_cursor->movePosition(QTextCursor::End);
+    m_cursor->insertBlock();
+    QTextCharFormat t;
+    t.setFontWeight(QFont::Bold);
+
+    m_cursor->insertText(title, t);
+    m_cursor->insertBlock();
+
     QTextCharFormat defaultCharFormat;
     defaultCharFormat.setFontPointSize(12);   // default of 24 "half-points"
     m_textCharFormatStack.push(defaultCharFormat);
@@ -39,6 +47,8 @@ TheWordRtfOutput::TheWordRtfOutput(QTextDocument *document) : AbstractRtfOutput(
 
 TheWordRtfOutput::~TheWordRtfOutput()
 {
+
+
     delete m_cursor;
 }
 
@@ -60,7 +70,7 @@ void TheWordRtfOutput::endGroup()
 
 void TheWordRtfOutput::appendText(const QString &text)
 {
-    m_cursor->insertText(text);
+    m_cursor->insertText(text, m_textCharFormatStack.top());
 }
 
 void TheWordRtfOutput::insertPar()
@@ -153,7 +163,7 @@ void TheWordRtfOutput::setForegroundColour(const int colourIndex)
         m_textCharFormatStack.top().setForeground(colour);
         m_cursor->setCharFormat(m_textCharFormatStack.top());
     } else {
-        qDebug() << "invalid colour at index:" << colourIndex;
+        //qDebug() << "invalid colour at index:" << colourIndex;
     }
 }
 
@@ -164,7 +174,7 @@ void TheWordRtfOutput::setHighlightColour(const int colourIndex)
         m_textCharFormatStack.top().setBackground(colour);
         m_cursor->setCharFormat(m_textCharFormatStack.top());
     } else {
-        qDebug() << "invalid colour at index:" << colourIndex;
+        //qDebug() << "invalid colour at index:" << colourIndex;
     }
 }
 
@@ -175,18 +185,18 @@ void TheWordRtfOutput::setParagraphPatternBackgroundColour(const int colourIndex
         m_paragraphFormat.setBackground(colour);
         m_cursor->setBlockFormat(m_paragraphFormat);
     } else {
-        qDebug() << "invalid colour at index:" << colourIndex;
+        //qDebug() << "invalid colour at index:" << colourIndex;
     }
 }
 
 void TheWordRtfOutput::setFont(const int fontIndex)
 {
     if(! m_fontTable.contains(fontIndex)) {
-        qDebug() << "attempted to select fontIndex" << fontIndex << "not in the font table";
+        //qDebug() << "attempted to select fontIndex" << fontIndex << "not in the font table";
         return;
     }
     FontTableEntry fontEntry = m_fontTable.value(fontIndex);
-    qDebug() << "selecting font:" << fontEntry.fontName();
+    //qDebug() << "selecting font:" << fontEntry.fontName();
     m_textCharFormatStack.top().setFontFamily(fontEntry.fontName());
     m_cursor->setCharFormat(m_textCharFormatStack.top());
     m_haveSetFont = true;
@@ -340,8 +350,9 @@ qreal TheWordRtfOutput::pixelsFromTwips(const int twips)
 }
 void TheWordRtfOutput::appendLink(const QString &href, const QString &text)
 {
-    QString t = text;
+    qDebug() << href << text;
     if(text == "[vref]") {
+        QString t = text;
         QString href2 = href;
         href2.remove(0,1).chop(1);
         VerseUrl url;
@@ -350,8 +361,12 @@ void TheWordRtfOutput::appendLink(const QString &href, const QString &text)
         RefText ref;
         ref.setSettings(m_settings);
         t = ref.toString(url);
+        m_cursor->insertHtml("<span><a href="+href+">"+t+"</a></span>");
+    } else {
+        m_cursor->insertHtml("<span><a href="+href+">"+text+"</a></span>");
     }
-    m_cursor->insertHtml("<a href="+href+">"+t+"</a>");
+
+
 }
 
 void TheWordRtfOutput::setSettings(Settings *settings)
