@@ -19,6 +19,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/reftext.h"
 #include "src/core/link/biblelink.h"
 #include "src/core/link/urlconverter2.h"
+#include <QClipboard>
+#include <QWebElement>
 CommentaryForm::CommentaryForm(QWidget *parent) :
     WebViewForm(parent),
     ui(new Ui::CommentaryForm)
@@ -42,8 +44,8 @@ void CommentaryForm::init()
     m_com = new Commentary();
     m_moduleManager->initSimpleModule(m_com);
 
-    connect(m_view->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
-    connect(m_view, SIGNAL(linkMiddleOrCtrlClicked(QUrl)), m_actions, SLOT(newGet(QUrl)));
+    connect(m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(get(QUrl)));
+    connect(m_view, SIGNAL(linkMiddleOrCtrlClicked(QUrl)), this, SLOT(newGet(QUrl)));
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
 
 }
@@ -233,7 +235,10 @@ void CommentaryForm::showContextMenu(QContextMenuEvent* ev)
 {
     //DEBUG_FUNC_NAME
     QScopedPointer<QMenu> contextMenu(new QMenu(this));
-   /* QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), this);
+    QAction * actionSelect = new QAction(QIcon::fromTheme("edit-select-all", QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"), this);
+    connect(actionSelect, SIGNAL(triggered()), this , SLOT(selectAll()));
+
+    QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), this);
     connect(actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
     if(m_view->hasSelection()) {
         actionCopy->setEnabled(true);
@@ -242,18 +247,16 @@ void CommentaryForm::showContextMenu(QContextMenuEvent* ev)
     }
 
     const QWebHitTestResult hitTest = m_view->page()->mainFrame()->hitTestContent(ev->pos());
-    const QUrl url = hitTest.linkUrl();
-    if(url.isEmpty()) {*/
-
+    const QString url = transformUrl(hitTest.linkElement().attribute("href"));
+    if(hitTest.linkUrl().isEmpty()) {
 
         QAction *dbg = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"), contextMenu.data());
         connect(dbg, SIGNAL(triggered()), this, SLOT(debugger()));
 
-       // contextMenu->addAction(m_actionSelect);
+        contextMenu->addAction(actionSelect);
+        contextMenu->addAction(actionCopy);
         contextMenu->addAction(dbg);
         contextMenu->exec(ev->globalPos());
-
-      /*
 
     } else {
         myDebug() << "another menu";
@@ -263,7 +266,7 @@ void CommentaryForm::showContextMenu(QContextMenuEvent* ev)
         QAction *openInNewTab = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("Open in new tab"), contextMenu.data());
         connect(openInNewTab, SIGNAL(triggered()), this, SLOT(openInNewTab()));
 
-        QAction *openHere = new QAction(QIcon::fromTheme("tab-new-background", QIcon(":/icons/16x16/tab-new-background.png")), tr("Open here"), contextMenu.data());
+        QAction *openHere = new QAction(QIcon::fromTheme("tab-new-background", QIcon(":/icons/16x16/tab-new-background.png")), tr("Open"), contextMenu.data());
         connect(openHere, SIGNAL(triggered()), this, SLOT(openHere()));
 
         QAction *copyText = new QAction(tr("Copy Text"), contextMenu.data());
@@ -281,8 +284,8 @@ void CommentaryForm::showContextMenu(QContextMenuEvent* ev)
         QList<int> usedModules;
         bool showOpenIn = false;
 
-        ModuleTools::ContentType type = ModuleTools::contentTypeFromUrl(url.toString());
-        ModuleTools::ModuleClass cl = ModuleTools::moduleClassFromUrl(url.toString());
+        ModuleTools::ContentType type = ModuleTools::contentTypeFromUrl(url);
+        ModuleTools::ModuleClass cl = ModuleTools::moduleClassFromUrl(url);
         QList<ModuleSettings*> list = m_settings->m_moduleSettings.values();
 
         qSort(list.begin(), list.end(), ModuleManager::sortModuleByPop);
@@ -347,7 +350,7 @@ void CommentaryForm::showContextMenu(QContextMenuEvent* ev)
             }
         }
         contextMenu->addAction(actionCopy);
-        contextMenu->addAction(m_actionSelect);
+        contextMenu->addAction(actionSelect);
         contextMenu->addAction(copyText);
         contextMenu->addAction(copyLink);
 
@@ -360,8 +363,93 @@ void CommentaryForm::showContextMenu(QContextMenuEvent* ev)
         }
 
 
- contextMenu->exec(ev->globalPos());
+        contextMenu->exec(ev->globalPos());
 
-    }*/
+    }
 
+}
+void CommentaryForm::openInNewTab()
+{
+    m_actions->get(m_contextMenuUrl, Actions::OpenInNewWindow);
+}
+
+void CommentaryForm::openHere()
+{
+    m_actions->get(m_contextMenuUrl, Actions::NoModifer);
+}
+
+void CommentaryForm::copyLinkText()
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(m_contextMenuText);
+}
+
+void CommentaryForm::copyLinkUrl()
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(m_contextMenuUrl);
+}
+void CommentaryForm::openIn()
+{
+    QAction *s = (QAction*) sender();
+    if(s != NULL) {
+        int moduleID = s->data().toInt();
+        QString url = m_contextMenuUrl;
+        if(url.startsWith(ModuleTools::strongScheme)) {
+            url = url.remove(0, ModuleTools::strongScheme.size());
+            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url);
+        } else if(url.startsWith(ModuleTools::rmacScheme)) {
+            url = url.remove(0, ModuleTools::rmacScheme.size());
+            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url);
+        } else if(url.startsWith(ModuleTools::verseScheme)) {
+            VerseUrl vurl;
+            vurl.fromStringUrl(url);
+            vurl.setModuleID(moduleID);
+            m_actions->get(vurl);
+        } else {
+            m_actions->get(url);
+        }
+        m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
+    }
+}
+void CommentaryForm::openInNew()
+{
+    QAction *s = (QAction*) sender();
+    if(s != NULL) {
+        int moduleID = s->data().toInt();
+        QString url = m_contextMenuUrl;
+        if(url.startsWith(ModuleTools::strongScheme)) {
+            url = url.remove(0, ModuleTools::strongScheme.size());
+            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, Actions::OpenInNewWindow);
+        } else if(url.startsWith(ModuleTools::rmacScheme)) {
+            url = url.remove(0, ModuleTools::rmacScheme.size());
+            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, Actions::OpenInNewWindow);
+        } else if(url.startsWith(ModuleTools::verseScheme)) {
+            VerseUrl vurl;
+            vurl.fromStringUrl(url);
+            vurl.setModuleID(moduleID);
+            m_actions->get(vurl, Actions::OpenInNewWindow);
+        } else {
+            m_actions->get(url);
+        }
+        m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
+    }
+}
+QString CommentaryForm::transformUrl(const QString &url)
+{
+    if(url.startsWith(ModuleTools::theWordScheme)) {
+        VerseUrl vurl;
+        vurl.fromTheWord(url);
+        return vurl.toString();
+    }
+    return url;
+}
+void CommentaryForm::get(QUrl url)
+{
+    m_actions->get(transformUrl(QString(url.toEncoded())));
+}
+
+void CommentaryForm::newGet(QUrl url)
+{
+    m_actions->newGet(transformUrl(QString(url.toEncoded())));
 }

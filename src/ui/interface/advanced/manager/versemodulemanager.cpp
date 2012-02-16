@@ -69,6 +69,7 @@ QHash<DockWidget*, Qt::DockWidgetArea> VerseModuleManager::docks()
 
 void VerseModuleManager::pharseUrl(VerseUrl url, const Actions::OpenLinkModifiers mod)
 {
+    myDebug() << url.toString();
     Form::FormType type = Form::BibleForm;
     //todo: it may be a problem if the url says that the module="current"
     if(!url.ranges().isEmpty()) {
@@ -99,6 +100,7 @@ void VerseModuleManager::pharseUrl(VerseUrl url, const Actions::OpenLinkModifier
 
 void VerseModuleManager::pharseUrl(QString url, const Actions::OpenLinkModifiers mod)
 {
+    myDebug() << url;
     if(url.startsWith(ModuleTools::verseScheme)) {
         VerseUrl verseUrl(url);
         pharseUrl(verseUrl, mod);
@@ -107,7 +109,6 @@ void VerseModuleManager::pharseUrl(QString url, const Actions::OpenLinkModifiers
 
 
         if(verseUrl.fromTheWord(url)) {
-            verseUrl.setModuleID(m_settings->getDefaultModule(ModuleTools::BibleContent));
             pharseUrl(verseUrl, mod);
         } else {
             myWarning() << "could not pharse url" << url;

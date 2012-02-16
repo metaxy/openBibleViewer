@@ -284,6 +284,7 @@ bool VerseUrl::fromTheWord(QString url)
                 return false;
             }
             VerseUrlRange range;
+            range.setModule(VerseUrlRange::LoadCurrentModule);
             range.setBook(ss.at(0).toInt() - 1);
             range.setChapter(ss.at(1).toInt() - 1);
             range.setStartVerse(ss.at(2).toInt() - 1);
@@ -298,6 +299,7 @@ bool VerseUrl::fromTheWord(QString url)
             if(ids.size() < 3)
                 return false;
             VerseUrlRange range;
+            range.setModule(VerseUrlRange::LoadCurrentModule);
             range.setBook(ids.at(0).toInt() - 1);
             range.setChapter(ids.at(1).toInt() - 1);
             range.setStartVerse(ids.at(2).toInt() - 1);

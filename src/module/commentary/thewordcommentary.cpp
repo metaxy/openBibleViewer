@@ -21,13 +21,11 @@ Response * TheWordCommentary::readVerseRange(const int bookID,const int chapterI
                     " and fvi >=" + QString::number(startVerseID+1)+
                     " and tvi <=" + QString::number(endVerseID+1) +
                     " ORDER BY fvi DESC", m_db);
-    myDebug() << query.lastError().text();
     while (query.next()) {
         const int bi = query.value(1).toInt();
         const int ci = query.value(2).toInt();
         const int fvi = query.value(3).toInt();
         const int tvi = query.value(4).toInt();
-        myDebug() << bi << ci << fvi << tvi;
         QSqlQuery query2("select data from content where topic_id =" + query.value(0).toString(), m_db);
 
         while(query2.next()) {

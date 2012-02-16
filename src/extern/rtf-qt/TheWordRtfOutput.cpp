@@ -357,7 +357,6 @@ void TheWordRtfOutput::appendLink(const QString &href, const QString &text)
     if(t == "[vref]") {
         VerseUrl url;
         url.fromTheWord(href2);
-        url.setModuleID(m_settings->getDefaultModule(ModuleTools::BibleContent));
         RefText ref;
         ref.setSettings(m_settings);
         t = ref.toString(url);

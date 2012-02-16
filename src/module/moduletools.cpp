@@ -243,6 +243,8 @@ ModuleTools::ContentType ModuleTools::contentTypeFromUrl(const QString &url)
         return ModuleTools::RMACContent;
     } else if(url.startsWith(ModuleTools::verseScheme)) {
         return ModuleTools::BibleContent;
+    } else if(url.startsWith(ModuleTools::theWordScheme) && url.contains("bible")) {
+        return ModuleTools::BibleContent;
     }
     return ModuleTools::UnkownContent;
 }
@@ -253,6 +255,8 @@ ModuleTools::ModuleClass ModuleTools::moduleClassFromUrl(const QString &url)
     } else if(url.startsWith(ModuleTools::rmacScheme)) {
         return ModuleTools::DictionaryModuleClass;
     } else if(url.startsWith(ModuleTools::verseScheme)) {
+        return ModuleTools::BibleModuleClass;
+    } else if(url.startsWith(ModuleTools::theWordScheme) && url.contains("bible")) {
         return ModuleTools::BibleModuleClass;
     }
     return ModuleTools::NoneClass;
