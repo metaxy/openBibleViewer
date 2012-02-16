@@ -387,7 +387,7 @@ target_link_libraries( openBibleViewer
 
 install( TARGETS openBibleViewer
          RUNTIME DESTINATION bin )
-		 
+
 if(UNIX AND NOT WIN32)
 
     install( FILES "${openBibleViewer_SOURCE_DIR}/src/icons/124x124/openBibleViewer.png"
