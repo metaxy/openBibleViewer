@@ -17,7 +17,7 @@ VersificationExtendedData::VersificationExtendedData()
 {
     m_hasChapterZero = false;
 }
-void VersificationExtendedData::setHasChapterZeor(bool chapterZero)
+void VersificationExtendedData::setHasChapterZero(bool chapterZero)
 {
     m_hasChapterZero = chapterZero;
 }

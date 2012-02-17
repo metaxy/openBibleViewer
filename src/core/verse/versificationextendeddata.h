@@ -18,7 +18,7 @@ class VersificationExtendedData
 {
 public:
     VersificationExtendedData();
-    void setHasChapterZeor(bool chapterZero);
+    void setHasChapterZero(bool chapterZero);
     bool hasChapterZero();
 private:
     bool m_hasChapterZero;

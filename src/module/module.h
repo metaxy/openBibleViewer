@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/dictionary/dictionarymodule.h"
 #include "src/module/bible/biblemodule.h"
 #include "src/module/book/bookmodule.h"
+#include "src/module/book/treebookmodule.h"
 #include "src/module/commentary/commentarymodule.h"
 #include "src/module/moduletools.h"
 /**
@@ -48,12 +49,13 @@ public:
     QWeakPointer<DictionaryModule> m_dictionaryModule;
     QWeakPointer<BookModule> m_bookModule;
     QWeakPointer<CommentaryModule> m_commentaryModule;
+    QWeakPointer<TreeBookModule> m_treeBookModule;
 
     QSharedPointer<BibleModule> newBibleModule(const ModuleTools::ModuleType type);
     QSharedPointer<DictionaryModule> newDictionaryModule(const ModuleTools::ModuleType type);
     QSharedPointer<BookModule> newBookModule(const ModuleTools::ModuleType type);
     QSharedPointer<CommentaryModule> newCommentaryModule(const ModuleTools::ModuleType type);
-
+    QSharedPointer<TreeBookModule> newTreeBookModule(const ModuleTools::ModuleType type);
     void setSettings(Settings *settings);
 
 

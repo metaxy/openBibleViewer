@@ -155,6 +155,18 @@ void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers 
             f->loadModule(moduleID);
             f->show();
         }
+    } else if(url.startsWith(ModuleTools::treeBookScheme)) {
+        url.remove(0, ModuleTools::treeBookScheme.size());
+        const QStringList splits = url.split(",");
+        if(splits.size() > 1) {
+            const int moduleID = splits.first().toInt();
+            const int chapterID = splits.last().toInt();
+            TreeBookForm *f = (TreeBookForm*) m_windowManager->getForm(m_windowManager->needWindow(Form::TreeBookForm));
+            if(f) {
+                f->loadModule(moduleID);
+                f->showChapter(moduleID, chapterID);
+            }
+        }
     } else if(url.startsWith(ModuleTools::userInputScheme)) {
          url = url.remove(0, ModuleTools::userInputScheme.size());
          quick(url);

@@ -60,6 +60,8 @@ SET(
     link/url.cpp
     link/urlconverter.cpp
     link/urlconverter2.cpp
+
+    books/booktree.cpp
 )
 QT4_AUTOMOC( ${OBVCore_SRCS} )
 

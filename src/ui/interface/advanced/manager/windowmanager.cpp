@@ -83,6 +83,8 @@ QMdiSubWindow* WindowManager::newSubWindow(Form::FormType type, bool forceMax)
         form = new BookForm(widget);
     } else if(type == Form::CommentaryForm) {
         form = new CommentaryForm(widget);
+    } else if(type == Form::TreeBookForm) {
+        form = new TreeBookForm(widget);
     }
     form->setID(m_nameCounter);
     form->setObjectName("mdiForm");

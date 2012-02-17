@@ -203,7 +203,11 @@ std::pair<int, int> TheWordCommentary::minMaxVerse(const int bookID, const int c
 {
     std::pair<int, int> ret;
     ret.first = 0;
-    ret.second = m_versification->maxVerse().value(bookID).at(chapterID);
+    if(m_versification->maxVerse().contains(bookID) && chapterID < m_versification->maxVerse().value(bookID).size()) {
+        ret.second = m_versification->maxVerse().value(bookID).at(chapterID);
+    } else {
+        ret.second = 0;
+    }
     return ret;
 }
 CommentaryModule::LinkPolicy TheWordCommentary::linkPolicy() const

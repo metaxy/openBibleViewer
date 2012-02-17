@@ -34,6 +34,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/interface/advanced/form/webform.h"
 #include "src/ui/interface/advanced/form/bookform.h"
 #include "src/ui/interface/advanced/form/commentaryform.h"
+#include "src/ui/interface/advanced/form/treebookform.h"
 /**
   * WindowManager controlls all subwindows or tabs. It opens them and provides access to the forms.
   * Also it manages the tiling.

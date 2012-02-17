@@ -139,7 +139,7 @@ int BibleQuote::loadBibleData(const int bibleID, const QString &path)
         settings->versificationFile = m_settings->v11nFile(path);
 
     }
-    settings->getV11n()->extendedData.setHasChapterZeor(m_chapterZero);
+    settings->getV11n()->extendedData.setHasChapterZero(m_chapterZero);
     return 0;
 }
 

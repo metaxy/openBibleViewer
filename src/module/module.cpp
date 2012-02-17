@@ -23,6 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/book/txtbook.h"
 #include "src/module/commentary/webcommentary.h"
 #include "src/module/commentary/thewordcommentary.h"
+#include "src/module/book/thewordtopic.h"
 #include "src/module/book/rtfbook.h"
 Module::Module(Module *parent) : m_parent(parent)
 {
@@ -156,5 +157,16 @@ QSharedPointer<CommentaryModule> Module::newCommentaryModule(const ModuleTools::
         myWarning() << "invalid type";
     }
     m_commentaryModule = ret.toWeakRef();
+    return ret;
+}
+QSharedPointer<TreeBookModule> Module::newTreeBookModule(const ModuleTools::ModuleType type)
+{
+    QSharedPointer<TreeBookModule> ret;
+    if(type == ModuleTools::TheWordTopicModule) {
+        ret = QSharedPointer<TheWordTopic>(new TheWordTopic());
+    }  else {
+        myWarning() << "invalid type";
+    }
+    m_treeBookModule = ret.toWeakRef();
     return ret;
 }

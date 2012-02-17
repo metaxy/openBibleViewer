@@ -85,15 +85,19 @@ void ModuleDockWidget::loadModuleData(QModelIndex index, Actions::OpenLinkModifi
         //const ModuleTools::ModuleType type = m->moduleType();
         const ModuleTools::ModuleClass cl = m->moduleClass();
         if(cl == ModuleTools::DictionaryModuleClass) {
-            m_actions->get("dict:/" + QString::number(moduleID), mod);
+            m_actions->get(ModuleTools::dictScheme+ QString::number(moduleID), mod);
             m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
         } else if(cl == ModuleTools::WebPageClass) {
-            m_actions->get("webpage:/" + QString::number(moduleID), mod);
+            m_actions->get(ModuleTools::webPageScheme + QString::number(moduleID), mod);
             m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
         } else if(cl == ModuleTools::BookClass) {
-            m_actions->get("book:/" + QString::number(moduleID), mod);
+            m_actions->get(ModuleTools::bookScheme + QString::number(moduleID), mod);
             m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
-        } else if(cl == ModuleTools::CommentaryClass) {
+        } else if(cl == ModuleTools::TreeBookClass) {
+            m_actions->get(ModuleTools::treeBookScheme + QString::number(moduleID) + ",0", mod);
+            m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
+
+        }else if(cl == ModuleTools::CommentaryClass) {
             VerseUrlRange range;
             range.setModule(moduleID);
             range.setBook(VerseUrlRange::LoadCurrentBook);

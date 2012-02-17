@@ -31,7 +31,8 @@ public:
         DictionaryForm = 1,
         WebForm = 2,
         BookForm = 3,
-        CommentaryForm = 4
+        CommentaryForm = 4,
+        TreeBookForm = 5
     };
 
     explicit Form(QWidget *parent = 0);

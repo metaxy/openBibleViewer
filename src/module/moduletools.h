@@ -26,7 +26,8 @@ public:
         FolderClass = 3,
         WebPageClass = 4,
         BookClass = 5,
-        CommentaryClass = 6
+        CommentaryClass = 6,
+        TreeBookClass = 7
     };
 
     enum ModuleType {
@@ -44,7 +45,8 @@ public:
         TxtBookModule = 11,
         WebCommentaryModule = 12,
         TheWordCommentaryModule = 13,
-        RTFBookModule = 14
+        RTFBookModule = 14,
+        TheWordTopicModule = 15
     };
 
     enum DefaultModule {
@@ -70,7 +72,8 @@ public:
         DictionaryContent = 9,
         GramContent = 10,
         BookContent = 11,
-        CommentaryContent = 12
+        CommentaryContent = 12,
+        TreeBookContent = 13
 
     };
 
@@ -80,7 +83,8 @@ public:
         BibleCategory = 2,
         DictionaryCategory = 3,
         CommentaryCategory = 4,
-        BookCategory = 5
+        BookCategory = 5,
+        TreeBookCategory = 6
     };
 
     static const QString strongScheme;
@@ -92,7 +96,7 @@ public:
     static const QString bookScheme;
     static const QString theWordScheme;
     static const QString userInputScheme;
-
+     static const QString treeBookScheme;
 
     static ModuleTools::ModuleType recognizeModuleType(const QString &fileName);
     static ModuleTools::DefaultModule toDefaultModule(const ModuleTools::ContentType t);

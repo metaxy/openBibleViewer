@@ -147,6 +147,9 @@ set( openBibleViewer_SRCS
     src/module/book/book.cpp
     src/module/book/bookmodule.cpp
     src/module/book/txtbook.cpp
+    src/module/book/treebook.cpp
+    src/module/book/treebookmodule.cpp
+    src/module/book/thewordtopic.cpp
     src/module/commentary/webcommentary.cpp
     src/module/commentary/commentary.cpp
     src/module/commentary/commentarymodule.cpp
@@ -185,6 +188,7 @@ set( openBibleViewer_SRCS
     src/ui/interface/advanced/form/bookform.cpp
     src/ui/interface/advanced/form/webviewform.cpp
     src/ui/interface/advanced/form/commentaryform.cpp
+    src/ui/interface/advanced/form/treebookform.cpp
 
     src/ui/webview.cpp
     src/ui/interface/advanced/manager/windowmanager.cpp
@@ -249,6 +253,7 @@ set ( openBibleViewer_UIS
     src/ui/interface/advanced/form/bookform.ui
     src/ui/interface/advanced/form/webform.ui
     src/ui/interface/advanced/form/dictionaryform.ui
+    src/ui/interface/advanced/form/treebookform.ui
 
     src/ui/interface/advanced/versetablewidget.ui
 
@@ -321,6 +326,8 @@ set ( openBibleViewer_MOCS
     src/ui/interface/advanced/form/bookform.h
     src/ui/interface/advanced/form/webviewform.h
     src/ui/interface/advanced/form/commentaryform.h
+    src/ui/interface/advanced/form/treebookform.h
+
 
     src/ui/interface/advanced/advancedinterface.h
     src/ui/interface/advanced/subwindowfilter.h

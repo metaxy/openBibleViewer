@@ -32,7 +32,6 @@ public:
 protected:
     ModuleDisplaySettings *m_moduleDisplaySettings;
 
-
     int loadModuleData(int moduleID);
     bool m_loaded;
 
