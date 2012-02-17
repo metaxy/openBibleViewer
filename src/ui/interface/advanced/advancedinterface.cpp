@@ -155,14 +155,17 @@ void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers 
             f->loadModule(moduleID);
             f->show();
         }
-    }else if(url.startsWith(bq)) {
+    } else if(url.startsWith(ModuleTools::userInputScheme)) {
+         url = url.remove(0, ModuleTools::userInputScheme.size());
+         quick(url);
+    } else if(url.startsWith(bq)) {
         m_bibleManager->pharseUrl(url, mod);
     } else if(url.startsWith(anchor)) {
         //todo:
         url = url.remove(0, anchor.size());
         bool ok;
         int c = url.toInt(&ok, 10);
-        if(ok /*&& c < m_moduleManager->bible()->chaptersCount() && m_moduleManager->bible()->bibleType() == ModuleTools::BibleQuoteModule && m_moduleManager->bible()->chapterID() != c*/) {
+        if(ok) {
             VerseUrlRange r;
             r.setModule(VerseUrlRange::LoadCurrentModule);
             r.setBook(VerseUrlRange::LoadCurrentBook);
@@ -170,10 +173,9 @@ void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers 
             r.setWholeChapter();
             VerseUrl url(r);
             m_actions->get(url);
-
         } else {
             if(m_windowManager->activeForm()) {
-                BibleForm * f= (BibleForm *)m_windowManager->activeForm();
+                BibleForm * f = (BibleForm *)m_windowManager->activeForm();
                 if(f) {
                     f->m_view->scrollToAnchor(url);
                 }
@@ -196,7 +198,6 @@ void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers 
                 bool isInBookPath = false;
                 int b = 0;
                 const QStringList books = ((BibleQuote*)(((Bible*)f->verseModule())->bibleModule()))->booksPath();
-                //myDebug() << books;
                 int i = 0;
                 foreach(const QString & book, books) {
                     if(book.endsWith(url, Qt::CaseInsensitive)) {
@@ -669,10 +670,14 @@ void AdvancedInterface::quickSearch(const QString &text)
     query.queryType = SearchQuery::Simple;
     m_searchManager->search(query);
 }
-
 void AdvancedInterface::quick()
 {
-    QString text = ((QLineEdit *) sender())->text();
+    quick(((QLineEdit *) sender())->text());
+}
+
+void AdvancedInterface::quick(QString text)
+{
+    myDebug() << text;
     if(text.startsWith("search ", Qt::CaseInsensitive)) {
         int whitePos = text.indexOf(" ");
         text.remove(0, whitePos);

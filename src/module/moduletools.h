@@ -91,6 +91,7 @@ public:
     static const QString webPageScheme;
     static const QString bookScheme;
     static const QString theWordScheme;
+    static const QString userInputScheme;
 
 
     static ModuleTools::ModuleType recognizeModuleType(const QString &fileName);

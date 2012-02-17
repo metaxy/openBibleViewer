@@ -141,6 +141,7 @@ private:
     WebPageManager *m_webPageManager;
 
     void quickSearch(const QString &text);
+    void quick(QString text);
 
 
 };

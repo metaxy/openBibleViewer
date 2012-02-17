@@ -95,6 +95,7 @@ VerseUrl BibleLink::getUrl(const QString& s)
     range.setModule(m_moduleID);
     range.setOpenToTransformation(true);
     VerseUrl url;
+
     if(found == 0) {  //example: Hiob
         const int bookID = bookNameToBookID(foundRegExp.cap(1), &lev);
         range.setBook(bookID);
@@ -149,6 +150,11 @@ int BibleLink::bookNameToBookID(QString name, int *nlev)
 {
     int min = -1, bookID = -1;
     name = name.toLower();
+
+    if(name.startsWith("{")) {
+        name.remove("}").remove("{");
+        return name.toInt();
+    }
 
     QHash<int, QString> full = m_v11n->bookNames();
     QHash<int, QStringList> shortNames = m_v11n->multipleBookShortNames();

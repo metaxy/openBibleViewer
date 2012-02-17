@@ -438,6 +438,7 @@ void CommentaryForm::openInNew()
 }
 QString CommentaryForm::transformUrl(const QString &url)
 {
+    myDebug() << url;
     if(m_com->moduleType() == ModuleTools::WebCommentaryModule) {
         QString nurl = ((WebCommentary*) (m_com->m_commentaryModule.data()))->pharseUrl(QUrl(url));
         return nurl;
@@ -450,14 +451,25 @@ QString CommentaryForm::transformUrl(const QString &url)
 }
 void CommentaryForm::get(QUrl url)
 {
-    if(url.scheme().startsWith("http") && m_com->m_commentaryModule->linkPolicy() == CommentaryModule::OpenWebLinksHere) {
-         m_view->load(url);
+    if(m_com->moduleType() == ModuleTools::TheWordCommentaryModule) {
+        m_actions->get(transformUrl(QString(url.toEncoded())));
+        return;
+    }
+
+    const QString u = transformUrl(url.toString());
+    if(u.startsWith("http") && m_com->m_commentaryModule->linkPolicy() == CommentaryModule::OpenWebLinksHere) {
+         m_view->load(QUrl(u));
          return;
     }
-    m_actions->get(transformUrl(QString(url.toEncoded())));
+    m_actions->get(u);
 }
 
 void CommentaryForm::newGet(QUrl url)
 {
-    m_actions->newGet(transformUrl(QString(url.toEncoded())));
+    if(m_com->moduleType() == ModuleTools::TheWordCommentaryModule) {
+        m_actions->newGet(transformUrl(QString(url.toEncoded())));
+    } else {
+        m_actions->newGet(transformUrl(url.toString()));
+    }
+
 }

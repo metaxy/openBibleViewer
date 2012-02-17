@@ -175,7 +175,22 @@ QString WebCommentary::pharseUrl(const QUrl &url)
     QScriptValueList args;
     args << url.toString();
     QScriptValue n = fun.call(QScriptValue(), args);
-    return n.toString();
+    QString newUrl = n.toString();
+    if(newUrl.startsWith(ModuleTools::userInputScheme)) {
+        myDebug() << "try to replace";
+        newUrl.remove(0, ModuleTools::userInputScheme.size());
+        foreach(WebCommentaryBooksData data, m_books) {
+            if(newUrl.startsWith(data.key)) {
+                myDebug() << "should replace";
+                myDebug() << data.bookID;
+                newUrl = newUrl.replace(data.key, "{"+QString::number(data.bookID)+"}");
+                break;
+            }
+        }
+        newUrl.prepend(ModuleTools::userInputScheme);
+    }
+    myDebug() << newUrl;
+    return newUrl;
 }
 void WebCommentary::clearData()
 {

@@ -19,7 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QUrl>
 struct WebCommentaryBooksData
 {
-    bool bookID;
+    int bookID;
     QString key;
 };
 

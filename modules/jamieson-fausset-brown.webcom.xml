@@ -52,15 +52,26 @@
             <pharseOut>
                 <![CDATA[
                     (function(a) { 
-                        var str = "http://www.studylight.org/isb/view.cgi?number="
-                        if(a.indexOf(str) === 0) {
-                            a = a.substr(str.length);
-                            if(a.indexOf("0") === 0) {
-                                return "strong:/H" + a;
+                        var backup = a;
+                        var str3 = "http://www.biblestudytools.com/";
+                        var str2 = "http://www.biblestudytools.com/bible/passage.aspx?q="
+                        
+                        if(a.indexOf(str2) === 0) {
+                            a = a.substr(str2.length);
+                            a = a.replace("&t=tmba", "");
+                            a = a.replace("+", " ");
+                            a = a.replace(".html", "");
+                            return "uinput:/" + a;
+                        } else if(a.indexOf(str3) === 0) {
+                            a = a.substr(str3.length);
+                            if(a.match(/(\d?)(\w+)\/(\d+)-(\d+).html/)) {
+                                a = a.replace("/", " ");
+                                a = a.replace(/(\d+)-(\d+)/, "$1:$2");
+                                a = a.replace(".html", "");
+                                return "uinput:/" + a;
                             } else {
-                                return "strong:/G" + a;
+                                return backup;
                             }
-                            
                         } else {
                             return a;
                         }

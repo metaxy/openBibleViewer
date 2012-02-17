@@ -23,6 +23,7 @@ const QString ModuleTools::verseScheme = "verse:/";
 const QString ModuleTools::webPageScheme = "webpage:/";
 const QString ModuleTools::bookScheme = "book:/";
 const QString ModuleTools::theWordScheme = "tw://";
+const QString ModuleTools::userInputScheme = "uinput:/";
 ModuleTools::ModuleTools()
 {
 }
