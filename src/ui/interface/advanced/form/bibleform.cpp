@@ -873,12 +873,20 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
         actionCopy->setEnabled(false);
     }
 
+
     const QWebHitTestResult hitTest = m_view->page()->mainFrame()->hitTestContent(ev->pos());
     const QUrl url = hitTest.linkUrl();
+
+    ModuleTools::ContentType type = ModuleTools::contentTypeFromUrl(url.toString());
+    ModuleTools::ModuleClass cl = ModuleTools::moduleClassFromUrl(url.toString());
+    QList<ModuleSettings*> list = m_settings->m_moduleSettings.values();
+
+    qSort(list.begin(), list.end(), ModuleManager::sortModuleByPop);
+
     if(url.isEmpty()) {
         QAction *actionCopyWholeVerse = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Verse"), contextMenu.data());
         VerseSelection selection = verseSelection();
-        lastSelection = selection;
+        m_lastSelection = selection;
         if(selection.startVerse != -1) {
             QString addText;
             if(selection.startVerse != selection.endVerse)
@@ -901,9 +909,25 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
         QAction *dbg = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"), contextMenu.data());
         connect(dbg, SIGNAL(triggered()), this, SLOT(debugger()));
 
+        QMenu *openInCommentary = new QMenu(this);
+        openInCommentary->setTitle(tr("Open in Commentary"));
+        int counter = 0;
+        foreach(ModuleSettings* m, list) {
+            if(counter > 7)
+                break;
+            if(ModuleTools::typeToClass(m->moduleType) == ModuleTools::CommentaryClass) {
+                counter++;
+                QAction *n = new QAction(m->name(true), openInCommentary);
+                n->setData(m->moduleID);
+                connect(n, SIGNAL(triggered()), this, SLOT(openCommentary()));
+                openInCommentary->addAction(n);
+            }
+        }
+
         contextMenu->addAction(actionCopy);
         contextMenu->addAction(actionCopyWholeVerse);
         contextMenu->addAction(m_actionSelect);
+        contextMenu->addMenu(openInCommentary);
         contextMenu->addSeparator();
         contextMenu->addMenu(m_menuMark);
         contextMenu->addAction(m_actionRemoveMark);
@@ -935,14 +959,9 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
         QMenu *openInNew = new QMenu(this);
         openInNew->setTitle(tr("Open in new"));
 
+
         QList<int> usedModules;
         bool showOpenIn = false;
-
-        ModuleTools::ContentType type = ModuleTools::contentTypeFromUrl(url.toString());
-        ModuleTools::ModuleClass cl = ModuleTools::moduleClassFromUrl(url.toString());
-        QList<ModuleSettings*> list = m_settings->m_moduleSettings.values();
-
-        qSort(list.begin(), list.end(), ModuleManager::sortModuleByPop);
 
         bool addSep = true;
         int counter = 0;
@@ -1026,20 +1045,20 @@ void BibleForm::newNoteWithLink()
     if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
-    m_notesManager->newNoteWithLink(lastSelection, verseModule()->versification());
+    m_notesManager->newNoteWithLink(m_lastSelection, verseModule()->versification());
 }
 void BibleForm::newBookmark()
 {
     if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
-    m_bookmarksManager->newBookmark(lastSelection, verseModule()->versification());
+    m_bookmarksManager->newBookmark(m_lastSelection, verseModule()->versification());
 }
 
 void BibleForm::copyWholeVerse(void)
 {
     //DEBUG_FUNC_NAME
-    VerseSelection selection = lastSelection;
+    VerseSelection selection = m_lastSelection;
     if(selection.startVerse != -1) {
         Ranges ranges;
         if(selection.startChapterID == selection.endChapterID) {
@@ -1117,7 +1136,7 @@ void BibleForm::newColorMark()
         color = QColor(255, 255, 0);
     }
 
-    VerseSelection selection = lastSelection;
+    VerseSelection selection = m_lastSelection;
     m_notesManager->newCustomColorMark(selection, color, verseModule()->versification());
 }
 
@@ -1127,7 +1146,7 @@ void BibleForm::newCustomColorMark()
         return;
     }
 
-    VerseSelection selection = lastSelection;
+    VerseSelection selection = m_lastSelection;
     const QColor color = QColorDialog::getColor(QColor(255, 255, 0), this);
     if(color.isValid()) {
         m_notesManager->newCustomColorMark(selection, color, verseModule()->versification());
@@ -1140,7 +1159,7 @@ void BibleForm::newBoldMark()
         return;
     }
 
-    VerseSelection selection = lastSelection;
+    VerseSelection selection = m_lastSelection;
     m_notesManager->newBoldMark(selection, verseModule()->versification());
 }
 
@@ -1150,7 +1169,7 @@ void BibleForm::newItalicMark()
         return;
     }
 
-    VerseSelection selection = lastSelection;
+    VerseSelection selection = m_lastSelection;
     m_notesManager->newItalicMark(selection, verseModule()->versification());
 }
 
@@ -1160,7 +1179,7 @@ void BibleForm::newUnderlineMark()
         return;
     }
 
-    VerseSelection selection = lastSelection;
+    VerseSelection selection = m_lastSelection;
     m_notesManager->newUnderlineMark(selection, verseModule()->versification());
 }
 
@@ -1170,7 +1189,7 @@ void BibleForm::removeMark()
     if(!m_moduleManager->verseTableLoaded(m_verseTable)) {
         return;
     }
-    VerseSelection selection = lastSelection;
+    VerseSelection selection = m_lastSelection;
     m_notesManager->removeMark(selection, verseModule()->versification());
 }
 
@@ -1434,6 +1453,19 @@ void BibleForm::openInNew()
         m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
     }
 }
+void BibleForm::openCommentary()
+{
+    QAction *s = (QAction*) sender();
+    if(s != NULL) {
+        int moduleID = s->data().toInt();
+        VerseUrl url = m_lastSelection.url();
+        url.setModuleID(moduleID);
+        url.setOpenToTransformation(false);
+        m_actions->get(url);
+        m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
+    }
+}
+
 void BibleForm::changeEvent(QEvent *e)
 {
     switch(e->type()) {

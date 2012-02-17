@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef VERSESELECTION_H
 #define VERSESELECTION_H
 #include <QtCore/QString>
+#include "src/core/link/verseurl.h"
 class VerseSelection
 {
 public:
@@ -40,6 +41,8 @@ public:
 
     QString longestString;
     int repeat;
+
+    VerseUrl url() const;
 
     bool canBeUsedForMarks();
     void setCanBeUsedForMarks(bool newValue);

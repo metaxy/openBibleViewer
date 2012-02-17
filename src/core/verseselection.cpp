@@ -64,3 +64,36 @@ VerseSelection::SelectionPosInTextType VerseSelection::typeFromString(const QStr
     }
     return VerseSelection::ShortestString;//default
 }
+
+VerseUrl VerseSelection::url() const
+{
+    VerseUrl url;
+    VerseUrlRange range;
+    range.setModule(moduleID);
+    range.setBook(bookID);
+    range.setChapter(startChapterID);
+    range.setStartVerse(startVerse);
+    if(startChapterID == endChapterID) {
+        range.setEndVerse(endVerse);
+        url.addRange(range);
+    } else {
+        range.setEndVerse(VerseUrlRange::LoadLastVerse);
+        url.addRange(range);
+        for(int i = startChapterID+1; i<endChapterID; i++) {
+            VerseUrlRange range1;
+            range1.setModule(moduleID);
+            range1.setBook(bookID);
+            range1.setChapter(i);
+            range1.setWholeChapter();
+            url.addRange(range1);
+        }
+        VerseUrlRange range2;
+        range2.setModule(moduleID);
+        range2.setBook(bookID);
+        range2.setChapter(endChapterID);
+        range2.setStartVerse(VerseUrlRange::LoadFirstVerse);
+        range2.setEndVerse(endVerse);
+        url.addRange(range2);
+    }
+    return url;
+}

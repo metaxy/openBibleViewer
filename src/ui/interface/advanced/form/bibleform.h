@@ -148,6 +148,7 @@ private slots:
     void copyLinkUrl();
     void openIn();
     void openInNew();
+    void openCommentary();
 protected:
     virtual void changeEvent(QEvent *e);
 private:
@@ -174,7 +175,7 @@ private:
     VerseTable *m_verseTable;
     Ui::BibleForm *m_ui;
 
-    VerseSelection lastSelection;
+    VerseSelection m_lastSelection;
     QList<int> m_bookIDs;
 
     void showRanges(const Ranges &ranges, const VerseUrl &url, bool showStart = false);
