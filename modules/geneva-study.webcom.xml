@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module id="jamieson-fausset-brown.biblestudytools.com" type="webcommentary">
+<module id="geneva-study-bible.biblestudytools.com" type="webcommentary">
     <meta>
-        <name>Commentary Critical and Explanatory on the Whole Bible</name>
-        <shortName>Commentary Critical and Explanatory</shortName>
-        <desc>This one volume commentary was prepared by Robert Jamieson, A. R. Fausset and David Brown and published in 1871.</desc>
+        <name>Geneva Study Bible</name>
+        <shortName>Geneva</shortName>
+        <desc>Originally printed in 1560, believers can read the Scripture along with study assistance unashamedly rooted in the theology of Calvin, Luther, Zwingli, and other Reformation leaders.</desc>
         <versification>kjv</versification>
     </meta>
     <data>
         <site>
-            <url>http://www.biblestudytools.com/commentaries/jamieson-fausset-brown/</url>
+            <url>http://www.biblestudytools.com/commentaries/geneva-study-bible/</url>
             <pharseInBook><![CDATA[
                 (function(bookID, bookName) {
                     if(bookID == 18) {
@@ -19,9 +19,9 @@
                     }
                     
                     if(bookID == 63)
-                        return "http://www.biblestudytools.com/commentaries/jamieson-fausset-brown/"+bookName+"/"+bookName+"-1.html";
+                        return "http://www.biblestudytools.com/commentaries/geneva-study-bible/"+bookName+"/"+bookName+"-1.html";
                     else 
-                        return "http://www.biblestudytools.com/commentaries/jamieson-fausset-brown/"+bookName+"/"+bookName+"-introduction.html";
+                        return "http://www.biblestudytools.com/commentaries/geneva-study-bible/"+bookName+"/"+bookName+"-introduction.html";
                  })
                 ]]>
             </pharseInBook>
@@ -33,7 +33,7 @@
                         else 
                             bookName = "psalms-76-150";
                     }
-                    return "http://www.biblestudytools.com/commentaries/jamieson-fausset-brown/"+bookName +"/"+bookName+"-"+(chapter+1)+".html";
+                    return "http://www.biblestudytools.com/commentaries/geneva-study-bible/"+bookName +"/"+bookName+"-"+(chapter+1)+".html";
                  })
                 ]]>
             </pharseInChapter>
@@ -45,7 +45,7 @@
                         else 
                             bookName = "psalms-76-150";
                     }
-                    return "http://www.biblestudytools.com/commentaries/jamieson-fausset-brown/"+bookName +"/"+bookName+"-"+(chapter+1)+".html";
+                    return "http://www.biblestudytools.com/commentaries/geneva-study-bible/"+bookName +"/"+bookName+"-"+(chapter+1)+".html";
                  })
                 ]]>
             </pharseInVerse>

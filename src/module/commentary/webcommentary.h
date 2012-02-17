@@ -49,10 +49,10 @@ private:
     bool m_loaded;
 
 
-    QString m_pharseBookScript;
-    QString m_pharseChapterScript;
-    QString m_pharseVerseScript;
-    QString m_pharseOutScript;
+    QScriptProgram m_pharseBookScript;
+    QScriptProgram m_pharseChapterScript;
+    QScriptProgram m_pharseVerseScript;
+    QScriptProgram m_pharseOutScript;
 
     QString m_name;
     QString m_shortName;

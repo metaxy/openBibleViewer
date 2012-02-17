@@ -83,13 +83,13 @@ int WebCommentary::loadModuleData(const int moduleID, const QString &fileName)
                 if(n2.nodeName() == "url") {
                     m_url = n2.firstChild().toText().data();
                 } else if(n2.nodeName() == "pharseInBook") {
-                    m_pharseBookScript = n2.firstChild().toCDATASection().data();
+                    m_pharseBookScript = QScriptProgram(n2.firstChild().toCDATASection().data());
                 } else if(n2.nodeName() == "pharseInChapter") {
-                    m_pharseChapterScript = n2.firstChild().toCDATASection().data();
+                    m_pharseChapterScript = QScriptProgram(n2.firstChild().toCDATASection().data());
                 } else if(n2.nodeName() == "pharseInVerse") {
-                    m_pharseVerseScript = n2.firstChild().toCDATASection().data();
+                    m_pharseVerseScript = QScriptProgram(n2.firstChild().toCDATASection().data());
                 } else if(n2.nodeName() == "pharseOut") {
-                    m_pharseOutScript = n2.firstChild().toCDATASection().data();
+                    m_pharseOutScript = QScriptProgram(n2.firstChild().toCDATASection().data());
                 } else if(n2.nodeName() == "books") {
                     QDomNode n3 = n2.firstChild();
                     int i = 0;
@@ -177,19 +177,15 @@ QString WebCommentary::pharseUrl(const QUrl &url)
     QScriptValue n = fun.call(QScriptValue(), args);
     QString newUrl = n.toString();
     if(newUrl.startsWith(ModuleTools::userInputScheme)) {
-        myDebug() << "try to replace";
         newUrl.remove(0, ModuleTools::userInputScheme.size());
         foreach(WebCommentaryBooksData data, m_books) {
-            if(newUrl.startsWith(data.key)) {
-                myDebug() << "should replace";
-                myDebug() << data.bookID;
-                newUrl = newUrl.replace(data.key, "{"+QString::number(data.bookID)+"}");
+            if(newUrl.startsWith(data.key, Qt::CaseInsensitive)) {
+                newUrl = newUrl.replace(data.key, "{"+QString::number(data.bookID)+"}", Qt::CaseInsensitive);
                 break;
             }
         }
         newUrl.prepend(ModuleTools::userInputScheme);
     }
-    myDebug() << newUrl;
     return newUrl;
 }
 void WebCommentary::clearData()
