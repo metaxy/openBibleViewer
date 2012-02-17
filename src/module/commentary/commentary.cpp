@@ -6,8 +6,10 @@ Commentary::Commentary()
 }
 Response* Commentary::readRanges(const Ranges &ranges, bool ignoreModuleID)
 {
+    DEBUG_FUNC_NAME
     Range r = ranges.getList().first();
-    if(!loaded()) {
+    myDebug() << m_moduleID << r.moduleID() << ignoreModuleID;
+    if(!loaded() || (m_moduleID != r.moduleID() && !ignoreModuleID)) {
         loadModuleData(r.moduleID());
     }
     if(!loaded()) {
@@ -38,7 +40,7 @@ void Commentary::clearData()
 
 bool Commentary::loaded()
 {
-    return m_loaded;
+    return m_loaded && (m_moduleID == m_loadedModuleID);
 }
 int Commentary::currentBook()
 {
@@ -56,6 +58,7 @@ std::pair<int, int> Commentary::minMaxVerse(const int bookID, const int chapterI
 }
 int Commentary::loadModuleData(const int moduleID)
 {
+    myDebug() << moduleID;
     m_loaded = false;
     m_module = m_map->module(moduleID);
     m_moduleID = moduleID;
@@ -66,6 +69,7 @@ int Commentary::loadModuleData(const int moduleID)
 
     if(m_module->m_commentaryModule.isNull()) {
         m_commentaryModule = m_module->newCommentaryModule(moduleType());
+
     } else {
         m_commentaryModule = m_module->m_commentaryModule;
     }
@@ -74,14 +78,15 @@ int Commentary::loadModuleData(const int moduleID)
         myWarning() << "invalid module";
         return 1;
     }
-
     m_commentaryModule->setSettings(m_settings);
+
     int loaded = m_commentaryModule->loadModuleData(m_moduleID, m_module->path());
     m_versification = m_commentaryModule->versification();
     if(loaded != 0) {
         myWarning() << "loading failed";
         return 1;
     }
+    m_loadedModuleID = m_moduleID;
     m_loaded = true;
     return 0;
 }

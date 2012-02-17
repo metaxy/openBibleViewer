@@ -206,3 +206,7 @@ std::pair<int, int> TheWordCommentary::minMaxVerse(const int bookID, const int c
     ret.second = m_versification->maxVerse().value(bookID).at(chapterID);
     return ret;
 }
+CommentaryModule::LinkPolicy TheWordCommentary::linkPolicy() const
+{
+    return CommentaryModule::NoLinkPolicy;
+}

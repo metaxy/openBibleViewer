@@ -15,7 +15,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_commentaryform.h"
 #include "src/module/response/urlresponse.h"
 #include "src/module/response/stringresponse.h"
-#include "src/module/response/stringresponse.h"
+#include "src/module/commentary/webcommentary.h"
+
 #include "src/core/verse/reftext.h"
 #include "src/core/link/biblelink.h"
 #include "src/core/link/urlconverter2.h"
@@ -437,7 +438,10 @@ void CommentaryForm::openInNew()
 }
 QString CommentaryForm::transformUrl(const QString &url)
 {
-    if(url.startsWith(ModuleTools::theWordScheme)) {
+    if(m_com->moduleType() == ModuleTools::WebCommentaryModule) {
+        QString nurl = ((WebCommentary*) (m_com->m_commentaryModule.data()))->pharseUrl(QUrl(url));
+        return nurl;
+    } else if(url.startsWith(ModuleTools::theWordScheme)) {
         VerseUrl vurl;
         vurl.fromTheWord(url);
         return vurl.toString();
@@ -446,6 +450,10 @@ QString CommentaryForm::transformUrl(const QString &url)
 }
 void CommentaryForm::get(QUrl url)
 {
+    if(url.scheme().startsWith("http") && m_com->m_commentaryModule->linkPolicy() == CommentaryModule::OpenWebLinksHere) {
+         m_view->load(url);
+         return;
+    }
     m_actions->get(transformUrl(QString(url.toEncoded())));
 }
 

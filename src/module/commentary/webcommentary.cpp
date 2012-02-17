@@ -207,3 +207,7 @@ Response * WebCommentary::readBook(const int bookID)
     QScriptValue url = fun.call(QScriptValue(), args);
     return new UrlResponse(url.toString());
 }
+CommentaryModule::LinkPolicy WebCommentary::linkPolicy() const
+{
+    return CommentaryModule::OpenWebLinksHere;
+}

@@ -684,13 +684,6 @@ void BibleForm::showText(const QString &text)
 }
 
 
-void BibleForm::forwardShowTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url)
-{
-    if(!active())
-        return;
-    showTextRanges(html, range, url);
-}
-
 void BibleForm::showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url)
 {
     if(!html.contains("<html")) {
@@ -753,14 +746,6 @@ void BibleForm::forwardSetCurrentChapter(const QSet<int> &chapterID)
         return;
     setCurrentChapter(chapterID);
 }
-
-void BibleForm::forwardShowText(const QString &text)
-{
-    if(!active())
-        return;
-    showText(text);
-}
-
 void BibleForm::forwardSearchInText(SearchResult *res)
 {
     if(!active())

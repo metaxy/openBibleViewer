@@ -24,6 +24,8 @@ public:
 
     QString toValidRTF(QString data);
 
+    CommentaryModule::LinkPolicy linkPolicy() const;
+
 
 private:
     QSqlDatabase m_db;

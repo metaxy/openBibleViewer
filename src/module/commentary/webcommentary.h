@@ -38,6 +38,8 @@ public:
     void search(SearchQuery query, SearchResult *result);
     void clearData();
     bool loaded();
+
+    CommentaryModule::LinkPolicy linkPolicy() const;
 private:
     int loadModuleData(const int moduleID, const QString &fileName);
     int currentBook();

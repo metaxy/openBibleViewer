@@ -10,16 +10,19 @@ public:
     void search(SearchQuery query, SearchResult *result);
     void clearData();
     bool loaded();
+    QSharedPointer<CommentaryModule> m_commentaryModule;
 private:
     int currentBook();
     int currentChapter();
     std::pair<int, int> minMaxVerse(const int bookID, const int chapterID);
 
-    QSharedPointer<CommentaryModule> m_commentaryModule;
+
 
     int loadModuleData(const int moduleID);
 
     bool m_loaded;
+    int m_loadedModuleID;
+
 };
 
 #endif // COMMENTARY_H

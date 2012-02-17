@@ -112,7 +112,6 @@ public slots:
     void forwardClearChapters();
     void forwardSetCurrentBook(const QSet<int> &bookID);
     void forwardSetCurrentChapter(const QSet<int> &chapterID);
-    void forwardShowText(const QString &text);
     void forwardSearchInText(SearchResult *result);
     void forwardClear();
     void reloadIf(const VerseUrl &url);
@@ -134,7 +133,6 @@ public slots:
     void removeMark();
     void newNoteWithLink();
     void newBookmark();
-    void forwardShowTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
     void showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
     void searchInText(SearchResult *res);
 

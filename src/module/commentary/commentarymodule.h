@@ -10,6 +10,12 @@
 class CommentaryModule
 {
 public:
+    enum LinkPolicy {
+        NoLinkPolicy,
+        OpenWebLinksHere
+
+    };
+
     CommentaryModule();
     void setSettings(Settings *settings);
     QSharedPointer<Versification> versification() const;
@@ -24,6 +30,8 @@ public:
     virtual int currentBook() = 0;
     virtual int currentChapter() = 0;
     virtual std::pair<int, int> minMaxVerse(const int bookID, const int chapterID) = 0;
+
+    virtual CommentaryModule::LinkPolicy linkPolicy() const = 0;
 protected:
     QSharedPointer<Versification> m_versification;
     Settings *m_settings;
