@@ -47,6 +47,7 @@ set(RtfReader_LIB_SOURCES
     FieldDestination.cpp
     HtmlOutput.cpp
     TheWordRtfOutput.cpp
+    ESwordRtfOutput.cpp
 )
 
 qt4_automoc(${RtfReader_LIB_SOURCES})

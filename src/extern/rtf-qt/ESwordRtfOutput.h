@@ -15,8 +15,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef RTFREADER_TheWordRtfOutput_H
-#define RTFREADER_TheWordRtfOutput_H
+#ifndef RTFREADER_ESwordRtfOutput_H
+#define RTFREADER_ESwordRtfOutput_H
 
 #include "AbstractRtfOutput.h"
 
@@ -27,32 +27,25 @@ class QTextImageFormat;
 
 #include <QtCore/QStack>
 #include <QtGui/QTextCharFormat>
-#include "TextDocumentRtfOutput.h"
-#include "src/core/settings/settings.h"
+#include "TheWordRtfOutput.h"
 
 namespace RtfReader
 {
 class Reader;
 
-class TheWordRtfOutput : public TextDocumentRtfOutput
+class ESwordRtfOutput : public TextDocumentRtfOutput
 {
 public:
-    TheWordRtfOutput(QTextDocument *document, const QString &title);
+    ESwordRtfOutput(QTextDocument *document);
 
-    virtual ~TheWordRtfOutput();
-    virtual void appendText(const QString &text);
-
-
+    virtual ~ESwordRtfOutput();
+    virtual void setFontUnderline(const int value);
     virtual void appendLink(const QString &href, const QString &text);
-
-    void setSettings(Settings *settings);
 
 protected:
     QTextDocument *m_document;
-
-    Settings *m_settings;
-
     bool m_haveSetFont;
+
 };
 }
 

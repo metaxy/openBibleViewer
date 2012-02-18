@@ -3,7 +3,7 @@
 #include <QtSql/QSqlError>
 #include "src/module/response/stringresponse.h"
 #include "src/extern/rtf-qt/rtfreader.h"
-#include "src/extern/rtf-qt/TextDocumentRtfOutput.h"
+#include "src/extern/rtf-qt/ESwordRtfOutput.h"
 #include "src/core/verse/reftext.h"
 #include <QtCore/QTemporaryFile>
 ESwordTopic::ESwordTopic() : m_bookTree(NULL)
@@ -102,24 +102,51 @@ Response* ESwordTopic::readChapter(const int chapterID)
     QTextDocument *rtfDocument = new QTextDocument( NULL );
     myDebug() << chapterID << m_chapterData.value(chapterID);
     QSqlQuery query("select Title,Notes from Topics where Title = '"+ m_chapterData.value(chapterID)+ "'", m_db);
+
+    bool hasAny = false;
     while (query.next()) {
         QTemporaryFile file;
         if (file.open()) {
             QTextStream out(&file);
+            myDebug() << query.value(1).toString();
             out << toValidRTF(query.value(1).toString());
             file.close();
             RtfReader::Reader *reader = new RtfReader::Reader( NULL );
             bool result = reader->open(file.fileName());
             if(result) {
-                RefText ref;
-                ref.setSettings(m_settings);
-                RtfReader::TextDocumentRtfOutput *output = new RtfReader::TextDocumentRtfOutput( rtfDocument );
+                RtfReader::ESwordRtfOutput *output = new RtfReader::ESwordRtfOutput( rtfDocument );
                 reader->parseTo( output );
+
+                hasAny = true;
             }
             delete reader;
         }
 
     }
+    if(!hasAny) {
+        QSqlQuery query("select Title,Notes from Topics", m_db);
+        int counter = 0;
+        while (query.next()) {
+            if(counter == chapterID) {
+                QTemporaryFile file;
+                if (file.open()) {
+                    QTextStream out(&file);
+                    out << toValidRTF(query.value(1).toString());
+                    file.close();
+                    RtfReader::Reader *reader = new RtfReader::Reader( NULL );
+                    bool result = reader->open(file.fileName());
+                    if(result) {
+                        RtfReader::ESwordRtfOutput *output = new RtfReader::ESwordRtfOutput( rtfDocument );
+                        reader->parseTo( output );
+                    }
+                    delete reader;
+                }
+            }
+            counter++;
+
+        }
+    }
+
     StringResponse *res = new StringResponse(rtfDocument->toHtml());
     delete rtfDocument;
     return res;
