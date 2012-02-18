@@ -139,13 +139,6 @@ public slots:
     void reload(bool full);
 private slots:
     void moduleChanged(const int moduleID);
-
-    void openInNewTab();
-    void openHere();
-    void copyLinkText();
-    void copyLinkUrl();
-    void openIn();
-    void openInNew();
     void openCommentary();
 protected:
     virtual void changeEvent(QEvent *e);

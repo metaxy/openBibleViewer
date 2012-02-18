@@ -607,6 +607,8 @@ void WindowManager::restore()
             t = Form::BookForm;
         } else if(type == "commentary") {
             t = Form::CommentaryForm;
+        }  else if(type == "tbook") {
+            t = Form::TreeBookForm;
         }
         QMdiSubWindow *w = newSubWindow(t, max);
 

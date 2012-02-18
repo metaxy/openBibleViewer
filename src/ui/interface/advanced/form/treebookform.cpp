@@ -2,14 +2,23 @@
 #include "ui_treebookform.h"
 #include "src/module/response/urlresponse.h"
 #include "src/module/response/stringresponse.h"
+#include <QtWebKit/QWebElement>
 TreeBookForm::TreeBookForm(QWidget *parent) :
     WebViewForm(parent),
     ui(new Ui::TreeBookForm),
     m_book(NULL)
 {
     ui->setupUi(this);
-    ui->horizontalLayout->addWidget(m_view);
+    ui->splitter->addWidget(m_view);
+    m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
     connect(ui->treeView, SIGNAL(activated(QModelIndex)), this, SLOT(loadChapter(QModelIndex)));
+
+    connect(ui->toolButton_backward, SIGNAL(clicked()), this, SLOT(backward()));
+    connect(ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
+
+    ui->toolButton_backward->setShortcut(QKeySequence::Back);
+    ui->toolButton_forward->setShortcut(QKeySequence::Forward);
+    setButtons();
 }
 
 TreeBookForm::~TreeBookForm()
@@ -23,7 +32,9 @@ TreeBookForm::~TreeBookForm()
 
 void TreeBookForm::init()
 {
-
+    connect(m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(get(QUrl)));
+    connect(m_view, SIGNAL(linkMiddleOrCtrlClicked(QUrl)), this, SLOT(newGet(QUrl)));
+    connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
 }
 
 void TreeBookForm::restore(const QString &key)
@@ -31,7 +42,16 @@ void TreeBookForm::restore(const QString &key)
     const QString a = m_settings->session.id() + "/windows/" + key + "/";
     const qreal zoom = m_settings->session.file()->value(a + "zoom").toReal();
     const QPoint scroll = m_settings->session.file()->value(a + "scrool").toPoint();
-    /*const QString uid = m_settings->session.file()->value(a + "uid").toString();
+    const QString uid = m_settings->session.file()->value(a + "uid").toString();
+    const int chapter = m_settings->session.file()->value(a + "chapter").toInt();
+    const QVariant v = m_settings->session.file()->value(a + "hist1");
+    const QVariant v2 = m_settings->session.file()->value(a + "hist2");
+    if(!v.toStringList().isEmpty() || !v2.toStringList().isEmpty()) {
+        m_browserHistory.setData1(v);
+        m_browserHistory.setData2(v2);
+        m_browserHistory.setData3(m_settings->session.file()->value(a + "hist3"));
+        setButtons();
+    }
     int moduleID = -1;
     foreach(Module * m, m_moduleManager->m_moduleMap->data) {
         if(m->moduleUID() == uid) {
@@ -41,8 +61,8 @@ void TreeBookForm::restore(const QString &key)
     }
     if(moduleID != -1) {
         loadModule(moduleID);
-        show();
-    }*/
+        showChapter(moduleID, chapter);
+    }
 
     m_view->page()->mainFrame()->setScrollPosition(scroll);
     m_view->setZoomFactor(zoom);
@@ -51,12 +71,17 @@ void TreeBookForm::restore(const QString &key)
 void TreeBookForm::save()
 {
     const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
-    m_settings->session.file()->setValue(a + "type", "book");
+    m_settings->session.file()->setValue(a + "type", "tbook");
     m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
     m_settings->session.file()->setValue(a + "zoom",  m_view->zoomFactor());
-    /*if(m_book != NULL) {
+    if(m_book != NULL) {
         m_settings->session.file()->setValue(a + "uid", m_moduleManager->getModule(m_book->moduleID())->moduleUID());
-    }*/
+        m_settings->session.file()->setValue(a + "chapter", m_chapterID);
+    }
+
+    m_settings->session.file()->setValue(a + "hist1", m_browserHistory.data1());
+    m_settings->session.file()->setValue(a + "hist2", m_browserHistory.data2());
+    m_settings->session.file()->setValue(a + "hist3", m_browserHistory.data3());
 }
 
 Form::FormType TreeBookForm::type() const
@@ -87,22 +112,43 @@ void TreeBookForm::loadModule(const int moduleID)
     m_actions->setTitle(m_book->moduleTitle());
     m_actions->setCurrentModule(m_book->moduleID());
 
-    QStandardItemModel *model = new QStandardItemModel(ui->treeView);
-    QStandardItem *parentItem = model->invisibleRootItem();
-    BookTree *tree = m_book->bookTree();
-    for (int i = 0; i < tree->children.size(); ++i) {
-        QStandardItem *item = new QStandardItem(tree->children.at(i)->title);
-        item->setData(tree->children.at(i)->id);
-        parentItem->appendRow(item);
-    }
-    ui->treeView->setModel(model);
+    m_treeModel = new QStandardItemModel(ui->treeView);
 
+
+
+    m_proxyModel = new RecursivProxyModel(this);
+    m_proxyModel->setSourceModel(m_treeModel);
+    m_proxyModel->setHeaderData(0, Qt::Horizontal, tr("Chapter"));
+    m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+
+    m_selectionModel = new QItemSelectionModel(m_proxyModel);
+
+
+    QStandardItem *parentItem = m_treeModel->invisibleRootItem();
+    BookTree *tree = m_book->bookTree();
+    createTree(parentItem, tree);
+    ui->treeView->setModel(m_proxyModel);
+    ui->treeView->setSelectionModel(m_selectionModel);
+
+
+}
+void TreeBookForm::createTree(QStandardItem *parentItem, BookTree *parentTree)
+{
+    for (int i = 0; i < parentTree->children.size(); ++i) {
+        BookTree *child = parentTree->children.at(i);
+        QStandardItem *item = new QStandardItem(child->title);
+        item->setData(child->id);
+        parentItem->appendRow(item);
+        if(!child->children.isEmpty()) {
+            createTree(item, child);
+        }
+    }
 }
 
 void TreeBookForm::showChapter(const int moduleID, const int chapterID)
 {
     if(!m_book) {
-        myWarning() << "m_com is null";
+        myWarning() << "m_book is null";
         return;
     }
     m_book->setModuleID(moduleID);
@@ -120,12 +166,204 @@ void TreeBookForm::showChapter(const int moduleID, const int chapterID)
             m_view->setHtml(u->data());
         }
     }
+    selectChapter(chapterID);
+    m_chapterID = chapterID;
+    historySetUrl(ModuleTools::treeBookScheme + QString::number(moduleID)+","+QString::number(chapterID));
 
 }
 void TreeBookForm::loadChapter(QModelIndex index)
 {
-    DEBUG_FUNC_NAME
     const int chapterID = index.data(Qt::UserRole + 1).toInt();
     showChapter(m_book->moduleID(), chapterID);
 }
 
+void TreeBookForm::historySetUrl(QString url)
+{
+    m_browserHistory.setCurrent(url);
+    setButtons();
+}
+void TreeBookForm::backward()
+{
+    m_actions->get(m_browserHistory.backward());
+    setButtons();
+}
+void TreeBookForm::forward()
+{
+    m_actions->get(m_browserHistory.forward());
+    setButtons();
+}
+void TreeBookForm::setButtons()
+{
+    if(m_browserHistory.backwardAvailable()) {
+        ui->toolButton_backward->setDisabled(false);
+    } else {
+        ui->toolButton_backward->setDisabled(true);
+    }
+    if(m_browserHistory.forwardAvailable()) {
+        ui->toolButton_forward->setDisabled(false);
+    } else {
+        ui->toolButton_forward->setDisabled(true);
+    }
+}
+void TreeBookForm::showContextMenu(QContextMenuEvent* ev)
+{
+    //DEBUG_FUNC_NAME
+    QScopedPointer<QMenu> contextMenu(new QMenu(this));
+    QAction * actionSelect = new QAction(QIcon::fromTheme("edit-select-all", QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"), this);
+    connect(actionSelect, SIGNAL(triggered()), this , SLOT(selectAll()));
+
+    QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), this);
+    connect(actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
+    if(m_view->hasSelection()) {
+        actionCopy->setEnabled(true);
+    } else {
+        actionCopy->setEnabled(false);
+    }
+
+    const QWebHitTestResult hitTest = m_view->page()->mainFrame()->hitTestContent(ev->pos());
+    const QString url = transformUrl(hitTest.linkElement().attribute("href"));
+    if(hitTest.linkUrl().isEmpty()) {
+
+        QAction *dbg = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"), contextMenu.data());
+        connect(dbg, SIGNAL(triggered()), this, SLOT(debugger()));
+
+        contextMenu->addAction(actionSelect);
+        contextMenu->addAction(actionCopy);
+        contextMenu->addAction(dbg);
+        contextMenu->exec(ev->globalPos());
+
+    } else {
+        myDebug() << "another menu";
+        m_contextMenuUrl = url;
+        m_contextMenuText = hitTest.linkText();
+
+        QAction *openInNewTab = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("Open in new tab"), contextMenu.data());
+        connect(openInNewTab, SIGNAL(triggered()), this, SLOT(openInNewTab()));
+
+        QAction *openHere = new QAction(QIcon::fromTheme("tab-new-background", QIcon(":/icons/16x16/tab-new-background.png")), tr("Open"), contextMenu.data());
+        connect(openHere, SIGNAL(triggered()), this, SLOT(openHere()));
+
+        QAction *copyText = new QAction(tr("Copy Text"), contextMenu.data());
+        connect(copyText, SIGNAL(triggered()), this, SLOT(copyLinkText()));
+
+        QAction *copyLink = new QAction(tr("Copy Link"), contextMenu.data());
+        connect(copyLink, SIGNAL(triggered()), this, SLOT(copyLinkUrl()));
+
+        QMenu *openIn = new QMenu(this);
+        openIn->setTitle(tr("Open in"));
+
+        QMenu *openInNew = new QMenu(this);
+        openInNew->setTitle(tr("Open in new"));
+
+        QList<int> usedModules;
+        bool showOpenIn = false;
+
+        ModuleTools::ContentType type = ModuleTools::contentTypeFromUrl(url);
+        ModuleTools::ModuleClass cl = ModuleTools::moduleClassFromUrl(url);
+        QList<ModuleSettings*> list = m_settings->m_moduleSettings.values();
+
+        qSort(list.begin(), list.end(), ModuleManager::sortModuleByPop);
+
+        bool addSep = true;
+        int counter = 0;
+
+        if(type != ModuleTools::UnkownContent) {
+            //most 4 used with the right content type
+
+            foreach(ModuleSettings* m, list) {
+                if(counter > 5)
+                    break;
+                if(ModuleTools::alsoOk(m->contentType, type)
+                        && m->contentType != ModuleTools::UnkownContent
+                        && !usedModules.contains(m->moduleID)) {
+
+                    showOpenIn = true;
+                    usedModules.append(m->moduleID);
+                    counter++;
+
+                    QAction *n = new QAction(m->name(true), openIn);
+                    n->setData(m->moduleID);
+                    connect(n, SIGNAL(triggered()), this, SLOT(openIn()));
+                    openIn->addAction(n);
+
+                    QAction *n2 = new QAction(m->name(true), openInNew);
+                    n2->setData(m->moduleID);
+                    connect(n2, SIGNAL(triggered()), this, SLOT(openInNew()));
+                    openInNew->addAction(n2);
+                }
+            }
+        } else {
+            addSep = false;
+        }
+
+        counter = 0;
+        foreach(ModuleSettings* m, list) {
+            if(counter > 3)
+                break;
+            if(ModuleTools::typeToClass(m->moduleType) == cl
+                    && !usedModules.contains(m->moduleID)) {
+
+                showOpenIn = true;
+                usedModules.append(m->moduleID);
+                counter++;
+                if(addSep) {
+                    openIn->addSeparator();
+                    openInNew->addSeparator();
+                    addSep = false;
+                }
+
+                QAction *n = new QAction(m->name(true), openIn);
+                n->setData(m->moduleID);
+                connect(n, SIGNAL(triggered()), this, SLOT(openIn()));
+                openIn->addAction(n);
+
+                QAction *n2 = new QAction(m->name(true), openInNew);
+                n2->setData(m->moduleID);
+                connect(n2, SIGNAL(triggered()), this, SLOT(openInNew()));
+                openInNew->addAction(n2);
+            }
+        }
+        contextMenu->addAction(actionCopy);
+        contextMenu->addAction(actionSelect);
+        contextMenu->addAction(copyText);
+        contextMenu->addAction(copyLink);
+
+        contextMenu->addSeparator();
+        contextMenu->addAction(openHere);
+        contextMenu->addAction(openInNewTab);
+        if(showOpenIn) {
+            contextMenu->addMenu(openIn);
+            contextMenu->addMenu(openInNew);
+        }
+
+
+        contextMenu->exec(ev->globalPos());
+
+    }
+
+}
+QString TreeBookForm::transformUrl(const QString &url)
+{
+    myDebug() << url;
+    if(url.startsWith(ModuleTools::theWordScheme)) {
+        VerseUrl vurl;
+        vurl.fromTheWord(url);
+        return vurl.toString();
+    }
+    return url;
+}
+void TreeBookForm::selectChapter(const int chapterID)
+{
+    myDebug() << chapterID;
+    if(chapterID == -1) {
+        m_selectionModel->clearSelection();
+        return;
+    }
+
+    const QModelIndexList list = m_proxyModel->match(m_treeModel->invisibleRootItem()->index(), Qt::UserRole + 1, QString::number(chapterID));
+    myDebug() << list.size();
+    if(list.size() == 1) {
+        m_selectionModel->clearSelection();
+        m_selectionModel->setCurrentIndex(m_proxyModel->mapFromSource(list.first()), QItemSelectionModel::Select);
+    }
+}

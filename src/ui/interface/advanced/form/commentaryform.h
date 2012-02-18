@@ -50,14 +50,6 @@ private slots:
     void forward();
     void showContextMenu(QContextMenuEvent* ev);
 
-
-    void openInNewTab();
-    void openHere();
-    void copyLinkText();
-    void copyLinkUrl();
-    void openIn();
-    void openInNew();
-
     void get(QUrl url);
     void newGet(QUrl url);
 private:
@@ -68,8 +60,6 @@ private:
     void setButtons();
     void historySetUrl(QString url);
 
-    QString m_contextMenuUrl;
-    QString m_contextMenuText;
 
     QString transformUrl(const QString &url);
 };

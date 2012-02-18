@@ -50,12 +50,6 @@ private slots:
     void forward();
     void showContextMenu(QContextMenuEvent* ev);
 
-    void openInNewTab();
-    void openHere();
-    void copyLinkText();
-    void copyLinkUrl();
-    void openIn();
-    void openInNew();
 protected:
     void changeEvent(QEvent *e);
 private:
@@ -75,8 +69,6 @@ private:
     void createDefaultMenu();
     void deleteDefaultMenu();
     QAction *m_actionSelect;
-    QUrl m_contextMenuUrl;
-    QString m_contextMenuText;
 
 };
 

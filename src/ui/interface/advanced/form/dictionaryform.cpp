@@ -382,7 +382,7 @@ void DictionaryForm::showContextMenu(QContextMenuEvent* ev)
             url = QUrl(d->pharseUrl(url));
         }
 
-        m_contextMenuUrl = url;
+        m_contextMenuUrl = url.toString();
         m_contextMenuText = hitTest.linkText();
 
         QAction *openInNewTab = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("Open in new tab"), contextMenu.data());
@@ -487,73 +487,7 @@ void DictionaryForm::showContextMenu(QContextMenuEvent* ev)
         contextMenu->exec(ev->globalPos());
     }
 }
-void DictionaryForm::openInNewTab()
-{
-    m_actions->get(m_contextMenuUrl.toString(), Actions::OpenInNewWindow);
-}
 
-void DictionaryForm::openHere()
-{
-    m_actions->get(m_contextMenuUrl.toString(), Actions::NoModifer);
-}
-
-void DictionaryForm::copyLinkText()
-{
-    QClipboard *clipboard = QApplication::clipboard();
-    clipboard->setText(m_contextMenuText);
-}
-
-void DictionaryForm::copyLinkUrl()
-{
-    QClipboard *clipboard = QApplication::clipboard();
-    clipboard->setText(m_contextMenuUrl.toString());
-}
-void DictionaryForm::openIn()
-{
-    QAction *s = (QAction*) sender();
-    if(s != NULL) {
-        int moduleID = s->data().toInt();
-        QString url = m_contextMenuUrl.toString();
-        if(url.startsWith(ModuleTools::strongScheme)) {
-            url = url.remove(0, ModuleTools::strongScheme.size());
-            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url);
-        } else if(url.startsWith(ModuleTools::rmacScheme)) {
-            url = url.remove(0, ModuleTools::rmacScheme.size());
-            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url);
-        } else if(url.startsWith(ModuleTools::verseScheme)) {
-            VerseUrl vurl;
-            vurl.fromStringUrl(url);
-            vurl.setModuleID(moduleID);
-            m_actions->get(vurl);
-        } else {
-            m_actions->get(url);
-        }
-        m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
-    }
-}
-void DictionaryForm::openInNew()
-{
-    QAction *s = (QAction*) sender();
-    if(s != NULL) {
-        int moduleID = s->data().toInt();
-        QString url = m_contextMenuUrl.toString();
-        if(url.startsWith(ModuleTools::strongScheme)) {
-            url = url.remove(0, ModuleTools::strongScheme.size());
-            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, Actions::OpenInNewWindow);
-        } else if(url.startsWith(ModuleTools::rmacScheme)) {
-            url = url.remove(0, ModuleTools::rmacScheme.size());
-            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, Actions::OpenInNewWindow);
-        } else if(url.startsWith(ModuleTools::verseScheme)) {
-            VerseUrl vurl;
-            vurl.fromStringUrl(url);
-            vurl.setModuleID(moduleID);
-            m_actions->get(vurl, Actions::OpenInNewWindow);
-        } else {
-            m_actions->get(url);
-        }
-        m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
-    }
-}
 void DictionaryForm::changeEvent(QEvent *e)
 {
     switch(e->type()) {
