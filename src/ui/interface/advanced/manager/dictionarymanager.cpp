@@ -72,6 +72,7 @@ void DictionaryManager::open(const QString &key, ModuleTools::ContentType conten
 
 
     if(mod == Actions::OpenInNewWindow) {
+        myDebug() << "open in new window";
         //we will open a new window anyway
         w = m_windowManager->newSubWindow(Form::DictionaryForm);
         f = (DictionaryForm*) m_windowManager->getForm(w);

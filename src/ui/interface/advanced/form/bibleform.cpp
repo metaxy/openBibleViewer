@@ -923,6 +923,7 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
         contextMenu->exec(ev->globalPos());
     } else {
         myDebug() << "another menu";
+        myDebug() << url << url.toString();
         m_contextMenuUrl = url.toString();
         m_contextMenuText = hitTest.linkText();
 

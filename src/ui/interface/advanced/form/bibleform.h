@@ -153,8 +153,6 @@ private:
     QAction *m_actionRemoveMark;
     QAction *m_actionBookmark;
     QAction *m_actionNote;
-    QUrl m_contextMenuUrl;
-    QString m_contextMenuText;
 
     void createDefaultMenu();
     void deleteDefaultMenu();

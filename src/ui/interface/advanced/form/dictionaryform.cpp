@@ -76,8 +76,10 @@ DictionaryForm::~DictionaryForm()
 void DictionaryForm::init()
 {
     m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+
     connect(m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(get(QUrl)));
-    connect(m_view, SIGNAL(linkMiddleOrCtrlClicked(QUrl)), SLOT(newGet(QUrl)));
+    connect(m_view, SIGNAL(linkMiddleOrCtrlClicked(QUrl)), this,  SLOT(newGet(QUrl)));
+
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
 
 
