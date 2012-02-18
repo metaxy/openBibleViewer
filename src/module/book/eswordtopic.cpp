@@ -5,6 +5,7 @@
 #include "src/extern/rtf-qt/rtfreader.h"
 #include "src/extern/rtf-qt/ESwordRtfOutput.h"
 #include "src/core/verse/reftext.h"
+#include "src/core/rtftools.h"
 #include <QtCore/QTemporaryFile>
 ESwordTopic::ESwordTopic() : m_bookTree(NULL)
 {
@@ -109,7 +110,7 @@ Response* ESwordTopic::readChapter(const int chapterID)
         if (file.open()) {
             QTextStream out(&file);
             myDebug() << query.value(1).toString();
-            out << toValidRTF(query.value(1).toString());
+            out << RtfTools::toValidRTF(query.value(1).toString());
             file.close();
             RtfReader::Reader *reader = new RtfReader::Reader( NULL );
             bool result = reader->open(file.fileName());
@@ -131,7 +132,7 @@ Response* ESwordTopic::readChapter(const int chapterID)
                 QTemporaryFile file;
                 if (file.open()) {
                     QTextStream out(&file);
-                    out << toValidRTF(query.value(1).toString());
+                    out << RtfTools::toValidRTF(query.value(1).toString());
                     file.close();
                     RtfReader::Reader *reader = new RtfReader::Reader( NULL );
                     bool result = reader->open(file.fileName());
@@ -156,12 +157,4 @@ BookTree * ESwordTopic::bookTree()
 {
     DEBUG_FUNC_NAME
     return m_bookTree;
-}
-QString ESwordTopic::toValidRTF(QString data)
-{
-    if(!data.startsWith("{\\rtf")) {
-        data.prepend("{\\rtf1");
-        data.append("}");
-    }
-    return data;
 }

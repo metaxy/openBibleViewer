@@ -51,6 +51,7 @@ SET(
     downloadinfile.cpp
     
     qzip.cpp
+    rtftools.cpp
 
 
     link/strongurl.cpp

@@ -5,6 +5,7 @@
 #include "src/extern/rtf-qt/rtfreader.h"
 #include "src/extern/rtf-qt/TheWordRtfOutput.h"
 #include "src/core/verse/reftext.h"
+#include "src/core/rtftools.h"
 #include <QtCore/QTemporaryFile>
 TheWordCommentary::TheWordCommentary()
 {
@@ -32,7 +33,7 @@ Response * TheWordCommentary::readVerseRange(const int bookID,const int chapterI
             QTemporaryFile file;
             if (file.open()) {
                 QTextStream out(&file);
-                out << toValidRTF(query2.value(0).toString());
+                out << RtfTools::toValidRTF(query2.value(0).toString());
                 file.close();
                 RtfReader::Reader *reader = new RtfReader::Reader( NULL );
                 bool result = reader->open(file.fileName());
@@ -56,14 +57,6 @@ Response * TheWordCommentary::readVerseRange(const int bookID,const int chapterI
         return res;
     }
 }
-QString TheWordCommentary::toValidRTF(QString data)
-{
-    if(!data.startsWith("{\\rtf")) {
-        data.prepend("{\\rtf1");
-        data.append("}");
-    }
-    return data;
-}
 
 Response * TheWordCommentary::readChapter(const int bookID, const int chapterID)
 {
@@ -85,7 +78,7 @@ Response * TheWordCommentary::readChapter(const int bookID, const int chapterID)
             QTemporaryFile file;
             if (file.open()) {
                 QTextStream out(&file);
-                out << toValidRTF(query2.value(0).toString());
+                out << RtfTools::toValidRTF(query2.value(0).toString());
                 file.close();
                 RtfReader::Reader *reader = new RtfReader::Reader( NULL );
                 bool result = reader->open(file.fileName());
@@ -124,7 +117,7 @@ Response * TheWordCommentary::readBook(const int bookID)
             QTemporaryFile file;
             if (file.open()) {
                 QTextStream out(&file);
-                out << toValidRTF(query2.value(0).toString());
+                out << RtfTools::toValidRTF(query2.value(0).toString());
                 file.close();
                 RtfReader::Reader *reader = new RtfReader::Reader( NULL );
                 bool result = reader->open(file.fileName());

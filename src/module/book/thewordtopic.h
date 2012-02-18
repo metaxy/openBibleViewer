@@ -25,7 +25,6 @@ public:
     BookTree * bookTree();
 private:
     QSqlDatabase m_db;
-    QString toValidRTF(QString data);
 
     bool m_loaded;
     BookTree *m_bookTree;

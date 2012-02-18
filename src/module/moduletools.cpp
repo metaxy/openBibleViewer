@@ -14,6 +14,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "moduletools.h"
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlQuery>
 #include "src/core/dbghelper.h"
 const QString ModuleTools::strongScheme = "strong:/";
 const QString ModuleTools::gramScheme = "gram:/";
@@ -40,12 +42,29 @@ ModuleTools::ModuleType ModuleTools::recognizeModuleType(const QString &fileName
         return ModuleTools::WebPageModule;
     } else if(fileName.endsWith(".webcom.xml", Qt::CaseInsensitive)) {
         return ModuleTools::WebCommentaryModule;
-    } else if(fileName.endsWith(".cmt.twm", Qt::CaseInsensitive)) {
-        return ModuleTools::TheWordCommentaryModule;
-    } else if(fileName.endsWith(".dct.twm", Qt::CaseInsensitive)) {
-        return ModuleTools::TheWordDictionaryModule;
-    } else if(fileName.endsWith(".top.twm", Qt::CaseInsensitive)) {
-        return ModuleTools::TheWordTopicModule;
+    } else if(fileName.endsWith(".twm", Qt::CaseInsensitive)) {
+        QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+        db.setDatabaseName(fileName);
+        if (!db.open()) {
+            myWarning() << "could not open database " << fileName;
+            return ModuleTools::NoneType;
+        }
+        QSqlQuery query1 ("select name,value from config", db);
+        while (query1.next()) {
+            const QString name = query1.value(0).toString();
+            if(name == "type") {
+                 const int value = query1.value(1).toInt();
+                 if(value == 1) {
+                     return ModuleTools::TheWordDictionaryModule;
+                 } else if(value == 2) {
+                     return ModuleTools::TheWordCommentaryModule;
+                 } else if(value == 3) {
+                     return ModuleTools::TheWordTopicModule;
+                 } else {
+                     return ModuleTools::NoneType;
+                 }
+            }
+        }
     } else if(fileName.endsWith(".topx", Qt::CaseInsensitive)) {
         return ModuleTools::ESwordTopicModule;
     } else if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {

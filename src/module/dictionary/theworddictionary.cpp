@@ -5,6 +5,7 @@
 #include "src/extern/rtf-qt/rtfreader.h"
 #include "src/extern/rtf-qt/TheWordRtfOutput.h"
 #include "src/core/verse/reftext.h"
+#include "src/core/rtftools.h"
 #include <QtCore/QTemporaryFile>
 TheWordDictionary::TheWordDictionary()
 {
@@ -20,13 +21,14 @@ Response* TheWordDictionary::getEntry(const QString &entry)
         //const int id = query.value(0).toInt();
         const QString subject = query.value(1).toString();
 
-        QSqlQuery query2("select data from content where topic_id =" + query.value(0).toString(), m_db);
+        QSqlQuery query2("select data from content where topic_id = '" + query.value(0).toString() + "'", m_db);
 
         while(query2.next()) {
             QTemporaryFile file;
             if (file.open()) {
                 QTextStream out(&file);
-                out << toValidRTF(query2.value(0).toString());
+
+                out << RtfTools::toValidRTF(query2.value(0).toString());
                 file.close();
                 RtfReader::Reader *reader = new RtfReader::Reader( NULL );
                 bool result = reader->open(file.fileName());
@@ -103,12 +105,4 @@ MetaInfo TheWordDictionary::readInfo(const QString &name)
         }
     }
     return ret;
-}
-QString TheWordDictionary::toValidRTF(QString data)
-{
-    if(!data.startsWith("{\\rtf")) {
-        data.prepend("{\\rtf1");
-        data.append("}");
-    }
-    return data;
 }

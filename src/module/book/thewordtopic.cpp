@@ -6,6 +6,7 @@
 #include "src/extern/rtf-qt/TheWordRtfOutput.h"
 #include "src/core/verse/reftext.h"
 #include <QtCore/QTemporaryFile>
+#include "src/core/rtftools.h"
 TheWordTopic::TheWordTopic() : m_bookTree(NULL)
 {
 }
@@ -113,7 +114,7 @@ Response* TheWordTopic::readChapter(const int chapterID)
         QTemporaryFile file;
         if (file.open()) {
             QTextStream out(&file);
-            out << toValidRTF(query.value(1).toString());
+            out << RtfTools::toValidRTF(query.value(1).toString());
             file.close();
             RtfReader::Reader *reader = new RtfReader::Reader( NULL );
             bool result = reader->open(file.fileName());
@@ -138,11 +139,4 @@ BookTree * TheWordTopic::bookTree()
     DEBUG_FUNC_NAME
     return m_bookTree;
 }
-QString TheWordTopic::toValidRTF(QString data)
-{
-    if(!data.startsWith("{\\rtf")) {
-        data.prepend("{\\rtf1");
-        data.append("}");
-    }
-    return data;
-}
+

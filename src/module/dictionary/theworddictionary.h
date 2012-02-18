@@ -18,7 +18,6 @@ private:
     bool m_loaded;
     int loadModuleData(const int moduleID);
     QSqlDatabase m_db;
-        QString toValidRTF(QString data);
 };
 
 #endif // THEWORDDICTIONARY_H

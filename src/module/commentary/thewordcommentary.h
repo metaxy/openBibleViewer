@@ -22,8 +22,6 @@ public:
 
     MetaInfo readInfo(const QString &name);
 
-    QString toValidRTF(QString data);
-
     CommentaryModule::LinkPolicy linkPolicy() const;
 
 

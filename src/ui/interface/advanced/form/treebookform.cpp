@@ -63,7 +63,7 @@ void TreeBookForm::restore(const QString &key)
         loadModule(moduleID);
         showChapter(moduleID, chapter);
     }
-
+    ui->splitter->restoreState(m_settings->session.file()->value(a + "splitterSizes").toByteArray());
     m_view->page()->mainFrame()->setScrollPosition(scroll);
     m_view->setZoomFactor(zoom);
 }
@@ -82,6 +82,8 @@ void TreeBookForm::save()
     m_settings->session.file()->setValue(a + "hist1", m_browserHistory.data1());
     m_settings->session.file()->setValue(a + "hist2", m_browserHistory.data2());
     m_settings->session.file()->setValue(a + "hist3", m_browserHistory.data3());
+    m_settings->session.file()->setValue(a + "splitterSizes", ui->splitter->saveState());
+
 }
 
 Form::FormType TreeBookForm::type() const

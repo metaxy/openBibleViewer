@@ -42,10 +42,26 @@ DictionaryForm::DictionaryForm(QWidget *parent) :
 
     m_dictionary = NULL;
 
-    ui->verticalLayout->addWidget(m_view);
+    ui->splitter->addWidget(m_view);
     ui->verticalLayout->setMargin(0);
+    ui->horizontalLayout->setMargin(0);
 
     setButtons();
+
+    m_model = new QStandardItemModel(ui->listView);
+
+    m_proxyModel = new QSortFilterProxyModel(this);
+    m_proxyModel->setSourceModel(m_model);
+    m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+
+    m_selectionModel = new QItemSelectionModel(m_proxyModel);
+    ui->listView->setModel(m_proxyModel);
+    ui->listView->setSelectionModel(m_selectionModel);
+
+    connect(ui->listView, SIGNAL(activated(QModelIndex)), this, SLOT(loadKey(QModelIndex)));
+
+
+    m_lastFilledModuleID = -1;
 
 }
 
@@ -134,7 +150,7 @@ void DictionaryForm::restore(const QString &key)
         m_browserHistory.setData3(m_settings->session.file()->value(a + "hist3"));
         setButtons();
     }
-
+    ui->splitter->restoreState(m_settings->session.file()->value(a + "splitterSizes").toByteArray());
     m_view->page()->mainFrame()->setScrollPosition(scroll);
     m_view->setZoomFactor(zoom);
 }
@@ -149,6 +165,7 @@ void DictionaryForm::save()
     m_settings->session.file()->setValue(a + "hist1", m_browserHistory.data1());
     m_settings->session.file()->setValue(a + "hist2", m_browserHistory.data2());
     m_settings->session.file()->setValue(a + "hist3", m_browserHistory.data3());
+    m_settings->session.file()->setValue(a + "splitterSizes", ui->splitter->saveState());
 
 
     if(m_dictionary != NULL) {
@@ -213,7 +230,7 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
         }
         delete r;
     }
-
+    selectKey(m_key);
     m_actions->setTitle(m_dictionary->moduleTitle());
 
 }
@@ -224,6 +241,7 @@ void DictionaryForm::loadDictionary(int moduleID)
         myDebug() << "moduleID = " << moduleID;
         Module *m = m_moduleManager->getModule(moduleID);
         ModuleTools::ModuleType type = m->moduleType();
+        ModuleTools::ContentType contentType = m_settings->getModuleSettings(moduleID)->contentType;
         m_dictionary->setModuleType(type);
         int ret = m_dictionary->loadModuleData(moduleID);
         if(ret == 1) {
@@ -244,8 +262,43 @@ void DictionaryForm::loadDictionary(int moduleID)
 
         m_actions->setTitle(m_dictionary->moduleTitle());
         m_actions->setCurrentModule(m_dictionary->moduleID());
+        if(ModuleTools::alsoOk(ModuleTools::StrongsContent, contentType)) {
+            //hide splitter
+            myDebug() << "hide splitter";
+            QList<int> sizes;
+            sizes << 0 << 1;
+            ui->splitter->setSizes(sizes);
+        }
+        fillList();
+
     }
 }
+void DictionaryForm::fillList()
+{
+    if(m_lastFilledModuleID != m_dictionary->moduleID()) {
+        m_model->clear();
+        QStandardItem *parentItem = m_model->invisibleRootItem();
+        QStringList keys = m_dictionary->getAllKeys();
+        foreach(const QString &id, keys) {
+            QStandardItem *item = new QStandardItem(id);
+            parentItem->appendRow(item);
+        }
+    }
+}
+void DictionaryForm::loadKey(const QModelIndex &index)
+{
+    showEntry(index.data().toString(), m_dictionary->moduleID());
+}
+void DictionaryForm::selectKey(const QString &key)
+{
+    const QModelIndexList list = m_proxyModel->match(m_model->invisibleRootItem()->index(), Qt::UserRole , key);
+
+    if(!list.isEmpty()) {
+        m_selectionModel->clearSelection();
+        m_selectionModel->setCurrentIndex(m_proxyModel->mapFromSource(list.first()), QItemSelectionModel::Select);
+    }
+}
+
 void DictionaryForm::testDictionary(const int module)
 {
     if(m_dictionary == NULL) {

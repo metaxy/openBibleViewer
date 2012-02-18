@@ -50,6 +50,8 @@ private slots:
     void forward();
     void showContextMenu(QContextMenuEvent* ev);
 
+    void loadKey(const QModelIndex &index);
+    void selectKey(const QString &key);
 protected:
     void changeEvent(QEvent *e);
 private:
@@ -69,6 +71,15 @@ private:
     void createDefaultMenu();
     void deleteDefaultMenu();
     QAction *m_actionSelect;
+
+    void fillList();
+
+    int m_lastFilledModuleID;
+
+    QStandardItemModel *m_model;
+    QItemSelectionModel *m_selectionModel;
+    QSortFilterProxyModel *m_proxyModel;
+
 
 };
 
