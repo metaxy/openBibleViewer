@@ -25,6 +25,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/dictionary/webdictionary.h"
 #include "src/module/response/urlresponse.h"
 #include "src/module/response/stringresponse.h"
+#include "src/module/response/htmlresponse.h"
 #include <QtGui/QClipboard>
 
 DictionaryForm::DictionaryForm(QWidget *parent) :
@@ -173,8 +174,6 @@ void DictionaryForm::showEntry()
   */
 void DictionaryForm::showEntry(const QString &key, int moduleID)
 {
-    myDebug() << key;
-
     if(moduleID == -1) {
         historySetUrl(ModuleTools::dictScheme+QString::number(m_dictionary->moduleID())+"/"+key);
     } else {
@@ -206,7 +205,10 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
         } else if(r->type() == Response::UrlReponse) {
             UrlResponse *ut = (UrlResponse*) r;
             m_view->load(QUrl(ut->url()));
-        } else {
+        } else if(r->type() == Response::HtmlResponse) {
+            HtmlResponse *ht = (HtmlResponse*) r;
+            showHtml(ht->data());
+        }  else {
             showHtml(tr("Unkown Responsetype"));
         }
         delete r;

@@ -20,6 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/dictionary/zefania-lex.h"
 #include "src/module/dictionary/webdictionary.h"
 #include "src/module/dictionary/swordlexicon.h"
+#include "src/module/dictionary/theworddictionary.h"
 #include "src/module/book/txtbook.h"
 #include "src/module/commentary/webcommentary.h"
 #include "src/module/commentary/thewordcommentary.h"
@@ -128,6 +129,8 @@ QSharedPointer<DictionaryModule> Module::newDictionaryModule(const ModuleTools::
         ret = QSharedPointer<DictionaryModule>(new WebDictionary());
     } else if(type == ModuleTools::SwordLexiconModule) {
         ret = QSharedPointer<DictionaryModule>(new SwordLexicon());
+    } else if(type == ModuleTools::TheWordDictionaryModule) {
+        ret = QSharedPointer<DictionaryModule>(new TheWordDictionary());
     } else {
         myWarning() << "invalid type";
     }

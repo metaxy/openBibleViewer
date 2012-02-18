@@ -47,7 +47,8 @@ public:
         TheWordCommentaryModule = 13,
         RTFBookModule = 14,
         TheWordTopicModule = 15,
-        ESwordTopicModule = 16
+        ESwordTopicModule = 16,
+        TheWordDictionaryModule = 17
     };
 
     enum DefaultModule {

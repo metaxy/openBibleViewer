@@ -131,6 +131,7 @@ set( openBibleViewer_SRCS
     src/module/dictionary/webdictionary.cpp
     src/module/dictionary/dictionarymodule.cpp
     src/module/dictionary/biblequote-dict.cpp
+    src/module/dictionary/theworddictionary.cpp
     src/module/bible/biblemodule.cpp
     src/module/bible/thewordbible.cpp
     src/module/bible/swordbible.cpp

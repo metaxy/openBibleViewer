@@ -97,7 +97,7 @@ void ModuleDockWidget::loadModuleData(QModelIndex index, Actions::OpenLinkModifi
             m_actions->get(ModuleTools::treeBookScheme + QString::number(moduleID) + ",0", mod);
             m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
 
-        }else if(cl == ModuleTools::CommentaryClass) {
+        } else if(cl == ModuleTools::CommentaryClass) {
             VerseUrlRange range;
             range.setModule(moduleID);
             range.setBook(VerseUrlRange::LoadCurrentBook);
