@@ -114,6 +114,9 @@ void TreeBookForm::loadModule(const int moduleID)
 
     m_treeModel = new QStandardItemModel(ui->treeView);
 
+    QStandardItem *parentItem = m_treeModel->invisibleRootItem();
+    BookTree *tree = m_book->bookTree();
+    createTree(parentItem, tree);
 
 
     m_proxyModel = new RecursivProxyModel(this);
@@ -122,11 +125,6 @@ void TreeBookForm::loadModule(const int moduleID)
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     m_selectionModel = new QItemSelectionModel(m_proxyModel);
-
-
-    QStandardItem *parentItem = m_treeModel->invisibleRootItem();
-    BookTree *tree = m_book->bookTree();
-    createTree(parentItem, tree);
     ui->treeView->setModel(m_proxyModel);
     ui->treeView->setSelectionModel(m_selectionModel);
 
@@ -354,16 +352,33 @@ QString TreeBookForm::transformUrl(const QString &url)
 }
 void TreeBookForm::selectChapter(const int chapterID)
 {
-    myDebug() << chapterID;
     if(chapterID == -1) {
         m_selectionModel->clearSelection();
         return;
     }
 
     const QModelIndexList list = m_proxyModel->match(m_treeModel->invisibleRootItem()->index(), Qt::UserRole + 1, QString::number(chapterID));
-    myDebug() << list.size();
+
     if(list.size() == 1) {
         m_selectionModel->clearSelection();
         m_selectionModel->setCurrentIndex(m_proxyModel->mapFromSource(list.first()), QItemSelectionModel::Select);
     }
+}
+void TreeBookForm::get(QUrl url)
+{
+    if(m_book->moduleType() == ModuleTools::TheWordTopicModule) {
+        m_actions->get(transformUrl(QString(url.toEncoded())));
+    } else {
+        m_actions->get(transformUrl(url.toString()));
+    }
+}
+
+void TreeBookForm::newGet(QUrl url)
+{
+    if(m_book->moduleType() == ModuleTools::TheWordTopicModule) {
+        m_actions->newGet(transformUrl(QString(url.toEncoded())));
+    } else {
+        m_actions->newGet(transformUrl(url.toString()));
+    }
+
 }

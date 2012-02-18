@@ -33,12 +33,15 @@ TheWordRtfOutput::TheWordRtfOutput(QTextDocument *document, const QString &title
     m_cursor = new QTextCursor(m_document);
     //m_cursor->insertHtml("<hr />");
     //m_cursor->movePosition(QTextCursor::End);
-    m_cursor->insertBlock();
-    QTextCharFormat t;
-    t.setFontWeight(QFont::Bold);
 
-    m_cursor->insertText(title, t);
-    m_cursor->insertBlock();
+    if(!title.isEmpty()) {
+        m_cursor->insertBlock();
+        QTextCharFormat t;
+        t.setFontWeight(QFont::Bold);
+        m_cursor->insertText(title, t);
+        m_cursor->insertBlock();
+
+    }
 
     QTextCharFormat defaultCharFormat;
     defaultCharFormat.setFontPointSize(12);   // default of 24 "half-points"

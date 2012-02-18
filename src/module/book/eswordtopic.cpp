@@ -1,27 +1,26 @@
-#include "thewordtopic.h"
+#include "eswordtopic.h"
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 #include "src/module/response/stringresponse.h"
 #include "src/extern/rtf-qt/rtfreader.h"
-#include "src/extern/rtf-qt/TheWordRtfOutput.h"
+#include "src/extern/rtf-qt/TextDocumentRtfOutput.h"
 #include "src/core/verse/reftext.h"
 #include <QtCore/QTemporaryFile>
-TheWordTopic::TheWordTopic() : m_bookTree(NULL)
+ESwordTopic::ESwordTopic() : m_bookTree(NULL)
 {
 }
-TheWordTopic::~TheWordTopic()
+ESwordTopic::~ESwordTopic()
 {
     if(m_bookTree != NULL) {
         delete m_bookTree;
         m_bookTree = NULL;
     }
 }
-
-MetaInfo TheWordTopic::readInfo(const QString &name)
+MetaInfo ESwordTopic::readInfo(const QString &name)
 {
     DEBUG_FUNC_NAME;
     MetaInfo ret;
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+  /*  QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(name);
     if (!db.open()) {
         myWarning() << "could not open database " << name;
@@ -37,37 +36,38 @@ MetaInfo TheWordTopic::readInfo(const QString &name)
         } else if(name == "abbrev") {
             ret.setShortName(value);
         }
-    }
+    }*/
+    ret.setName(name);
     return ret;
 }
 
-void TheWordTopic::search(const SearchQuery &query, SearchResult *res) const
+void ESwordTopic::search(const SearchQuery &query, SearchResult *res) const
 {
 }
 
-bool TheWordTopic::hasIndex() const
+bool ESwordTopic::hasIndex() const
 {
     return false;
 }
-void TheWordTopic::buildIndex()
+void ESwordTopic::buildIndex()
 {
 
 }
 
-int TheWordTopic::moduleID() const
+int ESwordTopic::moduleID() const
 {
     return m_moduleID;
 }
-QString TheWordTopic::modulePath() const
+QString ESwordTopic::modulePath() const
 {
     return m_path;
 }
-QString TheWordTopic::moduleName(bool preferShortName) const
+QString ESwordTopic::moduleName(bool preferShortName) const
 {
-    return m_settings->getModuleSettings(m_moduleID)->name(preferShortName);
+    return "";
 }
 
-int TheWordTopic::loadModuleData(const int moduleID, const QString &path)
+int ESwordTopic::loadModuleData(const int moduleID, const QString &path)
 {
     DEBUG_FUNC_NAME
 
@@ -80,35 +80,28 @@ int TheWordTopic::loadModuleData(const int moduleID, const QString &path)
         myWarning() << "could not open database " << path;
         return 1;
     }
+    int counter = 0;
     if(m_bookTree != NULL) {
         delete m_bookTree;
         m_bookTree = NULL;
     }
     m_bookTree = new BookTree();
-    QHash<int, BookTree*> map;
-    map.insert(0, m_bookTree);
-    QSqlQuery query("select id,pid,subject from topics", m_db);
+    QSqlQuery query("select Title from Topics", m_db);
     while (query.next()) {
-        const int id = query.value(0).toInt();
-        const int pid = query.value(1).toInt();
-        const QString subject = query.value(2).toString();
-        BookTree *parent = map.value(pid);
-        if(parent != NULL) {
-            map.insert(id, parent->addChildren(id, subject));
-        } else {
-            map.insert(id, m_bookTree->addChildren(id, subject));
-        }
-
+        m_chapterData.insert(counter, query.value(0).toString());
+        m_bookTree->addChildren(counter, query.value(0).toString());
+        counter++;
     }
     m_loaded = true;
     return 0;
 }
 
-Response* TheWordTopic::readChapter(const int chapterID)
+Response* ESwordTopic::readChapter(const int chapterID)
 {
     DEBUG_FUNC_NAME
     QTextDocument *rtfDocument = new QTextDocument( NULL );
-    QSqlQuery query("select topic_id,data from content where topic_id = "+ QString::number(chapterID), m_db);
+    myDebug() << chapterID << m_chapterData.value(chapterID);
+    QSqlQuery query("select Title,Notes from Topics where Title = '"+ m_chapterData.value(chapterID)+ "'", m_db);
     while (query.next()) {
         QTemporaryFile file;
         if (file.open()) {
@@ -120,8 +113,7 @@ Response* TheWordTopic::readChapter(const int chapterID)
             if(result) {
                 RefText ref;
                 ref.setSettings(m_settings);
-                RtfReader::TheWordRtfOutput *output = new RtfReader::TheWordRtfOutput( rtfDocument, "" );
-                output->setSettings(m_settings);
+                RtfReader::TextDocumentRtfOutput *output = new RtfReader::TextDocumentRtfOutput( rtfDocument );
                 reader->parseTo( output );
             }
             delete reader;
@@ -133,12 +125,12 @@ Response* TheWordTopic::readChapter(const int chapterID)
     return res;
 }
 
-BookTree * TheWordTopic::bookTree()
+BookTree * ESwordTopic::bookTree()
 {
     DEBUG_FUNC_NAME
     return m_bookTree;
 }
-QString TheWordTopic::toValidRTF(QString data)
+QString ESwordTopic::toValidRTF(QString data)
 {
     if(!data.startsWith("{\\rtf")) {
         data.prepend("{\\rtf1");

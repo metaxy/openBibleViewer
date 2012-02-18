@@ -1,13 +1,13 @@
-#ifndef THEWORDTOPIC_H
-#define THEWORDTOPIC_H
+#ifndef ESWORDTOPIC_H
+#define ESWORDTOPIC_H
 #include "treebookmodule.h"
 #include <QtSql/QSqlDatabase>
-class TheWordTopic : public TreeBookModule
+#include <QMap>
+class ESwordTopic : public TreeBookModule
 {
 public:
-    TheWordTopic();
-    ~TheWordTopic();
-
+    ESwordTopic();
+    ~ESwordTopic();
     MetaInfo readInfo(const QString &name);
 
     void search(const SearchQuery &query, SearchResult *res) const;
@@ -28,7 +28,9 @@ private:
     QString toValidRTF(QString data);
 
     bool m_loaded;
+
+    QMap<int, QString> m_chapterData;
     BookTree *m_bookTree;
 };
 
-#endif // THEWORDTOPIC_H
+#endif // ESWORDTOPIC_H

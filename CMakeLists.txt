@@ -154,6 +154,8 @@ set( openBibleViewer_SRCS
     src/module/commentary/commentary.cpp
     src/module/commentary/commentarymodule.cpp
     src/module/commentary/thewordcommentary.cpp
+    src/module/book/eswordtopic.cpp
+
 
     src/ui/dialog/searchdialog.cpp
     src/ui/dialog/settingsdialog.cpp

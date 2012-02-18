@@ -34,6 +34,8 @@ private slots:
     void backward();
     void forward();
     void showContextMenu(QContextMenuEvent* ev);
+    void get(QUrl url);
+    void newGet(QUrl url);
 private:
     Ui::TreeBookForm *ui;
 

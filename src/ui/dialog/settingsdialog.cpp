@@ -23,6 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/commentary/webcommentary.h"
 #include "src/module/commentary/thewordcommentary.h"
 #include "src/module/book/thewordtopic.h"
+#include "src/module/book/eswordtopic.h"
 #include <QtCore/QFSFileEngine>
 #include <QtCore/QPointer>
 #include "src/core/qzipreader_p.h"
@@ -584,7 +585,12 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
             c->setSettings(&m_set);
             info = c->readInfo(f);
             delete c;
-        }else if(moduleType == ModuleTools::TxtBookModule) {
+        } else if(moduleType == ModuleTools::ESwordTopicModule) {
+            ESwordTopic *c = new ESwordTopic();
+            c->setSettings(&m_set);
+            info = c->readInfo(f);
+            delete c;
+        }   else if(moduleType == ModuleTools::TxtBookModule) {
             info = MetaInfo();
             info.setName(fileInfo.baseName());
             info.setContent(ModuleTools::BookContent);

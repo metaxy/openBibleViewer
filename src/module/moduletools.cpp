@@ -44,6 +44,8 @@ ModuleTools::ModuleType ModuleTools::recognizeModuleType(const QString &fileName
         return ModuleTools::TheWordCommentaryModule;
     } else if(fileName.endsWith(".top.twm", Qt::CaseInsensitive)) {
         return ModuleTools::TheWordTopicModule;
+    } else if(fileName.endsWith(".topx", Qt::CaseInsensitive)) {
+        return ModuleTools::ESwordTopicModule;
     } else if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
         QFile data(fileName);
         if(data.open(QFile::ReadOnly)) {
@@ -130,7 +132,7 @@ QStringList ModuleTools::moduleTypeNames()
      << QT_TRANSLATE_NOOP("Core", "Sword Bible") << QT_TRANSLATE_NOOP("Core", "Web Page") << QT_TRANSLATE_NOOP("Core", "Web Dictionary")
      << QT_TRANSLATE_NOOP("Core", "Sword Lexicon") << QT_TRANSLATE_NOOP("Core", "*.txt Book")
      << QT_TRANSLATE_NOOP("Core", "Web Commentary") << QT_TRANSLATE_NOOP("Core", "The Word Commentary") << QT_TRANSLATE_NOOP("Core", "*.rtf Book")
-     << QT_TRANSLATE_NOOP("Core", "TheWord Topic File");;
+     << QT_TRANSLATE_NOOP("Core", "TheWord Topic File") << QT_TRANSLATE_NOOP("Core", "e-Sword Topic File");
     return l;
 }
 
@@ -168,6 +170,8 @@ QString ModuleTools::moduleTypeName(ModuleTools::ModuleType type)
         return QT_TRANSLATE_NOOP("Core", "*.rtf Book");
     } else if(type == ModuleTools::TheWordTopicModule) {
         return QT_TRANSLATE_NOOP("Core", "TheWord Topic Module");
+    } else if(type == ModuleTools::ESwordTopicModule) {
+        return QT_TRANSLATE_NOOP("Core", "e-Sword Topic File");
     }
     return "";
 }
@@ -197,6 +201,7 @@ ModuleTools::ModuleCategory ModuleTools::getCategory(ModuleTools::ModuleType typ
             return ModuleTools::BookCategory;
 
          case ModuleTools::TheWordTopicModule:
+        case ModuleTools::ESwordTopicModule:
             return ModuleTools::TreeBookCategory;
 
         case ModuleTools::WebCommentaryModule:
@@ -228,7 +233,9 @@ ModuleTools::ModuleClass ModuleTools::typeToClass(ModuleTools::ModuleType type)
         case ModuleTools::TxtBookModule:
         case ModuleTools::RTFBookModule:
             return ModuleTools::BookClass;
+
         case ModuleTools::TheWordTopicModule:
+        case ModuleTools::ESwordTopicModule:
             return ModuleTools::TreeBookClass;
 
         case ModuleTools::WebCommentaryModule:
