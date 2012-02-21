@@ -10,8 +10,3 @@ TreeBookModule::~TreeBookModule()
         m_tree = NULL;
     }
 }
-
-void TreeBookModule::setSettings(Settings *settings)
-{
-    m_settings = settings;
-}

@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "txtbook.h"
-
+#include <QtCore/QFileInfo>
 TxtBook::TxtBook()
 {
 }
@@ -21,9 +21,13 @@ TxtBook::~TxtBook()
 
 }
 
-MetaInfo TxtBook::readInfo(QFile &file)
+MetaInfo TxtBook::readInfo(const QString &fileName)
 {
-    return MetaInfo();
+    MetaInfo ret;
+    QFileInfo info(fileName);
+    ret.setName(info.baseName());
+    ret.setContent(ModuleTools::BookContent);
+    return ret;
 }
 
 void TxtBook::search(const SearchQuery &query, SearchResult *res) const

@@ -3,6 +3,8 @@
 #include "src/module/commentary/commentarymodule.h"
 #include <QtSql/QSqlDatabase>
 #include "src/module/metainfo.h"
+#include "src/core/rtftools.h"
+#include <QTextDocument>
 class TheWordCommentary : public CommentaryModule
 {
 public:
@@ -24,6 +26,9 @@ public:
 
     CommentaryModule::LinkPolicy linkPolicy() const;
 
+    void readRtf(const QVariant &value, QTextDocument *rtfDocument, const int bi, const int ci, const int fvi, const int tvi);
+    void readRvf(const QVariant &value, QString *ret);
+
 
 private:
     QSqlDatabase m_db;
@@ -31,7 +36,8 @@ private:
     int m_book;
     int m_chapter;
 
-    bool m_loaded;
+    RtfTools::TheWordContentType m_contentType;
+    bool m_compressed;
 };
 
 #endif // THEWORDCOMMENTARY_H

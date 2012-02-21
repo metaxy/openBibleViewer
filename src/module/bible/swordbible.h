@@ -34,7 +34,7 @@ public:
 
     int loadBibleData(const int moduleID, const QString &path);
     void setSettings(Settings *settings);
-    MetaInfo readInfo(QFile &file);
+    MetaInfo readInfo(const QString &fileName);
     int readBook(const int id);
 
     TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse);
@@ -50,6 +50,7 @@ public:
 
     QSharedPointer<Versification> versification() const;
     QString uid() const;
+    void clearData();
 private:
     int m_moduleID;
     QString m_modulePath;

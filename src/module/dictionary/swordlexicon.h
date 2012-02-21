@@ -44,7 +44,6 @@ public:
     Response::ResponseType responseType() const;
 
 private:
-    bool m_loaded;
     int load(const QString &id);
     QStringList m_entryList;
 

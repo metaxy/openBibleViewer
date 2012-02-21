@@ -25,8 +25,6 @@ public:
     BookTree * bookTree();
 private:
     QSqlDatabase m_db;
-
-    bool m_loaded;
     BookTree *m_bookTree;
 };
 

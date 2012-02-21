@@ -7,7 +7,9 @@
 #include "src/core/search/searchquery.h"
 #include "src/core/search/searchresult.h"
 #include <QtCore/QSharedPointer>
-class CommentaryModule
+#include "src/module/simplemodule.h"
+#include "src/module/searchablemodule.h"
+class CommentaryModule : public SimpleModule
 {
 public:
     enum LinkPolicy {
@@ -17,7 +19,6 @@ public:
     };
 
     CommentaryModule();
-    void setSettings(Settings *settings);
     QSharedPointer<Versification> versification() const;
     virtual Response * readVerseRange(const int bookID,const int chapterID, const int startVerseID, const int endVerseID) = 0;
     virtual Response * readChapter(const int bookID, const int chapterID) = 0;
@@ -34,7 +35,6 @@ public:
     virtual CommentaryModule::LinkPolicy linkPolicy() const = 0;
 protected:
     QSharedPointer<Versification> m_versification;
-    Settings *m_settings;
 };
 
 #endif // COMMENTARYMODULE_H

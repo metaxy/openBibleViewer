@@ -41,7 +41,7 @@ class ZefaniaLex : public DictionaryModule
 
 public:
     ZefaniaLex();
-
+    MetaInfo readInfo(const QString &name);
     MetaInfo buildIndexFromData(const QString &fileData, const QString &fileName);
     MetaInfo buildIndexFromFile(const QString &fileName);
 

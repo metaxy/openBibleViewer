@@ -37,7 +37,7 @@ public:
     MetaInfo readInfo(const QString &name);
     void search(SearchQuery query, SearchResult *result);
     void clearData();
-    bool loaded();
+    bool loaded() const;
 
     CommentaryModule::LinkPolicy linkPolicy() const;
 private:
@@ -45,9 +45,6 @@ private:
     int currentBook();
     int currentChapter();
     std::pair<int, int> minMaxVerse(const int bookID, const int chapterID);
-
-    bool m_loaded;
-
 
     QScriptProgram m_pharseBookScript;
     QScriptProgram m_pharseChapterScript;

@@ -98,7 +98,8 @@ public:
     static const QString bookScheme;
     static const QString theWordScheme;
     static const QString userInputScheme;
-     static const QString treeBookScheme;
+    static const QString treeBookScheme;
+    static const QString noteScheme;
 
     static ModuleTools::ModuleType recognizeModuleType(const QString &fileName);
     static ModuleTools::DefaultModule toDefaultModule(const ModuleTools::ContentType t);

@@ -7,7 +7,7 @@ class RTFBook : public BookModule
 public:
     RTFBook();
 
-    MetaInfo readInfo(QFile &file);
+    MetaInfo readInfo(const QString &name);
 
     void search(const SearchQuery &query, SearchResult *res) const;
     bool hasIndex() const;

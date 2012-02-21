@@ -1,12 +1,17 @@
 #include "rtfbook.h"
 #include "src/extern/rtf-qt/rtfreader.h"
 #include "src/extern/rtf-qt/TextDocumentRtfOutput.h"
+#include <QtCore/QFileInfo>
 RTFBook::RTFBook()
 {
 }
-MetaInfo RTFBook::readInfo(QFile &file)
+MetaInfo RTFBook::readInfo(const QString &name)
 {
-    return MetaInfo();
+    MetaInfo ret;
+    QFileInfo info(name);
+    ret.setName(info.baseName());
+    ret.setContent(ModuleTools::BookContent);
+    return ret;
 }
 
 void RTFBook::search(const SearchQuery &query, SearchResult *res) const

@@ -159,9 +159,10 @@ MetaInfo WebCommentary::readInfo(const QString &name)
         }
         n = n.nextSibling();
     }
+    ret.setContent(ModuleTools::CommentaryContent);
     return ret;
 }
-bool WebCommentary::loaded()
+bool WebCommentary::loaded() const
 {
     return m_loaded && m_loadedModuleID == m_moduleID;
 }

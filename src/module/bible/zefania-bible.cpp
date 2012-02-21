@@ -883,10 +883,6 @@ bool ZefaniaBible::cmp(const QStringRef &r, const QString &s)
     return r == s || r == s.toLower();
 }
 
-void ZefaniaBible::clear()
-{
-    clearData();
-}
 void ZefaniaBible::clearData()
 {
     m_book.clear();

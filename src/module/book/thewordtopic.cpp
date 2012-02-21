@@ -39,7 +39,9 @@ MetaInfo TheWordTopic::readInfo(const QString &name)
             ret.setShortName(value);
         }
     }
+    db.close();
     return ret;
+
 }
 
 void TheWordTopic::search(const SearchQuery &query, SearchResult *res) const
@@ -108,6 +110,7 @@ int TheWordTopic::loadModuleData(const int moduleID, const QString &path)
 Response* TheWordTopic::readChapter(const int chapterID)
 {
     DEBUG_FUNC_NAME
+    QString ret;
     QTextDocument *rtfDocument = new QTextDocument( NULL );
     QSqlQuery query("select topic_id,data from content where topic_id = "+ QString::number(chapterID), m_db);
     while (query.next()) {

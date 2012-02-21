@@ -15,12 +15,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define DICTIONARYMODULE_H
 #include "src/core/settings/settings.h"
 #include "src/module/response/response.h"
-class DictionaryModule
+#include "src/module/simplemodule.h"
+class DictionaryModule : public SimpleModule
 {
 public:
     DictionaryModule();
     virtual ~DictionaryModule();
-    void setSettings(Settings *settings);
+
     void setID(int moduleID, const QString &path);
 
     virtual Response* getEntry(const QString &entry) = 0;
@@ -29,10 +30,8 @@ public:
     virtual Response::ResponseType responseType() const = 0;
 
 protected:
-
     QString m_modulePath;
     int m_moduleID;
-    Settings *m_settings;
 };
 
 #endif // DICTIONARYMODULE_H

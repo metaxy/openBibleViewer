@@ -176,3 +176,42 @@ QSharedPointer<TreeBookModule> Module::newTreeBookModule(const ModuleTools::Modu
     m_treeBookModule = ret.toWeakRef();
     return ret;
 }
+
+SimpleModule* Module::newSimpleModule(const ModuleTools::ModuleType type)
+{
+    switch(type) {
+    case ModuleTools::ZefaniaBibleModule:
+        return new ZefaniaBible();
+    case ModuleTools::BibleQuoteModule:
+        return new BibleQuote();
+    case ModuleTools::TheWordBibleModule:
+        return new TheWordBible();
+    case ModuleTools::SwordBibleModule:
+        return new SwordBible();
+    case ModuleTools::ESwordTopicModule:
+        return new ESwordTopic();
+    case ModuleTools::RTFBookModule:
+        return new RTFBook();
+    case ModuleTools::TheWordTopicModule:
+        return new TheWordTopic();
+    case ModuleTools::TxtBookModule:
+        return new TxtBook();
+    case ModuleTools::TheWordCommentaryModule:
+        return new TheWordCommentary();
+    case ModuleTools::WebCommentaryModule:
+        return new WebCommentary();
+    case ModuleTools::BibleQuoteDictModule:
+        return new BibleQuoteDict();
+    case ModuleTools::SwordLexiconModule:
+        return new SwordLexicon();
+    case ModuleTools::WebDictionaryModule:
+        return new WebDictionary();
+    case ModuleTools::TheWordDictionaryModule:
+        return new TheWordDictionary();
+    case ModuleTools::ZefaniaLexModule:
+        return new ZefaniaLex();
+    default:
+        return NULL;
+
+    }
+}

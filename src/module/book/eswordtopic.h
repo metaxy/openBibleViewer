@@ -26,8 +26,6 @@ public:
 private:
     QSqlDatabase m_db;
 
-    bool m_loaded;
-
     QMap<int, QString> m_chapterData;
     BookTree *m_bookTree;
 };

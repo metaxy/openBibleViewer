@@ -540,71 +540,11 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
             return 4;
         }
         MetaInfo info;
-        if(moduleType == ModuleTools::BibleQuoteModule) {
-            BibleQuote bq;
-            bq.setSettings(&m_set);
-            info = bq.readInfo(f);
-        } else if(moduleType == ModuleTools::ZefaniaBibleModule) {
-            ZefaniaBible zef;
-            zef.setSettings(&m_set);
-            info = zef.readInfo(f);
-        } else if(moduleType == ModuleTools::ZefaniaLexModule) {
-            ZefaniaLex zefLex;
-            zefLex.setSettings(&m_set);
-            zefLex.setID(0, f);
-            info = zefLex.buildIndexFromFile(f);
-        } else if(moduleType == ModuleTools::BibleQuoteDictModule) {
-            BibleQuoteDict bibleQuoteDict;
-            bibleQuoteDict.setSettings(&m_set);
-            bibleQuoteDict.setID(0, f);
-            info = bibleQuoteDict.readInfo(f);
-            //bibleQuoteDict.buildIndex();
-        } else if(moduleType == ModuleTools::TheWordBibleModule) {
-            TheWordBible theWordBible;
-            theWordBible.setSettings(&m_set);
-            info = theWordBible.readInfo(f);
-        } else if(moduleType == ModuleTools::WebPageModule) {
-            WebPage webPage;
-            webPage.setSettings(&m_set);
-            info = webPage.readInfo(f);
-        } else if(moduleType == ModuleTools::WebDictionaryModule) {
-            WebDictionary webDict;
-            webDict.setSettings(&m_set);
-            info = webDict.readInfo(f);
-        } else if(moduleType == ModuleTools::WebCommentaryModule) {
-            WebCommentary *webComm = new WebCommentary();
-            webComm->setSettings(&m_set);
-            info = webComm->readInfo(f);
-            delete webComm;
-        } else if(moduleType == ModuleTools::TheWordCommentaryModule) {
-            TheWordCommentary *c = new TheWordCommentary();
-            c->setSettings(&m_set);
-            info = c->readInfo(f);
-            delete c;
-        } else if(moduleType == ModuleTools::TheWordTopicModule) {
-            TheWordTopic *c = new TheWordTopic();
-            c->setSettings(&m_set);
-            info = c->readInfo(f);
-            delete c;
-        } else if(moduleType == ModuleTools::ESwordTopicModule) {
-            ESwordTopic *c = new ESwordTopic();
-            c->setSettings(&m_set);
-            info = c->readInfo(f);
-            delete c;
-        } else if(moduleType == ModuleTools::TheWordDictionaryModule) {
-            TheWordDictionary *c = new TheWordDictionary();
-            c->setSettings(&m_set);
-            info = c->readInfo(f);
-            delete c;
-        } else if(moduleType == ModuleTools::TxtBookModule) {
-            info = MetaInfo();
-            info.setName(fileInfo.baseName());
-            info.setContent(ModuleTools::BookContent);
-        } else if(moduleType == ModuleTools::RTFBookModule) {
-            info = MetaInfo();
-            info.setName(fileInfo.baseName());
-            info.setContent(ModuleTools::BookContent);
-        }
+        SimpleModule *module = Module::newSimpleModule(moduleType);
+        module->setSettings(&m_set);
+        info = module->readInfo(f);
+        delete module;
+
         if(name.isEmpty()) {
             m->moduleName = info.name();
         } else {

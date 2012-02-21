@@ -104,5 +104,6 @@ MetaInfo TheWordDictionary::readInfo(const QString &name)
             ret.description = value;
         }
     }
+    db.close();
     return ret;
 }

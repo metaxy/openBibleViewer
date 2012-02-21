@@ -11,6 +11,9 @@
             <url>http://www.studylight.org/isb/</url>
             <pharseIn><![CDATA[
                 (function(a) { 
+                    if(a.indexOf(" ") > 0) {
+                        a = a.substr(0, a.indexOf(" "));
+                    }
                     if(a[0] == 'G' || a[0] == 'g') {
                         a = a.substr(1);
                         return "http://www.studylight.org/isb/view.cgi?number="+a+"&tool=grk";

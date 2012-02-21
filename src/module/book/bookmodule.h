@@ -19,15 +19,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/core/settings/settings.h"
 #include "src/module/metainfo.h"
-
-class BookModule
+#include "src/module/simplemodule.h"
+class BookModule : public SimpleModule
 {
 public:
     BookModule();
     virtual ~BookModule();
-    void setSettings(Settings *settings);
-
-    virtual MetaInfo readInfo(QFile &file) = 0;
 
     virtual void search(const SearchQuery &query, SearchResult *res) const = 0;
     virtual bool hasIndex() const = 0;
@@ -41,7 +38,6 @@ public:
 
     virtual QString readAll() = 0;
 protected:
-    Settings *m_settings;
 
     QString m_path;
     int m_moduleID;

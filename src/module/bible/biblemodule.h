@@ -26,39 +26,35 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/textrange.h"
 #include "src/core/dbghelper.h"
 #include "src/module/metainfo.h"
+#include "src/module/simplemodule.h"
 #include <utility>
 /**
   * This is an abstract class for bible modules, which are used in the Bible Class. It represents the data.
-  * All this virtual methods have to be implemented in the bible module.
   */
-class BibleModule
+class BibleModule : public SimpleModule
 {
 public:
     BibleModule();
     virtual ~BibleModule();
-    virtual void setSettings(Settings *settings);
 
-    virtual int loadBibleData(const int moduleID, const QString &path);
-    virtual MetaInfo readInfo(QFile &file);
+    virtual int loadBibleData(const int moduleID, const QString &path) = 0;
 
-    virtual TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse);
-    virtual std::pair<int, int> minMaxVerse(int bookID, int chapterID);
+    virtual TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse) = 0;
+    virtual std::pair<int, int> minMaxVerse(int bookID, int chapterID) = 0;
 
-    virtual void search(const SearchQuery &query, SearchResult *res) const;
-    virtual bool hasIndex() const;
-    virtual void buildIndex();
+    virtual void search(const SearchQuery &query, SearchResult *res) const = 0;
+    virtual bool hasIndex() const = 0;
+    virtual void buildIndex() = 0;
 
-    virtual int moduleID() const;
-    virtual QString modulePath() const;
-    virtual QString moduleName(bool preferShortName = false) const;
+    virtual int moduleID() const = 0;
+    virtual QString modulePath() const = 0;
+    virtual QString moduleName(bool preferShortName = false) const = 0;
 
     virtual QSharedPointer<Versification> versification() const;
-    virtual QString uid() const;
-    virtual void clear();
-    virtual void clearData();
+    virtual QString uid() const = 0;
+    virtual void clearData() = 0;
 protected:
     QSharedPointer<Versification> m_versification;
-    Settings *m_settings;
 };
 
 #endif // BIBLEMODULE_H

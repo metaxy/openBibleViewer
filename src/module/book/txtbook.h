@@ -19,7 +19,7 @@ class TxtBook : public BookModule
 public:
     TxtBook();
     ~TxtBook();
-    MetaInfo readInfo(QFile &file);
+    MetaInfo readInfo(const QString &fileName);
 
     void search(const SearchQuery &query, SearchResult *res) const;
     bool hasIndex() const;

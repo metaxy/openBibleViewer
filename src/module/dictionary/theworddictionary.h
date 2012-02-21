@@ -15,7 +15,6 @@ public:
 
     Response::ResponseType responseType() const;
 private:
-    bool m_loaded;
     int loadModuleData(const int moduleID);
     QSqlDatabase m_db;
 };

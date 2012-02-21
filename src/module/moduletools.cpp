@@ -27,6 +27,7 @@ const QString ModuleTools::bookScheme = "book:/";
 const QString ModuleTools::theWordScheme = "tw://";
 const QString ModuleTools::userInputScheme = "uinput:/";
 const QString ModuleTools::treeBookScheme = "tbook:/";
+const QString ModuleTools::noteScheme = "note:/";
 ModuleTools::ModuleTools()
 {
 }
@@ -65,6 +66,7 @@ ModuleTools::ModuleType ModuleTools::recognizeModuleType(const QString &fileName
                  }
             }
         }
+        db.close();
     } else if(fileName.endsWith(".topx", Qt::CaseInsensitive)) {
         return ModuleTools::ESwordTopicModule;
     } else if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
@@ -305,3 +307,5 @@ ModuleTools::ModuleClass ModuleTools::moduleClassFromUrl(const QString &url)
     }
     return ModuleTools::NoneClass;
 }
+
+

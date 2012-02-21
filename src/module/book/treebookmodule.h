@@ -7,15 +7,13 @@
 #include "src/module/metainfo.h"
 #include "src/core/books/booktree.h"
 #include "src/module/response/response.h"
+#include "src/module/simplemodule.h"
 #include <QtCore/QFile>
-class TreeBookModule
+class TreeBookModule : public SimpleModule
 {
 public:
     TreeBookModule();
     virtual ~TreeBookModule();
-    void setSettings(Settings *settings);
-
-    virtual MetaInfo readInfo(const QString &name) = 0;
 
     virtual void search(const SearchQuery &query, SearchResult *res) const = 0;
     virtual bool hasIndex() const = 0;
@@ -30,7 +28,6 @@ public:
     virtual Response* readChapter(const int chapterID) = 0;
     virtual BookTree * bookTree() = 0;
 protected:
-    Settings *m_settings;
 
     QString m_path;
     int m_moduleID;

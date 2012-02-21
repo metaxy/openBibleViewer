@@ -21,6 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/book/treebookmodule.h"
 #include "src/module/commentary/commentarymodule.h"
 #include "src/module/moduletools.h"
+#include "src/module/simplemodule.h"
 /**
  * Module is represents a module. Every avaible module has an instance of this class.
  * But m_bibleModule, m_dictionaryModule can be NULL. They are loaded only if needed.
@@ -56,12 +57,14 @@ public:
     QSharedPointer<BookModule> newBookModule(const ModuleTools::ModuleType type);
     QSharedPointer<CommentaryModule> newCommentaryModule(const ModuleTools::ModuleType type);
     QSharedPointer<TreeBookModule> newTreeBookModule(const ModuleTools::ModuleType type);
+
+    static SimpleModule* newSimpleModule(const ModuleTools::ModuleType type);
+
     void setSettings(Settings *settings);
 
 
     Module *parent() const;
 
-    static QString moduleTypeName(ModuleTools::ModuleType type);
 private:
     Module* m_parent;
     QList<Module *> m_children;

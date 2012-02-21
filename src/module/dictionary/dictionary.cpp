@@ -62,10 +62,7 @@ Response* Dictionary::getEntry(const QString &string) const
         }
         return new StringResponse(ret);
 
-    } else if(string.contains(" ") && m_dictionaryModule->responseType() == Response::UrlReponse) {
-        const QStringList parts = string.split(" ");
-        return m_dictionaryModule->getEntry(parts.first());
-    } else {
+    }  else {
         Response *res = m_dictionaryModule->getEntry(string);
         if(res->type() == Response::StringReponse) {
             StringResponse *r = (StringResponse*) res;

@@ -28,6 +28,10 @@ ZefaniaLex::ZefaniaLex()
 {
 }
 
+MetaInfo ZefaniaLex::readInfo(const QString &name)
+{
+    return MetaInfo();
+}
 
 /**
   Load a Zefania XML Lex file the first time. Generates an index for fast access.

@@ -37,8 +37,6 @@ public:
     QString pharseUrl(const QUrl &url);
     Response::ResponseType responseType() const;
 private:
-    bool m_loaded;
-
     QString m_pharseScript;
     QString m_pharseOutScript;
 

@@ -50,7 +50,7 @@ int SwordBible::readBook(const int id)
     return 0;
 }
 
-MetaInfo SwordBible::readInfo(QFile &file)
+MetaInfo SwordBible::readInfo(const QString &fileName)
 {
     return MetaInfo();
 }
@@ -140,4 +140,8 @@ std::pair<int, int> SwordBible::minMaxVerse(int bookID, int chapterID)
 QSharedPointer<Versification> SwordBible::versification() const
 {
     return m_v11n;
+}
+void SwordBible::clearData()
+{
+
 }
