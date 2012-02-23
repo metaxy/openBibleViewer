@@ -1,6 +1,7 @@
 #include "rtftools.h"
 #include "src/core/dbghelper.h"
 #include "zlib.h"
+#include <QFile>
 RtfTools::RtfTools()
 {
 }
@@ -15,25 +16,35 @@ QString RtfTools::toValidRTF(QString data)
 }
 QString RtfTools::fromRVF(const QByteArray &data)
 {
+    /*QFile f("/home/paul/test.rvf");
+    if(f.open(QFile::WriteOnly)) {
+        f.write(data);
+    }*/
+
     QString ret;
     myDebug() << data;
-    for (int i = 0; i < data.size(); ++i) {
+    bool show = false;
+    for (int i = 0; i < data.size()-1; ++i) {
         //myDebug() << i << (int) data.at(i);
         if(data.at(i) == 0) {
+            show = true;
             continue;
         }
         if(data.at(i) == 32) {
             ret += " ";
         }
-        if(data.at(i) > 68) {
+        if(data.at(i) > 0x20 && data.at(i+1) == 0) {
             ret += QString(data.at(i));
         }
+
+        show = false;
      }
     myDebug() << "ret = " << ret;
     return ret;
 }
 QByteArray RtfTools::gUncompress(const QByteArray &data)
 {
+    DEBUG_FUNC_NAME
     if (data.size() <= 4) {
         qWarning("gUncompress: Input data is truncated");
         return QByteArray();
@@ -54,8 +65,10 @@ QByteArray RtfTools::gUncompress(const QByteArray &data)
     strm.next_in = (Bytef*)(data.data());
 
     ret = inflateInit2(&strm, 15 +  32); // gzip decoding
-    if (ret != Z_OK)
+    if (ret != Z_OK) {
+        myWarning() << "not gzip";
         return QByteArray();
+    }
 
     // run inflate()
     do {
@@ -79,5 +92,6 @@ QByteArray RtfTools::gUncompress(const QByteArray &data)
 
     // clean up and return
     inflateEnd(&strm);
+    myDebug() << result;
     return result;
 }

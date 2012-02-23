@@ -2,6 +2,8 @@
 #define THEWORDTOPIC_H
 #include "treebookmodule.h"
 #include <QtSql/QSqlDatabase>
+#include <QTextDocument>
+#include "src/core/rtftools.h"
 class TheWordTopic : public TreeBookModule
 {
 public:
@@ -26,6 +28,12 @@ public:
 private:
     QSqlDatabase m_db;
     BookTree *m_bookTree;
+
+    void readRtf(const QVariant &value, QTextDocument *rtfDocument);
+    void readRvf(const QVariant &value, QString *ret);
+
+    RtfTools::TheWordContentType m_contentType;
+    bool m_compressed;
 };
 
 #endif // THEWORDTOPIC_H

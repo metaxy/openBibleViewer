@@ -74,7 +74,7 @@ void VerseModuleManager::pharseUrl(VerseUrl url, const Actions::OpenLinkModifier
     //todo: it may be a problem if the url says that the module="current"
     if(!url.ranges().isEmpty()) {
         const int moduleID = url.ranges().first().moduleID();
-        if(moduleID != -1 && m_moduleManager->getModule(moduleID)->moduleClass() == ModuleTools::CommentaryClass) {
+        if(moduleID != -1 &&  m_moduleManager->getModule(moduleID) && m_moduleManager->getModule(moduleID)->moduleClass() == ModuleTools::CommentaryClass) {
             type = Form::CommentaryForm;
         }
     }

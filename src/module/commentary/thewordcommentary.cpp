@@ -206,7 +206,9 @@ int TheWordCommentary::loadModuleData(const int moduleID, const QString &fileNam
                 m_contentType = RtfTools::RTFContent;
             }
         } else if(name == "compressed") {
-            m_compressed = true;
+            if(value == "1") {
+                m_compressed = true;
+            }
         }
     }
     m_loaded = true;

@@ -2,12 +2,13 @@
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 #include "src/module/response/stringresponse.h"
+#include "src/module/response/htmlresponse.h"
 #include "src/extern/rtf-qt/rtfreader.h"
 #include "src/extern/rtf-qt/TheWordRtfOutput.h"
 #include "src/core/verse/reftext.h"
 #include <QtCore/QTemporaryFile>
 #include "src/core/rtftools.h"
-TheWordTopic::TheWordTopic() : m_bookTree(NULL)
+TheWordTopic::TheWordTopic() : m_bookTree(NULL), m_compressed(false), m_contentType(RtfTools::RTFContent)
 {
 }
 TheWordTopic::~TheWordTopic()
@@ -41,7 +42,6 @@ MetaInfo TheWordTopic::readInfo(const QString &name)
     }
     db.close();
     return ret;
-
 }
 
 void TheWordTopic::search(const SearchQuery &query, SearchResult *res) const
@@ -83,6 +83,23 @@ int TheWordTopic::loadModuleData(const int moduleID, const QString &path)
         myWarning() << "could not open database " << path;
         return 1;
     }
+    QSqlQuery query1 ("select name,value from config", m_db);
+    while (query1.next()) {
+        const QString name = query1.value(0).toString();
+        const QString value = query1.value(1).toString();
+        if(name == "content.type") {
+            if(value == "rvf") {
+                m_contentType = RtfTools::RVFContent;
+            } else if(value == "rtf"){
+                m_contentType = RtfTools::RTFContent;
+            }
+        } else if(name == "compressed") {
+            if(value == "1") {
+                m_compressed = true;
+            }
+        }
+    }
+
     if(m_bookTree != NULL) {
         delete m_bookTree;
         m_bookTree = NULL;
@@ -114,29 +131,52 @@ Response* TheWordTopic::readChapter(const int chapterID)
     QTextDocument *rtfDocument = new QTextDocument( NULL );
     QSqlQuery query("select topic_id,data from content where topic_id = "+ QString::number(chapterID), m_db);
     while (query.next()) {
-        QTemporaryFile file;
-        if (file.open()) {
-            QTextStream out(&file);
-            out << RtfTools::toValidRTF(query.value(1).toString());
-            file.close();
-            RtfReader::Reader *reader = new RtfReader::Reader( NULL );
-            bool result = reader->open(file.fileName());
-            if(result) {
-                RefText ref;
-                ref.setSettings(m_settings);
-                RtfReader::TheWordRtfOutput *output = new RtfReader::TheWordRtfOutput( rtfDocument, "" );
-                output->setSettings(m_settings);
-                reader->parseTo( output );
-            }
-            delete reader;
+        if(m_contentType == RtfTools::RTFContent) {
+            readRtf(query.value(1), rtfDocument);
+        } else {
+            readRvf(query.value(1), &ret);
         }
-
     }
-    StringResponse *res = new StringResponse(rtfDocument->toHtml());
+    Response *res;
+    if(m_contentType == RtfTools::RTFContent) {
+        res = new HtmlResponse(rtfDocument->toHtml());
+    } else {
+        res = new StringResponse(ret);
+    }
     delete rtfDocument;
     return res;
 }
+void TheWordTopic::readRtf(const QVariant &value, QTextDocument *rtfDocument)
+{
+    QTemporaryFile file;
+    if (file.open()) {
+        QTextStream out(&file);
+        if(m_compressed) {
+            out << RtfTools::toValidRTF(RtfTools::gUncompress(value.toByteArray()));
+        } else {
+            out << RtfTools::toValidRTF(value.toString());
+        }
+        file.close();
+        RtfReader::Reader *reader = new RtfReader::Reader( NULL );
+        bool result = reader->open(file.fileName());
+        if(result) {
+            RtfReader::TheWordRtfOutput *output = new RtfReader::TheWordRtfOutput( rtfDocument, "" );
+            output->setSettings(m_settings);
+            reader->parseTo( output );
+        }
+        delete reader;
+    }
+}
 
+void TheWordTopic::readRvf(const QVariant &value, QString *ret)
+{
+    myDebug() << value.toByteArray() << m_compressed;
+    if(m_compressed) {
+        ret->append(RtfTools::fromRVF(RtfTools::gUncompress(value.toByteArray())));
+    } else {
+        ret->append(RtfTools::fromRVF(value.toByteArray()));
+    }
+}
 BookTree * TheWordTopic::bookTree()
 {
     DEBUG_FUNC_NAME
