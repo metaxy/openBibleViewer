@@ -134,7 +134,6 @@ void MainWindow::loadSimpleInterface()
 
 void MainWindow::loadAdvancedInterface()
 {
-    //DEBUG_FUNC_NAME
     m_interface = new AdvancedInterface(this);
     setAll(m_interface);
     m_interface->init();
@@ -184,7 +183,7 @@ void MainWindow::saveSettings(Settings newSettings, bool modifedModuleSettings)
     setSettings(newSettings);
     m_context->writeSettings();
 
-    if(oldSettings.language != newSettings.language /* || m_settings->theme != set->theme*/) {
+    if(oldSettings.language != newSettings.language) {
         loadLanguage(newSettings.language);
     }
 
@@ -219,10 +218,7 @@ void MainWindow::setTranslator(QTranslator *my, QTranslator *qt)
 void MainWindow::loadLanguage(QString language)
 {
     QStringList avLang;
-    //QTranslator myappTranslator;
-    //QTranslator qtTranslator;
-    QString av(_AV_LANG);
-    avLang << av.split(";");
+    avLang << QString(_AV_LANG).split(";");
     if(avLang.lastIndexOf(language) == -1) {
         language = language.remove(language.lastIndexOf("_"), language.size());
         if(avLang.lastIndexOf(language) == -1) {

@@ -110,7 +110,6 @@ void AdvancedInterface::createMenu()
 
 QHash<DockWidget*, Qt::DockWidgetArea> AdvancedInterface::docks()
 {
-    //DEBUG_FUNC_NAME
     QHash<DockWidget *, Qt::DockWidgetArea> ret;
     ret.unite(m_bibleManager->docks());
     ret.unite(m_notesManager->docks());
@@ -281,7 +280,6 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
     }
     if(reloadBibles == true) {
         QApplication::setOverrideCursor(Qt::WaitCursor);
-
         //myDebug() << "reload Module";
         m_moduleManager->loadAllModules();
         m_bibleManager->moduleDockWidget()->init();
@@ -476,6 +474,11 @@ QMenuBar* AdvancedInterface::menuBar()
     connect(m_actionTileHorizontal, SIGNAL(triggered(bool)), m_windowManager, SLOT(tileHorizontal(bool)));
     connect(m_actionTileHorizontal, SIGNAL(triggered(bool)), this, SLOT(uncheck(bool)));
 
+    QAction *actionDoTiling = new QAction(tr("Layout windows"), menuView);
+    actionDoTiling->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_A));
+    connect(actionDoTiling, SIGNAL(triggered()), m_windowManager, SLOT(autoLayout()));
+
+
 
     menuView->addAction(actionZoomIn);
     menuView->addAction(actionZoomOut);
@@ -487,7 +490,8 @@ QMenuBar* AdvancedInterface::menuBar()
     menuView->addAction(m_actionTile);
     menuView->addAction(m_actionTileVertical);
     menuView->addAction(m_actionTileHorizontal);
-
+    menuView->addSeparator();
+    menuView->addAction(actionDoTiling);
 
     QMenu *menuNotes = new QMenu(tr("Notes"), bar);
 
