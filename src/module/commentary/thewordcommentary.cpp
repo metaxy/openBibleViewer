@@ -8,7 +8,7 @@
 #include "src/core/verse/reftext.h"
 
 #include <QtCore/QTemporaryFile>
-TheWordCommentary::TheWordCommentary() : m_compressed(false),m_contentType(RtfTools::RTFContent)
+TheWordCommentary::TheWordCommentary() : m_compressed(false), m_contentType(RtfTools::RTFContent)
 {
 }
 MetaInfo TheWordCommentary::readInfo(const QString &name)
@@ -199,16 +199,15 @@ int TheWordCommentary::loadModuleData(const int moduleID, const QString &fileNam
     while (query1.next()) {
         const QString name = query1.value(0).toString();
         const QString value = query1.value(1).toString();
-        if(name == "content.type") {
-            if(value == "rvf") {
+        if(name == QLatin1String("content.type")) {
+            if(value == QLatin1String("rvf")) {
                 m_contentType = RtfTools::RVFContent;
-            } else if(value == "rtf"){
+            } else if(value == QLatin1String("rtf")){
                 m_contentType = RtfTools::RTFContent;
             }
-        } else if(name == "compressed") {
-            if(value == "1") {
-                m_compressed = true;
-            }
+        } else if(name == QLatin1String("compressed") && value == QLatin1String("1")) {
+            m_compressed = true;
+
         }
     }
     m_loaded = true;

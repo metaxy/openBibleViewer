@@ -597,7 +597,7 @@ Verse ZefaniaBible::readVerse()
 
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             out += m_xml->text();
-        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st") {
+        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == QLatin1String("st")) {
             out += pharseStyle();
         } else if(cmp(m_xml->name(), "NOTE")) {
             out += pharseNote();
@@ -605,7 +605,7 @@ Verse ZefaniaBible::readVerse()
             out += pharseBr();
         } else if(cmp(m_xml->name(), "DIV")) {
             out += pharseDiv();
-        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr") {
+        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == QLatin1String("gr")) {
             out += pharseGram();
         } else if(cmp(m_xml->name(), "SUP")) {
             out += pharseSup();
@@ -708,11 +708,11 @@ QString ZefaniaBible::pharseGram()
 
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             ret += m_xml->text().toString();
-        } else if(cmp(m_xml->name(), "STYLE")  || m_xml->name() == "st") {
+        } else if(cmp(m_xml->name(), "STYLE")  || m_xml->name() == QLatin1String("st")) {
             ret += pharseStyle();
         } else if(cmp(m_xml->name(), "BR")) {
             ret += pharseBr();
-        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr") {
+        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == QLatin1String("gr")) {
             ret += pharseGram();
         } else if(cmp(m_xml->name(), "SUP")) {
             ret += pharseSup();
@@ -738,7 +738,7 @@ QString ZefaniaBible::pharseGram()
         }
     }
     if(!rmac.isEmpty() && m_set->displaySettings()->showRMAC()) {
-        ret +=  "<a class=\"rmaclink\" href=\""+ModuleTools::rmacScheme + rmac + "\">" + rmac + "</a>";
+        ret += "<a class=\"rmaclink\" href=\"" + ModuleTools::rmacScheme + rmac + "\">" + rmac + "</a>";
     }
     return ret;
 }
@@ -803,7 +803,7 @@ QString ZefaniaBible::pharseXRef()
 
         return "<span class=\"crossreference\"><a class=\"reflink\" href=\"" + burl.toString() + "\">" + text + "</a></span>";
     }
-    return "";
+    return QString();
 }
 
 QString ZefaniaBible::pharseDiv()
@@ -812,12 +812,12 @@ QString ZefaniaBible::pharseDiv()
     while(true) {
         m_xml->readNext();
 
-        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), "DIV")))
+        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), QLatin1String("DIV"))))
             break;
 
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             ret += m_xml->text().toString();
-        } else if(cmp(m_xml->name(), "NOTE")) {
+        } else if(cmp(m_xml->name(), QLatin1String("NOTE"))) {
             ret += pharseNote();
         } else {
             ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
@@ -829,33 +829,33 @@ QString ZefaniaBible::pharseDiv()
 MetaInfo ZefaniaBible::readMetaInfo(MetaInfo ret)
 {
     while(m_xml->readNextStartElement()) {
-        if(m_xml->name() == "publisher") {
+        if(m_xml->name() == QLatin1String("publisher")) {
             ret.publisher = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        } else if(m_xml->name() == "contributors") {
+        } else if(m_xml->name() == QLatin1String("contributors")) {
             ret.contributors = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        } else if(m_xml->name() == "date") {
+        } else if(m_xml->name() == QLatin1String("date")) {
             ret.date = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        } else if(m_xml->name() == "type") {
+        } else if(m_xml->name() == QLatin1String("type")) {
             ret.type = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        } else if(m_xml->name() == "format") {
+        } else if(m_xml->name() == QLatin1String("format")) {
             ret.format = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        } else if(m_xml->name() == "identifier") {
+        } else if(m_xml->name() == QLatin1String("identifier")) {
             ret.identifier = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        } else if(m_xml->name() == "source") {
+        } else if(m_xml->name() == QLatin1String("source")) {
             ret.source = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        } else if(m_xml->name() == "language") {
+        } else if(m_xml->name() == QLatin1String("language")) {
             ret.language = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        } else if(m_xml->name() == "coverage") {
+        } else if(m_xml->name() == QLatin1String("coverage")) {
             ret.coverage = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        } else if(m_xml->name() == "rights") {
+        } else if(m_xml->name() == QLatin1String("rights")) {
             ret.rights = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        } else if(m_xml->name() == "subject") {
+        } else if(m_xml->name() == QLatin1String("subject")) {
             ret.subject = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        } else if(m_xml->name() == "description") {
+        } else if(m_xml->name() == QLatin1String("description")) {
             ret.description = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        } else if(m_xml->name() == "creator") {
+        } else if(m_xml->name() == QLatin1String("creator")) {
             ret.creator = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        } else if(m_xml->name() == "title") {
+        } else if(m_xml->name() == QLatin1String("title")) {
             ret.setName(m_xml->readElementText(QXmlStreamReader::IncludeChildElements));
         } else {
             m_xml->skipCurrentElement();

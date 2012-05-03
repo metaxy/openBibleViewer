@@ -315,7 +315,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         VerseReplacer replacer;
         for(int n = 0; n <  m_notes->getIDList().size(); ++n) {
             const QString noteID = m_notes->getIDList().at(n);
-            if(m_notes->getType(noteID) == "mark") {
+            if(m_notes->getType(noteID) == QLatin1String("mark")) {
                 const QString link = m_notes->getRef(noteID, "link");
                 //myDebug() << "link = " << link;
                 VerseUrl url;
@@ -396,16 +396,16 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     //now add id
     //it have to be done as last
     QMapIterator<int, Verse> i(verseMap);
-    const QString pre = "<span class='verseEntry' verseID='";
+    const QString pre("<span class='verseEntry' verseID='");
 
-    const QString pre2 = "' chapterID='" + QString::number(chapterID) +
+    const QString pre2("' chapterID='" + QString::number(chapterID) +
                          "' bookID='" + QString::number(bookID) +
-                         "' moduleID='" + QString::number(m_moduleID) + "'>\n";
+                         "' moduleID='" + QString::number(m_moduleID) + "'>\n");
 
 
     if(moduleType() == ModuleTools::BibleQuoteModule) {
 
-        const QString ap = "</span><br />\n";
+        const QString ap("</span><br />\n");
         while(i.hasNext()) {
             i.next();
             Verse verse = i.value();
@@ -427,11 +427,11 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 
 
     } else {
-        const QString pre = "<span class='verseEntry' verseID='";
-        const QString pre2 =  "' chapterID='" + QString::number(chapterID) +
+        const QString pre("<span class='verseEntry' verseID='");
+        const QString pre2("' chapterID='" + QString::number(chapterID) +
                               "' bookID='" + QString::number(bookID) +
-                              "' moduleID='" + QString::number(m_moduleID) + "'>\n";
-        const QString ap = "</span>\n";
+                              "' moduleID='" + QString::number(m_moduleID) + "'>\n");
+        const QString ap("</span>\n");
         while(i.hasNext()) {
             i.next();
             Verse verse = i.value();

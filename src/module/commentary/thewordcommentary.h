@@ -36,8 +36,9 @@ private:
     int m_book;
     int m_chapter;
 
-    RtfTools::TheWordContentType m_contentType;
     bool m_compressed;
+    RtfTools::TheWordContentType m_contentType;
+
 };
 
 #endif // THEWORDCOMMENTARY_H
