@@ -21,25 +21,31 @@ const TCHAR* SearchTools::toTCHAR(const QString& string)
 {
 
 #ifdef OBV_USE_WSTRING
-    wchar_t *we = new wchar_t[string.size()+1];
+    wchar_t *we = new TCHAR[string.size()+1];
     string.toWCharArray(we);
     we[string.size()] = 0;
     return we;
 #else
-    std::cout << "no wstring";
-    return reinterpret_cast<const wchar_t *>(string.utf16());
+    return reinterpret_cast<const TCHAR *>(string.utf16());
 #endif
 
 }
-void SearchTools::toTCHAR(const QString& string, wchar_t *ret)
+const TCHAR* SearchTools::toTCHAR(const QString& string, wchar_t *ret)
 {
 
 #ifdef OBV_USE_WSTRING
     string.toWCharArray(ret);
     ret[string.size()] = 0;
+    return ret;
 #else
-    std::cout << "no wstring";
-    ret = reinterpret_cast<const wchar_t *>(string.utf16());
+    ret = reinterpret_cast<const TCHAR *>(string.utf16());
+    return ret;
 #endif
 
 }
+
+TCHAR* SearchTools::createBuffer()
+{
+    return new TCHAR[SearchTools::MAX_LUCENE_FIELD_LENGTH];
+}
+

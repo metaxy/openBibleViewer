@@ -18,5 +18,7 @@
 #cmakedefine OBV_VERSION_STATUS "@OBV_VERSION_STATUS@"
 #cmakedefine OBV_BUILD_DATE "@OBV_BUILD_DATE@"
 
+#define QT_USE_QSTRINGBUILDER
+
 #endif
 

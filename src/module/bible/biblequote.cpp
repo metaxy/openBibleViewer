@@ -358,7 +358,7 @@ void BibleQuote::buildIndex()
     progress.setWindowModality(Qt::WindowModal);
 
     QScopedPointer<QTextDecoder> decoder(m_codec->makeDecoder());
-
+    TCHAR *buffer = SearchTools::createBuffer();
     for(int id = 0; id < m_bookPath.size(); id++) {
         progress.setValue(id);
         bytetext.clear();
@@ -407,8 +407,8 @@ void BibleQuote::buildIndex()
                 doc.clear();
                 const QString t = verses.at(verseit);
                 const QString key = QString::number(id) + ";" + QString::number(chapterit - 1) + ";" + QString::number(verseit - 1);
-                doc.add(*new Field(_T("key"), SearchTools::toTCHAR(key), Field::STORE_YES |  Field::INDEX_NO));
-                doc.add(*new Field(_T("content"), SearchTools::toTCHAR(t), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                doc.add(*new Field(_T("key"), SearchTools::toTCHAR(key, buffer), Field::STORE_YES |  Field::INDEX_NO));
+                doc.add(*new Field(_T("content"), SearchTools::toTCHAR(t, buffer), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 
                 writer->addDocument(&doc);
             }
@@ -419,6 +419,7 @@ void BibleQuote::buildIndex()
 
     writer->close();
     delete writer;
+    delete[] buffer;
     progress.close();
 
 }

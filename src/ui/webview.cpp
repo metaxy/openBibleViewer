@@ -48,23 +48,19 @@ bool WebView::mouseReleased(const QPoint &pos)
     const QWebHitTestResult hitTest = page()->mainFrame()->hitTestContent(pos);
     const QString url = hitTest.element().attribute("href");
 
-
     if (!url.isEmpty()) {
         if ((m_pressedButtons & Qt::MidButton) ||
             ((m_pressedButtons & Qt::LeftButton) && (m_keyboardModifiers & Qt::ControlModifier))) {
-            myDebug() << url;
             emit linkMiddleOrCtrlClicked(url);
             return true;
         }
 
         if ((m_pressedButtons & Qt::LeftButton) && (m_keyboardModifiers & Qt::ShiftModifier)) {
-            myDebug() << url;
             emit linkShiftClicked(url);
             return true;
 
         }
     }
-
     return false;
 }
 void WebView::mousePressEvent(QMouseEvent *event)

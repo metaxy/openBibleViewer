@@ -76,6 +76,7 @@ endif(OBV_SWORD_SUPPORT)
 set(OBV_VERSION_NUMBER "0.7.50")
 set(OBV_VERSION_STATUS "unstable")
 set(OBV_BUILD_DATE "2012-01-18")
+set(QT_USE_QSTRINGBUILDER "True")
 
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})

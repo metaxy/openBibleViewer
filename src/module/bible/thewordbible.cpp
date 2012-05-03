@@ -319,6 +319,7 @@ void TheWordBible::buildIndex()
     Document doc;
     bool canceled = false;
     int c = 0;
+    wchar_t *buffer = new wchar_t[SearchTools::MAX_LUCENE_FIELD_LENGTH + 1];
     foreach(const int bookID, m_versification->bookIDs()) {
         c++;
         if(progress.wasCanceled()) {
@@ -336,9 +337,10 @@ void TheWordBible::buildIndex()
                 doc.clear();
                 const QString key = QString::number(book.bookID()) + ";" + QString::number(chapterIt.value().chapterID()) + ";" + QString::number(verseIt.value().verseID());
                 const QString text = verseIt.value().data();
-
-                doc.add(*new Field(_T("key"), SearchTools::toTCHAR(key), Field::STORE_YES |  Field::INDEX_NO));
-                doc.add(*new Field(_T("content"), SearchTools::toTCHAR(text), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                SearchTools::toTCHAR(key, buffer);
+                doc.add(*new Field(_T("key"), buffer, Field::STORE_YES |  Field::INDEX_NO));
+                SearchTools::toTCHAR(text, buffer);
+                doc.add(*new Field(_T("content"), buffer, Field::STORE_YES |  Field::INDEX_TOKENIZED));
                 writer->addDocument(&doc);
 
             }
@@ -353,6 +355,7 @@ void TheWordBible::buildIndex()
 
     writer->close();
     delete writer;
+    delete[] buffer;
     progress.close();
 }
 

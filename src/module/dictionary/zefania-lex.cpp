@@ -144,8 +144,11 @@ QStringList ZefaniaLex::getAllKeys()
         m_entryList = ret;
         return ret;
     }
-    catch(...)
-    {
+    catch(CLuceneError &err) {
+        myWarning() << "clucene error = " << err.what();
+    }
+    catch(...) {
+
         return QStringList();
     }
 }

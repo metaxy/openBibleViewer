@@ -394,8 +394,7 @@ void ZefaniaBible::buildIndex()
     Document doc;
     bool canceled = false;
 
-    wchar_t *buffer = new wchar_t[SearchTools::MAX_LUCENE_FIELD_LENGTH + 1];
-
+    TCHAR *buffer = SearchTools::createBuffer();
     if(m_xml->readNextStartElement()) {
         if(cmp(m_xml->name(), "XMLBIBLE")) {
             while(m_xml->readNextStartElement()) {
@@ -414,10 +413,8 @@ void ZefaniaBible::buildIndex()
 
                                     doc.clear();
                                     const QString key = QString::number(bookID) + ";" + QString::number(chapterID) + ";" + QString::number(verseID);
-                                    SearchTools::toTCHAR(key, buffer);
-                                    doc.add(*new Field(_T("key"), buffer, Field::STORE_YES |  Field::INDEX_NO));
-                                    SearchTools::toTCHAR(t, buffer);
-                                    doc.add(*new Field(_T("content"), buffer, Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                                    doc.add(*new Field(_T("key"), SearchTools::toTCHAR(key, buffer), Field::STORE_YES |  Field::INDEX_NO));
+                                    doc.add(*new Field(_T("content"), SearchTools::toTCHAR(t, buffer), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 
                                     writer->addDocument(&doc);
                                 } else {
