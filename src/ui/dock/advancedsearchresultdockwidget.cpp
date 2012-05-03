@@ -53,6 +53,10 @@ void AdvancedSearchResultDockWidget::setSearchResult(SearchResult *searchResult)
     //DEBUG_FUNC_NAME
 
     m_itemModel->clear();
+    if(searchResult == NULL) {
+        ui->label_searchInfo->setText(tr("Search failed"));
+        return;
+    }
     m_searchResult = searchResult;
     ui->label_searchInfo->setText(tr("Search: %1").arg(searchResult->searchQuery.searchText));
     QStandardItem *parentItem = m_itemModel->invisibleRootItem();

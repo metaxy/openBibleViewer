@@ -45,7 +45,7 @@ public:
     void setModuleClass(const ModuleTools::ModuleClass &c);
     void setModuleType(const ModuleTools::ModuleType &t);
 
-    //todo: merge into one
+    //todo: merge into one [?]
     QWeakPointer<BibleModule> m_bibleModule;
     QWeakPointer<DictionaryModule> m_dictionaryModule;
     QWeakPointer<BookModule> m_bookModule;

@@ -18,7 +18,9 @@ class Verse
 {
 public:
     Verse();
-    Verse(const int verseID, const QString &text);
+    Verse(const int verseID, const QString &t);
+    QString text;
+
     int verseID() const;
     QString data() const;
 
@@ -31,7 +33,6 @@ public:
     Qt::LayoutDirection layoutDirection() const;
 private:
     int m_verseID;
-    QString m_text;
     Qt::LayoutDirection m_layout;
 };
 

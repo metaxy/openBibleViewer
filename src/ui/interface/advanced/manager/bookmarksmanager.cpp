@@ -37,6 +37,7 @@ QHash<DockWidget*, Qt::DockWidgetArea> BookmarksManager::docks()
     ret.insert(m_bookmarksDockWidget,  Qt::RightDockWidgetArea);
     return ret;
 }
+
 void BookmarksManager::newBookmark(VerseSelection selection, QSharedPointer<Versification> v11n)
 {
     if(m_bookmarksDockWidget->isHidden()) {
@@ -44,10 +45,12 @@ void BookmarksManager::newBookmark(VerseSelection selection, QSharedPointer<Vers
     }
     m_bookmarksDockWidget->newBookmark(selection, v11n);
 }
+
 void BookmarksManager::save()
 {
     m_bookmarksDockWidget->saveBookmarks();
 }
+
 BookmarksDockWidget* BookmarksManager::bookmarksDockWidget()
 {
     return m_bookmarksDockWidget;

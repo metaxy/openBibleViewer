@@ -12,12 +12,12 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "verse.h"
-Verse::Verse() : m_verseID(-1), m_text()
+Verse::Verse() : text(), m_verseID(-1)
 {
     m_layout = Qt::LayoutDirectionAuto;
 }
 
-Verse::Verse(const int verseID, const QString &text) : m_verseID(verseID), m_text(text)
+Verse::Verse(const int verseID, const QString &t) : text(t) , m_verseID(verseID)
 {
     m_layout = Qt::LayoutDirectionAuto;
 }
@@ -28,20 +28,20 @@ int Verse::verseID() const
 
 QString Verse::data() const
 {
-    return m_text;
+    return text;
 }
 void Verse::append(const QString &str)
 {
-    m_text.append(str);
+    text.append(str);
 }
 
 void Verse::prepend(const QString &str)
 {
-    m_text.prepend(str);
+    text.prepend(str);
 }
-void Verse::insert(const int position, const QString & str)
+void Verse::insert(const int position,const QString & str)
 {
-    m_text.insert(position, str);
+    text.insert(position, str);
 }
 void Verse::setLayoutDirection(const Qt::LayoutDirection layout)
 {

@@ -181,6 +181,9 @@ bool VerseUrlRange::containsChapter(const int chapterID) const
     bool ok = true;
     if(m_chapterParam == LoadChapterByID) {
         ok = ok && chapterID == m_chapterID;
+    } else {
+        //is it going to break something?
+        //return false;
     }
     return ok;
 }

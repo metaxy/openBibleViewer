@@ -106,8 +106,6 @@ void VerseModuleManager::pharseUrl(QString url, const Actions::OpenLinkModifiers
         pharseUrl(verseUrl, mod);
     } else if(url.startsWith(ModuleTools::theWordScheme)) {
         VerseUrl verseUrl;
-
-
         if(verseUrl.fromTheWord(url)) {
             pharseUrl(verseUrl, mod);
         } else {

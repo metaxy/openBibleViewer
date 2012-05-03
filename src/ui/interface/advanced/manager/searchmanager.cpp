@@ -13,6 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "searchmanager.h"
 #include <QtCore/QPointer>
+#include <CLucene.h>
 SearchManager::SearchManager(QObject *parent) :
     QObject(parent)
 {
@@ -83,8 +84,18 @@ void SearchManager::search(SearchQuery query)
 
     if(m_windowManager->activeForm())
         s.addModule(m_windowManager->activeForm()->searchableModule());
+    SearchResult *res = NULL;
 
-    SearchResult *res = s.search(query);
+    try {
+         res = s.search(query);
+    }
+    catch(CLuceneError &err) {
+        myWarning() << "search failed: clucene error = " << err.what();
+    }
+    catch(...) {
+        myWarning() << "search failed";
+    }
+
     m_advancedSearchResultDockWidget->setSearchResult(res);
 }
 

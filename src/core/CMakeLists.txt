@@ -40,6 +40,7 @@ SET(
     search/searchresult.cpp
     search/searchquery.cpp
     search/searchhit.cpp
+    search/searchtools.cpp
     settings/settings.cpp
     settings/modulesettings.cpp
     settings/session.cpp

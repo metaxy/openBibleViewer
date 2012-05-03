@@ -42,7 +42,6 @@ void AdvancedInterface::init()
 
     connect(m_actions, SIGNAL(_get(QString,Actions::OpenLinkModifiers)), this, SLOT(pharseUrl(QString,Actions::OpenLinkModifiers)));
 
-
     m_api = new Api(this);
     setAll(m_api);
     m_api->init();
@@ -790,7 +789,7 @@ void AdvancedInterface::showAboutDialog(void)
     QPointer<AboutDialog> aDialog = new AboutDialog(this);
     aDialog->setWindowTitle(tr("About openBibleViewer"));
     aDialog->setText(tr("openBibleViewer <br /> version: %1 build: %2<br /> "
-                        "<a href='http://openbv.uucyc.name/'> Official Website</a> <br />"
+                        "<a href='http://openbv.uucyc.name/'>Official Website</a><br />"
                         "<a href='https://github.com/metaxy/openBibleViewer/issues'>Bug report</a>")
                      .arg(m_settings->version).arg(m_settings->build));
     aDialog->exec();
@@ -808,7 +807,6 @@ void AdvancedInterface::showMarkList()
     setAll(markList);
     markList->init();
     markList->show();
-
 }
 
 void AdvancedInterface::showNotesEditor()
@@ -845,7 +843,7 @@ void AdvancedInterface::toolBarSetText()
     m_mainBarActionZoomOut->setText(tr("Zoom Out"));
     m_mainBarActionZoomOut->setToolTip(tr("Zoom Out"));
     m_mainBarActionModule->setText(tr("Module"));
-    m_mainBarActionModule->setToolTip(tr("Add and edit the modules"));
+    m_mainBarActionModule->setToolTip(tr("Add and edit modules"));
     m_searchBar->setWindowTitle(tr("Search Bar"));
 }
 void AdvancedInterface::uncheck(bool b)

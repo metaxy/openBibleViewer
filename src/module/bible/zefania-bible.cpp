@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "CLucene.h"
 #include "CLucene/clucene-config.h"
 #include <QXmlStreamReader>
+#include "src/core/search/searchtools.h"
 using namespace lucene::analysis;
 using namespace lucene::index;
 using namespace lucene::queryParser;
@@ -413,13 +414,8 @@ void ZefaniaBible::buildIndex()
                                     doc.clear();
                                     const QString key = QString::number(bookID) + ";" + QString::number(chapterID) + ";" + QString::number(verseID);
 
-#ifdef OBV_USE_WSTRING
-                                    doc.add(*new Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_NO));
-                                    doc.add(*new Field(_T("content"), t.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-#else
-                                    doc.add(*new Field(_T("key"), reinterpret_cast<const wchar_t *>(key.utf16()), Field::STORE_YES |  Field::INDEX_NO));
-                                    doc.add(*new Field(_T("content"), reinterpret_cast<const wchar_t *>(t.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-#endif
+                                    doc.add(*new Field(_T("key"), SearchTools::toTCHAR(key), Field::STORE_YES |  Field::INDEX_NO));
+                                    doc.add(*new Field(_T("content"), SearchTools::toTCHAR(t), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 
                                     writer->addDocument(&doc);
                                 } else {
@@ -465,20 +461,12 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     IndexSearcher s(reader);
 
-#ifdef OBV_USE_WSTRING
-    Query* q = QueryParser::parse(query.searchText.toStdWString().c_str(), _T("content"), &analyzer);
-#else
-    Query* q = QueryParser::parse(reinterpret_cast<const wchar_t *>(query.searchText.utf16()), _T("content"), &analyzer);
-#endif
+    Query* q = QueryParser::parse(SearchTools::toTCHAR(query.searchText), _T("content"), &analyzer);
 
     Hits* h = s.search(q);
     for(size_t i = 0; i < h->length(); i++) {
         Document* doc = &h->doc(i);
-#ifdef OBV_USE_WSTRING
-        const QString stelle = QString::fromWCharArray(doc->get(_T("key")));
-#else
-        const QString stelle = QString::fromUtf16((const ushort*)doc->get(_T("key")));
-#endif
+        const QString stelle = SearchTools::toQString(doc->get(_T("key")));
         const QStringList l = stelle.split(";");
         //hacky filter
         if(l.size() < 2)
@@ -490,11 +478,7 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
             hit.setValue(SearchHit::BookID, l.at(0).toInt());
             hit.setValue(SearchHit::ChapterID, l.at(1).toInt());
             hit.setValue(SearchHit::VerseID, l.at(2).toInt());
-#ifdef OBV_USE_WSTRING
-            hit.setValue(SearchHit::VerseText, QString::fromWCharArray(doc->get(_T("content"))));
-#else
-            hit.setValue(SearchHit::VerseText, QString::fromUtf16((const ushort*)doc->get(_T("content"))));
-#endif
+            hit.setValue(SearchHit::VerseText, SearchTools::toQString(doc->get(_T("content"))));
 
             hit.setValue(SearchHit::Score, (double) h->score(i));
 
