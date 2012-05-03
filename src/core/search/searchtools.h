@@ -9,6 +9,9 @@ public:
 
     static QString toQString(const TCHAR* string);
     static const TCHAR* toTCHAR(const QString& string);
+    static void toTCHAR(const QString& string, wchar_t *ret);
+
+    static const unsigned long MAX_LUCENE_FIELD_LENGTH = 1024 * 1024;
 };
 
 #endif // SEARCHTOOLS_H

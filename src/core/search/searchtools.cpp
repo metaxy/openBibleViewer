@@ -2,6 +2,8 @@
 #include "config.h"
 #include "src/core/dbghelper.h"
 #include <iostream>
+
+
 SearchTools::SearchTools()
 {
 }
@@ -26,6 +28,18 @@ const TCHAR* SearchTools::toTCHAR(const QString& string)
 #else
     std::cout << "no wstring";
     return reinterpret_cast<const wchar_t *>(string.utf16());
+#endif
+
+}
+void SearchTools::toTCHAR(const QString& string, wchar_t *ret)
+{
+
+#ifdef OBV_USE_WSTRING
+    string.toWCharArray(ret);
+    ret[string.size()] = 0;
+#else
+    std::cout << "no wstring";
+    ret = reinterpret_cast<const wchar_t *>(string.utf16());
 #endif
 
 }

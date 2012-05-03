@@ -394,6 +394,7 @@ void ZefaniaBible::buildIndex()
     Document doc;
     bool canceled = false;
 
+    wchar_t *buffer = new wchar_t[SearchTools::MAX_LUCENE_FIELD_LENGTH + 1];
 
     if(m_xml->readNextStartElement()) {
         if(cmp(m_xml->name(), "XMLBIBLE")) {
@@ -413,9 +414,10 @@ void ZefaniaBible::buildIndex()
 
                                     doc.clear();
                                     const QString key = QString::number(bookID) + ";" + QString::number(chapterID) + ";" + QString::number(verseID);
-
-                                    doc.add(*new Field(_T("key"), SearchTools::toTCHAR(key), Field::STORE_YES |  Field::INDEX_NO));
-                                    doc.add(*new Field(_T("content"), SearchTools::toTCHAR(t), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                                    SearchTools::toTCHAR(key, buffer);
+                                    doc.add(*new Field(_T("key"), buffer, Field::STORE_YES |  Field::INDEX_NO));
+                                    SearchTools::toTCHAR(t, buffer);
+                                    doc.add(*new Field(_T("content"), buffer, Field::STORE_YES |  Field::INDEX_TOKENIZED));
 
                                     writer->addDocument(&doc);
                                 } else {
@@ -446,6 +448,7 @@ void ZefaniaBible::buildIndex()
 
     writer->close();
     delete writer;
+    delete[] buffer;
     progress.close();
     file.close();
     delete m_xml;
@@ -461,7 +464,8 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     IndexSearcher s(reader);
 
-    Query* q = QueryParser::parse(SearchTools::toTCHAR(query.searchText), _T("content"), &analyzer);
+    const wchar_t *queryText = SearchTools::toTCHAR(query.searchText);
+    Query* q = QueryParser::parse(queryText, _T("content"), &analyzer);
 
     Hits* h = s.search(q);
     for(size_t i = 0; i < h->length(); i++) {
@@ -487,6 +491,7 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
     }
     reader->close();
     delete reader;
+    delete[] queryText;
 }
 
 /**
