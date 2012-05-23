@@ -16,10 +16,10 @@ QString RtfTools::toValidRTF(QString data)
 }
 QString RtfTools::fromRVF(const QByteArray &data)
 {
-    /*QFile f("/home/paul/test.rvf");
+    QFile f("/home/paul/test.rvf");
     if(f.open(QFile::WriteOnly)) {
         f.write(data);
-    }*/
+    }
 
     QString ret;
     myDebug() << data;

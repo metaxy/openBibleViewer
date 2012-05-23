@@ -32,8 +32,9 @@ private:
     void readRtf(const QVariant &value, QTextDocument *rtfDocument);
     void readRvf(const QVariant &value, QString *ret);
 
-    RtfTools::TheWordContentType m_contentType;
     bool m_compressed;
+    RtfTools::TheWordContentType m_contentType;
+
 };
 
 #endif // THEWORDTOPIC_H
