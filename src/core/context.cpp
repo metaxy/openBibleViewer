@@ -118,6 +118,7 @@ void Context::loadDefaultSettings()
     m_settings->version = QString(OBV_VERSION_NUMBER);
     m_settings->build = QString(OBV_BUILD_DATE);
     m_settings->autoLayout = Settings::Tile;
+    m_settings->intelligentLayout = true;
     m_settings->onClickBookmarkGo = true;
     m_settings->textFormatting = 0;
     m_settings->homePath = m_homeDataPath;

@@ -12,8 +12,8 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "windowmanager.h"
-#include <typeinfo>
-
+#include <QtCore/qmath.h>
+#include <QtGui/QScrollBar>
 #include "src/ui/interface/advanced/subwindowfilter.h"
 
 WindowManager::WindowManager(QObject *parent) :
@@ -75,16 +75,21 @@ QMdiSubWindow* WindowManager::newSubWindow(Form::FormType type, bool forceMax)
     Form *form = NULL;
     if(type == Form::BibleForm) {
         form = new BibleForm(widget);
+        form->setRole(Form::BibleRole);
     } else if(type == Form::WebForm) {
         form = new WebForm(widget);
     } else if(type == Form::DictionaryForm) {
         form = new DictionaryForm(widget);
+        form->setRole(Form::DictionaryRole);
     } else if(type == Form::BookForm) {
         form = new BookForm(widget);
+        form->setRole(Form::BookRole);
     } else if(type == Form::CommentaryForm) {
         form = new CommentaryForm(widget);
+        form->setRole(Form::CommentaryRole);
     } else if(type == Form::TreeBookForm) {
         form = new TreeBookForm(widget);
+        form->setRole(Form::BookRole);
     }
     form->setID(m_nameCounter);
     form->setObjectName("mdiForm");
@@ -407,8 +412,180 @@ void WindowManager::tile()
     if(!m_enableReload || usableWindowList().isEmpty()) {
         return;
     }
-    m_area->tileSubWindows();
+    setEnableReload(false);
+
+    QList<QWidget *> widgets;
+    QList<QMdiSubWindow*> subWindows = usableWindowList();
+    QSize minSubWindowSize;
+
+    if(m_settings->intelligentLayout) {
+        QMultiMap<int, QMdiSubWindow*> m;
+        foreach(QMdiSubWindow *c, subWindows) {
+            int id;
+            Form::FormRole role = getForm(c)->role();
+            switch(role) {
+                case Form::BibleRole:
+                    id = 0;
+                    break;
+                case Form::DictionaryRole:
+                    id = 1;
+                    break;
+                default:
+                    id = 2;
+                    break;
+            }
+            m.insert(id, c);
+        }
+        subWindows.clear();
+        QMapIterator<int, QMdiSubWindow*> it(m);
+        while (it.hasNext()) {
+             it.next();
+             subWindows.append(it.value());
+        }
+    }
+
+
+    foreach(QMdiSubWindow *child, subWindows) {
+
+        if(child->isMinimized() && !child->isShaded())
+            continue;
+
+        if (child->isMaximized() || child->isShaded())
+            child->showNormal();
+
+        minSubWindowSize = minSubWindowSize.expandedTo(child->minimumSize()).expandedTo(child->minimumSize());
+        widgets.append(child);
+    }
+    QRect domain = m_area->viewport()->rect();
+    domain = resizeToMinimumTileSize(minSubWindowSize, widgets.count());
+
+    const int n = widgets.size();
+    const int ncols = qMax(qCeil(qSqrt(qreal(n))), 1);
+    const int nrows = qMax((n % ncols) ? (n / ncols + 1) : (n / ncols), 1);
+    const int nspecial = (n % ncols) ? (ncols - n % ncols) : 0;
+    const int dx = domain.width()  / ncols;
+    const int dy = domain.height() / nrows;
+
+    int i = 0;
+
+    for (int row = 0; row < nrows; ++row) {
+        const int y1 = int(row * (dy + 1));
+        for (int col = 0; col < ncols; ++col) {
+            if (row == 1 && col < nspecial)
+                continue;
+
+            const int x1 = int(col * (dx + 1));
+            int x2 = int(x1 + dx);
+            int y2 = int(y1 + dy);
+
+            if (row == 0 && col < nspecial) {
+                y2 *= 2;
+                if (nrows != 2)
+                    y2 += 1;
+                else
+                    y2 = domain.bottom();
+            }
+
+            if (col == ncols - 1 && x2 != domain.right())
+                x2 = domain.right();
+
+            if (row == nrows - 1 && y2 != domain.bottom())
+                y2 = domain.bottom();
+
+
+            QWidget *widget = widgets.at(i++);
+            QRect newGeometry = QRect(QPoint(x1, y1), QPoint(x2, y2));
+            widget->setGeometry(QStyle::visualRect(widget->layoutDirection(), domain, newGeometry));
+
+        }
+
+    }
+
+    //m_area->updateScrollBars();
+    setEnableReload(true);
 }
+
+QRect WindowManager::resizeToMinimumTileSize(const QSize &minSubWindowSize, int subWindowCount)
+{
+
+    if (!minSubWindowSize.isValid() || subWindowCount <= 0)
+        return m_area->viewport()->rect();
+
+    // Calculate minimum size.
+
+    const int columns = qMax(qCeil(qSqrt(qreal(subWindowCount))), 1);
+    const int rows = qMax((subWindowCount % columns) ? (subWindowCount / columns + 1)
+                                                     : (subWindowCount / columns), 1);
+
+    const int minWidth = minSubWindowSize.width() * columns;
+    const int minHeight = minSubWindowSize.height() * rows;
+
+    // Increase area size if necessary. Scroll bars are provided if we're not able
+
+    // to resize to the minimum size.
+    bool tileCalledFromResizeEvent = true;
+
+    if (!tileCalledFromResizeEvent) {
+
+        QWidget *topLevel = m_area;
+
+        // Find the topLevel for this area, either a real top-level or a sub-window.
+
+        while (topLevel && !topLevel->isWindow() && topLevel->windowType() != Qt::SubWindow)
+
+            topLevel = topLevel->parentWidget();
+
+        // We don't want sub-subwindows to be placed at the edge, thus add 2 pixels.
+
+        int minAreaWidth = minWidth /*+ left + right */+ 2;
+        int minAreaHeight = minHeight /*+ top + bottom */+ 2;
+
+        if (m_area->horizontalScrollBar()->isVisible())
+            minAreaHeight += m_area->horizontalScrollBar()->height();
+
+        if (m_area->verticalScrollBar()->isVisible())
+            minAreaWidth += m_area->verticalScrollBar()->width();
+
+        if (m_area->style()->styleHint(QStyle::SH_ScrollView_FrameOnlyAroundContents, 0, m_area)) {
+            const int frame = m_area->style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, m_area);
+            minAreaWidth += 2 * frame;
+            minAreaHeight += 2 * frame;
+
+        }
+
+        const QSize diff = QSize(minAreaWidth, minAreaHeight).expandedTo(m_area->size()) - m_area->size();
+        topLevel->resize(topLevel->size() + diff);
+
+    }
+
+    QRect domain = m_area->viewport()->rect();
+
+    // Adjust domain width and provide horizontal scroll bar.
+
+    if (domain.width() < minWidth) {
+        domain.setWidth(minWidth);
+        if (m_area->horizontalScrollBarPolicy() == Qt::ScrollBarAlwaysOff)
+            m_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        else
+            m_area->horizontalScrollBar()->setValue(0);
+
+    }
+
+    // Adjust domain height and provide vertical scroll bar.
+
+    if (domain.height() < minHeight) {
+        domain.setHeight(minHeight);
+        if (m_area->verticalScrollBarPolicy()  == Qt::ScrollBarAlwaysOff)
+            m_area->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        else
+            m_area->verticalScrollBar()->setValue(0);
+
+    }
+
+    return domain;
+
+}
+
 void WindowManager::cascade(bool checked)
 {
     if(checked) {
@@ -508,7 +685,7 @@ void WindowManager::mdiAreaResized()
         if(w != NULL && w->isMaximized()) {
             return;
         } else {
-            autoLayout();
+            QTimer::singleShot(1, this, SLOT(autoLayout()));
         }
     }
 }

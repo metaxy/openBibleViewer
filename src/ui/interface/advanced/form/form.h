@@ -35,10 +35,29 @@ public:
         TreeBookForm = 5
     };
 
+    enum FormRole {
+        NoRole,
+        BibleRole,
+        MainBibleRole,
+        SecondBibleRole,
+        ThirdBibleRole,
+        DictionaryRole,
+        MainDictionaryRole,
+        GreekDictionaryRole,
+        HebrewDictionaryRole,
+        GrammarDictionaryRole,
+        RmacDictionaryRole,
+        CommentaryRole,
+        MainCommentaryRole,
+        BookRole
+    };
+
     explicit Form(QWidget *parent = 0);
-    virtual void init() = 0;
-    virtual void setID(const int id);
-    virtual int id();
+
+    void setID(const int id);
+    int id();
+    void setRole(const Form::FormRole role);
+    Form::FormRole role() const;
 
     void setApi(Api *api);
     void setNotesManager(NotesManager *notesManager);
@@ -47,11 +66,11 @@ public:
 
     int *currentWindowID;
 
+
+    virtual void init() = 0;
     virtual void restore(const QString &key) = 0;
     virtual void save() = 0;
-
     virtual FormType type() const = 0;
-
     virtual SearchableModule * searchableModule() const;
 
 signals:
@@ -73,6 +92,7 @@ protected:
 
     bool active();
     int m_id;
+    Form::FormRole m_formRole;
     Api *m_api;//not in out control
     NotesManager *m_notesManager;
     BookmarksManager *m_bookmarksManager;

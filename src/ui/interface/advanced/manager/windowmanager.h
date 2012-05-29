@@ -100,9 +100,6 @@ private slots:
     int reloadWindow(QMdiSubWindow * window);
     void mdiAreaResized();
 
-
-
-
     void zoomIn();
     void zoomOut();
     void reloadActive();
@@ -112,6 +109,8 @@ private slots:
 private:
 
     QList<QMdiSubWindow*> usableWindowList() const;
+
+    QRect resizeToMinimumTileSize(const QSize &minSubWindowSize, int subWindowCount);
 
     void disable();
     void enable();

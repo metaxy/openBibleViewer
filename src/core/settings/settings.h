@@ -43,6 +43,7 @@ public:
     bool removeHtml;
     QString language;
     LayoutEnum autoLayout;
+    bool intelligentLayout;
     bool onClickBookmarkGo;
 
     bool checkForUpdates;

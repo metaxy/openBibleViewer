@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "form.h"
 
 Form::Form(QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent), m_formRole(Form::NoRole)
 {
 }
 
@@ -27,7 +27,14 @@ int Form::id()
 {
     return m_id;
 }
-
+void Form::setRole(const Form::FormRole role)
+{
+    m_formRole = role;
+}
+Form::FormRole Form::role() const
+{
+    return m_formRole;
+}
 void Form::setApi(Api *api)
 {
     m_api = api;

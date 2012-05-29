@@ -20,7 +20,6 @@ template <typename C>
  public:
     static C* instance ()
     {
-        myDebug() << "get instance";
        if (!_instance)
           _instance = new C ();
        return _instance;
