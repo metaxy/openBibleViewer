@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define MODULEMAP_H
 #include "module.h"
 /**
- * ModuleMap contains all pointers to a module in a map. And it deletes them when modulemap is deleted.
+ * ModuleMap contains the pointer to all modules in a map. And it deletes them when ModuleMap is deleted.
  */
 class ModuleMap
 {
