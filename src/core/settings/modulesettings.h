@@ -19,6 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 #include <QtCore/QSettings>
 #include <QtCore/QSharedPointer>
+#include <QtGui/QIcon>
 #include "src/core/verse/versification.h"
 #include "src/core/verse/versification/versification_kjv.h"
 #include "src/core/verse/versification/versification_cache.h"
@@ -54,6 +55,8 @@ public:
     void clearChildren();
     QString name(bool preferShort = false) const;
 
+    QIcon icon(bool useDefault=false) const;
+
     int moduleID;
     QString moduleUID;
     QString modulePath;
@@ -64,6 +67,9 @@ public:
     QString moduleLanguage;//ISO 639-2
 
     QString encoding;
+
+    QString iconPath;
+
     bool useParentSettings;
 
     ZefBible_TextFormating zefbible_textFormatting;

@@ -52,7 +52,7 @@ ModuleTools::ModuleType ModuleTools::recognizeModuleType(const QString &fileName
             myWarning() << "could not open database " << fileName;
             return ModuleTools::NoneType;
         }
-        QSqlQuery query1 ("select name,value from config", db);
+        QSqlQuery query1("select name,value from config", db);
         while (query1.next()) {
             const QString name = query1.value(0).toString();
             if(name == "type") {

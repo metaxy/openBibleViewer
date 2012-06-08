@@ -14,10 +14,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef BIBLELINK_H
 #define BIBLELINK_H
 #include <QtCore/QRegExp>
+#include <QtCore/QSharedPointer>
 #include "src/core/verse/versification.h"
 #include "src/core/dbghelper.h"
 #include "src/core/link/verseurl.h"
-#include <QtCore/QSharedPointer>
+
 class BibleLink
 {
 public:

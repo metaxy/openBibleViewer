@@ -13,13 +13,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "urlconverter2.h"
 
-UrlConverter2::UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType to, VerseUrl url)
+UrlConverter2::UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType to, const VerseUrl &url)
 {
     m_urlConverter.setFrom(from);
     m_urlConverter.setTo(to);
     m_urlConverter.setUrl(url);
 }
-UrlConverter2::UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType to, QString url)
+UrlConverter2::UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType to, const QString &url)
 {
     m_urlConverter.setFrom(from);
     m_urlConverter.setTo(to);

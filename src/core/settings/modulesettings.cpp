@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "src/core/settings/modulesettings.h"
-
+#include "src/core/iconcache.h"
 ModuleSettings::ModuleSettings()
 {
     m_parent = NULL;
@@ -194,4 +194,35 @@ void ModuleSettings::removeDisplaySettings()
         m_displaySettings.clear();
     }
 
+}
+QIcon ModuleSettings::icon(bool useDefault) const
+{
+    ModuleTools::ModuleCategory cat = ModuleTools::getCategory(moduleType);
+
+    if(useDefault || iconPath.isEmpty()) {
+        IconCache *cache = IconCache::instance();
+        switch(cat)
+        {
+            case ModuleTools::BibleCategory:
+                return cache->bibleIcon;
+                break;
+            case ModuleTools::DictionaryCategory:
+            case ModuleTools::CommentaryCategory:
+                return cache->dictionayIcon;
+                break;
+            case ModuleTools::BookCategory:
+            case ModuleTools::TreeBookCategory:
+                return cache->bookIcon;
+                break;
+            case ModuleTools::FolderCategory:
+                return cache->folderIcon;
+                break;
+            default:
+                return cache->bookIcon;
+                break;
+
+        }
+    } else {
+        return QIcon(iconPath);
+    }
 }

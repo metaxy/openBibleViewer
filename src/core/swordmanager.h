@@ -14,28 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef SWORDMANAGER_H
 #define SWORDMANAGER_H
 #include "src/core/dbghelper.h"
-template <typename C>
- class Singleton
- {
- public:
-    static C* instance ()
-    {
-       if (!_instance)
-          _instance = new C ();
-       return _instance;
-    }
-    virtual
-    ~Singleton ()
-    {
-       _instance = 0;
-    }
- private:
-    static C* _instance;
- protected:
-    Singleton () { }
- };
- template <typename C> C* Singleton <C>::_instance = 0;
-
+#include "src/core/singleton.h"
 #ifdef BUILD_WITH_SWORD
 #include <swmgr.h>
 

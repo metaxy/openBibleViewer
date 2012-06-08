@@ -134,12 +134,13 @@ void TreeBookForm::loadModule(const int moduleID)
 }
 void TreeBookForm::createTree(QStandardItem *parentItem, BookTree *parentTree)
 {
-    for (int i = 0; i < parentTree->children.size(); ++i) {
-        BookTree *child = parentTree->children.at(i);
-        QStandardItem *item = new QStandardItem(child->title);
-        item->setData(child->id);
+    const QList<BookTree*> children = parentTree->children();
+    for (int i = 0; i < children.size(); ++i) {
+        BookTree *child = children.at(i);
+        QStandardItem *item = new QStandardItem(child->title());
+        item->setData(child->id());
         parentItem->appendRow(item);
-        if(!child->children.isEmpty()) {
+        if(!child->children().isEmpty()) {
             createTree(item, child);
         }
     }

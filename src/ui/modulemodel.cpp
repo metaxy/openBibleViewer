@@ -18,15 +18,7 @@ ModuleModel::ModuleModel(QObject *parent)
     m_moduleModel = new QStandardItemModel(parent);
     m_settings = NULL;
     //m_moduleModel->setHeaderData(0, Qt::Horizontal, QObject::tr("Module"));
-    QStyle *style = QApplication::style();
 
-    m_folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
-    m_folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
-
-    m_bibleIcon = QIcon::fromTheme("page-2sides", QIcon(":/icons/16x16/page-2sides.png"));
-    m_dictionayIcon = QIcon::fromTheme("text-x-texinfo", QIcon(":/icons/16x16/text-x-texinfo.png"));
-    m_bookIcon = QIcon::fromTheme("text-x-generic", QIcon(":/icons/16x16/text-x-generic.png"));
-    //m_webIcon = QIcon::fromTheme("text-xml", QIcon(":/icons/16x16/text-html.png"));
 }
 ModuleModel::~ModuleModel()
 {
@@ -85,21 +77,8 @@ void ModuleModel::createModuleItem(QStandardItem *parentItem, ModuleSettings *se
         item = new QStandardItem(settings->name(false));
         item->setData(QString::number(settings->moduleID));
         item->setToolTip(ModuleTools::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
-
-        if(cat == ModuleTools::BibleCategory) {
-            item->setIcon(m_bibleIcon);
-        } else if(cat == ModuleTools::DictionaryCategory) {
-            item->setIcon(m_dictionayIcon);
-        } else if(cat == ModuleTools::BookCategory) {
-            item->setIcon(m_bookIcon);
-        } else if(cat == ModuleTools::FolderCategory) {
-            item->setIcon(m_folderIcon);
-        } else if(cat == ModuleTools::CommentaryCategory) {
-            item->setIcon(m_bookIcon);
-        } else if(cat == ModuleTools::TreeBookCategory) {
-            item->setIcon(m_dictionayIcon);
-        }
-       parentItem->appendRow(item);
+        item->setIcon(settings->icon());
+        parentItem->appendRow(item);
     }
 
     //recursive

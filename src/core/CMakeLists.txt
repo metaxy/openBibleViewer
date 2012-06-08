@@ -50,6 +50,8 @@ SET(
     xbelreader.cpp
     xbelwriter.cpp
     downloadinfile.cpp
+
+    iconcache.cpp
     
     qzip.cpp
     rtftools.cpp

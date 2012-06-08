@@ -44,7 +44,7 @@ int VerseTable::currentVerseTableID() const
 
 void VerseTable::addModule(TextRangesVerseModule* m, const QPoint &p)
 {
-    //if it contains already a module with point p
+    //if it contains already a module at point p
     //then delete the old and insert the new
     if(m_points.values().contains(p)) {
         const int id = m_points.key(p, -1);
@@ -235,7 +235,7 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
 }
 int VerseTable::countInCol(const int col) const
 {
-    QList<QPoint> list = m_points.values();
+    const QList<QPoint> list = m_points.values();
     int count = 0;
     foreach(const QPoint & p, list) {
         if(p.y() == col)
@@ -279,7 +279,9 @@ void VerseTable::setLastTextRanges(TextRanges *textRanges)
 {
     if(textRanges == NULL)
         return;
+
     m_lastTextRanges = textRanges;
+
     foreach(TextRangesVerseModule * b, m_modules) {
         b->setLastTextRanges(textRanges);
     }

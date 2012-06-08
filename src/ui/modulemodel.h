@@ -14,8 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef MODULEMODEL_H
 #define MODULEMODEL_H
 #include <QtGui/QStandardItemModel>
-#include <QtGui/QStyle>
-#include <QtGui/QApplication>
+
 #include "src/module/module.h"
 #include "src/core/settings/settings.h"
 /**
@@ -41,10 +40,6 @@ private:
     Settings *m_settings;
     void createModuleItem(QStandardItem *parentItem, ModuleSettings *settings);
 
-    QIcon m_bibleIcon;
-    QIcon m_dictionayIcon;
-    QIcon m_folderIcon;
-    QIcon m_bookIcon;
     QList<ModuleTools::ModuleCategory> m_catFilter;
 };
 

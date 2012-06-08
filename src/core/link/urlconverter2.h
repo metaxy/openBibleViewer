@@ -17,8 +17,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class UrlConverter2
 {
 public:
-    UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType to, VerseUrl url);
-    UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType to, QString url);
+    UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType to, const VerseUrl &url);
+    UrlConverter2(UrlConverter::UrlType from, UrlConverter::UrlType to, const QString &url);
     void setFromTo(UrlConverter::UrlType from, UrlConverter::UrlType to);
     void setSM(Settings *settings, ModuleMap *map);
     void setV11n(QSharedPointer<Versification> versification);
