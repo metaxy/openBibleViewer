@@ -16,6 +16,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 "
 
 Find.find('../src') do |f|
+	if(f.start_with?('../src/extern/'))
+		next
+	end
+
 	if(f.end_with?('.cpp') || f.end_with?('.h'))
 		text = File.read(f);
 		if(not text.start_with?('/***********'))
