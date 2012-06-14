@@ -13,12 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef WEBDICTIONARY_H
 #define WEBDICTIONARY_H
-#include "src/module/dictionary/dictionarymodule.h"
-#include "src/module/simplemoduleclass.h"
-#include "src/core/settings/moduledisplaysettings.h"
-#include "src/module/searchablemodule.h"
 #include <QtScript/QScriptEngine>
-#include <QtCore/QUrl>
 
 class WebDictionary : public SearchableModule, public DictionaryModule
 {
