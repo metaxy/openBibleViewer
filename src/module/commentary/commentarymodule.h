@@ -14,12 +14,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef COMMENTARYMODULE_H
 #define COMMENTARYMODULE_H
 #include "src/module/response/response.h"
-#include "src/core/verse/range.h"
-#include "src/core/verse/versification.h"
-#include "src/core/settings/settings.h"
-#include "src/core/search/searchquery.h"
-#include "src/core/search/searchresult.h"
-#include <QtCore/QSharedPointer>
 #include "src/module/simplemodule.h"
 #include "src/module/searchablemodule.h"
 class CommentaryModule : public SimpleModule
