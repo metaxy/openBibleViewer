@@ -13,16 +13,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BIBLEQUOTEDICT_H
 #define BIBLEQUOTEDICT_H
-#include <QtCore/QString>
-#include <QtCore/QFile>
 #include <QtCore/QTextDecoder>
 #include <QtCore/QDir>
-#include <QtCore/QTextStream>
 #include <QtGui/QProgressDialog>
 
 #include "src/module/dictionary/dictionarymodule.h"
-#include "src/module/metainfo.h"
-#include "src/core/dbghelper.h"
 /**
  * BibleQuoteDict is a dictionary module for BibelQuote Dictionaries. The file suffix is *.idx.
  */
