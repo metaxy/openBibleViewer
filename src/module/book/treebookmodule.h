@@ -14,14 +14,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef TREEBOOKMODULE_H
 #define TREEBOOKMODULE_H
 #include "src/core/search/searchresult.h"
-#include "src/core/search/searchquery.h"
 
-#include "src/core/settings/settings.h"
-#include "src/module/metainfo.h"
 #include "src/core/books/booktree.h"
 #include "src/module/response/response.h"
 #include "src/module/simplemodule.h"
-#include <QtCore/QFile>
 class TreeBookModule : public SimpleModule
 {
 public:
