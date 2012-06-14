@@ -13,8 +13,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef VERSEMODULECACHE_H
 #define VERSEMODULECACHE_H
-#include <QtCore/QCache>
-#include "src/module/versemodule.h"
 class VerseModuleCache
 {
 public:
