@@ -14,9 +14,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef BOOK_H
 #define BOOK_H
 #include "src/module/simplemoduleclass.h"
-#include "src/core/settings/moduledisplaysettings.h"
-#include "src/module/searchablemodule.h"
-#include "src/module/response/response.h"
 
 class Book : public SimpleModuleClass, public SearchableModule
 {
