@@ -13,7 +13,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef DICTIONARYMODULE_H
 #define DICTIONARYMODULE_H
-#include "src/core/settings/settings.h"
 #include "src/module/response/response.h"
 #include "src/module/simplemodule.h"
 class DictionaryModule : public SimpleModule
