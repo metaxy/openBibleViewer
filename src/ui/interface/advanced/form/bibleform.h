@@ -19,13 +19,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMenu>
 #include <QtGui/QCursor>
 #include <QtGui/QMessageBox>
-#include <QtGui/QFileDialog>
 #include <QtGui/QPrinter>
-#include <QtGui/QPrintDialog>
 #include <QtGui/QClipboard>
 #include <QtGui/QColorDialog>
 #include <QtGui/QMdiArea>
-#include <QtGui/QPrintPreviewDialog>
 #include <QtGui/QTextDocumentWriter>
 #include <QtGui/QCloseEvent>
 #include <QtGui/QToolBar>

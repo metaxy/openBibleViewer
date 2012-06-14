@@ -39,8 +39,26 @@ public slots:
     virtual void openHere();
     virtual void copyLinkText();
     virtual void copyLinkUrl();
+    /**
+     * @brief opens m_contextMenuUrl in the module specified in the sender
+     */
     virtual void openIn();
     virtual void openInNew();
+
+    virtual void openIn(QString url, const int moduleID, const Actions::OpenLinkModifiers mod);
+
+    /**
+     * @brief Calls openIn() with m_contextMenuUrl as url
+     * @param moduleID
+     */
+    virtual void openInM(const int moduleID);
+    virtual void openInNewM(const int moduleID);
+
+    /**
+     * @brief Show the ModuleSelectDialog. If a module is selected it calls openInM(moduleID)
+     */
+    virtual void openInS();
+    virtual void openInNewS();
 protected:
 
     QString m_contextMenuUrl;

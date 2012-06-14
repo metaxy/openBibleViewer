@@ -17,9 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QDockWidget>
 #include <QTreeWidgetItem>
 #include <QSortFilterProxyModel>
-#include <QItemSelectionModel>
 #include "dockwidget.h"
-#include "src/ui/recursivproxymodel.h"
 #include "src/ui/moduleselectui.h"
 namespace Ui
 {

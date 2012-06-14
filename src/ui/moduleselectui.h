@@ -10,7 +10,7 @@ class ModuleSelectUI : public QObject, public BasicClass
 {
     Q_OBJECT
 public:
-    ModuleSelectUI(QWidget *oarentWidget, BasicClass *parent);
+    ModuleSelectUI(BasicClass *parent, QWidget *oarentWidget);
     ~ModuleSelectUI();
     void loadModuleData(const int moduleID, Actions::OpenLinkModifiers mod = Actions::NoModifer);    void selectModule(const int moduleID);
 

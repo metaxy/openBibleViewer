@@ -73,6 +73,7 @@ public:
     virtual FormType type() const = 0;
     virtual SearchableModule * searchableModule() const;
 
+
 signals:
 
 public slots:

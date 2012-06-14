@@ -22,6 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QTextDocumentWriter>
 #include <QtWebKit/QWebInspector>
 #include <QtGui/QClipboard>
+#include "src/ui/dialog/moduleselectdialog.h"
 
 WebViewForm::WebViewForm(QWidget *parent) :
     Form(parent)
@@ -145,22 +146,7 @@ void WebViewForm::openIn()
     QAction *s = (QAction*) sender();
     if(s != NULL) {
         int moduleID = s->data().toInt();
-        QString url = m_contextMenuUrl;
-        if(url.startsWith(ModuleTools::strongScheme)) {
-            url = url.remove(0, ModuleTools::strongScheme.size());
-            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url);
-        } else if(url.startsWith(ModuleTools::rmacScheme)) {
-            url = url.remove(0, ModuleTools::rmacScheme.size());
-            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url);
-        } else if(url.startsWith(ModuleTools::verseScheme)) {
-            VerseUrl vurl;
-            vurl.fromStringUrl(url);
-            vurl.setModuleID(moduleID);
-            m_actions->get(vurl);
-        } else {
-            m_actions->get(url);
-        }
-        m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
+        openInM(moduleID);
     }
 }
 void WebViewForm::openInNew()
@@ -168,21 +154,47 @@ void WebViewForm::openInNew()
     QAction *s = (QAction*) sender();
     if(s != NULL) {
         int moduleID = s->data().toInt();
-        QString url = m_contextMenuUrl;
-        if(url.startsWith(ModuleTools::strongScheme)) {
-            url = url.remove(0, ModuleTools::strongScheme.size());
-            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, Actions::OpenInNewWindow);
-        } else if(url.startsWith(ModuleTools::rmacScheme)) {
-            url = url.remove(0, ModuleTools::rmacScheme.size());
-            m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, Actions::OpenInNewWindow);
-        } else if(url.startsWith(ModuleTools::verseScheme)) {
-            VerseUrl vurl;
-            vurl.fromStringUrl(url);
-            vurl.setModuleID(moduleID);
-            m_actions->get(vurl, Actions::OpenInNewWindow);
-        } else {
-            m_actions->get(url);
-        }
-        m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
+        openInNewM(moduleID);
     }
+}
+void WebViewForm::openIn(QString url, const int moduleID, const Actions::OpenLinkModifiers mod)
+{
+    if(url.startsWith(ModuleTools::strongScheme)) {
+        url = url.remove(0, ModuleTools::strongScheme.size());
+        m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, mod);
+    } else if(url.startsWith(ModuleTools::rmacScheme)) {
+        url = url.remove(0, ModuleTools::rmacScheme.size());
+        m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, mod);
+    } else if(url.startsWith(ModuleTools::verseScheme)) {
+        VerseUrl vurl;
+        vurl.fromStringUrl(url);
+        vurl.setModuleID(moduleID);
+        m_actions->get(vurl, mod);
+    } else {
+        m_actions->get(url, mod);
+    }
+    m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
+}
+void WebViewForm::openInM(const int moduleID)
+{
+    openIn(m_contextMenuUrl, moduleID, Actions::NoModifer);
+}
+void WebViewForm::openInNewM(const int moduleID)
+{
+    openIn(m_contextMenuUrl, moduleID, Actions::OpenInNewWindow);
+}
+void WebViewForm::openInS()
+{
+    QPointer<ModuleSelectDialog> dialog = new ModuleSelectDialog(this);
+    connect(dialog, SIGNAL(moduleSelected(const int moduleID)), this, SLOT(openInM(int)));
+    dialog->exec();
+    delete dialog;
+}
+
+void WebViewForm::openInNewS()
+{
+    QPointer<ModuleSelectDialog> dialog = new ModuleSelectDialog(this);
+    connect(dialog, SIGNAL(moduleSelected(const int moduleID)), this, SLOT(openInNewM(int)));
+    dialog->exec();
+    delete dialog;
 }

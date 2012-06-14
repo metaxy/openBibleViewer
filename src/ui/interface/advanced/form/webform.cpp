@@ -15,8 +15,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_webform.h"
 #include <QtGui/QToolBar>
 #include <QtGui/QPrinter>
-#include <QtGui/QPrintDialog>
-#include <QtGui/QPrintPreviewDialog>
 #include <QtWebKit/QWebHistory>
 #include <QtCore/QPointer>
 

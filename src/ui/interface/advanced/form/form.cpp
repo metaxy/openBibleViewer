@@ -66,3 +66,4 @@ SearchableModule * Form::searchableModule() const
     myWarning() << "calling Form::searchableModule";
     return NULL;
 }
+

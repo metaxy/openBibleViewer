@@ -16,11 +16,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtGui/QCompleter>
 #include <QtCore/QScopedPointer>
-#include <QtGui/QFileDialog>
 #include <QtGui/QPrinter>
-#include <QtGui/QPrintDialog>
 #include <QtCore/QPointer>
-#include <QtGui/QPrintPreviewDialog>
 #include <QtGui/QTextDocumentWriter>
 #include "src/module/dictionary/webdictionary.h"
 #include "src/module/response/urlresponse.h"

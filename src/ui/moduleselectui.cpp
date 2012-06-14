@@ -5,7 +5,7 @@
 #include "src/core/link/verseurl.h"
 #include <QPointer>
 #include <QMenu>
-ModuleSelectUI::ModuleSelectUI(QWidget *parentWidget, BasicClass *parent) : QObject(parentWidget)
+ModuleSelectUI::ModuleSelectUI(BasicClass *parent, QWidget *parentWidget) : QObject(parentWidget)
 {
     copy(parent);
     m_moduleID = -1;
