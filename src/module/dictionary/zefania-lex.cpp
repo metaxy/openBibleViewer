@@ -13,9 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "zefania-lex.h"
 #include "src/core/verse/reftext.h"
-#include "config.h"
 #include "CLucene.h"
-#include "CLucene/clucene-config.h"
 #include "src/module/response/stringresponse.h"
 
 using namespace lucene::analysis;

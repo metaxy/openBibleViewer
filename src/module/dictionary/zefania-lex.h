@@ -13,25 +13,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef ZefaniaLex_H
 #define ZefaniaLex_H
-#include <QtCore/QStringList>
-#include <QtCore/QFile>
-#include <QtCore/QVariantList>
-#include <QtCore/QFile>
-#include <QtCore/QDataStream>
-#include <QtCore/QFileInfo>
 #include <QtCore/QDir>
 #include <QtGui/QMessageBox>
-#include <QtGui/QProgressDialog>
-#include <QtXml/QDomNode>
 
 
 #include "src/core/KoXmlReader.h"
-#include "src/core/dbghelper.h"
-#include "src/core/link/verseurl.h"
 #include "src/core/link/strongurl.h"
 
 #include "src/module/dictionary/dictionarymodule.h"
-#include "src/module/metainfo.h"
 
 /**
  * ZefaniaLex represents a zefaniaXML(lex) module. The file suffix is *.xml.
