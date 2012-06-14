@@ -82,23 +82,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
  */
 
-#include <QTextCodec>
-#include <QTextDecoder>
 
 #ifndef KOXML_USE_QDOM
 
-#include <qxml.h>
-#include <qdom.h>
-#include <QXmlStreamReader>
 #include <QXmlStreamEntityResolver>
 
 #include <QBuffer>
-#include <QByteArray>
-#include <QDataStream>
-#include <QHash>
-#include <QPair>
-#include <QStringList>
-#include <QVector>
 
 /*
  Use more compact representation of in-memory nodes.

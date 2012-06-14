@@ -12,8 +12,6 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "src/core/link/urlconverter.h"
-#include "src/core/dbghelper.h"
-#include "src/core/link/verseurl.h"
 UrlConverter::UrlConverter(const UrlType &from, const UrlType &to, const VerseUrl &url)
 {
     m_from = from;

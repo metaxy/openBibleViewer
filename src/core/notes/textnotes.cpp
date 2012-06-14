@@ -26,8 +26,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "textnotes.h"
 #include "src/core/dbghelper.h"
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
 #include <QtCore/QDir>
 TextNotes::TextNotes()
 {

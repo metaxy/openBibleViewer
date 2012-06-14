@@ -16,9 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtCore/QDateTime>
 #include <QtGui/QClipboard>
-#include <QtGui/QColorDialog>
 #include <QtGui/QMessageBox>
-#include "src/core/dbghelper.h"
 #include "src/core/link/urlconverter2.h"
 #include "src/ui/dialog/biblepassagedialog.h"
 SimpleNotes::SimpleNotes()

@@ -11,14 +11,10 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#include "context.h"
 #include "src/ui/mainwindow.h"
-#include "src/core/dbghelper.h"
-#include "src/core/verse/versification/versification_kjv.h"
 #include "src/ui/updateschecker.h"
 
 #include "src/core/notes/xmlnotes.h"
-#include "src/core/notes/textnotes.h"
 
 Context::Context(QObject *parent) : QObject(parent)
 {

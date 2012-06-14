@@ -13,11 +13,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "xmlnotes.h"
 #include "src/core/dbghelper.h"
-#include <QtCore/QFile>
-#include <QtXml/QtXml>
-#include <QtXml/QDomAttr>
-#include <QtXml/QDomElement>
-#include <QtCore/QTextStream>
 #include <QtCore/QDir>
 XmlNotes::XmlNotes()
 {

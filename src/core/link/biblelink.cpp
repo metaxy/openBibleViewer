@@ -12,7 +12,6 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "biblelink.h"
-#include <QtCore/QRegExp>
 const QStringList REGS = QStringList() << "(.*)"
                          << "(.*)(\\s+)(\\d+)"
                          << "(.*)(\\s+)(\\d+),(\\d+)" << "(.*)(\\s+)(\\d+):(\\d+)"

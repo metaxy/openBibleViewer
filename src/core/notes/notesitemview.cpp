@@ -15,7 +15,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QPointer>
 #include "src/core/dbghelper.h"
 #include <QtGui/QMenu>
-#include <QtGui/QAction>
 #include <QtGui/QApplication>
 NotesItemView::NotesItemView(Notes *notes, QTreeView *treeView) :  m_treeView(treeView), m_notes(notes)
 {

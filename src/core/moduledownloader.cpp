@@ -12,12 +12,6 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "moduledownloader.h"
-#include "src/core/dbghelper.h"
-#include <QtCore/QDir>
-#include <QtGui/QMessageBox>
-#include <QtCore/QUrl>
-#include <QtCore/QFileInfo>
-#include <QtNetwork/QNetworkReply>
 #include "src/core/downloadinfile.h"
 
 /**
