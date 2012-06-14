@@ -15,7 +15,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define ESWORDTOPIC_H
 #include "treebookmodule.h"
 #include <QtSql/QSqlDatabase>
-#include <QMap>
 class ESwordTopic : public TreeBookModule
 {
 public:

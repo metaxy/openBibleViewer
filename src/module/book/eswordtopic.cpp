@@ -13,11 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "eswordtopic.h"
 #include <QtSql/QSqlQuery>
-#include <QtSql/QSqlError>
 #include "src/module/response/stringresponse.h"
 #include "src/extern/rtf-qt/rtfreader.h"
 #include "src/extern/rtf-qt/ESwordRtfOutput.h"
-#include "src/core/verse/reftext.h"
 #include "src/core/rtftools.h"
 #include <QtCore/QTemporaryFile>
 ESwordTopic::ESwordTopic() : m_bookTree(NULL)
