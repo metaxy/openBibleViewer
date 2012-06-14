@@ -13,14 +13,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "thewordtopic.h"
 #include <QtSql/QSqlQuery>
-#include <QtSql/QSqlError>
-#include "src/module/response/stringresponse.h"
 #include "src/module/response/htmlresponse.h"
 #include "src/extern/rtf-qt/rtfreader.h"
 #include "src/extern/rtf-qt/TheWordRtfOutput.h"
-#include "src/core/verse/reftext.h"
 #include <QtCore/QTemporaryFile>
-#include "src/core/rtftools.h"
 TheWordTopic::TheWordTopic() : m_bookTree(NULL), m_compressed(false), m_contentType(RtfTools::RTFContent)
 {
 }
