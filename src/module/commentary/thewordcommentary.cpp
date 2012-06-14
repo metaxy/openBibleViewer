@@ -13,8 +13,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "thewordcommentary.h"
 #include <QtSql/QSqlQuery>
-#include <QtSql/QSqlError>
-#include "src/module/response/stringresponse.h"
 #include "src/module/response/htmlresponse.h"
 #include "src/extern/rtf-qt/rtfreader.h"
 #include "src/extern/rtf-qt/TheWordRtfOutput.h"

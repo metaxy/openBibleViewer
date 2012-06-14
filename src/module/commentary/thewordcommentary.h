@@ -15,7 +15,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define THEWORDCOMMENTARY_H
 #include "src/module/commentary/commentarymodule.h"
 #include <QtSql/QSqlDatabase>
-#include "src/module/metainfo.h"
 #include "src/core/rtftools.h"
 #include <QTextDocument>
 class TheWordCommentary : public CommentaryModule
