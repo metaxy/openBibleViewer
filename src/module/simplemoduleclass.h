@@ -14,11 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef SIMPLEMODULECLASS_H
 #define SIMPLEMODULECLASS_H
 #include "src/core/notes/notes.h"
-#include "src/core/settings/settings.h"
 #include "src/module/modulemap.h"
-#include "src/module/module.h"
-#include "src/module/moduletools.h"
-#include <QtCore/QSharedPointer>
 /**
  * It is an abstract class for classes like Bible or Dictionary, which are meta modules.
  * They contains other similiar modules to provide an simple access to them.
