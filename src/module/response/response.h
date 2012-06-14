@@ -13,7 +13,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef RESPONSE_H
 #define RESPONSE_H
-#include <QtCore/qnamespace.h>
 class Response
 {
 public:
