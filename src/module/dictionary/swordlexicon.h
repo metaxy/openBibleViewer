@@ -15,16 +15,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define SWORDLEXICON_H
 #include "src/module/searchablemodule.h"
 #include "src/module/dictionary/dictionarymodule.h"
-#include "src/module/metainfo.h"
 
 #ifdef BUILD_WITH_SWORD
-#include <stdio.h>
-#include <iostream>
-#include <stdlib.h>
-#include <swmgr.h>
-#include <swmodule.h>
-#include <markupfiltmgr.h>
-#include <versekey.h>
 using namespace::sword;
 
 #endif
