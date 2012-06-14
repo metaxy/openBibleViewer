@@ -14,11 +14,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef TREEBOOK_H
 #define TREEBOOK_H
 #include "src/module/simplemoduleclass.h"
-#include "src/core/settings/moduledisplaysettings.h"
-#include "src/module/searchablemodule.h"
-#include "src/module/response/response.h"
-#include "src/core/books/booktree.h"
-#include "src/module/book/treebookmodule.h"
 class TreeBook : public SimpleModuleClass, public SearchableModule
 {
 public:
