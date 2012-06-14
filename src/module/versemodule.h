@@ -14,13 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef VERSEMODULE_H
 #define VERSEMODULE_H
 #include "src/core/verse/ranges.h"
-#include "src/core/verse/range.h"
-#include "src/core/verse/versification.h"
 #include "src/module/simplemoduleclass.h"
-#include "src/core/settings/moduledisplaysettings.h"
-#include "src/module/searchablemodule.h"
-#include "src/module/response/response.h"
-#include <utility>
 
 struct CompiledRange {
     int moduleID;
