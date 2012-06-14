@@ -13,7 +13,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef METAINFO_H
 #define METAINFO_H
-#include <QtCore/QString>
 #include "src/module/moduletools.h"
 class MetaInfo
 {
