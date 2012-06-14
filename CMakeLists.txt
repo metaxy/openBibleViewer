@@ -169,7 +169,8 @@ set( openBibleViewer_SRCS
     src/ui/dialog/insertlinkdialog.cpp
     src/ui/dialog/downloadprogressdialog.cpp
     src/ui/dialog/updatecheckerdialog.cpp
-    
+    src/ui/dialog/moduleselectdialog.cpp
+
     src/ui/dock/dockwidget.cpp
     src/ui/dock/dictionarydockwidget.cpp
     src/ui/dock/searchresultdockwidget.cpp
@@ -216,6 +217,7 @@ set( openBibleViewer_SRCS
     src/ui/modulemodel.cpp
     src/ui/biblepassageframe.cpp
 	src/ui/qtwin.cpp
+    src/ui/moduleselectui.cpp
 
     src/ui/updateschecker.cpp
 
@@ -238,6 +240,7 @@ set ( openBibleViewer_UIS
     src/ui/dialog/insertlinkdialog.ui
     src/ui/dialog/downloadprogressdialog.ui
     src/ui/dialog/updatecheckerdialog.ui
+    src/ui/dialog/moduleselectdialog.ui
 
     src/ui/dock/dictionarydockwidget.ui
     src/ui/dock/searchresultdockwidget.ui
@@ -301,6 +304,7 @@ set ( openBibleViewer_MOCS
     src/ui/dialog/insertlinkdialog.h
     src/ui/dialog/downloadprogressdialog.h
     src/ui/dialog/updatecheckerdialog.h
+    src/ui/dialog/moduleselectdialog.h
 
     src/ui/marklist.h
     src/ui/markcategories.h
@@ -308,6 +312,7 @@ set ( openBibleViewer_MOCS
     src/ui/highlighter.h
     src/ui/noteseditor.h
     src/ui/recursivproxymodel.h
+    src/ui/moduleselectui.h
 
     src/ui/dock/dictionarydockwidget.h
     src/ui/dock/searchresultdockwidget.h

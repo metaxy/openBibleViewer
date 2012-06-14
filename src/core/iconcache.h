@@ -23,7 +23,6 @@ class IconCache : public Singleton<IconCache>
 public:
     IconCache();
 
-
     QIcon bibleIcon;
     QIcon dictionayIcon;
     QIcon folderIcon;

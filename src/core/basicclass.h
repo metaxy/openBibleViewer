@@ -21,7 +21,9 @@ class BasicClass
 {
 public:
     BasicClass();
-    BasicClass(BasicClass *parent);
+    BasicClass(const BasicClass *parent);
+
+    void copy(const BasicClass *parent);
 
     void setModuleManager(ModuleManager *manager);
     void setSettings(Settings *settings);

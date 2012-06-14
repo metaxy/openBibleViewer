@@ -15,11 +15,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define MODULEDOCKWIDGET_H
 
 #include <QDockWidget>
-#include <QtGui/QTreeWidgetItem>
-#include <QtGui/QSortFilterProxyModel>
+#include <QTreeWidgetItem>
+#include <QSortFilterProxyModel>
 #include <QItemSelectionModel>
 #include "dockwidget.h"
 #include "src/ui/recursivproxymodel.h"
+#include "src/ui/moduleselectui.h"
 namespace Ui
 {
 class ModuleDockWidget;
@@ -33,9 +34,9 @@ class ModuleDockWidget : public DockWidget
     Q_OBJECT
 private slots:
     void loadModuleData(QModelIndex index, Actions::OpenLinkModifiers mod = Actions::NoModifer);
-    void filter(QString string);
+    void filter(const QString &string);
     void loadedModule(const int id);
-    void contextMenu(QPoint point);
+    void contextMenu(const QPoint &point);
 
     void open();
     void openInNewTab();
@@ -53,11 +54,9 @@ protected:
 private:
     Ui::ModuleDockWidget *ui;
     bool m_dontLoad;
-    int m_moduleID;
-    RecursivProxyModel *m_proxyModel;
-    QItemSelectionModel *m_selectionModel;
-    bool first;
-    QPoint m_point;
+    bool m_first;
+
+    ModuleSelectUI *m_moduleUI;
 };
 
 #endif // MODULEDOCKWIDGET_H

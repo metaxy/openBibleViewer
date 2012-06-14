@@ -23,14 +23,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
     DockWidget(parent),
-    ui(new Ui::ModuleDockWidget)
+    ui(new Ui::ModuleDockWidget),
+    m_dontLoad(false),
+    m_moduleUI(NULL),
+    m_first(false)
 {
     ui->setupUi(this);
-    m_dontLoad = false;
-    first = false;
-
-    m_proxyModel = NULL;
-    m_selectionModel = NULL;
 }
 /**
   * Init the ModuleDockWidget. Init proxyModel and selectionModel.
@@ -38,38 +36,27 @@ ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
 void ModuleDockWidget::init()
 {
     ui->treeView_module->clearSelection();
-
-    if(m_proxyModel != NULL) {
-        m_proxyModel->deleteLater();
-        m_proxyModel = NULL;
+    if(m_moduleUI != NULL) {
+        delete m_moduleUI;
+        m_moduleUI = NULL;
     }
-    if(m_selectionModel != NULL) {
-        m_selectionModel->deleteLater();
-        m_selectionModel = NULL;
-    }
-    m_moduleID = -1;
-
-    ModuleModel model(this);
-    model.setSettings(m_settings);
-    model.generate();
-
-    m_proxyModel = new RecursivProxyModel(this);
-    m_proxyModel->setSourceModel(model.itemModel());
-    m_proxyModel->setHeaderData(0, Qt::Horizontal, tr("Module"));
-    m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-
-    m_selectionModel = new QItemSelectionModel(m_proxyModel);
+    m_moduleUI = new ModuleSelectUI(this, this);
 
     connect(ui->lineEdit_filter, SIGNAL(textChanged(QString)), this, SLOT(filter(QString)));
 
     connect(ui->treeView_module, SIGNAL(activated(QModelIndex)), this, SLOT(loadModuleData(QModelIndex)));
     connect(ui->treeView_module, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenu(QPoint)));
 
-    ui->treeView_module->setSortingEnabled(true);
-    ui->treeView_module->setModel(m_proxyModel);
-    ui->treeView_module->setSelectionModel(m_selectionModel);
+    connect(m_moduleUI, SIGNAL(configure()), this, SLOT(configure()));
+    connect(m_moduleUI, SIGNAL(open()), this, SLOT(open()));
+    connect(m_moduleUI, SIGNAL(openInNewTab()), this, SLOT(openInNewTab()));
 
-    m_proxyModel->sort(0);
+
+    ui->treeView_module->setSortingEnabled(true);
+    ui->treeView_module->setModel(m_moduleUI->model());
+    ui->treeView_module->setSelectionModel(m_moduleUI->selectionModel());
+
+    //m_proxyModel->sort(0);
     connect(m_actions, SIGNAL(_setCurrentModule(int)), this, SLOT(loadedModule(int)));
     connect(m_actions, SIGNAL(_moduleChanged(int)), this, SLOT(moduleChanged(int)));
 }
@@ -78,52 +65,10 @@ void ModuleDockWidget::init()
   */
 void ModuleDockWidget::loadModuleData(QModelIndex index, Actions::OpenLinkModifiers mod)
 {
+    if(m_dontLoad)
+        return;
     const int moduleID = index.data(Qt::UserRole + 1).toInt();
-    if(m_dontLoad == false && moduleID >= 0) {
-        m_moduleID = moduleID;
-        Module *m = m_moduleManager->getModule(moduleID);
-        //const ModuleTools::ModuleType type = m->moduleType();
-        const ModuleTools::ModuleClass cl = m->moduleClass();
-        if(cl == ModuleTools::DictionaryModuleClass) {
-            m_actions->get(ModuleTools::dictScheme+ QString::number(moduleID), mod);
-            m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
-        } else if(cl == ModuleTools::WebPageClass) {
-            m_actions->get(ModuleTools::webPageScheme + QString::number(moduleID), mod);
-            m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
-        } else if(cl == ModuleTools::BookClass) {
-            m_actions->get(ModuleTools::bookScheme + QString::number(moduleID), mod);
-            m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
-        } else if(cl == ModuleTools::TreeBookClass) {
-            m_actions->get(ModuleTools::treeBookScheme + QString::number(moduleID) + ",0", mod);
-            m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
-
-        } else if(cl == ModuleTools::CommentaryClass) {
-            VerseUrlRange range;
-            range.setModule(moduleID);
-            range.setBook(VerseUrlRange::LoadCurrentBook);
-            range.setChapter(VerseUrlRange::LoadCurrentChapter);
-            range.setStartVerse(VerseUrlRange::LoadCurrentVerse);
-            range.setOpenToTransformation(true);
-
-            VerseUrl url(range);
-            m_actions->get(url, mod);
-            m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
-
-        }  else if(cl == ModuleTools::BibleModuleClass) {
-            myDebug() << "bible";
-
-            VerseUrlRange range;
-            range.setModule(moduleID);
-            range.setBook(VerseUrlRange::LoadCurrentBook);
-            range.setChapter(VerseUrlRange::LoadCurrentChapter);
-            range.setStartVerse(VerseUrlRange::LoadCurrentVerse);
-            range.setOpenToTransformation(true);
-
-            VerseUrl url(range);
-            m_actions->get(url, mod);
-            m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
-        }
-    }
+    m_moduleUI->loadModuleData(moduleID, mod);
 }
 /**
   * If a module is loaded not through the ModuleDock, select the module.
@@ -131,89 +76,42 @@ void ModuleDockWidget::loadModuleData(QModelIndex index, Actions::OpenLinkModifi
 void ModuleDockWidget::loadedModule(const int id)
 {
     DEBUG_FUNC_NAME
-    if(id == -1) {
-        m_selectionModel->clearSelection();
-        return;
-    }
-
-    if(m_moduleID == id)
-        return;
-
-    m_moduleID = id;
-    const QModelIndexList list = m_proxyModel->match(m_moduleManager->m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, QString::number(id));
-
-    if(list.size() == 1) {
-        m_selectionModel->clearSelection();
-        m_selectionModel->setCurrentIndex(m_proxyModel->mapFromSource(list.at(0)), QItemSelectionModel::Select);
-    }
+    m_moduleUI->selectModule(id);
 }
-void ModuleDockWidget::filter(QString string)
+void ModuleDockWidget::filter(const QString &string)
 {
-    if(first == false && !string.isEmpty()) {
-        first = true;
-        const QModelIndexList list = m_proxyModel->match(m_moduleManager->m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, "-1");
-        for(int i = 0; i < list.size(); ++i) {
-            ui->treeView_module->setExpanded(list.at(i), true);
+    //first time: expand all
+    if(m_first == false && !string.isEmpty()) {
+        m_first = true;
+        const QModelIndexList list = m_moduleUI->model()->match(m_moduleManager->m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, "-1");
+        foreach(const QModelIndex &index, list) {
+            ui->treeView_module->setExpanded(index, true);
         }
     }
-    m_proxyModel->setFilterFixedString(string);
+    m_moduleUI->model()->setFilterFixedString(string);
 }
-void ModuleDockWidget::contextMenu(QPoint point)
+void ModuleDockWidget::contextMenu(const QPoint &point)
 {
-    m_point = point;
-    QPointer<QMenu> contextMenu = new QMenu(ui->treeView_module);
-    contextMenu->setObjectName("contextMenu");
-
-    QAction *actionOpen = new QAction(QIcon::fromTheme("document-open", QIcon(":/icons/16x16/document-open.png")), tr("Open module"), contextMenu);
-    actionOpen->setObjectName("actionOpen");
-    connect(actionOpen, SIGNAL(triggered()), this, SLOT(open()));
-
-    QAction *actionOpenInNewTab = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("Open module in new tab"), contextMenu);
-    actionOpenInNewTab->setObjectName("actionPaste");
-    connect(actionOpenInNewTab, SIGNAL(triggered()), this, SLOT(openInNewTab()));
-
-    QAction *actionSettings = new QAction(QIcon::fromTheme("configure", QIcon(":/icons/16x16/configure.png")), tr("Configure"), contextMenu);
-    actionSettings->setObjectName("actionNew");
-    connect(actionSettings, SIGNAL(triggered()), this, SLOT(configure()));
-
-
-
-    contextMenu->addAction(actionOpen);
-    contextMenu->addAction(actionOpenInNewTab);
-
-    contextMenu->addSeparator();
-    contextMenu->addAction(actionSettings);
-
-    contextMenu->exec(QCursor::pos());
-    delete contextMenu;
+   m_moduleUI->showContextMenu(point);
 }
 void ModuleDockWidget::open()
 {
-    loadModuleData(ui->treeView_module->indexAt(m_point));
+    loadModuleData(ui->treeView_module->indexAt(m_moduleUI->point()));
 }
 void ModuleDockWidget::openInNewTab()
 {
-    loadModuleData(ui->treeView_module->indexAt(m_point), Actions::OpenInNewWindow);
+    loadModuleData(ui->treeView_module->indexAt(m_moduleUI->point()), Actions::OpenInNewWindow);
 }
 void ModuleDockWidget::configure()
 {
-    const int moduleID = ui->treeView_module->indexAt(m_point).data(Qt::UserRole + 1).toInt();
-    if(m_dontLoad == false && moduleID >= 0) {
-        QPointer<ModuleConfigDialog> mDialog = new ModuleConfigDialog(this);
-        mDialog->setModule(m_settings->getModuleSettings(moduleID));
-        connect(mDialog, SIGNAL(save(ModuleSettings)), mDialog, SLOT(close()));
-        mDialog->exec();
-        delete mDialog;
-        m_actions->moduleChanged(moduleID);
-    }
+    if(m_dontLoad)
+        return;
+    const int moduleID = ui->treeView_module->indexAt(m_moduleUI->point()).data(Qt::UserRole + 1).toInt();
+   m_moduleUI->showSettingsDialog(moduleID);
 }
 void ModuleDockWidget::moduleChanged(const int moduleID)
 {
-    const QModelIndexList list = m_proxyModel->match(m_moduleManager->m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, QString::number(moduleID));
-
-    if(list.size() == 1) {
-        m_proxyModel->setData(m_proxyModel->mapFromSource(list.first()), m_settings->getModuleSettings(moduleID)->name(false), Qt::DisplayRole);
-    }
+    m_moduleUI->moduleChanged(moduleID);
 }
 
 ModuleDockWidget::~ModuleDockWidget()
