@@ -12,7 +12,6 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "moduleapi.h"
-#include "src/core/dbghelper.h"
 #include <QWebElementCollection>
 ModuleApi::ModuleApi(QObject *parent) :
     QObject(parent)
