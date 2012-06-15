@@ -13,8 +13,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef URLCONVERTER_H
 #define URLCONVERTER_H
-#include <QtCore/QString>
-#include <QtCore/QStringList>
 #include "src/module/modulemap.h"
 #include "src/core/link/verseurl.h"
 /**
