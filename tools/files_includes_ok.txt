@@ -47,3 +47,4 @@
 ../src/core/link/url.cpp
 ../src/core/link/urlconverter.cpp
 ../src/core/link/urlconverter2.cpp
+../src/core/link/verseurl.cpp
