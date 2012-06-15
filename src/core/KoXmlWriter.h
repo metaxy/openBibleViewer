@@ -34,7 +34,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef XMLWRITER_H
 #define XMLWRITER_H
 
-#include <QString>
 #include <QStack>
 #include <QMap>
 #include <QIODevice>

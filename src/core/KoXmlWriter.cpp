@@ -33,8 +33,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "KoXmlWriter.h"
 
-#include <QIODevice>
-#include <QByteArray>
 #include <float.h>
 
 static const int s_indentBufferLength = 100;
