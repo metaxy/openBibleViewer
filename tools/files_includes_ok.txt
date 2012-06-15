@@ -43,3 +43,4 @@
 ../src/core/history.cpp
 ../src/core/iconcache.cpp
 ../src/core/link/biblelink.cpp
+../src/core/link/strongurl.cpp
