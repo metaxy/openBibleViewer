@@ -41,3 +41,4 @@
 ../src/core/dbghelper.cpp
 ../src/core/downloadinfile.cpp
 ../src/core/history.cpp
+../src/core/iconcache.cpp
