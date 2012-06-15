@@ -50,3 +50,4 @@
 ../src/core/link/verseurl.cpp
 ../src/core/link/verseurlrange.cpp
 ../src/core/moduledownloader.cpp
+../src/core/notes/notes.cpp

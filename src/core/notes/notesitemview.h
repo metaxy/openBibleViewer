@@ -13,9 +13,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef NOTESITEMVIEW_H
 #define NOTESITEMVIEW_H
-#include <QtCore/QObject>
-#include <QtCore/QString>
-#include <QtCore/QPoint>
 #include <QtGui/QTreeView>
 #include <QtGui/QStandardItemModel>
 #include "src/core/notes/notes.h"
