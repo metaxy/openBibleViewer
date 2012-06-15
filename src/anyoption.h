@@ -17,7 +17,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
-#include <string>
 
 #define COMMON_OPT  1
 #define COMMAND_OPT     2
