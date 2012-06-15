@@ -13,11 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef MODULEDOWNLOADER_H
 #define MODULEDOWNLOADER_H
-#include <QtCore/QObject>
-#include <QtCore/QStringList>
-#include <QtCore/QFile>
 #include <QtNetwork/QNetworkAccessManager>
-#include "src/core/settings/settings.h"
 #include "src/core/basicclass.h"
 
 class ModuleDownloader : public QObject, public BasicClass
