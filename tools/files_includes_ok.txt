@@ -42,3 +42,4 @@
 ../src/core/downloadinfile.cpp
 ../src/core/history.cpp
 ../src/core/iconcache.cpp
+../src/core/link/biblelink.cpp
