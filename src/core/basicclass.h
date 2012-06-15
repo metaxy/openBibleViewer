@@ -13,9 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BASICCLASS_H
 #define BASICCLASS_H
-#include "src/core/notes/notes.h"
 #include "src/module/modulemanager.h"
-#include "src/core/settings/settings.h"
 #include "src/ui/actions.h"
 class BasicClass
 {
