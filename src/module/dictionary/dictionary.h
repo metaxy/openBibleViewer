@@ -13,6 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef DICTIONARY_H
 #define DICTIONARY_H
+#include "src/module/simplemoduleclass.h"
+#include "src/core/dbghelper.h"
+#include "src/module/dictionary/dictionarymodule.h"
 /**
  * Dictionary represents a dictionary module. Like ZefaniaLex or BibleQuoteDict.
  * It generalize the access to such dictionary modules.

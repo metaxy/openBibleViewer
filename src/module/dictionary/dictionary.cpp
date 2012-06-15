@@ -13,6 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "dictionary.h"
 #include "src/module/response/stringresponse.h"
+#include "src/module/response/urlresponse.h"
 Dictionary::Dictionary()
 {
     m_moduleType = ModuleTools::NoneType;
