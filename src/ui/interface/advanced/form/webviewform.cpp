@@ -186,7 +186,7 @@ void WebViewForm::openInNewM(const int moduleID)
 void WebViewForm::openInS()
 {
     QPointer<ModuleSelectDialog> dialog = new ModuleSelectDialog(this);
-    connect(dialog, SIGNAL(moduleSelected(const int moduleID)), this, SLOT(openInM(int)));
+    connect(dialog.data(), SIGNAL(moduleSelected(int)), this, SLOT(openInM(int)));
     dialog->exec();
     delete dialog;
 }
@@ -194,7 +194,7 @@ void WebViewForm::openInS()
 void WebViewForm::openInNewS()
 {
     QPointer<ModuleSelectDialog> dialog = new ModuleSelectDialog(this);
-    connect(dialog, SIGNAL(moduleSelected(const int moduleID)), this, SLOT(openInNewM(int)));
+    connect(dialog.data(), SIGNAL(moduleSelected(int)), this, SLOT(openInNewM(int)));
     dialog->exec();
     delete dialog;
 }

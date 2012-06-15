@@ -37,6 +37,7 @@ ModuleSelectDialog::~ModuleSelectDialog()
 }
 void ModuleSelectDialog::ok()
 {
-
-    emit moduleSelected(1);
+    const QModelIndexList list =  m_moduleUI->selectionModel()->selectedIndexes();
+    if(list.size() > 0)
+        emit moduleSelected(list.first().data(Qt::UserRole + 1).toInt());
 }

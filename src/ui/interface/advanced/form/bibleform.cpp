@@ -1017,6 +1017,15 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
         contextMenu->addAction(openHere);
         contextMenu->addAction(openInNewTab);
         if(showOpenIn) {
+            QAction *n = new QAction(tr("Select"), openIn);
+            connect(n, SIGNAL(triggered()), this, SLOT(openInS()));
+            openIn->addSeparator();
+            openIn->addAction(n);
+            QAction *n2 = new QAction(tr("Select"), openInNew);
+            connect(n2, SIGNAL(triggered()), this, SLOT(openInNewS()));
+            openInNew->addSeparator();
+            openInNew->addAction(n2);
+
             contextMenu->addMenu(openIn);
             contextMenu->addMenu(openInNew);
         }
