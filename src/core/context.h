@@ -13,9 +13,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef CONTEXT_H
 #define CONTEXT_H
-#include <QtCore/QSettings>
-#include <QtCore/QString>
-#include <QtCore/QTranslator>
 
 #include "src/core/basicclass.h"
 
