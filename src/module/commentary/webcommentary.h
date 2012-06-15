@@ -14,6 +14,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef WEBCOMMENTARY_H
 #define WEBCOMMENTARY_H
 #include "src/module/commentary/commentarymodule.h"
+#include "src/module/metainfo.h"
+#include <QtScript/QScriptEngine>
+#include <QtCore/QUrl>
 struct WebCommentaryBooksData
 {
     int bookID;
