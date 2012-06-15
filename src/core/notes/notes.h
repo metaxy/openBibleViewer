@@ -13,12 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef NOTES_H
 #define NOTES_H
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QMap>
 #include <QtXml/QDomDocument>
 #include "src/core/search/searchresult.h"
-#include "src/core/search/searchquery.h"
 /**
  Notes represents a note system
 */
