@@ -39,3 +39,4 @@
 ../src/core/books/booktree.cpp
 ../src/core/context.cpp
 ../src/core/dbghelper.cpp
+../src/core/downloadinfile.cpp

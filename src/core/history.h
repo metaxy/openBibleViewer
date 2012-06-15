@@ -13,9 +13,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef HISTORY_H
 #define HISTORY_H
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QVariant>
 /**
  * History represents a url history.
  */
