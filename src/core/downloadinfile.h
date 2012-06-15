@@ -14,8 +14,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef DOWNLOADINFILE_H
 #define DOWNLOADINFILE_H
 
-#include <QObject>
-#include <QtNetwork/QNetworkAccessManager>
 #include <QtCore/QFile>
 #include <QtNetwork/QNetworkReply>
 
