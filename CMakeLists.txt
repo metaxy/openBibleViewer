@@ -373,7 +373,10 @@ if (MSVC)
 else ()
   add_executable(openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS} ${OBVCore_SRCS})
 endif ()
-cotire(openBibleViewer)
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+	cotire(openBibleViewer)
+endif()
+
 
 if(MSVC)
     set(CL_LIBS "${MCLUCENE_DIR}\\build\\bin\\clucene-shared.lib" "${MCLUCENE_DIR}\\build\\bin\\clucene-core.lib")
