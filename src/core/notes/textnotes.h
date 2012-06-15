@@ -13,11 +13,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef TEXTNOTES_H
 #define TEXTNOTES_H
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QMap>
-#include "src/core/search/searchresult.h"
-#include "src/core/search/searchquery.h"
 #include "src/core/notes/notes.h"
 class TextNotes : public Notes
 {

@@ -52,3 +52,4 @@
 ../src/core/moduledownloader.cpp
 ../src/core/notes/notes.cpp
 ../src/core/notes/notesitemview.cpp
+../src/core/notes/simplenotes.cpp
