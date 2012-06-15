@@ -13,7 +13,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BIBLEURL_H
 #define BIBLEURL_H
-#include <QtCore/QString>
 #include <QtCore/QHash>
 #include "src/core/link/verseurlrange.h"
 #include "src/core/link/url.h"

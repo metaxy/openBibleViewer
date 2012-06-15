@@ -46,3 +46,4 @@
 ../src/core/link/strongurl.cpp
 ../src/core/link/url.cpp
 ../src/core/link/urlconverter.cpp
+../src/core/link/urlconverter2.cpp
