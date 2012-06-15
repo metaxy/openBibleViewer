@@ -15,9 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef NOTESAPI_H
 #define NOTESAPI_H
 
-#include <QtCore/QObject>
 #include "src/core/basicclass.h"
-#include <QtCore/QString>
 
 class NotesApi : public QObject, public BasicClass
 {
