@@ -14,8 +14,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef API_H
 #define API_H
 
-#include <QObject>
-#include "src/core/basicclass.h"
 #include "moduleapi.h"
 #include "notesapi.h"
 class Api : public QObject, public BasicClass
