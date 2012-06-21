@@ -13,6 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef HISTORY_H
 #define HISTORY_H
+
+#include <QVariant>
+#include <QStringList>
 /**
  * History represents a url history.
  */
