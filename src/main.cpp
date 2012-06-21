@@ -161,6 +161,7 @@ int main(int argc, char *argv[])
     a.exec();
 
     delete context;
+    delete settings;
 
     return 0;
 }
@@ -252,10 +253,10 @@ PCHAR*
 	
 int WINAPI WinMain(HINSTANCE v1, HINSTANCE v2, LPSTR v3, int v4)
 {
-	int argc;
-	PCHAR *argv;
-	argv = CommandLineToArgvA(v3, &argc);
-	QApplication a(argc,argv);
+    int argc;
+    PCHAR *argv;
+    argv = CommandLineToArgvA(v3, &argc);
+    QApplication a(argc,argv);
 
     AnyOption *opt = new AnyOption();
     const QString s = "openBibleViewer " + QString(OBV_VERSION_NUMBER);
