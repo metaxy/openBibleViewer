@@ -14,13 +14,21 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef SIMPLENOTES_H
 #define SIMPLENOTES_H
 
+#include <QObject>
+#include <QtGui/QLineEdit>
 #include <QtGui/QTextBrowser>
+#include <QtGui/QTreeView>
+#include <QtGui/QPushButton>
+#include <QtGui/QLabel>
 
 #include <QtWebKit/QWebFrame>
+#include "src/core/settings/settings.h"
+#include "src/core/notes/notes.h"
 #include "src/core/verseselection.h"
 #include "src/core/basicclass.h"
 #include "src/core/notes/notesitemview.h"
 
+#include "src/module/moduletools.h"
 
 
 

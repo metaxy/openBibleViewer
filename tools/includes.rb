@@ -8,18 +8,6 @@ $blacklist = [$src_path+"/extern"]
 $c_file_suffix = '.cpp'
 $h_file_suffix = '.h'
 
-def colorize(text, color_code)
-	"#{color_code}#{text}e[0m"
-end
-
-def red(text)
-	colorize(text, "e[31m")
-end
-
-def green(text) 
-	colorize(text, "e[32m")
-end
-
 def find_includes(text)
 	includes = Array.new
 	ifdef_level = 0
@@ -138,7 +126,8 @@ def main()
 		end
 		puts "######### commit"
 		if(test_compile())
-			system "git commit -a -m'remove includes in #{f}'"
+			system "git add #{h_file} #{f}"
+			system "git commit -m'remove includes in #{f}'"
 		else
 			system "git reset #{f} #{h_file}"
 		end

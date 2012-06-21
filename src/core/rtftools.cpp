@@ -105,6 +105,5 @@ QByteArray RtfTools::gUncompress(const QByteArray &data)
 
     // clean up and return
     inflateEnd(&strm);
-    myDebug() << result;
     return result;
 }
