@@ -33,7 +33,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtWebKit/QWebInspector>
 
 #include "src/core/dbghelper.h"
-#include "src/module/moduletools.h"
+#include "src/core/moduletools.h"
 #include "src/core/link/verseurl.h"
 #include "src/core/history.h"
 #include "src/module/versetable.h"

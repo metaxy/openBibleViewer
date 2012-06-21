@@ -2,6 +2,9 @@ SET(
     OBVCore_SRCS
     swordmanager.cpp
     context.cpp
+    
+    moduletools.cpp
+    
     verse/chapter.cpp
     verse/versebook.cpp
 

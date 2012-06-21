@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include "src/core/link/urlconverter2.h"
 #include "src/core/verse/reftext.h"
-#include "src/module/moduletools.h"
+#include "src/core/moduletools.h"
 #include <QtGui/QMenu>
 #include <QtGui/QCursor>
 MarkList::MarkList(QWidget *parent) :

@@ -23,7 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/versification.h"
 #include "src/core/verse/versification/versification_kjv.h"
 #include "src/core/verse/versification/versification_cache.h"
-#include "src/module/moduletools.h"
+#include "src/core/moduletools.h"
 #include "src/core/dbghelper.h"
 #include "src/core/settings/moduledisplaysettings.h"
 /**

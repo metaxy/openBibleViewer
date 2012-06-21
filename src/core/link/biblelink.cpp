@@ -37,6 +37,7 @@ bool BibleLink::fastIsBibleLink(const QString &s)
             break;
         }
     }
+    //it has to be bigger zero, because the first one matches everything
     if(found > 0)
         return true;
     return false;

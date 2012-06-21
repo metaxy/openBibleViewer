@@ -1,7 +1,7 @@
 #include "moduleselectui.h"
 #include "src/core/dbghelper.h"
 #include "src/ui/dialog/moduleconfigdialog.h"
-#include "src/module/moduletools.h"
+#include "src/core/moduletools.h"
 #include "src/core/link/verseurl.h"
 #include <QPointer>
 #include <QMenu>

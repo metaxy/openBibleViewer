@@ -111,7 +111,7 @@ void VerseReplacerTests::testInsert()
         r1.setInsert(0, 1, "(Insert1)");
         r1.setInsert(0, 2, "(Insert2)");
         r1.exec(&map);
-        QVERIFY(map.value(0).data() == "T(Insert1)(Insert2)est Verse #0");
+        QVERIFY(map.value(0).data() == "T(Insert1)e(Insert2)st Verse #0");
         QVERIFY(map.value(1).data() == "Test Verse #1");
         QVERIFY(map.value(3).data() == "Test Verse #3");
     }

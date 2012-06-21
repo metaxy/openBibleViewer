@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "strongurl.h"
 #include <QtCore/QStringList>
-#include "src/module/moduletools.h"
+#include "src/core/moduletools.h"
 StrongUrl::StrongUrl()
 {
 }

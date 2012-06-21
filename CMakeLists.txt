@@ -120,7 +120,6 @@ set( openBibleViewer_SRCS
     src/module/bible/zefania-bible.cpp
 
     src/module/modulemanager.cpp
-    src/module/moduletools.cpp
     src/module/module.cpp
     src/module/versemodule.cpp
     src/module/textrangesversemodule.cpp

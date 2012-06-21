@@ -24,7 +24,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMenu>
 #include <QtCore/QMimeData>
 #include <QtCore/QPointer>
-#include "src/module/moduletools.h"
+#include "src/core/moduletools.h"
 #include "src/core/verse/reftext.h"
 BookmarksDockWidget::BookmarksDockWidget(QWidget *parent) :
     DockWidget(parent),

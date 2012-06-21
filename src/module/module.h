@@ -20,7 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/module/book/bookmodule.h"
 #include "src/module/book/treebookmodule.h"
 #include "src/module/commentary/commentarymodule.h"
-#include "src/module/moduletools.h"
+#include "src/core/moduletools.h"
 #include "src/module/simplemodule.h"
 /**
  * Module is represents a module. Every avaible module has an instance of this class.

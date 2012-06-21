@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include "src/ui/dialog/searchdialog.h"
 #include "src/core/settings/moduledisplaysettings.h"
-#include "src/module/moduletools.h"
+#include "src/core/moduletools.h"
 #include "src/core/search/search.h"
 #include "src/module/response/textrangesresponse.h"
 #include <QtCore/QPointer>

@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef METAINFO_H
 #define METAINFO_H
-#include "src/module/moduletools.h"
+#include "src/core/moduletools.h"
 class MetaInfo
 {
 public:

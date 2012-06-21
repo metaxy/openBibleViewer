@@ -28,7 +28,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/basicclass.h"
 #include "src/core/notes/notesitemview.h"
 
-#include "src/module/moduletools.h"
+#include "src/core/moduletools.h"
 
 
 
