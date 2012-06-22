@@ -11,22 +11,34 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef BIBLELINK_TEST_H
-#define BIBLELINK_TEST_H
+#ifndef V11N_TEST_H
+#define V11N_TEST_H
 
 #include <QObject>
 #include <QtCore/QMap>
 #include "src/core/link/biblelink.h"
-class BibleLinkTests : public QObject
+class V11nTests : public QObject
 {
     Q_OBJECT
 private slots:
-    void testFast();
-    void testFast_data();
+    void testBooks();
+    void testCreate();
+public:
+    static Versification* createTestV11n();
+    static QString bookName1();
+    static QString bookName2();
     
-    void testIsBibleLink();
-    void testIsBibleLink_data();
+    static QStringList bookShortNames1();
+    static QStringList bookShortNames2();
     
+    static int bookID1();
+    static int bookID2();
+    
+    static int maxChapter1();
+    static int maxChapter2();
+    
+    static QList<int> maxVerse1();
+    static QList<int> maxVerse2();
     
 };
 

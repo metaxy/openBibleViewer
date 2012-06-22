@@ -43,4 +43,33 @@ void BibleLinkTests::testFast()
     QCOMPARE(BibleLink::fastIsBibleLink(link), valid);
     
 }
+void BibleLinkTests::testIsBibleLink_data()
+{
+    QTest::addColumn<QString>("link");
+    QTest::addColumn<bool>("valid");
+    QTest::newRow("simple") << "1Mose 3:3" << true;
+    QTest::newRow("simple1") << "1.Mose 3:3" << true;
+    QTest::newRow("simple2") << "1Mose 1:3" << true;
+    
+    //QTest::newRow("simple3") << "1Mose 1:3asd" << false;
+    QTest::newRow("simple4") << "1Mose und wie es geth es dir" << false;
+    //QTest::newRow("simple5") << "1Mose 1::" << false;
+    
+    QTest::newRow("simple6") << "1Mose 1:3-12" << true;
+    QTest::newRow("simple7") << "1Mose 1-10" << true;
+    QTest::newRow("simple8") << "1Mose 1,2" << true;
+    QTest::newRow("simple9") << "1Mose 1,2-10" << true;
+    
+    QTest::newRow("simple10") << "Jakobus 1" << true;
+    
+    QTest::newRow("simple11") << "Jakobus" << false;
+}
+void BibleLinkTests::testIsBibleLink()
+{
+    QFETCH(QString, link);
+    QFETCH(bool, valid);
+    
+    QCOMPARE(BibleLink::fastIsBibleLink(link), valid);
+    
+}
 QTEST_MAIN( BibleLinkTests )

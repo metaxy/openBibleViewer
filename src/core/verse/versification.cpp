@@ -92,7 +92,7 @@ int Versification::bookCount(VersificationFilterFlags flags) const
 {
     return bookNames(flags).size();
 }
-bool Versification::filter(const int bookID, VersificationFilterFlags flags) const
+bool Versification::filter(const int bookID, const VersificationFilterFlags flags) const
 {
     if(flags.testFlag(Versification::ReturnAll) || (flags.testFlag(Versification::ReturnOT) && flags.testFlag(Versification::ReturnNT)))
         return true;

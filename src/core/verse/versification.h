@@ -60,7 +60,7 @@ public:
 
 protected:
     QMap<int, BookV11N> m_books;
-    virtual bool filter(const int bookID, VersificationFilterFlags filter) const;
+    virtual bool filter(const int bookID, const Versification::VersificationFilterFlags flags) const;
     VersificationFilterFlags m_filter;
 
 };

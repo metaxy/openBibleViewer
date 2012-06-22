@@ -21,3 +21,4 @@ ENDMACRO(BUILD_TEST)
 
 BUILD_TEST("versereplacer")
 BUILD_TEST("biblelink")
+BUILD_TEST("v11n")
