@@ -8,17 +8,17 @@ SET( TEST_LIBRARIES OBVCore ${QT_QTTEST_LIBRARY} ${QT_LIBRARIES}
                         ${QT_QTSCRIPT_LIBRARY}
                         ${QT_QTSQL_LIBRARY})
 
-MACRO(BUILD_TEST name)
+FUNCTION(BUILD_TEST name exName)
 
-    SET( ${name}_SRCS ${name}test.cpp )
-    SET( ${name}_MOCS ${name}test.h )
+    SET( ${name}_SRCS ${name}test.cpp testtools.cpp)
+    SET( ${name}_MOCS ${name}test.h testtools.h)
     QT4_WRAP_CPP( ${name}__MOCS ${${name}_MOCS})
-    ADD_EXECUTABLE(${name}Test ${${name}_SRCS} ${${name}__MOCS})
-    TARGET_LINK_LIBRARIES( ${name}Test ${TEST_LIBRARIES})
+    ADD_EXECUTABLE(${exName}Test ${${name}_SRCS} ${${name}__MOCS})
+    TARGET_LINK_LIBRARIES( ${exName}Test ${TEST_LIBRARIES})
 
-ENDMACRO(BUILD_TEST)
+ENDFUNCTION(BUILD_TEST)
 
 
-BUILD_TEST("versereplacer")
-BUILD_TEST("biblelink")
-BUILD_TEST("v11n")
+BUILD_TEST("versereplacer" "VerseReplacer")
+BUILD_TEST("biblelink" "BibleLink" "v11ntest.cpp")
+BUILD_TEST("v11n" "V11N")

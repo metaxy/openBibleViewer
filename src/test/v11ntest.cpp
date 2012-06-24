@@ -25,19 +25,31 @@ void V11nTests::testBooks()
     bookNames[bookID2()] = bookName2();
     QCOMPARE(bookNames, test->bookNames());
     
-     QHash<int, QStringList> bookShortNames;
+    QHash<int, QStringList> bookShortNames;
     bookShortNames[bookID1()] =  bookShortNames1();
     bookShortNames[bookID2()] = bookShortNames2();
     QCOMPARE(bookShortNames, test->multipleBookShortNames());
-    /*
-    QHash<int, QStringList> multipleBookShortNames(VersificationFilterFlags filter) const;
-    QHash<int, QString> bookShortNames(VersificationFilterFlags filter) const;
-    QList<int> bookIDs(VersificationFilterFlags filter) const;
-    QHash<int, int> maxChapter(VersificationFilterFlags filter) const;
-    QHash<int, QList<int> > maxVerse(VersificationFilterFlags filter) const;
-    int bookCount(VersificationFilterFlags filter) const;
-    */
+    
+    QHash<int, QString> bookShortNames_;
+    bookShortNames_[bookID1()] =  bookShortNames1().first();
+    bookShortNames_[bookID2()] = bookShortNames2().first();
+    QCOMPARE(bookShortNames_, test->bookShortNames());
+    
+    QList<int> bookIDs;
+    bookIDs << bookID1() << bookID2();
+    QCOMPARE(bookIDs, test->bookIDs());
+    
+    QCOMPARE(test->bookCount(), 2);
     delete test;
+    
+    //filter
+    Versification *kjv = new Versification_KJV();
+    QCOMPARE(kjv->bookCount(Versification::ReturnAll), 66);
+    QCOMPARE(kjv->bookCount(Versification::ReturnNT), 27);
+    QCOMPARE(kjv->bookCount(Versification::ReturnOT), 39);
+    QCOMPARE(kjv->bookCount(Versification::ReturnNT | Versification::ReturnOT), 66);
+    QBENCHMARK(kjv->bookShortNames());
+    delete kjv;
 }
 
 void V11nTests::testCreate()

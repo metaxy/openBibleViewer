@@ -683,9 +683,9 @@ Versification_KJV::~Versification_KJV()
 
 bool Versification_KJV::filter(const int bookID, VersificationFilterFlags flags) const
 {
-    if(flags.testFlag(Versification::ReturnAll) || (flags.testFlag(Versification::ReturnOT) && flags.testFlag(Versification::ReturnNT)))
+    if(flags.testFlag(Versification::ReturnAll) || (flags.testFlag(Versification::ReturnOT) && flags.testFlag(Versification::ReturnNT))) {
         return true;
-    else if(flags.testFlag(Versification::ReturnOT)) {
+    } else if(flags.testFlag(Versification::ReturnOT)) {
         return (bookID >= 0 && bookID <= 38);
     } else if(flags.testFlag(Versification::ReturnNT)) {
         return (bookID >= 39);
