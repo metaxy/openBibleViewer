@@ -21,8 +21,8 @@ ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
     DockWidget(parent),
     ui(new Ui::ModuleDockWidget),
     m_dontLoad(false),
-    m_moduleUI(NULL),
-    m_first(false)
+    m_first(false),
+    m_moduleUI(NULL)
 {
     ui->setupUi(this);
 }

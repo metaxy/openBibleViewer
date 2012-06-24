@@ -23,7 +23,7 @@ public:
     Versification_KJV();
     ~Versification_KJV();
 private:
-    bool filter(const int bookID, VersificationFilterFlags flags) const;
+    bool filter(const int bookID, const VersificationFilterFlags flags) const;
 };
 
 #endif // VERSIFICATION_KJV_H

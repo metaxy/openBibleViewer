@@ -24,7 +24,7 @@ Versification_Zefania::Versification_Zefania(const QStringList &fullNames, const
     }
     setFlags(Versification::ReturnAll);
 }
-bool Versification_Zefania::filter(const int bookID, VersificationFilterFlags flags) const
+bool Versification_Zefania::filter(const int bookID, const VersificationFilterFlags flags) const
 {
     if(flags.testFlag(Versification::ReturnAll) || (flags.testFlag(Versification::ReturnOT) && flags.testFlag(Versification::ReturnNT)))
         return true;

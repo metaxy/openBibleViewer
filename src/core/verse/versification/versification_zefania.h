@@ -21,7 +21,7 @@ public:
     Versification_Zefania(const QStringList &fullNames, const QStringList &shortNames, const QStringList &bookIDs);
     void setMaxChapter(const int bookID, const int maxChapter);
 private:
-    bool filter(const int bookID, VersificationFilterFlags flags) const;
+    bool filter(const int bookID, const VersificationFilterFlags flags) const;
 };
 
 #endif // VERSIFICATION_ZEFANIA_H
