@@ -72,7 +72,7 @@ signals:
 
     void _setCurrentVerseTableID(const int verseTableID);
 
-    void _moduleSettingsChanged(const int moduleID);
+    void _moduleChanged(const int moduleID);
 
 public slots:
 
