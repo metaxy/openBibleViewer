@@ -10,7 +10,7 @@ cmake_minimum_required( VERSION 2.6 )
 set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
 set( MCLUCENE_DIR "C:\\\\Users\\\\mo\\\\coding\\\\clucene-HEAD-314b755" )
 include(InstallRequiredSystemLibraries)
-include(cotire)
+#include(cotire)
 
 if(NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE "Release")
@@ -373,7 +373,7 @@ else ()
   add_executable(openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS} ${OBVCore_SRCS})
 endif ()
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-	cotire(openBibleViewer)
+	#cotire(openBibleViewer)
 endif()
 
 

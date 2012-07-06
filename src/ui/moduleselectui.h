@@ -16,14 +16,18 @@ public:
 
     void showSettingsDialog(const int moduleID);
 
-    void showContextMenu(const QPoint point);
-
     RecursivProxyModel *model() const;
     QItemSelectionModel *selectionModel() const;
 
     void moduleChanged(const int moduleID);
 
     QPoint point() const;
+
+    QAction* actionOpen() const;
+    QAction* actionOpenInNewTab() const;
+    QAction* actionSettings() const;
+public slots:
+    void showContextMenu(const QPoint point);
 signals:
     void open();
     void openInNewTab();

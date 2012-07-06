@@ -120,7 +120,7 @@ void ModuleSelectUI::selectModule(const int moduleID)
                                                      Qt::UserRole + 1,
                                                      QString::number(moduleID));
 
-    if(list.size() == 1) {
+    if(!list.isEmpty()) {
         m_selectionModel->clearSelection();
         m_selectionModel->setCurrentIndex(m_proxyModel->mapFromSource(list.first()), QItemSelectionModel::Select);
     }
@@ -148,11 +148,23 @@ void ModuleSelectUI::moduleChanged(const int moduleID)
 {
     const QModelIndexList list = m_proxyModel->match(m_moduleManager->m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, QString::number(moduleID));
 
-    if(list.size() == 1) {
+    if(!list.isEmpty()) {
         m_proxyModel->setData(m_proxyModel->mapFromSource(list.first()), m_settings->getModuleSettings(moduleID)->name(false), Qt::DisplayRole);
     }
 }
 QPoint ModuleSelectUI::point() const
 {
     return m_point;
+}
+QAction* ModuleSelectUI::actionOpen() const
+{
+    return m_actionOpen;
+}
+QAction* ModuleSelectUI::actionOpenInNewTab() const
+{
+    return m_actionOpenInNewTab;
+}
+QAction* ModuleSelectUI::actionSettings() const
+{
+    return m_actionSettings;
 }

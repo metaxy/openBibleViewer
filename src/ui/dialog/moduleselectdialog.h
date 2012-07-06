@@ -17,6 +17,7 @@ public:
     ~ModuleSelectDialog();
 private slots:
     void ok();
+    void configure();
 signals:
     void moduleSelected(const int moduleID);
 private:
