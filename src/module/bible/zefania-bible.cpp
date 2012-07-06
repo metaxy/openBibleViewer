@@ -18,7 +18,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "CLucene.h"
 #include "CLucene/clucene-config.h"
 #include <QXmlStreamReader>
+<<<<<<< HEAD
 #include "src/core/search/searchtools.h"
+=======
+#include <QTextDocument>
+>>>>>>> master
 using namespace lucene::analysis;
 using namespace lucene::index;
 using namespace lucene::queryParser;
@@ -596,8 +600,8 @@ Verse ZefaniaBible::readVerse()
             break;
 
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
-            out += m_xml->text();
-        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == QLatin1String("st")) {
+            out += Qt::escape(m_xml->text().toString());
+        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st") {
             out += pharseStyle();
         } else if(cmp(m_xml->name(), "NOTE")) {
             out += pharseNote();
