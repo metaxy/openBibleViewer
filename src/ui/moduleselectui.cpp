@@ -138,7 +138,7 @@ void ModuleSelectUI::showSettingsDialog(const int moduleID)
 
     QPointer<ModuleConfigDialog> mDialog = new ModuleConfigDialog;
     mDialog->setModule(m_settings->getModuleSettings(moduleID));
-    connect(mDialog, SIGNAL(save(ModuleSettings)), mDialog, SLOT(close()));
+    connect(mDialog, SIGNAL(save(int)), mDialog, SLOT(close()));
     mDialog->exec();
     delete mDialog;
     m_actions->moduleChanged(moduleID);

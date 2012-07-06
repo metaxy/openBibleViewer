@@ -60,7 +60,7 @@ public:
     void clearData();
 
 private:
-    inline QString formatFromIni(QString input);
+    inline QString formatFromIni(const QString &input);
     QString indexPath() const;
     int m_moduleID;
     QString m_verseSign;
@@ -77,6 +77,10 @@ private:
 
 
     QStringList m_bookPath;
+
+    void loadCodec();
+
+    QString encodingName();
 };
 
 #endif // BIBLEQUOTE_H

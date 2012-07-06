@@ -161,8 +161,6 @@ int main(int argc, char *argv[])
     a.exec();
 
     delete context;
-    delete settings;
-
     return 0;
 }
 #ifdef Q_OS_WIN32

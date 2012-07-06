@@ -1353,6 +1353,7 @@ TextRangesVerseModule *BibleForm::verseModule() const
 }
 void BibleForm::moduleChanged(const int moduleID)
 {
+    DEBUG_FUNC_NAME
 	if(!m_verseTable)
 		return;
 

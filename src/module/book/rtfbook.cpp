@@ -40,8 +40,10 @@ void RTFBook::buildIndex()
     QTextDocument rtfDocument;
     RtfReader::Reader *reader = new RtfReader::Reader( NULL );
     bool result = reader->open(m_path);
-    RtfReader::TextDocumentRtfOutput *output = new RtfReader::TextDocumentRtfOutput( &rtfDocument );
-    reader->parseTo( output );
+    if(result) {
+        RtfReader::TextDocumentRtfOutput *output = new RtfReader::TextDocumentRtfOutput( &rtfDocument );
+        reader->parseTo( output );
+    }
     delete reader;
 
 }

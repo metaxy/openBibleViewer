@@ -32,7 +32,7 @@ BibleQuote::~BibleQuote()
 {
 }
 
-QString BibleQuote::formatFromIni(QString input)
+QString BibleQuote::formatFromIni(const QString &input)
 {
     return input.trimmed();
 }
@@ -61,14 +61,9 @@ int BibleQuote::loadBibleData(const int bibleID, const QString &path)
 
     QFile file;
     file.setFileName(path);
-    QString encoding;
     ModuleSettings *settings = m_settings->getModuleSettings(m_moduleID);
-    if(settings->encoding == "Default" || settings->encoding.isEmpty()) {
-        encoding = m_settings->encoding;
-    } else {
-        encoding = settings->encoding;
-    }
-    m_codec = QTextCodec::codecForName(encoding.toStdString().c_str());
+
+    loadCodec();
     QTextDecoder *decoder = m_codec->makeDecoder();
     if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         int i = 0;
@@ -153,17 +148,7 @@ MetaInfo BibleQuote::readInfo(QFile &file)
     ModuleSettings *settings = m_settings->getModuleSettings(m_moduleID);
 
     if(m_codec == NULL) {
-        QString encoding;
-        if(settings == NULL) {
-            encoding = m_settings->encoding;
-        } else {
-            if(settings->encoding == "Default" || settings->encoding.isEmpty()) {
-                encoding = m_settings->encoding;
-            } else {
-                encoding = settings->encoding;
-            }
-        }
-        m_codec = QTextCodec::codecForName(encoding.toStdString().c_str());
+        loadCodec();
     }
 
     QTextDecoder *decoder = m_codec->makeDecoder();
@@ -218,6 +203,10 @@ MetaInfo BibleQuote::readInfo(const QString &fileName)
 }
 int BibleQuote::readBook(const int id)
 {
+    myDebug() << m_settings->getModuleSettings(m_moduleID)->encoding << m_codec->name();
+    if(encodingName() != m_codec->name()) {
+        loadCodec();
+    }
     m_book.clear();
     m_book.setID(id);
     if(id >= m_bookPath.size())
@@ -520,4 +509,24 @@ QStringList BibleQuote::booksPath() const
 void BibleQuote::clearData()
 {
     m_book.clear();
+}
+
+void BibleQuote::loadCodec()
+{
+    m_codec = QTextCodec::codecForName(encodingName().toStdString().c_str());
+}
+
+QString BibleQuote::encodingName()
+{
+    ModuleSettings *settings = m_settings->getModuleSettings(m_moduleID);
+
+    if(settings == NULL) {
+        return m_settings->encoding;
+    } else {
+        if(settings->encoding == "Default" || settings->encoding.isEmpty()) {
+            return m_settings->encoding;
+        } else {
+            return settings->encoding;
+        }
+    }
 }

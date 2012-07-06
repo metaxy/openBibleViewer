@@ -72,7 +72,7 @@ signals:
 
     void _setCurrentVerseTableID(const int verseTableID);
 
-    void _moduleChanged(const int moduleID);
+    void _moduleSettingsChanged(const int moduleID);
 
 public slots:
 
@@ -114,15 +114,18 @@ public slots:
 
     void reloadCurrentRange();
     void reloadCurrentRange(bool full);
+    void reloadIf(const VerseUrl &url);
+
+    void moduleChanged(const int moduleID);
+
 
     void searchInText(SearchResult *result);
     void searchInText();
 
     void setCurrentVerseTableID(const int verseTableID);
 
-    void reloadIf(const VerseUrl &url);
 
-    void moduleChanged(const int moduleID);
+
 };
 
 #endif // ACTIONS_H
