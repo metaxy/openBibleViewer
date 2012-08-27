@@ -190,6 +190,7 @@ void DictionaryForm::showEntry()
   */
 void DictionaryForm::showEntry(const QString &key, int moduleID)
 {
+    myDebug() << key << moduleID;
     if(moduleID == -1) {
         historySetUrl(ModuleTools::dictScheme+QString::number(m_dictionary->moduleID())+"/"+key);
     } else {

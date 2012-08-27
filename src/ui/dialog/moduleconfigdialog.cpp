@@ -39,7 +39,7 @@ ModuleConfigDialog::ModuleConfigDialog(QWidget *parent) :
 
     defaultModules << tr("Not a Default Module") << tr("Default Bible")
                    << tr("Default Strong Dictionary") << tr("Default Grammar Dictionary")
-                   << tr("Default Dictionary") << tr("Default RMAC Module");
+                   << tr("Default Dictionary") << tr("Default RMAC Module") << tr("Default Commentary");
     m_ui->comboBox_defaultModule->insertItems(0, defaultModules);
 
     QStringList contentTypes;
@@ -49,7 +49,10 @@ ModuleConfigDialog::ModuleConfigDialog(QWidget *parent) :
                    << tr("RMAC")
                    << tr("Word Dictionary")
                    << tr("Dictionary")
-                   << tr("Gram Dictionary");
+                   << tr("Gram Dictionary")
+                   << tr("Book")
+                   << tr("Commentary")
+                   << tr("Tree Book");
     m_ui->comboBox_contentType->insertItems(0, contentTypes);
 
 
@@ -167,6 +170,7 @@ void ModuleConfigDialog::bsave()
             }
         }
     }
+    m_moduleSettings->defaultModule = def;
     m_moduleSettings->contentType = (ModuleTools::ContentType) m_ui->comboBox_contentType->currentIndex();
 
     m_moduleSettings->useParentSettings = m_ui->checkBox_useParentSettings->isChecked();

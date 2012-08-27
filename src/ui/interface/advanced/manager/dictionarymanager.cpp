@@ -46,7 +46,9 @@ DictionaryDockWidget* DictionaryManager::dictionaryDockWidget()
 
 void DictionaryManager::open(const QString &key, ModuleTools::ContentType contentType, const Actions::OpenLinkModifiers mod)
 {
+    DEBUG_FUNC_NAME
     ModuleTools::DefaultModule defaultModule = ModuleTools::toDefaultModule(contentType);
+    //myDebug() << "defaultModuleType" << defaultModule;
     //get default module id for this
     int defaultModuleID = -1;
     int contentModuleID = -1;
@@ -54,9 +56,12 @@ void DictionaryManager::open(const QString &key, ModuleTools::ContentType conten
     QMapIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
     while(i.hasNext()) {
         i.next();
-        if(defaultModule == -1 && i.value()->defaultModule == defaultModule) {
+        /*if(ModuleTools::alsoOk(i.value()->contentType, contentType)) {
+            myDebug() << "defaultType" << i.value()->defaultModule << "content" << i.value()->contentType;
+        }*/
+        if(defaultModuleID == -1 && i.value()->defaultModule == defaultModule) {
             defaultModuleID = i.key();
-            myDebug() << i.value()->moduleName;
+            //myDebug() << "default module is" << i.value()->moduleName;
         }
         if(contentModuleID == -1 && ModuleTools::alsoOk(i.value()->contentType, contentType)) {
             contentModuleID = i.key();
@@ -64,6 +69,8 @@ void DictionaryManager::open(const QString &key, ModuleTools::ContentType conten
         if(defaultModuleID != -1 && contentModuleID != -1)
             break;
     }
+    //myDebug() << "defaultModuleID" << defaultModuleID << "contentModuleID" << contentModuleID;
+
     QMapIterator<int, Module*> i2(m_moduleManager->m_moduleMap->data);
     while(i2.hasNext()) {
         i2.next();

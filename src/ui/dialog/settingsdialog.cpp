@@ -361,6 +361,7 @@ void SettingsDialog::editModule()
     const int moduleID = m_ui->treeView->selectionModel()->selectedIndexes().first().data(Qt::UserRole + 1).toInt(&ok);
     if(moduleID >= 0 && ok) {
         QPointer<ModuleConfigDialog> mDialog = new ModuleConfigDialog(this);
+        mDialog->setSettings(&m_set);
         mDialog->setModule(m_set.getModuleSettings(moduleID));
         connect(mDialog, SIGNAL(save(int)), this, SLOT(update(int)));
         mDialog->exec();
