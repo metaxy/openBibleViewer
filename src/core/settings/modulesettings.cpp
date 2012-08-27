@@ -13,6 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "src/core/settings/modulesettings.h"
 #include "src/core/iconcache.h"
+#include <QPainter>
 ModuleSettings::ModuleSettings():
     moduleID(-2),
     moduleUID(""),
@@ -35,7 +36,7 @@ ModuleSettings::ModuleSettings():
     hasVersfication(false),
     parentID(-2),
     stats_usageCount(0),
-    stats_timesOpend(0),
+    stats_timesOpened(0),
     m_parent(NULL)
 {}
 
@@ -61,7 +62,7 @@ ModuleSettings::ModuleSettings(ModuleSettings *parent) :
     hasVersfication(false),
     parentID(-2),
     stats_usageCount(0),
-    stats_timesOpend(0),
+    stats_timesOpened(0),
     m_parent(parent)
 {}
 
@@ -232,31 +233,43 @@ void ModuleSettings::removeDisplaySettings()
 QIcon ModuleSettings::icon(bool useDefault) const
 {
     ModuleTools::ModuleCategory cat = ModuleTools::getCategory(moduleType);
-
+    QIcon ret;
     if(useDefault || iconPath.isEmpty()) {
         IconCache *cache = IconCache::instance();
         switch(cat)
         {
             case ModuleTools::BibleCategory:
-                return cache->bibleIcon;
+                ret = cache->bibleIcon;
                 break;
             case ModuleTools::DictionaryCategory:
             case ModuleTools::CommentaryCategory:
-                return cache->dictionayIcon;
+                ret = cache->dictionayIcon;
                 break;
             case ModuleTools::BookCategory:
             case ModuleTools::TreeBookCategory:
-                return cache->bookIcon;
+                ret = cache->bookIcon;
                 break;
             case ModuleTools::FolderCategory:
-                return cache->folderIcon;
+                ret = cache->folderIcon;
                 break;
             default:
-                return cache->bookIcon;
+                ret = cache->bookIcon;
                 break;
 
         }
     } else {
-        return QIcon(iconPath);
+        ret = QIcon(iconPath);
+    }
+    if(this->defaultModule != ModuleTools::NotADefaultModule) {
+        QPixmap pixmap = ret.pixmap(QSize(16,16), QIcon::Normal, QIcon::Off);
+        QPainter painter(&pixmap);
+        QRadialGradient gradient(25, 25, 25, 25, 25);
+        gradient.setColorAt(0, QColor::fromRgb(255, 238, 0, 255));
+        gradient.setColorAt(1, QColor::fromRgb(0, 0, 0, 0));
+        QBrush brush(gradient);
+        painter.fillRect(QRect(0,0,16,16), brush);
+        return QIcon(pixmap);
+    } else {
+        return ret;
     }
 }

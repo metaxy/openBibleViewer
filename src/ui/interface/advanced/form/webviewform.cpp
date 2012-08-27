@@ -30,6 +30,16 @@ WebViewForm::WebViewForm(QWidget *parent) :
     m_view = new WebView(this);
     m_view->setObjectName("webView");
     m_view->setUrl(QUrl("about:blank"));
+    m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
+    m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
+#if QT_VERSION >= 0x040700
+    m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
+    m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled, true);
+    m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
+    m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
+    m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
+#endif
+    m_view->setLayoutDirection(Qt::LayoutDirectionAuto);
 }
 void WebViewForm::copy()
 {
@@ -173,7 +183,7 @@ void WebViewForm::openIn(QString url, const int moduleID, const Actions::OpenLin
     } else {
         m_actions->get(url, mod);
     }
-    m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
+    m_settings->getModuleSettings(moduleID)->stats_timesOpened++;
 }
 void WebViewForm::openInM(const int moduleID)
 {

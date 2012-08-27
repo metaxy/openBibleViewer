@@ -14,7 +14,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "form.h"
 
 Form::Form(QWidget *parent) :
-    QWidget(parent), m_formRole(Form::NoRole)
+    QWidget(parent),
+    m_formRole(Form::NoRole),
+    m_api(NULL),
+    m_id(-1)
 {
 }
 

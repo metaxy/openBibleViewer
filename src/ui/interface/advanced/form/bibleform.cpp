@@ -17,14 +17,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QPointer>
 #include "src/core/link/urlconverter2.h"
 #include "src/module/response/textrangesresponse.h"
-BibleForm::BibleForm(QWidget *parent) : WebViewForm(parent), m_ui(new Ui::BibleForm)
+BibleForm::BibleForm(QWidget *parent) :
+    WebViewForm(parent),
+    m_verseTable(NULL),
+    m_ui(new Ui::BibleForm)
 {
-    //DEBUG_FUNC_NAME
-    m_id = -1;
     m_ui->setupUi(this);
     m_ui->verticalLayout->addWidget(m_view);
 
     m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+
     connect(m_ui->toolButton_backward, SIGNAL(clicked()), this, SLOT(backward()));
     connect(m_ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
     connect(m_ui->toolButton_bibleList, SIGNAL(clicked()), this, SLOT(showBibleListMenu()));
@@ -35,15 +37,15 @@ BibleForm::BibleForm(QWidget *parent) : WebViewForm(parent), m_ui(new Ui::BibleF
     connect(m_ui->comboBox_books, SIGNAL(activated(int)), this, SLOT(readBook(int)));
     connect(m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
 
-    m_api = NULL;
-    m_verseTable = NULL;
     setButtons();
+    myDebug() << "!!!" << m_id;
 
 }
 BibleForm::~BibleForm()
 {
     delete m_ui;
     m_ui = NULL;
+
     delete m_verseTable;
     m_verseTable = NULL;
 }
@@ -60,17 +62,6 @@ void BibleForm::init()
 
     connect(m_view->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
     connect(m_view, SIGNAL(linkMiddleOrCtrlClicked(QUrl)), m_actions, SLOT(newGet(QUrl)));
-
-    m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
-    m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
-#if QT_VERSION >= 0x040700
-    m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
-    m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled, true);
-    m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
-    m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
-    m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
-#endif
-    m_view->setLayoutDirection(Qt::LayoutDirectionAuto);
 
     connect(m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
 
@@ -110,7 +101,7 @@ int BibleForm::newModule()
         }
 
     }
-    myDebug() << "default" << defaultModuleID;
+    //myDebug() << "default" << defaultModuleID;
     if(defaultModuleID == -1) {
         QMapIterator<int, Module*> i2(m_moduleManager->m_moduleMap->data);
         while(i2.hasNext() && defaultModuleID == -1) {
@@ -121,7 +112,7 @@ int BibleForm::newModule()
             }
         }
     }
-    myDebug() << "some" << defaultModuleID;
+    //myDebug() << "some" << defaultModuleID;
     newModule(defaultModuleID);
     return defaultModuleID;
 }
@@ -187,7 +178,7 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
     myDebug() << "showStart = " << showStart;
 
     std::pair<QString, TextRanges> r;
-    m_verseTable->currentVerseTableID();
+    //m_verseTable->currentVerseTableID();
     const int moduleID = ranges.getList().first().moduleID();
 
     if(!verseTableLoaded()) {
@@ -341,19 +332,14 @@ void BibleForm::restore(const QString &key)
 
     m_view->page()->mainFrame()->setScrollPosition(scroll);
     m_view->setZoomFactor(zoom);
-
-
-
 }
 
 void BibleForm::save()
 {
-    VerseTable *list = m_verseTable;
-
     QStringList urls;
     QStringList points;
-    if(list > 0) {
-        QHashIterator<int, TextRangesVerseModule *> i(list->m_modules);
+    if(m_verseTable > 0) {
+        QHashIterator<int, TextRangesVerseModule *> i(m_verseTable->m_modules);
         while(i.hasNext()) {
             i.next();
             TextRangesVerseModule *b = i.value();
@@ -367,7 +353,7 @@ void BibleForm::save()
                 VerseUrl newUrl = urlConverter.convert();
 
                 const QString url = newUrl.toString();
-                const QPoint point = list->m_points.value(i.key());
+                const QPoint point = m_verseTable->m_points.value(i.key());
 
                 points << QString::number(point.x()) + "|" + QString::number(point.y());
                 urls << url;
@@ -1102,12 +1088,10 @@ void BibleForm::copyWholeVerse(void)
 
 void BibleForm::debugger()
 {
-    //DEBUG_FUNC_NAME
     m_view->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
     QWebInspector *i = new QWebInspector;
     i->setPage(m_view->page());
     i->showNormal();
-
 }
 
 void BibleForm::newColorMark()
@@ -1392,7 +1376,7 @@ void BibleForm::openCommentary()
         url.setModuleID(moduleID);
         url.setOpenToTransformation(false);
         m_actions->get(url);
-        m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
+        m_settings->getModuleSettings(moduleID)->stats_timesOpened++;
     }
 }
 

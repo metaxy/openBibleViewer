@@ -332,5 +332,5 @@ VerseTable * ModuleManager::newVerseTable()
 }
 bool ModuleManager::sortModuleByPop(const ModuleSettings* s1, const ModuleSettings* s2)
 {
-    return s1->stats_timesOpend > s2->stats_timesOpend;
+    return s1->stats_timesOpened > s2->stats_timesOpened;
 }

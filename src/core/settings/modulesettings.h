@@ -105,7 +105,7 @@ public:
     int parentID;
 
     int stats_usageCount;
-    int stats_timesOpend;
+    int stats_timesOpened;
 
 
 private:

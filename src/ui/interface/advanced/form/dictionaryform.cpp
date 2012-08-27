@@ -79,16 +79,6 @@ void DictionaryForm::init()
 
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
 
-
-    m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
-    m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
-#if QT_VERSION >= 0x040700
-    m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
-    m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled, true);
-    m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
-    m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
-    m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
-#endif
     createDefaultMenu();
 }
 void DictionaryForm::get(const QUrl &url)
