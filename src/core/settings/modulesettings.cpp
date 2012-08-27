@@ -13,16 +13,31 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "src/core/settings/modulesettings.h"
 #include "src/core/iconcache.h"
-ModuleSettings::ModuleSettings()
+ModuleSettings::ModuleSettings():
+    moduleID(-2),
+    moduleUID(""),
+    modulePath(""),
+    moduleShortName(""),
+    moduleType(ModuleTools::NoneType),
+    moduleLanguage(""),
+    encoding(""),
+    iconPath(""),
+    useParentSettings(true),
+    zefbible_textFormatting(NewLine),
+    zefbible_hardCache(true),
+    zefbible_softCache(true),
+    biblequote_removeHtml(true),
+    styleSheet(""),
+    defaultModule(ModuleTools::NotADefaultModule),
+    contentType(ModuleTools::UnkownContent),
+    versificationFile(""),
+    versificationName(""),
+    hasVersfication(false),
+    parentID(-2),
+    stats_usageCount(0),
+    stats_timesOpend(0),
+    m_parent(NULL)
 {
-    m_parent = NULL;
-
-    useParentSettings = true;
-    zefbible_textFormatting = NewLine;
-    zefbible_hardCache = true;
-    zefbible_softCache = true;
-    biblequote_removeHtml = false;
-    styleSheet = "";
 
 }
 
