@@ -66,7 +66,7 @@ void ModuleSelectUI::loadModuleData(const int moduleID, Actions::OpenLinkModifie
     if(moduleID >= 0) {
         m_moduleID = moduleID;
         Module *m = m_moduleManager->getModule(moduleID);
-        //const ModuleTools::ModuleType type = m->moduleType();
+
         const ModuleTools::ModuleClass cl = m->moduleClass();
         m_settings->getModuleSettings(moduleID)->stats_timesOpend++;
         switch(cl)
