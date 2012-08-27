@@ -19,7 +19,6 @@ class DictionaryModule : public SimpleModule
 {
 public:
     DictionaryModule();
-    virtual ~DictionaryModule();
 
     void setID(int moduleID, const QString &path);
 

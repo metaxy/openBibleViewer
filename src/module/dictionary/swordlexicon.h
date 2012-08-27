@@ -29,7 +29,7 @@ using namespace::sword;
 
 #endif
 
-class SwordLexicon : public SearchableModule, public DictionaryModule
+class SwordLexicon : public DictionaryModule
 {
 public:
     SwordLexicon();
@@ -38,13 +38,11 @@ public:
     Response *getEntry(const QString &entry);
     QStringList getAllKeys();
 
-    void search(SearchQuery query, SearchResult *result);
-
     MetaInfo readInfo(const QString &name);
     Response::ResponseType responseType() const;
 
 private:
-    int load(const QString &id);
+    int loadModuleData(const QString &id);
     QStringList m_entryList;
 
 #ifdef BUILD_WITH_SWORD

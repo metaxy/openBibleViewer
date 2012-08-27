@@ -15,9 +15,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 DictionaryModule::DictionaryModule()
 {
 }
-DictionaryModule::~DictionaryModule()
-{
-}
 void DictionaryModule::setID(int moduleID, const QString &path)
 {
     m_moduleID = moduleID;

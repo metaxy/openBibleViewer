@@ -20,17 +20,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtScript/QScriptEngine>
 #include <QtCore/QUrl>
 
-class WebDictionary : public SearchableModule, public DictionaryModule
+class WebDictionary : public DictionaryModule
 {
 public:
     WebDictionary();
-    ~WebDictionary();
     void loadModuleData(const int moduleID, const QString &name = "");
 
     Response *getEntry(const QString &entry);
     QStringList getAllKeys();
-
-    void search(SearchQuery query, SearchResult *result);
 
     MetaInfo readInfo(const QString &name);
 

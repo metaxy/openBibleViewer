@@ -16,13 +16,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 WebDictionary::WebDictionary()
 {
 }
-WebDictionary::~WebDictionary()
-{
-
-}
 
 void WebDictionary::loadModuleData(const int moduleID, const QString &name)
 {
+    //DEBUG_FUNC_NAME
     m_moduleID = moduleID;
     QString fileName;
     if(name.isEmpty())
@@ -81,10 +78,14 @@ void WebDictionary::loadModuleData(const int moduleID, const QString &name)
 }
 Response* WebDictionary::getEntry(const QString &entry)
 {
+    //DEBUG_FUNC_NAME
     if(!loaded())
         loadModuleData(m_moduleID);
-
     QScriptValue fun = myEngine.evaluate(m_pharseScript);
+    if (myEngine.hasUncaughtException()) {
+         int line = myEngine.uncaughtExceptionLineNumber();
+         myWarning() << "uncaught exception at line" << line << ":" << fun.toString();
+     }
     QScriptValueList args;
     args << entry;
     QScriptValue url = fun.call(QScriptValue(), args);
@@ -94,11 +95,6 @@ Response* WebDictionary::getEntry(const QString &entry)
 QStringList WebDictionary::getAllKeys()
 {
     return QStringList();
-}
-
-void WebDictionary::search(SearchQuery query, SearchResult *result)
-{
-
 }
 
 MetaInfo WebDictionary::readInfo(const QString &name)
@@ -136,7 +132,6 @@ QString WebDictionary::pharseUrl(const QUrl &url)
     QScriptValueList args;
     args << url.toString();
     QScriptValue n = fun.call(QScriptValue(), args);
-    myDebug() << n.toString();
     return n.toString();
 }
 Response::ResponseType WebDictionary::responseType() const

@@ -17,8 +17,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include "src/module/dictionary/dictionarymodule.h"
 /**
- * Dictionary represents a dictionary module. Like ZefaniaLex or BibleQuoteDict.
- * It generalize the access to such dictionary modules.
+ * Dictionary represents a abstract access to DictionaryModule. It contains a DictionaryModule like ZefaniaLex or BibleQuoteDict.
+ * It generalize the access to such DictionaryModules.
  * Meta-Module
  */
 class Dictionary : public SimpleModuleClass

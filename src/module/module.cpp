@@ -211,6 +211,7 @@ SimpleModule* Module::newSimpleModule(const ModuleTools::ModuleType type)
     case ModuleTools::ZefaniaLexModule:
         return new ZefaniaLex();
     default:
+        myWarning() << "could not create Module " << type;
         return NULL;
 
     }

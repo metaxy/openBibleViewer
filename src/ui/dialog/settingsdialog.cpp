@@ -541,6 +541,9 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
         }
         MetaInfo info;
         SimpleModule *module = Module::newSimpleModule(moduleType);
+        if(!module) {
+            return 1;
+        }
         module->setSettings(&m_set);
         info = module->readInfo(f);
         delete module;

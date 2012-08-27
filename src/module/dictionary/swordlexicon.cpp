@@ -35,6 +35,9 @@ Response* SwordLexicon::getEntry(const QString &entry)
 {
 
 #ifdef BUILD_WITH_SWORD
+    if(!m_loaded) {
+        loadModuleData(m_modulePath);
+    }
     VerseKey mykey = entry.toStdString().c_str();
     m_target->setKey(mykey);
     return new StringReponse(QString::fromLocal8Bit(m_target->RenderText()));
@@ -44,7 +47,7 @@ Response* SwordLexicon::getEntry(const QString &entry)
 
 
 }
-int SwordLexicon::load(const QString &id)
+int SwordLexicon::loadModuleData(const QString &id)
 {
 #ifdef BUILD_WITH_SWORD
 
@@ -76,7 +79,7 @@ QStringList SwordLexicon::getAllKeys()
 {
     #ifdef BUILD_WITH_SWORD
     if(!m_loaded) {
-        load(m_modulePath);
+        loadModuleData(m_modulePath);
     }
    /* namespace DU = util::directory;
 
@@ -175,11 +178,6 @@ QStringList SwordLexicon::getAllKeys()
 #else
     return QStringList();
 #endif
-}
-
-void SwordLexicon::search(SearchQuery query, SearchResult *result)
-{
-
 }
 
 MetaInfo SwordLexicon::readInfo(const QString &name)
