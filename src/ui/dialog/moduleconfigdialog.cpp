@@ -159,7 +159,14 @@ void ModuleConfigDialog::bsave()
     m_moduleSettings->styleSheet = m_ui->lineEdit_styleSheet->text();
     m_moduleSettings->moduleLanguage = m_ui->lineEdit_language->text();
 
-    m_moduleSettings->defaultModule = (ModuleTools::DefaultModule) m_ui->comboBox_defaultModule->currentIndex();
+    ModuleTools::DefaultModule def = (ModuleTools::DefaultModule) m_ui->comboBox_defaultModule->currentIndex();
+    if(m_moduleSettings->defaultModule != def && def != ModuleTools::NotADefaultModule) {
+        foreach(ModuleSettings *ss, m_settings->m_moduleSettings) {
+            if(ss->defaultModule == def) {
+                ss->defaultModule = ModuleTools::NotADefaultModule;
+            }
+        }
+    }
     m_moduleSettings->contentType = (ModuleTools::ContentType) m_ui->comboBox_contentType->currentIndex();
 
     m_moduleSettings->useParentSettings = m_ui->checkBox_useParentSettings->isChecked();

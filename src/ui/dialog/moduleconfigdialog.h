@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QDialog>
 
 #include "src/core/settings/modulesettings.h"
-
+#include "src/core/basicclass.h"
 namespace Ui
 {
 class ModuleConfigDialog;
@@ -25,7 +25,7 @@ class ModuleConfigDialog;
 /**
  * ModuleConfigDialog represents a dialog to change module settings.
  */
-class ModuleConfigDialog : public QDialog
+class ModuleConfigDialog : public QDialog, public BasicClass
 {
     Q_OBJECT
     Q_DISABLE_COPY(ModuleConfigDialog)
@@ -35,6 +35,7 @@ public:
     explicit ModuleConfigDialog(QWidget *parent = 0);
     virtual ~ModuleConfigDialog();
     void setModule(ModuleSettings *config);
+
 protected:
     virtual void changeEvent(QEvent *e);
 private slots:
