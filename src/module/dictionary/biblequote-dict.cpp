@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "biblequote-dict.h"
 #include "CLucene.h"
 #include "src/module/response/stringresponse.h"
+#include "src/core/search/searchtools.h"
 using namespace lucene::analysis;
 using namespace lucene::index;
 using namespace lucene::queryParser;
@@ -127,7 +128,7 @@ int BibleQuoteDict::buildIndex()
     long num = configIn.readLine().toLong();
     const QString pre = htmlIn.read(num - 1);
     myDebug() << title << pre;
-
+    TCHAR *buffer = SearchTools::createBuffer();
     while(!configIn.atEnd()) {
         long n = num;
         const QString key = id;
@@ -139,13 +140,9 @@ int BibleQuoteDict::buildIndex()
 
         indexdoc.clear();
 
-#ifdef OBV_USE_WSTRING
-        indexdoc.add(*_CLNEW Field(_T("key"), key.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-        indexdoc.add(*_CLNEW Field(_T("content"), data.toStdWString().c_str(), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-#else
-        indexdoc.add(*_CLNEW Field(_T("key"), reinterpret_cast<const wchar_t *>(key.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-        indexdoc.add(*_CLNEW Field(_T("content"), reinterpret_cast<const wchar_t *>(data.utf16()), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-#endif
+        indexdoc.add(*_CLNEW Field(_T("key"), SearchTools::toTCHAR(key, buffer), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+        indexdoc.add(*_CLNEW Field(_T("content"), SearchTools::toTCHAR(data, buffer), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+
         writer->addDocument(&indexdoc);
 
     }
@@ -174,24 +171,15 @@ Response* BibleQuoteDict::getEntry(const QString &key)
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     IndexSearcher s(reader);
     //todo: or use querytext and as the field content
-#ifdef OBV_USE_WSTRING
-    Query* q = QueryParser::parse(queryText.toStdWString().c_str(), _T("content"), &analyzer);
-#else
-    Query* q = QueryParser::parse(reinterpret_cast<const wchar_t *>(queryText.utf16()), _T("content"), &analyzer);
-#endif
+    Query* q = QueryParser::parse(SearchTools::toTCHAR(queryText), _T("content"), &analyzer);
+
     Hits* h = s.search(q);
     QString ret = "";
     for(size_t i = 0; i < h->length(); i++) {
         Document* doc = &h->doc(i);
         if(!ret.isEmpty())
             ret.append("<hr /> ");
-
-
-#ifdef OBV_USE_WSTRING
-        ret.append(QString::fromWCharArray(doc->get(_T("content"))));
-#else
-        ret.append(QString::fromUtf16((const ushort*)doc->get(_T("content"))));
-#endif
+        ret.append(SearchTools::toQString(doc->get(_T("content"))));
     }
     return ret.isEmpty() ? new StringResponse(QObject::tr("Nothing found for %1").arg(key)) : new StringResponse(ret);
 }
@@ -209,11 +197,9 @@ QStringList BibleQuoteDict::getAllKeys()
     for(int32_t i = 0; i < reader->numDocs(); i++) {
         Document doc;
         reader->document(i, doc);
-#ifdef OBV_USE_WSTRING
-        ret.append(QString::fromWCharArray(doc.get(_T("key"))));
-#else
-        ret.append(QString::fromUtf16((const ushort*)doc.get(_T("key"))));
-#endif
+
+        ret.append(SearchTools::toQString(doc.get(_T("key"))));
+
     }
     m_entryList = ret;
     return ret;

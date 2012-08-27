@@ -55,9 +55,7 @@ void Form::setBookmarksManager(BookmarksManager *bookmarksManager)
 
 bool Form::active()
 {
-    if(*currentWindowID == m_id)
-        return true;
-    return false;
+    return *currentWindowID == m_id;
 }
 
 void Form::setParentSubWindow(QMdiSubWindow *window)
@@ -66,7 +64,7 @@ void Form::setParentSubWindow(QMdiSubWindow *window)
 }
 SearchableModule * Form::searchableModule() const
 {
-    myWarning() << "calling Form::searchableModule";
+    myWarning() << "calling Form::searchableModule()";
     return NULL;
 }
 

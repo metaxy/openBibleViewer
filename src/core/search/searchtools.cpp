@@ -30,6 +30,7 @@ QString SearchTools::toQString(const TCHAR* string)
     return QString::fromUtf16((const ushort*) string);
 #endif
 }
+
 const TCHAR* SearchTools::toTCHAR(const QString& string)
 {
 
