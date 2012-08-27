@@ -37,14 +37,33 @@ ModuleSettings::ModuleSettings():
     stats_usageCount(0),
     stats_timesOpend(0),
     m_parent(NULL)
-{
+{}
 
-}
-
-ModuleSettings::ModuleSettings(ModuleSettings *parent)
-{
-    m_parent = parent;
-}
+ModuleSettings::ModuleSettings(ModuleSettings *parent) :
+    moduleID(-2),
+    moduleUID(""),
+    modulePath(""),
+    moduleShortName(""),
+    moduleType(ModuleTools::NoneType),
+    moduleLanguage(""),
+    encoding(""),
+    iconPath(""),
+    useParentSettings(true),
+    zefbible_textFormatting(NewLine),
+    zefbible_hardCache(true),
+    zefbible_softCache(true),
+    biblequote_removeHtml(true),
+    styleSheet(""),
+    defaultModule(ModuleTools::NotADefaultModule),
+    contentType(ModuleTools::UnkownContent),
+    versificationFile(""),
+    versificationName(""),
+    hasVersfication(false),
+    parentID(-2),
+    stats_usageCount(0),
+    stats_timesOpend(0),
+    m_parent(parent)
+{}
 
 ModuleSettings::~ModuleSettings()
 {
