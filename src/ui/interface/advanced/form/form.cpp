@@ -16,8 +16,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 Form::Form(QWidget *parent) :
     QWidget(parent),
     m_formRole(Form::NoRole),
-    m_api(NULL),
-    m_id(-1)
+    m_id(-1),
+    m_api(NULL)
 {
 }
 
