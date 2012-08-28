@@ -95,12 +95,12 @@ QUrl WebForm::guessUrlFromString(const QString &string)
     return QUrl(string, QUrl::TolerantMode);
 }
 
-void WebForm::pharseUrl(QString url)
+void WebForm::parseUrl(QString url)
 {
     url = url.remove(0, ModuleTools::webPageScheme.size());
     openModule(url.toInt());
 }
-void WebForm::pharseWebUrl(const QString &url)
+void WebForm::parseWebUrl(const QString &url)
 {
     m_view->load(QUrl(url));
 }

@@ -67,8 +67,8 @@ public:
     void save();
     Form::FormType type() const;
 
-    void pharseUrl(const VerseUrl &url);
-    void pharseUrl(const QString &url);
+    void parseUrl(const VerseUrl &url);
+    void parseUrl(const QString &url);
 
     void nextChapter();
     void previousChapter();

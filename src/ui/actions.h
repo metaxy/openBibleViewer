@@ -38,7 +38,7 @@ signals:
 
 
     /**
-      By default the Interface pharse all urls.
+      By default the Interface parse all urls.
       */
     void _get(const QString &url, const Actions::OpenLinkModifiers mod);
     void _get(const VerseUrl &url, const Actions::OpenLinkModifiers mod);

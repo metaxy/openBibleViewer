@@ -30,7 +30,7 @@ void VerseModuleManager::setWindowManager(WindowManager *windowManager)
 
 void VerseModuleManager::init()
 {
-    connect(m_actions, SIGNAL(_get(VerseUrl,Actions::OpenLinkModifiers)), this, SLOT(pharseUrl(VerseUrl,Actions::OpenLinkModifiers)));
+    connect(m_actions, SIGNAL(_get(VerseUrl,Actions::OpenLinkModifiers)), this, SLOT(parseUrl(VerseUrl,Actions::OpenLinkModifiers)));
     connect(m_actions, SIGNAL(_previousChapter()), this, SLOT(previousChapter()));
     connect(m_actions, SIGNAL(_nextChapter()), this, SLOT(nextChapter()));
     connect(m_actions, SIGNAL(_reloadCurrentRange(bool)), this, SLOT(reloadCurrentRange(bool)));
@@ -67,7 +67,7 @@ QHash<DockWidget*, Qt::DockWidgetArea> VerseModuleManager::docks()
 
 }
 
-void VerseModuleManager::pharseUrl(VerseUrl url, const Actions::OpenLinkModifiers mod)
+void VerseModuleManager::parseUrl(VerseUrl url, const Actions::OpenLinkModifiers mod)
 {
     myDebug() << url.toString();
     Form::FormType type = Form::BibleForm;
@@ -89,31 +89,31 @@ void VerseModuleManager::pharseUrl(VerseUrl url, const Actions::OpenLinkModifier
 
     if(type == Form::BibleForm) {
         BibleForm *f = (BibleForm*)(m_windowManager->getForm(window));
-        pharseUrl(f, url);
+        parseUrl(f, url);
     } else {
         CommentaryForm *form = (CommentaryForm*)(m_windowManager->getForm(window));
-        pharseUrl(form, url);
+        parseUrl(form, url);
     }
 
 
 }
 
-void VerseModuleManager::pharseUrl(QString url, const Actions::OpenLinkModifiers mod)
+void VerseModuleManager::parseUrl(QString url, const Actions::OpenLinkModifiers mod)
 {
     myDebug() << url;
     if(url.startsWith(ModuleTools::verseScheme)) {
         VerseUrl verseUrl(url);
-        pharseUrl(verseUrl, mod);
+        parseUrl(verseUrl, mod);
     } else if(url.startsWith(ModuleTools::theWordScheme)) {
         VerseUrl verseUrl;
         if(verseUrl.fromTheWord(url)) {
-            pharseUrl(verseUrl, mod);
+            parseUrl(verseUrl, mod);
         } else {
-            myWarning() << "could not pharse url" << url;
+            myWarning() << "could not parse url" << url;
         }
     }
 }
-void VerseModuleManager::pharseUrl(BibleForm *f, const VerseUrl &url)
+void VerseModuleManager::parseUrl(BibleForm *f, const VerseUrl &url)
 {
     if(!f->verseTableLoaded()) {
         if(url.ranges().first().module() == VerseUrlRange::LoadModuleByID) {
@@ -123,15 +123,15 @@ void VerseModuleManager::pharseUrl(BibleForm *f, const VerseUrl &url)
         }
     }
     if(f->verseTableLoaded()) {
-        f->pharseUrl(url);
+        f->parseUrl(url);
     } else {
         myDebug() << "verseTable not loaded";
     }
 }
 
-void VerseModuleManager::pharseUrl(CommentaryForm *form, const VerseUrl &url)
+void VerseModuleManager::parseUrl(CommentaryForm *form, const VerseUrl &url)
 {
-     form->pharseUrl(url);
+     form->parseUrl(url);
 }
 
 void VerseModuleManager::nextChapter()

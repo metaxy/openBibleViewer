@@ -49,8 +49,8 @@ signals:
     void updateBooks();
 
 public slots:
-    void pharseUrl(QString url, const Actions::OpenLinkModifiers mod);
-    void pharseUrl(VerseUrl url, const Actions::OpenLinkModifiers mod);
+    void parseUrl(QString url, const Actions::OpenLinkModifiers mod);
+    void parseUrl(VerseUrl url, const Actions::OpenLinkModifiers mod);
 
     void nextChapter();
     void previousChapter();
@@ -60,8 +60,8 @@ public slots:
     void setCurrentVerseTableID(const int verseTableID);
 
 private:
-    void pharseUrl(BibleForm *f, const VerseUrl &url);
-    void pharseUrl(CommentaryForm *form, const VerseUrl &url);
+    void parseUrl(BibleForm *f, const VerseUrl &url);
+    void parseUrl(CommentaryForm *form, const VerseUrl &url);
     QWidget *m_p;
 
     BookDockWidget *m_bookDockWidget;

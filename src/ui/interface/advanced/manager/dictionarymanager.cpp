@@ -139,7 +139,7 @@ void DictionaryManager::open(const QString &key, ModuleTools::ContentType conten
     //there is nothing we can do now
 }
 
-void DictionaryManager::pharseUrl(QString url, const Actions::OpenLinkModifiers mod)
+void DictionaryManager::parseUrl(QString url, const Actions::OpenLinkModifiers mod)
 {
     myDebug() << url;
     if(url.startsWith(ModuleTools::strongScheme)) {

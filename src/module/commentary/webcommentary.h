@@ -33,7 +33,7 @@ public:
     Response * readBook(const int bookID);
 
 
-    QString pharseUrl(const QUrl &url);
+    QString parseUrl(const QUrl &url);
     MetaInfo readInfo(const QString &name);
     void search(SearchQuery query, SearchResult *result);
     void clearData();
@@ -46,10 +46,10 @@ private:
     int currentChapter();
     std::pair<int, int> minMaxVerse(const int bookID, const int chapterID);
 
-    QScriptProgram m_pharseBookScript;
-    QScriptProgram m_pharseChapterScript;
-    QScriptProgram m_pharseVerseScript;
-    QScriptProgram m_pharseOutScript;
+    QScriptProgram m_parseBookScript;
+    QScriptProgram m_parseChapterScript;
+    QScriptProgram m_parseVerseScript;
+    QScriptProgram m_parseOutScript;
 
     QString m_name;
     QString m_shortName;

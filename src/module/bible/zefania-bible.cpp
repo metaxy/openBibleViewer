@@ -600,19 +600,19 @@ Verse ZefaniaBible::readVerse()
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             out += Qt::escape(m_xml->text().toString());
         } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st") {
-            out += pharseStyle();
+            out += parseStyle();
         } else if(cmp(m_xml->name(), "NOTE")) {
-            out += pharseNote();
+            out += parseNote();
         } else if(cmp(m_xml->name(), "BR")) {
-            out += pharseBr();
+            out += parseBr();
         } else if(cmp(m_xml->name(), "DIV")) {
-            out += pharseDiv();
+            out += parseDiv();
         } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == QLatin1String("gr")) {
-            out += pharseGram();
+            out += parseGram();
         } else if(cmp(m_xml->name(), "SUP")) {
-            out += pharseSup();
+            out += parseSup();
         } else if(cmp(m_xml->name(), "XREF")) {
-            out += pharseXRef();
+            out += parseXRef();
         } else {
             out += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
         }
@@ -625,7 +625,7 @@ Verse ZefaniaBible::readVerse()
         verse.setLayoutDirection(Qt::RightToLeft);
     return verse;
 }
-QString ZefaniaBible::pharseStyle()
+QString ZefaniaBible::parseStyle()
 {
     QString ret;
     QString css = m_xml->attributes().value("css").toString();
@@ -640,18 +640,18 @@ QString ZefaniaBible::pharseStyle()
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             ret += m_xml->text().toString();
         } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st") {
-            ret += pharseStyle();
+            ret += parseStyle();
         } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr") {
-            ret += pharseGram();
+            ret += parseGram();
         } else if(cmp(m_xml->name(), "SUP")) {
-            ret += pharseSup();
+            ret += parseSup();
         } else {
             ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
         }
     }
     return pre + ret + post;
 }
-QString ZefaniaBible::pharseNote()
+QString ZefaniaBible::parseNote()
 {
     if(!m_set->displaySettings()->showStudyNotes()) {
         return "";
@@ -668,22 +668,22 @@ QString ZefaniaBible::pharseNote()
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             ret += m_xml->text().toString();
         } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st") {
-            ret += pharseStyle();
+            ret += parseStyle();
         } else if(cmp(m_xml->name(), "BR")) {
-            ret += pharseBr();
+            ret += parseBr();
         } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr") {
-            ret += pharseGram();
+            ret += parseGram();
         } else if(cmp(m_xml->name(), "XREF")) {
-            ret += pharseXRef();
+            ret += parseXRef();
         } else if(cmp(m_xml->name(), "SUP")) {
-            ret += pharseSup();
+            ret += parseSup();
         } else {
             ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
         }
     }
     return pre + ret + post;
 }
-QString ZefaniaBible::pharseBr()
+QString ZefaniaBible::parseBr()
 {
     const QStringRef art = m_xml->attributes().value("art");
     m_xml->skipCurrentElement();
@@ -694,7 +694,7 @@ QString ZefaniaBible::pharseBr()
     return "";
 }
 
-QString ZefaniaBible::pharseGram()
+QString ZefaniaBible::parseGram()
 {
     if(!m_set->displaySettings()->showStrong() && !m_set->displaySettings()->showRMAC()) {
         return "";
@@ -711,13 +711,13 @@ QString ZefaniaBible::pharseGram()
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             ret += m_xml->text().toString();
         } else if(cmp(m_xml->name(), "STYLE")  || m_xml->name() == QLatin1String("st")) {
-            ret += pharseStyle();
+            ret += parseStyle();
         } else if(cmp(m_xml->name(), "BR")) {
-            ret += pharseBr();
+            ret += parseBr();
         } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == QLatin1String("gr")) {
-            ret += pharseGram();
+            ret += parseGram();
         } else if(cmp(m_xml->name(), "SUP")) {
-            ret += pharseSup();
+            ret += parseSup();
         } else {
             ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
         }
@@ -745,7 +745,7 @@ QString ZefaniaBible::pharseGram()
     return ret;
 }
 
-QString ZefaniaBible::pharseSup()
+QString ZefaniaBible::parseSup()
 {
     QString ret;
     const QStringRef art = m_xml->attributes().value("art");
@@ -768,9 +768,9 @@ QString ZefaniaBible::pharseSup()
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             ret += m_xml->text().toString();
         } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st") {
-            ret += pharseStyle();
+            ret += parseStyle();
         } else if(cmp(m_xml->name(), "GRAM")) {
-            ret += pharseGram();
+            ret += parseGram();
         } else {
             ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
         }
@@ -778,7 +778,7 @@ QString ZefaniaBible::pharseSup()
     return pre + ret + post;
 }
 
-QString ZefaniaBible::pharseXRef()
+QString ZefaniaBible::parseXRef()
 {
     if(!m_set->displaySettings()->showRefLinks()) {
         return "";
@@ -808,7 +808,7 @@ QString ZefaniaBible::pharseXRef()
     return QString();
 }
 
-QString ZefaniaBible::pharseDiv()
+QString ZefaniaBible::parseDiv()
 {
     QString ret;
     while(true) {
@@ -820,7 +820,7 @@ QString ZefaniaBible::pharseDiv()
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             ret += m_xml->text().toString();
         } else if(cmp(m_xml->name(), QLatin1String("NOTE"))) {
-            ret += pharseNote();
+            ret += parseNote();
         } else {
             ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
         }

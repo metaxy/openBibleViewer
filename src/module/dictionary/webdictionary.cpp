@@ -63,10 +63,10 @@ void WebDictionary::loadModuleData(const int moduleID, const QString &name)
             while(!n2.isNull()) {
                 if(n2.nodeName() == "url") {
                     m_url = n2.firstChild().toText().data();
-                } else if(n2.nodeName() == "pharseIn") {
-                    m_pharseScript = n2.firstChild().toCDATASection().data();
-                } else if(n2.nodeName() == "pharseOut") {
-                    m_pharseOutScript = n2.firstChild().toCDATASection().data();
+                } else if(n2.nodeName() == "parseIn") {
+                    m_parseScript = n2.firstChild().toCDATASection().data();
+                } else if(n2.nodeName() == "parseOut") {
+                    m_parseOutScript = n2.firstChild().toCDATASection().data();
                 }
                 n2 = n2.nextSibling();
             }
@@ -81,7 +81,7 @@ Response* WebDictionary::getEntry(const QString &entry)
     //DEBUG_FUNC_NAME
     if(!loaded())
         loadModuleData(m_moduleID);
-    QScriptValue fun = myEngine.evaluate(m_pharseScript);
+    QScriptValue fun = myEngine.evaluate(m_parseScript);
     if (myEngine.hasUncaughtException()) {
          int line = myEngine.uncaughtExceptionLineNumber();
          myWarning() << "uncaught exception at line" << line << ":" << fun.toString();
@@ -123,12 +123,12 @@ bool WebDictionary::loaded()
 {
     return m_loaded && m_loadedModuleID == m_moduleID;
 }
-QString WebDictionary::pharseUrl(const QUrl &url)
+QString WebDictionary::parseUrl(const QUrl &url)
 {
     if(!loaded())
         loadModuleData(m_moduleID);
 
-    QScriptValue fun = myEngine.evaluate(m_pharseOutScript);
+    QScriptValue fun = myEngine.evaluate(m_parseOutScript);
     QScriptValueList args;
     args << url.toString();
     QScriptValue n = fun.call(QScriptValue(), args);

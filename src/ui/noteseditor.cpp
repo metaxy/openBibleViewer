@@ -133,7 +133,7 @@ void NotesEditor::init()
 
     m_simpleNotes->init();
     ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
-    connect(ui->webView->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(pharseUrl(QUrl)));
+    connect(ui->webView->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(parseUrl(QUrl)));
     //connect(ui->plainTextEdit, SIGNAL(textChanged()), this, SLOT(adjustHtml()));
 }
 
@@ -305,7 +305,7 @@ void NotesEditor::createLink(QString link)
             execCommand("createLink", url.toString());
     }
 }
-void NotesEditor::pharseUrl(QUrl url)
+void NotesEditor::parseUrl(QUrl url)
 {
     DEBUG_FUNC_NAME;
     QString link = url.toString();

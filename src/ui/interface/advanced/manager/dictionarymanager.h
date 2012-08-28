@@ -29,7 +29,7 @@ public:
     QHash<DockWidget *, Qt::DockWidgetArea> docks();
     DictionaryDockWidget *dictionaryDockWidget();
 
-    void pharseUrl(QString url, const Actions::OpenLinkModifiers mod);
+    void parseUrl(QString url, const Actions::OpenLinkModifiers mod);
 
     void open(const QString &key, ModuleTools::ContentType contentType, const Actions::OpenLinkModifiers mod);
 

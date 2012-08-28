@@ -9,7 +9,7 @@
     <data>
         <site>
             <url>http://www.biblestudytools.com/commentaries/gills-exposition-of-the-bible/</url>
-            <pharseInBook><![CDATA[
+            <parseInBook><![CDATA[
                 (function(bookID, bookName) {
                     if(bookID == 18) {
                         if(chapter < 75)
@@ -20,8 +20,8 @@
                         return "http://www.biblestudytools.com/commentaries/gills-exposition-of-the-bible/"+bookName+"/";
                  })
                 ]]>
-            </pharseInBook>
-            <pharseInChapter><![CDATA[
+            </parseInBook>
+            <parseInChapter><![CDATA[
                 (function(bookID, bookName, chapter) { 
                     if(bookID == 18) {
                         if(chapter < 75)
@@ -32,8 +32,8 @@
                     return "http://www.biblestudytools.com/commentaries/gills-exposition-of-the-bible/"+bookName+"-"+(chapter+1)+"/";
                  })
                 ]]>
-            </pharseInChapter>
-            <pharseInVerse><![CDATA[
+            </parseInChapter>
+            <parseInVerse><![CDATA[
                 (function(bookID, bookName, chapter, verse) {
                     if(bookID == 18) {
                         if(chapter < 75)
@@ -44,8 +44,8 @@
                     return "http://www.biblestudytools.com/commentaries/gills-exposition-of-the-bible/"+bookName+"-"+(chapter+1)+"-"+(verse+1)+".html";
                  })
                 ]]>
-            </pharseInVerse>
-            <pharseOut>
+            </parseInVerse>
+            <parseOut>
                 <![CDATA[
                     (function(a) { 
                         var backup = a;
@@ -72,7 +72,7 @@
                         }
                     })
                  ]]>
-            </pharseOut>
+            </parseOut>
             <books> 
                 <book id="0">genesis</book>
                 <book id="1">exodus</book>

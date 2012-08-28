@@ -40,7 +40,7 @@ void AdvancedInterface::init()
     m_moduleManager->moduleDisplaySetings()->setShowNotes(true);
     m_moduleManager->moduleDisplaySetings()->setLoadNotes(true);
 
-    connect(m_actions, SIGNAL(_get(QString,Actions::OpenLinkModifiers)), this, SLOT(pharseUrl(QString,Actions::OpenLinkModifiers)));
+    connect(m_actions, SIGNAL(_get(QString,Actions::OpenLinkModifiers)), this, SLOT(parseUrl(QString,Actions::OpenLinkModifiers)));
 
     m_api = new Api(this);
     setAll(m_api);
@@ -118,7 +118,7 @@ QHash<DockWidget*, Qt::DockWidgetArea> AdvancedInterface::docks()
     return ret;
 }
 
-void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers mod)
+void AdvancedInterface::parseUrl(QString url, const Actions::OpenLinkModifiers mod)
 {
     //DEBUG_FUNC_NAME
     //setEnableReload(false);
@@ -132,19 +132,19 @@ void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers 
     QString backup = url;
 
     if(url.startsWith(ModuleTools::verseScheme)) {
-        m_bibleManager->pharseUrl(url, mod);
+        m_bibleManager->parseUrl(url, mod);
     } else if(url.startsWith(ModuleTools::strongScheme)) {
-        m_dictionaryManager->pharseUrl(url, mod);
+        m_dictionaryManager->parseUrl(url, mod);
     } else if(url.startsWith(ModuleTools::rmacScheme)) {
-        m_dictionaryManager->pharseUrl(url, mod);
+        m_dictionaryManager->parseUrl(url, mod);
     } else if(url.startsWith(ModuleTools::dictScheme)) {
-        m_dictionaryManager->pharseUrl(url, mod);
+        m_dictionaryManager->parseUrl(url, mod);
     } else if(url.startsWith(ModuleTools::rmacScheme)) {
-        m_dictionaryManager->pharseUrl(url, mod);
+        m_dictionaryManager->parseUrl(url, mod);
     } else if(url.startsWith(ModuleTools::webPageScheme)) {
-        m_webPageManager->pharseUrl(url);
+        m_webPageManager->parseUrl(url);
     } else if(url.startsWith(http)) {
-        m_webPageManager->pharseWebUrl(url);
+        m_webPageManager->parseWebUrl(url);
         //QDesktopServices::openUrl(url);
     } else if(url.startsWith(ModuleTools::bookScheme)) {
         const int moduleID = url.remove(0, ModuleTools::bookScheme.size()).toInt();
@@ -169,7 +169,7 @@ void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers 
          url = url.remove(0, ModuleTools::userInputScheme.size());
          quick(url);
     } else if(url.startsWith(bq)) {
-        m_bibleManager->pharseUrl(url, mod);
+        m_bibleManager->parseUrl(url, mod);
     } else if(url.startsWith(anchor)) {
         //todo:
         url = url.remove(0, anchor.size());
@@ -198,7 +198,7 @@ void AdvancedInterface::pharseUrl(QString url, const Actions::OpenLinkModifiers 
     } else if(url.startsWith(ModuleTools::theWordScheme)) {
         url = url.remove(0, ModuleTools::theWordScheme.size());
         if(url.startsWith("bible")) {
-            m_bibleManager->pharseUrl(backup, mod);
+            m_bibleManager->parseUrl(backup, mod);
         }
     }else {
         //todo: unterstand links like about:blank#a04

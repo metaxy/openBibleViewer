@@ -44,8 +44,8 @@ void SimpleInterface::init()
     m_module = new Bible();
     m_moduleManager->initVerseModule(m_module);
 
-    connect(m_actions, SIGNAL(_get(VerseUrl)), this, SLOT(pharseUrl(VerseUrl)));
-    connect(m_actions, SIGNAL(_get(QString)), this, SLOT(pharseUrl(QString)));
+    connect(m_actions, SIGNAL(_get(VerseUrl)), this, SLOT(parseUrl(VerseUrl)));
+    connect(m_actions, SIGNAL(_get(QString)), this, SLOT(parseUrl(QString)));
     connect(m_view, SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
 
 
@@ -135,11 +135,11 @@ void SimpleInterface::zoomOut()
     m_view->setZoomFactor(m_view->zoomFactor() - 0.1);
     //ui->textBrowser->zoomOut();
 }
-void SimpleInterface::pharseUrl(QUrl url)
+void SimpleInterface::parseUrl(QUrl url)
 {
-    pharseUrl(url.toString());
+    parseUrl(url.toString());
 }
-void SimpleInterface::pharseUrl(const VerseUrl &url)
+void SimpleInterface::parseUrl(const VerseUrl &url)
 {
     m_url = m_url.applyUrl(url);
 
@@ -151,7 +151,7 @@ void SimpleInterface::pharseUrl(const VerseUrl &url)
     showRanges(ranges, m_url);
 }
 
-void SimpleInterface::pharseUrl(const QString &string)
+void SimpleInterface::parseUrl(const QString &string)
 {
     const QString bq = "go";
 

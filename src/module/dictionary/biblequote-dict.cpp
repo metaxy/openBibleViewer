@@ -62,7 +62,7 @@ int BibleQuoteDict::buildIndex()
 {
     DEBUG_FUNC_NAME
 
-    // pharse both and add docs to the indexwriter
+    // parse both and add docs to the indexwriter
     //myDebug() << m_modulePath;
     QFileInfo fileInfo(m_modulePath);
     //myDebug() << fileInfo.absoluteDir();

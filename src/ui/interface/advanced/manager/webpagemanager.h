@@ -22,8 +22,8 @@ public:
     WebPageManager();
     void setWindowManager(WindowManager *windowManager);
 
-    void pharseUrl(const QString &url);
-    void pharseWebUrl(const QString &url);
+    void parseUrl(const QString &url);
+    void parseWebUrl(const QString &url);
 
 private:
     WindowManager *m_windowManager;

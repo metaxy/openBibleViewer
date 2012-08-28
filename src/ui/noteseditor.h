@@ -93,7 +93,7 @@ private slots:
     void changeTab(int);
     void changeZoom(int);
     void createLink(QString link);
-    void pharseUrl(QUrl url);
+    void parseUrl(QUrl url);
 
 private:
     Ui::NotesEditor *ui;

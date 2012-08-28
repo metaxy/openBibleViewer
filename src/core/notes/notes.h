@@ -45,7 +45,7 @@ public:
       */
     virtual int loadNotes() = 0;
     /**
-      Pharse note data.
+      Parse note data.
       */
     virtual int readNotes() = 0;
     /**

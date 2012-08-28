@@ -117,7 +117,7 @@ int BibleForm::newModule()
     return defaultModuleID;
 }
 
-void BibleForm::pharseUrl(const VerseUrl &url)
+void BibleForm::parseUrl(const VerseUrl &url)
 {
     bool showStart = false;
 
@@ -143,7 +143,7 @@ void BibleForm::pharseUrl(const VerseUrl &url)
     }
 }
 
-void BibleForm::pharseUrl(const QString &string)
+void BibleForm::parseUrl(const QString &string)
 {
     myDebug() << string;
     const QString bq = "go";
@@ -153,7 +153,7 @@ void BibleForm::pharseUrl(const QString &string)
         if(!url.fromStringUrl(string)) {
             return;
         }
-        pharseUrl(url);
+        parseUrl(url);
     } else if(string.startsWith(bq)) {
         //its a biblequote internal link, but i dont have the specifications!!!
         QStringList internal = string.split(" ");
@@ -169,7 +169,7 @@ void BibleForm::pharseUrl(const QString &string)
         range.setChapter(chapterID);
         range.setStartVerse(verseID);
         VerseUrl url(range);
-        pharseUrl(url);
+        parseUrl(url);
     }
 }
 void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showStart)
@@ -225,7 +225,7 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
             range.setChapter(VerseUrlRange::LoadFirstChapter);
             range.setWholeChapter();
             VerseUrl url(range);
-            pharseUrl(url);
+            parseUrl(url);
         } else {
             showTextRanges(r.first, r.second, url);
             m_actions->updateChapters(0, verseModule()->versification());
@@ -317,7 +317,7 @@ void BibleForm::restore(const QString &key)
 
         if(urlConverter.moduleID() != -1) {
             m_moduleManager->newTextRangesVerseModule(urlConverter.moduleID(), point, m_verseTable);
-            pharseUrl(urlConverter.url());//these urls are handeld by this Form
+            parseUrl(urlConverter.url());//these urls are handeld by this Form
         }
     }
     const QVariant v = m_settings->session.file()->value(a + "hist1");
@@ -1352,7 +1352,7 @@ void BibleForm::reload(bool full)
         m_verseTable->clearData();
     }
     if(!m_url.ranges().isEmpty())
-        pharseUrl(m_url);
+        parseUrl(m_url);
     m_view->page()->mainFrame()->setScrollPosition(p);
 }
 void BibleForm::reloadIf(const VerseUrl &url)

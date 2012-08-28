@@ -32,7 +32,7 @@ public:
       */
     int loadNotes();
     /*!
-      Pharse note data from the xml-file
+      Parse note data from the xml-file
       */
     int readNotes();
     /*!

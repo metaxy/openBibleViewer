@@ -31,11 +31,11 @@ public:
 
     MetaInfo readInfo(const QString &name);
 
-    QString pharseUrl(const QUrl &url);
+    QString parseUrl(const QUrl &url);
     Response::ResponseType responseType() const;
 private:
-    QString m_pharseScript;
-    QString m_pharseOutScript;
+    QString m_parseScript;
+    QString m_parseOutScript;
 
     QString m_name;
     QString m_shortName;

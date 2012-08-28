@@ -34,9 +34,9 @@ class SimpleInterface : public Interface
 public slots:
     void settingsChanged(Settings oldSettings, Settings newSettings, bool modifedModuleSettings);
 private slots:
-    void pharseUrl(QUrl url);
-    void pharseUrl(const QString &url);
-    void pharseUrl(const VerseUrl &url);
+    void parseUrl(QUrl url);
+    void parseUrl(const QString &url);
+    void parseUrl(const VerseUrl &url);
     void showText(const QString &text);
     void zoomIn();
     void zoomOut();

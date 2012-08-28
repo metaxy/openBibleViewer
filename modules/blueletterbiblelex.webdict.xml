@@ -9,7 +9,7 @@
     <data>
         <site>
             <url>http://www.blueletterbible.org/lang/lexicon/showAbbrevs.cfm</url>
-            <pharseIn><![CDATA[
+            <parseIn><![CDATA[
                 (function(a) { 
                       if(a.indexOf(" ") > 0) {
                         a = a.substr(0, a.indexOf(" "));
@@ -17,8 +17,8 @@
                     return "http://www.blueletterbible.org/lang/lexicon/lexicon.cfm?strongs="+a; 
                  })
                 ]]>
-            </pharseIn>
-            <pharseOut>
+            </parseIn>
+            <parseOut>
                 <![CDATA[
                     (function(a) { 
                         a = a.toLowerCase();
@@ -33,7 +33,7 @@
                         }
                     })
                  ]]>
-            </pharseOut>
+            </parseOut>
 
         </site>
     </data>

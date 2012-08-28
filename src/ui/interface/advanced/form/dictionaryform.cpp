@@ -86,7 +86,7 @@ void DictionaryForm::get(const QUrl &url)
     DEBUG_FUNC_NAME
     if(m_dictionary->moduleType() == ModuleTools::WebDictionaryModule) {
         WebDictionary *d = (WebDictionary*)(m_dictionary->module());
-        m_actions->get(d->pharseUrl(url));
+        m_actions->get(d->parseUrl(url));
     } else {
         m_actions->get(url);
     }
@@ -96,7 +96,7 @@ void DictionaryForm::newGet(const QUrl &url)
     DEBUG_FUNC_NAME
     if(m_dictionary->moduleType() == ModuleTools::WebDictionaryModule) {
         WebDictionary *d = (WebDictionary*)(m_dictionary->module());
-        m_actions->get(d->pharseUrl(url), Actions::OpenInNewWindow);
+        m_actions->get(d->parseUrl(url), Actions::OpenInNewWindow);
     } else {
         m_actions->get(url, Actions::OpenInNewWindow);
     }
@@ -424,7 +424,7 @@ void DictionaryForm::showContextMenu(QContextMenuEvent* ev)
 
         if(m_dictionary->moduleType() == ModuleTools::WebDictionaryModule) {
             WebDictionary *d = (WebDictionary*)(m_dictionary->module());
-            url = QUrl(d->pharseUrl(url));
+            url = QUrl(d->parseUrl(url));
         }
 
         m_contextMenuUrl = url.toString();

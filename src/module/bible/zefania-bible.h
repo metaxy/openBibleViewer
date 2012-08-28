@@ -95,13 +95,13 @@ private:
     Verse readVerse();
     MetaInfo readMetaInfo(MetaInfo ret);
 
-    QString pharseStyle();
-    QString pharseNote();
-    QString pharseBr();
-    QString pharseGram();
-    QString pharseSup();
-    QString pharseXRef();
-    QString pharseDiv();
+    QString parseStyle();
+    QString parseNote();
+    QString parseBr();
+    QString parseGram();
+    QString parseSup();
+    QString parseXRef();
+    QString parseDiv();
 
     bool cmp(const QStringRef &r, const QString &s);
     void getVersification();

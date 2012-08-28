@@ -36,8 +36,8 @@ public:
     void restore(const QString &key);
     void save();
 
-    void pharseUrl(QString url);
-    void pharseWebUrl(const QString &webUrl);
+    void parseUrl(QString url);
+    void parseWebUrl(const QString &webUrl);
 
     Form::FormType type() const;
 

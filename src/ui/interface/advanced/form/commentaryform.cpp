@@ -62,16 +62,16 @@ Form::FormType CommentaryForm::type() const
 {
     return Form::CommentaryForm;
 }
-void CommentaryForm::pharseUrl(QString string)
+void CommentaryForm::parseUrl(QString string)
 {
     VerseUrl url;
     if(!url.fromStringUrl(string)) {
         myWarning() << "pharsing url failed:" << string;
         return;
     }
-    pharseUrl(url);
+    parseUrl(url);
 }
-void CommentaryForm::pharseUrl(VerseUrl url)
+void CommentaryForm::parseUrl(VerseUrl url)
 {
     myDebug() << url.toString();
     if(m_com == NULL) {
@@ -131,7 +131,7 @@ void CommentaryForm::changeLocation()
     BibleLink link(m_com->moduleID(), m_com->versification());
     VerseUrl url = link.getUrl(ui->lineEdit->text());
     url.setOpenToTransformation(false);
-    pharseUrl(url);
+    parseUrl(url);
 }
 
 void CommentaryForm::activated()
@@ -192,7 +192,7 @@ void CommentaryForm::restore(const QString &key)
     urlConverter.convert();
 
     if(urlConverter.moduleID() != -1) {
-        pharseUrl(urlConverter.url());//these urls are handeld by this Form
+        parseUrl(urlConverter.url());//these urls are handeld by this Form
     }
 
 
@@ -381,7 +381,7 @@ QString CommentaryForm::transformUrl(const QString &url)
 {
     myDebug() << url;
     if(m_com->moduleType() == ModuleTools::WebCommentaryModule) {
-        QString nurl = ((WebCommentary*) (m_com->m_commentaryModule.data()))->pharseUrl(QUrl(url));
+        QString nurl = ((WebCommentary*) (m_com->m_commentaryModule.data()))->parseUrl(QUrl(url));
         return nurl;
     } else if(url.startsWith(ModuleTools::theWordScheme)) {
         VerseUrl vurl;

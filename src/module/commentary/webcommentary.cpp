@@ -52,7 +52,7 @@ int WebCommentary::loadModuleData(const int moduleID, const QString &fileName)
     QString error;
     int line, col;
     if(!doc.setContent(&file, &error, &line, &col)) {
-        myDebug() << "fail to pharse content of" << fileName << error << line << col;
+        myDebug() << "fail to parse content of" << fileName << error << line << col;
         file.close();
         return 1;
     }
@@ -82,14 +82,14 @@ int WebCommentary::loadModuleData(const int moduleID, const QString &fileName)
             while(!n2.isNull()) {
                 if(n2.nodeName() == "url") {
                     m_url = n2.firstChild().toText().data();
-                } else if(n2.nodeName() == "pharseInBook") {
-                    m_pharseBookScript = QScriptProgram(n2.firstChild().toCDATASection().data());
-                } else if(n2.nodeName() == "pharseInChapter") {
-                    m_pharseChapterScript = QScriptProgram(n2.firstChild().toCDATASection().data());
-                } else if(n2.nodeName() == "pharseInVerse") {
-                    m_pharseVerseScript = QScriptProgram(n2.firstChild().toCDATASection().data());
-                } else if(n2.nodeName() == "pharseOut") {
-                    m_pharseOutScript = QScriptProgram(n2.firstChild().toCDATASection().data());
+                } else if(n2.nodeName() == "parseInBook") {
+                    m_parseBookScript = QScriptProgram(n2.firstChild().toCDATASection().data());
+                } else if(n2.nodeName() == "parseInChapter") {
+                    m_parseChapterScript = QScriptProgram(n2.firstChild().toCDATASection().data());
+                } else if(n2.nodeName() == "parseInVerse") {
+                    m_parseVerseScript = QScriptProgram(n2.firstChild().toCDATASection().data());
+                } else if(n2.nodeName() == "parseOut") {
+                    m_parseOutScript = QScriptProgram(n2.firstChild().toCDATASection().data());
                 } else if(n2.nodeName() == "books") {
                     QDomNode n3 = n2.firstChild();
                     int i = 0;
@@ -137,7 +137,7 @@ MetaInfo WebCommentary::readInfo(const QString &name)
     QString error;
     int line, col;
     if(!doc.setContent(&file, &error, &line, &col)) {
-        myDebug() << "fail to pharse content of" << name << error << line << col;
+        myDebug() << "fail to parse content of" << name << error << line << col;
         file.close();
         return ret;
     }
@@ -166,13 +166,13 @@ bool WebCommentary::loaded() const
 {
     return m_loaded && m_loadedModuleID == m_moduleID;
 }
-QString WebCommentary::pharseUrl(const QUrl &url)
+QString WebCommentary::parseUrl(const QUrl &url)
 {
     DEBUG_FUNC_NAME
     if(!loaded())
         loadModuleData(m_moduleID, m_modulePath);
 
-    QScriptValue fun = myEngine.evaluate(m_pharseOutScript);
+    QScriptValue fun = myEngine.evaluate(m_parseOutScript);
     QScriptValueList args;
     args << url.toString();
     QScriptValue n = fun.call(QScriptValue(), args);
@@ -195,7 +195,7 @@ void WebCommentary::clearData()
 }
 Response * WebCommentary::readVerseRange(const int bookID,const int chapterID, const int startVerseID, const int endVerseID)
 {
-    QScriptValue fun = myEngine.evaluate(m_pharseVerseScript);
+    QScriptValue fun = myEngine.evaluate(m_parseVerseScript);
     QScriptValueList args;
     args << bookID << m_books.value(bookID).key << chapterID << startVerseID << endVerseID;
     QScriptValue url = fun.call(QScriptValue(), args);
@@ -204,7 +204,7 @@ Response * WebCommentary::readVerseRange(const int bookID,const int chapterID, c
 
 Response * WebCommentary::readChapter(const int bookID, const int chapterID)
 {
-    QScriptValue fun = myEngine.evaluate(m_pharseChapterScript);
+    QScriptValue fun = myEngine.evaluate(m_parseChapterScript);
     QScriptValueList args;
     args << bookID << m_books.value(bookID).key << chapterID;
     QScriptValue url = fun.call(QScriptValue(), args);
@@ -213,7 +213,7 @@ Response * WebCommentary::readChapter(const int bookID, const int chapterID)
 
 Response * WebCommentary::readBook(const int bookID)
 {
-    QScriptValue fun = myEngine.evaluate(m_pharseBookScript);
+    QScriptValue fun = myEngine.evaluate(m_parseBookScript);
     QScriptValueList args;
     args << bookID << m_books.value(bookID).key;
     QScriptValue url = fun.call(QScriptValue(), args);
