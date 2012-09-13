@@ -23,9 +23,7 @@ SET(
     verse/versification/bookv11n.cpp
     verse/reftext.cpp
 
-    KoXmlReader.cpp
-    KoXmlWriter.cpp
-    KoXmlNS.cpp
+
     notes/notes.cpp
     notes/xmlnotes.cpp
     notes/textnotes.cpp

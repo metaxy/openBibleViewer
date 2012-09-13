@@ -17,7 +17,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 #include <QtXml/QXmlStreamReader>
 
-#include "src/core/KoXmlReader.h"
 #include "src/core/link/strongurl.h"
 
 #include "src/module/dictionary/dictionarymodule.h"
