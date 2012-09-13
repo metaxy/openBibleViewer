@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "moduletools.h"
 #include <QtCore/QFile>
 #include <QtSql/QSqlQuery>
+#include <QtCore/QVariant> //!!!
 
 #include "src/core/dbghelper.h"
 const QString ModuleTools::strongScheme = "strong:/";
