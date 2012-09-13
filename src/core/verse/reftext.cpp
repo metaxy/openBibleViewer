@@ -34,7 +34,7 @@ void RefText::setSettings(Settings *settings)
     m_settings = settings;
 }
 
-QString RefText::toString(const VerseUrl &url)
+QString RefText::toString(const VerseUrl &url) const
 {
     QString ret = "";
     int prevBook = -2;
@@ -56,7 +56,7 @@ QString RefText::toString(const VerseUrl &url)
     }
     return ret;
 }
-QString RefText::toString(const Ranges &ranges)
+QString RefText::toString(const Ranges &ranges) const
 {
     QString ret = "";
     int prevBook = -2;
@@ -78,7 +78,7 @@ void RefText::setShowModuleName(bool show)
 {
     m_showModuleName = show;
 }
-QString RefText::toString(int moduleID, int bookID, int chapterID, int startVerseID, int endVerseID, int prevBook)
+QString RefText::toString(int moduleID, int bookID, int chapterID, int startVerseID, int endVerseID, int prevBook) const
 {
     QString ret;
     if(bookID != prevBook) {

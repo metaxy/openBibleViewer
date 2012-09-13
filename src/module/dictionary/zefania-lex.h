@@ -21,6 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/link/strongurl.h"
 
 #include "src/module/dictionary/dictionarymodule.h"
+#include "src/core/verse/reftext.h"
 
 /**
  * ZefaniaLex represents a zefaniaXML(lex) module. The file suffix is *.xml.
@@ -53,6 +54,10 @@ private:
     QString parseDesc();
     QString parseReflink();
     QString parseSee();
+
+    MetaInfo readMetaInfo(MetaInfo ret);
+
+    RefText m_refText;
 };
 
 #endif // ZefaniaLex_H

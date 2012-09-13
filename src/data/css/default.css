@@ -228,7 +228,9 @@ td .rangeTitle {
 .dictionary .transliteration:after {
      content: ") ";
 }
-
+.dictionary .pronunciation {
+    
+}
 .dictionary .pronunciation:before {
      content: " [";
 }
@@ -237,10 +239,12 @@ td .rangeTitle {
      content: "] ";
 }
 .dictionary .hr {
-    display:block;
+    display: block;
 }
 
 .dictionary .description {
+    white-space: wrap;
+    display: block;
 }
 
 .dictionary a{

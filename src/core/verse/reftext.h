@@ -22,9 +22,9 @@ public:
     RefText();
     void setSettings(Settings *settings);
     void setShowModuleName(bool show);
-    QString toString(const VerseUrl &url);
-    QString toString(const Ranges &ranges);
-    QString toString(int moduleID, int bookID, int chapterID, int startVerseID, int endVerseID, int prevBook);
+    QString toString(const VerseUrl &url) const;
+    QString toString(const Ranges &ranges) const;
+    QString toString(int moduleID, int bookID, int chapterID, int startVerseID, int endVerseID, int prevBook) const;
 private:
     bool m_showModuleName;
     Settings *m_settings;
