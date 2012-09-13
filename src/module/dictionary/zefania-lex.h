@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define ZefaniaLex_H
 #include <QtCore/QDir>
 #include <QtGui/QMessageBox>
-
+#include <QtXml/QXmlStreamReader>
 
 #include "src/core/KoXmlReader.h"
 #include "src/core/link/strongurl.h"
@@ -31,8 +31,6 @@ class ZefaniaLex : public DictionaryModule
 public:
     ZefaniaLex();
     MetaInfo readInfo(const QString &name);
-    MetaInfo buildIndexFromData(const QString &fileData, const QString &fileName);
-    MetaInfo buildIndexFromFile(const QString &fileName);
 
     Response *getEntry(const QString &entry);
     QStringList getAllKeys();
@@ -43,8 +41,18 @@ public:
     Response::ResponseType responseType() const;
 private:
     QString indexPath() const;
-    MetaInfo buildIndexFromXmlDoc(KoXmlDocument *xmldoc);
     QStringList m_entryList;
+    QXmlStreamReader *m_xml;
+    bool cmp(const QStringRef &r, const QString &s);
+
+    QString parseTitle();
+    QString parseTrans();
+    QString parseEm();
+
+    QString parsePron();
+    QString parseDesc();
+    QString parseReflink();
+    QString parseSee();
 };
 
 #endif // ZefaniaLex_H

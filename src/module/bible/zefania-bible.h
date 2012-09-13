@@ -23,9 +23,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMessageBox>
 #include <QtGui/QProgressDialog>
 
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomElement>
-#include <QtXml/QDomAttr>
 #include <QtXml/QtXml>
 
 #include "src/core/link/verseurl.h"

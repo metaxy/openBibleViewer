@@ -33,50 +33,6 @@ MetaInfo ZefaniaLex::readInfo(const QString &name)
 }
 
 /**
-  Load a Zefania XML Lex file the first time. Generates an index for fast access.
-  */
-MetaInfo ZefaniaLex::buildIndexFromData(const QString &fileData, const QString &fileName)
-{
-    DEBUG_FUNC_NAME
-    m_modulePath = fileName;
-
-    KoXmlDocument xmldoc;
-
-    QString errorMsg;
-    int eLine;
-    int eCol;
-    if(!xmldoc.setContent(fileData, &errorMsg, &eLine, &eCol)) {
-        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
-        myWarning() << "the file isn't valid , error = " << errorMsg
-                    << " line = " << eLine
-                    << " column = " << eCol;
-        return MetaInfo();
-    }
-    return buildIndexFromXmlDoc(&xmldoc);
-}
-MetaInfo ZefaniaLex::buildIndexFromFile(const QString &fileName)
-{
-    KoXmlDocument xmldoc;
-    QString errorMsg;
-    int eLine;
-    int eCol;
-    QFile file(fileName);
-    if(!file.open(QIODevice::ReadOnly))
-        return MetaInfo();
-
-    if(!xmldoc.setContent(&file, &errorMsg, &eLine, &eCol)) {
-        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid"));
-        myWarning() << "the file isn't valid , error = " << errorMsg
-                    << " line = " << eLine
-                    << " column = " << eCol;
-        return MetaInfo();
-    }
-    const MetaInfo ret = buildIndexFromXmlDoc(&xmldoc);
-    file.close();
-    return ret;
-}
-
-/**
   Returns a Entry.
   \id The key of the entry.
   */
@@ -154,29 +110,10 @@ bool ZefaniaLex::hasIndex()
 }
 int ZefaniaLex::buildIndex()
 {
+    DEBUG_FUNC_NAME;
+
+    myDebug() << "building index!!!";
     QFile file(m_modulePath);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Can not read the file"));
-        myWarning() << "can't read the file";
-        return 1;
-    }
-    KoXmlDocument xmlDoc;
-    QString error;
-    int l;
-    int c;
-    if(!xmlDoc.setContent(&file, &error, &l, &c)) {
-        QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("The file is not valid. Errorstring: %1 in Line %2 at Position %3").arg(error).arg(l).arg(c));
-        myWarning() << "the file isn't valid";
-        return 1;
-    }
-    return buildIndexFromXmlDoc(&xmlDoc).name().isEmpty() ? 2 : 0;
-}
-
-MetaInfo ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
-{
-    try {
-
-    MetaInfo info;
     int couldBe = 0;//1 = RMac
 
     Document indexdoc;
@@ -184,142 +121,257 @@ MetaInfo ZefaniaLex::buildIndexFromXmlDoc(KoXmlDocument *xmldoc)
     QString fileTitle;
     QString uid;
     QString type;
-
     QDir dir("/");
     dir.mkpath(index);
 
     RefText refText;
     refText.setSettings(m_settings);
-
+    MetaInfo info;
     IndexWriter* writer = NULL;
     const TCHAR* stop_words[] = { NULL };
     standard::StandardAnalyzer an(stop_words);
 
-    if(IndexReader::indexExists(index.toStdString().c_str())) {
-        if(IndexReader::isLocked(index.toStdString().c_str())) {
-            myDebug() << "Index was locked... unlocking it.";
-            IndexReader::unlock(index.toStdString().c_str());
+    //open the xml file
+    if(!file.open(QFile::ReadOnly | QFile::Text))
+        return 1;
+    m_xml = new QXmlStreamReader(&file);
+
+    try {
+
+        if(IndexReader::indexExists(index.toStdString().c_str())) {
+            if(IndexReader::isLocked(index.toStdString().c_str())) {
+                myDebug() << "Index was locked... unlocking it.";
+                IndexReader::unlock(index.toStdString().c_str());
+            }
         }
-    }
-    writer = new IndexWriter(index.toStdString().c_str() , &an, true);
+        writer = new IndexWriter(index.toStdString().c_str() , &an, true);
 
-    writer->setMaxFieldLength(0x7FFFFFFFL);
-    writer->setUseCompoundFile(false);
+        writer->setMaxFieldLength(0x7FFFFFFFL);
+        writer->setUseCompoundFile(false);
 
-    KoXmlNode item = xmldoc->documentElement().firstChild();
-    type = xmldoc->documentElement().toElement().attribute("type", "");
-    TCHAR *buffer = SearchTools::createBuffer();
-    for(int c = 0; !item.isNull();) {
-        QString key = "";
-        QString title = "";
-        QString trans = "";
-        QString pron = "";
-        QString desc = "";
-        KoXmlElement e = item.toElement();
-        if(e.tagName().compare("INFORMATION", Qt::CaseInsensitive) == 0) {
-            KoXmlNode title = item.namedItem("subject");
-            KoXmlNode identifer = item.namedItem("identifier");
+        TCHAR *buffer = SearchTools::createBuffer();
+//todo: get type
 
-            fileTitle = title.toElement().text();
-            uid = identifer.toElement().text();
+        if(m_xml->readNextStartElement()) {
+            if(cmp(m_xml->name(), "dictionary")) {
+                while(m_xml->readNextStartElement()) {
+                    if(cmp(m_xml->name(), "item")) {
+                        QString content;
+                        const QString key = m_xml->attributes().value("id").toString();
+                        if(couldBe == 0) {
+                            if(key.toUpper() == "A-APF" || key.toUpper() == "X-NSN" || key.toUpper() == "V-PAP-DPN") {//todo: speed
+                                couldBe = 1;
+                            }
+                        }
+                        while(true) {
+                            m_xml->readNext();
 
-        } else if(e.tagName().compare("item", Qt::CaseInsensitive) == 0) {
-            key = e.attribute("id");
-            KoXmlNode details = item.firstChild();
-            while(!details.isNull()) {
-                KoXmlElement edetails = details.toElement();
-                if(edetails.tagName().compare("title", Qt::CaseInsensitive) == 0) {
-                    title = edetails.text();
-                } else if(edetails.tagName().compare("transliteration", Qt::CaseInsensitive) == 0) {
-                    trans = edetails.text();
-                } else if(edetails.tagName().compare("pronunciation", Qt::CaseInsensitive) == 0) {
-                    KoXmlNode em = details.firstChild();
-                    while(!em.isNull()) {
-                        if(em.toElement().tagName().compare("em", Qt::CaseInsensitive) == 0)
-                            pron = "<em>" + em.toElement().text() + "</em>";
-                        em = em.nextSibling();
-                    }
-                } else if(edetails.tagName().compare("description", Qt::CaseInsensitive) == 0) {
-                    KoXmlNode descNode = details.firstChild();
-                    while(!descNode.isNull()) {
-                        if(descNode.nodeType() == 2) {
-                            desc += descNode.toText().data();
-                        } else if(descNode.nodeType() == 1) {
-                            KoXmlElement descElement = descNode.toElement();
-                            if(descElement.tagName().compare("reflink", Qt::CaseInsensitive) == 0) {
-                                if(descElement.hasAttribute("mscope")) {
-                                    const QString mscope = descElement.attribute("mscope", ";;;");
+                            if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), QLatin1String("item"))))
+                                break;
 
-                                    VerseUrl url;
-                                    url.fromMscope(mscope);
-
-                                    desc += " <a class='crossreference' href=\"" + url.toString() + "\">" + refText.toString(url) + "</a> ";
-                                } else if(descElement.hasAttribute("target")) {
-                                    desc += descElement.text();
-                                }
-
-                            } else if(descElement.tagName().compare("see", Qt::CaseInsensitive) == 0) {
-                                const QString target = descElement.attribute("target", "");
-                                //todo: currently we assume target = x-self
-                                StrongUrl url;
-                                bool ok = url.fromText(descElement.text());
-                                if(ok)
-                                    desc += " <a class='crossreference' href=\"" + url.toString() + "\">" + descElement.text() + "</a> ";
+                            if(m_xml->tokenType() == QXmlStreamReader::Characters) {
+                                content += m_xml->text().toString();
+                            } else if(cmp(m_xml->name(), "title")) {
+                                content += "<h3 class='title'>" + key + " - " + parseTitle() + "</h3>";
+                            } else if(cmp(m_xml->name(), "transliteration")) {
+                                content += "<span class='transliteration'>" + parseTrans() + "</span>" ;
+                            }  else if(cmp(m_xml->name(), "pronunciation")) {
+                                content += "<span class='pronunciation'>" + parsePron() + "</span>";
+                            } else if(cmp(m_xml->name(), "description")) {
+                                content += "<span class='description'>" + parseDesc() + "</span>";
+                            } else {
+                                content += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
                             }
                         }
 
-                        descNode = descNode.nextSibling();
+                        indexdoc.clear();
+                        indexdoc.add(*_CLNEW Field(_T("key"), SearchTools::toTCHAR(key, buffer), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                        indexdoc.add(*_CLNEW Field(_T("content"), SearchTools::toTCHAR(content, buffer), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                        writer->addDocument(&indexdoc);
+
+                    } else {
+                        m_xml->skipCurrentElement();
                     }
-                    desc += "<span class=\"hr\" />";
                 }
-                details = details.nextSibling();
+            } else {
+                myWarning() << "not a file";
             }
-            if(couldBe == 0) {
-                if(key.toUpper() == "A-APF" || key.toUpper() == "X-NSN" || key.toUpper() == "V-PAP-DPN") {
-                    couldBe = 1;
-                }
-            }
-            QString content = "<h3 class='title'>" + key + " - " + title + "</h3>";
-            if(!trans.isEmpty()) {
-                content += "<span class='transliteration'>" + trans + "</span>";
-            }
-            if(!pron.isEmpty()) {
-                content += "<span class='pronunciation'>" + pron + "</span>";
-            }
-            content += "<span class='description'>" + desc + "</span>";
-            indexdoc.clear();
-            indexdoc.add(*_CLNEW Field(_T("key"), SearchTools::toTCHAR(key, buffer), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-            indexdoc.add(*_CLNEW Field(_T("content"), SearchTools::toTCHAR(content, buffer), Field::STORE_YES |  Field::INDEX_TOKENIZED));
-            writer->addDocument(&indexdoc);
-
         }
-        item = item.nextSibling();
-        c++;
-    }
-    writer->setUseCompoundFile(true);
-    writer->optimize();
 
-    writer->close();
-    delete writer;
-    info.setName(fileTitle);
-    info.setUID(uid);
-    if(type == "x-strong") {
-        info.setDefaultModule(ModuleTools::DefaultStrongDictModule);
-        info.setContent(ModuleTools::StrongsContent);
-    } else if(type == "x-dictionary") {
-        if(couldBe == 1) {
-            info.setDefaultModule(ModuleTools::DefaultRMACDictModule);
-            info.setContent(ModuleTools::RMACContent);
-        } else {
-            info.setDefaultModule(ModuleTools::DefaultDictModule);
+        writer->setUseCompoundFile(true);
+        writer->optimize();
+
+        writer->close();
+        delete writer;
+
+        info.setName(fileTitle);
+        info.setUID(uid);
+        if(type == "x-strong") {
+            info.setDefaultModule(ModuleTools::DefaultStrongDictModule);
+            info.setContent(ModuleTools::StrongsContent);
+        } else if(type == "x-dictionary") {
+            if(couldBe == 1) {
+                info.setDefaultModule(ModuleTools::DefaultRMACDictModule);
+                info.setContent(ModuleTools::RMACContent);
+            } else {
+                info.setDefaultModule(ModuleTools::DefaultDictModule);
+            }
         }
-    }
-    return info;
     }
     catch(...) {
-        return MetaInfo();
     }
+
+    file.close();
+    delete m_xml;
+    m_xml = NULL;
+    return 0;
 }
+QString ZefaniaLex::parseTitle()
+{
+    QString ret;
+    while(true) {
+        m_xml->readNext();
+
+        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), QLatin1String("title"))))
+            break;
+
+        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
+            ret += m_xml->text().toString();
+        } else {
+            ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        }
+    }
+    return ret;
+}
+QString ZefaniaLex::parseTrans()
+{
+    QString ret;
+    while(true) {
+        m_xml->readNext();
+
+        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), QLatin1String("transliteration"))))
+            break;
+
+        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
+            ret += m_xml->text().toString();
+        } else if(cmp(m_xml->name(), "em")) {
+            ret += parseEm();
+        } else {
+            ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        }
+    }
+    return ret;
+}
+QString ZefaniaLex::parseEm()
+{
+    const QString pre("<em>");
+    QString post("</em>");
+
+    QString ret;
+    while(true) {
+        m_xml->readNext();
+
+        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), QLatin1String("em"))))
+            break;
+
+        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
+            ret += m_xml->text().toString();
+        } else {
+            ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        }
+    }
+    return pre+ret+post;
+}
+
+QString ZefaniaLex::parsePron()
+{
+    QString ret;
+    while(true) {
+        m_xml->readNext();
+
+        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), QLatin1String("pronunciation"))))
+            break;
+
+        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
+            ret += m_xml->text().toString();
+        } else if(cmp(m_xml->name(), "em")) {
+            ret += parseEm();
+        } else {
+            ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        }
+    }
+    return ret;
+}
+QString ZefaniaLex::parseDesc()
+{
+    QString ret;
+    while(true) {
+        m_xml->readNext();
+
+        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), QLatin1String("description"))))
+            break;
+
+        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
+            ret += m_xml->text().toString();
+        } else if(cmp(m_xml->name(), "em")) {
+            ret += parseEm();
+        } else if(cmp(m_xml->name(), "see")) {
+            ret += parseSee();
+        } else if(cmp(m_xml->name(), "reflink")) {
+            ret += parseReflink();
+        } /*else if(cmp(m_xml->name(), "xref")) {
+            ret += pharseReflink();
+        } */else {
+            ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        }
+    }
+    return ret;
+}
+
+QString ZefaniaLex::parseReflink()
+{
+    const QStringRef fscope = m_xml->attributes().value("fscope");
+    const QStringRef mscope = m_xml->attributes().value("mscope");
+    const QStringRef target = m_xml->attributes().value("target");
+
+    QString ret;
+    if(!mscope.isEmpty()) {
+        VerseUrl burl;
+        burl.fromMscope(mscope.toString());
+
+        QString text;
+        if(!fscope.isEmpty()) {
+            text = fscope.toString();
+        } else  {
+            RefText refText;
+            refText.setSettings(m_settings);
+            text = refText.toString(burl);
+        }
+
+        ret = "<span class=\"crossreference\"><a class=\"reflink\" href=\"" + burl.toString() + "\">" + text + "</a></span>";
+
+    } else if(!target.isEmpty()) {
+        ret = m_xml->text().toString();
+        //todo: does it goes forward???
+    }
+    m_xml->skipCurrentElement();
+    return ret;
+}
+QString ZefaniaLex::parseSee()
+{
+    //todo: currently we assume target = x-self
+    const QStringRef target = m_xml->attributes().value("target");
+
+    QString ret;
+    if(!target.isEmpty()) {
+        StrongUrl url;
+        if(url.fromText(m_xml->text().toString()))
+            ret = " <a class='crossreference' href='" + url.toString() + "'>" + m_xml->text().toString() + "</a> ";
+    }
+    m_xml->skipCurrentElement();
+    return ret;
+}
+
 QString ZefaniaLex::indexPath() const
 {
     return m_settings->homePath + "cache/" + m_settings->hash(m_modulePath);
@@ -327,4 +379,8 @@ QString ZefaniaLex::indexPath() const
 Response::ResponseType ZefaniaLex::responseType() const
 {
     return Response::StringReponse;
+}
+bool ZefaniaLex::cmp(const QStringRef &r, const QString &s)
+{
+    return r == s || r == s.toLower();
 }
