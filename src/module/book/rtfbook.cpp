@@ -70,7 +70,7 @@ QString RTFBook::readAll()
 {
     QTextDocument rtfDocument;
     RtfReader::Reader *reader = new RtfReader::Reader( NULL );
-    bool result = reader->open(m_path);
+    reader->open(m_path);
     RtfReader::TextDocumentRtfOutput *output = new RtfReader::TextDocumentRtfOutput( &rtfDocument );
     reader->parseTo( output );
     delete reader;

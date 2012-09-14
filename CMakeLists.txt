@@ -27,16 +27,16 @@ endif()
 
 if(UNIX)
   if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
-    add_definitions ( -Wall -g)
+    add_definitions ( -Wall -Wextra -Wformat -g3 -fstack-check -Weffc++)
   endif()
 endif(UNIX)
 
-find_package ( Qt4 REQUIRED )
-find_package(CLucene1)
+find_package( Qt4 REQUIRED )
+find_package( CLucene1 REQUIRED)
 
 
 pkg_check_modules(ZLIB REQUIRED zlib)
-
+#find_package( Zlib )
 
 option( OBV_PORTABLE_VERSION "Build a portable version" OFF )
 option( OBV_SWORD_SUPPORT "Build with sword support" OFF )

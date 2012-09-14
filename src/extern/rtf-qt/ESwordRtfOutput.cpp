@@ -38,6 +38,7 @@ ESwordRtfOutput::~ESwordRtfOutput()
 
 void ESwordRtfOutput::setFontUnderline(const int value)
 {
+    Q_UNUSED(value);
     /*m_textCharFormatStack.top().setFontUnderline(value != 0);
     m_cursor->setCharFormat(m_textCharFormatStack.top());*/
 }
