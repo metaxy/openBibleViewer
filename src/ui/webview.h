@@ -26,6 +26,7 @@ public:
     explicit WebView(QWidget *parent = 0);
 
     void scrollToAnchor(const QString &anchor);
+    bool hasSelection() const;
 protected:
     void mouseReleaseEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);

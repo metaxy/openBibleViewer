@@ -69,3 +69,11 @@ void WebView::mousePressEvent(QMouseEvent *event)
      m_keyboardModifiers = event->modifiers();
      QWebView::mousePressEvent(event);
 }
+bool WebView::hasSelection() const
+{
+    #if QT_VERSION >= 0x40800
+      return QWebView::hasSelection();
+    #else
+      return true;
+    #endif
+}

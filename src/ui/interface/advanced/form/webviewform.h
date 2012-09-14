@@ -59,6 +59,8 @@ public slots:
      */
     virtual void openInS();
     virtual void openInNewS();
+
+
 protected:
 
     QString m_contextMenuUrl;

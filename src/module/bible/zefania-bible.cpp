@@ -17,9 +17,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "config.h"
 #include "CLucene.h"
 #include "CLucene/clucene-config.h"
-#include <QXmlStreamReader>
 #include "src/core/search/searchtools.h"
-#include <QTextDocument>
+#include <QtGui/QTextDocument> //!!!
+#include <QtXml/QXmlStreamReader>
+
 
 using namespace lucene::analysis;
 using namespace lucene::index;

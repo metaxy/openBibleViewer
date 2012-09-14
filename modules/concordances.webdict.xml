@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module id="newtestamentgreek-studylight.org" type="webdict">
+    <meta>
+        <name>Strong Lexicon - Concordances.org</name>
+        <shortName>Concordances Strong Lex</shortName>
+        <desc>Biblos.com</desc>
+        <type>strong-dictionary</type>
+    </meta>
+    <data>
+        <site>
+            <url>http://concordances.org/</url>
+            <parseIn><![CDATA[
+                (function(a) { 
+                    if(a.indexOf(" ") > 0) {
+                        a = a.substr(0, a.indexOf(" "));
+                    }
+		   
+                    if(a[0] == 'G' || a[0] == 'g') {
+			a = a.substr(1);
+                        return "http://concordances.org/greek/"+ a +".htm";
+                    } else if(a[0] == 'H' || a[0] == 'h') {
+			a = a.substr(1);
+                        return "http://concordances.org/hebrew/"+ a +".htm";
+                    }
+		    
+                    return "http://concordances.org/";
+                 })
+                ]]>
+            </parseIn>
+            <parseOut>
+                <![CDATA[
+                    (function(a) {
+			var backup = a;
+                        var str = "http://concordances.org
+                        if(a.indexOf(str) === 0) {
+                            a = a.substr(str.length);
+                            if(a.indexOf("/hebrew/"") === 0) {
+                                return "strong:/H" + a;
+                            } else if(a.indexOf("/greek/"") === 0) {
+                                return "strong:/G" + a;
+                            } else {
+                                return backup;
+                            }
+                            
+                        } else {
+                            return backup;
+                        }
+                    })
+                 ]]>
+            </parseOut>
+
+        </site>
+    </data>
+</module>

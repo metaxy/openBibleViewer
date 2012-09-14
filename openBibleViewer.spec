@@ -1,7 +1,7 @@
 #
 # spec file for package openBibleViewer (Version 0.7)
 #
-# Copyright 2009-2010 Paul Walger http://paul.walger.eu
+# Copyright 2009-2010 Paul Walger <metaxy@walger.name>
 #
 # This file and all modifications and additions to the openBibleViewer  
 # package are under the same license as the package itself. 
@@ -20,24 +20,24 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-build
 %if 0%{?fedora_version}
 
 %if 0%{?fedora_version} < 14
-BuildRequires: qt-devel >= 4.6 gcc-c++ zlib
+BuildRequires: qt-devel >= 4.6 zlib
 %endif
 
 %if 0%{?fedora_version} >= 14
-BuildRequires: qt-devel >= 4.6 gcc-c++  zlib qt-webkit-devel >= 4.6
+BuildRequires: qt-devel >= 4.6 zlib qt-webkit-devel >= 4.6
 %endif
 
 %endif
 
 %if 0%{?mandriva_version}
-BuildRequires: libqt4-devel >= 4.6 gcc-c++  libz
+BuildRequires: libqt4-devel >= 4.6 libz
 %endif
 
 %if 0%{?suse_version}
-BuildRequires: libqt4-devel >= 4.6 libQtWebKit-devel >= 4.6 gcc-c++  libz
+BuildRequires: libqt4-devel >= 4.6 libQtWebKit-devel >= 4.6 libz
 %endif
 
-BuildRequires: desktop-file-utils cmake clucene1-core clucene1-devel
+BuildRequires: desktop-file-utils cmake clucene1-core clucene1-devel gcc-c++
 
 %description
 This program allows one to work with the bible and study it.

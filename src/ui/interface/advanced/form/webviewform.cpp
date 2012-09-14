@@ -208,3 +208,4 @@ void WebViewForm::openInNewS()
     dialog->exec();
     delete dialog;
 }
+
