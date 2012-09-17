@@ -60,6 +60,7 @@ DictionaryForm::DictionaryForm(QWidget *parent) :
 
     m_lastFilledModuleID = -1;
 
+    connect(ui->toolButton_openIn, SIGNAL(clicked()), this, SLOT(openInMenu()));
 }
 
 DictionaryForm::~DictionaryForm()
@@ -539,6 +540,67 @@ void DictionaryForm::showContextMenu(QContextMenuEvent* ev)
 
         contextMenu->exec(ev->globalPos());
     }
+}
+void DictionaryForm::openInMenu()
+{
+    QScopedPointer<QMenu> contextMenu(new QMenu(this));
+    QList<int> usedModules;
+    ModuleTools::ContentType type = m_settings->getModuleSettings(dictionary()->moduleID())->contentType;
+    ModuleTools::ModuleClass cl = ModuleTools::typeToClass(dictionary()->moduleType());
+    QList<ModuleSettings*> list = m_settings->m_moduleSettings.values();
+
+    qSort(list.begin(), list.end(), ModuleManager::sortModuleByPop);
+
+    bool addSep = true;
+    int counter = 0;
+
+    if(type != ModuleTools::UnkownContent) {
+        //most 7 used with the right content type
+
+        foreach(ModuleSettings* m, list) {
+            if(counter > 8)
+                break;
+            if(ModuleTools::alsoOk(m->contentType, type)
+                    && m->contentType != ModuleTools::UnkownContent
+                    && !usedModules.contains(m->moduleID)) {
+
+                usedModules.append(m->moduleID);
+                counter++;
+
+                QAction *n = new QAction(m->name(true), contextMenu.data());
+                n->setData(m->moduleID);
+                connect(n, SIGNAL(triggered()), this, SLOT(openIn()));
+                contextMenu->addAction(n);
+            }
+        }
+    } else {
+        addSep = false;
+    }
+
+    counter = 0;
+    foreach(ModuleSettings* m, list) {
+        if(counter > 3)
+            break;
+        if(ModuleTools::typeToClass(m->moduleType) == cl
+                && !usedModules.contains(m->moduleID)) {
+
+            usedModules.append(m->moduleID);
+            counter++;
+            if(addSep) {
+                contextMenu->addSeparator();
+                addSep = false;
+            }
+
+            QAction *n = new QAction(m->name(true), contextMenu.data());
+            n->setData(m->moduleID);
+            connect(n, SIGNAL(triggered()), this, SLOT(openIn()));
+            contextMenu->addAction(n);
+        }
+    }
+    m_contextMenuUrl = m_browserHistory.current();
+
+    contextMenu->exec(ui->toolButton_openIn->parentWidget()->mapToGlobal(ui->toolButton_openIn->frameGeometry().bottomLeft()));
+
 }
 
 void DictionaryForm::changeEvent(QEvent *e)

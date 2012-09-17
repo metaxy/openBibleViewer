@@ -169,13 +169,19 @@ void WebViewForm::openInNew()
 }
 void WebViewForm::openIn(QString url, const int moduleID, const Actions::OpenLinkModifiers mod)
 {
+    DEBUG_FUNC_NAME;
+    myDebug() << url << m_settings->getModuleSettings(moduleID)->moduleName;
+
     if(url.startsWith(ModuleTools::strongScheme)) {
         url = url.remove(0, ModuleTools::strongScheme.size());
         m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, mod);
     } else if(url.startsWith(ModuleTools::rmacScheme)) {
         url = url.remove(0, ModuleTools::rmacScheme.size());
         m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, mod);
-    } else if(url.startsWith(ModuleTools::verseScheme)) {
+    } else if(url.startsWith(ModuleTools::dictScheme)) {
+        url = url.remove(0, ModuleTools::dictScheme.size());
+        m_actions->get(ModuleTools::dictScheme + QString::number(moduleID) + "/" + url, mod);
+    }  else if(url.startsWith(ModuleTools::verseScheme)) {
         VerseUrl vurl;
         vurl.fromStringUrl(url);
         vurl.setModuleID(moduleID);

@@ -27,7 +27,8 @@ endif()
 
 if(UNIX)
   if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
-    add_definitions ( -Wall -Wextra -Wformat -g3 -fstack-check -Weffc++)
+    add_definitions ( -Wall -Wextra -Wformat -g3)
+    #add_definitions ( -Wall -Wextra -Wformat -g3 -fstack-check -Weffc++)
   endif()
 endif(UNIX)
 

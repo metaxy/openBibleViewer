@@ -106,3 +106,7 @@ void History::unlock()
 {
     m_lock = false;
 }
+QString History::current() const
+{
+    return m_backwardItems.last();
+}

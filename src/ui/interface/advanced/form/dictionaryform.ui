@@ -45,6 +45,23 @@
       </widget>
      </item>
      <item>
+      <widget class="QToolButton" name="toolButton_openIn">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../../icons.qrc">
+         <normaloff>:/icons/16x16/text-html.png</normaloff>:/icons/16x16/text-html.png</iconset>
+       </property>
+       <property name="autoRaise">
+        <bool>false</bool>
+       </property>
+       <property name="arrowType">
+        <enum>Qt::DownArrow</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLineEdit" name="lineEdit_input"/>
      </item>
      <item>
@@ -67,6 +84,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QSplitter" name="splitter">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
        <widget class="QListView" name="listView"/>
       </widget>
      </item>

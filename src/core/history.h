@@ -42,6 +42,8 @@ public:
     void lock();
     void unlock();
 
+    QString current() const;
+
 private:
     QStringList m_forwardItems;
     QStringList m_backwardItems;

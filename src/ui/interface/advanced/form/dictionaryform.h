@@ -52,6 +52,8 @@ private slots:
 
     void loadKey(const QModelIndex &index);
     void selectKey(const QString &key);
+
+    void openInMenu();
 protected:
     void changeEvent(QEvent *e);
 private:
