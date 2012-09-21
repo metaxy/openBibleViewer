@@ -66,6 +66,8 @@ static QString strongScheme = "strong:/";
 static QString gramScheme = "gram:/";
 static QString rmacScheme = "rmac:/";
 
+typedef quint32 rid;
+
 /*  QStringList ModuleTypeNames()
   {
       QStringList l;

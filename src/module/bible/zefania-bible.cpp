@@ -21,6 +21,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QTextDocument> //!!!
 #include <QtXml/QXmlStreamReader>
 
+#include "src/core/obvcore.h" //???
+#include "src/core/raw/rmetadata.h"
+#include <src/core/raw/chapterblock.h>
 
 using namespace lucene::analysis;
 using namespace lucene::index;
@@ -570,6 +573,20 @@ VerseBook ZefaniaBible::readBook()
     }
     return book;
 }
+BookBlock ZefaniaBible::rawReadBook(rid parent)
+{
+    m_bookID = m_xml->attributes().value("bnumber").toString().toInt() - 1;
+    rid id = m_idGen.next();
+    BookBlock book(id, RMetaData(parent, RMetaData::BookBlock));
+    while(m_xml->readNextStartElement()) {
+        if(cmp(m_xml->name(), "CHAPTER")) {
+            book.add(rawReadChapter(id));
+        } else {
+            m_xml->skipCurrentElement();
+        }
+    }
+    return book;
+}
 
 
 Chapter ZefaniaBible::readChapter()
@@ -585,6 +602,23 @@ Chapter ZefaniaBible::readChapter()
     }
     return chapter;
 }
+
+ChapterBlock ZefaniaBible::rawReadChapter(rid parent)
+{
+    const int chapterID = m_xml->attributes().value("cnumber").toString().toInt() - 1;
+    rid id = m_idGen.next();
+    ChapterBlock chapter(id, RMetaData(parent, RMetaData::ChapterBlock));
+    
+    while(m_xml->readNextStartElement()) {
+        if(cmp(m_xml->name(), "VERS")) {
+            chapter.add(rawReadVerse(parent));
+        } else {
+            m_xml->skipCurrentElement();
+        }
+    }
+    return chapter;
+}
+
 
 Verse ZefaniaBible::readVerse()
 {
