@@ -1,11 +1,10 @@
 #ifndef RMETADATA_H
 #define RMETADATA_H
 #include "src/core/obvcore.h"
+
 class RMetaData
 {
 public:
-    RMetaData(rid parent, RMetaData::RType t);
-    
     enum RType {
         Block,
         ElementaryBlock,
@@ -15,9 +14,13 @@ public:
         StyleFragment,
         TextFragment
     };
+
+    RMetaData(quint32 parent, RMetaData::RType t);
+    
+
     
     RMetaData::RType type;
-    rid parentRID;
+    quint32 parentRID;
     
 };
 

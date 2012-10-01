@@ -6,7 +6,7 @@ class BookBlock : public RBlock
 {
     
 public:
-    
+    BookBlock(quint32 id, const RMetaData &data);
 };
 
 #endif // BOOKBLOCK_H

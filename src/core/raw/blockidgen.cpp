@@ -5,7 +5,7 @@ BlockIDGen::BlockIDGen() : counter(0)
 
 }
 
-rid BlockIDGen::next()
+quint32 BlockIDGen::next()
 {
     return ++counter;
 }

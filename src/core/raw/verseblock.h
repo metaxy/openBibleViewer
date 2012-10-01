@@ -6,7 +6,8 @@
 
 class VerseBlock : public RBlock
 {
-    
+public:
+    VerseBlock(quint32 id, const RMetaData& data);
 };
 
 #endif // VERSEBLOCK_H

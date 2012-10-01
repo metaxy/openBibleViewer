@@ -1,12 +1,12 @@
 #ifndef BLOCKIDGEN_H
 #define BLOCKIDGEN_H
-#include <qglobal.h>
 #include "src/core/obvcore.h"
 class BlockIDGen
 {
+public:
     BlockIDGen();
-    rid counter;
-    rid next();
+    quint32 counter;
+    quint32 next();
     
 };
 

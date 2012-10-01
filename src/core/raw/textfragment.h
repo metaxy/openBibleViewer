@@ -5,6 +5,7 @@
 class TextFragment : public RBlock
 {
 public:
+    TextFragment(quint32 id, const RMetaData& data);
     QString text;
 };
 

@@ -1,7 +1,7 @@
 #include "rblock.h"
 #include "rmetadata.h"
 
-RBlock::RBlock(qint64 rid, const RMetaData &data) : m_rid(rid), m_data(data)
+RBlock::RBlock(quint32 rid, const RMetaData &data) : m_rid(rid), m_data(data)
 {
 }
 
@@ -19,7 +19,7 @@ bool RBlock::operator==(const RBlock& other) const
     return this->rid() == other.rid();
 }
 
-qint64 RBlock::rid() const
+quint32 RBlock::rid() const
 {
     return m_rid;
 }

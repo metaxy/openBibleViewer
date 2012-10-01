@@ -67,6 +67,16 @@ SET(
     link/urlconverter2.cpp
 
     books/booktree.cpp
+
+    raw/blockidgen.cpp
+    raw/bookblock.cpp
+    raw/chapterblock.cpp
+    raw/elementaryblock.cpp
+    raw/rblock.cpp
+    raw/rmetadata.cpp
+    raw/stylefragment.cpp
+    raw/textfragment.cpp
+    raw/verseblock.cpp
 )
 QT4_AUTOMOC( ${OBVCore_SRCS} )
 

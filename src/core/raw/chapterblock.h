@@ -4,6 +4,8 @@
 
 class ChapterBlock : public RBlock
 {
+public:
+    ChapterBlock(quint32 id, const RMetaData &data);
 };
 
 #endif // CHAPTERBLOCK_H

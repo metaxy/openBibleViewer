@@ -24,6 +24,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/obvcore.h" //???
 #include "src/core/raw/rmetadata.h"
 #include <src/core/raw/chapterblock.h>
+#include <src/core/raw/textfragment.h>
 
 using namespace lucene::analysis;
 using namespace lucene::index;
@@ -573,10 +574,10 @@ VerseBook ZefaniaBible::readBook()
     }
     return book;
 }
-BookBlock ZefaniaBible::rawReadBook(rid parent)
+BookBlock ZefaniaBible::rawReadBook(quint32 parent)
 {
     m_bookID = m_xml->attributes().value("bnumber").toString().toInt() - 1;
-    rid id = m_idGen.next();
+    quint32 id = m_idGen.next();
     BookBlock book(id, RMetaData(parent, RMetaData::BookBlock));
     while(m_xml->readNextStartElement()) {
         if(cmp(m_xml->name(), "CHAPTER")) {
@@ -603,10 +604,10 @@ Chapter ZefaniaBible::readChapter()
     return chapter;
 }
 
-ChapterBlock ZefaniaBible::rawReadChapter(rid parent)
+ChapterBlock ZefaniaBible::rawReadChapter(quint32 parent)
 {
     const int chapterID = m_xml->attributes().value("cnumber").toString().toInt() - 1;
-    rid id = m_idGen.next();
+    quint32 id = m_idGen.next();
     ChapterBlock chapter(id, RMetaData(parent, RMetaData::ChapterBlock));
     
     while(m_xml->readNextStartElement()) {
@@ -620,6 +621,43 @@ ChapterBlock ZefaniaBible::rawReadChapter(rid parent)
 }
 
 
+VerseBlock ZefaniaBible::rawReadVerse(quint32 parent)
+{
+    quint32 id = m_idGen.next();
+    VerseBlock verse(id, RMetaData(parent, RMetaData::VerseBlock));
+    
+    const int verseID = m_xml->attributes().value("vnumber").toString().toInt() - 1;
+    
+    while(true) {
+        m_xml->readNext();
+
+        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), "VERS")))
+            break;
+
+        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
+            TextFragment t(m_idGen.next(), RMetaData(id, RMetaData::TextFragment));
+            t.text = Qt::escape(m_xml->text().toString());
+            verse.add(t);
+        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st") {
+            //out += parseStyle();
+        } else if(cmp(m_xml->name(), "NOTE")) {
+            //out += parseNote();
+        } else if(cmp(m_xml->name(), "BR")) {
+            //out += parseBr();
+        } else if(cmp(m_xml->name(), "DIV")) {
+            //out += parseDiv();
+        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == QLatin1String("gr")) {
+            //out += parseGram();
+        } else if(cmp(m_xml->name(), "SUP")) {
+            //out += parseSup();
+        } else if(cmp(m_xml->name(), "XREF")) {
+            //out += parseXRef();
+        } else {
+            //out += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+        }
+    }
+    return verse;
+}
 Verse ZefaniaBible::readVerse()
 {
     const int verseID = m_xml->attributes().value("vnumber").toString().toInt() - 1;

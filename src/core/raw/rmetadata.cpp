@@ -1,6 +1,6 @@
 #include "rmetadata.h"
 
-RMetaData::RMetaData(rid parent, RMetaData::RType t) : parentRID(parent), type(t)
+RMetaData::RMetaData(quint32 parent, RMetaData::RType t) : parentRID(parent), type(t)
 {
 
 }

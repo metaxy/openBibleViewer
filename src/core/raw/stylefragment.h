@@ -4,7 +4,7 @@
 class StyleFragment : public RBlock
 {
 public:
-    QString css,
+    QString css;
 };
 
 #endif // STYLEFRAGMENT_H
