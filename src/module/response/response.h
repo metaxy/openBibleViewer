@@ -25,6 +25,7 @@ public:
     };
 
     Response();
+    virtual ~Response();
     virtual bool isValid() const;
     virtual Response::ResponseType type() const;
 

@@ -17,6 +17,11 @@ Response::Response()
 {
     //m_layout = Qt::LayoutDirectionAuto;
 }
+Response::~Response()
+{
+
+}
+
 bool Response::isValid() const
 {
     return false;
