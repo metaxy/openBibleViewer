@@ -116,7 +116,7 @@ void ZefaniaBible::getVersification()
         if(cmp(m_xml->name(), "XMLBIBLE")) {
             while(m_xml->readNextStartElement()) {
                 if(cmp(m_xml->name(), "BIBLEBOOK")) {
-                    std::pair<qint64, qint64> p;
+                    std::pair<qint64, qint64> p;//start and end of a biblebook
                     p.first = m_xml->lineNumber();
                     BookV11N b;
                     b.bookID = m_xml->attributes().value("bnumber").toString().toInt() - 1;
@@ -185,10 +185,14 @@ void ZefaniaBible::getVersification()
 
         m_set->saveVersification();
     }
-    generateCache(lines);
-    //make cache
+    generateCache(lines);    //make cache
 
 }
+/**
+ * @brief ZefaniaBible::generateCache generates a cache for faster access by splitting the big book in small books
+ * It uses a start and end points for a file the data from ZefaniaBible::getVersification(), see list
+ * @param list
+ */
 void ZefaniaBible::generateCache(QList<std::pair<qint64, qint64> > list)
 {
     //DEBUG_FUNC_NAME;

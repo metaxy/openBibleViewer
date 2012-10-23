@@ -28,8 +28,6 @@ class TextRanges
 {
 public:
 
-
-
     TextRanges();
     TextRanges(const TextRanges &r);
     void addTextRange(const TextRange &range);
