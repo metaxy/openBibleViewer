@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module id="nt.clause.opentext.org" type="webcommentary">
+    <meta>
+        <name>OpenText Clause</name>
+        <shortName>OpenText Cl</shortName>
+        <desc>The OpenText.org project is a web-based initiative to develop annotated Greek texts and tools for their analysis.</desc>
+        <versification>kjv-nt</versification>
+    </meta>
+    <data>
+        <site>
+            <url>http://opentext.org/model/introduction.html</url>
+            <parseInBook><![CDATA[
+                (function(bookID, bookName) {
+					if(bookID < 39) return "http://opentext.org/";
+
+					return "http://opentext.org/texts/NT/"+bookName+".html";
+                 })
+                ]]>
+            </parseInBook>
+            <parseInChapter><![CDATA[
+                (function(bookID, bookName, chapter) { 
+					if(bookID < 39) return "http://opentext.org/";
+
+                    return "http://opentext.org/texts/NT/"+bookName+"/view/clause-ch"+(chapter+1)+".v0.html";
+                 })
+                ]]>
+            </parseInChapter>
+            <parseInVerse><![CDATA[
+                (function(bookID, bookName, chapter, verse) {
+					if(bookID < 39) return "http://opentext.org/";
+                    return "http://opentext.org/texts/NT/"+bookName+"/view/clause-ch"+(chapter+1)+".v0.html";
+                 })
+                ]]>
+            </parseInVerse>
+            <parseOut>
+                <![CDATA[
+                    (function(a) { 
+                        return a;
+                    })
+                 ]]>
+            </parseOut>
+            <books> 
+                <book id="39">Matt</book>
+                <book id="40">Mark</book>
+                <book id="41">Luke</book>
+                <book id="42">John</book>
+                <book id="43">Acts</book>
+                <book id="44">Rom</book>
+                <book id="45">1Cor</book>
+                <book id="46">2Cor</book>
+                <book id="47">Gal</book>
+                <book id="48">Eph</book>
+                <book id="49">Phil</book>
+                <book id="50">Col</book>
+                <book id="51">1Thess</book>
+                <book id="52">2Thess</book>
+                <book id="53">1Tim</book>
+                <book id="54">2Tim</book>
+                <book id="55">Tit</book>
+                <book id="56">Phlm</book>
+                <book id="57">Heb</book>
+                <book id="58">Jas</book>
+                <book id="59">1Pet</book>
+                <book id="60">2Pet</book>
+                <book id="61">1John</book>
+                <book id="62">2John</book>
+                <book id="63">3John</book>
+                <book id="64">Jude</book>
+                <book id="65">Rev</book>
+            </books>
+
+        </site>
+    </data>
+</module>

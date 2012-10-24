@@ -22,7 +22,9 @@ struct WebCommentaryBooksData
     int bookID;
     QString key;
 };
-
+/**
+ * @brief This Module
+ */
 class WebCommentary : public CommentaryModule
 {
 public:

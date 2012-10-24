@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module id="wesleys-explanatory-notes.biblestudytools.com" type="webcommentary">
+    <meta>
+        <name>Wesley's Explanatory Notes</name>
+        <shortName>Wesley's Notes</shortName>
+        <desc>John Wesley's commentary on the whole Bible was produced between 1754 and 1765.</desc>
+        <versification>kjv</versification>
+    </meta>
+    <data>
+        <site>
+            <url>http://www.biblestudytools.com/commentaries/jamieson-fausset-brown/</url>
+            <parseInBook><![CDATA[
+                (function(bookID, bookName) {
+                    if(bookID == 18) {
+                        if(chapter < 75)
+                            bookName = "psalms-1-75";
+                        else 
+                            bookName = "psalms-76-150";
+                    }
+                    
+                    if(bookID == 63)
+                        return "http://www.biblestudytools.com/commentaries/wesleys-explanatory-notes/"+bookName+"/"+bookName+"-1.html";
+                    else 
+                        return "http://www.biblestudytools.com/commentaries/wesleys-explanatory-notes/"+bookName+"/"+bookName+"-introduction.html";
+                 })
+                ]]>
+            </parseInBook>
+            <parseInChapter><![CDATA[
+                (function(bookID, bookName, chapter) { 
+                    if(bookID == 18) {
+                        if(chapter < 75)
+                            bookName = "psalms-1-75";
+                        else 
+                            bookName = "psalms-76-150";
+                    }
+                    return "http://www.biblestudytools.com/commentaries/wesleys-explanatory-notes/"+bookName +"/"+bookName+"-"+(chapter+1)+".html";
+                 })
+                ]]>
+            </parseInChapter>
+            <parseInVerse><![CDATA[
+                (function(bookID, bookName, chapter, verse) {
+                    if(bookID == 18) {
+                        if(chapter < 75)
+                            bookName = "psalms-1-75";
+                        else 
+                            bookName = "psalms-76-150";
+                    }
+                    return "http://www.biblestudytools.com/commentaries/wesleys-explanatory-notes/"+bookName +"/"+bookName+"-"+(chapter+1)+".html";
+                 })
+                ]]>
+            </parseInVerse>
+            <parseOut>
+                <![CDATA[
+                    (function(a) { 
+                        var backup = a;
+                        var str3 = "http://www.biblestudytools.com/";
+                        var str2 = "http://www.biblestudytools.com/bible/passage.aspx?q="
+                        
+                        if(a.indexOf(str2) === 0) {
+                            a = a.substr(str2.length);
+                            a = a.replace("+", " ");
+                            a = a.replace(".html", "");
+                            return "uinput:/" + a;
+                        } else if(a.indexOf(str3) === 0) {
+                            a = a.substr(str3.length);
+                            if(a.match(/(\d?)(\w+)\/(\d+)-(\d+).html/)) {
+                                a = a.replace("/", " ");
+                                a = a.replace(/(\d+)-(\d+)/, "$1:$2");
+                                a = a.replace(".html", "");
+                                return "uinput:/" + a;
+                            } else {
+                                return backup;
+                            }
+                        } else {
+                            return a;
+                        }
+                    })
+                 ]]>
+            </parseOut>
+            <books> 
+                <book id="0">genesis</book>
+                <book id="1">exodus</book>
+                <book id="2">leviticus</book>
+                <book id="3">numbers</book>
+                <book id="4">deuteronomy</book>
+                <book id="5">joshua</book>
+                <book id="6">judges</book>
+                <book id="7">ruth</book>    
+                <book id="8">1-samuel</book>
+                <book id="9">2-samuel</book>
+                <book id="10">1-kings</book>
+                <book id="11">2-kings</book>
+                <book id="12">1-chronicles</book>
+                <book id="13">2-chronicles</book>
+                <book id="14">ezra</book>
+                <book id="15">nehemiah</book>
+                <book id="16">esther</book>
+                <book id="17">job</book>
+                <book id="18">psalms</book>
+                <book id="19">proverbs</book>
+                <book id="20">ecclesiastes</book>
+                <book id="21">song-of-solomon</book>
+                <book id="22">isaiah</book>
+                <book id="23">jeremiah</book>
+                <book id="24">lamentations</book>
+                <book id="25">ezekiel</book>
+                <book id="26">daniel</book>
+                <book id="27">hosea</book>
+                <book id="28">joel</book>
+                <book id="29">amos</book>
+                <book id="30">obadiah</book>
+                <book id="31">jonah</book>
+                <book id="32">micah</book>
+                <book id="33">nahum</book>
+                <book id="34">habakkuk</book>
+                <book id="35">zephaniah</book>
+                <book id="36">haggai</book>
+                <book id="37">zechariah</book>
+                <book id="38">malachi</book>
+                
+                <book id="39">matthew</book>
+                <book id="40">mark</book>
+                <book id="41">luke</book>
+                <book id="42">john</book>
+                <book id="43">acts</book>
+                <book id="44">romans</book>
+                <book id="45">1-corinthians</book>
+                <book id="46">2-corinthians</book>
+                <book id="47">galatians</book>
+                <book id="48">ephesians</book>
+                <book id="49">philippians</book>
+                <book id="50">colossians</book>
+                <book id="51">1-thessalonians</book>
+                <book id="52">2-thessalonians</book>
+                <book id="53">1-timothy</book>
+                <book id="54">2-timothy</book>
+                <book id="55">titus</book>
+                <book id="56">philemon</book>
+                <book id="57">hebrews</book>
+                <book id="58">james</book>
+                <book id="59">1-peter</book>
+                <book id="60">2-peter</book>
+                <book id="61">1-john</book>
+                <book id="62">2-john</book>
+                <book id="63">3-john</book>
+                <book id="64">jude</book>
+                <book id="65">revelation</book>
+
+                </books>
+
+        </site>
+    </data>
+</module>
