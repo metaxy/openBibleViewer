@@ -79,7 +79,7 @@ void VerseModuleManager::parseUrl(VerseUrl url, const Actions::OpenLinkModifiers
         }
     }
 
-    MdiSubWindow *window;
+    QMdiSubWindow *window;
 
     if(mod == Actions::OpenInNewWindow) {
         window = m_windowManager->newSubWindow(type);

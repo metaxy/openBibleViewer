@@ -719,7 +719,7 @@ void AdvancedInterface::quick(QString text)
     if(url.fromText(text)) {
         m_actions->get(url.toString());
     } else if(m_windowManager->activeForm()->type() == Form::BibleForm || BibleLink::fastIsBibleLink(text)){
-        MdiSubWindow* window = m_windowManager->needWindow(Form::BibleForm);
+        QMdiSubWindow* window = m_windowManager->needWindow(Form::BibleForm);
         BibleForm * f = (BibleForm*) m_windowManager->getForm(window);
 
         if(f->verseTableLoaded()) {

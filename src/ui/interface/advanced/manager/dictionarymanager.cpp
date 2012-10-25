@@ -79,7 +79,7 @@ void DictionaryManager::open(const QString &key, ModuleTools::ContentType conten
     }
 
     DictionaryForm *f = NULL;
-    MdiSubWindow *w = m_windowManager->hasDictWindow(defaultModule);
+    QMdiSubWindow *w = m_windowManager->hasDictWindow(defaultModule);
 
 
     if(mod == Actions::OpenInNewWindow) {
@@ -164,7 +164,7 @@ void DictionaryManager::parseUrl(QString url, const Actions::OpenLinkModifiers m
 
     } else if(url.startsWith(ModuleTools::dictScheme)) {
         //dict:/module/key
-        MdiSubWindow *window = NULL;
+        QMdiSubWindow *window = NULL;
         if(mod == Actions::OpenInNewWindow) {
             window = m_windowManager->newSubWindow(Form::DictionaryForm);
         } else {

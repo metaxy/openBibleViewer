@@ -53,18 +53,18 @@ public:
     void restore();
 
     Form *activeForm();
-    Form* getForm(MdiSubWindow *w) const;
+    Form* getForm(QMdiSubWindow *w) const;
 
-    MdiSubWindow *activeSubWindow();
-    void activate(MdiSubWindow *w);
+    QMdiSubWindow *activeSubWindow();
+    void activate(QMdiSubWindow *w);
 
 
-    MdiSubWindow* needWindow(Form::FormType type);
-    MdiSubWindow* needWindow(Form::FormType type, ModuleTools::ContentType contentType);
-    MdiSubWindow* hasDictWindow(ModuleTools::DefaultModule d);
-    MdiSubWindow* hasDictWindow(const int moduleID);
+    QMdiSubWindow* needWindow(Form::FormType type);
+    QMdiSubWindow* needWindow(Form::FormType type, ModuleTools::ContentType contentType);
+    QMdiSubWindow* hasDictWindow(ModuleTools::DefaultModule d);
+    QMdiSubWindow* hasDictWindow(const int moduleID);
 
-    ModuleTools::ContentType contentType(MdiSubWindow* window);
+    ModuleTools::ContentType contentType(QMdiSubWindow* window);
     ModuleTools::ContentType contentType(Form *form);
     ModuleTools::ContentType contentType(DictionaryForm *form);
     ModuleTools::ContentType contentType(WebForm *form);
@@ -77,7 +77,7 @@ public slots:
     void newDictionarySubWindow();
     void newBookSubWindow();
     void newCommentarySubWindow();
-    MdiSubWindow * newSubWindow(Form::FormType type = Form::BibleForm, bool forceMax = false);
+    QMdiSubWindow * newSubWindow(Form::FormType type = Form::BibleForm, bool forceMax = false);
 
 
 private slots:
@@ -96,7 +96,7 @@ private slots:
 
     void setTabbedView();
     void setSubWindowView();
-    int reloadWindow(MdiSubWindow * window);
+    int reloadWindow(QMdiSubWindow * window);
     void mdiAreaResized();
 
     void zoomIn();
@@ -107,7 +107,7 @@ private slots:
 
 private:
 
-    QList<MdiSubWindow*> usableWindowList() const;
+    QList<QMdiSubWindow*> usableWindowList() const;
 
     QRect resizeToMinimumTileSize(const QSize &minSubWindowSize, int subWindowCount);
 

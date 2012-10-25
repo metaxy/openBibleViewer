@@ -9,8 +9,9 @@ class MdiArea : public QMdiArea
 public:
     explicit MdiArea(QWidget *parent = 0);
     void resizeEvent(QResizeEvent * resizeEvent);
-    MdiSubWindow *addSubWindow(QWidget *widget, Qt::WindowFlags flags = 0);
-
+   // MdiSubWindow *addSubWindow(QWidget *widget, Qt::WindowFlags flags = 0);
+    /*MdiSubWindow *currentSubWindow() const;
+    MdiSubWindow *activeSubWindow() const;*/
 signals:
     void resized();
 public slots:

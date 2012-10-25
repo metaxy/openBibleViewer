@@ -50,7 +50,7 @@ void WindowManager::setBookmarksManager(BookmarksManager *bookmarksManager)
 
 void WindowManager::init()
 {
-    connect(m_area, SIGNAL(subWindowActivated(MdiSubWindow *)), this, SLOT(reloadWindow(MdiSubWindow *)));
+    connect(m_area, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(reloadWindow(QMdiSubWindow *)));
 
     connect(m_actions, SIGNAL(_setTabbedView()), this, SLOT(setTabbedView()));
     connect(m_actions, SIGNAL(_setSubWindowView()), this, SLOT(setSubWindowView()));
@@ -63,7 +63,7 @@ void WindowManager::init()
     }
 }
 
-MdiSubWindow* WindowManager::newSubWindow(Form::FormType type, bool forceMax)
+QMdiSubWindow* WindowManager::newSubWindow(Form::FormType type, bool forceMax)
 {
     setEnableReload(false);
 
@@ -105,7 +105,12 @@ MdiSubWindow* WindowManager::newSubWindow(Form::FormType type, bool forceMax)
     layout->addWidget(form);
 
     widget->setLayout(layout);
-    MdiSubWindow *subWindow = m_area->addSubWindow(widget);
+    MdiSubWindow *subWindow = new MdiSubWindow(m_area);
+    subWindow->setWidget(widget);
+
+    //subWindow = m_area->addSubWindow(subWindow);
+    subWindow->setParent(m_area);
+
     subWindow->setWindowIcon(QIcon(":/icons/16x16/main.png"));
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
 
@@ -152,14 +157,14 @@ void WindowManager::newCommentarySubWindow()
     newSubWindow(Form::CommentaryForm);
 }
 
-MdiSubWindow* WindowManager::needWindow(Form::FormType type)
+QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
 {
     if(usableWindowList().isEmpty()) {
         return newSubWindow(type);
     } else if(activeForm() != NULL) {
         if(activeForm()->type() != type) {
-            MdiSubWindow *window = NULL;
-            foreach(MdiSubWindow * w, usableWindowList()) {
+            QMdiSubWindow *window = NULL;
+            foreach(QMdiSubWindow * w, usableWindowList()) {
                 Form *f = getForm(w);
                 if(f->type() == type) {
                     w->activateWindow();
@@ -185,14 +190,14 @@ MdiSubWindow* WindowManager::needWindow(Form::FormType type)
   * If there is a window with the need FormType and ContentType => ok
   * else create Window
   */
-MdiSubWindow* WindowManager::needWindow(Form::FormType type, ModuleTools::ContentType cType)
+QMdiSubWindow* WindowManager::needWindow(Form::FormType type, ModuleTools::ContentType cType)
 {
     if(usableWindowList().isEmpty()) {
         return newSubWindow(type);
     } else if(activeForm() != NULL) {
         if(activeForm()->type() != type) {
-            MdiSubWindow *window = NULL;
-            foreach(MdiSubWindow * w, usableWindowList()) {
+            QMdiSubWindow *window = NULL;
+            foreach(QMdiSubWindow * w, usableWindowList()) {
                 Form *f = getForm(w);
                 if(f->type() == type) {
                     ModuleTools::ContentType mContentType = contentType(f);
@@ -217,9 +222,9 @@ MdiSubWindow* WindowManager::needWindow(Form::FormType type, ModuleTools::Conten
 }
 
 
-MdiSubWindow* WindowManager::hasDictWindow(ModuleTools::DefaultModule d)
+QMdiSubWindow* WindowManager::hasDictWindow(ModuleTools::DefaultModule d)
 {
-    foreach(MdiSubWindow * w, usableWindowList()) {
+    foreach(QMdiSubWindow * w, usableWindowList()) {
         Form *f = getForm(w);
         if(f->type() == Form::DictionaryForm) {
             DictionaryForm *form = (DictionaryForm*)(f);
@@ -234,9 +239,9 @@ MdiSubWindow* WindowManager::hasDictWindow(ModuleTools::DefaultModule d)
     return NULL;
 }
 
-MdiSubWindow* WindowManager::hasDictWindow(const int moduleID)
+QMdiSubWindow* WindowManager::hasDictWindow(const int moduleID)
 {
-    foreach(MdiSubWindow * w, usableWindowList()) {
+    foreach(QMdiSubWindow * w, usableWindowList()) {
         Form *f = getForm(w);
         if(f->type() == Form::DictionaryForm) {
             DictionaryForm *form = (DictionaryForm*)(f);
@@ -248,7 +253,7 @@ MdiSubWindow* WindowManager::hasDictWindow(const int moduleID)
     return NULL;
 }
 
-void WindowManager::activate(MdiSubWindow *w)
+void WindowManager::activate(QMdiSubWindow *w)
 {
     w->activateWindow();
     m_area->setActiveSubWindow(w);
@@ -259,7 +264,7 @@ void WindowManager::autoLayout()
     if(!m_enableReload)
         return;
 
-    QList<MdiSubWindow*> list = usableWindowList();
+    QList<QMdiSubWindow*> list = usableWindowList();
 
     if(list.size() > 1) {
         if(m_settings->autoLayout == 1) {
@@ -272,15 +277,15 @@ void WindowManager::autoLayout()
             cascade();
         }
     } else if(list.size() == 1) {
-        MdiSubWindow * w = list.first();
+        QMdiSubWindow * w = list.first();
         w->showMaximized();
     }
 }
 
-MdiSubWindow * WindowManager::activeSubWindow()
+QMdiSubWindow * WindowManager::activeSubWindow()
 {
-    const QList<MdiSubWindow*> list = usableWindowList();
-    if(MdiSubWindow *activeSubWindow = m_area->activeSubWindow()) {
+    const QList<QMdiSubWindow*> list = usableWindowList();
+    if(QMdiSubWindow *activeSubWindow = m_area->activeSubWindow()) {
         for(int i = 0; i < list.size(); i++) {
             if(list.at(i) == activeSubWindow) {
                 m_lastActiveWindow = i;
@@ -289,11 +294,11 @@ MdiSubWindow * WindowManager::activeSubWindow()
         return activeSubWindow;
     } else if(m_lastActiveWindow < list.size() && m_lastActiveWindow >= 0) {
         m_area->setActiveSubWindow(usableWindowList().at(m_lastActiveWindow));
-        if(MdiSubWindow *activeSubWindow = m_area->activeSubWindow())
+        if(QMdiSubWindow *activeSubWindow = m_area->activeSubWindow())
             return activeSubWindow;
     } else if(usableWindowList().size() > 0) {
         m_area->setActiveSubWindow(usableWindowList().at(0));
-        if(MdiSubWindow *activeSubWindow = m_area->activeSubWindow())
+        if(QMdiSubWindow *activeSubWindow = m_area->activeSubWindow())
             return activeSubWindow;
     }
     return NULL;
@@ -304,7 +309,7 @@ Form * WindowManager::activeForm()
     return getForm(activeSubWindow());
 }
 
-Form * WindowManager::getForm(MdiSubWindow *w) const
+Form * WindowManager::getForm(QMdiSubWindow *w) const
 {
     if(w == NULL)
         return NULL;
@@ -314,17 +319,17 @@ Form * WindowManager::getForm(MdiSubWindow *w) const
 
 void WindowManager::tileVertical()
 {
-    const QList<MdiSubWindow*> windows = usableWindowList();
+    const QList<QMdiSubWindow*> windows = usableWindowList();
     if(!m_enableReload || windows.isEmpty()) {
         return;
     }
 
     setEnableReload(false);
-    MdiSubWindow* active = m_area->activeSubWindow();
+    QMdiSubWindow* active = m_area->activeSubWindow();
 
     const int widthForEach = m_area->width() / windows.size();
     unsigned int x = 0;
-    foreach(MdiSubWindow * window, windows) {
+    foreach(QMdiSubWindow * window, windows) {
         window->showNormal();
 
         const int preferredWidth = window->minimumWidth() + window->baseSize().width();
@@ -341,17 +346,17 @@ void WindowManager::tileVertical()
 
 void WindowManager::tileHorizontal()
 {
-    const QList<MdiSubWindow*> windows = usableWindowList();
+    const QList<QMdiSubWindow*> windows = usableWindowList();
     if(!m_enableReload || windows.isEmpty()) {
         return;
     }
 
     setEnableReload(false);
-    MdiSubWindow* active = m_area->activeSubWindow();
+    QMdiSubWindow* active = m_area->activeSubWindow();
 
     const int heightForEach = m_area->height() / windows.size();
     unsigned int y = 0;
-    foreach(MdiSubWindow * window, windows) {
+    foreach(QMdiSubWindow * window, windows) {
         window->showNormal();
 
         const int preferredHeight = window->minimumHeight() + window->baseSize().height();
@@ -367,7 +372,7 @@ void WindowManager::tileHorizontal()
 
 void WindowManager::cascade()
 {
-    QList<MdiSubWindow*> windows = usableWindowList();
+    QList<QMdiSubWindow*> windows = usableWindowList();
     if(!m_enableReload || windows.isEmpty()) {
         return;
     }
@@ -381,7 +386,7 @@ void WindowManager::cascade()
         windows.at(0)->showMaximized();
     } else {
 
-        MdiSubWindow* active = m_area->activeSubWindow();
+        QMdiSubWindow* active = m_area->activeSubWindow();
 
         const unsigned int offsetX = 40;
         const unsigned int offsetY = 40;
@@ -390,7 +395,7 @@ void WindowManager::cascade()
         unsigned int x = 0;
         unsigned int y = 0;
 
-        foreach(MdiSubWindow * window, windows) {
+        foreach(QMdiSubWindow * window, windows) {
             if(active == window)
                 continue;
             window->raise();
@@ -413,12 +418,12 @@ void WindowManager::tile()
     setEnableReload(false);
 
     QList<QWidget *> widgets;
-    QList<MdiSubWindow*> subWindows = usableWindowList();
+    QList<QMdiSubWindow*> subWindows = usableWindowList();
     QSize minSubWindowSize;
 
     if(m_settings->intelligentLayout) {
-        QMultiMap<int, MdiSubWindow*> m;
-        foreach(MdiSubWindow *c, subWindows) {
+        QMultiMap<int, QMdiSubWindow*> m;
+        foreach(QMdiSubWindow *c, subWindows) {
             int id;
             Form::FormRole role = getForm(c)->role();
             switch(role) {
@@ -435,7 +440,7 @@ void WindowManager::tile()
             m.insert(id, c);
         }
         subWindows.clear();
-        QMapIterator<int, MdiSubWindow*> it(m);
+        QMapIterator<int, QMdiSubWindow*> it(m);
         while (it.hasNext()) {
              it.next();
              subWindows.append(it.value());
@@ -443,7 +448,7 @@ void WindowManager::tile()
     }
 
 
-    foreach(MdiSubWindow *child, subWindows) {
+    foreach(QMdiSubWindow *child, subWindows) {
 
         if(child->isMinimized() && !child->isShaded())
             continue;
@@ -615,10 +620,10 @@ void WindowManager::tile(bool checked)
         tile();
     }
 }
-QList<MdiSubWindow*> WindowManager::usableWindowList() const
+QList<QMdiSubWindow*> WindowManager::usableWindowList() const
 {
-    QList<MdiSubWindow*> ret;
-    foreach(MdiSubWindow * w, m_area->subWindowList(QMdiArea::ActivationHistoryOrder)) {
+    QList<QMdiSubWindow*> ret;
+    foreach(QMdiSubWindow * w, m_area->subWindowList(QMdiArea::ActivationHistoryOrder)) {
         if(w->isHidden())
             continue;
         ret.prepend(w);
@@ -656,7 +661,7 @@ int WindowManager::closingWindow()
     return 0;
 }
 
-int WindowManager::reloadWindow(MdiSubWindow * window)
+int WindowManager::reloadWindow(QMdiSubWindow * window)
 {
     if(!m_enableReload || window == NULL) {
         //my() << "reload is not enabled or window == NULL";
@@ -679,7 +684,7 @@ int WindowManager::reloadWindow(MdiSubWindow * window)
 void WindowManager::mdiAreaResized()
 {
     if(m_area->viewMode() == QMdiArea::SubWindowView) {
-        const MdiSubWindow * w = m_area->activeSubWindow();
+        const QMdiSubWindow * w = m_area->activeSubWindow();
         if(w != NULL && w->isMaximized()) {
             return;
         } else {
@@ -734,9 +739,9 @@ void WindowManager::save()
 {
     m_settings->session.clearGroup("windows");
     int current = 0;
-    MdiSubWindow *currentSubWindow = activeSubWindow();
+    QMdiSubWindow *currentSubWindow = activeSubWindow();
     for(int i = 0, count = m_area->subWindowList().size(); i < count; i++) {
-        MdiSubWindow *a = m_area->subWindowList().at(i);
+        QMdiSubWindow *a = m_area->subWindowList().at(i);
         if(currentSubWindow == a)
             current = i;
         Form *form = a->widget()->findChild<Form *>("mdiForm");
@@ -785,7 +790,7 @@ void WindowManager::restore()
         }  else if(type == "tbook") {
             t = Form::TreeBookForm;
         }
-        MdiSubWindow *w = newSubWindow(t, max);
+        QMdiSubWindow *w = newSubWindow(t, max);
 
         if(viewMode == 0 && !max) {
             w->setGeometry(geo);
@@ -800,7 +805,7 @@ void WindowManager::restore()
     }
 }
 
-ModuleTools::ContentType WindowManager::contentType(MdiSubWindow* window)
+ModuleTools::ContentType WindowManager::contentType(QMdiSubWindow* window)
 {
     if(window == NULL)
         return ModuleTools::UnkownContent;

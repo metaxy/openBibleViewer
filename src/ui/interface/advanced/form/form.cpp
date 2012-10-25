@@ -62,7 +62,7 @@ bool Form::active()
     return *currentWindowID == m_id;
 }
 
-void Form::setParentSubWindow(MdiSubWindow *window)
+void Form::setParentSubWindow(QMdiSubWindow *window)
 {
     m_parentSubWindow = window;
 }
