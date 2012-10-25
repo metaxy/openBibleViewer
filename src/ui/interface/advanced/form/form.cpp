@@ -20,6 +20,10 @@ Form::Form(QWidget *parent) :
     m_api(NULL)
 {
 }
+Form::~Form()
+{
+
+}
 
 void Form::setID(const int id)
 {
@@ -58,7 +62,7 @@ bool Form::active()
     return *currentWindowID == m_id;
 }
 
-void Form::setParentSubWindow(QMdiSubWindow *window)
+void Form::setParentSubWindow(MdiSubWindow *window)
 {
     m_parentSubWindow = window;
 }

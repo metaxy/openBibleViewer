@@ -56,7 +56,10 @@ void AdvancedInterface::init()
 
     m_windowManager = new WindowManager(this);
     setAll(m_windowManager);
-    m_windowManager->setMdiArea(ui->mdiArea);
+    MdiArea *mdi = new MdiArea(ui->horizontalLayout->widget());
+    ui->horizontalLayout->addWidget(mdi);
+
+    m_windowManager->setMdiArea(mdi);
     m_windowManager->setApi(m_api);
     m_windowManager->setNotesManager(m_notesManager);
     m_windowManager->setBookmarksManager(m_bookmarksManager);
@@ -716,7 +719,7 @@ void AdvancedInterface::quick(QString text)
     if(url.fromText(text)) {
         m_actions->get(url.toString());
     } else if(m_windowManager->activeForm()->type() == Form::BibleForm || BibleLink::fastIsBibleLink(text)){
-        QMdiSubWindow* window = m_windowManager->needWindow(Form::BibleForm);
+        MdiSubWindow* window = m_windowManager->needWindow(Form::BibleForm);
         BibleForm * f = (BibleForm*) m_windowManager->getForm(window);
 
         if(f->verseTableLoaded()) {
@@ -862,7 +865,9 @@ void AdvancedInterface::uncheck(bool b)
 
 void AdvancedInterface::changeEvent(QEvent *e)
 {
-    //QWidget::changeEvent(e);
+    DEBUG_FUNC_NAME; myDebug() << e->type();
+
+    QWidget::changeEvent(e);
     switch(e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
@@ -871,6 +876,7 @@ void AdvancedInterface::changeEvent(QEvent *e)
     default:
         break;
     }
+
 }
 QString AdvancedInterface::name() const
 {

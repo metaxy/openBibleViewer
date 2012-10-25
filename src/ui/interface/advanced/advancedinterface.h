@@ -44,8 +44,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/interface/advanced/manager/dictionarymanager.h"
 #include "src/ui/interface/advanced/manager/webpagemanager.h"
 
-#include "mdiareafilter.h"
-
 #include "src/ui/dialog/aboutdialog.h"
 #include "src/ui/noteseditor.h"
 #include "src/ui/marklist.h"

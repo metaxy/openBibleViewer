@@ -19,11 +19,12 @@ SubWindowFilter::SubWindowFilter(QObject *parent) :
 }
 bool SubWindowFilter::eventFilter(QObject *obj, QEvent *event)
 {
-    if(event->type() == QEvent::Close) {
+    myDebug() << obj->objectName() << event->type();
+    /*if(event->type() == QEvent::Close) {
         myDebug() << "emmiting close";
         QObject::eventFilter(obj, event);
         emit close();
         return true;
-    }
+    }*/
     return QObject::eventFilter(obj, event);
 }

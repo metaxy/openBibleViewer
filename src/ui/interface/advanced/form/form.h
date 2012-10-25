@@ -21,7 +21,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/api/api.h"
 #include "src/core/dbghelper.h"
 #include "src/module/searchablemodule.h"
-#include <QtGui/QMdiSubWindow>
 class Form : public QWidget, public BasicClass
 {
     Q_OBJECT
@@ -53,6 +52,7 @@ public:
     };
 
     explicit Form(QWidget *parent = 0);
+    virtual ~Form();
 
     void setID(const int id);
     int id();
@@ -62,7 +62,7 @@ public:
     void setApi(Api *api);
     void setNotesManager(NotesManager *notesManager);
     void setBookmarksManager(BookmarksManager *bookmarksManager);
-    void setParentSubWindow(QMdiSubWindow *window);
+    void setParentSubWindow(MdiSubWindow *window);
 
     int *currentWindowID;
 
@@ -97,7 +97,7 @@ protected:
     Api *m_api;//not in out control
     NotesManager *m_notesManager;
     BookmarksManager *m_bookmarksManager;
-    QMdiSubWindow *m_parentSubWindow;
+    MdiSubWindow *m_parentSubWindow;
 
 
 

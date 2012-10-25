@@ -1383,13 +1383,11 @@ void BibleForm::openCommentary()
 
 void BibleForm::changeEvent(QEvent *e)
 {
-    switch(e->type()) {
-    case QEvent::LanguageChange:
+    QWidget::changeEvent(e);
+    myDebug() << e->type();
+    if(e->type() == QEvent::LanguageChange) {
         deleteDefaultMenu();
         createDefaultMenu();
         m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
     }
 }

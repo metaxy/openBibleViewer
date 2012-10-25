@@ -17,14 +17,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QObject>
 #include <QtGui/QMdiArea>
 #include <QtWebKit/QWebView>
-#include <QtGui/QMdiSubWindow>
 #include <QtGui/QVBoxLayout>
+#include "src/ui/interface/advanced/mdiarea.h"
 
 #include "src/core/basicclass.h"
 #include "src/core/link/urlconverter2.h"
 #include "src/core/dbghelper.h"
 #include "src/api/api.h"
-#include "src/ui/interface/advanced/mdiareafilter.h"
 
 #include "bookmarksmanager.h"
 #include "notesmanager.h"
@@ -45,7 +44,7 @@ class WindowManager : public QObject , public BasicClass
 public:
     explicit WindowManager(QObject *parent = 0);
     ~WindowManager();
-    void setMdiArea(QMdiArea *area);
+    void setMdiArea(MdiArea *area);
     void setApi(Api *api);
     void setNotesManager(NotesManager *notesManager);
     void setBookmarksManager(BookmarksManager *bookmarksManager);
@@ -54,18 +53,18 @@ public:
     void restore();
 
     Form *activeForm();
-    Form* getForm(QMdiSubWindow *w) const;
+    Form* getForm(MdiSubWindow *w) const;
 
-    QMdiSubWindow *activeSubWindow();
-    void activate(QMdiSubWindow *w);
+    MdiSubWindow *activeSubWindow();
+    void activate(MdiSubWindow *w);
 
 
-    QMdiSubWindow* needWindow(Form::FormType type);
-    QMdiSubWindow* needWindow(Form::FormType type, ModuleTools::ContentType contentType);
-    QMdiSubWindow* hasDictWindow(ModuleTools::DefaultModule d);
-    QMdiSubWindow* hasDictWindow(const int moduleID);
+    MdiSubWindow* needWindow(Form::FormType type);
+    MdiSubWindow* needWindow(Form::FormType type, ModuleTools::ContentType contentType);
+    MdiSubWindow* hasDictWindow(ModuleTools::DefaultModule d);
+    MdiSubWindow* hasDictWindow(const int moduleID);
 
-    ModuleTools::ContentType contentType(QMdiSubWindow* window);
+    ModuleTools::ContentType contentType(MdiSubWindow* window);
     ModuleTools::ContentType contentType(Form *form);
     ModuleTools::ContentType contentType(DictionaryForm *form);
     ModuleTools::ContentType contentType(WebForm *form);
@@ -78,7 +77,7 @@ public slots:
     void newDictionarySubWindow();
     void newBookSubWindow();
     void newCommentarySubWindow();
-    QMdiSubWindow * newSubWindow(Form::FormType type = Form::BibleForm, bool forceMax = false);
+    MdiSubWindow * newSubWindow(Form::FormType type = Form::BibleForm, bool forceMax = false);
 
 
 private slots:
@@ -97,7 +96,7 @@ private slots:
 
     void setTabbedView();
     void setSubWindowView();
-    int reloadWindow(QMdiSubWindow * window);
+    int reloadWindow(MdiSubWindow * window);
     void mdiAreaResized();
 
     void zoomIn();
@@ -108,13 +107,12 @@ private slots:
 
 private:
 
-    QList<QMdiSubWindow*> usableWindowList() const;
+    QList<MdiSubWindow*> usableWindowList() const;
 
     QRect resizeToMinimumTileSize(const QSize &minSubWindowSize, int subWindowCount);
 
     void disable();
     void enable();
-    void installResizeFilter();
     void setEnableReload(bool enable);
 
     int m_nameCounter;
@@ -122,10 +120,9 @@ private:
     int m_lastActiveWindow;
     int *m_currentWindowID;
 
-    QMdiArea *m_area;//not in our control
+    MdiArea *m_area;//not in our control
     Api *m_api;//not in out control
 
-    MdiAreaFilter *m_mdiAreaFilter;
     NotesManager *m_notesManager;
     BookmarksManager *m_bookmarksManager;
 
