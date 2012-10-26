@@ -62,7 +62,7 @@ int TheWordBible::loadBibleData(const int id, const QString &path)
 
     if(hasHardCache(m_modulePath))
         return 0;
-
+    //creating hard cache
     QDir d(pre);
     if(!d.exists())
         d.mkpath(pre);
@@ -179,7 +179,7 @@ VerseBook TheWordBible::loadCached(const int bookID)
 
 bool TheWordBible::hasHardCache(const QString &path)
 {
-    const QString pre = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath) + "/";
+    const QString pre = m_settings->homePath + "cache/" + m_settings->hash(path) + "/";
     ModuleSettings *set = m_settings->getModuleSettings(m_moduleID);
     foreach(int bookID, set->getV11n()->bookIDs()) {
         QFileInfo inf(pre + QString::number(bookID) + ".twb");

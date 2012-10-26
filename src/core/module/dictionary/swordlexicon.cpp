@@ -42,6 +42,7 @@ Response* SwordLexicon::getEntry(const QString &entry)
     m_target->setKey(mykey);
     return new StringReponse(QString::fromLocal8Bit(m_target->RenderText()));
 #else
+    Q_UNUSED(entry);
     return new StringResponse(QString());
 #endif
 
@@ -71,6 +72,8 @@ int SwordLexicon::loadModuleData(const QString &id)
     }
     m_loaded = true;
     myDebug() << "return zero";
+#else
+    Q_UNUSED(id);
 #endif
     return 0;
 }
@@ -182,6 +185,7 @@ QStringList SwordLexicon::getAllKeys()
 
 MetaInfo SwordLexicon::readInfo(const QString &name)
 {
+    //todo: read info
     return MetaInfo();
 }
 Response::ResponseType SwordLexicon::responseType() const
