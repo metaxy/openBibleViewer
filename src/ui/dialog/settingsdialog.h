@@ -25,9 +25,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/modulesettings.h"
 #include "src/core/dbghelper.h"
 
-#include "src/module/modulemanager.h"
-#include "src/module/bible/bible.h"
-#include "src/module/module.h"
+#include "src/core/module/modulemanager.h"
+#include "src/core/module/bible/bible.h"
+#include "src/core/module/module.h"
 
 #include "src/ui/modulemodel.h"
 

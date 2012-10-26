@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define DOCKWIDGET_H
 
 #include <QDockWidget>
-#include "src/module/modulemanager.h"
+#include "src/core/module/modulemanager.h"
 #include "src/core/settings/settings.h"
 #include "src/core/notes/notes.h"
 #include "src/core/basicclass.h"

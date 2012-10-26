@@ -36,7 +36,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/moduletools.h"
 #include "src/core/link/verseurl.h"
 #include "src/core/history.h"
-#include "src/module/versetable.h"
+#include "src/core/module/versetable.h"
 
 
 #include "src/ui/webview.h"

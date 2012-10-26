@@ -22,7 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dock/bookdockwidget.h"
 #include "src/ui/dock/searchresultdockwidget.h"
 #include "src/ui/webview.h"
-#include "src/module/textrangesversemodule.h"
+#include "src/core/module/textrangesversemodule.h"
 namespace Ui
 {
 class SimpleInterface;

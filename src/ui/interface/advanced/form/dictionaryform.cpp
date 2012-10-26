@@ -19,10 +19,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QPrinter>
 #include <QtCore/QPointer>
 #include <QtGui/QTextDocumentWriter>
-#include "src/module/dictionary/webdictionary.h"
-#include "src/module/response/urlresponse.h"
-#include "src/module/response/stringresponse.h"
-#include "src/module/response/htmlresponse.h"
+#include "src/core/module/dictionary/webdictionary.h"
+#include "src/core/module/response/urlresponse.h"
+#include "src/core/module/response/stringresponse.h"
+#include "src/core/module/response/htmlresponse.h"
 #include <QtGui/QClipboard>
 
 DictionaryForm::DictionaryForm(QWidget *parent) :

@@ -116,50 +116,6 @@ set( openBibleViewer_SRCS
     src/api/notesapi.cpp
     src/api/api.cpp
 
-    src/module/bible/bible.cpp
-    src/module/bible/biblequote.cpp
-    src/module/bible/zefania-bible.cpp
-
-    src/module/modulemanager.cpp
-    src/module/module.cpp
-    src/module/versemodule.cpp
-    src/module/textrangesversemodule.cpp
-    src/module/simplemoduleclass.cpp
-    src/module/versetable.cpp
-    src/module/modulemap.cpp
-    src/module/dictionary/zefania-lex.cpp
-    src/module/dictionary/swordlexicon.cpp
-    src/module/dictionary/dictionary.cpp
-    src/module/dictionary/webdictionary.cpp
-    src/module/dictionary/dictionarymodule.cpp
-    src/module/dictionary/biblequote-dict.cpp
-    src/module/dictionary/theworddictionary.cpp
-    src/module/bible/biblemodule.cpp
-    src/module/bible/thewordbible.cpp
-    src/module/bible/swordbible.cpp
-    src/module/metainfo.cpp
-    src/module/searchablemodule.cpp
-    src/module/webpage.cpp
-    src/module/response/response.cpp
-    src/module/response/urlresponse.cpp
-    src/module/response/stringresponse.cpp
-    src/module/response/textrangesresponse.cpp
-    src/module/response/htmlresponse.cpp
-
-    src/module/book/rtfbook.cpp
-    src/module/book/book.cpp
-    src/module/book/bookmodule.cpp
-    src/module/book/txtbook.cpp
-    src/module/book/treebook.cpp
-    src/module/book/treebookmodule.cpp
-    src/module/book/thewordtopic.cpp
-    src/module/commentary/webcommentary.cpp
-    src/module/commentary/commentary.cpp
-    src/module/commentary/commentarymodule.cpp
-    src/module/commentary/thewordcommentary.cpp
-    src/module/book/eswordtopic.cpp
-    src/module/simplemodule.cpp
-
     src/ui/dialog/searchdialog.cpp
     src/ui/dialog/settingsdialog.cpp
     src/ui/dialog/aboutdialog.cpp

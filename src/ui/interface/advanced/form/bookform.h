@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define BOOKFORM_H
 #include "webviewform.h"
 #include <QWidget>
-#include "src/module/book/book.h"
+#include "src/core/module/book/book.h"
 namespace Ui {
 class BookForm;
 }

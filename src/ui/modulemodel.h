@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define MODULEMODEL_H
 #include <QtGui/QStandardItemModel>
 
-#include "src/module/module.h"
+#include "src/core/module/module.h"
 #include "src/core/settings/settings.h"
 /**
  * ModuleModel represents a class, which generate a tree model of all modules.

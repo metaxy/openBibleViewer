@@ -13,9 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "commentaryform.h"
 #include "ui_commentaryform.h"
-#include "src/module/response/urlresponse.h"
-#include "src/module/response/stringresponse.h"
-#include "src/module/commentary/webcommentary.h"
+#include "src/core/module/response/urlresponse.h"
+#include "src/core/module/response/stringresponse.h"
+#include "src/core/module/commentary/webcommentary.h"
 
 #include "src/core/verse/reftext.h"
 #include "src/core/link/biblelink.h"

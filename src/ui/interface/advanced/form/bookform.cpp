@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "bookform.h"
 #include "ui_bookform.h"
-#include "src/module/response/stringresponse.h"
+#include "src/core/module/response/stringresponse.h"
 BookForm::BookForm(QWidget *parent) :
     WebViewForm(parent),
     ui(new Ui::BookForm)

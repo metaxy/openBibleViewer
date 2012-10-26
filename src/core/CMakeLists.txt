@@ -5,6 +5,51 @@ SET(
     
     moduletools.cpp
     
+    module/bible/bible.cpp
+    module/bible/biblequote.cpp
+    module/bible/zefania-bible.cpp
+
+    module/modulemanager.cpp
+    module/module.cpp
+    module/versemodule.cpp
+    module/textrangesversemodule.cpp
+    module/simplemoduleclass.cpp
+    module/versetable.cpp
+    module/modulemap.cpp
+    module/dictionary/zefania-lex.cpp
+    module/dictionary/swordlexicon.cpp
+    module/dictionary/dictionary.cpp
+    module/dictionary/webdictionary.cpp
+    module/dictionary/dictionarymodule.cpp
+    module/dictionary/biblequote-dict.cpp
+    module/dictionary/theworddictionary.cpp
+    module/bible/biblemodule.cpp
+    module/bible/thewordbible.cpp
+    module/bible/swordbible.cpp
+    module/metainfo.cpp
+    module/searchablemodule.cpp
+    module/webpage.cpp
+    module/response/response.cpp
+    module/response/urlresponse.cpp
+    module/response/stringresponse.cpp
+    module/response/textrangesresponse.cpp
+    module/response/htmlresponse.cpp
+
+    module/book/rtfbook.cpp
+    module/book/book.cpp
+    module/book/bookmodule.cpp
+    module/book/txtbook.cpp
+    module/book/treebook.cpp
+    module/book/treebookmodule.cpp
+    module/book/thewordtopic.cpp
+    module/commentary/webcommentary.cpp
+    module/commentary/commentary.cpp
+    module/commentary/commentarymodule.cpp
+    module/commentary/thewordcommentary.cpp
+    module/book/eswordtopic.cpp
+    module/simplemodule.cpp
+
+    
     verse/chapter.cpp
     verse/versebook.cpp
 

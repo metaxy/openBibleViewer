@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "src/module/modulemanager.h"
+#include "src/core/module/modulemanager.h"
 #include <QtCore/QPointer>
 
 #include "src/ui/interface/simple/simpleinterface.h"

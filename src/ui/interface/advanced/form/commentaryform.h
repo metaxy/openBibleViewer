@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QWidget>
 #include "webviewform.h"
 #include "src/core/history.h"
-#include "src/module/commentary/commentary.h"
+#include "src/core/module/commentary/commentary.h"
 namespace Ui {
 class CommentaryForm;
 }

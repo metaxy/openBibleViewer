@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef URLCONVERTER_H
 #define URLCONVERTER_H
-#include "src/module/modulemap.h"
+#include "src/core/module/modulemap.h"
 #include "src/core/link/verseurl.h"
 /**
   * UrlConverter is an converter for urls. Sometimes you have a url from a biblequote module and need to parse it.

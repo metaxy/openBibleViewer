@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_dictionarydockwidget.h"
 #include "src/core/dbghelper.h"
 #include "src/core/moduletools.h"
-#include "src/module/response/stringresponse.h"
+#include "src/core/module/response/stringresponse.h"
 #include <QtGui/QCompleter>
 DictionaryDockWidget::DictionaryDockWidget(QWidget *parent) :
     DockWidget(parent),

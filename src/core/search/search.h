@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/basicclass.h"
 #include "src/core/search/searchresult.h"
 #include "src/core/search/searchquery.h"
-#include "src/module/searchablemodule.h"
+#include "src/core/module/searchablemodule.h"
 class Search : public BasicClass
 {
 public:

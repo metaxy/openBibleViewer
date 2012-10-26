@@ -13,8 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "moduleconfigdialog.h"
 #include "ui_moduleconfigdialog.h"
-#include "src/module/bible/zefania-bible.h"
-#include "src/module/module.h"
+#include "src/core/module/bible/zefania-bible.h"
+#include "src/core/module/module.h"
 #include "src/core/dbghelper.h"
 
 

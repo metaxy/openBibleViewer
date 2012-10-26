@@ -20,7 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "highlighter.h"
 #include "src/core/settings/settings.h"
 #include "src/core/notes/notes.h"
-#include "src/module/modulemanager.h"
+#include "src/core/module/modulemanager.h"
 #include "src/core/verseselection.h"
 #include "src/core/notes/simplenotes.h"
 

@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef TREEBOOKFORM_H
 #define TREEBOOKFORM_H
 #include "webviewform.h"
-#include "src/module/book/treebook.h"
+#include "src/core/module/book/treebook.h"
 #include "src/core/history.h"
 #include <QWidget>
 

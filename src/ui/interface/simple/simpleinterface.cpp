@@ -18,7 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/moduledisplaysettings.h"
 #include "src/core/moduletools.h"
 #include "src/core/search/search.h"
-#include "src/module/response/textrangesresponse.h"
+#include "src/core/module/response/textrangesresponse.h"
 #include <QtCore/QPointer>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QMessageBox>
