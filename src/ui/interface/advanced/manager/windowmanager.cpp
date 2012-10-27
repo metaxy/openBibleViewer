@@ -72,9 +72,9 @@ QMdiSubWindow* WindowManager::newSubWindow(Form::FormType type, bool forceMax)
     QWidget *widget = new QWidget(m_area);
     QVBoxLayout *layout = new QVBoxLayout(widget);
     m_nameCounter++;
-    Form *form = NULL;
-    if(type == Form::BibleForm) {
-        form = new BibleForm(widget);
+    Form *form = Form::createForm(widget, type);
+    /*    if(type == Form::BibleForm) {
+        ret = new BibleForm(widget);
         form->setRole(Form::BibleRole);
     } else if(type == Form::WebForm) {
         form = new WebForm(widget);
@@ -90,7 +90,7 @@ QMdiSubWindow* WindowManager::newSubWindow(Form::FormType type, bool forceMax)
     } else if(type == Form::TreeBookForm) {
         form = new TreeBookForm(widget);
         form->setRole(Form::BookRole);
-    }
+    }*/
     form->setID(m_nameCounter);
     form->setObjectName("mdiForm");
     form->currentWindowID = m_currentWindowID;
@@ -425,14 +425,26 @@ void WindowManager::tile()
             int id;
             Form::FormRole role = getForm(c)->role();
             switch(role) {
-                case Form::BibleRole:
+                case Form::MainBibleRole:
                     id = 0;
                     break;
-                case Form::DictionaryRole:
+                case Form::SecondBibleRole:
                     id = 1;
                     break;
-                default:
+                case Form::ThirdBibleRole:
                     id = 2;
+                    break;
+                case Form::BibleRole:
+                    id = 3;
+                    break;
+                case Form::DictionaryRole:
+                    id = 4;
+                    break;
+                case Form::CommentaryRole:
+                    id = 5;
+                    break;
+                default:
+                    id = 6;
                     break;
             }
             m.insert(id, c);
@@ -840,6 +852,7 @@ ModuleTools::ContentType WindowManager::contentType(DictionaryForm *form)
 
 ModuleTools::ContentType WindowManager::contentType(WebForm *form)
 {
+    Q_UNUSED(form);
 	return ModuleTools::UnkownContent;
 }
 

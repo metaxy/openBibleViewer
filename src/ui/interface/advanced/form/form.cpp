@@ -12,7 +12,12 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "form.h"
-
+#include "bibleform.h"
+#include "webform.h"
+#include "dictionaryform.h"
+#include "commentaryform.h"
+#include "treebookform.h"
+#include "bookform.h"
 Form::Form(QWidget *parent) :
     QWidget(parent),
     m_id(-1),
@@ -22,6 +27,46 @@ Form::Form(QWidget *parent) :
 }
 Form::~Form()
 {
+
+}
+Form * Form::createForm(QWidget *widget, const Form::FormType type)
+{
+    Form *ret;
+    switch(type)
+    {
+        case Form::BibleForm:
+            ret = new ::BibleForm(widget);
+            ret->setRole(Form::BibleRole);
+            break;
+
+        case Form::WebForm:
+            ret = new ::WebForm(widget);
+            ret->setRole(Form::BookRole);
+            break;
+
+        case Form::DictionaryForm:
+            ret = new ::DictionaryForm(widget);
+            ret->setRole(Form::DictionaryRole);
+            break;
+
+        case Form::BookForm:
+            ret = new ::BookForm(widget);
+            ret->setRole(Form::BookRole);
+            break;
+
+        case Form::CommentaryForm:
+            ret = new ::CommentaryForm(widget);
+            ret->setRole(Form::CommentaryRole);
+            break;
+
+        case Form::TreeBookForm:
+            ret = new ::TreeBookForm(widget);
+            ret->setRole(Form::BookRole);
+            break;
+        default:
+            break;
+    }
+    return ret;
 
 }
 

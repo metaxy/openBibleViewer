@@ -56,6 +56,8 @@ public:
     explicit Form(QWidget *parent = 0);
     virtual ~Form();
 
+    static Form * createForm(QWidget *widget, const Form::FormType type);
+
     void setID(const int id);
     int id();
     void setRole(const Form::FormRole role);
@@ -100,9 +102,6 @@ protected:
     NotesManager *m_notesManager;
     BookmarksManager *m_bookmarksManager;
     QMdiSubWindow *m_parentSubWindow;
-
-
-
 
 };
 
