@@ -73,6 +73,7 @@ void ModuleDownloader::downloadNext()
 }
 void ModuleDownloader::save(QString url, QString name, int status)
 {
+    Q_UNUSED(status);
     m_retData[url] = name;
     downloadNext();
 }

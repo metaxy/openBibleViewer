@@ -34,7 +34,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/notes/notes.h"
 #include "src/core/dbghelper.h"
 #include "src/core/link/urlconverter.h"
-#include "src/ui/modulemodel.h"
 /**
  * ModuleManager is universal module manager for all kind of module types. It loads them and creates Module.
  * It is part of the BasicClass.
@@ -64,7 +63,6 @@ public:
     Module * getModule(const int moduleID);
     bool contains(const int moduleID);
 
-    QStandardItemModel *m_moduleModel;
 
     Notes *m_notes;
     QSharedPointer<ModuleMap> m_moduleMap;

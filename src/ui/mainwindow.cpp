@@ -24,7 +24,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/core/dbghelper.h"
 #include "src/core/moduletools.h"
-
+#include "src/ui/context.h"
 #include "config.h"
 
 MainWindow::MainWindow(Context *parent) :

@@ -16,8 +16,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dialog/moduleconfigdialog.h"
 #include "src/core/moduletools.h"
 #include "src/core/link/verseurl.h"
-#include <QPointer>
-#include <QMenu>
+#include "src/ui/modulemodel.h"
+#include <QtCore/QPointer>
+#include <QtGui/QMenu>
 ModuleSelectUI::ModuleSelectUI(BasicClass *parent, QWidget *parentWidget) : QObject(parentWidget)
 {
     copy(parent);
@@ -26,8 +27,10 @@ ModuleSelectUI::ModuleSelectUI(BasicClass *parent, QWidget *parentWidget) : QObj
     model.setSettings(m_settings);
     model.generate();
 
+    m_moduleModel = model.itemModel();
+
     m_proxyModel = new RecursivProxyModel(parentWidget);
-    m_proxyModel->setSourceModel(model.itemModel());
+    m_proxyModel->setSourceModel(m_moduleModel);
     m_proxyModel->setHeaderData(0, Qt::Horizontal, tr("Module"));
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
@@ -73,7 +76,10 @@ QItemSelectionModel *ModuleSelectUI::selectionModel() const
 {
     return m_selectionModel;
 }
-
+QStandardItemModel *ModuleSelectUI::moduleModel() const
+{
+    return m_moduleModel;
+}
 void ModuleSelectUI::loadModuleData(const int moduleID, Actions::OpenLinkModifiers mod)
 {
     if(moduleID >= 0) {
@@ -129,7 +135,7 @@ void ModuleSelectUI::selectModule(const int moduleID)
         return;
 
     m_moduleID = moduleID;
-    const QModelIndexList list = m_proxyModel->match(m_moduleManager->m_moduleModel->invisibleRootItem()->index(),
+    const QModelIndexList list = m_proxyModel->match(m_moduleModel->invisibleRootItem()->index(),
                                                      Qt::UserRole + 1,
                                                      QString::number(moduleID));
 
@@ -159,7 +165,7 @@ void ModuleSelectUI::showSettingsDialog(const int moduleID)
 }
 void ModuleSelectUI::moduleChanged(const int moduleID)
 {
-    const QModelIndexList list = m_proxyModel->match(m_moduleManager->m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, QString::number(moduleID));
+    const QModelIndexList list = m_proxyModel->match(m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, QString::number(moduleID));
 
     if(!list.isEmpty()) {
         m_proxyModel->setData(m_proxyModel->mapFromSource(list.first()), m_settings->getModuleSettings(moduleID)->name(false), Qt::DisplayRole);

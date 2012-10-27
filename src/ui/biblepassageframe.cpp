@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "biblepassageframe.h"
 #include "ui_biblepassageframe.h"
 #include "src/core/link/biblelink.h"
+#include "src/ui/modulemodel.h"
 BiblePassageFrame::BiblePassageFrame(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::BiblePassageFrame)

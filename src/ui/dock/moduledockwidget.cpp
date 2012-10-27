@@ -79,7 +79,7 @@ void ModuleDockWidget::filter(const QString &string)
     //first time: expand all
     if(m_first == false && !string.isEmpty()) {
         m_first = true;
-        const QModelIndexList list = m_moduleUI->model()->match(m_moduleManager->m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, "-1");
+        const QModelIndexList list = m_moduleUI->model()->match(m_moduleUI->moduleModel()->invisibleRootItem()->index(), Qt::UserRole + 1, "-1");
         foreach(const QModelIndex &index, list) {
             ui->treeView_module->setExpanded(index, true);
         }

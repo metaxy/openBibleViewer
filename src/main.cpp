@@ -36,7 +36,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #include "src/ui/mainwindow.h"
-#include "src/core/context.h"
+#include "src/ui/context.h"
 #include "config.h"
 #include "anyoption.h"
 bool removeDir(const QString &dirName)

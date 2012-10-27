@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/updateschecker.h"
 
 #include "src/core/notes/xmlnotes.h"
+#include "src/ui/context.h"
 
 Context::Context(QObject *parent) : QObject(parent)
 {
@@ -57,17 +58,19 @@ void Context::init()
     d.mkpath(m_homeDataPath + "cache");
     d.mkpath(m_homeDataPath + "v11n");
 
+    //init BasicClass
     m_moduleManager = new ModuleManager();
     m_settings = new Settings();
     m_settings->session.setFile(m_sessionFile);
     m_notes = new XmlNotes();
     m_actions = new Actions();
 
-
+    //first start?
     QFileInfo info(m_settingsFile->fileName());
     if(!info.exists()) {
         m_firstStart = true;
     }
+
     loadDefaultSettings();
     loadSettings();
 

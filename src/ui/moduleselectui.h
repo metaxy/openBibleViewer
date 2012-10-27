@@ -31,6 +31,7 @@ public:
 
     RecursivProxyModel *model() const;
     QItemSelectionModel *selectionModel() const;
+    QStandardItemModel *moduleModel() const;
 
     void moduleChanged(const int moduleID);
 
@@ -49,6 +50,7 @@ private:
     int m_moduleID;
     RecursivProxyModel *m_proxyModel;
     QItemSelectionModel *m_selectionModel;
+    QStandardItemModel *m_moduleModel;
     QPoint m_point;
 
 

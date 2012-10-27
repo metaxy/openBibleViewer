@@ -107,8 +107,6 @@ QMdiSubWindow* WindowManager::newSubWindow(Form::FormType type, bool forceMax)
     widget->setLayout(layout);
     MdiSubWindow *subWindow = new MdiSubWindow(m_area);
     subWindow->setWidget(widget);
-
-    //subWindow = m_area->addSubWindow(subWindow);
     subWindow->setParent(m_area);
 
     subWindow->setWindowIcon(QIcon(":/icons/16x16/main.png"));

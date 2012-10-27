@@ -24,10 +24,6 @@ ModuleManager::~ModuleManager()
     //DEBUG_FUNC_NAME
     m_moduleMap.clear();
 
-    if(m_moduleModel != NULL) {
-        delete m_moduleModel;
-        m_moduleModel = NULL;
-    }
     if(m_rootModule != NULL) {
         delete m_rootModule;
         m_rootModule = NULL;
@@ -135,12 +131,7 @@ int ModuleManager::loadAllModules()
         foreach(ModuleSettings * s, rootModuleSettings->children()) {
             loadModule(m_rootModule, s);
         }
-        ModuleModel model(0);
-        model.setSettings(m_settings);
-        model.generate();
-        m_moduleModel = model.itemModel();
-    } else {
-        m_moduleModel = new QStandardItemModel;
+
     }
 
 

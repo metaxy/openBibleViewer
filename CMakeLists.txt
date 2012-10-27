@@ -170,13 +170,14 @@ set( openBibleViewer_SRCS
     src/ui/highlighter.cpp
     src/ui/marklist.cpp
     src/ui/markcategories.cpp
-    src/ui/actions.cpp
     src/ui/modulemodel.cpp
     src/ui/biblepassageframe.cpp
 	src/ui/qtwin.cpp
     src/ui/moduleselectui.cpp
 
     src/ui/updateschecker.cpp
+    
+    src/ui/context.cpp
 
     
     )
@@ -250,7 +251,7 @@ set ( openBibleViewer_MOCS
     src/api/moduleapi.h
     src/api/notesapi.h
     src/api/api.h
-
+    
     src/ui/dialog/searchdialog.h
     src/ui/dialog/settingsdialog.h
     src/ui/dialog/aboutdialog.h
@@ -307,11 +308,11 @@ set ( openBibleViewer_MOCS
     src/ui/interface/advanced/manager/dictionarymanager.h
     src/ui/interface/advanced/manager/notesmanager.h
     src/ui/interface/advanced/manager/searchmanager.h
-    src/ui/actions.h
     src/ui/biblepassageframe.h
 
 
     src/ui/updateschecker.h
+    src/ui/context.h
 
     )
 

@@ -89,8 +89,10 @@ private slots:
     void removeNote(const QString &id);
     /**
       * Shows an BiblePassageDialog where you can edit the note link.
+      *
       */
-    void editNoteLink();
+
+    void editNoteLink(); //todo: remove it from here
     void updateNoteLink(const VerseUrl &url);
     /**
       * Adds a new Folder with the default title (unnamed)

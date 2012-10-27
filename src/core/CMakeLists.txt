@@ -1,8 +1,8 @@
 SET(
     OBVCore_SRCS
     swordmanager.cpp
-    context.cpp
-    
+    actions.cpp
+
     moduletools.cpp
     
     module/bible/bible.cpp
@@ -126,7 +126,7 @@ SET(
 QT4_AUTOMOC( ${OBVCore_SRCS} )
 
 set ( OBVCore_MOCS
-    context.h
+    actions.h
     notes/notes.h
     notes/xmlnotes.h
     notes/textnotes.h

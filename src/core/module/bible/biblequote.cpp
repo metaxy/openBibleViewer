@@ -78,19 +78,19 @@ int BibleQuote::loadBibleData(const int bibleID, const QString &path)
             if(line.contains("BibleName", Qt::CaseInsensitive)) {
                 m_moduleName = formatFromIni(line.remove(QRegExp("BibleName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
             }
-            if(line.contains("BibleShortName", Qt::CaseInsensitive)) {
+            else if(line.contains("BibleShortName", Qt::CaseInsensitive)) {
                 m_moduleShortName = formatFromIni(line.remove(QRegExp("BibleShortName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
             }
-            if(line.contains("ChapterSign", Qt::CaseInsensitive)) {
+            else if(line.contains("ChapterSign", Qt::CaseInsensitive)) {
                 m_chapterSign = formatFromIni(line.remove(QRegExp("ChapterSign(\\s*)=(\\s*)", Qt::CaseInsensitive)));
             }
-            if(line.contains("HTMLFilter", Qt::CaseInsensitive)) {
+            else if(line.contains("HTMLFilter", Qt::CaseInsensitive)) {
                 m_removeHtml = formatFromIni(line.remove(QRegExp("HTMLFilter(\\s*)=(\\s*)", Qt::CaseInsensitive)));
             }
-            if(line.contains("VerseSign", Qt::CaseInsensitive)) {
+            else if(line.contains("VerseSign", Qt::CaseInsensitive)) {
                 m_verseSign = formatFromIni(line.remove(QRegExp("VerseSign(\\s*)=(\\s*)", Qt::CaseInsensitive)));
             }
-            if(line.contains("ChapterZero", Qt::CaseInsensitive)) {
+            else if(line.contains("ChapterZero", Qt::CaseInsensitive)) {
                 const QString zero = formatFromIni(line.remove(QRegExp("ChapterZero(\\s*)=(\\s*)", Qt::CaseInsensitive)));
                 if(zero.compare("Y", Qt::CaseInsensitive) == 0) {
                     m_chapterZero = true;
@@ -102,6 +102,7 @@ int BibleQuote::loadBibleData(const int bibleID, const QString &path)
             if(started == false && line.contains("BookQty", Qt::CaseInsensitive)) {
                 started = true;
             }
+
             if(started == true) {
                 if(started2 == true) {
                     if(line.contains("ChapterQty", Qt::CaseInsensitive)) {
@@ -173,7 +174,7 @@ MetaInfo BibleQuote::readInfo(QFile &file)
                 break;
             }
         }
-        if(line.contains("BibleShortName", Qt::CaseInsensitive)) {
+        else if(line.contains("BibleShortName", Qt::CaseInsensitive)) {
             m_moduleShortName = formatFromIni(line.remove(QRegExp("BibleShortName(\\s*)=(\\s*)", Qt::CaseInsensitive)));
             if(useShortName)
                 break;

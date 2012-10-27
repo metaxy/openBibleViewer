@@ -33,7 +33,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/ui/interface/interface.h"
 
-#include "src/core/context.h"
+class Context;
+
 namespace Ui
 {
 class MainWindow;
