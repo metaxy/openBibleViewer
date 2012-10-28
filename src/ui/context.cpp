@@ -74,6 +74,7 @@ void Context::init()
     loadDefaultSettings();
     loadSettings();
 
+    //it is deleting itself when done
     UpdatesChecker *c = new UpdatesChecker(this);
     setAll(c);
     c->checkForUpdates();

@@ -25,9 +25,14 @@ UpdatesChecker::UpdatesChecker(QObject *parent) :
     QObject(parent)
 {
 }
+UpdatesChecker::~UpdatesChecker()
+{
+}
+
 void UpdatesChecker::checkForUpdates()
 {
     if(!m_settings->checkForUpdates) {
+        this->deleteLater();
         return;
     }
     myDebug() << "checking for Updates";
@@ -104,8 +109,7 @@ void UpdatesChecker::replyFinished(QNetworkReply* reply)
         }
         n = n.nextSibling();
     }
-
-   
+    this->deleteLater();
 
 }
 void UpdatesChecker::updatesAvailable()

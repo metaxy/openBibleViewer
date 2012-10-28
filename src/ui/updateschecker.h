@@ -24,6 +24,7 @@ class UpdatesChecker : public QObject, public BasicClass
     Q_OBJECT
 public:
     UpdatesChecker(QObject *parent = 0);
+    ~UpdatesChecker();
     void checkForUpdates();
 
 public slots:
