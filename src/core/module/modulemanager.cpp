@@ -59,7 +59,8 @@ int ModuleManager::loadAllModules()
 {
     DEBUG_FUNC_NAME;
     //update module settings and display settings
-    m_moduleMap->data.clear();
+    //m_moduleMap.clear();
+    //todo: clear and renew
     ModuleSettings *root = new ModuleSettings();
     root->moduleID = -1;
     root->parentID = -2;
@@ -161,7 +162,7 @@ void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
     module->setModuleID(settings->moduleID);
 
     //m_map deletes them
-    m_moduleMap->data.insert(settings->moduleID, module);
+    m_moduleMap->insert(module);
 
     module->setModuleClass(ModuleTools::typeToClass(settings->moduleType));
     //recursive
@@ -190,21 +191,21 @@ void ModuleManager::initSimpleModule(SimpleModuleClass *m) const
 
 bool ModuleManager::dictionaryLoaded(const Dictionary *dict)
 {
-    if(dict && m_moduleMap->data.contains(dict->moduleID()) && dict->moduleID() >= 0)
+    if(dict && m_moduleMap->contains(dict->moduleID()) && dict->moduleID() >= 0)
         return true;
     return false;
 }
 bool ModuleManager::metaModuleLoaded(const SimpleModuleClass *m) const
 {
-    return (m && m_moduleMap->data.contains(m->moduleID()) && m->moduleID() >= 0);
+    return (m && m_moduleMap->contains(m->moduleID()) && m->moduleID() >= 0);
 }
 bool ModuleManager::verseTableLoaded(const VerseTable *table) const
 {
-    return (table && table->verseModule() && m_moduleMap->data.contains(table->verseModule()->moduleID()) && table->verseModule()->moduleID() >= 0);
+    return (table && table->verseModule() && m_moduleMap->contains(table->verseModule()->moduleID()) && table->verseModule()->moduleID() >= 0);
 }
 bool ModuleManager::contains(const int moduleID)
 {
-    return m_moduleMap->data.contains(moduleID);
+    return m_moduleMap->contains(moduleID);
 }
 
 Module * ModuleManager::getModule(const int moduleID)
@@ -248,7 +249,7 @@ QString ModuleManager::notePos2Text(const QString &pos)
 QStringList ModuleManager::getBiblePaths()
 {
     QStringList paths;
-    QMapIterator<int, Module *> i(m_moduleMap->data);
+    QMapIterator<int, Module *> i = m_moduleMap->it();
     while(i.hasNext()) {
         i.next();
         if(i.value()->moduleClass() == ModuleTools::BibleModuleClass)
@@ -259,7 +260,7 @@ QStringList ModuleManager::getBiblePaths()
 QList<int> ModuleManager::getBibleIDs()
 {
     QList<int> ids;
-    QMapIterator<int, Module *> i(m_moduleMap->data);
+    QMapIterator<int, Module *> i = m_moduleMap->it();
     while(i.hasNext()) {
         i.next();
         if(i.value()->moduleClass() == ModuleTools::BibleModuleClass)
@@ -269,6 +270,8 @@ QList<int> ModuleManager::getBibleIDs()
 }
 void ModuleManager::checkCache(const int moduleID)
 {
+    //todo: do we need this method?
+    Q_UNUSED(moduleID);
     /*Module *m = m_moduleMap->m_map.value(moduleID);
     if(m->moduleClass() == ModuleTools::BibleModuleClass && !m_settings->m_moduleCache.keys().contains(m->path())) {
         Bible *b = new Bible();

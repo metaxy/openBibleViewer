@@ -22,9 +22,16 @@ class ModuleMap
 public:
     ModuleMap();
     ~ModuleMap();
-    QMap<int, Module*> data;
 
-    Module* module(const int id);
+    Module* module(const int id) const;
+    void insert(Module *module);
+    bool contains(const int id) const;
+    QMapIterator<int, Module*> it() const;
+
+    Module * moduleByUID(const QString &uid);
+    int UIDtoID(const QString &uid);
+private:
+        QMap<int, Module*> m_data;
 };
 
 #endif // MODULEMAP_H

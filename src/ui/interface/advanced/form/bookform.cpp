@@ -42,13 +42,8 @@ void BookForm::restore(const QString &key)
     const qreal zoom = m_settings->session.file()->value(a + "zoom").toReal();
     const QPoint scroll = m_settings->session.file()->value(a + "scrool").toPoint();
     const QString uid = m_settings->session.file()->value(a + "uid").toString();
-    int moduleID = -1;
-    foreach(Module * m, m_moduleManager->m_moduleMap->data) {
-        if(m->moduleUID() == uid) {
-            moduleID = m->moduleID();
-            break;
-        }
-    }
+
+    int moduleID = m_moduleManager->m_moduleMap->UIDtoID(uid);
     if(moduleID != -1) {
         loadModule(moduleID);
         show();

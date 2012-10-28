@@ -65,13 +65,7 @@ void TreeBookForm::restore(const QString &key)
         m_browserHistory.setData3(m_settings->session.file()->value(a + "hist3"));
         setButtons();
     }
-    int moduleID = -1;
-    foreach(Module * m, m_moduleManager->m_moduleMap->data) {
-        if(m->moduleUID() == uid) {
-            moduleID = m->moduleID();
-            break;
-        }
-    }
+    int moduleID = m_moduleManager->m_moduleMap->UIDtoID(uid);
     if(moduleID != -1) {
         loadModule(moduleID);
         showChapter(moduleID, chapter);

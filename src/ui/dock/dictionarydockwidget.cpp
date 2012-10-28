@@ -44,7 +44,7 @@ void DictionaryDockWidget::init()
     dictModuleID.clear();
     ui->comboBox_strongModule->clear();
 
-    QMapIterator<int, Module *> i(m_moduleManager->m_moduleMap->data);
+    QMapIterator<int, Module *> i = m_moduleManager->m_moduleMap->it();
     while(i.hasNext()) {
         i.next();
         Module *m = i.value();
@@ -79,7 +79,7 @@ void DictionaryDockWidget::showEntry(QString strongID)
         const QString last = m_settings->session.getData("lastDictModule").toString();
         int moduleID = 0;
         if(!last.isEmpty()) {
-            QMapIterator<int, Module *> i(m_moduleManager->m_moduleMap->data);
+            QMapIterator<int, Module *> i = m_moduleManager->m_moduleMap->it();
             while(i.hasNext()) {
                 i.next();
                 if(i.value()->moduleUID() == last) {

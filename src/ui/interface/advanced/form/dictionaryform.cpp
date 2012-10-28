@@ -119,15 +119,7 @@ void DictionaryForm::restore(const QString &key)
     const QString k = m_settings->session.file()->value(a + "key").toString();
     const QString uid = m_settings->session.file()->value(a + "uid").toString();
 
-
-
-    int moduleID = -1;
-    foreach(Module * m, m_moduleManager->m_moduleMap->data) {
-        if(m->moduleUID() == uid) {
-            moduleID = m->moduleID();
-            break;
-        }
-    }
+    int moduleID = m_moduleManager->m_moduleMap->UIDtoID(uid);
     if(moduleID != -1) {
         showEntry(k, moduleID);
     }
@@ -308,7 +300,7 @@ int DictionaryForm::newDictionary(const int module)
             int moduleID = -1;
 
             const QString lastUrl = m_settings->recoverUrl(last);
-            QMapIterator<int, Module *> i(m_moduleManager->m_moduleMap->data);
+            QMapIterator<int, Module *> i = m_moduleManager->m_moduleMap->it();
             while(i.hasNext()) {
                 i.next();
                 if(i.value()->moduleClass() == ModuleTools::DictionaryModuleClass) {

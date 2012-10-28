@@ -97,7 +97,7 @@ void QuickJumpDockWidget::goToPos()
 
         }
         if(defaultModuleID == -1) {
-            QMapIterator<int, Module*> i2(m_moduleManager->m_moduleMap->data);
+            QMapIterator<int, Module*> i2 = m_moduleManager->m_moduleMap->it();
             while(i2.hasNext()) {
                 i2.next();
                 if(i2.value()->moduleClass() == ModuleTools::BibleModuleClass)

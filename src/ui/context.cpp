@@ -43,7 +43,6 @@ Context::~Context()
     delete m_sessionFile;
     m_sessionFile = NULL;
 
-
     delete m_moduleManager;
     m_moduleManager = NULL;
 }

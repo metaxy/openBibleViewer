@@ -52,5 +52,6 @@ void DownloadProgressDialog::updateProgress(qint64 current, qint64 total)
 
 void DownloadProgressDialog::updateProgress2(int current, int total)
 {
+    Q_UNUSED(total);
     ui->progressBar_2->setValue(current * 100);
 }
