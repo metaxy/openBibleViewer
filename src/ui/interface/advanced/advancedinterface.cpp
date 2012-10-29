@@ -177,7 +177,7 @@ void AdvancedInterface::parseUrl(QString url, const Actions::OpenLinkModifiers m
         //todo:
         url = url.remove(0, anchor.size());
         bool ok;
-        int c = url.toInt(&ok, 10);
+        int c = url.toInt(&ok);
         if(ok) {
             VerseUrlRange r;
             r.setModule(VerseUrlRange::LoadCurrentModule);

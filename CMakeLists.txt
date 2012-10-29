@@ -7,7 +7,8 @@ project( openBibleViewer )
 
 cmake_minimum_required( VERSION 2.6 )
 
-list( APPEND CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs")
+#list( APPEND CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs")
+
 
 set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
 set( MCLUCENE_DIR "C:\\\\Users\\\\mo\\\\coding\\\\clucene-HEAD-314b755" )
@@ -29,9 +30,10 @@ endif()
 
 if(UNIX)
   if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
-    add_definitions ( -Wall -Wextra -Wformat -g3)
+    add_definitions( -Wall -Wextra -Wformat -g3)
     #add_definitions ( -Wall -Wextra -Wformat -g3 -fstack-check -Weffc++)
   endif()
+    add_definitions(-std=c++0x)
 endif(UNIX)
 
 find_package( Qt4 REQUIRED )

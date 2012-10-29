@@ -109,7 +109,7 @@ QString SwordBible::uid() const
 }
 TextRange SwordBible::rawTextRange(int bookID, int chapterID, int startVerse, int endVerse)
 {
-    DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME;
     TextRange ret;
 #ifdef BUILD_WITH_SWORD
     VerseKey mykey;

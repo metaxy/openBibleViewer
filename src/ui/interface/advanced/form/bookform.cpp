@@ -106,8 +106,10 @@ void BookForm::show()
             QString cssFile;
             if(m_book)
                 cssFile = m_settings->getModuleSettings(m_book->moduleID())->styleSheet;
+
             if(cssFile.isEmpty())
                 cssFile = ":/data/css/default.css";
+
             m_view->settings()->setUserStyleSheetUrl(QUrl::fromLocalFile(cssFile));
         }
         m_view->setHtml(r->data());
