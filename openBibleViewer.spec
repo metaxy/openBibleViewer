@@ -33,11 +33,11 @@ BuildRequires: libqt4-devel >= 4.6 libz
 BuildRequires: libqt4-devel >= 4.6 libQtWebKit-devel >= 4.6
 %endif
 
-%if 0%{?suse_version} <= 12.2
+%if 0%{?suse_version} <= 1220
 BuildRequires: libz
 %endif
 
-%if 0%{?suse_version} > 12.2
+%if 0%{?suse_version} > 1220
 BuildRequires: libz1
 %endif
 
