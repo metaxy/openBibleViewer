@@ -16,6 +16,7 @@ Release: 7
 Group: Amusements/Teaching/Other
 Source: %{name}-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
+%if 0%{?fedora_version}
 
 %if 0%{?fedora_version} < 14
 BuildRequires: qt-devel >= 4.6 zlib
@@ -25,13 +26,14 @@ BuildRequires: qt-devel >= 4.6 zlib
 BuildRequires: qt-devel >= 4.6 zlib qt-webkit-devel >= 4.6
 %endif
 
+%endif
+
 %if 0%{?mandriva_version}
 BuildRequires: libqt4-devel >= 4.6 libz
 %endif
 
 %if 0%{?suse_version}
 BuildRequires: libqt4-devel >= 4.6 libQtWebKit-devel >= 4.6
-%endif
 
 %if 0%{?suse_version} <= 1220
 BuildRequires: libz
@@ -39,6 +41,8 @@ BuildRequires: libz
 
 %if 0%{?suse_version} > 1220
 BuildRequires: libz1
+%endif
+
 %endif
 
 
