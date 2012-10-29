@@ -249,7 +249,7 @@ QString ModuleManager::notePos2Text(const QString &pos)
 QStringList ModuleManager::getBiblePaths()
 {
     QStringList paths;
-    QMapIterator<int, Module *> i = m_moduleMap->it();
+    auto i = m_moduleMap->it();
     while(i.hasNext()) {
         i.next();
         if(i.value()->moduleClass() == ModuleTools::BibleModuleClass)
@@ -260,7 +260,7 @@ QStringList ModuleManager::getBiblePaths()
 QList<int> ModuleManager::getBibleIDs()
 {
     QList<int> ids;
-    QMapIterator<int, Module *> i = m_moduleMap->it();
+    auto i = m_moduleMap->it();
     while(i.hasNext()) {
         i.next();
         if(i.value()->moduleClass() == ModuleTools::BibleModuleClass)

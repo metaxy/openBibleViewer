@@ -103,7 +103,7 @@ int BibleForm::newModule()
     }
     //myDebug() << "default" << defaultModuleID;
     if(defaultModuleID == -1) {
-        QMapIterator<int, Module*> i2 = m_moduleManager->m_moduleMap->it();
+        auto i2 = m_moduleManager->m_moduleMap->it();
         while(i2.hasNext() && defaultModuleID == -1) {
             i2.next();
             if(i2.value()->moduleClass() == ModuleTools::BibleModuleClass) {

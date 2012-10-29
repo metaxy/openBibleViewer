@@ -7,6 +7,8 @@ project( openBibleViewer )
 
 cmake_minimum_required( VERSION 2.6 )
 
+list( APPEND CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs")
+
 set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
 set( MCLUCENE_DIR "C:\\\\Users\\\\mo\\\\coding\\\\clucene-HEAD-314b755" )
 include(InstallRequiredSystemLibraries)

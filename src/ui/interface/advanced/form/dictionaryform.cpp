@@ -300,7 +300,7 @@ int DictionaryForm::newDictionary(const int module)
             int moduleID = -1;
 
             const QString lastUrl = m_settings->recoverUrl(last);
-            QMapIterator<int, Module *> i = m_moduleManager->m_moduleMap->it();
+            auto i = m_moduleManager->m_moduleMap->it();
             while(i.hasNext()) {
                 i.next();
                 if(i.value()->moduleClass() == ModuleTools::DictionaryModuleClass) {
