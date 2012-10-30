@@ -48,7 +48,10 @@ void DictionaryDockWidget::init()
     while(i.hasNext()) {
         i.next();
         Module *m = i.value();
+        if(m == nullptr) continue;
         if(m->moduleClass() == ModuleTools::DictionaryModuleClass) {
+            if(m_settings->getModuleSettings(m->moduleID()) == nullptr) continue;
+
             dictModuleTitle << m_settings->getModuleSettings(m->moduleID())->name(true);
             dictModuleID << m->moduleID();
         }

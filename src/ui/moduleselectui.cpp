@@ -53,8 +53,6 @@ ModuleSelectUI::ModuleSelectUI(BasicClass *parent, QWidget *parentWidget) : QObj
     m_actionSettings->setObjectName("actionSettings");
     connect(m_actionSettings, SIGNAL(triggered()), this, SIGNAL(configure()));
 
-
-
     m_contextMenu->addAction(m_actionOpen);
     m_contextMenu->addAction(m_actionOpenInNewTab);
 
