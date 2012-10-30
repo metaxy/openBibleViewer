@@ -157,6 +157,7 @@ void ModuleSelectUI::showSettingsDialog(const int moduleID)
 
     QPointer<ModuleConfigDialog> mDialog = new ModuleConfigDialog;
     mDialog->setModule(m_settings->getModuleSettings(moduleID));
+    mDialog->setSettings(m_settings);
     connect(mDialog, SIGNAL(save(int)), mDialog, SLOT(close()));
     mDialog->exec();
     delete mDialog;
@@ -165,6 +166,8 @@ void ModuleSelectUI::showSettingsDialog(const int moduleID)
 }
 void ModuleSelectUI::moduleChanged(const int moduleID)
 {
+    //todo: you can change the default module from ModuleSelectUI::showSettingsDialog
+    // but the icon in the m_moduleModel won't change.
     const QModelIndexList list = m_proxyModel->match(m_moduleModel->invisibleRootItem()->index(), Qt::UserRole + 1, QString::number(moduleID));
 
     if(!list.isEmpty()) {

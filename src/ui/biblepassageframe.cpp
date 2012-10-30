@@ -370,7 +370,7 @@ void BiblePassageFrame::reload(const QModelIndex &index)
         }
         return;
     }
-    //
+    //todo: v11n conversion
     foreach(QObject * o, this->children()) {
         if(o->objectName().startsWith("books")) {
             QComboBox *box = (QComboBox*)o;
@@ -380,7 +380,6 @@ void BiblePassageFrame::reload(const QModelIndex &index)
             box->setCurrentIndex(index);
         }
     }
-    //todo: reload
 }
 
 void BiblePassageFrame::replace()

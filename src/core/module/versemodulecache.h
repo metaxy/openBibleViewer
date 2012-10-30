@@ -13,6 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef VERSEMODULECACHE_H
 #define VERSEMODULECACHE_H
+//todo: delete it? do we need a versemodule cache?
 class VerseModuleCache
 {
 public:

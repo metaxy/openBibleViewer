@@ -78,13 +78,15 @@ ModuleTools::ModuleType ModuleTools::recognizeModuleType(const QString &fileName
             for(int i = 0; i < 100; i++)
                 fileData += in.readLine();
             //myDebug() << "fileData = " << fileData;
-            if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i cannot allow this
+            if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) /*&& !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i cannot allow this
                     fileData.contains("x-cult", Qt::CaseInsensitive) ||
-                    fileData.contains("x-mormon", Qt::CaseInsensitive))) {
+                    fileData.contains("x-mormon", Qt::CaseInsensitive))*/) {
                 return ModuleTools::ZefaniaBibleModule;
             } else if(fileData.contains("<dictionary", Qt::CaseInsensitive)) {
                 return ModuleTools::ZefaniaLexModule;
-            }
+            } else {
+				myWarning() << "a strange xml file and not a zefania xml";
+			}
 
         } else {
             myWarning() << "could not open file " << fileName;
