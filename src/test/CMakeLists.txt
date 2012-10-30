@@ -1,3 +1,4 @@
+add_definitions(-DSRC_PATH="${CMAKE_SOURCE_DIR}")
 
 SET( TEST_LIBRARIES OBVCore ${QT_QTTEST_LIBRARY} ${QT_LIBRARIES} 
                         ${QT_QTCORE_LIBRARY} 
@@ -20,5 +21,6 @@ ENDFUNCTION(BUILD_TEST)
 
 
 BUILD_TEST("versereplacer" "VerseReplacer")
-BUILD_TEST("biblelink" "BibleLink" "v11ntest.cpp")
+BUILD_TEST("biblelink" "BibleLink")
 BUILD_TEST("v11n" "V11N")
+BUILD_TEST("moduletools" "ModuleTools")

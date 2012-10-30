@@ -130,6 +130,8 @@ bool QtWin::enableBlurBehindWindow(QWidget *widget, bool enable)
             windowNotifier()->addWidget(widget);
         }
     }
+#else
+    Q_UNUSED(enable);
 #endif
     return result;
 }

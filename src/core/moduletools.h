@@ -116,7 +116,8 @@ public:
 
     static ModuleTools::ContentType contentTypeFromUrl(const QString &url);
     static ModuleTools::ModuleClass moduleClassFromUrl(const QString &url);
-
+    
+    static QStringList scan(const QString &path, const int maxLevel = -1, const int level = 0);
 };
 
 #endif // MODULETOOLS_H

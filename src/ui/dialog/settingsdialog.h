@@ -81,7 +81,6 @@ private:
     bool m_modifedModuleSettings;
 
     void generateModuleTree();
-    static QStringList scan(const QString &path, const int level);
     int quiteAddModule(const QString &path, int parentID = -1, const QString &name = "");
     void saveModule(QModelIndex parentIndex, ModuleSettings *parentSettings);
 

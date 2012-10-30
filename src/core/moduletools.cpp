@@ -15,7 +15,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QFile>
 #include <QtSql/QSqlQuery>
 #include <QtCore/QVariant> //!!!
-
+#include <QtCore/QFileInfoList>
+#include <QtCore/QDir>
 #include "src/core/dbghelper.h"
 const QString ModuleTools::strongScheme = "strong:/";
 const QString ModuleTools::gramScheme = "gram:/";
@@ -309,3 +310,23 @@ ModuleTools::ModuleClass ModuleTools::moduleClassFromUrl(const QString &url)
 }
 
 
+/*
+ * if maxLevel == -1, then it will scan all subfolders
+ */
+QStringList ModuleTools::scan(const QString &path, const int maxLevel, const int level)
+{
+    QStringList ret;
+    QDir dir(path);
+    const QFileInfoList list = dir.entryInfoList();
+    foreach(const QFileInfo & info, list) {
+        if(info.fileName() != ".." && info.fileName() != ".") {
+            if(info.isDir()) {
+                if(level <= maxLevel || maxLevel < 0)
+					ret.append(scan(info.absoluteFilePath(), maxLevel, level + 1));
+            } else {
+                ret.append(info.absoluteFilePath());
+            }
+        }
+    }
+    return ret;
+}

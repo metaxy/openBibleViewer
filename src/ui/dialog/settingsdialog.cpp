@@ -73,23 +73,6 @@ void SettingsDialog::reset()
     setSettings(m_set);
 }
 
-QStringList SettingsDialog::scan(const QString &path, const int level = 0)
-{
-    QStringList ret;
-    QDir dir(path);
-    const QFileInfoList list = dir.entryInfoList();
-    foreach(const QFileInfo & info, list) {
-        if(info.fileName() != ".." && info.fileName() != ".") {
-            if(info.isDir()) {
-                //if(level <= 2)//i think this is ok
-                ret.append(scan(info.absoluteFilePath(), level + 1));
-            } else {
-                ret.append(info.absoluteFilePath());
-            }
-        }
-    }
-    return ret;
-}
 
 int SettingsDialog::setSettings(Settings settings)
 {
@@ -313,7 +296,7 @@ void SettingsDialog::addModuleDir(void)
                 m->setParent(parent);
                 m->setDisplaySettings(parent->displaySettings());
 
-                const QStringList scanned = scan(f);
+                const QStringList scanned = ModuleTools::scan(f);
                 foreach(const QString & file, scanned) {
                     if(ModuleTools::recognizeModuleType(file) != ModuleTools::NoneType) {//that is faster than check in quitAddModule
                         quiteAddModule(file, m->moduleID);
