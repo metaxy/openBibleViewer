@@ -359,6 +359,18 @@ void BiblePassageFrame::reload(const QModelIndex &index)
 {
     m_moduleID = index.data(Qt::UserRole + 1).toInt();
     QSharedPointer<Versification> v = m_settings->getModuleSettings(m_moduleID)->getV11n();
+    if(v.isNull()) {
+        myWarning() << m_moduleID << index.data() << "no v11n";
+        //clear the books
+        foreach(QObject * o, this->children()) {
+            if(o->objectName().startsWith("books")) {
+                QComboBox *box = (QComboBox*)o;
+                box->clear();
+            }
+        }
+        return;
+    }
+    //
     foreach(QObject * o, this->children()) {
         if(o->objectName().startsWith("books")) {
             QComboBox *box = (QComboBox*)o;

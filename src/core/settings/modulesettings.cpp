@@ -76,12 +76,15 @@ ModuleSettings::~ModuleSettings()
         m_displaySettings.clear();
     }
 }
-
+/**
+ * @brief ModuleSettings::loadVersification
+ * @return The Versification
+ */
 QSharedPointer<Versification> ModuleSettings::loadVersification()
 {
-   // DEBUG_FUNC_NAME;
+    DEBUG_FUNC_NAME;
     QSharedPointer<Versification> ret;
-    //myDebug() << "versifiction name = " << versificationName << " versification file" << versificationFile;
+    myDebug() << "versifiction name = " << versificationName << " versification file" << versificationFile;
     if(versificationName == "kjv") {
         ret = QSharedPointer<Versification>(new Versification_KJV());
         ret->setFlags(Versification::ReturnAll);
@@ -122,6 +125,7 @@ QSharedPointer<Versification> ModuleSettings::loadVersification()
         ret = QSharedPointer<Versification>(new Versification_Cache(map));
     }
     v11n = ret.toWeakRef();
+    myDebug() << ret << v11n;
     return ret;
 }
 
@@ -153,12 +157,12 @@ void ModuleSettings::saveVersification()
 
 QSharedPointer<Versification> ModuleSettings::getV11n()
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     if(v11n.isNull()) {
-        //myDebug() << "loading new";
+        myDebug() << "loading now";
         return loadVersification();
     }
-   // myDebug() << v11n;
+    myDebug() << v11n;
     return v11n.toStrongRef();
 
 }

@@ -16,6 +16,7 @@ Release: 7
 Group: Amusements/Teaching/Other
 Source: %{name}-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
+
 %if 0%{?fedora_version}
 
 %if 0%{?fedora_version} < 14

@@ -72,6 +72,7 @@ void ModuleModel::createModuleItem(QStandardItem *parentItem, ModuleSettings *se
             show = true;
         }
     }
+    if(cat == ModuleTools::FolderCategory) show = true;
 
     if(show == true) {
         item = new QStandardItem(settings->name(false));
@@ -79,12 +80,10 @@ void ModuleModel::createModuleItem(QStandardItem *parentItem, ModuleSettings *se
         item->setToolTip(ModuleTools::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
         item->setIcon(settings->icon());
         parentItem->appendRow(item);
+        //recursive
+        foreach(ModuleSettings * s, settings->children()) {
+            createModuleItem(item, s);
+        }
     }
-
-    //recursive
-    foreach(ModuleSettings * s, settings->children()) {
-        createModuleItem(item, s);
-    }
-
 }
 
