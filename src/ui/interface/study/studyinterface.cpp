@@ -47,7 +47,7 @@ bool StudyInterface::hasMenuBar()
 
 QMenuBar* StudyInterface::menuBar()
 {
-    return NULL;
+    return nullptr;
 }
 
 bool StudyInterface::hasToolBar()

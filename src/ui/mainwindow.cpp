@@ -41,7 +41,7 @@ MainWindow::~MainWindow()
 {
     DEBUG_FUNC_NAME;
     delete ui;
-    ui = NULL;
+    ui = nullptr;
 }
 
 
@@ -87,7 +87,7 @@ void MainWindow::deleteInterface()
     QHashIterator<DockWidget*, Qt::DockWidgetArea> it(docks);
     while(it.hasNext()) {
         it.next();
-        if(it.key() != NULL) {
+        if(it.key() != nullptr) {
             removeDockWidget(it.key());
         }
     }

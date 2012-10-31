@@ -35,7 +35,7 @@ DictionaryDockWidget::~DictionaryDockWidget()
 }
 void DictionaryDockWidget::init()
 {
-    if(m_dictionary == NULL) {
+    if(m_dictionary == nullptr) {
         m_dictionary = new Dictionary();
         m_moduleManager->initSimpleModule(m_dictionary);
     }

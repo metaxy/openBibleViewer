@@ -25,7 +25,7 @@ ModuleModel::~ModuleModel()
 }
 void ModuleModel::clear()
 {
-    if(m_moduleModel != NULL)
+    if(m_moduleModel != nullptr)
         m_moduleModel->clear();
     m_catFilter.clear();
 }
@@ -50,7 +50,7 @@ void ModuleModel::generate()
     QStandardItem *parentItem = m_moduleModel->invisibleRootItem();
 
     ModuleSettings *rootModuleSettings = m_settings->getModuleSettings(-1);//it's the invisble root item
-    if(rootModuleSettings != NULL) {
+    if(rootModuleSettings != nullptr) {
         foreach(ModuleSettings * s, rootModuleSettings->children()) {
             createModuleItem(parentItem, s);
         }
@@ -63,7 +63,7 @@ QStandardItemModel* ModuleModel::itemModel() const
 }
 void ModuleModel::createModuleItem(QStandardItem *parentItem, ModuleSettings *settings)
 {
-    QStandardItem *item = NULL;
+    QStandardItem *item = nullptr;
     bool show = true;
     ModuleTools::ModuleCategory cat = ModuleTools::getCategory(settings->moduleType);
     if(!m_catFilter.isEmpty()) {
