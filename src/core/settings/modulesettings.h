@@ -42,7 +42,7 @@ public:
         Block = 1//Unformatierter Textblock
     };
 
-    void setParent(ModuleSettings *parent);
+    void setParent(ModuleSettings* parent);
     ModuleSettings *parent() const;
 
     QSharedPointer<ModuleDisplaySettings> displaySettings() const;

@@ -118,6 +118,8 @@ public:
     static ModuleTools::ModuleClass moduleClassFromUrl(const QString &url);
     
     static QStringList scan(const QString &path, const int maxLevel = -1, const int level = 0);
+    
+    static QStringList encodings();
 };
 
 #endif // MODULETOOLS_H

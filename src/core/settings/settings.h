@@ -91,8 +91,10 @@ public:
     int newModuleID() const;
 
     int getDefaultModule(ModuleTools::ContentType c);
-
-
+    ModuleSettings* newVirtualFolder(const int parentModuleID);
+    
+    void removeModule(const int moduleID);
+    void removeModule(ModuleSettings* module);
 };
 
 #endif // SETTINGS_H
