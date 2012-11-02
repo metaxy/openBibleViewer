@@ -372,10 +372,11 @@ void SettingsDialog::save(void)
     config->displaySettings()->setShowStrongInline(m_ui->checkBox_showStrongInline->isChecked());
 
 
-    QMap<int, int> struc;
+    QMap<int, int> struc;// the structure (parent,child)
     foreach(ModuleSettings * set, m_set.m_moduleSettings) {
         struc.insert(set->moduleID, set->parentID);
     }
+    //remove all children, but not deleting them
     foreach(ModuleSettings * set, m_set.m_moduleSettings) {
         set->clearChildren();
     }
@@ -383,7 +384,7 @@ void SettingsDialog::save(void)
     QModelIndex rootIndex = m_ui->treeView->rootIndex();
     saveModule(rootIndex, m_set.getModuleSettings(-1));
 
-    QMap<int, int> struc2;
+    QMap<int, int> struc2; 
     foreach(ModuleSettings * set, m_set.m_moduleSettings) {
         struc2.insert(set->moduleID, set->parentID);
     }
@@ -392,10 +393,13 @@ void SettingsDialog::save(void)
         myDebug() << "modified struct";
         m_modifedModuleSettings = true;
     }
+    
     emit settingsChanged(m_set, m_modifedModuleSettings); //Speichern
     close();
 }
-
+/**
+ * Saves the Structure of the tree in ModuleSettings
+ */
 void SettingsDialog::saveModule(QModelIndex parentIndex, ModuleSettings *parentSettings)
 {
     for(int i = 0; i < m_ui->treeView->model()->rowCount(parentIndex); ++i) {
@@ -437,7 +441,6 @@ void SettingsDialog::addModules(const QStringList &fileName, const QStringList &
         progress.setWindowModality(Qt::WindowModal);
         progress.show();
         progress.setValue(1);
-        Q_ASSERT(fileName.size() == names.size());
         
         for(int i = 0; i < fileName.size(); i++) {
             progress.setValue(i + 2);

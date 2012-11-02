@@ -23,6 +23,7 @@ ESwordTopic::ESwordTopic() : m_bookTree(NULL)
 }
 ESwordTopic::~ESwordTopic()
 {
+    m_db.close();
     if(m_bookTree != NULL) {
         delete m_bookTree;
         m_bookTree = NULL;
