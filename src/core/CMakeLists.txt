@@ -91,6 +91,7 @@ SET(
     settings/modulesettings.cpp
     settings/session.cpp
     settings/moduledisplaysettings.cpp
+    settings/settingsloader.cpp
     versereplacer.cpp
     version.cpp
     xbelreader.cpp

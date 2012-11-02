@@ -17,10 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QMap>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-#include <QtCore/QRegExp>
-#include <QtCore/QTimer>
 
-#include <QtGui/QMessageBox>
 #include <QtGui/QProgressDialog>
 
 #include <QtXml/QtXml>

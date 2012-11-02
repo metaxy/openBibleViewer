@@ -61,7 +61,7 @@ public:
     QSharedPointer<Versification>  getV11N(const int moduleID) const;
 
     /**
-      * Atention: Session data is alway up to date.
+      * Attention: Session data is alway up to date.
       */
     Session session;
     QString sessionID;
