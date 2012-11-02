@@ -34,8 +34,6 @@ Context::~Context()
     delete m_notes;
     m_notes = nullptr;
 
-    delete m_settings;
-    m_settings = nullptr;
 
     delete m_moduleManager;
     m_moduleManager = nullptr;
