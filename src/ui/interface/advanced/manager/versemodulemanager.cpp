@@ -67,31 +67,46 @@ QHash<DockWidget*, Qt::DockWidgetArea> VerseModuleManager::docks()
 
 }
 
-void VerseModuleManager::parseUrl(VerseUrl url, const Actions::OpenLinkModifiers mod)
+void VerseModuleManager::parseUrl(const VerseUrl &url, const Actions::OpenLinkModifiers mod)
 {
     myDebug() << url.toString();
     Form::FormType type = Form::BibleForm;
-    //todo: it may be a problem if the url says that the module="current"
+    bool forceType = false;
+
     if(!url.ranges().isEmpty()) {
+        //by default the form type is BibleForm, but if the moduleID says we need a commentary, then it will be CommentaryForm
         const int moduleID = url.ranges().first().moduleID();
-        if(moduleID != -1 &&  m_moduleManager->getModule(moduleID) && m_moduleManager->getModule(moduleID)->moduleClass() == ModuleTools::CommentaryClass) {
+        if(moduleID != -1 && m_moduleManager->getModule(moduleID) && m_moduleManager->getModule(moduleID)->moduleClass() == ModuleTools::CommentaryClass) {
             type = Form::CommentaryForm;
         }
+        //if there is a specific moduleid to load, then we have to force the form type.
+        foreach(const VerseUrlRange &r, url.ranges()) {
+            if(r.module() == VerseUrlRange::LoadModuleByID || r.module() == VerseUrlRange::LoadModuleByUID) {
+                forceType = true;
+            }
+        }
+
     }
+    myDebug() << "forcetype=" << forceType;
 
     QMdiSubWindow *window;
 
     if(mod == Actions::OpenInNewWindow) {
         window = m_windowManager->newSubWindow(type);
+    } else if(forceType){
+         window = m_windowManager->needWindow(type);
     } else {
-        window = m_windowManager->needWindow(type);
+        myDebug() << "using the lambda";
+        window = m_windowManager->needWindow(type, [](Form *f) { return f->type() == Form::CommentaryForm || f->type() == Form::BibleForm;});
     }
-
-    if(type == Form::BibleForm) {
-        BibleForm *f = (BibleForm*)(m_windowManager->getForm(window));
-        parseUrl(f, url);
-    } else {
-        CommentaryForm *form = (CommentaryForm*)(m_windowManager->getForm(window));
+    Q_ASSERT(window != nullptr);
+    Form *f = m_windowManager->getForm(window);
+    //todo: can
+    if(f->type() == Form::BibleForm) {
+        BibleForm *form = (BibleForm*) f;
+        parseUrl(form, url);
+    } else if(f->type() == Form::CommentaryForm) {
+        CommentaryForm *form = (CommentaryForm*) f;
         parseUrl(form, url);
     }
 

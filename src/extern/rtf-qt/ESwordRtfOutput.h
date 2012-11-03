@@ -41,10 +41,13 @@ public:
     virtual ~ESwordRtfOutput();
     virtual void setFontUnderline(const int value);
     virtual void appendLink(const QString &href, const QString &text);
+    virtual void appendText(const QString &text);
+    void setSettings(Settings *settings);
 
 protected:
     QTextDocument *m_document;
     bool m_haveSetFont;
+    Settings *m_settings;
 
 };
 }

@@ -128,6 +128,7 @@ Response* ESwordTopic::readChapter(const int chapterID)
             bool result = reader->open(file.fileName());
             if(result) {
                 RtfReader::ESwordRtfOutput *output = new RtfReader::ESwordRtfOutput( rtfDocument );
+                output->setSettings(m_settings);
                 reader->parseTo( output );
 
                 hasAny = true;
@@ -150,6 +151,7 @@ Response* ESwordTopic::readChapter(const int chapterID)
                     bool result = reader->open(file.fileName());
                     if(result) {
                         RtfReader::ESwordRtfOutput *output = new RtfReader::ESwordRtfOutput( rtfDocument );
+                        output->setSettings(m_settings);
                         reader->parseTo( output );
                     }
                     delete reader;

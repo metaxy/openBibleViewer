@@ -51,8 +51,6 @@ int ESwordCommentary::loadModuleData(const int moduleID, const QString &fileName
     DEBUG_FUNC_NAME;
     myDebug() << moduleID << fileName;
     m_loaded = false;
-    m_settings->getModuleSettings(moduleID)->versificationName = "kjv";
-    m_versification = QSharedPointer<Versification>(new Versification_KJV());
 
     m_db = QSqlDatabase::addDatabase("QSQLITE");
     m_db.setDatabaseName(fileName);
@@ -60,7 +58,29 @@ int ESwordCommentary::loadModuleData(const int moduleID, const QString &fileName
         myWarning() << "could not open database " << fileName;
         return 1;
     }
-    //todo: look wich books we really have
+    if(!m_settings->getModuleSettings(moduleID)->versificationName.isEmpty()) {
+        QSqlQuery query("select Book from Verses", m_db);
+        QSet<int> books;
+        while(query.next()) {
+            const int book = query.value(0).toInt() - 1;
+            books.insert(book);
+        }
+        if(books.size() == 27 && books.toList().first() == 39 && books.toList().last() == 65) {
+            m_settings->getModuleSettings(moduleID)->versificationName = "kjv-nt";
+            m_versification = QSharedPointer<Versification>(new Versification_KJV());
+            m_versification->setFlags(Versification::ReturnNT);
+        } else if(books.size() == 39 && books.toList().first() == 0 && books.toList().last() == 38) {
+            m_settings->getModuleSettings(moduleID)->versificationName = "kjv-ot";
+            m_versification = QSharedPointer<Versification>(new Versification_KJV());
+            m_versification->setFlags(Versification::ReturnOT);
+        } else {
+            m_settings->getModuleSettings(moduleID)->versificationName = "kjv";
+            m_versification = QSharedPointer<Versification>(new Versification_KJV());
+        }
+
+    } else {
+        m_versification = m_settings->getV11N(moduleID);
+    }
     m_loaded = true;
     return 0;
 }
@@ -116,15 +136,11 @@ Response * ESwordCommentary::readVerseRange(const int bookID,const int chapterID
                     "and ChapterEnd  <= " + QString::number(chapterID+1), m_db);
 
     while(query.next()) {
-        myDebug() << "read verse range";
         const QString comment = query.value(0).toString();
         const int startVerse = query.value(1).toInt() - 1;
         const int endVerse = query.value(2).toInt() - 1;
-        myDebug() << "[" << startVerse << "," << endVerse << "]";
-        myDebug() << "[" << mStartVerse << "," << mEndVerse << "]";
         //two intervals a.b have not an element in common, iff the end of a does not reaches b, or the end of b does not reaches a
         if(!(mEndVerse < startVerse || endVerse < mStartVerse)) {
-            myDebug() << "yup";
             readRtf(comment, rtfDocument, bookID, chapterID, startVerse, endVerse);
             hasAnything = true;
         }
@@ -159,10 +175,9 @@ void ESwordCommentary::readRtf(const QVariant &value, QTextDocument *rtfDocument
         RtfReader::Reader *reader = new RtfReader::Reader( NULL );
         bool result = reader->open(file.fileName());
         if(result) {
-            RefText ref;
-            ref.setSettings(m_settings);
+            //RefText ref(m_settings);
             RtfReader::ESwordRtfOutput *output = new RtfReader::ESwordRtfOutput( rtfDocument/*, ref.toString(-1, bookID, chapterID, startVerse, endVerse,-1)*/);
-            //output->setSettings(m_settings);
+            output->setSettings(m_settings);
             reader->parseTo( output );
         }
         delete reader;

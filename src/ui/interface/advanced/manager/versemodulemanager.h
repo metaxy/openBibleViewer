@@ -50,7 +50,7 @@ signals:
 
 public slots:
     void parseUrl(QString url, const Actions::OpenLinkModifiers mod);
-    void parseUrl(VerseUrl url, const Actions::OpenLinkModifiers mod);
+    void parseUrl(const VerseUrl &url, const Actions::OpenLinkModifiers mod);
 
     void nextChapter();
     void previousChapter();

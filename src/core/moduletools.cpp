@@ -348,3 +348,77 @@ QStringList ModuleTools::encodings()
                             "Windows-1253", "Windows-1254", "Windows-1255", "Windows-1256", "Windows-1257", "Windows-1258", "WINSAMI2"};
     return ret;
 }
+QHash<QString,int> ModuleTools::eSwordMap()
+{
+    QHash<QString, int> ret;
+
+    ret["Gen"] = 0;
+    ret["Exo"] = 1;
+    ret["Lev"] = 2;
+    ret["Num"] = 3;
+    ret["Deu"] = 4;
+    ret["Jos"] = 5;
+    ret["Jdg"] = 6;
+    ret["Rth"] = 7;
+    ret["1Sa"] = 8;
+    ret["2Sa"] = 9;
+    ret["1Ki"] = 10;
+    ret["2Ki"] = 11;
+    ret["1Ch"] = 12;
+    ret["2Ch"] = 13;
+    ret["Ezr"] = 14;
+    ret["Neh"] = 15;
+    ret["Est"] = 16;
+    ret["Job"] = 17;
+    ret["Psa"] = 18;
+    ret["Spr"] = 19;
+    ret["Son"] = 20;
+    ret["Isa"] = 21;
+    ret["Exo"] = 22;
+    ret["Exo"] = 23;
+    ret["Exo"] = 24;
+    ret["Exo"] = 25;
+    ret["Exo"] = 26;
+    ret["Exo"] = 27;
+    ret["Exo"] = 28;
+    ret["Exo"] = 29;
+    ret["Exo"] = 30;
+    ret["Exo"] = 31;
+    ret["Exo"] = 32;
+    ret["Exo"] = 33;
+    ret["Exo"] = 34;
+    ret["Exo"] = 35;
+    ret["Exo"] = 36;
+    ret["Exo"] = 37;
+    ret["Exo"] = 38;
+    ret["Exo"] = 39;
+    ret["Exo"] = 40;
+    ret["Exo"] = 41;
+    ret["Exo"] = 42;
+    ret["Exo"] = 43;
+    ret["Exo"] = 44;
+    ret["Exo"] = 45;
+    ret["Exo"] = 46;
+    ret["Exo"] = 47;
+    ret["Exo"] = 48;
+    ret["Exo"] = 49;
+    ret["Exo"] = 50;
+    ret["Exo"] = 51;
+    ret["Exo"] = 52;
+    ret["Exo"] = 53;
+    ret["Exo"] = 54;
+    ret["Exo"] = 55;
+    ret["Exo"] = 56;
+    ret["Exo"] = 57;
+    ret["Exo"] = 58;
+    ret["Exo"] = 59;
+    ret["Exo"] = 60;
+    ret["Exo"] = 61;
+    ret["Exo"] = 62;
+    ret["Exo"] = 63;
+    ret["Exo"] = 64;
+    ret["Exo"] = 65;
+
+
+    return ret;
+}

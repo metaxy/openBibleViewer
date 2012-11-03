@@ -65,8 +65,7 @@ void TheWordRtfOutput::appendLink(const QString &href, const QString &text)
     if(t == "[vref]") {
         VerseUrl url;
         url.fromTheWord(href2);
-        RefText ref;
-        ref.setSettings(m_settings);
+        RefText ref(m_settings);
         t = ref.toString(url);
     }
 

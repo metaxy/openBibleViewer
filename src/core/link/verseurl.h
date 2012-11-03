@@ -34,6 +34,7 @@ public:
     bool fromStringUrl(QString url);
     bool fromMscope(const QString &url);
     bool fromTheWord(QString url);
+    bool fromESword(QString url);
     QList<VerseUrlRange> ranges() const;
     void clearRanges();
     bool contains(int moduleID, int bookID, int chapterID, int verseID) const;

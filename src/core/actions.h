@@ -26,6 +26,10 @@ class Actions : public QObject
     Q_OBJECT
 public:
     explicit Actions(QObject *parent = 0);
+    /**
+     * @brief Modifes the way parseUrl will treat the link.
+     * Attention: If NoModifer is set, the link may open in a different type Form, then
+     */
     enum OpenLinkModifiers {
         NoModifer,
         OpenInNewWindow,
@@ -93,6 +97,9 @@ public slots:
 
     void setCurrentBook(const QSet<int> &bookID);
     void setCurrentChapter(const QSet<int> &chapterID);
+
+    void setCurrentBook(const int bookID);
+    void setCurrentChapter(const int chapterID);
 
     void reloadActive();
 

@@ -14,23 +14,27 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "verseurl.h"
 #include "src/core/moduletools.h"
 #include <QtCore/QStringList>
-VerseUrl::VerseUrl()
+#include "src/core/dbghelper.h"
+VerseUrl::VerseUrl() : m_ranges(), m_params(), m_isValid(true)
 {
-    m_isValid = true;
 }
-VerseUrl::VerseUrl(const VerseUrlRange &range)
+VerseUrl::VerseUrl(const VerseUrlRange &range) : m_ranges(), m_params(), m_isValid(true)
 {
     addRange(range);
-    m_isValid = true;
 }
-VerseUrl::VerseUrl(const QString &url)
+VerseUrl::VerseUrl(const QString &url) : m_ranges(), m_params(), m_isValid(true)
 {
     fromStringUrl(url);
 }
 
 void VerseUrl::setParam(const QString &name, const QString &value)
 {
-    //check if name or value contains "/" or "," or "="
+    Q_ASSERT(name.contains("/") == false);
+    Q_ASSERT(name.contains(",") == false);
+    Q_ASSERT(name.contains("=") == false);
+    Q_ASSERT(value.contains("/") == false);
+    Q_ASSERT(value.contains(",") == false);
+    Q_ASSERT(value.contains("=") == false);
     m_params.insert(name, value);
 }
 
@@ -312,6 +316,41 @@ bool VerseUrl::fromTheWord(QString url)
     }
     return false;
 }
+bool VerseUrl::fromESword(QString url)
+{
+    QRegExp rx("(\\d*)(\\w+)_(\\d*):(\\d*)(?:-)*(\\d*)");
+    int pos = rx.indexIn(url);
+    QStringList list = rx.capturedTexts();
+    myDebug() << list;
+    bool chapter,start,end;
+    const QString book = list.at(1) + list.at(2);
+    const int chapterID = list.at(3).toInt(&chapter);
+    const int startVerse = list.at(4).toInt(&start);
+    const int endVerse = list.at(5).toInt(&end);
+
+    //todo: map book to bookID
+    VerseUrlRange range;
+    if(chapter) {
+
+        range.setModule(VerseUrlRange::LoadCurrentModule);
+        //range.setBook(book);
+        range.setChapter(chapterID);
+    } else {
+        range.setChapter(VerseUrlRange::LoadFirstChapter);
+    }
+
+    if(start){
+        range.setStartVerse(startVerse);
+    } else {
+        range.setWholeChapter();
+    }
+    if(end) {
+        range.setEndVerse(endVerse);
+    }
+    range.setOpenToTransformation(true);
+    m_ranges.append(range);
+    return (pos != -1);
+}
 
 QList<VerseUrlRange> VerseUrl::ranges() const
 {
@@ -357,6 +396,7 @@ VerseUrl VerseUrl::applyUrl(const VerseUrl &url)
 {
     if(this->ranges().isEmpty())
         return url;
+    myDebug() << "this=" << this->ranges().size() << "url=" << url.ranges().size();
 
     VerseUrl newUrl = url;
     newUrl.clearRanges();

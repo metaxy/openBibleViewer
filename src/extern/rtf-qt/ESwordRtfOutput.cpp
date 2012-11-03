@@ -23,6 +23,7 @@
 #include <QtCore/QUrl>
 #include <QtCore/QUuid>
 #include "src/core/link/verseurl.h"
+#include "src/core/verse/reftext.h"
 namespace RtfReader
 {
 ESwordRtfOutput::ESwordRtfOutput(QTextDocument *document) : TextDocumentRtfOutput(document),
@@ -38,11 +39,28 @@ ESwordRtfOutput::~ESwordRtfOutput()
 
 void ESwordRtfOutput::setFontUnderline(const int value)
 {
-    Q_UNUSED(value);
-    /*m_textCharFormatStack.top().setFontUnderline(value != 0);
-    m_cursor->setCharFormat(m_textCharFormatStack.top());*/
+   // Q_UNUSED(value);
+    myDebug() << value;
+    m_textCharFormatStack.top().setFontUnderline(value != 0);
+    m_cursor->setCharFormat(m_textCharFormatStack.top());
 }
+void ESwordRtfOutput::appendText(const QString &text)
+{
 
+    if(text.size() < 25 && text.contains('_') && text.contains(':')) {
+        myDebug() << text;
+        VerseUrl url;
+        if(url.fromESword(text)) {
+            RefText ref(m_settings);
+            appendLink(url.toString(), ref.toString(url));
+        } else {
+            m_cursor->insertText(text);
+        }
+    } else {
+        m_cursor->insertText(text);
+    }
+
+}
 void ESwordRtfOutput::appendLink(const QString &href, const QString &text)
 {
     QString t = text;
@@ -55,4 +73,8 @@ void ESwordRtfOutput::appendLink(const QString &href, const QString &text)
     m_cursor->insertText(t, format);
 }
 
+void ESwordRtfOutput::setSettings(Settings *settings)
+{
+    m_settings = settings;
+}
 }

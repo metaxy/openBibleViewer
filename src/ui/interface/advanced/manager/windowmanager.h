@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef WINDOWMANAGER_H
 #define WINDOWMANAGER_H
 
+#include <functional>
 #include <QObject>
 #include <QtGui/QMdiArea>
 #include <QtWebKit/QWebView>
@@ -61,6 +62,7 @@ public:
 
     QMdiSubWindow* needWindow(Form::FormType type);
     QMdiSubWindow* needWindow(Form::FormType type, ModuleTools::ContentType contentType);
+    QMdiSubWindow* needWindow(Form::FormType type, std::function<bool (Form*)> func);
     QMdiSubWindow* hasDictWindow(ModuleTools::DefaultModule d);
     QMdiSubWindow* hasDictWindow(const int moduleID);
 

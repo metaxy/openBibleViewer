@@ -19,7 +19,7 @@
 
 #include "rtfreader.h"
 #include "controlword.h"
-
+#include "src/core/dbghelper.h"
 namespace RtfReader
 {
 DocumentDestination::DocumentDestination(Reader *reader, AbstractRtfOutput *output, const QString &name) :
@@ -65,6 +65,8 @@ void DocumentDestination::handleControlWord(const QString &controlWord, bool has
         m_output->setFontBold(! hasValue || (hasValue && value != 0));
     } else if(controlWord == "ul") {
         m_output->setFontUnderline(! hasValue || (hasValue && value != 0));
+    } else if(controlWord == "ulnone") {
+        m_output->setFontUnderline(0);
     } else if(controlWord == "fs") {
         if(hasValue && (value != 0)) {
             m_output->setFontPointSize(value / 2.0);

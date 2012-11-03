@@ -1077,8 +1077,7 @@ void BibleForm::copyWholeVerse(void)
         QTextDocument doc2;
         doc2.setHtml(stext);
         stext = doc2.toPlainText();
-        RefText refText;
-        refText.setSettings(m_settings);
+        RefText refText(m_settings);
         refText.setShowModuleName(true);
         //todo: new line on windows
         const QString text = refText.toString(ranges) + "\n" + stext;

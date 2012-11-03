@@ -41,8 +41,6 @@ public:
 
     virtual ~TheWordRtfOutput();
     virtual void appendText(const QString &text);
-
-
     virtual void appendLink(const QString &href, const QString &text);
 
     void setSettings(Settings *settings);

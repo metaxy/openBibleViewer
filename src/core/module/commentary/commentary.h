@@ -23,12 +23,12 @@ public:
     void clearData();
     bool loaded();
     QSharedPointer<CommentaryModule> m_commentaryModule;
-private:
+
     int currentBook();
     int currentChapter();
+private:
+
     std::pair<int, int> minMaxVerse(const int bookID, const int chapterID);
-
-
 
     int loadModuleData(const int moduleID);
 

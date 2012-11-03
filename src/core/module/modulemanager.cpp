@@ -224,8 +224,7 @@ QString ModuleManager::notePos2Link(const QString &pos)
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleMap.data());
     VerseUrl newUrl = urlConverter.convert();
-    RefText refText;
-    refText.setSettings(m_settings);
+    RefText refText(m_settings);
     refText.setShowModuleName(true);
     const QString link = newUrl.toString();
     return "<a href=\"" + link + "\">" + refText.toString(newUrl) + "</a>";
@@ -238,8 +237,7 @@ QString ModuleManager::notePos2Text(const QString &pos)
     urlConverter.setSettings(m_settings);
     urlConverter.setModuleMap(m_moduleMap.data());
     VerseUrl newUrl = urlConverter.convert();
-    RefText refText;
-    refText.setSettings(m_settings);
+    RefText refText(m_settings);
     refText.setShowModuleName(true);
 
     const QString string = refText.toString(newUrl);

@@ -70,8 +70,7 @@ void MarkList::addMark(const int row, const QString &id)
     urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap.data());
     urlConverter.convert();
 
-    RefText ref;
-    ref.setSettings(m_settings);
+    RefText ref(m_settings);
     ref.setShowModuleName(false);
 
     const QString string = ref.toString(urlConverter.url());

@@ -1,3 +1,4 @@
+add_definitions(-std=c++0x)
 SET(
     OBVCore_SRCS
     swordmanager.cpp

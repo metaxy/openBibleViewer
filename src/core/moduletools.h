@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef MODULETOOLS_H
 #define MODULETOOLS_H
 #include <QtCore/QString>
+#include <QtCore/QHash>
 class ModuleTools
 {
 public:
@@ -101,6 +102,8 @@ public:
     static const QString userInputScheme;
     static const QString treeBookScheme;
     static const QString noteScheme;
+
+    static QHash<QString,int> eSwordMap();
 
     static ModuleTools::ModuleType recognizeModuleType(const QString &fileName);
     static ModuleTools::DefaultModule toDefaultModule(const ModuleTools::ContentType t);

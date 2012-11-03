@@ -62,6 +62,7 @@ private:
 
 
     QString transformUrl(const QString &url);
+    Range m_lastRange;
 };
 
 #endif // COMMENTARYFORM_H
