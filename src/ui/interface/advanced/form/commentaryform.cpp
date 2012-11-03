@@ -106,7 +106,6 @@ void CommentaryForm::showRanges(Ranges ranges, const VerseUrl &source)
     }
     m_com->setModuleID(ranges.getList().first().moduleID());
     Response *res = m_com->readRanges(ranges);
-    m_lastRange = ranges.getList().first();
 
     if(res != NULL && res->isValid()) {
         if(res->type() == Response::UrlReponse) {

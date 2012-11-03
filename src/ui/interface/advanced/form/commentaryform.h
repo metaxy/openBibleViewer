@@ -60,9 +60,7 @@ private:
     void setButtons();
     void historySetUrl(QString url);
 
-
     QString transformUrl(const QString &url);
-    Range m_lastRange;
 };
 
 #endif // COMMENTARYFORM_H
