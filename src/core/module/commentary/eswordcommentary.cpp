@@ -122,7 +122,8 @@ Response * ESwordCommentary::readVerseRange(const int bookID,const int chapterID
         const int endVerse = query.value(2).toInt() - 1;
         myDebug() << "[" << startVerse << "," << endVerse << "]";
         myDebug() << "[" << mStartVerse << "," << mEndVerse << "]";
-        if(mStartVerse >= startVerse && mStartVerse <= endVerse) {
+        //two intervals a.b have not an element in common, iff the end of a does not reaches b, or the end of b does not reaches a
+        if(!(mEndVerse < startVerse || endVerse < mStartVerse)) {
             myDebug() << "yup";
             readRtf(comment, rtfDocument, bookID, chapterID, startVerse, endVerse);
             hasAnything = true;
