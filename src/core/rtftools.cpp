@@ -24,7 +24,6 @@ QString RtfTools::toValidRTF(QString data)
         data.prepend("{\\rtf1 ");
         data.append(" }");
     }
-    myDebug() << data;
     return data;
 }
 QString RtfTools::fromRVF(const QByteArray &data)

@@ -70,6 +70,8 @@ ModuleTools::ModuleType ModuleTools::recognizeModuleType(const QString &fileName
         db.close();
     } else if(fileName.endsWith(".topx", Qt::CaseInsensitive)) {
         return ModuleTools::ESwordTopicModule;
+    } else if(fileName.endsWith(".cmtx", Qt::CaseInsensitive)) {
+        return ModuleTools::ESwordCommentaryModule;
     } else if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
         QFile data(fileName);
         if(data.open(QFile::ReadOnly)) {
@@ -270,6 +272,7 @@ ModuleTools::ModuleClass ModuleTools::typeToClass(ModuleTools::ModuleType type)
 
         case ModuleTools::WebCommentaryModule:
         case ModuleTools::TheWordCommentaryModule:
+        case ModuleTools::ESwordCommentaryModule:
             return ModuleTools::CommentaryClass;
 
         default:

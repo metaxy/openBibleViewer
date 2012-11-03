@@ -11,8 +11,8 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef THEWORDCOMMENTARY_H
-#define THEWORDCOMMENTARY_H
+#ifndef ESWORDCOMMENTARY_H
+#define ESWORDCOMMENTARY_H
 #include "src/core/module/commentary/commentarymodule.h"
 #include <QtSql/QSqlDatabase>
 #include "src/core/rtftools.h"
@@ -49,4 +49,4 @@ private:
     int m_chapter;
 };
 
-#endif // THEWORDCOMMENTARY_H
+#endif // ESWORDCOMMENTARY_H

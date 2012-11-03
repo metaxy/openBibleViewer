@@ -24,6 +24,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/book/txtbook.h"
 #include "src/core/module/commentary/webcommentary.h"
 #include "src/core/module/commentary/thewordcommentary.h"
+#include "src/core/module/commentary/eswordcommentary.h"
 #include "src/core/module/book/thewordtopic.h"
 #include "src/core/module/book/eswordtopic.h"
 #include "src/core/module/book/rtfbook.h"
@@ -157,6 +158,8 @@ QSharedPointer<CommentaryModule> Module::newCommentaryModule(const ModuleTools::
         ret = QSharedPointer<WebCommentary>(new WebCommentary());
     } else if(type == ModuleTools::TheWordCommentaryModule) {
         ret = QSharedPointer<TheWordCommentary>(new TheWordCommentary());
+    } else if(type == ModuleTools::ESwordCommentaryModule) {
+        ret = QSharedPointer<ESwordCommentary>(new ESwordCommentary());
     } else {
         myWarning() << "invalid type";
     }
@@ -198,6 +201,8 @@ SimpleModule* Module::newSimpleModule(const ModuleTools::ModuleType type)
         return new TxtBook();
     case ModuleTools::TheWordCommentaryModule:
         return new TheWordCommentary();
+    case ModuleTools::ESwordCommentaryModule:
+        return new ESwordCommentary();
     case ModuleTools::WebCommentaryModule:
         return new WebCommentary();
     case ModuleTools::BibleQuoteDictModule:

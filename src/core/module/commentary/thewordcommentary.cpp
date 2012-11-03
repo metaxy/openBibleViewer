@@ -84,6 +84,7 @@ Response * TheWordCommentary::readVerseRange(const int bookID,const int chapterI
     delete rtfDocument;
 
     if(!hasSomeThing) {
+        delete res;
         return readChapter(bookID, chapterID);
     } else {
         return res;
