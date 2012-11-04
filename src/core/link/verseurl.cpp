@@ -327,13 +327,11 @@ bool VerseUrl::fromESword(QString url)
     const int chapterID = list.at(3).toInt(&chapter);
     const int startVerse = list.at(4).toInt(&start);
     const int endVerse = list.at(5).toInt(&end);
-
-    //todo: map book to bookID
+    const int bookID = ModuleTools::eSwordMap().value(book);
     VerseUrlRange range;
+    range.setModule(VerseUrlRange::LoadCurrentModule);
+    range.setBook(bookID);
     if(chapter) {
-
-        range.setModule(VerseUrlRange::LoadCurrentModule);
-        //range.setBook(book);
         range.setChapter(chapterID);
     } else {
         range.setChapter(VerseUrlRange::LoadFirstChapter);

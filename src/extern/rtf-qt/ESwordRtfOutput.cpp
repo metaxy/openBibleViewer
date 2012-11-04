@@ -46,13 +46,12 @@ void ESwordRtfOutput::setFontUnderline(const int value)
 }
 void ESwordRtfOutput::appendText(const QString &text)
 {
-
     if(text.size() < 25 && text.contains('_') && text.contains(':')) {
         myDebug() << text;
         VerseUrl url;
         if(url.fromESword(text)) {
             RefText ref(m_settings);
-            appendLink(url.toString(), ref.toString(url));
+            appendLink2(url.toString(), ref.toString(url));
         } else {
             m_cursor->insertText(text);
         }
@@ -63,16 +62,22 @@ void ESwordRtfOutput::appendText(const QString &text)
 }
 void ESwordRtfOutput::appendLink(const QString &href, const QString &text)
 {
-    QString t = text;
     QString href2 = href;
     href2.remove(0,1).chop(1);
     QTextCharFormat format;
     format.setAnchorHref(href2);
-    format.setAnchorName(t);
+    format.setAnchorName(text);
     format.setAnchor(true);
-    m_cursor->insertText(t, format);
+    m_cursor->insertText(text, format);
 }
-
+void ESwordRtfOutput::appendLink2(const QString &href, const QString &text)
+{
+    QTextCharFormat format;
+    format.setAnchorHref(href);
+    format.setAnchorName(text);
+    format.setAnchor(true);
+    m_cursor->insertText(text, format);
+}
 void ESwordRtfOutput::setSettings(Settings *settings)
 {
     m_settings = settings;

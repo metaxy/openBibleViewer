@@ -48,6 +48,7 @@ protected:
     QTextDocument *m_document;
     bool m_haveSetFont;
     Settings *m_settings;
+    void appendLink2(const QString &href, const QString &text);
 
 };
 }
