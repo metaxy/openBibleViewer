@@ -21,6 +21,8 @@ class ModuleToolsTests : public QObject
 private slots:
   void testScan();
   void encodings();
+  void eSwordMapSpeed();
+  void eSwordMapSize();
 };
 
 #endif

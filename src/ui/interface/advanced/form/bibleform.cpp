@@ -38,8 +38,6 @@ BibleForm::BibleForm(QWidget *parent) :
     connect(m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
 
     setButtons();
-    myDebug() << "!!!" << m_id;
-
 }
 BibleForm::~BibleForm()
 {

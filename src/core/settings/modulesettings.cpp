@@ -231,7 +231,7 @@ void ModuleSettings::setDisplaySettings(QSharedPointer<ModuleDisplaySettings> se
 
 void ModuleSettings::removeDisplaySettings()
 {
-    if(m_displaySettings != NULL) {
+    if(m_displaySettings != nullptr) {
         m_displaySettings.clear();
     }
 
@@ -266,6 +266,7 @@ QIcon ModuleSettings::icon(bool useDefault) const
     } else {
         ret = QIcon(iconPath);
     }
+    //todo: somehow a hack
     if(this->defaultModule != ModuleTools::NotADefaultModule) {
         QPixmap pixmap = ret.pixmap(QSize(16,16), QIcon::Normal, QIcon::Off);
         QPainter painter(&pixmap);

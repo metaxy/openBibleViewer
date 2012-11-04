@@ -32,9 +32,15 @@ void ModuleToolsTests::encodings()
 {
     foreach(const QString &codec, ModuleTools::encodings()) {
         QTextCodec *c = QTextCodec::codecForName(codec.toStdString().c_str());
-        qDebug() << c << codec;
-        //QVERIFY(c != nullptr);
+        QVERIFY(c != nullptr);
     }
 }
-
+void ModuleToolsTests::eSwordMapSpeed()
+{
+    QBENCHMARK(ModuleTools::eSwordMap());
+}
+void ModuleToolsTests::eSwordMapSize()
+{
+    QVERIFY(ModuleTools::eSwordMap().size() == 66);
+}
 QTEST_MAIN( ModuleToolsTests )
