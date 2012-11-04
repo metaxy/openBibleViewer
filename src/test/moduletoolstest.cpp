@@ -28,5 +28,13 @@ void ModuleToolsTests::testScan()
 
 	QVERIFY(resAll == expected);
 }
+void ModuleToolsTests::encodings()
+{
+    foreach(const QString &codec, ModuleTools::encodings()) {
+        QTextCodec *c = QTextCodec::codecForName(codec.toStdString().c_str());
+        qDebug() << c << codec;
+        //QVERIFY(c != nullptr);
+    }
+}
 
 QTEST_MAIN( ModuleToolsTests )

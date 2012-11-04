@@ -20,6 +20,7 @@ class ModuleToolsTests : public QObject
     Q_OBJECT
 private slots:
   void testScan();
+  void encodings();
 };
 
 #endif
