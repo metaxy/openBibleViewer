@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QFileInfoList>
 #include <QtCore/QDir>
 #include "src/core/dbghelper.h"
+#include "src/core/singleton.h"
 const QString ModuleTools::strongScheme = "strong:/";
 const QString ModuleTools::gramScheme = "gram:/";
 const QString ModuleTools::rmacScheme = "rmac:/";
@@ -341,84 +342,97 @@ QStringList ModuleTools::encodings()
     const QStringList ret = {"Apple Roman", "Big5", "Big5-HKSCS", "EUC-JP", "EUC-KR", "GB18030-0", "IBM 850",
                             "IBM 866", "IBM 874", "ISO 2022-JP", "ISO 8859-1", "ISO 8859-2", "ISO 8859-3", "ISO 8859-4", 
                             "ISO 8859-5", "ISO 8859-6", "ISO 8859-7", "ISO 8859-8", "ISO 8859-9", "ISO 8859-10", 
-                            "ISO 8859-13", "ISO 8859-14", "ISO 8859-15", "ISO 8859-16", "Iscii-Bng", "Dev", "Gjr", 
-                            "Knd", "Mlm", "Ori", "Pnj", "Tlg", "Tml", "JIS X 0201", "JIS X 0208", "KOI8-R", 
+                            "ISO 8859-13", "ISO 8859-14", "ISO 8859-15", "ISO 8859-16", "Iscii-Bng", "Iscii-Dev", "Iscii-Gjr",
+                            "Iscii-Knd", "Iscii-Mlm", "Iscii-Ori", "Iscii-Pnj", "Iscii-Tlg", "Iscii-Tml", "JIS X 0201", "JIS X 0208", "KOI8-R",
                             "KOI8-U", "MuleLao-1", "ROMAN8", "Shift-JIS", "TIS-620", "TSCII", "UTF-8", "UTF-16", 
                             "UTF-16BE", "UTF-16LE", "UTF-32", "UTF-32BE", "UTF-32LE", "Windows-1250", "Windows-1251", "Windows-1252", 
                             "Windows-1253", "Windows-1254", "Windows-1255", "Windows-1256", "Windows-1257", "Windows-1258", "WINSAMI2"};
     return ret;
 }
+class  ESwordMapData : public Singleton<ESwordMapData>
+{
+friend class Singleton<ESwordMapData>;
+public:
+    ESwordMapData() {
+        QHash<QString, int> ret;
+
+        ret["Gen"] = 0;
+        ret["Exo"] = 1;
+        ret["Lev"] = 2;
+        ret["Num"] = 3;
+        ret["Deu"] = 4;
+
+        ret["Jos"] = 5;
+        ret["Jdg"] = 6;
+        ret["Rth"] = 7;
+
+        ret["1Sa"] = 8;
+        ret["2Sa"] = 9;
+        ret["1Ki"] = 10;
+        ret["2Ki"] = 11;
+        ret["1Ch"] = 12;
+        ret["2Ch"] = 13;
+
+        ret["Ezr"] = 14;
+        ret["Neh"] = 15;
+        ret["Est"] = 16;
+
+        ret["Job"] = 17;
+        ret["Psa"] = 18;
+        ret["Spr"] = 19;
+        ret["Ecc"] = 20;
+        ret["Son"] = 21;
+
+        ret["Isa"] = 22;
+        ret["Jer"] = 23;
+        ret["Lam"] = 24;
+        ret["Eze"] = 25;
+
+        ret["Dan"] = 26;
+        ret["Hos"] = 27;
+        ret["Joe"] = 28;
+        ret["Amo"] = 29;
+        ret["Oba"] = 30;
+        ret["Jon"] = 31;
+        ret["Mic"] = 32;
+        ret["Nah"] = 33;
+        ret["Hab"] = 34;
+        ret["Zep"] = 35;
+        ret["Hag"] = 36;
+        ret["Zec"] = 37;
+        ret["Mal"] = 38;
+        ret["Mat"] = 39;
+        ret["Mar"] = 40;
+        ret["Luk"] = 41;
+        ret["Joh"] = 42;
+        ret["Act"] = 43;
+        ret["Rom"] = 44;
+        ret["1Co"] = 45;
+        ret["2Co"] = 46;
+        ret["Gal"] = 47;
+        ret["Eph"] = 48;
+        ret["Php"] = 49;
+        ret["Col"] = 50;
+        ret["1Th"] = 51;
+        ret["2Th"] = 52;
+        ret["1Ti"] = 53;
+        ret["2Ti"] = 54;
+        ret["Tit"] = 55;
+        ret["Phm"] = 56;
+        ret["Heb"] = 57;
+        ret["Jam"] = 58;
+        ret["1Pe"] = 59;
+        ret["2Pe"] = 60;
+        ret["1Jn"] = 61;
+        ret["2Jn"] = 62;
+        ret["3Jn"] = 63;
+        ret["Jud"] = 64;
+        ret["Rev"] = 65;
+    }
+    QHash<QString,int> ret;
+};
 QHash<QString,int> ModuleTools::eSwordMap()
 {
-    QHash<QString, int> ret;
-
-    ret["Gen"] = 0;
-    ret["Exo"] = 1;
-    ret["Lev"] = 2;
-    ret["Num"] = 3;
-    ret["Deu"] = 4;
-    ret["Jos"] = 5;
-    ret["Jdg"] = 6;
-    ret["Rth"] = 7;
-    ret["1Sa"] = 8;
-    ret["2Sa"] = 9;
-    ret["1Ki"] = 10;
-    ret["2Ki"] = 11;
-    ret["1Ch"] = 12;
-    ret["2Ch"] = 13;
-    ret["Ezr"] = 14;
-    ret["Neh"] = 15;
-    ret["Est"] = 16;
-    ret["Job"] = 17;
-    ret["Psa"] = 18;
-    ret["Spr"] = 19;
-    ret["Son"] = 20;
-    ret["Isa"] = 21;
-    ret["Exo"] = 22;
-    ret["Exo"] = 23;
-    ret["Exo"] = 24;
-    ret["Exo"] = 25;
-    ret["Exo"] = 26;
-    ret["Exo"] = 27;
-    ret["Exo"] = 28;
-    ret["Exo"] = 29;
-    ret["Exo"] = 30;
-    ret["Exo"] = 31;
-    ret["Exo"] = 32;
-    ret["Exo"] = 33;
-    ret["Exo"] = 34;
-    ret["Exo"] = 35;
-    ret["Exo"] = 36;
-    ret["Exo"] = 37;
-    ret["Exo"] = 38;
-    ret["Exo"] = 39;
-    ret["Exo"] = 40;
-    ret["Exo"] = 41;
-    ret["Exo"] = 42;
-    ret["Exo"] = 43;
-    ret["Exo"] = 44;
-    ret["Exo"] = 45;
-    ret["Exo"] = 46;
-    ret["Exo"] = 47;
-    ret["Exo"] = 48;
-    ret["Exo"] = 49;
-    ret["Exo"] = 50;
-    ret["Exo"] = 51;
-    ret["Exo"] = 52;
-    ret["Exo"] = 53;
-    ret["Exo"] = 54;
-    ret["Exo"] = 55;
-    ret["Exo"] = 56;
-    ret["Exo"] = 57;
-    ret["Exo"] = 58;
-    ret["Exo"] = 59;
-    ret["Exo"] = 60;
-    ret["Exo"] = 61;
-    ret["Exo"] = 62;
-    ret["Exo"] = 63;
-    ret["Exo"] = 64;
-    ret["Exo"] = 65;
-
-
-    return ret;
+    ESwordMapData *data = ESwordMapData::instance();
+    return data->ret;
 }
