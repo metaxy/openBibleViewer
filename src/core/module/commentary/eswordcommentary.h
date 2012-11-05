@@ -39,8 +39,6 @@ public:
     CommentaryModule::LinkPolicy linkPolicy() const;
 
     void readRtf(const QVariant &value, QTextDocument *rtfDocument, const int bi, const int ci, const int fvi, const int tvi);
-    void readRvf(const QVariant &value, QString *ret);
-
 
 private:
     QSqlDatabase m_db;

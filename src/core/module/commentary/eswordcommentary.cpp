@@ -107,15 +107,31 @@ Response * ESwordCommentary::readChapter(const int bookID, const int chapterID)
     DEBUG_FUNC_NAME
     m_book = bookID;
     m_chapter = chapterID;
+    myDebug() << "bookID" << bookID << "chapterID" << chapterID;
     QTextDocument *rtfDocument = new QTextDocument( NULL );
-    QSqlQuery query("select Comments "
-                    "from Chapters "
+
+    QSqlQuery query("SELECT Comments "
+                    "FROM Chapters "
                     "where Book = "+ QString::number(bookID+1) + " " +
                     "and Chapter = " + QString::number(chapterID+1), m_db);
 
+
+    myDebug() << m_db.lastError().databaseText() << m_db.lastError().text() << m_db.lastError().driverText();
+    myDebug() << query.isActive() <<query.size();
+    //there is rarly an Comment on Chapters, so we have to look up all the comments on the individual verse
+    if(query.size() <= 0) {
+        query = QSqlQuery("SELECT Comments "
+                      "FROM Verses "
+                      "WHERE Book = "+ QString::number(bookID+1) + " " +
+                      "and ChapterBegin >= " + QString::number(chapterID+1) + " " +
+                      "and ChapterEnd  <= " + QString::number(chapterID+1) + " "
+                      "ORDER BY Book, ChapterBegin, VerseBegin", m_db);
+        myDebug() << "no items from 'Chapters' seek results from 'Verses'";
+    }
+
     while(query.next()) {
         const QString comment = query.value(0).toString();
-        readRtf(comment, rtfDocument,bookID, chapterID,-1,-1);
+        readRtf(comment, rtfDocument, bookID, chapterID, -1, -1);
     }
 
     Response *res = new HtmlResponse(rtfDocument->toHtml());
@@ -134,7 +150,7 @@ Response * ESwordCommentary::readVerseRange(const int bookID,const int chapterID
                     "where Book = "+ QString::number(bookID+1) + " " +
                     "and ChapterBegin >= " + QString::number(chapterID+1) + " " +
                     "and ChapterEnd  <= " + QString::number(chapterID+1), m_db);
-
+    myDebug() << "query.size()" << query.size();
     while(query.next()) {
         const QString comment = query.value(0).toString();
         const int startVerse = query.value(1).toInt() - 1;

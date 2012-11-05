@@ -145,7 +145,7 @@ void Settings::removeModule(ModuleSettings* module)
             removeModule(cc);
         }
     }
-    delete module;
     m_moduleSettings.remove(module->moduleID);
+    delete module;
 }
 
