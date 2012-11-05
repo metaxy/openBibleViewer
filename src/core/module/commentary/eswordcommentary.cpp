@@ -150,6 +150,7 @@ Response * ESwordCommentary::readVerseRange(const int bookID,const int chapterID
                     "where Book = "+ QString::number(bookID+1) + " " +
                     "and ChapterBegin >= " + QString::number(chapterID+1) + " " +
                     "and ChapterEnd  <= " + QString::number(chapterID+1), m_db);
+
     myDebug() << "query.size()" << query.size();
     while(query.next()) {
         const QString comment = query.value(0).toString();

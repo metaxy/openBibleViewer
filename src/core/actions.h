@@ -33,7 +33,8 @@ public:
     enum OpenLinkModifiers {
         NoModifer,
         OpenInNewWindow,
-        ForceOpenInThisWindow
+        ForceOpenInThisWindow,
+        OpenInOtherWindow
     };
 
 signals:

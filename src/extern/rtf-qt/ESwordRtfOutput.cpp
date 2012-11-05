@@ -40,14 +40,12 @@ ESwordRtfOutput::~ESwordRtfOutput()
 void ESwordRtfOutput::setFontUnderline(const int value)
 {
    // Q_UNUSED(value);
-    myDebug() << value;
     m_textCharFormatStack.top().setFontUnderline(value != 0);
     m_cursor->setCharFormat(m_textCharFormatStack.top());
 }
 void ESwordRtfOutput::appendText(const QString &text)
 {
     if(text.size() < 25 && text.contains('_') && text.contains(':')) {
-        myDebug() << text;
         VerseUrl url;
         if(url.fromESword(text)) {
             RefText ref(m_settings);

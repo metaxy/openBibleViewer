@@ -58,7 +58,6 @@ void VerseModuleManager::createDocks()
 
 QHash<DockWidget*, Qt::DockWidgetArea> VerseModuleManager::docks()
 {
-    //DEBUG_FUNC_NAME
     QHash<DockWidget *, Qt::DockWidgetArea> ret;
     ret.insert(m_bookDockWidget, Qt::LeftDockWidgetArea);
     ret.insert(m_moduleDockWidget, Qt::LeftDockWidgetArea);
@@ -69,7 +68,7 @@ QHash<DockWidget*, Qt::DockWidgetArea> VerseModuleManager::docks()
 
 void VerseModuleManager::parseUrl(const VerseUrl &url, const Actions::OpenLinkModifiers mod)
 {
-    myDebug() << url.toString();
+    myDebug() << url.toString() << mod;
     Form::FormType type = Form::BibleForm;
     bool forceType = false;
 
@@ -93,11 +92,24 @@ void VerseModuleManager::parseUrl(const VerseUrl &url, const Actions::OpenLinkMo
 
     if(mod == Actions::OpenInNewWindow) {
         window = m_windowManager->newSubWindow(type);
-    } else if(forceType){
-         window = m_windowManager->needWindow(type);
+    } else if(mod == Actions::OpenInOtherWindow) {
+        if(forceType){
+            window = m_windowManager->needWindow(type,
+                                                 [] (Form *f) {return false;},
+                                                 [type] (Form *f) {return f->type() == type;}
+                                                 );
+        } else {
+            window = m_windowManager->needWindow(type,
+                                                 [](Form *f) { return false;},
+                                                 [](Form *f) { return f->type() == Form::CommentaryForm || f->type() == Form::BibleForm;}
+                                                 );
+        }
     } else {
-        myDebug() << "using the lambda";
-        window = m_windowManager->needWindow(type, [](Form *f) { return f->type() == Form::CommentaryForm || f->type() == Form::BibleForm;});
+        if(forceType){
+            window = m_windowManager->needWindow(type);
+        } else {
+            window = m_windowManager->needWindow(type, [](Form *f) { return f->type() == Form::CommentaryForm || f->type() == Form::BibleForm;});
+        }
     }
     Q_ASSERT(window != nullptr);
     Form *f = m_windowManager->getForm(window);

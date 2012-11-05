@@ -386,8 +386,7 @@ void CommentaryForm::showContextMenu(QContextMenuEvent* ev)
 }
 QString CommentaryForm::transformUrl(const QString &url)
 {
-    myDebug() << url;
-    if(m_com->moduleType() == ModuleTools::WebCommentaryModule) {
+    if(m_com && m_com->moduleType() == ModuleTools::WebCommentaryModule) {
         QString nurl = ((WebCommentary*) (m_com->m_commentaryModule.data()))->parseUrl(QUrl(url));
         return nurl;
     } else if(url.startsWith(ModuleTools::theWordScheme)) {
@@ -399,6 +398,7 @@ QString CommentaryForm::transformUrl(const QString &url)
 }
 void CommentaryForm::get(QUrl url)
 {
+    Actions::OpenLinkModifiers mod = Actions::NoModifer;
     if(m_com->moduleType() == ModuleTools::TheWordCommentaryModule) {
         m_actions->get(transformUrl(QString(url.toEncoded())));
         return;
@@ -409,7 +409,20 @@ void CommentaryForm::get(QUrl url)
          m_view->load(QUrl(u));
          return;
     }
+    if(url.toString().startsWith(ModuleTools::verseScheme)) {
+        //probably a ref to scripture, so check if it really is
+        VerseUrl u(url.toString());
+        if(u.ranges().size() > 0) {
+            VerseUrlRange r = u.ranges().first();
+            if(r.module() != VerseUrlRange::LoadModuleByID && r.module() != VerseUrlRange::LoadModuleByUID) {
+                myDebug() << "open in other window";
+                m_actions->get(url, Actions::OpenInOtherWindow);
+                return;
+            }
+        }
+    }
     m_actions->get(u);
+    return;
 }
 
 void CommentaryForm::newGet(QUrl url)

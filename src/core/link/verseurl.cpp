@@ -321,7 +321,6 @@ bool VerseUrl::fromESword(QString url)
     QRegExp rx("(\\d*)(\\w+)_(\\d*):(\\d*)(?:-)*(\\d*)");
     int pos = rx.indexIn(url);
     QStringList list = rx.capturedTexts();
-    myDebug() << list;
     bool chapter,start,end;
     const QString book = list.at(1) + list.at(2);
     const int chapterID = list.at(3).toInt(&chapter);

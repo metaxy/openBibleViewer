@@ -63,6 +63,7 @@ public:
     QMdiSubWindow* needWindow(Form::FormType type);
     QMdiSubWindow* needWindow(Form::FormType type, ModuleTools::ContentType contentType);
     QMdiSubWindow* needWindow(Form::FormType type, std::function<bool (Form*)> func);
+    QMdiSubWindow* needWindow(Form::FormType type, std::function<bool (Form*)> activeFunc, std::function<bool (Form *)> otherFunc);
     QMdiSubWindow* hasDictWindow(ModuleTools::DefaultModule d);
     QMdiSubWindow* hasDictWindow(const int moduleID);
 

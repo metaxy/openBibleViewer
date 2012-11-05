@@ -157,43 +157,27 @@ void WindowManager::newCommentarySubWindow()
 
 QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
 {
-    if(usableWindowList().isEmpty()) {
-        return newSubWindow(type);
-    } else if(activeForm() != NULL) {
-        if(activeForm()->type() != type) {
-            QMdiSubWindow *window = NULL;
-            foreach(QMdiSubWindow * w, usableWindowList()) {
-                Form *f = getForm(w);
-                if(f->type() == type) {
-                    w->activateWindow();
-                    m_area->setActiveSubWindow(w);
-                    window = w;
-                    break;
-                }
-            }
-            if(window) {
-                return window;
-            } else {
-                return newSubWindow(type);
-            }
-        } else {
-            return activeSubWindow();
-        }
-    }
-    return newSubWindow(type);
+   return needWindow(type, [type](Form *f){ return f->type() == type;});
 }
 QMdiSubWindow* WindowManager::needWindow(Form::FormType type, std::function<bool (Form*)> func)
 {
+   return needWindow(type, func, func);
+}
+QMdiSubWindow* WindowManager::needWindow(Form::FormType type, std::function<bool (Form*)> activeFunc, std::function<bool (Form*)> otherFunc)
+{
+    QMdiSubWindow *activeWindow = activeSubWindow();
     if(usableWindowList().isEmpty()) {
         return newSubWindow(type);
     } else if(activeForm() != NULL) {
-        if(func(activeForm())) {
-            return activeSubWindow();
+        if(activeFunc(activeForm())) {
+            return activeWindow;
         } else {
             QMdiSubWindow *window = NULL;
             foreach(QMdiSubWindow * w, usableWindowList()) {
+                if(w == activeWindow)
+                    continue;
                 Form *f = getForm(w);
-                if(func(f)) {
+                if(otherFunc(f)) {
                     w->activateWindow();
                     m_area->setActiveSubWindow(w);
                     window = w;
@@ -435,7 +419,9 @@ void WindowManager::cascade()
     }
     setEnableReload(true);
 }
-
+/**
+ * @brief  WindowManager::tile is QMdiArea::tile with some features, like a different ordering of the windows, based on the content type
+ */
 void WindowManager::tile()
 {
     if(!m_enableReload || usableWindowList().isEmpty()) {
