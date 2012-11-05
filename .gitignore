@@ -3,4 +3,10 @@ build/
 tmp/
 *~
 *.orig
+*.qrc.depends
+CMakeLists.txt.user*
+.kdev4
+openBibleViewer.kdev4
+wiki/
+openbibleviewer-*.tar.gz
 
