@@ -876,8 +876,7 @@ QString ZefaniaBible::parseXRef()
         if(!fscope.isEmpty()) {
             text = fscope.toString();
         } else  {
-            RefText refText;
-            refText.setSettings(m_settings);
+            RefText refText(m_settings);
             text = refText.toString(burl);
         }
 

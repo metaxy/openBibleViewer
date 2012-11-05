@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define CONTEXT_H
 
 #include "src/core/basicclass.h"
-
+#include "src/core/settings/settingsloader.h"
 class Context : public QObject, public BasicClass
 {
     Q_OBJECT
@@ -34,17 +34,15 @@ public:
     void writeSettings();
 
 private:
-    void loadDefaultSettings();
-    void loadSettings();
 
 private:
     QSettings *m_settingsFile;
     QString m_homeDataPath;
     QTranslator *m_myappTranslator;
     QTranslator *m_qtTranslator;
-    QSettings *m_sessionFile;
 
     bool m_firstStart;
+    SettingsLoader *m_settingsLoader;
 };
 
 #endif // CONTEXT_H

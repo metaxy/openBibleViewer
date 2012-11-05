@@ -11,18 +11,20 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef MODULETOOLS_TEST_H
-#define MODULETOOLS_TEST_H
+#include "zefaniabibletest.h"
+#include <QtTest/QtTest>
 
-#include <QObject>
-class ModuleToolsTests : public QObject
+#include <QDebug>
+#include "src/core/moduletools.h"
+
+void ZefaniaBibleTests::init()
 {
-    Q_OBJECT
-private slots:
-  void testScan();
-  void encodings();
-  void eSwordMapSpeed();
-  void eSwordMapSize();
-};
+    
+}
+void ZefaniaBibleTests::testScan()
+{
+	//const QStringList resAll = ZefaniaBible::scan(QString(SRC_PATH) + "/src/test/data/moduletools/structure");
 
-#endif
+}
+
+QTEST_MAIN( ZefaniaBibleTests )

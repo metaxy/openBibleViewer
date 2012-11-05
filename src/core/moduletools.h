@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef MODULETOOLS_H
 #define MODULETOOLS_H
 #include <QtCore/QString>
+#include <QtCore/QHash>
 class ModuleTools
 {
 public:
@@ -48,7 +49,8 @@ public:
         RTFBookModule = 14,
         TheWordTopicModule = 15,
         ESwordTopicModule = 16,
-        TheWordDictionaryModule = 17
+        TheWordDictionaryModule = 17,
+        ESwordCommentaryModule = 18
     };
 
     enum DefaultModule {
@@ -101,6 +103,8 @@ public:
     static const QString treeBookScheme;
     static const QString noteScheme;
 
+    static QHash<QString,int> eSwordMap();
+
     static ModuleTools::ModuleType recognizeModuleType(const QString &fileName);
     static ModuleTools::DefaultModule toDefaultModule(const ModuleTools::ContentType t);
     static bool alsoOk(const ModuleTools::ContentType t1, const ModuleTools::ContentType t2);
@@ -118,6 +122,8 @@ public:
     static ModuleTools::ModuleClass moduleClassFromUrl(const QString &url);
     
     static QStringList scan(const QString &path, const int maxLevel = -1, const int level = 0);
+    
+    static QStringList encodings();
 };
 
 #endif // MODULETOOLS_H

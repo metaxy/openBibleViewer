@@ -60,7 +60,6 @@ private:
     void setButtons();
     void historySetUrl(QString url);
 
-
     QString transformUrl(const QString &url);
 };
 

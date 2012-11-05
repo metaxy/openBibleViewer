@@ -1,3 +1,4 @@
+add_definitions(-std=c++0x)
 SET(
     OBVCore_SRCS
     swordmanager.cpp
@@ -46,6 +47,7 @@ SET(
     module/commentary/commentary.cpp
     module/commentary/commentarymodule.cpp
     module/commentary/thewordcommentary.cpp
+    module/commentary/eswordcommentary.cpp
     module/book/eswordtopic.cpp
     module/simplemodule.cpp
 
@@ -91,6 +93,7 @@ SET(
     settings/modulesettings.cpp
     settings/session.cpp
     settings/moduledisplaysettings.cpp
+    settings/settingsloader.cpp
     versereplacer.cpp
     version.cpp
     xbelreader.cpp

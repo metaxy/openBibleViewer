@@ -28,5 +28,19 @@ void ModuleToolsTests::testScan()
 
 	QVERIFY(resAll == expected);
 }
-
+void ModuleToolsTests::encodings()
+{
+    foreach(const QString &codec, ModuleTools::encodings()) {
+        QTextCodec *c = QTextCodec::codecForName(codec.toStdString().c_str());
+        QVERIFY(c != nullptr);
+    }
+}
+void ModuleToolsTests::eSwordMapSpeed()
+{
+    QBENCHMARK(ModuleTools::eSwordMap());
+}
+void ModuleToolsTests::eSwordMapSize()
+{
+    QVERIFY(ModuleTools::eSwordMap().size() == 66);
+}
 QTEST_MAIN( ModuleToolsTests )

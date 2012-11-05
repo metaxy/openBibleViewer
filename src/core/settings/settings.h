@@ -61,7 +61,7 @@ public:
     QSharedPointer<Versification>  getV11N(const int moduleID) const;
 
     /**
-      * Atention: Session data is alway up to date.
+      * Attention: Session data is alway up to date.
       */
     Session session;
     QString sessionID;
@@ -91,8 +91,10 @@ public:
     int newModuleID() const;
 
     int getDefaultModule(ModuleTools::ContentType c);
-
-
+    ModuleSettings* newVirtualFolder(const int parentModuleID);
+    
+    void removeModule(const int moduleID);
+    void removeModule(ModuleSettings* module);
 };
 
 #endif // SETTINGS_H

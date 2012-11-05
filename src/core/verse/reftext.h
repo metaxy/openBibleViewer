@@ -19,7 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class RefText
 {
 public:
-    RefText();
+    RefText(Settings *settings);
     void setSettings(Settings *settings);
     void setShowModuleName(bool show);
     QString toString(const VerseUrl &url) const;

@@ -182,6 +182,34 @@ QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
     }
     return newSubWindow(type);
 }
+QMdiSubWindow* WindowManager::needWindow(Form::FormType type, std::function<bool (Form*)> func)
+{
+    if(usableWindowList().isEmpty()) {
+        return newSubWindow(type);
+    } else if(activeForm() != NULL) {
+        if(func(activeForm())) {
+            return activeSubWindow();
+        } else {
+            QMdiSubWindow *window = NULL;
+            foreach(QMdiSubWindow * w, usableWindowList()) {
+                Form *f = getForm(w);
+                if(func(f)) {
+                    w->activateWindow();
+                    m_area->setActiveSubWindow(w);
+                    window = w;
+                    break;
+                }
+            }
+            if(window) {
+                return window;
+            } else {
+                return newSubWindow(type);
+            }
+        }
+    }
+    return newSubWindow(type);
+}
+
 /**
   * No Windows => Create Window
   * If Active Window has the need type => ok

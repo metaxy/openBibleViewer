@@ -84,6 +84,7 @@ Response * TheWordCommentary::readVerseRange(const int bookID,const int chapterI
     delete rtfDocument;
 
     if(!hasSomeThing) {
+        delete res;
         return readChapter(bookID, chapterID);
     } else {
         return res;
@@ -173,8 +174,7 @@ void TheWordCommentary::readRtf(const QVariant &value, QTextDocument *rtfDocumen
         RtfReader::Reader *reader = new RtfReader::Reader( NULL );
         bool result = reader->open(file.fileName());
         if(result) {
-            RefText ref;
-            ref.setSettings(m_settings);
+            RefText ref(m_settings);
             RtfReader::TheWordRtfOutput *output = new RtfReader::TheWordRtfOutput( rtfDocument, ref.toString(-1, bi-1, ci-1, fvi-1, tvi-1,-1) );
             output->setSettings(m_settings);
             reader->parseTo( output );

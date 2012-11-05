@@ -24,7 +24,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QWebElement>
 CommentaryForm::CommentaryForm(QWidget *parent) :
     WebViewForm(parent),
-    ui(new Ui::CommentaryForm)
+    ui(new Ui::CommentaryForm),
+    m_url()
 {
     ui->setupUi(this);
     ui->verticalLayout->addWidget(m_view);
@@ -119,8 +120,7 @@ void CommentaryForm::showRanges(Ranges ranges, const VerseUrl &source)
         }
     }
 
-    RefText ref;
-    ref.setSettings(m_settings);
+    RefText ref(m_settings);
     ui->lineEdit->setText(ref.toString(ranges));
 
     historySetUrl(source.toString());
@@ -141,6 +141,13 @@ void CommentaryForm::activated()
     if(m_com != NULL) {
         m_actions->setTitle(m_com->moduleTitle());
         m_actions->setCurrentModule(m_com->moduleID());
+        if(m_com->loaded()) {
+            m_actions->updateChapters(m_com->currentBook(), m_com->versification());
+            m_actions->updateBooks(m_com->versification());
+            m_actions->setCurrentChapter(m_com->currentChapter());
+            m_actions->setCurrentBook(m_com->currentBook());
+        }
+
     }
 }
 bool CommentaryForm::loaded()

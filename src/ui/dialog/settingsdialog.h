@@ -63,8 +63,8 @@ private slots:
     void editModule();
     void reset();
     void downloadModule();
-    void addModules(QStringList files, QStringList names, int parentID = -1);
-    void addModules(QMap<QString, QString> data);
+    void addModules(const QMap< QString, QString >& data);
+    void addModules(const QStringList& fileName, const QStringList& names, int parentID = -1);
 
     void importSwordModules();
 

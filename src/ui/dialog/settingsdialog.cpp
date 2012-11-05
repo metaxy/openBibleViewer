@@ -100,14 +100,7 @@ int SettingsDialog::setSettings(Settings settings)
     m_langCode.clear();
     //General
     ////Encoding
-    m_encodings << "Apple Roman" << "Big5" << "Big5-HKSCS" << "EUC-JP" << "EUC-KR" << "GB18030-0" << "IBM 850"
-                << "IBM 866" << "IBM 874" << "ISO 2022-JP" << "ISO 8859-1" << "ISO 8859-2" << "ISO 8859-3" << "ISO 8859-4"
-                << "ISO 8859-5" << "ISO 8859-6" << "ISO 8859-7" << "ISO 8859-8" << "ISO 8859-9" << "ISO 8859-10"
-                << "ISO 8859-13" << "ISO 8859-14" << "ISO 8859-15" << "ISO 8859-16" << "Iscii-Bng" << "Dev" << "Gjr"
-                << "Knd" << "Mlm" << "Ori" << "Pnj" << "Tlg" << "Tml" << "JIS X 0201" << "JIS X 0208" << "KOI8-R"
-                << "KOI8-U" << "MuleLao-1" << "ROMAN8" << "Shift-JIS" << "TIS-620" << "TSCII" << "UTF-8" << "UTF-16"
-                << "UTF-16BE" << "UTF-16LE" << "UTF-32" << "UTF-32BE" << "UTF-32LE" << "Windows-1250" << "Windows-1251" << "Windows-1252"
-                << "Windows-1253" << "Windows-1254" << "Windows-1255" << "Windows-1256" << "Windows-1257" << "Windows-1258" << "WINSAMI2";
+    m_encodings = ModuleTools::encodings();
     m_ui->comboBox_encoding->clear();
     m_ui->comboBox_encoding->insertItems(0, m_encodings);
     m_ui->comboBox_encoding->setCurrentIndex(m_encodings.lastIndexOf(m_set.encoding));
@@ -213,16 +206,7 @@ void SettingsDialog::addModuleFile(void)
 }
 void SettingsDialog::addVirtualFolder()
 {
-    ModuleSettings *m = new ModuleSettings();
-    m->moduleID = m_set.newModuleID();
-    m->moduleName = tr("New Folder");
-    m->moduleType = ModuleTools::FolderModule;
-
-    m->encoding = "Default";
-    m->parentID = -1;
-
-    m_set.getModuleSettings(m->parentID)->appendChild(m);
-    m_set.m_moduleSettings.insert(m->moduleID, m);
+    ModuleSettings *m = m_set.newVirtualFolder(-1);
 
     generateModuleTree();
 
@@ -311,7 +295,9 @@ void SettingsDialog::addModuleDir(void)
     }
     delete dialog;
 }
-
+/**
+ * It removes all selected Modules
+ */
 void SettingsDialog::removeModule()
 {
     //DEBUG_FUNC_NAME;
@@ -326,10 +312,7 @@ void SettingsDialog::removeModule()
         bool ok;
         const int moduleID = index.data(Qt::UserRole + 1).toInt(&ok);
         if(ok) {
-            //myDebug() << "moduleID  = " << moduleID;
-            ModuleSettings *child = m_set.getModuleSettings(moduleID);
-            m_set.getModuleSettings(child->parentID)->removeChild(child);
-            m_set.m_moduleSettings.remove(moduleID);
+            m_set.removeModule(moduleID);
         }
         m_ui->treeView->model()->removeRow(index.row(), index.parent());
     }
@@ -337,7 +320,6 @@ void SettingsDialog::removeModule()
 
 void SettingsDialog::editModule()
 {
-
     if(m_ui->treeView->selectionModel()->selectedIndexes().isEmpty())
         return;
     bool ok;
@@ -356,7 +338,6 @@ void SettingsDialog::update(int moduleID)
 {
     DEBUG_FUNC_NAME
     m_modifedModuleSettings = true;
-    myDebug() << moduleID;
     QModelIndex index = findItem(moduleID);
     if(index.isValid()) {
         m_proxyModel->setData(m_proxyModel->mapFromSource(index), m_set.getModuleSettings(moduleID)->moduleName);
@@ -391,10 +372,11 @@ void SettingsDialog::save(void)
     config->displaySettings()->setShowStrongInline(m_ui->checkBox_showStrongInline->isChecked());
 
 
-    QMap<int, int> struc;
+    QMap<int, int> struc;// the structure (parent,child)
     foreach(ModuleSettings * set, m_set.m_moduleSettings) {
         struc.insert(set->moduleID, set->parentID);
     }
+    //remove all children, but not deleting them
     foreach(ModuleSettings * set, m_set.m_moduleSettings) {
         set->clearChildren();
     }
@@ -402,7 +384,7 @@ void SettingsDialog::save(void)
     QModelIndex rootIndex = m_ui->treeView->rootIndex();
     saveModule(rootIndex, m_set.getModuleSettings(-1));
 
-    QMap<int, int> struc2;
+    QMap<int, int> struc2; 
     foreach(ModuleSettings * set, m_set.m_moduleSettings) {
         struc2.insert(set->moduleID, set->parentID);
     }
@@ -411,10 +393,13 @@ void SettingsDialog::save(void)
         myDebug() << "modified struct";
         m_modifedModuleSettings = true;
     }
+    
     emit settingsChanged(m_set, m_modifedModuleSettings); //Speichern
     close();
 }
-
+/**
+ * Saves the Structure of the tree in ModuleSettings
+ */
 void SettingsDialog::saveModule(QModelIndex parentIndex, ModuleSettings *parentSettings)
 {
     for(int i = 0; i < m_ui->treeView->model()->rowCount(parentIndex); ++i) {
@@ -443,12 +428,12 @@ void SettingsDialog::downloadModule()
     delete mDialog;
 }
 
-void SettingsDialog::addModules(QMap<QString, QString> data)
+void SettingsDialog::addModules(const QMap<QString, QString> &data)
 {
     addModules(data.keys(), data.values());
 }
 
-void SettingsDialog::addModules(QStringList fileName, QStringList names, int parentID)
+void SettingsDialog::addModules(const QStringList &fileName, const QStringList &names, int parentID)
 {
     DEBUG_FUNC_NAME
     if(!fileName.isEmpty()) {
@@ -456,6 +441,7 @@ void SettingsDialog::addModules(QStringList fileName, QStringList names, int par
         progress.setWindowModality(Qt::WindowModal);
         progress.show();
         progress.setValue(1);
+        
         for(int i = 0; i < fileName.size(); i++) {
             progress.setValue(i + 2);
             if(progress.wasCanceled()) {

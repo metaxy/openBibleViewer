@@ -115,3 +115,37 @@ int Settings::getDefaultModule(ModuleTools::ContentType c)
     }
     return 0;
 }
+
+ModuleSettings* Settings::newVirtualFolder(const int parentModuleID)
+{
+    ModuleSettings *m = new ModuleSettings();
+    m->moduleID = newModuleID();
+    m->moduleName = QObject::tr("New Folder");
+    m->moduleType = ModuleTools::FolderModule;
+
+    m->encoding = "Default";
+    m->parentID = parentModuleID;
+
+    getModuleSettings(parentModuleID)->appendChild(m);
+    m_moduleSettings.insert(m->moduleID, m);
+    return m;
+}
+
+void Settings::removeModule(const int moduleID)
+{
+    ModuleSettings *child = getModuleSettings(moduleID);
+    removeModule(child);
+}
+void Settings::removeModule(ModuleSettings* module)
+{
+    if(getModuleSettings(module->parentID)) //it could be there is no more parent module
+        getModuleSettings(module->parentID)->removeChild(module);
+    if(!module->children().isEmpty()) { //remove also all it children
+        foreach(ModuleSettings *cc, module->children()) {
+            removeModule(cc);
+        }
+    }
+    delete module;
+    m_moduleSettings.remove(module->moduleID);
+}
+

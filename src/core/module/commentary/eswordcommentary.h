@@ -11,30 +11,42 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef COMMENTARY_H
-#define COMMENTARY_H
-#include "src/core/module/versemodule.h"
-class Commentary : public VerseModule
+#ifndef ESWORDCOMMENTARY_H
+#define ESWORDCOMMENTARY_H
+#include "src/core/module/commentary/commentarymodule.h"
+#include <QtSql/QSqlDatabase>
+#include "src/core/rtftools.h"
+#include <QTextDocument>
+class ESwordCommentary : public CommentaryModule
 {
 public:
-    Commentary();
-    Response* readRanges(const Ranges &ranges, bool ignoreModuleID = false);
+    ESwordCommentary();
+
+    Response * readVerseRange(const int bookID,const int chapterID, const int startVerseID, const int endVerseID);
+    Response * readChapter(const int bookID, const int chapterID);
+    Response * readBook(const int bookID);
+
+    int loadModuleData(const int moduleID, const QString &fileName);
+
     void search(SearchQuery query, SearchResult *result);
-    void clearData();
-    bool loaded();
-    QSharedPointer<CommentaryModule> m_commentaryModule;
 
     int currentBook();
     int currentChapter();
-private:
-
     std::pair<int, int> minMaxVerse(const int bookID, const int chapterID);
 
-    int loadModuleData(const int moduleID);
+    MetaInfo readInfo(const QString &name);
 
-    bool m_loaded;
-    int m_loadedModuleID;
+    CommentaryModule::LinkPolicy linkPolicy() const;
 
+    void readRtf(const QVariant &value, QTextDocument *rtfDocument, const int bi, const int ci, const int fvi, const int tvi);
+    void readRvf(const QVariant &value, QString *ret);
+
+
+private:
+    QSqlDatabase m_db;
+
+    int m_book;
+    int m_chapter;
 };
 
-#endif // COMMENTARY_H
+#endif // ESWORDCOMMENTARY_H

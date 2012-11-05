@@ -74,7 +74,17 @@ void Actions::setCurrentChapter(const QSet<int> &chapterID)
 {
     emit _setCurrentChapter(chapterID);
 }
+void Actions::setCurrentBook(const int bookID)
+{
+    QSet<int> set; set.insert(bookID);
+    emit _setCurrentBook(set);
+}
 
+void Actions::setCurrentChapter(const int chapterID)
+{
+    QSet<int> set; set.insert(chapterID);
+    emit _setCurrentChapter(set);
+}
 void Actions::reloadActive()
 {
     emit _reloadActive();

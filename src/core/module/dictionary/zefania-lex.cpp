@@ -22,7 +22,7 @@ using namespace lucene::queryParser;
 using namespace lucene::document;
 using namespace lucene::search;
 
-ZefaniaLex::ZefaniaLex()
+ZefaniaLex::ZefaniaLex() : m_refText(nullptr)
 {
 }
 

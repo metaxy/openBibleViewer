@@ -23,6 +23,7 @@ ESwordTopic::ESwordTopic() : m_bookTree(NULL)
 }
 ESwordTopic::~ESwordTopic()
 {
+    m_db.close();
     if(m_bookTree != NULL) {
         delete m_bookTree;
         m_bookTree = NULL;
@@ -127,6 +128,7 @@ Response* ESwordTopic::readChapter(const int chapterID)
             bool result = reader->open(file.fileName());
             if(result) {
                 RtfReader::ESwordRtfOutput *output = new RtfReader::ESwordRtfOutput( rtfDocument );
+                output->setSettings(m_settings);
                 reader->parseTo( output );
 
                 hasAny = true;
@@ -149,6 +151,7 @@ Response* ESwordTopic::readChapter(const int chapterID)
                     bool result = reader->open(file.fileName());
                     if(result) {
                         RtfReader::ESwordRtfOutput *output = new RtfReader::ESwordRtfOutput( rtfDocument );
+                        output->setSettings(m_settings);
                         reader->parseTo( output );
                     }
                     delete reader;
