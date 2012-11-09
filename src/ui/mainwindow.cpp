@@ -47,12 +47,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile, bool firstStart)
 {
-    VERSION = QString(OBV_VERSION_NUMBER);
-    BUILD = QString(OBV_BUILD_DATE);//jear-month-day
-
-    m_homeDataPath = homeDataPath;
-    m_settingsFile = settingsFile;
-
     loadInterface();
     restoreSession();
 
@@ -69,6 +63,8 @@ void MainWindow::loadInterface()
         loadAdvancedInterface();
     } else if(interface == "simple") {
         loadSimpleInterface();
+    } else {
+        myWarning() << "this interface" << interface << "does not exist";
     }
 }
 void MainWindow::deleteInterface()
@@ -171,16 +167,11 @@ void MainWindow::loadStudyInterface()
     setCentralWidget(m_interface);
 }
 
-void MainWindow::setSettings(Settings set)
-{
-    *m_settings = set;
-}
-
 void MainWindow::saveSettings(Settings newSettings, bool modifedModuleSettings)
 {
     Settings oldSettings = *m_settings;
 
-    setSettings(newSettings);
+    *m_settings = newSettings;
     m_context->writeSettings();
 
     if(oldSettings.language != newSettings.language) {

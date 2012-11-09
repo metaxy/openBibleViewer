@@ -39,26 +39,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/context.h"
 #include "config.h"
 #include "anyoption.h"
-bool removeDir(const QString &dirName)
-{
-    bool result = true;
-    QDir dir(dirName);
 
-    if(dir.exists(dirName)) {
-        foreach(const QFileInfo & info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden  | QDir::AllDirs | QDir::Files, QDir::DirsFirst)) {
-            if(info.isDir()) {
-                result = removeDir(info.absoluteFilePath());
-            } else {
-                result = QFile::remove(info.absoluteFilePath());
-            }
-            if(!result) {
-                return result;
-            }
-        }
-        result = dir.rmdir(dirName);
-    }
-    return result;
-}
  
 int main(int argc, char *argv[])
 {
@@ -124,7 +105,7 @@ int main(int argc, char *argv[])
     //remove cache dir if update from 0.4 or 0.3
     const QString v = settings->value("general/version", "0.4").toString();
     if(v.startsWith("0.4")) {
-        removeDir(homeDataPath + "cache/");
+        ModuleTools::removeDir(homeDataPath + "cache/");
     }
 
     QString lang = settings->value("general/language", QLocale::system().name()).toString();

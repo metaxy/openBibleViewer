@@ -56,12 +56,6 @@ public:
     MainWindow(Context *parent);
     ~MainWindow();
     void init(const QString &homeDataPath, QSettings * settingsFile, bool firstStart);
-    QSettings *m_settingsFile;
-
-    QString VERSION, BUILD;
-    QString m_homeDataPath;
-    void setSettings(Settings settings);
-    void writeSettings();
     void showSettingsDialog(int tabID);
     void loadLanguage(QString language);
     void setTranslator(QTranslator *my, QTranslator *qt);

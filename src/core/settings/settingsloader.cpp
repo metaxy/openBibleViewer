@@ -8,8 +8,6 @@ SettingsLoader::SettingsLoader(QSettings* settingsFile, const QString homeDataPa
     m_settings->session.setFile(m_sessionFile);
     
     m_settings->encoding = "Windows-1251";
-    m_settings->zoomstep = 1;
-    m_settings->removeHtml = true;
     m_settings->version = QString(OBV_VERSION_NUMBER);
     m_settings->build = QString(OBV_BUILD_DATE);
     m_settings->autoLayout = Settings::Tile;
@@ -17,8 +15,6 @@ SettingsLoader::SettingsLoader(QSettings* settingsFile, const QString homeDataPa
     m_settings->onClickBookmarkGo = true;
     m_settings->textFormatting = 0;
     m_settings->homePath = m_homeDataPath;
-    m_settings->zefaniaBible_hardCache = true;
-    m_settings->zefaniaBible_softCache = true;
     m_settings->advancedSearchDock_useCurrentModule = true;
 
 #if !defined(Q_WS_X11)
@@ -53,7 +49,6 @@ void SettingsLoader::loadSettings()
     }
 
     m_settings->encoding = m_settingsFile->value("general/encoding", m_settings->encoding).toString();
-    m_settings->zoomstep = m_settingsFile->value("general/zoomstep", m_settings->zoomstep).toInt();
     m_settings->language = m_settingsFile->value("general/language", QLocale::system().name()).toString();
     m_settings->checkForUpdates = m_settingsFile->value("general/checkForUpdates", m_settings->checkForUpdates).toBool();
 
@@ -82,8 +77,6 @@ void SettingsLoader::loadSettings()
         m->encoding = m_settingsFile->value("encoding").toString();
 
         m->zefbible_textFormatting = (ModuleSettings::ZefBible_TextFormating) m_settingsFile->value("textFormatting").toInt();
-        m->zefbible_hardCache = m_settingsFile->value("hardCache", true).toBool();
-        m->zefbible_softCache = m_settingsFile->value("softCache", true).toBool();
 
         m->biblequote_removeHtml = m_settingsFile->value("removeHtml", true).toInt();
         m->defaultModule = (ModuleTools::DefaultModule) m_settingsFile->value("defaultModule", ModuleTools::NotADefaultModule).toInt();
@@ -125,10 +118,9 @@ void SettingsLoader::loadSettings()
 
 void SettingsLoader::saveSettings()
 {
-m_settingsFile->clear();
+    m_settingsFile->clear();
     m_settingsFile->setValue("general/version", m_settings->version);
     m_settingsFile->setValue("general/encoding", m_settings->encoding);
-    m_settingsFile->setValue("general/zoomstep", m_settings->zoomstep);
     m_settingsFile->setValue("general/language", m_settings->language);
     m_settingsFile->setValue("general/checkForUpdates", m_settings->checkForUpdates);
     m_settingsFile->setValue("general/lastSession", m_settings->sessionID);
@@ -153,8 +145,6 @@ m_settingsFile->clear();
 
         m_settingsFile->setValue("textFormatting", m->zefbible_textFormatting);
         m_settingsFile->setValue("removeHtml", m->biblequote_removeHtml);
-        m_settingsFile->setValue("hardCache", m->zefbible_hardCache);
-        m_settingsFile->setValue("softCache", m->zefbible_softCache);
         m_settingsFile->setValue("encoding", m->encoding);
         m_settingsFile->setValue("styleSheet", m_settings->savableUrl(m->styleSheet));
 

@@ -35,12 +35,11 @@ public:
     };
 
     QString encoding;
+
     QMap<int, ModuleSettings*> m_moduleSettings;
 
-    qreal zoomstep;
     QString version;
     QString build;
-    bool removeHtml;
     QString language;
     LayoutEnum autoLayout;
     bool intelligentLayout;
@@ -49,8 +48,6 @@ public:
     bool checkForUpdates;
 
     int textFormatting;//0 = Neue Zeile nach Vers, 1 = Unformatierter Textblock
-    bool zefaniaBible_hardCache;
-    bool zefaniaBible_softCache;
 
     bool advancedSearchDock_useCurrentModule;
 
@@ -59,6 +56,7 @@ public:
 
     ModuleSettings * getModuleSettings(int moduleID) const;
     QSharedPointer<Versification>  getV11N(const int moduleID) const;
+
 
     /**
       * Attention: Session data is alway up to date.

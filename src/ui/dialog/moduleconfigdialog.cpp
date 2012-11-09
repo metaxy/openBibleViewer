@@ -87,17 +87,6 @@ void ModuleConfigDialog::setModule(ModuleSettings *config)
     else
         m_ui->checkBox_removeHtml->setChecked(false);
 
-    if(config->zefbible_hardCache == true)
-        m_ui->checkBox_hardCache->setChecked(true);
-    else
-        m_ui->checkBox_hardCache->setChecked(false);
-
-    if(config->zefbible_softCache == true)
-        m_ui->checkBox_softCache->setChecked(true);
-    else
-        m_ui->checkBox_softCache->setChecked(false);
-
-
     if(m_encodings.lastIndexOf(config->encoding) != -1) {
         m_ui->comboBox_encoding->setCurrentIndex(m_encodings.lastIndexOf(config->encoding));
     } else {
@@ -156,8 +145,6 @@ void ModuleConfigDialog::bsave()
     m_moduleSettings->moduleType = (ModuleTools::ModuleType) m_ui->comboBox_type->currentIndex();
     m_moduleSettings->zefbible_textFormatting = (ModuleSettings::ZefBible_TextFormating) m_ui->comboBox_textFromatting->currentIndex();
     m_moduleSettings->biblequote_removeHtml = m_ui->checkBox_removeHtml->isChecked();
-    m_moduleSettings->zefbible_hardCache = m_ui->checkBox_hardCache->isChecked();
-    m_moduleSettings->zefbible_softCache = m_ui->checkBox_softCache->isChecked();
     m_moduleSettings->encoding = m_encodings.at(m_ui->comboBox_encoding->currentIndex());
     m_moduleSettings->styleSheet = m_ui->lineEdit_styleSheet->text();
     m_moduleSettings->moduleLanguage = m_ui->lineEdit_language->text();

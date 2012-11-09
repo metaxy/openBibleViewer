@@ -15,7 +15,17 @@ FUNCTION(BUILD_TEST name exName)
     SET( ${name}_MOCS ${name}test.h testtools.h)
     QT4_WRAP_CPP( ${name}__MOCS ${${name}_MOCS})
     ADD_EXECUTABLE(${exName}Test ${${name}_SRCS} ${${name}__MOCS})
-    TARGET_LINK_LIBRARIES( ${exName}Test ${TEST_LIBRARIES})
+    TARGET_LINK_LIBRARIES( ${exName}Test ${TEST_LIBRARIES}
+                        RtfReader
+                        ${QT_LIBRARIES}
+                        ${QT_QTCORE_LIBRARY}
+                        ${QT_QTGUI_LIBRARY}
+                        ${QT_QTXML_LIBRARY}
+                        ${QT_QTNETWORK_LIBRARY}
+                        ${QT_QTWEBKIT_LIBRARY}
+                        ${QT_QTSCRIPT_LIBRARY}
+                        ${QT_QTSQL_LIBRARY}
+                        clucene-core)
 
 ENDFUNCTION(BUILD_TEST)
 

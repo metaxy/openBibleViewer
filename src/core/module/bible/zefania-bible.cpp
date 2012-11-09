@@ -449,7 +449,7 @@ void ZefaniaBible::buildIndex()
         }
     }
     if(canceled) {
-        removeDir(index);
+        ModuleTools::removeDir(index);
     } else {
         writer->setUseCompoundFile(true);
         writer->optimize();

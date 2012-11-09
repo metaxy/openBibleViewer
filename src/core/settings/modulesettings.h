@@ -74,8 +74,6 @@ public:
 
     ZefBible_TextFormating zefbible_textFormatting;
 
-    bool zefbible_hardCache;
-    bool zefbible_softCache;
     bool biblequote_removeHtml;
 
     QString styleSheet;

@@ -19,7 +19,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 void ZefaniaBibleTests::init()
 {
-    
+    m_zef = new ZefaniaBible();
+    //m_settingsLoader = new SettingsLoader()
 }
 void ZefaniaBibleTests::testScan()
 {

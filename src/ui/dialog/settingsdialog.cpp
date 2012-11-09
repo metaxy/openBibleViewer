@@ -267,9 +267,6 @@ void SettingsDialog::addModuleDir(void)
                 }
 
                 // standard config
-                m->biblequote_removeHtml = m_set.removeHtml;
-                m->zefbible_hardCache = m_set.zefaniaBible_hardCache;
-                m->zefbible_softCache = m_set.zefaniaBible_softCache;
                 //m->zefbible_textFormatting = m_set.textFormatting;
                 m->encoding = "Default";//no translating
                 m->parentID = -1;
@@ -548,10 +545,6 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
         return 1;
     }
 
-    // standard config
-    m->biblequote_removeHtml = m_set.removeHtml;
-    m->zefbible_hardCache = m_set.zefaniaBible_hardCache;
-    m->zefbible_softCache = m_set.zefaniaBible_softCache;
     m->encoding = "Default";
     m->parentID = parentID;
 

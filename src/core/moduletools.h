@@ -124,6 +124,7 @@ public:
     static QStringList scan(const QString &path, const int maxLevel = -1, const int level = 0);
     
     static QStringList encodings();
+    static bool removeDir(const QString &dirName);
 };
 
 #endif // MODULETOOLS_H

@@ -15,7 +15,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define ZEFANIABIBLE_TEST_H
 
 #include <QObject>
-#include <src/core/settings/settings.h>
+#include "src/core/settings/settingsloader.h"
+#include "src/core/module/bible/zefania-bible.h"
 class ZefaniaBibleTests : public QObject
 {
     Q_OBJECT
@@ -24,7 +25,9 @@ private slots:
     void testScan();
   
 private:
-    Settings *m_settings;
+    SettingsLoader *m_settingsLoader;
+
+    ZefaniaBible *m_zef;
 };
 
 #endif
