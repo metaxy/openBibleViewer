@@ -204,10 +204,10 @@ void ZefaniaBible::generateCache(QList<std::pair<qint64, qint64> > list)
     QFile file(m_modulePath);
     if(!file.open(QFile::ReadOnly | QFile::Text))
         return;
-
+    QSharedPointer<Versification> v11n = m_set->getV11n();
     for(int i = 0; i < list.size(); ++i) {
         std::pair<qint64, qint64> p = list.at(i);
-        int bookID = m_set->getV11n()->bookIDs().at(i);
+        int bookID = v11n->bookIDs().at(i);
         QFile file2(pre + QString::number(bookID) + ".xml");
         //myDebug() << file2.fileName();
         if(!file2.open(QIODevice::WriteOnly | QIODevice::Text))
