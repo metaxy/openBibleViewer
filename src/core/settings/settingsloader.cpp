@@ -13,7 +13,6 @@ SettingsLoader::SettingsLoader(QSettings* settingsFile, const QString homeDataPa
     m_settings->autoLayout = Settings::Tile;
     m_settings->intelligentLayout = true;
     m_settings->onClickBookmarkGo = true;
-    m_settings->textFormatting = 0;
     m_settings->homePath = m_homeDataPath;
     m_settings->advancedSearchDock_useCurrentModule = true;
 
@@ -54,9 +53,6 @@ void SettingsLoader::loadSettings()
 
     m_settings->autoLayout = (Settings::LayoutEnum) m_settingsFile->value("window/layout", m_settings->autoLayout).toInt();
     m_settings->onClickBookmarkGo = m_settingsFile->value("window/onClickBookmarkGo", m_settings->onClickBookmarkGo).toBool();
-
-
-    m_settings->textFormatting = m_settingsFile->value("bible/textFormatting", m_settings->textFormatting).toInt();
 
     int size = m_settingsFile->beginReadArray("module");
     for(int i = 0; i < size; ++i) {
@@ -126,7 +122,6 @@ void SettingsLoader::saveSettings()
     m_settingsFile->setValue("general/lastSession", m_settings->sessionID);
     m_settingsFile->setValue("window/layout", m_settings->autoLayout);
     m_settingsFile->setValue("window/onClickBookmarkGo", m_settings->onClickBookmarkGo);
-    m_settingsFile->setValue("bible/textFormatting", m_settings->textFormatting);
     m_settingsFile->beginWriteArray("module");
     QMapIterator<int, ModuleSettings *> it(m_settings->m_moduleSettings);
     for(int i = 0; it.hasNext(); ++i) {

@@ -45,7 +45,7 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::init(const QString &homeDataPath, QSettings *settingsFile, bool firstStart)
+void MainWindow::init(bool firstStart)
 {
     loadInterface();
     restoreSession();

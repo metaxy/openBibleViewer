@@ -55,7 +55,7 @@ public slots:
 public:
     MainWindow(Context *parent);
     ~MainWindow();
-    void init(const QString &homeDataPath, QSettings * settingsFile, bool firstStart);
+    void init(bool firstStart);
     void showSettingsDialog(int tabID);
     void loadLanguage(QString language);
     void setTranslator(QTranslator *my, QTranslator *qt);
@@ -81,8 +81,8 @@ private:
     void loadDefaultSettings();
     void loadSettings();
     void restoreSession();
-    int m_reloadLang;
 
+    int m_reloadLang;
     Context *m_context;
 
 };

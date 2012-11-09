@@ -92,7 +92,7 @@ void Context::showWindow()
     setAll(w);
 
     w->setTranslator(m_myappTranslator, m_qtTranslator);
-    w->init(m_homeDataPath, m_settingsFile, m_firstStart);
+    w->init(m_firstStart);
     w->show();
 }
 void Context::setTranslator(QTranslator *my, QTranslator *qt)

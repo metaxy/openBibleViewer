@@ -123,10 +123,19 @@ ModuleSettings* Settings::newVirtualFolder(const int parentModuleID)
     m->moduleName = QObject::tr("New Folder");
     m->moduleType = ModuleTools::FolderModule;
 
-    m->encoding = "Default";
     m->parentID = parentModuleID;
 
     getModuleSettings(parentModuleID)->appendChild(m);
+    m_moduleSettings.insert(m->moduleID, m);
+    return m;
+}
+ModuleSettings * Settings::newModuleSettings(const int parentID)
+{
+    ModuleSettings *m = new ModuleSettings();
+    m->moduleID = newModuleID();
+    m->parentID = parentID;
+
+    getModuleSettings(parentID)->appendChild(m);
     m_moduleSettings.insert(m->moduleID, m);
     return m;
 }

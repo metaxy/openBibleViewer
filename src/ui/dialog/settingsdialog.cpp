@@ -242,8 +242,8 @@ void SettingsDialog::addModuleDir(void)
                     return;
                 }
                 const QString f = fileName.at(i);
-                ModuleSettings *m = new ModuleSettings();
-                m->moduleID = m_set.newModuleID();
+
+                ModuleSettings *m = m_set.newModuleSettings(-1);
                 QFileInfo fileInfo(f);
                 if(fileInfo.isDir()) {
                     QString f = fileName.at(i);
@@ -266,12 +266,6 @@ void SettingsDialog::addModuleDir(void)
                     return;
                 }
 
-                // standard config
-                //m->zefbible_textFormatting = m_set.textFormatting;
-                m->encoding = "Default";//no translating
-                m->parentID = -1;
-                m_set.m_moduleSettings.insert(m->moduleID, m);
-                m_set.getModuleSettings(m->parentID)->appendChild(m);
 
                 ModuleSettings *parent = m_set.getModuleSettings(m->parentID);
                 m->setParent(parent);
@@ -568,39 +562,17 @@ void SettingsDialog::importSwordModules()
         const QString type = QString::fromLocal8Bit((*it).second->Type());
 
         myDebug() << name << desc << type;
+
         if(type == "Biblical Texts") { //cu
-            ModuleSettings *m = new ModuleSettings();
-            m->moduleID = m_set.newModuleID();
+            ModuleSettings *m = m_set.newModuleSettings(-1)
             m->moduleName = desc;
             m->modulePath = name;
             m->moduleType = ModuleTools::SwordBibleModule;
-
-            m->biblequote_removeHtml = m_set.removeHtml;
-            m->zefbible_hardCache = m_set.zefaniaBible_hardCache;
-            m->zefbible_softCache = m_set.zefaniaBible_softCache;
-
-            m->encoding = "Default";
-            m->parentID = -1;
-
-            m_set.getModuleSettings(m->parentID)->appendChild(m);
-            m_set.m_moduleSettings.insert(m->moduleID, m);
         } else if(type == "Lexicons / Dictionaries") {
-            ModuleSettings *m = new ModuleSettings();
-            m->moduleID = m_set.newModuleID();
+            ModuleSettings *m = m_set.newModuleSettings(-1)
             m->moduleName = desc;
             m->modulePath = name;
             m->moduleType = ModuleTools::SwordLexiconModule;
-
-            m->biblequote_removeHtml = m_set.removeHtml;
-            m->zefbible_hardCache = m_set.zefaniaBible_hardCache;
-            m->zefbible_softCache = m_set.zefaniaBible_softCache;
-
-            m->encoding = "Default";
-            m->parentID = -1;
-
-            m_set.getModuleSettings(m->parentID)->appendChild(m);
-            m_set.m_moduleSettings.insert(m->moduleID, m);
-
         }
     }
     generateModuleTree();

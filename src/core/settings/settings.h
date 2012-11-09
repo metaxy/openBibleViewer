@@ -47,8 +47,6 @@ public:
 
     bool checkForUpdates;
 
-    int textFormatting;//0 = Neue Zeile nach Vers, 1 = Unformatierter Textblock
-
     bool advancedSearchDock_useCurrentModule;
 
     QString homePath;
@@ -90,6 +88,7 @@ public:
 
     int getDefaultModule(ModuleTools::ContentType c);
     ModuleSettings* newVirtualFolder(const int parentModuleID);
+    ModuleSettings * newModuleSettings(const int parentID);
     
     void removeModule(const int moduleID);
     void removeModule(ModuleSettings* module);
