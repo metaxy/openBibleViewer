@@ -490,8 +490,7 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
     }
     ModuleTools::ModuleType moduleType = ModuleTools::NoneType;
 
-    ModuleSettings *m = new ModuleSettings();
-    m->moduleID = m_set.newModuleID();
+    ModuleSettings *m = m_set.newModuleSettings(parentID);
 
     if(fileInfo.isFile()) {
         moduleType = ModuleTools::recognizeModuleType(f);
@@ -538,13 +537,6 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
         //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot open the file."));
         return 1;
     }
-
-    m->encoding = "Default";
-    m->parentID = parentID;
-
-
-    m_set.getModuleSettings(m->parentID)->appendChild(m);
-    m_set.m_moduleSettings.insert(m->moduleID, m);
 
     return 0;
 }

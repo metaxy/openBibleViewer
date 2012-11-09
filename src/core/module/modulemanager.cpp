@@ -61,19 +61,17 @@ int ModuleManager::loadAllModules()
     //update module settings and display settings
     //m_moduleMap.clear();
     //todo: clear and renew
-    ModuleSettings *root = new ModuleSettings();
-    root->moduleID = -1;
-    root->parentID = -2;
+    ModuleSettings *root = m_settings->createRoot();
 
     foreach(ModuleSettings * set, m_settings->m_moduleSettings) {
         set->clearChildren();
     }
     //set parents
     {
-        QMapIterator<int, ModuleSettings*> it2(m_settings->m_moduleSettings);
-        while(it2.hasNext())  {
-            it2.next();
-            ModuleSettings *child = it2.value();
+        QMapIterator<int, ModuleSettings*> it(m_settings->m_moduleSettings);
+        while(it.hasNext())  {
+            it.next();
+            ModuleSettings *child = it.value();
             const int parentID = child->parentID;
             if(parentID == -1) {
                 root->appendChild(child);
@@ -84,22 +82,6 @@ int ModuleManager::loadAllModules()
                 child->setParent(r);
             }
         }
-        QSharedPointer<ModuleDisplaySettings> displaySettings = QSharedPointer<ModuleDisplaySettings>(new ModuleDisplaySettings());
-
-        //todo: what is that?
-        displaySettings->setShowStudyNotes(true);
-        displaySettings->setShowStrong(true);
-        displaySettings->setShowRefLinks(false);
-        displaySettings->setShowNotes(true);
-        displaySettings->setShowMarks(true);
-        displaySettings->setShowBottomToolBar(true);
-        displaySettings->setShowRMAC(true);
-        displaySettings->setShowCaptions(false);
-        displaySettings->setShowProlog(false);
-
-        root->setDisplaySettings(displaySettings);
-
-        m_settings->m_moduleSettings.insert(-1, root);
     }
     //use parent settings display
     {

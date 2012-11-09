@@ -398,7 +398,6 @@ QString CommentaryForm::transformUrl(const QString &url)
 }
 void CommentaryForm::get(QUrl url)
 {
-    Actions::OpenLinkModifiers mod = Actions::NoModifer;
     if(m_com->moduleType() == ModuleTools::TheWordCommentaryModule) {
         m_actions->get(transformUrl(QString(url.toEncoded())));
         return;

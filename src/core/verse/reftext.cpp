@@ -25,7 +25,7 @@ const QString sep_next = " ";
 //Heb 1:2-19 {sep_same_book}3:18
 const QString sep_same_book = "";
 
-RefText::RefText(Settings *settings) : m_settings(settings), m_showModuleName(false)
+RefText::RefText(Settings *settings) : m_showModuleName(false), m_settings(settings)
 {
 }
 

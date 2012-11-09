@@ -20,12 +20,17 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 void ZefaniaBibleTests::init()
 {
     m_zef = new ZefaniaBible();
-    //m_settingsLoader = new SettingsLoader()
+    m_settings = new Settings();
+    ModuleSettings *root = m_settings->createRoot();
+    m_mSet = m_settings->newModuleSettings(-1);
+    m_mSet->moduleName = "Test Module";
+    m_mSet->modulePath = "/home/paul/bible/zefania/de/elberfelder1905-strongs.xml";
+    m_mSet->setDisplaySettings(root->displaySettings());
+    m_zef->setSettings(m_settings);
 }
-void ZefaniaBibleTests::testScan()
+void ZefaniaBibleTests::testLoad()
 {
-	//const QStringList resAll = ZefaniaBible::scan(QString(SRC_PATH) + "/src/test/data/moduletools/structure");
-
+    m_zef->loadBibleData(m_mSet->moduleID, m_mSet->modulePath);
 }
 
 QTEST_MAIN( ZefaniaBibleTests )

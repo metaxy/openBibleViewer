@@ -22,12 +22,13 @@ class ZefaniaBibleTests : public QObject
     Q_OBJECT
 private slots:
     void init();
-    void testScan();
+    void testLoad();
   
 private:
-    SettingsLoader *m_settingsLoader;
+    Settings *m_settings;
 
     ZefaniaBible *m_zef;
+    ModuleSettings *m_mSet;
 };
 
 #endif

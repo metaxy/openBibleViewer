@@ -89,6 +89,7 @@ public:
     int getDefaultModule(ModuleTools::ContentType c);
     ModuleSettings* newVirtualFolder(const int parentModuleID);
     ModuleSettings * newModuleSettings(const int parentID);
+    ModuleSettings * createRoot();
     
     void removeModule(const int moduleID);
     void removeModule(ModuleSettings* module);

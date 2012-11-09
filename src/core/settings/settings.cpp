@@ -139,6 +139,30 @@ ModuleSettings * Settings::newModuleSettings(const int parentID)
     m_moduleSettings.insert(m->moduleID, m);
     return m;
 }
+ModuleSettings * Settings::createRoot()
+{
+    ModuleSettings *root = new ModuleSettings();
+    root->moduleID = -1;
+    root->parentID = -2;
+
+    QSharedPointer<ModuleDisplaySettings> displaySettings = QSharedPointer<ModuleDisplaySettings>(new ModuleDisplaySettings());
+
+    //todo: what is that?
+    displaySettings->setShowStudyNotes(true);
+    displaySettings->setShowStrong(true);
+    displaySettings->setShowRefLinks(false);
+    displaySettings->setShowNotes(true);
+    displaySettings->setShowMarks(true);
+    displaySettings->setShowBottomToolBar(true);
+    displaySettings->setShowRMAC(true);
+    displaySettings->setShowCaptions(false);
+    displaySettings->setShowProlog(false);
+
+    root->setDisplaySettings(displaySettings);
+
+    m_moduleSettings.insert(-1, root);
+    return root;
+}
 
 void Settings::removeModule(const int moduleID)
 {
