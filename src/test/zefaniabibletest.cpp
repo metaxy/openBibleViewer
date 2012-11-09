@@ -30,7 +30,31 @@ void ZefaniaBibleTests::init()
 }
 void ZefaniaBibleTests::testLoad()
 {
-    m_zef->loadBibleData(m_mSet->moduleID, m_mSet->modulePath);
+    QBENCHMARK_ONCE(m_zef->loadBibleData(m_mSet->moduleID, m_mSet->modulePath));
+}
+void ZefaniaBibleTests::testReadRange()
+{
+    if(!m_zef->loaded()) {
+        m_zef->loadBibleData(m_mSet->moduleID, m_mSet->modulePath);
+    }
+    //QBENCHMARK_ONCE(m_zef->rawTextRange(0,0,0,10));
+    m_zef->rawTextRange(0,0,0,10);
+}
+void ZefaniaBibleTests::testRawReadBook()
+{
+    if(!m_zef->loaded()) {
+        m_zef->loadBibleData(m_mSet->moduleID, m_mSet->modulePath);
+    }
+    //m_zef->readBookBlock(0);
+    //QBENCHMARK_ONCE(m_zef->readBookBlock(0));
+
+}
+void ZefaniaBibleTests::cleanupTestCase()
+{
+    delete m_zef;
+    delete m_settings->getModuleSettings(-1);
+    delete m_settings;
+    delete m_mSet;
 }
 
 QTEST_MAIN( ZefaniaBibleTests )

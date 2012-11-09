@@ -23,6 +23,9 @@ class ZefaniaBibleTests : public QObject
 private slots:
     void init();
     void testLoad();
+    void testReadRange();
+    void testRawReadBook();
+    void cleanupTestCase();
   
 private:
     Settings *m_settings;

@@ -21,6 +21,7 @@ class VerseBlock : public RBlock
 {
 public:
     VerseBlock(quint32 id, const RMetaData& data);
+    int verseNumber;
 };
 
 #endif // VERSEBLOCK_H

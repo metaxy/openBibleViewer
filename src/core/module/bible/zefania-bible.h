@@ -74,6 +74,8 @@ public:
     bool hasHardCache(const QString &path);
 
     void clearData();
+
+    BookBlock readBookBlock(const int bookID);
 private:
     QDomElement* format(QDomElement* e);
     QString indexPath() const;

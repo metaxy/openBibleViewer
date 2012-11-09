@@ -332,7 +332,6 @@ MetaInfo ZefaniaBible::readInfo(QFile &file)
     m_xml = NULL;
     return ret;
 }
-
 MetaInfo ZefaniaBible::readInfo(const QString &fileName)
 {
     QFile file(fileName);
@@ -345,12 +344,10 @@ int ZefaniaBible::moduleID() const
 {
     return m_moduleID;
 }
-
 QString ZefaniaBible::modulePath() const
 {
     return m_modulePath;
 }
-
 QString ZefaniaBible::moduleName(bool preferShortName) const
 {
     //todo: use preferShortName
@@ -368,8 +365,6 @@ bool ZefaniaBible::hasIndex() const
 
     return IndexReader::indexExists(index.toStdString().c_str());
 }
-
-
 void ZefaniaBible::buildIndex()
 {
     //DEBUG_FUNC_NAME
@@ -463,7 +458,6 @@ void ZefaniaBible::buildIndex()
     delete m_xml;
     m_xml = NULL;
 }
-
 void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
 {
     const QString index = indexPath();
@@ -579,9 +573,61 @@ VerseBook ZefaniaBible::readBook()
     }
     return book;
 }
+BookBlock ZefaniaBible::readBookBlock(const int bookID)
+{
+    //DEBUG_FUNC_NAME;
+    if(m_xml != NULL) {
+        delete m_xml;
+        m_xml = NULL;
+    }
+    m_bookID = bookID;
+    QString path = m_modulePath;
+    /*const QString cacheFile = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath) + "/" + QString::number(id) + ".xml";
+    QFileInfo info(cacheFile);
+
+    if(info.exists()) {
+        path = cacheFile;
+    } else {
+        path = m_modulePath;
+    }*/
+    //myDebug() << path;
+
+    genStrongsPrefix();
+
+    QFile file(path);
+    file.open(QFile::ReadOnly | QFile::Text);
+
+    m_xml = new QXmlStreamReader(&file);
+    if(m_xml->readNextStartElement()) {
+        if(cmp(m_xml->name(), "XMLBIBLE")) {
+            while(m_xml->readNextStartElement()) {
+                if(cmp(m_xml->name(), "BIBLEBOOK")) {
+                    if(m_xml->attributes().value("bnumber").toString().toInt() == bookID + 1) {
+                        BookBlock block = rawReadBook(0);
+                        delete m_xml;
+                        m_xml = NULL;
+                        return block;
+                    } else {
+                        m_xml->skipCurrentElement();
+                    }
+                } else {
+                    m_xml->skipCurrentElement();
+                }
+            }
+        } else {
+            myWarning() << "not a file";
+        }
+    }
+    file.close();
+    delete m_xml;
+    m_xml = NULL;
+}
+
 BookBlock ZefaniaBible::rawReadBook(quint32 parent)
 {
+    //DEBUG_FUNC_NAME
     m_bookID = m_xml->attributes().value("bnumber").toString().toInt() - 1;
+    myDebug() << m_bookID;
     quint32 id = m_idGen.next();
     BookBlock book(id, RMetaData(parent, RMetaData::BookBlock));
     while(m_xml->readNextStartElement()) {
@@ -611,6 +657,7 @@ Chapter ZefaniaBible::readChapter()
 
 ChapterBlock ZefaniaBible::rawReadChapter(quint32 parent)
 {
+    //DEBUG_FUNC_NAME
     const int chapterID = m_xml->attributes().value("cnumber").toString().toInt() - 1;
     quint32 id = m_idGen.next();
     ChapterBlock chapter(id, RMetaData(parent, RMetaData::ChapterBlock));
@@ -628,11 +675,12 @@ ChapterBlock ZefaniaBible::rawReadChapter(quint32 parent)
 
 VerseBlock ZefaniaBible::rawReadVerse(quint32 parent)
 {
+    //DEBUG_FUNC_NAME
     quint32 id = m_idGen.next();
     VerseBlock verse(id, RMetaData(parent, RMetaData::VerseBlock));
-    
-    const int verseID = m_xml->attributes().value("vnumber").toString().toInt() - 1;
-    
+    const int verseNumber = m_xml->attributes().value("vnumber").toString().toInt() - 1;
+    verse.verseNumber = verseNumber;
+
     while(true) {
         m_xml->readNext();
 
@@ -663,6 +711,7 @@ VerseBlock ZefaniaBible::rawReadVerse(quint32 parent)
     }
     return verse;
 }
+
 Verse ZefaniaBible::readVerse()
 {
     const int verseID = m_xml->attributes().value("vnumber").toString().toInt() - 1;
