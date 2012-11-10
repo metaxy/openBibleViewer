@@ -658,13 +658,24 @@ Chapter ZefaniaBible::readChapter()
 ChapterBlock ZefaniaBible::rawReadChapter(quint32 parent)
 {
     //DEBUG_FUNC_NAME
-    const int chapterID = m_xml->attributes().value("cnumber").toString().toInt() - 1;
+    const int chapterNumber = m_xml->attributes().value("cnumber").toString().toInt() - 1;
     quint32 id = m_idGen.next();
     ChapterBlock chapter(id, RMetaData(parent, RMetaData::ChapterBlock));
-    
+    chapter.chapterNumber = chapterNumber;
+
     while(m_xml->readNextStartElement()) {
         if(cmp(m_xml->name(), "VERS")) {
             chapter.add(rawReadVerse(parent));
+        } else if(cmp(m_xml->name(), "PROLOG")) {
+            chapter.add(rawReadProlog(parent));
+        } else if(cmp(m_xml->name(), "CAPTION")) {
+            chapter.add(rawReadCaption(parent));
+        } else if(cmp(m_xml->name(), "REMARKS")) {
+            chapter.add(rawReadRemarks(parent));
+        } else if(cmp(m_xml->name(), "XREF")) {
+            chapter.add(rawReadXRef(parent));
+        } else if(cmp(m_xml->name(), "MEDIA")) {
+           chapter.add(rawReadMedia(parent));
         } else {
             m_xml->skipCurrentElement();
         }
@@ -692,26 +703,264 @@ VerseBlock ZefaniaBible::rawReadVerse(quint32 parent)
             t.text = Qt::escape(m_xml->text().toString());
             verse.add(t);
         } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st") {
-            //out += parseStyle();
+            verse.add(rawReadStyle(parent));
         } else if(cmp(m_xml->name(), "NOTE")) {
-            //out += parseNote();
+          verse.add(rawReadNote(parent));
         } else if(cmp(m_xml->name(), "BR")) {
-            //out += parseBr();
+            verse.add(rawReadBr(parent));
         } else if(cmp(m_xml->name(), "DIV")) {
-            //out += parseDiv();
+           verse.add(rawReadDiv(parent));
         } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == QLatin1String("gr")) {
-            //out += parseGram();
+           verse.add(rawReadGram(parent));
         } else if(cmp(m_xml->name(), "SUP")) {
-            //out += parseSup();
+            verse.add(rawReadSup(parent));
         } else if(cmp(m_xml->name(), "XREF")) {
-            //out += parseXRef();
+            verse.add(rawReadXRef(parent));
         } else {
-            //out += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
+            TextFragment t(m_idGen.next(), RMetaData(id, RMetaData::TextFragment));
+            t.text = Qt::escape(m_xml->readElementText(QXmlStreamReader::IncludeChildElements));
+            verse.add(t);
         }
     }
     return verse;
 }
+PrologBlock ZefaniaBible::rawReadProlog(quint32 parent)
+{
+    quint32 id = m_idGen.next();
+    PrologBlock prolog(id, RMetaData(parent, RMetaData::PrologBlock));
 
+    while(m_xml->readNextStartElement()) {
+        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
+            TextFragment t(m_idGen.next(), RMetaData(id, RMetaData::TextFragment));
+            t.text = Qt::escape(m_xml->text().toString());
+            prolog.add(t);
+        } else if(cmp(m_xml->name(), "STYLE")) {
+            prolog.add(rawReadStyle(parent));
+        } else if(cmp(m_xml->name(), "BR")) {
+            prolog.add(rawReadBr(parent));
+        }  else if(cmp(m_xml->name(), "GRAM")) {
+            prolog.add(rawReadGram(parent));
+        }   else if(cmp(m_xml->name(), "XREF")) {
+            prolog.add(rawReadXRef(parent));
+        }   else if(cmp(m_xml->name(), "SUP")) {
+            prolog.add(rawReadSup(parent));
+        } else {
+            m_xml->skipCurrentElement();
+        }
+    }
+    return prolog;
+}
+NoteBlock ZefaniaBible::rawReadNote(quint32 parent)
+{
+    quint32 id = m_idGen.next();
+    NoteBlock note(id, RMetaData(parent, RMetaData::NoteBlock));
+
+    while(m_xml->readNextStartElement()) {
+        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
+            TextFragment t(m_idGen.next(), RMetaData(id, RMetaData::TextFragment));
+            t.text = Qt::escape(m_xml->text().toString());
+            note.add(t);
+        } else if(cmp(m_xml->name(), "STYLE")) {
+            note.add(rawReadStyle(parent));
+        } else if(cmp(m_xml->name(), "BR")) {
+            note.add(rawReadBr(parent));
+        }  else if(cmp(m_xml->name(), "GRAM")) {
+            note.add(rawReadGram(parent));
+        }   else if(cmp(m_xml->name(), "XREF")) {
+            note.add(rawReadXRef(parent));
+        }   else if(cmp(m_xml->name(), "SUP")) {
+            note.add(rawReadSup(parent));
+        } else {
+            m_xml->skipCurrentElement();
+        }
+    }
+    return note;
+}
+
+CaptionBlock ZefaniaBible::rawReadCaption(quint32 parent)
+{
+    quint32 id = m_idGen.next();
+    CaptionBlock caption(id, RMetaData(parent, RMetaData::CaptionBlock));
+
+    while(m_xml->readNextStartElement()) {
+        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
+            TextFragment t(m_idGen.next(), RMetaData(id, RMetaData::TextFragment));
+            t.text = Qt::escape(m_xml->text().toString());
+            caption.add(t);
+        } else if(cmp(m_xml->name(), "STYLE")) {
+            caption.add(rawReadStyle(parent));
+        } else if(cmp(m_xml->name(), "BR")) {
+            caption.add(rawReadBr(parent));
+        } else if(cmp(m_xml->name(), "GRAM")) {
+            caption.add(rawReadGram(parent));
+        } else if(cmp(m_xml->name(), "XREF")) {
+            caption.add(rawReadXRef(parent));
+        } else if(cmp(m_xml->name(), "SUP")) {
+            caption.add(rawReadSup(parent));
+        } else {
+            m_xml->skipCurrentElement();
+        }
+    }
+    return caption;
+}
+
+RemarksBlock ZefaniaBible::rawReadRemarks(quint32 parent)
+{
+    quint32 id = m_idGen.next();
+    RemarksBlock remarks(id, RMetaData(parent, RMetaData::RemarksBlock));
+
+    while(m_xml->readNextStartElement()) {
+        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
+            TextFragment t(m_idGen.next(), RMetaData(id, RMetaData::TextFragment));
+            t.text = Qt::escape(m_xml->text().toString());
+            remarks.add(t);
+        } else if(cmp(m_xml->name(), "STYLE")) {
+            remarks.add(rawReadStyle(parent));
+        } else if(cmp(m_xml->name(), "BR")) {
+            remarks.add(rawReadBr(parent));
+        } else if(cmp(m_xml->name(), "GRAM")) {
+            remarks.add(rawReadGram(parent));
+        } else if(cmp(m_xml->name(), "XREF")) {
+            remarks.add(rawReadXRef(parent));
+        } else if(cmp(m_xml->name(), "SUP")) {
+            remarks.add(rawReadSup(parent));
+        } else {
+            m_xml->skipCurrentElement();
+        }
+    }
+    return remarks;
+}
+
+XRefFragment ZefaniaBible::rawReadXRef(quint32 parent)
+{
+    quint32 id = m_idGen.next();
+    XRefFragment xref(id, RMetaData(parent, RMetaData::XRefFragment));
+
+    while(m_xml->readNextStartElement()) {
+        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
+            TextFragment t(m_idGen.next(), RMetaData(id, RMetaData::TextFragment));
+            t.text = Qt::escape(m_xml->text().toString());
+            xref.add(t);
+        }   else {
+            m_xml->skipCurrentElement();
+        }
+    }
+    return xref;
+}
+
+MediaBlock ZefaniaBible::rawReadMedia(quint32 parent)
+{
+    quint32 id = m_idGen.next();
+    MediaBlock media(id, RMetaData(parent, RMetaData::MediaBlock));
+
+    while(m_xml->readNextStartElement()) {
+        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
+            TextFragment t(m_idGen.next(), RMetaData(id, RMetaData::TextFragment));
+            t.text = Qt::escape(m_xml->text().toString());
+            media.add(t);
+        } else {
+            m_xml->skipCurrentElement();
+        }
+    }
+    return media;
+}
+BrFragment ZefaniaBible::rawReadBr(quint32 parent)
+{
+    quint32 id = m_idGen.next();
+    BrFragment br(id, RMetaData(parent, RMetaData::BrFragment));
+    return br;
+}
+
+StyleBlock ZefaniaBible::rawReadStyle(quint32 parent)
+{
+    quint32 id = m_idGen.next();
+    StyleBlock style(id, RMetaData(parent, RMetaData::StyleBlock));
+
+    while(m_xml->readNextStartElement()) {
+        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
+            TextFragment t(m_idGen.next(), RMetaData(id, RMetaData::TextFragment));
+            t.text = Qt::escape(m_xml->text().toString());
+            style.add(t);
+        } else if(cmp(m_xml->name(), "STYLE")) {
+            style.add(rawReadStyle(parent));
+        } else if(cmp(m_xml->name(), "GRAM")) {
+            style.add(rawReadGram(parent));
+        } else if(cmp(m_xml->name(), "SUP")) {
+            style.add(rawReadSup(parent));
+        } else {
+            m_xml->skipCurrentElement();
+        }
+    }
+    return style;
+}
+
+GramBlock ZefaniaBible::rawReadGram(quint32 parent)
+{
+    quint32 id = m_idGen.next();
+    GramBlock gram(id, RMetaData(parent, RMetaData::GramBlock));
+
+    while(m_xml->readNextStartElement()) {
+        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
+            TextFragment t(m_idGen.next(), RMetaData(id, RMetaData::TextFragment));
+            t.text = Qt::escape(m_xml->text().toString());
+            gram.add(t);
+        } else if(cmp(m_xml->name(), "STYLE")) {
+            gram.add(rawReadStyle(parent));
+        } else if(cmp(m_xml->name(), "BR")) {
+            gram.add(rawReadBr(parent));
+        } else if(cmp(m_xml->name(), "GRAM")) {
+            gram.add(rawReadGram(parent));
+        } else if(cmp(m_xml->name(), "SUP")) {
+            gram.add(rawReadSup(parent));
+        } else {
+            m_xml->skipCurrentElement();
+        }
+    }
+    return gram;
+}
+
+SupBlock ZefaniaBible::rawReadSup(quint32 parent)
+{
+    quint32 id = m_idGen.next();
+    SupBlock sup(id, RMetaData(parent, RMetaData::SupBlock));
+
+    while(m_xml->readNextStartElement()) {
+        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
+            TextFragment t(m_idGen.next(), RMetaData(id, RMetaData::TextFragment));
+            t.text = Qt::escape(m_xml->text().toString());
+            sup.add(t);
+        } else if(cmp(m_xml->name(), "STYLE")) {
+            sup.add(rawReadStyle(parent));
+        } else if(cmp(m_xml->name(), "GRAM")) {
+            sup.add(rawReadGram(parent));
+        } else {
+            m_xml->skipCurrentElement();
+        }
+    }
+    return sup;
+}
+DivBlock ZefaniaBible::rawReadDiv(quint32 parent)
+{
+    quint32 id = m_idGen.next();
+    DivBlock div(id, RMetaData(parent, RMetaData::DivBlock));
+
+    while(m_xml->readNextStartElement()) {
+        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
+            TextFragment t(m_idGen.next(), RMetaData(id, RMetaData::TextFragment));
+            t.text = Qt::escape(m_xml->text().toString());
+            div.add(t);
+        } else if(cmp(m_xml->name(), "STYLE")) {
+            div.add(rawReadStyle(parent));
+        } else if(cmp(m_xml->name(), "GRAM")) {
+            div.add(rawReadGram(parent));
+        } else if(cmp(m_xml->name(), "NOTE")) {
+            div.add(rawReadDiv(parent));
+        }  else {
+            m_xml->skipCurrentElement();
+        }
+    }
+    return div;
+}
 Verse ZefaniaBible::readVerse()
 {
     const int verseID = m_xml->attributes().value("vnumber").toString().toInt() - 1;
@@ -820,7 +1069,6 @@ QString ZefaniaBible::parseBr()
         return "<br />";
     return "";
 }
-
 QString ZefaniaBible::parseGram()
 {
     if(!m_set->displaySettings()->showStrong() && !m_set->displaySettings()->showRMAC()) {
@@ -871,7 +1119,6 @@ QString ZefaniaBible::parseGram()
     }
     return ret;
 }
-
 QString ZefaniaBible::parseSup()
 {
     QString ret;
@@ -904,7 +1151,6 @@ QString ZefaniaBible::parseSup()
     }
     return pre + ret + post;
 }
-
 QString ZefaniaBible::parseXRef()
 {
     if(!m_set->displaySettings()->showRefLinks()) {
@@ -933,7 +1179,6 @@ QString ZefaniaBible::parseXRef()
     }
     return QString();
 }
-
 QString ZefaniaBible::parseDiv()
 {
     QString ret;

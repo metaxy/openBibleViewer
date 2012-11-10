@@ -29,8 +29,10 @@ public:
     void add(const RBlock &rblock);
     
     QMap<quint32, RBlock> children;
+
     quint32 rid() const;
     void setRID(quint32 rid);
+
     RMetaData metaData() const;
     
     

@@ -122,9 +122,20 @@ SET(
     raw/elementaryblock.cpp
     raw/rblock.cpp
     raw/rmetadata.cpp
-    raw/stylefragment.cpp
+    raw/styleblock.cpp
     raw/textfragment.cpp
     raw/verseblock.cpp
+    raw/captionblock.cpp
+    raw/prologblock.cpp
+    raw/xreffragment.cpp
+    raw/remarksblock.cpp
+    raw/mediablock.cpp
+    raw/brfragment.cpp
+    raw/gramblock.cpp
+    raw/supblock.cpp
+    raw/divblock.cpp
+    raw/noteblock.cpp
+
 )
 QT4_AUTOMOC( ${OBVCore_SRCS} )
 

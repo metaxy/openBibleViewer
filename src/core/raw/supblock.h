@@ -11,39 +11,19 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef RMETADATA_H
-#define RMETADATA_H
-#include "src/core/obvcore.h"
+#ifndef SUPBLOCK_H
+#define SUPBLOCK_H
 
-class RMetaData
+#include "src/core/raw/rblock.h"
+
+
+class SupBlock : public RBlock
 {
 public:
-    enum RType {
-        Block,
-        ElementaryBlock,
-        BookBlock,
-        ChapterBlock,
-        VerseBlock,
-        StyleBlock,
-        TextFragment,
-        PrologBlock,
-        CaptionBlock,
-        MediaBlock,
-        XRefFragment,
-        RemarksBlock,
-        BrFragment,
-        GramBlock,
-        SupBlock,
-        NoteBlock,
-        DivBlock
-    };
 
-    RMetaData(quint32 parent, RMetaData::RType t);
+    SupBlock(quint32 id, const RMetaData& data);
 
-    quint32 parentRID;
-    RMetaData::RType type;
 
-    
 };
 
-#endif // RMETADATA_H
+#endif // SUPBLOCK_H

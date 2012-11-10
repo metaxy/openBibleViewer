@@ -11,5 +11,16 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#include "stylefragment.h"
+#ifndef XREFFRAGMENT_H
+#define XREFFRAGMENT_H
 
+#include "src/core/raw/rblock.h"
+
+
+class XRefFragment: public RBlock
+{
+public:
+    XRefFragment(quint32 id, const RMetaData& data);
+};
+
+#endif // XREFFRAGMENT_H

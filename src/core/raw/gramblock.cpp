@@ -11,13 +11,9 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef STYLEFRAGMENT_H
-#define STYLEFRAGMENT_H
-#include "rblock.h"
-class StyleFragment : public RBlock
-{
-public:
-    QString css;
-};
+#include "gramblock.h"
 
-#endif // STYLEFRAGMENT_H
+GramBlock::GramBlock(quint32 id, const RMetaData& data): RBlock(id, data)
+{
+
+}

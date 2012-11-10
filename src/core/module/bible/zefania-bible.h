@@ -36,7 +36,18 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/raw/bookblock.h"
 #include "src/core/raw/chapterblock.h"
 #include "src/core/raw/blockidgen.h"
+#include "src/core/raw/mediablock.h"
+#include "src/core/raw/prologblock.h"
+#include "src/core/raw/remarksblock.h"
+#include "src/core/raw/xreffragment.h"
+#include "src/core/raw/captionblock.h"
 
+#include "src/core/raw/brfragment.h"
+#include "src/core/raw/styleblock.h"
+#include "src/core/raw/gramblock.h"
+#include "src/core/raw/supblock.h"
+#include "src/core/raw/divblock.h"
+#include "src/core/raw/noteblock.h"
 #include "src/core/module/bible/biblemodule.h"
 
 /**
@@ -107,6 +118,19 @@ private:
     BookBlock rawReadBook(quint32 parent);
     ChapterBlock rawReadChapter(quint32 parent);
     VerseBlock rawReadVerse(quint32 parent);
+    PrologBlock rawReadProlog(quint32 parent);
+    CaptionBlock rawReadCaption(quint32 parent);
+    RemarksBlock rawReadRemarks(quint32 parent);
+    XRefFragment rawReadXRef(quint32 parent);
+    MediaBlock rawReadMedia(quint32 parent);
+
+    BrFragment rawReadBr(quint32 parent);
+    StyleBlock rawReadStyle(quint32 parent);
+    GramBlock rawReadGram(quint32 parent);
+    SupBlock rawReadSup(quint32 parent);
+    DivBlock rawReadDiv(quint32 parent);
+    NoteBlock rawReadNote(quint32 parent);
+
     bool cmp(const QStringRef &r, const QString &s);
     void getVersification();
     ModuleSettings *m_set;

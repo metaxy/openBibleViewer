@@ -11,39 +11,30 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef RMETADATA_H
-#define RMETADATA_H
-#include "src/core/obvcore.h"
+#ifndef CAPTIONBLOCK_H
+#define CAPTIONBLOCK_H
 
-class RMetaData
+#include "src/core/raw/rblock.h"
+
+
+class CaptionBlock : public RBlock
 {
 public:
-    enum RType {
-        Block,
-        ElementaryBlock,
-        BookBlock,
-        ChapterBlock,
-        VerseBlock,
-        StyleBlock,
-        TextFragment,
-        PrologBlock,
-        CaptionBlock,
-        MediaBlock,
-        XRefFragment,
-        RemarksBlock,
-        BrFragment,
-        GramBlock,
-        SupBlock,
-        NoteBlock,
-        DivBlock
+    enum CaptionType {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6
     };
 
-    RMetaData(quint32 parent, RMetaData::RType t);
+    CaptionBlock(quint32 id, const RMetaData& data);
 
-    quint32 parentRID;
-    RMetaData::RType type;
+    QString vref;
+    int count;
+    CaptionBlock::CaptionType type;
 
-    
 };
 
-#endif // RMETADATA_H
+#endif // CAPTIONBLOCK_H

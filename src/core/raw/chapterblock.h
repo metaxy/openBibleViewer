@@ -19,6 +19,7 @@ class ChapterBlock : public RBlock
 {
 public:
     ChapterBlock(quint32 id, const RMetaData &data);
+    int chapterNumber;
 };
 
 #endif // CHAPTERBLOCK_H
