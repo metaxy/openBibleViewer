@@ -20,7 +20,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class BrFragment : public RBlock
 {
 public:
+    enum BrType {
+        NewLine,
+        PageBreak
+    };
     BrFragment(quint32 id, const RMetaData& data);
+    BrFragment::BrType type;
+
 
 };
 

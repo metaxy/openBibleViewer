@@ -44,11 +44,6 @@ void TextRange::addVerse(const QList<Verse> &verse)
     }
 }
 
-void TextRange::setTitle(const QString &title)
-{
-    m_title = title;
-}
-
 QList<Verse> TextRange::verseList() const
 {
     return m_verse.values();
@@ -56,10 +51,6 @@ QList<Verse> TextRange::verseList() const
 QMap<int, Verse> TextRange::verseMap() const
 {
     return m_verse;
-}
-QString TextRange::title() const
-{
-    return m_title;
 }
 Verse TextRange::getVerse(const int verseID) const
 {

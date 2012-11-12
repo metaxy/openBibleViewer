@@ -18,14 +18,14 @@ RBlock::RBlock(quint32 rid, const RMetaData &data) : m_rid(rid), m_data(data)
 {
 }
 
-RBlock::RBlock(const RBlock& other) : children(other.children), m_rid(other.rid()), m_data(other.metaData())
+/*RBlock::RBlock(const RBlock& other) : children(other.children), m_rid(other.rid()), m_data(other.metaData())
 {
-}
+}*/
 
-RBlock& RBlock::operator=(const RBlock& other)
+/*RBlock& RBlock::operator=(const RBlock& other)
 {
     return *this;
-}
+}*/
 
 bool RBlock::operator==(const RBlock& other) const
 {

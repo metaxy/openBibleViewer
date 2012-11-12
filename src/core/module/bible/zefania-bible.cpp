@@ -40,7 +40,10 @@ ZefaniaBible::~ZefaniaBible()
     //myDebug() << "clear zefania " << m_moduleName;
     m_versification.clear();
 }
-
+void ZefaniaBible::clearData()
+{
+    //todo: clear data
+}
 int ZefaniaBible::loadBibleData(const int id, const QString &path)
 {
    // DEBUG_FUNC_NAME;
@@ -262,95 +265,7 @@ int ZefaniaBible::readBook(const int id)
     m_xml = NULL;
     return 0;*/
 }
-ZefaniaXmlReader::ZefaniaXmlReader(const QString &fileName, Versification *v11n) :
-    m_fileName(fileName), m_versification(v11n), m_xml(nullptr), m_file(nullptr)
-{
 
-}
-ZefaniaXmlReader::~ZefaniaXmlReader()
-{
-    if(m_xml != nullptr) {
-        delete m_xml;
-        m_xml = nullptr;
-    }
-    if(m_file != nullptr) {
-        delete m_file;
-        m_file = nullptr;
-    }
-}
-
-void ZefaniaXmlReader::genStrongsPrefix()
-{
-    foreach(int bookID, m_versification->bookIDs()) {
-        QString add;
-        if(m_versification->bookCount() == 66) {
-            if(bookID < 39) {
-                add = "H";
-            } else {
-                add = "G";
-            }
-        } /*else if(m_set->versificationName.endsWith("-nt")) {
-            add = "G";
-        } else if(m_set->versificationName.endsWith("-ot")) {
-            add = "H";
-        } */else if(m_versification->bookCount() == 27) {
-            add = "G";
-        } else if(m_versification->bookCount() == 39) {
-            add = "H";
-        }
-        m_strongsPrefix[bookID] = add;
-    }
-}
-
-MetaInfo ZefaniaXmlReader::readMetaInfo()
-{
-    MetaInfo ret;
-    create();
-    if(m_xml->readNextStartElement()) {
-        if(cmp(m_xml->name(), "XMLBIBLE")) {
-            if(m_xml->attributes().value("type") == "x-bible") {
-                ret.setContent(ModuleTools::BibleContent);
-                ret.setDefaultModule(ModuleTools::DefaultBibleModule);
-            }
-            while(m_xml->readNextStartElement()) {
-                if(cmp(m_xml->name(), "INFORMATION")) {
-                    ret = readMetaInfo(ret);
-                    break;
-                } else {
-                    m_xml->skipCurrentElement();
-                }
-            }
-        }
-    }
-    destroy();
-    return ret;
-}
-void ZefaniaXmlReader::create()
-{
-    if(m_xml != nullptr) {
-        delete m_xml;
-        m_xml = nullptr;
-    }
-    if(m_xml != nullptr) {
-        m_file = new QFile(m_fileName);
-    }
-    m_file->open(QIODevice::ReadOnly | QIODevice::Text);
-    m_xml = new QXmlStreamReader(m_file);
-}
-void ZefaniaXmlReader::destroy()
-{
-    if(m_xml != nullptr) {
-        delete m_xml;
-        m_xml = nullptr;
-    }
-    m_file->close();
-}
-
-MetaInfo ZefaniaBible::readInfo(const QString &fileName)
-{
-    ZefaniaXmlReader reader(fileName, nullptr);
-    return reader.readMetaInfo();
-}
 
 int ZefaniaBible::moduleID() const
 {
@@ -598,54 +513,7 @@ std::pair<int, int> ZefaniaBible::minMaxVerse(int bookID, int chapterID)
     }
     return chapter;
 }*/
-BookBlock ZefaniaXmlReader::readBookBlock(const int bookID)
-{
-    //DEBUG_FUNC_NAME;
-    if(m_xml != NULL) {
-        delete m_xml;
-        m_xml = NULL;
-    }
-    QString path = "m_modulePath";
-    /*const QString cacheFile = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath) + "/" + QString::number(id) + ".xml";
-    QFileInfo info(cacheFile);
 
-    if(info.exists()) {
-        path = cacheFile;
-    } else {
-        path = m_modulePath;
-    }*/
-    //myDebug() << path;
-
-    genStrongsPrefix();
-
-    QFile file(path);
-    file.open(QFile::ReadOnly | QFile::Text);
-
-    m_xml = new QXmlStreamReader(&file);
-    if(m_xml->readNextStartElement()) {
-        if(cmp(m_xml->name(), "XMLBIBLE")) {
-            while(m_xml->readNextStartElement()) {
-                if(cmp(m_xml->name(), "BIBLEBOOK") || m_xml->name() == "b") {
-                    if(m_xml->attributes().value("bnumber").toString().toInt() == bookID + 1) {
-                        BookBlock block = rawReadBook(0);
-                        delete m_xml;
-                        m_xml = NULL;
-                        return block;
-                    } else {
-                        m_xml->skipCurrentElement();
-                    }
-                } else {
-                    m_xml->skipCurrentElement();
-                }
-            }
-        } else {
-            myWarning() << "not a file";
-        }
-    }
-    file.close();
-    delete m_xml;
-    m_xml = NULL;
-}
 /*
 Verse ZefaniaBible::readVerse()
 {
@@ -884,7 +752,156 @@ Verse ZefaniaBible::readVerse()
     }
     return ret;
 }*/
+ZefaniaXmlReader::ZefaniaXmlReader(const QString &fileName, QSharedPointer<Versification> v11n) :
+    m_fileName(fileName), m_versification(v11n), m_xml(nullptr), m_file(nullptr)
+{
+}
+ZefaniaXmlReader::ZefaniaXmlReader(const QString &fileName) :
+    m_fileName(fileName), m_xml(nullptr), m_file(nullptr)
+{
+}
+ZefaniaXmlReader::~ZefaniaXmlReader()
+{
+    if(m_xml != nullptr) {
+        delete m_xml;
+        m_xml = nullptr;
+    }
+    if(m_file != nullptr) {
+        delete m_file;
+        m_file = nullptr;
+    }
+}
 
+void ZefaniaXmlReader::genStrongsPrefix()
+{
+    /*foreach(int bookID, m_versification->bookIDs()) {
+        QString add;
+        if(m_versification->bookCount() == 66) {
+            if(bookID < 39) {
+                add = "H";
+            } else {
+                add = "G";
+            }
+        } else if(m_set->versificationName.endsWith("-nt")) {
+            add = "G";
+        } else if(m_set->versificationName.endsWith("-ot")) {
+            add = "H";
+        } else if(m_versification->bookCount() == 27) {
+            add = "G";
+        } else if(m_versification->bookCount() == 39) {
+            add = "H";
+        }
+        m_strongsPrefix[bookID] = add;
+    }*/
+}
+
+MetaInfo ZefaniaXmlReader::readMetaInfo()
+{
+    MetaInfo ret;
+    create();
+    if(m_xml->readNextStartElement()) {
+        if(cmp(m_xml->name(), "XMLBIBLE")) {
+            if(m_xml->attributes().value("type") == "x-bible") {
+                ret.setContent(ModuleTools::BibleContent);
+                ret.setDefaultModule(ModuleTools::DefaultBibleModule);
+            }
+            while(m_xml->readNextStartElement()) {
+                if(cmp(m_xml->name(), "INFORMATION")) {
+                    ret = readMetaInfo(ret);
+                    break;
+                } else {
+                    m_xml->skipCurrentElement();
+                }
+            }
+        }
+    }
+    destroy();
+    return ret;
+}
+void ZefaniaXmlReader::create()
+{
+    if(m_xml != nullptr) {
+        delete m_xml;
+        m_xml = nullptr;
+    }
+    if(m_file == nullptr) {
+        m_file = new QFile(m_fileName);
+    }
+    m_file->open(QIODevice::ReadOnly | QIODevice::Text);
+    m_xml = new QXmlStreamReader(m_file);
+}
+void ZefaniaXmlReader::destroy()
+{
+    if(m_xml != nullptr) {
+        delete m_xml;
+        m_xml = nullptr;
+    }
+    if(m_file != nullptr) {
+        m_file->close();
+    }
+
+}
+BookBlock ZefaniaXmlReader::readBookBlock(const int bookID)
+{
+    genStrongsPrefix();
+    create();
+    if(m_xml->readNextStartElement()) {
+        if(cmp(m_xml->name(), "XMLBIBLE")) {
+            while(m_xml->readNextStartElement()) {
+                if(cmp(m_xml->name(), "BIBLEBOOK") || m_xml->name() == "b") {
+                    if(m_xml->attributes().value("bnumber").toString().toInt() == bookID + 1) {
+                        BookBlock block = rawReadBook(0);
+                        destroy();
+                        return block;
+                    } else {
+                        m_xml->skipCurrentElement();
+                    }
+                } else {
+                    m_xml->skipCurrentElement();
+                }
+            }
+        }
+    }
+    destroy();
+}
+ChapterBlock ZefaniaXmlReader::readChapterBlock(const int bookID, const int chapterID)
+{
+    genStrongsPrefix();
+    create();
+    if(m_xml->readNextStartElement()) {
+        if(cmp(m_xml->name(), "XMLBIBLE")) {
+            while(m_xml->readNextStartElement()) {
+                if(cmp(m_xml->name(), "BIBLEBOOK") || m_xml->name() == "b") {
+                    if(m_xml->attributes().value("bnumber").toString().toInt() == bookID + 1) {
+                        while(m_xml->readNextStartElement()) {
+                            if(cmp(m_xml->name(), "CHAPTER") || m_xml->name() == "c") {
+                                if(m_xml->attributes().value("cnumber").toString().toInt() == chapterID + 1) {
+                                    ChapterBlock chapter = rawReadChapter(0);
+                                    destroy();
+                                    return chapter;
+                                } else {
+                                    m_xml->skipCurrentElement();
+                                }
+                            } else {
+                                m_xml->skipCurrentElement();
+                            }
+                        }
+                    } else {
+                        m_xml->skipCurrentElement();
+                    }
+                } else {
+                    m_xml->skipCurrentElement();
+                }
+            }
+        }
+    }
+    destroy();
+}
+MetaInfo ZefaniaBible::readInfo(const QString &fileName)
+{
+    ZefaniaXmlReader reader(fileName);
+    return reader.readMetaInfo();
+}
 MetaInfo ZefaniaXmlReader::readMetaInfo(MetaInfo ret)
 {
     while(m_xml->readNextStartElement()) {
@@ -922,10 +939,7 @@ MetaInfo ZefaniaXmlReader::readMetaInfo(MetaInfo ret)
     }
     return ret;
 }
-void ZefaniaBible::clearData()
-{
-    //todo: clear data
-}
+
 
 bool ZefaniaXmlReader::cmp(const QStringRef &r, const QString &s)
 {

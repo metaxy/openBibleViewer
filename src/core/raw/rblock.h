@@ -23,12 +23,12 @@ class RBlock
 public:
     
     RBlock(quint32 id, const RMetaData &data);
-    RBlock(const RBlock& other);
-    virtual RBlock& operator=(const RBlock& other);
+   /* RBlock(const RBlock& other);
+    virtual RBlock& operator=(const RBlock& other);*/
     virtual bool operator==(const RBlock& other) const;
-    void add(const RBlock &rblock);
+    void add(RBlock *rblock);
     
-    QMap<quint32, RBlock> children;
+    QMap<quint32, RBlock*> children;
 
     quint32 rid() const;
     void setRID(quint32 rid);

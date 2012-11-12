@@ -109,15 +109,16 @@ private:
 class ZefaniaXmlReader
 {
 public:
-    ZefaniaXmlReader(const QString &fileName,Versification *v11n);
+    ZefaniaXmlReader(const QString &fileName,QSharedPointer<Versification> v11n);
+    ZefaniaXmlReader(const QString &fileName);
     ~ZefaniaXmlReader();
     MetaInfo readMetaInfo();
     static bool cmp(const QStringRef &r, const QString &s);
-
+    BookBlock readBookBlock(const int bookID);
+    ChapterBlock readChapterBlock(const int bookID, const int chapterID);
 private:
     BlockIDGen m_idGen;
-    BookBlock readBookBlock(const int bookID);
-    ChapterBlock readChapterBlock(const int chapterID);
+
 
     MetaInfo readMetaInfo(MetaInfo ret);
 
@@ -146,7 +147,7 @@ private:
     QString m_fileName;
 
     bool m_rightToLeft;
-    Versification *m_versification;
+    QSharedPointer<Versification> m_versification;
 
 
     void create();

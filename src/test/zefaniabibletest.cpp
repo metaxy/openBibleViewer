@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QDebug>
 #include "src/core/moduletools.h"
-
+#include "src/core/raw/parser/rawtohtmlparser.h"
 void ZefaniaBibleTests::init()
 {
     m_zef = new ZefaniaBible();
@@ -27,6 +27,11 @@ void ZefaniaBibleTests::init()
     m_mSet->modulePath = "/home/paul/bible/zefania/de/elberfelder1905-strongs.xml";
     m_mSet->setDisplaySettings(root->displaySettings());
     m_zef->setSettings(m_settings);
+
+    TextFragment t(0,RMetaData(0,RMetaData::TextFragment));
+    t.text = "asd";
+    RBlock *a = &t;
+    qDebug() << ((TextFragment*)a)->text;
 }
 void ZefaniaBibleTests::testLoad()
 {
@@ -37,7 +42,7 @@ void ZefaniaBibleTests::testReadRange()
     if(!m_zef->loaded()) {
         m_zef->loadBibleData(m_mSet->moduleID, m_mSet->modulePath);
     }
-    QBENCHMARK_ONCE(m_zef->rawTextRange(0,0,0,10));
+  //  QBENCHMARK_ONCE(m_zef->rawTextRange(0,0,0,10));
     //m_zef->rawTextRange(0,0,0,10);
 }
 void ZefaniaBibleTests::testRawReadBook()
@@ -45,8 +50,21 @@ void ZefaniaBibleTests::testRawReadBook()
     if(!m_zef->loaded()) {
         m_zef->loadBibleData(m_mSet->moduleID, m_mSet->modulePath);
     }
+    ZefaniaXmlReader reader(m_mSet->modulePath, m_zef->versification());
    //m_zef->readBookBlock(0);
-    QBENCHMARK_ONCE(m_zef->readBookBlock(0));
+    QBENCHMARK_ONCE(reader.readBookBlock(45));
+
+}
+void ZefaniaBibleTests::testRawReadChapter()
+{
+    if(!m_zef->loaded()) {
+        m_zef->loadBibleData(m_mSet->moduleID, m_mSet->modulePath);
+    }
+    ZefaniaXmlReader reader(m_mSet->modulePath, m_zef->versification());
+   //m_zef->readBookBlock(0);
+    RawToHtmlParser parser;
+    ChapterBlock block = reader.readChapterBlock(0,0);
+    qDebug() << parser.parseChapter(&block);
 
 }
 void ZefaniaBibleTests::cleanupTestCase()

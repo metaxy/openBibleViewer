@@ -25,6 +25,7 @@ private slots:
     void testLoad();
     void testReadRange();
     void testRawReadBook();
+     void testRawReadChapter();
     void cleanupTestCase();
   
 private:

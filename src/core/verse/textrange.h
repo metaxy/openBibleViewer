@@ -17,6 +17,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QList>
 #include <QtCore/QMap>
 #include "src/core/verse/verse.h"
+/**
+ * @brief Eigenlich its ein Kapitel mit ein paar Versen.
+ */
 class TextRange
 {
 public:
@@ -30,10 +33,8 @@ public:
     QString join(const QString &seperator) const;
     void addVerse(const Verse &verse);
     void addVerse(const QList<Verse> &verse);
-    void setTitle(const QString &title);
     QList<Verse> verseList() const;
     QMap<int, Verse> verseMap() const;
-    QString title() const;
 
     Verse getVerse(const int verseID) const;
     bool hasVerse(const int verseID) const;
@@ -54,7 +55,6 @@ public:
 
 private:
     QMap<int, Verse> m_verse;
-    QString m_title;
 
     int m_bookID;
     int m_chapterID;
