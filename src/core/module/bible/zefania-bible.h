@@ -53,6 +53,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 /**
  * ZefaniaBible represents a zefaniaxml(bible) module.
  */
+//class ZefaniaXmlReader;
 class ZefaniaBible : public BibleModule
 {
 
@@ -62,7 +63,7 @@ public:
     int readBook(const int id);
     int loadBibleData(const int id, const QString &path);
 
-    MetaInfo readInfo(QFile &file);
+
     /**
       Read the module file and returns the bible name
       \param fileName The fileName of the module.
@@ -86,36 +87,16 @@ public:
 
     void clearData();
 
-    BookBlock readBookBlock(const int bookID);
+
 private:
-    QDomElement* format(QDomElement* e);
+    MetaInfo readInfo(QFile &file);
     QString indexPath() const;
 
-    int m_bookID;
     int m_moduleID;
     QString m_modulePath;
     QString m_moduleName;
     QString m_uid;
-    VerseBook m_book;
-
-    QXmlStreamReader *m_xml;
-
-    VerseBook readBook();
-    Chapter readChapter();
-    Verse readVerse();
-    MetaInfo readMetaInfo(MetaInfo ret);
-
-    QString parseStyle();
-    QString parseNote();
-    QString parseBr();
-    QString parseGram();
-    QString parseSup();
-    QString parseXRef();
-    QString parseDiv();
     
-    //Raw
-
-    bool cmp(const QStringRef &r, const QString &s);
 
     void getVersification();
     ModuleSettings *m_set;
@@ -123,18 +104,25 @@ private:
     QString getPath();
     void generateCache(QList<std::pair<qint64, qint64> > list);
 
-    bool m_rightToLeft;
 };
 
 class ZefaniaXmlReader
 {
 public:
-    ZefaniaXmlReader();
+    ZefaniaXmlReader(const QString &fileName,Versification *v11n);
+    ~ZefaniaXmlReader();
+    MetaInfo readMetaInfo();
+    static bool cmp(const QStringRef &r, const QString &s);
 
-    void setFileName(const QString &fileName);
-
+private:
     BlockIDGen m_idGen;
+    BookBlock readBookBlock(const int bookID);
+    ChapterBlock readChapterBlock(const int chapterID);
+
+    MetaInfo readMetaInfo(MetaInfo ret);
+
     BookBlock rawReadBook(quint32 parent);
+
     ChapterBlock rawReadChapter(quint32 parent);
     VerseBlock rawReadVerse(quint32 parent);
     PrologBlock rawReadProlog(quint32 parent);
@@ -150,15 +138,19 @@ public:
     DivBlock rawReadDiv(quint32 parent);
     NoteBlock rawReadNote(quint32 parent);
 
-    bool cmp(const QStringRef &r, const QString &s);
-
-    QMap<int,QString> m_strongsPrefix;
+    QMap<int, QString> m_strongsPrefix;
     void genStrongsPrefix();
 
     QXmlStreamReader *m_xml;
-
+    QFile *m_file;
+    QString m_fileName;
 
     bool m_rightToLeft;
+    Versification *m_versification;
+
+
+    void create();
+    void destroy();
 
 };
 

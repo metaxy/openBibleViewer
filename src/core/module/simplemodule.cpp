@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "simplemodule.h"
 
-SimpleModule::SimpleModule()
+SimpleModule::SimpleModule() : m_settings(nullptr), m_loaded(false)
 {
 }
 void SimpleModule::setSettings(Settings *settings)

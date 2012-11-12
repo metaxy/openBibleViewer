@@ -14,12 +14,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef BLOCKIDGEN_H
 #define BLOCKIDGEN_H
 #include "src/core/obvcore.h"
+#include <QtCore/QMutex>
 class BlockIDGen
 {
 public:
     BlockIDGen();
     quint32 counter;
     quint32 next();
+private:
+    QMutex m_mutex;
     
 };
 

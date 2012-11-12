@@ -20,6 +20,9 @@ BlockIDGen::BlockIDGen() : counter(0)
 
 quint32 BlockIDGen::next()
 {
-    return ++counter;
+    m_mutex.lock();
+    ++counter;
+    m_mutex.unlock();
+    return counter;
 }
 
