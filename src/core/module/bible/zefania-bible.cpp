@@ -601,7 +601,7 @@ BookBlock ZefaniaBible::readBookBlock(const int bookID)
     if(m_xml->readNextStartElement()) {
         if(cmp(m_xml->name(), "XMLBIBLE")) {
             while(m_xml->readNextStartElement()) {
-                if(cmp(m_xml->name(), "BIBLEBOOK")) {
+                if(cmp(m_xml->name(), "BIBLEBOOK") || m_xml->name() == "b") {
                     if(m_xml->attributes().value("bnumber").toString().toInt() == bookID + 1) {
                         BookBlock block = rawReadBook(0);
                         delete m_xml;
@@ -631,7 +631,7 @@ BookBlock ZefaniaBible::rawReadBook(quint32 parent)
     quint32 id = m_idGen.next();
     BookBlock book(id, RMetaData(parent, RMetaData::BookBlock));
     while(m_xml->readNextStartElement()) {
-        if(cmp(m_xml->name(), "CHAPTER")) {
+        if(cmp(m_xml->name(), "CHAPTER") || m_xml->name() == "c") {
             book.add(rawReadChapter(id));
         } else {
             m_xml->skipCurrentElement();
@@ -710,7 +710,7 @@ VerseBlock ZefaniaBible::rawReadVerse(quint32 parent)
             verse.add(rawReadBr(parent));
         } else if(cmp(m_xml->name(), "DIV")) {
            verse.add(rawReadDiv(parent));
-        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == QLatin1String("gr")) {
+        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == QLatin1String("gr") || m_xml->name() == "g") {
            verse.add(rawReadGram(parent));
         } else if(cmp(m_xml->name(), "SUP")) {
             verse.add(rawReadSup(parent));
@@ -738,7 +738,7 @@ PrologBlock ZefaniaBible::rawReadProlog(quint32 parent)
             prolog.add(rawReadStyle(parent));
         } else if(cmp(m_xml->name(), "BR")) {
             prolog.add(rawReadBr(parent));
-        }  else if(cmp(m_xml->name(), "GRAM")) {
+        }  else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == QLatin1String("gr") || m_xml->name() == "g") {
             prolog.add(rawReadGram(parent));
         }   else if(cmp(m_xml->name(), "XREF")) {
             prolog.add(rawReadXRef(parent));
@@ -764,7 +764,7 @@ NoteBlock ZefaniaBible::rawReadNote(quint32 parent)
             note.add(rawReadStyle(parent));
         } else if(cmp(m_xml->name(), "BR")) {
             note.add(rawReadBr(parent));
-        }  else if(cmp(m_xml->name(), "GRAM")) {
+        }  else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == QLatin1String("gr") || m_xml->name() == "g") {
             note.add(rawReadGram(parent));
         }   else if(cmp(m_xml->name(), "XREF")) {
             note.add(rawReadXRef(parent));
@@ -791,7 +791,7 @@ CaptionBlock ZefaniaBible::rawReadCaption(quint32 parent)
             caption.add(rawReadStyle(parent));
         } else if(cmp(m_xml->name(), "BR")) {
             caption.add(rawReadBr(parent));
-        } else if(cmp(m_xml->name(), "GRAM")) {
+        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == QLatin1String("gr") || m_xml->name() == "g") {
             caption.add(rawReadGram(parent));
         } else if(cmp(m_xml->name(), "XREF")) {
             caption.add(rawReadXRef(parent));
@@ -818,7 +818,7 @@ RemarksBlock ZefaniaBible::rawReadRemarks(quint32 parent)
             remarks.add(rawReadStyle(parent));
         } else if(cmp(m_xml->name(), "BR")) {
             remarks.add(rawReadBr(parent));
-        } else if(cmp(m_xml->name(), "GRAM")) {
+        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == QLatin1String("gr") || m_xml->name() == "g") {
             remarks.add(rawReadGram(parent));
         } else if(cmp(m_xml->name(), "XREF")) {
             remarks.add(rawReadXRef(parent));
@@ -835,7 +835,9 @@ XRefFragment ZefaniaBible::rawReadXRef(quint32 parent)
 {
     quint32 id = m_idGen.next();
     XRefFragment xref(id, RMetaData(parent, RMetaData::XRefFragment));
-
+    xref.aix = m_xml->attributes().value("aix").toString();
+    xref.fscope = m_xml->attributes().value("fscope").toString();
+    xref.vef = m_xml->attributes().value("vef").toString().toInt();
     while(m_xml->readNextStartElement()) {
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             TextFragment t(m_idGen.next(), RMetaData(id, RMetaData::TextFragment));
@@ -875,7 +877,9 @@ StyleBlock ZefaniaBible::rawReadStyle(quint32 parent)
 {
     quint32 id = m_idGen.next();
     StyleBlock style(id, RMetaData(parent, RMetaData::StyleBlock));
-
+    style.css = m_xml->attributes().value("css").toString();
+    style.fs = m_xml->attributes().value("fs").toString();
+    style.id = m_xml->attributes().value("id").toString();
     while(m_xml->readNextStartElement()) {
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             TextFragment t(m_idGen.next(), RMetaData(id, RMetaData::TextFragment));
@@ -883,7 +887,7 @@ StyleBlock ZefaniaBible::rawReadStyle(quint32 parent)
             style.add(t);
         } else if(cmp(m_xml->name(), "STYLE")) {
             style.add(rawReadStyle(parent));
-        } else if(cmp(m_xml->name(), "GRAM")) {
+        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == QLatin1String("gr") || m_xml->name() == "g") {
             style.add(rawReadGram(parent));
         } else if(cmp(m_xml->name(), "SUP")) {
             style.add(rawReadSup(parent));
@@ -898,6 +902,8 @@ GramBlock ZefaniaBible::rawReadGram(quint32 parent)
 {
     quint32 id = m_idGen.next();
     GramBlock gram(id, RMetaData(parent, RMetaData::GramBlock));
+    gram.rmac = m_xml->attributes().value("rmac").toString();
+    gram.strong = m_xml->attributes().value("str").toString();
 
     while(m_xml->readNextStartElement()) {
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
@@ -908,7 +914,7 @@ GramBlock ZefaniaBible::rawReadGram(quint32 parent)
             gram.add(rawReadStyle(parent));
         } else if(cmp(m_xml->name(), "BR")) {
             gram.add(rawReadBr(parent));
-        } else if(cmp(m_xml->name(), "GRAM")) {
+        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == QLatin1String("gr") || m_xml->name() == "g") {
             gram.add(rawReadGram(parent));
         } else if(cmp(m_xml->name(), "SUP")) {
             gram.add(rawReadSup(parent));

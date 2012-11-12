@@ -22,6 +22,9 @@ class GramBlock : public RBlock
 public:
 
     GramBlock(quint32 id, const RMetaData& data);
+
+    QString rmac;
+    QString strong;
 };
 
 #endif // GRAMBLOCK_H

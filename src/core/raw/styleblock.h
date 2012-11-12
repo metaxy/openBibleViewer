@@ -18,7 +18,10 @@ class StyleBlock : public RBlock
 {
 public:
     QString css;
+    QString fs;
+    QString id;
     StyleBlock(quint32 id, const RMetaData& data);
+
 
 };
 

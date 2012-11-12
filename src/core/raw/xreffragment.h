@@ -21,6 +21,9 @@ class XRefFragment: public RBlock
 {
 public:
     XRefFragment(quint32 id, const RMetaData& data);
+    QString aix;
+    QString fscope;
+    int vef;
 };
 
 #endif // XREFFRAGMENT_H

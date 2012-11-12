@@ -114,6 +114,25 @@ private:
     QString parseDiv();
     
     //Raw
+
+    bool cmp(const QStringRef &r, const QString &s);
+
+    void getVersification();
+    ModuleSettings *m_set;
+
+    QString getPath();
+    void generateCache(QList<std::pair<qint64, qint64> > list);
+
+    bool m_rightToLeft;
+};
+
+class ZefaniaXmlReader
+{
+public:
+    ZefaniaXmlReader();
+
+    void setFileName(const QString &fileName);
+
     BlockIDGen m_idGen;
     BookBlock rawReadBook(quint32 parent);
     ChapterBlock rawReadChapter(quint32 parent);
@@ -132,16 +151,15 @@ private:
     NoteBlock rawReadNote(quint32 parent);
 
     bool cmp(const QStringRef &r, const QString &s);
-    void getVersification();
-    ModuleSettings *m_set;
 
-    QString getPath();
-    void cache(const VerseBook &b);
-    void generateCache(QList<std::pair<qint64, qint64> > list);
     QMap<int,QString> m_strongsPrefix;
     void genStrongsPrefix();
 
+    QXmlStreamReader *m_xml;
+
+
     bool m_rightToLeft;
+
 };
 
 #endif // ZEFANIABIBLE_H
