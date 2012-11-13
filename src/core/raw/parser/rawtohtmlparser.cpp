@@ -1,27 +1,32 @@
 #include "rawtohtmlparser.h"
 #include <typeinfo>
 #include "src/core/dbghelper.h"
+#include "src/core/raw/rblock.h"
 RawToHtmlParser::RawToHtmlParser()
 {
 }
 QString RawToHtmlParser::parseBook(BookBlock *b)
 {
-     DEBUG_FUNC_NAME;
     QString ret;
+    const QString pre = "<div type='book' bookNumber='" + QString::number(b->bookNumber) + ">";
+    const QString post = "</div>";
     foreach(RBlock *block, b->children) {
         ret += parse(block);
     }
-    return ret;
+    return pre+ret+post;
 }
 
 QString RawToHtmlParser::parseBr(BrFragment *b)
 {
+    if(b->type == BrFragment::NewLine)
+        return "<br />";
+    if(b->type == BrFragment::PageBreak)
+        return "<div class=\"pageBreak\"></div>";
     return "<br />";
 }
 
 QString RawToHtmlParser::parseCaption(CaptionBlock *b)
 {
-    DEBUG_FUNC_NAME;
     QString ret;
     foreach(RBlock *block, b->children) {
         ret += parse(block);
@@ -30,7 +35,6 @@ QString RawToHtmlParser::parseCaption(CaptionBlock *b)
 }
 QString RawToHtmlParser::parseChapter(ChapterBlock *b)
 {
-     DEBUG_FUNC_NAME;
     QString ret;
     foreach(RBlock *block, b->children) {
         ret += parse(block);
@@ -50,10 +54,12 @@ QString RawToHtmlParser::parseDiv(DivBlock *b)
 QString RawToHtmlParser::parseGram(GramBlock *b)
 {
     QString ret;
+    const QString pre = "<a href='strong://"+b->strong+"'>";
+    const QString post = "</a>";
     foreach(RBlock *block, b->children) {
         ret += parse(block);
     }
-    return ret;
+    return pre + ret + post ;
 }
 
 QString RawToHtmlParser::parseNote(NoteBlock *b)
@@ -103,24 +109,23 @@ QString RawToHtmlParser::parseSup(SupBlock *b)
 
 QString RawToHtmlParser::parseText(TextFragment *b)
 {
-     DEBUG_FUNC_NAME;
     return b->text;
 }
 
 QString RawToHtmlParser::parseVerse(VerseBlock *b)
 {
-    DEBUG_FUNC_NAME;
-    if(!b) return "";
     QString ret;
+    const QString pre = "<div type='verse' verseNumber='"+QString::number(b->verseNumber)+"'>";
+    const QString post = "</div>";
     foreach(RBlock *block, b->children) {
         ret += parse(block);
     }
-    return ret;
+    return pre+ret+post;
 }
 
 QString RawToHtmlParser::parseXRef(XRefFragment *b)
 {
-    return "";
+    return b->aix;
 }
 QString RawToHtmlParser::parseMedia(MediaBlock *b)
 {
@@ -132,7 +137,6 @@ QString RawToHtmlParser::parseMedia(MediaBlock *b)
 }
 QString RawToHtmlParser::parse(RBlock *block)
 {
-    myDebug() << block->metaData().type << typeid(block).name();
     switch(block->metaData().type) {
         case RMetaData::BookBlock:
             return parseBook((BookBlock*)block);

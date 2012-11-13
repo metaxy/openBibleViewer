@@ -41,7 +41,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/raw/remarksblock.h"
 #include "src/core/raw/xreffragment.h"
 #include "src/core/raw/captionblock.h"
-
+#include "src/core/raw/textfragment.h"
 #include "src/core/raw/brfragment.h"
 #include "src/core/raw/styleblock.h"
 #include "src/core/raw/gramblock.h"
@@ -136,7 +136,8 @@ private:
     SupBlock* rawReadSup(quint32 parent);
     DivBlock* rawReadDiv(quint32 parent);
     NoteBlock* rawReadNote(quint32 parent);
-
+    TextFragment* rawReadText(quint32 parent);
+    TextFragment* rawReadChildText(quint32 parent);
     QMap<int, QString> m_strongsPrefix;
     void genStrongsPrefix();
 

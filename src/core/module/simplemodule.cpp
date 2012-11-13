@@ -16,6 +16,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 SimpleModule::SimpleModule() : m_settings(nullptr), m_loaded(false)
 {
 }
+SimpleModule::~SimpleModule()
+{
+
+}
+
 void SimpleModule::setSettings(Settings *settings)
 {
     m_settings = settings;

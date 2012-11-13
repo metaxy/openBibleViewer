@@ -21,7 +21,7 @@ class ZefaniaBibleTests : public QObject
 {
     Q_OBJECT
 private slots:
-    void init();
+    void initTestCase();
     void testLoad();
     void testReadRange();
     void testRawReadBook();

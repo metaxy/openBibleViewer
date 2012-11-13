@@ -19,6 +19,7 @@ class BlockTools
 {
 public:
     static RBlock *create(quint32 id, quint32 parentID, RMetaData::RType type);
+
 };
 
 #endif // BLOCKTOOLS_H

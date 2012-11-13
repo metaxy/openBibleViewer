@@ -35,7 +35,7 @@ QString RtfTools::fromRVF(const QByteArray &data)
 
     QString ret;
     myDebug() << data;
-    bool show = false;
+    //bool show = false;
     for (int i = 0; i < data.size()-1; ++i) {
         //myDebug() << i << (int) data.at(i);
         if(data.at(i) == 0) {

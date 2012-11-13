@@ -336,7 +336,7 @@ void BibleForm::save()
 {
     QStringList urls;
     QStringList points;
-    if(m_verseTable > 0) {
+    if(m_verseTable != nullptr) {
         QHashIterator<int, TextRangesVerseModule *> i(m_verseTable->m_modules);
         while(i.hasNext()) {
             i.next();

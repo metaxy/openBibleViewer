@@ -19,6 +19,7 @@ class SimpleModule
 {
 public:
     SimpleModule();
+    virtual ~SimpleModule();
     void setSettings(Settings *settings);
     virtual MetaInfo readInfo(const QString &name) = 0;
     virtual bool loaded() const;

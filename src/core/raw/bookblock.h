@@ -20,6 +20,7 @@ class BookBlock : public RBlock
     
 public:
     BookBlock(quint32 id, const RMetaData &data);
+    int bookNumber;
 };
 
 #endif // BOOKBLOCK_H
