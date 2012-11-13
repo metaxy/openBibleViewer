@@ -40,7 +40,6 @@ public:
     virtual int loadBibleData(const int moduleID, const QString &path) = 0;
 
     virtual TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse) = 0;
-    virtual std::pair<int, int> minMaxVerse(int bookID, int chapterID) = 0;
 
     virtual void search(const SearchQuery &query, SearchResult *res) const = 0;
     virtual bool hasIndex() const = 0;

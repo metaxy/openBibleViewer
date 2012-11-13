@@ -207,10 +207,6 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         }
         //myDebug() << "current chapter = " << chapterID;
     }
-    //myDebug() << "bookID = " << bookID << " chapterID " << chapterID;
-    std::pair<int, int> minMax = m_bibleModule->minMaxVerse(bookID, chapterID);
-    //myDebug() << "min = " << minMax.first << " max = " << minMax.second;
-
     int startVerse = 0;
     int endVerse = 0;
     //myDebug() << range.startVerse() << range.endVerse();
@@ -218,27 +214,25 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     if(range.startVerse() == RangeEnum::VerseByID) {
         startVerse = range.startVerseID();
     } else if(range.startVerse() == RangeEnum::FirstVerse) {
-        startVerse = minMax.first;
+        startVerse = -1;
     } else if(range.startVerse() == RangeEnum::LastVerse) {
-        startVerse = minMax.second;
+        myWarning() << "why should we ever need something like that?";
     }
 
     if(range.endVerse() == RangeEnum::VerseByID) {
         endVerse = range.endVerseID();
     } else if(range.endVerse() == RangeEnum::FirstVerse) {
-        endVerse = minMax.first;
+        myWarning() << "no first verse for end verse";
     } else if(range.endVerse() == RangeEnum::LastVerse) {
-        endVerse = minMax.second;
+        endVerse = -1;
     }
-    if(endVerse == -1)
-        endVerse = startVerse;
 
     //todo: hack for biblequote
-    if(moduleType() == ModuleTools::BibleQuoteModule)  {
+    /*if(moduleType() == ModuleTools::BibleQuoteModule)  {
         endVerse++;
         if(startVerse != 0)
             startVerse++;
-    }
+    }**/
 
     //myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
     //myDebug() << "selected verse = " << range.selectedVerse();
@@ -423,9 +417,6 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
 
 
         }
-
-
-
     } else {
         const QString pre("<span class='verseEntry' verseID='");
         const QString pre2("' chapterID='" + QString::number(chapterID) +

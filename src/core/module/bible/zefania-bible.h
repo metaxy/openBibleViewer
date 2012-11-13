@@ -118,8 +118,25 @@ public:
     ChapterBlock readChapterBlock(const int bookID, const int chapterID);
 private:
     BlockIDGen m_idGen;
-
-
+    enum TagName {
+        Biblebook,
+        Br,
+        Caption,
+        Chapter,
+        Gram,
+        Information,
+        Media,
+        Note,
+        Prolog,
+        Remark,
+        Style,
+        Sup,
+        Vers,
+        XmlBible,
+        XRef
+        
+    };
+    bool cmp(const QStringRef &r, const TagName n);
     MetaInfo readMetaInfo(MetaInfo ret);
 
     BookBlock* rawReadBook(quint32 parent);
