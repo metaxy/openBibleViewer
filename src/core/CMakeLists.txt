@@ -138,6 +138,8 @@ SET(
 
     raw/parser/rawtohtmlparser.cpp
     raw/parser/rawtotextrangeparser.cpp
+
+    raw/blocktools.cpp
 )
 QT4_AUTOMOC( ${OBVCore_SRCS} )
 

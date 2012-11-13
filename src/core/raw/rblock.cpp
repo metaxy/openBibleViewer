@@ -26,6 +26,13 @@ RBlock::RBlock(quint32 rid, const RMetaData &data) : m_rid(rid), m_data(data)
 {
     return *this;
 }*/
+RBlock::~RBlock()
+{
+    foreach(RBlock *block, children) {
+        delete block;
+    }
+    children.clear();
+}
 
 bool RBlock::operator==(const RBlock& other) const
 {
@@ -41,7 +48,7 @@ RMetaData RBlock::metaData() const
     return m_data;
 }
 
-void RBlock::add(const RBlock& rblock)
+void RBlock::add(RBlock *rblock)
 {
-    children.insert(rblock.rid(), rblock);
+    children.insert(rblock->rid(), rblock);
 }

@@ -25,6 +25,8 @@ public:
     RBlock(quint32 id, const RMetaData &data);
    /* RBlock(const RBlock& other);
     virtual RBlock& operator=(const RBlock& other);*/
+    virtual ~RBlock();
+
     virtual bool operator==(const RBlock& other) const;
     void add(RBlock *rblock);
     

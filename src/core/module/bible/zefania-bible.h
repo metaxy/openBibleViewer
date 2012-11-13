@@ -122,22 +122,20 @@ private:
 
     MetaInfo readMetaInfo(MetaInfo ret);
 
-    BookBlock rawReadBook(quint32 parent);
-
-    ChapterBlock rawReadChapter(quint32 parent);
-    VerseBlock rawReadVerse(quint32 parent);
-    PrologBlock rawReadProlog(quint32 parent);
-    CaptionBlock rawReadCaption(quint32 parent);
-    RemarksBlock rawReadRemarks(quint32 parent);
-    XRefFragment rawReadXRef(quint32 parent);
-    MediaBlock rawReadMedia(quint32 parent);
-
-    BrFragment rawReadBr(quint32 parent);
-    StyleBlock rawReadStyle(quint32 parent);
-    GramBlock rawReadGram(quint32 parent);
-    SupBlock rawReadSup(quint32 parent);
-    DivBlock rawReadDiv(quint32 parent);
-    NoteBlock rawReadNote(quint32 parent);
+    BookBlock* rawReadBook(quint32 parent);
+    ChapterBlock* rawReadChapter(quint32 parent);
+    VerseBlock* rawReadVerse(quint32 parent);
+    PrologBlock* rawReadProlog(quint32 parent);
+    CaptionBlock* rawReadCaption(quint32 parent);
+    RemarksBlock* rawReadRemarks(quint32 parent);
+    XRefFragment* rawReadXRef(quint32 parent);
+    MediaBlock* rawReadMedia(quint32 parent);
+    BrFragment* rawReadBr(quint32 parent);
+    StyleBlock* rawReadStyle(quint32 parent);
+    GramBlock* rawReadGram(quint32 parent);
+    SupBlock* rawReadSup(quint32 parent);
+    DivBlock* rawReadDiv(quint32 parent);
+    NoteBlock* rawReadNote(quint32 parent);
 
     QMap<int, QString> m_strongsPrefix;
     void genStrongsPrefix();
