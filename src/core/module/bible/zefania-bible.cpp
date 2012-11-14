@@ -400,6 +400,7 @@ QString ZefaniaBible::path(const int book)
 
 TextRange ZefaniaBible::rawTextRange(int bookID, int chapterID, int startVerse, int endVerse)
 {
+    myDebug() << bookID << path(bookID);
     ZefaniaXmlReader reader(path(bookID), m_versification);
     ChapterBlock block = reader.readChapterBlock(bookID, chapterID);
     RawToTextRangeParser parser;
@@ -412,8 +413,8 @@ TextRange ZefaniaBible::rawTextRange(int bookID, int chapterID, int startVerse, 
 std::pair<int, int> ZefaniaBible::minMaxVerse(int bookID, int chapterID)
 {
     std::pair<int, int> ret;
-    ret.first = -1;
-    ret.second = -1;
+    ret.first = 0;
+    ret.second = 10;
     /*if(m_book.bookID() != bookID) {
         readBook(bookID);
         myDebug() << "book not loaded";
@@ -431,33 +432,6 @@ std::pair<int, int> ZefaniaBible::minMaxVerse(int bookID, int chapterID)
 
     return ret;*/
 }
-
-/*VerseBook ZefaniaBible::readBook()
-{
-    m_bookID = m_xml->attributes().value("bnumber").toString().toInt() - 1;
-    VerseBook book(m_bookID);
-    while(m_xml->readNextStartElement()) {
-        if(cmp(m_xml->name(), "CHAPTER")) {
-            book.addChapter(readChapter());
-        } else {
-            m_xml->skipCurrentElement();
-        }
-    }
-    return book;
-}*/
-/*Chapter ZefaniaBible::readChapter()
-{
-    const int chapterID = m_xml->attributes().value("cnumber").toString().toInt() - 1;
-    Chapter chapter(chapterID);
-    while(m_xml->readNextStartElement()) {
-        if(cmp(m_xml->name(), "VERS")) {
-            chapter.addVerse(readVerse());
-        } else {
-            m_xml->skipCurrentElement();
-        }
-    }
-    return chapter;
-}*/
 
 /*
 Verse ZefaniaBible::readVerse()
@@ -500,32 +474,7 @@ Verse ZefaniaBible::readVerse()
         verse.setLayoutDirection(Qt::RightToLeft);
     return verse;
 }*/
-/*QString ZefaniaBible::parseStyle()
-{
-    QString ret;
-    QString css = m_xml->attributes().value("css").toString();
-    const QString pre("<span style=\"" + css + "\">");
-    const QString post("</span>");
-    while(true) {
-        m_xml->readNext();
 
-        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), "STYLE")  || m_xml->name() == "st"))
-            break;
-
-        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
-            ret += m_xml->text().toString();
-        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st") {
-            ret += parseStyle();
-        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr") {
-            ret += parseGram();
-        } else if(cmp(m_xml->name(), "SUP")) {
-            ret += parseSup();
-        } else {
-            ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        }
-    }
-    return pre + ret + post;
-}*/
 /*QString ZefaniaBible::parseNote()
 {
     if(!m_set->displaySettings()->showStudyNotes()) {
@@ -557,16 +506,6 @@ Verse ZefaniaBible::readVerse()
         }
     }
     return pre + ret + post;
-}*/
-/*QString ZefaniaBible::parseBr()
-{
-   const QStringRef art = m_xml->attributes().value("art");
-    m_xml->skipCurrentElement();
-    if(art == "x-p")
-        return "<div class=\"pageBreak\"></div>";
-    else if(art == "x-nl")
-        return "<br />";
-    return "";
 }*/
 /*QString ZefaniaBible::parseGram()
 {
@@ -678,25 +617,7 @@ Verse ZefaniaBible::readVerse()
     }
     return QString();
 }*/
-/*QString ZefaniaBible::parseDiv()
-{
-    QString ret;
-    while(true) {
-        m_xml->readNext();
 
-        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), QLatin1String("DIV"))))
-            break;
-
-        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
-            ret += m_xml->text().toString();
-        } else if(cmp(m_xml->name(), QLatin1String("NOTE"))) {
-            ret += parseNote();
-        } else {
-            ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        }
-    }
-    return ret;
-}*/
 ZefaniaXmlReader::ZefaniaXmlReader(const QString &fileName, QSharedPointer<Versification> v11n) :
     m_fileName(fileName), m_versification(v11n), m_xml(nullptr), m_file(nullptr)
 {

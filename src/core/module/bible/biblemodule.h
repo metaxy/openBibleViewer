@@ -52,6 +52,7 @@ public:
     virtual QSharedPointer<Versification> versification() const;
     virtual QString uid() const = 0;
     virtual void clearData() = 0;
+    virtual std::pair<int, int> minMaxVerse(const int bookID, const int chapterID) = 0;
 protected:
     QSharedPointer<Versification> m_versification;
 };

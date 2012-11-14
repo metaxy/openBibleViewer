@@ -37,8 +37,7 @@ void ZefaniaBibleTests::testReadRange()
     if(!m_zef->loaded()) {
         m_zef->loadBibleData(m_mSet->moduleID, m_mSet->modulePath);
     }
-  //  QBENCHMARK_ONCE(m_zef->rawTextRange(0,0,0,10));
-    //m_zef->rawTextRange(0,0,0,10);
+    QBENCHMARK_ONCE(m_zef->rawTextRange(58,0,0,10));
 }
 void ZefaniaBibleTests::testRawReadBook()
 {
@@ -58,12 +57,7 @@ void ZefaniaBibleTests::testRawReadChapter()
     ZefaniaXmlReader reader(m_mSet->modulePath, m_zef->versification());
     RawToHtmlParser parser;
     ChapterBlock block = reader.readChapterBlock(0,0);
-    QFile file("/home/paul/out.txt");
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        return;
-
-    QTextStream out(&file);
-    out << parser.parseChapter(&block);
+    parser.parseChapter(&block);
 }
 void ZefaniaBibleTests::cleanupTestCase()
 {

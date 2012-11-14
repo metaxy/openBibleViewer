@@ -53,22 +53,20 @@ QString RawToHtmlParser::parseDiv(DivBlock *b)
 
 QString RawToHtmlParser::parseGram(GramBlock *b)
 {
-    QString ret;
-    const QString pre = "<a href='strong://"+b->strong+"'>";
-    const QString post = "</a>";
+    QString ret("<a href='strong://"+b->strong+"'>");
     foreach(RBlock *block, b->children) {
         ret += parse(block);
     }
-    return pre + ret + post ;
+    return ret + "</a>";
 }
 
 QString RawToHtmlParser::parseNote(NoteBlock *b)
 {
-    QString ret;
+    QString ret("<span class =\"studynote\">");
     foreach(RBlock *block, b->children) {
         ret += parse(block);
     }
-    return ret;
+    return ret + "</span>";
 }
 
 QString RawToHtmlParser::parseProlog(PrologBlock *b)
@@ -91,11 +89,11 @@ QString RawToHtmlParser::parseRemarks(RemarksBlock *b)
 
 QString RawToHtmlParser::parseStyle(StyleBlock *b)
 {
-    QString ret;
+    QString ret("<span style=\"" + b->css + "\">");
     foreach(RBlock *block, b->children) {
         ret += parse(block);
     }
-    return ret;
+    return ret + "</span>";
 }
 
 QString RawToHtmlParser::parseSup(SupBlock *b)
@@ -114,13 +112,11 @@ QString RawToHtmlParser::parseText(TextFragment *b)
 
 QString RawToHtmlParser::parseVerse(VerseBlock *b)
 {
-    QString ret;
-    const QString pre = "<div type='verse' verseNumber='"+QString::number(b->verseNumber)+"'>";
-    const QString post = "</div>";
+    QString ret("<div type='verse' verseNumber='"+QString::number(b->verseNumber)+"'>");
     foreach(RBlock *block, b->children) {
         ret += parse(block);
     }
-    return pre+ret+post;
+    return ret+"</div>";
 }
 
 QString RawToHtmlParser::parseXRef(XRefFragment *b)
