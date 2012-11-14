@@ -177,8 +177,9 @@ void ZefaniaBible::getVersification()
 
 }
 /**
- / /brief ZefaniaBible::generateCache generates a cache for faster access by splitting the big book in small books
- * It uses a start and end points for a file the data from ZefaniaBible::getVersification(), see list
+ * ZefaniaBible::generateCache generates a cache for faster access by splitting the big book in small books
+ * It uses a start and end points for a file the data from ZefaniaBible::getVersification(), see list.
+ * You don't need to call it.
  * @param list
  */
 void ZefaniaBible::generateCache(QList<std::pair<qint64, qint64> > list)
@@ -215,58 +216,6 @@ void ZefaniaBible::generateCache(QList<std::pair<qint64, qint64> > list)
         file2.close();
     }
 }
-
-int ZefaniaBible::readBook(const int id)
-{
-    //DEBUG_FUNC_NAME;
-    //myDebug() << id;
-   /* if(m_xml != NULL) {
-        delete m_xml;
-        m_xml = NULL;
-    }
-    m_bookID = id;
-    QString path;
-    const QString cacheFile = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath) + "/" + QString::number(id) + ".xml";
-    QFileInfo info(cacheFile);
-
-    if(info.exists()) {
-        path = cacheFile;
-    } else {
-        path = m_modulePath;
-    }
-    //myDebug() << path;
-
-    genStrongsPrefix();
-    QFile file(path);
-    if(!file.open(QFile::ReadOnly | QFile::Text))
-        return 1;
-    m_xml = new QXmlStreamReader(&file);
-    if(m_xml->readNextStartElement()) {
-        if(cmp(m_xml->name(), "XMLBIBLE")) {
-            while(m_xml->readNextStartElement()) {
-                if(cmp(m_xml->name(), "BIBLEBOOK")) {
-                    if(m_xml->attributes().value("bnumber").toString().toInt() == id + 1) { //we cou
-                        m_book = readBook();
-                        delete m_xml;
-                        m_xml = NULL;
-                        return 0;
-                    } else {
-                        m_xml->skipCurrentElement();
-                    }
-                } else {
-                    m_xml->skipCurrentElement();
-                }
-            }
-        } else {
-            myWarning() << "not a file";
-        }
-    }
-    file.close();
-    delete m_xml;
-    m_xml = NULL;
-    return 0;*/
-}
-
 
 int ZefaniaBible::moduleID() const
 {
@@ -430,7 +379,6 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
   */
 QString ZefaniaBible::indexPath() const
 {
-    //DEBUG_FUNC_NAME
     return m_settings->homePath + "index/" + m_settings->hash(m_modulePath);
 }
 
@@ -438,32 +386,20 @@ QString ZefaniaBible::uid() const
 {
     return m_uid;
 }
+QString ZefaniaBible::path(const int book)
+{
+    const QString cacheFile = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath) + "/" + QString::number(book) + ".xml";
+    QFileInfo info(cacheFile);
+    if(info.exists()) {
+        return cacheFile;
+    } else {
+        return m_modulePath;
+    }
+   
+}
 
 TextRange ZefaniaBible::rawTextRange(int bookID, int chapterID, int startVerse, int endVerse)
 {
-    /*TextRange ret;
-    if(m_book.bookID() != bookID) {
-        myDebug() << "book not loaded";
-        readBook(bookID);
-    }
-    if(!m_book.hasChapter(chapterID)) {
-        myDebug() << m_book.data().keys();
-        myWarning() << "index out of range index chapterID = " << chapterID;
-        ret.setError(TextRange::NotFoundError);
-        return ret;
-    }
-    ret.setModuleID(m_moduleID);
-    ret.setBookID(bookID);
-    ret.setChapterID(chapterID);
-
-    const Chapter c = m_book.getChapter(chapterID);
-    QMap<int, Verse> data = c.data();
-    QMapIterator<int, Verse> i(data);
-    while(i.hasNext()) {
-        i.next();
-        if(i.key() <= endVerse && i.key() >= startVerse)
-            ret.addVerse(i.value());
-    }*/
     ZefaniaXmlReader reader(path(bookID), m_versification);
     ChapterBlock block = reader.readChapterBlock(bookID, chapterID);
     RawToTextRangeParser parser;

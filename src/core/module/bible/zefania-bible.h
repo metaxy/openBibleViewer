@@ -103,7 +103,7 @@ private:
 
     QString getPath();
     void generateCache(QList<std::pair<qint64, qint64> > list);
-
+    QString path(const int book);
 };
 
 class ZefaniaXmlReader
