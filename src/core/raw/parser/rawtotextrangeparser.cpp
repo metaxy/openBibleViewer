@@ -1,6 +1,6 @@
 #include "rawtotextrangeparser.h"
 #include "src/core/verse/verse.h"
-RawToTextRangeParser::RawToTextRangeParser()
+RawToTextRangeParser::RawToTextRangeParser(QSharedPointer<ModuleDisplaySettings> displaySettings) : RawToHtmlParser(displaySettings)
 {
 }
 TextRange RawToTextRangeParser::toTextRange(ChapterBlock* b)
@@ -17,3 +17,11 @@ TextRange RawToTextRangeParser::toTextRange(ChapterBlock* b)
     return range;
 }
 
+QString RawToTextRangeParser::parseVerse(VerseBlock *b)
+{
+    QString ret;
+    foreach(RBlock *block, b->children) {
+        ret += parse(block);
+    }
+    return ret;
+}

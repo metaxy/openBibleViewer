@@ -16,10 +16,13 @@
 #include "src/core/raw/verseblock.h"
 #include "src/core/raw/xreffragment.h"
 #include "src/core/raw/mediablock.h"
+#include "src/core/settings/moduledisplaysettings.h"
+#include <QtCore/QSharedPointer>
+
 class RawToHtmlParser
 {
 public:
-    RawToHtmlParser();
+    RawToHtmlParser(QSharedPointer<ModuleDisplaySettings> displaySettings);
 
     virtual QString parseBook(BookBlock *b);
     virtual QString parseBr(BrFragment *b);
@@ -38,7 +41,8 @@ public:
     virtual QString parseXRef(XRefFragment *b);
 
     QString parse(RBlock *block);
-
+protected:
+     QSharedPointer<ModuleDisplaySettings> m_displaySettings;
 };
 
 #endif // RAWTOHTMLPARSER_H

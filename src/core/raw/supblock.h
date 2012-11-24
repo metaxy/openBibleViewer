@@ -20,9 +20,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class SupBlock : public RBlock
 {
 public:
-
+    enum SubType {
+        Sup,
+        Sub
+    };
     SupBlock(quint32 id, const RMetaData& data);
-
+    SubType type;
 
 };
 

@@ -2,7 +2,7 @@
 #include <typeinfo>
 #include "src/core/dbghelper.h"
 #include "src/core/raw/rblock.h"
-RawToHtmlParser::RawToHtmlParser()
+RawToHtmlParser::RawToHtmlParser(QSharedPointer<ModuleDisplaySettings> displaySettings) : m_displaySettings(displaySettings)
 {
 }
 QString RawToHtmlParser::parseBook(BookBlock *b)
@@ -15,7 +15,23 @@ QString RawToHtmlParser::parseBook(BookBlock *b)
     }
     return pre+ret+post;
 }
+QString RawToHtmlParser::parseChapter(ChapterBlock *b)
+{
+    QString ret;
+    foreach(RBlock *block, b->children) {
+        ret += parse(block);
+    }
+    return ret;
+}
 
+QString RawToHtmlParser::parseVerse(VerseBlock *b)
+{
+    QString ret("<div type='verse' verseNumber='"+QString::number(b->verseNumber)+"'>");
+    foreach(RBlock *block, b->children) {
+        ret += parse(block);
+    }
+    return ret+"</div>";
+}
 QString RawToHtmlParser::parseBr(BrFragment *b)
 {
     if(b->type == BrFragment::NewLine)
@@ -27,20 +43,13 @@ QString RawToHtmlParser::parseBr(BrFragment *b)
 
 QString RawToHtmlParser::parseCaption(CaptionBlock *b)
 {
-    QString ret;
+    QString ret("<h3>");
     foreach(RBlock *block, b->children) {
         ret += parse(block);
     }
-    return ret;
+    return ret + "</h3>";
 }
-QString RawToHtmlParser::parseChapter(ChapterBlock *b)
-{
-    QString ret;
-    foreach(RBlock *block, b->children) {
-        ret += parse(block);
-    }
-    return ret;
-}
+
 
 QString RawToHtmlParser::parseDiv(DivBlock *b)
 {
@@ -53,7 +62,7 @@ QString RawToHtmlParser::parseDiv(DivBlock *b)
 
 QString RawToHtmlParser::parseGram(GramBlock *b)
 {
-    QString ret("<a href='strong://"+b->strong+"'>");
+    QString ret("<a class=\"inlinestronglink\" href='strong://"+b->strong+"'>");
     foreach(RBlock *block, b->children) {
         ret += parse(block);
     }
@@ -110,14 +119,6 @@ QString RawToHtmlParser::parseText(TextFragment *b)
     return b->text;
 }
 
-QString RawToHtmlParser::parseVerse(VerseBlock *b)
-{
-    QString ret("<div type='verse' verseNumber='"+QString::number(b->verseNumber)+"'>");
-    foreach(RBlock *block, b->children) {
-        ret += parse(block);
-    }
-    return ret+"</div>";
-}
 
 QString RawToHtmlParser::parseXRef(XRefFragment *b)
 {

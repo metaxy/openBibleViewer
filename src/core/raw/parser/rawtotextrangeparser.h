@@ -6,8 +6,8 @@
 class RawToTextRangeParser : public RawToHtmlParser
 {
 public:
-    RawToTextRangeParser();
-    
+    RawToTextRangeParser(QSharedPointer<ModuleDisplaySettings> displaySettings);
+    QString parseVerse(VerseBlock *b);
     TextRange toTextRange(ChapterBlock *b);
 private:
     //int m_chapterNumber;

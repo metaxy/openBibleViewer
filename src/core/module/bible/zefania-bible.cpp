@@ -1105,18 +1105,27 @@ SupBlock* ZefaniaXmlReader::rawReadSup(quint32 parent)
 {
     quint32 id = m_idGen.next();
     SupBlock *sup = (SupBlock *)BlockTools::create(id,parent,RMetaData::SupBlock);
+    const QStringRef art = m_xml->attributes().value("art");
+    if(art == "x-sub") {
+        sup->type == SupBlock::Sub;
+    } else if(art == "x-sup") {
+        sup->type == SupBlock::Sup;
+    } else {
+        sup->type == SupBlock::Sub;
+    }
+    while(true) {
+        m_xml->readNext();
 
-    while(m_xml->readNextStartElement()) {
+        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), Sup)))
+            break;
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
-            TextFragment *t = (TextFragment*)BlockTools::create(m_idGen.next(), id, RMetaData::TextFragment);
-            t->text = Qt::escape(m_xml->text().toString());
-            sup->add(t);
+            sup->add(rawReadText(id));
         } else if(cmp(m_xml->name(), Style)) {
             sup->add(rawReadStyle(parent));
         } else if(cmp(m_xml->name(), Gram)) {
             sup->add(rawReadGram(parent));
         } else {
-            m_xml->skipCurrentElement();
+            sup->add(rawReadChildText(id));
         }
     }
     return sup;
