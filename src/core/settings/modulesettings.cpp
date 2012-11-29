@@ -87,9 +87,11 @@ QSharedPointer<Versification> ModuleSettings::loadVersification()
     } else if(versificationName == "kjv-ot") {
         ret = QSharedPointer<Versification>(new Versification_KJV());
         ret->setFlags(Versification::ReturnOT);
+        ret->name = "kjv-ot";
     } else if(versificationName == "kjv-nt") {
         ret = QSharedPointer<Versification>(new Versification_KJV());
         ret->setFlags(Versification::ReturnNT);
+        ret->name = "kjv-nt";
     } else {
         QSettings settings(versificationFile, QSettings::IniFormat);
         const QStringList books = settings.childGroups();

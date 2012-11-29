@@ -58,6 +58,8 @@ public:
 
     VersificationExtendedData extendedData;
 
+    QString name;
+
 protected:
     QMap<int, BookV11N> m_books;
     virtual bool filter(const int bookID, const Versification::VersificationFilterFlags flags) const;

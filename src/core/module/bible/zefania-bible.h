@@ -109,7 +109,7 @@ private:
 class ZefaniaXmlReader
 {
 public:
-    ZefaniaXmlReader(const QString &fileName,QSharedPointer<Versification> v11n);
+    ZefaniaXmlReader(const QString &fileName, QSharedPointer<Versification> v11n);
     ZefaniaXmlReader(const QString &fileName);
     ~ZefaniaXmlReader();
     MetaInfo readMetaInfo();
@@ -156,7 +156,7 @@ private:
     TextFragment* rawReadText(quint32 parent);
     TextFragment* rawReadChildText(quint32 parent);
     QMap<int, QString> m_strongsPrefix;
-    void genStrongsPrefix();
+    void genStrongsPrefix(const int bookID);
 
     QXmlStreamReader *m_xml;
     QFile *m_file;
@@ -168,6 +168,8 @@ private:
 
     void create();
     void destroy();
+
+    QString m_strongAdd;
 
 };
 

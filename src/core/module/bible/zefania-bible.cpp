@@ -638,9 +638,9 @@ ZefaniaXmlReader::~ZefaniaXmlReader()
     }
 }
 
-void ZefaniaXmlReader::genStrongsPrefix()
+void ZefaniaXmlReader::genStrongsPrefix(const int bookID)
 {
-    foreach(int bookID, m_versification->bookIDs()) {
+    /*foreach(int bookID, m_versification->bookIDs()) {
         QString add;
         if(m_versification->bookCount() == 66) {
             if(bookID < 39) {
@@ -648,16 +648,32 @@ void ZefaniaXmlReader::genStrongsPrefix()
             } else {
                 add = "G";
             }
-        } /*else if(m_set->versificationName.endsWith("-nt")) {
+        } else if(m_set->versificationName.endsWith("-nt")) {
             add = "G";
         } else if(m_set->versificationName.endsWith("-ot")) {
             add = "H";
-        }*/ else if(m_versification->bookCount() == 27) {
+        } else if(m_versification->bookCount() == 27) {
             add = "G";
         } else if(m_versification->bookCount() == 39) {
             add = "H";
         }
         m_strongsPrefix[bookID] = add;
+    }*/
+
+    if(m_versification->bookCount() == 66) {
+        if(bookID < 39) {
+            m_strongAdd = "H";
+        } else {
+            m_strongAdd = "G";
+        }
+    } else if(m_versification->name.endsWith("-nt")) {
+        m_strongAdd = "G";
+    } else if(m_versification->name.endsWith("-ot")) {
+        m_strongAdd = "H";
+    } else if(m_versification->bookCount() == 27) {
+        m_strongAdd = "G";
+    } else if(m_versification->bookCount() == 39) {
+        m_strongAdd = "H";
     }
 }
 
@@ -721,7 +737,7 @@ TextFragment* ZefaniaXmlReader::rawReadChildText(quint32 parent)
 }
 BookBlock ZefaniaXmlReader::readBookBlock(const int bookID)
 {
-    genStrongsPrefix();
+    genStrongsPrefix(bookID);
     create();
     if(m_xml->readNextStartElement()) {
         if(cmp(m_xml->name(), XmlBible)) {
@@ -744,7 +760,7 @@ BookBlock ZefaniaXmlReader::readBookBlock(const int bookID)
 }
 ChapterBlock ZefaniaXmlReader::readChapterBlock(const int bookID, const int chapterID)
 {
-    genStrongsPrefix();
+    genStrongsPrefix(bookID);
     create();
     if(m_xml->readNextStartElement()) {
         if(cmp(m_xml->name(), XmlBible)) {
@@ -1078,7 +1094,7 @@ GramBlock* ZefaniaXmlReader::rawReadGram(quint32 parent)
     quint32 id = m_idGen.next();
     GramBlock *gram = (GramBlock *)BlockTools::create(id,parent,RMetaData::GramBlock);
     gram->rmac = m_xml->attributes().value("rmac").toString();
-    gram->strong = m_xml->attributes().value("str").toString();
+    gram->strong = m_strongAdd + m_xml->attributes().value("str").toString();
     while(true) {
         m_xml->readNext();
 
