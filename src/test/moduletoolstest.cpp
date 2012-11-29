@@ -21,9 +21,8 @@ void ModuleToolsTests::testScan()
 {
 	const QStringList resAll = ModuleTools::scan(QString(SRC_PATH) + "/src/test/data/moduletools/structure");
 	
-	QStringList expected = {"$DIR/Test1",
-	"$DIR/TestFolder/Test2",
-	"$DIR/TestFolder2/Test3"};
+    QStringList expected;
+    expected << "$DIR/Test1" << "$DIR/TestFolder/Test2" << "$DIR/TestFolder2/Test3";
 	expected.replaceInStrings("$DIR", QString(SRC_PATH) + "/src/test/data/moduletools/structure");
 
 	QVERIFY(resAll == expected);
