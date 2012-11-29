@@ -2,6 +2,8 @@
 #include <typeinfo>
 #include "src/core/dbghelper.h"
 #include "src/core/raw/rblock.h"
+#include "src/core/link/strongurl.h"
+#include "src/core/moduletools.h"
 RawToHtmlParser::RawToHtmlParser(QSharedPointer<ModuleDisplaySettings> displaySettings) : m_displaySettings(displaySettings)
 {
 }
@@ -62,11 +64,27 @@ QString RawToHtmlParser::parseDiv(DivBlock *b)
 
 QString RawToHtmlParser::parseGram(GramBlock *b)
 {
-    QString ret("<a class=\"inlinestronglink\" href='strong://"+b->strong+"'>");
+    QString pre,post,ret;
+    if(m_displaySettings->showStrong() && !b->strong.isEmpty()) {
+        StrongUrl url;
+        url.fromText(b->strong);
+        if(m_displaySettings->showStrongInline()) {
+            pre.prepend("<a class=\"inlinestronglink\" href=\""+url.toString()+"\" title=\""+ b->strong +"\">");
+            post.append("</a>");
+        } else {
+            post += "<a class=\"stronglink\" href=\""+url.toString()+"\" title=\""+ b->strong +"\">"
+                    + b->strong
+                    + "</a>";
+        }
+    }
+    if(m_displaySettings->showRMAC() && !b->rmac.isEmpty()) {
+        post += "<a class=\"rmaclink\" href=\"" + ModuleTools::rmacScheme + b->rmac + "\">" + b->rmac + "</a>";
+    }
+
     foreach(RBlock *block, b->children) {
         ret += parse(block);
     }
-    return ret + "</a>";
+    return pre + ret + post;
 }
 
 QString RawToHtmlParser::parseNote(NoteBlock *b)
@@ -113,18 +131,27 @@ QString RawToHtmlParser::parseStyle(StyleBlock *b)
 
 QString RawToHtmlParser::parseSup(SupBlock *b)
 {
+    QString pre;
+    QString post("</span>");
+    if(b->type == SupBlock::Sub) {
+        pre = "<span class =\"sub\">";
+    } else if(b->type == SupBlock::Sup) {
+        pre = "<span class =\"sup\">";
+    } else {
+        post = "";
+    }
+
     QString ret;
     foreach(RBlock *block, b->children) {
         ret += parse(block);
     }
-    return ret;
+    return pre + ret + post;
 }
 
 QString RawToHtmlParser::parseText(TextFragment *b)
 {
     return b->text;
 }
-
 
 QString RawToHtmlParser::parseXRef(XRefFragment *b)
 {
