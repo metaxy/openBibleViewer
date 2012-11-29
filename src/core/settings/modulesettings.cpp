@@ -234,7 +234,7 @@ void ModuleSettings::removeDisplaySettings()
 }
 QIcon ModuleSettings::icon(bool useDefault) const
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     ModuleTools::ModuleCategory cat = ModuleTools::getCategory(moduleType);
     QIcon ret;
     if(useDefault || iconPath.isEmpty()) {

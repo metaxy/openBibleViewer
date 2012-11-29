@@ -71,6 +71,9 @@ QString RawToHtmlParser::parseGram(GramBlock *b)
 
 QString RawToHtmlParser::parseNote(NoteBlock *b)
 {
+    if(!m_displaySettings->showStudyNotes())
+        return QString();
+
     QString ret("<span class =\"studynote\">");
     foreach(RBlock *block, b->children) {
         ret += parse(block);
@@ -80,6 +83,8 @@ QString RawToHtmlParser::parseNote(NoteBlock *b)
 
 QString RawToHtmlParser::parseProlog(PrologBlock *b)
 {
+    if(!m_displaySettings->showProlog())
+        return QString();
     QString ret;
     foreach(RBlock *block, b->children) {
         ret += parse(block);
@@ -89,6 +94,7 @@ QString RawToHtmlParser::parseProlog(PrologBlock *b)
 
 QString RawToHtmlParser::parseRemarks(RemarksBlock *b)
 {
+    //if(!m_displaySettings->s)
     QString ret;
     foreach(RBlock *block, b->children) {
         ret += parse(block);
@@ -126,6 +132,8 @@ QString RawToHtmlParser::parseXRef(XRefFragment *b)
 }
 QString RawToHtmlParser::parseMedia(MediaBlock *b)
 {
+    if(!m_displaySettings->showMedia())
+        return QString();
     QString ret;
     foreach(RBlock *block, b->children) {
         ret += parse(block);

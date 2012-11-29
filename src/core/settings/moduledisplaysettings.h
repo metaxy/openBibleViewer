@@ -45,6 +45,10 @@ public:
     bool showStrong() const;
 
     void setShowStudyNotes(bool showStudyNotes);
+    /**
+     * @brief The notes from the document itself.
+     * @return
+     */
     bool showStudyNotes() const;
 
     void setShowRefLinks(bool showRefLinks);
