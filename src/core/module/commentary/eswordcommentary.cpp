@@ -222,7 +222,7 @@ std::pair<int, int> ESwordCommentary::minMaxVerse(const int bookID, const int ch
 {
     std::pair<int, int> ret;
     ret.first = 0;
-    if(m_versification->maxVerse().contains(bookID) && chapterID < m_versification->maxVerse().value(bookID).size()) {
+    if(m_versification->maxVerse().contains(bookID) && chapterID >= 0 && chapterID < m_versification->maxVerse().value(bookID).size()) {//is in bounds
         ret.second = m_versification->maxVerse().value(bookID).at(chapterID);
     } else {
         ret.second = 0;

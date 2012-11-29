@@ -323,9 +323,9 @@ bool VerseUrl::fromESword(QString url)
     QStringList list = rx.capturedTexts();
     bool chapter,start,end;
     const QString book = list.at(1) + list.at(2);
-    const int chapterID = list.at(3).toInt(&chapter);
-    const int startVerse = list.at(4).toInt(&start);
-    const int endVerse = list.at(5).toInt(&end);
+    const int chapterID = list.at(3).toInt(&chapter) -1;
+    const int startVerse = list.at(4).toInt(&start) - 1;
+    const int endVerse = list.at(5).toInt(&end) - 1;
     const int bookID = ModuleTools::eSwordMap().value(book);
     VerseUrlRange range;
     range.setModule(VerseUrlRange::LoadCurrentModule);
