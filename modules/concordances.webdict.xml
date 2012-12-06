@@ -8,7 +8,7 @@
     </meta>
     <data>
         <site>
-            <url>http://concordances.org/</url>
+            <url>http://biblesuite.org/</url>
             <parseIn><![CDATA[
                 (function(a) { 
                     if(a.indexOf(" ") > 0) {
@@ -17,26 +17,31 @@
 		   
                     if(a[0] == 'G' || a[0] == 'g') {
 			a = a.substr(1);
-                        return "http://concordances.org/greek/"+ a +".htm";
+                        return "http://biblesuite.com/greek/"+ a +".htm";
                     } else if(a[0] == 'H' || a[0] == 'h') {
 			a = a.substr(1);
-                        return "http://concordances.org/hebrew/"+ a +".htm";
+                        return "http://biblesuite.com/hebrew/"+ a +".htm";
                     }
 		    
-                    return "http://concordances.org/";
+                    return "http://biblesuite.com/";
                  })
                 ]]>
             </parseIn>
             <parseOut>
                 <![CDATA[
                     (function(a) {
-			var backup = a;
-                        var str = "http://concordances.org
+                        var backup = a;
+                        var str = "http://biblesuite.com";
+                        
                         if(a.indexOf(str) === 0) {
                             a = a.substr(str.length);
-                            if(a.indexOf("/hebrew/"") === 0) {
+                            if(a.indexOf("/hebrew/strongs_") === 0 || a.indexOf("/greek/strongs_") === 0) {
+                                return backup;
+                            } else if(a.indexOf("/hebrew/") === 0) {
+                                a = a.substr("/hebrew/".length);
                                 return "strong:/H" + a;
-                            } else if(a.indexOf("/greek/"") === 0) {
+                            } else if(a.indexOf("/greek/") === 0) {
+                                a = a.substr("/greek/".length);
                                 return "strong:/G" + a;
                             } else {
                                 return backup;

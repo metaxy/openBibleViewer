@@ -28,18 +28,17 @@ void Actions::nextChapter()
 }
 void Actions::get(const QString &url, const Actions::OpenLinkModifiers mod)
 {
+    myDebug() << url;
     emit _get(url, mod);
 }
 
 void Actions::get(const QUrl &url, const Actions::OpenLinkModifiers mod)
 {
-    DEBUG_FUNC_NAME
-    emit _get(url.toString(), mod);
+    get(url.toString(), mod);
 }
 
 void Actions::get(const VerseUrl &url, const Actions::OpenLinkModifiers mod)
 {
-    DEBUG_FUNC_NAME
     emit _get(url, mod);
 }
 
@@ -59,7 +58,6 @@ void Actions::get(const VerseUrl &url)
 }
 void Actions::newGet(const QUrl &url)
 {
-    DEBUG_FUNC_NAME
     get(url, Actions::OpenInNewWindow);
 }
 

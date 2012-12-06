@@ -28,6 +28,7 @@ void WebDictionary::loadModuleData(const int moduleID, const QString &name)
         fileName = name;
 
     myDebug() << fileName;
+    m_fileName = fileName;
     QDomDocument doc;
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly))
@@ -129,6 +130,11 @@ QString WebDictionary::parseUrl(const QUrl &url)
         loadModuleData(m_moduleID);
 
     QScriptValue fun = myEngine.evaluate(m_parseOutScript);
+    if (myEngine.hasUncaughtException()) {
+         int line = myEngine.uncaughtExceptionLineNumber();
+         myWarning() << "uncaught exception in" << m_fileName << "at line" << line << ":" << fun.toString();
+    }
+
     QScriptValueList args;
     args << url.toString();
     QScriptValue n = fun.call(QScriptValue(), args);

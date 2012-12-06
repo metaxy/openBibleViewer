@@ -136,8 +136,6 @@ void CommentaryForm::changeLocation()
 
 void CommentaryForm::activated()
 {
-    m_actions->clearBooks();
-    m_actions->clearChapters();
     if(m_com != NULL) {
         m_actions->setTitle(m_com->moduleTitle());
         m_actions->setCurrentModule(m_com->moduleID());
@@ -148,6 +146,9 @@ void CommentaryForm::activated()
             m_actions->setCurrentBook(m_com->currentBook());
         }
 
+    } else {
+        m_actions->clearBooks();
+        m_actions->clearChapters();
     }
 }
 bool CommentaryForm::loaded()
