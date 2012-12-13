@@ -723,16 +723,16 @@ void AdvancedInterface::quick(QString text)
     } else if(text.compare("new tab", Qt::CaseInsensitive) == 0) {
         m_windowManager->newBibleSubWindow();
         return;
-    }else if(text.compare("new dict", Qt::CaseInsensitive) == 0) {
+    } else if(text.compare("new dict", Qt::CaseInsensitive) == 0) {
         m_windowManager->newDictionarySubWindow();
         return;
-    }else if(text.compare("new web", Qt::CaseInsensitive) == 0) {
+    } else if(text.compare("new web", Qt::CaseInsensitive) == 0) {
         m_windowManager->newWebSubWindow();
         return;
-    }else if(text.compare("new com", Qt::CaseInsensitive) == 0) {
+    } else if(text.compare("new com", Qt::CaseInsensitive) == 0) {
         m_windowManager->newCommentarySubWindow();
         return;
-    }else if(text.compare("new bible", Qt::CaseInsensitive) == 0) {
+    } else if(text.compare("new bible", Qt::CaseInsensitive) == 0) {
         m_windowManager->newBibleSubWindow();
         return;
     }
@@ -786,10 +786,7 @@ void AdvancedInterface::quick(QString text)
 }
 
 void AdvancedInterface::onlineHelp()
-{else if(text.compare("new tab", Qt::CaseInsensitive) == 0) {
-        m_windowManager->newBibleSubWindow();
-    }
-
+{
     //open the online faq
     QDesktopServices::openUrl(tr("http://openbv.uucyc.name/faq.html"));
 }
@@ -840,7 +837,7 @@ void AdvancedInterface::showMarkList()
 
 void AdvancedInterface::showNotesEditor()
 {
-    NotesEditor *notesEditor = new NotesEditor(this);
+    QPointer<NotesEditor> notesEditor = new NotesEditor(this);
     setAll(notesEditor);
     notesEditor->init();
     notesEditor->show();

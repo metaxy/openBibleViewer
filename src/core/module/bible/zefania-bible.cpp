@@ -248,9 +248,8 @@ bool ZefaniaBible::hasIndex() const
 void ZefaniaBible::buildIndex()
 {
     DEBUG_FUNC_NAME
-    ZefaniaXmlReader reader(m_modulePath);
-    QFuture<void> future = QtConcurrent::run(&reader, &ZefaniaXmlReader::buildIndex, indexPath());
-
+    ZefaniaXmlReader reader(m_modulePath, m_versification);
+    reader.buildIndex(indexPath());
 }
 
 void ZefaniaXmlReader::buildIndex(const QString &indexPath)
@@ -1125,11 +1124,11 @@ SupBlock* ZefaniaXmlReader::rawReadSup(quint32 parent)
     SupBlock *sup = (SupBlock *)BlockTools::create(id,parent,RMetaData::SupBlock);
     const QStringRef art = m_xml->attributes().value("art");
     if(art == "x-sub") {
-        sup->type == SupBlock::Sub;
+        sup->type = SupBlock::Sub;
     } else if(art == "x-sup") {
-        sup->type == SupBlock::Sup;
+        sup->type = SupBlock::Sup;
     } else {
-        sup->type == SupBlock::Sub;
+        sup->type = SupBlock::Sub;
     }
     while(true) {
         m_xml->readNext();
@@ -1205,4 +1204,5 @@ bool ZefaniaXmlReader::cmp(const QStringRef& r, const ZefaniaXmlReader::TagName 
         case XRef:
             return r == "xr" || r == "XREF" || r == "xref";
     }
+    return "";
 }
