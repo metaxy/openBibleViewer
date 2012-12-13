@@ -27,12 +27,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <src/core/raw/textfragment.h>
 #include "src/core/raw/blocktools.h"
 #include "src/core/raw/parser/rawtotextrangeparser.h"
+#include <QtConcurrentRun>
+
 using namespace lucene::analysis;
 using namespace lucene::index;
 using namespace lucene::queryParser;
 using namespace lucene::document;
 using namespace lucene::search;
 extern bool removeDir(const QString &dirName);
+
 ZefaniaBible::ZefaniaBible() : m_moduleID(-1), m_modulePath(""), m_moduleName("")
 {
 }
@@ -244,19 +247,19 @@ bool ZefaniaBible::hasIndex() const
 }
 void ZefaniaBible::buildIndex()
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
+    ZefaniaXmlReader reader(m_modulePath);
+    QFuture<void> future = QtConcurrent::run(&reader, &ZefaniaXmlReader::buildIndex, indexPath());
 
-    /*if(m_xml != NULL) {
-        delete m_xml;
-        m_xml = NULL;
-    }
-    QFile file(m_modulePath);
-    if(!file.open(QFile::ReadOnly | QFile::Text))
-        return; // no deletes
-    m_xml = new QXmlStreamReader(&file);
+}
+
+void ZefaniaXmlReader::buildIndex(const QString &indexPath)
+{
+    //DEBUG_FUNC_NAME
+    create();
 
     QProgressDialog progress(QObject::tr("Build index"), QObject::tr("Cancel"), 0, m_versification->bookCount());
-    const QString index = indexPath();
+    const QString index = indexPath;
     QDir dir("/");
     dir.mkpath(index);
 
@@ -280,25 +283,25 @@ void ZefaniaBible::buildIndex()
 
     TCHAR *buffer = SearchTools::createBuffer();
     if(m_xml->readNextStartElement()) {
-        if(cmp(m_xml->name(), "XMLBIBLE")) {
+        if(cmp(m_xml->name(), XmlBible)) {
             while(m_xml->readNextStartElement()) {
-                if(cmp(m_xml->name(), "BIBLEBOOK")) {
+                if(cmp(m_xml->name(), Biblebook)) {
 
                     const int bookID = m_xml->attributes().value("bnumber").toString().toInt() - 1;
                     progress.setValue(bookID);
-                    //all chapters
+                    //all chaptersQFuture<void> future = QtConcurrent::run(&image, &QImage::invertPixels, QImage::InvertRgba);
                     while(m_xml->readNextStartElement()) {
-                        if(cmp(m_xml->name(), "CHAPTER")) {
+                        if(cmp(m_xml->name(), Chapter)) {
                             const int chapterID = m_xml->attributes().value("cnumber").toString().toInt() - 1;
                             while(m_xml->readNextStartElement()) {
-                                if(cmp(m_xml->name(), "VERS")) {
+                                if(cmp(m_xml->name(), ZefaniaXmlReader::Vers)) {
                                     const int verseID = m_xml->attributes().value("vnumber").toString().toInt() - 1;
                                     const QString t = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
 
                                     doc.clear();
                                     const QString key = QString::number(bookID) + ";" + QString::number(chapterID) + ";" + QString::number(verseID);
-                                    doc->add(*new Field(_T("key"), SearchTools::toTCHAR(key, buffer), Field::STORE_YES |  Field::INDEX_NO));
-                                    doc->add(*new Field(_T("content"), SearchTools::toTCHAR(t, buffer), Field::STORE_YES |  Field::INDEX_TOKENIZED));
+                                    doc.add(*new Field(_T("key"), SearchTools::toTCHAR(key, buffer), Field::STORE_YES |  Field::INDEX_NO));
+                                    doc.add(*new Field(_T("content"), SearchTools::toTCHAR(t, buffer), Field::STORE_YES |  Field::INDEX_TOKENIZED));
 
                                     writer->addDocument(&doc);
                                 } else {
@@ -331,10 +334,9 @@ void ZefaniaBible::buildIndex()
     delete writer;
     delete[] buffer;
     progress.close();
-    file.close();
-    delete m_xml;
-    m_xml = NULL;*/
+    destroy();
 }
+
 void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
 {
     const QString index = indexPath();

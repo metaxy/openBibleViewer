@@ -86,8 +86,6 @@ public:
     bool hasHardCache(const QString &path);
 
     void clearData();
-
-
 private:
     MetaInfo readInfo(QFile &file);
     QString indexPath() const;
@@ -97,7 +95,6 @@ private:
     QString m_moduleName;
     QString m_uid;
     
-
     void getVersification();
     ModuleSettings *m_set;
 
@@ -116,6 +113,7 @@ public:
     static bool cmp(const QStringRef &r, const QString &s);
     BookBlock readBookBlock(const int bookID);
     ChapterBlock readChapterBlock(const int bookID, const int chapterID);
+    void buildIndex(const QString &indexPath);
 private:
     BlockIDGen m_idGen;
     enum TagName {

@@ -17,6 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/moduledisplaysettings.h"
 #include "src/core/module/searchablemodule.h"
 #include <QtCore/QUrl>
+#include <QtXml/QDomDocument>
 class WebPage : public SimpleModuleClass, public SearchableModule
 {
 public:

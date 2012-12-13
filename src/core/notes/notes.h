@@ -13,7 +13,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef NOTES_H
 #define NOTES_H
-#include <QtXml/QDomDocument>
 #include "src/core/search/searchresult.h"
 /**
  Notes represents a note system

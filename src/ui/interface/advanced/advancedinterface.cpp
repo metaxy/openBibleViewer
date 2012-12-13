@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/link/biblelink.h"
 #include "src/core/module/bible/biblequote.h"
 #include "src/core/link/strongurl.h"
+#include <QtGui/QShortcut>
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
     Interface(parent),
     ui(new Ui::AdvancedInterface)
@@ -96,6 +97,7 @@ void AdvancedInterface::init()
     connect(m_actions, SIGNAL(_setTitle(QString)), this , SLOT(setTitle(QString)));
     connect(m_actions, SIGNAL(_setTabbedView()), this, SLOT(setTabbedView()));
     connect(m_actions, SIGNAL(_setSubWindowView()), this, SLOT(setSubWindowView()));
+
 }
 void AdvancedInterface::createDocks()
 {
@@ -664,12 +666,18 @@ void AdvancedInterface::createToolBars()
     m_searchBar->setWindowTitle(tr("Quick Bar"));
     m_searchBar->setMaximumWidth(250);
 
-    QLineEdit *edit = new QLineEdit(m_searchBar);
-    edit->setPlaceholderText(tr("Command"));
-    edit->setObjectName("lineEdit");
 
-    connect(edit, SIGNAL(returnPressed()), this, SLOT(quick()));
-    m_searchBar->addWidget(edit);
+    m_quickLine = new QLineEdit(m_searchBar);
+    m_quickLine->setPlaceholderText(tr("Command"));
+    m_quickLine->setObjectName("quickLine");
+    m_quickLine->setFocusPolicy(Qt::StrongFocus);
+
+    connect(m_quickLine, SIGNAL(returnPressed()), this, SLOT(quick()));
+    m_searchBar->addWidget(m_quickLine);
+
+    QShortcut *s1 = new QShortcut(QKeySequence(tr("Esc", "Focus QuickOpen")), this);
+    connect(s1, SIGNAL(activated()), m_quickLine, SLOT(setFocus()));
+
     toolBarSetText();
 }
 
@@ -696,22 +704,37 @@ void AdvancedInterface::quick()
 void AdvancedInterface::quick(QString text)
 {
     myDebug() << text;
-    if(text.startsWith("search ", Qt::CaseInsensitive)) {
+    if(text.startsWith("search ", Qt::CaseInsensitive) || text.startsWith("s ", Qt::CaseInsensitive)) {
         int whitePos = text.indexOf(" ");
         text.remove(0, whitePos);
         quickSearch(text);
         return;
-    } else if(text.startsWith("search:", Qt::CaseInsensitive)) {
+    } else if(text.startsWith("search:", Qt::CaseInsensitive) || text.startsWith("s:",Qt::CaseInsensitive)) {
         int whitePos = text.indexOf(":");
         text.remove(0, whitePos);
         quickSearch(text);
         return;
-    } if(text.startsWith("open ", Qt::CaseInsensitive)) {
+    } else if(text.startsWith("open ", Qt::CaseInsensitive)) {
         int whitePos = text.indexOf(" ");
         text.remove(0, whitePos);
     } else if(text.startsWith("open:", Qt::CaseInsensitive)) {
         int whitePos = text.indexOf(":");
         text.remove(0, whitePos);
+    } else if(text.compare("new tab", Qt::CaseInsensitive) == 0) {
+        m_windowManager->newBibleSubWindow();
+        return;
+    }else if(text.compare("new dict", Qt::CaseInsensitive) == 0) {
+        m_windowManager->newDictionarySubWindow();
+        return;
+    }else if(text.compare("new web", Qt::CaseInsensitive) == 0) {
+        m_windowManager->newWebSubWindow();
+        return;
+    }else if(text.compare("new com", Qt::CaseInsensitive) == 0) {
+        m_windowManager->newCommentarySubWindow();
+        return;
+    }else if(text.compare("new bible", Qt::CaseInsensitive) == 0) {
+        m_windowManager->newBibleSubWindow();
+        return;
     }
 
 
@@ -763,7 +786,10 @@ void AdvancedInterface::quick(QString text)
 }
 
 void AdvancedInterface::onlineHelp()
-{
+{else if(text.compare("new tab", Qt::CaseInsensitive) == 0) {
+        m_windowManager->newBibleSubWindow();
+    }
+
     //open the online faq
     QDesktopServices::openUrl(tr("http://openbv.uucyc.name/faq.html"));
 }
@@ -848,6 +874,7 @@ void AdvancedInterface::toolBarSetText()
     m_mainBarActionModule->setText(tr("Module"));
     m_mainBarActionModule->setToolTip(tr("Add and edit modules"));
     m_searchBar->setWindowTitle(tr("Search Bar"));
+    m_quickLine->setToolTip(tr("Quick open"));
 }
 void AdvancedInterface::uncheck(bool b)
 {

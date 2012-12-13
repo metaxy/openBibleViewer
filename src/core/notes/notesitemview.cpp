@@ -81,6 +81,7 @@ void NotesItemView::create(const QString &id, QStandardItem *parentItem)
 
     }
 }
+
 QStandardItem * NotesItemView::addFolder(const QString &id, const QString &title, const QString &parentID)
 {
     QStandardItem *parentItem;
@@ -91,6 +92,7 @@ QStandardItem * NotesItemView::addFolder(const QString &id, const QString &title
     }
     return addFolder(id,title,parentItem);
 }
+
 QStandardItem * NotesItemView::addFolder(const QString &id, const QString &title, QStandardItem *parentItem)
 {
     QStandardItem *newItem = new QStandardItem;
@@ -101,6 +103,7 @@ QStandardItem * NotesItemView::addFolder(const QString &id, const QString &title
     parentItem->appendRow(newItem);
     return newItem;
 }
+
 QStandardItem * NotesItemView::addNote(const QString &id, const QString &title, const QString &parentID)
 {
     QStandardItem *parentItem;
@@ -111,6 +114,7 @@ QStandardItem * NotesItemView::addNote(const QString &id, const QString &title, 
     }
     return addNote(id,title,parentItem);
 }
+
 QStandardItem * NotesItemView::addNote(const QString &id, const QString &title, QStandardItem *parentItem)
 {
     QStandardItem *newItem = new QStandardItem;
@@ -124,17 +128,20 @@ QStandardItem * NotesItemView::addNote(const QString &id, const QString &title, 
 void NotesItemView::removeNote(const QString &noteID)
 {
     const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, noteID, -1, Qt::MatchExactly);
-    if(list.size() != 1) {
+    Q_ASSERT(list.size() == 1);
+    if(list.isEmpty()) {
         myWarning() << "invalid noteID = " << noteID;
         return;
     }
     const QModelIndex index = list.first();
     m_itemModel->removeRow(index.row(), index.parent());
 }
+
 QStandardItem* NotesItemView::find(const QString &noteID)
 {
     const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, noteID, -1, Qt::MatchExactly);
-    if(list.size() != 1) {
+    Q_ASSERT(list.size() == 1);
+    if(list.isEmpty()) {
         myWarning() << "invalid noteID = " << noteID;
         return NULL;
     }

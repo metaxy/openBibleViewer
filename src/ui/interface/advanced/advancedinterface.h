@@ -130,6 +130,7 @@ private:
 
     void toolBarSetText();
 
+
     WindowManager *m_windowManager;
     VerseModuleManager *m_bibleManager;
     NotesManager *m_notesManager;
@@ -140,7 +141,7 @@ private:
 
     void quickSearch(const QString &text);
     void quick(QString text);
-
+    QLineEdit *m_quickLine;
 
 };
 

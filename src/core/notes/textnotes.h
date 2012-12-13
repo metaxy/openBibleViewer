@@ -78,7 +78,6 @@ private:
     QMap<QString, QString> notesTitle;
     QMap<QString, QMap<QString, QString> > notesRef;
     QMap<QString, QString> notesType;
-    QDomDocument doc;
     QString m_version;
     bool m_isLoaded;
     bool m_isInited;

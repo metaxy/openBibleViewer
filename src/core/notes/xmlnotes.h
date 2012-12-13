@@ -13,6 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef XMLNOTES_H
 #define XMLNOTES_H
+#include <QtXml/QDomDocument>
 #include "src/core/notes/notes.h"
 /**
  Notes represents a note system

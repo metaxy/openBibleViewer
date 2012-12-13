@@ -19,6 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/searchablemodule.h"
 #include <QtScript/QScriptEngine>
 #include <QtCore/QUrl>
+#include <QtXml/QDomDocument>
 
 class WebDictionary : public DictionaryModule
 {
