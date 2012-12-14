@@ -1,8 +1,8 @@
 #include "historylineedit.h"
-
+#include "src/core/dbghelper.h"
 HistoryLineEdit::HistoryLineEdit(QWidget* parent): QLineEdit(parent), m_completer(nullptr), m_model(nullptr)
 {
-
+    setHistory(QStringList());
 }
 
 void HistoryLineEdit::keyPressEvent(QKeyEvent* e)
@@ -11,6 +11,7 @@ void HistoryLineEdit::keyPressEvent(QKeyEvent* e)
 }
 void HistoryLineEdit::setHistory(const QStringList& hist)
 {
+    myDebug() << hist;
     if(m_model != nullptr) {
         delete m_model;
     }
@@ -31,6 +32,7 @@ void HistoryLineEdit::addToHistory()
 
 void HistoryLineEdit::addToHistory(const QString& s)
 {
+    myDebug() << s;
     QStringList list = m_model->stringList();
     list << s;
     m_model->setStringList(list);

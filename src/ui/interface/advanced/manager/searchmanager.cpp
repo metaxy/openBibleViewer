@@ -51,7 +51,7 @@ void SearchManager::setWidget(QWidget *p)
 
 void SearchManager::showSearchDialog()
 {
-    QPointer<SearchDialog> sDialog = new SearchDialog(m_p);
+    QPointer<SearchDialog> sDialog = new SearchDialog(m_p, this);
     connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
     if(m_windowManager->activeForm()) {
         const QString text = m_windowManager->activeForm()->selectedText();

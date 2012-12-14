@@ -362,7 +362,7 @@ void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings
 }
 void SimpleInterface::showSearchDialog()
 {
-    QPointer<SearchDialog> sDialog = new SearchDialog(this);
+    QPointer<SearchDialog> sDialog = new SearchDialog(this, this);
     connect(sDialog, SIGNAL(searched(SearchQuery)), this, SLOT(search(SearchQuery)));
     /*  if(ui->textBrowser->textCursor().hasSelection() == true) //something is selected
           sDialog->setText(ui->textBrowser->textCursor().selectedText());*/

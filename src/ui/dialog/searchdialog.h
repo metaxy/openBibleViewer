@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtGui/QDialog>
 #include "src/core/search/searchquery.h"
+#include "src/core/basicclass.h"
 namespace Ui
 {
 class SearchDialog;
@@ -23,7 +24,7 @@ class SearchDialog;
 /**
  * SearchDialog represents a dialog to search for strings in the current module.
  */
-class SearchDialog : public QDialog
+class SearchDialog : public QDialog, public BasicClass
 {
     Q_OBJECT
 private slots:
@@ -32,7 +33,7 @@ private slots:
 signals:
     void searched(SearchQuery query);
 public:
-    explicit SearchDialog(QWidget *parent = 0);
+    explicit SearchDialog(QWidget *w,BasicClass *cl);
     void setText(const QString &text);
     virtual ~SearchDialog();
 

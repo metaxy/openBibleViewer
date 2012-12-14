@@ -35,7 +35,7 @@
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QLineEdit" name="lineEdit_query"/>
+        <widget class="HistoryLineEdit" name="lineEdit_query"/>
        </item>
        <item>
         <widget class="QPushButton" name="pushButton_search">
@@ -148,6 +148,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>HistoryLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>src/ui/historylineedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../../icons.qrc"/>
  </resources>

@@ -14,8 +14,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include  "searchdialog.h"
 #include  "ui_searchdialog.h"
 
-SearchDialog::SearchDialog(QWidget *parent) :
+SearchDialog::SearchDialog(QWidget *parent, BasicClass *cl) :
     QDialog(parent),
+    BasicClass(cl),
     m_ui(new Ui::SearchDialog)
 {
     m_ui->setupUi(this);
@@ -23,6 +24,7 @@ SearchDialog::SearchDialog(QWidget *parent) :
     connect(m_ui->toolButton_nt, SIGNAL(clicked()), this, SLOT(uncheck()));
     connect(m_ui->toolButton_ot, SIGNAL(clicked()), this, SLOT(uncheck()));
     connect(m_ui->toolButton_whole, SIGNAL(clicked()), this, SLOT(uncheck()));
+    m_ui->lineEdit_query->setHistory(m_settings->session.getData("SearchDialog/queryHistory").toStringList());
 }
 
 SearchDialog::~SearchDialog()
@@ -74,6 +76,7 @@ void SearchDialog::search(void)
         }
 
         emit searched(query);
+        m_settings->session.setData("SearchDialog/queryHistory", m_ui->lineEdit_query->history());
         close();
     }
 }
