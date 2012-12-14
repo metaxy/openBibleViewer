@@ -254,6 +254,7 @@ void AdvancedInterface::setTitle(const QString &title)
 
 void AdvancedInterface::closing()
 {
+    
     m_notesManager->save();
     m_bookmarksManager->save();
     m_windowManager->save();
@@ -667,11 +668,11 @@ void AdvancedInterface::createToolBars()
     m_searchBar->setMaximumWidth(250);
 
 
-    m_quickLine = new QLineEdit(m_searchBar);
+    m_quickLine = new HistoryLineEdit(m_searchBar);
     m_quickLine->setPlaceholderText(tr("Command"));
     m_quickLine->setObjectName("quickLine");
     m_quickLine->setFocusPolicy(Qt::StrongFocus);
-
+    //m_quickLine->setHistory(m_settings->session.getData("advancedInterfaceQuickLineHistory"));
     connect(m_quickLine, SIGNAL(returnPressed()), this, SLOT(quick()));
     m_searchBar->addWidget(m_quickLine);
 

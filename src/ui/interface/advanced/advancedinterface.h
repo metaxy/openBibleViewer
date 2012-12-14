@@ -35,6 +35,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/ui/interface/interface.h"
 #include "src/ui/dock/dictionarydockwidget.h"
+#include "src/ui/historylineedit.h"
 
 #include "src/ui/interface/advanced/manager/windowmanager.h"
 #include "src/ui/interface/advanced/manager/versemodulemanager.h"
@@ -141,7 +142,7 @@ private:
 
     void quickSearch(const QString &text);
     void quick(QString text);
-    QLineEdit *m_quickLine;
+    HistoryLineEdit *m_quickLine;
 
 };
 

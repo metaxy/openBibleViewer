@@ -157,6 +157,7 @@ set( openBibleViewer_SRCS
     src/ui/interface/advanced/form/treebookform.cpp
 
     src/ui/webview.cpp
+    src/ui/historylineedit.cpp
     src/ui/interface/advanced/manager/windowmanager.cpp
     src/ui/interface/advanced/manager/bookmarksmanager.cpp
     src/ui/interface/advanced/manager/versemodulemanager.cpp
@@ -275,6 +276,7 @@ set ( openBibleViewer_MOCS
     src/ui/noteseditor.h
     src/ui/recursivproxymodel.h
     src/ui/moduleselectui.h
+    src/ui/historylineedit.h
 
     src/ui/dock/dictionarydockwidget.h
     src/ui/dock/searchresultdockwidget.h
