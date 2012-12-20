@@ -27,7 +27,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/dictionary/theworddictionary.h"
 #include <QtCore/QFSFileEngine>
 #include <QtCore/QPointer>
-#include "src/core/qzipreader_p.h"
+#include "src/extern/quazip/quazip/quazip.h"
+#include "src/extern/quazip/quazip/quazipfile.h"
 #ifdef BUILD_WITH_SWORD
 #include <stdlib.h>
 #include <swmgr.h>
@@ -458,34 +459,40 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
     DEBUG_FUNC_NAME
     QFileInfo fileInfo(f);
     if(fileInfo.suffix() == "zip") {
-
-        QZipReader reader(f);
-        QString path;
-
-        if(fileInfo.absoluteDir().entryList(QDir::Files | QDir::NoDotAndDotDot).size() > 1) {
-            //mkpath
-            QDir d(fileInfo.absoluteDir());
-            d.mkdir(fileInfo.baseName());
-            path = fileInfo.absoluteDir().path() + "/" + fileInfo.baseName();
-        } else {
-            path = fileInfo.absoluteDir().path();
+        myDebug() << "zip file at" << f;
+        QuaZip zip(f);
+        if(!zip.open(QuaZip::mdUnzip))
+        {
+            myWarning() << "could not open" << f;
+            return 1;
         }
 
-        reader.extractAll(path);
-        reader.close();
+        QuaZipFile file(&zip);
 
+        for(bool a=zip.goToFirstFile(); a; a=zip.goToNextFile()) {
 
-        QStringList l;
-        QDir pathDir(path);
-        foreach(QFileInfo info, pathDir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot)) {
-            if(info.suffix() == "zip")
+            if(!file.open(QIODevice::ReadOnly)) {
+                myWarning() << "could not read a file " << file.errorString() << file.getZipError() << zip.getZipError();
                 continue;
-            l << info.absoluteFilePath();
-        }
-        foreach(const QString &p, l) {
-            quiteAddModule(p, parentID, name);
+            }
+            if(zip.getZipError() != UNZ_OK) {
+                myWarning() << "could not open "<< file.errorString() << file.getZipError() << zip.getZipError();
+                continue;
+            }
+            QFile realFile(m_set.homePath + "modules/" + zip.getCurrentFileName());
+            if(!realFile.open(QFile::WriteOnly)) {
+                myWarning() << "could not open dest file"  << realFile.fileName();
+            }
+            //now copy to homePath
+            realFile.write(file.readAll());
+
+            file.close();
+            realFile.close();
+            //add module now
+            quiteAddModule(realFile.fileName(), parentID, name);
         }
 
+        zip.close();
         return 0;
     }
     ModuleTools::ModuleType moduleType = ModuleTools::NoneType;

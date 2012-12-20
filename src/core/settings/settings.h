@@ -49,7 +49,7 @@ public:
 
     bool advancedSearchDock_useCurrentModule;
 
-    QString homePath;
+    QString homePath;// e.g /home/asd/.openbible/
     QSharedPointer<Versification> defaultVersification;
 
     ModuleSettings * getModuleSettings(int moduleID) const;

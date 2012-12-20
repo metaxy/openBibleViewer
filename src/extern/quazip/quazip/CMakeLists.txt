@@ -6,16 +6,20 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${QT_INCLUDE_DIR}
   ${QT_QTCORE_INCLUDE_DIR}
+  ${ZLIB_INCLUDE_DIRS}
 )
-
+ADD_DEFINITIONS(-DQUAZIP_BUILD)
 set(RTFQUAZIP_LIB_SOURCES
     JlCompress.cpp
     qioapi.cpp
     quaadler32.cpp
     quacrc32.cpp
+    quaziodevice.cpp
     quazip.cpp
     quazipfile.cpp
     quazipnewinfo.cpp
+    quazipdir.cpp
+    quagzipfile.cpp
     unzip.c
     zip.c
 )

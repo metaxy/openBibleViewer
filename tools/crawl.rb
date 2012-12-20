@@ -40,7 +40,8 @@ def crawl(top, topname)
             x.name = topname;
             $end.push(x)
         else
-            crawl($base + x.link, x.name)
+
+            crawl($base + x.link, x.name) if not x.link.start_with?("http")
         end
           
     end

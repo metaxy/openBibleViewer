@@ -45,6 +45,14 @@ class QuaZipFilePrivate;
  * it will create internal QuaZip object. See constructors' descriptions
  * for details. Writing is only possible with the existing instance.
  *
+ * Note that due to the underlying library's limitation it is not
+ * possible to use multiple QuaZipFile instances to open several files
+ * in the same archive at the same time. If you need to write to
+ * multiple files in parallel, then you should write to temporary files
+ * first, then pack them all at once when you have finished writing. If
+ * you need to read multiple files inside the same archive in parallel,
+ * you should extract them all into a temporary directory first.
+ *
  * \section quazipfile-sequential Sequential or random-access?
  *
  * At the first thought, QuaZipFile has fixed size, the start and the
@@ -52,7 +60,7 @@ class QuaZipFilePrivate;
  * there is one major obstacle to making it random-access: ZIP/UNZIP API
  * does not support seek() operation and the only way to implement it is
  * through reopening the file and re-reading to the required position,
- * but this is prohibitely slow.
+ * but this is prohibitively slow.
  *
  * Therefore, QuaZipFile is considered to be a sequential device. This
  * has advantage of availability of the ungetChar() operation (QIODevice
@@ -62,21 +70,20 @@ class QuaZipFilePrivate;
  * this class.
  *
  **/
-class QUAZIP_EXPORT QuaZipFile: public QIODevice
-{
-    friend class QuaZipFilePrivate;
-    Q_OBJECT
-private:
+class QUAZIP_EXPORT QuaZipFile: public QIODevice {
+  friend class QuaZipFilePrivate;
+  Q_OBJECT
+  private:
     QuaZipFilePrivate *p;
     // these are not supported nor implemented
     QuaZipFile(const QuaZipFile& that);
     QuaZipFile& operator=(const QuaZipFile& that);
-protected:
+  protected:
     /// Implementation of the QIODevice::readData().
     qint64 readData(char *data, qint64 maxSize);
     /// Implementation of the QIODevice::writeData().
     qint64 writeData(const char *data, qint64 maxSize);
-public:
+  public:
     /// Constructs a QuaZipFile instance.
     /** You should use setZipName() and setFileName() or setZip() before
      * trying to call open() on the constructed object.
@@ -99,7 +106,7 @@ public:
      * QuaZipFile constructed by this constructor can be used for read
      * only access. Use QuaZipFile(QuaZip*,QObject*) for writing.
      **/
-    QuaZipFile(const QString& zipName, QObject *parent = NULL);
+    QuaZipFile(const QString& zipName, QObject *parent =NULL);
     /// Constructs a QuaZipFile instance.
     /** \a parent argument specifies this object's parent object, \a
      * zipName specifies ZIP archive file name and \a fileName and \a cs
@@ -111,7 +118,7 @@ public:
      * \sa QuaZip::setCurrentFile()
      **/
     QuaZipFile(const QString& zipName, const QString& fileName,
-               QuaZip::CaseSensitivity cs = QuaZip::csDefault, QObject *parent = NULL);
+        QuaZip::CaseSensitivity cs =QuaZip::csDefault, QObject *parent =NULL);
     /// Constructs a QuaZipFile instance.
     /** \a parent argument specifies this object's parent object.
      *
@@ -161,7 +168,7 @@ public:
      * zip.close();
      * \endcode
      **/
-    QuaZipFile(QuaZip *zip, QObject *parent = NULL);
+    QuaZipFile(QuaZip *zip, QObject *parent =NULL);
     /// Destroys a QuaZipFile instance.
     /** Closes file if open, destructs internal QuaZip object (if it
      * exists and \em is internal, of course).
@@ -193,7 +200,7 @@ public:
      * Returns null string if there is no file name set yet. This is the
      * case when this QuaZipFile operates on the existing QuaZip object
      * (constructor QuaZipFile(QuaZip*,QObject*) or setZip() was used).
-     *
+     * 
      * \sa getActualFileName
      **/
     QString getFileName() const;
@@ -272,7 +279,7 @@ public:
      *
      * \sa QuaZip::setCurrentFile
      **/
-    void setFileName(const QString& fileName, QuaZip::CaseSensitivity cs = QuaZip::csDefault);
+    void setFileName(const QString& fileName, QuaZip::CaseSensitivity cs =QuaZip::csDefault);
     /// Opens a file for reading.
     /** Returns \c true on success, \c false otherwise.
      * Call getZipError() to get error code.
@@ -287,9 +294,8 @@ public:
      * Argument \a password specifies a password to decrypt the file. If
      * it is NULL then this function behaves just like open(OpenMode).
      **/
-    inline bool open(OpenMode mode, const char *password) {
-        return open(mode, NULL, NULL, false, password);
-    }
+    inline bool open(OpenMode mode, const char *password)
+    {return open(mode, NULL, NULL, false, password);}
     /// Opens a file for reading.
     /** \overload
      * Argument \a password specifies a password to decrypt the file.
@@ -302,21 +308,28 @@ public:
      * \a method should not be \c NULL. \a level can be \c NULL if you
      * don't want to know the compression level.
      **/
-    bool open(OpenMode mode, int *method, int *level, bool raw, const char *password = NULL);
+    bool open(OpenMode mode, int *method, int *level, bool raw, const char *password =NULL);
     /// Opens a file for writing.
     /** \a info argument specifies information about file. It should at
      * least specify a correct file name. Also, it is a good idea to
      * specify correct timestamp (by default, current time will be
      * used). See QuaZipNewInfo.
      *
-     * Arguments \a password and \a crc provide necessary information
-     * for crypting. Note that you should specify both of them if you
-     * need crypting. If you do not, pass \c NULL as password, but you
-     * still need to specify \a crc if you are going to use raw mode
-     * (see below).
+     * The \a password argument specifies the password for crypting. Pass NULL
+     * if you don't need any crypting. The \a crc argument was supposed
+     * to be used for crypting too, but then it turned out that it's
+     * false information, so you need to set it to 0 unless you want to
+     * use the raw mode (see below).
      *
      * Arguments \a method and \a level specify compression method and
-     * level.
+     * level. The only method supported is Z_DEFLATED, but you may also
+     * specify 0 for no compression. If all of the files in the archive
+     * use both method 0 and either level 0 is explicitly specified or
+     * data descriptor writing is disabled with
+     * QuaZip::setDataDescriptorWritingEnabled(), then the
+     * resulting archive is supposed to be compatible with the 1.0 ZIP
+     * format version, should you need that. Except for this, \a level
+     * has no other effects with method 0.
      *
      * If \a raw is \c true, no compression is performed. In this case,
      * \a crc and uncompressedSize field of the \a info are required.
@@ -325,9 +338,9 @@ public:
      * algorithms tuning. See deflateInit2() in zlib.
      **/
     bool open(OpenMode mode, const QuaZipNewInfo& info,
-              const char *password = NULL, quint32 crc = 0,
-              int method = Z_DEFLATED, int level = Z_DEFAULT_COMPRESSION, bool raw = false,
-              int windowBits = -MAX_WBITS, int memLevel = DEF_MEM_LEVEL, int strategy = Z_DEFAULT_STRATEGY);
+        const char *password =NULL, quint32 crc =0,
+        int method =Z_DEFLATED, int level =Z_DEFAULT_COMPRESSION, bool raw =false,
+        int windowBits =-MAX_WBITS, int memLevel =DEF_MEM_LEVEL, int strategy =Z_DEFAULT_STRATEGY);
     /// Returns \c true, but \ref quazipfile-sequential "beware"!
     virtual bool isSequential()const;
     /// Returns current position in the file.
@@ -422,6 +435,8 @@ public:
     virtual void close();
     /// Returns the error code returned by the last ZIP/UNZIP API call.
     int getZipError() const;
+    /// Returns the number of bytes available for reading.
+    virtual qint64 bytesAvailable() const;
 };
 
 #endif

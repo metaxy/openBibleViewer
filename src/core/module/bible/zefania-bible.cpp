@@ -791,6 +791,7 @@ ChapterBlock ZefaniaXmlReader::readChapterBlock(const int bookID, const int chap
         }
     }
     destroy();
+    return ChapterBlock(-1, RMetaData(-1, RMetaData::Block));
 }
 MetaInfo ZefaniaBible::readInfo(const QString &fileName)
 {

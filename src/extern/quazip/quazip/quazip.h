@@ -25,6 +25,7 @@ quazip/(un)zip.h files for details, basically it's zlib license.
  **/
 
 #include <QString>
+#include <QStringList>
 #include <QTextCodec>
 
 #include "zip.h"
@@ -79,22 +80,21 @@ class QuaZipPrivate;
  * detection using locale information. Does anyone know a good way to do
  * it?
  **/
-class QUAZIP_EXPORT QuaZip
-{
-    friend class QuaZipPrivate;
-public:
+class QUAZIP_EXPORT QuaZip {
+  friend class QuaZipPrivate;
+  public:
     /// Useful constants.
     enum Constants {
-        MAX_FILE_NAME_LENGTH = 256 /**< Maximum file name length. Taken from
+      MAX_FILE_NAME_LENGTH=256 /**< Maximum file name length. Taken from
                                  \c UNZ_MAXFILENAMEINZIP constant in
                                  unzip.c. */
     };
     /// Open mode of the ZIP file.
     enum Mode {
-        mdNotOpen, ///< ZIP file is not open. This is the initial mode.
-        mdUnzip, ///< ZIP file is open for reading files inside it.
-        mdCreate, ///< ZIP file was created with open() call.
-        mdAppend, /**< ZIP file was opened in append mode. This refers to
+      mdNotOpen, ///< ZIP file is not open. This is the initial mode.
+      mdUnzip, ///< ZIP file is open for reading files inside it.
+      mdCreate, ///< ZIP file was created with open() call.
+      mdAppend, /**< ZIP file was opened in append mode. This refers to
                   * \c APPEND_STATUS_CREATEAFTER mode in ZIP/UNZIP package
                   * and means that zip is appended to some existing file
                   * what is useful when that file contains
@@ -102,7 +102,7 @@ public:
                   * you whant to use to add files to the existing ZIP
                   * archive.
                   **/
-        mdAdd ///< ZIP file was opened for adding files in the archive.
+      mdAdd ///< ZIP file was opened for adding files in the archive.
     };
     /// Case sensitivity for the file names.
     /** This is what you specify when accessing files in the archive.
@@ -111,17 +111,18 @@ public:
      * only US-ASCII characters was supported.
      **/
     enum CaseSensitivity {
-        csDefault = 0, ///< Default for platform. Case sensitive for UNIX, not for Windows.
-        csSensitive = 1, ///< Case sensitive.
-        csInsensitive = 2 ///< Case insensitive.
+      csDefault=0, ///< Default for platform. Case sensitive for UNIX, not for Windows.
+      csSensitive=1, ///< Case sensitive.
+      csInsensitive=2 ///< Case insensitive.
     };
-private:
+    static Qt::CaseSensitivity convertCaseSensitivity(CaseSensitivity);
+  private:
     QuaZipPrivate *p;
     // not (and will not be) implemented
     QuaZip(const QuaZip& that);
     // not (and will not be) implemented
     QuaZip& operator=(const QuaZip& that);
-public:
+  public:
     /// Constructs QuaZip object.
     /** Call setName() before opening constructed object. */
     QuaZip();
@@ -170,7 +171,7 @@ public:
      * In short: just forget about the \a ioApi argument and you'll be
      * fine.
      **/
-    bool open(Mode mode, zlib_filefunc_def *ioApi = NULL);
+    bool open(Mode mode, zlib_filefunc_def *ioApi =NULL);
     /// Closes ZIP file.
     /** Call getZipError() to determine if the close was successful. The
      * underlying QIODevice is also closed, regardless of whether it was
@@ -249,8 +250,12 @@ public:
     int getEntriesCount() const;
     /// Returns global comment in the ZIP file.
     QString getComment() const;
-    /// Sets global comment in the ZIP file.
-    /** Comment will be written to the archive on close operation.
+    /// Sets the global comment in the ZIP file.
+    /** The comment will be written to the archive on close operation.
+     * QuaZip makes a distinction between a null QByteArray() comment 
+     * and an empty &quot;&quot; comment in the QuaZip::mdAdd mode. 
+     * A null comment is the default and it means &quot;don't change 
+     * the comment&quot;. An empty comment removes the original comment.
      *
      * \sa open()
      **/
@@ -304,7 +309,7 @@ public:
      *
      * \sa setFileNameCodec(), CaseSensitivity
      **/
-    bool setCurrentFile(const QString& fileName, CaseSensitivity cs = csDefault);
+    bool setCurrentFile(const QString& fileName, CaseSensitivity cs =csDefault);
     /// Returns \c true if the current file has been set.
     bool hasCurrentFile() const;
     /// Retrieves information about the current file.
@@ -355,6 +360,52 @@ public:
      * getUnzFile() function also apply to this function.
      **/
     zipFile getZipFile();
+    /// Changes the data descriptor writing mode.
+    /**
+      According to the ZIP format specification, a file inside archive
+      may have a data descriptor immediately following the file
+      data. This is reflected by a special flag in the local file header
+      and in the central directory. By default, QuaZIP sets this flag
+      and writes the data descriptor unless both method and level were
+      set to 0, in which case it operates in 1.0-compatible mode and
+      never writes data descriptors.
+
+      By setting this flag to false, it is possible to disable data
+      descriptor writing, thus increasing compatibility with archive
+      readers that don't understand this feature of the ZIP file format.
+
+      Setting this flag affects all the QuaZipFile instances that are
+      opened after this flag is set.
+
+      The data descriptor writing mode is enabled by default.
+
+      \param enabled If \c true, enable local descriptor writing,
+      disable it otherwise.
+
+      \sa QuaZipFile::setDataDescriptorWritingEnabled()
+      */
+    void setDataDescriptorWritingEnabled(bool enabled);
+    /// Returns the data descriptor default writing mode.
+    /**
+      \sa setDataDescriptorWritingEnabled()
+      */
+    bool isDataDescriptorWritingEnabled() const;
+    /// Returns a list of files inside the archive.
+    /**
+      \return A list of file names or an empty list if there
+      was an error or if the archive is empty (call getZipError() to
+      figure out which).
+      \sa getFileInfoList()
+      */
+    QStringList getFileNameList() const;
+    /// Returns information list about all files inside the archive.
+    /**
+      \return A list of QuaZipFileInfo objects or an empty list if there
+      was an error or if the archive is empty (call getZipError() to
+      figure out which).
+      \sa getFileNameList()
+      */
+    QList<QuaZipFileInfo> getFileInfoList() const;
 };
 
 #endif
