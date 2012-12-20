@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <MODULES version="0.1">
+    <ID type="package">
+        <GROUP name="Deutsch Standard" size="10 MB">
+            <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Elberfelder%201905/Elberfelder_1905.xml" lang="German" size = "5.9 MB">Elberfelder 1905</ITEM>
+        </GROUP>
+    </ID>
 	<ID type="bible">
 		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/CHA/Chamorro_zefania.xml" lang="CH" size = "1.0 MB">CHA</ITEM>
 		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/BUL/Verens%20Contemporary%20Bible/BulVeren_zefania.xml" lang="Bulgarian" size = "7.4 MB">Verens Contemporary Bible</ITEM>
