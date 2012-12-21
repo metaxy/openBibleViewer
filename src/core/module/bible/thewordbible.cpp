@@ -44,24 +44,32 @@ int TheWordBible::loadBibleData(const int id, const QString &path)
 
     m_moduleID = id;
     m_modulePath = path;
-
+    int dataLines;
     const QString pre = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath) + "/";
     Versification::VersificationFilterFlags flags;
     if(path.endsWith(".nt")) {
         m_settings->getModuleSettings(id)->versificationName = "kjv-nt";
         flags = Versification::ReturnNT;
+        dataLines = 7957;
     } else if(path.endsWith(".ot")) {
         m_settings->getModuleSettings(id)->versificationName = "kjv-ot";
         flags = Versification::ReturnOT;
+        dataLines = 23145;
     } else if(path.endsWith(".ont")) {
         m_settings->getModuleSettings(id)->versificationName = "kjv";
         flags = Versification::ReturnAll;
+        dataLines = 31102;
+    } else {
+        myWarning() << "wrong file suffix" << path;
+        return 1;
     }
     m_versification = QSharedPointer<Versification>(new Versification_KJV());
     m_versification->setFlags(flags);
 
-    if(hasHardCache(m_modulePath))
+    if(hasHardCache(m_modulePath)) {
+        myDebug() << "has already a cache";
         return 0;
+    }
     //creating hard cache
     QDir d(pre);
     if(!d.exists())
@@ -69,24 +77,26 @@ int TheWordBible::loadBibleData(const int id, const QString &path)
 
     QString dataFilePath = path;
     QFile file(dataFilePath);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        myWarning() << "could not open file" << dataFilePath;
         return 1;
+    }
 
-    int book = 0;
+    myDebug() << m_versification->bookIDs();
+    int book = m_versification->bookIDs().first();
     int chapter = 0;
     int verse = 0;
     VerseBook currentBook = VerseBook();
     currentBook.setID(book);
     Chapter currentChapter = Chapter();
     currentChapter.setChapterID(chapter);
-    const int linesToSkip = 31102;//see spec
 
-    QFile *write = NULL;
+    QFile *write = nullptr;
     for(int lineCount = 0; !file.atEnd(); lineCount++) {
-        if(lineCount >= linesToSkip) {
+        if(lineCount >= dataLines) {
             break;
         }
-        if(write == NULL) {
+        if(write == nullptr) {
             write = new QFile(pre + QString::number(book) +".twb");
             write->open(QIODevice::WriteOnly | QIODevice::Text);
             myDebug() << write->fileName();
