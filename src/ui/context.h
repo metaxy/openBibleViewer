@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/core/basicclass.h"
 #include "src/core/settings/settingsloader.h"
+#include "mainwindow.h"
 class Context : public QObject, public BasicClass
 {
     Q_OBJECT
@@ -33,8 +34,8 @@ public:
 
     void writeSettings();
 
-private:
-
+private slots:
+    void toggleFullScreen();
 private:
     QSettings *m_settingsFile;
     QString m_homeDataPath;
@@ -43,6 +44,7 @@ private:
 
     bool m_firstStart;
     SettingsLoader *m_settingsLoader;
+    MainWindow *m_window;
 };
 
 #endif // CONTEXT_H

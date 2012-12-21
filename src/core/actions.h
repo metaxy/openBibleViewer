@@ -78,7 +78,8 @@ signals:
     void _setCurrentVerseTableID(const int verseTableID);
 
     void _moduleChanged(const int moduleID);
-
+    void _setFullScreen(bool enable);
+    void _toggleFullScreen();
 public slots:
 
     void previousChapter();
@@ -132,7 +133,11 @@ public slots:
 
     void setCurrentVerseTableID(const int verseTableID);
 
-
+    void setFullScreen(bool enable);
+    void enableFullScreen();
+    void disableFullScreen();
+    
+    void toggleFullScreen();
 
 };
 

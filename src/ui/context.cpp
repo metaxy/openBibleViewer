@@ -56,6 +56,8 @@ void Context::init()
     m_moduleManager = new ModuleManager();
     m_notes = new XmlNotes();
     m_actions = new Actions();
+    
+    connect(m_actions, SIGNAL(_toggleFullScreen()), this, SLOT(toggleFullScreen()));
 
     //first start?
     QFileInfo info(m_settingsFile->fileName());
@@ -88,13 +90,22 @@ void Context::setSettings(QSettings *settings)
 void Context::showWindow()
 {
     DEBUG_FUNC_NAME
-    MainWindow *w = new MainWindow(this);
-    setAll(w);
+    m_window = new MainWindow(this);
+    setAll(m_window);
 
-    w->setTranslator(m_myappTranslator, m_qtTranslator);
-    w->init(m_firstStart);
-    w->show();
+    m_window->setTranslator(m_myappTranslator, m_qtTranslator);
+    m_window->init(m_firstStart);
+    m_window->show();
 }
+void Context::toggleFullScreen()
+{
+    if(!m_window->isFullScreen()) {
+        m_window->showFullScreen();
+    } else {
+        m_window->showNormal();
+    }
+}
+
 void Context::setTranslator(QTranslator *my, QTranslator *qt)
 {
     m_myappTranslator = my;

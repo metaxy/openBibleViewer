@@ -678,7 +678,10 @@ void AdvancedInterface::createToolBars()
 
     QShortcut *s1 = new QShortcut(QKeySequence(tr("Esc", "Focus QuickOpen")), this);
     connect(s1, SIGNAL(activated()), m_quickLine, SLOT(setFocus()));
-
+    
+    QShortcut *sFullScreen = new QShortcut(QKeySequence(tr("F11", "Enable/Disable Fullscreen mode")), this);
+    connect(sFullScreen, SIGNAL(activated()), m_actions, SLOT(toggleFullScreen()));
+    
     toolBarSetText();
 }
 
