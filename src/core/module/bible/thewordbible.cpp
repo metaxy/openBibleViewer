@@ -65,7 +65,7 @@ int TheWordBible::loadBibleData(const int id, const QString &path)
     }
     m_versification = QSharedPointer<Versification>(new Versification_KJV());
     m_versification->setFlags(flags);
-
+    myDebug() << flags;
     if(hasHardCache(m_modulePath)) {
         myDebug() << "has already a cache";
         return 0;
@@ -131,7 +131,7 @@ VerseBook TheWordBible::loadCached(const int bookID)
     const QString fileName = m_settings->homePath + "cache/" + m_settings->hash(m_modulePath) + "/" + QString::number(bookID) + ".twb";
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        myDebug() << "file not found " << file.fileName();
+        myWarning() << "file not found " << file.fileName();
         return b;
     }
     QTextStream in(&file);
@@ -194,6 +194,7 @@ bool TheWordBible::hasHardCache(const QString &path)
     foreach(int bookID, set->getV11n()->bookIDs()) {
         QFileInfo inf(pre + QString::number(bookID) + ".twb");
         if(!inf.exists() || !inf.isReadable()) {
+            myDebug() << "cache not existent at " <<inf.fileName();
             return false;
         }
     }
@@ -202,6 +203,7 @@ bool TheWordBible::hasHardCache(const QString &path)
 
 int TheWordBible::readBook(const int id)
 {
+    DEBUG_FUNC_NAME
     m_bookID = id;
     m_book = loadCached(m_bookID);
     return 0;
@@ -212,7 +214,16 @@ MetaInfo TheWordBible::readInfo(QFile &file)
     MetaInfo info;
     bool skipping = true;
     QTextStream in(&file);
-    const int linesToSkip = 31102;//see spec
+    int linesToSkip;
+    if(file.fileName().endsWith(".ont")) {
+        linesToSkip = 31102;
+    } else if(file.fileName().endsWith(".ot")) {
+        linesToSkip = 23145;
+    } else if(file.fileName().endsWith(".nt")) {
+        linesToSkip = 7957;
+    } else {
+        return info;
+    }
     for(int lineCount = 0; !in.atEnd(); lineCount++) {
         const QString line = in.readLine();
         if(!skipping) {
@@ -441,7 +452,9 @@ TextRange TheWordBible::rawTextRange(int bookID, int chapterID, int startVerse, 
     QMapIterator<int, Verse> i(data);
     while(i.hasNext()) {
         i.next();
-        if(i.key() <= endVerse && i.key() >= startVerse)
+        myDebug() << i.key();
+        if((i.key() <= endVerse || endVerse == -1) && //if endverse == -1 this means no filtering
+            (i.key() >= startVerse || startVerse == -1))
             ret.addVerse(i.value());
     }
     return ret;
@@ -464,7 +477,7 @@ std::pair<int, int> TheWordBible::minMaxVerse(int bookID, int chapterID)
     //because c.data() is a map and it is sorted by key
     ret.first = c.data().keys().first();
     ret.second = c.data().keys().last();
-
+    myDebug() << ret.first << ret.second;
     return ret;
 }
 
