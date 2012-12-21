@@ -479,7 +479,8 @@ TextRange BibleQuote::rawTextRange(int bookID, int chapterID, int startVerse, in
     QMapIterator<int, Verse> i(data);
     while(i.hasNext()) {
         i.next();
-        if(i.key() <= endVerse && i.key() >= startVerse)
+        if((i.key() <= endVerse || endVerse == -1) &&
+           (i.key() >= startVerse || startVerse == -1))
             ret.addVerse(i.value());
     }
     return ret;

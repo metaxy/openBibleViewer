@@ -111,6 +111,13 @@ TextRange SwordBible::rawTextRange(int bookID, int chapterID, int startVerse, in
 {
     DEBUG_FUNC_NAME;
     TextRange ret;
+    std::pair<int,int> minMax = minMaxVerse(bookID, chapterID);
+    if(startVerse == -1) {
+        startVerse == minMax.first;
+    }
+    if(endVerse == -1) {
+        endVerse == minMax.second;
+    }
 #ifdef BUILD_WITH_SWORD
     VerseKey mykey;
     QString b = m_v11n->bookName(bookID, true) + " " + QString::number(chapterID + 1) + ":" + QString::number(startVerse + 1);
