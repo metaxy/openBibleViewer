@@ -577,7 +577,7 @@ void BibleForm::activated()
     }
 
     if(verseModule()->moduleID() < 0) {
-        myWarning() << "invalid moduleID";
+        myDebug() << "invalid moduleID";
         clearChapters();
         clearBooks();
         m_actions->setTitle("");

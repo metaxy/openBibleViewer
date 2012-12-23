@@ -73,24 +73,7 @@ QMdiSubWindow* WindowManager::newSubWindow(Form::FormType type, bool forceMax)
     QVBoxLayout *layout = new QVBoxLayout(widget);
     m_nameCounter++;
     Form *form = Form::createForm(widget, type);
-    /*    if(type == Form::BibleForm) {
-        ret = new BibleForm(widget);
-        form->setRole(Form::BibleRole);
-    } else if(type == Form::WebForm) {
-        form = new WebForm(widget);
-    } else if(type == Form::DictionaryForm) {
-        form = new DictionaryForm(widget);
-        form->setRole(Form::DictionaryRole);
-    } else if(type == Form::BookForm) {
-        form = new BookForm(widget);
-        form->setRole(Form::BookRole);
-    } else if(type == Form::CommentaryForm) {
-        form = new CommentaryForm(widget);
-        form->setRole(Form::CommentaryRole);
-    } else if(type == Form::TreeBookForm) {
-        form = new TreeBookForm(widget);
-        form->setRole(Form::BookRole);
-    }*/
+
     form->setID(m_nameCounter);
     form->setObjectName("mdiForm");
     form->currentWindowID = m_currentWindowID;
@@ -431,6 +414,7 @@ void WindowManager::tile()
 
     QList<QWidget *> widgets;
     QList<QMdiSubWindow*> subWindows = usableWindowList();
+    myDebug() << subWindows;
     QSize minSubWindowSize;
 
     if(m_settings->intelligentLayout) {
@@ -527,7 +511,7 @@ void WindowManager::tile()
         }
 
     }
-
+    myDebug() << usableWindowList();
     //m_area->updateScrollBars();
     setEnableReload(true);
 }
@@ -663,6 +647,7 @@ void WindowManager::setTitle(const QString &title)
 
 void WindowManager::closeSubWindow()
 {
+    //DEBUG_FUNC_NAME
 	if(activeSubWindow())
 		activeSubWindow()->close();
 }
@@ -670,7 +655,6 @@ void WindowManager::closeSubWindow()
 int WindowManager::closingWindow()
 {
     if(m_area->subWindowList().isEmpty()) {
-        myDebug() << "last window closed";
         m_actions->clearBooks();
         m_actions->clearChapters();
         return 1;

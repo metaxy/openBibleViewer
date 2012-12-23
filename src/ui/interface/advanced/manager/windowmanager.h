@@ -81,7 +81,7 @@ public slots:
     void newBookSubWindow();
     void newCommentarySubWindow();
     QMdiSubWindow * newSubWindow(Form::FormType type = Form::BibleForm, bool forceMax = false);
-
+    void closeSubWindow();
 
 private slots:
     int closingWindow();
@@ -106,7 +106,7 @@ private slots:
     void zoomOut();
     void reloadActive();
     void autoLayout();
-    void closeSubWindow();
+
 
 private:
 

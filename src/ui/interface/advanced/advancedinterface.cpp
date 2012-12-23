@@ -344,6 +344,7 @@ QMenuBar* AdvancedInterface::menuBar()
     QAction *actionCloseSubWindow = new QAction(QIcon::fromTheme("tab-close", QIcon(":/icons/16x16/tab-close.png")), tr("Close SubWindow"), menuFile);
     connect(actionCloseSubWindow, SIGNAL(triggered()), m_windowManager, SLOT(closeSubWindow()));
     actionCloseSubWindow->setShortcut(QKeySequence::Close);
+    actionCloseSubWindow->setShortcutContext(Qt::WidgetShortcut);
 
     //Save As
     QAction *actionSaveAs = new QAction(QIcon::fromTheme("document-save-as", QIcon(":/icons/16x16/document-save-as.png")), tr("Save As"), menuFile);
@@ -480,8 +481,10 @@ QMenuBar* AdvancedInterface::menuBar()
     connect(m_actionTileHorizontal, SIGNAL(triggered(bool)), this, SLOT(uncheck(bool)));
 
     QAction *actionDoTiling = new QAction(tr("Layout windows"), menuView);
-    actionDoTiling->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_A));
+    actionDoTiling->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
+    actionDoTiling->setShortcutContext(Qt::WidgetShortcut);
     connect(actionDoTiling, SIGNAL(triggered()), m_windowManager, SLOT(autoLayout()));
+
 
 
 
@@ -681,7 +684,7 @@ void AdvancedInterface::createToolBars()
     
     QShortcut *sFullScreen = new QShortcut(QKeySequence(tr("F11", "Enable/Disable Fullscreen mode")), this);
     connect(sFullScreen, SIGNAL(activated()), m_actions, SLOT(toggleFullScreen()));
-    
+
     toolBarSetText();
 }
 
