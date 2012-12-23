@@ -18,13 +18,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/extern/rtf-qt/TheWordRtfOutput.h"
 #include "src/core/rtftools.h"
 #include <QtCore/QTemporaryFile>
-TheWordDictionary::TheWordDictionary()
+TheWordDictionary::TheWordDictionary() : m_compressed(false), m_secure(false), m_doEncrypt(false)
 {
 }
 Response* TheWordDictionary::getEntry(const QString &entry)
 {
     if(!m_loaded) {
         loadModuleData(m_moduleID);
+    }
+    if(m_secure || m_doEncrypt) {
+        return new StringResponse(QObject::tr("This module is encrypted."));
     }
     QTextDocument *rtfDocument = new QTextDocument( NULL );
     QSqlQuery query("select id,subject FROM topics WHERE subject = '"+entry+"'", m_db);
@@ -38,8 +41,11 @@ Response* TheWordDictionary::getEntry(const QString &entry)
             QTemporaryFile file;
             if (file.open()) {
                 QTextStream out(&file);
-
-                out << RtfTools::toValidRTF(query2.value(0).toString());
+                if(m_compressed) {
+                    out << RtfTools::toValidRTF(RtfTools::gUncompress(query2.value(0).toByteArray()));
+                } else {
+                    out << RtfTools::toValidRTF(query2.value(0).toString());
+                }
                 file.close();
                 RtfReader::Reader *reader = new RtfReader::Reader( NULL );
                 bool result = reader->open(file.fileName());
@@ -89,6 +95,24 @@ int TheWordDictionary::loadModuleData(const int moduleID)
         myWarning() << "could not open database " << m_settings->getModuleSettings(moduleID)->modulePath;
         return 1;
     }
+    QSqlQuery query ("select name,value from config", m_db);
+    while (query.next()) {
+        const QString name = query.value(0).toString();
+        const QString value = query.value(1).toString();
+        if(name == "compressed") {
+            if(value == "1") {
+                m_compressed = true;
+            } else if(value == "0") {
+                m_compressed = false;
+            }
+        }
+        if(name == "secure" && value == "1") {
+            m_secure = true;
+        }
+        if(name == "do.encrypt") {
+            m_doEncrypt = true;
+        }
+    }
     m_loaded = true;
     return 0;
 }
@@ -102,10 +126,10 @@ MetaInfo TheWordDictionary::readInfo(const QString &name)
         myWarning() << "could not open database " << name;
         return MetaInfo();
     }
-    QSqlQuery query1 ("select name,value from config", db);
-    while (query1.next()) {
-        const QString name = query1.value(0).toString();
-        const QString value = query1.value(1).toString();
+    QSqlQuery query ("select name,value from config", db);
+    while (query.next()) {
+        const QString name = query.value(0).toString();
+        const QString value = query.value(1).toString();
         myDebug() << name << value;
         if(name == "title") {
             ret.setName(value);

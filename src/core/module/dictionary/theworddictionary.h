@@ -29,6 +29,9 @@ public:
 private:
     int loadModuleData(const int moduleID);
     QSqlDatabase m_db;
+    bool m_compressed;
+    bool m_secure;
+    bool m_doEncrypt;
 };
 
 #endif // THEWORDDICTIONARY_H

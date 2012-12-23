@@ -54,9 +54,10 @@ QString RtfTools::fromRVF(const QByteArray &data)
 }
 QByteArray RtfTools::gUncompress(const QByteArray &data)
 {
-    DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME;
+    myDebug() << data;
     if (data.size() <= 4) {
-        qWarning("gUncompress: Input data is truncated");
+        myWarning() << "Input data is truncated";
         return QByteArray();
     }
 
@@ -90,10 +91,13 @@ QByteArray RtfTools::gUncompress(const QByteArray &data)
 
         switch (ret) {
         case Z_NEED_DICT:
+            myWarning() << "need dict";
             ret = Z_DATA_ERROR;     // and fall through
         case Z_DATA_ERROR:
+            myWarning() << "data error";
         case Z_MEM_ERROR:
             (void)inflateEnd(&strm);
+            myWarning() << "mem error";
             return QByteArray();
         }
 
@@ -102,5 +106,6 @@ QByteArray RtfTools::gUncompress(const QByteArray &data)
 
     // clean up and return
     inflateEnd(&strm);
+    myDebug() << result;
     return result;
 }
