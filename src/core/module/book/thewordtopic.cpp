@@ -136,20 +136,31 @@ int TheWordTopic::loadModuleData(const int moduleID, const QString &path)
 Response* TheWordTopic::readChapter(const int chapterID)
 {
     DEBUG_FUNC_NAME
+    bool haveRtf = false;
+    bool haveRvf = false;
     QString ret;
     QTextDocument *rtfDocument = new QTextDocument( NULL );
     QSqlQuery query("select topic_id,data from content where topic_id = "+ QString::number(chapterID), m_db);
     while (query.next()) {
         if(m_contentType == RtfTools::RTFContent) {
-            readRtf(query.value(1), rtfDocument);
+            if(RtfTools::isRvf(query.value(1).toByteArray())) { //sometimes wwe have rvf content in rtf modules
+                readRvf(query.value(1), &ret);
+                haveRvf = true;
+            } else {
+                readRtf(query.value(1), rtfDocument);
+                haveRtf = true;
+            }
         } else {
             readRvf(query.value(1), &ret);
+            haveRvf = true;
         }
     }
     Response *res;
-    if(m_contentType == RtfTools::RTFContent) {
+    if(haveRvf && haveRtf) {
+        myWarning() << "we cannot have both";
+    } else if(haveRtf) {
         res = new HtmlResponse(rtfDocument->toHtml());
-    } else {
+    } else if(haveRvf){
         res = new StringResponse(ret);
     }
     delete rtfDocument;
@@ -157,6 +168,7 @@ Response* TheWordTopic::readChapter(const int chapterID)
 }
 void TheWordTopic::readRtf(const QVariant &value, QTextDocument *rtfDocument)
 {
+    DEBUG_FUNC_NAME
     QTemporaryFile file;
     if (file.open()) {
         QTextStream out(&file);
@@ -179,6 +191,7 @@ void TheWordTopic::readRtf(const QVariant &value, QTextDocument *rtfDocument)
 
 void TheWordTopic::readRvf(const QVariant &value, QString *ret)
 {
+    DEBUG_FUNC_NAME
     myDebug() << value.toByteArray() << m_compressed;
     if(m_compressed) {
         ret->append(RtfTools::fromRVF(RtfTools::gUncompress(value.toByteArray())));
