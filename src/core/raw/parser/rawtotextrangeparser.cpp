@@ -13,6 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "rawtotextrangeparser.h"
 #include "src/core/verse/verse.h"
+#include "src/core/dbghelper.h"
 RawToTextRangeParser::RawToTextRangeParser(QSharedPointer<ModuleDisplaySettings> displaySettings) : RawToHtmlParser(displaySettings)
 {
 }
@@ -20,11 +21,20 @@ TextRange RawToTextRangeParser::toTextRange(ChapterBlock* b)
 {
     TextRange range;
     range.setChapterID(b->chapterNumber);
+    QString add;
     foreach(RBlock *c, b->children) {
         if(c->metaData().type == RMetaData::VerseBlock) {
             VerseBlock *vb = (VerseBlock*) c;
             Verse v(vb->verseNumber, parseVerse(vb));
+            if(!add.isEmpty()) {
+                v.title = add;
+                add.clear();
+            }
             range.addVerse(v);
+        } else if(c->metaData().type == RMetaData::CaptionBlock) {
+            myDebug() << "parse caption";
+            CaptionBlock *vb = (CaptionBlock*) c;
+            add = parseCaption(vb);
         }
     }
     return range;

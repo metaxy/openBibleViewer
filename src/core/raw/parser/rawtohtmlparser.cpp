@@ -58,6 +58,8 @@ QString RawToHtmlParser::parseBr(BrFragment *b)
 
 QString RawToHtmlParser::parseCaption(CaptionBlock *b)
 {
+    if(!m_displaySettings->showCaptions())
+        return QString();
     QString ret("<h3>");
     foreach(RBlock *block, b->children) {
         ret += parse(block);
@@ -125,7 +127,7 @@ QString RawToHtmlParser::parseProlog(PrologBlock *b)
 
 QString RawToHtmlParser::parseRemarks(RemarksBlock *b)
 {
-    //if(!m_displaySettings->s)
+    //if(!m_displaySettings->showRe)
     QString ret;
     foreach(RBlock *block, b->children) {
         ret += parse(block);

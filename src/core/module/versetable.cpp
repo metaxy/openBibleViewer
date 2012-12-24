@@ -104,9 +104,9 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
             ret.second = res->ranges();
             delete res;
             ret.second.setVerseTableID(0);
-            if(ret.second.textRanges().size() == 1)
+            if(ret.second.textRanges().size() == 1) {
                 ret.first = ret.second.join("");
-            else {
+            } else {
                 foreach(const TextRange & range, ret.second.textRanges()) {
                     //todo: use in future range.title()
                     ret.first += "<span class='rangeTitle'> " + b->versification()->bookName(range.bookID()) + " " + QString::number(range.chapterID() + 1) + "</span>\n";

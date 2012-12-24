@@ -24,6 +24,8 @@ public:
     int verseID() const;
     QString data() const;
 
+    QString title;
+
     void append(const QString &str);
     void prepend(const QString &str);
     void insert(const int position, const QString & str);

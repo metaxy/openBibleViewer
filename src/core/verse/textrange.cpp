@@ -27,7 +27,12 @@ QString TextRange::join(const QString &seperator) const
     QMapIterator<int, Verse> i(m_verse);
     while(i.hasNext()) {
         i.next();
-        out += i.value().data() + (i.hasNext() ? seperator : "");
+        //todo: this is quite a hack
+        if(!i.value().title.isEmpty()) {
+            out += i.value().title;
+        }
+        out +=  i.value().data() + (i.hasNext() ? seperator : "");
+
     }
     return out;
 }
