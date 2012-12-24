@@ -1073,19 +1073,25 @@ StyleBlock* ZefaniaXmlReader::rawReadStyle(quint32 parent)
     style->css = m_xml->attributes().value("css").toString();
     style->fs = m_xml->attributes().value("fs").toString();
     style->id = m_xml->attributes().value("id").toString();
-    while(m_xml->readNextStartElement()) {
+
+    while(true) {
+        m_xml->readNext();
+
+        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), Style)))
+            break;
+
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
-            TextFragment *t = (TextFragment*)BlockTools::create(m_idGen.next(), id, RMetaData::TextFragment);
-            t->text = Qt::escape(m_xml->text().toString());
-            style->add(t);
+            style->add(rawReadText(id));
         } else if(cmp(m_xml->name(), Style)) {
             style->add(rawReadStyle(parent));
+        } else if(cmp(m_xml->name(), Br)) {
+            style->add(rawReadBr(parent));
         } else if(cmp(m_xml->name(), Gram)) {
             style->add(rawReadGram(parent));
         } else if(cmp(m_xml->name(), Sup)) {
             style->add(rawReadSup(parent));
-        } else {
-            m_xml->skipCurrentElement();
+        }  else {
+            style->add(rawReadChildText(id));
         }
     }
     return style;
