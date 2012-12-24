@@ -929,48 +929,58 @@ PrologBlock* ZefaniaXmlReader::rawReadProlog(quint32 parent)
 {
     quint32 id = m_idGen.next();
     PrologBlock *prolog = (PrologBlock*) BlockTools::create(id,parent,RMetaData::PrologBlock);
+    while(true) {
+        m_xml->readNext();
 
-    while(m_xml->readNextStartElement()) {
+        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), Prolog)))
+            break;
+
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             prolog->add(rawReadText(id));
         } else if(cmp(m_xml->name(), Style)) {
             prolog->add(rawReadStyle(parent));
         } else if(cmp(m_xml->name(), Br)) {
             prolog->add(rawReadBr(parent));
-        }  else if(cmp(m_xml->name(), Gram)) {
+        } else if(cmp(m_xml->name(), Gram)) {
             prolog->add(rawReadGram(parent));
-        }   else if(cmp(m_xml->name(), XRef)) {
+        } else if(cmp(m_xml->name(), XRef)) {
             prolog->add(rawReadXRef(parent));
-        }   else if(cmp(m_xml->name(), Sup)) {
+        } else if(cmp(m_xml->name(), Sup)) {
             prolog->add(rawReadSup(parent));
-        } else {
+        }  else {
             prolog->add(rawReadChildText(id));
         }
     }
+
     return prolog;
 }
 NoteBlock* ZefaniaXmlReader::rawReadNote(quint32 parent)
 {
     quint32 id = m_idGen.next();
     NoteBlock *note = (NoteBlock*) BlockTools::create(id,parent,RMetaData::NoteBlock);
+    while(true) {
+        m_xml->readNext();
 
-    while(m_xml->readNextStartElement()) {
+        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), Note)))
+            break;
+
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             note->add(rawReadText(id));
         } else if(cmp(m_xml->name(), Style)) {
             note->add(rawReadStyle(parent));
         } else if(cmp(m_xml->name(), Br)) {
             note->add(rawReadBr(parent));
-        }  else if(cmp(m_xml->name(), Gram)) {
+        } else if(cmp(m_xml->name(), Gram)) {
             note->add(rawReadGram(parent));
-        }   else if(cmp(m_xml->name(), XRef)) {
+        } else if(cmp(m_xml->name(), XRef)) {
             note->add(rawReadXRef(parent));
-        }   else if(cmp(m_xml->name(), Sup)) {
+        } else if(cmp(m_xml->name(), Sup)) {
             note->add(rawReadSup(parent));
-        } else {
-            m_xml->skipCurrentElement();
+        }  else {
+            note->add(rawReadChildText(id));
         }
     }
+
     return note;
 }
 
@@ -978,8 +988,12 @@ CaptionBlock* ZefaniaXmlReader::rawReadCaption(quint32 parent)
 {
     quint32 id = m_idGen.next();
     CaptionBlock *caption = (CaptionBlock *)BlockTools::create(id,parent,RMetaData::CaptionBlock);
+    while(true) {
+        m_xml->readNext();
 
-    while(m_xml->readNextStartElement()) {
+        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), Caption)))
+            break;
+
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             caption->add(rawReadText(id));
         } else if(cmp(m_xml->name(), Style)) {
@@ -992,8 +1006,8 @@ CaptionBlock* ZefaniaXmlReader::rawReadCaption(quint32 parent)
             caption->add(rawReadXRef(parent));
         } else if(cmp(m_xml->name(), Sup)) {
             caption->add(rawReadSup(parent));
-        } else {
-            m_xml->skipCurrentElement();
+        }  else {
+            caption->add(rawReadChildText(id));
         }
     }
     return caption;
@@ -1003,8 +1017,12 @@ RemarksBlock* ZefaniaXmlReader::rawReadRemarks(quint32 parent)
 {
     quint32 id = m_idGen.next();
     RemarksBlock *remarks = (RemarksBlock *)BlockTools::create(id,parent,RMetaData::RemarksBlock);
+    while(true) {
+        m_xml->readNext();
 
-    while(m_xml->readNextStartElement()) {
+        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), Remark)))
+            break;
+
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             remarks->add(rawReadText(id));
         } else if(cmp(m_xml->name(), Style)) {
@@ -1017,10 +1035,11 @@ RemarksBlock* ZefaniaXmlReader::rawReadRemarks(quint32 parent)
             remarks->add(rawReadXRef(parent));
         } else if(cmp(m_xml->name(), Sup)) {
             remarks->add(rawReadSup(parent));
-        } else {
-            m_xml->skipCurrentElement();
+        }  else {
+            remarks->add(rawReadChildText(id));
         }
     }
+
     return remarks;
 }
 
