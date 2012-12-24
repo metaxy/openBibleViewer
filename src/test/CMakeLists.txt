@@ -25,7 +25,9 @@ FUNCTION(BUILD_TEST name exName)
                         ${QT_QTWEBKIT_LIBRARY}
                         ${QT_QTSCRIPT_LIBRARY}
                         ${QT_QTSQL_LIBRARY}
-                        clucene-core)
+                        clucene-core
+                        ${ZLIB_LIBRARIES}
+)
 
 ENDFUNCTION(BUILD_TEST)
 
@@ -35,3 +37,4 @@ BUILD_TEST("biblelink" "BibleLink")
 BUILD_TEST("v11n" "V11N")
 BUILD_TEST("moduletools" "ModuleTools")
 BUILD_TEST("zefaniabible" "ZefaniaBible")
+BUILD_TEST("rtftools" "RtfTools")

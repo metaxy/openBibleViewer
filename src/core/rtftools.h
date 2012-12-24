@@ -27,7 +27,23 @@ public:
 
     static QString toValidRTF(QString data);
     static QString fromRVF(const QByteArray &data);
+    static bool isRvf(const QByteArray &data);
     static QByteArray gUncompress(const QByteArray &data);
+private:
+
+};
+class RvfReader {
+public:
+    RvfReader(const QByteArray &data);
+    QString toHtml();
+private:
+    QString readRecText(const QByteArray &data, int limit_pos);
+    QString readText(const QByteArray &data);
+    QString readRecord(const QByteArray &data);
+    QString readUntilLineEnd(const QByteArray &data);
+    QByteArray m_data;
+    int m_pos;
+
 };
 
 #endif // RTFTOOLS_H
