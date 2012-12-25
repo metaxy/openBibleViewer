@@ -1210,7 +1210,7 @@ bool ZefaniaXmlReader::cmp(const QStringRef& r, const ZefaniaXmlReader::TagName 
         case Gram:
             return r == "g" || r == "gr" || r == "GRAM" || r == "gram";
         case Information:
-            return r == "i" || r == "INFORAMATION" || r == "information";
+            return r == "i" || r == "INFORMATION" || r == "information";
         case Media:
             return r == "m" || r == "MEDIA" || r == "media";
         case Note:
