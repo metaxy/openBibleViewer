@@ -237,9 +237,9 @@ QString RvfReader::toHtml()
             for (int j = 0; j < recHdrStringsCount; j++)
             {
                 if (i + 1 < recordStartPositions.size())
-                    end_pos = recordStartPositions.at(i + 1) - 1;
+                    end_pos = recordStartPositions.at(i + 1) - 1 - m_pos;
                 else
-                    end_pos = m_data.size();
+                    end_pos = m_data.size() - m_pos;
 
                 if (m_pos >= end_pos)
                     break;
