@@ -36,6 +36,11 @@ if(UNIX)
     add_definitions(-std=c++0x)
 endif(UNIX)
 
+if(APPLE)
+    ##clang xcode 4.5.2 tested
+     add_definitions(-std=c++11)
+endif(APPLE)
+
 find_package( Qt4 REQUIRED )
 find_package( CLucene1 REQUIRED)
 
