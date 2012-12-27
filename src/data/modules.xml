@@ -1,209 +1,224 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <MODULES version="0.1">
-    <ID type="package">
-        <GROUP name="Deutsch Standard" size="10 MB">
-            <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Elberfelder%201905/Elberfelder_1905.xml" lang="German" size = "5.9 MB">Elberfelder 1905</ITEM>
-        </GROUP>
-    </ID>
-	<ID type="bible">
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/CHA/Chamorro_zefania.xml" lang="CH" size = "1.0 MB">CHA</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/BUL/Verens%20Contemporary%20Bible/BulVeren_zefania.xml" lang="Bulgarian" size = "7.4 MB">Verens Contemporary Bible</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/BUL/Bulgarian%20NT%201914/sf_bulcarigrad-nt_zefania.xml" lang="Bulgarian" size = "1.8 MB">Bulgarian NT 1914</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/VIE/New%20Vietnamese%20Bible%20%282002%29/VietNVB_zefania.xml" lang="VIE" size = "6.4 MB">New Vietnamese Bible (2002)</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/VIE/Vietnamese%20Version/vietnamese.xml" lang="VIE" size = "6.2 MB">Vietnamese Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/UND/Uma%20Version/sf_uma_nt.xml" lang="UND" size = "1.6 MB">Uma Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/THA/KJV-Thai/sf_thai_rev0.xml" lang="THA" size = "12.1 MB">KJV-Thai</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/TUR/Turkish%20NT/sf_turkish.xml" lang="TUR" size = "1.2 MB">Turkish NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/TUR/Turkish/turkish-at-nt.xml" lang="TUR" size = "4.9 MB">Turkish</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/TGL/Ang%20Dating%20Biblia/sf_tagalog_rev1.xml" lang="TGL" size = "6.0 MB">Ang Dating Biblia</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/SWE/Swedish%201917%20Version/sf_swedish1917.xml" lang="SWE" size = "5.4 MB">Swedish 1917 Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/SWE/Svenska%20Folkbibeln%20%281998%29/sf_swefolk1998.xml" lang="SWE" size = "5.2 MB">Svenska Folkbibeln (1998)</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/SYR/Syriac%20Peshitta%20NT/peshittax.xml" lang="SYR" size = "1.3 MB">Syriac Peshitta NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/SPA/Spanish%20Reina-Valera/sparv.xml" lang="Spanish" size = "5.0 MB">Spanish Reina-Valera</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/SPA/Las%20Sagradas%20Escrituras/spanish_sev.xml" lang="Spanish" size = "5.6 MB">Las Sagradas Escrituras</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/SPA/Reina%20Valera%201989/rva.xml" lang="Spanish" size = "5.1 MB">Reina Valera 1989</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/SWA/Swahili%20NT/sf_swahili_nt.xml" lang="SWA" size = "1.2 MB">Swahili NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/SCR/Croatian%20Bible%20Version/sf_croatian.xml" lang="SCR" size = "4.9 MB">Croatian Bible Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/SHU/Shuar%20NT/shuar_nt.xml" lang="SHU" size = "1.4 MB">Shuar NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/RUS/Ukrainian%20Version/ukrainian.xml" lang="Russian" size = "7.2 MB">Ukrainian Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/RUS/Russian%20New%20Testament%20Strongs/sf_rus_strongs.xml" lang="Russian" size = "5.6 MB">Russian New Testament Strongs</ITEM>
-        <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/RUS/Russian%20Version/russian.xml" lang="Russian" size = "7.1 MB">Russian Version</ITEM>
-        <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/RUS/Russian%20Synodal%20Translation/sf_rst_rev0.xml" lang="Russian" size = "7.2 MB">Russian Synodal Translation</ITEM>
-        <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/RUM/Rumanian%20Version/sf_rumanian.xml" lang="RUM" size = "5.3 MB">Rumanian Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/POR/Portuguese%20Corrigida%20Fiel%20%281753/1995%29/sf_por_acf_0.xml" lang="Portuguese" size = "5.0 MB">Portuguese Corrigida Fiel (1753/1995)</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/POR/Portuguese%20Version/portuguese.xml" lang="Portuguese" size = "5.0 MB">Portuguese Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/POL/Polska%20Biblia/sf_polish2.xml" lang="Polish" size = "5.2 MB">Polska Biblia</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/NOR/Norwegian%20Version/norwegian_utf8.xml" lang="NOR" size = "4.8 MB">Norwegian Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/NL/Dutch%20Statenvertaling/dutsvv.xml" lang="NL" size = "5.4 MB">Dutch Statenvertaling</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/MAO/Maori%20Version/maori.xml" lang="MAO" size = "5.5 MB">Maori Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/NDS/Reimer%20NT%202001/de_NDS_ReimerNT2001.xml" lang="NDS" size = "1.2 MB">Reimer NT 2001</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/NDS/Daut%20niee%20Testamente%20en%20de%20Psalme/de_NDS_Daut_niee_Testament_en_de_Psalme_JFriesen.xml" lang="NDS" size = "1.7 MB">Daut niee Testamente en de Psalme</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/LAV/Lativian%20Version/latvian_nt.xml" lang="LAV" size = "1.2 MB">Lativian Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/LAT/Clementine%20Vulgate/sf_clvulg_a.xml" lang="LAT" size = "5.9 MB">Clementine Vulgate</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/LAT/Nova%20Vulgata/nvulgata.xml" lang="LAT" size = "4.6 MB">Nova Vulgata</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/LAT/Biblia%20Sacra%20Vulgata/vulgata.xml" lang="LAT" size = "5.0 MB">Biblia Sacra Vulgata</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/KOR/Korean%20Version/sf_korian.xml" lang="KOR" size = "5.5 MB">Korean Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/KAB/Kabyle%20NT/kabyle_nt.xml" lang="KAB" size = "1.3 MB">Kabyle NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ITA/Riveduta%201990/Riveduta1990_rev0.xml" lang="Italian" size = "5.2 MB">Riveduta 1990</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ITA/La%20Nuova%20Diodati%201991/LaNuovaDiodati1991.xml" lang="Italian" size = "5.2 MB">La Nuova Diodati 1991</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ITA/La%20Bibbia%20CEI%2074/sf_cei74.xml" lang="Italian" size = "6.2 MB">La Bibbia CEI 74</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ITA/Italian%20Version/italian.xml" lang="Italian" size = "5.6 MB">Italian Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ITA/1649%20Italian%20Giovanni%20Diodati%20Bibbia/itadio.xml" lang="Italian" size = "5.4 MB">1649 Italian Giovanni Diodati Bibbia</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/HUN/Magyar%20Ujforditasu%20Biblia/sf_hun_uj.xml" lang="HUN" size = "5.5 MB">Magyar Ujforditasu Biblia</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/HUN/Hungarian%20Version/sf_hungarian.xml" lang="HUN" size = "5.3 MB">Hungarian Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/HEB/Westminster%20Leningrad%20Codex/sf_wcl.xml" lang="Hebrew" size = "5.7 MB">Westminster Leningrad Codex</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/HEB/Modern%20Hebrew%20Bible/sf_hebmodern.xml" lang="Hebrew" size = "4.8 MB">Modern Hebrew Bible</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/HEB/Biblia%20hebraica/biblehebr.xml" lang="Hebrew" size = "5.7 MB">Biblia hebraica</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/HEB/Aleppo%20Codex/sf_aleppo_rev0_at.xml" lang="Hebrew" size = "5.0 MB">Aleppo Codex</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/HAT/Haitian%20Creole%20Version/sf_haiti.xml" lang="HAT" size = "5.4 MB">Haitian Creole Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Westcott-Hort%20Greek%20NT/Strongs%20Numbers/sf_gnt_wh_str.xml" lang="Ancient Greek" size = "7.7 MB">Westcott-Hort Greek NT/Strongs Numbers</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Textus%20Receptus%20NT/Strongs%20Numbers/sf_gnt_tr_str.xml" lang="Ancient Greek" size = "7.9 MB">Textus Receptus NT/Strongs Numbers</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Robinson/Pierpont%20Byzantine%20Greek%20NT/sf_gnt_rob_str.xml" lang="Ancient Greek" size = "7.9 MB">Robinson/Pierpont Byzantine Greek NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/The%20Analytic%20Septuagint/sf_The_Analytic_Septuagint_str_rev1.xml" lang="Ancient Greek" size = "25.6 MB">The Analytic Septuagint</ITEM>
-        <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Byzantine/Majority%20Text%20%282000%29/sf_bzy2000_str.xml" lang="Ancient Greek" size = "8.1 MB">Byzantine/Majority Text (2000)/Strongs numbers</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Byzantine/Majority%20Text%20%282000%29/sf_bzy2000_rev_1.xml" lang="Ancient Greek" size = "1.8 MB">Byzantine/Majority Text (2000)</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Tischendorf%20Greek%20NT/sf_Tischendorf_Greek_NT_str_rev1.xml" lang="Ancient Greek" size = "8.0 MB">Tischendorf Greek NT with Strong</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Tischendorf%20Greek%20NT/sf_Tischendorf_Greek_NT_rev2.xml" lang="Ancient Greek" size = "1.8 MB">Tischendorf Greek NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Septuaginta%20LXX/nlxx.xml" lang="Ancient Greek" size = "7.4 MB">Septuaginta LXX</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Modern%20Greek/modern_greek.xml" lang="Ancient Greek" size = "8.6 MB">Modern Greek</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Greek%20WH/greekwh.xml" lang="Ancient Greek" size = "1.8 MB">Greek WH</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Greek%20NT%20Tischendorf%208th%20Ed/sf_tischendorf.xml" lang="Ancient Greek" size = "1.8 MB">Greek NT Tischendorf 8th Ed</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Greek%20NT%201894/greeknt1896.xml" lang="Ancient Greek" size = "1.8 MB">Greek NT 1894</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Greek%20New%20Testament/sf_gnt_variants.xml" lang="Ancient Greek" size = "3.4 MB">Greek New Testament</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRC/Greek%20NT%201550/greeknt1550.xml" lang="Ancient Greek" size = "1.8 MB">Greek NT 1550</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GRE/Tischendorf%20Greek%20NT/sf_Tischendorf_Greek_NT_rev1.xml" lang="Greek" size = "1.8 MB">Tischendorf Greek NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Zuercher%20Bibel%201931/sf_zuercher_1931.xml" lang="German" size = "5.6 MB">Zuercher Bibel 1931</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Textbibel/sf_textbibel_1906_nt_at.xml" lang="German" size = "5.5 MB">Textbibel</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Textbibel/sf_textbibel_1906_at.xml" lang="German" size = "4.3 MB">Textbibel AT</ITEM>
+<ID type="bible">
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Afrikaans/1953%20Afrikaans%20Bybel/sf_afr.zip" lang="Afrikaans">1953 Afrikaans Bybel</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Albanian/Albanian%20Version/sf_alban.zip" lang="Albanian">Albanian Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Arabic/New%20Arabic%20Version%20%28Ketab%20El%20Hayat%29/AraNAV.zip" lang="Arabic">New Arabic Version (Ketab El Hayat)</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Arabic/Smith%20Van%20Dyke%20Arabic%20Bible/sf_arabic.zip" lang="Arabic">Smith Van Dyke Arabic Bible</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Basque/Basque%28Navarro-Labourdin%29NT/sf_basque_1571_nt.zip" lang="Basque">Basque(Navarro-Labourdin)NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Bulgarian/Bulgarian%20Version/sf_bulgarian.zip" lang="Bulgarian">Bulgarian Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Bulgarian/Bulgarian%20NT%201914/sf_bulcarigrad-nt_zefania.zip" lang="Bulgarian">Bulgarian NT 1914</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Bulgarian/Verens%20Contemporary%20Bible/BulVeren_zefania.zip" lang="Bulgarian">Verens Contemporary Bible</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Cebuano/Cebuano%20Ang%20Biblia%20%28Bugna%20Version%29/Cebuano_Ang_Biblia_Bugna.zip" lang="Cebuano">Cebuano Ang Biblia (Bugna Version)</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Cebuano/Cebuano%20Ang%20Biblia%20%28Pinadayag%20Version%29/Cebuano_Ang_Biblia_Pinadayag.zip" lang="Cebuano">Cebuano Ang Biblia (Pinadayag Version)</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Chamorro/Chamorro_zefania.zip" lang="Chamorro">Chamorro</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Chinese/New%20Chinese%20Version%20Simplified/sf_ncv.zip" lang="Chinese">New Chinese Version Simplified</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Chinese/CHINESE%20UNION%20VERSION%20Simplified/sf_chiuns3.zip" lang="Chinese">CHINESE UNION VERSION Simplified</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Chinese/Chinese%20Union%20Version/sf_china.zip" lang="Chinese">Chinese Union Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Croatian/Croatian%20Bible%20Version/sf_croatian.zip" lang="Croatian">Croatian Bible Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Czech/Czech%20BKR/sf_czech_bkr.zip" lang="Czech">Czech BKR</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Czech/Czech%20Bible%20Preklad%2021/czeb2.zip" lang="Czech">Czech Bible Preklad 21</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Czech/Czech%20Ekumenicky%20Cesky%20preklad/sf_czecep.zip" lang="Czech">Czech Ekumenicky Cesky preklad</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Danish/Danish%20Version/sf_danish.zip" lang="Danish">Danish Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Dutch%20%20Flemish/Dutch%20Statenvertaling/dutsvv.zip" lang="Dutch%20%20Flemish">Dutch Statenvertaling</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/A%20Conservative%20Version/en_GB_AConservativeVersion.zip" lang="English">A Conservative Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Bible%20in%20Basic%20English/bbe.zip" lang="English">Bible in Basic English</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/American%20Standard%20Version/asv.zip" lang="English">American Standard Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Bible%20in%20Worldwide%20English%20NT/sf_bwe.zip" lang="English">Bible in Worldwide English NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Brentons%20English%20Septuagint/sf_Brentons_English_Septuagint.zip" lang="English">Brentons English Septuagint</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Diaglot%20NT%20-%201865/sf_diaglot_rev_1.zip" lang="English">Diaglot NT - 1865</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Darby%20Bible/darby.zip" lang="English">Darby Bible</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Douay%20Rheims%20XML/dourh.zip" lang="English">Douay Rheims XML</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/English%20Majority%20Text%20Version/emtv.zip" lang="English">English Majority Text Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/English%20Jubilee%202000%20Bible/sf_jubilee2000.zip" lang="English">English Jubilee 2000 Bible</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Greens%20Literal%20Translation/litv_zefania.zip" lang="English">Greens Literal Translation</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/ISV%20NT/sf_isv.zip" lang="English">ISV NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Geneva%20Bible/Geneva.zip" lang="English">Geneva Bible</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Jewish%20Publication%20Society%20AT/sf_jps.zip" lang="English">Jewish Publication Society AT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/John%20Wycliffe%20Bible/sf_wycliffe.zip" lang="English">John Wycliffe Bible</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/King%20James%20Clarified%20NT/KJC_NT.zip" lang="English">King James Clarified NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/King%20James%202000/en_gb_KJV2000.zip" lang="English">King James 2000</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/King%20James%20Version/kjv.zip" lang="English">King James Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/King%20James%20Version%20with%20Apokryphen/KJV_apok.zip" lang="English">King James Version with Apokryphen</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Leeser%20Old%20Testament/sf_Leeser_rev1.zip" lang="English">Leeser Old Testament</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Open%20English%20Bible%20%28US%20Spelling%29/OEB_zefania.zip" lang="English">Open English Bible (US Spelling)</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Bible%20in%20Worldwide%20English/BWE_zefania.zip" lang="English">Bible in Worldwide English</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/New%20Heart%20English%20Bible/NHEB_zefania.zip" lang="English">New Heart English Bible</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/The%20Lexham%20English%20Bible/LEB_zefania.zip" lang="English">The Lexham English Bible</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Etheridge/Etheridge.zip" lang="English">Etheridge</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/YLT/ylt.zip" lang="English">YLT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/World%20English%20Bible/web.zip" lang="English">World English Bible</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Willam%20Tyndale%20Bible/sf_tyndale.zip" lang="English">Willam Tyndale Bible</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Weymouth%20NT/wmth.zip" lang="English">Weymouth NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Wesleys%20NT/WesleyNT.zip" lang="English">Wesleys NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Webster%20XML/webster.zip" lang="English">Webster XML</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/VW-Edition%202006/Vw.zip" lang="English">VW-Edition 2006</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Updated%20Bible%20Version/updv.zip" lang="English">Updated Bible Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Updated%20King%20James%20Version/UKJV.zip" lang="English">Updated King James Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/American%20King%20James%20Version/akjv.zip" lang="English">American King James Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/The%20Riverside%20New%20Testament/sf_Riverside_NT.zip" lang="English">The Riverside New Testament</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/The%20Orthodox%20Jewish%20Brit%20Chadasha/sf_orthjbc2.zip" lang="English">The Orthodox Jewish Brit Chadasha</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/The%20Common%20Edition%20New%20Testament/sf_common_rev_1.zip" lang="English">The Common Edition New Testament</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/The%20Epistle%20to%20the%20Galatians%20English%20version%20of%20the%20translation%20by%20Hermann%20Detering/gal_mac_cath.zip" lang="English">The Epistle to the Galatians English version of the translation by Hermann Detering</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/The%20Book%20of%20Mormon/sf_bom.zip" lang="English">The Book of Mormon</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Rotherham%20Version/sf_rotherham.zip" lang="English">Rotherham Version</ITEM>
+    
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Revised%20Youngs%20Literal%20Translation%20NT/Revised_Young_Literal_Translation_NT_Rev_1.zip" lang="English">Revised Youngs Literal Translation NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Revised%201833%20Webster%20Version%20with%20Strongs/en_gb_RWebster_Strong.zip" lang="English">Revised 1833 Webster Version with Strongs</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Revised%20Standard%20Version/sf_rsv.zip" lang="English">Revised Standard Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Revised%20King%20James%20New%20Testament/rkjnt.zip" lang="English">Revised King James New Testament</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/KJV%2B/sf_kjv_strongs_rev1b.zip" lang="English">KJV+</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Revised%201833%20Webster%20Version/en_gb_RWebster.zip" lang="English">Revised 1833 Webster Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/New%20Simplified%20Bible/nsb.zip" lang="English">New Simplified Bible</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Noyes%20Translation/sf_Noyes_Translation_rev1.zip" lang="English">Noyes Translation</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Modern%20KJV%201963/MKJV1962_eng_vers.zip" lang="English">Modern KJV 1963</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Montgomery%20New%20Testament/sf_montgomery_nt.zip" lang="English">Montgomery New Testament</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Living%20Oracles%20NT/Living_Oracles_NT.zip" lang="English">Living Oracles NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Esperanto/Esperanto%20Bible/esperanto.zip" lang="Esperanto">Esperanto Bible</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Finnish/Finish%20Version/sf_finish.zip" lang="Finnish">Finish Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/French/French%20Louis%20Segond/lsg.zip" lang="French">French Louis Segond</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/French/Bible%20de%20Geneve%20de%201669/sf_bible_geneve_nt_1669.zip" lang="French">Bible de Geneve de 1669</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/French/Bible%20Martin%201844/sf_fremartin.zip" lang="French">Bible Martin 1844</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/French/Bible%20Pirot-Clamer/sf_Pirot_Clamer.zip" lang="French">Bible Pirot-Clamer</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/French/French%20Bible%20Bovet%20Bonnet%20%281900%29/FreBBB_zefania.zip" lang="French">French Bible Bovet Bonnet (1900)</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/French/French%20Darby/frdarby.zip" lang="French">French Darby</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/French/French%20Darby%202006/sf_darby_francais_2006.zip" lang="French">French Darby 2006</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/French/La%20Bible%20Augustin%20Crampon%201923/sf_crampon23_4.zip" lang="French">La Bible Augustin Crampon 1923</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/French/Bible%20Vigouroux%201902/vigouroux_1902.zip" lang="French">Bible Vigouroux 1902</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/French/La%20Bible%20de%20Jerusalem/sf_deje.zip" lang="French">La Bible de Jerusalem</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/French/La%20Bible%20de%20Zadoc%20Khan/sf_zadoc_kahn.zip" lang="French">La Bible de Zadoc Khan</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/French/La%20Bible%20J.F.%20Ostervald%201996/sf_ostervald_rev1.zip" lang="French">La Bible J.F. Ostervald 1996</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/French/Bible%20Fillion/sf_fillion.zip" lang="French">Bible Fillion</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/French/La%20Bible%20de%20Saci%201759/La%20Bible%20de%20Saci%20-%201759.zip" lang="French">La Bible de Saci 1759</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/French/King%20James%20Francais/La%20Bible%20King%20James%20Francaise.zip" lang="French">King James Francais</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/French/Bible%20des%20Peuples/Bible%20des%20Peuples.zip" lang="French">Bible des Peuples</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/French/Bible%20Perret-Gentil%20et%20Rilliet/Bible%20Perret-Gentil%20et%20Rilliet.zip" lang="French">Bible Perret-Gentil et Rilliet</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/GAE/Gaelic%20Gospel%20of%20Mark/scots_gaelic.zip" lang="GAE">Gaelic Gospel of Mark</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Gaelic%20%20Scottish%20Gaelic/Gaelic%20Scripture%20%28Manx%20Gaelic%29/manx_gaelic.zip" lang="Gaelic%20%20Scottish%20Gaelic">Gaelic Scripture (Manx Gaelic)</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Schlachter%20Bibel%201951%20with%20Strong/Schlachter1951_Strong_rev1.zip" lang="German">Schlachter Bibel 1951 with Strong</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Luther%201912%20-%20mit%20Apokryphen/luther1912_apog.zip" lang="German">Luther 1912 - mit Apokryphen</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Luther%201912%20with%20Strong/Luther1912_Strongs.zip" lang="German">Luther 1912 with Strong</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Luther%201912/luther1912.zip" lang="German">Luther 1912</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Menge-Bibel/sf-menge-bibel.zip" lang="German">Menge-Bibel</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Reimer%20NT%202001/de_NDS_ReimerNT2001.zip" lang="German">Reimer NT 2001</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Reinhardt%201910%20Evangelien/sf_de_DE_reinhardt1910_eva_0.zip" lang="German">Reinhardt 1910 Evangelien</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Luther%201545/luther1545_rev3.zip" lang="German">Luther 1545</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Konkordantes%20NT/knt2.zip" lang="German">Konkordantes NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Johannes%20Greber%201936%20NT/sf_greber1936_rev1.zip" lang="German">Johannes Greber 1936 NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Interlinearuebersetzung/sf_Interlinear_gr_dt_nt.zip" lang="German">Interlinearuebersetzung</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Gruenewalder/sf_gruenewald_1924_rev2.zip" lang="German">Gruenewalder</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/FreeBible2004/fb2004.zip" lang="German">FreeBible2004</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Elberfelder%201905/Elberfelder_1905.zip" lang="German">Elberfelder 1905</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Elberfelder%201905/elberfelder1905-strongs.zip" lang="German">Elberfelder 1905</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Elberfelder%201871%20mit%20Strongs%20im%20NT/sf_elb1871str_rev4.zip" lang="German">Elberfelder 1871 mit Strongs im NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Elberfelder%201871/sf_elb1871_rev1.zip" lang="German">Elberfelder 1871</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Der%20heilige%20Koran%20XML/koranDt.zip" lang="German">Der heilige Koran XML</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Daut%20niee%20Testamente%20en%20de%20Psalme/de_NDS_Daut_niee_Testament_en_de_Psalme_JFriesen.zip" lang="German">Daut niee Testamente en de Psalme</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Bengel%20NT/sf_gerben_rev2.zip" lang="German">Bengel NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Schlachter%201951/Schlachter1951_rev3a.zip" lang="German">Schlachter 1951</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Luther%201545%20mit%20Strongs/Luther1545_Strongs.zip" lang="German">Luther 1545 mit Strongs</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Tafelbibel/sf_tafelbibel_rev2.zip" lang="German">Tafelbibel</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Volxbibel%203.0/volxbibel.zip" lang="German">Volxbibel 3.0</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Textbibel/sf_textbibel_1906_at.zip" lang="German">Textbibel</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Textbibel/sf_textbibel_1906_nt_at.zip" lang="German">Textbibel</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Zuercher%20Bibel%201931/sf_zuercher_1931.zip" lang="German">Zuercher Bibel 1931</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Pattloch%20Bibel/sf_pattloch80_rev2.zip" lang="German">Pattloch Bibel</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Pattloch%20Bibel/sf_pattloch80_rev3.zip" lang="German">Pattloch Bibel</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Neue%20evangelistische%20Uebersetzung/sf_neue.zip" lang="German">Neue evangelistische Uebersetzung</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Neue%20evangelistische%20Uebersetzung/sf_neue_17_04_2010.zip" lang="German">Neue evangelistische Uebersetzung</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Neue%20evangelistische%20Uebersetzung/GerNeUe_19_03_2011.zip" lang="German">Neue evangelistische Uebersetzung</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Luther%201545%20%28Letzte%20Hand%29/sf_luther_1545_letzte_hand_rev2.zip" lang="German">Luther 1545 (Letzte Hand)</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Luther%201545%20%28Letzte%20Hand%29/sf_luther_1545_letzte_hand_rev3.zip" lang="German">Luther 1545 (Letzte Hand)</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Leander%20van%20Ess/sf_leander_van_ess_1859_rev_2.zip" lang="German">Leander van Ess</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Alemannische%20Bibel%20NT/DE_de_alemannische.zip" lang="German">Alemannische Bibel NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Albrecht%20Bibel%201926/sf_albrecht_ref_2.zip" lang="German">Albrecht Bibel 1926</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Abraham%20Meister%20NT/sf_abraham_meister_nt_de_rev0.zip" lang="German">Abraham Meister NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Elberfelder%201871%20Original/sf_elb_1871_original_NT_rev1.zip" lang="German">Elberfelder 1871 Original</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Gothic/Gothic%20Codex%20Ambrosianus%20A%2C%20and%20Manuscripts/gothic_AA_Mss.zip" lang="Gothic">Gothic Codex Ambrosianus A, and Manuscripts</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Gothic/Gothic%20Codices%20Ambrosianus%20B/gothic_AB_Car.zip" lang="Gothic">Gothic Codices Ambrosianus B</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Greek%20%20Ancient%20%28to%201453%29/Byzantine/sf_bzy2000.zip" lang="Greek%20%20Ancient%20%28to%201453%29">Byzantine</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Greek%20%20Ancient%20%28to%201453%29/Westcott-Hort%20Greek%20New%20Testament/sf_gnt_wh_str.zip" lang="Greek%20%20Ancient%20%28to%201453%29">Westcott-Hort Greek New Testament</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Greek%20%20Ancient%20%28to%201453%29/Tischendorf%20Greek%20NT/sf_Tischendorf_Greek_NT_rev2.zip" lang="Greek%20%20Ancient%20%28to%201453%29">Tischendorf Greek NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Greek%20%20Ancient%20%28to%201453%29/Textus%20Receptus%20NT/sf_gnt_tr_str.zip" lang="Greek%20%20Ancient%20%28to%201453%29">Textus Receptus NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Greek%20%20Ancient%20%28to%201453%29/Robinson/Pierpont%20Byzantine%20Greek%20NT/sf_gnt_rob_str.zip" lang="Greek%20%20Ancient%20%28to%201453%29">Pierpont Byzantine Greek NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Greek%20%20Ancient%20%28to%201453%29/Greek%20New%20Testament/sf_gnt_variants.zip" lang="Greek%20%20Ancient%20%28to%201453%29">Greek New Testament</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Greek%20%20Ancient%20%28to%201453%29/The%20Analytic%20Septuagint/sf_The_Analytic_Septuagint_str_rev1.zip" lang="Greek%20%20Ancient%20%28to%201453%29">The Analytic Septuagint</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Greek%20%20Ancient%20%28to%201453%29/Byzantine/sf_bzy2000_rev_1.zip" lang="Greek%20%20Ancient%20%28to%201453%29">Byzantine</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Greek%20%20Ancient%20%28to%201453%29/Byzantine/sf_bzy2000_str.zip" lang="Greek%20%20Ancient%20%28to%201453%29">Byzantine</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Greek%20%20Ancient%20%28to%201453%29/Modern%20Greek/modern_greek.zip" lang="Greek%20%20Ancient%20%28to%201453%29">Modern Greek</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Greek%20%20Ancient%20%28to%201453%29/Greek%20NT%201894/greeknt1896.zip" lang="Greek%20%20Ancient%20%28to%201453%29">Greek NT 1894</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Greek%20%20Ancient%20%28to%201453%29/Greek%20NT%20Tischendorf%208th%20Ed/sf_tischendorf.zip" lang="Greek%20%20Ancient%20%28to%201453%29">Greek NT Tischendorf 8th Ed</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Greek%20%20Ancient%20%28to%201453%29/Greek%20WH/greekwh.zip" lang="Greek%20%20Ancient%20%28to%201453%29">Greek WH</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Greek%20%20Ancient%20%28to%201453%29/Septuaginta%20LXX/nlxx.zip" lang="Greek%20%20Ancient%20%28to%201453%29">Septuaginta LXX</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Greek%20%20Ancient%20%28to%201453%29/Greek%20NT%201550/greeknt1550.zip" lang="Greek%20%20Ancient%20%28to%201453%29">Greek NT 1550</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Haitian%20%20Haitian%20Creole/Haitian%20Creole%20Version/sf_haiti.zip" lang="Haitian%20%20Haitian%20Creole">Haitian Creole Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Hebrew/Biblia%20hebraica/biblehebr.zip" lang="Hebrew">Biblia hebraica</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Hebrew/Aleppo%20Codex/sf_aleppo_rev0_at.zip" lang="Hebrew">Aleppo Codex</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Hebrew/Modern%20Hebrew%20Bible/sf_hebmodern.zip" lang="Hebrew">Modern Hebrew Bible</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Hebrew/Open%20Scriptures%20Morphological%20Hebrew%20Bible/OSMHB_zefania.zip" lang="Hebrew">Open Scriptures Morphological Hebrew Bible</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Hebrew/Westminster%20Leningrad%20Codex/sf_wcl.zip" lang="Hebrew">Westminster Leningrad Codex</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Hungarian/Hungarian%20Version/sf_hungarian.zip" lang="Hungarian">Hungarian Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Hungarian/Magyar%20Ujforditasu%20Biblia/sf_hun_uj.zip" lang="Hungarian">Magyar Ujforditasu Biblia</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Italian/Riveduta%201990/Riveduta1990_rev0.zip" lang="Italian">Riveduta 1990</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Italian/1649%20Italian%20Giovanni%20Diodati%20Bibbia/itadio.zip" lang="Italian">1649 Italian Giovanni Diodati Bibbia</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Italian/Italian%20Version/italian.zip" lang="Italian">Italian Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Italian/La%20Bibbia%20CEI%2074/sf_cei74.zip" lang="Italian">La Bibbia CEI 74</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Italian/La%20Nuova%20Diodati%201991/LaNuovaDiodati1991.zip" lang="Italian">La Nuova Diodati 1991</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Kabyle/Kabyle%20NT/kabyle_nt.zip" lang="Kabyle">Kabyle NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Korean/Korean%20Version/sf_korian.zip" lang="Korean">Korean Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Latin/Biblia%20Sacra%20Vulgata/vulgata.zip" lang="Latin">Biblia Sacra Vulgata</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Latin/Clementine%20Vulgate/sf_clvulg_a.zip" lang="Latin">Clementine Vulgate</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Latin/Nova%20Vulgata/nvulgata.zip" lang="Latin">Nova Vulgata</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Latvian/Lativian%20Version/latvian_nt.zip" lang="Latvian">Lativian Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Maori/Maori%20Version/maori.zip" lang="Maori">Maori Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Norwegian/Norwegian%20Version/norwegian_utf8.zip" lang="Norwegian">Norwegian Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Norwegian/Studentmallagsbibelen%201921/NorSMB_zefania.zip" lang="Norwegian">Studentmallagsbibelen 1921</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Polish/Polska%20Biblia/sf_polish2.zip" lang="Polish">Polska Biblia</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Portuguese/Portuguese%20Corrigida%20Fiel%20%281753/1995%29/sf_por_acf_0.zip" lang="Portuguese">1995)</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Portuguese/Portuguese%20Version/portuguese.zip" lang="Portuguese">Portuguese Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Romanian/Rumanian%20Version/sf_rumanian.zip" lang="Romanian">Rumanian Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Russian/Russian%20New%20Testament%20Strongs/sf_rus_strongs.zip" lang="Russian">Russian New Testament Strongs</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Russian/Russian%20Synodal%20Translation/sf_rst_rev0.zip" lang="Russian">Russian Synodal Translation</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Russian/Ukrainian%20Version/ukrainian.zip" lang="Russian">Ukrainian Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Russian/Russian%20Version/russian.zip" lang="Russian">Russian Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/SHU/Shuar%20NT/shuar_nt.zip" lang="SHU">Shuar NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Spanish%20%20Castilian/Reina%20Valera%201989/rva.zip" lang="Spanish%20%20Castilian">Reina Valera 1989</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Spanish%20%20Castilian/Spanish%20Reina-Valera/sparv.zip" lang="Spanish%20%20Castilian">Spanish Reina-Valera</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Spanish%20%20Castilian/Las%20Sagradas%20Escrituras/spanish_sev.zip" lang="Spanish%20%20Castilian">Las Sagradas Escrituras</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Swahili/Swahili%20NT/sf_swahili_nt.zip" lang="Swahili">Swahili NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Swedish/Swedish%201917%20Version/sf_swedish1917.zip" lang="Swedish">Swedish 1917 Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Swedish/Svenska%20Folkbibeln%20%281998%29/sf_swefolk1998.zip" lang="Swedish">Svenska Folkbibeln (1998)</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Syriac/Syriac%20Peshitta%20NT/peshittax.zip" lang="Syriac">Syriac Peshitta NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Tagalog/Ang%20Dating%20Biblia/sf_tagalog_rev1.zip" lang="Tagalog">Ang Dating Biblia</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Thai/KJV-Thai/sf_thai_rev0.zip" lang="Thai">KJV-Thai</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Turkish/Southern%20Azeri%20Translation/Southern_Azeri_zefania.zip" lang="Turkish">Southern Azeri Translation</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Turkish/Northern%20Azeri%20Translation/NorthernAzeriBible.zip" lang="Turkish">Northern Azeri Translation</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Turkish/Turkish/Turk-at-nt.zip" lang="Turkish">Turkish</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Turkish/Turkish%20NT/sf_turkish.zip" lang="Turkish">Turkish NT</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/UMA/Uma%20Version/sf_uma_nt.zip" lang="UMA">Uma Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Vietnamese/New%20Vietnamese%20Bible%20%282002%29/VietNVB_zefania.zip" lang="Vietnamese">New Vietnamese Bible (2002)</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/Vietnamese/Vietnamese%20Version/vietnamese.zip" lang="Vietnamese">Vietnamese Version</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/XKL/Klingon%20Version/sf_klingon.zip" lang="XKL">Klingon Version</ITEM>
+ </ID>
+ <ID type="strong">
+        <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/King%20James%20Version%20-%20Lexicon/kjv-lex.zip" lang="English">King James Version - Lexicon</ITEM>
+        <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Die%20Elberfelderbibel%20von%201871%20-%20Lexicon/Elberfelder1871-lex.zip" lang="German">Die Elberfelderbibel von 1871 - Lexicon</ITEM>
+        <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Die%20Elberfelderbibel%20von%201905%20-%20Strong-Lexikon/elberfelder1905-lex.zip" lang="German">Die Elberfelderbibel von 1905 - Strong-Lexikon</ITEM>
+        <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Die%20Lutherbibel%20von%201912%20-%20Lexicon/Luther1912-lex.zip" lang="German">Die Lutherbibel von 1912 - Lexicon</ITEM>
+        <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Revised%201833%20Webster%20Version%20-%20Lexicon/RWebster-lex_rev1.zip" lang="English">Revised 1833 Webster Version - Lexicon</ITEM>
 
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Schlachter%20Bibel%201951%20with%20Strong/Schlachter1951_Strong_rev1.xml" lang="German" size = "11.3 MB">Schlachter Bibel 1951 with Strong</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Tafelbibel/sf_tafelbibel_rev2.xml" lang="German" size = "5.0 MB">Tafelbibel</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Schlachter%201951/Schlachter1951_rev3a.xml" lang="German" size = "5.3 MB">Schlachter 1951</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Pattloch%20Bibel/sf_pattloch80_rev2.xml" lang="German" size = "5.9 MB">Pattloch Bibel</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Reinhardt%201910%20Evangelien/sf_de_DE_reinhardt1910_eva_0.xml" lang="German" size = "644.9 KB">Reinhardt 1910 Evangelien</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Neue%20evangelistische%20Uebersetzung/sf_neue.xml" lang="German" size = "6.3 MB">Neue evangelistische Uebersetzung</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Menge-Bibel/sf-menge-bibel.xml" lang="German" size = "7.0 MB">Menge-Bibel</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Luther%201912%20-%20mit%20Apokryphen/luther1912_apog.xml" lang="German" size = "5.9 MB">Luther 1912 - mit Apokryphen</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Luther%201545%20mit%20Strongs/Luther1545_Strongs.xml" lang="German" size = "11.6 MB">Luther 1545 mit Strongs</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Luther%201912/luther1912.xml" lang="German" size = "5.2 MB">Luther 1912</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Luther%201545%20%28Letzte%20Hand%29/sf_luther_1545_letzte_hand_rev2.xml" lang="German" size = "6.3 MB">Luther 1545 (Letzte Hand)</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Luther%201545/luther1545_rev3.xml" lang="German" size = "5.2 MB">Luther 1545</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Konkordantes%20NT/knt2.xml" lang="German" size = "1.4 MB">Konkordantes NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Johannes%20Greber%201936%20NT/sf_greber1936_rev1.xml" lang="German" size = "1.5 MB">Johannes Greber 1936 NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Interlinearuebersetzung/sf_Interlinear_gr_dt_nt.xml" lang="German" size = "1.3 MB">Interlinearuebersetzung</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Gruenewalder/sf_gruenewald_1924_rev2.xml" lang="German" size = "5.9 MB">Gruenewalder</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/FreeBible2004/fb2004.xml" lang="German" size = "5.9 MB">FreeBible2004</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Elberfelder%201905/Elberfelder_1905.xml" lang="German" size = "5.9 MB">Elberfelder 1905</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Elberfelder%201905/elberfelder1905-strongs.xml" lang="German" size = "12.0 MB">Elberfelder 1905 with Strongs</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Elberfelder%201871%20mit%20Strongs%20im%20NT/sf_elb1871str_rev4.xml" lang="German" size = "8.6 MB">Elberfelder 1871 mit Strongs im NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Elberfelder%201871/sf_elb1871_rev1.xml" lang="German" size = "6.1 MB">Elberfelder 1871</ITEM>
-
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Albrecht%20Bibel%201926/sf_albrecht_ref_2.xml" lang="German" size = "2.9 MB">Albrecht Bibel 1926</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Bengel%20NT/sf_gerben_rev2.xml" lang="German" size = "1.3 MB">Bengel NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Alemannische%20Bibel%20NT/DE_de_alemannische.xml" lang="German" size = "1.3 MB">Alemannische Bibel NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Abraham%20Meister%20NT/sf_abraham_meister_nt_de_rev0.xml" lang="German" size = "1.7 MB">Abraham Meister NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GOT/Gothic%20Codices%20Ambrosianus%20B/gothic_AB_Car.xml" lang="GOT" size = "125.4 KB">Gothic Codices Ambrosianus B</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GOT/Gothic%20Codex%20Ambrosianus%20A%2C%20and%20Manuscripts/gothic_AA_Mss.xml" lang="GOT" size = "426.7 KB">Gothic Codex Ambrosianus A, and Manuscripts</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GLA/Gaelic%20Scripture%20%28Manx%20Gaelic%29/manx_gaelic.xml" lang="GLA" size = "533.1 KB">Gaelic Scripture (Manx Gaelic)</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/FRE/La%20Bible%20J.F.%20Ostervald%201996/sf_ostervald_rev1.xml" lang="French" size = "5.4 MB">La Bible J.F. Ostervald 1996</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/FRE/La%20Bible%20de%20Zadoc%20Khan/sf_zadoc_kahn.xml" lang="French" size = "4.1 MB">La Bible de Zadoc Khan</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/FRE/La%20Bible%20de%20Jerusalem/sf_deje.xml" lang="French" size = "5.9 MB">La Bible de Jerusalem</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/FRE/La%20Bible%20Augustin%20Crampon%201923/sf_crampon23_4.xml" lang="French" size = "5.4 MB">La Bible Augustin Crampon 1923</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/FRE/French%20Darby%202006/sf_darby_francais_2006.xml" lang="French" size = "5.9 MB">French Darby 2006</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/FRE/French%20Louis%20Segond/lsg.xml" lang="French" size = "5.3 MB">French Louis Segond</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/FRE/French%20Darby/frdarby.xml" lang="French" size = "5.4 MB">French Darby</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/FRE/French%20Bible%20Bovet%20Bonnet%20%281900%29/FreBBB_zefania.xml" lang="French" size = "5.5 MB">French Bible Bovet Bonnet (1900)</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/FRE/Bible%20Martin%201844/sf_fremartin.xml" lang="French" size = "5.6 MB">Bible Martin 1844</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/FRE/Bible%20Pirot-Clamer/sf_Pirot_Clamer.xml" lang="French" size = "5.3 MB">Bible Pirot-Clamer</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/FRE/Bible%20de%20Geneve%20de%201669/sf_bible_geneve_nt_1669.xml" lang="French" size = "1.3 MB">Bible de Geneve de 1669</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GAE/Gaelic%20Gospel%20of%20Mark/scots_gaelic.xml" lang="GAE" size = "108.0 KB">Gaelic Gospel of Mark</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/FIN/Finish%20Version/sf_finish.xml" lang="FIN" size = "5.3 MB">Finish Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ESP/Esperanto%20Bible/esperanto.xml" lang="ESP" size = "5.0 MB">Esperanto Bible</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/YLT/ylt.xml" lang="English" size = "5.3 MB">YLT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/World%20English%20Bible/web.xml" lang="English" size = "5.1 MB">World English Bible</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Willam%20Tyndale%20Bible/sf_tyndale.xml" lang="English" size = "2.3 MB">Willam Tyndale Bible</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Weymouth%20NT/wmth.xml" lang="English" size = "1.3 MB">Weymouth NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Webster%20XML/webster.xml" lang="English" size = "5.1 MB">Webster XML</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Wesleys%20NT/WesleyNT.xml" lang="English" size = "1.2 MB">Wesleys NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/VW-Edition%202006/Vw.xml" lang="English" size = "5.1 MB">VW-Edition 2006</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Updated%20King%20James%20Version/UKJV.xml" lang="English" size = "5.2 MB">Updated King James Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Updated%20Bible%20Version/updv.xml" lang="English" size = "5.5 MB">Updated Bible Version</ITEM>
-
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/The%20Orthodox%20Jewish%20Brit%20Chadasha/sf_orthjbc2.xml" lang="English" size = "2.0 MB">The Orthodox Jewish Brit Chadasha</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/The%20Riverside%20New%20Testament/sf_Riverside_NT.xml" lang="English" size = "1.3 MB">The Riverside New Testament</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/The%20Common%20Edition%20New%20Testament/sf_common_rev_1.xml" lang="English" size = "1.3 MB">The Common Edition New Testament</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/The%20Epistle%20to%20the%20Galatians%20English%20version%20of%20the%20translation%20by%20Hermann%20Detering/gal_mac_cath.xml" lang="English" size = "31.2 KB">The Epistle to the Galatians English version of the translation by Hermann Detering</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Rotherham%20Version/sf_rotherham.xml" lang="English" size = "5.4 MB">Rotherham Version</ITEM>
-
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Revised%20Standard%20Version/sf_rsv.xml" lang="English" size = "5.0 MB">Revised Standard Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Revised%20Youngs%20Literal%20Translation%20NT/Revised_Young_Literal_Translation_NT_Rev_1.xml" lang="English" size = "1.4 MB">Revised Youngs Literal Translation NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Revised%201833%20Webster%20Version%20with%20Strongs/en_gb_RWebster_Strong.xml" lang="English" size = "13.7 MB">Revised 1833 Webster Version with Strongs</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Revised%20King%20James%20New%20Testament/rkjnt.xml" lang="English" size = "1.2 MB">Revised King James New Testament</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Revised%201833%20Webster%20Version/en_gb_RWebster.xml" lang="English" size = "6.6 MB">Revised 1833 Webster Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Noyes%20Translation/sf_Noyes_Translation_rev1.xml" lang="English" size = "2.9 MB">Noyes Translation</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/New%20Simplified%20Bible/nsb.xml" lang="English" size = "5.0 MB">New Simplified Bible</ITEM>
-
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Montgomery%20New%20Testament/sf_montgomery_nt.xml" lang="English" size = "1.2 MB">Montgomery New Testament</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/KJV%2B/sf_kjv_strongs_rev1b.xml" lang="English" size = "17.3 MB">KJV+</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Modern%20KJV%201963/MKJV1962_eng_vers.xml" lang="English" size = "5.1 MB">Modern KJV 1963</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Living%20Oracles%20NT/Living_Oracles_NT.xml" lang="English" size = "1.3 MB">Living Oracles NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Leeser%20Old%20Testament/sf_Leeser_rev1.xml" lang="English" size = "4.4 MB">Leeser Old Testament</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/King%20James%20Version%20with%20Apokryphen/KJV_apok.xml" lang="English" size = "6.2 MB">King James Version with Apokryphen</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/King%20James%20Version/kjv.xml" lang="English" size = "5.2 MB">King James Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/King%20James%202000/en_gb_KJV2000.xml" lang="English" size = "5.6 MB">King James 2000</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/King%20James%20Clarified%20NT/KJC_NT.xml" lang="English" size = "1.3 MB">King James Clarified NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/John%20Wycliffe%20Bible/sf_wycliffe.xml" lang="English" size = "6.2 MB">John Wycliffe Bible</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Jewish%20Publication%20Society%20AT/sf_jps.xml" lang="English" size = "4.0 MB">Jewish Publication Society AT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Geneva%20Bible/Geneva.xml" lang="English" size = "9.1 MB">Geneva Bible</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/ISV%20NT/sf_isv.xml" lang="English" size = "1.4 MB">ISV NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Greens%20Literal%20Translation/litv_zefania.xml" lang="English" size = "5.1 MB">Greens Literal Translation</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/English%20Jubilee%202000%20Bible/sf_jubilee2000.xml" lang="English" size = "5.2 MB">English Jubilee 2000 Bible</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/English%20Majority%20Text%20Version/emtv.xml" lang="English" size = "1.2 MB">English Majority Text Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Douay%20Rheims%20XML/dourh.xml" lang="English" size = "5.8 MB">Douay Rheims XML</ITEM>
-
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Darby%20Bible/darby.xml" lang="English" size = "5.2 MB">Darby Bible</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Diaglot%20NT%20-%201865/sf_diaglot_rev_1.xml" lang="English" size = "1.3 MB">Diaglot NT - 1865</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Brentons%20English%20Septuagint/sf_Brentons_English_Septuagint.xml" lang="English" size = "5.2 MB">Brentons English Septuagint</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Bible%20in%20Basic%20English/bbe.xml" lang="English" size = "5.3 MB">Bible in Basic English</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Bible%20in%20Worldwide%20English%20NT/sf_bwe.xml" lang="English" size = "1.3 MB">Bible in Worldwide English NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/American%20Standard%20Version/asv.xml" lang="English" size = "5.2 MB">American Standard Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/American%20King%20James%20Version/akjv.xml" lang="English" size = "5.2 MB">American King James Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/A%20Conservative%20Version/en_GB_AConservativeVersion.xml" lang="English" size = "5.1 MB">A Conservative Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/DAN/Danish%20Version/sf_danish.xml" lang="DAN" size = "4.6 MB">Danish Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/CZE/Czech%20Preklad%2021/czeb2.xml" lang="Czech" size = "4.7 MB">Czech Preklad 21</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/CZE/Czech%20Ekumenicky%20Cesky%20preklad/sf_czecep.xml" lang="Czech" size = "4.8 MB">Czech Ekumenicky Cesky preklad</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/CZE/Czech%20BKR/sf_czech_bkr.xml" lang="Czech" size = "5.0 MB">Czech BKR</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/CHI/New%20Chinese%20Version%20Simplified/sf_ncv.xml" lang="Chinese" size = "4.7 MB">New Chinese Version Simplified</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/CHI/CHINESE%20UNION%20VERSION%20Simplified/sf_chiuns3.xml" lang="Chinese" size = "5.3 MB">CHINESE UNION VERSION Simplified</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/CHI/Chinese%20Union%20Version/sf_china.xml" lang="Chinese" size = "5.3 MB">Chinese Union Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/CEB/Cebuano%20Ang%20Biblia%20%28Pinadayag%20Version%29/Cebuano_Ang_Biblia_Pinadayag.xml" lang="CEB" size = "6.4 MB">Cebuano Ang Biblia (Pinadayag Version)</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/CEB/Cebuano%20Ang%20Biblia%20%28Bugna%20Version%29/Cebuano_Ang_Biblia_Bugna.xml" lang="CEB" size = "6.4 MB">Cebuano Ang Biblia (Bugna Version)</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ARA/Smith%20Van%20Dyke%20Arabic%20Bible/sf_arabic.xml" lang="ARA" size = "5.3 MB">Smith Van Dyke Arabic Bible</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/BAQ/Basque%28Navarro-Labourdin%29NT/sf_basque_1571_nt.xml" lang="BAQ" size = "1.3 MB">Basque(Navarro-Labourdin)NT</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ALB/Albanian%20Version/sf_alban.xml" lang="ALB" size = "5.6 MB">Albanian Version</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/AFR/1933/1953%20Afrikaans%20Bybel/sf_afr.xml" lang="AFR" size = "5.1 MB">1933/1953 Afrikaans Bybel</ITEM>
-	</ID>
-	<ID type="strong">
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Die%20Lutherbibel%20von%201912%20-%20Lexicon/Luther1912-lex.xml" lang="German" size = "17.2 MB">Die Lutherbibel von 1912 - Lexicon</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Die%20Elberfelderbibel%20von%201905%20-%20Strong-Lexikon/elberfelder1905-lex.xml" lang="German" size = "13.4 MB">Die Elberfelderbibel von 1905 - Strong-Lexikon</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Die%20Elberfelderbibel%20von%201871%20-%20Lexicon/Elberfelder1871-lex.xml" lang="German" size = "5.7 MB">Die Elberfelderbibel von 1871 - Lexicon</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Revised%201833%20Webster%20Version%20-%20Lexicon/RWebster-lex_rev1.xml" lang="English" size = "14.9 MB">Revised 1833 Webster Version - Lexicon</ITEM>
-		<ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/King%20James%20Version%20-%20Lexicon/kjv-lex.xml" lang="English" size = "15.6 MB">King James Version - Lexicon</ITEM>
         <ITEM link="http://openbv.uucyc.name/downloads/modules/newtestamentgreek.webdict.xml" lang="English" size = "0.1 MB">New Testament Greek - StudyLight.org</ITEM>
         <ITEM link="http://openbv.uucyc.name/downloads/modules/blueletterbiblelex.webdict.xml" lang="English" size = "0.1 MB">Lexicon - BlueLetterBible.org</ITEM>
         <ITEM link="http://openbv.uucyc.name/downloads/modules/studybiblelex.webdict.xml" lang="English" size = "0.1 MB">Strong Lexicon - studybible.info</ITEM>
-	</ID>
-    <ID type="additional">
-        <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Torreys%20Topical%20Textbook/EN_en_Torreys-Topical-Textbook.xml" lang="English" size = "3.2 MB">Torreys Topical Textbook</ITEM>
-        <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Thompson%20Chain%20Topics/sf_tcr_0_eng_full.xml" lang="English" size = "2.0 MB">Thompson Chain Topics</ITEM>
-        <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Robinsons%20Morphological%20Analysis%20Codes/sf_smith_0_eng.xml" lang="English" size = "3.6 MB">Robinsons Morphological Analysis Codes (Smith)</ITEM>
-        <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Robinsons%20Morphological%20Analysis%20Codes/sf_robinson_0_eng.xml" lang="English" size = "298.0 KB">Robinsons Morphological Analysis Codes</ITEM>
-        <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Easton%20Dictionary/sf_easton_0_eng.xml" lang="English" size = "3.2 MB">Easton Dictionary</ITEM>
-        <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/ENG/Naves%20Topical%20Bible/EN_en_Nave.xml" lang="English" size = "5.2 MB">Naves Topical Bible</ITEM>
-        <ITEM link="http://downloads.sourceforge.net/project/zefania-sharp/Zefania%20XML%20Modules%20%28raw%29/GER/Carl%20Heinrich%20Riegers%20Kommentar/DE_de_rieger.xml" lang="German" size = "2.3 MB">Carl Heinrich Riegers Kommentar</ITEM>
-        
-        <ITEM link="http://openbv.uucyc.name/downloads/modules/biblediagramscom.webpage.xml" lang="English" size = "0.1 MB">Bible Diagrams</ITEM>
-        
-
-    </ID>
+</ID>
+<ID type="additional">
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Torreys%20Topical%20Textbook/EN_en_Torreys-Topical-Textbook.zip" lang="English">Torreys Topical Textbook</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Thompson%20Chain%20Topics/sf_tcr_0_eng_full.zip" lang="English">Thompson Chain Topics</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Robinsons%20Morphological%20Analysis%20Codes/sf_smith_0_eng.zip" lang="English">Robinsons Morphological Analysis Codes</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Robinsons%20Morphological%20Analysis%20Codes/sf_robinson_0_eng.zip" lang="English">Robinsons Morphological Analysis Codes</ITEM>       
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Naves%20Topical%20Bible/EN_en_Nave.zip" lang="English">Naves Topical Bible</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Carl%20Heinrich%20Riegers%20Kommentar/DE_de_rieger.zip" lang="German">Carl Heinrich Riegers Kommentar</ITEM>
+    <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Easton%20Dictionary/sf_easton_0_eng.zip" lang="English">Easton Dictionary</ITEM>
+    <ITEM link="http://openbv.uucyc.name/downloads/modules/biblediagramscom.webpage.xml" lang="English" size = "0.1 MB">Bible Diagrams</ITEM>
+</ID>
 </MODULES>
