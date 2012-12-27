@@ -61,7 +61,11 @@ private:
     void historySetUrl(const QString &url);
     void loadDictionary(int moduleID);
     void testDictionary(const int module = -1);
-
+    /**
+     * @brief which module should i load
+     * @param module
+     * @return
+     */
     int newDictionary(const int module = -1);
     Dictionary *m_dictionary;
     void showHtml(QString html);

@@ -564,6 +564,8 @@ void BibleForm::activated()
 {
     //DEBUG_FUNC_NAME
     //myDebug() << " windowID = " << m_id;
+    m_parentSubWindow->update();
+    m_view->update();
     m_api->moduleApi()->setFrame(m_view->page()->mainFrame());
     if(m_verseTable == NULL) {
         clearChapters();
