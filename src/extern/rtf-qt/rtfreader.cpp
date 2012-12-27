@@ -44,7 +44,7 @@
 #include "UserPropsDestination.h"
 #include "FieldDestination.h"
 #include <QStack>
-#include <QTextcursor>
+#include <QTextCursor>
 #include <QUrl>
 
 namespace RtfReader

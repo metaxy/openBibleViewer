@@ -17,8 +17,7 @@
 
 #include "ODFOutput.h"
 
-#include "quazip.h"
-#include "quazipfile.h"
+//#include <quazip.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QXmlStreamWriter>
@@ -36,18 +35,19 @@ static const QString mimetype("application/vnd.oasis.opendocument.text");
 
 namespace RtfReader
 {
-ODFOutput::ODFOutput(const QString &odfFileName) : AbstractRtfOutput(),
-    m_haveOpenTextParagraph(false)
+ODFOutput::ODFOutput(const QString &odfFileName) : AbstractRtfOutput()/*,
+    m_haveOpenTextParagraph(false)*/
 {
-    m_odfZipFile = new QuaZip(odfFileName);
+  /*  m_odfZipFile = new QuaZip(odfFileName);
     m_odfZipFile->open(QuaZip::mdCreate);
     addManifestEntry("/", "application/vnd.oasis.opendocument.text");
 
     QuaZipFile mimetypeFile(m_odfZipFile);
     QuaZipNewInfo mimetypeInfo("mimetype");
-    mimetypeInfo.externalAttr = (0644 << 16);
-    /* we should be able to store here, not DEFLATE */
-    mimetypeFile.open(QIODevice::WriteOnly, mimetypeInfo);
+    mimetypeInfo.externalAttr = (0644 << 16);*/
+    // we should be able to store here, not DEFLATE
+
+   /* mimetypeFile.open(QIODevice::WriteOnly, mimetypeInfo);
     mimetypeFile.write(mimetype.toLocal8Bit());
     mimetypeFile.close();
 
@@ -99,12 +99,12 @@ ODFOutput::ODFOutput(const QString &odfFileName) : AbstractRtfOutput(),
     m_contentXML->writeStartElement(officeNamespace, QString("document-content"));
     m_contentXML->writeAttribute(officeNamespace, QString("version"), QString("1.1"));
     m_contentXML->writeStartElement(officeNamespace, QString("body"));
-    m_contentXML->writeStartElement(officeNamespace, QString("text"));
+    m_contentXML->writeStartElement(officeNamespace, QString("text"));*/
 }
 
 ODFOutput::~ODFOutput()
 {
-    m_contentXML->writeEndElement(); // closes "text"
+    /*m_contentXML->writeEndElement(); // closes "text"
     m_contentXML->writeEndElement(); // closes "body"
     m_contentXML->writeEndElement(); // closes "document-content"
     m_contentXML->writeEndDocument();
@@ -118,36 +118,36 @@ ODFOutput::~ODFOutput()
 
     m_odfZipFile->close();
     qDebug() << "result at zip file level:" << m_odfZipFile->getZipError();
-    delete m_odfZipFile;
+    delete m_odfZipFile;*/
 }
 
 void ODFOutput::writeMetadataElement(QXmlStreamWriter *xmlStream, const QString &nameSpace, const QString &element, const QString &value)
 {
-    if(value.isEmpty()) {
+   /* if(value.isEmpty()) {
         return;
     }
-    xmlStream->writeTextElement(nameSpace, element, value);
+    xmlStream->writeTextElement(nameSpace, element, value);*/
 }
 
 void ODFOutput::writeMetadataElementDateTime(QXmlStreamWriter *xmlStream, const QString &nameSpace, const QString &element, const QDateTime &value)
 {
-    if(! value.isValid()) {
+  /*  if(! value.isValid()) {
         return;
     }
-    xmlStream->writeTextElement(nameSpace, element, value.toString(Qt::ISODate));
+    xmlStream->writeTextElement(nameSpace, element, value.toString(Qt::ISODate));*/
 }
 
 void ODFOutput::writeKeywordsMetadata(QXmlStreamWriter *xmlStream, const QString &keywords)
 {
-    QStringList keywordList = keywords.split(",", QString::SkipEmptyParts);
+   /* QStringList keywordList = keywords.split(",", QString::SkipEmptyParts);
     for(int i = 0; i < keywordList.count(); ++i) {
         writeMetadataElement(xmlStream, metaNamespace, QString("keyword"), keywordList.at(i).simplified());
-    }
+    }*/
 }
 
 void ODFOutput::writeEditingTimeMetadata(QXmlStreamWriter *xmlStream, const int editMinutes)
 {
-    if(editMinutes == 0) {
+   /* if(editMinutes == 0) {
         return;
     }
     int residualHours = editMinutes / 60;
@@ -155,12 +155,12 @@ void ODFOutput::writeEditingTimeMetadata(QXmlStreamWriter *xmlStream, const int 
     int days = residualHours / 24;
     int hours = residualHours - (24 * days);
     QString formattedDate = QString("P%1DT%2H%3M0S").arg(days).arg(hours).arg(minutes);
-    writeMetadataElement(xmlStream, metaNamespace, QString("editing-duration"), formattedDate);
+    writeMetadataElement(xmlStream, metaNamespace, QString("editing-duration"), formattedDate);*/
 }
 
 void ODFOutput::writeMetadataFile()
 {
-    QuaZipFile *meta = new QuaZipFile(m_odfZipFile);
+    /*QuaZipFile *meta = new QuaZipFile(m_odfZipFile);
 
     QuaZipNewInfo metaInfo("meta.xml");
     metaInfo.externalAttr = (0644 << 16);
@@ -192,20 +192,20 @@ void ODFOutput::writeMetadataFile()
     metaXML->writeEndDocument();
     qDebug() << "result at meta.xml file level:" << meta->getZipError();
     meta->close();
-    addManifestEntry("meta.xml", "text/xml");
+    addManifestEntry("meta.xml", "text/xml");*/
 }
 
 void ODFOutput::addManifestEntry(const QString &fullPath, const QString &mediaType)
 {
-    ManifestEntry entry;
+    /*ManifestEntry entry;
     entry.fullPath = fullPath;
     entry.mediaType = mediaType;
-    m_manifestEntries.append(entry);
+    m_manifestEntries.append(entry);*/
 }
 
 void ODFOutput::writeManifestFile()
 {
-    QuaZipFile manifestFile(m_odfZipFile);
+  /*  QuaZipFile manifestFile(m_odfZipFile);
     QuaZipNewInfo manifestInfo("META-INF/manifest.xml");
     manifestInfo.externalAttr = (0644 << 16);
     manifestFile.open(QIODevice::WriteOnly, manifestInfo);
@@ -223,25 +223,25 @@ void ODFOutput::writeManifestFile()
     manifestXML.writeEndElement(); // closes "manifest" for outer scope
     manifestXML.writeEndDocument();
     qDebug() << "result at manifest.xml file level:" << manifestFile.getZipError();
-    manifestFile.close();
+    manifestFile.close();*/
 }
 
 void ODFOutput::appendText(const QString &text)
 {
-    if(! m_haveOpenTextParagraph) {
+  /*  if(! m_haveOpenTextParagraph) {
         m_contentXML->writeStartElement(textNamespace, QString("p"));
         m_haveOpenTextParagraph = true;
     }
-    m_contentXML->writeCharacters(text);
+    m_contentXML->writeCharacters(text);*/
 }
 
 void ODFOutput::insertPar()
 {
-    if(! m_haveOpenTextParagraph) {
+   /* if(! m_haveOpenTextParagraph) {
         m_contentXML->writeStartElement(textNamespace, QString("p"));
     }
     m_contentXML->writeEndElement();
-    m_haveOpenTextParagraph = false;
+    m_haveOpenTextParagraph = false;*/
 }
 
 void ODFOutput::insertTab()
@@ -251,39 +251,39 @@ void ODFOutput::insertTab()
 
 void ODFOutput::insertLeftQuote()
 {
-    appendText(QString(QChar(0x2018)));
+    /*appendText(QString(QChar(0x2018)));*/
 }
 
 void ODFOutput::insertRightQuote()
 {
-    appendText(QString(QChar(0x2019)));
+   /* appendText(QString(QChar(0x2019)));*/
 }
 
 void ODFOutput::insertLeftDoubleQuote()
 {
     // TODO: figure out why this doesn't render properly
-    appendText(QString(QChar(0x201c)));
+   /* appendText(QString(QChar(0x201c)));*/
 }
 
 void ODFOutput::insertRightDoubleQuote()
 {
     // TODO: figure out why this doesn't render properly
-    appendText(QString(QChar(0x201d)));
+   // appendText(QString(QChar(0x201d)));
 }
 
 void ODFOutput::insertEnDash()
 {
-    appendText(QString(QChar(0x2013)));
+   // appendText(QString(QChar(0x2013)));
 }
 
 void ODFOutput::insertEmDash()
 {
-    appendText(QString(QChar(0x2014)));
+  //  appendText(QString(QChar(0x2014)));
 }
 
 void ODFOutput::insertEnSpace()
 {
-    appendText(QString(QChar(0x2002)));
+   // appendText(QString(QChar(0x2002)));
 }
 
 void ODFOutput::insertEmSpace()
@@ -293,7 +293,7 @@ void ODFOutput::insertEmSpace()
 
 void ODFOutput::insertBullet()
 {
-    appendText(QString(QChar(0x2022)));
+   // appendText(QString(QChar(0x2022)));
 }
 
 void ODFOutput::resetParagraphFormat()

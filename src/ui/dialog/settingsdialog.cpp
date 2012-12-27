@@ -27,8 +27,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/dictionary/theworddictionary.h"
 #include <QtCore/QFSFileEngine>
 #include <QtCore/QPointer>
-#include "src/extern/quazip/quazip/quazip.h"
-#include "src/extern/quazip/quazip/quazipfile.h"
+#include <quazip.h>
+#include <quazipfile.h>
 #ifdef BUILD_WITH_SWORD
 #include <stdlib.h>
 #include <swmgr.h>

@@ -43,7 +43,7 @@ endif(APPLE)
 
 find_package( Qt4 REQUIRED )
 find_package( CLucene1 REQUIRED)
-
+find_package( QuaZip REQUIRED)
 
 pkg_check_modules(ZLIB REQUIRED zlib)
 #find_package( Zlib )
@@ -105,6 +105,7 @@ include_directories(
     ${MCLUCENE_DIR}\\build\\src\\shared
     ${MCLUCENE_DIR}\\src\\core
     ${MCLUCENE_DIR}\\src\\shared
+    ${QuaZip_INCLUDE_DIR}
     )
 
 if(OBV_SWORD_SUPPORT)
@@ -372,6 +373,7 @@ target_link_libraries( openBibleViewer
                         ${CL_LIBS}
                         ${SW_LIBS}
                         ${ZLIB_LIBRARIES}
+                        ${QuaZip_LIBRARIES}
 )
 
 install( TARGETS openBibleViewer
