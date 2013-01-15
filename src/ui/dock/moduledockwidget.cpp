@@ -51,6 +51,11 @@ void ModuleDockWidget::init()
     ui->treeView_module->setSortingEnabled(true);
     ui->treeView_module->setModel(m_moduleUI->model());
     ui->treeView_module->setSelectionModel(m_moduleUI->selectionModel());
+    if(m_settings->moreCompactUI) {
+        ui->treeView_module->setRootIsDecorated(false);
+        ui->treeView_module->setHeaderHidden(true);
+    }
+
 
     m_moduleUI->model()->sort(0);
     connect(m_actions, SIGNAL(_setCurrentModule(int)), this, SLOT(loadedModule(int)));

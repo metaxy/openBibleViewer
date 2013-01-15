@@ -59,8 +59,8 @@ void SearchManager::showSearchDialog()
             sDialog->setText(text);
         }
     }
-    sDialog->exec();
-    delete sDialog;
+    sDialog->show();
+   // delete sDialog;
 }
 
 void SearchManager::search()

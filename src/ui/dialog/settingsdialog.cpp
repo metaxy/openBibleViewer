@@ -157,7 +157,8 @@ int SettingsDialog::setSettings(Settings settings)
 
     m_ui->comboBox_interface->setCurrentIndex(currentInterface);
 
-   m_ui->checkBox_checkForUpdates->setChecked(m_set.checkForUpdates);
+    m_ui->checkBox_checkForUpdates->setChecked(m_set.checkForUpdates);
+    m_ui->checkBox_compactUI->setChecked(m_set.moreCompactUI);
 
     ModuleSettings *config = settings.getModuleSettings(-1);
     m_ui->checkBox_showBottomToolbar->setChecked(config->displaySettings()->showBottomToolBar());
@@ -344,6 +345,7 @@ void SettingsDialog::save(void)
     m_set.autoLayout = (Settings::LayoutEnum) m_ui->comboBox_autoLayout->currentIndex();
 
     m_set.checkForUpdates = m_ui->checkBox_checkForUpdates->isChecked();
+    m_set.moreCompactUI = m_ui->checkBox_compactUI->isChecked();
 
     int currentInterface = m_ui->comboBox_interface->currentIndex();
     if(currentInterface == 0) {
@@ -567,7 +569,8 @@ void SettingsDialog::importSwordModules()
             m->moduleName = desc;
             m->modulePath = name;
             m->moduleType = ModuleTools::SwordBibleModule;
-        } else if(type == "Lexicons / Dictionaries") {
+        } else if(type     m_ui->checkBox_checkForUpdates->setChecked(m_set.checkForUpdates);
+== "Lexicons / Dictionaries") {
             ModuleSettings *m = m_set.newModuleSettings(-1)
             m->moduleName = desc;
             m->modulePath = name;

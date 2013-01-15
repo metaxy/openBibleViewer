@@ -44,7 +44,7 @@ public:
     LayoutEnum autoLayout;
     bool intelligentLayout;
     bool onClickBookmarkGo;
-
+    bool moreCompactUI;
     bool checkForUpdates;
 
     bool advancedSearchDock_useCurrentModule;

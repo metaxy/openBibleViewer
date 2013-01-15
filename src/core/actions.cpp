@@ -172,14 +172,6 @@ void Actions::setFullScreen(bool enable)
 {
     emit _setFullScreen(enable);
 }
-void Actions::disableFullScreen()
-{
-    setFullScreen(false);
-}
-void Actions::enableFullScreen()
-{
-    setFullScreen(true);
-}
 void Actions::toggleFullScreen()
 {
     emit _toggleFullScreen();

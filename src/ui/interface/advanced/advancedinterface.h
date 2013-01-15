@@ -85,6 +85,8 @@ private slots:
     void quick();
     void uncheck(bool b);
 
+    void fullscreen(bool enabled);
+
 public:
     AdvancedInterface(QWidget *parent = 0);
     ~AdvancedInterface();
