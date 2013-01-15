@@ -116,4 +116,7 @@ SearchableModule * Form::searchableModule() const
     myWarning() << "calling Form::searchableModule()";
     return NULL;
 }
-
+void Form::activated()
+{
+    m_parentSubWindow->update();
+}

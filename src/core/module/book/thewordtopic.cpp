@@ -155,13 +155,17 @@ Response* TheWordTopic::readChapter(const int chapterID)
             haveRvf = true;
         }
     }
-    Response *res;
+    Response *res = nullptr;
     if(haveRvf && haveRtf) {
         myWarning() << "we cannot have both";
     } else if(haveRtf) {
         res = new HtmlResponse(rtfDocument->toHtml());
+        myDebug() << "html response";
     } else if(haveRvf){
         res = new StringResponse(ret);
+        myDebug() << "string response";
+    } else {
+        res = new StringResponse("");
     }
     delete rtfDocument;
     return res;

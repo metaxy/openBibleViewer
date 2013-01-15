@@ -92,7 +92,7 @@ public slots:
     virtual void zoomIn() = 0;
     virtual void zoomOut() = 0;
 
-    virtual void activated() = 0;
+    virtual void activated();
 protected:
 
     bool active();

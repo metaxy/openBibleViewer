@@ -71,8 +71,8 @@ QString RvfReader::readRecText(const QByteArray &data, int limit_pos)
         n.append(c);
         prev = c;
     }
-    m_pos += i;
-    myDebug() << "ret" << QString::fromAscii(n);
+    m_pos += i + 1;
+    //myDebug() << "ret" << QString::fromAscii(n);
     return QString::fromAscii(n);
 }
 
@@ -105,9 +105,9 @@ QString RvfReader::readText(const QByteArray &data)
       /*  }*/
         prev = c;
     }
-    myDebug() << "read " << i << "charachters";
-    m_pos += i + 2;
-    myDebug() << "ret" << QString::fromAscii(n);
+    //myDebug() << "read " << i << "charachters";
+    m_pos += i + 1;
+    //myDebug() << "ret" << QString::fromAscii(n);
     return QString::fromAscii(n);
 }
 
@@ -122,7 +122,7 @@ QString RvfReader::readRecord(const QByteArray &data)
         ret.append(c);
         prev = c;
     }
-    m_pos += i;
+    m_pos += i + 1;
     myDebug() << "ret" << ret;
     return ret;
 }
@@ -215,14 +215,17 @@ QString RvfReader::toHtml()
 
     for(int i = 0; i < recordStartPositions.size(); i++) {
         m_pos = recordStartPositions.at(i);
-        myDebug() << "pos = " << m_pos;
+        myDebug() << "i=" << i << "pos=" << m_pos;
         const QByteArray current = m_data.mid(m_pos);
-        myDebug() << "current = " << current;
 
         QString rvfRecHeaderStr = readRecord(current);
 
         QStringList rvfRecHeader = rvfRecHeaderStr.split(' ');
-        if(rvfRecHeader.size() < 2) {
+        myDebug() << rvfRecHeader;
+
+        const QByteArray current2 = m_data.mid(m_pos);
+        if(rvfRecHeader.size() < 6) {
+            myDebug() << "invalid header - continue";
             continue;
         }
         int recHdrRecordType = rvfRecHeader.at(0).toInt();
@@ -231,31 +234,53 @@ QString RvfReader::toHtml()
         myDebug() << "type = " << recHdrRecordType;
         myDebug() << "count = " << recHdrStringsCount;
 
-        if (recHdrRecordType >= 0) // text
-        {
-            myDebug() << "reading text ab" << m_pos;
-            for (int j = 0; j < recHdrStringsCount; j++)
-            {
-                if (i + 1 < recordStartPositions.size())
-                    end_pos = recordStartPositions.at(i + 1) - 1 - m_pos;
-                else
-                    end_pos = m_data.size() - m_pos;
-
-                if (m_pos >= end_pos)
-                    break;
-
-                QString textdata = readText(m_data.mid(m_pos, end_pos));
-                ret.append(textdata);
-                ret.append("\r\n");
-            }
+        if (i + 1 < recordStartPositions.size()) {
+            myDebug() << "next one" << recordStartPositions.at(i + 1) - 1 << "m_pos" << m_pos;
+            end_pos = recordStartPositions.at(i + 1) - 1 - m_pos;
+        } else {
+            end_pos = m_data.size() - m_pos;
         }
-        else if (recHdrRecordType == -3) //
-        {
+        if(recHdrRecordType == 10) { // h1
+            QString textdata = readText(m_data.mid(m_pos, end_pos));
 
+            ret.append("<h1>" + textdata + "</h1> <br/>");
+        } else if(recHdrRecordType == 11) { // h2
+            QString textdata = readText(m_data.mid(m_pos, end_pos));
+            ret.append("<h2>" + textdata + "</h2> <br/>");
+        } else if(recHdrRecordType == 12) { // h2
+            QString textdata = readText(m_data.mid(m_pos, end_pos));
+            ret.append("<span style='color:#FF0073'>" + textdata + "</span> <br/>");
+        } else if(recHdrRecordType == 13) { // h2
+            QString textdata = readText(m_data.mid(m_pos, end_pos));
+            ret.append("<span style='color:#B300FF'>" + textdata + "</span> <br/>");
+         }else if(recHdrRecordType == 14) { // h2
+            QString textdata = readText(m_data.mid(m_pos, end_pos));
+            ret.append("<span style='color:#0019FF'>" + textdata + "</span> <br/>");
+        } else if(recHdrRecordType == 15) { // h2
+            QString textdata = readText(m_data.mid(m_pos, end_pos));
+            ret.append("<span style='color:#00F3FF'>" + textdata + "</span> <br/>");
+        } else if(recHdrRecordType == 16) { // h2
+            QString textdata = readText(m_data.mid(m_pos, end_pos));
+            ret.append("<span style='color:#00FF15'>" + textdata + "</span> <br/>");
+        } else if(recHdrRecordType == 17) { // h2
+            QString textdata = readText(m_data.mid(m_pos, end_pos));
+            ret.append("<span style='color:#B7FF00'>" + textdata + "</span> <br/>");
+        } else if (recHdrRecordType > 0) { // text
+            myDebug() << "reading text ab" << m_pos;
+            myDebug() << "m_pos" << m_pos << "end_pos" << end_pos << "i" << i;
+            QString textdata = readText(m_data.mid(m_pos, end_pos));
+            ret.append(textdata);
+            ret.append("<br />");
+        } else if (recHdrRecordType == -3) {
+            myDebug() << "images not supported";
+        } else if (recHdrRecordType == -9) {
+             QString textdata = readText(m_data.mid(m_pos, end_pos));
+             myDebug() << "unneeded data" << textdata;
         } else {
             myDebug() << "unkown header record type" << recHdrRecordType;
         }
+        myDebug() << "----------------------------------------";
     }
-    myDebug() << ret.size() << ret;
+    //myDebug() << ret.size() << ret;
     return ret;
 }

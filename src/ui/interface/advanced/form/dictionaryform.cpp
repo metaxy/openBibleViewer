@@ -158,6 +158,9 @@ void DictionaryForm::save()
 
 void DictionaryForm::activated()
 {
+    m_parentSubWindow->update();
+    m_view->update();
+
     if(m_dictionary == NULL)
         return;
     m_actions->setTitle(m_dictionary->moduleTitle());

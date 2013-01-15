@@ -141,6 +141,8 @@ void WebForm::adjustLocation()
 
 void WebForm::activated()
 {
+    m_parentSubWindow->update();
+    m_view->update();
     m_actions->clearBooks();
     m_actions->clearChapters();
     if(m_page != NULL) {

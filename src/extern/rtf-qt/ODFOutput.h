@@ -22,8 +22,8 @@
 
 #include <QtCore/QString>
 
-class QuaZip;
-class QuaZipFile;
+//class QuaZip;
+//class QuaZipFile;
 class QXmlStreamWriter;
 
 namespace RtfReader
@@ -91,7 +91,7 @@ protected:
     void writeEditingTimeMetadata(QXmlStreamWriter *xmlStream, const int editMinutes);
     void writeMetadataElementDateTime(QXmlStreamWriter *xmlStream, const QString &nameSpace, const QString &element, const QDateTime &value);
     void writeMetadataFile();
-
+/*
     QuaZip              *m_odfZipFile;
     QuaZipFile          *m_content;
     QXmlStreamWriter        *m_contentXML;
@@ -101,7 +101,7 @@ protected:
     QXmlStreamWriter        *m_stylesXML;
 
     bool                m_haveOpenTextParagraph;
-    QList<struct ManifestEntry> m_manifestEntries;
+    QList<struct ManifestEntry> m_manifestEntries;*/
 };
 }
 

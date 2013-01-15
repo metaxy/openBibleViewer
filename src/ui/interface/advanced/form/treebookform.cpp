@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_treebookform.h"
 #include "src/core/module/response/urlresponse.h"
 #include "src/core/module/response/stringresponse.h"
+#include "src/core/module/response/htmlresponse.h"
 #include <QtWebKit/QWebElement>
 TreeBookForm::TreeBookForm(QWidget *parent) :
     WebViewForm(parent),
@@ -100,6 +101,8 @@ Form::FormType TreeBookForm::type() const
 
 void TreeBookForm::activated()
 {
+    m_parentSubWindow->update();
+    m_view->update();
     if(m_book == NULL)
         return;
     m_actions->setTitle(m_book->moduleTitle());
@@ -170,7 +173,7 @@ void TreeBookForm::showChapter(const int moduleID, const int chapterID)
             StringResponse *u = (StringResponse*) res;
             m_view->setHtml(u->data());
         } else if(res->type() == Response::HtmlResponse) {
-            StringResponse *u = (StringResponse*) res;
+            HtmlResponse *u = (HtmlResponse*) res;
             m_view->setHtml(u->data());
         }
     }

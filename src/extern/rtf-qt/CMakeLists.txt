@@ -2,8 +2,6 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}
   ${QT_INCLUDE_DIR}
-  ${CMAKE_SOURCE_DIR}/src/extern/quazip/quazip
-  ${QT_QTCORE_INCLUDE_DIR} # for Quazip header compatibility
 )
 #if(CMAKE_COMPILER_IS_GNUCXX)
 #    list(APPEND CMAKE_CXX_FLAGS "-fprofile-arcs -ftest-coverage")
@@ -53,6 +51,6 @@ set(RtfReader_LIB_SOURCES
 qt4_automoc(${RtfReader_LIB_SOURCES})
 
 add_library(RtfReader STATIC ${RtfReader_LIB_SOURCES})
-target_link_libraries(RtfReader ${QT_QTGUI_LIBRARY} ${QT_QTCORE_LIBRARY} RTFQUAZIP) 
+target_link_libraries(RtfReader ${QT_QTGUI_LIBRARY} ${QT_QTCORE_LIBRARY})
 set_target_properties(RtfReader PROPERTIES VERSION 0.0.0 SOVERSION 0)
 #install( TARGETS RtfReader RUNTIME DESTINATION lib )
