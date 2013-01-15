@@ -1,4 +1,4 @@
-Installation instructions for openBibleViewer 0.7:
+Installation instructions for openBibleViewer 0.8:
 ---------------------------
 
 openBibleViewer requires:
@@ -7,13 +7,28 @@ openBibleViewer requires:
   or libqt-devel >= 4.6
 - cmake
 - clucene >= 2.3.3.4
+- quazip >= 0.4.3
 
+Resolve Dependecies on openSUSE 12.2:
+----------------------
+sudo zypper in libquazip1 quazip-devel zlib zlib-devel lintqt-devel automoc4 cmake libclucene2 clucene-core-devel
+
+
+Compile openBibleViewer from git:
+----------------------------------
+git clone git://github.com/metaxy/openBibleViewer.git
+cd openBibleViewer
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX='/usr' ..
+make
+sudo make install
 
 Compile openBibleViewer:
 ---------------------------
 
-tar -xjf openBibleViewer-0.7.tar.bz2
-cd ~/openBibleViewer-0.7
+tar -xjf openBibleViewer-0.8.tar.bz2
+cd ~/openBibleViewer-0.8
 mkdir build
 cd build
 cmake -DCMAKE_INSTALL_PREFIX='/usr' ..
