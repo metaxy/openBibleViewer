@@ -47,11 +47,12 @@ class MainWindow : public QMainWindow, public BasicClass
     Q_OBJECT
 signals:
     void settingsChanged(Settings oldSettings, Settings newSettings, bool modifedModuleSettings);
-public slots:
+private slots:
     void showSettingsDialog_Module();
     void showSettingsDialog_General();
     void saveSettings(Settings set, bool modifedModuleSettings);
     void reloadInterface();
+    void fullscreen(bool enable);
 public:
     MainWindow(Context *parent);
     ~MainWindow();

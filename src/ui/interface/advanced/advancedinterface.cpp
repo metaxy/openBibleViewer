@@ -97,6 +97,7 @@ void AdvancedInterface::init()
     connect(m_actions, SIGNAL(_setTitle(QString)), this , SLOT(setTitle(QString)));
     connect(m_actions, SIGNAL(_setTabbedView()), this, SLOT(setTabbedView()));
     connect(m_actions, SIGNAL(_setSubWindowView()), this, SLOT(setSubWindowView()));
+    connect(m_actions, SIGNAL(_setFullScreen(bool)), this, SLOT(fullscreen(bool)));
 
 }
 void AdvancedInterface::createDocks()
@@ -121,6 +122,13 @@ QHash<DockWidget*, Qt::DockWidgetArea> AdvancedInterface::docks()
     ret.unite(m_bookmarksManager->docks());
     ret.unite(m_dictionaryManager->docks());
     return ret;
+}
+void AdvancedInterface::fullscreen(bool enabled)
+{
+
+    if(enabled) {
+
+    }
 }
 
 void AdvancedInterface::parseUrl(QString url, const Actions::OpenLinkModifiers mod)

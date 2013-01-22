@@ -44,7 +44,6 @@ MainWindow::~MainWindow()
     ui = nullptr;
 }
 
-
 void MainWindow::init(bool firstStart)
 {
     loadInterface();
@@ -53,6 +52,7 @@ void MainWindow::init(bool firstStart)
     if(firstStart) {
         QTimer::singleShot(1, this, SLOT(showSettingsDialog_Module()));
     }
+    connect(m_actions, SIGNAL(_setFullScreen(bool)), this, SLOT(fullscreen(bool)));
 
 }
 void MainWindow::loadInterface()
@@ -195,11 +195,11 @@ void MainWindow::showSettingsDialog(int tabID)
 }
 void MainWindow::showSettingsDialog_Module()
 {
-    showSettingsDialog(1);
+    showSettingsDialog(0);
 }
 void MainWindow::showSettingsDialog_General()
 {
-    showSettingsDialog(0);
+    showSettingsDialog(2);
 }
 void MainWindow::setTranslator(QTranslator *my, QTranslator *qt)
 {
@@ -241,6 +241,16 @@ void MainWindow::restoreSession()
     }
     return;
 }
+void MainWindow::fullscreen(bool enable)
+{
+    DEBUG_FUNC_NAME
+    if(enable) {
+       // this->menuBar()->setHidden(true);
+    } else {
+      //  menuBar()->setHidden(false);
+    }
+}
+
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     Q_UNUSED(event)

@@ -100,8 +100,10 @@ void Context::showWindow()
 void Context::toggleFullScreen()
 {
     if(!m_window->isFullScreen()) {
+        m_actions->setFullScreen(true);
         m_window->showFullScreen();
     } else {
+        m_actions->setFullScreen(false);
         m_window->showNormal();
     }
 }

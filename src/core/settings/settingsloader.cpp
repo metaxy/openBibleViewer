@@ -63,6 +63,7 @@ void SettingsLoader::loadSettings()
     m_settings->encoding = m_settingsFile->value("general/encoding", m_settings->encoding).toString();
     m_settings->language = m_settingsFile->value("general/language", QLocale::system().name()).toString();
     m_settings->checkForUpdates = m_settingsFile->value("general/checkForUpdates", m_settings->checkForUpdates).toBool();
+    m_settings->moreCompactUI = m_settingsFile->value("general/moreCompactUI", m_settings->moreCompactUI).toBool();
 
     m_settings->autoLayout = (Settings::LayoutEnum) m_settingsFile->value("window/layout", m_settings->autoLayout).toInt();
     m_settings->onClickBookmarkGo = m_settingsFile->value("window/onClickBookmarkGo", m_settings->onClickBookmarkGo).toBool();

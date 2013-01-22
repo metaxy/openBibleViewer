@@ -132,11 +132,9 @@ public slots:
     void searchInText();
 
     void setCurrentVerseTableID(const int verseTableID);
-
+    // updates the ui if full screen was enabled/disabled
     void setFullScreen(bool enable);
-    void enableFullScreen();
-    void disableFullScreen();
-    
+    // tiggers full screen or not
     void toggleFullScreen();
 
 };
