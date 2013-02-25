@@ -47,7 +47,7 @@ BuildRequires: libz1
 %endif
 
 
-BuildRequires: desktop-file-utils cmake clucene1-core clucene1-devel gcc-c++
+BuildRequires: desktop-file-utils cmake clucene1-core clucene1-devel gcc-c++ quazip-devel
 
 %description
 This program allows one to work with the bible and study it.
