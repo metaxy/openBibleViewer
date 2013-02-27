@@ -2,13 +2,13 @@
 <module id="newtestamentgreek-studylight.org" type="webdict">
     <meta>
         <name>Strong Lexicon - StudyLight.org</name>
-        <shortName>StudyLight Strong Lex</shortName>
+	<shortName>StudyLight Strong</shortName>
         <desc>Powerd by LightSpeed Technology.</desc>
         <type>strong-dictionary</type>
     </meta>
     <data>
         <site>
-            <url>http://www.studylight.org/isb/</url>
+	    <url>http://www.studylight.org/lex/</url>
             <parseIn><![CDATA[
                 (function(a) { 
                     if(a.indexOf(" ") > 0) {
@@ -16,30 +16,19 @@
                     }
                     if(a[0] == 'G' || a[0] == 'g') {
                         a = a.substr(1);
-                        return "http://www.studylight.org/isb/view.cgi?number="+a+"&tool=grk";
+			return "http://www.studylight.org/lex/grk/gwview.cgi?n="+a;
                     } else if(a[0] == 'H' || a[0] == 'h') {
                         a = a.substr(1);
-                        return "http://www.studylight.org/isb/view.cgi?number=0"+a;
+			return "http://www.studylight.org/lex/heb/hwview.cgi?n="+a;
                     }
-                    return "http://www.studylight.org/isb/";
+		    return "http://www.studylight.org/";
                  })
                 ]]>
             </parseIn>
             <parseOut>
                 <![CDATA[
                     (function(a) { 
-                        var str = "http://www.studylight.org/isb/view.cgi?number="
-                        if(a.indexOf(str) === 0) {
-                            a = a.substr(str.length);
-                            if(a.indexOf("0") === 0) {
-                                return "strong:/H" + a;
-                            } else {
-                                return "strong:/G" + a;
-                            }
-                            
-                        } else {
-                            return a;
-                        }
+			return a;
                     })
                  ]]>
             </parseOut>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module id="newtestamentgreek-studylight-classic.org" type="webdict">
+    <meta>
+	<name>Classic Strong Lexicon - StudyLight.org</name>
+	<shortName>StudyLight Strong(Classic)</shortName>
+	<desc>Powerd by LightSpeed Technology.</desc>
+	<type>strong-dictionary</type>
+    </meta>
+    <data>
+	<site>
+	    <url>http://classic.studylight.org/isb/</url>
+	    <parseIn><![CDATA[
+		(function(a) {
+		    if(a.indexOf(" ") > 0) {
+			a = a.substr(0, a.indexOf(" "));
+		    }
+		    if(a[0] == 'G' || a[0] == 'g') {
+			a = a.substr(1);
+			return "http://classic.studylight.org/isb/view.cgi?number="+a+"&tool=grk";
+		    } else if(a[0] == 'H' || a[0] == 'h') {
+			a = a.substr(1);
+			return "http://classic.studylight.org/isb/view.cgi?number=0"+a;
+		    }
+		    return "http://classic.studylight.org/isb/";
+		 })
+		]]>
+	    </parseIn>
+	    <parseOut>
+		<![CDATA[
+		    (function(a) {
+			var str = "http://classic.studylight.org/isb/view.cgi?number="
+			if(a.indexOf(str) === 0) {
+			    a = a.substr(str.length);
+			    if(a.indexOf("0") === 0) {
+				return "strong:/H" + a;
+			    } else {
+				return "strong:/G" + a;
+			    }
+
+			} else {
+			    return a;
+			}
+		    })
+		 ]]>
+	    </parseOut>
+
+	</site>
+    </data>
+</module>
