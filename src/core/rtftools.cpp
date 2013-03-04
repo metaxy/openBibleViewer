@@ -47,21 +47,21 @@ bool RtfTools::isRvf(const QByteArray &data)
 QString RvfReader::readUntilLineEnd(const QByteArray &data)
 {
     //myDebug() << "start" << data;
-    char prev = 0;
     QByteArray n;
-    for(int i = 0; i < data.size(); i++) {
+    int i;
+    for(i = 0; i < data.size() - 1; i++) { // - 1 because we have to look one forward in the if for the break
         char c = data.at(i);
-        if(c == 10 && prev == 13) break;
+      //  myDebug() << "i=" << i << "c=" << (int)c;
+        if(c == 0x0D/*13*/ && data.at(i+1) == 0x0A/*10*/) break;
         n.append(c);
-        prev = c;
     }
-    //myDebug() << "ret" << QString::fromAscii(n);
+    myDebug() << "ret=" << QString::fromAscii(n).size() << "i="<< i;
     return QString::fromAscii(n);
 }
 
 QString RvfReader::readRecText(const QByteArray &data, int limit_pos)
 {
-    myDebug() << "start" << "limit pos" <<limit_pos << "pos" << m_pos;
+    myDebug() << "start" << "limit pos" <<limit_pos << "mpos" << m_pos;
     char prev = 0;
     int i;
     QByteArray n;
@@ -113,12 +113,14 @@ QString RvfReader::readText(const QByteArray &data)
 
 QString RvfReader::readRecord(const QByteArray &data)
 {
+    myDebug() << "mpos=" << m_pos;
     QString ret;
     char prev = -1;
     int i;
     for(i = 0; i < data.size(); i++) {
         char c = data.at(i);
         if(c == 10 && prev == 13) break;
+
         ret.append(c);
         prev = c;
     }
@@ -130,7 +132,6 @@ QString RvfReader::readRecord(const QByteArray &data)
 QByteArray RtfTools::gUncompress(const QByteArray &data)
 {
     DEBUG_FUNC_NAME;
-    myDebug() << data;
     if (data.size() <= 4) {
         myWarning() << "Input data is truncated";
         return QByteArray();
@@ -181,34 +182,71 @@ QByteArray RtfTools::gUncompress(const QByteArray &data)
 
     // clean up and return
     inflateEnd(&strm);
-    myDebug() << result;
     return result;
+
 }
+class TItem
+{
+public:
+    enum TType {
+        Text,
+        Link,
+        H1,
+        H2
+    };
+
+    ~TItem() {
+        foreach(TItem *x,children) {
+            delete x;
+        };
+        children.clear();
+    }
+    TItem::TType ttype;
+    QList<TItem*> children;
+    int type;
+    QString text;
+
+};
 
 RvfReader::RvfReader(const QByteArray &data) : m_data(data), m_pos(0)
 {
 
 }
-QString RvfReader::toHtml()
+QList<int> RvfReader::startPositions()
 {
-    /*QFile f("/home/paul/test.rvf");
-    if(f.open(QFile::WriteOnly)) {
-        f.write(data);
-    }*/
-
     QList<int> recordStartPositions;
-    QString ret;
-    for(int i = 0; i < m_data.size(); i++) {
+    //the first one is alway a block
+    int i = 0;
+    i += readUntilLineEnd(m_data).size();
+
+    for(; i < m_data.size() - 1; i++) {
         QChar c = QChar(m_data.at(i));
-        if((c == '-' && QChar(m_data.at(i+1)).isDigit()) || c.isDigit()) {
+      //  myDebug() <<  "i=" << i << "c=" << (int)c.toAscii();
+        if((QChar(m_data.at(i+1)).isDigit() && c == '-') //is a digit with a minus before
+            || (c.isDigit() && QChar(m_data.at(i-1)).isSpace())) {
             QString r = readUntilLineEnd(m_data.mid(i));
-            if(r.size() > 10) {
-                recordStartPositions << i;
-            }
-            i += 14;
+            recordStartPositions << i;
+            myDebug() << "i=" << i << "r.size()=" << r.size();
+            i += r.size() + 2;
         }
     }
+
     myDebug() << "recordStartPositions = " << recordStartPositions;
+    return recordStartPositions;
+}
+
+QString RvfReader::toHtml()
+{
+    QFile file("out.bin");
+    file.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream o(&file);
+    o << m_data;
+    file.close();
+
+    QString ret;
+
+    QList<int> recordStartPositions = startPositions();
+    myDebug() << "all text" << readText(m_data);
 
     int end_pos = m_data.size() - 1;
     m_pos = 0;
@@ -223,17 +261,15 @@ QString RvfReader::toHtml()
         QStringList rvfRecHeader = rvfRecHeaderStr.split(' ');
         myDebug() << rvfRecHeader;
 
-        const QByteArray current2 = m_data.mid(m_pos);
-        if(rvfRecHeader.size() < 6) {
-            myDebug() << "invalid header - continue";
-            continue;
-        }
+        const QByteArray nextText = m_data.mid(m_pos);
+
         int recHdrRecordType = rvfRecHeader.at(0).toInt();
         int recHdrStringsCount = rvfRecHeader.at(1).toInt();
 
-        myDebug() << "type = " << recHdrRecordType;
-        myDebug() << "count = " << recHdrStringsCount;
+        myDebug() << "type=" << recHdrRecordType;
+        myDebug() << "count=" << recHdrStringsCount;
 
+        // Update end_pos
         if (i + 1 < recordStartPositions.size()) {
             myDebug() << "next one" << recordStartPositions.at(i + 1) - 1 << "m_pos" << m_pos;
             end_pos = recordStartPositions.at(i + 1) - 1 - m_pos;
@@ -242,33 +278,37 @@ QString RvfReader::toHtml()
         }
         if(recHdrRecordType == 10) { // h1
             QString textdata = readText(m_data.mid(m_pos, end_pos));
-
             ret.append("<h1>" + textdata + "</h1> <br/>");
         } else if(recHdrRecordType == 11) { // h2
             QString textdata = readText(m_data.mid(m_pos, end_pos));
             ret.append("<h2>" + textdata + "</h2> <br/>");
-        } else if(recHdrRecordType == 12) { // h2
-            QString textdata = readText(m_data.mid(m_pos, end_pos));
-            ret.append("<span style='color:#FF0073'>" + textdata + "</span> <br/>");
+        } else if(recHdrRecordType == 12) {
+            QString textdata = readText(m_data.mid(m_pos, end_pos));//wahrscheinlich textfarbe
+            myDebug() << "link" << textdata << rvfRecHeader;
+            ret.append("<i>" + textdata + "</i>");
         } else if(recHdrRecordType == 13) { // h2
             QString textdata = readText(m_data.mid(m_pos, end_pos));
-            ret.append("<span style='color:#B300FF'>" + textdata + "</span> <br/>");
+            ret.append("<span style='color:#B300FF'>" + textdata + "</span>");//lila
          }else if(recHdrRecordType == 14) { // h2
             QString textdata = readText(m_data.mid(m_pos, end_pos));
-            ret.append("<span style='color:#0019FF'>" + textdata + "</span> <br/>");
+            ret.append("<span style='color:#0019FF'>" + textdata + "</span>");//blau
         } else if(recHdrRecordType == 15) { // h2
             QString textdata = readText(m_data.mid(m_pos, end_pos));
-            ret.append("<span style='color:#00F3FF'>" + textdata + "</span> <br/>");
-        } else if(recHdrRecordType == 16) { // h2
+            ret.append("<span style='color:#00F3FF'>" + textdata + "</span>");//cyan
+        } else if(recHdrRecordType == 16) { // link kinda
             QString textdata = readText(m_data.mid(m_pos, end_pos));
-            ret.append("<span style='color:#00FF15'>" + textdata + "</span> <br/>");
+            ret.append("<a href=" + rvfRecHeader.at(5) +">" + textdata + "</a>");//link
         } else if(recHdrRecordType == 17) { // h2
             QString textdata = readText(m_data.mid(m_pos, end_pos));
-            ret.append("<span style='color:#B7FF00'>" + textdata + "</span> <br/>");
+            ret.append("<span style='color:#B7FF00'>" + textdata + "</span>");//hellgrün
+        } else if (recHdrRecordType == 5) { // link!!!
+            QString textdata = readText(m_data.mid(m_pos, end_pos));
+            ret.append("<a href="+ rvfRecHeader.at(5) + ">" + textdata + "</a>");
         } else if (recHdrRecordType > 0) { // text
             myDebug() << "reading text ab" << m_pos;
             myDebug() << "m_pos" << m_pos << "end_pos" << end_pos << "i" << i;
             QString textdata = readText(m_data.mid(m_pos, end_pos));
+            myDebug() "text = " << textdata;
             ret.append(textdata);
             ret.append("<br />");
         } else if (recHdrRecordType == -3) {

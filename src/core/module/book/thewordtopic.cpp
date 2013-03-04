@@ -196,7 +196,6 @@ void TheWordTopic::readRtf(const QVariant &value, QTextDocument *rtfDocument)
 void TheWordTopic::readRvf(const QVariant &value, QString *ret)
 {
     DEBUG_FUNC_NAME
-    myDebug() << value.toByteArray() << m_compressed;
     if(m_compressed) {
         ret->append(RtfTools::fromRVF(RtfTools::gUncompress(value.toByteArray())));
     } else {

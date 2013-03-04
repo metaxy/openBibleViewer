@@ -41,6 +41,7 @@ private:
     QString readText(const QByteArray &data);
     QString readRecord(const QByteArray &data);
     QString readUntilLineEnd(const QByteArray &data);
+    QList<int> startPositions();
     QByteArray m_data;
     int m_pos;
 
