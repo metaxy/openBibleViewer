@@ -143,7 +143,7 @@ Response* TheWordTopic::readChapter(const int chapterID)
     QSqlQuery query("select topic_id,data from content where topic_id = "+ QString::number(chapterID), m_db);
     while (query.next()) {
         if(m_contentType == RtfTools::RTFContent) {
-            if(RtfTools::isRvf(query.value(1).toByteArray())) { //sometimes wwe have rvf content in rtf modules
+            if(RtfTools::isRvf(query.value(1).toByteArray())) { //sometimes we have rvf content in rtf modules
                 readRvf(query.value(1), &ret);
                 haveRvf = true;
             } else {

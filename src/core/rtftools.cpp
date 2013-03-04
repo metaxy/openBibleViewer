@@ -87,22 +87,20 @@ QString RvfReader::readText(const QByteArray &data)
     for(i = 0; i < data.size(); i++) {
         if(i >= data.size() - 1) break;
         char c = data.at(i);
+
         if(c == 10 && prev == 13) break;
 
-       /* if (c == 0x20 && prev == 0x29) {
-            n.remove(data.size() - 1,1);
-            n.append(13);
-            n.append(13);
-            n.append((char)0);
-            n.append(10);
-            n.append((char)0);
-        }
-        else {*/
+        if(c == 41) {
+            n.append("<br />");
+            i++;
+        } else {
             n.append(c);
+
             if(data.at(i+1) == 0) {
                 i++;
             }
-      /*  }*/
+        }
+
         prev = c;
     }
     //myDebug() << "read " << i << "charachters";
@@ -237,7 +235,7 @@ QList<int> RvfReader::startPositions()
 
 QString RvfReader::toHtml()
 {
-    QFile file("out.bin");
+    QFile file("out.b");
     file.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream o(&file);
     o << m_data;
@@ -260,9 +258,11 @@ QString RvfReader::toHtml()
 
         QStringList rvfRecHeader = rvfRecHeaderStr.split(' ');
         myDebug() << rvfRecHeader;
-
-        const QByteArray nextText = m_data.mid(m_pos);
-
+        if(rvfRecHeader.size() < 2)  {
+            myDebug() << "cannot parse header" << rvfRecHeaderStr;
+            myDebug() << "!!! text" << readText(m_data.mid(m_pos, end_pos));
+            continue;
+        }
         int recHdrRecordType = rvfRecHeader.at(0).toInt();
         int recHdrStringsCount = rvfRecHeader.at(1).toInt();
 
@@ -278,10 +278,10 @@ QString RvfReader::toHtml()
         }
         if(recHdrRecordType == 10) { // h1
             QString textdata = readText(m_data.mid(m_pos, end_pos));
-            ret.append("<h1>" + textdata + "</h1> <br/>");
+            ret.append(textdata);
         } else if(recHdrRecordType == 11) { // h2
             QString textdata = readText(m_data.mid(m_pos, end_pos));
-            ret.append("<h2>" + textdata + "</h2> <br/>");
+            ret.append(textdata);
         } else if(recHdrRecordType == 12) {
             QString textdata = readText(m_data.mid(m_pos, end_pos));//wahrscheinlich textfarbe
             myDebug() << "link" << textdata << rvfRecHeader;
@@ -304,20 +304,20 @@ QString RvfReader::toHtml()
         } else if (recHdrRecordType == 5) { // link!!!
             QString textdata = readText(m_data.mid(m_pos, end_pos));
             ret.append("<a href="+ rvfRecHeader.at(5) + ">" + textdata + "</a>");
-        } else if (recHdrRecordType > 0) { // text
+        } else if (recHdrRecordType >= 0) { // text
             myDebug() << "reading text ab" << m_pos;
             myDebug() << "m_pos" << m_pos << "end_pos" << end_pos << "i" << i;
             QString textdata = readText(m_data.mid(m_pos, end_pos));
             myDebug() "text = " << textdata;
             ret.append(textdata);
-            ret.append("<br />");
         } else if (recHdrRecordType == -3) {
             myDebug() << "images not supported";
         } else if (recHdrRecordType == -9) {
              QString textdata = readText(m_data.mid(m_pos, end_pos));
              myDebug() << "unneeded data" << textdata;
         } else {
-            myDebug() << "unkown header record type" << recHdrRecordType;
+            QString textdata = readText(m_data.mid(m_pos, end_pos));
+            myDebug() << "unkown header record type" << recHdrRecordType << textdata;
         }
         myDebug() << "----------------------------------------";
     }
