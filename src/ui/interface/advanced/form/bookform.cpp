@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "bookform.h"
 #include "ui_bookform.h"
 #include "src/core/module/response/stringresponse.h"
+#include <QWebInspector>
 BookForm::BookForm(QWidget *parent) :
     WebViewForm(parent),
     ui(new Ui::BookForm)
@@ -33,7 +34,7 @@ BookForm::~BookForm()
 }
 void BookForm::init()
 {
-
+        connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
 }
 
 void BookForm::restore(const QString &key)
@@ -117,4 +118,32 @@ void BookForm::show()
         m_view->setHtml(r->data());
     }
     delete r;
+}
+void BookForm::showContextMenu(QContextMenuEvent* ev)
+{
+    //DEBUG_FUNC_NAME
+    QScopedPointer<QMenu> contextMenu(new QMenu(this));
+    QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), this);
+    connect(actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
+
+    if(m_view->hasSelection()) {
+        actionCopy->setEnabled(true);
+    } else {
+        actionCopy->setEnabled(false);
+    }
+
+    QAction *dbg = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"), contextMenu.data());
+    connect(dbg, SIGNAL(triggered()), this, SLOT(debugger()));
+
+
+    contextMenu->addAction(dbg);
+    contextMenu->exec(ev->globalPos());
+
+}
+void BookForm::debugger()
+{
+    m_view->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
+    QWebInspector *i = new QWebInspector;
+    i->setPage(m_view->page());
+    i->showNormal();
 }

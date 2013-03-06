@@ -52,7 +52,7 @@ Response* PDFBook::readAll()
             "<script type='text/javascript'' src='"+m_pdfjsPath+"'></script>"
             "<script type='text/javascript'>PDFJS.workerSrc = '"+m_pdfjsPath+"';</script>"
             "<script type='text/javascript'>"
-            "PDFJS.getDocument('"+m_path+"').then(function(pdf) {"
+            "PDFJS.getDocument('file://"+m_path+"').then(function(pdf) {"
                 "pdf.getPage(1).then(function(page) {"
                     "var scale = 1.5;"
                     "var viewport = page.getViewport(scale);"
