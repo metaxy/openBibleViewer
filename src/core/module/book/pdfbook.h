@@ -18,6 +18,9 @@ public:
     int loadModuleData(const int moduleID, const QString &path);
 
     Response* readAll();
+
+private:
+    QString m_pdfjsPath;
 };
 
 #endif // PDFBOOK_H

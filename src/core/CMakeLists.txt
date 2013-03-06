@@ -102,8 +102,7 @@ SET(
     downloadinfile.cpp
 
     iconcache.cpp
-    
-    qzip.cpp
+
     rtftools.cpp
 
 
