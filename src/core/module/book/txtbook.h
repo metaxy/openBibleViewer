@@ -31,7 +31,7 @@ public:
 
     int loadModuleData(const int moduleID, const QString &path);
 
-    QString readAll();
+    Response *readAll();
 };
 
 #endif // TXTBOOK_H

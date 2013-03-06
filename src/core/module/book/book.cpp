@@ -42,7 +42,7 @@ Response* Book::getAll()
     }
 
     if(m_loaded)
-        return new HtmlResponse(m_bookModule->readAll());
+        return m_bookModule->readAll();
     else
         return NULL;
 }

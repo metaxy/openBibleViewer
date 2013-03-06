@@ -28,6 +28,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/book/thewordtopic.h"
 #include "src/core/module/book/eswordtopic.h"
 #include "src/core/module/book/rtfbook.h"
+#include "src/core/module/book/pdfbook.h"
 Module::Module(Module *parent) : m_parent(parent)
 {
     m_moduleClass = ModuleTools::NoneClass;
@@ -145,6 +146,8 @@ QSharedPointer<BookModule> Module::newBookModule(const ModuleTools::ModuleType t
         ret = QSharedPointer<TxtBook>(new TxtBook());
     } else if(type == ModuleTools::RTFBookModule) {
         ret = QSharedPointer<RTFBook>(new RTFBook());
+    } else if(type == ModuleTools::PDFBookModule) {
+        ret = QSharedPointer<PDFBook>(new PDFBook());
     } else {
         myWarning() << "invalid type";
     }
@@ -214,6 +217,8 @@ SimpleModule* Module::newSimpleModule(const ModuleTools::ModuleType type)
     case ModuleTools::TheWordDictionaryModule:
         return new TheWordDictionary();
     case ModuleTools::ZefaniaLexModule:
+        return new ZefaniaLex();
+    case ModuleTools::PDFBookModule:
         return new ZefaniaLex();
     default:
         myWarning() << "could not create Module " << type;

@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/extern/rtf-qt/rtfreader.h"
 #include "src/extern/rtf-qt/TextDocumentRtfOutput.h"
 #include <QtCore/QFileInfo>
+#include "src/core/module/response/htmlresponse.h"
 RTFBook::RTFBook()
 {
 }
@@ -66,7 +67,7 @@ int RTFBook::loadModuleData(const int moduleID, const QString &path)
     m_moduleID = moduleID;
     return 0;
 }
-QString RTFBook::readAll()
+Response* RTFBook::readAll()
 {
     QTextDocument rtfDocument;
     RtfReader::Reader *reader = new RtfReader::Reader( NULL );
@@ -75,5 +76,5 @@ QString RTFBook::readAll()
     reader->parseTo( output );
     delete reader;
 
-    return rtfDocument.toHtml();
+    return new HtmlResponse(rtfDocument.toHtml());
 }

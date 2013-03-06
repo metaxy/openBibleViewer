@@ -13,6 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "txtbook.h"
 #include <QtCore/QFileInfo>
+#include "src/core/module/response/htmlresponse.h"
 TxtBook::TxtBook()
 {
 }
@@ -61,11 +62,11 @@ int TxtBook::loadModuleData(const int moduleID, const QString &path)
     m_moduleID = moduleID;
     return 0;
 }
-QString TxtBook::readAll()
+Response* TxtBook::readAll()
 {
     QFile file(m_path);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return "";
+        return new HtmlResponse("File not found");
 
     QTextStream in(&file);
 
@@ -76,5 +77,5 @@ QString TxtBook::readAll()
         line++;
     }
     out += "</div></body></html>";
-    return out;
+    return new HtmlResponse(out);
 }

@@ -50,7 +50,8 @@ public:
         TheWordTopicModule = 15,
         ESwordTopicModule = 16,
         TheWordDictionaryModule = 17,
-        ESwordCommentaryModule = 18
+        ESwordCommentaryModule = 18,
+        PDFBookModule = 19
     };
 
     enum DefaultModule {
@@ -78,7 +79,6 @@ public:
         BookContent = 11,
         CommentaryContent = 12,
         TreeBookContent = 13
-
     };
 
     enum ModuleCategory {

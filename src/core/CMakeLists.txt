@@ -43,6 +43,7 @@ SET(
     module/book/treebook.cpp
     module/book/treebookmodule.cpp
     module/book/thewordtopic.cpp
+    module/book/pdfbook.cpp
     module/commentary/webcommentary.cpp
     module/commentary/commentary.cpp
     module/commentary/commentarymodule.cpp

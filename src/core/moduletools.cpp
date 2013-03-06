@@ -102,6 +102,8 @@ ModuleTools::ModuleType ModuleTools::recognizeModuleType(const QString &fileName
         return ModuleTools::TxtBookModule;
     } else if(fileName.endsWith(".rtf", Qt::CaseInsensitive)) {
         return ModuleTools::RTFBookModule;
+    } else if(fileName.endsWith(".pdf", Qt::CaseInsensitive)) {
+        return ModuleTools::PDFBookModule;
     }
     return ModuleTools::NoneType;
 }
@@ -161,7 +163,7 @@ QStringList ModuleTools::moduleTypeNames()
      << QT_TRANSLATE_NOOP("Core", "Sword Bible") << QT_TRANSLATE_NOOP("Core", "Web Page") << QT_TRANSLATE_NOOP("Core", "Web Dictionary")
      << QT_TRANSLATE_NOOP("Core", "Sword Lexicon") << QT_TRANSLATE_NOOP("Core", "*.txt Book")
      << QT_TRANSLATE_NOOP("Core", "Web Commentary") << QT_TRANSLATE_NOOP("Core", "The Word Commentary") << QT_TRANSLATE_NOOP("Core", "*.rtf Book")
-     << QT_TRANSLATE_NOOP("Core", "TheWord Topic File") << QT_TRANSLATE_NOOP("Core", "e-Sword Topic File") << QT_TRANSLATE_NOOP("Core", "TheWord Dictionary");
+     << QT_TRANSLATE_NOOP("Core", "TheWord Topic File") << QT_TRANSLATE_NOOP("Core", "e-Sword Topic File") << QT_TRANSLATE_NOOP("Core", "TheWord Dictionary") << QT_TRANSLATE_NOOP("Core", "PDF");
     return l;
 }
 
@@ -203,6 +205,8 @@ QString ModuleTools::moduleTypeName(ModuleTools::ModuleType type)
         return QT_TRANSLATE_NOOP("Core", "e-Sword Topic File");
     } else if(type == ModuleTools::TheWordDictionaryModule) {
         return QT_TRANSLATE_NOOP("Core", "TheWord Dictionary");
+    } else if(type == ModuleTools::PDFBookModule) {
+        return QT_TRANSLATE_NOOP("Core", "PDF");
     }
     return "";
 }
@@ -230,6 +234,7 @@ ModuleTools::ModuleCategory ModuleTools::getCategory(ModuleTools::ModuleType typ
 
         case ModuleTools::TxtBookModule:
         case ModuleTools::RTFBookModule:
+        case ModuleTools::PDFBookModule:
             return ModuleTools::BookCategory;
 
         case ModuleTools::TheWordTopicModule:
@@ -265,6 +270,7 @@ ModuleTools::ModuleClass ModuleTools::typeToClass(ModuleTools::ModuleType type)
 
         case ModuleTools::TxtBookModule:
         case ModuleTools::RTFBookModule:
+        case ModuleTools::PDFBookModule:
             return ModuleTools::BookClass;
 
         case ModuleTools::TheWordTopicModule:

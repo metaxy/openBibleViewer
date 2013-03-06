@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/search/searchresult.h"
 
 #include "src/core/module/simplemodule.h"
+#include "src/core/module/response/response.h"
 class BookModule : public SimpleModule
 {
 public:
@@ -32,7 +33,7 @@ public:
 
     virtual int loadModuleData(const int moduleID, const QString &path) = 0;
 
-    virtual QString readAll() = 0;
+    virtual Response* readAll() = 0;
 protected:
 
     QString m_path;
