@@ -11,5 +11,45 @@
         <file>data/css/default.css</file>
         <file>data/js/tools.js</file>
         <file>data/style/win7_transparent.css</file>
+        <file>data/pdf.js/images/toolbarButton-zoomOut.png</file>
+        <file>data/pdf.js/images/toolbarButton-zoomIn.png</file>
+        <file>data/pdf.js/images/toolbarButton-viewThumbnail.png</file>
+        <file>data/pdf.js/images/toolbarButton-viewOutline.png</file>
+        <file>data/pdf.js/images/toolbarButton-sidebarToggle.png</file>
+        <file>data/pdf.js/images/toolbarButton-search.png</file>
+        <file>data/pdf.js/images/toolbarButton-print.png</file>
+        <file>data/pdf.js/images/toolbarButton-pageUp.png</file>
+        <file>data/pdf.js/images/toolbarButton-pageUp-rtl.png</file>
+        <file>data/pdf.js/images/toolbarButton-pageDown.png</file>
+        <file>data/pdf.js/images/toolbarButton-pageDown-rtl.png</file>
+        <file>data/pdf.js/images/toolbarButton-openFile.png</file>
+        <file>data/pdf.js/images/toolbarButton-menuArrows.png</file>
+        <file>data/pdf.js/images/toolbarButton-fullscreen.png</file>
+        <file>data/pdf.js/images/toolbarButton-download.png</file>
+        <file>data/pdf.js/images/toolbarButton-bookmark.png</file>
+        <file>data/pdf.js/images/texture.png</file>
+        <file>data/pdf.js/images/shadow.png</file>
+        <file>data/pdf.js/images/loading-small.png</file>
+        <file>data/pdf.js/images/loading-icon.gif</file>
+        <file>data/pdf.js/images/findbarButton-previous.png</file>
+        <file>data/pdf.js/images/findbarButton-previous-rtl.png</file>
+        <file>data/pdf.js/images/findbarButton-next.png</file>
+        <file>data/pdf.js/images/findbarButton-next-rtl.png</file>
+        <file>data/pdf.js/images/annotation-paragraph.svg</file>
+        <file>data/pdf.js/images/annotation-note.svg</file>
+        <file>data/pdf.js/images/annotation-newparagraph.svg</file>
+        <file>data/pdf.js/images/annotation-key.svg</file>
+        <file>data/pdf.js/images/annotation-insert.svg</file>
+        <file>data/pdf.js/images/annotation-help.svg</file>
+        <file>data/pdf.js/images/annotation-comment.svg</file>
+        <file>data/pdf.js/images/annotation-check.svg</file>
+        <file>data/pdf.js/viewer.js</file>
+        <file>data/pdf.js/viewer.html</file>
+        <file>data/pdf.js/viewer.css</file>
+        <file>data/pdf.js/firefoxcom.js</file>
+        <file>data/pdf.js/debugger.js</file>
+        <file>data/pdf.js/compatibility.js</file>
+        <file>data/pdf.js/pdf.js</file>
+        <file>data/pdf.js/l10n.js</file>
     </qresource>
 </RCC>

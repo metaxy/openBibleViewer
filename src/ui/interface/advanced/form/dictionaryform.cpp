@@ -201,7 +201,7 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
             QString data = st->data();
             if(!data.contains("<html>")) {
                 data.prepend("<html><head><script type='text/javascript' src='qrc:/data/js/tools.js'></script></head><body><div class='dictionary'>");
-                //data.append("</div></body></html>");
+                data.append("</div></body></html>");
             }
             showHtml(data);
 

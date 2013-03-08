@@ -15,6 +15,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define WEBVIEWFORM_H
 #include "form.h"
 #include "src/ui/webview.h"
+#include "src/core/module/response/htmlresponse.h"
+#include "src/core/module/response/stringresponse.h"
+#include "src/core/module/response/urlresponse.h"
+#include "src/core/module/response/textrangesresponse.h"
 class WebViewForm : public Form
 {
     Q_OBJECT
@@ -59,12 +63,23 @@ public slots:
      */
     virtual void openInS();
     virtual void openInNewS();
+    virtual void showResponse(Response *res);
+    virtual void showStringResponse(StringResponse *res);
+    virtual void showUrlResponse(UrlResponse *res);
+    virtual void showHtmlResponse(HtmlResponse *res);
+    virtual void showTextRangesResponse(TextRangesResponse *res);
+
+    virtual void loadStyleSheet(QString url = "");
+    virtual QString getStyleSheetUrl();
+
 
 
 protected:
 
     QString m_contextMenuUrl;
     QString m_contextMenuText;
+
+    QString m_styleSheet;
 
 };
 

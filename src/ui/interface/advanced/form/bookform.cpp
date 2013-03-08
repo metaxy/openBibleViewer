@@ -103,21 +103,8 @@ void BookForm::show()
         return;
     }
 
-    StringResponse *r = (StringResponse *)m_book->getAll();
-    if(r) {
-        {
-            QString cssFile;
-            if(m_book)
-                cssFile = m_settings->getModuleSettings(m_book->moduleID())->styleSheet;
-
-            if(cssFile.isEmpty())
-                cssFile = ":/data/css/default.css";
-
-            m_view->settings()->setUserStyleSheetUrl(QUrl::fromLocalFile(cssFile));
-        }
-        m_view->setHtml(r->data());
-    }
-    delete r;
+    Response *r = m_book->getAll();
+    showResponse(r);
 }
 void BookForm::showContextMenu(QContextMenuEvent* ev)
 {

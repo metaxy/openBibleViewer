@@ -214,4 +214,55 @@ void WebViewForm::openInNewS()
     dialog->exec();
     delete dialog;
 }
+void WebViewForm::showResponse(Response *res)
+{
+    if(res->type() == Response::StringReponse) {
+        showStringResponse((StringResponse*) res);
+    } else if(res->type() == Response::UrlReponse) {
+        showUrlResponse((UrlResponse*) res);
+    } else if(res->type() == Response::HtmlResponse) {
+        showHtmlResponse((HtmlResponse*) res);
+    } else if(res->type() == Response::TextRangesResponse) {
+        showTextRangesResponse((TextRangesResponse*) res);
+    } else {
+        m_view->setHtml(tr("Unkown Responsetype"));
+    }
+    delete res;
+}
 
+void WebViewForm::showStringResponse(StringResponse *res)
+{
+    loadStyleSheet();
+    m_view->setHtml(res->data());
+}
+
+void WebViewForm::showUrlResponse(UrlResponse *res)
+{
+    myDebug() << res->url();
+    m_view->load(QUrl(res->url()));
+}
+
+void WebViewForm::showHtmlResponse(HtmlResponse *res)
+{
+    loadStyleSheet();
+    m_view->setHtml(res->data());
+}
+
+void WebViewForm::showTextRangesResponse(TextRangesResponse *res)
+{
+
+}
+void WebViewForm::loadStyleSheet(QString url)
+{
+    if(url.isEmpty()) {
+        url = getStyleSheetUrl();
+        if(url.isEmpty())
+            url = ":/data/css/default.css";
+    }
+    m_view->settings()->setUserStyleSheetUrl(QUrl::fromLocalFile(url));
+}
+QString WebViewForm::getStyleSheetUrl()
+{
+    myDebug() << "!!! no style sheet url";
+    return QString();
+}

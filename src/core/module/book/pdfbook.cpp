@@ -1,9 +1,10 @@
 #include "pdfbook.h"
-#include <QtCore/QFileInfo>
+#include <QFileInfo>
 #include "src/core/module/response/htmlresponse.h"
+#include "src/core/module/response/urlresponse.h"
+#include <QUrl>
 PDFBook::PDFBook()
 {
-    m_pdfjsPath = "file:///home/paul/c++/openBibleViewer/src/data/js/pdf.js";
 }
 
 MetaInfo PDFBook::readInfo(const QString &fileName)
@@ -48,29 +49,5 @@ int PDFBook::loadModuleData(const int moduleID, const QString &path)
 }
 Response* PDFBook::readAll()
 {
-    QString out = "<!doctype html><html><head>"
-            "<script type='text/javascript'' src='"+m_pdfjsPath+"'></script>"
-            "<script type='text/javascript'>PDFJS.workerSrc = '"+m_pdfjsPath+"';</script>"
-            "<script type='text/javascript'>"
-            "PDFJS.getDocument('file://"+m_path+"').then(function(pdf) {"
-                "pdf.getPage(1).then(function(page) {"
-                    "var scale = 1.5;"
-                    "var viewport = page.getViewport(scale);"
-                    "var canvas = document.getElementById('the-canvas');"
-                    "var context = canvas.getContext('2d');"
-                    "canvas.height = viewport.height;"
-                    "canvas.width = viewport.width;"
-                    "var renderContext = {"
-                        "canvasContext: context,"
-                        "viewport: viewport"
-                    "};"
-                    "page.render(renderContext);"
-                "});"
-             "});"
-
-           " </script>"
-            "</head><body>"
-            "<canvas id='the-canvas'' style='border:1px solid black;'/>"
-            "</body></html>";
-    return new HtmlResponse(out);
+    return new UrlResponse("qrc:/data/pdf.js/viewer.html?file=" + QUrl::fromLocalFile(m_path).toString());
 }

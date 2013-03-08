@@ -19,8 +19,6 @@ public:
 
     Response* readAll();
 
-private:
-    QString m_pdfjsPath;
 };
 
 #endif // PDFBOOK_H
