@@ -164,19 +164,8 @@ void TreeBookForm::showChapter(const int moduleID, const int chapterID)
     }
     m_book->setModuleID(moduleID);
     Response *res = m_book->readChapter(chapterID);
+    showResponse(res);
 
-    if(res != NULL && res->isValid()) {
-        if(res->type() == Response::UrlReponse) {
-            UrlResponse *u = (UrlResponse*) res;
-            m_view->load(QUrl(u->url()));
-        } else if(res->type() == Response::StringReponse) {
-            StringResponse *u = (StringResponse*) res;
-            m_view->setHtml(u->data());
-        } else if(res->type() == Response::HtmlResponse) {
-            HtmlResponse *u = (HtmlResponse*) res;
-            m_view->setHtml(u->data());
-        }
-    }
     selectChapter(chapterID);
     m_chapterID = chapterID;
     historySetUrl(ModuleTools::treeBookScheme + QString::number(moduleID)+","+QString::number(chapterID));

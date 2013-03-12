@@ -214,20 +214,25 @@ void WebViewForm::openInNewS()
     dialog->exec();
     delete dialog;
 }
-void WebViewForm::showResponse(Response *res)
+bool WebViewForm::showResponse(Response *res)
 {
-    if(res->type() == Response::StringReponse) {
-        showStringResponse((StringResponse*) res);
-    } else if(res->type() == Response::UrlReponse) {
-        showUrlResponse((UrlResponse*) res);
-    } else if(res->type() == Response::HtmlResponse) {
-        showHtmlResponse((HtmlResponse*) res);
-    } else if(res->type() == Response::TextRangesResponse) {
-        showTextRangesResponse((TextRangesResponse*) res);
+    if(res != NULL && res->isValid()) {
+	if(res->type() == Response::StringReponse) {
+	    showStringResponse((StringResponse*) res);
+	} else if(res->type() == Response::UrlReponse) {
+	    showUrlResponse((UrlResponse*) res);
+	} else if(res->type() == Response::HtmlResponse) {
+	    showHtmlResponse((HtmlResponse*) res);
+	} else if(res->type() == Response::TextRangesResponse) {
+	    showTextRangesResponse((TextRangesResponse*) res);
+	} else {
+	    return false;
+	}
     } else {
-        m_view->setHtml(tr("Unkown Responsetype"));
+	return false;
     }
     delete res;
+    return true;
 }
 
 void WebViewForm::showStringResponse(StringResponse *res)

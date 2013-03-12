@@ -63,7 +63,7 @@ public slots:
      */
     virtual void openInS();
     virtual void openInNewS();
-    virtual void showResponse(Response *res);
+    virtual bool showResponse(Response *res);
     virtual void showStringResponse(StringResponse *res);
     virtual void showUrlResponse(UrlResponse *res);
     virtual void showHtmlResponse(HtmlResponse *res);

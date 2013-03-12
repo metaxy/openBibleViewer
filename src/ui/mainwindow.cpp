@@ -57,6 +57,7 @@ void MainWindow::init(bool firstStart)
 }
 void MainWindow::loadInterface()
 {
+    DEBUG_FUNC_NAME
     const QString interface = m_settings->session.getData("interface", QString("advanced")).toString();
 
     if(interface == "advanced") {
@@ -69,7 +70,7 @@ void MainWindow::loadInterface()
 }
 void MainWindow::deleteInterface()
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     if(m_interface->hasToolBar()) {
         foreach(QToolBar * bar, m_toolBarList) {
             removeToolBar(bar);
@@ -92,21 +93,21 @@ void MainWindow::deleteInterface()
 }
 void MainWindow::reloadInterface()
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     deleteInterface();
     loadInterface();
 }
 void MainWindow::loadSimpleInterface()
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     m_interface = new SimpleInterface(this);
     setAll(m_interface);
-    setCentralWidget(m_interface);
+
     m_interface->init();
     m_interface->createDocks();
     m_interface->createToolBars();
     m_interface->createMenu();
-
+    setCentralWidget(m_interface);
 
     if(m_interface->hasMenuBar()) {
         m_menuBar = m_interface->menuBar();
@@ -130,6 +131,7 @@ void MainWindow::loadSimpleInterface()
 
 void MainWindow::loadAdvancedInterface()
 {
+    DEBUG_FUNC_NAME
     m_interface = new AdvancedInterface(this);
     setAll(m_interface);
     m_interface->init();

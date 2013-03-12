@@ -105,20 +105,8 @@ void CommentaryForm::showRanges(Ranges ranges, const VerseUrl &source)
         return;
     }
     m_com->setModuleID(ranges.getList().first().moduleID());
-    Response *res = m_com->readRanges(ranges);
 
-    if(res != NULL && res->isValid()) {
-        if(res->type() == Response::UrlReponse) {
-            UrlResponse *u = (UrlResponse*) res;
-            m_view->load(QUrl(u->url()));
-        } else if(res->type() == Response::StringReponse) {
-            StringResponse *u = (StringResponse*) res;
-            m_view->setHtml(u->data());
-        } else if(res->type() == Response::HtmlResponse) {
-            StringResponse *u = (StringResponse*) res;
-            m_view->setHtml(u->data());
-        }
-    }
+    showResponse(m_com->readRanges(ranges));
 
     RefText ref(m_settings);
     ui->lineEdit->setText(ref.toString(ranges));

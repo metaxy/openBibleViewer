@@ -28,6 +28,7 @@ SimpleInterface::SimpleInterface(QWidget *parent) :
     Interface(parent),
     ui(new Ui::SimpleInterface)
 {
+    DEBUG_FUNC_NAME
     ui->setupUi(this);
     m_view = new WebView(this);
     m_view->load(QUrl("about:blank"));
@@ -36,6 +37,7 @@ SimpleInterface::SimpleInterface(QWidget *parent) :
 }
 void SimpleInterface::init()
 {
+    DEBUG_FUNC_NAME
     m_moduleManager->newDisplaySettings();
     m_moduleManager->moduleDisplaySetings()->setLoadNotes(false);
     m_moduleManager->moduleDisplaySetings()->setShowMarks(false);
@@ -44,14 +46,15 @@ void SimpleInterface::init()
     m_module = new Bible();
     m_moduleManager->initVerseModule(m_module);
 
-    connect(m_actions, SIGNAL(_get(VerseUrl)), this, SLOT(parseUrl(VerseUrl)));
-    connect(m_actions, SIGNAL(_get(QString)), this, SLOT(parseUrl(QString)));
+    connect(m_actions, SIGNAL(_get(VerseUrl,Actions::OpenLinkModifiers)), this, SLOT(parseUrl(VerseUrl)));
+    connect(m_actions, SIGNAL(_get(QString,Actions::OpenLinkModifiers)), this, SLOT(parseUrl(QString)));
     connect(m_view, SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
 
 
 }
 void SimpleInterface::createDocks()
 {
+    DEBUG_FUNC_NAME
     m_moduleDockWidget = new ModuleDockWidget(this->parentWidget());
     setAll(m_moduleDockWidget);
     m_moduleDockWidget->init();
@@ -67,6 +70,7 @@ void SimpleInterface::createDocks()
 
 void SimpleInterface::createToolBars()
 {
+    DEBUG_FUNC_NAME
     m_bar = new QToolBar(this->parentWidget());
     m_bar->setObjectName("mainToolBar");
     m_bar->setIconSize(QSize(32, 32));
@@ -100,6 +104,7 @@ void SimpleInterface::createMenu()
 
 QHash<DockWidget*, Qt::DockWidgetArea> SimpleInterface::docks()
 {
+    DEBUG_FUNC_NAME
     QHash<DockWidget *, Qt::DockWidgetArea> ret;
     ret.insert(m_searchResultDockWidget, Qt::RightDockWidgetArea);
     ret.insert(m_bookDockWidget, Qt::LeftDockWidgetArea);
@@ -141,6 +146,7 @@ void SimpleInterface::parseUrl(QUrl url)
 }
 void SimpleInterface::parseUrl(const VerseUrl &url)
 {
+    DEBUG_FUNC_NAME
     m_url = m_url.applyUrl(url);
 
     Ranges ranges;
@@ -153,6 +159,7 @@ void SimpleInterface::parseUrl(const VerseUrl &url)
 
 void SimpleInterface::parseUrl(const QString &string)
 {
+    DEBUG_FUNC_NAME
     const QString bq = "go";
 
     if(string.startsWith(ModuleTools::verseScheme)) {
@@ -216,6 +223,7 @@ void SimpleInterface::showRanges(const Ranges &ranges, const VerseUrl &url)
 
 void SimpleInterface::showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url)
 {
+    DEBUG_FUNC_NAME
     showText(html);
     m_lastTextRanges = range;
     m_lastUrl = url;
@@ -226,6 +234,7 @@ void SimpleInterface::showTextRanges(const QString &html, const TextRanges &rang
 
 void SimpleInterface::showText(const QString &text)
 {
+    DEBUG_FUNC_NAME
     QString cssFile = m_settings->getModuleSettings(m_module->moduleID())->styleSheet;
     if(cssFile.isEmpty())
         cssFile = ":/data/css/default.css";
@@ -237,12 +246,14 @@ void SimpleInterface::showText(const QString &text)
 }
 void SimpleInterface::setTitle(const QString &title)
 {
+    DEBUG_FUNC_NAME
     this->parentWidget()->setWindowTitle(title + " - " + tr("openBibleViewer"));
 }
 
 
 void SimpleInterface::nextChapter()
 {
+    DEBUG_FUNC_NAME
     if(!m_moduleManager->metaModuleLoaded(m_module))
         return;
     if(m_module->lastTextRanges()->minChapterID() <
@@ -268,6 +279,7 @@ void SimpleInterface::nextChapter()
 }
 void SimpleInterface::previousChapter()
 {
+    DEBUG_FUNC_NAME
     //see also BibleManager
     if(!m_moduleManager->metaModuleLoaded(m_module))
         return;
@@ -293,6 +305,7 @@ void SimpleInterface::previousChapter()
 }
 bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
 {
+    DEBUG_FUNC_NAME
     if(obj == m_view) {
         if(event->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
@@ -372,13 +385,18 @@ void SimpleInterface::showSearchDialog()
 void SimpleInterface::search(SearchQuery query)
 {
     m_searchResultDockWidget->show();
+
     Search s;
     setAll(&s);
+    s.addModule(m_module);
+
+
     SearchResult *res = s.search(query);
     m_searchResultDockWidget->setSearchResult(res);
 }
 void SimpleInterface::changeEvent(QEvent *e)
 {
+    DEBUG_FUNC_NAME
     QWidget::changeEvent(e);
     switch(e->type()) {
     case QEvent::LanguageChange:
@@ -394,5 +412,6 @@ void SimpleInterface::changeEvent(QEvent *e)
 }
 QString SimpleInterface::name() const
 {
+    DEBUG_FUNC_NAME
     return "simple";
 }

@@ -23,6 +23,7 @@ Context::Context(QObject *parent) : QObject(parent)
 }
 Context::~Context()
 {
+    DEBUG_FUNC_NAME
     QMapIterator<int, ModuleSettings*> it(m_settings->m_moduleSettings);
     while(it.hasNext()) {
         it.next();
@@ -44,6 +45,7 @@ Context::~Context()
 
 void Context::init()
 {
+    DEBUG_FUNC_NAME
     //create some important folders
     QDir d(m_homeDataPath);
     d.mkpath(m_homeDataPath + "index");

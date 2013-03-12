@@ -47,8 +47,10 @@ void HistoryLineEdit::addToHistory(const QString& s)
 {
     myDebug() << s;
     QStringList list = m_model->stringList();
-    list << s;
-    m_model->setStringList(list);
+    if(!list.contains(s)) {
+	list << s;
+	m_model->setStringList(list);
+    }
 }
 QStringList HistoryLineEdit::history() const
 {

@@ -18,6 +18,7 @@ Search::Search()
 }
 SearchResult* Search::search(SearchQuery query)
 {
+    DEBUG_FUNC_NAME
     SearchResult *result = new SearchResult();
     result->searchQuery = query;
     foreach(SearchableModule * m, m_list) {

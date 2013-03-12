@@ -56,6 +56,7 @@ private slots:
     void openInMenu();
 protected:
     void changeEvent(QEvent *e);
+    void showStringResponse(StringResponse *res);
 private:
     Ui::DictionaryForm *ui;
     void historySetUrl(const QString &url);
