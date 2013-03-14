@@ -688,7 +688,7 @@ void AdvancedInterface::createToolBars()
     m_searchBar->addWidget(m_quickLine);
 
     QShortcut *s1 = new QShortcut(QKeySequence(tr("Esc", "Focus QuickOpen")), this);
-    connect(s1, SIGNAL(activated()), m_quickLine, SLOT(setFocus()));
+    connect(s1, SIGNAL(activated()), this, SLOT(focusQuickOpen()));
     
     QShortcut *sFullScreen = new QShortcut(QKeySequence(tr("F11", "Enable/Disable Fullscreen mode")), this);
     connect(sFullScreen, SIGNAL(activated()), m_actions, SLOT(toggleFullScreen()));
@@ -714,6 +714,11 @@ void AdvancedInterface::quickSearch(const QString &text)
 void AdvancedInterface::quick()
 {
     quick(((QLineEdit *) sender())->text());
+}
+void AdvancedInterface::focusQuickOpen()
+{
+    m_quickLine->setFocus();
+    m_quickLine->setText(QString());
 }
 
 void AdvancedInterface::quick(QString text)
