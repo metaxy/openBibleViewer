@@ -22,6 +22,7 @@ public:
     int majorVersion() const;
     int minorVersion() const;
     int maintenanceVersion() const;
+    QString toString();
 private:
     int m_major;
     int m_minor;

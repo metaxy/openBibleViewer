@@ -18,7 +18,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 Version::Version(const QString& versionString)
 {
-    //myDebug() << versionString;
     QStringList split = versionString.split(".");
     if(split.size() == 3) {
         m_major = split.at(0).toInt();
@@ -29,9 +28,6 @@ Version::Version(const QString& versionString)
         m_minor = split.at(1).toInt();
         m_maintenance = 0;
     }
-    //myDebug() << "major = " << m_major << " minor = " << m_minor;
-
-
 }
 int Version::maintenanceVersion() const
 {
@@ -46,3 +42,7 @@ int Version::minorVersion() const
     return m_minor;
 }
 
+QString Version::toString()
+{
+    return QString::number(majorVersion()) + "." + QString::number(minorVersion()) + "." + QString::number(maintenanceVersion());
+}

@@ -20,7 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include "src/core/version.h"
 #include "src/ui/dialog/updatecheckerdialog.h"
-
+#include <QSslConfiguration>
 UpdatesChecker::UpdatesChecker(QObject *parent) :
     QObject(parent)
 {
@@ -39,7 +39,7 @@ void UpdatesChecker::checkForUpdates()
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
 
-    manager->get(QNetworkRequest(QUrl("http://openbv.uucyc.name/UPDATES")));
+    manager->get(QNetworkRequest(QUrl("http://metaxy.github.com/UPDATES_OBV.xml")));
 }
 void UpdatesChecker::replyFinished(QNetworkReply* reply)
 {
@@ -80,7 +80,7 @@ void UpdatesChecker::replyFinished(QNetworkReply* reply)
 
             Version oldVersion(QString(OBV_VERSION_NUMBER));
             Version newVersion(version);
-            myDebug() << "new Version = " << version;
+	    myDebug() << "new Version = " << version << "my version" << oldVersion.toString();
             if(m_settings->session.file()->value(m_settings->session.id() + "/" + "skipVersion") == version)
                 return;
 
