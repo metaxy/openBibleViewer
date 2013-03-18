@@ -94,7 +94,34 @@ void Context::showWindow()
     DEBUG_FUNC_NAME
     m_window = new MainWindow(this);
     setAll(m_window);
+#ifdef Q_WS_WIN
+    w.setAttribute(Qt::WA_TranslucentBackground);
+		w.setAttribute(Qt::WA_NoSystemBackground, false);
+		QPalette pal = w.palette();
+		QColor bg = pal.window().color();
+		bg.setAlpha(180);
+		pal.setColor(QPalette::Window, bg);
+		w.setPalette(pal);
+		w.ensurePolished(); // workaround Oxygen filling the background
+		w.setAttribute(Qt::WA_StyledBackground, false);*/
 
+		
+	if (QtWin::isCompositionEnabled()) {
+		QFile file(":/data/style/win7_transparent.css");
+		if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+			QTextStream in(&file);
+			a.setStyleSheet(in.readAll());
+		}
+
+		QFile file2("stylesheet.css");
+		if(file2.open(QIODevice::ReadOnly | QIODevice::Text)) {
+			QTextStream in2(&file2);
+			a.setStyleSheet(in2.readAll());
+		}
+		QtWin::extendFrameIntoClientArea(&w);
+		w.setContentsMargins(0, 0, 0, 0);
+#endif		
+		
     m_window->setTranslator(m_myappTranslator, m_qtTranslator);
     m_window->init(m_firstStart);
     m_window->show();

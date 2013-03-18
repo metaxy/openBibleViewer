@@ -39,111 +39,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/context.h"
 #include "config.h"
 #include "anyoption.h"
-
- 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    AnyOption *opt = new AnyOption();
-    const QString s = "openBibleViewer " + QString(OBV_VERSION_NUMBER);
-    opt->addUsage(s.toStdString().c_str());
-    opt->addUsage("Usage: ");
-    opt->addUsage("");
-    opt->addUsage(" -h  --help              Prints this help ");
-    opt->addUsage(" --configPath 	        Path to config files ");
-    opt->addUsage("");
-    opt->setFlag("help", 'h');
-    opt->setOption("configPath");
-    opt->processCommandArgs(argc, argv);
-    if(opt->getValue("help") != NULL) {
-        opt->printUsage();
-        return 0;
-    }
-
-#ifdef Q_OS_WIN32
-    //todo: would it be better if we use QSysInfo::windowsVersion() instead?
-    //get the windows version
-    OSVERSIONINFO osvi;
-
-    ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
-    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-
-    GetVersionEx(&osvi);
-    //6 is vista and 6.1 windows 7
-    if(osvi.dwMajorVersion >= 6)
-        a.setStyle(new QWindowsVistaStyle);
-    else
-        a.setStyle(new QCleanlooksStyle);
-#endif
-
-    QSettings *settings;
-    QString homeDataPath;
-
-
-    if(opt->getValue("configPath") != NULL) {
-        homeDataPath = QString::fromLocal8Bit(opt->getValue("configPath"));
-    } else {
-#if !defined(Q_WS_WIN)
-        homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
-#else
-        //a protable version is needed only for windows
-#ifdef OBV_PORTABLE_VERSION
-        homeDataPath = QApplication::applicationDirPath() + "/";
-#else
-        homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
-#endif
-#endif
-
-    }
-
-    settings = new QSettings(homeDataPath + "openBibleViewer.ini", QSettings::IniFormat);
-    myDebug() << homeDataPath;
-    QDir dir(homeDataPath);
-    if(!dir.exists(homeDataPath)) {
-        dir.mkpath(homeDataPath);
-    }
-    //remove cache dir if update from 0.4 or 0.3
-    const QString v = settings->value("general/version", "0.4").toString();
-    if(v.startsWith("0.4")) {
-        ModuleTools::removeDir(homeDataPath + "cache/");
-    }
-
-    QString lang = settings->value("general/language", QLocale::system().name()).toString();
-    const QString av(_AV_LANG);
-    const QStringList avLang = av.split(";");
-    //myDebug() << avLang;
-    if(avLang.lastIndexOf(lang) == -1) {
-        lang = lang.remove(lang.lastIndexOf("_"), lang.size());
-        if(avLang.lastIndexOf(lang) == -1) {
-            lang = avLang.at(0);
-        }
-    }
-
-    QTranslator qtTranslator;
-    qtTranslator.load("qt_" + lang, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    a.installTranslator(&qtTranslator);
-
-    QTranslator myappTranslator;
-    bool loaded = myappTranslator.load(":/data/obv_" + lang);
-
-    if(!loaded)
-        myappTranslator.load(lang);
-
-    a.installTranslator(&myappTranslator);
-    delete opt;
-
-    Context *context = new Context(&a);
-    context->setHomePath(homeDataPath);
-    context->setSettings(settings);
-    context->setTranslator(&myappTranslator, &qtTranslator);
-    context->init();
-    context->showWindow();
-
-    a.exec();
-
-    delete context;
-    return 0;
-}
 #ifdef Q_OS_WIN32
 PCHAR*
     CommandLineToArgvA(
@@ -229,20 +124,26 @@ PCHAR*
         return argv;
     }
 	
-	
+#endif
+
+
+#ifdef Q_WS_WIN
 int WINAPI WinMain(HINSTANCE v1, HINSTANCE v2, LPSTR v3, int v4)
 {
     int argc;
     PCHAR *argv;
     argv = CommandLineToArgvA(v3, &argc);
-    QApplication a(argc,argv);
-
+#else
+int main(int argc, char *argv[])
+{
+#endif
+    QApplication a(argc, argv);
     AnyOption *opt = new AnyOption();
     const QString s = "openBibleViewer " + QString(OBV_VERSION_NUMBER);
     opt->addUsage(s.toStdString().c_str());
     opt->addUsage("Usage: ");
     opt->addUsage("");
-    opt->addUsage(" -h  --help                 Prints this help ");
+    opt->addUsage(" -h  --help              Prints this help ");
     opt->addUsage(" --configPath 	        Path to config files ");
     opt->addUsage("");
     opt->setFlag("help", 'h');
@@ -253,6 +154,7 @@ int WINAPI WinMain(HINSTANCE v1, HINSTANCE v2, LPSTR v3, int v4)
         return 0;
     }
 
+#ifdef Q_OS_WIN32
     bool win7 = false;
 
     //todo: would it be better if we use QSysInfo::windowsVersion() instead?
@@ -272,7 +174,7 @@ int WINAPI WinMain(HINSTANCE v1, HINSTANCE v2, LPSTR v3, int v4)
     if(osvi.dwMajorVersion >= 6.1) {
         win7 = true;
     }
-
+#endif
 
     QSettings *settings;
     QString homeDataPath;
@@ -281,11 +183,15 @@ int WINAPI WinMain(HINSTANCE v1, HINSTANCE v2, LPSTR v3, int v4)
     if(opt->getValue("configPath") != NULL) {
         homeDataPath = QString::fromLocal8Bit(opt->getValue("configPath"));
     } else {
+#if !defined(Q_WS_WIN)
+        homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
+#else
         //a protable version is needed only for windows
 #ifdef OBV_PORTABLE_VERSION
         homeDataPath = QApplication::applicationDirPath() + "/";
 #else
         homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
+#endif
 #endif
 
     }
@@ -298,9 +204,9 @@ int WINAPI WinMain(HINSTANCE v1, HINSTANCE v2, LPSTR v3, int v4)
     }
     //remove cache dir if update from 0.4 or 0.3
     const QString v = settings->value("general/version", "0.4").toString();
-   // if(v.startsWith("0.4")) {
-//removeDir(homeDataPath + "cache/");
- //   }
+    if(v.startsWith("0.4")) {
+        ModuleTools::removeDir(homeDataPath + "cache/");
+    }
 
     QString lang = settings->value("general/language", QLocale::system().name()).toString();
     const QString av(_AV_LANG);
@@ -336,38 +242,5 @@ int WINAPI WinMain(HINSTANCE v1, HINSTANCE v2, LPSTR v3, int v4)
     a.exec();
 
     delete context;
-
-		/*w.setAttribute(Qt::WA_TranslucentBackground);
-		w.setAttribute(Qt::WA_NoSystemBackground, false);
-		QPalette pal = w.palette();
-		QColor bg = pal.window().color();
-		bg.setAlpha(180);
-		pal.setColor(QPalette::Window, bg);
-		w.setPalette(pal);
-		w.ensurePolished(); // workaround Oxygen filling the background
-		w.setAttribute(Qt::WA_StyledBackground, false);*/
-
-	/*	
-	if (QtWin::isCompositionEnabled()) {
-		QFile file(":/data/style/win7_transparent.css");
-		if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-			QTextStream in(&file);
-			a.setStyleSheet(in.readAll());
-		}
-
-		QFile file2("stylesheet.css");
-		if(file2.open(QIODevice::ReadOnly | QIODevice::Text)) {
-			QTextStream in2(&file2);
-			a.setStyleSheet(in2.readAll());
-		}
-		QtWin::extendFrameIntoClientArea(&w);
-		w.setContentsMargins(0, 0, 0, 0);
-	}*/
-
-	/*
-    w.show();
-   a.exec();*/
-
     return 0;
 }
-#endif
