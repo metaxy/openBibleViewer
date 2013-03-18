@@ -31,32 +31,33 @@ QString SearchTools::toQString(const TCHAR* string)
 #endif
 }
 
-const TCHAR* SearchTools::toTCHAR(const QString& string)
-{
+#ifdef OBV_USE_WSTRING
+    const TCHAR* SearchTools::toTCHAR(const QString& string)
+    {
+        wchar_t *we = new TCHAR[string.size()+1];
+        string.toWCharArray(we);
+        we[string.size()] = 0;
+        return we;
+    }
+    const TCHAR* SearchTools::toTCHAR(const QString& string, wchar_t ret)
+    {
+        string.toWCharArray(ret);
+        ret[string.size()] = 0;
+        return ret;
+    }
+#else
+    const TCHAR* SearchTools::toTCHAR(const QString& string)
+    {
+        return reinterpret_cast<const TCHAR *>(string.utf16());
+    }
+    const TCHAR* SearchTools::toTCHAR(const QString& string, const TCHAR* ret)
+    {
+        ret = reinterpret_cast<const TCHAR *>(string.utf16());
+        return ret;
+    }
+#endif
 
-/*#ifdef OBV_USE_WSTRING
-    wchar_t *we = new TCHAR[string.size()+1];
-    string.toWCharArray(we);
-    we[string.size()] = 0;
-    return we;
-#else*/
-    return reinterpret_cast<const TCHAR *>(string.utf16());
-/*#endif*/
 
-}
-const TCHAR* SearchTools::toTCHAR(const QString& string, wchar_t *ret)
-{
-
-//#ifdef OBV_USE_WSTRING
-   // string.toWCharArray(ret);
-    ret[string.size()] = 0;
-    return ret;
-/*#else
-    ret = reinterpret_cast<const TCHAR *>(string.utf16());
-    return ret;
-#endif*/
-
-}
 
 TCHAR* SearchTools::createBuffer()
 {

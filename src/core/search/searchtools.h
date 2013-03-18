@@ -13,6 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef SEARCHTOOLS_H
 #define SEARCHTOOLS_H
+#include "config.h"
 #include <QtCore/QString>
 #include "CLucene/clucene-config.h"
 #include <tchar.h>
@@ -22,8 +23,14 @@ public:
     SearchTools();
 
     static QString toQString(const TCHAR* string);
+#ifdef OBV_USE_WSTRING
     static const TCHAR *toTCHAR(const QString& string);
     static const TCHAR* toTCHAR(const QString& string, wchar_t *ret);
+#else
+    static const TCHAR *toTCHAR(const QString& string);
+    static const TCHAR* toTCHAR(const QString& string, const TCHAR *ret);
+#endif
+
     static TCHAR* createBuffer();
 
     static const unsigned long MAX_LUCENE_FIELD_LENGTH = 1024 * 1024;
