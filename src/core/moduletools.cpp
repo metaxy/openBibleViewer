@@ -473,6 +473,7 @@ bool ModuleTools::removeDir(const QString &dirName)
 }
 QStringList ModuleTools::unzip(const QString &zipFile, const QString &path)
 {
+    DEBUG_FUNC_NAME
 #ifdef OBV_USE_QUAZIP
     QStringList ret;
     QuaZip zip(zipFile);
@@ -508,20 +509,12 @@ QStringList ModuleTools::unzip(const QString &zipFile, const QString &path)
     zip.close();
     return ret;
 #else
+    QFileInfo i(zipFile);
     QProcess unzip;
-    unzip.start("unzip.exe", QStringList() << zipFile << "-d" << path);
+    unzip.start("unzip.exe", QStringList() << zipFile << "-d" << (path + i.baseName()));
     unzip.waitForFinished(-1);
-
-    QString res = unzip.readAllStandardOutput();
-
-    myDebug() << res;
-    QStringList lines = res.split("\n");
-        foreach(const QString &line, lines) {
-            if(line.contains("inflating")) {
-                myDebug() << line;
-            }
-    }
-
-    return QStringList();
+    myDebug() << path + i.baseName();
+    myDebug() << ModuleTools::scan(path + i.baseName());
+    return ModuleTools::scan(path + i.baseName());
 #endif
 }
