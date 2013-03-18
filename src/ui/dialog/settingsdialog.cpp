@@ -27,8 +27,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/dictionary/theworddictionary.h"
 #include <QtCore/QFSFileEngine>
 #include <QtCore/QPointer>
-#include <quazip.h>
-#include <quazipfile.h>
 #ifdef BUILD_WITH_SWORD
 #include <stdlib.h>
 #include <swmgr.h>
@@ -461,40 +459,15 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
     DEBUG_FUNC_NAME
     QFileInfo fileInfo(f);
     if(fileInfo.suffix() == "zip") {
-        myDebug() << "zip file at" << f;
-        QuaZip zip(f);
-        if(!zip.open(QuaZip::mdUnzip))
-        {
-            myWarning() << "could not open" << f;
-            return 1;
+        QStringList files = ModuleTools::unzip(f, m_set.homePath + "modules/");
+        if(files.size() == 1) {
+            quiteAddModule(files.first(), parentID, name);
+        } else {
+            foreach(const QString &f, files) {
+                quiteAddModule(f, parentID);
+            }
         }
 
-        QuaZipFile file(&zip);
-
-        for(bool a=zip.goToFirstFile(); a; a=zip.goToNextFile()) {
-
-            if(!file.open(QIODevice::ReadOnly)) {
-                myWarning() << "could not read a file " << file.errorString() << file.getZipError() << zip.getZipError();
-                continue;
-            }
-            if(zip.getZipError() != UNZ_OK) {
-                myWarning() << "could not open "<< file.errorString() << file.getZipError() << zip.getZipError();
-                continue;
-            }
-            QFile realFile(m_set.homePath + "modules/" + zip.getCurrentFileName());
-            if(!realFile.open(QFile::WriteOnly)) {
-                myWarning() << "could not open dest file"  << realFile.fileName();
-            }
-            //now copy to homePath
-            realFile.write(file.readAll());
-
-            file.close();
-            realFile.close();
-            //add module now
-            quiteAddModule(realFile.fileName(), parentID, name);
-        }
-
-        zip.close();
         return 0;
     }
     ModuleTools::ModuleType moduleType = ModuleTools::NoneType;

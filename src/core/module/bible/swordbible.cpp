@@ -113,10 +113,10 @@ TextRange SwordBible::rawTextRange(int bookID, int chapterID, int startVerse, in
     TextRange ret;
     std::pair<int,int> minMax = minMaxVerse(bookID, chapterID);
     if(startVerse == -1) {
-        startVerse == minMax.first;
+        startVerse = minMax.first;
     }
     if(endVerse == -1) {
-        endVerse == minMax.second;
+        endVerse = minMax.second;
     }
 #ifdef BUILD_WITH_SWORD
     VerseKey mykey;

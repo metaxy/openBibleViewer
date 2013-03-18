@@ -2,16 +2,14 @@
    #${CMAKE_CURRENT_SOURCE_DIR}/cmake/c_flag_overrides.cmake)
 #set(CMAKE_USER_MAKE_RULES_OVERRIDE_CXX
   # ${CMAKE_CURRENT_SOURCE_DIR}/cmake/cxx_flag_overrides.cmake)
-
 project( openBibleViewer )
 
 cmake_minimum_required( VERSION 2.6 )
 
 #list( APPEND CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs")
 
-
 set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
-set( MCLUCENE_DIR "C:\\\\Users\\\\mo\\\\coding\\\\clucene-HEAD-314b755" )
+
 include(InstallRequiredSystemLibraries)
 #include(cotire)
 
@@ -20,32 +18,57 @@ if(NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_BUILD_TYPE)
 
 message(STATUS "Using build type: ${CMAKE_BUILD_TYPE}")
-
+# config paths
 IF(MSVC)
   #nmake definitions for less output
   #add_definitions( "/nologo /w" )
   #set path to zlib dll
-  SET(ZLIB_DLL "C:\\\\zlib-1.2.3-lib\\\\zlib1.dll")
-endif()
+  set( WIN_DEV_DIR "C:\\Users\\paul\\")
+  set( WIN_DEV_DIR2 "C:\\\\Users\\\\paul\\\\")
+  set( MCLUCENE_DIR "${WIN_DEV_DIR2}clucene")
+  SET( MCLUCENE_BIN_SHARED   ${MCLUCENE_DIR}\\build\\src\\shared)
+  SET( MCLUCENE_SRC_CORE  ${MCLUCENE_DIR}\\src\\core)
+  SET( MCLUCENE_SRC_SHARED ${MCLUCENE_DIR}\\src\\shared)
+  set( MCLUCENE_DLL_SHARED "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Release\\\\clucene-shared.dll")
+  set( MCLUCENE_DLL_CORE "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Release\\\\clucene-core.dll")
+  set( ZLIB_DLL "${WIN_DEV_DIR2}zlib\\\\zlib1.dll")
+  set( CL_LIBS "${MCLUCENE_DIR}\\build\\bin\\Release\\clucene-shared.lib" "${MCLUCENE_DIR}\\build\\bin\\Release\\clucene-core.lib")
+  set(ZLIB_INCLUDE_DIR "${WIN_DEV_DIR}zlib\\include")
+else(MSVC)
+    set(CL_LIBS clucene-core)
+endif(MSVC)
 
 if(UNIX)
   if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
     add_definitions( -Wall -Wextra -Wformat -g3)
     #add_definitions ( -Wall -Wextra -Wformat -g3 -fstack-check -Weffc++)
-  endif()
-    add_definitions(-std=c++0x)
+  endif(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
+  add_definitions(-std=c++0x)
 endif(UNIX)
 
 if(APPLE)
     ##clang xcode 4.5.2 tested
-     add_definitions(-std=c++11)
+    add_definitions(-std=c++11)
 endif(APPLE)
 
 find_package( Qt4 REQUIRED )
 find_package( CLucene1 REQUIRED)
+if(MSVC)
+  option( OBV_USE_QUAZIP "Use QuaZip" OFF)
+else()
+  option( OBV_USE_QUAZIP "Use QuaZip" ON)
+endif()
+IF(${OBV_USE_QUAZIP})
 find_package( QuaZip REQUIRED)
+#set (QuaZip_INCLUDE_DIR  "C:\\Users\\paul\\quazip-0.5.1\\quazip")
+#  set(QuaZip_LIBRARIES "C:\\Users\\paul\\quazip-0.5.1\\quazip\\Release")
+#  set(QuaZip_LIBRARY "${WIN_DEV_DIR2}quazip-0.5.1\\\\quazip\\\\Release\\\\quazip.lib")
+#  set(QUAZIP_DLL "${WIN_DEV_DIR2}quazip-0.5.1\\\\quazip\\\\Release\\\\quazip.dll")
+endif()
 
+if(UNIX)
 pkg_check_modules(ZLIB REQUIRED zlib)
+endif()
 #find_package( Zlib )
 
 option( OBV_PORTABLE_VERSION "Build a portable version" OFF )
@@ -68,6 +91,7 @@ SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_MINSIZEREL QT_NO_WARN
 
 #we have to use toStdWString() on linux
 if(MSVC)
+	add_definitions(-DUNICODE -D_UNICODE)
   option( OBV_USE_WSTRING "Use toStdWString and fromWCharArray" OFF)
 else()
   option( OBV_USE_WSTRING "Use toStdWString and fromWCharArray" ON)
@@ -100,12 +124,13 @@ include_directories(
     ${QT_QTXML_INCLUDE_DIR}
     ${QT_QTNETWORK_INCLUDE_DIR}
     ${QT_QTWEBKIT_INCLUDE_DIR}
-    ${openBibleViewer_BINARY_DIR}/src
+    ${openBibleViewer_BINARY_DIR}/src # for config file
     ${CLUCENE1_INCLUDE_DIRS}
-    ${MCLUCENE_DIR}\\build\\src\\shared
-    ${MCLUCENE_DIR}\\src\\core
-    ${MCLUCENE_DIR}\\src\\shared
+    ${MCLUCENE_BIN_SHARED}
+    ${MCLUCENE_SRC_CORE}
+    ${MCLUCENE_SRC_SHARED}
     ${QuaZip_INCLUDE_DIR}
+	${ZLIB_INCLUDE_DIR}
     )
 
 if(OBV_SWORD_SUPPORT)
@@ -114,7 +139,7 @@ if(OBV_SWORD_SUPPORT)
     )
 endif(OBV_SWORD_SUPPORT)
 add_subdirectory( src/extern )
-add_subdirectory( src/test )
+#add_subdirectory( src/test )
 add_subdirectory( src/core )
 #Build openBibleViewer
 
@@ -342,16 +367,10 @@ if (MSVC)
 else ()
   add_executable(openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS} ${OBVCore_SRCS})
 endif ()
+
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 	#cotire(openBibleViewer)
 endif()
-
-
-if(MSVC)
-    set(CL_LIBS "${MCLUCENE_DIR}\\build\\bin\\clucene-shared.lib" "${MCLUCENE_DIR}\\build\\bin\\clucene-core.lib")
-else(MSVC)
-    set(CL_LIBS clucene-core)
-endif(MSVC)
 
 if(OBV_SWORD_SUPPORT)
     set(SW_LIBS ${CURL_LIBRARIES} ${ICU_LIBRARIES} ${ICU_I18N_LIBRARIES} ${SWORD_LIBRARY})
@@ -397,8 +416,8 @@ else(WIN32 AND NOT UNIX)
         "${QT_LIBRARY_DIR}/../bin/QtScript${QT_VERSION_MAJOR}.dll"
         "${QT_LIBRARY_DIR}/../bin/phonon${QT_VERSION_MAJOR}.dll"
         "${QT_LIBRARY_DIR}/../bin/QtSql${QT_VERSION_MAJOR}.dll"
-        "${MCLUCENE_DIR}\\\\build\\\\bin\\\\clucene-shared.dll" 
-        "${MCLUCENE_DIR}\\\\build\\\\bin\\\\clucene-core.dll"
+		"${MCLUCENE_DLL_SHARED}"
+		"${MCLUCENE_DLL_CORE}"
         "${ZLIB_DLL}"
         DESTINATION bin
     )
@@ -421,10 +440,10 @@ if(WIN32 AND NOT UNIX)
   # There is a bug in NSI that does not handle full unix paths properly. Make
   # sure there is at least one set of four (4) backlasshes.
   set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\openBibleViewer.exe")
-  SET(CPACK_PACKAGE_ICON "C:\\\\Users\\\\mo\\\\coding\\\\openBibleViewer\\\\src\\\\icons\\\\124x124\\\\openBibleViewer.png")
+  set(CPACK_PACKAGE_ICON "${WIN_DEV_DIR2}openBibleViewer\\\\src\\\\icons\\\\124x124\\\\openBibleViewer.png")
   set(CPACK_NSIS_DISPLAY_NAME "openBibleViewer")
-  set(CPACK_NSIS_HELP_LINK "http:\\\\\\\\openbv.uucyc.name")
-  set(CPACK_NSIS_URL_INFO_ABOUT "http:\\\\\\\\openbv.uucyc.name")
+  set(CPACK_NSIS_HELP_LINK "http://metaxy.github.com/openBibleViewer")
+  set(CPACK_NSIS_URL_INFO_ABOUT "http://metaxy.github.com/openBibleViewer")
   set(CPACK_NSIS_MODIFY_PATH OFF)
 endif(WIN32 AND NOT UNIX)
 

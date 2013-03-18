@@ -298,9 +298,9 @@ int WINAPI WinMain(HINSTANCE v1, HINSTANCE v2, LPSTR v3, int v4)
     }
     //remove cache dir if update from 0.4 or 0.3
     const QString v = settings->value("general/version", "0.4").toString();
-    if(v.startsWith("0.4")) {
-        removeDir(homeDataPath + "cache/");
-    }
+   // if(v.startsWith("0.4")) {
+//removeDir(homeDataPath + "cache/");
+ //   }
 
     QString lang = settings->value("general/language", QLocale::system().name()).toString();
     const QString av(_AV_LANG);
@@ -326,7 +326,16 @@ int WINAPI WinMain(HINSTANCE v1, HINSTANCE v2, LPSTR v3, int v4)
     a.installTranslator(&myappTranslator);
     delete opt;
 
-    MainWindow w;
+    Context *context = new Context(&a);
+    context->setHomePath(homeDataPath);
+    context->setSettings(settings);
+    context->setTranslator(&myappTranslator, &qtTranslator);
+    context->init();
+    context->showWindow();
+
+    a.exec();
+
+    delete context;
 
 		/*w.setAttribute(Qt::WA_TranslucentBackground);
 		w.setAttribute(Qt::WA_NoSystemBackground, false);
@@ -338,7 +347,7 @@ int WINAPI WinMain(HINSTANCE v1, HINSTANCE v2, LPSTR v3, int v4)
 		w.ensurePolished(); // workaround Oxygen filling the background
 		w.setAttribute(Qt::WA_StyledBackground, false);*/
 
-		
+	/*	
 	if (QtWin::isCompositionEnabled()) {
 		QFile file(":/data/style/win7_transparent.css");
 		if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -353,14 +362,11 @@ int WINAPI WinMain(HINSTANCE v1, HINSTANCE v2, LPSTR v3, int v4)
 		}
 		QtWin::extendFrameIntoClientArea(&w);
 		w.setContentsMargins(0, 0, 0, 0);
-	}
+	}*/
 
-
-    w.setTranslator(&myappTranslator, &qtTranslator);
-    w.init(homeDataPath, settings);
-
+	/*
     w.show();
-    a.exec();
+   a.exec();*/
 
     return 0;
 }

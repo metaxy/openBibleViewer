@@ -19,6 +19,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QDir>
 #include "src/core/dbghelper.h"
 #include "src/core/singleton.h"
+#include "config.h"
+#include <QProcess>
+#ifdef OBV_USE_QUAZIP
+#include <quazip.h>
+#include <quazipfile.h>
+#endif
 const QString ModuleTools::strongScheme = "strong:/";
 const QString ModuleTools::gramScheme = "gram:/";
 const QString ModuleTools::rmacScheme = "rmac:/";
@@ -464,4 +470,54 @@ bool ModuleTools::removeDir(const QString &dirName)
         result = dir.rmdir(dirName);
     }
     return result;
+}
+QStringList ModuleTools::unzip(const QString &zipFile, const QString &path)
+{
+#ifdef OBV_USE_QUAZIP
+    QStringList ret;
+    QuaZip zip(zipFile);
+    if(!zip.open(QuaZip::mdUnzip)) {
+        myWarning() << "could not open" << f;
+        return 1;
+    }
+
+    QuaZipFile file(&zip);
+
+    for(bool a=zip.goToFirstFile(); a; a=zip.goToNextFile()) {
+        if(!file.open(QIODevice::ReadOnly)) {
+            myWarning() << "could not read a file " << file.errorString() << file.getZipError() << zip.getZipError();
+            continue;
+        }
+        if(zip.getZipError() != UNZ_OK) {
+            myWarning() << "could not open "<< file.errorString() << file.getZipError() << zip.getZipError();
+            continue;
+        }
+        QFile realFile(path + zip.getCurrentFileName());
+        if(!realFile.open(QFile::WriteOnly)) {
+            myWarning() << "could not open dest file"  << realFile.fileName();
+        }
+        //now copy to homePath
+        realFile.write(file.readAll());
+        file.close();
+        realFile.close();
+        //add module now
+        ret << realFile.fileName();
+
+    }
+
+    zip.close();
+    return ret;
+#else
+    QProcess unzip;
+        unzip.start("unzip.exe", QStringList() << "-d" << path << zipFile);
+        if (!unzip.waitForStarted())
+            return QStringList();
+
+        if (!unzip.waitForFinished())
+            return QStringList();
+
+        QByteArray result = unzip.readAll();
+        QString res = QString(result);
+    return QStringList();
+#endif
 }

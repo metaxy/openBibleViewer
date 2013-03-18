@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define SEARCHTOOLS_H
 #include <QtCore/QString>
 #include "CLucene/clucene-config.h"
+#include <tchar.h>
 class SearchTools
 {
 public:

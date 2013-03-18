@@ -430,8 +430,8 @@ std::pair<int, int> ZefaniaBible::minMaxVerse(int bookID, int chapterID)
     //because c.data() is a map and it is sorted by key
     ret.first = c.data().keys().first();
     ret.second = c.data().keys().last();
-
-    return ret;*/
+	*/
+    return ret;
 }
 
 /*

@@ -1,3 +1,42 @@
+you will need
+qt 4.8 http://qt-project.org/downloads
+
+git  http://git-scm.com/download/win
+
+cmake  http://www.cmake.org/cmake/resources/software.html
+
+
+-- build zlib 
+download from http://www.winimage.com/zLibDll/
+
+cd c:\src\zlib-1.2.5
+mkdir build
+cd build
+del ..\zconf.h
+cmake -DCMAKE_BUILD_TYPE=Release ..
+nmake
+copy zconf.h ..
+
+
+-- build clucene
+git clone git://clucene.git.sourceforge.net/gitroot/clucene/clucene
+cd clucene
+mkdir build
+cmake ..
+nmake
+
+---
+
+-- build quazip
+it is some kind of dfficult
+you have to set all paths on your own
+and create mocs "moc ad.h > moc_ad.cpp"
+
+--build openBibleViewer
+set all paths in CMakeLists.txt
+set to unicode
+
+
 change 
 	SET(ZLIB_DLL)
 	SET(CLUCENE_DIR)

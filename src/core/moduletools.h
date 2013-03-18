@@ -125,6 +125,8 @@ public:
     
     static QStringList encodings();
     static bool removeDir(const QString &dirName);
+
+    static QStringList unzip(const QString &zipFile, const QString &path);
 };
 
 #endif // MODULETOOLS_H

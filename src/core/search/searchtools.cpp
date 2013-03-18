@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "config.h"
 #include "src/core/dbghelper.h"
 #include <iostream>
-
+#include <tchar.h>
 
 SearchTools::SearchTools()
 {
@@ -34,27 +34,27 @@ QString SearchTools::toQString(const TCHAR* string)
 const TCHAR* SearchTools::toTCHAR(const QString& string)
 {
 
-#ifdef OBV_USE_WSTRING
+/*#ifdef OBV_USE_WSTRING
     wchar_t *we = new TCHAR[string.size()+1];
     string.toWCharArray(we);
     we[string.size()] = 0;
     return we;
-#else
+#else*/
     return reinterpret_cast<const TCHAR *>(string.utf16());
-#endif
+/*#endif*/
 
 }
 const TCHAR* SearchTools::toTCHAR(const QString& string, wchar_t *ret)
 {
 
-#ifdef OBV_USE_WSTRING
-    string.toWCharArray(ret);
+//#ifdef OBV_USE_WSTRING
+   // string.toWCharArray(ret);
     ret[string.size()] = 0;
     return ret;
-#else
+/*#else
     ret = reinterpret_cast<const TCHAR *>(string.utf16());
     return ret;
-#endif
+#endif*/
 
 }
 
