@@ -27,11 +27,6 @@ nmake
 
 ---
 
--- build quazip
-it is some kind of dfficult
-you have to set all paths on your own
-and create mocs "moc ad.h > moc_ad.cpp"
-
 --build openBibleViewer
 set all paths in CMakeLists.txt
 set to unicode

@@ -509,7 +509,7 @@ QStringList ModuleTools::unzip(const QString &zipFile, const QString &path)
     return ret;
 #else
     QProcess unzip;
-        unzip.start("unzip.exe", QStringList() << "-d" << path << zipFile);
+        unzip.start("unzip.exe", QStringList() << zipFile << "-d" << path);
         if (!unzip.waitForStarted())
             return QStringList();
 
@@ -517,7 +517,21 @@ QStringList ModuleTools::unzip(const QString &zipFile, const QString &path)
             return QStringList();
 
         QByteArray result = unzip.readAll();
-        QString res = QString(result);
+        QList<QByteArray> l = result.split('\n');
+        myDebug() << result;
+        foreach(auto ll, l) {
+            myDebug() << ll;
+        }
+
+      /*  QString res = QString(result);
+        myDebug() << res;
+        QStringList lines = res.split("\n");
+        foreach(const QString &line, lines) {
+            if(line.contains("inflating")) {
+                myDebug() << line;
+            }
+        }*/
+
     return QStringList();
 #endif
 }
