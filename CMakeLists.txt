@@ -25,15 +25,19 @@ IF(MSVC)
   #set path to zlib dll
   set( WIN_DEV_DIR "C:\\Users\\paul\\")
   set( WIN_DEV_DIR2 "C:\\\\Users\\\\paul\\\\")
+  
   set( MCLUCENE_DIR "${WIN_DEV_DIR2}clucene")
   SET( MCLUCENE_BIN_SHARED   ${MCLUCENE_DIR}\\build\\src\\shared)
   SET( MCLUCENE_SRC_CORE  ${MCLUCENE_DIR}\\src\\core)
   SET( MCLUCENE_SRC_SHARED ${MCLUCENE_DIR}\\src\\shared)
   set( MCLUCENE_DLL_SHARED "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Release\\\\clucene-shared.dll")
   set( MCLUCENE_DLL_CORE "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Release\\\\clucene-core.dll")
-  set( ZLIB_DLL "${WIN_DEV_DIR2}zlib\\\\zlib1.dll")
   set( CL_LIBS "${MCLUCENE_DIR}\\build\\bin\\Release\\clucene-shared.lib" "${MCLUCENE_DIR}\\build\\bin\\Release\\clucene-core.lib")
-  set(ZLIB_INCLUDE_DIR "${WIN_DEV_DIR}zlib\\include")
+  
+  set( ZLIB_DLL "${WIN_DEV_DIR2}zlib\\\\bin\\\\zlib1.dll")
+  set( ZLIB_INCLUDE_DIR "${WIN_DEV_DIR}zlib\\include")
+  # no need to change
+  set( UNZIP_EXE  "${CMAKE_SOURCE_DIR}\\\\src\\\\extern\\\\unzip.exe")
 else(MSVC)
     set(CL_LIBS clucene-core)
 endif(MSVC)
@@ -418,6 +422,7 @@ else(WIN32 AND NOT UNIX)
         "${QT_LIBRARY_DIR}/../bin/QtSql${QT_VERSION_MAJOR}.dll"
 		"${MCLUCENE_DLL_SHARED}"
 		"${MCLUCENE_DLL_CORE}"
+		"${UNZIP_EXE}"
         "${ZLIB_DLL}"
         DESTINATION bin
     )
