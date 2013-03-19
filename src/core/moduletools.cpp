@@ -511,7 +511,8 @@ QStringList ModuleTools::unzip(const QString &zipFile, const QString &path)
 #else
     QFileInfo i(zipFile);
     QProcess unzip;
-    unzip.start("unzip.exe " + zipFile + "-d " + path + i.baseName());
+    myDebug() << "7za.exe e " + zipFile + " -y -o" + path + i.baseName();
+    unzip.start("7za.exe e " + zipFile + " -y -o" + path + i.baseName());
     unzip.waitForFinished(-1);
     myDebug() << path + i.baseName();
     myDebug() << ModuleTools::scan(path + i.baseName());

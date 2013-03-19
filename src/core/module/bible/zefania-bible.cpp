@@ -345,7 +345,7 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     IndexSearcher s(reader);
 
-    const wchar_t *queryText = SearchTools::toTCHAR(query.searchText);
+    auto queryText = SearchTools::toTCHAR(query.searchText);
     Query* q = QueryParser::parse(queryText, _T("content"), &analyzer);
 
     Hits* h = s.search(q);
@@ -372,7 +372,9 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
     }
     reader->close();
     delete reader;
+#ifndef Q_WS_WIN //it just crashes on windows
     delete[] queryText;
+#endif
 }
 
 /**

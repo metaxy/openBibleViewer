@@ -37,7 +37,7 @@ IF(MSVC)
   set( ZLIB_DLL "${WIN_DEV_DIR2}zlib\\\\bin\\\\zlib1.dll")
   set( ZLIB_INCLUDE_DIR "${WIN_DEV_DIR}zlib\\include")
   # no need to change
-  set( UNZIP_EXE  "${CMAKE_SOURCE_DIR}\\\\src\\\\extern\\\\unzip.exe")
+  set( UNZIP_EXE  "${CMAKE_SOURCE_DIR}\\\\src\\\\extern\\\\7za.exe")
 else(MSVC)
     set(CL_LIBS clucene-core)
 endif(MSVC)

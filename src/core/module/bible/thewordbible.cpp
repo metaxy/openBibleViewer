@@ -340,7 +340,7 @@ void TheWordBible::buildIndex()
     Document doc;
     bool canceled = false;
     int c = 0;
-    wchar_t *buffer = new wchar_t[SearchTools::MAX_LUCENE_FIELD_LENGTH + 1];
+    auto buffer = SearchTools::createBuffer();
     foreach(const int bookID, m_versification->bookIDs()) {
         c++;
         if(progress.wasCanceled()) {
