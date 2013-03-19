@@ -628,7 +628,7 @@ void AdvancedInterface::createToolBars()
     m_mainBar = new QToolBar(this);
     m_mainBar->setObjectName("mainToolBar");
     m_mainBar->setIconSize(QSize(16, 16));
-#ifdef Q_OS_WIN
+#ifdef Q_WS_WIN
     m_mainBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 #else
     m_mainBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);

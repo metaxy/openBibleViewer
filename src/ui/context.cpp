@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/core/notes/xmlnotes.h"
 #include "src/ui/context.h"
-
+#include "src/ui/qtwin.h"
 Context::Context(QObject *parent) : QObject(parent)
 {
     m_firstStart = false;
@@ -95,31 +95,22 @@ void Context::showWindow()
     m_window = new MainWindow(this);
     setAll(m_window);
 #ifdef Q_WS_WIN
-    w.setAttribute(Qt::WA_TranslucentBackground);
-		w.setAttribute(Qt::WA_NoSystemBackground, false);
-		QPalette pal = w.palette();
-		QColor bg = pal.window().color();
-		bg.setAlpha(180);
-		pal.setColor(QPalette::Window, bg);
-		w.setPalette(pal);
-		w.ensurePolished(); // workaround Oxygen filling the background
-		w.setAttribute(Qt::WA_StyledBackground, false);*/
+    m_window->setAttribute(Qt::WA_TranslucentBackground);
+    m_window->setAttribute(Qt::WA_NoSystemBackground, false);
+    QPalette pal = m_window->palette();
+    QColor bg = pal.window().color();
+    bg.setAlpha(180);
+    pal.setColor(QPalette::Window, bg);
+    m_window->setPalette(pal);
+    m_window->ensurePolished(); // workaround Oxygen filling the background
+    m_window->setAttribute(Qt::WA_StyledBackground, false);
 
-		
-	if (QtWin::isCompositionEnabled()) {
-		QFile file(":/data/style/win7_transparent.css");
-		if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-			QTextStream in(&file);
-			a.setStyleSheet(in.readAll());
-		}
+    if (QtWin::isCompositionEnabled()) {
+        myDebug() << "compositing enabled";
+        QtWin::extendFrameIntoClientArea(m_window);
+        m_window->setContentsMargins(0, 0, 0, 0);
+    }
 
-		QFile file2("stylesheet.css");
-		if(file2.open(QIODevice::ReadOnly | QIODevice::Text)) {
-			QTextStream in2(&file2);
-			a.setStyleSheet(in2.readAll());
-		}
-		QtWin::extendFrameIntoClientArea(&w);
-		w.setContentsMargins(0, 0, 0, 0);
 #endif		
 		
     m_window->setTranslator(m_myappTranslator, m_qtTranslator);

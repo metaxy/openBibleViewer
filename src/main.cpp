@@ -27,19 +27,20 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include "src/core/dbghelper.h"
 #include "src/ui/qtwin.h"
-#ifdef Q_OS_WIN32
+#ifdef Q_WS_WIN
 #include <windows.h>
 #include <stdio.h>
+#include <shellapi.h>
 #include <QWindowsVistaStyle>
 #include <QCleanlooksStyle>
-#include <shellapi.h>
 #endif
 
 #include "src/ui/mainwindow.h"
 #include "src/ui/context.h"
 #include "config.h"
 #include "anyoption.h"
-#ifdef Q_OS_WIN32
+
+#ifdef Q_WS_WIN
 PCHAR*
     CommandLineToArgvA(
         PCHAR CmdLine,
@@ -154,7 +155,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-#ifdef Q_OS_WIN32
+#ifdef Q_WS_WIN
     bool win7 = false;
 
     //todo: would it be better if we use QSysInfo::windowsVersion() instead?
@@ -174,6 +175,20 @@ int main(int argc, char *argv[])
     if(osvi.dwMajorVersion >= 6.1) {
         win7 = true;
     }
+
+    if (QtWin::isCompositionEnabled()) {
+        QFile file(":/data/style/win7_transparent.css");
+        if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QTextStream in(&file);
+            a.setStyleSheet(in.readAll());
+        }
+
+        QFile file2("stylesheet.css");
+        if(file2.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QTextStream in2(&file2);
+            a.setStyleSheet(in2.readAll());
+        }
+    }
 #endif
 
     QSettings *settings;
@@ -183,16 +198,16 @@ int main(int argc, char *argv[])
     if(opt->getValue("configPath") != NULL) {
         homeDataPath = QString::fromLocal8Bit(opt->getValue("configPath"));
     } else {
-#if !defined(Q_WS_WIN)
-        homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
-#else
+    #ifdef Q_WS_WIN
         //a protable version is needed only for windows
-#ifdef OBV_PORTABLE_VERSION
-        homeDataPath = QApplication::applicationDirPath() + "/";
-#else
-        homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
-#endif
-#endif
+        #ifdef OBV_PORTABLE_VERSION
+                homeDataPath = QApplication::applicationDirPath() + "/";
+        #else
+                homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
+        #endif
+    #else
+         homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
+    #endif
 
     }
 
