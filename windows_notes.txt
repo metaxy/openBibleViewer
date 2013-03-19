@@ -5,6 +5,7 @@ git  http://git-scm.com/download/win
 
 cmake  http://www.cmake.org/cmake/resources/software.html
 
+nsis http://nsis.sourceforge.net/Download
 
 -- build zlib 
 download from http://www.winimage.com/zLibDll/
@@ -29,12 +30,10 @@ nmake
 
 --build openBibleViewer
 set all paths in CMakeLists.txt
-set to unicode
 
 
 change 
-	SET(ZLIB_DLL)
-	SET(CLUCENE_DIR)
+
 to needed paths
 
 cd C:\\Users\\mo\\coding\\openBibleViewer

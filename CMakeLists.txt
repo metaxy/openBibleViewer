@@ -43,11 +43,12 @@ else(MSVC)
 endif(MSVC)
 
 if(UNIX)
+	add_definitions(-std=c++0x)
   if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
     add_definitions( -Wall -Wextra -Wformat -g3)
     #add_definitions ( -Wall -Wextra -Wformat -g3 -fstack-check -Weffc++)
   endif(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
-  add_definitions(-std=c++0x)
+  
 endif(UNIX)
 
 if(APPLE)
@@ -57,17 +58,15 @@ endif(APPLE)
 
 find_package( Qt4 REQUIRED )
 find_package( CLucene1 REQUIRED)
+
 if(MSVC)
   option( OBV_USE_QUAZIP "Use QuaZip" OFF)
 else()
   option( OBV_USE_QUAZIP "Use QuaZip" ON)
 endif()
+
 IF(${OBV_USE_QUAZIP})
-find_package( QuaZip REQUIRED)
-#set (QuaZip_INCLUDE_DIR  "C:\\Users\\paul\\quazip-0.5.1\\quazip")
-#  set(QuaZip_LIBRARIES "C:\\Users\\paul\\quazip-0.5.1\\quazip\\Release")
-#  set(QuaZip_LIBRARY "${WIN_DEV_DIR2}quazip-0.5.1\\\\quazip\\\\Release\\\\quazip.lib")
-#  set(QUAZIP_DLL "${WIN_DEV_DIR2}quazip-0.5.1\\\\quazip\\\\Release\\\\quazip.dll")
+	find_package( QuaZip REQUIRED)
 endif()
 
 if(UNIX)

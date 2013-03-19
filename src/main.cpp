@@ -177,10 +177,13 @@ int main(int argc, char *argv[])
     }
 
     if (QtWin::isCompositionEnabled()) {
-        QFile file(":/data/style/win7_transparent.css");
-        if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            QTextStream in(&file);
-            a.setStyleSheet(in.readAll());
+        myDebug() << "add css files " << win7;
+        if(win7) {
+            QFile file(":/data/style/win7_transparent.css");
+            if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                QTextStream in(&file);
+                a.setStyleSheet(in.readAll());
+            }
         }
 
         QFile file2("stylesheet.css");
