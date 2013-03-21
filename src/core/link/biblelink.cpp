@@ -153,6 +153,7 @@ int BibleLink::bookNameToBookID(QString name, int *nlev)
         name.remove("}").remove("{");
         return name.toInt();
     }
+    Q_ASSERT(!m_v11n.isNull());
 
     QHash<int, QString> full = m_v11n->bookNames();
     QHash<int, QStringList> shortNames = m_v11n->multipleBookShortNames();

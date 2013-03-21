@@ -206,11 +206,11 @@
     <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Die%20Lutherbibel%20von%201912%20-%20Lexicon/Luther1912-lex.zip" lang="German">Die Lutherbibel von 1912 - Lexicon</ITEM>
     <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Revised%201833%20Webster%20Version%20-%20Lexicon/RWebster-lex_rev1.zip" lang="English">Revised 1833 Webster Version - Lexicon</ITEM>
     
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/concordances.webdict.xml" lang="English" size = "0.1 MB">Strong Lexicon - Concordances.org</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/studybiblelex.webdict.xml" lang="English" size = "0.1 MB">Strong Lexicon - studybible.info</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/studylightstrong-classic.webdict.xml" lang="English" size = "0.1 MB">Classic Strong Lexicon - StudyLight.org</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/blueletterbiblelex.webdict.xml" lang="English" size = "0.1 MB">Lexicon - BlueLetterBible.org</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/studylightstrong.webdict.xml" lang="English" size = "0.1 MB">Strong Lexicon - StudyLight.org</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/concordances.webdict.xml" lang="English" size = "0.1 MB">Strong Lexicon - Concordances.org</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/studybiblelex.webdict.xml" lang="English" size = "0.1 MB">Strong Lexicon - studybible.info</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/studylightstrong-classic.webdict.xml" lang="English" size = "0.1 MB">Classic Strong Lexicon - StudyLight.org</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/blueletterbiblelex.webdict.xml" lang="English" size = "0.1 MB">Lexicon - BlueLetterBible.org</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/studylightstrong.webdict.xml" lang="English" size = "0.1 MB">Strong Lexicon - StudyLight.org</ITEM>
         
 </ID>
 <ID type="additional">
@@ -221,24 +221,24 @@
     <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Naves%20Topical%20Bible/EN_en_Nave.zip" lang="English">Naves Topical Bible</ITEM>
     <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Carl%20Heinrich%20Riegers%20Kommentar/DE_de_rieger.zip" lang="German">Carl Heinrich Riegers Kommentar</ITEM>
     <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Easton%20Dictionary/sf_easton_0_eng.zip" lang="English">Easton Dictionary</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/biblical-illustrator.webcom.xml" lang="English" size = "0.1 MB">The Biblical Illustrator</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/adam-clarke.webcom.xml" lang="English" size = "0.1 MB">Adam Clarke Commentary</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/arno-gaebelein.webcom.xml" lang="English" size = "0.1 MB">Arno Gaebelein's Annotated Bible</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/biblediagramscom.webpage.xml" lang="English" size = "0.1 MB">Bible Diagrams</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/opentext.clause.webcom.xml" lang="English" size = "0.1 MB">OpenText Clause</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/geneva-study.webcom.xml" lang="English" size = "0.1 MB">Geneva Study Bible</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/opentext.wordgroup.webcom.xml" lang="English" size = "0.1 MB">OpenText Wordgroup</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/darbys-synopsis.webcom.xml" lang="English" size = "0.1 MB">Darby's Synopsis of the Whole Bible</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/john-gill.webcom.xml" lang="English" size = "0.1 MB">John Gill's Exposition of the Bible</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/robertsons-word-pictures.webcom.xml" lang="English" size = "0.1 MB">Robertson's Word Pictures of the New Testament</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/william-burkitt.webcom.xml" lang="English" size = "0.1 MB">William Burkitt Commentary</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/john-dummelow.webcom.xml" lang="English" size = "0.1 MB">John Dummelow's Commentary on the Bible</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/james-burton-coffman.webcom.xml" lang="English" size = "0.1 MB">James Burton Coffman Commentaries on the Bible</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/greek-testament-critical-exegetical-alford.webcom.xml" lang="English" size = "0.1 MB">Greek Testament Critical Exegetical Commentary(Henry Alford)</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/wesleys-explanatory-notes.webcom.xml" lang="English" size = "0.1 MB">Wesley's Explanatory Notes</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/thomas-coke.webcom.xml" lang="English" size = "0.1 MB">Thomas Coke Commentary on the Holy Bible</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/john-calvin.webcom.xml" lang="English" size = "0.1 MB">John Calvin's Commentaries on the Bible</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/jamieson-fausset-brown.webcom.xml" lang="English" size = "0.1 MB">Commentary Critical and Explanatory on the Whole Bible</ITEM>
-    <ITEM link="http://metaxy.github.com/obv/downloads/modules/barnes-notes.webcom.xml" lang="English" size = "0.1 MB">Barnes' Notes on the Whole Bible </ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/biblical-illustrator.webcom.xml" lang="English" size = "0.1 MB">The Biblical Illustrator</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/adam-clarke.webcom.xml" lang="English" size = "0.1 MB">Adam Clarke Commentary</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/arno-gaebelein.webcom.xml" lang="English" size = "0.1 MB">Arno Gaebelein's Annotated Bible</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/biblediagramscom.webpage.xml" lang="English" size = "0.1 MB">Bible Diagrams</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/opentext.clause.webcom.xml" lang="English" size = "0.1 MB">OpenText Clause</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/geneva-study.webcom.xml" lang="English" size = "0.1 MB">Geneva Study Bible</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/opentext.wordgroup.webcom.xml" lang="English" size = "0.1 MB">OpenText Wordgroup</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/darbys-synopsis.webcom.xml" lang="English" size = "0.1 MB">Darby's Synopsis of the Whole Bible</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/john-gill.webcom.xml" lang="English" size = "0.1 MB">John Gill's Exposition of the Bible</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/robertsons-word-pictures.webcom.xml" lang="English" size = "0.1 MB">Robertson's Word Pictures of the New Testament</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/william-burkitt.webcom.xml" lang="English" size = "0.1 MB">William Burkitt Commentary</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/john-dummelow.webcom.xml" lang="English" size = "0.1 MB">John Dummelow's Commentary on the Bible</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/james-burton-coffman.webcom.xml" lang="English" size = "0.1 MB">James Burton Coffman Commentaries on the Bible</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/greek-testament-critical-exegetical-alford.webcom.xml" lang="English" size = "0.1 MB">Greek Testament Critical Exegetical Commentary(Henry Alford)</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/wesleys-explanatory-notes.webcom.xml" lang="English" size = "0.1 MB">Wesley's Explanatory Notes</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/thomas-coke.webcom.xml" lang="English" size = "0.1 MB">Thomas Coke Commentary on the Holy Bible</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/john-calvin.webcom.xml" lang="English" size = "0.1 MB">John Calvin's Commentaries on the Bible</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/jamieson-fausset-brown.webcom.xml" lang="English" size = "0.1 MB">Commentary Critical and Explanatory on the Whole Bible</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/barnes-notes.webcom.xml" lang="English" size = "0.1 MB">Barnes' Notes on the Whole Bible </ITEM>
 </ID>
 </MODULES>
