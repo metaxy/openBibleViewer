@@ -15,14 +15,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/moduletools.h"
 #include <QtCore/QStringList>
 #include "src/core/dbghelper.h"
-VerseUrl::VerseUrl() : m_ranges(), m_params(), m_isValid(true)
+VerseUrl::VerseUrl() : m_params(), m_ranges(), m_isValid(true)
 {
 }
-VerseUrl::VerseUrl(const VerseUrlRange &range) : m_ranges(), m_params(), m_isValid(true)
+VerseUrl::VerseUrl(const VerseUrlRange &range) : m_params(), m_ranges(), m_isValid(true)
 {
     addRange(range);
 }
-VerseUrl::VerseUrl(const QString &url) : m_ranges(), m_params(), m_isValid(true)
+VerseUrl::VerseUrl(const QString &url) : m_params(), m_ranges() , m_isValid(true)
 {
     fromStringUrl(url);
 }
@@ -364,7 +364,10 @@ void VerseUrl::unsetParam(const QString &name)
 bool VerseUrl::contains(int moduleID, int bookID, int chapterID, int verseID) const
 {
     foreach(const VerseUrlRange & range, m_ranges) {
-        if(range.moduleID() == moduleID && range.bookID() == bookID && range.containsChapter(chapterID) && range.containsVerse(verseID))
+        if(range.moduleID() == moduleID and
+           range.bookID() == bookID and
+           range.containsChapter(chapterID) and
+           range.containsVerse(verseID))
             return true;
     }
     return false;
@@ -372,7 +375,9 @@ bool VerseUrl::contains(int moduleID, int bookID, int chapterID, int verseID) co
 bool VerseUrl::contains(int moduleID, int bookID, int chapterID) const
 {
     foreach(const VerseUrlRange & range, m_ranges) {
-        if(range.moduleID() == moduleID && range.bookID() == bookID && range.containsChapter(chapterID))
+        if(range.moduleID() == moduleID &&
+           range.bookID() == bookID &&
+           range.containsChapter(chapterID))
             return true;
     }
     return false;

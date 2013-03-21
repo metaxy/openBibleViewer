@@ -511,11 +511,16 @@ QStringList ModuleTools::unzip(const QString &zipFile, const QString &path)
 #else
     QFileInfo i(zipFile);
     QProcess unzip;
-    myDebug() << "7za.exe e " + zipFile + " -y -o" + path + i.baseName();
-    unzip.start("7za.exe e " + zipFile + " -y -o" + path + i.baseName());
+    #ifdef Q_WS_WIN
+        unzip.start("7za.exe e " + zipFile + " -y -o" + path + i.baseName());
+    #elseif Q_WS_X11
+        unzip.start("unzip -o " + zipFile + " -d" + path + i.baseName());
+    #elseif Q_WS_MAC
+        unzip.start("unzip -o " + zipFile + " -d" + path + i.baseName());
+    #else
+        unzip.start("unzip -o " + zipFile + " -d" + path + i.baseName());
+    #endif
     unzip.waitForFinished(-1);
-    myDebug() << path + i.baseName();
-    myDebug() << ModuleTools::scan(path + i.baseName());
     return ModuleTools::scan(path + i.baseName());
 #endif
 }

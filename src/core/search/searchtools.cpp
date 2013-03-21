@@ -15,7 +15,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "config.h"
 #include "src/core/dbghelper.h"
 #include <iostream>
-#include <tchar.h>
 
 SearchTools::SearchTools()
 {
@@ -23,7 +22,6 @@ SearchTools::SearchTools()
 
 QString SearchTools::toQString(const TCHAR* string)
 {
-
 #ifdef OBV_USE_WSTRING
     return QString::fromWCharArray(string);
 #else
@@ -39,7 +37,7 @@ QString SearchTools::toQString(const TCHAR* string)
         we[string.size()] = 0;
         return we;
     }
-    const TCHAR* SearchTools::toTCHAR(const QString& string, wchar_t ret)
+    const TCHAR* SearchTools::toTCHAR(const QString& string, wchar_t *ret)
     {
         string.toWCharArray(ret);
         ret[string.size()] = 0;
@@ -56,7 +54,6 @@ QString SearchTools::toQString(const TCHAR* string)
         return ret;
     }
 #endif
-
 
 
 TCHAR* SearchTools::createBuffer()

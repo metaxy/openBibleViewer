@@ -16,7 +16,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "config.h"
 #include <QtCore/QString>
 #include "CLucene/clucene-config.h"
+#ifdef Q_WS_WIN
 #include <tchar.h>
+#endif
 class SearchTools
 {
 public:

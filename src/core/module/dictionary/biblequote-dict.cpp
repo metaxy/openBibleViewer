@@ -15,7 +15,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "CLucene.h"
 #include "src/core/module/response/stringresponse.h"
 #include "src/core/search/searchtools.h"
+#ifdef Q_WS_WIN
 #include <tchar.h>
+#endif
 using namespace lucene::analysis;
 using namespace lucene::index;
 using namespace lucene::queryParser;

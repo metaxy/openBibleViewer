@@ -439,191 +439,6 @@ std::pair<int, int> ZefaniaBible::minMaxVerse(int bookID, int chapterID)
     return ret;
 }
 
-/*
-Verse ZefaniaBible::readVerse()
-{
-    const int verseID = m_xml->attributes().value("vnumber").toString().toInt() - 1;
-    QString out;
-   // if(m_rightToLeft)
-   //     out += "<div dir= \"rtl\">";
-    while(true) {
-        m_xml->readNext();
-
-        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), "VERS")))
-            break;
-
-        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
-            out += Qt::escape(m_xml->text().toString());
-        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st") {
-            out += parseStyle();
-        } else if(cmp(m_xml->name(), "NOTE")) {
-            out += parseNote();
-        } else if(cmp(m_xml->name(), "BR")) {
-            out += parseBr();
-        } else if(cmp(m_xml->name(), "DIV")) {
-            out += parseDiv();
-        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == QLatin1String("gr")) {
-            out += parseGram();
-        } else if(cmp(m_xml->name(), "SUP")) {
-            out += parseSup();
-        } else if(cmp(m_xml->name(), "XREF")) {
-            out += parseXRef();
-        } else {
-            out += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        }
-    }
-   // if(m_rightToLeft)
-//         out += "</div>";
-
-    Verse verse(verseID, out);
-    if(m_rightToLeft)
-        verse.setLayoutDirection(Qt::RightToLeft);
-    return verse;
-}*/
-
-/*QString ZefaniaBible::parseNote()
-{
-    if(!m_set->displaySettings()->showStudyNotes()) {
-        return "";
-    }
-    QString ret;
-    const QString pre("<span class =\"studynote\">");
-    const QString post("</span>");
-    while(true) {
-        m_xml->readNext();
-
-        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), "NOTE")))
-            break;
-
-        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
-            ret += m_xml->text().toString();
-        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st") {
-            ret += parseStyle();
-        } else if(cmp(m_xml->name(), "BR")) {
-            ret += parseBr();
-        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr") {
-            ret += parseGram();
-        } else if(cmp(m_xml->name(), "XREF")) {
-            ret += parseXRef();
-        } else if(cmp(m_xml->name(), "SUP")) {
-            ret += parseSup();
-        } else {
-            ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        }
-    }
-    return pre + ret + post;
-}*/
-/*QString ZefaniaBible::parseGram()
-{
-    if(!m_set->displaySettings()->showStrong() && !m_set->displaySettings()->showRMAC()) {
-        return "";
-    }
-    QString ret;
-    const QString strong = m_xml->attributes().value("str").toString();
-    const QString rmac = m_xml->attributes().value("rmac").toString();
-    while(true) {
-        m_xml->readNext();
-
-        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), "GRAM") || m_xml->name() == "gr"))
-            break;
-
-        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
-            ret += m_xml->text().toString();
-        } else if(cmp(m_xml->name(), "STYLE")  || m_xml->name() == QLatin1String("st")) {
-            ret += parseStyle();
-        } else if(cmp(m_xml->name(), "BR")) {
-            ret += parseBr();
-        } else if(cmp(m_xml->name(), "GRAM") || m_xml->name() == QLatin1String("gr")) {
-            ret += parseGram();
-        } else if(cmp(m_xml->name(), "SUP")) {
-            ret += parseSup();
-        } else {
-            ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        }
-    }
-    if(!strong.isEmpty() && m_set->displaySettings()->showStrong()) {
-        QString add;
-        if(!strong.startsWith("G", Qt::CaseInsensitive) && !strong.startsWith("H", Qt::CaseInsensitive)) {
-            add = m_strongsPrefix[m_bookID];
-        }
-        StrongUrl url;
-        url.fromText(add+strong);
-
-        if(m_set->displaySettings()->showStrongInline()) {
-            ret.prepend("<a class=\"inlinestronglink\" href=\""+url.toString()+"\" title=\""+ add+strong +"\">");
-            ret.append("</a>");
-        } else {
-            ret += "<a class=\"stronglink\" href=\""+url.toString()+"\" title=\""+ add+strong +"\">"
-                    + add+strong
-                    + "</a>";
-        }
-    }
-    if(!rmac.isEmpty() && m_set->displaySettings()->showRMAC()) {
-        ret += "<a class=\"rmaclink\" href=\"" + ModuleTools::rmacScheme + rmac + "\">" + rmac + "</a>";
-    }
-    return ret;
-}*/
-/*QString ZefaniaBible::parseSup()
-{
-    QString ret;
-    const QStringRef art = m_xml->attributes().value("art");
-    QString pre;
-    QString post("</span>");
-    if(art == "x-sub") {
-        pre = "<span class =\"sub\">";
-    } else if(art == "x-sup") {
-        pre = "<span class =\"sup\">";
-    } else {
-        post = "";
-    }
-
-    while(true) {
-        m_xml->readNext();
-
-        if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), "SUP")))
-            break;
-
-        if(m_xml->tokenType() == QXmlStreamReader::Characters) {
-            ret += m_xml->text().toString();
-        } else if(cmp(m_xml->name(), "STYLE") || m_xml->name() == "st") {
-            ret += parseStyle();
-        } else if(cmp(m_xml->name(), "GRAM")) {
-            ret += parseGram();
-        } else {
-            ret += m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
-        }
-    }
-    return pre + ret + post;
-}*/
-/*QString ZefaniaBible::parseXRef()
-{
-    if(!m_set->displaySettings()->showRefLinks()) {
-        return "";
-    }
-    const QStringRef vref = m_xml->attributes().value("vref");
-    const QStringRef aix = m_xml->attributes().value("aix");
-    const QStringRef title = m_xml->attributes().value("tile");
-    const QStringRef fscope = m_xml->attributes().value("fscope");
-    const QStringRef mscope = m_xml->attributes().value("mscope");
-    m_xml->skipCurrentElement();
-
-    if(!mscope.isEmpty()) {
-        VerseUrl burl;
-        burl.fromMscope(mscope.toString());
-
-        QString text;
-        if(!fscope.isEmpty()) {
-            text = fscope.toString();
-        } else  {
-            RefText refText(m_settings);
-            text = refText.toString(burl);
-        }
-
-        return "<span class=\"crossreference\"><a class=\"reflink\" href=\"" + burl.toString() + "\">" + text + "</a></span>";
-    }
-    return QString();
-}*/
-
 ZefaniaXmlReader::ZefaniaXmlReader(const QString &fileName, QSharedPointer<Versification> v11n) :
     m_fileName(fileName), m_versification(v11n), m_xml(nullptr), m_file(nullptr)
 {
@@ -685,6 +500,7 @@ void ZefaniaXmlReader::genStrongsPrefix(const int bookID)
 
 MetaInfo ZefaniaXmlReader::readMetaInfo()
 {
+    DEBUG_FUNC_NAME;
     MetaInfo ret;
     create();
     if(m_xml->readNextStartElement()) {
@@ -708,6 +524,7 @@ MetaInfo ZefaniaXmlReader::readMetaInfo()
 }
 void ZefaniaXmlReader::create()
 {
+    DEBUG_FUNC_NAME;
     if(m_xml != nullptr) {
         delete m_xml;
         m_xml = nullptr;
@@ -720,6 +537,7 @@ void ZefaniaXmlReader::create()
 }
 void ZefaniaXmlReader::destroy()
 {
+    DEBUG_FUNC_NAME;
     if(m_xml != nullptr) {
         delete m_xml;
         m_xml = nullptr;
@@ -731,18 +549,21 @@ void ZefaniaXmlReader::destroy()
 }
 TextFragment* ZefaniaXmlReader::rawReadText(quint32 parent)
 {
+    DEBUG_FUNC_NAME;
     TextFragment *t = (TextFragment*) BlockTools::create(m_idGen.next(), parent, RMetaData::TextFragment);
     t->text = Qt::escape(m_xml->text().toString());
     return t;
 }
 TextFragment* ZefaniaXmlReader::rawReadChildText(quint32 parent)
 {
+    DEBUG_FUNC_NAME;
     TextFragment *t = (TextFragment*) BlockTools::create(m_idGen.next(), parent, RMetaData::TextFragment);
     t->text = Qt::escape(m_xml->readElementText(QXmlStreamReader::IncludeChildElements));
     return t;
 }
 BookBlock ZefaniaXmlReader::readBookBlock(const int bookID)
 {
+    DEBUG_FUNC_NAME;
     genStrongsPrefix(bookID);
     create();
     if(m_xml->readNextStartElement()) {
@@ -766,6 +587,7 @@ BookBlock ZefaniaXmlReader::readBookBlock(const int bookID)
 }
 ChapterBlock ZefaniaXmlReader::readChapterBlock(const int bookID, const int chapterID)
 {
+    DEBUG_FUNC_NAME;
     genStrongsPrefix(bookID);
     create();
     if(m_xml->readNextStartElement()) {
@@ -800,11 +622,13 @@ ChapterBlock ZefaniaXmlReader::readChapterBlock(const int bookID, const int chap
 }
 MetaInfo ZefaniaBible::readInfo(const QString &fileName)
 {
+    DEBUG_FUNC_NAME;
     ZefaniaXmlReader reader(fileName);
     return reader.readMetaInfo();
 }
 MetaInfo ZefaniaXmlReader::readMetaInfo(MetaInfo ret)
 {
+    DEBUG_FUNC_NAME;
     while(m_xml->readNextStartElement()) {
         if(m_xml->name() == QLatin1String("publisher")) {
             ret.publisher = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
@@ -849,7 +673,7 @@ bool ZefaniaXmlReader::cmp(const QStringRef &r, const QString &s)
 
 BookBlock* ZefaniaXmlReader::rawReadBook(quint32 parent)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME;
     const int bookNumber = m_xml->attributes().value("bnumber").toString().toInt() - 1;
     myDebug() << bookNumber;
     quint32 id = m_idGen.next();
@@ -867,7 +691,7 @@ BookBlock* ZefaniaXmlReader::rawReadBook(quint32 parent)
 
 ChapterBlock* ZefaniaXmlReader::rawReadChapter(quint32 parent)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME;
     const int chapterNumber = m_xml->attributes().value("cnumber").toString().toInt() - 1;
     quint32 id = m_idGen.next();
     ChapterBlock *chapter = (ChapterBlock *)BlockTools::create(id, parent, RMetaData::ChapterBlock);
@@ -896,13 +720,13 @@ ChapterBlock* ZefaniaXmlReader::rawReadChapter(quint32 parent)
 
 VerseBlock* ZefaniaXmlReader::rawReadVerse(quint32 parent)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     quint32 id = m_idGen.next();
     VerseBlock *verse = (VerseBlock*) BlockTools::create(id,parent,RMetaData::VerseBlock);
     const int verseNumber = m_xml->attributes().value("vnumber").toString().toInt() - 1;
     verse->verseNumber = verseNumber;
 
-    while(true) {
+    while(!m_xml->atEnd()) {
         m_xml->readNext();
 
         if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), Vers)))
@@ -932,9 +756,10 @@ VerseBlock* ZefaniaXmlReader::rawReadVerse(quint32 parent)
 }
 PrologBlock* ZefaniaXmlReader::rawReadProlog(quint32 parent)
 {
+    DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     PrologBlock *prolog = (PrologBlock*) BlockTools::create(id,parent,RMetaData::PrologBlock);
-    while(true) {
+    while(!m_xml->atEnd()) {
         m_xml->readNext();
 
         if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), Prolog)))
@@ -961,9 +786,10 @@ PrologBlock* ZefaniaXmlReader::rawReadProlog(quint32 parent)
 }
 NoteBlock* ZefaniaXmlReader::rawReadNote(quint32 parent)
 {
+    DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     NoteBlock *note = (NoteBlock*) BlockTools::create(id,parent,RMetaData::NoteBlock);
-    while(true) {
+    while(!m_xml->atEnd()) {
         m_xml->readNext();
 
         if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), Note)))
@@ -991,9 +817,10 @@ NoteBlock* ZefaniaXmlReader::rawReadNote(quint32 parent)
 
 CaptionBlock* ZefaniaXmlReader::rawReadCaption(quint32 parent)
 {
+    DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     CaptionBlock *caption = (CaptionBlock *)BlockTools::create(id,parent,RMetaData::CaptionBlock);
-    while(true) {
+    while(!m_xml->atEnd()) {
         m_xml->readNext();
 
         if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), Caption)))
@@ -1020,9 +847,10 @@ CaptionBlock* ZefaniaXmlReader::rawReadCaption(quint32 parent)
 
 RemarksBlock* ZefaniaXmlReader::rawReadRemarks(quint32 parent)
 {
+    DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     RemarksBlock *remarks = (RemarksBlock *)BlockTools::create(id,parent,RMetaData::RemarksBlock);
-    while(true) {
+    while(!m_xml->atEnd()) {
         m_xml->readNext();
 
         if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), Remark)))
@@ -1050,6 +878,7 @@ RemarksBlock* ZefaniaXmlReader::rawReadRemarks(quint32 parent)
 
 XRefFragment* ZefaniaXmlReader::rawReadXRef(quint32 parent)
 {
+    DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     XRefFragment *xref = (XRefFragment *)BlockTools::create(id,parent,RMetaData::XRefFragment);
     xref->aix = m_xml->attributes().value("aix").toString();
@@ -1063,6 +892,7 @@ XRefFragment* ZefaniaXmlReader::rawReadXRef(quint32 parent)
 
 MediaBlock* ZefaniaXmlReader::rawReadMedia(quint32 parent)
 {
+    DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     MediaBlock *media = (MediaBlock *)BlockTools::create(id,parent,RMetaData::MediaBlock);
 
@@ -1079,6 +909,7 @@ MediaBlock* ZefaniaXmlReader::rawReadMedia(quint32 parent)
 }
 BrFragment* ZefaniaXmlReader::rawReadBr(quint32 parent)
 {
+    DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     BrFragment *br = (BrFragment *)BlockTools::create(id, parent, RMetaData::BrFragment);
     const QStringRef art = m_xml->attributes().value("art");
@@ -1092,13 +923,14 @@ BrFragment* ZefaniaXmlReader::rawReadBr(quint32 parent)
 
 StyleBlock* ZefaniaXmlReader::rawReadStyle(quint32 parent)
 {
+    DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     StyleBlock *style = (StyleBlock *)BlockTools::create(id,parent,RMetaData::StyleBlock);
     style->css = m_xml->attributes().value("css").toString();
     style->fs = m_xml->attributes().value("fs").toString();
     style->id = m_xml->attributes().value("id").toString();
 
-    while(true) {
+    while(!m_xml->atEnd()) {
         m_xml->readNext();
 
         if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), Style)))
@@ -1123,11 +955,12 @@ StyleBlock* ZefaniaXmlReader::rawReadStyle(quint32 parent)
 
 GramBlock* ZefaniaXmlReader::rawReadGram(quint32 parent)
 {
+    DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     GramBlock *gram = (GramBlock *)BlockTools::create(id,parent,RMetaData::GramBlock);
     gram->rmac = m_xml->attributes().value("rmac").toString();
     gram->strong = m_strongAdd + m_xml->attributes().value("str").toString();
-    while(true) {
+    while(!m_xml->atEnd()) {
         m_xml->readNext();
 
         if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), Gram))) break;
@@ -1151,6 +984,7 @@ GramBlock* ZefaniaXmlReader::rawReadGram(quint32 parent)
 
 SupBlock* ZefaniaXmlReader::rawReadSup(quint32 parent)
 {
+    DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     SupBlock *sup = (SupBlock *)BlockTools::create(id,parent,RMetaData::SupBlock);
     const QStringRef art = m_xml->attributes().value("art");
@@ -1161,7 +995,7 @@ SupBlock* ZefaniaXmlReader::rawReadSup(quint32 parent)
     } else {
         sup->type = SupBlock::Sub;
     }
-    while(true) {
+    while(!m_xml->atEnd()) {
         m_xml->readNext();
 
         if(m_xml->tokenType() == QXmlStreamReader::EndElement && (cmp(m_xml->name(), Sup)))
@@ -1180,6 +1014,7 @@ SupBlock* ZefaniaXmlReader::rawReadSup(quint32 parent)
 }
 DivBlock* ZefaniaXmlReader::rawReadDiv(quint32 parent)
 {
+    DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     DivBlock *div = (DivBlock *)BlockTools::create(id,parent,RMetaData::DivBlock);
 

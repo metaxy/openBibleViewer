@@ -59,13 +59,9 @@ endif(APPLE)
 find_package( Qt4 REQUIRED )
 find_package( CLucene1 REQUIRED)
 
-if(MSVC)
-  option( OBV_USE_QUAZIP "Use QuaZip" OFF)
-else()
-  option( OBV_USE_QUAZIP "Use QuaZip" ON)
-endif()
+option( OBV_USE_QUAZIP "Use QuaZip" OFF)
 
-IF(${OBV_USE_QUAZIP})
+IF(OBV_USE_QUAZIP)
 	find_package( QuaZip REQUIRED)
 endif()
 
