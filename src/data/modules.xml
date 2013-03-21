@@ -205,10 +205,14 @@
         <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Die%20Elberfelderbibel%20von%201905%20-%20Strong-Lexikon/elberfelder1905-lex.zip" lang="German">Die Elberfelderbibel von 1905 - Strong-Lexikon</ITEM>
         <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Die%20Lutherbibel%20von%201912%20-%20Lexicon/Luther1912-lex.zip" lang="German">Die Lutherbibel von 1912 - Lexicon</ITEM>
         <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Revised%201833%20Webster%20Version%20-%20Lexicon/RWebster-lex_rev1.zip" lang="English">Revised 1833 Webster Version - Lexicon</ITEM>
+        <ITEM link="http://metaxy.github.com/obv/modules/blueletterbiblelex.webdict.xml" lang="English" size = "0.1 MB">Lexicon - BlueLetterBible.org</ITEM>
+        concordances.webdict.xml
+        <ITEM link="http://metaxy.github.com/obv/modules/newtestamentgreek.webdict.xml" lang="English" size = "0.1 MB">New Testament Greek - StudyLight.org</ITEM>
 
-        <ITEM link="http://openbv.uucyc.name/downloads/modules/newtestamentgreek.webdict.xml" lang="English" size = "0.1 MB">New Testament Greek - StudyLight.org</ITEM>
-        <ITEM link="http://openbv.uucyc.name/downloads/modules/blueletterbiblelex.webdict.xml" lang="English" size = "0.1 MB">Lexicon - BlueLetterBible.org</ITEM>
-        <ITEM link="http://openbv.uucyc.name/downloads/modules/studybiblelex.webdict.xml" lang="English" size = "0.1 MB">Strong Lexicon - studybible.info</ITEM>
+        <ITEM link="http://metaxy.github.com/obv/downloads/modules/studybiblelex.webdict.xml" lang="English" size = "0.1 MB">Strong Lexicon - studybible.info</ITEM>
+        studylightstrong-classic.webdict.xml
+        studylightstrong.webdict.xml
+        
 </ID>
 <ID type="additional">
     <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Torreys%20Topical%20Textbook/EN_en_Torreys-Topical-Textbook.zip" lang="English">Torreys Topical Textbook</ITEM>
@@ -218,6 +222,12 @@
     <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Naves%20Topical%20Bible/EN_en_Nave.zip" lang="English">Naves Topical Bible</ITEM>
     <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/German/Carl%20Heinrich%20Riegers%20Kommentar/DE_de_rieger.zip" lang="German">Carl Heinrich Riegers Kommentar</ITEM>
     <ITEM link="http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/English/Easton%20Dictionary/sf_easton_0_eng.zip" lang="English">Easton Dictionary</ITEM>
-    <ITEM link="http://openbv.uucyc.name/downloads/modules/biblediagramscom.webpage.xml" lang="English" size = "0.1 MB">Bible Diagrams</ITEM>
+    <ITEM link="http://metaxy.github.com/obv/modules/biblediagramscom.webpage.xml" lang="English" size = "0.1 MB">Bible Diagrams</ITEM>
+    concordances.webdict.xml
+    jamieson-fausset-brown.webcom.xml
+    john-gill.webcom.xml
+    opentext.clause.webcom.xml
+    opentext.wordgroup.webcom.xml
+    wesleys-explanatory-notes.webcom.xml
 </ID>
 </MODULES>

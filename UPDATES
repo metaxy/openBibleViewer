@@ -7,8 +7,8 @@
 
 </stable>
 <unstable>
-	<version>0.7.70</version>
-	<link os="windows">http://openbv.uucyc.name/downloads/openBibleViewer-0.7.0-win32.exe</link>
-	<link os="linux">http://openbv.uucyc.name/downloads-all</link>
+	<version>0.7.90</version>
+	<link os="windows">https://www.dropbox.com/s/rbfk1g092eyzt9a/openBibleViewer-0.7.90-win32.exe</link>
+    <link os="linux">http://metaxy.github.com/openBibleViewer/</link>
 </unstable>
 </updates>
