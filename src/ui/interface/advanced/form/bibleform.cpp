@@ -110,35 +110,10 @@ int BibleForm::newModule()
             }
         }
     }
-    //myDebug() << "some" << defaultModuleID;
+    //!!! load this module
     newModule(defaultModuleID);
+
     return defaultModuleID;
-}
-
-void BibleForm::parseUrl(const VerseUrl &url)
-{
-    bool showStart = false;
-
-    if(m_url.isValid()) {
-        m_url = m_url.applyUrl(url);
-        showStart = true;
-    } else {
-        m_url = url;
-        if(verseTableLoaded() && !m_url.hasModuleID()) {
-            m_url.setModuleID(verseModule()->moduleID());
-        }
-    }
-    m_url.removeNo();
-
-    Ranges ranges;
-    foreach(VerseUrlRange range, m_url.ranges()) {
-        ranges.addRange(range.toRange());
-    }
-    ranges.setSource(m_url);
-    showRanges(ranges, m_url, showStart);
-    if(m_url.hasParam("searchInCurrentText")) {
-        m_actions->searchInText();
-    }
 }
 
 void BibleForm::parseUrl(const QString &string)
@@ -161,6 +136,7 @@ void BibleForm::parseUrl(const QString &string)
         int bookID = internal.at(2).toInt() - 1;
         int chapterID = internal.at(3).toInt() - 1;
         int verseID = internal.at(4).toInt();
+
         VerseUrlRange range;
         range.setModule(VerseUrlRange::LoadCurrentModule);
         range.setBook(bookID);
@@ -168,6 +144,35 @@ void BibleForm::parseUrl(const QString &string)
         range.setStartVerse(verseID);
         VerseUrl url(range);
         parseUrl(url);
+    }
+}
+
+void BibleForm::parseUrl(const VerseUrl &url)
+{
+    bool showStart = false;
+
+    if(m_url.isValid()) {
+        m_url = m_url.applyUrl(url);
+        showStart = true;
+    } else {
+        m_url = url;
+        if(verseTableLoaded() && !m_url.hasModuleID()) {
+            m_url.setModuleID(verseModule()->moduleID());
+        }
+    }
+
+    m_url.removeNo();
+
+    Ranges ranges;
+    foreach(VerseUrlRange range, m_url.ranges()) {
+        ranges.addRange(range.toRange());
+    }
+    ranges.setSource(m_url);
+
+    showRanges(ranges, m_url, showStart);
+
+    if(m_url.hasParam("searchInCurrentText")) {
+        m_actions->searchInText();
     }
 }
 void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showStart)
@@ -183,24 +188,13 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
         m_moduleManager->newTextRangesVerseModule(moduleID, QPoint(0, 0), m_verseTable);
     }
 
-
+    const int newID = ranges.getList().first().moduleID();
     //todo: its very important to fix this bug
-    /*if(verseModule()->moduleID() != ranges.getList().first().moduleID()) {
+    if(verseModule()->moduleID() != newID) {
+        const QPoint p = m_verseTable->m_points.value(m_verseTable->activeItem());
+        m_moduleManager->newTextRangesVerseModule(moduleID, p, m_verseTable);
+    }
 
-        const QPoint p = m_verseTable->m_points.value(m_verseTable->currentVerseTableID());
-        VerseModule *m;
-        if(m_moduleManager->getModule(moduleID)->moduleClass() == ModuleTools::BibleModuleClass) {
-            m = new Bible();
-            m_moduleManager->initVerseModule(m);
-        } else {
-            myWarning() << "trying to load an non bible module";
-            return;
-        }
-        ModuleTools::ModuleType type = m_moduleManager->getModule(moduleID)->moduleType();
-        m->setModuleType(type);
-        m->setModuleID(moduleID);
-        m_verseTable->addModule(m, p);
-    }*/
     r = m_verseTable->readRanges(ranges);
 
     if(!r.second.error()) {
@@ -215,7 +209,7 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
         m_actions->clearBooks();
         m_actions->clearChapters();
         m_actions->setTitle(verseModule()->moduleTitle());
-    } else if(r.second.error() == TextRange::NotFoundError) {
+    } else if(r.second.error() == TextRange::NotFoundError) { // this module does not contain this module
         if(showStart) {
             VerseUrlRange range;
             range.setModule(verseModule()->moduleID());

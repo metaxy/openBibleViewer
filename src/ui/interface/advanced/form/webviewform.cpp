@@ -259,7 +259,8 @@ void WebViewForm::showHtmlResponse(HtmlResponse *res)
 
 void WebViewForm::showTextRangesResponse(TextRangesResponse *res)
 {
-
+    Q_UNUSED(res);
+    myWarning() << "WebViewForm::showTextRangesResponse not implemented";
 }
 void WebViewForm::loadStyleSheet(QString url)
 {

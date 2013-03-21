@@ -78,6 +78,10 @@ public:
     virtual TextRangesVerseModule *verseModule() const;
 
     void newModule(const int moduleID);
+    /**
+     * @brief newModule load just a (random) TextRanges Module which we can use. If there is a default module, it loads this one;
+     * @return moduleID
+     */
     int newModule();
     bool verseTableLoaded();
 private slots:

@@ -278,6 +278,7 @@ TextRangesVerseModule * ModuleManager::newTextRangesVerseModule(const int module
         return NULL;
     }
     TextRangesVerseModule *m = NULL;
+    //currently we have only bibles
     if(getModule(moduleID)->moduleClass() == ModuleTools::BibleModuleClass) {
         m = new Bible();
         initVerseModule(m);
@@ -285,6 +286,7 @@ TextRangesVerseModule * ModuleManager::newTextRangesVerseModule(const int module
         myWarning() << "not a verse module " << getModule(moduleID)->moduleClass();
         return NULL;
     }
+
     ModuleTools::ModuleType type = getModule(moduleID)->moduleType();
     m->setModuleType(type);
     m->setModuleID(moduleID);

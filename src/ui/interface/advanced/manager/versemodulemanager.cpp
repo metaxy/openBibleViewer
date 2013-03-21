@@ -141,6 +141,7 @@ void VerseModuleManager::parseUrl(QString url, const Actions::OpenLinkModifiers 
 }
 void VerseModuleManager::parseUrl(BibleForm *f, const VerseUrl &url)
 {
+    //only if there is nothing at all
     if(!f->verseTableLoaded()) {
         if(url.ranges().first().module() == VerseUrlRange::LoadModuleByID) {
             f->newModule(url.ranges().first().moduleID());
@@ -148,10 +149,11 @@ void VerseModuleManager::parseUrl(BibleForm *f, const VerseUrl &url)
             f->newModule();
         }
     }
+
     if(f->verseTableLoaded()) {
         f->parseUrl(url);
     } else {
-        myDebug() << "verseTable not loaded";
+        myWarning() << "verseTable not loaded";
     }
 }
 

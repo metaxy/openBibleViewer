@@ -51,6 +51,8 @@ html {
 }
 td.rowTitle {
     width:5em;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 .verseEntry .selectedEntry {
     border-left: 2px solid #17AAFF;

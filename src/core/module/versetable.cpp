@@ -54,8 +54,8 @@ void VerseTable::addModule(TextRangesVerseModule* module, const QPoint &p)
             m_points.remove(id);
         }
 
-        m_points.insert(m_activeItem, p);
-        m_modules.insert(m_activeItem, module);
+        m_points.insert(id, p);
+        m_modules.insert(id, module);
     } else {
         const int id = m_points.size();
         m_activeItem = id;

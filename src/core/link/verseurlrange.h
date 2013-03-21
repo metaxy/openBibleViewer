@@ -32,7 +32,7 @@ public:
         LoadFirstBook,
         LoadLastBook,
         LoadBookNotSet,
-        LoadNoBook
+        LoadNoBook //
     };
     enum ChapterLoadParams {
         LoadChapterByID,
@@ -40,7 +40,7 @@ public:
         LoadFirstChapter,
         LoadLastChapter,
         LoadChapterNotSet,
-        LoadNoChapter
+        LoadNoChapter //chapter is not set at purpose
     };
     enum VerseLoadParams {
         LoadVerseByID,
@@ -48,7 +48,7 @@ public:
         LoadFirstVerse,
         LoadLastVerse,
         LoadVerseNotSet,
-        LoadNoVerse
+        LoadNoVerse //verse is no set at purpose
     };
 
     /**
@@ -111,6 +111,9 @@ public:
 
     Range toRange() const;
 
+    /**
+     * @brief convert all LoadNo* zo LoadFrist*
+     */
     void removeNo();
 
 private:

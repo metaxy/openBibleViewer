@@ -461,26 +461,6 @@ ZefaniaXmlReader::~ZefaniaXmlReader()
 
 void ZefaniaXmlReader::genStrongsPrefix(const int bookID)
 {
-    /*foreach(int bookID, m_versification->bookIDs()) {
-        QString add;
-        if(m_versification->bookCount() == 66) {
-            if(bookID < 39) {
-                add = "H";
-            } else {
-                add = "G";
-            }
-        } else if(m_set->versificationName.endsWith("-nt")) {
-            add = "G";
-        } else if(m_set->versificationName.endsWith("-ot")) {
-            add = "H";
-        } else if(m_versification->bookCount() == 27) {
-            add = "G";
-        } else if(m_versification->bookCount() == 39) {
-            add = "H";
-        }
-        m_strongsPrefix[bookID] = add;
-    }*/
-
     if(m_versification->bookCount() == 66) {
         if(bookID < 39) {
             m_strongAdd = "H";
@@ -500,7 +480,7 @@ void ZefaniaXmlReader::genStrongsPrefix(const int bookID)
 
 MetaInfo ZefaniaXmlReader::readMetaInfo()
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     MetaInfo ret;
     create();
     if(m_xml->readNextStartElement()) {
@@ -524,7 +504,7 @@ MetaInfo ZefaniaXmlReader::readMetaInfo()
 }
 void ZefaniaXmlReader::create()
 {
-    DEBUG_FUNC_NAME;
+   // DEBUG_FUNC_NAME;
     if(m_xml != nullptr) {
         delete m_xml;
         m_xml = nullptr;
@@ -537,7 +517,7 @@ void ZefaniaXmlReader::create()
 }
 void ZefaniaXmlReader::destroy()
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     if(m_xml != nullptr) {
         delete m_xml;
         m_xml = nullptr;
@@ -549,21 +529,21 @@ void ZefaniaXmlReader::destroy()
 }
 TextFragment* ZefaniaXmlReader::rawReadText(quint32 parent)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     TextFragment *t = (TextFragment*) BlockTools::create(m_idGen.next(), parent, RMetaData::TextFragment);
     t->text = Qt::escape(m_xml->text().toString());
     return t;
 }
 TextFragment* ZefaniaXmlReader::rawReadChildText(quint32 parent)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     TextFragment *t = (TextFragment*) BlockTools::create(m_idGen.next(), parent, RMetaData::TextFragment);
     t->text = Qt::escape(m_xml->readElementText(QXmlStreamReader::IncludeChildElements));
     return t;
 }
 BookBlock ZefaniaXmlReader::readBookBlock(const int bookID)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     genStrongsPrefix(bookID);
     create();
     if(m_xml->readNextStartElement()) {
@@ -587,7 +567,7 @@ BookBlock ZefaniaXmlReader::readBookBlock(const int bookID)
 }
 ChapterBlock ZefaniaXmlReader::readChapterBlock(const int bookID, const int chapterID)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     genStrongsPrefix(bookID);
     create();
     if(m_xml->readNextStartElement()) {
@@ -622,13 +602,13 @@ ChapterBlock ZefaniaXmlReader::readChapterBlock(const int bookID, const int chap
 }
 MetaInfo ZefaniaBible::readInfo(const QString &fileName)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     ZefaniaXmlReader reader(fileName);
     return reader.readMetaInfo();
 }
 MetaInfo ZefaniaXmlReader::readMetaInfo(MetaInfo ret)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     while(m_xml->readNextStartElement()) {
         if(m_xml->name() == QLatin1String("publisher")) {
             ret.publisher = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);
@@ -673,7 +653,7 @@ bool ZefaniaXmlReader::cmp(const QStringRef &r, const QString &s)
 
 BookBlock* ZefaniaXmlReader::rawReadBook(quint32 parent)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     const int bookNumber = m_xml->attributes().value("bnumber").toString().toInt() - 1;
     myDebug() << bookNumber;
     quint32 id = m_idGen.next();
@@ -691,7 +671,7 @@ BookBlock* ZefaniaXmlReader::rawReadBook(quint32 parent)
 
 ChapterBlock* ZefaniaXmlReader::rawReadChapter(quint32 parent)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     const int chapterNumber = m_xml->attributes().value("cnumber").toString().toInt() - 1;
     quint32 id = m_idGen.next();
     ChapterBlock *chapter = (ChapterBlock *)BlockTools::create(id, parent, RMetaData::ChapterBlock);
@@ -720,7 +700,7 @@ ChapterBlock* ZefaniaXmlReader::rawReadChapter(quint32 parent)
 
 VerseBlock* ZefaniaXmlReader::rawReadVerse(quint32 parent)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     quint32 id = m_idGen.next();
     VerseBlock *verse = (VerseBlock*) BlockTools::create(id,parent,RMetaData::VerseBlock);
     const int verseNumber = m_xml->attributes().value("vnumber").toString().toInt() - 1;
@@ -756,7 +736,7 @@ VerseBlock* ZefaniaXmlReader::rawReadVerse(quint32 parent)
 }
 PrologBlock* ZefaniaXmlReader::rawReadProlog(quint32 parent)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     PrologBlock *prolog = (PrologBlock*) BlockTools::create(id,parent,RMetaData::PrologBlock);
     while(!m_xml->atEnd()) {
@@ -786,7 +766,7 @@ PrologBlock* ZefaniaXmlReader::rawReadProlog(quint32 parent)
 }
 NoteBlock* ZefaniaXmlReader::rawReadNote(quint32 parent)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     NoteBlock *note = (NoteBlock*) BlockTools::create(id,parent,RMetaData::NoteBlock);
     while(!m_xml->atEnd()) {
@@ -817,7 +797,7 @@ NoteBlock* ZefaniaXmlReader::rawReadNote(quint32 parent)
 
 CaptionBlock* ZefaniaXmlReader::rawReadCaption(quint32 parent)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     CaptionBlock *caption = (CaptionBlock *)BlockTools::create(id,parent,RMetaData::CaptionBlock);
     while(!m_xml->atEnd()) {
@@ -847,7 +827,7 @@ CaptionBlock* ZefaniaXmlReader::rawReadCaption(quint32 parent)
 
 RemarksBlock* ZefaniaXmlReader::rawReadRemarks(quint32 parent)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     RemarksBlock *remarks = (RemarksBlock *)BlockTools::create(id,parent,RMetaData::RemarksBlock);
     while(!m_xml->atEnd()) {
@@ -878,7 +858,7 @@ RemarksBlock* ZefaniaXmlReader::rawReadRemarks(quint32 parent)
 
 XRefFragment* ZefaniaXmlReader::rawReadXRef(quint32 parent)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     XRefFragment *xref = (XRefFragment *)BlockTools::create(id,parent,RMetaData::XRefFragment);
     xref->aix = m_xml->attributes().value("aix").toString();
@@ -892,7 +872,7 @@ XRefFragment* ZefaniaXmlReader::rawReadXRef(quint32 parent)
 
 MediaBlock* ZefaniaXmlReader::rawReadMedia(quint32 parent)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     MediaBlock *media = (MediaBlock *)BlockTools::create(id,parent,RMetaData::MediaBlock);
 
@@ -909,7 +889,7 @@ MediaBlock* ZefaniaXmlReader::rawReadMedia(quint32 parent)
 }
 BrFragment* ZefaniaXmlReader::rawReadBr(quint32 parent)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     BrFragment *br = (BrFragment *)BlockTools::create(id, parent, RMetaData::BrFragment);
     const QStringRef art = m_xml->attributes().value("art");
@@ -923,7 +903,7 @@ BrFragment* ZefaniaXmlReader::rawReadBr(quint32 parent)
 
 StyleBlock* ZefaniaXmlReader::rawReadStyle(quint32 parent)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     StyleBlock *style = (StyleBlock *)BlockTools::create(id,parent,RMetaData::StyleBlock);
     style->css = m_xml->attributes().value("css").toString();
@@ -955,7 +935,7 @@ StyleBlock* ZefaniaXmlReader::rawReadStyle(quint32 parent)
 
 GramBlock* ZefaniaXmlReader::rawReadGram(quint32 parent)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     GramBlock *gram = (GramBlock *)BlockTools::create(id, parent, RMetaData::GramBlock);
     gram->rmac = m_xml->attributes().value("rmac").toString();
@@ -989,7 +969,7 @@ GramBlock* ZefaniaXmlReader::rawReadGram(quint32 parent)
 
 SupBlock* ZefaniaXmlReader::rawReadSup(quint32 parent)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     SupBlock *sup = (SupBlock *)BlockTools::create(id, parent, RMetaData::SupBlock);
     const QStringRef art = m_xml->attributes().value("art");
@@ -1019,7 +999,7 @@ SupBlock* ZefaniaXmlReader::rawReadSup(quint32 parent)
 }
 DivBlock* ZefaniaXmlReader::rawReadDiv(quint32 parent)
 {
-    DEBUG_FUNC_NAME;
+    //DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
     DivBlock *div = (DivBlock *)BlockTools::create(id,parent,RMetaData::DivBlock);
 

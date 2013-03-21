@@ -25,8 +25,8 @@ class TextRange
 public:
     enum TextRangeError {
         NoError = 0,
-        FatalError = 1,
-        NotFoundError = 2
+        FatalError = 1, //no such module or it cannot be loaded
+        NotFoundError = 2 // book not available
     };
 
     TextRange();

@@ -52,6 +52,9 @@ public:
     bool hasModuleID() const;
     int moduleID() const;
 
+    /**
+     * @brief See VerseUrlRange::removeNo
+     */
     void removeNo();
 private:
     QHash<QString, QString> m_params;
