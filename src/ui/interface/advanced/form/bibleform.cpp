@@ -327,7 +327,6 @@ void BibleForm::restore(const QString &key)
         setButtons();
     }
 
-
     m_view->page()->mainFrame()->setScrollPosition(scroll);
     m_view->setZoomFactor(zoom);
 }

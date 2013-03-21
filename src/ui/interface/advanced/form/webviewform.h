@@ -75,7 +75,6 @@ public slots:
 
 
 protected:
-
     QString m_contextMenuUrl;
     QString m_contextMenuText;
 

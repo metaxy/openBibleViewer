@@ -142,17 +142,17 @@ protected:
 private:
     History m_browserHistory;
 
-    void setButtons();
-
+    QMenu *m_menuMark;
     QAction *m_actionCopy;
     QAction *m_actionSelect;
-    QMenu *m_menuMark;
     QAction *m_actionRemoveMark;
     QAction *m_actionBookmark;
     QAction *m_actionNote;
 
+    void setButtons();
     void createDefaultMenu();
     void deleteDefaultMenu();
+    void showRanges(const Ranges &ranges, const VerseUrl &url, bool showStart = false);
 
     TextRanges m_lastTextRanges;
     VerseUrl m_lastUrl;
@@ -163,9 +163,6 @@ private:
 
     VerseSelection m_lastSelection;
     QList<int> m_bookIDs;
-
-    void showRanges(const Ranges &ranges, const VerseUrl &url, bool showStart = false);
-
 
     VerseUrl m_url;
 };

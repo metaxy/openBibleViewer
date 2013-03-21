@@ -41,13 +41,16 @@ public:
 
     Form::FormType type() const;
 
-    void openModule(const int moduleID);
+
 
 private:
     Ui::WebForm *m_ui;
     QLineEdit *m_locationEdit;
-
     WebPage *m_page;
+
+    void actTitle();
+    void openModule(const int moduleID);
+
 public slots:
     void activated();
 private slots:

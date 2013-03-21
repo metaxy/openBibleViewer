@@ -120,3 +120,7 @@ void Form::activated()
 {
     m_parentSubWindow->update();
 }
+void Form::actTitle()
+{
+    myWarning() << "calling Form::actTitle()";
+}

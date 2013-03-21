@@ -82,6 +82,23 @@ void DictionaryForm::init()
 
     createDefaultMenu();
 }
+
+void DictionaryForm::activated()
+{
+    m_parentSubWindow->update();
+    m_view->update();
+    actTitle();
+
+}
+
+void DictionaryForm::actTitle()
+{
+    if(m_dictionary) {
+        m_actions->setTitle(m_dictionary->moduleTitle());
+        m_actions->setCurrentModule(m_dictionary->moduleID());
+    }
+}
+
 void DictionaryForm::get(const QUrl &url)
 {
     DEBUG_FUNC_NAME
@@ -155,17 +172,6 @@ void DictionaryForm::save()
     }
 }
 
-
-void DictionaryForm::activated()
-{
-    m_parentSubWindow->update();
-    m_view->update();
-
-    if(m_dictionary == NULL)
-        return;
-    m_actions->setTitle(m_dictionary->moduleTitle());
-    m_actions->setCurrentModule(m_dictionary->moduleID());
-}
 void DictionaryForm::showEntry()
 {
     const QString key = ui->lineEdit_input->text();
@@ -210,6 +216,7 @@ void DictionaryForm::showStringResponse(StringResponse *res)
 
     loadStyleSheet();
     m_view->setHtml(data);
+    actTitle();
 }
 
 void DictionaryForm::loadDictionary(int moduleID)

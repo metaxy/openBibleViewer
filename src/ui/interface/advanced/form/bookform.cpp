@@ -74,11 +74,18 @@ void BookForm::activated()
 {
     m_parentSubWindow->update();
     m_view->update();
-    if(m_book == NULL)
-        return;
-    m_actions->setTitle(m_book->moduleTitle());
-    m_actions->setCurrentModule(m_book->moduleID());
+    actTitle();
 }
+
+void BookForm::actTitle()
+{
+    if(m_book == NULL) {
+        m_actions->setTitle(m_book->moduleTitle());
+        m_actions->setCurrentModule(m_book->moduleID());
+    }
+}
+
+
 void BookForm::loadModule(const int moduleID)
 {
     if(m_book == NULL) {
@@ -102,9 +109,7 @@ void BookForm::show()
         m_view->setHtml(tr("Not loaded"));
         return;
     }
-
-    Response *r = m_book->getAll();
-    showResponse(r);
+    showResponse(m_book->getAll());
 }
 void BookForm::showContextMenu(QContextMenuEvent* ev)
 {

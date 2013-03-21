@@ -41,6 +41,21 @@ CommentaryForm::CommentaryForm(QWidget *parent) :
     setButtons();
 }
 
+
+CommentaryForm::~CommentaryForm()
+{
+    delete ui;
+    if(m_com != NULL) {
+        delete m_com;
+        m_com = NULL;
+    }
+}
+
+Form::FormType CommentaryForm::type() const
+{
+    return Form::CommentaryForm;
+}
+
 void CommentaryForm::init()
 {
     m_com = new Commentary();
@@ -51,18 +66,32 @@ void CommentaryForm::init()
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
 
 }
-CommentaryForm::~CommentaryForm()
+
+void CommentaryForm::activated()
 {
-    delete ui;
+    m_parentSubWindow->update();
+    m_view->update();
+    actTitle();
+}
+
+void CommentaryForm::actTitle()
+{
     if(m_com != NULL) {
-        delete m_com;
-        m_com = NULL;
+        m_actions->setTitle(m_com->moduleTitle());
+        m_actions->setCurrentModule(m_com->moduleID());
+        if(m_com->loaded()) {
+            m_actions->updateChapters(m_com->currentBook(), m_com->versification());
+            m_actions->updateBooks(m_com->versification());
+            m_actions->setCurrentChapter(m_com->currentChapter());
+            m_actions->setCurrentBook(m_com->currentBook());
+        }
+
+    } else {
+        m_actions->clearBooks();
+        m_actions->clearChapters();
     }
 }
-Form::FormType CommentaryForm::type() const
-{
-    return Form::CommentaryForm;
-}
+
 void CommentaryForm::parseUrl(QString string)
 {
     VerseUrl url;
@@ -124,6 +153,7 @@ void CommentaryForm::showRanges(Ranges ranges, const VerseUrl &source)
     ui->lineEdit->setText(ref.toString(ranges));
 
     historySetUrl(source.toString());
+    actTitle();
 }
 
 void CommentaryForm::changeLocation()
@@ -132,26 +162,6 @@ void CommentaryForm::changeLocation()
     VerseUrl url = link.getUrl(ui->lineEdit->text());
     url.setOpenToTransformation(false);
     parseUrl(url);
-}
-
-void CommentaryForm::activated()
-{
-    m_parentSubWindow->update();
-    m_view->update();
-    if(m_com != NULL) {
-        m_actions->setTitle(m_com->moduleTitle());
-        m_actions->setCurrentModule(m_com->moduleID());
-        if(m_com->loaded()) {
-            m_actions->updateChapters(m_com->currentBook(), m_com->versification());
-            m_actions->updateBooks(m_com->versification());
-            m_actions->setCurrentChapter(m_com->currentChapter());
-            m_actions->setCurrentBook(m_com->currentBook());
-        }
-
-    } else {
-        m_actions->clearBooks();
-        m_actions->clearChapters();
-    }
 }
 bool CommentaryForm::loaded()
 {

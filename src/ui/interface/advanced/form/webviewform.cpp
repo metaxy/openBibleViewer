@@ -240,18 +240,21 @@ void WebViewForm::showStringResponse(StringResponse *res)
 {
     loadStyleSheet();
     m_view->setHtml(res->data());
+    actTitle();
 }
 
 void WebViewForm::showUrlResponse(UrlResponse *res)
 {
     myDebug() << res->url();
     m_view->load(QUrl(res->url()));
+    actTitle();
 }
 
 void WebViewForm::showHtmlResponse(HtmlResponse *res)
 {
     loadStyleSheet();
     m_view->setHtml(res->data());
+    actTitle();
 }
 
 void WebViewForm::showTextRangesResponse(TextRangesResponse *res)

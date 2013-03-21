@@ -87,6 +87,7 @@ private:
     QItemSelectionModel *m_selectionModel;
     QSortFilterProxyModel *m_proxyModel;
 
+    void actTitle();
 
 };
 

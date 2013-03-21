@@ -44,6 +44,7 @@ private slots:
     void debugger();
 private:
     Ui::BookForm *ui;
+    void actTitle();
 
     Book *m_book;
 };

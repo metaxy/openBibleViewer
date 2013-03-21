@@ -103,6 +103,7 @@ void WebForm::parseUrl(QString url)
 void WebForm::parseWebUrl(const QString &url)
 {
     m_view->load(QUrl(url));
+    actTitle();
 }
 void WebForm::openModule(const int moduleID)
 {
@@ -118,10 +119,10 @@ void WebForm::openModule(const int moduleID)
         m_view->load(url);
     } else {
         m_page->setModuleID(moduleID);
-
         QUrl url = m_page->getUrl();
         m_view->load(url);
     }
+    actTitle();
 }
 
 void WebForm::init()
@@ -143,6 +144,10 @@ void WebForm::activated()
 {
     m_parentSubWindow->update();
     m_view->update();
+    actTitle();
+}
+void WebForm::actTitle()
+{
     m_actions->clearBooks();
     m_actions->clearChapters();
     if(m_page != NULL) {

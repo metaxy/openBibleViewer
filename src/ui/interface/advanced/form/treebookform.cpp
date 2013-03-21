@@ -103,11 +103,16 @@ void TreeBookForm::activated()
 {
     m_parentSubWindow->update();
     m_view->update();
-    if(m_book == NULL)
-        return;
-    m_actions->setTitle(m_book->moduleTitle());
-    m_actions->setCurrentModule(m_book->moduleID());
+    actTitle();
 }
+void TreeBookForm::actTitle()
+{
+    if(m_book) {
+        m_actions->setTitle(m_book->moduleTitle());
+        m_actions->setCurrentModule(m_book->moduleID());
+    }
+}
+
 void TreeBookForm::loadModule(const int moduleID)
 {
     if(m_book == NULL) {

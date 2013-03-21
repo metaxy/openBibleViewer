@@ -59,6 +59,7 @@ private:
     History m_browserHistory;
     void setButtons();
     void historySetUrl(QString url);
+    void actTitle();
 
     QString transformUrl(const QString &url);
 };

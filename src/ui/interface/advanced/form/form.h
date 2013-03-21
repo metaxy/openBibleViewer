@@ -77,7 +77,6 @@ public:
     virtual FormType type() const = 0;
     virtual SearchableModule * searchableModule() const;
 
-
 signals:
 
 public slots:
@@ -96,6 +95,7 @@ public slots:
 protected:
 
     bool active();
+    virtual void actTitle();
     int m_id;
     Form::FormRole m_formRole;
     Api *m_api;//not in out control

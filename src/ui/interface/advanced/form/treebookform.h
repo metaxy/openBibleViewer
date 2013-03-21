@@ -36,7 +36,6 @@ public:
 
     Form::FormType type() const;
 
-
     void loadModule(const int moduleID);
 
     void showChapter(const int moduleID, const int chapterID);
@@ -63,6 +62,7 @@ private:
     void createTree(QStandardItem *parentItem, BookTree *parentTree);
     void selectChapter(const int chapterID);
     QString transformUrl(const QString &url);
+    void actTitle();
 
     RecursivProxyModel *m_proxyModel;
     QItemSelectionModel *m_selectionModel;
