@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module id="john-dummelow.studylight.org" type="webcommentary">
+    <meta>
+        <name>John Dummelow's Commentary on the Bible</name>
+        <shortName>Dummelow</shortName>
+        <desc>Compiled by 40 Bible Scholars and edited by Dummelow, this commentary has received favorable reviews from Christians of many denominations. At one time, this was one of the most popular commentaries of the 20th century. Although not as conservative as the others, it is still quite helpful with detailed introductions and concise comments.</desc>
+        <versification>kjv</versification>
+    </meta>
+    <data>
+        <site>
+            <url>http://www.studylight.org/com/dcb/</url>
+            <parseInBook><![CDATA[
+                (function(bookID, bookName) {
+                        return "http://www.studylight.org/com/dcb/view.cgi?bk="+bookID;
+                 })
+                ]]>
+            </parseInBook>
+            <parseInChapter><![CDATA[
+                (function(bookID, bookName, chapter) { 
+                    return "http://www.studylight.org/com/dcb/view.cgi?bk="+bookID + "&ch="+(chapter+1);
+                 })
+                ]]>
+            </parseInChapter>
+            <parseInVerse><![CDATA[
+                (function(bookID, bookName, chapter, verse) {
+                     return "http://www.studylight.org/com/dcb/view.cgi?bk="+bookID + "&ch="+(chapter+1)+"#"+(verse+1);
+                 })
+                ]]>
+            </parseInVerse>
+            <parseOut>
+                <![CDATA[
+                    (function(a) { 
+                        return a;
+                    })
+                 ]]>
+            </parseOut>
+
+        </site>
+    </data>
+</module>

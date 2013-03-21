@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module id="biblical-illustrator.studylight.org" type="webcommentary">
+    <meta>
+        <name>The Biblical Illustrator</name>
+        <shortName>Biblical Illustrator</shortName>
+        <desc>Over 34,000 pages in its original 56 volume printing, the Biblical Illustrator is the largest commentary of its kind. With contributions from many of the most well-known authors of the time, this massive compilation is arranged in commentary form for ease of use in personal study and devotion, as well as sermon preparation.</desc>
+        <versification>kjv</versification>
+    </meta>
+    <data>
+        <site>
+            <url>http://www.studylight.org/com/tbi/</url>
+            <parseInBook><![CDATA[
+                (function(bookID, bookName) {
+                        return "http://www.studylight.org/com/tbi/view.cgi?bk="+bookID;
+                 })
+                ]]>
+            </parseInBook>
+            <parseInChapter><![CDATA[
+                (function(bookID, bookName, chapter) { 
+                    return "http://www.studylight.org/com/tbi/view.cgi?bk="+bookID + "&ch="+(chapter+1);
+                 })
+                ]]>
+            </parseInChapter>
+            <parseInVerse><![CDATA[
+                (function(bookID, bookName, chapter, verse) {
+                     return "http://www.studylight.org/com/tbi/view.cgi?bk="+bookID + "&ch="+(chapter+1)+"#"+(verse+1);
+                 })
+                ]]>
+            </parseInVerse>
+            <parseOut>
+                <![CDATA[
+                    (function(a) { 
+                        return a;
+                    })
+                 ]]>
+            </parseOut>
+        </site>
+    </data>
+</module>

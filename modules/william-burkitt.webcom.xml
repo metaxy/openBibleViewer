@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module id="william-burkitt.studylight.org" type="webcommentary">
+    <meta>
+        <name>William Burkitt Commentary</name>
+        <shortName>Burkitt</shortName>
+        <desc>Burkitt is known for his Bible commentary, Expository Notes with Practical Observations on the New Testament (Gospels published 1700, Acts to Revelation published 1703). Matthew Henry wrote in the preface to his commentary that it "met with very good acceptance among serious people" and that it would "do great service to the church." In fact, he went on to say that Burkitt's Exposition was the inspiration for his own commentary on the Old Testament, to complement Burkitt's work on the New Testament. Charles Spurgeon regarded Burkitt's commentary as a "goodly volume," and recommended "attentive perusal" of it.</desc>
+        <versification>kjv</versification>
+    </meta>
+    <data>
+        <site>
+            <url>http://www.studylight.org/com/wbc/</url>
+            <parseInBook><![CDATA[
+                (function(bookID, bookName) {
+                        return "http://www.studylight.org/com/wbc/view.cgi?bk="+bookID;
+                 })
+                ]]>
+            </parseInBook>
+            <parseInChapter><![CDATA[
+                (function(bookID, bookName, chapter) { 
+                    return "http://www.studylight.org/com/wbc/view.cgi?bk="+bookID + "&ch="+(chapter+1);
+                 })
+                ]]>
+            </parseInChapter>
+            <parseInVerse><![CDATA[
+                (function(bookID, bookName, chapter, verse) {
+                     return "http://www.studylight.org/com/wbc/view.cgi?bk="+bookID + "&ch="+(chapter+1)+"#"+(verse+1);
+                 })
+                ]]>
+            </parseInVerse>
+            <parseOut>
+                <![CDATA[
+                    (function(a) { 
+                        return a;
+                    })
+                 ]]>
+            </parseOut>
+
+        </site>
+    </data>
+</module>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module id="john-calvin.studylight.org" type="webcommentary">
+    <meta>
+        <name>John Calvin's Commentaries on the Bible</name>
+        <shortName>Calvin</shortName>
+        <desc>Calvin's writing and preachings provided the seeds for the branch of theology that bears his name. The Presbyterian and other Reformed churches, which look to Calvin as a chief expositor of their beliefs, have spread throughout the world. Calvin's thought exerted considerable influence over major religious figures and entire religious movements, such as Puritanism, and some political historians have argued that his ideas have contributed to the rise of capitalism, individualism, and representative democracy in the West.</desc>
+        <versification>kjv</versification>
+    </meta>
+    <data>
+        <site>
+            <url>http://www.studylight.org/com/cal/</url>
+            <parseInBook><![CDATA[
+                (function(bookID, bookName) {
+                        return "http://www.studylight.org/com/cal/view.cgi?bk="+bookID;
+                 })
+                ]]>
+            </parseInBook>
+            <parseInChapter><![CDATA[
+                (function(bookID, bookName, chapter) { 
+                    return "http://www.studylight.org/com/cal/view.cgi?bk="+bookID + "&ch="+(chapter+1);
+                 })
+                ]]>
+            </parseInChapter>
+            <parseInVerse><![CDATA[
+                (function(bookID, bookName, chapter, verse) {
+                     return "http://www.studylight.org/com/cal/view.cgi?bk="+bookID + "&ch="+(chapter+1)+"#"+(verse+1);
+                 })
+                ]]>
+            </parseInVerse>
+            <parseOut>
+                <![CDATA[
+                    (function(a) { 
+                        return a;
+                    })
+                 ]]>
+            </parseOut>
+
+        </site>
+    </data>
+</module>

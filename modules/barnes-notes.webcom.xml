@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module id="barnes-notes.studylight.org" type="webcommentary">
+    <meta>
+        <name>Barnes' Notes on the Whole Bible </name>
+        <shortName>Barnes' Notes</shortName>
+        <desc>Of the well-known Notes on the New Testament, it is said that more than a million volumes had been issued by 1870. The Notes on Job, the Psalms, Isaiah and Daniel found scarcely less acceptance. Displaying no original critical power, their chief merit lies in the fact that they bring in a popular (but not always accurate) form the results of the criticism of others within the reach of general readers.</desc>
+        <versification>kjv</versification>
+    </meta>
+    <data>
+        <site>
+            <url>http://www.studylight.org/com/bnb/</url>
+            <parseInBook><![CDATA[
+                (function(bookID, bookName) {
+                        return "http://www.studylight.org/com/bnb/view.cgi?bk="+bookID;
+                 })
+                ]]>
+            </parseInBook>
+            <parseInChapter><![CDATA[
+                (function(bookID, bookName, chapter) { 
+                    return "http://www.studylight.org/com/bnb/view.cgi?bk="+bookID + "&ch="+(chapter+1);
+                 })
+                ]]>
+            </parseInChapter>
+            <parseInVerse><![CDATA[
+                (function(bookID, bookName, chapter, verse) {
+                     return "http://www.studylight.org/com/bnb/view.cgi?bk="+bookID + "&ch="+(chapter+1)+"#"+(verse+1);
+                 })
+                ]]>
+            </parseInVerse>
+            <parseOut>
+                <![CDATA[
+                    (function(a) { 
+                        return a;
+                    })
+                 ]]>
+            </parseOut>
+
+        </site>
+    </data>
+</module>

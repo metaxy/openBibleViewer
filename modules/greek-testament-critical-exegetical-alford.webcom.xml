@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module id="greek-testament-critical-exegetical-alford.studylight.org" type="webcommentary">
+    <meta>
+        <name>Greek Testament Critical Exegetical Commentary(Henry Alford)</name>
+        <shortName>NT Critical Exegetical Henry Alford</shortName>
+        <desc>Greek New Testament critically revised text, digest of vatious readings; marginal references to verbal and idiomatic usage; prolegomena; critical exegetical commentary; for theological students and ministers. Originally done in four parts from 1849-1861, revised from 1863-1878</desc>
+        <versification>kjv</versification>
+        <lang>Englisch</lang>
+    </meta>
+    <data>
+        <site>
+            <url>http://www.studylight.org/com/hac/</url>
+            <parseInBook><![CDATA[
+                (function(bookID, bookName) {
+                        return "http://www.studylight.org/com/hac/view.cgi?bk="+bookID;
+                 })
+                ]]>
+            </parseInBook>
+            <parseInChapter><![CDATA[
+                (function(bookID, bookName, chapter) { 
+                    return "http://www.studylight.org/com/hac/view.cgi?bk="+bookID + "&ch="+(chapter+1);
+                 })
+                ]]>
+            </parseInChapter>
+            <parseInVerse><![CDATA[
+                (function(bookID, bookName, chapter, verse) {
+                     return "http://www.studylight.org/com/hac/view.cgi?bk="+bookID + "&ch="+(chapter+1)+"#"+(verse+1);
+                 })
+                ]]>
+            </parseInVerse>
+            <parseOut>
+                <![CDATA[
+                    (function(a) { 
+                        return a;
+                    })
+                 ]]>
+            </parseOut>
+
+        </site>
+    </data>
+</module>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module id="james-burton-coffman.studylight.org" type="webcommentary">
+    <meta>
+        <name>James Burton Coffman Commentaries on the Bible</name>
+        <shortName>James Burton Coffmane</shortName>
+        <desc>One of his most notable accomplishments was writing a 37-volume commentary of the entire Bible, verse by verse, which was finished in 1992. This commentary is being sold all over the world. Many people consider the Coffman series to be one of the finest modern, conservative commentary sets written.</desc>
+        <versification>kjv</versification>
+    </meta>
+    <data>
+        <site>
+            <url>http://www.studylight.org/com/bcc/</url>
+            <parseInBook><![CDATA[
+                (function(bookID, bookName) {
+                        return "http://www.studylight.org/com/bcc/view.cgi?bk="+bookID;
+                 })
+                ]]>
+            </parseInBook>
+            <parseInChapter><![CDATA[
+                (function(bookID, bookName, chapter) { 
+                    return "http://www.studylight.org/com/bcc/view.cgi?bk="+bookID + "&ch="+(chapter+1);
+                 })
+                ]]>
+            </parseInChapter>
+            <parseInVerse><![CDATA[
+                (function(bookID, bookName, chapter, verse) {
+                     return "http://www.studylight.org/com/bcc/view.cgi?bk="+bookID + "&ch="+(chapter+1)+"#"+(verse+1);
+                 })
+                ]]>
+            </parseInVerse>
+            <parseOut>
+                <![CDATA[
+                    (function(a) { 
+                        return a;
+                    })
+                 ]]>
+            </parseOut>
+
+        </site>
+    </data>
+</module>
