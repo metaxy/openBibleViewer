@@ -404,9 +404,12 @@ QString ZefaniaBible::path(const int book)
 TextRange ZefaniaBible::rawTextRange(int bookID, int chapterID, int startVerse, int endVerse)
 {
     myDebug() << bookID << path(bookID);
+
     ZefaniaXmlReader reader(path(bookID), m_versification);
+
     ChapterBlock block = reader.readChapterBlock(bookID, chapterID);
     RawToTextRangeParser parser(m_set->displaySettings());
+
     TextRange ret = parser.toTextRange(&block);
     ret.setModuleID(m_moduleID);
     ret.setBookID(bookID);

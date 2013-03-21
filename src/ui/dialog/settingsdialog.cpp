@@ -418,6 +418,7 @@ void SettingsDialog::downloadModule()
 
     mDialog->exec();
     delete mDialog;
+    this->activateWindow();
 }
 
 void SettingsDialog::addModules(const QMap<QString, QString> &data)

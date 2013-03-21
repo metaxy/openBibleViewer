@@ -39,8 +39,14 @@ ModuleDownloadDialog::ModuleDownloadDialog(QWidget *parent) :
     connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(item(QTreeWidgetItem*)));
 
 }
+
+ModuleDownloadDialog::~ModuleDownloadDialog()
+{
+    delete ui;
+}
+
 /**
-  Read the xml file withe downloadable modules and generate the tree.
+  Read the xml file wit the downloadable modules and generate the tree.
   */
 void ModuleDownloadDialog::readModules()
 {
@@ -146,6 +152,13 @@ void ModuleDownloadDialog::setSettings(Settings settings)
 void ModuleDownloadDialog::download()
 {
     DEBUG_FUNC_NAME;
+    if(m_names.isEmpty()) {
+	QMessageBox msgBox;
+	msgBox.setText(tr("Nothing selected to download. Please select a module."));
+	msgBox.setIcon(QMessageBox::Warning);
+	msgBox.exec();
+	return;
+    }
     ModuleDownloader *m = new ModuleDownloader(this, m_names);
     connect(m, SIGNAL(downloaded(QMap<QString, QString>)), this, SIGNAL(downloaded(QMap<QString, QString>)));
     m->setSettings(&m_set);
@@ -154,15 +167,10 @@ void ModuleDownloadDialog::download()
 
     dialog->setModuleDownloader(m);
     dialog->start();
+
     close();
     dialog->exec();
     delete dialog;
-
-}
-
-ModuleDownloadDialog::~ModuleDownloadDialog()
-{
-    delete ui;
 }
 
 void ModuleDownloadDialog::changeEvent(QEvent *e)
