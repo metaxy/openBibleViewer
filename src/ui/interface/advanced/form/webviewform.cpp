@@ -32,6 +32,7 @@ WebViewForm::WebViewForm(QWidget *parent) :
     m_view->setUrl(QUrl("about:blank"));
     m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
     m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
+    m_view->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
 #if QT_VERSION >= 0x040700
     m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
     m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled, true);

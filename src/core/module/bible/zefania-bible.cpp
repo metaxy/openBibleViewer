@@ -957,9 +957,14 @@ GramBlock* ZefaniaXmlReader::rawReadGram(quint32 parent)
 {
     DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
-    GramBlock *gram = (GramBlock *)BlockTools::create(id,parent,RMetaData::GramBlock);
+    GramBlock *gram = (GramBlock *)BlockTools::create(id, parent, RMetaData::GramBlock);
     gram->rmac = m_xml->attributes().value("rmac").toString();
-    gram->strong = m_strongAdd + m_xml->attributes().value("str").toString();
+    gram->strong = m_xml->attributes().value("str").toString();
+
+    if(!(gram->strong.startsWith("H") || gram->strong.startsWith("G"))) {
+        gram->strong.prepend(m_strongAdd);
+    }
+
     while(!m_xml->atEnd()) {
         m_xml->readNext();
 
@@ -986,7 +991,7 @@ SupBlock* ZefaniaXmlReader::rawReadSup(quint32 parent)
 {
     DEBUG_FUNC_NAME;
     quint32 id = m_idGen.next();
-    SupBlock *sup = (SupBlock *)BlockTools::create(id,parent,RMetaData::SupBlock);
+    SupBlock *sup = (SupBlock *)BlockTools::create(id, parent, RMetaData::SupBlock);
     const QStringRef art = m_xml->attributes().value("art");
     if(art == "x-sub") {
         sup->type = SupBlock::Sub;

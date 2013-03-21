@@ -33,7 +33,7 @@ public:
     Response * readVerseRange(const int bookID,const int chapterID, const int startVerseID, const int endVerseID);
     Response * readChapter(const int bookID, const int chapterID);
     Response * readBook(const int bookID);
-
+    Response * readStart();
 
     QString parseUrl(const QUrl &url);
     MetaInfo readInfo(const QString &name);
@@ -68,6 +68,8 @@ private:
     QScriptEngine myEngine;
     QString m_modulePath;
     QHash<int, WebCommentaryBooksData> m_books;
+
+    QString bookName(int bookID);
 };
 
 #endif // WEBCOMMENTARY_H

@@ -44,6 +44,8 @@ private:
     QMap<QString, QString> m_retData;
 
     int m_fileCount;
+
+    QString m_prefix;
 };
 
 #endif // MODULEDOWNLOADER_H

@@ -40,13 +40,17 @@ public:
     bool contains(int moduleID, int bookID, int chapterID, int verseID) const;
     bool contains(int moduleID, int bookID, int chapterID) const;
     bool isValid() const;
-
+    /**
+     * @brief See VerseUrlRange::setOpenToTransformation
+     * @param open
+     */
     void setOpenToTransformation(bool open);
 
     VerseUrl applyUrl(const VerseUrl &url);
 
     void setModuleID(const int moduleID);
     bool hasModuleID() const;
+    int moduleID() const;
 
     void removeNo();
 private:

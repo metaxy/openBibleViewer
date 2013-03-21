@@ -464,11 +464,21 @@ bool VerseUrl::hasModuleID() const
 {
     QListIterator<VerseUrlRange> i(m_ranges);
     while(i.hasNext()) {
-        VerseUrlRange r = i.next();
-        if(r.module() == VerseUrlRange::LoadModuleByID || r.module() == VerseUrlRange::LoadModuleByID)
+        const VerseUrlRange r = i.next();
+        if(r.module() == VerseUrlRange::LoadModuleByID)
             return true;
     }
     return false;
+}
+int VerseUrl::moduleID() const
+{
+    QListIterator<VerseUrlRange> i(m_ranges);
+    while(i.hasNext()) {
+        const VerseUrlRange r = i.next();
+        if(r.module() == VerseUrlRange::LoadModuleByID)
+            return r.moduleID();
+    }
+    return -1;
 }
 void VerseUrl::removeNo()
 {

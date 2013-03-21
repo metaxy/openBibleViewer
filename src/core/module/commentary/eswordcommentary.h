@@ -25,6 +25,7 @@ public:
     Response * readVerseRange(const int bookID,const int chapterID, const int startVerseID, const int endVerseID);
     Response * readChapter(const int bookID, const int chapterID);
     Response * readBook(const int bookID);
+    Response * readStart();
 
     int loadModuleData(const int moduleID, const QString &fileName);
 
@@ -42,7 +43,7 @@ public:
 
 private:
     QSqlDatabase m_db;
-
+    int m_moduleID;
     int m_book;
     int m_chapter;
 };

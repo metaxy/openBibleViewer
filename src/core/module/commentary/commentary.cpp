@@ -19,9 +19,8 @@ Commentary::Commentary()
 }
 Response* Commentary::readRanges(const Ranges &ranges, bool ignoreModuleID)
 {
-    DEBUG_FUNC_NAME
     Range r = ranges.getList().first();
-    myDebug() << m_moduleID << r.moduleID() << ignoreModuleID;
+
     if(!loaded() || (m_moduleID != r.moduleID() && !ignoreModuleID)) {
         loadModuleData(r.moduleID());
     }
@@ -29,6 +28,7 @@ Response* Commentary::readRanges(const Ranges &ranges, bool ignoreModuleID)
         myWarning() << "failed reading because module not laoded";
         return NULL;
     }
+
     CompiledRange range = this->toCompiledRange(r);
     if(r.endVerse() == RangeEnum::NoneVerse || r.startVerse() == RangeEnum::NoneVerse) {
         return m_commentaryModule->readChapter(range.bookID, range.chapterID);
@@ -40,7 +40,21 @@ Response* Commentary::readRanges(const Ranges &ranges, bool ignoreModuleID)
 
 
 }
+Response* Commentary::readStart(int moduleID)
+{
+    if(!loaded()) {
+        if(moduleID == -1) moduleID = m_moduleID;
 
+        loadModuleData(moduleID);
+    }
+
+    if(!loaded()) {
+        myWarning() << "failed reading because module not loaded";
+        return NULL;
+    }
+
+    return m_commentaryModule->readStart();
+}
 void Commentary::search(SearchQuery query, SearchResult *result)
 {
     m_commentaryModule->search(query, result);

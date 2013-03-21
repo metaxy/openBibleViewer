@@ -461,6 +461,10 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
     QFileInfo fileInfo(f);
     if(fileInfo.suffix() == "zip") {
         QStringList files = ModuleTools::unzip(f, m_set.homePath + "modules/");
+        //remove file
+        QFile a(f);
+        a.remove();
+
         myDebug() << files;
         if(files.size() == 1) {
             quiteAddModule(files.first(), parentID, name);

@@ -22,7 +22,7 @@ ModuleDownloader::ModuleDownloader(QObject *parent, const QMap<QString, QString>
     QObject(parent),
     m_data(data),
     m_counter(0),
-	m_fileCount(0)
+    m_fileCount(0)
 {
     m_manager = new QNetworkAccessManager(this);
 }
@@ -32,9 +32,10 @@ ModuleDownloader::ModuleDownloader(QObject *parent, const QMap<QString, QString>
 int ModuleDownloader::start()
 {
     DEBUG_FUNC_NAME
+    m_prefix = m_settings->homePath + "modules/downloads/";
     //create folder where the modules should be downloaded
-    QDir dir(m_settings->homePath);
-    dir.mkdir(m_settings->homePath + "modules");
+    QDir dir;
+    dir.mkdir(m_prefix);
 
     //hack: remove duplicates
     const QSet<QString> set = m_data.keys().toSet();
@@ -88,9 +89,8 @@ void ModuleDownloader::download(const QString &url_)
     QFileInfo fileInfo(url.path());
     DownloadInFile *d = new DownloadInFile(this, m_manager);
     d->setUrl(url);
-    const QString folder = m_settings->homePath + "modules" + QDir::separator() + fileInfo.fileName()  + QDir::separator();
     d->setFileName(fileInfo.fileName());
-    d->setFolder(folder);
+    d->setFolder(m_prefix);
     d->setName(m_data[url_]);
 
     d->download();

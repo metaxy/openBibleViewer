@@ -30,6 +30,7 @@ public:
     virtual Response * readVerseRange(const int bookID,const int chapterID, const int startVerseID, const int endVerseID) = 0;
     virtual Response * readChapter(const int bookID, const int chapterID) = 0;
     virtual Response * readBook(const int bookID) = 0;
+    virtual Response * readStart() = 0;
 
     virtual int loadModuleData(const int moduleID, const QString &fileName) = 0;
 
@@ -40,6 +41,7 @@ public:
     virtual std::pair<int, int> minMaxVerse(const int bookID, const int chapterID) = 0;
 
     virtual CommentaryModule::LinkPolicy linkPolicy() const = 0;
+
 protected:
     QSharedPointer<Versification> m_versification;
 };

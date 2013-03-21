@@ -34,7 +34,6 @@ void VerseModuleManager::init()
     connect(m_actions, SIGNAL(_previousChapter()), this, SLOT(previousChapter()));
     connect(m_actions, SIGNAL(_nextChapter()), this, SLOT(nextChapter()));
     connect(m_actions, SIGNAL(_reloadCurrentRange(bool)), this, SLOT(reloadCurrentRange(bool)));
-    //connect(m_actions, SIGNAL(_reloadBible()), this, SLOT(reloadBible()));
     connect(m_actions, SIGNAL(_setCurrentVerseTableID(int)), this, SLOT(setCurrentVerseTableID(int)));
 }
 

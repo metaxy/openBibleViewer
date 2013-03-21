@@ -196,11 +196,15 @@ void WebCommentary::clearData()
 {
 
 }
+Response * WebCommentary::readStart()
+{
+    return new UrlResponse(m_url);
+}
 Response * WebCommentary::readVerseRange(const int bookID,const int chapterID, const int startVerseID, const int endVerseID)
 {
     QScriptValue fun = myEngine.evaluate(m_parseVerseScript);
     QScriptValueList args;
-    args << bookID << m_books.value(bookID).key << chapterID << startVerseID << endVerseID;
+    args << bookID << bookName(bookID) << chapterID << startVerseID << endVerseID;
     QScriptValue url = fun.call(QScriptValue(), args);
     return new UrlResponse(url.toString());
 }
@@ -209,7 +213,7 @@ Response * WebCommentary::readChapter(const int bookID, const int chapterID)
 {
     QScriptValue fun = myEngine.evaluate(m_parseChapterScript);
     QScriptValueList args;
-    args << bookID << m_books.value(bookID).key << chapterID;
+    args << bookID << bookName(bookID) << chapterID;
     QScriptValue url = fun.call(QScriptValue(), args);
     return new UrlResponse(url.toString());
 }
@@ -218,11 +222,18 @@ Response * WebCommentary::readBook(const int bookID)
 {
     QScriptValue fun = myEngine.evaluate(m_parseBookScript);
     QScriptValueList args;
-    args << bookID << m_books.value(bookID).key;
+    args << bookID << bookName(bookID);
     QScriptValue url = fun.call(QScriptValue(), args);
     return new UrlResponse(url.toString());
 }
 CommentaryModule::LinkPolicy WebCommentary::linkPolicy() const
 {
     return CommentaryModule::OpenWebLinksHere;
+}
+QString WebCommentary::bookName(int bookID)
+{
+    if(m_books.contains(bookID))
+        return m_books.value(bookID).key;
+    else
+        return QString();
 }

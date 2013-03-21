@@ -47,6 +47,10 @@ MetaInfo TheWordCommentary::readInfo(const QString &name)
     db.close();
     return ret;
 }
+Response * TheWordCommentary::readStart()
+{
+   return new StringResponse(m_settings->getModuleSettings(m_moduleID)->name());
+}
 Response * TheWordCommentary::readVerseRange(const int bookID,const int chapterID, const int startVerseID, const int endVerseID)
 {
     m_book = bookID;
@@ -196,6 +200,7 @@ int TheWordCommentary::loadModuleData(const int moduleID, const QString &fileNam
 {
     DEBUG_FUNC_NAME;
     myDebug() << moduleID << fileName;
+
     m_loaded = false;
     m_settings->getModuleSettings(moduleID)->versificationName = "kjv";
     m_versification = QSharedPointer<Versification>(new Versification_KJV());
@@ -221,6 +226,7 @@ int TheWordCommentary::loadModuleData(const int moduleID, const QString &fileNam
 
         }
     }
+    m_moduleID = moduleID;
     m_loaded = true;
     return 0;
 }

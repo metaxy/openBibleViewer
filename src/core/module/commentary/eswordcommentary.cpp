@@ -81,10 +81,14 @@ int ESwordCommentary::loadModuleData(const int moduleID, const QString &fileName
     } else {
         m_versification = m_settings->getV11N(moduleID);
     }
+    m_moduleID = moduleID;
     m_loaded = true;
     return 0;
 }
-
+Response * ESwordCommentary::readStart()
+{
+   return new StringResponse(m_settings->getModuleSettings(m_moduleID)->name());
+}
 Response * ESwordCommentary::readBook(const int bookID)
 {
     DEBUG_FUNC_NAME

@@ -79,23 +79,35 @@ void CommentaryForm::parseUrl(VerseUrl url)
         myWarning() << "m_com is null";
         return;
     }
-    //bool showStart = false;
 
     if(m_url.isValid()) {
         m_url = m_url.applyUrl(url);
-        //showStart = true;
     } else {
         m_url = url;
         if(loaded() && !m_url.hasModuleID()) {
             m_url.setModuleID(m_com->moduleID());
         }
     }
-    Ranges ranges;
+    //myDebug() << "m_url = " << m_url.toString();
+    bool showStart = true;
     foreach(VerseUrlRange range, m_url.ranges()) {
-        ranges.addRange(range.toRange());
+        if(range.book() != VerseUrlRange::LoadCurrentBook ||
+           range.chapter() != VerseUrlRange::LoadCurrentChapter ||
+           range.startVerse() != VerseUrlRange::LoadCurrentVerse) {
+           showStart = false;
+        }
     }
-    ranges.setSource(m_url);
-    showRanges(ranges, m_url);
+
+    if(showStart) {
+        showResponse(m_com->readStart(m_url.moduleID()));
+    } else {
+        Ranges ranges;
+        foreach(VerseUrlRange range, m_url.ranges()) {
+            ranges.addRange(range.toRange());
+        }
+        ranges.setSource(m_url);
+        showRanges(ranges, m_url);
+    }
 
 }
 void CommentaryForm::showRanges(Ranges ranges, const VerseUrl &source)
@@ -104,7 +116,7 @@ void CommentaryForm::showRanges(Ranges ranges, const VerseUrl &source)
         myWarning() << "m_com is null";
         return;
     }
-    m_com->setModuleID(ranges.getList().first().moduleID());
+    //m_com->setModuleID(ranges.getList().first().moduleID());
 
     showResponse(m_com->readRanges(ranges));
 

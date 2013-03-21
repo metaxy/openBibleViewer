@@ -277,21 +277,21 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
 {
     //DEBUG_FUNC_NAME
     //reload books
-    bool reloadBibles = false;
+    bool reloadModules = false;
     if(oldSettings.encoding != newSettings.encoding) {
         myDebug() << "encoding changed from "  << oldSettings.encoding << " to " << newSettings.encoding;
-        reloadBibles = true;
+        reloadModules = true;
     }
-    if(reloadBibles == false) {
+    if(reloadModules == false) {
         if(oldSettings.m_moduleSettings.size() != newSettings.m_moduleSettings.size()) {
             myDebug() << "module settings size changed from "  << oldSettings.m_moduleSettings.size() << " to " << newSettings.m_moduleSettings.size();
-            reloadBibles = true;
+            reloadModules = true;
         }
     }
     if(modifedModuleSettings == true) {
-        reloadBibles = true;
+        reloadModules = true;
     }
-    if(reloadBibles == true) {
+    if(reloadModules == true) {
         QApplication::setOverrideCursor(Qt::WaitCursor);
         //myDebug() << "reload Module";
         m_moduleManager->loadAllModules();

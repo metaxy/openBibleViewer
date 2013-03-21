@@ -19,6 +19,7 @@ class Commentary : public VerseModule
 public:
     Commentary();
     Response* readRanges(const Ranges &ranges, bool ignoreModuleID = false);
+    Response* readStart(int moduleID = -1);
     void search(SearchQuery query, SearchResult *result);
     void clearData();
     bool loaded();
