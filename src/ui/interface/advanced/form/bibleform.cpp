@@ -82,13 +82,9 @@ void BibleForm::newModule(const int moduleID)
 {
     myDebug() << moduleID;
     m_moduleManager->newTextRangesVerseModule(moduleID, QPoint(0, 0), m_verseTable);
-    if(verseModule())
-        verseModule()->setModuleID(moduleID);
-
 }
 int BibleForm::newModule()
 {
-    DEBUG_FUNC_NAME
     int defaultModuleID = -1;
     QMapIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
     while(i.hasNext()) {
@@ -189,7 +185,7 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
     }
 
     const int newID = ranges.getList().first().moduleID();
-    //todo: its very important to fix this bug
+
     if(verseModule()->moduleID() != newID) {
         const QPoint p = m_verseTable->m_points.value(m_verseTable->activeItem());
         m_moduleManager->newTextRangesVerseModule(moduleID, p, m_verseTable);
@@ -204,12 +200,12 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
         m_actions->setCurrentBook(r.second.bookIDs());
         m_actions->setCurrentChapter(r.second.chapterIDs());
         m_actions->setTitle(verseModule()->moduleTitle());
-    } else if(r.second.error() == TextRange::FatalError){
+    } else if(r.second.error() == TextRange::FatalError){ //no such module
         showTextRanges(r.first, r.second, url);
         m_actions->clearBooks();
         m_actions->clearChapters();
         m_actions->setTitle(verseModule()->moduleTitle());
-    } else if(r.second.error() == TextRange::NotFoundError) { // this module does not contain this module
+    } else if(r.second.error() == TextRange::NotFoundError) { // this module does not contain this book
         if(showStart) {
             VerseUrlRange range;
             range.setModule(verseModule()->moduleID());
