@@ -37,6 +37,7 @@ void ModuleDockWidget::init()
         m_moduleUI = NULL;
     }
     m_moduleUI = new ModuleSelectUI(this, this);
+    m_moduleUI->setMenuStyle(ModuleSelectUI::OpenModule);
 
     connect(ui->lineEdit_filter, SIGNAL(textChanged(QString)), this, SLOT(filter(QString)));
 
@@ -46,6 +47,8 @@ void ModuleDockWidget::init()
     connect(m_moduleUI, SIGNAL(configure()), this, SLOT(configure()));
     connect(m_moduleUI, SIGNAL(open()), this, SLOT(open()));
     connect(m_moduleUI, SIGNAL(openInNewTab()), this, SLOT(openInNewTab()));
+    connect(m_moduleUI, SIGNAL(openParallelH()), this, SLOT(openParallelH()));
+    connect(m_moduleUI, SIGNAL(openParallelV()), this, SLOT(openParallelV()));
 
 
     ui->treeView_module->setSortingEnabled(true);
@@ -102,6 +105,14 @@ void ModuleDockWidget::open()
 void ModuleDockWidget::openInNewTab()
 {
     loadModuleData(ui->treeView_module->indexAt(m_moduleUI->point()), Actions::OpenInNewWindow);
+}
+void ModuleDockWidget::openParallelV()
+{
+    loadModuleData(ui->treeView_module->indexAt(m_moduleUI->point()), Actions::OpenParallelV);
+}
+void ModuleDockWidget::openParallelH()
+{
+    loadModuleData(ui->treeView_module->indexAt(m_moduleUI->point()), Actions::OpenParallelH);
 }
 void ModuleDockWidget::configure()
 {

@@ -16,33 +16,33 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/response/textrangesresponse.h"
 VerseTable::VerseTable()
 {
-    m_currentModule = 0;
+    m_activeItem = 0;
     m_lastTextRanges = NULL;
 }
 VerseTable::~VerseTable()
 {
     DEBUG_FUNC_NAME
+    //deletes all VerseModules
     foreach(VerseModule * m, m_modules) {
         if(m) {
             delete m;
-            m = NULL;
+            m = nullptr;
         }
     }
 }
 
-void VerseTable::setCurrentVerseTableID(const int verseTableID)
+void VerseTable::setActiveItem(const int verseTableID)
 {
-    //myDebug() << "before currentModule = " << m_currentModule << " new verseTable = " << verseTableID;
-    m_currentModule = verseTableID;
+    m_activeItem = verseTableID;
     setLastTextRanges(m_lastTextRanges);
 }
 
-int VerseTable::currentVerseTableID() const
+int VerseTable::activeItem() const
 {
-    return m_currentModule;
+    return m_activeItem;
 }
 
-void VerseTable::addModule(TextRangesVerseModule* m, const QPoint &p)
+void VerseTable::addModule(TextRangesVerseModule* module, const QPoint &p)
 {
     //if it contains already a module at point p
     //then delete the old and insert the new
@@ -53,13 +53,14 @@ void VerseTable::addModule(TextRangesVerseModule* m, const QPoint &p)
             m_modules.remove(id);
             m_points.remove(id);
         }
-        m_points.insert(m_currentModule, p);
-        m_modules.insert(m_currentModule, m);
+
+        m_points.insert(m_activeItem, p);
+        m_modules.insert(m_activeItem, module);
     } else {
         const int id = m_points.size();
-        m_currentModule = id;
+        m_activeItem = id;
         m_points.insert(id, p);
-        m_modules.insert(id, m);
+        m_modules.insert(id, module);
     }
     myDebug() << "points = " << m_points << " modules = " << m_modules;
     setLastTextRanges(m_lastTextRanges);
@@ -68,8 +69,8 @@ void VerseTable::addModule(TextRangesVerseModule* m, const QPoint &p)
 TextRangesVerseModule * VerseTable::verseModule(const int id) const
 {
     if(id == -1) {
-        if(m_modules.contains(m_currentModule)) {
-            return m_modules.value(m_currentModule);
+        if(m_modules.contains(m_activeItem)) {
+            return m_modules.value(m_activeItem);
         }
     } else {
         if(m_modules.contains(id)) {
@@ -89,7 +90,7 @@ void VerseTable::clear()
         }
     }
     m_modules.clear();
-    m_currentModule = 0;
+    m_activeItem = 0;
 }
 
 std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) const
@@ -98,7 +99,7 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
     //myDebug() << "points = " << m_points << " modules = " << m_modules;
     if(m_modules.size() == 1) {
         std::pair<QString, TextRanges> ret;
-        TextRangesVerseModule *b = m_modules.value(m_currentModule, NULL);
+        TextRangesVerseModule *b = m_modules.value(m_activeItem, NULL);
         if(b) {
             TextRangesResponse *res = (TextRangesResponse*)b->readRanges(ranges);
             ret.second = res->ranges();
@@ -158,7 +159,7 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
                 if(id != -1 && countInColEq) {
                     TextRangesVerseModule *m = m_modules.value(id);
                     QString active = "";
-                    if(id == m_currentModule)
+                    if(id == m_activeItem)
                         active = " active";
                     out += title(m, active, id);
                 } else if(countInColEq) {
@@ -167,7 +168,7 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
                         if(id != -1) {
                             TextRangesVerseModule *m = m_modules.value(id);
                             QString active = "";
-                            if(id == m_currentModule)
+                            if(id == m_activeItem)
                                 active = " active";
                             out += title(m, active, id);
                             break;
@@ -210,7 +211,7 @@ std::pair<QString, TextRanges> VerseTable::readRanges(const Ranges &ranges) cons
                         TextRangesVerseModule *m = m_modules.value(id);
                         if(countInCol(j) > 1) {
                             QString active = " rowTitle";
-                            if(id == m_currentModule)
+                            if(id == m_activeItem)
                                 active += " active";
                             out += title(m, active, id);
                         }

@@ -37,9 +37,9 @@ public:
      * \param id The bibleList internal id, not the moduleID. If id == -1 then current bible.
      */
     TextRangesVerseModule * verseModule(const int id = -1) const;
-    void addModule(TextRangesVerseModule* b, const QPoint &p);
-    void setCurrentVerseTableID(const int verseTableID);
-    int currentVerseTableID() const;
+    void addModule(TextRangesVerseModule* module, const QPoint &p);
+    void setActiveItem(const int verseTableID);
+    int activeItem() const;
 
     std::pair<QString, TextRanges> readRanges(const Ranges &ranges) const;
 
@@ -64,7 +64,7 @@ public:
 private:
     inline QString title(TextRangesVerseModule *module, const QString &active, const int bibleListID) const;
     int countInCol(const int col) const;
-    int m_currentModule;
+    int m_activeItem;
     TextRanges *m_lastTextRanges;
    /* VerseUrl m_lastUrl;*/
 

@@ -468,6 +468,7 @@ void BibleForm::setChapters(int bookID, QSharedPointer<Versification> v11n)
     for(int i = 1; i <= count; ++i) {
         chapters << QString::number(i + add);
     }
+    //to avoid flickering
     bool same = true;
     if(m_ui->comboBox_chapters->count() == chapters.count()) {
         for(int i = 0; i < chapters.count(); ++i) {
@@ -637,7 +638,7 @@ void BibleForm::showText(const QString &text)
         //todo: it could be that the top bar has a width more than 40px
         //because the user zoomed in.
     }
-
+    //some BibleQuote Hacks
     if(verseModule()->moduleType() == ModuleTools::BibleQuoteModule) {
         QWebElementCollection collection = frame->documentElement().findAll("img");
         const QStringList searchPaths = ((Bible*) verseModule())->getSearchPaths();

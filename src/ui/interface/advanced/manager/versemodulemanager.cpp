@@ -201,6 +201,6 @@ QuickJumpDockWidget * VerseModuleManager::quickJumpDockWidget()
 void VerseModuleManager::setCurrentVerseTableID(const int verseTableID)
 {
     if(m_windowManager->activeForm()->type() == Form::BibleForm) {
-        ((BibleForm*)(m_windowManager->activeForm()))->verseTable()->setCurrentVerseTableID(verseTableID);
+        ((BibleForm*)(m_windowManager->activeForm()))->verseTable()->setActiveItem(verseTableID);
     }
 }

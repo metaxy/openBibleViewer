@@ -34,7 +34,9 @@ public:
         NoModifer,
         OpenInNewWindow,
         ForceOpenInThisWindow,
-        OpenInOtherWindow
+        OpenInOtherWindow,
+        OpenParallelH,
+        OpenParallelV
     };
 
 signals:

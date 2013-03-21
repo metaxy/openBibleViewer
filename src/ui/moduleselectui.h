@@ -23,6 +23,11 @@ class ModuleSelectUI : public QObject, public BasicClass
 {
     Q_OBJECT
 public:
+    enum MenuStyle {
+        JustSelect,
+        OpenModule
+    };
+
     ModuleSelectUI(BasicClass *parent, QWidget *oarentWidget);
     ~ModuleSelectUI();
     void loadModuleData(const int moduleID, Actions::OpenLinkModifiers mod = Actions::NoModifer);    void selectModule(const int moduleID);
@@ -37,15 +42,17 @@ public:
 
     QPoint point() const;
 
-    QAction* actionOpen() const;
-    QAction* actionOpenInNewTab() const;
-    QAction* actionSettings() const;
+    void setMenuStyle(ModuleSelectUI::MenuStyle style);
+
 public slots:
     void showContextMenu(const QPoint point);
 signals:
     void open();
     void openInNewTab();
     void configure();
+
+    void openParallelH();
+    void openParallelV();
 private:
     int m_moduleID;
     RecursivProxyModel *m_proxyModel;
@@ -53,11 +60,8 @@ private:
     QStandardItemModel *m_moduleModel;
     QPoint m_point;
 
+    ModuleSelectUI::MenuStyle m_style;
 
-    QMenu *m_contextMenu;
-    QAction *m_actionOpen;
-    QAction *m_actionOpenInNewTab;
-    QAction *m_actionSettings;
     VerseUrl url(const int moduleID);
 
 };

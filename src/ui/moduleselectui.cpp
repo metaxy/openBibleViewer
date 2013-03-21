@@ -19,7 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/modulemodel.h"
 #include <QtCore/QPointer>
 #include <QtGui/QMenu>
-ModuleSelectUI::ModuleSelectUI(BasicClass *parent, QWidget *parentWidget) : QObject(parentWidget)
+ModuleSelectUI::ModuleSelectUI(BasicClass *parent, QWidget *parentWidget) : QObject(parentWidget), m_style(ModuleSelectUI::JustSelect)
 {
     copy(parent);
     m_moduleID = -1;
@@ -35,35 +35,15 @@ ModuleSelectUI::ModuleSelectUI(BasicClass *parent, QWidget *parentWidget) : QObj
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     m_selectionModel = new QItemSelectionModel(m_proxyModel);
-
-    //create Menu
-
-    m_contextMenu = new QMenu(parentWidget);
-    m_contextMenu->setObjectName("contextMenu");
-
-    m_actionOpen = new QAction(QIcon::fromTheme("document-open", QIcon(":/icons/16x16/document-open.png")), tr("Open module"), m_contextMenu);
-    m_actionOpen->setObjectName("actionOpen");
-    connect(m_actionOpen, SIGNAL(triggered()), this, SIGNAL(open()));
-
-    m_actionOpenInNewTab = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("Open module in new tab"), m_contextMenu);
-    m_actionOpenInNewTab->setObjectName("actionOpenInNewTab");
-    connect(m_actionOpenInNewTab, SIGNAL(triggered()), this, SIGNAL(openInNewTab()));
-
-    m_actionSettings = new QAction(QIcon::fromTheme("configure", QIcon(":/icons/16x16/configure.png")), tr("Configure"), m_contextMenu);
-    m_actionSettings->setObjectName("actionSettings");
-    connect(m_actionSettings, SIGNAL(triggered()), this, SIGNAL(configure()));
-
-    m_contextMenu->addAction(m_actionOpen);
-    m_contextMenu->addAction(m_actionOpenInNewTab);
-
-    m_contextMenu->addSeparator();
-    m_contextMenu->addAction(m_actionSettings);
 }
 ModuleSelectUI::~ModuleSelectUI()
 {
     m_proxyModel->deleteLater();
     m_selectionModel->deleteLater();
-    m_contextMenu->deleteLater();
+}
+void ModuleSelectUI::setMenuStyle(ModuleSelectUI::MenuStyle style)
+{
+    m_style = style;
 }
 
 RecursivProxyModel *ModuleSelectUI::model() const
@@ -145,7 +125,44 @@ void ModuleSelectUI::selectModule(const int moduleID)
 void ModuleSelectUI::showContextMenu(const QPoint point)
 {
     m_point = point;
-    m_contextMenu->exec(QCursor::pos());
+
+    QMenu* contextMenu = new QMenu;
+    contextMenu->setObjectName("contextMenu");
+
+    QAction*actionSettings = new QAction(QIcon::fromTheme("configure", QIcon(":/icons/16x16/configure.png")), tr("Configure"), contextMenu);
+    actionSettings->setObjectName("actionSettings");
+    connect(actionSettings, SIGNAL(triggered()), this, SIGNAL(configure()));
+
+    if(m_style == ModuleSelectUI::JustSelect) {
+        contextMenu->addAction(actionSettings);
+        contextMenu->exec(QCursor::pos());
+    } else {
+        QAction* actionOpen = new QAction(QIcon::fromTheme("document-open", QIcon(":/icons/16x16/document-open.png")), tr("Open module"), contextMenu);
+        actionOpen->setObjectName("actionOpen");
+        connect(actionOpen, SIGNAL(triggered()), this, SIGNAL(open()));
+
+        QAction*actionOpenInNewTab = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("Open module in new tab"), contextMenu);
+        actionOpenInNewTab->setObjectName("actionOpenInNewTab");
+        connect(actionOpenInNewTab, SIGNAL(triggered()), this, SIGNAL(openInNewTab()));
+
+        QAction*actionOpenPV = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("Open vertical parallel"), contextMenu);
+        actionOpenPV->setObjectName("actionOpenPV");
+        connect(actionOpenPV, SIGNAL(triggered()), this, SIGNAL(openParallelV()));
+
+
+        QAction*actionOpenPH = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("Open horizontal parallel"), contextMenu);
+        actionOpenPH->setObjectName("actionOpenPH");
+        connect(actionOpenPH, SIGNAL(triggered()), this, SIGNAL(openParallelH()));
+
+
+        contextMenu->addAction(actionOpen);
+        contextMenu->addAction(actionOpenInNewTab);
+
+        contextMenu->addSeparator();
+        contextMenu->addAction(actionSettings);
+        contextMenu->exec(QCursor::pos());
+    }
+    contextMenu->deleteLater();
 }
 
 void ModuleSelectUI::showSettingsDialog(const int moduleID)
@@ -158,6 +175,7 @@ void ModuleSelectUI::showSettingsDialog(const int moduleID)
     mDialog->setSettings(m_settings);
     connect(mDialog, SIGNAL(save(int)), mDialog, SLOT(close()));
     mDialog->exec();
+
     delete mDialog;
     m_actions->moduleChanged(moduleID);
 
@@ -176,15 +194,4 @@ QPoint ModuleSelectUI::point() const
 {
     return m_point;
 }
-QAction* ModuleSelectUI::actionOpen() const
-{
-    return m_actionOpen;
-}
-QAction* ModuleSelectUI::actionOpenInNewTab() const
-{
-    return m_actionOpenInNewTab;
-}
-QAction* ModuleSelectUI::actionSettings() const
-{
-    return m_actionSettings;
-}
+

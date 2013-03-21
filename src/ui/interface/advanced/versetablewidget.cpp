@@ -136,16 +136,19 @@ void VerseTableWidget::save()
                 atLeastOne = true;
                 myDebug() << id << x << y;
                 m_moduleManager->newTextRangesVerseModule(id, QPoint(x, y), m_verseTable);
+                //determine which module should be active
                 if(m_selectionModel->selection().contains(m_model->index(x, y)))
-                    selectedModule = m_verseTable->currentVerseTableID();
-                lastModule = m_verseTable->currentVerseTableID();
+                    selectedModule = m_verseTable->activeItem();
+
+                lastModule = m_verseTable->activeItem();
             }
         }
     }
+    //
     if(selectedModule != -1) {
-        m_verseTable->setCurrentVerseTableID(selectedModule);
+        m_verseTable->setActiveItem(selectedModule);
     } else {
-        m_verseTable->setCurrentVerseTableID(lastModule);
+        m_verseTable->setActiveItem(lastModule);
     }
 
     if(atLeastOne) {

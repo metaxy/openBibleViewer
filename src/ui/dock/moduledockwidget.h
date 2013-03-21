@@ -39,7 +39,8 @@ private slots:
     void open();
     void openInNewTab();
     void configure();
-
+    void openParallelV();
+    void openParallelH();
     void moduleChanged(const int moduleID);
 public:
     ModuleDockWidget(QWidget *parent = 0);
