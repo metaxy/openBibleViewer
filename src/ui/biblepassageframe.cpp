@@ -63,6 +63,8 @@ void BiblePassageFrame::addBox_BCV(const int bookID, const int chapterID, const 
     if(v != NULL) {
         books->insertItems(0, v->bookNames().values());
         books->setCurrentIndex(v->bookIDs().indexOf(bookID));
+    } else {
+         myWarning() << "could not get v11n of " << m_moduleID;
     }
 
     chapter->setValue(chapterID + 1);
@@ -96,6 +98,8 @@ void BiblePassageFrame::addBox_BCVV(const int bookID, const int chapterID, const
     if(v != NULL) {
         books->insertItems(0, v->bookNames().values());
         books->setCurrentIndex(v->bookIDs().indexOf(bookID));
+    } else {
+        myWarning() << "could not get v11n of " << m_moduleID;
     }
     chapter->setValue(chapterID + 1);
 
@@ -126,6 +130,8 @@ void BiblePassageFrame::addBox_BC(const int bookID, const int chapterID)
     if(v != NULL) {
         books->insertItems(0, v->bookNames().values());
         books->setCurrentIndex(v->bookIDs().indexOf(bookID));
+    } else {
+        myWarning() << "could not get v11n of " << m_moduleID;
     }
 
 
@@ -299,16 +305,19 @@ VerseUrl BiblePassageFrame::toVerseUrl()
 }
 void BiblePassageFrame::setVerseUrl(const VerseUrl &url)
 {
+    DEBUG_FUNC_NAME
+    myDebug() << url.toString();
     setVerseUrlRanges(url.ranges());
 }
 void BiblePassageFrame::setVerseUrlRanges(const QList<VerseUrlRange> &ranges)
 {
+    DEBUG_FUNC_NAME
     if(ranges.isEmpty()) {
         return;
     }
     m_moduleID = ranges.first().moduleID();
 
-
+    myDebug() << "m_moduleID" << m_moduleID;
     QModelIndexList list = m_proxyModel->match(m_model->invisibleRootItem()->index(),
                            Qt::UserRole + 1,
                            QString::number(m_moduleID),

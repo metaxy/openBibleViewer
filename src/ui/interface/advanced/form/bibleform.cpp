@@ -246,25 +246,12 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
 }
 void BibleForm::reload(bool full)
 {
+    if(!verseTableLoaded()) return;
     const QPoint p = m_view->page()->mainFrame()->scrollPosition();
 
     if(full) {
         m_verseTable->clearData();
     }
- /*   VerseUrl n = m_url;
-    QList<VerseUrlRange> ranges;
-    if(n.ranges().empty())
-        return;
-
-    foreach(VerseUrlRange r, n.ranges()) {
-        r.setModule(VerseUrlRange::LoadCurrentModule);
-        ranges << r;
-    }
-
-    n.clearRanges();
-    n.addRanges(ranges);
-    myDebug() << "old url = " << m_url.toString() << "new url = " << n.toString();
-    m_url = n;*/
     parseUrl(m_url, true);
 
     m_view->page()->mainFrame()->setScrollPosition(p);

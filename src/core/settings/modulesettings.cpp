@@ -154,12 +154,12 @@ void ModuleSettings::saveVersification()
 
 QSharedPointer<Versification> ModuleSettings::getV11n()
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     if(v11n.isNull()) {
         myDebug() << "loading now";
         return loadVersification();
     }
-    //myDebug() << v11n;
+    myDebug() << v11n;
     return v11n.toStrongRef();
 
 }

@@ -12,8 +12,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>191</width>
-    <height>196</height>
+    <width>199</width>
+    <height>311</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -41,6 +41,9 @@
        </property>
        <property name="selectionBehavior">
         <enum>QAbstractItemView::SelectItems</enum>
+       </property>
+       <property name="headerHidden">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QFrame" name="frame">
